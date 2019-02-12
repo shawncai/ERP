@@ -1,0 +1,6 @@
+build/*.js
+config/*.js
+src/assets
+src/views/home
+src/views/Repair
+src/views/Employee
