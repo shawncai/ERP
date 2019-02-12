@@ -66,6 +66,9 @@ export const constantRouterMap = [
     path: '',
     component: Layout,
     redirect: 'home',
+    meta: {
+      type: 0
+    },
     children: [
       {
         path: 'home',
@@ -87,6 +90,9 @@ export const asyncRouterMap = [
   {
     path: '/home',
     component: Layout,
+    meta: {
+      type: 1
+    },
     children: [
       {
         path: 'index',
@@ -100,7 +106,8 @@ export const asyncRouterMap = [
     path: '/Complaint',
     component: Layout,
     meta: {
-      roles: [14]
+      roles: [14],
+      type: 2
     },
     children: [
       {
@@ -114,6 +121,9 @@ export const asyncRouterMap = [
   {
     path: '/discount',
     component: Layout,
+    meta: {
+      type: 1
+    },
     children: [
       {
         path: 'index',
@@ -127,7 +137,8 @@ export const asyncRouterMap = [
     path: '/Store',
     component: Layout,
     meta: {
-      roles: [38]
+      roles: [38],
+      type: 1
     },
     children: [
       {
@@ -142,7 +153,8 @@ export const asyncRouterMap = [
     path: '/BigData',
     component: Layout,
     meta: {
-      roles: [63]
+      roles: [63],
+      type: 1
     },
     children: [
       {
@@ -162,7 +174,8 @@ export const asyncRouterMap = [
     meta: {
       title: 'commodity',
       icon: 'shopping',
-      roles: [34, 71]
+      roles: [34, 71],
+      type: 2
     },
     children: [
       {
@@ -189,7 +202,8 @@ export const asyncRouterMap = [
       title: 'Repair',
       icon: 'repair',
       roles: [3, 7, 87, 90, 10, 67],
-      tixing: true
+      tixing: true,
+      type: 3
     },
     children: [
       {
@@ -246,7 +260,8 @@ export const asyncRouterMap = [
     meta: {
       title: 'lostUnits',
       icon: 'lost',
-      roles: [41, 85]
+      roles: [41, 85],
+      type: 4
     },
     children: [
       {
@@ -272,7 +287,8 @@ export const asyncRouterMap = [
     meta: {
       title: 'client',
       icon: 'kehu',
-      roles: [55]
+      roles: [55],
+      type: 4
     },
     children: [
       {
@@ -298,7 +314,8 @@ export const asyncRouterMap = [
     meta: {
       title: 'Employee',
       icon: 'yuangong',
-      roles: [44, 48, 51]
+      roles: [44, 48, 51],
+      type: 3
     },
     children: [
       {
@@ -330,7 +347,8 @@ export const asyncRouterMap = [
     meta: {
       title: 'area',
       icon: 'diqu',
-      roles: [75]
+      roles: [75],
+      type: 4
     },
     children: [
       {
@@ -350,7 +368,8 @@ export const asyncRouterMap = [
     meta: {
       title: 'SystemManagement',
       icon: 'xitong',
-      roles: [59]
+      roles: [59],
+      type: 3
     },
     children: [
       {

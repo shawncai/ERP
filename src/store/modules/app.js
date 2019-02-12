@@ -6,6 +6,7 @@ const app = {
       opened: !+Cookies.get('sidebarStatus'),
       withoutAnimation: false
     },
+    topmenu: 1,
     device: 'desktop',
     language: Cookies.get('language') || 'en',
     size: Cookies.get('size') || 'medium'
@@ -35,6 +36,9 @@ const app = {
     SET_SIZE: (state, size) => {
       state.size = size
       Cookies.set('size', size)
+    },
+    SET_TOPMENU: (state, type) => {
+      state.topmenu = type
     }
   },
   actions: {
@@ -52,6 +56,9 @@ const app = {
     },
     setSize({ commit }, size) {
       commit('SET_SIZE', size)
+    },
+    setTopmenu({ commit }, type) {
+      commit('SET_TOPMENU', type)
     }
   }
 }

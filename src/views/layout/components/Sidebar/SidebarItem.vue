@@ -4,13 +4,13 @@
 
     <template v-if="hasOneShowingChild(item.children,item) && (!onlyOneChild.children||onlyOneChild.noShowingChildren)&&!item.alwaysShow">
       <app-link :to="resolvePath(onlyOneChild.path)">
-        <el-menu-item :index="resolvePath(onlyOneChild.path)" :class="{'submenu-title-noDropdown':!isNest}">
+        <el-menu-item v-show="toptrans(item.meta.type)" :index="resolvePath(onlyOneChild.path)" :class="{'submenu-title-noDropdown':!isNest}">
           <item v-if="onlyOneChild.meta" :icon="onlyOneChild.meta.icon||item.meta.icon" :title="generateTitle(onlyOneChild.meta.title)" />
         </el-menu-item>
       </app-link>
     </template>
 
-    <el-submenu v-else ref="submenu" :index="resolvePath(item.path)">
+    <el-submenu v-else v-show="toptrans(item.meta.type)" ref="submenu" :index="resolvePath(item.path)">
       <template slot="title">
         <item v-if="item.meta" :icon="item.meta.icon" :title="generateTitle(item.meta.title)" />
         <el-badge v-if="item.meta.tixing === true" id="cshi" class="mark" value="new" style="float: right;margin-right: 17px"/>
@@ -69,7 +69,18 @@ export default {
       yin: false,
       gamemuiscs1: null,
       bobao2: 0,
-      userId: this.$store.getters.userId
+      userId: this.$store.getters.userId,
+      topmenu: this.$store.state.app.topmenu
+    }
+  },
+  computed: {
+    toptrans2() {
+      return this.$store.state.app.topmenu
+    }
+  },
+  watch: {
+    toptrans2: function(newVal) {
+      this.topmenu = newVal
     }
   },
   updated() {
@@ -144,6 +155,14 @@ export default {
       document.getElementById('zhuan').style.display = 'none'
       document.getElementById('cshi').style.display = 'none'
       this.bobao2 * 0
+    },
+    toptrans(par) {
+      console.log(par)
+      if (par == this.topmenu || par == 0) {
+        return true
+      } else {
+        return false
+      }
     },
     hasOneShowingChild(children, parent) {
       const showingChildren = children.filter(item => {

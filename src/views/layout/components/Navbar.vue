@@ -1,7 +1,12 @@
 <template>
   <div class="navbar">
     <hamburger :toggle-click="toggleSideBar" :is-active="sidebar.opened" class="hamburger-container"/>
-
+    <el-menu class="el-menu-demo" mode="horizontal" style="float: left;height: 50px" @select="handleSelect">
+      <el-menu-item index="1">系统管理</el-menu-item>
+      <el-menu-item index="2">采购管理</el-menu-item>
+      <el-menu-item index="3">销售管理</el-menu-item>
+      <el-menu-item index="4">库存管理</el-menu-item>
+    </el-menu>
     <!--<breadcrumb class="breadcrumb-container"/>-->
 
     <div class="right-menu">
@@ -76,12 +81,19 @@ export default {
       this.$store.dispatch('LogOut').then(() => {
         location.reload()// In order to re-instantiate the vue-router object to avoid bugs
       })
+    },
+    handleSelect(key) {
+      this.$store.dispatch('setTopmenu', key)
     }
   }
 }
 </script>
 
 <style rel="stylesheet/scss" lang="scss" scoped>
+  .navbar >>> .el-menu--horizontal>.el-menu-item {
+    height: 50px;
+    line-height: 47px;
+  }
 .navbar {
   height: 50px;
   line-height: 50px;
