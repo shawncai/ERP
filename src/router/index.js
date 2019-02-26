@@ -28,6 +28,7 @@ import Layout from '@/views/layout/Layout'
     title: 'title'               the name show in submenu and breadcrumb (recommend set)
     icon: 'svg-name'             the icon show in the sidebar,
     noCache: true                if true ,the page will no be cached(default is false)
+    affix: true                  if true, the tag will affix in the tags-view
   }
 **/
 export const constantRouterMap = [
@@ -74,7 +75,7 @@ export const constantRouterMap = [
         path: 'home',
         component: () => import('@/views/home/index'),
         name: 'dashboard',
-        meta: { title: 'nwow', icon: 'shouye', noCache: true }
+        meta: { title: 'nwow', icon: 'shouye', noCache: true, affix: true }
       }
     ]
   }
@@ -88,80 +89,22 @@ export default new Router({
 
 export const asyncRouterMap = [
   {
-    path: '/home',
+    path: '/EmployeeInformation',
     component: Layout,
+    redirect: 'noredirect',
+    name: 'EmployeeInformation',
+    alwaysShow: true,
     meta: {
+      title: 'EmployeeInformation',
+      icon: 'ziliao',
       type: 1
     },
     children: [
       {
-        path: 'index',
-        component: () => import('@/views/home/index'),
-        name: 'home',
-        meta: { title: 'home', icon: 'quan', noCache: true }
-      }
-    ]
-  },
-  {
-    path: '/Complaint',
-    component: Layout,
-    meta: {
-      roles: [14],
-      type: 2
-    },
-    children: [
-      {
-        path: 'index',
-        component: () => import('@/views/Complaint/index'),
-        name: 'Complaint',
-        meta: { title: 'Complaint', icon: 'tousu', noCache: true, roles: [14] }
-      }
-    ]
-  },
-  {
-    path: '/discount',
-    component: Layout,
-    meta: {
-      type: 1
-    },
-    children: [
-      {
-        path: 'index',
-        component: () => import('@/views/discount/index'),
-        name: 'discount',
-        meta: { title: 'discount', icon: 'zhekou', noCache: true }
-      }
-    ]
-  },
-  {
-    path: '/Store',
-    component: Layout,
-    meta: {
-      roles: [38],
-      type: 1
-    },
-    children: [
-      {
-        path: 'index',
-        component: () => import('@/views/Store/index'),
-        name: 'Store',
-        meta: { title: 'Store', icon: 'Store', noCache: true, roles: [38] }
-      }
-    ]
-  },
-  {
-    path: '/BigData',
-    component: Layout,
-    meta: {
-      roles: [63],
-      type: 1
-    },
-    children: [
-      {
-        path: 'index',
-        component: () => import('@/views/BigData/index'),
-        name: 'BigData',
-        meta: { title: 'BigData', icon: 'bigdata', noCache: true, roles: [63] }
+        path: 'NewEmployeeInformation',
+        component: () => import('@/views/EmployeeInformation/NewEmployeeInformation'),
+        name: 'NewEmployeeInformation',
+        meta: { title: 'NewEmployeeInformation', noCache: false }
       }
     ]
   },

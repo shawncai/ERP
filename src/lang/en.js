@@ -92,7 +92,9 @@ export default {
     SystemManagement: 'System',
     rolesManagement: 'Roles',
     nwow: 'NWOW Backstage',
-    servicestatistics: 'service statistics'
+    servicestatistics: 'service statistics',
+    EmployeeInformation: 'Employee Information',
+    NewEmployeeInformation: 'New Employee Information'
   },
   navbar: {
     logOut: 'Log Out',

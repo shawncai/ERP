@@ -98,7 +98,9 @@ export default {
     Store: '门店管理',
     BigData: '大数据统计',
     home: '首页',
-    servicestatistics: '维修统计'
+    servicestatistics: '维修统计',
+    EmployeeInformation: '员工资料',
+    NewEmployeeInformation: '新建员工资料'
   },
   navbar: {
     logOut: '退出登录',
@@ -624,5 +626,35 @@ export default {
     creator: '创建人',
     createtime: '创建时间',
     classifiednumber: '分类编号'
+  },
+  NewEmployeeInformation: {
+    account: '员工端登陆账号',
+    password: '密码',
+    firstname: '姓氏',
+    middlename: '中间名',
+    lastname: '名',
+    birthday: '生日',
+    email: '邮箱',
+    gender: '性别',
+    male: '男',
+    female: '女',
+    certificatetype: '证件类型',
+    certificatenumber: '证件号',
+    country: '国籍',
+    address: '家庭住址',
+    phone: '手机号码',
+    provinceid: '省',
+    cityid: '市',
+    jobnumber: '工号',
+    postid: '职称',
+    deptid: '部门',
+    regionid: '所属区域',
+    repositoryid: '所属门店',
+    contractName: '合同名称',
+    contractType: '合同类型',
+    contractAttributes: '合同属性',
+    SigningTime: '签约时间',
+    effectiveTime: '生效时间',
+    status: '状态'
   }
 }

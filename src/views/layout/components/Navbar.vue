@@ -2,7 +2,7 @@
   <div class="navbar">
     <hamburger :toggle-click="toggleSideBar" :is-active="sidebar.opened" class="hamburger-container"/>
     <el-menu class="el-menu-demo" mode="horizontal" style="float: left;height: 50px" @select="handleSelect">
-      <el-menu-item index="1">系统管理</el-menu-item>
+      <el-menu-item index="1"><router-link to="/">系统管理</router-link></el-menu-item>
       <el-menu-item index="2">采购管理</el-menu-item>
       <el-menu-item index="3">销售管理</el-menu-item>
       <el-menu-item index="4">库存管理</el-menu-item>
@@ -70,7 +70,8 @@ export default {
       'name',
       'avatar',
       'device',
-      'name'
+      'name',
+      'permission_routers'
     ])
   },
   methods: {

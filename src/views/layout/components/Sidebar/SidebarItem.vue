@@ -157,7 +157,6 @@ export default {
       this.bobao2 * 0
     },
     toptrans(par) {
-      console.log(par)
       if (par == this.topmenu || par == 0) {
         return true
       } else {
@@ -189,6 +188,7 @@ export default {
       return false
     },
     resolvePath(routePath) {
+      
       if (this.isExternalLink(routePath)) {
         return routePath
       }

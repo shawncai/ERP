@@ -4,3 +4,4 @@ src/assets
 src/views/home
 src/views/Repair
 src/views/Employee
+src/views/layout/components/Sidebar
