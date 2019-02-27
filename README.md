@@ -1,9 +1,9 @@
 # ERP
-##work for nwow  
-###ERP project  
-####2019/2/12 add topmenu  
+## work for nwow  
+### ERP project  
+#### 2019/2/12 add topmenu  
 #### 2019/2/25 遇到的一些问题以及解决方案
-#####tagsview的页面关闭操作  
+##### tagsview的页面关闭操作  
 ```  
 const view = { 
 path: '/EmployeeInformation/NewEmployeeInformation',
@@ -15,7 +15,7 @@ path: '/EmployeeInformation/NewEmployeeInformation',
 this.$store.dispatch('delView', view).then(({ visitedViews }) => {})
 ```  
           
-#####拼接json 方法
+##### 拼接json 方法
 ```extend(jsonbject1, jsonbject2) {
          var resultJsonObject = {}
          for (const attr in jsonbject1) {
