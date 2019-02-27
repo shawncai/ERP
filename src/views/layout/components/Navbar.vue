@@ -99,6 +99,11 @@ export default {
   height: 50px;
   line-height: 50px;
   border-radius: 0px !important;
+  position: fixed;
+  top: 0;
+  z-index: 9999;
+  background: #fff;
+  width: 90%;
   .hamburger-container {
     line-height: 58px;
     height: 50px;

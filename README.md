@@ -3,7 +3,7 @@
 ###ERP project  
 ####2019/2/12 add topmenu  
 #### 2019/2/26 遇到的一些问题以及解决方案
-#####tagsview的页面关闭操作
+#####tagsview的页面关闭操作  
 ```const view = { path: '/EmployeeInformation/NewEmployeeInformation', name: 'NewEmployeeInformation', fullPath: '/EmployeeInformation/NewEmployeeInformation', title: 'NewEmployeeInformation' } this.$store.dispatch('delView', view).then(({ visitedViews }) => {})```  
           
 #####拼接json 方法

@@ -100,7 +100,8 @@ export default {
     home: '首页',
     servicestatistics: '维修统计',
     EmployeeInformation: '员工资料',
-    NewEmployeeInformation: '新建员工资料'
+    NewEmployeeInformation: '新建员工资料',
+    EmployeeInformationList: '员工资料列表'
   },
   navbar: {
     logOut: '退出登录',
@@ -640,7 +641,7 @@ export default {
     female: '女',
     certificatetype: '证件类型',
     certificatenumber: '证件号',
-    country: '国籍',
+    country: '工作地区',
     address: '家庭住址',
     phone: '手机号码',
     provinceid: '省',
@@ -655,6 +656,38 @@ export default {
     contractAttributes: '合同属性',
     SigningTime: '签约时间',
     effectiveTime: '生效时间',
-    status: '状态'
+    status: '状态',
+    repositoryid2: '门店',
+    regionid2: '区域',
+    postid2: '职位',
+    deptid2: '部门',
+    employeename: '员工名',
+    time: '入职时间',
+    jobnumber2: '工号',
+    id: '编号',
+    jobNumber: '工号',
+    account2: '账号',
+    name: '姓名',
+    postName: '职位',
+    deptName: '所属部门',
+    regionName: '所属区域',
+    repositoryName: '所属门店',
+    createTime: '入职时间',
+    dimissionTime: '离职时间',
+    stat: '状态'
+  },
+  public: {
+    search: '查询',
+    rest: '重置',
+    filter: '更多查询条件',
+    batchoperation: '批量操作',
+    add: '新增',
+    export: '导出',
+    print: '打印',
+    contract: '生成合同',
+    actions: '操作',
+    edit: '修改',
+    disable: '停用',
+    delete: '删除'
   }
 }

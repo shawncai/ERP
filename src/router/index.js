@@ -105,6 +105,12 @@ export const asyncRouterMap = [
         component: () => import('@/views/EmployeeInformation/NewEmployeeInformation'),
         name: 'NewEmployeeInformation',
         meta: { title: 'NewEmployeeInformation', noCache: false }
+      },
+      {
+        path: 'EmployeeInformationList',
+        component: () => import('@/views/EmployeeInformation/EmployeeInformationList'),
+        name: 'EmployeeInformationList',
+        meta: { title: 'EmployeeInformationList', noCache: true }
       }
     ]
   },
