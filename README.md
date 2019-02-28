@@ -50,4 +50,6 @@ this.$store.dispatch('delView', view).then(({ visitedViews }) => {})
  const ids = this.moreaction.map(item => item.id).join()
  ids = 2, 3, 4, 5, 6
 ```
-##### 导出功能中名字拼接还有点问题待解决！！！！！
+##### 导出功能中名字拼接还有点问题待解决！！！！！  
+
+#### 2019/2/27
