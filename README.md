@@ -43,3 +43,11 @@ this.$store.dispatch('delView', view).then(({ visitedViews }) => {})
      })
    }
 ```    
+#### 2019/2/26   
+##### 用map取用数组中的莫一项并且把这一项变成字符串组  
+```$xslt
+ ids =  [{id: 2, name: xxx},{id: 3, name: xxx}, {id: 4, name: xxx}, {id: 5, name: xxx}]
+ const ids = this.moreaction.map(item => item.id).join()
+ ids = 2, 3, 4, 5, 6
+```
+##### 导出功能中名字拼接还有点问题待解决！！！！！
