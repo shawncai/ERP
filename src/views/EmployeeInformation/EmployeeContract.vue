@@ -264,6 +264,7 @@ export default {
             message: '出错了',
             offset: 100
           })
+          this.listLoading = false
         }
         setTimeout(() => {
           this.listLoading = false

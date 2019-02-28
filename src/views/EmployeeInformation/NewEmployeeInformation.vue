@@ -352,7 +352,7 @@ export default {
       searchRepository(finalid).then(res => {
         console.log(res)
         if (res.data.ret === 200) {
-          this.repositories = res.data.data.content
+          this.repositories = res.data.data.content.list
         } else {
           this.$notify.error({
             title: '错误',

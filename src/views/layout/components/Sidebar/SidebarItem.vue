@@ -83,45 +83,45 @@ export default {
       this.topmenu = newVal
     }
   },
-  updated() {
-    this.initwebsocket()
-  },
+  // updated() {
+  //   this.initwebsocket()
+  // },
   methods: {
-    initwebsocket() { // 初始化websocket
-      // const wsuri = 'ws://192.168.1.45:8080/pss/websocket'
-      const wsuri = 'ws://www.nwowapp.com:9090/pss/websocket'
-      this.websock = new WebSocket(wsuri)// 这里面的this都指向vue
-      this.websock.onopen = this.websocketopen
-      // this.websock.onmessage = this.websocketonmessage
-      this.websock.onclose = this.websocketclose
-      this.websock.onerror = this.websocketerror
-      this.websock.onmessage = function(e) {
-        const bobao = parseInt(e.data)
-        this.bobao2 += 1
-        if (bobao === 1) {
-          document.getElementById('zhuan').style.display = 'block'
-          document.getElementById('cshi').style.display = 'block'
-          document.getElementsByClassName('mark')[1].children[0].innerText = this.bobao2
-          this.gamemuiscs1 = new Audio('../static/audio/ywxdd.mp3')
-          if (this.gamemuiscs1.paused === true) { // 判读是否播放
-            this.gamemuiscs1.paused === false
-            this.gamemuiscs1.play() // 没有就播放
-          }
-          this.$notify.success({
-            title: 'Info',
-            message: 'You have a new repair order'
-          })
-        }
-      }.bind(this)
-    },
-    websocketopen() { // 打开
-      console.log('WebSocket连接成功')
-      this.bobao2 === 0
-      document.getElementById('zhuan').style.display = 'none'
-      document.getElementById('cshi').style.display = 'none'
-      console.log(this.userId)
-      this.websocketsend(this.userId)
-    },
+    // initwebsocket() { // 初始化websocket
+    //   // const wsuri = 'ws://192.168.1.45:8080/pss/websocket'
+    //   const wsuri = 'ws://www.nwowapp.com:9090/pss/websocket'
+    //   this.websock = new WebSocket(wsuri)// 这里面的this都指向vue
+    //   this.websock.onopen = this.websocketopen
+    //   // this.websock.onmessage = this.websocketonmessage
+    //   this.websock.onclose = this.websocketclose
+    //   this.websock.onerror = this.websocketerror
+    //   this.websock.onmessage = function(e) {
+    //     const bobao = parseInt(e.data)
+    //     this.bobao2 += 1
+    //     if (bobao === 1) {
+    //       document.getElementById('zhuan').style.display = 'block'
+    //       document.getElementById('cshi').style.display = 'block'
+    //       document.getElementsByClassName('mark')[1].children[0].innerText = this.bobao2
+    //       this.gamemuiscs1 = new Audio('../static/audio/ywxdd.mp3')
+    //       if (this.gamemuiscs1.paused === true) { // 判读是否播放
+    //         this.gamemuiscs1.paused === false
+    //         this.gamemuiscs1.play() // 没有就播放
+    //       }
+    //       this.$notify.success({
+    //         title: 'Info',
+    //         message: 'You have a new repair order'
+    //       })
+    //     }
+    //   }.bind(this)
+    // },
+    // websocketopen() { // 打开
+    //   console.log('WebSocket连接成功')
+    //   this.bobao2 === 0
+    //   document.getElementById('zhuan').style.display = 'none'
+    //   document.getElementById('cshi').style.display = 'none'
+    //   console.log(this.userId)
+    //   this.websocketsend(this.userId)
+    // },
     // websocketonmessage(e) { // 数据接收
     //   const bobao = parseInt(e.data)
     //   console.log(_this.yinchang())
@@ -141,21 +141,21 @@ export default {
     // func() {
     //
     // },
-    websocketsend(data) { // 数据发送
-      this.websock.send(data)
-    },
-    websocketclose() { // 关闭
-      console.log('WebSocket关闭')
-    },
-    websocketerror() { // 失败
-      console.log('WebSocket连接失败')
-      this.bobao2 === 0
-    },
-    yinchang() {
-      document.getElementById('zhuan').style.display = 'none'
-      document.getElementById('cshi').style.display = 'none'
-      this.bobao2 * 0
-    },
+    // websocketsend(data) { // 数据发送
+    //   this.websock.send(data)
+    // },
+    // websocketclose() { // 关闭
+    //   console.log('WebSocket关闭')
+    // },
+    // websocketerror() { // 失败
+    //   console.log('WebSocket连接失败')
+    //   this.bobao2 === 0
+    // },
+    // yinchang() {
+    //   document.getElementById('zhuan').style.display = 'none'
+    //   document.getElementById('cshi').style.display = 'none'
+    //   this.bobao2 * 0
+    // },
     toptrans(par) {
       if (par == this.topmenu || par == 0) {
         return true
@@ -188,7 +188,7 @@ export default {
       return false
     },
     resolvePath(routePath) {
-      
+
       if (this.isExternalLink(routePath)) {
         return routePath
       }

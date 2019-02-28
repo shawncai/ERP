@@ -38,6 +38,86 @@ export function deleteemp(query) {
   })
 }
 
+// 展示修改界面员工资料
+export function getempinfo(query) {
+  var params = new URLSearchParams()
+  if (query !== '' && query !== null) {
+    params.append('id', query) // 你要传给后台的参数值 key/value
+  }
+  return request({
+    url: 'http://192.168.1.45:8080/erp/employee/getempinfo',
+    method: 'post',
+    data: params
+  })
+}
+
+// 提交修改
+export function updateemp(query) {
+  var params = new URLSearchParams()
+  if (query.id !== '' && query.id !== null && query.id !== undefined) {
+    params.append('employeeid', query.id) // 你要传给后台的参数值 key/value
+  }
+  if (query.firstName !== '' && query.firstName !== null && query.firstName !== undefined) {
+    params.append('firstname', query.firstName) // 你要传给后台的参数值 key/value
+  }
+  if (query.middleName !== '' && query.middleName !== null && query.middleName !== undefined) {
+    params.append('middlename', query.middleName) // 你要传给后台的参数值 key/value
+  }
+  if (query.lastName !== '' && query.lastName !== null && query.lastName !== undefined) {
+    params.append('lastname', query.lastName) // 你要传给后台的参数值 key/value
+  }
+  if (query.password !== '' && query.password !== null && query.password !== undefined) {
+    params.append('passwd', query.password) // 你要传给后台的参数值 key/value
+  }
+  if (query.email !== '' && query.email !== null && query.email !== undefined) {
+    params.append('email', query.email) // 你要传给后台的参数值 key/value
+  }
+  if (query.phone !== '' && query.phone !== null && query.phone !== undefined) {
+    params.append('phone', query.phone) // 你要传给后台的参数值 key/value
+  }
+  if (query.gender !== '' && query.gender !== null && query.gender !== undefined) {
+    params.append('gender', query.gender) // 你要传给后台的参数值 key/value
+  }
+  if (query.countryid !== '' && query.countryid !== null && query.countryid !== undefined) {
+    params.append('countryid', query.countryid) // 你要传给后台的参数值 key/value
+  }
+  if (query.provinceid !== '' && query.provinceid !== null && query.provinceid !== undefined) {
+    params.append('provinceid', query.provinceid) // 你要传给后台的参数值 key/value
+  }
+  if (query.cityid !== '' && query.cityid !== null && query.cityid !== undefined) {
+    params.append('cityid', query.cityid) // 你要传给后台的参数值 key/value
+  }
+  if (query.address !== '' && query.address !== null && query.address !== undefined) {
+    params.append('address', query.address) // 你要传给后台的参数值 key/value
+  }
+  if (query.birthday !== '' && query.birthday !== null && query.birthday !== undefined) {
+    params.append('birthday', query.birthday) // 你要传给后台的参数值 key/value
+  }
+  if (query.deptId !== '' && query.deptId !== null && query.deptId !== undefined) {
+    params.append('deptid', query.deptId) // 你要传给后台的参数值 key/value
+  }
+  if (query.postId !== '' && query.postId !== null && query.postId !== undefined) {
+    params.append('postid', query.postId) // 你要传给后台的参数值 key/value
+  }
+  if (query.repositoryid2 !== '' && query.repositoryid2 !== null && query.repositoryid2 !== undefined) {
+    params.append('repositoryid', query.repositoryid2) // 你要传给后台的参数值 key/value
+  }
+  if (query.regionId !== '' && query.regionId !== null && query.regionId !== undefined) {
+    params.append('regionid', query.regionId) // 你要传给后台的参数值 key/value
+  }
+  if (query.certificateType !== '' && query.certificateType !== null && query.certificateType !== undefined) {
+    params.append('certificatetype', query.certificateType) // 你要传给后台的参数值 key/value
+  }
+  if (query.certificateNumber !== '' && query.certificateNumber !== null && query.certificateNumber !== undefined) {
+    params.append('certificatenumber', query.certificateNumber) // 你要传给后台的参数值 key/value
+  }
+  return request({
+    url: 'http://192.168.1.45:8080/erp/employee/updateemp',
+    method: 'post',
+    data: params
+  })
+}
+
 // 添加员工
 export function register(query) {
   var params = new URLSearchParams()
@@ -243,6 +323,81 @@ export function deleteempcontract(query) {
   }
   return request({
     url: 'http://192.168.1.45:8080/erp/contract/deleteempcontract',
+    method: 'post',
+    data: params
+  })
+}
+
+// 分类属性列表
+export function searchEmpCategory(query) {
+  var params = new URLSearchParams()
+  if (query.categoryname !== '' && query.categoryname !== null) {
+    params.append('categoryname', query.categoryname) // 你要传给后台的参数值 key/value
+  }
+  if (query.iseffective !== '' && query.iseffective !== null) {
+    params.append('iseffective', query.iseffective) // 你要传给后台的参数值 key/value
+  }
+  if (query.type !== '' && query.type !== null) {
+    params.append('type', query.type) // 你要传给后台的参数值 key/value
+  }
+  params.append('pagenum', query.pagenum) // 你要传给后台的参数值 key/value
+  params.append('pagesize', query.pagesize) // 你要传给后台的参数值 key/value
+  return request({
+    url: 'http://192.168.1.45:8080/erp/employee/searchEmpCategory',
+    method: 'post',
+    data: params
+  })
+}
+
+// 新增分类属性
+export function addEmpCategory(query) {
+  var params = new URLSearchParams()
+  if (query.categoryname !== '' && query.categoryname !== null) {
+    params.append('categoryname', query.categoryname) // 你要传给后台的参数值 key/value
+  }
+  if (query.category !== '' && query.category !== null) {
+    params.append('category', query.category) // 你要传给后台的参数值 key/value
+  }
+  if (query.iseffective !== '' && query.iseffective !== null) {
+    params.append('iseffective', query.iseffective) // 你要传给后台的参数值 key/value
+  }
+  if (query.type !== '' && query.type !== null) {
+    params.append('type', query.type) // 你要传给后台的参数值 key/value
+  }
+  return request({
+    url: 'http://192.168.1.45:8080/erp/employee/addEmpCategory',
+    method: 'post',
+    data: params
+  })
+}
+
+// 修改分类属性
+export function updateEmpCategory(query) {
+  var params = new URLSearchParams()
+  if (query.categoryName !== '' && query.categoryName !== null) {
+    params.append('categoryname', query.categoryName) // 你要传给后台的参数值 key/value
+  }
+  if (query.isEffective !== '' && query.isEffective !== null) {
+    params.append('iseffective', query.isEffective) // 你要传给后台的参数值 key/value
+  }
+  if (query.id !== '' && query.id !== null) {
+    params.append('id', query.id) // 你要传给后台的参数值 key/value
+  }
+  return request({
+    url: 'http://192.168.1.45:8080/erp/employee/updateEmpCategory',
+    method: 'post',
+    data: params
+  })
+}
+
+// 删除分类属性
+export function delateEmpCategory(query) {
+  var params = new URLSearchParams()
+  if (query !== '' && query !== null) {
+    params.append('ids', query) // 你要传给后台的参数值 key/value
+  }
+  return request({
+    url: 'http://192.168.1.45:8080/erp/employee/delateEmpCategory',
     method: 'post',
     data: params
   })

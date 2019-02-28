@@ -123,221 +123,32 @@ export const asyncRouterMap = [
         component: () => import('@/views/EmployeeInformation/NewEmployeeContract'),
         name: 'NewEmployeeContract',
         meta: { title: 'NewEmployeeContract', noCache: true }
+      },
+      {
+        path: 'EmpCategory',
+        component: () => import('@/views/EmployeeInformation/EmpCategory'),
+        name: 'EmpCategory',
+        meta: { title: 'EmpCategory', noCache: true }
       }
     ]
   },
   {
-    path: '/commodity',
+    path: '/Repository',
     component: Layout,
     redirect: 'noredirect',
-    name: 'Commodity',
+    name: 'Repository',
     alwaysShow: true,
     meta: {
-      title: 'commodity',
-      icon: 'shopping',
-      roles: [34, 71],
-      type: 2
+      title: 'Repository',
+      icon: 'cangku',
+      type: 1
     },
     children: [
       {
-        path: 'sample',
-        component: () => import('@/views/commodity/sample'),
-        name: 'ProductList',
-        meta: { title: 'ProductList', noCache: true, roles: [34] }
-      },
-      {
-        path: 'Categories',
-        component: () => import('@/views/commodity/Categories'),
-        name: 'Categories',
-        meta: { title: 'Categories', noCache: true, roles: [71] }
-      }
-    ]
-  },
-  {
-    path: '/Repair',
-    component: Layout,
-    redirect: 'noredirect',
-    name: 'Repair',
-    alwaysShow: true,
-    meta: {
-      title: 'Repair',
-      icon: 'repair',
-      roles: [3, 7, 87, 90, 10, 67],
-      tixing: true,
-      type: 3
-    },
-    children: [
-      {
-        path: 'RepairList',
-        component: () => import('@/views/Repair/RepairList'),
-        name: 'RepairList',
-        meta: { title: 'RepairList', roles: [3], tixing: true }
-      },
-      {
-        path: 'offlineTask',
-        component: () => import('@/views/Repair/offlineTask'),
-        name: 'Offline-task',
-        meta: { title: 'Offline-task', roles: [87] }
-      },
-      {
-        path: 'DelaySummary',
-        component: () => import('@/views/Repair/DelaySummary'),
-        name: 'DelaySummary',
-        meta: { title: 'DelaySummary', roles: [90] }
-      },
-      {
-        path: 'problemPart',
-        component: () => import('@/views/Repair/problemPart'),
-        name: 'problemPart',
-        meta: { title: 'problemPart', roles: [7] }
-      },
-      {
-        path: 'RepairProject',
-        component: () => import('@/views/Repair/RepairProject'),
-        name: 'repairProject',
-        meta: { title: 'repairProject', roles: [10] }
-      },
-      {
-        path: 'selfCheck',
-        component: () => import('@/views/Repair/selfCheck'),
-        name: 'selfCheck',
-        meta: { title: 'selfCheck', roles: [67] }
-      },
-      {
-        path: 'servicestatistics',
-        component: () => import('@/views/Repair/servicestatistics'),
-        name: 'servicestatistics',
-        meta: { title: 'servicestatistics' }
-      }
-
-    ]
-  },
-  {
-    path: '/lostUnits',
-    component: Layout,
-    redirect: 'noredirect',
-    name: 'lostUnits',
-    alwaysShow: true,
-    meta: {
-      title: 'lostUnits',
-      icon: 'lost',
-      roles: [41, 85],
-      type: 4
-    },
-    children: [
-      {
-        path: 'blackList',
-        component: () => import('@/views/lostUnits/blackList'),
-        name: 'blackList',
-        meta: { title: 'blackList', noCache: true, roles: [41] }
-      },
-      {
-        path: 'Categories',
-        component: () => import('@/views/lostUnits/lost'),
-        name: 'categories',
-        meta: { title: 'categories', noCache: true, roles: [85] }
-      }
-    ]
-  },
-  {
-    path: '/client',
-    component: Layout,
-    redirect: 'noredirect',
-    name: 'client',
-    alwaysShow: true,
-    meta: {
-      title: 'client',
-      icon: 'kehu',
-      roles: [55],
-      type: 4
-    },
-    children: [
-      {
-        path: 'CustomerManagement',
-        component: () => import('@/views/client/CustomerManagement'),
-        name: 'Customermanagement',
-        meta: { title: 'Customermanagement', noCache: true, roles: [55] }
-      },
-      {
-        path: 'PromotionStatistics',
-        component: () => import('@/views/client/PromotionStatistics'),
-        name: 'Promotionstatistics',
-        meta: { title: 'Promotionstatistics', noCache: true, roles: [55] }
-      }
-    ]
-  },
-  {
-    path: '/Employee',
-    component: Layout,
-    redirect: 'noredirect',
-    name: 'Employee ',
-    alwaysShow: true,
-    meta: {
-      title: 'Employee',
-      icon: 'yuangong',
-      roles: [44, 48, 51],
-      type: 3
-    },
-    children: [
-      {
-        path: 'EmployeeList',
-        component: () => import('@/views/Employee/EmployeeList'),
-        name: 'EmployeeList',
-        meta: { title: 'EmployeeList', noCache: true, roles: [44] }
-      },
-      {
-        path: 'EmployeePerformance',
-        component: () => import('@/views/Employee/EmployeePerformance'),
-        name: 'EmployeePerformance',
-        meta: { title: 'EmployeePerformance', noCache: true, roles: [48] }
-      },
-      {
-        path: 'Performancerule',
-        component: () => import('@/views/Employee/Performancerule'),
-        name: 'Performancerule',
-        meta: { title: 'Performancerule', noCache: true, roles: [51] }
-      }
-    ]
-  },
-  {
-    path: '/area',
-    component: Layout,
-    redirect: 'noredirect',
-    name: 'area ',
-    alwaysShow: true,
-    meta: {
-      title: 'area',
-      icon: 'diqu',
-      roles: [75],
-      type: 4
-    },
-    children: [
-      {
-        path: 'Regional',
-        component: () => import('@/views/area/Regional'),
-        name: 'regional',
-        meta: { title: 'regional', noCache: true, roles: [75] }
-      }
-    ]
-  },
-  {
-    path: '/SystemManagement',
-    component: Layout,
-    redirect: 'noredirect',
-    name: 'SystemManagement ',
-    alwaysShow: true,
-    meta: {
-      title: 'SystemManagement',
-      icon: 'xitong',
-      roles: [59],
-      type: 3
-    },
-    children: [
-      {
-        path: 'rolesManagement',
-        component: () => import('@/views/SystemManagement/rolesManagement'),
-        name: 'rolesManagement',
-        meta: { title: 'rolesManagement', noCache: true, roles: [59] }
+        path: 'NewRepository',
+        component: () => import('@/views/Repository/NewRepository'),
+        name: 'NewRepository',
+        meta: { title: 'NewRepository', noCache: false }
       }
     ]
   },
