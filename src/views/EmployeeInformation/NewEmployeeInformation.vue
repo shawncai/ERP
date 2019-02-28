@@ -1,6 +1,7 @@
 <template>
   <div class="ERP-container">
     <div class="app-container">
+      <!--个人信息-->
       <h2 ref="geren" class="form-name">个人信息</h2>
       <div class="container">
         <el-form ref="personalForm" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-position="top" label-width="300px" style="margin-left: 30px;">
@@ -57,6 +58,7 @@
           </el-form-item>
         </el-form>
       </div>
+      <!--联系信息-->
       <h2 ref="lianxi" class="form-name">联系信息</h2>
       <div class="container">
         <el-form ref="connectForm" :model="connectForm" :rules="connectrules" :inline="true" status-icon class="demo-ruleForm" label-position="top" label-width="300px" style="margin-left: 30px;">
@@ -86,6 +88,7 @@
           </el-form-item>
         </el-form>
       </div>
+      <!--公司信息-->
       <h2 class="form-name">公司信息</h2>
       <div class="container">
         <el-form ref="companyForm" :model="companyForm" :rules="companyrules" :inline="true" status-icon class="demo-ruleForm" label-position="top" label-width="300px" style="margin-left: 30px;">
@@ -132,6 +135,7 @@
           </el-form-item>
         </el-form>
       </div>
+      <!--操作-->
       <div class="buttons" style="margin-top: 20px">
         <el-button type="primary" @click="handlesave()">保存</el-button>
         <el-button type="success" @click="handleentry()">继续录入</el-button>
@@ -145,7 +149,7 @@
 import { getcountrylist, getprovincelist, getcitylist, regionlist, searchRepository } from '@/api/public'
 import { getdeptlist, register } from '@/api/EmployeeInformation'
 export default {
-  name: 'NewEmployeeInformation',
+  name: 'NewEmployeeContract',
   data() {
     var checkphone = (rule, value, callback) => {
       if (!value) {
@@ -160,18 +164,25 @@ export default {
       }, 1000)
     }
     return {
-      listLoading: true,
+      // 国家列表
       nations: [],
+      // 省列表
       provinces: [],
+      // 城市列表
       cities: [],
+      // 区域列表
       regions: [],
+      // 门店列表
       repositories: [],
+      // 部门列表
       depts: [],
+      // 区域列表字段更改
       props: {
         value: 'id',
         label: 'regionName',
         children: 'regionListVos'
       },
+      // 个人信息数据
       personalForm: {
         account: '',
         passwd: '',
@@ -185,6 +196,7 @@ export default {
         certificatenumber: '',
         country: ''
       },
+      // 个人信息规则数据
       personalrules: {
         passwd: [
           { message: '请正确输入密码长度', trigger: 'blur' },
@@ -210,12 +222,14 @@ export default {
           { min: 1, message: '请输入正确邮箱号', trigger: 'blur' }
         ]
       },
+      // 联系信息数据
       connectForm: {
         address: '',
         phone: '',
         provinceid: '',
         cityid: ''
       },
+      // 联系信息规则数据
       connectrules: {
         address: [
           { required: true, message: '请输入地址', trigger: 'blur' }
@@ -230,6 +244,7 @@ export default {
           { required: true, validator: checkphone, trigger: 'change' }
         ]
       },
+      // 公司信息数据
       companyForm: {
         jobnumber: '',
         postid: '',
@@ -237,6 +252,7 @@ export default {
         regionid: [],
         repositoryid: ''
       },
+      // 公司信息规则数据
       companyrules: {
         deptid: [
           { required: true, message: '请选择部门', trigger: 'change' }
@@ -256,7 +272,6 @@ export default {
   methods: {
     // 国籍列表
     getnationlist() {
-      this.listLoading = true
       getcountrylist().then(res => {
         if (res.data.ret === 200) {
           this.nations = res.data.data.content
@@ -267,10 +282,8 @@ export default {
             offset: 100
           })
         }
-        setTimeout(() => {
-          this.listLoading = false
-        }, 0.5 * 100)
       })
+      // 区域列表数据
       regionlist().then(res => {
         if (res.data.ret === 200) {
           this.regions = this.tranKTree(res.data.data.content)
@@ -282,6 +295,7 @@ export default {
           })
         }
       })
+      // 部门列表数据
       getdeptlist().then(res => {
         if (res.data.ret === 200) {
           this.depts = res.data.data.content
@@ -521,6 +535,7 @@ export default {
         }
       })
     },
+    // 取消操作
     handlecancel() {
       this.$router.go(-1)
       const view = { path: '/EmployeeInformation/NewEmployeeInformation', name: 'NewEmployeeInformation', fullPath: '/EmployeeInformation/NewEmployeeInformation', title: 'NewEmployeeInformation' }

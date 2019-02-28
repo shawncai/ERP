@@ -29,7 +29,7 @@
           style="width: 40%;float: left;margin-left: 20px"
           @change="handlechange4"
         />
-        <el-select v-model="getemplist.repositoryid" placeholder="请选择门店" style="width: 40%;float: right;margin-right: 20px">
+        <el-select v-model="getemplist.repositoryid" placeholder="请选择门店" clearable style="width: 40%;float: right;margin-right: 20px">
           <el-option
             v-for="(item, index) in repositories"
             :key="index"
@@ -53,19 +53,19 @@
         <el-button v-waves slot="reference" type="primary" class="filter-item" style="width: 130px">{{ $t('public.filter') }}<svg-icon icon-class="shaixuan" style="margin-left: 4px"/></el-button>
       </el-popover>
       <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 86px" @click="handleFilter">{{ $t('public.search') }}</el-button>
-      <el-dropdown>
+      <el-dropdown @command="handleCommand">
         <el-button v-waves class="filter-item" type="primary">
           {{ $t('public.batchoperation') }} <i class="el-icon-arrow-down el-icon--right"/>
         </el-button>
         <el-dropdown-menu slot="dropdown" style="width: 140px">
-          <el-dropdown-item style="text-align: left"><svg-icon icon-class="tingyong" style="width: 40px"/>{{ $t('public.disable') }}</el-dropdown-item>
-          <el-dropdown-item style="text-align: left"><svg-icon icon-class="shanchu" style="width: 40px"/>{{ $t('public.delete') }}</el-dropdown-item>
+          <el-dropdown-item style="text-align: left" command="disable"><svg-icon icon-class="tingyong" style="width: 40px"/>{{ $t('public.disable') }}</el-dropdown-item>
+          <el-dropdown-item style="text-align: left" command="delete"><svg-icon icon-class="shanchu" style="width: 40px"/>{{ $t('public.delete') }}</el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
       <el-button v-waves class="filter-item" type="primary" style="width: 100px" @click="handleContract">{{ $t('public.contract') }}</el-button>
-      <el-button v-waves class="filter-item" style="width: 86px" @click="handleExport"> <svg-icon icon-class="daochu"/>{{ $t('public.export') }}</el-button>
+      <el-button v-waves :loading="downloadLoading" class="filter-item" style="width: 86px" @click="handleExport"> <svg-icon icon-class="daochu"/>{{ $t('public.export') }}</el-button>
       <el-button v-waves class="filter-item" icon="el-icon-printer" style="width: 86px" @click="handlePrint">{{ $t('public.print') }}</el-button>
-      <el-button v-waves class="filter-item" icon="el-icon-plus" type="success" style="width: 86px;float: right"><router-link to="/EmployeeInformation/NewEmployeeInformation">{{ $t('public.add') }}</router-link></el-button>
+      <el-button v-waves class="filter-item" icon="el-icon-plus" type="success" style="width: 86px;float: right" @click="handleAdd">{{ $t('public.add') }}</el-button>
     </div>
     <div class="app-container">
       <el-table
@@ -75,7 +75,8 @@
         border
         fit
         highlight-current-row
-        style="width: 100%;">
+        style="width: 100%;"
+        @selection-change="handleSelectionChange">
         <el-table-column
           type="selection"
           width="55"
@@ -102,7 +103,7 @@
         </el-table-column>
         <el-table-column :label="$t('NewEmployeeInformation.gender')" :resizable="false" prop="gender" align="center" width="100">
           <template slot-scope="scope">
-            <span>{{ scope.row.gender }}</span>
+            <span>{{ scope.row.gender | genderFilter }}</span>
           </template>
         </el-table-column>
         <el-table-column :label="$t('NewEmployeeInformation.birthday')" :resizable="false" prop="birthday" align="center" width="100">
@@ -147,14 +148,15 @@
         </el-table-column>
         <el-table-column :label="$t('NewEmployeeInformation.stat')" :resizable="false" prop="stat" align="center" width="100">
           <template slot-scope="scope">
-            <span>{{ scope.row.stat }}</span>
+            <span>{{ scope.row.stat | statFilter }}</span>
           </template>
         </el-table-column>
         <el-table-column :label="$t('public.actions')" :resizable="false" align="center" min-width="230">
           <template slot-scope="scope">
             <el-button type="primary" size="mini" >{{ $t('public.edit') }}</el-button>
-            <el-button size="mini" type="warning" >{{ $t('public.disable') }}</el-button>
-            <el-button size="mini" type="danger">{{ $t('public.delete') }}</el-button>
+            <el-button v-if="scope.row.stat === 1" size="mini" type="warning" @click="handleDisable(scope.row)">{{ $t('public.disable') }}</el-button>
+            <el-button v-if="scope.row.stat === 2" size="mini" type="success" @click="handleEnable(scope.row)">{{ $t('public.enable') }}</el-button>
+            <el-button size="mini" type="danger" @click="handleDelete(scope.row)">{{ $t('public.delete') }}</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -165,7 +167,7 @@
 
 <script>
 import { searchRepository, regionlist } from '@/api/public'
-import { getdeptlist, getemplist } from '@/api/EmployeeInformation'
+import { getdeptlist, getemplist, startorendemp, deleteemp } from '@/api/EmployeeInformation'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
 
@@ -173,8 +175,28 @@ export default {
   name: 'EmployeeInformationList',
   directives: { waves },
   components: { Pagination },
+  filters: {
+    genderFilter(status) {
+      const statusMap = {
+        1: '男',
+        2: '女'
+      }
+      return statusMap[status]
+    },
+    statFilter(status) {
+      const statusMap = {
+        1: '在职',
+        2: '离职'
+      }
+      return statusMap[status]
+    }
+  },
   data() {
     return {
+      // 批量操作
+      moreaction: [],
+      // 加载操作控制
+      downloadLoading: false,
       // 表格数据
       list: [],
       // 表格数据条数
@@ -252,7 +274,123 @@ export default {
         }
       })
     },
-    // 筛选
+    // 批量操作
+    handleSelectionChange(val) {
+      this.moreaction = val
+    },
+    // 批量停用和删除
+    handleCommand(command) {
+      const ids = this.moreaction.map(item => item.id).join()
+      if (command === 'disable') {
+        startorendemp(ids, 2).then(res => {
+          if (res.data.ret === 200) {
+            this.$notify({
+              title: '操作成功',
+              message: '操作成功',
+              type: 'success',
+              duration: 1000,
+              offset: 100
+            })
+            this.getlist()
+          } else {
+            this.$message.error('出错了')
+          }
+        })
+      } else if (command === 'delete') {
+        this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          deleteemp(ids).then(res => {
+            if (res.data.ret === 200) {
+              this.$notify({
+                title: '删除成功',
+                type: 'success',
+                offset: 100
+              })
+              this.getlist()
+            } else {
+              this.$notify.error({
+                title: '错误',
+                message: '出错了',
+                offset: 100
+              })
+            }
+          })
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消删除'
+          })
+        })
+      }
+    },
+    // 单条删除
+    handleDelete(row) {
+      this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        deleteemp(row.id).then(res => {
+          if (res.data.ret === 200) {
+            this.$notify({
+              title: '删除成功',
+              type: 'success',
+              offset: 100
+            })
+            this.getlist()
+          } else {
+            this.$notify.error({
+              title: '错误',
+              message: '出错了',
+              offset: 100
+            })
+          }
+        })
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消删除'
+        })
+      })
+    },
+    // 单条停用
+    handleDisable(row) {
+      startorendemp(row.id, 2).then(res => {
+        if (res.data.ret === 200) {
+          this.$notify({
+            title: '操作成功',
+            message: '操作成功',
+            type: 'success',
+            duration: 1000,
+            offset: 100
+          })
+          this.getlist()
+        } else {
+          this.$message.error('出错了')
+        }
+      })
+    },
+    // 单条启用
+    handleEnable(row) {
+      startorendemp(row.id, 1).then(res => {
+        if (res.data.ret === 200) {
+          this.$notify({
+            title: '操作成功',
+            message: '操作成功',
+            duration: 1000,
+            type: 'success',
+            offset: 100
+          })
+          this.getlist()
+        } else {
+          this.$message.error('出错了')
+        }
+      })
+    },
+    // 搜索
     handleFilter() {
       this.getemplist.regionid = this.getemplistregions[this.getemplistregions.length - 1]
       console.log(this.getemplist)
@@ -273,13 +411,33 @@ export default {
         })
       }
     },
+    // 新增数据
+    handleAdd() {
+      this.$router.push('/EmployeeInformation/NewEmployeeInformation')
+    },
     // 生成合同
     handleContract() {
       console.log(123)
     },
     // 导出
     handleExport() {
-      console.log(234)
+      this.downloadLoading = true
+      import('@/vendor/Export2Excel').then(excel => {
+        const tHeader = ['编号', '工号', '员工登陆账号', '姓名', '性别', '生日', '邮箱', '职位', '所属部门', '所属区域', '所属门店', '入职时间', '离职时间', '状态']
+        const filterVal = ['id', 'jobNumber', 'account', 'firstName', 'gender', 'birthday', 'email', 'postName', 'deptName', 'regionName', 'repositoryName', 'createTime', 'dimissionTime', 'stat']
+        const data = this.formatJson(filterVal, this.list)
+        excel.export_json_to_excel({
+          header: tHeader,
+          data,
+          filename: '员工资料表'
+        })
+        this.downloadLoading = false
+      })
+    },
+    formatJson(filterVal, jsonData) {
+      return jsonData.map(v => filterVal.map(j => {
+        return v[j]
+      }))
     },
     // 打印
     handlePrint() {

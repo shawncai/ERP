@@ -101,7 +101,9 @@ export default {
     servicestatistics: '维修统计',
     EmployeeInformation: '员工资料',
     NewEmployeeInformation: '新建员工资料',
-    EmployeeInformationList: '员工资料列表'
+    EmployeeInformationList: '员工资料列表',
+    EmployeeContract: '劳动合同',
+    NewEmployeeContract: '新建劳动合同'
   },
   navbar: {
     logOut: '退出登录',
@@ -674,7 +676,25 @@ export default {
     repositoryName: '所属门店',
     createTime: '入职时间',
     dimissionTime: '离职时间',
-    stat: '状态'
+    stat: '状态',
+    employeeid: '员工姓名',
+    typeid: '合同类别',
+    contractname: '合同名称',
+    signtime: '签约时间',
+    expiredtime: '到期时间',
+    effectivetime: '生效日期',
+    period: '合同期限',
+    attribute: '合同属性',
+    iscorrection: '转正标志',
+    contractstat: '合同状态',
+    trialsalary: '试用工资',
+    correctionsalary: '转正工资',
+    remindpersonid: '合同到期提醒人',
+    advanceday: '提前时间',
+    annex: '附件',
+    contractnumber: '合同编号',
+    empnumber: '员工工号',
+    empname: '员工姓名'
   },
   public: {
     search: '查询',
@@ -688,6 +708,7 @@ export default {
     actions: '操作',
     edit: '修改',
     disable: '停用',
+    enable: '启用',
     delete: '删除'
   }
 }
