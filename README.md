@@ -58,4 +58,7 @@ this.$store.dispatch('delView', view).then(({ visitedViews }) => {})
       this.employeeName = String( row.empName)
       this.contractNumber =String(row.contractNumber) 
      // 需要把Number类型的数据转化成String类型，这样回显才没问题
-```
+```  
+
+#### 2019/03/01  
+##### 客户和仓库问题 批量导入
