@@ -101,7 +101,7 @@ export default {
   border-radius: 0px !important;
   position: fixed;
   top: 0;
-  z-index: 9999;
+  z-index: 10;
   background: #fff;
   width: 90%;
   .hamburger-container {

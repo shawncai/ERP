@@ -85,7 +85,7 @@
       <!-- 列表结束 -->
       <pagination v-show="total>0" :total="total" :page.sync="getcontractlist.pagenum" :limit.sync="getcontractlist.pagesize" @pagination="getlist" />
       <!--修改弹窗-->
-      <el-dialog :visible.sync="editVisible" :title="'合同编号' + contractNumber">
+      <el-dialog :visible.sync="editVisible" :title="'合同编号' + contractNumber" top="10px">
         <el-form ref="contractForm" :model="contractForm" :rules="contractFormRules" :inline="true" status-icon class="demo-ruleForm" label-position="top" label-width="300px" style="margin-left: 30px;">
           <el-form-item :label="$t('NewEmployeeInformation.employeeid')" prop="employeeId" style="width: 40%;margin-top:1%">
             <el-input v-model="employeeName" :disabled="true" placeholder="请选择员工" clearable/>

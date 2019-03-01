@@ -9,7 +9,7 @@
             <el-input v-model="employeeName" placeholder="请选择员工" clearable @focus="handlechoose"/>
           </el-form-item>
           <!--弹出员工列表开始-->
-          <el-dialog :visible.sync="employeeVisible" top="93px" title="选择员工">
+          <el-dialog :visible.sync="employeeVisible" top="10px" title="选择员工">
             <div class="filter-container">
               <el-input v-model="getemplist.employeename" :placeholder="$t('NewEmployeeInformation.employeename')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
               <el-input v-model="getemplist.jobnumber" :placeholder="$t('NewEmployeeInformation.jobnumber2')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
@@ -35,7 +35,7 @@
                   style="width: 40%;float: left;margin-left: 20px"
                   @change="handlechange4"
                 />
-                <el-select v-model="getemplist.repositoryid" placeholder="请选择门店" clearable style="width: 40%;float: right;margin-right: 20px">
+                <el-select v-model="getemplist.repositoryid" placeholder="请选择门店" clearable filterable style="width: 40%;float: right;margin-right: 20px">
                   <el-option
                     v-for="(item, index) in repositories"
                     :key="index"
@@ -429,6 +429,7 @@ export default {
                 offset: 100
               })
               this.restAllForm()
+              this.$refs.contractForm.clearValidate()
               this.$refs.contractForm.resetFields()
             } else if (res.data.msg === 'account isExist') {
               this.$notify.error({
@@ -444,6 +445,8 @@ export default {
             message: '信息未填完整',
             offset: 100
           })
+          const anchor4 = this.$refs.geren.offsetTop
+          document.documentElement.scrollTop = anchor4 - 100
           return false
         }
       })
@@ -482,6 +485,7 @@ export default {
                 offset: 100
               })
               this.restAllForm()
+              this.$refs.contractForm.clearValidate()
               this.$refs.contractForm.resetFields()
               const anchor2 = this.$refs.geren.offsetTop
               document.documentElement.scrollTop = anchor2 - 100
@@ -499,6 +503,8 @@ export default {
             message: '信息未填完整',
             offset: 100
           })
+          const anchor3 = this.$refs.geren.offsetTop
+          document.documentElement.scrollTop = anchor3 - 100
           return false
         }
       })

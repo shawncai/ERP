@@ -29,7 +29,7 @@
           style="width: 40%;float: left;margin-left: 20px"
           @change="handlechange4"
         />
-        <el-select v-model="getemplist.repositoryid" placeholder="请选择门店" clearable style="width: 40%;float: right;margin-right: 20px">
+        <el-select v-model="getemplist.repositoryid" placeholder="请选择门店" clearable filterable style="width: 40%;float: right;margin-right: 20px">
           <el-option
             v-for="(item, index) in repositories"
             :key="index"
@@ -161,7 +161,7 @@
         </el-table-column>
       </el-table>
       <pagination v-show="total>0" :total="total" :page.sync="getemplist.pagenum" :limit.sync="getemplist.pagesize" @pagination="getlist" />
-      <el-dialog :visible.sync="editVisible" title="修改员工">
+      <el-dialog :visible.sync="editVisible" top="10px" title="修改员工">
         <!--个人信息-->
         <h2 ref="geren" class="form-name">个人信息</h2>
         <div class="container">
@@ -300,7 +300,7 @@
               <el-input v-model="editAllData.repositoryName" :disabled="true" clearable/>
             </el-form-item>
             <el-form-item :label="$t('NewEmployeeInformation.editrepositoryid')" style="width: 40%;margin-top: 1%">
-              <el-select v-model="repositoryid2" style="width: 100%;">
+              <el-select v-model="repositoryid2" filterable style="width: 100%;">
                 <el-option
                   v-for="(item, index) in repositories2"
                   :key="index"
@@ -626,6 +626,9 @@ export default {
                           duration: 1000,
                           offset: 100
                         })
+                        this.$refs.editAllData.clearValidate()
+                        this.$refs.editAllData2.clearValidate()
+                        this.$refs.editAllData3.clearValidate()
                         this.$refs.editAllData.resetFields()
                         this.$refs.editAllData2.resetFields()
                         this.$refs.editAllData3.resetFields()
@@ -652,6 +655,9 @@ export default {
                           duration: 1000,
                           offset: 100
                         })
+                        this.$refs.editAllData.clearValidate()
+                        this.$refs.editAllData2.clearValidate()
+                        this.$refs.editAllData3.clearValidate()
                         this.$refs.editAllData.resetFields()
                         this.$refs.editAllData2.resetFields()
                         this.$refs.editAllData3.resetFields()
@@ -696,6 +702,9 @@ export default {
     },
     // 取消按钮
     handlecancel() {
+      this.$refs.editAllData.clearValidate()
+      this.$refs.editAllData2.clearValidate()
+      this.$refs.editAllData3.clearValidate()
       this.$refs.editAllData.resetFields()
       this.$refs.editAllData2.resetFields()
       this.$refs.editAllData3.resetFields()

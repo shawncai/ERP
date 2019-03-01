@@ -1,11 +1,11 @@
 <template>
   <div class="ERP-container">
     <div class="app-container">
-      <!--个人信息-->
+      <!--仓库信息-->
       <h2 ref="geren" class="form-name">基本信息</h2>
       <div class="container">
         <el-form ref="RepositoryForm" :model="RepositoryForm" :rules="Repositoryrules" :inline="true" status-icon class="demo-ruleForm" label-position="top" label-width="300px" style="margin-left: 30px;">
-          <el-form-item :label="$t('Repository.repositoryName')" prop="account" style="width: 40%;margin-top:1%">
+          <el-form-item :label="$t('Repository.repositoryName')" prop="repositoryName" style="width: 40%;margin-top:1%">
             <el-input v-model="RepositoryForm.repositoryName" placeholder="请输入门店名称" clearable/>
           </el-form-item>
           <el-form-item :label="$t('Repository.longitude')" prop="longitude" style="width: 40%;margin-top:1%">
@@ -47,10 +47,10 @@
             </el-select>
           </el-form-item>
           <el-form-item :label="$t('Repository.managerPeople')" style="width: 40%;margin-top: 1%">
-            <el-input v-model="RepositoryForm.managerPeopleId" :value="RepositoryForm.managerPeopleId" placeholder="请选择" clearable @focus="handlechoose"/>
+            <el-input v-model="managerPeople" :value="managerPeople" placeholder="请选择" clearable @focus="handlechoose"/>
           </el-form-item>
           <!--弹出员工列表开始-->
-          <el-dialog :visible.sync="employeeVisible" top="93px" title="选择员工">
+          <el-dialog :visible.sync="employeeVisible" top="10px" title="选择员工">
             <div class="filter-container">
               <el-input v-model="getemplist.employeename" :placeholder="$t('NewEmployeeInformation.employeename')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
               <el-input v-model="getemplist.jobnumber" :placeholder="$t('NewEmployeeInformation.jobnumber2')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
@@ -76,7 +76,7 @@
                   style="width: 40%;float: left;margin-left: 20px"
                   @change="handlechange4"
                 />
-                <el-select v-model="getemplist.repositoryid" placeholder="请选择门店" clearable style="width: 40%;float: right;margin-right: 20px">
+                <el-select v-model="getemplist.repositoryid" placeholder="请选择门店" clearable filterable style="width: 40%;float: right;margin-right: 20px">
                   <el-option
                     v-for="(item, index) in repositories"
                     :key="index"
@@ -168,15 +168,124 @@
               style="width: 100%"/>
           </el-form-item>
           <el-form-item :label="$t('Repository.regionManager')" style="width: 40%;margin-top: 1%">
-            <el-select v-model="RepositoryForm.regionManager" :value="RepositoryForm.regionManager" placeholder="请选择" style="width: 100%;">
-              <el-option label="xxx" value="1"/>
-              <el-option label="xzzz333" value="2"/>
-            </el-select>
+            <el-input v-model="regionManagerId" :value="regionManagerId" placeholder="请选择" clearable @focus="handlechoose2"/>
           </el-form-item>
+          <!--弹出员工列表开始-->
+          <!--小区经理选择弹窗开始-->
+          <el-dialog :visible.sync="regionManagerVisible" top="10px" title="选择员工">
+            <div class="filter-container">
+              <el-input v-model="getemplist.employeename" :placeholder="$t('NewEmployeeInformation.employeename')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
+              <el-input v-model="getemplist.jobnumber" :placeholder="$t('NewEmployeeInformation.jobnumber2')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
+              <el-date-picker
+                v-model="getemplist.time"
+                type="date"
+                class="filter-item"
+                placeholder="选择日期"
+                value-format="yyyy-MM-dd"/>
+              <el-popover
+                placement="bottom"
+                width="500"
+                trigger="click">
+                <el-cascader
+                  :options="regions2"
+                  :props="props2"
+                  v-model="getemplistregions"
+                  :show-all-levels="false"
+                  placeholder="请选择区域"
+                  change-on-select
+                  filterable
+                  clearable
+                  style="width: 40%;float: left;margin-left: 20px"
+                  @change="handlechange4"
+                />
+                <el-select v-model="getemplist.repositoryid" placeholder="请选择门店" filterable clearable style="width: 40%;float: right;margin-right: 20px">
+                  <el-option
+                    v-for="(item, index) in repositories"
+                    :key="index"
+                    :label="item.repositoryName"
+                    :value="item.id"/>
+                </el-select>
+                <el-select v-model="getemplist.postid" :value="getemplist.postid" :placeholder="$t('NewEmployeeInformation.postid2')" class="filter-item" clearable style="width: 40%;float: left;margin-top: 10px;margin-left: 20px">
+                  <el-option label="xxx" value="1"/>
+                  <el-option label="xxx" value="2"/>
+                </el-select>
+                <el-select v-model="getemplist.deptid" :placeholder="$t('NewEmployeeInformation.deptid2')" class="filter-item" clearable style="width: 40%;float: right;margin-top: 10px;margin-right: 20px">
+                  <el-option
+                    v-for="(item, index) in depts"
+                    :key="index"
+                    :label="item.deptName"
+                    :value="item.id"/>
+                </el-select>
+                <div class="seachbutton" style="width: 100%;float: right;margin-top: 20px">
+                  <el-button v-waves class="filter-item" type="primary" style="float: right" @click="handleFilter">{{ $t('public.search') }}</el-button>
+                </div>
+                <el-button v-waves slot="reference" type="primary" class="filter-item" style="width: 130px">{{ $t('public.filter') }}<svg-icon icon-class="shaixuan" style="margin-left: 4px"/></el-button>
+              </el-popover>
+              <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 86px" @click="handleFilter">{{ $t('public.search') }}</el-button>
+              <el-button v-waves class="filter-item" icon="el-icon-plus" type="success" style="width: 86px;" @click="handleAdd2">{{ $t('public.add') }}</el-button>
+            </div>
+            <el-table
+              v-loading="listLoading"
+              :data="list"
+              :key="tableKey"
+              border
+              fit
+              highlight-current-row
+              style="width: 100%"
+              @current-change="handleCurrentChange2">
+              <el-table-column
+                :label="$t('NewEmployeeInformation.id')"
+                :resizable="false"
+                property="id"
+                align="center"
+                width="50"/>
+              <el-table-column
+                :label="$t('NewEmployeeInformation.jobNumber')"
+                :resizable="false"
+                property="jobNumber"
+                align="center"
+                width="100"/>
+              <el-table-column
+                :label="$t('NewEmployeeInformation.account')"
+                :resizable="false"
+                property="account"
+                width="150"
+                align="center"/>
+              <el-table-column :label="$t('NewEmployeeInformation.name')" :resizable="false" align="center" width="109">
+                <template slot-scope="scope">
+                  <span>{{ scope.row.firstName }} {{ scope.row.middleName }} {{ scope.row.lastName }}</span>
+                </template>
+              </el-table-column>
+              <el-table-column :label="$t('NewEmployeeInformation.gender')" :resizable="false" prop="gender" align="center" width="80">
+                <template slot-scope="scope">
+                  <span>{{ scope.row.gender | genderFilter }}</span>
+                </template>
+              </el-table-column>
+              <el-table-column :label="$t('NewEmployeeInformation.deptName')" :resizable="false" prop="deptName" align="center" width="100">
+                <template slot-scope="scope">
+                  <span>{{ scope.row.deptName }}</span>
+                </template>
+              </el-table-column>
+              <el-table-column :label="$t('NewEmployeeInformation.regionName')" :resizable="false" prop="regionName" align="center" width="230">
+                <template slot-scope="scope">
+                  <span>{{ scope.row.regionName }}</span>
+                </template>
+              </el-table-column>
+              <el-table-column :label="$t('NewEmployeeInformation.repositoryName')" :resizable="false" prop="repositoryName" align="center" width="100">
+                <template slot-scope="scope">
+                  <span>{{ scope.row.repositoryName }}</span>
+                </template>
+              </el-table-column>
+            </el-table>
+            <pagination v-show="total>0" :total="total" :page.sync="getemplist.pagenum" :limit.sync="getemplist.pagesize" @pagination="gitemplist" />
+          </el-dialog>
+          <!--小区经理选择弹窗结束-->
+          <!--弹窗员工列表结束-->
           <el-form-item :label="$t('Repository.attributes')" style="width: 40%;margin-top: 1%">
-            <el-select v-model="RepositoryForm.attributes" :value="RepositoryForm.attributes" placeholder="请选择" style="width: 100%;">
-              <el-option label="xxx" value="1"/>
-              <el-option label="xzzz333" value="2"/>
+            <el-select v-model="RepositoryForm.attributes" :value="RepositoryForm.attributes" placeholder="请选择" clearable style="width: 100%;">
+              <el-option label="只卖" value="1"/>
+              <el-option label="既卖又维修" value="2"/>
+              <el-option label="只存储" value="3"/>
             </el-select>
           </el-form-item>
           <el-form-item :label="$t('Repository.countryId')" prop="countryId" style="width: 40%;margin-top: 1%">
@@ -205,7 +314,7 @@
 
 <script>
 import { getcountrylist, regionlist, searchRepository } from '@/api/public'
-import { searchRepCategory } from '@/api/Repository'
+import { searchRepCategory, create } from '@/api/Repository'
 import { getemplist, getdeptlist } from '@/api/EmployeeInformation'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
@@ -236,6 +345,10 @@ export default {
         label: 'regionName',
         children: 'regionListVos'
       },
+      // 仓库管理员回显数据
+      managerPeople: '',
+      // 小区经理回显数据
+      regionManagerId: '',
       // 仓库基本信息数据
       RepositoryForm: {
         repositoryName: '',
@@ -315,7 +428,9 @@ export default {
       // 门店数据
       repositories: [],
       // 员工选择框控制
-      employeeVisible: false
+      employeeVisible: false,
+      // 小区经理选择框控制
+      regionManagerVisible: false
     }
   },
   created() {
@@ -369,26 +484,109 @@ export default {
         regionListVos: this.tranKTree(item.regionListVos)
       }))
     },
+    restAllForm() {
+      this.RepositoryForm = {
+        repositoryName: '',
+        address: '',
+        longitude: '',
+        latitude: '',
+        managerPeopleId: '',
+        createTime: '',
+        stat: '',
+        description: '',
+        regionId: '',
+        type: '',
+        regionManagerId: '',
+        attributes: '',
+        countryId: ''
+      }
+      // 仓库管理员回显数据
+      this.managerPeople = ''
+      // 小区经理回显数据
+      this.regionManagerId = ''
+    },
     // 保存操作
     handlesave() {
-      console.log(123)
-    },
-    // 清空记录
-    restAllForm() {
-      console.log(123)
+      this.RepositoryForm.regionId = this.regionId[this.regionId.length - 1]
+      this.$refs.RepositoryForm.validate((valid) => {
+        if (valid) {
+          create(this.RepositoryForm).then(res => {
+            if (res.data.ret === 200) {
+              this.$notify({
+                title: '成功',
+                message: '保存成功',
+                type: 'success',
+                offset: 100
+              })
+              this.restAllForm()
+              this.$refs.RepositoryForm.clearValidate()
+              this.$refs.RepositoryForm.resetFields()
+            } else if (res.data.msg === 'account isExist') {
+              this.$notify.error({
+                title: '错误',
+                message: '登陆账号已存在',
+                offset: 100
+              })
+            }
+          })
+        } else {
+          this.$notify.error({
+            title: '错误',
+            message: '信息未填完整',
+            offset: 100
+          })
+          const anchor4 = this.$refs.geren.offsetTop
+          document.documentElement.scrollTop = anchor4 - 100
+          return false
+        }
+      })
     },
     // 继续录入
     handleentry() {
-      console.log(233)
+      this.RepositoryForm.regionId = this.regionId[this.regionId.length - 1]
+      this.$refs.RepositoryForm.validate((valid) => {
+        if (valid) {
+          create(this.RepositoryForm).then(res => {
+            if (res.data.ret === 200) {
+              this.$notify({
+                title: '成功',
+                message: '保存成功',
+                type: 'success',
+                offset: 100
+              })
+              this.restAllForm()
+              this.$refs.RepositoryForm.clearValidate()
+              this.$refs.RepositoryForm.resetFields()
+              const anchor2 = this.$refs.geren.offsetTop
+              document.documentElement.scrollTop = anchor2 - 100
+            } else if (res.data.msg === 'account isExist') {
+              this.$notify.error({
+                title: '错误',
+                message: '登陆账号已存在',
+                offset: 100
+              })
+            }
+          })
+        } else {
+          this.$notify.error({
+            title: '错误',
+            message: '信息未填完整',
+            offset: 100
+          })
+          const anchor3 = this.$refs.geren.offsetTop
+          document.documentElement.scrollTop = anchor3 - 100
+          return false
+        }
+      })
     },
     // 取消操作
     handlecancel() {
       this.$router.go(-1)
-      const view = { path: '/EmployeeInformation/Repository', name: 'Repository', fullPath: '/EmployeeInformation/Repository', title: 'Repository' }
+      const view = { path: '/Repository/NewRepository', name: 'NewRepository', fullPath: '/Repository/NewRepository', title: 'NewRepository' }
       this.$store.dispatch('delView', view).then(({ visitedViews }) => {
       })
     },
-    // 弹窗选择员工
+    // 仓库管理员选择开始
     gitemplist() {
       // 员工列表数据
       this.listLoading = true
@@ -429,6 +627,7 @@ export default {
     },
     // 查询
     handleFilter() {
+      this.getemplist.regionid = this.getemplistregions[this.getemplistregions.length - 1]
       getemplist(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
@@ -444,6 +643,7 @@ export default {
     },
     // 新增数据
     handleAdd() {
+      this.employeeVisible = false
       this.$router.push('/EmployeeInformation/NewEmployeeInformation')
     },
     // 根据区域选择门店
@@ -483,11 +683,32 @@ export default {
     },
     // 选择员工数据时的操作
     handleCurrentChange(val) {
-      this.currentRow = val
-      this.contractForm.employeeid = val.id
-      this.employeeName = val.personName
+      this.managerPeople = val.personName
+      this.RepositoryForm.managerPeopleId = val.id
       this.employeeVisible = false
+    },
+    // 仓库管理员选择结束
+    // 小区经理选择开始
+    // 小区经理输入框focus事件触发
+    handlechoose2() {
+      this.restemplist()
+      this.regionManagerVisible = true
+      this.gitemplist()
+    },
+    // 新增数据
+    handleAdd2() {
+      this.regionManagerVisible = false
+      this.$router.push('/EmployeeInformation/NewEmployeeInformation')
+    },
+    // 小区经理选择员工数据时的操作
+    handleCurrentChange2(val) {
+      console.log(val)
+      this.regionManagerId = val.personName
+      this.RepositoryForm.regionManagerId = val.id
+      this.regionManagerVisible = false
     }
+    // 小区经理选择结束
+
   }
 }
 </script>

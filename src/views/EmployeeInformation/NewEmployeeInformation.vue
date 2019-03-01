@@ -125,7 +125,7 @@
             />
           </el-form-item>
           <el-form-item :label="$t('NewEmployeeInformation.repositoryid')" prop="repositoryid" style="width: 40%;margin-top: 1%">
-            <el-select v-model="companyForm.repositoryid" placeholder="请选择门店" style="width: 100%;">
+            <el-select v-model="companyForm.repositoryid" placeholder="请选择门店" filterable style="width: 100%;">
               <el-option
                 v-for="(item, index) in repositories"
                 :key="index"

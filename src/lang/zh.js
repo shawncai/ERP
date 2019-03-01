@@ -106,7 +106,12 @@ export default {
     NewEmployeeContract: '新建劳动合同',
     EmpCategory: '分类属性设置',
     Repository: '仓库资料',
-    NewRepository: '新建仓库资料'
+    NewRepository: '新建仓库资料',
+    RepositoryList: '仓库资料列表',
+    RepCategory: '分类属性设置',
+    Customer: '客户资料',
+    NewCustomer: '新建客户资料',
+    CustomerList: '客户列表'
   },
   navbar: {
     logOut: '退出登录',
@@ -717,13 +722,41 @@ export default {
     stat: '启用状态',
     description: '仓库说明',
     regionId: '所属区域',
+    editregionId: '修改区域',
     type: '类型',
     regionManager: '小区经理',
     attributes: '属性',
-    countryId: '国家'
+    countryId: '国家',
+    id: '仓库编号',
+    repositoryname: '仓库名称',
+    type2: '仓库类型',
+    iseffective: '仓库状态'
+  },
+  Customer: {
+    firstname: '名',
+    middlename: '中间名',
+    lastname: '姓氏',
+    phone: '客户电话',
+    gender: '性别',
+    countryid: '国家',
+    provinceid: '省',
+    cityid: '市',
+    level: '客户优质级别',
+    address: '详细地址',
+    repositoryid: '所属门店',
+    birthday: '生日',
+    source: '客户来源',
+    newold: '新老客户',
+    customertype: '客户类型',
+    customername: '客户姓名',
+    id: '编号',
+    point: '积分',
+    createTime: '创建日期'
   },
   public: {
     address: '地址',
+    regionId: '区域',
+    countyrId: '国家',
     search: '查询',
     rest: '重置',
     filter: '更多查询条件',
@@ -736,6 +769,9 @@ export default {
     edit: '修改',
     disable: '停用',
     enable: '启用',
-    delete: '删除'
+    delete: '删除',
+    email: '邮箱',
+    male: '男',
+    female: '女'
   }
 }

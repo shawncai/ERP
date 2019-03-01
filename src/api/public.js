@@ -21,7 +21,9 @@ export function regionlist(query) {
 // 根据区域查门店
 export function searchRepository(query) {
   var params = new URLSearchParams()
-  params.append('regionId', query) // 你要传给后台的参数值 key/value
+  if (query !== '' && query !== null && query !== undefined) {
+    params.append('regionId', query) // 你要传给后台的参数值 key/value
+  }
   params.append('pagenum', 1) // 你要传给后台的参数值 key/value
   params.append('pagesize', 99999) // 你要传给后台的参数值 key/value
   return request({

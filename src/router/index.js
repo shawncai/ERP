@@ -149,9 +149,46 @@ export const asyncRouterMap = [
         component: () => import('@/views/Repository/NewRepository'),
         name: 'NewRepository',
         meta: { title: 'NewRepository', noCache: false }
+      },
+      {
+        path: 'RepositoryList',
+        component: () => import('@/views/Repository/RepositoryList'),
+        name: 'RepositoryList',
+        meta: { title: 'RepositoryList', noCache: true }
+      },
+      {
+        path: 'RepCategory',
+        component: () => import('@/views/Repository/RepCategory'),
+        name: 'RepCategory',
+        meta: { title: 'RepCategory', noCache: true }
       }
     ]
   },
-
+  {
+    path: '/Customer',
+    component: Layout,
+    redirect: 'noredirect',
+    name: 'Customer',
+    alwaysShow: true,
+    meta: {
+      title: 'Customer',
+      icon: 'kehu',
+      type: 1
+    },
+    children: [
+      {
+        path: 'NewCustomer',
+        component: () => import('@/views/Customer/NewCustomer'),
+        name: 'NewCustomer',
+        meta: { title: 'NewCustomer', noCache: false }
+      },
+      {
+        path: 'CustomerList',
+        component: () => import('@/views/Customer/CustomerList'),
+        name: 'CustomerList',
+        meta: { title: 'CustomerList', noCache: true }
+      }
+    ]
+  },
   { path: '*', redirect: '/404', hidden: true }
 ]
