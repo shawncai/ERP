@@ -52,4 +52,10 @@ this.$store.dispatch('delView', view).then(({ visitedViews }) => {})
 ```
 ##### 导出功能中名字拼接还有点问题待解决！！！！！  
 
-#### 2019/2/27
+#### 2019/2/28
+##### select 回显问题  
+```
+      this.employeeName = String( row.empName)
+      this.contractNumber =String(row.contractNumber) 
+     // 需要把Number类型的数据转化成String类型，这样回显才没问题
+```
