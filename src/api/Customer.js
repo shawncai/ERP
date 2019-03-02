@@ -104,3 +104,74 @@ export function addCustomer(query) {
     data: params
   })
 }
+
+// 修改客户
+export function updateCustomer(query) {
+  var params = new URLSearchParams()
+  if (query.id !== '' && query.id !== null && query.id !== undefined) {
+    params.append('customerid', query.id) // 你要传给后台的参数值 key/value
+  }
+  if (query.firstName !== '' && query.firstName !== null && query.firstName !== undefined) {
+    params.append('firstname', query.firstName) // 你要传给后台的参数值 key/value
+  }
+  if (query.middleName !== '' && query.middleName !== null && query.middleName !== undefined) {
+    params.append('middlename', query.middleName) // 你要传给后台的参数值 key/value
+  }
+  if (query.lastName !== '' && query.lastName !== null && query.lastName !== undefined) {
+    params.append('lastname', query.lastName) // 你要传给后台的参数值 key/value
+  }
+  if (query.phoneNumber !== '' && query.phoneNumber !== null && query.phoneNumber !== undefined) {
+    params.append('phone', query.phoneNumber) // 你要传给后台的参数值 key/value
+  }
+  if (query.gender !== '' && query.gender !== null && query.gender !== undefined) {
+    params.append('gender', query.gender) // 你要传给后台的参数值 key/value
+  }
+  if (query.countryid !== '' && query.countryid !== null && query.countryid !== undefined) {
+    params.append('countryid', query.countryid) // 你要传给后台的参数值 key/value
+  }
+  if (query.provinceid !== '' && query.provinceid !== null && query.provinceid !== undefined) {
+    params.append('provinceid', query.provinceid) // 你要传给后台的参数值 key/value
+  }
+  if (query.cityid !== '' && query.cityid !== null && query.cityid !== undefined) {
+    params.append('cityid', query.cityid) // 你要传给后台的参数值 key/value
+  }
+  if (query.level !== '' && query.level !== null && query.level !== undefined) {
+    params.append('level', query.level) // 你要传给后台的参数值 key/value
+  }
+  if (query.address !== '' && query.address !== null && query.address !== undefined) {
+    params.append('address', query.address) // 你要传给后台的参数值 key/value
+  }
+  if (query.repositoryid !== '' && query.repositoryid !== null && query.repositoryid !== undefined) {
+    params.append('repositoryid', query.repositoryid) // 你要传给后台的参数值 key/value
+  }
+  if (query.birthday !== '' && query.birthday !== null && query.birthday !== undefined) {
+    params.append('birthday', query.birthday) // 你要传给后台的参数值 key/value
+  }
+  if (query.source !== '' && query.source !== null && query.source !== undefined) {
+    params.append('source', query.source) // 你要传给后台的参数值 key/value
+  }
+  if (query.newOrOld !== '' && query.newOrOld !== null && query.newOrOld !== undefined) {
+    params.append('newold', query.newOrOld) // 你要传给后台的参数值 key/value
+  }
+  if (query.customerType !== '' && query.customerType !== null && query.customerType !== undefined) {
+    params.append('customertype', query.customerType) // 你要传给后台的参数值 key/value
+  }
+  return request({
+    url: 'http://192.168.1.45:8080/erp/customer/updateCustomer',
+    method: 'post',
+    data: params
+  })
+}
+
+// 删除分类属性
+export function deletecustomer(query) {
+  var params = new URLSearchParams()
+  if (query !== '' && query !== null) {
+    params.append('customerids', query) // 你要传给后台的参数值 key/value
+  }
+  return request({
+    url: 'http://192.168.1.45:8080/erp/customer/deletecustomer',
+    method: 'post',
+    data: params
+  })
+}

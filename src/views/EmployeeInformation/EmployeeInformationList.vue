@@ -858,17 +858,17 @@ export default {
     // 导出
     handleExport() {
       this.downloadLoading = true
-      import('@/vendor/Export2Excel').then(excel => {
-        const tHeader = ['编号', '工号', '员工登陆账号', '姓名', '性别', '生日', '邮箱', '职位', '所属部门', '所属区域', '所属门店', '入职时间', '离职时间', '状态']
-        const filterVal = ['id', 'jobNumber', 'account', 'firstName', 'gender', 'birthday', 'email', 'postName', 'deptName', 'regionName', 'repositoryName', 'createTime', 'dimissionTime', 'stat']
-        const data = this.formatJson(filterVal, this.list)
-        excel.export_json_to_excel({
-          header: tHeader,
-          data,
-          filename: '员工资料表'
+        import('@/vendor/Export2Excel').then(excel => {
+          const tHeader = ['编号', '工号', '员工登陆账号', '姓名', '性别', '生日', '邮箱', '职位', '所属部门', '所属区域', '所属门店', '入职时间', '离职时间', '状态']
+          const filterVal = ['id', 'jobNumber', 'account', 'firstName', 'gender', 'birthday', 'email', 'postName', 'deptName', 'regionName', 'repositoryName', 'createTime', 'dimissionTime', 'stat']
+          const data = this.formatJson(filterVal, this.list)
+          excel.export_json_to_excel({
+            header: tHeader,
+            data,
+            filename: '员工资料表'
+          })
+          this.downloadLoading = false
         })
-        this.downloadLoading = false
-      })
     },
     formatJson(filterVal, jsonData) {
       return jsonData.map(v => filterVal.map(j => {
@@ -913,15 +913,15 @@ export default {
     word-wrap: break-word;
     white-space: pre-wrap;
   }
-.ERP-container {
-  margin: 80px 30px;
-}
-  .filter-container{
-  padding: 20px;
-  padding-left: 0px;
+  .ERP-container {
+    margin: 80px 30px;
   }
-    .filter-item{
-      width: 140px;
-      margin-left: 20px;
-    }
+  .filter-container{
+    padding: 20px;
+    padding-left: 0px;
+  }
+  .filter-item{
+    width: 140px;
+    margin-left: 20px;
+  }
 </style>
