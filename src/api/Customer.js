@@ -175,3 +175,67 @@ export function deletecustomer(query) {
     data: params
   })
 }
+
+// 新建经销商
+export function addagent(query) {
+  var params = new URLSearchParams()
+  if (query.agentname !== '' && query.agentname !== null && query.agentname !== undefined) {
+    params.append('agentname', query.agentname) // 你要传给后台的参数值 key/value
+  }
+  if (query.phone !== '' && query.phone !== null && query.phone !== undefined) {
+    params.append('phone', query.phone) // 你要传给后台的参数值 key/value
+  }
+  if (query.type !== '' && query.type !== null && query.type !== undefined) {
+    params.append('type', query.type) // 你要传给后台的参数值 key/value
+  }
+  if (query.pinyin !== '' && query.pinyin !== null && query.pinyin !== undefined) {
+    params.append('pinyin', query.pinyin) // 你要传给后台的参数值 key/value
+  }
+  if (query.level !== '' && query.level !== null && query.level !== undefined) {
+    params.append('level', query.level) // 你要传给后台的参数值 key/value
+  }
+  if (query.source !== '' && query.source !== null && query.source !== undefined) {
+    params.append('source', query.source) // 你要传给后台的参数值 key/value
+  }
+  if (query.discount !== '' && query.discount !== null && query.discount !== undefined) {
+    params.append('discount', query.discount) // 你要传给后台的参数值 key/value
+  }
+  if (query.countryid !== '' && query.countryid !== null && query.countryid !== undefined) {
+    params.append('countryid', query.countryid) // 你要传给后台的参数值 key/value
+  }
+  if (query.provinceid !== '' && query.provinceid !== null && query.provinceid !== undefined) {
+    params.append('provinceid', query.provinceid) // 你要传给后台的参数值 key/value
+  }
+  if (query.cityid !== '' && query.cityid !== null && query.cityid !== undefined) {
+    params.append('cityid', query.cityid) // 你要传给后台的参数值 key/value
+  }
+  if (query.introduce !== '' && query.introduce !== null && query.introduce !== undefined) {
+    params.append('introduce', query.introduce) // 你要传给后台的参数值 key/value
+  }
+  if (query.address !== '' && query.address !== null && query.address !== undefined) {
+    params.append('address', query.address) // 你要传给后台的参数值 key/value
+  }
+  if (query.contactname !== '' && query.contactname !== null && query.contactname !== undefined) {
+    params.append('contactname', query.contactname) // 你要传给后台的参数值 key/value
+  }
+  if (query.traderid !== '' && query.traderid !== null && query.traderid !== undefined) {
+    params.append('traderid', query.traderid) // 你要传给后台的参数值 key/value
+  }
+  if (query.transmode !== '' && query.transmode !== null && query.transmode !== undefined) {
+    params.append('transmode', query.transmode) // 你要传给后台的参数值 key/value
+  }
+  if (query.deliverymode !== '' && query.deliverymode !== null && query.deliverymode !== undefined) {
+    params.append('deliverymode', query.deliverymode) // 你要传给后台的参数值 key/value
+  }
+  if (query.createid !== '' && query.createid !== null && query.createid !== undefined) {
+    params.append('createid', query.createid) // 你要传给后台的参数值 key/value
+  }
+  if (query.newold !== '' && query.newold !== null && query.newold !== undefined) {
+    params.append('newold', query.newold) // 你要传给后台的参数值 key/value
+  }
+  return request({
+    url: 'http://192.168.1.45:8080/erp/agent/addagent',
+    method: 'post',
+    data: params
+  })
+}

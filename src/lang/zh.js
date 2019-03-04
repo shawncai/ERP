@@ -111,7 +111,9 @@ export default {
     RepCategory: '分类属性设置',
     Customer: '客户资料',
     NewCustomer: '新建客户资料',
-    CustomerList: '客户列表'
+    CustomerList: '客户列表',
+    NewAgent: '新建经销商',
+    AgentList: '经销商列表'
   },
   navbar: {
     logOut: '退出登录',
@@ -751,7 +753,17 @@ export default {
     customername: '客户姓名',
     id: '编号',
     point: '积分',
-    createTime: '创建日期'
+    createTime: '创建日期',
+    agentname: '经销商名称',
+    pinyin: '拼音缩写',
+    discount: '客户折扣',
+    introduce: '客户简介',
+    contactname: '联系人',
+    phone2: '电话号码',
+    traderid: '分管业务员',
+    transmode: '运送方式',
+    deliverymode: '交货方式',
+    address2: '收货地址'
   },
   public: {
     address: '地址',

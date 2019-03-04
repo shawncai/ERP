@@ -187,6 +187,18 @@ export const asyncRouterMap = [
         component: () => import('@/views/Customer/CustomerList'),
         name: 'CustomerList',
         meta: { title: 'CustomerList', noCache: true }
+      },
+      {
+        path: 'NewAgent',
+        component: () => import('@/views/Customer/NewAgent'),
+        name: 'NewAgent',
+        meta: { title: 'NewAgent', noCache: false }
+      },
+      {
+        path: 'AgentList',
+        component: () => import('@/views/Customer/AgentList'),
+        name: 'AgentList',
+        meta: { title: 'AgentList', noCache: true }
       }
     ]
   },
