@@ -173,6 +173,8 @@ export default {
   },
   data() {
     return {
+      // 供应商选择框控制
+      employeeVisible: this.control,
       // 新增分组参数
       groupName: '',
       // 分组表格数据
