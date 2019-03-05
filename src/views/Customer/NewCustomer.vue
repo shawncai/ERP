@@ -398,7 +398,7 @@ export default {
 
 <style rel="stylesheet/scss" lang="scss" scoped>
   .ERP-container{
-    margin:50px 30px;
+    margin:0px 30px;
     .form-name{
       font-size: 18px;
       color: #373e4f;

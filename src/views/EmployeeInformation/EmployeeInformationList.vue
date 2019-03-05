@@ -914,7 +914,7 @@ export default {
     white-space: pre-wrap;
   }
   .ERP-container {
-    margin: 80px 30px;
+    margin: 0px 30px;
   }
   .filter-container{
     padding: 20px;

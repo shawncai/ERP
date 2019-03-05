@@ -715,7 +715,7 @@ export default {
 
 <style rel="stylesheet/scss" lang="scss" scoped>
   .ERP-container {
-    margin: 50px 30px;
+    margin: 0px 30px;
   }
   .filter-item{
     width: 140px;

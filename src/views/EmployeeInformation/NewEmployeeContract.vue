@@ -525,7 +525,7 @@ export default {
     padding: 0 20px;
   }
   .ERP-container{
-    margin:50px 30px;
+    margin:0px 30px;
   }
   .filter-container{
     padding: 20px;

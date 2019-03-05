@@ -161,6 +161,12 @@ export const asyncRouterMap = [
         component: () => import('@/views/Repository/RepCategory'),
         name: 'RepCategory',
         meta: { title: 'RepCategory', noCache: true }
+      },
+      {
+        path: 'Manyinsert',
+        component: () => import('@/views/Repository/Manyinsert'),
+        name: 'Manyinsert',
+        meta: { title: 'Manyinsert', noCache: true }
       }
     ]
   },
@@ -199,6 +205,32 @@ export const asyncRouterMap = [
         component: () => import('@/views/Customer/AgentList'),
         name: 'AgentList',
         meta: { title: 'AgentList', noCache: true }
+      },
+      {
+        path: 'CustomerCategory',
+        component: () => import('@/views/Customer/CustomerCategory'),
+        name: 'CustomerCategory',
+        meta: { title: 'CustomerCategory', noCache: true }
+      }
+    ]
+  },
+  {
+    path: '/Supplier',
+    component: Layout,
+    redirect: 'noredirect',
+    name: 'Supplier',
+    alwaysShow: true,
+    meta: {
+      title: 'Supplier',
+      icon: 'gongyinshang',
+      type: 1
+    },
+    children: [
+      {
+        path: 'NewSupplier',
+        component: () => import('@/views/Supplier/NewSupplier'),
+        name: 'NewSupplier',
+        meta: { title: 'NewSupplier', noCache: false }
       }
     ]
   },

@@ -801,7 +801,7 @@ export default {
           excel.export_json_to_excel({
             header: tHeader,
             data,
-            filename: '员工资料表'
+            filename: '仓库资料表'
           })
           this.downloadLoading = false
         })
@@ -1016,7 +1016,7 @@ export default {
     white-space: pre-wrap;
   }
   .ERP-container {
-    margin: 80px 30px;
+    margin: 0px 30px;
   }
   .filter-container{
     padding: 20px;

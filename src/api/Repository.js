@@ -257,3 +257,16 @@ export function startorend(query, stat) {
     data: params
   })
 }
+
+// 仓库停用和启用
+export function manyinsert(query) {
+  var params = new URLSearchParams()
+  if (query !== '' && query !== null && query !== undefined) {
+    params.append('repositoryJson', query) // 你要传给后台的参数值 key/value
+  }
+  return request({
+    url: 'http://192.168.1.45:8080/erp/repository/manyinsert',
+    method: 'post',
+    data: params
+  })
+}

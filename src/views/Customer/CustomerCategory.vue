@@ -76,12 +76,7 @@
               <span>{{ scope.row.id }}</span>
             </template>
           </el-table-column>
-          <el-table-column :label="$t('NewEmployeeInformation.category')" :resizable="false" prop="category" align="center" width="350">
-            <template slot-scope="scope">
-              <span>{{ scope.row.category }}</span>
-            </template>
-          </el-table-column>
-          <el-table-column :label="$t('NewEmployeeInformation.type')" :resizable="false" prop="type" align="center" width="150">
+          <el-table-column :label="$t('NewEmployeeInformation.type')" :resizable="false" prop="type" align="center" width="350">
             <template slot-scope="scope">
               <span>{{ scope.row.type | typeFilter }}</span>
             </template>
@@ -91,7 +86,7 @@
               <span>{{ scope.row.categoryName }}</span>
             </template>
           </el-table-column>
-          <el-table-column :label="$t('NewEmployeeInformation.iseffective')" :resizable="false" prop="isEffective" align="center" width="150">
+          <el-table-column :label="$t('NewEmployeeInformation.iseffective')" :resizable="false" prop="isEffective" align="center" width="350">
             <template slot-scope="scope">
               <span>{{ scope.row.isEffective | iseffectiveFilter }}</span>
             </template>
@@ -135,20 +130,20 @@
 </template>
 
 <script>
-import { searchRepCategory2, addRepCategory, updateRepCategory, delateRepCategory } from '@/api/Repository'
+import { searchEmpCategory, addEmpCategory, updateEmpCategory, delateEmpCategory } from '@/api/Customer'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
 
 export default {
-  name: 'EmpCategory',
+  name: 'CustomerCategory',
   directives: { waves },
   components: { Pagination },
   filters: {
     typeFilter(status) {
       const statusMap = {
-        1: '部门类别',
-        2: '职位类别',
-        3: '合同类型'
+        1: '客户类型',
+        2: '客户优质级别',
+        3: '客户来源'
       }
       return statusMap[status]
     },
@@ -232,7 +227,7 @@ export default {
     getlist() {
       // 员工列表数据
       this.listLoading = true
-      searchRepCategory2(this.getemplist).then(res => {
+      searchEmpCategory(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
@@ -250,7 +245,7 @@ export default {
     },
     // 搜索
     handleFilter() {
-      searchRepCategory2(this.getemplist).then(res => {
+      searchEmpCategory(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
@@ -276,7 +271,7 @@ export default {
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          delateRepCategory(ids).then(res => {
+          delateEmpCategory(ids).then(res => {
             if (res.data.ret === 200) {
               this.$notify({
                 title: '删除成功',
@@ -307,7 +302,7 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        delateRepCategory(row.id).then(res => {
+        delateEmpCategory(row.id).then(res => {
           if (res.data.ret === 200) {
             this.$notify({
               title: '删除成功',
@@ -346,7 +341,7 @@ export default {
     handleOk() {
       this.$refs.editCategoryForm.validate((valid) => {
         if (valid) {
-          updateRepCategory(this.editCategoryForm).then(res => {
+          updateEmpCategory(this.editCategoryForm).then(res => {
             if (res.data.ret === 200) {
               this.$notify({
                 title: '成功',
@@ -397,7 +392,7 @@ export default {
       console.log(this.addCategoryForm)
       this.$refs.addCategoryForm.validate((valid) => {
         if (valid) {
-          addRepCategory(this.addCategoryForm).then(res => {
+          addEmpCategory(this.addCategoryForm).then(res => {
             if (res.data.ret === 200) {
               this.$notify({
                 title: '成功',

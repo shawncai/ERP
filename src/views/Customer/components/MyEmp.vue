@@ -1,5 +1,5 @@
 <template>
-  <el-dialog :visible.sync="employeeVisible" :control="control" :close-on-press-escape="false" top="10px" title="选择员工" @close="$emit('update:control', false)">
+  <el-dialog :visible.sync="employeeVisible" :control="control" :close-on-press-escape="false" top="10px" title="选择员工" append-to-body @close="$emit('update:control', false)">
     <div class="filter-container">
       <el-input v-model="getemplist.employeename" :placeholder="$t('NewEmployeeInformation.employeename')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
       <el-input v-model="getemplist.jobnumber" :placeholder="$t('NewEmployeeInformation.jobnumber2')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
@@ -290,8 +290,6 @@ export default {
     },
     // 选择员工数据时的操作
     handleCurrentChange(val) {
-      // this.managerPeople = val.personName
-      // this.RepositoryForm.managerPeopleId = val.id
       this.$emit('personName', val)
       this.employeeVisible = false
     }

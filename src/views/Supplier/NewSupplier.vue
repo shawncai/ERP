@@ -2,25 +2,31 @@
   <div class="ERP-container">
     <div class="app-container">
       <!--个人信息-->
-      <h2 ref="geren" class="form-name">个人信息</h2>
+      <h2 ref="geren" class="form-name">基本信息</h2>
       <div class="container">
         <el-form ref="personalForm" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-position="top" label-width="300px" style="margin-left: 30px;">
-          <el-form-item :label="$t('NewEmployeeInformation.account')" prop="account" style="width: 40%;margin-top:1%">
-            <el-input v-model="personalForm.account" placeholder="请输入账号名" clearable/>
+          <el-form-item :label="$t('Supplier.supplierName')" prop="supplierName" style="width: 40%;margin-top:1%">
+            <el-input v-model="personalForm.supplierName" placeholder="请输入供应商名称" clearable/>
           </el-form-item>
-          <el-form-item :label="$t('NewEmployeeInformation.password')" prop="passwd" style="width: 40%;margin-top:1%">
-            <el-input v-model="personalForm.passwd" placeholder="请输入密码" autocomplete="new-password" clearable/>
+          <el-form-item :label="$t('Supplier.typeId')" prop="typeId" style="width: 40%">
+            <el-select v-model="personalForm.typeId" placeholder="请选择供应商类别" style="width: 100%;">
+              <el-option label="类型1" value="1"/>
+              <el-option label="类型2" value="2"/>
+            </el-select>
           </el-form-item>
-          <el-form-item :label="$t('NewEmployeeInformation.lastname')" prop="firstname" style="width: 40%">
+          <el-form-item :label="$t('Supplier.supplierShortName')" prop="supplierShortName" style="width: 40%;margin-top:1%">
+            <el-input v-model="personalForm.supplierShortName" placeholder="请输入供应商简称" autocomplete="new-password" clearable/>
+          </el-form-item>
+          <el-form-item :label="$t('Supplier.lastname')" prop="firstname" style="width: 40%">
             <el-input v-model="personalForm.firstname" placeholder="请输入姓氏" clearable/>
           </el-form-item>
-          <el-form-item :label="$t('NewEmployeeInformation.middlename')" style="width: 40%">
+          <el-form-item :label="$t('Supplier.middlename')" style="width: 40%">
             <el-input v-model="personalForm.middlename" placeholder="请输入中间名" clearable/>
           </el-form-item>
-          <el-form-item :label="$t('NewEmployeeInformation.firstname')" prop="lastname" style="width: 40%;">
+          <el-form-item :label="$t('Supplier.firstname')" prop="lastname" style="width: 40%;">
             <el-input v-model="personalForm.lastname" placeholder="请输入名" clearable/>
           </el-form-item>
-          <el-form-item :label="$t('NewEmployeeInformation.birthday')" style="width: 40%">
+          <el-form-item :label="$t('Supplier.birthday')" style="width: 40%">
             <el-date-picker
               v-model="personalForm.birthday"
               type="date"
@@ -29,25 +35,25 @@
               clearable
               style="width: 100%"/>
           </el-form-item>
-          <el-form-item :label="$t('NewEmployeeInformation.email')" prop="email" style="width: 40%">
+          <el-form-item :label="$t('Supplier.email')" prop="email" style="width: 40%">
             <el-input v-model="personalForm.email" placeholder="请输入邮箱地址" clearable/>
           </el-form-item>
-          <el-form-item :label="$t('NewEmployeeInformation.gender')" prop="gender" style="width: 40%">
+          <el-form-item :label="$t('Supplier.gender')" prop="gender" style="width: 40%">
             <el-radio-group v-model="personalForm.gender" style="width: 80%">
-              <el-radio :label="1" style="width: 50%">{{ $t('NewEmployeeInformation.male') }}</el-radio>
-              <el-radio :label="2">{{ $t('NewEmployeeInformation.female') }}</el-radio>
+              <el-radio :label="1" style="width: 50%">{{ $t('Supplier.male') }}</el-radio>
+              <el-radio :label="2">{{ $t('Supplier.female') }}</el-radio>
             </el-radio-group>
           </el-form-item>
-          <el-form-item :label="$t('NewEmployeeInformation.certificatetype')" style="width: 40%">
+          <el-form-item :label="$t('Supplier.certificatetype')" style="width: 40%">
             <el-select v-model="personalForm.certificatetype" placeholder="请选择证件类型" style="width: 100%;">
               <el-option label="类型1" value="1"/>
               <el-option label="类型2" value="2"/>
             </el-select>
           </el-form-item>
-          <el-form-item :label="$t('NewEmployeeInformation.certificatenumber')" style="width: 40%">
+          <el-form-item :label="$t('Supplier.certificatenumber')" style="width: 40%">
             <el-input v-model="personalForm.certificatenumber" clearable/>
           </el-form-item>
-          <el-form-item :label="$t('NewEmployeeInformation.country')" prop="country" style="width: 40%">
+          <el-form-item :label="$t('Supplier.country')" prop="country" style="width: 40%">
             <el-select v-model="personalForm.country" placeholder="请选择国籍" style="width: 100%;" @change ="handlechange">
               <el-option
                 v-for="(item, index) in nations"
@@ -62,13 +68,13 @@
       <h2 ref="lianxi" class="form-name">联系信息</h2>
       <div class="container">
         <el-form ref="connectForm" :model="connectForm" :rules="connectrules" :inline="true" status-icon class="demo-ruleForm" label-position="top" label-width="300px" style="margin-left: 30px;">
-          <el-form-item :label="$t('NewEmployeeInformation.address')" prop="address" style="width: 40%;margin-top:1%">
+          <el-form-item :label="$t('Supplier.address')" prop="address" style="width: 40%;margin-top:1%">
             <el-input v-model="connectForm.address" placeholder="请输入地址" clearable/>
           </el-form-item>
-          <el-form-item :label="$t('NewEmployeeInformation.phone')" prop="phone" style="width: 40%;margin-top:1%">
+          <el-form-item :label="$t('Supplier.phone')" prop="phone" style="width: 40%;margin-top:1%">
             <el-input v-model.number="connectForm.phone" placeholder="请输入手机号" clearable/>
           </el-form-item>
-          <el-form-item :label="$t('NewEmployeeInformation.provinceid')" prop="provinceid" style="width: 40%;margin-top: 1%">
+          <el-form-item :label="$t('Supplier.provinceid')" prop="provinceid" style="width: 40%;margin-top: 1%">
             <el-select v-model="connectForm.provinceid" placeholder="请选择省" style="width: 100%;" @change="handlechange2">
               <el-option
                 v-for="(item, index) in provinces"
@@ -77,7 +83,7 @@
                 :value="item.id"/>
             </el-select>
           </el-form-item>
-          <el-form-item :label="$t('NewEmployeeInformation.cityid')" prop="cityid" style="width: 40%;margin-top: 1%">
+          <el-form-item :label="$t('Supplier.cityid')" prop="cityid" style="width: 40%;margin-top: 1%">
             <el-select v-model="connectForm.cityid" placeholder="请选择市" style="width: 100%;">
               <el-option
                 v-for="(item, index) in cities"
@@ -92,16 +98,16 @@
       <h2 class="form-name">公司信息</h2>
       <div class="container">
         <el-form ref="companyForm" :model="companyForm" :rules="companyrules" :inline="true" status-icon class="demo-ruleForm" label-position="top" label-width="300px" style="margin-left: 30px;">
-          <el-form-item :label="$t('NewEmployeeInformation.jobnumber')" style="width: 40%;margin-top:1%">
+          <el-form-item :label="$t('Supplier.jobnumber')" style="width: 40%;margin-top:1%">
             <el-input v-model.number="companyForm.jobnumber" placeholder="请输入工号" clearable/>
           </el-form-item>
-          <el-form-item :label="$t('NewEmployeeInformation.postid')" style="width: 40%;margin-top: 1%">
+          <el-form-item :label="$t('Supplier.postid')" style="width: 40%;margin-top: 1%">
             <el-select v-model="companyForm.postid" :value="companyForm.postid" placeholder="请选择职称" style="width: 100%;">
               <el-option label="xxx" value="1"/>
               <el-option label="xxx" value="2"/>
             </el-select>
           </el-form-item>
-          <el-form-item :label="$t('NewEmployeeInformation.deptid')" prop="deptid" style="width: 40%;margin-top: 1%">
+          <el-form-item :label="$t('Supplier.deptid')" prop="deptid" style="width: 40%;margin-top: 1%">
             <el-select v-model="companyForm.deptid" placeholder="请选择部门" style="width: 100%;">
               <el-option
                 v-for="(item, index) in depts"
@@ -110,7 +116,7 @@
                 :value="item.id"/>
             </el-select>
           </el-form-item>
-          <el-form-item :label="$t('NewEmployeeInformation.regionid')" prop="regionid" style="width: 40%;margin-top: 1%">
+          <el-form-item :label="$t('Supplier.regionid')" prop="regionid" style="width: 40%;margin-top: 1%">
             <el-cascader
               :options="regions"
               :props="props"
@@ -124,8 +130,8 @@
               @change="handlechange4"
             />
           </el-form-item>
-          <el-form-item :label="$t('NewEmployeeInformation.repositoryid')" prop="repositoryid" style="width: 40%;margin-top: 1%">
-            <el-select v-model="companyForm.repositoryid" placeholder="请选择门店" filterable style="width: 100%;">
+          <el-form-item :label="$t('Supplier.repositoryid')" prop="repositoryid" style="width: 40%;margin-top: 1%">
+            <el-select v-model="companyForm.repositoryid" placeholder="请选择门店" style="width: 100%;">
               <el-option
                 v-for="(item, index) in repositories"
                 :key="index"
@@ -149,7 +155,7 @@
 import { getcountrylist, getprovincelist, getcitylist, regionlist, searchRepository } from '@/api/public'
 import { getdeptlist, register } from '@/api/EmployeeInformation'
 export default {
-  name: 'NewEmployeeContract',
+  name: 'NewSupplier',
   data() {
     var checkphone = (rule, value, callback) => {
       if (!value) {
@@ -182,44 +188,57 @@ export default {
         label: 'regionName',
         children: 'regionListVos'
       },
-      // 个人信息数据
+      // 供应商信息数据
       personalForm: {
+        supplierName: '',
+        typeId: '',
+        supplierShortName: '',
+        supplierIntroduction: '',
+        // 业务信息
+        countryId: '',
+        provinceId: '',
+        cityId: '',
+        detailAddress: '',
+        groupId: '',
+        zipCode: '',
+        contactPersonName: '',
+        contactPersonPhone: '',
+        regionId: [],
+        giveId: '',
+        transportId: '',
+        levelId: '',
+        isHot: '',
+        isEffective: '',
+        buyerId: '',
+        // 财务信息
+        businessScopeIntroduction: '',
+        paymentId: '',
+        moneyId: '',
+        bankName: '',
+        accountName: '',
         account: '',
-        passwd: '',
-        firstname: '',
-        middlename: '',
-        lastname: '',
-        birthday: '',
-        email: '',
-        gender: '',
-        certificatetype: '',
-        certificatenumber: '',
-        country: ''
+        establishDate: '',
+        legalPerson: '',
+        taxNumber: '',
+        businessLicense: '',
+        companyTypeId: ''
       },
       // 个人信息规则数据
       personalrules: {
-        passwd: [
-          { message: '请正确输入密码长度', trigger: 'blur' },
-          { min: 6, max: 100, message: '密码长度要大于6个字符', trigger: 'blur' }
+        supplierName: [
+          { required: true, message: '请输入供应商名称', trigger: 'blur' }
         ],
-        account: [
-          { required: true, message: '请输入员工端登陆账号', trigger: 'blur' }
+        typeId: [
+          { required: true, message: '请选择供应商类别', trigger: 'change' }
         ],
-        firstname: [
-          { required: true, message: '请输入姓氏', trigger: 'blur' }
+        groupId: [
+          { required: true, message: '请选择供应商分组', trigger: 'change' }
         ],
-        lastname: [
-          { required: true, message: '请输入名', trigger: 'blur' }
+        isHot: [
+          { required: true, message: '请选择', trigger: 'change' }
         ],
-        gender: [
-          { required: true, message: '请选择性别', trigger: 'change' }
-        ],
-        country: [
-          { required: true, message: '请选择工作地区', trigger: 'change' }
-        ],
-        email: [
-          { type: 'email', message: '请输入正确邮箱号', trigger: 'blur' },
-          { min: 1, message: '请输入正确邮箱号', trigger: 'blur' }
+        countryId: [
+          { required: true, message: '请选择国家', trigger: 'change' }
         ]
       },
       // 联系信息数据
@@ -352,7 +371,7 @@ export default {
       searchRepository(finalid).then(res => {
         console.log(res)
         if (res.data.ret === 200) {
-          this.repositories = res.data.data.content.list
+          this.repositories = res.data.data.content
         } else {
           this.$notify.error({
             title: '错误',
@@ -538,7 +557,7 @@ export default {
     // 取消操作
     handlecancel() {
       this.$router.go(-1)
-      const view = { path: '/EmployeeInformation/NewEmployeeInformation', name: 'NewEmployeeInformation', fullPath: '/EmployeeInformation/NewEmployeeInformation', title: 'NewEmployeeInformation' }
+      const view = { path: '/EmployeeInformation/Supplier', name: 'Supplier', fullPath: '/EmployeeInformation/Supplier', title: 'Supplier' }
       this.$store.dispatch('delView', view).then(({ visitedViews }) => {
       })
     }
@@ -548,7 +567,7 @@ export default {
 
 <style rel="stylesheet/scss" lang="scss" scoped>
   .ERP-container{
-    margin:0px 30px;
+    margin:50px 30px;
     .form-name{
       font-size: 18px;
       color: #373e4f;
