@@ -231,6 +231,44 @@ export const asyncRouterMap = [
         component: () => import('@/views/Supplier/NewSupplier'),
         name: 'NewSupplier',
         meta: { title: 'NewSupplier', noCache: false }
+      },
+      {
+        path: 'SupplierList',
+        component: () => import('@/views/Supplier/SupplierList'),
+        name: 'SupplierList',
+        meta: { title: 'SupplierList', noCache: true }
+      },
+      {
+        path: 'SupplierCategory',
+        component: () => import('@/views/Supplier/SupplierCategory'),
+        name: 'SupplierCategory',
+        meta: { title: 'SupplierCategory', noCache: true }
+      },
+      {
+        path: 'ManySupplier',
+        component: () => import('@/views/Supplier/ManySupplier'),
+        name: 'ManySupplier',
+        meta: { title: 'ManySupplier', noCache: true }
+      }
+    ]
+  },
+  {
+    path: '/Product',
+    component: Layout,
+    redirect: 'noredirect',
+    name: 'Product',
+    alwaysShow: true,
+    meta: {
+      title: 'Product',
+      icon: 'wupin',
+      type: 1
+    },
+    children: [
+      {
+        path: 'NewProduct',
+        component: () => import('@/views/Product/NewProduct'),
+        name: 'NewProduct',
+        meta: { title: 'NewProduct', noCache: false }
       }
     ]
   },

@@ -62,11 +62,8 @@
           </el-form-item>
           <el-form-item :label="$t('Supplier.groupId')" style="width: 40%;margin-top:1%">
             <el-select v-model="personalForm.groupId" placeholder="请选择供应商分组" style="width: 100%;">
-              <el-option
-                v-for="(item, index) in groupIds"
-                :key="index"
-                :label="item.groupName"
-                :value="item.id"/>
+              <el-option label="类型1" value="1"/>
+              <el-option label="类型2" value="2"/>
             </el-select>
           </el-form-item>
           <el-form-item :label="$t('Supplier.zipCode')" style="width: 40%;margin-top:1%">
@@ -215,15 +212,13 @@
 
 <script>
 import { getcountrylist, getprovincelist, getcitylist, regionlist } from '@/api/public'
-import { searchCategory, create, searchGroup } from '@/api/Supplier'
+import { searchCategory, create } from '@/api/Supplier'
 import MyEmp from './components/MyEmp'
 export default {
   name: 'NewSupplier',
   components: { MyEmp },
   data() {
     return {
-      // 供应商分组数据
-      groupIds: [],
       // 结算方式
       paymentIds: [],
       // 优质级别
@@ -256,8 +251,6 @@ export default {
       perregions: [],
       // 供应商信息数据
       personalForm: {
-        // 建档人id
-        createId: this.$store.getters.userId,
         supplierName: '',
         typeId: '',
         supplierShortName: '',
@@ -392,18 +385,6 @@ export default {
       searchCategory(5).then(res => {
         if (res.data.ret === 200) {
           this.paymentIds = res.data.data.content.list
-        } else {
-          this.$notify.error({
-            title: '错误',
-            message: '出错了',
-            offset: 100
-          })
-        }
-      })
-      // 分组数据
-      searchGroup().then(res => {
-        if (res.data.ret === 200) {
-          this.groupIds = res.data.data.content
         } else {
           this.$notify.error({
             title: '错误',
@@ -601,7 +582,7 @@ export default {
 
 <style rel="stylesheet/scss" lang="scss" scoped>
   .ERP-container{
-    margin:50px 30px;
+    margin:0px 30px;
     .form-name{
       font-size: 18px;
       color: #373e4f;

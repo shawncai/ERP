@@ -258,7 +258,7 @@ export function startorend(query, stat) {
   })
 }
 
-// 仓库停用和启用
+// 仓库批量导入
 export function manyinsert(query) {
   var params = new URLSearchParams()
   if (query !== '' && query !== null && query !== undefined) {

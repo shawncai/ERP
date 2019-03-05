@@ -24,7 +24,12 @@ export default {
     CustomerCategory: '分类属性设置',
     Manyinsert: '批量导入仓库资料',
     Supplier: '供应商资料',
-    NewSupplier: '新建供应商'
+    NewSupplier: '新建供应商',
+    SupplierList: '供应商列表',
+    SupplierCategory: '分类属性设置',
+    ManySupplier: '批量导入供应商',
+    Product: '物品资料',
+    NewProduct: '新建物品资料'
   },
   navbar: {
     logOut: '退出登录',
@@ -186,6 +191,7 @@ export default {
     contactPersonName: '联系人',
     contactPersonPhone: '电话',
     regionId: '所在区域',
+    editregionId: '修改区域',
     giveId: '交货方式',
     transportId: '运送方式',
     levelId: '供应商优质级别',
@@ -202,7 +208,15 @@ export default {
     legalPerson: '法人代表',
     taxNumber: '税务登记号',
     businessLicense: '营业执照号',
-    companyTypeId: '单位性质'
+    companyTypeId: '单位性质',
+    id: '供应商编号',
+    supplierGroup: '新建分组',
+    createTime: '建档日期',
+    countyrId: '修改国家',
+    provinceId: '修改省',
+    cityId: '修改市',
+    groupName: '组名称',
+    createId: '建档人'
   },
   public: {
     address: '地址',
