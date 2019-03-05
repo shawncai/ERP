@@ -431,10 +431,10 @@ export default {
               this.restAllForm()
               this.$refs.contractForm.clearValidate()
               this.$refs.contractForm.resetFields()
-            } else if (res.data.msg === 'account isExist') {
+            } else {
               this.$notify.error({
                 title: '错误',
-                message: '登陆账号已存在',
+                message: res.data.msg,
                 offset: 100
               })
             }
@@ -489,10 +489,10 @@ export default {
               this.$refs.contractForm.resetFields()
               const anchor2 = this.$refs.geren.offsetTop
               document.documentElement.scrollTop = anchor2 - 100
-            } else if (res.data.msg === 'account isExist') {
+            } else {
               this.$notify.error({
                 title: '错误',
-                message: '登陆账号已存在',
+                message: res.data.msg,
                 offset: 100
               })
             }
