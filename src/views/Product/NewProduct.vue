@@ -65,12 +65,6 @@
               <el-option value="2" label="类2"/>
             </el-select>
           </el-form-item>
-          <el-form-item :label="$t('Product.level')" style="width: 40%;margin-top:1%">
-            <el-select v-model="personalForm.level" placeholder="请选择档次级别" style="width: 100%;">
-              <el-option value="1" label="类1"/>
-              <el-option value="2" label="类2"/>
-            </el-select>
-          </el-form-item>
           <el-form-item :label="$t('Product.supplierid')" style="width: 40%;margin-top:1%">
             <el-input v-model="supplierid" placeholder="请选择供应商" @focus="handlechoose"/>
           </el-form-item>
@@ -102,10 +96,7 @@
               <template slot="append">m³</template>
             </el-input>
           </el-form-item>
-          <el-form-item :label="$t('Product.source')" style="width: 40%;margin-top:1%">
-            <el-input v-model="personalForm.source" placeholder="请选择来源" clearable/>
-          </el-form-item>
-          <el-form-item :label="$t('Product.isactive')" prop="gender" style="width: 40%;margin-top:1%">
+          <el-form-item :label="$t('Product.isactive')" style="width: 40%;margin-top:1%">
             <el-radio-group v-model="personalForm.isactive" style="width: 80%">
               <el-radio :label="1" style="width: 50%">YES</el-radio>
               <el-radio :label="2">NO</el-radio>
@@ -146,7 +137,7 @@
       <!--图片信息-->
       <h2 class="form-name">图片信息</h2>
       <div class="container">
-        <el-form ref="personalForm3" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-position="top" label-width="300px" style="margin-left: 30px;">
+        <el-form :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-position="top" label-width="300px" style="margin-left: 30px;">
           <el-form-item :label="$t('Product.picids')" style="width: 100%;margin-top: 1%">
             <el-button style="margin-bottom: 10px" size="small" type="success" @click="submitUpload">{{ $t('public.uploadimage') }}</el-button>
             <el-upload
@@ -194,7 +185,7 @@
 </template>
 
 <script>
-import { create } from '@/api/Supplier'
+import { createnewproduct } from '@/api/Product'
 import MyEmp from './components/MyEmp'
 export default {
   name: 'NewProduct',
@@ -243,7 +234,6 @@ export default {
         saleprice: '',
         purchaseprice: '',
         lowerprice: '',
-        supplierid: '',
         createid: '',
         level: '',
         purchasemeasurement: '',
@@ -263,7 +253,7 @@ export default {
           { required: true, message: '请输入物料编码', trigger: 'blur' }
         ],
         productname: [
-          { required: true, message: '请输入产品名称', trigger: 'change' }
+          { required: true, message: '请输入产品名称', trigger: 'blur' }
         ],
         valuation: [
           { required: true, message: '请选择计价方式', trigger: 'change' }
@@ -280,14 +270,7 @@ export default {
       }
     }
   },
-  created() {
-    this.getnationlist()
-  },
   methods: {
-    // 国籍列表
-    getnationlist() {
-      console.log(123)
-    },
     // 商品图上传图片开始++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++开始
     submitUpload() {
       this.$refs.upload.submit()
@@ -322,116 +305,41 @@ export default {
     // 详情图上传图片结束++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++结束
     // 保存操作
     handlesave() {
-      console.log(this.personalForm)
-      // this.$refs.personalForm.validate((valid) => {
-      //   if (valid) {
-      //     create(this.personalForm).then(res => {
-      //       console.log(res)
-      //       if (res.data.ret === 200) {
-      //         this.$notify({
-      //           title: '成功',
-      //           message: '保存成功',
-      //           type: 'success',
-      //           offset: 100
-      //         })
-      //         this.restAllForm()
-      //         this.$refs.personalForm.clearValidate()
-      //         this.$refs.personalForm.resetFields()
-      //         this.$refs.personalForm2.clearValidate()
-      //         this.$refs.personalForm2.resetFields()
-      //         this.$refs.personalForm3.clearValidate()
-      //         this.$refs.personalForm3.resetFields()
-      //         this.$refs.personalForm4.clearValidate()
-      //         this.$refs.personalForm4.resetFields()
-      //       } else if (res.data.msg === 'account isExist') {
-      //         this.$notify.error({
-      //           title: '错误',
-      //           message: '登陆账号已存在',
-      //           offset: 100
-      //         })
-      //       }
-      //     })
-      //   } else {
-      //     this.$notify.error({
-      //       title: '错误',
-      //       message: '信息未填完整',
-      //       offset: 100
-      //     })
-      //     return false
-      //   }
-      // })
-    },
-    // 清空记录
-    restAllForm() {
-      this.personalForm = {
-        ProductName: '',
-        typeId: '',
-        ProductShortName: '',
-        ProductIntroduction: '',
-        // 业务信息
-        countryId: '',
-        provinceId: '',
-        cityId: '',
-        detailAddress: '',
-        groupId: '',
-        zipCode: '',
-        contactPersonName: '',
-        contactPersonPhone: '',
-        regionId: '',
-        giveId: '',
-        transportId: '',
-        levelId: '',
-        isHot: '',
-        isEffective: '',
-        buyerId: '',
-        // 财务信息
-        businessScopeIntroduction: '',
-        paymentId: '',
-        moneyId: '',
-        bankName: '',
-        accountName: '',
-        account: '',
-        establishDate: '',
-        legalPerson: '',
-        taxNumber: '',
-        businessLicense: '',
-        companyTypeId: ''
-      }
-      this.perregions = []
-      this.buyerId = ''
-    },
-    // 继续录入
-    handleentry() {
-      this.personalForm.regionId = this.perregions[this.perregions.length - 1]
       this.$refs.personalForm.validate((valid) => {
         if (valid) {
-          create(this.personalForm).then(res => {
-            console.log(res)
-            if (res.data.ret === 200) {
-              this.$notify({
-                title: '成功',
-                message: '保存成功',
-                type: 'success',
-                offset: 100
+          this.$refs.personalForm2.validate((valid) => {
+            if (valid) {
+              createnewproduct(this.personalForm).then(res => {
+                console.log(res)
+                if (res.data.ret === 200) {
+                  this.$notify({
+                    title: '成功',
+                    message: '保存成功',
+                    type: 'success',
+                    offset: 100
+                  })
+                  this.restAllForm()
+                  this.$refs.personalForm.clearValidate()
+                  this.$refs.personalForm.resetFields()
+                  this.$refs.personalForm2.clearValidate()
+                  this.$refs.personalForm2.resetFields()
+                  this.$refs.detailpicupload.clearFiles()
+                  this.$refs.upload.clearFiles()
+                } else {
+                  this.$notify.error({
+                    title: '错误',
+                    message: res.data.msg,
+                    offset: 100
+                  })
+                }
               })
-              this.restAllForm()
-              this.$refs.personalForm.clearValidate()
-              this.$refs.personalForm.resetFields()
-              this.$refs.personalForm2.clearValidate()
-              this.$refs.personalForm2.resetFields()
-              this.$refs.personalForm3.clearValidate()
-              this.$refs.personalForm3.resetFields()
-              this.$refs.personalForm4.clearValidate()
-              this.$refs.personalForm4.resetFields()
-              const anchor = this.$refs.geren.offsetTop
-              console.log(anchor)
-              document.documentElement.scrollTop = anchor - 100
-            } else if (res.data.msg === 'account isExist') {
+            } else {
               this.$notify.error({
                 title: '错误',
-                message: '登陆账号已存在',
+                message: '信息未填完整',
                 offset: 100
               })
+              return false
             }
           })
         } else {
@@ -440,9 +348,100 @@ export default {
             message: '信息未填完整',
             offset: 100
           })
-          const anchor2 = this.$refs.geren.offsetTop
-          console.log(anchor2)
-          document.documentElement.scrollTop = anchor2 - 100
+          return false
+        }
+      })
+    },
+    // 清空记录
+    restAllForm() {
+      this.personalForm = {
+        code: '',
+        barcode: '',
+        productname: '',
+        typeid: '',
+        categoryid: '',
+        color: '',
+        brand: '',
+        kpigrade: '',
+        point: '',
+        zhibaoqi: '',
+        weight: '',
+        volume: '',
+        costprice: '',
+        tradeprice: '',
+        saleprice: '',
+        purchaseprice: '',
+        lowerprice: '',
+        supplierid: '',
+        createid: '',
+        level: '',
+        purchasemeasurement: '',
+        salemeasurement: '',
+        stockmeasurement: '',
+        producemeasurement: '',
+        source: '',
+        valuation: '',
+        isactive: '',
+        picids: [],
+        detailpicid: [],
+        memberprice: ''
+      }
+      this.supplierid = ''
+    },
+    // 继续录入
+    handleentry() {
+      this.$refs.personalForm.validate((valid) => {
+        if (valid) {
+          this.$refs.personalForm2.validate((valid) => {
+            if (valid) {
+              createnewproduct(this.personalForm).then(res => {
+                console.log(res)
+                if (res.data.ret === 200) {
+                  this.$notify({
+                    title: '成功',
+                    message: '保存成功',
+                    type: 'success',
+                    offset: 100
+                  })
+                  const anchor = this.$refs.geren.offsetTop
+                  console.log(anchor)
+                  document.documentElement.scrollTop = anchor - 100
+                  this.restAllForm()
+                  this.$refs.personalForm.clearValidate()
+                  this.$refs.personalForm.resetFields()
+                  this.$refs.personalForm2.clearValidate()
+                  this.$refs.personalForm2.resetFields()
+                  this.$refs.detailpicupload.clearFiles()
+                  this.$refs.upload.clearFiles()
+                } else {
+                  this.$notify.error({
+                    title: '错误',
+                    message: res.data.msg,
+                    offset: 100
+                  })
+                }
+              })
+            } else {
+              this.$notify.error({
+                title: '错误',
+                message: '信息未填完整',
+                offset: 100
+              })
+              const anchor2 = this.$refs.lianxi.offsetTop
+              console.log(anchor2)
+              document.documentElement.scrollTop = anchor2 - 100
+              return false
+            }
+          })
+        } else {
+          this.$notify.error({
+            title: '错误',
+            message: '信息未填完整',
+            offset: 100
+          })
+          const anchor3 = this.$refs.lianxi.offsetTop
+          console.log(anchor3)
+          document.documentElement.scrollTop = anchor3 - 100
           return false
         }
       })

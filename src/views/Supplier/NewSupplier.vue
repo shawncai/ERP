@@ -474,10 +474,10 @@ export default {
               this.$refs.personalForm3.resetFields()
               this.$refs.personalForm4.clearValidate()
               this.$refs.personalForm4.resetFields()
-            } else if (res.data.msg === 'account isExist') {
+            } else {
               this.$notify.error({
                 title: '错误',
-                message: '登陆账号已存在',
+                message: res.data.msg,
                 offset: 100
               })
             }
@@ -557,10 +557,10 @@ export default {
               const anchor = this.$refs.geren.offsetTop
               console.log(anchor)
               document.documentElement.scrollTop = anchor - 100
-            } else if (res.data.msg === 'account isExist') {
+            } else {
               this.$notify.error({
                 title: '错误',
-                message: '登陆账号已存在',
+                message: res.data.msg,
                 offset: 100
               })
             }
@@ -601,7 +601,7 @@ export default {
 
 <style rel="stylesheet/scss" lang="scss" scoped>
   .ERP-container{
-    margin:50px 30px;
+    margin:0px 30px;
     .form-name{
       font-size: 18px;
       color: #373e4f;

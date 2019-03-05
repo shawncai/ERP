@@ -29,7 +29,8 @@ export default {
     SupplierCategory: '分类属性设置',
     ManySupplier: '批量导入供应商',
     Product: '物品资料',
-    NewProduct: '新建物品资料'
+    NewProduct: '新建物品资料',
+    ProductList: '物品列表'
   },
   navbar: {
     logOut: '退出登录',
@@ -248,7 +249,8 @@ export default {
     isactive: '上下架',
     picids: '商品图片',
     detailpicid: '详情图片',
-    memberprice: '会员价'
+    memberprice: '会员价',
+    createTime: '创建时间'
   },
   public: {
     uploadimage: '上传',
