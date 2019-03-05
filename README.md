@@ -61,4 +61,36 @@ this.$store.dispatch('delView', view).then(({ visitedViews }) => {})
 ```  
 
 #### 2019/03/01  
-##### 客户和仓库问题 批量导入
+##### 客户和仓库问题 批量导入  
+```
+this.tableHeader = ['门店名称', '地址', '经度', '纬度', '管理员id', '开业时间', '状态', '描述', '所属区域', '种类id', '小区经理id', '属性id', '国家id']
+      this.uploadHead = results.map(function(item) {
+        return {
+          repositoryName: item.门店名称,
+          address: item.地址,
+          longitude: item.经度,
+          latitude: item.纬度,
+          managerPeopleId: item.管理员id,
+          createTime: item.开业时间,
+          stat: item.状态,
+          description: item.描述,
+          regionId: item.所属区域,
+          type: item.种类id,
+          regionManagerId: item.小区经理id,
+          attributes: item.属性id,
+          countryId: item.国家id
+        }
+      })
+      需要更改一下头部文件显示和表格内部数据
+```  
+
+
+#### 2019/3/5  
+##### vue组件的封装  
+```angular2html
+@close="$emit('update:control', false)" 控制父组件的更新
+:control.sync="editVisible" :editdata.sync="customerForm" @rest="refreshlist"
+.sync的控制符，通过props传递
+通过 this.$emit('rest', true) 子组件向父组件传值
+
+```
