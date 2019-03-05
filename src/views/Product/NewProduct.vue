@@ -105,6 +105,12 @@
           <el-form-item :label="$t('Product.source')" style="width: 40%;margin-top:1%">
             <el-input v-model="personalForm.source" placeholder="请选择来源" clearable/>
           </el-form-item>
+          <el-form-item :label="$t('Product.isactive')" prop="gender" style="width: 40%;margin-top:1%">
+            <el-radio-group v-model="personalForm.isactive" style="width: 80%">
+              <el-radio :label="1" style="width: 50%">YES</el-radio>
+              <el-radio :label="2">NO</el-radio>
+            </el-radio-group>
+          </el-form-item>
         </el-form>
       </div>
       <!--价格信息-->
