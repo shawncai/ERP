@@ -38,8 +38,9 @@ export default {
     NumberingRules: '单据编号设置',
     Newadjustprice: '新建价格变更单',
     AdjustpriceList: '价格变更单列表',
-    addSMS: '新增短信模板',
-    SMSModelList: '短信设置'
+    SMSModelList: '短信设置',
+    Measurement: '计量单位设置',
+    Commission: '提成设置'
   },
   navbar: {
     logOut: '退出登录',
@@ -295,7 +296,14 @@ export default {
     createTime: '创建日期',
     modelname: '短信模板名称',
     content: '内容',
-    iseffective2: '是否启用'
+    iseffective2: '是否启用',
+    categoryname: '计量单位名称',
+    type2: '计量单位类别',
+    iseffective3: '状态',
+    roleId: '员工职位',
+    productCategoryId: '商品类别',
+    commissionType: '提成类型',
+    commissionValue: '提成'
   },
   public: {
     uploadimage: '上传',

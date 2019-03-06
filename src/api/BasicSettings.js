@@ -161,3 +161,78 @@ export function deletemodel(query) {
     data: params
   })
 }
+
+// 查询计量单位列表
+export function searchMea(query) {
+  var params = new URLSearchParams()
+  if (query.iseffective !== '' && query.iseffective !== null && query.iseffective !== undefined) {
+    params.append('iseffective', query.iseffective) // 你要传给后台的参数值 key/value
+  }
+  if (query.categoryname !== '' && query.categoryname !== null && query.categoryname !== undefined) {
+    params.append('categoryname', query.categoryname) // 你要传给后台的参数值 key/value
+  }
+  if (query.type !== '' && query.type !== null && query.type !== undefined) {
+    params.append('type', query.type) // 你要传给后台的参数值 key/value
+  }
+  params.append('pagenum', query.pagenum) // 你要传给后台的参数值 key/value
+  params.append('pagesize', query.pagesize) // 你要传给后台的参数值 key/value
+  return request({
+    url: 'http://192.168.1.45:8080/erp/measurement/search',
+    method: 'post',
+    data: params
+  })
+}
+
+// 新增计量单位
+export function createmea(query) {
+  var params = new URLSearchParams()
+  if (query.category !== '' && query.category !== null && query.category !== undefined) {
+    params.append('category', query.category) // 你要传给后台的参数值 key/value
+  }
+  if (query.type !== '' && query.type !== null && query.type !== undefined) {
+    params.append('type', query.type) // 你要传给后台的参数值 key/value
+  }
+  if (query.iseffective !== '' && query.iseffective !== null && query.iseffective !== undefined) {
+    params.append('iseffective', query.iseffective) // 你要传给后台的参数值 key/value
+  }
+  if (query.categoryname !== '' && query.categoryname !== null && query.categoryname !== undefined) {
+    params.append('categoryname', query.categoryname) // 你要传给后台的参数值 key/value
+  }
+  return request({
+    url: 'http://192.168.1.45:8080/erp/measurement/create',
+    method: 'post',
+    data: params
+  })
+}
+
+// 修改计量单位
+export function updatemea(query) {
+  var params = new URLSearchParams()
+  if (query.id !== '' && query.id !== null && query.id !== undefined) {
+    params.append('id', query.id) // 你要传给后台的参数值 key/value
+  }
+  if (query.isEffective !== '' && query.isEffective !== null && query.isEffective !== undefined) {
+    params.append('iseffective', query.isEffective) // 你要传给后台的参数值 key/value
+  }
+  if (query.categoryName !== '' && query.categoryName !== null && query.categoryName !== undefined) {
+    params.append('categoryname', query.categoryName) // 你要传给后台的参数值 key/value
+  }
+  return request({
+    url: 'http://192.168.1.45:8080/erp/measurement/update',
+    method: 'post',
+    data: params
+  })
+}
+
+// 批量删除计量单位
+export function deletemea(query) {
+  var params = new URLSearchParams()
+  if (query !== '' && query !== null && query !== undefined) {
+    params.append('modelids', query) // 你要传给后台的参数值 key/value
+  }
+  return request({
+    url: 'http://192.168.1.45:8080/erp/measurement/delete',
+    method: 'post',
+    data: params
+  })
+}

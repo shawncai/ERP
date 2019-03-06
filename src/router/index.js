@@ -333,10 +333,16 @@ export const asyncRouterMap = [
         meta: { title: 'SMSModelList', noCache: true }
       },
       {
-        path: 'addSMS',
-        component: () => import('@/views/BasicSettings/addSMS'),
-        name: 'addSMS',
-        meta: { title: 'addSMS', noCache: false }
+        path: 'Measurement',
+        component: () => import('@/views/BasicSettings/Measurement'),
+        name: 'Measurement',
+        meta: { title: 'Measurement', noCache: true }
+      },
+      {
+        path: 'Commission',
+        component: () => import('@/views/BasicSettings/Commission'),
+        name: 'Commission',
+        meta: { title: 'Commission', noCache: true }
       }
     ]
   },
