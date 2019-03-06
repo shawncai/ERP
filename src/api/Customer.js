@@ -427,3 +427,16 @@ export function delateEmpCategory(query) {
     data: params
   })
 }
+
+// 客户批量导入
+export function manyinsert(query) {
+  var params = new URLSearchParams()
+  if (query !== '' && query !== null && query !== undefined) {
+    params.append('customerJson', query) // 你要传给后台的参数值 key/value
+  }
+  return request({
+    url: 'http://192.168.1.45:8080/erp/customer/manyinsert',
+    method: 'post',
+    data: params
+  })
+}

@@ -4,12 +4,9 @@
       <!-- 搜索条件栏目 -->
       <el-input v-model="getemplist.categoryname" :placeholder="$t('NewEmployeeInformation.categoryname')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
       <el-select v-model="getemplist.type" :value="getemplist.type" :placeholder="$t('NewEmployeeInformation.type')" class="filter-item" clearable>
-        <el-option label="供应商类别" value="1"/>
-        <el-option label="交货方式" value="2"/>
-        <el-option label="运送方式" value="3"/>
-        <el-option label="优质级别" value="4"/>
-        <el-option label="结算方式" value="5"/>
-        <el-option label="推荐程度" value="6"/>
+        <el-option label="物品分类" value="1"/>
+        <el-option label="规格型号" value="2"/>
+        <el-option label="档次级别" value="3"/>
       </el-select>
       <el-select v-model="getemplist.iseffective" :value="getemplist.iseffective" :placeholder="$t('NewEmployeeInformation.iseffective')" class="filter-item" clearable>
         <el-option label="active " value="1"/>
@@ -36,12 +33,9 @@
         <el-form ref="addCategoryForm" :rules="addCategoryFormRules" :model="addCategoryForm" class="demo-ruleForm" style="margin: 0 auto; width: 400px">
           <el-form-item :label="$t('NewEmployeeInformation.type')" label-width="100px" prop="type">
             <el-select v-model="addCategoryForm.type" placeholder="请选择类别" style="width: 100%">
-              <el-option label="供应商类别" value="1"/>
-              <el-option label="交货方式" value="2"/>
-              <el-option label="运送方式" value="3"/>
-              <el-option label="优质级别" value="4"/>
-              <el-option label="结算方式" value="5"/>
-              <el-option label="推荐程度" value="6"/>
+              <el-option label="物品分类" value="1"/>
+              <el-option label="规格型号" value="2"/>
+              <el-option label="档次级别" value="3"/>
             </el-select>
           </el-form-item>
           <el-form-item :label="$t('NewEmployeeInformation.categoryname')" label-width="100px" prop="categoryname">
@@ -107,12 +101,9 @@
           <el-form ref="editCategoryForm" :rules="editCategoryFormRules" :model="editCategoryForm" class="demo-ruleForm" style="margin: 0 auto; width: 400px">
             <el-form-item :label="$t('NewEmployeeInformation.type')" label-width="100px">
               <el-select v-model="editCategoryForm.type" placeholder="请选择类别" style="width: 100%" disabled >
-                <el-option label="供应商类别" value="1"/>
-                <el-option label="交货方式" value="2"/>
-                <el-option label="运送方式" value="3"/>
-                <el-option label="优质级别" value="4"/>
-                <el-option label="结算方式" value="5"/>
-                <el-option label="推荐程度" value="6"/>
+                <el-option label="物品分类" value="1"/>
+                <el-option label="规格型号" value="2"/>
+                <el-option label="档次级别" value="3"/>
               </el-select>
             </el-form-item>
             <el-form-item :label="$t('NewEmployeeInformation.categoryname')" label-width="100px" prop="categoryName">
@@ -136,23 +127,20 @@
 </template>
 
 <script>
-import { searchEmpCategory, addEmpCategory, updateEmpCategory, delateEmpCategory } from '@/api/Supplier'
+import { searchEmpCategory, addEmpCategory, updateEmpCategory, delateEmpCategory } from '@/api/Product'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
 
 export default {
-  name: 'SupplierCategory',
+  name: 'ProductCategory',
   directives: { waves },
   components: { Pagination },
   filters: {
     typeFilter(status) {
       const statusMap = {
-        1: '供应商类别',
-        2: '交货方式',
-        3: '运送方式',
-        4: '优质级别',
-        5: '结算方式',
-        6: '推荐程度'
+        1: '物品分类',
+        2: '规格型号',
+        3: '档次级别'
       }
       return statusMap[status]
     },
@@ -178,9 +166,6 @@ export default {
       },
       // 校验新增数据
       addCategoryFormRules: {
-        category: [
-          { required: true, message: '请输入', trigger: 'blur' }
-        ],
         categoryname: [
           { required: true, message: '请输入', trigger: 'blur' }
         ],

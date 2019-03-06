@@ -4,213 +4,198 @@
     <h2 ref="geren" class="form-name">基本信息</h2>
     <div class="container">
       <el-form ref="personalForm" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-position="top" label-width="300px" style="margin-left: 30px;">
-        <el-form-item :label="$t('Supplier.supplierName')" prop="supplierName" style="width: 40%;margin-top:1%">
-          <el-input v-model="personalForm.supplierName" placeholder="请输入供应商名称" clearable/>
+        <el-form-item :label="$t('Product.code')" prop="code" style="width: 40%;margin-top:1%">
+          <el-input v-model="personalForm.code" placeholder="请输入物料编码" disabled/>
         </el-form-item>
-        <el-form-item :label="$t('Supplier.typeId')" prop="typeId" style="width: 40%;margin-top:1%">
-          <el-select v-model="personalForm.typeId" placeholder="请选择供应商类别" style="width: 100%;">
+        <el-form-item :label="$t('Product.productname')" prop="productname" style="width: 40%;margin-top:1%">
+          <el-input v-model="personalForm.productName" placeholder="请输入产品名称" disabled/>
+        </el-form-item>
+        <el-form-item :label="$t('Product.barcode')" style="width: 40%;margin-top:1%">
+          <el-input v-model="personalForm.barCode" placeholder="请输入条码" disabled/>
+        </el-form-item>
+        <el-form-item :label="$t('Product.categoryid')" style="width: 40%;margin-top:1%">
+          <el-select v-model="personalForm.categoryId" placeholder="请选择物品分类" style="width: 100%;" disabled>
             <el-option
-              v-for="(item, index) in typeIds"
+              v-for="(item, index) in categorys"
               :key="index"
               :label="item.categoryName"
               :value="item.id"
             />
           </el-select>
         </el-form-item>
-        <el-form-item :label="$t('Supplier.supplierShortName')" prop="supplierShortName" style="width: 40%;margin-top:1%">
-          <el-input v-model="personalForm.supplierShortName" placeholder="请输入供应商简称" clearable/>
-        </el-form-item><br>
-        <el-form-item :label="$t('Supplier.supplierIntroduction')" style="width: 80%;margin-top:1%">
-          <el-input v-model="personalForm.supplierIntroduction" type="textarea" clearable/>
+        <el-form-item :label="$t('Product.typeid')" style="width: 40%;margin-top:1%">
+          <el-select v-model="personalForm.typeId" placeholder="请选择规格型号" style="width: 100%;" disabled>
+            <el-option
+              v-for="(item, index) in types"
+              :key="index"
+              :label="item.categoryName"
+              :value="item.id"
+            />
+          </el-select>
+        </el-form-item>
+        <el-form-item :label="$t('Product.purchasemeasurement')" style="width: 40%;margin-top:1%">
+          <el-select v-model="personalForm.purchaseMeasurement" placeholder="请选择采购计量单位" style="width: 100%;">
+            <el-option value="1" label="类1"/>
+            <el-option value="2" label="类2"/>
+          </el-select>
+        </el-form-item>
+        <el-form-item :label="$t('Product.salemeasurement')" style="width: 40%;margin-top:1%">
+          <el-select v-model="personalForm.saleMeasurement" placeholder="请选择销售计量单位" style="width: 100%;">
+            <el-option value="1" label="类1"/>
+            <el-option value="2" label="类2"/>
+          </el-select>
+        </el-form-item>
+        <el-form-item :label="$t('Product.stockmeasurement')" style="width: 40%;margin-top:1%">
+          <el-select v-model="personalForm.stockMeasurement" placeholder="请选择库存计量单位" style="width: 100%;">
+            <el-option value="1" label="类1"/>
+            <el-option value="2" label="类2"/>
+          </el-select>
+        </el-form-item>
+        <el-form-item :label="$t('Product.producemeasurement')" style="width: 40%;margin-top:1%">
+          <el-select v-model="personalForm.produceMeasurement" placeholder="请选择生产计量单位" style="width: 100%;">
+            <el-option value="1" label="类1"/>
+            <el-option value="2" label="类2"/>
+          </el-select>
+        </el-form-item>
+        <el-form-item :label="$t('Product.color')" style="width: 40%;margin-top:1%">
+          <el-input v-model="personalForm.color" placeholder="请输入颜色" disabled/>
+        </el-form-item>
+        <el-form-item :label="$t('Product.brand')" style="width: 40%;margin-top:1%">
+          <el-select v-model="personalForm.brand" placeholder="请选择品牌" style="width: 100%;" disabled>
+            <el-option value="1" label="类1"/>
+            <el-option value="2" label="类2"/>
+          </el-select>
+        </el-form-item>
+        <el-form-item :label="$t('Product.level')" style="width: 40%;margin-top:1%">
+          <el-select v-model="personalForm.level" placeholder="请选择档次级别" style="width: 100%;">
+            <el-option
+              v-for="(item, index) in levels"
+              :key="index"
+              :label="item.categoryName"
+              :value="item.id"
+            />
+          </el-select>
+        </el-form-item>
+        <el-form-item :label="$t('Product.supplierid')" style="width: 40%;margin-top:1%">
+          <el-input v-model="supplierid" placeholder="请选择供应商" @focus="handlechoose"/>
+        </el-form-item>
+        <my-emp :control.sync="empcontrol" @personName="personName"/>
+        <el-form-item :label="$t('Product.source')" style="width: 40%;margin-top:1%">
+          <el-select v-model="personalForm.source" placeholder="请选择来源" style="width: 100%;">
+            <el-option value="1" label="类1"/>
+            <el-option value="2" label="类2"/>
+          </el-select>
+        </el-form-item>
+        <el-form-item :label="$t('Product.kpigrade')" style="width: 40%;margin-top:1%">
+          <el-input v-model="personalForm.kpiGrade" placeholder="请输入绩效分" clearable/>
+        </el-form-item>
+        <el-form-item :label="$t('Product.point')" style="width: 40%;margin-top:1%">
+          <el-input v-model="personalForm.point" placeholder="请输入商品积分" clearable/>
+        </el-form-item>
+        <el-form-item :label="$t('Product.zhibaoqi')" style="width: 40%;margin-top:1%">
+          <el-input v-model="personalForm.zhiBaoQi" placeholder="请输入质保期" clearable>
+            <template slot="append">天</template>
+          </el-input>
+        </el-form-item>
+        <el-form-item :label="$t('Product.weight')" style="width: 40%;margin-top:1%">
+          <el-input v-model="personalForm.weight" placeholder="请输入重量" clearable>
+            <template slot="append">KG</template>
+          </el-input>
+        </el-form-item>
+        <el-form-item :label="$t('Product.volume')" style="width: 40%;margin-top:1%">
+          <el-input v-model="personalForm.volume" placeholder="请输入体积" clearable>
+            <template slot="append">m³</template>
+          </el-input>
+        </el-form-item>
+        <el-form-item :label="$t('Product.isactive')" style="width: 40%;margin-top:1%">
+          <el-radio-group v-model="personalForm.isActive" style="width: 80%">
+            <el-radio :label="1" style="width: 50%">YES</el-radio>
+            <el-radio :label="2">NO</el-radio>
+          </el-radio-group>
         </el-form-item>
       </el-form>
     </div>
-    <!--联系信息-->
-    <h2 ref="lianxi" class="form-name">业务信息</h2>
+    <!--价格信息-->
+    <h2 ref="lianxi" class="form-name">价格信息</h2>
     <div class="container">
       <el-form ref="personalForm2" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-position="top" label-width="300px" style="margin-left: 30px;">
-        <el-form-item :label="$t('public.countyrId')" style="width: 40%;margin-top:1%">
-          <el-input v-model="personalForm.countryNname" disabled/>
-        </el-form-item>
-        <el-form-item :label="$t('Supplier.countyrId')" prop="countryId" style="width: 40%;margin-top: 1%">
-          <el-select v-model="personalForm.countryid" placeholder="国家" style="width: 100%;" @change ="handlechange">
-            <el-option
-              v-for="(item, index) in nations"
-              :key="index"
-              :label="item.name"
-              :value="item.id"/>
+        <el-form-item :label="$t('Product.valuation')" prop="valuation" style="width: 40%;margin-top:1%">
+          <el-select v-model="personalForm.valuation" placeholder="请选择" style="width: 100%;">
+            <el-option value="1" label="类1"/>
+            <el-option value="2" label="类2"/>
           </el-select>
         </el-form-item>
-        <el-form-item :label="$t('public.provinceId')" style="width: 40%;margin-top:1%">
-          <el-input v-model="personalForm.provinceName" disabled/>
+        <el-form-item :label="$t('Product.costprice')" prop="costprice" style="width: 40%;margin-top:1%">
+          <el-input v-model="personalForm.costPrice" placeholder="请输入成本价" clearable/>
         </el-form-item>
-        <el-form-item :label="$t('Supplier.provinceId')" style="width: 40%;margin-top: 1%">
-          <el-select v-model="personalForm.provinceid" placeholder="请选择省" style="width: 100%;" @change="handlechange2">
-            <el-option
-              v-for="(item, index) in provinces"
-              :key="index"
-              :label="item.name"
-              :value="item.id"/>
-          </el-select>
+        <el-form-item :label="$t('Product.tradeprice')" style="width: 40%;margin-top:1%">
+          <el-input v-model="personalForm.tradePrice" placeholder="请输入批发价" clearable/>
         </el-form-item>
-        <el-form-item :label="$t('Supplier.cityId')" style="width: 40%;margin-top:1%">
-          <el-input v-model="personalForm.cityName" disabled/>
+        <el-form-item :label="$t('Product.saleprice')" prop="saleprice" style="width: 40%;margin-top:1%">
+          <el-input v-model="personalForm.salePrice" placeholder="请输入零售价" clearable/>
         </el-form-item>
-        <el-form-item :label="$t('public.cityId')" style="width: 40%;margin-top: 1%">
-          <el-select v-model="personalForm.cityid" placeholder="请选择市" style="width: 100%;">
-            <el-option
-              v-for="(item, index) in cities"
-              :key="index"
-              :label="item.name"
-              :value="item.id"/>
-          </el-select>
+        <el-form-item :label="$t('Product.purchaseprice')" prop="purchaseprice" style="width: 40%;margin-top:1%">
+          <el-input v-model="personalForm.purchasePrice" placeholder="请输入采购价" clearable/>
         </el-form-item>
-        <el-form-item :label="$t('public.address')" style="width: 40%;margin-top:1%">
-          <el-input v-model="personalForm.detailAddress" placeholder="请输入地址" clearable/>
+        <el-form-item :label="$t('Product.lowerprice')" style="width: 40%;margin-top:1%">
+          <el-input v-model="personalForm.lowerPrice" placeholder="请输入最低价" clearable/>
         </el-form-item>
-        <el-form-item :label="$t('Supplier.groupId')" style="width: 40%;margin-top:1%">
-          <el-select v-model="personalForm.groupId" placeholder="请选择供应商分组" style="width: 100%;">
-            <el-option
-              v-for="(item, index) in groupIds"
-              :key="index"
-              :label="item.groupName"
-              :value="item.id"/>
-          </el-select>
-        </el-form-item>
-        <el-form-item :label="$t('Supplier.zipCode')" style="width: 40%;margin-top:1%">
-          <el-input v-model="personalForm.zipCode" placeholder="请输入邮编" clearable/>
-        </el-form-item>
-        <el-form-item :label="$t('Supplier.contactPersonName')" style="width: 40%;margin-top:1%">
-          <el-input v-model="personalForm.contactPersonName" placeholder="请输入联系人" clearable/>
-        </el-form-item>
-        <el-form-item :label="$t('Supplier.contactPersonPhone')" style="width: 40%;margin-top:1%">
-          <el-input v-model="personalForm.contactPersonPhone" placeholder="请输入电话" clearable/>
-        </el-form-item>
-        <el-form-item :label="$t('Supplier.regionId')" style="width: 40%;margin-top:1%">
-          <el-input v-model="personalForm.regionName" disabled/>
-        </el-form-item>
-        <el-form-item :label="$t('Supplier.editregionId')" prop="regionid" style="width: 40%;margin-top: 1%">
-          <el-cascader
-            :options="regions"
-            :props="props"
-            v-model="perregions"
-            :show-all-levels="false"
-            placeholder="请选择区域"
-            change-on-select
-            filterable
-            clearable
-            style="width: 100%;"
-          />
-        </el-form-item>
-        <el-form-item :label="$t('Supplier.giveId')" style="width: 40%;margin-top:1%">
-          <el-select v-model="personalForm.giveId" placeholder="请选择交货方式" style="width: 100%;">
-            <el-option
-              v-for="(item, index) in giveIds"
-              :key="index"
-              :label="item.categoryName"
-              :value="item.id"
-            />
-          </el-select>
-        </el-form-item>
-        <el-form-item :label="$t('Supplier.transportId')" style="width: 40%;margin-top:1%">
-          <el-select v-model="personalForm.transportId" placeholder="请选择运送方式" style="width: 100%;">
-            <el-option
-              v-for="(item, index) in transportIds"
-              :key="index"
-              :label="item.categoryName"
-              :value="item.id"
-            />
-          </el-select>
-        </el-form-item>
-        <el-form-item :label="$t('Supplier.levelId')" style="width: 40%;margin-top:1%">
-          <el-select v-model="personalForm.levelId" placeholder="请选择供应商优质级别" style="width: 100%;">
-            <el-option
-              v-for="(item, index) in levelIds"
-              :key="index"
-              :label="item.categoryName"
-              :value="item.id"
-            />
-          </el-select>
-        </el-form-item>
-        <el-form-item :label="$t('Supplier.isHot')" prop="isHot" style="width: 40%;margin-top:1%">
-          <el-select v-model="personalForm.isHot" placeholder="请选择" style="width: 100%;">
-            <el-option label="是" value="1"/>
-            <el-option label="否" value="2"/>
-          </el-select>
-        </el-form-item>
-        <el-form-item :label="$t('Supplier.isEffective')" style="width: 40%;margin-top:1%">
-          <el-select v-model="personalForm.isEffective" placeholder="请选择启用状态" style="width: 100%;">
-            <el-option label="启用" value="1"/>
-            <el-option label="未启用" value="2"/>
-          </el-select>
-        </el-form-item>
-        <el-form-item :label="$t('Supplier.buyerId')" style="width: 40%;margin-top:1%">
-          <el-input v-model="buyerId" placeholder="请输入采购员" @focus="handlechoose"/>
-        </el-form-item> <br>
-        <my-emp :control.sync="empcontrol" @personName="personName"/>
-        <el-form-item :label="$t('Supplier.businessScopeIntroduction')" style="width: 80%;margin-top:1%">
-          <el-input v-model="personalForm.businessScopeIntroduction" type="textarea" clearable/>
+        <el-form-item :label="$t('Product.memberprice')" style="width: 40%;margin-top:1%">
+          <el-input v-model="personalForm.memberPrice" placeholder="请输入会员价" clearable/>
         </el-form-item>
       </el-form>
     </div>
-    <!--财务信息-->
-    <h2 class="form-name">财务信息</h2>
+    <!--图片信息-->
+    <h2 class="form-name">图片信息</h2>
     <div class="container">
-      <el-form ref="personalForm3" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-position="top" label-width="300px" style="margin-left: 30px;">
-        <el-form-item :label="$t('Supplier.paymentId')" style="width: 40%;margin-top:1%">
-          <el-select v-model="personalForm.paymentId" placeholder="请选择结算方式" style="width: 100%;">
-            <el-option
-              v-for="(item, index) in paymentIds"
-              :key="index"
-              :label="item.categoryName"
-              :value="item.id"
-            />
-          </el-select>
+      <el-form :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-position="top" label-width="300px" style="margin-left: 30px;">
+        <el-form-item :label="$t('Product.picids')" style="width: 100%;margin-top: 1%">
+          <el-button style="margin-bottom: 10px" size="small" type="success" @click="submitUpload">{{ $t('public.uploadimage') }}</el-button>
+          <el-upload
+            ref="upload"
+            :on-preview="handlepicPreview"
+            :on-remove="handlepicRemove"
+            :on-success="handlepicsuccess"
+            :data="picidsData"
+            :auto-upload="false"
+            action="http://192.168.1.26:9090/erp/upload/uploadpic"
+            list-type="picture-card">
+            <i class="el-icon-plus"/>
+          </el-upload>
+          <el-dialog :visible.sync="picidsVisible">
+            <img :src="picidsImageUrl" width="100%" alt="">
+          </el-dialog>
+        </el-form-item >
+        <el-form-item style="width: 100%;margin-top: 1%">
+          <el-col v-for="(item, index) in personalForm.picPaths" :span="8" :key="index" :offset="index > 0 ? 2 : 0">
+            <el-card :body-style="{ padding: '0px', height: '184px' }">
+              <img :src="item" class="image" style="width: 100%">
+            </el-card>
+          </el-col>
         </el-form-item>
-        <el-form-item :label="$t('Supplier.moneyId')" style="width: 40%;margin-top: 1%">
-          <el-select v-model="personalForm.moneyId" :value="personalForm.moneyId" placeholder="请选择币种" style="width: 100%;">
-            <el-option label="RMB" value="1"/>
-            <el-option label="USD" value="2"/>
-          </el-select>
-        </el-form-item>
-        <el-form-item :label="$t('Supplier.bankName')" style="width: 40%;margin-top:1%">
-          <el-input v-model="personalForm.bankName" placeholder="请输入开户行" clearable/>
-        </el-form-item>
-        <el-form-item :label="$t('Supplier.accountName')" style="width: 40%;margin-top:1%">
-          <el-input v-model="personalForm.accountName" placeholder="请输入户名" clearable/>
-        </el-form-item>
-        <el-form-item :label="$t('Supplier.account')" style="width: 40%;margin-top:1%">
-          <el-input v-model="personalForm.account" placeholder="请输入账号" clearable/>
-        </el-form-item>
-      </el-form>
-    </div>
-    <!--辅助信息-->
-    <h2 ref="fuzhu" class="form-name">辅助信息</h2>
-    <div class="container">
-      <el-form ref="personalForm4" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-position="top" label-width="300px" style="margin-left: 30px;">
-        <el-form-item :label="$t('Supplier.establishDate')" style="width: 40%;margin-top:1%">
-          <el-date-picker
-            v-model="personalForm.establishDate"
-            type="date"
-            placeholder="选择成立时间"
-            value-format="yyyy-MM-dd"
-            clearable
-            style="width: 100%"/>
-        </el-form-item>
-        <el-form-item :label="$t('Supplier.legalPerson')" style="width: 40%;margin-top:1%">
-          <el-input v-model="personalForm.legalPerson" placeholder="请输入法人代表" clearable/>
-        </el-form-item>
-        <el-form-item :label="$t('Supplier.taxNumber')" style="width: 40%;margin-top:1%">
-          <el-input v-model="personalForm.taxNumber" placeholder="请输入税务登记号" clearable/>
-        </el-form-item>
-        <el-form-item :label="$t('Supplier.businessLicense')" style="width: 40%;margin-top:1%">
-          <el-input v-model="personalForm.businessLicense" placeholder="请输入营业执照号" clearable/>
-        </el-form-item>
-        <el-form-item :label="$t('Supplier.companyTypeId')" style="width: 40%;margin-top:1%">
-          <el-select v-model="personalForm.companyTypeId" placeholder="请选择单位性质" style="width: 100%;">
-            <el-option label="类型1" value="1"/>
-            <el-option label="类型2" value="2"/>
-          </el-select>
+        <el-form-item :label="$t('Product.detailpicid')" style="width: 100%;margin-top: 1%">
+          <el-button style="margin-bottom: 10px" size="small" type="success" @click="detailpicsubmitUpload">{{ $t('public.uploadimage') }}</el-button>
+          <el-upload
+            ref="detailpicupload"
+            :on-preview="handledetailpicPreview"
+            :on-remove="handledetailpicRemove"
+            :on-success="handledetailpicsuccess"
+            :data="detailpicData"
+            :auto-upload="false"
+            action="http://192.168.1.26:9090/erp/upload/uploadpic"
+            list-type="picture-card">
+            <i class="el-icon-plus"/>
+          </el-upload>
+          <el-dialog :visible.sync="detailpicVisible">
+            <img :src="detailpicImageUrl" width="100%" alt="">
+          </el-dialog>
+        </el-form-item >
+        <el-form-item style="width: 100%;margin-top: 1%">
+          <el-col v-for="(item, index) in personalForm.detailPicPaths" :span="8" :key="index" :offset="index > 0 ? 2 : 0">
+            <el-card :body-style="{ padding: '0px', height: '184px' }">
+              <img :src="item" class="image" style="width: 100%">
+            </el-card>
+          </el-col>
         </el-form-item>
       </el-form>
     </div>
@@ -222,8 +207,7 @@
 </template>
 
 <script>
-import { getcountrylist, getprovincelist, getcitylist, regionlist } from '@/api/public'
-import { searchCategory, update, searchGroup } from '@/api/Supplier'
+import { searchEmpCategory2, editproduct } from '@/api/Product'
 import MyEmp from './MyEmp'
 export default {
   components: { MyEmp },
@@ -239,58 +223,62 @@ export default {
   },
   data() {
     return {
-      // 分组数据
-      groupIds: [],
       // 弹窗组件的控制
       editVisible: this.control,
-      // 结算方式
-      paymentIds: [],
-      // 优质级别
-      levelIds: [],
-      // 运送方式
-      transportIds: [],
-      // 交货方式
-      giveIds: [],
-      // 供应商类别
-      typeIds: [],
-      // 采购员弹窗控制
-      empcontrol: false,
-      // 国家列表
-      nations: [],
-      // 省列表
-      provinces: [],
-      // 城市列表
-      cities: [],
-      // 区域列表
-      regions: [],
-      // 区域列表字段更改
-      props: {
-        value: 'id',
-        label: 'regionName',
-        children: 'regionListVos'
-      },
-      // 采购员回显
-      buyerId: '',
-      // 转化区域id
-      perregions: [],
-      // 供应商信息数据
+      // 物品信息数据
       personalForm: this.editdata,
-      // 个人信息规则数据
+      // 修改商品图片存放
+      picids: [],
+      // 修改商品详情存放
+      detailpicid: [],
+      // 供货商弹窗控制
+      empcontrol: false,
+      // 商品图片数据+++++++++++++++++++++++++开始
+      // 商品图片控制器
+      picidsVisible: false,
+      // 商品图片地址
+      picidsImageUrl: '',
+      // 发送后端type
+      picidsData: {
+        type: 2
+      },
+      // 商品图片数据+++++++++++++++++++++++++结束
+      // 详情图片数据++++++++++++++++++++++++++++++++开始
+      detailpicVisible: false,
+      // 详情图片地址
+      detailpicImageUrl: '',
+      // 发送后端type
+      detailpicData: {
+        type: 7
+      },
+      // 详情图片数据++++++++++++++++++++++++++++++++结束
+      // 物品分类数据
+      categorys: [],
+      // 规格型号数据
+      types: [],
+      // 档次级别
+      levels: [],
+      // 供应商回显
+      supplierid: '',
+      // 物品信息规则数据
       personalrules: {
-        supplierName: [
-          { required: true, message: '请输入供应商名称', trigger: 'blur' }
+        code: [
+          { required: true, message: '请输入物料编码', trigger: 'blur' }
         ],
-        typeId: [
-          { required: true, message: '请选择供应商类别', trigger: 'change' }
+        productName: [
+          { required: true, message: '请输入产品名称', trigger: 'blur' }
         ],
-        groupId: [
-          { required: true, message: '请选择供应商分组', trigger: 'change' }
+        valuation: [
+          { required: true, message: '请选择计价方式', trigger: 'change' }
         ],
-        isHot: [
-          { required: true, message: '请选择', trigger: 'change' }
+        costPrice: [
+          { required: true, message: '请输入成本价', trigger: 'blur' }
         ],
-        countryId: [
-          { required: true, message: '请选择国家', trigger: 'change' }
+        salePrice: [
+          { required: true, message: '请输入零售价', trigger: 'blur' }
+        ],
+        purchasePrice: [
+          { required: true, message: '请输入采购价', trigger: 'blur' }
         ]
       }
     }
@@ -306,127 +294,39 @@ export default {
     }
   },
   created() {
-    this.getnationlist()
+    this.getcategorys()
   },
   methods: {
-    // 国籍列表
-    getnationlist() {
-      getcountrylist().then(res => {
-        if (res.data.ret === 200) {
-          this.nations = res.data.data.content
-        } else {
-          this.$notify.error({
-            title: '错误',
-            message: '出错了',
-            offset: 100
-          })
-        }
-      })
-      // 区域列表数据
-      regionlist().then(res => {
-        if (res.data.ret === 200) {
-          this.regions = this.tranKTree(res.data.data.content)
-        } else {
-          this.$notify.error({
-            title: '错误',
-            message: '出错了',
-            offset: 100
-          })
-        }
-      })
-      // 供应商类别
-      searchCategory(1).then(res => {
-        if (res.data.ret === 200) {
-          this.typeIds = res.data.data.content.list
-        } else {
-          this.$notify.error({
-            title: '错误',
-            message: '出错了',
-            offset: 100
-          })
-        }
-      })
-      // 交货方式
-      searchCategory(2).then(res => {
-        if (res.data.ret === 200) {
-          this.giveIds = res.data.data.content.list
-        } else {
-          this.$notify.error({
-            title: '错误',
-            message: '出错了',
-            offset: 100
-          })
-        }
-      })
-      // 运送方式
-      searchCategory(3).then(res => {
-        if (res.data.ret === 200) {
-          this.transportIds = res.data.data.content.list
-        } else {
-          this.$notify.error({
-            title: '错误',
-            message: '出错了',
-            offset: 100
-          })
-        }
-      })
-      // 优质级别
-      searchCategory(4).then(res => {
-        if (res.data.ret === 200) {
-          this.levelIds = res.data.data.content.list
-        } else {
-          this.$notify.error({
-            title: '错误',
-            message: '出错了',
-            offset: 100
-          })
-        }
-      })
-      // 结算方式
-      searchCategory(5).then(res => {
-        if (res.data.ret === 200) {
-          this.paymentIds = res.data.data.content.list
-        } else {
-          this.$notify.error({
-            title: '错误',
-            message: '出错了',
-            offset: 100
-          })
-        }
-      })
-      // 分组数据
-      searchGroup().then(res => {
-        if (res.data.ret === 200) {
-          this.groupIds = res.data.data.content
-        } else {
-          this.$notify.error({
-            title: '错误',
-            message: '出错了',
-            offset: 100
-          })
-        }
-      })
-    },
-    // 根据国家选择省
-    handlechange(val) {
-      getprovincelist(val).then(res => {
-        if (res.data.ret === 200) {
-          this.provinces = res.data.data.content
-        } else {
-          this.$notify.error({
-            title: '错误',
-            message: '出错了',
-            offset: 100
-          })
-        }
-      })
-    },
-    // 根据省选择市
-    handlechange2(val) {
-      getcitylist(val).then(res => {
+    getcategorys() {
+      // 物品分类数据
+      searchEmpCategory2(1).then(res => {
         console.log(res)
         if (res.data.ret === 200) {
-          this.cities = res.data.data.content
+          this.categorys = res.data.data.content.list
+        } else {
+          this.$notify.error({
+            title: '错误',
+            message: '出错了',
+            offset: 100
+          })
+        }
+      })
+      // 规格型号数据
+      searchEmpCategory2(2).then(res => {
+        if (res.data.ret === 200) {
+          this.types = res.data.data.content.list
+        } else {
+          this.$notify.error({
+            title: '错误',
+            message: '出错了',
+            offset: 100
+          })
+        }
+      })
+      // 档次级别
+      searchEmpCategory2(3).then(res => {
+        if (res.data.ret === 200) {
+          this.levels = res.data.data.content.list
         } else {
           this.$notify.error({
             title: '错误',
@@ -436,31 +336,55 @@ export default {
         }
       })
     },
-    // 转化数据方法
-    tranKTree(arr) {
-      if (!arr || !arr.length) return
-      return arr.map(item => ({
-        id: item.id,
-        regionName: item.regionName,
-        regionListVos: this.tranKTree(item.regionListVos)
-      }))
+    // 商品图上传图片开始++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++开始
+    submitUpload() {
+      this.$refs.upload.submit()
     },
-    // 员工输入框focus事件触发
+    handlepicRemove(file, fileList) {
+      console.log(file, fileList)
+    },
+    handlepicPreview(file) {
+      this.picidsImageUrl = file.url
+      this.picidsVisible = true
+    },
+    handlepicsuccess(response) {
+      this.picids.push(response.data.content.picId)
+      console.log(response.data.content.picId)
+    },
+    // 商品图上传图片结束++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++结束
+    // 详情图上传图片开始++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++开始
+    detailpicsubmitUpload() {
+      this.$refs.detailpicupload.submit()
+    },
+    handledetailpicRemove(file, fileList) {
+      console.log(file, fileList)
+    },
+    handledetailpicPreview(file) {
+      this.picidsImageUrl = file.url
+      this.picidsVisible = true
+    },
+    handledetailpicsuccess(response) {
+      this.detailpicid.push(response.data.content.picId)
+      console.log(response.data.content.picId)
+    },
+    // 详情图上传图片结束++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++结束
+    // 供货商输入框focus事件触发
     handlechoose() {
       this.empcontrol = true
     },
-    // 员工列表返回数据
+    // 供货商列表返回数据
     personName(val) {
       console.log(val)
-      this.buyerId = val.personName
-      this.personalForm.buyerId = val.id
+      this.supplierid = val.supplierName
+      this.personalForm.supplierid = val.id
     },
     // 修改和取消按钮
     // 修改按钮
     handleEditok() {
-      this.personalForm.regionId = this.perregions[this.perregions.length - 1]
+      this.personalForm.picids = this.picids
+      this.personalForm.detailpicid = this.detailpicid
       console.log(this.personalForm)
-      update(this.personalForm).then(res => {
+      editproduct(this.personalForm).then(res => {
         if (res.data.ret === 200) {
           this.$notify({
             title: '操作成功',
@@ -470,14 +394,13 @@ export default {
             offset: 100
           })
           this.$emit('rest', true)
+          this.restAllForm()
           this.$refs.personalForm.clearValidate()
           this.$refs.personalForm.resetFields()
           this.$refs.personalForm2.clearValidate()
           this.$refs.personalForm2.resetFields()
-          this.$refs.personalForm3.clearValidate()
-          this.$refs.personalForm3.resetFields()
-          this.$refs.personalForm4.clearValidate()
-          this.$refs.personalForm4.resetFields()
+          this.$refs.detailpicupload.clearFiles()
+          this.$refs.upload.clearFiles()
           this.editVisible = false
         } else {
           this.$notify.error({
@@ -489,15 +412,50 @@ export default {
       })
     },
     handlecancel() {
+      this.restAllForm()
       this.$refs.personalForm.clearValidate()
       this.$refs.personalForm.resetFields()
       this.$refs.personalForm2.clearValidate()
       this.$refs.personalForm2.resetFields()
-      this.$refs.personalForm3.clearValidate()
-      this.$refs.personalForm3.resetFields()
-      this.$refs.personalForm4.clearValidate()
-      this.$refs.personalForm4.resetFields()
+      this.$refs.detailpicupload.clearFiles()
+      this.$refs.upload.clearFiles()
       this.editVisible = false
+    },
+    // 清空记录
+    restAllForm() {
+      this.personalForm = {
+        code: '',
+        barcode: '',
+        productname: '',
+        typeid: '',
+        categoryid: '',
+        color: '',
+        brand: '',
+        kpigrade: '',
+        point: '',
+        zhibaoqi: '',
+        weight: '',
+        volume: '',
+        costprice: '',
+        tradeprice: '',
+        saleprice: '',
+        purchaseprice: '',
+        lowerprice: '',
+        supplierid: '',
+        createid: '',
+        level: '',
+        purchasemeasurement: '',
+        salemeasurement: '',
+        stockmeasurement: '',
+        producemeasurement: '',
+        source: '',
+        valuation: '',
+        isactive: '',
+        picids: [],
+        detailpicid: [],
+        memberprice: ''
+      }
+      this.supplierid = ''
     }
     // 修改操作结束 -------------------------------------------------
   }

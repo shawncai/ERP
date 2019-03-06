@@ -2,31 +2,9 @@
   <div class="ERP-container">
     <div class="filter-container">
       <!-- 搜索条件栏目 -->
-      <el-input v-model="getemplist.code" :placeholder="$t('Product.code')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
-      <el-input v-model="getemplist.productname" :placeholder="$t('Product.productname')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
-      <el-input v-model="getemplist.supplierid" :placeholder="$t('Product.supplierid')" class="filter-item" @keyup.enter.native="handleFilter"/>
-      <el-select v-model="getemplist.categoryid" :value="getemplist.categoryid" placeholder="物品分类" class="filter-item" clearable>
-        <el-option value="1" label="类1"/>
-        <el-option value="2" label="类2"/>
-      </el-select>
-      <!-- 更多搜索条件下拉栏 -->
-      <el-popover
-        placement="bottom"
-        width="500"
-        trigger="click">
-        <el-select v-model="getemplist.typeid" placeholder="请选择规格型号" clearable style="width: 40%;float: left;margin-left: 20px">
-          <el-option value="1" label="类1"/>
-          <el-option value="2" label="类2"/>
-        </el-select>
-        <el-select v-model="getemplist.isactive" placeholder="请选择上下架" clearable style="width: 40%;float: right;margin-right: 20px">
-          <el-option value="1" label="上1"/>
-          <el-option value="2" label="下2"/>
-        </el-select>
-        <div class="seachbutton" style="width: 100%;float: right;margin-top: 20px">
-          <el-button v-waves class="filter-item" type="primary" style="float: right" @click="handleFilter">{{ $t('public.search') }}</el-button>
-        </div>
-        <el-button v-waves slot="reference" type="primary" class="filter-item" style="width: 130px">{{ $t('public.filter') }}<svg-icon icon-class="shaixuan" style="margin-left: 4px"/></el-button>
-      </el-popover>
+      <el-input v-model="getemplist.adjustnumber" :placeholder="$t('Product.adjustnumber')" style="width: 9%" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
+      <el-input v-model="getemplist.productcode" :placeholder="$t('Product.productcode')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
+      <el-input v-model="getemplist.productname" :placeholder="$t('Product.productname2')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
       <!-- 搜索按钮 -->
       <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 86px" @click="handleFilter">{{ $t('public.search') }}</el-button>
       <!-- 批量操作 -->
@@ -60,59 +38,49 @@
           type="selection"
           width="55"
           align="center"/>
-        <el-table-column :label="$t('Product.code')" :resizable="false" prop="code" align="center" width="120">
+        <el-table-column :label="$t('Product.id')" :resizable="false" prop="adjustNumber" align="center" width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.code }}</span>
+            <span>{{ scope.row.adjustNumber }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('Product.productname')" :resizable="false" prop="ProductName" align="center" width="100">
+        <el-table-column :label="$t('Product.title')" :resizable="false" prop="title" align="center" width="150">
+          <template slot-scope="scope">
+            <span>{{ scope.row.title }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column :label="$t('Product.productCode')" :resizable="false" prop="productCode" align="center" width="150">
+          <template slot-scope="scope">
+            <span>{{ scope.row.productCode }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column :label="$t('Product.productname2')" :resizable="false" align="center" width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.productName }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('Product.categoryid')" :resizable="false" prop="category" align="center" width="100">
+        <el-table-column :label="$t('Product.adjustCostPrice')" :resizable="false" prop="adjustCostPrice" align="center" width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.category }}</span>
+            <span>{{ scope.row.adjustCostPrice }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('Product.typeid')" :resizable="false" align="center" width="100">
+        <el-table-column :label="$t('Product.adjustTradePrice')" :resizable="false" prop="adjustTradePrice" align="center" width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.productType }}</span>
+            <span>{{ scope.row.adjustTradePrice }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('Product.color')" :resizable="false" prop="color" align="center" width="100">
+        <el-table-column :label="$t('Product.adjustSalePrice')" :resizable="false" prop="adjustSalePrice" align="center" width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.color }}</span>
+            <span>{{ scope.row.adjustSalePrice }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('Product.kpigrade')" :resizable="false" prop="kpiGrade" align="center" width="100">
+        <el-table-column :label="$t('Product.adjustMemberPrice')" :resizable="false" prop="adjustMemberPrice" align="center" width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.kpiGrade }}</span>
+            <span>{{ scope.row.adjustMemberPrice }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('Product.point')" :resizable="false" prop="point" align="center" width="100">
+        <el-table-column :label="$t('Product.adjustLowerPrice')" :resizable="false" prop="adjustLowerPrice" align="center" width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.point }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column :label="$t('Product.costprice')" :resizable="false" prop="costPrice" align="center" width="100">
-          <template slot-scope="scope">
-            <span>{{ scope.row.costPrice }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column :label="$t('Product.purchaseprice')" :resizable="false" prop="purchasePrice" align="center" width="150">
-          <template slot-scope="scope">
-            <span>{{ scope.row.purchasePrice }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column :label="$t('Product.createid')" :resizable="false" prop="createName" align="center" width="150">
-          <template slot-scope="scope">
-            <span>{{ scope.row.createName }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column :label="$t('Product.createTime')" :resizable="false" prop="createTime" align="center" width="150">
-          <template slot-scope="scope">
-            <span>{{ scope.row.createTime }}</span>
+            <span>{{ scope.row.adjustLowerPrice }}</span>
           </template>
         </el-table-column>
         <el-table-column :label="$t('public.actions')" :resizable="false" align="center" min-width="230">
@@ -125,22 +93,22 @@
       <!-- 列表结束 -->
       <pagination v-show="total>0" :total="total" :page.sync="getemplist.pagenum" :limit.sync="getemplist.pagesize" @pagination="getlist" />
       <!--修改开始=================================================-->
-      <my-dialog :control.sync="editVisible" :editdata.sync="personalForm" @rest="refreshlist"/>
+      <my-adjust :control.sync="editVisible" :editdata.sync="personalForm" @rest="refreshlist"/>
       <!--修改结束=================================================-->
     </div>
   </div>
 </template>
 
 <script>
-import { productlist, deleteproduct } from '@/api/Product'
+import { adjustpricelist, deleteadjustprice } from '@/api/Product'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
-import MyDialog from './components/MyDialog'
+import MyAdjust from './components/MyAdjust'
 
 export default {
-  name: 'ProductList',
+  name: 'AdjustpriceList',
   directives: { waves },
-  components: { Pagination, MyDialog },
+  components: { Pagination, MyAdjust },
   filters: {
     genderFilter(status) {
       const statusMap = {
@@ -152,8 +120,18 @@ export default {
   },
   data() {
     return {
+      // 新增分组参数
+      groupName: '',
+      // 分组表格数据
+      groupData: [],
+      // 新建分组控制器
+      GroupVisible: false,
       // 批量操作
       moreaction: '',
+      // 优质级别
+      levelIds: [],
+      // 供应商类别
+      typeIds: [],
       // 加载操作控制
       downloadLoading: false,
       // 表格数据
@@ -164,18 +142,29 @@ export default {
       tableKey: 0,
       // 加载表格
       listLoading: true,
-      // 供应商列表查询加展示参数
+      // 价格变更列表查询加展示参数
       getemplist: {
-        productid: '',
-        code: '',
+        adjustid: '',
+        adjustnumber: '',
+        productcode: '',
         productname: '',
-        categoryid: '',
-        typeid: '',
-        isactive: '',
-        Productid: '',
+        stat: '',
         pagenum: 1,
         pagesize: 10
       },
+      // 部门列表
+      depts: [],
+      // 区域级联数据转化
+      props: {
+        value: 'id',
+        label: 'regionName',
+        children: 'regionListVos'
+      },
+      // 区域数据
+      regions: [],
+      getemplistregions: [],
+      // 门店数据
+      repositories: [],
       // 传给组件的数据
       personalForm: {},
       // 控制组件数据
@@ -187,9 +176,9 @@ export default {
   },
   methods: {
     getlist() {
-      // 商品列表数据
+      // 价格变更单列表数据
       this.listLoading = true
-      productlist(this.getemplist).then(res => {
+      adjustpricelist(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
@@ -207,7 +196,7 @@ export default {
     },
     // 搜索
     handleFilter() {
-      productlist(this.getemplist).then(res => {
+      adjustpricelist(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
@@ -225,8 +214,6 @@ export default {
       console.log(row)
       this.editVisible = true
       this.personalForm = Object.assign({}, row)
-      this.personalForm.source = String(row.source)
-      this.personalForm.valuation = String(row.valuation)
     },
     // 修改组件修改成功后返回
     refreshlist(val) {
@@ -248,7 +235,7 @@ export default {
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          deleteproduct(ids).then(res => {
+          deleteadjustprice(ids).then(res => {
             if (res.data.ret === 200) {
               this.$notify({
                 title: '删除成功',
@@ -279,7 +266,7 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        deleteproduct(row.id).then(res => {
+        deleteadjustprice(row.id).then(res => {
           if (res.data.ret === 200) {
             this.$notify({
               title: '删除成功',
@@ -304,19 +291,19 @@ export default {
     },
     // 新增数据
     handleAdd() {
-      this.$router.push('/Product/NewProduct')
+      this.$router.push('/Product/Newadjustprice')
     },
     // 导出
     handleExport() {
       this.downloadLoading = true
         import('@/vendor/Export2Excel').then(excel => {
-          const tHeader = ['物料编码', '产品名称', '物品分类', '规格型号', '颜色', '绩效分', '商品积分', '成本价', '采购价', '创建者', '创建时间']
-          const filterVal = ['code', 'productName', 'category', 'productType', 'color', 'kpiGrade', 'point', 'costPrice', 'purchasePrice', 'createId', 'createTime']
+          const tHeader = ['供应商编号', '供应商名称', '供应商简称', '供应商类别', '所在区域', '采购员', '供应商优质级别', '建档人', '建档日期']
+          const filterVal = ['id', 'ProductName', 'ProductShortName', 'typeName', 'regionName', 'buyerName', 'levelName', 'createName', 'createTime']
           const data = this.formatJson(filterVal, this.list)
           excel.export_json_to_excel({
             header: tHeader,
             data,
-            filename: '物品资料表'
+            filename: '经销商资料表'
           })
           this.downloadLoading = false
         })

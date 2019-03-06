@@ -195,6 +195,12 @@ export const asyncRouterMap = [
         meta: { title: 'CustomerList', noCache: true }
       },
       {
+        path: 'ManyCustomer',
+        component: () => import('@/views/Customer/ManyCustomer'),
+        name: 'ManyCustomer',
+        meta: { title: 'ManyCustomer', noCache: true }
+      },
+      {
         path: 'NewAgent',
         component: () => import('@/views/Customer/NewAgent'),
         name: 'NewAgent',
@@ -275,6 +281,62 @@ export const asyncRouterMap = [
         component: () => import('@/views/Product/ProductList'),
         name: 'ProductList',
         meta: { title: 'ProductList', noCache: true }
+      },
+      {
+        path: 'Newadjustprice',
+        component: () => import('@/views/Product/Newadjustprice'),
+        name: 'Newadjustprice',
+        meta: { title: 'Newadjustprice', noCache: false }
+      },
+      {
+        path: 'AdjustpriceList',
+        component: () => import('@/views/Product/AdjustpriceList'),
+        name: 'AdjustpriceList',
+        meta: { title: 'AdjustpriceList', noCache: true }
+      },
+      {
+        path: 'ProductCategory',
+        component: () => import('@/views/Product/ProductCategory'),
+        name: 'ProductCategory',
+        meta: { title: 'ProductCategory', noCache: true }
+      },
+      {
+        path: 'ManyProduct',
+        component: () => import('@/views/Product/ManyProduct'),
+        name: 'ManyProduct',
+        meta: { title: 'ManyProduct', noCache: true }
+      }
+    ]
+  },
+  {
+    path: '/BasicSettings',
+    component: Layout,
+    redirect: 'noredirect',
+    name: 'BasicSettings',
+    alwaysShow: true,
+    meta: {
+      title: 'BasicSettings',
+      icon: 'shezhi',
+      type: 1
+    },
+    children: [
+      {
+        path: 'NumberingRules',
+        component: () => import('@/views/BasicSettings/NumberingRules'),
+        name: 'NumberingRules',
+        meta: { title: 'NumberingRules', noCache: true }
+      },
+      {
+        path: 'SMSModelList',
+        component: () => import('@/views/BasicSettings/SMSModelList'),
+        name: 'SMSModelList',
+        meta: { title: 'SMSModelList', noCache: true }
+      },
+      {
+        path: 'addSMS',
+        component: () => import('@/views/BasicSettings/addSMS'),
+        name: 'addSMS',
+        meta: { title: 'addSMS', noCache: false }
       }
     ]
   },

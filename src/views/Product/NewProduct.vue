@@ -16,14 +16,22 @@
           </el-form-item>
           <el-form-item :label="$t('Product.categoryid')" style="width: 40%;margin-top:1%">
             <el-select v-model="personalForm.categoryid" placeholder="请选择物品分类" style="width: 100%;">
-              <el-option value="1" label="类1"/>
-              <el-option value="2" label="类2"/>
+              <el-option
+                v-for="(item, index) in categorys"
+                :key="index"
+                :label="item.categoryName"
+                :value="item.id"
+              />
             </el-select>
           </el-form-item>
           <el-form-item :label="$t('Product.typeid')" style="width: 40%;margin-top:1%">
             <el-select v-model="personalForm.typeid" placeholder="请选择规格型号" style="width: 100%;">
-              <el-option value="1" label="类1"/>
-              <el-option value="2" label="类2"/>
+              <el-option
+                v-for="(item, index) in types"
+                :key="index"
+                :label="item.categoryName"
+                :value="item.id"
+              />
             </el-select>
           </el-form-item>
           <el-form-item :label="$t('Product.purchasemeasurement')" style="width: 40%;margin-top:1%">
@@ -61,8 +69,12 @@
           </el-form-item>
           <el-form-item :label="$t('Product.level')" style="width: 40%;margin-top:1%">
             <el-select v-model="personalForm.level" placeholder="请选择档次级别" style="width: 100%;">
-              <el-option value="1" label="类1"/>
-              <el-option value="2" label="类2"/>
+              <el-option
+                v-for="(item, index) in levels"
+                :key="index"
+                :label="item.categoryName"
+                :value="item.id"
+              />
             </el-select>
           </el-form-item>
           <el-form-item :label="$t('Product.supplierid')" style="width: 40%;margin-top:1%">
@@ -185,7 +197,7 @@
 </template>
 
 <script>
-import { createnewproduct } from '@/api/Product'
+import { createnewproduct, searchEmpCategory2 } from '@/api/Product'
 import MyEmp from './components/MyEmp'
 export default {
   name: 'NewProduct',
@@ -213,6 +225,12 @@ export default {
         type: 7
       },
       // 详情图片数据++++++++++++++++++++++++++++++++结束
+      // 物品分类数据
+      categorys: [],
+      // 规格型号数据
+      types: [],
+      // 档次级别
+      levels: [],
       // 供应商回显
       supplierid: '',
       // 物品信息数据
@@ -270,7 +288,49 @@ export default {
       }
     }
   },
+  created() {
+    this.getcategorys()
+  },
   methods: {
+    getcategorys() {
+      // 物品分类数据
+      searchEmpCategory2(1).then(res => {
+        console.log(res)
+        if (res.data.ret === 200) {
+          this.categorys = res.data.data.content.list
+        } else {
+          this.$notify.error({
+            title: '错误',
+            message: '出错了',
+            offset: 100
+          })
+        }
+      })
+      // 规格型号数据
+      searchEmpCategory2(2).then(res => {
+        if (res.data.ret === 200) {
+          this.types = res.data.data.content.list
+        } else {
+          this.$notify.error({
+            title: '错误',
+            message: '出错了',
+            offset: 100
+          })
+        }
+      })
+      // 档次级别
+      searchEmpCategory2(3).then(res => {
+        if (res.data.ret === 200) {
+          this.levels = res.data.data.content.list
+        } else {
+          this.$notify.error({
+            title: '错误',
+            message: '出错了',
+            offset: 100
+          })
+        }
+      })
+    },
     // 商品图上传图片开始++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++开始
     submitUpload() {
       this.$refs.upload.submit()

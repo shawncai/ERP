@@ -126,11 +126,6 @@
             <span>{{ scope.row.gender | genderFilter }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('Customer.birthday')" :resizable="false" prop="birthday" align="center" width="100">
-          <template slot-scope="scope">
-            <span>{{ scope.row.birthday }}</span>
-          </template>
-        </el-table-column>
         <el-table-column :label="$t('Customer.address')" :resizable="true" prop="address" align="center" width="100">
           <template slot-scope="scope">
             <span>{{ scope.row.address }}</span>
@@ -504,13 +499,13 @@ export default {
     handleExport() {
       this.downloadLoading = true
         import('@/vendor/Export2Excel').then(excel => {
-          const tHeader = ['编号', '工号', '员工登陆账号', '姓名', '性别', '生日', '邮箱', '职位', '所属部门', '所属区域', '所属门店', '入职时间', '离职时间', '状态']
-          const filterVal = ['id', 'jobNumber', 'account', 'firstName', 'gender', 'birthday', 'email', 'postName', 'deptName', 'regionName', 'repositoryName', 'createTime', 'dimissionTime', 'stat']
+          const tHeader = ['编号', '客户姓名', '客户类型', '客户优质级别', '生日', '客户来源', '新老客户', '客户电话', '性别', '详细地址', '积分']
+          const filterVal = ['id', 'customerName', 'customerTypeWZ', 'customerLevel', 'birthday', 'source', 'newOrOld', 'phoneNumber', 'gender', 'address', 'point']
           const data = this.formatJson(filterVal, this.list)
           excel.export_json_to_excel({
             header: tHeader,
             data,
-            filename: '员工资料表'
+            filename: '客户资料表'
           })
           this.downloadLoading = false
         })

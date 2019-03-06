@@ -31,18 +31,15 @@
       <el-button v-waves class="filter-item" icon="el-icon-plus" type="success" style="width: 86px;float: right" @click="handleAdd">{{ $t('public.add') }}</el-button>
       <el-dialog :visible.sync="categoryVisible" title="新建分类属性" center>
         <el-form ref="addCategoryForm" :rules="addCategoryFormRules" :model="addCategoryForm" class="demo-ruleForm" style="margin: 0 auto; width: 400px">
-          <el-form-item :label="$t('NewEmployeeInformation.category')" label-width="100px" prop="category">
-            <el-input v-model="addCategoryForm.category" autocomplete="off"/>
-          </el-form-item>
-          <el-form-item :label="$t('NewEmployeeInformation.categoryname')" label-width="100px" prop="categoryname">
-            <el-input v-model="addCategoryForm.categoryname" autocomplete="off"/>
-          </el-form-item>
           <el-form-item :label="$t('NewEmployeeInformation.type')" label-width="100px" prop="type">
             <el-select v-model="addCategoryForm.type" placeholder="请选择类别" style="width: 100%">
               <el-option label="部门类别" value="1"/>
               <el-option label="职位类别" value="2"/>
               <el-option label="合同类型" value="3"/>
             </el-select>
+          </el-form-item>
+          <el-form-item :label="$t('NewEmployeeInformation.categoryname')" label-width="100px" prop="categoryname">
+            <el-input v-model="addCategoryForm.categoryname" autocomplete="off"/>
           </el-form-item>
           <el-form-item :label="$t('NewEmployeeInformation.iseffective')" label-width="100px" prop="iseffective">
             <el-select v-model="addCategoryForm.iseffective" placeholder="请选择状态" style="width: 100%">
@@ -168,7 +165,6 @@ export default {
       categoryVisible: false,
       // 新增数据
       addCategoryForm: {
-        category: '',
         categoryname: '',
         type: '',
         iseffective: ''
@@ -386,7 +382,6 @@ export default {
     },
     restAddCategoryForm() {
       this.addCategoryForm = {
-        category: '',
         categoryname: '',
         type: '',
         iseffective: ''
