@@ -4,66 +4,7 @@
       <!-- 搜索条件栏目 -->
       <el-input v-model="getemplist.ruleName" :placeholder="$t('BasicSettings.ruleName')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
       <el-select v-model="getemplist.type" :value="getemplist.type" placeholder="请选择单据类型" class="filter-item" style="width: 10%" filterable clearable>
-        <el-option value="1" label="劳动合同" />
-        <el-option value="2" label="派车单" />
-        <el-option value="3" label="回车登记单" />
-        <el-option value="4" label="商品售价变更单" />
-        <el-option value="5" label="采购申请单" />
-        <el-option value="6" label="采购计划单" />
-        <el-option value="7" label="采购询价单" />
-        <el-option value="8" label="采购合同" />
-        <el-option value="9" label="采购订货单" />
-        <el-option value="10" label="质检申请单" />
-        <el-option value="11" label="质检报告单" />
-        <el-option value="12" label="不合格品处置单" />
-        <el-option value="13" label="采购到货单" />
-        <el-option value="14" label="采购退货单" />
-        <el-option value="26" label="付款单" />
-        <el-option value="27" label="采购发票单" />
-        <el-option value="28" label="销售出库单" />
-        <el-option value="29" label="销售单" />
-        <el-option value="30" label="销售退货单" />
-        <el-option value="31" label="销售计划单" />
-        <el-option value="32" label="销售机会划单" />
-        <el-option value="33" label="销售合同" />
-        <el-option value="34" label="维修出库单" />
-        <el-option value="35" label="售后维修单" />
-        <el-option value="36" label="预售单" />
-        <el-option value="37" label="预售退款单" />
-        <el-option value="38" label="收入单" />
-        <el-option value="39" label="支出单" />
-        <el-option value="40" label="转账单" />
-        <el-option value="41" label="二手回车单" />
-        <el-option value="42" label="预收款单" />
-        <el-option value="43" label="预收退款单" />
-        <el-option value="44" label="智能补货单" />
-        <el-option value="45" label="采购入库单" />
-        <el-option value="46" label="生产完成入库单" />
-        <el-option value="47" label="其他入库单" />
-        <el-option value="48" label="其他出库单" />
-        <el-option value="49" label="库存调拨单" />
-        <el-option value="50" label="调拨申请单" />
-        <el-option value="51" label="库存报损单" />
-        <el-option value="52" label="库存盘点单" />
-        <el-option value="53" label="库存报溢单" />
-        <el-option value="54" label="调价单" />
-        <el-option value="55" label="组装单" />
-        <el-option value="56" label="拆装单" />
-        <el-option value="57" label="日常调整单" />
-        <el-option value="58" label="期初库存录入单" />
-        <el-option value="59" label="期初库存批量导入单" />
-        <el-option value="60" label="库位调整单" />
-        <el-option value="61" label="收车单" />
-        <el-option value="62" label="客户调查报告单" />
-        <el-option value="63" label="收款单" />
-        <el-option value="64" label="物料清单" />
-        <el-option value="65" label="主生产计划单" />
-        <el-option value="66" label="物料需求计划单" />
-        <el-option value="67" label="生产任务单" />
-        <el-option value="68" label="生产任务汇报单" />
-        <el-option value="69" label="领料单" />
-        <el-option value="70" label="退料单" />
-        <el-option value="71" label="外包单" />
+        <el-option v-for="(item, index) in categorys" :key="index" :value="item.id" :label="item.categoryName"/>
       </el-select>
       <el-select v-model="getemplist.iseffective" placeholder="请选择状态" class="filter-item" clearable >
         <el-option value="1" label="active" />
@@ -91,66 +32,7 @@
         <el-form :model="Numberingform" label-position="left" label-width="120px" style="width: 400px; margin-left:50px;">
           <el-form-item label-width="120px" label="单据类型">
             <el-select v-model="Numberingform.type" :value="Numberingform.type" placeholder="请选择单据类型" filterable clearable>
-              <el-option value="1" label="劳动合同" />
-              <el-option value="2" label="派车单" />
-              <el-option value="3" label="回车登记单" />
-              <el-option value="4" label="商品售价变更单" />
-              <el-option value="5" label="采购申请单" />
-              <el-option value="6" label="采购计划单" />
-              <el-option value="7" label="采购询价单" />
-              <el-option value="8" label="采购合同" />
-              <el-option value="9" label="采购订货单" />
-              <el-option value="10" label="质检申请单" />
-              <el-option value="11" label="质检报告单" />
-              <el-option value="12" label="不合格品处置单" />
-              <el-option value="13" label="采购到货单" />
-              <el-option value="14" label="采购退货单" />
-              <el-option value="26" label="付款单" />
-              <el-option value="27" label="采购发票单" />
-              <el-option value="28" label="销售出库单" />
-              <el-option value="29" label="销售单" />
-              <el-option value="30" label="销售退货单" />
-              <el-option value="31" label="销售计划单" />
-              <el-option value="32" label="销售机会划单" />
-              <el-option value="33" label="销售合同" />
-              <el-option value="34" label="维修出库单" />
-              <el-option value="35" label="售后维修单" />
-              <el-option value="36" label="预售单" />
-              <el-option value="37" label="预售退款单" />
-              <el-option value="38" label="收入单" />
-              <el-option value="39" label="支出单" />
-              <el-option value="40" label="转账单" />
-              <el-option value="41" label="二手回车单" />
-              <el-option value="42" label="预收款单" />
-              <el-option value="43" label="预收退款单" />
-              <el-option value="44" label="智能补货单" />
-              <el-option value="45" label="采购入库单" />
-              <el-option value="46" label="生产完成入库单" />
-              <el-option value="47" label="其他入库单" />
-              <el-option value="48" label="其他出库单" />
-              <el-option value="49" label="库存调拨单" />
-              <el-option value="50" label="调拨申请单" />
-              <el-option value="51" label="库存报损单" />
-              <el-option value="52" label="库存盘点单" />
-              <el-option value="53" label="库存报溢单" />
-              <el-option value="54" label="调价单" />
-              <el-option value="55" label="组装单" />
-              <el-option value="56" label="拆装单" />
-              <el-option value="57" label="日常调整单" />
-              <el-option value="58" label="期初库存录入单" />
-              <el-option value="59" label="期初库存批量导入单" />
-              <el-option value="60" label="库位调整单" />
-              <el-option value="61" label="收车单" />
-              <el-option value="62" label="客户调查报告单" />
-              <el-option value="63" label="收款单" />
-              <el-option value="64" label="物料清单" />
-              <el-option value="65" label="主生产计划单" />
-              <el-option value="66" label="物料需求计划单" />
-              <el-option value="67" label="生产任务单" />
-              <el-option value="68" label="生产任务汇报单" />
-              <el-option value="69" label="领料单" />
-              <el-option value="70" label="退料单" />
-              <el-option value="71" label="外包单" />
+              <el-option v-for="(item, index) in categorys" :key="index" :value="item.id" :label="item.categoryName"/>
             </el-select>
           </el-form-item>
           <el-form-item label-width="120px" label="编号规则名称">
@@ -284,7 +166,7 @@
 </template>
 
 <script>
-import { search, deleteRules, createRules, updateRules } from '@/api/BasicSettings'
+import { search, deleteRules, createRules, updateRules, searchcategory } from '@/api/BasicSettings'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
 
@@ -376,6 +258,8 @@ export default {
   },
   data() {
     return {
+      // 单据类型
+      categorys: [],
       // 修改数据集合
       editNumberingform: '',
       // 新建数据集合
@@ -420,7 +304,7 @@ export default {
   },
   methods: {
     getlist() {
-      // 供应商列表数据
+      // 单据编号列表数据
       this.listLoading = true
       search(this.getemplist).then(res => {
         if (res.data.ret === 200) {
@@ -436,6 +320,18 @@ export default {
         setTimeout(() => {
           this.listLoading = false
         }, 0.5 * 100)
+      })
+      // 单据编号类型数据
+      searchcategory().then(res => {
+        if (res.data.ret === 200) {
+          this.categorys = res.data.data.content
+        } else {
+          this.$notify.error({
+            title: '错误',
+            message: '出错了',
+            offset: 100
+          })
+        }
       })
     },
     // 搜索

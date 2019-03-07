@@ -15,15 +15,8 @@
             </el-select>
           </el-form-item>
           <el-form-item :label="$t('BasicSettings.type3')" prop="type" style="width: 40%;margin-top:1%">
-            <el-select v-model="personalForm.type" placeholder="请选择单据类型" style="width: 100%;">
-              <el-option label="active" value="1"/>
-              <el-option label="dead" value="2"/>
-              <!--<el-option-->
-              <!--v-for="(item, index) in typeIds"-->
-              <!--:key="index"-->
-              <!--:label="item.categoryName"-->
-              <!--:value="item.id"-->
-              <!--/>-->
+            <el-select v-model="personalForm.type" placeholder="请选择单据类型" filterable style="width: 100%;">
+              <el-option v-for="(item, index) in categorys" :key="index" :value="item.id" :label="item.categoryName"/>
             </el-select>
           </el-form-item>
           <el-form-item :label="$t('BasicSettings.is_message')" style="width: 40%;margin-top:1%">
@@ -92,13 +85,16 @@
 
 <script>
 import { regionlist, searchRepository } from '@/api/public'
-import { createapproval, searchDetail, deleteDetail } from '@/api/BasicSettings'
+import { createapproval, searchDetail, deleteDetail, searchcategory } from '@/api/BasicSettings'
 import MyEmp from './components/MyEmp'
 export default {
   name: 'NewApprovalProcess',
   components: { MyEmp },
   data() {
     return {
+      // 单据类型数据
+      categorys: [],
+      // 审批流程列表规则
       validRules: {
         step: [
           { required: true, type: 'number', message: '请输入流程步骤', trigger: 'blur' }
@@ -160,9 +156,22 @@ export default {
           })
         }
       })
+      // 审批流程步骤数据
       searchDetail().then(res => {
         if (res.data.ret === 200) {
           this.list2 = res.data.data.detail
+        } else {
+          this.$notify.error({
+            title: '错误',
+            message: '出错了',
+            offset: 100
+          })
+        }
+      })
+      // 单据编号类型数据
+      searchcategory().then(res => {
+        if (res.data.ret === 200) {
+          this.categorys = res.data.data.content
         } else {
           this.$notify.error({
             title: '错误',

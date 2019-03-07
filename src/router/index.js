@@ -309,6 +309,26 @@ export const asyncRouterMap = [
     ]
   },
   {
+    path: '/LogisticsCar',
+    component: Layout,
+    redirect: 'noredirect',
+    name: 'LogisticsCar',
+    alwaysShow: true,
+    meta: {
+      title: 'LogisticsCar',
+      icon: 'wuliu',
+      type: 1
+    },
+    children: [
+      {
+        path: 'AddLogisticsCar',
+        component: () => import('@/views/LogisticsCar/AddLogisticsCar'),
+        name: 'NewProduct',
+        meta: { title: 'AddLogisticsCar', noCache: false }
+      }
+    ]
+  },
+  {
     path: '/BasicSettings',
     component: Layout,
     redirect: 'noredirect',

@@ -44,7 +44,9 @@ export default {
     Parameter: '参数设置',
     NewApprovalProcess: '新建审批流程',
     BatchRules: '批次规则设置',
-    ApprovalProcess: '审批流程设置'
+    ApprovalProcess: '审批流程设置',
+    LogisticsCar: '物流车辆管理',
+    AddLogisticsCar: '新增物流车辆'
   },
   navbar: {
     logOut: '退出登录',

@@ -1,5 +1,13 @@
 import request from '@/utils/request'
 
+// 查询编码规则分类属性
+export function searchcategory() {
+  return request({
+    url: 'http://192.168.1.45:8080/erp/NumberingRules/searchcategory',
+    method: 'post'
+  })
+}
+
 // 查询编码规则
 export function search(query) {
   var params = new URLSearchParams()
