@@ -57,35 +57,33 @@
           </el-form-item>
         </el-form>
       </div>
-      <div class="buttons" style="margin-top: 20px">
-        <el-button type="primary" @click="handlerelease()">发布</el-button>
-        <el-button type="danger" @click="handlecancel()">取消</el-button>
-      </div>
       <!--辅助信息-->
-      <h2 ref="fuzhu" class="form-name">辅助信息</h2>
+      <h2 ref="fuzhu" class="form-name">审批流程步骤</h2>
+      <div class="buttons" style="margin-top: 50px">
+        <el-button type="success" @click="insertEvent(-1)">添加</el-button>
+        <el-button type="danger" @click="handleCommand()">删除</el-button>
+      </div>
       <div class="container">
-        <el-table :data="tableData" class="tb-edit" style="width: 100%" highlight-current-row @row-click="handleCurrentChange">
-          <el-table-column label="日期" width="180">
-            <template slot-scope="scope">
-              <el-input v-model="scope.row.date" size="small" placeholder="请输入内容" @change="handleEdit(scope.$index, scope.row)"/> <span>{{ scope.row.date }}</span>
-            </template>
-          </el-table-column>
-          <el-table-column label="姓名" width="180">
-            <template slot-scope="scope">
-              <el-input v-model="scope.row.name" size="small" placeholder="请输入内容" @change="handleEdit(scope.$index, scope.row)"/> <span>{{ scope.row.name }}</span>
-            </template>
-          </el-table-column>
-          <el-table-column prop="address" label="地址">
-            <template slot-scope="scope">
-              <el-input v-model="scope.row.address" size="small" placeholder="请输入内容" @change="handleEdit(scope.$index, scope.row)"/> <span>{{ scope.row.address }}</span>
-            </template>
-          </el-table-column>
-        </el-table>
+        <el-editable
+          ref="editable"
+          :data="list2"
+          :edit-config="{ showIcon: false, showStatus: false}"
+          :edit-rules="validRules"
+          class="click-table1"
+          border
+          size="medium"
+          style="width: 100%"
+          @selection-change="handleSelectionChange">
+          <el-editable-column type="selection" align="center" width="55"/>
+          <el-editable-column :edit-render="{name: 'ElInput'}" prop="step" align="center" label="流程步骤" width="100px"/>
+          <el-editable-column :edit-render="{name: 'ElInput'}" prop="description" align="center" label="步骤描述" width="500px"/>
+          <el-editable-column :edit-render="{name: 'ElInput'}" prop="money" align="center" label="流转条件" width="200px"/>
+          <el-editable-column :edit-render="{name: 'ElInput'}" prop="handlerName" align="center" label="步骤处理人" min-width="100px"/>
+        </el-editable>
       </div>
       <!--操作-->
       <div class="buttons" style="margin-top: 20px">
         <el-button type="primary" @click="handlesave()">保存</el-button>
-        <el-button type="success" @click="handleentry()">继续录入</el-button>
         <el-button type="danger" @click="handlecancel()">取消</el-button>
       </div>
     </div>
@@ -94,32 +92,29 @@
 
 <script>
 import { regionlist, searchRepository } from '@/api/public'
-import { create } from '@/api/Supplier'
-import { createapproval } from '@/api/BasicSettings'
+import { createapproval, searchDetail, deleteDetail } from '@/api/BasicSettings'
 import MyEmp from './components/MyEmp'
 export default {
   name: 'NewApprovalProcess',
   components: { MyEmp },
   data() {
     return {
+      validRules: {
+        step: [
+          { required: true, type: 'number', message: '请输入流程步骤', trigger: 'blur' }
+        ],
+        money: [
+          { required: true, type: 'number', message: '请输入有效的数字', trigger: 'blur' }
+        ],
+        handlerName: [
+          { required: true, message: '请选择步骤处理人', trigger: 'change' }
+        ]
+      },
+      // 多选控制
+      moreaction: '',
       // 可编辑表格数据
-      tableData: [{
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄'
-      }, {
-        date: '2016-05-04',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1517 弄'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1516 弄'
-      }],
+      loading: false,
+      list2: [],
       // 区域列表
       regions: [],
       // 门店列表
@@ -165,6 +160,17 @@ export default {
           })
         }
       })
+      searchDetail().then(res => {
+        if (res.data.ret === 200) {
+          this.list2 = res.data.data.detail
+        } else {
+          this.$notify.error({
+            title: '错误',
+            message: '出错了',
+            offset: 100
+          })
+        }
+      })
     },
     // 转化数据方法
     tranKTree(arr) {
@@ -196,76 +202,32 @@ export default {
     restAllForm() {
       this.personalForm = {}
     },
-    // 发布操作
-    handlerelease() {
+    // 保存操作
+    handlesave() {
       console.log(this.personalForm)
       this.$refs.personalForm.validate((valid) => {
         if (valid) {
-          createapproval(this.personalForm).then(res => {
-            console.log(res)
-            if (res.data.ret === 200) {
-              this.$notify({
-                title: '成功',
-                message: '保存成功',
-                type: 'success',
-                offset: 100
-              })
-              this.restAllForm()
-              this.$refs.personalForm.clearValidate()
-              this.$refs.personalForm.resetFields()
-            } else {
-              this.$notify.error({
-                title: '错误',
-                message: res.data.msg,
-                offset: 100
-              })
-            }
-          })
-        } else {
-          this.$notify.error({
-            title: '错误',
-            message: '信息未填完整',
-            offset: 100
-          })
-          return false
-        }
-      })
-    },
-    // 保存操作
-    handlesave() {
-      this.personalForm.regionId = this.perregions[this.perregions.length - 1]
-    },
-    // 继续录入
-    handleentry() {
-      this.personalForm.regionId = this.perregions[this.perregions.length - 1]
-      this.$refs.personalForm.validate((valid) => {
-        if (valid) {
-          create(this.personalForm).then(res => {
-            console.log(res)
-            if (res.data.ret === 200) {
-              this.$notify({
-                title: '成功',
-                message: '保存成功',
-                type: 'success',
-                offset: 100
-              })
-              this.restAllForm()
-              this.$refs.personalForm.clearValidate()
-              this.$refs.personalForm.resetFields()
-              this.$refs.personalForm2.clearValidate()
-              this.$refs.personalForm2.resetFields()
-              this.$refs.personalForm3.clearValidate()
-              this.$refs.personalForm3.resetFields()
-              this.$refs.personalForm4.clearValidate()
-              this.$refs.personalForm4.resetFields()
-              const anchor = this.$refs.geren.offsetTop
-              console.log(anchor)
-              document.documentElement.scrollTop = anchor - 100
-            } else {
-              this.$notify.error({
-                title: '错误',
-                message: res.data.msg,
-                offset: 100
+          this.$refs.editable.validate((valid) => {
+            if (valid) {
+              createapproval(this.personalForm).then(res => {
+                console.log(res)
+                if (res.data.ret === 200) {
+                  this.$notify({
+                    title: '成功',
+                    message: '保存成功',
+                    type: 'success',
+                    offset: 100
+                  })
+                  this.restAllForm()
+                  this.$refs.personalForm.clearValidate()
+                  this.$refs.personalForm.resetFields()
+                } else {
+                  this.$notify.error({
+                    title: '错误',
+                    message: res.data.msg,
+                    offset: 100
+                  })
+                }
               })
             }
           })
@@ -275,9 +237,6 @@ export default {
             message: '信息未填完整',
             offset: 100
           })
-          const anchor2 = this.$refs.geren.offsetTop
-          console.log(anchor2)
-          document.documentElement.scrollTop = anchor2 - 100
           return false
         }
       })
@@ -285,19 +244,51 @@ export default {
     // 取消操作
     handlecancel() {
       this.$router.go(-1)
-      const view = { path: '/BasicSettings/NewBasicSettings', name: 'NewBasicSettings', fullPath: '/BasicSettings/NewBasicSettings', title: 'NewBasicSettings' }
+      const view = { path: '/BasicSettings/NewApprovalProcess', name: 'NewApprovalProcess', fullPath: '/BasicSettings/NewApprovalProcess', title: 'NewApprovalProcess' }
       this.$store.dispatch('delView', view).then(({ visitedViews }) => {
       })
     },
-    // 动态添加
-    handleCurrentChange(row, event, column) {
-      console.log(row, event, column, event.currentTarget)
+    // 新增审批流程
+    insertEvent(index) {
+      if (!this.$refs.editable.checkValid().error) {
+        const row = this.$refs.editable.insertAt(null, index)
+        this.$nextTick(() => this.$refs.editable.setActiveCell(row, 'step'))
+      }
     },
-    handleEdit(index, row) {
-      console.log(index, row)
+    // 批量操作
+    handleSelectionChange(val) {
+      this.moreaction = val
     },
-    handleDelete(index, row) {
-      console.log(index, row)
+    // 批量删除
+    handleCommand() {
+      const ids = this.moreaction.map(item => item.id).join()
+      this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        deleteDetail(ids).then(res => {
+          if (res.data.ret === 200) {
+            this.$notify({
+              title: '删除成功',
+              type: 'success',
+              offset: 100
+            })
+            this.getnationlist()
+          } else {
+            this.$notify.error({
+              title: '错误',
+              message: '出错了',
+              offset: 100
+            })
+          }
+        })
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消删除'
+        })
+      })
     }
   }
 }

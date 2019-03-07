@@ -354,7 +354,13 @@ export const asyncRouterMap = [
         path: 'NewApprovalProcess',
         component: () => import('@/views/BasicSettings/NewApprovalProcess'),
         name: 'NewApprovalProcess',
-        meta: { title: 'NewApprovalProcess', noCache: true }
+        meta: { title: 'NewApprovalProcess', noCache: false }
+      },
+      {
+        path: 'ApprovalProcess',
+        component: () => import('@/views/BasicSettings/ApprovalProcess'),
+        name: 'ApprovalProcess',
+        meta: { title: 'ApprovalProcess', noCache: true }
       },
       {
         path: 'BatchRules',

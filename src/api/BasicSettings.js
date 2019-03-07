@@ -319,3 +319,64 @@ export function createRules2(query) {
     data: params
   })
 }
+
+// 查询审批流程详细信息
+export function searchDetail(query) {
+  var params = new URLSearchParams()
+  // if (query !== '' && query !== null && query !== undefined) {
+  //   params.append('id', 6) // 你要传给后台的参数值 key/value
+  // }
+  params.append('id', 6) // 你要传给后台的参数值 key/value
+  return request({
+    url: 'http://192.168.1.45:8080/erp/approvalProcess/searchDetail',
+    method: 'post',
+    data: params
+  })
+}
+
+// 删除审批流程详细信息
+export function deleteDetail(query) {
+  var params = new URLSearchParams()
+  if (query !== '' && query !== null && query !== undefined) {
+    params.append('id', query) // 你要传给后台的参数值 key/value
+  }
+  return request({
+    url: 'http://192.168.1.45:8080/erp/approvalProcess/deleteDetail',
+    method: 'post',
+    data: params
+  })
+}
+
+// 查询审批流程列表
+export function searchProcess(query) {
+  var params = new URLSearchParams()
+  if (query.process_name !== '' && query.process_name !== null && query.process_name !== undefined) {
+    params.append('process_name', query.process_name) // 你要传给后台的参数值 key/value
+  }
+  if (query.type !== '' && query.type !== null && query.type !== undefined) {
+    params.append('type', query.type) // 你要传给后台的参数值 key/value
+  }
+  if (query.is_effective !== '' && query.is_effective !== null && query.is_effective !== undefined) {
+    params.append('is_effective', query.is_effective) // 你要传给后台的参数值 key/value
+  }
+  params.append('pagesize', query.pagesize) // 你要传给后台的参数值 key/value
+  params.append('pagenum', query.pagenum) // 你要传给后台的参数值 key/value
+  return request({
+    url: 'http://192.168.1.45:8080/erp/approvalProcess/search',
+    method: 'post',
+    data: params
+  })
+}
+
+// 删除查询审批流程
+export function deleteProcess(query) {
+  var params = new URLSearchParams()
+  if (query !== '' && query !== null && query !== undefined) {
+    params.append('modelids', query) // 你要传给后台的参数值 key/value
+  }
+  return request({
+    url: 'http://192.168.1.45:8080/erp/approvalProcess/delete',
+    method: 'post',
+    data: params
+  })
+}

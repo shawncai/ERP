@@ -43,7 +43,8 @@ export default {
     Commission: '提成设置',
     Parameter: '参数设置',
     NewApprovalProcess: '新建审批流程',
-    BatchRules: '批次规则设置'
+    BatchRules: '批次规则设置',
+    ApprovalProcess: '审批流程设置'
   },
   navbar: {
     logOut: '退出登录',
@@ -319,7 +320,10 @@ export default {
     is_message: '是否发送手机短信',
     effect_region: '适用的区域',
     effect_repository: '适用的仓库/门店',
-    batchName: '批次规则名称'
+    batchName: '批次规则名称',
+    id2: '编号',
+    isEffective: '流程使用状态',
+    isMessage: '是否手机提醒'
   },
   public: {
     uploadimage: '上传',
