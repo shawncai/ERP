@@ -1,5 +1,21 @@
 # ERP
 ## work for nwow  
+###  重大操作  
+```
+安装插件步骤出错后操作
+- npm install -g cnpm --registry=https://registry.npm.taobao.org     安装cnmp
+- cnpm install node-sass    安装node-sass
+- npm run dev    启动
+- 启动报错  
+- 删除 node_modules 文件夹
+- npm install  重新安装node_modules
+- npm run dev 重新启动
+- 报错
+- npm install -g cnpm --registry=https://registry.npm.taobao.org     安装cnmp
+- cnpm install node-sass    安装node-sass
+- 直接启动
+- 成功安装
+```
 ### ERP project  
 #### 2019/2/12 add topmenu  
 #### 2019/2/25 遇到的一些问题以及解决方案
