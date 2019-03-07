@@ -343,6 +343,24 @@ export const asyncRouterMap = [
         component: () => import('@/views/BasicSettings/Commission'),
         name: 'Commission',
         meta: { title: 'Commission', noCache: true }
+      },
+      {
+        path: 'Parameter',
+        component: () => import('@/views/BasicSettings/Parameter'),
+        name: 'Parameter',
+        meta: { title: 'Parameter', noCache: true }
+      },
+      {
+        path: 'NewApprovalProcess',
+        component: () => import('@/views/BasicSettings/NewApprovalProcess'),
+        name: 'NewApprovalProcess',
+        meta: { title: 'NewApprovalProcess', noCache: true }
+      },
+      {
+        path: 'BatchRules',
+        component: () => import('@/views/BasicSettings/BatchRules'),
+        name: 'BatchRules',
+        meta: { title: 'BatchRules', noCache: true }
       }
     ]
   },

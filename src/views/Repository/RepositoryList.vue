@@ -435,7 +435,7 @@
 
 <script>
 import { regionlist, getcountrylist, searchRepository } from '@/api/public'
-import { searchRepCategory, searchRepository2, update, deleteRepository, startorend, update2 } from '@/api/Repository'
+import { searchRepCategory, searchRepository2, update, deleteRepository, startorend } from '@/api/Repository'
 import { getemplist, getdeptlist } from '@/api/EmployeeInformation'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination

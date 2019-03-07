@@ -236,3 +236,86 @@ export function deletemea(query) {
     data: params
   })
 }
+
+// 查询参数设置
+export function parameter() {
+  return request({
+    url: 'http://192.168.1.45:8080/erp/parameter/search',
+    method: 'post'
+  })
+}
+
+// 开启关闭参数
+export function effective(query) {
+  var params = new URLSearchParams()
+  if (query.id !== '' && query.id !== null && query.id !== undefined) {
+    params.append('id', query.id) // 你要传给后台的参数值 key/value
+  }
+  if (query.isEffective !== '' && query.isEffective !== null && query.isEffective !== undefined) {
+    params.append('isEffective', query.isEffective) // 你要传给后台的参数值 key/value
+  }
+  return request({
+    url: 'http://192.168.1.45:8080/erp/parameter/effective',
+    method: 'post',
+    data: params
+  })
+}
+
+// 新增审批流程
+export function createapproval(query) {
+  var params = new URLSearchParams()
+  if (query.process_name !== '' && query.process_name !== null && query.process_name !== undefined) {
+    params.append('process_name', query.process_name) // 你要传给后台的参数值 key/value
+  }
+  if (query.type !== '' && query.type !== null && query.type !== undefined) {
+    params.append('type', query.type) // 你要传给后台的参数值 key/value
+  }
+  if (query.is_message !== '' && query.is_message !== null && query.is_message !== undefined) {
+    params.append('is_message', query.is_message) // 你要传给后台的参数值 key/value
+  }
+  if (query.is_effective !== '' && query.is_effective !== null && query.is_effective !== undefined) {
+    params.append('is_effective', query.is_effective) // 你要传给后台的参数值 key/value
+  }
+  if (query.effect_region !== '' && query.effect_region !== null && query.effect_region !== undefined) {
+    params.append('effect_region', query.effect_region) // 你要传给后台的参数值 key/value
+  }
+  if (query.effect_repository !== '' && query.effect_repository !== null && query.effect_repository !== undefined) {
+    params.append('effect_repository', query.effect_repository) // 你要传给后台的参数值 key/value
+  }
+  if (query.country_id !== '' && query.country_id !== null && query.country_id !== undefined) {
+    params.append('country_id', query.country_id) // 你要传给后台的参数值 key/value
+  }
+  return request({
+    url: 'http://192.168.1.45:8080/erp/approvalProcess/create',
+    method: 'post',
+    data: params
+  })
+}
+
+// 新增批次规则
+export function createRules2(query) {
+  var params = new URLSearchParams()
+  if (query.ruleName !== '' && query.ruleName !== null && query.ruleName !== undefined) {
+    params.append('ruleName', query.ruleName) // 你要传给后台的参数值 key/value
+  }
+  if (query.type !== '' && query.type !== null && query.type !== undefined) {
+    params.append('type', query.type) // 你要传给后台的参数值 key/value
+  }
+  if (query.iseffective !== '' && query.iseffective !== null && query.iseffective !== undefined) {
+    params.append('iseffective', query.iseffective) // 你要传给后台的参数值 key/value
+  }
+  if (query.prefix !== '' && query.prefix !== null && query.prefix !== undefined) {
+    params.append('prefix', query.prefix) // 你要传给后台的参数值 key/value
+  }
+  if (query.dateType !== '' && query.dateType !== null && query.dateType !== undefined) {
+    params.append('dateType', query.dateType) // 你要传给后台的参数值 key/value
+  }
+  if (query.length !== '' && query.length !== null && query.length !== undefined) {
+    params.append('length', query.length) // 你要传给后台的参数值 key/value
+  }
+  return request({
+    url: 'http://192.168.1.45:8080/erp/NumberingRules/create',
+    method: 'post',
+    data: params
+  })
+}

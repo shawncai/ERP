@@ -50,7 +50,6 @@
 
 <script>
 import { getcountrylist, getprovincelist, getcitylist, regionlist } from '@/api/public'
-import { searchCategory, create } from '@/api/BasicSettings'
 import MyEmp from './components/MyEmp'
 export default {
   name: 'Commission',
@@ -145,65 +144,65 @@ export default {
         }
       })
       // 供应商类别
-      searchCategory(1).then(res => {
-        if (res.data.ret === 200) {
-          this.typeIds = res.data.data.content.list
-        } else {
-          this.$notify.error({
-            title: '错误',
-            message: '出错了',
-            offset: 100
-          })
-        }
-      })
+      // searchCategory(1).then(res => {
+      //   if (res.data.ret === 200) {
+      //     this.typeIds = res.data.data.content.list
+      //   } else {
+      //     this.$notify.error({
+      //       title: '错误',
+      //       message: '出错了',
+      //       offset: 100
+      //     })
+      //   }
+      // })
       // 交货方式
-      searchCategory(2).then(res => {
-        if (res.data.ret === 200) {
-          this.giveIds = res.data.data.content.list
-        } else {
-          this.$notify.error({
-            title: '错误',
-            message: '出错了',
-            offset: 100
-          })
-        }
-      })
+      // searchCategory(2).then(res => {
+      //   if (res.data.ret === 200) {
+      //     this.giveIds = res.data.data.content.list
+      //   } else {
+      //     this.$notify.error({
+      //       title: '错误',
+      //       message: '出错了',
+      //       offset: 100
+      //     })
+      //   }
+      // })
       // 运送方式
-      searchCategory(3).then(res => {
-        if (res.data.ret === 200) {
-          this.transportIds = res.data.data.content.list
-        } else {
-          this.$notify.error({
-            title: '错误',
-            message: '出错了',
-            offset: 100
-          })
-        }
-      })
+      // searchCategory(3).then(res => {
+      //   if (res.data.ret === 200) {
+      //     this.transportIds = res.data.data.content.list
+      //   } else {
+      //     this.$notify.error({
+      //       title: '错误',
+      //       message: '出错了',
+      //       offset: 100
+      //     })
+      //   }
+      // })
       // 优质级别
-      searchCategory(4).then(res => {
-        if (res.data.ret === 200) {
-          this.levelIds = res.data.data.content.list
-        } else {
-          this.$notify.error({
-            title: '错误',
-            message: '出错了',
-            offset: 100
-          })
-        }
-      })
+      // searchCategory(4).then(res => {
+      //   if (res.data.ret === 200) {
+      //     this.levelIds = res.data.data.content.list
+      //   } else {
+      //     this.$notify.error({
+      //       title: '错误',
+      //       message: '出错了',
+      //       offset: 100
+      //     })
+      //   }
+      // })
       // 结算方式
-      searchCategory(5).then(res => {
-        if (res.data.ret === 200) {
-          this.paymentIds = res.data.data.content.list
-        } else {
-          this.$notify.error({
-            title: '错误',
-            message: '出错了',
-            offset: 100
-          })
-        }
-      })
+      // searchCategory(5).then(res => {
+      //   if (res.data.ret === 200) {
+      //     this.paymentIds = res.data.data.content.list
+      //   } else {
+      //     this.$notify.error({
+      //       title: '错误',
+      //       message: '出错了',
+      //       offset: 100
+      //     })
+      //   }
+      // })
     },
     // 根据国家选择省
     handlechange(val) {
@@ -246,43 +245,43 @@ export default {
     // 保存操作
     handlesave() {
       this.personalForm.regionId = this.perregions[this.perregions.length - 1]
-      this.$refs.personalForm.validate((valid) => {
-        if (valid) {
-          create(this.personalForm).then(res => {
-            console.log(res)
-            if (res.data.ret === 200) {
-              this.$notify({
-                title: '成功',
-                message: '保存成功',
-                type: 'success',
-                offset: 100
-              })
-              this.restAllForm()
-              this.$refs.personalForm.clearValidate()
-              this.$refs.personalForm.resetFields()
-              this.$refs.personalForm2.clearValidate()
-              this.$refs.personalForm2.resetFields()
-              this.$refs.personalForm3.clearValidate()
-              this.$refs.personalForm3.resetFields()
-              this.$refs.personalForm4.clearValidate()
-              this.$refs.personalForm4.resetFields()
-            } else {
-              this.$notify.error({
-                title: '错误',
-                message: res.data.msg,
-                offset: 100
-              })
-            }
-          })
-        } else {
-          this.$notify.error({
-            title: '错误',
-            message: '信息未填完整',
-            offset: 100
-          })
-          return false
-        }
-      })
+      // this.$refs.personalForm.validate((valid) => {
+      //   if (valid) {
+      //     create(this.personalForm).then(res => {
+      //       console.log(res)
+      //       if (res.data.ret === 200) {
+      //         this.$notify({
+      //           title: '成功',
+      //           message: '保存成功',
+      //           type: 'success',
+      //           offset: 100
+      //         })
+      //         this.restAllForm()
+      //         this.$refs.personalForm.clearValidate()
+      //         this.$refs.personalForm.resetFields()
+      //         this.$refs.personalForm2.clearValidate()
+      //         this.$refs.personalForm2.resetFields()
+      //         this.$refs.personalForm3.clearValidate()
+      //         this.$refs.personalForm3.resetFields()
+      //         this.$refs.personalForm4.clearValidate()
+      //         this.$refs.personalForm4.resetFields()
+      //       } else {
+      //         this.$notify.error({
+      //           title: '错误',
+      //           message: res.data.msg,
+      //           offset: 100
+      //         })
+      //       }
+      //     })
+      //   } else {
+      //     this.$notify.error({
+      //       title: '错误',
+      //       message: '信息未填完整',
+      //       offset: 100
+      //     })
+      //     return false
+      //   }
+      // })
     },
     // 清空记录
     restAllForm() {
@@ -326,49 +325,49 @@ export default {
     // 继续录入
     handleentry() {
       this.personalForm.regionId = this.perregions[this.perregions.length - 1]
-      this.$refs.personalForm.validate((valid) => {
-        if (valid) {
-          create(this.personalForm).then(res => {
-            console.log(res)
-            if (res.data.ret === 200) {
-              this.$notify({
-                title: '成功',
-                message: '保存成功',
-                type: 'success',
-                offset: 100
-              })
-              this.restAllForm()
-              this.$refs.personalForm.clearValidate()
-              this.$refs.personalForm.resetFields()
-              this.$refs.personalForm2.clearValidate()
-              this.$refs.personalForm2.resetFields()
-              this.$refs.personalForm3.clearValidate()
-              this.$refs.personalForm3.resetFields()
-              this.$refs.personalForm4.clearValidate()
-              this.$refs.personalForm4.resetFields()
-              const anchor = this.$refs.geren.offsetTop
-              console.log(anchor)
-              document.documentElement.scrollTop = anchor - 100
-            } else {
-              this.$notify.error({
-                title: '错误',
-                message: res.data.msg,
-                offset: 100
-              })
-            }
-          })
-        } else {
-          this.$notify.error({
-            title: '错误',
-            message: '信息未填完整',
-            offset: 100
-          })
-          const anchor2 = this.$refs.geren.offsetTop
-          console.log(anchor2)
-          document.documentElement.scrollTop = anchor2 - 100
-          return false
-        }
-      })
+      // this.$refs.personalForm.validate((valid) => {
+      //   if (valid) {
+      //     create(this.personalForm).then(res => {
+      //       console.log(res)
+      //       if (res.data.ret === 200) {
+      //         this.$notify({
+      //           title: '成功',
+      //           message: '保存成功',
+      //           type: 'success',
+      //           offset: 100
+      //         })
+      //         this.restAllForm()
+      //         this.$refs.personalForm.clearValidate()
+      //         this.$refs.personalForm.resetFields()
+      //         this.$refs.personalForm2.clearValidate()
+      //         this.$refs.personalForm2.resetFields()
+      //         this.$refs.personalForm3.clearValidate()
+      //         this.$refs.personalForm3.resetFields()
+      //         this.$refs.personalForm4.clearValidate()
+      //         this.$refs.personalForm4.resetFields()
+      //         const anchor = this.$refs.geren.offsetTop
+      //         console.log(anchor)
+      //         document.documentElement.scrollTop = anchor - 100
+      //       } else {
+      //         this.$notify.error({
+      //           title: '错误',
+      //           message: res.data.msg,
+      //           offset: 100
+      //         })
+      //       }
+      //     })
+      //   } else {
+      //     this.$notify.error({
+      //       title: '错误',
+      //       message: '信息未填完整',
+      //       offset: 100
+      //     })
+      //     const anchor2 = this.$refs.geren.offsetTop
+      //     console.log(anchor2)
+      //     document.documentElement.scrollTop = anchor2 - 100
+      //     return false
+      //   }
+      // })
     },
     // 取消操作
     handlecancel() {

@@ -29,20 +29,13 @@
       <!-- 新建操作 -->
       <el-button v-waves class="filter-item" icon="el-icon-plus" type="success" style="width: 86px;float: right" @click="handleAdd">{{ $t('public.add') }}</el-button>
       <!--新建列表开始-->
-      <el-dialog :visible.sync="addNumberingVisible" title="新建编号规则" width="500px">
+      <el-dialog :visible.sync="addNumberingVisible" title="新建计量单位" width="500px">
         <el-form :model="Numberingform" label-position="left" label-width="120px" style="width: 400px; margin-left:50px;">
           <el-form-item label-width="120px" label="计量单位名称">
             <el-input v-model="Numberingform.categoryname" placeholder="请输入计量单位名称" autocomplete="off" style="width: 200px"/>
           </el-form-item>
           <el-form-item label-width="120px" label="计量单位类别">
             <el-select v-model="Numberingform.type" placeholder="请选择计量单位类别">
-              <el-option label="数量" value="1"/>
-              <el-option label="体积" value="2"/>
-              <el-option label="重量" value="3"/>
-            </el-select>
-          </el-form-item>
-          <el-form-item label-width="120px" label="计量单位类别">
-            <el-select v-model="Numberingform.category" placeholder="请选择计量单位类别">
               <el-option label="数量" value="1"/>
               <el-option label="体积" value="2"/>
               <el-option label="重量" value="3"/>
@@ -107,20 +100,13 @@
       <!-- 列表结束 -->
       <pagination v-show="total>0" :total="total" :page.sync="getemplist.pagenum" :limit.sync="getemplist.pagesize" @pagination="getlist" />
       <!--修改开始=================================================-->
-      <el-dialog :visible.sync="editNumberingVisible" title="修改编号规则" width="500px">
+      <el-dialog :visible.sync="editNumberingVisible" title="修改计量单位" width="500px">
         <el-form :model="editNumberingform" label-position="left" label-width="120px" style="width: 400px; margin-left:50px;">
           <el-form-item label-width="120px" label="计量单位名称">
             <el-input v-model="editNumberingform.categoryName" placeholder="请输入计量单位名称" autocomplete="off" style="width: 200px"/>
           </el-form-item>
           <el-form-item label-width="120px" label="计量单位类别">
-            <el-select v-model="editNumberingform.type" placeholder="请选择计量单位类别">
-              <el-option label="数量" value="1"/>
-              <el-option label="体积" value="2"/>
-              <el-option label="重量" value="3"/>
-            </el-select>
-          </el-form-item>
-          <el-form-item label-width="120px" label="计量单位类别">
-            <el-select v-model="editNumberingform.category" placeholder="请选择计量单位类别">
+            <el-select v-model="editNumberingform.type" placeholder="请选择计量单位类别" disabled>
               <el-option label="数量" value="1"/>
               <el-option label="体积" value="2"/>
               <el-option label="重量" value="3"/>

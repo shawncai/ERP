@@ -40,7 +40,10 @@ export default {
     AdjustpriceList: '价格变更单列表',
     SMSModelList: '短信设置',
     Measurement: '计量单位设置',
-    Commission: '提成设置'
+    Commission: '提成设置',
+    Parameter: '参数设置',
+    NewApprovalProcess: '新建审批流程',
+    BatchRules: '批次规则设置'
   },
   navbar: {
     logOut: '退出登录',
@@ -303,7 +306,20 @@ export default {
     roleId: '员工职位',
     productCategoryId: '商品类别',
     commissionType: '提成类型',
-    commissionValue: '提成'
+    commissionValue: '提成',
+    barcode: '条码',
+    unitOfMeasure: '多计量单位',
+    certificate: '自动生成凭证',
+    landing: '自动审核登陆',
+    inOrOutDisplay: '出入库是否显示价格',
+    priceOfNone: '允许出入库价格为零',
+    process_name: '流程名称',
+    is_effective: '启用状态',
+    type3: '单据类型',
+    is_message: '是否发送手机短信',
+    effect_region: '适用的区域',
+    effect_repository: '适用的仓库/门店',
+    batchName: '批次规则名称'
   },
   public: {
     uploadimage: '上传',
