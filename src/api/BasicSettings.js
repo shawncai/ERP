@@ -270,7 +270,7 @@ export function effective(query) {
 }
 
 // 新增审批流程
-export function createapproval(query) {
+export function createapproval(query, detailJson) {
   var params = new URLSearchParams()
   if (query.process_name !== '' && query.process_name !== null && query.process_name !== undefined) {
     params.append('process_name', query.process_name) // 你要传给后台的参数值 key/value
@@ -292,6 +292,9 @@ export function createapproval(query) {
   }
   if (query.country_id !== '' && query.country_id !== null && query.country_id !== undefined) {
     params.append('country_id', query.country_id) // 你要传给后台的参数值 key/value
+  }
+  if (detailJson !== '' && detailJson !== null && detailJson !== undefined) {
+    params.append('detailJson', detailJson) // 你要传给后台的参数值 key/value
   }
   return request({
     url: 'http://192.168.1.45:8080/erp/approvalProcess/create',
@@ -331,10 +334,9 @@ export function createRules2(query) {
 // 查询审批流程详细信息
 export function searchDetail(query) {
   var params = new URLSearchParams()
-  // if (query !== '' && query !== null && query !== undefined) {
-  //   params.append('id', 6) // 你要传给后台的参数值 key/value
-  // }
-  params.append('id', 6) // 你要传给后台的参数值 key/value
+  if (query !== '' && query !== null && query !== undefined) {
+    params.append('id', query) // 你要传给后台的参数值 key/value
+  }
   return request({
     url: 'http://192.168.1.45:8080/erp/approvalProcess/searchDetail',
     method: 'post',
@@ -388,3 +390,4 @@ export function deleteProcess(query) {
     data: params
   })
 }
+

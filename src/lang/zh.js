@@ -46,7 +46,10 @@ export default {
     BatchRules: '批次规则设置',
     ApprovalProcess: '审批流程设置',
     LogisticsCar: '物流车辆管理',
-    AddLogisticsCar: '新增物流车辆'
+    AddLogisticsCar: '新增物流车辆',
+    LogisticsCarlist: '物流车辆列表',
+    Addsendcar: '新建派车单',
+    SendcarList: '派车单列表'
   },
   navbar: {
     logOut: '退出登录',
@@ -327,6 +330,22 @@ export default {
     isEffective: '流程使用状态',
     isMessage: '是否手机提醒'
   },
+  LogisticsCar: {
+    cartype: '车辆类型',
+    carnumber: '车辆编号',
+    carname: '车辆名称',
+    licencenumber: '车牌号',
+    carload: '载重',
+    stat: '车辆状态',
+    drivers: '驾驶员',
+    createid: '创建人',
+    createtime: '创建日期',
+    sourcenumber: '源单编号',
+    outpersonid: '出车人',
+    address: '送货地点',
+    outphone: '出车人电话',
+    starttime: '出车时间'
+  },
   public: {
     uploadimage: '上传',
     address: '地址',
@@ -349,6 +368,7 @@ export default {
     delete: '删除',
     email: '邮箱',
     male: '男',
-    female: '女'
+    female: '女',
+    addTo: '添加'
   }
 }

@@ -1,5 +1,5 @@
 <template>
-  <el-dialog :visible.sync="employeeVisible" :control="control" :close-on-press-escape="false" top="10px" title="选择员工" append-to-body @close="$emit('update:control', false)">
+  <el-dialog :visible.sync="employeeVisible" :drivercontrol="drivercontrol" :close-on-press-escape="false" top="10px" title="选择驾驶员" append-to-body @close="$emit('update:drivercontrol', false)">
     <div class="filter-container">
       <el-input v-model="getemplist.employeename" :placeholder="$t('NewEmployeeInformation.employeename')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
       <el-input v-model="getemplist.jobnumber" :placeholder="$t('NewEmployeeInformation.jobnumber2')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
@@ -59,11 +59,7 @@
       fit
       highlight-current-row
       style="width: 100%"
-      @selection-change="handleCurrentChange">
-      <el-table-column
-        type="selection"
-        width="55"
-        align="center"/>
+      @current-change="handleCurrentChange">
       <el-table-column
         :label="$t('NewEmployeeInformation.id')"
         :resizable="false"
@@ -108,7 +104,6 @@
         </template>
       </el-table-column>
     </el-table>
-    <el-button v-waves class="filter-item" type="success" style="width: 86px;margin-top: 20px" @click="handleAddTo">{{ $t('public.addTo') }}</el-button>
     <pagination v-show="total>0" :total="total" :page.sync="getemplist.pagenum" :limit.sync="getemplist.pagesize" @pagination="gitemplist" />
   </el-dialog>
 </template>
@@ -131,15 +126,13 @@ export default {
     }
   },
   props: {
-    control: {
+    drivercontrol: {
       type: Boolean,
       default: false
     }
   },
   data() {
     return {
-      // 批量操作
-      moreaction: '',
       // 仓库管理员回显数据
       managerPeople: '',
       // 小区经理回显数据
@@ -182,16 +175,14 @@ export default {
       // 门店数据
       repositories: [],
       // 员工选择框控制
-      employeeVisible: this.control,
+      employeeVisible: this.drivercontrol,
       // 小区经理选择框控制
       regionManagerVisible: false
     }
   },
   watch: {
-    control() {
-      this.employeeVisible = this.control
-      console.log(this.control)
-      this.gitemplist()
+    drivercontrol() {
+      this.employeeVisible = this.drivercontrol
     }
   },
   created() {
@@ -296,18 +287,12 @@ export default {
       }
       this.getemplistregions = []
     },
-    // 多项选择员工数据时的操作
+    // 选择员工数据时的操作
     handleCurrentChange(val) {
-      this.moreaction = val
-    },
-    // 员工id和name选择
-    handleAddTo() {
+      this.$emit('drivername', val)
       this.employeeVisible = false
-      const ids = this.moreaction.map(item => item.id).join()
-      const names = this.moreaction.map(item => item.personName).join()
-      this.$emit('personName', names)
-      this.$emit('personIds', ids)
     }
+    // 仓库管理员选择结束
   }
 }
 </script>

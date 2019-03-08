@@ -323,8 +323,26 @@ export const asyncRouterMap = [
       {
         path: 'AddLogisticsCar',
         component: () => import('@/views/LogisticsCar/AddLogisticsCar'),
-        name: 'NewProduct',
+        name: 'AddLogisticsCar',
         meta: { title: 'AddLogisticsCar', noCache: false }
+      },
+      {
+        path: 'LogisticsCarlist',
+        component: () => import('@/views/LogisticsCar/LogisticsCarlist'),
+        name: 'LogisticsCarlist',
+        meta: { title: 'LogisticsCarlist', noCache: true }
+      },
+      {
+        path: 'Addsendcar',
+        component: () => import('@/views/LogisticsCar/Addsendcar'),
+        name: 'Addsendcar',
+        meta: { title: 'Addsendcar', noCache: false }
+      },
+      {
+        path: 'SendcarList',
+        component: () => import('@/views/LogisticsCar/SendcarList'),
+        name: 'SendcarList',
+        meta: { title: 'SendcarList', noCache: true }
       }
     ]
   },

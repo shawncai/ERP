@@ -5,41 +5,39 @@
       <h2 ref="geren" class="form-name">基本信息</h2>
       <div class="container">
         <el-form ref="personalForm" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-position="top" label-width="300px" style="margin-left: 30px;">
+          <el-form-item :label="$t('LogisticsCar.sourcenumber')" prop="sourcenumber" style="width: 40%;margin-top:1%">
+            <el-input v-model="personalForm.sourcenumber" placeholder="请输入源单编号" clearable/>
+          </el-form-item>
           <el-form-item :label="$t('LogisticsCar.carnumber')" prop="carnumber" style="width: 40%;margin-top:1%">
-            <el-input v-model="personalForm.carnumber" placeholder="请输入车辆名称" clearable/>
+            <el-input v-model="personalForm.carnumber" placeholder="请输入车辆编号" clearable/>
           </el-form-item>
-          <el-form-item :label="$t('LogisticsCar.licencenumber')" prop="carnumber" style="width: 40%;margin-top:1%">
-            <el-input v-model="personalForm.licencenumber" placeholder="请输入车牌号" clearable/>
+          <el-form-item :label="$t('LogisticsCar.outpersonid')" prop="outpersonid" style="width: 40%;margin-top:1%">
+            <el-input v-model="outpersonid" placeholder="请选择出车人" @focus="handleoutperson"/>
           </el-form-item>
-          <el-form-item :label="$t('LogisticsCar.carname')" prop="carname" style="width: 40%;margin-top:1%">
-            <el-input v-model="personalForm.carname" placeholder="请车辆名称" clearable/>
+          <my-out :outperson.sync="outperson" @outpersonname="outpersonname"/>
+          <el-form-item :label="$t('LogisticsCar.address')" style="width: 40%;margin-top:1%">
+            <el-input v-model="personalForm.address" placeholder="请输入送货地点" clearable/>
           </el-form-item>
-          <el-form-item :label="$t('LogisticsCar.cartype')" prop="cartype" style="width: 40%;margin-top:1%">
-            <el-select v-model="personalForm.cartype" placeholder="请车辆类型" style="width: 100%;">
-              <el-option value="1" label="大货车"/>
-              <el-option value="2" label="小货车"/>
-              <el-option value="3" label="小轿车"/>
-            </el-select>
+          <el-form-item :label="$t('LogisticsCar.outphone')" prop="outphone" style="width: 40%;margin-top:1%">
+            <el-input v-model="personalForm.outphone" placeholder="请输入出车人电话" clearable/>
           </el-form-item>
-          <el-form-item :label="$t('LogisticsCar.carload')" prop="carload" style="width: 40%;margin-top:1%">
-            <el-input v-model="personalForm.carload" placeholder="请输入载重" clearable>
-              <template slot="append">吨</template>
-            </el-input>
+          <el-form-item :label="$t('LogisticsCar.drivers')" prop="driver" style="width: 40%;margin-top:1%">
+            <el-input v-model="driver" placeholder="请选择驾驶员" clearable @focus="handlechoose"/>
           </el-form-item>
-          <el-form-item :label="$t('LogisticsCar.stat')" prop="stat" style="width: 40%;margin-top:1%">
-            <el-select v-model="personalForm.stat" placeholder="请选择车辆状态" style="width: 100%;">
-              <el-option label="正常" value="1"/>
-              <el-option label="停用" value="2"/>
-            </el-select>
-          </el-form-item>
-          <el-form-item :label="$t('LogisticsCar.drivers')" prop="drivers" style="width: 40%;margin-top:1%">
-            <el-input v-model="drivers" placeholder="请输入驾驶员" @focus="handlechoose"/>
-          </el-form-item>
-          <my-emp :control.sync="empcontrol" @personName="personName" @personIds="personIds"/>
+          <my-driver :drivercontrol.sync="drivercontrol" @drivername="drivername" />
           <el-form-item :label="$t('LogisticsCar.createid')" prop="createid" style="width: 40%;margin-top:1%">
-            <el-input v-model="createid" placeholder="请输入创建人" @focus="handlechoosecreateman"/>
+            <el-input v-model="createid" placeholder="请选择创建人" clearable @focus="handlechoosecreateman"/>
           </el-form-item>
           <my-create :createcontrol.sync="createcontrol" @createname="createname"/>
+          <el-form-item :label="$t('LogisticsCar.starttime')" style="width: 40%;margin-top:1%">
+            <el-date-picker
+              v-model="personalForm.starttime"
+              type="datetime"
+              placeholder="选择出车时间"
+              value-format="yyyy-MM-dd HH:mm:ss"
+              clearable
+              style="width: 100%"/>
+          </el-form-item>
         </el-form>
       </div>
       <!--操作-->
@@ -53,49 +51,48 @@
 </template>
 
 <script>
-import { addcar } from '@/api/LogisticsCar'
-import MyEmp from './components/MyEmp'
+import MyDriver from './components/MyDriver'
+import MyOut from './components/MyOut'
 import MyCreate from './components/MyCreate'
+import { addsendcar } from '@/api/LogisticsCar'
 export default {
-  name: 'AddLogisticsCar',
-  components: { MyEmp, MyCreate },
+  name: 'Addsendcar',
+  components: { MyDriver, MyOut, MyCreate },
   data() {
     return {
+      // 出车人弹窗控制
+      outperson: false,
+      // 驾驶员弹窗控制
+      drivercontrol: false,
       // 创建人弹窗控制
       createcontrol: false,
-      // 采购员弹窗控制
-      empcontrol: false,
+      // 出车人回显
+      outpersonid: '',
       // 驾驶员回显
-      drivers: '',
+      driver: '',
       // 创建人回显
       createid: '',
-      // 物流车辆信息数据
+      // 派车单信息数据
       personalForm: {},
-      // 物流车辆信息规则数据
+      // 派车单信息规则数据
       personalrules: {
+        sourcenumber: [
+          { required: true, message: '请输入源单编号', trigger: 'blur' }
+        ],
         carnumber: [
           { required: true, message: '请输入车辆编号', trigger: 'blur' }
         ],
-        carname: [
-          { required: true, message: '请输入车辆名称', trigger: 'blur' }
+        outpersonid: [
+          { required: true, message: '请选择出车人', trigger: 'blue' }
         ],
-        licencenumber: [
-          { required: true, message: '请输入车牌号', trigger: 'blur' }
+        outphone: [
+          { required: true, message: '请输入出车人电话', trigger: 'blur' }
         ],
-        cartype: [
-          { required: true, message: '请选择车辆类型', trigger: 'change' }
-        ],
-        stat: [
-          { required: true, message: '请选择车辆状态', trigger: 'change' }
-        ],
-        drivers: [
+        driver: [
           { required: true, message: '请选择驾驶员', trigger: 'blue' }
         ],
         createid: [
           { required: true, message: '请选择创建人', trigger: 'blue' }
-        ],
-        createtime: [
-          { required: true, message: '请选择创建时间', trigger: 'change' }
         ]
       }
     }
@@ -106,7 +103,7 @@ export default {
       console.log(this.personalForm)
       this.$refs.personalForm.validate((valid) => {
         if (valid) {
-          addcar(this.personalForm).then(res => {
+          addsendcar(this.personalForm).then(res => {
             console.log(res)
             if (res.data.ret === 200) {
               this.$notify({
@@ -139,14 +136,15 @@ export default {
     // 清空记录
     restAllForm() {
       this.personalForm = {}
+      this.outpersonid = ''
+      this.driver = ''
       this.createid = ''
-      this.drivers = ''
     },
     // 继续录入
     handleentry() {
       this.$refs.personalForm.validate((valid) => {
         if (valid) {
-          addcar(this.personalForm).then(res => {
+          addsendcar(this.personalForm).then(res => {
             console.log(res)
             if (res.data.ret === 200) {
               this.$notify({
@@ -158,9 +156,6 @@ export default {
               this.restAllForm()
               this.$refs.personalForm.clearValidate()
               this.$refs.personalForm.resetFields()
-              const anchor = this.$refs.geren.offsetTop
-              console.log(anchor)
-              document.documentElement.scrollTop = anchor - 100
             } else {
               this.$notify.error({
                 title: '错误',
@@ -175,9 +170,6 @@ export default {
             message: '信息未填完整',
             offset: 100
           })
-          const anchor2 = this.$refs.geren.offsetTop
-          console.log(anchor2)
-          document.documentElement.scrollTop = anchor2 - 100
           return false
         }
       })
@@ -185,21 +177,28 @@ export default {
     // 取消操作
     handlecancel() {
       this.$router.go(-1)
-      const view = { path: '/LogisticsCar/AddLogisticsCar', name: 'AddLogisticsCar', fullPath: '/LogisticsCar/AddLogisticsCar', title: 'AddLogisticsCar' }
+      const view = { path: '/LogisticsCar/Addsendcar', name: 'Addsendcar', fullPath: '/LogisticsCar/Addsendcar', title: 'Addsendcar' }
       this.$store.dispatch('delView', view).then(({ visitedViews }) => {
       })
     },
+    // 出车人输入框focus事件触发
+    handleoutperson() {
+      this.outperson = true
+    },
+    // 出车人列表返回数据
+    outpersonname(val) {
+      console.log(val)
+      this.outpersonid = val.personName
+      this.personalForm.outpersonid = val.id
+    },
     // 驾驶员输入框focus事件触发
     handlechoose() {
-      this.empcontrol = true
+      this.drivercontrol = true
     },
     // 驾驶员列表返回数据
-    personName(val) {
-      this.drivers = val
-      this.personalForm.driverNames = val
-    },
-    personIds(val) {
-      this.personalForm.drivers = val
+    drivername(val) {
+      this.driver = val.personName
+      this.personalForm.driver = val.id
     },
     // 创建人输入框focus事件触发
     handlechoosecreateman() {

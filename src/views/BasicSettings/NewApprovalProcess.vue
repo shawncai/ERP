@@ -25,7 +25,7 @@
               <el-option label="不发送" value="2"/>
             </el-select>
           </el-form-item>
-          <el-form-item :label="$t('BasicSettings.effect_region')" prop="effect_region" style="width: 40%;margin-top: 1%">
+          <el-form-item :label="$t('BasicSettings.effect_region')" prop="region" style="width: 40%;margin-top: 1%">
             <el-cascader
               :options="regions"
               :props="props"
@@ -71,7 +71,12 @@
           <el-editable-column :edit-render="{name: 'ElInput'}" prop="step" align="center" label="流程步骤" width="100px"/>
           <el-editable-column :edit-render="{name: 'ElInput'}" prop="description" align="center" label="步骤描述" width="500px"/>
           <el-editable-column :edit-render="{name: 'ElInput'}" prop="money" align="center" label="流转条件" width="200px"/>
-          <el-editable-column :edit-render="{name: 'ElInput'}" prop="handlerName" align="center" label="步骤处理人" min-width="100px"/>
+          <el-editable-column :edit-render="{type: 'default'}" prop="handlerName" align="center" label="步骤处理人" min-width="100px">
+            <template slot="edit" slot-scope="scope">
+              <input v-model="handlerName" class="editable-custom_input" @focus="handlechoose">
+              <my-emp :control.sync="empcontrol" @personName="personName"/>
+            </template>
+          </el-editable-column>
         </el-editable>
       </div>
       <!--操作-->
@@ -92,6 +97,10 @@ export default {
   components: { MyEmp },
   data() {
     return {
+      // 步骤处理人
+      handlerName: '',
+      // 采购员弹窗控制
+      empcontrol: false,
       // 单据类型数据
       categorys: [],
       // 审批流程列表规则
@@ -103,7 +112,7 @@ export default {
           { required: true, type: 'number', message: '请输入有效的数字', trigger: 'blur' }
         ],
         handlerName: [
-          { required: true, message: '请选择步骤处理人', trigger: 'change' }
+          { required: true, message: '请选择步骤处理人', trigger: 'blur' }
         ]
       },
       // 多选控制
@@ -133,7 +142,7 @@ export default {
         type: [
           { required: true, message: '请选择单据类型', trigger: 'change' }
         ],
-        effect_region: [
+        region: [
           { required: true, message: '请选择区域', trigger: 'change' }
         ]
       }
@@ -214,11 +223,14 @@ export default {
     // 保存操作
     handlesave() {
       console.log(this.personalForm)
+      console.log(this.manyinsert)
+      const rest = JSON.stringify(this.$refs.editable.getRecords())
+      console.log(rest)
       this.$refs.personalForm.validate((valid) => {
         if (valid) {
           this.$refs.editable.validate((valid) => {
             if (valid) {
-              createapproval(this.personalForm).then(res => {
+              createapproval(this.personalForm, rest).then(res => {
                 console.log(res)
                 if (res.data.ret === 200) {
                   this.$notify({
@@ -298,6 +310,17 @@ export default {
           message: '已取消删除'
         })
       })
+    },
+    // 审核人选择
+    // 员工输入框focus事件触发
+    handlechoose() {
+      this.empcontrol = true
+    },
+    // 员工列表返回数据
+    personName(val) {
+      console.log(val)
+      this.handlerName = val.personName
+      this.personalForm.buyerId = val.id
     }
   }
 }
