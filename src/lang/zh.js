@@ -54,7 +54,8 @@ export default {
     ReturncarList: '回车单列表',
     Regional: '区域管理',
     Stockenter: '入库管理',
-    addstockenter: '新建采购入库'
+    addstockenter: '新建采购入库',
+    Stockenterlist: '采购入库单列表'
   },
   navbar: {
     logOut: '退出登录',

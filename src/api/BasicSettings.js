@@ -391,3 +391,39 @@ export function deleteProcess(query) {
   })
 }
 
+// 修改审批流程
+export function updateeapproval(query, detailJson) {
+  var params = new URLSearchParams()
+  if (query.id !== '' && query.id !== null && query.id !== undefined) {
+    params.append('id', query.id) // 你要传给后台的参数值 key/value
+  }
+  if (query.processName !== '' && query.processName !== null && query.processName !== undefined) {
+    params.append('process_name', query.processName) // 你要传给后台的参数值 key/value
+  }
+  if (query.type !== '' && query.type !== null && query.type !== undefined) {
+    params.append('type', query.type) // 你要传给后台的参数值 key/value
+  }
+  if (query.isMessage !== '' && query.isMessage !== null && query.isMessage !== undefined) {
+    params.append('is_message', query.isMessage) // 你要传给后台的参数值 key/value
+  }
+  if (query.isEffective !== '' && query.isEffective !== null && query.isEffective !== undefined) {
+    params.append('is_effective', query.isEffective) // 你要传给后台的参数值 key/value
+  }
+  if (query.effect_region !== '' && query.effect_region !== null && query.effect_region !== undefined) {
+    params.append('effect_region', query.effect_region) // 你要传给后台的参数值 key/value
+  }
+  if (query.effect_repository !== '' && query.effect_repository !== null && query.effect_repository !== undefined) {
+    params.append('effect_repository', query.effect_repository) // 你要传给后台的参数值 key/value
+  }
+  if (query.countryId !== '' && query.countryId !== null && query.countryId !== undefined) {
+    params.append('country_id', query.countryId) // 你要传给后台的参数值 key/value
+  }
+  if (detailJson !== '' && detailJson !== null && detailJson !== undefined) {
+    params.append('detailJson', detailJson) // 你要传给后台的参数值 key/value
+  }
+  return request({
+    url: 'http://192.168.1.45:8080/erp/approvalProcess/update',
+    method: 'post',
+    data: params
+  })
+}

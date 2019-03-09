@@ -246,6 +246,7 @@ export default {
     },
     // 搜索
     handleFilter() {
+      this.getemplist.pagenum = 1
       getemplist(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list

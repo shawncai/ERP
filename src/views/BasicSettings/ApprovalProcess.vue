@@ -86,7 +86,7 @@
 </template>
 
 <script>
-import { searchProcess, deleteProcess } from '@/api/BasicSettings'
+import { searchProcess, deleteProcess, searchDetail } from '@/api/BasicSettings'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
 import MyDialog from './components/MyDialog'
@@ -177,12 +177,14 @@ export default {
     // 修改操作
     handleEdit(row) {
       console.log(row)
+      searchDetail(row.id).then(res => {
+        console.log(res)
+        this.personalForm.detail = res.data.data.detail
+      })
       this.editVisible = true
       this.personalForm = Object.assign({}, row)
-      this.personalForm.isHot = String(row.isHot)
       this.personalForm.isEffective = String(row.isEffective)
-      this.personalForm.moneyId = String(row.moneyId)
-      this.personalForm.companyTypeId = String(row.companyTypeId)
+      this.personalForm.isMessage = String(row.isMessage)
     },
     // 修改组件修改成功后返回
     refreshlist(val) {

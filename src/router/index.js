@@ -444,6 +444,12 @@ export const asyncRouterMap = [
         component: () => import('@/views/Stockenter/addstockenter'),
         name: 'addstockenter',
         meta: { title: 'addstockenter', noCache: false }
+      },
+      {
+        path: 'Stockenterlist',
+        component: () => import('@/views/Stockenter/Stockenterlist'),
+        name: 'Stockenterlist',
+        meta: { title: 'Stockenterlist', noCache: false }
       }
     ]
   },

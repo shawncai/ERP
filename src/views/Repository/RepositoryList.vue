@@ -638,6 +638,7 @@ export default {
     },
     // 搜索
     handleFilter() {
+      this.getemplist.pagenum = 1
       this.getemplist.regionId = this.getemplistregions[this.getemplistregions.length - 1]
       console.log(this.getemplist)
       searchRepository2(this.getemplist).then(res => {

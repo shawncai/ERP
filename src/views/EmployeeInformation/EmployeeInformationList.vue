@@ -828,6 +828,7 @@ export default {
     },
     // 搜索
     handleFilter() {
+      this.getemplist.pagenum = 1
       this.getemplist.regionid = this.getemplistregions[this.getemplistregions.length - 1]
       console.log(this.getemplist)
       if (this.getemplist.deptid === '' && this.getemplist.employeename === '' && this.getemplist.jobnumber === '' && this.getemplist.postid === '' && this.getemplist.regionid === '' && this.getemplist.repositoryid === '' && this.getemplist.stat === '' && this.getemplist.time === '' || this.getemplist.time === null) {

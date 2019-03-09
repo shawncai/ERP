@@ -4,11 +4,11 @@
     <h2 ref="geren" class="form-name">基本信息</h2>
     <div class="container">
       <el-form ref="personalForm" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-position="top" label-width="300px" style="margin-left: 30px;">
-        <el-form-item :label="$t('BasicSettings.process_name')" prop="process_name" style="width: 40%;margin-top:1%">
-          <el-input v-model="personalForm.process_name" placeholder="请输入流程名称" clearable/>
+        <el-form-item :label="$t('BasicSettings.process_name')" prop="processName" style="width: 40%;margin-top:1%">
+          <el-input v-model="personalForm.processName" placeholder="请输入流程名称" clearable/>
         </el-form-item>
         <el-form-item :label="$t('BasicSettings.is_effective')" style="width: 40%;margin-top:1%">
-          <el-select v-model="personalForm.is_effective" placeholder="请选择启用状态" style="width: 100%;">
+          <el-select v-model="personalForm.isEffective" placeholder="请选择启用状态" style="width: 100%;">
             <el-option label="active" value="1"/>
             <el-option label="dead" value="2"/>
           </el-select>
@@ -19,12 +19,15 @@
           </el-select>
         </el-form-item>
         <el-form-item :label="$t('BasicSettings.is_message')" style="width: 40%;margin-top:1%">
-          <el-select v-model="personalForm.is_message" placeholder="请选择" style="width: 100%;">
+          <el-select v-model="personalForm.isMessage" placeholder="请选择" style="width: 100%;">
             <el-option label="发送" value="1"/>
             <el-option label="不发送" value="2"/>
           </el-select>
         </el-form-item>
-        <el-form-item :label="$t('BasicSettings.effect_region')" prop="region" style="width: 40%;margin-top: 1%">
+        <el-form-item :label="$t('BasicSettings.process_name')" prop="process_name" style="width: 40%;margin-top:1%">
+          <el-input v-model="personalForm.regionName" disabled/>
+        </el-form-item>
+        <el-form-item :label="$t('BasicSettings.effect_region')" style="width: 40%;margin-top: 1%">
           <el-cascader
             :options="regions"
             :props="props"
@@ -37,6 +40,9 @@
             style="width: 100%;"
             @change="handlechange4"
           />
+        </el-form-item>
+        <el-form-item :label="$t('BasicSettings.process_name')" prop="process_name" style="width: 40%;margin-top:1%">
+          <el-input v-model="personalForm.repositoryName" disabled/>
         </el-form-item>
         <el-form-item :label="$t('BasicSettings.effect_repository')" style="width: 40%;margin-top: 1%">
           <el-select v-model="personalForm.effect_repository" placeholder="请选择门店" style="width: 100%;">
@@ -58,7 +64,7 @@
     <div class="container" style="margin-top: 20px">
       <el-editable
         ref="editable"
-        :data="list2"
+        :data.sync="list2"
         :edit-config="{ showIcon: false, showStatus: true}"
         :edit-rules="validRules"
         class="click-table1"
@@ -97,7 +103,7 @@
 
 <script>
 import { regionlist, searchRepository } from '@/api/public'
-import { searchcategory } from '@/api/BasicSettings'
+import { searchcategory, searchDetail, updateeapproval } from '@/api/BasicSettings'
 import MyEmp from './MyEmp'
 export default {
   components: { MyEmp },
@@ -156,7 +162,7 @@ export default {
       },
       // 个人信息规则数据
       personalrules: {
-        process_name: [
+        processName: [
           { required: true, message: '请输入流程名称', trigger: 'blur' }
         ],
         type: [
@@ -174,8 +180,8 @@ export default {
     },
     editdata() {
       this.personalForm = this.editdata
-      this.buyerId = this.editdata.buyerName
-      console.log(this.editdata)
+      console.log(this.list2)
+      this.getnationlist()
     }
   },
   created() {
@@ -196,18 +202,18 @@ export default {
           })
         }
       })
-      // // 审批流程步骤数据
-      // searchDetail().then(res => {
-      //   if (res.data.ret === 200) {
-      //     this.list2 = res.data.data.detail
-      //   } else {
-      //     this.$notify.error({
-      //       title: '错误',
-      //       message: '出错了',
-      //       offset: 100
-      //     })
-      //   }
-      // })
+      // 审批流程步骤数据
+      searchDetail(this.personalForm.id).then(res => {
+        if (res.data.ret === 200) {
+          this.list2 = res.data.data.detail
+        } else {
+          this.$notify.error({
+            title: '错误',
+            message: '出错了',
+            offset: 100
+          })
+        }
+      })
       // 单据编号类型数据
       searchcategory().then(res => {
         if (res.data.ret === 200) {
@@ -294,35 +300,30 @@ export default {
     // 修改和取消按钮
     // 修改按钮
     handleEditok() {
-      // this.personalForm.regionId = this.perregions[this.perregions.length - 1]
-      // console.log(this.personalForm)
-      // update(this.personalForm).then(res => {
-      //   if (res.data.ret === 200) {
-      //     this.$notify({
-      //       title: '操作成功',
-      //       message: '操作成功',
-      //       type: 'success',
-      //       duration: 1000,
-      //       offset: 100
-      //     })
-      //     this.$emit('rest', true)
-      //     this.$refs.personalForm.clearValidate()
-      //     this.$refs.personalForm.resetFields()
-      //     this.$refs.personalForm2.clearValidate()
-      //     this.$refs.personalForm2.resetFields()
-      //     this.$refs.personalForm3.clearValidate()
-      //     this.$refs.personalForm3.resetFields()
-      //     this.$refs.personalForm4.clearValidate()
-      //     this.$refs.personalForm4.resetFields()
-      //     this.editVisible = false
-      //   } else {
-      //     this.$notify.error({
-      //       title: '错误',
-      //       message: '出错了',
-      //       offset: 100
-      //     })
-      //   }
-      // })
+      console.log(this.personalForm)
+      const rest = JSON.stringify(this.$refs.editable.getRecords())
+      console.log(rest)
+      updateeapproval(this.personalForm, rest).then(res => {
+        if (res.data.ret === 200) {
+          this.$notify({
+            title: '操作成功',
+            message: '操作成功',
+            type: 'success',
+            duration: 1000,
+            offset: 100
+          })
+          this.$emit('rest', true)
+          this.$refs.personalForm.clearValidate()
+          this.$refs.personalForm.resetFields()
+          this.editVisible = false
+        } else {
+          this.$notify.error({
+            title: '错误',
+            message: '出错了',
+            offset: 100
+          })
+        }
+      })
     },
     handlecancel() {
       this.$refs.personalForm.clearValidate()

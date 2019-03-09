@@ -281,6 +281,7 @@ export default {
     },
     // 搜索
     handleFilter() {
+      this.getemplist.pagenum = 1
       this.getemplist.regionId = this.getemplistregions[this.getemplistregions.length - 1]
       search(this.getemplist).then(res => {
         if (res.data.ret === 200) {
