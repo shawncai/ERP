@@ -218,3 +218,93 @@ export function updatesendcar(query) {
     data: params
   })
 }
+
+// 新建回车单
+export function addreturncar(query) {
+  var params = new URLSearchParams()
+  if (query.outnumber !== '' && query.outnumber !== null && query.outnumber !== undefined) {
+    params.append('outnumber', query.outnumber) // 你要传给后台的参数值 key/value
+  }
+  if (query.returnaddress !== '' && query.returnaddress !== null && query.returnaddress !== undefined) {
+    params.append('returnaddress', query.returnaddress) // 你要传给后台的参数值 key/value
+  }
+  if (query.returnpersonid !== '' && query.returnpersonid !== null && query.returnpersonid !== undefined) {
+    params.append('returnpersonid', query.returnpersonid) // 你要传给后台的参数值 key/value
+  }
+  if (query.returntime !== '' && query.returntime !== null && query.returntime !== undefined) {
+    params.append('returntime', query.returntime) // 你要传给后台的参数值 key/value
+  }
+  return request({
+    url: 'http://192.168.1.45:8080/erp/logisticsCar/addreturncar',
+    method: 'post',
+    data: params
+  })
+}
+
+// 回车单列表
+export function returncarlist(query) {
+  var params = new URLSearchParams()
+  if (query.licencenumber !== '' && query.licencenumber !== null && query.licencenumber !== undefined) {
+    params.append('licencenumber', query.licencenumber) // 你要传给后台的参数值 key/value
+  }
+  if (query.carnumber !== '' && query.carnumber !== null && query.carnumber !== undefined) {
+    params.append('carnumber', query.carnumber) // 你要传给后台的参数值 key/value
+  }
+  if (query.outperson !== '' && query.outperson !== null && query.outperson !== undefined) {
+    params.append('outperson', query.outperson) // 你要传给后台的参数值 key/value
+  }
+  if (query.outnumber !== '' && query.outnumber !== null && query.outnumber !== undefined) {
+    params.append('outnumber', query.outnumber) // 你要传给后台的参数值 key/value
+  }
+  if (query.starttime !== '' && query.starttime !== null && query.starttime !== undefined) {
+    params.append('starttime', query.starttime) // 你要传给后台的参数值 key/value
+  }
+  if (query.checkintime !== '' && query.checkintime !== null && query.checkintime !== undefined) {
+    params.append('checkintime', query.checkintime) // 你要传给后台的参数值 key/value
+  }
+  if (query.returntime !== '' && query.returntime !== null && query.returntime !== undefined) {
+    params.append('returntime', query.returntime) // 你要传给后台的参数值 key/value
+  }
+  params.append('pagenum', query.pagenum) // 你要传给后台的参数值 key/value
+  params.append('pagesize', query.pagesize) // 你要传给后台的参数值 key/value
+  return request({
+    url: 'http://192.168.1.45:8080/erp/logisticsCar/returncarlist',
+    method: 'post',
+    data: params
+  })
+}
+
+// 回车单删除
+export function deletereturncar(query) {
+  var params = new URLSearchParams()
+  if (query !== '' && query !== null && query !== undefined) {
+    params.append('returncarids', query) // 你要传给后台的参数值 key/value
+  }
+  return request({
+    url: 'http://192.168.1.45:8080/erp/logisticsCar/deletereturncar',
+    method: 'post',
+    data: params
+  })
+}
+
+// 回车单修改
+export function updatereturncar(query) {
+  var params = new URLSearchParams()
+  if (query.id !== '' && query.id !== null && query.id !== undefined) {
+    params.append('returncarid', query.id) // 你要传给后台的参数值 key/value
+  }
+  if (query.returnAddress !== '' && query.returnAddress !== null && query.returnAddress !== undefined) {
+    params.append('returnaddress', query.returnAddress) // 你要传给后台的参数值 key/value
+  }
+  if (query.returnPersonId !== '' && query.returnPersonId !== null && query.returnPersonId !== undefined) {
+    params.append('returnpersonid', query.returnPersonId) // 你要传给后台的参数值 key/value
+  }
+  if (query.returnTime !== '' && query.returnTime !== null && query.returnTime !== undefined) {
+    params.append('returntime', query.returnTime) // 你要传给后台的参数值 key/value
+  }
+  return request({
+    url: 'http://192.168.1.45:8080/erp/logisticsCar/updatereturncar',
+    method: 'post',
+    data: params
+  })
+}

@@ -343,6 +343,18 @@ export const asyncRouterMap = [
         component: () => import('@/views/LogisticsCar/SendcarList'),
         name: 'SendcarList',
         meta: { title: 'SendcarList', noCache: true }
+      },
+      {
+        path: 'Addreturncar',
+        component: () => import('@/views/LogisticsCar/Addreturncar'),
+        name: 'Addreturncar',
+        meta: { title: 'Addreturncar', noCache: false }
+      },
+      {
+        path: 'ReturncarList',
+        component: () => import('@/views/LogisticsCar/ReturncarList'),
+        name: 'ReturncarList',
+        meta: { title: 'ReturncarList', noCache: true }
       }
     ]
   },
@@ -405,6 +417,33 @@ export const asyncRouterMap = [
         component: () => import('@/views/BasicSettings/BatchRules'),
         name: 'BatchRules',
         meta: { title: 'BatchRules', noCache: true }
+      },
+      {
+        path: 'Regional',
+        component: () => import('@/views/BasicSettings/Regional'),
+        name: 'Regional',
+        meta: { title: 'Regional', noCache: true }
+      }
+    ]
+  },
+  // 库存管理
+  {
+    path: '/Stockenter',
+    component: Layout,
+    redirect: 'noredirect',
+    name: 'Stockenter',
+    alwaysShow: true,
+    meta: {
+      title: 'Stockenter',
+      icon: 'ruku',
+      type: 4
+    },
+    children: [
+      {
+        path: 'addstockenter',
+        component: () => import('@/views/Stockenter/addstockenter'),
+        name: 'addstockenter',
+        meta: { title: 'addstockenter', noCache: false }
       }
     ]
   },

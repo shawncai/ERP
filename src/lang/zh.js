@@ -49,7 +49,12 @@ export default {
     AddLogisticsCar: '新增物流车辆',
     LogisticsCarlist: '物流车辆列表',
     Addsendcar: '新建派车单',
-    SendcarList: '派车单列表'
+    SendcarList: '派车单列表',
+    Addreturncar: '新建回车单',
+    ReturncarList: '回车单列表',
+    Regional: '区域管理',
+    Stockenter: '入库管理',
+    addstockenter: '新建采购入库'
   },
   navbar: {
     logOut: '退出登录',
@@ -344,7 +349,13 @@ export default {
     outpersonid: '出车人',
     address: '送货地点',
     outphone: '出车人电话',
-    starttime: '出车时间'
+    starttime: '出车时间',
+    outnumber: '派车单编号',
+    returnaddress: '回车地址',
+    returnpersonid: '回车人',
+    returntime: '回车时间',
+    createName: '登记人',
+    createTime: '登记日期'
   },
   public: {
     uploadimage: '上传',
@@ -370,5 +381,20 @@ export default {
     male: '男',
     female: '女',
     addTo: '添加'
+  },
+  area: {
+    SerialNumber: '序号',
+    AreaName: '区域名称',
+    level: '级别',
+    Manager: '经理人',
+    CreationTime: '创建时间',
+    Founder: '创建人',
+    Operation: '操作',
+    addAreas: '新增区域',
+    ok: '确认',
+    cancel: '取消',
+    Inclusivearea: '包含区域',
+    editarea: '修改区域',
+    delete: '删除'
   }
 }
