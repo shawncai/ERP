@@ -291,6 +291,7 @@ export default {
     // 选择员工数据时的操作
     handleCurrentChange(val) {
       this.$emit('personName', val)
+      this.$emit('chuli', val)
       this.employeeVisible = false
     }
     // 仓库管理员选择结束

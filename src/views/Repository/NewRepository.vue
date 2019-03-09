@@ -24,7 +24,6 @@
               v-model="regionId"
               :show-all-levels="false"
               placeholder="请选择区域"
-              change-on-select
               filterable
               clearable
               style="width: 100%;"

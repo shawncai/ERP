@@ -54,29 +54,39 @@
       <h2 ref="fuzhu" class="form-name">审批流程步骤</h2>
       <div class="buttons" style="margin-top: 50px">
         <el-button type="success" @click="insertEvent(-1)">添加</el-button>
-        <el-button type="danger" @click="handleCommand()">删除</el-button>
+        <el-button type="danger" @click="$refs.editable.removeSelecteds()">删除</el-button>
       </div>
       <div class="container">
         <el-editable
           ref="editable"
           :data="list2"
-          :edit-config="{ showIcon: false, showStatus: false}"
+          :edit-config="{ showIcon: false, showStatus: true}"
           :edit-rules="validRules"
           class="click-table1"
+          stripe
           border
           size="medium"
           style="width: 100%"
-          @selection-change="handleSelectionChange">
-          <el-editable-column type="selection" align="center" width="55"/>
-          <el-editable-column :edit-render="{name: 'ElInput'}" prop="step" align="center" label="流程步骤" width="100px"/>
+          @select="selectEvent"
+          @current-change="currentChangeEvent">
+          <el-editable-column type="selection" width="55" align="center"/>
+          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 1, max: 5000}}" label="流程步骤" prop="step" align="center" width="150px"/>
           <el-editable-column :edit-render="{name: 'ElInput'}" prop="description" align="center" label="步骤描述" width="500px"/>
-          <el-editable-column :edit-render="{name: 'ElInput'}" prop="money" align="center" label="流转条件" width="200px"/>
-          <el-editable-column :edit-render="{type: 'default'}" prop="handlerName" align="center" label="步骤处理人" min-width="100px">
+          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}}" prop="money" align="center" label="流转条件" width="400px"/>
+          <!--<el-editable-column :edit-render="{name: 'ElInput'}" prop="handlerName" align="center" label="步骤处理人" width="200px"/>-->
+          <el-editable-column :edit-render="{type: 'default'}" prop="handlerName" align="center" label="步骤处理人" min-width="500px">
             <template slot="edit" slot-scope="scope">
-              <input v-model="handlerName" class="editable-custom_input" @focus="handlechoose">
-              <my-emp :control.sync="empcontrol" @personName="personName"/>
+              <input class="editable-custom_input" @focus="handlechoose">
+              <my-emp :control.sync="empcontrol" @personName="personName" @chuli="chuli(scope)"/>
             </template>
           </el-editable-column>
+          <!--<el-editable-column align="center" label="操作" min-width="300px">-->
+          <!--<template slot-scope="scope">-->
+          <!--&lt;!&ndash;<el-input v-model="scope.row.handlerName" style="float: left;width: 100px" @input="$refs.editable.updateStatus(scope)"/>&ndash;&gt;-->
+          <!--<el-button icon="el-icon-more-outline" style="float: right" @click="handlechoose(scope)"/>-->
+          <!--<my-emp :control.sync="empcontrol" @personName="personName" @chuli="chuli(scope)"/>-->
+          <!--</template>-->
+          <!--</el-editable-column>-->
         </el-editable>
       </div>
       <!--操作-->
@@ -90,13 +100,15 @@
 
 <script>
 import { regionlist, searchRepository } from '@/api/public'
-import { createapproval, searchDetail, deleteDetail, searchcategory } from '@/api/BasicSettings'
+import { createapproval, searchcategory } from '@/api/BasicSettings'
 import MyEmp from './components/MyEmp'
 export default {
   name: 'NewApprovalProcess',
   components: { MyEmp },
   data() {
     return {
+      // 步骤处理人id
+      step_handler: '',
       // 步骤处理人
       handlerName: '',
       // 采购员弹窗控制
@@ -106,13 +118,13 @@ export default {
       // 审批流程列表规则
       validRules: {
         step: [
-          { required: true, type: 'number', message: '请输入流程步骤', trigger: 'blur' }
+          { required: true, message: '请输入流程步骤', trigger: 'blur' }
         ],
         money: [
-          { required: true, type: 'number', message: '请输入有效的数字', trigger: 'blur' }
+          { required: true, message: '请输入流转条件', trigger: 'blue' }
         ],
         handlerName: [
-          { required: true, message: '请选择步骤处理人', trigger: 'blur' }
+          { required: true, message: '请选择步骤处理人', trigger: 'blue' }
         ]
       },
       // 多选控制
@@ -165,18 +177,18 @@ export default {
           })
         }
       })
-      // 审批流程步骤数据
-      searchDetail().then(res => {
-        if (res.data.ret === 200) {
-          this.list2 = res.data.data.detail
-        } else {
-          this.$notify.error({
-            title: '错误',
-            message: '出错了',
-            offset: 100
-          })
-        }
-      })
+      // // 审批流程步骤数据
+      // searchDetail().then(res => {
+      //   if (res.data.ret === 200) {
+      //     this.list2 = res.data.data.detail
+      //   } else {
+      //     this.$notify.error({
+      //       title: '错误',
+      //       message: '出错了',
+      //       offset: 100
+      //     })
+      //   }
+      // })
       // 单据编号类型数据
       searchcategory().then(res => {
         if (res.data.ret === 200) {
@@ -223,7 +235,6 @@ export default {
     // 保存操作
     handlesave() {
       console.log(this.personalForm)
-      console.log(this.manyinsert)
       const rest = JSON.stringify(this.$refs.editable.getRecords())
       console.log(rest)
       this.$refs.personalForm.validate((valid) => {
@@ -269,58 +280,45 @@ export default {
       this.$store.dispatch('delView', view).then(({ visitedViews }) => {
       })
     },
-    // 新增审批流程
-    insertEvent(index) {
-      if (!this.$refs.editable.checkValid().error) {
-        const row = this.$refs.editable.insertAt(null, index)
-        this.$nextTick(() => this.$refs.editable.setActiveCell(row, 'step'))
-      }
-    },
-    // 批量操作
-    handleSelectionChange(val) {
-      this.moreaction = val
-    },
-    // 批量删除
-    handleCommand() {
-      const ids = this.moreaction.map(item => item.id).join()
-      this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      }).then(() => {
-        deleteDetail(ids).then(res => {
-          if (res.data.ret === 200) {
-            this.$notify({
-              title: '删除成功',
-              type: 'success',
-              offset: 100
-            })
-            this.getnationlist()
-          } else {
-            this.$notify.error({
-              title: '错误',
-              message: '出错了',
-              offset: 100
-            })
-          }
-        })
-      }).catch(() => {
-        this.$message({
-          type: 'info',
-          message: '已取消删除'
-        })
-      })
-    },
     // 审核人选择
     // 员工输入框focus事件触发
     handlechoose() {
       this.empcontrol = true
     },
+    // 处理人change事件
+    fuzhi(scope) {
+      scope.row.handlerName = this.handlerName
+    },
     // 员工列表返回数据
     personName(val) {
-      console.log(val)
       this.handlerName = val.personName
-      this.personalForm.buyerId = val.id
+      this.step_handler = val.id
+    },
+    chuli(scope) {
+      scope.row.handlerName = this.handlerName
+      scope.row.step_handler = this.step_handler
+    },
+    postJSON(data) {
+      // 提交请求
+      return new Promise(resolve => {
+        setTimeout(() => {
+          resolve('保存成功')
+        }, 300)
+      })
+    },
+    // edit table 操作
+    selectEvent(selection, row) {
+      console.log(selection)
+      console.log(row)
+    },
+    // 新增审批流程
+    insertEvent(index) {
+      const row = this.$refs.editable.insertAt({ money: 0 }, index)
+      this.$nextTick(() => this.$refs.editable.setActiveCell(row, 'handlerName'))
+    },
+    // 选择操作
+    currentChangeEvent(currentRow, oldCurrentRow) {
+      console.log(currentRow)
     }
   }
 }

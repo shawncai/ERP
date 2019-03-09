@@ -69,7 +69,7 @@
         </el-form-item>
         <el-form-item :label-width="formLabelWidth" :label="$t('area.Manager')">
           <el-select v-model="categoriesform2.regionmanagerid" placeholder="plearse choose" clearable class="filter-item" style="width: 130px" filterable>
-            <el-option v-for="item in storelist" :key="item.id" :label="item.personName" :value="item.id"/>
+            <el-option v-for="item in storelist" :key="item.id" :label="item.firstName + item.middleName + item.lastName" :value="item.id"/>
           </el-select>
         </el-form-item>
       </el-form>
@@ -85,7 +85,7 @@
         </el-form-item>
         <el-form-item :label-width="formLabelWidth" :label="$t('area.Manager')">
           <el-select v-model="categoriesform3.regionmanagerid" placeholder="plearse choose" clearable class="filter-item" style="width: 130px" filterable>
-            <el-option v-for="item in storelist" :key="item.id" :label="item.personName" :value="item.id"/>
+            <el-option v-for="item in storelist" :key="item.id" :label="item.firstName + item.middleName + item.lastName" :value="item.id"/>
           </el-select>
         </el-form-item>
         <el-form-item :label-width="formLabelWidth" :label="$t('area.Inclusivearea')">

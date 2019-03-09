@@ -4,215 +4,89 @@
     <h2 ref="geren" class="form-name">基本信息</h2>
     <div class="container">
       <el-form ref="personalForm" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-position="top" label-width="300px" style="margin-left: 30px;">
-        <el-form-item :label="$t('Supplier.supplierName')" prop="supplierName" style="width: 40%;margin-top:1%">
-          <el-input v-model="personalForm.supplierName" placeholder="请输入供应商名称" clearable/>
+        <el-form-item :label="$t('BasicSettings.process_name')" prop="process_name" style="width: 40%;margin-top:1%">
+          <el-input v-model="personalForm.process_name" placeholder="请输入流程名称" clearable/>
         </el-form-item>
-        <el-form-item :label="$t('Supplier.typeId')" prop="typeId" style="width: 40%;margin-top:1%">
-          <el-select v-model="personalForm.typeId" placeholder="请选择供应商类别" style="width: 100%;">
-            <el-option
-              v-for="(item, index) in typeIds"
-              :key="index"
-              :label="item.categoryName"
-              :value="item.id"
-            />
+        <el-form-item :label="$t('BasicSettings.is_effective')" style="width: 40%;margin-top:1%">
+          <el-select v-model="personalForm.is_effective" placeholder="请选择启用状态" style="width: 100%;">
+            <el-option label="active" value="1"/>
+            <el-option label="dead" value="2"/>
           </el-select>
         </el-form-item>
-        <el-form-item :label="$t('Supplier.supplierShortName')" prop="supplierShortName" style="width: 40%;margin-top:1%">
-          <el-input v-model="personalForm.supplierShortName" placeholder="请输入供应商简称" clearable/>
-        </el-form-item><br>
-        <el-form-item :label="$t('Supplier.supplierIntroduction')" style="width: 80%;margin-top:1%">
-          <el-input v-model="personalForm.supplierIntroduction" type="textarea" clearable/>
-        </el-form-item>
-      </el-form>
-    </div>
-    <!--联系信息-->
-    <h2 ref="lianxi" class="form-name">业务信息</h2>
-    <div class="container">
-      <el-form ref="personalForm2" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-position="top" label-width="300px" style="margin-left: 30px;">
-        <el-form-item :label="$t('public.countyrId')" style="width: 40%;margin-top:1%">
-          <el-input v-model="personalForm.countryNname" disabled/>
-        </el-form-item>
-        <el-form-item :label="$t('Supplier.countyrId')" prop="countryId" style="width: 40%;margin-top: 1%">
-          <el-select v-model="personalForm.countryid" placeholder="国家" style="width: 100%;" @change ="handlechange">
-            <el-option
-              v-for="(item, index) in nations"
-              :key="index"
-              :label="item.name"
-              :value="item.id"/>
+        <el-form-item :label="$t('BasicSettings.type3')" prop="type" style="width: 40%;margin-top:1%">
+          <el-select v-model="personalForm.type" placeholder="请选择单据类型" filterable style="width: 100%;">
+            <el-option v-for="(item, index) in categorys" :key="index" :value="item.id" :label="item.categoryName"/>
           </el-select>
         </el-form-item>
-        <el-form-item :label="$t('public.provinceId')" style="width: 40%;margin-top:1%">
-          <el-input v-model="personalForm.provinceName" disabled/>
-        </el-form-item>
-        <el-form-item :label="$t('Supplier.provinceId')" style="width: 40%;margin-top: 1%">
-          <el-select v-model="personalForm.provinceid" placeholder="请选择省" style="width: 100%;" @change="handlechange2">
-            <el-option
-              v-for="(item, index) in provinces"
-              :key="index"
-              :label="item.name"
-              :value="item.id"/>
+        <el-form-item :label="$t('BasicSettings.is_message')" style="width: 40%;margin-top:1%">
+          <el-select v-model="personalForm.is_message" placeholder="请选择" style="width: 100%;">
+            <el-option label="发送" value="1"/>
+            <el-option label="不发送" value="2"/>
           </el-select>
         </el-form-item>
-        <el-form-item :label="$t('Supplier.cityId')" style="width: 40%;margin-top:1%">
-          <el-input v-model="personalForm.cityName" disabled/>
-        </el-form-item>
-        <el-form-item :label="$t('public.cityId')" style="width: 40%;margin-top: 1%">
-          <el-select v-model="personalForm.cityid" placeholder="请选择市" style="width: 100%;">
-            <el-option
-              v-for="(item, index) in cities"
-              :key="index"
-              :label="item.name"
-              :value="item.id"/>
-          </el-select>
-        </el-form-item>
-        <el-form-item :label="$t('public.address')" style="width: 40%;margin-top:1%">
-          <el-input v-model="personalForm.detailAddress" placeholder="请输入地址" clearable/>
-        </el-form-item>
-        <el-form-item :label="$t('Supplier.groupId')" style="width: 40%;margin-top:1%">
-          <el-select v-model="personalForm.groupId" placeholder="请选择供应商分组" style="width: 100%;">
-            <el-option
-              v-for="(item, index) in groupIds"
-              :key="index"
-              :label="item.groupName"
-              :value="item.id"/>
-          </el-select>
-        </el-form-item>
-        <el-form-item :label="$t('Supplier.zipCode')" style="width: 40%;margin-top:1%">
-          <el-input v-model="personalForm.zipCode" placeholder="请输入邮编" clearable/>
-        </el-form-item>
-        <el-form-item :label="$t('Supplier.contactPersonName')" style="width: 40%;margin-top:1%">
-          <el-input v-model="personalForm.contactPersonName" placeholder="请输入联系人" clearable/>
-        </el-form-item>
-        <el-form-item :label="$t('Supplier.contactPersonPhone')" style="width: 40%;margin-top:1%">
-          <el-input v-model="personalForm.contactPersonPhone" placeholder="请输入电话" clearable/>
-        </el-form-item>
-        <el-form-item :label="$t('Supplier.regionId')" style="width: 40%;margin-top:1%">
-          <el-input v-model="personalForm.regionName" disabled/>
-        </el-form-item>
-        <el-form-item :label="$t('Supplier.editregionId')" prop="regionid" style="width: 40%;margin-top: 1%">
+        <el-form-item :label="$t('BasicSettings.effect_region')" prop="region" style="width: 40%;margin-top: 1%">
           <el-cascader
             :options="regions"
             :props="props"
-            v-model="perregions"
+            v-model="region"
             :show-all-levels="false"
             placeholder="请选择区域"
             change-on-select
             filterable
             clearable
             style="width: 100%;"
+            @change="handlechange4"
           />
         </el-form-item>
-        <el-form-item :label="$t('Supplier.giveId')" style="width: 40%;margin-top:1%">
-          <el-select v-model="personalForm.giveId" placeholder="请选择交货方式" style="width: 100%;">
+        <el-form-item :label="$t('BasicSettings.effect_repository')" style="width: 40%;margin-top: 1%">
+          <el-select v-model="personalForm.effect_repository" placeholder="请选择门店" style="width: 100%;">
             <el-option
-              v-for="(item, index) in giveIds"
+              v-for="(item, index) in repositories"
               :key="index"
-              :label="item.categoryName"
-              :value="item.id"
-            />
+              :label="item.repositoryName"
+              :value="item.id"/>
           </el-select>
-        </el-form-item>
-        <el-form-item :label="$t('Supplier.transportId')" style="width: 40%;margin-top:1%">
-          <el-select v-model="personalForm.transportId" placeholder="请选择运送方式" style="width: 100%;">
-            <el-option
-              v-for="(item, index) in transportIds"
-              :key="index"
-              :label="item.categoryName"
-              :value="item.id"
-            />
-          </el-select>
-        </el-form-item>
-        <el-form-item :label="$t('Supplier.levelId')" style="width: 40%;margin-top:1%">
-          <el-select v-model="personalForm.levelId" placeholder="请选择供应商优质级别" style="width: 100%;">
-            <el-option
-              v-for="(item, index) in levelIds"
-              :key="index"
-              :label="item.categoryName"
-              :value="item.id"
-            />
-          </el-select>
-        </el-form-item>
-        <el-form-item :label="$t('Supplier.isHot')" prop="isHot" style="width: 40%;margin-top:1%">
-          <el-select v-model="personalForm.isHot" placeholder="请选择" style="width: 100%;">
-            <el-option label="是" value="1"/>
-            <el-option label="否" value="2"/>
-          </el-select>
-        </el-form-item>
-        <el-form-item :label="$t('Supplier.isEffective')" style="width: 40%;margin-top:1%">
-          <el-select v-model="personalForm.isEffective" placeholder="请选择启用状态" style="width: 100%;">
-            <el-option label="启用" value="1"/>
-            <el-option label="未启用" value="2"/>
-          </el-select>
-        </el-form-item>
-        <el-form-item :label="$t('Supplier.buyerId')" style="width: 40%;margin-top:1%">
-          <el-input v-model="buyerId" placeholder="请输入采购员" @focus="handlechoose"/>
-        </el-form-item> <br>
-        <my-emp :control.sync="empcontrol" @personName="personName"/>
-        <el-form-item :label="$t('Supplier.businessScopeIntroduction')" style="width: 80%;margin-top:1%">
-          <el-input v-model="personalForm.businessScopeIntroduction" type="textarea" clearable/>
-        </el-form-item>
-      </el-form>
-    </div>
-    <!--财务信息-->
-    <h2 class="form-name">财务信息</h2>
-    <div class="container">
-      <el-form ref="personalForm3" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-position="top" label-width="300px" style="margin-left: 30px;">
-        <el-form-item :label="$t('Supplier.paymentId')" style="width: 40%;margin-top:1%">
-          <el-select v-model="personalForm.paymentId" placeholder="请选择结算方式" style="width: 100%;">
-            <el-option
-              v-for="(item, index) in paymentIds"
-              :key="index"
-              :label="item.categoryName"
-              :value="item.id"
-            />
-          </el-select>
-        </el-form-item>
-        <el-form-item :label="$t('Supplier.moneyId')" style="width: 40%;margin-top: 1%">
-          <el-select v-model="personalForm.moneyId" :value="personalForm.moneyId" placeholder="请选择币种" style="width: 100%;">
-            <el-option label="RMB" value="1"/>
-            <el-option label="USD" value="2"/>
-          </el-select>
-        </el-form-item>
-        <el-form-item :label="$t('Supplier.bankName')" style="width: 40%;margin-top:1%">
-          <el-input v-model="personalForm.bankName" placeholder="请输入开户行" clearable/>
-        </el-form-item>
-        <el-form-item :label="$t('Supplier.accountName')" style="width: 40%;margin-top:1%">
-          <el-input v-model="personalForm.accountName" placeholder="请输入户名" clearable/>
-        </el-form-item>
-        <el-form-item :label="$t('Supplier.account')" style="width: 40%;margin-top:1%">
-          <el-input v-model="personalForm.account" placeholder="请输入账号" clearable/>
         </el-form-item>
       </el-form>
     </div>
     <!--辅助信息-->
-    <h2 ref="fuzhu" class="form-name">辅助信息</h2>
-    <div class="container">
-      <el-form ref="personalForm4" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-position="top" label-width="300px" style="margin-left: 30px;">
-        <el-form-item :label="$t('Supplier.establishDate')" style="width: 40%;margin-top:1%">
-          <el-date-picker
-            v-model="personalForm.establishDate"
-            type="date"
-            placeholder="选择成立时间"
-            value-format="yyyy-MM-dd"
-            clearable
-            style="width: 100%"/>
-        </el-form-item>
-        <el-form-item :label="$t('Supplier.legalPerson')" style="width: 40%;margin-top:1%">
-          <el-input v-model="personalForm.legalPerson" placeholder="请输入法人代表" clearable/>
-        </el-form-item>
-        <el-form-item :label="$t('Supplier.taxNumber')" style="width: 40%;margin-top:1%">
-          <el-input v-model="personalForm.taxNumber" placeholder="请输入税务登记号" clearable/>
-        </el-form-item>
-        <el-form-item :label="$t('Supplier.businessLicense')" style="width: 40%;margin-top:1%">
-          <el-input v-model="personalForm.businessLicense" placeholder="请输入营业执照号" clearable/>
-        </el-form-item>
-        <el-form-item :label="$t('Supplier.companyTypeId')" style="width: 40%;margin-top:1%">
-          <el-select v-model="personalForm.companyTypeId" placeholder="请选择单位性质" style="width: 100%;">
-            <el-option label="类型1" value="1"/>
-            <el-option label="类型2" value="2"/>
-          </el-select>
-        </el-form-item>
-      </el-form>
+    <h2 ref="fuzhu" class="form-name">审批流程步骤</h2>
+    <div class="buttons" style="margin-top: 50px">
+      <el-button type="success" @click="insertEvent(-1)">添加</el-button>
+      <el-button type="danger" @click="$refs.editable.removeSelecteds()">删除</el-button>
+    </div>
+    <div class="container" style="margin-top: 20px">
+      <el-editable
+        ref="editable"
+        :data="list2"
+        :edit-config="{ showIcon: false, showStatus: true}"
+        :edit-rules="validRules"
+        class="click-table1"
+        stripe
+        border
+        size="medium"
+        style="width: 100%"
+        @select="selectEvent"
+        @current-change="currentChangeEvent">
+        <el-editable-column type="selection" width="55" align="center"/>
+        <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 1, max: 5000}}" label="流程步骤" prop="step" align="center" width="210px"/>
+        <el-editable-column :edit-render="{name: 'ElInput'}" prop="description" align="center" label="步骤描述" width="200px"/>
+        <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}}" prop="money" align="center" label="流转条件" width="200px"/>
+        <!--<el-editable-column :edit-render="{name: 'ElInput'}" prop="handlerName" align="center" label="步骤处理人" width="200px"/>-->
+        <el-editable-column :edit-render="{type: 'default'}" prop="handlerName" align="center" label="步骤处理人" width="250px">
+          <template slot="edit" slot-scope="scope">
+            <input class="editable-custom_input" @focus="handlechoose">
+            <my-emp :control.sync="empcontrol" @personName="personName" @chuli="chuli(scope)"/>
+          </template>
+        </el-editable-column>
+        <!--<el-editable-column align="center" label="操作" min-width="300px">-->
+        <!--<template slot-scope="scope">-->
+        <!--&lt;!&ndash;<el-input v-model="scope.row.handlerName" style="float: left;width: 100px" @input="$refs.editable.updateStatus(scope)"/>&ndash;&gt;-->
+        <!--<el-button icon="el-icon-more-outline" style="float: right" @click="handlechoose(scope)"/>-->
+        <!--<my-emp :control.sync="empcontrol" @personName="personName" @chuli="chuli(scope)"/>-->
+        <!--</template>-->
+        <!--</el-editable-column>-->
+      </el-editable>
     </div>
     <div class="buttons" style="margin-top: 20px;margin-left: 30px">
       <el-button type="primary" @click="handleEditok()">修改</el-button>
@@ -222,8 +96,8 @@
 </template>
 
 <script>
-import { getcountrylist, getprovincelist, getcitylist, regionlist } from '@/api/public'
-import { searchCategory, update, searchGroup } from '@/api/Supplier'
+import { regionlist, searchRepository } from '@/api/public'
+import { searchcategory } from '@/api/BasicSettings'
 import MyEmp from './MyEmp'
 export default {
   components: { MyEmp },
@@ -239,58 +113,57 @@ export default {
   },
   data() {
     return {
-      // 分组数据
-      groupIds: [],
+      // 区域数据
+      region: [],
       // 弹窗组件的控制
       editVisible: this.control,
-      // 结算方式
-      paymentIds: [],
-      // 优质级别
-      levelIds: [],
-      // 运送方式
-      transportIds: [],
-      // 交货方式
-      giveIds: [],
-      // 供应商类别
-      typeIds: [],
+      // 审批流程信息数据
+      personalForm: this.editdata,
+      // 步骤处理人id
+      step_handler: '',
+      // 步骤处理人
+      handlerName: '',
       // 采购员弹窗控制
       empcontrol: false,
-      // 国家列表
-      nations: [],
-      // 省列表
-      provinces: [],
-      // 城市列表
-      cities: [],
+      // 单据类型数据
+      categorys: [],
+      // 审批流程列表规则
+      validRules: {
+        step: [
+          { required: true, message: '请输入流程步骤', trigger: 'blur' }
+        ],
+        money: [
+          { required: true, message: '请输入流转条件', trigger: 'blue' }
+        ],
+        handlerName: [
+          { required: true, message: '请选择步骤处理人', trigger: 'blue' }
+        ]
+      },
+      // 多选控制
+      moreaction: '',
+      // 可编辑表格数据
+      loading: false,
+      list2: [],
       // 区域列表
       regions: [],
+      // 门店列表
+      repositories: [],
       // 区域列表字段更改
       props: {
         value: 'id',
         label: 'regionName',
         children: 'regionListVos'
       },
-      // 采购员回显
-      buyerId: '',
-      // 转化区域id
-      perregions: [],
-      // 供应商信息数据
-      personalForm: this.editdata,
       // 个人信息规则数据
       personalrules: {
-        supplierName: [
-          { required: true, message: '请输入供应商名称', trigger: 'blur' }
+        process_name: [
+          { required: true, message: '请输入流程名称', trigger: 'blur' }
         ],
-        typeId: [
-          { required: true, message: '请选择供应商类别', trigger: 'change' }
+        type: [
+          { required: true, message: '请选择单据类型', trigger: 'change' }
         ],
-        groupId: [
-          { required: true, message: '请选择供应商分组', trigger: 'change' }
-        ],
-        isHot: [
-          { required: true, message: '请选择', trigger: 'change' }
-        ],
-        countryId: [
-          { required: true, message: '请选择国家', trigger: 'change' }
+        region: [
+          { required: true, message: '请选择区域', trigger: 'change' }
         ]
       }
     }
@@ -311,17 +184,6 @@ export default {
   methods: {
     // 国籍列表
     getnationlist() {
-      getcountrylist().then(res => {
-        if (res.data.ret === 200) {
-          this.nations = res.data.data.content
-        } else {
-          this.$notify.error({
-            title: '错误',
-            message: '出错了',
-            offset: 100
-          })
-        }
-      })
       // 区域列表数据
       regionlist().then(res => {
         if (res.data.ret === 200) {
@@ -334,99 +196,22 @@ export default {
           })
         }
       })
-      // 供应商类别
-      searchCategory(1).then(res => {
+      // // 审批流程步骤数据
+      // searchDetail().then(res => {
+      //   if (res.data.ret === 200) {
+      //     this.list2 = res.data.data.detail
+      //   } else {
+      //     this.$notify.error({
+      //       title: '错误',
+      //       message: '出错了',
+      //       offset: 100
+      //     })
+      //   }
+      // })
+      // 单据编号类型数据
+      searchcategory().then(res => {
         if (res.data.ret === 200) {
-          this.typeIds = res.data.data.content.list
-        } else {
-          this.$notify.error({
-            title: '错误',
-            message: '出错了',
-            offset: 100
-          })
-        }
-      })
-      // 交货方式
-      searchCategory(2).then(res => {
-        if (res.data.ret === 200) {
-          this.giveIds = res.data.data.content.list
-        } else {
-          this.$notify.error({
-            title: '错误',
-            message: '出错了',
-            offset: 100
-          })
-        }
-      })
-      // 运送方式
-      searchCategory(3).then(res => {
-        if (res.data.ret === 200) {
-          this.transportIds = res.data.data.content.list
-        } else {
-          this.$notify.error({
-            title: '错误',
-            message: '出错了',
-            offset: 100
-          })
-        }
-      })
-      // 优质级别
-      searchCategory(4).then(res => {
-        if (res.data.ret === 200) {
-          this.levelIds = res.data.data.content.list
-        } else {
-          this.$notify.error({
-            title: '错误',
-            message: '出错了',
-            offset: 100
-          })
-        }
-      })
-      // 结算方式
-      searchCategory(5).then(res => {
-        if (res.data.ret === 200) {
-          this.paymentIds = res.data.data.content.list
-        } else {
-          this.$notify.error({
-            title: '错误',
-            message: '出错了',
-            offset: 100
-          })
-        }
-      })
-      // 分组数据
-      searchGroup().then(res => {
-        if (res.data.ret === 200) {
-          this.groupIds = res.data.data.content
-        } else {
-          this.$notify.error({
-            title: '错误',
-            message: '出错了',
-            offset: 100
-          })
-        }
-      })
-    },
-    // 根据国家选择省
-    handlechange(val) {
-      getprovincelist(val).then(res => {
-        if (res.data.ret === 200) {
-          this.provinces = res.data.data.content
-        } else {
-          this.$notify.error({
-            title: '错误',
-            message: '出错了',
-            offset: 100
-          })
-        }
-      })
-    },
-    // 根据省选择市
-    handlechange2(val) {
-      getcitylist(val).then(res => {
-        console.log(res)
-        if (res.data.ret === 200) {
-          this.cities = res.data.data.content
+          this.categorys = res.data.data.content
         } else {
           this.$notify.error({
             title: '错误',
@@ -445,40 +230,14 @@ export default {
         regionListVos: this.tranKTree(item.regionListVos)
       }))
     },
-    // 员工输入框focus事件触发
-    handlechoose() {
-      this.empcontrol = true
-    },
-    // 员工列表返回数据
-    personName(val) {
-      console.log(val)
-      this.buyerId = val.personName
-      this.personalForm.buyerId = val.id
-    },
-    // 修改和取消按钮
-    // 修改按钮
-    handleEditok() {
-      this.personalForm.regionId = this.perregions[this.perregions.length - 1]
-      console.log(this.personalForm)
-      update(this.personalForm).then(res => {
+    // 根据区域选择门店
+    handlechange4(val) {
+      const finalid = val[val.length - 1]
+      this.personalForm.effect_region = finalid
+      searchRepository(finalid).then(res => {
+        console.log(res)
         if (res.data.ret === 200) {
-          this.$notify({
-            title: '操作成功',
-            message: '操作成功',
-            type: 'success',
-            duration: 1000,
-            offset: 100
-          })
-          this.$emit('rest', true)
-          this.$refs.personalForm.clearValidate()
-          this.$refs.personalForm.resetFields()
-          this.$refs.personalForm2.clearValidate()
-          this.$refs.personalForm2.resetFields()
-          this.$refs.personalForm3.clearValidate()
-          this.$refs.personalForm3.resetFields()
-          this.$refs.personalForm4.clearValidate()
-          this.$refs.personalForm4.resetFields()
-          this.editVisible = false
+          this.repositories = res.data.data.content.list
         } else {
           this.$notify.error({
             title: '错误',
@@ -488,15 +247,86 @@ export default {
         }
       })
     },
+    // 清空记录
+    restAllForm() {
+      this.personalForm = {}
+    },
+    // 审核人选择
+    // 员工输入框focus事件触发
+    handlechoose() {
+      this.empcontrol = true
+    },
+    // 处理人change事件
+    fuzhi(scope) {
+      scope.row.handlerName = this.handlerName
+    },
+    // 员工列表返回数据
+    personName(val) {
+      this.handlerName = val.personName
+      this.step_handler = val.id
+    },
+    chuli(scope) {
+      scope.row.handlerName = this.handlerName
+      scope.row.step_handler = this.step_handler
+    },
+    postJSON(data) {
+      // 提交请求
+      return new Promise(resolve => {
+        setTimeout(() => {
+          resolve('保存成功')
+        }, 300)
+      })
+    },
+    // edit table 操作
+    selectEvent(selection, row) {
+      console.log(selection)
+      console.log(row)
+    },
+    // 新增审批流程
+    insertEvent(index) {
+      const row = this.$refs.editable.insertAt({ money: 0 }, index)
+      this.$nextTick(() => this.$refs.editable.setActiveCell(row, 'handlerName'))
+    },
+    // 选择操作
+    currentChangeEvent(currentRow, oldCurrentRow) {
+      console.log(currentRow)
+    },
+    // 修改和取消按钮
+    // 修改按钮
+    handleEditok() {
+      // this.personalForm.regionId = this.perregions[this.perregions.length - 1]
+      // console.log(this.personalForm)
+      // update(this.personalForm).then(res => {
+      //   if (res.data.ret === 200) {
+      //     this.$notify({
+      //       title: '操作成功',
+      //       message: '操作成功',
+      //       type: 'success',
+      //       duration: 1000,
+      //       offset: 100
+      //     })
+      //     this.$emit('rest', true)
+      //     this.$refs.personalForm.clearValidate()
+      //     this.$refs.personalForm.resetFields()
+      //     this.$refs.personalForm2.clearValidate()
+      //     this.$refs.personalForm2.resetFields()
+      //     this.$refs.personalForm3.clearValidate()
+      //     this.$refs.personalForm3.resetFields()
+      //     this.$refs.personalForm4.clearValidate()
+      //     this.$refs.personalForm4.resetFields()
+      //     this.editVisible = false
+      //   } else {
+      //     this.$notify.error({
+      //       title: '错误',
+      //       message: '出错了',
+      //       offset: 100
+      //     })
+      //   }
+      // })
+    },
     handlecancel() {
       this.$refs.personalForm.clearValidate()
       this.$refs.personalForm.resetFields()
-      this.$refs.personalForm2.clearValidate()
-      this.$refs.personalForm2.resetFields()
-      this.$refs.personalForm3.clearValidate()
-      this.$refs.personalForm3.resetFields()
-      this.$refs.personalForm4.clearValidate()
-      this.$refs.personalForm4.resetFields()
       this.editVisible = false
     }
     // 修改操作结束 -------------------------------------------------
