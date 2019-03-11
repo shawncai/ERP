@@ -14,7 +14,7 @@
           </el-select>
         </el-form-item>
         <el-form-item :label="$t('BasicSettings.type3')" prop="type" style="width: 40%;margin-top:1%">
-          <el-select v-model="personalForm.type" placeholder="请选择单据类型" filterable style="width: 100%;">
+          <el-select v-model="personalForm.type" placeholder="请选择单据类型" filterable style="width: 100%;" disabled>
             <el-option v-for="(item, index) in categorys" :key="index" :value="item.id" :label="item.categoryName"/>
           </el-select>
         </el-form-item>
@@ -24,34 +24,11 @@
             <el-option label="不发送" value="2"/>
           </el-select>
         </el-form-item>
-        <el-form-item :label="$t('BasicSettings.process_name')" prop="process_name" style="width: 40%;margin-top:1%">
+        <el-form-item :label="$t('BasicSettings.effect_region')" prop="process_name" style="width: 40%;margin-top:1%">
           <el-input v-model="personalForm.regionName" disabled/>
         </el-form-item>
-        <el-form-item :label="$t('BasicSettings.effect_region')" style="width: 40%;margin-top: 1%">
-          <el-cascader
-            :options="regions"
-            :props="props"
-            v-model="region"
-            :show-all-levels="false"
-            placeholder="请选择区域"
-            change-on-select
-            filterable
-            clearable
-            style="width: 100%;"
-            @change="handlechange4"
-          />
-        </el-form-item>
-        <el-form-item :label="$t('BasicSettings.process_name')" prop="process_name" style="width: 40%;margin-top:1%">
+        <el-form-item :label="$t('BasicSettings.effect_repository')" prop="process_name" style="width: 40%;margin-top:1%">
           <el-input v-model="personalForm.repositoryName" disabled/>
-        </el-form-item>
-        <el-form-item :label="$t('BasicSettings.effect_repository')" style="width: 40%;margin-top: 1%">
-          <el-select v-model="personalForm.effect_repository" placeholder="请选择门店" style="width: 100%;">
-            <el-option
-              v-for="(item, index) in repositories"
-              :key="index"
-              :label="item.repositoryName"
-              :value="item.id"/>
-          </el-select>
         </el-form-item>
       </el-form>
     </div>

@@ -358,6 +358,19 @@ export default {
     createName: '登记人',
     createTime: '登记日期'
   },
+  Stockenter: {
+    title: '入库单主题',
+    sourceNumber: '源单编号',
+    enterNumber: '入库单编号',
+    deliveryPersonId: '交货人',
+    acceptPersonId: '验收人',
+    enterDeptId: '入库部门',
+    enterRepositoryId: '入库门店',
+    receiptStat: '单据状态',
+    beginTime: '开始时间',
+    endTime: '结束时间',
+    repositoryId: '仓库'
+  },
   public: {
     uploadimage: '上传',
     address: '地址',

@@ -2,16 +2,10 @@
   <div class="ERP-container">
     <div class="filter-container">
       <!-- 搜索条件栏目 -->
-      <el-input v-model="getemplist.id" :placeholder="$t('Supplier.id')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
-      <el-input v-model="getemplist.supplierName" :placeholder="$t('Supplier.supplierName')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
-      <el-select v-model="getemplist.typeId" :value="getemplist.typeId" placeholder="请选择供应商" class="filter-item" clearable>
-        <el-option
-          v-for="(item, index) in typeIds"
-          :key="index"
-          :label="item.categoryName"
-          :value="item.id"
-        />
-      </el-select>
+      <el-input v-model="getemplist.title" :placeholder="$t('Stockenter.title')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
+      <el-input v-model="getemplist.enterNumber" :placeholder="$t('Stockenter.enterNumber')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
+      <el-input v-model="getemplist.deliveryPersonId" :placeholder="$t('Stockenter.deliveryPersonId')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
+      <el-input v-model="getemplist.acceptPersonId" :placeholder="$t('Stockenter.acceptPersonId')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
       <!-- 更多搜索条件下拉栏 -->
       <el-popover
         placement="bottom"
@@ -54,9 +48,9 @@
         </el-dropdown-menu>
       </el-dropdown>
       <!-- 新建分组 -->
-      <el-button v-waves class="filter-item" type="primary" style="width: 100px" @click="handleGroup">{{ $t('Supplier.supplierGroup') }}</el-button>
+      <el-button v-waves class="filter-item" type="primary" style="width: 100px" @click="handleGroup">{{ $t('Stockenter.StockenterGroup') }}</el-button>
       <el-dialog :visible.sync="GroupVisible" title="新建分组" width="35%">
-        <el-input v-model="groupName" :placeholder="$t('Supplier.groupName')" class="filter-item" style="width: 40%;margin-left: -1px;float: left" clearable @keyup.enter.native="handleAddGroup"/>
+        <el-input v-model="groupName" :placeholder="$t('Stockenter.groupName')" class="filter-item" style="width: 40%;margin-left: -1px;float: left" clearable @keyup.enter.native="handleAddGroup"/>
         <el-button v-waves class="filter-item" type="success" style="width: 86px;float: left" @click="handleAddGroup">{{ $t('public.add') }}</el-button>
         <el-table :data="groupData" border>
           <el-table-column property="id" label="编号" align="center" width="150"/>
@@ -90,47 +84,47 @@
           type="selection"
           width="55"
           align="center"/>
-        <el-table-column :label="$t('Supplier.id')" :resizable="false" prop="id" align="center" width="150">
+        <el-table-column :label="$t('Stockenter.id')" :resizable="false" prop="id" align="center" width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.id }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('Supplier.supplierName')" :resizable="false" prop="supplierName" align="center" width="150">
+        <el-table-column :label="$t('Stockenter.StockenterName')" :resizable="false" prop="StockenterName" align="center" width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.supplierName }}</span>
+            <span>{{ scope.row.StockenterName }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('Supplier.supplierShortName')" :resizable="false" prop="supplierShortName" align="center" width="150">
+        <el-table-column :label="$t('Stockenter.StockenterShortName')" :resizable="false" prop="StockenterShortName" align="center" width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.supplierShortName }}</span>
+            <span>{{ scope.row.StockenterShortName }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('Supplier.typeId')" :resizable="false" align="center" width="150">
+        <el-table-column :label="$t('Stockenter.typeId')" :resizable="false" align="center" width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.typeName }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('Supplier.regionId')" :resizable="false" prop="regionName" align="center" width="150">
+        <el-table-column :label="$t('Stockenter.regionId')" :resizable="false" prop="regionName" align="center" width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.regionName }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('Supplier.buyerId')" :resizable="false" prop="buyerName" align="center" width="150">
+        <el-table-column :label="$t('Stockenter.buyerId')" :resizable="false" prop="buyerName" align="center" width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.buyerName }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('Supplier.levelId')" :resizable="false" prop="levelName" align="center" width="150">
+        <el-table-column :label="$t('Stockenter.levelId')" :resizable="false" prop="levelName" align="center" width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.levelName }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('Supplier.createId')" :resizable="false" prop="createId" align="center" width="150">
+        <el-table-column :label="$t('Stockenter.createId')" :resizable="false" prop="createId" align="center" width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.createName }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('Supplier.createTime')" :resizable="false" prop="createTime" align="center" width="150">
+        <el-table-column :label="$t('Stockenter.createTime')" :resizable="false" prop="createTime" align="center" width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.createTime }}</span>
           </template>
@@ -195,13 +189,8 @@ export default {
       tableKey: 0,
       // 加载表格
       listLoading: true,
-      // 供应商列表查询加展示参数
+      // 采购入库单列表查询加展示参数
       getemplist: {
-        id: '',
-        supplierName: '',
-        typeId: '',
-        regionId: '',
-        levelId: '',
         pagenum: 1,
         pagesize: 10
       },
@@ -395,7 +384,7 @@ export default {
     },
     // 新增数据
     handleAdd() {
-      this.$router.push('/EmployeeInformation/Supplier')
+      this.$router.push('/EmployeeInformation/Stockenter')
     },
     // 新建分组
     handleGroup() {
@@ -461,7 +450,7 @@ export default {
       this.downloadLoading = true
         import('@/vendor/Export2Excel').then(excel => {
           const tHeader = ['供应商编号', '供应商名称', '供应商简称', '供应商类别', '所在区域', '采购员', '供应商优质级别', '建档人', '建档日期']
-          const filterVal = ['id', 'supplierName', 'supplierShortName', 'typeName', 'regionName', 'buyerName', 'levelName', 'createName', 'createTime']
+          const filterVal = ['id', 'StockenterName', 'StockenterShortName', 'typeName', 'regionName', 'buyerName', 'levelName', 'createName', 'createTime']
           const data = this.formatJson(filterVal, this.list)
           excel.export_json_to_excel({
             header: tHeader,

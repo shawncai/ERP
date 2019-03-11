@@ -449,7 +449,7 @@ export const asyncRouterMap = [
         path: 'Stockenterlist',
         component: () => import('@/views/Stockenter/Stockenterlist'),
         name: 'Stockenterlist',
-        meta: { title: 'Stockenterlist', noCache: false }
+        meta: { title: 'Stockenterlist', noCache: true }
       }
     ]
   },
