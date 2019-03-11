@@ -9,7 +9,7 @@ export function searchCusCategory(query) {
   params.append('pagenum', 1) // 你要传给后台的参数值 key/value
   params.append('pagesize', 9999) // 你要传给后台的参数值 key/value
   return request({
-    url: 'http://192.168.1.45:8080/erp/customer/searchCusCategory',
+    url: '/erp/customer/searchCusCategory',
     method: 'post',
     data: params
   })
@@ -41,7 +41,7 @@ export function customerlist(query) {
   params.append('pagenum', query.pagenum) // 你要传给后台的参数值 key/value
   params.append('pagesize', query.pagesize) // 你要传给后台的参数值 key/value
   return request({
-    url: 'http://192.168.1.45:8080/erp/customer/customerlist',
+    url: '/erp/customer/customerlist',
     method: 'post',
     data: params
   })
@@ -99,7 +99,7 @@ export function addCustomer(query) {
     params.append('customertype', query.customertype) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: 'http://192.168.1.45:8080/erp/customer/addCustomer',
+    url: '/erp/customer/addCustomer',
     method: 'post',
     data: params
   })
@@ -157,7 +157,7 @@ export function updateCustomer(query) {
     params.append('customertype', query.customerType) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: 'http://192.168.1.45:8080/erp/customer/updateCustomer',
+    url: '/erp/customer/updateCustomer',
     method: 'post',
     data: params
   })
@@ -170,7 +170,7 @@ export function deletecustomer(query) {
     params.append('customerids', query) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: 'http://192.168.1.45:8080/erp/customer/deletecustomer',
+    url: '/erp/customer/deletecustomer',
     method: 'post',
     data: params
   })
@@ -234,7 +234,7 @@ export function addagent(query) {
     params.append('newold', query.newold) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: 'http://192.168.1.45:8080/erp/agent/addagent',
+    url: '/erp/agent/addagent',
     method: 'post',
     data: params
   })
@@ -270,7 +270,7 @@ export function agentlist(query) {
   params.append('pagenum', query.pagenum) // 你要传给后台的参数值 key/value
   params.append('pagesize', query.pagesize) // 你要传给后台的参数值 key/value
   return request({
-    url: 'http://192.168.1.45:8080/erp/agent/agentlist',
+    url: '/erp/agent/agentlist',
     method: 'post',
     data: params
   })
@@ -334,7 +334,7 @@ export function updateagent(query) {
     params.append('deliverymode', query.deliveryMode) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: 'http://192.168.1.45:8080/erp/agent/updateagent',
+    url: '/erp/agent/updateagent',
     method: 'post',
     data: params
   })
@@ -347,7 +347,7 @@ export function deleteagent(query) {
     params.append('ids', query) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: 'http://192.168.1.45:8080/erp/agent/deleteagent',
+    url: '/erp/agent/deleteagent',
     method: 'post',
     data: params
   })
@@ -368,7 +368,7 @@ export function searchEmpCategory(query) {
   params.append('pagenum', query.pagenum) // 你要传给后台的参数值 key/value
   params.append('pagesize', query.pagesize) // 你要传给后台的参数值 key/value
   return request({
-    url: 'http://192.168.1.45:8080/erp/customer/searchCusCategory',
+    url: '/erp/customer/searchCusCategory',
     method: 'post',
     data: params
   })
@@ -390,7 +390,7 @@ export function addEmpCategory(query) {
     params.append('type', query.type) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: 'http://192.168.1.45:8080/erp/customer/addCusCategory',
+    url: '/erp/customer/addCusCategory',
     method: 'post',
     data: params
   })
@@ -409,7 +409,7 @@ export function updateEmpCategory(query) {
     params.append('id', query.id) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: 'http://192.168.1.45:8080/erp/customer/updateCusCategory',
+    url: '/erp/customer/updateCusCategory',
     method: 'post',
     data: params
   })
@@ -422,7 +422,7 @@ export function delateEmpCategory(query) {
     params.append('ids', query) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: 'http://192.168.1.45:8080/erp/customer/delateCusCategory',
+    url: '/erp/customer/delateCusCategory',
     method: 'post',
     data: params
   })
@@ -435,7 +435,7 @@ export function manyinsert(query) {
     params.append('customerJson', query) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: 'http://192.168.1.45:8080/erp/customer/manyinsert',
+    url: '/erp/customer/manyinsert',
     method: 'post',
     data: params
   })

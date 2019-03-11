@@ -8,7 +8,7 @@ export function searchEmpCategory2(query) {
   params.append('pagenum', 1) // 你要传给后台的参数值 key/value
   params.append('pagesize', 99999) // 你要传给后台的参数值 key/value
   return request({
-    url: 'http://192.168.1.45:8080/erp/product/searchProCategory',
+    url: '/erp/product/searchProCategory',
     method: 'post',
     data: params
   })
@@ -29,7 +29,7 @@ export function searchEmpCategory(query) {
   params.append('pagenum', query.pagenum) // 你要传给后台的参数值 key/value
   params.append('pagesize', query.pagesize) // 你要传给后台的参数值 key/value
   return request({
-    url: 'http://192.168.1.45:8080/erp/product/searchProCategory',
+    url: '/erp/product/searchProCategory',
     method: 'post',
     data: params
   })
@@ -51,7 +51,7 @@ export function addEmpCategory(query) {
     params.append('type', query.type) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: 'http://192.168.1.45:8080/erp/product/addProCategory',
+    url: '/erp/product/addProCategory',
     method: 'post',
     data: params
   })
@@ -70,7 +70,7 @@ export function updateEmpCategory(query) {
     params.append('id', query.id) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: 'http://192.168.1.45:8080/erp/product/updateProCategory',
+    url: '/erp/product/updateProCategory',
     method: 'post',
     data: params
   })
@@ -83,7 +83,7 @@ export function delateEmpCategory(query) {
     params.append('ids', query) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: 'http://192.168.1.45:8080/erp/product/delateProCategory',
+    url: '/erp/product/delateProCategory',
     method: 'post',
     data: params
   })
@@ -186,7 +186,7 @@ export function createnewproduct(query) {
     params.append('memberprice', query.memberprice) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: 'http://192.168.1.45:8080/erp/product/createnewproduct',
+    url: '/erp/product/createnewproduct',
     method: 'post',
     data: params
   })
@@ -219,7 +219,7 @@ export function productlist(query) {
   params.append('pagenum', query.pagenum) // 你要传给后台的参数值 key/value
   params.append('pagesize', query.pagesize) // 你要传给后台的参数值 key/value
   return request({
-    url: 'http://192.168.1.45:8080/erp/product/productlist',
+    url: '/erp/product/productlist',
     method: 'post',
     data: params
   })
@@ -232,7 +232,7 @@ export function deleteproduct(query) {
     params.append('productids', query) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: 'http://192.168.1.45:8080/erp/product/deleteproduct',
+    url: '/erp/product/deleteproduct',
     method: 'post',
     data: params
   })
@@ -311,7 +311,7 @@ export function editproduct(query) {
     params.append('memberprice', query.memberPrice) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: 'http://192.168.1.45:8080/erp/product/editproduct',
+    url: '/erp/product/editproduct',
     method: 'post',
     data: params
   })
@@ -324,7 +324,7 @@ export function manyinsert(query) {
     params.append('productJson', query) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: 'http://192.168.1.45:8080/erp/product/manyinsert',
+    url: '/erp/product/manyinsert',
     method: 'post',
     data: params
   })
@@ -379,7 +379,7 @@ export function addadjustprice(query) {
     params.append('adjustreason', query.adjustreason) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: 'http://192.168.1.45:8080/erp/adjustprice/addadjustprice',
+    url: '/erp/adjustprice/addadjustprice',
     method: 'post',
     data: params
   })
@@ -403,7 +403,7 @@ export function adjustpricelist(query) {
   params.append('pagenum', query.pagenum) // 你要传给后台的参数值 key/value
   params.append('pagesize', query.pagesize) // 你要传给后台的参数值 key/value
   return request({
-    url: 'http://192.168.1.45:8080/erp/adjustprice/adjustpricelist',
+    url: '/erp/adjustprice/adjustpricelist',
     method: 'post',
     data: params
   })
@@ -446,7 +446,7 @@ export function updateadjustprice(query) {
     params.append('judgepersonid', query.judgePersonId) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: 'http://192.168.1.45:8080/erp/adjustprice/updateadjustprice',
+    url: '/erp/adjustprice/updateadjustprice',
     method: 'post',
     data: params
   })
@@ -459,7 +459,7 @@ export function deleteadjustprice(query) {
     params.append('adjustids', query) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: 'http://192.168.1.45:8080/erp/adjustprice/deleteadjustprice',
+    url: '/erp/adjustprice/deleteadjustprice',
     method: 'post',
     data: params
   })

@@ -5,7 +5,7 @@
 </template>
 <script>
 
-import { getrepositorybyreid } from '@/api/map'
+// import { getrepositorybyreid } from '@/api/map'
 
 export default {
   name: 'GGMap',
@@ -28,23 +28,23 @@ export default {
   },
   methods: {
     getmapdata() {
-      getrepositorybyreid().then(res => {
-        const arr = res.data.data.content
-        const arrb = []
-        arr.map(item => {
-          const newobj = {}
-          const position = {}
-          position.lng = item.longitude
-          position.lat = item.latitude
-          newobj.position = position
-          newobj.name = item.name
-          newobj.address = item.address
-          newobj.phone = item.phone
-          arrb.push(newobj)
-        })
-        this.markers = arrb
-        this.mapBuild()
-      })
+      // getrepositorybyreid().then(res => {
+      //   const arr = res.data.data.content
+      //   const arrb = []
+      //   arr.map(item => {
+      //     const newobj = {}
+      //     const position = {}
+      //     position.lng = item.longitude
+      //     position.lat = item.latitude
+      //     newobj.position = position
+      //     newobj.name = item.name
+      //     newobj.address = item.address
+      //     newobj.phone = item.phone
+      //     arrb.push(newobj)
+      //   })
+      //   this.markers = arrb
+      //   this.mapBuild()
+      // })
     },
     //  地图实例
     mapBuild() {

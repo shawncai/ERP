@@ -103,7 +103,7 @@ export default {
       // 审批流程信息数据
       personalForm: this.editdata,
       // 步骤处理人id
-      step_handler: '',
+      stepHandler: '',
       // 步骤处理人
       handlerName: '',
       // 采购员弹窗控制
@@ -246,19 +246,11 @@ export default {
     // 员工列表返回数据
     personName(val) {
       this.handlerName = val.personName
-      this.step_handler = val.id
+      this.stepHandler = val.id
     },
     chuli(scope) {
       scope.row.handlerName = this.handlerName
-      scope.row.step_handler = this.step_handler
-    },
-    postJSON(data) {
-      // 提交请求
-      return new Promise(resolve => {
-        setTimeout(() => {
-          resolve('保存成功')
-        }, 300)
-      })
+      scope.row.stepHandler = this.stepHandler
     },
     // edit table 操作
     selectEvent(selection, row) {

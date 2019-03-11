@@ -8,7 +8,7 @@
           <el-form-item :label="$t('BasicSettings.process_name')" prop="process_name" style="width: 40%;margin-top:1%">
             <el-input v-model="personalForm.process_name" placeholder="请输入流程名称" clearable/>
           </el-form-item>
-          <el-form-item :label="$t('BasicSettings.is_effective')" style="width: 40%;margin-top:1%">
+          <el-form-item :label="$t('BasicSettings.is_effective')" prop="is_effective" style="width: 40%;margin-top:1%">
             <el-select v-model="personalForm.is_effective" placeholder="请选择启用状态" style="width: 100%;">
               <el-option label="active" value="1"/>
               <el-option label="dead" value="2"/>
@@ -108,7 +108,7 @@ export default {
   data() {
     return {
       // 步骤处理人id
-      step_handler: '',
+      stepHandler: '',
       // 步骤处理人
       handlerName: '',
       // 采购员弹窗控制
@@ -119,9 +119,6 @@ export default {
       validRules: {
         step: [
           { required: true, message: '请输入流程步骤', trigger: 'blur' }
-        ],
-        money: [
-          { required: true, message: '请输入流转条件', trigger: 'blue' }
         ],
         handlerName: [
           { required: true, message: '请选择步骤处理人', trigger: 'blue' }
@@ -148,6 +145,9 @@ export default {
       },
       // 个人信息规则数据
       personalrules: {
+        is_effective: [
+          { required: true, message: '请选择启用状态', trigger: 'change' }
+        ],
         process_name: [
           { required: true, message: '请输入流程名称', trigger: 'blur' }
         ],
@@ -253,6 +253,7 @@ export default {
                   this.restAllForm()
                   this.$refs.personalForm.clearValidate()
                   this.$refs.personalForm.resetFields()
+                  this.$refs.editable.clear()
                 } else {
                   this.$notify.error({
                     title: '错误',
@@ -292,11 +293,11 @@ export default {
     // 员工列表返回数据
     personName(val) {
       this.handlerName = val.personName
-      this.step_handler = val.id
+      this.stepHandler = val.id
     },
     chuli(scope) {
       scope.row.handlerName = this.handlerName
-      scope.row.step_handler = this.step_handler
+      scope.row.stepHandler = this.stepHandler
     },
     postJSON(data) {
       // 提交请求

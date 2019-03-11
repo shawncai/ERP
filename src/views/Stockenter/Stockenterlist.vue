@@ -11,26 +11,28 @@
         placement="bottom"
         width="500"
         trigger="click">
-        <el-cascader
-          :options="regions"
-          :props="props"
-          v-model="getemplistregions"
-          :show-all-levels="false"
-          placeholder="所在区域"
-          change-on-select
-          filterable
-          clearable
-          style="width: 40%;float: left;margin-left: 20px"
-          @change="handlechange4"
-        />
-        <el-select v-model="getemplist.levelId" placeholder="请选择优质级别" clearable style="width: 40%;float: right;margin-right: 20px">
-          <el-option
-            v-for="(item, index) in levelIds"
-            :key="index"
-            :label="item.categoryName"
-            :value="item.id"
-          />
+        <el-input v-model="getemplist.sourceNumber" :placeholder="$t('Stockenter.sourceNumber')" class="filter-item" clearable style="width: 40%;float: left;margin-left: 20px" @keyup.enter.native="handleFilter"/>
+        <el-select v-model="getemplist.enterDeptId" placeholder="请选择入库部门" clearable style="width: 40%;float: right;margin-right: 20px">
+          <el-option value="1" label="科技部门"/>
         </el-select>
+        <el-select v-model="getemplist.enterRepositoryId" placeholder="请选择入库门店" clearable style="width: 40%;float: right;margin-right: 20px;margin-top: 20px">
+          <el-option value="1" label="科技部门"/>
+        </el-select>
+        <el-select v-model="getemplist.receiptStat" placeholder="请选择单据状态" clearable style="width: 40%;float: left;margin-left: 20px;margin-top: 20px">
+          <el-option value="1" label="好的"/>
+        </el-select>
+        <el-select v-model="getemplist.createPersonId" placeholder="请选择制单人" clearable style="width: 40%;float: left;margin-left: 20px;margin-top: 20px">
+          <el-option value="1" label="好的"/>
+        </el-select>
+        <el-date-picker
+          v-model="date"
+          type="daterange"
+          range-separator="-"
+          unlink-panels
+          start-placeholder="Start"
+          end-placeholder="End"
+          value-format="yyyy-MM-dd"
+          style="margin-top: 20px;margin-left: 20px"/>
         <div class="seachbutton" style="width: 100%;float: right;margin-top: 20px">
           <el-button v-waves class="filter-item" type="primary" style="float: right" @click="handleFilter">{{ $t('public.search') }}</el-button>
         </div>
@@ -47,21 +49,6 @@
           <el-dropdown-item style="text-align: left" command="delete"><svg-icon icon-class="shanchu" style="width: 40px"/>{{ $t('public.delete') }}</el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
-      <!-- 新建分组 -->
-      <el-button v-waves class="filter-item" type="primary" style="width: 100px" @click="handleGroup">{{ $t('Stockenter.StockenterGroup') }}</el-button>
-      <el-dialog :visible.sync="GroupVisible" title="新建分组" width="35%">
-        <el-input v-model="groupName" :placeholder="$t('Stockenter.groupName')" class="filter-item" style="width: 40%;margin-left: -1px;float: left" clearable @keyup.enter.native="handleAddGroup"/>
-        <el-button v-waves class="filter-item" type="success" style="width: 86px;float: left" @click="handleAddGroup">{{ $t('public.add') }}</el-button>
-        <el-table :data="groupData" border>
-          <el-table-column property="id" label="编号" align="center" width="150"/>
-          <el-table-column property="groupName" label="组名称" align="center" min-width="300"/>
-          <el-table-column :label="$t('public.actions')" :resizable="false" align="center" width="150">
-            <template slot-scope="scope">
-              <el-button size="mini" type="danger" @click="handleDeleteGroup(scope.row)">{{ $t('public.delete') }}</el-button>
-            </template>
-          </el-table-column>
-        </el-table>
-      </el-dialog>
       <!-- 表格导出操作 -->
       <el-button v-waves :loading="downloadLoading" class="filter-item" style="width: 86px" @click="handleExport"> <svg-icon icon-class="daochu"/>{{ $t('public.export') }}</el-button>
       <!-- 打印操作 -->
@@ -89,44 +76,54 @@
             <span>{{ scope.row.id }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('Stockenter.StockenterName')" :resizable="false" prop="StockenterName" align="center" width="150">
+        <el-table-column :label="$t('Stockenter.title')" :resizable="false" prop="title" align="center" width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.StockenterName }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('Stockenter.StockenterShortName')" :resizable="false" prop="StockenterShortName" align="center" width="150">
+        <el-table-column :label="$t('Stockenter.sourceNumber')" :resizable="false" prop="sourceNumber" align="center" width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.StockenterShortName }}</span>
+            <span>{{ scope.row.sourceNumber }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('Stockenter.typeId')" :resizable="false" align="center" width="150">
+        <el-table-column :label="$t('Stockenter.deliveryPersonId')" :resizable="false" align="center" width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.typeName }}</span>
+            <span>{{ scope.row.deliveryPersonName }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('Stockenter.regionId')" :resizable="false" prop="regionName" align="center" width="150">
+        <el-table-column :label="$t('Stockenter.acceptPersonId')" :resizable="false" prop="acceptPersonName" align="center" width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.regionName }}</span>
+            <span>{{ scope.row.acceptPersonName }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('Stockenter.buyerId')" :resizable="false" prop="buyerName" align="center" width="150">
+        <el-table-column :label="$t('Stockenter.enterDeptId')" :resizable="false" prop="enterDeptName" align="center" width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.buyerName }}</span>
+            <span>{{ scope.row.enterDeptName }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('Stockenter.levelId')" :resizable="false" prop="levelName" align="center" width="150">
+        <el-table-column :label="$t('Stockenter.endPersonName')" :resizable="false" prop="endPersonName" align="center" width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.levelName }}</span>
+            <span>{{ scope.row.endPersonName }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('Stockenter.createId')" :resizable="false" prop="createId" align="center" width="150">
+        <el-table-column :label="$t('Stockenter.endDate')" :resizable="false" prop="endDate" align="center" width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.createName }}</span>
+            <span>{{ scope.row.endDate }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('Stockenter.createTime')" :resizable="false" prop="createTime" align="center" width="150">
+        <el-table-column :label="$t('Stockenter.enterQuantity')" :resizable="false" prop="enterQuantity" align="center" width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.createTime }}</span>
+            <span>{{ scope.row.enterQuantity }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column :label="$t('Stockenter.summary')" :resizable="false" prop="stockEnterDetails" align="center" width="150">
+          <template slot-scope="scope">
+            <span>{{ scope.row.stockEnterDetails }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column :label="$t('Stockenter.judgeStat')" :resizable="false" prop="judgeStat" align="center" width="150">
+          <template slot-scope="scope">
+            <span>{{ scope.row.judgeStat }}</span>
           </template>
         </el-table-column>
         <el-table-column :label="$t('public.actions')" :resizable="false" align="center" min-width="230">
@@ -146,8 +143,7 @@
 </template>
 
 <script>
-import { searchRepository, regionlist } from '@/api/public'
-import { searchCategory, search, delete2, searchGroup, createGroup, deleteGroup } from '@/api/Supplier'
+import { stockenterlist, deletestockenter } from '@/api/Stockenter'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
 import MyDialog from './components/MyDialog'
@@ -167,18 +163,8 @@ export default {
   },
   data() {
     return {
-      // 新增分组参数
-      groupName: '',
-      // 分组表格数据
-      groupData: [],
-      // 新建分组控制器
-      GroupVisible: false,
       // 批量操作
       moreaction: '',
-      // 优质级别
-      levelIds: [],
-      // 供应商类别
-      typeIds: [],
       // 加载操作控制
       downloadLoading: false,
       // 表格数据
@@ -194,23 +180,12 @@ export default {
         pagenum: 1,
         pagesize: 10
       },
-      // 部门列表
-      depts: [],
-      // 区域级联数据转化
-      props: {
-        value: 'id',
-        label: 'regionName',
-        children: 'regionListVos'
-      },
-      // 区域数据
-      regions: [],
-      getemplistregions: [],
-      // 门店数据
-      repositories: [],
       // 传给组件的数据
       personalForm: {},
       // 控制组件数据
-      editVisible: false
+      editVisible: false,
+      // 开始时间到结束时间
+      date: []
     }
   },
   mounted() {
@@ -218,9 +193,9 @@ export default {
   },
   methods: {
     getlist() {
-      // 供应商列表数据
+      // 采购入库单列表数据
       this.listLoading = true
-      search(this.getemplist).then(res => {
+      stockenterlist(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
@@ -235,42 +210,11 @@ export default {
           this.listLoading = false
         }, 0.5 * 100)
       })
-      // 供应商类别
-      searchCategory(1).then(res => {
-        if (res.data.ret === 200) {
-          this.typeIds = res.data.data.content.list
-        } else {
-          this.$notify.error({
-            title: '错误',
-            message: '出错了',
-            offset: 100
-          })
-        }
-      })
-      // 优质级别
-      searchCategory(4).then(res => {
-        if (res.data.ret === 200) {
-          this.levelIds = res.data.data.content.list
-        } else {
-          this.$notify.error({
-            title: '错误',
-            message: '出错了',
-            offset: 100
-          })
-        }
-      })
-      // 区域数据
-      regionlist().then(res => {
-        if (res.data.ret === 200) {
-          this.regions = this.tranKTree(res.data.data.content)
-        }
-      })
     },
     // 搜索
     handleFilter() {
       this.getemplist.pagenum = 1
-      this.getemplist.regionId = this.getemplistregions[this.getemplistregions.length - 1]
-      search(this.getemplist).then(res => {
+      stockenterlist(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
@@ -313,7 +257,7 @@ export default {
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          delete2(ids).then(res => {
+          deletestockenter(ids).then(res => {
             if (res.data.ret === 200) {
               this.$notify({
                 title: '删除成功',
@@ -344,7 +288,7 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        delete2(row.id).then(res => {
+        deletestockenter(row.id).then(res => {
           if (res.data.ret === 200) {
             this.$notify({
               title: '删除成功',
@@ -367,83 +311,9 @@ export default {
         })
       })
     },
-    // 分组数据列表
-    groupList() {
-      // 分组数据
-      searchGroup().then(res => {
-        if (res.data.ret === 200) {
-          this.groupData = res.data.data.content
-        } else {
-          this.$notify.error({
-            title: '错误',
-            message: '出错了',
-            offset: 100
-          })
-        }
-      })
-    },
     // 新增数据
     handleAdd() {
       this.$router.push('/EmployeeInformation/Stockenter')
-    },
-    // 新建分组
-    handleGroup() {
-      this.groupList()
-      this.GroupVisible = true
-    },
-    // 重置input
-    restGroup() {
-      this.groupName = ''
-    },
-    // 新增分组
-    handleAddGroup() {
-      createGroup(this.groupName).then(res => {
-        if (res.data.ret === 200) {
-          this.$notify({
-            title: '添加成功',
-            type: 'success',
-            offset: 100
-          })
-          this.restGroup()
-          this.groupList()
-        } else {
-          this.$notify.error({
-            title: '错误',
-            message: '出错了',
-            offset: 100
-          })
-        }
-      })
-    },
-    // 删除分组
-    handleDeleteGroup(row) {
-      this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      }).then(() => {
-        deleteGroup(row.id).then(res => {
-          if (res.data.ret === 200) {
-            this.$notify({
-              title: '删除成功',
-              type: 'success',
-              offset: 100
-            })
-            this.groupList()
-          } else {
-            this.$notify.error({
-              title: '错误',
-              message: '出错了',
-              offset: 100
-            })
-          }
-        })
-      }).catch(() => {
-        this.$message({
-          type: 'info',
-          message: '已取消删除'
-        })
-      })
     },
     // 导出
     handleExport() {
@@ -468,26 +338,6 @@ export default {
     // 打印
     handlePrint() {
       console.log(456)
-    },
-    // 转化数据方法
-    tranKTree(arr) {
-      if (!arr || !arr.length) return
-      return arr.map(item => ({
-        id: item.id,
-        regionName: item.regionName,
-        regionListVos: this.tranKTree(item.regionListVos)
-      }))
-    },
-    // 根据区域选择门店
-    handlechange4(val) {
-      const finalid = val[val.length - 1]
-      searchRepository(finalid).then(res => {
-        if (res.data.ret === 200) {
-          this.repositories = res.data.data.content
-        } else {
-          this.$message.error('出错了')
-        }
-      })
     }
   }
 }

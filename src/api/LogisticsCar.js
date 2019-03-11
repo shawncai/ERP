@@ -31,7 +31,7 @@ export function addcar(query) {
     params.append('driverNames', query.driverNames) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: 'http://192.168.1.45:8080/erp/logisticsCar/addcar',
+    url: '/erp/logisticsCar/addcar',
     method: 'post',
     data: params
   })
@@ -58,7 +58,7 @@ export function carlist(query) {
   params.append('pagenum', query.pagenum) // 你要传给后台的参数值 key/value
   params.append('pagesize', query.pagesize) // 你要传给后台的参数值 key/value
   return request({
-    url: 'http://192.168.1.45:8080/erp/logisticsCar/carlist',
+    url: '/erp/logisticsCar/carlist',
     method: 'post',
     data: params
   })
@@ -71,7 +71,7 @@ export function deletecar(query) {
     params.append('logicarids', query) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: 'http://192.168.1.45:8080/erp/logisticsCar/deletecar',
+    url: '/erp/logisticsCar/deletecar',
     method: 'post',
     data: params
   })
@@ -105,7 +105,7 @@ export function updatecar(query) {
     params.append('driverNames', query.driverNames) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: 'http://192.168.1.45:8080/erp/logisticsCar/updatecar',
+    url: '/erp/logisticsCar/updatecar',
     method: 'post',
     data: params
   })
@@ -139,7 +139,7 @@ export function addsendcar(query) {
     params.append('starttime', query.starttime) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: 'http://192.168.1.45:8080/erp/logisticsCar/addsendcar',
+    url: '/erp/logisticsCar/addsendcar',
     method: 'post',
     data: params
   })
@@ -169,7 +169,7 @@ export function sendcarlist(query) {
   params.append('pagenum', query.pagenum) // 你要传给后台的参数值 key/value
   params.append('pagesize', query.pagesize) // 你要传给后台的参数值 key/value
   return request({
-    url: 'http://192.168.1.45:8080/erp/logisticsCar/sendcarlist',
+    url: '/erp/logisticsCar/sendcarlist',
     method: 'post',
     data: params
   })
@@ -182,7 +182,7 @@ export function deleteoutcar(query) {
     params.append('outcarids', query) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: 'http://192.168.1.45:8080/erp/logisticsCar/deleteoutcar',
+    url: '/erp/logisticsCar/deleteoutcar',
     method: 'post',
     data: params
   })
@@ -213,7 +213,7 @@ export function updatesendcar(query) {
     params.append('starttime', query.startTime) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: 'http://192.168.1.45:8080/erp/logisticsCar/updatesendcar',
+    url: '/erp/logisticsCar/updatesendcar',
     method: 'post',
     data: params
   })
@@ -235,7 +235,7 @@ export function addreturncar(query) {
     params.append('returntime', query.returntime) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: 'http://192.168.1.45:8080/erp/logisticsCar/addreturncar',
+    url: '/erp/logisticsCar/addreturncar',
     method: 'post',
     data: params
   })
@@ -268,7 +268,7 @@ export function returncarlist(query) {
   params.append('pagenum', query.pagenum) // 你要传给后台的参数值 key/value
   params.append('pagesize', query.pagesize) // 你要传给后台的参数值 key/value
   return request({
-    url: 'http://192.168.1.45:8080/erp/logisticsCar/returncarlist',
+    url: '/erp/logisticsCar/returncarlist',
     method: 'post',
     data: params
   })
@@ -281,7 +281,7 @@ export function deletereturncar(query) {
     params.append('returncarids', query) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: 'http://192.168.1.45:8080/erp/logisticsCar/deletereturncar',
+    url: '/erp/logisticsCar/deletereturncar',
     method: 'post',
     data: params
   })
@@ -303,7 +303,7 @@ export function updatereturncar(query) {
     params.append('returntime', query.returnTime) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: 'http://192.168.1.45:8080/erp/logisticsCar/updatereturncar',
+    url: '/erp/logisticsCar/updatereturncar',
     method: 'post',
     data: params
   })

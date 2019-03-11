@@ -98,8 +98,8 @@ export default {
   filters: {
     genderFilter(status) {
       const statusMap = {
-        1: '停用',
-        2: '发布'
+        1: '发布',
+        2: '停用'
       }
       return statusMap[status]
     },

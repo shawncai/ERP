@@ -3,7 +3,7 @@ import request from '@/utils/request'
 // 部门列表
 export function getdeptlist(query) {
   return request({
-    url: 'http://192.168.1.45:8080/erp/country/getdeptlist',
+    url: '/erp/country/getdeptlist',
     method: 'post',
     params: query
   })
@@ -19,7 +19,7 @@ export function startorendemp(query, stat) {
     params.append('stat', stat) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: 'http://192.168.1.45:8080/erp/employee/startorendemp',
+    url: '/erp/employee/startorendemp',
     method: 'post',
     data: params
   })
@@ -32,7 +32,7 @@ export function deleteemp(query) {
     params.append('empids', query) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: 'http://192.168.1.45:8080/erp/employee/deleteemp',
+    url: '/erp/employee/deleteemp',
     method: 'post',
     data: params
   })
@@ -45,7 +45,7 @@ export function getempinfo(query) {
     params.append('id', query) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: 'http://192.168.1.45:8080/erp/employee/getempinfo',
+    url: '/erp/employee/getempinfo',
     method: 'post',
     data: params
   })
@@ -112,7 +112,7 @@ export function updateemp(query) {
     params.append('certificatenumber', query.certificateNumber) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: 'http://192.168.1.45:8080/erp/employee/updateemp',
+    url: '/erp/employee/updateemp',
     method: 'post',
     data: params
   })
@@ -145,7 +145,7 @@ export function register(query) {
   params.append('certificatetype', query.certificatetype) // 你要传给后台的参数值 key/value
   params.append('certificatenumber', query.certificatenumber) // 你要传给后台的参数值 key/value
   return request({
-    url: 'http://192.168.1.45:8080/erp/employee/register',
+    url: '/erp/employee/register',
     method: 'post',
     data: params
   })
@@ -181,7 +181,7 @@ export function getemplist(query) {
   params.append('pagenum', query.pagenum) // 你要传给后台的参数值 key/value
   params.append('pagesize', query.pagesize) // 你要传给后台的参数值 key/value
   return request({
-    url: 'http://192.168.1.45:8080/erp/employee/getemplist',
+    url: '/erp/employee/getemplist',
     method: 'post',
     data: params
   })
@@ -233,7 +233,7 @@ export function addcontract(query) {
     params.append('remindpersonid', query.remindpersonid) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: 'http://192.168.1.45:8080/erp/contract/addcontract',
+    url: '/erp/contract/addcontract',
     method: 'post',
     data: params
   })
@@ -257,7 +257,7 @@ export function contractlist(query) {
   params.append('pagenum', query.pagenum) // 你要传给后台的参数值 key/value
   params.append('pagesize', query.pagesize) // 你要传给后台的参数值 key/value
   return request({
-    url: 'http://192.168.1.45:8080/erp/contract/contractlist',
+    url: '/erp/contract/contractlist',
     method: 'post',
     data: params
   })
@@ -309,7 +309,7 @@ export function updatecontract(query) {
     params.append('remindpersonid', query.expiredRemindPersonId) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: 'http://192.168.1.45:8080/erp/contract/updatecontract',
+    url: '/erp/contract/updatecontract',
     method: 'post',
     data: params
   })
@@ -322,7 +322,7 @@ export function deleteempcontract(query) {
     params.append('empcontractids', query) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: 'http://192.168.1.45:8080/erp/contract/deleteempcontract',
+    url: '/erp/contract/deleteempcontract',
     method: 'post',
     data: params
   })
@@ -343,7 +343,7 @@ export function searchEmpCategory(query) {
   params.append('pagenum', query.pagenum) // 你要传给后台的参数值 key/value
   params.append('pagesize', query.pagesize) // 你要传给后台的参数值 key/value
   return request({
-    url: 'http://192.168.1.45:8080/erp/employee/searchEmpCategory',
+    url: '/erp/employee/searchEmpCategory',
     method: 'post',
     data: params
   })
@@ -365,7 +365,7 @@ export function addEmpCategory(query) {
     params.append('type', query.type) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: 'http://192.168.1.45:8080/erp/employee/addEmpCategory',
+    url: '/erp/employee/addEmpCategory',
     method: 'post',
     data: params
   })
@@ -384,7 +384,7 @@ export function updateEmpCategory(query) {
     params.append('id', query.id) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: 'http://192.168.1.45:8080/erp/employee/updateEmpCategory',
+    url: '/erp/employee/updateEmpCategory',
     method: 'post',
     data: params
   })
@@ -397,7 +397,7 @@ export function delateEmpCategory(query) {
     params.append('ids', query) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: 'http://192.168.1.45:8080/erp/employee/delateEmpCategory',
+    url: '/erp/employee/delateEmpCategory',
     method: 'post',
     data: params
   })

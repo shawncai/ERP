@@ -9,7 +9,7 @@ export function searchCategory(query) {
   params.append('pagenum', 1) // 你要传给后台的参数值 key/value
   params.append('pagesize', 9999) // 你要传给后台的参数值 key/value
   return request({
-    url: 'http://192.168.1.45:8080/erp/supplierCategory/searchCategory',
+    url: '/erp/supplierCategory/searchCategory',
     method: 'post',
     data: params
   })
@@ -112,7 +112,7 @@ export function create(query) {
     params.append('companyTypeId', query.companyTypeId) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: 'http://192.168.1.45:8080/erp/supplier/create',
+    url: '/erp/supplier/create',
     method: 'post',
     data: params
   })
@@ -143,7 +143,7 @@ export function search(query) {
     params.append('pagesize', query.pagesize) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: 'http://192.168.1.45:8080/erp/supplier/search',
+    url: '/erp/supplier/search',
     method: 'post',
     data: params
   })
@@ -249,7 +249,7 @@ export function update(query) {
     params.append('id', query.id) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: 'http://192.168.1.45:8080/erp/supplier/update',
+    url: '/erp/supplier/update',
     method: 'post',
     data: params
   })
@@ -262,7 +262,7 @@ export function delete2(query) {
     params.append('modelids', query) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: 'http://192.168.1.45:8080/erp/supplier/delete',
+    url: '/erp/supplier/delete',
     method: 'post',
     data: params
   })
@@ -271,7 +271,7 @@ export function delete2(query) {
 // 查询供应商分组
 export function searchGroup() {
   return request({
-    url: 'http://192.168.1.45:8080/erp/supplierGroup/search',
+    url: '/erp/supplierGroup/search',
     method: 'post'
   })
 }
@@ -283,7 +283,7 @@ export function createGroup(query) {
     params.append('groupName', query) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: 'http://192.168.1.45:8080/erp/supplierGroup/create',
+    url: '/erp/supplierGroup/create',
     method: 'post',
     data: params
   })
@@ -296,7 +296,7 @@ export function deleteGroup(query) {
     params.append('id', query) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: 'http://192.168.1.45:8080/erp/supplierGroup/delete',
+    url: '/erp/supplierGroup/delete',
     method: 'post',
     data: params
   })
@@ -317,7 +317,7 @@ export function searchEmpCategory(query) {
   params.append('pagenum', query.pagenum) // 你要传给后台的参数值 key/value
   params.append('pagesize', query.pagesize) // 你要传给后台的参数值 key/value
   return request({
-    url: 'http://192.168.1.45:8080/erp/supplierCategory/searchCategory',
+    url: '/erp/supplierCategory/searchCategory',
     method: 'post',
     data: params
   })
@@ -339,7 +339,7 @@ export function addEmpCategory(query) {
     params.append('type', query.type) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: 'http://192.168.1.45:8080/erp/supplierCategory/addCategory',
+    url: '/erp/supplierCategory/addCategory',
     method: 'post',
     data: params
   })
@@ -358,7 +358,7 @@ export function updateEmpCategory(query) {
     params.append('id', query.id) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: 'http://192.168.1.45:8080/erp/supplierCategory/updateCategory',
+    url: '/erp/supplierCategory/updateCategory',
     method: 'post',
     data: params
   })
@@ -371,7 +371,7 @@ export function delateEmpCategory(query) {
     params.append('ids', query) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: 'http://192.168.1.45:8080/erp/supplierCategory/delateCategory',
+    url: '/erp/supplierCategory/delateCategory',
     method: 'post',
     data: params
   })
@@ -384,7 +384,7 @@ export function manyinsert(query) {
     params.append('supplierJson', query) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: 'http://192.168.1.45:8080/erp/supplierRecommendation/manyinsert',
+    url: '/erp/supplierRecommendation/manyinsert',
     method: 'post',
     data: params
   })

@@ -20,7 +20,7 @@
 #### 2019/2/12 add topmenu  
 #### 2019/2/25 遇到的一些问题以及解决方案
 ##### tagsview的页面关闭操作  
-```  
+```js  
 const view = { 
 path: '/EmployeeInformation/NewEmployeeInformation',
  name: 'NewEmployeeInformation',
@@ -32,7 +32,8 @@ this.$store.dispatch('delView', view).then(({ visitedViews }) => {})
 ```  
           
 ##### 拼接json 方法
-```extend(jsonbject1, jsonbject2) {
+```js
+extend(jsonbject1, jsonbject2){
          var resultJsonObject = {}
          for (const attr in jsonbject1) {
            resultJsonObject[attr] = jsonbject1[attr]
@@ -46,7 +47,8 @@ this.$store.dispatch('delView', view).then(({ visitedViews }) => {})
          
 #### 2019/2/26 遇到的一些问题以及解决方案         
 #####  axios 向后端发送请求数据时如果为空或者underfined时判断一下  
-```export function getemplist(query) {
+```js
+export function getemplist(query) {
      var params = new URLSearchParams()
      // 判断是否为空值
      if (query.jobnumber !== '') {
@@ -61,7 +63,7 @@ this.$store.dispatch('delView', view).then(({ visitedViews }) => {})
 ```    
 #### 2019/2/26   
 ##### 用map取用数组中的莫一项并且把这一项变成字符串组  
-```$xslt
+```js
  ids =  [{id: 2, name: xxx},{id: 3, name: xxx}, {id: 4, name: xxx}, {id: 5, name: xxx}]
  const ids = this.moreaction.map(item => item.id).join()
  ids = 2, 3, 4, 5, 6
@@ -78,7 +80,7 @@ this.$store.dispatch('delView', view).then(({ visitedViews }) => {})
 
 #### 2019/03/01  
 ##### 客户和仓库问题 批量导入  
-```
+```js
 this.tableHeader = ['门店名称', '地址', '经度', '纬度', '管理员id', '开业时间', '状态', '描述', '所属区域', '种类id', '小区经理id', '属性id', '国家id']
       this.uploadHead = results.map(function(item) {
         return {
@@ -112,7 +114,7 @@ this.tableHeader = ['门店名称', '地址', '经度', '纬度', '管理员id',
 ```    
 #### 2019/3/6  
 ##### 去除对象内的空键值对  
-```
+```js
       const Data = this.RepositoryForm
       for (const key in Data) {
         if (Data[key] === '' || Data[key] === undefined || Data[key] === null) {
@@ -122,7 +124,7 @@ this.tableHeader = ['门店名称', '地址', '经度', '纬度', '管理员id',
       const parms = JSON.stringify(Data)
 ```
 ###### 完成进度  
-```
+```text
 - 物品列表展示页面完成  2019/03/05
 03/06
 - 物品分类属性页面完成  2019/03/06  11:52
@@ -146,7 +148,7 @@ this.tableHeader = ['门店名称', '地址', '经度', '纬度', '管理员id',
 新增回车单页面结束  2019/03/08
 回车单列表页面结束  2019/03/08
 晚安世界
-03/09
-
+03/11
+采购入库单新增和采购入库单列表页面布局完成等待和后端联调   2019/03/11
 
 ```

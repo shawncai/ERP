@@ -150,7 +150,7 @@ const user = {
           commit('SET_NAME', data.userName)
           commit('SET_AVATAR', data.avatar)
           commit('SET_INTRODUCTION', data.introduction)
-          dispatch('GenerateRoutes', data) // 动态修改权限后 重绘侧边菜单
+          dispatch('GenerateRoutes', data.roles) // 动态修改权限后 重绘侧边菜单
           resolve()
         })
       })
