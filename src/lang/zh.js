@@ -55,7 +55,9 @@ export default {
     Regional: '区域管理',
     Stockenter: '入库管理',
     addstockenter: '新建采购入库',
-    Stockenterlist: '采购入库单列表'
+    Stockenterlist: '采购入库单列表',
+    InventoryCount: '库存盘点',
+    AddInventoryCount: '新建库存盘点单'
   },
   navbar: {
     logOut: '退出登录',
@@ -395,6 +397,30 @@ export default {
     endDate: '入库时间',
     enterQuantity: '入库数量',
     remarks: '备注'
+  },
+  InventoryCount: {
+    title: '盘点单主题',
+    handlePersonId: '经办人',
+    countDeptId: '盘点部门',
+    countRepositoryId: '盘点仓库',
+    countType: '盘点类型',
+    beginTime: '盘点开始时间',
+    endTime: '盘点结束时间',
+    summary: '摘要',
+    id: '编号',
+    locationId: '货位',
+    productCode: '物品编码',
+    productName: '物品名称',
+    color: '颜色',
+    typeId: '规格',
+    unit: '单位',
+    price: '价格',
+    inventoryQuantity: '库存数量',
+    actualQuantity: '实盘数量',
+    overflowQuantity: '报溢数量',
+    totalMoney: '总金额',
+    remarks: '摘要',
+    sourceNumber: '源单编号'
   },
   public: {
     uploadimage: '上传',

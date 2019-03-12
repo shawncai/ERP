@@ -453,5 +453,25 @@ export const asyncRouterMap = [
       }
     ]
   },
+  {
+    path: '/InventoryCount',
+    component: Layout,
+    redirect: 'noredirect',
+    name: 'InventoryCount',
+    alwaysShow: true,
+    meta: {
+      title: 'InventoryCount',
+      icon: 'pandian',
+      type: 4
+    },
+    children: [
+      {
+        path: 'AddInventoryCount',
+        component: () => import('@/views/InventoryCount/AddInventoryCount'),
+        name: 'AddInventoryCount',
+        meta: { title: 'AddInventoryCount', noCache: false }
+      }
+    ]
+  },
   { path: '*', redirect: '/404', hidden: true }
 ]
