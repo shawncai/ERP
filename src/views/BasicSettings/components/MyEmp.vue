@@ -104,6 +104,7 @@
         </template>
       </el-table-column>
     </el-table>
+    <el-button v-waves class="filter-item" type="success" style="width: 100px;float: left;margin-top: 10px" @click="handleConfirm">确认添加</el-button>
     <pagination v-show="total>0" :total="total" :page.sync="getemplist.pagenum" :limit.sync="getemplist.pagesize" @pagination="gitemplist" />
   </el-dialog>
 </template>
@@ -292,6 +293,9 @@ export default {
     handleCurrentChange(val) {
       this.$emit('personName', val)
       this.$emit('chuli', val)
+    },
+    // 确认添加数据
+    handleConfirm() {
       this.employeeVisible = false
     }
     // 仓库管理员选择结束

@@ -57,7 +57,11 @@ export default {
     addstockenter: '新建采购入库',
     Stockenterlist: '采购入库单列表',
     InventoryCount: '库存盘点',
-    AddInventoryCount: '新建库存盘点单'
+    AddInventoryCount: '新建库存盘点单',
+    InventoryCountList: '盘点单列表',
+    Inventorydamaged: '库存报损',
+    AddInventorydamaged: '新建库存报损单',
+    InventorydamagedList: '库存报损单列表'
   },
   navbar: {
     logOut: '退出登录',
@@ -417,10 +421,24 @@ export default {
     price: '价格',
     inventoryQuantity: '库存数量',
     actualQuantity: '实盘数量',
+    isOverflow: '是否报溢',
     overflowQuantity: '报溢数量',
     totalMoney: '总金额',
     remarks: '摘要',
-    sourceNumber: '源单编号'
+    sourceNumber: '源单编号',
+    title2: '盘点单主题',
+    countNumber: '盘点单编号',
+    receiptStat: '单据状态',
+    createPersonId: '创建人',
+    judgeStat: '审批状态'
+  },
+  Inventorydamaged: {
+    title: '报损单主题',
+    handlePersonId: '经办人',
+    damagedDeptId: '报损部门',
+    damagedRepositoryId: '报损仓库',
+    damagedReason: '报损原因',
+    damagedDate: '报损日期'
   },
   public: {
     uploadimage: '上传',
@@ -460,6 +478,7 @@ export default {
     cancel: '取消',
     Inclusivearea: '包含区域',
     editarea: '修改区域',
-    delete: '删除'
+    delete: '删除',
+    repositoryId: '仓库/门店'
   }
 }

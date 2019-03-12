@@ -52,7 +52,7 @@ rm(path.join(config.build.assetsRoot, config.build.assetsSubDirectory), err => {
 
       app.use(
         basePath,
-        serveStatic('./dist', {
+        serveStatic('./ERP', {
           index: ['index.html', '/']
         })
       )

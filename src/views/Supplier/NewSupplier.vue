@@ -134,7 +134,7 @@
             </el-select>
           </el-form-item>
           <el-form-item :label="$t('Supplier.buyerId')" style="width: 40%;margin-top:1%">
-            <el-input v-model="buyerId" placeholder="请输入采购员" @focus="handlechoose"/>
+            <el-input v-model="buyerId" placeholder="请输入采购员" clearable @focus="handlechoose"/>
           </el-form-item> <br>
           <my-emp :control.sync="empcontrol" @personName="personName"/>
           <el-form-item :label="$t('Supplier.businessScopeIntroduction')" style="width: 80%;margin-top:1%">

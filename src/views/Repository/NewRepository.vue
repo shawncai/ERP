@@ -154,6 +154,7 @@
                 </template>
               </el-table-column>
             </el-table>
+            <el-button v-waves class="filter-item" type="success" style="width: 100px;float: left;margin-top: 10px" @click="handleConfirm">确认添加</el-button>
             <pagination v-show="total>0" :total="total" :page.sync="getemplist.pagenum" :limit.sync="getemplist.pagesize" @pagination="gitemplist" />
           </el-dialog>
           <!--弹窗员工列表结束-->
@@ -276,6 +277,7 @@
                 </template>
               </el-table-column>
             </el-table>
+            <el-button v-waves class="filter-item" type="success" style="width: 100px;float: left;margin-top: 10px" @click="handleConfirm2">确认添加</el-button>
             <pagination v-show="total>0" :total="total" :page.sync="getemplist.pagenum" :limit.sync="getemplist.pagesize" @pagination="gitemplist" />
           </el-dialog>
           <!--小区经理选择弹窗结束-->
@@ -684,6 +686,9 @@ export default {
     handleCurrentChange(val) {
       this.managerPeople = val.personName
       this.RepositoryForm.managerPeopleId = val.id
+    },
+    // 确认添加数据
+    handleConfirm() {
       this.employeeVisible = false
     },
     // 仓库管理员选择结束
@@ -704,6 +709,9 @@ export default {
       console.log(val)
       this.regionManagerId = val.personName
       this.RepositoryForm.regionManagerId = val.id
+    },
+    // 确认添加数据
+    handleConfirm2() {
       this.regionManagerVisible = false
     }
     // 小区经理选择结束

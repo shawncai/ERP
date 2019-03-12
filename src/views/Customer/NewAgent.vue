@@ -85,7 +85,7 @@
             </el-select>
           </el-form-item>
           <el-form-item :label="$t('Customer.traderid')" prop="address" style="width: 40%;margin-top:1%">
-            <el-input v-model="trader" placeholder="请选择" @focus="handlechoose"/>
+            <el-input v-model="trader" placeholder="请选择" clearable @focus="handlechoose"/>
           </el-form-item>
           <my-emp :control.sync="empcontrol" @personName="personName"/>
           <el-form-item :label="$t('Customer.transmode')" prop="address" style="width: 40%;margin-top:1%">

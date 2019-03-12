@@ -470,6 +470,38 @@ export const asyncRouterMap = [
         component: () => import('@/views/InventoryCount/AddInventoryCount'),
         name: 'AddInventoryCount',
         meta: { title: 'AddInventoryCount', noCache: false }
+      },
+      {
+        path: 'InventoryCountList',
+        component: () => import('@/views/InventoryCount/InventoryCountList'),
+        name: 'InventoryCountList',
+        meta: { title: 'InventoryCountList', noCache: true }
+      }
+    ]
+  },
+  {
+    path: '/Inventorydamaged',
+    component: Layout,
+    redirect: 'noredirect',
+    name: 'Inventorydamaged',
+    alwaysShow: true,
+    meta: {
+      title: 'Inventorydamaged',
+      icon: 'sunhuai',
+      type: 4
+    },
+    children: [
+      {
+        path: 'AddInventorydamaged',
+        component: () => import('@/views/Inventorydamaged/AddInventorydamaged'),
+        name: 'AddInventorydamaged',
+        meta: { title: 'AddInventorydamaged', noCache: false }
+      },
+      {
+        path: 'InventorydamagedList',
+        component: () => import('@/views/Inventorydamaged/InventorydamagedList'),
+        name: 'InventorydamagedList',
+        meta: { title: 'InventorydamagedList', noCache: true }
       }
     ]
   },

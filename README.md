@@ -123,6 +123,15 @@ this.tableHeader = ['门店名称', '地址', '经度', '纬度', '管理员id',
       }
       const parms = JSON.stringify(Data)
 ```
+
+###### 通过scope中调用函数
+```js
+<el-table-column  prop="width" label="Size">
+<template slot-scope='scope'>
+<p>{{getSize(scope.row.width, scope.row.height)}}</p>
+</template>
+</el-table-column>
+```
 ###### 完成进度  
 ```text
 - 物品列表展示页面完成  2019/03/05
