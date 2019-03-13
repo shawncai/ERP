@@ -14,7 +14,7 @@
           <el-input v-model="personalForm.barCode" placeholder="请输入条码" disabled/>
         </el-form-item>
         <el-form-item :label="$t('Product.categoryid')" style="width: 40%;margin-top:1%">
-          <el-select v-model="personalForm.categoryId" placeholder="请选择物品分类" style="width: 100%;" disabled>
+          <el-select v-model="personalForm.categoryId" placeholder="请选择物品分类" style="width: 100%;" disabled @focus="updatecate">
             <el-option
               v-for="(item, index) in categorys"
               :key="index"
@@ -24,7 +24,7 @@
           </el-select>
         </el-form-item>
         <el-form-item :label="$t('Product.typeid')" style="width: 40%;margin-top:1%">
-          <el-select v-model="personalForm.typeId" placeholder="请选择规格型号" style="width: 100%;" disabled>
+          <el-select v-model="personalForm.typeId" placeholder="请选择规格型号" style="width: 100%;" disabled @focus="updatecate">
             <el-option
               v-for="(item, index) in types"
               :key="index"
@@ -34,27 +34,39 @@
           </el-select>
         </el-form-item>
         <el-form-item :label="$t('Product.purchasemeasurement')" style="width: 40%;margin-top:1%">
-          <el-select v-model="personalForm.purchaseMeasurement" placeholder="请选择采购计量单位" style="width: 100%;">
-            <el-option value="1" label="类1"/>
-            <el-option value="2" label="类2"/>
+          <el-select v-model="personalForm.purchaseMeasurement" placeholder="请选择采购计量单位" style="width: 100%;" @focus="updatecate">
+            <el-option
+              v-for="(item, index) in measurements"
+              :key="index"
+              :label="item.categoryName"
+              :value="item.id"/>
           </el-select>
         </el-form-item>
         <el-form-item :label="$t('Product.salemeasurement')" style="width: 40%;margin-top:1%">
-          <el-select v-model="personalForm.saleMeasurement" placeholder="请选择销售计量单位" style="width: 100%;">
-            <el-option value="1" label="类1"/>
-            <el-option value="2" label="类2"/>
+          <el-select v-model="personalForm.saleMeasurement" placeholder="请选择销售计量单位" style="width: 100%;" @focus="updatecate">
+            <el-option
+              v-for="(item, index) in measurements"
+              :key="index"
+              :label="item.categoryName"
+              :value="item.id"/>
           </el-select>
         </el-form-item>
         <el-form-item :label="$t('Product.stockmeasurement')" style="width: 40%;margin-top:1%">
-          <el-select v-model="personalForm.stockMeasurement" placeholder="请选择库存计量单位" style="width: 100%;">
-            <el-option value="1" label="类1"/>
-            <el-option value="2" label="类2"/>
+          <el-select v-model="personalForm.stockMeasurement" placeholder="请选择库存计量单位" style="width: 100%;" @focus="updatecate">
+            <el-option
+              v-for="(item, index) in measurements"
+              :key="index"
+              :label="item.categoryName"
+              :value="item.id"/>
           </el-select>
         </el-form-item>
         <el-form-item :label="$t('Product.producemeasurement')" style="width: 40%;margin-top:1%">
-          <el-select v-model="personalForm.produceMeasurement" placeholder="请选择生产计量单位" style="width: 100%;">
-            <el-option value="1" label="类1"/>
-            <el-option value="2" label="类2"/>
+          <el-select v-model="personalForm.produceMeasurement" placeholder="请选择生产计量单位" style="width: 100%;" @focus="updatecate">
+            <el-option
+              v-for="(item, index) in measurements"
+              :key="index"
+              :label="item.categoryName"
+              :value="item.id"/>
           </el-select>
         </el-form-item>
         <el-form-item :label="$t('Product.color')" style="width: 40%;margin-top:1%">
@@ -67,7 +79,7 @@
           </el-select>
         </el-form-item>
         <el-form-item :label="$t('Product.level')" style="width: 40%;margin-top:1%">
-          <el-select v-model="personalForm.level" placeholder="请选择档次级别" style="width: 100%;">
+          <el-select v-model="personalForm.level" placeholder="请选择档次级别" style="width: 100%;" @focus="updatecate">
             <el-option
               v-for="(item, index) in levels"
               :key="index"
@@ -158,7 +170,7 @@
             :on-success="handlepicsuccess"
             :data="picidsData"
             :auto-upload="false"
-            action="http://192.168.1.26:9090/erp/upload/uploadpic"
+            action="http://192.168.1.21:8888/erp/upload/uploadpic"
             list-type="picture-card">
             <i class="el-icon-plus"/>
           </el-upload>
@@ -182,7 +194,7 @@
             :on-success="handledetailpicsuccess"
             :data="detailpicData"
             :auto-upload="false"
-            action="http://192.168.1.26:9090/erp/upload/uploadpic"
+            action="http://192.168.1.21:8888/erp/upload/uploadpic"
             list-type="picture-card">
             <i class="el-icon-plus"/>
           </el-upload>
@@ -207,7 +219,7 @@
 </template>
 
 <script>
-import { searchEmpCategory2, editproduct } from '@/api/Product'
+import { searchEmpCategory2, editproduct, searchMea } from '@/api/Product'
 import MyEmp from './MyEmp'
 export default {
   components: { MyEmp },
@@ -223,6 +235,8 @@ export default {
   },
   data() {
     return {
+      // 计量单位数据
+      measurements: [],
       // 弹窗组件的控制
       editVisible: this.control,
       // 物品信息数据
@@ -291,6 +305,7 @@ export default {
       this.personalForm = this.editdata
       this.buyerId = this.editdata.buyerName
       console.log(this.editdata)
+      this.getcategorys()
     }
   },
   created() {
@@ -303,36 +318,24 @@ export default {
         console.log(res)
         if (res.data.ret === 200) {
           this.categorys = res.data.data.content.list
-        } else {
-          this.$notify.error({
-            title: '错误',
-            message: '出错了',
-            offset: 100
-          })
         }
       })
       // 规格型号数据
       searchEmpCategory2(2).then(res => {
         if (res.data.ret === 200) {
           this.types = res.data.data.content.list
-        } else {
-          this.$notify.error({
-            title: '错误',
-            message: '出错了',
-            offset: 100
-          })
         }
       })
       // 档次级别
       searchEmpCategory2(3).then(res => {
         if (res.data.ret === 200) {
           this.levels = res.data.data.content.list
-        } else {
-          this.$notify.error({
-            title: '错误',
-            message: '出错了',
-            offset: 100
-          })
+        }
+      })
+      // 计量单位
+      searchMea().then(res => {
+        if (res.data.ret === 200) {
+          this.measurements = res.data.data.content
         }
       })
     },
@@ -456,6 +459,10 @@ export default {
         memberprice: ''
       }
       this.supplierid = ''
+    },
+    // focus更新
+    updatecate() {
+      this.getcategorys()
     }
     // 修改操作结束 -------------------------------------------------
   }

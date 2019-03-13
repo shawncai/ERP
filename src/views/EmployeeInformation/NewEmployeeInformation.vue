@@ -9,7 +9,7 @@
             <el-input v-model="personalForm.account" placeholder="请输入账号名" clearable/>
           </el-form-item>
           <el-form-item :label="$t('NewEmployeeInformation.password')" prop="passwd" style="width: 40%;margin-top:1%">
-            <el-input v-model="personalForm.passwd" placeholder="请输入密码" autocomplete="new-password" clearable/>
+            <el-input v-model="personalForm.passwd" placeholder="请输入密码" clearable/>
           </el-form-item>
           <el-form-item :label="$t('NewEmployeeInformation.lastname')" prop="firstname" style="width: 40%">
             <el-input v-model="personalForm.firstname" placeholder="请输入姓氏" clearable/>
@@ -48,7 +48,7 @@
             <el-input v-model="personalForm.certificatenumber" clearable/>
           </el-form-item>
           <el-form-item :label="$t('NewEmployeeInformation.country')" prop="country" style="width: 40%">
-            <el-select v-model="personalForm.country" placeholder="请选择国籍" style="width: 100%;" @change ="handlechange">
+            <el-select v-model="personalForm.country" placeholder="请选择国籍" style="width: 100%;" @change ="handlechange" @focus="updatecountry">
               <el-option
                 v-for="(item, index) in nations"
                 :key="index"
@@ -96,13 +96,16 @@
             <el-input v-model.number="companyForm.jobnumber" placeholder="请输入工号" clearable/>
           </el-form-item>
           <el-form-item :label="$t('NewEmployeeInformation.postid')" style="width: 40%;margin-top: 1%">
-            <el-select v-model="companyForm.postid" :value="companyForm.postid" placeholder="请选择职称" style="width: 100%;">
-              <el-option label="xxx" value="1"/>
-              <el-option label="xxx" value="2"/>
+            <el-select v-model="companyForm.postid" :value="companyForm.postid" placeholder="请选择职位" style="width: 100%;" @focus="updatepost">
+              <el-option
+                v-for="(item, index) in jobs"
+                :key="index"
+                :label="item.categoryName"
+                :value="item.id"/>
             </el-select>
           </el-form-item>
           <el-form-item :label="$t('NewEmployeeInformation.deptid')" prop="deptid" style="width: 40%;margin-top: 1%">
-            <el-select v-model="companyForm.deptid" placeholder="请选择部门" style="width: 100%;">
+            <el-select v-model="companyForm.deptid" placeholder="请选择部门" style="width: 100%;" @focus="updatedept">
               <el-option
                 v-for="(item, index) in depts"
                 :key="index"
@@ -147,7 +150,7 @@
 
 <script>
 import { getcountrylist, getprovincelist, getcitylist, regionlist, searchRepository } from '@/api/public'
-import { getdeptlist, register } from '@/api/EmployeeInformation'
+import { getdeptlist, register, searchEmpCategory } from '@/api/EmployeeInformation'
 export default {
   name: 'NewEmployeeContract',
   data() {
@@ -164,6 +167,14 @@ export default {
       }, 1000)
     }
     return {
+      // 职位搜索时参数
+      jobCat: {
+        type: 2,
+        pagenum: 1,
+        pagesize: 9999
+      },
+      // 职位列表
+      jobs: [],
       // 国家列表
       nations: [],
       // 省列表
@@ -199,7 +210,7 @@ export default {
       // 个人信息规则数据
       personalrules: {
         passwd: [
-          { message: '请正确输入密码长度', trigger: 'blur' },
+          { required: true, message: '请正确输入密码长度', trigger: 'blur' },
           { min: 6, max: 100, message: '密码长度要大于6个字符', trigger: 'blur' }
         ],
         account: [
@@ -218,7 +229,7 @@ export default {
           { required: true, message: '请选择工作地区', trigger: 'change' }
         ],
         email: [
-          { type: 'email', message: '请输入正确邮箱号', trigger: 'blur' },
+          { required: true, type: 'email', message: '请输入正确邮箱号', trigger: 'blur' },
           { min: 1, message: '请输入正确邮箱号', trigger: 'blur' }
         ]
       },
@@ -276,11 +287,7 @@ export default {
         if (res.data.ret === 200) {
           this.nations = res.data.data.content
         } else {
-          this.$notify.error({
-            title: '错误',
-            message: '出错了',
-            offset: 100
-          })
+          console.log('国家列表出错')
         }
       })
       // 区域列表数据
@@ -288,11 +295,7 @@ export default {
         if (res.data.ret === 200) {
           this.regions = this.tranKTree(res.data.data.content)
         } else {
-          this.$notify.error({
-            title: '错误',
-            message: '出错了',
-            offset: 100
-          })
+          console.log('区域列表出错')
         }
       })
       // 部门列表数据
@@ -300,11 +303,15 @@ export default {
         if (res.data.ret === 200) {
           this.depts = res.data.data.content
         } else {
-          this.$notify.error({
-            title: '错误',
-            message: '出错了',
-            offset: 100
-          })
+          console.log('部门列表出错')
+        }
+      })
+      // 职位列表数据
+      searchEmpCategory(this.jobCat).then(res => {
+        if (res.data.ret === 200) {
+          this.jobs = res.data.data.content.list
+        } else {
+          console.log('职位列表出错')
         }
       })
     },
@@ -314,11 +321,7 @@ export default {
         if (res.data.ret === 200) {
           this.provinces = res.data.data.content
         } else {
-          this.$notify.error({
-            title: '错误',
-            message: '出错了',
-            offset: 100
-          })
+          console.log('国家选择省出错')
         }
       })
     },
@@ -329,11 +332,7 @@ export default {
         if (res.data.ret === 200) {
           this.cities = res.data.data.content
         } else {
-          this.$notify.error({
-            title: '错误',
-            message: '出错了',
-            offset: 100
-          })
+          console.log('省选择市出错')
         }
       })
     },
@@ -354,11 +353,7 @@ export default {
         if (res.data.ret === 200) {
           this.repositories = res.data.data.content.list
         } else {
-          this.$notify.error({
-            title: '错误',
-            message: '出错了',
-            offset: 100
-          })
+          console.log('区域选择门店')
         }
       })
     },
@@ -396,6 +391,7 @@ export default {
                         offset: 100
                       })
                       this.restAllForm()
+                      this.$router.go(-1)
                       this.$refs.personalForm.resetFields()
                       this.$refs.connectForm.resetFields()
                       this.$refs.companyForm.resetFields()
@@ -541,6 +537,18 @@ export default {
       const view = { path: '/EmployeeInformation/NewEmployeeInformation', name: 'NewEmployeeInformation', fullPath: '/EmployeeInformation/NewEmployeeInformation', title: 'NewEmployeeInformation' }
       this.$store.dispatch('delView', view).then(({ visitedViews }) => {
       })
+    },
+    // 更新国家下拉
+    updatecountry() {
+      this.getnationlist()
+    },
+    // 更新职位下拉
+    updatepost() {
+      this.getnationlist()
+    },
+    // 更新部门下拉
+    updatedept() {
+      this.getnationlist()
     }
   }
 }

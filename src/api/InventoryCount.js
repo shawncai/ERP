@@ -54,11 +54,9 @@ export function countlist(query) {
 // 删除盘点单
 export function deletecount(query) {
   var params = new URLSearchParams()
-  if (query.countIds !== '' && query.countIds !== null && query.countIds !== undefined) {
-    params.append('countIds', query.countIds) // 你要传给后台的参数值 key/value
+  if (query !== '' && query !== null && query !== undefined) {
+    params.append('countIds', query) // 你要传给后台的参数值 key/value
   }
-  params.append('pagenum', query.pagenum) // 你要传给后台的参数值 key/value
-  params.append('pagesize', query.pagesize) // 你要传给后台的参数值 key/value
   return request({
     url: '/erp/inventorycount/deletecount',
     method: 'post',

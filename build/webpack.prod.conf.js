@@ -16,6 +16,7 @@ function resolve(dir) {
   return path.join(__dirname, '..', dir)
 }
 
+const Version = new Date().getTime();
 const env = require('../config/' + process.env.env_config + '.env')
 
 // For NamedChunksPlugin
@@ -34,8 +35,8 @@ const webpackConfig = merge(baseWebpackConfig, {
   devtool: config.build.productionSourceMap ? config.build.devtool : false,
   output: {
     path: config.build.assetsRoot,
-    filename: utils.assetsPath('js/[name].[chunkhash:8].js'),
-    chunkFilename: utils.assetsPath('js/[name].[chunkhash:8].js')
+    filename: utils.assetsPath('js/[name].[chunkhash:8].' + Version + '.js'),
+    chunkFilename: utils.assetsPath('js/[name].[chunkhash:8].' + Version + '.js')
   },
   plugins: [
     // http://vuejs.github.io/vue-loader/en/workflow/production.html
@@ -44,8 +45,8 @@ const webpackConfig = merge(baseWebpackConfig, {
     }),
     // extract css into its own file
     new MiniCssExtractPlugin({
-      filename: utils.assetsPath('css/[name].[contenthash:8].css'),
-      chunkFilename: utils.assetsPath('css/[name].[contenthash:8].css')
+      filename: utils.assetsPath('css/[name].[contenthash:8].' + Version + '.css'),
+      chunkFilename: utils.assetsPath('css/[name].[contenthash:8].' + Version + '.css')
     }),
     // generate dist index.html with correct asset hash for caching.
     // you can customize output by editing /index.html

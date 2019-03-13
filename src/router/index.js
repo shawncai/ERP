@@ -505,5 +505,37 @@ export const asyncRouterMap = [
       }
     ]
   },
+  {
+    path: '/WarehouseAdjust',
+    component: Layout,
+    redirect: 'noredirect',
+    name: 'WarehouseAdjust',
+    alwaysShow: true,
+    meta: {
+      title: 'WarehouseAdjust',
+      icon: 'kuwei',
+      type: 4
+    },
+    children: [
+      {
+        path: 'AddInitialenter',
+        component: () => import('@/views/WarehouseAdjust/AddInitialenter'),
+        name: 'AddInitialenter',
+        meta: { title: 'AddInitialenter', noCache: false }
+      },
+      {
+        path: 'Enterlist',
+        component: () => import('@/views/WarehouseAdjust/Enterlist'),
+        name: 'Enterlist',
+        meta: { title: 'Enterlist', noCache: true }
+      },
+      {
+        path: 'AddLocation',
+        component: () => import('@/views/WarehouseAdjust/AddLocation'),
+        name: 'AddLocation',
+        meta: { title: 'AddLocation', noCache: false }
+      }
+    ]
+  },
   { path: '*', redirect: '/404', hidden: true }
 ]

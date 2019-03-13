@@ -73,12 +73,7 @@
               <span>{{ scope.row.id }}</span>
             </template>
           </el-table-column>
-          <el-table-column :label="$t('NewEmployeeInformation.category')" :resizable="false" prop="category" align="center" width="350">
-            <template slot-scope="scope">
-              <span>{{ scope.row.category }}</span>
-            </template>
-          </el-table-column>
-          <el-table-column :label="$t('NewEmployeeInformation.type')" :resizable="false" prop="type" align="center" width="150">
+          <el-table-column :label="$t('NewEmployeeInformation.type')" :resizable="false" prop="type" align="center" width="250">
             <template slot-scope="scope">
               <span>{{ scope.row.type | typeFilter }}</span>
             </template>
@@ -88,7 +83,7 @@
               <span>{{ scope.row.categoryName }}</span>
             </template>
           </el-table-column>
-          <el-table-column :label="$t('NewEmployeeInformation.iseffective')" :resizable="false" prop="isEffective" align="center" width="150">
+          <el-table-column :label="$t('NewEmployeeInformation.iseffective')" :resizable="false" prop="isEffective" align="center" width="250">
             <template slot-scope="scope">
               <span>{{ scope.row.isEffective | iseffectiveFilter }}</span>
             </template>
@@ -233,11 +228,7 @@ export default {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
         } else {
-          this.$notify.error({
-            title: '错误',
-            message: '出错了',
-            offset: 100
-          })
+          console.log('列表出错')
         }
         setTimeout(() => {
           this.listLoading = false
@@ -252,11 +243,7 @@ export default {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
         } else {
-          this.$notify.error({
-            title: '错误',
-            message: '出错了',
-            offset: 100
-          })
+          console.log('搜索出错')
         }
       })
     },
@@ -356,11 +343,7 @@ export default {
               this.$refs.editCategoryForm.resetFields()
               this.editcategoryVisible = false
             } else {
-              this.$notify.error({
-                title: '错误',
-                message: '出错了',
-                offset: 100
-              })
+              console.log('列表出错')
             }
           })
         } else {

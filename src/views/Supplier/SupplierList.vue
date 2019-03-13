@@ -397,7 +397,7 @@ export default {
     },
     // 新增数据
     handleAdd() {
-      this.$router.push('/EmployeeInformation/Supplier')
+      this.$router.push('/Supplier/NewSupplier')
     },
     // 新建分组
     handleGroup() {

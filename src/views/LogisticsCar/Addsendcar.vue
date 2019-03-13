@@ -25,10 +25,6 @@
             <el-input v-model="driver" placeholder="请选择驾驶员" clearable @focus="handlechoose"/>
           </el-form-item>
           <my-driver :drivercontrol.sync="drivercontrol" @drivername="drivername" />
-          <el-form-item :label="$t('LogisticsCar.createid')" prop="createid" style="width: 40%;margin-top:1%">
-            <el-input v-model="createid" placeholder="请选择创建人" clearable @focus="handlechoosecreateman"/>
-          </el-form-item>
-          <my-create :createcontrol.sync="createcontrol" @createname="createname"/>
           <el-form-item :label="$t('LogisticsCar.starttime')" style="width: 40%;margin-top:1%">
             <el-date-picker
               v-model="personalForm.starttime"
@@ -73,7 +69,9 @@ export default {
       // 创建人回显
       createid: '',
       // 派车单信息数据
-      personalForm: {},
+      personalForm: {
+        createid: 1
+      },
       // 派车单信息规则数据
       personalrules: {
         sourcenumber: [

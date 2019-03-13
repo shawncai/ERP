@@ -114,13 +114,19 @@
                 </template>
               </el-table-column>
             </el-table>
-            <pagination v-show="total>0" :total="total" :page.sync="getemplist.pagenum" :limit.sync="getemplist.pagesize" @pagination="getnationlist" />
+            <pagination v-show="total>0" :total="total" :page.sync="getemplist.pagenum" :limit.sync="getemplist.pagesize" style="padding: 0" @pagination="getnationlist" />
+            <span slot="footer" class="dialog-footer" style="text-align: left">
+              <el-button v-waves type="success" style="text-align: center;" @click="handleConfirm">确认添加</el-button>
+            </span>
           </el-dialog>
           <!--弹窗员工列表结束-->
           <el-form-item :label="$t('NewEmployeeInformation.typeid')" prop="typeid" style="width: 40%;margin-top:1%">
-            <el-select v-model="contractForm.typeid" placeholder="请选择合同类别" style="width: 100%;">
-              <el-option label="类型1" value="1"/>
-              <el-option label="类型2" value="2"/>
+            <el-select v-model="contractForm.typeid" placeholder="请选择合同类别" style="width: 100%;" @focus="updatetypes">
+              <el-option
+                v-for="(item, index) in alltypes"
+                :key="index"
+                :label="item.categoryName"
+                :value="item.id"/>
             </el-select>
           </el-form-item>
           <el-form-item :label="$t('NewEmployeeInformation.contractname')" prop="contractname" style="width: 40%">
@@ -163,16 +169,16 @@
             </el-select>
           </el-form-item>
           <el-form-item :label="$t('NewEmployeeInformation.iscorrection')" style="width: 40%;margin-top:1%">
-            <el-select v-model="contractForm.iscorrection" placeholder="请选择转正标志" style="width: 100%;">
-              <el-option label="是" value="1"/>
-              <el-option label="否" value="2"/>
-            </el-select>
+            <el-radio-group v-model="contractForm.iscorrection" style="width: 80%">
+              <el-radio :label="1" style="width: 50%">是</el-radio>
+              <el-radio :label="2">否</el-radio>
+            </el-radio-group>
           </el-form-item>
           <el-form-item :label="$t('NewEmployeeInformation.contractstat')" style="width: 40%;margin-top:1%">
-            <el-select v-model="contractForm.stat" placeholder="请选择合同状态" style="width: 100%;">
-              <el-option label="类型1" value="1"/>
-              <el-option label="类型2" value="2"/>
-            </el-select>
+            <el-radio-group v-model="contractForm.stat" style="width: 80%">
+              <el-radio :label="1" style="width: 50%">生效</el-radio>
+              <el-radio :label="2">未生效</el-radio>
+            </el-radio-group>
           </el-form-item>
           <el-form-item :label="$t('NewEmployeeInformation.trialsalary')" style="width: 40%">
             <el-input v-model="contractForm.trialsalary" placeholder="请输入试用工资" clearable/>
@@ -181,8 +187,9 @@
             <el-input v-model="contractForm.correctionsalary" placeholder="请输入转正工资" clearable/>
           </el-form-item>
           <el-form-item :label="$t('NewEmployeeInformation.remindpersonid')" style="width: 40%">
-            <el-input v-model="contractForm.remindpersonid" placeholder="请选择提醒人" clearable/>
+            <el-input v-model="remindpersonid" placeholder="请选择提醒人" clearable @focus="controlremin"/>
           </el-form-item>
+          <my-create :createcontrol.sync="createcontrol" @createname="createname"/>
           <el-form-item :label="$t('NewEmployeeInformation.advanceday')" style="width: 40%">
             <el-input v-model="contractForm.advanceday" placeholder="请输入提前时间" clearable>
               <template slot="append">天</template>
@@ -202,13 +209,14 @@
 
 <script>
 import { searchRepository, regionlist } from '@/api/public'
-import { getemplist, addcontract, getdeptlist } from '@/api/EmployeeInformation'
+import { getemplist, addcontract, getdeptlist, searchEmpCategory } from '@/api/EmployeeInformation'
+import MyCreate from './components/MyCreate'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
 export default {
   name: 'NewEmployeeContract',
   directives: { waves },
-  components: { Pagination },
+  components: { Pagination, MyCreate },
   filters: {
     genderFilter(status) {
       const statusMap = {
@@ -220,6 +228,18 @@ export default {
   },
   data() {
     return {
+      // 提醒人回显
+      remindpersonid: '',
+      // 控制提醒人窗口
+      createcontrol: false,
+      // 所有合同类别数据
+      alltypes: [],
+      // 合同类别参数
+      typeids: {
+        type: 3,
+        pagenum: 1,
+        pagesize: 9999
+      },
       // 单选表格样式
       currentRow: null,
       // 员工表格数据
@@ -312,11 +332,7 @@ export default {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
         } else {
-          this.$notify.error({
-            title: '错误',
-            message: '出错了',
-            offset: 100
-          })
+          console.log('员工列表数据出错了')
         }
         setTimeout(() => {
           this.listLoading = false
@@ -327,17 +343,23 @@ export default {
         if (res.data.ret === 200) {
           this.depts = res.data.data.content
         } else {
-          this.$notify.error({
-            title: '错误',
-            message: '出错了',
-            offset: 100
-          })
+          console.log('部门列表数据出错了')
         }
       })
       // 区域数据
       regionlist().then(res => {
         if (res.data.ret === 200) {
           this.regions = this.tranKTree(res.data.data.content)
+        } else {
+          console.log('部门列表数据出错了')
+        }
+      })
+      // 合同类别数据
+      searchEmpCategory(this.typeids).then(res => {
+        if (res.data.ret === 200) {
+          this.alltypes = res.data.data.content.list
+        } else {
+          console.log('合同类别数据出错了')
         }
       })
     },
@@ -353,11 +375,7 @@ export default {
             this.list = res.data.data.content.list
             this.total = res.data.data.content.totalCount
           } else {
-            this.$notify.error({
-              title: '错误',
-              message: '出错了',
-              offset: 100
-            })
+            console.log('查询出错了')
           }
         })
       }
@@ -382,7 +400,7 @@ export default {
         if (res.data.ret === 200) {
           this.repositories = res.data.data.content.list
         } else {
-          this.$message.error('出错了')
+          console.log('根据区域选择门店出错')
         }
       })
     },
@@ -414,6 +432,9 @@ export default {
       this.currentRow = val
       this.contractForm.employeeid = val.id
       this.employeeName = val.personName
+    },
+    // 确认添加数据
+    handleConfirm() {
       this.employeeVisible = false
     },
     // 保存操作
@@ -429,6 +450,7 @@ export default {
                 offset: 100
               })
               this.restAllForm()
+              this.$router.go(-1)
               this.$refs.contractForm.clearValidate()
               this.$refs.contractForm.resetFields()
             } else {
@@ -515,6 +537,19 @@ export default {
       const view = { path: '/EmployeeInformation/NewEmployeeContract', name: 'NewEmployeeContract', fullPath: '/EmployeeInformation/NewEmployeeContract', title: 'NewEmployeeContract' }
       this.$store.dispatch('delView', view).then(({ visitedViews }) => {
       })
+    },
+    // focus更新数据
+    updatetypes() {
+      this.getnationlist()
+    },
+    // 控制合同到期提醒人选择窗口
+    controlremin() {
+      this.createcontrol = true
+    },
+    // 合同到期提醒人回显
+    createname(val) {
+      this.remindpersonid = val.personName
+      this.contractForm.remindpersonid = val.id
     }
   }
 }

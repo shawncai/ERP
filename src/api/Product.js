@@ -185,6 +185,9 @@ export function createnewproduct(query) {
   if (query.memberprice !== '' && query.memberprice !== null && query.memberprice !== undefined) {
     params.append('memberprice', query.memberprice) // 你要传给后台的参数值 key/value
   }
+  if (query.isBatch !== '' && query.isBatch !== null && query.isBatch !== undefined) {
+    params.append('isBatch', query.isBatch) // 你要传给后台的参数值 key/value
+  }
   return request({
     url: '/erp/product/createnewproduct',
     method: 'post',
@@ -460,6 +463,18 @@ export function deleteadjustprice(query) {
   }
   return request({
     url: '/erp/adjustprice/deleteadjustprice',
+    method: 'post',
+    data: params
+  })
+}
+
+// 查询计量单位列表
+export function searchMea() {
+  var params = new URLSearchParams()
+  params.append('pagenum', 1) // 你要传给后台的参数值 key/value
+  params.append('pagesize', 9998) // 你要传给后台的参数值 key/value
+  return request({
+    url: '/erp/measurement/search',
     method: 'post',
     data: params
   })

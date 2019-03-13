@@ -9,7 +9,7 @@
             <el-input v-model="customerForm.agentname" placeholder="请输入供货商名" clearable/>
           </el-form-item>
           <el-form-item :label="$t('Customer.customertype')" prop="type" style="width: 40%;margin-top: 1%">
-            <el-select v-model="customerForm.type" :value="customerForm.type" placeholder="请选择客户类型" style="width: 100%;">
+            <el-select v-model="customerForm.type" :value="customerForm.type" placeholder="请选择客户类型" style="width: 100%;" @focus="updateType">
               <el-option
                 v-for="(item, index) in customertypes"
                 :key="index"
@@ -18,7 +18,7 @@
             </el-select>
           </el-form-item>
           <el-form-item :label="$t('Customer.level')" style="width: 40%;margin-top: 1%">
-            <el-select v-model="customerForm.level" :value="customerForm.level" placeholder="请选择客户优质级别" style="width: 100%;">
+            <el-select v-model="customerForm.level" :value="customerForm.level" placeholder="请选择客户优质级别" style="width: 100%;" @focus="updateLevel">
               <el-option
                 v-for="(item, index) in levels"
                 :key="index"
@@ -30,7 +30,7 @@
             <el-input v-model="customerForm.pinyin" placeholder="请输入拼音缩写" clearable/>
           </el-form-item>
           <el-form-item :label="$t('Customer.source')" style="width: 40%;margin-top: 1%">
-            <el-select v-model="customerForm.source" :value="customerForm.source" placeholder="请选择客户来源" style="width: 100%;">
+            <el-select v-model="customerForm.source" :value="customerForm.source" placeholder="请选择客户来源" style="width: 100%;" @focus="updateSource">
               <el-option
                 v-for="(item, index) in sources"
                 :key="index"
@@ -406,6 +406,16 @@ export default {
       const view = { path: '/Customer/NewAgent', name: 'NewAgent', fullPath: '/Customer/NewAgent', title: 'NewAgent' }
       this.$store.dispatch('delView', view).then(({ visitedViews }) => {
       })
+    },
+    // focus 更新
+    updateType() {
+      this.getCategory()
+    },
+    updateLevel() {
+      this.getCategory()
+    },
+    updateSource() {
+      this.getCategory()
     }
   }
 }

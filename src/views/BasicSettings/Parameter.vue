@@ -41,12 +41,6 @@ export default {
       parameter().then(res => {
         if (res.data.ret === 200) {
           this.parameters = res.data.data.content
-        } else {
-          this.$notify.error({
-            title: '错误',
-            message: '出错了',
-            offset: 100
-          })
         }
       })
     },

@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
     <div class="filter-container">
-      <el-button v-permission="[76]" class="filter-item" style="margin-left: 10px;" type="primary" icon="el-icon-edit" @click="handleCreate">{{ $t('public.add') }}</el-button>
+      <el-button class="filter-item" style="margin-left: 10px;" type="primary" icon="el-icon-edit" @click="handleCreate">{{ $t('public.add') }}</el-button>
     </div>
     <tree-table :data="data" :eval-func="func" :eval-args="args" :expand-all="expandAll" border>
       <el-table-column :label="$t('area.SerialNumber')" align="center">
@@ -34,11 +34,11 @@
           {{ scope.row.createName }}
         </template>
       </el-table-column>
-      <el-table-column v-permission="[76, 80, 81]" :label="$t('area.Operation')" width="240" align="center">
+      <el-table-column :label="$t('area.Operation')" width="240" align="center">
         <template slot-scope="scope">
-          <el-button v-permission="[76]" type="primary" size="mini" @click="handleUpdate(scope.row)">{{ $t('public.add') }}</el-button>
-          <el-button v-permission="[80]" v-if="scope.row.isNext === 2" size="mini" type="danger" @click="handleDelete(scope.row)">{{ $t('area.delete') }}</el-button>
-          <el-button v-permission="[81]" type="warning" size="mini" @click="handleEdit(scope.row)">{{ $t('public.edit') }}</el-button>
+          <el-button type="primary" size="mini" @click="handleUpdate(scope.row)">新增子区域</el-button>
+          <el-button v-if="scope.row.isNext === 2" size="mini" type="danger" @click="handleDelete(scope.row)">{{ $t('area.delete') }}</el-button>
+          <el-button type="warning" size="mini" @click="handleEdit(scope.row)">{{ $t('public.edit') }}</el-button>
         </template>
       </el-table-column>
     </tree-table>
@@ -203,6 +203,7 @@ export default {
             type: 'success',
             duration: 2000
           })
+          this.categoriesform.name = ''
         })
       } else if (this.value5 !== []) {
         this.categoriesform.firstlevelid = this.value5.join()
@@ -241,6 +242,7 @@ export default {
           type: 'success',
           duration: 2000
         })
+        this.categoriesform2.name = ''
       })
     },
     // 列表删除

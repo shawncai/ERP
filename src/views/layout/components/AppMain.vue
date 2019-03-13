@@ -30,6 +30,7 @@ export default {
   position: relative;
   overflow: hidden;
   padding-top: 78px;
+  background: #f1f1f1;
 }
 </style>
 

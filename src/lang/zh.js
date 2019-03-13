@@ -61,7 +61,11 @@ export default {
     InventoryCountList: '盘点单列表',
     Inventorydamaged: '库存报损',
     AddInventorydamaged: '新建库存报损单',
-    InventorydamagedList: '库存报损单列表'
+    InventorydamagedList: '库存报损单列表',
+    WarehouseAdjust: '库位调整',
+    AddInitialenter: '新建期初库存录入',
+    Enterlist: '期初库存列表',
+    AddLocation: '添加货位'
   },
   navbar: {
     logOut: '退出登录',
@@ -108,7 +112,7 @@ export default {
     cityid: '市',
     editcityid: '修改市',
     jobnumber: '工号',
-    postid: '职称',
+    postid: '职位',
     deptid: '部门',
     editregionid: '修改区域',
     regionid: '所属区域',
@@ -304,7 +308,8 @@ export default {
     adjustTradePrice: '调整后批发价',
     adjustSalePrice: '调整后零售价',
     adjustMemberPrice: '调整后会员价',
-    adjustLowerPrice: '调整后最低价'
+    adjustLowerPrice: '调整后最低价',
+    isBatch: '批次设置'
   },
   BasicSettings: {
     ruleName: '编号规则名称',
@@ -433,12 +438,48 @@ export default {
     judgeStat: '审批状态'
   },
   Inventorydamaged: {
+    id: '编号',
     title: '报损单主题',
     handlePersonId: '经办人',
     damagedDeptId: '报损部门',
     damagedRepositoryId: '报损仓库',
     damagedReason: '报损原因',
-    damagedDate: '报损日期'
+    damagedDate: '报损日期',
+    sourceNumber: '源单编号',
+    damagedNumber: '报损单编号',
+    receiptStat: '单据状态',
+    createPersonId: '创建人',
+    beginTime: '开始时间',
+    endTime: '结束时间',
+    judgeStat: '审批状态'
+  },
+  WarehouseAdjust: {
+    title: '入库单主题',
+    enterRepositoryId: '仓库',
+    enterDeptId: '入库部门',
+    enterPersonId: '入库人',
+    enterDate: '入库时间',
+    summary: '摘要',
+    id: '编号',
+    productCode: '物品编号',
+    productName: '物品名称',
+    typeId: '规格',
+    unit: '单位',
+    basicQuantity: '基本数量',
+    enterQuantity: '入库数量',
+    price: '入库单价',
+    totalMoney: '入库金额',
+    batch: '批次',
+    locationId: '货位',
+    remarks: '备注',
+    sourceNumber: '源单编号',
+    locationCode: '货位编号',
+    locationName: '货位名称',
+    length: '货位长',
+    width: '货位宽',
+    height: '货位高',
+    volume: '货位体积',
+    repositoryId: '仓库名称'
   },
   public: {
     uploadimage: '上传',

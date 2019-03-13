@@ -310,12 +310,6 @@ export default {
         if (res.data.ret === 200) {
           this.list = res.data.data.content
           this.total = res.data.data.content.length
-        } else {
-          this.$notify.error({
-            title: '错误',
-            message: '出错了',
-            offset: 100
-          })
         }
         setTimeout(() => {
           this.listLoading = false
@@ -325,12 +319,6 @@ export default {
       searchcategory().then(res => {
         if (res.data.ret === 200) {
           this.categorys = res.data.data.content
-        } else {
-          this.$notify.error({
-            title: '错误',
-            message: '出错了',
-            offset: 100
-          })
         }
       })
     },
@@ -340,12 +328,6 @@ export default {
         if (res.data.ret === 200) {
           this.list = res.data.data.content
           this.total = res.data.data.content.length
-        } else {
-          this.$notify.error({
-            title: '错误',
-            message: '出错了',
-            offset: 100
-          })
         }
       })
     },

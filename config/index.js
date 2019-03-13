@@ -47,10 +47,10 @@ module.exports = {
 
   build: {
     // Template for index.html
-    index: path.resolve(__dirname, '../ERP/index.html'),
+    index: path.resolve(__dirname, '../CCC/index.html'),
 
     // Paths
-    assetsRoot: path.resolve(__dirname, '../ERP'),
+    assetsRoot: path.resolve(__dirname, '../CCC'),
     assetsSubDirectory: 'static',
 
     /**
@@ -60,7 +60,7 @@ module.exports = {
      * then assetsPublicPath should be set to "/bar/".
      * In most cases please use '/' !!!
      */
-    assetsPublicPath: '/ERP/',
+    assetsPublicPath: '/CCC/',
 
     /**
      * Source Maps

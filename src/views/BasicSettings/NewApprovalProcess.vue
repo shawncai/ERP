@@ -169,12 +169,6 @@ export default {
       regionlist().then(res => {
         if (res.data.ret === 200) {
           this.regions = this.tranKTree(res.data.data.content)
-        } else {
-          this.$notify.error({
-            title: '错误',
-            message: '出错了',
-            offset: 100
-          })
         }
       })
       // // 审批流程步骤数据
@@ -193,12 +187,6 @@ export default {
       searchcategory().then(res => {
         if (res.data.ret === 200) {
           this.categorys = res.data.data.content
-        } else {
-          this.$notify.error({
-            title: '错误',
-            message: '出错了',
-            offset: 100
-          })
         }
       })
     },

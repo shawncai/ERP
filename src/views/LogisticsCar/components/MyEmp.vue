@@ -108,8 +108,10 @@
         </template>
       </el-table-column>
     </el-table>
-    <el-button v-waves class="filter-item" type="success" style="width: 86px;margin-top: 20px" @click="handleAddTo">{{ $t('public.addTo') }}</el-button>
-    <pagination v-show="total>0" :total="total" :page.sync="getemplist.pagenum" :limit.sync="getemplist.pagesize" @pagination="gitemplist" />
+    <pagination v-show="total>0" :total="total" :page.sync="getemplist.pagenum" :limit.sync="getemplist.pagesize" style="padding: 0" @pagination="gitemplist" />
+    <span slot="footer" class="dialog-footer">
+      <el-button v-waves class="filter-item" type="success" style="width: 86px;margin-top: 20px" @click="handleAddTo">{{ $t('public.addTo') }}</el-button>
+    </span>
   </el-dialog>
 </template>
 

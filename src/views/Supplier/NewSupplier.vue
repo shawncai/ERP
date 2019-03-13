@@ -9,7 +9,7 @@
             <el-input v-model="personalForm.supplierName" placeholder="请输入供应商名称" clearable/>
           </el-form-item>
           <el-form-item :label="$t('Supplier.typeId')" prop="typeId" style="width: 40%;margin-top:1%">
-            <el-select v-model="personalForm.typeId" placeholder="请选择供应商类别" style="width: 100%;">
+            <el-select v-model="personalForm.typeId" placeholder="请选择供应商类别" style="width: 100%;" @focus="updateType">
               <el-option
                 v-for="(item, index) in typeIds"
                 :key="index"
@@ -60,8 +60,8 @@
           <el-form-item :label="$t('public.address')" style="width: 40%;margin-top:1%">
             <el-input v-model="personalForm.detailAddress" placeholder="请输入地址" clearable/>
           </el-form-item>
-          <el-form-item :label="$t('Supplier.groupId')" style="width: 40%;margin-top:1%">
-            <el-select v-model="personalForm.groupId" placeholder="请选择供应商分组" style="width: 100%;">
+          <el-form-item :label="$t('Supplier.groupId')" prop="groupId" style="width: 40%;margin-top:1%">
+            <el-select v-model="personalForm.groupId" placeholder="请选择供应商分组" style="width: 100%;" @focus="updateGroup">
               <el-option
                 v-for="(item, index) in groupIds"
                 :key="index"
@@ -92,7 +92,7 @@
             />
           </el-form-item>
           <el-form-item :label="$t('Supplier.giveId')" style="width: 40%;margin-top:1%">
-            <el-select v-model="personalForm.giveId" placeholder="请选择交货方式" style="width: 100%;">
+            <el-select v-model="personalForm.giveId" placeholder="请选择交货方式" style="width: 100%;" @focus="updateGive">
               <el-option
                 v-for="(item, index) in giveIds"
                 :key="index"
@@ -102,7 +102,7 @@
             </el-select>
           </el-form-item>
           <el-form-item :label="$t('Supplier.transportId')" style="width: 40%;margin-top:1%">
-            <el-select v-model="personalForm.transportId" placeholder="请选择运送方式" style="width: 100%;">
+            <el-select v-model="personalForm.transportId" placeholder="请选择运送方式" style="width: 100%;" @focus="updateTran">
               <el-option
                 v-for="(item, index) in transportIds"
                 :key="index"
@@ -112,7 +112,7 @@
             </el-select>
           </el-form-item>
           <el-form-item :label="$t('Supplier.levelId')" style="width: 40%;margin-top:1%">
-            <el-select v-model="personalForm.levelId" placeholder="请选择供应商优质级别" style="width: 100%;">
+            <el-select v-model="personalForm.levelId" placeholder="请选择供应商优质级别" style="width: 100%;" @focus="updateLeve">
               <el-option
                 v-for="(item, index) in levelIds"
                 :key="index"
@@ -147,7 +147,7 @@
       <div class="container">
         <el-form ref="personalForm3" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-position="top" label-width="300px" style="margin-left: 30px;">
           <el-form-item :label="$t('Supplier.paymentId')" style="width: 40%;margin-top:1%">
-            <el-select v-model="personalForm.paymentId" placeholder="请选择结算方式" style="width: 100%;">
+            <el-select v-model="personalForm.paymentId" placeholder="请选择结算方式" style="width: 100%;" @focus="updatePaymen">
               <el-option
                 v-for="(item, index) in paymentIds"
                 :key="index"
@@ -320,96 +320,48 @@ export default {
       getcountrylist().then(res => {
         if (res.data.ret === 200) {
           this.nations = res.data.data.content
-        } else {
-          this.$notify.error({
-            title: '错误',
-            message: '出错了',
-            offset: 100
-          })
         }
       })
       // 区域列表数据
       regionlist().then(res => {
         if (res.data.ret === 200) {
           this.regions = this.tranKTree(res.data.data.content)
-        } else {
-          this.$notify.error({
-            title: '错误',
-            message: '出错了',
-            offset: 100
-          })
         }
       })
       // 供应商类别
       searchCategory(1).then(res => {
         if (res.data.ret === 200) {
           this.typeIds = res.data.data.content.list
-        } else {
-          this.$notify.error({
-            title: '错误',
-            message: '出错了',
-            offset: 100
-          })
         }
       })
       // 交货方式
       searchCategory(2).then(res => {
         if (res.data.ret === 200) {
           this.giveIds = res.data.data.content.list
-        } else {
-          this.$notify.error({
-            title: '错误',
-            message: '出错了',
-            offset: 100
-          })
         }
       })
       // 运送方式
       searchCategory(3).then(res => {
         if (res.data.ret === 200) {
           this.transportIds = res.data.data.content.list
-        } else {
-          this.$notify.error({
-            title: '错误',
-            message: '出错了',
-            offset: 100
-          })
         }
       })
       // 优质级别
       searchCategory(4).then(res => {
         if (res.data.ret === 200) {
           this.levelIds = res.data.data.content.list
-        } else {
-          this.$notify.error({
-            title: '错误',
-            message: '出错了',
-            offset: 100
-          })
         }
       })
       // 结算方式
       searchCategory(5).then(res => {
         if (res.data.ret === 200) {
           this.paymentIds = res.data.data.content.list
-        } else {
-          this.$notify.error({
-            title: '错误',
-            message: '出错了',
-            offset: 100
-          })
         }
       })
       // 分组数据
       searchGroup().then(res => {
         if (res.data.ret === 200) {
           this.groupIds = res.data.data.content
-        } else {
-          this.$notify.error({
-            title: '错误',
-            message: '出错了',
-            offset: 100
-          })
         }
       })
     },
@@ -418,12 +370,6 @@ export default {
       getprovincelist(val).then(res => {
         if (res.data.ret === 200) {
           this.provinces = res.data.data.content
-        } else {
-          this.$notify.error({
-            title: '错误',
-            message: '出错了',
-            offset: 100
-          })
         }
       })
     },
@@ -433,12 +379,6 @@ export default {
         console.log(res)
         if (res.data.ret === 200) {
           this.cities = res.data.data.content
-        } else {
-          this.$notify.error({
-            title: '错误',
-            message: '出错了',
-            offset: 100
-          })
         }
       })
     },
@@ -474,6 +414,7 @@ export default {
               this.$refs.personalForm3.resetFields()
               this.$refs.personalForm4.clearValidate()
               this.$refs.personalForm4.resetFields()
+              this.$router.go(-1)
             } else {
               this.$notify.error({
                 title: '错误',
@@ -594,6 +535,25 @@ export default {
       console.log(val)
       this.buyerId = val.personName
       this.personalForm.buyerId = val.id
+    },
+    // foucus 更新
+    updateType() {
+      this.getnationlist()
+    },
+    updateGroup() {
+      this.getnationlist()
+    },
+    updateGive() {
+      this.getnationlist()
+    },
+    updateTran() {
+      this.getnationlist()
+    },
+    updateLeve() {
+      this.getnationlist()
+    },
+    updatePaymen() {
+      this.getnationlist()
     }
   }
 }

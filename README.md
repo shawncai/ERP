@@ -131,6 +131,61 @@ this.tableHeader = ['门店名称', '地址', '经度', '纬度', '管理员id',
 <p>{{getSize(scope.row.width, scope.row.height)}}</p>
 </template>
 </el-table-column>
+```  
+######  通过循环去掉json数组中的null, 空字符串, underfined
+```js
+const EnterDetail = [{basicQuantity: 0,
+                      color: "red",
+                      enterQuantity: 0,
+                      locationId: null,
+                      price: 1234565,
+                      productCode: "1234565",
+                      productName: "1234565",
+                      remarks: null,
+                      totalMoney: null,
+                      typeId: null,
+                      unit: null}]
+ EnterDetail.map(function(elem) {
+        return elem
+      }).forEach(function(elem) {
+        if (elem.unit === null || elem.unit === '' || elem.unit === undefined) {
+          delete elem.unit
+        }
+        if (elem.basicQuantity === null || elem.basicQuantity === '' || elem.basicQuantity === undefined) {
+          delete elem.basicQuantity
+        }
+        if (elem.color === null || elem.color === '' || elem.color === undefined) {
+          delete elem.color
+        }
+        if (elem.enterQuantity === null || elem.enterQuantity === '' || elem.enterQuantity === undefined) {
+          delete elem.enterQuantity
+        }
+        if (elem.locationId === null || elem.locationId === '' || elem.locationId === undefined) {
+          delete elem.locationId
+        }
+        if (elem.price === null || elem.price === '' || elem.price === undefined) {
+          delete elem.price
+        }
+        if (elem.productCode === null || elem.productCode === '' || elem.productCode === undefined) {
+          delete elem.productCode
+        }
+        if (elem.productName === null || elem.productName === '' || elem.productName === undefined) {
+          delete elem.productName
+        }
+        if (elem.remarks === null || elem.remarks === '' || elem.remarks === undefined) {
+          delete elem.remarks
+        }
+        if (elem.totalMoney === null || elem.totalMoney === '' || elem.totalMoney === undefined) {
+          delete elem.totalMoney
+        }
+        if (elem.typeId === null || elem.typeId === '' || elem.typeId === undefined) {
+          delete elem.typeId
+        }
+        if (elem.typeId === null || elem.typeId === '' || elem.typeId === undefined) {
+          delete elem.typeId
+        }
+        return elem
+      })
 ```
 ###### 完成进度  
 ```text

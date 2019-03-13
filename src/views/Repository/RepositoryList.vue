@@ -147,10 +147,10 @@
               />
             </el-form-item>
             <el-form-item :label="$t('Repository.stat')" style="width: 40%;margin-top: 1%">
-              <el-select v-model="RepositoryForm.stat" :value="RepositoryForm.stat" placeholder="请选择" style="width: 100%;">
-                <el-option label="active" value="1"/>
-                <el-option label="dead" value="2"/>
-              </el-select>
+              <el-radio-group v-model="RepositoryForm.stat" style="width: 80%">
+                <el-radio :label="1" style="width: 50%">active</el-radio>
+                <el-radio :label="2">dead</el-radio>
+              </el-radio-group>
             </el-form-item>
             <el-form-item :label="$t('Repository.type')" style="width: 40%;margin-top: 1%">
               <el-select v-model="RepositoryForm.type" :value="RepositoryForm.type" placeholder="请选择" style="width: 100%;">
@@ -167,7 +167,7 @@
             </el-form-item>
             <!--=========================================-->
             <!--店长弹出员工列表开始-->
-            <el-dialog :visible.sync="employeeVisible" append-to-body top="10px" title="选择员工">
+            <el-dialog :visible.sync="employeeVisible" append-to-body top="10px" title="选择店长">
               <div class="filter-container">
                 <el-input v-model="getemplist.employeename" :placeholder="$t('NewEmployeeInformation.employeename')" class="filter-item" clearable @keyup.enter.native="handleFilter2"/>
                 <el-input v-model="getemplist.jobnumber" :placeholder="$t('NewEmployeeInformation.jobnumber2')" class="filter-item" clearable @keyup.enter.native="handleFilter2"/>
@@ -273,6 +273,9 @@
                 </el-table-column>
               </el-table>
               <pagination v-show="total>0" :total="total" :page.sync="getemplist.pagenum" :limit.sync="getemplist.pagesize" @pagination="gitemplist" />
+              <span slot="footer" class="dialog-footer" style="text-align: left">
+                <el-button v-waves type="success" style="text-align: center;" @click="handleConfirm">确认添加</el-button>
+              </span>
             </el-dialog>
             <!--弹窗员工列表结束-->
             <el-form-item :label="$t('Repository.createTime')" style="width: 40%;margin-top: 1%">
@@ -292,7 +295,7 @@
             <!--==============================================-->
             <!--==================================================-->
             <!--小区经理选择弹窗开始-->
-            <el-dialog :visible.sync="regionManagerVisible" append-to-body top="10px" title="选择员工">
+            <el-dialog :visible.sync="regionManagerVisible" append-to-body top="10px" title="选择小区经理">
               <div class="filter-container">
                 <el-input v-model="getemplist.employeename" :placeholder="$t('NewEmployeeInformation.employeename')" class="filter-item" clearable @keyup.enter.native="handleFilter2"/>
                 <el-input v-model="getemplist.jobnumber" :placeholder="$t('NewEmployeeInformation.jobnumber2')" class="filter-item" clearable @keyup.enter.native="handleFilter2"/>
@@ -397,7 +400,10 @@
                   </template>
                 </el-table-column>
               </el-table>
-              <pagination v-show="total>0" :total="total" :page.sync="getemplist.pagenum" :limit.sync="getemplist.pagesize" @pagination="gitemplist" />
+              <pagination v-show="total>0" :total="total" :page.sync="getemplist.pagenum" :limit.sync="getemplist.pagesize" style="padding: 0" @pagination="gitemplist" />
+              <span slot="footer" class="dialog-footer" style="text-align: left">
+                <el-button v-waves type="success" style="text-align: center;" @click="handleConfirm2">确认添加</el-button>
+              </span>
             </el-dialog>
             <!--小区经理选择弹窗结束-->
             <!--弹窗员工列表结束-->
@@ -408,7 +414,7 @@
                 <el-option label="只存储" value="3"/>
               </el-select>
             </el-form-item>
-            <el-form-item :label="$t('Repository.countryId')" prop="countryId" style="width: 40%;margin-top: 1%">
+            <el-form-item :label="$t('Repository.countryId')" style="width: 40%;margin-top: 1%">
               <el-select v-model="RepositoryForm.countryId" placeholder="请选择国家" style="width: 100%;" disabled>
                 <el-option
                   v-for="(item, index) in nations"
@@ -592,11 +598,7 @@ export default {
         if (res.data.ret === 200) {
           this.nations = res.data.data.content
         } else {
-          this.$notify.error({
-            title: '错误',
-            message: '出错了',
-            offset: 100
-          })
+          console.log('国家列表错误')
         }
       })
       // 员工列表数据
@@ -606,11 +608,7 @@ export default {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
         } else {
-          this.$notify.error({
-            title: '错误',
-            message: '出错了',
-            offset: 100
-          })
+          console.log('员工列表错误')
         }
         setTimeout(() => {
           this.listLoading = false
@@ -622,11 +620,7 @@ export default {
           console.log(res)
           this.types = res.data.data.content.list
         } else {
-          this.$notify.error({
-            title: '错误',
-            message: '出错了',
-            offset: 100
-          })
+          console.log('仓库类型错误')
         }
       })
       // 区域数据
@@ -646,11 +640,7 @@ export default {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
         } else {
-          this.$notify.error({
-            title: '错误',
-            message: '出错了',
-            offset: 100
-          })
+          console.log('搜索错误')
         }
       })
     },
@@ -816,7 +806,6 @@ export default {
       console.log(row)
       this.RepositoryForm = Object.assign({}, row)
       this.regionname = row.regionName
-      this.RepositoryForm.stat = String(row.stat)
       this.managerPeople = row.managerName
       this.regionManagerId = row.regionPersonName
       this.RepositoryForm.attributes = String(row.attributes)
@@ -964,6 +953,8 @@ export default {
     handleCurrentChange(val) {
       this.managerPeople = val.personName
       this.RepositoryForm.managerPeopleId = val.id
+    },
+    handleConfirm() {
       this.employeeVisible = false
     },
     // 仓库管理员选择结束
@@ -985,6 +976,8 @@ export default {
       console.log(val)
       this.regionManagerId = val.personName
       this.RepositoryForm.regionManagerId = val.id
+    },
+    handleConfirm2() {
       this.regionManagerVisible = false
     }
     // 小区经理选择结束

@@ -2,7 +2,7 @@
   <div :class="classObj" class="app-wrapper">
     <div v-if="device==='mobile'&&sidebar.opened" class="drawer-bg" @click="handleClickOutside"/>
     <sidebar class="sidebar-container"/>
-    <div class="main-container">
+    <div class="main-container" style="background: #f1f1f1">
       <navbar/>
       <tags-view/>
       <app-main/>

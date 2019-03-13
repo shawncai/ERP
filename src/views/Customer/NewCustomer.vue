@@ -203,11 +203,7 @@ export default {
         if (res.data.ret === 200) {
           this.customertypes = res.data.data.content.list
         } else {
-          this.$notify.error({
-            title: '错误',
-            message: '出错了',
-            offset: 100
-          })
+          console.log('客户类型错误')
         }
       })
       // 获取客户优质级别
@@ -215,11 +211,7 @@ export default {
         if (res.data.ret === 200) {
           this.levels = res.data.data.content.list
         } else {
-          this.$notify.error({
-            title: '错误',
-            message: '出错了',
-            offset: 100
-          })
+          console.log('客户优质级别错误')
         }
       })
       // 获取客户来源
@@ -227,11 +219,7 @@ export default {
         if (res.data.ret === 200) {
           this.sources = res.data.data.content.list
         } else {
-          this.$notify.error({
-            title: '错误',
-            message: '出错了',
-            offset: 100
-          })
+          console.log('客户来源错误')
         }
       })
       // 获取所有门店
@@ -239,11 +227,7 @@ export default {
         if (res.data.ret === 200) {
           this.repositories = res.data.data.content.list
         } else {
-          this.$notify.error({
-            title: '错误',
-            message: '出错了',
-            offset: 100
-          })
+          console.log('门店错误')
         }
       })
     },
@@ -253,11 +237,7 @@ export default {
         if (res.data.ret === 200) {
           this.nations = res.data.data.content
         } else {
-          this.$notify.error({
-            title: '错误',
-            message: '出错了',
-            offset: 100
-          })
+          console.log('国家列表错误')
         }
       })
     },
@@ -267,11 +247,7 @@ export default {
         if (res.data.ret === 200) {
           this.provinces = res.data.data.content
         } else {
-          this.$notify.error({
-            title: '错误',
-            message: '出错了',
-            offset: 100
-          })
+          console.log('国家选择省错误')
         }
       })
     },
@@ -282,11 +258,7 @@ export default {
         if (res.data.ret === 200) {
           this.cities = res.data.data.content
         } else {
-          this.$notify.error({
-            title: '错误',
-            message: '出错了',
-            offset: 100
-          })
+          console.log('省选择市错误')
         }
       })
     },
@@ -306,6 +278,7 @@ export default {
               this.restAllForm()
               this.$refs.customerForm.clearValidate()
               this.$refs.customerForm.resetFields()
+              this.$router.go(-1)
             } else {
               this.$notify.error({
                 title: '错误',

@@ -266,9 +266,12 @@
               <el-input v-model.number="editAllData.jobNumber" :disabled="true" placeholder="请输入工号"/>
             </el-form-item>
             <el-form-item :label="$t('NewEmployeeInformation.postid')" style="width: 40%;margin-top: 1%">
-              <el-select v-model="editAllData.postId" :value="editAllData.postId" placeholder="请选择职称" style="width: 100%;">
-                <el-option label="xxx" value="1"/>
-                <el-option label="xxx" value="2"/>
+              <el-select v-model="editAllData.postId" :value="editAllData.postId" placeholder="请选择职位" style="width: 100%;">
+                <el-option
+                  v-for="(item, index) in jobs"
+                  :key="index"
+                  :label="item.categoryName"
+                  :value="item.id"/>
               </el-select>
             </el-form-item>
             <el-form-item :label="$t('NewEmployeeInformation.deptid')" prop="deptId" style="width: 40%;margin-top: 1%">
@@ -321,7 +324,7 @@
 
 <script>
 import { searchRepository, regionlist, getcountrylist, getprovincelist, getcitylist } from '@/api/public'
-import { getdeptlist, getemplist, startorendemp, deleteemp, getempinfo, updateemp } from '@/api/EmployeeInformation'
+import { getdeptlist, getemplist, startorendemp, deleteemp, getempinfo, updateemp, searchEmpCategory } from '@/api/EmployeeInformation'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
 
@@ -354,6 +357,14 @@ export default {
       }
     }
     return {
+      // 职位搜索时参数
+      jobCat: {
+        type: 2,
+        pagenum: 1,
+        pagesize: 9999
+      },
+      // 职位列表
+      jobs: [],
       // 控制修改页面
       editVisible: false,
       // 批量操作
@@ -510,11 +521,7 @@ export default {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
         } else {
-          this.$notify.error({
-            title: '错误',
-            message: '出错了',
-            offset: 100
-          })
+          console.log('列表出错')
         }
         setTimeout(() => {
           this.listLoading = false
@@ -525,11 +532,7 @@ export default {
         if (res.data.ret === 200) {
           this.nations = res.data.data.content
         } else {
-          this.$notify.error({
-            title: '错误',
-            message: '出错了',
-            offset: 100
-          })
+          console.log('国家列表出错')
         }
       })
       // 部门列表数据
@@ -538,11 +541,7 @@ export default {
           this.depts = res.data.data.content
           this.depts2 = res.data.data.content
         } else {
-          this.$notify.error({
-            title: '错误',
-            message: '出错了',
-            offset: 100
-          })
+          console.log('部门出错')
         }
       })
       // 区域数据
@@ -551,11 +550,15 @@ export default {
           this.regions = this.tranKTree(res.data.data.content)
           this.regions2 = this.tranKTree(res.data.data.content)
         } else {
-          this.$notify.error({
-            title: '错误',
-            message: '出错了',
-            offset: 100
-          })
+          console.log('区域出错')
+        }
+      })
+      // 职位列表数据
+      searchEmpCategory(this.jobCat).then(res => {
+        if (res.data.ret === 200) {
+          this.jobs = res.data.data.content.list
+        } else {
+          console.log('职位列表出错')
         }
       })
     },
@@ -567,11 +570,7 @@ export default {
         if (res.data.ret === 200) {
           this.provinces = res.data.data.content
         } else {
-          this.$notify.error({
-            title: '错误',
-            message: '出错了',
-            offset: 100
-          })
+          console.log('根据国家选择省出错')
         }
       })
     },
@@ -582,11 +581,7 @@ export default {
         if (res.data.ret === 200) {
           this.cities = res.data.data.content
         } else {
-          this.$notify.error({
-            title: '错误',
-            message: '出错了',
-            offset: 100
-          })
+          console.log('根据省选择市出错')
         }
       })
     },
@@ -599,7 +594,6 @@ export default {
         this.editVisible = true
         this.editAllData = Object.assign({}, emData)
         this.editAllData.certificateType = String(emData.certificateType)
-        this.editAllData.postId = String(emData.postId)
       })
     },
     // 提交修改
@@ -839,11 +833,7 @@ export default {
             this.list = res.data.data.content.list
             this.total = res.data.data.content.totalCount
           } else {
-            this.$notify.error({
-              title: '错误',
-              message: '出错了',
-              offset: 100
-            })
+            console.log('搜索出错')
           }
         })
       }

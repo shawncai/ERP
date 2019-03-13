@@ -68,7 +68,7 @@
         <el-form-item :label="$t('public.address')" style="width: 40%;margin-top:1%">
           <el-input v-model="personalForm.detailAddress" placeholder="请输入地址" clearable/>
         </el-form-item>
-        <el-form-item :label="$t('Supplier.groupId')" style="width: 40%;margin-top:1%">
+        <el-form-item :label="$t('Supplier.groupId')" prop="groupId" style="width: 40%;margin-top:1%">
           <el-select v-model="personalForm.groupId" placeholder="请选择供应商分组" style="width: 100%;">
             <el-option
               v-for="(item, index) in groupIds"
@@ -314,96 +314,48 @@ export default {
       getcountrylist().then(res => {
         if (res.data.ret === 200) {
           this.nations = res.data.data.content
-        } else {
-          this.$notify.error({
-            title: '错误',
-            message: '出错了',
-            offset: 100
-          })
         }
       })
       // 区域列表数据
       regionlist().then(res => {
         if (res.data.ret === 200) {
           this.regions = this.tranKTree(res.data.data.content)
-        } else {
-          this.$notify.error({
-            title: '错误',
-            message: '出错了',
-            offset: 100
-          })
         }
       })
       // 供应商类别
       searchCategory(1).then(res => {
         if (res.data.ret === 200) {
           this.typeIds = res.data.data.content.list
-        } else {
-          this.$notify.error({
-            title: '错误',
-            message: '出错了',
-            offset: 100
-          })
         }
       })
       // 交货方式
       searchCategory(2).then(res => {
         if (res.data.ret === 200) {
           this.giveIds = res.data.data.content.list
-        } else {
-          this.$notify.error({
-            title: '错误',
-            message: '出错了',
-            offset: 100
-          })
         }
       })
       // 运送方式
       searchCategory(3).then(res => {
         if (res.data.ret === 200) {
           this.transportIds = res.data.data.content.list
-        } else {
-          this.$notify.error({
-            title: '错误',
-            message: '出错了',
-            offset: 100
-          })
         }
       })
       // 优质级别
       searchCategory(4).then(res => {
         if (res.data.ret === 200) {
           this.levelIds = res.data.data.content.list
-        } else {
-          this.$notify.error({
-            title: '错误',
-            message: '出错了',
-            offset: 100
-          })
         }
       })
       // 结算方式
       searchCategory(5).then(res => {
         if (res.data.ret === 200) {
           this.paymentIds = res.data.data.content.list
-        } else {
-          this.$notify.error({
-            title: '错误',
-            message: '出错了',
-            offset: 100
-          })
         }
       })
       // 分组数据
       searchGroup().then(res => {
         if (res.data.ret === 200) {
           this.groupIds = res.data.data.content
-        } else {
-          this.$notify.error({
-            title: '错误',
-            message: '出错了',
-            offset: 100
-          })
         }
       })
     },
@@ -412,12 +364,6 @@ export default {
       getprovincelist(val).then(res => {
         if (res.data.ret === 200) {
           this.provinces = res.data.data.content
-        } else {
-          this.$notify.error({
-            title: '错误',
-            message: '出错了',
-            offset: 100
-          })
         }
       })
     },
@@ -427,12 +373,6 @@ export default {
         console.log(res)
         if (res.data.ret === 200) {
           this.cities = res.data.data.content
-        } else {
-          this.$notify.error({
-            title: '错误',
-            message: '出错了',
-            offset: 100
-          })
         }
       })
     },

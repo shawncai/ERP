@@ -17,7 +17,7 @@
           <el-form-item :label="$t('public.address')" prop="address" style="width: 40%">
             <el-input v-model="RepositoryForm.address" placeholder="请输入详细门店地址" clearable/>
           </el-form-item>
-          <el-form-item :label="$t('Repository.regionId')" prop="regionid" style="width: 40%;margin-top: 1%">
+          <el-form-item :label="$t('Repository.regionId')" prop="regionId" style="width: 40%;margin-top: 1%">
             <el-cascader
               :options="regions"
               :props="props"
@@ -30,13 +30,13 @@
             />
           </el-form-item>
           <el-form-item :label="$t('Repository.stat')" style="width: 40%;margin-top: 1%">
-            <el-select v-model="RepositoryForm.stat" :value="RepositoryForm.stat" placeholder="请选择" style="width: 100%;">
-              <el-option label="active" value="1"/>
-              <el-option label="dead" value="2"/>
-            </el-select>
+            <el-radio-group v-model="RepositoryForm.stat" style="width: 80%">
+              <el-radio :label="1" style="width: 50%">active</el-radio>
+              <el-radio :label="2">dead</el-radio>
+            </el-radio-group>
           </el-form-item>
-          <el-form-item :label="$t('Repository.type')" style="width: 40%;margin-top: 1%">
-            <el-select v-model="RepositoryForm.type" :value="RepositoryForm.type" placeholder="请选择" style="width: 100%;">
+          <el-form-item :label="$t('Repository.type')" prop="type" style="width: 40%;margin-top: 1%">
+            <el-select v-model="RepositoryForm.type" :value="RepositoryForm.type" placeholder="请选择" style="width: 100%;" @focus="updateType">
               <el-option
                 v-for="(item, index) in types"
                 :key="index"
@@ -154,8 +154,10 @@
                 </template>
               </el-table-column>
             </el-table>
-            <el-button v-waves class="filter-item" type="success" style="width: 100px;float: left;margin-top: 10px" @click="handleConfirm">确认添加</el-button>
-            <pagination v-show="total>0" :total="total" :page.sync="getemplist.pagenum" :limit.sync="getemplist.pagesize" @pagination="gitemplist" />
+            <pagination v-show="total>0" :total="total" :page.sync="getemplist.pagenum" :limit.sync="getemplist.pagesize" style="padding: 0" @pagination="gitemplist" />
+            <span slot="footer" class="dialog-footer" style="text-align: left">
+              <el-button v-waves type="success" style="text-align: center;" @click="handleConfirm">确认添加</el-button>
+            </span>
           </el-dialog>
           <!--弹窗员工列表结束-->
           <el-form-item :label="$t('Repository.createTime')" style="width: 40%;margin-top: 1%">
@@ -277,12 +279,14 @@
                 </template>
               </el-table-column>
             </el-table>
-            <el-button v-waves class="filter-item" type="success" style="width: 100px;float: left;margin-top: 10px" @click="handleConfirm2">确认添加</el-button>
-            <pagination v-show="total>0" :total="total" :page.sync="getemplist.pagenum" :limit.sync="getemplist.pagesize" @pagination="gitemplist" />
+            <pagination v-show="total>0" :total="total" :page.sync="getemplist.pagenum" :limit.sync="getemplist.pagesize" style="padding: 0" @pagination="gitemplist" />
+            <span slot="footer" class="dialog-footer" style="text-align: left">
+              <el-button v-waves type="success" style="text-align: center;" @click="handleConfirm2">确认添加</el-button>
+            </span>
           </el-dialog>
           <!--小区经理选择弹窗结束-->
           <!--弹窗员工列表结束-->
-          <el-form-item :label="$t('Repository.attributes')" style="width: 40%;margin-top: 1%">
+          <el-form-item :label="$t('Repository.attributes')" prop="attributes" style="width: 40%;margin-top: 1%">
             <el-select v-model="RepositoryForm.attributes" :value="RepositoryForm.attributes" placeholder="请选择" clearable style="width: 100%;">
               <el-option label="只卖" value="1"/>
               <el-option label="既卖又维修" value="2"/>
@@ -377,6 +381,9 @@ export default {
         repositoryName: [
           { required: true, message: '请输入仓库名称', trigger: 'blur' }
         ],
+        regionId: [
+          { required: true, message: '请选择区域', trigger: 'blur' }
+        ],
         latitude: [
           { required: true, message: '请输入维度', trigger: 'blur' },
           { type: 'number', message: '维度必须为数字值' }
@@ -389,6 +396,12 @@ export default {
         ],
         countryId: [
           { required: true, message: '请选择国家', trigger: 'change' }
+        ],
+        type: [
+          { required: true, message: '请选择类型', trigger: 'change' }
+        ],
+        attributes: [
+          { required: true, message: '请选择属性', trigger: 'change' }
         ]
       },
       // / 弹窗选择
@@ -444,11 +457,7 @@ export default {
         if (res.data.ret === 200) {
           this.nations = res.data.data.content
         } else {
-          this.$notify.error({
-            title: '错误',
-            message: '出错了',
-            offset: 100
-          })
+          console.log('国籍列表出错')
         }
       })
       // 区域列表数据
@@ -456,11 +465,7 @@ export default {
         if (res.data.ret === 200) {
           this.regions = this.tranKTree(res.data.data.content)
         } else {
-          this.$notify.error({
-            title: '错误',
-            message: '出错了',
-            offset: 100
-          })
+          console.log('区域列表数据出错')
         }
       })
       // 仓库类型
@@ -468,11 +473,7 @@ export default {
         if (res.data.ret === 200) {
           this.types = res.data.data.content.list
         } else {
-          this.$notify.error({
-            title: '错误',
-            message: '出错了',
-            offset: 100
-          })
+          console.log('仓库类型数据出错')
         }
       })
     },
@@ -520,6 +521,7 @@ export default {
                 offset: 100
               })
               this.restAllForm()
+              this.$router.go(-1)
               this.$refs.RepositoryForm.clearValidate()
               this.$refs.RepositoryForm.resetFields()
             } else {
@@ -597,11 +599,7 @@ export default {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
         } else {
-          this.$notify.error({
-            title: '错误',
-            message: '出错了',
-            offset: 100
-          })
+          console.log('员工列表数据出错')
         }
         setTimeout(() => {
           this.listLoading = false
@@ -612,11 +610,7 @@ export default {
         if (res.data.ret === 200) {
           this.depts = res.data.data.content
         } else {
-          this.$notify.error({
-            title: '错误',
-            message: '出错了',
-            offset: 100
-          })
+          console.log('部门列表数据出错')
         }
       })
       // 区域数据
@@ -634,11 +628,7 @@ export default {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
         } else {
-          this.$notify.error({
-            title: '错误',
-            message: '出错了',
-            offset: 100
-          })
+          console.log('查询出错')
         }
       })
     },
@@ -656,7 +646,7 @@ export default {
           console.log(res)
           this.repositories = res.data.data.content.list
         } else {
-          this.$message.error('出错了')
+          console.log('根据区域选择门店出错')
         }
       })
     },
@@ -713,9 +703,11 @@ export default {
     // 确认添加数据
     handleConfirm2() {
       this.regionManagerVisible = false
-    }
+    },
     // 小区经理选择结束
-
+    updateType() {
+      this.getnationlist()
+    }
   }
 }
 </script>

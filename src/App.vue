@@ -14,4 +14,7 @@ export default{
   .el-table__body tr.current-row>td {
     background-color: #efefef;
   }
+  .el-dialog__footer{
+    text-align: left;
+  }
 </style>

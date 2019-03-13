@@ -2,16 +2,16 @@
   <div class="ERP-container">
     <div class="filter-container">
       <!-- 搜索条件栏目 -->
-      <el-input v-model="getemplist.title" :placeholder="$t('InventoryCount.title')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
-      <el-input v-model="getemplist.sourceNumber" :placeholder="$t('InventoryCount.sourceNumber')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
-      <el-input v-model="getemplist.countNumber" :placeholder="$t('InventoryCount.countNumber')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
-      <el-input v-model="getemplist.handlePersonId" :placeholder="$t('InventoryCount.handlePersonId')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
+      <el-input v-model="getemplist.title" :placeholder="$t('Inventorydamaged.title')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
+      <el-input v-model="getemplist.sourceNumber" :placeholder="$t('Inventorydamaged.sourceNumber')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
+      <el-input v-model="getemplist.damagedNumber" :placeholder="$t('Inventorydamaged.damagedNumber')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
+      <el-input v-model="getemplist.handlePersonId" :placeholder="$t('Inventorydamaged.handlePersonId')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
       <!-- 更多搜索条件下拉栏 -->
       <el-popover
         placement="bottom"
         width="500"
         trigger="click">
-        <el-input v-model="getemplist.createPersonId" :placeholder="$t('InventoryCount.createPersonId')" class="filter-item" clearable style="width: 40%;float: left;margin-left: 20px" @keyup.enter.native="handleFilter"/>
+        <el-input v-model="getemplist.createPersonId" :placeholder="$t('Inventorydamaged.createPersonId')" class="filter-item" clearable style="width: 40%;float: left;margin-left: 20px" @keyup.enter.native="handleFilter"/>
         <el-select v-model="getemplist.countDeptId" placeholder="请选择仓库报损部门" clearable style="width: 40%;float: right;margin-right: 20px">
           <el-option value="1" label="科技部门"/>
         </el-select>
@@ -71,59 +71,54 @@
           type="selection"
           width="55"
           align="center"/>
-        <el-table-column :label="$t('InventoryCount.id')" :resizable="false" prop="id" align="center" width="150">
+        <el-table-column :label="$t('Inventorydamaged.id')" :resizable="false" prop="id" align="center" width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.id }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('InventoryCount.title')" :resizable="false" prop="title" align="center" width="150">
+        <el-table-column :label="$t('Inventorydamaged.title')" :resizable="false" prop="title" align="center" width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.InventoryCountName }}</span>
+            <span>{{ scope.row.InventorydamagedName }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('InventoryCount.handlePersonId')" :resizable="false" prop="handlePersonId" align="center" width="150">
+        <el-table-column :label="$t('Inventorydamaged.handlePersonId')" :resizable="false" prop="handlePersonId" align="center" width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.handlePersonId }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('InventoryCount.countDeptId')" :resizable="false" prop="countDeptId" align="center" width="150">
+        <el-table-column :label="$t('Inventorydamaged.damagedDeptId')" :resizable="false" prop="countDeptId" align="center" width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.countDeptId }}</span>
+            <span>{{ scope.row.damagedDeptId }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('InventoryCount.countRepositoryId')" :resizable="false" align="center" width="150">
+        <el-table-column :label="$t('Inventorydamaged.damagedRepositoryId')" :resizable="false" align="center" width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.countRepositoryId }}</span>
+            <span>{{ scope.row.damagedRepositoryId }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('InventoryCount.beginTime')" :resizable="false" prop="beginTime" align="center" width="150">
+        <el-table-column :label="$t('Inventorydamaged.beginTime')" :resizable="false" prop="beginTime" align="center" width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.beginTime }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('InventoryCount.endTime')" :resizable="false" prop="endTime" align="center" width="150">
+        <el-table-column :label="$t('Inventorydamaged.endTime')" :resizable="false" prop="endTime" align="center" width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.endTime }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('InventoryCount.countType')" :resizable="false" prop="countType" align="center" width="150">
+        <el-table-column :label="$t('Inventorydamaged.damagedReason')" :resizable="false" prop="countType" align="center" width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.countType }}</span>
+            <span>{{ scope.row.damagedReason }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('InventoryCount.isOverflow')" :resizable="false" align="center" width="150">
+        <el-table-column :resizable="false" label="成本金额" align="center" width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.endDate }}</span>
+            <span>{{ scope.row.modifyDate }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('InventoryCount.judgeStat')" :resizable="false" prop="judgeStat" align="center" width="150">
+        <el-table-column :label="$t('Inventorydamaged.judgeStat')" :resizable="false" prop="judgeStat" align="center" width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.judgeStat }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column :label="$t('InventoryCount.receiptStat')" :resizable="false" prop="receiptStat" align="center" width="150">
-          <template slot-scope="scope">
-            <span>{{ scope.row.receiptStat }}</span>
           </template>
         </el-table-column>
         <el-table-column :label="$t('public.actions')" :resizable="false" align="center" min-width="230">
@@ -143,7 +138,8 @@
 </template>
 
 <script>
-import { countlist, deletecount } from '@/api/InventoryCount'
+import { countlist } from '@/api/InventoryCount'
+import { deletedamaged } from '@/api/Inventorydamaged'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
 import MyDialog from './components/MyDialog'
@@ -263,7 +259,7 @@ export default {
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          deletecount(ids).then(res => {
+          deletedamaged(ids).then(res => {
             if (res.data.ret === 200) {
               this.$notify({
                 title: '删除成功',
@@ -294,7 +290,7 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        deletecount(row.id).then(res => {
+        deletedamaged(row.id).then(res => {
           if (res.data.ret === 200) {
             this.$notify({
               title: '删除成功',
@@ -319,14 +315,14 @@ export default {
     },
     // 新增数据
     handleAdd() {
-      this.$router.push('/InventoryCount/AddInventoryCount')
+      this.$router.push('/Inventorydamaged/AddInventorydamaged')
     },
     // 导出
     handleExport() {
       this.downloadLoading = true
         import('@/vendor/Export2Excel').then(excel => {
           const tHeader = ['供应商编号', '供应商名称', '供应商简称', '供应商类别', '所在区域', '采购员', '供应商优质级别', '建档人', '建档日期']
-          const filterVal = ['id', 'InventoryCountName', 'InventoryCountShortName', 'typeName', 'regionName', 'buyerName', 'levelName', 'createName', 'createTime']
+          const filterVal = ['id', 'InventorydamagedName', 'InventorydamagedShortName', 'typeName', 'regionName', 'buyerName', 'levelName', 'createName', 'createTime']
           const data = this.formatJson(filterVal, this.list)
           excel.export_json_to_excel({
             header: tHeader,

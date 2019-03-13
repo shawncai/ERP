@@ -104,8 +104,10 @@
         </template>
       </el-table-column>
     </el-table>
-    <el-button v-waves class="filter-item" type="success" style="width: 100px;float: left;margin-top: 10px" @click="handleConfirm">确认添加</el-button>
-    <pagination v-show="total>0" :total="total" :page.sync="getemplist.pagenum" :limit.sync="getemplist.pagesize" @pagination="gitemplist" />
+    <pagination v-show="total>0" :total="total" :page.sync="getemplist.pagenum" :limit.sync="getemplist.pagesize" style="padding: 0" @pagination="gitemplist" />
+    <span slot="footer" class="dialog-footer">
+      <el-button v-waves class="filter-item" type="success" style="width: 100px;float: left;margin-top: 10px" @click="handleConfirm">确认添加</el-button>
+    </span>
   </el-dialog>
 </template>
 

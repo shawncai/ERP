@@ -4,9 +4,9 @@
       <!-- 搜索条件栏目 -->
       <el-input v-model="getemplist.categoryname" :placeholder="$t('NewEmployeeInformation.categoryname')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
       <el-select v-model="getemplist.type" :value="getemplist.type" :placeholder="$t('NewEmployeeInformation.type')" class="filter-item" clearable>
-        <el-option label="部门类别" value="1"/>
-        <el-option label="职位类别" value="2"/>
-        <el-option label="合同类型" value="3"/>
+        <el-option label="客户类型" value="1"/>
+        <el-option label="客户优质级别" value="2"/>
+        <el-option label="客户来源" value="3"/>
       </el-select>
       <el-select v-model="getemplist.iseffective" :value="getemplist.iseffective" :placeholder="$t('NewEmployeeInformation.iseffective')" class="filter-item" clearable>
         <el-option label="active " value="1"/>
@@ -31,17 +31,14 @@
       <el-button v-waves class="filter-item" icon="el-icon-plus" type="success" style="width: 86px;float: right" @click="handleAdd">{{ $t('public.add') }}</el-button>
       <el-dialog :visible.sync="categoryVisible" title="新建分类属性" center>
         <el-form ref="addCategoryForm" :rules="addCategoryFormRules" :model="addCategoryForm" class="demo-ruleForm" style="margin: 0 auto; width: 400px">
-          <el-form-item :label="$t('NewEmployeeInformation.category')" label-width="100px" prop="category">
-            <el-input v-model="addCategoryForm.category" autocomplete="off"/>
-          </el-form-item>
           <el-form-item :label="$t('NewEmployeeInformation.categoryname')" label-width="100px" prop="categoryname">
             <el-input v-model="addCategoryForm.categoryname" autocomplete="off"/>
           </el-form-item>
           <el-form-item :label="$t('NewEmployeeInformation.type')" label-width="100px" prop="type">
             <el-select v-model="addCategoryForm.type" placeholder="请选择类别" style="width: 100%">
-              <el-option label="部门类别" value="1"/>
-              <el-option label="职位类别" value="2"/>
-              <el-option label="合同类型" value="3"/>
+              <el-option label="客户类型" value="1"/>
+              <el-option label="客户优质级别" value="2"/>
+              <el-option label="客户来源" value="3"/>
             </el-select>
           </el-form-item>
           <el-form-item :label="$t('NewEmployeeInformation.iseffective')" label-width="100px" prop="iseffective">
@@ -104,9 +101,9 @@
           <el-form ref="editCategoryForm" :rules="editCategoryFormRules" :model="editCategoryForm" class="demo-ruleForm" style="margin: 0 auto; width: 400px">
             <el-form-item :label="$t('NewEmployeeInformation.type')" label-width="100px">
               <el-select v-model="editCategoryForm.type" placeholder="请选择类别" style="width: 100%" disabled >
-                <el-option label="部门类别" value="1"/>
-                <el-option label="职位类别" value="2"/>
-                <el-option label="合同类型" value="3"/>
+                <el-option label="客户类型" value="1"/>
+                <el-option label="客户优质级别" value="2"/>
+                <el-option label="客户来源" value="3"/>
               </el-select>
             </el-form-item>
             <el-form-item :label="$t('NewEmployeeInformation.categoryname')" label-width="100px" prop="categoryName">
@@ -231,12 +228,6 @@ export default {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
-        } else {
-          this.$notify.error({
-            title: '错误',
-            message: '出错了',
-            offset: 100
-          })
         }
         setTimeout(() => {
           this.listLoading = false
@@ -249,12 +240,6 @@ export default {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
-        } else {
-          this.$notify.error({
-            title: '错误',
-            message: '出错了',
-            offset: 100
-          })
         }
       })
     },

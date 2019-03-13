@@ -380,9 +380,9 @@ export function addEmpCategory(query) {
   if (query.categoryname !== '' && query.categoryname !== null) {
     params.append('categoryname', query.categoryname) // 你要传给后台的参数值 key/value
   }
-  if (query.category !== '' && query.category !== null) {
-    params.append('category', query.category) // 你要传给后台的参数值 key/value
-  }
+
+  params.append('category', undefined) // 你要传给后台的参数值 key/value
+
   if (query.iseffective !== '' && query.iseffective !== null) {
     params.append('iseffective', query.iseffective) // 你要传给后台的参数值 key/value
   }

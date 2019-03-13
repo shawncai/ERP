@@ -123,24 +123,12 @@ export default {
       getcountrylist().then(res => {
         if (res.data.ret === 200) {
           this.nations = res.data.data.content
-        } else {
-          this.$notify.error({
-            title: '错误',
-            message: '出错了',
-            offset: 100
-          })
         }
       })
       // 区域列表数据
       regionlist().then(res => {
         if (res.data.ret === 200) {
           this.regions = this.tranKTree(res.data.data.content)
-        } else {
-          this.$notify.error({
-            title: '错误',
-            message: '出错了',
-            offset: 100
-          })
         }
       })
       // 供应商类别

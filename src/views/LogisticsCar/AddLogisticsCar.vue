@@ -36,10 +36,6 @@
             <el-input v-model="drivers" placeholder="请输入驾驶员" @focus="handlechoose"/>
           </el-form-item>
           <my-emp :control.sync="empcontrol" @personName="personName" @personIds="personIds"/>
-          <el-form-item :label="$t('LogisticsCar.createid')" prop="createid" style="width: 40%;margin-top:1%">
-            <el-input v-model="createid" placeholder="请输入创建人" @focus="handlechoosecreateman"/>
-          </el-form-item>
-          <my-create :createcontrol.sync="createcontrol" @createname="createname"/>
         </el-form>
       </div>
       <!--操作-->
@@ -70,7 +66,9 @@ export default {
       // 创建人回显
       createid: '',
       // 物流车辆信息数据
-      personalForm: {},
+      personalForm: {
+        createid: 1
+      },
       // 物流车辆信息规则数据
       personalrules: {
         carnumber: [
@@ -118,6 +116,7 @@ export default {
               this.restAllForm()
               this.$refs.personalForm.clearValidate()
               this.$refs.personalForm.resetFields()
+              this.$router.go(-1)
             } else {
               this.$notify.error({
                 title: '错误',

@@ -113,7 +113,7 @@
         </el-table-column>
         <el-table-column :label="$t('Customer.newold')" :resizable="false" prop="newOrOld" align="center" width="100">
           <template slot-scope="scope">
-            <span>{{ scope.row.newOrOld }}</span>
+            <span>{{ scope.row.newOrOld | filterno }}</span>
           </template>
         </el-table-column>
         <el-table-column :label="$t('Customer.phone')" :resizable="false" prop="phoneNumber" align="center" width="100">
@@ -156,16 +156,16 @@
         <h2 ref="geren" class="form-name">基本信息</h2>
         <div class="container">
           <el-form ref="customerForm" :model="customerForm" :rules="customerFormrules" :inline="true" status-icon class="demo-ruleForm" label-position="top" label-width="300px" style="margin-left: 30px;">
-            <el-form-item :label="$t('Customer.firstname')" prop="firstname" style="width: 40%;margin-top:1%">
+            <el-form-item :label="$t('Customer.firstname')" prop="firstName" style="width: 40%;margin-top:1%">
               <el-input v-model="customerForm.firstName" placeholder="请输入名" clearable/>
             </el-form-item>
-            <el-form-item :label="$t('Customer.middlename')" prop="middlename" style="width: 40%;margin-top:1%">
+            <el-form-item :label="$t('Customer.middlename')" style="width: 40%;margin-top:1%">
               <el-input v-model="customerForm.middleName" placeholder="请输入中间名" clearable/>
             </el-form-item>
-            <el-form-item :label="$t('Customer.lastname')" prop="lastname" style="width: 40%">
+            <el-form-item :label="$t('Customer.lastname')" prop="lastName" style="width: 40%">
               <el-input v-model="customerForm.lastName" placeholder="请输入姓氏" clearable/>
             </el-form-item>
-            <el-form-item :label="$t('Customer.phone')" style="width: 40%">
+            <el-form-item :label="$t('Customer.phone')" prop="phoneNumber" style="width: 40%">
               <el-input v-model="customerForm.phoneNumber" placeholder="请输入客户电话" clearable/>
             </el-form-item>
             <el-form-item :label="$t('Customer.gender')" prop="gender" style="width: 40%">
@@ -296,6 +296,13 @@ export default {
         2: '女'
       }
       return statusMap[status]
+    },
+    filterno(status) {
+      const statusMap = {
+        1: '老客户',
+        2: '新客户'
+      }
+      return statusMap[status]
     }
   },
   data() {
@@ -337,7 +344,7 @@ export default {
       },
       // 客户信息规则数据
       customerFormrules: {
-        phone: [
+        phoneNumber: [
           { required: true, message: '请输入电话', trigger: 'blur' }
         ],
         lastName: [
@@ -409,11 +416,7 @@ export default {
         if (res.data.ret === 200) {
           this.customertypes = res.data.data.content.list
         } else {
-          this.$notify.error({
-            title: '错误',
-            message: '出错了',
-            offset: 100
-          })
+          console.log('客户类型出错')
         }
       })
       // 获取客户优质级别
@@ -421,11 +424,7 @@ export default {
         if (res.data.ret === 200) {
           this.levels = res.data.data.content.list
         } else {
-          this.$notify.error({
-            title: '错误',
-            message: '出错了',
-            offset: 100
-          })
+          console.log('客户优质级别出错')
         }
       })
       // 获取客户来源
@@ -433,11 +432,7 @@ export default {
         if (res.data.ret === 200) {
           this.sources = res.data.data.content.list
         } else {
-          this.$notify.error({
-            title: '错误',
-            message: '出错了',
-            offset: 100
-          })
+          console.log('客户来源出错')
         }
       })
       // 获取所有门店
@@ -445,11 +440,7 @@ export default {
         if (res.data.ret === 200) {
           this.repositories = res.data.data.content.list
         } else {
-          this.$notify.error({
-            title: '错误',
-            message: '出错了',
-            offset: 100
-          })
+          console.log('门店出错')
         }
       })
     },
@@ -461,11 +452,7 @@ export default {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
         } else {
-          this.$notify.error({
-            title: '错误',
-            message: '出错了',
-            offset: 100
-          })
+          console.log('员工列表出错')
         }
         setTimeout(() => {
           this.listLoading = false
@@ -480,11 +467,7 @@ export default {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
         } else {
-          this.$notify.error({
-            title: '错误',
-            message: '出错了',
-            offset: 100
-          })
+          console.log('搜索出错')
         }
       })
     },
@@ -650,12 +633,6 @@ export default {
       getcountrylist().then(res => {
         if (res.data.ret === 200) {
           this.nations = res.data.data.content
-        } else {
-          this.$notify.error({
-            title: '错误',
-            message: '出错了',
-            offset: 100
-          })
         }
       })
     },
@@ -664,12 +641,6 @@ export default {
       getprovincelist(val).then(res => {
         if (res.data.ret === 200) {
           this.provinces = res.data.data.content
-        } else {
-          this.$notify.error({
-            title: '错误',
-            message: '出错了',
-            offset: 100
-          })
         }
       })
     },
@@ -679,12 +650,6 @@ export default {
         console.log(res)
         if (res.data.ret === 200) {
           this.cities = res.data.data.content
-        } else {
-          this.$notify.error({
-            title: '错误',
-            message: '出错了',
-            offset: 100
-          })
         }
       })
     }

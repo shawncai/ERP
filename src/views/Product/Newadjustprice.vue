@@ -136,6 +136,7 @@ export default {
               this.restAllForm()
               this.$refs.personalForm.clearValidate()
               this.$refs.personalForm.resetFields()
+              this.$router.go(-1)
             } else {
               this.$notify.error({
                 title: '错误',

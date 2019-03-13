@@ -92,8 +92,11 @@
           </el-form-item>
           <el-form-item :label="$t('NewEmployeeInformation.typeid')" prop="type" style="width: 40%;margin-top:1%">
             <el-select v-model="contractForm.type" placeholder="请选择合同类别" style="width: 100%;">
-              <el-option label="类型1" value="1"/>
-              <el-option label="类型2" value="2"/>
+              <el-option
+                v-for="(item, index) in alltypes"
+                :key="index"
+                :label="item.categoryName"
+                :value="item.id"/>
             </el-select>
           </el-form-item>
           <el-form-item :label="$t('NewEmployeeInformation.contractname')" prop="contractName" style="width: 40%">
@@ -136,16 +139,16 @@
             </el-select>
           </el-form-item>
           <el-form-item :label="$t('NewEmployeeInformation.iscorrection')" style="width: 40%;margin-top:1%">
-            <el-select v-model="contractForm.isCorrection" placeholder="请选择转正标志" style="width: 100%;">
-              <el-option label="是" value="1"/>
-              <el-option label="否" value="2"/>
-            </el-select>
+            <el-radio-group v-model="contractForm.isCorrection" style="width: 80%">
+              <el-radio :label="1" style="width: 50%">是</el-radio>
+              <el-radio :label="2">否</el-radio>
+            </el-radio-group>
           </el-form-item>
           <el-form-item :label="$t('NewEmployeeInformation.contractstat')" style="width: 40%;margin-top:1%">
-            <el-select v-model="contractForm.stat" placeholder="请选择合同状态" style="width: 100%;">
-              <el-option label="类型1" value="1"/>
-              <el-option label="类型2" value="2"/>
-            </el-select>
+            <el-radio-group v-model="contractForm.stat" style="width: 80%">
+              <el-radio :label="1" style="width: 50%">生效</el-radio>
+              <el-radio :label="2">未生效</el-radio>
+            </el-radio-group>
           </el-form-item>
           <el-form-item :label="$t('NewEmployeeInformation.trialsalary')" style="width: 40%">
             <el-input v-model="contractForm.trialSalary" placeholder="请输入试用工资" clearable/>
@@ -154,8 +157,9 @@
             <el-input v-model="contractForm.correctionSalary" placeholder="请输入转正工资" clearable/>
           </el-form-item>
           <el-form-item :label="$t('NewEmployeeInformation.remindpersonid')" style="width: 40%">
-            <el-input v-model="contractForm.remindPerson" placeholder="请选择提醒人" clearable/>
+            <el-input v-model="remindpersonid" placeholder="请选择提醒人" clearable @focus="controlremin"/>
           </el-form-item>
+          <my-create :createcontrol.sync="createcontrol" @createname="createname"/>
           <el-form-item :label="$t('NewEmployeeInformation.advanceday')" style="width: 40%">
             <el-input v-model="contractForm.advanceDay" placeholder="请输入提前时间" clearable>
               <template slot="append">天</template>
@@ -172,16 +176,29 @@
 </template>
 
 <script>
-import { contractlist, updatecontract, deleteempcontract } from '@/api/EmployeeInformation'
+import { contractlist, updatecontract, deleteempcontract, searchEmpCategory } from '@/api/EmployeeInformation'
 import waves from '@/directive/waves' // Waves directive
+import MyCreate from './components/MyCreate'
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
 
 export default {
   name: 'EmployeeContract',
   directives: { waves },
-  components: { Pagination },
+  components: { Pagination, MyCreate },
   data() {
     return {
+      // 提醒人回显
+      remindpersonid: '',
+      // 控制提醒人窗口
+      createcontrol: false,
+      // 所有合同类别数据
+      alltypes: [],
+      // 合同类别参数
+      typeids: {
+        type: 3,
+        pagenum: 1,
+        pagesize: 9999
+      },
       // 批量删除
       moredelete: [],
       // 加载操作控制
@@ -259,16 +276,20 @@ export default {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
         } else {
-          this.$notify.error({
-            title: '错误',
-            message: '出错了',
-            offset: 100
-          })
+          console.log('列表出错')
           this.listLoading = false
         }
         setTimeout(() => {
           this.listLoading = false
         }, 0.5 * 100)
+      })
+      // 合同类别数据
+      searchEmpCategory(this.typeids).then(res => {
+        if (res.data.ret === 200) {
+          this.alltypes = res.data.data.content.list
+        } else {
+          console.log('合同类别数据出错了')
+        }
       })
     },
     // 清空修改数据
@@ -299,6 +320,9 @@ export default {
       this.employeeName = row.empName
       this.contractNumber = row.contractNumber
       this.contractForm = Object.assign({}, row)
+      this.remindpersonid = this.contractForm.remindPerson
+      this.contractForm.period = String(row.period)
+      this.contractForm.contractAttribute = String(row.contractAttribute)
       console.log(this.contractForm)
     },
     // 修改并上传
@@ -348,11 +372,7 @@ export default {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
         } else {
-          this.$notify.error({
-            title: '错误',
-            message: '出错了',
-            offset: 100
-          })
+          console.log('列表出错')
         }
       })
     },
@@ -421,7 +441,6 @@ export default {
             message: '已取消删除'
           })
         })
-        console.log(ids)
       }
     },
     // 新增数据
@@ -455,6 +474,15 @@ export default {
     // 打印
     handlePrint() {
       console.log(456)
+    },
+    // 控制合同到期提醒人选择窗口
+    controlremin() {
+      this.createcontrol = true
+    },
+    // 合同到期提醒人回显
+    createname(val) {
+      this.remindpersonid = val.personName
+      this.contractForm.remindpersonid = val.id
     }
   }
 }
