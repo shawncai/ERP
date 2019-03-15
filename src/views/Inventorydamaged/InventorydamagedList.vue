@@ -5,23 +5,16 @@
       <el-input v-model="getemplist.title" :placeholder="$t('Inventorydamaged.title')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
       <el-input v-model="getemplist.sourceNumber" :placeholder="$t('Inventorydamaged.sourceNumber')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
       <el-input v-model="getemplist.damagedNumber" :placeholder="$t('Inventorydamaged.damagedNumber')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
-      <el-input v-model="getemplist.handlePersonId" :placeholder="$t('Inventorydamaged.handlePersonId')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
       <!-- 更多搜索条件下拉栏 -->
       <el-popover
         placement="bottom"
         width="500"
         trigger="click">
         <el-input v-model="getemplist.createPersonId" :placeholder="$t('Inventorydamaged.createPersonId')" class="filter-item" clearable style="width: 40%;float: left;margin-left: 20px" @keyup.enter.native="handleFilter"/>
-        <el-select v-model="getemplist.countDeptId" placeholder="请选择仓库报损部门" clearable style="width: 40%;float: right;margin-right: 20px">
+        <el-select v-model="getemplist.damagedDeptId" placeholder="请选择报损部门" clearable style="width: 40%;float: left;margin-left: 20px">
           <el-option value="1" label="科技部门"/>
         </el-select>
-        <el-select v-model="getemplist.enterRepositoryId" placeholder="请选择入库门店" clearable style="width: 40%;float: right;margin-right: 20px;margin-top: 20px">
-          <el-option value="1" label="科技部门"/>
-        </el-select>
-        <el-select v-model="getemplist.countRepositoryId" placeholder="请选择仓库报损仓库" clearable style="width: 40%;float: left;margin-left: 20px;margin-top: 20px">
-          <el-option value="1" label="好的"/>
-        </el-select>
-        <el-select v-model="getemplist.receiptStat" placeholder="请选择单据状态" clearable style="width: 40%;float: left;margin-left: 20px;margin-top: 20px">
+        <el-select v-model="getemplist.damagedRepositoryId" placeholder="请选择报损仓库" clearable style="width: 40%;float: right;margin-right: 55px;margin-top: 20px">
           <el-option value="1" label="好的"/>
         </el-select>
         <el-date-picker
@@ -78,22 +71,22 @@
         </el-table-column>
         <el-table-column :label="$t('Inventorydamaged.title')" :resizable="false" prop="title" align="center" width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.InventorydamagedName }}</span>
+            <span>{{ scope.row.title }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('Inventorydamaged.handlePersonId')" :resizable="false" prop="handlePersonId" align="center" width="150">
+        <el-table-column :label="$t('Inventorydamaged.handlePersonId')" :resizable="false" prop="handlePersonName" align="center" width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.handlePersonId }}</span>
+            <span>{{ scope.row.handlePersonName }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('Inventorydamaged.damagedDeptId')" :resizable="false" prop="countDeptId" align="center" width="150">
+        <el-table-column :label="$t('Inventorydamaged.damagedDeptId')" :resizable="false" prop="damagedDeptName" align="center" width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.damagedDeptId }}</span>
+            <span>{{ scope.row.damagedDeptName }}</span>
           </template>
         </el-table-column>
         <el-table-column :label="$t('Inventorydamaged.damagedRepositoryId')" :resizable="false" align="center" width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.damagedRepositoryId }}</span>
+            <span>{{ scope.row.damagedRepositoryName }}</span>
           </template>
         </el-table-column>
         <el-table-column :label="$t('Inventorydamaged.beginTime')" :resizable="false" prop="beginTime" align="center" width="150">
@@ -111,14 +104,9 @@
             <span>{{ scope.row.damagedReason }}</span>
           </template>
         </el-table-column>
-        <el-table-column :resizable="false" label="成本金额" align="center" width="150">
-          <template slot-scope="scope">
-            <span>{{ scope.row.modifyDate }}</span>
-          </template>
-        </el-table-column>
         <el-table-column :label="$t('Inventorydamaged.judgeStat')" :resizable="false" prop="judgeStat" align="center" width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.judgeStat }}</span>
+            <span>{{ scope.row.judgeStat | judgefilter }}</span>
           </template>
         </el-table-column>
         <el-table-column :label="$t('public.actions')" :resizable="false" align="center" min-width="230">
@@ -131,15 +119,14 @@
       <!-- 列表结束 -->
       <pagination v-show="total>0" :total="total" :page.sync="getemplist.pagenum" :limit.sync="getemplist.pagesize" @pagination="getlist" />
       <!--修改开始=================================================-->
-      <my-dialog :control.sync="editVisible" :editdata.sync="personalForm" @rest="refreshlist"/>
+      <my-dialog :editcontrol.sync="editVisible" :editdata.sync="personalForm" @rest="refreshlist"/>
       <!--修改结束=================================================-->
     </div>
   </div>
 </template>
 
 <script>
-import { countlist } from '@/api/InventoryCount'
-import { deletedamaged } from '@/api/Inventorydamaged'
+import { deletedamaged, damagedlist } from '@/api/Inventorydamaged'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
 import MyDialog from './components/MyDialog'
@@ -149,10 +136,10 @@ export default {
   directives: { waves },
   components: { Pagination, MyDialog },
   filters: {
-    genderFilter(status) {
+    judgefilter(status) {
       const statusMap = {
-        1: '男',
-        2: '女'
+        1: '未审批',
+        2: '审批中'
       }
       return statusMap[status]
     }
@@ -173,10 +160,11 @@ export default {
       listLoading: true,
       // 仓库报损单列表查询加展示参数
       getemplist: {
-        pagenum: 1,
-        pagesize: 10,
-        regionIds: 43,
-        repositoryId: 0
+        pageNum: 1,
+        pageSize: 10,
+        repositoryId: 438,
+        regionIds: 2,
+        createPersonId: 3
       },
       // 传给组件的数据
       personalForm: {},
@@ -191,9 +179,9 @@ export default {
   },
   methods: {
     getlist() {
-      // 仓库报损单列表数据仓库报损
+      // 报损单列表数据
       this.listLoading = true
-      countlist(this.getemplist).then(res => {
+      damagedlist(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
@@ -216,7 +204,7 @@ export default {
         this.getemplist.beginTime = this.date[0]
         this.getemplist.endTime = this.date[1]
       }
-      countlist(this.getemplist).then(res => {
+      damagedlist(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
@@ -234,10 +222,6 @@ export default {
       console.log(row)
       this.editVisible = true
       this.personalForm = Object.assign({}, row)
-      this.personalForm.isHot = String(row.isHot)
-      this.personalForm.isEffective = String(row.isEffective)
-      this.personalForm.moneyId = String(row.moneyId)
-      this.personalForm.companyTypeId = String(row.companyTypeId)
     },
     // 修改组件修改成功后返回
     refreshlist(val) {

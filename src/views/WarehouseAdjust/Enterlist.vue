@@ -3,25 +3,25 @@
     <!-- 搜索条件栏目 -->
     <el-card class="box-card" style="margin-top: 15px;height: 60px">
       <el-row>
-        <el-form ref="getemplist" :model="getemplist" label-width="80px" style="margin-top: -9px">
+        <el-form ref="getemplist" :model="getemplist" label-width="100px" style="margin-top: -9px">
           <el-col :span="4">
-            <el-form-item label="活动名称">
-              <el-input v-model="getemplist.title" :placeholder="$t('Stockenter.title')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
+            <el-form-item label="入库单标题">
+              <el-input v-model="getemplist.title" :placeholder="$t('WarehouseAdjust.title')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
           <el-col :span="4">
-            <el-form-item label="活动名称">
-              <el-input v-model="getemplist.title" :placeholder="$t('Stockenter.title')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
+            <el-form-item label="入库单编号">
+              <el-input v-model="getemplist.enterNumber" :placeholder="$t('WarehouseAdjust.enterNumber')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
           <el-col :span="4">
-            <el-form-item label="活动名称">
-              <el-input v-model="getemplist.title" :placeholder="$t('Stockenter.title')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
+            <el-form-item label="入库部门">
+              <el-input v-model="getemplist.enterDeptId" :placeholder="$t('WarehouseAdjust.enterDeptId')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
           <el-col :span="4">
-            <el-form-item label="活动名称">
-              <el-input v-model="getemplist.title" :placeholder="$t('Stockenter.title')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
+            <el-form-item label="入库人">
+              <el-input v-model="getemplist.title" :placeholder="$t('WarehouseAdjust.enterPersonId')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
           <el-col :span="4">
@@ -30,18 +30,9 @@
               placement="bottom"
               width="500"
               trigger="click">
-              <el-input v-model="getemplist.sourceNumber" :placeholder="$t('Stockenter.sourceNumber')" class="filter-item" clearable style="width: 40%;float: left;margin-left: 20px" @keyup.enter.native="handleFilter"/>
+              <el-input v-model="getemplist.sourceNumber" :placeholder="$t('WarehouseAdjust.sourceNumber')" class="filter-item" clearable style="width: 40%;float: left;margin-left: 20px" @keyup.enter.native="handleFilter"/>
               <el-select v-model="getemplist.enterDeptId" placeholder="请选择入库部门" clearable style="width: 40%;float: right;margin-right: 20px">
                 <el-option value="1" label="科技部门"/>
-              </el-select>
-              <el-select v-model="getemplist.enterRepositoryId" placeholder="请选择入库门店" clearable style="width: 40%;float: right;margin-right: 20px;margin-top: 20px">
-                <el-option value="1" label="科技部门"/>
-              </el-select>
-              <el-select v-model="getemplist.receiptStat" placeholder="请选择单据状态" clearable style="width: 40%;float: left;margin-left: 20px;margin-top: 20px">
-                <el-option value="1" label="好的"/>
-              </el-select>
-              <el-select v-model="getemplist.createPersonId" placeholder="请选择制单人" clearable style="width: 40%;float: left;margin-left: 20px;margin-top: 20px">
-                <el-option value="1" label="好的"/>
               </el-select>
               <el-date-picker
                 v-model="date"
@@ -97,57 +88,57 @@
           type="selection"
           width="55"
           align="center"/>
-        <el-table-column :label="$t('Stockenter.id')" :resizable="false" prop="id" align="center" width="150">
+        <el-table-column :label="$t('WarehouseAdjust.id')" :resizable="false" prop="id" align="center" width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.id }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('Stockenter.title')" :resizable="false" prop="title" align="center" width="150">
+        <el-table-column :label="$t('WarehouseAdjust.title')" :resizable="false" prop="title" align="center" width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.StockenterName }}</span>
+            <span>{{ scope.row.WarehouseAdjustName }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('Stockenter.sourceNumber')" :resizable="false" prop="sourceNumber" align="center" width="150">
+        <el-table-column :label="$t('WarehouseAdjust.sourceNumber')" :resizable="false" prop="sourceNumber" align="center" width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.sourceNumber }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('Stockenter.deliveryPersonId')" :resizable="false" align="center" width="150">
+        <el-table-column :label="$t('WarehouseAdjust.deliveryPersonId')" :resizable="false" align="center" width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.deliveryPersonName }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('Stockenter.acceptPersonId')" :resizable="false" prop="acceptPersonName" align="center" width="150">
+        <el-table-column :label="$t('WarehouseAdjust.acceptPersonId')" :resizable="false" prop="acceptPersonName" align="center" width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.acceptPersonName }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('Stockenter.enterDeptId')" :resizable="false" prop="enterDeptName" align="center" width="150">
+        <el-table-column :label="$t('WarehouseAdjust.enterDeptId')" :resizable="false" prop="enterDeptName" align="center" width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.enterDeptName }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('Stockenter.endPersonName')" :resizable="false" prop="endPersonName" align="center" width="150">
+        <el-table-column :label="$t('WarehouseAdjust.endPersonName')" :resizable="false" prop="endPersonName" align="center" width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.endPersonName }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('Stockenter.endDate')" :resizable="false" prop="endDate" align="center" width="150">
+        <el-table-column :label="$t('WarehouseAdjust.endDate')" :resizable="false" prop="endDate" align="center" width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.endDate }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('Stockenter.enterQuantity')" :resizable="false" prop="enterQuantity" align="center" width="150">
+        <el-table-column :label="$t('WarehouseAdjust.enterQuantity')" :resizable="false" prop="enterQuantity" align="center" width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.enterQuantity }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('Stockenter.summary')" :resizable="false" prop="stockEnterDetails" align="center" width="150">
+        <el-table-column :label="$t('WarehouseAdjust.summary')" :resizable="false" prop="WarehouseAdjustDetails" align="center" width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.stockEnterDetails }}</span>
+            <span>{{ scope.row.WarehouseAdjustDetails }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('Stockenter.judgeStat')" :resizable="false" prop="judgeStat" align="center" width="150">
+        <el-table-column :label="$t('WarehouseAdjust.judgeStat')" :resizable="false" prop="judgeStat" align="center" width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.judgeStat }}</span>
           </template>
@@ -204,7 +195,10 @@ export default {
       // 采购入库单列表查询加展示参数
       getemplist: {
         pagenum: 1,
-        pagesize: 10
+        pagesize: 10,
+        repositoryId: 438,
+        regionIds: 2,
+        createPersonId: 3
       },
       // 传给组件的数据
       personalForm: {},
@@ -221,7 +215,7 @@ export default {
     getlist() {
       // // 采购入库单列表数据
       // this.listLoading = true
-      // stockenterlist(this.getemplist).then(res => {
+      // WarehouseAdjustlist(this.getemplist).then(res => {
       //   if (res.data.ret === 200) {
       //     this.list = res.data.data.content.list
       //     this.total = res.data.data.content.totalCount
@@ -341,14 +335,14 @@ export default {
     },
     // 新增数据
     handleAdd() {
-      this.$router.push('/EmployeeInformation/Stockenter')
+      this.$router.push('/EmployeeInformation/WarehouseAdjust')
     },
     // 导出
     handleExport() {
       this.downloadLoading = true
         import('@/vendor/Export2Excel').then(excel => {
           const tHeader = ['供应商编号', '供应商名称', '供应商简称', '供应商类别', '所在区域', '采购员', '供应商优质级别', '建档人', '建档日期']
-          const filterVal = ['id', 'StockenterName', 'StockenterShortName', 'typeName', 'regionName', 'buyerName', 'levelName', 'createName', 'createTime']
+          const filterVal = ['id', 'WarehouseAdjustName', 'WarehouseAdjustShortName', 'typeName', 'regionName', 'buyerName', 'levelName', 'createName', 'createTime']
           const data = this.formatJson(filterVal, this.list)
           excel.export_json_to_excel({
             header: tHeader,

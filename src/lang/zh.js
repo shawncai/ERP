@@ -464,6 +464,7 @@ export default {
   },
   WarehouseAdjust: {
     title: '入库单主题',
+    enterNumber: '入库单编号',
     enterRepositoryId: '仓库',
     enterDeptId: '入库部门',
     enterPersonId: '入库人',

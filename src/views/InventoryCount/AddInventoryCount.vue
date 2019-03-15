@@ -57,7 +57,7 @@
       <div class="container">
         <el-editable
           ref="editable"
-          :data="list2"
+          :data.sync="list2"
           :edit-config="{ showIcon: false, showStatus: true}"
           :edit-rules="validRules"
           class="click-table1"

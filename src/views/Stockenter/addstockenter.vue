@@ -83,7 +83,7 @@
           <el-editable-column prop="productType" align="center" label="规格" width="150px"/>
           <el-editable-column prop="unit" align="center" label="单位" width="150px"/>
           <el-editable-column prop="basicQuantity" align="center" label="基本数量" width="150px"/>
-          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 1}}" prop="actualEnterQuantity" align="center" label="实收数量" width="150px"/>
+          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}}" prop="actualEnterQuantity" align="center" label="实收数量" width="150px"/>
           <el-editable-column prop="enterPrice" align="center" label="入库单价" width="150px"/>
           <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}}" prop="taxRate" align="center" label="税率" width="150px"/>
           <el-editable-column prop="enterMoney" align="center" label="入库金额" width="150px">

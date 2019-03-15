@@ -13,7 +13,7 @@
           </el-form-item>
           <my-create :createcontrol.sync="createcontrol" @createname="createname"/>
           <el-form-item :label="$t('Inventorydamaged.damagedDeptId')" style="width: 40%;margin-top:1%">
-            <el-select v-model="personalForm.damagedDeptId" placeholder="请选择报损部门" clearable style="width: 100%;">
+            <el-select v-model="personalForm.damagedDeptId" placeholder="请选择报损部门" clearable style="width: 100%;" @focus="updatedept">
               <el-option
                 v-for="(item, index) in depts"
                 :key="index"
@@ -45,11 +45,12 @@
         <el-button type="success" @click="handleAddproduct">添加商品</el-button>
         <el-button type="danger" @click="$refs.editable.removeSelecteds()">删除</el-button>
       </div>
+      <my-detail :control.sync="control" @product="productdetail"/>
       <div class="container">
         <el-editable
           ref="editable"
-          :data="list2"
-          :edit-config="{ showIcon: false, showStatus: true}"
+          :data.sync="list2"
+          :edit-config="{ showIcon: true, showStatus: true}"
           :edit-rules="validRules"
           class="click-table1"
           stripe
@@ -57,18 +58,21 @@
           size="medium"
           style="width: 100%">
           <el-editable-column type="selection" width="55" align="center"/>
-          <el-editable-column label="编号" width="55" align="center" prop="id" />
-          <el-editable-column prop="locationId" align="center" label="货位" width="150px"/>
+          <el-editable-column label="编号" width="55" align="center" type="index" />
+          <el-editable-column :edit-render="{name: 'ElSelect', options: locationlist}" prop="locationId" align="center" label="货位" width="150px"/>
           <el-editable-column prop="productCode" align="center" label="物品编号" width="150px"/>
           <el-editable-column prop="productName" align="center" label="物品名称" width="150px"/>
           <el-editable-column prop="color" align="center" label="颜色" width="150px"/>
           <el-editable-column prop="typeId" align="center" label="规格" width="150px"/>
           <el-editable-column prop="unit" align="center" label="单位" width="150px"/>
-          <el-editable-column :edit-render="{name: 'ElInput'}" prop="damagedQuantity" align="center" label="报损数量" width="150px"/>
+          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}}" prop="damagedQuantity" align="center" label="报损数量" width="150px"/>
           <el-editable-column prop="costPrice" align="center" label="成本单价" width="150px"/>
-          <el-editable-column prop="damagedMoney" align="center" label="报损金额" width="150px"/>
+          <el-editable-column prop="damagedMoney" align="center" label="报损金额" width="150px">
+            <template slot-scope="scope">
+              <p>{{ getSize(scope.row.damagedQuantity, scope.row.costPrice) }}</p>
+            </template>
+          </el-editable-column>
           <el-editable-column :edit-render="{name: 'ElInput'}" prop="remarks" align="center" label="备注" width="150px"/>
-          <el-editable-column prop="sourceNumber" align="center" label="源单编号" width="150px"/>
         </el-editable>
       </div>
       <!--操作-->
@@ -82,17 +86,29 @@
 </template>
 
 <script>
-import { create } from '@/api/Supplier'
+import { locationlist } from '@/api/WarehouseAdjust'
+import { addinventorydamaged } from '@/api/Inventorydamaged'
 import { getdeptlist } from '@/api/BasicSettings'
 import MyCreate from './components/MyCreate'
 import MyRepository from './components/MyRepository'
+import MyDetail from './components/MyDetail'
 export default {
   name: 'AddInventorydamaged',
-  components: { MyCreate, MyRepository },
+  components: { MyCreate, MyRepository, MyDetail },
   data() {
     return {
+      // 获取货位参数
+      locationlistparms: {
+        pageNum: 1,
+        pageSize: 1999,
+        repositoryId: ''
+      },
+      // 明细表控制框
+      control: false,
       // 部门数据
       depts: [],
+      // 货位数据
+      locationlist: [],
       // 仓库回显
       damagedRepositoryId: '',
       // 经办人回显
@@ -116,7 +132,12 @@ export default {
         ]
       },
       // 库存报损单信息数据
-      personalForm: {},
+      personalForm: {
+        repositoryId: 438,
+        regionId: 2,
+        createPersonId: 3,
+        countryId: 1
+      },
       // 库存报损单规则数据
       personalrules: {
         handlePersonId: [
@@ -145,49 +166,47 @@ export default {
     },
     // 保存操作
     handlesave() {
-      console.log(this.personalForm)
-      // this.$refs.personalForm.validate((valid) => {
-      //   if (valid) {
-      //     create(this.personalForm).then(res => {
-      //       console.log(res)
-      //       if (res.data.ret === 200) {
-      //         this.$notify({
-      //           title: '成功',
-      //           message: '保存成功',
-      //           type: 'success',
-      //           offset: 100
-      //         })
-      //         this.restAllForm()
-      //         this.$refs.personalForm.clearValidate()
-      //         this.$refs.personalForm.resetFields()
-      //       } else {
-      //         this.$notify.error({
-      //           title: '错误',
-      //           message: res.data.msg,
-      //           offset: 100
-      //         })
-      //       }
-      //     })
-      //   } else {
-      //     this.$notify.error({
-      //       title: '错误',
-      //       message: '信息未填完整',
-      //       offset: 100
-      //     })
-      //     return false
-      //   }
-      // })
-    },
-    // 清空记录
-    restAllForm() {
-      this.personalForm = {}
-    },
-    // 继续录入
-    handleentry() {
-      this.personalForm.regionId = this.perregions[this.perregions.length - 1]
+      const rest = this.$refs.editable.getRecords()
+      rest.map(function(elem) {
+        return elem
+      }).forEach(function(elem) {
+        if (elem.locationId === null || elem.locationId === '' || elem.locationId === undefined) {
+          delete elem.locationId
+        }
+        if (elem.productCode === null || elem.productCode === '' || elem.productCode === undefined) {
+          delete elem.productCode
+        }
+        if (elem.productName === null || elem.productName === '' || elem.productName === undefined) {
+          delete elem.productName
+        }
+        if (elem.color === null || elem.color === '' || elem.color === undefined) {
+          delete elem.color
+        }
+        if (elem.typeId === null || elem.typeId === '' || elem.typeId === undefined) {
+          delete elem.typeId
+        }
+        if (elem.unit === null || elem.unit === '' || elem.unit === undefined) {
+          delete elem.unit
+        }
+        if (elem.damagedQuantity === null || elem.damagedQuantity === '' || elem.damagedQuantity === undefined) {
+          delete elem.damagedQuantity
+        }
+        if (elem.costPrice === null || elem.costPrice === '' || elem.costPrice === undefined) {
+          delete elem.costPrice
+        }
+        if (elem.remarks === null || elem.remarks === '' || elem.remarks === undefined) {
+          delete elem.remarks
+        }
+        if (elem.damagedMoney === null || elem.damagedMoney === '' || elem.damagedMoney === undefined) {
+          delete elem.damagedMoney
+        }
+        return elem
+      })
+      const parms2 = JSON.stringify(rest)
+      const parms = JSON.stringify(this.personalForm)
       this.$refs.personalForm.validate((valid) => {
         if (valid) {
-          create(this.personalForm).then(res => {
+          addinventorydamaged(parms, parms2, this.personalForm.repositoryId, this.personalForm.regionId).then(res => {
             console.log(res)
             if (res.data.ret === 200) {
               this.$notify({
@@ -197,6 +216,91 @@ export default {
                 offset: 100
               })
               this.restAllForm()
+              this.$refs.editable.clear()
+              this.$refs.personalForm.clearValidate()
+              this.$refs.personalForm.resetFields()
+            } else {
+              this.$notify.error({
+                title: '错误',
+                message: res.data.msg,
+                offset: 100
+              })
+            }
+          })
+        } else {
+          this.$notify.error({
+            title: '错误',
+            message: '信息未填完整',
+            offset: 100
+          })
+          return false
+        }
+      })
+    },
+    // 清空记录
+    restAllForm() {
+      this.personalForm = {
+        repositoryId: 438,
+        regionId: 2,
+        createPersonId: 3,
+        countryId: 1
+      }
+      this.handlePersonId = ''
+      this.damagedRepositoryId = ''
+    },
+    // 继续录入
+    handleentry() {
+      const rest = this.$refs.editable.getRecords()
+      rest.map(function(elem) {
+        return elem
+      }).forEach(function(elem) {
+        if (elem.locationId === null || elem.locationId === '' || elem.locationId === undefined) {
+          delete elem.locationId
+        }
+        if (elem.productCode === null || elem.productCode === '' || elem.productCode === undefined) {
+          delete elem.productCode
+        }
+        if (elem.productName === null || elem.productName === '' || elem.productName === undefined) {
+          delete elem.productName
+        }
+        if (elem.color === null || elem.color === '' || elem.color === undefined) {
+          delete elem.color
+        }
+        if (elem.typeId === null || elem.typeId === '' || elem.typeId === undefined) {
+          delete elem.typeId
+        }
+        if (elem.unit === null || elem.unit === '' || elem.unit === undefined) {
+          delete elem.unit
+        }
+        if (elem.damagedQuantity === null || elem.damagedQuantity === '' || elem.damagedQuantity === undefined) {
+          delete elem.damagedQuantity
+        }
+        if (elem.costPrice === null || elem.costPrice === '' || elem.costPrice === undefined) {
+          delete elem.costPrice
+        }
+        if (elem.remarks === null || elem.remarks === '' || elem.remarks === undefined) {
+          delete elem.remarks
+        }
+        if (elem.damagedMoney === null || elem.damagedMoney === '' || elem.damagedMoney === undefined) {
+          delete elem.damagedMoney
+        }
+        return elem
+      })
+      const parms2 = JSON.stringify(rest)
+      const parms = JSON.stringify(this.personalForm)
+      this.$refs.personalForm.validate((valid) => {
+        if (valid) {
+          addinventorydamaged(parms, parms2, this.personalForm.repositoryId, this.personalForm.regionId).then(res => {
+            console.log(res)
+            if (res.data.ret === 200) {
+              this.$notify({
+                title: '成功',
+                message: '保存成功',
+                type: 'success',
+                offset: 100
+              })
+              this.restAllForm()
+              this.$refs.editable.clear()
               this.$refs.personalForm.clearValidate()
               this.$refs.personalForm.resetFields()
               const anchor = this.$refs.geren.offsetTop
@@ -248,11 +352,47 @@ export default {
       console.log(val)
       this.damagedRepositoryId = val.repositoryName
       this.personalForm.damagedRepositoryId = val.id
+      this.locationlistparms.repositoryId = val.id
+      locationlist(this.locationlistparms).then(res => {
+        if (res.data.ret === 200) {
+          this.locationlist = res.data.data.content.list.map(function(item) {
+            return {
+              'value': item.id,
+              'label': item.locationName
+            }
+          })
+        }
+      })
+    },
+    // 部门列表focus刷新
+    updatedept() {
+      this.getlist()
     },
     // 报损单事件
     // 新增报损单明细
     handleAddproduct() {
-      console.log(123)
+      this.control = true
+    },
+    productdetail(val) {
+      console.log(this.$refs.editable.getRecords())
+      const nowlistdata = this.$refs.editable.getRecords()
+      for (let i = 0; i < val.length; i++) {
+        for (let j = 0; j < nowlistdata.length; j++) {
+          if (val[i].productCode === nowlistdata[j].productCode) {
+            this.$notify.error({
+              title: '错误',
+              message: '物品已添加',
+              offset: 100
+            })
+            return false
+          }
+        }
+        this.$refs.editable.insert(val[i])
+      }
+    },
+    // 报损金额计算
+    getSize(quan, pric) {
+      return quan * pric
     }
   }
 }

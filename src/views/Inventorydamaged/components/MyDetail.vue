@@ -1,5 +1,5 @@
 <template>
-  <el-dialog :visible.sync="productVisible" :control="control" :close-on-press-escape="false" top="10px" title="选择经办人" append-to-body @close="$emit('update:control', false)">
+  <el-dialog :visible.sync="productVisible" :control="control" :close-on-press-escape="false" top="10px" title="选择商品" append-to-body @close="$emit('update:control', false)">
     <div class="filter-container">
       <!-- 搜索条件栏目 -->
       <el-input v-model="getemplist.code" :placeholder="$t('Product.code')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
@@ -218,18 +218,18 @@ export default {
     // 物品选择添加
     handleAddTo() {
       this.productVisible = false
+      console.log(this.moreaction)
       const productDetail = this.moreaction.map(function(item) {
         return {
           productCode: item.code,
-          locationId: '',
           productName: item.productName,
+          locationId: '',
           color: item.color,
           typeId: item.typeId,
-          enterQuantity: 0,
+          damagedMoney: 0,
+          damagedQuantity: 0,
           unit: item.saleMeasurement,
-          basicQuantity: 0,
-          price: item.costPrice,
-          productType: item.productType
+          costPrice: item.costPrice
         }
       })
       console.log(productDetail)

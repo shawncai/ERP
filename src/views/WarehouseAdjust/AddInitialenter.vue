@@ -21,8 +21,11 @@
                 <my-create :createcontrol.sync="createcontrol" @createname="createname"/>
                 <el-form-item :label="$t('WarehouseAdjust.enterDeptId')" prop="enterDeptId" style="width: 100%;">
                   <el-select v-model="personalForm.enterDeptId" placeholder="请选择入库部门" style="margin-left: 18px" clearable >
-                    <el-option value="1" label="超级部门"/>
-                    <el-option value="2" label="财务部门"/>
+                    <el-option
+                      v-for="(item, index) in depts"
+                      :key="index"
+                      :value="item.id"
+                      :label="item.deptName"/>
                   </el-select>
                 </el-form-item>
               </el-col>
@@ -64,11 +67,11 @@
             style="width: 100%">
             <el-editable-column type="selection" width="55" align="center"/>
             <el-editable-column label="编号" width="55" align="center" type="index"/>
-            <el-editable-column prop="locationId" align="center" label="货位" width="150px"/>
+            <el-editable-column :edit-render="{name: 'ElSelect', options: locationlist}" prop="locationId" align="center" label="货位" width="150px"/>
             <el-editable-column prop="productCode" align="center" label="物品编号" width="150px"/>
             <el-editable-column prop="productName" align="center" label="物品名称" width="150px"/>
             <el-editable-column prop="color" align="center" label="颜色" width="150px"/>
-            <el-editable-column prop="typeId" align="center" label="规格" width="150px"/>
+            <el-editable-column prop="productType" align="center" label="规格" width="150px"/>
             <el-editable-column prop="unit" align="center" label="单位" width="150px"/>
             <el-editable-column prop="basicQuantity" align="center" label="基本数量" width="150px"/>
             <el-editable-column :edit-render="{name: 'ElInputNumber'}" prop="enterQuantity" align="center" label="入库数量" width="150px"/>
@@ -93,8 +96,8 @@
 </template>
 
 <script>
-import { create } from '@/api/Supplier'
-import { addinitialenter } from '@/api/WarehouseAdjust'
+import { addinitialenter, locationlist } from '@/api/WarehouseAdjust'
+import { getdeptlist } from '@/api/BasicSettings'
 import MyCreate from './components/MyCreate'
 import MyRepository from './components/MyRepository'
 import MyDetail from './components/MyDetail'
@@ -103,6 +106,15 @@ export default {
   components: { MyCreate, MyRepository, MyDetail },
   data() {
     return {
+      locationlistparms: {
+        pageNum: 1,
+        pageSize: 1999,
+        repositoryId: ''
+      },
+      // 货位数据
+      locationlist: [],
+      // 部门数据
+      depts: [],
       // 入库仓库回显
       enterRepositoryId: '',
       // 入库人回显
@@ -145,7 +157,18 @@ export default {
       }
     }
   },
+  mounted() {
+    this.getlist()
+  },
   methods: {
+    getlist() {
+      // 部门列表数据
+      getdeptlist().then(res => {
+        if (res.data.ret === 200) {
+          this.depts = res.data.data.content
+        }
+      })
+    },
     // 保存操作
     handlesave() {
       const EnterDetail = this.$refs.editable.getRecords()
@@ -204,6 +227,7 @@ export default {
                 offset: 100
               })
               this.restAllForm()
+              this.$refs.editable.clear()
               this.$refs.personalForm.clearValidate()
               this.$refs.personalForm.resetFields()
             } else {
@@ -226,14 +250,62 @@ export default {
     },
     // 清空记录
     restAllForm() {
-      this.personalForm = {}
+      this.personalForm = {
+        createPersonId: 3,
+        countryId: 1
+      }
+      this.enterPersonId = ''
+      this.enterRepositoryId = ''
     },
     // 继续录入
     handleentry() {
-      this.personalForm.regionId = this.perregions[this.perregions.length - 1]
+      const EnterDetail = this.$refs.editable.getRecords()
+      EnterDetail.map(function(elem) {
+        return elem
+      }).forEach(function(elem) {
+        if (elem.unit === null || elem.unit === '' || elem.unit === undefined) {
+          delete elem.unit
+        }
+        if (elem.basicQuantity === null || elem.basicQuantity === '' || elem.basicQuantity === undefined) {
+          delete elem.basicQuantity
+        }
+        if (elem.color === null || elem.color === '' || elem.color === undefined) {
+          delete elem.color
+        }
+        if (elem.enterQuantity === null || elem.enterQuantity === '' || elem.enterQuantity === undefined) {
+          delete elem.enterQuantity
+        }
+        if (elem.locationId === null || elem.locationId === '' || elem.locationId === undefined) {
+          delete elem.locationId
+        }
+        if (elem.price === null || elem.price === '' || elem.price === undefined) {
+          delete elem.price
+        }
+        if (elem.productCode === null || elem.productCode === '' || elem.productCode === undefined) {
+          delete elem.productCode
+        }
+        if (elem.productName === null || elem.productName === '' || elem.productName === undefined) {
+          delete elem.productName
+        }
+        if (elem.remarks === null || elem.remarks === '' || elem.remarks === undefined) {
+          delete elem.remarks
+        }
+        if (elem.totalMoney === null || elem.totalMoney === '' || elem.totalMoney === undefined) {
+          delete elem.totalMoney
+        }
+        if (elem.typeId === null || elem.typeId === '' || elem.typeId === undefined) {
+          delete elem.typeId
+        }
+        if (elem.typeId === null || elem.typeId === '' || elem.typeId === undefined) {
+          delete elem.typeId
+        }
+        return elem
+      })
+      const parms = JSON.stringify(EnterDetail)
+      const parms2 = JSON.stringify(this.personalForm)
       this.$refs.personalForm.validate((valid) => {
         if (valid) {
-          create(this.personalForm).then(res => {
+          addinitialenter(parms2, parms, this.repositoryId, this.regionId).then(res => {
             console.log(res)
             if (res.data.ret === 200) {
               this.$notify({
@@ -243,6 +315,7 @@ export default {
                 offset: 100
               })
               this.restAllForm()
+              this.$refs.editable.clear()
               this.$refs.personalForm.clearValidate()
               this.$refs.personalForm.resetFields()
               const anchor = this.$refs.geren.offsetTop
@@ -294,6 +367,17 @@ export default {
       console.log(val)
       this.enterRepositoryId = val.repositoryName
       this.personalForm.enterRepositoryId = val.id
+      this.locationlistparms.repositoryId = val.id
+      locationlist(this.locationlistparms).then(res => {
+        if (res.data.ret === 200) {
+          this.locationlist = res.data.data.content.list.map(function(item) {
+            return {
+              'value': item.id,
+              'label': item.locationName
+            }
+          })
+        }
+      })
     },
     // 入库单事件
     // 新增入库单明细
@@ -301,8 +385,24 @@ export default {
       this.control = true
     },
     productdetail(val) {
-      console.log(val)
-      this.list2 = val
+      const nowlistdata = this.$refs.editable.getRecords()
+      for (let i = 0; i < val.length; i++) {
+        for (let j = 0; j < nowlistdata.length; j++) {
+          if (val[i].productCode === nowlistdata[j].productCode) {
+            this.$notify.error({
+              title: '错误',
+              message: '物品已添加',
+              offset: 100
+            })
+            return false
+          }
+        }
+        this.$refs.editable.insert(val[i])
+        this.$nextTick(() => this.$refs.editable.setActiveRow())
+      }
+      // console.log(val)
+      // const row = this.$refs.editable.insert(val)
+      this.$nextTick(() => this.$refs.editable.setActiveCell(nowlistdata[0]))
     },
     // 入库金额计算
     getSize(quan, pric) {
