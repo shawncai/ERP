@@ -81,13 +81,13 @@
             <el-editable-column :edit-render="{name: 'ElInput'}" prop="remarks" align="center" label="备注" width="150px"/>
           </el-editable>
         </div>
-        <!--操作-->
-        <div class="buttons" style="margin-top: 20px">
-          <el-button type="primary" style="background:#3696fd;border-color:#3696fd;width: 98px" @click="handlesave()">保存</el-button>
-          <el-button type="success" style="background:#3696fd;border-color:#3696fd " @click="handleentry()">继续录入</el-button>
-          <el-button type="danger" @click="handlecancel()">取消</el-button>
-        </div>
       </el-card>
+      <!--操作-->
+      <div class="buttons" style="margin-top: 20px">
+        <el-button type="primary" style="background:#3696fd;border-color:#3696fd;width: 98px" @click="handlesave()">保存</el-button>
+        <el-button type="success" style="background:#3696fd;border-color:#3696fd " @click="handleentry()">继续录入</el-button>
+        <el-button type="danger" @click="handlecancel()">取消</el-button>
+      </div>
     </div>
   </div>
 </template>

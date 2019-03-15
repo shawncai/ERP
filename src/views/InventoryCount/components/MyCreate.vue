@@ -1,5 +1,5 @@
 <template>
-  <el-dialog :visible.sync="employeeVisible" :createcontrol="createcontrol" :close-on-press-escape="false" top="10px" title="选择创建人" append-to-body @close="$emit('update:createcontrol', false)">
+  <el-dialog :visible.sync="employeeVisible" :createcontrol="createcontrol" :close-on-press-escape="false" top="10px" title="选择经办人" append-to-body @close="$emit('update:createcontrol', false)">
     <div class="filter-container">
       <el-input v-model="getemplist.employeename" :placeholder="$t('NewEmployeeInformation.employeename')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
       <el-input v-model="getemplist.jobnumber" :placeholder="$t('NewEmployeeInformation.jobnumber2')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>

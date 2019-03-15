@@ -63,3 +63,151 @@ export function deletestockenter(query) {
     data: params
   })
 }
+
+// 添加采购入库单
+export function addstockenter(query, query2) {
+  var params = new URLSearchParams()
+  params.append('stockEnterDetailJson', query2) // 你要传给后台的参数值 key/value
+  if (query.title !== '' && query.title !== null && query.title !== undefined) {
+    params.append('title', query.title) // 你要传给后台的参数值 key/value
+  }
+  if (query.sourceNumber !== '' && query.sourceNumber !== null && query.sourceNumber !== undefined) {
+    params.append('sourceNumber', query.sourceNumber) // 你要传给后台的参数值 key/value
+  }
+  if (query.sourceType !== '' && query.sourceType !== null && query.sourceType !== undefined) {
+    params.append('sourceType', query.sourceType) // 你要传给后台的参数值 key/value
+  }
+  if (query.supplierId !== '' && query.supplierId !== null && query.supplierId !== undefined) {
+    params.append('supplierId', query.supplierId) // 你要传给后台的参数值 key/value
+  }
+  if (query.stockPersonId !== '' && query.stockPersonId !== null && query.stockPersonId !== undefined) {
+    params.append('stockPersonId', query.stockPersonId) // 你要传给后台的参数值 key/value
+  }
+  if (query.stockDeptId !== '' && query.stockDeptId !== null && query.stockDeptId !== undefined) {
+    params.append('stockDeptId', query.stockDeptId) // 你要传给后台的参数值 key/value
+  }
+  if (query.deliveryPersonId !== '' && query.deliveryPersonId !== null && query.deliveryPersonId !== undefined) {
+    params.append('deliveryPersonId', query.deliveryPersonId) // 你要传给后台的参数值 key/value
+  }
+  if (query.acceptPersonId !== '' && query.acceptPersonId !== null && query.acceptPersonId !== undefined) {
+    params.append('acceptPersonId', query.acceptPersonId) // 你要传给后台的参数值 key/value
+  }
+  if (query.enterDeptId !== '' && query.enterDeptId !== null && query.enterDeptId !== undefined) {
+    params.append('enterDeptId', query.enterDeptId) // 你要传给后台的参数值 key/value
+  }
+  if (query.repositoryTypeId !== '' && query.repositoryTypeId !== null && query.repositoryTypeId !== undefined) {
+    params.append('repositoryTypeId', query.repositoryTypeId) // 你要传给后台的参数值 key/value
+  }
+  if (query.enterRepositoryId !== '' && query.enterRepositoryId !== null && query.enterRepositoryId !== undefined) {
+    params.append('enterRepositoryId', query.enterRepositoryId) // 你要传给后台的参数值 key/value
+  }
+  if (query.enterRepositoryId !== '' && query.enterRepositoryId !== null && query.enterRepositoryId !== undefined) {
+    params.append('enterRepositoryId', query.enterRepositoryId) // 你要传给后台的参数值 key/value
+  }
+  if (query.receiptStat !== '' && query.receiptStat !== null && query.receiptStat !== undefined) {
+    params.append('receiptStat', query.receiptStat) // 你要传给后台的参数值 key/value
+  }
+  if (query.judgeStat !== '' && query.judgeStat !== null && query.judgeStat !== undefined) {
+    params.append('judgeStat', query.judgeStat) // 你要传给后台的参数值 key/value
+  }
+  if (query.createPersonId !== '' && query.createPersonId !== null && query.createPersonId !== undefined) {
+    params.append('createPersonId', query.createPersonId) // 你要传给后台的参数值 key/value
+  }
+  if (query.countryId !== '' && query.countryId !== null && query.countryId !== undefined) {
+    params.append('countryId', query.countryId) // 你要传给后台的参数值 key/value
+  }
+  if (query.summary !== '' && query.summary !== null && query.summary !== undefined) {
+    params.append('summary', query.summary) // 你要传给后台的参数值 key/value
+  }
+  if (query.repositoryId !== '' && query.repositoryId !== null && query.repositoryId !== undefined) {
+    params.append('repositoryId', query.repositoryId) // 你要传给后台的参数值 key/value
+  }
+  if (query.regionId !== '' && query.regionId !== null && query.regionId !== undefined) {
+    params.append('regionId', query.regionId) // 你要传给后台的参数值 key/value
+  }
+  return request({
+    url: '/erp/stockenter/addstockenter',
+    method: 'post',
+    data: params
+  })
+}
+
+//  修改采购入库
+export function updatestockenter(query, query2) {
+  var params = new URLSearchParams()
+  params.append('stockEnterDetailJson', query2) // 你要传给后台的参数值 key/value
+  if (query.id !== '' && query.id !== null && query.id !== undefined) {
+    params.append('enterId', query.id) // 你要传给后台的参数值 key/value
+  }
+  if (query.title !== '' && query.title !== null && query.title !== undefined) {
+    params.append('title', query.title) // 你要传给后台的参数值 key/value
+  }
+  if (query.sourceNumber !== '' && query.sourceNumber !== null && query.sourceNumber !== undefined) {
+    params.append('sourceNumber', query.sourceNumber) // 你要传给后台的参数值 key/value
+  }
+  if (query.sourceType !== '' && query.sourceType !== null && query.sourceType !== undefined) {
+    params.append('sourceType', query.sourceType) // 你要传给后台的参数值 key/value
+  }
+  if (query.batch !== '' && query.batch !== null && query.batch !== undefined) {
+    params.append('batch', query.batch) // 你要传给后台的参数值 key/value
+  }
+  if (query.supplierId !== '' && query.supplierId !== null && query.supplierId !== undefined) {
+    params.append('supplierId', query.supplierId) // 你要传给后台的参数值 key/value
+  }
+  if (query.stockPersonId !== '' && query.stockPersonId !== null && query.stockPersonId !== undefined) {
+    params.append('stockPersonId', query.stockPersonId) // 你要传给后台的参数值 key/value
+  }
+  if (query.stockDeptId !== '' && query.stockDeptId !== null && query.stockDeptId !== undefined) {
+    params.append('stockDeptId', query.stockDeptId) // 你要传给后台的参数值 key/value
+  }
+  if (query.deliveryPersonId !== '' && query.deliveryPersonId !== null && query.deliveryPersonId !== undefined) {
+    params.append('deliveryPersonId', query.deliveryPersonId) // 你要传给后台的参数值 key/value
+  }
+  if (query.acceptPersonId !== '' && query.acceptPersonId !== null && query.acceptPersonId !== undefined) {
+    params.append('acceptPersonId', query.acceptPersonId) // 你要传给后台的参数值 key/value
+  }
+  if (query.enterDeptId !== '' && query.enterDeptId !== null && query.enterDeptId !== undefined) {
+    params.append('enterDeptId', query.enterDeptId) // 你要传给后台的参数值 key/value
+  }
+  if (query.repositoryTypeId !== '' && query.repositoryTypeId !== null && query.repositoryTypeId !== undefined) {
+    params.append('repositoryTypeId', query.repositoryTypeId) // 你要传给后台的参数值 key/value
+  }
+  if (query.enterRepositoryId !== '' && query.enterRepositoryId !== null && query.enterRepositoryId !== undefined) {
+    params.append('enterRepositoryId', query.enterRepositoryId) // 你要传给后台的参数值 key/value
+  }
+  if (query.enterRepositoryId !== '' && query.enterRepositoryId !== null && query.enterRepositoryId !== undefined) {
+    params.append('enterRepositoryId', query.enterRepositoryId) // 你要传给后台的参数值 key/value
+  }
+  if (query.receiptStat !== '' && query.receiptStat !== null && query.receiptStat !== undefined) {
+    params.append('receiptStat', query.receiptStat) // 你要传给后台的参数值 key/value
+  }
+  if (query.judgeStat !== '' && query.judgeStat !== null && query.judgeStat !== undefined) {
+    params.append('judgeStat', query.judgeStat) // 你要传给后台的参数值 key/value
+  }
+  if (query.createPersonId !== '' && query.createPersonId !== null && query.createPersonId !== undefined) {
+    params.append('createPersonId', query.createPersonId) // 你要传给后台的参数值 key/value
+  }
+  if (query.countryId !== '' && query.countryId !== null && query.countryId !== undefined) {
+    params.append('countryId', query.countryId) // 你要传给后台的参数值 key/value
+  }
+  if (query.summary !== '' && query.summary !== null && query.summary !== undefined) {
+    params.append('summary', query.summary) // 你要传给后台的参数值 key/value
+  }
+  if (query.endPersonId !== '' && query.endPersonId !== null && query.endPersonId !== undefined) {
+    params.append('endPersonId', query.endPersonId) // 你要传给后台的参数值 key/value
+  }
+  if (query.modifyPersonId !== '' && query.modifyPersonId !== null && query.modifyPersonId !== undefined) {
+    params.append('modifyPersonId', query.modifyPersonId) // 你要传给后台的参数值 key/value
+  }
+  if (query.repositoryId !== '' && query.repositoryId !== null && query.repositoryId !== undefined) {
+    params.append('repositoryId', query.repositoryId) // 你要传给后台的参数值 key/value
+  }
+  if (query.regionId !== '' && query.regionId !== null && query.regionId !== undefined) {
+    params.append('regionId', query.regionId) // 你要传给后台的参数值 key/value
+  }
+  return request({
+    url: '/erp/stockenter/updatestockenter',
+    method: 'post',
+    data: params
+  })
+}

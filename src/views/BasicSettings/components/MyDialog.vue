@@ -171,36 +171,18 @@ export default {
       regionlist().then(res => {
         if (res.data.ret === 200) {
           this.regions = this.tranKTree(res.data.data.content)
-        } else {
-          this.$notify.error({
-            title: '错误',
-            message: '出错了',
-            offset: 100
-          })
         }
       })
       // 审批流程步骤数据
       searchDetail(this.personalForm.id).then(res => {
         if (res.data.ret === 200) {
           this.list2 = res.data.data.detail
-        } else {
-          this.$notify.error({
-            title: '错误',
-            message: '出错了',
-            offset: 100
-          })
         }
       })
       // 单据编号类型数据
       searchcategory().then(res => {
         if (res.data.ret === 200) {
           this.categorys = res.data.data.content
-        } else {
-          this.$notify.error({
-            title: '错误',
-            message: '出错了',
-            offset: 100
-          })
         }
       })
     },
@@ -221,12 +203,6 @@ export default {
         console.log(res)
         if (res.data.ret === 200) {
           this.repositories = res.data.data.content.list
-        } else {
-          this.$notify.error({
-            title: '错误',
-            message: '出错了',
-            offset: 100
-          })
         }
       })
     },

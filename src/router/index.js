@@ -305,6 +305,12 @@ export const asyncRouterMap = [
         component: () => import('@/views/Product/ManyProduct'),
         name: 'ManyProduct',
         meta: { title: 'ManyProduct', noCache: true }
+      },
+      {
+        path: 'detaillist',
+        component: () => import('@/views/Product/detaillist'),
+        name: 'detaillist',
+        meta: { title: 'detaillist', noCache: true }
       }
     ]
   },
@@ -370,6 +376,12 @@ export const asyncRouterMap = [
       type: 1
     },
     children: [
+      {
+        path: 'Dept',
+        component: () => import('@/views/BasicSettings/Dept'),
+        name: 'Dept',
+        meta: { title: 'Dept', noCache: true }
+      },
       {
         path: 'NumberingRules',
         component: () => import('@/views/BasicSettings/NumberingRules'),
@@ -534,6 +546,12 @@ export const asyncRouterMap = [
         component: () => import('@/views/WarehouseAdjust/AddLocation'),
         name: 'AddLocation',
         meta: { title: 'AddLocation', noCache: false }
+      },
+      {
+        path: 'Locationlist',
+        component: () => import('@/views/WarehouseAdjust/Locationlist'),
+        name: 'Locationlist',
+        meta: { title: 'Locationlist', noCache: true }
       }
     ]
   },

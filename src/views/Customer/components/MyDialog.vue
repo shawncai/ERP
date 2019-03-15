@@ -219,36 +219,18 @@ export default {
       searchCusCategory(this.customertyp).then(res => {
         if (res.data.ret === 200) {
           this.customertypes = res.data.data.content.list
-        } else {
-          this.$notify.error({
-            title: '错误',
-            message: '出错了',
-            offset: 100
-          })
         }
       })
       // 获取客户优质级别
       searchCusCategory(this.levelstype).then(res => {
         if (res.data.ret === 200) {
           this.levels = res.data.data.content.list
-        } else {
-          this.$notify.error({
-            title: '错误',
-            message: '出错了',
-            offset: 100
-          })
         }
       })
       // 获取客户来源
       searchCusCategory(this.sourcestype).then(res => {
         if (res.data.ret === 200) {
           this.sources = res.data.data.content.list
-        } else {
-          this.$notify.error({
-            title: '错误',
-            message: '出错了',
-            offset: 100
-          })
         }
       })
     },
@@ -257,12 +239,6 @@ export default {
       getcountrylist().then(res => {
         if (res.data.ret === 200) {
           this.nations = res.data.data.content
-        } else {
-          this.$notify.error({
-            title: '错误',
-            message: '出错了',
-            offset: 100
-          })
         }
       })
     },
@@ -271,12 +247,6 @@ export default {
       getprovincelist(val).then(res => {
         if (res.data.ret === 200) {
           this.provinces = res.data.data.content
-        } else {
-          this.$notify.error({
-            title: '错误',
-            message: '出错了',
-            offset: 100
-          })
         }
       })
     },
@@ -286,12 +256,6 @@ export default {
         console.log(res)
         if (res.data.ret === 200) {
           this.cities = res.data.data.content
-        } else {
-          this.$notify.error({
-            title: '错误',
-            message: '出错了',
-            offset: 100
-          })
         }
       })
     },

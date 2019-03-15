@@ -479,3 +479,68 @@ export function searchMea() {
     data: params
   })
 }
+
+// 物品分类列表
+export function detaillist() {
+  return request({
+    url: '/erp/productclassfy/detaillist',
+    method: 'post'
+  })
+}
+
+// 新建物品分类
+export function createclassfy(query) {
+  var params = new URLSearchParams()
+  if (query.name !== '' && query.name !== null && query.name !== undefined) {
+    params.append('name', query.name) // 你要传给后台的参数值 key/value
+  }
+  if (query.levle !== '' && query.levle !== null && query.levle !== undefined) {
+    params.append('levle', query.levle) // 你要传给后台的参数值 key/value
+  }
+  if (query.parentId !== '' && query.parentId !== null && query.parentId !== undefined) {
+    params.append('parentId', query.parentId) // 你要传给后台的参数值 key/value
+  }
+  if (query.createId !== '' && query.createId !== null && query.createId !== undefined) {
+    params.append('createId', query.createId) // 你要传给后台的参数值 key/value
+  }
+  if (query.isActive !== '' && query.isActive !== null && query.isActive !== undefined) {
+    params.append('isActive', query.isActive) // 你要传给后台的参数值 key/value
+  }
+  return request({
+    url: '/erp/productclassfy/create',
+    method: 'post',
+    data: params
+  })
+}
+
+// 修改物品分类
+export function updateeclassfy(query) {
+  var params = new URLSearchParams()
+  if (query.categoryName !== '' && query.categoryName !== null && query.categoryName !== undefined) {
+    params.append('name', query.categoryName) // 你要传给后台的参数值 key/value
+  }
+  if (query.id !== '' && query.id !== null && query.id !== undefined) {
+    params.append('id', query.id) // 你要传给后台的参数值 key/value
+  }
+  if (query.isActive !== '' && query.isActive !== null && query.isActive !== undefined) {
+    params.append('isActive', query.isActive) // 你要传给后台的参数值 key/value
+  }
+  return request({
+    url: '/erp/productclassfy/update',
+    method: 'post',
+    data: params
+  })
+}
+
+// 删除物品分类
+export function deleteeclassfy(query) {
+  var params = new URLSearchParams()
+  if (query !== '' && query !== null && query !== undefined) {
+    params.append('id', query) // 你要传给后台的参数值 key/value
+  }
+  return request({
+    url: '/erp/productclassfy/delete',
+    method: 'post',
+    data: params
+  })
+}

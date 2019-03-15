@@ -65,7 +65,10 @@ export default {
     WarehouseAdjust: '库位调整',
     AddInitialenter: '新建期初库存录入',
     Enterlist: '期初库存列表',
-    AddLocation: '添加货位'
+    AddLocation: '添加货位',
+    Dept: '部门列表',
+    detaillist: '物品分类',
+    Locationlist: '货位列表'
   },
   navbar: {
     logOut: '退出登录',
@@ -309,7 +312,10 @@ export default {
     adjustSalePrice: '调整后零售价',
     adjustMemberPrice: '调整后会员价',
     adjustLowerPrice: '调整后最低价',
-    isBatch: '批次设置'
+    isBatch: '批次设置',
+    name: '分类名称',
+    parentId: '所属父级',
+    isActive: '应用状态'
   },
   BasicSettings: {
     ruleName: '编号规则名称',
@@ -345,7 +351,9 @@ export default {
     batchName: '批次规则名称',
     id2: '编号',
     isEffective: '流程使用状态',
-    isMessage: '是否手机提醒'
+    isMessage: '是否手机提醒',
+    deptNo: '部门编号',
+    deptName: '部门名称'
   },
   LogisticsCar: {
     cartype: '车辆类型',
@@ -415,6 +423,7 @@ export default {
     countType: '盘点类型',
     beginTime: '盘点开始时间',
     endTime: '盘点结束时间',
+    Time: '盘点日期',
     summary: '摘要',
     id: '编号',
     locationId: '货位',

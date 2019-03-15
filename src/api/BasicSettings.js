@@ -427,3 +427,59 @@ export function updateeapproval(query, detailJson) {
     data: params
   })
 }
+
+// 部门列表
+export function getdeptlist() {
+  return request({
+    url: '/erp/country/getdeptlist',
+    method: 'post'
+  })
+}
+
+// 新建部门
+export function adddept(query) {
+  var params = new URLSearchParams()
+  if (query.deptno !== '' && query.deptno !== null && query.deptno !== undefined) {
+    params.append('deptno', query.deptno) // 你要传给后台的参数值 key/value
+  }
+  if (query.deptname !== '' && query.deptname !== null && query.deptname !== undefined) {
+    params.append('deptname', query.deptname) // 你要传给后台的参数值 key/value
+  }
+  return request({
+    url: '/erp/country/adddept',
+    method: 'post',
+    data: params
+  })
+}
+
+// 更新部门
+export function updatedept(query) {
+  var params = new URLSearchParams()
+  if (query.id !== '' && query.id !== null && query.id !== undefined) {
+    params.append('deptid', query.id) // 你要传给后台的参数值 key/value
+  }
+  if (query.deptNo !== '' && query.deptNo !== null && query.deptNo !== undefined) {
+    params.append('deptno', query.deptNo) // 你要传给后台的参数值 key/value
+  }
+  if (query.deptName !== '' && query.deptName !== null && query.deptName !== undefined) {
+    params.append('deptname', query.deptName) // 你要传给后台的参数值 key/value
+  }
+  return request({
+    url: '/erp/country/updatedept',
+    method: 'post',
+    data: params
+  })
+}
+
+// 删除部门
+export function deletedept(query) {
+  var params = new URLSearchParams()
+  if (query !== '' && query !== null && query !== undefined) {
+    params.append('ids', query) // 你要传给后台的参数值 key/value
+  }
+  return request({
+    url: '/erp/country/deletedept',
+    method: 'post',
+    data: params
+  })
+}

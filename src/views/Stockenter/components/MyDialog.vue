@@ -1,219 +1,124 @@
 <template>
-  <el-dialog :visible.sync="editVisible" :control="control" :editdata="editdata" :close-on-press-escape="false" top="10px" title="修改供应商" @close="$emit('update:control', false)">
+  <el-dialog :visible.sync="editVisible" :editcontrol="editcontrol" :editdata="editdata" :close-on-press-escape="false" class="edit" top="10px" title="修改采购入库单" @close="$emit('update:editcontrol', false)">
     <!--基本信息-->
-    <h2 ref="geren" class="form-name">基本信息</h2>
-    <div class="container">
-      <el-form ref="personalForm" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-position="top" label-width="300px" style="margin-left: 30px;">
-        <el-form-item :label="$t('Supplier.supplierName')" prop="supplierName" style="width: 40%;margin-top:1%">
-          <el-input v-model="personalForm.supplierName" placeholder="请输入供应商名称" clearable/>
-        </el-form-item>
-        <el-form-item :label="$t('Supplier.typeId')" prop="typeId" style="width: 40%;margin-top:1%">
-          <el-select v-model="personalForm.typeId" placeholder="请选择供应商类别" style="width: 100%;">
-            <el-option
-              v-for="(item, index) in typeIds"
-              :key="index"
-              :label="item.categoryName"
-              :value="item.id"
-            />
-          </el-select>
-        </el-form-item>
-        <el-form-item :label="$t('Supplier.supplierShortName')" prop="supplierShortName" style="width: 40%;margin-top:1%">
-          <el-input v-model="personalForm.supplierShortName" placeholder="请输入供应商简称" clearable/>
-        </el-form-item><br>
-        <el-form-item :label="$t('Supplier.supplierIntroduction')" style="width: 80%;margin-top:1%">
-          <el-input v-model="personalForm.supplierIntroduction" type="textarea" clearable/>
-        </el-form-item>
-      </el-form>
-    </div>
-    <!--联系信息-->
-    <h2 ref="lianxi" class="form-name">业务信息</h2>
-    <div class="container">
-      <el-form ref="personalForm2" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-position="top" label-width="300px" style="margin-left: 30px;">
-        <el-form-item :label="$t('public.countyrId')" style="width: 40%;margin-top:1%">
-          <el-input v-model="personalForm.countryNname" disabled/>
-        </el-form-item>
-        <el-form-item :label="$t('Supplier.countyrId')" prop="countryId" style="width: 40%;margin-top: 1%">
-          <el-select v-model="personalForm.countryid" placeholder="国家" style="width: 100%;" @change ="handlechange">
-            <el-option
-              v-for="(item, index) in nations"
-              :key="index"
-              :label="item.name"
-              :value="item.id"/>
-          </el-select>
-        </el-form-item>
-        <el-form-item :label="$t('public.provinceId')" style="width: 40%;margin-top:1%">
-          <el-input v-model="personalForm.provinceName" disabled/>
-        </el-form-item>
-        <el-form-item :label="$t('Supplier.provinceId')" style="width: 40%;margin-top: 1%">
-          <el-select v-model="personalForm.provinceid" placeholder="请选择省" style="width: 100%;" @change="handlechange2">
-            <el-option
-              v-for="(item, index) in provinces"
-              :key="index"
-              :label="item.name"
-              :value="item.id"/>
-          </el-select>
-        </el-form-item>
-        <el-form-item :label="$t('Supplier.cityId')" style="width: 40%;margin-top:1%">
-          <el-input v-model="personalForm.cityName" disabled/>
-        </el-form-item>
-        <el-form-item :label="$t('public.cityId')" style="width: 40%;margin-top: 1%">
-          <el-select v-model="personalForm.cityid" placeholder="请选择市" style="width: 100%;">
-            <el-option
-              v-for="(item, index) in cities"
-              :key="index"
-              :label="item.name"
-              :value="item.id"/>
-          </el-select>
-        </el-form-item>
-        <el-form-item :label="$t('public.address')" style="width: 40%;margin-top:1%">
-          <el-input v-model="personalForm.detailAddress" placeholder="请输入地址" clearable/>
-        </el-form-item>
-        <el-form-item :label="$t('Supplier.groupId')" style="width: 40%;margin-top:1%">
-          <el-select v-model="personalForm.groupId" placeholder="请选择供应商分组" style="width: 100%;">
-            <el-option
-              v-for="(item, index) in groupIds"
-              :key="index"
-              :label="item.groupName"
-              :value="item.id"/>
-          </el-select>
-        </el-form-item>
-        <el-form-item :label="$t('Supplier.zipCode')" style="width: 40%;margin-top:1%">
-          <el-input v-model="personalForm.zipCode" placeholder="请输入邮编" clearable/>
-        </el-form-item>
-        <el-form-item :label="$t('Supplier.contactPersonName')" style="width: 40%;margin-top:1%">
-          <el-input v-model="personalForm.contactPersonName" placeholder="请输入联系人" clearable/>
-        </el-form-item>
-        <el-form-item :label="$t('Supplier.contactPersonPhone')" style="width: 40%;margin-top:1%">
-          <el-input v-model="personalForm.contactPersonPhone" placeholder="请输入电话" clearable/>
-        </el-form-item>
-        <el-form-item :label="$t('Supplier.regionId')" style="width: 40%;margin-top:1%">
-          <el-input v-model="personalForm.regionName" disabled/>
-        </el-form-item>
-        <el-form-item :label="$t('Supplier.editregionId')" prop="regionid" style="width: 40%;margin-top: 1%">
-          <el-cascader
-            :options="regions"
-            :props="props"
-            v-model="perregions"
-            :show-all-levels="false"
-            placeholder="请选择区域"
-            change-on-select
-            filterable
-            clearable
-            style="width: 100%;"
-          />
-        </el-form-item>
-        <el-form-item :label="$t('Supplier.giveId')" style="width: 40%;margin-top:1%">
-          <el-select v-model="personalForm.giveId" placeholder="请选择交货方式" style="width: 100%;">
-            <el-option
-              v-for="(item, index) in giveIds"
-              :key="index"
-              :label="item.categoryName"
-              :value="item.id"
-            />
-          </el-select>
-        </el-form-item>
-        <el-form-item :label="$t('Supplier.transportId')" style="width: 40%;margin-top:1%">
-          <el-select v-model="personalForm.transportId" placeholder="请选择运送方式" style="width: 100%;">
-            <el-option
-              v-for="(item, index) in transportIds"
-              :key="index"
-              :label="item.categoryName"
-              :value="item.id"
-            />
-          </el-select>
-        </el-form-item>
-        <el-form-item :label="$t('Supplier.levelId')" style="width: 40%;margin-top:1%">
-          <el-select v-model="personalForm.levelId" placeholder="请选择供应商优质级别" style="width: 100%;">
-            <el-option
-              v-for="(item, index) in levelIds"
-              :key="index"
-              :label="item.categoryName"
-              :value="item.id"
-            />
-          </el-select>
-        </el-form-item>
-        <el-form-item :label="$t('Supplier.isHot')" prop="isHot" style="width: 40%;margin-top:1%">
-          <el-select v-model="personalForm.isHot" placeholder="请选择" style="width: 100%;">
-            <el-option label="是" value="1"/>
-            <el-option label="否" value="2"/>
-          </el-select>
-        </el-form-item>
-        <el-form-item :label="$t('Supplier.isEffective')" style="width: 40%;margin-top:1%">
-          <el-select v-model="personalForm.isEffective" placeholder="请选择启用状态" style="width: 100%;">
-            <el-option label="启用" value="1"/>
-            <el-option label="未启用" value="2"/>
-          </el-select>
-        </el-form-item>
-        <el-form-item :label="$t('Supplier.buyerId')" style="width: 40%;margin-top:1%">
-          <el-input v-model="buyerId" placeholder="请输入采购员" @focus="handlechoose"/>
-        </el-form-item> <br>
-        <my-emp :control.sync="empcontrol" @personName="personName"/>
-        <el-form-item :label="$t('Supplier.businessScopeIntroduction')" style="width: 80%;margin-top:1%">
-          <el-input v-model="personalForm.businessScopeIntroduction" type="textarea" clearable/>
-        </el-form-item>
-      </el-form>
-    </div>
-    <!--财务信息-->
-    <h2 class="form-name">财务信息</h2>
-    <div class="container">
-      <el-form ref="personalForm3" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-position="top" label-width="300px" style="margin-left: 30px;">
-        <el-form-item :label="$t('Supplier.paymentId')" style="width: 40%;margin-top:1%">
-          <el-select v-model="personalForm.paymentId" placeholder="请选择结算方式" style="width: 100%;">
-            <el-option
-              v-for="(item, index) in paymentIds"
-              :key="index"
-              :label="item.categoryName"
-              :value="item.id"
-            />
-          </el-select>
-        </el-form-item>
-        <el-form-item :label="$t('Supplier.moneyId')" style="width: 40%;margin-top: 1%">
-          <el-select v-model="personalForm.moneyId" :value="personalForm.moneyId" placeholder="请选择币种" style="width: 100%;">
-            <el-option label="RMB" value="1"/>
-            <el-option label="USD" value="2"/>
-          </el-select>
-        </el-form-item>
-        <el-form-item :label="$t('Supplier.bankName')" style="width: 40%;margin-top:1%">
-          <el-input v-model="personalForm.bankName" placeholder="请输入开户行" clearable/>
-        </el-form-item>
-        <el-form-item :label="$t('Supplier.accountName')" style="width: 40%;margin-top:1%">
-          <el-input v-model="personalForm.accountName" placeholder="请输入户名" clearable/>
-        </el-form-item>
-        <el-form-item :label="$t('Supplier.account')" style="width: 40%;margin-top:1%">
-          <el-input v-model="personalForm.account" placeholder="请输入账号" clearable/>
-        </el-form-item>
-      </el-form>
-    </div>
-    <!--辅助信息-->
-    <h2 ref="fuzhu" class="form-name">辅助信息</h2>
-    <div class="container">
-      <el-form ref="personalForm4" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-position="top" label-width="300px" style="margin-left: 30px;">
-        <el-form-item :label="$t('Supplier.establishDate')" style="width: 40%;margin-top:1%">
-          <el-date-picker
-            v-model="personalForm.establishDate"
-            type="date"
-            placeholder="选择成立时间"
-            value-format="yyyy-MM-dd"
-            clearable
-            style="width: 100%"/>
-        </el-form-item>
-        <el-form-item :label="$t('Supplier.legalPerson')" style="width: 40%;margin-top:1%">
-          <el-input v-model="personalForm.legalPerson" placeholder="请输入法人代表" clearable/>
-        </el-form-item>
-        <el-form-item :label="$t('Supplier.taxNumber')" style="width: 40%;margin-top:1%">
-          <el-input v-model="personalForm.taxNumber" placeholder="请输入税务登记号" clearable/>
-        </el-form-item>
-        <el-form-item :label="$t('Supplier.businessLicense')" style="width: 40%;margin-top:1%">
-          <el-input v-model="personalForm.businessLicense" placeholder="请输入营业执照号" clearable/>
-        </el-form-item>
-        <el-form-item :label="$t('Supplier.companyTypeId')" style="width: 40%;margin-top:1%">
-          <el-select v-model="personalForm.companyTypeId" placeholder="请选择单位性质" style="width: 100%;">
-            <el-option label="类型1" value="1"/>
-            <el-option label="类型2" value="2"/>
-          </el-select>
-        </el-form-item>
-      </el-form>
-    </div>
+    <el-card class="box-card">
+      <h2 ref="geren" class="form-name">基本信息</h2>
+      <div class="container">
+        <el-form ref="personalForm" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="100px" style="margin-left: 30px;">
+          <el-row>
+            <el-col :span="6">
+              <el-form-item :label="$t('Stockenter.title')" style="width: 100%;">
+                <el-input v-model="personalForm.title" placeholder="请输入入库单主题" style="margin-left: 18px;width: 150px" clearable/>
+              </el-form-item>
+            </el-col>
+            <el-col :span="6">
+              <el-form-item :label="$t('Stockenter.sourceType')" prop="sourceType" style="width: 100%;">
+                <el-select v-model="personalForm.sourceType" placeholder="请选择源单类型" style="margin-left: 18px;width: 150px">
+                  <el-option value="1" label="采购到货单"/>
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="6">
+              <el-form-item label="源单编号" style="width: 100%;">
+                <el-input v-model="personalForm.sourceNumber" placeholder="请选择源单编号" style="margin-left: 18px;width: 150px" clearable/>
+              </el-form-item>
+            </el-col>
+            <el-col :span="6">
+              <el-form-item :label="$t('Stockenter.supplierId')" style="width: 100%">
+                <el-input v-model="supplierId" placeholder="请选择供应商" clearable style="margin-left: 18px;width: 150px" @focus="handlechoose"/>
+              </el-form-item>
+              <my-supplier :control.sync="empcontrol" @supplierName="supplierName"/>
+            </el-col>
+            <el-col :span="6">
+              <el-form-item :label="$t('Stockenter.stockPersonId')" style="width: 100%">
+                <el-input v-model="stockPersonId" placeholder="请选择采购员" style="margin-left: 18px;width: 150px" clearable @focus="handlechooseStock"/>
+              </el-form-item>
+              <my-emp :control.sync="stockControl" @stockName="stockName"/>
+            </el-col>
+            <el-col :span="6">
+              <el-form-item :label="$t('Stockenter.stockDeptId')" style="width: 100%">
+                <el-select v-model="personalForm.stockDeptId" placeholder="请选择采购部门" clearable style="margin-left: 18px;width: 150px" @focus="updatedept">
+                  <el-option
+                    v-for="(item, index) in depts"
+                    :key="index"
+                    :value="item.id"
+                    :label="item.deptName"/>
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="6">
+              <el-form-item :label="$t('Stockenter.deliveryPersonId')" style="width: 100%">
+                <el-input v-model="deliveryPersonId" placeholder="请选择交货人" clearable style="margin-left: 18px;width: 150px" @focus="handlechooseDelivery"/>
+              </el-form-item>
+              <my-delivery :deliverycontrol.sync="deliverycontrol" @deliveryName="deliveryName"/>
+            </el-col>
+            <el-col :span="6">
+              <el-form-item :label="$t('Stockenter.acceptPersonId')" style="width: 100%">
+                <el-input v-model="acceptPersonId" placeholder="请选择验收人" style="margin-left: 18px;width: 150px" clearable @focus="handlechooseAccept"/>
+              </el-form-item>
+              <my-accept :accetpcontrol.sync="accetpcontrol" @acceptName="acceptName"/>
+            </el-col>
+            <el-col :span="6">
+              <el-form-item :label="$t('Stockenter.enterDeptId')" style="width: 100%">
+                <el-select v-model="personalForm.enterDeptId" placeholder="请选择入库部门" clearable style="margin-left: 18px;width: 150px" @focus="updatedept">
+                  <el-option
+                    v-for="(item, index) in depts"
+                    :key="index"
+                    :value="item.id"
+                    :label="item.deptName"/>
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="6">
+              <el-form-item :label="$t('Stockenter.enterRepositoryId')" prop="enterRepositoryId" style="width: 100%">
+                <el-input v-model="enterRepositoryId" placeholder="请选择入库仓库" clearable style="margin-left: 18px;width: 150px" @focus="handlechooseRep"/>
+              </el-form-item>
+              <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
+            </el-col>
+          </el-row>
+        </el-form>
+      </div>
+    </el-card>
+    <!--入库单明细-->
+    <el-card class="box-card" style="margin-top: 15px">
+      <h2 ref="fuzhu" class="form-name">入库单明细</h2>
+      <div class="buttons" style="margin-top: 28px;margin-bottom: 20px">
+        <el-button type="success" style="background:#3696fd;border-color:#3696fd " @click="handleAddproduct">添加商品</el-button>
+        <el-button type="danger" @click="$refs.editable.removeSelecteds()">删除</el-button>
+      </div>
+      <my-detail :control.sync="control" @product="productdetail"/>
+      <div class="container">
+        <el-editable
+          ref="editable"
+          :data.sync="list2"
+          :edit-config="{ showIcon: true, showStatus: true}"
+          :edit-rules="validRules"
+          class="click-table1"
+          stripe
+          border
+          size="medium"
+          style="width: 100%">
+          <el-editable-column type="selection" width="55" align="center"/>
+          <el-editable-column type="index" align="center" label="编号" width="150px" />
+          <el-editable-column :edit-render="{name: 'ElSelect', options: locationlist}" prop="locationId" align="center" label="货位" width="150px"/>
+          <el-editable-column prop="productCode" align="center" label="物品编号" width="150px"/>
+          <el-editable-column prop="productName" align="center" label="物品名称" width="150px"/>
+          <el-editable-column prop="color" align="center" label="颜色" width="150px"/>
+          <el-editable-column prop="productType" align="center" label="规格" width="150px"/>
+          <el-editable-column prop="unit" align="center" label="单位" width="150px"/>
+          <el-editable-column prop="basicQuantity" align="center" label="基本数量" width="150px"/>
+          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 1}}" prop="actualEnterQuantity" align="center" label="实收数量" width="150px"/>
+          <el-editable-column prop="enterPrice" align="center" label="入库单价" width="150px"/>
+          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}}" prop="taxRate" align="center" label="税率" width="150px"/>
+          <el-editable-column prop="enterMoney" align="center" label="入库金额" width="150px">
+            <template slot-scope="scope">
+              <p>{{ getSize(scope.row.actualEnterQuantity, scope.row.enterPrice) }}</p>
+            </template>
+          </el-editable-column>
+          <el-editable-column :edit-render="{name: 'ElInput'}" prop="remarks" align="center" label="备注" width="150px"/>
+        </el-editable>
+      </div>
+    </el-card>
     <div class="buttons" style="margin-top: 20px;margin-left: 30px">
       <el-button type="primary" @click="handleEditok()">修改</el-button>
       <el-button type="danger" @click="handlecancel()">取消</el-button>
@@ -222,13 +127,19 @@
 </template>
 
 <script>
-import { getcountrylist, getprovincelist, getcitylist, regionlist } from '@/api/public'
-import { searchCategory, update, searchGroup } from '@/api/Supplier'
+import { locationlist } from '@/api/WarehouseAdjust'
+import { updatestockenter } from '@/api/Stockenter'
+import { getdeptlist } from '@/api/BasicSettings'
+import MyRepository from './MyRepository'
+import MySupplier from './MySupplier'
 import MyEmp from './MyEmp'
+import MyDelivery from './MyDelivery'
+import MyAccept from './MyAccept'
+import MyDetail from './MyDetail'
 export default {
-  components: { MyEmp },
+  components: { MyRepository, MySupplier, MyEmp, MyDelivery, MyAccept, MyDetail },
   props: {
-    control: {
+    editcontrol: {
       type: Boolean,
       default: false
     },
@@ -239,52 +150,65 @@ export default {
   },
   data() {
     return {
-      // 分组数据
-      groupIds: [],
       // 弹窗组件的控制
-      editVisible: this.control,
-      // 结算方式
-      paymentIds: [],
-      // 优质级别
-      levelIds: [],
-      // 运送方式
-      transportIds: [],
-      // 交货方式
-      giveIds: [],
-      // 供应商类别
-      typeIds: [],
-      // 采购员弹窗控制
-      empcontrol: false,
-      // 国家列表
-      nations: [],
-      // 省列表
-      provinces: [],
-      // 城市列表
-      cities: [],
-      // 区域列表
-      regions: [],
-      // 区域列表字段更改
-      props: {
-        value: 'id',
-        label: 'regionName',
-        children: 'regionListVos'
-      },
-      // 采购员回显
-      buyerId: '',
-      // 转化区域id
-      perregions: [],
+      editVisible: this.editcontrol,
       // 供应商信息数据
       personalForm: this.editdata,
+      locationlistparms: {
+        pageNum: 1,
+        pageSize: 1999,
+        repositoryId: ''
+      },
+      // 货位数据
+      locationlist: [],
+      // 明细表控制框
+      control: false,
+      // 验收人回显
+      acceptPersonId: '',
+      // 验收人控制框
+      accetpcontrol: false,
+      // 交货人回显
+      deliveryPersonId: '',
+      // 交货人控制框
+      deliverycontrol: false,
+      // 部门数据
+      depts: [],
+      // 采购员控制框
+      stockControl: false,
+      // 采购员回显
+      stockPersonId: '',
+      // 供货商回显
+      supplierId: '',
+      // 供货商控制
+      empcontrol: false,
+      // 入库仓库回显
+      enterRepositoryId: '',
+      // 仓库选择控制期
+      repositorycontrol: false,
+      // 入库单明细数据
+      list2: [],
+      // 入库单明细列表规则
+      validRules: {
+        step: [
+          { required: true, message: '请输入流程步骤', trigger: 'blur' }
+        ],
+        money: [
+          { required: true, message: '请输入流转条件', trigger: 'blue' }
+        ],
+        handlerName: [
+          { required: true, message: '请选择步骤处理人', trigger: 'blue' }
+        ]
+      },
       // 个人信息规则数据
       personalrules: {
-        supplierName: [
-          { required: true, message: '请输入供应商名称', trigger: 'blur' }
+        title: [
+          { required: true, message: '请输入入库单主题', trigger: 'blur' }
         ],
-        typeId: [
-          { required: true, message: '请选择供应商类别', trigger: 'change' }
+        sourceType: [
+          { required: true, message: '请选择源单类型', trigger: 'change' }
         ],
-        groupId: [
-          { required: true, message: '请选择供应商分组', trigger: 'change' }
+        enterRepositoryId: [
+          { required: true, message: '请选择入库仓库', trigger: 'blue' }
         ],
         isHot: [
           { required: true, message: '请选择', trigger: 'change' }
@@ -296,171 +220,188 @@ export default {
     }
   },
   watch: {
-    control() {
-      this.editVisible = this.control
+    editcontrol() {
+      this.editVisible = this.editcontrol
     },
     editdata() {
       this.personalForm = this.editdata
-      this.buyerId = this.editdata.buyerName
-      console.log(this.editdata)
+      this.supplierId = this.personalForm.supplierName
+      this.stockPersonId = this.personalForm.stockPersonName
+      this.deliveryPersonId = this.personalForm.deliveryPersonName
+      this.acceptPersonId = this.personalForm.acceptPersonName
+      this.enterRepositoryId = this.personalForm.enterRepositoryName
+      this.list2 = this.personalForm.stockEnterDetailVos
+      this.getlocation()
     }
   },
-  created() {
-    this.getnationlist()
+  mounted() {
+    this.getlist()
   },
   methods: {
-    // 国籍列表
-    getnationlist() {
-      getcountrylist().then(res => {
+    getlist() {
+      // 部门列表数据
+      getdeptlist().then(res => {
         if (res.data.ret === 200) {
-          this.nations = res.data.data.content
-        } else {
-          this.$notify.error({
-            title: '错误',
-            message: '出错了',
-            offset: 100
-          })
+          this.depts = res.data.data.content
         }
       })
-      // 区域列表数据
-      regionlist().then(res => {
+    },
+    getlocation() {
+      // 货位根据仓库id展现
+      locationlist(this.personalForm.enterRepositoryId).then(res => {
         if (res.data.ret === 200) {
-          this.regions = this.tranKTree(res.data.data.content)
-        } else {
-          this.$notify.error({
-            title: '错误',
-            message: '出错了',
-            offset: 100
-          })
-        }
-      })
-      // 供应商类别
-      searchCategory(1).then(res => {
-        if (res.data.ret === 200) {
-          this.typeIds = res.data.data.content.list
-        } else {
-          this.$notify.error({
-            title: '错误',
-            message: '出错了',
-            offset: 100
-          })
-        }
-      })
-      // 交货方式
-      searchCategory(2).then(res => {
-        if (res.data.ret === 200) {
-          this.giveIds = res.data.data.content.list
-        } else {
-          this.$notify.error({
-            title: '错误',
-            message: '出错了',
-            offset: 100
-          })
-        }
-      })
-      // 运送方式
-      searchCategory(3).then(res => {
-        if (res.data.ret === 200) {
-          this.transportIds = res.data.data.content.list
-        } else {
-          this.$notify.error({
-            title: '错误',
-            message: '出错了',
-            offset: 100
-          })
-        }
-      })
-      // 优质级别
-      searchCategory(4).then(res => {
-        if (res.data.ret === 200) {
-          this.levelIds = res.data.data.content.list
-        } else {
-          this.$notify.error({
-            title: '错误',
-            message: '出错了',
-            offset: 100
-          })
-        }
-      })
-      // 结算方式
-      searchCategory(5).then(res => {
-        if (res.data.ret === 200) {
-          this.paymentIds = res.data.data.content.list
-        } else {
-          this.$notify.error({
-            title: '错误',
-            message: '出错了',
-            offset: 100
-          })
-        }
-      })
-      // 分组数据
-      searchGroup().then(res => {
-        if (res.data.ret === 200) {
-          this.groupIds = res.data.data.content
-        } else {
-          this.$notify.error({
-            title: '错误',
-            message: '出错了',
-            offset: 100
+          this.locationlist = res.data.data.content.list.map(function(item) {
+            return {
+              'value': item.id,
+              'label': item.locationName
+            }
           })
         }
       })
     },
-    // 根据国家选择省
-    handlechange(val) {
-      getprovincelist(val).then(res => {
-        if (res.data.ret === 200) {
-          this.provinces = res.data.data.content
-        } else {
-          this.$notify.error({
-            title: '错误',
-            message: '出错了',
-            offset: 100
-          })
-        }
-      })
+    // 采购员focus事件
+    handlechooseStock() {
+      this.stockControl = true
     },
-    // 根据省选择市
-    handlechange2(val) {
-      getcitylist(val).then(res => {
-        console.log(res)
-        if (res.data.ret === 200) {
-          this.cities = res.data.data.content
-        } else {
-          this.$notify.error({
-            title: '错误',
-            message: '出错了',
-            offset: 100
-          })
-        }
-      })
+    // 采购员回显
+    stockName(val) {
+      this.stockPersonId = val.personName
+      this.personalForm.stockPersonId = val.id
     },
-    // 转化数据方法
-    tranKTree(arr) {
-      if (!arr || !arr.length) return
-      return arr.map(item => ({
-        id: item.id,
-        regionName: item.regionName,
-        regionListVos: this.tranKTree(item.regionListVos)
-      }))
-    },
-    // 员工输入框focus事件触发
+    // 供应商输入框focus事件触发
     handlechoose() {
       this.empcontrol = true
     },
-    // 员工列表返回数据
-    personName(val) {
+    // 供应商列表返回数据
+    supplierName(val) {
       console.log(val)
-      this.buyerId = val.personName
-      this.personalForm.buyerId = val.id
+      this.supplierId = val.supplierName
+      this.personalForm.supplierId = val.id
+    },
+    // 详细表事件
+    // 仓库列表focus事件触发
+    handlechooseRep() {
+      this.repositorycontrol = true
+    },
+    repositoryname(val) {
+      console.log(val)
+      this.enterRepositoryId = val.repositoryName
+      this.personalForm.enterRepositoryId = val.id
+      this.locationlistparms.repositoryId = val.id
+      locationlist(this.locationlistparms).then(res => {
+        if (res.data.ret === 200) {
+          this.locationlist = res.data.data.content.list.map(function(item) {
+            return {
+              'value': item.id,
+              'label': item.locationName
+            }
+          })
+        }
+      })
+    },
+    // 部门列表focus刷新
+    updatedept() {
+      this.getlist()
+    },
+    // 交货人foucs事件触发
+    handlechooseDelivery() {
+      this.deliverycontrol = true
+    },
+    deliveryName(val) {
+      this.deliveryPersonId = val.personName
+      this.personalForm.deliveryPersonId = val.id
+    },
+    // 验收人focus事件触发
+    handlechooseAccept() {
+      this.accetpcontrol = true
+    },
+    acceptName(val) {
+      this.acceptPersonId = val.personName
+      this.personalForm.acceptPersonId = val.id
+    },
+    // 新增入库单明细
+    handleAddproduct() {
+      this.control = true
+    },
+    productdetail(val) {
+      console.log(val)
+      console.log(this.$refs.editable.getRecords())
+      const nowlistdata = this.$refs.editable.getRecords()
+      for (let i = 0; i < val.length; i++) {
+        for (let j = 0; j < nowlistdata.length; j++) {
+          if (val[i].productCode === nowlistdata[j].productCode) {
+            this.$notify.error({
+              title: '错误',
+              message: '物品已添加',
+              offset: 100
+            })
+            return false
+          }
+        }
+        this.$refs.editable.insert(val[i])
+        this.$nextTick(() => this.$refs.editable.setActiveRow())
+      }
+    },
+    // 入库金额计算
+    getSize(quan, pric) {
+      return quan * pric
     },
     // 修改和取消按钮
     // 修改按钮
     handleEditok() {
-      this.personalForm.regionId = this.perregions[this.perregions.length - 1]
+      this.personalForm.repositoryId = 438
+      this.personalForm.regionId = 2
+      this.personalForm.createPersonId = 3
+      this.personalForm.countryId = 1
+      this.personalForm.modifyPersonId = 3
       console.log(this.personalForm)
-      update(this.personalForm).then(res => {
+      const rest = this.$refs.editable.getRecords()
+      rest.map(function(elem) {
+        return elem
+      }).forEach(function(elem) {
+        if (elem.locationId === null || elem.locationId === '' || elem.locationId === undefined) {
+          delete elem.locationId
+        }
+        if (elem.productCode === null || elem.productCode === '' || elem.productCode === undefined) {
+          delete elem.productCode
+        }
+        if (elem.productName === null || elem.productName === '' || elem.productName === undefined) {
+          delete elem.productName
+        }
+        if (elem.color === null || elem.color === '' || elem.color === undefined) {
+          delete elem.color
+        }
+        if (elem.typeId === null || elem.typeId === '' || elem.typeId === undefined) {
+          delete elem.typeId
+        }
+        if (elem.unit === null || elem.unit === '' || elem.unit === undefined) {
+          delete elem.unit
+        }
+        if (elem.basicQuantity === null || elem.basicQuantity === '' || elem.basicQuantity === undefined) {
+          delete elem.basicQuantity
+        }
+        if (elem.actualEnterQuantity === null || elem.actualEnterQuantity === '' || elem.actualEnterQuantity === undefined) {
+          delete elem.actualEnterQuantity
+        }
+        if (elem.remarks === null || elem.remarks === '' || elem.remarks === undefined) {
+          delete elem.remarks
+        }
+        if (elem.enterPrice === null || elem.enterPrice === '' || elem.enterPrice === undefined) {
+          delete elem.enterPrice
+        }
+        if (elem.taxRate === null || elem.taxRate === '' || elem.taxRate === undefined) {
+          delete elem.taxRate
+        }
+        if (elem.enterMoney === null || elem.enterMoney === '' || elem.enterMoney === undefined) {
+          delete elem.enterMoney
+        }
+        if (elem.productType === null || elem.productType === '' || elem.productType === undefined) {
+          delete elem.productType
+        }
+        return elem
+      })
+      const parms2 = JSON.stringify(rest)
+      updatestockenter(this.personalForm, parms2).then(res => {
         if (res.data.ret === 200) {
           this.$notify({
             title: '操作成功',
@@ -472,12 +413,6 @@ export default {
           this.$emit('rest', true)
           this.$refs.personalForm.clearValidate()
           this.$refs.personalForm.resetFields()
-          this.$refs.personalForm2.clearValidate()
-          this.$refs.personalForm2.resetFields()
-          this.$refs.personalForm3.clearValidate()
-          this.$refs.personalForm3.resetFields()
-          this.$refs.personalForm4.clearValidate()
-          this.$refs.personalForm4.resetFields()
           this.editVisible = false
         } else {
           this.$notify.error({
@@ -491,12 +426,6 @@ export default {
     handlecancel() {
       this.$refs.personalForm.clearValidate()
       this.$refs.personalForm.resetFields()
-      this.$refs.personalForm2.clearValidate()
-      this.$refs.personalForm2.resetFields()
-      this.$refs.personalForm3.clearValidate()
-      this.$refs.personalForm3.resetFields()
-      this.$refs.personalForm4.clearValidate()
-      this.$refs.personalForm4.resetFields()
       this.editVisible = false
     }
     // 修改操作结束 -------------------------------------------------
@@ -505,5 +434,7 @@ export default {
 </script>
 
 <style scoped>
-
+  .edit >>> .el-dialog {
+    background:#f1f1f1 ;
+  }
 </style>

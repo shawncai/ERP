@@ -30,10 +30,6 @@
                 <el-input v-model="personalForm.height" placeholder="请输入货位高" style="margin-left: 18px" clearable/></el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('WarehouseAdjust.volume')" style="width: 100%;">
-                <el-input v-model="personalForm.volume" style="margin-left: 18px;width: 220px" disabled/></el-form-item>
-              </el-col>
-              <el-col :span="6">
                 <el-form-item :label="$t('WarehouseAdjust.repositoryId')" prop="repositoryId" style="width: 100%;">
                   <el-input v-model="repositoryId" placeholder="请选择仓库" style="margin-left: 18px" clearable @focus="handlechooseRep"/>
                 </el-form-item>
@@ -139,11 +135,12 @@ export default {
     // 清空记录
     restAllForm() {
       this.personalForm = {}
+      this.repositoryId = ''
     },
     // 取消操作
     handlecancel() {
       this.$router.go(-1)
-      const view = { path: '/WarehouseAdjust/NewWarehouseAdjust', name: 'NewWarehouseAdjust', fullPath: '/WarehouseAdjust/NewWarehouseAdjust', title: 'NewWarehouseAdjust' }
+      const view = { path: '/WarehouseAdjust/AddLocation', name: 'AddLocation', fullPath: '/WarehouseAdjust/AddLocation', title: 'AddLocation' }
       this.$store.dispatch('delView', view).then(({ visitedViews }) => {
       })
     },

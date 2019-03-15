@@ -14,8 +14,11 @@
           <my-create :createcontrol.sync="createcontrol" @createname="createname"/>
           <el-form-item :label="$t('InventoryCount.countDeptId')" style="width: 40%;margin-top:1%">
             <el-select v-model="personalForm.countDeptId" placeholder="请选择盘点部门" clearable style="width: 100%;">
-              <el-option value="1" label="超级部门"/>
-              <el-option value="2" label="财务部门"/>
+              <el-option
+                v-for="(item, index) in depts"
+                :key="index"
+                :value="item.id"
+                :label="item.deptName"/>
             </el-select>
           </el-form-item>
           <el-form-item :label="$t('InventoryCount.countRepositoryId')" prop="countRepositoryId" style="width: 40%;margin-top:1%">
@@ -28,23 +31,16 @@
               <el-option value="2" label="xxx"/>
             </el-select>
           </el-form-item>
-          <el-form-item :label="$t('InventoryCount.beginTime')" prop="beginTime" style="width: 40%;margin-top:1%">
+          <el-form-item :label="$t('InventoryCount.Time')" prop="Time" style="width: 40%;margin-top:1%">
             <el-date-picker
-              v-model="personalForm.beginTime"
-              type="date"
-              placeholder="盘点开始日期"
+              v-model="Time"
+              type="daterange"
+              range-separator="至"
+              start-placeholder="盘点开始日期"
+              end-placeholder="盘点结束日期"
               value-format="yyyy-MM-dd"
-              clearable
-              style="width: 100%"/>
-          </el-form-item>
-          <el-form-item :label="$t('InventoryCount.endTime')" prop="endTime" style="width: 40%;margin-top:1%">
-            <el-date-picker
-              v-model="personalForm.endTime"
-              type="date"
-              placeholder="盘点结束日期"
-              value-format="yyyy-MM-dd"
-              clearable
-              style="width: 100%"/>
+              style="width: 640px"
+            />
           </el-form-item><br>
           <el-form-item :label="$t('InventoryCount.summary')" prop="summary" style="width: 80%;margin-top:1%">
             <el-input v-model="personalForm.summary" placeholder="请输入摘要" type="textarea" clearable/>
@@ -57,6 +53,7 @@
         <el-button type="success" @click="handleAddproduct">添加商品</el-button>
         <el-button type="danger" @click="$refs.editable.removeSelecteds()">删除</el-button>
       </div>
+      <my-detail :control.sync="control" @product="productdetail"/>
       <div class="container">
         <el-editable
           ref="editable"
@@ -77,25 +74,12 @@
           <el-editable-column prop="typeId" align="center" label="规格" width="150px"/>
           <el-editable-column prop="unit" align="center" label="单位" width="150px"/>
           <el-editable-column prop="price" align="center" label="价格" width="150px"/>
-          <el-editable-column :edit-render="{name: 'ElInput'}" prop="inventoryQuantity" align="center" label="库存数量" width="150px"/>
+          <el-editable-column prop="inventoryQuantity" align="center" label="库存数量" width="150px"/>
           <el-editable-column :edit-render="{name: 'ElInput'}" prop="actualQuantity" align="center" label="实盘数量" width="150px"/>
-          <el-editable-column :edit-render="{name: 'ElInput'}" prop="overflowQuantity" align="center" label="报溢数量" width="150px"/>
+          <el-editable-column prop="overflowQuantity" align="center" label="报溢数量" width="150px"/>
           <el-editable-column prop="totalMoney" align="center" label="总金额" width="150px"/>
           <el-editable-column :edit-render="{name: 'ElInput'}" prop="remarks" align="center" label="备注" width="150px"/>
           <el-editable-column prop="sourceNumber" align="center" label="源单编号" width="150px"/>
-          <!--<el-editable-column :edit-render="{type: 'default'}" prop="handlerName" align="center" label="步骤处理人" min-width="500px">-->
-          <!--<template slot="edit" slot-scope="scope">-->
-          <!--<input class="editable-custom_input" @focus="handlechoose">-->
-          <!--<my-emp :control.sync="empcontrol" @personName="personName" @chuli="chuli(scope)"/>-->
-          <!--</template>-->
-          <!--</el-editable-column>-->
-          <!--<el-editable-column align="center" label="操作" min-width="300px">-->
-          <!--<template slot-scope="scope">-->
-          <!--&lt;!&ndash;<el-input v-model="scope.row.handlerName" style="float: left;width: 100px" @input="$refs.editable.updateStatus(scope)"/>&ndash;&gt;-->
-          <!--<el-button icon="el-icon-more-outline" style="float: right" @click="handlechoose(scope)"/>-->
-          <!--<my-emp :control.sync="empcontrol" @personName="personName" @chuli="chuli(scope)"/>-->
-          <!--</template>-->
-          <!--</el-editable-column>-->
         </el-editable>
       </div>
       <!--操作-->
@@ -110,13 +94,19 @@
 
 <script>
 import { create } from '@/api/Supplier'
+import { getdeptlist } from '@/api/BasicSettings'
 import MyCreate from './components/MyCreate'
 import MyRepository from './components/MyRepository'
+import MyDetail from './components/MyDetail'
 export default {
   name: 'AddInventoryCount',
-  components: { MyCreate, MyRepository },
+  components: { MyCreate, MyRepository, MyDetail },
   data() {
     return {
+      // 明细表控制框
+      control: false,
+      // 部门数据
+      depts: [],
       // 仓库回显
       countRepositoryId: '',
       // 经办人回显
@@ -139,6 +129,8 @@ export default {
           { required: true, message: '请选择步骤处理人', trigger: 'blue' }
         ]
       },
+      // 库存盘点日期
+      Time: [],
       // 库存盘点单信息数据
       personalForm: {},
       // 库存盘点单规则数据
@@ -149,19 +141,34 @@ export default {
         countRepositoryId: [
           { required: true, message: '请选择盘点仓库', trigger: 'blue' }
         ],
-        beginTime: [
-          { required: true, message: '请选择盘点开始日期', trigger: 'change' }
-        ],
-        endTime: [
-          { required: true, message: '请选择盘点结束', trigger: 'change' }
+        Time: [
+          { required: true, message: '请选择盘点日期', trigger: 'blue' }
         ]
       }
     }
   },
+  mounted() {
+    this.getlist()
+  },
   methods: {
+    getlist() {
+      // 部门列表数据
+      getdeptlist().then(res => {
+        if (res.data.ret === 200) {
+          this.depts = res.data.data.content
+        }
+      })
+    },
     // 保存操作
     handlesave() {
-      this.personalForm.regionId = this.perregions[this.perregions.length - 1]
+      if (this.Time === null) {
+        this.personalForm.beginTime = null
+        this.personalForm.endTime = null
+      } else {
+        this.personalForm.beginTime = this.Time[0]
+        this.personalForm.endTime = this.Time[1]
+      }
+      console.log(this.personalForm)
       this.$refs.personalForm.validate((valid) => {
         if (valid) {
           create(this.personalForm).then(res => {
@@ -262,13 +269,34 @@ export default {
     },
     repositoryname(val) {
       console.log(val)
-      this.countRepositoryId = val.id
-      this.personalForm.countRepositoryId = val.repositoryName
+      this.countRepositoryId = val.repositoryName
+      this.personalForm.countRepositoryId = val.id
     },
     // 盘点单事件
     // 新增盘点单明细
     handleAddproduct() {
-      console.log(123)
+      this.control = true
+    },
+    productdetail(val) {
+      // console.log(val)
+      // console.log(val[0])
+      console.log(this.$refs.editable.getRecords())
+      const nowlistdata = this.$refs.editable.getRecords()
+      for (let i = 0; i < val.length; i++) {
+        for (let j = 0; j < nowlistdata.length; j++) {
+          if (val[i].productCode === nowlistdata[j].productCode) {
+            this.$notify.error({
+              title: '错误',
+              message: '物品已添加',
+              offset: 100
+            })
+            return false
+          }
+        }
+        this.$refs.editable.insert(val[i])
+      }
+      // console.log(val)
+      // const row = this.$refs.editable.insert(val)
     }
   }
 }

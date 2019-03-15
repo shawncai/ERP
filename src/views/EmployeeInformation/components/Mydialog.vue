@@ -289,12 +289,6 @@ export default {
       getprovincelist(val).then(res => {
         if (res.data.ret === 200) {
           this.provinces = res.data.data.content
-        } else {
-          this.$notify.error({
-            title: '错误',
-            message: '出错了',
-            offset: 100
-          })
         }
       })
     },
@@ -304,12 +298,6 @@ export default {
         console.log(res)
         if (res.data.ret === 200) {
           this.cities = res.data.data.content
-        } else {
-          this.$notify.error({
-            title: '错误',
-            message: '出错了',
-            offset: 100
-          })
         }
       })
     },

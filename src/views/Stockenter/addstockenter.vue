@@ -13,48 +13,61 @@
               <el-option value="1" label="采购到货单"/>
             </el-select>
           </el-form-item>
-          <el-form-item label="采购到货单" style="width: 40%;margin-top:1%">
-            <el-input v-model="personalForm.supplierId" placeholder="请选择采购到货单" clearable/>
+          <el-form-item label="源单编号" style="width: 40%;margin-top:1%">
+            <el-input v-model="personalForm.sourceNumber" placeholder="请选择源单编号" clearable/>
           </el-form-item>
           <el-form-item :label="$t('Stockenter.supplierId')" style="width: 40%;margin-top:1%">
-            <el-input v-model="personalForm.supplierId" placeholder="请选择供应商" clearable/>
+            <el-input v-model="supplierId" placeholder="请选择供应商" clearable @focus="handlechoose"/>
           </el-form-item>
+          <my-supplier :control.sync="empcontrol" @supplierName="supplierName"/>
           <el-form-item :label="$t('Stockenter.stockPersonId')" style="width: 40%;margin-top:1%">
-            <el-input v-model="personalForm.stockPersonId" placeholder="请选择采购员" clearable/>
+            <el-input v-model="stockPersonId" placeholder="请选择采购员" clearable @focus="handlechooseStock"/>
           </el-form-item>
+          <my-emp :control.sync="stockControl" @stockName="stockName"/>
           <el-form-item :label="$t('Stockenter.stockDeptId')" style="width: 40%;margin-top:1%">
-            <el-select v-model="personalForm.stockDeptId" placeholder="请选择采购部门" clearable style="width: 100%;">
-              <el-option value="1" label="超级部门"/>
-              <el-option value="2" label="财务部门"/>
+            <el-select v-model="personalForm.stockDeptId" placeholder="请选择采购部门" clearable style="width: 100%;" @focus="updatedept">
+              <el-option
+                v-for="(item, index) in depts"
+                :key="index"
+                :value="item.id"
+                :label="item.deptName"/>
             </el-select>
           </el-form-item>
           <el-form-item :label="$t('Stockenter.deliveryPersonId')" style="width: 40%;margin-top:1%">
-            <el-input v-model="personalForm.deliveryPersonId" placeholder="请选择交货人" clearable/>
+            <el-input v-model="deliveryPersonId" placeholder="请选择交货人" clearable @focus="handlechooseDelivery"/>
           </el-form-item>
+          <my-delivery :deliverycontrol.sync="deliverycontrol" @deliveryName="deliveryName"/>
           <el-form-item :label="$t('Stockenter.acceptPersonId')" style="width: 40%;margin-top:1%">
-            <el-input v-model="personalForm.acceptPersonId" placeholder="请选择验收人" clearable/>
+            <el-input v-model="acceptPersonId" placeholder="请选择验收人" clearable @focus="handlechooseAccept"/>
           </el-form-item>
+          <my-accept :accetpcontrol.sync="accetpcontrol" @acceptName="acceptName"/>
           <el-form-item :label="$t('Stockenter.enterDeptId')" style="width: 40%;margin-top:1%">
-            <el-select v-model="personalForm.enterDeptId" placeholder="请选择入库部门" clearable style="width: 100%;">
-              <el-option value="1" label="超级部门"/>
-              <el-option value="2" label="财务部门"/>
+            <el-select v-model="personalForm.enterDeptId" placeholder="请选择入库部门" clearable style="width: 100%;" @focus="updatedept">
+              <el-option
+                v-for="(item, index) in depts"
+                :key="index"
+                :value="item.id"
+                :label="item.deptName"/>
             </el-select>
           </el-form-item>
           <el-form-item :label="$t('Stockenter.enterRepositoryId')" prop="enterRepositoryId" style="width: 40%;margin-top:1%">
-            <el-input v-model="personalForm.enterRepositoryId" placeholder="请选择入库仓库" clearable/>
+            <el-input v-model="enterRepositoryId" placeholder="请选择入库仓库" clearable @focus="handlechooseRep"/>
           </el-form-item>
+          <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
         </el-form>
       </div>
       <!--入库单明细-->
       <h2 ref="fuzhu" class="form-name">入库单明细</h2>
       <div class="buttons" style="margin-top: 50px">
+        <el-button type="success" style="background:#3696fd;border-color:#3696fd " @click="handleAddproduct">添加商品</el-button>
         <el-button type="danger" @click="$refs.editable.removeSelecteds()">删除</el-button>
       </div>
+      <my-detail :control.sync="control" @product="productdetail"/>
       <div class="container">
         <el-editable
           ref="editable"
-          :data="list2"
-          :edit-config="{ showIcon: false, showStatus: true}"
+          :data.sync="list2"
+          :edit-config="{ showIcon: true, showStatus: true}"
           :edit-rules="validRules"
           class="click-table1"
           stripe
@@ -62,32 +75,23 @@
           size="medium"
           style="width: 100%">
           <el-editable-column type="selection" width="55" align="center"/>
-          <el-editable-column prop="id" align="center" label="编号" width="150px" />
-          <el-editable-column :edit-render="{name: 'ElInput'}" prop="locationId" align="center" label="货位" width="150px"/>
+          <el-editable-column type="index" align="center" label="编号" width="150px" />
+          <el-editable-column :edit-render="{name: 'ElSelect', options: locationlist}" prop="locationId" align="center" label="货位" width="150px"/>
           <el-editable-column prop="productCode" align="center" label="物品编号" width="150px"/>
           <el-editable-column prop="productName" align="center" label="物品名称" width="150px"/>
           <el-editable-column prop="color" align="center" label="颜色" width="150px"/>
-          <el-editable-column prop="typeId" align="center" label="规格" width="150px"/>
+          <el-editable-column prop="productType" align="center" label="规格" width="150px"/>
           <el-editable-column prop="unit" align="center" label="单位" width="150px"/>
-          <el-editable-column :edit-render="{name: 'ElInput'}" prop="basicQuantity" align="center" label="基本数量" width="150px"/>
-          <el-editable-column :edit-render="{name: 'ElInput'}" prop="actualEnterQuantity" align="center" label="实收数量" width="150px"/>
+          <el-editable-column prop="basicQuantity" align="center" label="基本数量" width="150px"/>
+          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 1}}" prop="actualEnterQuantity" align="center" label="实收数量" width="150px"/>
           <el-editable-column prop="enterPrice" align="center" label="入库单价" width="150px"/>
-          <el-editable-column prop="taxRate" align="center" label="税率" width="150px"/>
-          <el-editable-column prop="enterMoney" align="center" label="入库金额" width="150px"/>
+          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}}" prop="taxRate" align="center" label="税率" width="150px"/>
+          <el-editable-column prop="enterMoney" align="center" label="入库金额" width="150px">
+            <template slot-scope="scope">
+              <p>{{ getSize(scope.row.actualEnterQuantity, scope.row.enterPrice) }}</p>
+            </template>
+          </el-editable-column>
           <el-editable-column :edit-render="{name: 'ElInput'}" prop="remarks" align="center" label="备注" width="150px"/>
-          <!--<el-editable-column :edit-render="{type: 'default'}" prop="handlerName" align="center" label="步骤处理人" min-width="500px">-->
-          <!--<template slot="edit" slot-scope="scope">-->
-          <!--<input class="editable-custom_input" @focus="handlechoose">-->
-          <!--<my-emp :control.sync="empcontrol" @personName="personName" @chuli="chuli(scope)"/>-->
-          <!--</template>-->
-          <!--</el-editable-column>-->
-          <!--<el-editable-column align="center" label="操作" min-width="300px">-->
-          <!--<template slot-scope="scope">-->
-          <!--&lt;!&ndash;<el-input v-model="scope.row.handlerName" style="float: left;width: 100px" @input="$refs.editable.updateStatus(scope)"/>&ndash;&gt;-->
-          <!--<el-button icon="el-icon-more-outline" style="float: right" @click="handlechoose(scope)"/>-->
-          <!--<my-emp :control.sync="empcontrol" @personName="personName" @chuli="chuli(scope)"/>-->
-          <!--</template>-->
-          <!--</el-editable-column>-->
         </el-editable>
       </div>
       <!--操作-->
@@ -101,11 +105,51 @@
 </template>
 
 <script>
-import { create } from '@/api/Supplier'
+import { locationlist } from '@/api/WarehouseAdjust'
+import { addstockenter } from '@/api/Stockenter'
+import { getdeptlist } from '@/api/BasicSettings'
+import MyRepository from './components/MyRepository'
+import MySupplier from './components/MySupplier'
+import MyEmp from './components/MyEmp'
+import MyDelivery from './components/MyDelivery'
+import MyAccept from './components/MyAccept'
+import MyDetail from './components/MyDetail'
 export default {
   name: 'Addstockenter',
+  components: { MyRepository, MySupplier, MyEmp, MyDelivery, MyAccept, MyDetail },
   data() {
     return {
+      locationlistparms: {
+        pageNum: 1,
+        pageSize: 1999,
+        repositoryId: ''
+      },
+      // 货位数据
+      locationlist: [],
+      // 明细表控制框
+      control: false,
+      // 验收人回显
+      acceptPersonId: '',
+      // 验收人控制框
+      accetpcontrol: false,
+      // 交货人回显
+      deliveryPersonId: '',
+      // 交货人控制框
+      deliverycontrol: false,
+      // 部门数据
+      depts: [],
+      // 采购员控制框
+      stockControl: false,
+      // 采购员回显
+      stockPersonId: '',
+      // 供货商回显
+      supplierId: '',
+      // 供货商控制
+      empcontrol: false,
+      // 入库仓库回显
+      enterRepositoryId: '',
+      // 仓库选择控制期
+      repositorycontrol: false,
       // 入库单明细数据
       list2: [],
       // 入库单明细列表规则
@@ -121,7 +165,12 @@ export default {
         ]
       },
       // 采购入库信息数据
-      personalForm: {},
+      personalForm: {
+        repositoryId: 438,
+        regionId: 2,
+        createPersonId: 3,
+        countryId: 1
+      },
       // 个人信息规则数据
       personalrules: {
         title: [
@@ -142,59 +191,163 @@ export default {
       }
     }
   },
+  mounted() {
+    this.getlist()
+  },
   methods: {
+    getlist() {
+      // 部门列表数据
+      getdeptlist().then(res => {
+        if (res.data.ret === 200) {
+          this.depts = res.data.data.content
+        }
+      })
+    },
     // 保存操作
     handlesave() {
-      const rest = JSON.stringify(this.$refs.editable.getRecords())
+      const rest = this.$refs.editable.getRecords()
+      rest.map(function(elem) {
+        return elem
+      }).forEach(function(elem) {
+        if (elem.locationId === null || elem.locationId === '' || elem.locationId === undefined) {
+          delete elem.locationId
+        }
+        if (elem.productCode === null || elem.productCode === '' || elem.productCode === undefined) {
+          delete elem.productCode
+        }
+        if (elem.productName === null || elem.productName === '' || elem.productName === undefined) {
+          delete elem.productName
+        }
+        if (elem.color === null || elem.color === '' || elem.color === undefined) {
+          delete elem.color
+        }
+        if (elem.typeId === null || elem.typeId === '' || elem.typeId === undefined) {
+          delete elem.typeId
+        }
+        if (elem.unit === null || elem.unit === '' || elem.unit === undefined) {
+          delete elem.unit
+        }
+        if (elem.basicQuantity === null || elem.basicQuantity === '' || elem.basicQuantity === undefined) {
+          delete elem.basicQuantity
+        }
+        if (elem.actualEnterQuantity === null || elem.actualEnterQuantity === '' || elem.actualEnterQuantity === undefined) {
+          delete elem.actualEnterQuantity
+        }
+        if (elem.remarks === null || elem.remarks === '' || elem.remarks === undefined) {
+          delete elem.remarks
+        }
+        if (elem.enterPrice === null || elem.enterPrice === '' || elem.enterPrice === undefined) {
+          delete elem.enterPrice
+        }
+        if (elem.taxRate === null || elem.taxRate === '' || elem.taxRate === undefined) {
+          delete elem.taxRate
+        }
+        if (elem.enterMoney === null || elem.enterMoney === '' || elem.enterMoney === undefined) {
+          delete elem.enterMoney
+        }
+        return elem
+      })
       console.log(rest)
-      // this.$refs.personalForm.validate((valid) => {
-      //   if (valid) {
-      //     create(this.personalForm).then(res => {
-      //       console.log(res)
-      //       if (res.data.ret === 200) {
-      //         this.$notify({
-      //           title: '成功',
-      //           message: '保存成功',
-      //           type: 'success',
-      //           offset: 100
-      //         })
-      //         this.restAllForm()
-      //         this.$refs.personalForm.clearValidate()
-      //         this.$refs.personalForm.resetFields()
-      //         this.$refs.personalForm2.clearValidate()
-      //         this.$refs.personalForm2.resetFields()
-      //         this.$refs.personalForm3.clearValidate()
-      //         this.$refs.personalForm3.resetFields()
-      //         this.$refs.personalForm4.clearValidate()
-      //         this.$refs.personalForm4.resetFields()
-      //       } else {
-      //         this.$notify.error({
-      //           title: '错误',
-      //           message: res.data.msg,
-      //           offset: 100
-      //         })
-      //       }
-      //     })
-      //   } else {
-      //     this.$notify.error({
-      //       title: '错误',
-      //       message: '信息未填完整',
-      //       offset: 100
-      //     })
-      //     return false
-      //   }
-      // })
+      const parms2 = JSON.stringify(rest)
+      this.$refs.personalForm.validate((valid) => {
+        if (valid) {
+          addstockenter(this.personalForm, parms2).then(res => {
+            console.log(res)
+            if (res.data.ret === 200) {
+              this.$notify({
+                title: '成功',
+                message: '保存成功',
+                type: 'success',
+                offset: 100
+              })
+              this.restAllForm()
+              this.$refs.editable.clear()
+              this.$refs.personalForm.clearValidate()
+              this.$refs.personalForm.resetFields()
+            } else {
+              this.$notify.error({
+                title: '错误',
+                message: res.data.msg,
+                offset: 100
+              })
+            }
+          })
+        } else {
+          this.$notify.error({
+            title: '错误',
+            message: '信息未填完整',
+            offset: 100
+          })
+          return false
+        }
+      })
     },
     // 清空记录
     restAllForm() {
-      this.personalForm = {}
+      this.personalForm = {
+        repositoryId: 438,
+        regionId: 2,
+        createPersonId: 3,
+        countryId: 1
+      }
+      this.acceptPersonId = ''
+      this.deliveryPersonId = ''
+      this.stockPersonId = ''
+      this.supplierId = ''
+      this.enterRepositoryId = ''
     },
     // 继续录入
     handleentry() {
-      this.personalForm.regionId = this.perregions[this.perregions.length - 1]
+      const rest = this.$refs.editable.getRecords()
+      rest.map(function(elem) {
+        return elem
+      }).forEach(function(elem) {
+        if (elem.locationId === null || elem.locationId === '' || elem.locationId === undefined) {
+          delete elem.locationId
+        }
+        if (elem.productCode === null || elem.productCode === '' || elem.productCode === undefined) {
+          delete elem.productCode
+        }
+        if (elem.productName === null || elem.productName === '' || elem.productName === undefined) {
+          delete elem.productName
+        }
+        if (elem.color === null || elem.color === '' || elem.color === undefined) {
+          delete elem.color
+        }
+        if (elem.typeId === null || elem.typeId === '' || elem.typeId === undefined) {
+          delete elem.typeId
+        }
+        if (elem.unit === null || elem.unit === '' || elem.unit === undefined) {
+          delete elem.unit
+        }
+        if (elem.basicQuantity === null || elem.basicQuantity === '' || elem.basicQuantity === undefined) {
+          delete elem.basicQuantity
+        }
+        if (elem.actualEnterQuantity === null || elem.actualEnterQuantity === '' || elem.actualEnterQuantity === undefined) {
+          delete elem.actualEnterQuantity
+        }
+        if (elem.remarks === null || elem.remarks === '' || elem.remarks === undefined) {
+          delete elem.remarks
+        }
+        if (elem.enterPrice === null || elem.enterPrice === '' || elem.enterPrice === undefined) {
+          delete elem.enterPrice
+        }
+        if (elem.taxRate === null || elem.taxRate === '' || elem.taxRate === undefined) {
+          delete elem.taxRate
+        }
+        if (elem.enterMoney === null || elem.enterMoney === '' || elem.enterMoney === undefined) {
+          delete elem.enterMoney
+        }
+        if (elem.productType === null || elem.productType === '' || elem.productType === undefined) {
+          delete elem.productType
+        }
+        return elem
+      })
+      console.log(rest)
+      const parms2 = JSON.stringify(rest)
       this.$refs.personalForm.validate((valid) => {
         if (valid) {
-          create(this.personalForm).then(res => {
+          addstockenter(this.personalForm, parms2).then(res => {
             console.log(res)
             if (res.data.ret === 200) {
               this.$notify({
@@ -206,12 +359,7 @@ export default {
               this.restAllForm()
               this.$refs.personalForm.clearValidate()
               this.$refs.personalForm.resetFields()
-              this.$refs.personalForm2.clearValidate()
-              this.$refs.personalForm2.resetFields()
-              this.$refs.personalForm3.clearValidate()
-              this.$refs.personalForm3.resetFields()
-              this.$refs.personalForm4.clearValidate()
-              this.$refs.personalForm4.resetFields()
+              this.$refs.editable.clear()
               const anchor = this.$refs.geren.offsetTop
               console.log(anchor)
               document.documentElement.scrollTop = anchor - 100
@@ -243,17 +391,97 @@ export default {
       this.$store.dispatch('delView', view).then(({ visitedViews }) => {
       })
     },
-    // 员工输入框focus事件触发
+    // 采购员focus事件
+    handlechooseStock() {
+      this.stockControl = true
+    },
+    // 采购员回显
+    stockName(val) {
+      this.stockPersonId = val.personName
+      this.personalForm.stockPersonId = val.id
+    },
+    // 供应商输入框focus事件触发
     handlechoose() {
       this.empcontrol = true
     },
-    // 员工列表返回数据
-    personName(val) {
+    // 供应商列表返回数据
+    supplierName(val) {
       console.log(val)
-      this.buyerId = val.personName
-      this.personalForm.buyerId = val.id
-    }
+      this.supplierId = val.supplierName
+      this.personalForm.supplierId = val.id
+    },
     // 详细表事件
+    // 仓库列表focus事件触发
+    handlechooseRep() {
+      this.repositorycontrol = true
+    },
+    repositoryname(val) {
+      console.log(val)
+      this.enterRepositoryId = val.repositoryName
+      this.personalForm.enterRepositoryId = val.id
+      this.locationlistparms.repositoryId = val.id
+      locationlist(this.locationlistparms).then(res => {
+        if (res.data.ret === 200) {
+          this.locationlist = res.data.data.content.list.map(function(item) {
+            return {
+              'value': item.id,
+              'label': item.locationName
+            }
+          })
+        }
+      })
+    },
+    // 部门列表focus刷新
+    updatedept() {
+      this.getlist()
+    },
+    // 交货人foucs事件触发
+    handlechooseDelivery() {
+      this.deliverycontrol = true
+    },
+    deliveryName(val) {
+      this.deliveryPersonId = val.personName
+      this.personalForm.deliveryPersonId = val.id
+    },
+    // 验收人focus事件触发
+    handlechooseAccept() {
+      this.accetpcontrol = true
+    },
+    acceptName(val) {
+      this.acceptPersonId = val.personName
+      this.personalForm.acceptPersonId = val.id
+    },
+    // 新增入库单明细
+    handleAddproduct() {
+      this.control = true
+    },
+    productdetail(val) {
+      // console.log(val)
+      // console.log(val[0])
+      console.log(this.$refs.editable.getRecords())
+      const nowlistdata = this.$refs.editable.getRecords()
+      for (let i = 0; i < val.length; i++) {
+        for (let j = 0; j < nowlistdata.length; j++) {
+          if (val[i].productCode === nowlistdata[j].productCode) {
+            this.$notify.error({
+              title: '错误',
+              message: '物品已添加',
+              offset: 100
+            })
+            return false
+          }
+        }
+        this.$refs.editable.insert(val[i])
+        this.$nextTick(() => this.$refs.editable.setActiveRow())
+      }
+      // console.log(val)
+      // const row = this.$refs.editable.insert(val)
+      this.$nextTick(() => this.$refs.editable.setActiveCell(nowlistdata[0]))
+    },
+    // 入库金额计算
+    getSize(quan, pric) {
+      return quan * pric
+    }
   }
 }
 </script>

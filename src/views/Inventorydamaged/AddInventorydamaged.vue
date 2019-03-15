@@ -14,8 +14,11 @@
           <my-create :createcontrol.sync="createcontrol" @createname="createname"/>
           <el-form-item :label="$t('Inventorydamaged.damagedDeptId')" style="width: 40%;margin-top:1%">
             <el-select v-model="personalForm.damagedDeptId" placeholder="请选择报损部门" clearable style="width: 100%;">
-              <el-option value="1" label="超级部门"/>
-              <el-option value="2" label="财务部门"/>
+              <el-option
+                v-for="(item, index) in depts"
+                :key="index"
+                :value="item.id"
+                :label="item.deptName"/>
             </el-select>
           </el-form-item>
           <el-form-item :label="$t('Inventorydamaged.damagedRepositoryId')" prop="countRepositoryId" style="width: 40%;margin-top:1%">
@@ -66,19 +69,6 @@
           <el-editable-column prop="damagedMoney" align="center" label="报损金额" width="150px"/>
           <el-editable-column :edit-render="{name: 'ElInput'}" prop="remarks" align="center" label="备注" width="150px"/>
           <el-editable-column prop="sourceNumber" align="center" label="源单编号" width="150px"/>
-          <!--<el-editable-column :edit-render="{type: 'default'}" prop="handlerName" align="center" label="步骤处理人" min-width="500px">-->
-          <!--<template slot="edit" slot-scope="scope">-->
-          <!--<input class="editable-custom_input" @focus="handlechoose">-->
-          <!--<my-emp :control.sync="empcontrol" @personName="personName" @chuli="chuli(scope)"/>-->
-          <!--</template>-->
-          <!--</el-editable-column>-->
-          <!--<el-editable-column align="center" label="操作" min-width="300px">-->
-          <!--<template slot-scope="scope">-->
-          <!--&lt;!&ndash;<el-input v-model="scope.row.handlerName" style="float: left;width: 100px" @input="$refs.editable.updateStatus(scope)"/>&ndash;&gt;-->
-          <!--<el-button icon="el-icon-more-outline" style="float: right" @click="handlechoose(scope)"/>-->
-          <!--<my-emp :control.sync="empcontrol" @personName="personName" @chuli="chuli(scope)"/>-->
-          <!--</template>-->
-          <!--</el-editable-column>-->
         </el-editable>
       </div>
       <!--操作-->
@@ -93,6 +83,7 @@
 
 <script>
 import { create } from '@/api/Supplier'
+import { getdeptlist } from '@/api/BasicSettings'
 import MyCreate from './components/MyCreate'
 import MyRepository from './components/MyRepository'
 export default {
@@ -100,8 +91,10 @@ export default {
   components: { MyCreate, MyRepository },
   data() {
     return {
+      // 部门数据
+      depts: [],
       // 仓库回显
-      countRepositoryId: '',
+      damagedRepositoryId: '',
       // 经办人回显
       handlePersonId: '',
       // 控制仓库选择窗口
@@ -138,41 +131,52 @@ export default {
       }
     }
   },
+  mounted() {
+    this.getlist()
+  },
   methods: {
-    // 保存操作
-    handlesave() {
-      this.personalForm.regionId = this.perregions[this.perregions.length - 1]
-      this.$refs.personalForm.validate((valid) => {
-        if (valid) {
-          create(this.personalForm).then(res => {
-            console.log(res)
-            if (res.data.ret === 200) {
-              this.$notify({
-                title: '成功',
-                message: '保存成功',
-                type: 'success',
-                offset: 100
-              })
-              this.restAllForm()
-              this.$refs.personalForm.clearValidate()
-              this.$refs.personalForm.resetFields()
-            } else {
-              this.$notify.error({
-                title: '错误',
-                message: res.data.msg,
-                offset: 100
-              })
-            }
-          })
-        } else {
-          this.$notify.error({
-            title: '错误',
-            message: '信息未填完整',
-            offset: 100
-          })
-          return false
+    getlist() {
+      // 部门列表数据
+      getdeptlist().then(res => {
+        if (res.data.ret === 200) {
+          this.depts = res.data.data.content
         }
       })
+    },
+    // 保存操作
+    handlesave() {
+      console.log(this.personalForm)
+      // this.$refs.personalForm.validate((valid) => {
+      //   if (valid) {
+      //     create(this.personalForm).then(res => {
+      //       console.log(res)
+      //       if (res.data.ret === 200) {
+      //         this.$notify({
+      //           title: '成功',
+      //           message: '保存成功',
+      //           type: 'success',
+      //           offset: 100
+      //         })
+      //         this.restAllForm()
+      //         this.$refs.personalForm.clearValidate()
+      //         this.$refs.personalForm.resetFields()
+      //       } else {
+      //         this.$notify.error({
+      //           title: '错误',
+      //           message: res.data.msg,
+      //           offset: 100
+      //         })
+      //       }
+      //     })
+      //   } else {
+      //     this.$notify.error({
+      //       title: '错误',
+      //       message: '信息未填完整',
+      //       offset: 100
+      //     })
+      //     return false
+      //   }
+      // })
     },
     // 清空记录
     restAllForm() {
@@ -242,8 +246,8 @@ export default {
     },
     repositoryname(val) {
       console.log(val)
-      this.countRepositoryId = val.id
-      this.personalForm.countRepositoryId = val.repositoryName
+      this.damagedRepositoryId = val.repositoryName
+      this.personalForm.damagedRepositoryId = val.id
     },
     // 报损单事件
     // 新增报损单明细

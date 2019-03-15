@@ -92,7 +92,7 @@
           <el-form-item :label="$t('Product.supplierid')" style="width: 40%;margin-top:1%">
             <el-input v-model="supplierid" placeholder="请选择供应商" clearable @focus="handlechoose"/>
           </el-form-item>
-          <my-emp :control.sync="empcontrol" @personName="personName"/>
+          <my-supplier :control.sync="empcontrol" @personName="personName"/>
           <el-form-item :label="$t('Product.source')" style="width: 40%;margin-top:1%">
             <el-select v-model="personalForm.source" placeholder="请选择来源" style="width: 100%;">
               <el-option value="1" label="类1"/>
@@ -177,7 +177,7 @@
               :on-success="handlepicsuccess"
               :data="picidsData"
               :auto-upload="false"
-              action="http://192.168.1.21:8888/erp/upload/uploadpic"
+              action="http://192.168.1.26:9090/erp/upload/uploadpic"
               list-type="picture-card">
               <i class="el-icon-plus"/>
             </el-upload>
@@ -194,7 +194,7 @@
               :on-success="handledetailpicsuccess"
               :data="detailpicData"
               :auto-upload="false"
-              action="http://192.168.1.21:8888/erp/upload/uploadpic"
+              action="http://192.168.1.26:9090/erp/upload/uploadpic"
               list-type="picture-card">
               <i class="el-icon-plus"/>
             </el-upload>
@@ -217,9 +217,10 @@
 <script>
 import { createnewproduct, searchEmpCategory2, searchMea } from '@/api/Product'
 import MyEmp from './components/MyEmp'
+import MySupplier from './components/MySupplier'
 export default {
   name: 'NewProduct',
-  components: { MyEmp },
+  components: { MySupplier, MyEmp },
   data() {
     return {
       // 计量单位数据
@@ -532,7 +533,7 @@ export default {
     // 供货商列表返回数据
     personName(val) {
       console.log(val)
-      this.supplierid = val.personName
+      this.supplierid = val.supplierName
       this.personalForm.supplierid = val.id
     },
     // focus更新

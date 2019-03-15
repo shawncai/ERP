@@ -104,8 +104,9 @@
         </template>
       </el-table-column>
     </el-table>
-    <el-button v-waves class="filter-item" type="success" style="width: 100px;float: left;margin-top: 10px" @click="handleConfirm">确认添加</el-button>
     <pagination v-show="total>0" :total="total" :page.sync="getemplist.pagenum" :limit.sync="getemplist.pagesize" @pagination="gitemplist" />
+    <el-button v-waves class="filter-item" type="success" @click="handleConfirm">确认添加</el-button>
+
   </el-dialog>
 </template>
 
@@ -200,12 +201,6 @@ export default {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
-        } else {
-          this.$notify.error({
-            title: '错误',
-            message: '出错了',
-            offset: 100
-          })
         }
         setTimeout(() => {
           this.listLoading = false
@@ -215,12 +210,6 @@ export default {
       getdeptlist().then(res => {
         if (res.data.ret === 200) {
           this.depts = res.data.data.content
-        } else {
-          this.$notify.error({
-            title: '错误',
-            message: '出错了',
-            offset: 100
-          })
         }
       })
       // 区域数据
@@ -246,12 +235,6 @@ export default {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
-        } else {
-          this.$notify.error({
-            title: '错误',
-            message: '出错了',
-            offset: 100
-          })
         }
       })
     },
@@ -268,8 +251,6 @@ export default {
         if (res.data.ret === 200) {
           console.log(res)
           this.repositories = res.data.data.content.list
-        } else {
-          this.$message.error('出错了')
         }
       })
     },
