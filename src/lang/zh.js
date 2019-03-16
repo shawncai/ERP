@@ -70,7 +70,9 @@ export default {
     detaillist: '物品分类',
     Locationlist: '货位列表',
     ProduceEnter: '新建生产完成入库单',
-    ProduceEnterList: '生产完成入库列表'
+    ProduceEnterList: '生产完成入库列表',
+    AddOtherenter: '新建其他入库单',
+    OtherEnterList: '其他入库列表'
   },
   navbar: {
     logOut: '退出登录',
@@ -418,7 +420,9 @@ export default {
     remarks: '备注',
     processType: '加工类别',
     produceManagerId: '生产负责人',
-    enterPersonId: '入库人'
+    enterPersonId: '入库人',
+    enterReason: '入库原因',
+    newOrOld: '新旧标识'
   },
   InventoryCount: {
     title: '盘点单主题',

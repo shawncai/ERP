@@ -234,6 +234,7 @@ export default {
           enterPrice: item.costPrice,
           productType: item.productType,
           totalMoney: 0,
+          enterMoney: 0,
           price: item.costPrice,
           typeIdname: item.productType
         }

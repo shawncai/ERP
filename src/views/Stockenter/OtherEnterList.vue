@@ -15,10 +15,10 @@
             </el-form-item>
           </el-col>
           <el-col :span="4">
-            <el-form-item label="生产负责人">
-              <el-input v-model="produceManagerId" :placeholder="$t('Stockenter.produceManagerId')" class="filter-item" clearable @keyup.enter.native="handleFilter" @focus="handlechoose"/>
+            <el-form-item label="交货人">
+              <el-input v-model="deliveryPersonId" :placeholder="$t('Stockenter.deliveryPersonId')" class="filter-item" clearable @keyup.enter.native="handleFilter" @focus="handlechooseDelivery"/>
             </el-form-item>
-            <my-create :createcontrol.sync="createcontrol" @createname="createname"/>
+            <my-delivery :deliverycontrol.sync="deliverycontrol" @deliveryName="deliveryName"/>
           </el-col>
           <el-col :span="4">
             <el-form-item label="入库部门">
@@ -41,6 +41,8 @@
               <my-accept :accetpcontrol.sync="accetpcontrol" @acceptName="acceptName"/>
               <el-input v-model="enterRepositoryId" :placeholder="$t('Stockenter.enterRepositoryId')" class="filter-item" clearable style="width: 40%;float: right;margin-right: 20px" @keyup.enter.native="handleFilter" @focus="handlechooseRep"/>
               <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
+              <el-input v-model="acceptPersonId" :placeholder="$t('Stockenter.acceptPersonId')" class="filter-item" clearable style="width: 40%;float: left;margin-left: 20px;margin-top: 20px" @keyup.enter.native="handleFilter" @focus="handlechoose"/>
+              <my-create :createcontrol.sync="createcontrol" @createname="createname"/>
               <el-date-picker
                 v-model="date"
                 type="daterange"
@@ -95,47 +97,52 @@
           type="selection"
           width="55"
           align="center"/>
-        <el-table-column :label="$t('Stockenter.id')" :resizable="false" align="center" width="150">
+        <el-table-column :label="$t('Stockenter.id')" :resizable="false" align="center" min-width="80">
           <template slot-scope="scope">
             <span>{{ scope.row.id }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('Stockenter.title')" :resizable="false" align="center" width="150">
+        <el-table-column :label="$t('Stockenter.title')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.title }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('Stockenter.enterNumber')" :resizable="false" align="center" width="150">
+        <el-table-column :label="$t('Stockenter.enterNumber')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.enterNumber }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('Stockenter.processType')" :resizable="false" align="center" width="150">
+        <el-table-column :label="$t('Stockenter.deliveryPersonId')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.processType }}</span>
+            <span>{{ scope.row.deliveryPersonName }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('Stockenter.produceManagerId')" :resizable="false" align="center" width="150">
+        <el-table-column :label="$t('Stockenter.acceptPersonId')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.produceManagerName }}</span>
+            <span>{{ scope.row.acceptPersonName }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('Stockenter.enterDeptId')" :resizable="false" align="center" width="150">
+        <el-table-column :label="$t('Stockenter.enterDeptId')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.enterDeptName }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('Stockenter.endPersonName')" :resizable="false" align="center" width="150">
+        <el-table-column :label="$t('Stockenter.endPersonName')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.enterPersonName }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('Stockenter.endDate')" :resizable="false" align="center" width="150">
+        <el-table-column :label="$t('Stockenter.endDate')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.endDate }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('Stockenter.judgeStat')" :resizable="false" align="center" width="150">
+        <el-table-column :label="$t('Stockenter.summary')" :resizable="false" align="center" min-width="150">
+          <template slot-scope="scope">
+            <span>{{ scope.row.summary }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column :label="$t('Stockenter.judgeStat')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.judgeStat | judgeStatFileter }}</span>
           </template>
@@ -150,7 +157,7 @@
       <!-- 列表结束 -->
       <pagination v-show="total>0" :total="total" :page.sync="getemplist.pageNum" :limit.sync="getemplist.pageSize" @pagination="getlist" />
       <!--修改开始=================================================-->
-      <my-edit :editcontrol.sync="editVisible" :editdata.sync="personalForm" @rest="refreshlist"/>
+      <my-other :editcontrol.sync="editVisible" :editdata.sync="personalForm" @rest="refreshlist"/>
       <!--修改结束=================================================-->
     </el-card>
   </div>
@@ -158,18 +165,19 @@
 
 <script>
 import { getdeptlist } from '@/api/BasicSettings'
-import { produceenterlist, deleteproduceenter } from '@/api/Stockenter'
+import { otherenterlist, deleteproduceenter } from '@/api/Stockenter'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
-import MyEdit from './components/MyEdit'
+import MyOther from './components/MyOther'
 import MyRepository from './components/MyRepository'
 import MyAccept from './components/MyAccept'
 import MyCreate from './components/MyCreate'
+import MyDelivery from './components/MyDelivery'
 
 export default {
-  name: 'Enterlist',
+  name: 'OtherEnterList',
   directives: { waves },
-  components: { Pagination, MyEdit, MyRepository, MyAccept, MyCreate },
+  components: { Pagination, MyOther, MyRepository, MyAccept, MyCreate, MyDelivery },
   filters: {
     judgeStatFileter(status) {
       const statusMap = {
@@ -185,24 +193,28 @@ export default {
       // 搜索数据----------------------
       // 部门数据
       depts: [],
-      // 生产负责人回显
-      produceManagerId: '',
-      // 生产入库仓库回显
+      // 交货人回显
+      deliveryPersonId: '',
+      // 验收人回显
+      acceptPersonId: '',
+      // 入库仓库回显
       enterRepositoryId: '',
-      // 生产入库人回显
+      // 入库人回显
       enterPersonId: '',
-      // 生产入库人控制框
+      // 入库人控制框
       accetpcontrol: false,
       // 控制仓库选择窗口
       repositorycontrol: false,
-      // 控制生产负责人选择窗口
+      // 交货人控制框
+      deliverycontrol: false,
+      // 控制验收人选择窗口
       createcontrol: false,
       // 开始时间到结束时间
       date: [],
-      // 生产入库列表传参数据
+      // 入库列表传参数据
       getemplist: {
-        pagenum: 1,
-        pagesize: 10,
+        pageNum: 1,
+        pageSize: 10,
         createPersonId: 3,
         countryId: 1,
         repositoryId: 438,
@@ -242,15 +254,23 @@ export default {
         }
       })
     },
-    // 生产负责人输入框focus事件触发
+    // 交货人foucs事件触发
+    handlechooseDelivery() {
+      this.deliverycontrol = true
+    },
+    deliveryName(val) {
+      this.deliveryPersonId = val.personName
+      this.personalForm.deliveryPersonId = val.id
+    },
+    // 验收人输入框focus事件触发
     handlechoose() {
       this.createcontrol = true
     },
-    // 生产负责人返回数据
+    // 验收人返回数据
     createname(val) {
       console.log(val)
-      this.produceManagerId = val.personName
-      this.personalForm.produceManagerId = val.id
+      this.acceptPersonId = val.personName
+      this.personalForm.acceptPersonId = val.id
     },
     // 入库人focus事件触发
     handlechooseAccept() {
@@ -271,9 +291,9 @@ export default {
       this.personalForm.enterRepositoryId = val.id
     },
     getlist() {
-      // 生产入库列表数据
+      // 入库列表数据
       this.listLoading = true
-      produceenterlist(this.getemplist).then(res => {
+      otherenterlist(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
@@ -300,7 +320,7 @@ export default {
         this.getemplist.beginTime = this.date[0]
         this.getemplist.endTime = this.date[1]
       }
-      produceenterlist(this.getemplist).then(res => {
+      otherenterlist(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount

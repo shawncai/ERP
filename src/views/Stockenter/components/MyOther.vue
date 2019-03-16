@@ -1,5 +1,5 @@
 <template>
-  <el-dialog :visible.sync="editVisible" :editcontrol="editcontrol" :editdata="editdata" :close-on-press-escape="false" class="edit" top="10px" title="修改采购入库单" @close="$emit('update:editcontrol', false)">
+  <el-dialog :visible.sync="editVisible" :editcontrol="editcontrol" :editdata="editdata" :close-on-press-escape="false" class="edit" top="10px" title="修改其他入库单" @close="$emit('update:editcontrol', false)">
     <!--基本信息-->
     <el-card class="box-card">
       <h2 ref="geren" class="form-name">基本信息</h2>
@@ -14,7 +14,7 @@
             <el-col :span="6">
               <el-form-item :label="$t('Stockenter.sourceType')" prop="sourceType" style="width: 100%;">
                 <el-select v-model="personalForm.sourceType" placeholder="请选择源单类型" style="margin-left: 18px;width: 150px">
-                  <el-option value="1" label="生产任务单"/>
+                  <el-option value="1" label="无来源"/>
                 </el-select>
               </el-form-item>
             </el-col>
@@ -24,15 +24,14 @@
               </el-form-item>
             </el-col>
             <el-col :span="6">
-              <el-form-item :label="$t('Stockenter.processType')" prop="processType" style="width: 100%;">
-                <el-select v-model="personalForm.processType" placeholder="请选择加工类别" style="margin-left: 18px;width: 150px" clearable >
-                  <el-option value="1" label="加工1"/>
-                </el-select>
+              <el-form-item :label="$t('Stockenter.deliveryPersonId')" style="width: 100%;">
+                <el-input v-model="deliveryPersonId" placeholder="请选择交货人" style="margin-left: 18px;width: 150px" clearable @focus="handlechooseDelivery"/>
               </el-form-item>
+              <my-delivery :deliverycontrol.sync="deliverycontrol" @deliveryName="deliveryName"/>
             </el-col>
             <el-col :span="6">
-              <el-form-item :label="$t('Stockenter.produceManagerId')" style="width: 100%;">
-                <el-input v-model="produceManagerId" placeholder="请选择生产负责人" style="margin-left: 18px;width: 150px" clearable @focus="handlechoose"/>
+              <el-form-item :label="$t('Stockenter.acceptPersonId')" style="width: 100%;">
+                <el-input v-model="acceptPersonId" placeholder="请选择验收人" style="margin-left: 18px;width: 150px" clearable @focus="handlechoose"/>
               </el-form-item>
               <my-create :createcontrol.sync="createcontrol" @createname="createname"/>
             </el-col>
@@ -58,6 +57,19 @@
                 <el-input v-model="enterRepositoryId" placeholder="请选择仓库" style="margin-left: 18px;width: 150px" clearable @focus="handlechooseRep"/>
               </el-form-item>
               <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
+            </el-col>
+            <el-col :span="6">
+              <el-form-item :label="$t('Stockenter.enterReason')" prop="summary" style="width: 100%;">
+                <el-input v-model="personalForm.enterReason" placeholder="请输入原因" style="margin-left: 18px;width: 150px" clearable/>
+              </el-form-item>
+            </el-col>
+            <el-col :span="6">
+              <el-form-item :label="$t('Stockenter.newOrOld')" style="width: 100%;">
+                <el-radio-group v-model="personalForm.newOrOld" style="width: 200px;margin-left: 19px">
+                  <el-radio :label="1" >全新</el-radio>
+                  <el-radio :label="2">二手车</el-radio>
+                </el-radio-group>
+              </el-form-item>
             </el-col>
             <el-col :span="6">
               <el-form-item :label="$t('Stockenter.summary')" prop="summary" style="width: 100%;;width: 150px">
@@ -96,11 +108,11 @@
           <el-editable-column prop="typeIdname" align="center" label="规格" width="150px"/>
           <el-editable-column prop="unit" align="center" label="单位" width="150px"/>
           <el-editable-column prop="basicQuantity" align="center" label="基本数量" width="150px"/>
-          <el-editable-column :edit-render="{name: 'ElInputNumber'}" prop="enterQuantity" align="center" label="入库数量" width="150px"/>
-          <el-editable-column prop="price" align="center" label="单价" width="150px"/>
-          <el-editable-column prop="totalMoney" align="center" label="入库金额" width="150px">
+          <el-editable-column :edit-render="{name: 'ElInputNumber'}" prop="actualEnterQuantity" align="center" label="入库数量" width="150px"/>
+          <el-editable-column prop="enterPrice" align="center" label="单价" width="150px"/>
+          <el-editable-column prop="enterMoney" align="center" label="入库金额" width="150px">
             <template slot-scope="scope">
-              <p>{{ getSize(scope.row.enterQuantity, scope.row.price) }}</p>
+              <p>{{ getSize(scope.row.actualEnterQuantity, scope.row.price) }}</p>
             </template>
           </el-editable-column>
           <el-editable-column :edit-render="{name: 'ElInput'}" prop="remarks" align="center" label="备注" width="150px"/>
@@ -116,14 +128,15 @@
 
 <script>
 import { locationlist } from '@/api/WarehouseAdjust'
-import { updatestockenter2 } from '@/api/Stockenter'
 import { getdeptlist } from '@/api/BasicSettings'
+import { updateotherenter } from '@/api/Stockenter'
 import MyRepository from './MyRepository'
+import MyDelivery from './MyDelivery'
 import MyAccept from './MyAccept'
 import MyDetail from './MyDetail'
 import MyCreate from './MyCreate'
 export default {
-  components: { MyRepository, MyCreate, MyAccept, MyDetail },
+  components: { MyRepository, MyDetail, MyCreate, MyAccept, MyDelivery },
   props: {
     editcontrol: {
       type: Boolean,
@@ -142,21 +155,25 @@ export default {
       personalForm: this.editdata,
       // 部门数据
       depts: [],
-      // 生产负责人回显
-      produceManagerId: '',
-      // 生产入库仓库回显
+      // 交货人回显
+      deliveryPersonId: '',
+      // 验收人回显
+      acceptPersonId: '',
+      // 入库仓库回显
       enterRepositoryId: '',
-      // 生产入库人回显
+      // 入库人回显
       enterPersonId: '',
-      // 生产入库人控制框
+      // 交货人控制框
+      deliverycontrol: false,
+      // 入库人控制框
       accetpcontrol: false,
       // 控制仓库选择窗口
       repositorycontrol: false,
-      // 控制生产负责人选择窗口
+      // 控制验收人选择窗口
       createcontrol: false,
       // 控制商品列表窗口
       control: false,
-      // 生产入库单规则数据
+      // 入库单规则数据
       personalrules: {
         title: [
           { required: true, message: '请输入标题', trigger: 'blur' }
@@ -174,18 +191,22 @@ export default {
           { required: true, message: '请选择入库仓库', trigger: 'focus' }
         ]
       },
-      // 生产入库单明细数据
+      // 入库单明细数据
       list2: [],
-      // 生产入库明细中货位发送参数
+      // 入库明细中货位发送参数
       locationlistparms: {
         pageNum: 1,
         pageSize: 1999,
         repositoryId: ''
       },
-      // 生产入库明细中货位数据
+      // 入库明细中货位数据
       locationlist: [],
-      // 生产入库单明细列表规则
-      validRules: {}
+      // 入库单明细列表规则
+      validRules: {
+        locationId: [
+          { required: true, message: '请选择货位号', trigger: 'change' }
+        ]
+      }
     }
   },
   watch: {
@@ -194,7 +215,8 @@ export default {
     },
     editdata() {
       this.personalForm = this.editdata
-      this.produceManagerId = this.personalForm.produceManagerName
+      this.deliveryPersonId = this.personalForm.deliveryPersonName
+      this.acceptPersonId = this.personalForm.acceptPersonName
       this.enterRepositoryId = this.personalForm.enterRepositoryName
       this.enterPersonId = this.personalForm.enterPersonName
       this.list2 = this.personalForm.produceEnterDetailVos
@@ -226,15 +248,23 @@ export default {
         }
       })
     },
-    // 生产负责人输入框focus事件触发
+    // 交货人foucs事件触发
+    handlechooseDelivery() {
+      this.deliverycontrol = true
+    },
+    deliveryName(val) {
+      this.deliveryPersonId = val.personName
+      this.personalForm.deliveryPersonId = val.id
+    },
+    // 验收人输入框focus事件触发
     handlechoose() {
       this.createcontrol = true
     },
-    // 生产负责人返回数据
+    // 验收人返回数据
     createname(val) {
       console.log(val)
-      this.produceManagerId = val.personName
-      this.personalForm.produceManagerId = val.id
+      this.acceptPersonId = val.personName
+      this.personalForm.acceptPersonId = val.id
     },
     // 入库人focus事件触发
     handlechooseAccept() {
@@ -322,17 +352,17 @@ export default {
         if (elem.unit === null || elem.unit === '' || elem.unit === undefined) {
           delete elem.unit
         }
-        if (elem.basicQuantity === null || elem.basicQuantity === '' || elem.basicQuantity === undefined) {
-          delete elem.basicQuantity
+        if (elem.actualEnterQuantity === null || elem.actualEnterQuantity === '' || elem.actualEnterQuantity === undefined) {
+          delete elem.actualEnterQuantity
         }
         if (elem.enterQuantity === null || elem.enterQuantity === '' || elem.enterQuantity === undefined) {
           delete elem.enterQuantity
         }
-        if (elem.price === null || elem.price === '' || elem.price === undefined) {
-          delete elem.price
+        if (elem.enterPrice === null || elem.enterPrice === '' || elem.enterPrice === undefined) {
+          delete elem.enterPrice
         }
-        if (elem.totalMoney === null || elem.totalMoney === '' || elem.totalMoney === undefined) {
-          delete elem.totalMoney
+        if (elem.enterMoney === null || elem.enterMoney === '' || elem.enterMoney === undefined) {
+          delete elem.enterMoney
         }
         if (elem.remarks === null || elem.remarks === '' || elem.remarks === undefined) {
           delete elem.remarks
@@ -340,7 +370,7 @@ export default {
         return elem
       })
       const parms2 = JSON.stringify(rest)
-      updatestockenter2(this.personalForm, parms2).then(res => {
+      updateotherenter(this.personalForm, parms2).then(res => {
         if (res.data.ret === 200) {
           this.$notify({
             title: '操作成功',
