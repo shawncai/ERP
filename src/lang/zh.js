@@ -68,7 +68,9 @@ export default {
     AddLocation: '添加货位',
     Dept: '部门列表',
     detaillist: '物品分类',
-    Locationlist: '货位列表'
+    Locationlist: '货位列表',
+    ProduceEnter: '新建生产完成入库单',
+    ProduceEnterList: '生产完成入库列表'
   },
   navbar: {
     logOut: '退出登录',
@@ -413,7 +415,10 @@ export default {
     enterMoney: '入库金额',
     endDate: '入库时间',
     enterQuantity: '入库数量',
-    remarks: '备注'
+    remarks: '备注',
+    processType: '加工类别',
+    produceManagerId: '生产负责人',
+    enterPersonId: '入库人'
   },
   InventoryCount: {
     title: '盘点单主题',
@@ -489,7 +494,8 @@ export default {
     width: '货位宽',
     height: '货位高',
     volume: '货位体积',
-    repositoryId: '仓库名称'
+    repositoryId: '仓库名称',
+    judgeStat: '审批状态'
   },
   public: {
     uploadimage: '上传',

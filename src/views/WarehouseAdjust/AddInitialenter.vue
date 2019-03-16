@@ -141,7 +141,7 @@ export default {
       },
       // 库存入库单信息数据
       personalForm: {
-        createPersonId: 2,
+        createPersonId: 3,
         countryId: 1
       },
       repositoryId: 438,

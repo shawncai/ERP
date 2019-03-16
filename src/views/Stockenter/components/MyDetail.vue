@@ -232,7 +232,10 @@ export default {
           actualEnterQuantity: 0,
           basicQuantity: 0,
           enterPrice: item.costPrice,
-          productType: item.productType
+          productType: item.productType,
+          totalMoney: 0,
+          price: item.costPrice,
+          typeIdname: item.productType
         }
       })
       console.log(productDetail)

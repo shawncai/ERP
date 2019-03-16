@@ -472,11 +472,7 @@ export default {
           }
         }
         this.$refs.editable.insert(val[i])
-        this.$nextTick(() => this.$refs.editable.setActiveRow())
       }
-      // console.log(val)
-      // const row = this.$refs.editable.insert(val)
-      this.$nextTick(() => this.$refs.editable.setActiveCell(nowlistdata[0]))
     },
     // 入库金额计算
     getSize(quan, pric) {

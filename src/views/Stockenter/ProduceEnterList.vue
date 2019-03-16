@@ -6,22 +6,29 @@
         <el-form ref="getemplist" :model="getemplist" label-width="100px" style="margin-top: -9px">
           <el-col :span="4">
             <el-form-item label="入库单主题">
-              <el-input v-model="getemplist.title" :placeholder="$t('WarehouseAdjust.title')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
+              <el-input v-model="getemplist.title" :placeholder="$t('Stockenter.title')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
           <el-col :span="4">
             <el-form-item label="入库单编号">
-              <el-input v-model="getemplist.enterNumber" :placeholder="$t('WarehouseAdjust.enterNumber')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
+              <el-input v-model="getemplist.enterNumber" :placeholder="$t('Stockenter.enterNumber')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
+          </el-col>
+          <el-col :span="4">
+            <el-form-item label="生产负责人">
+              <el-input v-model="produceManagerId" :placeholder="$t('Stockenter.produceManagerId')" class="filter-item" clearable @keyup.enter.native="handleFilter" @focus="handlechoose"/>
+            </el-form-item>
+            <my-create :createcontrol.sync="createcontrol" @createname="createname"/>
           </el-col>
           <el-col :span="4">
             <el-form-item label="入库部门">
-              <el-input v-model="getemplist.enterDeptId" :placeholder="$t('WarehouseAdjust.enterDeptId')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
-            </el-form-item>
-          </el-col>
-          <el-col :span="4">
-            <el-form-item label="入库人">
-              <el-input v-model="getemplist.title" :placeholder="$t('WarehouseAdjust.enterPersonId')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
+              <el-select v-model="getemplist.enterDeptId" placeholder="请选择入库部门" style="margin-left: 18px;width: 144px" clearable >
+                <el-option
+                  v-for="(item, index) in depts"
+                  :key="index"
+                  :value="item.id"
+                  :label="item.deptName"/>
+              </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="4">
@@ -30,10 +37,10 @@
               placement="bottom"
               width="500"
               trigger="click">
-              <el-input v-model="getemplist.sourceNumber" :placeholder="$t('WarehouseAdjust.sourceNumber')" class="filter-item" clearable style="width: 40%;float: left;margin-left: 20px" @keyup.enter.native="handleFilter"/>
-              <el-select v-model="getemplist.enterDeptId" placeholder="请选择入库部门" clearable style="width: 40%;float: right;margin-right: 20px">
-                <el-option value="1" label="科技部门"/>
-              </el-select>
+              <el-input v-model="enterPersonId" :placeholder="$t('Stockenter.enterPersonId')" class="filter-item" clearable style="width: 40%;float: left;margin-left: 20px" @keyup.enter.native="handleFilter" @focus="handlechooseAccept"/>
+              <my-accept :accetpcontrol.sync="accetpcontrol" @acceptName="acceptName"/>
+              <el-input v-model="enterRepositoryId" :placeholder="$t('Stockenter.enterRepositoryId')" class="filter-item" clearable style="width: 40%;float: right;margin-right: 20px" @keyup.enter.native="handleFilter" @focus="handlechooseRep"/>
+              <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
               <el-date-picker
                 v-model="date"
                 type="daterange"
@@ -42,7 +49,7 @@
                 start-placeholder="Start"
                 end-placeholder="End"
                 value-format="yyyy-MM-dd"
-                style="margin-top: 20px;margin-left: 20px"/>
+                style="margin-top: 20px;margin-left: 20px;width: 434px"/>
               <div class="seachbutton" style="width: 100%;float: right;margin-top: 20px">
                 <el-button v-waves class="filter-item" type="primary" style="float: right" @click="handleFilter">{{ $t('public.search') }}</el-button>
               </div>
@@ -88,39 +95,49 @@
           type="selection"
           width="55"
           align="center"/>
-        <el-table-column :label="$t('WarehouseAdjust.id')" :resizable="false" prop="id" align="center" min-width="150">
+        <el-table-column :label="$t('Stockenter.id')" :resizable="false" align="center" width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.id }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('WarehouseAdjust.title')" :resizable="false" prop="title" align="center" min-width="150">
+        <el-table-column :label="$t('Stockenter.title')" :resizable="false" align="center" width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.title }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('WarehouseAdjust.enterRepositoryId')" :resizable="false" prop="enterRepositoryName" align="center" min-width="150">
+        <el-table-column :label="$t('Stockenter.enterNumber')" :resizable="false" align="center" width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.enterRepositoryName }}</span>
+            <span>{{ scope.row.enterNumber }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('WarehouseAdjust.enterDeptId')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('Stockenter.processType')" :resizable="false" align="center" width="150">
+          <template slot-scope="scope">
+            <span>{{ scope.row.processType }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column :label="$t('Stockenter.produceManagerId')" :resizable="false" align="center" width="150">
+          <template slot-scope="scope">
+            <span>{{ scope.row.produceManagerName }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column :label="$t('Stockenter.enterDeptId')" :resizable="false" align="center" width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.enterDeptName }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('WarehouseAdjust.enterDate')" :resizable="false" prop="enterDate" align="center" min-width="150">
-          <template slot-scope="scope">
-            <span>{{ scope.row.enterDate }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column :label="$t('WarehouseAdjust.enterPersonId')" :resizable="false" prop="endPersonName" align="center" min-width="150">
+        <el-table-column :label="$t('Stockenter.endPersonName')" :resizable="false" align="center" width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.enterPersonName }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('WarehouseAdjust.judgeStat')" :resizable="false" prop="judgeStat" align="center" min-width="150">
+        <el-table-column :label="$t('Stockenter.endDate')" :resizable="false" align="center" width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.judgeStat | judgeStatfilter }}</span>
+            <span>{{ scope.row.endDate }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column :label="$t('Stockenter.judgeStat')" :resizable="false" align="center" width="150">
+          <template slot-scope="scope">
+            <span>{{ scope.row.judgeStat | judgeStatFileter }}</span>
           </template>
         </el-table-column>
         <el-table-column :label="$t('public.actions')" :resizable="false" align="center" min-width="230">
@@ -131,35 +148,68 @@
         </el-table-column>
       </el-table>
       <!-- 列表结束 -->
-      <pagination v-show="total>0" :total="total" :page.sync="getemplist.pageNum" :limit.sync="getemplist.pageSize" @pagination="getlist" />
+      <pagination v-show="total>0" :total="total" :page.sync="getemplist.pagenum" :limit.sync="getemplist.pagesize" @pagination="getlist" />
       <!--修改开始=================================================-->
-      <my-dialog :editcontrol.sync="editVisible" :editdata.sync="personalForm" @rest="refreshlist"/>
+      <my-edit :editcontrol.sync="editVisible" :editdata.sync="personalForm" @rest="refreshlist"/>
       <!--修改结束=================================================-->
     </el-card>
   </div>
 </template>
 
 <script>
-import { enterlist, deleteenter } from '@/api/WarehouseAdjust'
+import { getdeptlist } from '@/api/BasicSettings'
+import { produceenterlist, deleteproduceenter } from '@/api/Stockenter'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
-import MyDialog from './components/MyDialog'
+import MyEdit from './components/MyEdit'
+import MyRepository from './components/MyRepository'
+import MyAccept from './components/MyAccept'
+import MyCreate from './components/MyCreate'
 
 export default {
   name: 'Enterlist',
   directives: { waves },
-  components: { Pagination, MyDialog },
+  components: { Pagination, MyEdit, MyRepository, MyAccept, MyCreate },
   filters: {
-    judgeStatfilter(status) {
+    judgeStatFileter(status) {
       const statusMap = {
-        1: '未审批',
-        2: '审批中'
+        1: '未审核',
+        2: '审核中',
+        3: '审核通过'
       }
       return statusMap[status]
     }
   },
   data() {
     return {
+      // 搜索数据----------------------
+      // 部门数据
+      depts: [],
+      // 生产负责人回显
+      produceManagerId: '',
+      // 生产入库仓库回显
+      enterRepositoryId: '',
+      // 生产入库人回显
+      enterPersonId: '',
+      // 生产入库人控制框
+      accetpcontrol: false,
+      // 控制仓库选择窗口
+      repositorycontrol: false,
+      // 控制生产负责人选择窗口
+      createcontrol: false,
+      // 开始时间到结束时间
+      date: [],
+      // 生产入库列表传参数据
+      getemplist: {
+        pagenum: 1,
+        pagesize: 10,
+        createPersonId: 3,
+        countryId: 1,
+        repositoryId: 438,
+        regionIds: 2
+      },
+      // 搜索结束 ----------------------
+      // 列表操作 -------------------------
       // 批量操作
       moreaction: '',
       // 加载操作控制
@@ -172,44 +222,78 @@ export default {
       tableKey: 0,
       // 加载表格
       listLoading: true,
-      // 采购入库单列表查询加展示参数
-      getemplist: {
-        pageNum: 1,
-        pageSize: 10,
-        repositoryId: 438,
-        regionIds: 2,
-        createPersonId: 3
-      },
-      // 传给组件的数据
+      // 修改传给组件的数据
       personalForm: {},
-      // 控制组件数据
-      editVisible: false,
-      // 开始时间到结束时间
-      date: []
+      // 修改控制修改组件数据
+      editVisible: false
+      // 列表结束 -------------------------
     }
   },
   mounted() {
+    this.getdeptlist()
     this.getlist()
   },
   methods: {
+    // 部门列表数据
+    getdeptlist() {
+      getdeptlist().then(res => {
+        if (res.data.ret === 200) {
+          this.depts = res.data.data.content
+        }
+      })
+    },
+    // 生产负责人输入框focus事件触发
+    handlechoose() {
+      this.createcontrol = true
+    },
+    // 生产负责人返回数据
+    createname(val) {
+      console.log(val)
+      this.produceManagerId = val.personName
+      this.personalForm.produceManagerId = val.id
+    },
+    // 入库人focus事件触发
+    handlechooseAccept() {
+      this.accetpcontrol = true
+    },
+    // 入库人列表返回数据
+    acceptName(val) {
+      this.enterPersonId = val.personName
+      this.personalForm.enterPersonId = val.id
+    },
+    // 仓库列表focus事件触发
+    handlechooseRep() {
+      this.repositorycontrol = true
+    },
+    repositoryname(val) {
+      console.log(val)
+      this.enterRepositoryId = val.repositoryName
+      this.personalForm.enterRepositoryId = val.id
+    },
     getlist() {
-      // 采购入库单列表数据
+      // 生产入库列表数据
       this.listLoading = true
-      enterlist(this.getemplist).then(res => {
+      produceenterlist(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
+          this.listLoading = false
+        } else {
+          this.$notify.error({
+            title: '错误',
+            message: '出错了',
+            offset: 100
+          })
         }
         setTimeout(() => {
           this.listLoading = false
         }, 0.5 * 100)
       })
-      this.listLoading = false
     },
     // 搜索
     handleFilter() {
       this.getemplist.pageNum = 1
-      enterlist(this.getemplist).then(res => {
+      produceenterlist(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
@@ -252,7 +336,7 @@ export default {
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          deleteenter(ids).then(res => {
+          deleteproduceenter(ids).then(res => {
             if (res.data.ret === 200) {
               this.$notify({
                 title: '删除成功',
@@ -283,7 +367,7 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        deleteenter(row.id).then(res => {
+        deleteproduceenter(row.id).then(res => {
           if (res.data.ret === 200) {
             this.$notify({
               title: '删除成功',
@@ -308,14 +392,14 @@ export default {
     },
     // 新增数据
     handleAdd() {
-      this.$router.push('/WarehouseAdjust/AddInitialenter')
+      this.$router.push('/EmployeeInformation/Stockenter')
     },
     // 导出
     handleExport() {
       this.downloadLoading = true
         import('@/vendor/Export2Excel').then(excel => {
           const tHeader = ['供应商编号', '供应商名称', '供应商简称', '供应商类别', '所在区域', '采购员', '供应商优质级别', '建档人', '建档日期']
-          const filterVal = ['id', 'WarehouseAdjustName', 'WarehouseAdjustShortName', 'typeName', 'regionName', 'buyerName', 'levelName', 'createName', 'createTime']
+          const filterVal = ['id', 'StockenterName', 'StockenterShortName', 'typeName', 'regionName', 'buyerName', 'levelName', 'createName', 'createTime']
           const data = this.formatJson(filterVal, this.list)
           excel.export_json_to_excel({
             header: tHeader,

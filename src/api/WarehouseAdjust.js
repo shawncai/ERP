@@ -104,3 +104,37 @@ export function enterlist(query) {
     data: params
   })
 }
+
+// 删除期初录入单
+export function deleteenter(query) {
+  var params = new URLSearchParams()
+  params.append('enterIds', query) // 你要传给后台的参数值 key/value
+  return request({
+    url: '/erp/initialenter/deleteenter',
+    method: 'post',
+    data: params
+  })
+}
+
+// 修改期初库存单
+export function updateenter(query, query2) {
+  var params = new URLSearchParams()
+  params.append('initialEnterJson', query) // 你要传给后台的参数值 key/value
+  params.append('initialEnterDetailJson', query2) // 你要传给后台的参数值 key/value
+  return request({
+    url: '/erp/initialenter/updateenter',
+    method: 'post',
+    data: params
+  })
+}
+
+// 修改货位
+export function updatelocation(query) {
+  var params = new URLSearchParams()
+  params.append('locationJson', query) // 你要传给后台的参数值 key/value
+  return request({
+    url: '/erp/location/updatelocation',
+    method: 'post',
+    data: params
+  })
+}

@@ -1,43 +1,87 @@
 <template>
-  <el-dialog :visible.sync="editVisible" :control="control" :editdata="editdata" :close-on-press-escape="false" top="10px" title="修改物流车辆" @close="$emit('update:control', false)">
+  <el-dialog :visible.sync="editVisible" :editcontrol="editcontrol" :editdata="editdata" :close-on-press-escape="false" class="edit" top="10px" title="修改期初库存单" @close="$emit('update:editcontrol', false)">
     <!--基本信息-->
-    <h2 ref="geren" class="form-name">基本信息</h2>
-    <div class="container">
-      <el-form ref="personalForm" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-position="top" label-width="300px" style="margin-left: 30px;">
-        <el-form-item :label="$t('LogisticsCar.carnumber')" prop="carNumber" style="width: 40%;margin-top:1%">
-          <el-input v-model="personalForm.carNumber" placeholder="请输入车辆名称" clearable/>
-        </el-form-item>
-        <el-form-item :label="$t('LogisticsCar.licencenumber')" prop="licenceNumber" style="width: 40%;margin-top:1%">
-          <el-input v-model="personalForm.licenceNumber" placeholder="请输入车牌号" clearable/>
-        </el-form-item>
-        <el-form-item :label="$t('LogisticsCar.carname')" prop="carName" style="width: 40%;margin-top:1%">
-          <el-input v-model="personalForm.carName" placeholder="请车辆名称" clearable/>
-        </el-form-item>
-        <el-form-item :label="$t('LogisticsCar.cartype')" prop="carType" style="width: 40%;margin-top:1%">
-          <el-select v-model="personalForm.carType" placeholder="请车辆类型" style="width: 100%;">
-            <el-option value="1" label="大货车"/>
-            <el-option value="2" label="小货车"/>
-            <el-option value="3" label="小轿车"/>
-          </el-select>
-        </el-form-item>
-        <el-form-item :label="$t('LogisticsCar.carload')" prop="carLoad" style="width: 40%;margin-top:1%">
-          <el-input v-model="personalForm.carLoad" placeholder="请输入载重" clearable>
-            <template slot="append">吨</template>
-          </el-input>
-        </el-form-item>
-        <el-form-item :label="$t('LogisticsCar.stat')" prop="stat" style="width: 40%;margin-top:1%">
-          <el-select v-model="personalForm.stat" placeholder="请选择车辆状态" style="width: 100%;">
-            <el-option label="正常" value="1"/>
-            <el-option label="停用" value="2"/>
-          </el-select>
-        </el-form-item>
-        <el-form-item :label="$t('LogisticsCar.drivers')" prop="drivers" style="width: 40%;margin-top:1%">
-          <el-input v-model="drivers" placeholder="请输入驾驶员" @focus="handlechoose"/>
-        </el-form-item>
-        <my-emp :control.sync="empcontrol" @personName="personName" @personIds="personIds"/>
-      </el-form>
-    </div>
-    <!--操作-->
+    <el-card class="box-card">
+      <h2 ref="geren" class="form-name">基本信息</h2>
+      <div class="container">
+        <el-form ref="personalForm" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="100px" style="margin-left: 30px;">
+          <el-row>
+            <el-col :span="6">
+              <el-form-item :label="$t('WarehouseAdjust.title')" style="width: 100%;">
+                <el-input v-model="personalForm.title" placeholder="请输入入库单主题" style="margin-left: 18px;width: 150px" clearable/>
+              </el-form-item>
+            </el-col>
+            <el-col :span="6">
+              <el-form-item :label="$t('WarehouseAdjust.enterPersonId')" prop="sourceType" style="width: 100%;">
+                <el-input v-model="enterPersonId" placeholder="请选择入库人" clearable @focus="handlechoose"/>
+              </el-form-item>
+              <my-create :createcontrol.sync="createcontrol" @createname="createname"/>
+            </el-col>
+            <el-col :span="6">
+              <el-form-item :label="$t('WarehouseAdjust.enterDeptId')" prop="enterDeptId" style="width: 100%;">
+                <el-select v-model="personalForm.enterDeptId" placeholder="请选择入库部门" clearable style="margin-left: 18px;width: 150px">
+                  <el-option
+                    v-for="(item, index) in depts"
+                    :key="index"
+                    :value="item.id"
+                    :label="item.deptName"/>
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="6">
+              <el-form-item :label="$t('WarehouseAdjust.enterRepositoryId')" prop="countRepositoryId" style="width: 100%;">
+                <el-input v-model="enterRepositoryId" placeholder="请选择仓库" clearable @focus="handlechooseRep"/>
+              </el-form-item>
+              <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
+            </el-col>
+            <el-col :span="6">
+              <el-form-item :label="$t('WarehouseAdjust.summary')" style="width: 100%">
+                <el-input v-model="personalForm.summary" placeholder="请输入摘要" style="margin-left: 18px;width: 150px" clearable/>
+              </el-form-item>
+            </el-col>
+          </el-row>
+        </el-form>
+      </div>
+    </el-card>
+    <!--入库单明细-->
+    <el-card class="box-card" style="margin-top: 15px">
+      <h2 ref="fuzhu" class="form-name">入库单明细</h2>
+      <div class="buttons" style="margin-top: 28px;margin-bottom: 20px">
+        <el-button type="success" style="background:#3696fd;border-color:#3696fd " @click="handleAddproduct">添加商品</el-button>
+        <el-button type="danger" @click="$refs.editable.removeSelecteds()">删除</el-button>
+      </div>
+      <my-detail :control.sync="control" @product="productdetail"/>
+      <div class="container">
+        <el-editable
+          ref="editable"
+          :data.sync="list2"
+          :edit-config="{ showIcon: true, showStatus: true}"
+          :edit-rules="validRules"
+          class="click-table1"
+          stripe
+          border
+          size="medium"
+          style="width: 100%">
+          <el-editable-column type="selection" width="55" align="center"/>
+          <el-editable-column label="编号" width="55" align="center" type="index"/>
+          <el-editable-column :edit-render="{name: 'ElSelect', options: locationlist}" prop="locationId" align="center" label="货位" width="150px"/>
+          <el-editable-column prop="productCode" align="center" label="物品编号" width="150px"/>
+          <el-editable-column prop="productName" align="center" label="物品名称" width="150px"/>
+          <el-editable-column prop="color" align="center" label="颜色" width="150px"/>
+          <el-editable-column prop="productType" align="center" label="规格" width="150px"/>
+          <el-editable-column prop="unit" align="center" label="单位" width="150px"/>
+          <el-editable-column prop="basicQuantity" align="center" label="基本数量" width="150px"/>
+          <el-editable-column :edit-render="{name: 'ElInputNumber'}" prop="enterQuantity" align="center" label="入库数量" width="150px"/>
+          <el-editable-column prop="price" align="center" label="单价" width="150px"/>
+          <el-editable-column prop="totalMoney" align="center" label="入库金额" width="150px">
+            <template slot-scope="scope">
+              <p>{{ getSize(scope.row.enterQuantity, scope.row.price) }}</p>
+            </template>
+          </el-editable-column>
+          <el-editable-column :edit-render="{name: 'ElInput'}" prop="remarks" align="center" label="备注" width="150px"/>
+        </el-editable>
+      </div>
+    </el-card>
     <div class="buttons" style="margin-top: 20px;margin-left: 30px">
       <el-button type="primary" @click="handleEditok()">修改</el-button>
       <el-button type="danger" @click="handlecancel()">取消</el-button>
@@ -46,12 +90,15 @@
 </template>
 
 <script>
-import { updatecar } from '@/api/LogisticsCar'
-import MyEmp from './MyDetail'
+import { locationlist, updateenter } from '@/api/WarehouseAdjust'
+import { getdeptlist } from '@/api/BasicSettings'
+import MyCreate from './MyCreate'
+import MyRepository from './MyRepository'
+import MyDetail from './MyDetail'
 export default {
-  components: { MyEmp },
+  components: { MyRepository, MyCreate, MyDetail },
   props: {
-    control: {
+    editcontrol: {
       type: Boolean,
       default: false
     },
@@ -63,76 +110,190 @@ export default {
   data() {
     return {
       // 弹窗组件的控制
-      editVisible: this.control,
-      // 创建人弹窗控制
-      createcontrol: false,
-      // 采购员弹窗控制
-      empcontrol: false,
-      // 驾驶员回显
-      drivers: '',
-      // 创建人回显
-      createid: '',
-      // 物流车辆信息数据
+      editVisible: this.editcontrol,
+      // 供应商信息数据
       personalForm: this.editdata,
-      // 物流车辆信息规则数据
+      locationlistparms: {
+        pageNum: 1,
+        pageSize: 1999,
+        repositoryId: ''
+      },
+      // 货位数据
+      locationlist: [],
+      // 明细表控制框
+      control: false,
+      // 部门数据
+      depts: [],
+      // 入库仓库回显
+      enterRepositoryId: '',
+      // 入库人回显
+      enterPersonId: '',
+      // 控制仓库选择窗口
+      repositorycontrol: false,
+      // 控制经办人选择窗口
+      createcontrol: false,
+      // 报损单明细数据
+      list2: [],
+      // 入库单明细列表规则
+      validRules: {
+        step: [
+          { required: true, message: '请输入流程步骤', trigger: 'blur' }
+        ],
+        money: [
+          { required: true, message: '请输入流转条件', trigger: 'blue' }
+        ],
+        handlerName: [
+          { required: true, message: '请选择步骤处理人', trigger: 'blue' }
+        ]
+      },
+      // 库存入库单规则数据
       personalrules: {
-        carNumber: [
-          { required: true, message: '请输入车辆编号', trigger: 'blur' }
+        enterPersonId: [
+          { required: true, message: '请选择入库人', trigger: 'blue' }
         ],
-        carName: [
-          { required: true, message: '请输入车辆名称', trigger: 'blur' }
-        ],
-        licenceNumber: [
-          { required: true, message: '请输入车牌号', trigger: 'blur' }
-        ],
-        carType: [
-          { required: true, message: '请选择车辆类型', trigger: 'change' }
-        ],
-        stat: [
-          { required: true, message: '请选择车辆状态', trigger: 'change' }
-        ],
-        drivers: [
-          { required: true, message: '请选择驾驶员', trigger: 'blue' }
+        enterDeptId: [
+          { required: true, message: '请选择入库部门', trigger: 'blue' }
         ]
       }
     }
   },
   watch: {
-    control() {
-      this.editVisible = this.control
+    editcontrol() {
+      this.editVisible = this.editcontrol
     },
     editdata() {
       this.personalForm = this.editdata
-      this.drivers = this.personalForm.driverNames
-      this.createid = this.personalForm.driverNames
+      this.enterPersonId = this.personalForm.enterPersonName
+      this.enterRepositoryId = this.personalForm.enterRepositoryName
+      this.list2 = this.personalForm.initialEnterDetailVos
     }
   },
+  mounted() {
+    this.getlist()
+  },
   methods: {
-    // 驾驶员输入框focus事件触发
+    getlist() {
+      // 部门列表数据
+      getdeptlist().then(res => {
+        if (res.data.ret === 200) {
+          this.depts = res.data.data.content
+        }
+      })
+    },
+    // 入库人输入框focus事件触发
     handlechoose() {
-      this.empcontrol = true
-    },
-    // 驾驶员列表返回数据
-    personName(val) {
-      this.drivers = val
-      this.personalForm.driverNames = val
-    },
-    personIds(val) {
-      this.personalForm.drivers = val
-    },
-    // 创建人输入框focus事件触发
-    handlechoosecreateman() {
       this.createcontrol = true
     },
+    // 员工列表返回经办人数据
     createname(val) {
-      this.createid = val.personName
-      this.personalForm.createid = val.id
+      console.log(val)
+      this.enterPersonId = val.personName
+      this.personalForm.enterPersonId = val.id
+    },
+    // 仓库列表focus事件触发
+    handlechooseRep() {
+      this.repositorycontrol = true
+    },
+    repositoryname(val) {
+      console.log(val)
+      this.enterRepositoryId = val.repositoryName
+      this.personalForm.enterRepositoryId = val.id
+      this.locationlistparms.repositoryId = val.id
+      locationlist(this.locationlistparms).then(res => {
+        if (res.data.ret === 200) {
+          this.locationlist = res.data.data.content.list.map(function(item) {
+            return {
+              'value': item.id,
+              'label': item.locationName
+            }
+          })
+        }
+      })
+    },
+    // 入库单事件
+    // 新增入库单明细
+    handleAddproduct() {
+      this.control = true
+    },
+    productdetail(val) {
+      const nowlistdata = this.$refs.editable.getRecords()
+      for (let i = 0; i < val.length; i++) {
+        for (let j = 0; j < nowlistdata.length; j++) {
+          if (val[i].productCode === nowlistdata[j].productCode) {
+            this.$notify.error({
+              title: '错误',
+              message: '物品已添加',
+              offset: 100
+            })
+            return false
+          }
+        }
+        this.$refs.editable.insert(val[i])
+      }
+    },
+    // 入库金额计算
+    getSize(quan, pric) {
+      return quan * pric
     },
     // 修改和取消按钮
     // 修改按钮
     handleEditok() {
+      this.personalForm.repositoryId = 438
+      this.personalForm.regionId = 2
+      this.personalForm.createPersonId = 3
+      this.personalForm.countryId = 1
       console.log(this.personalForm)
-      updatecar(this.personalForm).then(res => {
+      const rest = this.$refs.editable.getRecords()
+      rest.map(function(elem) {
+        return elem
+      }).forEach(function(elem) {
+        if (elem.unit === null || elem.unit === '' || elem.unit === undefined) {
+          delete elem.unit
+        }
+        if (elem.basicQuantity === null || elem.basicQuantity === '' || elem.basicQuantity === undefined) {
+          delete elem.basicQuantity
+        }
+        if (elem.color === null || elem.color === '' || elem.color === undefined) {
+          delete elem.color
+        }
+        if (elem.enterQuantity === null || elem.enterQuantity === '' || elem.enterQuantity === undefined) {
+          delete elem.enterQuantity
+        }
+        if (elem.locationId === null || elem.locationId === '' || elem.locationId === undefined) {
+          delete elem.locationId
+        }
+        if (elem.price === null || elem.price === '' || elem.price === undefined) {
+          delete elem.price
+        }
+        if (elem.productCode === null || elem.productCode === '' || elem.productCode === undefined) {
+          delete elem.productCode
+        }
+        if (elem.productName === null || elem.productName === '' || elem.productName === undefined) {
+          delete elem.productName
+        }
+        if (elem.remarks === null || elem.remarks === '' || elem.remarks === undefined) {
+          delete elem.remarks
+        }
+        if (elem.totalMoney === null || elem.totalMoney === '' || elem.totalMoney === undefined) {
+          delete elem.totalMoney
+        }
+        if (elem.typeId === null || elem.typeId === '' || elem.typeId === undefined) {
+          delete elem.typeId
+        }
+        if (elem.typeId === null || elem.typeId === '' || elem.typeId === undefined) {
+          delete elem.typeId
+        }
+        return elem
+      })
+      const Data = this.personalForm
+      for (const key in Data) {
+        if (Data[key] === '' || Data[key] === undefined || Data[key] === null) {
+          delete Data[key]
+        }
+      }
+      const parms = JSON.stringify(Data)
+      const parms2 = JSON.stringify(rest)
+      updateenter(parms, parms2).then(res => {
         if (res.data.ret === 200) {
           this.$notify({
             title: '操作成功',
@@ -165,5 +326,7 @@ export default {
 </script>
 
 <style scoped>
-
+  .edit >>> .el-dialog {
+    background:#f1f1f1 ;
+  }
 </style>

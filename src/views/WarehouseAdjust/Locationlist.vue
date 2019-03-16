@@ -108,7 +108,7 @@
       <!-- 列表结束 -->
       <pagination v-show="total>0" :total="total" :page.sync="getemplist.pagenum" :limit.sync="getemplist.pagesize" @pagination="getlist" />
       <!--修改开始=================================================-->
-      <my-dialog :control.sync="editVisible" :editdata.sync="personalForm" @rest="refreshlist"/>
+      <my-location :editcontrol.sync="editVisible" :editdata.sync="personalForm" @rest="refreshlist"/>
       <!--修改结束=================================================-->
     </el-card>
   </div>
@@ -118,12 +118,12 @@
 import { locationlist, deletelocation } from '@/api/WarehouseAdjust'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
-import MyDialog from './components/MyDialog'
+import MyLocation from './components/MyLocation'
 
 export default {
   name: 'Locationlist',
   directives: { waves },
-  components: { Pagination, MyDialog },
+  components: { Pagination, MyLocation },
   filters: {
     genderFilter(status) {
       const statusMap = {
