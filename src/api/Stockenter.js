@@ -589,3 +589,16 @@ export function updateotherenter(query, query2) {
     data: params
   })
 }
+
+// 删除其他入库
+export function deleteotherenter(query) {
+  var params = new URLSearchParams()
+  if (query !== '' && query !== null && query !== undefined) {
+    params.append('enterIds', query) // 你要传给后台的参数值 key/value
+  }
+  return request({
+    url: '/erp/otherenter/deleteotherenter',
+    method: 'post',
+    data: params
+  })
+}

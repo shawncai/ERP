@@ -5,24 +5,24 @@
       <el-row>
         <el-form ref="getemplist" :model="getemplist" label-width="100px" style="margin-top: -9px">
           <el-col :span="4">
-            <el-form-item label="入库单主题">
-              <el-input v-model="getemplist.title" :placeholder="$t('Stockenter.title')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
+            <el-form-item label="调拨单主题">
+              <el-input v-model="getemplist.title" :placeholder="$t('Storagemove.title')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
           <el-col :span="4">
-            <el-form-item label="入库单编号">
-              <el-input v-model="getemplist.enterNumber" :placeholder="$t('Stockenter.enterNumber')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
+            <el-form-item label="调拨单编号">
+              <el-input v-model="getemplist.moveNumber" :placeholder="$t('Storagemove.moveNumber')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
           <el-col :span="4">
-            <el-form-item label="交货人">
-              <el-input v-model="deliveryPersonId" :placeholder="$t('Stockenter.deliveryPersonId')" class="filter-item" clearable @keyup.enter.native="handleFilter" @focus="handlechooseDelivery"/>
+            <el-form-item label="调入仓库">
+              <el-input v-model="moveInRepository" :placeholder="$t('Storagemove.moveInRepository')" class="filter-item" clearable @keyup.enter.native="handleFilter" @focus="handlechooseDep"/>
             </el-form-item>
-            <my-delivery :deliverycontrol.sync="deliverycontrol" @deliveryName="deliveryName"/>
+            <my-depot :depotcontrol.sync="depotcontrol" @depotname="depotname"/>
           </el-col>
           <el-col :span="4">
-            <el-form-item label="入库部门">
-              <el-select v-model="getemplist.enterDeptId" placeholder="请选择入库部门" style="margin-left: 18px;width: 144px" clearable >
+            <el-form-item label="要货部门">
+              <el-select v-model="getemplist.requestDeptId" placeholder="请选择要货部门" style="margin-left: 18px;width: 144px" clearable >
                 <el-option
                   v-for="(item, index) in depts"
                   :key="index"
@@ -37,19 +37,22 @@
               placement="bottom"
               width="500"
               trigger="click">
-              <el-input v-model="enterPersonId" :placeholder="$t('Stockenter.enterPersonId')" class="filter-item" clearable style="width: 40%;float: left;margin-left: 20px" @keyup.enter.native="handleFilter" @focus="handlechooseAccept"/>
-              <my-accept :accetpcontrol.sync="accetpcontrol" @acceptName="acceptName"/>
-              <el-input v-model="enterRepositoryId" :placeholder="$t('Stockenter.enterRepositoryId')" class="filter-item" clearable style="width: 40%;float: right;margin-right: 20px" @keyup.enter.native="handleFilter" @focus="handlechooseRep"/>
+              <el-select v-model="getemplist.departmentId" placeholder="请选择调货部门" style="width: 40%;float: left;margin-left: 20px" clearable >
+                <el-option
+                  v-for="(item, index) in depts"
+                  :key="index"
+                  :value="item.id"
+                  :label="item.deptName"/>
+              </el-select>
+              <el-input v-model="moveOutRepository" :placeholder="$t('Storagemove.moveOutRepository')" class="filter-item" clearable style="width: 40%;float: right;margin-right: 20px" @keyup.enter.native="handleFilter" @focus="handlechooseRep"/>
               <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
-              <el-input v-model="acceptPersonId" :placeholder="$t('Stockenter.acceptPersonId')" class="filter-item" clearable style="width: 40%;float: left;margin-left: 20px;margin-top: 20px" @keyup.enter.native="handleFilter" @focus="handlechoose"/>
-              <my-create :createcontrol.sync="createcontrol" @createname="createname"/>
               <el-date-picker
                 v-model="date"
                 type="daterange"
                 range-separator="-"
                 unlink-panels
-                start-placeholder="Start"
-                end-placeholder="End"
+                start-placeholder="要求到货开始日期"
+                end-placeholder="要求到货结束日期"
                 value-format="yyyy-MM-dd"
                 style="margin-top: 20px;margin-left: 20px;width: 434px"/>
               <div class="seachbutton" style="width: 100%;float: right;margin-top: 20px">
@@ -97,52 +100,47 @@
           type="selection"
           width="55"
           align="center"/>
-        <el-table-column :label="$t('Stockenter.id')" :resizable="false" align="center" min-width="80">
+        <el-table-column :label="$t('public.id')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.id }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('Stockenter.title')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('Storagemove.title')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.title }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('Stockenter.enterNumber')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('Storagemove.applicationName')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.enterNumber }}</span>
+            <span>{{ scope.row.applicationName }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('Stockenter.deliveryPersonId')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('Storagemove.requestDeptId')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.deliveryPersonName }}</span>
+            <span>{{ scope.row.requestDeptName }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('Stockenter.acceptPersonId')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('Storagemove.moveInRepository')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.acceptPersonName }}</span>
+            <span>{{ scope.row.moveInRepositoryName }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('Stockenter.enterDeptId')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('Storagemove.requestArrivalDate')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.enterDeptName }}</span>
+            <span>{{ scope.row.requestArrivalDate }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('Stockenter.endPersonName')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('Storagemove.moveOutRepository')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.enterPersonName }}</span>
+            <span>{{ scope.row.moveOutRepositoryName }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('Stockenter.endDate')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('Storagemove.businessStat')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.endDate }}</span>
+            <span>{{ scope.row.receiptStat }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('Stockenter.summary')" :resizable="false" align="center" min-width="150">
-          <template slot-scope="scope">
-            <span>{{ scope.row.summary }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column :label="$t('Stockenter.judgeStat')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('Storagemove.judgeStat')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.judgeStat | judgeStatFileter }}</span>
           </template>
@@ -157,7 +155,7 @@
       <!-- 列表结束 -->
       <pagination v-show="total>0" :total="total" :page.sync="getemplist.pageNum" :limit.sync="getemplist.pageSize" @pagination="getlist" />
       <!--修改开始=================================================-->
-      <my-other :editcontrol.sync="editVisible" :editdata.sync="personalForm" @rest="refreshlist"/>
+      <my-edit :editcontrol.sync="editVisible" :editdata.sync="personalForm" @rest="refreshlist"/>
       <!--修改结束=================================================-->
     </el-card>
   </div>
@@ -165,19 +163,19 @@
 
 <script>
 import { getdeptlist } from '@/api/BasicSettings'
-import { otherenterlist, deleteotherenter } from '@/api/Stockenter'
+import { searchlist, deletestoragemove } from '@/api/Storagemove'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
-import MyOther from './components/MyOther'
+import MyEdit from './components/MyEdit'
 import MyRepository from './components/MyRepository'
 import MyAccept from './components/MyAccept'
 import MyCreate from './components/MyCreate'
-import MyDelivery from './components/MyDelivery'
+import MyDepot from './components/MyDepot'
 
 export default {
-  name: 'OtherEnterList',
+  name: 'StoragemoveList',
   directives: { waves },
-  components: { Pagination, MyOther, MyRepository, MyAccept, MyCreate, MyDelivery },
+  components: { MyDepot, Pagination, MyEdit, MyRepository, MyAccept, MyCreate },
   filters: {
     judgeStatFileter(status) {
       const statusMap = {
@@ -193,25 +191,17 @@ export default {
       // 搜索数据----------------------
       // 部门数据
       depts: [],
-      // 交货人回显
-      deliveryPersonId: '',
-      // 验收人回显
-      acceptPersonId: '',
-      // 入库仓库回显
-      enterRepositoryId: '',
-      // 入库人回显
-      enterPersonId: '',
-      // 入库人控制框
-      accetpcontrol: false,
-      // 控制仓库选择窗口
+      // 调出仓库回显
+      moveOutRepository: '',
+      // 调入仓库回显
+      moveInRepository: '',
+      // 控制调出仓库选择窗口
       repositorycontrol: false,
-      // 交货人控制框
-      deliverycontrol: false,
-      // 控制验收人选择窗口
-      createcontrol: false,
+      // 控制调入仓库选择窗口
+      depotcontrol: false,
       // 开始时间到结束时间
       date: [],
-      // 入库列表传参数据
+      // 生产调拨列表传参数据
       getemplist: {
         pageNum: 1,
         pageSize: 10,
@@ -254,46 +244,27 @@ export default {
         }
       })
     },
-    // 交货人foucs事件触发
-    handlechooseDelivery() {
-      this.deliverycontrol = true
+    // 调入仓库focus事件触发
+    handlechooseDep() {
+      this.depotcontrol = true
     },
-    deliveryName(val) {
-      this.deliveryPersonId = val.personName
-      this.personalForm.deliveryPersonId = val.id
+    depotname(val) {
+      this.moveInRepository = val.repositoryName
+      this.personalForm.moveInRepository = val.id
     },
-    // 验收人输入框focus事件触发
-    handlechoose() {
-      this.createcontrol = true
-    },
-    // 验收人返回数据
-    createname(val) {
-      console.log(val)
-      this.acceptPersonId = val.personName
-      this.personalForm.acceptPersonId = val.id
-    },
-    // 入库人focus事件触发
-    handlechooseAccept() {
-      this.accetpcontrol = true
-    },
-    // 入库人列表返回数据
-    acceptName(val) {
-      this.enterPersonId = val.personName
-      this.personalForm.enterPersonId = val.id
-    },
-    // 仓库列表focus事件触发
+    // 调出仓库列表focus事件触发
     handlechooseRep() {
       this.repositorycontrol = true
     },
     repositoryname(val) {
       console.log(val)
-      this.enterRepositoryId = val.repositoryName
-      this.personalForm.enterRepositoryId = val.id
+      this.moveOutRepository = val.repositoryName
+      this.personalForm.moveOutRepository = val.id
     },
     getlist() {
-      // 入库列表数据
+      // 生产调拨列表数据
       this.listLoading = true
-      otherenterlist(this.getemplist).then(res => {
+      searchlist(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
@@ -320,7 +291,7 @@ export default {
         this.getemplist.beginTime = this.date[0]
         this.getemplist.endTime = this.date[1]
       }
-      otherenterlist(this.getemplist).then(res => {
+      searchlist(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
@@ -338,7 +309,7 @@ export default {
       console.log(row)
       this.editVisible = true
       this.personalForm = Object.assign({}, row)
-      this.personalForm.sourceType = String(row.sourceType)
+      this.personalForm.businessStat = String(row.businessStat)
     },
     // 修改组件修改成功后返回
     refreshlist(val) {
@@ -360,7 +331,7 @@ export default {
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          deleteotherenter(ids).then(res => {
+          deletestoragemove(ids).then(res => {
             if (res.data.ret === 200) {
               this.$notify({
                 title: '删除成功',
@@ -391,7 +362,7 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        deleteotherenter(row.id).then(res => {
+        deletestoragemove(row.id).then(res => {
           if (res.data.ret === 200) {
             this.$notify({
               title: '删除成功',
@@ -416,14 +387,14 @@ export default {
     },
     // 新增数据
     handleAdd() {
-      this.$router.push('/Stockenter/AddOtherenter')
+      this.$router.push('/Storagemove/AddStoragemove')
     },
     // 导出
     handleExport() {
       this.downloadLoading = true
         import('@/vendor/Export2Excel').then(excel => {
           const tHeader = ['供应商编号', '供应商名称', '供应商简称', '供应商类别', '所在区域', '采购员', '供应商优质级别', '建档人', '建档日期']
-          const filterVal = ['id', 'StockenterName', 'StockenterShortName', 'typeName', 'regionName', 'buyerName', 'levelName', 'createName', 'createTime']
+          const filterVal = ['id', 'StoragemoveName', 'StoragemoveShortName', 'typeName', 'regionName', 'buyerName', 'levelName', 'createName', 'createTime']
           const data = this.formatJson(filterVal, this.list)
           excel.export_json_to_excel({
             header: tHeader,

@@ -8,43 +8,19 @@
           <el-form ref="personalForm" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="100px" style="margin-left: 30px;">
             <el-row>
               <el-col :span="6">
-                <el-form-item :label="$t('Stockenter.title')" prop="title" style="width: 100%;">
-                  <el-input v-model="personalForm.title" placeholder="请输入入库单主题" style="margin-left: 18px" clearable/>
+                <el-form-item :label="$t('InventoryOverflow.title')" prop="title" style="width: 100%;">
+                  <el-input v-model="personalForm.title" placeholder="请输入报溢单主题" style="margin-left: 18px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('Stockenter.sourceType')" prop="sourceType" style="width: 100%;">
-                  <el-select v-model="personalForm.sourceType" placeholder="请选择源单类型" style="margin-left: 18px;width: 218px" clearable >
-                    <el-option value="1" label="无来源"/>
-                  </el-select>
-                </el-form-item>
-              </el-col>
-              <el-col :span="6">
-                <el-form-item :label="$t('Stockenter.sourceNumber')" prop="sourceNumber" style="width: 100%;">
-                  <el-input v-model="personalForm.sourceNumber" placeholder="请输入源单编号" style="margin-left: 18px" clearable/>
-                </el-form-item>
-              </el-col>
-              <el-col :span="6">
-                <el-form-item :label="$t('Stockenter.deliveryPersonId')" style="width: 100%;">
-                  <el-input v-model="deliveryPersonId" placeholder="请选择交货人" style="margin-left: 18px" clearable @focus="handlechooseDelivery"/>
-                </el-form-item>
-                <my-delivery :deliverycontrol.sync="deliverycontrol" @deliveryName="deliveryName"/>
-              </el-col>
-              <el-col :span="6">
-                <el-form-item :label="$t('Stockenter.acceptPersonId')" style="width: 100%;">
-                  <el-input v-model="acceptPersonId" placeholder="请选择验收人" style="margin-left: 18px" clearable @focus="handlechoose"/>
+                <el-form-item :label="$t('InventoryOverflow.handlePersonId')" prop="handlePersonId" style="width: 100%;">
+                  <el-input v-model="handlePersonId" placeholder="请选择经办人" style="margin-left: 18px" clearable @focus="handlechoose"/>
                 </el-form-item>
                 <my-create :createcontrol.sync="createcontrol" @createname="createname"/>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('Stockenter.enterPersonId')" prop="enterPersonId" style="width: 100%;">
-                  <el-input v-model="enterPersonId" placeholder="请选择入库人" style="margin-left: 18px" clearable @focus="handlechooseAccept"/>
-                </el-form-item>
-                <my-accept :accetpcontrol.sync="accetpcontrol" @acceptName="acceptName"/>
-              </el-col>
-              <el-col :span="6">
-                <el-form-item :label="$t('Stockenter.enterDeptId')" style="width: 100%;">
-                  <el-select v-model="personalForm.enterDeptId" placeholder="请选择入库部门" style="margin-left: 18px;width: 218px" clearable >
+                <el-form-item :label="$t('InventoryOverflow.overflowDeptId')" style="width: 100%;">
+                  <el-select v-model="personalForm.overflowDeptId" placeholder="请选择报溢部门" style="margin-left: 18px;width: 218px" clearable >
                     <el-option
                       v-for="(item, index) in depts"
                       :key="index"
@@ -54,26 +30,13 @@
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('Stockenter.enterRepositoryId')" prop="enterRepositoryId" style="width: 100%;">
-                  <el-input v-model="enterRepositoryId" placeholder="请选择仓库" style="margin-left: 18px" clearable @focus="handlechooseRep"/>
+                <el-form-item :label="$t('InventoryOverflow.overflowRepositoryId')" prop="overflowRepositoryId" style="width: 100%;">
+                  <el-input v-model="overflowRepositoryId" placeholder="请选择报溢仓库" style="margin-left: 18px" clearable @focus="handlechooseRep"/>
                 </el-form-item>
                 <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('Stockenter.enterReason')" prop="summary" style="width: 100%;">
-                  <el-input v-model="personalForm.enterReason" placeholder="请输入原因" style="margin-left: 18px" clearable/>
-                </el-form-item>
-              </el-col>
-              <el-col :span="6">
-                <el-form-item :label="$t('Stockenter.newOrOld')" style="width: 100%;">
-                  <el-radio-group v-model="personalForm.newOrOld" style="width:277px;margin-left: 19px">
-                    <el-radio :label="1" style="width: 120px">全新</el-radio>
-                    <el-radio :label="2">二手车</el-radio>
-                  </el-radio-group>
-                </el-form-item>
-              </el-col>
-              <el-col :span="6">
-                <el-form-item :label="$t('Stockenter.summary')" prop="summary" style="width: 100%;">
+                <el-form-item :label="$t('InventoryOverflow.summary')" prop="summary" style="width: 100%;">
                   <el-input v-model="personalForm.summary" placeholder="请输入摘要" style="margin-left: 18px" clearable/>
                 </el-form-item>
               </el-col>
@@ -81,9 +44,9 @@
           </el-form>
         </div>
       </el-card>
-      <!--入库单明细-->
+      <!--报溢单明细-->
       <el-card class="box-card" style="margin-top: 15px">
-        <h2 ref="fuzhu" class="form-name">入库单明细</h2>
+        <h2 ref="fuzhu" class="form-name">报溢单明细</h2>
         <div class="buttons" style="margin-top: 58px">
           <el-button type="success" style="background:#3696fd;border-color:#3696fd " @click="handleAddproduct">添加商品</el-button>
           <el-button type="danger" @click="$refs.editable.removeSelecteds()">删除</el-button>
@@ -108,12 +71,11 @@
             <el-editable-column prop="color" align="center" label="颜色" width="150px"/>
             <el-editable-column prop="typeIdname" align="center" label="规格" width="150px"/>
             <el-editable-column prop="unit" align="center" label="单位" width="150px"/>
-            <el-editable-column prop="basicQuantity" align="center" label="基本数量" width="150px"/>
-            <el-editable-column :edit-render="{name: 'ElInputNumber'}" prop="actualEnterQuantity" align="center" label="入库数量" width="150px"/>
-            <el-editable-column prop="enterPrice" align="center" label="单价" width="150px"/>
-            <el-editable-column prop="enterMoney" align="center" label="入库金额" width="150px">
+            <el-editable-column :edit-render="{name: 'ElInputNumber'}" prop="overflowQuantity" align="center" label="报溢数量" width="150px"/>
+            <el-editable-column prop="price" align="center" label="单价" width="150px"/>
+            <el-editable-column prop="totalMoney" align="center" label="金额" width="150px">
               <template slot-scope="scope">
-                <p>{{ getSize(scope.row.actualEnterQuantity, scope.row.enterPrice) }}</p>
+                <p>{{ getSize(scope.row.overflowQuantity, scope.row.price) }}</p>
               </template>
             </el-editable-column>
             <el-editable-column :edit-render="{name: 'ElInput'}" prop="remarks" align="center" label="备注" width="150px"/>
@@ -132,38 +94,29 @@
 <script>
 import { locationlist } from '@/api/WarehouseAdjust'
 import { getdeptlist } from '@/api/BasicSettings'
-import { addotherenter } from '@/api/Stockenter'
+import { addinventoryoverflow } from '@/api/InventoryOverflow'
 import MyRepository from './components/MyRepository'
-import MyDelivery from './components/MyDelivery'
 import MyAccept from './components/MyAccept'
 import MyDetail from './components/MyDetail'
 import MyCreate from './components/MyCreate'
 export default {
-  name: 'AddOtherenter',
-  components: { MyRepository, MyDetail, MyCreate, MyAccept, MyDelivery },
+  name: 'AddInventoryOverflow',
+  components: { MyRepository, MyDetail, MyCreate, MyAccept },
   data() {
     return {
       // 部门数据
       depts: [],
-      // 交货人回显
-      deliveryPersonId: '',
-      // 验收人回显
-      acceptPersonId: '',
-      // 入库仓库回显
-      enterRepositoryId: '',
-      // 入库人回显
-      enterPersonId: '',
-      // 交货人控制框
-      deliverycontrol: false,
-      // 入库人控制框
-      accetpcontrol: false,
-      // 控制仓库选择窗口
-      repositorycontrol: false,
-      // 控制验收人选择窗口
+      // 经办人回显
+      handlePersonId: '',
+      // 报溢仓库回显
+      overflowRepositoryId: '',
+      // 经办人控制框
       createcontrol: false,
+      // 控制报溢仓库选择窗口
+      repositorycontrol: false,
       // 控制商品列表窗口
       control: false,
-      // 入库信息数据
+      // 报溢信息数据
       personalForm: {
         createPersonId: 3,
         countryId: 1,
@@ -171,35 +124,29 @@ export default {
         regionId: 2,
         sourceType: '1'
       },
-      // 入库单规则数据
+      // 报溢单规则数据
       personalrules: {
         title: [
           { required: true, message: '请输入标题', trigger: 'blur' }
         ],
-        sourceType: [
-          { required: true, message: '请选择源单类型', trigger: 'change' }
+        handlePersonId: [
+          { required: true, message: '请选择经办人', trigger: 'focus' }
         ],
-        sourceNumber: [
-          { required: true, message: '请输入源单编号', trigger: 'blur' }
-        ],
-        enterPersonId: [
-          { required: true, message: '请选择入库人', trigger: 'focus' }
-        ],
-        enterRepositoryId: [
-          { required: true, message: '请选择入库仓库', trigger: 'focus' }
+        overflowRepositoryId: [
+          { required: true, message: '请选择报溢仓库', trigger: 'focus' }
         ]
       },
-      // 入库单明细数据
+      // 生产报溢单明细数据
       list2: [],
-      // 入库明细中货位发送参数
+      // 生产报溢明细中货位发送参数
       locationlistparms: {
         pageNum: 1,
         pageSize: 1999,
         repositoryId: ''
       },
-      // 入库明细中货位数据
+      // 生产报溢明细中货位数据
       locationlist: [],
-      // 入库单明细列表规则
+      // 生产报溢单明细列表规则
       validRules: {
         locationId: [
           { required: true, message: '请选择货位号', trigger: 'change' }
@@ -219,32 +166,15 @@ export default {
         }
       })
     },
-    // 交货人foucs事件触发
-    handlechooseDelivery() {
-      this.deliverycontrol = true
-    },
-    deliveryName(val) {
-      this.deliveryPersonId = val.personName
-      this.personalForm.deliveryPersonId = val.id
-    },
-    // 验收人输入框focus事件触发
+    // 经办人输入框focus事件触发
     handlechoose() {
       this.createcontrol = true
     },
-    // 验收人返回数据
+    // 经办人返回数据
     createname(val) {
       console.log(val)
-      this.acceptPersonId = val.personName
-      this.personalForm.acceptPersonId = val.id
-    },
-    // 入库人focus事件触发
-    handlechooseAccept() {
-      this.accetpcontrol = true
-    },
-    // 入库人列表返回数据
-    acceptName(val) {
-      this.enterPersonId = val.personName
-      this.personalForm.enterPersonId = val.id
+      this.handlePersonId = val.personName
+      this.personalForm.handlePersonId = val.id
     },
     // 仓库列表focus事件触发
     handlechooseRep() {
@@ -252,8 +182,8 @@ export default {
     },
     repositoryname(val) {
       console.log(val)
-      this.enterRepositoryId = val.repositoryName
-      this.personalForm.enterRepositoryId = val.id
+      this.overflowRepositoryId = val.repositoryName
+      this.personalForm.overflowRepositoryId = val.id
       this.locationlistparms.repositoryId = val.id
       locationlist(this.locationlistparms).then(res => {
         if (res.data.ret === 200) {
@@ -266,8 +196,8 @@ export default {
         }
       })
     },
-    // 入库单事件
-    // 新增入库单明细
+    // 报溢单事件
+    // 新增报溢单明细
     handleAddproduct() {
       this.control = true
     },
@@ -288,7 +218,7 @@ export default {
         this.$refs.editable.insert(val[i])
       }
     },
-    // 入库金额计算
+    // 报溢金额计算
     getSize(quan, pric) {
       return quan * pric
     },
@@ -301,10 +231,8 @@ export default {
         regionId: 2,
         sourceType: '1'
       }
-      this.acceptPersonId = ''
-      this.deliveryPersonId = ''
-      this.enterRepositoryId = ''
-      this.enterPersonId = ''
+      this.handlePersonId = ''
+      this.overflowRepositoryId = ''
     },
     // 保存操作
     handlesave() {
@@ -332,29 +260,34 @@ export default {
         if (elem.unit === null || elem.unit === '' || elem.unit === undefined) {
           delete elem.unit
         }
-        if (elem.actualEnterQuantity === null || elem.actualEnterQuantity === '' || elem.actualEnterQuantity === undefined) {
-          delete elem.actualEnterQuantity
+        if (elem.overflowQuantity === null || elem.overflowQuantity === '' || elem.overflowQuantity === undefined) {
+          delete elem.overflowQuantity
         }
-        if (elem.enterQuantity === null || elem.enterQuantity === '' || elem.enterQuantity === undefined) {
-          delete elem.enterQuantity
+        if (elem.price === null || elem.price === '' || elem.price === undefined) {
+          delete elem.price
         }
-        if (elem.enterPrice === null || elem.enterPrice === '' || elem.enterPrice === undefined) {
-          delete elem.enterPrice
-        }
-        if (elem.enterMoney === null || elem.enterMoney === '' || elem.enterMoney === undefined) {
-          delete elem.enterMoney
+        if (elem.totalMoney === null || elem.totalMoney === '' || elem.totalMoney === undefined) {
+          delete elem.totalMoney
         }
         if (elem.remarks === null || elem.remarks === '' || elem.remarks === undefined) {
           delete elem.remarks
         }
         return elem
       })
-      const parms = JSON.stringify(EnterDetail)
+      const Data = this.personalForm
+      for (const key in Data) {
+        if (Data[key] === '' || Data[key] === undefined || Data[key] === null) {
+          delete Data[key]
+        }
+      }
+      const parms = JSON.stringify(Data)
+      const parms2 = JSON.stringify(EnterDetail)
+      const parm3 = this.personalForm
       this.$refs.personalForm.validate((valid) => {
         if (valid) {
           this.$refs.editable.validate().then(valid => {
             if (valid) {
-              addotherenter(this.personalForm, parms).then(res => {
+              addinventoryoverflow(parms, parms2, parm3).then(res => {
                 console.log(res)
                 if (res.data.ret === 200) {
                   this.$notify({
@@ -397,7 +330,7 @@ export default {
     // 取消操作
     handlecancel() {
       this.$router.go(-1)
-      const view = { path: '/Stockenter/NewStockenter', name: 'NewStockenter', fullPath: '/Stockenter/NewStockenter', title: 'NewStockenter' }
+      const view = { path: '/InventoryOverflow/AddInventoryOverflow', name: 'AddInventoryOverflow', fullPath: '/InventoryOverflow/AddInventoryOverflow', title: 'AddInventoryOverflow' }
       this.$store.dispatch('delView', view).then(({ visitedViews }) => {
       })
     }

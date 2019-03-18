@@ -1,5 +1,5 @@
 <template>
-  <el-dialog :visible.sync="editVisible" :editcontrol="editcontrol" :editdata="editdata" :close-on-press-escape="false" class="edit" top="10px" title="修改采购入库单" @close="$emit('update:editcontrol', false)">
+  <el-dialog :visible.sync="editVisible" :editcontrol="editcontrol" :editdata="editdata" :close-on-press-escape="false" class="edit" top="10px" title="修改采购调价单" @close="$emit('update:editcontrol', false)">
     <!--基本信息-->
     <el-card class="box-card">
       <h2 ref="geren" class="form-name">基本信息</h2>
@@ -7,19 +7,19 @@
         <el-form ref="personalForm" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="100px" style="margin-left: 30px;">
           <el-row>
             <el-col :span="6">
-              <el-form-item :label="$t('Inventorydamaged.title')" style="width: 100%;">
-                <el-input v-model="personalForm.title" placeholder="请输入报损单主题" style="margin-left: 18px;width: 150px" clearable/>
+              <el-form-item :label="$t('AdjustPrice.title')" style="width: 100%;">
+                <el-input v-model="personalForm.title" placeholder="请输入调价单主题" style="margin-left: 18px;width: 150px" clearable/>
               </el-form-item>
             </el-col>
             <el-col :span="6">
-              <el-form-item :label="$t('Inventorydamaged.handlePersonId')" prop="sourceType" style="width: 100%;">
-                <el-input v-model="handlePersonId" placeholder="请选择经办人" clearable @focus="handlechoose"/>
+              <el-form-item :label="$t('AdjustPrice.handlePersonId')" prop="handlePersonId" style="width: 100%;">
+                <el-input v-model="handlePersonId" placeholder="请选择经办人" style="margin-left: 18px;width: 150px" clearable @focus="handlechoose"/>
               </el-form-item>
               <my-create :createcontrol.sync="createcontrol" @createname="createname"/>
             </el-col>
             <el-col :span="6">
-              <el-form-item :label="$t('Inventorydamaged.damagedDeptId')" style="width: 100%;">
-                <el-select v-model="personalForm.damagedDeptId" placeholder="请选择报损部门" clearable style="margin-left: 18px;width: 150px">
+              <el-form-item :label="$t('AdjustPrice.adjustDeptId')" style="width: 100%;">
+                <el-select v-model="personalForm.adjustDeptId" placeholder="请选择调价部门" style="margin-left: 18px;;width: 150px" clearable >
                   <el-option
                     v-for="(item, index) in depts"
                     :key="index"
@@ -29,34 +29,43 @@
               </el-form-item>
             </el-col>
             <el-col :span="6">
-              <el-form-item :label="$t('Inventorydamaged.damagedRepositoryId')" prop="countRepositoryId" style="width: 100%;">
-                <el-input v-model="damagedRepositoryId" placeholder="请选择报损仓库" clearable @focus="handlechooseRep"/>
+              <el-form-item :label="$t('AdjustPrice.adjustRepositoryId')" prop="overflowRepositoryId" style="width: 100%;">
+                <el-input v-model="adjustRepositoryId" placeholder="请选择调价仓库" style="margin-left: 18px;width: 150px" clearable @focus="handlechooseRep"/>
               </el-form-item>
               <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
             </el-col>
             <el-col :span="6">
-              <el-form-item :label="$t('Inventorydamaged.damagedDate')" prop="damagedDate" style="width: 100%">
+              <el-form-item :label="$t('AdjustPrice.adjustDate')" prop="adjustDate" style="width: 100%;">
                 <el-date-picker
-                  v-model="personalForm.damagedDate"
+                  v-model="personalForm.adjustDate"
                   type="date"
-                  placeholder="报损日期"
+                  placeholder="选择调价日期"
                   value-format="yyyy-MM-dd"
-                  clearable
                   style="margin-left: 18px;width: 150px"/>
               </el-form-item>
             </el-col>
             <el-col :span="6">
-              <el-form-item :label="$t('Inventorydamaged.damagedReason')" style="width: 100%">
-                <el-input v-model="personalForm.damagedReason" placeholder="请输入报损原因" style="margin-left: 18px;width: 150px" clearable/>
+              <el-form-item :label="$t('AdjustPrice.effectiveDate')" prop="effectiveDate" style="width: 100%;">
+                <el-date-picker
+                  v-model="personalForm.effectiveDate"
+                  type="date"
+                  placeholder="选择生效日期"
+                  value-format="yyyy-MM-dd"
+                  style="margin-left: 18px;width: 150px"/>
+              </el-form-item>
+            </el-col>
+            <el-col :span="6">
+              <el-form-item :label="$t('AdjustPrice.summary')" prop="summary" style="width: 100%;">
+                <el-input v-model="personalForm.summary" placeholder="请输入摘要" style="margin-left: 18px;width: 150px" clearable/>
               </el-form-item>
             </el-col>
           </el-row>
         </el-form>
       </div>
     </el-card>
-    <!--入库单明细-->
+    <!--调价单明细-->
     <el-card class="box-card" style="margin-top: 15px">
-      <h2 ref="fuzhu" class="form-name">报损单明细</h2>
+      <h2 ref="fuzhu" class="form-name">调价单明细</h2>
       <div class="buttons" style="margin-top: 28px;margin-bottom: 20px">
         <el-button type="success" style="background:#3696fd;border-color:#3696fd " @click="handleAddproduct">添加商品</el-button>
         <el-button type="danger" @click="$refs.editable.removeSelecteds()">删除</el-button>
@@ -66,7 +75,7 @@
         <el-editable
           ref="editable"
           :data.sync="list2"
-          :edit-config="{ showIcon: false, showStatus: true}"
+          :edit-config="{ showIcon: true, showStatus: true}"
           :edit-rules="validRules"
           class="click-table1"
           stripe
@@ -74,20 +83,19 @@
           size="medium"
           style="width: 100%">
           <el-editable-column type="selection" width="55" align="center"/>
-          <el-editable-column label="编号" width="55" align="center" type="index" />
+          <el-editable-column label="编号" width="55" align="center" type="index"/>
           <el-editable-column :edit-render="{name: 'ElSelect', options: locationlist}" prop="locationId" align="center" label="货位" width="150px"/>
           <el-editable-column prop="productCode" align="center" label="物品编号" width="150px"/>
           <el-editable-column prop="productName" align="center" label="物品名称" width="150px"/>
           <el-editable-column prop="color" align="center" label="颜色" width="150px"/>
-          <el-editable-column prop="typeId" align="center" label="规格" width="150px"/>
+          <el-editable-column prop="productType" align="center" label="规格" width="150px"/>
           <el-editable-column prop="unit" align="center" label="单位" width="150px"/>
-          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}}" prop="damagedQuantity" align="center" label="报损数量" width="150px"/>
-          <el-editable-column prop="costPrice" align="center" label="成本单价" width="150px"/>
-          <el-editable-column prop="damagedMoney" align="center" label="报损金额" width="150px">
-            <template slot-scope="scope">
-              <p>{{ getSize(scope.row.damagedQuantity, scope.row.costPrice) }}</p>
-            </template>
-          </el-editable-column>
+          <el-editable-column prop="salePrice" align="center" label="零售原价" width="150px"/>
+          <el-editable-column :edit-render="{name: 'ElInputNumber'}" prop="newSalePrice" align="center" label="零售调整价" width="150px"/>
+          <el-editable-column prop="tradePrice" align="center" label="批发原价" width="150px"/>
+          <el-editable-column :edit-render="{name: 'ElInputNumber'}" prop="newTradePrice" align="center" label="批发调整价" width="150px"/>
+          <el-editable-column prop="memberPrice" align="center" label="会员原价" width="150px"/>
+          <el-editable-column :edit-render="{name: 'ElInputNumber'}" prop="newMemberPrice" align="center" label="会员调整价" width="150px"/>
           <el-editable-column :edit-render="{name: 'ElInput'}" prop="remarks" align="center" label="备注" width="150px"/>
         </el-editable>
       </div>
@@ -101,13 +109,14 @@
 
 <script>
 import { locationlist } from '@/api/WarehouseAdjust'
-import { updatedamaged } from '@/api/Inventorydamaged'
+import { updatrepoadjustprice } from '@/api/AdjustPrice'
 import { getdeptlist } from '@/api/BasicSettings'
-import MyCreate from './MyCreate'
 import MyRepository from './MyRepository'
+import MyAccept from './MyAccept'
 import MyDetail from './MyDetail'
+import MyCreate from './MyCreate'
 export default {
-  components: { MyRepository, MyCreate, MyDetail },
+  components: { MyRepository, MyCreate, MyAccept, MyDetail },
   props: {
     editcontrol: {
       type: Boolean,
@@ -122,53 +131,50 @@ export default {
     return {
       // 弹窗组件的控制
       editVisible: this.editcontrol,
-      // 供应商信息数据
+      // 修改row数据
       personalForm: this.editdata,
+      // 部门数据
+      depts: [],
+      // 经办人回显
+      handlePersonId: '',
+      // 生产调价仓库回显
+      adjustRepositoryId: '',
+      // 控制仓库选择窗口
+      repositorycontrol: false,
+      // 控制生产负责人选择窗口
+      createcontrol: false,
+      // 控制商品列表窗口
+      control: false,
+      // 生产调价单规则数据
+      personalrules: {
+        title: [
+          { required: true, message: '请输入标题', trigger: 'blur' }
+        ],
+        sourceType: [
+          { required: true, message: '请选择源单类型', trigger: 'change' }
+        ],
+        sourceNumber: [
+          { required: true, message: '请输入源单编号', trigger: 'blur' }
+        ],
+        enterPersonId: [
+          { required: true, message: '请选择调价人', trigger: 'focus' }
+        ],
+        enterRepositoryId: [
+          { required: true, message: '请选择调价仓库', trigger: 'focus' }
+        ]
+      },
+      // 生产调价单明细数据
+      list2: [],
+      // 生产调价明细中货位发送参数
       locationlistparms: {
         pageNum: 1,
         pageSize: 1999,
         repositoryId: ''
       },
-      // 货位数据
+      // 生产调价明细中货位数据
       locationlist: [],
-      // 明细表控制框
-      control: false,
-      // 部门数据
-      depts: [],
-      // 仓库回显
-      damagedRepositoryId: '',
-      // 经办人回显
-      handlePersonId: '',
-      // 控制仓库选择窗口
-      repositorycontrol: false,
-      // 控制经办人选择窗口
-      createcontrol: false,
-      // 报损单明细数据
-      list2: [],
-      // 报损单明细列表规则
-      validRules: {
-        step: [
-          { required: true, message: '请输入流程步骤', trigger: 'blur' }
-        ],
-        money: [
-          { required: true, message: '请输入流转条件', trigger: 'blue' }
-        ],
-        handlerName: [
-          { required: true, message: '请选择步骤处理人', trigger: 'blue' }
-        ]
-      },
-      // 库存报损单规则数据
-      personalrules: {
-        handlePersonId: [
-          { required: true, message: '请选择经办人', trigger: 'blue' }
-        ],
-        damagedRepositoryId: [
-          { required: true, message: '请选择报损仓库', trigger: 'blue' }
-        ],
-        damagedDate: [
-          { required: true, message: '请选择报损日期', trigger: 'change' }
-        ]
-      }
+      // 生产调价单明细列表规则
+      validRules: {}
     }
   },
   watch: {
@@ -177,9 +183,10 @@ export default {
     },
     editdata() {
       this.personalForm = this.editdata
+      this.produceManagerId = this.personalForm.produceManagerName
       this.handlePersonId = this.personalForm.handlePersonName
-      this.damagedRepositoryId = this.personalForm.damagedRepositoryName
-      this.list2 = this.personalForm.inventoryDamagedDetailVos
+      this.adjustRepositoryId = this.personalForm.adjustRepositoryId
+      this.list2 = this.personalForm.repoAdjustPriceDetailVos
       this.getlocation()
     }
   },
@@ -187,8 +194,8 @@ export default {
     this.getlist()
   },
   methods: {
+    // 部门列表数据
     getlist() {
-      // 部门列表数据
       getdeptlist().then(res => {
         if (res.data.ret === 200) {
           this.depts = res.data.data.content
@@ -197,7 +204,7 @@ export default {
     },
     getlocation() {
       // 货位根据仓库id展现
-      locationlist(this.personalForm.damagedRepositoryId).then(res => {
+      locationlist(this.personalForm.adjustRepositoryId).then(res => {
         if (res.data.ret === 200) {
           this.locationlist = res.data.data.content.list.map(function(item) {
             return {
@@ -208,15 +215,24 @@ export default {
         }
       })
     },
-    // 详细表事件
+    // 经办人输入框focus事件触发
+    handlechoose() {
+      this.createcontrol = true
+    },
+    // 经办人返回数据
+    createname(val) {
+      console.log(val)
+      this.handlePersonId = val.personName
+      this.personalForm.handlePersonId = val.id
+    },
     // 仓库列表focus事件触发
     handlechooseRep() {
       this.repositorycontrol = true
     },
     repositoryname(val) {
       console.log(val)
-      this.damagedRepositoryId = val.repositoryName
-      this.personalForm.damagedRepositoryId = val.id
+      this.adjustRepositoryId = val.repositoryName
+      this.personalForm.adjustRepositoryId = val.id
       this.locationlistparms.repositoryId = val.id
       locationlist(this.locationlistparms).then(res => {
         if (res.data.ret === 200) {
@@ -229,26 +245,13 @@ export default {
         }
       })
     },
-    // 部门列表focus刷新
-    updatedept() {
-      this.getlist()
-    },
-    // 经办人输入框focus事件触发
-    handlechoose() {
-      this.createcontrol = true
-    },
-    // 员工列表返回经办人数据
-    createname(val) {
-      console.log(val)
-      this.handlePersonId = val.personName
-      this.personalForm.handlePersonId = val.id
-    },
-    // 新增报损单明细
+    // 调价单事件
+    // 新增调价单明细
     handleAddproduct() {
       this.control = true
     },
     productdetail(val) {
-      console.log(this.$refs.editable.getRecords())
+      console.log(val)
       const nowlistdata = this.$refs.editable.getRecords()
       for (let i = 0; i < val.length; i++) {
         for (let j = 0; j < nowlistdata.length; j++) {
@@ -264,7 +267,7 @@ export default {
         this.$refs.editable.insert(val[i])
       }
     },
-    // 报损金额计算
+    // 调价金额计算
     getSize(quan, pric) {
       return quan * pric
     },
@@ -275,6 +278,7 @@ export default {
       this.personalForm.regionId = 2
       this.personalForm.createPersonId = 3
       this.personalForm.countryId = 1
+      this.personalForm.modifyPersonId = 3
       console.log(this.personalForm)
       const rest = this.$refs.editable.getRecords()
       rest.map(function(elem) {
@@ -298,29 +302,32 @@ export default {
         if (elem.unit === null || elem.unit === '' || elem.unit === undefined) {
           delete elem.unit
         }
-        if (elem.damagedQuantity === null || elem.damagedQuantity === '' || elem.damagedQuantity === undefined) {
-          delete elem.damagedQuantity
+        if (elem.salePrice === null || elem.salePrice === '' || elem.salePrice === undefined) {
+          delete elem.salePrice
         }
-        if (elem.costPrice === null || elem.costPrice === '' || elem.costPrice === undefined) {
-          delete elem.costPrice
+        if (elem.newSalePrice === null || elem.newSalePrice === '' || elem.newSalePrice === undefined) {
+          delete elem.newSalePrice
+        }
+        if (elem.tradePrice === null || elem.tradePrice === '' || elem.tradePrice === undefined) {
+          delete elem.tradePrice
+        }
+        if (elem.newTradePrice === null || elem.newTradePrice === '' || elem.newTradePrice === undefined) {
+          delete elem.newTradePrice
+        }
+        if (elem.memberPrice === null || elem.memberPrice === '' || elem.memberPrice === undefined) {
+          delete elem.memberPrice
+        }
+        if (elem.newMemberPrice === null || elem.newMemberPrice === '' || elem.newMemberPrice === undefined) {
+          delete elem.newMemberPrice
         }
         if (elem.remarks === null || elem.remarks === '' || elem.remarks === undefined) {
           delete elem.remarks
         }
-        if (elem.damagedMoney === null || elem.damagedMoney === '' || elem.damagedMoney === undefined) {
-          delete elem.damagedMoney
-        }
         return elem
       })
-      const Data = this.personalForm
-      for (const key in Data) {
-        if (Data[key] === '' || Data[key] === undefined || Data[key] === null) {
-          delete Data[key]
-        }
-      }
-      const parms = JSON.stringify(Data)
       const parms2 = JSON.stringify(rest)
-      updatedamaged(parms, parms2).then(res => {
+      const parm = JSON.stringify(this.personalForm)
+      updatrepoadjustprice(parm, parms2).then(res => {
         if (res.data.ret === 200) {
           this.$notify({
             title: '操作成功',

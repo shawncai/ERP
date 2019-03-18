@@ -447,7 +447,7 @@ export const asyncRouterMap = [
     alwaysShow: true,
     meta: {
       title: 'Stockenter',
-      icon: 'ruku',
+      icon: 'chuku',
       type: 4
     },
     children: [
@@ -490,28 +490,66 @@ export const asyncRouterMap = [
     ]
   },
   {
-    path: '/InventoryCount',
+    path: '/StockOut',
     component: Layout,
     redirect: 'noredirect',
-    name: 'InventoryCount',
+    name: 'StockOut',
     alwaysShow: true,
     meta: {
-      title: 'InventoryCount',
-      icon: 'pandian',
+      title: 'StockOut',
+      icon: 'ck',
       type: 4
     },
     children: [
       {
-        path: 'AddInventoryCount',
-        component: () => import('@/views/InventoryCount/AddInventoryCount'),
-        name: 'AddInventoryCount',
-        meta: { title: 'AddInventoryCount', noCache: false }
+        path: 'AddOtherStockOut',
+        component: () => import('@/views/StockOut/AddOtherStockOut'),
+        name: 'AddOtherStockOut',
+        meta: { title: 'AddOtherStockOut', noCache: false }
       },
       {
-        path: 'InventoryCountList',
-        component: () => import('@/views/InventoryCount/InventoryCountList'),
-        name: 'InventoryCountList',
-        meta: { title: 'InventoryCountList', noCache: true }
+        path: 'OtherStockOutList',
+        component: () => import('@/views/StockOut/OtherStockOutList'),
+        name: 'OtherStockOutList',
+        meta: { title: 'OtherStockOutList', noCache: false }
+      }
+    ]
+  },
+  {
+    path: '/Storagemove',
+    component: Layout,
+    redirect: 'noredirect',
+    name: 'Storagemove',
+    alwaysShow: true,
+    meta: {
+      title: 'Storagemove',
+      icon: 'tiaojia',
+      type: 4
+    },
+    children: [
+      {
+        path: 'AddStoragemove',
+        component: () => import('@/views/Storagemove/AddStoragemove'),
+        name: 'AddStoragemove',
+        meta: { title: 'AddStoragemove', noCache: false }
+      },
+      {
+        path: 'StoragemoveList',
+        component: () => import('@/views/Storagemove/StoragemoveList'),
+        name: 'StoragemoveList',
+        meta: { title: 'StoragemoveList', noCache: true }
+      },
+      {
+        path: 'AddMoveApplication',
+        component: () => import('@/views/Storagemove/AddMoveApplication'),
+        name: 'AddMoveApplication',
+        meta: { title: 'AddMoveApplication', noCache: false }
+      },
+      {
+        path: 'MoveApplicationList',
+        component: () => import('@/views/Storagemove/MoveApplicationList'),
+        name: 'MoveApplicationList',
+        meta: { title: 'MoveApplicationList', noCache: true }
       }
     ]
   },
@@ -538,6 +576,84 @@ export const asyncRouterMap = [
         component: () => import('@/views/Inventorydamaged/InventorydamagedList'),
         name: 'InventorydamagedList',
         meta: { title: 'InventorydamagedList', noCache: true }
+      }
+    ]
+  },
+  {
+    path: '/InventoryCount',
+    component: Layout,
+    redirect: 'noredirect',
+    name: 'InventoryCount',
+    alwaysShow: true,
+    meta: {
+      title: 'InventoryCount',
+      icon: 'pandian',
+      type: 4
+    },
+    children: [
+      {
+        path: 'AddInventoryCount',
+        component: () => import('@/views/InventoryCount/AddInventoryCount'),
+        name: 'AddInventoryCount',
+        meta: { title: 'AddInventoryCount', noCache: false }
+      },
+      {
+        path: 'InventoryCountList',
+        component: () => import('@/views/InventoryCount/InventoryCountList'),
+        name: 'InventoryCountList',
+        meta: { title: 'InventoryCountList', noCache: true }
+      }
+    ]
+  },
+  {
+    path: '/InventoryOverflow',
+    component: Layout,
+    redirect: 'noredirect',
+    name: 'InventoryOverflow',
+    alwaysShow: true,
+    meta: {
+      title: 'InventoryOverflow',
+      icon: 'baoyi',
+      type: 4
+    },
+    children: [
+      {
+        path: 'AddInventoryOverflow',
+        component: () => import('@/views/InventoryOverflow/AddInventoryOverflow'),
+        name: 'AddInventoryOverflow',
+        meta: { title: 'AddInventoryOverflow', noCache: false }
+      },
+      {
+        path: 'OverflowList',
+        component: () => import('@/views/InventoryOverflow/OverflowList'),
+        name: 'OverflowList',
+        meta: { title: 'OverflowList', noCache: true }
+      }
+    ]
+  },
+  {
+    path: '/AdjustPrice',
+    component: Layout,
+    redirect: 'noredirect',
+    name: 'AdjustPrice',
+    alwaysShow: true,
+    meta: {
+      title: 'AdjustPrice',
+      icon: 'tiaojia',
+      type: 4
+    },
+    children: [
+      {
+        path: 'AddAdjustPrice',
+        component: () => import('@/views/AdjustPrice/AddAdjustPrice'),
+        name: 'AddAdjustPrice',
+        meta: { title: 'AddAdjustPrice', noCache: false }
+      },
+      {
+        path: 'AdjustPriceList',
+        component: () => import('@/views/AdjustPrice/AdjustPriceList'),
+        name: 'AdjustPriceList',
+        meta: { title: 'AdjustPriceList', noCache: true }
       }
     ]
   },

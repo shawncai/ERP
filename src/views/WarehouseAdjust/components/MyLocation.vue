@@ -151,6 +151,7 @@ export default {
             offset: 100
           })
           this.$emit('rest', true)
+          this.$refs.editable.clear()
           this.$refs.personalForm.clearValidate()
           this.$refs.personalForm.resetFields()
           this.editVisible = false
@@ -164,6 +165,7 @@ export default {
       })
     },
     handlecancel() {
+      this.$refs.editable.clear()
       this.$refs.personalForm.clearValidate()
       this.$refs.personalForm.resetFields()
       this.editVisible = false

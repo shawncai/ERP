@@ -5,24 +5,24 @@
       <el-row>
         <el-form ref="getemplist" :model="getemplist" label-width="100px" style="margin-top: -9px">
           <el-col :span="4">
-            <el-form-item label="入库单主题">
-              <el-input v-model="getemplist.title" :placeholder="$t('Stockenter.title')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
+            <el-form-item label="调价单主题">
+              <el-input v-model="getemplist.title" :placeholder="$t('AdjustPrice.title')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
           <el-col :span="4">
-            <el-form-item label="入库单编号">
-              <el-input v-model="getemplist.enterNumber" :placeholder="$t('Stockenter.enterNumber')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
+            <el-form-item label="调价单编号">
+              <el-input v-model="getemplist.adjustNumber" :placeholder="$t('AdjustPrice.adjustNumber')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
           <el-col :span="4">
-            <el-form-item label="交货人">
-              <el-input v-model="deliveryPersonId" :placeholder="$t('Stockenter.deliveryPersonId')" class="filter-item" clearable @keyup.enter.native="handleFilter" @focus="handlechooseDelivery"/>
+            <el-form-item label="经办人">
+              <el-input v-model="handlePersonId" :placeholder="$t('AdjustPrice.handlePersonId')" class="filter-item" clearable @keyup.enter.native="handleFilter" @focus="handlechoose"/>
             </el-form-item>
-            <my-delivery :deliverycontrol.sync="deliverycontrol" @deliveryName="deliveryName"/>
+            <my-create :createcontrol.sync="createcontrol" @createname="createname"/>
           </el-col>
           <el-col :span="4">
-            <el-form-item label="入库部门">
-              <el-select v-model="getemplist.enterDeptId" placeholder="请选择入库部门" style="margin-left: 18px;width: 144px" clearable >
+            <el-form-item label="调价部门">
+              <el-select v-model="getemplist.adjustDeptId" placeholder="请选择调价部门" style="margin-left: 18px;width: 144px" clearable >
                 <el-option
                   v-for="(item, index) in depts"
                   :key="index"
@@ -37,12 +37,8 @@
               placement="bottom"
               width="500"
               trigger="click">
-              <el-input v-model="enterPersonId" :placeholder="$t('Stockenter.enterPersonId')" class="filter-item" clearable style="width: 40%;float: left;margin-left: 20px" @keyup.enter.native="handleFilter" @focus="handlechooseAccept"/>
-              <my-accept :accetpcontrol.sync="accetpcontrol" @acceptName="acceptName"/>
-              <el-input v-model="enterRepositoryId" :placeholder="$t('Stockenter.enterRepositoryId')" class="filter-item" clearable style="width: 40%;float: right;margin-right: 20px" @keyup.enter.native="handleFilter" @focus="handlechooseRep"/>
+              <el-input v-model="adjustRepositoryId" :placeholder="$t('AdjustPrice.adjustRepositoryId')" class="filter-item" clearable style="width: 40%;float: right;margin-right: 20px" @keyup.enter.native="handleFilter" @focus="handlechooseRep"/>
               <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
-              <el-input v-model="acceptPersonId" :placeholder="$t('Stockenter.acceptPersonId')" class="filter-item" clearable style="width: 40%;float: left;margin-left: 20px;margin-top: 20px" @keyup.enter.native="handleFilter" @focus="handlechoose"/>
-              <my-create :createcontrol.sync="createcontrol" @createname="createname"/>
               <el-date-picker
                 v-model="date"
                 type="daterange"
@@ -97,52 +93,47 @@
           type="selection"
           width="55"
           align="center"/>
-        <el-table-column :label="$t('Stockenter.id')" :resizable="false" align="center" min-width="80">
+        <el-table-column :label="$t('public.id')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.id }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('Stockenter.title')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('AdjustPrice.title')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.title }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('Stockenter.enterNumber')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('AdjustPrice.adjustNumber')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.enterNumber }}</span>
+            <span>{{ scope.row.adjustNumber }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('Stockenter.deliveryPersonId')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('AdjustPrice.handlePersonId')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.deliveryPersonName }}</span>
+            <span>{{ scope.row.handlePersonName }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('Stockenter.acceptPersonId')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('AdjustPrice.adjustDeptId')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.acceptPersonName }}</span>
+            <span>{{ scope.row.adjustDeptName }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('Stockenter.enterDeptId')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('AdjustPrice.adjustRepositoryId')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.enterDeptName }}</span>
+            <span>{{ scope.row.adjustRepositoryName }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('Stockenter.endPersonName')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('AdjustPrice.adjustDate')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.enterPersonName }}</span>
+            <span>{{ scope.row.adjustDate }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('Stockenter.endDate')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('AdjustPrice.effectiveDate')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.endDate }}</span>
+            <span>{{ scope.row.effectiveDate }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('Stockenter.summary')" :resizable="false" align="center" min-width="150">
-          <template slot-scope="scope">
-            <span>{{ scope.row.summary }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column :label="$t('Stockenter.judgeStat')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('AdjustPrice.judgeStat')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.judgeStat | judgeStatFileter }}</span>
           </template>
@@ -157,7 +148,7 @@
       <!-- 列表结束 -->
       <pagination v-show="total>0" :total="total" :page.sync="getemplist.pageNum" :limit.sync="getemplist.pageSize" @pagination="getlist" />
       <!--修改开始=================================================-->
-      <my-other :editcontrol.sync="editVisible" :editdata.sync="personalForm" @rest="refreshlist"/>
+      <my-edit :editcontrol.sync="editVisible" :editdata.sync="personalForm" @rest="refreshlist"/>
       <!--修改结束=================================================-->
     </el-card>
   </div>
@@ -165,19 +156,18 @@
 
 <script>
 import { getdeptlist } from '@/api/BasicSettings'
-import { otherenterlist, deleteotherenter } from '@/api/Stockenter'
+import { adjustlist, deleteadjustprice } from '@/api/AdjustPrice'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
-import MyOther from './components/MyOther'
+import MyEdit from './components/MyEdit'
 import MyRepository from './components/MyRepository'
 import MyAccept from './components/MyAccept'
 import MyCreate from './components/MyCreate'
-import MyDelivery from './components/MyDelivery'
 
 export default {
-  name: 'OtherEnterList',
+  name: 'AdjustPriceList',
   directives: { waves },
-  components: { Pagination, MyOther, MyRepository, MyAccept, MyCreate, MyDelivery },
+  components: { Pagination, MyEdit, MyRepository, MyAccept, MyCreate },
   filters: {
     judgeStatFileter(status) {
       const statusMap = {
@@ -193,25 +183,17 @@ export default {
       // 搜索数据----------------------
       // 部门数据
       depts: [],
-      // 交货人回显
-      deliveryPersonId: '',
-      // 验收人回显
-      acceptPersonId: '',
-      // 入库仓库回显
-      enterRepositoryId: '',
-      // 入库人回显
-      enterPersonId: '',
-      // 入库人控制框
-      accetpcontrol: false,
-      // 控制仓库选择窗口
+      // 经办人回显
+      handlePersonId: '',
+      // 调价仓库回显
+      adjustRepositoryId: '',
+      // 控制调价仓库选择窗口
       repositorycontrol: false,
-      // 交货人控制框
-      deliverycontrol: false,
-      // 控制验收人选择窗口
+      // 控制 经办人选择窗口
       createcontrol: false,
       // 开始时间到结束时间
       date: [],
-      // 入库列表传参数据
+      // 生产调价列表传参数据
       getemplist: {
         pageNum: 1,
         pageSize: 10,
@@ -254,32 +236,15 @@ export default {
         }
       })
     },
-    // 交货人foucs事件触发
-    handlechooseDelivery() {
-      this.deliverycontrol = true
-    },
-    deliveryName(val) {
-      this.deliveryPersonId = val.personName
-      this.personalForm.deliveryPersonId = val.id
-    },
-    // 验收人输入框focus事件触发
+    // 经办人输入框focus事件触发
     handlechoose() {
       this.createcontrol = true
     },
-    // 验收人返回数据
+    // 经办人返回数据
     createname(val) {
       console.log(val)
-      this.acceptPersonId = val.personName
-      this.personalForm.acceptPersonId = val.id
-    },
-    // 入库人focus事件触发
-    handlechooseAccept() {
-      this.accetpcontrol = true
-    },
-    // 入库人列表返回数据
-    acceptName(val) {
-      this.enterPersonId = val.personName
-      this.personalForm.enterPersonId = val.id
+      this.handlePersonId = val.personName
+      this.personalForm.handlePersonId = val.id
     },
     // 仓库列表focus事件触发
     handlechooseRep() {
@@ -287,13 +252,13 @@ export default {
     },
     repositoryname(val) {
       console.log(val)
-      this.enterRepositoryId = val.repositoryName
-      this.personalForm.enterRepositoryId = val.id
+      this.adjustRepositoryId = val.repositoryName
+      this.personalForm.adjustRepositoryId = val.id
     },
     getlist() {
-      // 入库列表数据
+      // 调价列表数据
       this.listLoading = true
-      otherenterlist(this.getemplist).then(res => {
+      adjustlist(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
@@ -320,7 +285,7 @@ export default {
         this.getemplist.beginTime = this.date[0]
         this.getemplist.endTime = this.date[1]
       }
-      otherenterlist(this.getemplist).then(res => {
+      adjustlist(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
@@ -360,7 +325,7 @@ export default {
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          deleteotherenter(ids).then(res => {
+          deleteadjustprice(ids).then(res => {
             if (res.data.ret === 200) {
               this.$notify({
                 title: '删除成功',
@@ -391,7 +356,7 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        deleteotherenter(row.id).then(res => {
+        deleteadjustprice(row.id).then(res => {
           if (res.data.ret === 200) {
             this.$notify({
               title: '删除成功',
@@ -416,14 +381,14 @@ export default {
     },
     // 新增数据
     handleAdd() {
-      this.$router.push('/Stockenter/AddOtherenter')
+      this.$router.push('/AdjustPrice/AddAdjustPrice')
     },
     // 导出
     handleExport() {
       this.downloadLoading = true
         import('@/vendor/Export2Excel').then(excel => {
           const tHeader = ['供应商编号', '供应商名称', '供应商简称', '供应商类别', '所在区域', '采购员', '供应商优质级别', '建档人', '建档日期']
-          const filterVal = ['id', 'StockenterName', 'StockenterShortName', 'typeName', 'regionName', 'buyerName', 'levelName', 'createName', 'createTime']
+          const filterVal = ['id', 'AdjustPriceName', 'AdjustPriceShortName', 'typeName', 'regionName', 'buyerName', 'levelName', 'createName', 'createTime']
           const data = this.formatJson(filterVal, this.list)
           excel.export_json_to_excel({
             header: tHeader,

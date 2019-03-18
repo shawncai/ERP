@@ -72,7 +72,21 @@ export default {
     ProduceEnter: '新建生产完成入库单',
     ProduceEnterList: '生产完成入库列表',
     AddOtherenter: '新建其他入库单',
-    OtherEnterList: '其他入库列表'
+    OtherEnterList: '其他入库列表',
+    StockOut: '出库管理',
+    AddOtherStockOut: '新建其他出库单',
+    OtherStockOutList: '其他出库单列表',
+    InventoryOverflow: '库存报溢',
+    AddInventoryOverflow: '新建库存报溢单',
+    OverflowList: '报溢单列表',
+    AdjustPrice: '调价单',
+    AddAdjustPrice: '新建调价单',
+    AdjustPriceList: '调价单列表',
+    Storagemove: '库存调拨',
+    AddStoragemove: '新建库存调拨单',
+    StoragemoveList: '库存调拨单列表',
+    AddMoveApplication: '新建调拨申请',
+    MoveApplicationList: '调拨申请列表'
   },
   navbar: {
     logOut: '退出登录',
@@ -262,6 +276,7 @@ export default {
     createId: '建档人'
   },
   Product: {
+    effectiveDay: '有效天数',
     code: '物料编码',
     barcode: '条码',
     productname: '产品名称',
@@ -424,6 +439,26 @@ export default {
     enterReason: '入库原因',
     newOrOld: '新旧标识'
   },
+  StockOut: {
+    title: '出库单主题',
+    sourceNumber: '源单编号',
+    sourceType: '源单类型',
+    companyId: '往来单位',
+    companyTypeId: '往来单位类型',
+    sendAddress: '发货地址',
+    receiverAddress: '收货地址',
+    outDeptId: '出库部门',
+    outPersonId: '出库人',
+    outDate: '出库时间',
+    outReasonId: '出库原因',
+    judgeStat: '状态',
+    outRepositoryId: '出库仓库',
+    summary: '摘要',
+    code: '出库单编号',
+    time: '出库时间',
+    stat: '单据状态',
+    id: '编号'
+  },
   InventoryCount: {
     title: '盘点单主题',
     handlePersonId: '经办人',
@@ -501,7 +536,43 @@ export default {
     repositoryId: '仓库名称',
     judgeStat: '审批状态'
   },
+  InventoryOverflow: {
+    title: '报溢单主题',
+    overflowNumber: '报溢单编号',
+    handlePersonId: '经办人',
+    overflowDeptId: '报溢部门',
+    overflowRepositoryId: '报溢仓库',
+    summary: '摘要',
+    createDate: '报溢日期',
+    judgeStat: '状态',
+    id: '编号'
+  },
+  AdjustPrice: {
+    title: '调价单主题',
+    adjustNumber: '调价单编号',
+    handlePersonId: '经办人',
+    adjustDeptId: '调价部门',
+    adjustRepositoryId: '调价仓库',
+    adjustDate: '调价日期',
+    effectiveDate: '生效日期',
+    summary: '摘要',
+    judgeStat: '状态'
+  },
+  Storagemove: {
+    title: '调拨单主题',
+    moveNumber: '调拨单编号',
+    requestDeptId: '要货部门',
+    moveInRepository: '调入仓库',
+    requestArrivalDate: '要求到货日期',
+    moveReason: '调拨原因',
+    departmentId: '调货部门',
+    moveOutRepository: '调出仓库',
+    businessStat: '业务状态',
+    applicationName: '调拨申请人',
+    judgeStat: '审批状态'
+  },
   public: {
+    id: '编号',
     uploadimage: '上传',
     address: '地址',
     regionId: '区域',

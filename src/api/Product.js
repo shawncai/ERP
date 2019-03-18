@@ -95,6 +95,9 @@ export function createnewproduct(query) {
   if (query.code !== '' && query.code !== null && query.code !== undefined) {
     params.append('code', query.code) // 你要传给后台的参数值 key/value
   }
+  if (query.effectiveDay !== '' && query.effectiveDay !== null && query.effectiveDay !== undefined) {
+    params.append('effectiveDay', query.effectiveDay) // 你要传给后台的参数值 key/value
+  }
   if (query.barcode !== '' && query.barcode !== null && query.barcode !== undefined) {
     params.append('barcode', query.barcode) // 你要传给后台的参数值 key/value
   }

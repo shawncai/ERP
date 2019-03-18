@@ -132,6 +132,9 @@
               <el-radio :label="2">不使用</el-radio>
             </el-radio-group>
           </el-form-item>
+          <el-form-item :label="$t('Product.effectiveDay')" style="width: 40%;margin-top:1%">
+            <el-input v-model="personalForm.effectiveDay" placeholder="请输入有效天数" clearable/>
+          </el-form-item>
         </el-form>
       </div>
       <!--价格信息-->

@@ -1,5 +1,5 @@
 <template>
-  <el-dialog :visible.sync="editVisible" :editcontrol="editcontrol" :editdata="editdata" :close-on-press-escape="false" class="edit" top="10px" title="修改采购入库单" @close="$emit('update:editcontrol', false)">
+  <el-dialog :visible.sync="editVisible" :editcontrol="editcontrol" :editdata="editdata" :close-on-press-escape="false" class="edit" top="10px" title="修改采购调拨单" @close="$emit('update:editcontrol', false)">
     <!--基本信息-->
     <el-card class="box-card">
       <h2 ref="geren" class="form-name">基本信息</h2>
@@ -7,19 +7,13 @@
         <el-form ref="personalForm" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="100px" style="margin-left: 30px;">
           <el-row>
             <el-col :span="6">
-              <el-form-item :label="$t('Inventorydamaged.title')" style="width: 100%;">
-                <el-input v-model="personalForm.title" placeholder="请输入报损单主题" style="margin-left: 18px;width: 150px" clearable/>
+              <el-form-item :label="$t('Storagemove.title')" style="width: 100%;">
+                <el-input v-model="personalForm.title" placeholder="请输入调拨单主题" style="margin-left: 18px;width: 150px" clearable/>
               </el-form-item>
             </el-col>
             <el-col :span="6">
-              <el-form-item :label="$t('Inventorydamaged.handlePersonId')" prop="sourceType" style="width: 100%;">
-                <el-input v-model="handlePersonId" placeholder="请选择经办人" clearable @focus="handlechoose"/>
-              </el-form-item>
-              <my-create :createcontrol.sync="createcontrol" @createname="createname"/>
-            </el-col>
-            <el-col :span="6">
-              <el-form-item :label="$t('Inventorydamaged.damagedDeptId')" style="width: 100%;">
-                <el-select v-model="personalForm.damagedDeptId" placeholder="请选择报损部门" clearable style="margin-left: 18px;width: 150px">
+              <el-form-item :label="$t('Storagemove.requestDeptId')" prop="requestDeptId" style="width: 100%;">
+                <el-select v-model="personalForm.requestDeptId" placeholder="请选择要货部门" style="margin-left: 18px;width: 150px" clearable >
                   <el-option
                     v-for="(item, index) in depts"
                     :key="index"
@@ -29,34 +23,57 @@
               </el-form-item>
             </el-col>
             <el-col :span="6">
-              <el-form-item :label="$t('Inventorydamaged.damagedRepositoryId')" prop="countRepositoryId" style="width: 100%;">
-                <el-input v-model="damagedRepositoryId" placeholder="请选择报损仓库" clearable @focus="handlechooseRep"/>
+              <el-form-item :label="$t('Storagemove.moveInRepository')" prop="moveInRepository" style="width: 100%;">
+                <el-input v-model="moveInRepository" placeholder="请选择调入仓库" style="margin-left: 18px;width: 150px" clearable @focus="handlechooseDep"/>
+              </el-form-item>
+              <my-depot :depotcontrol.sync="depotcontrol" @depotname="depotname"/>
+            </el-col>
+            <el-col :span="6">
+              <el-form-item :label="$t('Storagemove.requestArrivalDate')" label-width="110px" prop="requestArrivalDate" style="width: 100%;">
+                <el-date-picker
+                  v-model="personalForm.requestArrivalDate"
+                  type="date"
+                  placeholder="选择要求到货日期"
+                  value-format="yyyy-MM-dd"
+                  style="margin-left: 8px;width: 150px"/>
+              </el-form-item>
+            </el-col>
+            <el-col :span="6">
+              <el-form-item :label="$t('Storagemove.moveReason')" style="width: 100%;">
+                <el-input v-model="personalForm.moveReason" placeholder="请输入调拨原因" style="margin-left: 18px;width: 150px" clearable/>
+              </el-form-item>
+            </el-col>
+            <el-col :span="6">
+              <el-form-item :label="$t('Storagemove.departmentId')" prop="departmentId" style="width: 100%;">
+                <el-select v-model="personalForm.departmentId" placeholder="请选择调货部门" style="margin-left: 18px;width: 150px" clearable >
+                  <el-option
+                    v-for="(item, index) in depts"
+                    :key="index"
+                    :value="item.id"
+                    :label="item.deptName"/>
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="6">
+              <el-form-item :label="$t('Storagemove.moveOutRepository')" prop="moveOutRepository" style="width: 100%;">
+                <el-input v-model="moveOutRepository" placeholder="请选择调出仓库" style="margin-left: 18px;width: 150px" clearable @focus="handlechooseRep"/>
               </el-form-item>
               <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
             </el-col>
             <el-col :span="6">
-              <el-form-item :label="$t('Inventorydamaged.damagedDate')" prop="damagedDate" style="width: 100%">
-                <el-date-picker
-                  v-model="personalForm.damagedDate"
-                  type="date"
-                  placeholder="报损日期"
-                  value-format="yyyy-MM-dd"
-                  clearable
-                  style="margin-left: 18px;width: 150px"/>
-              </el-form-item>
-            </el-col>
-            <el-col :span="6">
-              <el-form-item :label="$t('Inventorydamaged.damagedReason')" style="width: 100%">
-                <el-input v-model="personalForm.damagedReason" placeholder="请输入报损原因" style="margin-left: 18px;width: 150px" clearable/>
+              <el-form-item :label="$t('Storagemove.businessStat')" prop="businessStat" style="width: 100%;">
+                <el-select v-model="personalForm.businessStat" placeholder="请选择业务" style="margin-left: 10px;width: 150px" clearable >
+                  <el-option value="1" label="调拨申请"/>
+                </el-select>
               </el-form-item>
             </el-col>
           </el-row>
         </el-form>
       </div>
     </el-card>
-    <!--入库单明细-->
+    <!--调拨单明细-->
     <el-card class="box-card" style="margin-top: 15px">
-      <h2 ref="fuzhu" class="form-name">报损单明细</h2>
+      <h2 ref="fuzhu" class="form-name">调拨单明细</h2>
       <div class="buttons" style="margin-top: 28px;margin-bottom: 20px">
         <el-button type="success" style="background:#3696fd;border-color:#3696fd " @click="handleAddproduct">添加商品</el-button>
         <el-button type="danger" @click="$refs.editable.removeSelecteds()">删除</el-button>
@@ -66,7 +83,7 @@
         <el-editable
           ref="editable"
           :data.sync="list2"
-          :edit-config="{ showIcon: false, showStatus: true}"
+          :edit-config="{ showIcon: true, showStatus: true}"
           :edit-rules="validRules"
           class="click-table1"
           stripe
@@ -74,18 +91,19 @@
           size="medium"
           style="width: 100%">
           <el-editable-column type="selection" width="55" align="center"/>
-          <el-editable-column label="编号" width="55" align="center" type="index" />
+          <el-editable-column label="编号" width="55" align="center" type="index"/>
           <el-editable-column :edit-render="{name: 'ElSelect', options: locationlist}" prop="locationId" align="center" label="货位" width="150px"/>
           <el-editable-column prop="productCode" align="center" label="物品编号" width="150px"/>
           <el-editable-column prop="productName" align="center" label="物品名称" width="150px"/>
           <el-editable-column prop="color" align="center" label="颜色" width="150px"/>
-          <el-editable-column prop="typeId" align="center" label="规格" width="150px"/>
-          <el-editable-column prop="unit" align="center" label="单位" width="150px"/>
-          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}}" prop="damagedQuantity" align="center" label="报损数量" width="150px"/>
-          <el-editable-column prop="costPrice" align="center" label="成本单价" width="150px"/>
-          <el-editable-column prop="damagedMoney" align="center" label="报损金额" width="150px">
+          <el-editable-column prop="typeName" align="center" label="规格" width="150px"/>
+          <el-editable-column prop="unitName" align="center" label="单位" width="150px"/>
+          <el-editable-column prop="price" align="center" label="调拨单价" width="150px"/>
+          <el-editable-column :edit-render="{name: 'ElInputNumber'}" prop="movePrice" align="center" label="调拨成本价" width="150px"/>
+          <el-editable-column :edit-render="{name: 'ElInputNumber'}" prop="moveQuantity" align="center" label="调拨数量" width="150px"/>
+          <el-editable-column prop="totalMoney" align="center" label="调拨金额" width="150px">
             <template slot-scope="scope">
-              <p>{{ getSize(scope.row.damagedQuantity, scope.row.costPrice) }}</p>
+              <p>{{ getSize(scope.row.movePrice, scope.row.moveQuantity) }}</p>
             </template>
           </el-editable-column>
           <el-editable-column :edit-render="{name: 'ElInput'}" prop="remarks" align="center" label="备注" width="150px"/>
@@ -101,13 +119,15 @@
 
 <script>
 import { locationlist } from '@/api/WarehouseAdjust'
-import { updatedamaged } from '@/api/Inventorydamaged'
+import { updateStoragemove } from '@/api/Storagemove'
 import { getdeptlist } from '@/api/BasicSettings'
-import MyCreate from './MyCreate'
 import MyRepository from './MyRepository'
+import MyAccept from './MyAccept'
 import MyDetail from './MyDetail'
+import MyCreate from './MyCreate'
+import MyDepot from './MyDepot'
 export default {
-  components: { MyRepository, MyCreate, MyDetail },
+  components: { MyRepository, MyCreate, MyAccept, MyDetail, MyDepot },
   props: {
     editcontrol: {
       type: Boolean,
@@ -122,53 +142,53 @@ export default {
     return {
       // 弹窗组件的控制
       editVisible: this.editcontrol,
-      // 供应商信息数据
+      // 修改row数据
       personalForm: this.editdata,
+      // 部门数据
+      depts: [],
+      // 调出仓库回显
+      moveOutRepository: '',
+      // 调入仓库回显
+      moveInRepository: '',
+      // 控制调出仓库选择窗口
+      repositorycontrol: false,
+      // 控制调入仓库选择窗口
+      depotcontrol: false,
+      // 控制商品列表窗口
+      control: false,
+      // 调拨单规则数据
+      personalrules: {
+        requestDeptId: [
+          { required: true, message: '请选择要货部门', trigger: 'change' }
+        ],
+        moveInRepository: [
+          { required: true, message: '请选择调入仓库', trigger: 'focus' }
+        ],
+        requestArrivalDate: [
+          { required: true, message: '请选择要求到货日期', trigger: 'change' }
+        ],
+        departmentId: [
+          { required: true, message: '请选择调货部门', trigger: 'change' }
+        ],
+        moveOutRepository: [
+          { required: true, message: '请选择调出仓库', trigger: 'focus' }
+        ],
+        businessStat: [
+          { required: true, message: '请选择业务状态', trigger: 'change' }
+        ]
+      },
+      // 调拨单明细数据
+      list2: [],
+      // 调拨明细中货位发送参数
       locationlistparms: {
         pageNum: 1,
         pageSize: 1999,
         repositoryId: ''
       },
-      // 货位数据
+      // 调拨明细中货位数据
       locationlist: [],
-      // 明细表控制框
-      control: false,
-      // 部门数据
-      depts: [],
-      // 仓库回显
-      damagedRepositoryId: '',
-      // 经办人回显
-      handlePersonId: '',
-      // 控制仓库选择窗口
-      repositorycontrol: false,
-      // 控制经办人选择窗口
-      createcontrol: false,
-      // 报损单明细数据
-      list2: [],
-      // 报损单明细列表规则
-      validRules: {
-        step: [
-          { required: true, message: '请输入流程步骤', trigger: 'blur' }
-        ],
-        money: [
-          { required: true, message: '请输入流转条件', trigger: 'blue' }
-        ],
-        handlerName: [
-          { required: true, message: '请选择步骤处理人', trigger: 'blue' }
-        ]
-      },
-      // 库存报损单规则数据
-      personalrules: {
-        handlePersonId: [
-          { required: true, message: '请选择经办人', trigger: 'blue' }
-        ],
-        damagedRepositoryId: [
-          { required: true, message: '请选择报损仓库', trigger: 'blue' }
-        ],
-        damagedDate: [
-          { required: true, message: '请选择报损日期', trigger: 'change' }
-        ]
-      }
+      // 调拨单明细列表规则
+      validRules: {}
     }
   },
   watch: {
@@ -177,9 +197,9 @@ export default {
     },
     editdata() {
       this.personalForm = this.editdata
-      this.handlePersonId = this.personalForm.handlePersonName
-      this.damagedRepositoryId = this.personalForm.damagedRepositoryName
-      this.list2 = this.personalForm.inventoryDamagedDetailVos
+      this.moveOutRepository = this.personalForm.moveOutRepository
+      this.moveInRepository = this.personalForm.moveInRepository
+      this.list2 = this.personalForm.storageMoveDetailVos
       this.getlocation()
     }
   },
@@ -187,8 +207,8 @@ export default {
     this.getlist()
   },
   methods: {
+    // 部门列表数据
     getlist() {
-      // 部门列表数据
       getdeptlist().then(res => {
         if (res.data.ret === 200) {
           this.depts = res.data.data.content
@@ -197,7 +217,7 @@ export default {
     },
     getlocation() {
       // 货位根据仓库id展现
-      locationlist(this.personalForm.damagedRepositoryId).then(res => {
+      locationlist(this.personalForm.moveOutRepository).then(res => {
         if (res.data.ret === 200) {
           this.locationlist = res.data.data.content.list.map(function(item) {
             return {
@@ -208,15 +228,22 @@ export default {
         }
       })
     },
-    // 详细表事件
-    // 仓库列表focus事件触发
+    // 调入仓库focus事件触发
+    handlechooseDep() {
+      this.depotcontrol = true
+    },
+    depotname(val) {
+      this.moveInRepository = val.repositoryName
+      this.personalForm.moveInRepository = val.id
+    },
+    // 调出仓库列表focus事件触发
     handlechooseRep() {
       this.repositorycontrol = true
     },
     repositoryname(val) {
       console.log(val)
-      this.damagedRepositoryId = val.repositoryName
-      this.personalForm.damagedRepositoryId = val.id
+      this.moveOutRepository = val.repositoryName
+      this.personalForm.moveOutRepository = val.id
       this.locationlistparms.repositoryId = val.id
       locationlist(this.locationlistparms).then(res => {
         if (res.data.ret === 200) {
@@ -229,26 +256,13 @@ export default {
         }
       })
     },
-    // 部门列表focus刷新
-    updatedept() {
-      this.getlist()
-    },
-    // 经办人输入框focus事件触发
-    handlechoose() {
-      this.createcontrol = true
-    },
-    // 员工列表返回经办人数据
-    createname(val) {
-      console.log(val)
-      this.handlePersonId = val.personName
-      this.personalForm.handlePersonId = val.id
-    },
-    // 新增报损单明细
+    // 调拨单事件
+    // 新增调拨单明细
     handleAddproduct() {
       this.control = true
     },
     productdetail(val) {
-      console.log(this.$refs.editable.getRecords())
+      console.log(val)
       const nowlistdata = this.$refs.editable.getRecords()
       for (let i = 0; i < val.length; i++) {
         for (let j = 0; j < nowlistdata.length; j++) {
@@ -264,7 +278,7 @@ export default {
         this.$refs.editable.insert(val[i])
       }
     },
-    // 报损金额计算
+    // 调拨金额计算
     getSize(quan, pric) {
       return quan * pric
     },
@@ -275,6 +289,7 @@ export default {
       this.personalForm.regionId = 2
       this.personalForm.createPersonId = 3
       this.personalForm.countryId = 1
+      this.personalForm.modifyPersonId = 3
       console.log(this.personalForm)
       const rest = this.$refs.editable.getRecords()
       rest.map(function(elem) {
@@ -298,29 +313,26 @@ export default {
         if (elem.unit === null || elem.unit === '' || elem.unit === undefined) {
           delete elem.unit
         }
-        if (elem.damagedQuantity === null || elem.damagedQuantity === '' || elem.damagedQuantity === undefined) {
-          delete elem.damagedQuantity
+        if (elem.price === null || elem.price === '' || elem.price === undefined) {
+          delete elem.price
         }
-        if (elem.costPrice === null || elem.costPrice === '' || elem.costPrice === undefined) {
-          delete elem.costPrice
+        if (elem.movePrice === null || elem.movePrice === '' || elem.movePrice === undefined) {
+          delete elem.movePrice
+        }
+        if (elem.moveQuantity === null || elem.moveQuantity === '' || elem.moveQuantity === undefined) {
+          delete elem.moveQuantity
+        }
+        if (elem.totalMoney === null || elem.totalMoney === '' || elem.totalMoney === undefined) {
+          delete elem.totalMoney
         }
         if (elem.remarks === null || elem.remarks === '' || elem.remarks === undefined) {
           delete elem.remarks
         }
-        if (elem.damagedMoney === null || elem.damagedMoney === '' || elem.damagedMoney === undefined) {
-          delete elem.damagedMoney
-        }
         return elem
       })
-      const Data = this.personalForm
-      for (const key in Data) {
-        if (Data[key] === '' || Data[key] === undefined || Data[key] === null) {
-          delete Data[key]
-        }
-      }
-      const parms = JSON.stringify(Data)
+      const parm = JSON.stringify(this.personalForm)
       const parms2 = JSON.stringify(rest)
-      updatedamaged(parms, parms2).then(res => {
+      updateStoragemove(parm, parms2).then(res => {
         if (res.data.ret === 200) {
           this.$notify({
             title: '操作成功',
