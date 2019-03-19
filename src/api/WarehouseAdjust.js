@@ -138,3 +138,16 @@ export function updatelocation(query) {
     data: params
   })
 }
+
+// 添加库存预警
+export function createstockalarm(query) {
+  var params = new URLSearchParams()
+  if (query !== '' && query !== null && query !== undefined) {
+    params.append('Json', query) // 你要传给后台的参数值 key/value
+  }
+  return request({
+    url: '/erp/stockAlarm/create',
+    method: 'post',
+    data: params
+  })
+}

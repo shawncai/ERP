@@ -43,23 +43,17 @@
                 <el-input v-model="personalForm.moveReason" placeholder="请输入调拨原因" style="margin-left: 18px;width: 150px" clearable/>
               </el-form-item>
             </el-col>
-            <el-col :span="6">
-              <el-form-item :label="$t('Storagemove.departmentId')" prop="departmentId" style="width: 100%;">
-                <el-select v-model="personalForm.departmentId" placeholder="请选择调货部门" style="margin-left: 18px;width: 150px" clearable >
-                  <el-option
-                    v-for="(item, index) in depts"
-                    :key="index"
-                    :value="item.id"
-                    :label="item.deptName"/>
-                </el-select>
-              </el-form-item>
-            </el-col>
-            <el-col :span="6">
-              <el-form-item :label="$t('Storagemove.moveOutRepository')" prop="moveOutRepository" style="width: 100%;">
-                <el-input v-model="moveOutRepository" placeholder="请选择调出仓库" style="margin-left: 18px;width: 150px" clearable @focus="handlechooseRep"/>
-              </el-form-item>
-              <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
-            </el-col>
+            <!--<el-col :span="6">-->
+            <!--<el-form-item :label="$t('Storagemove.departmentId')" prop="departmentId" style="width: 100%;">-->
+            <!--<el-select v-model="personalForm.departmentId" placeholder="请选择调货部门" style="margin-left: 18px;width: 150px" clearable >-->
+            <!--<el-option-->
+            <!--v-for="(item, index) in depts"-->
+            <!--:key="index"-->
+            <!--:value="item.id"-->
+            <!--:label="item.deptName"/>-->
+            <!--</el-select>-->
+            <!--</el-form-item>-->
+            <!--</el-col>-->
             <el-col :span="6">
               <el-form-item :label="$t('Storagemove.businessStat')" prop="businessStat" style="width: 100%;">
                 <el-select v-model="personalForm.businessStat" placeholder="请选择业务" style="margin-left: 10px;width: 150px" clearable >
@@ -92,7 +86,6 @@
           style="width: 100%">
           <el-editable-column type="selection" width="55" align="center"/>
           <el-editable-column label="编号" width="55" align="center" type="index"/>
-          <el-editable-column :edit-render="{name: 'ElSelect', options: locationlist}" prop="locationId" align="center" label="货位" width="150px"/>
           <el-editable-column prop="productCode" align="center" label="物品编号" width="150px"/>
           <el-editable-column prop="productName" align="center" label="物品名称" width="150px"/>
           <el-editable-column prop="color" align="center" label="颜色" width="150px"/>
@@ -119,7 +112,7 @@
 
 <script>
 import { locationlist } from '@/api/WarehouseAdjust'
-import { updateStoragemove } from '@/api/Storagemove'
+import { updatemoveapplication } from '@/api/Storagemove'
 import { getdeptlist } from '@/api/BasicSettings'
 import MyRepository from './MyRepository'
 import MyAccept from './MyAccept'
@@ -197,9 +190,8 @@ export default {
     },
     editdata() {
       this.personalForm = this.editdata
-      this.moveOutRepository = this.personalForm.moveOutRepository
-      this.moveInRepository = this.personalForm.moveInRepository
-      this.list2 = this.personalForm.storageMoveDetailVos
+      this.moveInRepository = this.personalForm.moveInRepositoryName
+      this.list2 = this.personalForm.moveApplicationDetailVos
       this.getlocation()
     }
   },
@@ -217,7 +209,7 @@ export default {
     },
     getlocation() {
       // 货位根据仓库id展现
-      locationlist(this.personalForm.moveOutRepository).then(res => {
+      locationlist(this.personalForm.moveInRepository).then(res => {
         if (res.data.ret === 200) {
           this.locationlist = res.data.data.content.list.map(function(item) {
             return {
@@ -332,7 +324,7 @@ export default {
       })
       const parm = JSON.stringify(this.personalForm)
       const parms2 = JSON.stringify(rest)
-      updateStoragemove(parm, parms2).then(res => {
+      updatemoveapplication(parm, parms2).then(res => {
         if (res.data.ret === 200) {
           this.$notify({
             title: '操作成功',

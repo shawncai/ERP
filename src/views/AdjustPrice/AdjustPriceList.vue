@@ -244,7 +244,7 @@ export default {
     createname(val) {
       console.log(val)
       this.handlePersonId = val.personName
-      this.personalForm.handlePersonId = val.id
+      this.getemplist.handlePersonId = val.id
     },
     // 仓库列表focus事件触发
     handlechooseRep() {
@@ -253,7 +253,7 @@ export default {
     repositoryname(val) {
       console.log(val)
       this.adjustRepositoryId = val.repositoryName
-      this.personalForm.adjustRepositoryId = val.id
+      this.getemplist.adjustRepositoryId = val.id
     },
     getlist() {
       // 调价列表数据

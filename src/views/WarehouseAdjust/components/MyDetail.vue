@@ -232,7 +232,6 @@ export default {
           productType: item.productType
         }
       })
-      console.log(productDetail)
       this.$emit('product', productDetail)
     }
   }

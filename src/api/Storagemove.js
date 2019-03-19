@@ -210,3 +210,19 @@ export function deleteapplication(query) {
     data: params
   })
 }
+
+// 修改出库申请单
+export function updatemoveapplication(query, query2) {
+  var params = new URLSearchParams()
+  if (query !== '' && query !== null && query !== undefined) {
+    params.append('Json', query) // 你要传给后台的参数值 key/value
+  }
+  if (query2 !== '' && query2 !== null && query2 !== undefined) {
+    params.append('detailJson', query2) // 你要传给后台的参数值 key/value
+  }
+  return request({
+    url: '/erp/moveapplication/update',
+    method: 'post',
+    data: params
+  })
+}

@@ -174,7 +174,6 @@ export default {
       // 调价单明细列表规则
       validRules: {
         locationId: [
-          { required: true, message: '请选择货位号', trigger: 'change' }
         ]
       }
     }

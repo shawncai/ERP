@@ -250,7 +250,7 @@ export default {
     createname(val) {
       console.log(val)
       this.produceManagerId = val.personName
-      this.personalForm.produceManagerId = val.id
+      this.getemplist.produceManagerId = val.id
     },
     // 入库人focus事件触发
     handlechooseAccept() {
@@ -259,7 +259,7 @@ export default {
     // 入库人列表返回数据
     acceptName(val) {
       this.enterPersonId = val.personName
-      this.personalForm.enterPersonId = val.id
+      this.getemplist.enterPersonId = val.id
     },
     // 仓库列表focus事件触发
     handlechooseRep() {
@@ -268,7 +268,7 @@ export default {
     repositoryname(val) {
       console.log(val)
       this.enterRepositoryId = val.repositoryName
-      this.personalForm.enterRepositoryId = val.id
+      this.getemplist.enterRepositoryId = val.id
     },
     getlist() {
       // 生产入库列表数据

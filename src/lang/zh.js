@@ -86,7 +86,20 @@ export default {
     AddStoragemove: '新建库存调拨单',
     StoragemoveList: '库存调拨单列表',
     AddMoveApplication: '新建调拨申请',
-    MoveApplicationList: '调拨申请列表'
+    MoveApplicationList: '调拨申请列表',
+    StockAlarm: '库存预警',
+    StockAlarmList: '库存预警列表',
+    BatchAlarm: '批次预警列表',
+    AddStockAlarm: '库存预警设置',
+    SearchStockAlarmRules: '库存预警规则列表',
+    BuildUp: '组装单',
+    AddBuildUp: '新建组装单',
+    BuildUpList: '组装单列表',
+    TearDown: '拆装单',
+    AddTearDown: '新建拆装单',
+    TearDownList: '拆装单列表',
+    DailyAdjust: '日常调整',
+    AddDailyAdjust: '新建日常调整'
   },
   navbar: {
     logOut: '退出登录',
@@ -534,7 +547,11 @@ export default {
     height: '货位高',
     volume: '货位体积',
     repositoryId: '仓库名称',
-    judgeStat: '审批状态'
+    judgeStat: '审批状态',
+    upStock: '最高库存',
+    downStock: '最低库存',
+    safeStock: '安全库存',
+    productId: '商品'
   },
   InventoryOverflow: {
     title: '报溢单主题',
@@ -570,6 +587,43 @@ export default {
     businessStat: '业务状态',
     applicationName: '调拨申请人',
     judgeStat: '审批状态'
+  },
+  StockAlarm: {
+    searchRepositoryId: '仓库',
+    code: '商品编码',
+    productName: '商品名称',
+    createTime: '创建时间',
+    categoryName: '物品分类',
+    typeName: '规格型号',
+    stockMeasurement: '单位',
+    downStock: '库存下限',
+    upStock: '库存上限',
+    onStock: '现有库存',
+    safeStock: '安全库存',
+    flag: '报警类型'
+  },
+  BuildUp: {
+    title: '组装单主题',
+    buildupNumber: '组装单编号',
+    handlePersonId: '经办人',
+    buildupDeptId: '组装部门',
+    buildupRepositoryId: '仓库',
+    summary: '摘要',
+    buildupDate: '组装日期',
+    judgeStat: '状态'
+  },
+  TearDown: {
+    title: '拆装单主题',
+    teardownNumber: '拆装单编号',
+    handlePersonId: '经办人',
+    teardownDeptId: '拆装部门',
+    teardownRepositoryId: '仓库',
+    summary: '摘要',
+    teardownDate: '拆装日期',
+    judgeStat: '状态'
+  },
+  DailyAdjust: {
+
   },
   public: {
     id: '编号',

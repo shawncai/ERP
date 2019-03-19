@@ -523,7 +523,7 @@ export const asyncRouterMap = [
     alwaysShow: true,
     meta: {
       title: 'Storagemove',
-      icon: 'tiaojia',
+      icon: 'diaobo',
       type: 4
     },
     children: [
@@ -654,6 +654,116 @@ export const asyncRouterMap = [
         component: () => import('@/views/AdjustPrice/AdjustPriceList'),
         name: 'AdjustPriceList',
         meta: { title: 'AdjustPriceList', noCache: true }
+      }
+    ]
+  },
+  {
+    path: '/StockAlarm',
+    component: Layout,
+    redirect: 'noredirect',
+    name: 'StockAlarm',
+    alwaysShow: true,
+    meta: {
+      title: 'StockAlarm',
+      icon: 'yujing',
+      type: 4
+    },
+    children: [
+      {
+        path: 'StockAlarmList',
+        component: () => import('@/views/StockAlarm/StockAlarmList'),
+        name: 'StockAlarmList',
+        meta: { title: 'StockAlarmList', noCache: true }
+      },
+      {
+        path: 'BatchAlarm',
+        component: () => import('@/views/StockAlarm/BatchAlarm'),
+        name: 'BatchAlarm',
+        meta: { title: 'BatchAlarm', noCache: true }
+      },
+      {
+        path: 'AddStockAlarm',
+        component: () => import('@/views/WarehouseAdjust/AddStockAlarm'),
+        name: 'AddStockAlarm',
+        meta: { title: 'AddStockAlarm', noCache: false }
+      },
+      {
+        path: 'SearchStockAlarmRules',
+        component: () => import('@/views/StockAlarm/SearchStockAlarmRules'),
+        name: 'SearchStockAlarmRules',
+        meta: { title: 'SearchStockAlarmRules', noCache: false }
+      }
+    ]
+  },
+  {
+    path: '/BuildUp',
+    component: Layout,
+    redirect: 'noredirect',
+    name: 'BuildUp',
+    alwaysShow: true,
+    meta: {
+      title: 'BuildUp',
+      icon: 'zuzhuang',
+      type: 4
+    },
+    children: [
+      {
+        path: 'AddBuildUp',
+        component: () => import('@/views/BuildUp/AddBuildUp'),
+        name: 'AddBuildUp',
+        meta: { title: 'AddBuildUp', noCache: false }
+      },
+      {
+        path: 'BuildUpList',
+        component: () => import('@/views/BuildUp/BuildUpList'),
+        name: 'BuildUpList',
+        meta: { title: 'BuildUpList', noCache: true }
+      }
+    ]
+  },
+  {
+    path: '/TearDown',
+    component: Layout,
+    redirect: 'noredirect',
+    name: 'TearDown',
+    alwaysShow: true,
+    meta: {
+      title: 'TearDown',
+      icon: 'chaizhuan',
+      type: 4
+    },
+    children: [
+      {
+        path: 'AddTearDown',
+        component: () => import('@/views/TearDown/AddTearDown'),
+        name: 'AddTearDown',
+        meta: { title: 'AddTearDown', noCache: false }
+      },
+      {
+        path: 'TearDownList',
+        component: () => import('@/views/TearDown/TearDownList'),
+        name: 'TearDownList',
+        meta: { title: 'TearDownList', noCache: true }
+      }
+    ]
+  },
+  {
+    path: '/DailyAdjust',
+    component: Layout,
+    redirect: 'noredirect',
+    name: 'DailyAdjust',
+    alwaysShow: true,
+    meta: {
+      title: 'DailyAdjust',
+      icon: 'tiaozheng',
+      type: 4
+    },
+    children: [
+      {
+        path: 'AddDailyAdjust',
+        component: () => import('@/views/DailyAdjust/AddDailyAdjust'),
+        name: 'AddDailyAdjust',
+        meta: { title: 'AddDailyAdjust', noCache: false }
       }
     ]
   },

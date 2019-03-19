@@ -250,7 +250,7 @@ export default {
     },
     depotname(val) {
       this.moveInRepository = val.repositoryName
-      this.personalForm.moveInRepository = val.id
+      this.getemplist.moveInRepository = val.id
     },
     // 调出仓库列表focus事件触发
     handlechooseRep() {
@@ -259,7 +259,7 @@ export default {
     repositoryname(val) {
       console.log(val)
       this.moveOutRepository = val.repositoryName
-      this.personalForm.moveOutRepository = val.id
+      this.getemplist.moveOutRepository = val.id
     },
     getlist() {
       // 生产调拨列表数据

@@ -239,7 +239,7 @@ export default {
     createname(val) {
       console.log(val)
       this.handlePersonId = val.personName
-      this.personalForm.handlePersonId = val.id
+      this.getemplist.handlePersonId = val.id
     },
     // 仓库列表focus事件触发
     handlechooseRep() {
@@ -248,7 +248,7 @@ export default {
     repositoryname(val) {
       console.log(val)
       this.overflowRepositoryId = val.repositoryName
-      this.personalForm.overflowRepositoryId = val.id
+      this.getemplist.overflowRepositoryId = val.id
     },
     getlist() {
       // 报溢列表数据
