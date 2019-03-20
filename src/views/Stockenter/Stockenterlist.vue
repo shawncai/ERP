@@ -10,7 +10,7 @@
           </el-col>
           <el-col :span="4">
             <el-form-item label="入库单编号">
-              <el-input v-model="getemplist.sourceNumber" :placeholder="$t('Stockenter.sourceNumber')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
+              <el-input v-model="getemplist.enterNumber" :placeholder="$t('Stockenter.enterNumber')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
           <el-col :span="4">
@@ -25,11 +25,13 @@
             </el-form-item>
             <my-accept :accetpcontrol.sync="accetpcontrol" @acceptName="acceptName"/>
           </el-col>
+          <!--更多搜索条件-->
           <el-col :span="4">
             <el-popover
+              v-model="visible2"
               placement="bottom"
               width="500"
-              trigger="click">
+              trigger="manual">
               <el-select v-model="getemplist.enterDeptId" placeholder="请选择入库部门" clearable style="width: 40%;float: right;margin-right: 20px" @focus="updatedept">
                 <el-option
                   v-for="(item, index) in depts"
@@ -37,7 +39,7 @@
                   :value="item.id"
                   :label="item.deptName"/>
               </el-select>
-              <el-input v-model="getemplist.enterRepositoryId" placeholder="请选择入库仓库" class="filter-item" clearable style="width: 40%;float: left;margin-left: 20px" @keyup.enter.native="handleFilter" @focus="handlechooseRep"/>
+              <el-input v-model="enterRepositoryId" placeholder="请选择入库仓库" class="filter-item" clearable style="width: 40%;float: left;margin-left: 20px" @keyup.enter.native="handleFilter" @focus="handlechooseRep"/>
               <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
               <el-select v-model="getemplist.receiptStat" placeholder="请选择单据状态" clearable style="width: 40%;float: left;margin-left: 20px;margin-top: 20px">
                 <el-option value="1" label="好的"/>
@@ -54,7 +56,7 @@
               <div class="seachbutton" style="width: 100%;float: right;margin-top: 20px">
                 <el-button v-waves class="filter-item" type="primary" style="float: right" @click="handleFilter">{{ $t('public.search') }}</el-button>
               </div>
-              <el-button v-waves slot="reference" type="primary" class="filter-item" style="width: 130px">{{ $t('public.filter') }}<svg-icon icon-class="shaixuan" style="margin-left: 4px"/></el-button>
+              <el-button v-waves slot="reference" type="primary" class="filter-item" style="width: 130px" @click="visible2 = !visible2">{{ $t('public.filter') }}<svg-icon icon-class="shaixuan" style="margin-left: 4px"/></el-button>
             </el-popover>
           </el-col>
           <el-col :span="4">
@@ -107,9 +109,9 @@
             <span>{{ scope.row.title }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('Stockenter.sourceNumber')" :resizable="false" prop="sourceNumber" align="center" width="150">
+        <el-table-column :label="$t('Stockenter.enterNumber')" :resizable="false" prop="sourceNumber" align="center" width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.sourceNumber }}</span>
+            <span>{{ scope.row.enterNumber }}</span>
           </template>
         </el-table-column>
         <el-table-column :label="$t('Stockenter.deliveryPersonId')" :resizable="false" align="center" width="150">
@@ -191,6 +193,8 @@ export default {
   },
   data() {
     return {
+      // 更多搜索条件问题
+      visible2: false,
       // 入库仓库回显
       enterRepositoryId: '',
       // 仓库选择控制期
@@ -248,12 +252,6 @@ export default {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
-        } else {
-          this.$notify.error({
-            title: '错误',
-            message: '出错了',
-            offset: 100
-          })
         }
         setTimeout(() => {
           this.listLoading = false
@@ -266,6 +264,15 @@ export default {
         }
       })
     },
+    // 清空搜索条件
+    restFilter() {
+      this.enterRepositoryId = ''
+      this.getemplist.enterRepositoryId = ''
+      this.deliveryPersonId = ''
+      this.getemplist.deliveryPersonId = ''
+      this.acceptPersonId = ''
+      this.getemplist.acceptPersonId = ''
+    },
     // 搜索
     handleFilter() {
       this.getemplist.pagenum = 1
@@ -273,12 +280,7 @@ export default {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
-        } else {
-          this.$notify.error({
-            title: '错误',
-            message: '出错了',
-            offset: 100
-          })
+          this.restFilter()
         }
       })
     },
@@ -398,7 +400,7 @@ export default {
     repositoryname(val) {
       console.log(val)
       this.enterRepositoryId = val.repositoryName
-      this.personalForm.enterRepositoryId = val.id
+      this.getemplist.enterRepositoryId = val.id
     },
     // 部门列表focus刷新
     updatedept() {
@@ -410,7 +412,7 @@ export default {
     },
     deliveryName(val) {
       this.deliveryPersonId = val.personName
-      this.personalForm.deliveryPersonId = val.id
+      this.getemplist.deliveryPersonId = val.id
     },
     // 验收人focus事件触发
     handlechooseAccept() {
@@ -418,7 +420,7 @@ export default {
     },
     acceptName(val) {
       this.acceptPersonId = val.personName
-      this.personalForm.acceptPersonId = val.id
+      this.getemplist.acceptPersonId = val.id
     }
   }
 }

@@ -48,7 +48,7 @@
         </el-form>
       </div>
       <!--入库单明细-->
-      <h2 ref="fuzhu" class="form-name">入库单明细</h2>
+      <h2 ref="fuzhu" class="form-name">盘点单明细</h2>
       <div class="buttons" style="margin-top: 50px">
         <el-button type="success" @click="handleAddproduct">添加商品</el-button>
         <el-button type="danger" @click="$refs.editable.removeSelecteds()">删除</el-button>
@@ -66,8 +66,26 @@
           size="medium"
           style="width: 100%">
           <el-editable-column type="selection" width="55" align="center"/>
-          <el-editable-column label="编号" width="55" align="center" prop="id" />
-          <el-editable-column prop="locationId" align="center" label="货位" width="150px"/>
+          <el-editable-column label="编号" width="55" align="center"/>
+          <el-editable-column :edit-render="{type: 'default'}" prop="locationId" align="center" label="货位" width="150px">
+            <template v-slot:edit="scope">
+              <el-select v-model="scope.row.locationId" placeholder="请选择货位" clearable style="width: 100%;">
+                <el-option
+                  v-for="(item, index) in locationlist"
+                  :key="index"
+                  :value="item.value"
+                  :label="item.label"/>
+              </el-select>
+            </template>
+          </el-editable-column>
+          <el-editable-column :edit-render="{type: 'visible'}" align="center" label="批次" width="150px">
+            <template slot="edit">
+              <el-select v-model="batchlist" placeholder="请选择批次" clearable style="width: 100%;">
+                <el-option value="1" label="zzz"/>
+                <el-option value="2" label="xxx"/>
+              </el-select>
+            </template>
+          </el-editable-column>
           <el-editable-column prop="productCode" align="center" label="物品编号" width="150px"/>
           <el-editable-column prop="productName" align="center" label="物品名称" width="150px"/>
           <el-editable-column prop="color" align="center" label="颜色" width="150px"/>
@@ -93,7 +111,7 @@
 </template>
 
 <script>
-import { create } from '@/api/Supplier'
+import { locationlist } from '@/api/WarehouseAdjust'
 import { getdeptlist } from '@/api/BasicSettings'
 import MyCreate from './components/MyCreate'
 import MyRepository from './components/MyRepository'
@@ -103,6 +121,17 @@ export default {
   components: { MyCreate, MyRepository, MyDetail },
   data() {
     return {
+      // 货位发送参数
+      locationlistparms: {
+        pageNum: 1,
+        pageSize: 1999,
+        repositoryId: ''
+      },
+      // 货位数据
+      locationlist: [],
+      loc: [],
+      // 批次列表
+      batchlist: [],
       // 明细表控制框
       control: false,
       // 部门数据
@@ -119,15 +148,6 @@ export default {
       list2: [],
       // 盘点单明细列表规则
       validRules: {
-        step: [
-          { required: true, message: '请输入流程步骤', trigger: 'blur' }
-        ],
-        money: [
-          { required: true, message: '请输入流转条件', trigger: 'blue' }
-        ],
-        handlerName: [
-          { required: true, message: '请选择步骤处理人', trigger: 'blue' }
-        ]
       },
       // 库存盘点日期
       Time: [],
@@ -168,83 +188,43 @@ export default {
         this.personalForm.beginTime = this.Time[0]
         this.personalForm.endTime = this.Time[1]
       }
-      console.log(this.personalForm)
-      this.$refs.personalForm.validate((valid) => {
-        if (valid) {
-          create(this.personalForm).then(res => {
-            console.log(res)
-            if (res.data.ret === 200) {
-              this.$notify({
-                title: '成功',
-                message: '保存成功',
-                type: 'success',
-                offset: 100
-              })
-              this.restAllForm()
-              this.$refs.personalForm.clearValidate()
-              this.$refs.personalForm.resetFields()
-            } else {
-              this.$notify.error({
-                title: '错误',
-                message: res.data.msg,
-                offset: 100
-              })
-            }
-          })
-        } else {
-          this.$notify.error({
-            title: '错误',
-            message: '信息未填完整',
-            offset: 100
-          })
-          return false
-        }
-      })
+      const EnterDetail = this.$refs.editable.getRecords()
+      console.log(EnterDetail)
+      // this.$refs.personalForm.validate((valid) => {
+      //   if (valid) {
+      //     create(this.personalForm).then(res => {
+      //       console.log(res)
+      //       if (res.data.ret === 200) {
+      //         this.$notify({
+      //           title: '成功',
+      //           message: '保存成功',
+      //           type: 'success',
+      //           offset: 100
+      //         })
+      //         this.restAllForm()
+      //         this.$refs.personalForm.clearValidate()
+      //         this.$refs.personalForm.resetFields()
+      //       } else {
+      //         this.$notify.error({
+      //           title: '错误',
+      //           message: res.data.msg,
+      //           offset: 100
+      //         })
+      //       }
+      //     })
+      //   } else {
+      //     this.$notify.error({
+      //       title: '错误',
+      //       message: '信息未填完整',
+      //       offset: 100
+      //     })
+      //     return false
+      //   }
+      // })
     },
     // 清空记录
     restAllForm() {
       this.personalForm = {}
-    },
-    // 继续录入
-    handleentry() {
-      this.personalForm.regionId = this.perregions[this.perregions.length - 1]
-      this.$refs.personalForm.validate((valid) => {
-        if (valid) {
-          create(this.personalForm).then(res => {
-            console.log(res)
-            if (res.data.ret === 200) {
-              this.$notify({
-                title: '成功',
-                message: '保存成功',
-                type: 'success',
-                offset: 100
-              })
-              this.restAllForm()
-              this.$refs.personalForm.clearValidate()
-              this.$refs.personalForm.resetFields()
-              const anchor = this.$refs.geren.offsetTop
-              console.log(anchor)
-              document.documentElement.scrollTop = anchor - 100
-            } else {
-              this.$notify.error({
-                title: '错误',
-                message: res.data.msg,
-                offset: 100
-              })
-            }
-          })
-        } else {
-          this.$notify.error({
-            title: '错误',
-            message: '信息未填完整',
-            offset: 100
-          })
-          const anchor2 = this.$refs.geren.offsetTop
-          console.log(anchor2)
-          document.documentElement.scrollTop = anchor2 - 100
-          return false
-        }
-      })
     },
     // 取消操作
     handlecancel() {
@@ -271,6 +251,17 @@ export default {
       console.log(val)
       this.countRepositoryId = val.repositoryName
       this.personalForm.countRepositoryId = val.id
+      this.locationlistparms.repositoryId = val.id
+      locationlist(this.locationlistparms).then(res => {
+        if (res.data.ret === 200) {
+          this.locationlist = res.data.data.content.list.map(function(item) {
+            return {
+              'value': item.id,
+              'label': item.locationName
+            }
+          })
+        }
+      })
     },
     // 盘点单事件
     // 新增盘点单明细

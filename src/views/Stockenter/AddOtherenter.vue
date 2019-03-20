@@ -201,9 +201,6 @@ export default {
       locationlist: [],
       // 入库单明细列表规则
       validRules: {
-        locationId: [
-          { required: true, message: '请选择货位号', trigger: 'change' }
-        ]
       }
     }
   },
@@ -301,16 +298,24 @@ export default {
         regionId: 2,
         sourceType: '1'
       }
-      this.acceptPersonId = ''
-      this.deliveryPersonId = ''
-      this.enterRepositoryId = ''
-      this.enterPersonId = ''
+      this.acceptPersonId = null
+      this.deliveryPersonId = null
+      this.enterRepositoryId = null
+      this.enterPersonId = null
     },
     // 保存操作
     handlesave() {
       const EnterDetail = this.$refs.editable.getRecords()
       console.log(this.personalForm)
       console.log(EnterDetail)
+      if (EnterDetail !== true) {
+        this.$notify.error({
+          title: '错误',
+          message: '明细表不能为空',
+          offset: 100
+        })
+        return false
+      }
       EnterDetail.map(function(elem) {
         return elem
       }).forEach(function(elem) {

@@ -118,6 +118,8 @@ export default {
   },
   data() {
     return {
+      // 转化数据
+      choosedata: '',
       // 仓库弹窗控制
       repositoryVisible: this.depotcontrol,
       // 类型列表
@@ -173,12 +175,6 @@ export default {
       getcountrylist().then(res => {
         if (res.data.ret === 200) {
           this.nations = res.data.data.content
-        } else {
-          this.$notify.error({
-            title: '错误',
-            message: '出错了',
-            offset: 100
-          })
         }
       })
       // 仓库列表数据
@@ -187,12 +183,6 @@ export default {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
-        } else {
-          this.$notify.error({
-            title: '错误',
-            message: '出错了',
-            offset: 100
-          })
         }
         setTimeout(() => {
           this.listLoading = false
@@ -203,12 +193,6 @@ export default {
         if (res.data.ret === 200) {
           console.log(res)
           this.types = res.data.data.content.list
-        } else {
-          this.$notify.error({
-            title: '错误',
-            message: '出错了',
-            offset: 100
-          })
         }
       })
       // 区域数据
@@ -253,11 +237,12 @@ export default {
     },
     // 确认添加数据
     handleConfirm() {
+      this.$emit('depotname', this.choosedata)
       this.repositoryVisible = false
     },
     // 选择仓库数据时的操作
     handleCurrentChange(val) {
-      this.$emit('depotname', val)
+      this.choosedata = val
     }
   }
 }

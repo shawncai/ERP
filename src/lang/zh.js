@@ -99,7 +99,8 @@ export default {
     AddTearDown: '新建拆装单',
     TearDownList: '拆装单列表',
     DailyAdjust: '日常调整',
-    AddDailyAdjust: '新建日常调整'
+    AddDailyAdjust: '新建日常调整',
+    DailyAdjustList: '日常调整单列表'
   },
   navbar: {
     logOut: '退出登录',
@@ -623,7 +624,14 @@ export default {
     judgeStat: '状态'
   },
   DailyAdjust: {
-
+    title: '日常调整单主题',
+    number: '日常调整单编号',
+    personId: '经办人',
+    deptId: '调整部门',
+    repositoryId: '调整仓库',
+    reason: '调整原因',
+    adjustDate: '调整日期',
+    judgeStat: '状态'
   },
   public: {
     id: '编号',

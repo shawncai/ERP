@@ -5,47 +5,22 @@
       <el-card class="box-card">
         <h2 ref="geren" class="form-name">基本信息</h2>
         <div class="container">
-          <el-form ref="personalForm" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="100px" style="margin-left: 30px;">
+          <el-form ref="personalForm" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="120px" style="margin-left: 30px;">
             <el-row>
               <el-col :span="6">
-                <el-form-item :label="$t('Stockenter.title')" prop="title" style="width: 100%;">
-                  <el-input v-model="personalForm.title" placeholder="请输入入库单主题" style="margin-left: 18px" clearable/>
+                <el-form-item :label="$t('DailyAdjust.title')" style="width: 100%;">
+                  <el-input v-model="personalForm.title" placeholder="请输入日常调整单主题" style="margin-left: 18px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('Stockenter.sourceType')" prop="sourceType" style="width: 100%;">
-                  <el-select v-model="personalForm.sourceType" placeholder="请选择源单类型" style="margin-left: 18px;width: 218px" clearable >
-                    <el-option value="1" label="生产任务单"/>
-                  </el-select>
-                </el-form-item>
-              </el-col>
-              <el-col :span="6">
-                <el-form-item :label="$t('Stockenter.sourceNumber')" prop="sourceNumber" style="width: 100%;">
-                  <el-input v-model="personalForm.sourceNumber" placeholder="请输入源单编号" style="margin-left: 18px" clearable/>
-                </el-form-item>
-              </el-col>
-              <el-col :span="6">
-                <el-form-item :label="$t('Stockenter.processType')" prop="processType" style="width: 100%;">
-                  <el-select v-model="personalForm.processType" placeholder="请选择加工类型" style="margin-left: 18px;width: 218px" clearable >
-                    <el-option value="1" label="超级部门"/>
-                  </el-select>
-                </el-form-item>
-              </el-col>
-              <el-col :span="6">
-                <el-form-item :label="$t('Stockenter.produceManagerId')" style="width: 100%;">
-                  <el-input v-model="produceManagerId" placeholder="请选择生产负责人" style="margin-left: 18px" clearable @focus="handlechoose"/>
+                <el-form-item :label="$t('DailyAdjust.personId')" prop="personId" style="width: 100%;">
+                  <el-input v-model="personId" placeholder="请选择经办人" style="margin-left: 18px" clearable @focus="handlechoose"/>
                 </el-form-item>
                 <my-create :createcontrol.sync="createcontrol" @createname="createname"/>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('Stockenter.enterPersonId')" prop="enterPersonId" style="width: 100%;">
-                  <el-input v-model="enterPersonId" placeholder="请选择入库人" style="margin-left: 18px" clearable @focus="handlechooseAccept"/>
-                </el-form-item>
-                <my-accept :accetpcontrol.sync="accetpcontrol" @acceptName="acceptName"/>
-              </el-col>
-              <el-col :span="6">
-                <el-form-item :label="$t('Stockenter.enterDeptId')" style="width: 100%;">
-                  <el-select v-model="personalForm.enterDeptId" placeholder="请选择入库部门" style="margin-left: 18px;width: 218px" clearable >
+                <el-form-item :label="$t('DailyAdjust.deptId')" style="width: 100%;">
+                  <el-select v-model="personalForm.deptId" placeholder="请选择调整部门" style="margin-left: 18px;width: 218px" clearable >
                     <el-option
                       v-for="(item, index) in depts"
                       :key="index"
@@ -55,23 +30,33 @@
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('Stockenter.enterRepositoryId')" prop="enterRepositoryId" style="width: 100%;">
-                  <el-input v-model="enterRepositoryId" placeholder="请选择仓库" style="margin-left: 18px" clearable @focus="handlechooseRep"/>
+                <el-form-item :label="$t('DailyAdjust.repositoryId')" prop="repositoryId" style="width: 100%;">
+                  <el-input v-model="repositoryId" placeholder="请选择调整仓库" style="margin-left: 18px" clearable @focus="handlechooseRep"/>
                 </el-form-item>
                 <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('Stockenter.summary')" prop="summary" style="width: 100%;">
-                  <el-input v-model="personalForm.summary" placeholder="请输入摘要" style="margin-left: 18px" clearable/>
+                <el-form-item :label="$t('DailyAdjust.reason')" prop="reason" style="width: 100%;">
+                  <el-input v-model="personalForm.reason" placeholder="请输入调整原因" style="margin-left: 18px" clearable/>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item :label="$t('DailyAdjust.adjustDate')" prop="adjustDate" style="width: 100%;">
+                  <el-date-picker
+                    v-model="personalForm.adjustDate"
+                    type="date"
+                    placeholder="选择调整日期"
+                    value-format="yyyy-MM-dd"
+                    style="margin-left: 18px"/>
                 </el-form-item>
               </el-col>
             </el-row>
           </el-form>
         </div>
       </el-card>
-      <!--入库单明细-->
+      <!--日常调整单明细-->
       <el-card class="box-card" style="margin-top: 15px">
-        <h2 ref="fuzhu" class="form-name">入库单明细</h2>
+        <h2 ref="fuzhu" class="form-name">日常调整单明细</h2>
         <div class="buttons" style="margin-top: 58px">
           <el-button type="success" style="background:#3696fd;border-color:#3696fd " @click="handleAddproduct">添加商品</el-button>
           <el-button type="danger" @click="$refs.editable.removeSelecteds()">删除</el-button>
@@ -95,13 +80,13 @@
             <el-editable-column prop="productName" align="center" label="物品名称" width="150px"/>
             <el-editable-column prop="color" align="center" label="颜色" width="150px"/>
             <el-editable-column prop="typeIdname" align="center" label="规格" width="150px"/>
-            <el-editable-column prop="unit" align="center" label="单位" width="150px"/>
-            <el-editable-column prop="basicQuantity" align="center" label="基本数量" width="150px"/>
-            <el-editable-column :edit-render="{name: 'ElInputNumber'}" prop="enterQuantity" align="center" label="入库数量" width="150px"/>
-            <el-editable-column prop="price" align="center" label="单价" width="150px"/>
-            <el-editable-column prop="totalMoney" align="center" label="入库金额" width="150px">
+            <el-editable-column prop="unit" align="center" label="单位" width="150px"/>Q
+            <el-editable-column prop="quantity" align="center" label="数量" width="150px"/>
+            <el-editable-column :edit-render="{name: 'ElInputNumber'}" prop="adjustQuantity" align="center" label="调整数量" width="150px"/>
+            <el-editable-column prop="price" align="center" label="成本单价" width="150px"/>
+            <el-editable-column prop="adjustMoney" align="center" label="调整金额" width="150px">
               <template slot-scope="scope">
-                <p>{{ getSize(scope.row.enterQuantity, scope.row.price) }}</p>
+                <p>{{ getSize(scope.row.adjustQuantity, scope.row.price) }}</p>
               </template>
             </el-editable-column>
             <el-editable-column :edit-render="{name: 'ElInput'}" prop="remarks" align="center" label="备注" width="150px"/>
@@ -120,7 +105,7 @@
 <script>
 import { locationlist } from '@/api/WarehouseAdjust'
 import { getdeptlist } from '@/api/BasicSettings'
-import { addproduceenter } from '@/api/Stockenter'
+import { createdailyAdjust } from '@/api/DailyAdjust'
 import MyRepository from './components/MyRepository'
 import MyAccept from './components/MyAccept'
 import MyDetail from './components/MyDetail'
@@ -132,61 +117,50 @@ export default {
     return {
       // 部门数据
       depts: [],
-      // 生产负责人回显
-      produceManagerId: '',
-      // 生产入库仓库回显
-      enterRepositoryId: '',
-      // 生产入库人回显
-      enterPersonId: '',
-      // 生产入库人控制框
-      accetpcontrol: false,
+      // 经办人回显
+      personId: '',
+      // 调整仓库回显
+      repositoryId: '',
       // 控制仓库选择窗口
       repositorycontrol: false,
       // 控制经办人选择窗口
       createcontrol: false,
       // 控制商品列表窗口
       control: false,
-      // 生产入库信息数据
+      // 日常调整信息数据
       personalForm: {
         createPersonId: 3,
         countryId: 1,
-        repositoryId: 438,
-        regionId: 2,
-        sourceType: '1'
+        repositoryId2: 438,
+        regionId: 2
       },
-      // 生产入库单规则数据
+      // 日常调整单规则数据
       personalrules: {
-        title: [
-          { required: true, message: '请输入标题', trigger: 'blur' }
+        reason: [
+          { required: true, message: '请输入调整原因', trigger: 'blur' }
         ],
-        sourceType: [
-          { required: true, message: '请选择源单类型', trigger: 'change' }
+        adjustDate: [
+          { required: true, message: '请选择调整日期', trigger: 'change' }
         ],
-        sourceNumber: [
-          { required: true, message: '请输入源单编号', trigger: 'blur' }
+        personId: [
+          { required: true, message: '请选择经办人', trigger: 'focus' }
         ],
-        enterPersonId: [
-          { required: true, message: '请选择入库人', trigger: 'focus' }
-        ],
-        enterRepositoryId: [
-          { required: true, message: '请选择入库仓库', trigger: 'focus' }
+        repositoryId: [
+          { required: true, message: '请选择调整仓库', trigger: 'focus' }
         ]
       },
-      // 生产入库单明细数据
+      // 日常调整单明细数据
       list2: [],
-      // 生产入库明细中货位发送参数
+      // 日常调整明细中货位发送参数
       locationlistparms: {
         pageNum: 1,
         pageSize: 1999,
         repositoryId: ''
       },
-      // 生产入库明细中货位数据
+      // 日常调整明细中货位数据
       locationlist: [],
-      // 生产入库单明细列表规则
+      // 日常调整单明细列表规则
       validRules: {
-        locationId: [
-          { required: true, message: '请选择货位号', trigger: 'change' }
-        ]
       }
     }
   },
@@ -202,24 +176,15 @@ export default {
         }
       })
     },
-    // 生产负责人输入框focus事件触发
+    // 经办人输入框focus事件触发
     handlechoose() {
       this.createcontrol = true
     },
-    // 生产负责人返回数据
+    // 经办人返回数据
     createname(val) {
       console.log(val)
-      this.produceManagerId = val.personName
-      this.personalForm.produceManagerId = val.id
-    },
-    // 入库人focus事件触发
-    handlechooseAccept() {
-      this.accetpcontrol = true
-    },
-    // 入库人列表返回数据
-    acceptName(val) {
-      this.enterPersonId = val.personName
-      this.personalForm.enterPersonId = val.id
+      this.personId = val.personName
+      this.personalForm.personId = val.id
     },
     // 仓库列表focus事件触发
     handlechooseRep() {
@@ -227,8 +192,8 @@ export default {
     },
     repositoryname(val) {
       console.log(val)
-      this.enterRepositoryId = val.repositoryName
-      this.personalForm.enterRepositoryId = val.id
+      this.repositoryId = val.repositoryName
+      this.personalForm.repositoryId = val.id
       this.locationlistparms.repositoryId = val.id
       locationlist(this.locationlistparms).then(res => {
         if (res.data.ret === 200) {
@@ -241,8 +206,8 @@ export default {
         }
       })
     },
-    // 入库单事件
-    // 新增入库单明细
+    // 日常调整单事件
+    // 新增日常调整单明细
     handleAddproduct() {
       this.control = true
     },
@@ -263,7 +228,7 @@ export default {
         this.$refs.editable.insert(val[i])
       }
     },
-    // 入库金额计算
+    // 日常调整金额计算
     getSize(quan, pric) {
       return quan * pric
     },
@@ -273,18 +238,14 @@ export default {
         createPersonId: 3,
         countryId: 1,
         repositoryId: 438,
-        regionId: 2,
-        sourceType: '1'
+        regionId: 2
       }
-      this.produceManagerId = ''
-      this.enterRepositoryId = ''
-      this.enterPersonId = ''
+      this.personId = ''
+      this.repositoryId = ''
     },
     // 保存操作
     handlesave() {
       const EnterDetail = this.$refs.editable.getRecords()
-      console.log(this.personalForm)
-      console.log(EnterDetail)
       EnterDetail.map(function(elem) {
         return elem
       }).forEach(function(elem) {
@@ -306,29 +267,30 @@ export default {
         if (elem.unit === null || elem.unit === '' || elem.unit === undefined) {
           delete elem.unit
         }
-        if (elem.basicQuantity === null || elem.basicQuantity === '' || elem.basicQuantity === undefined) {
-          delete elem.basicQuantity
-        }
-        if (elem.enterQuantity === null || elem.enterQuantity === '' || elem.enterQuantity === undefined) {
-          delete elem.enterQuantity
+        if (elem.quantity === null || elem.quantity === '' || elem.quantity === undefined) {
+          delete elem.quantity
         }
         if (elem.price === null || elem.price === '' || elem.price === undefined) {
           delete elem.price
         }
-        if (elem.totalMoney === null || elem.totalMoney === '' || elem.totalMoney === undefined) {
-          delete elem.totalMoney
+        if (elem.adjustQuantity === null || elem.adjustQuantity === '' || elem.adjustQuantity === undefined) {
+          delete elem.adjustQuantity
+        }
+        if (elem.adjustMoney === null || elem.adjustMoney === '' || elem.adjustMoney === undefined) {
+          delete elem.adjustMoney
         }
         if (elem.remarks === null || elem.remarks === '' || elem.remarks === undefined) {
           delete elem.remarks
         }
         return elem
       })
-      const parms = JSON.stringify(EnterDetail)
+      const parms = JSON.stringify(this.personalForm)
+      const parms2 = JSON.stringify(EnterDetail)
       this.$refs.personalForm.validate((valid) => {
         if (valid) {
           this.$refs.editable.validate().then(valid => {
             if (valid) {
-              addproduceenter(this.personalForm, parms).then(res => {
+              createdailyAdjust(parms, parms2, this.personalForm).then(res => {
                 console.log(res)
                 if (res.data.ret === 200) {
                   this.$notify({
@@ -371,7 +333,7 @@ export default {
     // 取消操作
     handlecancel() {
       this.$router.go(-1)
-      const view = { path: '/Stockenter/NewStockenter', name: 'NewStockenter', fullPath: '/Stockenter/NewStockenter', title: 'NewStockenter' }
+      const view = { path: '/DailyAdjust/NewDailyAdjust', name: 'NewDailyAdjust', fullPath: '/DailyAdjust/NewDailyAdjust', title: 'NewDailyAdjust' }
       this.$store.dispatch('delView', view).then(({ visitedViews }) => {
       })
     }

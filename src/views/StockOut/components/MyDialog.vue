@@ -189,15 +189,6 @@ export default {
       list2: [],
       // 入库单明细列表规则
       validRules: {
-        step: [
-          { required: true, message: '请输入流程步骤', trigger: 'blur' }
-        ],
-        money: [
-          { required: true, message: '请输入流转条件', trigger: 'blue' }
-        ],
-        handlerName: [
-          { required: true, message: '请选择步骤处理人', trigger: 'blue' }
-        ]
       },
       // 个人信息规则数据
       personalrules: {
@@ -356,6 +347,14 @@ export default {
       this.personalForm.modifyPersonId = 3
       console.log(this.personalForm)
       const rest = this.$refs.editable.getRecords()
+      if (rest !== true) {
+        this.$notify.error({
+          title: '错误',
+          message: '明细表不能为空',
+          offset: 100
+        })
+        return false
+      }
       rest.map(function(elem) {
         return elem
       }).forEach(function(elem) {

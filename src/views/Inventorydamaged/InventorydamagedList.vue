@@ -3,20 +3,21 @@
     <div class="filter-container">
       <!-- 搜索条件栏目 -->
       <el-input v-model="getemplist.title" :placeholder="$t('Inventorydamaged.title')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
-      <el-input v-model="getemplist.sourceNumber" :placeholder="$t('Inventorydamaged.sourceNumber')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
       <el-input v-model="getemplist.damagedNumber" :placeholder="$t('Inventorydamaged.damagedNumber')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
+      <el-select v-model="getemplist.damagedDeptId" placeholder="请选择报损部门" clearable class="filter-item">
+        <el-option
+          v-for="(item, index) in depts"
+          :key="index"
+          :value="item.id"
+          :label="item.deptName"/>
+      </el-select>
+      <el-input v-model="damagedRepositoryId" placeholder="请选择报损仓库" clearable class="filter-item" @focus="handlechooseRep"/>
+      <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
       <!-- 更多搜索条件下拉栏 -->
       <el-popover
         placement="bottom"
         width="500"
         trigger="click">
-        <el-input v-model="getemplist.createPersonId" :placeholder="$t('Inventorydamaged.createPersonId')" class="filter-item" clearable style="width: 40%;float: left;margin-left: 20px" @keyup.enter.native="handleFilter"/>
-        <el-select v-model="getemplist.damagedDeptId" placeholder="请选择报损部门" clearable style="width: 40%;float: left;margin-left: 20px">
-          <el-option value="1" label="科技部门"/>
-        </el-select>
-        <el-select v-model="getemplist.damagedRepositoryId" placeholder="请选择报损仓库" clearable style="width: 40%;float: right;margin-right: 55px;margin-top: 20px">
-          <el-option value="1" label="好的"/>
-        </el-select>
         <el-date-picker
           v-model="date"
           type="daterange"
@@ -74,6 +75,11 @@
             <span>{{ scope.row.title }}</span>
           </template>
         </el-table-column>
+        <el-table-column :label="$t('Inventorydamaged.damagedNumber')" :resizable="false" prop="title" align="center" width="150">
+          <template slot-scope="scope">
+            <span>{{ scope.row.damagedNumber }}</span>
+          </template>
+        </el-table-column>
         <el-table-column :label="$t('Inventorydamaged.handlePersonId')" :resizable="false" prop="handlePersonName" align="center" width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.handlePersonName }}</span>
@@ -127,14 +133,16 @@
 
 <script>
 import { deletedamaged, damagedlist } from '@/api/Inventorydamaged'
+import { getdeptlist } from '@/api/BasicSettings'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
+import MyRepository from './components/MyRepository'
 import MyDialog from './components/MyDialog'
 
 export default {
   name: 'InventorydamagedList',
   directives: { waves },
-  components: { Pagination, MyDialog },
+  components: { Pagination, MyDialog, MyRepository },
   filters: {
     judgefilter(status) {
       const statusMap = {
@@ -146,6 +154,12 @@ export default {
   },
   data() {
     return {
+      // 部门数据
+      depts: [],
+      // 控制仓库选择窗口
+      repositorycontrol: false,
+      // 报损仓库
+      damagedRepositoryId: '',
       // 批量操作
       moreaction: '',
       // 加载操作控制
@@ -196,6 +210,26 @@ export default {
           this.listLoading = false
         }, 0.5 * 100)
       })
+      // 部门列表数据
+      getdeptlist().then(res => {
+        if (res.data.ret === 200) {
+          this.depts = res.data.data.content
+        }
+      })
+    },
+    // 仓库列表focus事件触发
+    handlechooseRep() {
+      this.repositorycontrol = true
+    },
+    repositoryname(val) {
+      console.log(val)
+      this.damagedRepositoryId = val.repositoryName
+      this.getemplist.damagedRepositoryId = val.id
+    },
+    // 清空搜索条件
+    restFilter() {
+      this.damagedRepositoryId = ''
+      this.getemplist.damagedRepositoryId = ''
     },
     // 搜索
     handleFilter() {
@@ -208,6 +242,7 @@ export default {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
+          this.restFilter()
         } else {
           this.$notify.error({
             title: '错误',

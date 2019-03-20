@@ -102,11 +102,11 @@
             <el-editable-column prop="typeIdname" align="center" label="规格" width="150px"/>
             <el-editable-column prop="unit" align="center" label="单位" width="150px"/>
             <el-editable-column prop="basicQuantity" align="center" label="基本数量" width="150px"/>
-            <el-editable-column :edit-render="{name: 'ElInputNumber'}" prop="enterQuantity" align="center" label="出库数量" width="150px"/>
-            <el-editable-column prop="price" align="center" label="单价" width="150px"/>
+            <el-editable-column :edit-render="{name: 'ElInputNumber'}" prop="outQuantity" align="center" label="出库数量" width="150px"/>
+            <el-editable-column prop="outPrice" align="center" label="单价" width="150px"/>
             <el-editable-column prop="totalMoney" align="center" label="出库金额" width="150px">
               <template slot-scope="scope">
-                <p>{{ getSize(scope.row.enterQuantity, scope.row.price) }}</p>
+                <p>{{ getSize(scope.row.outQuantity, scope.row.outPrice) }}</p>
               </template>
             </el-editable-column>
             <el-editable-column :edit-render="{name: 'ElInput'}" prop="remarks" align="center" label="备注" width="150px"/>
@@ -125,7 +125,7 @@
 <script>
 import { locationlist } from '@/api/WarehouseAdjust'
 import { getdeptlist } from '@/api/BasicSettings'
-import { addproduceenter } from '@/api/Stockenter'
+import { createotherout } from '@/api/StockOut'
 import MyRepository from './components/MyRepository'
 import MyAccept from './components/MyAccept'
 import MyDetail from './components/MyDetail'
@@ -190,9 +190,6 @@ export default {
       locationlist: [],
       // 出库单明细列表规则
       validRules: {
-        locationId: [
-          { required: true, message: '请选择货位号', trigger: 'change' }
-        ]
       }
     }
   },
@@ -207,16 +204,6 @@ export default {
           this.depts = res.data.data.content
         }
       })
-    },
-    // 生产负责人输入框focus事件触发
-    handlechoose() {
-      this.createcontrol = true
-    },
-    // 生产负责人返回数据
-    createname(val) {
-      console.log(val)
-      this.produceManagerId = val.personName
-      this.personalForm.produceManagerId = val.id
     },
     // 出库人focus事件触发
     handlechooseAccept() {
@@ -283,14 +270,22 @@ export default {
         sourceType: '1'
       }
       this.produceManagerId = ''
-      this.enterRepositoryId = ''
-      this.enterPersonId = ''
+      this.outRepositoryId = ''
+      this.outPersonId = ''
     },
     // 保存操作
     handlesave() {
       const EnterDetail = this.$refs.editable.getRecords()
       console.log(this.personalForm)
       console.log(EnterDetail)
+      if (EnterDetail !== true) {
+        this.$notify.error({
+          title: '错误',
+          message: '明细表不能为空',
+          offset: 100
+        })
+        return false
+      }
       EnterDetail.map(function(elem) {
         return elem
       }).forEach(function(elem) {
@@ -312,14 +307,14 @@ export default {
         if (elem.unit === null || elem.unit === '' || elem.unit === undefined) {
           delete elem.unit
         }
-        if (elem.basicQuantity === null || elem.basicQuantity === '' || elem.basicQuantity === undefined) {
-          delete elem.basicQuantity
+        if (elem.outQuantity === null || elem.outQuantity === '' || elem.outQuantity === undefined) {
+          delete elem.outQuantity
         }
         if (elem.enterQuantity === null || elem.enterQuantity === '' || elem.enterQuantity === undefined) {
           delete elem.enterQuantity
         }
-        if (elem.price === null || elem.price === '' || elem.price === undefined) {
-          delete elem.price
+        if (elem.outPrice === null || elem.outPrice === '' || elem.outPrice === undefined) {
+          delete elem.outPrice
         }
         if (elem.totalMoney === null || elem.totalMoney === '' || elem.totalMoney === undefined) {
           delete elem.totalMoney
@@ -334,7 +329,7 @@ export default {
         if (valid) {
           this.$refs.editable.validate().then(valid => {
             if (valid) {
-              addproduceenter(this.personalForm, parms).then(res => {
+              createotherout(this.personalForm, parms).then(res => {
                 console.log(res)
                 if (res.data.ret === 200) {
                   this.$notify({

@@ -139,6 +139,8 @@ export default {
   },
   data() {
     return {
+      // 转化数据
+      choosedata: '',
       // 批量操作
       moreaction: '',
       // 优质级别
@@ -267,12 +269,13 @@ export default {
     },
     // 确认添加数据
     handleConfirm() {
+      this.$emit('supplierName', this.choosedata)
       this.employeeVisible = false
     },
     // 选择员工数据时的操作
     handleCurrentChange(val) {
       console.log(val)
-      this.$emit('supplierName', val)
+      this.choosedata = val
     }
     // 仓库管理员选择结束
   }

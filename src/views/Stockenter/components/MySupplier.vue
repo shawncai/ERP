@@ -14,9 +14,10 @@
       </el-select>
       <!-- 更多搜索条件下拉栏 -->
       <el-popover
+        v-model="visible2"
         placement="bottom"
         width="500"
-        trigger="click">
+        trigger="manual">
         <el-cascader
           :options="regions"
           :props="props"
@@ -40,7 +41,7 @@
         <div class="seachbutton" style="width: 100%;float: right;margin-top: 20px">
           <el-button v-waves class="filter-item" type="primary" style="float: right" @click="handleFilter">{{ $t('public.search') }}</el-button>
         </div>
-        <el-button v-waves slot="reference" type="primary" class="filter-item" style="width: 130px">{{ $t('public.filter') }}<svg-icon icon-class="shaixuan" style="margin-left: 4px"/></el-button>
+        <el-button v-waves slot="reference" type="primary" class="filter-item" style="width: 130px" @click="visible2 = !visible2">{{ $t('public.filter') }}<svg-icon icon-class="shaixuan" style="margin-left: 4px"/></el-button>
       </el-popover>
       <!-- 搜索按钮 -->
       <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 86px" @click="handleFilter">{{ $t('public.search') }}</el-button>
@@ -139,6 +140,10 @@ export default {
   },
   data() {
     return {
+      // 更多搜索条件问题
+      visible2: false,
+      // 转化数据
+      choosedata: '',
       // 批量操作
       moreaction: '',
       // 优质级别
@@ -241,12 +246,6 @@ export default {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
-        } else {
-          this.$notify.error({
-            title: '错误',
-            message: '出错了',
-            offset: 100
-          })
         }
       })
     },
@@ -268,11 +267,11 @@ export default {
     // 确认添加数据
     handleConfirm() {
       this.employeeVisible = false
+      this.$emit('supplierName', this.choosedata)
     },
     // 选择员工数据时的操作
     handleCurrentChange(val) {
-      console.log(val)
-      this.$emit('supplierName', val)
+      this.choosedata = val
     }
     // 仓库管理员选择结束
   }

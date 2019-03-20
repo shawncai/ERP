@@ -97,7 +97,6 @@
       <!--操作-->
       <div class="buttons" style="margin-top: 20px">
         <el-button type="primary" @click="handlesave()">保存</el-button>
-        <el-button type="success" @click="handleentry()">继续录入</el-button>
         <el-button type="danger" @click="handlecancel()">取消</el-button>
       </div>
     </div>
@@ -206,6 +205,14 @@ export default {
     // 保存操作
     handlesave() {
       const rest = this.$refs.editable.getRecords()
+      if (rest !== true) {
+        this.$notify.error({
+          title: '错误',
+          message: '明细表不能为空',
+          offset: 100
+        })
+        return false
+      }
       rest.map(function(elem) {
         return elem
       }).forEach(function(elem) {
@@ -296,98 +303,10 @@ export default {
       this.supplierId = ''
       this.enterRepositoryId = ''
     },
-    // 继续录入
-    handleentry() {
-      const rest = this.$refs.editable.getRecords()
-      rest.map(function(elem) {
-        return elem
-      }).forEach(function(elem) {
-        if (elem.locationId === null || elem.locationId === '' || elem.locationId === undefined) {
-          delete elem.locationId
-        }
-        if (elem.productCode === null || elem.productCode === '' || elem.productCode === undefined) {
-          delete elem.productCode
-        }
-        if (elem.productName === null || elem.productName === '' || elem.productName === undefined) {
-          delete elem.productName
-        }
-        if (elem.color === null || elem.color === '' || elem.color === undefined) {
-          delete elem.color
-        }
-        if (elem.typeId === null || elem.typeId === '' || elem.typeId === undefined) {
-          delete elem.typeId
-        }
-        if (elem.unit === null || elem.unit === '' || elem.unit === undefined) {
-          delete elem.unit
-        }
-        if (elem.basicQuantity === null || elem.basicQuantity === '' || elem.basicQuantity === undefined) {
-          delete elem.basicQuantity
-        }
-        if (elem.actualEnterQuantity === null || elem.actualEnterQuantity === '' || elem.actualEnterQuantity === undefined) {
-          delete elem.actualEnterQuantity
-        }
-        if (elem.remarks === null || elem.remarks === '' || elem.remarks === undefined) {
-          delete elem.remarks
-        }
-        if (elem.enterPrice === null || elem.enterPrice === '' || elem.enterPrice === undefined) {
-          delete elem.enterPrice
-        }
-        if (elem.taxRate === null || elem.taxRate === '' || elem.taxRate === undefined) {
-          delete elem.taxRate
-        }
-        if (elem.enterMoney === null || elem.enterMoney === '' || elem.enterMoney === undefined) {
-          delete elem.enterMoney
-        }
-        if (elem.productType === null || elem.productType === '' || elem.productType === undefined) {
-          delete elem.productType
-        }
-        return elem
-      })
-      console.log(rest)
-      const parms2 = JSON.stringify(rest)
-      this.$refs.personalForm.validate((valid) => {
-        if (valid) {
-          addstockenter(this.personalForm, parms2).then(res => {
-            console.log(res)
-            if (res.data.ret === 200) {
-              this.$notify({
-                title: '成功',
-                message: '保存成功',
-                type: 'success',
-                offset: 100
-              })
-              this.restAllForm()
-              this.$refs.personalForm.clearValidate()
-              this.$refs.personalForm.resetFields()
-              this.$refs.editable.clear()
-              const anchor = this.$refs.geren.offsetTop
-              console.log(anchor)
-              document.documentElement.scrollTop = anchor - 100
-            } else {
-              this.$notify.error({
-                title: '错误',
-                message: res.data.msg,
-                offset: 100
-              })
-            }
-          })
-        } else {
-          this.$notify.error({
-            title: '错误',
-            message: '信息未填完整',
-            offset: 100
-          })
-          const anchor2 = this.$refs.geren.offsetTop
-          console.log(anchor2)
-          document.documentElement.scrollTop = anchor2 - 100
-          return false
-        }
-      })
-    },
     // 取消操作
     handlecancel() {
       this.$router.go(-1)
-      const view = { path: '/Stockenter/NewStockenter', name: 'NewStockenter', fullPath: '/Stockenter/NewStockenter', title: 'NewStockenter' }
+      const view = { path: '/Stockenter/addstockenter', name: 'addstockenter', fullPath: '/Stockenter/addstockenter', title: 'addstockenter' }
       this.$store.dispatch('delView', view).then(({ visitedViews }) => {
       })
     },

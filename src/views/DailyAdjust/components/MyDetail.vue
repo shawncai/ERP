@@ -226,16 +226,13 @@ export default {
           locationId: '',
           color: item.color,
           typeId: item.typeId,
-          enterQuantity: 0,
-          taxRate: 0,
           unit: item.saleMeasurement,
-          actualEnterQuantity: 0,
-          basicQuantity: 0,
-          enterPrice: item.costPrice,
+          quantity: 0,
+          adjustQuantity: 0,
+          price: item.costPrice,
           productType: item.productType,
           totalMoney: 0,
           enterMoney: 0,
-          price: item.costPrice,
           typeIdname: item.productType
         }
       })

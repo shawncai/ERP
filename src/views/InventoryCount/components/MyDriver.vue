@@ -134,6 +134,8 @@ export default {
   },
   data() {
     return {
+      // 转化数据
+      choosedata: '',
       // 仓库管理员回显数据
       managerPeople: '',
       // 小区经理回显数据
@@ -290,10 +292,11 @@ export default {
     },
     // 选择员工数据时的操作
     handleCurrentChange(val) {
-      this.$emit('drivername', val)
+      this.choosedata = val
     },
     // 确认添加数据
     handleConfirm() {
+      this.$emit('drivername', this.choosedata)
       this.employeeVisible = false
     }
     // 仓库管理员选择结束

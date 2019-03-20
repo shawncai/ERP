@@ -11,9 +11,10 @@
       </el-select>
       <!-- 更多搜索条件下拉栏 -->
       <el-popover
+        v-model="visible2"
         placement="bottom"
         width="500"
-        trigger="click">
+        trigger="manual">
         <el-select v-model="getemplist.typeid" placeholder="请选择规格型号" clearable style="width: 40%;float: left;margin-left: 20px">
           <el-option value="1" label="类1"/>
           <el-option value="2" label="类2"/>
@@ -25,7 +26,7 @@
         <div class="seachbutton" style="width: 100%;float: right;margin-top: 20px">
           <el-button v-waves class="filter-item" type="primary" style="float: right" @click="handleFilter">{{ $t('public.search') }}</el-button>
         </div>
-        <el-button v-waves slot="reference" type="primary" class="filter-item" style="width: 130px">{{ $t('public.filter') }}<svg-icon icon-class="shaixuan" style="margin-left: 4px"/></el-button>
+        <el-button v-waves slot="reference" type="primary" class="filter-item" style="width: 130px" @click="visible2 = !visible2">{{ $t('public.filter') }}<svg-icon icon-class="shaixuan" style="margin-left: 4px"/></el-button>
       </el-popover>
       <!-- 搜索按钮 -->
       <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 86px" @click="handleFilter">{{ $t('public.search') }}</el-button>
@@ -136,6 +137,8 @@ export default {
     return {
       // 物品选择框控制
       productVisible: this.control,
+      // 更多搜索条件问题
+      visible2: false,
       // 批量操作
       moreaction: '',
       // 表格数据
@@ -178,12 +181,6 @@ export default {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
-        } else {
-          this.$notify.error({
-            title: '错误',
-            message: '出错了',
-            offset: 100
-          })
         }
         setTimeout(() => {
           this.listLoading = false
@@ -197,12 +194,6 @@ export default {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
-        } else {
-          this.$notify.error({
-            title: '错误',
-            message: '出错了',
-            offset: 100
-          })
         }
       })
     },

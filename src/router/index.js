@@ -511,7 +511,7 @@ export const asyncRouterMap = [
         path: 'OtherStockOutList',
         component: () => import('@/views/StockOut/OtherStockOutList'),
         name: 'OtherStockOutList',
-        meta: { title: 'OtherStockOutList', noCache: false }
+        meta: { title: 'OtherStockOutList', noCache: true }
       }
     ]
   },
@@ -538,19 +538,19 @@ export const asyncRouterMap = [
         component: () => import('@/views/Storagemove/StoragemoveList'),
         name: 'StoragemoveList',
         meta: { title: 'StoragemoveList', noCache: true }
-      },
-      {
-        path: 'AddMoveApplication',
-        component: () => import('@/views/Storagemove/AddMoveApplication'),
-        name: 'AddMoveApplication',
-        meta: { title: 'AddMoveApplication', noCache: false }
-      },
-      {
-        path: 'MoveApplicationList',
-        component: () => import('@/views/Storagemove/MoveApplicationList'),
-        name: 'MoveApplicationList',
-        meta: { title: 'MoveApplicationList', noCache: true }
       }
+      // {
+      //   path: 'AddMoveApplication',
+      //   component: () => import('@/views/Storagemove/AddMoveApplication'),
+      //   name: 'AddMoveApplication',
+      //   meta: { title: 'AddMoveApplication', noCache: false }
+      // },
+      // {
+      //   path: 'MoveApplicationList',
+      //   component: () => import('@/views/Storagemove/MoveApplicationList'),
+      //   name: 'MoveApplicationList',
+      //   meta: { title: 'MoveApplicationList', noCache: true }
+      // }
     ]
   },
   {
@@ -764,6 +764,12 @@ export const asyncRouterMap = [
         component: () => import('@/views/DailyAdjust/AddDailyAdjust'),
         name: 'AddDailyAdjust',
         meta: { title: 'AddDailyAdjust', noCache: false }
+      },
+      {
+        path: 'DailyAdjustList',
+        component: () => import('@/views/DailyAdjust/DailyAdjustList'),
+        name: 'DailyAdjustList',
+        meta: { title: 'DailyAdjustList', noCache: true }
       }
     ]
   },

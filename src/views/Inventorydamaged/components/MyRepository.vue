@@ -120,6 +120,8 @@ export default {
     return {
       // 仓库弹窗控制
       repositoryVisible: this.repositorycontrol,
+      // 转化数据
+      choosedata: '',
       // 类型列表
       types: [],
       // 国家列表
@@ -173,12 +175,6 @@ export default {
       getcountrylist().then(res => {
         if (res.data.ret === 200) {
           this.nations = res.data.data.content
-        } else {
-          this.$notify.error({
-            title: '错误',
-            message: '出错了',
-            offset: 100
-          })
         }
       })
       // 仓库列表数据
@@ -187,12 +183,6 @@ export default {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
-        } else {
-          this.$notify.error({
-            title: '错误',
-            message: '出错了',
-            offset: 100
-          })
         }
         setTimeout(() => {
           this.listLoading = false
@@ -203,12 +193,6 @@ export default {
         if (res.data.ret === 200) {
           console.log(res)
           this.types = res.data.data.content.list
-        } else {
-          this.$notify.error({
-            title: '错误',
-            message: '出错了',
-            offset: 100
-          })
         }
       })
       // 区域数据
@@ -228,12 +212,6 @@ export default {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
           this.repositoryVisible = true
-        } else {
-          this.$notify.error({
-            title: '错误',
-            message: '出错了',
-            offset: 100
-          })
         }
       })
     },
@@ -253,11 +231,12 @@ export default {
     },
     // 确认添加数据
     handleConfirm() {
+      this.$emit('repositoryname', this.choosedata)
       this.repositoryVisible = false
     },
     // 选择仓库数据时的操作
     handleCurrentChange(val) {
-      this.$emit('repositoryname', val)
+      this.choosedata = val
     }
   }
 }

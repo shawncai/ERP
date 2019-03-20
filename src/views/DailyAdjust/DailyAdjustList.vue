@@ -3,38 +3,42 @@
     <!-- 搜索条件栏目 -->
     <el-card class="box-card" style="margin-top: 15px;height: 60px">
       <el-row>
-        <el-form ref="getemplist" :model="getemplist" label-width="100px" style="margin-top: -9px">
+        <el-form ref="getemplist" :model="getemplist" label-width="120px" style="margin-top: -9px">
           <el-col :span="4">
-            <el-form-item label="出库单主题">
-              <el-input v-model="getemplist.title" :placeholder="$t('StockOut.title')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
+            <el-form-item label="调整单主题">
+              <el-input v-model="getemplist.title" :placeholder="$t('DailyAdjust.title')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
           <el-col :span="4">
-            <el-form-item label="出库单编号">
-              <el-input v-model="getemplist.code" :placeholder="$t('StockOut.code')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
+            <el-form-item label="调整单编号">
+              <el-input v-model="getemplist.number" :placeholder="$t('DailyAdjust.number')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
           <el-col :span="4">
-            <el-form-item label="出库人">
-              <el-input v-model="outPersonId" :placeholder="$t('StockOut.outPersonId')" class="filter-item" clearable @keyup.enter.native="handleFilter" @focus="handlechoose"/>
-            </el-form-item>
-            <my-create :createcontrol.sync="createcontrol" @createname="createname"/>
-          </el-col>
-          <el-col :span="4">
-            <el-form-item label="出库原因">
-              <el-select v-model="getemplist.outReasonId" placeholder="请选择出库原因" style="margin-left: 18px;width: 144px" clearable >
-                <el-option value="1" label="原因1"/>
-                <el-option value="2" label="原因2"/>
+            <el-form-item label="调整部门">
+              <el-select v-model="getemplist.deptId" placeholder="请选择调整部门" style="margin-left: 18px;width: 144px" clearable >
+                <el-option
+                  v-for="(item, index) in depts"
+                  :key="index"
+                  :value="item.id"
+                  :label="item.deptName"/>
               </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="4">
+            <el-form-item label="经办人">
+              <el-input v-model="personId" :placeholder="$t('DailyAdjust.personId')" class="filter-item" clearable @keyup.enter.native="handleFilter" @focus="handlechoose"/>
+            </el-form-item>
+            <my-create :createcontrol.sync="createcontrol" @createname="createname"/>
+          </el-col>
+          <el-col :span="4">
             <!-- 更多搜索条件下拉栏 -->
             <el-popover
-              v-model="visible2"
               placement="bottom"
               width="500"
-              trigger="manual">
+              trigger="click">
+              <el-input v-model="adjustRepositoryId" :placeholder="$t('DailyAdjust.repositoryId')" class="filter-item" clearable style="width: 40%;float: right;margin-right: 20px" @keyup.enter.native="handleFilter" @focus="handlechooseRep"/>
+              <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
               <el-date-picker
                 v-model="date"
                 type="daterange"
@@ -47,7 +51,7 @@
               <div class="seachbutton" style="width: 100%;float: right;margin-top: 20px">
                 <el-button v-waves class="filter-item" type="primary" style="float: right" @click="handleFilter">{{ $t('public.search') }}</el-button>
               </div>
-              <el-button v-waves slot="reference" type="primary" class="filter-item" style="width: 140px" @click="visible2 = !visible2"><svg-icon icon-class="shaixuan" style="margin-right: 6px"/>{{ $t('public.filter') }}</el-button>
+              <el-button v-waves slot="reference" type="primary" class="filter-item" style="width: 140px"><svg-icon icon-class="shaixuan" style="margin-right: 6px"/>{{ $t('public.filter') }}</el-button>
             </el-popover>
           </el-col>
           <el-col :span="4">
@@ -89,42 +93,42 @@
           type="selection"
           width="55"
           align="center"/>
-        <el-table-column :label="$t('StockOut.id')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('public.id')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.id }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('StockOut.title')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('DailyAdjust.title')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.title }}</span>
           </template>
-        </el-table-column>、
-        <el-table-column :label="$t('StockOut.code')" :resizable="false" align="center" min-width="150">
+        </el-table-column>
+        <el-table-column :label="$t('DailyAdjust.personId')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.outNumber }}</span>
+            <span>{{ scope.row.personName }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('StockOut.sourceType')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('DailyAdjust.deptId')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.sourceType }}</span>
+            <span>{{ scope.row.deptName }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('StockOut.outPersonId')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('DailyAdjust.repositoryId')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.outPersonName }}</span>
+            <span>{{ scope.row.repositoryName }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('StockOut.outDate')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('DailyAdjust.adjustDate')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.outDate }}</span>
+            <span>{{ scope.row.adjustDate }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('StockOut.outReasonId')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('DailyAdjust.reason')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.outReasonId }}</span>
+            <span>{{ scope.row.reason }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('StockOut.judgeStat')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('DailyAdjust.judgeStat')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.judgeStat | judgeStatFileter }}</span>
           </template>
@@ -146,8 +150,10 @@
 </template>
 
 <script>
-import { searchOutlist, deleteStock } from '@/api/StockOut'
-import waves from '@/directive/waves' // Waves directive
+import { getdeptlist } from '@/api/BasicSettings'
+import { deleteproduceenter } from '@/api/Stockenter'
+import { dailyAdjustlist } from '@/api/DailyAdjust'
+import waves from '@/directive/waves' // Waves directive··
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
 import MyEdit from './components/MyEdit'
 import MyRepository from './components/MyRepository'
@@ -155,7 +161,7 @@ import MyAccept from './components/MyAccept'
 import MyCreate from './components/MyCreate'
 
 export default {
-  name: 'OtherStockOutList',
+  name: 'DailyAdjustList',
   directives: { waves },
   components: { Pagination, MyEdit, MyRepository, MyAccept, MyCreate },
   filters: {
@@ -171,15 +177,19 @@ export default {
   data() {
     return {
       // 搜索数据----------------------
-      // 更多搜索条件问题
-      visible2: false,
-      // 出库人回显
-      outPersonId: '',
-      // 出库人控制框
+      // 部门数据
+      depts: [],
+      // 经办人回显
+      personId: '',
+      // 仓库回显
+      adjustRepositoryId: '',
+      // 仓库选择窗口
+      repositorycontrol: false,
+      // 经办人选择窗口
       createcontrol: false,
       // 开始时间到结束时间
       date: [],
-      // 出库列表传参数据
+      // 日常调整列表传参数据
       getemplist: {
         pageNum: 1,
         pageSize: 10,
@@ -210,23 +220,41 @@ export default {
     }
   },
   mounted() {
+    this.getdeptlist()
     this.getlist()
   },
   methods: {
-    // 出库人输入框focus事件触发
+    // 部门列表数据
+    getdeptlist() {
+      getdeptlist().then(res => {
+        if (res.data.ret === 200) {
+          this.depts = res.data.data.content
+        }
+      })
+    },
+    // 经办人输入框focus事件触发
     handlechoose() {
       this.createcontrol = true
     },
-    // 出库人返回数据
+    // 经办人返回数据
     createname(val) {
       console.log(val)
-      this.outPersonId = val.personName
-      this.getemplist.outPersonId = val.id
+      this.personId = val.personName
+      this.getemplist.personId = val.id
+    },
+    // 仓库列表focus事件触发
+    handlechooseRep() {
+      this.repositorycontrol = true
+    },
+    repositoryname(val) {
+      console.log(val)
+      this.adjustRepositoryId = val.repositoryName
+      this.getemplist.adjustRepositoryId = val.id
     },
     getlist() {
-      // 出库列表数据
+      // 日常调整列表数据
       this.listLoading = true
-      searchOutlist(this.getemplist).then(res => {
+      dailyAdjustlist(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
@@ -237,32 +265,20 @@ export default {
         }, 0.5 * 100)
       })
     },
-    // 清空搜索条件
-    restFilter() {
-      this.outPersonId = ''
-      this.getemplist.outPersonId = ''
-    },
     // 搜索
     handleFilter() {
       this.getemplist.pageNum = 1
       if (this.date === null || this.date === '') {
-        this.getemplist.begintime = null
-        this.getemplist.endtime = null
+        this.getemplist.beginTime = null
+        this.getemplist.endTime = null
       } else {
-        this.getemplist.begintime = this.date[0]
-        this.getemplist.endtime = this.date[1]
+        this.getemplist.beginTime = this.date[0]
+        this.getemplist.endTime = this.date[1]
       }
-      searchOutlist(this.getemplist).then(res => {
+      dailyAdjustlist(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
-          this.restFilter()
-        } else {
-          this.$notify.error({
-            title: '错误',
-            message: '出错了',
-            offset: 100
-          })
         }
       })
     },
@@ -272,7 +288,6 @@ export default {
       this.editVisible = true
       this.personalForm = Object.assign({}, row)
       this.personalForm.sourceType = String(row.sourceType)
-      this.personalForm.outReasonId = String(row.outReasonId)
     },
     // 修改组件修改成功后返回
     refreshlist(val) {
@@ -294,7 +309,7 @@ export default {
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          deleteStock(ids).then(res => {
+          deleteproduceenter(ids).then(res => {
             if (res.data.ret === 200) {
               this.$notify({
                 title: '删除成功',
@@ -325,7 +340,7 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        deleteStock(row.id).then(res => {
+        deleteproduceenter(row.id).then(res => {
           if (res.data.ret === 200) {
             this.$notify({
               title: '删除成功',
@@ -350,14 +365,14 @@ export default {
     },
     // 新增数据
     handleAdd() {
-      this.$router.push('/StockOut/AddOtherStockOut')
+      this.$router.push('/DailyAdjust/AddDailyAdjust')
     },
     // 导出
     handleExport() {
       this.downloadLoading = true
         import('@/vendor/Export2Excel').then(excel => {
           const tHeader = ['供应商编号', '供应商名称', '供应商简称', '供应商类别', '所在区域', '采购员', '供应商优质级别', '建档人', '建档日期']
-          const filterVal = ['id', 'StockOutName', 'StockOutShortName', 'typeName', 'regionName', 'buyerName', 'levelName', 'createName', 'createTime']
+          const filterVal = ['id', 'DailyAdjustName', 'DailyAdjustShortName', 'typeName', 'regionName', 'buyerName', 'levelName', 'createName', 'createTime']
           const data = this.formatJson(filterVal, this.list)
           excel.export_json_to_excel({
             header: tHeader,

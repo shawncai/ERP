@@ -134,6 +134,8 @@ export default {
   },
   data() {
     return {
+      // 转化数据
+      choosedata: '',
       // 物品选择框控制
       productVisible: this.control,
       // 批量操作

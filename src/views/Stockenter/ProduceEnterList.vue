@@ -34,9 +34,10 @@
           <el-col :span="4">
             <!-- 更多搜索条件下拉栏 -->
             <el-popover
+              v-model="visible2"
               placement="bottom"
               width="500"
-              trigger="click">
+              trigger="manual">
               <el-input v-model="enterPersonId" :placeholder="$t('Stockenter.enterPersonId')" class="filter-item" clearable style="width: 40%;float: left;margin-left: 20px" @keyup.enter.native="handleFilter" @focus="handlechooseAccept"/>
               <my-accept :accetpcontrol.sync="accetpcontrol" @acceptName="acceptName"/>
               <el-input v-model="enterRepositoryId" :placeholder="$t('Stockenter.enterRepositoryId')" class="filter-item" clearable style="width: 40%;float: right;margin-right: 20px" @keyup.enter.native="handleFilter" @focus="handlechooseRep"/>
@@ -53,7 +54,7 @@
               <div class="seachbutton" style="width: 100%;float: right;margin-top: 20px">
                 <el-button v-waves class="filter-item" type="primary" style="float: right" @click="handleFilter">{{ $t('public.search') }}</el-button>
               </div>
-              <el-button v-waves slot="reference" type="primary" class="filter-item" style="width: 140px"><svg-icon icon-class="shaixuan" style="margin-right: 6px"/>{{ $t('public.filter') }}</el-button>
+              <el-button v-waves slot="reference" type="primary" class="filter-item" style="width: 140px" @click="visible2 = !visible2"><svg-icon icon-class="shaixuan" style="margin-right: 6px"/>{{ $t('public.filter') }}</el-button>
             </el-popover>
           </el-col>
           <el-col :span="4">
@@ -185,6 +186,8 @@ export default {
       // 搜索数据----------------------
       // 部门数据
       depts: [],
+      // 控制更多搜索
+      visible2: false,
       // 生产负责人回显
       produceManagerId: '',
       // 生产入库仓库回显
@@ -201,8 +204,8 @@ export default {
       date: [],
       // 生产入库列表传参数据
       getemplist: {
-        pagenum: 1,
-        pagesize: 10,
+        pageNum: 1,
+        pageSize: 10,
         createPersonId: 3,
         countryId: 1,
         repositoryId: 438,
@@ -278,17 +281,20 @@ export default {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
           this.listLoading = false
-        } else {
-          this.$notify.error({
-            title: '错误',
-            message: '出错了',
-            offset: 100
-          })
         }
         setTimeout(() => {
           this.listLoading = false
         }, 0.5 * 100)
       })
+    },
+    // 搜索条件重置
+    restFilter() {
+      this.produceManagerId = ''
+      this.getemplist.produceManagerId = ''
+      this.enterPersonId = ''
+      this.getemplist.enterPersonId = ''
+      this.enterRepositoryId = ''
+      this.getemplist.enterRepositoryId = ''
     },
     // 搜索
     handleFilter() {
@@ -304,6 +310,7 @@ export default {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
+          this.restFilter()
         } else {
           this.$notify.error({
             title: '错误',

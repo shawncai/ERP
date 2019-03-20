@@ -34,9 +34,10 @@
           <el-col :span="4">
             <!-- 更多搜索条件下拉栏 -->
             <el-popover
+              v-model="visible2"
               placement="bottom"
               width="500"
-              trigger="click">
+              trigger="manual">
               <el-input v-model="enterPersonId" :placeholder="$t('Stockenter.enterPersonId')" class="filter-item" clearable style="width: 40%;float: left;margin-left: 20px" @keyup.enter.native="handleFilter" @focus="handlechooseAccept"/>
               <my-accept :accetpcontrol.sync="accetpcontrol" @acceptName="acceptName"/>
               <el-input v-model="enterRepositoryId" :placeholder="$t('Stockenter.enterRepositoryId')" class="filter-item" clearable style="width: 40%;float: right;margin-right: 20px" @keyup.enter.native="handleFilter" @focus="handlechooseRep"/>
@@ -55,7 +56,7 @@
               <div class="seachbutton" style="width: 100%;float: right;margin-top: 20px">
                 <el-button v-waves class="filter-item" type="primary" style="float: right" @click="handleFilter">{{ $t('public.search') }}</el-button>
               </div>
-              <el-button v-waves slot="reference" type="primary" class="filter-item" style="width: 140px"><svg-icon icon-class="shaixuan" style="margin-right: 6px"/>{{ $t('public.filter') }}</el-button>
+              <el-button v-waves slot="reference" type="primary" class="filter-item" style="width: 140px" @click="visible2 = !visible2"><svg-icon icon-class="shaixuan" style="margin-right: 6px"/>{{ $t('public.filter') }}</el-button>
             </el-popover>
           </el-col>
           <el-col :span="4">
@@ -191,6 +192,8 @@ export default {
   data() {
     return {
       // 搜索数据----------------------
+      // 更多搜索条件问题
+      visible2: false,
       // 部门数据
       depts: [],
       // 交货人回显
@@ -298,18 +301,24 @@ export default {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
           this.listLoading = false
-        } else {
-          this.$notify.error({
-            title: '错误',
-            message: '出错了',
-            offset: 100
-          })
         }
         setTimeout(() => {
           this.listLoading = false
         }, 0.5 * 100)
       })
     },
+    // 清空搜索条件
+    restFilter() {
+      this.deliveryPersonId = ''
+      this.getemplist.deliveryPersonId = ''
+      this.enterPersonId = ''
+      this.getemplist.enterPersonId = ''
+      this.acceptPersonId = ''
+      this.getemplist.acceptPersonId = ''
+      this.enterRepositoryId = ''
+      this.getemplist.enterRepositoryId = ''
+    },
+
     // 搜索
     handleFilter() {
       this.getemplist.pageNum = 1
@@ -324,12 +333,7 @@ export default {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
-        } else {
-          this.$notify.error({
-            title: '错误',
-            message: '出错了',
-            offset: 100
-          })
+          this.restFilter()
         }
       })
     },

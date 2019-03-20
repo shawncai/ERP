@@ -7,44 +7,35 @@
         <el-form ref="personalForm" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="100px" style="margin-left: 30px;">
           <el-row>
             <el-col :span="6">
-              <el-form-item :label="$t('Stockenter.title')" style="width: 100%;">
-                <el-input v-model="personalForm.title" placeholder="请输入入库单主题" style="margin-left: 18px;width: 150px" clearable/>
+              <el-form-item :label="$t('StockOut.title')" prop="title" style="width: 100%;">
+                <el-input v-model="personalForm.title" placeholder="请输入出库单主题" style="margin-left: 18px;width: 150px" clearable/>
               </el-form-item>
             </el-col>
             <el-col :span="6">
-              <el-form-item :label="$t('Stockenter.sourceType')" prop="sourceType" style="width: 100%;">
-                <el-select v-model="personalForm.sourceType" placeholder="请选择源单类型" style="margin-left: 18px;width: 150px">
-                  <el-option value="1" label="生产任务单"/>
+              <el-form-item :label="$t('StockOut.sourceType')" prop="sourceType" style="width: 100%;">
+                <el-select v-model="personalForm.sourceType" placeholder="请选择源单类型" style="margin-left: 18px;width: 150px" clearable >
+                  <el-option value="1" label="无来源"/>
                 </el-select>
               </el-form-item>
             </el-col>
             <el-col :span="6">
-              <el-form-item label="源单编号" style="width: 100%;">
-                <el-input v-model="personalForm.sourceNumber" placeholder="请选择源单编号" style="margin-left: 18px;width: 150px" clearable/>
+              <el-form-item :label="$t('StockOut.sourceNumber')" prop="sourceNumber" style="width: 100%;">
+                <el-input v-model="personalForm.sourceNumber" placeholder="请输入源单编号" style="margin-left: 18px;width: 150px" clearable/>
               </el-form-item>
             </el-col>
             <el-col :span="6">
-              <el-form-item :label="$t('Stockenter.processType')" prop="processType" style="width: 100%;">
-                <el-select v-model="personalForm.processType" placeholder="请选择加工类别" style="margin-left: 18px;width: 150px" clearable >
-                  <el-option value="1" label="加工1"/>
-                </el-select>
+              <el-form-item :label="$t('StockOut.sendAddress')" prop="sendAddress" style="width: 100%;">
+                <el-input v-model="personalForm.sendAddress" placeholder="请输入发货地址" style="margin-left: 18px;width: 150px" clearable/>
               </el-form-item>
             </el-col>
             <el-col :span="6">
-              <el-form-item :label="$t('Stockenter.produceManagerId')" style="width: 100%;">
-                <el-input v-model="produceManagerId" placeholder="请选择生产负责人" style="margin-left: 18px;width: 150px" clearable @focus="handlechoose"/>
+              <el-form-item :label="$t('StockOut.receiverAddress')" style="width: 100%;">
+                <el-input v-model="personalForm.receiverAddress" placeholder="请输入收货地址" style="margin-left: 18px;width: 150px" clearable/>
               </el-form-item>
-              <my-create :createcontrol.sync="createcontrol" @createname="createname"/>
             </el-col>
             <el-col :span="6">
-              <el-form-item :label="$t('Stockenter.enterPersonId')" prop="enterPersonId" style="width: 100%;">
-                <el-input v-model="enterPersonId" placeholder="请选择入库人" style="margin-left: 18px;width: 150px" clearable @focus="handlechooseAccept"/>
-              </el-form-item>
-              <my-accept :accetpcontrol.sync="accetpcontrol" @acceptName="acceptName"/>
-            </el-col>
-            <el-col :span="6">
-              <el-form-item :label="$t('Stockenter.enterDeptId')" style="width: 100%;">
-                <el-select v-model="personalForm.enterDeptId" placeholder="请选择入库部门" style="margin-left: 18px;width: 150px" clearable >
+              <el-form-item :label="$t('StockOut.outDeptId')" style="width: 100%;">
+                <el-select v-model="personalForm.outDeptId" placeholder="请选择出库部门" style="margin-left: 18px;width: 150px" clearable >
                   <el-option
                     v-for="(item, index) in depts"
                     :key="index"
@@ -54,24 +45,38 @@
               </el-form-item>
             </el-col>
             <el-col :span="6">
-              <el-form-item :label="$t('Stockenter.enterRepositoryId')" prop="enterRepositoryId" style="width: 100%;">
-                <el-input v-model="enterRepositoryId" placeholder="请选择仓库" style="margin-left: 18px;width: 150px" clearable @focus="handlechooseRep"/>
+              <el-form-item :label="$t('StockOut.outPersonId')" prop="outPersonId" style="width: 100%;">
+                <el-input v-model="outPersonId" placeholder="请选择出库人" style="margin-left: 18px;width: 150px" clearable @focus="handlechooseAccept"/>
+              </el-form-item>
+              <my-accept :accetpcontrol.sync="accetpcontrol" @acceptName="acceptName"/>
+            </el-col>
+            <el-col :span="6">
+              <el-form-item :label="$t('StockOut.outReasonId')" style="width: 100%;">
+                <el-select v-model="personalForm.outReasonId" placeholder="请选择出库原因" style="margin-left: 18px;width: 150px" clearable >
+                  <el-option value="1" label="原因1"/>
+                  <el-option value="2" label="原因2"/>
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="6">
+              <el-form-item :label="$t('StockOut.outRepositoryId')" prop="outRepositoryId" style="width: 100%;">
+                <el-input v-model="outRepositoryId" placeholder="请选择出库仓库" style="margin-left: 18px;width: 150px" clearable @focus="handlechooseRep"/>
               </el-form-item>
               <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
             </el-col>
             <el-col :span="6">
-              <el-form-item :label="$t('Stockenter.summary')" prop="summary" style="width: 100%;;width: 150px">
-                <el-input v-model="personalForm.summary" placeholder="请输入摘要" style="margin-left: 18px" clearable/>
+              <el-form-item :label="$t('StockOut.summary')" prop="summary" style="width: 100%;">
+                <el-input v-model="personalForm.summary" placeholder="请输入摘要" style="margin-left: 18px;width: 150px" clearable/>
               </el-form-item>
             </el-col>
           </el-row>
         </el-form>
       </div>
     </el-card>
-    <!--入库单明细-->
+    <!--出库单明细-->
     <el-card class="box-card" style="margin-top: 15px">
-      <h2 ref="fuzhu" class="form-name">入库单明细</h2>
-      <div class="buttons" style="margin-top: 28px;margin-bottom: 20px">
+      <h2 ref="fuzhu" class="form-name">出库单明细</h2>
+      <div class="buttons" style="margin-top: 58px">
         <el-button type="success" style="background:#3696fd;border-color:#3696fd " @click="handleAddproduct">添加商品</el-button>
         <el-button type="danger" @click="$refs.editable.removeSelecteds()">删除</el-button>
       </div>
@@ -96,11 +101,11 @@
           <el-editable-column prop="typeIdname" align="center" label="规格" width="150px"/>
           <el-editable-column prop="unit" align="center" label="单位" width="150px"/>
           <el-editable-column prop="basicQuantity" align="center" label="基本数量" width="150px"/>
-          <el-editable-column :edit-render="{name: 'ElInputNumber'}" prop="enterQuantity" align="center" label="入库数量" width="150px"/>
-          <el-editable-column prop="price" align="center" label="单价" width="150px"/>
-          <el-editable-column prop="totalMoney" align="center" label="入库金额" width="150px">
+          <el-editable-column :edit-render="{name: 'ElInputNumber'}" prop="outQuantity" align="center" label="出库数量" width="150px"/>
+          <el-editable-column prop="outPrice" align="center" label="单价" width="150px"/>
+          <el-editable-column prop="totalMoney" align="center" label="出库金额" width="150px">
             <template slot-scope="scope">
-              <p>{{ getSize(scope.row.enterQuantity, scope.row.price) }}</p>
+              <p>{{ getSize(scope.row.outQuantity, scope.row.outPrice) }}</p>
             </template>
           </el-editable-column>
           <el-editable-column :edit-render="{name: 'ElInput'}" prop="remarks" align="center" label="备注" width="150px"/>
@@ -116,7 +121,7 @@
 
 <script>
 import { locationlist } from '@/api/WarehouseAdjust'
-import { updatestockenter2 } from '@/api/Stockenter'
+import { updateotherout } from '@/api/StockOut'
 import { getdeptlist } from '@/api/BasicSettings'
 import MyRepository from './MyRepository'
 import MyAccept from './MyAccept'
@@ -142,21 +147,19 @@ export default {
       personalForm: this.editdata,
       // 部门数据
       depts: [],
-      // 生产负责人回显
-      produceManagerId: '',
-      // 生产入库仓库回显
-      enterRepositoryId: '',
-      // 生产入库人回显
-      enterPersonId: '',
-      // 生产入库人控制框
+      // 出库仓库回显
+      outRepositoryId: '',
+      // 出库人回显
+      outPersonId: '',
+      // 出库人控制框
       accetpcontrol: false,
       // 控制仓库选择窗口
       repositorycontrol: false,
-      // 控制生产负责人选择窗口
+      // 控制经办人选择窗口
       createcontrol: false,
       // 控制商品列表窗口
       control: false,
-      // 生产入库单规则数据
+      // 出库单规则数据
       personalrules: {
         title: [
           { required: true, message: '请输入标题', trigger: 'blur' }
@@ -167,25 +170,29 @@ export default {
         sourceNumber: [
           { required: true, message: '请输入源单编号', trigger: 'blur' }
         ],
-        enterPersonId: [
-          { required: true, message: '请选择入库人', trigger: 'focus' }
+        sendAddress: [
+          { required: true, message: '请输入发货地址', trigger: 'blur' }
         ],
-        enterRepositoryId: [
-          { required: true, message: '请选择入库仓库', trigger: 'focus' }
+        outPersonId: [
+          { required: true, message: '请选择出库人', trigger: 'focus' }
+        ],
+        outRepositoryId: [
+          { required: true, message: '请选择出库仓库', trigger: 'focus' }
         ]
       },
-      // 生产入库单明细数据
+      // 出库单明细数据
       list2: [],
-      // 生产入库明细中货位发送参数
+      // 出库明细中货位发送参数
       locationlistparms: {
         pageNum: 1,
         pageSize: 1999,
         repositoryId: ''
       },
-      // 生产入库明细中货位数据
+      // 出库明细中货位数据
       locationlist: [],
-      // 生产入库单明细列表规则
-      validRules: {}
+      // 出库单明细列表规则
+      validRules: {
+      }
     }
   },
   watch: {
@@ -194,10 +201,9 @@ export default {
     },
     editdata() {
       this.personalForm = this.editdata
-      this.produceManagerId = this.personalForm.produceManagerName
-      this.enterRepositoryId = this.personalForm.enterRepositoryName
-      this.enterPersonId = this.personalForm.enterPersonName
-      this.list2 = this.personalForm.produceEnterDetailVos
+      this.outPersonId = this.personalForm.outPersonName
+      this.outRepositoryId = this.personalForm.outRepositoryName
+      this.list2 = this.personalForm.otherOutDetails
       this.getlocation()
     }
   },
@@ -215,7 +221,7 @@ export default {
     },
     getlocation() {
       // 货位根据仓库id展现
-      locationlist(this.personalForm.enterRepositoryId).then(res => {
+      locationlist(this.personalForm.outRepositoryId).then(res => {
         if (res.data.ret === 200) {
           this.locationlist = res.data.data.content.list.map(function(item) {
             return {
@@ -226,24 +232,14 @@ export default {
         }
       })
     },
-    // 生产负责人输入框focus事件触发
-    handlechoose() {
-      this.createcontrol = true
-    },
-    // 生产负责人返回数据
-    createname(val) {
-      console.log(val)
-      this.produceManagerId = val.personName
-      this.personalForm.produceManagerId = val.id
-    },
-    // 入库人focus事件触发
+    // 出库人focus事件触发
     handlechooseAccept() {
       this.accetpcontrol = true
     },
-    // 入库人列表返回数据
+    // 出库人列表返回数据
     acceptName(val) {
-      this.enterPersonId = val.personName
-      this.personalForm.enterPersonId = val.id
+      this.outPersonId = val.personName
+      this.personalForm.outPersonId = val.id
     },
     // 仓库列表focus事件触发
     handlechooseRep() {
@@ -251,8 +247,8 @@ export default {
     },
     repositoryname(val) {
       console.log(val)
-      this.enterRepositoryId = val.repositoryName
-      this.personalForm.enterRepositoryId = val.id
+      this.outRepositoryId = val.repositoryName
+      this.personalForm.outRepositoryId = val.id
       this.locationlistparms.repositoryId = val.id
       locationlist(this.locationlistparms).then(res => {
         if (res.data.ret === 200) {
@@ -301,6 +297,14 @@ export default {
       this.personalForm.modifyPersonId = 3
       console.log(this.personalForm)
       const rest = this.$refs.editable.getRecords()
+      if (rest !== true) {
+        this.$notify.error({
+          title: '错误',
+          message: '明细表不能为空',
+          offset: 100
+        })
+        return false
+      }
       rest.map(function(elem) {
         return elem
       }).forEach(function(elem) {
@@ -322,14 +326,14 @@ export default {
         if (elem.unit === null || elem.unit === '' || elem.unit === undefined) {
           delete elem.unit
         }
-        if (elem.basicQuantity === null || elem.basicQuantity === '' || elem.basicQuantity === undefined) {
-          delete elem.basicQuantity
+        if (elem.outQuantity === null || elem.outQuantity === '' || elem.outQuantity === undefined) {
+          delete elem.outQuantity
         }
         if (elem.enterQuantity === null || elem.enterQuantity === '' || elem.enterQuantity === undefined) {
           delete elem.enterQuantity
         }
-        if (elem.price === null || elem.price === '' || elem.price === undefined) {
-          delete elem.price
+        if (elem.outPrice === null || elem.outPrice === '' || elem.outPrice === undefined) {
+          delete elem.outPrice
         }
         if (elem.totalMoney === null || elem.totalMoney === '' || elem.totalMoney === undefined) {
           delete elem.totalMoney
@@ -340,7 +344,14 @@ export default {
         return elem
       })
       const parms2 = JSON.stringify(rest)
-      updatestockenter2(this.personalForm, parms2).then(res => {
+      const Data = this.personalForm
+      for (const key in Data) {
+        if (Data[key] === '' || Data[key] === undefined || Data[key] === null) {
+          delete Data[key]
+        }
+      }
+      const parms = JSON.stringify(Data)
+      updateotherout(parms, parms2).then(res => {
         if (res.data.ret === 200) {
           this.$notify({
             title: '操作成功',

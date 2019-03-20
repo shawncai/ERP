@@ -66,7 +66,7 @@
         <el-editable
           ref="editable"
           :data.sync="list2"
-          :edit-config="{ showIcon: false, showStatus: true}"
+          :edit-config="{ showIcon: true, showStatus: true}"
           :edit-rules="validRules"
           class="click-table1"
           stripe
@@ -277,6 +277,14 @@ export default {
       this.personalForm.countryId = 1
       console.log(this.personalForm)
       const rest = this.$refs.editable.getRecords()
+      if (rest !== true) {
+        this.$notify.error({
+          title: '错误',
+          message: '明细表不能为空',
+          offset: 100
+        })
+        return false
+      }
       rest.map(function(elem) {
         return elem
       }).forEach(function(elem) {

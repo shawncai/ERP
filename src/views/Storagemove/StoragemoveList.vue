@@ -34,9 +34,10 @@
           <el-col :span="4">
             <!-- 更多搜索条件下拉栏 -->
             <el-popover
+              v-model="visible2"
               placement="bottom"
               width="500"
-              trigger="click">
+              trigger="manual">
               <el-select v-model="getemplist.departmentId" placeholder="请选择调货部门" style="width: 40%;float: left;margin-left: 20px" clearable >
                 <el-option
                   v-for="(item, index) in depts"
@@ -58,7 +59,7 @@
               <div class="seachbutton" style="width: 100%;float: right;margin-top: 20px">
                 <el-button v-waves class="filter-item" type="primary" style="float: right" @click="handleFilter">{{ $t('public.search') }}</el-button>
               </div>
-              <el-button v-waves slot="reference" type="primary" class="filter-item" style="width: 140px"><svg-icon icon-class="shaixuan" style="margin-right: 6px"/>{{ $t('public.filter') }}</el-button>
+              <el-button v-waves slot="reference" type="primary" class="filter-item" style="width: 140px" @click="visible2 = !visible2"><svg-icon icon-class="shaixuan" style="margin-right: 6px"/>{{ $t('public.filter') }}</el-button>
             </el-popover>
           </el-col>
           <el-col :span="4">
@@ -108,6 +109,11 @@
         <el-table-column :label="$t('Storagemove.title')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.title }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column :label="$t('Storagemove.moveNumber')" :resizable="false" align="center" min-width="150">
+          <template slot-scope="scope">
+            <span>{{ scope.row.moveNumber }}</span>
           </template>
         </el-table-column>
         <el-table-column :label="$t('Storagemove.applicationName')" :resizable="false" align="center" min-width="150">
@@ -189,6 +195,8 @@ export default {
   data() {
     return {
       // 搜索数据----------------------
+      // 更多搜索条件问题
+      visible2: false,
       // 部门数据
       depts: [],
       // 调出仓库回显
@@ -281,6 +289,15 @@ export default {
         }, 0.5 * 100)
       })
     },
+    // 清空搜索条件
+    restFilter() {
+      this.moveInRepository = ''
+      this.getemplist.moveInRepository = ''
+      this.moveOutRepository = ''
+      this.getemplist.moveOutRepository = ''
+      this.moveInRepository = ''
+      this.getemplist.moveInRepository = ''
+    },
     // 搜索
     handleFilter() {
       this.getemplist.pageNum = 1
@@ -295,6 +312,7 @@ export default {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
+          this.restFilter()
         } else {
           this.$notify.error({
             title: '错误',
