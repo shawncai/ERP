@@ -808,6 +808,12 @@ export const asyncRouterMap = [
         component: () => import('@/views/WarehouseAdjust/Locationlist'),
         name: 'Locationlist',
         meta: { title: 'Locationlist', noCache: true }
+      },
+      {
+        path: 'Inventorydetaillist',
+        component: () => import('@/views/WarehouseAdjust/Inventorydetaillist'),
+        name: 'Inventorydetaillist',
+        meta: { title: 'Inventorydetaillist', noCache: true }
       }
     ]
   },

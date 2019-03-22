@@ -13,8 +13,8 @@
         />
       </el-select>
       <el-select v-model="getemplist.iseffective" :value="getemplist.iseffective" :placeholder="$t('Repository.iseffective')" class="filter-item" clearable>
-        <el-option label="启用" value="1"/>
-        <el-option label="停用" value="2"/>
+        <el-option label="停用" value="1"/>
+        <el-option label="启用" value="2"/>
       </el-select>
       <el-cascader
         :options="regions"
@@ -81,10 +81,8 @@
       </el-table-column>
     </el-table>
     <!-- 列表结束 -->
-    <pagination v-show="total>0" :total="total" :page.sync="getemplist.pagenum" :limit.sync="getemplist.pagesize" style="padding: 0" @pagination="getlist"/>
-    <span slot="footer" class="dialog-footer">
-      <el-button v-waves type="success" style="text-align: center;" @click="handleConfirm">确认添加</el-button>
-    </span>
+    <el-button v-waves class="filter-item" type="success" style="width: 100px;float: left;margin-top: 10px" @click="handleConfirm">确认添加</el-button>
+    <pagination v-show="total>0" :total="total" :page.sync="getemplist.pagenum" :limit.sync="getemplist.pagesize" @pagination="getlist" />
   </el-dialog>
 </template>
 
@@ -99,8 +97,8 @@ export default {
   filters: {
     iseffectiveFilter(status) {
       const statusMap = {
-        1: '启用',
-        2: '停用'
+        1: '停用',
+        2: '启用'
       }
       return statusMap[status]
     },
@@ -122,6 +120,8 @@ export default {
     return {
       // 仓库弹窗控制
       repositoryVisible: this.repositorycontrol,
+      // 转化数据
+      choosedata: '',
       // 类型列表
       types: [],
       // 国家列表
@@ -231,11 +231,12 @@ export default {
     },
     // 确认添加数据
     handleConfirm() {
+      this.$emit('repositoryname', this.choosedata)
       this.repositoryVisible = false
     },
     // 选择仓库数据时的操作
     handleCurrentChange(val) {
-      this.$emit('repositoryname', val)
+      this.choosedata = val
     }
   }
 }
@@ -246,7 +247,7 @@ export default {
     margin: 50px 30px;
   }
   .filter-item{
-    width: 150px;
+    width: 140px;
     margin-left: 20px;
   }
   .form-name{

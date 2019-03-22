@@ -213,12 +213,6 @@ export default {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
           this.listLoading = false
-        } else {
-          this.$notify.error({
-            title: '错误',
-            message: '出错了',
-            offset: 100
-          })
         }
         setTimeout(() => {
           this.listLoading = false

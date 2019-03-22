@@ -138,6 +138,8 @@ export default {
       managerPeople: '',
       // 小区经理回显数据
       regionManagerId: '',
+      // 转化数据
+      choosedata: '',
       // / 弹窗选择
       // 单选表格样式
       currentRow: null,
@@ -233,12 +235,6 @@ export default {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
-        } else {
-          this.$notify.error({
-            title: '错误',
-            message: '出错了',
-            offset: 100
-          })
         }
       })
     },
@@ -278,11 +274,12 @@ export default {
     },
     // 选择员工数据时的操作
     handleCurrentChange(val) {
-      this.$emit('acceptName', val)
+      this.choosedata = val
     },
     // 确认添加数据
     handleConfirm() {
       this.employeeVisible = false
+      this.$emit('acceptName', this.choosedata)
     }
     // 仓库管理员选择结束
   }

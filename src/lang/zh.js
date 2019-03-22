@@ -100,7 +100,8 @@ export default {
     TearDownList: '拆装单列表',
     DailyAdjust: '日常调整',
     AddDailyAdjust: '新建日常调整',
-    DailyAdjustList: '日常调整单列表'
+    DailyAdjustList: '日常调整单列表',
+    Inventorydetaillist: '库存明细统计表'
   },
   navbar: {
     logOut: '退出登录',
@@ -554,6 +555,25 @@ export default {
     safeStock: '安全库存',
     productId: '商品'
   },
+  Inventorydetaillist: {
+    repositoryId: '仓库',
+    code: '物品编码',
+    brand: '品牌',
+    productName: '物品名称',
+    typeId: '物品分类',
+    locationId: '货位编号',
+    productType: '规格型号',
+    beginTime: '开始时间',
+    endTime: '结束时间',
+    productCategory: '物品种类',
+    unit: '单位',
+    tradePrice: '批发价',
+    salePrice: '零售价',
+    repositoryName: '仓库',
+    locationCode: '货位',
+    batch: '批次',
+    quantity: '库存数量'
+  },
   InventoryOverflow: {
     title: '报溢单主题',
     overflowNumber: '报溢单编号',
@@ -634,6 +654,8 @@ export default {
     judgeStat: '状态'
   },
   public: {
+    receiptStat: '单据状态',
+    review: '审核',
     id: '编号',
     uploadimage: '上传',
     address: '地址',

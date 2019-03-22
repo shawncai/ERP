@@ -120,6 +120,8 @@ export default {
     return {
       // 仓库弹窗控制
       repositoryVisible: this.repositorycontrol,
+      // 转化数据
+      choosedata: '',
       // 类型列表
       types: [],
       // 国家列表
@@ -253,11 +255,12 @@ export default {
     },
     // 确认添加数据
     handleConfirm() {
+      this.$emit('repositoryname', this.choosedata)
       this.repositoryVisible = false
     },
     // 选择仓库数据时的操作
     handleCurrentChange(val) {
-      this.$emit('repositoryname', val)
+      this.choosedata = val
     }
   }
 }

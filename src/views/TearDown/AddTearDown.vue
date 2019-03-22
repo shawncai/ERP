@@ -305,6 +305,14 @@ export default {
     // 保存操作
     handlesave() {
       const EnterDetail = this.$refs.editable.getRecords()
+      if (EnterDetail.length === 0) {
+        this.$notify.error({
+          title: '错误',
+          message: '明细表不能为空',
+          offset: 100
+        })
+        return false
+      }
       EnterDetail.map(function(elem) {
         return elem
       }).forEach(function(elem) {
@@ -347,6 +355,14 @@ export default {
         return elem
       })
       const EnterDetail2 = this.$refs.editable2.getRecords()
+      if (EnterDetail2.length === 0) {
+        this.$notify.error({
+          title: '错误',
+          message: '明细表不能为空',
+          offset: 100
+        })
+        return false
+      }
       EnterDetail2.map(function(elem) {
         return elem
       }).forEach(function(elem) {

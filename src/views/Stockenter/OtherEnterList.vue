@@ -100,8 +100,9 @@
           align="center"/>
         <el-table-column :label="$t('Stockenter.id')" :resizable="false" align="center" min-width="80">
           <template slot-scope="scope">
-            <span>{{ scope.row.id }}</span>
+            <span class="link-type" @click="handleDetail(scope.row)">{{ scope.row.id }}</span>
           </template>
+          <detail-list3 :detailcontrol.sync="detailvisible" :detaildata.sync="personalForm"/>
         </el-table-column>
         <el-table-column :label="$t('Stockenter.title')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
@@ -148,9 +149,15 @@
             <span>{{ scope.row.judgeStat | judgeStatFileter }}</span>
           </template>
         </el-table-column>
+        <el-table-column :label="$t('Stockenter.receiptStat')" :resizable="false" align="center" width="150">
+          <template slot-scope="scope">
+            <span>{{ scope.row.receiptStat | receiptStatFilter }}</span>
+          </template>
+        </el-table-column>
         <el-table-column :label="$t('public.actions')" :resizable="false" align="center" min-width="230">
           <template slot-scope="scope">
             <el-button type="primary" size="mini" @click="handleEdit(scope.row)">{{ $t('public.edit') }}</el-button>
+            <el-button v-if="isReview(scope.row)" type="warning" size="mini" @click="handleReview(scope.row)">{{ $t('public.review') }}</el-button>
             <el-button size="mini" type="danger" @click="handleDelete(scope.row)">{{ $t('public.delete') }}</el-button>
           </template>
         </el-table-column>
@@ -166,7 +173,7 @@
 
 <script>
 import { getdeptlist } from '@/api/BasicSettings'
-import { otherenterlist, deleteotherenter } from '@/api/Stockenter'
+import { otherenterlist, deleteotherenter, updateotherenter5 } from '@/api/Stockenter'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
 import MyOther from './components/MyOther'
@@ -174,11 +181,12 @@ import MyRepository from './components/MyRepository'
 import MyAccept from './components/MyAccept'
 import MyCreate from './components/MyCreate'
 import MyDelivery from './components/MyDelivery'
+import DetailList3 from './components/DetailList3'
 
 export default {
   name: 'OtherEnterList',
   directives: { waves },
-  components: { Pagination, MyOther, MyRepository, MyAccept, MyCreate, MyDelivery },
+  components: { DetailList3, Pagination, MyOther, MyRepository, MyAccept, MyCreate, MyDelivery },
   filters: {
     judgeStatFileter(status) {
       const statusMap = {
@@ -187,10 +195,20 @@ export default {
         3: '审核通过'
       }
       return statusMap[status]
+    },
+    receiptStatFilter(status) {
+      const statusMap = {
+        1: '制单',
+        2: '执行',
+        3: '结单'
+      }
+      return statusMap[status]
     }
   },
   data() {
     return {
+      // 详情组件数据
+      detailvisible: false,
       // 搜索数据----------------------
       // 更多搜索条件问题
       visible2: false,
@@ -349,6 +367,49 @@ export default {
       if (val === true) {
         this.getlist()
       }
+    },
+    // 详情操作
+    handleDetail(row) {
+      console.log(row)
+      this.detailvisible = true
+      this.personalForm = Object.assign({}, row)
+      this.personalForm.sourceType = String(row.sourceType)
+    },
+    // 判断审核按钮
+    isReview(row) {
+      console.log(row)
+      const approvalUse = row.approvalUseVos
+      if (this.getemplist.createPersonId === approvalUse[approvalUse.length - 1].stepHandler && (row.judgeStat === 1 || row.judgeStat === 0)) {
+        return true
+      }
+    },
+    // 审批操作
+    handleReview(row) {
+      this.$confirm('请审核', '审核', {
+        confirmButtonText: '通过',
+        cancelButtonText: '不通过',
+        type: 'warning'
+      }).then(() => {
+        updateotherenter5(row, 2, this.getemplist.createPersonId).then(res => {
+          if (res.data.ret === 200) {
+            this.$message({
+              type: 'success',
+              message: '审核成功!'
+            })
+            this.getlist()
+          }
+        })
+      }).catch(() => {
+        updateotherenter5(row, 1, this.getemplist.createPersonId).then(res => {
+          if (res.data.ret === 200) {
+            this.$message({
+              type: 'success',
+              message: '审核成功!'
+            })
+            this.getlist()
+          }
+        })
+      })
     },
     // 批量操作
     handleSelectionChange(val) {

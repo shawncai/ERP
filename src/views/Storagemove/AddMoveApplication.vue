@@ -265,6 +265,14 @@ export default {
       const EnterDetail = this.$refs.editable.getRecords()
       console.log(this.personalForm)
       console.log(EnterDetail)
+      if (EnterDetail.length === 0) {
+        this.$notify.error({
+          title: '错误',
+          message: '明细表不能为空',
+          offset: 100
+        })
+        return false
+      }
       EnterDetail.map(function(elem) {
         return elem
       }).forEach(function(elem) {

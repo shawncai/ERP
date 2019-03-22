@@ -4,10 +4,15 @@
       <!-- 搜索条件栏目 -->
       <el-input v-model="getemplist.code" :placeholder="$t('Product.code')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
       <el-input v-model="getemplist.productname" :placeholder="$t('Product.productname')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
-      <el-input v-model="getemplist.supplierid" :placeholder="$t('Product.supplierid')" class="filter-item" @keyup.enter.native="handleFilter"/>
+      <el-input v-model="supplierid" :placeholder="$t('Product.supplierid')" class="filter-item" clearable @keyup.enter.native="handleFilter" @focus="handlechoose"/>
+      <my-supplier :control.sync="empcontrol" @supplierName="supplierName"/>
       <el-select v-model="getemplist.categoryid" :value="getemplist.categoryid" placeholder="物品分类" class="filter-item" clearable>
-        <el-option value="1" label="类1"/>
-        <el-option value="2" label="类2"/>
+        <el-option
+          v-for="(item, index) in categorys"
+          :key="index"
+          :label="item.categoryName"
+          :value="item.id"
+        />
       </el-select>
       <!-- 更多搜索条件下拉栏 -->
       <el-popover
@@ -15,8 +20,12 @@
         width="500"
         trigger="click">
         <el-select v-model="getemplist.typeid" placeholder="请选择规格型号" clearable style="width: 40%;float: left;margin-left: 20px">
-          <el-option value="1" label="类1"/>
-          <el-option value="2" label="类2"/>
+          <el-option
+            v-for="(item, index) in types"
+            :key="index"
+            :label="item.categoryName"
+            :value="item.id"
+          />
         </el-select>
         <el-select v-model="getemplist.isactive" placeholder="请选择上下架" clearable style="width: 40%;float: right;margin-right: 20px">
           <el-option value="1" label="上1"/>
@@ -132,15 +141,16 @@
 </template>
 
 <script>
-import { productlist, deleteproduct } from '@/api/Product'
+import { productlist, deleteproduct, searchEmpCategory2 } from '@/api/Product'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
 import MyDialog from './components/MyDialog'
+import MySupplier from '../DailyAdjust/components/MySupplier'
 
 export default {
   name: 'ProductList',
   directives: { waves },
-  components: { Pagination, MyDialog },
+  components: { MySupplier, Pagination, MyDialog },
   filters: {
     genderFilter(status) {
       const statusMap = {
@@ -152,6 +162,14 @@ export default {
   },
   data() {
     return {
+      // 规格型号数据
+      types: [],
+      // 物品分类数据
+      categorys: [],
+      // 供应商回显
+      supplierid: '',
+      // 供货商控制
+      empcontrol: false,
       // 批量操作
       moreaction: '',
       // 加载操作控制
@@ -198,6 +216,19 @@ export default {
           this.listLoading = false
         }, 0.5 * 100)
       })
+      // 物品分类数据
+      searchEmpCategory2(1).then(res => {
+        console.log(res)
+        if (res.data.ret === 200) {
+          this.categorys = res.data.data.content.list
+        }
+      })
+      // 规格型号数据
+      searchEmpCategory2(2).then(res => {
+        if (res.data.ret === 200) {
+          this.types = res.data.data.content.list
+        }
+      })
     },
     // 搜索
     handleFilter() {
@@ -208,6 +239,16 @@ export default {
           this.total = res.data.data.content.totalCount
         }
       })
+    },
+    // 供应商输入框focus事件触发
+    handlechoose() {
+      this.empcontrol = true
+    },
+    // 供应商列表返回数据
+    supplierName(val) {
+      console.log(val)
+      this.supplierid = val.supplierName
+      this.getemplist.supplierid = val.id
     },
     // 修改操作
     handleEdit(row) {

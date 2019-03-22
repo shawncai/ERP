@@ -56,16 +56,16 @@ export function getcitylist(query) {
 }
 
 // 批次查询
-export function batchlist(query) {
+export function batchlist(query, query2, query3) {
   var params = new URLSearchParams()
-  if (query.repositoryId !== '' && query.repositoryId !== null && query.repositoryId !== undefined) {
-    params.append('repositoryId', query.repositoryId) // 你要传给后台的参数值 key/value
+  if (query !== '' && query !== null && query !== undefined) {
+    params.append('repositoryId', query) // 你要传给后台的参数值 key/value
   }
-  if (query.locationId !== '' && query.locationId !== null && query.locationId !== undefined) {
-    params.append('locationId', query.locationId) // 你要传给后台的参数值 key/value
+  if (query2 !== '' && query2 !== null && query2 !== undefined) {
+    params.append('locationId', query2) // 你要传给后台的参数值 key/value
   }
-  if (query.productCode !== '' && query.productCode !== null && query.productCode !== undefined) {
-    params.append('productCode', query.productCode) // 你要传给后台的参数值 key/value
+  if (query3 !== '' && query3 !== null && query3 !== undefined) {
+    params.append('productCode', query3) // 你要传给后台的参数值 key/value
   }
   return request({
     url: '/erp/location/batchlist',
@@ -75,19 +75,19 @@ export function batchlist(query) {
 }
 
 // 库存余量查询
-export function getQuantity(query) {
+export function getQuantity(query, query2, query3, query4) {
   var params = new URLSearchParams()
-  if (query.repositoryId !== '' && query.repositoryId !== null && query.repositoryId !== undefined) {
-    params.append('repositoryId', query.repositoryId) // 你要传给后台的参数值 key/value
+  if (query !== '' && query !== null && query !== undefined) {
+    params.append('repositoryId', query) // 你要传给后台的参数值 key/value
   }
-  if (query.locationId !== '' && query.locationId !== null && query.locationId !== undefined) {
-    params.append('locationId', query.locationId) // 你要传给后台的参数值 key/value
+  if (query2 !== '' && query2 !== null && query2 !== undefined) {
+    params.append('locationId', query2) // 你要传给后台的参数值 key/value
   }
-  if (query.productCode !== '' && query.productCode !== null && query.productCode !== undefined) {
-    params.append('productCode', query.productCode) // 你要传给后台的参数值 key/value
+  if (query3 !== '' && query3 !== null && query3 !== undefined) {
+    params.append('productCode', query3) // 你要传给后台的参数值 key/value
   }
-  if (query.batch !== '' && query.batch !== null && query.batch !== undefined) {
-    params.append('batch', query.batch) // 你要传给后台的参数值 key/value
+  if (query4 !== '' && query4 !== null && query4 !== undefined) {
+    params.append('batch', query4) // 你要传给后台的参数值 key/value
   }
   return request({
     url: '/erp/location/getQuantity',

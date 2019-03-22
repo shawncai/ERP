@@ -233,7 +233,11 @@ export default {
     },
     // 清空记录
     restAllForm() {
-      this.personalForm = {}
+      this.personalForm = {
+        createId: 1,
+        levle: 1,
+        parentId: 0
+      }
     },
     // 取消操作
     handlecancel() {

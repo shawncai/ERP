@@ -178,17 +178,16 @@ export default {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
           this.listLoading = false
-        } else {
-          this.$notify.error({
-            title: '错误',
-            message: '出错了',
-            offset: 100
-          })
         }
         setTimeout(() => {
           this.listLoading = false
         }, 0.5 * 100)
       })
+    },
+    // 清空搜索条件
+    restFilter() {
+      this.searchRepositoryId = ''
+      this.getemplist.searchRepositoryId = ''
     },
     // 搜索
     handleFilter() {
@@ -197,12 +196,14 @@ export default {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
+          this.restFilter()
         } else {
           this.$notify.error({
             title: '错误',
             message: '出错了',
             offset: 100
           })
+          this.restFilter()
         }
       })
     },

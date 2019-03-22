@@ -5,25 +5,23 @@
       <el-input v-model="getemplist.title" :placeholder="$t('InventoryCount.title')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
       <el-input v-model="getemplist.sourceNumber" :placeholder="$t('InventoryCount.sourceNumber')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
       <el-input v-model="getemplist.countNumber" :placeholder="$t('InventoryCount.countNumber')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
-      <el-input v-model="getemplist.handlePersonId" :placeholder="$t('InventoryCount.handlePersonId')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
+      <el-input v-model="handlePersonId" :placeholder="$t('InventoryCount.handlePersonId')" class="filter-item" clearable @keyup.enter.native="handleFilter" @focus="handlechoose"/>
+      <my-create :createcontrol.sync="createcontrol" @createname="createname"/>
       <!-- 更多搜索条件下拉栏 -->
       <el-popover
+        v-model="visible2"
         placement="bottom"
         width="500"
-        trigger="click">
-        <el-input v-model="getemplist.createPersonId" :placeholder="$t('InventoryCount.createPersonId')" class="filter-item" clearable style="width: 40%;float: left;margin-left: 20px" @keyup.enter.native="handleFilter"/>
+        trigger="manual">
         <el-select v-model="getemplist.countDeptId" placeholder="请选择盘点部门" clearable style="width: 40%;float: right;margin-right: 20px">
-          <el-option value="1" label="科技部门"/>
+          <el-option
+            v-for="(item, index) in depts"
+            :key="index"
+            :value="item.id"
+            :label="item.deptName"/>
         </el-select>
-        <el-select v-model="getemplist.enterRepositoryId" placeholder="请选择入库门店" clearable style="width: 40%;float: right;margin-right: 20px;margin-top: 20px">
-          <el-option value="1" label="科技部门"/>
-        </el-select>
-        <el-select v-model="getemplist.countRepositoryId" placeholder="请选择盘点仓库" clearable style="width: 40%;float: left;margin-left: 20px;margin-top: 20px">
-          <el-option value="1" label="好的"/>
-        </el-select>
-        <el-select v-model="getemplist.receiptStat" placeholder="请选择单据状态" clearable style="width: 40%;float: left;margin-left: 20px;margin-top: 20px">
-          <el-option value="1" label="好的"/>
-        </el-select>
+        <el-input v-model="countRepositoryId" placeholder="请选择盘点仓库" style="width: 40%;float: left;margin-left: 20px" clearable @keyup.enter.native="handleFilter" @focus="handlechooseRep"/>
+        <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
         <el-date-picker
           v-model="date"
           type="daterange"
@@ -36,7 +34,7 @@
         <div class="seachbutton" style="width: 100%;float: right;margin-top: 20px">
           <el-button v-waves class="filter-item" type="primary" style="float: right" @click="handleFilter">{{ $t('public.search') }}</el-button>
         </div>
-        <el-button v-waves slot="reference" type="primary" class="filter-item" style="width: 130px">{{ $t('public.filter') }}<svg-icon icon-class="shaixuan" style="margin-left: 4px"/></el-button>
+        <el-button v-waves slot="reference" type="primary" class="filter-item" style="width: 130px" @click="visible2 = !visible2">{{ $t('public.filter') }}<svg-icon icon-class="shaixuan" style="margin-left: 4px"/></el-button>
       </el-popover>
       <!-- 搜索按钮 -->
       <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 86px" @click="handleFilter">{{ $t('public.search') }}</el-button>
@@ -78,22 +76,22 @@
         </el-table-column>
         <el-table-column :label="$t('InventoryCount.title')" :resizable="false" prop="title" align="center" width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.InventoryCountName }}</span>
+            <span>{{ scope.row.title }}</span>
           </template>
         </el-table-column>
         <el-table-column :label="$t('InventoryCount.handlePersonId')" :resizable="false" prop="handlePersonId" align="center" width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.handlePersonId }}</span>
+            <span>{{ scope.row.handlePersonName }}</span>
           </template>
         </el-table-column>
         <el-table-column :label="$t('InventoryCount.countDeptId')" :resizable="false" prop="countDeptId" align="center" width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.countDeptId }}</span>
+            <span>{{ scope.row.countDeptName }}</span>
           </template>
         </el-table-column>
         <el-table-column :label="$t('InventoryCount.countRepositoryId')" :resizable="false" align="center" width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.countRepositoryId }}</span>
+            <span>{{ scope.row.countRepositoryName }}</span>
           </template>
         </el-table-column>
         <el-table-column :label="$t('InventoryCount.beginTime')" :resizable="false" prop="beginTime" align="center" width="150">
@@ -111,19 +109,9 @@
             <span>{{ scope.row.countType }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('InventoryCount.isOverflow')" :resizable="false" align="center" width="150">
-          <template slot-scope="scope">
-            <span>{{ scope.row.endDate }}</span>
-          </template>
-        </el-table-column>
         <el-table-column :label="$t('InventoryCount.judgeStat')" :resizable="false" prop="judgeStat" align="center" width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.judgeStat }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column :label="$t('InventoryCount.receiptStat')" :resizable="false" prop="receiptStat" align="center" width="150">
-          <template slot-scope="scope">
-            <span>{{ scope.row.receiptStat }}</span>
+            <span>{{ scope.row.judgeStat | judgeStatFilter }}</span>
           </template>
         </el-table-column>
         <el-table-column :label="$t('public.actions')" :resizable="false" align="center" min-width="230">
@@ -136,7 +124,7 @@
       <!-- 列表结束 -->
       <pagination v-show="total>0" :total="total" :page.sync="getemplist.pagenum" :limit.sync="getemplist.pagesize" @pagination="getlist" />
       <!--修改开始=================================================-->
-      <my-dialog :control.sync="editVisible" :editdata.sync="personalForm" @rest="refreshlist"/>
+      <my-dialog :incontrol.sync="editVisible" :editdata.sync="personalForm" @rest="refreshlist"/>
       <!--修改结束=================================================-->
     </div>
   </div>
@@ -144,25 +132,40 @@
 
 <script>
 import { countlist, deletecount } from '@/api/InventoryCount'
+import { getdeptlist } from '@/api/BasicSettings'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
 import MyDialog from './components/MyDialog'
+import MyCreate from '../LogisticsCar/components/MyCreate'
+import MyRepository from '../Inventorydamaged/components/MyRepository'
 
 export default {
   name: 'InventoryCountList',
   directives: { waves },
-  components: { Pagination, MyDialog },
+  components: { MyRepository, MyCreate, Pagination, MyDialog },
   filters: {
-    genderFilter(status) {
+    judgeStatFilter(status) {
       const statusMap = {
-        1: '男',
-        2: '女'
+        1: '未审核',
+        2: '审核'
       }
       return statusMap[status]
     }
   },
   data() {
     return {
+      // 盘点仓库回显
+      countRepositoryId: '',
+      // 控制仓库选择窗口
+      repositorycontrol: false,
+      // 部门数据
+      depts: [],
+      // 控制经办人选择窗口
+      createcontrol: false,
+      // 经办人回显
+      handlePersonId: '',
+      // 更多搜索条件问题
+      visible2: false,
       // 批量操作
       moreaction: '',
       // 加载操作控制
@@ -212,6 +215,19 @@ export default {
           this.listLoading = false
         }, 0.5 * 100)
       })
+      // 部门列表数据
+      getdeptlist().then(res => {
+        if (res.data.ret === 200) {
+          this.depts = res.data.data.content
+        }
+      })
+    },
+    // 清空搜索条件
+    restFilter() {
+      this.handlePersonId = ''
+      this.getemplist.handlePersonId = ''
+      this.countRepositoryId = ''
+      this.getemplist.countRepositoryId = ''
     },
     // 搜索
     handleFilter() {
@@ -224,24 +240,42 @@ export default {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
+          this.restFilter()
         } else {
           this.$notify.error({
             title: '错误',
             message: '出错了',
             offset: 100
           })
+          this.restFilter()
         }
       })
+    },
+    // 经办人输入框focus事件触发
+    handlechoose() {
+      this.createcontrol = true
+    },
+    // 员工列表返回经办人数据
+    createname(val) {
+      console.log(val)
+      this.handlePersonId = val.personName
+      this.getemplist.handlePersonId = val.id
+    },
+    // 仓库列表focus事件触发
+    handlechooseRep() {
+      this.repositorycontrol = true
+    },
+    repositoryname(val) {
+      console.log(val)
+      this.countRepositoryId = val.repositoryName
+      this.getemplist.countRepositoryId = val.id
     },
     // 修改操作
     handleEdit(row) {
       console.log(row)
       this.editVisible = true
       this.personalForm = Object.assign({}, row)
-      this.personalForm.isHot = String(row.isHot)
-      this.personalForm.isEffective = String(row.isEffective)
-      this.personalForm.moneyId = String(row.moneyId)
-      this.personalForm.companyTypeId = String(row.companyTypeId)
+      this.personalForm.countType = String(row.countType)
     },
     // 修改组件修改成功后返回
     refreshlist(val) {

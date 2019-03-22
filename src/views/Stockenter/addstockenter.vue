@@ -76,22 +76,22 @@
           style="width: 100%">
           <el-editable-column type="selection" width="55" align="center"/>
           <el-editable-column type="index" align="center" label="编号" width="150px" />
-          <el-editable-column :edit-render="{name: 'ElSelect', options: locationlist}" prop="locationId" align="center" label="货位" width="150px"/>
+          <el-editable-column :edit-render="{name: 'ElSelect', options: locationlist, type: 'visible'}" prop="locationId" align="center" label="货位" width="150px"/>
           <el-editable-column prop="productCode" align="center" label="物品编号" width="150px"/>
           <el-editable-column prop="productName" align="center" label="物品名称" width="150px"/>
           <el-editable-column prop="color" align="center" label="颜色" width="150px"/>
           <el-editable-column prop="productType" align="center" label="规格" width="150px"/>
           <el-editable-column prop="unit" align="center" label="单位" width="150px"/>
           <el-editable-column prop="basicQuantity" align="center" label="基本数量" width="150px"/>
-          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}}" prop="actualEnterQuantity" align="center" label="实收数量" width="150px"/>
+          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="actualEnterQuantity" align="center" label="实收数量" width="150px"/>
           <el-editable-column prop="enterPrice" align="center" label="入库单价" width="150px"/>
-          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}}" prop="taxRate" align="center" label="税率" width="150px"/>
+          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="taxRate" align="center" label="税率" width="150px"/>
           <el-editable-column prop="enterMoney" align="center" label="入库金额" width="150px">
             <template slot-scope="scope">
               <p>{{ getSize(scope.row.actualEnterQuantity, scope.row.enterPrice) }}</p>
             </template>
           </el-editable-column>
-          <el-editable-column :edit-render="{name: 'ElInput'}" prop="remarks" align="center" label="备注" width="150px"/>
+          <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="remarks" align="center" label="备注" width="150px"/>
         </el-editable>
       </div>
       <!--操作-->
@@ -205,7 +205,7 @@ export default {
     // 保存操作
     handlesave() {
       const rest = this.$refs.editable.getRecords()
-      if (rest !== true) {
+      if (rest.length === 0) {
         this.$notify.error({
           title: '错误',
           message: '明细表不能为空',

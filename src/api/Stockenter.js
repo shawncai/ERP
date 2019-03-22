@@ -602,3 +602,60 @@ export function deleteotherenter(query) {
     data: params
   })
 }
+
+// 审核入库单操作
+export function updatestockenter3(query, query2, query3) {
+  var params = new URLSearchParams()
+  if (query.id !== '' && query.id !== null && query.id !== undefined) {
+    params.append('enterId', query.id) // 你要传给后台的参数值 key/value
+  }
+  if (query3 !== '' && query3 !== null && query3 !== undefined) {
+    params.append('judgePersonId', query3) // 你要传给后台的参数值 key/value
+  }
+  if (query2 !== '' && query2 !== null && query2 !== undefined) {
+    params.append('judgeStat', query2) // 你要传给后台的参数值 key/value
+  }
+  return request({
+    url: '/erp/stockenter/updatestockenter',
+    method: 'post',
+    data: params
+  })
+}
+
+// 审核生产完成入库单操作
+export function updatestockenter4(query, query2, query3) {
+  var params = new URLSearchParams()
+  if (query.id !== '' && query.id !== null && query.id !== undefined) {
+    params.append('enterId', query.id) // 你要传给后台的参数值 key/value
+  }
+  if (query3 !== '' && query3 !== null && query3 !== undefined) {
+    params.append('judgePersonId', query3) // 你要传给后台的参数值 key/value
+  }
+  if (query2 !== '' && query2 !== null && query2 !== undefined) {
+    params.append('judgeStat', query2) // 你要传给后台的参数值 key/value
+  }
+  return request({
+    url: '/erp/produceenter/updatestockenter',
+    method: 'post',
+    data: params
+  })
+}
+
+// 审核其他入库单操作
+export function updateotherenter5(query, query2, query3) {
+  var params = new URLSearchParams()
+  if (query.id !== '' && query.id !== null && query.id !== undefined) {
+    params.append('id', query.id) // 你要传给后台的参数值 key/value
+  }
+  if (query3 !== '' && query3 !== null && query3 !== undefined) {
+    params.append('judgePersonId', query3) // 你要传给后台的参数值 key/value
+  }
+  if (query2 !== '' && query2 !== null && query2 !== undefined) {
+    params.append('judgeStat', query2) // 你要传给后台的参数值 key/value
+  }
+  return request({
+    url: '/erp/otherenter/updateotherenter',
+    method: 'post',
+    data: params
+  })
+}

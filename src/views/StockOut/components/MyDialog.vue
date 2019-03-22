@@ -347,7 +347,7 @@ export default {
       this.personalForm.modifyPersonId = 3
       console.log(this.personalForm)
       const rest = this.$refs.editable.getRecords()
-      if (rest !== true) {
+      if (rest.length === 0) {
         this.$notify.error({
           title: '错误',
           message: '明细表不能为空',

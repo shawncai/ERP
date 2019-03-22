@@ -16,12 +16,19 @@
           </el-col>
           <el-col :span="4">
             <el-form-item label="入库部门">
-              <el-input v-model="getemplist.enterDeptId" :placeholder="$t('WarehouseAdjust.enterDeptId')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
+              <el-select v-model="getemplist.enterDeptId" placeholder="请选择入库部门" clearable class="filter-item">
+                <el-option
+                  v-for="(item, index) in depts"
+                  :key="index"
+                  :value="item.id"
+                  :label="item.deptName"/>
+              </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="4">
             <el-form-item label="入库人">
-              <el-input v-model="getemplist.title" :placeholder="$t('WarehouseAdjust.enterPersonId')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
+              <el-input v-model="enterPersonId" :placeholder="$t('WarehouseAdjust.enterPersonId')" class="filter-item" clearable @keyup.enter.native="handleFilter" @focus="handlechooseDelivery"/>
+              <my-delivery :deliverycontrol.sync="deliverycontrol" @deliveryName="deliveryName"/>
             </el-form-item>
           </el-col>
           <el-col :span="4">
@@ -30,10 +37,6 @@
               placement="bottom"
               width="500"
               trigger="click">
-              <el-input v-model="getemplist.sourceNumber" :placeholder="$t('WarehouseAdjust.sourceNumber')" class="filter-item" clearable style="width: 40%;float: left;margin-left: 20px" @keyup.enter.native="handleFilter"/>
-              <el-select v-model="getemplist.enterDeptId" placeholder="请选择入库部门" clearable style="width: 40%;float: right;margin-right: 20px">
-                <el-option value="1" label="科技部门"/>
-              </el-select>
               <el-date-picker
                 v-model="date"
                 type="daterange"
@@ -141,14 +144,16 @@
 
 <script>
 import { enterlist, deleteenter } from '@/api/WarehouseAdjust'
+import { getdeptlist } from '@/api/BasicSettings'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
 import MyDialog from './components/MyDialog'
+import MyDelivery from '../DailyAdjust/components/MyDelivery'
 
 export default {
   name: 'Enterlist',
   directives: { waves },
-  components: { Pagination, MyDialog },
+  components: { MyDelivery, Pagination, MyDialog },
   filters: {
     judgeStatfilter(status) {
       const statusMap = {
@@ -160,6 +165,8 @@ export default {
   },
   data() {
     return {
+      // 部门数据
+      depts: [],
       // 批量操作
       moreaction: '',
       // 加载操作控制
@@ -185,7 +192,11 @@ export default {
       // 控制组件数据
       editVisible: false,
       // 开始时间到结束时间
-      date: []
+      date: [],
+      // 入库人回显
+      deliveryPersonId: '',
+      // 控制入库人窗口
+      deliverycontrol: false
     }
   },
   mounted() {
@@ -204,7 +215,11 @@ export default {
           this.listLoading = false
         }, 0.5 * 100)
       })
-      this.listLoading = false
+      getdeptlist().then(res => {
+        if (res.data.ret === 200) {
+          this.depts = res.data.data.content
+        }
+      })
     },
     // 搜索
     handleFilter() {
@@ -221,6 +236,14 @@ export default {
           })
         }
       })
+    },
+    // 入库人foucs事件触发
+    handlechooseDelivery() {
+      this.deliverycontrol = true
+    },
+    deliveryName(val) {
+      this.enterPersonId = val.personName
+      this.getemplist.enterPersonId = val.id
     },
     // 修改操作
     handleEdit(row) {

@@ -214,11 +214,15 @@ export default {
           locationId: '',
           color: item.color,
           typeId: item.typeId,
+          inventoryQuantity: '',
+          actualQuantity: '',
           enterQuantity: 0,
           taxRate: 0,
           unit: item.saleMeasurement,
+          totalMoney: 0,
           actualEnterQuantity: 0,
           basicQuantity: 0,
+          batch: '',
           price: item.costPrice,
           productType: item.productType
         }

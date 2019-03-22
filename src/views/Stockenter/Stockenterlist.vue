@@ -101,8 +101,9 @@
           align="center"/>
         <el-table-column :label="$t('Stockenter.id')" :resizable="false" prop="id" align="center" width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.id }}</span>
+            <span class="link-type" @click="handleDetail(scope.row)">{{ scope.row.id }}</span>
           </template>
+          <detail-list :detailcontrol.sync="detailvisible" :detaildata.sync="personalForm"/>
         </el-table-column>
         <el-table-column :label="$t('Stockenter.title')" :resizable="false" prop="title" align="center" width="150">
           <template slot-scope="scope">
@@ -146,12 +147,18 @@
         </el-table-column>
         <el-table-column :label="$t('Stockenter.judgeStat')" :resizable="false" prop="judgeStat" align="center" width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.judgeStat }}</span>
+            <span>{{ scope.row.judgeStat | judgeStatFilter }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column :label="$t('Stockenter.receiptStat')" :resizable="false" align="center" width="150">
+          <template slot-scope="scope">
+            <span>{{ scope.row.receiptStat | receiptStatFilter }}</span>
           </template>
         </el-table-column>
         <el-table-column :label="$t('public.actions')" :resizable="false" align="center" min-width="230">
           <template slot-scope="scope">
             <el-button type="primary" size="mini" @click="handleEdit(scope.row)">{{ $t('public.edit') }}</el-button>
+            <el-button v-if="isReview(scope.row)" type="warning" size="mini" @click="handleReview(scope.row)">{{ $t('public.review') }}</el-button>
             <el-button size="mini" type="danger" @click="handleDelete(scope.row)">{{ $t('public.delete') }}</el-button>
           </template>
         </el-table-column>
@@ -166,7 +173,7 @@
 </template>
 
 <script>
-import { stockenterlist, deletestockenter } from '@/api/Stockenter'
+import { stockenterlist, deletestockenter, updatestockenter3 } from '@/api/Stockenter'
 import { getdeptlist } from '@/api/BasicSettings'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
@@ -177,16 +184,27 @@ import MyEmp from './components/MyEmp'
 import MyDelivery from './components/MyDelivery'
 import MyAccept from './components/MyAccept'
 import MyDetail from './components/MyDetail'
+import DetailList from './components/DetailList'
 
 export default {
   name: 'Stockenterlist',
   directives: { waves },
-  components: { Pagination, MyDialog, MyRepository, MySupplier, MyEmp, MyDelivery, MyAccept, MyDetail },
+  components: { DetailList, Pagination, MyDialog, MyRepository, MySupplier, MyEmp, MyDelivery, MyAccept, MyDetail },
   filters: {
-    genderFilter(status) {
+    judgeStatFilter(status) {
       const statusMap = {
-        1: '男',
-        2: '女'
+        0: '未审核',
+        1: '审核中',
+        2: '审核通过',
+        3: '审核不通过'
+      }
+      return statusMap[status]
+    },
+    receiptStatFilter(status) {
+      const statusMap = {
+        1: '制单',
+        2: '执行',
+        3: '结单'
       }
       return statusMap[status]
     }
@@ -237,6 +255,8 @@ export default {
       personalForm: {},
       // 控制组件数据
       editVisible: false,
+      // 详情组件数据
+      detailvisible: false,
       // 开始时间到结束时间
       date: []
     }
@@ -296,6 +316,49 @@ export default {
       if (val === true) {
         this.getlist()
       }
+    },
+    // 详情操作
+    handleDetail(row) {
+      console.log(row)
+      this.detailvisible = true
+      this.personalForm = Object.assign({}, row)
+      this.personalForm.sourceType = String(row.sourceType)
+    },
+    // 判断审核按钮
+    isReview(row) {
+      console.log(row)
+      const approvalUse = row.approvalUseVos
+      if (this.getemplist.createPersonId === approvalUse[approvalUse.length - 1].stepHandler && (row.judgeStat === 1 || row.judgeStat === 0)) {
+        return true
+      }
+    },
+    // 审批操作
+    handleReview(row) {
+      this.$confirm('请审核', '审核', {
+        confirmButtonText: '通过',
+        cancelButtonText: '不通过',
+        type: 'warning'
+      }).then(() => {
+        updatestockenter3(row, 2, this.getemplist.createPersonId).then(res => {
+          if (res.data.ret === 200) {
+            this.$message({
+              type: 'success',
+              message: '审核成功!'
+            })
+            this.getlist()
+          }
+        })
+      }).catch(() => {
+        updatestockenter3(row, 1, this.getemplist.createPersonId).then(res => {
+          if (res.data.ret === 200) {
+            this.$message({
+              type: 'success',
+              message: '审核成功!'
+            })
+            this.getlist()
+          }
+        })
+      })
     },
     // 批量操作
     handleSelectionChange(val) {

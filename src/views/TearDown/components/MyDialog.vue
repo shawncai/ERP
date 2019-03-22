@@ -356,6 +356,15 @@ export default {
       this.personalForm.modifyPersonId = 3
       console.log(this.personalForm)
       const rest = this.$refs.editable.getRecords()
+      console.log(rest)
+      if (rest.length === 0) {
+        this.$notify.error({
+          title: '错误',
+          message: '采购入库明细表不能为空',
+          offset: 100
+        })
+        return false
+      }
       rest.map(function(elem) {
         return elem
       }).forEach(function(elem) {
