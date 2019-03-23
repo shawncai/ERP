@@ -95,3 +95,29 @@ export function updatedailyAdjust(query, query2) {
     data: params
   })
 }
+
+// 删除日常调整单
+export function deletedailyAdjust(query) {
+  var params = new URLSearchParams()
+  if (query !== '' && query !== null && query !== undefined) {
+    params.append('modelids', query) // 你要传给后台的参数值 key/value
+  }
+  return request({
+    url: '/erp/dailyAdjust/delete',
+    method: 'post',
+    data: params
+  })
+}
+
+// 审核日常调整单列表
+export function updatedailyAdjust2(query) {
+  var params = new URLSearchParams()
+  if (query !== '' && query !== null && query !== undefined) {
+    params.append('Json', query) // 你要传给后台的参数值 key/value
+  }
+  return request({
+    url: '/erp/dailyAdjust/update',
+    method: 'post',
+    data: params
+  })
+}

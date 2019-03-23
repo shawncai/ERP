@@ -65,20 +65,30 @@
             style="width: 100%">
             <el-editable-column type="selection" width="55" align="center"/>
             <el-editable-column label="编号" width="55" align="center" type="index"/>
-            <el-editable-column :edit-render="{name: 'ElSelect', options: locationlist}" prop="locationId" align="center" label="货位" width="150px"/>
+            <el-editable-column :edit-render="{type: 'default'}" prop="locationId" align="center" label="货位" width="200px">
+              <template slot-scope="scope">
+                <el-select v-model="scope.row.locationId" :value="scope.row.locationId" placeholder="请选择货位" filterable clearable style="width: 100%;" @visible-change="updatebatch($event,scope)">
+                  <el-option
+                    v-for="(item, index) in locationlist"
+                    :key="index"
+                    :value="item.id"
+                    :label="item.locationCode"/>
+                </el-select>
+              </template>
+            </el-editable-column>
             <el-editable-column prop="productCode" align="center" label="物品编号" width="150px"/>
             <el-editable-column prop="productName" align="center" label="物品名称" width="150px"/>
             <el-editable-column prop="color" align="center" label="颜色" width="150px"/>
             <el-editable-column prop="typeIdname" align="center" label="规格" width="150px"/>
             <el-editable-column prop="unit" align="center" label="单位" width="150px"/>
-            <el-editable-column :edit-render="{name: 'ElInputNumber'}" prop="overflowQuantity" align="center" label="报溢数量" width="150px"/>
+            <el-editable-column :edit-render="{name: 'ElInputNumber', type: 'visible'}" prop="overflowQuantity" align="center" label="报溢数量" width="150px"/>
             <el-editable-column prop="price" align="center" label="单价" width="150px"/>
             <el-editable-column prop="totalMoney" align="center" label="金额" width="150px">
               <template slot-scope="scope">
                 <p>{{ getSize(scope.row.overflowQuantity, scope.row.price) }}</p>
               </template>
             </el-editable-column>
-            <el-editable-column :edit-render="{name: 'ElInput'}" prop="remarks" align="center" label="备注" width="150px"/>
+            <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="remarks" align="center" label="备注" width="150px"/>
           </el-editable>
         </div>
       </el-card>
@@ -92,8 +102,8 @@
 </template>
 
 <script>
-import { locationlist } from '@/api/WarehouseAdjust'
 import { getdeptlist } from '@/api/BasicSettings'
+import { getlocation, locationlist } from '@/api/public'
 import { addinventoryoverflow } from '@/api/InventoryOverflow'
 import MyRepository from './components/MyRepository'
 import MyAccept from './components/MyAccept'
@@ -192,6 +202,32 @@ export default {
           })
         }
       })
+    },
+    updatebatch(event, scope) {
+      if (event === true) {
+        console.log(this.personalForm.overflowRepositoryId)
+        if (this.personalForm.overflowRepositoryId === undefined || this.personalForm.overflowRepositoryId === '') {
+          this.$notify.error({
+            title: '错误',
+            message: '请先选择仓库',
+            offset: 100
+          })
+          return false
+        }
+        getlocation(this.personalForm.overflowRepositoryId, scope.row).then(res => {
+          if (res.data.ret === 200) {
+            if (res.data.data.content.length !== 0) {
+              this.locationlist = res.data.data.content
+            } else if (res.data.data.content.length === 0) {
+              locationlist(this.personalForm.overflowRepositoryId).then(res => {
+                if (res.data.ret === 200) {
+                  this.locationlist = res.data.data.content.list
+                }
+              })
+            }
+          }
+        })
+      }
     },
     // 报溢单事件
     // 新增报溢单明细
@@ -345,7 +381,6 @@ export default {
 
 <style rel="stylesheet/scss" lang="scss" scoped>
   .ERP-container{
-    margin:0px 20px;
     margin-right: 0;
     .form-name{
       font-size: 18px;

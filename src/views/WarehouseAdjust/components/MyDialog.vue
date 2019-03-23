@@ -64,21 +64,31 @@
           style="width: 100%">
           <el-editable-column type="selection" width="55" align="center"/>
           <el-editable-column label="编号" width="55" align="center" type="index"/>
-          <el-editable-column :edit-render="{name: 'ElSelect', options: locationlist}" prop="locationId" align="center" label="货位" width="150px"/>
+          <el-editable-column :edit-render="{type: 'default'}" prop="locationId" align="center" label="货位" width="200px">
+            <template slot-scope="scope">
+              <el-select v-model="scope.row.locationId" :value="scope.row.locationId" placeholder="请选择货位" filterable clearable style="width: 100%;" @visible-change="updatebatch($event,scope)">
+                <el-option
+                  v-for="(item, index) in locationlist"
+                  :key="index"
+                  :value="item.id"
+                  :label="item.locationCode"/>
+              </el-select>
+            </template>
+          </el-editable-column>
           <el-editable-column prop="productCode" align="center" label="物品编号" width="150px"/>
           <el-editable-column prop="productName" align="center" label="物品名称" width="150px"/>
           <el-editable-column prop="color" align="center" label="颜色" width="150px"/>
           <el-editable-column prop="productType" align="center" label="规格" width="150px"/>
           <el-editable-column prop="unit" align="center" label="单位" width="150px"/>
           <el-editable-column prop="basicQuantity" align="center" label="基本数量" width="150px"/>
-          <el-editable-column :edit-render="{name: 'ElInputNumber'}" prop="enterQuantity" align="center" label="入库数量" width="150px"/>
+          <el-editable-column :edit-render="{name: 'ElInputNumber', type: 'visible'}" prop="enterQuantity" align="center" label="入库数量" width="150px"/>
           <el-editable-column prop="price" align="center" label="单价" width="150px"/>
           <el-editable-column prop="totalMoney" align="center" label="入库金额" width="150px">
             <template slot-scope="scope">
               <p>{{ getSize(scope.row.enterQuantity, scope.row.price) }}</p>
             </template>
           </el-editable-column>
-          <el-editable-column :edit-render="{name: 'ElInput'}" prop="remarks" align="center" label="备注" width="150px"/>
+          <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="remarks" align="center" label="备注" width="150px"/>
         </el-editable>
       </div>
     </el-card>
@@ -90,7 +100,8 @@
 </template>
 
 <script>
-import { locationlist, updateenter } from '@/api/WarehouseAdjust'
+import { getlocation, locationlist } from '@/api/public'
+import { updateenter } from '@/api/WarehouseAdjust'
 import { getdeptlist } from '@/api/BasicSettings'
 import MyCreate from './MyCreate'
 import MyRepository from './MyRepository'
@@ -166,6 +177,7 @@ export default {
       this.enterPersonId = this.personalForm.enterPersonName
       this.enterRepositoryId = this.personalForm.enterRepositoryName
       this.list2 = this.personalForm.initialEnterDetailVos
+      this.getlocation()
     }
   },
   mounted() {
@@ -190,6 +202,14 @@ export default {
       this.enterPersonId = val.personName
       this.personalForm.enterPersonId = val.id
     },
+    getlocation() {
+      // 货位根据仓库id展现
+      locationlist(this.personalForm.enterRepositoryId).then(res => {
+        if (res.data.ret === 200) {
+          this.locationlist = res.data.data.content.list
+        }
+      })
+    },
     // 仓库列表focus事件触发
     handlechooseRep() {
       this.repositorycontrol = true
@@ -201,14 +221,35 @@ export default {
       this.locationlistparms.repositoryId = val.id
       locationlist(this.locationlistparms).then(res => {
         if (res.data.ret === 200) {
-          this.locationlist = res.data.data.content.list.map(function(item) {
-            return {
-              'value': item.id,
-              'label': item.locationName
-            }
-          })
+          this.locationlist = res.data.data.content.list
         }
       })
+    },
+    updatebatch(event, scope) {
+      if (event === true) {
+        console.log(this.personalForm.enterRepositoryId)
+        if (this.personalForm.enterRepositoryId === undefined || this.personalForm.countRepositoryId === '') {
+          this.$notify.error({
+            title: '错误',
+            message: '请先选择仓库',
+            offset: 100
+          })
+          return false
+        }
+        getlocation(this.personalForm.enterRepositoryId, scope.row).then(res => {
+          if (res.data.ret === 200) {
+            if (res.data.data.content.length !== 0) {
+              this.locationlist = res.data.data.content
+            } else if (res.data.data.content.length === 0) {
+              locationlist(this.personalForm.enterRepositoryId).then(res => {
+                if (res.data.ret === 200) {
+                  this.locationlist = res.data.data.content.list
+                }
+              })
+            }
+          }
+        })
+      }
     },
     // 入库单事件
     // 新增入库单明细

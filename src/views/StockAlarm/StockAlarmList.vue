@@ -20,7 +20,7 @@
               <el-input v-model="getemplist.productName" :placeholder="$t('StockAlarm.productName')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
-          <el-col :span="4">
+          <el-col :span="4" style="margin-left: 154px;">
             <!-- 搜索按钮 -->
             <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 86px" @click="handleFilter">{{ $t('public.search') }}</el-button>
           </el-col>
@@ -252,7 +252,7 @@ export default {
     padding: 0;
   }
   .ERP-container {
-    margin: 0px 30px;
+    margin: 0px 15px;
   }
   .filter-container{
     padding: 20px;

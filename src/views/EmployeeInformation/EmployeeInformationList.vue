@@ -37,8 +37,11 @@
             :value="item.id"/>
         </el-select>
         <el-select v-model="getemplist.postid" :value="getemplist.postid" :placeholder="$t('NewEmployeeInformation.postid2')" class="filter-item" clearable style="width: 40%;float: left;margin-top: 10px;margin-left: 20px">
-          <el-option label="xxx" value="1"/>
-          <el-option label="xxx" value="2"/>
+          <el-option
+            v-for="(item, index) in jobs"
+            :key="index"
+            :label="item.categoryName"
+            :value="item.id"/>
         </el-select>
         <el-select v-model="getemplist.deptid" :placeholder="$t('NewEmployeeInformation.deptid2')" class="filter-item" clearable style="width: 40%;float: right;margin-top: 10px;margin-right: 20px">
           <el-option

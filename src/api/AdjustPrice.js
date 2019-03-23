@@ -105,3 +105,16 @@ export function updatrepoadjustprice(query, query2) {
     data: params
   })
 }
+
+// 审核调价单
+export function updatrepoadjustprice2(query) {
+  var params = new URLSearchParams()
+  if (query !== '' && query !== null && query !== undefined) {
+    params.append('repoAdjustPriceJson', query) // 你要传给后台的参数值 key/value
+  }
+  return request({
+    url: '/erp/repoadjustprice/updatrepoadjustprice',
+    method: 'post',
+    data: params
+  })
+}

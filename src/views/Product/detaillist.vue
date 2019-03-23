@@ -186,7 +186,7 @@ export default {
     // 搜索树状图数据方法
     filterNode(value, data) {
       if (!value) return true
-      return data.label.indexOf(value) !== -1
+      return data.categoryName.indexOf(value) !== -1
     },
     // 树状图数据
     gettree() {

@@ -93,3 +93,14 @@ export function updatecount(query, query2) {
     data: params
   })
 }
+
+// 审核盘点单
+export function updatecount2(query) {
+  var params = new URLSearchParams()
+  params.append('inventoryCountJson', query) // 你要传给后台的参数值 key/value
+  return request({
+    url: '/erp/inventorycount/updatecount',
+    method: 'post',
+    data: params
+  })
+}

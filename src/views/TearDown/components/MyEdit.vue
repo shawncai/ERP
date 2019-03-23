@@ -64,20 +64,30 @@
           style="width: 100%">
           <el-editable-column type="selection" width="55" align="center"/>
           <el-editable-column label="编号" width="55" align="center" type="index"/>
-          <el-editable-column :edit-render="{name: 'ElSelect', options: locationlist}" prop="locationId" align="center" label="货位" width="150px"/>
+          <el-editable-column :edit-render="{type: 'default'}" prop="locationId" align="center" label="货位" width="200px">
+            <template slot-scope="scope">
+              <el-select v-model="scope.row.locationId" :value="scope.row.locationId" placeholder="请选择货位" filterable clearable style="width: 100%;" @visible-change="updatebatch($event,scope)">
+                <el-option
+                  v-for="(item, index) in locationlist"
+                  :key="index"
+                  :value="item.id"
+                  :label="item.locationCode"/>
+              </el-select>
+            </template>
+          </el-editable-column>
           <el-editable-column prop="productCode" align="center" label="物品编号" width="150px"/>
           <el-editable-column prop="productName" align="center" label="物品名称" width="150px"/>
           <el-editable-column prop="color" align="center" label="颜色" width="150px"/>
           <el-editable-column prop="typeIdname" align="center" label="规格" width="150px"/>
           <el-editable-column prop="unit" align="center" label="单位" width="150px"/>
-          <el-editable-column :edit-render="{name: 'ElInputNumber'}" prop="quantity" align="center" label="数量" width="150px"/>
+          <el-editable-column :edit-render="{name: 'ElInputNumber', type: 'visible'}" prop="quantity" align="center" label="数量" width="150px"/>
           <el-editable-column prop="price" align="center" label="单价" width="150px"/>
           <el-editable-column prop="totalMoney" align="center" label="金额" width="150px">
             <template slot-scope="scope">
               <p>{{ getSize2(scope.row.quantity, scope.row.price) }}</p>
             </template>
           </el-editable-column>
-          <el-editable-column :edit-render="{name: 'ElInput'}" prop="remarks" align="center" label="备注" width="150px"/>
+          <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="remarks" align="center" label="备注" width="150px"/>
         </el-editable>
       </div>
     </el-card>
@@ -102,20 +112,30 @@
           style="width: 100%">
           <el-editable-column type="selection" width="55" align="center"/>
           <el-editable-column label="编号" width="55" align="center" type="index"/>
-          <el-editable-column :edit-render="{name: 'ElSelect', options: locationlist}" prop="locationId" align="center" label="货位" width="150px"/>
+          <el-editable-column :edit-render="{type: 'default'}" prop="locationId" align="center" label="货位" width="200px">
+            <template slot-scope="scope">
+              <el-select v-model="scope.row.locationId" :value="scope.row.locationId" placeholder="请选择货位" filterable clearable style="width: 100%;" @visible-change="updatebatch($event,scope)">
+                <el-option
+                  v-for="(item, index) in locationlist"
+                  :key="index"
+                  :value="item.id"
+                  :label="item.locationCode"/>
+              </el-select>
+            </template>
+          </el-editable-column>
           <el-editable-column prop="productCode" align="center" label="物品编号" width="150px"/>
           <el-editable-column prop="productName" align="center" label="物品名称" width="150px"/>
           <el-editable-column prop="color" align="center" label="颜色" width="150px"/>
           <el-editable-column prop="typeIdname" align="center" label="规格" width="150px"/>
           <el-editable-column prop="unit" align="center" label="单位" width="150px"/>
-          <el-editable-column :edit-render="{name: 'ElInputNumber'}" prop="quantity" align="center" label="数量" width="150px"/>
+          <el-editable-column :edit-render="{name: 'ElInputNumber', type: 'visible'}" prop="quantity" align="center" label="数量" width="150px"/>
           <el-editable-column prop="price" align="center" label="单价" width="150px"/>
           <el-editable-column prop="totalMoney" align="center" label="金额" width="150px">
             <template slot-scope="scope">
               <p>{{ getSize(scope.row.quantity, scope.row.price) }}</p>
             </template>
           </el-editable-column>
-          <el-editable-column :edit-render="{name: 'ElInput'}" prop="remarks" align="center" label="备注" width="150px"/>
+          <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="remarks" align="center" label="备注" width="150px"/>
         </el-editable>
       </div>
     </el-card>
@@ -127,7 +147,7 @@
 </template>
 
 <script>
-import { locationlist } from '@/api/WarehouseAdjust'
+import { locationlist, getlocation } from '@/api/public'
 import { updateteardown } from '@/api/TearDown'
 import { getdeptlist } from '@/api/BasicSettings'
 import MyRepository from './MyRepository'
@@ -198,6 +218,7 @@ export default {
       this.editVisible = this.editcontrol
     },
     editdata() {
+      console.log()
       this.personalForm = this.editdata
       this.handlePersonId = this.personalForm.handlePersonName
       this.teardownRepositoryId = this.personalForm.teardownRepositoryName
@@ -222,12 +243,7 @@ export default {
       // 货位根据仓库id展现
       locationlist(this.personalForm.teardownRepositoryId).then(res => {
         if (res.data.ret === 200) {
-          this.locationlist = res.data.data.content.list.map(function(item) {
-            return {
-              'value': item.id,
-              'label': item.locationName
-            }
-          })
+          this.locationlist = res.data.data.content.list
         }
       })
     },
@@ -247,19 +263,45 @@ export default {
     },
     repositoryname(val) {
       console.log(val)
-      this.TearDownRepositoryId = val.repositoryName
-      this.personalForm.TearDownRepositoryId = val.id
-      this.locationlistparms.repositoryId = val.id
-      locationlist(this.locationlistparms).then(res => {
-        if (res.data.ret === 200) {
-          this.locationlist = res.data.data.content.list.map(function(item) {
-            return {
-              'value': item.id,
-              'label': item.locationName
-            }
+      this.teardownRepositoryId = val.repositoryName
+      this.personalForm.teardownRepositoryId = val.id
+      // this.locationlistparms.repositoryId = val.id
+      // locationlist(this.locationlistparms).then(res => {
+      //   if (res.data.ret === 200) {
+      //     this.locationlist = res.data.data.content.list.map(function(item) {
+      //       return {
+      //         'value': item.id,
+      //         'label': item.locationName
+      //       }
+      //     })
+      //   }
+      // })
+    },
+    updatebatch(event, scope) {
+      if (event === true) {
+        console.log(this.personalForm.teardownRepositoryId)
+        if (this.personalForm.teardownRepositoryId === undefined || this.personalForm.teardownRepositoryId === '') {
+          this.$notify.error({
+            title: '错误',
+            message: '请先选择仓库',
+            offset: 100
           })
+          return false
         }
-      })
+        getlocation(this.personalForm.teardownRepositoryId, scope.row).then(res => {
+          if (res.data.ret === 200) {
+            if (res.data.data.content.length !== 0) {
+              this.locationlist = res.data.data.content
+            } else if (res.data.data.content.length === 0) {
+              locationlist(this.personalForm.teardownRepositoryId).then(res => {
+                if (res.data.ret === 200) {
+                  this.locationlist = res.data.data.content.list
+                }
+              })
+            }
+          }
+        })
+      }
     },
     // 拆装单事件
     // 新增拆装单明细

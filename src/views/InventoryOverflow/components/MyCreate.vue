@@ -104,10 +104,10 @@
         </template>
       </el-table-column>
     </el-table>
-    <pagination v-show="total>0" :total="total" :page.sync="getemplist.pagenum" :limit.sync="getemplist.pagesize" style="padding: 0" @pagination="gitemplist"/>
     <span slot="footer" class="dialog-footer" style="text-align: left">
       <el-button v-waves type="success" style="text-align: center;" @click="handleConfirm">确认添加</el-button>
     </span>
+    <pagination v-show="total>0" :total="total" :page.sync="getemplist.pagenum" :limit.sync="getemplist.pagesize" style="padding: 0" @pagination="gitemplist"/>
   </el-dialog>
 </template>
 

@@ -14,14 +14,7 @@
           <el-input v-model="personalForm.barCode" placeholder="请输入条码" disabled/>
         </el-form-item>
         <el-form-item :label="$t('Product.categoryid')" style="width: 40%;margin-top:1%">
-          <el-select v-model="personalForm.categoryId" placeholder="请选择物品分类" style="width: 100%;" disabled @focus="updatecate">
-            <el-option
-              v-for="(item, index) in categorys"
-              :key="index"
-              :label="item.categoryName"
-              :value="item.id"
-            />
-          </el-select>
+          <el-input v-model="personalForm.category" disabled/>
         </el-form-item>
         <el-form-item :label="$t('Product.typeid')" style="width: 40%;margin-top:1%">
           <el-select v-model="personalForm.typeId" placeholder="请选择规格型号" style="width: 100%;" disabled @focus="updatecate">
@@ -34,7 +27,7 @@
           </el-select>
         </el-form-item>
         <el-form-item :label="$t('Product.purchasemeasurement')" style="width: 40%;margin-top:1%">
-          <el-select v-model="personalForm.purchaseMeasurement" placeholder="请选择采购计量单位" style="width: 100%;" @focus="updatecate">
+          <el-select v-model="personalForm.purchaseMeasurement" placeholder="请选择基本计量单位" style="width: 100%;" @focus="updatecate">
             <el-option
               v-for="(item, index) in measurements"
               :key="index"
@@ -94,8 +87,8 @@
         <my-emp :control.sync="empcontrol" @personName="personName"/>
         <el-form-item :label="$t('Product.source')" style="width: 40%;margin-top:1%">
           <el-select v-model="personalForm.source" placeholder="请选择来源" style="width: 100%;">
-            <el-option value="1" label="类1"/>
-            <el-option value="2" label="类2"/>
+            <el-option value="1" label="自制"/>
+            <el-option value="2" label="外购"/>
           </el-select>
         </el-form-item>
         <el-form-item :label="$t('Product.kpigrade')" style="width: 40%;margin-top:1%">
@@ -124,6 +117,15 @@
             <el-radio :label="1" style="width: 50%">YES</el-radio>
             <el-radio :label="2">NO</el-radio>
           </el-radio-group>
+        </el-form-item>
+        <el-form-item :label="$t('Product.isBatch')" style="width: 40%;margin-top:1%">
+          <el-radio-group v-model="personalForm.isBatch" style="width: 80%" disabled>
+            <el-radio :label="1" style="width: 50%">使用</el-radio>
+            <el-radio :label="2">不使用</el-radio>
+          </el-radio-group>
+        </el-form-item>
+        <el-form-item :label="$t('Product.effectiveDay')" style="width: 40%;margin-top:1%">
+          <el-input v-model="personalForm.effectiveDay" placeholder="请输入有效天数" clearable/>
         </el-form-item>
       </el-form>
     </div>

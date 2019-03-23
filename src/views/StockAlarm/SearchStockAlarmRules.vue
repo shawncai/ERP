@@ -16,7 +16,7 @@
               <my-product :control.sync="control" @product="productdetail"/>
             </el-form-item>
           </el-col>
-          <el-col :span="4">
+          <el-col :span="4" style="margin-left: 154px;">
             <!-- 搜索按钮 -->
             <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 86px" @click="handleFilter">{{ $t('public.search') }}</el-button>
           </el-col>
@@ -230,6 +230,11 @@ export default {
         regionIds: 2
       }
     },
+    // 清空搜索条件
+    restFilter() {
+      this.repositoryId = ''
+      this.getemplist.repositoryId = ''
+    },
     // 搜索
     handleFilter() {
       console.log(this.getemplist)
@@ -239,12 +244,14 @@ export default {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
           this.restGetemplist()
+          this.restFilter()
         } else {
           this.$notify.error({
             title: '错误',
             message: '出错了',
             offset: 100
           })
+          this.restFilter()
         }
       })
     },
@@ -374,7 +381,7 @@ export default {
     padding: 0;
   }
   .ERP-container {
-    margin: 0px 30px;
+    margin: 0px 15px;
   }
   .filter-container{
     padding: 20px;

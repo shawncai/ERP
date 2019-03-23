@@ -92,3 +92,14 @@ export function updatebuildup(query, query2, query3) {
     data: params
   })
 }
+
+// 审核组装单
+export function updatebuildup2(query) {
+  var params = new URLSearchParams()
+  params.append('buildupJson', query) // 你要传给后台的参数值 key/value
+  return request({
+    url: '/erp/buildup/updatebuildup',
+    method: 'post',
+    data: params
+  })
+}

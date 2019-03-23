@@ -109,7 +109,7 @@
           size="medium"
           style="width: 100%">
           <el-editable-column type="index" align="center" label="编号" width="150px" />
-          <el-editable-column :edit-render="{name: 'ElSelect', options: locationlist}" prop="locationId" align="center" label="货位" width="150px"/>
+          <el-editable-column prop="locationCode" align="center" label="货位" width="150px"/>
           <el-editable-column prop="productCode" align="center" label="物品编号" width="150px"/>
           <el-editable-column prop="productName" align="center" label="物品名称" width="150px"/>
           <el-editable-column prop="color" align="center" label="颜色" width="150px"/>

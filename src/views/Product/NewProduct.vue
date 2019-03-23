@@ -15,14 +15,8 @@
             <el-input v-model="personalForm.barcode" placeholder="请输入条码" clearable/>
           </el-form-item>
           <el-form-item :label="$t('Product.categoryid')" style="width: 40%;margin-top:1%">
-            <el-select v-model="personalForm.categoryid" placeholder="请选择物品分类" style="width: 100%;" @focus="updatecate">
-              <el-option
-                v-for="(item, index) in categorys"
-                :key="index"
-                :label="item.categoryName"
-                :value="item.id"
-              />
-            </el-select>
+            <el-input v-model="categoryid" placeholder="请选择物品分类" @focus="treechoose"/>
+            <my-tree :treecontrol.sync="treecontrol" @tree="tree"/>
           </el-form-item>
           <el-form-item :label="$t('Product.typeid')" style="width: 40%;margin-top:1%">
             <el-select v-model="personalForm.typeid" placeholder="请选择规格型号" style="width: 100%;" @focus="updatecate">
@@ -34,8 +28,8 @@
               />
             </el-select>
           </el-form-item>
-          <el-form-item :label="$t('Product.purchasemeasurement')" style="width: 40%;margin-top:1%">
-            <el-select v-model="personalForm.purchasemeasurement" placeholder="请选择采购计量单位" style="width: 100%;" @focus="updatecate">
+          <el-form-item :label="$t('Product.purchasemeasurement')" prop="purchasemeasurement" style="width: 40%;margin-top:1%">
+            <el-select v-model="personalForm.purchasemeasurement" placeholder="请选择基本计量单位" style="width: 100%;" @focus="updatecate">
               <el-option
                 v-for="(item, index) in measurements"
                 :key="index"
@@ -92,11 +86,11 @@
           <el-form-item :label="$t('Product.supplierid')" style="width: 40%;margin-top:1%">
             <el-input v-model="supplierid" placeholder="请选择供应商" clearable @focus="handlechoose"/>
           </el-form-item>
-          <my-supplier :control.sync="empcontrol" @personName="personName"/>
+          <my-supplier :control.sync="empcontrol" @supplierName="personName"/>
           <el-form-item :label="$t('Product.source')" style="width: 40%;margin-top:1%">
             <el-select v-model="personalForm.source" placeholder="请选择来源" style="width: 100%;">
-              <el-option value="1" label="类1"/>
-              <el-option value="2" label="类2"/>
+              <el-option value="1" label="自制"/>
+              <el-option value="2" label="外购"/>
             </el-select>
           </el-form-item>
           <el-form-item :label="$t('Product.kpigrade')" style="width: 40%;margin-top:1%">
@@ -132,7 +126,7 @@
               <el-radio :label="2">不使用</el-radio>
             </el-radio-group>
           </el-form-item>
-          <el-form-item :label="$t('Product.effectiveDay')" style="width: 40%;margin-top:1%">
+          <el-form-item :label="$t('Product.effectiveDay')" prop="effectiveDay" style="width: 40%;margin-top:1%">
             <el-input v-model="personalForm.effectiveDay" placeholder="请输入有效天数" clearable/>
           </el-form-item>
         </el-form>
@@ -221,11 +215,16 @@
 import { createnewproduct, searchEmpCategory2, searchMea } from '@/api/Product'
 import MyEmp from './components/MyEmp'
 import MySupplier from './components/MySupplier'
+import MyTree from './components/MyTree'
 export default {
   name: 'NewProduct',
-  components: { MySupplier, MyEmp },
+  components: { MyTree, MySupplier, MyEmp },
   data() {
     return {
+      // 控制物品分类
+      treecontrol: false,
+      // 物品分类回显
+      categoryid: '',
       // 计量单位数据
       measurements: [],
       // 供货商弹窗控制
@@ -310,6 +309,12 @@ export default {
           { required: true, message: '请输入采购价', trigger: 'blur' }
         ],
         isBatch: [
+          { required: true, message: '请选择批次设置', trigger: 'change' }
+        ],
+        effectiveDay: [
+          { required: true, message: '请输入有效天数', trigger: 'blur' }
+        ],
+        purchasemeasurement: [
           { required: true, message: '请选择批次设置', trigger: 'change' }
         ]
       }
@@ -542,6 +547,15 @@ export default {
     // focus更新
     updatecate() {
       this.getcategorys()
+    },
+    // 物品分类focus
+    treechoose() {
+      this.treecontrol = true
+    },
+    // 物品分类数据
+    tree(val) {
+      this.categoryid = val.categoryName
+      this.personalForm.categoryid = val.id
     }
   }
 }

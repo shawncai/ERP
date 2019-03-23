@@ -19,11 +19,6 @@
               </el-form-item>
             </el-col>
             <el-col :span="6">
-              <el-form-item :label="$t('StockOut.sourceNumber')" prop="sourceNumber" style="width: 100%;">
-                <el-input v-model="personalForm.sourceNumber" placeholder="请输入源单编号" style="margin-left: 18px;width: 150px" clearable/>
-              </el-form-item>
-            </el-col>
-            <el-col :span="6">
               <el-form-item :label="$t('StockOut.sendAddress')" prop="sendAddress" style="width: 100%;">
                 <el-input v-model="personalForm.sendAddress" placeholder="请输入发货地址" style="margin-left: 18px;width: 150px" clearable/>
               </el-form-item>
@@ -94,21 +89,42 @@
           style="width: 100%">
           <el-editable-column type="selection" width="55" align="center"/>
           <el-editable-column label="编号" width="55" align="center" type="index"/>
-          <el-editable-column :edit-render="{name: 'ElSelect', options: locationlist}" prop="locationId" align="center" label="货位" width="150px"/>
+          <el-editable-column :edit-render="{type: 'default'}" prop="locationId" align="center" label="货位" width="200px">
+            <template slot-scope="scope">
+              <el-select v-model="scope.row.locationId" :value="scope.row.locationId" placeholder="请选择货位" filterable clearable style="width: 100%;" @visible-change="updatebatch($event,scope)">
+                <el-option
+                  v-for="(item, index) in locationlist"
+                  :key="index"
+                  :value="item.id"
+                  :label="item.locationCode"/>
+              </el-select>
+            </template>
+          </el-editable-column>
+          <el-editable-column :edit-render="{type: 'default'}" prop="batch" align="center" label="批次" width="200px">
+            <template slot-scope="scope">
+              <el-select v-model="scope.row.batch" :value="scope.row.batch" placeholder="请选择批次" filterable clearable style="width: 100%;" @visible-change="updatebatch2($event,scope)">
+                <el-option
+                  v-for="(item, index) in batchlist"
+                  :key="index"
+                  :value="item"
+                  :label="item"/>
+              </el-select>
+            </template>
+          </el-editable-column>
           <el-editable-column prop="productCode" align="center" label="物品编号" width="150px"/>
           <el-editable-column prop="productName" align="center" label="物品名称" width="150px"/>
           <el-editable-column prop="color" align="center" label="颜色" width="150px"/>
           <el-editable-column prop="typeIdname" align="center" label="规格" width="150px"/>
           <el-editable-column prop="unit" align="center" label="单位" width="150px"/>
           <el-editable-column prop="basicQuantity" align="center" label="基本数量" width="150px"/>
-          <el-editable-column :edit-render="{name: 'ElInputNumber'}" prop="outQuantity" align="center" label="出库数量" width="150px"/>
+          <el-editable-column :edit-render="{name: 'ElInputNumber' ,type: 'visible'}" prop="outQuantity" align="center" label="出库数量" width="150px"/>
           <el-editable-column prop="outPrice" align="center" label="单价" width="150px"/>
           <el-editable-column prop="totalMoney" align="center" label="出库金额" width="150px">
             <template slot-scope="scope">
               <p>{{ getSize(scope.row.outQuantity, scope.row.outPrice) }}</p>
             </template>
           </el-editable-column>
-          <el-editable-column :edit-render="{name: 'ElInput'}" prop="remarks" align="center" label="备注" width="150px"/>
+          <el-editable-column :edit-render="{name: 'ElInput' ,type: 'visible'}" prop="remarks" align="center" label="备注" width="150px"/>
         </el-editable>
       </div>
     </el-card>
@@ -123,6 +139,7 @@
 import { locationlist } from '@/api/WarehouseAdjust'
 import { updateotherout } from '@/api/StockOut'
 import { getdeptlist } from '@/api/BasicSettings'
+import { batchlist, getlocation } from '@/api/public'
 import MyRepository from './MyRepository'
 import MyAccept from './MyAccept'
 import MyDetail from './MyDetail'
@@ -141,6 +158,8 @@ export default {
   },
   data() {
     return {
+      // 批次列表
+      batchlist: [],
       // 弹窗组件的控制
       editVisible: this.editcontrol,
       // 修改row数据
@@ -223,14 +242,45 @@ export default {
       // 货位根据仓库id展现
       locationlist(this.personalForm.outRepositoryId).then(res => {
         if (res.data.ret === 200) {
-          this.locationlist = res.data.data.content.list.map(function(item) {
-            return {
-              'value': item.id,
-              'label': item.locationName
-            }
-          })
+          this.locationlist = res.data.data.content.list
         }
       })
+    },
+    // 批次
+    updatebatch(event, scope) {
+      if (event === true) {
+        console.log(this.personalForm.outRepositoryId)
+        if (this.personalForm.outRepositoryId === undefined || this.personalForm.outRepositoryId === '') {
+          this.$notify.error({
+            title: '错误',
+            message: '请先选择仓库',
+            offset: 100
+          })
+          return false
+        }
+        getlocation(this.personalForm.outRepositoryId, scope.row).then(res => {
+          if (res.data.ret === 200) {
+            if (res.data.data.content.length !== 0) {
+              this.locationlist = res.data.data.content
+            } else if (res.data.data.content.length === 0) {
+              this.$notify.error({
+                title: '错误',
+                message: '该仓库没有该商品',
+                offset: 100
+              })
+              return false
+            }
+          }
+        })
+      }
+    },
+    updatebatch2(event, scope) {
+      if (event === true) {
+        const parms3 = scope.row.productCode
+        batchlist(this.personalForm.outRepositoryId, parms3).then(res => {
+          this.batchlist = res.data.data.content
+        })
+      }
     },
     // 出库人focus事件触发
     handlechooseAccept() {

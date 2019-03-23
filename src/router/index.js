@@ -691,7 +691,7 @@ export const asyncRouterMap = [
         path: 'SearchStockAlarmRules',
         component: () => import('@/views/StockAlarm/SearchStockAlarmRules'),
         name: 'SearchStockAlarmRules',
-        meta: { title: 'SearchStockAlarmRules', noCache: false }
+        meta: { title: 'SearchStockAlarmRules', noCache: true }
       }
     ]
   },
@@ -814,6 +814,32 @@ export const asyncRouterMap = [
         component: () => import('@/views/WarehouseAdjust/Inventorydetaillist'),
         name: 'Inventorydetaillist',
         meta: { title: 'Inventorydetaillist', noCache: true }
+      }
+    ]
+  },
+  {
+    path: '/MaterialsList',
+    component: Layout,
+    redirect: 'noredirect',
+    name: 'MaterialsList',
+    alwaysShow: true,
+    meta: {
+      title: 'MaterialsList',
+      icon: 'wuliao',
+      type: 7
+    },
+    children: [
+      {
+        path: 'AddMaterialsList',
+        component: () => import('@/views/MaterialsList/AddMaterialsList'),
+        name: 'AddMaterialsList',
+        meta: { title: 'AddMaterialsList', noCache: false }
+      },
+      {
+        path: 'MaterialsListli',
+        component: () => import('@/views/MaterialsList/MaterialsListli'),
+        name: 'MaterialsListli',
+        meta: { title: 'MaterialsListli', noCache: true }
       }
     ]
   },

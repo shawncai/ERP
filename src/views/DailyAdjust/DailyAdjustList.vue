@@ -25,18 +25,15 @@
               </el-select>
             </el-form-item>
           </el-col>
-          <el-col :span="4">
-            <el-form-item label="经办人">
-              <el-input v-model="personId" :placeholder="$t('DailyAdjust.personId')" class="filter-item" clearable @keyup.enter.native="handleFilter" @focus="handlechoose"/>
-            </el-form-item>
-            <my-create :createcontrol.sync="createcontrol" @createname="createname"/>
-          </el-col>
-          <el-col :span="4">
+          <el-col :span="4" style="margin-left: 154px;">
             <!-- 更多搜索条件下拉栏 -->
             <el-popover
+              v-model="visible2"
               placement="bottom"
               width="500"
-              trigger="click">
+              trigger="manual">
+              <el-input v-model="personId" :placeholder="$t('DailyAdjust.personId')" class="filter-item" clearable style="width: 40%;float: left;margin-left: 20px" @keyup.enter.native="handleFilter" @focus="handlechoose"/>
+              <my-create :createcontrol.sync="createcontrol" @createname="createname"/>
               <el-input v-model="adjustRepositoryId" :placeholder="$t('DailyAdjust.repositoryId')" class="filter-item" clearable style="width: 40%;float: right;margin-right: 20px" @keyup.enter.native="handleFilter" @focus="handlechooseRep"/>
               <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
               <el-date-picker
@@ -51,7 +48,7 @@
               <div class="seachbutton" style="width: 100%;float: right;margin-top: 20px">
                 <el-button v-waves class="filter-item" type="primary" style="float: right" @click="handleFilter">{{ $t('public.search') }}</el-button>
               </div>
-              <el-button v-waves slot="reference" type="primary" class="filter-item" style="width: 140px"><svg-icon icon-class="shaixuan" style="margin-right: 6px"/>{{ $t('public.filter') }}</el-button>
+              <el-button v-waves slot="reference" type="primary" class="filter-item" style="width: 140px" @click="visible2 = !visible2"><svg-icon icon-class="shaixuan" style="margin-right: 6px"/>{{ $t('public.filter') }}</el-button>
             </el-popover>
           </el-col>
           <el-col :span="4">
@@ -90,13 +87,15 @@
         style="width: 100%;"
         @selection-change="handleSelectionChange">
         <el-table-column
+          :selectable="selectInit"
           type="selection"
           width="55"
           align="center"/>
         <el-table-column :label="$t('public.id')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.id }}</span>
+            <span class="link-type" @click="handleDetail(scope.row)">{{ scope.row.id }}</span>
           </template>
+          <detail-list :detailcontrol.sync="detailvisible" :detaildata.sync="personalForm"/>
         </el-table-column>
         <el-table-column :label="$t('DailyAdjust.title')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
@@ -128,15 +127,21 @@
             <span>{{ scope.row.reason }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('DailyAdjust.judgeStat')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('Inventorydamaged.judgeStat')" :resizable="false" prop="judgeStat" align="center" width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.judgeStat | judgeStatFileter }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column :label="$t('Stockenter.receiptStat')" :resizable="false" align="center" width="150">
+          <template slot-scope="scope">
+            <span>{{ scope.row.receiptStat | receiptStatFilter }}</span>
           </template>
         </el-table-column>
         <el-table-column :label="$t('public.actions')" :resizable="false" align="center" min-width="230">
           <template slot-scope="scope">
             <el-button type="primary" size="mini" @click="handleEdit(scope.row)">{{ $t('public.edit') }}</el-button>
-            <el-button size="mini" type="danger" @click="handleDelete(scope.row)">{{ $t('public.delete') }}</el-button>
+            <el-button v-if="isReview(scope.row)" type="warning" size="mini" @click="handleReview(scope.row)">{{ $t('public.review') }}</el-button>
+            <el-button v-if="scope.row.judgeStat === 0" size="mini" type="danger" @click="handleDelete(scope.row)">{{ $t('public.delete') }}</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -151,25 +156,34 @@
 
 <script>
 import { getdeptlist } from '@/api/BasicSettings'
-import { deleteproduceenter } from '@/api/Stockenter'
-import { dailyAdjustlist } from '@/api/DailyAdjust'
+import { dailyAdjustlist, deletedailyAdjust, updatedailyAdjust2 } from '@/api/DailyAdjust'
 import waves from '@/directive/waves' // Waves directive··
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
 import MyEdit from './components/MyEdit'
 import MyRepository from './components/MyRepository'
 import MyAccept from './components/MyAccept'
 import MyCreate from './components/MyCreate'
+import DetailList from './components/DeailList'
 
 export default {
   name: 'DailyAdjustList',
   directives: { waves },
-  components: { Pagination, MyEdit, MyRepository, MyAccept, MyCreate },
+  components: { DetailList, Pagination, MyEdit, MyRepository, MyAccept, MyCreate },
   filters: {
     judgeStatFileter(status) {
       const statusMap = {
-        1: '未审核',
-        2: '审核中',
-        3: '审核通过'
+        0: '未审核',
+        1: '审核中',
+        2: '审核通过',
+        3: '审核不通过'
+      }
+      return statusMap[status]
+    },
+    receiptStatFilter(status) {
+      const statusMap = {
+        1: '制单',
+        2: '执行',
+        3: '结单'
       }
       return statusMap[status]
     }
@@ -177,6 +191,16 @@ export default {
   data() {
     return {
       // 搜索数据----------------------
+      // 更多搜索条件问题
+      visible2: false,
+      // 审核传参
+      reviewParms: {
+        id: '',
+        judgePersonId: '',
+        judgeStat: ''
+      },
+      // 详情组件数据
+      detailvisible: false,
       // 部门数据
       depts: [],
       // 经办人回显
@@ -224,6 +248,14 @@ export default {
     this.getlist()
   },
   methods: {
+    // 不让勾选
+    selectInit(row, index) {
+      if (row.judgeStat !== 0) {
+        return false
+      } else {
+        return true
+      }
+    },
     // 部门列表数据
     getdeptlist() {
       getdeptlist().then(res => {
@@ -265,6 +297,13 @@ export default {
         }, 0.5 * 100)
       })
     },
+    // 清空搜索条件
+    restFilter() {
+      this.personId = ''
+      this.getemplist.personId = ''
+      this.adjustRepositoryId = ''
+      this.getemplist.adjustRepositoryId = ''
+    },
     // 搜索
     handleFilter() {
       this.getemplist.pageNum = 1
@@ -279,6 +318,9 @@ export default {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
+          this.restFilter()
+        } else {
+          this.restFilter()
         }
       })
     },
@@ -295,6 +337,60 @@ export default {
         this.getlist()
       }
     },
+    // 详情操作
+    handleDetail(row) {
+      console.log(row)
+      this.detailvisible = true
+      this.personalForm = Object.assign({}, row)
+      this.personalForm.sourceType = String(row.sourceType)
+    },
+    // 判断审核按钮
+    isReview(row) {
+      console.log(row)
+      if (row.approvalUseVos !== '' && row.approvalUseVos !== null && row.approvalUseVos !== undefined && row.approvalUseVos.length !== 0) {
+        const approvalUse = row.approvalUseVos
+        if (this.getemplist.createPersonId === approvalUse[approvalUse.length - 1].stepHandler && (row.judgeStat === 1 || row.judgeStat === 0)) {
+          return true
+        }
+      }
+    },
+    // 审批操作
+    handleReview(row) {
+      this.reviewParms.id = row.id
+      this.reviewParms.judgePersonId = this.getemplist.createPersonId
+      this.$confirm('请审核', '审核', {
+        distinguishCancelAndClose: true,
+        confirmButtonText: '通过',
+        cancelButtonText: '不通过',
+        type: 'warning'
+      }).then(() => {
+        this.reviewParms.judgeStat = 2
+        const parms = JSON.stringify(this.reviewParms)
+        updatedailyAdjust2(parms).then(res => {
+          if (res.data.ret === 200) {
+            this.$message({
+              type: 'success',
+              message: '审核成功!'
+            })
+            this.getlist()
+          }
+        })
+      }).catch(action => {
+        if (action === 'cancel') {
+          this.reviewParms.judgeStat = 1
+          const parms = JSON.stringify(this.reviewParms)
+          updatedailyAdjust2(parms).then(res => {
+            if (res.data.ret === 200) {
+              this.$message({
+                type: 'success',
+                message: '审核成功!'
+              })
+              this.getlist()
+            }
+          })
+        }
+      })
+    },
     // 批量操作
     handleSelectionChange(val) {
       this.moreaction = val
@@ -309,7 +405,7 @@ export default {
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          deleteproduceenter(ids).then(res => {
+          deletedailyAdjust(ids).then(res => {
             if (res.data.ret === 200) {
               this.$notify({
                 title: '删除成功',
@@ -340,7 +436,7 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        deleteproduceenter(row.id).then(res => {
+        deletedailyAdjust(row.id).then(res => {
           if (res.data.ret === 200) {
             this.$notify({
               title: '删除成功',
@@ -408,7 +504,7 @@ export default {
     padding: 0;
   }
   .ERP-container {
-    margin: 0px 30px;
+    margin: 0px 15px;
   }
   .filter-container{
     padding: 20px;

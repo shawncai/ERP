@@ -92,21 +92,42 @@
           style="width: 100%">
           <el-editable-column type="selection" width="55" align="center"/>
           <el-editable-column label="编号" width="55" align="center" type="index"/>
-          <el-editable-column :edit-render="{name: 'ElSelect', options: locationlist}" prop="locationId" align="center" label="货位" width="150px"/>
+          <el-editable-column :edit-render="{type: 'default'}" prop="locationId" align="center" label="货位" width="200px">
+            <template slot-scope="scope">
+              <el-select v-model="scope.row.locationId" :value="scope.row.locationId" placeholder="请选择货位" filterable clearable style="width: 100%;" @visible-change="updatebatch($event,scope)">
+                <el-option
+                  v-for="(item, index) in locationlist"
+                  :key="index"
+                  :value="item.id"
+                  :label="item.locationCode"/>
+              </el-select>
+            </template>
+          </el-editable-column>
+          <el-editable-column :edit-render="{type: 'default'}" prop="batch" align="center" label="批次" width="200px">
+            <template slot-scope="scope">
+              <el-select v-model="scope.row.batch" :value="scope.row.batch" placeholder="请选择批次" filterable clearable style="width: 100%;" @visible-change="updatebatch2($event,scope)">
+                <el-option
+                  v-for="(item, index) in batchlist"
+                  :key="index"
+                  :value="item"
+                  :label="item"/>
+              </el-select>
+            </template>
+          </el-editable-column>
           <el-editable-column prop="productCode" align="center" label="物品编号" width="150px"/>
           <el-editable-column prop="productName" align="center" label="物品名称" width="150px"/>
           <el-editable-column prop="color" align="center" label="颜色" width="150px"/>
           <el-editable-column prop="typeName" align="center" label="规格" width="150px"/>
           <el-editable-column prop="unitName" align="center" label="单位" width="150px"/>
           <el-editable-column prop="price" align="center" label="调拨单价" width="150px"/>
-          <el-editable-column :edit-render="{name: 'ElInputNumber'}" prop="movePrice" align="center" label="调拨成本价" width="150px"/>
-          <el-editable-column :edit-render="{name: 'ElInputNumber'}" prop="moveQuantity" align="center" label="调拨数量" width="150px"/>
+          <el-editable-column :edit-render="{name: 'ElInputNumber', type: 'visible'}" prop="movePrice" align="center" label="调拨成本价" width="150px"/>
+          <el-editable-column :edit-render="{name: 'ElInputNumber', type: 'visible'}" prop="moveQuantity" align="center" label="调拨数量" width="150px"/>
           <el-editable-column prop="totalMoney" align="center" label="调拨金额" width="150px">
             <template slot-scope="scope">
               <p>{{ getSize(scope.row.movePrice, scope.row.moveQuantity) }}</p>
             </template>
           </el-editable-column>
-          <el-editable-column :edit-render="{name: 'ElInput'}" prop="remarks" align="center" label="备注" width="150px"/>
+          <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="remarks" align="center" label="备注" width="150px"/>
         </el-editable>
       </div>
     </el-card>
@@ -121,6 +142,7 @@
 import { locationlist } from '@/api/WarehouseAdjust'
 import { updateStoragemove } from '@/api/Storagemove'
 import { getdeptlist } from '@/api/BasicSettings'
+import { batchlist, getlocation } from '@/api/public'
 import MyRepository from './MyRepository'
 import MyAccept from './MyAccept'
 import MyDetail from './MyDetail'
@@ -140,6 +162,8 @@ export default {
   },
   data() {
     return {
+      // 批次列表
+      batchlist: [],
       // 弹窗组件的控制
       editVisible: this.editcontrol,
       // 修改row数据
@@ -219,12 +243,7 @@ export default {
       // 货位根据仓库id展现
       locationlist(this.personalForm.moveOutRepository).then(res => {
         if (res.data.ret === 200) {
-          this.locationlist = res.data.data.content.list.map(function(item) {
-            return {
-              'value': item.id,
-              'label': item.locationName
-            }
-          })
+          this.locationlist = res.data.data.content.list
         }
       })
     },
@@ -244,17 +263,53 @@ export default {
       console.log(val)
       this.moveOutRepository = val.repositoryName
       this.personalForm.moveOutRepository = val.id
-      this.locationlistparms.repositoryId = val.id
-      locationlist(this.locationlistparms).then(res => {
-        if (res.data.ret === 200) {
-          this.locationlist = res.data.data.content.list.map(function(item) {
-            return {
-              'value': item.id,
-              'label': item.locationName
-            }
+      // this.locationlistparms.repositoryId = val.id
+      // locationlist(this.locationlistparms).then(res => {
+      //   if (res.data.ret === 200) {
+      //     this.locationlist = res.data.data.content.list.map(function(item) {
+      //       return {
+      //         'value': item.id,
+      //         'label': item.locationName
+      //       }
+      //     })
+      //   }
+      // })
+    },
+    // 批次
+    updatebatch(event, scope) {
+      if (event === true) {
+        console.log(this.personalForm.moveOutRepository)
+        if (this.personalForm.moveOutRepository === undefined || this.personalForm.moveOutRepository === '') {
+          this.$notify.error({
+            title: '错误',
+            message: '请先选择仓库',
+            offset: 100
           })
+          return false
         }
-      })
+        getlocation(this.personalForm.moveOutRepository, scope.row).then(res => {
+          if (res.data.ret === 200) {
+            if (res.data.data.content.length !== 0) {
+              this.locationlist = res.data.data.content
+            } else if (res.data.data.content.length === 0) {
+              this.$notify.error({
+                title: '错误',
+                message: '该仓库没有该商品',
+                offset: 100
+              })
+              return false
+            }
+          }
+        })
+      }
+    },
+    updatebatch2(event, scope) {
+      if (event === true) {
+        const parms3 = scope.row.productCode
+        batchlist(this.personalForm.moveOutRepository, parms3).then(res => {
+          this.batchlist = res.data.data.content
+        })
+      }
     },
     // 调拨单事件
     // 新增调拨单明细

@@ -90,3 +90,14 @@ export function updatedamaged(query, query2) {
     data: params
   })
 }
+
+// 审核报损单
+export function updatedamaged2(query) {
+  var params = new URLSearchParams()
+  params.append('inventoryDamagedJson', query) // 你要传给后台的参数值 key/value
+  return request({
+    url: '/erp/inventorydamaged/updatedamaged',
+    method: 'post',
+    data: params
+  })
+}

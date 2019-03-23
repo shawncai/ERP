@@ -92,3 +92,14 @@ export function updateteardown(query, query2, query3) {
     data: params
   })
 }
+
+// 审核拆装单
+export function updateteardown2(query) {
+  var params = new URLSearchParams()
+  params.append('teardownJson', query) // 你要传给后台的参数值 key/value
+  return request({
+    url: '/erp/teardown/updateteardown',
+    method: 'post',
+    data: params
+  })
+}

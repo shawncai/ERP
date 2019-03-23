@@ -15,12 +15,6 @@
             </el-form-item>
           </el-col>
           <el-col :span="4">
-            <el-form-item label="交货人">
-              <el-input v-model="deliveryPersonId" :placeholder="$t('Stockenter.deliveryPersonId')" class="filter-item" clearable @keyup.enter.native="handleFilter" @focus="handlechooseDelivery"/>
-            </el-form-item>
-            <my-delivery :deliverycontrol.sync="deliverycontrol" @deliveryName="deliveryName"/>
-          </el-col>
-          <el-col :span="4">
             <el-form-item label="入库部门">
               <el-select v-model="getemplist.enterDeptId" placeholder="请选择入库部门" style="margin-left: 18px;width: 144px" clearable >
                 <el-option
@@ -31,7 +25,7 @@
               </el-select>
             </el-form-item>
           </el-col>
-          <el-col :span="4">
+          <el-col :span="4" style="margin-left: 154px;">
             <!-- 更多搜索条件下拉栏 -->
             <el-popover
               v-model="visible2"
@@ -44,6 +38,8 @@
               <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
               <el-input v-model="acceptPersonId" :placeholder="$t('Stockenter.acceptPersonId')" class="filter-item" clearable style="width: 40%;float: left;margin-left: 20px;margin-top: 20px" @keyup.enter.native="handleFilter" @focus="handlechoose"/>
               <my-create :createcontrol.sync="createcontrol" @createname="createname"/>
+              <el-input v-model="deliveryPersonId" :placeholder="$t('Stockenter.deliveryPersonId')" class="filter-item" clearable style="width: 40%;float: right;margin-right: 20px;margin-top: 20px" @keyup.enter.native="handleFilter" @focus="handlechooseDelivery"/>
+              <my-delivery :deliverycontrol.sync="deliverycontrol" @deliveryName="deliveryName"/>
               <el-date-picker
                 v-model="date"
                 type="daterange"
@@ -95,6 +91,7 @@
         style="width: 100%;"
         @selection-change="handleSelectionChange">
         <el-table-column
+          :selectable="selectInit"
           type="selection"
           width="55"
           align="center"/>
@@ -158,7 +155,7 @@
           <template slot-scope="scope">
             <el-button type="primary" size="mini" @click="handleEdit(scope.row)">{{ $t('public.edit') }}</el-button>
             <el-button v-if="isReview(scope.row)" type="warning" size="mini" @click="handleReview(scope.row)">{{ $t('public.review') }}</el-button>
-            <el-button size="mini" type="danger" @click="handleDelete(scope.row)">{{ $t('public.delete') }}</el-button>
+            <el-button v-if="scope.row.judgeStat === 0" size="mini" type="danger" @click="handleDelete(scope.row)">{{ $t('public.delete') }}</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -267,6 +264,14 @@ export default {
     this.getlist()
   },
   methods: {
+    // 不让勾选
+    selectInit(row, index) {
+      if (row.judgeStat !== 0) {
+        return false
+      } else {
+        return true
+      }
+    },
     // 部门列表数据
     getdeptlist() {
       getdeptlist().then(res => {
@@ -352,6 +357,8 @@ export default {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
           this.restFilter()
+        } else {
+          this.restFilter()
         }
       })
     },
@@ -378,14 +385,17 @@ export default {
     // 判断审核按钮
     isReview(row) {
       console.log(row)
-      const approvalUse = row.approvalUseVos
-      if (this.getemplist.createPersonId === approvalUse[approvalUse.length - 1].stepHandler && (row.judgeStat === 1 || row.judgeStat === 0)) {
-        return true
+      if (row.approvalUseVos !== '' && row.approvalUseVos !== null && row.approvalUseVos !== undefined && row.approvalUseVos.length !== 0) {
+        const approvalUse = row.approvalUseVos
+        if (this.getemplist.createPersonId === approvalUse[approvalUse.length - 1].stepHandler && (row.judgeStat === 1 || row.judgeStat === 0)) {
+          return true
+        }
       }
     },
     // 审批操作
     handleReview(row) {
       this.$confirm('请审核', '审核', {
+        distinguishCancelAndClose: true,
         confirmButtonText: '通过',
         cancelButtonText: '不通过',
         type: 'warning'
@@ -399,16 +409,18 @@ export default {
             this.getlist()
           }
         })
-      }).catch(() => {
-        updateotherenter5(row, 1, this.getemplist.createPersonId).then(res => {
-          if (res.data.ret === 200) {
-            this.$message({
-              type: 'success',
-              message: '审核成功!'
-            })
-            this.getlist()
-          }
-        })
+      }).catch(action => {
+        if (action === 'cancel') {
+          updateotherenter5(row, 1, this.getemplist.createPersonId).then(res => {
+            if (res.data.ret === 200) {
+              this.$message({
+                type: 'success',
+                message: '审核成功!'
+              })
+              this.getlist()
+            }
+          })
+        }
       })
     },
     // 批量操作
@@ -524,7 +536,7 @@ export default {
     padding: 0;
   }
   .ERP-container {
-    margin: 0px 30px;
+    margin: 0px 15px;
   }
   .filter-container{
     padding: 20px;

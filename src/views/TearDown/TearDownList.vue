@@ -20,24 +20,20 @@
             </el-form-item>
             <my-create :createcontrol.sync="createcontrol" @createname="createname"/>
           </el-col>
-          <el-col :span="4">
-            <el-form-item label="拆装部门">
-              <el-select v-model="getemplist.teardownDeptId" placeholder="请选择拆装部门" style="margin-left: 18px;width: 144px" clearable >
-                <el-option
-                  v-for="(item, index) in depts"
-                  :key="index"
-                  :value="item.id"
-                  :label="item.deptName"/>
-              </el-select>
-            </el-form-item>
-          </el-col>
-          <el-col :span="4">
+          <el-col :span="4" style="margin-left: 154px;">
             <!-- 更多搜索条件下拉栏 -->
             <el-popover
               v-model="visible2"
               placement="bottom"
               width="500"
               trigger="manual">
+              <el-select v-model="getemplist.teardownDeptId" placeholder="请选择拆装部门" style="width: 40%;float: left;margin-left: 20px" clearable >
+                <el-option
+                  v-for="(item, index) in depts"
+                  :key="index"
+                  :value="item.id"
+                  :label="item.deptName"/>
+              </el-select>
               <el-input v-model="TearDownRepositoryId" :placeholder="$t('TearDown.teardownRepositoryId')" class="filter-item" clearable style="width: 40%;float: left;margin-left: 20px" @keyup.enter.native="handleFilter" @focus="handlechooseRep"/>
               <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
               <el-date-picker
@@ -91,13 +87,15 @@
         style="width: 100%;"
         @selection-change="handleSelectionChange">
         <el-table-column
+          :selectable="selectInit"
           type="selection"
           width="55"
           align="center"/>
         <el-table-column :label="$t('public.id')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.id }}</span>
+            <span class="link-type" @click="handleDetail(scope.row)">{{ scope.row.id }}</span>
           </template>
+          <detail-list :detailcontrol.sync="detailvisible" :detaildata.sync="personalForm"/>
         </el-table-column>
         <el-table-column :label="$t('TearDown.teardownNumber')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
@@ -124,15 +122,21 @@
             <span>{{ scope.row.teardownDate }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('TearDown.judgeStat')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('Inventorydamaged.judgeStat')" :resizable="false" prop="judgeStat" align="center" width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.judgeStat | judgeStatFileter }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column :label="$t('Stockenter.receiptStat')" :resizable="false" align="center" width="150">
+          <template slot-scope="scope">
+            <span>{{ scope.row.receiptStat | receiptStatFilter }}</span>
           </template>
         </el-table-column>
         <el-table-column :label="$t('public.actions')" :resizable="false" align="center" min-width="230">
           <template slot-scope="scope">
             <el-button type="primary" size="mini" @click="handleEdit(scope.row)">{{ $t('public.edit') }}</el-button>
-            <el-button size="mini" type="danger" @click="handleDelete(scope.row)">{{ $t('public.delete') }}</el-button>
+            <el-button v-if="isReview(scope.row)" type="warning" size="mini" @click="handleReview(scope.row)">{{ $t('public.review') }}</el-button>
+            <el-button v-if="scope.row.judgeStat === 0" size="mini" type="danger" @click="handleDelete(scope.row)">{{ $t('public.delete') }}</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -147,24 +151,34 @@
 
 <script>
 import { getdeptlist } from '@/api/BasicSettings'
-import { teardownlist, deleteteardown } from '@/api/TearDown'
+import { teardownlist, deleteteardown, updateteardown2 } from '@/api/TearDown'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
 import MyEdit from './components/MyEdit'
 import MyRepository from './components/MyRepository'
 import MyAccept from './components/MyAccept'
 import MyCreate from './components/MyCreate'
+import DetailList from './components/DetailList'
 
 export default {
   name: 'TearDownList',
   directives: { waves },
-  components: { Pagination, MyEdit, MyRepository, MyAccept, MyCreate },
+  components: { DetailList, Pagination, MyEdit, MyRepository, MyAccept, MyCreate },
   filters: {
     judgeStatFileter(status) {
       const statusMap = {
-        1: '未审核',
-        2: '审核中',
-        3: '审核通过'
+        0: '未审核',
+        1: '审核中',
+        2: '审核通过',
+        3: '审核不通过'
+      }
+      return statusMap[status]
+    },
+    receiptStatFilter(status) {
+      const statusMap = {
+        1: '制单',
+        2: '执行',
+        3: '结单'
       }
       return statusMap[status]
     }
@@ -172,6 +186,14 @@ export default {
   data() {
     return {
       // 搜索数据----------------------
+      // 审核传参
+      reviewParms: {
+        id: '',
+        judgePersonId: '',
+        judgeStat: ''
+      },
+      // 详情组件数据
+      detailvisible: false,
       // 更多搜索条件问题
       visible2: false,
       // 部门数据
@@ -221,6 +243,14 @@ export default {
     this.getlist()
   },
   methods: {
+    // 不让勾选
+    selectInit(row, index) {
+      if (row.judgeStat !== 0) {
+        return false
+      } else {
+        return true
+      }
+    },
     // 部门列表数据
     getdeptlist() {
       getdeptlist().then(res => {
@@ -301,6 +331,59 @@ export default {
       if (val === true) {
         this.getlist()
       }
+    },
+    // 详情操作
+    handleDetail(row) {
+      console.log(row)
+      this.detailvisible = true
+      this.personalForm = Object.assign({}, row)
+      this.personalForm.sourceType = String(row.sourceType)
+    },
+    // 判断审核按钮
+    isReview(row) {
+      if (row.approvalUseVos !== '' && row.approvalUseVos !== null && row.approvalUseVos !== undefined && row.approvalUseVos.length !== 0) {
+        const approvalUse = row.approvalUseVos
+        if (this.getemplist.createPersonId === approvalUse[approvalUse.length - 1].stepHandler && (row.judgeStat === 1 || row.judgeStat === 0)) {
+          return true
+        }
+      }
+    },
+    // 审批操作
+    handleReview(row) {
+      this.reviewParms.id = row.id
+      this.reviewParms.judgePersonId = this.getemplist.createPersonId
+      this.$confirm('请审核', '审核', {
+        distinguishCancelAndClose: true,
+        confirmButtonText: '通过',
+        cancelButtonText: '不通过',
+        type: 'warning'
+      }).then(() => {
+        this.reviewParms.judgeStat = 2
+        const parms = JSON.stringify(this.reviewParms)
+        updateteardown2(parms).then(res => {
+          if (res.data.ret === 200) {
+            this.$message({
+              type: 'success',
+              message: '审核成功!'
+            })
+            this.getlist()
+          }
+        })
+      }).catch(action => {
+        if (action === 'cancel') {
+          this.reviewParms.judgeStat = 1
+          const parms = JSON.stringify(this.reviewParms)
+          updateteardown2(parms).then(res => {
+            if (res.data.ret === 200) {
+              this.$message({
+                type: 'success',
+                message: '审核成功!'
+              })
+              this.getlist()
+            }
+          })
+        }
+      })
     },
     // 批量操作
     handleSelectionChange(val) {
@@ -415,7 +498,7 @@ export default {
     padding: 0;
   }
   .ERP-container {
-    margin: 0px 30px;
+    margin: 0px 15px;
   }
   .filter-container{
     padding: 20px;

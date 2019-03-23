@@ -4,19 +4,23 @@
       <!-- 搜索条件栏目 -->
       <el-input v-model="getemplist.code" :placeholder="$t('Product.code')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
       <el-input v-model="getemplist.productname" :placeholder="$t('Product.productname')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
-      <el-input v-model="getemplist.supplierid" :placeholder="$t('Product.supplierid')" class="filter-item" @keyup.enter.native="handleFilter"/>
-      <el-select v-model="getemplist.categoryid" :value="getemplist.categoryid" placeholder="物品分类" class="filter-item" clearable>
-        <el-option value="1" label="类1"/>
-        <el-option value="2" label="类2"/>
-      </el-select>
+      <el-input v-model="supplierid" :placeholder="$t('Product.supplierid')" class="filter-item" clearable @keyup.enter.native="handleFilter" @focus="handlechoose"/>
+      <my-supplier :control.sync="empcontrol" @supplierName="supplierName"/>
+      <el-input v-model="categoryid" placeholder="物品分类" class="filter-item" clearable @focus="treechoose"/>
+      <my-tree :treecontrol.sync="treecontrol" @tree="tree"/>
       <!-- 更多搜索条件下拉栏 -->
       <el-popover
+        v-model="visible2"
         placement="bottom"
         width="500"
-        trigger="click">
+        trigger="manual">
         <el-select v-model="getemplist.typeid" placeholder="请选择规格型号" clearable style="width: 40%;float: left;margin-left: 20px">
-          <el-option value="1" label="类1"/>
-          <el-option value="2" label="类2"/>
+          <el-option
+            v-for="(item, index) in types"
+            :key="index"
+            :label="item.categoryName"
+            :value="item.id"
+          />
         </el-select>
         <el-select v-model="getemplist.isactive" placeholder="请选择上下架" clearable style="width: 40%;float: right;margin-right: 20px">
           <el-option value="1" label="上1"/>
@@ -25,7 +29,7 @@
         <div class="seachbutton" style="width: 100%;float: right;margin-top: 20px">
           <el-button v-waves class="filter-item" type="primary" style="float: right" @click="handleFilter">{{ $t('public.search') }}</el-button>
         </div>
-        <el-button v-waves slot="reference" type="primary" class="filter-item" style="width: 130px">{{ $t('public.filter') }}<svg-icon icon-class="shaixuan" style="margin-left: 4px"/></el-button>
+        <el-button v-waves slot="reference" type="primary" class="filter-item" style="width: 130px" @click="visible2 = !visible2">{{ $t('public.filter') }}<svg-icon icon-class="shaixuan" style="margin-left: 4px"/></el-button>
       </el-popover>
       <!-- 搜索按钮 -->
       <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 86px" @click="handleFilter">{{ $t('public.search') }}</el-button>
@@ -111,12 +115,14 @@
 </template>
 
 <script>
-import { productlist } from '@/api/Product'
+import { productlist, searchEmpCategory2 } from '@/api/Product'
 import waves from '@/directive/waves' // Waves directive
-import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
+import Pagination from '@/components/Pagination'
+import MySupplier from '../../Product/components/MySupplier'
+import MyTree from '../../Product/components/MyTree' // Secondary package based on el-pagination
 export default {
   directives: { waves },
-  components: { Pagination },
+  components: { MyTree, MySupplier, Pagination },
   filters: {
     genderFilter(status) {
       const statusMap = {
@@ -134,8 +140,20 @@ export default {
   },
   data() {
     return {
+      // 供应商回显
+      supplierid: '',
+      // 供货商控制
+      empcontrol: false,
+      // 规格型号数据
+      types: [],
+      // 物品分类控制
+      treecontrol: false,
+      // 物品分类回显
+      categoryid: '',
       // 物品选择框控制
       productVisible: this.control,
+      // 更多搜索条件问题
+      visible2: false,
       // 批量操作
       moreaction: '',
       // 表格数据
@@ -146,7 +164,7 @@ export default {
       tableKey: 0,
       // 加载表格
       listLoading: true,
-      // 供应商列表查询加展示参数
+      // 物品列表查询加展示参数
       getemplist: {
         productid: '',
         code: '',
@@ -183,6 +201,18 @@ export default {
           this.listLoading = false
         }, 0.5 * 100)
       })
+      // 规格型号数据
+      searchEmpCategory2(2).then(res => {
+        if (res.data.ret === 200) {
+          this.types = res.data.data.content.list
+        }
+      })
+    },
+    restFilter() {
+      this.categoryid = ''
+      this.getemplist.categoryid = ''
+      this.supplierid = ''
+      this.getemplist.supplierid = ''
     },
     // 搜索
     handleFilter() {
@@ -191,18 +221,34 @@ export default {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
+          this.restFilter()
         } else {
-          this.$notify.error({
-            title: '错误',
-            message: '出错了',
-            offset: 100
-          })
+          this.restFilter()
         }
       })
     },
     // 批量操作
     handleSelectionChange(val) {
       this.moreaction = val
+    },
+    // 供应商输入框focus事件触发
+    handlechoose() {
+      this.empcontrol = true
+    },
+    // 供应商列表返回数据
+    supplierName(val) {
+      console.log(val)
+      this.supplierid = val.supplierName
+      this.getemplist.supplierid = val.id
+    },
+    // 物品分类focus
+    treechoose() {
+      this.treecontrol = true
+    },
+    // 物品分类数据
+    tree(val) {
+      this.categoryid = val.categoryName
+      this.getemplist.categoryid = val.id
     },
     // 新增数据
     handleAdd() {
@@ -222,7 +268,7 @@ export default {
           typeId: item.typeId,
           enterQuantity: 0,
           taxRate: 0,
-          unit: item.saleMeasurement,
+          unit: item.purMeasu,
           actualEnterQuantity: 0,
           basicQuantity: 0,
           enterPrice: item.costPrice,

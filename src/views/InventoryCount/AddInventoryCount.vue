@@ -67,21 +67,21 @@
           style="width: 100%">
           <el-editable-column type="selection" width="55" align="center"/>
           <el-editable-column type="index" width="55" align="center"/>
-          <el-editable-column :edit-render="{type: 'default'}" prop="locationId" align="center" label="货位" width="150px">
+          <el-editable-column :edit-render="{type: 'default'}" prop="locationId" align="center" label="货位" width="200px">
             <template slot-scope="scope">
-              <el-select v-model="scope.row.locationId" :value="scope.row.locationId" placeholder="请选择货位" clearable style="width: 100%;" @change="updatebatch(scope)">
+              <el-select v-model="scope.row.locationId" :value="scope.row.locationId" placeholder="请选择货位" filterable clearable style="width: 100%;" @visible-change="updatebatch($event,scope)">
                 <el-option
                   v-for="(item, index) in locationlist"
                   :key="index"
-                  :value="item.value"
-                  :label="item.label"/>
+                  :value="item.id"
+                  :label="item.locationCode"/>
               </el-select>
             </template>
           </el-editable-column>
           <!--<el-editable-column :edit-render="{name: 'ElSelect', options: batchlist, type: 'visible'}" prop="batch" align="center" label="批次" width="150px"/>-->
-          <el-editable-column :edit-render="{type: 'default'}" prop="batch" align="center" label="批次" width="150px">
+          <el-editable-column :edit-render="{type: 'default'}" prop="batch" align="center" label="批次" width="200px">
             <template slot-scope="scope">
-              <el-select v-model="scope.row.batch" :value="scope.row.batch" placeholder="请选择批次" clearable style="width: 100%;" @change="updatebatch(scope)">
+              <el-select v-model="scope.row.batch" :value="scope.row.batch" placeholder="请选择批次" filterable clearable style="width: 100%;" @visible-change="updatebatch2($event,scope)">
                 <el-option
                   v-for="(item, index) in batchlist"
                   :key="index"
@@ -131,10 +131,9 @@
 </template>
 
 <script>
-import { locationlist } from '@/api/WarehouseAdjust'
 import { getdeptlist } from '@/api/BasicSettings'
 import { addinventorycount } from '@/api/InventoryCount'
-import { batchlist, getQuantity } from '@/api/public'
+import { batchlist, getQuantity, getlocation } from '@/api/public'
 import MyCreate from './components/MyCreate'
 import MyRepository from './components/MyRepository'
 import MyDetail from './components/MyDetail'
@@ -172,6 +171,9 @@ export default {
       list2: [],
       // 盘点单明细列表规则
       validRules: {
+        locationId: [
+          { required: true, message: '请选择货位', trigger: 'change' }
+        ]
       },
       // 库存盘点日期
       Time: [],
@@ -241,12 +243,40 @@ export default {
         return this.out
       }
     },
-    updatebatch(scope) {
-      const parms2 = scope.row.locationId
-      const parms3 = scope.row.productCode
-      batchlist(this.personalForm.countRepositoryId, parms2, parms3).then(res => {
-        this.batchlist = res.data.data.content
-      })
+    updatebatch(event, scope) {
+      if (event === true) {
+        console.log(this.personalForm.countRepositoryId)
+        if (this.personalForm.countRepositoryId === undefined || this.personalForm.countRepositoryId === '') {
+          this.$notify.error({
+            title: '错误',
+            message: '请先选择仓库',
+            offset: 100
+          })
+          return false
+        }
+        getlocation(this.personalForm.countRepositoryId, scope.row).then(res => {
+          if (res.data.ret === 200) {
+            if (res.data.data.content.length !== 0) {
+              this.locationlist = res.data.data.content
+            } else if (res.data.data.content.length === 0) {
+              this.$notify.error({
+                title: '错误',
+                message: '该仓库没有该商品',
+                offset: 100
+              })
+              return false
+            }
+          }
+        })
+      }
+    },
+    updatebatch2(event, scope) {
+      if (event === true) {
+        const parms3 = scope.row.productCode
+        batchlist(this.personalForm.countRepositoryId, parms3).then(res => {
+          this.batchlist = res.data.data.content
+        })
+      }
     },
     // 保存操作
     handlesave() {
@@ -323,25 +353,36 @@ export default {
       const parms2 = JSON.stringify(EnterDetail)
       this.$refs.personalForm.validate((valid) => {
         if (valid) {
-          addinventorycount(parms1, parms2, this.personalForm.repositoryId, this.personalForm.regionId).then(res => {
-            console.log(res)
-            if (res.data.ret === 200) {
-              this.$notify({
-                title: '成功',
-                message: '保存成功',
-                type: 'success',
-                offset: 100
+          this.$refs.editable.validate((valid) => {
+            if (valid) {
+              addinventorycount(parms1, parms2, this.personalForm.repositoryId, this.personalForm.regionId).then(res => {
+                console.log(res)
+                if (res.data.ret === 200) {
+                  this.$notify({
+                    title: '成功',
+                    message: '保存成功',
+                    type: 'success',
+                    offset: 100
+                  })
+                  this.restAllForm()
+                  this.$refs.editable.clear()
+                  this.$refs.personalForm.clearValidate()
+                  this.$refs.personalForm.resetFields()
+                } else {
+                  this.$notify.error({
+                    title: '错误',
+                    message: res.data.msg,
+                    offset: 100
+                  })
+                }
               })
-              this.restAllForm()
-              this.$refs.editable.clear()
-              this.$refs.personalForm.clearValidate()
-              this.$refs.personalForm.resetFields()
             } else {
               this.$notify.error({
                 title: '错误',
-                message: res.data.msg,
+                message: '信息未填完整',
                 offset: 100
               })
+              return false
             }
           })
         } else {
@@ -392,16 +433,16 @@ export default {
       this.countRepositoryId = val.repositoryName
       this.personalForm.countRepositoryId = val.id
       this.locationlistparms.repositoryId = val.id
-      locationlist(this.locationlistparms).then(res => {
-        if (res.data.ret === 200) {
-          this.locationlist = res.data.data.content.list.map(function(item) {
-            return {
-              'value': item.id,
-              'label': item.locationName
-            }
-          })
-        }
-      })
+      // locationlist(this.locationlistparms).then(res => {
+      //   if (res.data.ret === 200) {
+      //     this.locationlist = res.data.data.content.list.map(function(item) {
+      //       return {
+      //         'value': item.id,
+      //         'label': item.locationName
+      //       }
+      //     })
+      //   }
+      // })
     },
     // 盘点单事件
     // 新增盘点单明细

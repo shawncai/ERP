@@ -8,34 +8,34 @@
           <el-row>
             <el-col :span="6">
               <el-form-item :label="$t('StockOut.title')" prop="title" style="width: 100%;">
-                <el-input v-model="personalForm.title" placeholder="请输入出库单主题" style="margin-left: 18px;width: 150px" clearable/>
+                <el-input v-model="personalForm.title" placeholder="请输入出库单主题" style="margin-left: 18px;width: 150px" disabled/>
               </el-form-item>
             </el-col>
             <el-col :span="6">
               <el-form-item :label="$t('StockOut.sourceType')" prop="sourceType" style="width: 100%;">
-                <el-select v-model="personalForm.sourceType" placeholder="请选择源单类型" style="margin-left: 18px;width: 150px" clearable >
+                <el-select v-model="personalForm.sourceType" placeholder="请选择源单类型" style="margin-left: 18px;width: 150px" disabled >
                   <el-option value="1" label="无来源"/>
                 </el-select>
               </el-form-item>
             </el-col>
             <el-col :span="6">
               <el-form-item :label="$t('StockOut.sourceNumber')" prop="sourceNumber" style="width: 100%;">
-                <el-input v-model="personalForm.sourceNumber" placeholder="请输入源单编号" style="margin-left: 18px;width: 150px" clearable/>
+                <el-input v-model="personalForm.sourceNumber" placeholder="请输入源单编号" style="margin-left: 18px;width: 150px" disabled/>
               </el-form-item>
             </el-col>
             <el-col :span="6">
               <el-form-item :label="$t('StockOut.sendAddress')" prop="sendAddress" style="width: 100%;">
-                <el-input v-model="personalForm.sendAddress" placeholder="请输入发货地址" style="margin-left: 18px;width: 150px" clearable/>
+                <el-input v-model="personalForm.sendAddress" placeholder="请输入发货地址" style="margin-left: 18px;width: 150px" disabled/>
               </el-form-item>
             </el-col>
             <el-col :span="6">
               <el-form-item :label="$t('StockOut.receiverAddress')" style="width: 100%;">
-                <el-input v-model="personalForm.receiverAddress" placeholder="请输入收货地址" style="margin-left: 18px;width: 150px" clearable/>
+                <el-input v-model="personalForm.receiverAddress" placeholder="请输入收货地址" style="margin-left: 18px;width: 150px" disabled/>
               </el-form-item>
             </el-col>
             <el-col :span="6">
               <el-form-item :label="$t('StockOut.outDeptId')" style="width: 100%;">
-                <el-select v-model="personalForm.outDeptId" placeholder="请选择出库部门" style="margin-left: 18px;width: 150px" clearable >
+                <el-select v-model="personalForm.outDeptId" placeholder="请选择出库部门" style="margin-left: 18px;width: 150px" disabled >
                   <el-option
                     v-for="(item, index) in depts"
                     :key="index"
@@ -46,13 +46,13 @@
             </el-col>
             <el-col :span="6">
               <el-form-item :label="$t('StockOut.outPersonId')" prop="outPersonId" style="width: 100%;">
-                <el-input v-model="outPersonId" placeholder="请选择出库人" style="margin-left: 18px;width: 150px" clearable @focus="handlechooseAccept"/>
+                <el-input v-model="outPersonId" placeholder="请选择出库人" style="margin-left: 18px;width: 150px" disabled @focus="handlechooseAccept"/>
               </el-form-item>
               <my-accept :accetpcontrol.sync="accetpcontrol" @acceptName="acceptName"/>
             </el-col>
             <el-col :span="6">
               <el-form-item :label="$t('StockOut.outReasonId')" style="width: 100%;">
-                <el-select v-model="personalForm.outReasonId" placeholder="请选择出库原因" style="margin-left: 18px;width: 150px" clearable >
+                <el-select v-model="personalForm.outReasonId" placeholder="请选择出库原因" style="margin-left: 18px;width: 150px" disabled >
                   <el-option value="1" label="原因1"/>
                   <el-option value="2" label="原因2"/>
                 </el-select>
@@ -60,13 +60,13 @@
             </el-col>
             <el-col :span="6">
               <el-form-item :label="$t('StockOut.outRepositoryId')" prop="outRepositoryId" style="width: 100%;">
-                <el-input v-model="outRepositoryId" placeholder="请选择出库仓库" style="margin-left: 18px;width: 150px" clearable @focus="handlechooseRep"/>
+                <el-input v-model="outRepositoryId" placeholder="请选择出库仓库" style="margin-left: 18px;width: 150px" disabled @focus="handlechooseRep"/>
               </el-form-item>
               <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
             </el-col>
             <el-col :span="6">
               <el-form-item :label="$t('StockOut.summary')" prop="summary" style="width: 100%;">
-                <el-input v-model="personalForm.summary" placeholder="请输入摘要" style="margin-left: 18px;width: 150px" clearable/>
+                <el-input v-model="personalForm.summary" placeholder="请输入摘要" style="margin-left: 18px;width: 150px" disabled/>
               </el-form-item>
             </el-col>
           </el-row>
@@ -76,11 +76,6 @@
     <!--出库单明细-->
     <el-card class="box-card" style="margin-top: 15px">
       <h2 ref="fuzhu" class="form-name">出库单明细</h2>
-      <div class="buttons" style="margin-top: 58px">
-        <el-button type="success" style="background:#3696fd;border-color:#3696fd " @click="handleAddproduct">添加商品</el-button>
-        <el-button type="danger" @click="$refs.editable.removeSelecteds()">删除</el-button>
-      </div>
-      <my-detail :control.sync="control" @product="productdetail"/>
       <div class="container">
         <el-editable
           ref="editable"
@@ -92,9 +87,9 @@
           border
           size="medium"
           style="width: 100%">
-          <el-editable-column type="selection" width="55" align="center"/>
           <el-editable-column label="编号" width="55" align="center" type="index"/>
-          <el-editable-column :edit-render="{name: 'ElSelect', options: locationlist}" prop="locationId" align="center" label="货位" width="150px"/>
+          <el-editable-column prop="locationName" align="center" label="货位" width="200px"/>
+          <el-editable-column prop="batch" align="center" label="批次" width="200px"/>
           <el-editable-column prop="productCode" align="center" label="物品编号" width="150px"/>
           <el-editable-column prop="productName" align="center" label="物品名称" width="150px"/>
           <el-editable-column prop="color" align="center" label="颜色" width="150px"/>
@@ -130,7 +125,6 @@
       </el-steps>
     </el-card>
     <div class="buttons" style="margin-top: 20px;margin-left: 30px">
-      <el-button type="primary" @click="handleEditok()">修改</el-button>
       <el-button type="danger" @click="handlecancel()">取消</el-button>
     </div>
   </el-dialog>
@@ -140,12 +134,23 @@
 import { locationlist } from '@/api/WarehouseAdjust'
 import { updateotherout } from '@/api/StockOut'
 import { getdeptlist } from '@/api/BasicSettings'
+import { batchlist } from '@/api/public'
 import MyRepository from './MyRepository'
 import MyAccept from './MyAccept'
 import MyDetail from './MyDetail'
 import MyCreate from './MyCreate'
 export default {
   components: { MyRepository, MyCreate, MyAccept, MyDetail },
+  filters: {
+    statfilter(status) {
+      const statusMap = {
+        1: '审核中',
+        2: '审核通过',
+        3: '审核不通过'
+      }
+      return statusMap[status]
+    }
+  },
   props: {
     detailcontrol: {
       type: Boolean,
@@ -158,6 +163,8 @@ export default {
   },
   data() {
     return {
+      // 批次列表
+      batchlist: [],
       // 审核步骤数据
       reviewList: [],
       // 弹窗组件的控制
@@ -251,6 +258,15 @@ export default {
           })
         }
       })
+    },
+    updatebatch(event, scope) {
+      if (event === true) {
+        const parms2 = scope.row.locationId
+        const parms3 = scope.row.productCode
+        batchlist(this.personalForm.outRepositoryId, parms2, parms3).then(res => {
+          this.batchlist = res.data.data.content
+        })
+      }
     },
     // 出库人focus事件触发
     handlechooseAccept() {
@@ -395,9 +411,6 @@ export default {
       })
     },
     handlecancel() {
-      this.$refs.editable.clear()
-      this.$refs.personalForm.clearValidate()
-      this.$refs.personalForm.resetFields()
       this.editVisible = false
     }
     // 修改操作结束 -------------------------------------------------

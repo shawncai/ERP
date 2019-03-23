@@ -108,3 +108,14 @@ export function updateoverflow(query, query2) {
     data: params
   })
 }
+
+// 审核报溢单
+export function updateoverflow2(query) {
+  var params = new URLSearchParams()
+  params.append('inventoryOverflowJson', query) // 你要传给后台的参数值 key/value
+  return request({
+    url: '/erp/inventoryoverflow/updateoverflow',
+    method: 'post',
+    data: params
+  })
+}

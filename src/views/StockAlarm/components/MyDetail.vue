@@ -219,7 +219,7 @@ export default {
           typeId: item.typeId,
           enterQuantity: 0,
           taxRate: 0,
-          unit: item.saleMeasurement,
+          unit: item.purMeasu,
           actualEnterQuantity: 0,
           basicQuantity: 0,
           enterPrice: item.costPrice,

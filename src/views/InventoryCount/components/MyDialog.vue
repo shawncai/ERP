@@ -70,21 +70,21 @@
         style="width: 100%">
         <el-editable-column type="selection" width="55" align="center"/>
         <el-editable-column type="index" width="55" align="center"/>
-        <el-editable-column :edit-render="{type: 'default'}" prop="locationId" align="center" label="货位" width="150px">
+        <el-editable-column :edit-render="{type: 'default'}" prop="locationId" align="center" label="货位" width="200px">
           <template slot-scope="scope">
-            <el-select v-model="scope.row.locationId" :value="scope.row.locationId" placeholder="请选择货位" clearable style="width: 100%;" @change="updatebatch(scope)">
+            <el-select v-model="scope.row.locationId" :value="scope.row.locationId" placeholder="请选择货位" filterable clearable style="width: 100%;" @visible-change="updatebatch($event,scope)">
               <el-option
                 v-for="(item, index) in locationlist"
                 :key="index"
-                :value="item.value"
-                :label="item.label"/>
+                :value="item.id"
+                :label="item.locationCode"/>
             </el-select>
           </template>
         </el-editable-column>
         <!--<el-editable-column :edit-render="{name: 'ElSelect', options: batchlist, type: 'visible'}" prop="batch" align="center" label="批次" width="150px"/>-->
-        <el-editable-column :edit-render="{type: 'default'}" prop="batch" align="center" label="批次" width="150px">
+        <el-editable-column :edit-render="{type: 'default'}" prop="batch" align="center" label="批次" width="200px">
           <template slot-scope="scope">
-            <el-select v-model="scope.row.batch" :value="scope.row.batch" placeholder="请选择批次" clearable style="width: 100%;" @change="updatebatch(scope)">
+            <el-select v-model="scope.row.batch" :value="scope.row.batch" placeholder="请选择批次" filterable clearable style="width: 100%;" @visible-change="updatebatch2($event,scope)">
               <el-option
                 v-for="(item, index) in batchlist"
                 :key="index"
@@ -135,7 +135,7 @@
 import { locationlist } from '@/api/WarehouseAdjust'
 import { getdeptlist } from '@/api/BasicSettings'
 import { updatecount } from '@/api/InventoryCount'
-import { batchlist, getQuantity } from '@/api/public'
+import { batchlist, getQuantity, getlocation } from '@/api/public'
 import MyCreate from './MyCreate'
 import MyRepository from './MyRepository'
 import MyDetail from './MyDetail'
@@ -153,6 +153,8 @@ export default {
   },
   data() {
     return {
+      // 批次列表
+      batchlist: [],
       // 弹窗组件的控制
       editVisible: this.incontrol,
       // 物流车辆信息数据
@@ -168,8 +170,6 @@ export default {
       // 货位数据
       locationlist: [],
       loc: [],
-      // 批次列表
-      batchlist: [],
       // 明细表控制框
       control: false,
       // 部门数据
@@ -228,12 +228,7 @@ export default {
       // 货位根据仓库id展现
       locationlist(this.personalForm.countRepositoryId).then(res => {
         if (res.data.ret === 200) {
-          this.locationlist = res.data.data.content.list.map(function(item) {
-            return {
-              'value': item.id,
-              'label': item.locationName
-            }
-          })
+          this.locationlist = res.data.data.content.list
         }
       })
     },
@@ -273,12 +268,40 @@ export default {
         return this.out
       }
     },
-    updatebatch(scope) {
-      const parms2 = scope.row.locationId
-      const parms3 = scope.row.productCode
-      batchlist(this.personalForm.countRepositoryId, parms2, parms3).then(res => {
-        this.batchlist = res.data.data.content
-      })
+    updatebatch(event, scope) {
+      if (event === true) {
+        console.log(this.personalForm.countRepositoryId)
+        if (this.personalForm.countRepositoryId === undefined || this.personalForm.countRepositoryId === '') {
+          this.$notify.error({
+            title: '错误',
+            message: '请先选择仓库',
+            offset: 100
+          })
+          return false
+        }
+        getlocation(this.personalForm.countRepositoryId, scope.row).then(res => {
+          if (res.data.ret === 200) {
+            if (res.data.data.content.length !== 0) {
+              this.locationlist = res.data.data.content
+            } else if (res.data.data.content.length === 0) {
+              this.$notify.error({
+                title: '错误',
+                message: '该仓库没有该商品',
+                offset: 100
+              })
+              return false
+            }
+          }
+        })
+      }
+    },
+    updatebatch2(event, scope) {
+      if (event === true) {
+        const parms3 = scope.row.productCode
+        batchlist(this.personalForm.countRepositoryId, parms3).then(res => {
+          this.batchlist = res.data.data.content
+        })
+      }
     },
     // 经办人输入框focus事件触发
     handlechoose() {

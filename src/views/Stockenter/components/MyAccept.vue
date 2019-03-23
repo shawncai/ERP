@@ -33,8 +33,11 @@
             :value="item.id"/>
         </el-select>
         <el-select v-model="getemplist.postid" :value="getemplist.postid" :placeholder="$t('NewEmployeeInformation.postid2')" class="filter-item" clearable style="width: 40%;float: left;margin-top: 10px;margin-left: 20px">
-          <el-option label="xxx" value="1"/>
-          <el-option label="xxx" value="2"/>
+          <el-option
+            v-for="(item, index) in jobs"
+            :key="index"
+            :label="item.categoryName"
+            :value="item.id"/>
         </el-select>
         <el-select v-model="getemplist.deptid" :placeholder="$t('NewEmployeeInformation.deptid2')" class="filter-item" clearable style="width: 40%;float: right;margin-top: 10px;margin-right: 20px">
           <el-option
@@ -111,7 +114,7 @@
 
 <script>
 import { regionlist, searchRepository } from '@/api/public'
-import { getemplist, getdeptlist } from '@/api/EmployeeInformation'
+import { getemplist, getdeptlist, searchEmpCategory } from '@/api/EmployeeInformation'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
 export default {
@@ -134,6 +137,14 @@ export default {
   },
   data() {
     return {
+      // 职位搜索时参数
+      jobCat: {
+        type: 2,
+        pagenum: 1,
+        pagesize: 9999
+      },
+      // 职位列表
+      jobs: [],
       // 仓库管理员回显数据
       managerPeople: '',
       // 小区经理回显数据
@@ -216,6 +227,12 @@ export default {
       regionlist().then(res => {
         if (res.data.ret === 200) {
           this.regions2 = this.tranKTree(res.data.data.content)
+        }
+      })
+      // 职位列表数据
+      searchEmpCategory(this.jobCat).then(res => {
+        if (res.data.ret === 200) {
+          this.jobs = res.data.data.content.list
         }
       })
     },

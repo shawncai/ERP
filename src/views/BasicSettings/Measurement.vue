@@ -150,7 +150,7 @@ export default {
       const statusMap = {
         1: '数量',
         2: '体积',
-        3: '体积'
+        3: '重量'
       }
       return statusMap[status]
     }

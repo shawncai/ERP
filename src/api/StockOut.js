@@ -131,3 +131,14 @@ export function updateotherout(query, query2) {
     data: params
   })
 }
+
+// 审核出库单操作
+export function updateotherenter2(query) {
+  var params = new URLSearchParams()
+  params.append('otherOutJson', query) // 你要传给后台的参数值 key/value
+  return request({
+    url: '/erp/otherout/update',
+    method: 'post',
+    data: params
+  })
+}

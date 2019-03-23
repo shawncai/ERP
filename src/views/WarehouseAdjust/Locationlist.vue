@@ -6,7 +6,8 @@
         <el-form ref="getemplist" :model="getemplist" label-width="80px" style="margin-top: -9px">
           <el-col :span="4">
             <el-form-item label="仓库">
-              <el-input v-model="getemplist.repositoryId" :placeholder="$t('WarehouseAdjust.enterRepositoryId')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
+              <el-input v-model="repositoryId" :placeholder="$t('WarehouseAdjust.enterRepositoryId')" class="filter-item" clearable @keyup.enter.native="handleFilter" @focus="handlechooseRep"/>
+              <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
             </el-form-item>
           </el-col>
           <el-col :span="4">
@@ -19,7 +20,7 @@
               <el-input v-model="getemplist.locationName" :placeholder="$t('WarehouseAdjust.locationName')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
-          <el-col :span="4">
+          <el-col :span="4" style="margin-left: 154px;">
             <!-- 搜索按钮 -->
             <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 86px" @click="handleFilter">{{ $t('public.search') }}</el-button>
           </el-col>
@@ -119,11 +120,12 @@ import { locationlist, deletelocation } from '@/api/WarehouseAdjust'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
 import MyLocation from './components/MyLocation'
+import MyRepository from '../Inventorydamaged/components/MyRepository'
 
 export default {
   name: 'Locationlist',
   directives: { waves },
-  components: { Pagination, MyLocation },
+  components: { MyRepository, Pagination, MyLocation },
   filters: {
     genderFilter(status) {
       const statusMap = {
@@ -135,6 +137,10 @@ export default {
   },
   data() {
     return {
+      // 仓库回显
+      repositoryId: '',
+      // 仓库控制
+      repositorycontrol: false,
       // 批量操作
       moreaction: '',
       // 加载操作控制
@@ -178,6 +184,11 @@ export default {
       })
       this.listLoading = false
     },
+    // 清空搜索条件
+    restFilter() {
+      this.repositoryId = ''
+      this.getemplist.repositoryId = ''
+    },
     // 搜索
     handleFilter() {
       this.getemplist.pageNum = 1
@@ -185,12 +196,14 @@ export default {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
+          this.restFilter()
         } else {
           this.$notify.error({
             title: '错误',
             message: '出错了',
             offset: 100
           })
+          this.restFilter()
         }
       })
     },
@@ -213,6 +226,15 @@ export default {
     // 批量操作
     handleSelectionChange(val) {
       this.moreaction = val
+    },
+    // 仓库列表focus事件触发
+    handlechooseRep() {
+      this.repositorycontrol = true
+    },
+    repositoryname(val) {
+      console.log(val)
+      this.repositoryId = val.repositoryName
+      this.getemplist.repositoryId = val.id
     },
     // 多条删除
     // 批量删除

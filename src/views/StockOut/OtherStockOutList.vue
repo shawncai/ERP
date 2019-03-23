@@ -20,21 +20,17 @@
             </el-form-item>
             <my-create :createcontrol.sync="createcontrol" @createname="createname"/>
           </el-col>
-          <el-col :span="4">
-            <el-form-item label="出库原因">
-              <el-select v-model="getemplist.outReasonId" placeholder="请选择出库原因" style="margin-left: 18px;width: 144px" clearable >
-                <el-option value="1" label="原因1"/>
-                <el-option value="2" label="原因2"/>
-              </el-select>
-            </el-form-item>
-          </el-col>
-          <el-col :span="4">
+          <el-col :span="4" style="margin-left: 154px;">
             <!-- 更多搜索条件下拉栏 -->
             <el-popover
               v-model="visible2"
               placement="bottom"
               width="500"
               trigger="manual">
+              <el-select v-model="getemplist.outReasonId" placeholder="请选择出库原因" style="margin-top: 20px;margin-left: 20px;float: left" clearable >
+                <el-option value="1" label="原因1"/>
+                <el-option value="2" label="原因2"/>
+              </el-select>
               <el-date-picker
                 v-model="date"
                 type="daterange"
@@ -86,6 +82,7 @@
         style="width: 100%;"
         @selection-change="handleSelectionChange">
         <el-table-column
+          :selectable="selectInit"
           type="selection"
           width="55"
           align="center"/>
@@ -139,7 +136,7 @@
           <template slot-scope="scope">
             <el-button type="primary" size="mini" @click="handleEdit(scope.row)">{{ $t('public.edit') }}</el-button>
             <el-button v-if="isReview(scope.row)" type="warning" size="mini" @click="handleReview(scope.row)">{{ $t('public.review') }}</el-button>
-            <el-button size="mini" type="danger" @click="handleDelete(scope.row)">{{ $t('public.delete') }}</el-button>
+            <el-button v-if="scope.row.judgeStat === 0" size="mini" type="danger" @click="handleDelete(scope.row)">{{ $t('public.delete') }}</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -153,7 +150,7 @@
 </template>
 
 <script>
-import { searchOutlist, deleteStock } from '@/api/StockOut'
+import { searchOutlist, deleteStock, updateotherenter2 } from '@/api/StockOut'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
 import MyEdit from './components/MyEdit'
@@ -169,9 +166,10 @@ export default {
   filters: {
     judgeStatFileter(status) {
       const statusMap = {
-        1: '未审核',
-        2: '审核中',
-        3: '审核通过'
+        0: '未审核',
+        1: '审核中',
+        2: '审核通过',
+        3: '审核不通过'
       }
       return statusMap[status]
     },
@@ -186,6 +184,12 @@ export default {
   },
   data() {
     return {
+      // 审核传参
+      reviewParms: {
+        id: '',
+        judgePersonId: '',
+        judgeStat: ''
+      },
       // 详情组件数据
       detailvisible: false,
       // 搜索数据----------------------
@@ -231,6 +235,14 @@ export default {
     this.getlist()
   },
   methods: {
+    // 不让勾选
+    selectInit(row, index) {
+      if (row.judgeStat !== 0) {
+        return false
+      } else {
+        return true
+      }
+    },
     // 出库人输入框focus事件触发
     handlechoose() {
       this.createcontrol = true
@@ -281,6 +293,7 @@ export default {
             message: '出错了',
             offset: 100
           })
+          this.restFilter()
         }
       })
     },
@@ -303,43 +316,55 @@ export default {
       this.detailvisible = true
       this.personalForm = Object.assign({}, row)
       this.personalForm.sourceType = String(row.sourceType)
+      this.personalForm.outReasonId = String(row.outReasonId)
     },
     // 判断审核按钮
     isReview(row) {
       console.log(row)
-      const approvalUse = row.approvalUseVos
-      if (this.getemplist.createPersonId === approvalUse[approvalUse.length - 1].stepHandler && (row.judgeStat === 1 || row.judgeStat === 0)) {
-        return true
+      if (row.approvalUseVos !== '' && row.approvalUseVos !== null && row.approvalUseVos !== undefined && row.approvalUseVos.length !== 0) {
+        const approvalUse = row.approvalUseVos
+        if (this.getemplist.createPersonId === approvalUse[approvalUse.length - 1].stepHandler && (row.judgeStat === 1 || row.judgeStat === 0)) {
+          return true
+        }
       }
     },
-    // // 审批操作
-    // handleReview(row) {
-    //   this.$confirm('请审核', '审核', {
-    //     confirmButtonText: '通过',
-    //     cancelButtonText: '不通过',
-    //     type: 'warning'
-    //   }).then(() => {
-    //     updatestockenter3(row, 2, this.getemplist.createPersonId).then(res => {
-    //       if (res.data.ret === 200) {
-    //         this.$message({
-    //           type: 'success',
-    //           message: '审核成功!'
-    //         })
-    //         this.getlist()
-    //       }
-    //     })
-    //   }).catch(() => {
-    //     updatestockenter3(row, 1, this.getemplist.createPersonId).then(res => {
-    //       if (res.data.ret === 200) {
-    //         this.$message({
-    //           type: 'success',
-    //           message: '审核成功!'
-    //         })
-    //         this.getlist()
-    //       }
-    //     })
-    //   })
-    // },
+    // 审批操作
+    handleReview(row) {
+      this.reviewParms.id = row.id
+      this.reviewParms.judgePersonId = this.getemplist.createPersonId
+      this.$confirm('请审核', '审核', {
+        distinguishCancelAndClose: true,
+        confirmButtonText: '通过',
+        cancelButtonText: '不通过',
+        type: 'warning'
+      }).then(() => {
+        this.reviewParms.judgeStat = 2
+        const parms = JSON.stringify(this.reviewParms)
+        updateotherenter2(parms).then(res => {
+          if (res.data.ret === 200) {
+            this.$message({
+              type: 'success',
+              message: '审核成功!'
+            })
+            this.getlist()
+          }
+        })
+      }).catch(action => {
+        if (action === 'cancel') {
+          this.reviewParms.judgeStat = 1
+          const parms = JSON.stringify(this.reviewParms)
+          updateotherenter2(parms).then(res => {
+            if (res.data.ret === 200) {
+              this.$message({
+                type: 'success',
+                message: '审核成功!'
+              })
+              this.getlist()
+            }
+          })
+        }
+      })
+    },
     // 批量操作
     handleSelectionChange(val) {
       this.moreaction = val
@@ -453,7 +478,7 @@ export default {
     padding: 0;
   }
   .ERP-container {
-    margin: 0px 30px;
+    margin: 0px 15px;
   }
   .filter-container{
     padding: 20px;

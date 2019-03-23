@@ -56,13 +56,10 @@ export function getcitylist(query) {
 }
 
 // 批次查询
-export function batchlist(query, query2, query3) {
+export function batchlist(query, query3) {
   var params = new URLSearchParams()
   if (query !== '' && query !== null && query !== undefined) {
     params.append('repositoryId', query) // 你要传给后台的参数值 key/value
-  }
-  if (query2 !== '' && query2 !== null && query2 !== undefined) {
-    params.append('locationId', query2) // 你要传给后台的参数值 key/value
   }
   if (query3 !== '' && query3 !== null && query3 !== undefined) {
     params.append('productCode', query3) // 你要传给后台的参数值 key/value
@@ -91,6 +88,37 @@ export function getQuantity(query, query2, query3, query4) {
   }
   return request({
     url: '/erp/location/getQuantity',
+    method: 'post',
+    data: params
+  })
+}
+
+// 单一货位列表
+export function getlocation(query, query2) {
+  var params = new URLSearchParams()
+  if (query !== '' && query !== null && query !== undefined) {
+    params.append('repositoryId', query) // 你要传给后台的参数值 key/value
+  }
+  if (query2.productCode !== '' && query2.productCode !== null && query2.productCode !== undefined) {
+    params.append('productCode', query2.productCode) // 你要传给后台的参数值 key/value
+  }
+  return request({
+    url: '/erp/location/getlocation',
+    method: 'post',
+    data: params
+  })
+}
+
+// 货位列表
+export function locationlist(query) {
+  var params = new URLSearchParams()
+  if (query !== '' && query !== null && query !== undefined) {
+    params.append('repositoryId', query) // 你要传给后台的参数值 key/value
+  }
+  params.append('pageNum', 1) // 你要传给后台的参数值 key/value
+  params.append('pageSize', 99999) // 你要传给后台的参数值 key/value
+  return request({
+    url: '/erp/location/locationlist',
     method: 'post',
     data: params
   })

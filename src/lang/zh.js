@@ -101,7 +101,10 @@ export default {
     DailyAdjust: '日常调整',
     AddDailyAdjust: '新建日常调整',
     DailyAdjustList: '日常调整单列表',
-    Inventorydetaillist: '库存明细统计表'
+    Inventorydetaillist: '库存明细统计表',
+    MaterialsList: '物料清单',
+    AddMaterialsList: '新建物料清单',
+    MaterialsListli: '物料清单列表'
   },
   navbar: {
     logOut: '退出登录',
@@ -312,7 +315,7 @@ export default {
     supplierid: '供应商',
     createid: '创建者',
     level: '档次级别',
-    purchasemeasurement: '采购计量单位',
+    purchasemeasurement: '基本计量单位',
     salemeasurement: '销售计量单位',
     stockmeasurement: '库存计量单位',
     producemeasurement: '生产计量单位',
@@ -582,7 +585,7 @@ export default {
     overflowRepositoryId: '报溢仓库',
     summary: '摘要',
     createDate: '报溢日期',
-    judgeStat: '状态',
+    judgeStat: '审批状态',
     id: '编号'
   },
   AdjustPrice: {
@@ -594,7 +597,7 @@ export default {
     adjustDate: '调价日期',
     effectiveDate: '生效日期',
     summary: '摘要',
-    judgeStat: '状态'
+    judgeStat: '审批状态'
   },
   Storagemove: {
     title: '调拨单主题',
@@ -631,7 +634,7 @@ export default {
     buildupRepositoryId: '仓库',
     summary: '摘要',
     buildupDate: '组装日期',
-    judgeStat: '状态'
+    judgeStat: '审批状态'
   },
   TearDown: {
     title: '拆装单主题',
@@ -641,7 +644,7 @@ export default {
     teardownRepositoryId: '仓库',
     summary: '摘要',
     teardownDate: '拆装日期',
-    judgeStat: '状态'
+    judgeStat: '审批状态'
   },
   DailyAdjust: {
     title: '日常调整单主题',
@@ -651,7 +654,21 @@ export default {
     repositoryId: '调整仓库',
     reason: '调整原因',
     adjustDate: '调整日期',
-    judgeStat: '状态'
+    judgeStat: '审批状态'
+  },
+  MaterialsList: {
+    bomNumber: 'BOM编码',
+    parentBomNumber: '上级BOM',
+    bomTypeId: 'BOM类型',
+    isActive: '启用类型',
+    version: '版本',
+    summary: '摘要',
+    productName: '父件',
+    unit: '单位',
+    productTypeId: '型号',
+    id: '序号',
+    judgeStat: '审批状态',
+    receiptStat: '单据状态'
   },
   public: {
     receiptStat: '单据状态',

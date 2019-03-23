@@ -247,6 +247,9 @@ export function deleteproduct(query) {
 // 修改商品
 export function editproduct(query) {
   var params = new URLSearchParams()
+  if (query.effectiveDay !== '' && query.effectiveDay !== null && query.effectiveDay !== undefined) {
+    params.append('effectiveDay', query.effectiveDay) // 你要传给后台的参数值 key/value
+  }
   if (query.id !== '' && query.id !== null && query.id !== undefined) {
     params.append('productid', query.id) // 你要传给后台的参数值 key/value
   }

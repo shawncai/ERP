@@ -102,6 +102,19 @@ export function updateStoragemove(query, query2) {
   })
 }
 
+// 审核调拨单
+export function updateStoragemove2(query) {
+  var params = new URLSearchParams()
+  if (query !== '' && query !== null && query !== undefined) {
+    params.append('Json', query) // 你要传给后台的参数值 key/value
+  }
+  return request({
+    url: '/erp/storagemove/update',
+    method: 'post',
+    data: params
+  })
+}
+
 // 删除调拨单
 export function deletestoragemove(query) {
   var params = new URLSearchParams()

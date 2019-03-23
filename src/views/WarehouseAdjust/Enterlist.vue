@@ -25,18 +25,15 @@
               </el-select>
             </el-form-item>
           </el-col>
-          <el-col :span="4">
-            <el-form-item label="入库人">
-              <el-input v-model="enterPersonId" :placeholder="$t('WarehouseAdjust.enterPersonId')" class="filter-item" clearable @keyup.enter.native="handleFilter" @focus="handlechooseDelivery"/>
-              <my-delivery :deliverycontrol.sync="deliverycontrol" @deliveryName="deliveryName"/>
-            </el-form-item>
-          </el-col>
-          <el-col :span="4">
+          <el-col :span="4" style="margin-left: 154px;">
             <!-- 更多搜索条件下拉栏 -->
             <el-popover
+              v-model="visible2"
               placement="bottom"
               width="500"
-              trigger="click">
+              trigger="manual">
+              <el-input v-model="enterPersonId" :placeholder="$t('WarehouseAdjust.enterPersonId')" class="filter-item" clearable @keyup.enter.native="handleFilter" @focus="handlechooseDelivery"/>
+              <my-delivery :deliverycontrol.sync="deliverycontrol" @deliveryName="deliveryName"/>
               <el-date-picker
                 v-model="date"
                 type="daterange"
@@ -49,7 +46,7 @@
               <div class="seachbutton" style="width: 100%;float: right;margin-top: 20px">
                 <el-button v-waves class="filter-item" type="primary" style="float: right" @click="handleFilter">{{ $t('public.search') }}</el-button>
               </div>
-              <el-button v-waves slot="reference" type="primary" class="filter-item" style="width: 140px"><svg-icon icon-class="shaixuan" style="margin-right: 6px"/>{{ $t('public.filter') }}</el-button>
+              <el-button v-waves slot="reference" type="primary" class="filter-item" style="width: 140px" @click="visible2 = !visible2"><svg-icon icon-class="shaixuan" style="margin-right: 6px"/>{{ $t('public.filter') }}</el-button>
             </el-popover>
           </el-col>
           <el-col :span="4">
@@ -88,13 +85,15 @@
         style="width: 100%;"
         @selection-change="handleSelectionChange">
         <el-table-column
+          :selectable="selectInit"
           type="selection"
           width="55"
           align="center"/>
         <el-table-column :label="$t('WarehouseAdjust.id')" :resizable="false" prop="id" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.id }}</span>
+            <span class="link-type" @click="handleDetail(scope.row)">{{ scope.row.id }}</span>
           </template>
+          <detail-list :detailcontrol.sync="detailvisible" :detaildata.sync="personalForm"/>
         </el-table-column>
         <el-table-column :label="$t('WarehouseAdjust.title')" :resizable="false" prop="title" align="center" min-width="150">
           <template slot-scope="scope">
@@ -121,15 +120,21 @@
             <span>{{ scope.row.enterPersonName }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('WarehouseAdjust.judgeStat')" :resizable="false" prop="judgeStat" align="center" min-width="150">
+        <el-table-column :label="$t('Inventorydamaged.judgeStat')" :resizable="false" prop="judgeStat" align="center" width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.judgeStat | judgeStatfilter }}</span>
+            <span>{{ scope.row.judgeStat | judgeStatFileter }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column :label="$t('Stockenter.receiptStat')" :resizable="false" align="center" width="150">
+          <template slot-scope="scope">
+            <span>{{ scope.row.receiptStat | receiptStatFilter }}</span>
           </template>
         </el-table-column>
         <el-table-column :label="$t('public.actions')" :resizable="false" align="center" min-width="230">
           <template slot-scope="scope">
             <el-button type="primary" size="mini" @click="handleEdit(scope.row)">{{ $t('public.edit') }}</el-button>
-            <el-button size="mini" type="danger" @click="handleDelete(scope.row)">{{ $t('public.delete') }}</el-button>
+            <el-button v-if="isReview(scope.row)" type="warning" size="mini" @click="handleReview(scope.row)">{{ $t('public.review') }}</el-button>
+            <el-button v-if="scope.row.judgeStat === 0" size="mini" type="danger" @click="handleDelete(scope.row)">{{ $t('public.delete') }}</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -143,28 +148,51 @@
 </template>
 
 <script>
-import { enterlist, deleteenter } from '@/api/WarehouseAdjust'
+import { enterlist, deleteenter, updateenter2 } from '@/api/WarehouseAdjust'
 import { getdeptlist } from '@/api/BasicSettings'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
 import MyDialog from './components/MyDialog'
-import MyDelivery from '../DailyAdjust/components/MyDelivery'
+import MyDelivery from './components/MyDelivery'
+import DetailList from './components/DetailList'
 
 export default {
   name: 'Enterlist',
   directives: { waves },
-  components: { MyDelivery, Pagination, MyDialog },
+  components: { DetailList, MyDelivery, Pagination, MyDialog },
   filters: {
-    judgeStatfilter(status) {
+    judgeStatFileter(status) {
       const statusMap = {
-        1: '未审批',
-        2: '审批中'
+        0: '未审核',
+        1: '审核中',
+        2: '审核通过',
+        3: '审核不通过'
+      }
+      return statusMap[status]
+    },
+    receiptStatFilter(status) {
+      const statusMap = {
+        1: '制单',
+        2: '执行',
+        3: '结单'
       }
       return statusMap[status]
     }
   },
   data() {
     return {
+      // 更多搜索条件问题
+      visible2: false,
+      // 审核传参
+      reviewParms: {
+        id: '',
+        judgePersonId: '',
+        judgeStat: ''
+      },
+      // 详情组件数据
+      detailvisible: false,
+      // 入库人回显
+      enterPersonId: '',
       // 部门数据
       depts: [],
       // 批量操作
@@ -203,6 +231,14 @@ export default {
     this.getlist()
   },
   methods: {
+    // 不让勾选
+    selectInit(row, index) {
+      if (row.judgeStat !== 0) {
+        return false
+      } else {
+        return true
+      }
+    },
     getlist() {
       // 采购入库单列表数据
       this.listLoading = true
@@ -260,6 +296,63 @@ export default {
       if (val === true) {
         this.getlist()
       }
+    },
+    // 详情操作
+    handleDetail(row) {
+      console.log(row)
+      this.detailvisible = true
+      this.personalForm = Object.assign({}, row)
+      this.personalForm.isHot = String(row.isHot)
+      this.personalForm.isEffective = String(row.isEffective)
+      this.personalForm.moneyId = String(row.moneyId)
+      this.personalForm.companyTypeId = String(row.companyTypeId)
+    },
+    // 判断审核按钮
+    isReview(row) {
+      console.log(row)
+      if (row.approvalUseVos !== '' && row.approvalUseVos !== null && row.approvalUseVos !== undefined && row.approvalUseVos.length !== 0) {
+        const approvalUse = row.approvalUseVos
+        if (this.getemplist.createPersonId === approvalUse[approvalUse.length - 1].stepHandler && (row.judgeStat === 1 || row.judgeStat === 0)) {
+          return true
+        }
+      }
+    },
+    // 审批操作
+    handleReview(row) {
+      this.reviewParms.id = row.id
+      this.reviewParms.judgePersonId = this.getemplist.createPersonId
+      this.$confirm('请审核', '审核', {
+        distinguishCancelAndClose: true,
+        confirmButtonText: '通过',
+        cancelButtonText: '不通过',
+        type: 'warning'
+      }).then(() => {
+        this.reviewParms.judgeStat = 2
+        const parms = JSON.stringify(this.reviewParms)
+        updateenter2(parms).then(res => {
+          if (res.data.ret === 200) {
+            this.$message({
+              type: 'success',
+              message: '审核成功!'
+            })
+            this.getlist()
+          }
+        })
+      }).catch(action => {
+        if (action === 'cancel') {
+          this.reviewParms.judgeStat = 1
+          const parms = JSON.stringify(this.reviewParms)
+          updateenter2(parms).then(res => {
+            if (res.data.ret === 200) {
+              this.$message({
+                type: 'success',
+                message: '审核成功!'
+              })
+              this.getlist()
+            }
+          })
+        }
+      })
     },
     // 批量操作
     handleSelectionChange(val) {
@@ -374,7 +467,7 @@ export default {
     padding: 0;
   }
   .ERP-container {
-    margin: 0px 30px;
+    margin: 0px 15px;
   }
   .filter-container{
     padding: 20px;

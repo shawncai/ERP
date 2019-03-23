@@ -66,13 +66,15 @@
         style="width: 100%;"
         @selection-change="handleSelectionChange">
         <el-table-column
+          :selectable="selectInit"
           type="selection"
           width="55"
           align="center"/>
         <el-table-column :label="$t('InventoryCount.id')" :resizable="false" prop="id" align="center" width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.id }}</span>
+            <span class="link-type" @click="handleDetail(scope.row)">{{ scope.row.id }}</span>
           </template>
+          <detail-list :detailcontrol.sync="detailvisible" :detaildata.sync="personalForm"/>
         </el-table-column>
         <el-table-column :label="$t('InventoryCount.title')" :resizable="false" prop="title" align="center" width="150">
           <template slot-scope="scope">
@@ -109,15 +111,21 @@
             <span>{{ scope.row.countType }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('InventoryCount.judgeStat')" :resizable="false" prop="judgeStat" align="center" width="150">
+        <el-table-column :label="$t('Inventorydamaged.judgeStat')" :resizable="false" prop="judgeStat" align="center" width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.judgeStat | judgeStatFilter }}</span>
+            <span>{{ scope.row.judgeStat | judgeStatFileter }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column :label="$t('Stockenter.receiptStat')" :resizable="false" align="center" width="150">
+          <template slot-scope="scope">
+            <span>{{ scope.row.receiptStat | receiptStatFilter }}</span>
           </template>
         </el-table-column>
         <el-table-column :label="$t('public.actions')" :resizable="false" align="center" min-width="230">
           <template slot-scope="scope">
             <el-button type="primary" size="mini" @click="handleEdit(scope.row)">{{ $t('public.edit') }}</el-button>
-            <el-button size="mini" type="danger" @click="handleDelete(scope.row)">{{ $t('public.delete') }}</el-button>
+            <el-button v-if="isReview(scope.row)" type="warning" size="mini" @click="handleReview(scope.row)">{{ $t('public.review') }}</el-button>
+            <el-button v-if="scope.row.judgeStat === 0" size="mini" type="danger" @click="handleDelete(scope.row)">{{ $t('public.delete') }}</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -131,29 +139,48 @@
 </template>
 
 <script>
-import { countlist, deletecount } from '@/api/InventoryCount'
+import { countlist, deletecount, updatecount2 } from '@/api/InventoryCount'
 import { getdeptlist } from '@/api/BasicSettings'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
 import MyDialog from './components/MyDialog'
 import MyCreate from '../LogisticsCar/components/MyCreate'
 import MyRepository from '../Inventorydamaged/components/MyRepository'
+import DetailList from './components/DetailList'
 
 export default {
   name: 'InventoryCountList',
   directives: { waves },
-  components: { MyRepository, MyCreate, Pagination, MyDialog },
+  components: { DetailList, MyRepository, MyCreate, Pagination, MyDialog },
   filters: {
-    judgeStatFilter(status) {
+    judgeStatFileter(status) {
       const statusMap = {
-        1: '未审核',
-        2: '审核'
+        0: '未审核',
+        1: '审核中',
+        2: '审核通过',
+        3: '审核不通过'
+      }
+      return statusMap[status]
+    },
+    receiptStatFilter(status) {
+      const statusMap = {
+        1: '制单',
+        2: '执行',
+        3: '结单'
       }
       return statusMap[status]
     }
   },
   data() {
     return {
+      // 审核传参
+      reviewParms: {
+        id: '',
+        judgePersonId: '',
+        judgeStat: ''
+      },
+      // 详情组件数据
+      detailvisible: false,
       // 盘点仓库回显
       countRepositoryId: '',
       // 控制仓库选择窗口
@@ -183,7 +210,8 @@ export default {
         pagenum: 1,
         pagesize: 10,
         regionIds: 43,
-        repositoryId: 0
+        repositoryId: 0,
+        createPersonId: 3
       },
       // 传给组件的数据
       personalForm: {},
@@ -197,6 +225,14 @@ export default {
     this.getlist()
   },
   methods: {
+    // 不让勾选
+    selectInit(row, index) {
+      if (row.judgeStat !== 0) {
+        return false
+      } else {
+        return true
+      }
+    },
     getlist() {
       // 盘点单列表数据
       this.listLoading = true
@@ -282,6 +318,60 @@ export default {
       if (val === true) {
         this.getlist()
       }
+    },
+    // 详情操作
+    handleDetail(row) {
+      console.log(row)
+      this.detailvisible = true
+      this.personalForm = Object.assign({}, row)
+      this.personalForm.countType = String(row.countType)
+    },
+    // 判断审核按钮
+    isReview(row) {
+      console.log(row)
+      if (row.approvalUseVos !== '' && row.approvalUseVos !== null && row.approvalUseVos !== undefined && row.approvalUseVos.length !== 0) {
+        const approvalUse = row.approvalUseVos
+        if (this.getemplist.createPersonId === approvalUse[approvalUse.length - 1].stepHandler && (row.judgeStat === 1 || row.judgeStat === 0)) {
+          return true
+        }
+      }
+    },
+    // 审批操作
+    handleReview(row) {
+      this.reviewParms.id = row.id
+      this.reviewParms.judgePersonId = this.getemplist.createPersonId
+      this.$confirm('请审核', '审核', {
+        distinguishCancelAndClose: true,
+        confirmButtonText: '通过',
+        cancelButtonText: '不通过',
+        type: 'warning'
+      }).then(() => {
+        this.reviewParms.judgeStat = 2
+        const parms = JSON.stringify(this.reviewParms)
+        updatecount2(parms).then(res => {
+          if (res.data.ret === 200) {
+            this.$message({
+              type: 'success',
+              message: '审核成功!'
+            })
+            this.getlist()
+          }
+        })
+      }).catch(action => {
+        if (action === 'cancel') {
+          this.reviewParms.judgeStat = 1
+          const parms = JSON.stringify(this.reviewParms)
+          updatecount2(parms).then(res => {
+            if (res.data.ret === 200) {
+              this.$message({
+                type: 'success',
+                message: '审核成功!'
+              })
+              this.getlist()
+            }
+          })
+        }
+      })
     },
     // 批量操作
     handleSelectionChange(val) {

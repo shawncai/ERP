@@ -151,3 +151,14 @@ export function createstockalarm(query) {
     data: params
   })
 }
+
+// 审核期初库存单
+export function updateenter2(query) {
+  var params = new URLSearchParams()
+  params.append('initialEnterJson', query) // 你要传给后台的参数值 key/value
+  return request({
+    url: '/erp/initialenter/updateenter',
+    method: 'post',
+    data: params
+  })
+}
