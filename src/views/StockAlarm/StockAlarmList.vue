@@ -85,12 +85,12 @@
         </el-table-column>
         <el-table-column :label="$t('StockAlarm.onStock')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.onStock }}</span>
+            <span>{{ scope.row.existStock }}</span>
           </template>
         </el-table-column>
         <el-table-column :label="$t('StockAlarm.flag')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.flag | flagStatFileter }}</span>
+            <span>{{ scope.row.alarmType | flagStatFileter }}</span>
           </template>
         </el-table-column>
       </el-table>

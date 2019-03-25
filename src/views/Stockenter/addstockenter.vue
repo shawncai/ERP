@@ -78,7 +78,7 @@
           <el-editable-column type="index" align="center" label="编号" width="150px" />
           <el-editable-column :edit-render="{type: 'default'}" prop="locationId" align="center" label="货位" width="200px">
             <template slot-scope="scope">
-              <el-select v-model="scope.row.locationId" :value="scope.row.locationId" placeholder="请选择货位" filterable clearable style="width: 100%;" @visible-change="updatebatch($event,scope)">
+              <el-select v-model="scope.row.locationId" :value="scope.row.locationCode" placeholder="请选择货位" filterable clearable style="width: 100%;" @visible-change="updatebatch($event,scope)">
                 <el-option
                   v-for="(item, index) in locationlist"
                   :key="index"
@@ -215,6 +215,7 @@ export default {
     // 保存操作
     handlesave() {
       const rest = this.$refs.editable.getRecords()
+      console.log(rest)
       if (rest.length === 0) {
         this.$notify.error({
           title: '错误',

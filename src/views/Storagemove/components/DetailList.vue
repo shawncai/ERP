@@ -12,6 +12,11 @@
               </el-form-item>
             </el-col>
             <el-col :span="6">
+              <el-form-item :label="$t('Storagemove.applicationName')" prop="applyPersonId" style="width: 100%;">
+                <el-input v-model="applyPersonId" placeholder="请选择调拨申请人" style="margin-left: 18px;width: 150px" disabled/>
+              </el-form-item>
+            </el-col>
+            <el-col :span="6">
               <el-form-item :label="$t('Storagemove.requestDeptId')" prop="requestDeptId" style="width: 100%;">
                 <el-select v-model="personalForm.requestDeptId" placeholder="请选择要货部门" style="margin-left: 18px;width: 150px" disabled >
                   <el-option
@@ -74,11 +79,46 @@
     </el-card>
     <!--调拨单明细-->
     <el-card class="box-card" style="margin-top: 15px">
-      <h2 ref="fuzhu" class="form-name">调拨单明细</h2>
+      <h2 ref="fuzhu" class="form-name">调出明细</h2>
       <div class="container">
         <el-editable
           ref="editable"
           :data.sync="list2"
+          :edit-config="{ showIcon: true, showStatus: true}"
+          :edit-rules="validRules"
+          class="click-table1"
+          stripe
+          border
+          size="medium"
+          style="width: 100%">
+          <el-editable-column type="selection" width="55" align="center"/>
+          <el-editable-column label="编号" width="55" align="center" type="index"/>
+          <el-editable-column prop="locationCode" align="center" label="货位" width="200px"/>
+          <el-editable-column prop="batch" align="center" label="批次" width="200px"/>
+          <el-editable-column prop="productCode" align="center" label="物品编号" width="150px"/>
+          <el-editable-column prop="productName" align="center" label="物品名称" width="150px"/>
+          <el-editable-column prop="color" align="center" label="颜色" width="150px"/>
+          <el-editable-column prop="typeName" align="center" label="规格" width="150px"/>
+          <el-editable-column prop="unitName" align="center" label="单位" width="150px"/>
+          <el-editable-column prop="price" align="center" label="调拨单价" width="150px"/>
+          <el-editable-column prop="movePrice" align="center" label="调拨成本价" width="150px"/>
+          <el-editable-column prop="moveQuantity" align="center" label="调拨数量" width="150px"/>
+          <el-editable-column prop="totalMoney" align="center" label="调拨金额" width="150px">
+            <template slot-scope="scope">
+              <p>{{ getSize(scope.row.movePrice, scope.row.moveQuantity) }}</p>
+            </template>
+          </el-editable-column>
+          <el-editable-column prop="remarks" align="center" label="备注" width="150px"/>
+        </el-editable>
+      </div>
+    </el-card>
+    <!--调入数据-->
+    <el-card class="box-card" style="margin-top: 15px">
+      <h2 ref="fuzhu" class="form-name">调入明细</h2>
+      <div class="container">
+        <el-editable
+          ref="editable"
+          :data.sync="list3"
           :edit-config="{ showIcon: true, showStatus: true}"
           :edit-rules="validRules"
           class="click-table1"
@@ -164,6 +204,8 @@ export default {
   },
   data() {
     return {
+      // 申请人回显
+      applyPersonId: '',
       // 审核步骤数据
       reviewList: [],
       // 批次列表
@@ -207,6 +249,8 @@ export default {
       },
       // 调拨单明细数据
       list2: [],
+      // 调入明细数据
+      list3: [],
       // 调拨明细中货位发送参数
       locationlistparms: {
         pageNum: 1,
@@ -227,7 +271,9 @@ export default {
       this.personalForm = this.detaildata
       this.moveOutRepository = this.personalForm.moveOutRepositoryName
       this.moveInRepository = this.personalForm.moveInRepositoryName
+      this.applyPersonId = this.personalForm.applicationName
       this.list2 = this.personalForm.storageMoveDetailVos
+      this.list3 = this.personalForm.storageMoveDetailConfirmVos
       this.reviewList = this.personalForm.approvalUseVos
       this.getlocation()
     }

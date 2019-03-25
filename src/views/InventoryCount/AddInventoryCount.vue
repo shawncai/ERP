@@ -67,13 +67,13 @@
           style="width: 100%">
           <el-editable-column type="selection" width="55" align="center"/>
           <el-editable-column type="index" width="55" align="center"/>
-          <el-editable-column :edit-render="{type: 'default'}" prop="locationId" align="center" label="货位" width="200px">
+          <el-editable-column :edit-render="{type: 'default'}" prop="locationCode" align="center" label="货位" width="200px">
             <template slot-scope="scope">
-              <el-select v-model="scope.row.locationId" :value="scope.row.locationId" placeholder="请选择货位" filterable clearable style="width: 100%;" @visible-change="updatebatch($event,scope)">
+              <el-select v-model="scope.row.locationCode" :value="scope.row.locationCode" placeholder="请选择货位" filterable clearable style="width: 100%;" @visible-change="updatebatch($event,scope)">
                 <el-option
                   v-for="(item, index) in locationlist"
                   :key="index"
-                  :value="item.id"
+                  :value="item.locationCode"
                   :label="item.locationCode"/>
               </el-select>
             </template>
@@ -240,7 +240,7 @@ export default {
           this.out = res.data.data.content
           sco.inventoryQuantity = res.data.data.content
         })
-        return this.out
+        return sco.inventoryQuantity
       }
     },
     updatebatch(event, scope) {
@@ -258,22 +258,31 @@ export default {
           if (res.data.ret === 200) {
             if (res.data.data.content.length !== 0) {
               this.locationlist = res.data.data.content
+              scope.row.locationId = res.data.data.content[0].id
+              this.updatebatch3(scope)
             } else if (res.data.data.content.length === 0) {
               this.$notify.error({
                 title: '错误',
                 message: '该仓库没有该商品',
                 offset: 100
               })
+              this.locationlist = []
               return false
             }
           }
         })
       }
     },
+    updatebatch3(scope) {
+      const parms3 = scope.row.productCode
+      batchlist(this.personalForm.repositoryId, parms3).then(res => {
+        this.batchlist = res.data.data.content
+      })
+    },
     updatebatch2(event, scope) {
       if (event === true) {
         const parms3 = scope.row.productCode
-        batchlist(this.personalForm.countRepositoryId, parms3).then(res => {
+        batchlist(this.personalForm.repositoryId, parms3).then(res => {
           this.batchlist = res.data.data.content
         })
       }

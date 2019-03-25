@@ -154,6 +154,7 @@
             <el-button type="primary" size="mini" @click="handleEdit(scope.row)">{{ $t('public.edit') }}</el-button>
             <el-button v-if="isReview(scope.row)" type="warning" size="mini" @click="handleReview(scope.row)">{{ $t('public.review') }}</el-button>
             <el-button v-if="scope.row.judgeStat === 0" size="mini" type="danger" @click="handleDelete(scope.row)">{{ $t('public.delete') }}</el-button>
+            <el-button v-if="scope.row.judgeStat === 2" type="primary" size="mini" @click="handlemove(scope.row)">{{ $t('public.move') }}</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -162,6 +163,8 @@
       <!--修改开始=================================================-->
       <my-edit :editcontrol.sync="editVisible" :editdata.sync="personalForm" @rest="refreshlist"/>
       <!--修改结束=================================================-->
+      <!--调入-->
+      <my-edit2 :editcontrol.sync="moveVisible" :editdata.sync="personalForm" @rest="refreshlist"/>
     </el-card>
   </div>
 </template>
@@ -172,6 +175,7 @@ import { searchlist, deletestoragemove, updateStoragemove2 } from '@/api/Storage
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
 import MyEdit from './components/MyEdit'
+import MyEdit2 from './components/MyEdit2'
 import MyRepository from './components/MyRepository'
 import MyAccept from './components/MyAccept'
 import MyCreate from './components/MyCreate'
@@ -181,7 +185,7 @@ import DetailList from './components/DetailList'
 export default {
   name: 'StoragemoveList',
   directives: { waves },
-  components: { DetailList, MyDepot, Pagination, MyEdit, MyRepository, MyAccept, MyCreate },
+  components: { DetailList, MyDepot, Pagination, MyEdit, MyRepository, MyAccept, MyCreate, MyEdit2 },
   filters: {
     judgeStatFilter(status) {
       const statusMap = {
@@ -203,6 +207,8 @@ export default {
   },
   data() {
     return {
+      // 调入控制
+      moveVisible: false,
       // 搜索数据----------------------
       // 审核传参
       reviewParms: {
@@ -268,6 +274,11 @@ export default {
       } else {
         return true
       }
+    },
+    // 调入操作
+    handlemove(row) {
+      this.moveVisible = true
+      this.personalForm = Object.assign({}, row)
     },
     // 部门列表数据
     getdeptlist() {

@@ -86,6 +86,17 @@
                 </el-select>
               </template>
             </el-editable-column>
+            <el-editable-column :edit-render="{type: 'default'}" prop="batch" align="center" label="批次" width="200px">
+              <template slot-scope="scope">
+                <el-select v-model="scope.row.batch" :value="scope.row.batch" placeholder="请选择批次" filterable clearable style="width: 100%;" @visible-change="updatebatch2($event,scope)">
+                  <el-option
+                    v-for="(item, index) in batchlist"
+                    :key="index"
+                    :value="item"
+                    :label="item"/>
+                </el-select>
+              </template>
+            </el-editable-column>
             <el-editable-column prop="productCode" align="center" label="物品编号" width="150px"/>
             <el-editable-column prop="productName" align="center" label="物品名称" width="150px"/>
             <el-editable-column prop="color" align="center" label="颜色" width="150px"/>
@@ -95,8 +106,8 @@
             <el-editable-column :edit-render="{type: 'default'}" prop="adjustType" align="center" label="调整类型" width="200px">
               <template slot-scope="scope">
                 <el-select v-model="scope.row.adjustType" :value="scope.row.adjustType" filterable style="width: 100%;">
-                  <el-option value="1" label="调入"/>
-                  <el-option value="2" label="调出"/>
+                  <el-option value="1" label="调增"/>
+                  <el-option value="2" label="调减"/>
                 </el-select>
               </template>
             </el-editable-column>
@@ -121,7 +132,7 @@
 </template>
 
 <script>
-import { getlocation, locationlist } from '@/api/public'
+import { getlocation, batchlist } from '@/api/public'
 import { getdeptlist } from '@/api/BasicSettings'
 import { createdailyAdjust } from '@/api/DailyAdjust'
 import MyRepository from './components/MyRepository'
@@ -133,6 +144,8 @@ export default {
   components: { MyRepository, MyDetail, MyCreate, MyAccept },
   data() {
     return {
+      // 批次数据
+      batchlist: [],
       // 部门数据
       depts: [],
       // 经办人回显
@@ -239,14 +252,31 @@ export default {
           if (res.data.ret === 200) {
             if (res.data.data.content.length !== 0) {
               this.locationlist = res.data.data.content
+              this.updatebatch3(scope)
             } else if (res.data.data.content.length === 0) {
-              locationlist(this.personalForm.repositoryId).then(res => {
-                if (res.data.ret === 200) {
-                  this.locationlist = res.data.data.content.list
-                }
+              this.$notify.error({
+                title: '错误',
+                message: '该仓库没有该商品',
+                offset: 100
               })
+              this.locationlist = []
+              return false
             }
           }
+        })
+      }
+    },
+    updatebatch3(scope) {
+      const parms3 = scope.row.productCode
+      batchlist(this.personalForm.repositoryId, parms3).then(res => {
+        this.batchlist = res.data.data.content
+      })
+    },
+    updatebatch2(event, scope) {
+      if (event === true) {
+        const parms3 = scope.row.productCode
+        batchlist(this.personalForm.repositoryId, parms3).then(res => {
+          this.batchlist = res.data.data.content
         })
       }
     },
@@ -333,6 +363,9 @@ export default {
         }
         if (elem.remarks === null || elem.remarks === '' || elem.remarks === undefined) {
           delete elem.remarks
+        }
+        if (elem.batch === null || elem.batch === '' || elem.batch === undefined) {
+          delete elem.batch
         }
         return elem
       })

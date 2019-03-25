@@ -86,6 +86,17 @@
               </el-select>
             </template>
           </el-editable-column>
+          <el-editable-column :edit-render="{type: 'default'}" prop="batch" align="center" label="批次" width="200px">
+            <template slot-scope="scope">
+              <el-select v-model="scope.row.batch" :value="scope.row.batch" placeholder="请选择批次" filterable clearable style="width: 100%;" @visible-change="updatebatch2($event,scope)">
+                <el-option
+                  v-for="(item, index) in batchlist"
+                  :key="index"
+                  :value="item"
+                  :label="item"/>
+              </el-select>
+            </template>
+          </el-editable-column>
           <el-editable-column prop="productCode" align="center" label="物品编号" width="150px"/>
           <el-editable-column prop="productName" align="center" label="物品名称" width="150px"/>
           <el-editable-column prop="color" align="center" label="颜色" width="150px"/>
@@ -110,7 +121,7 @@
 </template>
 
 <script>
-import { getlocation, locationlist } from '@/api/public'
+import { getlocation, locationlist, batchlist } from '@/api/public'
 import { updatedamaged } from '@/api/Inventorydamaged'
 import { getdeptlist } from '@/api/BasicSettings'
 import MyCreate from './MyCreate'
@@ -139,6 +150,8 @@ export default {
         pageSize: 1999,
         repositoryId: ''
       },
+      // 批次列表
+      batchlist: [],
       // 货位数据
       locationlist: [],
       // 明细表控制框
@@ -249,14 +262,30 @@ export default {
           if (res.data.ret === 200) {
             if (res.data.data.content.length !== 0) {
               this.locationlist = res.data.data.content
+              this.updatebatch3(scope)
             } else if (res.data.data.content.length === 0) {
-              locationlist(this.personalForm.damagedRepositoryId).then(res => {
-                if (res.data.ret === 200) {
-                  this.locationlist = res.data.data.content.list
-                }
+              this.$notify.error({
+                title: '错误',
+                message: '该仓库没有该商品',
+                offset: 100
               })
+              this.locationlist = []
             }
           }
+        })
+      }
+    },
+    updatebatch3(scope) {
+      const parms3 = scope.row.productCode
+      batchlist(this.personalForm.damagedRepositoryId, parms3).then(res => {
+        this.batchlist = res.data.data.content
+      })
+    },
+    updatebatch2(event, scope) {
+      if (event === true) {
+        const parms3 = scope.row.productCode
+        batchlist(this.personalForm.damagedRepositoryId, parms3).then(res => {
+          this.batchlist = res.data.data.content
         })
       }
     },
@@ -321,6 +350,9 @@ export default {
       }).forEach(function(elem) {
         if (elem.locationId === null || elem.locationId === '' || elem.locationId === undefined) {
           delete elem.locationId
+        }
+        if (elem.batch === null || elem.batch === '' || elem.batch === undefined) {
+          delete elem.batch
         }
         if (elem.productCode === null || elem.productCode === '' || elem.productCode === undefined) {
           delete elem.productCode

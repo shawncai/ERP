@@ -166,6 +166,7 @@ export default {
       listLoading: true,
       // 物品列表查询加展示参数
       getemplist: {
+        adjustType: 1,
         productid: '',
         code: '',
         productname: '',

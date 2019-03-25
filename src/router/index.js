@@ -786,6 +786,18 @@ export const asyncRouterMap = [
     },
     children: [
       {
+        path: 'AddLocationAdjust',
+        component: () => import('@/views/WarehouseAdjust/AddLocationAdjust'),
+        name: 'AddLocationAdjust',
+        meta: { title: 'AddLocationAdjust', noCache: false }
+      },
+      {
+        path: 'LocationAdjustList',
+        component: () => import('@/views/WarehouseAdjust/LocationAdjustList'),
+        name: 'LocationAdjustList',
+        meta: { title: 'LocationAdjustList', noCache: true }
+      },
+      {
         path: 'AddInitialenter',
         component: () => import('@/views/WarehouseAdjust/AddInitialenter'),
         name: 'AddInitialenter',
@@ -840,6 +852,56 @@ export const asyncRouterMap = [
         component: () => import('@/views/MaterialsList/MaterialsListli'),
         name: 'MaterialsListli',
         meta: { title: 'MaterialsListli', noCache: true }
+      }
+    ]
+  },
+  {
+    path: '/ProcessFile',
+    component: Layout,
+    redirect: 'noredirect',
+    name: 'ProcessFile',
+    alwaysShow: true,
+    meta: {
+      title: 'ProcessFile',
+      icon: 'dangan',
+      type: 7
+    },
+    children: [
+      {
+        path: 'AddWorkCenter',
+        component: () => import('@/views/ProcessFile/AddWorkCenter'),
+        name: 'AddWorkCenter',
+        meta: { title: 'AddWorkCenter', noCache: false }
+      },
+      {
+        path: 'WorkCenter',
+        component: () => import('@/views/ProcessFile/WorkCenter'),
+        name: 'WorkCenter',
+        meta: { title: 'WorkCenter', noCache: true }
+      },
+      {
+        path: 'AddProductionFile',
+        component: () => import('@/views/ProcessFile/AddProductionFile'),
+        name: 'AddProductionFile',
+        meta: { title: 'AddProductionFile', noCache: false }
+      },
+      {
+        path: 'ProductionFile',
+        component: () => import('@/views/ProcessFile/ProductionFile'),
+        name: 'ProductionFile',
+        meta: { title: 'ProductionFile', noCache: true }
+      },
+      {
+        path: 'AddStandardProcess',
+        component: () => import('@/views/ProcessFile/AddStandardProcess'),
+        name: 'AddStandardProcess',
+        meta: { title: 'AddStandardProcess', noCache: false }
+      },
+      {
+        path: 'StandardProcess',
+        component: () => import('@/views/ProcessFile/StandardProcess'),
+        name: 'StandardProcess',
+        meta: { title: 'StandardProcess', noCache: true }
       }
     ]
   },

@@ -13,6 +13,12 @@
                 </el-form-item>
               </el-col>
               <el-col :span="6">
+                <el-form-item :label="$t('Storagemove.applicationName')" prop="applyPersonId" style="width: 100%;">
+                  <el-input v-model="applyPersonId" placeholder="请选择调拨申请人" style="margin-left: 18px" clearable @focus="handlechooseAccept"/>
+                </el-form-item>
+              </el-col>
+              <my-accept :accetpcontrol.sync="accetpcontrol" @acceptName="acceptName"/>
+              <el-col :span="6">
                 <el-form-item :label="$t('Storagemove.requestDeptId')" prop="requestDeptId" style="width: 100%;">
                   <el-select v-model="personalForm.requestDeptId" placeholder="请选择要货部门" style="margin-left: 18px;width: 218px" clearable >
                     <el-option
@@ -155,6 +161,10 @@ export default {
   components: { MyDepot, MyRepository, MyDetail, MyCreate, MyAccept },
   data() {
     return {
+      // 申请人回显
+      applyPersonId: '',
+      // 申请人控制
+      accetpcontrol: false,
       // 批次列表
       batchlist: [],
       // 部门数据
@@ -179,6 +189,9 @@ export default {
       },
       // 调拨单规则数据
       personalrules: {
+        applyPersonId: [
+          { required: true, message: '请选择调拨申请人', trigger: 'focus' }
+        ],
         requestDeptId: [
           { required: true, message: '请选择要货部门', trigger: 'change' }
         ],
@@ -269,17 +282,25 @@ export default {
           if (res.data.ret === 200) {
             if (res.data.data.content.length !== 0) {
               this.locationlist = res.data.data.content
+              this.updatebatch3(scope)
             } else if (res.data.data.content.length === 0) {
               this.$notify.error({
                 title: '错误',
                 message: '该仓库没有该商品',
                 offset: 100
               })
+              this.locationlist = []
               return false
             }
           }
         })
       }
+    },
+    updatebatch3(scope) {
+      const parms3 = scope.row.productCode
+      batchlist(this.personalForm.moveOutRepository, parms3).then(res => {
+        this.batchlist = res.data.data.content
+      })
     },
     updatebatch2(event, scope) {
       if (event === true) {
@@ -288,6 +309,14 @@ export default {
           this.batchlist = res.data.data.content
         })
       }
+    },
+    // 申请人focus事件触发
+    handlechooseAccept() {
+      this.accetpcontrol = true
+    },
+    acceptName(val) {
+      this.applyPersonId = val.personName
+      this.personalForm.applyPersonId = val.id
     },
     // 调拨单事件
     // 新增调拨单明细

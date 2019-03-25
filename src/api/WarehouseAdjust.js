@@ -1,6 +1,6 @@
 import request from '@/utils/request'
 
-// 删除编码规则
+// 新增期初库存录入
 export function addinitialenter(query, detail, repositoryId, regionId) {
   var params = new URLSearchParams()
   params.append('initialEnterJson', query) // 你要传给后台的参数值 key/value
@@ -158,6 +158,95 @@ export function updateenter2(query) {
   params.append('initialEnterJson', query) // 你要传给后台的参数值 key/value
   return request({
     url: '/erp/initialenter/updateenter',
+    method: 'post',
+    data: params
+  })
+}
+
+// 添加货位调整单
+export function addlocationadjust(query, detail, query3) {
+  var params = new URLSearchParams()
+  params.append('locationAdjustJson', query) // 你要传给后台的参数值 key/value
+  params.append('locationAdjustDetailJson', detail) // 你要传给后台的参数值 key/value
+  params.append('repositoryId', query3.repositoryId) // 你要传给后台的参数值 key/value
+  params.append('regionId', query3.regionId) // 你要传给后台的参数值 key/value
+  return request({
+    url: '/erp/locationadjust/addlocationadjust',
+    method: 'post',
+    data: params
+  })
+}
+
+//  货位调整列表
+export function adjustlist(query) {
+  var params = new URLSearchParams()
+  if (query.title !== '' && query.title !== null && query.title !== undefined) {
+    params.append('title', query.title) // 你要传给后台的参数值 key/value
+  }
+  if (query.adjustNumber !== '' && query.adjustNumber !== null && query.adjustNumber !== undefined) {
+    params.append('adjustNumber', query.adjustNumber) // 你要传给后台的参数值 key/value
+  }
+  if (query.handlePersonId !== '' && query.handlePersonId !== null && query.handlePersonId !== undefined) {
+    params.append('handlePersonId', query.handlePersonId) // 你要传给后台的参数值 key/value
+  }
+  if (query.adjustDeptId !== '' && query.adjustDeptId !== null && query.adjustDeptId !== undefined) {
+    params.append('adjustDeptId', query.adjustDeptId) // 你要传给后台的参数值 key/value
+  }
+  if (query.adjustRepositoryId !== '' && query.adjustRepositoryId !== null && query.adjustRepositoryId !== undefined) {
+    params.append('adjustRepositoryId', query.adjustRepositoryId) // 你要传给后台的参数值 key/value
+  }
+  if (query.receiptStat !== '' && query.receiptStat !== null && query.receiptStat !== undefined) {
+    params.append('receiptStat', query.receiptStat) // 你要传给后台的参数值 key/value
+  }
+  if (query.createPersonId !== '' && query.createPersonId !== null && query.createPersonId !== undefined) {
+    params.append('createPersonId', query.createPersonId) // 你要传给后台的参数值 key/value
+  }
+  if (query.beginTime !== '' && query.beginTime !== null && query.beginTime !== undefined) {
+    params.append('beginTime', query.beginTime) // 你要传给后台的参数值 key/value
+  }
+  if (query.endTime !== '' && query.endTime !== null && query.endTime !== undefined) {
+    params.append('endTime', query.endTime) // 你要传给后台的参数值 key/value
+  }
+  params.append('pageNum', query.pageNum) // 你要传给后台的参数值 key/value
+  params.append('pageSize', query.pageSize) // 你要传给后台的参数值 key/value
+  params.append('regionIds', query.regionIds) // 你要传给后台的参数值 key/value
+  params.append('repositoryId', query.repositoryId) // 你要传给后台的参数值 key/value
+  return request({
+    url: '/erp/locationadjust/adjustlist',
+    method: 'post',
+    data: params
+  })
+}
+
+// 删除货位调整单
+export function deleteadjust(query) {
+  var params = new URLSearchParams()
+  params.append('adjustIds', query) // 你要传给后台的参数值 key/value
+  return request({
+    url: '/erp/locationadjust/deleteadjust',
+    method: 'post',
+    data: params
+  })
+}
+
+// 修改货位调整单
+export function updateadjust(query, query2) {
+  var params = new URLSearchParams()
+  params.append('locationAdjustJson', query) // 你要传给后台的参数值 key/value
+  params.append('locationAdjustDetailJson', query2) // 你要传给后台的参数值 key/value
+  return request({
+    url: '/erp/locationadjust/updateadjust',
+    method: 'post',
+    data: params
+  })
+}
+
+// 审核货位调整单
+export function updateadjust2(query) {
+  var params = new URLSearchParams()
+  params.append('locationAdjustJson', query) // 你要传给后台的参数值 key/value
+  return request({
+    url: '/erp/locationadjust/updateadjust',
     method: 'post',
     data: params
   })

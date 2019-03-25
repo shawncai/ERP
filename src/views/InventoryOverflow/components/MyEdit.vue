@@ -75,6 +75,17 @@
               </el-select>
             </template>
           </el-editable-column>
+          <el-editable-column :edit-render="{type: 'default'}" prop="batch" align="center" label="批次" width="200px">
+            <template slot-scope="scope">
+              <el-select v-model="scope.row.batch" :value="scope.row.batch" placeholder="请选择批次" filterable clearable style="width: 100%;" @visible-change="updatebatch2($event,scope)">
+                <el-option
+                  v-for="(item, index) in batchlist"
+                  :key="index"
+                  :value="item"
+                  :label="item"/>
+              </el-select>
+            </template>
+          </el-editable-column>
           <el-editable-column prop="productCode" align="center" label="物品编号" width="150px"/>
           <el-editable-column prop="productName" align="center" label="物品名称" width="150px"/>
           <el-editable-column prop="color" align="center" label="颜色" width="150px"/>
@@ -99,7 +110,7 @@
 </template>
 
 <script>
-import { getlocation, locationlist } from '@/api/public'
+import { getlocation, locationlist, batchlist } from '@/api/public'
 import { updateoverflow } from '@/api/InventoryOverflow'
 import { getdeptlist } from '@/api/BasicSettings'
 import MyRepository from './MyRepository'
@@ -124,6 +135,8 @@ export default {
       editVisible: this.editcontrol,
       // 修改row数据
       personalForm: this.editdata,
+      // 批次列表
+      batchlist: [],
       // 部门数据
       depts: [],
       // 经办人回显
@@ -246,14 +259,31 @@ export default {
           if (res.data.ret === 200) {
             if (res.data.data.content.length !== 0) {
               this.locationlist = res.data.data.content
+              this.updatebatch3(scope)
             } else if (res.data.data.content.length === 0) {
-              locationlist(this.personalForm.overflowRepositoryId).then(res => {
-                if (res.data.ret === 200) {
-                  this.locationlist = res.data.data.content.list
-                }
+              this.$notify.error({
+                title: '错误',
+                message: '该仓库没有该商品',
+                offset: 100
               })
+              this.locationlist = []
+              return false
             }
           }
+        })
+      }
+    },
+    updatebatch3(scope) {
+      const parms3 = scope.row.productCode
+      batchlist(this.personalForm.overflowRepositoryId, parms3).then(res => {
+        this.batchlist = res.data.data.content
+      })
+    },
+    updatebatch2(event, scope) {
+      if (event === true) {
+        const parms3 = scope.row.productCode
+        batchlist(this.personalForm.overflowRepositoryId, parms3).then(res => {
+          this.batchlist = res.data.data.content
         })
       }
     },

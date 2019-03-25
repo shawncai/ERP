@@ -319,6 +319,9 @@ export function editproduct(query) {
   if (query.memberPrice !== '' && query.memberPrice !== null && query.memberPrice !== undefined) {
     params.append('memberprice', query.memberPrice) // 你要传给后台的参数值 key/value
   }
+  if (query.effectiveDay !== '' && query.effectiveDay !== null && query.effectiveDay !== undefined) {
+    params.append('effectiveDay', query.effectiveDay) // 你要传给后台的参数值 key/value
+  }
   return request({
     url: '/erp/product/editproduct',
     method: 'post',

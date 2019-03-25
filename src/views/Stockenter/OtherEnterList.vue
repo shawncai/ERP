@@ -187,9 +187,10 @@ export default {
   filters: {
     judgeStatFileter(status) {
       const statusMap = {
-        1: '未审核',
-        2: '审核中',
-        3: '审核通过'
+        0: '未审核',
+        1: '审核中',
+        2: '审核通过',
+        3: '审核不通过'
       }
       return statusMap[status]
     },

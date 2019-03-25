@@ -283,22 +283,30 @@ export default {
           if (res.data.ret === 200) {
             if (res.data.data.content.length !== 0) {
               this.locationlist = res.data.data.content
+              this.updatebatch3(scope)
             } else if (res.data.data.content.length === 0) {
               this.$notify.error({
                 title: '错误',
                 message: '该仓库没有该商品',
                 offset: 100
               })
+              this.locationlist = []
               return false
             }
           }
         })
       }
     },
+    updatebatch3(scope) {
+      const parms3 = scope.row.productCode
+      batchlist(this.personalForm.repositoryId, parms3).then(res => {
+        this.batchlist = res.data.data.content
+      })
+    },
     updatebatch2(event, scope) {
       if (event === true) {
         const parms3 = scope.row.productCode
-        batchlist(this.personalForm.countRepositoryId, parms3).then(res => {
+        batchlist(this.personalForm.repositoryId, parms3).then(res => {
           this.batchlist = res.data.data.content
         })
       }
