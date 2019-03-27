@@ -123,3 +123,25 @@ export function locationlist(query) {
     data: params
   })
 }
+
+// 计算计划数量
+export function calPlanQuantity(query, query2) {
+  var params = new URLSearchParams()
+  if (query !== '' && query !== null && query !== undefined) {
+    params.append('repositoryId', query) // 你要传给后台的参数值 key/value
+  }
+  if (query2.id !== '' && query2.id !== null && query2.id !== undefined) {
+    params.append('productId', query2.id) // 你要传给后台的参数值 key/value
+  }
+  if (query2.requireQuantity !== '' && query2.requireQuantity !== null && query2.requireQuantity !== undefined) {
+    params.append('requireQuantity', query2.requireQuantity) // 你要传给后台的参数值 key/value
+  }
+  if (query2.productCode !== '' && query2.productCode !== null && query2.productCode !== undefined) {
+    params.append('productCode', query2.productCode) // 你要传给后台的参数值 key/value
+  }
+  return request({
+    url: '/erp/requireplan/calPlanQuantity',
+    method: 'post',
+    data: params
+  })
+}

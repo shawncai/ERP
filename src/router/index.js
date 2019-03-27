@@ -856,6 +856,58 @@ export const asyncRouterMap = [
     ]
   },
   {
+    path: '/ProducePlan',
+    component: Layout,
+    redirect: 'noredirect',
+    name: 'ProducePlan',
+    alwaysShow: true,
+    meta: {
+      title: 'ProducePlan',
+      icon: 'jihua',
+      type: 7
+    },
+    children: [
+      {
+        path: 'AddProducePlan',
+        component: () => import('@/views/ProducePlan/AddProducePlan'),
+        name: 'AddProducePlan',
+        meta: { title: 'AddProducePlan', noCache: false }
+      },
+      {
+        path: 'ProducePlanList',
+        component: () => import('@/views/ProducePlan/ProducePlanList'),
+        name: 'ProducePlanList',
+        meta: { title: 'ProducePlanList', noCache: true }
+      }
+    ]
+  },
+  {
+    path: '/RequirePlan',
+    component: Layout,
+    redirect: 'noredirect',
+    name: 'RequirePlan',
+    alwaysShow: true,
+    meta: {
+      title: 'RequirePlan',
+      icon: 'xuqiu',
+      type: 7
+    },
+    children: [
+      {
+        path: 'AddRequirePlan',
+        component: () => import('@/views/RequirePlan/AddRequirePlan'),
+        name: 'AddRequirePlan',
+        meta: { title: 'AddRequirePlan', noCache: false }
+      },
+      {
+        path: 'RequirePlanList',
+        component: () => import('@/views/RequirePlan/RequirePlanList'),
+        name: 'RequirePlanList',
+        meta: { title: 'RequirePlanList', noCache: true }
+      }
+    ]
+  },
+  {
     path: '/ProcessFile',
     component: Layout,
     redirect: 'noredirect',

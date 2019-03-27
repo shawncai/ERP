@@ -23,6 +23,28 @@ export default {
 </script>
 
 <style scoped>
+  .app-main >>> .el-dialog{
+    -webkit-transform: none;
+    transform: none;
+    position: absolute;
+    right: 0;
+    left: auto;
+    height: 900px;
+  }
+  .app-main >>> .el-dialog__header{
+    background: #fff;
+    position: fixed;
+    top: 0;
+    display: block;
+    width: 1010px;
+    z-index: 100;
+    border-bottom: 1px solid #f1f1f1;
+  }
+  .app-main >>> .el-dialog__body{
+    padding-left: 0;
+    padding-right: 0;
+    padding-top: 10px;
+  }
 .app-main {
   /*84 = navbar + tags-view = 50 +34 */
   min-height: calc(100vh - 84px);

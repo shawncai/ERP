@@ -113,7 +113,13 @@ export default {
     ProductionFile: '工艺档案',
     AddProductionFile: '新建工艺档案',
     StandardProcess: '标准工序',
-    AddStandardProcess: '新建标准工序'
+    AddStandardProcess: '新建标准工序',
+    ProducePlan: '主生产计划',
+    ProducePlanList: '主生产计划列表',
+    AddProducePlan: '新建主生产计划',
+    RequirePlan: '物料需求计划',
+    AddRequirePlan: '新建物料需求计划',
+    RequirePlanList: '物料需求计划列表'
   },
   navbar: {
     logOut: '退出登录',
@@ -710,8 +716,27 @@ export default {
     timeWage: '单位计时工资',
     numberWage: '单位计件工资'
   },
+  ProducePlan: {
+    title: '主题',
+    planNumber: '生产任务编号',
+    handlePersonId: '负责人',
+    deptId: '工作中心',
+    summary: '摘要',
+    deptName: '工作中心'
+  },
+  RequirePlan: {
+    title: '主题',
+    handlePersonId: '负责人',
+    deptId: '工作中心',
+    summary: '摘要',
+    produceRepositoryId: '仓库',
+    producePlanNumber: '主生产计划',
+    planSupplyDate: '计划供料日期',
+    planNumber: '单据编号'
+  },
   public: {
     move: '调入',
+    judgePersonName: '审核人',
     modifyPersonName: '修改人',
     endPersonName: '结单人',
     createPersonName: '创建人',

@@ -49,6 +49,29 @@ export default {
 
 <style rel="stylesheet/scss" lang="scss" scoped>
   @import "@/styles/mixin.scss";
+
+  .main-container >>> .el-dialog{
+    -webkit-transform: none;
+    transform: none;
+    position: absolute;
+    right: 0;
+    left: auto;
+    height: 900px;
+  }
+  .main-container >>> .el-dialog__header{
+    background: #fff;
+    position: fixed;
+    top: 0;
+    display: block;
+    width: 1010px;
+    z-index: 100;
+    border-bottom: 1px solid #f1f1f1;
+  }
+  .main-container >>> .el-dialog__body{
+    padding-left: 0;
+    padding-right: 0;
+    padding-top: 10px;
+  }
   .app-wrapper {
     @include clearfix;
     position: relative;
