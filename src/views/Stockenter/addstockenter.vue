@@ -10,7 +10,7 @@
           </el-form-item>
           <el-form-item :label="$t('Stockenter.sourceType')" prop="sourceType" style="width: 40%;margin-top:1%">
             <el-select v-model="personalForm.sourceType" placeholder="请选择源单类型" style="width: 100%;">
-              <el-option value="1" label="采购到货单"/>
+              <el-option value="1" label="采购到货单" />
             </el-select>
           </el-form-item>
           <el-form-item label="源单编号" style="width: 40%;margin-top:1%">

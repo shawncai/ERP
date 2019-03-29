@@ -2,7 +2,7 @@
   <div class="ERP-container">
     <div class="app-container" style="padding-right: 0">
       <!--基本信息-->
-      <el-card class="box-card">
+      <el-card class="box-card" shadow="never">
         <h2 ref="geren" class="form-name">基本信息</h2>
         <div class="container">
           <el-form ref="personalForm" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="110px" style="margin-left: 30px;">
@@ -28,7 +28,7 @@
                 <el-form-item :label="$t('RequirePlan.producePlanNumber')" prop="producePlanNumber" style="width: 100%;">
                   <el-input v-model="producePlanNumber" :value="producePlanNumber" style="margin-left: 18px" clearable @focus="producechoose"/>
                 </el-form-item>
-                <produce-plan :procontrol.sync="producecontrol" @allinfo="allinfo"/>
+                <produce-plan :procontrol.sync="producecontrol" @produce="produce" @allinfo="allinfo"/>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('RequirePlan.planSupplyDate')" prop="planSupplyDate" style="width: 100%;">
@@ -56,7 +56,7 @@
         </div>
       </el-card>
       <!--子件信息-->
-      <el-card class="box-card" style="margin-top: 15px">
+      <el-card class="box-card" style="margin-top: 15px" shadow="never">
         <h2 ref="fuzhu" class="form-name">物料需求计划明细</h2>
         <div class="buttons" style="margin-top: 58px">
           <el-button type="danger" @click="$refs.editable.removeSelecteds()">删除</el-button>
@@ -98,16 +98,10 @@
 </template>
 
 <script>
-import { addrequireplan, getBomByPlanNumber } from '@/api/RequirePlan'
+import { addrequireplan } from '@/api/RequirePlan'
 import { calPlanQuantity } from '@/api/public'
-import MyCenter from './components/MyCenter'
-import MyEmp from './components/MyEmp'
-import MyDetail from './components/MyDetail'
-import MyRepository from './components/MyRepository'
-import ProducePlan from './components/ProducePlan'
 export default {
   name: 'AddRequirePlan',
-  components: { ProducePlan, MyRepository, MyCenter, MyEmp, MyDetail },
   data() {
     const validatePass = (rule, value, callback) => {
       console.log(value)
@@ -181,33 +175,24 @@ export default {
         this.producecontrol = true
       }
     },
-    // produce(val) {
-    //   this.$refs.editable.clear()
-    //   const nowlistdata = this.$refs.editable.getRecords()
-    //   for (let i = 0; i < val.length; i++) {
-    //     for (let j = 0; j < nowlistdata.length; j++) {
-    //       if (val[i].productCode === nowlistdata[j].productCode) {
-    //         this.$notify.error({
-    //           title: '错误',
-    //           message: '物品已添加',
-    //           offset: 100
-    //         })
-    //         return false
-    //       }
-    //     }
-    //     this.$refs.editable.insert(val[i])
-    //   }
-    // },
-    // 回显主生产计划
-    allinfo(val) {
-      this.producePlanNumber = val.title
-      this.personalForm.producePlanNumber = val.planNumber
-      getBomByPlanNumber(this.personalForm.producePlanNumber, this.produceRepositoryId).then(res => {
-        console.log(res)
-      })
+    produce(val) {
+      this.$refs.editable.clear()
+      const nowlistdata = this.$refs.editable.getRecords()
+      for (let i = 0; i < val.length; i++) {
+        for (let j = 0; j < nowlistdata.length; j++) {
+          if (val[i].productCode === nowlistdata[j].productCode) {
+            this.$notify.error({
+              title: '错误',
+              message: '物品已添加',
+              offset: 100
+            })
+            return false
+          }
+        }
+        this.$refs.editable.insert(val[i])
+      }
     },
     getplanQuantity(row) {
-      console.log(row)
       const repositoryId = this.personalForm.produceRepositoryId
       if (repositoryId !== '' && repositoryId !== null && repositoryId !== undefined) {
         calPlanQuantity(repositoryId, row).then(res => {
@@ -219,6 +204,11 @@ export default {
         })
         return row.planQuantity
       }
+    },
+    // 回显主生产计划
+    allinfo(val) {
+      this.producePlanNumber = val.title
+      this.personalForm.producePlanNumber = val.id
     },
     // 工作中心focus事件
     workcenterchoose() {

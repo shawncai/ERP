@@ -1,5 +1,5 @@
 <template>
-  <el-dialog :visible.sync="editVisible" :detailcontrol="detailcontrol" :detaildata="detaildata" :close-on-press-escape="false" :title="personalForm.planNumber +'    详情'" append-to-body width="1010px" class="edit" top="-10px" @close="$emit('update:detailcontrol', false)">
+  <el-dialog :visible.sync="editVisible" :detailcontrol="detailcontrol" :detaildata="detaildata" :close-on-press-escape="false" :title="personalForm.taskNumber +'    详情'" append-to-body width="1010px" class="edit" top="-10px" @close="$emit('update:detailcontrol', false)">
     <!--基本信息-->
     <el-card class="box-card" style="margin-top: 63px" shadow="never">
       <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">基本信息</h2>
@@ -7,50 +7,58 @@
         <el-form :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
           <el-row>
             <el-col :span="12">
-              <el-form-item :label="$t('RequirePlan.title')" style="width: 100%;color: #909399">
+              <el-form-item :label="$t('ProduceTask.title')" style="width: 100%">
                 <span>{{ personalForm.title }}</span>
-                <!--<el-input v-model="personalForm.title" style="margin-left: 18px;width: 200px" clearable/>-->
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item :label="$t('RequirePlan.handlePersonId')" prop="handlePersonId" style="width: 100%;">
-                <!--<el-input v-model="personalForm.handlePersonName" style="margin-left: 18px;width: 200px" clearable/>-->
+              <el-form-item :label="$t('ProduceTask.handlePersonId')" prop="handlePersonId" style="width: 100%;">
                 <span>{{ personalForm.handlePersonName }}</span>
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item :label="$t('RequirePlan.deptId')" style="width: 100%;">
-                <!--<el-input v-model="personalForm.workCenter" style="margin-left: 18px;width: 200px" clearable/>-->
-                <span>{{ personalForm.workCenter }}</span>
+              <el-form-item :label="$t('ProduceTask.sourceType')" style="width: 100%;">
+                <span>{{ personalForm.sourceType | sourceTypeFilter }}</span>
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item :label="$t('RequirePlan.producePlanNumber')" prop="producePlanNumber" style="width: 100%;">
-                <!--<el-input v-model="personalForm.producePlanNumber" style="margin-left: 18px;width: 200px" clearable />-->
-                <span>{{ personalForm.producePlanNumber }}</span>
+              <el-form-item :label="$t('ProduceTask.produceDeptId')" prop="producePlanNumber" style="width: 100%;">
+                <span>{{ personalForm.produceDeptName }}</span>
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item :label="$t('RequirePlan.planSupplyDate')" prop="planSupplyDate" style="width: 100%;">
-                <!--<el-date-picker-->
-                <!--v-model="personalForm.planSupplyDate"-->
-                <!--type="date"-->
-                <!--placeholder="计划供料日期"-->
-                <!--value-format="yyyy-MM-dd"-->
-                <!--style="margin-left: 18px;width: 200px"/>-->
-                <span>{{ personalForm.planSupplyDate }}</span>
+              <el-form-item :label="$t('ProduceTask.processType')" prop="planSupplyDate" style="width: 100%;">
+                <span>{{ personalForm.processType | processTypeFilter }}</span>
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item :label="$t('RequirePlan.produceRepositoryId')" prop="produceRepositoryId" style="width: 100%;">
-                <!--<el-input v-model="personalForm.produceRepositoryName" style="margin-left: 18px;width: 200px" clearable />-->
-                <span>{{ personalForm.produceRepositoryName }}</span>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('RequirePlan.summary')" style="width: 100%;">
-                <!--<el-input v-model="personalForm.summary" style="margin-left: 18px;width: 200px" clearable/>-->
+              <el-form-item :label="$t('ProduceTask.summary')" prop="produceRepositoryId" style="width: 100%;">
                 <span>{{ personalForm.summary }}</span>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('public.createDate')" style="width: 100%;">
+                <span>{{ personalForm.createDate }}</span>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('public.countyrId')" style="width: 100%;">
+                <span>{{ personalForm.countryName }}</span>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('public.createPersonName')" style="width: 100%;">
+                <span>{{ personalForm.createPersonName }}</span>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('public.modifyDate')" style="width: 100%;">
+                <span>{{ personalForm.modifyDate }}</span>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('public.modifyPersonName')" style="width: 100%;">
+                <span>{{ personalForm.modifyPersonName }}</span>
               </el-form-item>
             </el-col>
           </el-row>
@@ -59,7 +67,7 @@
     </el-card>
     <!--子件信息-->
     <el-card class="box-card" style="margin-top: 15px" shadow="never">
-      <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">主生产计划明细</h2>
+      <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">物料需求计划明细</h2>
       <div class="container">
         <el-editable
           ref="editable"
@@ -75,9 +83,19 @@
           <el-editable-column prop="productName" align="center" label="物品名称" min-width="150px"/>
           <el-editable-column prop="productType" align="center" label="规格" min-width="150px"/>
           <el-editable-column prop="unit" align="center" label="单位" min-width="150px"/>
-          <el-editable-column prop="requireQuantity" align="center" label="毛需求数量" min-width="150px"/>
-          <el-editable-column prop="planQuantity" align="center" label="应计划数量" min-width="150px"/>
-          <el-editable-column :edit-render="{name: 'ElSelect', options: materialsSource}" prop="materialsSource" align="center" label="物料来源" min-width="150px"/>
+          <el-editable-column prop="sourceNumber" align="center" label="源单编号" min-width="150px"/>
+          <el-editable-column prop="workCenter" align="center" label="工作中心" min-width="150px"/>
+          <el-editable-column prop="produceQuantity" align="center" label="生产数量" min-width="150px"/>
+          <el-editable-column prop="bomNumber" align="center" label="BOM编码" min-width="150px"/>
+          <el-editable-column prop="processName" align="center" label="工艺路线" min-width="150px"/>
+          <el-editable-column prop="planStartDate" align="center" label="计划开工时间" min-width="160px"/>
+          <el-editable-column prop="planFinishDate" align="center" label="计划完工时间" min-width="160px"/>
+          <el-editable-column prop="alreadyProduceQuantity" align="center" label="已生产数量" min-width="150px"/>
+          <el-editable-column prop="alreadyEnterQuantity" align="center" label="已入库数量" min-width="150px"/>
+          <el-editable-column prop="reportedCheckQuantity" align="center" label="已报质检数量" min-width="150px"/>
+          <el-editable-column prop="actualCheckQuantity" align="center" label="实检数量" min-width="150px"/>
+          <el-editable-column prop="passQuantity" align="center" label="合格数量" min-width="150px"/>
+          <el-editable-column prop="failQuantity" align="center" label="不合格数量" min-width="150px"/>
         </el-editable>
       </div>
     </el-card>
@@ -111,6 +129,19 @@ export default {
         3: '审核不通过'
       }
       return statusMap[status]
+    },
+    sourceTypeFilter(status) {
+      const statusMap = {
+        1: '主生产计划',
+        2: '无来源'
+      }
+      return statusMap[status]
+    },
+    processTypeFilter(status) {
+      const statusMap = {
+        1: '加工1'
+      }
+      return statusMap[status]
     }
   },
   props: {
@@ -127,8 +158,6 @@ export default {
     return {
       // 审核数据
       reviewList: [],
-      // 物料来源
-      materialsSource: [{ value: 1, label: '库存' }, { value: 2, label: '生产' }, { value: 3, label: '采购' }],
       // 详细表数据
       list2: [],
       // 弹窗组件的控制
@@ -143,7 +172,7 @@ export default {
     },
     detaildata() {
       this.personalForm = this.detaildata
-      this.list2 = this.personalForm.materialsRequirePlanDetailVos
+      this.list2 = this.personalForm.produceTaskDetailVos
       this.reviewList = this.personalForm.approvalUseVos
     }
   },

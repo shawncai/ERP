@@ -52,17 +52,9 @@ export function updatematerials(query, query2) {
 }
 
 // 审核物料清单
-export function updatematerials2(query, query2, query3) {
+export function updatematerials2(query) {
   var params = new URLSearchParams()
-  if (query.id !== '' && query.id !== null && query.id !== undefined) {
-    params.append('id', query.id) // 你要传给后台的参数值 key/value
-  }
-  if (query3 !== '' && query3 !== null && query3 !== undefined) {
-    params.append('judgePersonId', query3) // 你要传给后台的参数值 key/value
-  }
-  if (query2 !== '' && query2 !== null && query2 !== undefined) {
-    params.append('judgeStat', query2) // 你要传给后台的参数值 key/value
-  }
+  params.append('materialsListJson', query) // 你要传给后台的参数值 key/value
   return request({
     url: '/erp/materialslist/updatematerials',
     method: 'post',

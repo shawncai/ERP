@@ -259,22 +259,29 @@ export default {
     handleConfirm() {
       this.employeeVisible = false
       const producedata = this.choosedata.producePlanDetailVos
-      console.log(producedata)
+      const num = this.choosedata.planNumber
       const productDetail = producedata.map(function(item) {
         return {
-          id: item.id,
-          issueQuantity: 0,
+          sourceType: '主生产计划',
           productCode: item.productCode,
           productName: item.productName,
           productType: item.productType,
-          typeId: item.typeId,
           unit: item.unit,
-          requireQuantity: item.requireQuantity,
-          materialsSource: 1
+          produceQuantity: item.requireQuantity,
+          sourceNumber: num,
+          bomNumber: '',
+          processName: '',
+          planStartDate: '',
+          alreadyProduceQuantity: 0,
+          alreadyEnterQuantity: 0,
+          reportedCheckQuantity: 0,
+          actualCheckQuantity: 0,
+          passQuantity: 0,
+          failQuantity: 0
         }
       })
       this.$emit('produce', productDetail)
-      this.$emit('allinfo', this.choosedata)
+      this.$emit('moredata', num)
     }
     // 仓库管理员选择结束
   }

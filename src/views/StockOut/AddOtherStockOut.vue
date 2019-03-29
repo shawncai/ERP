@@ -292,6 +292,7 @@ export default {
       if (event === true) {
         const parms3 = scope.row.productCode
         batchlist(this.personalForm.outRepositoryId, parms3).then(res => {
+          console.log(res)
           this.batchlist = res.data.data.content
         })
       }

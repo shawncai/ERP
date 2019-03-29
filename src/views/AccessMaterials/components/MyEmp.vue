@@ -1,5 +1,5 @@
 <template>
-  <el-dialog :visible.sync="employeeVisible" :control="control" :close-on-press-escape="false" top="10px" title="选择员工" append-to-body @close="$emit('update:control', false)">
+  <el-dialog :visible.sync="employeeVisible" :control="control" :bumen="bumen" :close-on-press-escape="false" top="10px" title="选择员工" append-to-body @close="$emit('update:control', false)">
     <div class="filter-container">
       <el-input v-model="getemplist.employeename" :placeholder="$t('NewEmployeeInformation.employeename')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
       <el-input v-model="getemplist.jobnumber" :placeholder="$t('NewEmployeeInformation.jobnumber2')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
@@ -139,10 +139,16 @@ export default {
     control: {
       type: Boolean,
       default: false
+    },
+    bumen: {
+      type: null,
+      default: null
     }
   },
   data() {
     return {
+      // 夫组件传递过来的部门数据
+      jiesou: this.bumen,
       // 职位搜索时参数
       jobCat: {
         type: 2,
@@ -205,6 +211,10 @@ export default {
       this.employeeVisible = this.control
       console.log(this.control)
       this.gitemplist()
+    },
+    bumen() {
+      this.jiesou = this.bumen
+      console.log(this.bumen)
     }
   },
   created() {
@@ -216,6 +226,7 @@ export default {
       // 员工列表数据
       this.listLoading = true
       console.log(this.getemplist)
+      this.getemplist.deptid = this.jiesou.deptId
       getemplist(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
@@ -306,10 +317,18 @@ export default {
     // 员工id和name选择
     handleAddTo() {
       this.employeeVisible = false
-      const ids = this.moreaction.map(item => item.id).join()
-      const names = this.moreaction.map(item => item.personName).join()
-      this.$emit('personName', names)
-      this.$emit('personIds', ids)
+      console.log(this.moreaction)
+      const empDetail = this.moreaction.map(function(item) {
+        return {
+          producePersonId: item.id,
+          personName: item.personName,
+          workHours: 0,
+          finishQuantity: 0,
+          passQuantity: 0,
+          passRate: 0
+        }
+      })
+      this.$emit('empDetail', empDetail)
     }
   }
 }

@@ -89,8 +89,8 @@
           <my-supplier :control.sync="empcontrol" @supplierName="personName"/>
           <el-form-item :label="$t('Product.source')" style="width: 40%;margin-top:1%">
             <el-select v-model="personalForm.source" placeholder="请选择来源" style="width: 100%;">
-              <el-option value="1" label="自制"/>
-              <el-option value="2" label="外购"/>
+              <el-option value="2" label="生产"/>
+              <el-option value="3" label="采购"/>
             </el-select>
           </el-form-item>
           <el-form-item :label="$t('Product.kpigrade')" style="width: 40%;margin-top:1%">

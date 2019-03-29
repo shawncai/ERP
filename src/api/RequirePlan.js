@@ -108,3 +108,15 @@ export function updateproduceplan2(query) {
     data: params
   })
 }
+
+// 物料需求计划加载明细
+export function getBomByPlanNumber(query, query2) {
+  var params = new URLSearchParams()
+  params.append('planNumber', query) // 你要传给后台的参数值 key/value
+  params.append('repositoryId', query2) // 你要传给后台的参数值 key/value
+  return request({
+    url: '/erp/requireplan/getBomByPlanNumber',
+    method: 'post',
+    data: params
+  })
+}

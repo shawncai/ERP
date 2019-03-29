@@ -145,3 +145,78 @@ export function calPlanQuantity(query, query2) {
     data: params
   })
 }
+
+// Bom编码列表
+export function materialslist() {
+  var params = new URLSearchParams()
+  params.append('pageNum', 1) // 你要传给后台的参数值 key/value
+  params.append('pageSize', 9999) // 你要传给后台的参数值 key/value
+  return request({
+    url: '/erp/materialslist/materialslist',
+    method: 'post',
+    data: params
+  })
+}
+
+// 工艺中心列表
+export function searchprocessFile() {
+  var params = new URLSearchParams()
+  params.append('stat', 1) // 你要传给后台的参数值 key/value
+  params.append('pageNum', 1) // 你要传给后台的参数值 key/value
+  params.append('pageSize', 9999) // 你要传给后台的参数值 key/value
+  return request({
+    url: '/erp/processFile/search',
+    method: 'post',
+    data: params
+  })
+}
+
+// 工作中心列表
+export function searchworkCenter(query) {
+  var params = new URLSearchParams()
+  params.append('deptId', query)
+  params.append('stat', 1) // 你要传给后台的参数值 key/value
+  params.append('pageNum', 1) // 你要传给后台的参数值 key/value
+  params.append('pageSize', 99999) // 你要传给后台的参数值 key/value
+  return request({
+    url: '/erp/workCenter/search',
+    method: 'post',
+    data: params
+  })
+}
+
+// 物料需求计划列表
+export function requireplanlist(query) {
+  var params = new URLSearchParams()
+  if (query !== '' && query !== null && query !== undefined) {
+    params.append('sourceNumber', query) // 你要传给后台的参数值 key/value
+  }
+  return request({
+    url: '/erp/requireplan/requireplanlist',
+    method: 'post',
+    data: params
+  })
+}
+
+// zcc存区域数组数据
+export function saveRegion(query, query2) {
+  var params = new URLSearchParams()
+  params.append('zcc', query) // 你要传给后台的参数值 key/value
+  params.append('regionId', query2) // 你要传给后台的参数值 key/value
+  return request({
+    url: '/erp/zcc/saveRegion',
+    method: 'post',
+    data: params
+  })
+}
+
+// zcc存区域数组数据
+export function getRegion(query) {
+  var params = new URLSearchParams()
+  params.append('regionId', query) // 你要传给后台的参数值 key/value
+  return request({
+    url: '/erp/zcc/getRegion',
+    method: 'post',
+    data: params
+  })
+}

@@ -908,6 +908,70 @@ export const asyncRouterMap = [
     ]
   },
   {
+    path: '/ProduceTask',
+    component: Layout,
+    redirect: 'noredirect',
+    name: 'ProduceTask',
+    alwaysShow: true,
+    meta: {
+      title: 'ProduceTask',
+      icon: 'renwu',
+      type: 7
+    },
+    children: [
+      {
+        path: 'AddProduceTask',
+        component: () => import('@/views/ProduceTask/AddProduceTask'),
+        name: 'AddProduceTask',
+        meta: { title: 'AddProduceTask', noCache: false }
+      },
+      {
+        path: 'ProduceTaskList',
+        component: () => import('@/views/ProduceTask/ProduceTaskList'),
+        name: 'ProduceTaskList',
+        meta: { title: 'ProduceTaskList', noCache: true }
+      },
+      {
+        path: 'AddProduceReport',
+        component: () => import('@/views/ProduceTask/AddProduceReport'),
+        name: 'AddProduceReport',
+        meta: { title: 'AddProduceReport', noCache: false }
+      },
+      {
+        path: 'ProduceReportList',
+        component: () => import('@/views/ProduceTask/ProduceReportList'),
+        name: 'ProduceReportList',
+        meta: { title: 'ProduceReportList', noCache: true }
+      }
+    ]
+  },
+  {
+    path: '/AccessMaterials',
+    component: Layout,
+    redirect: 'noredirect',
+    name: 'AccessMaterials',
+    alwaysShow: true,
+    meta: {
+      title: 'AccessMaterials',
+      icon: 'lingliao',
+      type: 7
+    },
+    children: [
+      {
+        path: 'AddAccessMaterials',
+        component: () => import('@/views/AccessMaterials/AddAccessMaterials'),
+        name: 'AddAccessMaterials',
+        meta: { title: 'AddAccessMaterials', noCache: false }
+      },
+      {
+        path: 'AccessMaterialsList',
+        component: () => import('@/views/AccessMaterials/AccessMaterialsList'),
+        name: 'AccessMaterialsList',
+        meta: { title: 'AccessMaterialsList', noCache: true }
+      }
+    ]
+  },
+  {
     path: '/ProcessFile',
     component: Layout,
     redirect: 'noredirect',
@@ -954,6 +1018,52 @@ export const asyncRouterMap = [
         component: () => import('@/views/ProcessFile/StandardProcess'),
         name: 'StandardProcess',
         meta: { title: 'StandardProcess', noCache: true }
+      }
+    ]
+  },
+  {
+    path: '/OutFactory',
+    component: Layout,
+    redirect: 'noredirect',
+    name: 'OutFactory',
+    alwaysShow: true,
+    meta: {
+      title: 'OutFactory',
+      icon: 'waibao',
+      type: 7
+    },
+    children: [
+      {
+        path: 'AddOutFactory',
+        component: () => import('@/views/OutFactory/AddOutFactory'),
+        name: 'AddOutFactory',
+        meta: { title: 'AddOutFactory', noCache: false }
+      },
+      {
+        path: 'OutFactoryList',
+        component: () => import('@/views/OutFactory/OutFactoryList'),
+        name: 'OutFactoryList',
+        meta: { title: 'OutFactoryList', noCache: true }
+      }
+    ]
+  },
+  {
+    path: '/OutSourcing',
+    component: Layout,
+    redirect: 'noredirect',
+    name: 'OutSourcing',
+    alwaysShow: true,
+    meta: {
+      title: 'OutSourcing',
+      icon: 'waibaodan',
+      type: 7
+    },
+    children: [
+      {
+        path: 'AddOutSourcing',
+        component: () => import('@/views/OutSourcing/AddOutSourcing'),
+        name: 'AddOutSourcing',
+        meta: { title: 'AddOutSourcing', noCache: false }
       }
     ]
   },
