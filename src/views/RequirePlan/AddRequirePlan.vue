@@ -76,14 +76,14 @@
             <el-editable-column label="序号" min-width="55" align="center" type="index"/>
             <el-editable-column prop="productCode" align="center" label="物品编号" min-width="150px"/>
             <el-editable-column prop="productName" align="center" label="物品名称" min-width="150px"/>
-            <el-editable-column prop="productType" align="center" label="规格" min-width="150px"/>
-            <el-editable-column prop="unit" align="center" label="单位" min-width="150px"/>
-            <el-editable-column prop="requireQuantity" align="center" label="毛需求数量" min-width="150px"/>
-            <el-editable-column prop="planQuantity" align="center" label="应计划数量" min-width="150px">
+            <el-editable-column prop="productType" align="center" label="规格" min-width="150px">
               <template slot-scope="scope">
-                <p>{{ getplanQuantity(scope.row) }}</p>
+                <p>{{ getTypeName(scope.row) }}</p>
               </template>
             </el-editable-column>
+            <el-editable-column prop="unit" align="center" label="单位" min-width="150px"/>
+            <el-editable-column prop="requireQuantity" align="center" label="毛需求数量" min-width="150px"/>
+            <el-editable-column prop="planQuantity" align="center" label="应计划数量" min-width="150px"/>
             <el-editable-column :edit-render="{name: 'ElSelect', options: materialsSource, type: 'visible'}" prop="materialsSource" align="center" label="物料来源" min-width="150px"/>
           </el-editable>
         </div>
@@ -99,7 +99,7 @@
 
 <script>
 import { addrequireplan, getBomByPlanNumber } from '@/api/RequirePlan'
-import { calPlanQuantity } from '@/api/public'
+import { searchEmpCategory2 } from '@/api/Product'
 import MyCenter from './components/MyCenter'
 import MyEmp from './components/MyEmp'
 import MyDetail from './components/MyDetail'
@@ -168,9 +168,18 @@ export default {
     }
   },
   methods: {
+    // 获取规格
+    getTypeName(row) {
+      searchEmpCategory2(row.typeId).then(res => {
+        if (res.data.ret === 200) {
+          row.productType = res.data.data.content.list[0].categoryName
+        }
+      })
+      return row.productType
+    },
     // 主生产计划focus事件
     producechoose() {
-      if (this.personalForm.produceRepositoryId === '' || this.personalForm.produceRepositoryId === null) {
+      if (this.personalForm.produceRepositoryId === '' || this.personalForm.produceRepositoryId === null || this.personalForm.produceRepositoryId === undefined) {
         this.$notify.error({
           title: '错误',
           message: '请先选择仓库',
@@ -202,23 +211,35 @@ export default {
     allinfo(val) {
       this.producePlanNumber = val.title
       this.personalForm.producePlanNumber = val.planNumber
-      getBomByPlanNumber(this.personalForm.producePlanNumber, this.produceRepositoryId).then(res => {
+      getBomByPlanNumber(this.personalForm.producePlanNumber, this.personalForm.produceRepositoryId).then(res => {
         console.log(res)
-      })
-    },
-    getplanQuantity(row) {
-      console.log(row)
-      const repositoryId = this.personalForm.produceRepositoryId
-      if (repositoryId !== '' && repositoryId !== null && repositoryId !== undefined) {
-        calPlanQuantity(repositoryId, row).then(res => {
-          if (res.data.data.content < 0 || res.data.data.content === 0) {
-            row.planQuantity = 0
-          } else {
-            row.planQuantity = res.data.data.content
+        if (res.data.ret === 200) {
+          const xuqiu = res.data.data.content
+          for (const key in xuqiu) {
+            if (xuqiu[key].materialsSource === '' || xuqiu[key].materialsSource === undefined || xuqiu[key].materialsSource === null) {
+              delete xuqiu[key]
+            }
           }
-        })
-        return row.planQuantity
-      }
+          var r = xuqiu.filter(function(s) {
+            return (s !== undefined || s)
+          })
+          const xuqiu2 = r.map(function(item) {
+            return {
+              id: item.id,
+              productCode: item.productCode,
+              productName: item.productName,
+              typeId: item.typeId,
+              unit: item.unit,
+              requireQuantity: item.requireQuantity,
+              planQuantity: item.planQuantity,
+              materialsSource: item.materialsSource
+            }
+          })
+          for (let i = 0; i < xuqiu2.length; i++) {
+            this.$refs.editable.insert(xuqiu2[i])
+          }
+        }
+      })
     },
     // 工作中心focus事件
     workcenterchoose() {

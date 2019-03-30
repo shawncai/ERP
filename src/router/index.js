@@ -1064,6 +1064,58 @@ export const asyncRouterMap = [
         component: () => import('@/views/OutSourcing/AddOutSourcing'),
         name: 'AddOutSourcing',
         meta: { title: 'AddOutSourcing', noCache: false }
+      },
+      {
+        path: 'OutSourcingList',
+        component: () => import('@/views/OutSourcing/OutSourcingList'),
+        name: 'OutSourcingList',
+        meta: { title: 'OutSourcingList', noCache: true }
+      }
+    ]
+  },
+  {
+    path: '/StockApply',
+    component: Layout,
+    redirect: 'noredirect',
+    name: 'StockApply',
+    alwaysShow: true,
+    meta: {
+      title: 'StockApply',
+      icon: 'shenqing',
+      type: 2
+    },
+    children: [
+      {
+        path: 'AddStockApply',
+        component: () => import('@/views/StockApply/AddStockApply'),
+        name: 'AddStockApply',
+        meta: { title: 'AddStockApply', noCache: false }
+      },
+      {
+        path: 'StockApplyList',
+        component: () => import('@/views/StockApply/StockApplyList'),
+        name: 'StockApplyList',
+        meta: { title: 'StockApplyList', noCache: true }
+      }
+    ]
+  },
+  {
+    path: '/StockCategory',
+    component: Layout,
+    redirect: 'noredirect',
+    name: 'StockCategory',
+    alwaysShow: true,
+    meta: {
+      title: 'StockCategory',
+      icon: 'shuxing',
+      type: 2
+    },
+    children: [
+      {
+        path: 'StockCategoryList',
+        component: () => import('@/views/StockCategory/StockCategoryList'),
+        name: 'StockCategoryList',
+        meta: { title: 'StockCategoryList', noCache: false }
       }
     ]
   },

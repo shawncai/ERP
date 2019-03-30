@@ -1,0 +1,423 @@
+<template>
+  <el-dialog :visible.sync="editVisible" :editcontrol="editcontrol" :editdata="editdata" :close-on-press-escape="false" :title="personalForm.applyNumber +'    修改'" width="1010px" class="edit" top="-10px" @close="$emit('update:editcontrol', false)">
+    <!--基本信息-->
+    <el-card class="box-card" style="margin-top: 63px" shadow="never">
+      <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">基本信息</h2>
+      <div class="container" style="margin-top: 37px">
+        <el-form ref="personalForm" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
+          <el-row>
+            <el-col :span="12">
+              <el-form-item :label="$t('StockApply.title')" style="width: 100%;">
+                <el-input v-model="personalForm.title" style="margin-left: 18px" clearable/>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('StockApply.stockType')" prop="stockType" style="width: 100%;">
+                <el-select v-model="personalForm.stockType" style="margin-left: 18px;width: 218px" @focus="updatecountry">
+                  <el-option
+                    v-for="(item, index) in types"
+                    :key="index"
+                    :label="item.categoryName"
+                    :value="item.id"/>
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('StockApply.applyPersonId')" style="width: 100%;">
+                <el-input v-model="applyPersonId" style="margin-left: 18px" clearable @focus="handlechooseStock"/>
+                <my-emp :control.sync="stockControl" @stockName="stockName"/>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('StockApply.applyDeptId')" prop="applyDeptId" style="width: 100%;">
+                <el-select v-model="personalForm.applyDeptId" clearable style="margin-left: 18px;width: 218px">
+                  <el-option
+                    v-for="(item, index) in depts"
+                    :key="index"
+                    :value="item.id"
+                    :label="item.deptName"/>
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('StockApply.sourceType')" prop="sourceType" style="width: 100%;">
+                <el-select v-model="personalForm.sourceType" style="margin-left: 18px;width: 218px">
+                  <el-option value="1" label="无来源" />
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('StockApply.applyDate')" prop="applyDate" style="width: 100%;">
+                <el-date-picker
+                  v-model="personalForm.applyDate"
+                  type="date"
+                  value-format="yyyy-MM-dd"
+                  style="margin-left: 18px"/>
+              </el-form-item>
+            </el-col>
+          </el-row>
+        </el-form>
+      </div>
+    </el-card>
+    <!--子件信息-->
+    <el-card class="box-card" style="margin-top: 15px" shadow="never">
+      <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">采购申请明细来源</h2>
+      <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
+        <el-button @click="handleAddproduct">添加商品</el-button>
+        <my-detail :control.sync="control" @product="productdetail" @product2="productdetail2"/>
+        <el-button type="danger" @click="deleteEdit">删除</el-button>
+      </div>
+      <div class="container">
+        <el-editable
+          ref="editable"
+          :data.sync="list2"
+          :edit-config="{ showIcon: true, showStatus: true}"
+          :edit-rules="validRules"
+          class="click-table1"
+          stripe
+          border
+          size="medium"
+          style="width: 100%"
+          @selection-change="deleteChange">
+          <el-editable-column type="selection" min-width="55" align="center"/>
+          <el-editable-column label="序号" min-width="55" align="center" type="index"/>
+          <el-editable-column prop="productCode" align="center" label="物品编号" min-width="150px"/>
+          <el-editable-column prop="productName" align="center" label="物品名称" min-width="150px"/>
+          <el-editable-column prop="productType" align="center" label="规格" min-width="150px"/>
+          <el-editable-column prop="color" align="center" label="颜色" min-width="150px"/>
+          <el-editable-column prop="unit" align="center" label="单位" min-width="150px"/>
+          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="requireQuantity" align="center" label="需求数量" min-width="150px"/>
+          <el-editable-column :edit-render="{name: 'ElDatePicker', attrs: {type: 'date', format: 'yyyy-MM-dd'}, type: 'visible'}" prop="requireDate" align="center" label="需求日期" min-width="180px"/>
+          <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="applyReason" align="center" label="申请原因" min-width="150px"/>
+        </el-editable>
+      </div>
+    </el-card>
+    <el-card class="box-card" style="margin-top: 15px" shadow="never">
+      <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">采购申请明细</h2>
+      <div class="container">
+        <el-editable
+          ref="editable2"
+          :data.sync="list3"
+          :edit-config="{ showIcon: true, showStatus: true}"
+          :edit-rules="validRules"
+          class="click-table1"
+          stripe
+          border
+          size="medium"
+          style="width: 100%">
+          <el-editable-column label="序号" min-width="55" align="center" type="index"/>
+          <el-editable-column prop="productCode" align="center" label="物品编号" min-width="150px"/>
+          <el-editable-column prop="productName" align="center" label="物品名称" min-width="150px"/>
+          <el-editable-column prop="productType" align="center" label="规格" min-width="150px"/>
+          <el-editable-column prop="color" align="center" label="颜色" min-width="150px"/>
+          <el-editable-column prop="unit" align="center" label="单位" min-width="150px"/>
+          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="applyQuantity" align="center" label="申请数量" min-width="150px"/>
+          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="planQuantity" align="center" label="已计划数量" min-width="150px"/>
+        </el-editable>
+      </div>
+    </el-card>
+    <el-card class="box-card" style="position: fixed;width: 1010px;z-index: 100;height: 74px;bottom: 0;" shadow="never">
+      <div class="buttons" style="float: right;padding-bottom: 10px">
+        <el-button @click="handlecancel()">取消</el-button>
+        <el-button type="primary" @click="handleEditok()">保存</el-button>
+      </div>
+    </el-card>
+  </el-dialog>
+</template>
+
+<script>
+import { updatestockapply } from '@/api/StockApply'
+import { getdeptlist } from '@/api/BasicSettings'
+import { searchStockCategory } from '@/api/StockCategory'
+import MyEmp from './MyEmp'
+import MyDetail from './MyDetail'
+export default {
+  components: { MyDetail, MyEmp },
+  props: {
+    editcontrol: {
+      type: Boolean,
+      default: false
+    },
+    editdata: {
+      type: Object,
+      default: null
+    }
+  },
+  data() {
+    return {
+      // 选择的数据
+      choosedata: [],
+      // 弹窗组件的控制
+      editVisible: this.editcontrol,
+      // 修改信息数据
+      personalForm: this.editdata,
+      // 部门数据
+      depts: [],
+      // 申请人回显
+      applyPersonId: '',
+      // 控制申请人
+      stockControl: false,
+      // 类别数据
+      types: [],
+      // 类别获取参数
+      typeparms: {
+        pagenum: 1,
+        pagesize: 99999
+      },
+      // 控制商品列表窗口
+      control: false,
+      // 采购申请单规则数据
+      personalrules: {
+        stockType: [
+          { required: true, message: '请选择采购类别', trigger: 'change' }
+        ],
+        applyDate: [
+          { required: true, message: '请选择申请日期', trigger: 'change' }
+        ],
+        applyDeptId: [
+          { required: true, message: '请选择申请部门', trigger: 'change' }
+        ],
+        sourceType: [
+          { required: true, message: '请选择源单类型', trigger: 'change' }
+        ]
+      },
+      // 采购申请单明细数据
+      list2: [],
+      // 采购申请明细
+      list3: [],
+      // 采购申请单明细列表规则
+      validRules: {
+      }
+    }
+  },
+  watch: {
+    editcontrol() {
+      this.editVisible = this.editcontrol
+    },
+    editdata() {
+      this.personalForm = this.editdata
+      this.applyPersonId = this.personalForm.applyPersonName
+      this.list2 = this.personalForm.stockApplyDetailVos
+      this.list3 = this.personalForm.stockApplyDetailVos
+    }
+  },
+  created() {
+    this.getTypes()
+  },
+  methods: {
+    // 删除数据
+    deleteEdit() {
+      this.$refs.editable.removeSelecteds()
+      console.log(this.$refs.editable)
+      const nowlistdata2 = this.$refs.editable2.getRecords()
+      for (let i = 0; i < nowlistdata2.length; i++) {
+        for (let j = 0; j < this.choosedata.length; j++) {
+          if (nowlistdata2[i].productCode === this.choosedata[j].productCode) {
+            this.$refs.editable2.remove(nowlistdata2[i])
+          }
+        }
+      }
+      console.log(nowlistdata2)
+    },
+    deleteChange(val) {
+      this.choosedata = val
+    },
+    // 更新类型
+    updatecountry() {
+      this.getTypes()
+    },
+    getTypes() {
+      // 采购类别数据
+      searchStockCategory(this.typeparms).then(res => {
+        if (res.data.ret === 200) {
+          this.types = res.data.data.content.list
+        }
+      })
+      // 部门列表数据
+      getdeptlist().then(res => {
+        if (res.data.ret === 200) {
+          this.depts = res.data.data.content
+        }
+      })
+    },
+    // 申请人focus事件
+    handlechooseStock() {
+      this.stockControl = true
+    },
+    // 申请人回显
+    stockName(val) {
+      this.applyPersonId = val.personName
+      this.personalForm.applyPersonId = val.id
+    },
+    // 采购申请明细来源
+    handleAddproduct() {
+      this.control = true
+    },
+    productdetail(val) {
+      console.log(val)
+      const nowlistdata = this.$refs.editable.getRecords()
+      for (let i = 0; i < val.length; i++) {
+        for (let j = 0; j < nowlistdata.length; j++) {
+          if (val[i].productCode === nowlistdata[j].productCode) {
+            this.$notify.error({
+              title: '错误',
+              message: '物品已添加',
+              offset: 100
+            })
+            return false
+          }
+        }
+        this.$refs.editable.insert(val[i])
+      }
+    },
+    productdetail2(val) {
+      console.log(val)
+      const nowlistdata2 = this.$refs.editable2.getRecords()
+      for (let i = 0; i < val.length; i++) {
+        for (let j = 0; j < nowlistdata2.length; j++) {
+          if (val[i].productCode === nowlistdata2[j].productCode) {
+            this.$notify.error({
+              title: '错误',
+              message: '物品已添加',
+              offset: 100
+            })
+            return false
+          }
+        }
+        this.$refs.editable2.insert(val[i])
+      }
+    },
+    // 清空记录
+    restAllForm() {
+      this.personalForm = {
+        createPersonId: 3,
+        countryId: 1,
+        repositoryId: 438,
+        regionId: 2,
+        sourceType: '1'
+      }
+      this.applyPersonId = null
+    },
+    // 修改和取消按钮
+    // 修改按钮
+    handleEditok() {
+      this.personalForm.repositoryId = 438
+      this.personalForm.regionId = 2
+      this.personalForm.createPersonId = 3
+      this.personalForm.countryId = 1
+      this.personalForm.modifyPersonId = 3
+      const EnterDetail = this.$refs.editable.getRecords()
+      const EnterDetail2 = this.$refs.editable2.getRecords()
+      for (let i = 0; i < EnterDetail.length; i++) {
+        for (let j = 0; j < EnterDetail2.length; j++) {
+          if (EnterDetail[i].productCode === EnterDetail2[j].productCode) {
+            EnterDetail[i].applyQuantity = EnterDetail2[j].applyQuantity
+            EnterDetail[i].planQuantity = EnterDetail2[j].planQuantity
+            break
+          }
+        }
+      }
+      if (EnterDetail.length === 0) {
+        this.$notify.error({
+          title: '错误',
+          message: '明细表不能为空',
+          offset: 100
+        })
+        return false
+      }
+      EnterDetail.map(function(elem) {
+        return elem
+      }).forEach(function(elem) {
+        if (elem.productCode === null || elem.productCode === '' || elem.productCode === undefined) {
+          delete elem.productCode
+        }
+        if (elem.productName === null || elem.productName === '' || elem.productName === undefined) {
+          delete elem.productName
+        }
+        if (elem.typeId === null || elem.typeId === '' || elem.typeId === undefined) {
+          delete elem.typeId
+        }
+        if (elem.unit === null || elem.unit === '' || elem.unit === undefined) {
+          delete elem.unit
+        }
+        if (elem.basicQuantity === null || elem.basicQuantity === '' || elem.basicQuantity === undefined) {
+          delete elem.basicQuantity
+        }
+        if (elem.requireQuantity === null || elem.requireQuantity === '' || elem.requireQuantity === undefined) {
+          delete elem.requireQuantity
+        }
+        if (elem.applyQuantity === null || elem.applyQuantity === '' || elem.applyQuantity === undefined) {
+          delete elem.applyQuantity
+        }
+        if (elem.requireDate === null || elem.requireDate === '' || elem.requireDate === undefined) {
+          delete elem.requireDate
+        }
+        if (elem.applyReason === null || elem.applyReason === '' || elem.applyReason === undefined) {
+          delete elem.applyReason
+        }
+        if (elem.planQuantity === null || elem.planQuantity === '' || elem.planQuantity === undefined) {
+          delete elem.planQuantity
+        }
+        return elem
+      })
+      const parms2 = JSON.stringify(EnterDetail)
+      const Data = this.personalForm
+      for (const key in Data) {
+        if (Data[key] === '' || Data[key] === undefined || Data[key] === null) {
+          delete Data[key]
+        }
+      }
+      const parms = JSON.stringify(Data)
+      updatestockapply(parms, parms2).then(res => {
+        if (res.data.ret === 200) {
+          this.$notify({
+            title: '操作成功',
+            message: '操作成功',
+            type: 'success',
+            duration: 1000,
+            offset: 100
+          })
+          this.$emit('rest', true)
+          this.$refs.editable.clear()
+          this.$refs.editable2.clear()
+          this.$refs.personalForm.clearValidate()
+          this.$refs.personalForm.resetFields()
+          this.editVisible = false
+        } else {
+          this.$notify.error({
+            title: '错误',
+            message: '出错了',
+            offset: 100
+          })
+        }
+      })
+    },
+    handlecancel() {
+      this.$refs.editable.clear()
+      this.$refs.editable2.clear()
+      this.$refs.personalForm.clearValidate()
+      this.$refs.personalForm.resetFields()
+      this.editVisible = false
+    }
+    // 修改操作结束 -------------------------------------------------
+  }
+}
+</script>
+
+<style scoped>
+  .container >>> .el-form-item.is-required:not(.is-no-asterisk)>.el-form-item__label:before{
+    margin-left: -10px;
+  }
+  .container >>> .el-form-item__label{
+    text-align: left;
+  }
+  .container >>> .el-form-item__label{
+    color: #60626696;
+  }
+  .edit >>> .el-dialog {
+    background:#f1f1f1 ;
+  }
+  .el-col-12{
+    width: 49%;
+  }
+</style>

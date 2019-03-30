@@ -133,7 +133,12 @@ export default {
     OutFactoryList: '外包工厂列表',
     OutSourcing: '外包单',
     AddOutSourcing: '新建外包单',
-    OutSourcingList: '外包单列表'
+    OutSourcingList: '外包单列表',
+    StockCategory: '分类属性设置',
+    StockCategoryList: '分类属性列表',
+    StockApply: '采购申请',
+    AddStockApply: '新建采购申请',
+    StockApplyList: '采购申请列表'
   },
   navbar: {
     logOut: '退出登录',
@@ -704,7 +709,8 @@ export default {
     productTypeId: '型号',
     id: '序号',
     judgeStat: '审批状态',
-    receiptStat: '单据状态'
+    receiptStat: '单据状态',
+    code: '物料编码'
   },
   ProcessFile: {
     code: '工作中心编号',
@@ -736,7 +742,8 @@ export default {
     handlePersonId: '负责人',
     deptId: '工作中心',
     summary: '摘要',
-    deptName: '工作中心'
+    deptName: '工作中心',
+    produceDeptId: '部门'
   },
   RequirePlan: {
     title: '主题',
@@ -817,12 +824,40 @@ export default {
     receiverPhone: '收货人电话',
     receiverAddress: '收货地址'
   },
+  OutSourcing: {
+    title: '外包单主题',
+    personId: '经办人',
+    taxRate: '税率',
+    outFactoryId: '外包工厂',
+    paymentAgreementId: '付款约定',
+    deadline: '期限',
+    productionDate: '生产日期',
+    completeDate: '完成日期',
+    billingTypeId: '开票类型',
+    giveAddress: '交货地址',
+    moneyType: '货币',
+    thisPayment: '本次应付金额',
+    heji: '合计金额',
+    paiedMoney: '已支付金额',
+    notPayMoney: '未支付金额'
+  },
+  StockApply: {
+    title: '采购申请单主题',
+    stockType: '采购类别',
+    applyPersonId: '申请人',
+    applyDeptId: '申请部门',
+    sourceType: '源单类型',
+    applyDate: '申请日期',
+    applyNumber: '单据编号'
+  },
   public: {
-    modifyDate: '修改日期',
+    modifyDate: '最后修改日期',
     move: '调入',
     judgePersonName: '审核人',
+    judgeDate: '审核日期',
     modifyPersonName: '修改人',
     endPersonName: '结单人',
+    endDate: '结单日期',
     createPersonName: '创建人',
     judgeStat: '审核状态',
     receiptStat: '单据状态',

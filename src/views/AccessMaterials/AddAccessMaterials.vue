@@ -24,11 +24,11 @@
                 <el-form-item :label="$t('AccessMaterials.produceTaskNumber')" style="width: 100%;">
                   <el-input v-model="personalForm.produceTaskNumber" :disabled="addsouce" style="margin-left: 18px" clearable @focus="handleAddSouce"/>
                 </el-form-item>
-                <produce-task :procontrol.sync="producecontrol" @produce="produce" @moredata="moredata"/>
+                <produce-task :procontrol.sync="producecontrol" @moredata="moredata"/>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('AccessMaterials.deptId')" prop="produceDeptId" style="width: 100%;">
-                  <el-select v-model="personalForm.deptId" clearable style="margin-left: 18px;width: 218px" @change="choosedept">
+                  <el-select v-model="personalForm.produceDeptId" clearable style="margin-left: 18px;width: 218px" @change="choosedept">
                     <el-option
                       v-for="(item, index) in depts"
                       :key="index"
@@ -90,15 +90,46 @@
             style="width: 100%">
             <el-editable-column type="selection" min-width="55" align="center"/>
             <el-editable-column label="序号" min-width="55" align="center" type="index"/>
+            <el-editable-column :edit-render="{type: 'default'}" prop="locationCode" align="center" label="货位" width="200px">
+              <template slot-scope="scope">
+                <el-select v-model="scope.row.locationCode" :value="scope.row.locationCode" placeholder="请选择货位" filterable clearable style="width: 100%;" @visible-change="updatebatch($event,scope)">
+                  <el-option
+                    v-for="(item, index) in locationlist"
+                    :key="index"
+                    :value="item.locationCode"
+                    :label="item.locationCode"/>
+                </el-select>
+              </template>
+            </el-editable-column>
+            <el-editable-column :edit-render="{type: 'default'}" prop="batch" align="center" label="批次" width="200px">
+              <template slot-scope="scope">
+                <el-select v-model="scope.row.batch" :value="scope.row.batch" placeholder="请选择批次" filterable clearable style="width: 100%;" @visible-change="updatebatch2($event,scope)">
+                  <el-option
+                    v-for="(item, index) in batchlist"
+                    :key="index"
+                    :value="item"
+                    :label="item"/>
+                </el-select>
+              </template>
+            </el-editable-column>
             <el-editable-column prop="productCode" align="center" label="物品编号" min-width="150px"/>
             <el-editable-column prop="productName" align="center" label="物品名称" min-width="150px"/>
-            <el-editable-column prop="typeId" align="center" label="规格" min-width="150px"/>
+            <el-editable-column prop="productType" align="center" label="规格" min-width="150px">
+              <template slot-scope="scope">
+                <p>{{ getTypeName(scope.row) }}</p>
+              </template>
+            </el-editable-column>
             <el-editable-column prop="unit" align="center" label="单位" min-width="150px"/>
             <el-editable-column :edit-render="{name: 'ElSelect', options: workCenterIds, type: 'visible'}" prop="workCenterId" align="center" label="工作中心" min-width="150px"/>
+            <el-editable-column :edit-render="{name: 'ElSelect', options: workCenterIds, type: 'visible'}" prop="requireQuantity" align="center" label="需求数量" min-width="150px"/>
             <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="accessQuantity" align="center" label="领料数量" min-width="150px"/>
             <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="retreatQuantity" align="center" label="已退料数量" min-width="150px"/>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="price" align="center" label="单价" min-width="150px"/>
-            <el-editable-column prop="totalMoney" align="center" label="总金额" min-width="150px"/>
+            <el-editable-column prop="price" align="center" label="单价" min-width="150px"/>
+            <el-editable-column prop="totalMoney" align="center" label="金额" min-width="150px">
+              <template slot-scope="scope">
+                <p>{{ getSize(scope.row.accessQuantity, scope.row.price, scope.row) }}</p>
+              </template>
+            </el-editable-column>
           </el-editable>
         </div>
       </el-card>
@@ -112,8 +143,9 @@
 </template>
 
 <script>
-// import { addAccessMaterials } from '@/api/AccessMaterials'
-import { materialslist, searchprocessFile, searchworkCenter, requireplanlist } from '@/api/public'
+import { getDetailByTaskNumber, addaccessmaterials } from '@/api/AccessMaterials'
+import { materialslist, searchprocessFile, searchworkCenter, batchlist, getlocation } from '@/api/public'
+import { searchEmpCategory2 } from '@/api/Product'
 import { getdeptlist } from '@/api/BasicSettings'
 import MyDetail from './components/MyDetail'
 import MyRepository from './components/MyRepository'
@@ -133,6 +165,17 @@ export default {
       }
     }
     return {
+      // 货位发送参数
+      locationlistparms: {
+        pageNum: 1,
+        pageSize: 1999,
+        repositoryId: ''
+      },
+      // 货位数据
+      locationlist: [],
+      loc: [],
+      // 批次列表
+      batchlist: [],
       // 领料仓库回显
       accessRepositoryId: '',
       // 控制领料仓库
@@ -198,32 +241,107 @@ export default {
     this.chooseType()
   },
   methods: {
+    // 总金额计算
+    getSize(quan, pric, row) {
+      row.totalMoney = quan * pric
+      return row.totalMoney
+    },
+    // 获取货位和批次
+    updatebatch(event, scope) {
+      if (event === true) {
+        console.log(this.personalForm.accessRepositoryId)
+        if (this.personalForm.accessRepositoryId === undefined || this.personalForm.accessRepositoryId === '') {
+          this.$notify.error({
+            title: '错误',
+            message: '请先选择仓库',
+            offset: 100
+          })
+          return false
+        }
+        getlocation(this.personalForm.accessRepositoryId, scope.row).then(res => {
+          if (res.data.ret === 200) {
+            if (res.data.data.content.length !== 0) {
+              this.locationlist = res.data.data.content
+              scope.row.locationId = res.data.data.content[0].id
+              this.updatebatch3(scope)
+            } else if (res.data.data.content.length === 0) {
+              this.$notify.error({
+                title: '错误',
+                message: '该仓库没有该商品',
+                offset: 100
+              })
+              this.locationlist = []
+              return false
+            }
+          }
+        })
+      }
+    },
+    updatebatch3(scope) {
+      const parms3 = scope.row.productCode
+      batchlist(this.personalForm.accessRepositoryId, parms3).then(res => {
+        this.batchlist = res.data.data.content
+      })
+    },
+    updatebatch2(event, scope) {
+      if (event === true) {
+        const parms3 = scope.row.productCode
+        batchlist(this.personalForm.accessRepositoryId, parms3).then(res => {
+          this.batchlist = res.data.data.content
+        })
+      }
+    },
+    // 获取规格
+    getTypeName(row) {
+      searchEmpCategory2(row.typeId).then(res => {
+        if (res.data.ret === 200) {
+          row.productType = res.data.data.content.list[0].categoryName
+        }
+      })
+      return row.productType
+    },
     // 生产任务单选择focus控制
     handleAddSouce() {
-      this.producecontrol = true
-    },
-    produce(val) {
-      for (let i = 0; i < val.length; i++) {
-        this.$refs.editable.insert(val[i])
+      if (this.personalForm.accessRepositoryId === '' || this.personalForm.accessRepositoryId === null || this.personalForm.accessRepositoryId === undefined) {
+        this.$notify.error({
+          title: '错误',
+          message: '请先选择仓库',
+          offset: 100
+        })
+        return false
       }
+      if (this.personalForm.produceDeptId === '' || this.personalForm.produceDeptId === null || this.personalForm.produceDeptId === undefined) {
+        this.$notify.error({
+          title: '错误',
+          message: '请先选择部门',
+          offset: 100
+        })
+        return false
+      }
+      this.producecontrol = true
     },
     moredata(val) {
       console.log(val)
       this.personalForm.produceTaskNumber = val.taskNumber
-      requireplanlist(val).then(res => {
-        const requiredata = res.data.data.content.list[0].materialsRequirePlanDetailVos
-        for (let i = 0; i < requiredata.length; i++) {
-          if (requiredata[i].materialsSource === 2) {
-            this.needsdata = requiredata[i]
-            this.needsdata.produceQuantity = requiredata[i].planQuantity
-            this.needsdata.alreadyProduceQuantity = 0
-            this.needsdata.alreadyEnterQuantity = 0
-            this.needsdata.reportedCheckQuantity = 0
-            this.needsdata.actualCheckQuantity = 0
-            this.needsdata.passQuantity = 0
-            this.needsdata.failQuantity = 0
-            console.log(this.needsdata)
-            this.$refs.editable.insert(this.needsdata)
+      getDetailByTaskNumber(this.personalForm.produceTaskNumber, this.personalForm.accessRepositoryId).then(res => {
+        console.log(res)
+        if (res.data.ret === 200) {
+          const nowlistdata = this.$refs.editable.getRecords()
+          const detaildata = res.data.data.content
+          for (let i = 0; i < detaildata.length; i++) {
+            for (let j = 0; j < nowlistdata.length; j++) {
+              if (detaildata[i].productCode === nowlistdata[j].productCode) {
+                this.$notify.error({
+                  title: '错误',
+                  message: '物品已添加',
+                  offset: 100
+                })
+                return false
+              }
+            }
+            detaildata[i].totalMoney = 0
+            detaildata[i].price = 0
+            this.$refs.editable.insert(detaildata[i])
           }
         }
       })
@@ -270,10 +388,10 @@ export default {
     },
     // 选择部门focus事件
     choosedept() {
-      console.log(this.personalForm.deptId)
-      if (this.personalForm.deptId !== '' && this.personalForm.deptId !== null && this.personalForm.deptId !== undefined) {
+      console.log(this.personalForm.produceDeptId)
+      if (this.personalForm.produceDeptId !== '' && this.personalForm.produceDeptId !== null && this.personalForm.produceDeptId !== undefined) {
         // 工作中心数据
-        searchworkCenter(this.personalForm.deptId).then(res => {
+        searchworkCenter(this.personalForm.produceDeptId).then(res => {
           if (res.data.ret === 200) {
             this.workCenterIds = res.data.data.content.list.map(function(item) {
               return {
@@ -295,11 +413,21 @@ export default {
       } else if (this.personalForm.sourceType === '2') {
         this.addpro = false
         this.addsouce = true
+        this.personalForm.produceTaskNumber = ''
+        this.produceTaskNumber = ''
         this.$refs.editable.clear()
       }
     },
     // 无来源添加商品
     handleAddproduct() {
+      if (this.personalForm.produceDeptId === '' || this.personalForm.produceDeptId === null || this.personalForm.produceDeptId === undefined) {
+        this.$notify.error({
+          title: '错误',
+          message: '请先选择部门',
+          offset: 100
+        })
+        return false
+      }
       this.control = true
     },
     // 无来源数据添加
@@ -337,10 +465,9 @@ export default {
         repositoryId: 438,
         regionId: 2
       }
-      this.produceRepositoryId = null
-      this.handlePersonId = null
-      this.workCenterId = null
-      this.producePlanNumber = null
+      this.produceTaskNumber = null
+      this.accessPersonId = null
+      this.accessRepositoryId = null
     },
     // 保存操作
     handlesave() {
@@ -368,41 +495,26 @@ export default {
         if (elem.unit === null || elem.unit === '' || elem.unit === undefined) {
           delete elem.unit
         }
-        if (elem.sourceNumber === null || elem.sourceNumber === '' || elem.sourceNumber === undefined) {
-          delete elem.sourceNumber
+        if (elem.batch === null || elem.batch === '' || elem.batch === undefined) {
+          delete elem.batch
         }
-        if (elem.produceQuantity === null || elem.produceQuantity === '' || elem.produceQuantity === undefined) {
-          delete elem.produceQuantity
+        if (elem.locationId === null || elem.locationId === '' || elem.locationId === undefined) {
+          delete elem.locationId
         }
         if (elem.bomNumber === null || elem.bomNumber === '' || elem.bomNumber === undefined) {
           delete elem.bomNumber
         }
-        if (elem.processName === null || elem.processName === '' || elem.processName === undefined) {
-          delete elem.processName
+        if (elem.requireQuantity === null || elem.requireQuantity === '' || elem.requireQuantity === undefined) {
+          delete elem.requireQuantity
         }
-        if (elem.planStartDate === null || elem.planStartDate === '' || elem.planStartDate === undefined) {
-          delete elem.planStartDate
+        if (elem.accessQuantity === null || elem.accessQuantity === '' || elem.accessQuantity === undefined) {
+          delete elem.accessQuantity
         }
-        if (elem.planFinishDate === null || elem.planFinishDate === '' || elem.planFinishDate === undefined) {
-          delete elem.planFinishDate
+        if (elem.price === null || elem.price === '' || elem.price === undefined) {
+          delete elem.price
         }
-        if (elem.alreadyProduceQuantity === null || elem.alreadyProduceQuantity === '' || elem.alreadyProduceQuantity === undefined) {
-          delete elem.alreadyProduceQuantity
-        }
-        if (elem.alreadyEnterQuantity === null || elem.alreadyEnterQuantity === '' || elem.alreadyEnterQuantity === undefined) {
-          delete elem.alreadyEnterQuantity
-        }
-        if (elem.reportedCheckQuantity === null || elem.reportedCheckQuantity === '' || elem.reportedCheckQuantity === undefined) {
-          delete elem.reportedCheckQuantity
-        }
-        if (elem.actualCheckQuantity === null || elem.actualCheckQuantity === '' || elem.actualCheckQuantity === undefined) {
-          delete elem.actualCheckQuantity
-        }
-        if (elem.passQuantity === null || elem.passQuantity === '' || elem.passQuantity === undefined) {
-          delete elem.passQuantity
-        }
-        if (elem.failQuantity === null || elem.failQuantity === '' || elem.failQuantity === undefined) {
-          delete elem.failQuantity
+        if (elem.totalMoney === null || elem.totalMoney === '' || elem.totalMoney === undefined) {
+          delete elem.totalMoney
         }
         return elem
       })
@@ -415,38 +527,38 @@ export default {
       }
       const parms = JSON.stringify(Data)
       console.log(parms, parms2)
-      // this.$refs.personalForm.validate((valid) => {
-      //   if (valid) {
-      //     addAccessMaterials(parms, parms2, this.personalForm).then(res => {
-      //       console.log(res)
-      //       if (res.data.ret === 200) {
-      //         this.$notify({
-      //           title: '成功',
-      //           message: '保存成功',
-      //           type: 'success',
-      //           offset: 100
-      //         })
-      //         this.restAllForm()
-      //         this.$refs.editable.clear()
-      //         this.$refs.personalForm.clearValidate()
-      //         this.$refs.personalForm.resetFields()
-      //       } else {
-      //         this.$notify.error({
-      //           title: '错误',
-      //           message: res.data.msg,
-      //           offset: 100
-      //         })
-      //       }
-      //     })
-      //   } else {
-      //     this.$notify.error({
-      //       title: '错误',
-      //       message: '信息未填完整',
-      //       offset: 100
-      //     })
-      //     return false
-      //   }
-      // })
+      this.$refs.personalForm.validate((valid) => {
+        if (valid) {
+          addaccessmaterials(parms, parms2, this.personalForm).then(res => {
+            console.log(res)
+            if (res.data.ret === 200) {
+              this.$notify({
+                title: '成功',
+                message: '保存成功',
+                type: 'success',
+                offset: 100
+              })
+              this.restAllForm()
+              this.$refs.editable.clear()
+              this.$refs.personalForm.clearValidate()
+              this.$refs.personalForm.resetFields()
+            } else {
+              this.$notify.error({
+                title: '错误',
+                message: res.data.msg,
+                offset: 100
+              })
+            }
+          })
+        } else {
+          this.$notify.error({
+            title: '错误',
+            message: '信息未填完整',
+            offset: 100
+          })
+          return false
+        }
+      })
     },
     // 取消操作
     handlecancel() {

@@ -67,6 +67,11 @@
                   <el-input v-model="productTypeId" style="margin-left: 18px" disabled/>
                 </el-form-item>
               </el-col>
+              <el-col :span="6">
+                <el-form-item :label="$t('MaterialsList.code')" style="width: 100%;">
+                  <el-input v-model="personalForm.productCode" style="margin-left: 18px" disabled/>
+                </el-form-item>
+              </el-col>
             </el-row>
           </el-form>
         </div>
@@ -99,7 +104,7 @@
             <el-editable-column prop="category" align="center" label="子件类型" min-width="150px"/>
             <el-editable-column prop="unit" align="center" label="单位" min-width="150px"/>
             <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="quantity" align="center" label="定额" min-width="150px"/>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="lossRate" align="center" label="损耗率" min-width="150px"/>
+            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0.0, max: 1.0}, type: 'visible'}" prop="lossRate" align="center" label="损耗率" min-width="150px"/>
             <el-editable-column :edit-render="{name: 'ElSelect', options: isKeyList, type: 'visible'}" prop="isKey" align="center" label="是否关键件" min-width="150px"/>
           </el-editable>
         </div>
@@ -169,6 +174,7 @@ export default {
       this.personalForm.unit = val.purMeasu
       this.personalForm.productTypeId = val.typeId
       this.productTypeId = val.productType
+      this.personalForm.productCode = val.code
     },
     // 新增物料单明细
     handleAddproduct() {
@@ -204,14 +210,6 @@ export default {
     // 保存操作
     handlesave() {
       const EnterDetail = this.$refs.editable.getRecords()
-      if (EnterDetail.length === 0) {
-        this.$notify.error({
-          title: '错误',
-          message: '明细表不能为空',
-          offset: 100
-        })
-        return false
-      }
       EnterDetail.map(function(elem) {
         return elem
       }).forEach(function(elem) {

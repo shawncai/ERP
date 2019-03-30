@@ -4,7 +4,9 @@ import request from '@/utils/request'
 export function addmaterials(query, query2, query3) {
   var params = new URLSearchParams()
   params.append('materialsListJson', query) // 你要传给后台的参数值 key/value
-  params.append('materialsListDetailJson', query2) // 你要传给后台的参数值 key/value
+  if (query2.length !== 2 && query2 !== null && query2 !== undefined) {
+    params.append('materialsListDetailJson', query2) // 你要传给后台的参数值 key/value
+  }
   if (query3.repositoryId !== '' && query3.repositoryId !== null && query3.repositoryId !== undefined) {
     params.append('repositoryId', query3.repositoryId) // 你要传给后台的参数值 key/value
   }

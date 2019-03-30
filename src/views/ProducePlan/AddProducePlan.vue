@@ -19,11 +19,16 @@
                 <my-emp :control.sync="stockControl" @stockName="stockName"/>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('ProducePlan.deptId')" style="width: 100%;">
-                  <el-input v-model="workCenterId" style="margin-left: 18px" clearable @focus="workcenterchoose"/>
+                <el-form-item :label="$t('ProducePlan.produceDeptId')" prop="produceDeptId" style="width: 100%;">
+                  <el-select v-model="personalForm.produceDeptId" clearable style="margin-left: 18px" @change="choosedept">
+                    <el-option
+                      v-for="(item, index) in depts"
+                      :key="index"
+                      :value="item.id"
+                      :label="item.deptName"/>
+                  </el-select>
                 </el-form-item>
               </el-col>
-              <my-center :control.sync="centercontrol" @center="center"/>
               <el-col :span="6">
                 <el-form-item :label="$t('ProducePlan.summary')" style="width: 100%;">
                   <el-input v-model="personalForm.summary" style="margin-left: 18px" clearable/>
@@ -58,6 +63,7 @@
             <el-editable-column prop="productName" align="center" label="物品名称" min-width="150px"/>
             <el-editable-column prop="typeIdname" align="center" label="规格" min-width="150px"/>
             <el-editable-column prop="unit" align="center" label="单位" min-width="150px"/>
+            <el-editable-column :edit-render="{name: 'ElSelect', options: workCenterIds, type: 'visible'}" prop="workCenterId" align="center" label="工作中心" min-width="150px"/>
             <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="requireQuantity" align="center" label="需求数量" min-width="150px"/>
             <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="planQuantity" align="center" label="计划生产数量" min-width="150px"/>
           </el-editable>
@@ -74,6 +80,8 @@
 
 <script>
 import { addproduceplan } from '@/api/ProducePlan'
+import { getdeptlist } from '@/api/BasicSettings'
+import { searchworkCenter } from '@/api/public'
 import MyCenter from './components/MyCenter'
 import MyEmp from './components/MyEmp'
 import MyDetail from './components/MyDetail'
@@ -82,6 +90,8 @@ export default {
   components: { MyCenter, MyEmp, MyDetail },
   data() {
     return {
+      // 部门数据
+      depts: [],
       // 负责人回显
       handlePersonId: '',
       // 工作中心回显
@@ -107,12 +117,42 @@ export default {
       },
       // 主生产任务明细数据
       list2: [],
+      // 工作中心数据
+      workCenterIds: [],
       // 主生产任务明细列表规则
       validRules: {
       }
     }
   },
+  created() {
+    this.getdepts()
+  },
   methods: {
+    getdepts() {
+      // 部门列表数据
+      getdeptlist().then(res => {
+        if (res.data.ret === 200) {
+          this.depts = res.data.data.content
+        }
+      })
+    },
+    // 选择部门focus事件
+    choosedept() {
+      console.log(this.personalForm.produceDeptId)
+      if (this.personalForm.produceDeptId !== '' && this.personalForm.produceDeptId !== null && this.personalForm.produceDeptId !== undefined) {
+        // 工作中心数据
+        searchworkCenter(this.personalForm.produceDeptId).then(res => {
+          if (res.data.ret === 200) {
+            this.workCenterIds = res.data.data.content.list.map(function(item) {
+              return {
+                label: item.workCenterName,
+                value: item.id
+              }
+            })
+          }
+        })
+      }
+    },
     // 工作中心focus事件
     workcenterchoose() {
       this.centercontrol = true

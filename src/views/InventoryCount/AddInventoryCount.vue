@@ -275,14 +275,14 @@ export default {
     },
     updatebatch3(scope) {
       const parms3 = scope.row.productCode
-      batchlist(this.personalForm.repositoryId, parms3).then(res => {
+      batchlist(this.personalForm.countRepositoryId, parms3).then(res => {
         this.batchlist = res.data.data.content
       })
     },
     updatebatch2(event, scope) {
       if (event === true) {
         const parms3 = scope.row.productCode
-        batchlist(this.personalForm.repositoryId, parms3).then(res => {
+        batchlist(this.personalForm.countRepositoryId, parms3).then(res => {
           this.batchlist = res.data.data.content
         })
       }

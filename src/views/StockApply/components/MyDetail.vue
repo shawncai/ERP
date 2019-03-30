@@ -264,16 +264,27 @@ export default {
           productCode: item.code,
           productName: item.productName,
           typeId: item.typeId,
-          unit: item.purMeasu,
-          price: item.costPrice,
           requireQuantity: 0,
-          accessQuantity: 0,
-          retreatQuantity: 0,
-          totalMoney: 0
+          color: item.color,
+          unit: item.purMeasu,
+          productType: item.productType
+        }
+      })
+      const productDetail2 = this.moreaction.map(function(item) {
+        return {
+          productCode: item.code,
+          productName: item.productName,
+          typeId: item.typeId,
+          color: item.color,
+          unit: item.purMeasu,
+          productType: item.productType,
+          applyQuantity: 0,
+          planQuantity: 0
         }
       })
       console.log(productDetail)
       this.$emit('product', productDetail)
+      this.$emit('product2', productDetail2)
     }
   }
 }

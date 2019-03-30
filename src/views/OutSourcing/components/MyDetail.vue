@@ -263,12 +263,11 @@ export default {
         return {
           productCode: item.code,
           productName: item.productName,
-          typeId: item.typeId,
+          type: item.typeId,
           unit: item.purMeasu,
-          price: item.costPrice,
-          requireQuantity: 0,
-          accessQuantity: 0,
-          retreatQuantity: 0,
+          productType: item.productType,
+          quantity: 0,
+          money: 0,
           totalMoney: 0
         }
       })

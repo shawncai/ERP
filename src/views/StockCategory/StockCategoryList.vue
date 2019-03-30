@@ -11,9 +11,7 @@
           <el-col :span="5" style="margin-left: 10px">
             <el-form-item label="分类类别">
               <el-select v-model="getemplist.type" :value="getemplist.type" clearable @keyup.enter.native="handleFilter">
-                <el-option label="部门类别" value="1"/>
-                <el-option label="职位类别" value="2"/>
-                <el-option label="合同类型" value="3"/>
+                <el-option label="采购类别" value="1"/>
               </el-select>
             </el-form-item>
           </el-col>
@@ -53,9 +51,7 @@
         <el-form ref="addCategoryForm" :rules="addCategoryFormRules" :model="addCategoryForm" class="demo-ruleForm" style="margin: 0 auto; width: 400px">
           <el-form-item :label="$t('NewEmployeeInformation.type')" label-width="100px" prop="type">
             <el-select v-model="addCategoryForm.type" placeholder="请选择类别" style="width: 100%">
-              <el-option label="部门类别" value="1"/>
-              <el-option label="职位类别" value="2"/>
-              <el-option label="合同类型" value="3"/>
+              <el-option label="采购类别" value="1"/>
             </el-select>
           </el-form-item>
           <el-form-item :label="$t('NewEmployeeInformation.categoryname')" label-width="100px" prop="categoryname">
@@ -86,11 +82,6 @@
         highlight-current-row
         style="width: 100%;"
         @selection-change="handleSelectionChange">
-        <el-table-column
-          :selectable="selectInit"
-          type="selection"
-          width="55"
-          align="center"/>
         <el-table-column
           type="selection"
           width="55"
@@ -129,9 +120,7 @@
         <el-form ref="editCategoryForm" :rules="editCategoryFormRules" :model="editCategoryForm" class="demo-ruleForm" style="margin: 0 auto; width: 400px">
           <el-form-item :label="$t('NewEmployeeInformation.type')" label-width="100px">
             <el-select v-model="editCategoryForm.type" placeholder="请选择类别" style="width: 100%" disabled >
-              <el-option label="部门类别" value="1"/>
-              <el-option label="职位类别" value="2"/>
-              <el-option label="合同类型" value="3"/>
+              <el-option label="采购类别" value="1"/>
             </el-select>
           </el-form-item>
           <el-form-item :label="$t('NewEmployeeInformation.categoryname')" label-width="100px" prop="categoryName">
@@ -155,20 +144,18 @@
 </template>
 
 <script>
-import { searchEmpCategory, addEmpCategory, updateEmpCategory, delateEmpCategory } from '@/api/EmployeeInformation'
+import { searchStockCategory, addStockCategory, updateStockCategory, delateStockCategory } from '@/api/StockCategory'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
 
 export default {
-  name: 'EmpCategory',
+  name: 'StockCategory',
   directives: { waves },
   components: { Pagination },
   filters: {
     typeFilter(status) {
       const statusMap = {
-        1: '部门类别',
-        2: '职位类别',
-        3: '合同类型'
+        1: '采购类别'
       }
       return statusMap[status]
     },
@@ -251,7 +238,7 @@ export default {
     getlist() {
       // 员工列表数据
       this.listLoading = true
-      searchEmpCategory(this.getemplist).then(res => {
+      searchStockCategory(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
@@ -266,7 +253,7 @@ export default {
     // 搜索
     handleFilter() {
       this.getemplist.pagenum = 1
-      searchEmpCategory(this.getemplist).then(res => {
+      searchStockCategory(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
@@ -288,7 +275,7 @@ export default {
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          delateEmpCategory(ids).then(res => {
+          delateStockCategory(ids).then(res => {
             if (res.data.ret === 200) {
               this.$notify({
                 title: '删除成功',
@@ -319,7 +306,7 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        delateEmpCategory(row.id).then(res => {
+        delateStockCategory(row.id).then(res => {
           if (res.data.ret === 200) {
             this.$notify({
               title: '删除成功',
@@ -358,7 +345,7 @@ export default {
     handleOk() {
       this.$refs.editCategoryForm.validate((valid) => {
         if (valid) {
-          updateEmpCategory(this.editCategoryForm).then(res => {
+          updateStockCategory(this.editCategoryForm).then(res => {
             if (res.data.ret === 200) {
               this.$notify({
                 title: '成功',
@@ -404,7 +391,7 @@ export default {
       console.log(this.addCategoryForm)
       this.$refs.addCategoryForm.validate((valid) => {
         if (valid) {
-          addEmpCategory(this.addCategoryForm).then(res => {
+          addStockCategory(this.addCategoryForm).then(res => {
             if (res.data.ret === 200) {
               this.$notify({
                 title: '成功',
