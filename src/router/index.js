@@ -968,6 +968,18 @@ export const asyncRouterMap = [
         component: () => import('@/views/AccessMaterials/AccessMaterialsList'),
         name: 'AccessMaterialsList',
         meta: { title: 'AccessMaterialsList', noCache: true }
+      },
+      {
+        path: 'AddRetreatMaterials',
+        component: () => import('@/views/AccessMaterials/AddRetreatMaterials'),
+        name: 'AddRetreatMaterials',
+        meta: { title: 'AddRetreatMaterials', noCache: false }
+      },
+      {
+        path: 'RetreatMaterialsList',
+        component: () => import('@/views/AccessMaterials/RetreatMaterialsList'),
+        name: 'RetreatMaterialsList',
+        meta: { title: 'RetreatMaterialsList', noCache: true }
       }
     ]
   },

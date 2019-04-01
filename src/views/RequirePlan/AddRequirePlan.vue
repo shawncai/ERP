@@ -209,6 +209,7 @@ export default {
     // },
     // 回显主生产计划
     allinfo(val) {
+      this.$refs.editable.clear()
       this.producePlanNumber = val.title
       this.personalForm.producePlanNumber = val.planNumber
       getBomByPlanNumber(this.personalForm.producePlanNumber, this.personalForm.produceRepositoryId).then(res => {

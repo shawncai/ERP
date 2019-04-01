@@ -121,7 +121,7 @@
             </el-editable-column>
             <el-editable-column prop="unit" align="center" label="单位" min-width="150px"/>
             <el-editable-column :edit-render="{name: 'ElSelect', options: workCenterIds, type: 'visible'}" prop="workCenterId" align="center" label="工作中心" min-width="150px"/>
-            <el-editable-column :edit-render="{name: 'ElSelect', options: workCenterIds, type: 'visible'}" prop="requireQuantity" align="center" label="需求数量" min-width="150px"/>
+            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="requireQuantity" align="center" label="需求数量" min-width="150px"/>
             <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="accessQuantity" align="center" label="领料数量" min-width="150px"/>
             <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="retreatQuantity" align="center" label="已退料数量" min-width="150px"/>
             <el-editable-column prop="price" align="center" label="单价" min-width="150px"/>
@@ -151,7 +151,7 @@ import MyDetail from './components/MyDetail'
 import MyRepository from './components/MyRepository'
 import ProduceTask from './components/ProduceTask'
 import MyDetail2 from './components/MyDetail2'
-import MyDelivery from '../DailyAdjust/components/MyDelivery'
+import MyDelivery from './components/MyDelivery'
 export default {
   name: 'AddAccessMaterials',
   components: { MyDelivery, MyDetail2, ProduceTask, MyRepository, MyDetail },
@@ -463,7 +463,8 @@ export default {
         createPersonId: 3,
         countryId: 1,
         repositoryId: 438,
-        regionId: 2
+        regionId: 2,
+        sourceType: '1'
       }
       this.produceTaskNumber = null
       this.accessPersonId = null

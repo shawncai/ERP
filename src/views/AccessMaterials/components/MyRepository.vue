@@ -232,6 +232,7 @@ export default {
     // 确认添加数据
     handleConfirm() {
       this.$emit('repositoryname', this.choosedata)
+      this.$emit('ceshi', this.choosedata)
       this.repositoryVisible = false
     },
     // 选择仓库数据时的操作

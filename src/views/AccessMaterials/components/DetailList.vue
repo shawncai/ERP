@@ -1,5 +1,5 @@
 <template>
-  <el-dialog :visible.sync="editVisible" :detailcontrol="detailcontrol" :detaildata="detaildata" :close-on-press-escape="false" :title="personalForm.planNumber +'    详情'" append-to-body width="1010px" class="edit" top="-10px" @close="$emit('update:detailcontrol', false)">
+  <el-dialog :visible.sync="editVisible" :detailcontrol="detailcontrol" :detaildata="detaildata" :close-on-press-escape="false" :title="personalForm.accessNumber +'    详情'" append-to-body width="1010px" class="edit" top="-10px" @close="$emit('update:detailcontrol', false)">
     <!--基本信息-->
     <el-card class="box-card" style="margin-top: 63px" shadow="never">
       <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">基本信息</h2>
@@ -7,50 +7,43 @@
         <el-form :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
           <el-row>
             <el-col :span="12">
-              <el-form-item :label="$t('RequirePlan.title')" style="width: 100%;color: #909399">
+              <el-form-item :label="$t('AccessMaterials.title')" style="width: 100%;">
                 <span>{{ personalForm.title }}</span>
-                <!--<el-input v-model="personalForm.title" style="margin-left: 18px;width: 200px" clearable/>-->
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item :label="$t('RequirePlan.handlePersonId')" prop="handlePersonId" style="width: 100%;">
-                <!--<el-input v-model="personalForm.handlePersonName" style="margin-left: 18px;width: 200px" clearable/>-->
-                <span>{{ personalForm.handlePersonName }}</span>
+              <el-form-item :label="$t('AccessMaterials.sourceType')" prop="sourceType" style="width: 100%;">
+                <span>{{ personalForm.sourceType | sourceTypeFilter }}</span>
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item :label="$t('RequirePlan.deptId')" style="width: 100%;">
-                <!--<el-input v-model="personalForm.workCenter" style="margin-left: 18px;width: 200px" clearable/>-->
-                <span>{{ personalForm.workCenter }}</span>
+              <el-form-item :label="$t('AccessMaterials.produceTaskNumber')" style="width: 100%;">
+                <span>{{ personalForm.produceTaskNumber }}</span>
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item :label="$t('RequirePlan.producePlanNumber')" prop="producePlanNumber" style="width: 100%;">
-                <!--<el-input v-model="personalForm.producePlanNumber" style="margin-left: 18px;width: 200px" clearable />-->
-                <span>{{ personalForm.producePlanNumber }}</span>
+              <el-form-item :label="$t('AccessMaterials.deptId')" prop="produceDeptId" style="width: 100%;">
+                <span>{{ personalForm.produceDeptName }}</span>
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item :label="$t('RequirePlan.planSupplyDate')" prop="planSupplyDate" style="width: 100%;">
-                <!--<el-date-picker-->
-                <!--v-model="personalForm.planSupplyDate"-->
-                <!--type="date"-->
-                <!--placeholder="计划供料日期"-->
-                <!--value-format="yyyy-MM-dd"-->
-                <!--style="margin-left: 18px;width: 200px"/>-->
-                <span>{{ personalForm.planSupplyDate }}</span>
+              <el-form-item :label="$t('AccessMaterials.processType')" prop="processType" style="width: 100%;">
+                <span>{{ personalForm.processType | processTypeFilter }}</span>
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item :label="$t('RequirePlan.produceRepositoryId')" prop="produceRepositoryId" style="width: 100%;">
-                <!--<el-input v-model="personalForm.produceRepositoryName" style="margin-left: 18px;width: 200px" clearable />-->
-                <span>{{ personalForm.produceRepositoryName }}</span>
+              <el-form-item :label="$t('AccessMaterials.accessPersonId')" prop="handlePersonId" style="width: 100%;">
+                <span>{{ personalForm.accessPersonName }}</span>
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item :label="$t('RequirePlan.summary')" style="width: 100%;">
-                <!--<el-input v-model="personalForm.summary" style="margin-left: 18px;width: 200px" clearable/>-->
-                <span>{{ personalForm.summary }}</span>
+              <el-form-item :label="$t('AccessMaterials.accessDate')" prop="accessDate" style="width: 100%;">
+                <span>{{ personalForm.accessDate }}</span>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('AccessMaterials.accessRepositoryId')" prop="produceRepositoryId" style="width: 100%;">
+                <span>{{ personalForm.accessRepositoryName }}</span>
               </el-form-item>
             </el-col>
           </el-row>
@@ -64,20 +57,34 @@
         <el-editable
           ref="editable"
           :data.sync="list2"
-          :edit-config="{ showIcon: false, showStatus: true}"
+          :edit-config="{ showIcon: true, showStatus: true}"
           class="click-table1"
           stripe
           border
           size="medium"
           style="width: 100%">
+          <el-editable-column type="selection" min-width="55" align="center"/>
           <el-editable-column label="序号" min-width="55" align="center" type="index"/>
+          <el-editable-column prop="locationCode" align="center" label="货位" width="200px"/>
+          <el-editable-column prop="batch" align="center" label="批次" width="200px"/>
           <el-editable-column prop="productCode" align="center" label="物品编号" min-width="150px"/>
           <el-editable-column prop="productName" align="center" label="物品名称" min-width="150px"/>
-          <el-editable-column prop="productType" align="center" label="规格" min-width="150px"/>
+          <el-editable-column prop="productType" align="center" label="规格" min-width="150px">
+            <template slot-scope="scope">
+              <p>{{ getTypeName(scope.row) }}</p>
+            </template>
+          </el-editable-column>
           <el-editable-column prop="unit" align="center" label="单位" min-width="150px"/>
-          <el-editable-column prop="requireQuantity" align="center" label="毛需求数量" min-width="150px"/>
-          <el-editable-column prop="planQuantity" align="center" label="应计划数量" min-width="150px"/>
-          <el-editable-column :edit-render="{name: 'ElSelect', options: materialsSource}" prop="materialsSource" align="center" label="物料来源" min-width="150px"/>
+          <el-editable-column prop="workCenterId" align="center" label="工作中心" min-width="150px"/>
+          <el-editable-column prop="requireQuantity" align="center" label="需求数量" min-width="150px"/>
+          <el-editable-column prop="accessQuantity" align="center" label="领料数量" min-width="150px"/>
+          <el-editable-column prop="retreatQuantity" align="center" label="已退料数量" min-width="150px"/>
+          <el-editable-column prop="price" align="center" label="单价" min-width="150px"/>
+          <el-editable-column prop="totalMoney" align="center" label="金额" min-width="150px">
+            <template slot-scope="scope">
+              <p>{{ getSize(scope.row.accessQuantity, scope.row.price, scope.row) }}</p>
+            </template>
+          </el-editable-column>
         </el-editable>
       </div>
     </el-card>
@@ -98,10 +105,70 @@
         </el-step>
       </el-steps>
     </el-card>
+    <el-card class="box-card" style="margin-top: 15px" shadow="never">
+      <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">备注信息</h2>
+      <div class="container" style="margin-top: 37px">
+        <el-form :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
+          <el-row>
+            <el-col :span="12">
+              <el-form-item :label="$t('public.receiptStat')" style="width: 100%;">
+                {{ personalForm.receiptStat | receiptStatFilter }}
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('public.createPersonName')" prop="stockType" style="width: 100%;">
+                {{ personalForm.createPersonName }}
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('public.createDate')" style="width: 100%;">
+                {{ personalForm.createDate }}
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('public.judgePersonName')" prop="applyDeptId" style="width: 100%;">
+                {{ personalForm.judgePersonName }}
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('public.judgeDate')" prop="sourceType" style="width: 100%;">
+                {{ personalForm.judgeDate }}
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('public.endPersonName')" prop="applyDate" style="width: 100%;">
+                {{ personalForm.endPersonName }}
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('public.endDate')" prop="applyDate" style="width: 100%;">
+                {{ personalForm.endDate }}
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('public.modifyPersonName')" prop="applyDate" style="width: 100%;">
+                {{ personalForm.modifyPersonName }}
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('public.modifyDate')" prop="applyDate" style="width: 100%;">
+                {{ personalForm.modifyDate }}
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('AccessMaterials.providePersonId')" prop="applyDate" style="width: 100%;">
+                {{ personalForm.provicePersonName }}
+              </el-form-item>
+            </el-col>
+          </el-row>
+        </el-form>
+      </div>
+    </el-card>
   </el-dialog>
 </template>
 
 <script>
+import { searchEmpCategory2 } from '@/api/Product'
 export default {
   filters: {
     statfilter(status) {
@@ -109,6 +176,27 @@ export default {
         1: '审核中',
         2: '审核通过',
         3: '审核不通过'
+      }
+      return statusMap[status]
+    },
+    sourceTypeFilter(status) {
+      const statusMap = {
+        1: '生产任务单',
+        2: '无来源'
+      }
+      return statusMap[status]
+    },
+    processTypeFilter(status) {
+      const statusMap = {
+        1: '加工1'
+      }
+      return statusMap[status]
+    },
+    receiptStatFilter(status) {
+      const statusMap = {
+        1: '制单',
+        2: '执行',
+        3: '结单'
       }
       return statusMap[status]
     }
@@ -127,8 +215,6 @@ export default {
     return {
       // 审核数据
       reviewList: [],
-      // 物料来源
-      materialsSource: [{ value: 1, label: '库存' }, { value: 2, label: '生产' }, { value: 3, label: '采购' }],
       // 详细表数据
       list2: [],
       // 弹窗组件的控制
@@ -143,11 +229,25 @@ export default {
     },
     detaildata() {
       this.personalForm = this.detaildata
-      this.list2 = this.personalForm.materialsRequirePlanDetailVos
+      this.list2 = this.personalForm.accessMaterialsDetailVos
       this.reviewList = this.personalForm.approvalUseVos
     }
   },
   methods: {
+    // 总金额计算
+    getSize(quan, pric, row) {
+      row.totalMoney = quan * pric
+      return row.totalMoney
+    },
+    // 获取规格
+    getTypeName(row) {
+      searchEmpCategory2(row.typeId).then(res => {
+        if (res.data.ret === 200) {
+          row.productType = res.data.data.content.list[0].categoryName
+        }
+      })
+      return row.productType
+    },
     handlecancel() {
       this.editVisible = false
     }

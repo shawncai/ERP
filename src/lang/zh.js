@@ -128,6 +128,8 @@ export default {
     AccessMaterials: '生产领料管理',
     AddAccessMaterials: '新建领料单',
     AccessMaterialsList: '领料单列表',
+    AddRetreatMaterials: '新建退料单',
+    RetreatMaterialsList: '退料单列表',
     OutFactory: '外包工厂',
     AddOutFactory: '新建外包工厂',
     OutFactoryList: '外包工厂列表',
@@ -795,9 +797,17 @@ export default {
     produceTaskNumber: '生产任务单',
     processType: '加工类型',
     accessPersonId: '领料人',
+    produceDeptName: '部门',
     accessDate: '领料日期',
     deptId: '部门',
-    accessRepositoryId: '领料仓库'
+    workCenter: '工作中心',
+    accessRepositoryId: '领料仓库',
+    taskNumber: '单据编号',
+    providePersonId: '发料人',
+    accessMaterialsId: '领料单',
+    retreatPersonId: '退料人',
+    receivePersonId: '收料人',
+    receiveDate: '收料时间'
   },
   OutFactory: {
     code: '工厂编号',

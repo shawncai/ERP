@@ -74,10 +74,10 @@
           <el-editable-column :edit-render="{name: 'ElInput'}" prop="description" align="center" label="步骤描述" width="500px"/>
           <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}}" prop="money" align="center" label="流转条件" width="400px"/>
           <!--<el-editable-column :edit-render="{name: 'ElInput'}" prop="handlerName" align="center" label="步骤处理人" width="200px"/>-->
-          <el-editable-column :edit-render="{type: 'default'}" prop="handlerName" align="center" label="步骤处理人" min-width="500px">
+          <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="handlerName" align="center" label="步骤处理人" min-width="500px">
             <template slot="edit" slot-scope="scope">
-              <input class="editable-custom_input" @focus="handlechoose">
-              <my-emp :control.sync="empcontrol" @personName="personName" @chuli="chuli(scope)"/>
+              <el-input v-model="scope.row.handlerName" @focus="handlechoose"/>
+              <my-emp :control.sync="empcontrol" @chuli="chuli(scope, $event)"/>
             </template>
           </el-editable-column>
           <!--<el-editable-column align="center" label="操作" min-width="300px">-->
@@ -278,14 +278,11 @@ export default {
     fuzhi(scope) {
       scope.row.handlerName = this.handlerName
     },
-    // 员工列表返回数据
-    personName(val) {
-      this.handlerName = val.personName
-      this.stepHandler = val.id
-    },
-    chuli(scope) {
-      scope.row.handlerName = this.handlerName
-      scope.row.stepHandler = this.stepHandler
+    chuli(scope, val) {
+      console.log(val)
+      console.log(scope)
+      scope.row.handlerName = val.personName
+      scope.row.stepHandler = val.id
     },
     postJSON(data) {
       // 提交请求

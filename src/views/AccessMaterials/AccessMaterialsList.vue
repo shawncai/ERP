@@ -4,8 +4,8 @@
       <el-row>
         <el-form ref="getemplist" :model="getemplist" label-width="100px" style="margin-top: -9px">
           <el-col :span="5">
-            <el-form-item label="生产主题" label-width="100px">
-              <el-input v-model="getemplist.title" :placeholder="$t('RequirePlan.title')" clearable @keyup.enter.native="handleFilter"/>
+            <el-form-item label="单据主题" label-width="100px">
+              <el-input v-model="getemplist.title" :placeholder="$t('AccessMaterials.title')" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
           <el-col :span="5" style="margin-left: 10px">
@@ -14,10 +14,10 @@
             </el-form-item>
           </el-col>
           <el-col :span="5" style="margin-left: 10px">
-            <el-form-item label="负责人">
-              <el-input v-model="handlePersonId" :placeholder="$t('RequirePlan.handlePersonId')" clearable @keyup.enter.native="handleFilter" @focus="handlechooseStock"/>
+            <el-form-item label="领料人">
+              <el-input v-model="accessPersonId" :placeholder="$t('AccessMaterials.accessPersonId')" clearable @keyup.enter.native="handleFilter" @focus="handlechooseStock"/>
             </el-form-item>
-            <my-emp :control.sync="stockControl" @stockName="stockName"/>
+            <my-delivery :deliverycontrol.sync="stockControl" @deliveryName="stockName"/>
           </el-col>
           <!--更多搜索条件-->
           <el-col :span="3">
@@ -26,9 +26,23 @@
               placement="bottom"
               width="500"
               trigger="manual">
-              <el-input v-model="workCenterId" style="width: 40%;float: left;margin-left: 20px" placeholder="工作中心" clearable @focus="workcenterchoose"/>
-              <my-center :control.sync="centercontrol" @center="center"/>
-              <el-select v-model="getemplist.judgeStat" :value="getemplist.judgeStat" placeholder="审批状态" clearable style="width: 40%;float: right;margin-right: 20px">
+              <el-select v-model="getemplist.processType" :value="getemplist.processType" placeholder="加工类型" clearable style="width: 40%;float: right;margin-right: 20px">
+                <el-option value="1" label="加工1"/>
+              </el-select>
+              <el-select v-model="getemplist.sourceType" :value="getemplist.sourceType" placeholder="源单类型" clearable style="width: 40%;float: left;margin-left: 20px">
+                <el-option value="1" label="生产任务单" />
+                <el-option value="2" label="无来源" />
+              </el-select>
+              <el-input v-model="getemplist.taskNumber" placeholder="生产任务单" style="width: 40%;float: right;margin-right: 20px;margin-top: 20px" clearable @focus="handleAddSouce"/>
+              <produce-task :procontrol.sync="producecontrol" @moredata="moredata"/>
+              <el-select v-model="getemplist.produceDeptId" placeholder="生产部门" clearable style="width: 40%;float: left;margin-left: 20px;margin-top: 20px">
+                <el-option
+                  v-for="(item, index) in depts"
+                  :key="index"
+                  :value="item.id"
+                  :label="item.deptName"/>
+              </el-select>
+              <el-select v-model="getemplist.judgeStat" :value="getemplist.judgeStat" placeholder="审批状态" clearable style="width: 40%;float: right;margin-right: 20px;margin-top: 20px">
                 <el-option value="0" label="未审核"/>
                 <el-option value="1" label="审核中"/>
                 <el-option value="2" label="审核通过"/>
@@ -39,17 +53,14 @@
                 <el-option value="2" label="执行"/>
                 <el-option value="3" label="结单"/>
               </el-select>
-              <el-input v-model="producePlanNumber" style="width: 40%;float: right;margin-right: 20px;margin-top: 20px" placeholder="物料需求计划" clearable @focus="producechoose"/>
-              <produce-plan :procontrol.sync="producecontrol" @allinfo="allinfo"/>
+              <el-input v-model="providePersonId" :placeholder="$t('AccessMaterials.providePersonId')" clearable style="width: 40%;float: left;margin-left: 20px;margin-top: 20px" @keyup.enter.native="handleFilter" @focus="handlechoose"/>
+              <my-create :createcontrol.sync="createcontrol" @createname="createname"/>
               <el-date-picker
-                v-model="date"
-                type="daterange"
-                range-separator="-"
-                unlink-panels
-                start-placeholder="Start"
-                end-placeholder="End"
+                v-model="getemplist.accessTime"
+                placeholder="领料时间"
+                type="date"
                 value-format="yyyy-MM-dd"
-                style="margin-top: 20px;margin-left: 20px"/>
+                style="width: 40%;float: right;margin-right: 20px;margin-top: 20px"/>
               <div class="seachbutton" style="width: 100%;float: right;margin-top: 20px">
                 <el-button v-waves class="filter-item" type="primary" style="float: right" round @click="handleFilter">{{ $t('public.search') }}</el-button>
               </div>
@@ -97,30 +108,40 @@
           type="selection"
           width="55"
           align="center"/>
-        <el-table-column :label="$t('RequirePlan.planNumber')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('public.id')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span class="link-type" @click="handleDetail(scope.row)">{{ scope.row.planNumber }}</span>
+            <span class="link-type" @click="handleDetail(scope.row)">{{ scope.row.accessNumber }}</span>
           </template>
           <detail-list :detailcontrol.sync="detailvisible" :detaildata.sync="personalForm"/>
         </el-table-column>
-        <el-table-column :label="$t('RequirePlan.title')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('AccessMaterials.title')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.title }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('RequirePlan.producePlanNumber')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('AccessMaterials.sourceType')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.producePlanNumber }}</span>
+            <span>{{ scope.row.sourceType | sourceTypeFilter }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('RequirePlan.handlePersonId')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('AccessMaterials.produceTaskNumber')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.handlePersonName }}</span>
+            <span>{{ scope.row.produceTaskNumber }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('RequirePlan.deptId')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('AccessMaterials.produceDeptName')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.workCenter }}</span>
+            <span>{{ scope.row.produceDeptName }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column :label="$t('AccessMaterials.processType')" :resizable="false" align="center" min-width="150">
+          <template slot-scope="scope">
+            <span>{{ scope.row.processType | processTypeFilter }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column :label="$t('AccessMaterials.accessPersonId')" :resizable="false" align="center" min-width="150">
+          <template slot-scope="scope">
+            <span>{{ scope.row.accessPersonName }}</span>
           </template>
         </el-table-column>
         <el-table-column :label="$t('public.judgeStat')" :resizable="false" prop="judgeStat" align="center" min-width="150">
@@ -151,20 +172,20 @@
 </template>
 
 <script>
-import { requireplanlist, deleterequireplan, updateproduceplan2 } from '@/api/RequirePlan'
+import { accesslist, deleteaccess, updateaccess2 } from '@/api/AccessMaterials'
+import { getdeptlist } from '@/api/BasicSettings'
 import waves from '@/directive/waves' // Waves directive
-import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
-// import MyCenter from './components/MyCenter'
-// import MyEmp from './components/MyEmp'
-// import MyDialog from './components/MyDialog'
-// import DetailList from './components/DetailList'
-// import ProducePlan from './components/ProducePlan'
+import Pagination from '@/components/Pagination'
+import MyDelivery from './components/MyDelivery'
+import ProduceTask from './components/ProduceTask'
+import MyCreate from './components/MyCreate'
+import DetailList from './components/DetailList'
+import MyDialog from './components/MyDialog' // Secondary package based on el-pagination
 
 export default {
   name: 'AccessMaterialsList',
   directives: { waves },
-  components: { Pagination },
-  // components: { ProducePlan, Pagination, MyCenter, MyEmp, MyDialog, DetailList },
+  components: { MyDialog, DetailList, MyCreate, ProduceTask, MyDelivery, Pagination },
   filters: {
     judgeStatFilter(status) {
       const statusMap = {
@@ -182,14 +203,25 @@ export default {
         3: '结单'
       }
       return statusMap[status]
+    },
+    sourceTypeFilter(status) {
+      const statusMap = {
+        1: '生产任务单',
+        2: '无来源'
+      }
+      return statusMap[status]
+    },
+    processTypeFilter(status) {
+      const statusMap = {
+        1: '加工1'
+      }
+      return statusMap[status]
     }
   },
   data() {
     return {
-      // 物料需求计划回显
-      producePlanNumber: '',
-      // 物料需求计划控制
-      producecontrol: false,
+      // 部门数据
+      depts: [],
       // 审核传参
       reviewParms: {
         id: '',
@@ -200,14 +232,18 @@ export default {
       detailvisible: false,
       // 更多搜索条件问题
       visible2: false,
-      // 工作中心回显
-      workCenterId: '',
-      // 工作中心控制器
-      centercontrol: false,
-      // 负责人回显
-      handlePersonId: '',
-      // 负责人控制框
+      // 生产任务单回显
+      taskNumber: '',
+      // 生产任务单控制
+      producecontrol: false,
+      // 领料人回显
+      accessPersonId: '',
+      // 领料人控制
       stockControl: false,
+      // 发料人回显
+      providePersonId: '',
+      // 发料人控制框
+      createcontrol: false,
       // 批量操作
       moreaction: '',
       // 加载操作控制
@@ -220,7 +256,7 @@ export default {
       tableKey: 0,
       // 加载表格
       listLoading: true,
-      // 主生产任务列表查询加展示参数
+      // 领料列表查询加展示参数
       getemplist: {
         pageNum: 1,
         pageSize: 10,
@@ -251,7 +287,7 @@ export default {
     getlist() {
       // 物料需求计划列表数据
       this.listLoading = true
-      requireplanlist(this.getemplist).then(res => {
+      accesslist(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
@@ -260,20 +296,24 @@ export default {
           this.listLoading = false
         }, 0.5 * 100)
       })
+      // 部门列表数据
+      getdeptlist().then(res => {
+        if (res.data.ret === 200) {
+          this.depts = res.data.data.content
+        }
+      })
     },
     // 清空搜索条件
     restFilter() {
-      this.handlePersonId = ''
-      this.getemplist.handlePersonId = ''
-      this.workCenterId = ''
-      this.getemplist.workCenterId = ''
-      this.producePlanNumber = ''
-      this.getemplist.producePlanNumber = ''
+      this.accessPersonId = ''
+      this.getemplist.accessPersonId = ''
+      this.providePersonId = ''
+      this.getemplist.providePersonId = ''
     },
     // 搜索
     handleFilter() {
       this.getemplist.pagenum = 1
-      requireplanlist(this.getemplist).then(res => {
+      accesslist(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
@@ -283,32 +323,32 @@ export default {
         }
       })
     },
-    // 主生产计划focus事件
-    producechoose() {
-      this.producecontrol = true
-    },
-    // 回显主生产计划
-    allinfo(val) {
-      this.producePlanNumber = val.title
-      this.getemplist.producePlanNumber = val.id
-    },
-    // 工作中心focus事件
-    workcenterchoose() {
-      this.centercontrol = true
-    },
-    center(val) {
-      console.log(val)
-      this.workCenterId = val.workCenterName
-      this.getemplist.workCenterId = val.id
-    },
-    // 负责人focus事件
+    // 领料人focus事件
     handlechooseStock() {
       this.stockControl = true
     },
-    // 负责人回显
+    // 领料人回显
     stockName(val) {
-      this.handlePersonId = val.personName
-      this.getemplist.handlePersonId = val.id
+      this.accessPersonId = val.personName
+      this.getemplist.accessPersonId = val.id
+    },
+    // 发料人focus事件
+    handlechoose() {
+      this.createcontrol = true
+    },
+    // 发料人回显
+    createname(val) {
+      console.log(val)
+      this.providePersonId = val.personName
+      this.getemplist.providePersonId = val.id
+    },
+    // 生产任务单选择focus控制
+    handleAddSouce() {
+      this.producecontrol = true
+    },
+    moredata(val) {
+      console.log(val)
+      this.getemplist.taskNumber = val.taskNumber
     },
     // 修改操作
     handleEdit(row) {
@@ -316,6 +356,7 @@ export default {
       this.editVisible = true
       this.personalForm = Object.assign({}, row)
       this.personalForm.sourceType = String(row.sourceType)
+      this.personalForm.processType = String(row.processType)
     },
     // 修改组件修改成功后返回
     refreshlist(val) {
@@ -352,7 +393,7 @@ export default {
       }).then(() => {
         this.reviewParms.judgeStat = 2
         const parms = JSON.stringify(this.reviewParms)
-        updateproduceplan2(parms).then(res => {
+        updateaccess2(parms).then(res => {
           if (res.data.ret === 200) {
             this.$message({
               type: 'success',
@@ -365,7 +406,7 @@ export default {
         if (action === 'cancel') {
           this.reviewParms.judgeStat = 1
           const parms = JSON.stringify(this.reviewParms)
-          updateproduceplan2(parms).then(res => {
+          updateaccess2(parms).then(res => {
             if (res.data.ret === 200) {
               this.$message({
                 type: 'success',
@@ -391,7 +432,7 @@ export default {
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          deleterequireplan(ids).then(res => {
+          deleteaccess(ids).then(res => {
             if (res.data.ret === 200) {
               this.$notify({
                 title: '删除成功',
@@ -422,7 +463,7 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        deleterequireplan(row.id).then(res => {
+        deleteaccess(row.id).then(res => {
           if (res.data.ret === 200) {
             this.$notify({
               title: '删除成功',
@@ -447,14 +488,14 @@ export default {
     },
     // 新增数据
     handleAdd() {
-      this.$router.push('/RequirePlan/AddRequirePlan')
+      this.$router.push('/AccessMaterials/AddAccessMaterials')
     },
     // 导出
     handleExport() {
       this.downloadLoading = true
         import('@/vendor/Export2Excel').then(excel => {
           const tHeader = ['供应商编号', '供应商名称', '供应商简称', '供应商类别', '所在区域', '采购员', '供应商优质级别', '建档人', '建档日期']
-          const filterVal = ['id', 'RequirePlanName', 'RequirePlanShortName', 'typeName', 'regionName', 'buyerName', 'levelName', 'createName', 'createTime']
+          const filterVal = ['id', 'AccessMaterialsName', 'AccessMaterialsShortName', 'typeName', 'regionName', 'buyerName', 'levelName', 'createName', 'createTime']
           const data = this.formatJson(filterVal, this.list)
           excel.export_json_to_excel({
             header: tHeader,
@@ -472,35 +513,6 @@ export default {
     // 打印
     handlePrint() {
       console.log(456)
-    },
-    // 仓库列表focus事件触发
-    handlechooseRep() {
-      this.repositorycontrol = true
-    },
-    repositoryname(val) {
-      console.log(val)
-      this.enterRepositoryId = val.repositoryName
-      this.getemplist.enterRepositoryId = val.id
-    },
-    // 部门列表focus刷新
-    updatedept() {
-      this.getlist()
-    },
-    // 交货人foucs事件触发
-    handlechooseDelivery() {
-      this.deliverycontrol = true
-    },
-    deliveryName(val) {
-      this.deliveryPersonId = val.personName
-      this.getemplist.deliveryPersonId = val.id
-    },
-    // 验收人focus事件触发
-    handlechooseAccept() {
-      this.accetpcontrol = true
-    },
-    acceptName(val) {
-      this.acceptPersonId = val.personName
-      this.getemplist.acceptPersonId = val.id
     }
   }
 }

@@ -70,14 +70,19 @@
           border
           size="medium"
           style="width: 100%">
+          <el-editable-column type="selection" min-width="55" align="center"/>
           <el-editable-column label="序号" min-width="55" align="center" type="index"/>
           <el-editable-column prop="productCode" align="center" label="物品编号" min-width="150px"/>
           <el-editable-column prop="productName" align="center" label="物品名称" min-width="150px"/>
-          <el-editable-column prop="productType" align="center" label="规格" min-width="150px"/>
+          <el-editable-column prop="productType" align="center" label="规格" min-width="150px">
+            <template slot-scope="scope">
+              <p>{{ getTypeName(scope.row) }}</p>
+            </template>
+          </el-editable-column>
           <el-editable-column prop="unit" align="center" label="单位" min-width="150px"/>
           <el-editable-column prop="requireQuantity" align="center" label="毛需求数量" min-width="150px"/>
           <el-editable-column prop="planQuantity" align="center" label="应计划数量" min-width="150px"/>
-          <el-editable-column :edit-render="{name: 'ElSelect', options: materialsSource}" prop="materialsSource" align="center" label="物料来源" min-width="150px"/>
+          <el-editable-column :edit-render="{name: 'ElSelect', options: materialsSource, type: 'visible'}" prop="materialsSource" align="center" label="物料来源" min-width="150px"/>
         </el-editable>
       </div>
     </el-card>
@@ -102,6 +107,7 @@
 </template>
 
 <script>
+import { searchEmpCategory2 } from '@/api/Product'
 export default {
   filters: {
     statfilter(status) {
@@ -148,6 +154,15 @@ export default {
     }
   },
   methods: {
+    // 获取规格
+    getTypeName(row) {
+      searchEmpCategory2(row.typeId).then(res => {
+        if (res.data.ret === 200) {
+          row.productType = res.data.data.content.list[0].categoryName
+        }
+      })
+      return row.productType
+    },
     handlecancel() {
       this.editVisible = false
     }
