@@ -1,5 +1,5 @@
 <template>
-  <el-dialog :visible.sync="employeeVisible" :control="control" :close-on-press-escape="false" top="10px" title="选择员工" append-to-body @close="$emit('update:control', false)">
+  <el-dialog :visible.sync="employeeVisible" :deliverycontrol="deliverycontrol" :close-on-press-escape="false" top="10px" title="选择员工" append-to-body @close="$emit('update:deliverycontrol', false)">
     <div class="filter-container">
       <el-input v-model="getemplist.employeename" :placeholder="$t('NewEmployeeInformation.employeename')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
       <el-input v-model="getemplist.jobnumber" :placeholder="$t('NewEmployeeInformation.jobnumber2')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
@@ -33,8 +33,11 @@
             :value="item.id"/>
         </el-select>
         <el-select v-model="getemplist.postid" :value="getemplist.postid" :placeholder="$t('NewEmployeeInformation.postid2')" class="filter-item" clearable style="width: 40%;float: left;margin-top: 10px;margin-left: 20px">
-          <el-option label="xxx" value="1"/>
-          <el-option label="xxx" value="2"/>
+          <el-option
+            v-for="(item, index) in jobs"
+            :key="index"
+            :label="item.categoryName"
+            :value="item.id"/>
         </el-select>
         <el-select v-model="getemplist.deptid" :placeholder="$t('NewEmployeeInformation.deptid2')" class="filter-item" clearable style="width: 40%;float: right;margin-top: 10px;margin-right: 20px">
           <el-option
@@ -104,16 +107,14 @@
         </template>
       </el-table-column>
     </el-table>
-    <pagination v-show="total>0" :total="total" :page.sync="getemplist.pagenum" :limit.sync="getemplist.pagesize" style="padding: 0" @pagination="gitemplist" />
-    <span slot="footer" class="dialog-footer">
-      <el-button v-waves class="filter-item" type="success" style="width: 86px;margin-top: 20px" @click="handleConfirm">确认添加</el-button>
-    </span>
+    <el-button v-waves class="filter-item" type="success" style="width: 100px;float: left;margin-top: 10px" @click="handleConfirm">确认添加</el-button>
+    <pagination v-show="total>0" :total="total" :page.sync="getemplist.pagenum" :limit.sync="getemplist.pagesize" @pagination="gitemplist" />
   </el-dialog>
 </template>
 
 <script>
 import { regionlist, searchRepository } from '@/api/public'
-import { getemplist, getdeptlist } from '@/api/EmployeeInformation'
+import { getemplist, getdeptlist, searchEmpCategory } from '@/api/EmployeeInformation'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
 export default {
@@ -129,14 +130,22 @@ export default {
     }
   },
   props: {
-    control: {
+    deliverycontrol: {
       type: Boolean,
       default: false
     }
   },
   data() {
     return {
-      // 中转数据
+      // 职位搜索时参数
+      jobCat: {
+        type: 2,
+        pagenum: 1,
+        pagesize: 9999
+      },
+      // 职位列表
+      jobs: [],
+      // 转化数据
       choosedata: '',
       // 仓库管理员回显数据
       managerPeople: '',
@@ -180,16 +189,14 @@ export default {
       // 门店数据
       repositories: [],
       // 员工选择框控制
-      employeeVisible: this.control,
+      employeeVisible: this.deliverycontrol,
       // 小区经理选择框控制
       regionManagerVisible: false
     }
   },
   watch: {
-    control() {
-      this.employeeVisible = this.control
-      console.log(this.control)
-      this.gitemplist()
+    deliverycontrol() {
+      this.employeeVisible = this.deliverycontrol
     }
   },
   created() {
@@ -220,6 +227,14 @@ export default {
       regionlist().then(res => {
         if (res.data.ret === 200) {
           this.regions2 = this.tranKTree(res.data.data.content)
+        }
+      })
+      // 职位列表数据
+      searchEmpCategory(this.jobCat).then(res => {
+        if (res.data.ret === 200) {
+          this.jobs = res.data.data.content.list
+        } else {
+          console.log('职位列表出错')
         }
       })
     },
@@ -283,7 +298,7 @@ export default {
     // 确认添加数据
     handleConfirm() {
       this.employeeVisible = false
-      this.$emit('chuli', this.choosedata)
+      this.$emit('deliveryName', this.choosedata)
     }
     // 仓库管理员选择结束
   }

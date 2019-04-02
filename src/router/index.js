@@ -1112,6 +1112,49 @@ export const asyncRouterMap = [
     ]
   },
   {
+    path: '/StockRequire',
+    component: Layout,
+    redirect: 'noredirect',
+    meta: {
+      icon: 'caigouxuqiu',
+      type: 2
+    },
+    children: [
+      {
+        path: 'index',
+        component: () => import('@/views/StockRequire/index'),
+        name: 'StockRequire',
+        meta: { title: 'StockRequire', noCache: true }
+      }
+    ]
+  },
+  {
+    path: '/StockPlan',
+    component: Layout,
+    redirect: 'noredirect',
+    name: 'StockPlan',
+    alwaysShow: true,
+    meta: {
+      title: 'StockPlan',
+      icon: 'caigoujihua',
+      type: 2
+    },
+    children: [
+      {
+        path: 'AddStockPlan',
+        component: () => import('@/views/StockPlan/AddStockPlan'),
+        name: 'AddStockPlan',
+        meta: { title: 'AddStockPlan', noCache: false }
+      },
+      {
+        path: 'StockPlanList',
+        component: () => import('@/views/StockPlan/StockPlanList'),
+        name: 'StockPlanList',
+        meta: { title: 'StockPlanList', noCache: true }
+      }
+    ]
+  },
+  {
     path: '/StockCategory',
     component: Layout,
     redirect: 'noredirect',

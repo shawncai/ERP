@@ -220,3 +220,18 @@ export function getRegion(query) {
     data: params
   })
 }
+
+// 查询商品供应商
+export function productlist(query) {
+  var params = new URLSearchParams()
+  if (query !== '' && query !== null && query !== undefined) {
+    params.append('code', query) // 你要传给后台的参数值 key/value
+  }
+  params.append('pagenum', 1) // 你要传给后台的参数值 key/value
+  params.append('pagesize', 99999) // 你要传给后台的参数值 key/value
+  return request({
+    url: '/erp/product/productlist',
+    method: 'post',
+    data: params
+  })
+}

@@ -5,17 +5,17 @@
         <el-form ref="getemplist" :model="getemplist" label-width="100px" style="margin-top: -9px">
           <el-col :span="5">
             <el-form-item label="生产主题" label-width="100px">
-              <el-input v-model="getemplist.title" :placeholder="$t('RequirePlan.title')" clearable @keyup.enter.native="handleFilter"/>
+              <el-input v-model="getemplist.title" :placeholder="$t('RequirePlan.title')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
           <el-col :span="5" style="margin-left: 10px">
             <el-form-item label="单据编号">
-              <el-input v-model="getemplist.planNumber" placeholder="单据编号" clearable @keyup.enter.native="handleFilter"/>
+              <el-input v-model="getemplist.planNumber" placeholder="单据编号" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
           <el-col :span="5" style="margin-left: 10px">
             <el-form-item label="负责人">
-              <el-input v-model="handlePersonId" :placeholder="$t('RequirePlan.handlePersonId')" clearable @keyup.enter.native="handleFilter" @focus="handlechooseStock"/>
+              <el-input v-model="handlePersonId" :placeholder="$t('RequirePlan.handlePersonId')" class="filter-item" clearable @keyup.enter.native="handleFilter" @focus="handlechooseStock"/>
             </el-form-item>
             <my-emp :control.sync="stockControl" @stockName="stockName"/>
           </el-col>

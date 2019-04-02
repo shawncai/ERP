@@ -267,6 +267,7 @@ export default {
     // 仓库回显
     repositoryname(val) {
       console.log(val)
+      this.$refs.editable.clear()
       this.produceRepositoryId = val.repositoryName
       this.personalForm.produceRepositoryId = val.id
     },

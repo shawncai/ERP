@@ -33,8 +33,11 @@
             :value="item.id"/>
         </el-select>
         <el-select v-model="getemplist.postid" :value="getemplist.postid" :placeholder="$t('NewEmployeeInformation.postid2')" class="filter-item" clearable style="width: 40%;float: left;margin-top: 10px;margin-left: 20px">
-          <el-option label="xxx" value="1"/>
-          <el-option label="xxx" value="2"/>
+          <el-option
+            v-for="(item, index) in jobs"
+            :key="index"
+            :label="item.categoryName"
+            :value="item.id"/>
         </el-select>
         <el-select v-model="getemplist.deptid" :placeholder="$t('NewEmployeeInformation.deptid2')" class="filter-item" clearable style="width: 40%;float: right;margin-top: 10px;margin-right: 20px">
           <el-option
@@ -104,16 +107,14 @@
         </template>
       </el-table-column>
     </el-table>
-    <pagination v-show="total>0" :total="total" :page.sync="getemplist.pagenum" :limit.sync="getemplist.pagesize" style="padding: 0" @pagination="gitemplist" />
-    <span slot="footer" class="dialog-footer">
-      <el-button v-waves class="filter-item" type="success" style="width: 86px;margin-top: 20px" @click="handleConfirm">确认添加</el-button>
-    </span>
+    <el-button v-waves class="filter-item" type="success" style="width: 100px;float: left;margin-top: 10px" @click="handleConfirm">确认添加</el-button>
+    <pagination v-show="total>0" :total="total" :page.sync="getemplist.pagenum" :limit.sync="getemplist.pagesize" @pagination="gitemplist" />
   </el-dialog>
 </template>
 
 <script>
 import { regionlist, searchRepository } from '@/api/public'
-import { getemplist, getdeptlist } from '@/api/EmployeeInformation'
+import { getemplist, getdeptlist, searchEmpCategory } from '@/api/EmployeeInformation'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
 export default {
@@ -136,7 +137,15 @@ export default {
   },
   data() {
     return {
-      // 中转数据
+      // 职位搜索时参数
+      jobCat: {
+        type: 2,
+        pagenum: 1,
+        pagesize: 9999
+      },
+      // 职位列表
+      jobs: [],
+      // 转化数据
       choosedata: '',
       // 仓库管理员回显数据
       managerPeople: '',
@@ -188,8 +197,6 @@ export default {
   watch: {
     control() {
       this.employeeVisible = this.control
-      console.log(this.control)
-      this.gitemplist()
     }
   },
   created() {
@@ -222,6 +229,14 @@ export default {
           this.regions2 = this.tranKTree(res.data.data.content)
         }
       })
+      // 职位列表数据
+      searchEmpCategory(this.jobCat).then(res => {
+        if (res.data.ret === 200) {
+          this.jobs = res.data.data.content.list
+        } else {
+          console.log('职位列表出错')
+        }
+      })
     },
     // 转化数据方法
     tranKTree(arr) {
@@ -239,6 +254,12 @@ export default {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
+        } else {
+          this.$notify.error({
+            title: '错误',
+            message: '出错了',
+            offset: 100
+          })
         }
       })
     },
@@ -283,7 +304,7 @@ export default {
     // 确认添加数据
     handleConfirm() {
       this.employeeVisible = false
-      this.$emit('chuli', this.choosedata)
+      this.$emit('stockName', this.choosedata)
     }
     // 仓库管理员选择结束
   }

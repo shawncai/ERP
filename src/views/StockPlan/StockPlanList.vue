@@ -4,18 +4,18 @@
       <el-row>
         <el-form ref="getemplist" :model="getemplist" label-width="100px" style="margin-top: -9px">
           <el-col :span="5">
-            <el-form-item label="采购申请单主题" label-width="100px">
-              <el-input v-model="getemplist.title" :placeholder="$t('StockApply.title')" clearable @keyup.enter.native="handleFilter"/>
+            <el-form-item label="采购计划主题" label-width="100px">
+              <el-input v-model="getemplist.title" :placeholder="$t('StockPlan.title')" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
           <el-col :span="5" style="margin-left: 10px">
-            <el-form-item label="单据编号">
-              <el-input v-model="getemplist.applyNumber" placeholder="单据编号" clearable @keyup.enter.native="handleFilter"/>
+            <el-form-item label="采购计划编号">
+              <el-input v-model="getemplist.planNumber" placeholder="单据编号" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
           <el-col :span="5" style="margin-left: 10px">
-            <el-form-item label="申请人">
-              <el-input v-model="applyPersonId" :placeholder="$t('StockApply.applyPersonId')" clearable @keyup.enter.native="handleFilter" @focus="handlechooseStock"/>
+            <el-form-item label="计划员">
+              <el-input v-model="planPersonId" :placeholder="$t('StockPlan.planPersonId')" clearable @keyup.enter.native="handleFilter" @focus="handlechooseStock"/>
             </el-form-item>
             <my-emp :control.sync="stockControl" @stockName="stockName"/>
           </el-col>
@@ -26,27 +26,20 @@
               placement="bottom"
               width="500"
               trigger="manual">
-              <el-select v-model="getemplist.applyDeptId" placeholder="申请部门" clearable style="width: 40%;float: left;margin-left: 20px">
+              <el-select v-model="getemplist.planDeptId" placeholder="部门" clearable style="width: 40%;float: left;margin-left: 20px">
                 <el-option
                   v-for="(item, index) in depts"
                   :key="index"
                   :value="item.id"
                   :label="item.deptName"/>
               </el-select>
-              <el-select v-model="getemplist.stockType" style="width: 40%;float: right;margin-right: 20px" clearable @focus="updatecountry">
-                <el-option
-                  v-for="(item, index) in types"
-                  :key="index"
-                  :label="item.categoryName"
-                  :value="item.id"/>
-              </el-select>
-              <el-select v-model="getemplist.judgeStat" :value="getemplist.judgeStat" placeholder="审批状态" clearable style="width: 40%;float: left;margin-left: 20px;margin-top: 20px">
+              <el-select v-model="getemplist.judgeStat" :value="getemplist.judgeStat" placeholder="审批状态" clearable style="width: 40%;float: right;margin-right: 20px">
                 <el-option value="0" label="未审核"/>
                 <el-option value="1" label="审核中"/>
                 <el-option value="2" label="审核通过"/>
                 <el-option value="3" label="审核不通过"/>
               </el-select>
-              <el-select v-model="getemplist.receiptStat" :value="getemplist.receiptStat" placeholder="单据状态" clearable style="width: 40%;float: right;margin-right: 20px;margin-top: 20px">
+              <el-select v-model="getemplist.receiptStat" :value="getemplist.receiptStat" placeholder="单据状态" clearable style="width: 40%;float: left;margin-left: 20px;margin-top: 20px">
                 <el-option value="1" label="制单"/>
                 <el-option value="2" label="执行"/>
                 <el-option value="3" label="结单"/>
@@ -56,8 +49,8 @@
                 type="daterange"
                 range-separator="-"
                 unlink-panels
-                start-placeholder="Start"
-                end-placeholder="End"
+                start-placeholder="申请时间"
+                end-placeholder="申请时间"
                 value-format="yyyy-MM-dd"
                 style="margin-top: 20px;margin-left: 20px"/>
               <div class="seachbutton" style="width: 100%;float: right;margin-top: 20px">
@@ -109,13 +102,28 @@
           align="center"/>
         <el-table-column :label="$t('public.id')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span class="link-type" @click="handleDetail(scope.row)">{{ scope.row.applyNumber }}</span>
+            <span class="link-type" @click="handleDetail(scope.row)">{{ scope.row.planNumber }}</span>
           </template>
           <detail-list :detailcontrol.sync="detailvisible" :detaildata.sync="personalForm"/>
         </el-table-column>
-        <el-table-column :label="$t('StockApply.title')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('StockPlan.title')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.title }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column :label="$t('StockPlan.stockPersonId')" :resizable="false" align="center" min-width="150">
+          <template slot-scope="scope">
+            <span>{{ scope.row.planPersonName }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column :label="$t('StockPlan.allMoney')" :resizable="false" align="center" min-width="150">
+          <template slot-scope="scope">
+            <span>{{ scope.row.allMoney }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column :label="$t('StockPlan.planDate')" :resizable="false" align="center" min-width="150">
+          <template slot-scope="scope">
+            <span>{{ scope.row.planDate }}</span>
           </template>
         </el-table-column>
         <el-table-column :label="$t('StockApply.stockType')" :resizable="false" align="center" min-width="150">
@@ -123,24 +131,9 @@
             <span>{{ scope.row.stockType | stockTypeFilter }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('StockApply.sourceType')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('StockPlan.sourceType')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.sourceType | sourceTypeFilter }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column :label="$t('StockApply.applyPersonId')" :resizable="false" align="center" min-width="150">
-          <template slot-scope="scope">
-            <span>{{ scope.row.applyPersonName }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column :label="$t('StockApply.applyDeptId')" :resizable="false" align="center" min-width="150">
-          <template slot-scope="scope">
-            <span>{{ scope.row.applyDeptName }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column :label="$t('StockApply.applyDate')" :resizable="false" align="center" min-width="150">
-          <template slot-scope="scope">
-            <span>{{ scope.row.applyDate }}</span>
           </template>
         </el-table-column>
         <el-table-column :label="$t('public.judgeStat')" :resizable="false" prop="judgeStat" align="center" min-width="150">
@@ -171,7 +164,7 @@
 </template>
 
 <script>
-import { stocapplylist, deletestockapply, updatestockapply2 } from '@/api/StockApply'
+import { stockplanlist, deletestockplan, updatestockplan2 } from '@/api/StockPlan'
 import { getdeptlist } from '@/api/BasicSettings'
 import { searchStockCategory } from '@/api/StockCategory'
 import waves from '@/directive/waves' // Waves directive
@@ -181,7 +174,7 @@ import DetailList from './components/DetailList'
 import MyDialog from './components/MyDialog'
 
 export default {
-  name: 'StockApplyList',
+  name: 'StockPlanList',
   directives: { waves },
   components: { MyDialog, DetailList, MyEmp, Pagination },
   filters: {
@@ -210,7 +203,9 @@ export default {
     },
     sourceTypeFilter(status) {
       const statusMap = {
-        1: '无来源'
+        1: '采购申请',
+        2: '采购需求',
+        3: '无来源'
       }
       return statusMap[status]
     }
@@ -236,9 +231,9 @@ export default {
       detailvisible: false,
       // 更多搜索条件问题
       visible2: false,
-      // 申请人回显
-      applyPersonId: '',
-      // 申请人控制框
+      // 计划人回显
+      planPersonId: '',
+      // 计划人控制框
       stockControl: false,
       // 批量操作
       moreaction: '',
@@ -287,7 +282,7 @@ export default {
     getlist() {
       // 物料需求计划列表数据
       this.listLoading = true
-      stocapplylist(this.getemplist).then(res => {
+      stockplanlist(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
@@ -311,13 +306,13 @@ export default {
     },
     // 清空搜索条件
     restFilter() {
-      this.applyPersonId = ''
-      this.getemplist.applyPersonId = ''
+      this.planPersonId = ''
+      this.getemplist.planPersonId = ''
     },
     // 搜索
     handleFilter() {
       this.getemplist.pageNum = 1
-      stocapplylist(this.getemplist).then(res => {
+      stockplanlist(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
@@ -327,14 +322,14 @@ export default {
         }
       })
     },
-    // 申请人focus事件
+    // 计划人focus事件
     handlechooseStock() {
       this.stockControl = true
     },
-    // 申请人回显
+    // 计划人回显
     stockName(val) {
-      this.applyPersonId = val.personName
-      this.getemplist.applyPersonId = val.id
+      this.planPersonId = val.personName
+      this.getemplist.planPersonId = val.id
     },
     // 修改操作
     handleEdit(row) {
@@ -377,7 +372,7 @@ export default {
       }).then(() => {
         this.reviewParms.judgeStat = 2
         const parms = JSON.stringify(this.reviewParms)
-        updatestockapply2(parms).then(res => {
+        updatestockplan2(parms).then(res => {
           if (res.data.ret === 200) {
             this.$message({
               type: 'success',
@@ -390,7 +385,7 @@ export default {
         if (action === 'cancel') {
           this.reviewParms.judgeStat = 1
           const parms = JSON.stringify(this.reviewParms)
-          updatestockapply2(parms).then(res => {
+          updatestockplan2(parms).then(res => {
             if (res.data.ret === 200) {
               this.$message({
                 type: 'success',
@@ -416,7 +411,7 @@ export default {
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          deletestockapply(ids).then(res => {
+          deletestockplan(ids).then(res => {
             if (res.data.ret === 200) {
               this.$notify({
                 title: '删除成功',
@@ -447,7 +442,7 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        deletestockapply(row.id).then(res => {
+        deletestockplan(row.id).then(res => {
           if (res.data.ret === 200) {
             this.$notify({
               title: '删除成功',
@@ -472,14 +467,14 @@ export default {
     },
     // 新增数据
     handleAdd() {
-      this.$router.push('/StockApply/AddStockApply')
+      this.$router.push('/StockPlan/AddStockPlan')
     },
     // 导出
     handleExport() {
       this.downloadLoading = true
         import('@/vendor/Export2Excel').then(excel => {
           const tHeader = ['供应商编号', '供应商名称', '供应商简称', '供应商类别', '所在区域', '采购员', '供应商优质级别', '建档人', '建档日期']
-          const filterVal = ['id', 'StockApplyName', 'StockApplyShortName', 'typeName', 'regionName', 'buyerName', 'levelName', 'createName', 'createTime']
+          const filterVal = ['id', 'StockPlanName', 'StockPlanShortName', 'typeName', 'regionName', 'buyerName', 'levelName', 'createName', 'createTime']
           const data = this.formatJson(filterVal, this.list)
           excel.export_json_to_excel({
             header: tHeader,

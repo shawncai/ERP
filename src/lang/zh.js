@@ -140,7 +140,14 @@ export default {
     StockCategoryList: '分类属性列表',
     StockApply: '采购申请',
     AddStockApply: '新建采购申请',
-    StockApplyList: '采购申请列表'
+    StockApplyList: '采购申请列表',
+    StockRequire: '采购需求',
+    StockPlan: '采购计划',
+    AddStockPlan: '新建采购计划',
+    StockPlanList: '采购计划列表',
+    StockInquiry: '采购询价',
+    AddStockInquiry: '新建采购询价',
+    StockInquiryList: '采购询价列表'
   },
   navbar: {
     logOut: '退出登录',
@@ -859,6 +866,33 @@ export default {
     sourceType: '源单类型',
     applyDate: '申请日期',
     applyNumber: '单据编号'
+  },
+  StockRequire: {
+    categoryId: '物料分类',
+    productName: '物品名称',
+    isPlan: '是否已生成采购计划',
+    materialsRequireNumber: '物料需求编号',
+    productCode: '物料编码',
+    productType: '规格',
+    color: '颜色',
+    unit: '单位',
+    requireQuantity: '需求量',
+    inventoryQuantity: '可用库存量',
+    shouldStockQuantity: '需采购数量',
+    stockAdvanceday: '采购提前期',
+    requireDate: '需求日期'
+  },
+  StockPlan: {
+    title: '采购计划主题',
+    stockType: '采购类别',
+    planPersonId: '计划员',
+    stockPersonId: '采购员',
+    stockDeptId: '采购部门',
+    sourceType: '源单类型',
+    planDate: '计划日期',
+    heji1: '合计金额',
+    heji2: '合计数量',
+    allMoney: '预控金额'
   },
   public: {
     modifyDate: '最后修改日期',
