@@ -1155,6 +1155,84 @@ export const asyncRouterMap = [
     ]
   },
   {
+    path: '/StockInquiry',
+    component: Layout,
+    redirect: 'noredirect',
+    name: 'StockInquiry',
+    alwaysShow: true,
+    meta: {
+      title: 'StockInquiry',
+      icon: 'xunjia',
+      type: 2
+    },
+    children: [
+      {
+        path: 'AddStockInquiry',
+        component: () => import('@/views/StockInquiry/AddStockInquiry'),
+        name: 'AddStockInquiry',
+        meta: { title: 'AddStockInquiry', noCache: false }
+      },
+      {
+        path: 'StockInquiryList',
+        component: () => import('@/views/StockInquiry/StockInquiryList'),
+        name: 'StockInquiryList',
+        meta: { title: 'StockInquiryList', noCache: true }
+      }
+    ]
+  },
+  {
+    path: '/StockContract',
+    component: Layout,
+    redirect: 'noredirect',
+    name: 'StockContract',
+    alwaysShow: true,
+    meta: {
+      title: 'StockContract',
+      icon: 'caigouhetong',
+      type: 2
+    },
+    children: [
+      {
+        path: 'AddStockContract',
+        component: () => import('@/views/StockContract/AddStockContract'),
+        name: 'AddStockContract',
+        meta: { title: 'AddStockContract', noCache: false }
+      },
+      {
+        path: 'StockContractList',
+        component: () => import('@/views/StockContract/StockContractList'),
+        name: 'StockContractList',
+        meta: { title: 'StockContractList', noCache: true }
+      }
+    ]
+  },
+  {
+    path: '/StockOrder',
+    component: Layout,
+    redirect: 'noredirect',
+    name: 'StockOrder',
+    alwaysShow: true,
+    meta: {
+      title: 'StockOrder',
+      icon: 'caigoudingdan',
+      type: 2
+    },
+    children: [
+      {
+        path: 'AddStockOrder',
+        component: () => import('@/views/StockOrder/AddStockOrder'),
+        name: 'AddStockOrder',
+        meta: { title: 'AddStockOrder', noCache: false }
+      },
+      {
+        path: 'StockOrderList',
+        component: () => import('@/views/StockOrder/StockOrderList'),
+        name: 'StockOrderList',
+        meta: { title: 'StockOrderList', noCache: true }
+      }
+    ]
+  },
+  {
     path: '/StockCategory',
     component: Layout,
     redirect: 'noredirect',

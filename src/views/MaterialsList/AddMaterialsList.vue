@@ -119,7 +119,7 @@
 </template>
 
 <script>
-import { addmaterials } from '@/api/MaterialsList'
+import { addmaterials, isExist } from '@/api/MaterialsList'
 import MyDetail from './components/MyDetail'
 import MyMater from './components/MyMater'
 export default {
@@ -170,11 +170,22 @@ export default {
       this.matercontrol = true
     },
     mater(val) {
-      this.personalForm.productName = val.productName
-      this.personalForm.unit = val.purMeasu
-      this.personalForm.productTypeId = val.typeId
-      this.productTypeId = val.productType
-      this.personalForm.productCode = val.code
+      isExist(val.code).then(res => {
+        if (res.data.data.content === false) {
+          this.personalForm.productName = val.productName
+          this.personalForm.unit = val.purMeasu
+          this.personalForm.productTypeId = val.typeId
+          this.productTypeId = val.productType
+          this.personalForm.productCode = val.code
+        } else if (res.data.data.content === true) {
+          this.$notify.error({
+            title: '错误',
+            message: '物料已添加',
+            offset: 100
+          })
+          return false
+        }
+      })
     },
     // 新增物料单明细
     handleAddproduct() {

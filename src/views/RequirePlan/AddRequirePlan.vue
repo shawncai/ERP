@@ -83,7 +83,11 @@
             </el-editable-column>
             <el-editable-column prop="unit" align="center" label="单位" min-width="150px"/>
             <el-editable-column prop="requireQuantity" align="center" label="毛需求数量" min-width="150px"/>
-            <el-editable-column prop="planQuantity" align="center" label="应计划数量" min-width="150px"/>
+            <el-editable-column prop="planQuantity" align="center" label="应计划数量" min-width="150px">
+              <template slot-scope="scope">
+                <p>{{ getPlanQuantity(scope.row) }}</p>
+              </template>
+            </el-editable-column>
             <el-editable-column :edit-render="{name: 'ElSelect', options: materialsSource, type: 'visible'}" prop="materialsSource" align="center" label="物料来源" min-width="150px"/>
           </el-editable>
         </div>
@@ -100,6 +104,7 @@
 <script>
 import { addrequireplan, getBomByPlanNumber } from '@/api/RequirePlan'
 import { searchEmpCategory2 } from '@/api/Product'
+import { searchMea } from '@/api/public'
 import MyCenter from './components/MyCenter'
 import MyEmp from './components/MyEmp'
 import MyDetail from './components/MyDetail'
@@ -168,6 +173,16 @@ export default {
     }
   },
   methods: {
+    // 应计划数量取整
+    getPlanQuantity(row) {
+      console.log(row)
+      searchMea(row.unit).then(res => {
+        if (res.data.data.content[0].type === 1) {
+          row.planQuantity = Math.ceil(row.planQuantity)
+        }
+      })
+      return row.planQuantity
+    },
     // 获取规格
     getTypeName(row) {
       searchEmpCategory2(row.typeId).then(res => {

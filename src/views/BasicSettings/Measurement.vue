@@ -6,6 +6,7 @@
       <el-select v-model="getemplist.type" :placeholder="$t('BasicSettings.type2')" class="filter-item" clearable >
         <el-option value="1" label="数量" />
         <el-option value="2" label="体积" />
+        <el-option value="3" label="重量" />
       </el-select>
       <el-select v-model="getemplist.iseffective" :placeholder="$t('BasicSettings.iseffective3')" class="filter-item" clearable >
         <el-option value="1" label="启用" />

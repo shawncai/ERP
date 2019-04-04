@@ -29,7 +29,7 @@ export default {
     position: absolute;
     right: 0;
     left: auto;
-    height: 900px;
+    height: auto;
   }
   .app-main >>> .el-dialog__header{
     background: #fff;

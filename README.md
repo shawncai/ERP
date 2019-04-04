@@ -1,7 +1,7 @@
 # ERP  
-[![CSDN](https://img.shields.io/badge/vue-element-brightgreen.svg)](https://blog.csdn.net/mouday)
-[![CSDN](https://img.shields.io/badge/NWOW-PC-red.svg)](https://blog.csdn.net/mouday)
-[![CSDN](https://img.shields.io/badge/Shawnzhang-JS-blue.svg)](https://blog.csdn.net/mouday)
+[![CSDN](https://img.shields.io/badge/vue-element-brightgreen.svg)](/)
+[![CSDN](https://img.shields.io/badge/NWOW-PC-red.svg)](/)
+[![CSDN](https://img.shields.io/badge/Shawnzhang-JS-blue.svg)](/)
 [![MIT Licence](https://badges.frapsoft.com/os/mit/mit.svg?v=103)](https://opensource.org/licenses/mit-license.php)
 ## work for nwow  
 ###  重大操作  
@@ -190,6 +190,34 @@ const EnterDetail = [{basicQuantity: 0,
         }
         return elem
       })
+```  
+######  循环中使用异步操作可以换个形式  
+```js
+async handleConfirm() {
+      const applydata = this.choosedata.stockApplyDetailVos
+      const applyDetail = applydata.map(function(item) {
+        return {
+          productCode: item.productCode,
+          price: ''
+        }
+      })
+      
+      // 通过Promise.all把所有循环中的异步接口数据加载过来，再通过async/await把数据加载完成
+      const list = await Promise.all(applydata.map(function(item) {
+        return productlist(item.productCode)
+      }))
+      
+      // 在外部把数据加到数组里面去
+      for (let i = 0; i < applyDetail.length; i++) {
+        for (let j = 0; j < list.length; j++) {
+          if (applyDetail[i].productCode === list[j].data.data.content.list[0].code) {
+            applyDetail[i].price = list[j].data.data.content.list[0].purchasePrice
+          }
+        }
+      }
+      console.log(applydata[0].price)
+      this.$emit('apply', applyDetail)
+    }
 ```
 ###### 完成进度  
 ```text

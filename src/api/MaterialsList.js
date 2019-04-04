@@ -76,3 +76,16 @@ export function deletematerials(query) {
     data: params
   })
 }
+
+// 判断重复
+export function isExist(query) {
+  var params = new URLSearchParams()
+  if (query !== '' && query !== null && query !== undefined) {
+    params.append('productCode', query) // 你要传给后台的参数值 key/value
+  }
+  return request({
+    url: '/erp/materialslist/isExist',
+    method: 'post',
+    data: params
+  })
+}

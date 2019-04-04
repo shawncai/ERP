@@ -267,7 +267,7 @@ export default {
           productName: item.productName,
           productType: item.productType,
           unit: item.unit,
-          produceQuantity: item.requireQuantity,
+          produceQuantity: item.planQuantity,
           sourceNumber: num,
           bomNumber: '',
           processName: '',

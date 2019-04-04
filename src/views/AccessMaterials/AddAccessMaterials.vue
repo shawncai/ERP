@@ -121,9 +121,13 @@
             </el-editable-column>
             <el-editable-column prop="unit" align="center" label="单位" min-width="150px"/>
             <el-editable-column :edit-render="{name: 'ElSelect', options: workCenterIds, type: 'visible'}" prop="workCenterId" align="center" label="工作中心" min-width="150px"/>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="requireQuantity" align="center" label="需求数量" min-width="150px"/>
+            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="requireQuantity" align="center" label="需求数量" min-width="150px">
+              <template slot-scope="scope">
+                <p>{{ getPlanQuantity(scope.row) }}</p>
+              </template>
+            </el-editable-column>
             <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="accessQuantity" align="center" label="领料数量" min-width="150px"/>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="retreatQuantity" align="center" label="已退料数量" min-width="150px"/>
+            <el-editable-column prop="retreatQuantity" align="center" label="已退料数量" min-width="150px"/>
             <el-editable-column prop="price" align="center" label="单价" min-width="150px"/>
             <el-editable-column prop="totalMoney" align="center" label="金额" min-width="150px">
               <template slot-scope="scope">
@@ -144,7 +148,7 @@
 
 <script>
 import { getDetailByTaskNumber, addaccessmaterials } from '@/api/AccessMaterials'
-import { materialslist, searchprocessFile, searchworkCenter, batchlist, getlocation } from '@/api/public'
+import { materialslist, searchprocessFile, searchworkCenter, batchlist, getlocation, searchMea } from '@/api/public'
 import { searchEmpCategory2 } from '@/api/Product'
 import { getdeptlist } from '@/api/BasicSettings'
 import MyDetail from './components/MyDetail'
@@ -241,6 +245,16 @@ export default {
     this.chooseType()
   },
   methods: {
+    // 需求数量取整
+    getPlanQuantity(row) {
+      console.log(row)
+      searchMea(row.unit).then(res => {
+        if (res.data.data.content[0].type === 1) {
+          row.requireQuantity = Math.ceil(row.requireQuantity)
+        }
+      })
+      return row.requireQuantity
+    },
     // 总金额计算
     getSize(quan, pric, row) {
       row.totalMoney = quan * pric
