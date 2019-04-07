@@ -1233,6 +1233,52 @@ export const asyncRouterMap = [
     ]
   },
   {
+    path: '/StockArrival',
+    component: Layout,
+    redirect: 'noredirect',
+    name: 'StockArrival',
+    alwaysShow: true,
+    meta: {
+      title: 'StockArrival',
+      icon: 'caigoudaohuo',
+      type: 2
+    },
+    children: [
+      {
+        path: 'AddStockArrival',
+        component: () => import('@/views/StockArrival/AddStockArrival'),
+        name: 'AddStockArrival',
+        meta: { title: 'AddStockArrival', noCache: false }
+      },
+      {
+        path: 'StockArrivalList',
+        component: () => import('@/views/StockArrival/StockArrivalList'),
+        name: 'StockArrivalList',
+        meta: { title: 'StockArrivalList', noCache: true }
+      }
+    ]
+  },
+  {
+    path: '/StockRetreat',
+    component: Layout,
+    redirect: 'noredirect',
+    name: 'StockRetreat',
+    alwaysShow: true,
+    meta: {
+      title: 'StockRetreat',
+      icon: 'caigoutuihuo',
+      type: 2
+    },
+    children: [
+      {
+        path: 'AddStockRetreat',
+        component: () => import('@/views/StockRetreat/AddStockRetreat'),
+        name: 'AddStockRetreat',
+        meta: { title: 'AddStockRetreat', noCache: false }
+      }
+    ]
+  },
+  {
     path: '/StockCategory',
     component: Layout,
     redirect: 'noredirect',

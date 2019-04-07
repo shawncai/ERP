@@ -268,15 +268,26 @@ export default {
           type: item.typeId,
           unit: item.produceMeasu,
           color: item.color,
-          plannedQuantity: 0,
-          planDeliveryDate: '',
-          applicationReason: '',
-          sourceNumber: '',
-          sourceSerialNumber: '',
+          stockQuantity: 0,
+          arrivalQuantity: 0,
+          giveDate: 0,
           price: item.purchasePrice,
-          includeTaxPrice: item.purchasePrice,
+          includeTaxPrice: 0,
+          taxRate: 0,
+          money: 0,
+          includeTaxMoney: 0,
+          taxMoney: 0,
+          discountRate: 0,
+          discountMoney: 0,
           remark: 0,
-          orderedQuantity: 0
+          sourceNumber: '',
+          sourceSerialNumber: item.id,
+          hadStorageQuantity: 0,
+          reportCheckingQuantity: 0,
+          actualCheckingQuantity: 0,
+          qualifyQuantity: 0,
+          unqualifyQuantity: 0,
+          returnQuantity: 0
         }
       })
       console.log(productDetail)

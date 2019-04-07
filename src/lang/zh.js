@@ -153,7 +153,13 @@ export default {
     StockContractList: '采购合同列表',
     StockOrder: '采购订单',
     AddStockOrder: '新建采购订货单',
-    StockOrderList: '采购订货单列表'
+    StockOrderList: '采购订货单列表',
+    StockArrival: '采购到货',
+    AddStockArrival: '新建采购到货单',
+    StockArrivalList: '采购到货单列表',
+    StockRetreat: '采购退货',
+    AddStockRetreat: '新建采购退货单',
+    StockRetreatList: '采购退货单列表'
   },
   navbar: {
     logOut: '退出登录',
@@ -957,6 +963,40 @@ export default {
     allMoney: '金额合计',
     allTaxMoney: '税额合计',
     allIncludeTaxMoney: '含税金额合计'
+  },
+  StockArrival: {
+    title: '采购到货单主题',
+    number: '采购到货单编号',
+    sourceType: '源单类型',
+    stockTypeId: '采购类别',
+    deptId: '部门',
+    stockPersonId: '采购员',
+    deliveryModeId: '交货方式',
+    currencyId: '币种',
+    payId: '结算方式',
+    acceptPersonId: '点收人',
+    acceptDate: '点收日期',
+    isVat: '是否为增值税',
+    supplierId: '供应商',
+    arrivalDate: '到货日期',
+    allMoney: '总金额',
+    allTaxMoney: '税额合计',
+    allIncludeTaxMoney: '含税金额合计'
+  },
+  StockRetreat: {
+    title: '采购退货主题',
+    sourceType: '源单类型',
+    stockTypeId: '采购类别',
+    deptId: '部门',
+    stockPersonId: '采购员',
+    deliveryModeId: '交货方式',
+    currencyId: '币种',
+    payId: '结算方式',
+    supplierId: '供应商',
+    transportModeId: '运送方式',
+    acceptAddress: '收货地址',
+    retreatDate: '退货日期',
+    isVat: '是否为增值税'
   },
   public: {
     modifyDate: '最后修改日期',
