@@ -7,110 +7,47 @@
         <el-form :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
           <el-row>
             <el-col :span="12">
-              <el-form-item :label="$t('StockRetreat.title')" style="width: 100%;">
-                <span>{{ personalForm.title }}</span>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('StockRetreat.sourceType')" prop="sourceType" style="width: 100%;">
-                <span>{{ personalForm.sourceType | sourceTypeFilter }}</span>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('StockRetreat.supplierId')" prop="supplierId" style="width: 100%;">
+              <el-form-item :label="$t('AdvancePay.supplierId')" prop="supplierId" style="width: 100%;">
                 <span>{{ personalForm.supplierName }}</span>
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item :label="$t('StockRetreat.stockPersonId')" prop="stockPersonId" style="width: 100%;">
+              <el-form-item :label="$t('AdvancePay.payDate')" prop="payDate" style="width: 100%;">
+                <span>{{ personalForm.payDate }}</span>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('AdvancePay.stockPersonId')" prop="stockPersonId" style="width: 100%;">
                 <span>{{ personalForm.stockPersonName }}</span>
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item :label="$t('StockRetreat.stockTypeId')" prop="stockType" style="width: 100%;">
-                <span>{{ personalForm.stockTypeName }}</span>
+              <el-form-item :label="$t('AdvancePay.currency')" style="width: 100%;">
+                <span>{{ personalForm.currency | currencyFilter }}</span>
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item :label="$t('StockRetreat.deptId')" prop="deptId" style="width: 100%;">
-                <span>{{ personalForm.deptName }}</span>
+              <el-form-item :label="$t('AdvancePay.settleMode')" prop="settleMode" style="width: 100%;">
+                <span>{{ personalForm.settleModeName }}</span>
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item :label="$t('StockRetreat.payId')" style="width: 100%;">
-                <span>{{ personalForm.payName }}</span>
+              <el-form-item :label="$t('AdvancePay.payAccount')" prop="payAccount" style="width: 100%;">
+                <span>{{ personalForm.payAccount }}</span>
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item :label="$t('StockRetreat.retreatDate')" prop="signDate" style="width: 100%;">
-                <span>{{ personalForm.retreatDate }}</span>
+              <el-form-item :label="$t('AdvancePay.totalMoney')" prop="totalMoney" style="width: 100%;">
+                <span>{{ personalForm.totalMoney }}</span>
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item :label="$t('StockRetreat.deliveryModeId')" style="width: 100%;">
-                <span>{{ personalForm.deliveryModeName }}</span>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('StockRetreat.isVat')" style="width: 100%;">
-                <el-radio-group v-model="personalForm.isVat" style="margin-left: 18px;width: 200px" disabled>
-                  <el-radio :label="1" style="width: 120px">是</el-radio>
-                  <el-radio :label="2">否</el-radio>
-                </el-radio-group>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('StockRetreat.currencyId')" prop="currency" style="width: 100%;">
-                <span>{{ personalForm.currencyId | currencyIdFilter }}</span>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('StockRetreat.acceptAddress')" style="width: 100%;">
-                <span>{{ personalForm.acceptAddress }}</span>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('StockRetreat.transportModeId')" style="width: 100%;">
-                <span>{{ personalForm.transportModeName }}</span>
+              <el-form-item :label="$t('AdvancePay.summary')" prop="summary" style="width: 100%;">
+                <span>{{ personalForm.summary }}</span>
               </el-form-item>
             </el-col>
           </el-row>
         </el-form>
-      </div>
-    </el-card>
-    <!--子件信息-->
-    <el-card class="box-card" style="margin-top: 15px" shadow="never">
-      <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">采购退货单明细</h2>
-      <div class="container">
-        <el-editable
-          ref="editable"
-          :data.sync="list2"
-          :edit-config="{ showIcon: true, showStatus: true}"
-          class="click-table1"
-          stripe
-          border
-          size="medium"
-          style="width: 100%">
-          <el-editable-column label="序号" min-width="55" align="center" type="index"/>
-          <el-editable-column prop="productCode" align="center" label="物品编号" min-width="150px"/>
-          <el-editable-column prop="productName" align="center" label="物品名称" min-width="150px"/>
-          <el-editable-column prop="productType" align="center" label="规格" min-width="150px"/>
-          <el-editable-column prop="unit" align="center" label="单位" min-width="150px"/>
-          <el-editable-column prop="arrivalQuantity" align="center" label="到货数量" min-width="150px"/>
-          <el-editable-column prop="retreatQuantity" align="center" label="退货数量" min-width="150px"/>
-          <el-editable-column prop="retreatReason" align="center" label="退货原因" min-width="170px"/>
-          <el-editable-column prop="price" align="center" label="单价" min-width="170px"/>
-          <el-editable-column prop="includeTaxPrice" align="center" label="含税价" min-width="170px"/>
-          <el-editable-column prop="taxRate" align="center" label="税率(%)" min-width="170px"/>
-          <el-editable-column prop="money" align="center" label="金额" min-width="150px"/>
-          <el-editable-column prop="includeTaxMoney" align="center" label="含税金额" min-width="150px"/>
-          <el-editable-column prop="taxMoney" align="center" label="税额" min-width="150px"/>
-          <el-editable-column prop="discountRate" align="center" label="折扣率(%)" min-width="170px"/>
-          <el-editable-column prop="discountMoney" align="center" label="折扣额" min-width="170px"/>
-          <el-editable-column prop="remark" align="center" label="备注" min-width="150px"/>
-          <el-editable-column prop="sourceNumber" align="center" label="源单编号" min-width="150px"/>
-          <el-editable-column prop="sourceSerialNumber" align="center" label="源单序号" min-width="150px"/>
-        </el-editable>
       </div>
     </el-card>
     <!--审核状态-->
@@ -129,40 +66,6 @@
           </template>
         </el-step>
       </el-steps>
-    </el-card>
-    <el-card class="box-card" shadow="never" style="margin-top: 10px">
-      <h2 ref="geren" class="form-name">合计信息</h2>
-      <div class="container" style="margin-top: 37px">
-        <el-form :inline="true" status-icon class="demo-ruleForm" label-width="130px">
-          <el-row>
-            <el-col :span="12">
-              <el-form-item label="退货数量总计" style="width: 100%;">
-                <span>{{ personalForm.allQuantity }}</span>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item label="金额合计" style="width: 100%;">
-                <span>{{ personalForm.allMoney }}</span>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item label="税额合计" style="width: 100%;">
-                <span>{{ personalForm.allTaxMoney }}</span>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item label="抵应付账款" style="width: 100%;">
-                <span>{{ personalForm.allMoney }}</span>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item label="应退货款合计" style="width: 100%;">
-                <span>{{ personalForm.allRetreatMoney }}</span>
-              </el-form-item>
-            </el-col>
-          </el-row>
-        </el-form>
-      </div>
     </el-card>
     <el-card class="box-card" style="margin-top: 15px" shadow="never">
       <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">备注信息</h2>
@@ -247,7 +150,7 @@ export default {
       }
       return statusMap[status]
     },
-    currencyIdFilter(status) {
+    currencyFilter(status) {
       const statusMap = {
         1: 'RMB',
         2: 'USD'
@@ -298,7 +201,7 @@ export default {
     },
     detaildata() {
       this.personalForm = this.detaildata
-      this.list2 = this.personalForm.stockRetreatDetailVos
+      this.list2 = this.personalForm.stockArrivalDetailVos
       this.reviewList = this.personalForm.approvalUseVos
     }
   },

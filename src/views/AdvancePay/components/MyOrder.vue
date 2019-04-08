@@ -1,21 +1,21 @@
 <template>
-  <el-dialog :visible.sync="employeeVisible" :arrivalcontrol="arrivalcontrol" :close-on-press-escape="false" top="10px" title="选择采购到货单" append-to-body width="1100px" @close="$emit('update:arrivalcontrol', false)">
+  <el-dialog :visible.sync="employeeVisible" :ordercontrol="ordercontrol" :close-on-press-escape="false" top="10px" title="选择采购订货单" append-to-body width="1100px" @close="$emit('update:ordercontrol', false)">
     <el-card class="box-card" style="margin-top: 15px;height: 60px;padding-left:0 " shadow="never">
       <el-row>
         <el-form ref="getemplist" :model="getemplist" style="margin-top: -9px">
           <el-col :span="4">
             <el-form-item>
-              <el-input v-model="getemplist.title" :placeholder="$t('StockPlan.title')" clearable @keyup.enter.native="handleFilter"/>
+              <el-input v-model="getemplist.title" :placeholder="$t('StockOrder.title')" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
           <el-col :span="3" style="margin-left: 5px">
             <el-form-item>
-              <el-input v-model="getemplist.number" placeholder="单据编号" clearable @keyup.enter.native="handleFilter"/>
+              <el-input v-model="getemplist.orderNumber" placeholder="采购单号" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
           <el-col :span="3" style="margin-left: 20px">
             <el-form-item>
-              <el-input v-model="stockPersonId" :placeholder="$t('StockArrival.stockPersonId')" clearable @keyup.enter.native="handleFilter" @focus="handlechooseStock"/>
+              <el-input v-model="stockPersonId" :placeholder="$t('StockOrder.stockPersonId')" clearable @keyup.enter.native="handleFilter" @focus="handlechooseStock"/>
             </el-form-item>
             <my-emp :control.sync="stockControl" @stockName="stockName"/>
           </el-col>
@@ -84,45 +84,45 @@
         @current-change="handleCurrentChange">
         <el-table-column :label="$t('public.id')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.number }}</span>
+            <span>{{ scope.row.orderNumber }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('StockArrival.title')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('StockOrder.title')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.title }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('StockArrival.stockTypeId')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('StockOrder.stockType')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.stockType | stockTypeFilter }}</span>
+            <span>{{ scope.row.stockTypeId | stockTypeFilter }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('StockArrival.sourceType')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('StockOrder.sourceType')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.sourceType | sourceTypeFilter }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('StockArrival.stockPersonId')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('StockOrder.stockPersonId')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.stockPersonName }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('StockArrival.supplierId')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('StockOrder.supplierId')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.supplierName }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('StockArrival.allMoney')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('StockOrder.allMoney')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.allMoney }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('StockArrival.allTaxMoney')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('StockOrder.allTaxMoney')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.allTaxMoney }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('StockArrival.allIncludeTaxMoney')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('StockOrder.allIncludeTaxMoney')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.allIncludeTaxMoney }}</span>
           </template>
@@ -147,16 +147,18 @@
 </template>
 
 <script>
-import { searchstockArrival } from '@/api/StockArrival'
+import { stockorderlist } from '@/api/StockOrder'
 import { getdeptlist } from '@/api/BasicSettings'
 import { searchStockCategory } from '@/api/StockCategory'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination'
 import MyEmp from './MyEmp'
+import DetailList from './DetailList'
+import MyDialog from './MyDialog'
 import MySupplier from './MySupplier'
 export default {
   directives: { waves },
-  components: { MyEmp, Pagination, MySupplier },
+  components: { MyDialog, DetailList, MyEmp, Pagination, MySupplier },
   filters: {
     judgeStatFilter(status) {
       const statusMap = {
@@ -191,7 +193,7 @@ export default {
     }
   },
   props: {
-    arrivalcontrol: {
+    ordercontrol: {
       type: Boolean,
       default: false
     }
@@ -199,7 +201,7 @@ export default {
   data() {
     return {
       // 选择框控制
-      employeeVisible: this.arrivalcontrol,
+      employeeVisible: this.ordercontrol,
       // 类别获取参数
       typeparms: {
         pagenum: 1,
@@ -256,8 +258,9 @@ export default {
     }
   },
   watch: {
-    arrivalcontrol() {
-      this.employeeVisible = this.arrivalcontrol
+    ordercontrol() {
+      this.employeeVisible = this.ordercontrol
+      this.getlist()
     }
   },
   created() {
@@ -271,7 +274,7 @@ export default {
     getlist() {
       // 物料需求计划列表数据
       this.listLoading = true
-      searchstockArrival(this.getemplist).then(res => {
+      stockorderlist(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
@@ -303,7 +306,7 @@ export default {
     // 搜索
     handleFilter() {
       this.getemplist.pageNum = 1
-      searchstockArrival(this.getemplist).then(res => {
+      stockorderlist(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
@@ -334,7 +337,7 @@ export default {
     },
     // 新增数据
     handleAdd() {
-      this.$router.push('/StockArrival/AddStockArrival')
+      this.$router.push('/StockOrder/AddStockOrder')
     },
     // 选择主生产计划数据时的操作
     handleCurrentChange(val) {
@@ -344,9 +347,9 @@ export default {
     async handleConfirm() {
       this.employeeVisible = false
       console.log(this.choosedata)
-      const arrivaldata = this.choosedata.stockArrivalDetailVos
-      const number = this.choosedata.number
-      const arrivalDetail = arrivaldata.map(function(item) {
+      const orderdata = this.choosedata.stockOrderDetailVos
+      const number = this.choosedata.orderNumber
+      const orderDetail = orderdata.map(function(item) {
         return {
           productCode: item.productCode,
           productName: item.productName,
@@ -355,25 +358,31 @@ export default {
           type: item.typeId,
           unit: item.unit,
           color: item.color,
-          arrivalQuantity: item.arrivalQuantity,
-          retreatQuantity: 0,
-          retreatReason: '',
-          sourceNumber: number,
-          sourceSerialNumber: item.id,
-          remark: item.remark,
+          stockQuantity: item.stockQuantity,
+          arrivalQuantity: 0,
+          giveDate: item.deliveryDate,
           price: item.price,
           includeTaxPrice: item.includeTaxPrice,
           taxRate: item.taxRate,
           money: item.money,
           includeTaxMoney: item.includeTaxMoney,
-          taxMoney: item.taxMoney,
+          taxMoney: item.tax,
+          discountRate: item.discountRate,
           discountMoney: item.discountMoney,
-          discountRate: item.discountRate
+          remark: item.remarks,
+          sourceNumber: number,
+          sourceSerialNumber: item.id,
+          hadStorageQuantity: 0,
+          reportCheckingQuantity: 0,
+          actualCheckingQuantity: 0,
+          qualifyQuantity: 0,
+          unqualifyQuantity: 0,
+          returnQuantity: 0
         }
       })
-      console.log(arrivalDetail)
-      this.$emit('arrival', arrivalDetail)
-      this.$emit('allarrivalinfo', this.choosedata)
+      console.log(orderDetail)
+      this.$emit('order', orderDetail)
+      this.$emit('allOrderinfo', this.choosedata)
     }
     // 仓库管理员选择结束
   }

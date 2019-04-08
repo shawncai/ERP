@@ -5,7 +5,7 @@
         <el-form ref="getemplist" :model="getemplist" label-width="100px" style="margin-top: -9px">
           <el-col :span="5">
             <el-form-item label="单据主题" label-width="100px">
-              <el-input v-model="getemplist.title" :placeholder="$t('StockArrival.title')" clearable @keyup.enter.native="handleFilter"/>
+              <el-input v-model="getemplist.title" :placeholder="$t('StockRetreat.title')" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
           <el-col :span="5" style="margin-left: 10px">
@@ -15,7 +15,7 @@
           </el-col>
           <el-col :span="5" style="margin-left: 10px">
             <el-form-item label="采购员">
-              <el-input v-model="stockPersonId" :placeholder="$t('StockArrival.stockPersonId')" clearable @keyup.enter.native="handleFilter" @focus="handlechooseStock"/>
+              <el-input v-model="stockPersonId" :placeholder="$t('StockRetreat.stockPersonId')" clearable @keyup.enter.native="handleFilter" @focus="handlechooseStock"/>
             </el-form-item>
             <my-emp :control.sync="stockControl" @stockName="stockName"/>
           </el-col>
@@ -99,44 +99,34 @@
           </template>
           <detail-list :detailcontrol.sync="detailvisible" :detaildata.sync="personalForm"/>
         </el-table-column>
-        <el-table-column :label="$t('StockArrival.title')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('StockRetreat.title')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.title }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('StockArrival.stockTypeId')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('StockRetreat.stockTypeId')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.stockType | stockTypeFilter }}</span>
+            <span>{{ scope.row.stockTypeName }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('StockArrival.sourceType')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('StockRetreat.sourceType')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.sourceType | sourceTypeFilter }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('StockArrival.stockPersonId')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('StockRetreat.stockPersonId')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.stockPersonName }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('StockArrival.supplierId')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('StockRetreat.supplierId')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.supplierName }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('StockArrival.allMoney')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('StockRetreat.allRetreatMoney')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.allMoney }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column :label="$t('StockArrival.allTaxMoney')" :resizable="false" align="center" min-width="150">
-          <template slot-scope="scope">
-            <span>{{ scope.row.allTaxMoney }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column :label="$t('StockArrival.allIncludeTaxMoney')" :resizable="false" align="center" min-width="150">
-          <template slot-scope="scope">
-            <span>{{ scope.row.allIncludeTaxMoney }}</span>
+            <span>{{ scope.row.allRetreatMoney }}</span>
           </template>
         </el-table-column>
         <el-table-column :label="$t('public.judgeStat')" :resizable="false" prop="judgeStat" align="center" min-width="150">
@@ -167,7 +157,7 @@
 </template>
 
 <script>
-import { searchstockArrival, updatestockArrival2, deletestockArrival } from '@/api/StockArrival'
+import { searchstockRetreat, deletestockRetreat, updatestockRetreat2 } from '@/api/StockRetreat'
 import { getdeptlist } from '@/api/BasicSettings'
 import { searchStockCategory } from '@/api/StockCategory'
 import waves from '@/directive/waves' // Waves directive
@@ -178,7 +168,7 @@ import MyDialog from './components/MyDialog'
 import MySupplier from './components/MySupplier'
 
 export default {
-  name: 'StockArrivalList',
+  name: 'StockRetreatList',
   directives: { waves },
   components: { MyDialog, DetailList, MyEmp, Pagination, MySupplier },
   filters: {
@@ -290,7 +280,7 @@ export default {
     getlist() {
       // 物料需求计划列表数据
       this.listLoading = true
-      searchstockArrival(this.getemplist).then(res => {
+      searchstockRetreat(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
@@ -322,7 +312,7 @@ export default {
     // 搜索
     handleFilter() {
       this.getemplist.pageNum = 1
-      searchstockArrival(this.getemplist).then(res => {
+      searchstockRetreat(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
@@ -398,7 +388,7 @@ export default {
       }).then(() => {
         this.reviewParms.judgeStat = 2
         const parms = JSON.stringify(this.reviewParms)
-        updatestockArrival2(parms).then(res => {
+        updatestockRetreat2(parms).then(res => {
           if (res.data.ret === 200) {
             this.$message({
               type: 'success',
@@ -411,7 +401,7 @@ export default {
         if (action === 'cancel') {
           this.reviewParms.judgeStat = 1
           const parms = JSON.stringify(this.reviewParms)
-          updatestockArrival2(parms).then(res => {
+          updatestockRetreat2(parms).then(res => {
             if (res.data.ret === 200) {
               this.$message({
                 type: 'success',
@@ -437,7 +427,7 @@ export default {
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          deletestockArrival(ids).then(res => {
+          deletestockRetreat(ids).then(res => {
             if (res.data.ret === 200) {
               this.$notify({
                 title: '删除成功',
@@ -468,7 +458,7 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        deletestockArrival(row.id).then(res => {
+        deletestockRetreat(row.id).then(res => {
           if (res.data.ret === 200) {
             this.$notify({
               title: '删除成功',
@@ -493,14 +483,14 @@ export default {
     },
     // 新增数据
     handleAdd() {
-      this.$router.push('/StockArrival/AddStockArrival')
+      this.$router.push('/StockRetreat/AddStockRetreat')
     },
     // 导出
     handleExport() {
       this.downloadLoading = true
         import('@/vendor/Export2Excel').then(excel => {
           const tHeader = ['供应商编号', '供应商名称', '供应商简称', '供应商类别', '所在区域', '采购员', '供应商优质级别', '建档人', '建档日期']
-          const filterVal = ['id', 'StockArrivalName', 'StockArrivalShortName', 'typeName', 'regionName', 'buyerName', 'levelName', 'createName', 'createTime']
+          const filterVal = ['id', 'StockRetreatName', 'StockRetreatShortName', 'typeName', 'regionName', 'buyerName', 'levelName', 'createName', 'createTime']
           const data = this.formatJson(filterVal, this.list)
           excel.export_json_to_excel({
             header: tHeader,

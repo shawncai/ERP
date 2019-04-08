@@ -545,38 +545,53 @@ export default {
         if (elem.retreatReason === null || elem.retreatReason === '' || elem.retreatReason === undefined) {
           delete elem.retreatReason
         }
-        if (elem.includeTaxPrice === null || elem.includeTaxPrice === '' || elem.includeTaxPrice === undefined) {
-          delete elem.includeTaxPrice
-        }
         if (elem.sourceSerialNumber === null || elem.sourceSerialNumber === '' || elem.sourceSerialNumber === undefined) {
           delete elem.sourceSerialNumber
         }
         if (elem.includeTaxPrice === null || elem.includeTaxPrice === '' || elem.includeTaxPrice === undefined) {
           delete elem.includeTaxPrice
         }
+        if (elem.includeTaxPrice !== null || elem.includeTaxPrice !== '' || elem.includeTaxPrice !== undefined) {
+          elem.includeTaxPrice = (elem.includeTaxPrice).toFixed(2)
+        }
         if (elem.taxRate === null || elem.taxRate === '' || elem.taxRate === undefined) {
           delete elem.taxRate
+        }
+        if (elem.taxRate !== null || elem.taxRate !== '' || elem.taxRate !== undefined) {
+          elem.taxRate = (elem.taxRate).toFixed(2)
         }
         if (elem.discountRate === null || elem.discountRate === '' || elem.discountRate === undefined) {
           delete elem.discountRate
         }
         if (elem.discountRate !== null || elem.discountRate !== '' || elem.discountRate !== undefined) {
-          elem.discountRate = elem.discountRate / 100
+          elem.discountRate = (elem.discountRate).toFixed(2)
         }
         if (elem.money === null || elem.money === '' || elem.money === undefined) {
           delete elem.money
         }
+        if (elem.money !== null || elem.money !== '' || elem.money !== undefined) {
+          elem.money = (elem.money).toFixed(2)
+        }
         if (elem.includeTaxMoney === null || elem.includeTaxMoney === '' || elem.includeTaxMoney === undefined) {
           delete elem.includeTaxMoney
         }
+        if (elem.includeTaxMoney !== null || elem.includeTaxMoney !== '' || elem.includeTaxMoney !== undefined) {
+          elem.includeTaxMoney = (elem.includeTaxMoney).toFixed(2)
+        }
         if (elem.taxMoney === null || elem.taxMoney === '' || elem.taxMoney === undefined) {
           delete elem.taxMoney
+        }
+        if (elem.taxMoney !== null || elem.taxMoney !== '' || elem.taxMoney !== undefined) {
+          elem.taxMoney = (elem.taxMoney).toFixed(2)
         }
         if (elem.discountRate === null || elem.discountRate === '' || elem.discountRate === undefined) {
           delete elem.discountRate
         }
         if (elem.discountMoney === null || elem.discountMoney === '' || elem.discountMoney === undefined) {
           delete elem.discountMoney
+        }
+        if (elem.discountMoney !== null || elem.discountMoney !== '' || elem.discountMoney !== undefined) {
+          elem.discountMoney = (elem.discountMoney).toFixed(2)
         }
         if (elem.remark === null || elem.remark === '' || elem.remark === undefined) {
           delete elem.remark

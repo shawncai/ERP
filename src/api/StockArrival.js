@@ -82,7 +82,7 @@ export function updatestockArrival(query, query2) {
 }
 
 //  审批采购到货
-export function updatestockArrival2(query, query2) {
+export function updatestockArrival2(query) {
   var params = new URLSearchParams()
   params.append('Json', query) // 你要传给后台的参数值 key/value
   return request({

@@ -1,10 +1,9 @@
 import request from '@/utils/request'
 
-//   添加采购退货
-export function createstockArrival(query, query2, query3) {
+//  新建付款单
+export function addpayment(query, query3) {
   var params = new URLSearchParams()
-  params.append('Json', query) // 你要传给后台的参数值 key/value
-  params.append('detailJson', query2) // 你要传给后台的参数值 key/value
+  params.append('paymentJson', query) // 你要传给后台的参数值 key/value
   if (query3.repositoryId !== '' && query3.repositoryId !== null && query3.repositoryId !== undefined) {
     params.append('repositoryId', query3.repositoryId) // 你要传给后台的参数值 key/value
   }
@@ -12,17 +11,17 @@ export function createstockArrival(query, query2, query3) {
     params.append('regionId', query3.regionId) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/erp/stockRetreat/create',
+    url: '/erp/payment/addpayment',
     method: 'post',
     data: params
   })
 }
 
-// 查询采购退货
-export function searchstockRetreat(query) {
+// 付款单列表
+export function paymentlist(query) {
   var params = new URLSearchParams()
-  if (query.number !== '' && query.number !== null && query.number !== undefined) {
-    params.append('number', query.number) // 你要传给后台的参数值 key/value
+  if (query.paymentNumber !== '' && query.paymentNumber !== null && query.paymentNumber !== undefined) {
+    params.append('paymentNumber', query.paymentNumber) // 你要传给后台的参数值 key/value
   }
   if (query.title !== '' && query.title !== null && query.title !== undefined) {
     params.append('title', query.title) // 你要传给后台的参数值 key/value
@@ -30,14 +29,8 @@ export function searchstockRetreat(query) {
   if (query.supplierId !== '' && query.supplierId !== null && query.supplierId !== undefined) {
     params.append('supplierId', query.supplierId) // 你要传给后台的参数值 key/value
   }
-  if (query.deptId !== '' && query.deptId !== null && query.deptId !== undefined) {
-    params.append('deptId', query.deptId) // 你要传给后台的参数值 key/value
-  }
-  if (query.stockPersonId !== '' && query.stockPersonId !== null && query.stockPersonId !== undefined) {
-    params.append('stockPersonId', query.stockPersonId) // 你要传给后台的参数值 key/value
-  }
-  if (query.sourceType !== '' && query.sourceType !== null && query.sourceType !== undefined) {
-    params.append('sourceType', query.sourceType) // 你要传给后台的参数值 key/value
+  if (query.handlePersonId !== '' && query.handlePersonId !== null && query.handlePersonId !== undefined) {
+    params.append('handlePersonId', query.handlePersonId) // 你要传给后台的参数值 key/value
   }
   if (query.judgeStat !== '' && query.judgeStat !== null && query.judgeStat !== undefined) {
     params.append('judgeStat', query.judgeStat) // 你要传给后台的参数值 key/value
@@ -63,41 +56,40 @@ export function searchstockRetreat(query) {
   params.append('pageNum', query.pageNum) // 你要传给后台的参数值 key/value
   params.append('pageSize', query.pageSize) // 你要传给后台的参数值 key/value
   return request({
-    url: '/erp/stockRetreat/search',
+    url: '/erp/payment/paymentlist',
     method: 'post',
     data: params
   })
 }
 
-// 删除采购退货
-export function deletestockRetreat(query) {
+//  更新付款单
+export function updatepayment(query) {
   var params = new URLSearchParams()
-  params.append('modelids', query) // 你要传给后台的参数值 key/value
+  params.append('paymentJson', query) // 你要传给后台的参数值 key/value
   return request({
-    url: '/erp/stockRetreat/delete',
+    url: '/erp/payment/updatepayment',
     method: 'post',
     data: params
   })
 }
 
-//  修改采购退货
-export function updatestockRetreat(query, query2) {
-  var params = new URLSearchParams()
-  params.append('Json', query) // 你要传给后台的参数值 key/value
-  params.append('detailJson', query2) // 你要传给后台的参数值 key/value
-  return request({
-    url: '/erp/stockRetreat/update',
-    method: 'post',
-    data: params
-  })
-}
-
-//  审核采购退货
-export function updatestockRetreat2(query) {
+//  审批付款单
+export function updatepayment2(query) {
   var params = new URLSearchParams()
   params.append('Json', query) // 你要传给后台的参数值 key/value
   return request({
-    url: '/erp/stockRetreat/update',
+    url: '/erp/payment/updatepayment',
+    method: 'post',
+    data: params
+  })
+}
+
+// 删除付款单
+export function deletepayment(query) {
+  var params = new URLSearchParams()
+  params.append('id', query) // 你要传给后台的参数值 key/value
+  return request({
+    url: '/erp/payment/deletepayment',
     method: 'post',
     data: params
   })

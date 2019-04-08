@@ -1275,6 +1275,76 @@ export const asyncRouterMap = [
         component: () => import('@/views/StockRetreat/AddStockRetreat'),
         name: 'AddStockRetreat',
         meta: { title: 'AddStockRetreat', noCache: false }
+      },
+      {
+        path: 'StockRetreatList',
+        component: () => import('@/views/StockRetreat/StockRetreatList'),
+        name: 'StockRetreatList',
+        meta: { title: 'StockRetreatList', noCache: true }
+      }
+    ]
+  },
+  {
+    path: '/StockQuery',
+    component: Layout,
+    redirect: 'noredirect',
+    name: 'StockQuery',
+    alwaysShow: true,
+    meta: {
+      title: 'StockQuery',
+      icon: 'caigouchaxun',
+      type: 2
+    },
+    children: [
+      {
+        path: 'StockPrice',
+        component: () => import('@/views/StockQuery/StockPrice'),
+        name: 'StockPrice',
+        meta: { title: 'StockPrice', noCache: true }
+      },
+      {
+        path: 'StockCount',
+        component: () => import('@/views/StockQuery/StockCount'),
+        name: 'StockCount',
+        meta: { title: 'StockCount', noCache: true }
+      },
+      {
+        path: 'ArrivalSummary',
+        component: () => import('@/views/StockQuery/ArrivalSummary'),
+        name: 'ArrivalSummary',
+        meta: { title: 'ArrivalSummary', noCache: true }
+      },
+      {
+        path: 'OnSummary',
+        component: () => import('@/views/StockQuery/OnSummary'),
+        name: 'OnSummary',
+        meta: { title: 'OnSummary', noCache: true }
+      }
+    ]
+  },
+  {
+    path: '/payment',
+    component: Layout,
+    redirect: 'noredirect',
+    name: 'payment',
+    alwaysShow: true,
+    meta: {
+      title: 'payment',
+      icon: 'fukuandan',
+      type: 2
+    },
+    children: [
+      {
+        path: 'AddPayment',
+        component: () => import('@/views/payment/AddPayment'),
+        name: 'AddPayment',
+        meta: { title: 'AddPayment', noCache: false }
+      },
+      {
+        path: 'paymentList',
+        component: () => import('@/views/payment/paymentList'),
+        name: 'paymentList',
+        meta: { title: 'paymentList', noCache: true }
       }
     ]
   },
@@ -1295,6 +1365,58 @@ export const asyncRouterMap = [
         component: () => import('@/views/StockCategory/StockCategoryList'),
         name: 'StockCategoryList',
         meta: { title: 'StockCategoryList', noCache: false }
+      }
+    ]
+  },
+  {
+    path: '/AdvancePay',
+    component: Layout,
+    redirect: 'noredirect',
+    name: 'AdvancePay',
+    alwaysShow: true,
+    meta: {
+      title: 'AdvancePay',
+      icon: 'yufukuan',
+      type: 2
+    },
+    children: [
+      {
+        path: 'AddAdvancePay',
+        component: () => import('@/views/AdvancePay/AddAdvancePay'),
+        name: 'AddAdvancePay',
+        meta: { title: 'AddAdvancePay', noCache: false }
+      },
+      {
+        path: 'AdvancePayList',
+        component: () => import('@/views/AdvancePay/AdvancePayList'),
+        name: 'AdvancePayList',
+        meta: { title: 'AdvancePayList', noCache: true }
+      }
+    ]
+  },
+  {
+    path: '/Invoice',
+    component: Layout,
+    redirect: 'noredirect',
+    name: 'Invoice',
+    alwaysShow: true,
+    meta: {
+      title: 'Invoice',
+      icon: 'fapiao',
+      type: 2
+    },
+    children: [
+      {
+        path: 'AddInvoice',
+        component: () => import('@/views/Invoice/AddInvoice'),
+        name: 'AddInvoice',
+        meta: { title: 'AddInvoice', noCache: false }
+      },
+      {
+        path: 'InvoiceList',
+        component: () => import('@/views/Invoice/InvoiceList'),
+        name: 'InvoiceList',
+        meta: { title: 'InvoiceList', noCache: true }
       }
     ]
   },

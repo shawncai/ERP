@@ -5,7 +5,7 @@
         <el-form ref="getemplist" :model="getemplist" label-width="100px" style="margin-top: -9px">
           <el-col :span="5">
             <el-form-item label="单据主题" label-width="100px">
-              <el-input v-model="getemplist.title" :placeholder="$t('StockArrival.title')" clearable @keyup.enter.native="handleFilter"/>
+              <el-input v-model="getemplist.title" placeholder="单据主题" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
           <el-col :span="5" style="margin-left: 10px">
@@ -15,7 +15,7 @@
           </el-col>
           <el-col :span="5" style="margin-left: 10px">
             <el-form-item label="采购员">
-              <el-input v-model="stockPersonId" :placeholder="$t('StockArrival.stockPersonId')" clearable @keyup.enter.native="handleFilter" @focus="handlechooseStock"/>
+              <el-input v-model="stockPersonId" :placeholder="$t('AdvancePay.stockPersonId')" clearable @keyup.enter.native="handleFilter" @focus="handlechooseStock"/>
             </el-form-item>
             <my-emp :control.sync="stockControl" @stockName="stockName"/>
           </el-col>
@@ -26,13 +26,6 @@
               placement="bottom"
               width="500"
               trigger="manual">
-              <el-select v-model="getemplist.deptId" placeholder="部门" clearable style="width: 40%;float: left;margin-left: 20px">
-                <el-option
-                  v-for="(item, index) in depts"
-                  :key="index"
-                  :value="item.id"
-                  :label="item.deptName"/>
-              </el-select>
               <el-input v-model="supplierId" placeholder="供应商" style="width: 40%;float: right;margin-right: 20px;" clearable @focus="handlechoose"/>
               <my-supplier :control.sync="empcontrol" @supplierName="supplierName"/>
               <el-select v-model="getemplist.receiptStat" :value="getemplist.receiptStat" placeholder="单据状态" clearable style="width: 40%;float: left;margin-left: 20px;margin-top: 20px">
@@ -95,48 +88,33 @@
           align="center"/>
         <el-table-column :label="$t('public.id')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span class="link-type" @click="handleDetail(scope.row)">{{ scope.row.number }}</span>
+            <span class="link-type" @click="handleDetail(scope.row)">{{ scope.row.payNumber }}</span>
           </template>
           <detail-list :detailcontrol.sync="detailvisible" :detaildata.sync="personalForm"/>
         </el-table-column>
-        <el-table-column :label="$t('StockArrival.title')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('AdvancePay.payDate')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.title }}</span>
+            <span>{{ scope.row.payDate }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('StockArrival.stockTypeId')" :resizable="false" align="center" min-width="150">
-          <template slot-scope="scope">
-            <span>{{ scope.row.stockType | stockTypeFilter }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column :label="$t('StockArrival.sourceType')" :resizable="false" align="center" min-width="150">
-          <template slot-scope="scope">
-            <span>{{ scope.row.sourceType | sourceTypeFilter }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column :label="$t('StockArrival.stockPersonId')" :resizable="false" align="center" min-width="150">
-          <template slot-scope="scope">
-            <span>{{ scope.row.stockPersonName }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column :label="$t('StockArrival.supplierId')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('AdvancePay.supplierId')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.supplierName }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('StockArrival.allMoney')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('AdvancePay.payAccountNumbe')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.allMoney }}</span>
+            <span>{{ scope.row.payAccountNumbe }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('StockArrival.allTaxMoney')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('AdvancePay.settleMode')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.allTaxMoney }}</span>
+            <span>{{ scope.row.settleModeName }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('StockArrival.allIncludeTaxMoney')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('AdvancePay.totalMoney')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.allIncludeTaxMoney }}</span>
+            <span>{{ scope.row.totalMoney }}</span>
           </template>
         </el-table-column>
         <el-table-column :label="$t('public.judgeStat')" :resizable="false" prop="judgeStat" align="center" min-width="150">
@@ -167,7 +145,7 @@
 </template>
 
 <script>
-import { searchstockArrival, updatestockArrival2, deletestockArrival } from '@/api/StockArrival'
+import { paylist, updateadvancepay2, deleteadvancepay } from '@/api/AdvancePay'
 import { getdeptlist } from '@/api/BasicSettings'
 import { searchStockCategory } from '@/api/StockCategory'
 import waves from '@/directive/waves' // Waves directive
@@ -178,7 +156,7 @@ import MyDialog from './components/MyDialog'
 import MySupplier from './components/MySupplier'
 
 export default {
-  name: 'StockArrivalList',
+  name: 'AdvancePayList',
   directives: { waves },
   components: { MyDialog, DetailList, MyEmp, Pagination, MySupplier },
   filters: {
@@ -258,10 +236,7 @@ export default {
       // 采购申请查询加展示参数
       getemplist: {
         pageNum: 1,
-        pageSize: 10,
-        repositoryId: 438,
-        regionIds: 2,
-        createPersonId: 3
+        pageSize: 10
       },
       // 传给组件的数据
       personalForm: {},
@@ -290,7 +265,7 @@ export default {
     getlist() {
       // 物料需求计划列表数据
       this.listLoading = true
-      searchstockArrival(this.getemplist).then(res => {
+      paylist(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
@@ -322,7 +297,7 @@ export default {
     // 搜索
     handleFilter() {
       this.getemplist.pageNum = 1
-      searchstockArrival(this.getemplist).then(res => {
+      paylist(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
@@ -398,7 +373,7 @@ export default {
       }).then(() => {
         this.reviewParms.judgeStat = 2
         const parms = JSON.stringify(this.reviewParms)
-        updatestockArrival2(parms).then(res => {
+        updateadvancepay2(parms).then(res => {
           if (res.data.ret === 200) {
             this.$message({
               type: 'success',
@@ -411,7 +386,7 @@ export default {
         if (action === 'cancel') {
           this.reviewParms.judgeStat = 1
           const parms = JSON.stringify(this.reviewParms)
-          updatestockArrival2(parms).then(res => {
+          updateadvancepay2(parms).then(res => {
             if (res.data.ret === 200) {
               this.$message({
                 type: 'success',
@@ -437,7 +412,7 @@ export default {
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          deletestockArrival(ids).then(res => {
+          deleteadvancepay(ids).then(res => {
             if (res.data.ret === 200) {
               this.$notify({
                 title: '删除成功',
@@ -468,7 +443,7 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        deletestockArrival(row.id).then(res => {
+        deleteadvancepay(row.id).then(res => {
           if (res.data.ret === 200) {
             this.$notify({
               title: '删除成功',
@@ -493,14 +468,14 @@ export default {
     },
     // 新增数据
     handleAdd() {
-      this.$router.push('/StockArrival/AddStockArrival')
+      this.$router.push('/AdvancePay/AddAdvancePay')
     },
     // 导出
     handleExport() {
       this.downloadLoading = true
         import('@/vendor/Export2Excel').then(excel => {
           const tHeader = ['供应商编号', '供应商名称', '供应商简称', '供应商类别', '所在区域', '采购员', '供应商优质级别', '建档人', '建档日期']
-          const filterVal = ['id', 'StockArrivalName', 'StockArrivalShortName', 'typeName', 'regionName', 'buyerName', 'levelName', 'createName', 'createTime']
+          const filterVal = ['id', 'AdvancePayName', 'AdvancePayShortName', 'typeName', 'regionName', 'buyerName', 'levelName', 'createName', 'createTime']
           const data = this.formatJson(filterVal, this.list)
           excel.export_json_to_excel({
             header: tHeader,
