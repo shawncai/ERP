@@ -1364,7 +1364,7 @@ export const asyncRouterMap = [
         path: 'StockCategoryList',
         component: () => import('@/views/StockCategory/StockCategoryList'),
         name: 'StockCategoryList',
-        meta: { title: 'StockCategoryList', noCache: false }
+        meta: { title: 'StockCategoryList', noCache: true }
       }
     ]
   },
@@ -1417,6 +1417,148 @@ export const asyncRouterMap = [
         component: () => import('@/views/Invoice/InvoiceList'),
         name: 'InvoiceList',
         meta: { title: 'InvoiceList', noCache: true }
+      }
+    ]
+  },
+  {
+    path: '/Advancemanage',
+    component: Layout,
+    redirect: 'noredirect',
+    name: 'Advancemanage',
+    alwaysShow: true,
+    meta: {
+      title: 'Advancemanage',
+      icon: 'yushou',
+      type: 3
+    },
+    children: [
+      {
+        path: 'AddAdvanceProduct',
+        component: () => import('@/views/Advancemanage/AddAdvanceProduct'),
+        name: 'AddAdvanceProduct',
+        meta: { title: 'AddAdvanceProduct', noCache: false }
+      },
+      {
+        path: 'AdvanceProductList',
+        component: () => import('@/views/Advancemanage/AdvanceProductList'),
+        name: 'AdvanceProductList',
+        meta: { title: 'AdvanceProductList', noCache: true }
+      },
+      {
+        path: 'AddAdvanceOrder',
+        component: () => import('@/views/Advancemanage/AddAdvanceOrder'),
+        name: 'AddAdvanceOrder',
+        meta: { title: 'AddAdvanceOrder', noCache: false }
+      },
+      {
+        path: 'AdvanceOrderList',
+        component: () => import('@/views/Advancemanage/AdvanceOrderList'),
+        name: 'AdvanceOrderList',
+        meta: { title: 'AdvanceOrderList', noCache: true }
+      },
+      {
+        path: 'AddPrepReturn',
+        component: () => import('@/views/Advancemanage/AddPrepReturn'),
+        name: 'AddPrepReturn',
+        meta: { title: 'AddPrepReturn', noCache: false }
+      }
+    ]
+  },
+  {
+    path: '/SaleCategory',
+    component: Layout,
+    redirect: 'noredirect',
+    name: 'SaleCategory',
+    alwaysShow: true,
+    meta: {
+      title: 'SaleCategory',
+      icon: 'shuxing',
+      type: 3
+    },
+    children: [
+      {
+        path: 'SaleCategoryList',
+        component: () => import('@/views/SaleCategory/SaleCategoryList'),
+        name: 'SaleCategoryList',
+        meta: { title: 'SaleCategoryList', noCache: true }
+      }
+    ]
+  },
+  {
+    path: '/QualityCheck',
+    component: Layout,
+    redirect: 'noredirect',
+    name: 'QualityCheck',
+    alwaysShow: true,
+    meta: {
+      title: 'QualityCheck',
+      icon: 'zhijian',
+      type: 8
+    },
+    children: [
+      {
+        path: 'AddQualityCheck',
+        component: () => import('@/views/QualityCheck/AddQualityCheck'),
+        name: 'AddQualityCheck',
+        meta: { title: 'AddQualityCheck', noCache: false }
+      },
+      {
+        path: 'QualityCheckList',
+        component: () => import('@/views/QualityCheck/QualityCheckList'),
+        name: 'QualityCheckList',
+        meta: { title: 'QualityCheckList', noCache: true }
+      }
+    ]
+  },
+  {
+    path: '/CheckReport',
+    component: Layout,
+    redirect: 'noredirect',
+    name: 'CheckReport',
+    alwaysShow: true,
+    meta: {
+      title: 'CheckReport',
+      icon: 'zhijianbaogao',
+      type: 8
+    },
+    children: [
+      {
+        path: 'AddCheckReport',
+        component: () => import('@/views/CheckReport/AddCheckReport'),
+        name: 'AddCheckReport',
+        meta: { title: 'AddCheckReport', noCache: false }
+      },
+      {
+        path: 'CheckReportList',
+        component: () => import('@/views/CheckReport/CheckReportList'),
+        name: 'CheckReportList',
+        meta: { title: 'CheckReportList', noCache: true }
+      }
+    ]
+  },
+  {
+    path: '/CheckFail',
+    component: Layout,
+    redirect: 'noredirect',
+    name: 'CheckFail',
+    alwaysShow: true,
+    meta: {
+      title: 'CheckFail',
+      icon: 'zhijianbaogao',
+      type: 8
+    },
+    children: [
+      {
+        path: 'AddCheckFail',
+        component: () => import('@/views/CheckFail/AddCheckFail'),
+        name: 'AddCheckFail',
+        meta: { title: 'AddCheckFail', noCache: false }
+      },
+      {
+        path: 'CheckFailList',
+        component: () => import('@/views/CheckFail/CheckFailList'),
+        name: 'CheckFailList',
+        meta: { title: 'CheckFailList', noCache: true }
       }
     ]
   },
