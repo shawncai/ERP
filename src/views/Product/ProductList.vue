@@ -103,11 +103,6 @@
             <span>{{ scope.row.costPrice }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('Product.purchaseprice')" :resizable="false" prop="purchasePrice" align="center" width="150">
-          <template slot-scope="scope">
-            <span>{{ scope.row.purchasePrice }}</span>
-          </template>
-        </el-table-column>
         <el-table-column :label="$t('Product.createid')" :resizable="false" prop="createName" align="center" width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.createName }}</span>

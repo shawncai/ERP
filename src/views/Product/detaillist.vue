@@ -6,14 +6,15 @@
         <el-input
           v-model="filterText"
           placeholder="输入关键字进行过滤"
-          style="margin-bottom: 30px"/>
+          style="margin-bottom: 30px"
+          clearable/>
         <el-tree
           ref="tree2"
           :data="detalist"
           :props="detaillistProps"
           :filter-node-method="filterNode"
+          :default-expand-all="true"
           class="filter-tree"
-          default-expand-all
           @node-click="handleNodeClick">
           <span slot-scope="{ node, data }" class="custom-tree-node">
             <span>{{ node.label }}</span>
@@ -184,9 +185,24 @@ export default {
       this.gettree()
     },
     // 搜索树状图数据方法
-    filterNode(value, data) {
+    filterNode(value, data, node) {
       if (!value) return true
-      return data.categoryName.indexOf(value) !== -1
+      // return data.categoryName.indexOf(value) !== -1
+      const _array = []// 这里使用数组存储 只是为了存储值。
+      this.getReturnNode(node, _array, value)
+      let result = false
+      _array.forEach((item) => {
+        result = result || item
+      })
+      return result
+    },
+    getReturnNode(node, _array, value) {
+      const isPass = node.data && node.data.categoryName && node.data.categoryName.indexOf(value) !== -1
+      isPass ? _array.push(isPass) : ''
+      this.index++
+      if (!isPass && node.level !== 1 && node.parent) {
+        this.getReturnNode(node.parent, _array, value)
+      }
     },
     // 树状图数据
     gettree() {
@@ -213,6 +229,7 @@ export default {
               this.restAllForm()
               this.$refs.personalForm.clearValidate()
               this.$refs.personalForm.resetFields()
+              this.gettree()
             } else {
               this.$notify.error({
                 title: '错误',
@@ -238,6 +255,7 @@ export default {
         levle: 1,
         parentId: 0
       }
+      this.parentId = ''
     },
     // 取消操作
     handlecancel() {
@@ -246,37 +264,8 @@ export default {
       this.$store.dispatch('delView', view).then(({ visitedViews }) => {
       })
     },
-    // 入库人输入框focus事件触发
     handlechoose() {
       this.createcontrol = true
-    },
-    // 员工列表返回经办人数据
-    createname(val) {
-      console.log(val)
-      this.enterPersonId = val.personName
-      this.personalForm.enterPersonId = val.id
-    },
-    // 仓库列表focus事件触发
-    handlechooseRep() {
-      this.repositorycontrol = true
-    },
-    repositoryname(val) {
-      console.log(val)
-      this.enterRepositoryId = val.repositoryName
-      this.personalForm.enterRepositoryId = val.id
-    },
-    // 入库单事件
-    // 新增入库单明细
-    handleAddProduct() {
-      this.control = true
-    },
-    Productdetail(val) {
-      console.log(val)
-      this.list2 = val
-    },
-    // 入库金额计算
-    getSize(quan, pric) {
-      return quan * pric
     }
   }
 }

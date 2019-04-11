@@ -16,7 +16,7 @@ export function searchCategory(query) {
 }
 
 // 新建供应商
-export function create(query) {
+export function create(query, query2) {
   var params = new URLSearchParams()
   if (query.supplierName !== '' && query.supplierName !== null && query.supplierName !== undefined) {
     params.append('supplierName', query.supplierName) // 你要传给后台的参数值 key/value
@@ -111,6 +111,7 @@ export function create(query) {
   if (query.companyTypeId !== '' && query.companyTypeId !== null && query.companyTypeId !== undefined) {
     params.append('companyTypeId', query.companyTypeId) // 你要传给后台的参数值 key/value
   }
+  params.append('detailJson', query2) // 你要传给后台的参数值 key/value
   return request({
     url: '/erp/supplier/create',
     method: 'post',
@@ -129,6 +130,9 @@ export function search(query) {
   }
   if (query.typeId !== '' && query.typeId !== null && query.typeId !== undefined) {
     params.append('typeId', query.typeId) // 你要传给后台的参数值 key/value
+  }
+  if (query.groupId !== '' && query.groupId !== null && query.groupId !== undefined) {
+    params.append('groupId', query.groupId) // 你要传给后台的参数值 key/value
   }
   if (query.regionId !== '' && query.regionId !== null && query.regionId !== undefined) {
     params.append('regionId', query.regionId) // 你要传给后台的参数值 key/value

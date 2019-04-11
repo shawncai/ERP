@@ -81,7 +81,7 @@
           <el-editable-column label="序号" min-width="55" align="center" type="index"/>
           <el-editable-column prop="locationId" align="center" label="货位" min-width="150px"/>
           <el-editable-column prop="batch" align="center" label="批次号" min-width="150px"/>
-          <el-editable-column prop="category" align="center" label="商品分类" min-width="150px"/>
+          <el-editable-column prop="productCategory" align="center" label="商品分类" min-width="150px"/>
           <el-editable-column prop="productCode" align="center" label="商品编号" min-width="150px"/>
           <el-editable-column prop="productName" align="center" label="商品名称" min-width="150px"/>
           <el-editable-column prop="unit" align="center" label="基本单位" min-width="150px"/>

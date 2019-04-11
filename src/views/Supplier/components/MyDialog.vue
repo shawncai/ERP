@@ -69,7 +69,7 @@
           <el-input v-model="personalForm.detailAddress" placeholder="请输入地址" clearable/>
         </el-form-item>
         <el-form-item :label="$t('Supplier.groupId')" prop="groupId" style="width: 40%;margin-top:1%">
-          <el-select v-model="personalForm.groupId" placeholder="请选择供应商分组" style="width: 100%;">
+          <el-select v-model="personalForm.groupId" multiple placeholder="请选择供应商分组" style="width: 100%;">
             <el-option
               v-for="(item, index) in groupIds"
               :key="index"

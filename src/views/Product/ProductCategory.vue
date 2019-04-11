@@ -4,8 +4,17 @@
       <!-- 搜索条件栏目 -->
       <el-input v-model="getemplist.categoryname" :placeholder="$t('NewEmployeeInformation.categoryname')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
       <el-select v-model="getemplist.type" :value="getemplist.type" :placeholder="$t('NewEmployeeInformation.type')" class="filter-item" clearable>
+        <el-option label="物品品牌" value="1"/>
         <el-option label="规格型号" value="2"/>
         <el-option label="档次级别" value="3"/>
+        <el-option label="物品颜色" value="4"/>
+        <el-option label="物品配置" value="5"/>
+        <el-option label="物品版本" value="6"/>
+        <el-option label="直径规格" value="7"/>
+        <el-option label="长度等级" value="8"/>
+        <el-option label="表面处理" value="9"/>
+        <el-option label="性能等级" value="10"/>
+        <el-option label="车辆型号" value="11"/>
       </el-select>
       <el-select v-model="getemplist.iseffective" :value="getemplist.iseffective" :placeholder="$t('NewEmployeeInformation.iseffective')" class="filter-item" clearable>
         <el-option label="active " value="1"/>
@@ -32,8 +41,17 @@
         <el-form ref="addCategoryForm" :rules="addCategoryFormRules" :model="addCategoryForm" class="demo-ruleForm" style="margin: 0 auto; width: 400px">
           <el-form-item :label="$t('NewEmployeeInformation.type')" label-width="100px" prop="type">
             <el-select v-model="addCategoryForm.type" placeholder="请选择类别" style="width: 100%">
+              <el-option label="物品品牌" value="1"/>
               <el-option label="规格型号" value="2"/>
               <el-option label="档次级别" value="3"/>
+              <el-option label="物品颜色" value="4"/>
+              <el-option label="物品配置" value="5"/>
+              <el-option label="物品版本" value="6"/>
+              <el-option label="直径规格" value="7"/>
+              <el-option label="长度等级" value="8"/>
+              <el-option label="表面处理" value="9"/>
+              <el-option label="性能等级" value="10"/>
+              <el-option label="车辆型号" value="11"/>
             </el-select>
           </el-form-item>
           <el-form-item :label="$t('NewEmployeeInformation.categoryname')" label-width="100px" prop="categoryname">
@@ -99,8 +117,17 @@
           <el-form ref="editCategoryForm" :rules="editCategoryFormRules" :model="editCategoryForm" class="demo-ruleForm" style="margin: 0 auto; width: 400px">
             <el-form-item :label="$t('NewEmployeeInformation.type')" label-width="100px">
               <el-select v-model="editCategoryForm.type" placeholder="请选择类别" style="width: 100%" disabled >
+                <el-option label="物品品牌" value="1"/>
                 <el-option label="规格型号" value="2"/>
                 <el-option label="档次级别" value="3"/>
+                <el-option label="物品颜色" value="4"/>
+                <el-option label="物品配置" value="5"/>
+                <el-option label="物品版本" value="6"/>
+                <el-option label="直径规格" value="7"/>
+                <el-option label="长度等级" value="8"/>
+                <el-option label="表面处理" value="9"/>
+                <el-option label="性能等级" value="10"/>
+                <el-option label="车辆型号" value="11"/>
               </el-select>
             </el-form-item>
             <el-form-item :label="$t('NewEmployeeInformation.categoryname')" label-width="100px" prop="categoryName">
@@ -135,8 +162,17 @@ export default {
   filters: {
     typeFilter(status) {
       const statusMap = {
+        1: '物品品牌',
         2: '规格型号',
-        3: '档次级别'
+        3: '档次级别',
+        4: '物品颜色',
+        5: '物品配置',
+        6: '物品版本',
+        7: '直径规格',
+        8: '长度等级',
+        9: '表面处理',
+        10: '性能等级',
+        11: '车辆型号'
       }
       return statusMap[status]
     },

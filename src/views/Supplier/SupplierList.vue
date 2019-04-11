@@ -37,6 +37,13 @@
             :value="item.id"
           />
         </el-select>
+        <el-select v-model="getemplist.groupId" multiple placeholder="请选择供应商分组" style="width: 40%;float: left;margin-left: 20px;margin-top: 20px">
+          <el-option
+            v-for="(item, index) in groupIds"
+            :key="index"
+            :label="item.groupName"
+            :value="item.id"/>
+        </el-select>
         <div class="seachbutton" style="width: 100%;float: right;margin-top: 20px">
           <el-button v-waves class="filter-item" type="primary" style="float: right" @click="handleFilter">{{ $t('public.search') }}</el-button>
         </div>
@@ -175,6 +182,8 @@ export default {
     return {
       // 供应商选择框控制
       employeeVisible: this.control,
+      // 搜索分组数据
+      groupIds: [],
       // 新增分组参数
       groupName: '',
       // 分组表格数据
@@ -247,6 +256,12 @@ export default {
         setTimeout(() => {
           this.listLoading = false
         }, 0.5 * 100)
+        // 分组数据
+        searchGroup().then(res => {
+          if (res.data.ret === 200) {
+            this.groupIds = res.data.data.content
+          }
+        })
       })
       // 供应商类别
       searchCategory(1).then(res => {
@@ -283,6 +298,7 @@ export default {
     handleFilter() {
       this.getemplist.pagenum = 1
       this.getemplist.regionId = this.getemplistregions[this.getemplistregions.length - 1]
+      console.log(this.getemplist)
       search(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
@@ -305,6 +321,9 @@ export default {
       this.personalForm.isEffective = String(row.isEffective)
       this.personalForm.moneyId = String(row.moneyId)
       this.personalForm.companyTypeId = String(row.companyTypeId)
+      this.personalForm.groupId = row.groupId.split(',').map(function(item) {
+        return Number(item)
+      })
     },
     // 修改组件修改成功后返回
     refreshlist(val) {

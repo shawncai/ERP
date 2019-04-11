@@ -4,9 +4,6 @@
     <h2 ref="geren" class="form-name">基本信息</h2>
     <div class="container">
       <el-form ref="personalForm" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-position="top" label-width="300px" style="margin-left: 30px;">
-        <el-form-item :label="$t('Product.code')" prop="code" style="width: 40%;margin-top:1%">
-          <el-input v-model="personalForm.code" placeholder="请输入物料编码" disabled/>
-        </el-form-item>
         <el-form-item :label="$t('Product.productname')" prop="productname" style="width: 40%;margin-top:1%">
           <el-input v-model="personalForm.productName" placeholder="请输入产品名称" disabled/>
         </el-form-item>
@@ -81,10 +78,10 @@
             />
           </el-select>
         </el-form-item>
-        <el-form-item :label="$t('Product.supplierid')" style="width: 40%;margin-top:1%">
-          <el-input v-model="supplierid" placeholder="请选择供应商" @focus="handlechoose"/>
-        </el-form-item>
-        <my-emp :control.sync="empcontrol" @personName="personName"/>
+        <!--<el-form-item :label="$t('Product.supplierid')" style="width: 40%;margin-top:1%">-->
+        <!--<el-input v-model="supplierid" placeholder="请选择供应商" @focus="handlechoose"/>-->
+        <!--</el-form-item>-->
+        <!--<my-emp :control.sync="empcontrol" @personName="personName"/>-->
         <el-form-item :label="$t('Product.source')" style="width: 40%;margin-top:1%">
           <el-select v-model="personalForm.source" placeholder="请选择来源" style="width: 100%;">
             <el-option value="1" label="自制"/>
@@ -148,9 +145,9 @@
         <el-form-item :label="$t('Product.saleprice')" prop="saleprice" style="width: 40%;margin-top:1%">
           <el-input v-model="personalForm.salePrice" placeholder="请输入零售价" clearable/>
         </el-form-item>
-        <el-form-item :label="$t('Product.purchaseprice')" prop="purchaseprice" style="width: 40%;margin-top:1%">
-          <el-input v-model="personalForm.purchasePrice" placeholder="请输入采购价" clearable/>
-        </el-form-item>
+        <!--<el-form-item :label="$t('Product.purchaseprice')" prop="purchaseprice" style="width: 40%;margin-top:1%">-->
+        <!--<el-input v-model="personalForm.purchasePrice" placeholder="请输入采购价" clearable/>-->
+        <!--</el-form-item>-->
         <el-form-item :label="$t('Product.lowerprice')" style="width: 40%;margin-top:1%">
           <el-input v-model="personalForm.lowerPrice" placeholder="请输入最低价" clearable/>
         </el-form-item>
@@ -278,9 +275,6 @@ export default {
       supplierid: '',
       // 物品信息规则数据
       personalrules: {
-        code: [
-          { required: true, message: '请输入物料编码', trigger: 'blur' }
-        ],
         productName: [
           { required: true, message: '请输入产品名称', trigger: 'blur' }
         ],
@@ -292,9 +286,6 @@ export default {
         ],
         salePrice: [
           { required: true, message: '请输入零售价', trigger: 'blur' }
-        ],
-        purchasePrice: [
-          { required: true, message: '请输入采购价', trigger: 'blur' }
         ]
       }
     }

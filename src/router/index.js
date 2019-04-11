@@ -337,30 +337,6 @@ export const asyncRouterMap = [
         component: () => import('@/views/LogisticsCar/LogisticsCarlist'),
         name: 'LogisticsCarlist',
         meta: { title: 'LogisticsCarlist', noCache: true }
-      },
-      {
-        path: 'Addsendcar',
-        component: () => import('@/views/LogisticsCar/Addsendcar'),
-        name: 'Addsendcar',
-        meta: { title: 'Addsendcar', noCache: false }
-      },
-      {
-        path: 'SendcarList',
-        component: () => import('@/views/LogisticsCar/SendcarList'),
-        name: 'SendcarList',
-        meta: { title: 'SendcarList', noCache: true }
-      },
-      {
-        path: 'Addreturncar',
-        component: () => import('@/views/LogisticsCar/Addreturncar'),
-        name: 'Addreturncar',
-        meta: { title: 'Addreturncar', noCache: false }
-      },
-      {
-        path: 'ReturncarList',
-        component: () => import('@/views/LogisticsCar/ReturncarList'),
-        name: 'ReturncarList',
-        meta: { title: 'ReturncarList', noCache: true }
       }
     ]
   },
@@ -1421,6 +1397,32 @@ export const asyncRouterMap = [
     ]
   },
   {
+    path: '/SaleOrder',
+    component: Layout,
+    redirect: 'noredirect',
+    name: 'SaleOrder',
+    alwaysShow: true,
+    meta: {
+      title: 'SaleOrder',
+      icon: 'xiaoshoudingdan',
+      type: 3
+    },
+    children: [
+      {
+        path: 'AddSaleOrder',
+        component: () => import('@/views/SaleOrder/AddSaleOrder'),
+        name: 'AddSaleOrder',
+        meta: { title: 'AddSaleOrder', noCache: false }
+      },
+      {
+        path: 'SaleOrderList',
+        component: () => import('@/views/SaleOrder/SaleOrderList'),
+        name: 'SaleOrderList',
+        meta: { title: 'SaleOrderList', noCache: true }
+      }
+    ]
+  },
+  {
     path: '/Advancemanage',
     component: Layout,
     redirect: 'noredirect',
@@ -1455,12 +1457,6 @@ export const asyncRouterMap = [
         component: () => import('@/views/Advancemanage/AdvanceOrderList'),
         name: 'AdvanceOrderList',
         meta: { title: 'AdvanceOrderList', noCache: true }
-      },
-      {
-        path: 'AddPrepReturn',
-        component: () => import('@/views/Advancemanage/AddPrepReturn'),
-        name: 'AddPrepReturn',
-        meta: { title: 'AddPrepReturn', noCache: false }
       }
     ]
   },
@@ -1559,6 +1555,58 @@ export const asyncRouterMap = [
         component: () => import('@/views/CheckFail/CheckFailList'),
         name: 'CheckFailList',
         meta: { title: 'CheckFailList', noCache: true }
+      }
+    ]
+  },
+  {
+    path: '/SendCar',
+    component: Layout,
+    redirect: 'noredirect',
+    name: 'SendCar',
+    alwaysShow: true,
+    meta: {
+      title: 'SendCar',
+      icon: 'paiche',
+      type: 9
+    },
+    children: [
+      {
+        path: 'Addsendcar',
+        component: () => import('@/views/LogisticsCar/Addsendcar'),
+        name: 'Addsendcar',
+        meta: { title: 'Addsendcar', noCache: false }
+      },
+      {
+        path: 'SendcarList',
+        component: () => import('@/views/LogisticsCar/SendcarList'),
+        name: 'SendcarList',
+        meta: { title: 'SendcarList', noCache: true }
+      }
+    ]
+  },
+  {
+    path: '/ReturnCar',
+    component: Layout,
+    redirect: 'noredirect',
+    name: 'ReturnCar',
+    alwaysShow: true,
+    meta: {
+      title: 'ReturnCar',
+      icon: 'huiche',
+      type: 9
+    },
+    children: [
+      {
+        path: 'Addreturncar',
+        component: () => import('@/views/LogisticsCar/Addreturncar'),
+        name: 'Addreturncar',
+        meta: { title: 'Addreturncar', noCache: false }
+      },
+      {
+        path: 'ReturncarList',
+        component: () => import('@/views/LogisticsCar/ReturncarList'),
+        name: 'ReturncarList',
+        meta: { title: 'ReturncarList', noCache: true }
       }
     ]
   },

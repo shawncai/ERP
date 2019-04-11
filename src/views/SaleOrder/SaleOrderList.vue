@@ -4,20 +4,22 @@
       <el-row>
         <el-form ref="getemplist" :model="getemplist" label-width="100px" style="margin-top: -9px">
           <el-col :span="5">
-            <el-form-item label="预售单主题" label-width="100px">
-              <el-input v-model="getemplist.title" :placeholder="$t('Advancemanage.title')" clearable @keyup.enter.native="handleFilter"/>
+            <el-form-item label="订单主题" label-width="100px">
+              <el-input v-model="getemplist.title" :placeholder="$t('SaleOrder.title')" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
           <el-col :span="5" style="margin-left: 10px">
-            <el-form-item label="预售单编号">
-              <el-input v-model="getemplist.advanceNumber" placeholder="预售单编号" clearable @keyup.enter.native="handleFilter"/>
+            <el-form-item label="订单单号">
+              <el-input v-model="getemplist.number" placeholder="订单单号" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
           <el-col :span="5" style="margin-left: 10px">
-            <el-form-item label="业务员">
-              <el-input v-model="salePersonId" :placeholder="$t('Advancemanage.salePersonId')" clearable @keyup.enter.native="handleFilter" @focus="handlechooseStock"/>
+            <el-form-item :label="$t('SaleOrder.sendType')">
+              <el-select v-model="getemplist.sendType" :value="getemplist.sendType" clearable @keyup.enter.native="handleFilter">
+                <el-option value="1" label="已发货"/>
+                <el-option value="2" label="未发货"/>
+              </el-select>
             </el-form-item>
-            <my-emp :control.sync="stockControl" @stockName="stockName"/>
           </el-col>
           <!--更多搜索条件-->
           <el-col :span="3">
@@ -26,6 +28,13 @@
               placement="bottom"
               width="500"
               trigger="manual">
+              <el-select v-model="getemplist.customerType" :placeholder="$t('SaleOrder.customerType')" clearable style="width: 40%;float: left;margin-left: 20px">
+                <el-option value="1" label="经销商"/>
+                <el-option value="2" label="零售"/>
+              </el-select>
+              <el-input v-model="customerName" :placeholder="$t('SaleOrder.customerName')" style="width: 40%;float: right;margin-right: 20px;" clearable @focus="chooseCustomer"/>
+              <my-customer :customercontrol.sync="customercontrol" @customerdata="customerdata"/>
+              <my-agent :agentcontrol.sync="agentcontrol" @agentdata="agentdata"/>
               <el-select v-model="getemplist.receiptStat" :value="getemplist.receiptStat" placeholder="单据状态" clearable style="width: 40%;float: left;margin-left: 20px;margin-top: 20px">
                 <el-option value="1" label="制单"/>
                 <el-option value="2" label="执行"/>
@@ -37,6 +46,15 @@
                 <el-option value="2" label="审核通过"/>
                 <el-option value="3" label="审核不通过"/>
               </el-select>
+              <el-date-picker
+                v-model="date"
+                type="daterange"
+                range-separator="-"
+                unlink-panels
+                start-placeholder="销售日期"
+                end-placeholder="销售日期"
+                value-format="yyyy-MM-dd"
+                style="margin-top: 20px;margin-left: 20px"/>
               <div class="seachbutton" style="width: 100%;float: right;margin-top: 20px">
                 <el-button v-waves class="filter-item" type="primary" style="float: right" round @click="handleFilter">{{ $t('public.search') }}</el-button>
               </div>
@@ -86,48 +104,38 @@
           align="center"/>
         <el-table-column :label="$t('public.id')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span class="link-type" @click="handleDetail(scope.row)">{{ scope.row.advanceNumber }}</span>
+            <span class="link-type" @click="handleDetail(scope.row)">{{ scope.row.number }}</span>
           </template>
           <detail-list :detailcontrol.sync="detailvisible" :detaildata.sync="personalForm"/>
         </el-table-column>
-        <el-table-column :label="$t('Advancemanage.title')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('SaleOrder.title')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.title }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('Advancemanage.customerName')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('SaleOrder.customerName')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.customerName }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('Advancemanage.phone')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('SaleOrder.transDate')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.phone }}</span>
+            <span>{{ scope.row.transDate }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('Advancemanage.advanceMoney')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('SaleOrder.heji6')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.advanceMoney }}</span>
+            <span>{{ scope.row.allIncludeTaxDiscountMoney }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('Advancemanage.payMode')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('SaleOrder.sendType')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.payMode }}</span>
+            <span>{{ scope.row.sendType | sendTypeFilter }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('Advancemanage.salePersonId')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('SaleOrder.backMoney')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.salePersonName }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column :label="$t('Advancemanage.createDate')" :resizable="false" align="center" min-width="150">
-          <template slot-scope="scope">
-            <span>{{ scope.row.createDate }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column :label="$t('Advancemanage.saleRepositoryId')" :resizable="false" align="center" min-width="150">
-          <template slot-scope="scope">
-            <span>{{ scope.row.saleRepositoryName }}</span>
+            <span>{{ scope.row.backMoney }}</span>
           </template>
         </el-table-column>
         <el-table-column :label="$t('public.judgeStat')" :resizable="false" prop="judgeStat" align="center" min-width="150">
@@ -158,20 +166,21 @@
 </template>
 
 <script>
-import { advanceorderlist, deleteadvanceorder, updateadvanceorder2 } from '@/api/Advancemanage'
+import { searchsaleOrder, deletesaleOrder, updatesaleOrder2 } from '@/api/SaleOrder'
 import { getdeptlist } from '@/api/BasicSettings'
 import { searchStockCategory } from '@/api/StockCategory'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination'
 import MyEmp from './components/MyEmp'
-import DetailList from './components/DetailList2'
-import MyDialog from './components/MyDialog2'
-import MySupplier from './components/MySupplier'
+import DetailList from './components/DetailList'
+import MyDialog from './components/MyDialog'
+import MyCustomer from './components/MyCustomer'
+import MyAgent from './components/MyAgent'
 
 export default {
-  name: 'AdvanceOrderList',
+  name: 'SaleOrderList',
   directives: { waves },
-  components: { MyDialog, DetailList, MyEmp, Pagination, MySupplier },
+  components: { MyDialog, DetailList, MyEmp, MyCustomer, MyAgent, Pagination },
   filters: {
     judgeStatFilter(status) {
       const statusMap = {
@@ -196,17 +205,21 @@ export default {
       }
       return statusMap[status]
     },
-    sourceTypeFilter(status) {
+    sendTypeFilter(status) {
       const statusMap = {
-        1: '采购申请',
-        2: '采购需求',
-        3: '无来源'
+        1: '已发货',
+        2: '未发货'
       }
       return statusMap[status]
     }
   },
   data() {
     return {
+      // 回显客户
+      customerName: '',
+      // 控制客户
+      customercontrol: false,
+      agentcontrol: false,
       // 类别获取参数
       typeparms: {
         pagenum: 1,
@@ -230,8 +243,8 @@ export default {
       supplierId: '',
       // 供应商控制框
       empcontrol: false,
-      // 业务员回显
-      salePersonId: '',
+      // 采购人回显
+      stockPersonId: '',
       // 采购人控制框
       stockControl: false,
       // 批量操作
@@ -274,6 +287,27 @@ export default {
         return true
       }
     },
+    // 选择客户类型时清理客户名称
+    clearCustomer() {
+      this.getemplist.customerId = ''
+      this.customerName = ''
+    },
+    // 选择客户focus
+    chooseCustomer() {
+      if (this.getemplist.customerType === '1') {
+        this.agentcontrol = true
+      } else if (this.getemplist.customerType === '2') {
+        this.customercontrol = true
+      }
+    },
+    customerdata(val) {
+      this.getemplist.customerId = val.id
+      this.customerName = val.customerName
+    },
+    agentdata(val) {
+      this.getemplist.customerId = val.id
+      this.customerName = val.agentName
+    },
     // 更新采购类型
     updatecountry() {
       this.getlist()
@@ -281,7 +315,7 @@ export default {
     getlist() {
       // 物料需求计划列表数据
       this.listLoading = true
-      advanceorderlist(this.getemplist).then(res => {
+      searchsaleOrder(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
@@ -305,13 +339,15 @@ export default {
     },
     // 清空搜索条件
     restFilter() {
-      this.salePersonId = ''
-      this.getemplist.salePersonId = ''
+      this.customerName = ''
+      this.getemplist.customerId = ''
+      this.stockPersonId = ''
+      this.getemplist.stockPersonId = ''
     },
     // 搜索
     handleFilter() {
       this.getemplist.pageNum = 1
-      advanceorderlist(this.getemplist).then(res => {
+      searchsaleOrder(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
@@ -321,14 +357,14 @@ export default {
         }
       })
     },
-    // 业务员focus事件
+    // 采购人focus事件
     handlechooseStock() {
       this.stockControl = true
     },
-    // 业务员回显
+    // 采购人回显
     stockName(val) {
-      this.salePersonId = val.personName
-      this.getemplist.salePersonId = val.id
+      this.stockPersonId = val.personName
+      this.getemplist.stockPersonId = val.id
     },
     // 供应商输入框focus事件触发
     handlechoose() {
@@ -345,12 +381,9 @@ export default {
       console.log(row)
       this.editVisible = true
       this.personalForm = Object.assign({}, row)
-      this.personalForm.payMode = String(row.payMode)
-      if (row.currencyId !== null) {
-        this.personalForm.currencyId = String(row.currencyId)
-      }
-      if (row.payId !== null) {
-        this.personalForm.payId = String(row.payId)
+      this.personalForm.sourceType = String(row.sourceType)
+      if (row.currency !== null) {
+        this.personalForm.currency = String(row.currency)
       }
     },
     // 修改组件修改成功后返回
@@ -387,7 +420,7 @@ export default {
       }).then(() => {
         this.reviewParms.judgeStat = 2
         const parms = JSON.stringify(this.reviewParms)
-        updateadvanceorder2(parms).then(res => {
+        updatesaleOrder2(parms).then(res => {
           if (res.data.ret === 200) {
             this.$message({
               type: 'success',
@@ -400,7 +433,7 @@ export default {
         if (action === 'cancel') {
           this.reviewParms.judgeStat = 1
           const parms = JSON.stringify(this.reviewParms)
-          updateadvanceorder2(parms).then(res => {
+          updatesaleOrder2(parms).then(res => {
             if (res.data.ret === 200) {
               this.$message({
                 type: 'success',
@@ -426,7 +459,7 @@ export default {
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          deleteadvanceorder(ids).then(res => {
+          deletesaleOrder(ids).then(res => {
             if (res.data.ret === 200) {
               this.$notify({
                 title: '删除成功',
@@ -457,7 +490,7 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        deleteadvanceorder(row.id).then(res => {
+        deletesaleOrder(row.id).then(res => {
           if (res.data.ret === 200) {
             this.$notify({
               title: '删除成功',
@@ -482,14 +515,14 @@ export default {
     },
     // 新增数据
     handleAdd() {
-      this.$router.push('/Advancemanage/AddAdvanceOrder')
+      this.$router.push('/SaleOrder/AddSaleOrder')
     },
     // 导出
     handleExport() {
       this.downloadLoading = true
         import('@/vendor/Export2Excel').then(excel => {
           const tHeader = ['供应商编号', '供应商名称', '供应商简称', '供应商类别', '所在区域', '采购员', '供应商优质级别', '建档人', '建档日期']
-          const filterVal = ['id', 'AdvancemanageName', 'AdvancemanageShortName', 'typeName', 'regionName', 'buyerName', 'levelName', 'createName', 'createTime']
+          const filterVal = ['id', 'SaleOrderName', 'SaleOrderShortName', 'typeName', 'regionName', 'buyerName', 'levelName', 'createName', 'createTime']
           const data = this.formatJson(filterVal, this.list)
           excel.export_json_to_excel({
             header: tHeader,

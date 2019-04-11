@@ -11,6 +11,7 @@
       <el-menu-item index="6">分期管理</el-menu-item>
       <el-menu-item index="7">生产管理</el-menu-item>
       <el-menu-item index="8">质检管理</el-menu-item>
+      <el-menu-item index="9">物流管理</el-menu-item>
       <!--<el-menu-item index="9">报表统计</el-menu-item>-->
       <!--<el-menu-item index="10">操作日志</el-menu-item>-->
     </el-menu>
