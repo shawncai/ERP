@@ -13,9 +13,9 @@
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('Product.categoryid')" style="width: 100%;">
+                <el-form-item :label="$t('Product.categoryid')" prop="categoryid" style="width: 100%;">
                   <el-input v-model="categoryid" style="margin-left: 18px;width: 218px" placeholder="请选择物品分类" @focus="treechoose"/>
-                  <my-tree :treecontrol.sync="treecontrol" @tree="tree"/>
+                  <my-tree :treecontrol.sync="treecontrol" @tree="tree" @finder="finder"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
@@ -24,49 +24,61 @@
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('Product.disposeId')" prop="disposeId" style="width: 100%;">
-                  <el-select v-model="personalForm.disposeId" placeholder="请选择配置" style="margin-left: 18px;width: 218px" @focus="updatecate">
+                <el-form-item :label="$t('Product.typeid')" :rules="personalForm.categoryid === 3 || personalForm.categoryid === '' ? personalrules.typeid:[{ required: true, message: '请选择车辆型号', trigger: 'change' }]" prop="typeid" style="width: 100%;">
+                  <el-select v-model="typeid" :disabled="personalForm.categoryid === 3 || personalForm.categoryid === ''" value-key="id" style="margin-left: 18px;width: 218px" placeholder="请选择车辆型号" clearable @change="type($event)" @focus="updatecate">
+                    <el-option
+                      v-for="(item, index) in types"
+                      :key="index"
+                      :label="item.categoryName"
+                      :value="item"
+                    />
+                  </el-select>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item :label="$t('Product.disposeId')" :rules="personalForm.categoryid === 3 || personalForm.categoryid === '' || personalForm.categoryid === 2 ? personalrules.disposeId:[{ required: true, message: '请选择配置', trigger: 'change' }]" prop="disposeId" style="width: 100%;">
+                  <el-select v-model="disposeId" :disabled="personalForm.categoryid === 3 || personalForm.categoryid === '' || personalForm.categoryid === 2" value-key="id" placeholder="请选择配置" style="margin-left: 18px;width: 218px" @change="dispose($event)" @focus="updatecate">
                     <el-option
                       v-for="(item, index) in disposes"
                       :key="index"
                       :label="item.categoryName"
-                      :value="item.id"
+                      :value="item"
                     />
                   </el-select>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('Product.versionId')" prop="versionId" style="width: 100%;">
-                  <el-select v-model="personalForm.versionId" placeholder="请选择版本" style="margin-left: 18px;width: 218px" @focus="updatecate">
+                <el-form-item :label="$t('Product.versionId')" :rules="personalForm.categoryid === 3 || personalForm.categoryid === '' ? personalrules.versionId:[{ required: true, message: '请选择版本', trigger: 'change' }]" prop="versionId" style="width: 100%;">
+                  <el-select v-model="versionId" :disabled="personalForm.categoryid === 3 || personalForm.categoryid === ''" value-key="id" placeholder="请选择版本" style="margin-left: 18px;width: 218px" @change="version($event)" @focus="updatecate">
                     <el-option
                       v-for="(item, index) in versions"
                       :key="index"
                       :label="item.categoryName"
-                      :value="item.id"
+                      :value="item"
                     />
                   </el-select>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('Product.color')" style="width: 100%;">
-                  <el-select v-model="personalForm.color" placeholder="请选择颜色" style="margin-left: 18px;width: 218px" @focus="updatecate">
+                <el-form-item :label="$t('Product.color')" :rules="personalForm.categoryid === 3 || personalForm.categoryid === '' ? personalrules.colorId:[{ required: true, message: '请选择颜色', trigger: 'change' }]" prop="colorId" style="width: 100%;">
+                  <el-select v-model="colorId" :disabled="personalForm.categoryid === 3 || personalForm.categoryid === ''" value-key="id" placeholder="请选择颜色" style="margin-left: 18px;width: 218px" @change="color($event)" @focus="updatecate">
                     <el-option
                       v-for="(item, index) in colors"
                       :key="index"
                       :label="item.categoryName"
-                      :value="item.id"
+                      :value="item"
                     />
                   </el-select>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('Product.diameterId')" style="width: 100%;">
-                  <el-select v-model="personalForm.diameterId" placeholder="请选择直径规格" style="margin-left: 18px;width: 218px" @focus="updatecate">
+                <el-form-item :label="$t('Product.diameterId')" :rules="personalForm.categoryid === 1 || personalForm.categoryid === 2 || personalForm.categoryid === '' ? personalrules.diameterId:[{ required: true, message: '请选择直径规格', trigger: 'change' }]" prop="diameterId" style="width: 100%;">
+                  <el-select v-model="diameterId" :disabled="personalForm.categoryid === 1 || personalForm.categoryid === 2 || personalForm.categoryid === ''" value-key="id" placeholder="请选择直径规格" style="margin-left: 18px;width: 218px" @change="diameter($event)" @focus="updatecate">
                     <el-option
                       v-for="(item, index) in diameters"
                       :key="index"
                       :label="item.categoryName"
-                      :value="item.id"
+                      :value="item"
                     />
                   </el-select>
                 </el-form-item>
@@ -96,49 +108,37 @@
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('Product.typeid')" style="width: 100%;">
-                  <el-select v-model="personalForm.typeid" style="margin-left: 18px;width: 218px" placeholder="请选择规格型号" @focus="updatecate">
-                    <el-option
-                      v-for="(item, index) in types"
-                      :key="index"
-                      :label="item.categoryName"
-                      :value="item.id"
-                    />
-                  </el-select>
-                </el-form-item>
-              </el-col>
-              <el-col :span="6">
-                <el-form-item :label="$t('Product.lengthLevelId')" style="width: 100%;">
-                  <el-select v-model="personalForm.lengthLevelId" placeholder="请选择长度等级" style="margin-left: 18px;width: 218px" @focus="updatecate">
+                <el-form-item :label="$t('Product.lengthLevelId')" :rules="personalForm.categoryid === 1 || personalForm.categoryid === 2 || personalForm.categoryid === '' ? personalrules.lengthLevelId:[{ required: true, message: '请选择长度等级', trigger: 'change' }]" prop="lengthLevelId" style="width: 100%;">
+                  <el-select v-model="lengthLevelId" :disabled="personalForm.categoryid === 1 || personalForm.categoryid === 2 || personalForm.categoryid === ''" value-key="id" placeholder="请选择长度等级" style="margin-left: 18px;width: 218px" @change="length($event)" @focus="updatecate">
                     <el-option
                       v-for="(item, index) in lengthLevels"
                       :key="index"
                       :label="item.categoryName"
-                      :value="item.id"
+                      :value="item"
                     />
                   </el-select>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('Product.faceId')" style="width: 100%;">
-                  <el-select v-model="personalForm.faceId" placeholder="请选择表面处理" style="margin-left: 18px;width: 218px" @focus="updatecate">
+                <el-form-item :label="$t('Product.faceId')" :rules="personalForm.categoryid === 1 || personalForm.categoryid === 2 || personalForm.categoryid === '' ? personalrules.faceId:[{ required: true, message: '请选择表面处理', trigger: 'change' }]" prop="faceId" style="width: 100%;">
+                  <el-select v-model="faceId" :disabled="personalForm.categoryid === 1 || personalForm.categoryid === 2 || personalForm.categoryid === ''" value-key="id" placeholder="请选择表面处理" style="margin-left: 18px;width: 218px" @change="face($event)" @focus="updatecate">
                     <el-option
                       v-for="(item, index) in faces"
                       :key="index"
                       :label="item.categoryName"
-                      :value="item.id"
+                      :value="item"
                     />
                   </el-select>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('Product.performanceLevelId')" style="width: 100%;">
-                  <el-select v-model="personalForm.performanceLevelId" placeholder="请选择性能等级" style="margin-left: 18px;width: 218px" @focus="updatecate">
+                <el-form-item :label="$t('Product.performanceLevelId')" :rules="personalForm.categoryid === 1 || personalForm.categoryid === 2 || personalForm.categoryid === '' ? personalrules.performanceLevelId:[{ required: true, message: '请选择性能等级', trigger: 'change' }]" prop="performanceLevelId" style="width: 100%;">
+                  <el-select v-model="performanceLevelId" :disabled="personalForm.categoryid === 1 || personalForm.categoryid === 2 || personalForm.categoryid === ''" value-key="id" placeholder="请选择性能等级" style="margin-left: 18px;width: 218px" @change="performanceLevel($event)" @focus="updatecate">
                     <el-option
                       v-for="(item, index) in performanceLevels"
                       :key="index"
                       :label="item.categoryName"
-                      :value="item.id"
+                      :value="item"
                     />
                   </el-select>
                 </el-form-item>
@@ -196,7 +196,7 @@
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('Product.kpigrade')" style="width: 100%;">
+                <el-form-item :label="$t('Product.kpigrade')" prop="kpigrade" style="width: 100%;">
                   <el-input v-model="personalForm.kpigrade" placeholder="请输入绩效分" style="margin-left: 18px" clearable/>
                 </el-form-item>
               </el-col>
@@ -356,7 +356,33 @@ export default {
   name: 'NewProduct',
   components: { MyTree, MySupplier, MyEmp },
   data() {
+    const validatePass = (rule, value, callback) => {
+      console.log(value)
+      if (value === null) {
+        callback(new Error('请选择'))
+      } else {
+        callback()
+      }
+    }
     return {
+      // 车辆型号回显
+      typeid: '',
+      // 配置回显
+      disposeId: '',
+      // 版本回显
+      versionId: '',
+      // 颜色回显
+      colorId: '',
+      // 直径回显
+      diameterId: '',
+      // 长度回显
+      lengthLevelId: '',
+      // 表面处理回显
+      faceId: '',
+      // 性能等级回显
+      performanceLevelId: '',
+      // 控制编码
+      carOrOther: '',
       // 控制物品分类
       treecontrol: false,
       // 物品分类回显
@@ -413,7 +439,6 @@ export default {
         code: '',
         barcode: '',
         productname: '',
-        typeid: '',
         categoryid: '',
         color: '',
         brand: '',
@@ -438,7 +463,15 @@ export default {
         isactive: '',
         picids: [],
         detailpicid: [],
-        memberprice: ''
+        memberprice: '',
+        versionId: '',
+        diameterId: '',
+        lengthLevelId: '',
+        faceId: '',
+        performanceLevelId: '',
+        disposeId: '',
+        colorId: '',
+        typeid: ''
       },
       // 物品信息规则数据
       personalrules: {
@@ -447,6 +480,26 @@ export default {
         ],
         valuation: [
           { required: true, message: '请选择计价方式', trigger: 'change' }
+        ],
+        disposeId: [
+        ],
+        categoryid: [
+          { required: true, validator: validatePass, trigger: 'blur' }
+        ],
+        versionId: [
+          { message: '请选择版本', trigger: 'change' }
+        ],
+        colorId: [
+        ],
+        diameterId: [
+        ],
+        lengthLevelId: [
+        ],
+        faceId: [
+        ],
+        performanceLevelId: [
+        ],
+        typeid: [
         ],
         costprice: [
           { required: true, message: '请输入成本价', trigger: 'blur' }
@@ -470,6 +523,68 @@ export default {
     this.getcategorys()
   },
   methods: {
+    'personalForm.disposeId'(val) {
+      this.$nextTick(() => {
+        console.log(val)
+        if (val !== 34) {
+          this.$refs.personalForm.validateField('versionId')
+          this.personalForm.versionId = ''// 政府机构级别,
+        }
+      })
+    },
+    // 'personalForm.categoryid'(val) {
+    //   this.$nextTick(() => {
+    //     console.log(val)
+    //     if (val !== 1) {
+    //       this.$refs.personalForm.validateField('typeid')
+    //       this.personalForm.typeid = ''// 政府机构级别,
+    //     }
+    //   })
+    // },
+    // 表面处理change事件
+    performanceLevel(val) {
+      this.personalForm.performanceLevelId = val.id
+      this.personalForm.performanceLevelCode = val.code
+    },
+    // 表面处理change事件
+    face(val) {
+      this.personalForm.faceId = val.id
+      this.personalForm.faceCode = val.code
+    },
+    // 颜色change事件
+    color(val) {
+      this.personalForm.colorId = val.id
+      this.personalForm.colorCode = val.code
+    },
+    // 长度等级change事件
+    length(val) {
+      this.personalForm.lengthLevelId = val.id
+      this.personalForm.lengthCode = val.code
+    },
+    // 直径规格change事件
+    diameter(val) {
+      this.personalForm.diameterId = val.id
+      this.personalForm.diameterCode = val.code
+    },
+    // 版本change事件
+    version(val) {
+      this.personalForm.versionId = val.id
+      this.personalForm.versionCode = val.code
+    },
+    // 车辆型号change事件
+    type(val) {
+      this.personalForm.typeid = val.id
+      this.personalForm.typeCode = val.code
+      console.log(this.$refs.personalForm)
+    },
+    // 配置下拉框change事件
+    dispose(val) {
+      console.log(val)
+      this.disposeId = val.categoryName
+      this.personalForm.disposeId = val.id
+      this.personalForm.disposeCode = val.code
+      console.log(this.personalForm.disposeId)
+    },
     getcategorys() {
       // 物品品牌数据
       searchEmpCategory2(1).then(res => {
@@ -653,12 +768,37 @@ export default {
         isactive: '',
         picids: [],
         detailpicid: [],
-        memberprice: ''
+        memberprice: '',
+        versionId: '',
+        diameterId: '',
+        lengthLevelId: '',
+        faceId: '',
+        performanceLevelId: '',
+        disposeId: '',
+        colorId: ''
       }
       this.supplierid = ''
+      // 车辆型号回显
+      this.typeid = ''
+      // 配置回显
+      this.disposeId = ''
+      // 版本回显
+      this.versionId = ''
+      // 颜色回显
+      this.colorId = ''
+      // 直径回显
+      this.diameterId = ''
+      // 长度回显
+      this.lengthLevelId = ''
+      // 表面处理回显
+      this.faceId = ''
+      // 性能等级回显
+      this.performanceLevelId = ''
+      this.categoryid = ''
     },
     // 继续录入
     handleentry() {
+      console.log(this.personalForm)
       this.$refs.personalForm.validate((valid) => {
         if (valid) {
           this.$refs.personalForm2.validate((valid) => {
@@ -743,7 +883,37 @@ export default {
     // 物品分类数据
     tree(val) {
       this.categoryid = val.categoryName
-      this.personalForm.categoryid = val.id
+      this.personalForm.categoryCode = val.code
+    },
+    finder(val) {
+      const Id = this.recursion(val)
+      console.log(val)
+      if (Id.code === '01') {
+        this.personalForm.categoryCode = '01' + val.data.code
+      } else if (Id.code === '02') {
+        if (val.level === 2) {
+          this.personalForm.categoryCode = '02' + val.data.code + '00' + '00'
+        } else if (val.level === 3) {
+          console.log(val)
+          this.personalForm.categoryCode = '02' + val.parent.data.code + val.data.code + '00'
+        } else if (val.level === 4) {
+          this.personalForm.categoryCode = '02' + val.parent.parent.data.code + val.parent.data.code + val.data.code
+        }
+      } else if (Id.code === '03') {
+        if (val.level === 3) {
+          this.personalForm.categoryCode = '03' + val.parent.data.code + val.data.code
+        }
+      }
+      console.log(this.personalForm.categoryCode)
+      this.personalForm.categoryid = Id.id
+    },
+    // 递归函数
+    recursion(val) {
+      if (val.level === 1) {
+        return val.data
+      } else {
+        return this.recursion(val.parent)
+      }
     }
   }
 }

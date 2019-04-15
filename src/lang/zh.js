@@ -222,6 +222,7 @@ export default {
     closeAll: '关闭所有'
   },
   NewEmployeeInformation: {
+    code2: '编码',
     account: '员工端登陆账号',
     password: '密码',
     firstname: '姓氏',
@@ -386,18 +387,18 @@ export default {
     createId: '建档人'
   },
   Product: {
+    code2: '编码',
     disposeId: '配置',
     versionId: '版本',
     diameterId: '直径规格',
     lengthLevelId: '长度等级',
     faceId: '表面处理',
     performanceLevelId: '性能等级',
-
     effectiveDay: '有效天数',
     code: '物料编码',
     barcode: '条码',
-    productname: '产品名称',
-    typeid: '规格型号',
+    productname: '物品名称',
+    typeid: '车辆型号',
     categoryid: '物品分类',
     color: '颜色',
     brand: '品牌',

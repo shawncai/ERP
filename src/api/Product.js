@@ -47,6 +47,9 @@ export function addEmpCategory(query) {
   if (query.iseffective !== '' && query.iseffective !== null) {
     params.append('iseffective', query.iseffective) // 你要传给后台的参数值 key/value
   }
+  if (query.code !== '' && query.code !== null) {
+    params.append('code', query.code) // 你要传给后台的参数值 key/value
+  }
   if (query.type !== '' && query.type !== null) {
     params.append('type', query.type) // 你要传给后台的参数值 key/value
   }
@@ -190,6 +193,51 @@ export function createnewproduct(query) {
   }
   if (query.isBatch !== '' && query.isBatch !== null && query.isBatch !== undefined) {
     params.append('isBatch', query.isBatch) // 你要传给后台的参数值 key/value
+  }
+  if (query.versionId !== '' && query.versionId !== null && query.versionId !== undefined) {
+    params.append('versionId', query.versionId) // 你要传给后台的参数值 key/value
+  }
+  if (query.diameterId !== '' && query.diameterId !== null && query.diameterId !== undefined) {
+    params.append('diameterId', query.diameterId) // 你要传给后台的参数值 key/value
+  }
+  if (query.lengthLevelId !== '' && query.lengthLevelId !== null && query.lengthLevelId !== undefined) {
+    params.append('lengthLevelId', query.lengthLevelId) // 你要传给后台的参数值 key/value
+  }
+  if (query.faceId !== '' && query.faceId !== null && query.faceId !== undefined) {
+    params.append('faceId', query.faceId) // 你要传给后台的参数值 key/value
+  }
+  if (query.performanceLevelId !== '' && query.performanceLevelId !== null && query.performanceLevelId !== undefined) {
+    params.append('performanceLevelId', query.performanceLevelId) // 你要传给后台的参数值 key/value
+  }
+  if (query.disposeId !== '' && query.disposeId !== null && query.disposeId !== undefined) {
+    params.append('disposeId', query.disposeId) // 你要传给后台的参数值 key/value
+  }
+  if (query.categoryCode !== '' && query.categoryCode !== null && query.categoryCode !== undefined) {
+    params.append('categoryCode', query.categoryCode) // 你要传给后台的参数值 key/value
+  }
+  if (query.typeCode !== '' && query.typeCode !== null && query.typeCode !== undefined) {
+    params.append('typeCode', query.typeCode) // 你要传给后台的参数值 key/value
+  }
+  if (query.colorCode !== '' && query.colorCode !== null && query.colorCode !== undefined) {
+    params.append('colorCode', query.colorCode) // 你要传给后台的参数值 key/value
+  }
+  if (query.versionCode !== '' && query.versionCode !== null && query.versionCode !== undefined) {
+    params.append('versionCode', query.versionCode) // 你要传给后台的参数值 key/value
+  }
+  if (query.diameterCode !== '' && query.diameterCode !== null && query.diameterCode !== undefined) {
+    params.append('diameterCode', query.diameterCode) // 你要传给后台的参数值 key/value
+  }
+  if (query.lengthCode !== '' && query.lengthCode !== null && query.lengthCode !== undefined) {
+    params.append('lengthCode', query.lengthCode) // 你要传给后台的参数值 key/value
+  }
+  if (query.faceCode !== '' && query.faceCode !== null && query.faceCode !== undefined) {
+    params.append('faceCode', query.faceCode) // 你要传给后台的参数值 key/value
+  }
+  if (query.performanceLevelCode !== '' && query.performanceLevelCode !== null && query.performanceLevelCode !== undefined) {
+    params.append('performanceLevelCode', query.performanceLevelCode) // 你要传给后台的参数值 key/value
+  }
+  if (query.disposeCode !== '' && query.disposeCode !== null && query.disposeCode !== undefined) {
+    params.append('disposeCode', query.disposeCode) // 你要传给后台的参数值 key/value
   }
   return request({
     url: '/erp/product/createnewproduct',
@@ -508,6 +556,9 @@ export function createclassfy(query) {
   }
   if (query.parentId !== '' && query.parentId !== null && query.parentId !== undefined) {
     params.append('parentId', query.parentId) // 你要传给后台的参数值 key/value
+  }
+  if (query.code !== '' && query.code !== null) {
+    params.append('code', query.code) // 你要传给后台的参数值 key/value
   }
   if (query.createId !== '' && query.createId !== null && query.createId !== undefined) {
     params.append('createId', query.createId) // 你要传给后台的参数值 key/value

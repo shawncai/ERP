@@ -154,7 +154,7 @@ export function search(query) {
 }
 
 // 修改供应商
-export function update(query) {
+export function update(query, query2) {
   var params = new URLSearchParams()
   if (query.supplierName !== '' && query.supplierName !== null && query.supplierName !== undefined) {
     params.append('supplierName', query.supplierName) // 你要传给后台的参数值 key/value
@@ -252,6 +252,7 @@ export function update(query) {
   if (query.id !== '' && query.id !== null && query.id !== undefined) {
     params.append('id', query.id) // 你要传给后台的参数值 key/value
   }
+  params.append('detailJson', query2) // 你要传给后台的参数值 key/value
   return request({
     url: '/erp/supplier/update',
     method: 'post',

@@ -7,38 +7,84 @@
         <el-form :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
           <el-row>
             <el-col :span="12">
-              <el-form-item :label="$t('StockPlan.title')" style="width: 100%;">
+              <el-form-item :label="$t('SaleOrder.title')" style="width: 100%;">
                 <span>{{ personalForm.title }}</span>
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item :label="$t('StockPlan.stockType')" prop="stockType" style="width: 100%;">
-                <span>{{ personalForm.stockTypeName }}</span>
+              <el-form-item :label="$t('SaleOrder.customerType')" prop="customerType" style="width: 100%;">
+                <span>{{ personalForm.customerType | customerTypeFliter }}</span>
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item :label="$t('StockPlan.planPersonId')" prop="planPersonId" style="width: 100%;">
-                <span>{{ personalForm.planPersonName }}</span>
+              <el-form-item :label="$t('SaleOrder.customerName')" prop="customerId" style="width: 100%;">
+                <span>{{ personalForm.customerName }}</span>
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item :label="$t('StockPlan.stockPersonId')" prop="stockPersonId" style="width: 100%;">
-                <span>{{ personalForm.stockPersonName }}</span>
+              <el-form-item :label="$t('SaleOrder.customerPhone')" style="width: 100%;">
+                <span>{{ personalForm.customerPhone }}</span>
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item :label="$t('StockPlan.stockDeptId')" prop="stockDeptId" style="width: 100%;">
-                <span>{{ personalForm.stockDeptName }}</span>
+              <el-form-item :label="$t('SaleOrder.invoiceType')" style="width: 100%;">
+                <span>{{ personalForm.invoiceType | invoiceTypeFilter }}</span>
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item :label="$t('StockPlan.sourceType')" style="width: 100%;">
-                <span>{{ personalForm.sourceType | sourceTypeFilter }}</span>
+              <el-form-item :label="$t('SaleOrder.payMode')" style="width: 100%;">
+                <span>{{ personalForm.payMode | payModeFilter }}</span>
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item :label="$t('StockPlan.planDate')" prop="planDate" style="width: 100%;">
-                <span>{{ personalForm.planDate }}</span>
+              <el-form-item :label="$t('SaleOrder.transDate')" prop="transDate" style="width: 100%;">
+                <span>{{ personalForm.transDate }}</span>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('SaleOrder.salePersonId')" prop="salePersonId" style="width: 100%;">
+                <span>{{ personalForm.salePersonName }}</span>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('SaleOrder.saleRepositoryId')" style="width: 100%;">
+                <span>{{ personalForm.saleRepositoryName }}</span>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('SaleOrder.roleId')" style="width: 100%;">
+                <span>{{ personalForm.roleName }}</span>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('SaleOrder.saleType')" style="width: 100%;">
+                <span>{{ personalForm.saleTypeName }}</span>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('SaleOrder.payType')" style="width: 100%;">
+                <span>{{ personalForm.payTypeName }}</span>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('SaleOrder.currency')" style="width: 100%;">
+                <span>{{ personalForm.currency | currencyFilter }}</span>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('SaleOrder.transAddress')" style="width: 100%;">
+                <span>{{ personalForm.transAddress }}</span>
+                <el-input v-model="personalForm.transAddress" style="margin-left: 18px;width: 200px"/>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('SaleOrder.receiveMoney')" style="width: 100%;">
+                <span>{{ personalForm.receiveMoney }}</span>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('SaleOrder.colseType')" style="width: 100%;">
+                <span>{{ personalForm.colseTypeName }}</span>
               </el-form-item>
             </el-col>
           </el-row>
@@ -47,7 +93,7 @@
     </el-card>
     <!--子件信息-->
     <el-card class="box-card" style="margin-top: 15px" shadow="never">
-      <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">采购申请明细来源</h2>
+      <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">订单明细</h2>
       <div class="container">
         <el-editable
           ref="editable"
@@ -62,29 +108,29 @@
           <el-editable-column label="序号" min-width="55" align="center" type="index"/>
           <el-editable-column prop="productCode" align="center" label="物品编号" min-width="150px"/>
           <el-editable-column prop="productName" align="center" label="物品名称" min-width="150px"/>
-          <el-editable-column prop="productType" align="center" label="规格" min-width="150px"/>
+          <el-editable-column prop="Categoryid" align="center" label="物品分类" min-width="150px"/>
+          <el-editable-column prop="unit" align="center" label="基本单位" min-width="150px"/>
+          <el-editable-column prop="typeId" align="center" label="规格型号" min-width="150px"/>
           <el-editable-column prop="color" align="center" label="颜色" min-width="150px"/>
-          <el-editable-column prop="unit" align="center" label="单位" min-width="150px"/>
-          <el-editable-column prop="basicPrice" align="center" label="单价" min-width="150px">
-            <template slot-scope="scope">
-              <p>{{ basicPrice(scope.row) }}</p>
-            </template>
-          </el-editable-column>
-          <el-editable-column prop="planQuantity" align="center" label="计划数量" min-width="150px"/>
-          <el-editable-column prop="planMoney" align="center" label="计划金额" min-width="150px">
-            <template slot-scope="scope">
-              <p>{{ planMoney(scope.row) }}</p>
-            </template>
-          </el-editable-column>
-          <el-editable-column prop="planDeliveryDate" align="center" label="计划交货日期" min-width="170px"/>
-          <el-editable-column prop="applyReason" align="center" label="申请原因" min-width="150px"/>
-          <el-editable-column prop="sourceNumber" align="center" label="源单编号" min-width="150px"/>
-          <el-editable-column prop="supplierName" align="center" label="供应商" min-width="150px"/>
+          <el-editable-column prop="performanceScore" align="center" label="绩效分" min-width="150px"/>
+          <el-editable-column prop="productScore" align="center" label="商品积分" min-width="150px"/>
+          <el-editable-column prop="quantity" align="center" label="订单数量" min-width="150px"/>
+          <el-editable-column prop="salePrice" align="center" label="零售价" min-width="150px"/>
+          <el-editable-column prop="costPrice" align="center" label="成本价" min-width="150px"/>
+          <el-editable-column prop="taxprice" align="center" label="含税价" min-width="150px"/>
+          <el-editable-column prop="costMoney" align="center" label="成本金额" min-width="150px"/>
+          <el-editable-column prop="includeTaxMoney" align="center" label="含税金额" min-width="150px"/>
+          <el-editable-column prop="taxRate" align="center" label="税率(%)" min-width="150px"/>
+          <el-editable-column prop="taxMoney" align="center" label="税额" min-width="150px"/>
+          <el-editable-column prop="money" align="center" label="金额" min-width="150px"/>
+          <el-editable-column prop="includeTaxCostMoney" align="center" label="含税成本金额" min-width="150px"/>
+          <el-editable-column prop="discount" align="center" label="折扣率" min-width="150px"/>
+          <el-editable-column prop="discountMoney" align="center" label="折扣额" min-width="150px"/>
         </el-editable>
       </div>
     </el-card>
     <el-card class="box-card" style="margin-top: 15px" shadow="never">
-      <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">采购申请明细来源</h2>
+      <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">销售费用明细</h2>
       <div class="container">
         <el-editable
           ref="editable2"
@@ -97,27 +143,11 @@
           border
           size="medium"
           style="width: 100%">
+          <el-editable-column type="selection" min-width="55" align="center"/>
           <el-editable-column label="序号" width="60" align="center" type="index"/>
-          <el-editable-column prop="productCode" align="center" label="物品编号" min-width="150px"/>
-          <el-editable-column prop="productName" align="center" label="物品名称" min-width="150px"/>
-          <el-editable-column prop="productType" align="center" label="规格" min-width="150px"/>
-          <el-editable-column prop="color" align="center" label="颜色" min-width="150px"/>
-          <el-editable-column prop="unit" align="center" label="单位" min-width="150px"/>
-          <el-editable-column prop="basicPrice" align="center" label="单价" min-width="150px">
-            <template slot-scope="scope">
-              <p>{{ basicPrice(scope.row) }}</p>
-            </template>
-          </el-editable-column>
-          <el-editable-column prop="planQuantity" align="center" label="计划数量" min-width="150px"/>
-          <el-editable-column prop="planMoney" align="center" label="计划金额" min-width="150px">
-            <template slot-scope="scope">
-              <p>{{ planMoney(scope.row) }}</p>
-            </template>
-          </el-editable-column>
-          <el-editable-column prop="planDeliveryDate" align="center" label="计划交货日期" min-width="170px"/>
-          <el-editable-column prop="applyReason" align="center" label="申请原因" min-width="150px"/>
-          <el-editable-column prop="sourceNumber" align="center" label="源单编号" min-width="150px"/>
-          <el-editable-column prop="supplierName" align="center" label="供应商" min-width="150px"/>
+          <el-editable-column prop="costName" align="center" label="费用名称" min-width="150px"/>
+          <el-editable-column prop="money" align="center" label="金额" min-width="150px"/>
+          <el-editable-column prop="remark" align="center" label="备注" min-width="150px"/>
         </el-editable>
       </div>
     </el-card>
@@ -199,6 +229,41 @@
 import { productlist } from '@/api/public'
 export default {
   filters: {
+    currencyFilter(status) {
+      const statusMap = {
+        1: 'RMB',
+        2: 'USD'
+      }
+      return statusMap[status]
+    },
+    payTypeFilter(status) {
+      const statusMap = {
+        1: '方式1',
+        2: '方式2'
+      }
+      return statusMap[status]
+    },
+    payModeFilter(status) {
+      const statusMap = {
+        1: '货到付款',
+        2: '当场支付'
+      }
+      return statusMap[status]
+    },
+    invoiceTypeFilter(status) {
+      const statusMap = {
+        1: '无',
+        2: '增值税'
+      }
+      return statusMap[status]
+    },
+    customerTypeFliter(status) {
+      const statusMap = {
+        1: '经销商',
+        2: '零售商'
+      }
+      return statusMap[status]
+    },
     statfilter(status) {
       const statusMap = {
         1: '审核中',

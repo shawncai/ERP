@@ -52,6 +52,11 @@
                 </el-form-item>
               </el-col>
               <el-col :span="24" style="margin-top: 20px">
+                <el-form-item :label="$t('Product.code2')" prop="code">
+                  <el-input v-model="personalForm.code" placeholder="编码" style="margin-left: 18px;width: 600px" clearable/>
+                </el-form-item>
+              </el-col>
+              <el-col :span="24" style="margin-top: 20px">
                 <el-form-item :label="$t('Product.parentId')">
                   <el-input v-model="parentId" placeholder="所属父级" style="margin-left: 18px;width: 600px" clearable @focus="handlechoose"/>
                 </el-form-item>
@@ -108,6 +113,9 @@ export default {
       personalrules: {
         name: [
           { required: true, message: '请输入分类名称', trigger: 'blur' }
+        ],
+        code: [
+          { required: true, message: '请输入编码', trigger: 'blur' }
         ],
         isActive: [
           { required: true, message: '请选择应用状态', trigger: 'change' }

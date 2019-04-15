@@ -152,7 +152,7 @@
       <!-- 列表结束 -->
       <pagination v-show="total>0" :total="total" :page.sync="getemplist.pagenum" :limit.sync="getemplist.pagesize" @pagination="getlist" />
       <!--修改开始=================================================-->
-      <my-dialog :control.sync="editVisible" :editdata.sync="personalForm" @rest="refreshlist"/>
+      <my-dialog :editcontrol.sync="editVisible" :editdata.sync="personalForm" @rest="refreshlist"/>
       <!--修改结束=================================================-->
     </div>
   </div>

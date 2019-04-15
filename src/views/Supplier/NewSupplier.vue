@@ -318,7 +318,7 @@
 </template>
 
 <script>
-import { getcountrylist, getprovincelist, getcitylist, regionlist } from '@/api/public'
+import { getcountrylist, getprovincelist, getcitylist, regionlist, saveRegion } from '@/api/public'
 import { searchCategory, create, searchGroup } from '@/api/Supplier'
 import MyEmp from './components/MyEmp'
 import MyDetail from './components/MyDetail'
@@ -553,6 +553,7 @@ export default {
       })
       const parms2 = JSON.stringify(EnterDetail)
       this.personalForm.regionId = this.perregions[this.perregions.length - 1]
+      saveRegion(this.perregions, this.personalForm.regionId)
       this.$refs.personalForm.validate((valid) => {
         if (valid) {
           create(this.personalForm, parms2).then(res => {

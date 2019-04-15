@@ -63,7 +63,7 @@
           type="selection"
           width="55"
           align="center"/>
-        <el-table-column :label="$t('Product.code')" :resizable="false" prop="code" align="center" width="120">
+        <el-table-column :label="$t('Product.code')" :resizable="false" prop="code" align="center" width="180">
           <template slot-scope="scope">
             <span>{{ scope.row.code }}</span>
           </template>
