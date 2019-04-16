@@ -16,7 +16,7 @@
         default-expand-all
         @node-click="handleNodeClick"/>
     </el-card>
-    <el-button class="filter-item" type="success" style="margin-top: 10px" @click="handleConfirm">确认添加</el-button>
+    <!--<el-button class="filter-item" type="success" style="margin-top: 10px" @click="handleConfirm">确认添加</el-button>-->
   </el-dialog>
 </template>
 
@@ -102,10 +102,6 @@ export default {
       }
       this.digui = node
       this.choosedata = data
-      this.gettree()
-    },
-    handleConfirm() {
-      console.log(this.choosedata)
       if (this.choosedata.level === 1) {
         this.$notify.error({
           title: '错误',
@@ -119,12 +115,18 @@ export default {
         this.$emit('finder', this.digui)
         this.editVisible = false
       }
+      this.gettree()
+    },
+    handleConfirm() {
+      console.log(this.choosedata)
     }
     // 修改操作结束 -------------------------------------------------
   }
 }
 </script>
 
-<style scoped>
-
+<style rel="stylesheet/css" scoped>
+  .box-card >>> .el-tree-node__content:hover {
+    background: #409EFF;
+  }
 </style>

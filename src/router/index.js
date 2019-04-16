@@ -75,7 +75,7 @@ export const constantRouterMap = [
         path: 'home',
         component: () => import('@/views/home/index'),
         name: 'dashboard',
-        meta: { title: 'nwow', icon: 'shouye', noCache: true, affix: true }
+        meta: { title: 'nwow', icon: 'shouye', noCache: true }
       }
     ]
   }
@@ -1325,6 +1325,23 @@ export const asyncRouterMap = [
     ]
   },
   {
+    path: '/ShouldPayList',
+    component: Layout,
+    redirect: 'noredirect',
+    meta: {
+      icon: 'yingfukuan',
+      type: 2
+    },
+    children: [
+      {
+        path: 'index',
+        component: () => import('@/views/ShouldPayList/index'),
+        name: 'ShouldPayList',
+        meta: { title: 'ShouldPayList', noCache: true }
+      }
+    ]
+  },
+  {
     path: '/StockCategory',
     component: Layout,
     redirect: 'noredirect',
@@ -1419,6 +1436,26 @@ export const asyncRouterMap = [
         component: () => import('@/views/SaleOrder/SaleOrderList'),
         name: 'SaleOrderList',
         meta: { title: 'SaleOrderList', noCache: true }
+      }
+    ]
+  },
+  {
+    path: '/SaleReturn',
+    component: Layout,
+    redirect: 'noredirect',
+    name: 'SaleReturn',
+    alwaysShow: true,
+    meta: {
+      title: 'SaleReturn',
+      icon: 'tuihuo',
+      type: 3
+    },
+    children: [
+      {
+        path: 'AddSaleReturn',
+        component: () => import('@/views/SaleReturn/AddSaleReturn'),
+        name: 'AddSaleReturn',
+        meta: { title: 'AddSaleReturn', noCache: false }
       }
     ]
   },
@@ -1555,6 +1592,26 @@ export const asyncRouterMap = [
         component: () => import('@/views/CheckFail/CheckFailList'),
         name: 'CheckFailList',
         meta: { title: 'CheckFailList', noCache: true }
+      }
+    ]
+  },
+  {
+    path: '/CheckCategory',
+    component: Layout,
+    redirect: 'noredirect',
+    name: 'CheckCategory',
+    alwaysShow: true,
+    meta: {
+      title: 'CheckCategory',
+      icon: 'shuxing',
+      type: 8
+    },
+    children: [
+      {
+        path: 'CheckCategoryList',
+        component: () => import('@/views/CheckCategory/CheckCategoryList'),
+        name: 'CheckCategoryList',
+        meta: { title: 'CheckCategoryList', noCache: true }
       }
     ]
   },

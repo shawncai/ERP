@@ -16,6 +16,9 @@
                 <el-form-item :label="$t('CheckReport.sourceType')" prop="sourceType" style="width: 100%;">
                   <el-select v-model="personalForm.sourceType" style="margin-left: 18px;width: 218px">
                     <el-option value="1" label="质检申请单" />
+                    <el-option value="2" label="采购到货单" />
+                    <el-option value="3" label="生产任务单" />
+                    <el-option value="4" label="无来源" />
                   </el-select>
                 </el-form-item>
               </el-col>
@@ -23,6 +26,8 @@
                 <el-form-item :label="$t('CheckReport.sourceNumber')" prop="sourceNumber" style="width: 100%;">
                   <el-input v-model="personalForm.sourceNumber" style="margin-left: 18px" clearable @focus="chooseNumber"/>
                   <my-quality :qualitycontrol.sync="qualitycontrol" @allqualityinfo="allqualityinfo"/>
+                  <my-arrival :arrivalcontrol.sync="arrivalcontrol" @allarrivalinfo="allarrivalinfo"/>
+                  <produce-task :procontrol.sync="producecontrol" @produce="produce"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
@@ -32,7 +37,7 @@
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('CheckReport.inspectionPersonId')" prop="reportPersonId" style="width: 100%;">
+                <el-form-item :label="$t('CheckReport.inspectionPersonId')" prop="inspectionPersonId" style="width: 100%;">
                   <el-input v-model="inspectionPersonId" style="margin-left: 18px" clearable @focus="handlechooseStock"/>
                   <my-emp :control.sync="stockControl" @stockName="stockName"/>
                 </el-form-item>
@@ -59,7 +64,7 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('CheckReport.checkMode')" prop="checkMode" style="width: 100%;">
-                  <el-select v-model="personalForm.checkMode" value="personalForm.checkMode" clearable style="margin-left: 18px;width: 218px" @change="change()">
+                  <el-select v-model="personalForm.checkMode" value="personalForm.checkMode" style="margin-left: 18px;width: 218px" @change="change()">
                     <el-option value="1" label="抽样"/>
                   </el-select>
                 </el-form-item>
@@ -72,7 +77,7 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('CheckReport.workCenterId')" style="width: 100%;">
-                  <el-input v-model="personalForm.workCenterId" style="margin-left: 18px" clearable @focus="workcenterchoose"/>
+                  <el-input v-model="workCenterId" style="margin-left: 18px" clearable @focus="workcenterchoose"/>
                   <my-center :control.sync="centercontrol" @center="center"/>
                 </el-form-item>
               </el-col>
@@ -116,6 +121,9 @@
                 <el-form-item :label="$t('CheckReport.productCode')" prop="productCode" style="width: 100%;">
                   <el-input v-model="personalForm.productCode" style="margin-left: 18px" @focus="handlemater"/>
                   <my-mater :matercontrol.sync="matercontrol" @mater="mater"/>
+                  <detail-report :reportcontrol.sync="reportcontrol" :reportdata.sync="reportdata" @report="report"/>
+                  <detail-report2 :reportcontrol2.sync="reportcontrol2" :reportdata2.sync="reportdata2" @report2="report2"/>
+                  <detail-report3 :reportcontrol3.sync="reportcontrol3" :reportdata3.sync="reportdata3" @report3="report3"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
@@ -125,7 +133,7 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('CheckReport.unit')" style="width: 100%;">
-                  <el-input v-model="unit" style="margin-left: 18px" disabled/>
+                  <el-input v-model="personalForm.unit" style="margin-left: 18px" disabled/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
@@ -234,6 +242,7 @@
 
 <script>
 import { addqualitycheck } from '@/api/CheckReport'
+import { productlist } from '@/api/public'
 import { getdeptlist } from '@/api/BasicSettings'
 import MyEmp from './components/MyEmp'
 import MyDetail from './components/MyDetail'
@@ -246,9 +255,12 @@ import MyAccept from './components/MyAccept'
 import MyQuality from './components/MyQuality'
 import MyMater from './components/MyMater'
 import MyEmp2 from './components/MyEmp2'
+import DetailReport from './components/DetailReport'
+import DetailReport2 from './components/DetailReport2'
+import DetailReport3 from './components/DetailReport3'
 export default {
   name: 'AddCheckReport',
-  components: { MyEmp2, MyMater, MyQuality, MyAccept, ProduceTask, MyArrival, MyCenter, MyDelivery, MySupplier, MyDetail, MyEmp },
+  components: { DetailReport3, DetailReport2, DetailReport, MyEmp2, MyMater, MyQuality, MyAccept, ProduceTask, MyArrival, MyCenter, MyDelivery, MySupplier, MyDetail, MyEmp },
   data() {
     const validatePass = (rule, value, callback) => {
       console.log(value)
@@ -259,6 +271,18 @@ export default {
       }
     }
     return {
+      // 生产任务单传给物品信息数据
+      reportdata3: [],
+      // 生产任务单控制物品明细
+      reportcontrol3: false,
+      // 采购到货单传给物品信息数据
+      reportdata2: [],
+      // 采购到货单控制物品明细
+      reportcontrol2: false,
+      // 传给物品信息数据
+      reportdata: [],
+      // 控制物品明细
+      reportcontrol: false,
       // 控制检验人员
       staffcontrol: false,
       // 检验人员回显
@@ -316,8 +340,7 @@ export default {
         countryId: 1,
         repositoryId: 438,
         regionId: 2,
-        isVat: 1,
-        sourceType: '1'
+        isVat: 1
       },
       // 采购申请单规则数据
       personalrules: {
@@ -346,10 +369,10 @@ export default {
           { required: true, message: '请选择源单类型', trigger: 'change' }
         ],
         checkType: [
-          { required: true, message: '请选择质检类别', trigger: 'change' }
+          { required: true, message: '请选择质检类别', trigger: 'none' }
         ],
         checkMode: [
-          { required: true, message: '请选择检验方式', trigger: 'change' }
+          { required: true, message: '请选择检验方式', trigger: 'none' }
         ],
         checkQuantity: [
           { required: true, message: '请输入报检数量', trigger: 'blur' }
@@ -379,41 +402,57 @@ export default {
     },
     // 物品信息focus事件
     handlemater() {
-      this.matercontrol = true
+      if (this.personalForm.sourceType === '1') {
+        this.reportcontrol = true
+      } else if (this.personalForm.sourceType === '2') {
+        this.reportcontrol2 = true
+      } else if (this.personalForm.sourceType === '3') {
+        this.reportcontrol3 = true
+      } else if (this.personalForm.sourceType === '4') {
+        this.matercontrol = true
+      }
+    },
+    // 源单为质检申请单时返回数据
+    report(val) {
+      console.log(val)
+      this.personalForm.productCode = val.productCode
+      this.personalForm.productName = val.productName
+      this.personalForm.unit = val.unit
+      productlist(val.productCode).then(res => {
+        if (res.data.ret === 200) {
+          this.personalForm.typeId = res.data.data.content.list[0].typeId
+          this.typeId = res.data.data.content.list[0].productType
+        }
+      })
+    },
+    // 源单为采购到货单时返回数据
+    report2(val) {
+      console.log(val)
+      this.personalForm.productCode = val.productCode
+      this.personalForm.productName = val.productName
+      this.personalForm.unit = val.unit
+      this.personalForm.typeId = val.type
+      this.typeId = val.typeName
+    },
+    // 源单为采购到货单时返回数据
+    report3(val) {
+      console.log(val)
+      this.personalForm.productCode = val.productCode
+      this.personalForm.productName = val.productName
+      this.personalForm.unit = val.unit
+      this.personalForm.typeId = val.typeId
+      this.typeId = val.productType
     },
     mater(val) {
       this.personalForm.productCode = val.code
       this.personalForm.productName = val.productName
       this.personalForm.unit = val.produceMeasurement
-      this.unit = val.produceMeasu
       this.personalForm.typeId = val.typeId
       this.typeId = val.productType
     },
     // 重置一下下拉
     change() {
       this.$forceUpdate()
-    },
-    // 从源单中添加商品
-    handleAddSouce() {
-      if (this.personalForm.sourceType === '1') {
-        this.arrivalcontrol = true
-      } else if (this.personalForm.sourceType === '2') {
-        this.producecontrol = true
-      }
-    },
-    // 采购到货单返回数据
-    arrival(val) {
-      this.$refs.editable.clear()
-      for (let i = 0; i < val.length; i++) {
-        this.$refs.editable.insert(val[i])
-      }
-    },
-    // 生产任务单返回数据
-    produce(val) {
-      this.$refs.editable.clear()
-      for (let i = 0; i < val.length; i++) {
-        this.$refs.editable.insert(val[i])
-      }
     },
     getTypes() {
       // 部门列表数据
@@ -475,11 +514,17 @@ export default {
     },
     // 选择源单focus事件触发
     chooseNumber() {
-      this.qualitycontrol = true
+      if (this.personalForm.sourceType === '1') {
+        this.qualitycontrol = true
+      } else if (this.personalForm.sourceType === '2') {
+        this.arrivalcontrol = true
+      } else if (this.personalForm.sourceType === '3') {
+        this.producecontrol = true
+      }
     },
     allqualityinfo(val) {
-      console.log(val)
-      this.getTypes()
+      this.$refs.personalForm.resetFields()
+      this.reportdata = val.qualityCheckDetails
       this.personalForm.sourceNumber = val.checkNumber
       this.personalForm.supplierId = val.supplierId
       this.supplierId = val.supplierName
@@ -492,6 +537,20 @@ export default {
       this.produceManagerId = val.produceManagerName
       this.personalForm.workCenterId = val.workCenterId
       this.workCenterId = val.workCenter
+    },
+    // 源单类型为采购到货单
+    allarrivalinfo(val) {
+      this.reportdata2 = val.stockArrivalDetailVos
+      this.personalForm.sourceNumber = val.number
+      this.personalForm.supplierId = val.supplierId
+      this.supplierId = val.supplierName
+    },
+    // 源单类型为生产任务单
+    produce(val) {
+      this.reportdata3 = val.produceTaskDetailVos
+      this.personalForm.sourceNumber = val.taskNumber
+      this.personalForm.produceManagerId = val.handlePersonId
+      this.produceManagerId = val.handlePersonName
     },
     // 质检申请单明细来源为无来源时
     handleAddproduct() {

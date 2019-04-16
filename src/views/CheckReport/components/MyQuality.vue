@@ -343,7 +343,8 @@ export default {
     margin: 50px 30px;
   }
   .filter-item{
-    width: 140px;
+    width: 150px;
+    margin-left: 20px;
   }
   .form-name{
     font-size: 18px;

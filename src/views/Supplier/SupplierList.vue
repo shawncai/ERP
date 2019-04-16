@@ -62,12 +62,14 @@
       </el-dropdown>
       <!-- 新建分组 -->
       <el-button v-waves class="filter-item" type="primary" style="width: 100px" @click="handleGroup">{{ $t('Supplier.supplierGroup') }}</el-button>
-      <el-dialog :visible.sync="GroupVisible" title="新建分组" width="35%">
-        <el-input v-model="groupName" :placeholder="$t('Supplier.groupName')" class="filter-item" style="width: 40%;margin-left: -1px;float: left" clearable @keyup.enter.native="handleAddGroup"/>
+      <el-button v-waves class="filter-item" type="primary" style="width: 100px" @click="handlePunish">{{ $t('Supplier.punish') }}</el-button>
+      <my-punishment :punishcontrol.sync="punishcontrol" :punishdata="punishdata"/>
+      <el-dialog :visible.sync="GroupVisible" title="新建分组" class="normal" width="600px" center>
+        <el-input v-model="groupName" :placeholder="$t('Supplier.groupName')" class="filter-item" style="width: 200px;float: left" clearable @keyup.enter.native="handleAddGroup"/>
         <el-button v-waves class="filter-item" type="success" style="width: 86px;float: left" @click="handleAddGroup">{{ $t('public.add') }}</el-button>
         <el-table :data="groupData" border>
           <el-table-column property="id" label="编号" align="center" width="150"/>
-          <el-table-column property="groupName" label="组名称" align="center" min-width="300"/>
+          <el-table-column property="groupName" label="组名称" align="center" min-width="200"/>
           <el-table-column :label="$t('public.actions')" :resizable="false" align="center" width="150">
             <template slot-scope="scope">
               <el-button size="mini" type="danger" @click="handleDeleteGroup(scope.row)">{{ $t('public.delete') }}</el-button>
@@ -164,11 +166,12 @@ import { searchCategory, search, delete2, searchGroup, createGroup, deleteGroup 
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
 import MyDialog from './components/MyDialog'
+import MyPunishment from './components/MyPunishment'
 
 export default {
   name: 'SupplierList',
   directives: { waves },
-  components: { Pagination, MyDialog },
+  components: { MyPunishment, Pagination, MyDialog },
   filters: {
     genderFilter(status) {
       const statusMap = {
@@ -180,6 +183,10 @@ export default {
   },
   data() {
     return {
+      // 供应商ids
+      punishdata: '',
+      // 控制供应商惩罚
+      punishcontrol: false,
       // 供应商选择框控制
       employeeVisible: this.control,
       // 搜索分组数据
@@ -239,6 +246,20 @@ export default {
     this.getlist()
   },
   methods: {
+    // 供应商惩罚
+    handlePunish() {
+      if (this.moreaction !== '' && this.moreaction !== null && this.moreaction !== undefined) {
+        const ids = this.moreaction.map(item => item.id).join()
+        this.punishdata = ids
+        this.punishcontrol = true
+      } else {
+        this.$notify.error({
+          title: '错误',
+          message: '请先选择要惩罚的供应商',
+          offset: 100
+        })
+      }
+    },
     getlist() {
       // 供应商列表数据
       this.listLoading = true
@@ -526,6 +547,23 @@ export default {
 </script>
 
 <style rel="stylesheet/css" scoped>
+  .normal >>> .el-dialog__header {
+    padding: 20px 20px 10px;
+    background: #fff;
+    position: static;
+    top: auto;
+    z-index: auto;
+    width: auto;
+    border-bottom: none;
+  }
+  .normal >>> .el-dialog {
+    -webkit-transform: none;
+    transform: none;
+    left: 0;
+    position: relative;
+    margin: 0 auto;
+    height: auto;
+  }
   .app-container >>> .el-table .cell {
     -webkit-box-sizing: border-box;
     box-sizing: border-box;

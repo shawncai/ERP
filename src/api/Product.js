@@ -239,6 +239,18 @@ export function createnewproduct(query) {
   if (query.disposeCode !== '' && query.disposeCode !== null && query.disposeCode !== undefined) {
     params.append('disposeCode', query.disposeCode) // 你要传给后台的参数值 key/value
   }
+  if (query.stockCircle !== '' && query.stockCircle !== null && query.stockCircle !== undefined) {
+    params.append('stockCircle', query.stockCircle) // 你要传给后台的参数值 key/value
+  }
+  if (query.produceAbility !== '' && query.produceAbility !== null && query.produceAbility !== undefined) {
+    params.append('produceAbility', query.produceAbility) // 你要传给后台的参数值 key/value
+  }
+  if (query.workCenterId !== '' && query.workCenterId !== null && query.workCenterId !== undefined) {
+    params.append('workCenterId', query.workCenterId) // 你要传给后台的参数值 key/value
+  }
+  if (query.careCircle !== '' && query.careCircle !== null && query.careCircle !== undefined) {
+    params.append('careCircle', query.careCircle) // 你要传给后台的参数值 key/value
+  }
   return request({
     url: '/erp/product/createnewproduct',
     method: 'post',
@@ -369,6 +381,18 @@ export function editproduct(query) {
   }
   if (query.effectiveDay !== '' && query.effectiveDay !== null && query.effectiveDay !== undefined) {
     params.append('effectiveDay', query.effectiveDay) // 你要传给后台的参数值 key/value
+  }
+  if (query.stockCircle !== '' && query.stockCircle !== null && query.stockCircle !== undefined) {
+    params.append('stockCircle', query.stockCircle) // 你要传给后台的参数值 key/value
+  }
+  if (query.produceAbility !== '' && query.produceAbility !== null && query.produceAbility !== undefined) {
+    params.append('produceAbility', query.produceAbility) // 你要传给后台的参数值 key/value
+  }
+  if (query.workCenterId !== '' && query.workCenterId !== null && query.workCenterId !== undefined) {
+    params.append('workCenterId', query.workCenterId) // 你要传给后台的参数值 key/value
+  }
+  if (query.careCircle !== '' && query.careCircle !== null && query.careCircle !== undefined) {
+    params.append('careCircle', query.careCircle) // 你要传给后台的参数值 key/value
   }
   return request({
     url: '/erp/product/editproduct',

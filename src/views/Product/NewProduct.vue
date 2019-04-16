@@ -189,7 +189,7 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('Product.source')" style="width: 100%;">
-                  <el-select v-model="personalForm.source" placeholder="请选择来源" style="margin-left: 18px;width: 218px">
+                  <el-select v-model="personalForm.source" placeholder="请选择来源" style="margin-left: 18px;width: 218px" @change="choosesource">
                     <el-option value="2" label="生产"/>
                     <el-option value="3" label="采购"/>
                   </el-select>
@@ -227,16 +227,37 @@
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('Product.effectiveDay')" prop="effectiveDay" style="width: 100%;">
-                  <el-input v-model="personalForm.effectiveDay" placeholder="请输入有效天数" clearable style="margin-left: 18px"/>
+                <el-form-item :label="$t('Product.stockCircle')" style="width: 100%;">
+                  <el-input v-model="personalForm.stockCircle" :disabled="IsCircle" placeholder="请输采购周期（天）" clearable style="margin-left: 18px"/>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item :label="$t('Product.produceAbility')" style="width: 100%;">
+                  <el-input v-model="personalForm.produceAbility" :disabled="IsAbility" placeholder="请输入生产能力" clearable style="margin-left: 18px"/>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item :label="$t('Product.careCircle')" style="width: 100%;">
+                  <el-input v-model="personalForm.careCircle" placeholder="请输入保养周期" clearable style="margin-left: 18px"/>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item :label="$t('Product.workCenterId')" style="width: 100%;">
+                  <el-input v-model="workCenterId" :disabled="Iscenter" placeholder="请选择工作中心" clearable style="margin-left: 18px" @focus="workcenterchoose"/>
+                  <my-center :control.sync="centercontrol" @center="center"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('Product.isBatch')" prop="isBatch" style="width: 100%;">
-                  <el-radio-group v-model="personalForm.isBatch" style="margin-left: 18px;width: 218px">
+                  <el-radio-group v-model="personalForm.isBatch" style="margin-left: 18px;width: 218px" @change="chooseBatch">
                     <el-radio :label="1" style="width: 100px">使用</el-radio>
                     <el-radio :label="2">不使用</el-radio>
                   </el-radio-group>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item :label="$t('Product.effectiveDay')" :rules="personalForm.isBatch === 2 ? personalrules.effectiveDay:[{ required: true, message: '请输入有效天数', trigger: 'blur' }]" prop="effectiveDay" style="width: 100%;">
+                  <el-input v-model="personalForm.effectiveDay" :disabled="personalForm.isBatch === 2" placeholder="请输入有效天数" clearable style="margin-left: 18px"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
@@ -266,7 +287,7 @@
             </el-col>
             <el-col :span="6">
               <el-form-item :label="$t('Product.costprice')" prop="costprice" style="width: 100%;">
-                <el-input v-model="personalForm.costprice" placeholder="请输入成本价" style="margin-left: 18px" clearable/>
+                <el-input v-model="personalForm.costprice" placeholder="请输入出厂价" style="margin-left: 18px" clearable/>
               </el-form-item>
             </el-col>
             <el-col :span="6">
@@ -352,9 +373,10 @@ import { createnewproduct, searchEmpCategory2, searchMea } from '@/api/Product'
 import MyEmp from './components/MyEmp'
 import MySupplier from './components/MySupplier'
 import MyTree from './components/MyTree'
+import MyCenter from './components/MyCenter'
 export default {
   name: 'NewProduct',
-  components: { MyTree, MySupplier, MyEmp },
+  components: { MyCenter, MyTree, MySupplier, MyEmp },
   data() {
     const validatePass = (rule, value, callback) => {
       console.log(value)
@@ -365,6 +387,16 @@ export default {
       }
     }
     return {
+      // 控制生产能力是否可输入
+      IsAbility: true,
+      // 控制采购周期是否可输入
+      IsCircle: true,
+      // 控制工作中心是否可输入
+      Iscenter: true,
+      // 工作中心回显
+      workCenterId: '',
+      // 控制工作中心
+      centercontrol: false,
       // 车辆型号回显
       typeid: '',
       // 配置回显
@@ -511,7 +543,6 @@ export default {
           { required: true, message: '请选择批次设置', trigger: 'change' }
         ],
         effectiveDay: [
-          { required: true, message: '请输入有效天数', trigger: 'blur' }
         ],
         purchasemeasurement: [
           { required: true, message: '请选择批次设置', trigger: 'change' }
@@ -523,6 +554,32 @@ export default {
     this.getcategorys()
   },
   methods: {
+    chooseBatch(val) {
+      if (val === 2) {
+        this.personalForm.effectiveDay = ''
+      }
+    },
+    choosesource(val) {
+      if (val === '3' || val === '') {
+        this.Iscenter = true
+        this.IsCircle = false
+        this.IsAbility = true
+        this.personalForm.produceAbility = null
+      } else if (val === '2') {
+        this.Iscenter = false
+        this.IsCircle = true
+        this.IsAbility = false
+        this.personalForm.stockCircle = null
+      }
+    },
+    // 工作中心focus事件
+    workcenterchoose() {
+      this.centercontrol = true
+    },
+    center(val) {
+      this.workCenterId = val.workCenterName
+      this.personalForm.workCenterId = val.id
+    },
     'personalForm.disposeId'(val) {
       this.$nextTick(() => {
         console.log(val)
@@ -738,6 +795,7 @@ export default {
     },
     // 清空记录
     restAllForm() {
+      this.workCenterId = ''
       this.personalForm = {
         code: '',
         barcode: '',
@@ -775,7 +833,8 @@ export default {
         faceId: '',
         performanceLevelId: '',
         disposeId: '',
-        colorId: ''
+        colorId: '',
+        workCenterId: ''
       }
       this.supplierid = ''
       // 车辆型号回显
@@ -919,9 +978,13 @@ export default {
 }
 </script>
 
-<style rel="stylesheet/scss" lang="scss" scoped>
-  .ERP-container{
+<style rel="stylesheet/css" scoped>
+  .container>>>.el-col-6 {
+    height: 94.64px;
+  }
+  .ERP-container {
     margin-right: 0;
+  }
     .form-name{
       font-size: 18px;
       color: #373e4f;
@@ -934,5 +997,5 @@ export default {
     .el-button+.el-button{
       width: 98px;
     }
-  }
+
 </style>

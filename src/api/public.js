@@ -263,3 +263,18 @@ export function searchsupplier(query) {
     data: params
   })
 }
+
+// 应付款列表
+export function shouldPayList(query) {
+  var params = new URLSearchParams()
+  if (query !== '' && query !== null && query !== undefined) {
+    params.append('supplierId', query) // 你要传给后台的参数值 key/value
+  }
+  params.append('pageNum', 1) // 你要传给后台的参数值 key/value
+  params.append('pageSize', 9999) // 你要传给后台的参数值 key/value
+  return request({
+    url: '/erp/payment/shouldPayList',
+    method: 'post',
+    data: params
+  })
+}

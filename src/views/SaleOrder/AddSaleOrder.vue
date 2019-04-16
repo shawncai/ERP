@@ -211,31 +211,31 @@
           </el-editable>
         </div>
       </el-card>
-      <el-card class="box-card" style="margin-top: 15px" shadow="never">
-        <h2 ref="fuzhu" class="form-name" >销售费用明细</h2>
-        <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
-          <el-button @click="$refs.editable2.insert(-1)">添加</el-button>
-          <el-button type="danger" @click="$refs.editable2.removeSelecteds()">删除</el-button>
-        </div>
-        <div class="container">
-          <el-editable
-            ref="editable2"
-            :data.sync="list3"
-            :edit-config="{ showIcon: true, showStatus: true}"
-            :edit-rules="validRules"
-            class="click-table1"
-            stripe
-            border
-            size="medium"
-            style="width: 100%">
-            <el-editable-column type="selection" min-width="55" align="center"/>
-            <el-editable-column label="序号" width="60" align="center" type="index"/>
-            <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="costName" align="center" label="费用名称" min-width="150px"/>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="money" align="center" label="金额" min-width="150px"/>
-            <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="remark" align="center" label="备注" min-width="150px"/>
-          </el-editable>
-        </div>
-      </el-card>
+      <!--<el-card class="box-card" style="margin-top: 15px" shadow="never">-->
+      <!--<h2 ref="fuzhu" class="form-name" >销售费用明细</h2>-->
+      <!--<div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">-->
+      <!--<el-button @click="$refs.editable2.insert(-1)">添加</el-button>-->
+      <!--<el-button type="danger" @click="$refs.editable2.removeSelecteds()">删除</el-button>-->
+      <!--</div>-->
+      <!--<div class="container">-->
+      <!--<el-editable-->
+      <!--ref="editable2"-->
+      <!--:data.sync="list3"-->
+      <!--:edit-config="{ showIcon: true, showStatus: true}"-->
+      <!--:edit-rules="validRules"-->
+      <!--class="click-table1"-->
+      <!--stripe-->
+      <!--border-->
+      <!--size="medium"-->
+      <!--style="width: 100%">-->
+      <!--<el-editable-column type="selection" min-width="55" align="center"/>-->
+      <!--<el-editable-column label="序号" width="60" align="center" type="index"/>-->
+      <!--<el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="costName" align="center" label="费用名称" min-width="150px"/>-->
+      <!--<el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="money" align="center" label="金额" min-width="150px"/>-->
+      <!--<el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="remark" align="center" label="备注" min-width="150px"/>-->
+      <!--</el-editable>-->
+      <!--</div>-->
+      <!--</el-card>-->
       <el-card class="box-card" shadow="never" style="margin-top: 10px">
         <h2 ref="geren" class="form-name">合计信息</h2>
         <div class="container" style="margin-top: 37px">

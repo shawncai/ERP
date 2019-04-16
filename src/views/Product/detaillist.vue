@@ -18,16 +18,19 @@
           @node-click="handleNodeClick">
           <span slot-scope="{ node, data }" class="custom-tree-node">
             <span>{{ node.label }}</span>
-            <span style="margin-left: 50px">
+            <span v-if="data.parentId !== 0" style="margin-left: 50px">
               <i class="el-icon-edit" @click="edittree(data)"/>
               <i class="el-icon-delete" @click="nodedelete(data)"/>
             </span>
           </span>
         </el-tree>
-        <el-dialog :visible.sync="editVisible" title="新建部门" width="500px">
+        <el-dialog :visible.sync="editVisible" title="修改分类" class="normal" width="600px">
           <el-form :model="edittreeform" label-position="left" label-width="120px" style="width: 400px; margin-left:50px;">
             <el-form-item :label="$t('Product.name')" label-width="120px">
-              <el-input v-model="edittreeform.categoryName" placeholder="请输入部门编号" autocomplete="off" style="width: 200px"/>
+              <el-input v-model="edittreeform.categoryName" placeholder="" autocomplete="off" style="width: 200px"/>
+            </el-form-item>
+            <el-form-item :label="$t('Product.code')" label-width="120px">
+              <el-input v-model="edittreeform.code" placeholder="" autocomplete="off" style="width: 200px" disabled/>
             </el-form-item>
             <el-form-item :label="$t('Product.isActive')" label-width="120px">
               <el-radio-group v-model="edittreeform.isActive" style="width:300px">
@@ -52,8 +55,9 @@
                 </el-form-item>
               </el-col>
               <el-col :span="24" style="margin-top: 20px">
+                <span v-if="tishi === true" style="float: left;color: red;margin-top: -23px;margin-left: 223px;">请输入{{ weishu }}编码</span>
                 <el-form-item :label="$t('Product.code2')" prop="code">
-                  <el-input v-model="personalForm.code" placeholder="编码" style="margin-left: 18px;width: 600px" clearable/>
+                  <el-input v-model="personalForm.code" placeholder="编码" style="margin-left: 18px;width: 600px" clearable @blur="zhengze"/>
                 </el-form-item>
               </el-col>
               <el-col :span="24" style="margin-top: 20px">
@@ -88,6 +92,12 @@ export default {
   name: 'AddInitialenter',
   data() {
     return {
+      // 判断位数
+      Iscode: '',
+      // 位数提示
+      weishu: '',
+      // 提示位数
+      tishi: false,
       // 修改数据
       edittreeform: {},
       // 修改控制器
@@ -132,6 +142,19 @@ export default {
     this.gettree()
   },
   methods: {
+    zhengze(val) {
+      if (this.Iscode === '01') {
+        const reg = /^[A-Z0-9]{1}$/
+        if (reg.test(this.personalForm.code) === false) {
+          this.personalForm.code = ''
+        }
+      } else {
+        const reg = /^[A-Z0-9]{2}$/
+        if (reg.test(this.personalForm.code) === false) {
+          this.personalForm.code = ''
+        }
+      }
+    },
     // 删除操作
     nodedelete(data) {
       this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
@@ -185,11 +208,18 @@ export default {
       this.edittreeform = Object.assign({}, data)
     },
     // 选择节点操作
-    handleNodeClick(data) {
-      console.log(data)
+    handleNodeClick(data, node) {
       this.personalForm.parentId = data.id
+      this.Iscode = data.code
       this.parentId = data.categoryName
       this.personalForm.levle = data.level + 1
+      if (data.code === '01') {
+        this.tishi = true
+        this.weishu = '1位'
+      } else {
+        this.tishi = true
+        this.weishu = '2位'
+      }
       this.gettree()
     },
     // 搜索树状图数据方法
@@ -279,10 +309,28 @@ export default {
 }
 </script>
 
-<style rel="stylesheet/scss" lang="scss" scoped>
-  .ERP-container{
-    margin:0px 20px;
+<style  rel="stylesheet/css" scoped>
+  .normal >>> .el-dialog__header {
+    padding: 20px 20px 10px;
+    background: #fff;
+    position: static;
+    top: auto;
+    z-index: auto;
+    width: auto;
+    border-bottom: none;
+  }
+  .normal >>> .el-dialog {
+    -webkit-transform: none;
+    transform: none;
+    left: 0;
+    position: relative;
+    margin: 0 auto;
+    height: auto;
+  }
+  .ERP-container {
+    margin: 0px 20px;
     margin-right: 0;
+  }
     .form-name{
       font-size: 18px;
       color: #373e4f;
@@ -303,5 +351,4 @@ export default {
       font-size: 14px;
       padding-right: 8px;
     }
-  }
 </style>

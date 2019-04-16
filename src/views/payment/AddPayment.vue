@@ -14,7 +14,7 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('payment.sourceType')" prop="sourceType" style="width: 100%;">
-                  <el-select v-model="personalForm.sourceType" style="margin-left: 18px;width: 218px" @change="chooseType">
+                  <el-select v-model="personalForm.sourceType" style="margin-left: 18px;width: 218px">
                     <el-option value="1" label="采购订单" />
                     <el-option value="2" label="无来源" />
                   </el-select>
@@ -57,11 +57,6 @@
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('payment.moneyThis')" prop="moneyThis" style="width: 100%;">
-                  <el-input v-model="personalForm.moneyThis" style="margin-left: 18px" clearable/>
-                </el-form-item>
-              </el-col>
-              <el-col :span="6">
                 <el-form-item :label="$t('payment.payAccount')" style="width: 100%;">
                   <el-input v-model="personalForm.payAccount" style="margin-left: 18px" clearable/>
                 </el-form-item>
@@ -77,17 +72,84 @@
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('payment.offsetAdvance')" style="width: 100%;">
-                  <el-input v-model="personalForm.offsetAdvance" style="margin-left: 18px" clearable/>
-                </el-form-item>
-              </el-col>
-              <el-col :span="6">
                 <el-form-item :label="$t('payment.rate')" style="width: 100%;">
                   <el-input v-model="personalForm.rate" style="margin-left: 18px" clearable/>
                 </el-form-item>
               </el-col>
+              <el-col :span="6">
+                <el-form-item :label="$t('payment.offsetAdvance')" style="width: 100%;">
+                  <el-input v-model="personalForm.offsetAdvance" style="margin-left: 18px" disabled/>
+                </el-form-item>
+                <span style="color: red;margin-left: 52px">预付款金额：{{ yufu }}</span>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item :label="$t('payment.moneyThis')" style="width: 100%;">
+                  <el-input v-model="personalForm.moneyThis" style="margin-left: 18px" disabled/>
+                </el-form-item>
+              </el-col>
             </el-row>
           </el-form>
+        </div>
+      </el-card>
+      <el-card class="box-card" shadow="never" style="margin-top: 10px">
+        <h2 class="form-name">附件信息</h2>
+        <div class="container">
+          <el-form :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
+            <el-form-item :label="$t('payment.picids')" style="width: 100%;margin-top: 1%">
+              <el-button style="margin-bottom: 10px" size="small" type="success" @click="submitUpload">{{ $t('public.uploadimage') }}</el-button>
+              <el-upload
+                ref="upload"
+                :on-preview="handlepicPreview"
+                :on-remove="handlepicRemove"
+                :on-success="handlepicsuccess"
+                :data="picidsData"
+                :auto-upload="false"
+                action="http://192.168.1.45:8080/erp/upload/uploadpic"
+                list-type="picture-card">
+                <i class="el-icon-plus"/>
+              </el-upload>
+              <el-dialog :visible.sync="picidsVisible">
+                <img :src="picidsImageUrl" width="100%" alt="">
+              </el-dialog>
+            </el-form-item >
+          </el-form>
+        </div>
+      </el-card>
+      <el-card class="box-card" style="margin-top: 15px" shadow="never">
+        <h2 ref="fuzhu" class="form-name" >付款明细</h2>
+        <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
+          <el-button type="danger" @click="$refs.editable.removeSelecteds()">删除</el-button>
+        </div>
+        <div class="container">
+          <el-editable
+            ref="editable"
+            :data.sync="list2"
+            :edit-config="{ showIcon: true, showStatus: true }"
+            :edit-rules="validRules"
+            :summary-method="getSummaries"
+            class="click-table1"
+            show-summary
+            stripe
+            border
+            size="medium"
+            style="width: 100%">
+            <el-editable-column type="selection" min-width="55" align="center"/>
+            <el-editable-column label="序号" min-width="55" align="center" type="index"/>
+            <el-editable-column :edit-render="{name: 'ElDatePicker', attrs: {type: 'date', format: 'yyyy-MM-dd'}, type: 'visible'}" prop="payDate" align="center" label="付款日期" min-width="150px"/>
+            <el-editable-column prop="shouldMoney" align="center" label="应付金额" min-width="150px"/>
+            <el-editable-column prop="paidMoney" align="center" label="已付金额" min-width="150px"/>
+            <el-editable-column prop="payingMoney" align="center" label="未付金额" min-width="150px"/>
+            <el-editable-column :edit-render="{name: 'ElInputNumber', type: 'visible'}" prop="invoiceNumber" align="center" label="发票号" min-width="150px">
+              <template slot="edit" slot-scope="scope">
+                <el-input-number
+                  v-model="scope.row.invoiceNumber"
+                  :disabled="scope.row.invoiceNumber !== 0"/>
+              </template>
+            </el-editable-column>
+            <el-editable-column :edit-render="{name: 'ElSelect', options: invoiceTypes, type: 'visible'}" prop="invoiceType" align="center" label="发票类型" min-width="170px"/>
+            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="payThis" align="center" label="本次支付金额" min-width="170px"/>
+            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="advanceMoney" align="center" label="抵扣预付款" min-width="170px"/>
+          </el-editable>
         </div>
       </el-card>
       <div class="buttons" style="margin-top: 20px">
@@ -100,6 +162,7 @@
 
 <script>
 import { addpayment } from '@/api/payment'
+import { shouldPayList } from '@/api/public'
 import { getdeptlist } from '@/api/BasicSettings'
 import { searchStockCategory } from '@/api/StockCategory'
 import { searchCategory } from '@/api/Supplier'
@@ -124,6 +187,19 @@ export default {
       }
     }
     return {
+      // 商品图片数据+++++++++++++++++++++++++开始
+      // 商品图片控制器
+      picidsVisible: false,
+      // 商品图片地址
+      picidsImageUrl: '',
+      // 发送后端type
+      picidsData: {
+        type: 8
+      },
+      // 商品图片数据+++++++++++++++++++++++++结束
+      invoiceTypes: [{ value: 1, label: '增值税' }, { value: 2, label: '其他' }],
+      // 预付款金额
+      yufu: '0.00',
       // 合计数据
       allNumber: '',
       allMoney: '',
@@ -175,7 +251,10 @@ export default {
         countryId: 1,
         repositoryId: 438,
         regionId: 2,
-        isVat: 1
+        isVat: 1,
+        offsetAdvance: 0,
+        moneyThis: 0,
+        picids: []
       },
       // 采购申请单规则数据
       personalrules: {
@@ -204,6 +283,26 @@ export default {
     this.getways()
   },
   methods: {
+    submitUpload() {
+      this.$refs.upload.submit()
+    },
+    handlepicRemove(file, fileList) {
+      console.log(file, fileList)
+    },
+    handlepicPreview(file) {
+      this.picidsImageUrl = file.url
+      this.picidsVisible = true
+    },
+    handlepicsuccess(response) {
+      this.personalForm.picids.push(response.data.content.picId)
+      console.log(response.data.content.picId)
+    },
+    activeMethod({ row, rowIndex }) {
+      if (row.invoiceNumber === '' || row.invoiceNumber === null) {
+        return true
+      }
+      return false
+    },
     // 总计
     getSummaries(param) {
       const { columns, data } = param
@@ -236,13 +335,10 @@ export default {
       sums[10] = ''
       sums[15] = ''
       sums[18] = ''
-      sums[19] = ''
-      this.allNumber = sums[7]
-      this.allMoney = sums[12]
-      this.allTaxMoney = sums[14]
-      this.allIncludeTaxMoney = sums[13]
-      this.allDiscountMoney = sums[16]
-      this.allMoneyMoveDiscount = sums[13] - sums[16]
+      sums[7] = ''
+      console.log()
+      this.personalForm.offsetAdvance = sums[9]
+      this.personalForm.moneyThis = sums[8]
       return sums
     },
     getways() {
@@ -319,13 +415,19 @@ export default {
       console.log(val)
       this.supplierId = val.supplierName
       this.personalForm.supplierId = val.id
-      this.stockPersonId = val.stockPersonName
-      this.personalForm.stockPersonId = val.stockPersonId
-      this.personalForm.deptId = val.deptId
-      this.personalForm.payId = val.payMode
-      this.personalForm.deliveryModeId = val.deliveryMode
-      this.personalForm.isVat = val.isVat
-      this.personalForm.currencyId = val.currency
+      this.personalForm.currencyId = val.moneyId
+      this.personalForm.payAccount = val.account
+      this.personalForm.payAccountNumber = val.accountName
+      this.yufu = val.advanceMoney
+      shouldPayList(val.id).then(res => {
+        if (res.data.ret === 200) {
+          this.$refs.editable.clear()
+          const detailList = res.data.data.content.list
+          for (let i = 0; i < detailList.length; i++) {
+            this.$refs.editable.insert(detailList[i])
+          }
+        }
+      })
     },
     // 执行人focus事件
     handlechooseStock() {
@@ -383,6 +485,46 @@ export default {
     },
     // 保存操作
     handlesave() {
+      const EnterDetail = this.$refs.editable.getRecords()
+      EnterDetail.map(function(elem) {
+        return elem
+      }).forEach(function(elem) {
+        if (elem.shouldPayId === null || elem.shouldPayId === '' || elem.shouldPayId === undefined) {
+          delete elem.shouldPayId
+        }
+        if (elem.payDate === null || elem.payDate === '' || elem.payDate === undefined) {
+          delete elem.payDate
+        }
+        if (elem.shouldMoney === null || elem.shouldMoney === '' || elem.shouldMoney === undefined) {
+          delete elem.shouldMoney
+        }
+        if (elem.paidMoney === null || elem.paidMoney === '' || elem.paidMoney === undefined) {
+          delete elem.paidMoney
+        }
+        if (elem.payingMoney === null || elem.payingMoney === '' || elem.payingMoney === undefined) {
+          delete elem.payingMoney
+        }
+        if (elem.invoiceNumber === null || elem.invoiceNumber === '' || elem.invoiceNumber === undefined) {
+          delete elem.invoiceNumber
+        }
+        if (elem.invoiceType === null || elem.invoiceType === '' || elem.invoiceType === undefined) {
+          delete elem.invoiceType
+        }
+        if (elem.payThis === null || elem.payThis === '' || elem.payThis === undefined) {
+          delete elem.payThis
+        }
+        if (elem.advanceMoney === null || elem.advanceMoney === '' || elem.advanceMoney === undefined) {
+          delete elem.advanceMoney
+        }
+        if (elem.supplierId === null || elem.supplierId === '' || elem.supplierId === undefined) {
+          delete elem.supplierId
+        }
+        if (elem.paymentId === null || elem.paymentId === '' || elem.paymentId === undefined) {
+          delete elem.paymentId
+        }
+        return elem
+      })
+      const parms2 = JSON.stringify(EnterDetail)
       const Data = this.personalForm
       for (const key in Data) {
         if (Data[key] === '' || Data[key] === undefined || Data[key] === null) {
@@ -392,7 +534,7 @@ export default {
       const parms = JSON.stringify(Data)
       this.$refs.personalForm.validate((valid) => {
         if (valid) {
-          addpayment(parms, this.personalForm).then(res => {
+          addpayment(parms, parms2, this.personalForm).then(res => {
             console.log(res)
             if (res.data.ret === 200) {
               this.$notify({
@@ -402,8 +544,10 @@ export default {
                 offset: 100
               })
               this.restAllForm()
+              this.$refs.editable.clear()
               this.$refs.personalForm.clearValidate()
               this.$refs.personalForm.resetFields()
+              this.$refs.upload.clearFiles()
             } else {
               this.$notify.error({
                 title: '错误',

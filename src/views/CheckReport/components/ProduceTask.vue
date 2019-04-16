@@ -310,23 +310,7 @@ export default {
     // 确认添加数据
     handleConfirm() {
       this.employeeVisible = false
-      const producedata = this.choosedata.produceTaskDetailVos
-      console.log(this.choosedata)
-      const num = this.choosedata.taskNumber
-      const productDetail = producedata.map(function(item) {
-        return {
-          productCode: item.productCode,
-          productName: item.productName,
-          unit: item.unit,
-          basicQuantity: item.alreadyProduceQuantity,
-          checkQuantity: item.alreadyProduceQuantity,
-          checkedQuantity: 0,
-          arrivalQuantity: item.alreadyProduceQuantity,
-          sourceNumber: num
-        }
-      })
-      this.$emit('produce', productDetail)
-      this.$emit('moredata', num)
+      this.$emit('produce', this.choosedata)
     }
     // 仓库管理员选择结束
   }

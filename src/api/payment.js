@@ -1,9 +1,13 @@
 import request from '@/utils/request'
 
 //  新建付款单
-export function addpayment(query, query3) {
+export function addpayment(query, query2, query3) {
   var params = new URLSearchParams()
   params.append('paymentJson', query) // 你要传给后台的参数值 key/value
+  params.append('paymentDetailJson', query2) // 你要传给后台的参数值 key/value
+  if (query3.picids !== '' && query3.picids !== null && query3.picids !== undefined) {
+    params.append('picids', query3.picids) // 你要传给后台的参数值 key/value
+  }
   if (query3.repositoryId !== '' && query3.repositoryId !== null && query3.repositoryId !== undefined) {
     params.append('repositoryId', query3.repositoryId) // 你要传给后台的参数值 key/value
   }
@@ -63,9 +67,13 @@ export function paymentlist(query) {
 }
 
 //  更新付款单
-export function updatepayment(query) {
+export function updatepayment(query, query2, query3) {
   var params = new URLSearchParams()
   params.append('paymentJson', query) // 你要传给后台的参数值 key/value
+  params.append('paymentDetailJson', query2) // 你要传给后台的参数值 key/value
+  if (query3.picids !== '' && query3.picids !== null && query3.picids !== undefined) {
+    params.append('picids', query3.picids) // 你要传给后台的参数值 key/value
+  }
   return request({
     url: '/erp/payment/updatepayment',
     method: 'post',
@@ -87,7 +95,7 @@ export function updatepayment2(query) {
 // 删除付款单
 export function deletepayment(query) {
   var params = new URLSearchParams()
-  params.append('id', query) // 你要传给后台的参数值 key/value
+  params.append('paymentIds', query) // 你要传给后台的参数值 key/value
   return request({
     url: '/erp/payment/deletepayment',
     method: 'post',

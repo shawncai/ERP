@@ -394,3 +394,16 @@ export function manyinsert(query) {
     data: params
   })
 }
+
+// 添加供应商惩罚
+export function createPunishment(query) {
+  var params = new URLSearchParams()
+  if (query !== '' && query !== null && query !== undefined) {
+    params.append('Json', query) // 你要传给后台的参数值 key/value
+  }
+  return request({
+    url: '/erp/supplier/createPunishment',
+    method: 'post',
+    data: params
+  })
+}

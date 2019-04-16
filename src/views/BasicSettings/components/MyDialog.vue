@@ -52,9 +52,9 @@
         @select="selectEvent"
         @current-change="currentChangeEvent">
         <el-editable-column type="selection" width="55" align="center"/>
-        <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 1, max: 5000}}" label="流程步骤" prop="step" align="center" width="210px"/>
-        <el-editable-column :edit-render="{name: 'ElInput'}" prop="description" align="center" label="步骤描述" width="200px"/>
-        <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}}" prop="money" align="center" label="流转条件" width="200px"/>
+        <el-editable-column type="index" label="流程步骤" prop="step" align="center" width="210px"/>
+        <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="description" align="center" label="步骤描述" width="200px"/>
+        <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="money" align="center" label="流转条件" width="200px"/>
         <!--<el-editable-column :edit-render="{name: 'ElInput'}" prop="handlerName" align="center" label="步骤处理人" width="200px"/>-->
         <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="handlerName" align="center" label="步骤处理人" min-width="500px">
           <template slot="edit" slot-scope="scope">
@@ -237,7 +237,7 @@ export default {
     },
     // 新增审批流程
     insertEvent(index) {
-      const row = this.$refs.editable.insertAt({ money: 0 }, index)
+      const row = this.$refs.editable.insertAt(null, index)
       this.$nextTick(() => this.$refs.editable.setActiveCell(row, 'handlerName'))
     },
     // 选择操作

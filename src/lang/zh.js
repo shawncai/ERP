@@ -173,6 +173,7 @@ export default {
     AdvancePay: '预付款',
     AddAdvancePay: '新建预付款',
     AdvancePayList: '预付款列表',
+    ShouldPayList: '应付款列表',
     Invoice: '发票管理',
     AddInvoice: '新建发票',
     InvoiceList: '发票列表',
@@ -196,7 +197,12 @@ export default {
     PrepReturnList: '预售退款单列表',
     SaleOrder: '销售订单',
     AddSaleOrder: '新建销售订单',
-    SaleOrderList: '销售订单列表'
+    SaleOrderList: '销售订单列表',
+    SaleReturn: '销售退货单',
+    AddSaleReturn: '新建销售退货单',
+    SaleReturnList: '销售退货单列表',
+    CheckCategory: '分类属性',
+    CheckCategoryList: '分类属性列表'
   },
   navbar: {
     logOut: '退出登录',
@@ -222,6 +228,7 @@ export default {
     closeAll: '关闭所有'
   },
   NewEmployeeInformation: {
+    code: '物品编码',
     code2: '编码',
     account: '员工端登陆账号',
     password: '密码',
@@ -349,6 +356,7 @@ export default {
     createName: '创建人'
   },
   Supplier: {
+    punish: '供应商惩罚',
     supplierName: '供应商名称',
     typeId: '供应商类别',
     supplierShortName: '供应商简称',
@@ -387,6 +395,10 @@ export default {
     createId: '建档人'
   },
   Product: {
+    stockCircle: '采购周期',
+    produceAbility: '生产能力',
+    workCenterId: '工作中心',
+    careCircle: '保养周期',
     code2: '编码',
     disposeId: '配置',
     versionId: '版本',
@@ -407,7 +419,7 @@ export default {
     zhibaoqi: '质保期',
     weight: '商品重量',
     volume: '商品体积',
-    costprice: '成本价',
+    costprice: '出厂价',
     tradeprice: '批发价',
     saleprice: '零售价',
     purchaseprice: '采购价',
@@ -1097,7 +1109,8 @@ export default {
     currency: '币种',
     rate: '汇率',
     offsetAdvance: '抵扣预付款',
-    paymentNumber: '付款单编码'
+    paymentNumber: '付款单编码',
+    picids: '附件'
   },
   AdvancePay: {
     payDate: '预付日期',
@@ -1126,6 +1139,15 @@ export default {
     makeoutDate: '开票时间',
     receiveMode: '接收方式',
     settleStat: '结算方式'
+  },
+  ShouldPayList: {
+    sourceNumber: '源单编码',
+    supplierId: '供应商名称',
+    currency: '币种',
+    shouldMoney: '应付款金额',
+    paidMoney: '已付款金额',
+    payingMoney: '未付金额',
+    returnOffset: '退货抵扣'
   },
   QualityCheck: {
     title: '质检申请单主题',
@@ -1234,6 +1256,32 @@ export default {
     backType: '回款状态',
     backMoney: '已回款金额',
     sendType: '发货情况'
+  },
+  SaleReturn: {
+    title: '退货主题',
+    sourceType: '源单类型',
+    sourceNumber: '源单编码',
+    customerName: '客户姓名',
+    customerPhone: '客户电话',
+    closeType: '结算方式',
+    customerType: '客户类型',
+    payType: '支付方式',
+    salePersonId: '销售员',
+    receiveAddress: '收货地址',
+    saleRepositoryId: '门店',
+    returnDate: '退货日期',
+    currency: '币种',
+    heji1: '退货数量合计',
+    heji2: '金额合计',
+    heji3: '含税金额合计',
+    heji4: '税额合计',
+    heji5: '折扣额合计',
+    heji6: '折后含税金额合计',
+    closeStatusId: '结算状态',
+    alreadyMoney: '已结金额',
+    enterStatusId: '入库情况',
+    ridMoney: '抵应收货款',
+    actualReturnMoney: '实际退款金额'
   },
   public: {
     modifyDate: '最后修改日期',

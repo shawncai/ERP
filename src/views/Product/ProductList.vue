@@ -258,8 +258,10 @@ export default {
       console.log(row)
       this.editVisible = true
       this.personalForm = Object.assign({}, row)
+      if (this.personalForm.valuation !== null && this.personalForm.valuation !== undefined) {
+        this.personalForm.valuation = String(row.valuation)
+      }
       this.personalForm.source = String(row.source)
-      this.personalForm.valuation = String(row.valuation)
     },
     // 修改组件修改成功后返回
     refreshlist(val) {

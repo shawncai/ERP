@@ -70,9 +70,13 @@
           @select="selectEvent"
           @current-change="currentChangeEvent">
           <el-editable-column type="selection" width="55" align="center"/>
-          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 1, max: 5000}}" label="流程步骤" prop="step" align="center" width="150px"/>
-          <el-editable-column :edit-render="{name: 'ElInput'}" prop="description" align="center" label="步骤描述" width="500px"/>
-          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}}" prop="money" align="center" label="流转条件" width="400px"/>
+          <el-editable-column label="流程步骤" prop="step" align="center" width="150px">
+            <template slot-scope="scope">
+              <span>{{ handleStep(scope.row, scope.$index) }}</span>
+            </template>
+          </el-editable-column>
+          <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="description" align="center" label="步骤描述" width="500px"/>
+          <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="money" align="center" label="流转条件" width="400px"/>
           <!--<el-editable-column :edit-render="{name: 'ElInput'}" prop="handlerName" align="center" label="步骤处理人" width="200px"/>-->
           <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="handlerName" align="center" label="步骤处理人" min-width="500px">
             <template slot="edit" slot-scope="scope">
@@ -107,6 +111,8 @@ export default {
   components: { MyEmp },
   data() {
     return {
+      // 步骤
+      step: 1,
       // 步骤处理人id
       stepHandler: '',
       // 步骤处理人
@@ -227,38 +233,27 @@ export default {
       console.log(rest)
       this.$refs.personalForm.validate((valid) => {
         if (valid) {
-          this.$refs.editable.validate((valid) => {
-            if (valid) {
-              createapproval(this.personalForm, rest).then(res => {
-                console.log(res)
-                if (res.data.ret === 200) {
-                  this.$notify({
-                    title: '成功',
-                    message: '保存成功',
-                    type: 'success',
-                    offset: 100
-                  })
-                  this.restAllForm()
-                  this.$refs.personalForm.clearValidate()
-                  this.$refs.personalForm.resetFields()
-                  this.$refs.editable.clear()
-                } else {
-                  this.$notify.error({
-                    title: '错误',
-                    message: res.data.msg,
-                    offset: 100
-                  })
-                }
+          createapproval(this.personalForm, rest).then(res => {
+            console.log(res)
+            if (res.data.ret === 200) {
+              this.$notify({
+                title: '成功',
+                message: '保存成功',
+                type: 'success',
+                offset: 100
+              })
+              this.restAllForm()
+              this.$refs.personalForm.clearValidate()
+              this.$refs.personalForm.resetFields()
+              this.$refs.editable.clear()
+            } else {
+              this.$notify.error({
+                title: '错误',
+                message: res.data.msg,
+                offset: 100
               })
             }
           })
-        } else {
-          this.$notify.error({
-            title: '错误',
-            message: '信息未填完整',
-            offset: 100
-          })
-          return false
         }
       })
     },
@@ -273,6 +268,11 @@ export default {
     // 员工输入框focus事件触发
     handlechoose() {
       this.empcontrol = true
+    },
+    handleStep(row, index) {
+      console.log(index)
+      row.step = index + 1
+      return row.step
     },
     // 处理人change事件
     fuzhi(scope) {
@@ -298,9 +298,8 @@ export default {
       console.log(row)
     },
     // 新增审批流程
-    insertEvent(index) {
-      const row = this.$refs.editable.insertAt({ money: 0 }, index)
-      this.$nextTick(() => this.$refs.editable.setActiveCell(row, 'handlerName'))
+    insertEvent() {
+      this.$refs.editable.insertAt(-1)
     },
     // 选择操作
     currentChangeEvent(currentRow, oldCurrentRow) {

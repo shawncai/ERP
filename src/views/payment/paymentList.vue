@@ -335,9 +335,11 @@ export default {
       this.editVisible = true
       this.personalForm = Object.assign({}, row)
       this.personalForm.sourceType = String(row.sourceType)
-      this.personalForm.payMode = String(row.payMode)
       if (row.currency !== null) {
         this.personalForm.currency = String(row.currency)
+      }
+      if (row.payMode !== null) {
+        this.personalForm.payMode = String(row.payMode)
       }
       if (row.payId !== null) {
         this.personalForm.payId = String(row.payId)

@@ -218,6 +218,18 @@ async handleConfirm() {
       console.log(applydata[0].price)
       this.$emit('apply', applyDetail)
     }
+```  
+######  正则判断位数  
+```js
+// 判断两位数字和字母组合
+const reg = /^[A-Z0-9]{2}$/
+      if (this.addCategoryForm.type === '2') {
+        if (reg.test(this.addCategoryForm.code) === true) {
+          console.log(1234)
+        }
+      }
+// 8-20位，含数字、字母大小写三种组合方式的密码
+(?![0-9A-Z]+$)(?![0-9a-z]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{8,20}$
 ```
 ###### 完成进度  
 ```text
