@@ -295,12 +295,15 @@ export default {
           unit: item.unit,
           color: item.color,
           basicQuantity: item.requireQuantity,
+          planQuantity: item.requireQuantity,
           planDeliveryDate: item.requireDate,
           applyReason: '',
           sourceNumber: item.materialsRequireNumber,
           supplierId: '',
           supplierName: '',
-          basicPrice: ''
+          basicPrice: 0,
+          planMoney: '0.00',
+          orderQuantity: '0.00'
         }
       })
       this.$emit('require', requireDetail)

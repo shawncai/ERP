@@ -145,7 +145,7 @@
 import { stocapplylist } from '@/api/StockApply'
 import { getdeptlist } from '@/api/BasicSettings'
 import { searchStockCategory } from '@/api/StockCategory'
-import { productlist } from '@/api/public'
+// import { productlist } from '@/api/public'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination'
 import MyEmp from '../../StockApply/components/MyEmp'
@@ -339,23 +339,11 @@ export default {
           price: '',
           discountRate: 0,
           discountMoney: 0,
-          remark: 0,
-          arrivalQuantity: 0
+          remark: '',
+          arrivalQuantity: '0.00',
+          includeTaxPrice: 0
         }
       })
-
-      const list = await Promise.all(applydata.map(function(item) {
-        return productlist(item.productCode)
-      }))
-
-      for (let i = 0; i < applyDetail.length; i++) {
-        for (let j = 0; j < list.length; j++) {
-          if (applyDetail[i].productCode === list[j].data.data.content.list[0].code) {
-            applyDetail[i].price = list[j].data.data.content.list[0].purchasePrice
-            applyDetail[i].includeTaxPrice = list[j].data.data.content.list[0].purchasePrice
-          }
-        }
-      }
       console.log(applydata[0].price)
       this.$emit('apply', applyDetail)
       this.$emit('apply2', applyDetail)

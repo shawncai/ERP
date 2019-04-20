@@ -23,19 +23,19 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('StockInquiry.supplierId')" prop="supplierId" style="width: 100%;">
-                  <el-input v-model="supplierId" style="margin-left: 18px" clearable @focus="handlechoose"/>
+                  <el-input v-model="supplierId" style="margin-left: 18px;width: 218px" @focus="handlechoose"/>
                   <my-supplier :control.sync="empcontrol" @supplierName="supplierName"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('StockInquiry.inquiryPersonId')" prop="inquiryPersonId" style="width: 100%;">
-                  <el-input v-model="inquiryPersonId" style="margin-left: 18px" clearable @focus="handlechooseStock"/>
+                  <el-input v-model="inquiryPersonId" style="margin-left: 18px;width: 218px" @focus="handlechooseStock"/>
                   <my-emp :control.sync="stockControl" @stockName="stockName"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('StockInquiry.stockTypeId')" prop="stockTypeId" style="width: 100%;">
-                  <el-select v-model="personalForm.stockTypeId" style="margin-left: 18px;width: 218px" @focus="updatecountry">
+                  <el-select v-model="personalForm.stockTypeId" :disabled="IsStockTypeId" style="margin-left: 18px;width: 218px" @focus="updatecountry">
                     <el-option
                       v-for="(item, index) in types"
                       :key="index"
@@ -46,7 +46,7 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('StockInquiry.deptId')" prop="deptId" style="width: 100%;">
-                  <el-select v-model="personalForm.deptId" clearable style="margin-left: 18px;width: 218px">
+                  <el-select v-model="personalForm.deptId" :disabled="IsDeptId" clearable style="margin-left: 18px;width: 218px">
                     <el-option
                       v-for="(item, index) in depts"
                       :key="index"
@@ -66,7 +66,7 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('StockInquiry.inquiryTimes')" style="width: 100%;">
-                  <el-input v-model="personalForm.inquiryTimes" style="margin-left: 18px" clearable/>
+                  <el-input v-model="personalForm.inquiryTimes" disabled style="margin-left: 18px;width: 218px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
@@ -94,10 +94,10 @@
         <h2 ref="fuzhu" class="form-name" >采购询价单明细</h2>
         <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
           <el-button :disabled="addpro" @click="handleAddproduct">添加商品</el-button>
-          <my-detail :control.sync="control" @product="productdetail"/>
+          <my-detail :control.sync="control" :supp.sync="supp" @product="productdetail"/>
           <el-button :disabled="addsouce" style="width: 130px" @click="handleAddSouce">从源单中选择</el-button>
-          <my-apply :applycontrol.sync="applycontrol" @apply="apply"/>
-          <my-plan :plancontrol.sync="plancontrol" @plan="plan"/>
+          <my-apply :applycontrol.sync="applycontrol" @apply="apply" @allapplyinfo="allapplyinfo"/>
+          <my-plan :plancontrol.sync="plancontrol" :supp.sync="supp" @plan="plan" @allinfo="allinfo"/>
           <el-button type="danger" @click="$refs.editable.removeSelecteds()">删除</el-button>
         </div>
         <div class="container">
@@ -118,11 +118,27 @@
             <el-editable-column prop="productType" align="center" label="规格" min-width="150px"/>
             <el-editable-column prop="color" align="center" label="颜色" min-width="150px"/>
             <el-editable-column prop="unit" align="center" label="单位" min-width="150px"/>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="plannedQuantity" align="center" label="计划数量" min-width="170px"/>
-            <el-editable-column :edit-render="{name: 'ElDatePicker', attrs: {type: 'date', format: 'yyyy-MM-dd'}, type: 'visible'}" prop="planDeliveryDate" align="center" label="交货日期" min-width="170px"/>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="price" align="center" label="单价" min-width="170px">
+            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 1, precision: 2}, type: 'visible'}" prop="plannedQuantity" align="center" label="计划数量" min-width="170px">
               <template slot="edit" slot-scope="scope">
                 <el-input-number
+                  :disabled="IsPlannedQuantity"
+                  :precision="2"
+                  v-model="scope.row.plannedQuantity"/>
+              </template>
+            </el-editable-column>
+            <el-editable-column :edit-render="{name: 'ElDatePicker', attrs: {type: 'date', format: 'yyyy-MM-dd'}, type: 'visible'}" prop="planDeliveryDate" align="center" label="交货日期" min-width="170px">
+              <template slot="edit" slot-scope="scope">
+                <el-date-picker
+                  v-model="scope.row.planDeliveryDate"
+                  :disabled="IsPlannedQuantity"
+                  type="date"
+                  value-format="yyyy-MM-dd"/>
+              </template>
+            </el-editable-column>
+            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0, precision: 2}, type: 'visible'}" prop="price" align="center" label="单价" min-width="170px">
+              <template slot="edit" slot-scope="scope">
+                <el-input-number
+                  :precision="2"
                   v-model="scope.row.price"
                   @input="getprice(scope.row)"/>
               </template>
@@ -130,11 +146,19 @@
             <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="includeTaxPrice" align="center" label="含税价" min-width="170px">
               <template slot="edit" slot-scope="scope">
                 <el-input-number
+                  :precision="2"
                   v-model="scope.row.includeTaxPrice"
                   @input="getincludeTaxPrice(scope.row)"/>
               </template>
             </el-editable-column>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0, max: 1}, type: 'visible'}" prop="taxRate" align="center" label="税率" min-width="170px"/>
+            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="taxRate" align="center" label="税率(%)" min-width="170px">
+              <template slot="edit" slot-scope="scope">
+                <el-input-number
+                  :precision="2"
+                  v-model="scope.row.taxRate"
+                  @input="gettaxRate(scope.row)"/>
+              </template>
+            </el-editable-column>
             <el-editable-column prop="money" align="center" label="金额" min-width="150px">
               <template slot-scope="scope">
                 <p>{{ getMoney(scope.row) }}</p>
@@ -180,14 +204,30 @@ export default {
   components: { MyPlan, MyApply, MySupplier, MyDetail, MyEmp },
   data() {
     const validatePass = (rule, value, callback) => {
-      console.log(value)
-      if (value === '') {
-        callback(new Error('请选择'))
+      console.log(this.supplierId)
+      if (this.supplierId === undefined || this.supplierId === null || this.supplierId === '') {
+        callback(new Error('请选择供应商'))
+      } else {
+        callback()
+      }
+    }
+    const validatePass2 = (rule, value, callback) => {
+      console.log(this.supplierId)
+      if (this.inquiryPersonId === undefined || this.inquiryPersonId === null || this.inquiryPersonId === '') {
+        callback(new Error('请选择询价员'))
       } else {
         callback()
       }
     }
     return {
+      // 控制明细中计划数量是否可以编辑
+      IsPlannedQuantity: false,
+      // 控制采购类别是否可以编辑
+      IsStockTypeId: false,
+      // 控制部门是否可以编辑
+      IsDeptId: false,
+      // 传递的部门id
+      supp: null,
       // 控制源单为采购计划时
       plancontrol: false,
       // 控制源单为采购申请时
@@ -223,15 +263,17 @@ export default {
         countryId: 1,
         repositoryId: 438,
         regionId: 2,
-        isVat: 1
+        isVat: 1,
+        inquiryTimes: 1,
+        currency: '1'
       },
       // 采购申请单规则数据
       personalrules: {
         supplierId: [
-          { required: true, validator: validatePass, trigger: 'focus' }
+          { required: true, validator: validatePass, trigger: 'change' }
         ],
         inquiryPersonId: [
-          { required: true, validator: validatePass, trigger: 'focus' }
+          { required: true, validator: validatePass2, trigger: 'change' }
         ],
         inquiryDate: [
           { required: true, message: '请选择询价日期', trigger: 'change' }
@@ -250,26 +292,43 @@ export default {
       list2: [],
       // 采购申请单明细列表规则
       validRules: {
+        planDeliveryDate: [
+          { required: true, message: '请选择交货日期', trigger: 'change' }
+        ],
+        plannedQuantity: [
+          { required: true, message: '请输入计划数量', trigger: 'blur' }
+        ]
       }
     }
   },
   created() {
     this.getTypes()
+    this.getdatatime()
   },
   methods: {
-    // 计算含税价
+    getdatatime() { // 默认显示今天
+      this.personalForm.inquiryDate = new Date()
+    },
+    // 通过税率计算含税价
+    gettaxRate(row) {
+      if (row.includeTaxPrice !== 0) {
+        row.includeTaxPrice = (row.price * (1 + row.taxRate / 100)).toFixed(2)
+      }
+    },
+    // 通过含税价计算税率
     getincludeTaxPrice(row) {
       if (row.price !== 0) {
-        row.taxRate = (row.includeTaxPrice / row.price - 1).toFixed(4)
+        row.taxRate = ((row.includeTaxPrice / row.price - 1) * 100).toFixed(2)
+        console.log(row.taxRate)
       }
     },
     // 计算单价
     getprice(row) {
-      row.includeTaxPrice = (row.price * (1 + row.taxRate)).toFixed(2)
+      row.includeTaxPrice = (row.price * (1 + row.taxRate / 100)).toFixed(2)
     },
     // 计算税额
     getTaxMoney2(row) {
-      row.taxMoney = (row.price * row.taxRate * row.plannedQuantity).toFixed(2)
+      row.taxMoney = (row.price * (row.taxRate / 100) * row.plannedQuantity).toFixed(2)
       return row.taxMoney
     },
     // 计算含税金额
@@ -279,22 +338,36 @@ export default {
     },
     // 计算金额
     getMoney(row) {
-      row.money = row.plannedQuantity * row.price
+      row.money = (row.plannedQuantity * row.price).toFixed(2)
       return row.money
     },
     // 选择源单类型事件
     chooseType() {
       console.log(this.personalForm.sourceType)
-      if (this.personalForm.sourceType === '1' || this.personalForm.sourceType === '2') {
+      if (this.personalForm.sourceType === '1') {
         this.addsouce = false
-        this.addpro = true
-        this.$refs.editable.clear()
-        this.$refs.editable2.clear()
+        this.addpro = false
+        this.IsStockTypeId = true
+        this.IsDeptId = true
+        if (this.$refs.editable.getRecords().length !== 0) {
+          this.$refs.editable.clear()
+        }
+      } else if (this.personalForm.sourceType === '2') {
+        this.addsouce = false
+        this.addpro = false
+        this.IsStockTypeId = true
+        this.IsDeptId = true
+        if (this.$refs.editable.getRecords().length !== 0) {
+          this.$refs.editable.clear()
+        }
       } else if (this.personalForm.sourceType === '3') {
         this.addpro = false
         this.addsouce = true
-        this.$refs.editable.clear()
-        this.$refs.editable2.clear()
+        this.IsStockTypeId = false
+        this.IsDeptId = false
+        if (this.$refs.editable.getRecords().length !== 0) {
+          this.$refs.editable.clear()
+        }
       }
     },
     // 从源单中添加商品
@@ -302,12 +375,21 @@ export default {
       if (this.personalForm.sourceType === '1') {
         this.applycontrol = true
       } else if (this.personalForm.sourceType === '2') {
+        if (this.personalForm.supplierId === null || this.personalForm.supplierId === undefined || this.personalForm.supplierId === '') {
+          this.$notify.error({
+            title: '错误',
+            message: '请先选择供应商',
+            duration: 0
+          })
+          return false
+        }
         this.plancontrol = true
       }
     },
     // 采购申请加载过来数据
     apply(val) {
       console.log(val)
+      this.IsPlannedQuantity = true
       const nowlistdata = this.$refs.editable.getRecords()
       for (let i = 0; i < val.length; i++) {
         for (let j = 0; j < nowlistdata.length; j++) {
@@ -323,10 +405,20 @@ export default {
         this.$refs.editable.insert(val[i])
       }
     },
+    allapplyinfo(val) {
+      this.personalForm.stockTypeId = val.stockType
+      this.personalForm.deptId = val.applyDeptId
+    },
+    allinfo(val) {
+      this.personalForm.stockTypeId = val.stockType
+      this.personalForm.deptId = val.stockDeptId
+    },
     // 采购计划加载过来数据
     plan(val) {
       console.log(val)
+      this.IsPlannedQuantity = true
       const nowlistdata = this.$refs.editable.getRecords()
+      const quchonggong = this.personalForm.supplierId
       for (let i = 0; i < val.length; i++) {
         for (let j = 0; j < nowlistdata.length; j++) {
           if (val[i].productCode === nowlistdata[j].productCode) {
@@ -337,6 +429,9 @@ export default {
             })
             return false
           }
+        }
+        if (val[i].supplierId !== quchonggong) {
+          continue
         }
         this.$refs.editable.insert(val[i])
       }
@@ -365,9 +460,9 @@ export default {
     },
     // 供应商列表返回数据
     supplierName(val) {
-      console.log(val)
       this.supplierId = val.supplierName
       this.personalForm.supplierId = val.id
+      this.supp = val.id
     },
     // 询价员focus事件
     handlechooseStock() {
@@ -380,10 +475,19 @@ export default {
     },
     // 采购申请明细来源
     handleAddproduct() {
+      if (this.personalForm.supplierId === null || this.personalForm.supplierId === undefined || this.personalForm.supplierId === '') {
+        this.$notify.error({
+          title: '错误',
+          message: '请先选择供应商',
+          duration: 0
+        })
+        return false
+      }
       this.control = true
     },
     productdetail(val) {
       console.log(val)
+      this.IsPlannedQuantity = false
       const nowlistdata = this.$refs.editable.getRecords()
       for (let i = 0; i < val.length; i++) {
         console.log(val[i].price)
@@ -468,8 +572,14 @@ export default {
         if (elem.taxRate === null || elem.taxRate === '' || elem.taxRate === undefined) {
           delete elem.taxRate
         }
+        if (elem.taxRate !== null || elem.taxRate !== '' || elem.taxRate !== undefined) {
+          elem.taxRate = elem.taxRate / 100
+        }
         if (elem.discountRate === null || elem.discountRate === '' || elem.discountRate === undefined) {
           delete elem.discountRate
+        }
+        if (elem.discountRate !== null || elem.discountRate !== '' || elem.discountRate !== undefined) {
+          elem.discountRate = elem.discountRate / 100
         }
         if (elem.money === null || elem.money === '' || elem.money === undefined) {
           delete elem.money
@@ -492,26 +602,30 @@ export default {
       const parms = JSON.stringify(Data)
       this.$refs.personalForm.validate((valid) => {
         if (valid) {
-          createstockInquiry(parms, parms2, this.personalForm).then(res => {
-            console.log(res)
-            if (res.data.ret === 200) {
-              this.$notify({
-                title: '成功',
-                message: '保存成功',
-                type: 'success',
-                offset: 100
-              })
-              this.restAllForm()
-              this.$refs.editable.clear()
-              this.$refs.personalForm.clearValidate()
-              this.$refs.personalForm.resetFields()
-            } else {
-              this.$notify.error({
-                title: '错误',
-                message: res.data.msg,
-                offset: 100
-              })
-            }
+          this.$refs.editable.validate().then(valid => {
+            createstockInquiry(parms, parms2, this.personalForm).then(res => {
+              console.log(res)
+              if (res.data.ret === 200) {
+                this.$notify({
+                  title: '成功',
+                  message: '保存成功',
+                  type: 'success',
+                  offset: 100
+                })
+                this.restAllForm()
+                this.$refs.editable.clear()
+                this.$refs.personalForm.clearValidate()
+                this.$refs.personalForm.resetFields()
+              } else {
+                this.$notify.error({
+                  title: '错误',
+                  message: res.data.msg,
+                  offset: 100
+                })
+              }
+            })
+          }).catch(valid => {
+            console.log('error submit!!')
           })
         } else {
           this.$notify.error({

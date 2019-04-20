@@ -1456,6 +1456,52 @@ export const asyncRouterMap = [
         component: () => import('@/views/SaleReturn/AddSaleReturn'),
         name: 'AddSaleReturn',
         meta: { title: 'AddSaleReturn', noCache: false }
+      },
+      {
+        path: 'SaleReturnList',
+        component: () => import('@/views/SaleReturn/SaleReturnList'),
+        name: 'SaleReturnList',
+        meta: { title: 'SaleReturnList', noCache: true }
+      }
+    ]
+  },
+  {
+    path: '/SalePlan',
+    component: Layout,
+    redirect: 'noredirect',
+    name: 'SalePlan',
+    alwaysShow: true,
+    meta: {
+      title: 'SalePlan',
+      icon: 'xiaoshoujihua',
+      type: 3
+    },
+    children: [
+      {
+        path: 'AddSalePlan',
+        component: () => import('@/views/SalePlan/AddSalePlan'),
+        name: 'AddSalePlan',
+        meta: { title: 'AddSalePlan', noCache: false }
+      }
+    ]
+  },
+  {
+    path: '/SaleOpportunity',
+    component: Layout,
+    redirect: 'noredirect',
+    name: 'SaleOpportunity',
+    alwaysShow: true,
+    meta: {
+      title: 'SaleOpportunity',
+      icon: 'xiaoshoujihui',
+      type: 3
+    },
+    children: [
+      {
+        path: 'AddSaleOpportunity',
+        component: () => import('@/views/SaleOpportunity/AddSaleOpportunity'),
+        name: 'AddSaleOpportunity',
+        meta: { title: 'AddSaleOpportunity', noCache: false }
       }
     ]
   },

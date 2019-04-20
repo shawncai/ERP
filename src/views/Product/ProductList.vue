@@ -261,7 +261,9 @@ export default {
       if (this.personalForm.valuation !== null && this.personalForm.valuation !== undefined) {
         this.personalForm.valuation = String(row.valuation)
       }
-      this.personalForm.source = String(row.source)
+      if (this.personalForm.source !== null) {
+        this.personalForm.source = String(row.source)
+      }
     },
     // 修改组件修改成功后返回
     refreshlist(val) {

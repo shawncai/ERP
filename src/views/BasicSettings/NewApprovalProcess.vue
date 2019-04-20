@@ -70,17 +70,18 @@
           @select="selectEvent"
           @current-change="currentChangeEvent">
           <el-editable-column type="selection" width="55" align="center"/>
-          <el-editable-column label="流程步骤" prop="step" align="center" width="150px">
-            <template slot-scope="scope">
-              <span>{{ handleStep(scope.row, scope.$index) }}</span>
-            </template>
-          </el-editable-column>
+          <!--<el-editable-column label="流程步骤" prop="step" type="index" align="center" width="150px"/>-->
+          <!--<template slot-scope="scope">-->
+          <!--<span>{{ handleStep(scope.row, scope.$index) }}</span>-->
+          <!--</template>-->
+          <!--</el-editable-column>-->
+          <el-editable-column label="流程步骤" type="index" align="center" width="150px"/>
           <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="description" align="center" label="步骤描述" width="500px"/>
           <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="money" align="center" label="流转条件" width="400px"/>
           <!--<el-editable-column :edit-render="{name: 'ElInput'}" prop="handlerName" align="center" label="步骤处理人" width="200px"/>-->
           <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="handlerName" align="center" label="步骤处理人" min-width="500px">
             <template slot="edit" slot-scope="scope">
-              <el-input v-model="scope.row.handlerName" @focus="handlechoose"/>
+              <el-input v-model="scope.row.handlerName" @focus="handlechoose(scope)" @input="$refs.editable.updateStatus(scope)" @change="$refs.editable.updateStatus(scope)"/>
               <my-emp :control.sync="empcontrol" @chuli="chuli(scope, $event)"/>
             </template>
           </el-editable-column>
@@ -111,6 +112,8 @@ export default {
   components: { MyEmp },
   data() {
     return {
+      // 控制scope
+      kongscope: '',
       // 步骤
       step: 1,
       // 步骤处理人id
@@ -123,9 +126,6 @@ export default {
       categorys: [],
       // 审批流程列表规则
       validRules: {
-        step: [
-          { required: true, message: '请输入流程步骤', trigger: 'blur' }
-        ],
         handlerName: [
           { required: true, message: '请选择步骤处理人', trigger: 'blue' }
         ]
@@ -266,13 +266,10 @@ export default {
     },
     // 审核人选择
     // 员工输入框focus事件触发
-    handlechoose() {
+    handlechoose(scope) {
       this.empcontrol = true
-    },
-    handleStep(row, index) {
-      console.log(index)
-      row.step = index + 1
-      return row.step
+      console.log(scope)
+      this.kongscope = scope
     },
     // 处理人change事件
     fuzhi(scope) {
@@ -281,8 +278,18 @@ export default {
     chuli(scope, val) {
       console.log(val)
       console.log(scope)
-      scope.row.handlerName = val.personName
-      scope.row.stepHandler = val.id
+      this.kongscope.row.handlerName = val.personName
+      this.kongscope.row.stepHandler = val.id
+      // scope.row.handlerName = val.personName
+      // scope.row.stepHandler = val.id
+      console.log(scope.row.step)
+      if (scope.row.step === null) {
+        scope.row.step = scope.$index + 1
+      }
+      return
+    },
+    handleStep(row) {
+      console.log(row)
     },
     postJSON(data) {
       // 提交请求
@@ -298,8 +305,8 @@ export default {
       console.log(row)
     },
     // 新增审批流程
-    insertEvent() {
-      this.$refs.editable.insertAt(-1)
+    insertEvent(index) {
+      this.$refs.editable.insertAt({ step: null }, index)
     },
     // 选择操作
     currentChangeEvent(currentRow, oldCurrentRow) {

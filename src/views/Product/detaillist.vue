@@ -207,13 +207,23 @@ export default {
       this.editVisible = true
       this.edittreeform = Object.assign({}, data)
     },
+    // 递归函数
+    recursion(val) {
+      if (val.level === 1) {
+        return val.data
+      } else {
+        return this.recursion(val.parent)
+      }
+    },
     // 选择节点操作
     handleNodeClick(data, node) {
       this.personalForm.parentId = data.id
       this.Iscode = data.code
       this.parentId = data.categoryName
       this.personalForm.levle = data.level + 1
-      if (data.code === '01') {
+      const ceshidigui = this.recursion(node)
+      console.log(ceshidigui)
+      if (ceshidigui.code === '01') {
         this.tishi = true
         this.weishu = '1位'
       } else {

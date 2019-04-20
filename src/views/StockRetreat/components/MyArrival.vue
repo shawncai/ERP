@@ -363,12 +363,12 @@ export default {
           remark: item.remark,
           price: item.price,
           includeTaxPrice: item.includeTaxPrice,
-          taxRate: item.taxRate,
+          taxRate: item.taxRate * 100,
           money: item.money,
           includeTaxMoney: item.includeTaxMoney,
           taxMoney: item.taxMoney,
           discountMoney: item.discountMoney,
-          discountRate: item.discountRate
+          discountRate: item.discountRate * 100
         }
       })
       console.log(arrivalDetail)

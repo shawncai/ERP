@@ -1,5 +1,5 @@
 <template>
-  <el-dialog :visible.sync="employeeVisible" :contractcontrol="contractcontrol" :close-on-press-escape="false" top="10px" title="选择采购合同" append-to-body width="1100px" @close="$emit('update:contractcontrol', false)">
+  <el-dialog :visible.sync="employeeVisible" :contractcontrol="contractcontrol" :supp="supp" :close-on-press-escape="false" top="10px" title="选择采购合同" append-to-body width="1100px" @close="$emit('update:contractcontrol', false)">
     <el-card class="box-card" style="margin-top: 15px;height: 60px;padding-left:0 " shadow="never">
       <el-row>
         <el-form ref="getemplist" :model="getemplist" style="margin-top: -9px">
@@ -196,6 +196,10 @@ export default {
     contractcontrol: {
       type: Boolean,
       default: false
+    },
+    supp: {
+      type: Number,
+      default: null
     }
   },
   data() {
@@ -247,6 +251,7 @@ export default {
         pageSize: 10,
         repositoryId: 438,
         regionIds: 2,
+        supplierId: this.supp,
         createPersonId: 3
       },
       // 传给组件的数据
@@ -260,10 +265,11 @@ export default {
   watch: {
     contractcontrol() {
       this.employeeVisible = this.contractcontrol
+    },
+    supp() {
+      this.getemplist.supplierId = this.supp
+      this.getlist()
     }
-  },
-  created() {
-    this.getlist()
   },
   methods: {
     // 更新采购类型
@@ -367,7 +373,7 @@ export default {
           discountMoney: item.discountMoney,
           price: item.price,
           includeTaxPrice: item.includeTaxPrice,
-          arrivalQuantity: 0,
+          arrivalQuantity: '0.00',
           taxRate: item.taxRate,
           money: item.money,
           includeTaxMoney: item.includeTaxMoney,

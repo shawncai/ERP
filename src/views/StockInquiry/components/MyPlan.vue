@@ -1,5 +1,5 @@
 <template>
-  <el-dialog :visible.sync="employeeVisible" :plancontrol="plancontrol" :close-on-press-escape="false" top="10px" title="选择采购计划单" append-to-body width="1100px" @close="$emit('update:plancontrol', false)">
+  <el-dialog :visible.sync="employeeVisible" :plancontrol="plancontrol" :supp="supp" :close-on-press-escape="false" top="10px" title="选择采购计划单" append-to-body width="1100px" @close="$emit('update:plancontrol', false)">
     <el-card class="box-card" style="margin-top: 15px;height: 60px;padding-left:0 " shadow="never">
       <el-row>
         <el-form ref="getemplist" :model="getemplist" style="margin-top: -9px">
@@ -181,6 +181,10 @@ export default {
     plancontrol: {
       type: Boolean,
       default: false
+    },
+    supp: {
+      type: Number,
+      default: null
     }
   },
   data() {
@@ -228,6 +232,7 @@ export default {
         pageSize: 10,
         repositoryId: 438,
         regionIds: 2,
+        supplierId: this.supp,
         createPersonId: 3
       },
       // 传给组件的数据
@@ -241,6 +246,11 @@ export default {
   watch: {
     plancontrol() {
       this.employeeVisible = this.plancontrol
+    },
+    supp() {
+      this.getemplist.supplierId = this.supp
+      this.getlist()
+      console.log(this.supp)
     }
   },
   created() {
@@ -332,7 +342,8 @@ export default {
           sourceNumber: number,
           sourceSerialNumber: item.id,
           price: item.basicPrice,
-          includeTaxPrice: item.basicPrice
+          includeTaxPrice: item.basicPrice,
+          supplierId: item.supplierId
         }
       })
       console.log(applyDetail)

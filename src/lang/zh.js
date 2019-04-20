@@ -201,6 +201,15 @@ export default {
     SaleReturn: '销售退货单',
     AddSaleReturn: '新建销售退货单',
     SaleReturnList: '销售退货单列表',
+    SalePlan: '销售计划',
+    AddSalePlan: '新增销售计划',
+    SalePlanList: '销售计划列表',
+    SaleOpportunity: '销售机会',
+    AddSaleOpportunity: '新增销售机会',
+    SaleOpportunityList: '销售机会列表',
+    SaleContract: '销售合同',
+    AddSaleContract: '新建销售合同',
+    SaleContractList: '销售合同列表',
     CheckCategory: '分类属性',
     CheckCategoryList: '分类属性列表'
   },
@@ -1000,6 +1009,7 @@ export default {
     allIncludeTaxMoney: '含税金额合计'
   },
   StockOrder: {
+    supplierNumber: '供应方订单号',
     title: '采购订货单主题',
     orderNumber: '采购单号',
     sourceType: '源单类型',
@@ -1054,7 +1064,8 @@ export default {
     acceptAddress: '收货地址',
     retreatDate: '退货日期',
     isVat: '是否为增值税',
-    allRetreatMoney: '应退款合计'
+    allRetreatMoney: '应退款合计',
+    retreatRepositoryId: '退货仓库'
   },
   StockQuery: {
     productName: '物品名称',
@@ -1281,7 +1292,33 @@ export default {
     alreadyMoney: '已结金额',
     enterStatusId: '入库情况',
     ridMoney: '抵应收货款',
-    actualReturnMoney: '实际退款金额'
+    actualReturnMoney: '实际退款金额',
+    allMoney: '总金额'
+  },
+  SalePlan: {
+    title: '计划主题',
+    planType: '计划类型',
+    planDate: '计划日期',
+    beginTime: '开始时间',
+    endTime: '结束时间',
+    lowerPlanMoney: '最低计划额',
+    planTotalMoney: '计划总金额',
+    urgePlan: '激励方案',
+    targetMoney: '计划额',
+    regionId: '区域',
+    repositoryid: '门店'
+  },
+  SaleOpportunity: {
+    title: '机会主题',
+    opportunityType: '机会类型',
+    customerType: '客户类型',
+    customerName: '客户姓名',
+    customerPhone: '客户电话',
+    opportunitySource: '机会来源',
+    handlePersonId: '业务员',
+    deptId: '所属部门',
+    handleRepositoryId: '所属门店',
+    isSale: '当前状态'
   },
   public: {
     modifyDate: '最后修改日期',

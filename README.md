@@ -230,6 +230,17 @@ const reg = /^[A-Z0-9]{2}$/
       }
 // 8-20位，含数字、字母大小写三种组合方式的密码
 (?![0-9A-Z]+$)(?![0-9a-z]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{8,20}$
+```  
+######  递归函数  
+```js
+ // 递归函数
+    recursion(val){
+      if (val.level === 1) {
+        return val.data
+      } else {
+        return this.recursion(val.parent)
+      }
+    }
 ```
 ###### 完成进度  
 ```text

@@ -635,6 +635,7 @@ export default {
                 type: 'success',
                 offset: 100
               })
+              this.$emit('rest', true)
               this.restAllForm()
               this.$refs.editable.clear()
               this.$refs.personalForm.clearValidate()

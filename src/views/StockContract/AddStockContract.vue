@@ -24,13 +24,13 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('StockContract.supplierId')" prop="supplierId" style="width: 100%;">
-                  <el-input v-model="supplierId" style="margin-left: 18px" clearable @focus="handlechoose"/>
+                  <el-input v-model="supplierId" style="margin-left: 18px" @focus="handlechoose"/>
                   <my-supplier :control.sync="empcontrol" @supplierName="supplierName"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('StockContract.stockPersonId')" prop="stockPersonId" style="width: 100%;">
-                  <el-input v-model="stockPersonId" style="margin-left: 18px" clearable @focus="handlechooseStock"/>
+                  <el-input v-model="stockPersonId" style="margin-left: 18px" @focus="handlechooseStock"/>
                   <my-emp :control.sync="stockControl" @stockName="stockName"/>
                 </el-form-item>
               </el-col>
@@ -300,9 +300,25 @@ export default {
   components: { MyLnquiry, MyDelivery, MyPlan, MyApply, MySupplier, MyDetail, MyEmp },
   data() {
     const validatePass = (rule, value, callback) => {
-      console.log(value)
-      if (value === '') {
-        callback(new Error('请选择'))
+      console.log(this.supplierId)
+      if (this.supplierId === undefined || this.supplierId === null || this.supplierId === '') {
+        callback(new Error('请选择供应商'))
+      } else {
+        callback()
+      }
+    }
+    const validatePass2 = (rule, value, callback) => {
+      console.log(this.inquiryPersonId)
+      if (this.inquiryPersonId === undefined || this.inquiryPersonId === null || this.inquiryPersonId === '') {
+        callback(new Error('请选择我方签约人'))
+      } else {
+        callback()
+      }
+    }
+    const validatePass3 = (rule, value, callback) => {
+      console.log(this.inquiryPersonId)
+      if (this.stockPersonId === undefined || this.stockPersonId === null || this.stockPersonId === '') {
+        callback(new Error('请选择采购员'))
       } else {
         callback()
       }
@@ -367,10 +383,13 @@ export default {
       // 采购申请单规则数据
       personalrules: {
         supplierId: [
-          { required: true, validator: validatePass, trigger: 'focus' }
+          { required: true, validator: validatePass, trigger: 'change' }
         ],
         inquiryPersonId: [
-          { required: true, validator: validatePass, trigger: 'focus' }
+          { required: true, validator: validatePass2, trigger: 'change' }
+        ],
+        stockPersonId: [
+          { required: true, validator: validatePass3, trigger: 'change' }
         ],
         inquiryDate: [
           { required: true, message: '请选择询价日期', trigger: 'change' }
@@ -411,7 +430,7 @@ export default {
           sums[index] = values.reduce((prev, curr) => {
             const value = Number(curr)
             if (!isNaN(value)) {
-              return prev + curr
+              return (prev + curr).toFixed(2)
             } else {
               return (prev).toFixed(2)
             }
@@ -479,31 +498,34 @@ export default {
     },
     // 通过税率计算含税价
     gettaxRate(row) {
-      row.includeTaxPrice = row.price * (1 + row.taxRate / 100)
+      if (row.includeTaxPrice !== 0) {
+        row.includeTaxPrice = (row.price * (1 + row.taxRate / 100)).toFixed(2)
+      }
     },
-    // 计算含税价
+    // 通过含税价计算税率
     getincludeTaxPrice(row) {
       if (row.price !== 0) {
         row.taxRate = ((row.includeTaxPrice / row.price - 1) * 100).toFixed(2)
+        console.log(row.taxRate)
       }
     },
     // 计算单价
     getprice(row) {
-      row.includeTaxPrice = row.price * (1 + row.taxRate)
+      row.includeTaxPrice = (row.price * (1 + row.taxRate / 100)).toFixed(2)
     },
     // 计算税额
     getTaxMoney2(row) {
-      row.taxMoney = row.price * row.taxRate * row.plannedQuantity
+      row.taxMoney = (row.price * row.taxRate / 100 * row.plannedQuantity).toFixed(2)
       return row.taxMoney
     },
     // 计算含税金额
     getTaxMoney(row) {
-      row.includeTaxMoney = row.plannedQuantity * row.includeTaxPrice
+      row.includeTaxMoney = (row.plannedQuantity * row.includeTaxPrice).toFixed(2)
       return row.includeTaxMoney
     },
     // 计算金额
     getMoney(row) {
-      row.money = row.plannedQuantity * row.price
+      row.money = (row.plannedQuantity * row.price).toFixed(2)
       return row.money
     },
     // 选择源单类型事件

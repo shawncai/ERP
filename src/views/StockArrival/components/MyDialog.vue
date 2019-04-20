@@ -152,12 +152,32 @@
           <el-editable-column prop="giveDate" align="center" label="交货日期" min-width="170px"/>
           <el-editable-column prop="price" align="center" label="单价" min-width="170px"/>
           <el-editable-column prop="includeTaxPrice" align="center" label="含税价" min-width="170px"/>
-          <el-editable-column prop="taxRate" align="center" label="税率(%)" min-width="170px"/>
-          <el-editable-column prop="money" align="center" label="金额" min-width="150px"/>
-          <el-editable-column prop="includeTaxMoney" align="center" label="含税金额" min-width="150px"/>
-          <el-editable-column prop="taxMoney" align="center" label="税额" min-width="150px"/>
+          <el-editable-column prop="taxRate" align="center" label="税率(%)" min-width="170px">
+            <template slot-scope="scope">
+              <p>{{ gettaxRate(scope.row) }}</p>
+            </template>
+          </el-editable-column>
+          <el-editable-column prop="money" align="center" label="金额" min-width="150px">
+            <template slot-scope="scope">
+              <p>{{ getMoney(scope.row) }}</p>
+            </template>
+          </el-editable-column>
+          <el-editable-column prop="includeTaxMoney" align="center" label="含税金额" min-width="150px">
+            <template slot-scope="scope">
+              <p>{{ getTaxMoney(scope.row) }}</p>
+            </template>
+          </el-editable-column>
+          <el-editable-column prop="taxMoney" align="center" label="税额" min-width="150px">
+            <template slot-scope="scope">
+              <p>{{ getTaxMoney2(scope.row) }}</p>
+            </template>
+          </el-editable-column>
           <el-editable-column prop="discountRate" align="center" label="折扣率(%)" min-width="170px"/>
-          <el-editable-column prop="discountMoney" align="center" label="折扣额" min-width="170px"/>
+          <el-editable-column prop="discountMoney" align="center" label="折扣额" min-width="170px">
+            <template slot-scope="scope">
+              <p>{{ getdiscountMoney(scope.row) }}</p>
+            </template>
+          </el-editable-column>
           <el-editable-column prop="remark" align="center" label="备注" min-width="150px"/>
           <el-editable-column prop="sourceNumber" align="center" label="源单编号" min-width="150px"/>
           <el-editable-column prop="sourceSerialNumber" align="center" label="源单序号" min-width="150px"/>
@@ -393,6 +413,28 @@ export default {
       this.allDiscountMoney = sums[16]
       this.allMoneyMoveDiscount = sums[13] - sums[16]
       return sums
+    },
+    getdiscountMoney(row) {
+      row.discountMoney = row.discountRate * row.arrivalQuantity * (1 - row.discountRate / 100)
+      return row.discountMoney
+    },
+    // 计算税额
+    getTaxMoney2(row) {
+      row.taxMoney = (row.price * row.taxRate / 100 * row.arrivalQuantity).toFixed(2)
+      return row.taxMoney
+    },
+    // 计算含税金额
+    getTaxMoney(row) {
+      row.includeTaxMoney = (row.arrivalQuantity * row.includeTaxPrice).toFixed(2)
+      return row.includeTaxMoney
+    },
+    // 计算金额
+    getMoney(row) {
+      row.money = (row.arrivalQuantity * row.price).toFixed(2)
+      return row.money
+    },
+    gettaxRate(row) {
+      return row.taxRate * 100
     },
     getways() {
       // 交货方式

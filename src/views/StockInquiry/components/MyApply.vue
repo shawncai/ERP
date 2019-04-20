@@ -145,7 +145,7 @@
 import { stocapplylist } from '@/api/StockApply'
 import { getdeptlist } from '@/api/BasicSettings'
 import { searchStockCategory } from '@/api/StockCategory'
-import { productlist } from '@/api/public'
+// import { productlist } from '@/api/public'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination'
 import MyEmp from '../../StockApply/components/MyEmp'
@@ -320,6 +320,7 @@ export default {
     // 确认添加数据
     async handleConfirm() {
       this.employeeVisible = false
+      console.log(this.choosedata)
       const applydata = this.choosedata.stockApplyDetailVos
       const number = this.choosedata.applyNumber
       const applyDetail = applydata.map(function(item) {
@@ -331,7 +332,7 @@ export default {
           type: item.typeId,
           unit: item.unit,
           color: item.color,
-          plannedQuantity: item.planQuantity,
+          plannedQuantity: item.requireQuantity,
           planDeliveryDate: item.requireDate,
           applicationReason: item.applyReason,
           sourceNumber: number,
@@ -339,23 +340,9 @@ export default {
           price: ''
         }
       })
-
-      const list = await Promise.all(applydata.map(function(item) {
-        return productlist(item.productCode)
-      }))
-
-      for (let i = 0; i < applyDetail.length; i++) {
-        for (let j = 0; j < list.length; j++) {
-          if (applyDetail[i].productCode === list[j].data.data.content.list[0].code) {
-            applyDetail[i].price = list[j].data.data.content.list[0].purchasePrice
-            applyDetail[i].includeTaxPrice = list[j].data.data.content.list[0].purchasePrice
-          }
-        }
-      }
-      console.log(applydata[0].price)
       this.$emit('apply', applyDetail)
       this.$emit('apply2', applyDetail)
-      this.$emit('allinfo', this.choosedata)
+      this.$emit('allapplyinfo', this.choosedata)
     }
     // 仓库管理员选择结束
   }

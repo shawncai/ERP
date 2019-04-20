@@ -65,7 +65,7 @@
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('SaleReturn.salePersonId')" style="width: 100%;">
+                <el-form-item :label="$t('SaleReturn.salePersonId')" prop="salePersonId" style="width: 100%;">
                   <el-input v-model="salePersonId" style="margin-left: 18px" clearable @focus="handlechooseStock"/>
                   <my-emp :control.sync="stockControl" @stockName="stockName"/>
                 </el-form-item>
@@ -124,8 +124,18 @@
             style="width: 100%">
             <el-editable-column type="selection" min-width="55" align="center"/>
             <el-editable-column label="序号" min-width="55" align="center" type="index"/>
-            <el-editable-column prop="locationId" align="center" label="货位" min-width="150px"/>
-            <el-editable-column prop="batch" align="center" label="批次" min-width="150px"/>
+            <el-editable-column :edit-render="{type: 'visible'}" prop="locationId" align="center" label="货位" min-width="170px">
+              <template slot="edit" slot-scope="scope">
+                <el-select v-model="scope.row.locationId" :value="scope.row.locationId" placeholder="请选择货位" filterable clearable style="width: 100%;" @visible-change="updatebatch($event,scope)">
+                  <el-option
+                    v-for="(item, index) in locationlist"
+                    :key="index"
+                    :value="item.id"
+                    :label="item.locationCode"/>
+                </el-select>
+              </template>
+            </el-editable-column>
+            <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="batch" align="center" label="批次" min-width="150px"/>
             <el-editable-column prop="productCode" align="center" label="物品编号" min-width="150px"/>
             <el-editable-column prop="productName" align="center" label="物品名称" min-width="150px"/>
             <el-editable-column prop="Categoryid" align="center" label="物品分类" min-width="150px"/>
@@ -146,7 +156,14 @@
             <el-editable-column prop="discount" align="center" label="折扣率" min-width="150px"/>
             <el-editable-column prop="discountMoney" align="center" label="折扣额" min-width="150px"/>
             <el-editable-column prop="alreadyReturnQuantity" align="center" label="已退货数量" min-width="150px"/>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="returnQuantity" align="center" label="退货数量" min-width="150px"/>
+            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="returnQuantity" align="center" label="退货数量" min-width="150px">
+              <template slot="edit" slot-scope="scope">
+                <el-input-number
+                  :controls="false"
+                  v-model="scope.row.returnQuantity"
+                  @change="getquantity(scope.row)"/>
+              </template>
+            </el-editable-column>
             <el-editable-column :edit-render="{name: 'ElInput', attrs: {min: 0}, type: 'visible'}" prop="returnReason" align="center" label="退货原因" min-width="150px"/>
             <el-editable-column prop="sendQuantity" align="center" label="发货数量" min-width="150px"/>
             <el-editable-column prop="carCode" align="center" label="车架号" min-width="150px"/>
@@ -245,8 +262,9 @@
 </template>
 
 <script>
-// import { createSaleReturn } from '@/api/SaleOrder'
+import { createsaleReturn } from '@/api/SaleReturn'
 import { searchSaleCategory } from '@/api/SaleCategory'
+import { getlocation, locationlist } from '@/api/public'
 import MyEmp from './components/MyEmp'
 import MyDelivery from '../DailyAdjust/components/MyDelivery'
 import MyDetail from './components/MyDetail'
@@ -277,6 +295,8 @@ export default {
       heji7: '',
       heji8: '',
       heji9: '',
+      // 货位数据
+      locationlist: [],
       // 控制源单编码是否可以选择
       IsNumber: true,
       // 控制添加商品按钮是否可以点击
@@ -300,7 +320,8 @@ export default {
       colseTypeparms: {
         type: 3,
         pagenum: 1,
-        pagesize: 99999
+        pagesize: 99999,
+        iseffective: 1
       },
       // 控制商品列表窗口
       control: false,
@@ -317,7 +338,10 @@ export default {
         customerType: [
           { required: true, message: '请选择客户类别', trigger: 'change' }
         ],
-        customerName: [
+        salePersonId: [
+          { required: true, validator: validatePass, trigger: 'focus' }
+        ],
+        customerId: [
           { required: true, validator: validatePass, trigger: 'focus' }
         ],
         returnDate: [
@@ -346,6 +370,39 @@ export default {
     this.getTypes()
   },
   methods: {
+    updatebatch(event, scope) {
+      if (event === true) {
+        if (this.personalForm.saleRepositoryId === undefined || this.personalForm.saleRepositoryId === '') {
+          this.$notify.error({
+            title: '错误',
+            message: '请先选择仓库',
+            offset: 100
+          })
+          return false
+        }
+        getlocation(this.personalForm.saleRepositoryId, scope.row).then(res => {
+          if (res.data.ret === 200) {
+            if (res.data.data.content.length !== 0) {
+              this.locationlist = res.data.data.content
+            } else if (res.data.data.content.length === 0) {
+              locationlist(this.personalForm.saleRepositoryId).then(res => {
+                if (res.data.ret === 200) {
+                  this.locationlist = res.data.data.content.list
+                }
+              })
+            }
+          }
+        })
+      }
+    },
+    getTypes() {
+      // 结算方式数据
+      searchSaleCategory(this.colseTypeparms).then(res => {
+        if (res.data.ret === 200) {
+          this.colseTypes = res.data.data.content.list
+        }
+      })
+    },
     // 控制源单类型
     chooseSource(val) {
       if (val === '1') {
@@ -411,17 +468,17 @@ export default {
     },
     // 通过数量计算成本金额， 含税金额， 金额， 含税成本金额
     getquantity(row) {
-      row.costMoney = row.quantity * row.costPrice
-      row.includeTaxMoney = row.quantity * row.taxprice
-      row.money = row.quantity * row.salePrice
+      row.costMoney = row.returnQuantity * row.costPrice
+      row.includeTaxMoney = row.returnQuantity * row.taxprice
+      row.money = row.returnQuantity * row.salePrice
       row.includeTaxCostMoney = row.includeTaxMoney + row.costMoney
-      row.taxMoney = ((row.taxRate / 100) * row.salePrice * row.quantity).toFixed(2)
-      if (row.quantity !== 0) {
-        row.taxRate = ((row.taxMoney / (row.salePrice * row.quantity)) * 100).toFixed(2)
-        row.discount = (1 - row.discountMoney / row.salePrice / row.quantity).toFixed(2)
+      row.taxMoney = ((row.taxRate / 100) * row.salePrice * row.returnQuantity).toFixed(2)
+      if (row.returnQuantity !== 0) {
+        row.taxRate = ((row.taxMoney / (row.salePrice * row.returnQuantity)) * 100).toFixed(2)
+        row.discount = (1 - row.discountMoney / row.salePrice / row.returnQuantity).toFixed(2)
       }
-      row.discountMoney = (row.salePrice * row.quantity * (1 - row.discount)).toFixed(2)
-      return row.quantity
+      row.discountMoney = (row.salePrice * row.returnQuantity * (1 - row.discount)).toFixed(2)
+      return row.returnQuantity
     },
     // 计算含税价
     gettaxprice(row) {
@@ -492,20 +549,6 @@ export default {
     updatecountry() {
       this.getTypes()
     },
-    getTypes() {
-      // 开票类型数据
-      searchSaleCategory(this.invoicetypeparms).then(res => {
-        if (res.data.ret === 200) {
-          this.invoiceTypes = res.data.data.content.list
-        }
-      })
-      // 结算方式数据
-      searchSaleCategory(this.colseTypeparms).then(res => {
-        if (res.data.ret === 200) {
-          this.colseTypes = res.data.data.content.list
-        }
-      })
-    },
     // 销售人员focus事件
     handlechooseStock() {
       this.stockControl = true
@@ -515,7 +558,7 @@ export default {
       this.salePersonId = val.personName
       this.personalForm.salePersonId = val.id
       this.saleRepositoryId = val.repositoryName
-      this.personalForm.repositoryName = val.repositoryId
+      this.personalForm.saleRepositoryId = val.repositoryId
       this.roleId = val.postName
       this.personalForm.roleId = val.postId
     },
@@ -530,144 +573,151 @@ export default {
       this.customerId = null
       this.salePersonId = null
     },
-    // // 保存操作
-    // handlesave() {
-    //   const EnterDetail = this.$refs.editable.getRecords()
-    //   const EnterDetail2 = this.$refs.editable2.getRecords()
-    //   if (EnterDetail.length === 0) {
-    //     this.$notify.error({
-    //       title: '错误',
-    //       message: '明细表不能为空',
-    //       offset: 100
-    //     })
-    //     return false
-    //   }
-    //   EnterDetail.map(function(elem) {
-    //     return elem
-    //   }).forEach(function(elem) {
-    //     if (elem.productCode === null || elem.productCode === '' || elem.productCode === undefined) {
-    //       delete elem.productCode
-    //     }
-    //     if (elem.productName === null || elem.productName === '' || elem.productName === undefined) {
-    //       delete elem.productName
-    //     }
-    //     if (elem.typeId === null || elem.typeId === '' || elem.typeId === undefined) {
-    //       delete elem.typeId
-    //     }
-    //     if (elem.unit === null || elem.unit === '' || elem.unit === undefined) {
-    //       delete elem.unit
-    //     }
-    //     if (elem.color === null || elem.color === '' || elem.color === undefined) {
-    //       delete elem.color
-    //     }
-    //     if (elem.performanceScore === null || elem.performanceScore === '' || elem.performanceScore === undefined) {
-    //       delete elem.performanceScore
-    //     }
-    //     if (elem.productScore === null || elem.productScore === '' || elem.productScore === undefined) {
-    //       delete elem.productScore
-    //     }
-    //     if (elem.quantity === null || elem.quantity === '' || elem.quantity === undefined) {
-    //       delete elem.quantity
-    //     }
-    //     if (elem.salePrice === null || elem.salePrice === '' || elem.salePrice === undefined) {
-    //       delete elem.salePrice
-    //     }
-    //     if (elem.costPrice === null || elem.costPrice === '' || elem.costPrice === undefined) {
-    //       delete elem.costPrice
-    //     }
-    //     if (elem.costMoney === null || elem.costMoney === '' || elem.costMoney === undefined) {
-    //       delete elem.costMoney
-    //     }
-    //     if (elem.includeTaxMoney === null || elem.includeTaxMoney === '' || elem.includeTaxMoney === undefined) {
-    //       delete elem.includeTaxMoney
-    //     }
-    //     if (elem.taxRate === null || elem.taxRate === '' || elem.taxRate === undefined) {
-    //       delete elem.taxRate
-    //     }
-    //     if (elem.taxRate !== null || elem.taxRate !== '' || elem.taxRate !== undefined) {
-    //       elem.taxRate = elem.taxRate / 100
-    //     }
-    //     if (elem.taxMoney === null || elem.taxMoney === '' || elem.taxMoney === undefined) {
-    //       delete elem.taxMoney
-    //     }
-    //     if (elem.money === null || elem.money === '' || elem.money === undefined) {
-    //       delete elem.money
-    //     }
-    //     if (elem.includeTaxCostMoney === null || elem.includeTaxCostMoney === '' || elem.includeTaxCostMoney === undefined) {
-    //       delete elem.includeTaxCostMoney
-    //     }
-    //     if (elem.discount === null || elem.discount === '' || elem.discount === undefined) {
-    //       delete elem.discount
-    //     }
-    //     if (elem.discount !== null || elem.discount !== '' || elem.discount !== undefined) {
-    //       elem.discount = elem.discount / 100
-    //     }
-    //     if (elem.discountMoney === null || elem.discountMoney === '' || elem.discountMoney === undefined) {
-    //       delete elem.discountMoney
-    //     }
-    //     return elem
-    //   })
-    //   EnterDetail2.map(function(elem) {
-    //     return elem
-    //   }).forEach(function(elem) {
-    //     if (elem.costName === null || elem.costName === '' || elem.costName === undefined) {
-    //       delete elem.costName
-    //     }
-    //     if (elem.money === null || elem.money === '' || elem.money === undefined) {
-    //       delete elem.money
-    //     }
-    //     if (elem.remark === null || elem.remark === '' || elem.remark === undefined) {
-    //       delete elem.remark
-    //     }
-    //     return elem
-    //   })
-    //   const parms2 = JSON.stringify(EnterDetail)
-    //   const parms3 = JSON.stringify(EnterDetail2)
-    //   const Data = this.personalForm
-    //   for (const key in Data) {
-    //     if (Data[key] === '' || Data[key] === undefined || Data[key] === null) {
-    //       delete Data[key]
-    //     }
-    //   }
-    //   const parms = JSON.stringify(Data)
-    //   this.$refs.personalForm.validate((valid) => {
-    //     if (valid) {
-    //       createSaleReturn(parms, parms2, parms3, this.personalForm).then(res => {
-    //         console.log(res)
-    //         if (res.data.ret === 200) {
-    //           this.$notify({
-    //             title: '成功',
-    //             message: '保存成功',
-    //             type: 'success',
-    //             offset: 100
-    //           })
-    //           this.restAllForm()
-    //           this.$refs.editable.clear()
-    //           this.$refs.editable2.clear()
-    //           this.$refs.personalForm.clearValidate()
-    //           this.$refs.personalForm.resetFields()
-    //           this.$refs.personalForm2.clearValidate()
-    //           this.$refs.personalForm2.resetFields()
-    //           this.$refs.personalForm3.clearValidate()
-    //           this.$refs.personalForm3.resetFields()
-    //         } else {
-    //           this.$notify.error({
-    //             title: '错误',
-    //             message: res.data.msg,
-    //             offset: 100
-    //           })
-    //         }
-    //       })
-    //     } else {
-    //       this.$notify.error({
-    //         title: '错误',
-    //         message: '信息未填完整',
-    //         offset: 100
-    //       })
-    //       return false
-    //     }
-    //   })
-    // },
+    // 保存操作
+    handlesave() {
+      const EnterDetail = this.$refs.editable.getRecords()
+      if (EnterDetail.length === 0) {
+        this.$notify.error({
+          title: '错误',
+          message: '明细表不能为空',
+          offset: 100
+        })
+        return false
+      }
+      EnterDetail.map(function(elem) {
+        return elem
+      }).forEach(function(elem) {
+        if (elem.batch === null || elem.batch === '' || elem.batch === undefined) {
+          delete elem.batch
+        }
+        if (elem.productName === null || elem.productName === '' || elem.productName === undefined) {
+          delete elem.productName
+        }
+        if (elem.category === null || elem.category === '' || elem.category === undefined) {
+          delete elem.category
+        }
+        if (elem.unit === null || elem.unit === '' || elem.unit === undefined) {
+          delete elem.unit
+        }
+        if (elem.type === null || elem.type === '' || elem.type === undefined) {
+          delete elem.type
+        }
+        if (elem.color === null || elem.color === '' || elem.color === undefined) {
+          delete elem.color
+        }
+        if (elem.kpiGrade === null || elem.kpiGrade === '' || elem.kpiGrade === undefined) {
+          delete elem.kpiGrade
+        }
+        if (elem.point === null || elem.point === '' || elem.point === undefined) {
+          delete elem.point
+        }
+        if (elem.salePrice === null || elem.salePrice === '' || elem.salePrice === undefined) {
+          delete elem.salePrice
+        }
+        if (elem.costPrice === null || elem.costPrice === '' || elem.costPrice === undefined) {
+          delete elem.costPrice
+        }
+        if (elem.costMoney === null || elem.costMoney === '' || elem.costMoney === undefined) {
+          delete elem.costMoney
+        }
+        if (elem.includeTaxMoney === null || elem.includeTaxMoney === '' || elem.includeTaxMoney === undefined) {
+          delete elem.includeTaxMoney
+        }
+        if (elem.taxRate === null || elem.taxRate === '' || elem.taxRate === undefined) {
+          delete elem.taxRate
+        }
+        if (elem.taxRate !== null || elem.taxRate !== '' || elem.taxRate !== undefined) {
+          elem.taxRate = elem.taxRate / 100
+        }
+        if (elem.taxMoney === null || elem.taxMoney === '' || elem.taxMoney === undefined) {
+          delete elem.taxMoney
+        }
+        if (elem.money === null || elem.money === '' || elem.money === undefined) {
+          delete elem.money
+        }
+        if (elem.includeTaxCostMoney === null || elem.includeTaxCostMoney === '' || elem.includeTaxCostMoney === undefined) {
+          delete elem.includeTaxCostMoney
+        }
+        if (elem.discount === null || elem.discount === '' || elem.discount === undefined) {
+          delete elem.discount
+        }
+        if (elem.discount !== null || elem.discount !== '' || elem.discount !== undefined) {
+          elem.discount = elem.discount / 100
+        }
+        if (elem.discountMoney === null || elem.discountMoney === '' || elem.discountMoney === undefined) {
+          delete elem.discountMoney
+        }
+        if (elem.alreadyReturnQuantity === null || elem.alreadyReturnQuantity === '' || elem.alreadyReturnQuantity === undefined) {
+          delete elem.alreadyReturnQuantity
+        }
+        if (elem.returnQuantity === null || elem.returnQuantity === '' || elem.returnQuantity === undefined) {
+          delete elem.returnQuantity
+        }
+        if (elem.returnReason === null || elem.returnReason === '' || elem.returnReason === undefined) {
+          delete elem.returnReason
+        }
+        if (elem.sendQuantity === null || elem.sendQuantity === '' || elem.sendQuantity === undefined) {
+          delete elem.sendQuantity
+        }
+        if (elem.carCode === null || elem.carCode === '' || elem.carCode === undefined) {
+          delete elem.carCode
+        }
+        if (elem.motorCode === null || elem.motorCode === '' || elem.motorCode === undefined) {
+          delete elem.motorCode
+        }
+        if (elem.batteryCode === null || elem.batteryCode === '' || elem.batteryCode === undefined) {
+          delete elem.batteryCode
+        }
+        if (elem.locationId === null || elem.locationId === '' || elem.locationId === undefined) {
+          delete elem.locationId
+        }
+        return elem
+      })
+      const parms2 = JSON.stringify(EnterDetail)
+      const Data = this.personalForm
+      for (const key in Data) {
+        if (Data[key] === '' || Data[key] === undefined || Data[key] === null) {
+          delete Data[key]
+        }
+      }
+      const parms = JSON.stringify(Data)
+      this.$refs.personalForm.validate((valid) => {
+        if (valid) {
+          createsaleReturn(parms, parms2, this.personalForm).then(res => {
+            console.log(res)
+            if (res.data.ret === 200) {
+              this.$notify({
+                title: '成功',
+                message: '保存成功',
+                type: 'success',
+                offset: 100
+              })
+              this.restAllForm()
+              this.$refs.editable.clear()
+              this.$refs.personalForm.clearValidate()
+              this.$refs.personalForm.resetFields()
+              this.$refs.personalForm2.clearValidate()
+              this.$refs.personalForm2.resetFields()
+              this.$refs.personalForm3.clearValidate()
+              this.$refs.personalForm3.resetFields()
+            } else {
+              this.$notify.error({
+                title: '错误',
+                message: res.data.msg,
+                offset: 100
+              })
+            }
+          })
+        } else {
+          this.$notify.error({
+            title: '错误',
+            message: '信息未填完整',
+            offset: 100
+          })
+          return false
+        }
+      })
+    },
     // 取消操作
     handlecancel() {
       this.$router.go(-1)

@@ -606,7 +606,7 @@ export default {
         provinceId: '',
         cityId: '',
         detailAddress: '',
-        groupId: '',
+        groupId: [],
         zipCode: '',
         contactPersonName: '',
         contactPersonPhone: '',

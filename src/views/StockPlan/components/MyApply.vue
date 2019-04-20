@@ -332,11 +332,14 @@ export default {
           color: item.color,
           basicQuantity: item.applyQuantity,
           planDeliveryDate: item.requireDate,
+          planQuantity: item.applyQuantity,
           applyReason: item.applyReason,
           sourceNumber: number,
           supplierId: '',
           supplierName: '',
-          basicPrice: ''
+          basicPrice: 0,
+          planMoney: '0.00',
+          orderQuantity: '0.00'
         }
       })
       this.$emit('apply', applyDetail)

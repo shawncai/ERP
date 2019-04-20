@@ -1,5 +1,5 @@
 <template>
-  <el-dialog :visible.sync="employeeVisible" :inquirycontrol="inquirycontrol" :close-on-press-escape="false" top="10px" title="选择采购询价单" append-to-body width="1100px" @close="$emit('update:inquirycontrol', false)">
+  <el-dialog :visible.sync="employeeVisible" :inquirycontrol="inquirycontrol" :supp="supp" :close-on-press-escape="false" top="10px" title="选择采购询价单" append-to-body width="1100px" @close="$emit('update:inquirycontrol', false)">
     <el-card class="box-card" style="margin-top: 15px;height: 60px;padding-left:0 " shadow="never">
       <el-row>
         <el-form ref="getemplist" :model="getemplist" style="margin-top: -9px">
@@ -199,6 +199,10 @@ export default {
     inquirycontrol: {
       type: Boolean,
       default: false
+    },
+    supp: {
+      type: Number,
+      default: null
     }
   },
   data() {
@@ -250,6 +254,7 @@ export default {
         pageSize: 10,
         repositoryId: 438,
         regionIds: 2,
+        supplierId: this.supp,
         createPersonId: 3,
         judgeStat: ''
       },
@@ -265,6 +270,11 @@ export default {
     inquirycontrol() {
       this.employeeVisible = this.inquirycontrol
       this.getlist()
+    },
+    supp() {
+      this.getemplist.supplierId = this.supp
+      this.getlist()
+      console.log(this.supp)
     }
   },
   created() {
@@ -372,7 +382,7 @@ export default {
           remark: 0,
           discountRate: 0,
           discountMoney: 0,
-          arrivalQuantity: 0,
+          arrivalQuantity: '0.00',
           price: item.price,
           includeTaxPrice: item.includeTaxPrice,
           taxRate: item.taxRate,

@@ -124,7 +124,7 @@
           <el-button :disabled="addpro" @click="handleAddproduct">添加商品</el-button>
           <my-detail :control.sync="control" @product="productdetail"/>
           <el-button :disabled="addsouce" style="width: 130px" @click="handleAddSouce">从源单中选择</el-button>
-          <my-order :ordercontrol="ordercontrol" @order="order" @allOrderinfo="allOrderinfo"/>
+          <my-order :ordercontrol.sync="ordercontrol" @order="order" @allOrderinfo="allOrderinfo"/>
           <el-button type="danger" @click="$refs.editable.removeSelecteds()">删除</el-button>
         </div>
         <div class="container">
@@ -152,11 +152,27 @@
             <el-editable-column prop="price" align="center" label="单价" min-width="170px"/>
             <el-editable-column prop="includeTaxPrice" align="center" label="含税价" min-width="170px"/>
             <el-editable-column prop="taxRate" align="center" label="税率(%)" min-width="170px"/>
-            <el-editable-column prop="money" align="center" label="金额" min-width="150px"/>
-            <el-editable-column prop="includeTaxMoney" align="center" label="含税金额" min-width="150px"/>
-            <el-editable-column prop="taxMoney" align="center" label="税额" min-width="150px"/>
+            <el-editable-column prop="money" align="center" label="金额" min-width="150px">
+              <template slot-scope="scope">
+                <p>{{ getMoney(scope.row) }}</p>
+              </template>
+            </el-editable-column>
+            <el-editable-column prop="includeTaxMoney" align="center" label="含税金额" min-width="150px">
+              <template slot-scope="scope">
+                <p>{{ getTaxMoney(scope.row) }}</p>
+              </template>
+            </el-editable-column>
+            <el-editable-column prop="taxMoney" align="center" label="税额" min-width="150px">
+              <template slot-scope="scope">
+                <p>{{ getTaxMoney2(scope.row) }}</p>
+              </template>
+            </el-editable-column>
             <el-editable-column prop="discountRate" align="center" label="折扣率(%)" min-width="170px"/>
-            <el-editable-column prop="discountMoney" align="center" label="折扣额" min-width="170px"/>
+            <el-editable-column prop="discountMoney" align="center" label="折扣额" min-width="170px">
+              <template slot-scope="scope">
+                <p>{{ getdiscountMoney(scope.row) }}</p>
+              </template>
+            </el-editable-column>
             <el-editable-column prop="remark" align="center" label="备注" min-width="150px"/>
             <el-editable-column prop="sourceNumber" align="center" label="源单编号" min-width="150px"/>
             <el-editable-column prop="sourceSerialNumber" align="center" label="源单序号" min-width="150px"/>
@@ -206,7 +222,7 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item label="其他费用支出合计" style="width: 100%;">
-                  <el-input v-model="allOthermoney" style="margin-left: 18px"/>
+                  <el-input v-model="allOthermoney" style="margin-left: 18px" disabled/>
                 </el-form-item>
               </el-col>
             </el-row>
@@ -363,6 +379,8 @@ export default {
       sums[4] = ''
       sums[5] = ''
       sums[6] = ''
+      sums[8] = ''
+      sums[9] = ''
       sums[10] = ''
       sums[15] = ''
       sums[18] = ''
@@ -374,6 +392,25 @@ export default {
       this.allDiscountMoney = sums[16]
       this.allMoneyMoveDiscount = sums[13] - sums[16]
       return sums
+    },
+    getdiscountMoney(row) {
+      row.discountMoney = row.discountRate * row.arrivalQuantity * (1 - row.discountRate / 100)
+      return row.discountMoney
+    },
+    // 计算税额
+    getTaxMoney2(row) {
+      row.taxMoney = (row.price * row.taxRate / 100 * row.arrivalQuantity).toFixed(2)
+      return row.taxMoney
+    },
+    // 计算含税金额
+    getTaxMoney(row) {
+      row.includeTaxMoney = (row.arrivalQuantity * row.includeTaxPrice).toFixed(2)
+      return row.includeTaxMoney
+    },
+    // 计算金额
+    getMoney(row) {
+      row.money = (row.arrivalQuantity * row.price).toFixed(2)
+      return row.money
     },
     getways() {
       // 交货方式
@@ -421,6 +458,7 @@ export default {
     allOrderinfo(val) {
       this.personalForm.supplierId = val.supplierId
       this.supplierId = val.supplierName
+      this.allOthermoney = val.otherMoney
     },
     // 更新类型
     updatecountry() {
@@ -560,6 +598,9 @@ export default {
         }
         if (elem.taxRate === null || elem.taxRate === '' || elem.taxRate === undefined) {
           delete elem.taxRate
+        }
+        if (elem.taxRate !== null || elem.taxRate !== '' || elem.taxRate !== undefined) {
+          elem.taxRate = elem.taxRate / 100
         }
         if (elem.discountRate === null || elem.discountRate === '' || elem.discountRate === undefined) {
           delete elem.discountRate

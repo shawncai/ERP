@@ -264,10 +264,11 @@ export default {
           productCode: item.code,
           productName: item.productName,
           typeId: item.typeId,
-          requireQuantity: 0,
+          requireQuantity: 1.00,
           color: item.color,
           unit: item.purMeasu,
-          productType: item.productType
+          productType: item.productType,
+          planQuantity: '0.00'
         }
       })
       const productDetail2 = this.moreaction.map(function(item) {
@@ -278,7 +279,7 @@ export default {
           color: item.color,
           unit: item.purMeasu,
           productType: item.productType,
-          applyQuantity: 0,
+          applyQuantity: '0.00',
           planQuantity: 0
         }
       })

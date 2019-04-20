@@ -25,19 +25,19 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('StockPlan.planPersonId')" prop="planPersonId" style="width: 100%;">
-                  <el-input v-model="planPersonId" style="margin-left: 18px" clearable @focus="handlechooseStock"/>
+                  <el-input v-model="planPersonId" style="margin-left: 18px" @focus="handlechooseStock"/>
                   <my-emp :control.sync="stockControl" @stockName="stockName"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('StockPlan.stockPersonId')" prop="stockPersonId" style="width: 100%;">
-                  <el-input v-model="stockPersonId" style="margin-left: 18px" clearable @focus="handlechooseDelivery"/>
+                  <el-input v-model="stockPersonId" style="margin-left: 18px" @focus="handlechooseDelivery"/>
                   <my-delivery :deliverycontrol.sync="deliverycontrol" @deliveryName="deliveryName"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('StockPlan.stockDeptId')" prop="stockDeptId" style="width: 100%;">
-                  <el-select v-model="personalForm.stockDeptId" clearable style="margin-left: 18px;width: 218px">
+                  <el-select v-model="personalForm.stockDeptId" style="margin-left: 18px;width: 218px" @change="change()">
                     <el-option
                       v-for="(item, index) in depts"
                       :key="index"
@@ -59,6 +59,7 @@
                 <el-form-item :label="$t('StockPlan.planDate')" prop="planDate" style="width: 100%;">
                   <el-date-picker
                     v-model="personalForm.planDate"
+                    :picker-options="pickerOptions1"
                     type="date"
                     value-format="yyyy-MM-dd"
                     style="margin-left: 18px"/>
@@ -75,7 +76,7 @@
           <el-button :disabled="addpro" @click="handleAddproduct">添加商品</el-button>
           <my-detail :control.sync="control" @product="productdetail" @product2="productdetail2"/>
           <el-button :disabled="addsouce" style="width: 130px" @click="handleAddSouce">从源单中选择</el-button>
-          <my-apply :applycontrol.sync="applycontrol" @apply="apply" @apply2="apply2"/>
+          <my-apply :applycontrol.sync="applycontrol" @apply="apply" @apply2="apply2" @allinfo="allinfo"/>
           <my-require :requirecontrol.sync="requirecontrol" @require="requiredata" @require2="requiredata2"/>
           <el-button type="danger" @click="deleteEdit">删除</el-button>
         </div>
@@ -103,7 +104,9 @@
                 <p>{{ basicPrice(scope.row) }}</p>
               </template>
             </el-editable-column>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible' ,events: {change: changeDate}}" prop="planQuantity" align="center" label="计划数量" min-width="150px"/>
+            <el-editable-column prop="requireQuantity" align="center" label="需求数量" min-width="150px"/>
+            <el-editable-column prop="requireDate" align="center" label="需求日期" min-width="150px"/>
+            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 1, precision: 2}, type: 'visible' ,events: {change: changeDate}}" prop="planQuantity" align="center" label="计划数量" min-width="150px"/>
             <el-editable-column prop="planMoney" align="center" label="计划金额" min-width="150px">
               <template slot-scope="scope">
                 <p>{{ planMoney(scope.row) }}</p>
@@ -114,10 +117,11 @@
             <el-editable-column prop="sourceNumber" align="center" label="源单编号" min-width="150px"/>
             <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="supplierName" align="center" label="供应商" min-width="150px">
               <template slot="edit" slot-scope="scope">
-                <el-input v-model="scope.row.supplierName" :value="scope.row.supplierName" @focus="handlechoose"/>
-                <my-supplier :control.sync="empcontrol" @supplierName="personName(scope, $event)"/>
+                <el-input v-model="scope.row.supplierName" @focus="handlechoose(scope)"/>
+                <my-supplier :control.sync="empcontrol" :procode="procode" @supplierName="personName(scope, $event)"/>
               </template>
             </el-editable-column>
+            <el-editable-column prop="orderQuantity" align="center" label="已订购数量" min-width="150px"/>
           </el-editable>
         </div>
       </el-card>
@@ -147,16 +151,17 @@
                 <p>{{ basicPrice(scope.row) }}</p>
               </template>
             </el-editable-column>
-            <el-editable-column prop="planQuantity" align="center" label="计划数量" min-width="150px"/>
-            <el-editable-column prop="planMoney" align="center" label="计划金额" min-width="150px">
+            <el-editable-column prop="planQuantity" align="center" label="计划数量" min-width="150px">
               <template slot-scope="scope">
-                <p>{{ planMoney(scope.row) }}</p>
+                <p>{{ planQuantity(scope.row) }}</p>
               </template>
             </el-editable-column>
+            <el-editable-column prop="planMoney" align="center" label="计划金额" min-width="150px"/>
             <el-editable-column :edit-render="{name: 'ElDatePicker', attrs: {type: 'date', format: 'yyyy-MM-dd'}, type: 'default'}" prop="planDeliveryDate" align="center" label="计划交货日期" min-width="170px"/>
             <el-editable-column prop="applyReason" align="center" label="申请原因" min-width="150px"/>
             <el-editable-column prop="sourceNumber" align="center" label="源单编号" min-width="150px"/>
             <el-editable-column prop="supplierName" align="center" label="供应商" min-width="150px"/>
+            <el-editable-column prop="orderQuantity" align="center" label="已订购数量" min-width="150px"/>
           </el-editable>
         </div>
       </el-card>
@@ -167,12 +172,12 @@
             <el-row>
               <el-col :span="6">
                 <el-form-item :label="$t('StockPlan.heji1')" style="width: 100%;">
-                  <el-input v-model="heji1" style="margin-left: 18px" disabled/>
+                  <el-input v-model="personalForm.allMoney" style="margin-left: 18px" disabled/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('StockPlan.heji2')" style="width: 100%;">
-                  <el-input v-model="heji2" style="margin-left: 18px" disabled/>
+                  <el-input v-model="personalForm.totalQuantity" style="margin-left: 18px" disabled/>
                 </el-form-item>
               </el-col>
             </el-row>
@@ -191,27 +196,52 @@
 <script>
 import { addstockplan } from '@/api/StockPlan'
 import { getdeptlist } from '@/api/BasicSettings'
-import { productlist } from '@/api/public'
+// import { productlist } from '@/api/public'
 import { searchStockCategory } from '@/api/StockCategory'
 import MyEmp from './components/MyEmp'
 import MyDelivery from '../DailyAdjust/components/MyDelivery'
 import MyDetail from './components/MyDetail'
 import MyApply from './components/MyApply'
-import MySupplier from '../Product/components/MySupplier'
+import MySupplier from './components/MySupplier'
 import MyRequire from './components/MyRequire'
 export default {
   name: 'AddStockPlan',
   components: { MyRequire, MySupplier, MyApply, MyDetail, MyDelivery, MyEmp },
   data() {
     const validatePass = (rule, value, callback) => {
-      console.log(value)
-      if (value === '') {
-        callback(new Error('请选择'))
+      console.log(this.planPersonId)
+      if (this.planPersonId === undefined || this.planPersonId === null || this.planPersonId === '') {
+        callback(new Error('请选择计划员'))
+      } else {
+        callback()
+      }
+    }
+    const validatePass2 = (rule, value, callback) => {
+      console.log(this.stockPersonId)
+      if (this.stockPersonId === undefined || this.stockPersonId === null || this.stockPersonId === '') {
+        callback(new Error('请选择采购员'))
+      } else {
+        callback()
+      }
+    }
+    const validatePass3 = (rule, value, callback) => {
+      console.log(this.personalForm.stockDeptId)
+      if (this.personalForm.stockDeptId === undefined || this.personalForm.stockDeptId === null || this.personalForm.stockDeptId === '') {
+        callback(new Error('请选择采购部门'))
       } else {
         callback()
       }
     }
     return {
+      pickerOptions1: {
+        disabledDate: (time) => {
+          return time.getTime() < new Date().getTime() - 8.64e7
+        }
+      },
+      // 传商品code去获取能提供这个商品的供应商
+      procode: null,
+      // 控制scope
+      kongscope: '',
       // 合计数据
       heji1: '',
       heji2: '',
@@ -251,7 +281,8 @@ export default {
         createPersonId: 3,
         countryId: 1,
         repositoryId: 438,
-        regionId: 2
+        regionId: 2,
+        sourceType: '3'
       },
       // 采购计划单规则数据
       personalrules: {
@@ -262,16 +293,16 @@ export default {
           { required: true, message: '请选择计划日期', trigger: 'change' }
         ],
         stockDeptId: [
-          { required: true, message: '请选择采购部门', trigger: 'change' }
+          { required: true, validator: validatePass3, trigger: 'change' }
         ],
         sourceType: [
           { required: true, message: '请选择源单类型', trigger: 'change' }
         ],
         planPersonId: [
-          { required: true, validator: validatePass, trigger: 'focus' }
+          { required: true, validator: validatePass, trigger: 'change' }
         ],
         stockPersonId: [
-          { required: true, validator: validatePass, trigger: 'focus' }
+          { required: true, validator: validatePass2, trigger: 'change' }
         ]
       },
       // 采购计划单明细数据
@@ -280,17 +311,39 @@ export default {
       list3: [],
       // 采购计划单明细列表规则
       validRules: {
+        supplierName: [
+          { required: true, message: '请选择供应商', trigger: 'none' }
+        ],
+        planQuantity: [
+          { required: true, message: '请输入计划数量', trigger: 'blur' }
+        ]
       }
     }
   },
   created() {
     this.getTypes()
+    this.getdatatime()
+    this.chooseType()
   },
   methods: {
+    planQuantity(row) {
+      return (row.planQuantity).toFixed(2)
+    },
+    // 重置一下下拉
+    change() {
+      this.$forceUpdate()
+    },
+    getdatatime() { // 默认显示今天
+      this.personalForm.planDate = new Date()
+    },
     // 计划金额
     planMoney(row) {
-      row.planMoney = row.basicPrice * row.planQuantity
+      row.planMoney = (row.basicPrice * row.planQuantity).toFixed(2)
       return row.planMoney
+    },
+    // 转化单价
+    basicPrice(row) {
+      return (row.basicPrice).toFixed(2)
     },
     // 总计
     getSummaries(param) {
@@ -306,9 +359,9 @@ export default {
           sums[index] = values.reduce((prev, curr) => {
             const value = Number(curr)
             if (!isNaN(value)) {
-              return prev + curr
+              return (Number(prev) + Number(curr)).toFixed(2)
             } else {
-              return prev
+              return (Number(prev)).toFixed(2)
             }
           }, 0)
           sums[index] += ''
@@ -329,15 +382,6 @@ export default {
       sums[12] = ''
       return sums
     },
-    // 计算单价和供应商
-    basicPrice(row) {
-      productlist(row.productCode).then(res => {
-        if (res.data.ret === 200) {
-          row.basicPrice = res.data.data.content.list[0].purchasePrice
-        }
-      })
-      return row.basicPrice
-    },
     // 两表联动
     changeDate(scope, value) {
       this.$refs.editable2.clear()
@@ -347,19 +391,26 @@ export default {
       }
     },
     // 供货商输入框focus事件触发
-    handlechoose() {
+    handlechoose(scope) {
       this.empcontrol = true
+      this.kongscope = scope
+      this.procode = scope.row.productCode
     },
     // 供货商列表返回数据
     personName(scope, val) {
-      scope.row.supplierName = val.supplierName
-      scope.row.supplierId = val.id
+      console.log(scope)
+      console.log(val)
+      // scope.row.supplierName = val.supplierName
+      // scope.row.supplierId = val.id
+      this.kongscope.row.supplierName = val.supplierName
+      this.kongscope.row.supplierId = val.id
       this.$refs.editable2.clear()
       const nowlistdata = this.$refs.editable.getRecords()
       console.log(nowlistdata)
       for (let i = 0; i < nowlistdata.length; i++) {
         this.$refs.editable2.insert(nowlistdata[i])
       }
+      return
     },
 
     // 选择源单类型事件
@@ -367,14 +418,22 @@ export default {
       console.log(this.personalForm.sourceType)
       if (this.personalForm.sourceType === '1' || this.personalForm.sourceType === '2') {
         this.addsouce = false
-        this.addpro = true
-        this.$refs.editable.clear()
-        this.$refs.editable2.clear()
+        this.addpro = false
+        if (this.$refs.editable.getRecords().length !== 0) {
+          this.$refs.editable.clear()
+        }
+        if (this.$refs.editable2.getRecords().length !== 0) {
+          this.$refs.editable2.clear()
+        }
       } else if (this.personalForm.sourceType === '3') {
         this.addpro = false
         this.addsouce = true
-        this.$refs.editable.clear()
-        this.$refs.editable2.clear()
+        if (this.$refs.editable.getRecords().length !== 0) {
+          this.$refs.editable.clear()
+        }
+        if (this.$refs.editable2.getRecords().length !== 0) {
+          this.$refs.editable2.clear()
+        }
       }
     },
     // 无来源添加商品
@@ -423,8 +482,11 @@ export default {
         this.requirecontrol = true
       }
     },
-    apply(val) {
+    allinfo(val) {
       console.log(val)
+      this.personalForm.planDate = val.applyDate
+    },
+    apply(val) {
       const nowlistdata = this.$refs.editable.getRecords()
       for (let i = 0; i < val.length; i++) {
         for (let j = 0; j < nowlistdata.length; j++) {
@@ -542,6 +604,7 @@ export default {
     deliveryName(val) {
       this.stockPersonId = val.personName
       this.personalForm.stockPersonId = val.id
+      this.personalForm.stockDeptId = val.deptId
     },
     // 清空记录
     restAllForm() {
@@ -620,27 +683,31 @@ export default {
       const parms = JSON.stringify(Data)
       this.$refs.personalForm.validate((valid) => {
         if (valid) {
-          addstockplan(parms, parms2, this.personalForm).then(res => {
-            console.log(res)
-            if (res.data.ret === 200) {
-              this.$notify({
-                title: '成功',
-                message: '保存成功',
-                type: 'success',
-                offset: 100
-              })
-              this.restAllForm()
-              this.$refs.editable.clear()
-              this.$refs.editable2.clear()
-              this.$refs.personalForm.clearValidate()
-              this.$refs.personalForm.resetFields()
-            } else {
-              this.$notify.error({
-                title: '错误',
-                message: res.data.msg,
-                offset: 100
-              })
-            }
+          this.$refs.editable.validate().then(valid => {
+            addstockplan(parms, parms2, this.personalForm).then(res => {
+              console.log(res)
+              if (res.data.ret === 200) {
+                this.$notify({
+                  title: '成功',
+                  message: '保存成功',
+                  type: 'success',
+                  offset: 100
+                })
+                this.restAllForm()
+                this.$refs.editable.clear()
+                this.$refs.editable2.clear()
+                this.$refs.personalForm.clearValidate()
+                this.$refs.personalForm.resetFields()
+              } else {
+                this.$notify.error({
+                  title: '错误',
+                  message: res.data.msg,
+                  offset: 100
+                })
+              }
+            })
+          }).catch(valid => {
+            console.log('error submit!!')
           })
         } else {
           this.$notify.error({

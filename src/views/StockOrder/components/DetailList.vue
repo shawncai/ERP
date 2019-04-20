@@ -59,6 +59,11 @@
                 <span>{{ personalForm.currency | currencyFilter }}</span>
               </el-form-item>
             </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('StockOrder.supplierNumber')" style="width: 100%;">
+                <span>{{ personalForm.supplierNumber }}</span>
+              </el-form-item>
+            </el-col>
           </el-row>
         </el-form>
       </div>
@@ -87,24 +92,14 @@
           <el-editable-column prop="price" align="center" label="单价" min-width="150px"/>
           <el-editable-column prop="includeTaxPrice" align="center" label="含税价" min-width="150px"/>
           <el-editable-column prop="taxRate" align="center" label="税率" min-width="150px"/>
-          <el-editable-column prop="money" align="center" label="金额" min-width="150px">
-            <template slot-scope="scope">
-              <p>{{ getMoney(scope.row) }}</p>
-            </template>
-          </el-editable-column>
-          <el-editable-column prop="includeTaxMoney" align="center" label="含税金额" min-width="150px">
-            <template slot-scope="scope">
-              <p>{{ getTaxMoney(scope.row) }}</p>
-            </template>
-          </el-editable-column>
-          <el-editable-column prop="taxMoney" align="center" label="税额" min-width="150px">
-            <template slot-scope="scope">
-              <p>{{ getTaxMoney2(scope.row) }}</p>
-            </template>
-          </el-editable-column>
+          <el-editable-column prop="money" align="center" label="金额" min-width="150px"/>
+          <el-editable-column prop="includeTaxMoney" align="center" label="含税金额" min-width="150px"/>
+          <el-editable-column prop="taxMoney" align="center" label="税额" min-width="150px"/>
           <el-editable-column prop="applicationReason" align="center" label="备注" min-width="150px"/>
           <el-editable-column prop="sourceNumber" align="center" label="源单编号" min-width="150px"/>
           <el-editable-column prop="sourceSerialNumber" align="center" label="源单序号" min-width="150px"/>
+          <el-editable-column prop="arrivalQuantity" align="center" label="已到货数量" min-width="150px"/>
+          <el-editable-column prop="returnQuantity" align="center" label="退货数量" min-width="150px"/>
         </el-editable>
       </div>
     </el-card>
@@ -257,21 +252,6 @@ export default {
     }
   },
   methods: {
-    // 计算税额
-    getTaxMoney2(row) {
-      row.taxMoney = row.price * row.taxRate
-      return row.taxMoney
-    },
-    // 计算含税金额
-    getTaxMoney(row) {
-      row.includeTaxMoney = row.plannedQuantity * row.includeTaxPrice
-      return row.includeTaxMoney
-    },
-    // 计算金额
-    getMoney(row) {
-      row.money = row.plannedQuantity * row.price
-      return row.money
-    },
     handlecancel() {
       this.editVisible = false
     }

@@ -348,6 +348,7 @@ export default {
     },
     // 修改组件修改成功后返回
     refreshlist(val) {
+      console.log(val)
       if (val === true) {
         this.getlist()
       }

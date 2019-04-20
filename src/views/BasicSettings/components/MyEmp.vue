@@ -284,6 +284,7 @@ export default {
     handleConfirm() {
       this.employeeVisible = false
       this.$emit('chuli', this.choosedata)
+      this.$emit('personName', this.choosedata)
     }
     // 仓库管理员选择结束
   }

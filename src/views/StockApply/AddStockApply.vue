@@ -24,14 +24,14 @@
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('StockApply.applyPersonId')" style="width: 100%;">
-                  <el-input v-model="applyPersonId" style="margin-left: 18px" clearable @focus="handlechooseStock"/>
+                <el-form-item :label="$t('StockApply.applyPersonId')" prop="applyPersonId" style="width: 100%;">
+                  <el-input v-model="applyPersonId" style="margin-left: 18px" @focus="handlechooseStock"/>
                   <my-emp :control.sync="stockControl" @stockName="stockName"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('StockApply.applyDeptId')" prop="applyDeptId" style="width: 100%;">
-                  <el-select v-model="personalForm.applyDeptId" clearable style="margin-left: 18px">
+                  <el-select v-model="personalForm.applyDeptId" style="margin-left: 18px" @change="change()">
                     <el-option
                       v-for="(item, index) in depts"
                       :key="index"
@@ -44,6 +44,7 @@
                 <el-form-item :label="$t('StockApply.sourceType')" prop="sourceType" style="width: 100%;">
                   <el-select v-model="personalForm.sourceType" style="margin-left: 18px;width: 218px">
                     <el-option value="1" label="无来源" />
+                    <el-option value="2" label="销售订单" />
                   </el-select>
                 </el-form-item>
               </el-col>
@@ -52,6 +53,7 @@
                   <el-date-picker
                     v-model="personalForm.applyDate"
                     type="date"
+                    default-value
                     value-format="yyyy-MM-dd"
                     style="margin-left: 18px"/>
                 </el-form-item>
@@ -87,9 +89,10 @@
             <el-editable-column prop="productType" align="center" label="规格" min-width="150px"/>
             <el-editable-column prop="color" align="center" label="颜色" min-width="150px"/>
             <el-editable-column prop="unit" align="center" label="单位" min-width="150px"/>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="requireQuantity" align="center" label="需求数量" min-width="150px"/>
-            <el-editable-column :edit-render="{name: 'ElDatePicker', attrs: {type: 'date', format: 'yyyy-MM-dd'}, type: 'visible'}" prop="requireDate" align="center" label="需求日期" min-width="150px"/>
+            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 1, precision: 2}, type: 'visible', events: {change: changeDate}}" prop="requireQuantity" align="center" label="需求数量" min-width="150px"/>
+            <el-editable-column :edit-render="{name: 'ElDatePicker', attrs: {type: 'date', format: 'yyyy-MM-dd'}, type: 'visible', events: {change: changeDate}}" prop="requireDate" align="center" label="需求日期" min-width="150px"/>
             <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="applyReason" align="center" label="申请原因" min-width="150px"/>
+            <el-editable-column prop="sourceSerialNumber" align="center" label="源单编号" min-width="150px"/>
           </el-editable>
         </div>
       </el-card>
@@ -112,8 +115,18 @@
             <el-editable-column prop="productType" align="center" label="规格" min-width="150px"/>
             <el-editable-column prop="color" align="center" label="颜色" min-width="150px"/>
             <el-editable-column prop="unit" align="center" label="单位" min-width="150px"/>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="applyQuantity" align="center" label="申请数量" min-width="150px"/>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="planQuantity" align="center" label="已计划数量" min-width="150px"/>
+            <el-editable-column :edit-render="{name: 'ElDatePicker', attrs: {type: 'date', format: 'yyyy-MM-dd', disable: 'true'},}" prop="requireDate" align="center" label="需求日期" min-width="150px">
+              <template slot="edit" slot-scope="scope">
+                <el-date-picker
+                  v-model="scope.row.requireDate"
+                  disabled
+                  type="date"
+                  value-format="yyyy-MM-dd"/>
+              </template>
+            </el-editable-column>
+            <el-editable-column prop="applyQuantity" align="center" label="申请数量" min-width="150px"/>
+            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {precision: 2}}" prop="planQuantity" align="center" label="已计划数量" min-width="150px"/>
+            <el-editable-column prop="sourceSerialNumber" align="center" label="源单编号" min-width="150px"/>
           </el-editable>
         </div>
       </el-card>
@@ -136,6 +149,14 @@ export default {
   name: 'AddStockApply',
   components: { MyDetail, MyEmp },
   data() {
+    const validatePass = (rule, value, callback) => {
+      console.log(this.applyPersonId)
+      if (this.applyPersonId === undefined || this.applyPersonId === null || this.applyPersonId === '') {
+        callback(new Error('请选择申请人'))
+      } else {
+        callback()
+      }
+    }
     return {
       // 选择的数据
       choosedata: [],
@@ -164,6 +185,9 @@ export default {
       },
       // 采购申请单规则数据
       personalrules: {
+        applyPersonId: [
+          { required: true, validator: validatePass, trigger: 'change' }
+        ],
         stockType: [
           { required: true, message: '请选择采购类别', trigger: 'change' }
         ],
@@ -171,7 +195,7 @@ export default {
           { required: true, message: '请选择申请日期', trigger: 'change' }
         ],
         applyDeptId: [
-          { required: true, message: '请选择申请部门', trigger: 'change' }
+          { required: true, message: '请选择申请部门', trigger: 'none' }
         ],
         sourceType: [
           { required: true, message: '请选择源单类型', trigger: 'change' }
@@ -183,13 +207,33 @@ export default {
       list3: [],
       // 采购申请单明细列表规则
       validRules: {
+        requireQuantity: [
+          { required: true, message: '请输入需求数量', trigger: 'change' }
+        ],
+        requireDate: [
+          { required: true, message: '请选择需求日期', trigger: 'change' }
+        ]
       }
     }
   },
   created() {
     this.getTypes()
+    this.getdatatime()
   },
   methods: {
+    // 两表联动
+    changeDate(scope, value) {
+      console.log(scope)
+      scope.row.applyQuantity = (scope.row.requireQuantity).toFixed(2)
+      this.$refs.editable2.clear()
+      const nowlistdata = this.$refs.editable.getRecords()
+      for (let i = 0; i < nowlistdata.length; i++) {
+        this.$refs.editable2.insert(nowlistdata[i])
+      }
+    },
+    getdatatime() { // 默认显示今天
+      this.personalForm.applyDate = new Date()
+    },
     // 删除数据
     deleteEdit() {
       this.$refs.editable.removeSelecteds()
@@ -206,6 +250,10 @@ export default {
     },
     deleteChange(val) {
       this.choosedata = val
+    },
+    // 重置一下下拉
+    change() {
+      this.$forceUpdate()
     },
     // 更新类型
     updatecountry() {
@@ -231,8 +279,10 @@ export default {
     },
     // 申请人回显
     stockName(val) {
+      console.log(val)
       this.applyPersonId = val.personName
       this.personalForm.applyPersonId = val.id
+      this.personalForm.applyDeptId = val.deptId
     },
     // 采购申请明细来源
     handleAddproduct() {
@@ -349,27 +399,31 @@ export default {
       const parms = JSON.stringify(Data)
       this.$refs.personalForm.validate((valid) => {
         if (valid) {
-          addstockapply(parms, parms2, this.personalForm).then(res => {
-            console.log(res)
-            if (res.data.ret === 200) {
-              this.$notify({
-                title: '成功',
-                message: '保存成功',
-                type: 'success',
-                offset: 100
-              })
-              this.restAllForm()
-              this.$refs.editable.clear()
-              this.$refs.editable2.clear()
-              this.$refs.personalForm.clearValidate()
-              this.$refs.personalForm.resetFields()
-            } else {
-              this.$notify.error({
-                title: '错误',
-                message: res.data.msg,
-                offset: 100
-              })
-            }
+          this.$refs.editable.validate().then(valid => {
+            addstockapply(parms, parms2, this.personalForm).then(res => {
+              console.log(res)
+              if (res.data.ret === 200) {
+                this.$notify({
+                  title: '成功',
+                  message: '保存成功',
+                  type: 'success',
+                  offset: 100
+                })
+                this.restAllForm()
+                this.$refs.editable.clear()
+                this.$refs.editable2.clear()
+                this.$refs.personalForm.clearValidate()
+                this.$refs.personalForm.resetFields()
+              } else {
+                this.$notify.error({
+                  title: '错误',
+                  message: res.data.msg,
+                  offset: 100
+                })
+              }
+            })
+          }).catch(valid => {
+            console.log('error submit!!')
           })
         } else {
           this.$notify.error({

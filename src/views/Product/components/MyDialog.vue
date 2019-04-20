@@ -7,8 +7,8 @@
         <el-form ref="personalForm" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
           <el-row>
             <el-col :span="12">
-              <el-form-item :label="$t('Product.productname')" prop="productname" style="width: 100%;">
-                <el-input v-model="personalForm.productName" style="margin-left: 18px;width: 200px" placeholder="请输入产品名称" clearable/>
+              <el-form-item :label="$t('Product.productname')" style="width: 100%;">
+                <el-input v-model="personalForm.productName" style="margin-left: 18px;width: 200px" placeholder="请输入产品名称" disabled/>
               </el-form-item>
             </el-col>
             <el-col :span="12">
@@ -162,12 +162,7 @@
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item :label="$t('Product.effectiveDay')" prop="effectiveDay" style="width: 100%;">
-                <el-input v-model="personalForm.effectiveDay" placeholder="请输入有效天数" clearable style="margin-left: 18px;width: 200px"/>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('Product.stockCircle')" prop="stockCircle" style="width: 100%;">
+              <el-form-item :label="$t('Product.stockCircle')" style="width: 100%;">
                 <el-input v-model="personalForm.stockCircle" placeholder="请输采购周期（天）" clearable style="margin-left: 18px;width: 200px"/>
               </el-form-item>
             </el-col>
@@ -185,6 +180,11 @@
               <el-form-item :label="$t('Product.workCenterId')" style="width: 100%;">
                 <el-input v-model="workCenterId" :disabled="Iscenter" placeholder="请选择工作中心" clearable style="margin-left: 18px;width: 200px" @focus="workcenterchoose"/>
                 <my-center :control.sync="centercontrol" @center="center"/>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('Product.effectiveDay')" prop="effectiveDay" style="width: 100%;">
+                <el-input v-model="personalForm.effectiveDay" placeholder="请输入有效天数" clearable style="margin-left: 18px;width: 200px"/>
               </el-form-item>
             </el-col>
             <el-col :span="12">

@@ -605,7 +605,6 @@ export default {
     // 保存操作
     handlesave() {
       const EnterDetail = this.$refs.editable.getRecords()
-      const EnterDetail2 = this.$refs.editable2.getRecords()
       if (EnterDetail.length === 0) {
         this.$notify.error({
           title: '错误',
@@ -679,22 +678,7 @@ export default {
         }
         return elem
       })
-      EnterDetail2.map(function(elem) {
-        return elem
-      }).forEach(function(elem) {
-        if (elem.costName === null || elem.costName === '' || elem.costName === undefined) {
-          delete elem.costName
-        }
-        if (elem.money === null || elem.money === '' || elem.money === undefined) {
-          delete elem.money
-        }
-        if (elem.remark === null || elem.remark === '' || elem.remark === undefined) {
-          delete elem.remark
-        }
-        return elem
-      })
       const parms2 = JSON.stringify(EnterDetail)
-      const parms3 = JSON.stringify(EnterDetail2)
       const Data = this.personalForm
       for (const key in Data) {
         if (Data[key] === '' || Data[key] === undefined || Data[key] === null) {
@@ -704,7 +688,7 @@ export default {
       const parms = JSON.stringify(Data)
       this.$refs.personalForm.validate((valid) => {
         if (valid) {
-          createsaleOrder(parms, parms2, parms3, this.personalForm).then(res => {
+          createsaleOrder(parms, parms2, this.personalForm).then(res => {
             console.log(res)
             if (res.data.ret === 200) {
               this.$notify({

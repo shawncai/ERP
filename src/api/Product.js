@@ -113,8 +113,8 @@ export function createnewproduct(query) {
   if (query.categoryid !== '' && query.categoryid !== null && query.categoryid !== undefined) {
     params.append('categoryid', query.categoryid) // 你要传给后台的参数值 key/value
   }
-  if (query.color !== '' && query.color !== null && query.color !== undefined) {
-    params.append('color', query.color) // 你要传给后台的参数值 key/value
+  if (query.colorId !== '' && query.colorId !== null && query.colorId !== undefined) {
+    params.append('colorId', query.colorId) // 你要传给后台的参数值 key/value
   }
   if (query.brand !== '' && query.brand !== null && query.brand !== undefined) {
     params.append('brand', query.brand) // 你要传给后台的参数值 key/value
@@ -307,6 +307,12 @@ export function deleteproduct(query) {
 // 修改商品
 export function editproduct(query) {
   var params = new URLSearchParams()
+  if (query.productid !== '' && query.productid !== null && query.productid !== undefined) {
+    params.append('productid', query.productid) // 你要传给后台的参数值 key/value
+  }
+  if (query.isBatch !== '' && query.isBatch !== null && query.isBatch !== undefined) {
+    params.append('isBatch', query.isBatch) // 你要传给后台的参数值 key/value
+  }
   if (query.effectiveDay !== '' && query.effectiveDay !== null && query.effectiveDay !== undefined) {
     params.append('effectiveDay', query.effectiveDay) // 你要传给后台的参数值 key/value
   }

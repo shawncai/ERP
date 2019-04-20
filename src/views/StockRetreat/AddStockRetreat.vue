@@ -17,6 +17,7 @@
                   <el-select v-model="personalForm.sourceType" style="margin-left: 18px;width: 218px" @change="chooseType">
                     <el-option value="1" label="采购到货单" />
                     <el-option value="2" label="无来源" />
+                    <el-option value="3" label="采购入库单" />
                   </el-select>
                 </el-form-item>
               </el-col>
@@ -115,6 +116,12 @@
                   </el-select>
                 </el-form-item>
               </el-col>
+              <el-col :span="6">
+                <el-form-item v-if="personalForm.sourceType === '3'" :label="$t('StockRetreat.retreatRepositoryId')" prop="retreatRepositoryId" style="width: 100%;">
+                  <el-input v-model="retreatRepositoryId" style="margin-left: 18px" clearable @focus="handlechooseRep"/>
+                  <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
+                </el-form-item>
+              </el-col>
             </el-row>
           </el-form>
         </div>
@@ -154,11 +161,27 @@
             <el-editable-column prop="price" align="center" label="单价" min-width="170px"/>
             <el-editable-column prop="includeTaxPrice" align="center" label="含税价" min-width="170px"/>
             <el-editable-column prop="taxRate" align="center" label="税率(%)" min-width="170px"/>
-            <el-editable-column prop="money" align="center" label="金额" min-width="150px"/>
-            <el-editable-column prop="includeTaxMoney" align="center" label="含税金额" min-width="150px"/>
-            <el-editable-column prop="taxMoney" align="center" label="税额" min-width="150px"/>
+            <el-editable-column prop="money" align="center" label="金额" min-width="150px">
+              <template slot-scope="scope">
+                <p>{{ getMoney(scope.row) }}</p>
+              </template>
+            </el-editable-column>
+            <el-editable-column prop="includeTaxMoney" align="center" label="含税金额" min-width="150px">
+              <template slot-scope="scope">
+                <p>{{ getTaxMoney(scope.row) }}</p>
+              </template>
+            </el-editable-column>
+            <el-editable-column prop="taxMoney" align="center" label="税额" min-width="150px">
+              <template slot-scope="scope">
+                <p>{{ getTaxMoney2(scope.row) }}</p>
+              </template>
+            </el-editable-column>
             <el-editable-column prop="discountRate" align="center" label="折扣率(%)" min-width="170px"/>
-            <el-editable-column prop="discountMoney" align="center" label="折扣额" min-width="170px"/>
+            <el-editable-column prop="discountMoney" align="center" label="折扣额" min-width="170px">
+              <template slot-scope="scope">
+                <p>{{ getdiscountMoney(scope.row) }}</p>
+              </template>
+            </el-editable-column>
             <el-editable-column prop="remark" align="center" label="备注" min-width="150px"/>
             <el-editable-column prop="sourceNumber" align="center" label="源单编号" min-width="150px"/>
             <el-editable-column prop="sourceSerialNumber" align="center" label="源单序号" min-width="150px"/>
@@ -222,9 +245,10 @@ import MyDelivery from './components/MyDelivery'
 import MyLnquiry from './components/MyLnquiry'
 import MyOrder from './components/MyOrder'
 import MyArrival from './components/MyArrival'
+import MyRepository from './components/MyRepository'
 export default {
   name: 'AddStockRetreat',
-  components: { MyArrival, MyOrder, MyLnquiry, MyDelivery, MyPlan, MyApply, MySupplier, MyDetail, MyEmp },
+  components: { MyRepository, MyArrival, MyOrder, MyLnquiry, MyDelivery, MyPlan, MyApply, MySupplier, MyDetail, MyEmp },
   data() {
     const validatePass = (rule, value, callback) => {
       console.log(value)
@@ -235,6 +259,10 @@ export default {
       }
     }
     return {
+      // 回显仓库
+      retreatRepositoryId: '',
+      // 控制仓库
+      repositorycontrol: false,
       // 合计数据
       allNumber: '',
       allMoney: '',
@@ -307,6 +335,9 @@ export default {
         ],
         stockTypeId: [
           { required: true, message: '请选择采购类别', trigger: 'change' }
+        ],
+        retreatRepositoryId: [
+          { required: true, validator: validatePass, trigger: 'focus' }
         ]
       },
       // 采购申请单明细数据
@@ -321,6 +352,15 @@ export default {
     this.getways()
   },
   methods: {
+    // 仓库列表focus事件触发
+    handlechooseRep() {
+      this.repositorycontrol = true
+    },
+    repositoryname(val) {
+      console.log(val)
+      this.retreatRepositoryId = val.repositoryName
+      this.personalForm.retreatRepositoryId = val.id
+    },
     // 总计
     getSummaries(param) {
       const { columns, data } = param
@@ -361,6 +401,25 @@ export default {
       this.allDiscountMoney = sums[16]
       this.allMoneyMoveDiscount = sums[13] - sums[16]
       return sums
+    },
+    getdiscountMoney(row) {
+      row.discountMoney = row.discountRate * row.retreatQuantity * (1 - row.discountRate / 100)
+      return row.discountMoney
+    },
+    // 计算税额
+    getTaxMoney2(row) {
+      row.taxMoney = (row.price * row.taxRate / 100 * row.retreatQuantity).toFixed(2)
+      return row.taxMoney
+    },
+    // 计算含税金额
+    getTaxMoney(row) {
+      row.includeTaxMoney = (row.retreatQuantity * row.includeTaxPrice).toFixed(2)
+      return row.includeTaxMoney
+    },
+    // 计算金额
+    getMoney(row) {
+      row.money = (row.retreatQuantity * row.price).toFixed(2)
+      return row.money
     },
     getways() {
       // 交货方式
@@ -558,40 +617,28 @@ export default {
           delete elem.taxRate
         }
         if (elem.taxRate !== null || elem.taxRate !== '' || elem.taxRate !== undefined) {
-          elem.taxRate = (elem.taxRate).toFixed(2)
+          elem.taxRate = elem.taxRate / 100
         }
         if (elem.discountRate === null || elem.discountRate === '' || elem.discountRate === undefined) {
           delete elem.discountRate
         }
         if (elem.discountRate !== null || elem.discountRate !== '' || elem.discountRate !== undefined) {
-          elem.discountRate = (elem.discountRate).toFixed(2)
+          elem.discountRate = elem.discountRate / 100
         }
         if (elem.money === null || elem.money === '' || elem.money === undefined) {
           delete elem.money
         }
-        if (elem.money !== null || elem.money !== '' || elem.money !== undefined) {
-          elem.money = (elem.money).toFixed(2)
-        }
         if (elem.includeTaxMoney === null || elem.includeTaxMoney === '' || elem.includeTaxMoney === undefined) {
           delete elem.includeTaxMoney
         }
-        if (elem.includeTaxMoney !== null || elem.includeTaxMoney !== '' || elem.includeTaxMoney !== undefined) {
-          elem.includeTaxMoney = (elem.includeTaxMoney).toFixed(2)
-        }
         if (elem.taxMoney === null || elem.taxMoney === '' || elem.taxMoney === undefined) {
           delete elem.taxMoney
-        }
-        if (elem.taxMoney !== null || elem.taxMoney !== '' || elem.taxMoney !== undefined) {
-          elem.taxMoney = (elem.taxMoney).toFixed(2)
         }
         if (elem.discountRate === null || elem.discountRate === '' || elem.discountRate === undefined) {
           delete elem.discountRate
         }
         if (elem.discountMoney === null || elem.discountMoney === '' || elem.discountMoney === undefined) {
           delete elem.discountMoney
-        }
-        if (elem.discountMoney !== null || elem.discountMoney !== '' || elem.discountMoney !== undefined) {
-          elem.discountMoney = (elem.discountMoney).toFixed(2)
         }
         if (elem.remark === null || elem.remark === '' || elem.remark === undefined) {
           delete elem.remark

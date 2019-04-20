@@ -336,7 +336,11 @@ export default {
           sourceNumber: number,
           supplierId: '',
           supplierName: '',
-          basicPrice: ''
+          basicPrice: '0.00',
+          requireQuantity: item.requireQuantity,
+          planQuantity: item.requireQuantity,
+          requireDate: item.requireDate,
+          planMoney: '0.00'
         }
       })
       this.$emit('apply', applyDetail)

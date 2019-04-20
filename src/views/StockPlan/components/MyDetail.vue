@@ -267,13 +267,16 @@ export default {
           color: item.color,
           unit: item.purMeasu,
           productType: item.productType,
-          basicQuantity: 0,
+          basicQuantity: '1.00',
           planDeliveryDate: '',
           applyReason: '',
           sourceNumber: '',
           supplierId: item.supplierId,
           supplierName: item.supplierName,
-          basicPrice: ''
+          basicPrice: 0,
+          planMoney: '0.00',
+          planQuantity: 1,
+          orderQuantity: '0.00'
         }
       })
       console.log(productDetail)

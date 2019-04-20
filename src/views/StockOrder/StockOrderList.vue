@@ -369,6 +369,9 @@ export default {
       if (row.currency !== null) {
         this.personalForm.currency = String(row.currency)
       }
+      if (row.payMode !== null) {
+        this.personalForm.payMode = String(row.payMode)
+      }
     },
     // 修改组件修改成功后返回
     refreshlist(val) {

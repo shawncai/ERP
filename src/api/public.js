@@ -18,6 +18,32 @@ export function regionlist(query) {
   })
 }
 
+// 查询下一级区域
+export function listbyparentid(query) {
+  var params = new URLSearchParams()
+  if (query.region !== '' && query.region !== null && query.region !== undefined) {
+    params.append('parentid', query.region) // 你要传给后台的参数值 key/value
+  }
+  return request({
+    url: '/erp/region/listbyparentid',
+    method: 'post',
+    data: params
+  })
+}
+
+// 查询区域名称
+export function searchregionName(query) {
+  var params = new URLSearchParams()
+  if (query.regionid !== '' && query.regionid !== null && query.regionid !== undefined) {
+    params.append('regionid', query.regionid) // 你要传给后台的参数值 key/value
+  }
+  return request({
+    url: '/erp/region/list',
+    method: 'post',
+    data: params
+  })
+}
+
 // 根据区域查门店
 export function searchRepository(query) {
   var params = new URLSearchParams()

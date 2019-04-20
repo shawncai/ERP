@@ -497,31 +497,34 @@ export default {
     },
     // 通过税率计算含税价
     gettaxRate(row) {
-      row.includeTaxPrice = row.price * (1 + row.taxRate / 100)
+      if (row.includeTaxPrice !== 0) {
+        row.includeTaxPrice = (row.price * (1 + row.taxRate / 100)).toFixed(2)
+      }
     },
-    // 计算含税价
+    // 通过含税价计算税率
     getincludeTaxPrice(row) {
       if (row.price !== 0) {
         row.taxRate = ((row.includeTaxPrice / row.price - 1) * 100).toFixed(2)
+        console.log(row.taxRate)
       }
     },
     // 计算单价
     getprice(row) {
-      row.includeTaxPrice = row.price * (1 + row.taxRate)
+      row.includeTaxPrice = (row.price * (1 + row.taxRate / 100)).toFixed(2)
     },
     // 计算税额
     getTaxMoney2(row) {
-      row.taxMoney = row.price * row.taxRate * row.plannedQuantity
+      row.taxMoney = (row.price * row.taxRate / 100 * row.plannedQuantity).toFixed(2)
       return row.taxMoney
     },
     // 计算含税金额
     getTaxMoney(row) {
-      row.includeTaxMoney = row.plannedQuantity * row.includeTaxPrice
+      row.includeTaxMoney = (row.plannedQuantity * row.includeTaxPrice).toFixed(2)
       return row.includeTaxMoney
     },
     // 计算金额
     getMoney(row) {
-      row.money = row.plannedQuantity * row.price
+      row.money = (row.plannedQuantity * row.price).toFixed(2)
       return row.money
     },
     // 选择源单类型事件
@@ -754,6 +757,9 @@ export default {
         }
         if (elem.taxRate === null || elem.taxRate === '' || elem.taxRate === undefined) {
           delete elem.taxRate
+        }
+        if (elem.taxRate !== null || elem.taxRate !== '' || elem.taxRate !== undefined) {
+          elem.taxRate = elem.taxRate / 100
         }
         if (elem.discountRate === null || elem.discountRate === '' || elem.discountRate === undefined) {
           delete elem.discountRate
