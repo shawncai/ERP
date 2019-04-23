@@ -74,7 +74,6 @@
             <el-col :span="12">
               <el-form-item :label="$t('SaleOrder.transAddress')" style="width: 100%;">
                 <span>{{ personalForm.transAddress }}</span>
-                <el-input v-model="personalForm.transAddress" style="margin-left: 18px;width: 200px"/>
               </el-form-item>
             </el-col>
             <el-col :span="12">

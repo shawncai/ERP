@@ -53,6 +53,7 @@
           border
           size="medium"
           style="width: 100%">
+          <el-editable-column type="selection" min-width="55" align="center"/>
           <el-editable-column label="序号" min-width="55" align="center" type="index"/>
           <el-editable-column prop="productCode" align="center" label="物品编号" min-width="150px"/>
           <el-editable-column prop="productName" align="center" label="物品名称" min-width="150px"/>
@@ -60,8 +61,9 @@
           <el-editable-column prop="color" align="center" label="颜色" min-width="150px"/>
           <el-editable-column prop="unit" align="center" label="单位" min-width="150px"/>
           <el-editable-column prop="requireQuantity" align="center" label="需求数量" min-width="150px"/>
-          <el-editable-column prop="requireDate" align="center" label="需求日期" min-width="180px"/>
+          <el-editable-column prop="requireDate" align="center" label="需求日期" min-width="170px"/>
           <el-editable-column prop="applyReason" align="center" label="申请原因" min-width="150px"/>
+          <el-editable-column prop="sourceSerialNumber" align="center" label="源单编号" min-width="150px"/>
         </el-editable>
       </div>
     </el-card>
@@ -83,8 +85,10 @@
           <el-editable-column prop="productType" align="center" label="规格" min-width="150px"/>
           <el-editable-column prop="color" align="center" label="颜色" min-width="150px"/>
           <el-editable-column prop="unit" align="center" label="单位" min-width="150px"/>
+          <el-editable-column prop="requireDate" align="center" label="需求日期" min-width="170px"/>
           <el-editable-column prop="applyQuantity" align="center" label="申请数量" min-width="150px"/>
           <el-editable-column prop="planQuantity" align="center" label="已计划数量" min-width="150px"/>
+          <el-editable-column prop="sourceSerialNumber" align="center" label="源单编号" min-width="150px"/>
         </el-editable>
       </div>
     </el-card>

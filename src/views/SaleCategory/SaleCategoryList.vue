@@ -15,6 +15,8 @@
                 <el-option label="订单类型" value="2"/>
                 <el-option label="结算方式" value="3"/>
                 <el-option label="发票类型" value="4"/>
+                <el-option label="机会类型" value="5"/>
+                <el-option label="机会来源" value="6"/>
               </el-select>
             </el-form-item>
           </el-col>
@@ -58,6 +60,8 @@
               <el-option label="订单类型" value="2"/>
               <el-option label="结算方式" value="3"/>
               <el-option label="发票类型" value="4"/>
+              <el-option label="机会类型" value="5"/>
+              <el-option label="机会来源" value="6"/>
             </el-select>
           </el-form-item>
           <el-form-item :label="$t('NewEmployeeInformation.categoryname')" label-width="100px" prop="categoryname">
@@ -130,6 +134,8 @@
               <el-option label="订单类型" value="2"/>
               <el-option label="结算方式" value="3"/>
               <el-option label="发票类型" value="4"/>
+              <el-option label="机会类型" value="5"/>
+              <el-option label="机会来源" value="6"/>
             </el-select>
           </el-form-item>
           <el-form-item :label="$t('NewEmployeeInformation.categoryname')" label-width="100px" prop="categoryName">
@@ -167,7 +173,9 @@ export default {
         1: '销售来源',
         2: '订单类型',
         3: '结算方式',
-        4: '发票类型'
+        4: '发票类型',
+        5: '机会类型',
+        6: '机会来源'
       }
       return statusMap[status]
     },

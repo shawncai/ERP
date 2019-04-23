@@ -158,8 +158,8 @@ export default {
   filters: {
     isPlanedFilter(status) {
       const statusMap = {
-        1: '是',
-        2: '否'
+        1: '否',
+        2: '是'
       }
       return statusMap[status]
     }

@@ -88,7 +88,16 @@
           <el-editable-column prop="color" align="center" label="颜色" min-width="150px"/>
           <el-editable-column prop="unit" align="center" label="单位" min-width="150px"/>
           <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 1, precision: 2}, type: 'visible', events: {change: changeDate}}" prop="requireQuantity" align="center" label="需求数量" min-width="150px"/>
-          <el-editable-column :edit-render="{name: 'ElDatePicker', attrs: {type: 'date', format: 'yyyy-MM-dd'}, type: 'visible', events: {change: changeDate}}" prop="requireDate" align="center" label="需求日期" min-width="150px"/>
+          <el-editable-column :edit-render="{name: 'ElDatePicker', attrs: {type: 'date', format: 'yyyy-MM-dd'}, type: 'visible', events: {change: changeDate}}" prop="requireDate" align="center" label="需求日期" min-width="170px">
+            <template slot="edit" slot-scope="scope">
+              <el-date-picker
+                v-model="scope.row.requireDate"
+                :picker-options="pickerOptions1"
+                type="date"
+                value-format="yyyy-MM-dd"
+                @change="changeDate"/>
+            </template>
+          </el-editable-column>
           <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="applyReason" align="center" label="申请原因" min-width="150px"/>
           <el-editable-column prop="sourceSerialNumber" align="center" label="源单编号" min-width="150px"/>
         </el-editable>
@@ -100,7 +109,7 @@
         <el-editable
           ref="editable2"
           :data.sync="list3"
-          :edit-config="{ showIcon: true, showStatus: true}"
+          :edit-config="{ showIcon: false, showStatus: true}"
           :edit-rules="validRules"
           class="click-table1"
           stripe
@@ -113,7 +122,7 @@
           <el-editable-column prop="productType" align="center" label="规格" min-width="150px"/>
           <el-editable-column prop="color" align="center" label="颜色" min-width="150px"/>
           <el-editable-column prop="unit" align="center" label="单位" min-width="150px"/>
-          <el-editable-column :edit-render="{name: 'ElDatePicker', attrs: {type: 'date', format: 'yyyy-MM-dd', disable: 'true'},}" prop="requireDate" align="center" label="需求日期" min-width="150px">
+          <el-editable-column :edit-render="{name: 'ElDatePicker', attrs: {type: 'date', format: 'yyyy-MM-dd', disable: 'true'},}" prop="requireDate" align="center" label="需求日期" min-width="170px">
             <template slot="edit" slot-scope="scope">
               <el-date-picker
                 v-model="scope.row.requireDate"
@@ -123,7 +132,14 @@
             </template>
           </el-editable-column>
           <el-editable-column prop="applyQuantity" align="center" label="申请数量" min-width="150px"/>
-          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {precision: 2}}" prop="planQuantity" align="center" label="已计划数量" min-width="150px"/>
+          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {precision: 2}}" prop="planQuantity" align="center" label="已计划数量" min-width="150px">
+            <template slot="edit" slot-scope="scope">
+              <el-input-number
+                :precision="2"
+                v-model="scope.row.planQuantity"
+                disabled/>
+            </template>
+          </el-editable-column>
           <el-editable-column prop="sourceSerialNumber" align="center" label="源单编号" min-width="150px"/>
         </el-editable>
       </div>
@@ -165,6 +181,11 @@ export default {
       }
     }
     return {
+      pickerOptions1: {
+        disabledDate: (time) => {
+          return time.getTime() < new Date(this.personalForm.applyDate).getTime() - 8.64e7
+        }
+      },
       // 选择的数据
       choosedata: [],
       // 弹窗组件的控制

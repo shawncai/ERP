@@ -339,9 +339,13 @@ export default {
           supplierName: '',
           basicPrice: 0,
           planMoney: '0.00',
-          orderQuantity: '0.00'
+          orderQuantity: '0.00',
+          requireQuantity: item.applyQuantity,
+          requireDate: item.requireDate,
+          sourceSerialNumber: item.id
         }
       })
+      console.log(applyDetail)
       this.$emit('apply', applyDetail)
       this.$emit('apply2', applyDetail)
       this.$emit('allinfo', this.choosedata)

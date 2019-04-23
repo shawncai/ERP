@@ -265,13 +265,14 @@ export default {
           productName: item.productName,
           category: item.category,
           categoryId: item.categoryId,
-          productType: item.typeId,
-          typeId: item.productType,
+          productType: item.productType,
+          typeId: item.typeId,
           color: item.color,
           colorId: item.colorId,
           unit: item.purMeasu,
           kpiGrade: item.kpiGrade,
-          point: item.point
+          point: item.point,
+          productCategory: item.category
         }
       })
       console.log(productDetail)

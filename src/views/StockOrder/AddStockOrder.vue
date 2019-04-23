@@ -68,7 +68,6 @@
                 <el-form-item :label="$t('StockOrder.orderDate')" prop="orderDate" style="width: 100%;">
                   <el-date-picker
                     v-model="personalForm.orderDate"
-                    :picker-options="pickerOptions1"
                     type="date"
                     value-format="yyyy-MM-dd"
                     style="margin-left: 18px"/>
@@ -82,7 +81,7 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('StockOrder.deliveryMode')" style="width: 100%;">
-                  <el-select v-model="personalForm.deliveryMode" :disabled="IsDeliveryMode" clearable style="margin-left: 18px;width: 218px">
+                  <el-select v-model="personalForm.deliveryMode" :disabled="IsDeliveryMode" clearable style="margin-left: 18px;width: 218px" @change="change()">
                     <el-option
                       v-for="(item, index) in giveIds"
                       :key="index"
@@ -94,7 +93,7 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('StockOrder.settleMode')" style="width: 100%;">
-                  <el-select v-model="personalForm.settleMode" :disabled="IsSettleMode" clearable style="margin-left: 18px;width: 218px">
+                  <el-select v-model="personalForm.settleMode" :disabled="IsSettleMode" clearable style="margin-left: 18px;width: 218px" @change="change()">
                     <el-option
                       v-for="(item, index) in paymentIds"
                       :key="index"
@@ -293,7 +292,7 @@ import MyDelivery from './components/MyDelivery'
 import MyLnquiry from './components/MyLnquiry'
 import MyContract from './components/MyContract'
 export default {
-  name: 'StockOrder',
+  name: 'AddStockOrder',
   components: { MyContract, MyLnquiry, MyDelivery, MyPlan, MyApply, MySupplier, MyDetail, MyEmp },
   data() {
     const validatePass = (rule, value, callback) => {
@@ -413,7 +412,8 @@ export default {
         regionId: 2,
         isVat: 1,
         sourceType: '5',
-        currency: '1'
+        currency: '1',
+        orderDate: null
       },
       // 采购申请单规则数据
       personalrules: {
@@ -593,9 +593,16 @@ export default {
         this.IsDeliveryMode = false
         this.IsSettleMode = false
         this.IsCurrency = false
-        if (this.$refs.editable.getRecords().length !== 0) {
-          this.$refs.editable.clear()
+        const ceshi2 = this.$refs.editable.getRecords()
+        console.log(ceshi2)
+        for (let i = 0; i < ceshi2.length; i++) {
+          if (ceshi2[i].sourceNumber !== '' && ceshi2[i].sourceNumber !== null && ceshi2[i].sourceNumber !== undefined) {
+            this.$refs.editable.remove(ceshi2[i])
+          }
         }
+        // if (this.$refs.editable.getRecords().length !== 0) {
+        //   this.$refs.editable.clear()
+        // }
       } else if (this.personalForm.sourceType === '2') {
         this.addsouce = false
         this.addpro = false
@@ -609,7 +616,13 @@ export default {
         this.IsSettleMode = false
         this.IsCurrency = false
         if (this.$refs.editable.getRecords().length !== 0) {
-          this.$refs.editable.clear()
+          const ceshi2 = this.$refs.editable.getRecords()
+          console.log(ceshi2)
+          for (let i = 0; i < ceshi2.length; i++) {
+            if (ceshi2[i].sourceNumber !== '' && ceshi2[i].sourceNumber !== null && ceshi2[i].sourceNumber !== undefined) {
+              this.$refs.editable.remove(ceshi2[i])
+            }
+          }
         }
       } else if (this.personalForm.sourceType === '3') {
         this.addsouce = false
@@ -624,7 +637,13 @@ export default {
         this.IsSignPersonId = false
         this.IsCurrency = false
         if (this.$refs.editable.getRecords().length !== 0) {
-          this.$refs.editable.clear()
+          const ceshi2 = this.$refs.editable.getRecords()
+          console.log(ceshi2)
+          for (let i = 0; i < ceshi2.length; i++) {
+            if (ceshi2[i].sourceNumber !== '' && ceshi2[i].sourceNumber !== null && ceshi2[i].sourceNumber !== undefined) {
+              this.$refs.editable.remove(ceshi2[i])
+            }
+          }
         }
       } else if (this.personalForm.sourceType === '4') {
         this.addsouce = false
@@ -639,7 +658,13 @@ export default {
         this.currency = true
         this.IsSupplierId = false
         if (this.$refs.editable.getRecords().length !== 0) {
-          this.$refs.editable.clear()
+          const ceshi2 = this.$refs.editable.getRecords()
+          console.log(ceshi2)
+          for (let i = 0; i < ceshi2.length; i++) {
+            if (ceshi2[i].sourceNumber !== '' && ceshi2[i].sourceNumber !== null && ceshi2[i].sourceNumber !== undefined) {
+              this.$refs.editable.remove(ceshi2[i])
+            }
+          }
         }
       } else if (this.personalForm.sourceType === '5') {
         this.addpro = false
@@ -653,12 +678,29 @@ export default {
         this.IsSignPersonId = false
         this.currency = false
         this.IsSupplierId = false
+        if (this.$refs.editable.getRecords().length !== 0) {
+          const ceshi2 = this.$refs.editable.getRecords()
+          console.log(ceshi2)
+          for (let i = 0; i < ceshi2.length; i++) {
+            if (ceshi2[i].sourceNumber !== '' && ceshi2[i].sourceNumber !== null && ceshi2[i].sourceNumber !== undefined) {
+              this.$refs.editable.remove(ceshi2[i])
+            }
+          }
+        }
       }
     },
     // 从源单中添加商品
     handleAddSouce() {
       console.log(this.personalForm.supplierId)
       if (this.personalForm.sourceType === '1') {
+        if (this.personalForm.supplierId === null || this.personalForm.supplierId === undefined || this.personalForm.supplierId === '') {
+          this.$notify.error({
+            title: '错误',
+            message: '请先选择供应商',
+            duration: 0
+          })
+          return false
+        }
         this.applycontrol = true
       } else if (this.personalForm.sourceType === '2') {
         if (this.personalForm.supplierId === null || this.personalForm.supplierId === undefined || this.personalForm.supplierId === '') {
@@ -780,8 +822,16 @@ export default {
     },
     allapplyinfo(val) {
       console.log(val)
-      this.personalForm.stockTypeId = val.stockType
-      this.personalForm.deptId = val.applyDeptId
+      if (val.stockType === null || val.stockType === '' || val.stockType === undefined) {
+        this.IsStockTypeId = false
+      } else {
+        this.personalForm.stockTypeId = val.stockType
+      }
+      if (val.applyDeptId === null || val.applyDeptId === '' || val.applyDeptId === undefined) {
+        this.IsDeptId = false
+      } else {
+        this.personalForm.deptId = val.applyDeptId
+      }
     },
     // 采购计划加载过来数据
     plan(val) {
@@ -808,11 +858,23 @@ export default {
     },
     allPlaninfo(val) {
       console.log(val)
-      this.personalForm.stockTypeId = val.stockType
-      this.personalForm.deptId = val.stockDeptId
+      if (val.stockType === null || val.stockType === '' || val.stockType === undefined) {
+        this.IsStockTypeId = false
+      } else {
+        this.personalForm.stockTypeId = val.stockType
+      }
+      if (val.stockDeptId === null || val.stockDeptId === '' || val.stockDeptId === undefined) {
+        this.IsDeptId = false
+      } else {
+        this.personalForm.deptId = val.stockDeptId
+      }
+      if (val.stockPersonId === null || val.stockPersonId === '' || val.stockPersonId === undefined) {
+        this.IsStockPersonId = false
+      } else {
+        this.stockPersonId = val.stockPersonName
+        this.personalForm.stockPersonId = val.stockPersonId
+      }
       this.personalForm.isVat = val.isVat
-      this.stockPersonId = val.stockPersonName
-      this.personalForm.stockPersonId = val.stockPersonId
     },
     // 更新类型
     updatecountry() {
@@ -842,6 +904,11 @@ export default {
       this.supplierId = val.supplierName
       this.personalForm.supplierId = val.id
       this.supp = val.id
+      this.personalForm.deliveryMode = val.giveId
+      this.personalForm.settleMode = val.paymentId
+      if (val.moneyId !== null && val.moneyId !== undefined && val.moneyId !== '') {
+        this.personalForm.currency = String(val.moneyId)
+      }
       this.$refs.editable.clear()
     },
     // 采购员focus事件
@@ -908,6 +975,14 @@ export default {
     // 保存操作
     handlesave() {
       const EnterDetail = this.$refs.editable.getRecords()
+      if (EnterDetail.length === 0) {
+        this.$notify.error({
+          title: '错误',
+          message: '明细表不能为空',
+          offset: 100
+        })
+        return false
+      }
       EnterDetail.map(function(elem) {
         return elem
       }).forEach(function(elem) {

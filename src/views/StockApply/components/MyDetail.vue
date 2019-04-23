@@ -279,7 +279,7 @@ export default {
           color: item.color,
           unit: item.purMeasu,
           productType: item.productType,
-          applyQuantity: '0.00',
+          applyQuantity: '1.00',
           planQuantity: 0
         }
       })

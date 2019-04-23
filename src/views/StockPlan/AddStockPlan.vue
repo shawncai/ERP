@@ -14,7 +14,7 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('StockPlan.stockType')" prop="stockType" style="width: 100%;">
-                  <el-select v-model="personalForm.stockType" style="margin-left: 18px;width: 218px" @focus="updatecountry">
+                  <el-select v-model="personalForm.stockType" style="margin-left: 18px;width: 218px" @focus="updatecountry" @change="change()">
                     <el-option
                       v-for="(item, index) in types"
                       :key="index"
@@ -99,7 +99,7 @@
             <el-editable-column prop="productType" align="center" label="规格" min-width="150px"/>
             <el-editable-column prop="color" align="center" label="颜色" min-width="150px"/>
             <el-editable-column prop="unit" align="center" label="单位" min-width="150px"/>
-            <el-editable-column prop="basicPrice" align="center" label="单价" min-width="150px">
+            <el-editable-column prop="basicPrice" align="center" label="计划采购价" min-width="150px">
               <template slot-scope="scope">
                 <p>{{ basicPrice(scope.row) }}</p>
               </template>
@@ -112,7 +112,16 @@
                 <p>{{ planMoney(scope.row) }}</p>
               </template>
             </el-editable-column>
-            <el-editable-column :edit-render="{name: 'ElDatePicker', attrs: {type: 'date', format: 'yyyy-MM-dd'}, type: 'visible', events: {change: changeDate}}" prop="planDeliveryDate" align="center" label="计划交货日期" min-width="170px"/>
+            <el-editable-column :edit-render="{name: 'ElDatePicker', attrs: {type: 'date', format: 'yyyy-MM-dd'}, type: 'visible', events: {change: changeDate}}" prop="planDeliveryDate" align="center" label="计划交货日期" min-width="170px">
+              <template slot="edit" slot-scope="scope">
+                <el-date-picker
+                  v-model="scope.row.planDeliveryDate"
+                  :picker-options="pickerOptions1"
+                  type="date"
+                  value-format="yyyy-MM-dd"
+                  @change="changeDate"/>
+              </template>
+            </el-editable-column>
             <el-editable-column prop="applyReason" align="center" label="申请原因" min-width="150px"/>
             <el-editable-column prop="sourceNumber" align="center" label="源单编号" min-width="150px"/>
             <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="supplierName" align="center" label="供应商" min-width="150px">
@@ -122,6 +131,7 @@
               </template>
             </el-editable-column>
             <el-editable-column prop="orderQuantity" align="center" label="已订购数量" min-width="150px"/>
+            <el-editable-column prop="sourceSerialNumber" align="center" label="源单序号" min-width="150px"/>
           </el-editable>
         </div>
       </el-card>
@@ -146,7 +156,7 @@
             <el-editable-column prop="productType" align="center" label="规格" min-width="150px"/>
             <el-editable-column prop="color" align="center" label="颜色" min-width="150px"/>
             <el-editable-column prop="unit" align="center" label="单位" min-width="150px"/>
-            <el-editable-column prop="basicPrice" align="center" label="单价" min-width="150px">
+            <el-editable-column prop="basicPrice" align="center" label="计划采购价" min-width="150px">
               <template slot-scope="scope">
                 <p>{{ basicPrice(scope.row) }}</p>
               </template>
@@ -157,11 +167,21 @@
               </template>
             </el-editable-column>
             <el-editable-column prop="planMoney" align="center" label="计划金额" min-width="150px"/>
-            <el-editable-column :edit-render="{name: 'ElDatePicker', attrs: {type: 'date', format: 'yyyy-MM-dd'}, type: 'default'}" prop="planDeliveryDate" align="center" label="计划交货日期" min-width="170px"/>
+            <el-editable-column :edit-render="{name: 'ElDatePicker', attrs: {type: 'date', format: 'yyyy-MM-dd'}, type: 'default'}" prop="planDeliveryDate" align="center" label="计划交货日期" min-width="170px">
+              <template slot="edit" slot-scope="scope">
+                <el-date-picker
+                  v-model="scope.row.planDeliveryDate"
+                  :picker-options="pickerOptions1"
+                  type="date"
+                  value-format="yyyy-MM-dd"
+                />
+              </template>
+            </el-editable-column>
             <el-editable-column prop="applyReason" align="center" label="申请原因" min-width="150px"/>
             <el-editable-column prop="sourceNumber" align="center" label="源单编号" min-width="150px"/>
             <el-editable-column prop="supplierName" align="center" label="供应商" min-width="150px"/>
             <el-editable-column prop="orderQuantity" align="center" label="已订购数量" min-width="150px"/>
+            <el-editable-column prop="sourceSerialNumber" align="center" label="源单序号" min-width="150px"/>
           </el-editable>
         </div>
       </el-card>
@@ -232,6 +252,14 @@ export default {
         callback()
       }
     }
+    const validatePass4 = (rule, value, callback) => {
+      console.log(this.personalForm.stockType)
+      if (this.personalForm.stockType === undefined || this.personalForm.stockType === null || this.personalForm.stockType === '') {
+        callback(new Error('请选择采购类别'))
+      } else {
+        callback()
+      }
+    }
     return {
       pickerOptions1: {
         disabledDate: (time) => {
@@ -282,12 +310,14 @@ export default {
         countryId: 1,
         repositoryId: 438,
         regionId: 2,
-        sourceType: '3'
+        sourceType: '3',
+        totalQuantity: '',
+        allMoney: ''
       },
       // 采购计划单规则数据
       personalrules: {
         stockType: [
-          { required: true, message: '请选择采购类别', trigger: 'change' }
+          { required: true, validator: validatePass4, trigger: 'change' }
         ],
         planDate: [
           { required: true, message: '请选择计划日期', trigger: 'change' }
@@ -316,6 +346,9 @@ export default {
         ],
         planQuantity: [
           { required: true, message: '请输入计划数量', trigger: 'blur' }
+        ],
+        planDeliveryDate: [
+          { required: true, message: '请输入计划交货日期', trigger: 'change' }
         ]
       }
     }
@@ -369,8 +402,8 @@ export default {
           sums[index] = ''
         }
       })
-      this.heji1 = sums[8]
-      this.heji2 = sums[7]
+      this.personalForm.allMoney = sums[8]
+      this.personalForm.totalQuantity = sums[7]
       sums[1] = ''
       sums[2] = ''
       sums[3] = ''
@@ -380,6 +413,8 @@ export default {
       sums[10] = ''
       sums[11] = ''
       sums[12] = ''
+      sums[13] = ''
+      sums[14] = ''
       return sums
     },
     // 两表联动
@@ -485,6 +520,7 @@ export default {
     allinfo(val) {
       console.log(val)
       this.personalForm.planDate = val.applyDate
+      this.personalForm.stockType = val.stockType
     },
     apply(val) {
       const nowlistdata = this.$refs.editable.getRecords()

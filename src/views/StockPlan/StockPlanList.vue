@@ -111,7 +111,7 @@
             <span>{{ scope.row.title }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('StockPlan.stockPersonId')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('StockPlan.planPersonId')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.planPersonName }}</span>
           </template>
@@ -128,7 +128,7 @@
         </el-table-column>
         <el-table-column :label="$t('StockApply.stockType')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.stockType | stockTypeFilter }}</span>
+            <span>{{ scope.row.stockTypeName }}</span>
           </template>
         </el-table-column>
         <el-table-column :label="$t('StockPlan.sourceType')" :resizable="false" align="center" min-width="150">

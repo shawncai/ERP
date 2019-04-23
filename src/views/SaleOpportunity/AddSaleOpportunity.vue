@@ -14,9 +14,13 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('SaleOpportunity.opportunityType')" prop="opportunityType" style="width: 100%;">
-                  <el-select v-model="personalForm.opportunityType" style="margin-left: 18px;width: 218px" @change="chooseSource">
-                    <el-option value="1" label="销售出库单"/>
-                    <el-option value="2" label="无来源"/>
+                  <el-select v-model="personalForm.opportunityType" style="margin-left: 18px;width: 218px" @focus="getTypes">
+                    <el-option
+                      v-for="(item, index) in opportunityTypes"
+                      :value="item.id"
+                      :key="index"
+                      :label="item.categoryName"
+                    />
                   </el-select>
                 </el-form-item>
               </el-col>
@@ -29,10 +33,8 @@
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('SaleOpportunity.customerName')" prop="customerId" style="width: 100%;">
-                  <el-input v-model="customerId" style="margin-left: 18px;width: 218px" @focus="chooseCustomer"/>
-                  <my-customer :customercontrol.sync="customercontrol" @customerdata="customerdata"/>
-                  <my-agent :agentcontrol.sync="agentcontrol" @agentdata="agentdata"/>
+                <el-form-item :label="$t('SaleOpportunity.customerName')" prop="customerName" style="width: 100%;">
+                  <el-input v-model="personalForm.customerName" style="margin-left: 18px;width: 218px"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
@@ -42,9 +44,13 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('SaleOpportunity.opportunitySource')" style="width: 100%;">
-                  <el-select v-model="personalForm.opportunitySource" style="margin-left: 18px;width: 218px">
-                    <el-option value="1" label="货到付款"/>
-                    <el-option value="2" label="当场支付"/>
+                  <el-select v-model="personalForm.opportunitySource" style="margin-left: 18px;width: 218px" @focus="getTypes">
+                    <el-option
+                      v-for="(item, index) in opportunitySources"
+                      :value="item.id"
+                      :key="index"
+                      :label="item.categoryName"
+                    />
                   </el-select>
                 </el-form-item>
               </el-col>
@@ -68,6 +74,7 @@
                 <el-form-item :label="$t('SaleOpportunity.isSale')" prop="isSale" style="width: 100%;">
                   <el-select v-model="personalForm.isSale" style="margin-left: 18px;width: 218px">
                     <el-option value="1" label="跟进中"/>
+                    <el-option value="2" label="销售成功"/>
                   </el-select>
                 </el-form-item>
               </el-col>
@@ -98,9 +105,9 @@
             <el-editable-column label="序号" min-width="55" align="center" type="index"/>
             <el-editable-column prop="productCode" align="center" label="物品编号" min-width="150px"/>
             <el-editable-column prop="productName" align="center" label="物品名称" min-width="150px"/>
-            <el-editable-column prop="category" align="center" label="物品分类" min-width="150px"/>
+            <el-editable-column prop="productCategory" align="center" label="物品分类" min-width="150px"/>
             <el-editable-column prop="unit" align="center" label="基本单位" min-width="150px"/>
-            <el-editable-column prop="typeId" align="center" label="规格型号" min-width="150px"/>
+            <el-editable-column prop="productType" align="center" label="规格型号" min-width="150px"/>
             <el-editable-column prop="color" align="center" label="颜色" min-width="150px"/>
             <el-editable-column prop="kpiGrade" align="center" label="绩效分" min-width="150px"/>
             <el-editable-column prop="point" align="center" label="商品积分" min-width="150px"/>
@@ -118,6 +125,7 @@
 
 <script>
 import { addsaleopportunity } from '@/api/SaleOpportunity'
+import { searchSaleCategory } from '@/api/SaleCategory'
 import MyEmp from './components/MyEmp'
 import MyDelivery from '../DailyAdjust/components/MyDelivery'
 import MyDetail from './components/MyDetail'
@@ -129,14 +137,14 @@ export default {
   name: 'AddSaleOpportunity',
   components: { MyAgent, MyCustomer, MyRequire, MyApply, MyDetail, MyDelivery, MyEmp },
   data() {
-    const validatePass = (rule, value, callback) => {
-      console.log(value)
-      if (this.customerId === '' || this.customerId === undefined || this.customerId === null) {
-        callback(new Error('请选择客户姓名'))
-      } else {
-        callback()
-      }
-    }
+    // const validatePass = (rule, value, callback) => {
+    //   console.log(value)
+    //   if (this.customerId === '' || this.customerId === undefined || this.customerId === null) {
+    //     callback(new Error('请选择客户姓名'))
+    //   } else {
+    //     callback()
+    //   }
+    // }
     const validatePass2 = (rule, value, callback) => {
       console.log(value)
       if (this.handlePersonId === '' || this.handlePersonId === undefined || this.handlePersonId === null) {
@@ -146,6 +154,22 @@ export default {
       }
     }
     return {
+      // 机会来源数据
+      opportunitySources: [],
+      // 机会来源获取参数
+      opportunitySourceparms: {
+        type: 6,
+        pagenum: 1,
+        pagesize: 99999
+      },
+      // 机会类型数据
+      opportunityTypes: [],
+      // 机会类型获取参数
+      opportunityTypeparms: {
+        type: 5,
+        pagenum: 1,
+        pagesize: 99999
+      },
       // 回显部门
       deptId: '',
       // 回显门店
@@ -186,8 +210,8 @@ export default {
         handlePersonId: [
           { required: true, validator: validatePass2, trigger: 'change' }
         ],
-        customerId: [
-          { required: true, validator: validatePass, trigger: 'change' }
+        customerName: [
+          { required: true, message: '请输入客户姓名', trigger: 'blur' }
         ],
         isSale: [
           { required: true, message: '请选择当前状态', trigger: 'change' }
@@ -205,16 +229,24 @@ export default {
       }
     }
   },
+  created() {
+    this.getTypes()
+  },
   methods: {
-    // 控制源单类型
-    chooseSource(val) {
-      if (val === '1') {
-        this.Isproduct = false
-        this.IsNumber = false
-      } else if (val === '2') {
-        this.Isproduct = false
-        this.IsNumber = false
-      }
+    // 分类属性
+    getTypes() {
+      // 开票类型数据
+      searchSaleCategory(this.opportunityTypeparms).then(res => {
+        if (res.data.ret === 200) {
+          this.opportunityTypes = res.data.data.content.list
+        }
+      })
+      // 结算方式数据
+      searchSaleCategory(this.opportunitySourceparms).then(res => {
+        if (res.data.ret === 200) {
+          this.opportunitySources = res.data.data.content.list
+        }
+      })
     },
     // 选择客户类型时清理客户名称
     clearCustomer() {
@@ -228,17 +260,6 @@ export default {
       } else if (this.personalForm.customerType === '2') {
         this.customercontrol = true
       }
-    },
-    customerdata(val) {
-      this.personalForm.customerId = val.id
-      this.personalForm.customerName = val.customerName
-      this.customerId = val.customerName
-      this.personalForm.customerPhone = val.phoneNumber
-    },
-    agentdata(val) {
-      this.personalForm.customerId = val.id
-      this.customerId = val.agentName
-      this.personalForm.customerPhone = val.phone
     },
     // 无来源添加商品
     handleAddproduct() {
@@ -284,8 +305,17 @@ export default {
         customerType: '1',
         isSale: '1'
       }
+      this.personalForm.customerId = null
       this.customerId = null
-      this.salePersonId = null
+      this.personalForm.customerPhone = null
+      this.customerId = null
+      this.personalForm.deptId = null
+      this.personalForm.handlePersonId = null
+      this.handlePersonId = null
+      this.deptId = null
+      this.personalForm.deptId = null
+      this.handleRepositoryId = null
+      this.personalForm.handleRepositoryId = null
     },
     // 保存操作
     handlesave() {

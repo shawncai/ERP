@@ -1502,6 +1502,110 @@ export const asyncRouterMap = [
         component: () => import('@/views/SaleOpportunity/AddSaleOpportunity'),
         name: 'AddSaleOpportunity',
         meta: { title: 'AddSaleOpportunity', noCache: false }
+      },
+      {
+        path: 'SaleOpportunityList',
+        component: () => import('@/views/SaleOpportunity/SaleOpportunityList'),
+        name: 'SaleOpportunityList',
+        meta: { title: 'SaleOpportunityList', noCache: true }
+      }
+    ]
+  },
+  {
+    path: '/SaleContract',
+    component: Layout,
+    redirect: 'noredirect',
+    name: 'SaleContract',
+    alwaysShow: true,
+    meta: {
+      title: 'SaleContract',
+      icon: 'xiaoshouhetong',
+      type: 3
+    },
+    children: [
+      {
+        path: 'AddSaleContract',
+        component: () => import('@/views/SaleContract/AddSaleContract'),
+        name: 'AddSaleContract',
+        meta: { title: 'AddSaleContract', noCache: false }
+      }
+    ]
+  },
+  {
+    path: '/income',
+    component: Layout,
+    redirect: 'noredirect',
+    name: 'income',
+    alwaysShow: true,
+    meta: {
+      title: 'income',
+      icon: 'shourudan',
+      type: 3
+    },
+    children: [
+      {
+        path: 'AddIncome',
+        component: () => import('@/views/income/AddIncome'),
+        name: 'AddIncome',
+        meta: { title: 'AddIncome', noCache: false }
+      },
+      {
+        path: 'IncomeList',
+        component: () => import('@/views/income/IncomeList'),
+        name: 'IncomeList',
+        meta: { title: 'IncomeList', noCache: true }
+      }
+    ]
+  },
+  {
+    path: '/Expenses',
+    component: Layout,
+    redirect: 'noredirect',
+    name: 'Expenses',
+    alwaysShow: true,
+    meta: {
+      title: 'Expenses',
+      icon: 'zhichudan',
+      type: 3
+    },
+    children: [
+      {
+        path: 'AddExpenses',
+        component: () => import('@/views/Expenses/AddExpenses'),
+        name: 'AddExpenses',
+        meta: { title: 'AddExpenses', noCache: false }
+      },
+      {
+        path: 'ExpensesList',
+        component: () => import('@/views/Expenses/ExpensesList'),
+        name: 'ExpensesList',
+        meta: { title: 'ExpensesList', noCache: true }
+      }
+    ]
+  },
+  {
+    path: '/Transfer',
+    component: Layout,
+    redirect: 'noredirect',
+    name: 'Transfer',
+    alwaysShow: true,
+    meta: {
+      title: 'Transfer',
+      icon: 'zhuanzhang',
+      type: 3
+    },
+    children: [
+      {
+        path: 'AddTransfer',
+        component: () => import('@/views/Transfer/AddTransfer'),
+        name: 'AddTransfer',
+        meta: { title: 'AddTransfer', noCache: false }
+      },
+      {
+        path: 'TransferList',
+        component: () => import('@/views/Transfer/TransferList'),
+        name: 'TransferList',
+        meta: { title: 'TransferList', noCache: true }
       }
     ]
   },

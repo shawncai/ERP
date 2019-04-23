@@ -265,7 +265,8 @@ export default {
         regionId: 2,
         isVat: 1,
         inquiryTimes: 1,
-        currency: '1'
+        currency: '1',
+        inquiryDate: null
       },
       // 采购申请单规则数据
       personalrules: {

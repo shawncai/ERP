@@ -303,7 +303,8 @@ export default {
           supplierName: '',
           basicPrice: 0,
           planMoney: '0.00',
-          orderQuantity: '0.00'
+          orderQuantity: '0.00',
+          stockRequireId: item.id
         }
       })
       this.$emit('require', requireDetail)

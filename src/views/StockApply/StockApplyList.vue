@@ -125,7 +125,7 @@
         </el-table-column>
         <el-table-column :label="$t('StockApply.sourceType')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.sourceType | sourceTypeFilter }}</span>
+            <span>{{ scope.row.stockTypeName }}</span>
           </template>
         </el-table-column>
         <el-table-column :label="$t('StockApply.applyPersonId')" :resizable="false" align="center" min-width="150">
@@ -409,6 +409,15 @@ export default {
     // 多条删除
     // 批量删除
     handleCommand(command) {
+      console.log(this.moreaction)
+      if (this.moreaction === '' || this.moreaction === null || this.moreaction === undefined) {
+        this.$notify.error({
+          title: '错误',
+          message: '请先选择表格数据',
+          offset: 100
+        })
+        return false
+      }
       const ids = this.moreaction.map(item => item.id).join()
       if (command === 'delete') {
         this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {

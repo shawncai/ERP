@@ -4,7 +4,7 @@
       <!-- 搜索条件栏目 -->
       <el-input v-model="getemplist.code" :placeholder="$t('Product.code')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
       <el-input v-model="getemplist.productname" :placeholder="$t('Product.productname')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
-      <el-input v-model="supplierid" :placeholder="$t('Product.supplierid')" class="filter-item" clearable @keyup.enter.native="handleFilter" @focus="handlechoose"/>
+      <el-input v-model="supplierId" :placeholder="$t('Product.supplierid')" class="filter-item" clearable @keyup.enter.native="handleFilter" @focus="handlechoose"/>
       <my-supplier :control.sync="empcontrol" @supplierName="supplierName"/>
       <el-input v-model="categoryid" placeholder="物品分类" class="filter-item" clearable @focus="treechoose"/>
       <my-tree :treecontrol.sync="treecontrol" @tree="tree"/>
@@ -145,7 +145,7 @@ export default {
   data() {
     return {
       // 供应商回显
-      supplierid: '',
+      supplierId: '',
       // 供货商控制
       empcontrol: false,
       // 规格型号数据
@@ -177,7 +177,7 @@ export default {
         typeid: '',
         isactive: '',
         Productid: '',
-        supplierid: this.supp,
+        supplierId: this.supp,
         pagenum: 1,
         pagesize: 10
       }
@@ -190,7 +190,7 @@ export default {
       this.getlist()
     },
     supp() {
-      this.getemplist.supplierid = this.supp
+      this.getemplist.supplierId = this.supp
       this.getlist()
       console.log(this.supp)
     }
@@ -221,8 +221,8 @@ export default {
     restFilter() {
       this.categoryid = ''
       this.getemplist.categoryid = ''
-      this.supplierid = ''
-      this.getemplist.supplierid = ''
+      this.supplierId = ''
+      this.getemplist.supplierId = ''
     },
     // 搜索
     handleFilter() {
@@ -248,8 +248,8 @@ export default {
     // 供应商列表返回数据
     supplierName(val) {
       console.log(val)
-      this.supplierid = val.supplierName
-      this.getemplist.supplierid = val.id
+      this.supplierId = val.supplierName
+      this.getemplist.supplierId = val.id
     },
     // 物品分类focus
     treechoose() {

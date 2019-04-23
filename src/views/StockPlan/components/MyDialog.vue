@@ -110,8 +110,16 @@
               <p>{{ planMoney(scope.row) }}</p>
             </template>
           </el-editable-column>
-          <el-editable-column :edit-render="{name: 'ElDatePicker', attrs: {type: 'date', format: 'yyyy-MM-dd'}, type: 'visible', events: {change: changeDate}}" prop="planDeliveryDate" align="center" label="计划交货日期" min-width="170px"/>
-          <el-editable-column prop="applyReason" align="center" label="申请原因" min-width="150px"/>
+          <el-editable-column :edit-render="{name: 'ElDatePicker', attrs: {type: 'date', format: 'yyyy-MM-dd'}, type: 'visible', events: {change: changeDate}}" prop="planDeliveryDate" align="center" label="计划交货日期" min-width="170px">
+            <template slot="edit" slot-scope="scope">
+              <el-date-picker
+                v-model="scope.row.planDeliveryDate"
+                :picker-options="pickerOptions1"
+                type="date"
+                value-format="yyyy-MM-dd"
+                @change="changeDate"/>
+            </template>
+          </el-editable-column>          <el-editable-column prop="applyReason" align="center" label="申请原因" min-width="150px"/>
           <el-editable-column prop="sourceNumber" align="center" label="源单编号" min-width="150px"/>
           <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="supplierName" align="center" label="供应商" min-width="150px">
             <template slot="edit" slot-scope="scope">
@@ -120,6 +128,7 @@
             </template>
           </el-editable-column>
           <el-editable-column prop="orderQuantity" align="center" label="已订购数量" min-width="150px"/>
+          <el-editable-column prop="sourceSerialNumber" align="center" label="源单序号" min-width="150px"/>
         </el-editable>
       </div>
     </el-card>
@@ -160,6 +169,7 @@
           <el-editable-column prop="sourceNumber" align="center" label="源单编号" min-width="150px"/>
           <el-editable-column prop="supplierName" align="center" label="供应商" min-width="150px"/>
           <el-editable-column prop="orderQuantity" align="center" label="已订购数量" min-width="150px"/>
+          <el-editable-column prop="sourceSerialNumber" align="center" label="源单序号" min-width="150px"/>
         </el-editable>
       </div>
     </el-card>
