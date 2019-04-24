@@ -90,14 +90,14 @@
             <el-editable-column prop="color" align="center" label="颜色" min-width="150px"/>
             <el-editable-column prop="unit" align="center" label="单位" min-width="150px"/>
             <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 1, precision: 2}, type: 'visible', events: {change: changeDate}}" prop="requireQuantity" align="center" label="需求数量" min-width="150px"/>
-            <el-editable-column :edit-render="{name: 'ElDatePicker', attrs: {type: 'date', format: 'yyyy-MM-dd'}, type: 'visible', events: {change: changeDate}}" prop="requireDate" align="center" label="需求日期" min-width="150px">
+            <el-editable-column :edit-render="{name: 'ElDatePicker', attrs: {type: 'date', format: 'yyyy-MM-dd'}, type: 'visible', events: {change: changeDate2}}" prop="requireDate" align="center" label="需求日期" min-width="150px">
               <template slot="edit" slot-scope="scope">
                 <el-date-picker
                   v-model="scope.row.requireDate"
                   :picker-options="pickerOptions1"
                   type="date"
                   value-format="yyyy-MM-dd"
-                  @change="changeDate"/>
+                  @change="changeDate2"/>
               </template>
             </el-editable-column>
             <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="applyReason" align="center" label="申请原因" min-width="150px"/>
@@ -255,6 +255,15 @@ export default {
     changeDate(scope, value) {
       console.log(scope)
       scope.row.applyQuantity = (scope.row.requireQuantity).toFixed(2)
+      this.$refs.editable2.clear()
+      const nowlistdata = this.$refs.editable.getRecords()
+      for (let i = 0; i < nowlistdata.length; i++) {
+        this.$refs.editable2.insert(nowlistdata[i])
+      }
+    },
+    // 两表联动
+    changeDate2(scope, value) {
+      console.log(scope)
       this.$refs.editable2.clear()
       const nowlistdata = this.$refs.editable.getRecords()
       for (let i = 0; i < nowlistdata.length; i++) {

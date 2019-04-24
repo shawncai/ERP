@@ -1610,6 +1610,52 @@ export const asyncRouterMap = [
     ]
   },
   {
+    path: '/Recycling',
+    component: Layout,
+    redirect: 'noredirect',
+    name: 'Recycling',
+    alwaysShow: true,
+    meta: {
+      title: 'Recycling',
+      icon: 'ershouhuishou',
+      type: 3
+    },
+    children: [
+      {
+        path: 'AddRecycling',
+        component: () => import('@/views/Recycling/AddRecycling'),
+        name: 'AddRecycling',
+        meta: { title: 'AddRecycling', noCache: false }
+      },
+      {
+        path: 'RecyclingList',
+        component: () => import('@/views/Recycling/RecyclingList'),
+        name: 'RecyclingList',
+        meta: { title: 'RecyclingList', noCache: true }
+      }
+    ]
+  },
+  {
+    path: '/PrepReceipt',
+    component: Layout,
+    redirect: 'noredirect',
+    name: 'PrepReceipt',
+    alwaysShow: true,
+    meta: {
+      title: 'PrepReceipt',
+      icon: 'yushoukuan',
+      type: 3
+    },
+    children: [
+      {
+        path: 'AddPrepReceipt',
+        component: () => import('@/views/PrepReceipt/AddPrepReceipt'),
+        name: 'AddPrepReceipt',
+        meta: { title: 'AddPrepReceipt', noCache: false }
+      }
+    ]
+  },
+  {
     path: '/Advancemanage',
     component: Layout,
     redirect: 'noredirect',

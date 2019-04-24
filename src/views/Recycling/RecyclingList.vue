@@ -4,18 +4,18 @@
       <el-row>
         <el-form ref="getemplist" :model="getemplist" label-width="100px" style="margin-top: -9px">
           <el-col :span="5">
-            <el-form-item label="收入单主题" label-width="100px">
-              <el-input v-model="getemplist.title" :placeholder="$t('income.title')" clearable @keyup.enter.native="handleFilter"/>
+            <el-form-item label="回收单主题" label-width="100px">
+              <el-input v-model="getemplist.title" :placeholder="$t('Recycling.title')" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
           <el-col :span="5" style="margin-left: 10px">
-            <el-form-item label="收入单单号">
-              <el-input v-model="getemplist.number" placeholder="收入单单号" clearable @keyup.enter.native="handleFilter"/>
+            <el-form-item label="回收单单号">
+              <el-input v-model="getemplist.number" placeholder="回收单单号" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
           <el-col :span="5" style="margin-left: 10px">
-            <el-form-item label="经办人">
-              <el-input v-model="handlePersonId" :placeholder="$t('income.handlePersonId')" clearable @keyup.enter.native="handleFilter" @focus="handlechooseStock"/>
+            <el-form-item label="回收人">
+              <el-input v-model="recyclingPersonId" :placeholder="$t('Recycling.recyclingPersonId')" clearable @keyup.enter.native="handleFilter" @focus="handlechooseStock"/>
             </el-form-item>
             <my-emp :control.sync="stockControl" @stockName="stockName"/>
           </el-col>
@@ -26,19 +26,12 @@
               placement="bottom"
               width="500"
               trigger="manual">
-              <el-select v-model="getemplist.closeType" placeholder="结算方式" clearable style="width: 40%;float: left;margin-left: 20px">
-                <el-option
-                  v-for="(item, index) in colseTypes"
-                  :value="item.id"
-                  :key="index"
-                  :label="item.categoryName"/>
-              </el-select>
-              <el-select v-model="getemplist.receiptStat" :value="getemplist.receiptStat" placeholder="单据状态" clearable style="width: 40%;float: right;margin-right: 20px">
+              <el-select v-model="getemplist.receiptStat" :value="getemplist.receiptStat" placeholder="单据状态" clearable style="width: 40%;float: left;margin-left: 20px">
                 <el-option value="1" label="制单"/>
                 <el-option value="2" label="执行"/>
                 <el-option value="3" label="结单"/>
               </el-select>
-              <el-select v-model="getemplist.judgeStat" :value="getemplist.judgeStat" placeholder="审批状态" clearable style="width: 40%;float: left;margin-left: 20px;margin-top: 20px">
+              <el-select v-model="getemplist.judgeStat" :value="getemplist.judgeStat" placeholder="审批状态" clearable style="width: 40%;float: right;margin-right: 20px;margin-top: 20px">
                 <el-option value="0" label="未审核"/>
                 <el-option value="1" label="审核中"/>
                 <el-option value="2" label="审核通过"/>
@@ -97,34 +90,39 @@
           </template>
           <detail-list :detailcontrol.sync="detailvisible" :detaildata.sync="personalForm"/>
         </el-table-column>
-        <el-table-column :label="$t('income.title')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('Recycling.title')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.title }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('income.closeType')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('Recycling.productCode')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.closeTypeName }}</span>
+            <span>{{ scope.row.productCode }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('income.incomeAccount')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('Recycling.productType')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.incomeAccount }}</span>
+            <span>{{ scope.row.productType }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('income.currency')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('Recycling.productCategory')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.currency | currencyFilter }}</span>
+            <span>{{ scope.row.productCategory }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('income.handlePersonId')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('Recycling.recyclingMoney')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.handlePersonName }}</span>
+            <span>{{ scope.row.recyclingMoney }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('income.incomeDate')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('Recycling.recyclingDate')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.incomeDate }}</span>
+            <span>{{ scope.row.recyclingDate }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column :label="$t('Recycling.recyclingPersonId')" :resizable="false" align="center" min-width="150">
+          <template slot-scope="scope">
+            <span>{{ scope.row.recyclingPersonName }}</span>
           </template>
         </el-table-column>
         <el-table-column :label="$t('public.judgeStat')" :resizable="false" prop="judgeStat" align="center" min-width="150">
@@ -155,7 +153,7 @@
 </template>
 
 <script>
-import { searchincome, updateincome2, deleteincome } from '@/api/income'
+import { searchrecycling, updaterecycling2, deleterecycling } from '@/api/Recycling'
 import { searchSaleCategory } from '@/api/SaleCategory'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination'
@@ -165,7 +163,7 @@ import MyDialog from './components/MyDialog'
 import MySupplier from './components/MySupplier'
 
 export default {
-  name: 'IncomeList',
+  name: 'RecyclingList',
   directives: { waves },
   components: { MyDialog, DetailList, MyEmp, Pagination, MySupplier },
   filters: {
@@ -235,9 +233,9 @@ export default {
       supplierId: '',
       // 供应商控制框
       empcontrol: false,
-      // 经办人回显
-      handlePersonId: '',
-      // 经办人控制框
+      // 回收人回显
+      recyclingPersonId: '',
+      // 回收人控制框
       stockControl: false,
       // 批量操作
       moreaction: '',
@@ -286,7 +284,7 @@ export default {
     getlist() {
       // 物料需求计划列表数据
       this.listLoading = true
-      searchincome(this.getemplist).then(res => {
+      searchrecycling(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
@@ -304,17 +302,13 @@ export default {
     },
     // 清空搜索条件
     restFilter() {
-      this.handlePersonId = ''
-      this.getemplist.handlePersonId = ''
-      this.supplierId = ''
-      this.getemplist.supplierId = ''
-      this.inquiryPersonId = ''
-      this.getemplist.inquiryPersonId = ''
+      this.recyclingPersonId = ''
+      this.getemplist.recyclingPersonId = ''
     },
     // 搜索
     handleFilter() {
       this.getemplist.pageNum = 1
-      searchincome(this.getemplist).then(res => {
+      searchrecycling(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
@@ -324,14 +318,14 @@ export default {
         }
       })
     },
-    // 经办人focus事件
+    // 回收人focus事件
     handlechooseStock() {
       this.stockControl = true
     },
-    // 经办人回显
+    // 回收人回显
     stockName(val) {
-      this.handlePersonId = val.personName
-      this.getemplist.handlePersonId = val.id
+      this.recyclingPersonId = val.personName
+      this.getemplist.recyclingPersonId = val.id
     },
     // 修改操作
     handleEdit(row) {
@@ -340,6 +334,9 @@ export default {
       this.personalForm = Object.assign({}, row)
       this.personalForm.sourceType = String(row.sourceType)
       this.personalForm.currency = String(row.currency)
+      if (this.personalForm.sexId !== null && this.personalForm.sexId !== '' && this.personalForm.sexId !== undefined) {
+        this.personalForm.sexId = String(row.sexId)
+      }
     },
     // 修改组件修改成功后返回
     refreshlist(val) {
@@ -375,7 +372,7 @@ export default {
       }).then(() => {
         this.reviewParms.judgeStat = 2
         const parms = JSON.stringify(this.reviewParms)
-        updateincome2(parms).then(res => {
+        updaterecycling2(parms).then(res => {
           if (res.data.ret === 200) {
             this.$message({
               type: 'success',
@@ -388,7 +385,7 @@ export default {
         if (action === 'cancel') {
           this.reviewParms.judgeStat = 1
           const parms = JSON.stringify(this.reviewParms)
-          updateincome2(parms).then(res => {
+          updaterecycling2(parms).then(res => {
             if (res.data.ret === 200) {
               this.$message({
                 type: 'success',
@@ -422,7 +419,7 @@ export default {
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          deleteincome(ids).then(res => {
+          deleterecycling(ids).then(res => {
             if (res.data.ret === 200) {
               this.$notify({
                 title: '删除成功',
@@ -453,7 +450,7 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        deleteincome(row.id).then(res => {
+        deleterecycling(row.id).then(res => {
           if (res.data.ret === 200) {
             this.$notify({
               title: '删除成功',
@@ -478,14 +475,14 @@ export default {
     },
     // 新增数据
     handleAdd() {
-      this.$router.push('/income/Addincome')
+      this.$router.push('/Recycling/AddRecycling')
     },
     // 导出
     handleExport() {
       this.downloadLoading = true
         import('@/vendor/Export2Excel').then(excel => {
           const tHeader = ['供应商编号', '供应商名称', '供应商简称', '供应商类别', '所在区域', '采购员', '供应商优质级别', '建档人', '建档日期']
-          const filterVal = ['id', 'incomeName', 'incomeShortName', 'typeName', 'regionName', 'buyerName', 'levelName', 'createName', 'createTime']
+          const filterVal = ['id', 'RecyclingName', 'RecyclingShortName', 'typeName', 'regionName', 'buyerName', 'levelName', 'createName', 'createTime']
           const data = this.formatJson(filterVal, this.list)
           excel.export_json_to_excel({
             header: tHeader,

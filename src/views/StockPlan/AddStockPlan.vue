@@ -312,7 +312,8 @@ export default {
         regionId: 2,
         sourceType: '3',
         totalQuantity: '',
-        allMoney: ''
+        allMoney: '',
+        planDate: null
       },
       // 采购计划单规则数据
       personalrules: {

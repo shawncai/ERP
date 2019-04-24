@@ -1,5 +1,5 @@
 <template>
-  <el-dialog :visible.sync="productVisible" :control="control" :close-on-press-escape="false" top="10px" title="选择商品" append-to-body @close="$emit('update:control', false)">
+  <el-dialog :visible.sync="productVisible" :matercontrol="matercontrol" :close-on-press-escape="false" top="10px" title="选择商品" append-to-body @close="$emit('update:matercontrol', false)">
     <div class="filter-container">
       <!-- 搜索条件栏目 -->
       <el-input v-model="getemplist.code" :placeholder="$t('Product.code')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
@@ -45,11 +45,7 @@
       fit
       highlight-current-row
       style="width: 100%;"
-      @selection-change="handleSelectionChange">
-      <el-table-column
-        type="selection"
-        width="55"
-        align="center"/>
+      @current-change="handleCurrentChange">
       <el-table-column :label="$t('Product.code')" :resizable="false" prop="code" align="center" width="120">
         <template slot-scope="scope">
           <span>{{ scope.row.code }}</span>
@@ -133,7 +129,7 @@ export default {
     }
   },
   props: {
-    control: {
+    matercontrol: {
       type: Boolean,
       default: false
     }
@@ -151,7 +147,7 @@ export default {
       // 物品分类回显
       categoryid: '',
       // 物品选择框控制
-      productVisible: this.control,
+      productVisible: this.matercontrol,
       // 更多搜索条件问题
       visible2: false,
       // 批量操作
@@ -179,9 +175,8 @@ export default {
     }
   },
   watch: {
-    control() {
-      this.productVisible = this.control
-      console.log(this.control)
+    matercontrol() {
+      this.productVisible = this.matercontrol
       this.getlist()
     }
   },
@@ -227,10 +222,6 @@ export default {
         }
       })
     },
-    // 批量操作
-    handleSelectionChange(val) {
-      this.moreaction = val
-    },
     // 供应商输入框focus事件触发
     handlechoose() {
       this.empcontrol = true
@@ -255,37 +246,14 @@ export default {
       this.$router.push('/Product/NewProduct')
       this.productVisible = false
     },
+    // 单选操作
+    handleCurrentChange(val) {
+      this.moreaction = val
+    },
     // 物品选择添加
     handleAddTo() {
       this.productVisible = false
-      console.log(this.moreaction)
-      const productDetail = this.moreaction.map(function(item) {
-        return {
-          productCode: item.code,
-          productName: item.productName,
-          typeId: item.typeId,
-          requireQuantity: 1.00,
-          color: item.color,
-          unit: item.purMeasu,
-          productType: item.productType,
-          planQuantity: '0.00'
-        }
-      })
-      const productDetail2 = this.moreaction.map(function(item) {
-        return {
-          productCode: item.code,
-          productName: item.productName,
-          typeId: item.typeId,
-          color: item.color,
-          unit: item.purMeasu,
-          productType: item.productType,
-          applyQuantity: 1,
-          planQuantity: 0
-        }
-      })
-      console.log(productDetail)
-      this.$emit('product', productDetail)
-      this.$emit('product2', productDetail2)
+      this.$emit('mater', this.moreaction)
     }
   }
 }

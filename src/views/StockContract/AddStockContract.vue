@@ -175,24 +175,27 @@
             <el-editable-column prop="productName" align="center" label="物品名称" min-width="150px"/>
             <el-editable-column prop="productType" align="center" label="规格" min-width="150px"/>
             <el-editable-column prop="unit" align="center" label="单位" min-width="150px"/>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="plannedQuantity" align="center" label="采购数量" min-width="150px"/>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="price" align="center" label="单价" min-width="170px">
+            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0, precision: 2}, type: 'visible'}" prop="plannedQuantity" align="center" label="采购数量" min-width="150px"/>
+            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0, precision: 2}, type: 'visible'}" prop="price" align="center" label="单价" min-width="170px">
               <template slot="edit" slot-scope="scope">
                 <el-input-number
+                  :precision="2"
                   v-model="scope.row.price"
                   @input="getprice(scope.row)"/>
               </template>
             </el-editable-column>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="includeTaxPrice" align="center" label="含税价" min-width="170px">
+            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0, precision: 2}, type: 'visible'}" prop="includeTaxPrice" align="center" label="含税价" min-width="170px">
               <template slot="edit" slot-scope="scope">
                 <el-input-number
+                  :precision="2"
                   v-model="scope.row.includeTaxPrice"
                   @input="getincludeTaxPrice(scope.row)"/>
               </template>
             </el-editable-column>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="taxRate" align="center" label="税率(%)" min-width="170px">
+            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0, precision: 2}, type: 'visible'}" prop="taxRate" align="center" label="税率(%)" min-width="170px">
               <template slot="edit" slot-scope="scope">
                 <el-input-number
+                  :precision="2"
                   v-model="scope.row.taxRate"
                   @input="gettaxRate(scope.row)"/>
               </template>
@@ -216,6 +219,7 @@
             <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="discountRate" align="center" label="折扣率(%)" min-width="170px">
               <template slot="edit" slot-scope="scope">
                 <el-input-number
+                  :precision="2"
                   v-model="scope.row.discountRate"
                   @input="getdiscountRate(scope.row)"/>
               </template>
@@ -223,6 +227,7 @@
             <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="discountMoney" align="center" label="折扣额" min-width="170px">
               <template slot="edit" slot-scope="scope">
                 <el-input-number
+                  :precision="2"
                   v-model="scope.row.discountMoney"
                   @input="getdiscountMoney(scope.row)"/>
               </template>

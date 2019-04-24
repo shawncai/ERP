@@ -157,7 +157,8 @@ export default {
         countryId: 1,
         repositoryId: 438,
         regionId: 2,
-        currency: '1'
+        currency: '1',
+        incomeDate: null
       },
       // 收入单规则数据
       personalrules: {

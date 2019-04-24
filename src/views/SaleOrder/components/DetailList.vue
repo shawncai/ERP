@@ -1,5 +1,5 @@
 <template>
-  <el-dialog :visible.sync="editVisible" :detailcontrol="detailcontrol" :detaildata="detaildata" :close-on-press-escape="false" :title="personalForm.planNumber +'    详情'" append-to-body width="1010px" class="edit" top="-10px" @close="$emit('update:detailcontrol', false)">
+  <el-dialog :visible.sync="editVisible" :detailcontrol="detailcontrol" :detaildata="detaildata" :close-on-press-escape="false" :title="personalForm.number +'    详情'" append-to-body width="1010px" class="edit" top="-10px" @close="$emit('update:detailcontrol', false)">
     <!--基本信息-->
     <el-card class="box-card" style="margin-top: 63px" shadow="never">
       <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">基本信息</h2>
@@ -119,12 +119,15 @@
           <el-editable-column prop="taxprice" align="center" label="含税价" min-width="150px"/>
           <el-editable-column prop="costMoney" align="center" label="成本金额" min-width="150px"/>
           <el-editable-column prop="includeTaxMoney" align="center" label="含税金额" min-width="150px"/>
-          <el-editable-column prop="taxRate" align="center" label="税率(%)" min-width="150px"/>
-          <el-editable-column prop="taxMoney" align="center" label="税额" min-width="150px"/>
+          <el-editable-column prop="taxRate" align="center" label="税率(%)" min-width="170px"/>
+          <el-editable-column prop="taxMoney" align="center" label="税额" min-width="170px"/>
           <el-editable-column prop="money" align="center" label="金额" min-width="150px"/>
-          <el-editable-column prop="includeTaxCostMoney" align="center" label="含税成本金额" min-width="150px"/>
-          <el-editable-column prop="discount" align="center" label="折扣率" min-width="150px"/>
-          <el-editable-column prop="discountMoney" align="center" label="折扣额" min-width="150px"/>
+          <el-editable-column prop="includeTaxCostMoney" align="center" label="含税成本金额" min-width="170px"/>
+          <el-editable-column prop="discount" align="center" label="折扣率(%)" min-width="170px"/>
+          <el-editable-column prop="discountMoney" align="center" label="折扣额" min-width="170px"/>
+          <el-editable-column prop="alreadyApplicationQuantity" align="center" label="已下达采购数量" min-width="150px"/>
+          <el-editable-column prop="deliveryDate" align="center" label="需求日期" min-width="180px"/>
+          <el-editable-column prop="alreadyProduceQuantity" align="center" label="已下达生产数量" min-width="150px"/>
         </el-editable>
       </div>
     </el-card>
@@ -151,6 +154,60 @@
     <!--</div>-->
     <!--</el-card>-->
     <!--审核状态-->
+    <el-card class="box-card" shadow="never" style="margin-top: 10px">
+      <h2 ref="geren" class="form-name">合计信息</h2>
+      <div class="container" style="margin-top: 37px">
+        <el-form ref="personalForm2" :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
+          <el-row>
+            <el-col :span="12">
+              <el-form-item :label="$t('SaleOrder.heji1')" style="width: 100%;">
+                <span>{{ personalForm.allQuantity }}</span>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('SaleOrder.heji2')" style="width: 100%;">
+                <span>{{ personalForm.allMoney }}</span>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('SaleOrder.heji3')" style="width: 100%;">
+                <span>{{ personalForm.allIncludeTaxMoney }}</span>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('SaleOrder.heji4')" style="width: 100%;">
+                <span>{{ personalForm.allTaxMoney }}</span>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('SaleOrder.heji5')" style="width: 100%;">
+                <span>{{ personalForm.allDiscountMoney }}</span>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('SaleOrder.heji6')" style="width: 100%;">
+                <span>{{ personalForm.allIncludeTaxDiscountMoney }}</span>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('SaleOrder.heji7')" style="width: 100%;">
+                <span>{{ personalForm.allIncludeTaxCostMoney }}</span>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('SaleOrder.heji8')" style="width: 100%;">
+                <span>{{ personalForm.allCostMoney }}</span>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('SaleOrder.heji9')" style="width: 100%;">
+                <span>{{ personalForm.otherMoney }}</span>
+              </el-form-item>
+            </el-col>
+          </el-row>
+        </el-form>
+      </div>
+    </el-card>
     <el-card class="box-card" style="margin-top: 15px" shadow="never">
       <h2 ref="fuzhu" class="form-name">审核状态</h2>
       <el-steps :active="reviewList.length" direction="vertical">
@@ -321,7 +378,7 @@ export default {
     detaildata() {
       this.personalForm = this.detaildata
       this.list2 = this.personalForm.stockPlanDetailVos
-      this.list3 = this.personalForm.stockPlanDetailVos
+      this.list3 = this.personalForm.saleOrderCostDetails
       this.reviewList = this.personalForm.approvalUseVos
     }
   },

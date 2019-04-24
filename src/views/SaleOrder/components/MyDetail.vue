@@ -272,17 +272,19 @@ export default {
           performanceScore: item.kpiGrade,
           productScore: item.point,
           quantity: 0,
-          salePrice: item.salePrice,
-          costPrice: item.costPrice,
+          salePrice: (item.salePrice).toFixed(2),
+          costPrice: (item.costPrice).toFixed(2),
           costMoney: 0,
           includeTaxMoney: 0,
           taxRate: 0,
           taxMoney: 0,
           money: 0,
-          includeTaxCostMoney: 0,
+          includeTaxCostMoney: '0.00',
           discount: 0,
           discountMoney: 0,
-          taxprice: 0
+          taxprice: '0.00',
+          alreadyApplicationQuantity: 0,
+          alreadyProduceQuantity: 0
         }
       })
       console.log(productDetail)

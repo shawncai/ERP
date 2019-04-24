@@ -56,6 +56,7 @@
                 <el-form-item :label="$t('SaleOrder.transDate')" prop="transDate" style="width: 100%;">
                   <el-date-picker
                     v-model="personalForm.transDate"
+                    :picker-options="pickerOptions1"
                     type="date"
                     value-format="yyyy-MM-dd"
                     style="margin-left: 18px"/>
@@ -63,7 +64,7 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('SaleOrder.salePersonId')" prop="salePersonId" style="width: 100%;">
-                  <el-input v-model="salePersonId" style="margin-left: 18px" clearable @focus="handlechooseStock"/>
+                  <el-input v-model="salePersonId" style="margin-left: 18px" @focus="handlechooseStock"/>
                   <my-emp :control.sync="stockControl" @stockName="stockName"/>
                 </el-form-item>
               </el-col>
@@ -157,14 +158,7 @@
             <el-editable-column prop="color" align="center" label="颜色" min-width="150px"/>
             <el-editable-column prop="performanceScore" align="center" label="绩效分" min-width="150px"/>
             <el-editable-column prop="productScore" align="center" label="商品积分" min-width="150px"/>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="quantity" align="center" label="订单数量" min-width="150px">
-              <template slot="edit" slot-scope="scope">
-                <el-input-number
-                  :controls="false"
-                  v-model="scope.row.quantity"
-                  @change="getquantity(scope.row)"/>
-              </template>
-            </el-editable-column>
+            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 1, precision: 2}, type: 'visible'}" prop="quantity" align="center" label="订单数量" min-width="150px"/>
             <el-editable-column prop="salePrice" align="center" label="零售价" min-width="150px"/>
             <el-editable-column prop="costPrice" align="center" label="成本价" min-width="150px"/>
             <el-editable-column prop="taxprice" align="center" label="含税价" min-width="150px">
@@ -172,42 +166,69 @@
                 <span>{{ gettaxprice(scope.row) }}</span>
               </template>
             </el-editable-column>
-            <el-editable-column prop="costMoney" align="center" label="成本金额" min-width="150px"/>
-            <el-editable-column prop="includeTaxMoney" align="center" label="含税金额" min-width="150px"/>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="taxRate" align="center" label="税率(%)" min-width="150px">
+            <el-editable-column prop="costMoney" align="center" label="成本金额" min-width="150px">
+              <template slot-scope="scope">
+                <p>{{ getcostMoney(scope.row) }}</p>
+              </template>
+            </el-editable-column>
+            <el-editable-column prop="includeTaxMoney" align="center" label="含税金额" min-width="150px">
+              <template slot-scope="scope">
+                <p>{{ getincludeTaxMoney(scope.row) }}</p>
+              </template>
+            </el-editable-column>
+            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="taxRate" align="center" label="税率(%)" min-width="170px">
               <template slot="edit" slot-scope="scope">
                 <el-input-number
+                  :precision="2"
                   :controls="false"
                   v-model="scope.row.taxRate"
                   @change="gettaxRate(scope.row)"/>
               </template>
             </el-editable-column>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="taxMoney" align="center" label="税额" min-width="150px">
-              <template slot="edit" slot-scope="scope">
-                <el-input-number
-                  :controls="false"
-                  v-model="scope.row.taxMoney"
-                  @change="gettaxMoney(scope.row)"/>
+            <el-editable-column prop="taxMoney" align="center" label="税额" min-width="170px">
+              <template slot-scope="scope">
+                <p>{{ getTaxMoney2(scope.row) }}</p>
               </template>
             </el-editable-column>
-            <el-editable-column prop="money" align="center" label="金额" min-width="150px"/>
-            <el-editable-column prop="includeTaxCostMoney" align="center" label="含税成本金额" min-width="150px"/>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="discount" align="center" label="折扣率" min-width="150px">
+            <el-editable-column prop="money" align="center" label="金额" min-width="150px">
+              <template slot-scope="scope">
+                <p>{{ getMoney(scope.row) }}</p>
+              </template>
+            </el-editable-column>
+            <el-editable-column prop="includeTaxCostMoney" align="center" label="含税成本金额" min-width="170px">
+              <template slot-scope="scope">
+                <p>{{ getincludeTaxCostMoney(scope.row) }}</p>
+              </template>
+            </el-editable-column>
+            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="discount" align="center" label="折扣率(%)" min-width="170px">
               <template slot="edit" slot-scope="scope">
                 <el-input-number
+                  :precision="2"
                   :controls="false"
                   v-model="scope.row.discount"
-                  @change="getdiscount(scope.row)"/>
+                  @input="getdiscountRate(scope.row)"/>
               </template>
             </el-editable-column>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="discountMoney" align="center" label="折扣额" min-width="150px">
+            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="discountMoney" align="center" label="折扣额" min-width="170px">
               <template slot="edit" slot-scope="scope">
                 <el-input-number
+                  :precision="2"
                   :controls="false"
                   v-model="scope.row.discountMoney"
-                  @change="getdiscountMoney(scope.row)"/>
+                  @input="getdiscountMoney(scope.row)"/>
               </template>
             </el-editable-column>
+            <el-editable-column prop="alreadyApplicationQuantity" align="center" label="已下达采购数量" min-width="150px"/>
+            <el-editable-column :edit-render="{name: 'ElDatePicker', attrs: {type: 'date', format: 'yyyy-MM-dd'}, type: 'visible'}" prop="deliveryDate" align="center" label="需求日期" min-width="180px">
+              <template slot="edit" slot-scope="scope">
+                <el-date-picker
+                  v-model="scope.row.deliveryDate"
+                  :picker-options="pickerOptions2"
+                  type="date"
+                  value-format="yyyy-MM-dd"/>
+              </template>
+            </el-editable-column>
+            <el-editable-column prop="alreadyProduceQuantity" align="center" label="已下达生产数量" min-width="150px"/>
           </el-editable>
         </div>
       </el-card>
@@ -283,7 +304,7 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('SaleOrder.heji9')" style="width: 100%;">
-                  <el-input v-model="heji9" style="margin-left: 18px" disabled/>
+                  <el-input v-model="personalForm.otherMoney" style="margin-left: 18px"/>
                 </el-form-item>
               </el-col>
             </el-row>
@@ -297,20 +318,20 @@
             <el-row>
               <el-col :span="6">
                 <el-form-item :label="$t('SaleOrder.backType')" prop="backType" style="width: 100%;">
-                  <el-select v-model="personalForm.backType" style="margin-left: 18px;width: 218px">
-                    <el-option value="1" label="是"/>
-                    <el-option value="2" label="否"/>
+                  <el-select v-model="personalForm.backType" style="margin-left: 18px;width: 218px" disabled>
+                    <el-option value="1" label="已回款"/>
+                    <el-option value="2" label="未回款"/>
                   </el-select>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('SaleOrder.backMoney')" style="width: 100%;">
-                  <el-input v-model="personalForm.backMoney" style="margin-left: 18px"/>
+                  <el-input v-model="personalForm.backMoney" style="margin-left: 18px" disabled />
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('SaleOrder.sendType')" style="width: 100%;">
-                  <el-select v-model="personalForm.sendType" style="margin-left: 18px;width: 218px">
+                  <el-select v-model="personalForm.sendType" style="margin-left: 18px;width: 218px" disabled>
                     <el-option value="1" label="已发货"/>
                     <el-option value="2" label="未发货"/>
                   </el-select>
@@ -345,14 +366,24 @@ export default {
   components: { MyAgent, MyCustomer, MyRequire, MySupplier, MyApply, MyDetail, MyDelivery, MyEmp },
   data() {
     const validatePass = (rule, value, callback) => {
-      console.log(value)
-      if (value === '') {
-        callback(new Error('请选择'))
+      console.log(this.supplierId)
+      if (this.salePersonId === undefined || this.salePersonId === null || this.salePersonId === '') {
+        callback(new Error('请选择销售人员'))
       } else {
         callback()
       }
     }
     return {
+      pickerOptions1: {
+        disabledDate: (time) => {
+          return time.getTime() < new Date(this.personalForm.transDate).getTime() - 8.64e7
+        }
+      },
+      pickerOptions2: {
+        disabledDate: (time) => {
+          return time.getTime() < new Date().getTime() - 8.64e7
+        }
+      },
       // 合计信息
       heji1: '',
       heji2: '',
@@ -402,21 +433,23 @@ export default {
         countryId: 1,
         repositoryId: 438,
         regionId: 2,
-        customerType: '1'
+        customerType: '1',
+        backType: '2',
+        backMoney: '0.00',
+        sendType: '2',
+        currency: '1',
+        transDate: null
       },
       // 销售订单规则数据
       personalrules: {
         customerType: [
           { required: true, message: '请选择客户类别', trigger: 'change' }
         ],
-        customerName: [
-          { required: true, validator: validatePass, trigger: 'focus' }
-        ],
         transDate: [
           { required: true, message: '请选择送货日期', trigger: 'change' }
         ],
         salePersonId: [
-          { required: true, validator: validatePass, trigger: 'focus' }
+          { required: true, validator: validatePass, trigger: 'change' }
         ],
         backType: [
           { required: true, message: '请选择回款状态', trigger: 'change' }
@@ -433,8 +466,12 @@ export default {
   },
   created() {
     this.getTypes()
+    this.getdatatime()
   },
   methods: {
+    getdatatime() { // 默认显示今天
+      this.personalForm.transDate = new Date()
+    },
     // 总计
     getSummaries(param) {
       const { columns, data } = param
@@ -449,9 +486,9 @@ export default {
           sums[index] = values.reduce((prev, curr) => {
             const value = Number(curr)
             if (!isNaN(value)) {
-              return prev + curr
+              return (Number(prev) + Number(curr)).toFixed(2)
             } else {
-              return (prev).toFixed(2)
+              return (Number(prev)).toFixed(2)
             }
           }, 0)
           sums[index] += ''
@@ -473,46 +510,55 @@ export default {
       this.heji8 = sums[14]
       return sums
     },
-    // 通过折扣额计算折扣率
-    getdiscountMoney(row) {
-      row.discount = ((1 - row.discountMoney / row.salePrice / row.quantity) * 100).toFixed(2)
+    // 计算成本金额
+    getcostMoney(row) {
+      row.costMoney = (row.costPrice * row.quantity).toFixed(2)
+      return row.costMoney
+    },
+    // 计算含税金额
+    getincludeTaxMoney(row) {
+      row.includeTaxMoney = (row.taxprice * row.quantity).toFixed(2)
+      return row.includeTaxMoney
+    },
+    // 通过税率计算含税价
+    gettaxRate(row) {
+      if (row.taxprice !== 0) {
+        row.taxprice = (row.salePrice * (1 + row.taxRate / 100)).toFixed(2)
+      }
+    },
+    // 计算税额
+    getTaxMoney2(row) {
+      row.taxMoney = (row.salePrice * row.taxRate / 100 * row.quantity).toFixed(2)
+      return row.taxMoney
     },
     // 通过折扣率计算折扣额
-    getdiscount(row) {
-      row.discountMoney = (row.salePrice * row.quantity * (1 - row.discount / 100)).toFixed(2)
-    },
-    // 通过数量计算成本金额， 含税金额， 金额， 含税成本金额
-    getquantity(row) {
-      row.costMoney = row.quantity * row.costPrice
-      row.includeTaxMoney = row.quantity * row.taxprice
-      row.money = row.quantity * row.salePrice
-      row.includeTaxCostMoney = row.includeTaxMoney + row.costMoney
-      row.taxMoney = ((row.taxRate / 100) * row.salePrice * row.quantity).toFixed(2)
-      if (row.quantity !== 0) {
-        row.taxRate = ((row.taxMoney / (row.salePrice * row.quantity)) * 100).toFixed(2)
-        row.discount = (1 - row.discountMoney / row.salePrice / row.quantity).toFixed(2)
+    getdiscountRate(row) {
+      if (row.discount === 0) {
+        row.discountMoney = 0
+      } else {
+        row.discountMoney = (row.salePrice * row.quantity * (1 - row.discount / 100)).toFixed(2)
       }
-      row.discountMoney = (row.salePrice * row.quantity * (1 - row.discount)).toFixed(2)
-      return row.quantity
     },
-    // 计算含税价
+    // 通过折扣额计算折扣率
+    getdiscountMoney(row) {
+      console.log(row)
+      if (row.salePrice !== 0 && row.quantity !== 0 && row.discountMoney !== 0) {
+        row.discount = ((1 - row.discountMoney / row.salePrice / row.quantity) * 100).toFixed(2)
+      }
+    },
+    // 计算金额
+    getMoney(row) {
+      row.money = (row.quantity * row.salePrice).toFixed(2)
+      return row.money
+    },
+    // 含税价
     gettaxprice(row) {
       row.taxprice = (row.salePrice * (1 + row.taxRate / 100)).toFixed(2)
       return row.taxprice
     },
-    // 通过税率计算税额
-    gettaxRate(row) {
-      if (row.taxRate !== 0) {
-        row.taxMoney = (row.salePrice * row.taxRate * row.quantity / 100).toFixed(2)
-      }
-      return row.taxRate
-    },
-    // 通过税额计算税率
-    gettaxMoney(row) {
-      if (row.taxMoney !== 0 && row.quantity !== 0 && row.salePrice !== 0) {
-        row.taxRate = ((row.taxMoney / (row.salePrice * row.quantity)) * 100).toFixed(2)
-      }
-      return row.taxMoney
+    getincludeTaxCostMoney(row) {
+      row.includeTaxCostMoney = Number(row.salePrice * row.quantity) + Number(row.taxMoney)
+      return row.includeTaxCostMoney
     },
     // 选择客户类型时清理客户名称
     clearCustomer() {
@@ -528,11 +574,15 @@ export default {
       }
     },
     customerdata(val) {
+      console.log(val)
+      this.personalForm.transAddress = val.address
       this.personalForm.customerId = val.id
       this.customerId = val.customerName
       this.personalForm.customerPhone = val.phoneNumber
     },
     agentdata(val) {
+      console.log(val)
+      this.personalForm.transAddress = val.address
       this.personalForm.customerId = val.id
       this.customerId = val.agentName
       this.personalForm.customerPhone = val.phone
@@ -587,7 +637,7 @@ export default {
       this.salePersonId = val.personName
       this.personalForm.salePersonId = val.id
       this.saleRepositoryId = val.repositoryName
-      this.personalForm.repositoryName = val.repositoryId
+      this.personalForm.saleRepositoryId = val.repositoryId
       this.roleId = val.postName
       this.personalForm.roleId = val.postId
     },
@@ -597,10 +647,18 @@ export default {
         createPersonId: 3,
         countryId: 1,
         repositoryId: 438,
-        regionId: 2
+        regionId: 2,
+        customerType: '1',
+        backType: '2',
+        backMoney: '0.00',
+        sendType: '2',
+        currency: '1',
+        transDate: null
       }
       this.customerId = null
       this.salePersonId = null
+      this.saleRepositoryId = null
+      this.roleId = null
     },
     // 保存操作
     handlesave() {
@@ -699,7 +757,6 @@ export default {
               })
               this.restAllForm()
               this.$refs.editable.clear()
-              this.$refs.editable2.clear()
               this.$refs.personalForm.clearValidate()
               this.$refs.personalForm.resetFields()
               this.$refs.personalForm2.clearValidate()
