@@ -7,62 +7,62 @@
         <el-form :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
           <el-row>
             <el-col :span="12">
-              <el-form-item :label="$t('Recycling.title')" style="width: 100%;">
+              <el-form-item :label="$t('PrepReceipt.title')" style="width: 100%;">
                 <span>{{ personalForm.title }}</span>
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item :label="$t('Recycling.productCode')" prop="productCode" style="width: 100%;">
-                <span>{{ personalForm.productCode }}</span>
+              <el-form-item :label="$t('PrepReceipt.sourceType')" prop="sourceType" style="width: 100%;">
+                <span>{{ personalForm.sourceType | sourceTypeFilter }}</span>
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item :label="$t('Recycling.productType')" style="width: 100%;">
-                <span>{{ personalForm.productTypeName }}</span>
+              <el-form-item :label="$t('PrepReceipt.sourceNumber')" style="width: 100%;">
+                <span>{{ personalForm.sourceNumber }}</span>
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item :label="$t('Recycling.color')" style="width: 100%;">
-                <span>{{ personalForm.color }}</span>
+              <el-form-item :label="$t('PrepReceipt.receiptMoney')" prop="receiptMoney" style="width: 100%;">
+                <span>{{ personalForm.receiptMoney }}</span>
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item :label="$t('Recycling.productCategory')" style="width: 100%;">
-                <span>{{ personalForm.productCategoryName }}</span>
+              <el-form-item :label="$t('PrepReceipt.receiptDate')" prop="receiptDate" style="width: 100%;">
+                <span>{{ personalForm.receiptDate }}</span>
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item :label="$t('Recycling.recyclingMoney')" style="width: 100%;">
-                <span>{{ personalForm.recyclingMoney }}</span>
+              <el-form-item :label="$t('PrepReceipt.receiptPersonId')" prop="receiptPersonId" style="width: 100%;">
+                <span>{{ personalForm.receiptPersonName }}</span>
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item :label="$t('Recycling.recyclingDate')" prop="recyclingDate" style="width: 100%;">
-                <span>{{ personalForm.recyclingDate }}</span>
+              <el-form-item :label="$t('PrepReceipt.receiptAccount')" prop="receiptAccount" style="width: 100%;">
+                <span>{{ personalForm.receiptAccount }}</span>
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item :label="$t('Recycling.recyclingPersonId')" prop="recyclingPersonId" style="width: 100%;">
-                <span>{{ personalForm.recyclingPersonName }}</span>
+              <el-form-item :label="$t('PrepReceipt.accountType')" prop="accountType" style="width: 100%;">
+                <span>{{ personalForm.accountType | accountTypeFilter }}</span>
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item :label="$t('Recycling.recyclingRepositoryId')" style="width: 100%;">
-                <span>{{ personalForm.recyclingRepositoryName }}</span>
+              <el-form-item :label="$t('PrepReceipt.customerName')" prop="customerName" style="width: 100%;">
+                <span>{{ personalForm.customerName }}</span>
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item :label="$t('Recycling.locationId')" style="width: 100%;">
-                <span>{{ personalForm.locationId }}</span>
+              <el-form-item :label="$t('PrepReceipt.closeType')" style="width: 100%;">
+                <span>{{ personalForm.closeTypeName }}</span>
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item :label="$t('Recycling.batch')" style="width: 100%;">
-                <span>{{ personalForm.batch }}</span>
+              <el-form-item :label="$t('PrepReceipt.currency')" style="width: 100%;">
+                <span>{{ personalForm.currency | currencyFilter }}</span>
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item :label="$t('Recycling.remark')" style="width: 100%;">
+              <el-form-item :label="$t('PrepReceipt.remark')" style="width: 100%;">
                 <span>{{ personalForm.remark }}</span>
               </el-form-item>
             </el-col>
@@ -70,46 +70,6 @@
         </el-form>
       </div>
     </el-card>
-    <el-card class="box-card" shadow="never" style="margin-top: 10px">
-      <h2 ref="geren" class="form-name">客户信息</h2>
-      <div class="container" style="margin-top: 37px">
-        <el-form ref="personalForm2" :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
-          <el-row>
-            <el-col :span="12">
-              <el-form-item :label="$t('Recycling.customerId')" prop="customerId" style="width: 100%;">
-                <span>{{ personalForm.customerName }}</span>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('Recycling.sexId')" style="width: 100%;">
-                <span>{{ personalForm.sexId | sexIdFilter }}</span>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('Recycling.customerPhone')" style="width: 100%;">
-                <span>{{ personalForm.customerPhone }}</span>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('Recycling.provinceId')" style="width: 100%;">
-                <span>{{ personalForm.provinceName }}</span>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('Recycling.cityId')" style="width: 100%;">
-                <span>{{ personalForm.cityName }}</span>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('Recycling.detailAddress')" style="width: 100%;">
-                <span>{{ personalForm.detailAddress }}</span>
-              </el-form-item>
-            </el-col>
-          </el-row>
-        </el-form>
-      </div>
-    </el-card>
-    <!--子件信息-->
     <!--审核状态-->
     <el-card class="box-card" style="margin-top: 15px" shadow="never">
       <h2 ref="fuzhu" class="form-name">审核状态</h2>
@@ -195,24 +155,23 @@ export default {
       }
       return statusMap[status]
     },
-    stockTypeIdFilter(status) {
+    accountTypeFilter(status) {
       const statusMap = {
-        1: '采购1'
+        1: '类型1',
+        2: '类型2'
       }
       return statusMap[status]
     },
     sourceTypeFilter(status) {
       const statusMap = {
-        1: '采购申请',
-        2: '采购需求',
-        3: '无来源'
+        1: '销售订单'
       }
       return statusMap[status]
     },
-    sexIdFilter(status) {
+    currencyFilter(status) {
       const statusMap = {
-        1: '男',
-        2: '女'
+        1: 'RMB',
+        2: 'USD'
       }
       return statusMap[status]
     },

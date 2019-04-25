@@ -9,22 +9,23 @@
             <el-row>
               <el-col :span="6">
                 <el-form-item :label="$t('Advancemanage.title')" style="width: 100%;">
-                  <el-input v-model="personalForm.title" style="margin-left: 18px" clearable/>
+                  <el-input v-model="personalForm.title" style="margin-left: 18px;width: 200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('Advancemanage.customerName')" style="width: 100%;">
-                  <el-input v-model="personalForm.customerName" style="margin-left: 18px" clearable/>
+                <el-form-item :label="$t('Advancemanage.customerName')" prop="customerName" style="width: 100%;">
+                  <el-input v-model="personalForm.customerName" style="margin-left: 18px;width: 200px" @focus="chooseCustomer"/>
                 </el-form-item>
+                <my-customer :customercontrol.sync="customercontrol" @customerdata="customerdata"/>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('Advancemanage.phone')" style="width: 100%;">
-                  <el-input v-model="personalForm.phone" style="margin-left: 18px" clearable/>
+                  <el-input v-model="personalForm.phone" :disabled="Isphone" style="margin-left: 18px;width: 200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('Advancemanage.address')" style="width: 100%;">
-                  <el-input v-model="personalForm.address" style="margin-left: 18px" clearable/>
+                  <el-input v-model="personalForm.address" :disabled="Isaddress" style="margin-left: 18px;width: 200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
@@ -33,40 +34,40 @@
                     v-model="personalForm.advanceDate"
                     type="date"
                     value-format="yyyy-MM-dd"
-                    style="margin-left: 18px"/>
+                    style="margin-left: 18px;width: 200px"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('Advancemanage.salePrice')" style="width: 100%;">
-                  <el-input v-model="personalForm.salePrice" style="margin-left: 18px" clearable/>
+                  <el-input v-model="personalForm.salePrice" style="margin-left: 18px;width: 200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('Advancemanage.advanceMoney')" style="width: 100%;">
-                  <el-input v-model="personalForm.advanceMoney" style="margin-left: 18px" clearable/>
+                  <el-input v-model="personalForm.advanceMoney" style="margin-left: 18px;width: 200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('Advancemanage.payMode')" style="width: 100%;">
-                  <el-select v-model="personalForm.payMode" style="margin-left: 18px;width: 218px" @change="chooseType">
+                  <el-select v-model="personalForm.payMode" style="margin-left: 18px;width: 200px" @change="chooseType">
                     <el-option value="1" label="现金"/>
                   </el-select>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('Advancemanage.salePersonId')" style="width: 100%;">
-                  <el-input v-model="salePersonId" style="margin-left: 18px" clearable @focus="choosesale"/>
+                  <el-input v-model="salePersonId" style="margin-left: 18px;width: 200px" clearable @focus="choosesale"/>
                   <my-emp :control.sync="control" @stockName="stockName"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('Advancemanage.postId')" style="width: 100%;">
-                  <el-input v-model="postId" style="margin-left: 18px" disabled/>
+                  <el-input v-model="postId" style="margin-left: 18px;width: 200px" disabled/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('Advancemanage.saleRepositoryId')" style="width: 100%;">
-                  <el-input v-model="saleRepositoryId" style="margin-left: 18px" disabled/>
+                  <el-input v-model="saleRepositoryId" style="margin-left: 18px;width: 200px" disabled/>
                 </el-form-item>
               </el-col>
             </el-row>
@@ -142,19 +143,26 @@ import MyApply from './components/MyApply'
 import MyPlan from './components/MyPlan'
 import MyDelivery from './components/MyDelivery'
 import MyAdvance from './components/MyAdvance'
+import MyCustomer from '../SaleOpportunity/components/MyCustomer'
 export default {
   name: 'AddAdvanceOrder',
-  components: { MyAdvance, MyDelivery, MyPlan, MyApply, MySupplier, MyDetail, MyEmp },
+  components: { MyCustomer, MyAdvance, MyDelivery, MyPlan, MyApply, MySupplier, MyDetail, MyEmp },
   data() {
     const validatePass = (rule, value, callback) => {
       console.log(value)
-      if (value === '') {
-        callback(new Error('请选择'))
+      if (this.personalForm.customerName === '' || this.personalForm.customerName === null || this.personalForm.customerName === undefined) {
+        callback(new Error('请选择客户'))
       } else {
         callback()
       }
     }
     return {
+      // 控制地址是否可以编辑
+      Isaddress: false,
+      // 控制电话是否可以编辑
+      Isphone: false,
+      // 控制客户
+      customercontrol: false,
       // 回显所属门店
       saleRepositoryId: '',
       // 回显职务
@@ -210,8 +218,8 @@ export default {
       },
       // 采购申请单规则数据
       personalrules: {
-        supplierId: [
-          { required: true, validator: validatePass, trigger: 'focus' }
+        customerName: [
+          { required: true, validator: validatePass, trigger: 'change' }
         ],
         inquiryPersonId: [
           { required: true, validator: validatePass, trigger: 'focus' }
@@ -241,6 +249,23 @@ export default {
     this.getways()
   },
   methods: {
+    // 选择客户focus
+    chooseCustomer() {
+      this.customercontrol = true
+    },
+    customerdata(val) {
+      console.log(val)
+      this.personalForm.address = val.address
+      this.personalForm.customerId = val.id
+      this.personalForm.customerName = val.customerName
+      this.personalForm.phone = val.phoneNumber
+      if (val.address !== null) {
+        this.Isaddress = true
+      }
+      if (val.phoneNumber !== null) {
+        this.Isphone = true
+      }
+    },
     // 控制业务员
     choosesale() {
       this.control = true

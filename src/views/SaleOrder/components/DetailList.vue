@@ -103,7 +103,6 @@
           border
           size="medium"
           style="width: 100%">
-          <el-editable-column type="selection" min-width="55" align="center"/>
           <el-editable-column label="序号" min-width="55" align="center" type="index"/>
           <el-editable-column prop="productCode" align="center" label="物品编号" min-width="150px"/>
           <el-editable-column prop="productName" align="center" label="物品名称" min-width="150px"/>
@@ -377,7 +376,7 @@ export default {
     },
     detaildata() {
       this.personalForm = this.detaildata
-      this.list2 = this.personalForm.stockPlanDetailVos
+      this.list2 = this.personalForm.saleOrderDetailVos
       this.list3 = this.personalForm.saleOrderCostDetails
       this.reviewList = this.personalForm.approvalUseVos
     }

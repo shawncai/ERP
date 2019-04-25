@@ -1,47 +1,47 @@
 <template>
-  <el-dialog :visible.sync="editVisible" :editcontrol="editcontrol" :editdata="editdata" :close-on-press-escape="false" :title="personalForm.returnNumber +'    修改'" width="1010px" class="edit" top="-10px" @close="$emit('update:editcontrol', false)">
-    <!--基本信息-->
-    <el-card class="box-card" style="margin-top: 63px" shadow="never">
-      <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">基本信息</h2>
-      <div class="container" style="margin-top: 37px">
-        <el-form ref="personalForm" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
-          <el-row>
+  <div class="ERP-container">
+    <div class="app-container" style="padding-right: 0">
+      <!--基本信息-->
+      <el-card class="box-card" shadow="never">
+        <h2 ref="geren" class="form-name">基本信息</h2>
+        <div class="container" style="margin-top: 37px">
+          <el-form ref="personalForm" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
             <el-row>
-              <el-col :span="12">
+              <el-col :span="6">
                 <el-form-item :label="$t('Advancemanage.title2')" style="width: 100%;">
                   <el-input v-model="personalForm.title" style="margin-left: 18px;width: 200px" clearable/>
                 </el-form-item>
               </el-col>
-              <el-col :span="12">
+              <el-col :span="6">
                 <el-form-item :label="$t('Advancemanage.sourceType')" prop="sourceType" style="width: 100%;">
                   <el-select v-model="personalForm.sourceType" style="margin-left: 18px;width: 200px">
                     <el-option value="1" label="预售订单"/>
                   </el-select>
                 </el-form-item>
               </el-col>
-              <el-col :span="12">
+              <el-col :span="6">
                 <el-form-item :label="$t('Advancemanage.sourceNumber')" style="width: 100%;">
                   <el-input v-model="personalForm.sourceNumber" style="margin-left: 18px;width: 200px" @focus="choosepresale"/>
                 </el-form-item>
                 <my-presale :presalecontrol.sync="presalecontrol" @presale="presale"/>
               </el-col>
-              <el-col :span="12">
+              <el-col :span="6">
                 <el-form-item :label="$t('Advancemanage.customerName')" prop="customerName" style="width: 100%;">
                   <el-input v-model="personalForm.customerName" style="margin-left: 18px;width: 200px" @focus="chooseCustomer"/>
                 </el-form-item>
                 <my-customer :customercontrol.sync="customercontrol" @customerdata="customerdata"/>
               </el-col>
-              <el-col :span="12">
+              <el-col :span="6">
                 <el-form-item :label="$t('Advancemanage.phone')" style="width: 100%;">
                   <el-input v-model="personalForm.phone" :disabled="Isphone" style="margin-left: 18px;width: 200px" clearable/>
                 </el-form-item>
               </el-col>
-              <el-col :span="12">
+              <el-col :span="6">
                 <el-form-item :label="$t('Advancemanage.address')" style="width: 100%;">
                   <el-input v-model="personalForm.address" :disabled="Isaddress" style="margin-left: 18px;width: 200px" clearable/>
                 </el-form-item>
               </el-col>
-              <el-col :span="12">
+              <el-col :span="6">
                 <el-form-item :label="$t('Advancemanage.settleMode')" style="width: 100%;">
                   <el-select v-model="personalForm.settleMode" clearable style="margin-left: 18px;width: 200px">
                     <el-option
@@ -52,124 +52,114 @@
                   </el-select>
                 </el-form-item>
               </el-col>
-              <el-col :span="12">
+              <el-col :span="6">
                 <el-form-item :label="$t('Advancemanage.settleMoney')" style="width: 100%;">
                   <el-input v-model="personalForm.settleMoney" style="margin-left: 18px;width: 200px" clearable/>
                 </el-form-item>
               </el-col>
-              <el-col :span="12">
+              <el-col :span="6">
                 <el-form-item :label="$t('Advancemanage.payMode')" style="width: 100%;">
                   <el-select v-model="personalForm.payMode" style="margin-left: 18px;width: 200px" @change="chooseType">
                     <el-option value="1" label="现金"/>
                   </el-select>
                 </el-form-item>
               </el-col>
-              <el-col :span="12">
+              <el-col :span="6">
                 <el-form-item :label="$t('Advancemanage.salePersonId')" style="width: 100%;">
                   <el-input v-model="salePersonId" style="margin-left: 18px;width: 200px" clearable @focus="choosesale"/>
                   <my-emp :control.sync="control" @stockName="stockName"/>
                 </el-form-item>
               </el-col>
-              <el-col :span="12">
+              <el-col :span="6">
                 <el-form-item :label="$t('Advancemanage.postId')" style="width: 100%;">
                   <el-input v-model="postId" style="margin-left: 18px;width: 200px" disabled/>
                 </el-form-item>
               </el-col>
-              <el-col :span="12">
+              <el-col :span="6">
                 <el-form-item :label="$t('Advancemanage.saleRepositoryId')" style="width: 100%;">
                   <el-input v-model="saleRepositoryId" style="margin-left: 18px;width: 200px" disabled/>
                 </el-form-item>
               </el-col>
-              <el-col :span="12">
+              <el-col :span="6">
                 <el-form-item :label="$t('Advancemanage.returnMoney')" style="width: 100%;">
                   <el-input v-model="personalForm.returnMoney" style="margin-left: 18px;width: 200px" clearable/>
                 </el-form-item>
               </el-col>
             </el-row>
-          </el-row>
-        </el-form>
+          </el-form>
+        </div>
+      </el-card>
+      <!--子件信息-->
+      <el-card class="box-card" style="margin-top: 15px" shadow="never">
+        <h2 ref="fuzhu" class="form-name" >订单明细</h2>
+        <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
+          <el-button @click="handleAddproduct">添加预售商品</el-button>
+          <my-advance :advancecontrol.sync="advancecontrol" @advance="advance"/>
+          <el-button type="danger" @click="$refs.editable.removeSelecteds()">删除</el-button>
+        </div>
+        <div class="container">
+          <el-editable
+            ref="editable"
+            :data.sync="list2"
+            :edit-config="{ showIcon: true, showStatus: true}"
+            :edit-rules="validRules"
+            class="click-table1"
+            stripe
+            border
+            size="medium"
+            style="width: 100%">
+            <el-editable-column type="selection" min-width="55" align="center"/>
+            <el-editable-column label="序号" min-width="55" align="center" type="index"/>
+            <el-editable-column prop="category" align="center" label="商品分类" min-width="150px"/>
+            <el-editable-column prop="productCode" align="center" label="商品编号" min-width="150px"/>
+            <el-editable-column prop="productName" align="center" label="商品名称" min-width="150px"/>
+            <el-editable-column prop="unit" align="center" label="基本单位" min-width="150px"/>
+            <el-editable-column prop="productType" align="center" label="规格" min-width="150px"/>
+            <el-editable-column prop="unit" align="center" label="规格型号" min-width="150px"/>
+            <el-editable-column prop="color" align="center" label="颜色" min-width="150px"/>
+            <el-editable-column prop="kpiGrade" align="center" label="绩效分" min-width="150px"/>
+            <el-editable-column prop="point" align="center" label="商品积分" min-width="150px"/>
+            <el-editable-column prop="quantity" align="center" label="数量" min-width="170px"/>
+            <el-editable-column prop="salePrice" align="center" label="零售价" min-width="170px"/>
+            <el-editable-column prop="costPrice" align="center" label="成本价" min-width="170px"/>
+            <el-editable-column prop="includeTaxMoney" align="center" label="含税金额" min-width="170px"/>
+            <el-editable-column prop="taxRate" align="center" label="税率" min-width="170px"/>
+            <el-editable-column prop="taxMoney" align="center" label="税额" min-width="170px"/>
+            <el-editable-column prop="money" align="center" label="金额" min-width="170px"/>
+            <el-editable-column prop="includeTaxCostMoney" align="center" label="含税成本金额" min-width="170px"/>
+            <el-editable-column prop="carCode" align="center" label="车架编码" min-width="170px"/>
+            <el-editable-column prop="batteryCode" align="center" label="电池编码" min-width="170px"/>
+            <el-editable-column prop="motorCode" align="center" label="电机编码" min-width="170px"/>
+            <el-editable-column prop="discount" align="center" label="折扣率" min-width="170px"/>
+            <el-editable-column prop="discountMoney" align="center" label="折扣额" min-width="170px"/>
+          </el-editable>
+        </div>
+      </el-card>
+      <!--操作-->
+      <div class="buttons" style="margin-top: 20px">
+        <el-button type="primary" style="background:#3696fd;border-color:#3696fd;width: 98px" @click="handlesave()">保存</el-button>
+        <el-button type="danger" @click="handlecancel()">取消</el-button>
       </div>
-    </el-card>
-    <el-card class="box-card" style="margin-top: 15px" shadow="never">
-      <h2 ref="fuzhu" class="form-name" >订单明细</h2>
-      <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
-        <el-button @click="handleAddproduct">添加预售商品</el-button>
-        <my-advance :advancecontrol.sync="advancecontrol" @advance="advance"/>
-        <el-button type="danger" @click="$refs.editable.removeSelecteds()">删除</el-button>
-      </div>
-      <div class="container">
-        <el-editable
-          ref="editable"
-          :data.sync="list2"
-          :edit-config="{ showIcon: true, showStatus: true}"
-          :edit-rules="validRules"
-          class="click-table1"
-          stripe
-          border
-          size="medium"
-          style="width: 100%">
-          <el-editable-column type="selection" min-width="55" align="center"/>
-          <el-editable-column label="序号" min-width="55" align="center" type="index"/>
-          <el-editable-column prop="category" align="center" label="商品分类" min-width="150px"/>
-          <el-editable-column prop="productCode" align="center" label="商品编号" min-width="150px"/>
-          <el-editable-column prop="productName" align="center" label="商品名称" min-width="150px"/>
-          <el-editable-column prop="unit" align="center" label="基本单位" min-width="150px"/>
-          <el-editable-column prop="productType" align="center" label="规格" min-width="150px"/>
-          <el-editable-column prop="unit" align="center" label="规格型号" min-width="150px"/>
-          <el-editable-column prop="color" align="center" label="颜色" min-width="150px"/>
-          <el-editable-column prop="kpiGrade" align="center" label="绩效分" min-width="150px"/>
-          <el-editable-column prop="point" align="center" label="商品积分" min-width="150px"/>
-          <el-editable-column prop="quantity" align="center" label="数量" min-width="170px"/>
-          <el-editable-column prop="salePrice" align="center" label="零售价" min-width="170px"/>
-          <el-editable-column prop="costPrice" align="center" label="成本价" min-width="170px"/>
-          <el-editable-column prop="includeTaxMoney" align="center" label="含税金额" min-width="170px"/>
-          <el-editable-column prop="taxRate" align="center" label="税率" min-width="170px"/>
-          <el-editable-column prop="taxMoney" align="center" label="税额" min-width="170px"/>
-          <el-editable-column prop="money" align="center" label="金额" min-width="170px"/>
-          <el-editable-column prop="includeTaxCostMoney" align="center" label="含税成本金额" min-width="170px"/>
-          <el-editable-column prop="carCode" align="center" label="车架编码" min-width="170px"/>
-          <el-editable-column prop="batteryCode" align="center" label="电池编码" min-width="170px"/>
-          <el-editable-column prop="motorCode" align="center" label="电机编码" min-width="170px"/>
-          <el-editable-column prop="discount" align="center" label="折扣率" min-width="170px"/>
-          <el-editable-column prop="discountMoney" align="center" label="折扣额" min-width="170px"/>
-        </el-editable>
-      </div>
-    </el-card>
-    <el-card class="box-card" style="position: fixed;width: 1010px;z-index: 100;height: 74px;bottom: 0;" shadow="never">
-      <div class="buttons" style="float: right;padding-bottom: 10px">
-        <el-button @click="handlecancel()">取消</el-button>
-        <el-button type="primary" @click="handleEditok()">保存</el-button>
-      </div>
-    </el-card>
-  </el-dialog>
+    </div>
+  </div>
 </template>
 
 <script>
-import { updateadvancereturn } from '@/api/Advancemanage'
+import { addadvancereturn } from '@/api/Advancemanage'
 import { searchSaleCategory } from '@/api/SaleCategory'
 import { searchCategory } from '@/api/Supplier'
-import { getlocation, locationlist } from '@/api/public'
-import MyEmp from './MyEmp'
-import MyDetail from './MyDetail'
-import MySupplier from './MySupplier'
-import MyApply from './MyApply'
-import MyPlan from './MyPlan'
-import MyDelivery from './MyDelivery'
-import MyAdvance from './MyAdvance'
-import MyCustomer from './MyCustomer'
-import MyPresale from './MyPresale'
+import MyEmp from './components/MyEmp'
+import MyDetail from './components/MyDetail'
+import MySupplier from './components/MySupplier'
+import MyApply from './components/MyApply'
+import MyPlan from './components/MyPlan'
+import MyDelivery from './components/MyDelivery'
+import MyAdvance from './components/MyAdvance'
+import MyCustomer from '../SaleOpportunity/components/MyCustomer'
+import MyPresale from './components/MyPresale'
 export default {
+  name: 'AddPrepReturn',
   components: { MyPresale, MyCustomer, MyAdvance, MyDelivery, MyPlan, MyApply, MySupplier, MyDetail, MyEmp },
-  props: {
-    editcontrol: {
-      type: Boolean,
-      default: false
-    },
-    editdata: {
-      type: Object,
-      default: null
-    }
-  },
   data() {
     const validatePass = (rule, value, callback) => {
       console.log(value)
@@ -180,19 +170,6 @@ export default {
       }
     }
     return {
-      // 选择的数据
-      choosedata: [],
-      // 弹窗组件的控制
-      editVisible: this.editcontrol,
-      // 修改信息数据
-      personalForm: this.editdata,
-      locationlistparms: {
-        pageNum: 1,
-        pageSize: 1999,
-        repositoryId: ''
-      },
-      // 货位数据
-      locationlist: [],
       // 控制预售单
       presalecontrol: false,
       // 结算方式数据
@@ -237,6 +214,8 @@ export default {
       supplierId: '',
       // 控制供应商
       empcontrol: false,
+      // 选择的数据
+      choosedata: [],
       // 部门数据
       depts: [],
       // 采购员回显
@@ -252,6 +231,14 @@ export default {
       },
       // 控制商品列表窗口
       advancecontrol: false,
+      // 采购申请单信息数据
+      personalForm: {
+        createPersonId: 3,
+        countryId: 1,
+        repositoryId: 438,
+        regionId: 2,
+        isVat: 1
+      },
       // 采购申请单规则数据
       personalrules: {
         customerName: [
@@ -280,55 +267,11 @@ export default {
       }
     }
   },
-  watch: {
-    editcontrol() {
-      this.editVisible = this.editcontrol
-    },
-    editdata() {
-      this.personalForm = this.editdata
-      this.list2 = this.personalForm.advanceReturnDetailVos
-      this.salePersonId = this.personalForm.salePersonName
-      this.postId = this.personalForm.postName
-      this.saleRepositoryId = this.personalForm.saleRepositoryName
-    },
-    personalForm: {
-      handler: (val, olVal) => {
-        console.log('我变化了', val, olVal)
-      },
-      deep: true
-    }
-  },
   created() {
     this.getTypes()
     this.getways()
   },
   methods: {
-    updatebatch(event, scope) {
-      if (event === true) {
-        console.log(this.personalForm.saleRepositoryId)
-        if (this.personalForm.saleRepositoryId === undefined || this.personalForm.saleRepositoryId === '') {
-          this.$notify.error({
-            title: '错误',
-            message: '请先选择仓库',
-            offset: 100
-          })
-          return false
-        }
-        getlocation(this.personalForm.saleRepositoryId, scope.row).then(res => {
-          if (res.data.ret === 200) {
-            if (res.data.data.content.length !== 0) {
-              this.locationlist = res.data.data.content
-            } else if (res.data.data.content.length === 0) {
-              locationlist(this.personalForm.saleRepositoryId).then(res => {
-                if (res.data.ret === 200) {
-                  this.locationlist = res.data.data.content.list
-                }
-              })
-            }
-          }
-        })
-      }
-    },
     // 控制源单
     choosepresale() {
       this.presalecontrol = true
@@ -538,14 +481,8 @@ export default {
       this.ourContractorId = null
       this.acceptPersonId = null
     },
-    // 修改和取消按钮
-    // 修改按钮
-    handleEditok() {
-      this.personalForm.repositoryId = 438
-      this.personalForm.regionId = 2
-      this.personalForm.createPersonId = 3
-      this.personalForm.countryId = 1
-      this.personalForm.modifyPersonId = 3
+    // 保存操作
+    handlesave() {
       const EnterDetail = this.$refs.editable.getRecords()
       if (EnterDetail.length === 0) {
         this.$notify.error({
@@ -564,8 +501,17 @@ export default {
         if (elem.productName === null || elem.productName === '' || elem.productName === undefined) {
           delete elem.productName
         }
-        if (elem.type === null || elem.type === '' || elem.type === undefined) {
-          delete elem.type
+        if (elem.categoryId === null || elem.categoryId === '' || elem.categoryId === undefined) {
+          delete elem.categoryId
+        }
+        if (elem.unit === null || elem.unit === '' || elem.unit === undefined) {
+          delete elem.unit
+        }
+        if (elem.typeId === null || elem.typeId === '' || elem.typeId === undefined) {
+          delete elem.typeId
+        }
+        if (elem.color === null || elem.color === '' || elem.color === undefined) {
+          delete elem.color
         }
         if (elem.kpiGrade === null || elem.kpiGrade === '' || elem.kpiGrade === undefined) {
           delete elem.kpiGrade
@@ -585,8 +531,38 @@ export default {
         if (elem.quantity === null || elem.quantity === '' || elem.quantity === undefined) {
           delete elem.quantity
         }
+        if (elem.includeTaxMoney === null || elem.includeTaxMoney === '' || elem.includeTaxMoney === undefined) {
+          delete elem.includeTaxMoney
+        }
+        if (elem.taxRate === null || elem.taxRate === '' || elem.taxRate === undefined) {
+          delete elem.taxRate
+        }
+        if (elem.taxMoney === null || elem.taxMoney === '' || elem.taxMoney === undefined) {
+          delete elem.taxMoney
+        }
+        if (elem.money === null || elem.money === '' || elem.money === undefined) {
+          delete elem.money
+        }
         if (elem.includeTaxCostMoney === null || elem.includeTaxCostMoney === '' || elem.includeTaxCostMoney === undefined) {
           delete elem.includeTaxCostMoney
+        }
+        if (elem.discount === null || elem.discount === '' || elem.discount === undefined) {
+          delete elem.discount
+        }
+        if (elem.discountMoney === null || elem.discountMoney === '' || elem.discountMoney === undefined) {
+          delete elem.discountMoney
+        }
+        if (elem.quantity === null || elem.quantity === '' || elem.quantity === undefined) {
+          delete elem.quantity
+        }
+        if (elem.carCode === null || elem.carCode === '' || elem.carCode === undefined) {
+          delete elem.carCode
+        }
+        if (elem.motorCode === null || elem.motorCode === '' || elem.motorCode === undefined) {
+          delete elem.motorCode
+        }
+        if (elem.batteryCode === null || elem.batteryCode === '' || elem.batteryCode === undefined) {
+          delete elem.batteryCode
         }
         return elem
       })
@@ -598,53 +574,64 @@ export default {
         }
       }
       const parms = JSON.stringify(Data)
-      updateadvancereturn(parms, parms2).then(res => {
-        if (res.data.ret === 200) {
-          this.$notify({
-            title: '操作成功',
-            message: '操作成功',
-            type: 'success',
-            duration: 1000,
-            offset: 100
+      this.$refs.personalForm.validate((valid) => {
+        if (valid) {
+          addadvancereturn(parms, parms2, this.personalForm).then(res => {
+            console.log(res)
+            if (res.data.ret === 200) {
+              this.$notify({
+                title: '成功',
+                message: '保存成功',
+                type: 'success',
+                offset: 100
+              })
+              this.restAllForm()
+              this.$refs.editable.clear()
+              this.$refs.personalForm.clearValidate()
+              this.$refs.personalForm.resetFields()
+            } else {
+              this.$notify.error({
+                title: '错误',
+                message: res.data.msg,
+                offset: 100
+              })
+            }
           })
-          this.$emit('rest', true)
-          this.$refs.personalForm.clearValidate()
-          this.$refs.personalForm.resetFields()
-          this.editVisible = false
         } else {
           this.$notify.error({
             title: '错误',
-            message: '出错了',
+            message: '信息未填完整',
             offset: 100
           })
+          return false
         }
       })
     },
+    // 取消操作
     handlecancel() {
-      this.$refs.personalForm.clearValidate()
-      this.$refs.personalForm.resetFields()
-      this.editVisible = false
+      this.$router.go(-1)
+      const view = { path: '/StockArrival/AddStockArrival', name: 'AddStockArrival', fullPath: '/StockArrival/AddStockArrival', title: 'AddStockArrival' }
+      this.$store.dispatch('delView', view).then(({ visitedViews }) => {
+      })
     }
-    // 修改操作结束 -------------------------------------------------
   }
 }
 </script>
 
-<style scoped>
-  .container >>> .el-form-item.is-required:not(.is-no-asterisk)>.el-form-item__label:before{
-    margin-left: -10px;
-  }
-  .container >>> .el-form-item__label{
-    text-align: left;
-  }
-  .container >>> .el-form-item__label{
-    color: #60626696;
-  }
-  .edit >>> .el-dialog {
-    background:#f1f1f1 ;
-    height: 900px;
-  }
-  .el-col-12{
-    width: 49%;
+<style rel="stylesheet/scss" lang="scss" scoped>
+  .ERP-container{
+    margin-right: 0;
+    .form-name{
+      font-size: 18px;
+      color: #373e4f;
+      margin-bottom: -20px;
+      margin-top: 20px;
+    }
+    .container{
+      margin-top: 40px;
+    }
+    .el-button+.el-button{
+      width: 98px;
+    }
   }
 </style>

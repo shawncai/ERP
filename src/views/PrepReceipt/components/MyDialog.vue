@@ -7,40 +7,32 @@
         <el-form ref="personalForm" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
           <el-row>
             <el-col :span="12">
-              <el-form-item :label="$t('Recycling.title')" style="width: 100%;">
+              <el-form-item :label="$t('PrepReceipt.title')" style="width: 100%;">
                 <el-input v-model="personalForm.title" style="margin-left: 18px;width: 200px" clearable/>
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item :label="$t('Recycling.productCode')" prop="productCode" style="width: 100%;">
-                <el-input v-model="personalForm.productCode" style="margin-left: 18px;width: 200px" @focus="handlemater"/>
-              </el-form-item>
-            </el-col>
-            <my-mater :matercontrol.sync="matercontrol" @mater="mater"/>
-            <el-col :span="12">
-              <el-form-item :label="$t('Recycling.productType')" style="width: 100%;">
-                <el-input v-model="productType" style="margin-left: 18px;width: 200px" disabled/>
+              <el-form-item :label="$t('PrepReceipt.sourceType')" prop="sourceType" style="width: 100%;">
+                <el-select v-model="personalForm.sourceType" style="margin-left: 18px;width: 200px">
+                  <el-option value="1" label="销售订单"/>
+                </el-select>
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item :label="$t('Recycling.color')" style="width: 100%;">
-                <el-input v-model="personalForm.color" style="margin-left: 18px;width: 200px" disabled/>
+              <el-form-item :label="$t('PrepReceipt.sourceNumber')" style="width: 100%;">
+                <el-input v-model="personalForm.sourceNumber" style="margin-left: 18px;width: 200px" @focus="chooseOrder"/>
+              </el-form-item>
+              <my-order :ordercontrol.sync="ordercontrol" @order="order"/>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('PrepReceipt.receiptMoney')" prop="receiptMoney" style="width: 100%;">
+                <el-input v-model="personalForm.receiptMoney" style="margin-left: 18px;width: 200px"/>
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item :label="$t('Recycling.productCategory')" style="width: 100%;">
-                <el-input v-model="productCategory" style="margin-left: 18px;width: 200px" disabled/>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('Recycling.recyclingMoney')" style="width: 100%;">
-                <el-input v-model="personalForm.recyclingMoney" style="margin-left: 18px;width: 200px" clearable/>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('Recycling.recyclingDate')" prop="recyclingDate" style="width: 100%;">
+              <el-form-item :label="$t('PrepReceipt.receiptDate')" prop="receiptDate" style="width: 100%;">
                 <el-date-picker
-                  v-model="personalForm.recyclingDate"
+                  v-model="personalForm.receiptDate"
                   :picker-options="pickerOptions1"
                   type="date"
                   value-format="yyyy-MM-dd"
@@ -48,79 +40,52 @@
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item :label="$t('Recycling.recyclingPersonId')" prop="recyclingPersonId" style="width: 100%;">
-                <el-input v-model="recyclingPersonId" style="margin-left: 18px;width: 200px" @focus="handlechooseStock"/>
+              <el-form-item :label="$t('PrepReceipt.receiptPersonId')" prop="receiptPersonId" style="width: 100%;">
+                <el-input v-model="receiptPersonId" style="margin-left: 18px;width: 200px" @focus="handlechooseStock"/>
                 <my-emp :control.sync="stockControl" @stockName="stockName"/>
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item :label="$t('Recycling.recyclingRepositoryId')" style="width: 100%;">
-                <el-input v-model="recyclingRepositoryId" style="margin-left: 18px;width: 200px" @focus="handlechooseRep"/>
+              <el-form-item :label="$t('PrepReceipt.receiptAccount')" prop="receiptAccount" style="width: 100%;">
+                <el-input v-model="personalForm.receiptAccount" style="margin-left: 18px;width: 200px" clearable/>
               </el-form-item>
-              <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
             </el-col>
             <el-col :span="12">
-              <el-form-item :label="$t('Recycling.locationId')" style="width: 100%;">
-                <el-select v-model="personalForm.locationId" style="margin-left: 18px;width: 200px" @visible-change="changelocation($event)">
+              <el-form-item :label="$t('PrepReceipt.accountType')" prop="accountType" style="width: 100%;">
+                <el-select v-model="personalForm.accountType" style="margin-left: 18px;width: 200px" >
+                  <el-option value="1" label="类型1"/>
+                  <el-option value="2" label="类型2"/>
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('PrepReceipt.customerName')" prop="customerName" style="width: 100%;">
+                <el-input v-model="personalForm.customerName" style="margin-left: 18px;width: 200px" @focus="chooseCustomer"/>
+              </el-form-item>
+              <my-agent :agentcontrol.sync="agentcontrol" @agentdata="agentdata"/>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('PrepReceipt.closeType')" style="width: 100%;">
+                <el-select v-model="personalForm.closeType" :disabled="IscloseT" clearable style="margin-left: 18px;width: 200px">
                   <el-option
-                    v-for="(item, index) in locationlist"
-                    :key="index"
+                    v-for="(item, index) in colseTypes"
                     :value="item.id"
-                    :label="item.locationCode"/>
+                    :key="index"
+                    :label="item.categoryName"/>
                 </el-select>
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item :label="$t('Recycling.batch')" style="width: 100%;">
-                <el-input v-model="personalForm.batch" style="margin-left: 18px;width: 200px" clearable/>
+              <el-form-item :label="$t('PrepReceipt.currency')" style="width: 100%;">
+                <el-select v-model="personalForm.currency" :disabled="Iscurrency" style="margin-left: 18px;width: 200px">
+                  <el-option value="1" label="RMB"/>
+                  <el-option value="2" label="USD"/>
+                </el-select>
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item :label="$t('Recycling.remark')" style="width: 100%;">
+              <el-form-item :label="$t('PrepReceipt.remark')" style="width: 100%;">
                 <el-input v-model="personalForm.remark" style="margin-left: 18px;width: 200px" clearable/>
-              </el-form-item>
-            </el-col>
-          </el-row>
-        </el-form>
-      </div>
-    </el-card>
-    <el-card class="box-card" shadow="never" style="margin-top: 10px">
-      <h2 ref="geren" class="form-name">客户信息</h2>
-      <div class="container" style="margin-top: 37px">
-        <el-form ref="personalForm2" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
-          <el-row>
-            <el-col :span="12">
-              <el-form-item :label="$t('Recycling.customerId')" prop="customerId" style="width: 100%;">
-                <el-input v-model="customerId" style="margin-left: 18px;width: 200px" @focus="chooseCustomer"/>
-              </el-form-item>
-              <my-customer :customercontrol.sync="customercontrol" @customerdata="customerdata"/>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('Recycling.sexId')" style="width: 100%;">
-                <el-select v-model="personalForm.sexId" style="margin-left: 18px;width: 200px" disabled>
-                  <el-option value="1" label="男"/>
-                  <el-option value="2" label="女"/>
-                </el-select>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('Recycling.customerPhone')" style="width: 100%;">
-                <el-input v-model="personalForm.customerPhone" style="margin-left: 18px;width: 200px" disabled/>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('Recycling.provinceId')" style="width: 100%;">
-                <el-input v-model="provinceId" style="margin-left: 18px;width: 200px" disabled/>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('Recycling.cityId')" style="width: 100%;">
-                <el-input v-model="cityId" style="margin-left: 18px;width: 200px" disabled/>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('Recycling.detailAddress')" style="width: 100%;">
-                <el-input v-model="personalForm.detailAddress" style="margin-left: 18px;width: 200px" disabled/>
               </el-form-item>
             </el-col>
           </el-row>
@@ -138,7 +103,7 @@
 </template>
 
 <script>
-import { updaterecycling } from '@/api/Recycling'
+import { updateprepReceipt } from '@/api/PrepReceipt'
 import { getlocation, locationlist } from '@/api/public'
 import { searchSaleCategory } from '@/api/SaleCategory'
 import { getdeptlist } from '@/api/BasicSettings'
@@ -146,8 +111,10 @@ import MyEmp from './MyEmp'
 import MyRepository from './MyRepository'
 import MyMater from './MyMater'
 import MyCustomer from './MyCustomer'
+import MyAgent from './MyAgent'
+import MyOrder from './MyOrder'
 export default {
-  components: { MyCustomer, MyMater, MyRepository, MyEmp },
+  components: { MyOrder, MyAgent, MyCustomer, MyMater, MyRepository, MyEmp },
   props: {
     editcontrol: {
       type: Boolean,
@@ -160,8 +127,15 @@ export default {
   },
   data() {
     const validatePass2 = (rule, value, callback) => {
-      if (this.recyclingPersonId === undefined || this.recyclingPersonId === null || this.recyclingPersonId === '') {
-        callback(new Error('请选择回收人'))
+      if (this.receiptPersonId === undefined || this.receiptPersonId === null || this.receiptPersonId === '') {
+        callback(new Error('请选择收款人'))
+      } else {
+        callback()
+      }
+    }
+    const validatePass3 = (rule, value, callback) => {
+      if (this.personalForm.customerName === undefined || this.personalForm.customerName === null || this.personalForm.customerName === '') {
+        callback(new Error('请选择客户'))
       } else {
         callback()
       }
@@ -178,6 +152,12 @@ export default {
       editVisible: this.editcontrol,
       // 修改信息数据
       personalForm: this.editdata,
+      // 控制币种
+      Iscurrency: false,
+      // 控制结算方式
+      IscloseT: false,
+      // 控制销售订单
+      ordercontrol: false,
       // 回显证件类型
       certificateType: '',
       // 回显市
@@ -189,7 +169,7 @@ export default {
       // 回显客户
       customerId: '',
       // 控制客户
-      customercontrol: false,
+      agentcontrol: false,
       // 货位数据
       locationlist: [],
       // 回显规格
@@ -207,23 +187,38 @@ export default {
         pagesize: 99999
       },
       // 门店回显
-      recyclingRepositoryId: '',
+      PrepReceiptRepositoryId: '',
       // 控制门店
       repositorycontrol: false,
       // 部门数据
       depts: [],
-      // 回收人回显
-      recyclingPersonId: '',
-      // 控制回收人
+      // 收款人回显
+      receiptPersonId: '',
+      // 控制收款人
       stockControl: false,
       // 收入单信息数据
       // 收入单规则数据
       personalrules: {
-        recyclingPersonId: [
+        receiptPersonId: [
           { required: true, validator: validatePass2, trigger: 'change' }
         ],
-        recyclingDate: [
-          { required: true, message: '请选择回收时间', trigger: 'change' }
+        customerName: [
+          { required: true, validator: validatePass3, trigger: 'change' }
+        ],
+        receiptDate: [
+          { required: true, message: '请选择收款时间', trigger: 'change' }
+        ],
+        sourceType: [
+          { required: true, message: '请选择源单类型', trigger: 'change' }
+        ],
+        receiptMoney: [
+          { required: true, message: '请输入本次预收金额', trigger: 'blur' }
+        ],
+        receiptAccount: [
+          { required: true, message: '请输入收款账户', trigger: 'blur' }
+        ],
+        accountType: [
+          { required: true, message: '请选择账户类型', trigger: 'change' }
         ]
       },
       // 收入单明细数据
@@ -239,13 +234,7 @@ export default {
     },
     editdata() {
       this.personalForm = this.editdata
-      this.productType = this.personalForm.productTypeName
-      this.productCategory = this.personalForm.productCategoryName
-      this.recyclingPersonId = this.personalForm.recyclingPersonName
-      this.recyclingRepositoryId = this.personalForm.recyclingRepositoryName
-      this.customerId = this.personalForm.customerName
-      this.provinceId = this.personalForm.provinceName
-      this.cityId = this.personalForm.cityName
+      this.receiptPersonId = this.personalForm.receiptPersonName
     }
   },
   created() {
@@ -253,23 +242,30 @@ export default {
     this.getTypes()
   },
   methods: {
+    // 选择源单
+    chooseOrder() {
+      this.ordercontrol = true
+    },
+    order(val) {
+      console.log(val)
+      this.personalForm.sourceNumber = val.number
+      if (val.currency !== null && val.currency !== '' || val.currency !== undefined) {
+        this.personalForm.currency = String(val.currency)
+        this.Iscurrency = true
+      }
+      if (val.closeType !== null && val.closeType !== '' && val.closeType !== undefined) {
+        this.personalForm.closeType = val.closeType
+        this.IscloseT = true
+      }
+    },
     // 选择客户focus
     chooseCustomer() {
-      this.customercontrol = true
+      this.agentcontrol = true
     },
-    customerdata(val) {
+    agentdata(val) {
       console.log(val)
-      this.personalForm.customerId = val.id
-      this.customerId = val.customerName
-      this.personalForm.customerPhone = val.phoneNumber
-      if (val.gender !== null && val.gender !== undefined && val.gender !== '') {
-        this.personalForm.sexId = String(val.gender)
-      }
-      this.personalForm.provinceId = val.provinceId
-      this.provinceId = val.provinceName
-      this.personalForm.cityId = val.cityId
-      this.cityId = val.cityName
-      this.personalForm.detailAddress = val.address
+      this.personalForm.customerName = val.agentName
+      this.personalForm.agentId = val.id
     },
     // 仓库列表focus事件触发
     handlechooseRep() {
@@ -277,14 +273,14 @@ export default {
     },
     repositoryname(val) {
       console.log(val)
-      this.recyclingRepositoryId = val.repositoryName
-      this.personalForm.recyclingRepositoryId = val.id
+      this.PrepReceiptRepositoryId = val.repositoryName
+      this.personalForm.PrepReceiptRepositoryId = val.id
     },
     // 批次change事件
     changelocation(event) {
       console.log(event)
       if (event === true) {
-        if (this.personalForm.recyclingRepositoryId === null || this.personalForm.recyclingRepositoryId === '' || this.personalForm.recyclingRepositoryId === undefined) {
+        if (this.personalForm.PrepReceiptRepositoryId === null || this.personalForm.PrepReceiptRepositoryId === '' || this.personalForm.PrepReceiptRepositoryId === undefined) {
           this.$notify.error({
             title: '错误',
             message: '请先选择门店',
@@ -300,12 +296,12 @@ export default {
           })
           return false
         }
-        getlocation(this.personalForm.recyclingRepositoryId, this.personalForm).then(res => {
+        getlocation(this.personalForm.PrepReceiptRepositoryId, this.personalForm).then(res => {
           if (res.data.ret === 200) {
             if (res.data.data.content.length !== 0) {
               this.locationlist = res.data.data.content
             } else if (res.data.data.content.length === 0) {
-              locationlist(this.personalForm.recyclingRepositoryId).then(res => {
+              locationlist(this.personalForm.PrepReceiptRepositoryId).then(res => {
                 if (res.data.ret === 200) {
                   this.locationlist = res.data.data.content.list
                 }
@@ -347,40 +343,35 @@ export default {
       })
     },
     getdatatime() { // 默认显示今天
-      this.personalForm.recyclingDate = new Date()
+      this.personalForm.receiptDate = new Date()
     },
     // 重置一下下拉
     change() {
       this.$forceUpdate()
     },
-    // 回收人focus事件
+    // 收款人focus事件
     handlechooseStock() {
       this.stockControl = true
     },
-    // 回收人回显
+    // 收款人回显
     stockName(val) {
       console.log(val)
-      this.recyclingRepositoryId = val.repositoryName
-      this.personalForm.recyclingRepositoryId = val.repositoryId
-      this.recyclingPersonId = val.personName
-      this.personalForm.recyclingPersonId = val.id
+      this.PrepReceiptRepositoryId = val.repositoryName
+      this.personalForm.PrepReceiptRepositoryId = val.repositoryId
+      this.receiptPersonId = val.personName
+      this.personalForm.receiptPersonId = val.id
     },
     // 清空记录
     restAllForm() {
       this.personalForm = {
         createPersonId: 3,
         countryId: 1,
+        currency: '1',
         repositoryId: 438,
         regionId: 2,
-        recyclingDate: null
+        receiptDate: null
       }
-      this.recyclingPersonId = null
-      this.recyclingRepositoryId = null
-      this.productCategory = null
-      this.productType = null
-      this.customerId = null
-      this.provinceId = null
-      this.cityId = null
+      this.receiptPersonId = null
     },
     // 修改和取消按钮
     // 修改按钮
@@ -399,7 +390,7 @@ export default {
       const parms = JSON.stringify(Data)
       this.$refs.personalForm.validate((valid) => {
         if (valid) {
-          updaterecycling(parms).then(res => {
+          updateprepReceipt(parms).then(res => {
             if (res.data.ret === 200) {
               this.$notify({
                 title: '操作成功',
@@ -412,8 +403,6 @@ export default {
               this.restAllForm()
               this.$refs.personalForm.clearValidate()
               this.$refs.personalForm.resetFields()
-              this.$refs.personalForm2.clearValidate()
-              this.$refs.personalForm2.resetFields()
               this.editVisible = false
             } else {
               this.$notify.error({
@@ -437,8 +426,6 @@ export default {
       this.restAllForm()
       this.$refs.personalForm.clearValidate()
       this.$refs.personalForm.resetFields()
-      this.$refs.personalForm2.clearValidate()
-      this.$refs.personalForm2.resetFields()
       this.editVisible = false
     }
     // 修改操作结束 -------------------------------------------------

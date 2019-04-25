@@ -1652,6 +1652,12 @@ export const asyncRouterMap = [
         component: () => import('@/views/PrepReceipt/AddPrepReceipt'),
         name: 'AddPrepReceipt',
         meta: { title: 'AddPrepReceipt', noCache: false }
+      },
+      {
+        path: 'PrepReceiptList',
+        component: () => import('@/views/PrepReceipt/PrepReceiptList'),
+        name: 'PrepReceiptList',
+        meta: { title: 'PrepReceiptList', noCache: true }
       }
     ]
   },
@@ -1690,6 +1696,18 @@ export const asyncRouterMap = [
         component: () => import('@/views/Advancemanage/AdvanceOrderList'),
         name: 'AdvanceOrderList',
         meta: { title: 'AdvanceOrderList', noCache: true }
+      },
+      {
+        path: 'AddPrepReturn',
+        component: () => import('@/views/Advancemanage/AddPrepReturn'),
+        name: 'AddPrepReturn',
+        meta: { title: 'AddPrepReturn', noCache: false }
+      },
+      {
+        path: 'PrepReturnList',
+        component: () => import('@/views/Advancemanage/PrepReturnList'),
+        name: 'PrepReturnList',
+        meta: { title: 'PrepReturnList', noCache: true }
       }
     ]
   },

@@ -1,23 +1,47 @@
 <template>
-  <el-dialog :visible.sync="employeeVisible" :advancecontrol="advancecontrol" :close-on-press-escape="false" top="10px" title="选择预售商品" append-to-body width="1100px" @close="$emit('update:advancecontrol', false)">
+  <el-dialog :visible.sync="employeeVisible" :presalecontrol="presalecontrol" :close-on-press-escape="false" top="10px" title="选择预售单" append-to-body width="1100px" @close="$emit('update:presalecontrol', false)">
     <el-card class="box-card" style="margin-top: 15px;height: 60px;padding-left:0 " shadow="never">
       <el-row>
         <el-form ref="getemplist" :model="getemplist" style="margin-top: -9px">
           <el-col :span="4">
             <el-form-item>
-              <el-input v-model="getemplist.productName" :placeholder="$t('Advancemanage.productName')" clearable @keyup.enter.native="handleFilter"/>
+              <el-input v-model="getemplist.title" :placeholder="$t('Advancemanage.title')" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
           <el-col :span="3" style="margin-left: 5px">
             <el-form-item>
-              <el-input v-model="getemplist.productCode" placeholder="物品编号" clearable @keyup.enter.native="handleFilter"/>
+              <el-input v-model="getemplist.number" placeholder="预售单编号" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
           <el-col :span="3" style="margin-left: 20px">
-            <el-select v-model="getemplist.advanceMode" :value="getemplist.advanceMode" placeholder="预售模式" clearable>
-              <el-option value="1" label="一口价"/>
-              <el-option value="2" label="阶梯价"/>
-            </el-select>
+            <el-form-item>
+              <el-input v-model="salePersonId" :placeholder="$t('Advancemanage.salePersonId')" clearable @keyup.enter.native="handleFilter" @focus="handlechooseStock"/>
+            </el-form-item>
+            <my-emp :control.sync="stockControl" @stockName="stockName"/>
+          </el-col>
+          <!--更多搜索条件-->
+          <el-col :span="3" style="margin-left: 30px">
+            <el-popover
+              v-model="visible2"
+              placement="bottom"
+              width="500"
+              trigger="manual">
+              <el-select v-model="getemplist.receiptStat" :value="getemplist.receiptStat" placeholder="单据状态" clearable style="width: 40%;float: left;margin-left: 20px;margin-top: 20px">
+                <el-option value="1" label="制单"/>
+                <el-option value="2" label="执行"/>
+                <el-option value="3" label="结单"/>
+              </el-select>
+              <el-select v-model="getemplist.judgeStat" :value="getemplist.judgeStat" placeholder="审批状态" clearable style="width: 40%;float: right;margin-right: 20px;margin-top: 20px">
+                <el-option value="0" label="未审核"/>
+                <el-option value="1" label="审核中"/>
+                <el-option value="2" label="审核通过"/>
+                <el-option value="3" label="审核不通过"/>
+              </el-select>
+              <div class="seachbutton" style="width: 100%;float: right;margin-top: 20px">
+                <el-button v-waves class="filter-item" type="primary" style="float: right" round @click="handleFilter">{{ $t('public.search') }}</el-button>
+              </div>
+              <el-button v-waves slot="reference" type="primary" class="filter-item" style="width: 130px" @click="visible2 = !visible2">{{ $t('public.filter') }}<svg-icon icon-class="shaixuan" style="margin-left: 4px"/></el-button>
+            </el-popover>
           </el-col>
           <el-col :span="3" style="margin-left: 20px">
             <!-- 搜索按钮 -->
@@ -39,59 +63,60 @@
         fit
         highlight-current-row
         style="width: 100%;"
-        @selection-change="handleCurrentChange">
-        <el-table-column
-          type="selection"
-          width="55"
-          align="center"/>
+        @current-change="handleCurrentChange">
         <el-table-column :label="$t('public.id')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.id }}</span>
+            <span>{{ scope.row.advanceNumber }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('Advancemanage.productCode')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('Advancemanage.title')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.productCode }}</span>
+            <span>{{ scope.row.title }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('Advancemanage.productName')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('Advancemanage.customerName')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.productName }}</span>
+            <span>{{ scope.row.customerName }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('Advancemanage.productType')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('Advancemanage.phone')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.productType }}</span>
+            <span>{{ scope.row.phone }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('Advancemanage.color')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('Advancemanage.advanceMoney')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.color }}</span>
+            <span>{{ scope.row.advanceMoney }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('Advancemanage.advanceMode')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('Advancemanage.payMode')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.advanceMode | advanceModeFilter }}</span>
+            <span>{{ scope.row.payMode }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('Advancemanage.depositBegintime')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('Advancemanage.salePersonId')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.depositBegintime }}</span>
+            <span>{{ scope.row.salePersonName }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('Advancemanage.depositEndtime')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('Advancemanage.createDate')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.depositEndtime }}</span>
+            <span>{{ scope.row.createDate }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('Advancemanage.finalBegintime')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('Advancemanage.saleRepositoryId')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.finalBegintime }}</span>
+            <span>{{ scope.row.saleRepositoryName }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('Advancemanage.finalEndtime')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('public.judgeStat')" :resizable="false" prop="judgeStat" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.finalEndtime }}</span>
+            <span>{{ scope.row.judgeStat | judgeStatFilter }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column :label="$t('public.receiptStat')" :resizable="false" align="center" min-width="150">
+          <template slot-scope="scope">
+            <span>{{ scope.row.receiptStat | receiptStatFilter }}</span>
           </template>
         </el-table-column>
       </el-table>
@@ -104,15 +129,14 @@
 </template>
 
 <script>
-import { advancelist } from '@/api/Advancemanage'
+import { advanceorderlist } from '@/api/Advancemanage'
 import { getdeptlist } from '@/api/BasicSettings'
 import { searchStockCategory } from '@/api/StockCategory'
-import { productlist } from '@/api/public'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination'
 import MyEmp from './MyEmp'
-import DetailList from './DetailList'
-import MyDialog from './MyDialog'
+import DetailList from './DetailList2'
+import MyDialog from './MyDialog2'
 import MySupplier from './MySupplier'
 export default {
   directives: { waves },
@@ -141,16 +165,17 @@ export default {
       }
       return statusMap[status]
     },
-    advanceModeFilter(status) {
+    sourceTypeFilter(status) {
       const statusMap = {
-        1: '一口价',
-        2: '阶梯价'
+        1: '采购申请',
+        2: '采购需求',
+        3: '无来源'
       }
       return statusMap[status]
     }
   },
   props: {
-    advancecontrol: {
+    presalecontrol: {
       type: Boolean,
       default: false
     }
@@ -158,7 +183,7 @@ export default {
   data() {
     return {
       // 选择框控制
-      employeeVisible: this.advancecontrol,
+      employeeVisible: this.presalecontrol,
       // 类别获取参数
       typeparms: {
         pagenum: 1,
@@ -182,9 +207,9 @@ export default {
       supplierId: '',
       // 供应商控制框
       empcontrol: false,
-      // 经办人回显
-      handlePersonId: '',
-      // 经办人控制框
+      // 业务员回显
+      salePersonId: '',
+      // 采购人控制框
       stockControl: false,
       // 批量操作
       moreaction: '',
@@ -215,9 +240,8 @@ export default {
     }
   },
   watch: {
-    advancecontrol() {
-      this.employeeVisible = this.advancecontrol
-      this.getlist()
+    presalecontrol() {
+      this.employeeVisible = this.presalecontrol
     }
   },
   created() {
@@ -231,7 +255,7 @@ export default {
     getlist() {
       // 物料需求计划列表数据
       this.listLoading = true
-      advancelist(this.getemplist).then(res => {
+      advanceorderlist(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
@@ -255,15 +279,13 @@ export default {
     },
     // 清空搜索条件
     restFilter() {
-      this.supplierId = ''
-      this.getemplist.supplierId = ''
-      this.handlePersonId = ''
-      this.getemplist.handlePersonId = ''
+      this.salePersonId = ''
+      this.getemplist.salePersonId = ''
     },
     // 搜索
     handleFilter() {
       this.getemplist.pageNum = 1
-      advancelist(this.getemplist).then(res => {
+      advanceorderlist(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
@@ -273,14 +295,14 @@ export default {
         }
       })
     },
-    // 经办人focus事件
+    // 业务员focus事件
     handlechooseStock() {
       this.stockControl = true
     },
-    // 经办人回显
+    // 业务员回显
     stockName(val) {
-      this.handlePersonId = val.personName
-      this.getemplist.handlePersonId = val.id
+      this.salePersonId = val.personName
+      this.getemplist.salePersonId = val.id
     },
     // 供应商输入框focus事件触发
     handlechoose() {
@@ -294,59 +316,17 @@ export default {
     },
     // 新增数据
     handleAdd() {
-      this.$router.push('/Advancemanage/AddAdvanceProduct')
+      this.$router.push('/Advancemanage/AddAdvanceOrder')
     },
     // 选择主生产计划数据时的操作
     handleCurrentChange(val) {
       this.choosedata = val
     },
     // 确认添加数据
-    async handleConfirm() {
-      console.log(this.choosedata)
+    handleConfirm() {
       this.employeeVisible = false
-      const list = await Promise.all(this.choosedata.map(function(item) {
-        return productlist(item.productCode)
-      }))
-      const advanceDetail = this.choosedata.map(function(item) {
-        return {
-          productCode: item.productCode,
-          productName: item.productName,
-          productType: item.productType,
-          typeId: item.typeId,
-          unit: item.unit,
-          color: item.color,
-          costMoney: '0.00',
-          includeTaxMoney: '0.00',
-          taxRate: '0.00',
-          taxMoney: '0.00',
-          money: '0.00',
-          includeTaxCostMoney: '0.00',
-          carCode: '',
-          batteryCode: '',
-          motorCode: '',
-          discount: 0,
-          discountMoney: 0,
-          quantity: '0.00',
-          salePrice: '0.00',
-          costPrice: '0.00'
-        }
-      })
-      console.log(list)
-      for (let i = 0; i < this.choosedata.length; i++) {
-        for (let j = 0; j < list.length; j++) {
-          if (advanceDetail[i].productCode === list[j].data.data.content.list[0].code) {
-            advanceDetail[i].kpiGrade = list[j].data.data.content.list[0].kpiGrade
-            advanceDetail[i].point = list[j].data.data.content.list[0].point
-            advanceDetail[i].salePrice = list[j].data.data.content.list[0].salePrice
-            advanceDetail[i].costPrice = list[j].data.data.content.list[0].costPrice
-            advanceDetail[i].category = list[j].data.data.content.list[0].category
-            advanceDetail[i].categoryId = list[j].data.data.content.list[0].categoryId
-            advanceDetail[i].productCategory = list[j].data.data.content.list[0].category
-          }
-        }
-      }
-      console.log(advanceDetail)
-      this.$emit('advance', advanceDetail)
+      console.log(this.choosedata)
+      this.$emit('presale', this.choosedata)
     }
     // 仓库管理员选择结束
   }

@@ -1251,7 +1251,14 @@ export default {
     salePersonId: '业务员',
     postId: '职务',
     saleRepositoryId: '所属门店',
-    createDate: '创建日期'
+    createDate: '创建日期',
+    createDate2: '退款时间',
+    title2: '预售退款单主题',
+    sourceNumber: '源单编号',
+    sourceType: '源单类型',
+    settleMode: '结算方式',
+    settleMoney: '结算金额',
+    returnMoney: '应退金额'
   },
   SaleOrder: {
     title: '订单主题',

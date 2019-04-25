@@ -4,24 +4,45 @@
       <el-row>
         <el-form ref="getemplist" :model="getemplist" label-width="100px" style="margin-top: -9px">
           <el-col :span="5">
-            <el-form-item label="物品名称" label-width="100px">
-              <el-input v-model="getemplist.productName" :placeholder="$t('Advancemanage.productName')" clearable @keyup.enter.native="handleFilter"/>
+            <el-form-item label="预收款单主题" label-width="100px">
+              <el-input v-model="getemplist.title" :placeholder="$t('PrepReceipt.title')" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
           <el-col :span="5" style="margin-left: 10px">
-            <el-form-item label="物品编号">
-              <el-input v-model="getemplist.productCode" placeholder="物品编号" clearable @keyup.enter.native="handleFilter"/>
+            <el-form-item label="预收款单单号">
+              <el-input v-model="getemplist.number" placeholder="预收款单单号" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
           <el-col :span="5" style="margin-left: 10px">
-            <el-form-item label="预售模式">
-              <el-select v-model="getemplist.advanceMode" :value="getemplist.advanceMode" placeholder="预售模式" clearable>
-                <el-option value="1" label="一口价"/>
-                <el-option value="2" label="阶梯价"/>
-              </el-select>
+            <el-form-item label="回收人">
+              <el-input v-model="handlePersonId" :placeholder="$t('PrepReceipt.handlePersonId')" clearable @keyup.enter.native="handleFilter" @focus="handlechooseStock"/>
             </el-form-item>
+            <my-emp :control.sync="stockControl" @stockName="stockName"/>
           </el-col>
           <!--更多搜索条件-->
+          <el-col :span="3">
+            <el-popover
+              v-model="visible2"
+              placement="bottom"
+              width="500"
+              trigger="manual">
+              <el-select v-model="getemplist.receiptStat" :value="getemplist.receiptStat" placeholder="单据状态" clearable style="width: 40%;float: left;margin-left: 20px">
+                <el-option value="1" label="制单"/>
+                <el-option value="2" label="执行"/>
+                <el-option value="3" label="结单"/>
+              </el-select>
+              <el-select v-model="getemplist.judgeStat" :value="getemplist.judgeStat" placeholder="审批状态" clearable style="width: 40%;float: right;margin-right: 20px;margin-top: 20px">
+                <el-option value="0" label="未审核"/>
+                <el-option value="1" label="审核中"/>
+                <el-option value="2" label="审核通过"/>
+                <el-option value="3" label="审核不通过"/>
+              </el-select>
+              <div class="seachbutton" style="width: 100%;float: right;margin-top: 20px">
+                <el-button v-waves class="filter-item" type="primary" style="float: right" round @click="handleFilter">{{ $t('public.search') }}</el-button>
+              </div>
+              <el-button v-waves slot="reference" type="primary" class="filter-item" style="width: 130px" @click="visible2 = !visible2">{{ $t('public.filter') }}<svg-icon icon-class="shaixuan" style="margin-left: 4px"/></el-button>
+            </el-popover>
+          </el-col>
           <el-col :span="3" style="margin-left: 20px">
             <!-- 搜索按钮 -->
             <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 86px" round @click="handleFilter">{{ $t('public.search') }}</el-button>
@@ -59,64 +80,61 @@
         style="width: 100%;"
         @selection-change="handleSelectionChange">
         <el-table-column
+          :selectable="selectInit"
           type="selection"
           width="55"
           align="center"/>
         <el-table-column :label="$t('public.id')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span class="link-type" @click="handleDetail(scope.row)">{{ scope.row.id }}</span>
+            <span class="link-type" @click="handleDetail(scope.row)">{{ scope.row.number }}</span>
           </template>
           <detail-list :detailcontrol.sync="detailvisible" :detaildata.sync="personalForm"/>
         </el-table-column>
-        <el-table-column :label="$t('Advancemanage.productCode')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('PrepReceipt.title')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.productCode }}</span>
+            <span>{{ scope.row.title }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('Advancemanage.productName')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('PrepReceipt.sourceNumber')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.productName }}</span>
+            <span>{{ scope.row.sourceNumber }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('Advancemanage.productType')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('PrepReceipt.receiptMoney')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.productType }}</span>
+            <span>{{ scope.row.receiptMoney }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('Advancemanage.color')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('PrepReceipt.customerName')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.color }}</span>
+            <span>{{ scope.row.customerName }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('Advancemanage.advanceMode')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('PrepReceipt.closeType')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.advanceMode | advanceModeFilter }}</span>
+            <span>{{ scope.row.closeTypeName }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('Advancemanage.depositBegintime')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('PrepReceipt.receiptPersonId')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.depositBegintime }}</span>
+            <span>{{ scope.row.receiptPersonName }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('Advancemanage.depositEndtime')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('public.judgeStat')" :resizable="false" prop="judgeStat" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.depositEndtime }}</span>
+            <span>{{ scope.row.judgeStat | judgeStatFilter }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('Advancemanage.finalBegintime')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('public.receiptStat')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.finalBegintime }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column :label="$t('Advancemanage.finalEndtime')" :resizable="false" align="center" min-width="150">
-          <template slot-scope="scope">
-            <span>{{ scope.row.finalEndtime }}</span>
+            <span>{{ scope.row.receiptStat | receiptStatFilter }}</span>
           </template>
         </el-table-column>
         <el-table-column :label="$t('public.actions')" :resizable="false" align="center" min-width="230">
           <template slot-scope="scope">
-            <el-button title="修改" type="primary" size="mini" icon="el-icon-edit" circle @click="handleEdit(scope.row)"/>
-            <el-button title="删除" size="mini" type="danger" icon="el-icon-delete" circle @click="handleDelete(scope.row)"/>
+            <el-button v-if="scope.row.judgeStat === 0" title="修改" type="primary" size="mini" icon="el-icon-edit" circle @click="handleEdit(scope.row)"/>
+            <el-button v-if="isReview(scope.row)" title="审批" type="warning" size="mini" icon="el-icon-view" circle @click="handleReview(scope.row)"/>
+            <el-button v-if="scope.row.judgeStat === 0" title="删除" size="mini" type="danger" icon="el-icon-delete" circle @click="handleDelete(scope.row)"/>
           </template>
         </el-table-column>
       </el-table>
@@ -130,18 +148,17 @@
 </template>
 
 <script>
-import { advancelist, deleteadvanceproduct } from '@/api/Advancemanage'
-import { getdeptlist } from '@/api/BasicSettings'
-import { searchStockCategory } from '@/api/StockCategory'
+import { searchprepReceipt, updateprepReceipt2, deleteprepReceipt } from '@/api/PrepReceipt'
+import { searchSaleCategory } from '@/api/SaleCategory'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination'
 import MyEmp from './components/MyEmp'
 import DetailList from './components/DetailList'
-import MyDialog from './components/MyDialog3'
+import MyDialog from './components/MyDialog'
 import MySupplier from './components/MySupplier'
 
 export default {
-  name: 'AdvanceProductList',
+  name: 'PrepReceiptList',
   directives: { waves },
   components: { MyDialog, DetailList, MyEmp, Pagination, MySupplier },
   filters: {
@@ -162,22 +179,32 @@ export default {
       }
       return statusMap[status]
     },
-    stockTypeFilter(status) {
+    currencyFilter(status) {
       const statusMap = {
-        1: '采购1'
+        1: 'RMB',
+        2: 'USD'
       }
       return statusMap[status]
     },
-    advanceModeFilter(status) {
+    sourceTypeFilter(status) {
       const statusMap = {
-        1: '一口价',
-        2: '阶梯价'
+        1: '采购申请',
+        2: '采购需求',
+        3: '无来源'
       }
       return statusMap[status]
     }
   },
   data() {
     return {
+      // 结算方式数据
+      colseTypes: [],
+      // 结算方式获取参数
+      colseTypeparms: {
+        type: 3,
+        pagenum: 1,
+        pagesize: 99999
+      },
       // 类别获取参数
       typeparms: {
         pagenum: 1,
@@ -201,9 +228,9 @@ export default {
       supplierId: '',
       // 供应商控制框
       empcontrol: false,
-      // 经办人回显
+      // 收款人回显
       handlePersonId: '',
-      // 经办人控制框
+      // 收款人控制框
       stockControl: false,
       // 批量操作
       moreaction: '',
@@ -237,6 +264,14 @@ export default {
     this.getlist()
   },
   methods: {
+    // 不让勾选
+    selectInit(row, index) {
+      if (row.judgeStat !== 0) {
+        return false
+      } else {
+        return true
+      }
+    },
     // 更新采购类型
     updatecountry() {
       this.getlist()
@@ -244,7 +279,7 @@ export default {
     getlist() {
       // 物料需求计划列表数据
       this.listLoading = true
-      advancelist(this.getemplist).then(res => {
+      searchprepReceipt(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
@@ -253,30 +288,22 @@ export default {
           this.listLoading = false
         }, 0.5 * 100)
       })
-      // 部门列表数据
-      getdeptlist().then(res => {
+      // 结算方式数据
+      searchSaleCategory(this.colseTypeparms).then(res => {
         if (res.data.ret === 200) {
-          this.depts = res.data.data.content
-        }
-      })
-      // 采购类别数据
-      searchStockCategory(this.typeparms).then(res => {
-        if (res.data.ret === 200) {
-          this.types = res.data.data.content.list
+          this.colseTypes = res.data.data.content.list
         }
       })
     },
     // 清空搜索条件
     restFilter() {
-      this.supplierId = ''
-      this.getemplist.supplierId = ''
       this.handlePersonId = ''
       this.getemplist.handlePersonId = ''
     },
     // 搜索
     handleFilter() {
       this.getemplist.pageNum = 1
-      advancelist(this.getemplist).then(res => {
+      searchprepReceipt(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
@@ -286,24 +313,14 @@ export default {
         }
       })
     },
-    // 经办人focus事件
+    // 收款人focus事件
     handlechooseStock() {
       this.stockControl = true
     },
-    // 经办人回显
+    // 收款人回显
     stockName(val) {
       this.handlePersonId = val.personName
       this.getemplist.handlePersonId = val.id
-    },
-    // 供应商输入框focus事件触发
-    handlechoose() {
-      this.empcontrol = true
-    },
-    // 供应商列表返回数据
-    supplierName(val) {
-      console.log(val)
-      this.supplierId = val.supplierName
-      this.getemplist.supplierId = val.id
     },
     // 修改操作
     handleEdit(row) {
@@ -311,12 +328,9 @@ export default {
       this.editVisible = true
       this.personalForm = Object.assign({}, row)
       this.personalForm.sourceType = String(row.sourceType)
-      this.personalForm.AdvancemanageType = String(row.AdvancemanageType)
-      if (row.currency !== null) {
-        this.personalForm.currency = String(row.currency)
-      }
-      if (row.receiveMode !== null) {
-        this.personalForm.receiveMode = String(row.receiveMode)
+      this.personalForm.currency = String(row.currency)
+      if (this.personalForm.accountType !== null && this.personalForm.accountType !== '' && this.personalForm.accountType !== undefined) {
+        this.personalForm.accountType = String(row.accountType)
       }
     },
     // 修改组件修改成功后返回
@@ -331,6 +345,53 @@ export default {
       this.detailvisible = true
       this.personalForm = Object.assign({}, row)
     },
+    // 判断审核按钮
+    isReview(row) {
+      console.log(row)
+      if (row.approvalUseVos !== '' && row.approvalUseVos !== null && row.approvalUseVos !== undefined && row.approvalUseVos.length !== 0) {
+        const approvalUse = row.approvalUseVos
+        if (this.getemplist.createPersonId === approvalUse[approvalUse.length - 1].stepHandler && (row.judgeStat === 1 || row.judgeStat === 0)) {
+          return true
+        }
+      }
+    },
+    // 审批操作
+    handleReview(row) {
+      this.reviewParms.id = row.id
+      this.reviewParms.judgePersonId = this.getemplist.createPersonId
+      this.$confirm('请审核', '审核', {
+        distinguishCancelAndClose: true,
+        confirmButtonText: '通过',
+        cancelButtonText: '不通过',
+        type: 'warning'
+      }).then(() => {
+        this.reviewParms.judgeStat = 2
+        const parms = JSON.stringify(this.reviewParms)
+        updateprepReceipt2(parms).then(res => {
+          if (res.data.ret === 200) {
+            this.$message({
+              type: 'success',
+              message: '审核成功!'
+            })
+            this.getlist()
+          }
+        })
+      }).catch(action => {
+        if (action === 'cancel') {
+          this.reviewParms.judgeStat = 1
+          const parms = JSON.stringify(this.reviewParms)
+          updateprepReceipt2(parms).then(res => {
+            if (res.data.ret === 200) {
+              this.$message({
+                type: 'success',
+                message: '审核成功!'
+              })
+              this.getlist()
+            }
+          })
+        }
+      })
+    },
     // 批量操作
     handleSelectionChange(val) {
       this.moreaction = val
@@ -338,6 +399,14 @@ export default {
     // 多条删除
     // 批量删除
     handleCommand(command) {
+      if (this.moreaction === '' || this.moreaction === null || this.moreaction === undefined) {
+        this.$notify.error({
+          title: '错误',
+          message: '请先选择表格数据',
+          offset: 100
+        })
+        return false
+      }
       const ids = this.moreaction.map(item => item.id).join()
       if (command === 'delete') {
         this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
@@ -345,7 +414,7 @@ export default {
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          deleteadvanceproduct(ids).then(res => {
+          deleteprepReceipt(ids).then(res => {
             if (res.data.ret === 200) {
               this.$notify({
                 title: '删除成功',
@@ -376,7 +445,7 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        deleteadvanceproduct(row.id).then(res => {
+        deleteprepReceipt(row.id).then(res => {
           if (res.data.ret === 200) {
             this.$notify({
               title: '删除成功',
@@ -401,14 +470,14 @@ export default {
     },
     // 新增数据
     handleAdd() {
-      this.$router.push('/Advancemanage/AddAdvanceProduct')
+      this.$router.push('/PrepReceipt/AddPrepReceipt')
     },
     // 导出
     handleExport() {
       this.downloadLoading = true
         import('@/vendor/Export2Excel').then(excel => {
           const tHeader = ['供应商编号', '供应商名称', '供应商简称', '供应商类别', '所在区域', '采购员', '供应商优质级别', '建档人', '建档日期']
-          const filterVal = ['id', 'AdvancemanageName', 'AdvancemanageShortName', 'typeName', 'regionName', 'buyerName', 'levelName', 'createName', 'createTime']
+          const filterVal = ['id', 'PrepReceiptName', 'PrepReceiptShortName', 'typeName', 'regionName', 'buyerName', 'levelName', 'createName', 'createTime']
           const data = this.formatJson(filterVal, this.list)
           excel.export_json_to_excel({
             header: tHeader,
