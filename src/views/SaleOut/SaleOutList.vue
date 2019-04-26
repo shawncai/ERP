@@ -4,20 +4,20 @@
       <el-row>
         <el-form ref="getemplist" :model="getemplist" label-width="100px" style="margin-top: -9px">
           <el-col :span="5">
-            <el-form-item label="回收单主题" label-width="100px">
-              <el-input v-model="getemplist.title" :placeholder="$t('Recycling.title')" clearable @keyup.enter.native="handleFilter"/>
+            <el-form-item label="出库单主题" label-width="100px">
+              <el-input v-model="getemplist.title" :placeholder="$t('SaleOut.title')" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
           <el-col :span="5" style="margin-left: 10px">
-            <el-form-item label="回收单单号">
-              <el-input v-model="getemplist.number" placeholder="回收单单号" clearable @keyup.enter.native="handleFilter"/>
+            <el-form-item label="出库单编号">
+              <el-input v-model="getemplist.number" placeholder="出库单编号" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
           <el-col :span="5" style="margin-left: 10px">
-            <el-form-item label="回收人">
-              <el-input v-model="recyclingPersonId" :placeholder="$t('Recycling.recyclingPersonId')" clearable @keyup.enter.native="handleFilter" @focus="handlechooseStock"/>
+            <el-form-item :label="$t('SaleOut.outPersonId')">
+              <el-input v-model="outPersonId" @focus="handlechooseAccept"/>
             </el-form-item>
-            <my-emp :control.sync="stockControl" @stockName="stockName"/>
+            <my-accept :accetpcontrol.sync="accetpcontrol" @acceptName="acceptName"/>
           </el-col>
           <!--更多搜索条件-->
           <el-col :span="3">
@@ -26,17 +26,28 @@
               placement="bottom"
               width="500"
               trigger="manual">
-              <el-select v-model="getemplist.receiptStat" :value="getemplist.receiptStat" placeholder="单据状态" clearable style="width: 40%;float: left;margin-left: 20px">
+              <el-input v-model="saleRepositoryId" :placeholder="$t('SaleOut.saleRepositoryId')" style="width: 40%;float: left;margin-left: 20px;" clearable @focus="handlechooseRep"/>
+              <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
+              <el-select v-model="getemplist.receiptStat" :value="getemplist.receiptStat" placeholder="单据状态" clearable style="width: 40%;float: right;margin-right: 20px">
                 <el-option value="1" label="制单"/>
                 <el-option value="2" label="执行"/>
                 <el-option value="3" label="结单"/>
               </el-select>
-              <el-select v-model="getemplist.judgeStat" :value="getemplist.judgeStat" placeholder="审批状态" clearable style="width: 40%;float: right;margin-right: 20px">
+              <el-select v-model="getemplist.judgeStat" :value="getemplist.judgeStat" placeholder="审批状态" clearable style="width: 40%;float: left;margin-left: 20px;margin-top: 20px">
                 <el-option value="0" label="未审核"/>
                 <el-option value="1" label="审核中"/>
                 <el-option value="2" label="审核通过"/>
                 <el-option value="3" label="审核不通过"/>
               </el-select>
+              <!--<el-date-picker-->
+              <!--v-model="date"-->
+              <!--type="daterange"-->
+              <!--range-separator="-"-->
+              <!--unlink-panels-->
+              <!--start-placeholder="销售日期"-->
+              <!--end-placeholder="销售日期"-->
+              <!--value-format="yyyy-MM-dd"-->
+              <!--style="margin-top: 20px;margin-left: 20px"/>-->
               <div class="seachbutton" style="width: 100%;float: right;margin-top: 20px">
                 <el-button v-waves class="filter-item" type="primary" style="float: right" round @click="handleFilter">{{ $t('public.search') }}</el-button>
               </div>
@@ -90,39 +101,24 @@
           </template>
           <detail-list :detailcontrol.sync="detailvisible" :detaildata.sync="personalForm"/>
         </el-table-column>
-        <el-table-column :label="$t('Recycling.title')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('SaleOut.title')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.title }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('Recycling.productCode')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('SaleOut.outPersonId')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.productCode }}</span>
+            <span>{{ scope.row.outPersonName }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('Recycling.productType')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('SaleOut.outDate')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.productType }}</span>
+            <span>{{ scope.row.outDate }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('Recycling.productCategory')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('SaleOut.saleRepositoryId')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.productCategory }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column :label="$t('Recycling.recyclingMoney')" :resizable="false" align="center" min-width="150">
-          <template slot-scope="scope">
-            <span>{{ scope.row.recyclingMoney }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column :label="$t('Recycling.recyclingDate')" :resizable="false" align="center" min-width="150">
-          <template slot-scope="scope">
-            <span>{{ scope.row.recyclingDate }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column :label="$t('Recycling.recyclingPersonId')" :resizable="false" align="center" min-width="150">
-          <template slot-scope="scope">
-            <span>{{ scope.row.recyclingPersonName }}</span>
+            <span>{{ scope.row.saleRepositoryName }}</span>
           </template>
         </el-table-column>
         <el-table-column :label="$t('public.judgeStat')" :resizable="false" prop="judgeStat" align="center" min-width="150">
@@ -153,19 +149,23 @@
 </template>
 
 <script>
-import { searchrecycling, updaterecycling2, deleterecycling } from '@/api/Recycling'
-import { searchSaleCategory } from '@/api/SaleCategory'
+import { searchsaleOut, deletesaleOut, updatesaleOut2 } from '@/api/SaleOut'
+import { getdeptlist } from '@/api/BasicSettings'
+import { searchStockCategory } from '@/api/StockCategory'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination'
 import MyEmp from './components/MyEmp'
 import DetailList from './components/DetailList'
 import MyDialog from './components/MyDialog'
-import MySupplier from './components/MySupplier'
+import MyCustomer from './components/MyCustomer'
+import MyAgent from './components/MyAgent'
+import MyAccept from './components/MyAccept'
+import MyRepository from './components/MyRepository'
 
 export default {
-  name: 'RecyclingList',
+  name: 'SaleOutList',
   directives: { waves },
-  components: { MyDialog, DetailList, MyEmp, Pagination, MySupplier },
+  components: { MyRepository, MyAccept, MyDialog, DetailList, MyEmp, MyCustomer, MyAgent, Pagination },
   filters: {
     judgeStatFilter(status) {
       const statusMap = {
@@ -184,32 +184,35 @@ export default {
       }
       return statusMap[status]
     },
-    currencyFilter(status) {
+    stockTypeFilter(status) {
       const statusMap = {
-        1: 'RMB',
-        2: 'USD'
+        1: '采购1'
       }
       return statusMap[status]
     },
-    sourceTypeFilter(status) {
+    sendTypeFilter(status) {
       const statusMap = {
-        1: '采购申请',
-        2: '采购需求',
-        3: '无来源'
+        1: '已发货',
+        2: '未发货'
       }
       return statusMap[status]
     }
   },
   data() {
     return {
-      // 结算方式数据
-      colseTypes: [],
-      // 结算方式获取参数
-      colseTypeparms: {
-        type: 3,
-        pagenum: 1,
-        pagesize: 99999
-      },
+      // 回显仓库
+      saleRepositoryId: '',
+      // 控制仓库
+      repositorycontrol: false,
+      // 回显出库人
+      outPersonId: '',
+      // 控制出库人
+      accetpcontrol: false,
+      // 回显客户
+      customerName: '',
+      // 控制客户
+      customercontrol: false,
+      agentcontrol: false,
       // 类别获取参数
       typeparms: {
         pagenum: 1,
@@ -233,9 +236,9 @@ export default {
       supplierId: '',
       // 供应商控制框
       empcontrol: false,
-      // 回收人回显
-      recyclingPersonId: '',
-      // 回收人控制框
+      // 采购人回显
+      stockPersonId: '',
+      // 采购人控制框
       stockControl: false,
       // 批量操作
       moreaction: '',
@@ -269,6 +272,22 @@ export default {
     this.getlist()
   },
   methods: {
+    // 出库仓库focus事件触发
+    handlechooseRep() {
+      this.repositorycontrol = true
+    },
+    repositoryname(val) {
+      this.saleRepositoryId = val.repositoryName
+      this.personalForm.saleRepositoryId = val.id
+    },
+    // 出库人focus事件触发
+    handlechooseAccept() {
+      this.accetpcontrol = true
+    },
+    acceptName(val) {
+      this.outPersonId = val.personName
+      this.getemplist.outPersonId = val.id
+    },
     // 不让勾选
     selectInit(row, index) {
       if (row.judgeStat !== 0) {
@@ -277,6 +296,27 @@ export default {
         return true
       }
     },
+    // 选择客户类型时清理客户名称
+    clearCustomer() {
+      this.getemplist.customerId = ''
+      this.customerName = ''
+    },
+    // 选择客户focus
+    chooseCustomer() {
+      if (this.getemplist.customerType === '1') {
+        this.agentcontrol = true
+      } else if (this.getemplist.customerType === '2') {
+        this.customercontrol = true
+      }
+    },
+    customerdata(val) {
+      this.getemplist.customerId = val.id
+      this.customerName = val.customerName
+    },
+    agentdata(val) {
+      this.getemplist.customerId = val.id
+      this.customerName = val.agentName
+    },
     // 更新采购类型
     updatecountry() {
       this.getlist()
@@ -284,7 +324,7 @@ export default {
     getlist() {
       // 物料需求计划列表数据
       this.listLoading = true
-      searchrecycling(this.getemplist).then(res => {
+      searchsaleOut(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
@@ -293,22 +333,34 @@ export default {
           this.listLoading = false
         }, 0.5 * 100)
       })
-      // 结算方式数据
-      searchSaleCategory(this.colseTypeparms).then(res => {
+      // 部门列表数据
+      getdeptlist().then(res => {
         if (res.data.ret === 200) {
-          this.colseTypes = res.data.data.content.list
+          this.depts = res.data.data.content
+        }
+      })
+      // 采购类别数据
+      searchStockCategory(this.typeparms).then(res => {
+        if (res.data.ret === 200) {
+          this.types = res.data.data.content.list
         }
       })
     },
     // 清空搜索条件
     restFilter() {
-      this.recyclingPersonId = ''
-      this.getemplist.recyclingPersonId = ''
+      this.customerName = ''
+      this.getemplist.customerId = ''
+      this.stockPersonId = ''
+      this.getemplist.stockPersonId = ''
+      this.outPersonId = ''
+      this.getemplist.outPersonId = ''
+      this.saleRepositoryId = ''
+      this.getemplist.saleRepositoryId = ''
     },
     // 搜索
     handleFilter() {
       this.getemplist.pageNum = 1
-      searchrecycling(this.getemplist).then(res => {
+      searchsaleOut(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
@@ -318,14 +370,24 @@ export default {
         }
       })
     },
-    // 回收人focus事件
+    // 采购人focus事件
     handlechooseStock() {
       this.stockControl = true
     },
-    // 回收人回显
+    // 采购人回显
     stockName(val) {
-      this.recyclingPersonId = val.personName
-      this.getemplist.recyclingPersonId = val.id
+      this.stockPersonId = val.personName
+      this.getemplist.stockPersonId = val.id
+    },
+    // 供应商输入框focus事件触发
+    handlechoose() {
+      this.empcontrol = true
+    },
+    // 供应商列表返回数据
+    supplierName(val) {
+      console.log(val)
+      this.supplierId = val.supplierName
+      this.getemplist.supplierId = val.id
     },
     // 修改操作
     handleEdit(row) {
@@ -333,9 +395,26 @@ export default {
       this.editVisible = true
       this.personalForm = Object.assign({}, row)
       this.personalForm.sourceType = String(row.sourceType)
-      this.personalForm.currency = String(row.currency)
-      if (this.personalForm.sexId !== null && this.personalForm.sexId !== '' && this.personalForm.sexId !== undefined) {
-        this.personalForm.sexId = String(row.sexId)
+      if (row.currency !== null) {
+        this.personalForm.currency = String(row.currency)
+      }
+      if (row.customerType !== null) {
+        this.personalForm.customerType = String(row.customerType)
+      }
+      if (row.payMode !== null) {
+        this.personalForm.payMode = String(row.payMode)
+      }
+      if (row.saleType !== null) {
+        this.personalForm.saleType = String(row.saleType)
+      }
+      if (row.payType !== null) {
+        this.personalForm.payType = String(row.payType)
+      }
+      if (row.payType !== null) {
+        this.personalForm.payType = String(row.payType)
+      }
+      if (row.outType !== null) {
+        this.personalForm.outType = String(row.outType)
       }
     },
     // 修改组件修改成功后返回
@@ -372,7 +451,7 @@ export default {
       }).then(() => {
         this.reviewParms.judgeStat = 2
         const parms = JSON.stringify(this.reviewParms)
-        updaterecycling2(parms).then(res => {
+        updatesaleOut2(parms).then(res => {
           if (res.data.ret === 200) {
             this.$message({
               type: 'success',
@@ -385,7 +464,7 @@ export default {
         if (action === 'cancel') {
           this.reviewParms.judgeStat = 1
           const parms = JSON.stringify(this.reviewParms)
-          updaterecycling2(parms).then(res => {
+          updatesaleOut2(parms).then(res => {
             if (res.data.ret === 200) {
               this.$message({
                 type: 'success',
@@ -404,14 +483,6 @@ export default {
     // 多条删除
     // 批量删除
     handleCommand(command) {
-      if (this.moreaction === '' || this.moreaction === null || this.moreaction === undefined) {
-        this.$notify.error({
-          title: '错误',
-          message: '请先选择表格数据',
-          offset: 100
-        })
-        return false
-      }
       const ids = this.moreaction.map(item => item.id).join()
       if (command === 'delete') {
         this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
@@ -419,7 +490,7 @@ export default {
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          deleterecycling(ids).then(res => {
+          deletesaleOut(ids).then(res => {
             if (res.data.ret === 200) {
               this.$notify({
                 title: '删除成功',
@@ -450,7 +521,7 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        deleterecycling(row.id).then(res => {
+        deletesaleOut(row.id).then(res => {
           if (res.data.ret === 200) {
             this.$notify({
               title: '删除成功',
@@ -475,14 +546,14 @@ export default {
     },
     // 新增数据
     handleAdd() {
-      this.$router.push('/Recycling/AddRecycling')
+      this.$router.push('/SaleOut/AddSaleOut')
     },
     // 导出
     handleExport() {
       this.downloadLoading = true
         import('@/vendor/Export2Excel').then(excel => {
           const tHeader = ['供应商编号', '供应商名称', '供应商简称', '供应商类别', '所在区域', '采购员', '供应商优质级别', '建档人', '建档日期']
-          const filterVal = ['id', 'RecyclingName', 'RecyclingShortName', 'typeName', 'regionName', 'buyerName', 'levelName', 'createName', 'createTime']
+          const filterVal = ['id', 'SaleOutName', 'SaleOutShortName', 'typeName', 'regionName', 'buyerName', 'levelName', 'createName', 'createTime']
           const data = this.formatJson(filterVal, this.list)
           excel.export_json_to_excel({
             header: tHeader,
@@ -501,15 +572,6 @@ export default {
     handlePrint() {
       console.log(456)
     },
-    // 仓库列表focus事件触发
-    handlechooseRep() {
-      this.repositorycontrol = true
-    },
-    repositoryname(val) {
-      console.log(val)
-      this.enterRepositoryId = val.repositoryName
-      this.getemplist.enterRepositoryId = val.id
-    },
     // 部门列表focus刷新
     updatedept() {
       this.getlist()
@@ -521,14 +583,6 @@ export default {
     deliveryName(val) {
       this.deliveryPersonId = val.personName
       this.getemplist.deliveryPersonId = val.id
-    },
-    // 验收人focus事件触发
-    handlechooseAccept() {
-      this.accetpcontrol = true
-    },
-    acceptName(val) {
-      this.acceptPersonId = val.personName
-      this.getemplist.acceptPersonId = val.id
     }
   }
 }

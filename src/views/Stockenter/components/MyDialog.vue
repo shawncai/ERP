@@ -20,8 +20,9 @@
             </el-col>
             <el-col :span="6">
               <el-form-item label="源单编号" style="width: 100%;">
-                <el-input v-model="personalForm.sourceNumber" placeholder="请选择源单编号" style="margin-left: 18px;width: 150px" clearable/>
+                <el-input v-model="personalForm.sourceNumber" placeholder="请选择源单编号" style="margin-left: 18px;width: 150px" @focus="handleAddSouce"/>
               </el-form-item>
+              <my-arrival :arrivalcontrol.sync="arrivalcontrol" @arrival="arrival" @allarrivalinfo="allarrivalinfo"/>
             </el-col>
             <el-col :span="6">
               <el-form-item :label="$t('Stockenter.supplierId')" style="width: 100%">
@@ -83,7 +84,6 @@
     <el-card class="box-card" style="margin-top: 15px">
       <h2 ref="fuzhu" class="form-name">入库单明细</h2>
       <div class="buttons" style="margin-top: 28px;margin-bottom: 20px">
-        <el-button type="success" style="background:#3696fd;border-color:#3696fd " @click="handleAddproduct">添加商品</el-button>
         <el-button type="danger" @click="$refs.editable.removeSelecteds()">删除</el-button>
       </div>
       <my-detail :control.sync="control" @product="productdetail"/>
@@ -126,6 +126,7 @@
             </template>
           </el-editable-column>
           <el-editable-column :edit-render="{name: 'ElInput'}" prop="remarks" align="center" label="备注" width="150px"/>
+          <el-editable-column prop="sourceSerialNumber" align="center" label="源单序号" width="150px"/>
         </el-editable>
       </div>
     </el-card>
@@ -146,8 +147,9 @@ import MyEmp from './MyEmp'
 import MyDelivery from './MyDelivery'
 import MyAccept from './MyAccept'
 import MyDetail from './MyDetail'
+import MyArrival from './MyArrival'
 export default {
-  components: { MyRepository, MySupplier, MyEmp, MyDelivery, MyAccept, MyDetail },
+  components: { MyArrival, MyRepository, MySupplier, MyEmp, MyDelivery, MyAccept, MyDetail },
   props: {
     editcontrol: {
       type: Boolean,
@@ -164,6 +166,10 @@ export default {
       editVisible: this.editcontrol,
       // 供应商信息数据
       personalForm: this.editdata,
+      // 控制供应商不可以编辑
+      IssupplierId: false,
+      // 控制采购到货单
+      arrivalcontrol: false,
       locationlistparms: {
         pageNum: 1,
         pageSize: 1999,
@@ -248,6 +254,29 @@ export default {
     this.getlist()
   },
   methods: {
+    // 从源单中添加商品
+    handleAddSouce() {
+      this.arrivalcontrol = true
+    },
+    arrival(val) {
+      console.log(val)
+      this.$refs.editable.clear()
+      for (let i = 0; i < val.length; i++) {
+        this.$refs.editable.insert(val[i])
+      }
+    },
+    allarrivalinfo(val) {
+      console.log(val)
+      this.personalForm.supplierId = val.supplierId
+      this.supplierId = val.supplierName
+      if (val.supplierId !== null && val.supplierId !== undefined && val.supplierId !== '') {
+        this.IssupplierId = true
+      }
+      this.personalForm.sourceNumber = val.number
+      this.personalForm.stockPersonId = val.stockPersonId
+      this.stockPersonId = val.stockPersonName
+      this.personalForm.stockDeptId = val.deptId
+    },
     getlist() {
       // 部门列表数据
       getdeptlist().then(res => {

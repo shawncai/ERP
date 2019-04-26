@@ -153,19 +153,20 @@
 </template>
 
 <script>
-import { searchrecycling, updaterecycling2, deleterecycling } from '@/api/Recycling'
-import { searchSaleCategory } from '@/api/SaleCategory'
+// import { searchrecycling, updaterecycling2, deleterecycling } from '@/api/Recycling'
+// import { searchSaleCategory } from '@/api/SaleCategory'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination'
-import MyEmp from './components/MyEmp'
-import DetailList from './components/DetailList'
-import MyDialog from './components/MyDialog'
-import MySupplier from './components/MySupplier'
+// import MyEmp from './components/MyEmp'
+// import DetailList from './components/DetailList'
+// import MyDialog from './components/MyDialog'
+// import MySupplier from './components/MySupplier'
 
 export default {
   name: 'RecyclingList',
   directives: { waves },
-  components: { MyDialog, DetailList, MyEmp, Pagination, MySupplier },
+  // components: { MyDialog, DetailList, MyEmp, Pagination, MySupplier },
+  components: { Pagination },
   filters: {
     judgeStatFilter(status) {
       const statusMap = {
@@ -269,267 +270,267 @@ export default {
     this.getlist()
   },
   methods: {
-    // 不让勾选
-    selectInit(row, index) {
-      if (row.judgeStat !== 0) {
-        return false
-      } else {
-        return true
-      }
-    },
-    // 更新采购类型
-    updatecountry() {
-      this.getlist()
-    },
-    getlist() {
-      // 物料需求计划列表数据
-      this.listLoading = true
-      searchrecycling(this.getemplist).then(res => {
-        if (res.data.ret === 200) {
-          this.list = res.data.data.content.list
-          this.total = res.data.data.content.totalCount
-        }
-        setTimeout(() => {
-          this.listLoading = false
-        }, 0.5 * 100)
-      })
-      // 结算方式数据
-      searchSaleCategory(this.colseTypeparms).then(res => {
-        if (res.data.ret === 200) {
-          this.colseTypes = res.data.data.content.list
-        }
-      })
-    },
-    // 清空搜索条件
-    restFilter() {
-      this.recyclingPersonId = ''
-      this.getemplist.recyclingPersonId = ''
-    },
-    // 搜索
-    handleFilter() {
-      this.getemplist.pageNum = 1
-      searchrecycling(this.getemplist).then(res => {
-        if (res.data.ret === 200) {
-          this.list = res.data.data.content.list
-          this.total = res.data.data.content.totalCount
-          this.restFilter()
-        } else {
-          this.restFilter()
-        }
-      })
-    },
-    // 回收人focus事件
-    handlechooseStock() {
-      this.stockControl = true
-    },
-    // 回收人回显
-    stockName(val) {
-      this.recyclingPersonId = val.personName
-      this.getemplist.recyclingPersonId = val.id
-    },
-    // 修改操作
-    handleEdit(row) {
-      console.log(row)
-      this.editVisible = true
-      this.personalForm = Object.assign({}, row)
-      this.personalForm.sourceType = String(row.sourceType)
-      this.personalForm.currency = String(row.currency)
-      if (this.personalForm.sexId !== null && this.personalForm.sexId !== '' && this.personalForm.sexId !== undefined) {
-        this.personalForm.sexId = String(row.sexId)
-      }
-    },
-    // 修改组件修改成功后返回
-    refreshlist(val) {
-      if (val === true) {
-        this.getlist()
-      }
-    },
-    // 详情操作
-    handleDetail(row) {
-      console.log(row)
-      this.detailvisible = true
-      this.personalForm = Object.assign({}, row)
-    },
-    // 判断审核按钮
-    isReview(row) {
-      console.log(row)
-      if (row.approvalUseVos !== '' && row.approvalUseVos !== null && row.approvalUseVos !== undefined && row.approvalUseVos.length !== 0) {
-        const approvalUse = row.approvalUseVos
-        if (this.getemplist.createPersonId === approvalUse[approvalUse.length - 1].stepHandler && (row.judgeStat === 1 || row.judgeStat === 0)) {
-          return true
-        }
-      }
-    },
-    // 审批操作
-    handleReview(row) {
-      this.reviewParms.id = row.id
-      this.reviewParms.judgePersonId = this.getemplist.createPersonId
-      this.$confirm('请审核', '审核', {
-        distinguishCancelAndClose: true,
-        confirmButtonText: '通过',
-        cancelButtonText: '不通过',
-        type: 'warning'
-      }).then(() => {
-        this.reviewParms.judgeStat = 2
-        const parms = JSON.stringify(this.reviewParms)
-        updaterecycling2(parms).then(res => {
-          if (res.data.ret === 200) {
-            this.$message({
-              type: 'success',
-              message: '审核成功!'
-            })
-            this.getlist()
-          }
-        })
-      }).catch(action => {
-        if (action === 'cancel') {
-          this.reviewParms.judgeStat = 1
-          const parms = JSON.stringify(this.reviewParms)
-          updaterecycling2(parms).then(res => {
-            if (res.data.ret === 200) {
-              this.$message({
-                type: 'success',
-                message: '审核成功!'
-              })
-              this.getlist()
-            }
-          })
-        }
-      })
-    },
-    // 批量操作
-    handleSelectionChange(val) {
-      this.moreaction = val
-    },
-    // 多条删除
-    // 批量删除
-    handleCommand(command) {
-      if (this.moreaction === '' || this.moreaction === null || this.moreaction === undefined) {
-        this.$notify.error({
-          title: '错误',
-          message: '请先选择表格数据',
-          offset: 100
-        })
-        return false
-      }
-      const ids = this.moreaction.map(item => item.id).join()
-      if (command === 'delete') {
-        this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(() => {
-          deleterecycling(ids).then(res => {
-            if (res.data.ret === 200) {
-              this.$notify({
-                title: '删除成功',
-                type: 'success',
-                offset: 100
-              })
-              this.getlist()
-            } else {
-              this.$notify.error({
-                title: '错误',
-                message: '出错了',
-                offset: 100
-              })
-            }
-          })
-        }).catch(() => {
-          this.$message({
-            type: 'info',
-            message: '已取消删除'
-          })
-        })
-      }
-    },
-    // 单条删除
-    handleDelete(row) {
-      this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      }).then(() => {
-        deleterecycling(row.id).then(res => {
-          if (res.data.ret === 200) {
-            this.$notify({
-              title: '删除成功',
-              type: 'success',
-              offset: 100
-            })
-            this.getlist()
-          } else {
-            this.$notify.error({
-              title: '错误',
-              message: '出错了',
-              offset: 100
-            })
-          }
-        })
-      }).catch(() => {
-        this.$message({
-          type: 'info',
-          message: '已取消删除'
-        })
-      })
-    },
-    // 新增数据
-    handleAdd() {
-      this.$router.push('/Recycling/AddRecycling')
-    },
-    // 导出
-    handleExport() {
-      this.downloadLoading = true
-        import('@/vendor/Export2Excel').then(excel => {
-          const tHeader = ['供应商编号', '供应商名称', '供应商简称', '供应商类别', '所在区域', '采购员', '供应商优质级别', '建档人', '建档日期']
-          const filterVal = ['id', 'RecyclingName', 'RecyclingShortName', 'typeName', 'regionName', 'buyerName', 'levelName', 'createName', 'createTime']
-          const data = this.formatJson(filterVal, this.list)
-          excel.export_json_to_excel({
-            header: tHeader,
-            data,
-            filename: '经销商资料表'
-          })
-          this.downloadLoading = false
-        })
-    },
-    formatJson(filterVal, jsonData) {
-      return jsonData.map(v => filterVal.map(j => {
-        return v[j]
-      }))
-    },
-    // 打印
-    handlePrint() {
-      console.log(456)
-    },
-    // 仓库列表focus事件触发
-    handlechooseRep() {
-      this.repositorycontrol = true
-    },
-    repositoryname(val) {
-      console.log(val)
-      this.enterRepositoryId = val.repositoryName
-      this.getemplist.enterRepositoryId = val.id
-    },
-    // 部门列表focus刷新
-    updatedept() {
-      this.getlist()
-    },
-    // 交货人foucs事件触发
-    handlechooseDelivery() {
-      this.deliverycontrol = true
-    },
-    deliveryName(val) {
-      this.deliveryPersonId = val.personName
-      this.getemplist.deliveryPersonId = val.id
-    },
-    // 验收人focus事件触发
-    handlechooseAccept() {
-      this.accetpcontrol = true
-    },
-    acceptName(val) {
-      this.acceptPersonId = val.personName
-      this.getemplist.acceptPersonId = val.id
-    }
+    // // 不让勾选
+    // selectInit(row, index) {
+    //   if (row.judgeStat !== 0) {
+    //     return false
+    //   } else {
+    //     return true
+    //   }
+    // },
+    // // 更新采购类型
+    // updatecountry() {
+    //   this.getlist()
+    // },
+    // getlist() {
+    //   // 物料需求计划列表数据
+    //   this.listLoading = true
+    //   searchrecycling(this.getemplist).then(res => {
+    //     if (res.data.ret === 200) {
+    //       this.list = res.data.data.content.list
+    //       this.total = res.data.data.content.totalCount
+    //     }
+    //     setTimeout(() => {
+    //       this.listLoading = false
+    //     }, 0.5 * 100)
+    //   })
+    //   // 结算方式数据
+    //   searchSaleCategory(this.colseTypeparms).then(res => {
+    //     if (res.data.ret === 200) {
+    //       this.colseTypes = res.data.data.content.list
+    //     }
+    //   })
+    // },
+    // // 清空搜索条件
+    // restFilter() {
+    //   this.recyclingPersonId = ''
+    //   this.getemplist.recyclingPersonId = ''
+    // },
+    // // 搜索
+    // handleFilter() {
+    //   this.getemplist.pageNum = 1
+    //   searchrecycling(this.getemplist).then(res => {
+    //     if (res.data.ret === 200) {
+    //       this.list = res.data.data.content.list
+    //       this.total = res.data.data.content.totalCount
+    //       this.restFilter()
+    //     } else {
+    //       this.restFilter()
+    //     }
+    //   })
+    // },
+    // // 回收人focus事件
+    // handlechooseStock() {
+    //   this.stockControl = true
+    // },
+    // // 回收人回显
+    // stockName(val) {
+    //   this.recyclingPersonId = val.personName
+    //   this.getemplist.recyclingPersonId = val.id
+    // },
+    // // 修改操作
+    // handleEdit(row) {
+    //   console.log(row)
+    //   this.editVisible = true
+    //   this.personalForm = Object.assign({}, row)
+    //   this.personalForm.sourceType = String(row.sourceType)
+    //   this.personalForm.currency = String(row.currency)
+    //   if (this.personalForm.sexId !== null && this.personalForm.sexId !== '' && this.personalForm.sexId !== undefined) {
+    //     this.personalForm.sexId = String(row.sexId)
+    //   }
+    // },
+    // // 修改组件修改成功后返回
+    // refreshlist(val) {
+    //   if (val === true) {
+    //     this.getlist()
+    //   }
+    // },
+    // // 详情操作
+    // handleDetail(row) {
+    //   console.log(row)
+    //   this.detailvisible = true
+    //   this.personalForm = Object.assign({}, row)
+    // },
+    // // 判断审核按钮
+    // isReview(row) {
+    //   console.log(row)
+    //   if (row.approvalUseVos !== '' && row.approvalUseVos !== null && row.approvalUseVos !== undefined && row.approvalUseVos.length !== 0) {
+    //     const approvalUse = row.approvalUseVos
+    //     if (this.getemplist.createPersonId === approvalUse[approvalUse.length - 1].stepHandler && (row.judgeStat === 1 || row.judgeStat === 0)) {
+    //       return true
+    //     }
+    //   }
+    // },
+    // // 审批操作
+    // handleReview(row) {
+    //   this.reviewParms.id = row.id
+    //   this.reviewParms.judgePersonId = this.getemplist.createPersonId
+    //   this.$confirm('请审核', '审核', {
+    //     distinguishCancelAndClose: true,
+    //     confirmButtonText: '通过',
+    //     cancelButtonText: '不通过',
+    //     type: 'warning'
+    //   }).then(() => {
+    //     this.reviewParms.judgeStat = 2
+    //     const parms = JSON.stringify(this.reviewParms)
+    //     updaterecycling2(parms).then(res => {
+    //       if (res.data.ret === 200) {
+    //         this.$message({
+    //           type: 'success',
+    //           message: '审核成功!'
+    //         })
+    //         this.getlist()
+    //       }
+    //     })
+    //   }).catch(action => {
+    //     if (action === 'cancel') {
+    //       this.reviewParms.judgeStat = 1
+    //       const parms = JSON.stringify(this.reviewParms)
+    //       updaterecycling2(parms).then(res => {
+    //         if (res.data.ret === 200) {
+    //           this.$message({
+    //             type: 'success',
+    //             message: '审核成功!'
+    //           })
+    //           this.getlist()
+    //         }
+    //       })
+    //     }
+    //   })
+    // },
+    // // 批量操作
+    // handleSelectionChange(val) {
+    //   this.moreaction = val
+    // },
+    // // 多条删除
+    // // 批量删除
+    // handleCommand(command) {
+    //   if (this.moreaction === '' || this.moreaction === null || this.moreaction === undefined) {
+    //     this.$notify.error({
+    //       title: '错误',
+    //       message: '请先选择表格数据',
+    //       offset: 100
+    //     })
+    //     return false
+    //   }
+    //   const ids = this.moreaction.map(item => item.id).join()
+    //   if (command === 'delete') {
+    //     this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+    //       confirmButtonText: '确定',
+    //       cancelButtonText: '取消',
+    //       type: 'warning'
+    //     }).then(() => {
+    //       deleterecycling(ids).then(res => {
+    //         if (res.data.ret === 200) {
+    //           this.$notify({
+    //             title: '删除成功',
+    //             type: 'success',
+    //             offset: 100
+    //           })
+    //           this.getlist()
+    //         } else {
+    //           this.$notify.error({
+    //             title: '错误',
+    //             message: '出错了',
+    //             offset: 100
+    //           })
+    //         }
+    //       })
+    //     }).catch(() => {
+    //       this.$message({
+    //         type: 'info',
+    //         message: '已取消删除'
+    //       })
+    //     })
+    //   }
+    // },
+    // // 单条删除
+    // handleDelete(row) {
+    //   this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+    //     confirmButtonText: '确定',
+    //     cancelButtonText: '取消',
+    //     type: 'warning'
+    //   }).then(() => {
+    //     deleterecycling(row.id).then(res => {
+    //       if (res.data.ret === 200) {
+    //         this.$notify({
+    //           title: '删除成功',
+    //           type: 'success',
+    //           offset: 100
+    //         })
+    //         this.getlist()
+    //       } else {
+    //         this.$notify.error({
+    //           title: '错误',
+    //           message: '出错了',
+    //           offset: 100
+    //         })
+    //       }
+    //     })
+    //   }).catch(() => {
+    //     this.$message({
+    //       type: 'info',
+    //       message: '已取消删除'
+    //     })
+    //   })
+    // },
+    // // 新增数据
+    // handleAdd() {
+    //   this.$router.push('/Recycling/AddRecycling')
+    // },
+    // // 导出
+    // handleExport() {
+    //   this.downloadLoading = true
+    //     import('@/vendor/Export2Excel').then(excel => {
+    //       const tHeader = ['供应商编号', '供应商名称', '供应商简称', '供应商类别', '所在区域', '采购员', '供应商优质级别', '建档人', '建档日期']
+    //       const filterVal = ['id', 'RecyclingName', 'RecyclingShortName', 'typeName', 'regionName', 'buyerName', 'levelName', 'createName', 'createTime']
+    //       const data = this.formatJson(filterVal, this.list)
+    //       excel.export_json_to_excel({
+    //         header: tHeader,
+    //         data,
+    //         filename: '经销商资料表'
+    //       })
+    //       this.downloadLoading = false
+    //     })
+    // },
+    // formatJson(filterVal, jsonData) {
+    //   return jsonData.map(v => filterVal.map(j => {
+    //     return v[j]
+    //   }))
+    // },
+    // // 打印
+    // handlePrint() {
+    //   console.log(456)
+    // },
+    // // 仓库列表focus事件触发
+    // handlechooseRep() {
+    //   this.repositorycontrol = true
+    // },
+    // repositoryname(val) {
+    //   console.log(val)
+    //   this.enterRepositoryId = val.repositoryName
+    //   this.getemplist.enterRepositoryId = val.id
+    // },
+    // // 部门列表focus刷新
+    // updatedept() {
+    //   this.getlist()
+    // },
+    // // 交货人foucs事件触发
+    // handlechooseDelivery() {
+    //   this.deliverycontrol = true
+    // },
+    // deliveryName(val) {
+    //   this.deliveryPersonId = val.personName
+    //   this.getemplist.deliveryPersonId = val.id
+    // },
+    // // 验收人focus事件触发
+    // handlechooseAccept() {
+    //   this.accetpcontrol = true
+    // },
+    // acceptName(val) {
+    //   this.acceptPersonId = val.personName
+    //   this.getemplist.acceptPersonId = val.id
+    // }
   }
 }
 </script>

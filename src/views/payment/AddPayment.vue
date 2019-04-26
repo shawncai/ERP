@@ -80,7 +80,7 @@
                 <el-form-item :label="$t('payment.offsetAdvance')" style="width: 100%;">
                   <el-input v-model="personalForm.offsetAdvance" style="margin-left: 18px" disabled/>
                 </el-form-item>
-                <span style="color: red;margin-left: 52px">预付款金额：{{ yufu }}</span>
+                <span style="color: red;margin-left: 52px;font-size: 14px">预付款金额：{{ yufu }}</span>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('payment.moneyThis')" style="width: 100%;">

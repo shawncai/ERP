@@ -377,7 +377,9 @@ export default {
           taxRate: item.taxRate,
           money: item.money,
           includeTaxMoney: item.includeTaxMoney,
-          tax: item.taxMoney
+          tax: item.taxMoney,
+          returnQuantity: 0,
+          actualArrivalQuantity: 0
         }
       })
       console.log(contractDetail)

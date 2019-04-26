@@ -128,6 +128,7 @@
               </template>
             </el-editable-column>
             <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="remarks" align="center" label="备注" width="150px"/>
+            <el-editable-column prop="sourceSerialNumber" align="center" label="源单序号" width="150px"/>
           </el-editable>
         </div>
       </el-card>

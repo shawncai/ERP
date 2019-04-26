@@ -388,7 +388,9 @@ export default {
           taxRate: item.taxRate,
           money: item.money,
           includeTaxMoney: item.includeTaxMoney,
-          taxMoney: item.taxMoney
+          taxMoney: item.taxMoney,
+          returnQuantity: 0,
+          actualArrivalQuantity: 0
         }
       })
       console.log(lnquiryDetail)

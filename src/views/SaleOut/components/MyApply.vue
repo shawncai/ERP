@@ -145,7 +145,6 @@
 import { stocapplylist } from '@/api/StockApply'
 import { getdeptlist } from '@/api/BasicSettings'
 import { searchStockCategory } from '@/api/StockCategory'
-// import { productlist } from '@/api/public'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination'
 import MyEmp from '../../StockApply/components/MyEmp'
@@ -318,8 +317,9 @@ export default {
       this.choosedata = val
     },
     // 确认添加数据
-    async handleConfirm() {
+    handleConfirm() {
       this.employeeVisible = false
+      console.log(this.choosedata)
       const applydata = this.choosedata.stockApplyDetailVos
       const number = this.choosedata.applyNumber
       const applyDetail = applydata.map(function(item) {
@@ -327,29 +327,25 @@ export default {
           productCode: item.productCode,
           productName: item.productName,
           productType: item.productType,
-          typeName: item.productType,
-          type: item.typeId,
+          typeId: item.typeId,
           unit: item.unit,
           color: item.color,
-          stockQuantity: item.planQuantity,
-          deliveryDate: item.requireDate,
-          applicationReason: item.applyReason,
+          basicQuantity: item.applyQuantity,
+          planDeliveryDate: item.requireDate,
+          applyReason: item.applyReason,
           sourceNumber: number,
-          sourceSerialNumber: item.applyId,
-          price: '',
-          discountRate: 0,
-          discountMoney: 0,
-          remark: '',
-          arrivalQuantity: '0.00',
-          includeTaxPrice: 0,
-          returnQuantity: 0,
-          actualArrivalQuantity: 0
+          supplierId: '',
+          supplierName: '',
+          basicPrice: '0.00',
+          requireQuantity: item.requireQuantity,
+          planQuantity: item.requireQuantity,
+          requireDate: item.requireDate,
+          planMoney: '0.00'
         }
       })
-      console.log(applydata[0].price)
       this.$emit('apply', applyDetail)
       this.$emit('apply2', applyDetail)
-      this.$emit('allapplyinfo', this.choosedata)
+      this.$emit('allinfo', this.choosedata)
     }
     // 仓库管理员选择结束
   }

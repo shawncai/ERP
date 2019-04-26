@@ -221,6 +221,8 @@
             <el-editable-column prop="sourceNumber" align="center" label="源单编号" min-width="150px"/>
             <el-editable-column prop="sourceSerialNumber" align="center" label="源单序号" min-width="150px"/>
             <el-editable-column prop="arrivalQuantity" align="center" label="已到货数量" min-width="150px"/>
+            <el-editable-column prop="returnQuantity" align="center" label="退货数量" min-width="150px"/>
+            <el-editable-column prop="actualArrivalQuantity" align="center" label="实到数量" min-width="150px"/>
           </el-editable>
         </div>
       </el-card>

@@ -1,63 +1,23 @@
 <template>
-  <el-dialog :visible.sync="employeeVisible" :plancontrol="plancontrol" :supp="supp" :close-on-press-escape="false" top="10px" title="选择采购计划单" append-to-body width="1100px" @close="$emit('update:plancontrol', false)">
+  <el-dialog :visible.sync="employeeVisible" :advancecontrol="advancecontrol" :close-on-press-escape="false" top="10px" title="选择预售商品" append-to-body width="1100px" @close="$emit('update:advancecontrol', false)">
     <el-card class="box-card" style="margin-top: 15px;height: 60px;padding-left:0 " shadow="never">
       <el-row>
         <el-form ref="getemplist" :model="getemplist" style="margin-top: -9px">
           <el-col :span="4">
             <el-form-item>
-              <el-input v-model="getemplist.title" :placeholder="$t('StockPlan.title')" clearable @keyup.enter.native="handleFilter"/>
+              <el-input v-model="getemplist.productName" :placeholder="$t('Advancemanage.productName')" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
           <el-col :span="3" style="margin-left: 5px">
             <el-form-item>
-              <el-input v-model="getemplist.planNumber" placeholder="单据编号" clearable @keyup.enter.native="handleFilter"/>
+              <el-input v-model="getemplist.productCode" placeholder="物品编号" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
           <el-col :span="3" style="margin-left: 20px">
-            <el-form-item>
-              <el-input v-model="planPersonId" :placeholder="$t('StockPlan.planPersonId')" clearable @keyup.enter.native="handleFilter" @focus="handlechooseStock"/>
-            </el-form-item>
-            <my-emp :control.sync="stockControl" @stockName="stockName"/>
-          </el-col>
-          <!--更多搜索条件-->
-          <el-col :span="3" style="margin-left: 30px">
-            <el-popover
-              v-model="visible2"
-              placement="bottom"
-              width="500"
-              trigger="manual">
-              <el-select v-model="getemplist.planDeptId" placeholder="部门" clearable style="width: 40%;float: left;margin-left: 20px">
-                <el-option
-                  v-for="(item, index) in depts"
-                  :key="index"
-                  :value="item.id"
-                  :label="item.deptName"/>
-              </el-select>
-              <el-select v-model="getemplist.judgeStat" :value="getemplist.judgeStat" placeholder="审批状态" clearable style="width: 40%;float: right;margin-right: 20px">
-                <el-option value="0" label="未审核"/>
-                <el-option value="1" label="审核中"/>
-                <el-option value="2" label="审核通过"/>
-                <el-option value="3" label="审核不通过"/>
-              </el-select>
-              <el-select v-model="getemplist.receiptStat" :value="getemplist.receiptStat" placeholder="单据状态" clearable style="width: 40%;float: left;margin-left: 20px;margin-top: 20px">
-                <el-option value="1" label="制单"/>
-                <el-option value="2" label="执行"/>
-                <el-option value="3" label="结单"/>
-              </el-select>
-              <el-date-picker
-                v-model="date"
-                type="daterange"
-                range-separator="-"
-                unlink-panels
-                start-placeholder="申请时间"
-                end-placeholder="申请时间"
-                value-format="yyyy-MM-dd"
-                style="margin-top: 20px;margin-left: 20px"/>
-              <div class="seachbutton" style="width: 100%;float: right;margin-top: 20px">
-                <el-button v-waves class="filter-item" type="primary" style="float: right" round @click="handleFilter">{{ $t('public.search') }}</el-button>
-              </div>
-              <el-button v-waves slot="reference" type="primary" class="filter-item" style="width: 130px" @click="visible2 = !visible2">{{ $t('public.filter') }}<svg-icon icon-class="shaixuan" style="margin-left: 4px"/></el-button>
-            </el-popover>
+            <el-select v-model="getemplist.advanceMode" :value="getemplist.advanceMode" placeholder="预售模式" clearable>
+              <el-option value="1" label="一口价"/>
+              <el-option value="2" label="阶梯价"/>
+            </el-select>
           </el-col>
           <el-col :span="3" style="margin-left: 20px">
             <!-- 搜索按钮 -->
@@ -79,50 +39,59 @@
         fit
         highlight-current-row
         style="width: 100%;"
-        @current-change="handleCurrentChange">
+        @selection-change="handleCurrentChange">
+        <el-table-column
+          type="selection"
+          width="55"
+          align="center"/>
         <el-table-column :label="$t('public.id')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.planNumber }}</span>
+            <span>{{ scope.row.id }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('StockPlan.title')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('Advancemanage.productCode')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.title }}</span>
+            <span>{{ scope.row.productCode }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('StockPlan.stockPersonId')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('Advancemanage.productName')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.planPersonName }}</span>
+            <span>{{ scope.row.productName }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('StockPlan.allMoney')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('Advancemanage.productType')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.allMoney }}</span>
+            <span>{{ scope.row.productType }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('StockPlan.planDate')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('Advancemanage.color')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.planDate }}</span>
+            <span>{{ scope.row.color }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('StockApply.stockType')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('Advancemanage.advanceMode')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.stockType | stockTypeFilter }}</span>
+            <span>{{ scope.row.advanceMode | advanceModeFilter }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('StockPlan.sourceType')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('Advancemanage.depositBegintime')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.sourceType | sourceTypeFilter }}</span>
+            <span>{{ scope.row.depositBegintime }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('public.judgeStat')" :resizable="false" prop="judgeStat" align="center" min-width="150">
+        <el-table-column :label="$t('Advancemanage.depositEndtime')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.judgeStat | judgeStatFilter }}</span>
+            <span>{{ scope.row.depositEndtime }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('public.receiptStat')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('Advancemanage.finalBegintime')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.receiptStat | receiptStatFilter }}</span>
+            <span>{{ scope.row.finalBegintime }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column :label="$t('Advancemanage.finalEndtime')" :resizable="false" align="center" min-width="150">
+          <template slot-scope="scope">
+            <span>{{ scope.row.finalEndtime }}</span>
           </template>
         </el-table-column>
       </el-table>
@@ -135,15 +104,19 @@
 </template>
 
 <script>
-import { stockplanlist } from '@/api/StockPlan'
+import { advancelist } from '@/api/Advancemanage'
 import { getdeptlist } from '@/api/BasicSettings'
 import { searchStockCategory } from '@/api/StockCategory'
+import { productlist } from '@/api/public'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination'
-import MyEmp from '../../StockPlan/components/MyEmp'
+import MyEmp from './MyEmp'
+import DetailList from './DetailList'
+import MyDialog from './MyDialog'
+import MySupplier from './MySupplier'
 export default {
   directives: { waves },
-  components: { MyEmp, Pagination },
+  components: { MyDialog, DetailList, MyEmp, Pagination, MySupplier },
   filters: {
     judgeStatFilter(status) {
       const statusMap = {
@@ -168,29 +141,24 @@ export default {
       }
       return statusMap[status]
     },
-    sourceTypeFilter(status) {
+    advanceModeFilter(status) {
       const statusMap = {
-        1: '采购申请',
-        2: '采购需求',
-        3: '无来源'
+        1: '一口价',
+        2: '阶梯价'
       }
       return statusMap[status]
     }
   },
   props: {
-    plancontrol: {
+    advancecontrol: {
       type: Boolean,
       default: false
-    },
-    supp: {
-      type: Number,
-      default: null
     }
   },
   data() {
     return {
       // 选择框控制
-      employeeVisible: this.plancontrol,
+      employeeVisible: this.advancecontrol,
       // 类别获取参数
       typeparms: {
         pagenum: 1,
@@ -210,9 +178,13 @@ export default {
       detailvisible: false,
       // 更多搜索条件问题
       visible2: false,
-      // 计划人回显
-      planPersonId: '',
-      // 计划人控制框
+      // 供应商回显
+      supplierId: '',
+      // 供应商控制框
+      empcontrol: false,
+      // 经办人回显
+      handlePersonId: '',
+      // 经办人控制框
       stockControl: false,
       // 批量操作
       moreaction: '',
@@ -231,7 +203,6 @@ export default {
         pageNum: 1,
         pageSize: 10,
         repositoryId: 438,
-        supplierId: this.supp,
         regionIds: 2,
         createPersonId: 3
       },
@@ -244,13 +215,9 @@ export default {
     }
   },
   watch: {
-    plancontrol() {
-      this.employeeVisible = this.plancontrol
-    },
-    supp() {
-      this.getemplist.supplierId = this.supp
+    advancecontrol() {
+      this.employeeVisible = this.advancecontrol
       this.getlist()
-      console.log(this.supp)
     }
   },
   created() {
@@ -264,7 +231,7 @@ export default {
     getlist() {
       // 物料需求计划列表数据
       this.listLoading = true
-      stockplanlist(this.getemplist).then(res => {
+      advancelist(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
@@ -288,13 +255,15 @@ export default {
     },
     // 清空搜索条件
     restFilter() {
-      this.planPersonId = ''
-      this.getemplist.planPersonId = ''
+      this.supplierId = ''
+      this.getemplist.supplierId = ''
+      this.handlePersonId = ''
+      this.getemplist.handlePersonId = ''
     },
     // 搜索
     handleFilter() {
       this.getemplist.pageNum = 1
-      stockplanlist(this.getemplist).then(res => {
+      advancelist(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
@@ -304,18 +273,28 @@ export default {
         }
       })
     },
-    // 计划人focus事件
+    // 经办人focus事件
     handlechooseStock() {
       this.stockControl = true
     },
-    // 计划人回显
+    // 经办人回显
     stockName(val) {
-      this.planPersonId = val.personName
-      this.getemplist.planPersonId = val.id
+      this.handlePersonId = val.personName
+      this.getemplist.handlePersonId = val.id
+    },
+    // 供应商输入框focus事件触发
+    handlechoose() {
+      this.empcontrol = true
+    },
+    // 供应商列表返回数据
+    supplierName(val) {
+      console.log(val)
+      this.supplierId = val.supplierName
+      this.getemplist.supplierId = val.id
     },
     // 新增数据
     handleAdd() {
-      this.$router.push('/StockPlan/AddStockPlan')
+      this.$router.push('/Advancemanage/AddAdvanceProduct')
     },
     // 选择主生产计划数据时的操作
     handleCurrentChange(val) {
@@ -323,38 +302,51 @@ export default {
     },
     // 确认添加数据
     async handleConfirm() {
-      this.employeeVisible = false
       console.log(this.choosedata)
-      const applydata = this.choosedata.stockPlanDetailVos
-      const number = this.choosedata.planNumber
-      const applyDetail = applydata.map(function(item) {
+      this.employeeVisible = false
+      const list = await Promise.all(this.choosedata.map(function(item) {
+        return productlist(item.productCode)
+      }))
+      const advanceDetail = this.choosedata.map(function(item) {
         return {
           productCode: item.productCode,
           productName: item.productName,
           productType: item.productType,
-          typeName: item.productType,
-          type: item.typeId,
+          typeId: item.typeId,
           unit: item.unit,
           color: item.color,
-          stockQuantity: item.planQuantity,
-          deliveryDate: item.planDeliveryDate,
-          applicationReason: item.applyReason,
-          sourceNumber: number,
-          sourceSerialNumber: item.id,
-          remark: 0,
-          discountRate: 0,
+          costMoney: '0.00',
+          includeTaxMoney: '0.00',
+          taxRate: '0.00',
+          taxMoney: '0.00',
+          money: '0.00',
+          includeTaxCostMoney: '0.00',
+          carCode: '',
+          batteryCode: '',
+          motorCode: '',
+          discount: 0,
           discountMoney: 0,
-          arrivalQuantity: '0.00',
-          price: item.basicPrice,
-          includeTaxPrice: item.basicPrice,
-          supplierId: item.supplierId,
-          returnQuantity: 0,
-          actualArrivalQuantity: 0
+          quantity: '0.00',
+          salePrice: '0.00',
+          costPrice: '0.00'
         }
       })
-      console.log(applyDetail)
-      this.$emit('plan', applyDetail)
-      this.$emit('allPlaninfo', this.choosedata)
+      console.log(list)
+      for (let i = 0; i < this.choosedata.length; i++) {
+        for (let j = 0; j < list.length; j++) {
+          if (advanceDetail[i].productCode === list[j].data.data.content.list[0].code) {
+            advanceDetail[i].kpiGrade = list[j].data.data.content.list[0].kpiGrade
+            advanceDetail[i].point = list[j].data.data.content.list[0].point
+            advanceDetail[i].salePrice = list[j].data.data.content.list[0].salePrice
+            advanceDetail[i].costPrice = list[j].data.data.content.list[0].costPrice
+            advanceDetail[i].category = list[j].data.data.content.list[0].category
+            advanceDetail[i].categoryId = list[j].data.data.content.list[0].categoryId
+            advanceDetail[i].productCategory = list[j].data.data.content.list[0].category
+          }
+        }
+      }
+      console.log(advanceDetail)
+      this.$emit('advance', advanceDetail)
     }
     // 仓库管理员选择结束
   }

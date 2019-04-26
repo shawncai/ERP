@@ -189,6 +189,12 @@ export default {
       heji7: '',
       heji8: '',
       heji9: '',
+      // id递增数据
+      treeIds: 1,
+      // 转存数据
+      childData: '',
+      // 标志符
+      child: false,
       // 控制源单编码是否可以选择
       IsNumber: true,
       // 控制添加商品按钮是否可以点击
@@ -260,25 +266,41 @@ export default {
     this.getTypes()
   },
   methods: {
-    // handleCheckChange(data, checked) {
-    //   console.log(data)
-    //   if (checked === true) {
-    //
-    //   }
-    // },
+    handleCheckChange(data, checked) {
+      console.log(data)
+      if (checked === true) {
+        this.child = true
+        this.childData = data
+      } else if (checked === false) {
+        this.child = false
+        this.childData = ''
+      }
+    },
     // 清理明细数据
     cleardata() {
       this.addCategoryForm = { label: '', id: 1, parentId: 0, level: 1, children: [] }
     },
     // 保存明细
     handlesave2() {
-      const treeData = { label: '', id: 1, parentId: 0, level: 1, children: [] }
-      treeData.label = this.addCategoryForm.repositoryName + ':  最低目标额(元):  ' + this.addCategoryForm.lowerMoney + '     ' + '目标额（元); ' + this.addCategoryForm.targetMoney
-      this.data2.push(treeData)
-      this.categoryVisible = false
-      this.cleardata()
-      this.addCategoryForm.id++
-      console.log(this.data2)
+      if (this.child === false) {
+        const treeData = { label: '', id: 1, parentId: 0, level: 1, children: [] }
+        treeData.label = this.addCategoryForm.repositoryName + ':  最低目标额(元):  ' + this.addCategoryForm.lowerMoney + '     ' + '目标额（元): ' + this.addCategoryForm.targetMoney
+        treeData.id = this.treeIds++
+        this.data2.push(treeData)
+        this.categoryVisible = false
+        this.cleardata()
+        this.addCategoryForm.id++
+      } else if (this.child === true) {
+        const treeData = { label: '', id: 1, parentId: 0, level: 1, children: [] }
+        treeData.label = this.addCategoryForm.repositoryName + ':  最低目标额(元):  ' + this.addCategoryForm.lowerMoney + '     ' + '目标额（元): ' + this.addCategoryForm.targetMoney
+        treeData.parentId = this.childData.id
+        treeData.id = this.treeIds++
+        treeData.level = this.childData.level + 1
+        this.childData.children.push(treeData)
+        this.categoryVisible = false
+        this.cleardata()
+        this.addCategoryForm.id++
+      }
     },
     changeValue(value) {
       console.log(value)

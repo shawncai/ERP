@@ -359,7 +359,8 @@ export default {
           enterPrice: (item.includeTaxPrice).toFixed(2),
           taxRate: (item.taxRate * 100).toFixed(2),
           enterMoney: '0.00',
-          remarks: ''
+          remarks: '',
+          sourceSerialNumber: item.id
         }
       })
       console.log(arrivalDetail)

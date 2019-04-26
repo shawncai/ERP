@@ -1414,6 +1414,32 @@ export const asyncRouterMap = [
     ]
   },
   {
+    path: '/SaleOut',
+    component: Layout,
+    redirect: 'noredirect',
+    name: 'SaleOut',
+    alwaysShow: true,
+    meta: {
+      title: 'SaleOut',
+      icon: 'xiaoshoudingdan',
+      type: 3
+    },
+    children: [
+      {
+        path: 'AddSaleOut',
+        component: () => import('@/views/SaleOut/AddSaleOut'),
+        name: 'AddSaleOut',
+        meta: { title: 'AddSaleOut', noCache: false }
+      },
+      {
+        path: 'SaleOutList',
+        component: () => import('@/views/SaleOut/SaleOutList'),
+        name: 'SaleOutList',
+        meta: { title: 'SaleOutList', noCache: true }
+      }
+    ]
+  },
+  {
     path: '/SaleOrder',
     component: Layout,
     redirect: 'noredirect',
@@ -1728,6 +1754,26 @@ export const asyncRouterMap = [
         component: () => import('@/views/SaleCategory/SaleCategoryList'),
         name: 'SaleCategoryList',
         meta: { title: 'SaleCategoryList', noCache: true }
+      }
+    ]
+  },
+  {
+    path: '/SmartReplenishment',
+    component: Layout,
+    redirect: 'noredirect',
+    name: 'SmartReplenishment',
+    alwaysShow: true,
+    meta: {
+      title: 'SmartReplenishment',
+      icon: 'zhinengbuhuo',
+      type: 3
+    },
+    children: [
+      {
+        path: 'SmartReplenishmentList',
+        component: () => import('@/views/SmartReplenishment/SmartReplenishmentList'),
+        name: 'SmartReplenishmentList',
+        meta: { title: 'SmartReplenishmentList', noCache: true }
       }
     ]
   },
