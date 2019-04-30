@@ -1,5 +1,5 @@
 <template>
-  <el-dialog :visible.sync="employeeVisible" :arrivalcontrol="arrivalcontrol" :close-on-press-escape="false" top="10px" title="选择采购到货单" append-to-body width="1100px" @close="$emit('update:arrivalcontrol', false)">
+  <el-dialog :visible.sync="employeeVisible" :arrivalcontrol="arrivalcontrol" :supp="supp" :close-on-press-escape="false" top="10px" title="选择采购到货单" append-to-body width="1100px" @close="$emit('update:arrivalcontrol', false)">
     <el-card class="box-card" style="margin-top: 15px;height: 60px;padding-left:0 " shadow="never">
       <el-row>
         <el-form ref="getemplist" :model="getemplist" style="margin-top: -9px">
@@ -194,6 +194,10 @@ export default {
     arrivalcontrol: {
       type: Boolean,
       default: false
+    },
+    supp: {
+      type: Number,
+      default: null
     }
   },
   data() {
@@ -245,7 +249,8 @@ export default {
         pageSize: 10,
         repositoryId: 438,
         regionIds: 2,
-        createPersonId: 3
+        createPersonId: 3,
+        supplierId: this.supp
       },
       // 传给组件的数据
       personalForm: {},
@@ -258,6 +263,11 @@ export default {
   watch: {
     arrivalcontrol() {
       this.employeeVisible = this.arrivalcontrol
+    },
+    supp() {
+      this.getemplist.supplierId = this.supp
+      this.getlist()
+      console.log(this.supp)
     }
   },
   created() {

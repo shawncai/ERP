@@ -1,5 +1,5 @@
 <template>
-  <el-dialog :visible.sync="productVisible" :control="control" :close-on-press-escape="false" top="10px" title="选择商品" append-to-body @close="$emit('update:control', false)">
+  <el-dialog :visible.sync="productVisible" :control="control" :supp="supp" :close-on-press-escape="false" top="10px" title="选择商品" append-to-body @close="$emit('update:control', false)">
     <div class="filter-container">
       <!-- 搜索条件栏目 -->
       <el-input v-model="getemplist.code" :placeholder="$t('Product.code')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
@@ -136,6 +136,10 @@ export default {
     control: {
       type: Boolean,
       default: false
+    },
+    supp: {
+      type: Number,
+      default: null
     }
   },
   data() {
@@ -173,6 +177,7 @@ export default {
         typeid: '',
         isactive: '',
         Productid: '',
+        supplierId: this.supp,
         pagenum: 1,
         pagesize: 10
       }
@@ -183,6 +188,11 @@ export default {
       this.productVisible = this.control
       console.log(this.control)
       this.getlist()
+    },
+    supp() {
+      this.getemplist.supplierId = this.supp
+      this.getlist()
+      console.log(this.supp)
     }
   },
   created() {

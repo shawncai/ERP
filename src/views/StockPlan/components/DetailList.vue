@@ -38,7 +38,7 @@
             </el-col>
             <el-col :span="12">
               <el-form-item :label="$t('StockPlan.planDate')" prop="planDate" style="width: 100%;">
-                <span>{{ personalForm.planDate }}</span>
+                <span>{{ somedate }}</span>
               </el-form-item>
             </el-col>
           </el-row>
@@ -65,17 +65,9 @@
           <el-editable-column prop="productType" align="center" label="规格" min-width="150px"/>
           <el-editable-column prop="color" align="center" label="颜色" min-width="150px"/>
           <el-editable-column prop="unit" align="center" label="单位" min-width="150px"/>
-          <el-editable-column prop="basicPrice" align="center" label="单价" min-width="150px">
-            <template slot-scope="scope">
-              <p>{{ basicPrice(scope.row) }}</p>
-            </template>
-          </el-editable-column>
+          <el-editable-column prop="basicPrice" align="center" label="单价" min-width="150px"/>
           <el-editable-column prop="planQuantity" align="center" label="计划数量" min-width="150px"/>
-          <el-editable-column prop="planMoney" align="center" label="计划金额" min-width="150px">
-            <template slot-scope="scope">
-              <p>{{ planMoney(scope.row) }}</p>
-            </template>
-          </el-editable-column>
+          <el-editable-column prop="planMoney" align="center" label="计划金额" min-width="150px"/>
           <el-editable-column prop="planDeliveryDate" align="center" label="计划交货日期" min-width="170px"/>
           <el-editable-column prop="applyReason" align="center" label="申请原因" min-width="150px"/>
           <el-editable-column prop="sourceNumber" align="center" label="源单编号" min-width="150px"/>
@@ -92,8 +84,6 @@
           ref="editable2"
           :data.sync="list3"
           :edit-config="{ showIcon: true, showStatus: true}"
-          :summary-method="getSummaries"
-          show-summary
           class="click-table1"
           stripe
           border
@@ -105,17 +95,9 @@
           <el-editable-column prop="productType" align="center" label="规格" min-width="150px"/>
           <el-editable-column prop="color" align="center" label="颜色" min-width="150px"/>
           <el-editable-column prop="unit" align="center" label="单位" min-width="150px"/>
-          <el-editable-column prop="basicPrice" align="center" label="单价" min-width="150px">
-            <template slot-scope="scope">
-              <p>{{ basicPrice(scope.row) }}</p>
-            </template>
-          </el-editable-column>
+          <el-editable-column prop="basicPrice" align="center" label="单价" min-width="150px"/>
           <el-editable-column prop="planQuantity" align="center" label="计划数量" min-width="150px"/>
-          <el-editable-column prop="planMoney" align="center" label="计划金额" min-width="150px">
-            <template slot-scope="scope">
-              <p>{{ planMoney(scope.row) }}</p>
-            </template>
-          </el-editable-column>
+          <el-editable-column prop="planMoney" align="center" label="计划金额" min-width="150px"/>
           <el-editable-column prop="planDeliveryDate" align="center" label="计划交货日期" min-width="170px"/>
           <el-editable-column prop="applyReason" align="center" label="申请原因" min-width="150px"/>
           <el-editable-column prop="sourceNumber" align="center" label="源单编号" min-width="150px"/>
@@ -200,7 +182,6 @@
 </template>
 
 <script>
-import { productlist } from '@/api/public'
 export default {
   filters: {
     statfilter(status) {
@@ -240,6 +221,8 @@ export default {
   },
   data() {
     return {
+      // 中转data
+      somedate: '',
       // 合计数据
       heji1: '',
       heji2: '',
@@ -263,60 +246,10 @@ export default {
       this.list2 = this.personalForm.stockPlanDetailVos
       this.list3 = this.personalForm.stockPlanDetailVos
       this.reviewList = this.personalForm.approvalUseVos
+      this.somedate = this.personalForm.planDate
     }
   },
   methods: {
-    // 计划金额
-    planMoney(row) {
-      row.planMoney = row.basicPrice * row.planQuantity
-      return row.planMoney
-    },
-    // 计算单价和供应商
-    basicPrice(row) {
-      productlist(row.productCode).then(res => {
-        if (res.data.ret === 200) {
-          row.basicPrice = res.data.data.content.list[0].purchasePrice
-        }
-      })
-      return row.basicPrice
-    },
-    // 总计
-    getSummaries(param) {
-      const { columns, data } = param
-      const sums = []
-      columns.forEach((column, index) => {
-        if (index === 0) {
-          sums[index] = '总计'
-          return
-        }
-        const values = data.map(item => Number(item[column.property]))
-        if (!values.every(value => isNaN(value))) {
-          sums[index] = values.reduce((prev, curr) => {
-            const value = Number(curr)
-            if (!isNaN(value)) {
-              return prev + curr
-            } else {
-              return prev
-            }
-          }, 0)
-          sums[index] += ''
-        } else {
-          sums[index] = ''
-        }
-      })
-      this.heji1 = sums[8]
-      this.heji2 = sums[7]
-      sums[1] = ''
-      sums[2] = ''
-      sums[3] = ''
-      sums[4] = ''
-      sums[6] = ''
-      sums[9] = ''
-      sums[10] = ''
-      sums[11] = ''
-      sums[12] = ''
-      return sums
-    },
     handlecancel() {
       this.editVisible = false
     }

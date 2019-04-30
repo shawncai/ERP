@@ -41,7 +41,7 @@
             </el-col>
             <el-col :span="12">
               <el-form-item :label="$t('StockApply.sourceType')" prop="sourceType" style="width: 100%;">
-                <el-select v-model="personalForm.sourceType" style="margin-left: 18px;width: 218px">
+                <el-select v-model="personalForm.sourceType" style="margin-left: 18px;width: 218px" @change="chooseSourceType">
                   <el-option value="1" label="无来源" />
                   <el-option value="2" label="销售订单" />
                 </el-select>
@@ -51,6 +51,7 @@
               <el-form-item :label="$t('StockApply.applyDate')" prop="applyDate" style="width: 100%;">
                 <el-date-picker
                   v-model="personalForm.applyDate"
+                  :picker-options="pickerOptions1"
                   type="date"
                   value-format="yyyy-MM-dd"
                   style="margin-left: 18px"/>
@@ -64,8 +65,10 @@
     <el-card class="box-card" style="margin-top: 15px" shadow="never">
       <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">采购申请明细来源</h2>
       <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
-        <el-button @click="handleAddproduct">添加商品</el-button>
+        <el-button :disabled="Isproduct" @click="handleAddproduct">添加商品</el-button>
         <my-detail :control.sync="control" @product="productdetail" @product2="productdetail2"/>
+        <el-button :disabled="IsSourceNumber" style="width: 120px" @click="handleAddSource">从源单中选择</el-button>
+        <my-order :ordercontrol.sync="ordercontrol" @saleOrderDetail="saleOrderDetail" @saleOrderDetail2="saleOrderDetail2" @saleOrder="saleOrder"/>
         <el-button type="danger" @click="deleteEdit">删除</el-button>
       </div>
       <div class="container">
@@ -99,7 +102,7 @@
             </template>
           </el-editable-column>
           <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="applyReason" align="center" label="申请原因" min-width="150px"/>
-          <el-editable-column prop="sourceSerialNumber" align="center" label="源单编号" min-width="150px"/>
+          <el-editable-column prop="sourceSerialNumber" align="center" label="源单序号" min-width="150px"/>
         </el-editable>
       </div>
     </el-card>
@@ -140,7 +143,7 @@
                 disabled/>
             </template>
           </el-editable-column>
-          <el-editable-column prop="sourceSerialNumber" align="center" label="源单编号" min-width="150px"/>
+          <el-editable-column prop="sourceSerialNumber" align="center" label="源单序号" min-width="150px"/>
         </el-editable>
       </div>
     </el-card>
@@ -159,8 +162,9 @@ import { getdeptlist } from '@/api/BasicSettings'
 import { searchStockCategory } from '@/api/StockCategory'
 import MyEmp from './MyEmp'
 import MyDetail from './MyDetail'
+import MyOrder from './MyOrder'
 export default {
-  components: { MyDetail, MyEmp },
+  components: { MyDetail, MyEmp, MyOrder },
   props: {
     editcontrol: {
       type: Boolean,
@@ -183,7 +187,7 @@ export default {
     return {
       pickerOptions1: {
         disabledDate: (time) => {
-          return time.getTime() < new Date(this.personalForm.applyDate).getTime() - 8.64e7
+          return time.getTime() < new Date().getTime() - 8.64e7
         }
       },
       // 选择的数据
@@ -192,6 +196,12 @@ export default {
       editVisible: this.editcontrol,
       // 修改信息数据
       personalForm: this.editdata,
+      // 控制源单数据
+      ordercontrol: false,
+      // 控制是否可以从商品选择
+      Isproduct: false,
+      // 控制是否可以从源单选择
+      IsSourceNumber: true,
       // 部门数据
       depts: [],
       // 申请人回显
@@ -256,6 +266,74 @@ export default {
     this.getTypes()
   },
   methods: {
+    // 控制不同源单类型
+    chooseSourceType(val) {
+      if (val === '1') {
+        this.Isproduct = false
+        this.IsSourceNumber = true
+      } else if (val === '2') {
+        this.Isproduct = true
+        this.IsSourceNumber = false
+        const ceshi2 = this.$refs.editable2.getRecords()
+        console.log(ceshi2)
+        for (let i = 0; i < ceshi2.length; i++) {
+          if (ceshi2[i].sourceSerialNumber !== '' && ceshi2[i].sourceSerialNumber !== null && ceshi2[i].sourceSerialNumber !== undefined) {
+            this.$refs.editable2.remove(ceshi2[i])
+          }
+        }
+        const ceshi = this.$refs.editable.getRecords()
+        console.log(ceshi)
+        for (let i = 0; i < ceshi.length; i++) {
+          if (ceshi[i].sourceSerialNumber !== '' && ceshi[i].sourceSerialNumber !== null && ceshi[i].sourceSerialNumber !== undefined) {
+            this.$refs.editable.remove(ceshi[i])
+          }
+        }
+      }
+    },
+    // 从源单添加商品
+    handleAddSource() {
+      this.ordercontrol = true
+    },
+    // 从销售订单过来数据
+    saleOrderDetail(val) {
+      console.log(val)
+      const nowlistdata = this.$refs.editable.getRecords()
+      for (let i = 0; i < val.length; i++) {
+        for (let j = 0; j < nowlistdata.length; j++) {
+          if (val[i].sourceNumber === nowlistdata[j].sourceNumber) {
+            this.$notify.error({
+              title: '错误',
+              message: '物品已添加',
+              offset: 100
+            })
+            return false
+          }
+        }
+        this.$refs.editable.insert(val[i])
+      }
+    },
+    saleOrderDetail2(val) {
+      console.log(val)
+      const nowlistdata = this.$refs.editable2.getRecords()
+      for (let i = 0; i < val.length; i++) {
+        for (let j = 0; j < nowlistdata.length; j++) {
+          if (val[i].sourceNumber === nowlistdata[j].sourceNumber) {
+            this.$notify.error({
+              title: '错误',
+              message: '物品已添加',
+              offset: 100
+            })
+            return false
+          }
+        }
+        this.$refs.editable2.insert(val[i])
+      }
+    },
+    saleOrder(val) {
+      console.log(val)
+      this.personalForm.applyPersonId = val.salePersonId
+      this.applyPersonId = val.salePersonName
+    },
     // 两表联动
     changeDate(scope, value) {
       console.log(scope)
@@ -324,35 +402,13 @@ export default {
     },
     productdetail(val) {
       console.log(val)
-      const nowlistdata = this.$refs.editable.getRecords()
       for (let i = 0; i < val.length; i++) {
-        for (let j = 0; j < nowlistdata.length; j++) {
-          if (val[i].productCode === nowlistdata[j].productCode) {
-            this.$notify.error({
-              title: '错误',
-              message: '物品已添加',
-              offset: 100
-            })
-            return false
-          }
-        }
         this.$refs.editable.insert(val[i])
       }
     },
     productdetail2(val) {
       console.log(val)
-      const nowlistdata2 = this.$refs.editable2.getRecords()
       for (let i = 0; i < val.length; i++) {
-        for (let j = 0; j < nowlistdata2.length; j++) {
-          if (val[i].productCode === nowlistdata2[j].productCode) {
-            this.$notify.error({
-              title: '错误',
-              message: '物品已添加',
-              offset: 100
-            })
-            return false
-          }
-        }
         this.$refs.editable2.insert(val[i])
       }
     },

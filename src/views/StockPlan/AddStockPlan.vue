@@ -343,7 +343,7 @@ export default {
       // 采购计划单明细列表规则
       validRules: {
         supplierName: [
-          { required: true, message: '请选择供应商', trigger: 'none' }
+          { required: true, message: '请选择供应商', trigger: 'blur' }
         ],
         planQuantity: [
           { required: true, message: '请输入计划数量', trigger: 'blur' }

@@ -76,7 +76,7 @@
         <h2 ref="fuzhu" class="form-name" >计划明细</h2>
         <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
           <el-button @click="handleAddproduct">添加明细</el-button>
-          <el-button type="danger">删除</el-button>
+          <!--<el-button type="danger" @click="deleteTreeData">删除</el-button>-->
         </div>
         <el-dialog :visible.sync="categoryVisible" title="添加明细" class="normal" width="600px" center>
           <el-form ref="addCategoryForm" :model="addCategoryForm" class="demo-ruleForm" style="margin: 0 auto; width: 400px">
@@ -106,12 +106,21 @@
         </el-dialog>
         <div class="container">
           <el-tree
+            ref="DeviceGroupTree"
             :data="data2"
             :props="defaultProps"
             :check-strictly = "true"
             show-checkbox
+            default-expand-all
             node-key="id"
-            @check-change="handleCheckChange"/>
+            @check-change="handleCheckChange">
+            <span slot-scope="{ node, data }" class="custom-tree-node">
+              <span>{{ node.label }}</span>
+              <span v-if="data.parentId !== 0" style="margin-left: 50px">
+                <i class="el-icon-delete" @click="nodeDelete(node, data)"/>
+              </span>
+            </span>
+          </el-tree>
         </div>
       </el-card>
       <!--操作-->
@@ -124,9 +133,9 @@
 </template>
 
 <script>
-// import { createSalePlan } from '@/api/SalePlan'
+import { addsaleplan } from '@/api/SalePlan'
 import { searchSaleCategory } from '@/api/SaleCategory'
-import { listbyparentid, searchRepository, searchregionName } from '@/api/public'
+import { listbyparentid, searchRepository, searchregionName, getId } from '@/api/public'
 import MyEmp from './components/MyEmp'
 import MyDelivery from '../DailyAdjust/components/MyDelivery'
 import MyDetail from './components/MyDetail'
@@ -189,6 +198,8 @@ export default {
       heji7: '',
       heji8: '',
       heji9: '',
+      // 单选数据
+      editCheckId: '',
       // id递增数据
       treeIds: 1,
       // 转存数据
@@ -264,13 +275,41 @@ export default {
   },
   created() {
     this.getTypes()
+    this.getTreeId()
   },
   methods: {
+    // 获取递归值
+    getTreeId() {
+      getId().then(res => {
+        console.log(res)
+        if (res.data.ret === 200) {
+          this.treeIds = res.data.data.content
+        }
+      })
+    },
+    // 删除tree数据
+    nodeDelete(node, data) {
+      const parent = node.parent
+
+      const children = parent.data.children || parent.data
+
+      const index = children.findIndex(d => d.id === data.id)
+
+      children.splice(index, 1)
+    },
+    // checkGroupNode: function(a, b) {
+    //   if (b.checkedKeys.length > 0) {
+    //     this.$refs.DeviceGroupTree.setCheckedKeys([a.id])
+    //   }
+    // },
     handleCheckChange(data, checked) {
       console.log(data)
+      console.log(checked)
       if (checked === true) {
         this.child = true
         this.childData = data
+        this.childData2 = data
+        this.editCheckId = data.id
       } else if (checked === false) {
         this.child = false
         this.childData = ''
@@ -286,6 +325,9 @@ export default {
         const treeData = { label: '', id: 1, parentId: 0, level: 1, children: [] }
         treeData.label = this.addCategoryForm.repositoryName + ':  最低目标额(元):  ' + this.addCategoryForm.lowerMoney + '     ' + '目标额（元): ' + this.addCategoryForm.targetMoney
         treeData.id = this.treeIds++
+        treeData.repositoryid = this.addCategoryForm.repositoryid
+        treeData.targetMoney = this.addCategoryForm.targetMoney
+        treeData.lowerMoney = this.addCategoryForm.lowerMoney
         this.data2.push(treeData)
         this.categoryVisible = false
         this.cleardata()
@@ -294,6 +336,10 @@ export default {
         const treeData = { label: '', id: 1, parentId: 0, level: 1, children: [] }
         treeData.label = this.addCategoryForm.repositoryName + ':  最低目标额(元):  ' + this.addCategoryForm.lowerMoney + '     ' + '目标额（元): ' + this.addCategoryForm.targetMoney
         treeData.parentId = this.childData.id
+        treeData.repositoryid = this.addCategoryForm.repositoryid
+        treeData.repositoryid = this.addCategoryForm.repositoryid
+        treeData.targetMoney = this.addCategoryForm.targetMoney
+        treeData.lowerMoney = this.addCategoryForm.lowerMoney
         treeData.id = this.treeIds++
         treeData.level = this.childData.level + 1
         this.childData.children.push(treeData)
@@ -661,152 +707,79 @@ export default {
       }
       this.customerId = null
       this.salePersonId = null
+      this.data2 = ''
     },
-    // // 保存操作
-    // handlesave() {
-    //   const EnterDetail = this.$refs.editable.getRecords()
-    //   if (EnterDetail.length === 0) {
-    //     this.$notify.error({
-    //       title: '错误',
-    //       message: '明细表不能为空',
-    //       offset: 100
-    //     })
-    //     return false
-    //   }
-    //   EnterDetail.map(function(elem) {
-    //     return elem
-    //   }).forEach(function(elem) {
-    //     if (elem.batch === null || elem.batch === '' || elem.batch === undefined) {
-    //       delete elem.batch
-    //     }
-    //     if (elem.productName === null || elem.productName === '' || elem.productName === undefined) {
-    //       delete elem.productName
-    //     }
-    //     if (elem.category === null || elem.category === '' || elem.category === undefined) {
-    //       delete elem.category
-    //     }
-    //     if (elem.unit === null || elem.unit === '' || elem.unit === undefined) {
-    //       delete elem.unit
-    //     }
-    //     if (elem.type === null || elem.type === '' || elem.type === undefined) {
-    //       delete elem.type
-    //     }
-    //     if (elem.color === null || elem.color === '' || elem.color === undefined) {
-    //       delete elem.color
-    //     }
-    //     if (elem.kpiGrade === null || elem.kpiGrade === '' || elem.kpiGrade === undefined) {
-    //       delete elem.kpiGrade
-    //     }
-    //     if (elem.point === null || elem.point === '' || elem.point === undefined) {
-    //       delete elem.point
-    //     }
-    //     if (elem.salePrice === null || elem.salePrice === '' || elem.salePrice === undefined) {
-    //       delete elem.salePrice
-    //     }
-    //     if (elem.costPrice === null || elem.costPrice === '' || elem.costPrice === undefined) {
-    //       delete elem.costPrice
-    //     }
-    //     if (elem.costMoney === null || elem.costMoney === '' || elem.costMoney === undefined) {
-    //       delete elem.costMoney
-    //     }
-    //     if (elem.includeTaxMoney === null || elem.includeTaxMoney === '' || elem.includeTaxMoney === undefined) {
-    //       delete elem.includeTaxMoney
-    //     }
-    //     if (elem.taxRate === null || elem.taxRate === '' || elem.taxRate === undefined) {
-    //       delete elem.taxRate
-    //     }
-    //     if (elem.taxRate !== null || elem.taxRate !== '' || elem.taxRate !== undefined) {
-    //       elem.taxRate = elem.taxRate / 100
-    //     }
-    //     if (elem.taxMoney === null || elem.taxMoney === '' || elem.taxMoney === undefined) {
-    //       delete elem.taxMoney
-    //     }
-    //     if (elem.money === null || elem.money === '' || elem.money === undefined) {
-    //       delete elem.money
-    //     }
-    //     if (elem.includeTaxCostMoney === null || elem.includeTaxCostMoney === '' || elem.includeTaxCostMoney === undefined) {
-    //       delete elem.includeTaxCostMoney
-    //     }
-    //     if (elem.discount === null || elem.discount === '' || elem.discount === undefined) {
-    //       delete elem.discount
-    //     }
-    //     if (elem.discount !== null || elem.discount !== '' || elem.discount !== undefined) {
-    //       elem.discount = elem.discount / 100
-    //     }
-    //     if (elem.discountMoney === null || elem.discountMoney === '' || elem.discountMoney === undefined) {
-    //       delete elem.discountMoney
-    //     }
-    //     if (elem.alreadyReturnQuantity === null || elem.alreadyReturnQuantity === '' || elem.alreadyReturnQuantity === undefined) {
-    //       delete elem.alreadyReturnQuantity
-    //     }
-    //     if (elem.returnQuantity === null || elem.returnQuantity === '' || elem.returnQuantity === undefined) {
-    //       delete elem.returnQuantity
-    //     }
-    //     if (elem.returnReason === null || elem.returnReason === '' || elem.returnReason === undefined) {
-    //       delete elem.returnReason
-    //     }
-    //     if (elem.sendQuantity === null || elem.sendQuantity === '' || elem.sendQuantity === undefined) {
-    //       delete elem.sendQuantity
-    //     }
-    //     if (elem.carCode === null || elem.carCode === '' || elem.carCode === undefined) {
-    //       delete elem.carCode
-    //     }
-    //     if (elem.motorCode === null || elem.motorCode === '' || elem.motorCode === undefined) {
-    //       delete elem.motorCode
-    //     }
-    //     if (elem.batteryCode === null || elem.batteryCode === '' || elem.batteryCode === undefined) {
-    //       delete elem.batteryCode
-    //     }
-    //     if (elem.locationId === null || elem.locationId === '' || elem.locationId === undefined) {
-    //       delete elem.locationId
-    //     }
-    //     return elem
-    //   })
-    //   const parms2 = JSON.stringify(EnterDetail)
-    //   const Data = this.personalForm
-    //   for (const key in Data) {
-    //     if (Data[key] === '' || Data[key] === undefined || Data[key] === null) {
-    //       delete Data[key]
-    //     }
-    //   }
-    //   const parms = JSON.stringify(Data)
-    //   this.$refs.personalForm.validate((valid) => {
-    //     if (valid) {
-    //       createSalePlan(parms, parms2, this.personalForm).then(res => {
-    //         console.log(res)
-    //         if (res.data.ret === 200) {
-    //           this.$notify({
-    //             title: '成功',
-    //             message: '保存成功',
-    //             type: 'success',
-    //             offset: 100
-    //           })
-    //           this.restAllForm()
-    //           this.$refs.editable.clear()
-    //           this.$refs.personalForm.clearValidate()
-    //           this.$refs.personalForm.resetFields()
-    //           this.$refs.personalForm2.clearValidate()
-    //           this.$refs.personalForm2.resetFields()
-    //           this.$refs.personalForm3.clearValidate()
-    //           this.$refs.personalForm3.resetFields()
-    //         } else {
-    //           this.$notify.error({
-    //             title: '错误',
-    //             message: res.data.msg,
-    //             offset: 100
-    //           })
-    //         }
-    //       })
-    //     } else {
-    //       this.$notify.error({
-    //         title: '错误',
-    //         message: '信息未填完整',
-    //         offset: 100
-    //       })
-    //       return false
-    //     }
-    //   })
-    // },
+    // 树结构数据转数组
+    treeToList(tree) {
+      let queen = []
+      const out = []
+      queen = queen.concat(tree)
+      while (queen.length) {
+        const first = queen.shift()
+        if (first.children) {
+          queen = queen.concat(first.children)
+          delete first['children']
+        }
+        out.push(first)
+      }
+      return out
+    },
+    // 保存操作
+    handlesave() {
+      const EnterDetail = this.treeToList(this.data2) // 输出转换后数组
+      console.log(EnterDetail)
+      if (EnterDetail.length === 0) {
+        this.$notify.error({
+          title: '错误',
+          message: '计划明细不能为空',
+          offset: 100
+        })
+        return false
+      }
+      const parms2 = JSON.stringify(EnterDetail)
+      const Data = this.personalForm
+      for (const key in Data) {
+        if (Data[key] === '' || Data[key] === undefined || Data[key] === null) {
+          delete Data[key]
+        }
+      }
+      const parms = JSON.stringify(Data)
+      this.$refs.personalForm.validate((valid) => {
+        if (valid) {
+          addsaleplan(parms, parms2, this.personalForm).then(res => {
+            console.log(res)
+            if (res.data.ret === 200) {
+              this.$notify({
+                title: '成功',
+                message: '保存成功',
+                type: 'success',
+                offset: 100
+              })
+              this.restAllForm()
+              this.$refs.personalForm.clearValidate()
+              this.$refs.personalForm.resetFields()
+              this.$refs.personalForm2.clearValidate()
+              this.$refs.personalForm2.resetFields()
+              this.$refs.personalForm3.clearValidate()
+              this.$refs.personalForm3.resetFields()
+            } else {
+              this.$notify.error({
+                title: '错误',
+                message: res.data.msg,
+                offset: 100
+              })
+            }
+          })
+        } else {
+          this.$notify.error({
+            title: '错误',
+            message: '信息未填完整',
+            offset: 100
+          })
+          return false
+        }
+      })
+    },
     // 取消操作
     handlecancel() {
       this.$router.go(-1)

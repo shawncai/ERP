@@ -1508,6 +1508,12 @@ export const asyncRouterMap = [
         component: () => import('@/views/SalePlan/AddSalePlan'),
         name: 'AddSalePlan',
         meta: { title: 'AddSalePlan', noCache: false }
+      },
+      {
+        path: 'SalePlanList',
+        component: () => import('@/views/SalePlan/SalePlanList'),
+        name: 'SalePlanList',
+        meta: { title: 'SalePlanList', noCache: true }
       }
     ]
   },
@@ -1554,6 +1560,12 @@ export const asyncRouterMap = [
         component: () => import('@/views/SaleContract/AddSaleContract'),
         name: 'AddSaleContract',
         meta: { title: 'AddSaleContract', noCache: false }
+      },
+      {
+        path: 'SaleContractList',
+        component: () => import('@/views/SaleContract/SaleContractList'),
+        name: 'SaleContractList',
+        meta: { title: 'SaleContractList', noCache: true }
       }
     ]
   },

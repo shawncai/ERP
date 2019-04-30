@@ -343,6 +343,7 @@ export default {
           arrivalQuantity: '0.00',
           includeTaxPrice: 0,
           returnQuantity: 0,
+          tax: 0,
           actualArrivalQuantity: 0
         }
       })

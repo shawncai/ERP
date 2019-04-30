@@ -1,5 +1,5 @@
 <template>
-  <el-dialog :visible.sync="editVisible" :detailcontrol="detailcontrol" :detaildata="detaildata" :close-on-press-escape="false" :title="personalForm.inquiryNumber +'    详情'" append-to-body width="1010px" class="edit" top="-10px" @close="$emit('update:detailcontrol', false)">
+  <el-dialog :visible.sync="editVisible" :detailcontrol="detailcontrol" :detaildata="detaildata" :close-on-press-escape="false" :title="personalForm.orderNumber +'    详情'" append-to-body width="1010px" class="edit" top="-10px" @close="$emit('update:detailcontrol', false)">
     <!--基本信息-->
     <el-card class="box-card" style="margin-top: 63px" shadow="never">
       <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">基本信息</h2>
@@ -28,7 +28,7 @@
             </el-col>
             <el-col :span="12">
               <el-form-item :label="$t('StockInquiry.stockTypeId')" prop="stockTypeId" style="width: 100%;">
-                <span>{{ personalForm.stockTypeId | stockTypeIdFilter }}</span>
+                <span>{{ personalForm.stockTypeName }}</span>
               </el-form-item>
             </el-col>
             <el-col :span="12">
@@ -48,10 +48,7 @@
             </el-col>
             <el-col :span="12">
               <el-form-item :label="$t('StockInquiry.isVat')" style="width: 100%;">
-                <el-radio-group v-model="personalForm.isVat" style="margin-left: 18px;width: 200px" disabled>
-                  <el-radio :label="1" style="width: 120px">是</el-radio>
-                  <el-radio :label="2">否</el-radio>
-                </el-radio-group>
+                <span>{{ personalForm.isVat | isVatFilter }}</span>
               </el-form-item>
             </el-col>
             <el-col :span="12">
@@ -82,24 +79,27 @@
           size="medium"
           style="width: 100%">
           <el-editable-column label="序号" min-width="55" align="center" type="index"/>
+          <el-editable-column label="序号" min-width="55" align="center" type="index"/>
           <el-editable-column prop="productCode" align="center" label="物品编号" min-width="150px"/>
           <el-editable-column prop="productName" align="center" label="物品名称" min-width="150px"/>
-          <el-editable-column prop="typeName" align="center" label="规格" min-width="150px"/>
-          <el-editable-column prop="color" align="center" label="颜色" min-width="150px"/>
+          <el-editable-column prop="productType" align="center" label="规格" min-width="150px"/>
           <el-editable-column prop="unit" align="center" label="单位" min-width="150px"/>
-          <el-editable-column prop="plannedQuantity" align="center" label="计划数量" min-width="150px"/>
-          <el-editable-column prop="planDeliveryDate" align="center" label="交货日期" min-width="160px"/>
-          <el-editable-column prop="price" align="center" label="单价" min-width="150px"/>
-          <el-editable-column prop="includeTaxPrice" align="center" label="含税价" min-width="150px"/>
-          <el-editable-column prop="taxRate" align="center" label="税率" min-width="150px"/>
+          <el-editable-column prop="stockQuantity" align="center" label="采购数量" min-width="150px"/>
+          <el-editable-column prop="price" align="center" label="单价" min-width="170px"/>
+          <el-editable-column prop="includeTaxPrice" align="center" label="含税价" min-width="170px"/>
+          <el-editable-column prop="tax" align="center" label="税率(%)" min-width="170px"/>
           <el-editable-column prop="money" align="center" label="金额" min-width="150px"/>
           <el-editable-column prop="includeTaxMoney" align="center" label="含税金额" min-width="150px"/>
           <el-editable-column prop="taxMoney" align="center" label="税额" min-width="150px"/>
-          <el-editable-column prop="applicationReason" align="center" label="备注" min-width="150px"/>
+          <el-editable-column prop="deliveryDate" align="center" label="交货日期" min-width="170px"/>
+          <el-editable-column prop="discountRate" align="center" label="折扣率(%)" min-width="170px"/>
+          <el-editable-column prop="discountMoney" align="center" label="折扣额" min-width="170px"/>
+          <el-editable-column prop="remark" align="center" label="备注" min-width="150px"/>
           <el-editable-column prop="sourceNumber" align="center" label="源单编号" min-width="150px"/>
           <el-editable-column prop="sourceSerialNumber" align="center" label="源单序号" min-width="150px"/>
           <el-editable-column prop="arrivalQuantity" align="center" label="已到货数量" min-width="150px"/>
           <el-editable-column prop="returnQuantity" align="center" label="退货数量" min-width="150px"/>
+          <el-editable-column prop="actualArrivalQuantity" align="center" label="实到数量" min-width="150px"/>
         </el-editable>
       </div>
     </el-card>
@@ -180,6 +180,13 @@
 <script>
 export default {
   filters: {
+    isVatFilter(status) {
+      const statusMap = {
+        1: '是',
+        2: '否'
+      }
+      return statusMap[status]
+    },
     statfilter(status) {
       const statusMap = {
         1: '审核中',
@@ -247,7 +254,7 @@ export default {
     },
     detaildata() {
       this.personalForm = this.detaildata
-      this.list2 = this.personalForm.stockInquiryDetailVos
+      this.list2 = this.personalForm.stockOrderDetailVos
       this.reviewList = this.personalForm.approvalUseVos
     }
   },

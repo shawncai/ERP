@@ -97,11 +97,7 @@
           <el-editable-column prop="productType" align="center" label="规格" min-width="150px"/>
           <el-editable-column prop="color" align="center" label="颜色" min-width="150px"/>
           <el-editable-column prop="unit" align="center" label="单位" min-width="150px"/>
-          <el-editable-column prop="basicPrice" align="center" label="单价" min-width="150px">
-            <template slot-scope="scope">
-              <p>{{ basicPrice(scope.row) }}</p>
-            </template>
-          </el-editable-column>
+          <el-editable-column prop="basicPrice" align="center" label="单价" min-width="150px"/>
           <el-editable-column prop="requireQuantity" align="center" label="需求数量" min-width="150px"/>
           <el-editable-column prop="requireDate" align="center" label="需求日期" min-width="150px"/>
           <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 1, precision: 2}, type: 'visible' ,events: {change: changeDate}}" prop="planQuantity" align="center" label="计划数量" min-width="150px"/>
@@ -153,11 +149,7 @@
           <el-editable-column prop="productType" align="center" label="规格" min-width="150px"/>
           <el-editable-column prop="color" align="center" label="颜色" min-width="150px"/>
           <el-editable-column prop="unit" align="center" label="单位" min-width="150px"/>
-          <el-editable-column prop="basicPrice" align="center" label="单价" min-width="150px">
-            <template slot-scope="scope">
-              <p>{{ basicPrice(scope.row) }}</p>
-            </template>
-          </el-editable-column>
+          <el-editable-column prop="basicPrice" align="center" label="单价" min-width="150px"/>
           <el-editable-column prop="planQuantity" align="center" label="计划数量" min-width="150px">
             <template slot-scope="scope">
               <p>{{ planQuantity(scope.row) }}</p>
@@ -275,7 +267,7 @@ export default {
       // 控制从采购申请中选择
       applycontrol: false,
       // 控制添加商品按钮
-      addpro: true,
+      addpro: false,
       // 控制从源单中选择按钮
       addsouce: true,
       // 部门数据
@@ -344,7 +336,6 @@ export default {
       this.list2 = this.personalForm.stockPlanDetailVos
       this.list3 = this.personalForm.stockPlanDetailVos
       this.getdatatime()
-      this.chooseType()
     }
   },
   created() {
@@ -365,10 +356,6 @@ export default {
     planMoney(row) {
       row.planMoney = (row.basicPrice * row.planQuantity).toFixed(2)
       return row.planMoney
-    },
-    // 转化单价
-    basicPrice(row) {
-      return (row.basicPrice).toFixed(2)
     },
     // 总计
     getSummaries(param) {

@@ -35,7 +35,7 @@
               </el-col>
               <el-col :span="12">
                 <el-form-item :label="$t('QualityCheck.reportDeptId')" prop="reportDeptId" style="width: 100%;">
-                  <el-select v-model="personalForm.reportDeptId" clearable style="margin-left: 18px;width: 200px">
+                  <el-select v-model="personalForm.reportDeptId" clearable style="margin-left: 18px;width: 200px" @change="change()">
                     <el-option
                       v-for="(item, index) in depts"
                       :key="index"
@@ -76,6 +76,7 @@
                 <el-form-item :label="$t('QualityCheck.reportDate')" prop="reportDate" style="width: 100%;">
                   <el-date-picker
                     v-model="personalForm.reportDate"
+                    :picker-options="pickerOptions1"
                     type="date"
                     value-format="yyyy-MM-dd"
                     style="margin-left: 18px;width: 200px"/>
@@ -91,9 +92,9 @@
       <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">质检申请单明细</h2>
       <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
         <el-button :disabled="addpro" @click="handleAddproduct">添加商品</el-button>
-        <my-detail :control.sync="control" @product="productdetail"/>
+        <my-detail :control.sync="control" :supp.sync="supp" @product="productdetail"/>
         <el-button :disabled="addsouce" style="width: 130px" @click="handleAddSouce">从源单中选择</el-button>
-        <my-arrival :arrivalcontrol.sync="arrivalcontrol" @arrival="arrival" />
+        <my-arrival :arrivalcontrol.sync="arrivalcontrol" :supp.sync="supp" @arrival="arrival" />
         <produce-task :procontrol.sync="producecontrol" @produce="produce"/>
         <el-button type="danger" @click="$refs.editable.removeSelecteds()">删除</el-button>
       </div>
@@ -162,6 +163,14 @@ export default {
         callback()
       }
     }
+    const validatePass4 = (rule, value, callback) => {
+      console.log(this.personalForm.reportDeptId)
+      if (this.personalForm.reportDeptId === undefined || this.personalForm.reportDeptId === null || this.personalForm.reportDeptId === '') {
+        callback(new Error('请选择报检部门'))
+      } else {
+        callback()
+      }
+    }
     return {
       // 选择的数据
       choosedata: [],
@@ -169,6 +178,19 @@ export default {
       editVisible: this.editcontrol,
       // 修改信息数据
       personalForm: this.editdata,
+      pickerOptions1: {
+        disabledDate: (time) => {
+          return time.getTime() < new Date().getTime() - 8.64e7
+        }
+      },
+      // 带入的供应商
+      supp: null,
+      // 控制供应商是否可以编辑
+      IsSupplierId: false,
+      // 控制生产负责人是否可以编辑
+      IsProduceManagerId: false,
+      // 控制工作中心是否可以编辑
+      IsWorkCenterId: false,
       // 工作中心回显
       workCenterId: '',
       // 控制工作中心
@@ -178,7 +200,7 @@ export default {
       // 控制生产负责人
       deliverycontrol: false,
       // 控制添加商品按钮
-      addpro: true,
+      addpro: false,
       // 控制从源单中选择按钮
       addsouce: true,
       // 供应商回显
@@ -213,7 +235,7 @@ export default {
           { required: true, message: '请选择报检日期', trigger: 'change' }
         ],
         reportDeptId: [
-          { required: true, message: '请选择报检部门', trigger: 'change' }
+          { required: true, validator: validatePass4, trigger: 'change' }
         ],
         sourceType: [
           { required: true, message: '请选择源单类型', trigger: 'change' }
@@ -249,24 +271,57 @@ export default {
     this.getTypes()
   },
   methods: {
+    // 重置一下下拉
+    change() {
+      this.$forceUpdate()
+    },
     // 选择源单类型事件
     chooseType() {
       console.log(this.personalForm.sourceType)
-      if (this.personalForm.sourceType === '1' || this.personalForm.sourceType === '2') {
+      if (this.personalForm.sourceType === '1') {
         this.addsouce = false
         this.addpro = true
+        this.IsProduceManagerId = true
+        this.IsWorkCenterId = true
+        this.$refs.editable.clear()
+      } else if (this.personalForm.sourceType === '2') {
+        this.addsouce = false
+        this.addpro = true
+        this.IsProduceManagerId = true
+        this.IsWorkCenterId = false
+        this.supplierId = ''
+        this.personalForm.supplierId = ''
         this.$refs.editable.clear()
       } else if (this.personalForm.sourceType === '3') {
         this.addpro = false
         this.addsouce = true
+        this.IsProduceManagerId = false
+        this.IsWorkCenterId = false
+        this.IsSupplierId = false
         this.$refs.editable.clear()
       }
     },
     // 从源单中添加商品
     handleAddSouce() {
       if (this.personalForm.sourceType === '1') {
+        if (this.personalForm.supplierId === null || this.personalForm.supplierId === undefined || this.personalForm.supplierId === '') {
+          this.$notify.error({
+            title: '错误',
+            message: '请先选择供应商',
+            duration: 0
+          })
+          return false
+        }
         this.arrivalcontrol = true
       } else if (this.personalForm.sourceType === '2') {
+        if (this.personalForm.supplierId === null || this.personalForm.supplierId === undefined || this.personalForm.supplierId === '') {
+          this.$notify.error({
+            title: '错误',
+            message: '请先选择供应商',
+            duration: 0
+          })
+          return false
+        }
         this.producecontrol = true
       }
     },
@@ -308,6 +363,8 @@ export default {
     // 供应商列表返回数据
     supplierName(val) {
       console.log(val)
+      this.$refs.editable.clear()
+      this.supp = val.id
       this.supplierId = val.supplierName
       this.personalForm.supplierId = val.id
     },
@@ -317,6 +374,8 @@ export default {
     },
     // 报检人员回显
     stockName(val) {
+      console.log(val)
+      this.personalForm.reportDeptId = val.deptId
       this.reportPersonId = val.personName
       this.personalForm.reportPersonId = val.id
     },

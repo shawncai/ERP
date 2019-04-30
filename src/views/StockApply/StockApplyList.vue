@@ -120,12 +120,12 @@
         </el-table-column>
         <el-table-column :label="$t('StockApply.stockType')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.stockType | stockTypeFilter }}</span>
+            <span>{{ scope.row.stockTypeName }}</span>
           </template>
         </el-table-column>
         <el-table-column :label="$t('StockApply.sourceType')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.stockTypeName }}</span>
+            <span>{{ scope.row.sourceType | sourceTypeFilter }}</span>
           </template>
         </el-table-column>
         <el-table-column :label="$t('StockApply.applyPersonId')" :resizable="false" align="center" min-width="150">
@@ -210,7 +210,8 @@ export default {
     },
     sourceTypeFilter(status) {
       const statusMap = {
-        1: '无来源'
+        1: '无来源',
+        2: '销售订单'
       }
       return statusMap[status]
     }

@@ -1,5 +1,5 @@
 <template>
-  <el-dialog :visible.sync="editVisible" :editcontrol="editcontrol" :editdata="editdata" :close-on-press-escape="false" :title="personalForm.number +'    修改'" width="1010px" class="edit" top="-10px" @close="$emit('update:editcontrol', false)">
+  <el-dialog :visible.sync="editVisible" :editcontrol="editcontrol" :editdata="editdata" :close-on-press-escape="false" :title="personalForm.planNumber +'    修改'" width="1010px" class="edit" top="-10px" @close="$emit('update:editcontrol', false)">
     <!--基本信息-->
     <el-card class="box-card" style="margin-top: 63px" shadow="never">
       <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">基本信息</h2>
@@ -7,93 +7,63 @@
         <el-form ref="personalForm" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
           <el-row>
             <el-col :span="12">
-              <el-form-item :label="$t('SaleReturn.title')" style="width: 100%;">
+              <el-form-item :label="$t('SalePlan.title')" style="width: 100%;">
                 <el-input v-model="personalForm.title" style="margin-left: 18px;width: 200px" clearable/>
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item :label="$t('SaleReturn.sourceType')" prop="sourceType" style="width: 100%;">
-                <el-select v-model="personalForm.sourceType" style="margin-left: 18px;width: 200px" @change="chooseSource">
-                  <el-option value="1" label="销售出库单"/>
-                  <el-option value="2" label="无来源"/>
+              <el-form-item :label="$t('SalePlan.planType')" prop="planType" style="width: 100%;">
+                <el-select v-model="personalForm.planType" style="margin-left: 18px;width: 200px">
+                  <el-option value="1" label="年"/>
+                  <el-option value="2" label="月"/>
+                  <el-option value="3" label="周"/>
+                  <el-option value="4" label="日"/>
                 </el-select>
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item :label="$t('SaleReturn.sourceNumber')" style="width: 100%;">
-                <el-input v-model="personalForm.sourceNumber" :disabled="IsNumber" style="margin-left: 18px;width: 200px" clearable/>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('SaleReturn.customerType')" prop="customerType" style="width: 100%;">
-                <el-select v-model="personalForm.customerType" style="margin-left: 18px;width: 200px" @change="clearCustomer">
-                  <el-option value="1" label="经销商"/>
-                  <el-option value="2" label="零售"/>
-                </el-select>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('SaleReturn.customerName')" prop="customerId" style="width: 100%;">
-                <el-input v-model="customerId" style="margin-left: 18px;width: 200px" @focus="chooseCustomer"/>
-                <my-customer :customercontrol.sync="customercontrol" @customerdata="customerdata"/>
-                <my-agent :agentcontrol.sync="agentcontrol" @agentdata="agentdata"/>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('SaleReturn.customerPhone')" style="width: 100%;">
-                <el-input v-model="personalForm.customerPhone" style="margin-left: 18px;width: 200px" clearable/>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('SaleReturn.closeType')" style="width: 100%;">
-                <el-select v-model="personalForm.closeType" style="margin-left: 18px;width: 200px">
-                  <el-option
-                    v-for="(item, index) in colseTypes"
-                    :value="item.id"
-                    :key="index"
-                    :label="item.categoryName"/>
-                </el-select>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('SaleReturn.payType')" style="width: 100%;">
-                <el-select v-model="personalForm.payType" style="margin-left: 18px;width: 200px">
-                  <el-option value="1" label="货到付款"/>
-                  <el-option value="2" label="当场支付"/>
-                </el-select>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('SaleReturn.salePersonId')" style="width: 100%;">
-                <el-input v-model="salePersonId" style="margin-left: 18px;width: 200px" clearable @focus="handlechooseStock"/>
-                <my-emp :control.sync="stockControl" @stockName="stockName"/>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('SaleReturn.saleRepositoryId')" style="width: 100%;">
-                <el-input v-model="saleRepositoryId" style="margin-left: 18px;width: 200px" disabled/>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('SaleReturn.receiveAddress')" style="width: 100%;">
-                <el-input v-model="personalForm.receiveAddress" style="margin-left: 18px;width: 200px"/>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('SaleReturn.returnDate')" prop="returnDate" style="width: 100%;">
+              <el-form-item :label="$t('SalePlan.planDate')" style="width: 100%;">
                 <el-date-picker
-                  v-model="personalForm.returnDate"
+                  v-model="personalForm.planDate"
                   type="date"
                   value-format="yyyy-MM-dd"
                   style="margin-left: 18px;width: 200px"/>
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item :label="$t('SaleReturn.currency')" prop="currency" style="width: 100%;">
-                <el-select v-model="personalForm.currency" style="margin-left: 18px;width: 200px">
-                  <el-option value="1" label="RMB"/>
-                  <el-option value="2" label="USD"/>
-                </el-select>
+              <el-form-item :label="$t('SalePlan.beginTime')" style="width: 100%;">
+                <el-date-picker
+                  v-model="personalForm.beginTime"
+                  :picker-options="pickerOptions0"
+                  type="date"
+                  value-format="yyyy-MM-dd"
+                  style="margin-left: 18px;width: 200px"
+                  @change="cleardeposit"/>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('SalePlan.endTime')" style="width: 100%;">
+                <el-date-picker
+                  v-model="personalForm.endTime"
+                  :picker-options="pickerOptions1"
+                  type="date"
+                  value-format="yyyy-MM-dd"
+                  style="margin-left: 18px;width: 200px"/>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('SalePlan.lowerPlanMoney')" style="width: 100%;">
+                <el-input v-model="personalForm.lowerPlanMoney" style="margin-left: 18px;width: 200px" clearable/>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('SalePlan.planTotalMoney')" style="width: 100%;">
+                <el-input v-model="personalForm.planTotalMoney" style="margin-left: 18px;width: 200px" clearable/>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('SalePlan.urgePlan')" style="width: 100%;">
+                <el-input v-model="personalForm.urgePlan" style="margin-left: 18px;width: 200px" clearable/>
               </el-form-item>
             </el-col>
           </el-row>
@@ -102,143 +72,54 @@
     </el-card>
     <!--子件信息-->
     <el-card class="box-card" style="margin-top: 15px" shadow="never">
-      <h2 ref="fuzhu" class="form-name" >退货明细</h2>
+      <h2 ref="fuzhu" class="form-name" >计划明细</h2>
       <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
-        <el-button :disabled="Isproduct" @click="handleAddproduct">添加商品</el-button>
-        <my-detail :control.sync="control" @product="productdetail"/>
-        <el-button type="danger" @click="$refs.editable.removeSelecteds()">删除</el-button>
+        <el-button @click="handleAddproduct">添加明细</el-button>
+        <!--<el-button type="danger" @click="deleteTreeData">删除</el-button>-->
       </div>
+      <el-dialog :visible.sync="categoryVisible" title="添加明细" class="normal" width="600px" append-to-body center>
+        <el-form ref="addCategoryForm" :model="addCategoryForm" class="demo-ruleForm" style="margin: 0 auto; width: 400px">
+          <el-form-item :label="$t('SalePlan.regionId')" label-width="100px" prop="type">
+            <el-cascader v-model="addCategoryForm.regionId" :options="provinceList" :props="props" placeholder="" style="width: 100%" @active-item-change="handleItemChange" @change="handlechange4"/>
+          </el-form-item>
+          <el-form-item :label="$t('SalePlan.repositoryid')" label-width="100px">
+            <el-select v-model="addCategoryForm.repositoryid" placeholder="请选择门店" filterable style="width: 100%;" @change="changeValue">
+              <el-option
+                v-for="(item, index) in repositories"
+                :key="index"
+                :label="item.repositoryName"
+                :value="item.id"/>
+            </el-select>
+          </el-form-item>
+          <el-form-item :label="$t('SalePlan.lowerPlanMoney')" label-width="100px">
+            <el-input v-model="addCategoryForm.lowerMoney" autocomplete="off"/>
+          </el-form-item>
+          <el-form-item :label="$t('SalePlan.targetMoney')" label-width="100px">
+            <el-input v-model="addCategoryForm.targetMoney" autocomplete="off"/>
+          </el-form-item>
+        </el-form>
+        <span slot="footer" class="dialog-footer">
+          <el-button type="primary" @click="handlesave2()">保存</el-button>
+          <el-button type="danger" @click="handlecancel()">取消</el-button>
+        </span>
+      </el-dialog>
       <div class="container">
-        <el-editable
-          ref="editable"
-          :data.sync="list2"
-          :edit-config="{ showIcon: true, showStatus: true}"
-          :edit-rules="validRules"
-          :summary-method="getSummaries"
-          class="click-table1"
-          show-summary
-          stripe
-          border
-          size="medium"
-          style="width: 100%">
-          <el-editable-column type="selection" min-width="55" align="center"/>
-          <el-editable-column label="序号" min-width="55" align="center" type="index"/>
-          <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="locationId" align="center" label="货位" min-width="150px"/>
-          <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="batch" align="center" label="批次" min-width="150px"/>
-          <el-editable-column prop="productCode" align="center" label="物品编号" min-width="150px"/>
-          <el-editable-column prop="productName" align="center" label="物品名称" min-width="150px"/>
-          <el-editable-column prop="productCategoryName" align="center" label="物品分类" min-width="150px"/>
-          <el-editable-column prop="unit" align="center" label="基本单位" min-width="150px"/>
-          <el-editable-column prop="productTypeName" align="center" label="规格型号" min-width="150px"/>
-          <el-editable-column prop="color" align="center" label="颜色" min-width="150px"/>
-          <el-editable-column prop="kpiGrade" align="center" label="绩效分" min-width="150px"/>
-          <el-editable-column prop="point" align="center" label="商品积分" min-width="150px"/>
-          <el-editable-column prop="salePrice" align="center" label="零售价" min-width="150px"/>
-          <el-editable-column prop="costPrice" align="center" label="成本价" min-width="150px"/>
-          <el-editable-column prop="taxprice" align="center" label="含税价" min-width="150px"/>
-          <el-editable-column prop="costMoney" align="center" label="成本金额" min-width="150px"/>
-          <el-editable-column prop="includeTaxMoney" align="center" label="含税金额" min-width="150px"/>
-          <el-editable-column prop="taxRate" align="center" label="税率(%)" min-width="150px"/>
-          <el-editable-column prop="taxMoney" align="center" label="税额" min-width="150px"/>
-          <el-editable-column prop="money" align="center" label="金额" min-width="150px"/>
-          <el-editable-column prop="includeTaxCostMoney" align="center" label="含税成本金额" min-width="150px"/>
-          <el-editable-column prop="discount" align="center" label="折扣率" min-width="150px"/>
-          <el-editable-column prop="discountMoney" align="center" label="折扣额" min-width="150px"/>
-          <el-editable-column prop="alreadyReturnQuantity" align="center" label="已退货数量" min-width="150px"/>
-          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="returnQuantity" align="center" label="退货数量" min-width="150px">
-            <template slot="edit" slot-scope="scope">
-              <el-input-number
-                :controls="false"
-                v-model="scope.row.returnQuantity"
-                @change="getquantity(scope.row)"/>
-            </template>
-          </el-editable-column>
-          <el-editable-column :edit-render="{name: 'ElInput', attrs: {min: 0}, type: 'visible'}" prop="returnReason" align="center" label="退货原因" min-width="150px"/>
-          <el-editable-column prop="sendQuantity" align="center" label="发货数量" min-width="150px"/>
-          <el-editable-column prop="carCode" align="center" label="车架号" min-width="150px"/>
-          <el-editable-column prop="motorCode" align="center" label="电机编码" min-width="150px"/>
-          <el-editable-column prop="batteryCode" align="center" label="电池编码" min-width="150px"/>
-          <el-editable-column prop="includeTaxCostMoney" align="center" label="源单编号" min-width="150px"/>
-        </el-editable>
-      </div>
-    </el-card>
-    <el-card class="box-card" shadow="never" style="margin-top: 10px">
-      <h2 ref="geren" class="form-name">合计信息</h2>
-      <div class="container" style="margin-top: 37px">
-        <el-form ref="personalForm2" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
-          <el-row>
-            <el-col :span="12">
-              <el-form-item :label="$t('SaleReturn.heji1')" style="width: 100%;">
-                <el-input v-model="heji1" style="margin-left: 18px;width: 200px" disabled/>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('SaleReturn.heji2')" style="width: 100%;">
-                <el-input v-model="heji2" style="margin-left: 18px;width: 200px" disabled/>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('SaleReturn.heji3')" style="width: 100%;">
-                <el-input v-model="heji3" style="margin-left: 18px;width: 200px" disabled/>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('SaleReturn.heji4')" style="width: 100%;">
-                <el-input v-model="heji4" style="margin-left: 18px;width: 200px" disabled/>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('SaleReturn.heji5')" style="width: 100%;">
-                <el-input v-model="heji5" style="margin-left: 18px;width: 200px" disabled/>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('SaleReturn.heji6')" style="width: 100%;">
-                <el-input v-model="heji6" style="margin-left: 18px;width: 200px" disabled/>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('SaleReturn.ridMoney')" style="width: 100%;">
-                <el-input v-model="personalForm.ridMoney" style="margin-left: 18px;width: 200px"/>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('SaleReturn.actualReturnMoney')" style="width: 100%;">
-                <el-input v-model="personalForm.actualReturnMoney" style="margin-left: 18px;width: 200px"/>
-              </el-form-item>
-            </el-col>
-          </el-row>
-        </el-form>
-      </div>
-    </el-card>
-    <el-card class="box-card" shadow="never" style="margin-top: 10px">
-      <h2 ref="geren" class="form-name">相关单据状态</h2>
-      <div class="container" style="margin-top: 37px">
-        <el-form ref="personalForm3" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
-          <el-row>
-            <el-col :span="12">
-              <el-form-item :label="$t('SaleReturn.closeStatusId')" prop="closeStatusId" style="width: 100%;">
-                <el-select v-model="personalForm.closeStatusId" style="margin-left: 18px;width: 200px">
-                  <el-option value="1" label="已结算"/>
-                  <el-option value="2" label="未结算"/>
-                </el-select>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('SaleReturn.alreadyMoney')" style="width: 100%;">
-                <el-input v-model="personalForm.alreadyMoney" style="margin-left: 18px;width: 200px"/>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('SaleReturn.enterStatusId')" style="width: 100%;">
-                <el-select v-model="personalForm.enterStatusId" style="margin-left: 18px;width: 200px">
-                  <el-option value="1" label="已入库"/>
-                  <el-option value="2" label="未入库"/>
-                </el-select>
-              </el-form-item>
-            </el-col>
-          </el-row>
-        </el-form>
+        <el-tree
+          ref="DeviceGroupTree"
+          :data="data2"
+          :props="defaultProps"
+          :check-strictly = "true"
+          show-checkbox
+          default-expand-all
+          node-key="id"
+          @check-change="handleCheckChange">
+          <span slot-scope="{ node, data }" class="custom-tree-node">
+            <span>{{ node.label }}</span>
+            <span v-if="data.parentId !== 0" style="margin-left: 50px">
+              <i class="el-icon-delete" @click="nodeDelete(node, data)"/>
+            </span>
+          </span>
+        </el-tree>
       </div>
     </el-card>
     <el-card class="box-card" style="position: fixed;width: 1010px;z-index: 100;height: 74px;bottom: 0;" shadow="never">
@@ -251,8 +132,9 @@
 </template>
 
 <script>
-import { updatesaleReturn } from '@/api/SaleReturn'
+import { updatesaleplan } from '@/api/SalePlan'
 import { searchSaleCategory } from '@/api/SaleCategory'
+import { listbyparentid, searchRepository, searchregionName, getId } from '@/api/public'
 import MyEmp from './MyEmp'
 import MyDelivery from './MyDelivery'
 import MyDetail from './MyDetail'
@@ -282,12 +164,44 @@ export default {
       }
     }
     return {
+      pickerOptions0: {
+        disabledDate: (time) => {
+          if (this.personalForm.endTime !== null) {
+            return time.getTime() > new Date(this.personalForm.endTime).getTime() - 8.64e7
+          }
+        }
+      },
+      pickerOptions1: {
+        disabledDate: (time) => {
+          return time.getTime() < new Date(this.personalForm.beginTime).getTime() - 8.64e7
+        }
+      },
       // 选择的数据
       choosedata: [],
       // 弹窗组件的控制
       editVisible: this.editcontrol,
       // 修改信息数据
       personalForm: this.editdata,
+      // 门店数据
+      repositories: [],
+      // 区域数据
+      provinceList: [],
+      // 转化数据
+      props: { value: 'value', children: 'cities' },
+      // 添加明细
+      categoryVisible: false,
+      // 明细数据
+      addCategoryForm: { label: '', id: 1, parentId: 0, level: 1, salePlanDetailVos: [], lowerMoney: '', targetMoney: '' },
+      // 最低计划额
+      lowerMoney: '',
+      // 计划额
+      targetMoney: '',
+      // 树结构数据
+      data2: [],
+      defaultProps: {
+        children: 'salePlanDetailVos',
+        label: 'label'
+      },
       // 合计信息
       heji1: '',
       heji2: '',
@@ -298,6 +212,14 @@ export default {
       heji7: '',
       heji8: '',
       heji9: '',
+      // 单选数据
+      editCheckId: '',
+      // id递增数据
+      treeIds: 1,
+      // 转存数据
+      childData: '',
+      // 标志符
+      child: false,
       // 控制源单编码是否可以选择
       IsNumber: true,
       // 控制添加商品按钮是否可以点击
@@ -360,23 +282,287 @@ export default {
     },
     editdata() {
       this.personalForm = this.editdata
-      this.salePersonId = this.personalForm.salePersonName
-      this.customerId = this.personalForm.customerName
-      this.saleRepositoryId = this.personalForm.saleRepositoryName
-      this.personalForm.customerPhone = this.personalForm.phoneNumber
-      this.list2 = this.personalForm.saleReturnDetailVos
-      this.chooseSource()
+      this.data2 = this.personalForm.salePlanDetailVos
     }
   },
   created() {
     this.getTypes()
+    this.getTreeId()
   },
   methods: {
+    // 获取递归值
+    getTreeId() {
+      getId().then(res => {
+        console.log(res)
+        if (res.data.ret === 200) {
+          this.treeIds = res.data.data.content
+        }
+      })
+    },
+    // 删除tree数据
+    nodeDelete(node, data) {
+      const parent = node.parent
+
+      const children = parent.data.salePlanDetailVos || parent.data
+
+      const index = children.findIndex(d => d.id === data.id)
+
+      children.splice(index, 1)
+    },
+    // checkGroupNode: function(a, b) {
+    //   if (b.checkedKeys.length > 0) {
+    //     this.$refs.DeviceGroupTree.setCheckedKeys([a.id])
+    //   }
+    // },
+    handleCheckChange(data, checked) {
+      console.log(data)
+      console.log(checked)
+      if (checked === true) {
+        this.child = true
+        this.childData = data
+        this.childData2 = data
+        this.editCheckId = data.id
+      } else if (checked === false) {
+        this.child = false
+        this.childData = ''
+      }
+    },
+    // 清理明细数据
+    cleardata() {
+      this.addCategoryForm = { label: '', id: 1, parentId: 0, level: 1, salePlanDetailVos: [] }
+    },
+    // 保存明细
+    handlesave2() {
+      if (this.child === false) {
+        const treeData = { label: '', id: 1, parentId: 0, level: 1, salePlanDetailVos: [] }
+        treeData.label = this.addCategoryForm.repositoryName + ':  最低目标额(元):  ' + this.addCategoryForm.lowerMoney + '     ' + '目标额（元): ' + this.addCategoryForm.targetMoney
+        treeData.id = this.treeIds++
+        treeData.repositoryid = this.addCategoryForm.repositoryid
+        treeData.targetMoney = this.addCategoryForm.targetMoney
+        treeData.lowerMoney = this.addCategoryForm.lowerMoney
+        this.data2.push(treeData)
+        this.categoryVisible = false
+        this.cleardata()
+        this.addCategoryForm.id++
+      } else if (this.child === true) {
+        console.log(this.childData)
+        const treeData = { label: '', id: 1, parentId: 0, level: 1, salePlanDetailVos: [] }
+        treeData.label = this.addCategoryForm.repositoryName + ':  最低目标额(元):  ' + this.addCategoryForm.lowerMoney + '     ' + '目标额（元): ' + this.addCategoryForm.targetMoney
+        treeData.parentId = this.childData.id
+        treeData.repositoryid = this.addCategoryForm.repositoryid
+        treeData.repositoryid = this.addCategoryForm.repositoryid
+        treeData.targetMoney = this.addCategoryForm.targetMoney
+        treeData.lowerMoney = this.addCategoryForm.lowerMoney
+        treeData.id = this.treeIds++
+        treeData.level = this.childData.level + 1
+        this.childData.salePlanDetailVos.push(treeData)
+        this.categoryVisible = false
+        this.cleardata()
+        this.addCategoryForm.id++
+      }
+    },
+    changeValue(value) {
+      console.log(value)
+      console.log(this.repositories)
+      let obj = {}
+      obj = this.repositories.find((item) => {
+        return item.id === value
+      })
+      this.addCategoryForm.repositoryName = obj.repositoryName
+    },
+    // 根据区域选择门店
+    handlechange4(val) {
+      const finalid = val[val.length - 1]
+      searchregionName(finalid).then(res => {
+        console.log(res)
+      })
+      searchRepository(finalid).then(res => {
+        console.log(res)
+        if (res.data.ret === 200) {
+          this.repositories = res.data.data.content.list
+        } else {
+          console.log('区域选择门店')
+        }
+      })
+    },
+    getPosition(val, cb) {
+      console.log(val)
+      const vm = this // 查询省市县
+      let params = {}
+      if (!val) { // 初始化加载 获取所有省份数据
+        params = { region: this.personalForm.regionId }
+      } else if (val.length === 1) { // 加载二级  获取市级数据
+        params = { region: val[0] }
+      } else if (val.length === 2) { // 加载3级   获取县级数据
+        params = { region: val[1] }
+      } else if (val.length === 3) { // 加载4级   获取县级数据
+        params = { region: val[2] }
+      } else if (val.length === 4) { // 加载5级   获取县级数据
+        params = { region: val[3] }
+      } else if (val.length === 5) { // 加载6级   获取县级数据
+        params = { region: val[4] }
+      } else if (val.length === 6) { // 加载7级   获取县级数据
+        params = { region: val[5] }
+      }
+      listbyparentid(params).then((res) => {
+        if (!val) { // 初始化加载   查询省份数据
+          vm.provinceList = res.data.data.content.map((e) => {
+            return { value: e.id, label: e.regionName, cities: [] }
+          })
+        } else if (val.length === 1) { // 加载二级    查询该省下市级数据
+          vm.provinceList.map((item) => {
+            if (item.value === val[0]) {
+              if (res.data.data.content === undefined) {
+                item.cities = null
+                return
+              }
+              item.cities = res.data.data.content.map((e) => {
+                return { value: e.id, label: e.regionName, cities: [] }
+              })
+            }
+          })
+        } else if (val.length === 2) { // 加载3级   查询该省市下县级数据
+          vm.provinceList.map((item) => {
+            if (item.value === val[0]) {
+              item.cities.map((value) => {
+                if (value.value === val[1]) {
+                  if (res.data.data.content === undefined) {
+                    value.cities = null
+                    return
+                  }
+                  value.cities = res.data.data.content.map((e) => {
+                    return { value: e.id, label: e.regionName, cities: [] }
+                  })
+                }
+              })
+            }
+          })
+        } else if (val.length === 3) { // 加载4级   查询该省市下县级数据
+          console.log(vm.provinceList)
+          vm.provinceList.map((item) => {
+            if (item.value === val[0]) {
+              item.cities.map((value) => {
+                if (value.value === val[1]) {
+                  value.cities.map((value2) => {
+                    if (res.data.data.content === undefined) {
+                      value2.cities = null
+                      return
+                    }
+                    value2.cities = res.data.data.content.map((e) => {
+                      return { value: e.id, label: e.regionName, cities: [] }
+                    })
+                  })
+                }
+              })
+            }
+          })
+        } else if (val.length === 4) { // 加载5级   查询该省市下县级数据
+          console.log(vm.provinceList)
+          vm.provinceList.map((item) => {
+            if (item.value === val[0]) {
+              item.cities.map((value) => {
+                if (value.value === val[1]) {
+                  value.cities.map((value2) => {
+                    if (value2.value === val[2]) {
+                      value2.cities.map((value3) => {
+                        if (res.data.data.content === undefined) {
+                          value3.cities = null
+                          return
+                        }
+                        value3.cities = res.data.data.content.map((e) => {
+                          return { value: e.id, label: e.regionName, cities: [] }
+                        })
+                      })
+                    }
+                  })
+                }
+              })
+            }
+          })
+        } else if (val.length === 5) { // 加载6级   查询该省市下县级数据
+          console.log(vm.provinceList)
+          vm.provinceList.map((item) => {
+            if (item.value === val[0]) {
+              item.cities.map((value) => {
+                if (value.value === val[1]) {
+                  value.cities.map((value2) => {
+                    if (value2.value === val[2]) {
+                      value2.cities.map((value3) => {
+                        if (value3.value === val[3]) {
+                          value3.cities.map((value4) => {
+                            if (res.data.data.content === undefined) {
+                              value4.cities = null
+                              return
+                            }
+                            value4.cities = res.data.data.content.map((e) => {
+                              return { value: e.id, label: e.regionName, cities: [] }
+                            })
+                          })
+                        }
+                      })
+                    }
+                  })
+                }
+              })
+            }
+          })
+        } else if (val.length === 6) { // 加载7级   查询该省市下县级数据
+          console.log(vm.provinceList)
+          vm.provinceList.map((item) => {
+            if (item.value === val[0]) {
+              item.cities.map((value) => {
+                if (value.value === val[1]) {
+                  value.cities.map((value2) => {
+                    if (value2.value === val[2]) {
+                      value2.cities.map((value3) => {
+                        if (value3.value === val[3]) {
+                          value3.cities.map((value4) => {
+                            if (value4.value === val[4]) {
+                              value4.cities.map((value5) => {
+                                if (res.data.data.content === undefined) {
+                                  value5.cities = null
+                                  return
+                                }
+                                value5.cities = res.data.data.content.map((e) => {
+                                  return { value: e.id, label: e.regionName, cities: [] }
+                                })
+                              })
+                            }
+                          })
+                        }
+                      })
+                    }
+                  })
+                }
+              })
+            }
+          })
+        }
+        cb && cb(res)
+      }).catch(err => {
+        console.log(err)
+      })
+    },
+    handleItemChange(val) {
+      this.getPosition(val)
+    },
+    // 清空结束时间
+    cleardeposit() {
+      this.personalForm.endTime = null
+    },
     getTypes() {
       // 结算方式数据
       searchSaleCategory(this.colseTypeparms).then(res => {
         if (res.data.ret === 200) {
           this.colseTypes = res.data.data.content.list
+        }
+      })
+      searchRepository(this.personalForm.regionId).then(res => {
+        console.log(res)
+        if (res.data.ret === 200) {
+          this.repositories = res.data.data.content.list
+        } else {
+          console.log('区域选择门店')
         }
       })
     },
@@ -443,9 +629,9 @@ export default {
     getdiscount(row) {
       row.discountMoney = (row.salePrice * row.quantity * (1 - row.discount / 100)).toFixed(2)
     },
+    // 通过数量计算成本金额， 含税金额， 金额， 含税成本金额
     getquantity(row) {
       row.costMoney = row.returnQuantity * row.costPrice
-      row.taxprice = row.salePrice * (1 + row.taxRate / 100)
       row.includeTaxMoney = row.returnQuantity * row.taxprice
       row.money = row.returnQuantity * row.salePrice
       row.includeTaxCostMoney = row.includeTaxMoney + row.costMoney
@@ -501,23 +687,8 @@ export default {
     },
     // 无来源添加商品
     handleAddproduct() {
-      this.control = true
-    },
-    productdetail(val) {
-      const nowlistdata = this.$refs.editable.getRecords()
-      for (let i = 0; i < val.length; i++) {
-        for (let j = 0; j < nowlistdata.length; j++) {
-          if (val[i].productCode === nowlistdata[j].productCode) {
-            this.$notify.error({
-              title: '错误',
-              message: '物品已添加',
-              offset: 100
-            })
-            return false
-          }
-        }
-        this.$refs.editable.insert(val[i])
-      }
+      this.categoryVisible = true
+      this.handleItemChange()
     },
     deleteChange(val) {
       this.choosedata = val
@@ -549,6 +720,22 @@ export default {
       }
       this.customerId = null
       this.salePersonId = null
+      this.data2 = ''
+    },
+    // 树结构数据转数组
+    treeToList(tree) {
+      let queen = []
+      const out = []
+      queen = queen.concat(tree)
+      while (queen.length) {
+        const first = queen.shift()
+        if (first.salePlanDetailVos) {
+          queen = queen.concat(first.salePlanDetailVos)
+          delete first['salePlanDetailVos']
+        }
+        out.push(first)
+      }
+      return out
     },
     // 修改和取消按钮
     // 修改按钮
@@ -558,104 +745,17 @@ export default {
       this.personalForm.createPersonId = 3
       this.personalForm.countryId = 1
       this.personalForm.modifyPersonId = 3
-      const EnterDetail = this.$refs.editable.getRecords()
+      const EnterDetail = this.treeToList(this.data2) // 输出转换后数组
+      console.log(EnterDetail)
+      console.log(EnterDetail)
       if (EnterDetail.length === 0) {
         this.$notify.error({
           title: '错误',
-          message: '明细表不能为空',
+          message: '计划明细不能为空',
           offset: 100
         })
         return false
       }
-      EnterDetail.map(function(elem) {
-        return elem
-      }).forEach(function(elem) {
-        if (elem.batch === null || elem.batch === '' || elem.batch === undefined) {
-          delete elem.batch
-        }
-        if (elem.productName === null || elem.productName === '' || elem.productName === undefined) {
-          delete elem.productName
-        }
-        if (elem.category === null || elem.category === '' || elem.category === undefined) {
-          delete elem.category
-        }
-        if (elem.unit === null || elem.unit === '' || elem.unit === undefined) {
-          delete elem.unit
-        }
-        if (elem.type === null || elem.type === '' || elem.type === undefined) {
-          delete elem.type
-        }
-        if (elem.color === null || elem.color === '' || elem.color === undefined) {
-          delete elem.color
-        }
-        if (elem.kpiGrade === null || elem.kpiGrade === '' || elem.kpiGrade === undefined) {
-          delete elem.kpiGrade
-        }
-        if (elem.point === null || elem.point === '' || elem.point === undefined) {
-          delete elem.point
-        }
-        if (elem.salePrice === null || elem.salePrice === '' || elem.salePrice === undefined) {
-          delete elem.salePrice
-        }
-        if (elem.costPrice === null || elem.costPrice === '' || elem.costPrice === undefined) {
-          delete elem.costPrice
-        }
-        if (elem.costMoney === null || elem.costMoney === '' || elem.costMoney === undefined) {
-          delete elem.costMoney
-        }
-        if (elem.includeTaxMoney === null || elem.includeTaxMoney === '' || elem.includeTaxMoney === undefined) {
-          delete elem.includeTaxMoney
-        }
-        if (elem.taxRate === null || elem.taxRate === '' || elem.taxRate === undefined) {
-          delete elem.taxRate
-        }
-        if (elem.taxRate !== null || elem.taxRate !== '' || elem.taxRate !== undefined) {
-          elem.taxRate = elem.taxRate / 100
-        }
-        if (elem.taxMoney === null || elem.taxMoney === '' || elem.taxMoney === undefined) {
-          delete elem.taxMoney
-        }
-        if (elem.money === null || elem.money === '' || elem.money === undefined) {
-          delete elem.money
-        }
-        if (elem.includeTaxCostMoney === null || elem.includeTaxCostMoney === '' || elem.includeTaxCostMoney === undefined) {
-          delete elem.includeTaxCostMoney
-        }
-        if (elem.discount === null || elem.discount === '' || elem.discount === undefined) {
-          delete elem.discount
-        }
-        if (elem.discount !== null || elem.discount !== '' || elem.discount !== undefined) {
-          elem.discount = elem.discount / 100
-        }
-        if (elem.discountMoney === null || elem.discountMoney === '' || elem.discountMoney === undefined) {
-          delete elem.discountMoney
-        }
-        if (elem.alreadyReturnQuantity === null || elem.alreadyReturnQuantity === '' || elem.alreadyReturnQuantity === undefined) {
-          delete elem.alreadyReturnQuantity
-        }
-        if (elem.returnQuantity === null || elem.returnQuantity === '' || elem.returnQuantity === undefined) {
-          delete elem.returnQuantity
-        }
-        if (elem.returnReason === null || elem.returnReason === '' || elem.returnReason === undefined) {
-          delete elem.returnReason
-        }
-        if (elem.sendQuantity === null || elem.sendQuantity === '' || elem.sendQuantity === undefined) {
-          delete elem.sendQuantity
-        }
-        if (elem.carCode === null || elem.carCode === '' || elem.carCode === undefined) {
-          delete elem.carCode
-        }
-        if (elem.motorCode === null || elem.motorCode === '' || elem.motorCode === undefined) {
-          delete elem.motorCode
-        }
-        if (elem.batteryCode === null || elem.batteryCode === '' || elem.batteryCode === undefined) {
-          delete elem.batteryCode
-        }
-        if (elem.locationId === null || elem.locationId === '' || elem.locationId === undefined) {
-          delete elem.locationId
-        }
-        return elem
-      })
       const parms2 = JSON.stringify(EnterDetail)
       const Data = this.personalForm
       for (const key in Data) {
@@ -664,7 +764,7 @@ export default {
         }
       }
       const parms = JSON.stringify(Data)
-      updatesaleReturn(parms, parms2).then(res => {
+      updatesaleplan(parms, parms2).then(res => {
         if (res.data.ret === 200) {
           this.$notify({
             title: '操作成功',
@@ -674,7 +774,6 @@ export default {
             offset: 100
           })
           this.$emit('rest', true)
-          this.$refs.editable.clear()
           this.$refs.personalForm.clearValidate()
           this.$refs.personalForm.resetFields()
           this.editVisible = false
@@ -688,7 +787,6 @@ export default {
       })
     },
     handlecancel() {
-      this.$refs.editable.clear()
       this.$refs.personalForm.clearValidate()
       this.$refs.personalForm.resetFields()
       this.editVisible = false
@@ -699,6 +797,23 @@ export default {
 </script>
 
 <style scoped>
+  .normal >>> .el-dialog__header {
+    padding: 20px 20px 10px;
+    background: #fff;
+    position: static;
+    top: auto;
+    z-index: auto;
+    width: auto;
+    border-bottom: none;
+  }
+  .normal >>> .el-dialog {
+    -webkit-transform: none;
+    transform: none;
+    left: 0;
+    position: relative;
+    margin: 0 auto;
+    height: auto;
+  }
   .container >>> .el-form-item.is-required:not(.is-no-asterisk)>.el-form-item__label:before{
     margin-left: -10px;
   }
@@ -710,6 +825,7 @@ export default {
   }
   .edit >>> .el-dialog {
     background:#f1f1f1 ;
+    height: 900px;
   }
   .el-col-12{
     width: 49%;

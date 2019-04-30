@@ -63,9 +63,10 @@
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('StockRetreat.retreatDate')" prop="signDate" style="width: 100%;">
+                <el-form-item :label="$t('StockRetreat.retreatDate')" prop="retreatDate" style="width: 100%;">
                   <el-date-picker
                     v-model="personalForm.retreatDate"
+                    :picker-options="pickerOptions1"
                     type="date"
                     value-format="yyyy-MM-dd"
                     style="margin-left: 18px"/>
@@ -251,14 +252,27 @@ export default {
   components: { MyRepository, MyArrival, MyOrder, MyLnquiry, MyDelivery, MyPlan, MyApply, MySupplier, MyDetail, MyEmp },
   data() {
     const validatePass = (rule, value, callback) => {
-      console.log(value)
-      if (value === '') {
-        callback(new Error('请选择'))
+      console.log(this.stockPersonId)
+      if (this.stockPersonId === undefined || this.stockPersonId === null || this.stockPersonId === '') {
+        callback(new Error('请选择采购员'))
+      } else {
+        callback()
+      }
+    }
+    const validatePass2 = (rule, value, callback) => {
+      console.log(this.supplierId)
+      if (this.supplierId === undefined || this.supplierId === null || this.supplierId === '') {
+        callback(new Error('请选择供应商'))
       } else {
         callback()
       }
     }
     return {
+      pickerOptions1: {
+        disabledDate: (time) => {
+          return time.getTime() < new Date().getTime() - 8.64e7
+        }
+      },
       // 回显仓库
       retreatRepositoryId: '',
       // 控制仓库
@@ -314,18 +328,20 @@ export default {
         countryId: 1,
         repositoryId: 438,
         regionId: 2,
-        isVat: 1
+        isVat: 1,
+        sourceType: '2',
+        retreatDate: null
       },
       // 采购申请单规则数据
       personalrules: {
         supplierId: [
-          { required: true, validator: validatePass, trigger: 'focus' }
+          { required: true, validator: validatePass2, trigger: 'change' }
         ],
-        inquiryPersonId: [
-          { required: true, validator: validatePass, trigger: 'focus' }
+        stockPersonId: [
+          { required: true, validator: validatePass, trigger: 'change' }
         ],
-        inquiryDate: [
-          { required: true, message: '请选择询价日期', trigger: 'change' }
+        retreatDate: [
+          { required: true, message: '请选择退货日期', trigger: 'change' }
         ],
         deptId: [
           { required: true, message: '请选择部门', trigger: 'change' }
@@ -350,8 +366,12 @@ export default {
   created() {
     this.getTypes()
     this.getways()
+    this.getdatatime()
   },
   methods: {
+    getdatatime() { // 默认显示今天
+      this.personalForm.retreatDate = new Date()
+    },
     // 仓库列表focus事件触发
     handlechooseRep() {
       this.repositorycontrol = true

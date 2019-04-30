@@ -32,8 +32,8 @@
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item :label="$t('StockApply.applyDate')" prop="applyDate" style="width: 100%;">
-                {{ personalForm.applyDate }}
+              <el-form-item :label="$t('StockApply.applyDate')" style="width: 100%;">
+                {{ detailTime }}
               </el-form-item>
             </el-col>
           </el-row>
@@ -63,7 +63,7 @@
           <el-editable-column prop="requireQuantity" align="center" label="需求数量" min-width="150px"/>
           <el-editable-column prop="requireDate" align="center" label="需求日期" min-width="170px"/>
           <el-editable-column prop="applyReason" align="center" label="申请原因" min-width="150px"/>
-          <el-editable-column prop="sourceSerialNumber" align="center" label="源单编号" min-width="150px"/>
+          <el-editable-column prop="sourceSerialNumber" align="center" label="源单序号" min-width="150px"/>
         </el-editable>
       </div>
     </el-card>
@@ -88,7 +88,7 @@
           <el-editable-column prop="requireDate" align="center" label="需求日期" min-width="170px"/>
           <el-editable-column prop="applyQuantity" align="center" label="申请数量" min-width="150px"/>
           <el-editable-column prop="planQuantity" align="center" label="已计划数量" min-width="150px"/>
-          <el-editable-column prop="sourceSerialNumber" align="center" label="源单编号" min-width="150px"/>
+          <el-editable-column prop="sourceSerialNumber" align="center" label="源单序号" min-width="150px"/>
         </el-editable>
       </div>
     </el-card>
@@ -179,7 +179,8 @@ export default {
     },
     sourceTypeFilter(status) {
       const statusMap = {
-        1: '无来源'
+        1: '无来源',
+        2: '销售订单'
       }
       return statusMap[status]
     },
@@ -204,6 +205,8 @@ export default {
   },
   data() {
     return {
+      // 转化时间
+      detailTime: '',
       // 审核数据
       reviewList: [],
       // 详细表数据
@@ -224,6 +227,8 @@ export default {
       this.list2 = this.personalForm.stockApplyDetailVos
       this.list3 = this.personalForm.stockApplyDetailVos
       this.reviewList = this.personalForm.approvalUseVos
+      console.log(this.personalForm.applyDate)
+      this.detailTime = this.personalForm.applyDate
     }
   },
   methods: {

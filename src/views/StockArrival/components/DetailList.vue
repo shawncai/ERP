@@ -63,10 +63,7 @@
             </el-col>
             <el-col :span="12">
               <el-form-item :label="$t('StockArrival.isVat')" style="width: 100%;">
-                <el-radio-group v-model="personalForm.isVat" style="margin-left: 18px;width: 200px" disabled>
-                  <el-radio :label="1" style="width: 120px">是</el-radio>
-                  <el-radio :label="2">否</el-radio>
-                </el-radio-group>
+                <span>{{ personalForm.isVat | isVatFilter }}</span>
               </el-form-item>
             </el-col>
             <el-col :span="12">
@@ -91,7 +88,6 @@
           border
           size="medium"
           style="width: 100%">
-          <el-editable-column type="selection" min-width="55" align="center"/>
           <el-editable-column label="序号" min-width="55" align="center" type="index"/>
           <el-editable-column prop="productCode" align="center" label="物品编号" min-width="150px"/>
           <el-editable-column prop="productName" align="center" label="物品名称" min-width="150px"/>
@@ -241,6 +237,13 @@
 <script>
 export default {
   filters: {
+    isVatFilter(status) {
+      const statusMap = {
+        1: '是',
+        2: '否'
+      }
+      return statusMap[status]
+    },
     statfilter(status) {
       const statusMap = {
         1: '审核中',
@@ -257,10 +260,8 @@ export default {
     },
     sourceTypeFilter(status) {
       const statusMap = {
-        1: '采购申请',
-        2: '采购计划',
-        3: '采购询价单',
-        4: '无来源'
+        1: '采购订单',
+        2: '无来源'
       }
       return statusMap[status]
     },

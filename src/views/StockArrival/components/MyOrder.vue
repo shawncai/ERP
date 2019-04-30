@@ -1,5 +1,5 @@
 <template>
-  <el-dialog :visible.sync="employeeVisible" :ordercontrol="ordercontrol" :close-on-press-escape="false" top="10px" title="选择采购订货单" append-to-body width="1100px" @close="$emit('update:ordercontrol', false)">
+  <el-dialog :visible.sync="employeeVisible" :ordercontrol="ordercontrol" :supp="supp" :close-on-press-escape="false" top="10px" title="选择采购订货单" append-to-body width="1100px" @close="$emit('update:ordercontrol', false)">
     <el-card class="box-card" style="margin-top: 15px;height: 60px;padding-left:0 " shadow="never">
       <el-row>
         <el-form ref="getemplist" :model="getemplist" style="margin-top: -9px">
@@ -196,6 +196,10 @@ export default {
     ordercontrol: {
       type: Boolean,
       default: false
+    },
+    supp: {
+      type: Number,
+      default: null
     }
   },
   data() {
@@ -247,6 +251,7 @@ export default {
         pageSize: 10,
         repositoryId: 438,
         regionIds: 2,
+        supplierId: this.supp,
         createPersonId: 3
       },
       // 传给组件的数据
@@ -261,6 +266,11 @@ export default {
     ordercontrol() {
       this.employeeVisible = this.ordercontrol
       this.getlist()
+    },
+    supp() {
+      this.getemplist.supplierId = this.supp
+      this.getlist()
+      console.log(this.supp)
     }
   },
   created() {
@@ -358,17 +368,17 @@ export default {
           type: item.typeId,
           unit: item.unit,
           color: item.color,
-          stockQuantity: item.stockQuantity,
+          stockQuantity: (item.stockQuantity).toFixed(2),
           arrivalQuantity: 0,
           giveDate: item.deliveryDate,
-          price: item.price,
+          price: (item.price).toFixed(2),
           includeTaxPrice: item.includeTaxPrice,
-          taxRate: item.taxRate * 100,
+          taxRate: (item.taxRate).toFixed(2),
           money: item.money,
           includeTaxMoney: item.includeTaxMoney,
           taxMoney: item.tax,
-          discountRate: item.discountRate * 100,
-          discountMoney: item.discountMoney,
+          discountRate: (item.discountRate).toFixed(2),
+          discountMoney: (item.discountMoney).toFixed(2),
           remark: item.remarks,
           sourceNumber: number,
           sourceSerialNumber: item.id,

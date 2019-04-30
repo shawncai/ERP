@@ -45,7 +45,7 @@
               </el-col>
               <el-col :span="12">
                 <el-form-item :label="$t('StockArrival.deptId')" prop="deptId" style="width: 100%;">
-                  <el-select v-model="personalForm.deptId" clearable style="margin-left: 18px;width: 200px">
+                  <el-select v-model="personalForm.deptId" clearable style="margin-left: 18px;width: 200px" @change="change()">
                     <el-option
                       v-for="(item, index) in depts"
                       :key="index"
@@ -56,15 +56,16 @@
               </el-col>
               <el-col :span="12">
                 <el-form-item :label="$t('StockArrival.payId')" style="width: 100%;">
-                  <el-select v-model="personalForm.payId" clearable style="margin-left: 18px;width: 200px">
+                  <el-select v-model="personalForm.payId" clearable style="margin-left: 18px;width: 200px" @change="change()">
                     <el-option value="1" label="现金"/>
                   </el-select>
                 </el-form-item>
               </el-col>
               <el-col :span="12">
-                <el-form-item :label="$t('StockArrival.acceptDate')" prop="signDate" style="width: 100%;">
+                <el-form-item :label="$t('StockArrival.acceptDate')" prop="acceptDate" style="width: 100%;">
                   <el-date-picker
                     v-model="personalForm.acceptDate"
+                    :picker-options="pickerOptions1"
                     type="date"
                     value-format="yyyy-MM-dd"
                     style="margin-left: 18px;width: 200px"/>
@@ -106,7 +107,7 @@
                 </el-form-item>
               </el-col>
               <el-col :span="12">
-                <el-form-item :label="$t('StockArrival.currencyId')" prop="currency" style="width: 100%;">
+                <el-form-item :label="$t('StockArrival.currencyId')" prop="currencyId" style="width: 100%;">
                   <el-select v-model="personalForm.currencyId" clearable style="margin-left: 18px;width: 200px">
                     <el-option value="1" label="RMB"/>
                     <el-option value="2" label="USD"/>
@@ -123,9 +124,9 @@
       <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">采购到货单明细</h2>
       <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
         <el-button :disabled="addpro" @click="handleAddproduct">添加商品</el-button>
-        <my-detail :control.sync="control" @product="productdetail"/>
+        <my-detail :control.sync="control" :supp.sync="supp" @product="productdetail"/>
         <el-button :disabled="addsouce" style="width: 130px" @click="handleAddSouce">从源单中选择</el-button>
-        <my-order :ordercontrol="ordercontrol" @order="order" @allOrderinfo="allOrderinfo"/>
+        <my-order :ordercontrol="ordercontrol" :supp.sync="supp" @order="order" @allOrderinfo="allOrderinfo"/>
         <el-button type="danger" @click="$refs.editable.removeSelecteds()">删除</el-button>
       </div>
       <div class="container">
@@ -148,15 +149,11 @@
           <el-editable-column prop="productType" align="center" label="规格" min-width="150px"/>
           <el-editable-column prop="unit" align="center" label="单位" min-width="150px"/>
           <el-editable-column prop="stockQuantity" align="center" label="采购数量" min-width="150px"/>
-          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="arrivalQuantity" align="center" label="到货数量" min-width="150px"/>
+          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 1, precision: 2}, type: 'visible'}" prop="arrivalQuantity" align="center" label="到货数量" min-width="150px"/>
           <el-editable-column prop="giveDate" align="center" label="交货日期" min-width="170px"/>
           <el-editable-column prop="price" align="center" label="单价" min-width="170px"/>
           <el-editable-column prop="includeTaxPrice" align="center" label="含税价" min-width="170px"/>
-          <el-editable-column prop="taxRate" align="center" label="税率(%)" min-width="170px">
-            <template slot-scope="scope">
-              <p>{{ gettaxRate(scope.row) }}</p>
-            </template>
-          </el-editable-column>
+          <el-editable-column prop="taxRate" align="center" label="税率(%)" min-width="170px"/>
           <el-editable-column prop="money" align="center" label="金额" min-width="150px">
             <template slot-scope="scope">
               <p>{{ getMoney(scope.row) }}</p>
@@ -197,37 +194,37 @@
           <el-row>
             <el-col :span="12">
               <el-form-item label="到货数量总计" style="width: 100%;">
-                <el-input v-model="allNumber" style="margin-left: 18px;width: 200px" disabled/>
+                <el-input v-model="personalForm.allQuantity" style="margin-left: 18px;width: 200px" disabled/>
               </el-form-item>
             </el-col>
             <el-col :span="12">
               <el-form-item label="金额合计" style="width: 100%;">
-                <el-input v-model="allMoney" style="margin-left: 18px;width: 200px" disabled/>
+                <el-input v-model="personalForm.allMoney" style="margin-left: 18px;width: 200px" disabled/>
               </el-form-item>
             </el-col>
             <el-col :span="12">
               <el-form-item label="税额合计" style="width: 100%;">
-                <el-input v-model="allTaxMoney" style="margin-left: 18px;width: 200px" disabled/>
+                <el-input v-model="personalForm.allTaxMoney" style="margin-left: 18px;width: 200px" disabled/>
               </el-form-item>
             </el-col>
             <el-col :span="12">
               <el-form-item label="含税金额合计" style="width: 100%;">
-                <el-input v-model="allIncludeTaxMoney" style="margin-left: 18px;width: 200px" disabled/>
+                <el-input v-model="personalForm.allIncludeTaxMoney" style="margin-left: 18px;width: 200px" disabled/>
               </el-form-item>
             </el-col>
             <el-col :span="12">
               <el-form-item label="整单折扣金额合计" style="width: 100%;">
-                <el-input v-model="allDiscountMoney" style="margin-left: 18px;width: 200px" disabled/>
+                <el-input v-model="personalForm.allDiscountMoney" style="margin-left: 18px;width: 200px" disabled/>
               </el-form-item>
             </el-col>
             <el-col :span="12">
               <el-form-item label="折后含税金额合计" style="width: 100%;">
-                <el-input v-model="allMoneyMoveDiscount" style="margin-left: 18px;width: 200px" disabled/>
+                <el-input v-model="personalForm.allIncludeTaxDiscountMoney" style="margin-left: 18px;width: 200px" disabled/>
               </el-form-item>
             </el-col>
             <el-col :span="12">
               <el-form-item label="其他费用支出合计" style="width: 100%;">
-                <el-input v-model="allOthermoney" style="margin-left: 18px;width: 200px"/>
+                <el-input v-model="personalForm.otherMoney" style="margin-left: 18px;width: 200px"/>
               </el-form-item>
             </el-col>
           </el-row>
@@ -277,6 +274,14 @@ export default {
         callback()
       }
     }
+    const checkRate = (rule, value, callback) => {
+      console.log(value)
+      if (value === 0 || value === '' || value === null || value === undefined) {
+        callback(new Error('到货数量不能为0'))
+      } else {
+        callback()
+      }
+    }
     return {
       // 选择的数据
       choosedata: [],
@@ -284,6 +289,15 @@ export default {
       editVisible: this.editcontrol,
       // 修改信息数据
       personalForm: this.editdata,
+      pickerOptions1: {
+        disabledDate: (time) => {
+          return time.getTime() < new Date().getTime() - 8.64e7
+        }
+      },
+      // 带入的供应商
+      supp: null,
+      // 结算方式
+      paymentIds: [],
       // 合计数据
       allNumber: '',
       allMoney: '',
@@ -296,8 +310,6 @@ export default {
       giveIds: [],
       // 运送方式
       transportIds: [],
-      // 结算方式
-      paymentIds: [],
       // 点收人回显
       acceptPersonId: '',
       // 控制点收人
@@ -305,7 +317,7 @@ export default {
       // 控制源单为采购到货单
       ordercontrol: false,
       // 控制添加商品按钮
-      addpro: true,
+      addpro: false,
       // 控制从源单中选择按钮
       addsouce: true,
       // 供应商回显
@@ -330,13 +342,10 @@ export default {
       // 采购申请单规则数据
       personalrules: {
         supplierId: [
-          { required: true, validator: validatePass, trigger: 'focus' }
+          { required: true, validator: validatePass, trigger: 'change' }
         ],
-        inquiryPersonId: [
-          { required: true, validator: validatePass, trigger: 'focus' }
-        ],
-        inquiryDate: [
-          { required: true, message: '请选择询价日期', trigger: 'change' }
+        arrivalDate: [
+          { required: true, message: '请选择到货日期', trigger: 'change' }
         ],
         deptId: [
           { required: true, message: '请选择部门', trigger: 'change' }
@@ -346,12 +355,18 @@ export default {
         ],
         stockTypeId: [
           { required: true, message: '请选择采购类别', trigger: 'change' }
+        ],
+        currencyId: [
+          { required: true, message: '请选择币种', trigger: 'change' }
         ]
       },
       // 采购申请单明细数据
       list2: [],
       // 采购申请单明细列表规则
       validRules: {
+        arrivalQuantity: [
+          { required: true, validator: checkRate, trigger: 'blur' }
+        ]
       }
     }
   },
@@ -387,9 +402,9 @@ export default {
           sums[index] = values.reduce((prev, curr) => {
             const value = Number(curr)
             if (!isNaN(value)) {
-              return prev + curr
+              return (Number(prev) + Number(curr)).toFixed(2)
             } else {
-              return (prev).toFixed(2)
+              return (Number(prev)).toFixed(2)
             }
           }, 0)
           sums[index] += ''
@@ -469,8 +484,20 @@ export default {
         this.$refs.editable.clear()
       }
     },
+    // 重置一下下拉
+    change() {
+      this.$forceUpdate()
+    },
     // 从源单中添加商品
     handleAddSouce() {
+      if (this.personalForm.supplierId === null || this.personalForm.supplierId === undefined || this.personalForm.supplierId === '') {
+        this.$notify.error({
+          title: '错误',
+          message: '请先选择供应商',
+          duration: 0
+        })
+        return false
+      }
       this.ordercontrol = true
     },
     order(val) {
@@ -508,15 +535,14 @@ export default {
     // 供应商列表返回数据
     supplierName(val) {
       console.log(val)
+      this.supp = val.id
       this.supplierId = val.supplierName
       this.personalForm.supplierId = val.id
-      this.stockPersonId = val.stockPersonName
-      this.personalForm.stockPersonId = val.stockPersonId
-      this.personalForm.deptId = val.deptId
-      this.personalForm.payId = val.payMode
-      this.personalForm.deliveryModeId = val.deliveryMode
-      this.personalForm.isVat = val.isVat
-      this.personalForm.currencyId = val.currency
+      this.personalForm.deliveryModeId = val.giveId
+      this.personalForm.payId = val.paymentId
+      if (val.moneyId !== null && val.moneyId !== '' && val.moneyId !== undefined) {
+        this.personalForm.currencyId = String(val.moneyId)
+      }
     },
     // 采购员focus事件
     handlechooseStock() {
@@ -524,8 +550,10 @@ export default {
     },
     // 采购员回显
     stockName(val) {
+      console.log(val)
       this.stockPersonId = val.personName
       this.personalForm.stockPersonId = val.id
+      this.personalForm.deptId = val.deptId
     },
     // 点收人人foucs事件触发
     handlechooseDelivery() {
@@ -537,6 +565,14 @@ export default {
     },
     // 采购申请明细来源
     handleAddproduct() {
+      if (this.personalForm.supplierId === null || this.personalForm.supplierId === undefined || this.personalForm.supplierId === '') {
+        this.$notify.error({
+          title: '错误',
+          message: '请先选择供应商',
+          duration: 0
+        })
+        return false
+      }
       this.control = true
     },
     productdetail(val) {
@@ -581,14 +617,6 @@ export default {
       this.personalForm.countryId = 1
       this.personalForm.modifyPersonId = 3
       const EnterDetail = this.$refs.editable.getRecords()
-      if (EnterDetail.length === 0) {
-        this.$notify.error({
-          title: '错误',
-          message: '明细表不能为空',
-          offset: 100
-        })
-        return false
-      }
       EnterDetail.map(function(elem) {
         return elem
       }).forEach(function(elem) {
@@ -686,26 +714,49 @@ export default {
         }
       }
       const parms = JSON.stringify(Data)
-      updatestockArrival(parms, parms2).then(res => {
-        if (res.data.ret === 200) {
-          this.$notify({
-            title: '操作成功',
-            message: '操作成功',
-            type: 'success',
-            duration: 1000,
-            offset: 100
+      this.$refs.personalForm.validate((valid) => {
+        if (valid) {
+          if (EnterDetail.length === 0) {
+            this.$notify.error({
+              title: '错误',
+              message: '明细表不能为空',
+              offset: 100
+            })
+            return false
+          }
+          this.$refs.editable.validate().then(valid => {
+            updatestockArrival(parms, parms2).then(res => {
+              if (res.data.ret === 200) {
+                this.$notify({
+                  title: '操作成功',
+                  message: '操作成功',
+                  type: 'success',
+                  duration: 1000,
+                  offset: 100
+                })
+                this.$emit('rest', true)
+                this.$refs.editable.clear()
+                this.$refs.personalForm.clearValidate()
+                this.$refs.personalForm.resetFields()
+                this.editVisible = false
+              } else {
+                this.$notify.error({
+                  title: '错误',
+                  message: '出错了',
+                  offset: 100
+                })
+              }
+            })
+          }).catch(valid => {
+            console.log('error submit!!')
           })
-          this.$emit('rest', true)
-          this.$refs.editable.clear()
-          this.$refs.personalForm.clearValidate()
-          this.$refs.personalForm.resetFields()
-          this.editVisible = false
         } else {
           this.$notify.error({
             title: '错误',
-            message: '出错了',
+            message: '信息未填完整',
             offset: 100
           })
+          return false
         }
       })
     },

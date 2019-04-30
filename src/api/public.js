@@ -304,3 +304,11 @@ export function shouldPayList(query) {
     data: params
   })
 }
+
+// 递归值
+export function getId() {
+  return request({
+    url: '/erp/zcc/getId',
+    method: 'post'
+  })
+}

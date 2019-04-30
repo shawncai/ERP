@@ -44,8 +44,8 @@
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('StockArrival.deptId')" prop="deptId" style="width: 100%;">
-                  <el-select v-model="personalForm.deptId" clearable style="margin-left: 18px;width: 218px">
+                <el-form-item :label="$t('StockArrival.deptId')" style="width: 100%;">
+                  <el-select v-model="personalForm.deptId" style="margin-left: 18px;width: 218px" @change="change()">
                     <el-option
                       v-for="(item, index) in depts"
                       :key="index"
@@ -56,8 +56,13 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('StockArrival.payId')" style="width: 100%;">
-                  <el-select v-model="personalForm.payId" clearable style="margin-left: 18px;width: 218px">
-                    <el-option value="1" label="现金"/>
+                  <el-select v-model="personalForm.payId" style="margin-left: 18px;width: 218px" @change="change()">
+                    <el-option
+                      v-for="(item, index) in paymentIds"
+                      :key="index"
+                      :label="item.categoryName"
+                      :value="item.id"
+                    />
                   </el-select>
                 </el-form-item>
               </el-col>
@@ -71,9 +76,10 @@
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('StockArrival.arrivalDate')" prop="signDate" style="width: 100%;">
+                <el-form-item :label="$t('StockArrival.arrivalDate')" prop="arrivalDate" style="width: 100%;">
                   <el-date-picker
                     v-model="personalForm.arrivalDate"
+                    :picker-options="pickerOptions1"
                     type="date"
                     value-format="yyyy-MM-dd"
                     style="margin-left: 18px"/>
@@ -106,7 +112,7 @@
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('StockArrival.currencyId')" prop="currency" style="width: 100%;">
+                <el-form-item :label="$t('StockArrival.currencyId')" prop="currencyId" style="width: 100%;">
                   <el-select v-model="personalForm.currencyId" clearable style="margin-left: 18px;width: 218px">
                     <el-option value="1" label="RMB"/>
                     <el-option value="2" label="USD"/>
@@ -122,9 +128,9 @@
         <h2 ref="fuzhu" class="form-name" >采购到货单明细</h2>
         <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
           <el-button :disabled="addpro" @click="handleAddproduct">添加商品</el-button>
-          <my-detail :control.sync="control" @product="productdetail"/>
+          <my-detail :control.sync="control" :supp.sync="supp" @product="productdetail"/>
           <el-button :disabled="addsouce" style="width: 130px" @click="handleAddSouce">从源单中选择</el-button>
-          <my-order :ordercontrol.sync="ordercontrol" @order="order" @allOrderinfo="allOrderinfo"/>
+          <my-order :ordercontrol.sync="ordercontrol" :supp.sync="supp" @order="order" @allOrderinfo="allOrderinfo"/>
           <el-button type="danger" @click="$refs.editable.removeSelecteds()">删除</el-button>
         </div>
         <div class="container">
@@ -147,7 +153,7 @@
             <el-editable-column prop="productType" align="center" label="规格" min-width="150px"/>
             <el-editable-column prop="unit" align="center" label="单位" min-width="150px"/>
             <el-editable-column prop="stockQuantity" align="center" label="采购数量" min-width="150px"/>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="arrivalQuantity" align="center" label="到货数量" min-width="150px"/>
+            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 1, precision: 2}, type: 'visible'}" prop="arrivalQuantity" align="center" label="到货数量" min-width="150px"/>
             <el-editable-column prop="giveDate" align="center" label="交货日期" min-width="170px"/>
             <el-editable-column prop="price" align="center" label="单价" min-width="170px"/>
             <el-editable-column prop="includeTaxPrice" align="center" label="含税价" min-width="170px"/>
@@ -222,7 +228,7 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item label="其他费用支出合计" style="width: 100%;">
-                  <el-input v-model="allOthermoney" style="margin-left: 18px" disabled/>
+                  <el-input v-model="personalForm.otherMoney" style="margin-left: 18px"/>
                 </el-form-item>
               </el-col>
             </el-row>
@@ -256,14 +262,31 @@ export default {
   components: { MyOrder, MyLnquiry, MyDelivery, MyPlan, MyApply, MySupplier, MyDetail, MyEmp },
   data() {
     const validatePass = (rule, value, callback) => {
+      console.log(this.supplierId)
+      if (this.supplierId === undefined || this.supplierId === null || this.supplierId === '') {
+        callback(new Error('请选择供应商'))
+      } else {
+        callback()
+      }
+    }
+    const checkRate = (rule, value, callback) => {
       console.log(value)
-      if (value === '') {
-        callback(new Error('请选择'))
+      if (value === 0 || value === '' || value === null || value === undefined) {
+        callback(new Error('到货数量不能为0'))
       } else {
         callback()
       }
     }
     return {
+      pickerOptions1: {
+        disabledDate: (time) => {
+          return time.getTime() < new Date().getTime() - 8.64e7
+        }
+      },
+      // 带入的供应商
+      supp: null,
+      // 结算方式
+      paymentIds: [],
       // 合计数据
       allNumber: '',
       allMoney: '',
@@ -276,8 +299,6 @@ export default {
       giveIds: [],
       // 运送方式
       transportIds: [],
-      // 结算方式
-      paymentIds: [],
       // 点收人回显
       acceptPersonId: '',
       // 控制点收人
@@ -285,7 +306,7 @@ export default {
       // 控制源单为采购到货单
       ordercontrol: false,
       // 控制添加商品按钮
-      addpro: true,
+      addpro: false,
       // 控制从源单中选择按钮
       addsouce: true,
       // 供应商回显
@@ -315,18 +336,18 @@ export default {
         countryId: 1,
         repositoryId: 438,
         regionId: 2,
-        isVat: 1
+        isVat: 1,
+        sourceType: '2',
+        currencyId: '1',
+        arrivalDate: null
       },
       // 采购申请单规则数据
       personalrules: {
         supplierId: [
-          { required: true, validator: validatePass, trigger: 'focus' }
+          { required: true, validator: validatePass, trigger: 'change' }
         ],
-        inquiryPersonId: [
-          { required: true, validator: validatePass, trigger: 'focus' }
-        ],
-        inquiryDate: [
-          { required: true, message: '请选择询价日期', trigger: 'change' }
+        arrivalDate: [
+          { required: true, message: '请选择到货日期', trigger: 'change' }
         ],
         deptId: [
           { required: true, message: '请选择部门', trigger: 'change' }
@@ -336,20 +357,30 @@ export default {
         ],
         stockTypeId: [
           { required: true, message: '请选择采购类别', trigger: 'change' }
+        ],
+        currencyId: [
+          { required: true, message: '请选择币种', trigger: 'change' }
         ]
       },
       // 采购申请单明细数据
       list2: [],
       // 采购申请单明细列表规则
       validRules: {
+        arrivalQuantity: [
+          { required: true, validator: checkRate, trigger: 'blur' }
+        ]
       }
     }
   },
   created() {
     this.getTypes()
     this.getways()
+    this.getdatatime()
   },
   methods: {
+    getdatatime() { // 默认显示今天
+      this.personalForm.arrivalDate = new Date()
+    },
     // 总计
     getSummaries(param) {
       const { columns, data } = param
@@ -364,9 +395,9 @@ export default {
           sums[index] = values.reduce((prev, curr) => {
             const value = Number(curr)
             if (!isNaN(value)) {
-              return prev + curr
+              return (Number(prev) + Number(curr)).toFixed(2)
             } else {
-              return (prev).toFixed(2)
+              return (Number(prev)).toFixed(2)
             }
           }, 0)
           sums[index] += ''
@@ -394,7 +425,11 @@ export default {
       return sums
     },
     getdiscountMoney(row) {
-      row.discountMoney = row.discountRate * row.arrivalQuantity * (1 - row.discountRate / 100)
+      if (row.discountRate === 0) {
+        row.discountMoney = 0
+      } else {
+        row.discountMoney = (row.price * row.arrivalQuantity * (1 - row.discountRate / 100)).toFixed(2)
+      }
       return row.discountMoney
     },
     // 计算税额
@@ -445,8 +480,21 @@ export default {
         this.$refs.editable.clear()
       }
     },
+    // 重置一下下拉
+    change() {
+      this.$forceUpdate()
+    },
     // 从源单中添加商品
     handleAddSouce() {
+      if (this.personalForm.supplierId === null || this.personalForm.supplierId === undefined || this.personalForm.supplierId === '') {
+        this.$notify.error({
+          title: '错误',
+          message: '请先选择供应商',
+          duration: 0
+        })
+        return false
+      }
+      this.$refs.editable.clear()
       this.ordercontrol = true
     },
     order(val) {
@@ -471,6 +519,12 @@ export default {
           this.types = res.data.data.content.list
         }
       })
+      // 结算方式
+      searchCategory(5).then(res => {
+        if (res.data.ret === 200) {
+          this.paymentIds = res.data.data.content.list
+        }
+      })
       // 部门列表数据
       getdeptlist().then(res => {
         if (res.data.ret === 200) {
@@ -485,15 +539,14 @@ export default {
     // 供应商列表返回数据
     supplierName(val) {
       console.log(val)
+      this.supp = val.id
       this.supplierId = val.supplierName
       this.personalForm.supplierId = val.id
-      this.stockPersonId = val.stockPersonName
-      this.personalForm.stockPersonId = val.stockPersonId
-      this.personalForm.deptId = val.deptId
-      this.personalForm.payId = val.payMode
-      this.personalForm.deliveryModeId = val.deliveryMode
-      this.personalForm.isVat = val.isVat
-      this.personalForm.currencyId = val.currency
+      this.personalForm.deliveryModeId = val.giveId
+      this.personalForm.payId = val.paymentId
+      if (val.moneyId !== null && val.moneyId !== '' && val.moneyId !== undefined) {
+        this.personalForm.currencyId = String(val.moneyId)
+      }
     },
     // 采购员focus事件
     handlechooseStock() {
@@ -501,8 +554,10 @@ export default {
     },
     // 采购员回显
     stockName(val) {
+      console.log(val)
       this.stockPersonId = val.personName
       this.personalForm.stockPersonId = val.id
+      this.personalForm.deptId = val.deptId
     },
     // 点收人人foucs事件触发
     handlechooseDelivery() {
@@ -514,6 +569,14 @@ export default {
     },
     // 采购申请明细来源
     handleAddproduct() {
+      if (this.personalForm.supplierId === null || this.personalForm.supplierId === undefined || this.personalForm.supplierId === '') {
+        this.$notify.error({
+          title: '错误',
+          message: '请先选择供应商',
+          duration: 0
+        })
+        return false
+      }
       this.control = true
     },
     productdetail(val) {
@@ -552,14 +615,6 @@ export default {
     // 保存操作
     handlesave() {
       const EnterDetail = this.$refs.editable.getRecords()
-      if (EnterDetail.length === 0) {
-        this.$notify.error({
-          title: '错误',
-          message: '明细表不能为空',
-          offset: 100
-        })
-        return false
-      }
       EnterDetail.map(function(elem) {
         return elem
       }).forEach(function(elem) {
@@ -662,26 +717,38 @@ export default {
       const parms = JSON.stringify(Data)
       this.$refs.personalForm.validate((valid) => {
         if (valid) {
-          createstockArrival(parms, parms2, this.personalForm).then(res => {
-            console.log(res)
-            if (res.data.ret === 200) {
-              this.$notify({
-                title: '成功',
-                message: '保存成功',
-                type: 'success',
-                offset: 100
-              })
-              this.restAllForm()
-              this.$refs.editable.clear()
-              this.$refs.personalForm.clearValidate()
-              this.$refs.personalForm.resetFields()
-            } else {
-              this.$notify.error({
-                title: '错误',
-                message: res.data.msg,
-                offset: 100
-              })
-            }
+          if (EnterDetail.length === 0) {
+            this.$notify.error({
+              title: '错误',
+              message: '明细表不能为空',
+              offset: 100
+            })
+            return false
+          }
+          this.$refs.editable.validate().then(valid => {
+            createstockArrival(parms, parms2, this.personalForm).then(res => {
+              console.log(res)
+              if (res.data.ret === 200) {
+                this.$notify({
+                  title: '成功',
+                  message: '保存成功',
+                  type: 'success',
+                  offset: 100
+                })
+                this.restAllForm()
+                this.$refs.editable.clear()
+                this.$refs.personalForm.clearValidate()
+                this.$refs.personalForm.resetFields()
+              } else {
+                this.$notify.error({
+                  title: '错误',
+                  message: res.data.msg,
+                  offset: 100
+                })
+              }
+            })
+          }).catch(valid => {
+            console.log('error submit!!')
           })
         } else {
           this.$notify.error({

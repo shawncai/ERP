@@ -385,7 +385,7 @@ export default {
           arrivalQuantity: '0.00',
           price: item.price,
           includeTaxPrice: item.includeTaxPrice,
-          taxRate: item.taxRate,
+          tax: item.taxRate,
           money: item.money,
           includeTaxMoney: item.includeTaxMoney,
           taxMoney: item.taxMoney,

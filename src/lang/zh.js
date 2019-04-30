@@ -1406,7 +1406,8 @@ export default {
     signAddress: '签约地点',
     contractStat: '合同状态',
     invoiceType: '开票类型',
-    taxRate: '汇率'
+    taxRate: '汇率',
+    allMoney: '金额'
   },
   income: {
     title: '收入单主题',

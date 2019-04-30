@@ -241,6 +241,24 @@ const reg = /^[A-Z0-9]{2}$/
         return this.recursion(val.parent)
       }
     }
+```  
+######  树形数据转化成普通数组  
+```js
+// 树结构数据转数组
+    treeToList(tree) {
+      let queen = []
+      const out = []
+      queen = queen.concat(tree)
+      while (queen.length) {
+        const first = queen.shift()
+        if (first.children) {
+          queen = queen.concat(first.children)
+          delete first['children']
+        }
+        out.push(first)
+      }
+      return out
+    }
 ```
 ###### 完成进度  
 ```text

@@ -264,7 +264,7 @@ export default {
           productCode: item.code,
           productName: item.productName,
           typeId: item.typeId,
-          requireQuantity: 1.00,
+          requireQuantity: 1,
           color: item.color,
           unit: item.purMeasu,
           productType: item.productType,
@@ -280,7 +280,7 @@ export default {
           unit: item.purMeasu,
           productType: item.productType,
           applyQuantity: 1,
-          planQuantity: 0
+          planQuantity: '0.00'
         }
       })
       console.log(productDetail)

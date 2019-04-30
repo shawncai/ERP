@@ -9,12 +9,12 @@
             <el-row>
               <el-col :span="6">
                 <el-form-item :label="$t('CheckReport.title')" style="width: 100%;">
-                  <el-input v-model="personalForm.title" style="margin-left: 18px" clearable/>
+                  <el-input v-model="personalForm.title" style="margin-left: 18px;width: 200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('CheckReport.sourceType')" prop="sourceType" style="width: 100%;">
-                  <el-select v-model="personalForm.sourceType" style="margin-left: 18px;width: 218px">
+                  <el-select v-model="personalForm.sourceType" style="margin-left: 18px;width: 200px" @change="chooseType">
                     <el-option value="1" label="质检申请单" />
                     <el-option value="2" label="采购到货单" />
                     <el-option value="3" label="生产任务单" />
@@ -24,7 +24,7 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('CheckReport.sourceNumber')" prop="sourceNumber" style="width: 100%;">
-                  <el-input v-model="personalForm.sourceNumber" style="margin-left: 18px" clearable @focus="chooseNumber"/>
+                  <el-input v-model="personalForm.sourceNumber" style="margin-left: 18px;width: 200px" clearable @focus="chooseNumber"/>
                   <my-quality :qualitycontrol.sync="qualitycontrol" @allqualityinfo="allqualityinfo"/>
                   <my-arrival :arrivalcontrol.sync="arrivalcontrol" @allarrivalinfo="allarrivalinfo"/>
                   <produce-task :procontrol.sync="producecontrol" @produce="produce"/>
@@ -32,19 +32,19 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('CheckReport.supplierId')" style="width: 100%;">
-                  <el-input v-model="supplierId" style="margin-left: 18px" clearable @focus="handlechoose"/>
+                  <el-input v-model="supplierId" :disabled="IsSupplierId" style="margin-left: 18px;width: 200px" @focus="handlechoose"/>
                   <my-supplier :control.sync="empcontrol" @supplierName="supplierName"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('CheckReport.inspectionPersonId')" prop="inspectionPersonId" style="width: 100%;">
-                  <el-input v-model="inspectionPersonId" style="margin-left: 18px" clearable @focus="handlechooseStock"/>
+                  <el-input v-model="inspectionPersonId" :disabled="IsInspectionPersonId" style="margin-left: 18px;width: 200px" clearable @focus="handlechooseStock"/>
                   <my-emp :control.sync="stockControl" @stockName="stockName"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('CheckReport.inspectionDeptId')" prop="reportDeptId" style="width: 100%;">
-                  <el-select v-model="personalForm.inspectionDeptId" clearable style="margin-left: 18px;width: 218px" @change="change()">
+                  <el-select v-model="personalForm.inspectionDeptId" :disabled="IsInspectionDeptId" style="margin-left: 18px;width: 200px" @change="change()">
                     <el-option
                       v-for="(item, index) in depts"
                       :key="index"
@@ -55,7 +55,7 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('CheckReport.checkType')" prop="checkType" style="width: 100%;">
-                  <el-select v-model="personalForm.checkType" value="personalForm.checkType" style="margin-left: 18px;width: 218px" @change="change()">
+                  <el-select v-model="personalForm.checkType" value="personalForm.checkType" style="margin-left: 18px;width: 200px" @change="change()">
                     <el-option value="1" label="来料质检"/>
                     <el-option value="2" label="送样质检"/>
                     <el-option value="3" label="生产质检"/>
@@ -64,32 +64,33 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('CheckReport.checkMode')" prop="checkMode" style="width: 100%;">
-                  <el-select v-model="personalForm.checkMode" value="personalForm.checkMode" style="margin-left: 18px;width: 218px" @change="change()">
+                  <el-select v-model="personalForm.checkMode" value="personalForm.checkMode" style="margin-left: 18px;width: 200px" @change="change()">
                     <el-option value="1" label="抽样"/>
+                    <el-option value="2" label="全检"/>
                   </el-select>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('CheckReport.produceManagerId')" style="width: 100%;">
-                  <el-input v-model="produceManagerId" style="margin-left: 18px" clearable @focus="handlechooseDelivery"/>
+                  <el-input v-model="produceManagerId" :disabled="IsProduceManagerId" style="margin-left: 18px;width: 200px" @focus="handlechooseDelivery"/>
                 </el-form-item>
                 <my-delivery :deliverycontrol.sync="deliverycontrol" @deliveryName="deliveryName"/>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('CheckReport.workCenterId')" style="width: 100%;">
-                  <el-input v-model="workCenterId" style="margin-left: 18px" clearable @focus="workcenterchoose"/>
+                  <el-input v-model="workCenterId" :disabled="IsWorkCenterId" style="margin-left: 18px;width: 200px" @focus="workcenterchoose"/>
                   <my-center :control.sync="centercontrol" @center="center"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('CheckReport.checkPersonId')" style="width: 100%;">
-                  <el-input v-model="checkPersonId" style="margin-left: 18px" clearable @focus="handlechooseAccept"/>
+                  <el-input v-model="checkPersonId" style="margin-left: 18px;width: 200px" clearable @focus="handlechooseAccept"/>
                   <my-accept :accetpcontrol.sync="accetpcontrol" @acceptName="acceptName"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('CheckReport.checkDeptId')" prop="reportDeptId" style="width: 100%;">
-                  <el-select v-model="personalForm.checkDeptId" clearable style="margin-left: 18px;width: 218px">
+                  <el-select v-model="personalForm.checkDeptId" clearable style="margin-left: 18px;width: 200px">
                     <el-option
                       v-for="(item, index) in depts"
                       :key="index"
@@ -104,7 +105,7 @@
                     v-model="personalForm.checkDate"
                     type="date"
                     value-format="yyyy-MM-dd"
-                    style="margin-left: 18px"/>
+                    style="margin-left: 18px;width: 200px"/>
                 </el-form-item>
               </el-col>
             </el-row>
@@ -213,7 +214,7 @@
             <el-editable-column type="selection" min-width="55" align="center"/>
             <el-editable-column label="序号" min-width="55" align="center" type="index"/>
             <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="checkItem" align="center" label="检验项目" min-width="150px"/>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="checkTarget" align="center" label="检验指标" min-width="150px"/>
+            <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="checkTarget" align="center" label="检验指标" min-width="150px"/>
             <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="checkValue" align="center" label="检验值" min-width="150px"/>
             <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="chectResult" align="center" label="检验结果" min-width="150px"/>
             <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="checkQuantity" align="center" label="检验数量" min-width="150px"/>
@@ -271,6 +272,16 @@ export default {
       }
     }
     return {
+      // 控制报检部门是否可以编辑
+      IsInspectionDeptId: false,
+      // 控制报检人员是否可以编辑
+      IsInspectionPersonId: false,
+      // 控制供应商是否可以编辑
+      IsSupplierId: false,
+      // 控制工作中心是否可以编辑
+      IsWorkCenterId: false,
+      // 控制生产负责人是否可以编辑
+      IsProduceManagerId: false,
       // 生产任务单传给物品信息数据
       reportdata3: [],
       // 生产任务单控制物品明细
@@ -340,7 +351,8 @@ export default {
         countryId: 1,
         repositoryId: 438,
         regionId: 2,
-        isVat: 1
+        isVat: 1,
+        sourceType: '4'
       },
       // 采购申请单规则数据
       personalrules: {
@@ -392,6 +404,34 @@ export default {
     this.getTypes()
   },
   methods: {
+    chooseType(val) {
+      if (this.personalForm.sourceType === '1') {
+        this.IsProduceManagerId = false
+        this.IsWorkCenterId = false
+        this.personalForm.supplierId = ''
+        this.supplierId = ''
+        this.personalForm.sourceNumber = ''
+      } else if (this.personalForm.sourceType === '2') {
+        this.IsProduceManagerId = true
+        this.IsWorkCenterId = true
+        this.IsSupplierId = true
+        this.personalForm.supplierId = ''
+        this.supplierId = ''
+        this.personalForm.sourceNumber = ''
+      } else if (this.personalForm.sourceType === '3') {
+        this.IsWorkCenterId = false
+        this.IsSupplierId = true
+        this.personalForm.supplierId = ''
+        this.supplierId = ''
+        this.personalForm.sourceNumber = ''
+      } else if (this.personalForm.sourceType === '4') {
+        this.IsProduceManagerId = false
+        this.IsWorkCenterId = false
+        this.personalForm.supplierId = ''
+        this.supplierId = ''
+        this.personalForm.sourceNumber = ''
+      }
+    },
     // 检验人员focus事件触发
     handlechoosestaff() {
       this.staffcontrol = true
@@ -523,20 +563,39 @@ export default {
       }
     },
     allqualityinfo(val) {
-      this.$refs.personalForm.resetFields()
+      console.log(val)
       this.reportdata = val.qualityCheckDetails
       this.personalForm.sourceNumber = val.checkNumber
-      this.personalForm.supplierId = val.supplierId
-      this.supplierId = val.supplierName
-      this.personalForm.inspectionPersonId = val.reportPersonId
-      this.inspectionPersonId = val.reportPersonName
-      this.personalForm.inspectionDeptId = val.reportDeptId
-      this.personalForm.checkType = String(val.checkType)
-      this.personalForm.checkMode = String(val.checkMode)
-      this.personalForm.produceManagerId = val.produceManagerId
-      this.produceManagerId = val.produceManagerName
-      this.personalForm.workCenterId = val.workCenterId
-      this.workCenterId = val.workCenter
+      if (val.supplierId !== '' && val.supplierId !== null && val.supplierId !== undefined) {
+        this.personalForm.supplierId = val.supplierId
+        this.supplierId = val.supplierName
+        this.IsSupplierId = true
+      }
+      if (val.reportPersonId !== '' && val.reportPersonId !== null && val.reportPersonId !== undefined) {
+        this.personalForm.inspectionPersonId = val.reportPersonId
+        this.inspectionPersonId = val.reportPersonName
+        this.IsInspectionPersonId = true
+      }
+      if (val.reportDeptId !== '' && val.reportDeptId !== null && val.reportDeptId !== undefined) {
+        this.personalForm.inspectionDeptId = val.reportDeptId
+        this.IsInspectionDeptId = true
+      }
+      if (val.checkType !== '' && val.checkType !== null && val.checkType !== undefined) {
+        this.personalForm.checkType = String(val.checkType)
+      }
+      if (val.checkMode !== '' && val.checkMode !== null && val.checkMode !== undefined) {
+        this.personalForm.checkMode = String(val.checkMode)
+      }
+      if (val.produceManagerId !== '' && val.produceManagerId !== null && val.produceManagerId !== undefined) {
+        this.personalForm.produceManagerId = val.produceManagerId
+        this.produceManagerId = val.produceManagerName
+        this.IsProduceManagerId = true
+      }
+      if (val.workCenterId !== '' && val.workCenterId !== null && val.workCenterId !== undefined) {
+        this.personalForm.workCenterId = val.workCenterId
+        this.workCenterId = val.workCenter
+        this.IsWorkCenterId = true
+      }
     },
     // 源单类型为采购到货单
     allarrivalinfo(val) {
@@ -549,8 +608,11 @@ export default {
     produce(val) {
       this.reportdata3 = val.produceTaskDetailVos
       this.personalForm.sourceNumber = val.taskNumber
-      this.personalForm.produceManagerId = val.handlePersonId
-      this.produceManagerId = val.handlePersonName
+      if (val.handlePersonId !== '' && val.handlePersonId !== null && val.handlePersonId !== undefined) {
+        this.personalForm.produceManagerId = val.handlePersonId
+        this.produceManagerId = val.handlePersonName
+        this.IsProduceManagerId = true
+      }
     },
     // 质检申请单明细来源为无来源时
     handleAddproduct() {

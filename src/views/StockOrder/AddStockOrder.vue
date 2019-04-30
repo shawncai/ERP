@@ -68,6 +68,7 @@
                 <el-form-item :label="$t('StockOrder.orderDate')" prop="orderDate" style="width: 100%;">
                   <el-date-picker
                     v-model="personalForm.orderDate"
+                    :picker-options="pickerOptions1"
                     type="date"
                     value-format="yyyy-MM-dd"
                     style="margin-left: 18px"/>
@@ -160,8 +161,8 @@
             <el-editable-column prop="productName" align="center" label="物品名称" min-width="150px"/>
             <el-editable-column prop="productType" align="center" label="规格" min-width="150px"/>
             <el-editable-column prop="unit" align="center" label="单位" min-width="150px"/>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 1, precision: 2}, type: 'visible'}" prop="stockQuantity" align="center" label="采购数量" min-width="150px"/>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="price" align="center" label="单价" min-width="170px">
+            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0, precision: 2}, type: 'visible'}" prop="stockQuantity" align="center" label="采购数量" min-width="150px"/>
+            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0, precision: 2}, type: 'visible'}" prop="price" align="center" label="单价" min-width="170px">
               <template slot="edit" slot-scope="scope">
                 <el-input-number
                   :precision="2"
@@ -169,7 +170,7 @@
                   @input="getprice(scope.row)"/>
               </template>
             </el-editable-column>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="includeTaxPrice" align="center" label="含税价" min-width="170px">
+            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0, precision: 2}, type: 'visible'}" prop="includeTaxPrice" align="center" label="含税价" min-width="170px">
               <template slot="edit" slot-scope="scope">
                 <el-input-number
                   :precision="2"
@@ -177,7 +178,7 @@
                   @input="getincludeTaxPrice(scope.row)"/>
               </template>
             </el-editable-column>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="taxRate" align="center" label="税率(%)" min-width="170px">
+            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0, precision: 2}, type: 'visible'}" prop="taxRate" align="center" label="税率(%)" min-width="170px">
               <template slot="edit" slot-scope="scope">
                 <el-input-number
                   :precision="2"
@@ -382,7 +383,7 @@ export default {
       // 控制源单为采购申请时
       applycontrol: false,
       // 控制添加商品按钮
-      addpro: true,
+      addpro: false,
       // 控制从源单中选择按钮
       addsouce: true,
       // 供应商回显
@@ -450,13 +451,18 @@ export default {
         ],
         stockQuantity: [
           { required: true, message: '请输入采购数量', trigger: 'blur' }
+        ],
+        price: [
+          { required: true, message: '请输入单价', trigger: 'blur' }
+        ],
+        includeTaxPrice: [
+          { required: true, message: '请输入含税价', trigger: 'blur' }
         ]
       }
     }
   },
   created() {
     this.getTypes()
-    this.chooseType()
     this.getways()
     this.getdatatime()
   },
@@ -586,8 +592,6 @@ export default {
       if (this.personalForm.sourceType === '1') {
         this.addsouce = false
         this.addpro = false
-        this.IsStockTypeId = true
-        this.IsDeptId = true
         this.IsSupplierId = false
         this.IsStockPersonId = false
         this.IsPayMode = false
@@ -608,9 +612,6 @@ export default {
       } else if (this.personalForm.sourceType === '2') {
         this.addsouce = false
         this.addpro = false
-        this.IsStockTypeId = true
-        this.IsDeptId = true
-        this.IsStockPersonId = true
         this.IsSupplierId = false
         this.IsPayMode = false
         this.IsSignPersonId = false
@@ -629,11 +630,6 @@ export default {
       } else if (this.personalForm.sourceType === '3') {
         this.addsouce = false
         this.addpro = false
-        this.IsSupplierId = true
-        this.IsStockTypeId = true
-        this.IsDeptId = true
-        this.IsDeliveryMode = true
-        this.IsSettleMode = true
         this.IsStockPersonId = false
         this.IsPayMode = false
         this.IsSignPersonId = false
@@ -650,14 +646,6 @@ export default {
       } else if (this.personalForm.sourceType === '4') {
         this.addsouce = false
         this.addpro = false
-        this.IsStockPersonId = true
-        this.IsStockTypeId = true
-        this.IsDeptId = true
-        this.IsDeliveryMode = true
-        this.IsSettleMode = true
-        this.IsPayMode = true
-        this.IsSignPersonId = true
-        this.currency = true
         this.IsSupplierId = false
         if (this.$refs.editable.getRecords().length !== 0) {
           const ceshi2 = this.$refs.editable.getRecords()
@@ -759,10 +747,25 @@ export default {
     },
     allcontractinfo(val) {
       console.log(val)
-      this.stockPersonId = val.stockPersonName
-      this.personalForm.stockPersonId = val.stockPersonId
-      this.personalForm.stockType = val.stockType
-      this.personalForm.deptId = val.deptId
+      if (val.stockPersonId === null || val.stockPersonId === '' || val.stockPersonId === undefined) {
+        this.IsStockPersonId = false
+      } else {
+        this.stockPersonId = val.stockPersonName
+        this.personalForm.stockPersonId = val.stockPersonId
+        this.IsStockPersonId = true
+      }
+      if (val.stockType === null || val.stockType === '' || val.stockType === undefined) {
+        this.IsStockTypeId = false
+      } else {
+        this.personalForm.stockType = val.stockType
+        this.IsStockTypeId = true
+      }
+      if (val.deptId === null || val.deptId === '' || val.deptId === undefined) {
+        this.IsDeptId = false
+      } else {
+        this.personalForm.deptId = val.deptId
+        this.IsDeptId = true
+      }
       this.personalForm.isVat = val.isVat
       this.personalForm.payMode = String(val.payId)
       this.signPersonId = val.ourContractorName
@@ -790,15 +793,34 @@ export default {
       }
     },
     allLnquirinfo(val) {
-      console.log(val)
-      this.personalForm.stockTypeId = val.stockTypeId
-      this.personalForm.deptId = val.deptId
+      if (val.stockType === null || val.stockType === '' || val.stockType === undefined) {
+        this.IsStockTypeId = false
+      } else {
+        this.personalForm.stockTypeId = val.stockTypeId
+        this.IsStockTypeId = true
+      }
+      if (val.deptId === null || val.deptId === '' || val.deptId === undefined) {
+        this.IsDeptId = false
+      } else {
+        this.personalForm.deptId = val.deptId
+        this.IsDeptId = true
+      }
       searchsupplier(val.supplierName).then(res => {
         if (res.data.ret === 200) {
           console.log(res)
-          this.personalForm.deliveryMode = res.data.data.content.list[0].giveId
+          if (res.data.data.content.list[0].giveId === null || res.data.data.content.list[0].giveId === '' || res.data.data.content.list[0].giveId === undefined) {
+            this.IsDeliveryMode = false
+          } else {
+            this.personalForm.deliveryMode = res.data.data.content.list[0].giveId
+            this.IsDeliveryMode = true
+          }
           this.personalForm.transferId = res.data.data.content.list[0].transportId
-          this.personalForm.settleMode = res.data.data.content.list[0].paymentId
+          if (res.data.data.content.list[0].paymentId === null || res.data.data.content.list[0].paymentId === '' || res.data.data.content.list[0].paymentId === undefined) {
+            this.IsSettleMode = false
+          } else {
+            this.personalForm.settleMode = res.data.data.content.list[0].paymentId
+            this.IsSettleMode = true
+          }
         }
         this.getways()
       })
@@ -828,11 +850,13 @@ export default {
         this.IsStockTypeId = false
       } else {
         this.personalForm.stockTypeId = val.stockType
+        this.IsStockTypeId = true
       }
       if (val.applyDeptId === null || val.applyDeptId === '' || val.applyDeptId === undefined) {
         this.IsDeptId = false
       } else {
         this.personalForm.deptId = val.applyDeptId
+        this.IsDeptId = true
       }
     },
     // 采购计划加载过来数据
@@ -859,22 +883,24 @@ export default {
       }
     },
     allPlaninfo(val) {
-      console.log(val)
       if (val.stockType === null || val.stockType === '' || val.stockType === undefined) {
         this.IsStockTypeId = false
       } else {
         this.personalForm.stockTypeId = val.stockType
+        this.IsStockTypeId = true
       }
       if (val.stockDeptId === null || val.stockDeptId === '' || val.stockDeptId === undefined) {
         this.IsDeptId = false
       } else {
         this.personalForm.deptId = val.stockDeptId
+        this.IsDeptId = true
       }
       if (val.stockPersonId === null || val.stockPersonId === '' || val.stockPersonId === undefined) {
         this.IsStockPersonId = false
       } else {
         this.stockPersonId = val.stockPersonName
         this.personalForm.stockPersonId = val.stockPersonId
+        this.IsStockPersonId = true
       }
       this.personalForm.isVat = val.isVat
     },
@@ -967,24 +993,37 @@ export default {
         countryId: 1,
         repositoryId: 438,
         regionId: 2,
-        isVat: 1
+        isVat: 1,
+        sourceType: '5',
+        currency: '1'
       }
+      this.personalForm.orderDate = new Date()
       this.supplierId = null
       this.inquiryPersonId = null
       this.stockPersonId = null
       this.signPersonId = null
+      // 控制币种是否可以编辑
+      this.IsCurrency = false
+      // 控制我方签约人是否可以编辑
+      this.IsSignPersonId = false
+      // 控制支付方式是否可以编辑
+      this.IsPayMode = false
+      // 控制结算方式是否可以编辑
+      this.IsSettleMode = false
+      // 控制交货方式是否可以编辑
+      this.IsDeliveryMode = false
+      // 控制供应商是否可以编辑
+      this.IsSupplierId = false
+      // 控制采购员是否可以编辑
+      this.IsStockPersonId = false
+      // 控制采购类别是否可以编辑
+      this.IsStockTypeId = false
+      // 控制部门是否可以编辑
+      this.IsDeptId = false
     },
     // 保存操作
     handlesave() {
       const EnterDetail = this.$refs.editable.getRecords()
-      if (EnterDetail.length === 0) {
-        this.$notify.error({
-          title: '错误',
-          message: '明细表不能为空',
-          offset: 100
-        })
-        return false
-      }
       EnterDetail.map(function(elem) {
         return elem
       }).forEach(function(elem) {
@@ -1021,17 +1060,17 @@ export default {
         if (elem.includeTaxPrice === null || elem.includeTaxPrice === '' || elem.includeTaxPrice === undefined) {
           delete elem.includeTaxPrice
         }
-        if (elem.taxRate === null || elem.taxRate === '' || elem.taxRate === undefined) {
-          delete elem.taxRate
-        }
+        // if (elem.taxRate === null || elem.taxRate === '' || elem.taxRate === undefined) {
+        //   delete elem.taxRate
+        // }
         if (elem.taxRate !== null || elem.taxRate !== '' || elem.taxRate !== undefined) {
           elem.taxRate = elem.taxRate / 100
         }
-        if (elem.discountRate === null || elem.discountRate === '' || elem.discountRate === undefined) {
-          delete elem.discountRate
-        }
+        // if (elem.discountRate === null || elem.discountRate === '' || elem.discountRate === undefined) {
+        //   delete elem.discountRate
+        // }
         if (elem.discountRate !== null || elem.discountRate !== '' || elem.discountRate !== undefined) {
-          elem.discountRate = elem.discountRate / 100
+          elem.discountRate = Number(elem.discountRate) / 100
         }
         if (elem.money === null || elem.money === '' || elem.money === undefined) {
           delete elem.money
@@ -1041,9 +1080,6 @@ export default {
         }
         if (elem.tax === null || elem.tax === '' || elem.tax === undefined) {
           delete elem.tax
-        }
-        if (elem.discountRate === null || elem.discountRate === '' || elem.discountRate === undefined) {
-          delete elem.discountRate
         }
         if (elem.discountMoney === null || elem.discountMoney === '' || elem.discountMoney === undefined) {
           delete elem.discountMoney
@@ -1060,6 +1096,14 @@ export default {
       const parms = JSON.stringify(Data)
       this.$refs.personalForm.validate((valid) => {
         if (valid) {
+          if (EnterDetail.length === 0) {
+            this.$notify.error({
+              title: '错误',
+              message: '明细表不能为空',
+              offset: 100
+            })
+            return false
+          }
           this.$refs.editable.validate().then(valid => {
             addstockorder(parms, parms2, this.personalForm).then(res => {
               console.log(res)

@@ -7,86 +7,93 @@
         <el-form :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
           <el-row>
             <el-col :span="12">
-              <el-form-item :label="$t('StockContract.contractTitle')" style="width: 100%;">
-                <span>{{ personalForm.contractTitle }}</span>
+              <el-form-item :label="$t('SaleContract.title')" prop="title" style="width: 100%;">
+                <span>{{ personalForm.title }}</span>
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item :label="$t('StockContract.sourceType')" style="width: 100%;">
+              <el-form-item :label="$t('SaleContract.sourceType')" prop="sourceType" style="width: 100%;">
                 <span>{{ personalForm.sourceType | sourceTypeFilter }}</span>
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item :label="$t('StockContract.supplierId')" prop="supplierId" style="width: 100%;">
-                <span>{{ personalForm.supplierName }}</span>
+              <el-form-item :label="$t('SaleContract.sourceNumber')" style="width: 100%;">
+                <span>{{ personalForm.sourceNumber }}</span>
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item :label="$t('StockContract.stockPersonId')" prop="stockPersonId" style="width: 100%;">
-                <span>{{ personalForm.stockPersonName }}</span>
+              <el-form-item :label="$t('SaleContract.customerName')" style="width: 100%;">
+                <span>{{ personalForm.customerName }}</span>
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item :label="$t('StockContract.stockType')" prop="stockType" style="width: 100%;">
-                <span>{{ personalForm.stockTypeName }}</span>
+              <el-form-item :label="$t('SaleContract.customerPhone')" style="width: 100%;">
+                <span>{{ personalForm.customerPhone }}</span>
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item :label="$t('StockContract.deptId')" prop="deptId" style="width: 100%;">
+              <el-form-item :label="$t('SaleContract.saleType')" style="width: 100%;">
+                <span>{{ personalForm.saleType | saleTypeFilter }}</span>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('SaleContract.closeType')" style="width: 100%;">
+                <span>{{ personalForm.closeTypeName }}</span>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('SaleContract.payType')" style="width: 100%;">
+                <span>{{ personalForm.payType | payTypeFilter }}</span>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('SaleContract.deliveryMode')" style="width: 100%;">
+                <span>{{ personalForm.deliveryMode | deliveryModeFilter }}</span>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('SaleContract.currency')" prop="currency" style="width: 100%;">
+                <span>{{ personalForm.currency | currencyFilter }}</span>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('SaleContract.salePersonId')" style="width: 100%;">
+                <span>{{ personalForm.salePersonName }}</span>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('SaleContract.deptId')" style="width: 100%;">
                 <span>{{ personalForm.deptName }}</span>
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item :label="$t('StockContract.payId')" style="width: 100%;">
-                <span>{{ personalForm.payId | payIdFilter }}</span>
+              <el-form-item :label="$t('SaleContract.saleRepositoryId')" style="width: 100%;">
+                <span>{{ personalForm.saleRepositoryName }}</span>
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item :label="$t('StockContract.signDate')" prop="signDate" style="width: 100%;">
+              <el-form-item :label="$t('SaleContract.signDate')" style="width: 100%;">
                 <span>{{ personalForm.signDate }}</span>
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item :label="$t('StockContract.supplierContractor')" style="width: 100%;">
-                <span>{{ personalForm.supplierContractor }}</span>
+              <el-form-item :label="$t('SaleContract.signAddress')" style="width: 100%;">
+                <span>{{ personalForm.signAddress }}</span>
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item :label="$t('StockContract.ourContractorId')" style="width: 100%;">
-                <span>{{ personalForm.ourContractorName }}</span>
+              <el-form-item :label="$t('SaleContract.contractStat')" style="width: 100%;">
+                <span>{{ personalForm.contractStat | contractStatFilter }}</span>
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item :label="$t('StockContract.payAddress')" style="width: 100%;">
-                <span>{{ personalForm.payAddress }}</span>
+              <el-form-item :label="$t('SaleContract.invoiceType')" style="width: 100%;">
+                <span>{{ personalForm.invoiceType | invoiceTypeFilter }}</span>
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item :label="$t('StockContract.deliveryMode')" style="width: 100%;">
-                <span>{{ personalForm.deliveryModeName }}</span>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('StockContract.transferId')" style="width: 100%;">
-                <span>{{ personalForm.transferName }}</span>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('StockContract.settleId')" style="width: 100%;">
-                <span>{{ personalForm.settleName }}</span>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('StockContract.isVat')" style="width: 100%;">
-                <el-radio-group v-model="personalForm.isVat" style="margin-left: 18px;width: 200px" disabled>
-                  <el-radio :label="1" style="width: 120px">是</el-radio>
-                  <el-radio :label="2">否</el-radio>
-                </el-radio-group>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('StockContract.currency')" prop="currency" style="width: 100%;">
-                <span>{{ personalForm.currency }}</span>
+              <el-form-item :label="$t('SaleContract.taxRate')" style="width: 100%;">
+                <span>{{ personalForm.taxRate }}</span>
               </el-form-item>
             </el-col>
           </el-row>
@@ -106,25 +113,28 @@
           border
           size="medium"
           style="width: 100%">
+          <el-editable-column type="selection" min-width="55" align="center"/>
           <el-editable-column label="序号" min-width="55" align="center" type="index"/>
           <el-editable-column prop="productCode" align="center" label="物品编号" min-width="150px"/>
           <el-editable-column prop="productName" align="center" label="物品名称" min-width="150px"/>
-          <el-editable-column prop="typeName" align="center" label="规格" min-width="150px"/>
+          <el-editable-column prop="categoryName" align="center" label="物品分类" min-width="150px"/>
+          <el-editable-column prop="typeName" align="center" label="规格型号" min-width="150px"/>
+          <el-editable-column prop="color" align="center" label="颜色" min-width="150px"/>
           <el-editable-column prop="unit" align="center" label="单位" min-width="150px"/>
-          <el-editable-column prop="plannedQuantity" align="center" label="采购数量" min-width="150px"/>
-          <el-editable-column prop="price" align="center" label="单价" min-width="170px"/>
-          <el-editable-column prop="includeTaxPrice" align="center" label="含税价" min-width="170px"/>
-          <el-editable-column prop="taxRate" align="center" label="税率(%)" min-width="170px"/>
-          <el-editable-column prop="money" align="center" label="金额" min-width="150px"/>
+          <el-editable-column prop="performanceScore" align="center" label="绩效分" min-width="150px"/>
+          <el-editable-column prop="productScore" align="center" label="商品积分" min-width="150px"/>
+          <el-editable-column prop="quantity" align="center" label="订单数量" min-width="150px"/>
+          <el-editable-column prop="salePrice" align="center" label="零售价" min-width="150px"/>
+          <el-editable-column prop="costPrice" align="center" label="成本价" min-width="150px"/>
+          <el-editable-column prop="taxprice" align="center" label="含税价" min-width="150px"/>
+          <el-editable-column prop="costMoney" align="center" label="成本金额" min-width="150px"/>
           <el-editable-column prop="includeTaxMoney" align="center" label="含税金额" min-width="150px"/>
-          <el-editable-column prop="taxMoney" align="center" label="税额" min-width="150px"/>
-          <el-editable-column prop="requireDate" align="center" label="交货日期" min-width="170px"/>
-          <el-editable-column prop="discountRate" align="center" label="折扣率(%)" min-width="170px"/>
+          <el-editable-column prop="taxRate" align="center" label="税率(%)" min-width="170px"/>
+          <el-editable-column prop="taxMoney" align="center" label="税额" min-width="170px"/>
+          <el-editable-column prop="money" align="center" label="金额" min-width="150px"/>
+          <el-editable-column prop="includeTaxCostMoney" align="center" label="含税成本金额" min-width="170px"/>
+          <el-editable-column prop="discount" align="center" label="折扣率(%)" min-width="170px"/>
           <el-editable-column prop="discountMoney" align="center" label="折扣额" min-width="170px"/>
-          <el-editable-column prop="remark" align="center" label="备注" min-width="150px"/>
-          <el-editable-column prop="sourceNumber" align="center" label="源单编号" min-width="150px"/>
-          <el-editable-column prop="sourceSerialNumber" align="center" label="源单序号" min-width="150px"/>
-          <el-editable-column prop="orderedQuantity" align="center" label="已订购数量" min-width="150px"/>
         </el-editable>
       </div>
     </el-card>
@@ -244,6 +254,24 @@
 <script>
 export default {
   filters: {
+    invoiceTypeFilter(status) {
+      const statusMap = {
+        1: '增值税'
+      }
+      return statusMap[status]
+    },
+    contractStatFilter(status) {
+      const statusMap = {
+        1: '状态1'
+      }
+      return statusMap[status]
+    },
+    deliveryModeFilter(status) {
+      const statusMap = {
+        1: '交货1'
+      }
+      return statusMap[status]
+    },
     statfilter(status) {
       const statusMap = {
         1: '审核中',
@@ -252,18 +280,17 @@ export default {
       }
       return statusMap[status]
     },
-    stockTypeIdFilter(status) {
+    saleTypeFilter(status) {
       const statusMap = {
-        1: '采购1'
+        1: '零售',
+        2: '批发'
       }
       return statusMap[status]
     },
     sourceTypeFilter(status) {
       const statusMap = {
-        1: '采购申请',
-        2: '采购计划',
-        3: '采购询价单',
-        4: '无来源'
+        1: '销售机会',
+        2: '分期申请'
       }
       return statusMap[status]
     },
@@ -282,7 +309,7 @@ export default {
       }
       return statusMap[status]
     },
-    payIdFilter(status) {
+    payTypeFilter(status) {
       const statusMap = {
         1: '现金'
       }
@@ -318,7 +345,7 @@ export default {
     },
     detaildata() {
       this.personalForm = this.detaildata
-      this.list2 = this.personalForm.stockContractDetailVos
+      this.list2 = this.personalForm.saleContractDetailVos
       this.reviewList = this.personalForm.approvalUseVos
     }
   },
