@@ -17,7 +17,7 @@
 - 报错
 - npm install -g cnpm --registry=https://registry.npm.taobao.org     安装cnmp
 - cnpm install node-sass    安装node-sass
-- 直接启动
+- npm run dev 直接启动
 - 成功安装
 ```
 ### ERP project  

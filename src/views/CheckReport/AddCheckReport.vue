@@ -162,7 +162,7 @@
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('CheckReport.passQuantity')" style="width: 100%;">
+                <el-form-item :label="$t('CheckReport.passQuantity')" prop="passQuantity" style="width: 100%;">
                   <el-input v-model="personalForm.passQuantity" style="margin-left: 18px" clearable/>
                 </el-form-item>
               </el-col>
@@ -197,7 +197,7 @@
       <el-card class="box-card" style="margin-top: 15px" shadow="never">
         <h2 ref="fuzhu" class="form-name" >质检报告单明细</h2>
         <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
-          <el-button @click="$refs.editable.insert(-1)">添加</el-button>
+          <el-button @click="handleAdd">添加</el-button>
           <el-button type="danger" @click="$refs.editable.removeSelecteds()">删除</el-button>
         </div>
         <div class="container">
@@ -267,6 +267,14 @@ export default {
       console.log(value)
       if (value === '') {
         callback(new Error('请选择'))
+      } else {
+        callback()
+      }
+    }
+    const validatePass2 = (rule, value, callback) => {
+      console.log(this.supplierId)
+      if (this.personalForm.productCode === undefined || this.personalForm.productCode === null || this.personalForm.productCode === '') {
+        callback(new Error('请选择抽检商品'))
       } else {
         callback()
       }
@@ -351,7 +359,7 @@ export default {
         countryId: 1,
         repositoryId: 438,
         regionId: 2,
-        isVat: 1,
+        isRecheck: 1,
         sourceType: '4'
       },
       // 采购申请单规则数据
@@ -366,7 +374,7 @@ export default {
           { required: true, validator: validatePass, trigger: 'focus' }
         ],
         productCode: [
-          { required: true, validator: validatePass, trigger: 'focus' }
+          { required: true, validator: validatePass2, trigger: 'change' }
         ],
         checkDate: [
           { required: true, message: '请选择检验日期', trigger: 'change' }
@@ -391,12 +399,30 @@ export default {
         ],
         sampleQuantity: [
           { required: true, message: '请输入抽样数量', trigger: 'blur' }
+        ],
+        passQuantity: [
+          { required: true, message: '请输入合格数量', trigger: 'blur' }
         ]
       },
       // 采购申请单明细数据
       list2: [],
       // 采购申请单明细列表规则
       validRules: {
+        chectResult: [
+          { required: true, message: '请输入检验结果', trigger: 'blur' }
+        ],
+        checkQuantity: [
+          { required: true, message: '请输入检验结果', trigger: 'blur' }
+        ],
+        passQuantity: [
+          { required: true, message: '请输入合格数量', trigger: 'blur' }
+        ],
+        checkPersonname: [
+          { required: true, message: '请选择检验人员', trigger: 'blur' }
+        ],
+        checkDeptId: [
+          { required: true, message: '请选择检验部门', trigger: 'blur' }
+        ]
       }
     }
   },
@@ -404,6 +430,18 @@ export default {
     this.getTypes()
   },
   methods: {
+
+    handleAdd() {
+      if (this.personalForm.sampleQuantity === '' || this.personalForm.sampleQuantity === null || this.personalForm.sampleQuantity === undefined) {
+        this.$notify.error({
+          title: '错误',
+          message: '抽样数量为空',
+          offset: 100
+        })
+        return false
+      }
+      this.$refs.editable.insert(-1)
+    },
     chooseType(val) {
       if (this.personalForm.sourceType === '1') {
         this.IsProduceManagerId = false
@@ -702,29 +740,55 @@ export default {
       const parms = JSON.stringify(Data)
       this.$refs.personalForm.validate((valid) => {
         if (valid) {
-          addqualitycheck(parms, parms2, this.personalForm).then(res => {
-            console.log(res)
-            if (res.data.ret === 200) {
-              this.$notify({
-                title: '成功',
-                message: '保存成功',
-                type: 'success',
-                offset: 100
+          this.$refs.personalForm2.validate((valid) => {
+            if (valid) {
+              this.$refs.personalForm3.validate((valid) => {
+                if (valid) {
+                  this.$refs.editable.validate().then(valid => {
+                    addqualitycheck(parms, parms2, this.personalForm).then(res => {
+                      console.log(res)
+                      if (res.data.ret === 200) {
+                        this.$notify({
+                          title: '成功',
+                          message: '保存成功',
+                          type: 'success',
+                          offset: 100
+                        })
+                        this.restAllForm()
+                        this.$refs.editable.clear()
+                        this.$refs.personalForm.clearValidate()
+                        this.$refs.personalForm.resetFields()
+                        this.$refs.personalForm2.clearValidate()
+                        this.$refs.personalForm2.resetFields()
+                        this.$refs.personalForm3.clearValidate()
+                        this.$refs.personalForm3.resetFields()
+                      } else {
+                        this.$notify.error({
+                          title: '错误',
+                          message: res.data.msg,
+                          offset: 100
+                        })
+                      }
+                    })
+                  }).catch(valid => {
+                    console.log('error submit!!')
+                  })
+                } else {
+                  this.$notify.error({
+                    title: '错误',
+                    message: '信息未填完整',
+                    offset: 100
+                  })
+                  return false
+                }
               })
-              this.restAllForm()
-              this.$refs.editable.clear()
-              this.$refs.personalForm.clearValidate()
-              this.$refs.personalForm.resetFields()
-              this.$refs.personalForm2.clearValidate()
-              this.$refs.personalForm2.resetFields()
-              this.$refs.personalForm3.clearValidate()
-              this.$refs.personalForm3.resetFields()
             } else {
               this.$notify.error({
                 title: '错误',
-                message: res.data.msg,
+                message: '信息未填完整',
                 offset: 100
               })
+              return false
             }
           })
         } else {
