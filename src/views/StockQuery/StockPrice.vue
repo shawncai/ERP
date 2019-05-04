@@ -87,11 +87,11 @@
             <span>{{ scope.row.recentlyPrice }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('StockQuery.includeTaxMoney')" :resizable="false" align="center" min-width="150">
-          <template slot-scope="scope">
-            <span>{{ scope.row.includeTaxMoney }}</span>
-          </template>
-        </el-table-column>
+        <!--<el-table-column :label="$t('StockQuery.includeTaxMoney')" :resizable="false" align="center" min-width="150">-->
+        <!--<template slot-scope="scope">-->
+        <!--<span>{{ scope.row.includeTaxMoney }}</span>-->
+        <!--</template>-->
+        <!--</el-table-column>-->
       </el-table>
       <!-- 列表结束 -->
       <pagination v-show="total>0" :total="total" :page.sync="getemplist.pageNum" :limit.sync="getemplist.pageSize" @pagination="getlist" />
@@ -144,8 +144,15 @@ export default {
   },
   mounted() {
     this.getlist()
+    this.getamouthDate()
   },
   methods: {
+    getamouthDate() {
+      const end = new Date()
+      const start = new Date()
+      start.setDate(1)
+      this.date = [start, end]
+    },
     // 物品名称focus控制
     handleAddproduct() {
       this.control = true

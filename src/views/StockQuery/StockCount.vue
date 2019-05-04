@@ -38,12 +38,12 @@
     </el-card>
     <el-card class="box-card" style="margin-top: 10px" shadow="never">
       <span style="float: left;margin-bottom: 13px">统计项</span>
-      <el-checkbox-group v-model="checkboxVal" style="float: left;margin-left: 10px">
-        <el-checkbox label="quantity">数量</el-checkbox>
-        <el-checkbox label="includeTaxMoney">含税金额合计</el-checkbox>
-        <el-checkbox label="includeTaxPrice">含税价</el-checkbox>
-        <el-checkbox label="totalMoney">金额合计</el-checkbox>
-      </el-checkbox-group>
+      <el-radio-group v-model="checkboxVal" style="float: left;margin-left: 10px">
+        <el-radio label="quantity">数量</el-radio>
+        <el-radio label="includeTaxMoney">含税金额合计</el-radio>
+        <el-radio label="includeTaxPrice">含税价</el-radio>
+        <el-radio label="totalMoney">金额合计</el-radio>
+      </el-radio-group>
     </el-card>
 
     <el-card class="box-card" style="margin-top: 10px" shadow="never">
@@ -64,11 +64,6 @@
         <el-table-column :label="$t('StockQuery.supplierName')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.supplierName }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column :label="$t('StockQuery.price')" :resizable="false" align="center" min-width="150">
-          <template slot-scope="scope">
-            <span>{{ scope.row.price }}</span>
           </template>
         </el-table-column>
         <el-table-column v-if="formThead.indexOf('quantity') > -1" :label="$t('StockQuery.quantity')" :resizable="false" align="center" min-width="150">
@@ -99,7 +94,7 @@
 </template>
 
 <script>
-const defaultFormThead = []
+const defaultFormThead = ['quantity']
 import { stockcountlist } from '@/api/StockQuery'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination'
@@ -156,8 +151,12 @@ export default {
   },
   mounted() {
     this.getlist()
+    this.getchecked()
   },
   methods: {
+    getchecked() {
+      this.checkboxVal = 'quantity'
+    },
     // 供应商输入框focus事件触发
     handlechoose() {
       this.empcontrol = true

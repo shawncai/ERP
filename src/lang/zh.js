@@ -106,6 +106,7 @@ export default {
     AddLocationAdjust: '新建库位调整单',
     LocationAdjustList: '库位调整单列表',
     Inventorydetaillist: '库存明细统计表',
+    ProduceRequire: '生产需求',
     MaterialsList: '物料清单',
     AddMaterialsList: '新建物料清单',
     MaterialsListli: '物料清单列表',

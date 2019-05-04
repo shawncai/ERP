@@ -100,7 +100,14 @@
             <el-editable-column type="selection" min-width="55" align="center"/>
             <el-editable-column label="序号" min-width="55" align="center" type="index"/>
             <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="failedReason" align="center" label="不合格原因" min-width="150px"/>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="quantity" align="center" label="数量" min-width="150px"/>
+            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="quantity" align="center" label="数量" min-width="150px">
+              <template slot="edit" slot-scope="scope">
+                <el-input-number
+                  :precision="2"
+                  v-model="scope.row.quantity"
+                  @input="getrate(scope.row)"/>
+              </template>
+            </el-editable-column>
             <el-editable-column :edit-render="{name: 'ElSelect', options: modes, type: 'visible'}" prop="handleMode" align="center" label="处置方式" min-width="150px"/>
             <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="rate" align="center" label="比例" min-width="150px"/>
           </el-editable>
@@ -257,6 +264,14 @@ export default {
     this.getTypes()
   },
   methods: {
+    // 计算不合格数量
+    getrate(row) {
+      console.log(row)
+      console.log(this.personalForm.failedQuantity)
+      if (this.personalForm.failedQuantity !== 0 && this.personalForm.failedQuantity !== null && this.personalForm.failedQuantity !== undefined) {
+        row.rate = (row.quantity / this.personalForm.failedQuantity).toFixed(2)
+      }
+    },
     // 检验人员focus事件触发
     handlechoosestaff() {
       this.staffcontrol = true

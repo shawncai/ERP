@@ -123,6 +123,7 @@
                 <el-input-number
                   :disabled="IsPlannedQuantity"
                   :precision="2"
+                  :min="1"
                   v-model="scope.row.plannedQuantity"/>
               </template>
             </el-editable-column>
@@ -219,6 +220,14 @@ export default {
         callback()
       }
     }
+    const checkRate = (rule, value, callback) => {
+      console.log(value)
+      if (value === 0 || value === '' || value === null || value === undefined) {
+        callback(new Error('计划数量不能为0'))
+      } else {
+        callback()
+      }
+    }
     return {
       // 控制明细中计划数量是否可以编辑
       IsPlannedQuantity: false,
@@ -233,7 +242,7 @@ export default {
       // 控制源单为采购申请时
       applycontrol: false,
       // 控制添加商品按钮
-      addpro: true,
+      addpro: false,
       // 控制从源单中选择按钮
       addsouce: true,
       // 供应商回显
@@ -266,7 +275,8 @@ export default {
         isVat: 1,
         inquiryTimes: 1,
         currency: '1',
-        inquiryDate: null
+        inquiryDate: null,
+        sourceType: '3'
       },
       // 采购申请单规则数据
       personalrules: {
@@ -297,7 +307,13 @@ export default {
           { required: true, message: '请选择交货日期', trigger: 'change' }
         ],
         plannedQuantity: [
-          { required: true, message: '请输入计划数量', trigger: 'blur' }
+          { required: true, validator: checkRate, trigger: 'blur' }
+        ],
+        includeTaxPrice: [
+          { required: true, message: '请输入含税价', trigger: 'blur' }
+        ],
+        taxRate: [
+          { required: true, message: '请输入税率', trigger: 'blur' }
         ]
       }
     }

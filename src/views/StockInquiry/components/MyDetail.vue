@@ -177,7 +177,7 @@ export default {
         typeid: '',
         isactive: '',
         Productid: '',
-        supplierid: this.supp,
+        supplierId: this.supp,
         pagenum: 1,
         pagesize: 10
       }
@@ -189,7 +189,7 @@ export default {
       console.log(this.control)
     },
     supp() {
-      this.getemplist.supplierid = this.supp
+      this.getemplist.supplierId = this.supp
       this.getlist()
       console.log(this.supp)
     }
@@ -277,7 +277,7 @@ export default {
           type: item.typeId,
           unit: item.produceMeasu,
           color: item.color,
-          plannedQuantity: 0,
+          plannedQuantity: 1,
           planDeliveryDate: '',
           applicationReason: '',
           sourceNumber: '',

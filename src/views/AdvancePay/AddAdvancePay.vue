@@ -17,6 +17,7 @@
                 <el-form-item :label="$t('AdvancePay.payDate')" prop="payDate" style="width: 100%;">
                   <el-date-picker
                     v-model="personalForm.payDate"
+                    :picker-options="pickerOptions1"
                     type="date"
                     value-format="yyyy-MM-dd"
                     style="margin-left: 18px"/>
@@ -30,7 +31,7 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('AdvancePay.currency')" style="width: 100%;">
-                  <el-select v-model="personalForm.currency" clearable style="margin-left: 18px;width: 218px">
+                  <el-select v-model="personalForm.currency" clearable style="margin-left: 18px;width: 218px" @change="change()">
                     <el-option value="1" label="RMB"/>
                     <el-option value="2" label="USD"/>
                   </el-select>
@@ -92,15 +93,36 @@ export default {
   name: 'AddAdvancePay',
   components: { MyOrder, MyLnquiry, MyDelivery, MyPlan, MyApply, MySupplier, MyDetail, MyEmp },
   data() {
+    const validatePass3 = (rule, value, callback) => {
+      console.log(this.stockPersonId)
+      if (this.stockPersonId === undefined || this.stockPersonId === null || this.stockPersonId === '') {
+        callback(new Error('请选择采购员'))
+      } else {
+        callback()
+      }
+    }
     const validatePass = (rule, value, callback) => {
-      console.log(value)
-      if (value === '') {
-        callback(new Error('请选择'))
+      console.log(this.supplierId)
+      if (this.supplierId === undefined || this.supplierId === null || this.supplierId === '') {
+        callback(new Error('请选择供应商'))
+      } else {
+        callback()
+      }
+    }
+    const validatePass4 = (rule, value, callback) => {
+      console.log(this.personalForm.settleMode)
+      if (this.personalForm.settleMode === undefined || this.personalForm.settleMode === null || this.personalForm.settleMode === '') {
+        callback(new Error('请选择结算方式'))
       } else {
         callback()
       }
     }
     return {
+      pickerOptions1: {
+        disabledDate: (time) => {
+          return time.getTime() < new Date().getTime() - 8.64e7
+        }
+      },
       // 合计数据
       allNumber: '',
       allMoney: '',
@@ -148,15 +170,16 @@ export default {
         countryId: 1,
         repositoryId: 438,
         regionId: 2,
-        isVat: 1
+        isVat: 1,
+        payDate: null
       },
       // 采购申请单规则数据
       personalrules: {
         supplierId: [
-          { required: true, validator: validatePass, trigger: 'focus' }
+          { required: true, validator: validatePass, trigger: 'change' }
         ],
         stockPersonId: [
-          { required: true, validator: validatePass, trigger: 'focus' }
+          { required: true, validator: validatePass3, trigger: 'change' }
         ],
         payDate: [
           { required: true, message: '请选择询价日期', trigger: 'change' }
@@ -168,7 +191,7 @@ export default {
           { required: true, message: '请输入付款账户', trigger: 'blur' }
         ],
         settleMode: [
-          { required: true, message: '请选择结算方式', trigger: 'change' }
+          { required: true, validator: validatePass4, trigger: 'change' }
         ]
       },
       // 采购申请单明细数据
@@ -181,8 +204,16 @@ export default {
   created() {
     this.getTypes()
     this.getways()
+    this.getdatatime()
   },
   methods: {
+    // 重置一下下拉
+    change() {
+      this.$forceUpdate()
+    },
+    getdatatime() { // 默认显示今天
+      this.personalForm.payDate = new Date()
+    },
     // 总计
     getSummaries(param) {
       const { columns, data } = param
@@ -298,13 +329,12 @@ export default {
       console.log(val)
       this.supplierId = val.supplierName
       this.personalForm.supplierId = val.id
-      this.stockPersonId = val.stockPersonName
-      this.personalForm.stockPersonId = val.stockPersonId
-      this.personalForm.deptId = val.deptId
-      this.personalForm.payId = val.payMode
-      this.personalForm.deliveryModeId = val.deliveryMode
-      this.personalForm.isVat = val.isVat
-      this.personalForm.currencyId = val.currency
+      this.stockPersonId = val.buyerName
+      this.personalForm.stockPersonId = val.buyerId
+      this.personalForm.settleMode = val.paymentId
+      if (val.moneyId !== '' && val.moneyId !== null && val.moneyId !== undefined) {
+        this.personalForm.currency = String(val.moneyId)
+      }
     },
     // 采购员focus事件
     handlechooseStock() {
