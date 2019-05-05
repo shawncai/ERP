@@ -195,6 +195,9 @@ export default {
       console.log(val)
       const nowlistdata = this.$refs.editable.getRecords()
       for (let i = 0; i < val.length; i++) {
+        if (val[i].productCode === this.personalForm.productCode) {
+          continue
+        }
         for (let j = 0; j < nowlistdata.length; j++) {
           if (val[i].productCode === nowlistdata[j].productCode) {
             this.$notify.error({

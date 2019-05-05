@@ -228,7 +228,7 @@ export default {
       this.producePlanNumber = val.title
       this.personalForm.producePlanNumber = val.planNumber
       getBomByPlanNumber(this.personalForm.producePlanNumber, this.personalForm.produceRepositoryId).then(res => {
-        console.log(res)
+        console.log(res.data.data.content)
         if (res.data.ret === 200) {
           const xuqiu = res.data.data.content
           for (const key in xuqiu) {

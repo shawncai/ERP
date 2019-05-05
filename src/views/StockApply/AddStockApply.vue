@@ -267,7 +267,7 @@ export default {
         this.Isproduct = false
         this.IsSourceNumber = true
       } else if (val === '2') {
-        this.Isproduct = true
+        this.Isproduct = false
         this.IsSourceNumber = false
         const ceshi2 = this.$refs.editable2.getRecords()
         console.log(ceshi2)
@@ -292,6 +292,7 @@ export default {
     // 从销售订单过来数据
     saleOrderDetail(val) {
       console.log(val)
+      this.$refs.editable.clear()
       const nowlistdata = this.$refs.editable.getRecords()
       for (let i = 0; i < val.length; i++) {
         for (let j = 0; j < nowlistdata.length; j++) {
@@ -309,6 +310,7 @@ export default {
     },
     saleOrderDetail2(val) {
       console.log(val)
+      this.$refs.editable2.clear()
       const nowlistdata = this.$refs.editable2.getRecords()
       for (let i = 0; i < val.length; i++) {
         for (let j = 0; j < nowlistdata.length; j++) {
@@ -340,25 +342,28 @@ export default {
       }
     },
     // 两表联动
-    changeDate2(scope, value) {
-      console.log(scope)
+    changeDate2() {
       this.$refs.editable2.clear()
-      const nowlistdata = this.$refs.editable.getRecords()
-      console.log(nowlistdata)
+      const nowlistdata2 = this.$refs.editable.getRecords()
+      const nowlistdata = Object.assign([], nowlistdata2)
       const newArr = []
       nowlistdata.forEach(el => {
         const result = newArr.findIndex(ol => { return el.requireDate === ol.requireDate && el.productCode === ol.productCode })
-        console.log(el)
         if (result !== -1) {
-          console.log(newArr[result])
-          console.log(el[result])
-          newArr[result].requireQuantity = newArr[result].requireQuantity + el.requireQuantity
+          if (el.requireDate !== null && el.requireDate !== '' && el.requireDate !== undefined) {
+            newArr[result].requireQuantity = newArr[result].requireQuantity + el.requireQuantity
+          }
         } else {
           newArr.push(el)
         }
       })
       console.log(newArr)
-      for (let i = 0; i < nowlistdata.length; i++) {
+      const result = []
+      for (const i in newArr) {
+        result.push(newArr[i])
+      }
+      console.log(result)
+      for (let i = 0; i < nowlistdata2.length; i++) {
         this.$refs.editable2.insert(nowlistdata[i])
       }
     },

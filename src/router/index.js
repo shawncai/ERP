@@ -806,6 +806,23 @@ export const asyncRouterMap = [
     ]
   },
   {
+    path: '/ProduceRequire',
+    component: Layout,
+    redirect: 'noredirect',
+    meta: {
+      icon: 'shengchanxuqiu',
+      type: 7
+    },
+    children: [
+      {
+        path: 'index',
+        component: () => import('@/views/ProduceRequire/index'),
+        name: 'ProduceRequire',
+        meta: { title: 'ProduceRequire', noCache: true }
+      }
+    ]
+  },
+  {
     path: '/MaterialsList',
     component: Layout,
     redirect: 'noredirect',
@@ -1936,6 +1953,58 @@ export const asyncRouterMap = [
         component: () => import('@/views/LogisticsCar/ReturncarList'),
         name: 'ReturncarList',
         meta: { title: 'ReturncarList', noCache: true }
+      }
+    ]
+  },
+  {
+    path: '/InstallmentApply',
+    component: Layout,
+    redirect: 'noredirect',
+    name: 'InstallmentApply',
+    alwaysShow: true,
+    meta: {
+      title: 'InstallmentApply',
+      icon: 'fenqi',
+      type: 6
+    },
+    children: [
+      {
+        path: 'AddInstallmentApply',
+        component: () => import('@/views/InstallmentApply/AddInstallmentApply'),
+        name: 'AddInstallmentApply',
+        meta: { title: 'AddInstallmentApply', noCache: false }
+      },
+      {
+        path: 'InstallmentApplyList',
+        component: () => import('@/views/InstallmentApply/InstallmentApplyList'),
+        name: 'InstallmentApplyList',
+        meta: { title: 'InstallmentApplyList', noCache: true }
+      }
+    ]
+  },
+  {
+    path: '/ChangeCount',
+    component: Layout,
+    redirect: 'noredirect',
+    name: 'ChangeCount',
+    alwaysShow: true,
+    meta: {
+      title: 'ChangeCount',
+      icon: 'gaiqi',
+      type: 6
+    },
+    children: [
+      {
+        path: 'AddChangeCount',
+        component: () => import('@/views/ChangeCount/AddChangeCount'),
+        name: 'AddChangeCount',
+        meta: { title: 'AddChangeCount', noCache: false }
+      },
+      {
+        path: 'ChangeCountList',
+        component: () => import('@/views/ChangeCount/ChangeCountList'),
+        name: 'ChangeCountList',
+        meta: { title: 'ChangeCountList', noCache: true }
       }
     ]
   },

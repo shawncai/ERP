@@ -312,3 +312,16 @@ export function getId() {
     method: 'post'
   })
 }
+
+// 判断是否允许申请
+export function existList(query) {
+  var params = new URLSearchParams()
+  if (query !== '' && query !== null && query !== undefined) {
+    params.append('customerPhone', query) // 你要传给后台的参数值 key/value
+  }
+  return request({
+    url: '/erp/installmentapply/existList',
+    method: 'post',
+    data: params
+  })
+}
