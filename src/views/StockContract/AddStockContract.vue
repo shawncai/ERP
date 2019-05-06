@@ -216,7 +216,7 @@
               </template>
             </el-editable-column>
             <el-editable-column :edit-render="{name: 'ElDatePicker', attrs: {type: 'date', format: 'yyyy-MM-dd'}, type: 'visible'}" prop="requireDate" align="center" label="交货日期" min-width="170px"/>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="discountRate" align="center" label="折扣率(%)" min-width="170px">
+            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="discountRate" align="center" label="折扣(%)" min-width="170px">
               <template slot="edit" slot-scope="scope">
                 <el-input-number
                   :precision="2"
@@ -486,14 +486,14 @@ export default {
         }
       })
     },
-    // 通过折扣额计算折扣率
+    // 通过折扣额计算折扣
     getdiscountMoney(row) {
       console.log(row)
       if (row.price !== 0 && row.plannedQuantity !== 0 && row.discountMoney !== 0) {
         row.discountRate = ((1 - row.discountMoney / row.price / row.plannedQuantity) * 100).toFixed(2)
       }
     },
-    // 通过折扣率计算折扣额
+    // 通过折扣计算折扣额
     getdiscountRate(row) {
       if (row.discountRate === 0) {
         row.discountMoney = 0

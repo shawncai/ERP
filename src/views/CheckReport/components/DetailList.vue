@@ -158,7 +158,7 @@
         <el-editable
           ref="editable"
           :data.sync="list2"
-          :edit-config="{ showIcon: true, showStatus: true}"
+          :edit-config="{ showIcon: false, showStatus: true}"
           class="click-table1"
           stripe
           border
@@ -168,12 +168,12 @@
           <el-editable-column prop="checkItem" align="center" label="检验项目" min-width="150px"/>
           <el-editable-column prop="checkTarget" align="center" label="检验指标" min-width="150px"/>
           <el-editable-column prop="checkValue" align="center" label="检验值" min-width="150px"/>
-          <el-editable-column prop="chectResult" align="center" label="检验结果" min-width="150px"/>
+          <el-editable-column :edit-render="{name: 'ElSelect',options: results ,type: 'default'}" prop="chectResult" align="center" label="检验结果" min-width="150px"/>
           <el-editable-column prop="checkQuantity" align="center" label="检验数量" min-width="150px"/>
           <el-editable-column prop="passQuantity" align="center" label="合格数量" min-width="150px"/>
           <el-editable-column prop="failedQuantity" align="center" label="不合格数量" min-width="150px"/>
           <el-editable-column prop="checkPersonname" align="center" label="检验人员" min-width="150px"/>
-          <el-editable-column prop="checkDeptId" align="center" label="检验部门" min-width="150px"/>
+          <el-editable-column prop="checkDeptName" align="center" label="检验部门" min-width="150px"/>
           <el-editable-column prop="targetUp" align="center" label="指标上限" min-width="150px"/>
           <el-editable-column prop="targetDown" align="center" label="指标下限" min-width="150px"/>
         </el-editable>
@@ -318,6 +318,9 @@ export default {
   },
   data() {
     return {
+      results: [{ value: 1, label: '合格' }, { value: 2, label: '不合格' }],
+      // 检验部门数据
+      depts2: [],
       // 审核数据
       reviewList: [],
       // 详细表数据

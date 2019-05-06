@@ -130,7 +130,7 @@
           <el-editable-column prop="carCode" align="center" label="车架编码" min-width="170px"/>
           <el-editable-column prop="batteryCode" align="center" label="电池编码" min-width="170px"/>
           <el-editable-column prop="motorCode" align="center" label="电机编码" min-width="170px"/>
-          <el-editable-column prop="discount" align="center" label="折扣率" min-width="170px"/>
+          <el-editable-column prop="discount" align="center" label="折扣" min-width="170px"/>
           <el-editable-column prop="discountMoney" align="center" label="折扣额" min-width="170px"/>
         </el-editable>
       </div>

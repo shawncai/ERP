@@ -153,7 +153,7 @@
             <el-editable-column prop="taxMoney" align="center" label="税额" min-width="150px"/>
             <el-editable-column prop="money" align="center" label="金额" min-width="150px"/>
             <el-editable-column prop="includeTaxCostMoney" align="center" label="含税成本金额" min-width="150px"/>
-            <el-editable-column prop="discount" align="center" label="折扣率" min-width="150px"/>
+            <el-editable-column prop="discount" align="center" label="折扣" min-width="150px"/>
             <el-editable-column prop="discountMoney" align="center" label="折扣额" min-width="150px"/>
             <el-editable-column prop="alreadyReturnQuantity" align="center" label="已退货数量" min-width="150px"/>
             <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="returnQuantity" align="center" label="退货数量" min-width="150px">
@@ -458,11 +458,11 @@ export default {
       this.heji6 = sums[20] - sums[22]
       return sums
     },
-    // 通过折扣额计算折扣率
+    // 通过折扣额计算折扣
     getdiscountMoney(row) {
       row.discount = ((1 - row.discountMoney / row.salePrice / row.quantity) * 100).toFixed(2)
     },
-    // 通过折扣率计算折扣额
+    // 通过折扣计算折扣额
     getdiscount(row) {
       row.discountMoney = (row.salePrice * row.quantity * (1 - row.discount / 100)).toFixed(2)
     },

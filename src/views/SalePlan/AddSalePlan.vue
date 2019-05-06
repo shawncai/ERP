@@ -608,11 +608,11 @@ export default {
       this.heji6 = sums[20] - sums[22]
       return sums
     },
-    // 通过折扣额计算折扣率
+    // 通过折扣额计算折扣
     getdiscountMoney(row) {
       row.discount = ((1 - row.discountMoney / row.salePrice / row.quantity) * 100).toFixed(2)
     },
-    // 通过折扣率计算折扣额
+    // 通过折扣计算折扣额
     getdiscount(row) {
       row.discountMoney = (row.salePrice * row.quantity * (1 - row.discount / 100)).toFixed(2)
     },
