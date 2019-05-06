@@ -1983,6 +1983,23 @@ export const asyncRouterMap = [
     ]
   },
   {
+    path: '/InstallmentList',
+    component: Layout,
+    redirect: 'noredirect',
+    meta: {
+      icon: 'fenqiliebiao',
+      type: 6
+    },
+    children: [
+      {
+        path: 'index',
+        component: () => import('@/views/InstallmentList/index'),
+        name: 'InstallmentList',
+        meta: { title: 'InstallmentList', noCache: true }
+      }
+    ]
+  },
+  {
     path: '/ChangeCount',
     component: Layout,
     redirect: 'noredirect',
@@ -2005,6 +2022,23 @@ export const asyncRouterMap = [
         component: () => import('@/views/ChangeCount/ChangeCountList'),
         name: 'ChangeCountList',
         meta: { title: 'ChangeCountList', noCache: true }
+      }
+    ]
+  },
+  {
+    path: '/CollectList',
+    component: Layout,
+    redirect: 'noredirect',
+    meta: {
+      icon: 'yingshoukuan',
+      type: 6
+    },
+    children: [
+      {
+        path: 'index',
+        component: () => import('@/views/CollectList/index'),
+        name: 'CollectList',
+        meta: { title: 'CollectList', noCache: true }
       }
     ]
   },
