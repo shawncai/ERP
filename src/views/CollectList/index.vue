@@ -4,18 +4,18 @@
       <el-row>
         <el-form ref="getemplist" :model="getemplist" label-width="100px" style="margin-top: -9px">
           <el-col :span="5">
-            <el-form-item label="客户姓名" label-width="100px">
-              <el-input v-model="getemplist.customerName" :placeholder="$t('ChangeCount.customerId')" clearable @keyup.enter.native="handleFilter"/>
+            <el-form-item label="客户姓名">
+              <el-input v-model="getemplist.customerName" :placeholder="$t('CollectList.customerName')" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
           <el-col :span="5" style="margin-left: 10px">
-            <el-form-item label="电话">
-              <el-input v-model="getemplist.customerPhone" placeholder="电话" clearable @keyup.enter.native="handleFilter"/>
+            <el-form-item label="车架编码">
+              <el-input v-model="getemplist.carCode" placeholder="车架编码" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
-          <el-col :span="5" style="margin-left: 10px">
-            <el-form-item label="改期主题">
-              <el-input v-model="getemplist.title" placeholder="改期主题" clearable @keyup.enter.native="handleFilter"/>
+          <el-col :span="5">
+            <el-form-item label="电机编码">
+              <el-input v-model="getemplist.motorCode" :placeholder="$t('CollectList.motorCode')" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
           <!--更多搜索条件-->
@@ -25,17 +25,25 @@
               placement="bottom"
               width="500"
               trigger="manual">
-              <el-select v-model="getemplist.receiptStat" :value="getemplist.receiptStat" placeholder="单据状态" clearable style="width: 40%;float: left;margin-left: 20px">
-                <el-option value="1" label="制单"/>
-                <el-option value="2" label="执行"/>
-                <el-option value="3" label="结单"/>
-              </el-select>
-              <el-select v-model="getemplist.judgeStat" :value="getemplist.judgeStat" placeholder="审批状态" clearable style="width: 40%;float: right;margin-right: 20px">
-                <el-option value="0" label="未审核"/>
-                <el-option value="1" label="审核中"/>
-                <el-option value="2" label="审核通过"/>
-                <el-option value="3" label="审核不通过"/>
-              </el-select>
+              <!--<el-select v-model="getemplist.receiptStat" :value="getemplist.receiptStat" placeholder="单据状态" clearable style="width: 40%;float: left;margin-left: 20px">-->
+              <!--<el-option value="1" label="制单"/>-->
+              <!--<el-option value="2" label="执行"/>-->
+              <!--<el-option value="3" label="结单"/>-->
+              <!--</el-select>-->
+              <!--<el-select v-model="getemplist.judgeStat" :value="getemplist.judgeStat" placeholder="审批状态" clearable style="width: 40%;float: right;margin-right: 20px">-->
+              <!--<el-option value="0" label="未审核"/>-->
+              <!--<el-option value="1" label="审核中"/>-->
+              <!--<el-option value="2" label="审核通过"/>-->
+              <!--<el-option value="3" label="审核不通过"/>-->
+              <!--</el-select>-->
+              <el-input v-model="getemplist.batteryCode" :placeholder="$t('CollectList.batteryCode')" clearable style="width: 40%;float: left;margin-left: 20px" @keyup.enter.native="handleFilter"/>
+              <el-input v-model="getemplist.count" :placeholder="$t('CollectList.count')" clearable style="width: 40%;float: right;margin-right: 20px" @keyup.enter.native="handleFilter"/>
+              <el-date-picker
+                v-model="getemplist.time"
+                type="date"
+                placeholder="选择日期"
+                value-format="yyyy-MM-dd"
+                style="width: 40%;float: left;margin-left: 20px;margin-top: 20px"/>
               <!--<el-date-picker-->
               <!--v-model="date"-->
               <!--type="daterange"-->
@@ -60,20 +68,20 @@
     </el-card>
     <el-card class="box-card" style="margin-top: 10px" shadow="never">
       <!-- 批量操作 -->
-      <el-dropdown @command="handleCommand">
-        <el-button v-waves class="filter-item" style="margin-left: 0" type="primary">
-          {{ $t('public.batchoperation') }} <i class="el-icon-arrow-down el-icon--right"/>
-        </el-button>
-        <el-dropdown-menu slot="dropdown" style="width: 140px">
-          <el-dropdown-item style="text-align: left" command="delete"><svg-icon icon-class="shanchu" style="width: 40px"/>{{ $t('public.delete') }}</el-dropdown-item>
-        </el-dropdown-menu>
-      </el-dropdown>
+      <!--<el-dropdown @command="handleCommand">-->
+      <!--<el-button v-waves class="filter-item" style="margin-left: 0" type="primary">-->
+      <!--{{ $t('public.batchoperation') }} <i class="el-icon-arrow-down el-icon&#45;&#45;right"/>-->
+      <!--</el-button>-->
+      <!--<el-dropdown-menu slot="dropdown" style="width: 140px">-->
+      <!--<el-dropdown-item style="text-align: left" command="delete"><svg-icon icon-class="shanchu" style="width: 40px"/>{{ $t('public.delete') }}</el-dropdown-item>-->
+      <!--</el-dropdown-menu>-->
+      <!--</el-dropdown>-->
       <!-- 表格导出操作 -->
       <el-button v-waves :loading="downloadLoading" class="filter-item" style="width: 86px" @click="handleExport"> <svg-icon icon-class="daochu"/>{{ $t('public.export') }}</el-button>
       <!-- 打印操作 -->
       <el-button v-waves class="filter-item" icon="el-icon-printer" style="width: 86px" @click="handlePrint">{{ $t('public.print') }}</el-button>
       <!-- 新建操作 -->
-      <el-button v-waves class="filter-item" icon="el-icon-plus" type="success" style="width: 86px" @click="handleAdd">{{ $t('public.add') }}</el-button>
+      <!--<el-button v-waves class="filter-item" icon="el-icon-plus" type="success" style="width: 86px" @click="handleAdd">{{ $t('public.add') }}</el-button>-->
     </el-card>
 
     <el-card class="box-card" style="margin-top: 10px" shadow="never">
@@ -85,79 +93,45 @@
         border
         fit
         highlight-current-row
-        style="width: 100%;"
-        @selection-change="handleSelectionChange">
+        style="width: 100%;">
         <el-table-column
-          :selectable="selectInit"
           type="selection"
           width="55"
           align="center"/>
         <el-table-column :label="$t('public.id')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span class="link-type" @click="handleDetail(scope.row)">{{ scope.row.changeNumber }}</span>
+            <span class="link-type" @click="handleDetail(scope.row)">{{ scope.row.id }}</span>
           </template>
           <detail-list :detailcontrol.sync="detailvisible" :detaildata.sync="personalForm"/>
         </el-table-column>
-        <el-table-column :label="$t('ChangeCount.title')" :resizable="false" align="center" min-width="150">
-          <template slot-scope="scope">
-            <span>{{ scope.row.title }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column :label="$t('ChangeCount.sourceType')" :resizable="false" align="center" min-width="150">
-          <template slot-scope="scope">
-            <span>{{ scope.row.sourceType | sourceTypeFilter }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column :label="$t('ChangeCount.sourceNumber')" :resizable="false" align="center" min-width="150">
-          <template slot-scope="scope">
-            <span>{{ scope.row.sourceNumber }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column :label="$t('ChangeCount.customerId')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('CollectList.customerName')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.customerName }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('ChangeCount.customerPhone')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('CollectList.shouldMoney')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.customerPhone }}</span>
+            <span>{{ scope.row.shouldMoney }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('ChangeCount.paidCount')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('CollectList.interestMoney')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.paidCount }}</span>
+            <span>{{ scope.row.interestMoney }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('ChangeCount.paidMoney')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('CollectList.capitalMoney')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.paidMoney }}</span>
+            <span>{{ scope.row.capitalMoney }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('ChangeCount.remainCapital')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('CollectList.actualDate')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.remainCapital }}</span>
+            <span>{{ scope.row.actualDate }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('ChangeCount.afterCount')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('CollectList.stat')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.afterCount }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column :label="$t('public.judgeStat')" :resizable="false" prop="judgeStat" align="center" min-width="150">
-          <template slot-scope="scope">
-            <span>{{ scope.row.judgeStat | judgeStatFilter }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column :label="$t('public.receiptStat')" :resizable="false" align="center" min-width="150">
-          <template slot-scope="scope">
-            <span>{{ scope.row.receiptStat | receiptStatFilter }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column :label="$t('public.actions')" :resizable="false" align="center" min-width="230">
-          <template slot-scope="scope">
-            <el-button v-if="scope.row.judgeStat === 0" title="修改" type="primary" size="mini" icon="el-icon-edit" circle @click="handleEdit(scope.row)"/>
-            <el-button v-if="isReview(scope.row)" title="审批" type="warning" size="mini" icon="el-icon-view" circle @click="handleReview(scope.row)"/>
-            <el-button v-if="scope.row.judgeStat === 0" title="删除" size="mini" type="danger" icon="el-icon-delete" circle @click="handleDelete(scope.row)"/>
+            <span>{{ scope.row.stat }}</span>
           </template>
         </el-table-column>
       </el-table>
@@ -171,7 +145,7 @@
 </template>
 
 <script>
-import { changelist, deletechange, updatechange2 } from '@/api/ChangeCount'
+import { collectlist } from '@/api/CollectList'
 import { getdeptlist } from '@/api/BasicSettings'
 import { searchStockCategory } from '@/api/StockCategory'
 import waves from '@/directive/waves' // Waves directive
@@ -183,7 +157,7 @@ import MyCustomer from './components/MyCustomer'
 import MyAgent from './components/MyAgent'
 
 export default {
-  name: 'ChangeCountList',
+  name: 'Index',
   directives: { waves },
   components: { MyDialog, DetailList, MyEmp, MyCustomer, MyAgent, Pagination },
   filters: {
@@ -204,9 +178,9 @@ export default {
       }
       return statusMap[status]
     },
-    sourceTypeFilter(status) {
+    stockTypeFilter(status) {
       const statusMap = {
-        1: '分期订单'
+        1: '采购1'
       }
       return statusMap[status]
     },
@@ -270,7 +244,8 @@ export default {
         pageSize: 10,
         repositoryId: 438,
         regionIds: 2,
-        createPersonId: 3
+        createPersonId: 3,
+        time: null
       },
       // 传给组件的数据
       personalForm: {},
@@ -280,10 +255,13 @@ export default {
       date: []
     }
   },
-  mounted() {
+  created() {
     this.getlist()
   },
   methods: {
+    getamouthDate() {
+
+    },
     // 销售人员focus事件
     handlechooseStock() {
       this.stockControl = true
@@ -327,9 +305,12 @@ export default {
       this.getlist()
     },
     getlist() {
+      const date = new Date()
+      date.setTime(date.getTime() + 3600 * 1000 * 24 * 7)
+      this.getemplist.time = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate()
       // 物料需求计划列表数据
       this.listLoading = true
-      changelist(this.getemplist).then(res => {
+      collectlist(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
@@ -359,7 +340,7 @@ export default {
     // 搜索
     handleFilter() {
       this.getemplist.pageNum = 1
-      changelist(this.getemplist).then(res => {
+      collectlist(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
@@ -426,121 +407,121 @@ export default {
         }
       }
     },
-    // 审批操作
-    handleReview(row) {
-      this.reviewParms.id = row.id
-      this.reviewParms.judgePersonId = this.getemplist.createPersonId
-      this.$confirm('请审核', '审核', {
-        distinguishCancelAndClose: true,
-        confirmButtonText: '通过',
-        cancelButtonText: '不通过',
-        type: 'warning'
-      }).then(() => {
-        this.reviewParms.judgeStat = 2
-        const parms = JSON.stringify(this.reviewParms)
-        updatechange2(parms).then(res => {
-          if (res.data.ret === 200) {
-            this.$message({
-              type: 'success',
-              message: '审核成功!'
-            })
-            this.getlist()
-          }
-        })
-      }).catch(action => {
-        if (action === 'cancel') {
-          this.reviewParms.judgeStat = 1
-          const parms = JSON.stringify(this.reviewParms)
-          updatechange2(parms).then(res => {
-            if (res.data.ret === 200) {
-              this.$message({
-                type: 'success',
-                message: '审核成功!'
-              })
-              this.getlist()
-            }
-          })
-        }
-      })
-    },
-    // 批量操作
-    handleSelectionChange(val) {
-      this.moreaction = val
-    },
-    // 多条删除
-    // 批量删除
-    handleCommand(command) {
-      const ids = this.moreaction.map(item => item.id).join()
-      if (command === 'delete') {
-        this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(() => {
-          deletechange(ids).then(res => {
-            if (res.data.ret === 200) {
-              this.$notify({
-                title: '删除成功',
-                type: 'success',
-                offset: 100
-              })
-              this.getlist()
-            } else {
-              this.$notify.error({
-                title: '错误',
-                message: '出错了',
-                offset: 100
-              })
-            }
-          })
-        }).catch(() => {
-          this.$message({
-            type: 'info',
-            message: '已取消删除'
-          })
-        })
-      }
-    },
-    // 单条删除
-    handleDelete(row) {
-      this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      }).then(() => {
-        deletechange(row.id).then(res => {
-          if (res.data.ret === 200) {
-            this.$notify({
-              title: '删除成功',
-              type: 'success',
-              offset: 100
-            })
-            this.getlist()
-          } else {
-            this.$notify.error({
-              title: '错误',
-              message: '出错了',
-              offset: 100
-            })
-          }
-        })
-      }).catch(() => {
-        this.$message({
-          type: 'info',
-          message: '已取消删除'
-        })
-      })
-    },
+    // // 审批操作
+    // handleReview(row) {
+    //   this.reviewParms.id = row.id
+    //   this.reviewParms.judgePersonId = this.getemplist.createPersonId
+    //   this.$confirm('请审核', '审核', {
+    //     distinguishCancelAndClose: true,
+    //     confirmButtonText: '通过',
+    //     cancelButtonText: '不通过',
+    //     type: 'warning'
+    //   }).then(() => {
+    //     this.reviewParms.judgeStat = 2
+    //     const parms = JSON.stringify(this.reviewParms)
+    //     updateapply2(parms).then(res => {
+    //       if (res.data.ret === 200) {
+    //         this.$message({
+    //           type: 'success',
+    //           message: '审核成功!'
+    //         })
+    //         this.getlist()
+    //       }
+    //     })
+    //   }).catch(action => {
+    //     if (action === 'cancel') {
+    //       this.reviewParms.judgeStat = 1
+    //       const parms = JSON.stringify(this.reviewParms)
+    //       updateapply2(parms).then(res => {
+    //         if (res.data.ret === 200) {
+    //           this.$message({
+    //             type: 'success',
+    //             message: '审核成功!'
+    //           })
+    //           this.getlist()
+    //         }
+    //       })
+    //     }
+    //   })
+    // },
+    // // 批量操作
+    // handleSelectionChange(val) {
+    //   this.moreaction = val
+    // },
+    // // 多条删除
+    // // 批量删除
+    // handleCommand(command) {
+    //   const ids = this.moreaction.map(item => item.id).join()
+    //   if (command === 'delete') {
+    //     this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+    //       confirmButtonText: '确定',
+    //       cancelButtonText: '取消',
+    //       type: 'warning'
+    //     }).then(() => {
+    //       deleteapply(ids).then(res => {
+    //         if (res.data.ret === 200) {
+    //           this.$notify({
+    //             title: '删除成功',
+    //             type: 'success',
+    //             offset: 100
+    //           })
+    //           this.getlist()
+    //         } else {
+    //           this.$notify.error({
+    //             title: '错误',
+    //             message: '出错了',
+    //             offset: 100
+    //           })
+    //         }
+    //       })
+    //     }).catch(() => {
+    //       this.$message({
+    //         type: 'info',
+    //         message: '已取消删除'
+    //       })
+    //     })
+    //   }
+    // },
+    // // 单条删除
+    // handleDelete(row) {
+    //   this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+    //     confirmButtonText: '确定',
+    //     cancelButtonText: '取消',
+    //     type: 'warning'
+    //   }).then(() => {
+    //     deleteapply(row.id).then(res => {
+    //       if (res.data.ret === 200) {
+    //         this.$notify({
+    //           title: '删除成功',
+    //           type: 'success',
+    //           offset: 100
+    //         })
+    //         this.getlist()
+    //       } else {
+    //         this.$notify.error({
+    //           title: '错误',
+    //           message: '出错了',
+    //           offset: 100
+    //         })
+    //       }
+    //     })
+    //   }).catch(() => {
+    //     this.$message({
+    //       type: 'info',
+    //       message: '已取消删除'
+    //     })
+    //   })
+    // },
     // 新增数据
     handleAdd() {
-      this.$router.push('/ChangeCount/AddChangeCount')
+      this.$router.push('/CollectList/AddCollectList')
     },
     // 导出
     handleExport() {
       this.downloadLoading = true
         import('@/vendor/Export2Excel').then(excel => {
           const tHeader = ['供应商编号', '供应商名称', '供应商简称', '供应商类别', '所在区域', '采购员', '供应商优质级别', '建档人', '建档日期']
-          const filterVal = ['id', 'ChangeCountName', 'ChangeCountShortName', 'typeName', 'regionName', 'buyerName', 'levelName', 'createName', 'createTime']
+          const filterVal = ['id', 'CollectListName', 'CollectListShortName', 'typeName', 'regionName', 'buyerName', 'levelName', 'createName', 'createTime']
           const data = this.formatJson(filterVal, this.list)
           excel.export_json_to_excel({
             header: tHeader,

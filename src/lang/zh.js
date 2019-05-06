@@ -241,7 +241,9 @@ export default {
     InstallmentApplyList: '分期申请列表',
     ChangeCount: '改期管理',
     AddChangeCount: '新建改期',
-    ChangeCountList: '改期列表'
+    ChangeCountList: '改期列表',
+    InstallmentList: '分期列表',
+    CollectList: '应收款列表'
   },
   navbar: {
     logOut: '退出登录',
@@ -1558,7 +1560,46 @@ export default {
     suretyCertificateNumber: '证件号',
     customerName: '客户姓名'
   },
+  InstallmentList: {
+    applyNumber: '分期申请编号',
+    customerName: '客户姓名',
+    customerPhone: '客户电话',
+    address: '地址',
+    installmentMoney: '本金',
+    totalMoney: '分期金额',
+    leftMoney: '剩余本金',
+    paidCount: '已还期数',
+    count: '分期期数',
+    rate: '利息率',
+    Interest: '利息金额'
+  },
   ChangeCount: {
+    title: '改期主题',
+    sourceType: '源单类型',
+    sourceNumber: '源单编码',
+    customerId: '客户姓名',
+    customerPhone: '客户电话',
+    totalMoney: '分期总金额',
+    beforeCount: '修改之前期数',
+    paidCount: '已还期数',
+    paidMoney: '已还金额',
+    paidCapital: '已还本金',
+    remainCapital: '剩余本金',
+    afterCount: '修改之后期数',
+    saleRepositoryId: '销售门店'
+  },
+  CollectList: {
+    customerName: '客户姓名',
+    carCode: '车架编码',
+    count: '分期期数',
+    motorCode: '电机编码',
+    batteryCode: '电池编码',
+    interestMoney: '还款利息',
+    deadline: '还款截至日期',
+    shouldMoney: '应收款金额',
+    capitalMoney: '还款本金',
+    actualDate: '还款日期',
+    stat: '状态'
   },
   public: {
     modifyDate: '最后修改日期',
