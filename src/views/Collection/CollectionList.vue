@@ -85,8 +85,7 @@
         border
         fit
         highlight-current-row
-        style="width: 100%;"
-      >
+        style="width: 100%;">
         <el-table-column
           type="selection"
           width="55"
@@ -153,21 +152,16 @@
 </template>
 
 <script>
-import { installmentlist } from '@/api/InstallmentList'
+import { installmentlist } from '@/api/Collection'
 import { getdeptlist } from '@/api/BasicSettings'
 import { searchStockCategory } from '@/api/StockCategory'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination'
-import MyEmp from './components/MyEmp'
-import DetailList from './components/DetailList'
-import MyDialog from './components/MyDialog'
-import MyCustomer from './components/MyCustomer'
-import MyAgent from './components/MyAgent'
 
 export default {
-  name: 'Index',
+  name: 'CollectionList',
   directives: { waves },
-  components: { MyDialog, DetailList, MyEmp, MyCustomer, MyAgent, Pagination },
+  components: { Pagination },
   filters: {
     judgeStatFilter(status) {
       const statusMap = {
@@ -252,7 +246,8 @@ export default {
         pageSize: 10,
         repositoryId: 438,
         regionIds: 2,
-        createPersonId: 3
+        createPersonId: 3,
+        stat: 4
       },
       // 传给组件的数据
       personalForm: {},

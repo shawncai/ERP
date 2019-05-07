@@ -243,7 +243,16 @@ export default {
     AddChangeCount: '新建改期',
     ChangeCountList: '改期列表',
     InstallmentList: '分期列表',
-    CollectList: '应收款列表'
+    OverdueList: '逾期列表',
+    CollectList: '应收款列表',
+    Installmentrate: '基本设置',
+    InstallmentrateList: '分期利息规则',
+    overdueFineRules: '滞纳金规则',
+    rewardRules: '奖励规则',
+    Collection: '催收管理',
+    CollectionList: '催收列表',
+    AddRecoverVehicle: '新建收车单',
+    RecoverVehicleList: '收车单列表'
   },
   navbar: {
     logOut: '退出登录',
@@ -1600,6 +1609,30 @@ export default {
     capitalMoney: '还款本金',
     actualDate: '还款日期',
     stat: '状态'
+  },
+  InstallmentrateList: {
+    id: '序号',
+    count: '分期期数',
+    stat: '状态',
+    installmentCount: '分期期数',
+    rate: '客户利率',
+    isEffective: '启用状态',
+    overdueDay: '逾期天数超过',
+    rate2: '滞纳金',
+    advanceDay: '提前天数',
+    rewardMoney: '奖励'
+  },
+  Collection: {
+    title: '收车单主题',
+    customerId: '客户姓名',
+    address: '地址',
+    receivePersonId: '收车人',
+    receiveDate: '收车日期',
+    receiveReason: '收车原因',
+    customerPhone: '电话',
+    customerName: '客户姓名',
+    number: '订单编号',
+    retreatRepositoryId: '收车门店'
   },
   public: {
     modifyDate: '最后修改日期',
