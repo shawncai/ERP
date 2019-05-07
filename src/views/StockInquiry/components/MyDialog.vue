@@ -105,6 +105,8 @@
           :data.sync="list2"
           :edit-config="{ showIcon: true, showStatus: true}"
           :edit-rules="validRules"
+          :summary-method="getSummaries"
+          show-summary
           class="click-table1"
           stripe
           border
@@ -173,10 +175,65 @@
               <p>{{ getTaxMoney2(scope.row) }}</p>
             </template>
           </el-editable-column>
+          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="discountRate" align="center" label="折扣(%)" min-width="170px">
+            <template slot="edit" slot-scope="scope">
+              <el-input-number
+                :precision="2"
+                v-model="scope.row.discountRate"
+                @input="getdiscountRate(scope.row)"/>
+            </template>
+          </el-editable-column>
+          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="discountMoney" align="center" label="折扣额" min-width="170px">
+            <template slot="edit" slot-scope="scope">
+              <el-input-number
+                :precision="2"
+                v-model="scope.row.discountMoney"
+                @input="getdiscountMoney(scope.row)"/>
+            </template>
+          </el-editable-column>
           <el-editable-column prop="applicationReason" align="center" label="备注" min-width="150px"/>
           <el-editable-column prop="sourceNumber" align="center" label="源单编号" min-width="150px"/>
           <el-editable-column prop="sourceSerialNumber" align="center" label="源单序号" min-width="150px"/>
         </el-editable>
+      </div>
+    </el-card>
+    <el-card class="box-card" shadow="never">
+      <h2 ref="geren" class="form-name">合计信息</h2>
+      <div class="container" style="margin-top: 37px">
+        <el-form :inline="true" status-icon class="demo-ruleForm" label-width="130px">
+          <el-row>
+            <el-col :span="6">
+              <el-form-item label="数量合计" style="width: 100%;">
+                <el-input v-model="allNumber" style="margin-left: 18px" disabled/>
+              </el-form-item>
+            </el-col>
+            <el-col :span="6">
+              <el-form-item label="金额合计" style="width: 100%;">
+                <el-input v-model="allMoney" style="margin-left: 18px" disabled/>
+              </el-form-item>
+            </el-col>
+            <el-col :span="6">
+              <el-form-item label="税额合计" style="width: 100%;">
+                <el-input v-model="allTaxMoney" style="margin-left: 18px" disabled/>
+              </el-form-item>
+            </el-col>
+            <el-col :span="6">
+              <el-form-item label="含税金额合计" style="width: 100%;">
+                <el-input v-model="allIncludeTaxMoney" style="margin-left: 18px" disabled/>
+              </el-form-item>
+            </el-col>
+            <el-col :span="6">
+              <el-form-item label="折扣金额合计" style="width: 100%;">
+                <el-input v-model="allDiscountMoney" style="margin-left: 18px" disabled/>
+              </el-form-item>
+            </el-col>
+            <el-col :span="6">
+              <el-form-item label="折后含税金额合计" style="width: 100%;">
+                <el-input v-model="allMoneyMoveDiscount" style="margin-left: 18px" disabled/>
+              </el-form-item>
+            </el-col>
+          </el-row>
+        </el-form>
       </div>
     </el-card>
     <el-card class="box-card" style="position: fixed;width: 1010px;z-index: 100;height: 74px;bottom: 0;" shadow="never">
@@ -228,6 +285,13 @@ export default {
       }
     }
     return {
+      // 合计数据
+      allNumber: '',
+      allMoney: '',
+      allTaxMoney: '',
+      allIncludeTaxMoney: '',
+      allDiscountMoney: '',
+      allMoneyMoveDiscount: '',
       // 控制明细中计划数量是否可以编辑
       IsPlannedQuantity: false,
       // 控制采购类别是否可以编辑
@@ -319,6 +383,62 @@ export default {
     this.getTypes()
   },
   methods: {
+    // 总计
+    getSummaries(param) {
+      const { columns, data } = param
+      const sums = []
+      columns.forEach((column, index) => {
+        if (index === 0) {
+          sums[index] = '总计'
+          return
+        }
+        const values = data.map(item => Number(item[column.property]))
+        if (!values.every(value => isNaN(value))) {
+          sums[index] = values.reduce((prev, curr) => {
+            const value = Number(curr)
+            if (!isNaN(value)) {
+              return (Number(prev) + Number(curr)).toFixed(2)
+            } else {
+              return (Number(prev)).toFixed(2)
+            }
+          }, 0)
+          sums[index] += ''
+        } else {
+          sums[index] = ''
+        }
+      })
+      sums[2] = ''
+      sums[3] = ''
+      sums[4] = ''
+      sums[5] = ''
+      sums[8] = ''
+      sums[9] = ''
+      sums[10] = ''
+      sums[11] = ''
+      sums[15] = ''
+      this.allNumber = sums[7]
+      this.allMoney = sums[12]
+      this.allTaxMoney = sums[14]
+      this.allIncludeTaxMoney = sums[13]
+      this.allDiscountMoney = sums[16]
+      this.allMoneyMoveDiscount = sums[13] - sums[16]
+      return sums
+    },
+    // 通过折扣额计算折扣
+    getdiscountMoney(row) {
+      console.log(row)
+      if (row.price !== 0 && row.plannedQuantity !== 0 && row.discountMoney !== 0) {
+        row.discountRate = ((1 - row.discountMoney / row.price / row.plannedQuantity) * 100).toFixed(2)
+      }
+    },
+    // 通过折扣计算折扣额
+    getdiscountRate(row) {
+      if (row.discountRate === 0) {
+        row.discountMoney = 0
+      } else {
+        row.discountMoney = (row.price * row.plannedQuantity * (1 - row.discountRate / 100)).toFixed(2)
+      }
+    },
     // 通过税率计算含税价
     gettaxRate(row) {
       if (row.includeTaxPrice !== 0) {

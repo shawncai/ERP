@@ -31,11 +31,11 @@
                 <span>{{ personalForm.payMode | payModeFilter }}</span>
               </el-form-item>
             </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('payment.applyDate')" prop="applyDate" style="width: 100%;">
-                <span>{{ personalForm.applyDate }}</span>
-              </el-form-item>
-            </el-col>
+            <!--            <el-col :span="12">-->
+            <!--              <el-form-item :label="$t('payment.applyDate')" prop="applyDate" style="width: 100%;">-->
+            <!--                <span>{{ personalForm.applyDate }}</span>-->
+            <!--              </el-form-item>-->
+            <!--            </el-col>-->
             <el-col :span="12">
               <el-form-item :label="$t('payment.currency')" style="width: 100%;">
                 <span>{{ personalForm.currency | currencyIdFilter }}</span>
@@ -59,6 +59,11 @@
             <el-col :span="12">
               <el-form-item :label="$t('payment.rate')" style="width: 100%;">
                 <span>{{ personalForm.rate }}</span>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('payment.payDate')" prop="payDate" style="width: 100%;">
+                <span>{{ personalForm.payDate }}</span>
               </el-form-item>
             </el-col>
             <el-col :span="12">
@@ -91,7 +96,7 @@
           style="width: 100%">
           <el-editable-column type="selection" min-width="55" align="center"/>
           <el-editable-column label="序号" min-width="55" align="center" type="index"/>
-          <el-editable-column prop="payDate" align="center" label="付款日期" min-width="180px"/>
+          <!--          <el-editable-column prop="payDate" align="center" label="付款日期" min-width="180px"/>-->
           <el-editable-column prop="shouldMoney" align="center" label="应付金额" min-width="150px"/>
           <el-editable-column prop="paidMoney" align="center" label="已付金额" min-width="150px"/>
           <el-editable-column prop="payingMoney" align="center" label="未付金额" min-width="150px"/>

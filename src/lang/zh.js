@@ -1144,12 +1144,14 @@ export default {
     sourceNumber: '采购订单编号',
     stockDate: '采购日期',
     onQuantity: '在途数量',
-    onIncludedTax: '含税进价',
-    onUnIncludedTax: '去税进价',
+    onIncludedTax: '在途含税金额',
+    onUnIncludedTax: '在途去税金额',
     quantity: '数量',
     totalMoney: '金额合计',
     includeTaxMoney2: '含税金额合计',
-    includeTaxPrice2: '含税价'
+    includeTaxPrice2: '含税价',
+    includeTaxEnterMoney: '含税进价',
+    unIncludeTaxEnterMoney: '去税进价'
   },
   payment: {
     title: '付款主题',
@@ -1167,6 +1169,7 @@ export default {
     rate: '汇率',
     offsetAdvance: '抵扣预付款',
     paymentNumber: '付款单编码',
+    payDate: '付款日期',
     picids: '附件'
   },
   AdvancePay: {

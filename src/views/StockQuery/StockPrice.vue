@@ -125,7 +125,7 @@ export default {
       // 表格识别
       tableKey: 0,
       // 加载表格
-      listLoading: true,
+      listLoading: false,
       // 采购价格分析查询加展示参数
       getemplist: {
         pageNum: 1,
@@ -143,7 +143,7 @@ export default {
     }
   },
   mounted() {
-    this.getlist()
+    // this.getlist()
     this.getamouthDate()
   },
   methods: {
