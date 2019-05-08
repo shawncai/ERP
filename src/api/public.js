@@ -325,3 +325,31 @@ export function existList(query) {
     data: params
   })
 }
+
+// 经销商应收款
+export function agentCollectList(query) {
+  var params = new URLSearchParams()
+  if (query.collectId !== '' && query.collectId !== null && query.collectId !== undefined) {
+    params.append('collectId', query.collectId) // 你要传给后台的参数值 key/value
+  }
+  if (query.sourceNumber !== '' && query.sourceNumber !== null && query.sourceNumber !== undefined) {
+    params.append('sourceNumber', query.sourceNumber) // 你要传给后台的参数值 key/value
+  }
+  // if (query.agentName !== '' && query.agentName !== null && query.agentName !== undefined) {
+  //   params.append('agentName', query.agentName) // 你要传给后台的参数值 key/value
+  // }
+  if (query.id !== '' && query.id !== null && query.id !== undefined) {
+    params.append('agentId', query.id) // 你要传给后台的参数值 key/value
+  }
+  // if (query.saleRepositoryId !== '' && query.saleRepositoryId !== null && query.saleRepositoryId !== undefined) {
+  //   params.append('saleRepositoryId', query.saleRepositoryId) // 你要传给后台的参数值 key/value
+  // }
+  params.append('repositoryId', 0) // 你要传给后台的参数值 key/value
+  params.append('pageNum', 1) // 你要传给后台的参数值 key/value
+  params.append('pageSize', 9999) // 你要传给后台的参数值 key/value
+  return request({
+    url: '/erp/agentCollect/agentCollectList',
+    method: 'post',
+    data: params
+  })
+}

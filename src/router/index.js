@@ -2000,6 +2000,23 @@ export const asyncRouterMap = [
     ]
   },
   {
+    path: '/OverdueList',
+    component: Layout,
+    redirect: 'noredirect',
+    meta: {
+      icon: 'yuqi',
+      type: 6
+    },
+    children: [
+      {
+        path: 'index',
+        component: () => import('@/views/OverdueList/index'),
+        name: 'OverdueList',
+        meta: { title: 'OverdueList', noCache: true }
+      }
+    ]
+  },
+  {
     path: '/ChangeCount',
     component: Layout,
     redirect: 'noredirect',
@@ -2039,6 +2056,113 @@ export const asyncRouterMap = [
         component: () => import('@/views/CollectList/index'),
         name: 'CollectList',
         meta: { title: 'CollectList', noCache: true }
+      }
+    ]
+  },
+  {
+    path: '/AgentCollect',
+    component: Layout,
+    redirect: 'noredirect',
+    meta: {
+      icon: 'yingshoukuan',
+      type: 6
+    },
+    children: [
+      {
+        path: 'index',
+        component: () => import('@/views/AgentCollect/index'),
+        name: 'AgentCollect',
+        meta: { title: 'AgentCollect', noCache: true }
+      }
+    ]
+  },
+  {
+    path: '/Installmentrate',
+    component: Layout,
+    redirect: 'noredirect',
+    name: 'Installmentrate',
+    alwaysShow: true,
+    meta: {
+      title: 'Installmentrate',
+      icon: 'jibenshezhi',
+      type: 6
+    },
+    children: [
+      {
+        path: 'InstallmentrateList',
+        component: () => import('@/views/Installmentrate/InstallmentrateList'),
+        name: 'InstallmentrateList',
+        meta: { title: 'InstallmentrateList', noCache: true }
+      },
+      {
+        path: 'overdueFineRules',
+        component: () => import('@/views/Installmentrate/overdueFineRules'),
+        name: 'overdueFineRules',
+        meta: { title: 'overdueFineRules', noCache: true }
+      },
+      {
+        path: 'rewardRules',
+        component: () => import('@/views/Installmentrate/rewardRules'),
+        name: 'rewardRules',
+        meta: { title: 'rewardRules', noCache: true }
+      }
+    ]
+  },
+  {
+    path: '/Collection',
+    component: Layout,
+    redirect: 'noredirect',
+    name: 'Collection',
+    alwaysShow: true,
+    meta: {
+      title: 'Collection',
+      icon: 'cuishou',
+      type: 6
+    },
+    children: [
+      {
+        path: 'CollectionList',
+        component: () => import('@/views/Collection/CollectionList'),
+        name: 'CollectionList',
+        meta: { title: 'CollectionList', noCache: true }
+      },
+      {
+        path: 'AddRecoverVehicle',
+        component: () => import('@/views/Collection/AddRecoverVehicle'),
+        name: 'AddRecoverVehicle',
+        meta: { title: 'AddRecoverVehicle', noCache: false }
+      },
+      {
+        path: 'RecoverVehicleList',
+        component: () => import('@/views/Collection/RecoverVehicleList'),
+        name: 'RecoverVehicleList',
+        meta: { title: 'RecoverVehicleList', noCache: true }
+      }
+    ]
+  },
+  {
+    path: '/Receipt',
+    component: Layout,
+    redirect: 'noredirect',
+    name: 'Receipt',
+    alwaysShow: true,
+    meta: {
+      title: 'Receipt',
+      icon: 'shoukuan',
+      type: 6
+    },
+    children: [
+      {
+        path: 'AddReceipt',
+        component: () => import('@/views/Receipt/AddReceipt'),
+        name: 'AddReceipt',
+        meta: { title: 'AddReceipt', noCache: false }
+      },
+      {
+        path: 'ReceiptList',
+        component: () => import('@/views/Receipt/ReceiptList'),
+        name: 'ReceiptList',
+        meta: { title: 'ReceiptList', noCache: true }
       }
     ]
   },

@@ -113,8 +113,9 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('InstallmentApply.saleRepositoryId')" style="width: 100%;">
-                  <el-input v-model="saleRepositoryId" :disabled="IsSalesaleRepositoryId" style="margin-left: 18px;width: 200px"/>
+                  <el-input v-model="saleRepositoryId" :disabled="IsSalesaleRepositoryId" style="margin-left: 18px;width: 200px" @focus="handlechooseRep"/>
                 </el-form-item>
+                <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('InstallmentApply.applyDate')" prop="applyDate" style="width: 100%;">
@@ -399,9 +400,10 @@ import { getprovincelist, getcitylist, existList } from '@/api/public'
 import MyEmp from './components/MyEmp'
 import MyDetail from './components/MyDetail'
 import MyMater from './components/MyMater'
+import MyRepository from './components/MyRepository'
 export default {
   name: 'AddInstallmentApply',
-  components: { MyMater, MyDetail, MyEmp },
+  components: { MyRepository, MyMater, MyDetail, MyEmp },
   data() {
     const validatePass = (rule, value, callback) => {
       if (this.salePersonId === undefined || this.salePersonId === null || this.salePersonId === '') {
@@ -456,6 +458,8 @@ export default {
       provinces: [],
       // 回显门店
       saleRepositoryId: '',
+      // 控制销售门店
+      repositorycontrol: false,
       // 销售人员回显
       salePersonId: '',
       // 控制销售人员
@@ -535,6 +539,14 @@ export default {
     this.getprovince()
   },
   methods: {
+    // 仓库列表focus事件触发
+    handlechooseRep() {
+      this.repositorycontrol = true
+    },
+    repositoryname(val) {
+      this.saleRepositoryId = val.repositoryName
+      this.personalForm.saleRepositoryId = val.id
+    },
     // 通过手机号判断是否有申请的资格
     haveAccess() {
       console.log(this.personalForm.applyPhone)

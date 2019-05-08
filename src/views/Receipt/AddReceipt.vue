@@ -1,0 +1,415 @@
+<template>
+  <div class="ERP-container">
+    <div class="app-container" style="padding-right: 0">
+      <!--基本信息-->
+      <el-card class="box-card" shadow="never">
+        <h2 ref="geren" class="form-name">基本信息</h2>
+        <div class="container" style="margin-top: 37px">
+          <el-form ref="personalForm" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
+            <el-row>
+              <el-col :span="6">
+                <el-form-item :label="$t('Receipt.title')" style="width: 100%;">
+                  <el-input v-model="personalForm.title" style="margin-left: 18px;width: 200px" clearable/>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item :label="$t('Receipt.customerType')" prop="customerType" style="width: 100%;">
+                  <el-select v-model="personalForm.customerType" style="margin-left: 18px;width: 200px" @change="clearCustomer">
+                    <el-option value="1" label="经销商"/>
+                    <el-option value="2" label="客户"/>
+                  </el-select>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item :label="$t('Receipt.customerId')" prop="customerId" style="width: 100%;">
+                  <el-input v-model="customerId" style="margin-left: 18px;width: 200px" @focus="chooseCustomer"/>
+                </el-form-item>
+                <my-agent :agentcontrol.sync="agentcontrol" @agentdata="agentdata"/>
+                <my-installment :installmentcontrol.sync="installmentcontrol" @InstallmentDetail="InstallmentDetail" @Installment="Installment"/>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item :label="$t('Receipt.moneyType')" style="width: 100%;">
+                  <el-select v-model="personalForm.moneyType" style="margin-left: 18px;width: 200px">
+                    <el-option value="1" label="RMB"/>
+                    <el-option value="2" label="USD"/>
+                  </el-select>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item :label="$t('Receipt.receiptMoney')" prop="receiptMoney" style="width: 100%;">
+                  <el-input v-model="personalForm.receiptMoney" style="margin-left: 18px;width: 200px" clearable/>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item :label="$t('Receipt.receiptType')" style="width: 100%;">
+                  <el-select v-model="personalForm.receiptType" style="margin-left: 18px;width: 200px">
+                    <el-option value="1" label="信用卡"/>
+                    <el-option value="2" label="现金"/>
+                  </el-select>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item :label="$t('Receipt.receiptAccount')" style="width: 100%;">
+                  <el-input v-model="personalForm.receiptAccount" style="margin-left: 18px;width: 200px" clearable/>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item :label="$t('Receipt.receiptAccountNumber')" prop="totalMoney" style="width: 100%;">
+                  <el-input v-model="personalForm.receiptAccountNumber" style="margin-left: 18px;width: 200px" clearable/>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item :label="$t('Receipt.receiptPersonId')" prop="totalMoney" style="width: 100%;">
+                  <el-input v-model="personalForm.receiptPersonId" style="margin-left: 18px;width: 200px" clearable/>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item :label="$t('Receipt.receiptDate')" prop="receiptDate" style="width: 100%;">
+                  <el-date-picker
+                    v-model="personalForm.payDate"
+                    type="date"
+                    value-format="yyyy-MM-dd"
+                    style="margin-left: 18px;width: 200px"/>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item :label="$t('Receipt.totalLackMoney')" prop="totalLackMoney" style="width: 100%;">
+                  <el-input v-model="personalForm.totalLackMoney" style="margin-left: 18px;width: 200px" clearable/>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item :label="$t('Receipt.remark')" style="width: 100%;">
+                  <el-input v-model="personalForm.remark" style="margin-left: 18px;width: 200px" clearable/>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item :label="$t('Receipt.penaltyMoney')" style="width: 100%;">
+                  <el-input v-model="personalForm.penaltyMoney" style="margin-left: 18px;width: 200px" clearable/>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item :label="$t('Receipt.deductionMoney')" style="width: 100%;">
+                  <el-input v-model="personalForm.deductionMoney" style="margin-left: 18px;width: 200px" clearable/>
+                </el-form-item>
+                <span style="color: red;margin-left: 52px;font-size: 14px">预收款：{{ yufu }}</span>
+              </el-col>
+            </el-row>
+          </el-form>
+        </div>
+      </el-card>
+      <!--子件信息-->
+      <el-card v-if="personalForm.customerType === '2'" class="box-card" style="margin-top: 15px" shadow="never">
+        <h2 ref="fuzhu" class="form-name" >收款明细</h2>
+        <div class="container">
+          <el-editable
+            ref="editable"
+            :data.sync="list2"
+            :edit-config="{ showIcon: true, showStatus: true}"
+            class="click-table1"
+            stripe
+            border
+            size="medium"
+            style="width: 100%">
+            <el-editable-column type="selection" min-width="55" align="center"/>
+            <el-editable-column label="序号" min-width="55" align="center" type="index"/>
+            <el-editable-column prop="presentCount" align="center" label="当前期数" min-width="150px"/>
+            <el-editable-column prop="returnMoney" align="center" label="本期还款金额" min-width="150px"/>
+            <el-editable-column prop="returnSource" align="center" label="本期还款本金" min-width="150px"/>
+            <el-editable-column prop="reward" align="center" label="奖励" min-width="150px"/>
+            <el-editable-column prop="penalty" align="center" label="滞纳金" min-width="150px"/>
+            <el-editable-column prop="returnInterest" align="center" label="本期还款利息" min-width="150px"/>
+          </el-editable>
+        </div>
+      </el-card>
+      <el-card v-if="personalForm.customerType === '1'" class="box-card" style="margin-top: 15px" shadow="never">
+        <h2 ref="fuzhu" class="form-name" >收款明细</h2>
+        <div class="container">
+          <el-editable
+            ref="editable"
+            :data.sync="list2"
+            :edit-config="{ showIcon: true, showStatus: true}"
+            class="click-table1"
+            stripe
+            border
+            size="medium"
+            style="width: 100%">
+            <el-editable-column type="selection" min-width="55" align="center"/>
+            <el-editable-column label="序号" min-width="55" align="center" type="index"/>
+            <el-editable-column prop="shouldMoney" align="center" label="应收款金额" min-width="150px"/>
+            <el-editable-column prop="discountMoney" align="center" label="折扣额" min-width="150px"/>
+            <el-editable-column prop="retreatMoney" align="center" label="退货抵扣" min-width="150px"/>
+            <el-editable-column prop="collectedMoney" align="center" label="已收金额" min-width="150px"/>
+            <el-editable-column prop="uncollectedMoney" align="center" label="未收款金额" min-width="150px"/>
+            <el-editable-column prop="thisMoney" align="center" label="本次收款" min-width="150px"/>
+          </el-editable>
+        </div>
+      </el-card>
+      <!--操作-->
+      <div class="buttons" style="margin-top: 20px">
+        <el-button type="primary" style="background:#3696fd;border-color:#3696fd;width: 98px" @click="handlesave()">保存</el-button>
+        <el-button type="danger" @click="handlecancel()">取消</el-button>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+// import { addReceipt } from '@/api/Receipt'
+import { agentCollectList } from '@/api/public'
+import MyEmp from './components/MyEmp'
+import MyDetail from './components/MyDetail'
+import MyMater from './components/MyMater'
+import MyInstallment from './components/MyInstallment'
+import MyAgent from '../SaleOpportunity/components/MyAgent'
+export default {
+  name: 'AddReceipt',
+  components: { MyAgent, MyInstallment, MyMater, MyDetail, MyEmp },
+  data() {
+    const validatePass2 = (rule, value, callback) => {
+      if (this.personalForm.sourceNumber === undefined || this.personalForm.sourceNumber === null || this.personalForm.sourceNumber === '') {
+        callback(new Error('请选择源单编号'))
+      } else {
+        callback()
+      }
+    }
+    return {
+      // 预收款
+      yufu: 0,
+      // 回显客户姓名
+      customerId: '',
+      // 控制经销商窗口
+      agentcontrol: false,
+      // 控制表单是否可以编辑
+      IscustomerName: false,
+      IscustomerPhone: false,
+      IstotalMoney: false,
+      IsbeforeCount: false,
+      IspaidCount: false,
+      IspaidMoney: false,
+      IspaidCapital: false,
+      IsremainCapital: false,
+      IssaleRepositoryId: false,
+      // 回显销售门店
+      saleRepositoryId: '',
+      // 控制分期订单
+      installmentcontrol: false,
+      // 编辑表格数据
+      list2: [],
+      // 销售订单信息数据
+      personalForm: {
+        createPersonId: 3,
+        countryId: 1,
+        repositoryId: 438,
+        regionId: 2,
+        sourceType: '1'
+      },
+      // 商品信息
+      productForm: {},
+      // 销售订单规则数据
+      personalrules: {
+        sourceType: [
+          { required: true, message: '请选择源单类型', trigger: 'change' }
+        ],
+        sourceNumber: [
+          { required: true, validator: validatePass2, trigger: 'change' }
+        ],
+        afterCount: [
+          { required: true, message: '请输入修改之后期数', trigger: 'blur' }
+        ]
+      }
+    }
+  },
+  created() {
+  },
+  methods: {
+    // 选择客户类型时清理客户名称
+    clearCustomer() {
+      this.personalForm.customerId = ''
+      this.customerId = ''
+    },
+    // 选择客户focus
+    chooseCustomer() {
+      this.$forceUpdate()
+      if (this.personalForm.customerType === '1') {
+        this.agentcontrol = true
+        this.$forceUpdate()
+      } else if (this.personalForm.customerType === '2') {
+        this.installmentcontrol = true
+        this.$forceUpdate()
+      }
+    },
+    agentdata(val) {
+      this.$refs.editable.clear()
+      this.personalForm.customerId = val.id
+      this.customerId = val.agentName
+      agentCollectList(val).then(res => {
+        if (res.data.ret === 200) {
+          const agentcollectDetail = res.data.data.content.list.map(function(item) {
+            return {
+              agentCollectId: item.id,
+              shouldMoney: item.shouldMoney,
+              discountMoney: item.discountMoney,
+              retreatMoney: item.returnMoney,
+              collectedMoney: item.collectedMoney,
+              uncollectedMoney: item.uncollectedMoney,
+              thisMoney: '0.00'
+            }
+          })
+          for (let i = 0; i < agentcollectDetail.length; i++) {
+            this.$refs.editable.insert(agentcollectDetail[i])
+          }
+        }
+      })
+    },
+    Installment(val) {
+      this.personalForm.customerId = val.customerId
+      this.customerId = val.customerName
+    },
+    InstallmentDetail(val) {
+      console.log(val)
+    },
+    // 源单控制
+    handleAddsourceNum() {
+      this.installmentcontrol = true
+    },
+    // 清空记录
+    restAllForm() {
+      this.personalForm = {
+        createPersonId: 3,
+        countryId: 1,
+        repositoryId: 438,
+        regionId: 2,
+        sourceType: '1'
+      }
+      this.saleRepositoryId = null
+      this.IscustomerName = false
+      this.IscustomerPhone = false
+      this.IstotalMoney = false
+      this.IsbeforeCount = false
+      this.IspaidCount = false
+      this.IspaidMoney = false
+      this.IspaidCapital = false
+      this.IsremainCapital = false
+      this.IssaleRepositoryId = false
+    },
+    // 保存操作
+    handlesave() {
+      const EnterDetail = this.$refs.editable.getRecords()
+      if (EnterDetail.length === 0) {
+        this.$notify.error({
+          title: '错误',
+          message: '明细表不能为空',
+          offset: 100
+        })
+        return false
+      }
+      EnterDetail.map(function(elem) {
+        return elem
+      }).forEach(function(elem) {
+        if (elem.productCode === null || elem.productCode === '' || elem.productCode === undefined) {
+          delete elem.productCode
+        }
+        if (elem.productName === null || elem.productName === '' || elem.productName === undefined) {
+          delete elem.productName
+        }
+        if (elem.categoryId === null || elem.categoryId === '' || elem.categoryId === undefined) {
+          delete elem.categoryId
+        }
+        if (elem.typeId === null || elem.typeId === '' || elem.typeId === undefined) {
+          delete elem.typeId
+        }
+        if (elem.unit === null || elem.unit === '' || elem.unit === undefined) {
+          delete elem.unit
+        }
+        if (elem.color === null || elem.color === '' || elem.color === undefined) {
+          delete elem.color
+        }
+        if (elem.kpiGrade === null || elem.kpiGrade === '' || elem.kpiGrade === undefined) {
+          delete elem.kpiGrade
+        }
+        if (elem.point === null || elem.point === '' || elem.point === undefined) {
+          delete elem.point
+        }
+        if (elem.price === null || elem.price === '' || elem.price === undefined) {
+          delete elem.price
+        }
+        if (elem.carCode === null || elem.carCode === '' || elem.carCode === undefined) {
+          delete elem.carCode
+        }
+        if (elem.batteryCode === null || elem.batteryCode === '' || elem.batteryCode === undefined) {
+          delete elem.batteryCode
+        }
+        if (elem.motorCode === null || elem.motorCode === '' || elem.motorCode === undefined) {
+          delete elem.motorCode
+        }
+        return elem
+      })
+      // const parms2 = JSON.stringify(EnterDetail)
+      const Data = this.personalForm
+      for (const key in Data) {
+        if (Data[key] === '' || Data[key] === undefined || Data[key] === null) {
+          delete Data[key]
+        }
+      }
+      // const parms = JSON.stringify(Data)
+      // this.$refs.personalForm.validate((valid) => {
+      //   if (valid) {
+      //     addReceipt(parms, parms2, this.personalForm).then(res => {
+      //       console.log(res)
+      //       if (res.data.ret === 200) {
+      //         this.$notify({
+      //           title: '成功',
+      //           message: '保存成功',
+      //           type: 'success',
+      //           offset: 100
+      //         })
+      //         this.restAllForm()
+      //         this.$refs.editable.clear()
+      //         this.$refs.personalForm.clearValidate()
+      //         this.$refs.personalForm.resetFields()
+      //       } else {
+      //         this.$notify.error({
+      //           title: '错误',
+      //           message: res.data.msg,
+      //           offset: 100
+      //         })
+      //       }
+      //     })
+      //   } else {
+      //     this.$notify.error({
+      //       title: '错误',
+      //       message: '信息未填完整',
+      //       offset: 100
+      //     })
+      //     return false
+      //   }
+      // })
+    },
+    // 取消操作
+    handlecancel() {
+      this.$router.go(-1)
+      const view = { path: '/Receipt/AddReceipt', name: 'AddReceipt', fullPath: '/Receipt/AddReceipt', title: 'AddReceipt' }
+      this.$store.dispatch('delView', view).then(({ visitedViews }) => {
+      })
+    }
+  }
+}
+</script>
+
+<style rel="stylesheet/scss" lang="scss" scoped>
+  .ERP-container{
+    margin-right: 0;
+    .form-name{
+      font-size: 18px;
+      color: #373e4f;
+      margin-bottom: -20px;
+      margin-top: 20px;
+    }
+    .container{
+      margin-top: 40px;
+    }
+    .el-button+.el-button{
+      width: 98px;
+    }
+  }
+</style>

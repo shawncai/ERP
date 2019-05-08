@@ -4,53 +4,57 @@
       <el-row>
         <el-form ref="getemplist" :model="getemplist" label-width="100px" style="margin-top: -9px">
           <el-col :span="5">
-            <el-form-item label="客户姓名" label-width="100px">
-              <el-input v-model="getemplist.customerName" :placeholder="$t('InstallmentList.customerName')" clearable @keyup.enter.native="handleFilter"/>
+            <el-form-item label="经销商姓名">
+              <el-input v-model="getemplist.agentName" :placeholder="$t('AgentCollect.agentName')" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
           <el-col :span="5" style="margin-left: 10px">
-            <el-form-item label="电话">
-              <el-input v-model="getemplist.customerPhone" placeholder="电话" clearable @keyup.enter.native="handleFilter"/>
+            <el-form-item label="销售门店">
+              <el-input v-model="saleRepositoryId" placeholder="销售门店" @focus="handlechooseRep"/>
             </el-form-item>
-          </el-col>
-          <el-col :span="5">
-            <el-form-item label="分期申请编号" label-width="100px">
-              <el-input v-model="getemplist.customerName" :placeholder="$t('InstallmentList.applyNumber')" clearable @keyup.enter.native="handleFilter"/>
-            </el-form-item>
+            <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
           </el-col>
           <!--更多搜索条件-->
-          <el-col :span="3">
-            <el-popover
-              v-model="visible2"
-              placement="bottom"
-              width="500"
-              trigger="manual">
-              <el-select v-model="getemplist.receiptStat" :value="getemplist.receiptStat" placeholder="单据状态" clearable style="width: 40%;float: left;margin-left: 20px">
-                <el-option value="1" label="制单"/>
-                <el-option value="2" label="执行"/>
-                <el-option value="3" label="结单"/>
-              </el-select>
-              <el-select v-model="getemplist.judgeStat" :value="getemplist.judgeStat" placeholder="审批状态" clearable style="width: 40%;float: right;margin-right: 20px">
-                <el-option value="0" label="未审核"/>
-                <el-option value="1" label="审核中"/>
-                <el-option value="2" label="审核通过"/>
-                <el-option value="3" label="审核不通过"/>
-              </el-select>
-              <!--<el-date-picker-->
-              <!--v-model="date"-->
-              <!--type="daterange"-->
-              <!--range-separator="-"-->
-              <!--unlink-panels-->
-              <!--start-placeholder="销售日期"-->
-              <!--end-placeholder="销售日期"-->
-              <!--value-format="yyyy-MM-dd"-->
-              <!--style="margin-top: 20px;margin-left: 20px"/>-->
-              <div class="seachbutton" style="width: 100%;float: right;margin-top: 20px">
-                <el-button v-waves class="filter-item" type="primary" style="float: right" round @click="handleFilter">{{ $t('public.search') }}</el-button>
-              </div>
-              <el-button v-waves slot="reference" type="primary" class="filter-item" style="width: 130px" @click="visible2 = !visible2">{{ $t('public.filter') }}<svg-icon icon-class="shaixuan" style="margin-left: 4px"/></el-button>
-            </el-popover>
-          </el-col>
+          <!--<el-col :span="3">-->
+          <!--<el-popover-->
+          <!--v-model="visible2"-->
+          <!--placement="bottom"-->
+          <!--width="500"-->
+          <!--trigger="manual">-->
+          <!--&lt;!&ndash;<el-select v-model="getemplist.receiptStat" :value="getemplist.receiptStat" placeholder="单据状态" clearable style="width: 40%;float: left;margin-left: 20px">&ndash;&gt;-->
+          <!--&lt;!&ndash;<el-option value="1" label="制单"/>&ndash;&gt;-->
+          <!--&lt;!&ndash;<el-option value="2" label="执行"/>&ndash;&gt;-->
+          <!--&lt;!&ndash;<el-option value="3" label="结单"/>&ndash;&gt;-->
+          <!--&lt;!&ndash;</el-select>&ndash;&gt;-->
+          <!--&lt;!&ndash;<el-select v-model="getemplist.judgeStat" :value="getemplist.judgeStat" placeholder="审批状态" clearable style="width: 40%;float: right;margin-right: 20px">&ndash;&gt;-->
+          <!--&lt;!&ndash;<el-option value="0" label="未审核"/>&ndash;&gt;-->
+          <!--&lt;!&ndash;<el-option value="1" label="审核中"/>&ndash;&gt;-->
+          <!--&lt;!&ndash;<el-option value="2" label="审核通过"/>&ndash;&gt;-->
+          <!--&lt;!&ndash;<el-option value="3" label="审核不通过"/>&ndash;&gt;-->
+          <!--&lt;!&ndash;</el-select>&ndash;&gt;-->
+          <!--<el-input v-model="getemplist.batteryCode" :placeholder="$t('AgentCollect.batteryCode')" clearable style="width: 40%;float: left;margin-left: 20px" @keyup.enter.native="handleFilter"/>-->
+          <!--<el-input v-model="getemplist.count" :placeholder="$t('AgentCollect.count')" clearable style="width: 40%;float: right;margin-right: 20px" @keyup.enter.native="handleFilter"/>-->
+          <!--<el-date-picker-->
+          <!--v-model="getemplist.time"-->
+          <!--type="date"-->
+          <!--placeholder="选择日期"-->
+          <!--value-format="yyyy-MM-dd"-->
+          <!--style="width: 40%;float: left;margin-left: 20px;margin-top: 20px"/>-->
+          <!--&lt;!&ndash;<el-date-picker&ndash;&gt;-->
+          <!--&lt;!&ndash;v-model="date"&ndash;&gt;-->
+          <!--&lt;!&ndash;type="daterange"&ndash;&gt;-->
+          <!--&lt;!&ndash;range-separator="-"&ndash;&gt;-->
+          <!--&lt;!&ndash;unlink-panels&ndash;&gt;-->
+          <!--&lt;!&ndash;start-placeholder="销售日期"&ndash;&gt;-->
+          <!--&lt;!&ndash;end-placeholder="销售日期"&ndash;&gt;-->
+          <!--&lt;!&ndash;value-format="yyyy-MM-dd"&ndash;&gt;-->
+          <!--&lt;!&ndash;style="margin-top: 20px;margin-left: 20px"/>&ndash;&gt;-->
+          <!--<div class="seachbutton" style="width: 100%;float: right;margin-top: 20px">-->
+          <!--<el-button v-waves class="filter-item" type="primary" style="float: right" round @click="handleFilter">{{ $t('public.search') }}</el-button>-->
+          <!--</div>-->
+          <!--<el-button v-waves slot="reference" type="primary" class="filter-item" style="width: 130px" @click="visible2 = !visible2">{{ $t('public.filter') }}<svg-icon icon-class="shaixuan" style="margin-left: 4px"/></el-button>-->
+          <!--</el-popover>-->
+          <!--</el-col>-->
           <el-col :span="3" style="margin-left: 20px">
             <!-- 搜索按钮 -->
             <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 86px" round @click="handleFilter">{{ $t('public.search') }}</el-button>
@@ -85,75 +89,64 @@
         border
         fit
         highlight-current-row
-        style="width: 100%;"
-      >
+        style="width: 100%;">
         <el-table-column
           type="selection"
           width="55"
           align="center"/>
         <el-table-column :label="$t('public.id')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.orderNumber }}</span>
+            <span class="link-type" @click="handleDetail(scope.row)">{{ scope.row.id }}</span>
+          </template>
+          <detail-list :detailcontrol.sync="detailvisible" :detaildata.sync="personalForm"/>
+        </el-table-column>
+        <el-table-column :label="$t('AgentCollect.agentName')" :resizable="false" align="center" min-width="150">
+          <template slot-scope="scope">
+            <span>{{ scope.row.agentName }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('InstallmentList.customerName')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('AgentCollect.shouldMoney')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.customerName }}</span>
+            <span>{{ scope.row.shouldMoney }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('InstallmentList.customerPhone')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('AgentCollect.discountMoney')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.customerPhone }}</span>
+            <span>{{ scope.row.discountMoney }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('InstallmentList.address')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('AgentCollect.returnMoney')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.address }}</span>
+            <span>{{ scope.row.returnMoney }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('InstallmentList.totalMoney')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('AgentCollect.collectedMoney')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.totalMoney }}</span>
+            <span>{{ scope.row.collectedMoney }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('InstallmentList.leftMoney')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('AgentCollect.uncollectedMoney')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.leftMoney }}</span>
+            <span>{{ scope.row.uncollectedMoney }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('InstallmentList.Interest')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('AgentCollect.stat')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.totalMoney - scope.row.installmentMoney }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column :label="$t('public.judgeStat')" :resizable="false" prop="judgeStat" align="center" min-width="150">
-          <template slot-scope="scope">
-            <span>{{ scope.row.judgeStat | judgeStatFilter }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column :label="$t('public.receiptStat')" :resizable="false" align="center" min-width="150">
-          <template slot-scope="scope">
-            <span>{{ scope.row.receiptStat | receiptStatFilter }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column :label="$t('public.actions')" :resizable="false" align="center" min-width="230">
-          <template slot-scope="scope">
-            <el-button v-if="scope.row.judgeStat === 0" title="修改" type="primary" size="mini" icon="el-icon-edit" circle @click="handleEdit(scope.row)"/>
-            <el-button v-if="isReview(scope.row)" title="审批" type="warning" size="mini" icon="el-icon-view" circle @click="handleReview(scope.row)"/>
-            <el-button v-if="scope.row.judgeStat === 0" title="删除" size="mini" type="danger" icon="el-icon-delete" circle @click="handleDelete(scope.row)"/>
+            <span>{{ scope.row.stat }}</span>
           </template>
         </el-table-column>
       </el-table>
       <!-- 列表结束 -->
       <pagination v-show="total>0" :total="total" :page.sync="getemplist.pageNum" :limit.sync="getemplist.pageSize" @pagination="getlist" />
       <!--修改开始=================================================-->
+      <my-dialog :editcontrol.sync="editVisible" :editdata.sync="personalForm" @rest="refreshlist"/>
       <!--修改结束=================================================-->
     </el-card>
   </div>
 </template>
 
 <script>
-import { installmentlist } from '@/api/InstallmentList'
+import { agentCollectList } from '@/api/AgentCollect'
 import { getdeptlist } from '@/api/BasicSettings'
 import { searchStockCategory } from '@/api/StockCategory'
 import waves from '@/directive/waves' // Waves directive
@@ -163,11 +156,12 @@ import DetailList from './components/DetailList'
 import MyDialog from './components/MyDialog'
 import MyCustomer from './components/MyCustomer'
 import MyAgent from './components/MyAgent'
+import MyRepository from '../StockRetreat/components/MyRepository'
 
 export default {
   name: 'Index',
   directives: { waves },
-  components: { MyDialog, DetailList, MyEmp, MyCustomer, MyAgent, Pagination },
+  components: { MyRepository, MyDialog, DetailList, MyEmp, MyCustomer, MyAgent, Pagination },
   filters: {
     judgeStatFilter(status) {
       const statusMap = {
@@ -226,6 +220,10 @@ export default {
         judgePersonId: '',
         judgeStat: ''
       },
+      // 回显销售门店
+      saleRepositoryId: '',
+      // 控制销售门店
+      repositorycontrol: false,
       // 详情组件数据
       detailvisible: false,
       // 更多搜索条件问题
@@ -252,7 +250,8 @@ export default {
         pageSize: 10,
         repositoryId: 438,
         regionIds: 2,
-        createPersonId: 3
+        createPersonId: 3,
+        time: null
       },
       // 传给组件的数据
       personalForm: {},
@@ -262,10 +261,21 @@ export default {
       date: []
     }
   },
-  mounted() {
+  created() {
     this.getlist()
   },
   methods: {
+    // 仓库列表focus事件触发
+    handlechooseRep() {
+      this.repositorycontrol = true
+    },
+    repositoryname(val) {
+      this.saleRepositoryId = val.repositoryName
+      this.getemplist.saleRepositoryId = val.id
+    },
+    getamouthDate() {
+
+    },
     // 销售人员focus事件
     handlechooseStock() {
       this.stockControl = true
@@ -311,7 +321,7 @@ export default {
     getlist() {
       // 物料需求计划列表数据
       this.listLoading = true
-      installmentlist(this.getemplist).then(res => {
+      agentCollectList(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
@@ -335,13 +345,13 @@ export default {
     },
     // 清空搜索条件
     restFilter() {
-      this.salePersonId = ''
-      this.getemplist.salePersonId = ''
+      this.saleRepositoryId = ''
+      this.getemplist.saleRepositoryId = ''
     },
     // 搜索
     handleFilter() {
       this.getemplist.pageNum = 1
-      installmentlist(this.getemplist).then(res => {
+      agentCollectList(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
@@ -515,14 +525,14 @@ export default {
     // },
     // 新增数据
     handleAdd() {
-      this.$router.push('/InstallmentList/AddInstallmentList')
+      this.$router.push('/AgentCollect/AddAgentCollect')
     },
     // 导出
     handleExport() {
       this.downloadLoading = true
         import('@/vendor/Export2Excel').then(excel => {
           const tHeader = ['供应商编号', '供应商名称', '供应商简称', '供应商类别', '所在区域', '采购员', '供应商优质级别', '建档人', '建档日期']
-          const filterVal = ['id', 'InstallmentListName', 'InstallmentListShortName', 'typeName', 'regionName', 'buyerName', 'levelName', 'createName', 'createTime']
+          const filterVal = ['id', 'AgentCollectName', 'AgentCollectShortName', 'typeName', 'regionName', 'buyerName', 'levelName', 'createName', 'createTime']
           const data = this.formatJson(filterVal, this.list)
           excel.export_json_to_excel({
             header: tHeader,
@@ -540,15 +550,6 @@ export default {
     // 打印
     handlePrint() {
       console.log(456)
-    },
-    // 仓库列表focus事件触发
-    handlechooseRep() {
-      this.repositorycontrol = true
-    },
-    repositoryname(val) {
-      console.log(val)
-      this.enterRepositoryId = val.repositoryName
-      this.getemplist.enterRepositoryId = val.id
     },
     // 部门列表focus刷新
     updatedept() {

@@ -4,18 +4,19 @@
       <el-row>
         <el-form ref="getemplist" :model="getemplist" label-width="100px" style="margin-top: -9px">
           <el-col :span="5">
-            <el-form-item label="客户姓名" label-width="100px">
-              <el-input v-model="getemplist.customerName" :placeholder="$t('InstallmentList.customerName')" clearable @keyup.enter.native="handleFilter"/>
+            <el-form-item label="订单编号" label-width="100px">
+              <el-input v-model="getemplist.number" :placeholder="$t('Collection.number')" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
           <el-col :span="5" style="margin-left: 10px">
-            <el-form-item label="电话">
-              <el-input v-model="getemplist.customerPhone" placeholder="电话" clearable @keyup.enter.native="handleFilter"/>
+            <el-form-item label="收车单主题">
+              <el-input v-model="getemplist.title" placeholder="收车单主题" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
-          <el-col :span="5">
-            <el-form-item label="分期申请编号" label-width="100px">
-              <el-input v-model="getemplist.customerName" :placeholder="$t('InstallmentList.applyNumber')" clearable @keyup.enter.native="handleFilter"/>
+          <el-col :span="5" style="margin-left: 10px">
+            <el-form-item label="收车人">
+              <el-input v-model="receivePersonId" placeholder="收车人" clearable @focus="handlechooseStock"/>
+              <my-emp :control.sync="stockControl" @stockName="stockName"/>
             </el-form-item>
           </el-col>
           <!--更多搜索条件-->
@@ -36,6 +37,7 @@
                 <el-option value="2" label="审核通过"/>
                 <el-option value="3" label="审核不通过"/>
               </el-select>
+              <el-input v-model="getemplist.customerName" placeholder="客户姓名" clearable style="width: 40%;float: left;margin-left: 20px;margin-top: 20px" @keyup.enter.native="handleFilter"/>
               <!--<el-date-picker-->
               <!--v-model="date"-->
               <!--type="daterange"-->
@@ -60,20 +62,20 @@
     </el-card>
     <el-card class="box-card" style="margin-top: 10px" shadow="never">
       <!-- 批量操作 -->
-      <!--<el-dropdown @command="handleCommand">-->
-      <!--<el-button v-waves class="filter-item" style="margin-left: 0" type="primary">-->
-      <!--{{ $t('public.batchoperation') }} <i class="el-icon-arrow-down el-icon&#45;&#45;right"/>-->
-      <!--</el-button>-->
-      <!--<el-dropdown-menu slot="dropdown" style="width: 140px">-->
-      <!--<el-dropdown-item style="text-align: left" command="delete"><svg-icon icon-class="shanchu" style="width: 40px"/>{{ $t('public.delete') }}</el-dropdown-item>-->
-      <!--</el-dropdown-menu>-->
-      <!--</el-dropdown>-->
+      <el-dropdown @command="handleCommand">
+        <el-button v-waves class="filter-item" style="margin-left: 0" type="primary">
+          {{ $t('public.batchoperation') }} <i class="el-icon-arrow-down el-icon--right"/>
+        </el-button>
+        <el-dropdown-menu slot="dropdown" style="width: 140px">
+          <el-dropdown-item style="text-align: left" command="delete"><svg-icon icon-class="shanchu" style="width: 40px"/>{{ $t('public.delete') }}</el-dropdown-item>
+        </el-dropdown-menu>
+      </el-dropdown>
       <!-- 表格导出操作 -->
       <el-button v-waves :loading="downloadLoading" class="filter-item" style="width: 86px" @click="handleExport"> <svg-icon icon-class="daochu"/>{{ $t('public.export') }}</el-button>
       <!-- 打印操作 -->
       <el-button v-waves class="filter-item" icon="el-icon-printer" style="width: 86px" @click="handlePrint">{{ $t('public.print') }}</el-button>
       <!-- 新建操作 -->
-      <!--<el-button v-waves class="filter-item" icon="el-icon-plus" type="success" style="width: 86px" @click="handleAdd">{{ $t('public.add') }}</el-button>-->
+      <el-button v-waves class="filter-item" icon="el-icon-plus" type="success" style="width: 86px" @click="handleAdd">{{ $t('public.add') }}</el-button>
     </el-card>
 
     <el-card class="box-card" style="margin-top: 10px" shadow="never">
@@ -86,44 +88,51 @@
         fit
         highlight-current-row
         style="width: 100%;"
-      >
+        @selection-change="handleSelectionChange">
         <el-table-column
+          :selectable="selectInit"
           type="selection"
           width="55"
           align="center"/>
         <el-table-column :label="$t('public.id')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.orderNumber }}</span>
+            <span class="link-type" @click="handleDetail(scope.row)">{{ scope.row.number }}</span>
+          </template>
+          <detail-list :detailcontrol.sync="detailvisible" :detaildata.sync="personalForm"/>
+        </el-table-column>
+        <el-table-column :label="$t('Collection.title')" :resizable="false" align="center" min-width="150">
+          <template slot-scope="scope">
+            <span>{{ scope.row.title }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('InstallmentList.customerName')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('Collection.customerName')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.customerName }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('InstallmentList.customerPhone')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('Collection.customerPhone')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.customerPhone }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('InstallmentList.address')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('Collection.address')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.address }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('InstallmentList.totalMoney')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('Collection.receiveDate')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.totalMoney }}</span>
+            <span>{{ scope.row.receiveDate }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('InstallmentList.leftMoney')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('Collection.receiveReason')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.leftMoney }}</span>
+            <span>{{ scope.row.receiveReason }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('InstallmentList.Interest')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('Collection.receivePersonId')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.totalMoney - scope.row.installmentMoney }}</span>
+            <span>{{ scope.row.receivePersonName }}</span>
           </template>
         </el-table-column>
         <el-table-column :label="$t('public.judgeStat')" :resizable="false" prop="judgeStat" align="center" min-width="150">
@@ -147,13 +156,14 @@
       <!-- 列表结束 -->
       <pagination v-show="total>0" :total="total" :page.sync="getemplist.pageNum" :limit.sync="getemplist.pageSize" @pagination="getlist" />
       <!--修改开始=================================================-->
+      <my-dialog :editcontrol.sync="editVisible" :editdata.sync="personalForm" @rest="refreshlist"/>
       <!--修改结束=================================================-->
     </el-card>
   </div>
 </template>
 
 <script>
-import { installmentlist } from '@/api/InstallmentList'
+import { searchrecoverVehicle, deleterecoverVehicle, updaterecoverVehicle2 } from '@/api/Collection'
 import { getdeptlist } from '@/api/BasicSettings'
 import { searchStockCategory } from '@/api/StockCategory'
 import waves from '@/directive/waves' // Waves directive
@@ -165,7 +175,7 @@ import MyCustomer from './components/MyCustomer'
 import MyAgent from './components/MyAgent'
 
 export default {
-  name: 'Index',
+  name: 'RecoverVehicleList',
   directives: { waves },
   components: { MyDialog, DetailList, MyEmp, MyCustomer, MyAgent, Pagination },
   filters: {
@@ -186,9 +196,9 @@ export default {
       }
       return statusMap[status]
     },
-    stockTypeFilter(status) {
+    sourceTypeFilter(status) {
       const statusMap = {
-        1: '采购1'
+        1: '分期订单'
       }
       return statusMap[status]
     },
@@ -202,9 +212,9 @@ export default {
   },
   data() {
     return {
-      // 销售员回显
-      salePersonId: '',
-      // 控制销售
+      // 收车人回显
+      receivePersonId: '',
+      // 控制收车人
       stockControl: false,
       // 回显客户
       customerName: '',
@@ -266,14 +276,14 @@ export default {
     this.getlist()
   },
   methods: {
-    // 销售人员focus事件
+    // 收车人focus事件
     handlechooseStock() {
       this.stockControl = true
     },
-    // 销售员回显
+    // 收车人回显
     stockName(val) {
-      this.salePersonId = val.personName
-      this.personalForm.salePersonId = val.id
+      this.receivePersonId = val.personName
+      this.getemplist.receivePersonId = val.id
     },
     // 不让勾选
     selectInit(row, index) {
@@ -311,7 +321,7 @@ export default {
     getlist() {
       // 物料需求计划列表数据
       this.listLoading = true
-      installmentlist(this.getemplist).then(res => {
+      searchrecoverVehicle(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
@@ -335,13 +345,13 @@ export default {
     },
     // 清空搜索条件
     restFilter() {
-      this.salePersonId = ''
-      this.getemplist.salePersonId = ''
+      this.receivePersonId = ''
+      this.getemplist.receivePersonId = ''
     },
     // 搜索
     handleFilter() {
       this.getemplist.pageNum = 1
-      installmentlist(this.getemplist).then(res => {
+      searchrecoverVehicle(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
@@ -408,121 +418,121 @@ export default {
         }
       }
     },
-    // // 审批操作
-    // handleReview(row) {
-    //   this.reviewParms.id = row.id
-    //   this.reviewParms.judgePersonId = this.getemplist.createPersonId
-    //   this.$confirm('请审核', '审核', {
-    //     distinguishCancelAndClose: true,
-    //     confirmButtonText: '通过',
-    //     cancelButtonText: '不通过',
-    //     type: 'warning'
-    //   }).then(() => {
-    //     this.reviewParms.judgeStat = 2
-    //     const parms = JSON.stringify(this.reviewParms)
-    //     updateapply2(parms).then(res => {
-    //       if (res.data.ret === 200) {
-    //         this.$message({
-    //           type: 'success',
-    //           message: '审核成功!'
-    //         })
-    //         this.getlist()
-    //       }
-    //     })
-    //   }).catch(action => {
-    //     if (action === 'cancel') {
-    //       this.reviewParms.judgeStat = 1
-    //       const parms = JSON.stringify(this.reviewParms)
-    //       updateapply2(parms).then(res => {
-    //         if (res.data.ret === 200) {
-    //           this.$message({
-    //             type: 'success',
-    //             message: '审核成功!'
-    //           })
-    //           this.getlist()
-    //         }
-    //       })
-    //     }
-    //   })
-    // },
-    // // 批量操作
-    // handleSelectionChange(val) {
-    //   this.moreaction = val
-    // },
-    // // 多条删除
-    // // 批量删除
-    // handleCommand(command) {
-    //   const ids = this.moreaction.map(item => item.id).join()
-    //   if (command === 'delete') {
-    //     this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
-    //       confirmButtonText: '确定',
-    //       cancelButtonText: '取消',
-    //       type: 'warning'
-    //     }).then(() => {
-    //       deleteapply(ids).then(res => {
-    //         if (res.data.ret === 200) {
-    //           this.$notify({
-    //             title: '删除成功',
-    //             type: 'success',
-    //             offset: 100
-    //           })
-    //           this.getlist()
-    //         } else {
-    //           this.$notify.error({
-    //             title: '错误',
-    //             message: '出错了',
-    //             offset: 100
-    //           })
-    //         }
-    //       })
-    //     }).catch(() => {
-    //       this.$message({
-    //         type: 'info',
-    //         message: '已取消删除'
-    //       })
-    //     })
-    //   }
-    // },
-    // // 单条删除
-    // handleDelete(row) {
-    //   this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
-    //     confirmButtonText: '确定',
-    //     cancelButtonText: '取消',
-    //     type: 'warning'
-    //   }).then(() => {
-    //     deleteapply(row.id).then(res => {
-    //       if (res.data.ret === 200) {
-    //         this.$notify({
-    //           title: '删除成功',
-    //           type: 'success',
-    //           offset: 100
-    //         })
-    //         this.getlist()
-    //       } else {
-    //         this.$notify.error({
-    //           title: '错误',
-    //           message: '出错了',
-    //           offset: 100
-    //         })
-    //       }
-    //     })
-    //   }).catch(() => {
-    //     this.$message({
-    //       type: 'info',
-    //       message: '已取消删除'
-    //     })
-    //   })
-    // },
+    // 审批操作
+    handleReview(row) {
+      this.reviewParms.id = row.id
+      this.reviewParms.judgePersonId = this.getemplist.createPersonId
+      this.$confirm('请审核', '审核', {
+        distinguishCancelAndClose: true,
+        confirmButtonText: '通过',
+        cancelButtonText: '不通过',
+        type: 'warning'
+      }).then(() => {
+        this.reviewParms.judgeStat = 2
+        const parms = JSON.stringify(this.reviewParms)
+        updaterecoverVehicle2(parms).then(res => {
+          if (res.data.ret === 200) {
+            this.$message({
+              type: 'success',
+              message: '审核成功!'
+            })
+            this.getlist()
+          }
+        })
+      }).catch(action => {
+        if (action === 'cancel') {
+          this.reviewParms.judgeStat = 1
+          const parms = JSON.stringify(this.reviewParms)
+          updaterecoverVehicle2(parms).then(res => {
+            if (res.data.ret === 200) {
+              this.$message({
+                type: 'success',
+                message: '审核成功!'
+              })
+              this.getlist()
+            }
+          })
+        }
+      })
+    },
+    // 批量操作
+    handleSelectionChange(val) {
+      this.moreaction = val
+    },
+    // 多条删除
+    // 批量删除
+    handleCommand(command) {
+      const ids = this.moreaction.map(item => item.id).join()
+      if (command === 'delete') {
+        this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          deleterecoverVehicle(ids).then(res => {
+            if (res.data.ret === 200) {
+              this.$notify({
+                title: '删除成功',
+                type: 'success',
+                offset: 100
+              })
+              this.getlist()
+            } else {
+              this.$notify.error({
+                title: '错误',
+                message: '出错了',
+                offset: 100
+              })
+            }
+          })
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消删除'
+          })
+        })
+      }
+    },
+    // 单条删除
+    handleDelete(row) {
+      this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        deleterecoverVehicle(row.id).then(res => {
+          if (res.data.ret === 200) {
+            this.$notify({
+              title: '删除成功',
+              type: 'success',
+              offset: 100
+            })
+            this.getlist()
+          } else {
+            this.$notify.error({
+              title: '错误',
+              message: '出错了',
+              offset: 100
+            })
+          }
+        })
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消删除'
+        })
+      })
+    },
     // 新增数据
     handleAdd() {
-      this.$router.push('/InstallmentList/AddInstallmentList')
+      this.$router.push('/Collection/AddRecoverVehicle')
     },
     // 导出
     handleExport() {
       this.downloadLoading = true
         import('@/vendor/Export2Excel').then(excel => {
           const tHeader = ['供应商编号', '供应商名称', '供应商简称', '供应商类别', '所在区域', '采购员', '供应商优质级别', '建档人', '建档日期']
-          const filterVal = ['id', 'InstallmentListName', 'InstallmentListShortName', 'typeName', 'regionName', 'buyerName', 'levelName', 'createName', 'createTime']
+          const filterVal = ['id', 'CollectionName', 'CollectionShortName', 'typeName', 'regionName', 'buyerName', 'levelName', 'createName', 'createTime']
           const data = this.formatJson(filterVal, this.list)
           excel.export_json_to_excel({
             header: tHeader,

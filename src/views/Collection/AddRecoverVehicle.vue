@@ -8,73 +8,51 @@
           <el-form ref="personalForm" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
             <el-row>
               <el-col :span="6">
-                <el-form-item :label="$t('ChangeCount.title')" style="width: 100%;">
+                <el-form-item :label="$t('Collection.title')" style="width: 100%;">
                   <el-input v-model="personalForm.title" style="margin-left: 18px;width: 200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('ChangeCount.sourceType')" prop="sourceType" style="width: 100%;">
-                  <el-select v-model="personalForm.sourceType" style="margin-left: 18px;width: 200px">
-                    <el-option value="1" label="分期订单"/>
-                  </el-select>
-                </el-form-item>
-              </el-col>
-              <el-col :span="6">
-                <el-form-item :label="$t('ChangeCount.sourceNumber')" prop="sourceNumber" style="width: 100%;">
-                  <el-input v-model="personalForm.sourceNumber" style="margin-left: 18px;width: 200px" @focus="handleAddsourceNum"/>
+                <el-form-item :label="$t('Collection.customerId')" prop="customerName" style="width: 100%;">
+                  <el-input v-model="personalForm.customerName" style="margin-left: 18px;width: 200px" @focus="handleAddsourceNum"/>
                 </el-form-item>
                 <my-installment :installmentcontrol.sync="installmentcontrol" @InstallmentDetail="InstallmentDetail" @Installment="Installment"/>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('ChangeCount.customerId')" prop="customerId" style="width: 100%;">
-                  <el-input v-model="personalForm.customerName" :disabled="IscustomerName" style="margin-left: 18px;width: 200px" clearable/>
-                </el-form-item>
-              </el-col>
-              <el-col :span="6">
-                <el-form-item :label="$t('ChangeCount.customerPhone')" style="width: 100%;">
+                <el-form-item :label="$t('Collection.customerPhone')" style="width: 100%;">
                   <el-input v-model="personalForm.customerPhone" :disabled="IscustomerPhone" style="margin-left: 18px;width: 200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('ChangeCount.totalMoney')" prop="totalMoney" style="width: 100%;">
-                  <el-input v-model="personalForm.totalMoney" :disabled="IstotalMoney" style="margin-left: 18px;width: 200px" clearable/>
+                <el-form-item :label="$t('Collection.address')" style="width: 100%;">
+                  <el-input v-model="personalForm.address" :disabled="Isaddress" style="margin-left: 18px;width: 200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('ChangeCount.beforeCount')" prop="beforeCount" style="width: 100%;">
-                  <el-input v-model="personalForm.beforeCount" :disabled="IsbeforeCount" style="margin-left: 18px;width: 200px" clearable/>
+                <el-form-item :label="$t('Collection.receivePersonId')" prop="receivePersonId" style="width: 100%;">
+                  <el-input v-model="receivePersonId" style="margin-left: 18px;width: 200px" @focus="handlechooseStock"/>
                 </el-form-item>
+                <my-emp :control.sync="stockControl" @stockName="stockName"/>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('ChangeCount.paidCount')" style="width: 100%;">
-                  <el-input v-model="personalForm.paidCount" :disabled="IspaidCount" style="margin-left: 18px;width: 200px" clearable/>
-                </el-form-item>
-              </el-col>
-              <el-col :span="6">
-                <el-form-item :label="$t('ChangeCount.paidMoney')" style="width: 100%;">
-                  <el-input v-model="personalForm.paidMoney" :disabled="IspaidMoney" style="margin-left: 18px;width: 200px" clearable/>
-                </el-form-item>
-              </el-col>
-              <el-col :span="6">
-                <el-form-item :label="$t('ChangeCount.paidCapital')" style="width: 100%;">
-                  <el-input v-model="personalForm.paidCapital" :disabled="IspaidCapital" style="margin-left: 18px;width: 200px" clearable/>
-                </el-form-item>
-              </el-col>
-              <el-col :span="6">
-                <el-form-item :label="$t('ChangeCount.remainCapital')" style="width: 100%;">
-                  <el-input v-model="personalForm.remainCapital" :disabled="IsremainCapital" style="margin-left: 18px;width: 200px" clearable/>
-                </el-form-item>
-              </el-col>
-              <el-col :span="6">
-                <el-form-item :label="$t('ChangeCount.afterCount')" prop="afterCount" style="width: 100%;">
-                  <el-input v-model="personalForm.afterCount" style="margin-left: 18px;width: 200px" clearable/>
-                </el-form-item>
-              </el-col>
-              <el-col :span="6">
-                <el-form-item :label="$t('ChangeCount.saleRepositoryId')" style="width: 100%;">
-                  <el-input v-model="saleRepositoryId" :disabled="IssaleRepositoryId" style="margin-left: 18px;width: 200px" @focus="handlechooseRep"/>
+                <el-form-item :label="$t('Collection.retreatRepositoryId')" style="width: 100%;">
+                  <el-input v-model="retreatRepositoryId" style="margin-left: 18px;width: 200px" @focus="handlechooseRep"/>
                 </el-form-item>
                 <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item :label="$t('Collection.receiveDate')" prop="receiveDate" style="width: 100%;">
+                  <el-date-picker
+                    v-model="personalForm.receiveDate"
+                    type="date"
+                    value-format="yyyy-MM-dd"
+                    style="margin-left: 18px;width: 200px"/>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item :label="$t('Collection.receiveReason')" style="width: 100%;">
+                  <el-input v-model="personalForm.receiveReason" style="margin-left: 18px;width: 200px" clearable/>
+                </el-form-item>
               </el-col>
             </el-row>
           </el-form>
@@ -82,11 +60,45 @@
       </el-card>
       <!--子件信息-->
       <el-card class="box-card" style="margin-top: 15px" shadow="never">
-        <h2 ref="fuzhu" class="form-name" >分期明细</h2>
+        <h2 ref="fuzhu" class="form-name" >车辆信息</h2>
         <div class="container">
           <el-editable
             ref="editable"
             :data.sync="list2"
+            :edit-config="{ showIcon: true, showStatus: true}"
+            class="click-table1"
+            stripe
+            border
+            size="medium"
+            style="width: 100%">
+            <el-editable-column type="selection" min-width="55" align="center"/>
+            <el-editable-column label="序号" min-width="55" align="center" type="index"/>
+            <el-editable-column prop="productCode" align="center" label="物品编号" min-width="150px"/>
+            <el-editable-column prop="productName" align="center" label="物品名称" min-width="150px"/>
+            <el-editable-column prop="categoryName" align="center" label="物品分类" min-width="150px"/>
+            <el-editable-column prop="unit" align="center" label="基本单位" min-width="150px"/>
+            <el-editable-column prop="typeId" align="center" label="规格型号" min-width="150px"/>
+            <el-editable-column prop="color" align="center" label="颜色" min-width="150px"/>
+            <el-editable-column prop="kpiGrade" align="center" label="绩效分" min-width="150px"/>
+            <el-editable-column prop="point" align="center" label="商品积分" min-width="150px"/>
+            <el-editable-column prop="price" align="center" label="单价" min-width="150px"/>
+            <el-editable-column prop="carCode" align="center" label="车架编码" min-width="150px"/>
+            <el-editable-column prop="batteryCode" align="center" label="电池编码" min-width="150px"/>
+            <el-editable-column prop="motorCode" align="center" label="电机编码" min-width="150px"/>
+          </el-editable>
+        </div>
+      </el-card>
+      <el-card class="box-card" style="margin-top: 15px" shadow="never">
+        <h2 ref="fuzhu" class="form-name" >缺失明细</h2>
+        <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
+          <el-button @click="handleAddproduct">添加商品</el-button>
+          <my-detail :control.sync="control" @product="productdetail"/>
+          <el-button type="danger" @click="$refs.editable2.removeSelecteds()">删除</el-button>
+        </div>
+        <div class="container">
+          <el-editable
+            ref="editable2"
+            :data.sync="list3"
             :edit-config="{ showIcon: true, showStatus: true}"
             class="click-table1"
             stripe
@@ -120,67 +132,78 @@
 </template>
 
 <script>
-import { addchangecount } from '@/api/ChangeCount'
+import { createrecoverVehicle } from '@/api/Collection'
 import MyEmp from './components/MyEmp'
 import MyDetail from './components/MyDetail'
 import MyMater from './components/MyMater'
 import MyInstallment from './components/MyInstallment'
 import MyRepository from './components/MyRepository'
 export default {
-  name: 'AddChangeCount',
+  name: 'AddRecoverVehicle',
   components: { MyRepository, MyInstallment, MyMater, MyDetail, MyEmp },
   data() {
+    const validatePass = (rule, value, callback) => {
+      if (this.receivePersonId === undefined || this.receivePersonId === null || this.receivePersonId === '') {
+        callback(new Error('请选择收车人'))
+      } else {
+        callback()
+      }
+    }
     const validatePass2 = (rule, value, callback) => {
-      if (this.personalForm.sourceNumber === undefined || this.personalForm.sourceNumber === null || this.personalForm.sourceNumber === '') {
-        callback(new Error('请选择源单编号'))
+      if (this.personalForm.customerName === undefined || this.personalForm.customerName === null || this.personalForm.customerName === '') {
+        callback(new Error('请选择客户姓名'))
       } else {
         callback()
       }
     }
     return {
+      // 收车仓库回显
+      retreatRepositoryId: '',
+      // 收车仓库选择控制期
+      repositorycontrol: false,
+      // 控制源单
+      control: false,
+      // 收车人回显
+      receivePersonId: '',
+      // 控制收车人
+      stockControl: false,
       // 控制表单是否可以编辑
       IscustomerName: false,
       IscustomerPhone: false,
-      IstotalMoney: false,
-      IsbeforeCount: false,
-      IspaidCount: false,
-      IspaidMoney: false,
-      IspaidCapital: false,
-      IsremainCapital: false,
-      IssaleRepositoryId: false,
+      Isaddress: false,
       // 回显销售门店
       saleRepositoryId: '',
-      // 控制销售门店
-      repositorycontrol: false,
       // 控制分期订单
       installmentcontrol: false,
       // 编辑表格数据
       list2: [],
+      list3: [],
       // 销售订单信息数据
       personalForm: {
         createPersonId: 3,
         countryId: 1,
         repositoryId: 438,
         regionId: 2,
-        sourceType: '1'
+        receiveDate: null
       },
       // 商品信息
       productForm: {},
       // 销售订单规则数据
       personalrules: {
-        sourceType: [
-          { required: true, message: '请选择源单类型', trigger: 'change' }
+        receivePersonId: [
+          { required: true, validator: validatePass, trigger: 'change' }
         ],
-        sourceNumber: [
+        customerName: [
           { required: true, validator: validatePass2, trigger: 'change' }
         ],
-        afterCount: [
-          { required: true, message: '请输入修改之后期数', trigger: 'blur' }
+        receiveDate: [
+          { required: true, message: '请选择收车日期', trigger: 'change' }
         ]
       }
     }
   },
   created() {
+    this.getdatatime()
   },
   methods: {
     // 仓库列表focus事件触发
@@ -188,15 +211,48 @@ export default {
       this.repositorycontrol = true
     },
     repositoryname(val) {
-      this.saleRepositoryId = val.repositoryName
-      this.personalForm.saleRepositoryId = val.id
+      this.retreatRepositoryId = val.repositoryName
+      this.personalForm.retreatRepositoryId = val.id
+    },
+    // 采购申请明细来源
+    handleAddproduct() {
+      this.control = true
+    },
+    productdetail(val) {
+      console.log(val)
+      this.$refs.editable2.clear()
+      const nowlistdata = this.$refs.editable2.getRecords()
+      for (let i = 0; i < val.length; i++) {
+        for (let j = 0; j < nowlistdata.length; j++) {
+          if (val[i].productCode === nowlistdata[j].productCode) {
+            this.$notify.error({
+              title: '错误',
+              message: '物品已添加',
+              offset: 100
+            })
+            return false
+          }
+        }
+        this.$refs.editable2.insert(val[i])
+      }
+    },
+    // 收车人focus事件
+    handlechooseStock() {
+      this.stockControl = true
+    },
+    // 收车人回显
+    stockName(val) {
+      this.receivePersonId = val.personName
+      this.personalForm.receivePersonId = val.id
+    },
+    getdatatime() { // 默认显示今天
+      this.personalForm.receiveDate = new Date()
     },
     // 源单控制
     handleAddsourceNum() {
       this.installmentcontrol = true
     },
     InstallmentDetail(val) {
-      console.log(val)
       this.$refs.editable.clear()
       for (let i = 0; i < val.length; i++) {
         this.$refs.editable.insert(val[i])
@@ -207,23 +263,9 @@ export default {
       this.personalForm.customerId = val.customerId
       this.personalForm.customerName = val.customerName
       this.personalForm.customerPhone = val.customerPhone
-      this.personalForm.totalMoney = val.totalMoney
-      this.personalForm.beforeCount = val.count
-      this.personalForm.paidCount = val.paidCount
-      this.personalForm.paidMoney = Number(val.totalMoney) - Number(val.leftAllmoney)
-      this.personalForm.remainCapital = val.leftMoney
-      this.personalForm.paidCapital = Number(val.installmentMoney) - Number(val.leftMoney)
-      this.personalForm.saleRepositoryId = val.repositoryId
-      this.saleRepositoryId = val.repositoryName
-      this.IscustomerName = true
-      this.IscustomerPhone = true
-      this.IstotalMoney = true
-      this.IsbeforeCount = true
-      this.IspaidCount = true
-      this.IspaidMoney = true
-      this.IspaidCapital = true
-      this.IsremainCapital = true
-      this.IssaleRepositoryId = true
+      this.personalForm.address = val.address
+      this.personalForm.retreatRepositoryId = val.repositoryId
+      this.retreatRepositoryId = val.repositoryName
     },
     // 清空记录
     restAllForm() {
@@ -234,16 +276,11 @@ export default {
         regionId: 2,
         sourceType: '1'
       }
-      this.saleRepositoryId = null
+      this.getdatatime()
+      this.receivePersonId = null
       this.IscustomerName = false
       this.IscustomerPhone = false
-      this.IstotalMoney = false
-      this.IsbeforeCount = false
-      this.IspaidCount = false
-      this.IspaidMoney = false
-      this.IspaidCapital = false
-      this.IsremainCapital = false
-      this.IssaleRepositoryId = false
+      this.Isaddress = false
     },
     // 保存操作
     handlesave() {
@@ -297,7 +334,50 @@ export default {
         }
         return elem
       })
+      const EnterDetail2 = this.$refs.editable2.getRecords()
+      EnterDetail.map(function(elem) {
+        return elem
+      }).forEach(function(elem) {
+        if (elem.productCode === null || elem.productCode === '' || elem.productCode === undefined) {
+          delete elem.productCode
+        }
+        if (elem.productName === null || elem.productName === '' || elem.productName === undefined) {
+          delete elem.productName
+        }
+        if (elem.categoryId === null || elem.categoryId === '' || elem.categoryId === undefined) {
+          delete elem.categoryId
+        }
+        if (elem.typeId === null || elem.typeId === '' || elem.typeId === undefined) {
+          delete elem.typeId
+        }
+        if (elem.unit === null || elem.unit === '' || elem.unit === undefined) {
+          delete elem.unit
+        }
+        if (elem.color === null || elem.color === '' || elem.color === undefined) {
+          delete elem.color
+        }
+        if (elem.kpiGrade === null || elem.kpiGrade === '' || elem.kpiGrade === undefined) {
+          delete elem.kpiGrade
+        }
+        if (elem.point === null || elem.point === '' || elem.point === undefined) {
+          delete elem.point
+        }
+        if (elem.price === null || elem.price === '' || elem.price === undefined) {
+          delete elem.price
+        }
+        if (elem.carCode === null || elem.carCode === '' || elem.carCode === undefined) {
+          delete elem.carCode
+        }
+        if (elem.batteryCode === null || elem.batteryCode === '' || elem.batteryCode === undefined) {
+          delete elem.batteryCode
+        }
+        if (elem.motorCode === null || elem.motorCode === '' || elem.motorCode === undefined) {
+          delete elem.motorCode
+        }
+        return elem
+      })
       const parms2 = JSON.stringify(EnterDetail)
+      const parms3 = JSON.stringify(EnterDetail2)
       const Data = this.personalForm
       for (const key in Data) {
         if (Data[key] === '' || Data[key] === undefined || Data[key] === null) {
@@ -307,7 +387,7 @@ export default {
       const parms = JSON.stringify(Data)
       this.$refs.personalForm.validate((valid) => {
         if (valid) {
-          addchangecount(parms, parms2, this.personalForm).then(res => {
+          createrecoverVehicle(parms, parms2, parms3, this.personalForm).then(res => {
             console.log(res)
             if (res.data.ret === 200) {
               this.$notify({
@@ -318,6 +398,7 @@ export default {
               })
               this.restAllForm()
               this.$refs.editable.clear()
+              this.$refs.editable2.clear()
               this.$refs.personalForm.clearValidate()
               this.$refs.personalForm.resetFields()
             } else {
@@ -341,7 +422,7 @@ export default {
     // 取消操作
     handlecancel() {
       this.$router.go(-1)
-      const view = { path: '/ChangeCount/AddChangeCount', name: 'AddChangeCount', fullPath: '/ChangeCount/AddChangeCount', title: 'AddChangeCount' }
+      const view = { path: '/Collection/AddCollection', name: 'AddCollection', fullPath: '/Collection/AddCollection', title: 'AddCollection' }
       this.$store.dispatch('delView', view).then(({ visitedViews }) => {
       })
     }

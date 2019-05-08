@@ -243,7 +243,23 @@ export default {
     AddChangeCount: '新建改期',
     ChangeCountList: '改期列表',
     InstallmentList: '分期列表',
-    CollectList: '应收款列表'
+    OverdueList: '逾期列表',
+    CollectList: '分期应收款列表',
+    AgentCollect: '供应商应收款列表',
+    Installmentrate: '基本设置',
+    InstallmentrateList: '分期利息规则',
+    overdueFineRules: '滞纳金规则',
+    rewardRules: '奖励规则',
+    Collection: '催收管理',
+    CollectionList: '催收列表',
+    AddRecoverVehicle: '新建收车单',
+    RecoverVehicleList: '收车单列表',
+    CustomerSurveyReport: '客户调查报告',
+    AddCustomerSurveyReport: '新建客户调查报告',
+    CustomerSurveyReportList: '客户调查报告列表',
+    Receipt: '收款单',
+    AddReceipt: '新建收款单',
+    ReceiptList: '收款单列表'
   },
   navbar: {
     logOut: '退出登录',
@@ -1604,6 +1620,59 @@ export default {
     capitalMoney: '还款本金',
     actualDate: '还款日期',
     stat: '状态'
+  },
+  AgentCollect: {
+    agentName: '经销商姓名',
+    saleRepositoryId: '销售门店',
+    shouldMoney: '应收款金额',
+    discountMoney: '折扣额',
+    returnMoney: '退货抵扣',
+    collectedMoney: '已收金额',
+    uncollectedMoney: '未收款金额',
+    stat: '状态'
+  },
+  InstallmentrateList: {
+    id: '序号',
+    count: '分期期数',
+    stat: '状态',
+    installmentCount: '分期期数',
+    rate: '客户利率',
+    isEffective: '启用状态',
+    overdueDay: '逾期天数超过',
+    rate2: '滞纳金',
+    advanceDay: '提前天数',
+    rewardMoney: '奖励'
+  },
+  Collection: {
+    title: '收车单主题',
+    customerId: '客户姓名',
+    address: '地址',
+    receivePersonId: '收车人',
+    receiveDate: '收车日期',
+    receiveReason: '收车原因',
+    customerPhone: '电话',
+    customerName: '客户姓名',
+    number: '订单编号',
+    retreatRepositoryId: '收车门店'
+  },
+  CustomerSurveyReport: {
+
+  },
+  Receipt: {
+    title: '收款单主题',
+    customerType: '客户类型',
+    customerId: '客户姓名',
+    moneyType: '货币',
+    receiptMoney: '本次收款金额',
+    receiptType: '收款方式',
+    receiptAccount: '收款账户',
+    receiptAccountNumber: '账号',
+    receiptPersonId: '收款人',
+    receiptDate: '收款日期',
+    totalLackMoney: '本次欠款合计',
+    remark: '备注',
+    penaltyMoney: '滞纳金金额',
+    deductionMoney: '抵扣预收款'
   },
   public: {
     modifyDate: '最后修改日期',
