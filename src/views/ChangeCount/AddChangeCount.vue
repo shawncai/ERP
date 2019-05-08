@@ -72,8 +72,9 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('ChangeCount.saleRepositoryId')" style="width: 100%;">
-                  <el-input v-model="saleRepositoryId" :disabled="IssaleRepositoryId" style="margin-left: 18px;width: 200px" clearable/>
+                  <el-input v-model="saleRepositoryId" :disabled="IssaleRepositoryId" style="margin-left: 18px;width: 200px" @focus="handlechooseRep"/>
                 </el-form-item>
+                <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
               </el-col>
             </el-row>
           </el-form>
@@ -124,9 +125,10 @@ import MyEmp from './components/MyEmp'
 import MyDetail from './components/MyDetail'
 import MyMater from './components/MyMater'
 import MyInstallment from './components/MyInstallment'
+import MyRepository from './components/MyRepository'
 export default {
   name: 'AddChangeCount',
-  components: { MyInstallment, MyMater, MyDetail, MyEmp },
+  components: { MyRepository, MyInstallment, MyMater, MyDetail, MyEmp },
   data() {
     const validatePass2 = (rule, value, callback) => {
       if (this.personalForm.sourceNumber === undefined || this.personalForm.sourceNumber === null || this.personalForm.sourceNumber === '') {
@@ -148,6 +150,8 @@ export default {
       IssaleRepositoryId: false,
       // 回显销售门店
       saleRepositoryId: '',
+      // 控制销售门店
+      repositorycontrol: false,
       // 控制分期订单
       installmentcontrol: false,
       // 编辑表格数据
@@ -179,6 +183,14 @@ export default {
   created() {
   },
   methods: {
+    // 仓库列表focus事件触发
+    handlechooseRep() {
+      this.repositorycontrol = true
+    },
+    repositoryname(val) {
+      this.saleRepositoryId = val.repositoryName
+      this.personalForm.saleRepositoryId = val.id
+    },
     // 源单控制
     handleAddsourceNum() {
       this.installmentcontrol = true

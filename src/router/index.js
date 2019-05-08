@@ -2060,6 +2060,23 @@ export const asyncRouterMap = [
     ]
   },
   {
+    path: '/AgentCollect',
+    component: Layout,
+    redirect: 'noredirect',
+    meta: {
+      icon: 'yingshoukuan',
+      type: 6
+    },
+    children: [
+      {
+        path: 'index',
+        component: () => import('@/views/AgentCollect/index'),
+        name: 'AgentCollect',
+        meta: { title: 'AgentCollect', noCache: true }
+      }
+    ]
+  },
+  {
     path: '/Installmentrate',
     component: Layout,
     redirect: 'noredirect',
@@ -2120,6 +2137,32 @@ export const asyncRouterMap = [
         component: () => import('@/views/Collection/RecoverVehicleList'),
         name: 'RecoverVehicleList',
         meta: { title: 'RecoverVehicleList', noCache: true }
+      }
+    ]
+  },
+  {
+    path: '/Receipt',
+    component: Layout,
+    redirect: 'noredirect',
+    name: 'Receipt',
+    alwaysShow: true,
+    meta: {
+      title: 'Receipt',
+      icon: 'shoukuan',
+      type: 6
+    },
+    children: [
+      {
+        path: 'AddReceipt',
+        component: () => import('@/views/Receipt/AddReceipt'),
+        name: 'AddReceipt',
+        meta: { title: 'AddReceipt', noCache: false }
+      },
+      {
+        path: 'ReceiptList',
+        component: () => import('@/views/Receipt/ReceiptList'),
+        name: 'ReceiptList',
+        meta: { title: 'ReceiptList', noCache: true }
       }
     ]
   },
