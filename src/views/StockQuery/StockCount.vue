@@ -2,10 +2,10 @@
   <div class="ERP-container">
     <el-card class="box-card" style="margin-top: 10px;height: 60px" shadow="never">
       <el-row>
-        <el-form ref="getemplist" :model="getemplist" label-width="80px" style="margin-top: -9px">
+        <el-form ref="getemplist" :model="getemplist" label-width="90px" style="margin-top: -9px">
           <el-col :span="5">
-            <el-form-item label="物品名称">
-              <el-input v-model="getemplist.productName" :placeholder="$t('StockQuery.productName')" clearable style="width: 200px" @keyup.enter.native="handleFilter" @focus="handleAddproduct"/>
+            <el-form-item label="物品编码">
+              <el-input v-model="getemplist.productCode" :placeholder="$t('StockQuery.productCode')" clearable style="width: 200px" @keyup.enter.native="handleFilter" @focus="handleAddproduct"/>
               <my-detail :control.sync="control" @product="product"/>
             </el-form-item>
           </el-col>
@@ -15,7 +15,7 @@
               <my-supplier :control.sync="empcontrol" @supplierName="supplierName"/>
             </el-form-item>
           </el-col>
-          <el-col :span="4">
+          <el-col :span="10" style="margin-left: 118px">
             <el-form-item label="采购时间段">
               <el-date-picker
                 v-model="date"
@@ -128,7 +128,7 @@ export default {
       // 表格识别
       tableKey: 0,
       // 加载表格
-      listLoading: true,
+      listLoading: false,
       // 采购价格分析查询加展示参数
       getemplist: {
         pageNum: 1,
@@ -150,10 +150,17 @@ export default {
     }
   },
   mounted() {
-    this.getlist()
+    // this.getlist()
     this.getchecked()
+    this.getamouthDate()
   },
   methods: {
+    getamouthDate() {
+      const end = new Date()
+      const start = new Date()
+      start.setDate(1)
+      this.date = [start, end]
+    },
     getchecked() {
       this.checkboxVal = 'quantity'
     },
@@ -173,6 +180,7 @@ export default {
     // 物品返回数据
     product(val) {
       this.getemplist.productName = val.productName
+      this.getemplist.productCode = val.code
     },
     getlist() {
       // 采购价格分析列表数据

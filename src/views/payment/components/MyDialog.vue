@@ -39,15 +39,15 @@
                   </el-select>
                 </el-form-item>
               </el-col>
-              <el-col :span="12">
-                <el-form-item :label="$t('payment.applyDate')" prop="applyDate" style="width: 100%;">
-                  <el-date-picker
-                    v-model="personalForm.applyDate"
-                    type="date"
-                    value-format="yyyy-MM-dd"
-                    style="margin-left: 18px;width: 200px"/>
-                </el-form-item>
-              </el-col>
+              <!--              <el-col :span="12">-->
+              <!--                <el-form-item :label="$t('payment.applyDate')" prop="applyDate" style="width: 100%;">-->
+              <!--                  <el-date-picker-->
+              <!--                    v-model="personalForm.applyDate"-->
+              <!--                    type="date"-->
+              <!--                    value-format="yyyy-MM-dd"-->
+              <!--                    style="margin-left: 18px;width: 200px"/>-->
+              <!--                </el-form-item>-->
+              <!--              </el-col>-->
               <el-col :span="12">
                 <el-form-item :label="$t('payment.currency')" style="width: 100%;">
                   <el-select v-model="personalForm.currency" clearable style="margin-left: 18px;width: 200px">
@@ -74,6 +74,15 @@
               <el-col :span="12">
                 <el-form-item :label="$t('payment.rate')" style="width: 100%;">
                   <el-input v-model="personalForm.rate" style="margin-left: 18px;width: 200px" clearable/>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('payment.payDate')" prop="payDate" style="width: 100%;">
+                  <el-date-picker
+                    v-model="personalForm.payDate"
+                    type="date"
+                    value-format="yyyy-MM-dd"
+                    style="margin-left: 18px;width: 200px"/>
                 </el-form-item>
               </el-col>
               <el-col :span="12">
@@ -136,7 +145,7 @@
           style="width: 100%">
           <el-editable-column type="selection" min-width="55" align="center"/>
           <el-editable-column label="序号" min-width="55" align="center" type="index"/>
-          <el-editable-column :edit-render="{name: 'ElDatePicker', attrs: {type: 'date', format: 'yyyy-MM-dd'}, type: 'visible'}" prop="payDate" align="center" label="付款日期" min-width="180px"/>
+          <!--          <el-editable-column :edit-render="{name: 'ElDatePicker', attrs: {type: 'date', format: 'yyyy-MM-dd'}, type: 'visible'}" prop="payDate" align="center" label="付款日期" min-width="180px"/>-->
           <el-editable-column prop="shouldMoney" align="center" label="应付金额" min-width="150px"/>
           <el-editable-column prop="paidMoney" align="center" label="已付金额" min-width="150px"/>
           <el-editable-column prop="payingMoney" align="center" label="未付金额" min-width="150px"/>
@@ -198,6 +207,7 @@ export default {
       }
     }
     return {
+      payDate: null,
       // 选择的数据
       choosedata: [],
       // 弹窗组件的控制
@@ -273,6 +283,9 @@ export default {
         ],
         handlePersonId: [
           { required: true, validator: validatePass, trigger: 'blur' }
+        ],
+        payDate: [
+          { required: true, message: '请选择付款日期', trigger: 'change' }
         ]
       },
       // 采购申请单明细数据

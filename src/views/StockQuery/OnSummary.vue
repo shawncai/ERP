@@ -55,7 +55,7 @@
         style="width: 100%;">
         <el-table-column :label="$t('StockQuery.sourceNumber')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span class="link-type" @click="handleDetail(scope.row)">{{ scope.row.sourceNumber }}</span>
+            <span>{{ scope.row.sourceNumber }}</span>
           </template>
           <detail-list :detailcontrol.sync="detailvisible" :detaildata.sync="personalForm"/>
         </el-table-column>
@@ -107,6 +107,16 @@
         <el-table-column :label="$t('StockQuery.onQuantity')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.onQuantity }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column :label="$t('StockQuery.includeTaxEnterMoney')" :resizable="false" prop="judgeStat" align="center" min-width="150">
+          <template slot-scope="scope">
+            <span>{{ scope.row.includeTaxMoney }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column :label="$t('StockQuery.unIncludeTaxEnterMoney')" :resizable="false" align="center" min-width="150">
+          <template slot-scope="scope">
+            <span>{{ scope.row.money }}</span>
           </template>
         </el-table-column>
         <el-table-column :label="$t('StockQuery.onIncludedTax')" :resizable="false" prop="judgeStat" align="center" min-width="150">
