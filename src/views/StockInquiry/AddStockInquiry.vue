@@ -460,7 +460,9 @@ export default {
       return sums
     },
     getdatatime() { // 默认显示今天
-      this.personalForm.inquiryDate = new Date()
+      const date = new Date()
+      date.setTime(date.getTime())
+      this.personalForm.inquiryDate = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate()
     },
     // 通过税率计算含税价
     gettaxRate(row) {

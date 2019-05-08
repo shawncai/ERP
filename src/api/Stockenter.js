@@ -101,8 +101,11 @@ export function addstockenter(query, query2) {
   if (query.enterRepositoryId !== '' && query.enterRepositoryId !== null && query.enterRepositoryId !== undefined) {
     params.append('enterRepositoryId', query.enterRepositoryId) // 你要传给后台的参数值 key/value
   }
-  if (query.enterRepositoryId !== '' && query.enterRepositoryId !== null && query.enterRepositoryId !== undefined) {
-    params.append('enterRepositoryId', query.enterRepositoryId) // 你要传给后台的参数值 key/value
+  if (query.enterPersonId !== '' && query.enterPersonId !== null && query.enterPersonId !== undefined) {
+    params.append('enterPersonId', query.enterPersonId) // 你要传给后台的参数值 key/value
+  }
+  if (query.enterDate !== '' && query.enterDate !== null && query.enterDate !== undefined) {
+    params.append('enterDate', query.enterDate) // 你要传给后台的参数值 key/value
   }
   if (query.receiptStat !== '' && query.receiptStat !== null && query.receiptStat !== undefined) {
     params.append('receiptStat', query.receiptStat) // 你要传给后台的参数值 key/value
@@ -175,8 +178,11 @@ export function updatestockenter(query, query2) {
   if (query.enterRepositoryId !== '' && query.enterRepositoryId !== null && query.enterRepositoryId !== undefined) {
     params.append('enterRepositoryId', query.enterRepositoryId) // 你要传给后台的参数值 key/value
   }
-  if (query.enterRepositoryId !== '' && query.enterRepositoryId !== null && query.enterRepositoryId !== undefined) {
-    params.append('enterRepositoryId', query.enterRepositoryId) // 你要传给后台的参数值 key/value
+  if (query.enterPersonId !== '' && query.enterPersonId !== null && query.enterPersonId !== undefined) {
+    params.append('enterPersonId', query.enterPersonId) // 你要传给后台的参数值 key/value
+  }
+  if (query.enterDate !== '' && query.enterDate !== null && query.enterDate !== undefined) {
+    params.append('enterDate', query.enterDate) // 你要传给后台的参数值 key/value
   }
   if (query.receiptStat !== '' && query.receiptStat !== null && query.receiptStat !== undefined) {
     params.append('receiptStat', query.receiptStat) // 你要传给后台的参数值 key/value

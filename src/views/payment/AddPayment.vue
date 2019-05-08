@@ -96,34 +96,53 @@
                   <el-input v-model="personalForm.moneyThis" style="margin-left: 18px" disabled/>
                 </el-form-item>
               </el-col>
+              <el-col :span="6">
+                <el-form-item :label="$t('payment.picids')" style="width: 100%;margin-top: 1%">
+                  <el-button style="margin-bottom: 10px" size="small" type="success" @click="submitUpload">{{ $t('public.uploadimage') }}</el-button>
+                  <el-upload
+                    ref="upload"
+                    :on-preview="handlepicPreview"
+                    :on-remove="handlepicRemove"
+                    :on-success="handlepicsuccess"
+                    :data="picidsData"
+                    :auto-upload="false"
+                    action="http://192.168.1.45:8080/erp/upload/uploadpic"
+                    list-type="picture-card">
+                    <i class="el-icon-plus"/>
+                  </el-upload>
+                  <el-dialog :visible.sync="picidsVisible">
+                    <img :src="picidsImageUrl" width="100%" alt="">
+                  </el-dialog>
+                </el-form-item >
+              </el-col>
             </el-row>
           </el-form>
         </div>
       </el-card>
-      <el-card class="box-card" shadow="never" style="margin-top: 10px">
-        <h2 class="form-name">附件信息</h2>
-        <div class="container">
-          <el-form :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
-            <el-form-item :label="$t('payment.picids')" style="width: 100%;margin-top: 1%">
-              <el-button style="margin-bottom: 10px" size="small" type="success" @click="submitUpload">{{ $t('public.uploadimage') }}</el-button>
-              <el-upload
-                ref="upload"
-                :on-preview="handlepicPreview"
-                :on-remove="handlepicRemove"
-                :on-success="handlepicsuccess"
-                :data="picidsData"
-                :auto-upload="false"
-                action="http://192.168.1.45:8080/erp/upload/uploadpic"
-                list-type="picture-card">
-                <i class="el-icon-plus"/>
-              </el-upload>
-              <el-dialog :visible.sync="picidsVisible">
-                <img :src="picidsImageUrl" width="100%" alt="">
-              </el-dialog>
-            </el-form-item >
-          </el-form>
-        </div>
-      </el-card>
+      <!--      <el-card class="box-card" shadow="never" style="margin-top: 10px">-->
+      <!--        <h2 class="form-name">附件信息</h2>-->
+      <!--        <div class="container">-->
+      <!--          <el-form :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">-->
+      <!--            <el-form-item :label="$t('payment.picids')" style="width: 100%;margin-top: 1%">-->
+      <!--              <el-button style="margin-bottom: 10px" size="small" type="success" @click="submitUpload">{{ $t('public.uploadimage') }}</el-button>-->
+      <!--              <el-upload-->
+      <!--                ref="upload"-->
+      <!--                :on-preview="handlepicPreview"-->
+      <!--                :on-remove="handlepicRemove"-->
+      <!--                :on-success="handlepicsuccess"-->
+      <!--                :data="picidsData"-->
+      <!--                :auto-upload="false"-->
+      <!--                action="http://192.168.1.45:8080/erp/upload/uploadpic"-->
+      <!--                list-type="picture-card">-->
+      <!--                <i class="el-icon-plus"/>-->
+      <!--              </el-upload>-->
+      <!--              <el-dialog :visible.sync="picidsVisible">-->
+      <!--                <img :src="picidsImageUrl" width="100%" alt="">-->
+      <!--              </el-dialog>-->
+      <!--            </el-form-item >-->
+      <!--          </el-form>-->
+      <!--        </div>-->
+      <!--      </el-card>-->
       <el-card class="box-card" style="margin-top: 15px" shadow="never">
         <h2 ref="fuzhu" class="form-name" >付款明细</h2>
         <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
@@ -191,6 +210,14 @@ export default {
       console.log(value)
       if (value === '') {
         callback(new Error('请选择'))
+      } else {
+        callback()
+      }
+    }
+    const validatePass2 = (rule, value, callback) => {
+      console.log(value)
+      if (this.personalForm.offsetAdvance > this.yufu) {
+        callback(new Error('抵扣预付款金额不能大于预付款金额'))
       } else {
         callback()
       }
@@ -293,6 +320,12 @@ export default {
       list2: [],
       // 采购申请单明细列表规则
       validRules: {
+        payThis: [
+          { required: true, message: '请输入本次支付金额', trigger: 'change' }
+        ],
+        advanceMoney: [
+          { required: true, validator: validatePass2, trigger: 'blur' }
+        ]
       }
     }
   },
@@ -357,10 +390,9 @@ export default {
       sums[10] = ''
       sums[15] = ''
       sums[18] = ''
-      sums[7] = ''
       console.log()
-      this.personalForm.offsetAdvance = sums[9]
-      this.personalForm.moneyThis = sums[8]
+      this.personalForm.offsetAdvance = sums[8]
+      this.personalForm.moneyThis = sums[7]
       return sums
     },
     getways() {
@@ -557,27 +589,31 @@ export default {
       const parms = JSON.stringify(Data)
       this.$refs.personalForm.validate((valid) => {
         if (valid) {
-          addpayment(parms, parms2, this.personalForm).then(res => {
-            console.log(res)
-            if (res.data.ret === 200) {
-              this.$notify({
-                title: '成功',
-                message: '保存成功',
-                type: 'success',
-                offset: 100
-              })
-              this.restAllForm()
-              this.$refs.editable.clear()
-              this.$refs.personalForm.clearValidate()
-              this.$refs.personalForm.resetFields()
-              this.$refs.upload.clearFiles()
-            } else {
-              this.$notify.error({
-                title: '错误',
-                message: res.data.msg,
-                offset: 100
-              })
-            }
+          this.$refs.editable.validate().then(valid => {
+            addpayment(parms, parms2, this.personalForm).then(res => {
+              console.log(res)
+              if (res.data.ret === 200) {
+                this.$notify({
+                  title: '成功',
+                  message: '保存成功',
+                  type: 'success',
+                  offset: 100
+                })
+                this.restAllForm()
+                this.$refs.editable.clear()
+                this.$refs.personalForm.clearValidate()
+                this.$refs.personalForm.resetFields()
+                this.$refs.upload.clearFiles()
+              } else {
+                this.$notify.error({
+                  title: '错误',
+                  message: res.data.msg,
+                  offset: 100
+                })
+              }
+            })
+          }).catch(valid => {
+            console.log('error submit!!')
           })
         } else {
           this.$notify.error({

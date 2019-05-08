@@ -20,8 +20,8 @@
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item label="采购到货单" style="width: 100%;">
-                  <el-input v-model="personalForm.sourceNumber" placeholder="请选择源单编号" clearable style="margin-left: 18px;width: 200px" @focus="handleAddSouce"/>
+                <el-form-item label="采购到货单" prop="sourceNumber" style="width: 100%;">
+                  <el-input v-model="personalForm.sourceNumber" placeholder="请选择源单编号" style="margin-left: 18px;width: 200px" @focus="handleAddSouce"/>
                 </el-form-item>
                 <my-arrival :arrivalcontrol.sync="arrivalcontrol" @arrival="arrival" @allarrivalinfo="allarrivalinfo"/>
               </el-col>
@@ -76,6 +76,21 @@
                   <el-input v-model="enterRepositoryId" placeholder="请选择入库仓库" style="margin-left: 18px;width: 200px" @focus="handlechooseRep"/>
                 </el-form-item>
                 <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item :label="$t('Stockenter.enterPersonId')" prop="enterPersonId" style="width: 100%;">
+                  <el-input v-model="enterPersonId" placeholder="请选择入库人" style="margin-left: 18px;width: 200px" @focus="handlechooseEnter"/>
+                </el-form-item>
+                <my-emp2 :entercontrol.sync="entercontrol" @enterName="enterName"/>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item :label="$t('Stockenter.enterDate')" prop="enterDate" style="width: 100%;">
+                  <el-date-picker
+                    v-model="personalForm.enterDate"
+                    type="date"
+                    value-format="yyyy-MM-dd"
+                    style="margin-left: 18px"/>
+                </el-form-item>
               </el-col>
             </el-row>
           </el-form>
@@ -152,10 +167,35 @@ import MyDelivery from './components/MyDelivery'
 import MyAccept from './components/MyAccept'
 import MyDetail from './components/MyDetail'
 import MyArrival from './components/MyArrival'
+import MyEmp2 from './components/MyEmp2'
 export default {
   name: 'Addstockenter',
-  components: { MyArrival, MyRepository, MySupplier, MyEmp, MyDelivery, MyAccept, MyDetail },
+  components: { MyEmp2, MyArrival, MyRepository, MySupplier, MyEmp, MyDelivery, MyAccept, MyDetail },
   data() {
+    const validatePass = (rule, value, callback) => {
+      console.log(this.sourceNumber)
+      if (this.personalForm.sourceNumber === undefined || this.personalForm.sourceNumber === null || this.personalForm.sourceNumber === '') {
+        callback(new Error('请选择源单编号'))
+      } else {
+        callback()
+      }
+    }
+    const validatePass2 = (rule, value, callback) => {
+      console.log(this.enterRepositoryId)
+      if (this.personalForm.enterRepositoryId === undefined || this.personalForm.enterRepositoryId === null || this.personalForm.enterRepositoryId === '') {
+        callback(new Error('请选择入库仓库'))
+      } else {
+        callback()
+      }
+    }
+    const validatePass3 = (rule, value, callback) => {
+      console.log(this.enterPersonId)
+      if (this.personalForm.enterPersonId === undefined || this.personalForm.enterPersonId === null || this.personalForm.enterPersonId === '') {
+        callback(new Error('请选择采购类别'))
+      } else {
+        callback()
+      }
+    }
     return {
       // 控制供应商不可以编辑
       IssupplierId: false,
@@ -182,8 +222,12 @@ export default {
       depts: [],
       // 采购员控制框
       stockControl: false,
+      // 入库员控制框
+      entercontrol: false,
       // 采购员回显
       stockPersonId: '',
+      // 入库员回显
+      enterPersonId: 'xucan',
       // 供货商回显
       supplierId: '',
       // 供货商控制
@@ -208,36 +252,53 @@ export default {
       },
       // 采购入库信息数据
       personalForm: {
+        enterDate: null,
         repositoryId: 438,
         regionId: 2,
         createPersonId: 3,
+        enterPersonId: 3,
         countryId: 1,
         sourceType: '1'
       },
       // 个人信息规则数据
       personalrules: {
-        title: [
-          { required: true, message: '请输入入库单主题', trigger: 'blur' }
+        sourceNumber: [
+          { required: true, validator: validatePass, trigger: 'change' }
         ],
         sourceType: [
           { required: true, message: '请选择源单类型', trigger: 'change' }
         ],
         enterRepositoryId: [
-          { required: true, message: '请选择入库仓库', trigger: 'blue' }
+          { required: true, validator: validatePass2, trigger: 'change' }
         ],
         isHot: [
           { required: true, message: '请选择', trigger: 'change' }
         ],
         countryId: [
           { required: true, message: '请选择国家', trigger: 'change' }
+        ],
+        inquiryDate: [
+          { required: true, message: '请选择询价日期', trigger: 'change' }
+        ],
+        enterDate: [
+          { required: true, message: '请选择入库日期', trigger: 'change' }
+        ],
+        enterPersonId: [
+          { required: true, validator: validatePass3, trigger: 'change' }
         ]
       }
     }
   },
   mounted() {
     this.getlist()
+    this.getdatatime()
   },
   methods: {
+    getdatatime() { // 默认显示今天
+      const date = new Date()
+      date.setTime(date.getTime())
+      this.personalForm.enterDate = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate()
+    },
     // 重置一下下拉
     change() {
       this.$forceUpdate()
@@ -375,6 +436,7 @@ export default {
       this.stockPersonId = ''
       this.supplierId = ''
       this.enterRepositoryId = ''
+      this.enterPersonId = ''
     },
     // 取消操作
     handlecancel() {
@@ -387,10 +449,19 @@ export default {
     handlechooseStock() {
       this.stockControl = true
     },
+    // 入库员focus事件
+    handlechooseEnter() {
+      this.entercontrol = true
+    },
     // 采购员回显
     stockName(val) {
       this.stockPersonId = val.personName
       this.personalForm.stockPersonId = val.id
+    },
+    // 采购员回显
+    enterName(val) {
+      this.enterPersonId = val.personName
+      this.personalForm.enterPersonId = val.id
     },
     // 供应商输入框focus事件触发
     handlechoose() {

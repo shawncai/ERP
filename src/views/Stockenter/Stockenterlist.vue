@@ -126,12 +126,12 @@
         </el-table-column>
         <el-table-column :label="$t('Stockenter.endPersonName')" :resizable="false" prop="endPersonName" align="center" width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.endPersonName }}</span>
+            <span>{{ scope.row.enterPersonName }}</span>
           </template>
         </el-table-column>
         <el-table-column :label="$t('Stockenter.endDate')" :resizable="false" prop="endDate" align="center" width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.endDate }}</span>
+            <span>{{ scope.row.enterDate }}</span>
           </template>
         </el-table-column>
         <el-table-column :label="$t('Stockenter.summary')" :resizable="false" prop="stockEnterDetails" align="center" width="150">

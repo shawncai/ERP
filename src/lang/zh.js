@@ -608,7 +608,8 @@ export default {
     produceManagerId: '生产负责人',
     enterPersonId: '入库人',
     enterReason: '入库原因',
-    newOrOld: '新旧标识'
+    newOrOld: '新旧标识',
+    enterDate: '入库时间'
   },
   StockOut: {
     title: '出库单主题',

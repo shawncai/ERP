@@ -189,10 +189,10 @@ export default {
         ],
         payAccount: [
           { required: true, message: '请输入付款账户', trigger: 'blur' }
-        ],
-        settleMode: [
-          { required: true, validator: validatePass4, trigger: 'change' }
         ]
+        // settleMode: [
+        //   { required: true, validator: validatePass4, trigger: 'change' }
+        // ]
       },
       // 采购申请单明细数据
       list2: [],

@@ -76,6 +76,21 @@
               </el-form-item>
               <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
             </el-col>
+            <el-col :span="6">
+              <el-form-item :label="$t('Stockenter.enterPersonId')" prop="enterPersonId" style="width: 100%;">
+                <el-input v-model="enterPersonId" placeholder="请选择入库人" style="margin-left: 18px;width: 150px" @focus="handlechooseEnter"/>
+              </el-form-item>
+              <my-emp2 :entercontrol.sync="entercontrol" @enterName="enterName"/>
+            </el-col>
+            <el-col :span="6">
+              <el-form-item :label="$t('Stockenter.enterDate')" prop="enterDate" style="width: 100%;">
+                <el-date-picker
+                  v-model="personalForm.enterDate"
+                  type="date"
+                  value-format="yyyy-MM-dd"
+                  style="margin-left: 18px;width: 150px"/>
+              </el-form-item>
+            </el-col>
           </el-row>
         </el-form>
       </div>
@@ -148,8 +163,10 @@ import MyDelivery from './MyDelivery'
 import MyAccept from './MyAccept'
 import MyDetail from './MyDetail'
 import MyArrival from './MyArrival'
+import MyEmp2 from './MyEmp2'
+
 export default {
-  components: { MyArrival, MyRepository, MySupplier, MyEmp, MyDelivery, MyAccept, MyDetail },
+  components: { MyEmp2, MyArrival, MyRepository, MySupplier, MyEmp, MyDelivery, MyAccept, MyDetail },
   props: {
     editcontrol: {
       type: Boolean,
@@ -162,6 +179,10 @@ export default {
   },
   data() {
     return {
+      // 入库员控制框
+      entercontrol: false,
+      enterPersonId: '',
+      enterDate: '',
       // 弹窗组件的控制
       editVisible: this.editcontrol,
       // 供应商信息数据
@@ -242,6 +263,8 @@ export default {
     editdata() {
       this.personalForm = this.editdata
       this.supplierId = this.personalForm.supplierName
+      this.enterDate = this.personalForm.enterDate
+      this.enterPersonId = this.personalForm.enterPersonName
       this.stockPersonId = this.personalForm.stockPersonName
       this.deliveryPersonId = this.personalForm.deliveryPersonName
       this.acceptPersonId = this.personalForm.acceptPersonName
@@ -254,6 +277,15 @@ export default {
     this.getlist()
   },
   methods: {
+    // 入库员focus事件
+    handlechooseEnter() {
+      this.entercontrol = true
+    },
+    // 采购员回显
+    enterName(val) {
+      this.enterPersonId = val.personName
+      this.personalForm.enterPersonId = val.id
+    },
     // 从源单中添加商品
     handleAddSouce() {
       this.arrivalcontrol = true
