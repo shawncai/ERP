@@ -4,53 +4,53 @@
       <el-row>
         <el-form ref="getemplist" :model="getemplist" label-width="100px" style="margin-top: -9px">
           <el-col :span="5">
-            <el-form-item label="收款单单号" label-width="100px">
-              <el-input v-model="getemplist.number" :placeholder="$t('Receipt.number')" clearable @keyup.enter.native="handleFilter"/>
+            <el-form-item label="回访编号" label-width="100px">
+              <el-input v-model="getemplist.visitNumber" :placeholder="$t('CustomerMarketing.visitNumber')" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
           <el-col :span="5" style="margin-left: 10px">
-            <el-form-item label="收款人">
-              <el-input v-model="receiptPersonId" placeholder="收款人" @focus="handlechooseStock"/>
+            <el-form-item label="客户姓名">
+              <el-input v-model="getemplist.customerName" placeholder="客户姓名" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
           <el-col :span="5" style="margin-left: 10px">
-            <el-form-item label="收款单主题">
-              <el-input v-model="getemplist.title" placeholder="收款单主题" clearable @keyup.enter.native="handleFilter"/>
+            <el-form-item label="洽谈主题">
+              <el-input v-model="getemplist.title" placeholder="洽谈主题" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
           <!--更多搜索条件-->
-          <!--<el-col :span="3">-->
-          <!--<el-popover-->
-          <!--v-model="visible2"-->
-          <!--placement="bottom"-->
-          <!--width="500"-->
-          <!--trigger="manual">-->
-          <!--<el-select v-model="getemplist.receiptStat" :value="getemplist.receiptStat" placeholder="单据状态" clearable style="width: 40%;float: left;margin-left: 20px">-->
-          <!--<el-option value="1" label="制单"/>-->
-          <!--<el-option value="2" label="执行"/>-->
-          <!--<el-option value="3" label="结单"/>-->
-          <!--</el-select>-->
-          <!--<el-select v-model="getemplist.judgeStat" :value="getemplist.judgeStat" placeholder="审批状态" clearable style="width: 40%;float: right;margin-right: 20px">-->
-          <!--<el-option value="0" label="未审核"/>-->
-          <!--<el-option value="1" label="审核中"/>-->
-          <!--<el-option value="2" label="审核通过"/>-->
-          <!--<el-option value="3" label="审核不通过"/>-->
-          <!--</el-select>-->
-          <!--&lt;!&ndash;<el-date-picker&ndash;&gt;-->
-          <!--&lt;!&ndash;v-model="date"&ndash;&gt;-->
-          <!--&lt;!&ndash;type="daterange"&ndash;&gt;-->
-          <!--&lt;!&ndash;range-separator="-"&ndash;&gt;-->
-          <!--&lt;!&ndash;unlink-panels&ndash;&gt;-->
-          <!--&lt;!&ndash;start-placeholder="销售日期"&ndash;&gt;-->
-          <!--&lt;!&ndash;end-placeholder="销售日期"&ndash;&gt;-->
-          <!--&lt;!&ndash;value-format="yyyy-MM-dd"&ndash;&gt;-->
-          <!--&lt;!&ndash;style="margin-top: 20px;margin-left: 20px"/>&ndash;&gt;-->
-          <!--<div class="seachbutton" style="width: 100%;float: right;margin-top: 20px">-->
-          <!--<el-button v-waves class="filter-item" type="primary" style="float: right" round @click="handleFilter">{{ $t('public.search') }}</el-button>-->
-          <!--</div>-->
-          <!--<el-button v-waves slot="reference" type="primary" class="filter-item" style="width: 130px" @click="visible2 = !visible2">{{ $t('public.filter') }}<svg-icon icon-class="shaixuan" style="margin-left: 4px"/></el-button>-->
-          <!--</el-popover>-->
-          <!--</el-col>-->
+          <el-col :span="3">
+            <!--<el-popover-->
+            <!--v-model="visible2"-->
+            <!--placement="bottom"-->
+            <!--width="500"-->
+            <!--trigger="manual">-->
+            <!--<el-select v-model="getemplist.receiptStat" :value="getemplist.receiptStat" placeholder="单据状态" clearable style="width: 40%;float: left;margin-left: 20px">-->
+            <!--<el-option value="1" label="制单"/>-->
+            <!--<el-option value="2" label="执行"/>-->
+            <!--<el-option value="3" label="结单"/>-->
+            <!--</el-select>-->
+            <!--<el-select v-model="getemplist.judgeStat" :value="getemplist.judgeStat" placeholder="审批状态" clearable style="width: 40%;float: right;margin-right: 20px">-->
+            <!--<el-option value="0" label="未审核"/>-->
+            <!--<el-option value="1" label="审核中"/>-->
+            <!--<el-option value="2" label="审核通过"/>-->
+            <!--<el-option value="3" label="审核不通过"/>-->
+            <!--</el-select>-->
+            <!--&lt;!&ndash;<el-date-picker&ndash;&gt;-->
+            <!--&lt;!&ndash;v-model="date"&ndash;&gt;-->
+            <!--&lt;!&ndash;type="daterange"&ndash;&gt;-->
+            <!--&lt;!&ndash;range-separator="-"&ndash;&gt;-->
+            <!--&lt;!&ndash;unlink-panels&ndash;&gt;-->
+            <!--&lt;!&ndash;start-placeholder="销售日期"&ndash;&gt;-->
+            <!--&lt;!&ndash;end-placeholder="销售日期"&ndash;&gt;-->
+            <!--&lt;!&ndash;value-format="yyyy-MM-dd"&ndash;&gt;-->
+            <!--&lt;!&ndash;style="margin-top: 20px;margin-left: 20px"/>&ndash;&gt;-->
+            <!--<div class="seachbutton" style="width: 100%;float: right;margin-top: 20px">-->
+            <!--<el-button v-waves class="filter-item" type="primary" style="float: right" round @click="handleFilter">{{ $t('public.search') }}</el-button>-->
+            <!--</div>-->
+            <!--<el-button v-waves slot="reference" type="primary" class="filter-item" style="width: 130px" @click="visible2 = !visible2">{{ $t('public.filter') }}<svg-icon icon-class="shaixuan" style="margin-left: 4px"/></el-button>-->
+            <!--</el-popover>-->
+          </el-col>
           <el-col :span="3" style="margin-left: 20px">
             <!-- 搜索按钮 -->
             <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 86px" round @click="handleFilter">{{ $t('public.search') }}</el-button>
@@ -73,7 +73,7 @@
       <!-- 打印操作 -->
       <el-button v-waves class="filter-item" icon="el-icon-printer" style="width: 86px" @click="handlePrint">{{ $t('public.print') }}</el-button>
       <!-- 新建操作 -->
-      <el-button v-waves class="filter-item" icon="el-icon-plus" type="success" style="width: 86px" @click="handleAdd">{{ $t('public.add') }}</el-button>
+      <!--<el-button v-waves class="filter-item" icon="el-icon-plus" type="success" style="width: 86px" @click="handleAdd">{{ $t('public.add') }}</el-button>-->
     </el-card>
 
     <el-card class="box-card" style="margin-top: 10px" shadow="never">
@@ -94,82 +94,68 @@
           align="center"/>
         <el-table-column :label="$t('public.id')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span class="link-type" @click="handleDetail(scope.row)">{{ scope.row.number }}</span>
+            <span class="link-type" @click="handleDetail(scope.row)">{{ scope.row.visitNumber }}</span>
           </template>
-          <detail-list :detailcontrol.sync="detailvisible" :detaildata.sync="personalForm"/>
+          <detail-list2 :detailcontrol.sync="detailvisible" :detaildata.sync="personalForm"/>
         </el-table-column>
-        <el-table-column :label="$t('Receipt.title')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('CustomerMarketing.title2')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.title }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('Receipt.customerId')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('CustomerMarketing.customerId')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.customerName }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('Receipt.allShouldMoney')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('CustomerMarketing.visitReson')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.allShouldMoney }}</span>
+            <span>{{ scope.row.visitReson | visitResonFilter }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('Receipt.receiptMoney')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('CustomerMarketing.handlePersonId2')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.receiptMoney }}</span>
+            <span>{{ scope.row.handlePersonName }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('Receipt.receiptDate')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('CustomerMarketing.visitMode')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.receiptDate }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column :label="$t('Receipt.receiptPersonId')" :resizable="false" align="center" min-width="150">
-          <template slot-scope="scope">
-            <span>{{ scope.row.receiptPersonName }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column :label="$t('public.judgeStat')" :resizable="false" prop="judgeStat" align="center" min-width="150">
-          <template slot-scope="scope">
-            <span>{{ scope.row.judgeStat | judgeStatFilter }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column :label="$t('public.receiptStat')" :resizable="false" align="center" min-width="150">
-          <template slot-scope="scope">
-            <span>{{ scope.row.receiptStat | receiptStatFilter }}</span>
+            <span>{{ scope.row.visitMode | visitModeFilter }}</span>
           </template>
         </el-table-column>
         <el-table-column :label="$t('public.actions')" :resizable="false" align="center" min-width="230">
           <template slot-scope="scope">
+            <el-button title="修改" type="primary" size="mini" icon="el-icon-edit" circle @click="handleEdit(scope.row)"/>
             <el-button v-if="isReview(scope.row)" title="审批" type="warning" size="mini" icon="el-icon-view" circle @click="handleReview(scope.row)"/>
-            <el-button v-if="scope.row.judgeStat === 0" title="删除" size="mini" type="danger" icon="el-icon-delete" circle @click="handleDelete(scope.row)"/>
+            <el-button title="删除" size="mini" type="danger" icon="el-icon-delete" circle @click="handleDelete(scope.row)"/>
           </template>
         </el-table-column>
       </el-table>
       <!-- 列表结束 -->
       <pagination v-show="total>0" :total="total" :page.sync="getemplist.pageNum" :limit.sync="getemplist.pageSize" @pagination="getlist" />
       <!--修改开始=================================================-->
-      <my-dialog :editcontrol.sync="editVisible" :editdata.sync="personalForm" @rest="refreshlist"/>
+      <my-dialog2 :editcontrol.sync="editVisible" :editdata.sync="personalForm" @rest="refreshlist"/>
       <!--修改结束=================================================-->
     </el-card>
   </div>
 </template>
 
 <script>
-import { searchreceipt, updatereceipt, deletereceipt } from '@/api/Receipt'
+import { visitList, deleteCustomerVisit } from '@/api/CustomerMarketing'
 import { getdeptlist } from '@/api/BasicSettings'
 import { searchStockCategory } from '@/api/StockCategory'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination'
 import MyEmp from './components/MyEmp'
-import DetailList from './components/DetailList'
-import MyDialog from './components/MyDialog'
+import DetailList2 from './components/DetailList2'
+import MyDialog2 from './components/MyDialog2'
 import MyCustomer from './components/MyCustomer'
 import MyAgent from './components/MyAgent'
 
 export default {
-  name: 'ReceiptList',
+  name: 'CustomerVisitList',
   directives: { waves },
-  components: { MyDialog, DetailList, MyEmp, MyCustomer, MyAgent, Pagination },
+  components: { MyDialog2, DetailList2, MyEmp, MyCustomer, MyAgent, Pagination },
   filters: {
     judgeStatFilter(status) {
       const statusMap = {
@@ -188,25 +174,24 @@ export default {
       }
       return statusMap[status]
     },
-    sourceTypeFilter(status) {
+    visitModeFilter(status) {
       const statusMap = {
-        1: '分期订单'
+        1: '面对面'
       }
       return statusMap[status]
     },
-    sendTypeFilter(status) {
+    visitResonFilter(status) {
       const statusMap = {
-        1: '已发货',
-        2: '未发货'
+        1: '售后'
       }
       return statusMap[status]
     }
   },
   data() {
     return {
-      // 回显收款人
-      receiptPersonId: '',
-      // 控制收款人
+      // 销售员回显
+      salePersonId: '',
+      // 控制销售
       stockControl: false,
       // 回显客户
       customerName: '',
@@ -268,14 +253,14 @@ export default {
     this.getlist()
   },
   methods: {
-    // 收款人focus事件
+    // 销售人员focus事件
     handlechooseStock() {
       this.stockControl = true
     },
-    // 收款人回显
+    // 销售员回显
     stockName(val) {
-      this.receiptPersonId = val.personName
-      this.getemplist.receiptPersonId = val.id
+      this.salePersonId = val.personName
+      this.personalForm.salePersonId = val.id
     },
     // 不让勾选
     selectInit(row, index) {
@@ -313,7 +298,7 @@ export default {
     getlist() {
       // 物料需求计划列表数据
       this.listLoading = true
-      searchreceipt(this.getemplist).then(res => {
+      visitList(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
@@ -337,13 +322,13 @@ export default {
     },
     // 清空搜索条件
     restFilter() {
-      this.receiptPersonId = ''
-      this.getemplist.receiptPersonId = ''
+      this.salePersonId = ''
+      this.getemplist.salePersonId = ''
     },
     // 搜索
     handleFilter() {
       this.getemplist.pageNum = 1
-      searchreceipt(this.getemplist).then(res => {
+      visitList(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
@@ -368,24 +353,11 @@ export default {
       console.log(row)
       this.editVisible = true
       this.personalForm = Object.assign({}, row)
-      this.personalForm.sourceType = String(row.sourceType)
-      if (row.certificateType !== null) {
-        this.personalForm.certificateType = String(row.certificateType)
+      if (row.visitReson !== null) {
+        this.personalForm.visitReson = String(row.visitReson)
       }
-      if (row.workStat !== null) {
-        this.personalForm.workStat = String(row.workStat)
-      }
-      if (row.mateCertificateType !== null) {
-        this.personalForm.mateCertificateType = String(row.mateCertificateType)
-      }
-      if (row.mateWorkStat !== null) {
-        this.personalForm.mateWorkStat = String(row.mateWorkStat)
-      }
-      if (row.enterpriseNature !== null) {
-        this.personalForm.enterpriseNature = String(row.enterpriseNature)
-      }
-      if (row.suretyCertificateType !== null) {
-        this.personalForm.suretyCertificateType = String(row.suretyCertificateType)
+      if (row.visitMode !== null) {
+        this.personalForm.visitMode = String(row.visitMode)
       }
     },
     // 修改组件修改成功后返回
@@ -410,43 +382,43 @@ export default {
         }
       }
     },
-    // 审批操作
-    handleReview(row) {
-      this.reviewParms.id = row.id
-      this.reviewParms.judgePersonId = this.getemplist.createPersonId
-      this.$confirm('请审核', '审核', {
-        distinguishCancelAndClose: true,
-        confirmButtonText: '通过',
-        cancelButtonText: '不通过',
-        type: 'warning'
-      }).then(() => {
-        this.reviewParms.judgeStat = 2
-        const parms = JSON.stringify(this.reviewParms)
-        updatereceipt(parms).then(res => {
-          if (res.data.ret === 200) {
-            this.$message({
-              type: 'success',
-              message: '审核成功!'
-            })
-            this.getlist()
-          }
-        })
-      }).catch(action => {
-        if (action === 'cancel') {
-          this.reviewParms.judgeStat = 1
-          const parms = JSON.stringify(this.reviewParms)
-          updatereceipt(parms).then(res => {
-            if (res.data.ret === 200) {
-              this.$message({
-                type: 'success',
-                message: '审核成功!'
-              })
-              this.getlist()
-            }
-          })
-        }
-      })
-    },
+    // // 审批操作
+    // handleReview(row) {
+    //   this.reviewParms.id = row.id
+    //   this.reviewParms.judgePersonId = this.getemplist.createPersonId
+    //   this.$confirm('请审核', '审核', {
+    //     distinguishCancelAndClose: true,
+    //     confirmButtonText: '通过',
+    //     cancelButtonText: '不通过',
+    //     type: 'warning'
+    //   }).then(() => {
+    //     this.reviewParms.judgeStat = 2
+    //     const parms = JSON.stringify(this.reviewParms)
+    //     updatechange2(parms).then(res => {
+    //       if (res.data.ret === 200) {
+    //         this.$message({
+    //           type: 'success',
+    //           message: '审核成功!'
+    //         })
+    //         this.getlist()
+    //       }
+    //     })
+    //   }).catch(action => {
+    //     if (action === 'cancel') {
+    //       this.reviewParms.judgeStat = 1
+    //       const parms = JSON.stringify(this.reviewParms)
+    //       updatechange2(parms).then(res => {
+    //         if (res.data.ret === 200) {
+    //           this.$message({
+    //             type: 'success',
+    //             message: '审核成功!'
+    //           })
+    //           this.getlist()
+    //         }
+    //       })
+    //     }
+    //   })
+    // },
     // 批量操作
     handleSelectionChange(val) {
       this.moreaction = val
@@ -461,7 +433,7 @@ export default {
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          deletereceipt(ids).then(res => {
+          deleteCustomerVisit(ids).then(res => {
             if (res.data.ret === 200) {
               this.$notify({
                 title: '删除成功',
@@ -492,7 +464,7 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        deletereceipt(row.id).then(res => {
+        deleteCustomerVisit(row.id).then(res => {
           if (res.data.ret === 200) {
             this.$notify({
               title: '删除成功',
@@ -517,14 +489,14 @@ export default {
     },
     // 新增数据
     handleAdd() {
-      this.$router.push('/Receipt/AddReceipt')
+      this.$router.push('/CustomerMarketing/AddCustomerChat')
     },
     // 导出
     handleExport() {
       this.downloadLoading = true
         import('@/vendor/Export2Excel').then(excel => {
           const tHeader = ['供应商编号', '供应商名称', '供应商简称', '供应商类别', '所在区域', '采购员', '供应商优质级别', '建档人', '建档日期']
-          const filterVal = ['id', 'ReceiptName', 'ReceiptShortName', 'typeName', 'regionName', 'buyerName', 'levelName', 'createName', 'createTime']
+          const filterVal = ['id', 'CustomerMarketingName', 'CustomerMarketingShortName', 'typeName', 'regionName', 'buyerName', 'levelName', 'createName', 'createTime']
           const data = this.formatJson(filterVal, this.list)
           excel.export_json_to_excel({
             header: tHeader,

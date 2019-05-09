@@ -259,7 +259,15 @@ export default {
     CustomerSurveyReportList: '客户调查报告列表',
     Receipt: '收款单',
     AddReceipt: '新建收款单',
-    ReceiptList: '收款单列表'
+    ReceiptList: '收款单列表',
+    CustomerMarketing: '客户营销',
+    AddCustomerChat: '新建客户洽谈',
+    CustomerChatList: '客户洽谈列表',
+    AddCustomerVisit: '新建客户回访',
+    CustomerVisitList: '客户回访列表',
+    GroupBuyRules: '团购活动规则',
+    AddGroupBuyRules: '新建团购活动规则',
+    GroupBuyRulesList: '团购活动规则列表'
   },
   navbar: {
     logOut: '退出登录',
@@ -1660,6 +1668,7 @@ export default {
   },
   Receipt: {
     title: '收款单主题',
+    number: '收款单号',
     customerType: '客户类型',
     customerId: '客户姓名',
     moneyType: '货币',
@@ -1672,7 +1681,36 @@ export default {
     totalLackMoney: '本次欠款合计',
     remark: '备注',
     penaltyMoney: '滞纳金金额',
-    deductionMoney: '抵扣预收款'
+    deductionMoney: '抵扣预收款',
+    allShouldMoney: '应收款金额'
+  },
+  CustomerMarketing: {
+    chatNumber: '洽谈编号',
+    title: '洽谈主题',
+    customerId: '客户名称',
+    handlePersonId: '我方联络人',
+    phase: '阶段',
+    chatMode: '洽谈方式',
+    chatDate: '洽谈日期',
+    actionDesc: '行动描述',
+    customerReturn: '客户反馈',
+    remarks: '备注',
+    title2: '回访主题',
+    handlePersonId2: '回访人',
+    visitReson: '回访事由',
+    visitMode: '回访方式',
+    visitDate: '回访日期',
+    content: '回访内容',
+    visitNumber: '回访编号'
+  },
+  GroupBuyRules: {
+    title: '活动主题',
+    minPeoples: '最低参团人数',
+    captainRate: '团长价为实际价格的比例',
+    memberRate: '团员价为实际价格的比例',
+    beginTime: '活动开始时间',
+    endTime: '活动结束时间',
+    isEffective: '应用状态'
   },
   public: {
     modifyDate: '最后修改日期',

@@ -259,6 +259,13 @@ const reg = /^[A-Z0-9]{2}$/
       }
       return out
     }
+```  
+
+######  日期格式当前时间和七天  
+```js
+ const date = new Date()
+      date.setTime(date.getTime() + 3600 * 1000 * 24 * 7)
+      this.getemplist.time = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate()
 ```
 ###### 完成进度  
 ```text

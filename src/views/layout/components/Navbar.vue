@@ -7,7 +7,7 @@
       <el-menu-item index="2">采购管理</el-menu-item>
       <el-menu-item index="3">销售管理</el-menu-item>
       <el-menu-item index="4">库存管理</el-menu-item>
-      <!--<el-menu-item index="5">营销管理</el-menu-item>-->
+      <el-menu-item index="5">营销管理</el-menu-item>
       <el-menu-item index="6">分期管理</el-menu-item>
       <el-menu-item index="7">生产管理</el-menu-item>
       <el-menu-item index="8">质检管理</el-menu-item>

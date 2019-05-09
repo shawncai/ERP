@@ -37,7 +37,7 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('Receipt.receiptMoney')" prop="receiptMoney" style="width: 100%;">
-                  <el-input v-model="personalForm.receiptMoney" style="margin-left: 18px;width: 200px" clearable/>
+                  <el-input v-model="personalForm.receiptMoney" style="margin-left: 18px;width: 200px" disabled/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
@@ -60,8 +60,9 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('Receipt.receiptPersonId')" prop="totalMoney" style="width: 100%;">
-                  <el-input v-model="personalForm.receiptPersonId" style="margin-left: 18px;width: 200px" clearable/>
+                  <el-input v-model="receiptPersonId" style="margin-left: 18px;width: 200px" @focus="handlechooseStock"/>
                 </el-form-item>
+                <my-emp :control.sync="stockControl" @stockName="stockName"/>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('Receipt.receiptDate')" prop="receiptDate" style="width: 100%;">
@@ -89,7 +90,7 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('Receipt.deductionMoney')" style="width: 100%;">
-                  <el-input v-model="personalForm.deductionMoney" style="margin-left: 18px;width: 200px" clearable/>
+                  <el-input v-model="personalForm.deductionMoney" style="margin-left: 18px;width: 200px" disabled/>
                 </el-form-item>
                 <span style="color: red;margin-left: 52px;font-size: 14px">预收款：{{ yufu }}</span>
               </el-col>
@@ -102,10 +103,12 @@
         <h2 ref="fuzhu" class="form-name" >收款明细</h2>
         <div class="container">
           <el-editable
-            ref="editable"
+            ref="editable2"
             :data.sync="list2"
             :edit-config="{ showIcon: true, showStatus: true}"
+            :summary-method="getSummaries"
             class="click-table1"
+            show-summary
             stripe
             border
             size="medium"
@@ -128,7 +131,9 @@
             ref="editable"
             :data.sync="list2"
             :edit-config="{ showIcon: true, showStatus: true}"
+            :summary-method="getSummaries2"
             class="click-table1"
+            show-summary
             stripe
             border
             size="medium"
@@ -140,7 +145,7 @@
             <el-editable-column prop="retreatMoney" align="center" label="退货抵扣" min-width="150px"/>
             <el-editable-column prop="collectedMoney" align="center" label="已收金额" min-width="150px"/>
             <el-editable-column prop="uncollectedMoney" align="center" label="未收款金额" min-width="150px"/>
-            <el-editable-column prop="thisMoney" align="center" label="本次收款" min-width="150px"/>
+            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="thisMoney" align="center" label="本次收款" min-width="150px"/>
           </el-editable>
         </div>
       </el-card>
@@ -154,7 +159,7 @@
 </template>
 
 <script>
-// import { addReceipt } from '@/api/Receipt'
+import { createreceipt } from '@/api/Receipt'
 import { agentCollectList } from '@/api/public'
 import MyEmp from './components/MyEmp'
 import MyDetail from './components/MyDetail'
@@ -173,6 +178,10 @@ export default {
       }
     }
     return {
+      // 回显收款人
+      receiptPersonId: '',
+      // 控制收款人
+      stockControl: false,
       // 预收款
       yufu: 0,
       // 回显客户姓名
@@ -201,7 +210,9 @@ export default {
         countryId: 1,
         repositoryId: 438,
         regionId: 2,
-        sourceType: '1'
+        sourceType: '1',
+        receiptMoney: 0,
+        deductionMoney: 0
       },
       // 商品信息
       productForm: {},
@@ -222,6 +233,71 @@ export default {
   created() {
   },
   methods: {
+    // 收款人focus事件
+    handlechooseStock() {
+      this.stockControl = true
+    },
+    // 收款人回显
+    stockName(val) {
+      this.receiptPersonId = val.personName
+      this.personalForm.receiptPersonId = val.id
+    },
+    // 总计
+    getSummaries(param) {
+      const { columns, data } = param
+      const sums = []
+      columns.forEach((column, index) => {
+        if (index === 0) {
+          sums[index] = '总计'
+          return
+        }
+        const values = data.map(item => Number(item[column.property]))
+        if (!values.every(value => isNaN(value))) {
+          sums[index] = values.reduce((prev, curr) => {
+            const value = Number(curr)
+            if (!isNaN(value)) {
+              return prev + curr
+            } else {
+              return prev
+            }
+          }, 0)
+          sums[index] += ''
+        } else {
+          sums[index] = ''
+        }
+      })
+      sums[2] = ''
+      this.personalForm.receiptMoney = sums[3]
+      return sums
+    },
+    // 总计
+    getSummaries2(param) {
+      const { columns, data } = param
+      const sums = []
+      columns.forEach((column, index) => {
+        if (index === 0) {
+          sums[index] = '总计'
+          return
+        }
+        const values = data.map(item => Number(item[column.property]))
+        if (!values.every(value => isNaN(value))) {
+          sums[index] = values.reduce((prev, curr) => {
+            const value = Number(curr)
+            if (!isNaN(value)) {
+              return prev + curr
+            } else {
+              return prev
+            }
+          }, 0)
+          sums[index] += ''
+        } else {
+          sums[index] = ''
+        }
+      })
+      sums[2] = ''
+      this.personalForm.deductionMoney = sums[7]
+      return sums
+    },
     // 选择客户类型时清理客户名称
     clearCustomer() {
       this.personalForm.customerId = ''
@@ -262,11 +338,19 @@ export default {
       })
     },
     Installment(val) {
+      console.log(val)
       this.personalForm.customerId = val.customerId
       this.customerId = val.customerName
+      if (val.advanceMoney !== null && val.advanceMoney !== undefined && val.advanceMoney !== '') {
+        this.yufu = val.advanceMoney
+      }
     },
     InstallmentDetail(val) {
       console.log(val)
+      this.$refs.editable2.clear()
+      for (let i = 0; i < val.length; i++) {
+        this.$refs.editable2.insert(val[i])
+      }
     },
     // 源单控制
     handleAddsourceNum() {
@@ -279,111 +363,116 @@ export default {
         countryId: 1,
         repositoryId: 438,
         regionId: 2,
-        sourceType: '1'
+        sourceType: '1',
+        receiptMoney: 0,
+        deductionMoney: 0
       }
-      this.saleRepositoryId = null
-      this.IscustomerName = false
-      this.IscustomerPhone = false
-      this.IstotalMoney = false
-      this.IsbeforeCount = false
-      this.IspaidCount = false
-      this.IspaidMoney = false
-      this.IspaidCapital = false
-      this.IsremainCapital = false
-      this.IssaleRepositoryId = false
+      this.receiptPersonId = null
+      this.customerId = null
     },
     // 保存操作
     handlesave() {
-      const EnterDetail = this.$refs.editable.getRecords()
-      if (EnterDetail.length === 0) {
-        this.$notify.error({
-          title: '错误',
-          message: '明细表不能为空',
-          offset: 100
+      if (this.personalForm.customerType === '1') {
+        const EnterDetail = this.$refs.editable.getRecords()
+        if (EnterDetail.length === 0) {
+          this.$notify.error({
+            title: '错误',
+            message: '明细表不能为空',
+            offset: 100
+          })
+          return false
+        }
+        const parms2 = JSON.stringify(EnterDetail)
+        const Data = this.personalForm
+        for (const key in Data) {
+          if (Data[key] === '' || Data[key] === undefined || Data[key] === null) {
+            delete Data[key]
+          }
+        }
+        const parms = JSON.stringify(Data)
+        this.$refs.personalForm.validate((valid) => {
+          if (valid) {
+            createreceipt(parms, parms2, this.personalForm).then(res => {
+              console.log(res)
+              if (res.data.ret === 200) {
+                this.$notify({
+                  title: '成功',
+                  message: '保存成功',
+                  type: 'success',
+                  offset: 100
+                })
+                this.restAllForm()
+                this.$refs.editable.clear()
+                this.$refs.personalForm.clearValidate()
+                this.$refs.personalForm.resetFields()
+              } else {
+                this.$notify.error({
+                  title: '错误',
+                  message: res.data.msg,
+                  offset: 100
+                })
+              }
+            })
+          } else {
+            this.$notify.error({
+              title: '错误',
+              message: '信息未填完整',
+              offset: 100
+            })
+            return false
+          }
         })
-        return false
+      } else if (this.personalForm.customerType === '2') {
+        const EnterDetail = this.$refs.editable2.getRecords()
+        if (EnterDetail.length === 0) {
+          this.$notify.error({
+            title: '错误',
+            message: '明细表不能为空',
+            offset: 100
+          })
+          return false
+        }
+        const parms2 = JSON.stringify(EnterDetail)
+        const Data = this.personalForm
+        for (const key in Data) {
+          if (Data[key] === '' || Data[key] === undefined || Data[key] === null) {
+            delete Data[key]
+          }
+        }
+        const parms = JSON.stringify(Data)
+        this.$refs.personalForm.validate((valid) => {
+          if (valid) {
+            createreceipt(parms, parms2, this.personalForm).then(res => {
+              console.log(res)
+              if (res.data.ret === 200) {
+                this.$notify({
+                  title: '成功',
+                  message: '保存成功',
+                  type: 'success',
+                  offset: 100
+                })
+                this.restAllForm()
+                this.$refs.editable2.clear()
+                this.$refs.personalForm.clearValidate()
+                this.$refs.personalForm.resetFields()
+              } else {
+                this.$notify.error({
+                  title: '错误',
+                  message: res.data.msg,
+                  offset: 100
+                })
+              }
+            })
+          } else {
+            this.$notify.error({
+              title: '错误',
+              message: '信息未填完整',
+              offset: 100
+            })
+            return false
+          }
+        })
       }
-      EnterDetail.map(function(elem) {
-        return elem
-      }).forEach(function(elem) {
-        if (elem.productCode === null || elem.productCode === '' || elem.productCode === undefined) {
-          delete elem.productCode
-        }
-        if (elem.productName === null || elem.productName === '' || elem.productName === undefined) {
-          delete elem.productName
-        }
-        if (elem.categoryId === null || elem.categoryId === '' || elem.categoryId === undefined) {
-          delete elem.categoryId
-        }
-        if (elem.typeId === null || elem.typeId === '' || elem.typeId === undefined) {
-          delete elem.typeId
-        }
-        if (elem.unit === null || elem.unit === '' || elem.unit === undefined) {
-          delete elem.unit
-        }
-        if (elem.color === null || elem.color === '' || elem.color === undefined) {
-          delete elem.color
-        }
-        if (elem.kpiGrade === null || elem.kpiGrade === '' || elem.kpiGrade === undefined) {
-          delete elem.kpiGrade
-        }
-        if (elem.point === null || elem.point === '' || elem.point === undefined) {
-          delete elem.point
-        }
-        if (elem.price === null || elem.price === '' || elem.price === undefined) {
-          delete elem.price
-        }
-        if (elem.carCode === null || elem.carCode === '' || elem.carCode === undefined) {
-          delete elem.carCode
-        }
-        if (elem.batteryCode === null || elem.batteryCode === '' || elem.batteryCode === undefined) {
-          delete elem.batteryCode
-        }
-        if (elem.motorCode === null || elem.motorCode === '' || elem.motorCode === undefined) {
-          delete elem.motorCode
-        }
-        return elem
-      })
-      // const parms2 = JSON.stringify(EnterDetail)
-      const Data = this.personalForm
-      for (const key in Data) {
-        if (Data[key] === '' || Data[key] === undefined || Data[key] === null) {
-          delete Data[key]
-        }
-      }
-      // const parms = JSON.stringify(Data)
-      // this.$refs.personalForm.validate((valid) => {
-      //   if (valid) {
-      //     addReceipt(parms, parms2, this.personalForm).then(res => {
-      //       console.log(res)
-      //       if (res.data.ret === 200) {
-      //         this.$notify({
-      //           title: '成功',
-      //           message: '保存成功',
-      //           type: 'success',
-      //           offset: 100
-      //         })
-      //         this.restAllForm()
-      //         this.$refs.editable.clear()
-      //         this.$refs.personalForm.clearValidate()
-      //         this.$refs.personalForm.resetFields()
-      //       } else {
-      //         this.$notify.error({
-      //           title: '错误',
-      //           message: res.data.msg,
-      //           offset: 100
-      //         })
-      //       }
-      //     })
-      //   } else {
-      //     this.$notify.error({
-      //       title: '错误',
-      //       message: '信息未填完整',
-      //       offset: 100
-      //     })
-      //     return false
-      //   }
-      // })
     },
     // 取消操作
     handlecancel() {

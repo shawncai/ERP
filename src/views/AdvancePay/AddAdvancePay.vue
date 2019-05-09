@@ -109,14 +109,14 @@ export default {
         callback()
       }
     }
-    const validatePass4 = (rule, value, callback) => {
-      console.log(this.personalForm.settleMode)
-      if (this.personalForm.settleMode === undefined || this.personalForm.settleMode === null || this.personalForm.settleMode === '') {
-        callback(new Error('请选择结算方式'))
-      } else {
-        callback()
-      }
-    }
+    // const validatePass4 = (rule, value, callback) => {
+    //   console.log(this.personalForm.settleMode)
+    //   if (this.personalForm.settleMode === undefined || this.personalForm.settleMode === null || this.personalForm.settleMode === '') {
+    //     callback(new Error('请选择结算方式'))
+    //   } else {
+    //     callback()
+    //   }
+    // }
     return {
       pickerOptions1: {
         disabledDate: (time) => {

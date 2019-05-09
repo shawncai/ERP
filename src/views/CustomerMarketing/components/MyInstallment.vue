@@ -305,15 +305,23 @@ export default {
     handleConfirm() {
       this.employeeVisible = false
       console.log(this.choosedata)
-      const Installmentdata = this.choosedata.installmentOrderDetailVos
+      const Installmentdata = new Array(this.choosedata)
       const InstallmentDetail = Installmentdata.map(function(item) {
         return {
-          presentCount: item.idx,
-          returnMoney: item.actualMoney,
-          returnSource: item.capitalMoney,
-          reward: item.reward,
-          penalty: item.penalty,
-          returnInterest: item.interestMoney
+          productCode: item.productCode,
+          productName: item.productName,
+          categoryId: item.categoryId,
+          categoryName: item.productCategory,
+          productType: item.productType,
+          typeId: item.typeId,
+          unit: item.unit,
+          color: item.color,
+          kpiGrade: item.kpiGrade,
+          point: item.point,
+          price: item.price,
+          carCode: item.carCode,
+          batteryCode: item.batteryCode,
+          motorCode: item.motorCode
         }
       })
       this.$emit('InstallmentDetail', InstallmentDetail)

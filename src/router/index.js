@@ -2166,5 +2166,69 @@ export const asyncRouterMap = [
       }
     ]
   },
+  {
+    path: '/CustomerMarketing',
+    component: Layout,
+    redirect: 'noredirect',
+    name: 'CustomerMarketing',
+    alwaysShow: true,
+    meta: {
+      title: 'CustomerMarketing',
+      icon: 'kehuyingxiao',
+      type: 5
+    },
+    children: [
+      {
+        path: 'AddCustomerChat',
+        component: () => import('@/views/CustomerMarketing/AddCustomerChat'),
+        name: 'AddCustomerChat',
+        meta: { title: 'AddCustomerChat', noCache: false }
+      },
+      {
+        path: 'CustomerChatList',
+        component: () => import('@/views/CustomerMarketing/CustomerChatList'),
+        name: 'CustomerChatList',
+        meta: { title: 'CustomerChatList', noCache: true }
+      },
+      {
+        path: 'AddCustomerVisit',
+        component: () => import('@/views/CustomerMarketing/AddCustomerVisit'),
+        name: 'AddCustomerVisit',
+        meta: { title: 'AddCustomerVisit', noCache: false }
+      },
+      {
+        path: 'CustomerVisitList',
+        component: () => import('@/views/CustomerMarketing/CustomerVisitList'),
+        name: 'CustomerVisitList',
+        meta: { title: 'CustomerVisitList', noCache: true }
+      }
+    ]
+  },
+  // {
+  //   path: '/GroupBuyRules',
+  //   component: Layout,
+  //   redirect: 'noredirect',
+  //   name: 'GroupBuyRules',
+  //   alwaysShow: true,
+  //   meta: {
+  //     title: 'GroupBuyRules',
+  //     icon: 'tuangou',
+  //     type: 5
+  //   },
+  //   children: [
+  //     {
+  //       path: 'AddGroupBuyRules',
+  //       component: () => import('@/views/GroupBuyRules/AddGroupBuyRules'),
+  //       name: 'AddGroupBuyRules',
+  //       meta: { title: 'AddGroupBuyRules', noCache: false }
+  //     },
+  //     {
+  //       path: 'GroupBuyRulesList',
+  //       component: () => import('@/views/GroupBuyRules/GroupBuyRulesList'),
+  //       name: 'GroupBuyRulesList',
+  //       meta: { title: 'GroupBuyRulesList', noCache: true }
+  //     }
+  //   ]
+  // },
   { path: '*', redirect: '/404', hidden: true }
 ]
