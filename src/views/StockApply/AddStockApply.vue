@@ -202,7 +202,7 @@ export default {
       // 部门数据
       depts: [],
       // 申请人回显
-      applyPersonId: '',
+      applyPersonId: 'xu x can',
       // 控制申请人
       stockControl: false,
       // 类别数据
@@ -216,9 +216,11 @@ export default {
       control: false,
       // 采购申请单信息数据
       personalForm: {
+        applyPersonId: 3,
         createPersonId: 3,
         countryId: 1,
         repositoryId: 438,
+        applyDeptId: 1,
         regionId: 2,
         sourceType: '1',
         applyDate: null

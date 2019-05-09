@@ -20,6 +20,12 @@
                 </el-form-item>
               </el-col>
               <el-col :span="6">
+                <el-form-item :label="$t('Stockenter.enterRepositoryId')" prop="enterRepositoryId" style="width: 100%;">
+                  <el-input v-model="enterRepositoryId" placeholder="请选择入库仓库" style="margin-left: 18px;width: 200px" @focus="handlechooseRep"/>
+                </el-form-item>
+                <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
+              </el-col>
+              <el-col :span="6">
                 <el-form-item label="采购到货单" prop="sourceNumber" style="width: 100%;">
                   <el-input v-model="personalForm.sourceNumber" placeholder="请选择源单编号" style="margin-left: 18px;width: 200px" @focus="handleAddSouce"/>
                 </el-form-item>
@@ -72,12 +78,6 @@
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('Stockenter.enterRepositoryId')" prop="enterRepositoryId" style="width: 100%;">
-                  <el-input v-model="enterRepositoryId" placeholder="请选择入库仓库" style="margin-left: 18px;width: 200px" @focus="handlechooseRep"/>
-                </el-form-item>
-                <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
-              </el-col>
-              <el-col :span="6">
                 <el-form-item :label="$t('Stockenter.enterPersonId')" prop="enterPersonId" style="width: 100%;">
                   <el-input v-model="enterPersonId" placeholder="请选择入库人" style="margin-left: 18px;width: 200px" @focus="handlechooseEnter"/>
                 </el-form-item>
@@ -89,7 +89,7 @@
                     v-model="personalForm.enterDate"
                     type="date"
                     value-format="yyyy-MM-dd"
-                    style="margin-left: 18px"/>
+                    style="margin-left: 18px;width: 200px"/>
                 </el-form-item>
               </el-col>
             </el-row>
@@ -118,7 +118,7 @@
             <el-editable-column type="index" align="center" label="编号" width="150px" />
             <el-editable-column :edit-render="{type: 'visible'}" prop="locationId" align="center" label="货位" width="200px">
               <template slot="edit" slot-scope="scope">
-                <el-select v-model="scope.row.locationId" :value="scope.row.locationCode" placeholder="请选择货位" filterable clearable style="width: 100%;" @visible-change="updatebatch($event,scope)">
+                <el-select v-model="scope.row.locationId" :value="scope.row.locationId" placeholder="请选择货位" filterable clearable style="width: 100%;" @visible-change="updatebatch($event,scope)">
                   <el-option
                     v-for="(item, index) in locationlist"
                     :key="index"
@@ -134,7 +134,7 @@
             <el-editable-column prop="productType" align="center" label="规格" width="150px"/>
             <el-editable-column prop="unit" align="center" label="单位" width="150px"/>
             <el-editable-column prop="basicQuantity" align="center" label="应收数量" width="150px"/>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0, precision: 2}, type: 'visible'}" prop="actualEnterQuantity" align="center" label="实收数量" width="150px"/>
+            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 1, precision: 2}, type: 'visible',events: { change: beyond}}" prop="actualEnterQuantity" align="center" label="入库数量" width="150px"/>
             <el-editable-column prop="enterPrice" align="center" label="入库单价" width="150px"/>
             <el-editable-column prop="taxRate" align="center" label="税率(%)" width="150px"/>
             <el-editable-column prop="enterMoney" align="center" label="入库金额" width="150px">
@@ -196,7 +196,17 @@ export default {
         callback()
       }
     }
+    const validatePass4 = (rule, value, callback) => {
+      console.log(value)
+      if (value > this.mid || value === 0 || value === null || value === undefined) {
+        callback(new Error('计划数量不能为空'))
+      } else {
+        callback()
+      }
+    }
     return {
+      // 中转
+      mid: null,
       // 控制供应商不可以编辑
       IssupplierId: false,
       // 控制采购到货单
@@ -211,7 +221,7 @@ export default {
       // 明细表控制框
       control: false,
       // 验收人回显
-      acceptPersonId: '',
+      acceptPersonId: 'xucan',
       // 验收人控制框
       accetpcontrol: false,
       // 交货人回显
@@ -227,19 +237,22 @@ export default {
       // 采购员回显
       stockPersonId: '',
       // 入库员回显
-      enterPersonId: 'xucan',
+      enterPersonId: 'xu x can',
       // 供货商回显
       supplierId: '',
       // 供货商控制
       empcontrol: false,
       // 入库仓库回显
-      enterRepositoryId: '',
+      enterRepositoryId: 'ssss',
       // 仓库选择控制期
       repositorycontrol: false,
       // 入库单明细数据
       list2: [],
       // 入库单明细列表规则
       validRules: {
+        actualEnterQuantity: [
+          { required: true, validator: validatePass4, trigger: 'blur' }
+        ],
         step: [
           { required: true, message: '请输入流程步骤', trigger: 'blur' }
         ],
@@ -254,10 +267,12 @@ export default {
       personalForm: {
         enterDate: null,
         repositoryId: 438,
+        enterRepositoryId: 438,
         regionId: 2,
         createPersonId: 3,
         enterPersonId: 3,
         countryId: 1,
+        acceptPersonId: 3,
         sourceType: '1'
       },
       // 个人信息规则数据
@@ -294,6 +309,9 @@ export default {
     this.getdatatime()
   },
   methods: {
+    beyond(scope, value) {
+      this.mid = scope.row.basicQuantity
+    },
     getdatatime() { // 默认显示今天
       const date = new Date()
       date.setTime(date.getTime())
@@ -457,11 +475,13 @@ export default {
     stockName(val) {
       this.stockPersonId = val.personName
       this.personalForm.stockPersonId = val.id
+      this.personalForm.stockDeptId = val.deptId
     },
     // 采购员回显
     enterName(val) {
       this.enterPersonId = val.personName
       this.personalForm.enterPersonId = val.id
+      this.personalForm.enterDeptId = val.deptId
     },
     // 供应商输入框focus事件触发
     handlechoose() {
@@ -498,6 +518,7 @@ export default {
           if (res.data.ret === 200) {
             if (res.data.data.content.length !== 0) {
               this.locationlist = res.data.data.content
+              scope.row.locationId = res.data.data.content[0].id
             } else if (res.data.data.content.length === 0) {
               locationlist(this.personalForm.enterRepositoryId).then(res => {
                 if (res.data.ret === 200) {
