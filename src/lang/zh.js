@@ -267,7 +267,8 @@ export default {
     CustomerVisitList: '客户回访列表',
     GroupBuyRules: '团购活动规则',
     AddGroupBuyRules: '新建团购活动规则',
-    GroupBuyRulesList: '团购活动规则列表'
+    GroupBuyRulesList: '团购活动规则列表',
+    Getauthority: '角色权限'
   },
   navbar: {
     logOut: '退出登录',
@@ -1712,7 +1713,13 @@ export default {
     endTime: '活动结束时间',
     isEffective: '应用状态'
   },
+  Getauthority: {
+    rolename: '角色名称',
+    createTime: '创建时间',
+    createPersonName: '创建人'
+  },
   public: {
+    save: '保存',
     modifyDate: '最后修改日期',
     move: '调入',
     judgePersonName: '审核人',

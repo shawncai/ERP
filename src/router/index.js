@@ -414,6 +414,23 @@ export const asyncRouterMap = [
       }
     ]
   },
+  {
+    path: '/Getauthority',
+    component: Layout,
+    redirect: 'noredirect',
+    meta: {
+      icon: 'quanxian',
+      type: 1
+    },
+    children: [
+      {
+        path: 'index',
+        component: () => import('@/views/Getauthority/index'),
+        name: 'Getauthority',
+        meta: { title: 'Getauthority', noCache: true }
+      }
+    ]
+  },
   // 库存管理
   {
     path: '/Stockenter',

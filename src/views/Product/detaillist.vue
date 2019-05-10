@@ -8,22 +8,24 @@
           placeholder="输入关键字进行过滤"
           style="margin-bottom: 30px"
           clearable/>
-        <el-tree
-          ref="tree2"
-          :data="detalist"
-          :props="detaillistProps"
-          :filter-node-method="filterNode"
-          :default-expand-all="true"
-          class="filter-tree"
-          @node-click="handleNodeClick">
-          <span slot-scope="{ node, data }" class="custom-tree-node">
-            <span>{{ node.label }}</span>
-            <span v-if="data.parentId !== 0" style="margin-left: 50px">
-              <i class="el-icon-edit" @click="edittree(data)"/>
-              <i class="el-icon-delete" @click="nodedelete(data)"/>
+        <el-scrollbar class="tree">
+          <el-tree
+            ref="tree2"
+            :data="detalist"
+            :props="detaillistProps"
+            :filter-node-method="filterNode"
+            :default-expand-all="true"
+            class="filter-tree"
+            @node-click="handleNodeClick">
+            <span slot-scope="{ node, data }" class="custom-tree-node">
+              <span>{{ node.label }}</span>
+              <span v-if="data.parentId !== 0" style="margin-left: 50px">
+                <i class="el-icon-edit" @click="edittree(data)"/>
+                <i class="el-icon-delete" @click="nodedelete(data)"/>
+              </span>
             </span>
-          </span>
-        </el-tree>
+          </el-tree>
+        </el-scrollbar>
         <el-dialog :visible.sync="editVisible" title="修改分类" class="normal" width="600px">
           <el-form :model="edittreeform" label-position="left" label-width="120px" style="width: 400px; margin-left:50px;">
             <el-form-item :label="$t('Product.name')" label-width="120px">
@@ -340,6 +342,15 @@ export default {
   .ERP-container {
     margin: 0px 20px;
     margin-right: 0;
+  }
+  .ERP-container >>> .el-scrollbar__wrap {
+    overflow-x: hidden;
+  }
+  .tree{
+    height: 500px;
+  }
+  .tree >>> .el-tree {
+    min-width: 100%;
   }
     .form-name{
       font-size: 18px;
