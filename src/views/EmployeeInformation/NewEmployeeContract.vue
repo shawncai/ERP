@@ -199,9 +199,9 @@
       </div>
       <!--操作-->
       <div class="buttons" style="margin-top: 20px">
-        <el-button type="primary" @click="handlesave()">保存</el-button>
-        <el-button type="success" @click="handleentry()">继续新建</el-button>
-        <el-button type="danger" @click="handlecancel()">取消</el-button>
+        <el-button v-permission="['1-2-6-1']" type="primary" @click="handlesave()">保存</el-button>
+        <el-button v-permission="['1-2-6-1']" type="success" @click="handleentry()">继续新建</el-button>
+        <el-button v-permission="['1-2-6-1']" type="danger" @click="handlecancel()">取消</el-button>
       </div>
     </div>
   </div>
@@ -210,12 +210,14 @@
 <script>
 import { searchRepository, regionlist } from '@/api/public'
 import { getemplist, addcontract, getdeptlist, searchEmpCategory } from '@/api/EmployeeInformation'
+import permission from '@/directive/permission/index.js' // 权限判断指令
+import checkPermission from '@/utils/permission' // 权限判断函数
 import MyCreate from './components/MyCreate'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
 export default {
   name: 'NewEmployeeContract',
-  directives: { waves },
+  directives: { waves, permission },
   components: { Pagination, MyCreate },
   filters: {
     genderFilter(status) {
@@ -323,6 +325,7 @@ export default {
     this.getnationlist()
   },
   methods: {
+    checkPermission,
     getnationlist() {
       // 员工列表数据
       this.listLoading = true

@@ -95,8 +95,8 @@
       </div>
       <!--操作-->
       <div class="buttons" style="margin-top: 20px">
-        <el-button type="primary" @click="handlesave()">保存</el-button>
-        <el-button type="danger" @click="handlecancel()">取消</el-button>
+        <el-button v-permission="['1-39-46-1']" type="primary" @click="handlesave()">保存</el-button>
+        <el-button v-permission="['1-39-46-1']" type="danger" @click="handlecancel()">取消</el-button>
       </div>
     </div>
   </div>
@@ -105,9 +105,12 @@
 <script>
 import { regionlist, searchRepository } from '@/api/public'
 import { createapproval, searchcategory } from '@/api/BasicSettings'
+import permission from '@/directive/permission/index.js' // 权限判断指令
+import checkPermission from '@/utils/permission' // 权限判断函数
 import MyEmp from './components/MyEmp'
 export default {
   name: 'NewApprovalProcess',
+  directives: { permission },
   components: { MyEmp },
   data() {
     return {
@@ -169,6 +172,7 @@ export default {
     this.getnationlist()
   },
   methods: {
+    checkPermission,
     getnationlist() {
       // 区域列表数据
       regionlist().then(res => {

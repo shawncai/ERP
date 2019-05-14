@@ -29,9 +29,9 @@
     </el-card>
     <el-card class="box-card" style="margin-top: 15px">
       <!-- 表格导出操作 -->
-      <el-button v-waves :loading="downloadLoading" class="filter-item" style="width: 86px" @click="handleExport"> <svg-icon icon-class="daochu"/>{{ $t('public.export') }}</el-button>
+      <el-button v-permission="['131-153-6']" v-waves :loading="downloadLoading" class="filter-item" style="width: 86px" @click="handleExport"> <svg-icon icon-class="daochu"/>{{ $t('public.export') }}</el-button>
       <!-- 打印操作 -->
-      <el-button v-waves class="filter-item" icon="el-icon-printer" style="width: 86px" @click="handlePrint">{{ $t('public.print') }}</el-button>
+      <el-button v-permission="['131-153-7']" v-waves class="filter-item" icon="el-icon-printer" style="width: 86px" @click="handlePrint">{{ $t('public.print') }}</el-button>
     </el-card>
     <el-card class="box-card" style="margin-top: 15px">
       <!-- 列表开始 -->
@@ -104,13 +104,15 @@
 import { searchalarm } from '@/api/StockAlarm'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
+import permission from '@/directive/permission/index.js' // 权限判断指令
+import checkPermission from '@/utils/permission' // 权限判断函数
 import MyRepository from './components/MyRepository'
 import MyAccept from './components/MyAccept'
 import MyCreate from './components/MyCreate'
 
 export default {
   name: 'StockAlarmList',
-  directives: { waves },
+  directives: { waves, permission },
   components: { Pagination, MyRepository, MyAccept, MyCreate },
   filters: {
     flagStatFileter(status) {
@@ -161,6 +163,7 @@ export default {
     this.getlist()
   },
   methods: {
+    checkPermission,
     // 仓库列表focus事件触发
     handlechooseRep() {
       this.repositorycontrol = true

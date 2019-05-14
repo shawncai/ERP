@@ -360,9 +360,9 @@
       </el-card>
       <!--操作-->
       <div class="buttons" style="margin-top: 20px">
-        <el-button type="primary" @click="handlesave()">保存</el-button>
-        <el-button type="success" @click="handleentry()">继续录入</el-button>
-        <el-button type="danger" @click="handlecancel()">取消</el-button>
+        <el-button v-permission="['1-31-32-1']" type="primary" @click="handlesave()">保存</el-button>
+        <el-button v-permission="['1-31-32-1']" type="success" @click="handleentry()">继续录入</el-button>
+        <el-button v-permission="['1-31-32-1']" type="danger" @click="handlecancel()">取消</el-button>
       </div>
     </div>
   </div>
@@ -370,12 +370,15 @@
 
 <script>
 import { createnewproduct, searchEmpCategory2, searchMea } from '@/api/Product'
+import permission from '@/directive/permission/index.js' // 权限判断指令
+import checkPermission from '@/utils/permission' // 权限判断函数
 import MyEmp from './components/MyEmp'
 import MySupplier from './components/MySupplier'
 import MyTree from './components/MyTree'
 import MyCenter from './components/MyCenter'
 export default {
   name: 'NewProduct',
+  directives: { permission },
   components: { MyCenter, MyTree, MySupplier, MyEmp },
   data() {
     const validatePass = (rule, value, callback) => {
@@ -554,6 +557,7 @@ export default {
     this.getcategorys()
   },
   methods: {
+    checkPermission,
     chooseBatch(val) {
       if (val === 2) {
         this.personalForm.effectiveDay = ''

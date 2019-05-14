@@ -140,9 +140,9 @@
       </div>
       <!--操作-->
       <div class="buttons" style="margin-top: 20px">
-        <el-button type="primary" @click="handlesave()">保存</el-button>
-        <el-button type="success" @click="handleentry()">继续录入</el-button>
-        <el-button type="danger" @click="handlecancel()">取消</el-button>
+        <el-button v-permission="['1-2-3-1']" type="primary" @click="handlesave()">保存</el-button>
+        <el-button v-permission="['1-2-3-1']" type="success" @click="handleentry()">继续录入</el-button>
+        <el-button v-permission="['1-2-3-1']" type="danger" @click="handlecancel()">取消</el-button>
       </div>
     </div>
   </div>
@@ -151,8 +151,11 @@
 <script>
 import { getcountrylist, getprovincelist, getcitylist, regionlist, searchRepository } from '@/api/public'
 import { getdeptlist, register, searchEmpCategory } from '@/api/EmployeeInformation'
+import permission from '@/directive/permission/index.js' // 权限判断指令
+import checkPermission from '@/utils/permission' // 权限判断函数
 export default {
   name: 'NewEmployeeContract',
+  directives: { permission },
   data() {
     var checkphone = (rule, value, callback) => {
       if (!value) {
@@ -281,6 +284,7 @@ export default {
     this.getnationlist()
   },
   methods: {
+    checkPermission,
     // 国籍列表
     getnationlist() {
       getcountrylist().then(res => {

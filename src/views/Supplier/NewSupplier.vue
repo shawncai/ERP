@@ -309,9 +309,9 @@
       </el-card>
       <!--操作-->
       <div class="buttons" style="margin-top: 20px">
-        <el-button type="primary" style="background:#3696fd;border-color:#3696fd;width: 98px" @click="handlesave()">保存</el-button>
-        <el-button type="success" @click="handleentry()">继续录入</el-button>
-        <el-button type="danger" @click="handlecancel()">取消</el-button>
+        <el-button v-permission="['1-22-23-1']" type="primary" style="background:#3696fd;border-color:#3696fd;width: 98px" @click="handlesave()">保存</el-button>
+        <el-button v-permission="['1-22-23-1']" type="success" @click="handleentry()">继续录入</el-button>
+        <el-button v-permission="['1-22-23-1']" type="danger" @click="handlecancel()">取消</el-button>
       </div>
     </div>
   </div>
@@ -320,10 +320,13 @@
 <script>
 import { getcountrylist, getprovincelist, getcitylist, regionlist, saveRegion } from '@/api/public'
 import { searchCategory, create, searchGroup } from '@/api/Supplier'
+import permission from '@/directive/permission/index.js' // 权限判断指令
+import checkPermission from '@/utils/permission' // 权限判断函数
 import MyEmp from './components/MyEmp'
 import MyDetail from './components/MyDetail'
 export default {
   name: 'NewSupplier',
+  directives: { permission },
   components: { MyDetail, MyEmp },
   data() {
     return {
@@ -427,6 +430,7 @@ export default {
     this.getnationlist()
   },
   methods: {
+    checkPermission,
     // 采购申请明细来源
     handleAddproduct() {
       this.control = true

@@ -56,9 +56,9 @@
 
       <!--操作-->
       <div class="buttons" style="margin-top: 20px">
-        <el-button type="primary" @click="handlesave()">保存</el-button>
-        <el-button type="success" @click="handleentry()">继续录入</el-button>
-        <el-button type="danger" @click="handlecancel()">取消</el-button>
+        <el-button v-permission="['1-31-34-1']" type="primary" @click="handlesave()">保存</el-button>
+        <el-button v-permission="['1-31-34-1']" type="success" @click="handleentry()">继续录入</el-button>
+        <el-button v-permission="['1-31-34-1']" type="danger" @click="handlecancel()">取消</el-button>
       </div>
     </div>
   </div>
@@ -66,9 +66,12 @@
 
 <script>
 import { addadjustprice } from '@/api/Product'
+import permission from '@/directive/permission/index.js' // 权限判断指令
+import checkPermission from '@/utils/permission' // 权限判断函数
 import MyEmp from './components/MyEmp'
 export default {
   name: 'Newadjustprice',
+  directives: { permission },
   components: { MyEmp },
   data() {
     return {
@@ -109,6 +112,7 @@ export default {
     }
   },
   methods: {
+    checkPermission,
     // 员工输入框focus事件触发
     handlechoose() {
       this.empcontrol = true

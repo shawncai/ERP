@@ -309,9 +309,9 @@
       </div>
       <!--操作-->
       <div class="buttons" style="margin-top: 20px">
-        <el-button type="primary" @click="handlesave()">保存</el-button>
-        <el-button type="success" @click="handleentry()">继续录入</el-button>
-        <el-button type="danger" @click="handlecancel()">取消</el-button>
+        <el-button v-permission="['1-9-10-1']" type="primary" @click="handlesave()">保存</el-button>
+        <el-button v-permission="['1-9-10-1']" type="success" @click="handleentry()">继续录入</el-button>
+        <el-button v-permission="['1-9-10-1']" type="danger" @click="handlecancel()">取消</el-button>
       </div>
     </div>
   </div>
@@ -323,9 +323,12 @@ import { searchRepCategory, create } from '@/api/Repository'
 import { getemplist, getdeptlist } from '@/api/EmployeeInformation'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
+import permission from '@/directive/permission/index.js' // 权限判断指令
+import checkPermission from '@/utils/permission' // 权限判断函数
+
 export default {
   name: 'NewRepository',
-  directives: { waves },
+  directives: { waves, permission },
   components: { Pagination },
   filters: {
     genderFilter(status) {
@@ -451,6 +454,7 @@ export default {
     this.getnationlist()
   },
   methods: {
+    checkPermission,
     // 国籍列表
     getnationlist() {
       getcountrylist().then(res => {
