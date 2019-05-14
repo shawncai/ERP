@@ -1719,6 +1719,7 @@ export default {
     createPersonName: '创建人'
   },
   public: {
+    cancel: '取消',
     save: '保存',
     modifyDate: '最后修改日期',
     move: '调入',

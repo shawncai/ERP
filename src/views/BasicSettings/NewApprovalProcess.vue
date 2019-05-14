@@ -30,7 +30,6 @@
               :options="regions"
               :props="props"
               v-model="personalForm.region"
-              :show-all-levels="false"
               placeholder="请选择区域"
               change-on-select
               filterable

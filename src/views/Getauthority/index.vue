@@ -10,8 +10,14 @@
                 <el-input v-model="getemplist.rolename" :placeholder="$t('Getauthority.rolename')" clearable/>
               </el-form-item>
             </el-col>
-            <el-col :span="5">
-              <el-button class="filter-item" type="primary" style="width: 86px" @click="newRole">{{ $t('public.save') }}</el-button>
+            <el-col v-if="IsEait === false" :span="2">
+              <el-button class="filter-item" type="primary" style="width: 86px" @click="newRole">{{ $t('public.add') }}</el-button>
+            </el-col>
+            <el-col v-if="IsEait === true" :span="2">
+              <el-button class="filter-item" type="success" style="width: 86px" @click="newauthority">{{ $t('public.edit') }}</el-button>
+            </el-col>
+            <el-col v-if="IsEait === true" :span="2">
+              <el-button class="filter-item" type="warning" style="width: 86px" @click="setCurrent()">{{ $t('public.cancel') }}</el-button>
             </el-col>
           </el-form>
         </el-row>
@@ -21,13 +27,15 @@
               <div style="width: 100%;border: 1px solid #ebeef5;border-bottom:none;height: 30px;padding-top: 5px;padding-left: 28px;color: #606266;">角色列表</div>
               <el-table
                 v-loading="listLoading"
+                ref="singleTable"
                 :key="tableKey"
                 :data="list"
                 border
                 fit
                 height="730px"
                 highlight-current-row
-                style="width: 100%;">
+                style="width: 100%;"
+                @current-change="handleCurrentChange">
                 <el-table-column :label="$t('Getauthority.rolename')" :resizable="false" align="center" min-width="100">
                   <template slot-scope="scope">
                     <span>{{ scope.row.roleName }}</span>
@@ -67,7 +75,7 @@
                   <span>名称</span>
                   <el-checkbox v-model="checkAll" style="float: right;margin-bottom: -5px" @change="handleCheckAllChange">全选</el-checkbox>
                 </div>
-                <div class="upsides">
+                <div v-if="isShow" class="upsides">
                   <el-checkbox-group v-model="operations" @change="handleCheckedCitiesChange">
                     <div v-for="(item,index) in operates" :key="index" class="text item">
                       <el-checkbox :label="item.id">{{ item.name }}</el-checkbox>
@@ -89,11 +97,13 @@
 </template>
 
 <script>
-import { repairList, getauthoritydetaillist, addrole } from '@/api/Getauthority'
+import { repairList, getauthoritydetaillist, addrole, updaterole } from '@/api/Getauthority'
 export default {
   name: 'Getauthority',
   data() {
     return {
+      IsEait: false,
+      isShow: false,
       checkAll: false,
       // 获取的数据
       operations: [],
@@ -116,14 +126,58 @@ export default {
       // 加载表格
       listLoading: true,
       getemplist: {
-        createPersonId: 3
-      }
+        createPersonId: 3,
+        rolename: null
+      },
+      checkroleId: null
     }
   },
   created() {
     this.getlist()
   },
   methods: {
+    setCurrent() {
+      this.$refs.singleTable.setCurrentRow()
+      this.IsEait = false
+      this.isShow = false
+      this.getemplist.rolename = null
+    },
+    newauthority() {
+      updaterole(this.checkroleId, this.operations, this.getemplist.rolename).then(res => {
+        if (res.data.ret === 200) {
+          this.$notify({
+            title: '成功',
+            message: '修改成功',
+            type: 'success',
+            offset: 100
+          })
+          this.getlist()
+          this.isShow = false
+        } else {
+          this.$notify.error({
+            title: '错误',
+            message: res.data.msg,
+            offset: 100
+          })
+        }
+      })
+    },
+    handleCurrentChange(val) {
+      this.IsEait = true
+      this.getemplist.rolename = val.roleName
+      this.isShow = false
+      this.checkAll = false
+      if (val.id !== null && val.id !== undefined && val.id !== '') {
+        this.checkroleId = val.id
+      }
+      if (val.authority !== null && val.authority !== undefined && val.authority !== '') {
+        this.operations = val.authority.split(',')
+      }
+      if (val.authority === null) {
+        this.operations = []
+      }
+      console.log(this.operations)
+    },
     restAllForm() {
       this.getemplist.rolename = null
     },
@@ -149,33 +203,84 @@ export default {
       })
     },
     handleCheckAllChange(val) {
-      console.log(val)
-      console.log(this.details)
-      console.log(this.operations)
       if (val === true) {
-        this.operations = this.details
+        const checkAllData = [...new Set([...this.operations, ...this.details])]
+        this.operations = checkAllData
       } else {
-        this.operations = []
+        const otherData = this.details
+        this.operations = this.operations.filter(function(item) {
+          return otherData.indexOf(item) < 0
+        })
       }
     },
     handleCheckedCitiesChange(value) {
-      console.log(value)
       const checkedCount = value.length
-      this.checkAll = checkedCount === this.operates.length
-      this.isIndeterminate = checkedCount > 0 && checkedCount < this.operates.length
+      this.checkAll = checkedCount === this.details.length
+    },
+    // 递归函数取level 1 的id
+    recursionLevel1(val) {
+      if (val.level === 1) {
+        return val.data.id
+      } else {
+        return this.recursionLevel1(val.parent)
+      }
+    },
+    // 递归函数取level 2 的id
+    recursionLevel2(val) {
+      if (val.level === 2) {
+        return val.data.id
+      } else {
+        return this.recursionLevel2(val.parent)
+      }
     },
     // 树列表选择数据
-    handleNodeClick(data) {
-      console.log(data)
+    handleNodeClick(data, node) {
+      console.log(node)
+      const leve1Data = this.recursionLevel1(node)
+      const leve2Data = this.recursionLevel2(node)
       if (data.authorityDetails !== null) {
-        this.operates = data.authorityDetails
-        this.details = data.detail.split(',').map(function(item) {
-          return Number(item)
-        })
+        this.isShow = true
+        if (node.level === 3) {
+          this.operates = data.authorityDetails.map(function(item) {
+            return {
+              id: leve1Data + '-' + leve2Data + '-' + data.id + '-' + item.id,
+              name: item.name
+            }
+          })
+          this.details = data.detail.split(',').map(function(item) {
+            return leve1Data + '-' + leve2Data + '-' + data.id + '-' + Number(item)
+          })
+        } else if (node.level === 2) {
+          this.operates = data.authorityDetails.map(function(item) {
+            return {
+              id: leve1Data + '-' + data.id + '-' + item.id,
+              name: item.name
+            }
+          })
+          this.details = data.detail.split(',').map(function(item) {
+            return leve1Data + '-' + data.id + '-' + Number(item)
+          })
+        }
+        console.log(this.operations)
+        const ceshi = this.isContain(this.operations, this.details)
+        console.log(ceshi)
+        if (ceshi === true) {
+          this.checkAll = true
+        } else if (ceshi === false) {
+          this.checkAll = false
+        }
       } else {
         this.operates = []
         this.details = []
       }
+    },
+    isContain(arr1, arr2) {
+      for (let i = arr2.length - 1; i >= 0; i--) {
+        if (!arr1.includes(arr2[i])) {
+          return false
+        }
+      }
+      return true
     },
     // 角色列表
     getlist() {

@@ -5,7 +5,7 @@ export function loginByUsername(username, password) {
   params.append('username', username) // 你要传给后台的参数值 key/value
   params.append('passwd', password)
   return request({
-    url: '/erp/zcc/login',
+    url: '/erp/employee/login',
     method: 'post',
     data: params
   })
@@ -22,7 +22,7 @@ export function getUserInfo(token) {
   var params = new URLSearchParams()
   params.append('token', token) // 你要传给后台的参数值 key/value
   return request({
-    url: '/erp/zcc/getInforByToken',
+    url: '/erp/employee/getInforByToken',
     method: 'post',
     data: params
   })
@@ -32,7 +32,7 @@ export function getstatByToken(token) {
   var params = new URLSearchParams()
   params.append('token', token) // 你要传给后台的参数值 key/value
   return request({
-    url: '/erp/zcc/getstatByToken',
+    url: '/erp/employee/getInforByToken',
     method: 'post',
     data: params
   })

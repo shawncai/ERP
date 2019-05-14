@@ -31,3 +31,16 @@ export function addrole(query) {
     data: params
   })
 }
+
+// 修改角色权限
+export function updaterole(roleid, authority, roleName) {
+  var params = new URLSearchParams()
+  params.append('roleid', roleid) // 你要传给后台的参数值 key/value
+  params.append('roleName', roleName) // 你要传给后台的参数值 key/value
+  params.append('authority', authority) // 你要传给后台的参数值 key/value
+  return request({
+    url: '/erp/role/updaterole',
+    method: 'post',
+    data: params
+  })
+}
