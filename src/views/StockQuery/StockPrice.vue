@@ -102,13 +102,15 @@
 <script>
 import { stockpricelist } from '@/api/StockQuery'
 import waves from '@/directive/waves' // Waves directive
+import permission from '@/directive/permission/index.js' // 权限判断指令
+import checkPermission from '@/utils/permission' // 权限判断函数
 import Pagination from '@/components/Pagination'
 import DetailList from './components/DetailList'
 import MyDetail from './components/MyDetail'
 
 export default {
   name: 'StockPrice',
-  directives: { waves },
+  directives: { waves, permission },
   components: { MyDetail, DetailList, Pagination },
   data() {
     return {
@@ -147,6 +149,7 @@ export default {
     this.getamouthDate()
   },
   methods: {
+    checkPermission,
     getamouthDate() {
       const end = new Date()
       const start = new Date()

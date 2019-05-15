@@ -7,9 +7,8 @@
         <el-option label="active" value="1"/>
         <el-option label="dead" value="2"/>
       </el-select>
-      <el-select v-model="getemplist.type" :value="getemplist.type" placeholder="请选择单据类型" style="width: 150px" class="filter-item" clearable>
-        <el-option label="active" value="1"/>
-        <el-option label="dead" value="2"/>
+      <el-select v-model="getemplist.type" :value="getemplist.type" filterable placeholder="请选择单据类型" style="width: 150px" class="filter-item" clearable>
+        <el-option v-for="(item, index) in categorys" :key="index" :value="item.id" :label="item.categoryName"/>
       </el-select>
       <!-- 搜索按钮 -->
       <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 86px" @click="handleFilter">{{ $t('public.search') }}</el-button>
@@ -86,7 +85,7 @@
 </template>
 
 <script>
-import { searchProcess, deleteProcess, searchDetail } from '@/api/BasicSettings'
+import { searchProcess, deleteProcess, searchDetail, searchcategory } from '@/api/BasicSettings'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
 import permission from '@/directive/permission/index.js' // 权限判断指令
@@ -115,6 +114,8 @@ export default {
   },
   data() {
     return {
+      // 单据类型数据
+      categorys: [],
       // 批量操作
       moreaction: '',
       // 加载操作控制
@@ -154,6 +155,12 @@ export default {
         setTimeout(() => {
           this.listLoading = false
         }, 0.5 * 100)
+      })
+      // 单据编号类型数据
+      searchcategory().then(res => {
+        if (res.data.ret === 200) {
+          this.categorys = res.data.data.content
+        }
       })
     },
     // 搜索

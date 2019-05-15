@@ -54,9 +54,9 @@
     </el-card>
     <el-card class="box-card" style="margin-top: 10px" shadow="never">
       <!-- 表格导出操作 -->
-      <el-button v-waves :loading="downloadLoading" class="filter-item" style="width: 86px" @click="handleExport"> <svg-icon icon-class="daochu"/>{{ $t('public.export') }}</el-button>
+      <el-button v-permission="['104-107-6']" v-waves :loading="downloadLoading" class="filter-item" style="width: 86px" @click="handleExport"> <svg-icon icon-class="daochu"/>{{ $t('public.export') }}</el-button>
       <!-- 打印操作 -->
-      <el-button v-waves class="filter-item" icon="el-icon-printer" style="width: 86px" @click="handlePrint">{{ $t('public.print') }}</el-button>
+      <el-button v-permission="['104-107-7']" v-waves class="filter-item" icon="el-icon-printer" style="width: 86px" @click="handlePrint">{{ $t('public.print') }}</el-button>
     </el-card>
 
     <el-card class="box-card" style="margin-top: 10px" shadow="never">
@@ -147,13 +147,15 @@
 import { stockrequirelist } from '@/api/StockRequire'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination'
+import permission from '@/directive/permission/index.js' // 权限判断指令
+import checkPermission from '@/utils/permission' // 权限判断函数
 import MyTree from '../Product/components/MyTree'
 import MyDetail from './components/MyDetail'
 import DetailList from './components/DetailList' // Secondary package based on el-pagination
 
 export default {
   name: 'Index',
-  directives: { waves },
+  directives: { waves, permission },
   components: { DetailList, MyDetail, MyTree, Pagination },
   filters: {
     isPlanedFilter(status) {
@@ -208,6 +210,7 @@ export default {
     this.getlist()
   },
   methods: {
+    checkPermission,
     // 物料名称focus
     handleAddproduct() {
       this.control = true
