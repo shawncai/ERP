@@ -80,9 +80,9 @@ export default {
       list2: [],
       // 销售订单信息数据
       personalForm: {
-        createPersonId: 3,
-        countryId: 1,
-        repositoryId: 438,
+        createPersonId: this.$store.getters.userId,
+        countryId: this.$store.getters.countryId,
+        repositoryId: this.$store.getters.repositoryId,
         regionId: 2
       },
       // 商品信息
@@ -119,9 +119,9 @@ export default {
     // 清空记录
     restAllForm() {
       this.personalForm = {
-        createPersonId: 3,
-        countryId: 1,
-        repositoryId: 438,
+        createPersonId: this.$store.getters.userId,
+        countryId: this.$store.getters.countryId,
+        repositoryId: this.$store.getters.repositoryId,
         regionId: 2
       }
       this.handlePersonId = ''

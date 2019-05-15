@@ -230,10 +230,10 @@ export default {
       getemplist: {
         pageNum: 1,
         pageSize: 10,
-        repositoryId: 438,
+        repositoryId: this.$store.getters.repositoryId,
         supplierId: this.supp,
-        regionIds: 2,
-        createPersonId: 3
+        regionIds: this.$store.getters.regionId,
+        createPersonId: this.$store.getters.userId
       },
       // 传给组件的数据
       personalForm: {},

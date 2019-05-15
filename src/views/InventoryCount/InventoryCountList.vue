@@ -213,7 +213,7 @@ export default {
         pagesize: 10,
         regionIds: 43,
         repositoryId: 0,
-        createPersonId: 3
+        createPersonId: this.$store.getters.userId
       },
       // 传给组件的数据
       personalForm: {},

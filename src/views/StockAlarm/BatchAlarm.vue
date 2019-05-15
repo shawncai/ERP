@@ -136,10 +136,10 @@ export default {
       getemplist: {
         pageNum: 1,
         pageSize: 10,
-        createPersonId: 3,
-        countryId: 1,
-        repositoryId: 438,
-        regionIds: 2
+        createPersonId: this.$store.getters.userId,
+        countryId: this.$store.getters.countryId,
+        repositoryId: this.$store.getters.repositoryId,
+        regionIds: this.$store.getters.regionId
       },
       // 搜索结束 ----------------------
       // 列表操作 -------------------------

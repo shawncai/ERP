@@ -135,10 +135,10 @@ export default {
     // 修改和取消按钮
     // 修改按钮
     handleEditok() {
-      this.personalForm.repositoryId = 438
-      this.personalForm.regionId = 2
-      this.personalForm.createPersonId = 3
-      this.personalForm.countryId = 1
+      this.personalForm.repositoryId = this.$store.getters.repositoryId
+      this.personalForm.regionId = this.$store.getters.regionId
+      this.personalForm.createPersonId = this.$store.getters.userId
+      this.personalForm.countryId = this.$store.getters.countryId
       console.log(this.personalForm)
       const parms = JSON.stringify(this.personalForm)
       updatelocation(parms).then(res => {

@@ -724,9 +724,9 @@ export default {
     // 清空记录
     restAllForm() {
       this.personalForm = {
-        createPersonId: 3,
-        countryId: 1,
-        repositoryId: 438,
+        createPersonId: this.$store.getters.userId,
+        countryId: this.$store.getters.countryId,
+        repositoryId: this.$store.getters.repositoryId,
         regionId: 2
       }
       this.personalForm.applyDate = new Date()
@@ -751,11 +751,11 @@ export default {
     // 修改和取消按钮
     // 修改按钮
     handleEditok() {
-      this.personalForm.repositoryId = 438
-      this.personalForm.regionId = 2
-      this.personalForm.createPersonId = 3
-      this.personalForm.countryId = 1
-      this.personalForm.modifyPersonId = 3
+      this.personalForm.repositoryId = this.$store.getters.repositoryId
+      this.personalForm.regionId = this.$store.getters.regionId
+      this.personalForm.createPersonId = this.$store.getters.userId
+      this.personalForm.countryId = this.$store.getters.countryId
+      this.personalForm.modifyPersonId = this.$store.getters.userId
       this.personalForm.installmentCount = this.productForm.installmentCount
       this.personalForm.installmentDays = this.productForm.installmentDays
       this.productForm.price = this.personalForm.totalMoney

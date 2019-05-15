@@ -126,7 +126,7 @@ export default {
       // 加载表格
       listLoading: true,
       getemplist: {
-        createPersonId: 3,
+        createPersonId: this.$store.getters.userId,
         rolename: null
       },
       checkroleId: null

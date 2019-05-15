@@ -153,10 +153,10 @@ export default {
       stockControl: false,
       // 收入单信息数据
       personalForm: {
-        createPersonId: 3,
-        countryId: 1,
-        repositoryId: 438,
-        regionId: 2,
+        createPersonId: this.$store.getters.userId,
+        countryId: this.$store.getters.countryId,
+        repositoryId: this.$store.getters.repositoryId,
+        regionId: this.$store.getters.regionId,
         currency: '1',
         incomeDate: null
       },
@@ -230,10 +230,10 @@ export default {
     // 清空记录
     restAllForm() {
       this.personalForm = {
-        createPersonId: 3,
-        countryId: 1,
-        repositoryId: 438,
-        regionId: 2,
+        createPersonId: this.$store.getters.userId,
+        countryId: this.$store.getters.countryId,
+        repositoryId: this.$store.getters.repositoryId,
+        regionId: this.$store.getters.regionId,
         currency: '1'
       }
       this.handlePersonId = null

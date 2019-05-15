@@ -221,7 +221,7 @@ export default {
       // 明细表控制框
       control: false,
       // 验收人回显
-      acceptPersonId: 'xucan',
+      acceptPersonId: this.$store.getters.name,
       // 验收人控制框
       accetpcontrol: false,
       // 交货人回显
@@ -237,7 +237,7 @@ export default {
       // 采购员回显
       stockPersonId: '',
       // 入库员回显
-      enterPersonId: 'xu x can',
+      enterPersonId: this.$store.getters.name,
       // 供货商回显
       supplierId: '',
       // 供货商控制
@@ -266,13 +266,13 @@ export default {
       // 采购入库信息数据
       personalForm: {
         enterDate: null,
-        repositoryId: 438,
-        enterRepositoryId: 438,
-        regionId: 2,
-        createPersonId: 3,
-        enterPersonId: 3,
-        countryId: 1,
-        acceptPersonId: 3,
+        repositoryId: this.$store.getters.repositoryId,
+        enterRepositoryId: this.$store.getters.repositoryId,
+        regionId: this.$store.getters.regionId,
+        createPersonId: this.$store.getters.userId,
+        enterPersonId: this.$store.getters.userId,
+        countryId: this.$store.getters.countryId,
+        acceptPersonId: this.$store.getters.userId,
         sourceType: '1'
       },
       // 个人信息规则数据
@@ -443,18 +443,23 @@ export default {
     // 清空记录
     restAllForm() {
       this.personalForm = {
-        repositoryId: 438,
-        regionId: 2,
-        createPersonId: 3,
-        countryId: 1,
+        enterDate: null,
+        repositoryId: this.$store.getters.repositoryId,
+        enterRepositoryId: this.$store.getters.repositoryId,
+        regionId: this.$store.getters.regionId,
+        createPersonId: this.$store.getters.userId,
+        enterPersonId: this.$store.getters.userId,
+        countryId: this.$store.getters.countryId,
+        acceptPersonId: this.$store.getters.userId,
         sourceType: '1'
       }
-      this.acceptPersonId = ''
+      this.acceptPersonId = this.$store.getters.name
       this.deliveryPersonId = ''
       this.stockPersonId = ''
       this.supplierId = ''
       this.enterRepositoryId = ''
-      this.enterPersonId = ''
+      this.enterPersonId = this.$store.getters.name
+      this.getdatatime()
     },
     // 取消操作
     handlecancel() {

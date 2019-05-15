@@ -151,11 +151,11 @@ export default {
       },
       // 库存入库单信息数据
       personalForm: {
-        createPersonId: 3,
+        createPersonId: this.$store.getters.userId,
         countryId: 1
       },
-      repositoryId: 438,
-      regionId: 2,
+      repositoryId: this.$store.getters.repositoryId,
+      regionId: this.$store.getters.regionId,
       // 库存入库单规则数据
       personalrules: {
         enterPersonId: [
@@ -269,7 +269,7 @@ export default {
     // 清空记录
     restAllForm() {
       this.personalForm = {
-        createPersonId: 3,
+        createPersonId: this.$store.getters.userId,
         countryId: 1
       }
       this.enterPersonId = ''

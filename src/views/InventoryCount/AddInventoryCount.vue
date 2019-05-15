@@ -179,9 +179,9 @@ export default {
       Time: [],
       // 库存盘点单信息数据
       personalForm: {
-        repositoryId: 438,
-        regionId: 2,
-        createPersonId: 3,
+        repositoryId: this.$store.getters.repositoryId,
+        regionId: this.$store.getters.regionId,
+        createPersonId: this.$store.getters.userId,
         countryId: 1
       },
       // 库存盘点单规则数据
@@ -407,9 +407,9 @@ export default {
     // 清空记录
     restAllForm() {
       this.personalForm = {
-        repositoryId: 438,
-        regionId: 2,
-        createPersonId: 3,
+        repositoryId: this.$store.getters.repositoryId,
+        regionId: this.$store.getters.regionId,
+        createPersonId: this.$store.getters.userId,
         countryId: 1
       }
       this.handlePersonId = ''

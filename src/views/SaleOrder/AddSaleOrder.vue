@@ -429,10 +429,10 @@ export default {
       control: false,
       // 销售订单信息数据
       personalForm: {
-        createPersonId: 3,
-        countryId: 1,
-        repositoryId: 438,
-        regionId: 2,
+        createPersonId: this.$store.getters.userId,
+        countryId: this.$store.getters.countryId,
+        repositoryId: this.$store.getters.repositoryId,
+        regionId: this.$store.getters.regionId,
         customerType: '1',
         backType: '2',
         backMoney: '0.00',
@@ -644,10 +644,10 @@ export default {
     // 清空记录
     restAllForm() {
       this.personalForm = {
-        createPersonId: 3,
-        countryId: 1,
-        repositoryId: 438,
-        regionId: 2,
+        createPersonId: this.$store.getters.userId,
+        countryId: this.$store.getters.countryId,
+        repositoryId: this.$store.getters.repositoryId,
+        regionId: this.$store.getters.regionId,
         customerType: '1',
         backType: '2',
         backMoney: '0.00',
