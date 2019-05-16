@@ -213,7 +213,7 @@
 </template>
 
 <script>
-import { getcountrylist, getprovincelist, getcitylist, regionlist, searchRepository, getDetailById } from '@/api/public'
+import { getcountrylist, getprovincelist, getcitylist, regionlist, searchRepository, getDetailById, saveRegion } from '@/api/public'
 import { getdeptlist, register, searchEmpCategory } from '@/api/EmployeeInformation'
 import permission from '@/directive/permission/index.js' // 权限判断指令
 import checkPermission from '@/utils/permission' // 权限判断函数
@@ -487,6 +487,11 @@ export default {
                   register(form3).then(res => {
                     console.log(res)
                     if (res.data.ret === 200) {
+                      saveRegion(this.companyForm.regionid, form3.regionid1).then(res => {
+                        if (res.dat.ret === 200) {
+                          console.log(res)
+                        }
+                      })
                       this.$notify({
                         title: '成功',
                         message: '保存成功',
