@@ -17,7 +17,10 @@ const user = {
     userId: '',
     regionId: '',
     repositoryId: '',
-    countryId: ''
+    countryId: '',
+    deptId: '',
+    regionName: '',
+    repositoryName: ''
   },
 
   mutations: {
@@ -56,6 +59,15 @@ const user = {
     },
     SET_COUNTTRYID: (state, countryId) => {
       state.countryId = countryId
+    },
+    SET_DEPTID: (state, deptId) => {
+      state.deptId = deptId
+    },
+    SET_REGIONNAME: (state, regionName) => {
+      state.regionName = regionName
+    },
+    SET_REPOSITORYNAME: (state, repositoryName) => {
+      state.repositoryName = repositoryName
     }
   },
 
@@ -99,6 +111,9 @@ const user = {
           commit('SET_REGIONID', data.regionId)
           commit('SET_REPOSITORYID', data.repositoryId)
           commit('SET_COUNTTRYID', data.countryId)
+          commit('SET_DEPTID', data.deptId)
+          commit('SET_REGIONNAME', data.regionName)
+          commit('SET_REPOSITORYNAME', data.repositoryName)
           resolve(response)
         }).catch(error => {
           reject(error)

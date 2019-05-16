@@ -239,6 +239,8 @@ export default {
         employeename: '',
         pagenum: 1,
         pagesize: 10,
+        loginRepositoryId: this.$store.getters.repositoryId,
+        regionIds: this.$store.getters.regionId,
         stat: '',
         time: '',
         jobnumber: ''

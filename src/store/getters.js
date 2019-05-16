@@ -19,6 +19,9 @@ const getters = {
   regionId: state => state.user.regionId,
   repositoryId: state => state.user.repositoryId,
   yin: state => state.app.yin,
-  countryId: state => state.user.countryId
+  countryId: state => state.user.countryId,
+  deptId: state => state.user.deptId,
+  regionName: state => state.user.regionName,
+  repositoryName: state => state.user.repositoryName
 }
 export default getters

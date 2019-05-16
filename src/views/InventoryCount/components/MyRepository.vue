@@ -144,6 +144,9 @@ export default {
         regionId: '',
         countyrId: '',
         id: '',
+        stat: 1,
+        loginRepositoryId: this.$store.getters.repositoryId,
+        regionIds: this.$store.getters.regionId,
         pagenum: 1,
         pagesize: 10
       },

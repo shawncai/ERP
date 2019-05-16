@@ -495,6 +495,8 @@ export default {
         iseffective: '',
         regionId: '',
         countyrId: '',
+        loginRepositoryId: this.$store.getters.repositoryId,
+        regionIds: this.$store.getters.regionId,
         id: '',
         pagenum: 1,
         pagesize: 10
@@ -567,6 +569,8 @@ export default {
         pagenum: 1,
         pagesize: 10,
         stat: 1,
+        loginRepositoryId: this.$store.getters.repositoryId,
+        regionIds: this.$store.getters.regionId,
         time: '',
         jobnumber: ''
       },
@@ -941,6 +945,8 @@ export default {
         pagenum: 1,
         pagesize: 10,
         stat: 1,
+        loginRepositoryId: this.$store.getters.repositoryId,
+        regionIds: this.$store.getters.regionId,
         time: '',
         jobnumber: ''
       }

@@ -163,6 +163,12 @@ export function getemplist(query) {
   if (query.regionid !== '' && query.regionid !== undefined) {
     params.append('regionid', query.regionid) // 你要传给后台的参数值 key/value
   }
+  if (query.loginRepositoryId !== '' && query.loginRepositoryId !== undefined && query.loginRepositoryId !== null) {
+    params.append('loginRepositoryId', query.loginRepositoryId) // 你要传给后台的参数值 key/value
+  }
+  if (query.regionIds !== '' && query.regionIds !== undefined && query.regionIds !== null) {
+    params.append('regionIds', query.regionIds) // 你要传给后台的参数值 key/value
+  }
   if (query.postid !== '') {
     params.append('postid', query.postid) // 你要传给后台的参数值 key/value
   }

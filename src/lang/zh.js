@@ -1459,7 +1459,16 @@ export default {
     contractStat: '合同状态',
     invoiceType: '开票类型',
     taxRate: '汇率',
-    allMoney: '金额'
+    allMoney: '金额',
+    installmentCount: '分期期数',
+    dayOfMonth: '每月还款日期',
+    installmentAllMoney: '分期总金额',
+    installmentBegintime: '分期开始时间',
+    installmentEndtime: '分期结束时间',
+    notaryPerson: '公证人',
+    notaryDate: '公证日期',
+    firstMoney: '首付金额',
+    eachMoney: '每期还款金额'
   },
   income: {
     title: '收入单主题',
