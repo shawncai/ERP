@@ -211,9 +211,8 @@ export default {
       getemplist: {
         pagenum: 1,
         pagesize: 10,
-        regionIds: 43,
-        repositoryId: 0,
-        createPersonId: this.$store.getters.userId
+        regionIds: this.$store.getters.regionId,
+        repositoryId: this.$store.getters.repositoryId
       },
       // 传给组件的数据
       personalForm: {},

@@ -198,7 +198,7 @@ export default {
       this.personalForm.driverNames = val
     },
     personIds(val) {
-      this.personalForm.drivers = val
+      this.personalForm.drivers = ',' + val + ','
     },
     // 创建人输入框focus事件触发
     handlechoosecreateman() {

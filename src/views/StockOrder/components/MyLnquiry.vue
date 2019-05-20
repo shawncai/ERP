@@ -256,7 +256,7 @@ export default {
         regionIds: this.$store.getters.regionId,
         supplierId: this.supp,
         createPersonId: this.$store.getters.userId,
-        judgeStat: ''
+        judgeStat: 2
       },
       // 传给组件的数据
       personalForm: {},

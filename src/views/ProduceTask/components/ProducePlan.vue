@@ -178,6 +178,7 @@ export default {
       getemplist: {
         pagenum: 1,
         pagesize: 10,
+        judgeStat: 2, receiptStat: 2,
         repositoryId: this.$store.getters.repositoryId,
         regionIds: this.$store.getters.regionId,
         createPersonId: this.$store.getters.userId

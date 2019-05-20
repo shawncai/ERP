@@ -268,7 +268,11 @@ export default {
     GroupBuyRules: '团购活动规则',
     AddGroupBuyRules: '新建团购活动规则',
     GroupBuyRulesList: '团购活动规则列表',
-    Getauthority: '角色权限'
+    Getauthority: '角色权限',
+    DeliverGoods: '配送单',
+    AddDeliverGoods: '新建配送单',
+    DeliverGoodsList: '配送单列表',
+    CarStatList: '车辆使用情况'
   },
   navbar: {
     logOut: '退出登录',
@@ -1726,6 +1730,19 @@ export default {
     rolename: '角色名称',
     createTime: '创建时间',
     createPersonName: '创建人'
+  },
+  DeliverGoods: {
+    title: '配送单主题',
+    sourceType: '源单类型',
+    sourceNumber: '源单编号',
+    requireArriveDate: '要求到货日期',
+    deliverDept: '配送部门',
+    deliverPersonId: '配送人',
+    requireType: '要货类型',
+    requireId: '要货方',
+    stat: '业务状态',
+    address: '地址',
+    deliverNumber: '配送单编号'
   },
   public: {
     cancel: '取消',

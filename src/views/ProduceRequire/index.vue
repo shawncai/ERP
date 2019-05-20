@@ -282,7 +282,6 @@ export default {
         pageSize: 10,
         repositoryId: this.$store.getters.repositoryId,
         regionIds: this.$store.getters.regionId,
-        createPersonId: this.$store.getters.userId,
         beginTime: null,
         endTime: null
       },

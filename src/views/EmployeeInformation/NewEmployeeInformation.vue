@@ -364,7 +364,7 @@ export default {
       })
       const list = await Promise.all(needRolesId.map(function(item) {
         return getDetailById(item).then(res => {
-          if (res.data.ret === 200) {
+          if (res.data.ret === 200 && res.data.data.content.length !== 0) {
             return res.data.data.content[0]
           }
         })

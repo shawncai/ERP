@@ -182,6 +182,7 @@
                     :key="index"
                     :label="item.repositoryName"
                     :value="item.id"/>
+                  <el-option v-show="repositories === []" label="请选择门店" value="0"/>
                 </el-select>
               </el-form-item>
             </el-col>
@@ -364,7 +365,7 @@ export default {
           }
         }
       })
-      this.handlechange4(this.personalForm.regionId)
+      this.getRepository(this.personalForm.regionId)
     }
   },
   created() {
@@ -471,6 +472,17 @@ export default {
     handlechange4(val) {
       const finalid = val[val.length - 1]
       searchRepository(finalid).then(res => {
+        if (res.data.ret === 200) {
+          this.repositories = res.data.data.content.list
+        } else {
+          console.log('区域选择门店')
+        }
+      })
+      console.log(this.repositories)
+      this.personalForm.repositoryId = '0'
+    },
+    getRepository(val) {
+      searchRepository(val).then(res => {
         console.log(res)
         if (res.data.ret === 200) {
           this.repositories = res.data.data.content.list
