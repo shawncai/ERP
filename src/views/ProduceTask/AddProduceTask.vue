@@ -17,6 +17,7 @@
                   <el-select v-model="personalForm.sourceType" style="margin-left: 18px;width: 218px" @change="chooseType">
                     <el-option value="1" label="主生产计划" />
                     <el-option value="2" label="无来源" />
+                    <el-option value="3" label="生产需求" />
                   </el-select>
                 </el-form-item>
               </el-col>
