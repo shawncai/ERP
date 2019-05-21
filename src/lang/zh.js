@@ -268,7 +268,14 @@ export default {
     GroupBuyRules: '团购活动规则',
     AddGroupBuyRules: '新建团购活动规则',
     GroupBuyRulesList: '团购活动规则列表',
-    Getauthority: '角色权限'
+    Getauthority: '角色权限',
+    DeliverGoods: '配送单',
+    AddDeliverGoods: '新建配送单',
+    DeliverGoodsList: '配送单列表',
+    CarStatList: '车辆使用情况',
+    ReturnExchange: '换货单',
+    AddReturnExchange: '新建换货单',
+    ReturnExchangeList: '换货单列表'
   },
   navbar: {
     logOut: '退出登录',
@@ -1459,7 +1466,16 @@ export default {
     contractStat: '合同状态',
     invoiceType: '开票类型',
     taxRate: '汇率',
-    allMoney: '金额'
+    allMoney: '金额',
+    installmentCount: '分期期数',
+    dayOfMonth: '每月还款日期',
+    installmentAllMoney: '分期总金额',
+    installmentBegintime: '分期开始时间',
+    installmentEndtime: '分期结束时间',
+    notaryPerson: '公证人',
+    notaryDate: '公证日期',
+    firstMoney: '首付金额',
+    eachMoney: '每期还款金额'
   },
   income: {
     title: '收入单主题',
@@ -1717,6 +1733,51 @@ export default {
     rolename: '角色名称',
     createTime: '创建时间',
     createPersonName: '创建人'
+  },
+  DeliverGoods: {
+    title: '配送单主题',
+    sourceType: '源单类型',
+    sourceNumber: '源单编号',
+    requireArriveDate: '要求到货日期',
+    deliverDept: '配送部门',
+    deliverPersonId: '配送人',
+    requireType: '要货类型',
+    requireId: '要货方',
+    stat: '业务状态',
+    address: '地址',
+    deliverNumber: '配送单编号'
+  },
+  CarStatList: {
+    carnumber: '车辆编号',
+    licencenumber: '车牌号',
+    carName: '车辆名称',
+    carStat: '车辆状态',
+    carType: '车辆型号',
+    outPersonId: '出车人',
+    stat: '状态',
+    driverNames: '驾驶员',
+    outTime: '最近一次出车时间',
+    returnTime: '最近一次返回时间',
+    orderType: '订单类型',
+    orderNumber: '订单编号',
+    address: '送货地址',
+    outTime2: '出车时间',
+    outPersonPhone: '电话'
+  },
+  ReturnExchange: {
+    title: '换货单主题',
+    sourceType: '源单类型',
+    sourceNumber: '源单编号',
+    customerType: '客户类型',
+    customerId: '客户姓名',
+    customerPhone: '客户电话',
+    sourceMoney: '源单车辆金额',
+    diffMoney: '差异金额',
+    applyNumber: '分期申请编号',
+    handlePersonId: '换货人',
+    exchangeDate: '换货时间',
+    repositoryId: '仓库',
+    exchangeNumber: '换货单编号'
   },
   public: {
     cancel: '取消',

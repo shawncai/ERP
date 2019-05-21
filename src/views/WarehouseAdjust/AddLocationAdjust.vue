@@ -178,9 +178,9 @@ export default {
       },
       // 库存入库单信息数据
       personalForm: {
-        createPersonId: 3,
-        countryId: 1,
-        repositoryId: 438,
+        createPersonId: this.$store.getters.userId,
+        countryId: this.$store.getters.countryId,
+        repositoryId: this.$store.getters.repositoryId,
         regionId: 2
       },
       // 库存入库单规则数据
@@ -312,9 +312,9 @@ export default {
     // 清空记录
     restAllForm() {
       this.personalForm = {
-        createPersonId: 3,
-        countryId: 1,
-        repositoryId: 438,
+        createPersonId: this.$store.getters.userId,
+        countryId: this.$store.getters.countryId,
+        repositoryId: this.$store.getters.repositoryId,
         regionId: 2
       }
       this.handlePersonId = ''

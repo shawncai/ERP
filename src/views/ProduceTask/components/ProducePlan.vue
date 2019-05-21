@@ -178,9 +178,9 @@ export default {
       getemplist: {
         pagenum: 1,
         pagesize: 10,
-        repositoryId: 438,
-        regionIds: 2,
-        createPersonId: 3
+        judgeStat: 2, receiptStat: 2,
+        repositoryId: this.$store.getters.repositoryId,
+        regionIds: this.$store.getters.regionId
       },
       // 开始时间到结束时间
       date: []

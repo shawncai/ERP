@@ -99,8 +99,11 @@ export function updateemp(query) {
   if (query.postId !== '' && query.postId !== null && query.postId !== undefined) {
     params.append('postid', query.postId) // 你要传给后台的参数值 key/value
   }
-  if (query.repositoryid2 !== '' && query.repositoryid2 !== null && query.repositoryid2 !== undefined) {
-    params.append('repositoryid', query.repositoryid2) // 你要传给后台的参数值 key/value
+  if (query.repositoryId !== '' && query.repositoryId !== null && query.repositoryId !== undefined) {
+    params.append('repositoryid', query.repositoryId) // 你要传给后台的参数值 key/value
+  }
+  if (query.roleId !== '' && query.roleId !== null && query.roleId !== undefined) {
+    params.append('roleid', query.roleId) // 你要传给后台的参数值 key/value
   }
   if (query.regionId !== '' && query.regionId !== null && query.regionId !== undefined) {
     params.append('regionid', query.regionId) // 你要传给后台的参数值 key/value
@@ -159,6 +162,12 @@ export function getemplist(query) {
   }
   if (query.regionid !== '' && query.regionid !== undefined) {
     params.append('regionid', query.regionid) // 你要传给后台的参数值 key/value
+  }
+  if (query.loginRepositoryId !== '' && query.loginRepositoryId !== undefined && query.loginRepositoryId !== null) {
+    params.append('loginRepositoryId', query.loginRepositoryId) // 你要传给后台的参数值 key/value
+  }
+  if (query.regionIds !== '' && query.regionIds !== undefined && query.regionIds !== null) {
+    params.append('regionIds', query.regionIds) // 你要传给后台的参数值 key/value
   }
   if (query.postid !== '') {
     params.append('postid', query.postid) // 你要传给后台的参数值 key/value

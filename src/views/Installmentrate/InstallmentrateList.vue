@@ -158,7 +158,7 @@ export default {
       categoryVisible: false,
       // 新增数据
       addCategoryForm: {
-        createPersonId: 3,
+        createPersonId: this.$store.getters.userId,
         countryId: 1
       },
       // 校验新增数据
@@ -177,7 +177,7 @@ export default {
       editcategoryVisible: false,
       // 修改数据
       editCategoryForm: {
-        createPersonId: 3,
+        createPersonId: this.$store.getters.userId,
         countryId: 1
       },
       // 校验修改数据

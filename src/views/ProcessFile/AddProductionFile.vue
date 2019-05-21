@@ -59,8 +59,8 @@ export default {
       // 工艺档案信息数据
       personalForm: {
         createId: 3,
-        countryId: 1,
-        repositoryId: 438,
+        countryId: this.$store.getters.countryId,
+        repositoryId: this.$store.getters.repositoryId,
         regionId: 2
       },
       // 工艺档案规则数据
@@ -82,8 +82,8 @@ export default {
     restAllForm() {
       this.personalForm = {
         createId: 3,
-        countryId: 1,
-        repositoryId: 438,
+        countryId: this.$store.getters.countryId,
+        repositoryId: this.$store.getters.repositoryId,
         regionId: 2
       }
     },

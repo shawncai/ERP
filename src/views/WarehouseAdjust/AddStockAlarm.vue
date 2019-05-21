@@ -69,10 +69,10 @@ export default {
       control: false,
       // 库存预警数据
       personalForm: {
-        createPersonId: 3,
+        createPersonId: this.$store.getters.userId,
         createId: 3,
-        countryId: 1,
-        repositoryId: 438,
+        countryId: this.$store.getters.countryId,
+        repositoryId: this.$store.getters.repositoryId,
         regionId: 2
       },
       // 库存预警规则数据
@@ -117,9 +117,9 @@ export default {
     // 清空记录
     restAllForm() {
       this.personalForm = {
-        createPersonId: 3,
-        countryId: 1,
-        repositoryId: 438,
+        createPersonId: this.$store.getters.userId,
+        countryId: this.$store.getters.countryId,
+        repositoryId: this.$store.getters.repositoryId,
         regionId: 2
       }
       this.repositoryId = ''

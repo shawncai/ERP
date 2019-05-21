@@ -533,10 +533,10 @@ export default {
       control: false,
       // 销售订单信息数据
       personalForm: {
-        createPersonId: 3,
-        countryId: 1,
-        repositoryId: 438,
-        regionId: 2,
+        createPersonId: this.$store.getters.userId,
+        countryId: this.$store.getters.countryId,
+        repositoryId: this.$store.getters.repositoryId,
+        regionId: this.$store.getters.regionId,
         customerType: '1',
         sendType: '2',
         sendDate: null,
@@ -917,6 +917,7 @@ export default {
       }
     },
     opportunity(val) {
+      console.log(val)
       if (val.customerType !== null && val.customerType !== undefined && val.customerType !== '') {
         this.personalForm.customerType = String(val.customerType)
       }
@@ -1005,10 +1006,10 @@ export default {
     // 清空记录
     restAllForm() {
       this.personalForm = {
-        createPersonId: 3,
-        countryId: 1,
-        repositoryId: 438,
-        regionId: 2,
+        createPersonId: this.$store.getters.userId,
+        countryId: this.$store.getters.countryId,
+        repositoryId: this.$store.getters.repositoryId,
+        regionId: this.$store.getters.regionId,
         customerType: '1',
         sendType: '2',
         sendDate: null,

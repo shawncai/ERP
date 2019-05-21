@@ -1731,6 +1731,32 @@ export const asyncRouterMap = [
     ]
   },
   {
+    path: '/ReturnExchange',
+    component: Layout,
+    redirect: 'noredirect',
+    name: 'ReturnExchange',
+    alwaysShow: true,
+    meta: {
+      title: 'ReturnExchange',
+      icon: 'huanhuo',
+      type: 3
+    },
+    children: [
+      {
+        path: 'AddReturnExchange',
+        component: () => import('@/views/ReturnExchange/AddReturnExchange'),
+        name: 'AddReturnExchange',
+        meta: { title: 'AddReturnExchange', noCache: false }
+      },
+      {
+        path: 'ReturnExchangeList',
+        component: () => import('@/views/ReturnExchange/ReturnExchangeList'),
+        name: 'ReturnExchangeList',
+        meta: { title: 'ReturnExchangeList', noCache: true }
+      }
+    ]
+  },
+  {
     path: '/Recycling',
     component: Layout,
     redirect: 'noredirect',
@@ -1975,55 +2001,98 @@ export const asyncRouterMap = [
       }
     ]
   },
+  // {
+  //   path: '/SendCar',
+  //   component: Layout,
+  //   redirect: 'noredirect',
+  //   name: 'SendCar',
+  //   alwaysShow: true,
+  //   meta: {
+  //     title: 'SendCar',
+  //     icon: 'paiche',
+  //     type: 9
+  //   },
+  //   children: [
+  //     {
+  //       path: 'Addsendcar',
+  //       component: () => import('@/views/LogisticsCar/Addsendcar'),
+  //       name: 'Addsendcar',
+  //       meta: { title: 'Addsendcar', noCache: false }
+  //     },
+  //     {
+  //       path: 'SendcarList',
+  //       component: () => import('@/views/LogisticsCar/SendcarList'),
+  //       name: 'SendcarList',
+  //       meta: { title: 'SendcarList', noCache: true }
+  //     }
+  //   ]
+  // },
+  // {
+  //   path: '/ReturnCar',
+  //   component: Layout,
+  //   redirect: 'noredirect',
+  //   name: 'ReturnCar',
+  //   alwaysShow: true,
+  //   meta: {
+  //     title: 'ReturnCar',
+  //     icon: 'huiche',
+  //     type: 9
+  //   },
+  //   children: [
+  //     {
+  //       path: 'Addreturncar',
+  //       component: () => import('@/views/LogisticsCar/Addreturncar'),
+  //       name: 'Addreturncar',
+  //       meta: { title: 'Addreturncar', noCache: false }
+  //     },
+  //     {
+  //       path: 'ReturncarList',
+  //       component: () => import('@/views/LogisticsCar/ReturncarList'),
+  //       name: 'ReturncarList',
+  //       meta: { title: 'ReturncarList', noCache: true }
+  //     }
+  //   ]
+  // },
   {
-    path: '/SendCar',
+    path: '/DeliverGoods',
     component: Layout,
     redirect: 'noredirect',
-    name: 'SendCar',
+    name: 'DeliverGoods',
     alwaysShow: true,
     meta: {
-      title: 'SendCar',
-      icon: 'paiche',
+      title: 'DeliverGoods',
+      icon: 'peisong',
       type: 9
     },
     children: [
       {
-        path: 'Addsendcar',
-        component: () => import('@/views/LogisticsCar/Addsendcar'),
-        name: 'Addsendcar',
-        meta: { title: 'Addsendcar', noCache: false }
+        path: 'AddDeliverGoods',
+        component: () => import('@/views/DeliverGoods/AddDeliverGoods'),
+        name: 'AddDeliverGoods',
+        meta: { title: 'AddDeliverGoods', noCache: false }
       },
       {
-        path: 'SendcarList',
-        component: () => import('@/views/LogisticsCar/SendcarList'),
-        name: 'SendcarList',
-        meta: { title: 'SendcarList', noCache: true }
+        path: 'DeliverGoodsList',
+        component: () => import('@/views/DeliverGoods/DeliverGoodsList'),
+        name: 'DeliverGoodsList',
+        meta: { title: 'DeliverGoodsList', noCache: true }
       }
     ]
   },
   {
-    path: '/ReturnCar',
+    path: '/CarStatList',
     component: Layout,
     redirect: 'noredirect',
-    name: 'ReturnCar',
-    alwaysShow: true,
     meta: {
-      title: 'ReturnCar',
-      icon: 'huiche',
+      icon: 'shiyongqingkuan',
       type: 9
     },
     children: [
       {
-        path: 'Addreturncar',
-        component: () => import('@/views/LogisticsCar/Addreturncar'),
-        name: 'Addreturncar',
-        meta: { title: 'Addreturncar', noCache: false }
-      },
-      {
-        path: 'ReturncarList',
-        component: () => import('@/views/LogisticsCar/ReturncarList'),
-        name: 'ReturncarList',
-        meta: { title: 'ReturncarList', noCache: true }
+        path: 'index',
+        component: () => import('@/views/CarStatList/index'),
+        name: 'CarStatList',
+        meta: { title: 'CarStatList', noCache: true }
       }
     ]
   },

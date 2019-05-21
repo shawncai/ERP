@@ -25,10 +25,12 @@
                   <el-input v-model="personalForm.sourceNumber" style="margin-left: 18px;width: 200px" @focus="chooseData"/>
                 </el-form-item>
                 <my-opportunity :opportunitycontrol.sync="opportunitycontrol" @opportunityDetail="opportunityDetail" @opportunity="opportunity"/>
+                <my-installmentapply :installappleycontrol.sync = "installappleycontrol" @installappleyDetail="installappleyDetail" @installappley="installappley"/>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('SaleContract.customerName')" style="width: 100%;">
-                  <el-input v-model="personalForm.customerName" style="margin-left: 18px;width: 200px" clearable/>
+                  <el-input v-model="customerId" style="margin-left: 18px;width: 200px" @focus="chooseCustomer"/>
+                  <my-customer :customercontrol.sync="customercontrol" @customerdata="customerdata"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
@@ -38,7 +40,7 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('SaleContract.saleType')" style="width: 100%;">
-                  <el-select v-model="personalForm.saleType" style="margin-left: 18px;width: 200px" @change="chooseType">
+                  <el-select v-model="personalForm.saleType" style="margin-left: 18px;width: 200px">
                     <el-option value="1" label="零售" />
                     <el-option value="2" label="批发" />
                   </el-select>
@@ -92,7 +94,7 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('SaleContract.saleRepositoryId')" style="width: 100%;">
-                  <el-input v-model="personalForm.saleRepositoryId" style="margin-left: 18px;width: 200px" clearable/>
+                  <el-input v-model="saleRepositoryId" style="margin-left: 18px;width: 200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
@@ -128,6 +130,70 @@
                   <el-input v-model="personalForm.taxRate" style="margin-left: 18px;width: 200px" clearable/>
                 </el-form-item>
               </el-col>
+              <el-col :span="6">
+                <el-form-item :label="$t('SaleContract.installmentCount')" style="width: 100%;">
+                  <el-input v-model="personalForm.installmentCount" :disabled="isinstallappley" style="margin-left: 18px;width: 200px" clearable/>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item :label="$t('SaleContract.dayOfMonth')" style="width: 100%;">
+                  <el-input-number v-model="personalForm.dayOfMonth" :disabled="isinstallappley" :controls="false" :min="1" :max="31" style="margin-left: 18px;width: 200px" placeholder="号"/>
+                </el-form-item>
+              </el-col>
+              <!--<el-col :span="6">-->
+              <!--<el-form-item :label="$t('SaleContract.installmentAllMoney')" style="width: 100%;">-->
+              <!--<el-input v-model="personalForm.installmentAllMoney" style="margin-left: 18px;width: 200px" clearable/>-->
+              <!--</el-form-item>-->
+              <!--</el-col>-->
+              <el-col :span="6">
+                <el-form-item :label="$t('SaleContract.installmentBegintime')" style="width: 100%;">
+                  <el-date-picker
+                    v-model="personalForm.installmentBegintime"
+                    :picker-options="pickerOptions0"
+                    :disabled="isinstallappley"
+                    type="month"
+                    value-format="yyyy-MM"
+                    style="margin-left: 18px;width: 200px"
+                    @change="clearfinal"/>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item :label="$t('SaleContract.installmentEndtime')" style="width: 100%;">
+                  <el-date-picker
+                    v-model="personalForm.installmentEndtime"
+                    :picker-options="pickerOptions1"
+                    :disabled="isinstallappley"
+                    type="month"
+                    value-format="yyyy-MM"
+                    style="margin-left: 18px;width: 200px"/>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item :label="$t('SaleContract.notaryPerson')" style="width: 100%;">
+                  <el-input v-model="personalForm.notaryPerson" :disabled="isinstallappley" style="margin-left: 18px;width: 200px" clearable/>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item :label="$t('SaleContract.notaryDate')" style="width: 100%;">
+                  <el-date-picker
+                    v-model="personalForm.notaryDate"
+                    :picker-options="pickerOptions3"
+                    :disabled="isinstallappley"
+                    type="date"
+                    value-format="yyyy-MM-dd"
+                    style="margin-left: 18px;width: 200px"/>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item :label="$t('SaleContract.firstMoney')" style="width: 100%;">
+                  <el-input v-model="personalForm.firstMoney" :disabled="isinstallappley" style="margin-left: 18px;width: 200px" clearable/>
+                </el-form-item>
+              </el-col>
+              <!--<el-col :span="6">-->
+              <!--<el-form-item :label="$t('SaleContract.eachMoney')" style="width: 100%;">-->
+              <!--<el-input v-model="personalForm.eachMoney" style="margin-left: 18px;width: 200px" clearable/>-->
+              <!--</el-form-item>-->
+              <!--</el-col>-->
             </el-row>
           </el-form>
         </div>
@@ -242,9 +308,11 @@ import MyApply from './components/MyApply'
 import MyPlan from './components/MyPlan'
 import MyDelivery from './components/MyDelivery'
 import MyOpportunity from './components/MyOpportunity'
+import MyInstallmentapply from './components/MyInstallmentapply'
+import MyCustomer from '../SaleOpportunity/components/MyCustomer'
 export default {
   name: 'AddSaleContract',
-  components: { MyOpportunity, MyDelivery, MyPlan, MyApply, MySupplier, MyDetail, MyEmp },
+  components: { MyCustomer, MyInstallmentapply, MyOpportunity, MyDelivery, MyPlan, MyApply, MySupplier, MyDetail, MyEmp },
   data() {
     const validatePass = (rule, value, callback) => {
       console.log(this.supplierId)
@@ -271,6 +339,31 @@ export default {
       }
     }
     return {
+      pickerOptions0: {
+        disabledDate: (time) => {
+          if (this.personalForm.installmentEndtime !== null) {
+            return time.getTime() < new Date().getTime() - 8.64e7
+          } else if (this.personalForm.installmentEndtime === null) {
+            return time.getTime() < new Date().getTime() - 8.64e7
+          }
+        }
+      },
+      pickerOptions1: {
+        disabledDate: (time) => {
+          return time.getTime() < new Date(this.personalForm.installmentBegintime).getTime() - 8.64e7
+        }
+      },
+      pickerOptions3: {
+        disabledDate: (time) => {
+          return time.getTime() < new Date().getTime() - 8.64e7
+        }
+      },
+      // 是否可以编辑分期数据
+      isinstallappley: false,
+      // 回显客户
+      customerId: '',
+      // 控制客户弹窗
+      customercontrol: false,
       // 合计数据
       allNumber: '',
       allMoney: '',
@@ -278,6 +371,8 @@ export default {
       allIncludeTaxMoney: '',
       allDiscountMoney: '',
       allMoneyMoveDiscount: '',
+      // 分期申请
+      installappleycontrol: false,
       // 交货方式
       giveIds: [],
       // 运送方式
@@ -302,8 +397,10 @@ export default {
       choosedata: [],
       // 部门数据
       depts: [],
+      // 销售门店
+      saleRepositoryId: this.$store.getters.repositoryName,
       // 业务员回显
-      salePersonId: '',
+      salePersonId: this.$store.getters.name,
       // 控制业务员
       stockControl: false,
       // 类别数据
@@ -317,11 +414,17 @@ export default {
       control: false,
       // 采购申请单信息数据
       personalForm: {
-        createPersonId: 3,
-        countryId: 1,
-        repositoryId: 438,
-        regionId: 2,
-        isVat: 1
+        createPersonId: this.$store.getters.userId,
+        countryId: this.$store.getters.countryId,
+        repositoryId: this.$store.getters.repositoryId,
+        regionId: this.$store.getters.regionId,
+        salePersonId: this.$store.getters.userId,
+        isVat: 1,
+        installmentEndtime: null,
+        installmentBegintime: null,
+        notaryDate: null,
+        deptId: this.$store.getters.deptId,
+        saleRepositoryId: this.$store.getters.repositoryId
       },
       // 采购申请单规则数据
       personalrules: {
@@ -359,9 +462,23 @@ export default {
     this.getways()
   },
   methods: {
+    // 选择客户focus
+    chooseCustomer() {
+      this.customercontrol = true
+    },
+    customerdata(val) {
+      this.personalForm.customerId = val.id
+      this.customerId = val.customerName
+      this.personalForm.customerPhone = val.phoneNumber
+    },
+    clearfinal() {
+      this.personalForm.installmentEndtime = null
+    },
     chooseData() {
       if (this.personalForm.sourceType === '1') {
         this.opportunitycontrol = true
+      } else if (this.personalForm.sourceType === '2') {
+        this.installappleycontrol = true
       }
     },
     // 总计
@@ -484,8 +601,14 @@ export default {
       console.log(this.personalForm.sourceType)
       if (this.personalForm.sourceType === '1') {
         this.$refs.editable.clear()
+        this.personalForm.sourceNumber = ''
+        this.personalForm.installmentCount = ''
+        this.isinstallappley = true
       } else if (this.personalForm.sourceType === '2') {
         this.$refs.editable.clear()
+        this.personalForm.sourceNumber = ''
+        this.personalForm.installmentCount = ''
+        this.isinstallappley = false
       }
     },
     // 从源单中添加商品
@@ -501,6 +624,7 @@ export default {
     // 从销售机会过来的源单数据
     opportunityDetail(val) {
       console.log(val)
+      this.$refs.editable.clear()
       const nowlistdata = this.$refs.editable.getRecords()
       for (let i = 0; i < val.length; i++) {
         for (let j = 0; j < nowlistdata.length; j++) {
@@ -518,10 +642,30 @@ export default {
     },
     opportunity(val) {
       this.personalForm.sourceNumber = val.opportunityNumber
-      this.personalForm.customerName = val.customerName
-      this.personalForm.customerPhone = val.customerPhone
       this.personalForm.salePersonId = val.handlePersonId
       this.salePersonId = val.handlePersonName
+    },
+    installappleyDetail(val) {
+      console.log(val)
+      this.$refs.editable.clear()
+      const nowlistdata = this.$refs.editable.getRecords()
+      for (let i = 0; i < val.length; i++) {
+        for (let j = 0; j < nowlistdata.length; j++) {
+          if (val[i].sourceNumber === nowlistdata[j].sourceNumber) {
+            this.$notify.error({
+              title: '错误',
+              message: '物品已添加',
+              offset: 100
+            })
+            return false
+          }
+        }
+        this.$refs.editable.insert(val[i])
+      }
+    },
+    installappley(val) {
+      this.personalForm.sourceNumber = val.applyNumber
+      this.personalForm.installmentCount = val.installmentCount
     },
     // 更新类型
     updatecountry() {
@@ -557,8 +701,12 @@ export default {
     },
     // 业务员回显
     stockName(val) {
+      console.log(val)
       this.salePersonId = val.personName
       this.personalForm.salePersonId = val.id
+      this.personalForm.deptId = val.deptId
+      this.personalForm.saleRepositoryId = val.repositoryId
+      this.saleRepositoryId = val.repositoryName
     },
     // 我方签约人foucs事件触发
     handlechooseDelivery() {
@@ -593,16 +741,23 @@ export default {
     // 清空记录
     restAllForm() {
       this.personalForm = {
-        createPersonId: 3,
-        countryId: 1,
-        repositoryId: 438,
-        regionId: 2,
-        isVat: 1
+        createPersonId: this.$store.getters.userId,
+        countryId: this.$store.getters.countryId,
+        repositoryId: this.$store.getters.repositoryId,
+        regionId: this.$store.getters.regionId,
+        salePersonId: this.$store.getters.userId,
+        isVat: 1,
+        installmentEndtime: null,
+        installmentBegintime: null,
+        notaryDate: null,
+        deptId: this.$store.getters.deptId,
+        saleRepositoryId: this.$store.getters.repositoryId
       }
       this.supplierId = null
       this.inquiryPersonId = null
       this.stockPersonId = null
       this.ourContractorId = null
+      this.isinstallappley = false
     },
     // 保存操作
     handlesave() {
@@ -649,11 +804,11 @@ export default {
         if (elem.taxRate !== null || elem.taxRate !== '' || elem.taxRate !== undefined) {
           elem.taxRate = elem.taxRate / 100
         }
-        if (elem.discountRate === null || elem.discountRate === '' || elem.discountRate === undefined) {
-          delete elem.discountRate
+        if (elem.discount === null || elem.discount === '' || elem.discount === undefined) {
+          delete elem.discount
         }
-        if (elem.discountRate !== null || elem.discountRate !== '' || elem.discountRate !== undefined) {
-          elem.discountRate = elem.discountRate / 100
+        if (elem.discount !== null || elem.discount !== '' || elem.discount !== undefined) {
+          elem.discount = elem.discount / 100
         }
         if (elem.money === null || elem.money === '' || elem.money === undefined) {
           delete elem.money
@@ -724,9 +879,13 @@ export default {
 }
 </script>
 
-<style rel="stylesheet/scss" lang="scss" scoped>
-  .ERP-container{
+<style rel="stylesheet/css" scoped>
+  .ERP-container >>> .el-input-number.is-without-controls .el-input__inner{
+    text-align: left;
+  }
+  .ERP-container {
     margin-right: 0;
+  }
     .form-name{
       font-size: 18px;
       color: #373e4f;
@@ -739,5 +898,4 @@ export default {
     .el-button+.el-button{
       width: 98px;
     }
-  }
 </style>

@@ -164,179 +164,25 @@
         </el-table-column>
       </el-table>
       <pagination v-show="total>0" :total="total" :page.sync="getemplist.pagenum" :limit.sync="getemplist.pagesize" @pagination="getlist" />
-      <el-dialog :visible.sync="editVisible" top="10px" title="修改员工">
-        <!--个人信息-->
-        <h2 ref="geren" class="form-name">个人信息</h2>
-        <div class="container">
-          <el-form ref="editAllData" :model="editAllData" :rules="editAllDataRules" :inline="true" status-icon class="demo-ruleForm" label-position="top" label-width="300px" style="margin-left: 30px;">
-            <el-form-item :label="$t('NewEmployeeInformation.account')" style="width: 40%;margin-top:1%">
-              <el-input v-model="editAllData.account" :disabled="true" placeholder="请输入账号名"/>
-            </el-form-item>
-            <el-form-item :label="$t('NewEmployeeInformation.password')" prop="password" style="width: 40%;margin-top:1%">
-              <el-input v-model="editAllData.password" placeholder="请输入密码" autocomplete="new-password" clearable/>
-            </el-form-item>
-            <el-form-item :label="$t('NewEmployeeInformation.lastname')" prop="firstName" style="width: 40%">
-              <el-input v-model="editAllData.firstName" placeholder="请输入姓氏" clearable/>
-            </el-form-item>
-            <el-form-item :label="$t('NewEmployeeInformation.middlename')" style="width: 40%">
-              <el-input v-model="editAllData.middleName" placeholder="请输入中间名" clearable/>
-            </el-form-item>
-            <el-form-item :label="$t('NewEmployeeInformation.firstname')" prop="lastName" style="width: 40%;">
-              <el-input v-model="editAllData.lastName" placeholder="请输入名" clearable/>
-            </el-form-item>
-            <el-form-item :label="$t('NewEmployeeInformation.birthday')" style="width: 40%">
-              <el-date-picker
-                v-model="editAllData.birthday"
-                type="date"
-                placeholder="选择生日"
-                value-format="yyyy-MM-dd"
-                clearable
-                style="width: 100%"/>
-            </el-form-item>
-            <el-form-item :label="$t('NewEmployeeInformation.email')" prop="email" style="width: 40%">
-              <el-input v-model="editAllData.email" placeholder="请输入邮箱地址" clearable/>
-            </el-form-item>
-            <el-form-item :label="$t('NewEmployeeInformation.gender')" prop="gender" style="width: 40%">
-              <el-radio-group v-model="editAllData.gender" style="width: 80%">
-                <el-radio :label="1" style="width: 50%">{{ $t('NewEmployeeInformation.male') }}</el-radio>
-                <el-radio :label="2">{{ $t('NewEmployeeInformation.female') }}</el-radio>
-              </el-radio-group>
-            </el-form-item>
-            <el-form-item :label="$t('NewEmployeeInformation.certificatetype')" style="width: 40%">
-              <el-select v-model="editAllData.certificateType" placeholder="请选择证件类型" style="width: 100%;">
-                <el-option label="类型1" value="1"/>
-                <el-option label="类型2" value="2"/>
-              </el-select>
-            </el-form-item>
-            <el-form-item :label="$t('NewEmployeeInformation.certificatenumber')" style="width: 40%">
-              <el-input v-model="editAllData.certificateNumber" clearable/>
-            </el-form-item>
-            <el-form-item :label="$t('NewEmployeeInformation.country')" style="width: 40%">
-              <el-input v-model="editAllData.countryName" :disabled="true" clearable/>
-            </el-form-item>
-            <el-form-item :label="$t('NewEmployeeInformation.editcountry')" style="width: 40%">
-              <el-select v-model="editAllData.countryid" placeholder="请选择国籍" style="width: 100%;" @change ="handlechange">
-                <el-option
-                  v-for="(item, index) in nations"
-                  :key="index"
-                  :label="item.name"
-                  :value="item.id"/>
-              </el-select>
-            </el-form-item>
-          </el-form>
-        </div>
-        <!--联系信息-->
-        <h2 ref="lianxi" class="form-name">联系信息</h2>
-        <div class="container">
-          <el-form ref="editAllData2" :model="editAllData" :rules="editAllDataRules" :inline="true" status-icon class="demo-ruleForm" label-position="top" label-width="300px" style="margin-left: 30px;">
-            <el-form-item :label="$t('NewEmployeeInformation.address')" prop="address" style="width: 40%;margin-top:1%">
-              <el-input v-model="editAllData.address" placeholder="请输入地址" clearable/>
-            </el-form-item>
-            <el-form-item :label="$t('NewEmployeeInformation.phone')" prop="phone" style="width: 40%;margin-top:1%">
-              <el-input v-model.number="editAllData.phone" placeholder="请输入手机号" clearable/>
-            </el-form-item>
-            <el-form-item :label="$t('NewEmployeeInformation.provinceid')" style="width: 40%;margin-top: 1%">
-              <el-input v-model="editAllData.provinceName" :disabled="true" clearable/>
-            </el-form-item>
-            <el-form-item :label="$t('NewEmployeeInformation.editprovinceid')" style="width: 40%;margin-top: 1%">
-              <el-select v-model="provinceid" placeholder="请选择省" style="width: 100%;" @change="handlechange2">
-                <el-option
-                  v-for="(item, index) in provinces"
-                  :key="index"
-                  :label="item.name"
-                  :value="item.id"/>
-              </el-select>
-            </el-form-item>
-            <el-form-item :label="$t('NewEmployeeInformation.cityid')" style="width: 40%;margin-top: 1%">
-              <el-input v-model="editAllData.cityName" :disabled="true" clearable/>
-            </el-form-item>
-            <el-form-item :label="$t('NewEmployeeInformation.editcityid')" style="width: 40%;margin-top: 1%">
-              <el-select v-model="cityid" placeholder="请选择市" style="width: 100%;">
-                <el-option
-                  v-for="(item, index) in cities"
-                  :key="index"
-                  :label="item.name"
-                  :value="item.id"/>
-              </el-select>
-            </el-form-item>
-          </el-form>
-        </div>
-        <!--公司信息-->
-        <h2 class="form-name">公司信息</h2>
-        <div class="container">
-          <el-form ref="editAllData3" :model="editAllData" :rules="editAllDataRules" :inline="true" status-icon class="demo-ruleForm" label-position="top" label-width="300px" style="margin-left: 30px;">
-            <el-form-item :label="$t('NewEmployeeInformation.jobnumber')" style="width: 40%;margin-top:1%">
-              <el-input v-model.number="editAllData.jobNumber" :disabled="true" placeholder="请输入工号"/>
-            </el-form-item>
-            <el-form-item :label="$t('NewEmployeeInformation.postid')" style="width: 40%;margin-top: 1%">
-              <el-select v-model="editAllData.postId" :value="editAllData.postId" placeholder="请选择职位" style="width: 100%;">
-                <el-option
-                  v-for="(item, index) in jobs"
-                  :key="index"
-                  :label="item.categoryName"
-                  :value="item.id"/>
-              </el-select>
-            </el-form-item>
-            <el-form-item :label="$t('NewEmployeeInformation.deptid')" prop="deptId" style="width: 40%;margin-top: 1%">
-              <el-select v-model="editAllData.deptId" placeholder="请选择部门" style="width: 100%;">
-                <el-option
-                  v-for="(item, index) in depts2"
-                  :key="index"
-                  :label="item.deptName"
-                  :value="item.id"/>
-              </el-select>
-            </el-form-item>
-            <el-form-item :label="$t('NewEmployeeInformation.regionid')" style="width: 40%;margin-top: 1%">
-              <el-input v-model="editAllData.regionName" :disabled="true" clearable/>
-            </el-form-item>
-            <el-form-item :label="$t('NewEmployeeInformation.editregionid')" style="width: 40%;margin-top: 1%">
-              <el-cascader
-                :options="regions2"
-                :props="props2"
-                v-model="regionId"
-                :show-all-levels="false"
-                change-on-select
-                filterable
-                clearable
-                style="width: 100%;"
-                @change="handlechange4"
-              />
-            </el-form-item>
-            <el-form-item :label="$t('NewEmployeeInformation.repositoryid')" style="width: 40%;margin-top: 1%">
-              <el-input v-model="editAllData.repositoryName" :disabled="true" clearable/>
-            </el-form-item>
-            <el-form-item :label="$t('NewEmployeeInformation.editrepositoryid')" style="width: 40%;margin-top: 1%">
-              <el-select v-model="repositoryid2" filterable style="width: 100%;">
-                <el-option
-                  v-for="(item, index) in repositories2"
-                  :key="index"
-                  :label="item.repositoryName"
-                  :value="item.id"/>
-              </el-select>
-            </el-form-item>
-          </el-form>
-        </div>
-        <div class="buttons" style="margin-top: 20px;margin-left: 30px">
-          <el-button type="primary" @click="handleEditok()">修改</el-button>
-          <el-button type="danger" @click="handlecancel()">取消</el-button>
-        </div>
-      </el-dialog>
+
+      <my-dialog :editcontrol.sync="editVisible" :editdata.sync="personalForm" @rest="refreshlist"/>
     </div>
   </div>
 </template>
 
 <script>
 import { searchRepository, regionlist, getcountrylist, getprovincelist, getcitylist } from '@/api/public'
-import { getdeptlist, getemplist, startorendemp, deleteemp, getempinfo, updateemp, searchEmpCategory } from '@/api/EmployeeInformation'
+import { getdeptlist, getemplist, startorendemp, deleteemp, getempinfo, searchEmpCategory } from '@/api/EmployeeInformation'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
 import permission from '@/directive/permission/index.js' // 权限判断指令
 import checkPermission from '@/utils/permission' // 权限判断函数
+import MyDialog from './components/MyDialog'
 
 export default {
   name: 'EmployeeInformationList',
   directives: { waves, permission },
-  components: { Pagination },
+  components: { Pagination, MyDialog },
   filters: {
     genderFilter(status) {
       const statusMap = {
@@ -393,6 +239,8 @@ export default {
         employeename: '',
         pagenum: 1,
         pagesize: 10,
+        loginRepositoryId: this.$store.getters.repositoryId,
+        regionIds: this.$store.getters.regionId,
         stat: '',
         time: '',
         jobnumber: ''
@@ -511,7 +359,9 @@ export default {
         Repository: [
           { required: true, message: '请选择门店', trigger: 'change' }
         ]
-      }
+      },
+      // 传给组件的数据
+      personalForm: {}
     }
   },
   mounted() {
@@ -591,6 +441,12 @@ export default {
         }
       })
     },
+    // 修改组件修改成功后返回
+    refreshlist(val) {
+      if (val === true) {
+        this.getlist()
+      }
+    },
     // 修改操作
     handleEdit(row) {
       console.log(row)
@@ -598,117 +454,14 @@ export default {
         console.log(res)
         const emData = res.data.data.content
         this.editVisible = true
-        this.editAllData = Object.assign({}, emData)
-        this.editAllData.certificateType = String(emData.certificateType)
-      })
-    },
-    // 提交修改
-    handleEditok() {
-      this.$refs.editAllData.validate((valid) => {
-        if (valid) {
-          this.$refs.editAllData2.validate((valid) => {
-            if (valid) {
-              this.$refs.editAllData3.validate((valid) => {
-                if (valid) {
-                  this.editAllData.regionId = this.regionId[this.regionId.length - 1]
-                  console.log(this.repositoryid2)
-                  if (this.repositoryid2 === '') {
-                    console.log(123)
-                    this.editAllData.repositoryid2 = 0
-                    this.editAllData.provinceid = this.provinceid
-                    this.editAllData.cityid = this.cityid
-                    updateemp(this.editAllData).then(res => {
-                      if (res.data.ret === 200) {
-                        this.$notify({
-                          title: '操作成功',
-                          message: '操作成功',
-                          type: 'success',
-                          duration: 1000,
-                          offset: 100
-                        })
-                        this.$refs.editAllData.clearValidate()
-                        this.$refs.editAllData2.clearValidate()
-                        this.$refs.editAllData3.clearValidate()
-                        this.$refs.editAllData.resetFields()
-                        this.$refs.editAllData2.resetFields()
-                        this.$refs.editAllData3.resetFields()
-                        this.getlist()
-                        this.editVisible = false
-                      } else {
-                        this.$notify.error({
-                          title: '错误',
-                          message: '出错了',
-                          offset: 100
-                        })
-                      }
-                    })
-                  } else {
-                    this.editAllData.repositoryid2 = this.repositoryid2
-                    this.editAllData.provinceid = this.provinceid
-                    this.editAllData.cityid = this.cityid
-                    updateemp(this.editAllData).then(res => {
-                      if (res.data.ret === 200) {
-                        this.$notify({
-                          title: '操作成功',
-                          message: '操作成功',
-                          type: 'success',
-                          duration: 1000,
-                          offset: 100
-                        })
-                        this.$refs.editAllData.clearValidate()
-                        this.$refs.editAllData2.clearValidate()
-                        this.$refs.editAllData3.clearValidate()
-                        this.$refs.editAllData.resetFields()
-                        this.$refs.editAllData2.resetFields()
-                        this.$refs.editAllData3.resetFields()
-                        this.getlist()
-                        this.editVisible = false
-                      } else {
-                        this.$notify.error({
-                          title: '错误',
-                          message: '出错了',
-                          offset: 100
-                        })
-                      }
-                    })
-                  }
-                } else {
-                  this.$notify.error({
-                    title: '错误',
-                    message: '信息未填完整',
-                    offset: 100
-                  })
-                  return false
-                }
-              })
-            } else {
-              this.$notify.error({
-                title: '错误',
-                message: '信息未填完整',
-                offset: 100
-              })
-              return false
-            }
-          })
-        } else {
-          this.$notify.error({
-            title: '错误',
-            message: '信息未填完整',
-            offset: 100
-          })
-          return false
+        this.personalForm = Object.assign({}, emData)
+        if (emData.certificateType !== null && emData.certificateType !== undefined && emData.certificateType !== '') {
+          this.personalForm.certificateType = String(emData.certificateType)
+        }
+        if (emData.roleId !== null && emData.roleId !== undefined && emData.roleId !== '') {
+          this.personalForm.roleId = String(emData.roleId)
         }
       })
-    },
-    // 取消按钮
-    handlecancel() {
-      this.$refs.editAllData.clearValidate()
-      this.$refs.editAllData2.clearValidate()
-      this.$refs.editAllData3.clearValidate()
-      this.$refs.editAllData.resetFields()
-      this.$refs.editAllData2.resetFields()
-      this.$refs.editAllData3.resetFields()
-      this.editVisible = false
     },
     // 批量操作
     handleSelectionChange(val) {

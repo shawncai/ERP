@@ -15,8 +15,12 @@ const user = {
       articlePlatform: []
     },
     userId: '',
-    regionid: '',
-    repositoryid: ''
+    regionId: '',
+    repositoryId: '',
+    countryId: '',
+    deptId: '',
+    regionName: '',
+    repositoryName: ''
   },
 
   mutations: {
@@ -47,11 +51,23 @@ const user = {
     SET_USERID: (state, userId) => {
       state.userId = userId
     },
-    SET_REGIONID: (state, regionid) => {
-      state.regionid = regionid
+    SET_REGIONID: (state, regionId) => {
+      state.regionId = regionId
     },
-    SET_REPOSITORYID: (state, repositoryid) => {
-      state.repositoryid = repositoryid
+    SET_REPOSITORYID: (state, repositoryId) => {
+      state.repositoryId = repositoryId
+    },
+    SET_COUNTTRYID: (state, countryId) => {
+      state.countryId = countryId
+    },
+    SET_DEPTID: (state, deptId) => {
+      state.deptId = deptId
+    },
+    SET_REGIONNAME: (state, regionName) => {
+      state.regionName = regionName
+    },
+    SET_REPOSITORYNAME: (state, repositoryName) => {
+      state.repositoryName = repositoryName
     }
   },
 
@@ -94,6 +110,10 @@ const user = {
           commit('SET_USERID', data.userId)
           commit('SET_REGIONID', data.regionId)
           commit('SET_REPOSITORYID', data.repositoryId)
+          commit('SET_COUNTTRYID', data.countryId)
+          commit('SET_DEPTID', data.deptId)
+          commit('SET_REGIONNAME', data.regionName)
+          commit('SET_REPOSITORYNAME', data.repositoryName)
           resolve(response)
         }).catch(error => {
           reject(error)

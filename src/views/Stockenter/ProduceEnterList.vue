@@ -224,10 +224,9 @@ export default {
       getemplist: {
         pageNum: 1,
         pageSize: 10,
-        createPersonId: 3,
-        countryId: 1,
-        repositoryId: 438,
-        regionIds: 2
+        countryId: this.$store.getters.countryId,
+        repositoryId: this.$store.getters.repositoryId,
+        regionIds: this.$store.getters.regionId
       },
       // 搜索结束 ----------------------
       // 列表操作 -------------------------
@@ -374,7 +373,7 @@ export default {
       console.log(row)
       if (row.approvalUseVos !== '' && row.approvalUseVos !== null && row.approvalUseVos !== undefined && row.approvalUseVos.length !== 0) {
         const approvalUse = row.approvalUseVos
-        if (this.getemplist.createPersonId === approvalUse[approvalUse.length - 1].stepHandler && (row.judgeStat === 1 || row.judgeStat === 0)) {
+        if (this.$store.getters.userId === approvalUse[approvalUse.length - 1].stepHandler && (row.judgeStat === 1 || row.judgeStat === 0)) {
           return true
         }
       }
@@ -387,7 +386,7 @@ export default {
         cancelButtonText: '不通过',
         type: 'warning'
       }).then(() => {
-        updatestockenter4(row, 2, this.getemplist.createPersonId).then(res => {
+        updatestockenter4(row, 2, this.$store.getters.userId).then(res => {
           if (res.data.ret === 200) {
             this.$message({
               type: 'success',
@@ -398,7 +397,7 @@ export default {
         })
       }).catch(action => {
         if (action === 'cancel') {
-          updatestockenter4(row, 1, this.getemplist.createPersonId).then(res => {
+          updatestockenter4(row, 1, this.$store.getters.userId).then(res => {
             if (res.data.ret === 200) {
               this.$message({
                 type: 'success',

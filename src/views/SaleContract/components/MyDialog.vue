@@ -24,10 +24,12 @@
                 <el-input v-model="personalForm.sourceNumber" style="margin-left: 18px;width: 200px" @focus="chooseData"/>
               </el-form-item>
               <my-opportunity :opportunitycontrol.sync="opportunitycontrol" @opportunityDetail="opportunityDetail" @opportunity="opportunity"/>
+              <my-installmentapply :installappleycontrol.sync = "installappleycontrol" @installappleyDetail="installappleyDetail" @installappley="installappley"/>
             </el-col>
             <el-col :span="12">
               <el-form-item :label="$t('SaleContract.customerName')" style="width: 100%;">
-                <el-input v-model="personalForm.customerName" style="margin-left: 18px;width: 200px" clearable/>
+                <el-input v-model="customerId" style="margin-left: 18px;width: 200px" clearable/>
+                <my-customer :customercontrol.sync="customercontrol" @customerdata="customerdata"/>
               </el-form-item>
             </el-col>
             <el-col :span="12">
@@ -37,7 +39,7 @@
             </el-col>
             <el-col :span="12">
               <el-form-item :label="$t('SaleContract.saleType')" style="width: 100%;">
-                <el-select v-model="personalForm.saleType" style="margin-left: 18px;width: 200px" @change="chooseType">
+                <el-select v-model="personalForm.saleType" style="margin-left: 18px;width: 200px">
                   <el-option value="1" label="零售" />
                   <el-option value="2" label="批发" />
                 </el-select>
@@ -91,7 +93,7 @@
             </el-col>
             <el-col :span="12">
               <el-form-item :label="$t('SaleContract.saleRepositoryId')" style="width: 100%;">
-                <el-input v-model="personalForm.saleRepositoryId" style="margin-left: 18px;width: 200px" clearable/>
+                <el-input v-model="saleRepositoryId" style="margin-left: 18px;width: 200px" clearable/>
               </el-form-item>
             </el-col>
             <el-col :span="12">
@@ -125,6 +127,65 @@
             <el-col :span="12">
               <el-form-item :label="$t('SaleContract.taxRate')" style="width: 100%;">
                 <el-input v-model="personalForm.taxRate" style="margin-left: 18px;width: 200px" clearable/>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('SaleContract.installmentCount')" style="width: 100%;">
+                <el-input v-model="personalForm.installmentCount" :disabled="isinstallappley" style="margin-left: 18px;width: 200px" clearable/>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('SaleContract.dayOfMonth')" style="width: 100%;">
+                <el-input-number v-model="personalForm.dayOfMonth" :disabled="isinstallappley" :controls="false" :min="1" :max="31" style="margin-left: 18px;width: 200px" placeholder="号"/>
+              </el-form-item>
+            </el-col>
+            <!--<el-col :span="6">-->
+            <!--<el-form-item :label="$t('SaleContract.installmentAllMoney')" style="width: 100%;">-->
+            <!--<el-input v-model="personalForm.installmentAllMoney" style="margin-left: 18px;width: 200px" clearable/>-->
+            <!--</el-form-item>-->
+            <!--</el-col>-->
+            <el-col :span="12">
+              <el-form-item :label="$t('SaleContract.installmentBegintime')" style="width: 100%;">
+                <el-date-picker
+                  v-model="personalForm.installmentBegintime"
+                  :picker-options="pickerOptions0"
+                  :disabled="isinstallappley"
+                  type="month"
+                  value-format="yyyy-MM"
+                  style="margin-left: 18px;width: 200px"
+                  @change="clearfinal"/>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('SaleContract.installmentEndtime')" style="width: 100%;">
+                <el-date-picker
+                  v-model="personalForm.installmentEndtime"
+                  :picker-options="pickerOptions1"
+                  :disabled="isinstallappley"
+                  type="month"
+                  value-format="yyyy-MM"
+                  style="margin-left: 18px;width: 200px"/>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('SaleContract.notaryPerson')" style="width: 100%;">
+                <el-input v-model="personalForm.notaryPerson" :disabled="isinstallappley" style="margin-left: 18px;width: 200px" clearable/>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('SaleContract.notaryDate')" style="width: 100%;">
+                <el-date-picker
+                  v-model="personalForm.notaryDate"
+                  :picker-options="pickerOptions3"
+                  :disabled="isinstallappley"
+                  type="date"
+                  value-format="yyyy-MM-dd"
+                  style="margin-left: 18px;width: 200px"/>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('SaleContract.firstMoney')" style="width: 100%;">
+                <el-input v-model="personalForm.firstMoney" :disabled="isinstallappley" style="margin-left: 18px;width: 200px" clearable/>
               </el-form-item>
             </el-col>
           </el-row>
@@ -241,8 +302,10 @@ import MyApply from './MyApply'
 import MyPlan from './MyPlan'
 import MyDelivery from './MyDelivery'
 import MyOpportunity from './MyOpportunity'
+import MyInstallmentapply from './MyInstallmentapply'
+import MyCustomer from '../../SaleOpportunity/components/MyCustomer'
 export default {
-  components: { MyOpportunity, MyDelivery, MyPlan, MyApply, MySupplier, MyDetail, MyEmp },
+  components: { MyCustomer, MyInstallmentapply, MyOpportunity, MyDelivery, MyPlan, MyApply, MySupplier, MyDetail, MyEmp },
   props: {
     editcontrol: {
       type: Boolean,
@@ -279,6 +342,37 @@ export default {
       }
     }
     return {
+      pickerOptions0: {
+        disabledDate: (time) => {
+          if (this.personalForm.installmentEndtime !== null) {
+            return time.getTime() < new Date().getTime() - 8.64e7
+          } else if (this.personalForm.installmentEndtime === null) {
+            return time.getTime() < new Date().getTime() - 8.64e7
+          }
+        }
+      },
+      pickerOptions1: {
+        disabledDate: (time) => {
+          return time.getTime() < new Date(this.personalForm.installmentBegintime).getTime() - 8.64e7
+        }
+      },
+      pickerOptions3: {
+        disabledDate: (time) => {
+          return time.getTime() < new Date().getTime() - 8.64e7
+        }
+      },
+      // 是否可以编辑分期数据
+      isinstallappley: false,
+      // 回显客户
+      customerId: '',
+      // 控制客户弹窗
+      customercontrol: false,
+      // 分期申请
+      installappleycontrol: false,
+      // 销售门店
+      saleRepositoryId: this.$store.getters.repositoryName,
+      // 业务员回显
+      salePersonId: this.$store.getters.name,
       // 选择的数据
       choosedata: [],
       // 弹窗组件的控制
@@ -314,8 +408,6 @@ export default {
       empcontrol: false,
       // 部门数据
       depts: [],
-      // 业务员回显
-      salePersonId: '',
       // 控制业务员
       stockControl: false,
       // 类别数据
@@ -375,9 +467,23 @@ export default {
     this.getways()
   },
   methods: {
+    // 选择客户focus
+    chooseCustomer() {
+      this.customercontrol = true
+    },
+    customerdata(val) {
+      this.personalForm.customerId = val.id
+      this.customerId = val.customerName
+      this.personalForm.customerPhone = val.phoneNumber
+    },
+    clearfinal() {
+      this.personalForm.installmentEndtime = null
+    },
     chooseData() {
       if (this.personalForm.sourceType === '1') {
         this.opportunitycontrol = true
+      } else if (this.personalForm.sourceType === '2') {
+        this.installappleycontrol = true
       }
     },
     // 总计
@@ -500,8 +606,14 @@ export default {
       console.log(this.personalForm.sourceType)
       if (this.personalForm.sourceType === '1') {
         this.$refs.editable.clear()
+        this.personalForm.sourceNumber = ''
+        this.personalForm.installmentCount = ''
+        this.isinstallappley = true
       } else if (this.personalForm.sourceType === '2') {
         this.$refs.editable.clear()
+        this.personalForm.sourceNumber = ''
+        this.personalForm.installmentCount = ''
+        this.isinstallappley = false
       }
     },
     // 从源单中添加商品
@@ -517,6 +629,7 @@ export default {
     // 从销售机会过来的源单数据
     opportunityDetail(val) {
       console.log(val)
+      this.$refs.editable.clear()
       const nowlistdata = this.$refs.editable.getRecords()
       for (let i = 0; i < val.length; i++) {
         for (let j = 0; j < nowlistdata.length; j++) {
@@ -534,10 +647,30 @@ export default {
     },
     opportunity(val) {
       this.personalForm.sourceNumber = val.opportunityNumber
-      this.personalForm.customerName = val.customerName
-      this.personalForm.customerPhone = val.customerPhone
       this.personalForm.salePersonId = val.handlePersonId
       this.salePersonId = val.handlePersonName
+    },
+    installappleyDetail(val) {
+      console.log(val)
+      this.$refs.editable.clear()
+      const nowlistdata = this.$refs.editable.getRecords()
+      for (let i = 0; i < val.length; i++) {
+        for (let j = 0; j < nowlistdata.length; j++) {
+          if (val[i].sourceNumber === nowlistdata[j].sourceNumber) {
+            this.$notify.error({
+              title: '错误',
+              message: '物品已添加',
+              offset: 100
+            })
+            return false
+          }
+        }
+        this.$refs.editable.insert(val[i])
+      }
+    },
+    installappley(val) {
+      this.personalForm.sourceNumber = val.applyNumber
+      this.personalForm.installmentCount = val.installmentCount
     },
     // 更新类型
     updatecountry() {
@@ -573,8 +706,12 @@ export default {
     },
     // 业务员回显
     stockName(val) {
+      console.log(val)
       this.salePersonId = val.personName
       this.personalForm.salePersonId = val.id
+      this.personalForm.deptId = val.deptId
+      this.personalForm.saleRepositoryId = val.repositoryId
+      this.saleRepositoryId = val.repositoryName
     },
     // 我方签约人foucs事件触发
     handlechooseDelivery() {
@@ -609,10 +746,10 @@ export default {
     // 清空记录
     restAllForm() {
       this.personalForm = {
-        createPersonId: 3,
-        countryId: 1,
-        repositoryId: 438,
-        regionId: 2,
+        createPersonId: this.$store.getters.userId,
+        countryId: this.$store.getters.countryId,
+        repositoryId: this.$store.getters.repositoryId,
+        regionId: this.$store.getters.regionId,
         isVat: 1
       }
       this.supplierId = null
@@ -623,11 +760,11 @@ export default {
     // 修改和取消按钮
     // 修改按钮
     handleEditok() {
-      this.personalForm.repositoryId = 438
-      this.personalForm.regionId = 2
-      this.personalForm.createPersonId = 3
-      this.personalForm.countryId = 1
-      this.personalForm.modifyPersonId = 3
+      this.personalForm.repositoryId = this.$store.getters.repositoryId
+      this.personalForm.regionId = this.$store.getters.regionId
+      this.personalForm.createPersonId = this.$store.getters.userId
+      this.personalForm.countryId = this.$store.getters.countryId
+      this.personalForm.modifyPersonId = this.$store.getters.userId
       const EnterDetail = this.$refs.editable.getRecords()
       EnterDetail.map(function(elem) {
         return elem
@@ -671,11 +808,11 @@ export default {
         if (elem.taxRate !== null || elem.taxRate !== '' || elem.taxRate !== undefined) {
           elem.taxRate = elem.taxRate / 100
         }
-        if (elem.discountRate === null || elem.discountRate === '' || elem.discountRate === undefined) {
-          delete elem.discountRate
+        if (elem.discount === null || elem.discount === '' || elem.discount === undefined) {
+          delete elem.discount
         }
-        if (elem.discountRate !== null || elem.discountRate !== '' || elem.discountRate !== undefined) {
-          elem.discountRate = elem.discountRate / 100
+        if (elem.discount !== null || elem.discount !== '' || elem.discount !== undefined) {
+          elem.discount = elem.discount / 100
         }
         if (elem.money === null || elem.money === '' || elem.money === undefined) {
           delete elem.money
@@ -736,7 +873,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style rel="stylesheet/css" scoped>
   .container >>> .el-form-item.is-required:not(.is-no-asterisk)>.el-form-item__label:before{
     margin-left: -10px;
   }

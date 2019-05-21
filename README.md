@@ -266,6 +266,12 @@ const reg = /^[A-Z0-9]{2}$/
  const date = new Date()
       date.setTime(date.getTime() + 3600 * 1000 * 24 * 7)
       this.getemplist.time = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate()
+```  
+######  当前日期  
+```js
+ const date = new Date()
+      date.setTime(date.getTime())
+      this.personalForm.enterDate = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate()
 ```
 ###### 完成进度  
 ```text

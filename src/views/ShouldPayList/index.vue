@@ -218,9 +218,8 @@ export default {
       getemplist: {
         pageNum: 1,
         pageSize: 10,
-        repositoryId: 438,
-        regionIds: 2,
-        createPersonId: 3
+        repositoryId: this.$store.getters.repositoryId,
+        regionIds: this.$store.getters.regionId
       },
       // 传给组件的数据
       personalForm: {},
@@ -342,7 +341,7 @@ export default {
       console.log(row)
       if (row.approvalUseVos !== '' && row.approvalUseVos !== null && row.approvalUseVos !== undefined && row.approvalUseVos.length !== 0) {
         const approvalUse = row.approvalUseVos
-        if (this.getemplist.createPersonId === approvalUse[approvalUse.length - 1].stepHandler && (row.judgeStat === 1 || row.judgeStat === 0)) {
+        if (this.$store.getters.userId === approvalUse[approvalUse.length - 1].stepHandler && (row.judgeStat === 1 || row.judgeStat === 0)) {
           return true
         }
       }
