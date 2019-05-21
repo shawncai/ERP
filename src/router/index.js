@@ -1731,6 +1731,32 @@ export const asyncRouterMap = [
     ]
   },
   {
+    path: '/ReturnExchange',
+    component: Layout,
+    redirect: 'noredirect',
+    name: 'ReturnExchange',
+    alwaysShow: true,
+    meta: {
+      title: 'ReturnExchange',
+      icon: 'huanhuo',
+      type: 3
+    },
+    children: [
+      {
+        path: 'AddReturnExchange',
+        component: () => import('@/views/ReturnExchange/AddReturnExchange'),
+        name: 'AddReturnExchange',
+        meta: { title: 'AddReturnExchange', noCache: false }
+      },
+      {
+        path: 'ReturnExchangeList',
+        component: () => import('@/views/ReturnExchange/ReturnExchangeList'),
+        name: 'ReturnExchangeList',
+        meta: { title: 'ReturnExchangeList', noCache: true }
+      }
+    ]
+  },
+  {
     path: '/Recycling',
     component: Layout,
     redirect: 'noredirect',
@@ -2050,6 +2076,23 @@ export const asyncRouterMap = [
         component: () => import('@/views/DeliverGoods/DeliverGoodsList'),
         name: 'DeliverGoodsList',
         meta: { title: 'DeliverGoodsList', noCache: true }
+      }
+    ]
+  },
+  {
+    path: '/CarStatList',
+    component: Layout,
+    redirect: 'noredirect',
+    meta: {
+      icon: 'shiyongqingkuan',
+      type: 9
+    },
+    children: [
+      {
+        path: 'index',
+        component: () => import('@/views/CarStatList/index'),
+        name: 'CarStatList',
+        meta: { title: 'CarStatList', noCache: true }
       }
     ]
   },

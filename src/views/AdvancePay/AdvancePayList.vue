@@ -365,7 +365,7 @@ export default {
     // 审批操作
     handleReview(row) {
       this.reviewParms.id = row.id
-      this.reviewParms.judgePersonId = this.getemplist.createPersonId
+      this.reviewParms.judgePersonId = this.$store.getters.userId
       this.$confirm('请审核', '审核', {
         distinguishCancelAndClose: true,
         confirmButtonText: '通过',

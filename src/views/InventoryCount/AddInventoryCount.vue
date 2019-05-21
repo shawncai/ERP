@@ -141,6 +141,20 @@ export default {
   name: 'AddInventoryCount',
   components: { MyCreate, MyRepository, MyDetail },
   data() {
+    const validatePass = (rule, value, callback) => {
+      if (this.handlePersonId === undefined || this.handlePersonId === null || this.handlePersonId === '') {
+        callback(new Error('请选择经办人'))
+      } else {
+        callback()
+      }
+    }
+    const validatePass2 = (rule, value, callback) => {
+      if (this.countRepositoryId === undefined || this.countRepositoryId === null || this.countRepositoryId === '') {
+        callback(new Error('请选择盘点仓库'))
+      } else {
+        callback()
+      }
+    }
     return {
       // 库存数量
       out: '',
@@ -187,10 +201,10 @@ export default {
       // 库存盘点单规则数据
       personalrules: {
         handlePersonId: [
-          { required: true, message: '请选择经办人', trigger: 'blue' }
+          { required: true, validator: validatePass, trigger: 'change' }
         ],
         countRepositoryId: [
-          { required: true, message: '请选择盘点仓库', trigger: 'blue' }
+          { required: true, validator: validatePass2, trigger: 'change' }
         ]
       }
     }

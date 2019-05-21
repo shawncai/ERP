@@ -401,7 +401,7 @@ export default {
       console.log(row)
       if (row.approvalUseVos !== '' && row.approvalUseVos !== null && row.approvalUseVos !== undefined && row.approvalUseVos.length !== 0) {
         const approvalUse = row.approvalUseVos
-        if (this.getemplist.createPersonId === approvalUse[approvalUse.length - 1].stepHandler && (row.judgeStat === 1 || row.judgeStat === 0)) {
+        if (this.$store.getters.userId === approvalUse[approvalUse.length - 1].stepHandler && (row.judgeStat === 1 || row.judgeStat === 0)) {
           return true
         }
       }
@@ -409,7 +409,7 @@ export default {
     // // 审批操作
     // handleReview(row) {
     //   this.reviewParms.id = row.id
-    //   this.reviewParms.judgePersonId = this.getemplist.createPersonId
+    //   this.reviewParms.judgePersonId = this.$store.getters.userId
     //   this.$confirm('请审核', '审核', {
     //     distinguishCancelAndClose: true,
     //     confirmButtonText: '通过',

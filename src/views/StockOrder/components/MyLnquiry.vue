@@ -255,7 +255,6 @@ export default {
         repositoryId: this.$store.getters.repositoryId,
         regionIds: this.$store.getters.regionId,
         supplierId: this.supp,
-        createPersonId: this.$store.getters.userId,
         judgeStat: 2
       },
       // 传给组件的数据

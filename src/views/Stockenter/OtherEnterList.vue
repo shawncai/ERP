@@ -390,7 +390,7 @@ export default {
       console.log(row)
       if (row.approvalUseVos !== '' && row.approvalUseVos !== null && row.approvalUseVos !== undefined && row.approvalUseVos.length !== 0) {
         const approvalUse = row.approvalUseVos
-        if (this.getemplist.createPersonId === approvalUse[approvalUse.length - 1].stepHandler && (row.judgeStat === 1 || row.judgeStat === 0)) {
+        if (this.$store.getters.userId === approvalUse[approvalUse.length - 1].stepHandler && (row.judgeStat === 1 || row.judgeStat === 0)) {
           return true
         }
       }
@@ -403,7 +403,7 @@ export default {
         cancelButtonText: '不通过',
         type: 'warning'
       }).then(() => {
-        updateotherenter5(row, 2, this.getemplist.createPersonId).then(res => {
+        updateotherenter5(row, 2, this.$store.getters.userId).then(res => {
           if (res.data.ret === 200) {
             this.$message({
               type: 'success',
@@ -414,7 +414,7 @@ export default {
         })
       }).catch(action => {
         if (action === 'cancel') {
-          updateotherenter5(row, 1, this.getemplist.createPersonId).then(res => {
+          updateotherenter5(row, 1, this.$store.getters.userId).then(res => {
             if (res.data.ret === 200) {
               this.$message({
                 type: 'success',

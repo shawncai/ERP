@@ -917,6 +917,7 @@ export default {
       }
     },
     opportunity(val) {
+      console.log(val)
       if (val.customerType !== null && val.customerType !== undefined && val.customerType !== '') {
         this.personalForm.customerType = String(val.customerType)
       }
