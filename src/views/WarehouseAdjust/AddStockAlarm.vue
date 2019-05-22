@@ -73,7 +73,7 @@ export default {
         createId: 3,
         countryId: this.$store.getters.countryId,
         repositoryId: this.$store.getters.repositoryId,
-        regionId: 2
+        regionId: this.$store.getters.regionId
       },
       // 库存预警规则数据
       personalrules: {
@@ -120,7 +120,7 @@ export default {
         createPersonId: this.$store.getters.userId,
         countryId: this.$store.getters.countryId,
         repositoryId: this.$store.getters.repositoryId,
-        regionId: 2
+        regionId: this.$store.getters.regionId
       }
       this.repositoryId = ''
       this.productId = ''

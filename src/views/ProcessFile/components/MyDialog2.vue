@@ -93,7 +93,7 @@ export default {
         createId: 3,
         countryId: this.$store.getters.countryId,
         repositoryId: this.$store.getters.repositoryId,
-        regionId: 2
+        regionId: this.$store.getters.regionId
       }
     },
     // 修改和取消按钮

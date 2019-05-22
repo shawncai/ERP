@@ -1757,6 +1757,23 @@ export const asyncRouterMap = [
     ]
   },
   {
+    path: '/AgentCollect',
+    component: Layout,
+    redirect: 'noredirect',
+    meta: {
+      icon: 'yingshoukuan',
+      type: 3
+    },
+    children: [
+      {
+        path: 'index',
+        component: () => import('@/views/AgentCollect/index'),
+        name: 'AgentCollect',
+        meta: { title: 'AgentCollect', noCache: true }
+      }
+    ]
+  },
+  {
     path: '/Recycling',
     component: Layout,
     redirect: 'noredirect',
@@ -2204,23 +2221,6 @@ export const asyncRouterMap = [
     ]
   },
   {
-    path: '/AgentCollect',
-    component: Layout,
-    redirect: 'noredirect',
-    meta: {
-      icon: 'yingshoukuan',
-      type: 6
-    },
-    children: [
-      {
-        path: 'index',
-        component: () => import('@/views/AgentCollect/index'),
-        name: 'AgentCollect',
-        meta: { title: 'AgentCollect', noCache: true }
-      }
-    ]
-  },
-  {
     path: '/Installmentrate',
     component: Layout,
     redirect: 'noredirect',
@@ -2347,6 +2347,32 @@ export const asyncRouterMap = [
         component: () => import('@/views/CustomerMarketing/CustomerVisitList'),
         name: 'CustomerVisitList',
         meta: { title: 'CustomerVisitList', noCache: true }
+      }
+    ]
+  },
+  {
+    path: '/Package',
+    component: Layout,
+    redirect: 'noredirect',
+    name: 'Package',
+    alwaysShow: true,
+    meta: {
+      title: 'Package',
+      icon: 'zuhetaocan',
+      type: 5
+    },
+    children: [
+      {
+        path: 'AddPackage',
+        component: () => import('@/views/Package/AddPackage'),
+        name: 'AddPackage',
+        meta: { title: 'AddPackage', noCache: false }
+      },
+      {
+        path: 'PackageList',
+        component: () => import('@/views/Package/PackageList'),
+        name: 'PackageList',
+        meta: { title: 'PackageList', noCache: true }
       }
     ]
   },

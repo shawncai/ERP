@@ -471,7 +471,7 @@ export default {
         createPersonId: this.$store.getters.userId,
         countryId: this.$store.getters.countryId,
         repositoryId: this.$store.getters.repositoryId,
-        regionId: 2
+        regionId: this.$store.getters.regionId
       },
       // 商品信息
       productForm: {},
@@ -716,7 +716,7 @@ export default {
         createPersonId: this.$store.getters.userId,
         countryId: this.$store.getters.countryId,
         repositoryId: this.$store.getters.repositoryId,
-        regionId: 2
+        regionId: this.$store.getters.regionId
       }
       this.personalForm.applyDate = new Date()
       this.productForm = {}

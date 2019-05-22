@@ -214,11 +214,7 @@ export default {
     },
     bumen() {
       this.jiesou = this.bumen
-      console.log(this.bumen)
     }
-  },
-  created() {
-    this.gitemplist()
   },
   methods: {
     // 仓库管理员选择开始
