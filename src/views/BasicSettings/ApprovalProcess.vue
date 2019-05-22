@@ -131,7 +131,9 @@ export default {
       // 审批流程列表查询加展示参数
       getemplist: {
         pagenum: 1,
-        pagesize: 10
+        pagesize: 10,
+        repositoryId: this.$store.getters.repositoryId,
+        regionIds: this.$store.getters.regionId
       },
       // 传给组件的数据
       personalForm: {},

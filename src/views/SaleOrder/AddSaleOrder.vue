@@ -13,6 +13,19 @@
                 </el-form-item>
               </el-col>
               <el-col :span="6">
+                <el-form-item :label="$t('ProduceTask.sourceType')" prop="sourceType" style="width: 100%;">
+                  <el-select v-model="personalForm.sourceType" style="margin-left: 18px;width: 218px" @change="chooseType">
+                    <el-option value="1" label="无来源" />
+                    <el-option value="2" label="销售机会" />
+                  </el-select>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item :label="$t('SaleReturn.sourceNumber')" style="width: 100%;">
+                  <el-input v-model="personalForm.sourceNumber" :disabled="IsNumber" style="margin-left: 18px" clearable/>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
                 <el-form-item :label="$t('SaleOrder.customerType')" prop="customerType" style="width: 100%;">
                   <el-select v-model="personalForm.customerType" style="margin-left: 18px;width: 218px" @change="clearCustomer">
                     <el-option value="1" label="经销商"/>
@@ -438,7 +451,8 @@ export default {
         backMoney: '0.00',
         sendType: '2',
         currency: '1',
-        transDate: null
+        transDate: null,
+        sourceType: '1'
       },
       // 销售订单规则数据
       personalrules: {

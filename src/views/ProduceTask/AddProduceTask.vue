@@ -246,6 +246,10 @@ export default {
         this.addpro = false
         this.addsouce = true
         this.$refs.editable.clear()
+      } else if (this.personalForm.sourceType === '3') {
+        this.addsouce = false
+        this.addpro = true
+        this.$refs.editable.clear()
       }
     },
     // 无来源添加商品

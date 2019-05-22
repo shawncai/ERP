@@ -494,6 +494,7 @@ export default {
     // 源单为质检申请单时返回数据
     report(val) {
       console.log(val)
+      this.personalForm.sourceSerialNumber = val.id
       this.personalForm.productCode = val.productCode
       this.personalForm.productName = val.productName
       this.personalForm.unit = val.unit
@@ -507,6 +508,7 @@ export default {
     // 源单为采购到货单时返回数据
     report2(val) {
       console.log(val)
+      this.sourceSerialNumber = val.id
       this.personalForm.productCode = val.productCode
       this.personalForm.productName = val.productName
       this.personalForm.unit = val.unit
@@ -516,6 +518,7 @@ export default {
     // 源单为采购到货单时返回数据
     report3(val) {
       console.log(val)
+      this.sourceSerialNumber = val.id
       this.personalForm.productCode = val.productCode
       this.personalForm.productName = val.productName
       this.personalForm.unit = val.unit
@@ -523,6 +526,7 @@ export default {
       this.typeId = val.productType
     },
     mater(val) {
+      this.sourceSerialNumber = val.id
       this.personalForm.productCode = val.code
       this.personalForm.productName = val.productName
       this.personalForm.unit = val.produceMeasurement

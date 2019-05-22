@@ -369,6 +369,12 @@ export function searchProcess(query) {
   if (query.is_effective !== '' && query.is_effective !== null && query.is_effective !== undefined) {
     params.append('is_effective', query.is_effective) // 你要传给后台的参数值 key/value
   }
+  if (query.repositoryId !== '' && query.repositoryId !== null && query.repositoryId !== undefined) {
+    params.append('repositoryId', query.repositoryId) // 你要传给后台的参数值 key/value
+  }
+  if (query.regionIds !== '' && query.regionIds !== null && query.regionIds !== undefined) {
+    params.append('regionIds', query.regionIds) // 你要传给后台的参数值 key/value
+  }
   params.append('pagesize', query.pagesize) // 你要传给后台的参数值 key/value
   params.append('pagenum', query.pagenum) // 你要传给后台的参数值 key/value
   return request({
