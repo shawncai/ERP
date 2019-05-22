@@ -299,7 +299,7 @@ export default {
           type: 'warning'
         }).then(() => {
           delateSaleCategory(ids).then(res => {
-            if (res.data.ret === 200) {
+            if (res.data.ret === 200 || res.data.ret === 100) {
               this.$notify({
                 title: '删除成功',
                 type: 'success',

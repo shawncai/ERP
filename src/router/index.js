@@ -2350,6 +2350,32 @@ export const asyncRouterMap = [
       }
     ]
   },
+  {
+    path: '/Package',
+    component: Layout,
+    redirect: 'noredirect',
+    name: 'Package',
+    alwaysShow: true,
+    meta: {
+      title: 'Package',
+      icon: 'zuhetaocan',
+      type: 5
+    },
+    children: [
+      {
+        path: 'AddPackage',
+        component: () => import('@/views/Package/AddPackage'),
+        name: 'AddPackage',
+        meta: { title: 'AddPackage', noCache: false }
+      },
+      {
+        path: 'PackageList',
+        component: () => import('@/views/Package/PackageList'),
+        name: 'PackageList',
+        meta: { title: 'PackageList', noCache: true }
+      }
+    ]
+  },
   // {
   //   path: '/GroupBuyRules',
   //   component: Layout,

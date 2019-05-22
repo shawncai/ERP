@@ -301,7 +301,7 @@ export default {
         createPersonId: this.$store.getters.userId,
         countryId: this.$store.getters.countryId,
         repositoryId: this.$store.getters.repositoryId,
-        regionId: 2
+        regionId: this.$store.getters.regionId
       }
       this.personId = null
       this.outFactoryId = null

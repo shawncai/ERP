@@ -275,7 +275,10 @@ export default {
     CarStatList: '车辆使用情况',
     ReturnExchange: '换货单',
     AddReturnExchange: '新建换货单',
-    ReturnExchangeList: '换货单列表'
+    ReturnExchangeList: '换货单列表',
+    Package: '组合套餐',
+    AddPackage: '新建组合套餐',
+    PackageList: '组合套餐列表'
   },
   navbar: {
     logOut: '退出登录',
@@ -1778,6 +1781,26 @@ export default {
     exchangeDate: '换货时间',
     repositoryId: '仓库',
     exchangeNumber: '换货单编号'
+  },
+  Package: {
+    packageName: '组合名称',
+    isEffective: '应用状态',
+    productName: '主商品名称',
+    createPersonName: '创建人',
+    createDate: '创建时间'
+  },
+  SmartReplenishmentList: {
+    productCode: '商品编号',
+    productName: '商品名称',
+    repositoryName: '门店名称',
+    unit: '单位',
+    existStock: '现有库存',
+    onStock: '在途库存',
+    upStock: '最高库存',
+    downStock: '最低库存',
+    salesDay: '日均销量',
+    Days: '可售天数',
+    isMove: '是否补货'
   },
   public: {
     cancel: '取消',
