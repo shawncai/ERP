@@ -167,10 +167,8 @@ export default {
   watch: {
     repositorycontrol() {
       this.repositoryVisible = this.repositorycontrol
+      this.getlist()
     }
-  },
-  created() {
-    this.getlist()
   },
   methods: {
     getlist() {

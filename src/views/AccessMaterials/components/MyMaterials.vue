@@ -253,10 +253,8 @@ export default {
   watch: {
     matecontrol() {
       this.employeeVisible = this.matecontrol
+      this.getlist()
     }
-  },
-  mounted() {
-    this.getlist()
   },
   methods: {
     getlist() {

@@ -1757,6 +1757,23 @@ export const asyncRouterMap = [
     ]
   },
   {
+    path: '/AgentCollect',
+    component: Layout,
+    redirect: 'noredirect',
+    meta: {
+      icon: 'yingshoukuan',
+      type: 3
+    },
+    children: [
+      {
+        path: 'index',
+        component: () => import('@/views/AgentCollect/index'),
+        name: 'AgentCollect',
+        meta: { title: 'AgentCollect', noCache: true }
+      }
+    ]
+  },
+  {
     path: '/Recycling',
     component: Layout,
     redirect: 'noredirect',
@@ -2200,23 +2217,6 @@ export const asyncRouterMap = [
         component: () => import('@/views/CollectList/index'),
         name: 'CollectList',
         meta: { title: 'CollectList', noCache: true }
-      }
-    ]
-  },
-  {
-    path: '/AgentCollect',
-    component: Layout,
-    redirect: 'noredirect',
-    meta: {
-      icon: 'yingshoukuan',
-      type: 6
-    },
-    children: [
-      {
-        path: 'index',
-        component: () => import('@/views/AgentCollect/index'),
-        name: 'AgentCollect',
-        meta: { title: 'AgentCollect', noCache: true }
       }
     ]
   },

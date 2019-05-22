@@ -245,7 +245,7 @@ export default {
     InstallmentList: '分期列表',
     OverdueList: '逾期列表',
     CollectList: '分期应收款列表',
-    AgentCollect: '供应商应收款列表',
+    AgentCollect: '经销商应收款列表',
     Installmentrate: '基本设置',
     InstallmentrateList: '分期利息规则',
     overdueFineRules: '滞纳金规则',
