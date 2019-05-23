@@ -267,6 +267,7 @@ export default {
           unit: item.unit,
           produceQuantity: item.planQuantity,
           sourceNumber: num,
+          sourceSerialNumber: item.id,
           bomNumber: '',
           processName: '',
           planStartDate: '',

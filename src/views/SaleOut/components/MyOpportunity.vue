@@ -384,7 +384,8 @@ export default {
           carCode: 0,
           motorCode: 0,
           batteryCode: 0,
-          sourceNumber: opportunityNumber
+          sourceNumber: opportunityNumber,
+          sourceSerialNumber: item.id
         }
       })
       this.$emit('opportunityDetail', opportunityDetail)

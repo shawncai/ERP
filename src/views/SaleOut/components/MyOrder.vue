@@ -389,7 +389,8 @@ export default {
           carCode: 0,
           motorCode: 0,
           batteryCode: 0,
-          sourceNumber: OrderNumber
+          sourceNumber: OrderNumber,
+          sourceSerialNumber: item.id
         }
       })
       this.$emit('saleOrderDetail', saleOrderDetail)

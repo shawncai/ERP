@@ -9,12 +9,12 @@
             <el-row>
               <el-col :span="6">
                 <el-form-item :label="$t('SaleReturn.title')" style="width: 100%;">
-                  <el-input v-model="personalForm.title" style="margin-left: 18px" clearable/>
+                  <el-input v-model="personalForm.title" style="margin-left: 18px;width:200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('SaleReturn.sourceType')" prop="sourceType" style="width: 100%;">
-                  <el-select v-model="personalForm.sourceType" style="margin-left: 18px;width: 218px" @change="chooseSource">
+                  <el-select v-model="personalForm.sourceType" style="margin-left: 18px;width:200px" @change="chooseSource">
                     <el-option value="1" label="销售出库单"/>
                     <el-option value="2" label="无来源"/>
                   </el-select>
@@ -22,12 +22,13 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('SaleReturn.sourceNumber')" style="width: 100%;">
-                  <el-input v-model="personalForm.sourceNumber" :disabled="IsNumber" style="margin-left: 18px" clearable/>
+                  <el-input v-model="personalForm.sourceNumber" :disabled="IsNumber" style="margin-left: 18px;width:200px" @focus="choosesaleout"/>
                 </el-form-item>
+                <my-saleout :saleoutcontrol.sync="saleoutcontrol" @saleOutDetail="saleOutDetail" @saleOutdata="saleOutdata"/>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('SaleReturn.customerType')" prop="customerType" style="width: 100%;">
-                  <el-select v-model="personalForm.customerType" style="margin-left: 18px;width: 218px" @change="clearCustomer">
+                  <el-select v-model="personalForm.customerType" style="margin-left: 18px;width:200px" @change="clearCustomer">
                     <el-option value="1" label="经销商"/>
                     <el-option value="2" label="零售"/>
                   </el-select>
@@ -35,19 +36,19 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('SaleReturn.customerName')" prop="customerId" style="width: 100%;">
-                  <el-input v-model="customerId" style="margin-left: 18px;width: 218px" @focus="chooseCustomer"/>
+                  <el-input v-model="customerId" style="margin-left: 18px;width:200px" @focus="chooseCustomer"/>
                   <my-customer :customercontrol.sync="customercontrol" @customerdata="customerdata"/>
                   <my-agent :agentcontrol.sync="agentcontrol" @agentdata="agentdata"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('SaleReturn.customerPhone')" style="width: 100%;">
-                  <el-input v-model="personalForm.customerPhone" style="margin-left: 18px" clearable/>
+                  <el-input v-model="personalForm.customerPhone" style="margin-left: 18px;width:200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('SaleReturn.closeType')" style="width: 100%;">
-                  <el-select v-model="personalForm.closeType" style="margin-left: 18px;width: 218px">
+                  <el-select v-model="personalForm.closeType" style="margin-left: 18px;width:200px">
                     <el-option
                       v-for="(item, index) in colseTypes"
                       :value="item.id"
@@ -58,7 +59,7 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('SaleReturn.payType')" style="width: 100%;">
-                  <el-select v-model="personalForm.payType" style="margin-left: 18px;width: 218px">
+                  <el-select v-model="personalForm.payType" style="margin-left: 18px;width:200px">
                     <el-option value="1" label="货到付款"/>
                     <el-option value="2" label="当场支付"/>
                   </el-select>
@@ -66,18 +67,18 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('SaleReturn.salePersonId')" prop="salePersonId" style="width: 100%;">
-                  <el-input v-model="salePersonId" style="margin-left: 18px" clearable @focus="handlechooseStock"/>
+                  <el-input v-model="salePersonId" style="margin-left: 18px;width:200px" clearable @focus="handlechooseStock"/>
                   <my-emp :control.sync="stockControl" @stockName="stockName"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('SaleReturn.saleRepositoryId')" style="width: 100%;">
-                  <el-input v-model="saleRepositoryId" style="margin-left: 18px;width: 218px" disabled/>
+                  <el-input v-model="saleRepositoryId" style="margin-left: 18px;width:200px" disabled/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('SaleReturn.receiveAddress')" style="width: 100%;">
-                  <el-input v-model="personalForm.receiveAddress" style="margin-left: 18px;width: 218px"/>
+                  <el-input v-model="personalForm.receiveAddress" style="margin-left: 18px;width:200px"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
@@ -86,12 +87,12 @@
                     v-model="personalForm.returnDate"
                     type="date"
                     value-format="yyyy-MM-dd"
-                    style="margin-left: 18px"/>
+                    style="margin-left: 18px;width:200px"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('SaleReturn.currency')" prop="currency" style="width: 100%;">
-                  <el-select v-model="personalForm.currency" style="margin-left: 18px;width: 218px">
+                  <el-select v-model="personalForm.currency" style="margin-left: 18px;width:200px">
                     <el-option value="1" label="RMB"/>
                     <el-option value="2" label="USD"/>
                   </el-select>
@@ -124,9 +125,11 @@
             style="width: 100%">
             <el-editable-column type="selection" min-width="55" align="center"/>
             <el-editable-column label="序号" min-width="55" align="center" type="index"/>
-            <el-editable-column :edit-render="{type: 'visible'}" prop="locationId" align="center" label="货位" min-width="170px">
+            <el-editable-column v-if="personalForm.sourceType === '1'" prop="locationName" align="center" label="货位" min-width="150px"/>
+            <el-editable-column v-if="personalForm.sourceType === '1'" prop="batch" align="center" label="批次" min-width="150px"/>
+            <el-editable-column v-if="personalForm.sourceType === '2'" :edit-render="{type: 'visible'}" prop="locationId" align="center" label="货位" min-width="170px">
               <template slot="edit" slot-scope="scope">
-                <el-select v-model="scope.row.locationId" :value="scope.row.locationId" placeholder="请选择货位" filterable clearable style="width: 100%;" @visible-change="updatebatch($event,scope)">
+                <el-select v-model="scope.row.locationId" :value="scope.row.locationId" placeholder="请选择货位" filterable clearable style="width: 100%;" @visible-change="updatebatch($event,scope)" @change="$refs.editable.updateStatus(scope)">
                   <el-option
                     v-for="(item, index) in locationlist"
                     :key="index"
@@ -135,7 +138,7 @@
                 </el-select>
               </template>
             </el-editable-column>
-            <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="batch" align="center" label="批次" min-width="150px"/>
+            <el-editable-column v-if="personalForm.sourceType === '2'" :edit-render="{name: 'ElInput', type: 'visible'}" prop="batch" align="center" label="批次" min-width="150px"/>
             <el-editable-column prop="productCode" align="center" label="物品编号" min-width="150px"/>
             <el-editable-column prop="productName" align="center" label="物品名称" min-width="150px"/>
             <el-editable-column prop="Categoryid" align="center" label="物品分类" min-width="150px"/>
@@ -169,7 +172,7 @@
             <el-editable-column prop="carCode" align="center" label="车架号" min-width="150px"/>
             <el-editable-column prop="motorCode" align="center" label="电机编码" min-width="150px"/>
             <el-editable-column prop="batteryCode" align="center" label="电池编码" min-width="150px"/>
-            <el-editable-column prop="includeTaxCostMoney" align="center" label="源单编号" min-width="150px"/>
+            <el-editable-column prop="sourceNumber" align="center" label="源单编号" min-width="150px"/>
           </el-editable>
         </div>
       </el-card>
@@ -180,42 +183,42 @@
             <el-row>
               <el-col :span="6">
                 <el-form-item :label="$t('SaleReturn.heji1')" style="width: 100%;">
-                  <el-input v-model="heji1" style="margin-left: 18px" disabled/>
+                  <el-input v-model="heji1" style="margin-left: 18px;width:200px" disabled/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('SaleReturn.heji2')" style="width: 100%;">
-                  <el-input v-model="heji2" style="margin-left: 18px" disabled/>
+                  <el-input v-model="heji2" style="margin-left: 18px;width:200px" disabled/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('SaleReturn.heji3')" style="width: 100%;">
-                  <el-input v-model="heji3" style="margin-left: 18px" disabled/>
+                  <el-input v-model="heji3" style="margin-left: 18px;width:200px" disabled/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('SaleReturn.heji4')" style="width: 100%;">
-                  <el-input v-model="heji4" style="margin-left: 18px" disabled/>
+                  <el-input v-model="heji4" style="margin-left: 18px;width:200px" disabled/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('SaleReturn.heji5')" style="width: 100%;">
-                  <el-input v-model="heji5" style="margin-left: 18px" disabled/>
+                  <el-input v-model="heji5" style="margin-left: 18px;width:200px" disabled/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('SaleReturn.heji6')" style="width: 100%;">
-                  <el-input v-model="heji6" style="margin-left: 18px" disabled/>
+                  <el-input v-model="heji6" style="margin-left: 18px;width:200px" disabled/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('SaleReturn.ridMoney')" style="width: 100%;">
-                  <el-input v-model="personalForm.ridMoney" style="margin-left: 18px"/>
+                  <el-input v-model="personalForm.ridMoney" style="margin-left: 18px;width:200px"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('SaleReturn.actualReturnMoney')" style="width: 100%;">
-                  <el-input v-model="personalForm.actualReturnMoney" style="margin-left: 18px"/>
+                  <el-input v-model="personalForm.actualReturnMoney" style="margin-left: 18px;width:200px"/>
                 </el-form-item>
               </el-col>
             </el-row>
@@ -229,7 +232,7 @@
             <el-row>
               <el-col :span="6">
                 <el-form-item :label="$t('SaleReturn.closeStatusId')" prop="closeStatusId" style="width: 100%;">
-                  <el-select v-model="personalForm.closeStatusId" style="margin-left: 18px;width: 218px">
+                  <el-select v-model="personalForm.closeStatusId" style="margin-left: 18px;width:200px">
                     <el-option value="1" label="已结算"/>
                     <el-option value="2" label="未结算"/>
                   </el-select>
@@ -237,12 +240,12 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('SaleReturn.alreadyMoney')" style="width: 100%;">
-                  <el-input v-model="personalForm.alreadyMoney" style="margin-left: 18px"/>
+                  <el-input v-model="personalForm.alreadyMoney" style="margin-left: 18px;width:200px"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('SaleReturn.enterStatusId')" style="width: 100%;">
-                  <el-select v-model="personalForm.enterStatusId" style="margin-left: 18px;width: 218px">
+                  <el-select v-model="personalForm.enterStatusId" style="margin-left: 18px;width:200px">
                     <el-option value="1" label="已入库"/>
                     <el-option value="2" label="未入库"/>
                   </el-select>
@@ -272,9 +275,10 @@ import MyApply from './components/MyApply'
 import MyRequire from './components/MyRequire'
 import MyCustomer from './components/MyCustomer'
 import MyAgent from './components/MyAgent'
+import MySaleout from '../DeliverGoods/components/MySaleout'
 export default {
   name: 'AddSaleReturn',
-  components: { MyAgent, MyCustomer, MyRequire, MyApply, MyDetail, MyDelivery, MyEmp },
+  components: { MySaleout, MyAgent, MyCustomer, MyRequire, MyApply, MyDetail, MyDelivery, MyEmp },
   data() {
     const validatePass = (rule, value, callback) => {
       console.log(value)
@@ -285,6 +289,8 @@ export default {
       }
     }
     return {
+      // 控制源单
+      saleoutcontrol: false,
       // 合计信息
       heji1: '',
       heji2: '',
@@ -370,6 +376,20 @@ export default {
     this.getTypes()
   },
   methods: {
+    // 选择源单
+    choosesaleout() {
+      this.saleoutcontrol = true
+    },
+    saleOutDetail(val) {
+      this.$refs.editable.clear()
+      for (let i = 0; i < val.length; i++) {
+        this.$refs.editable.insert(val[i])
+      }
+    },
+    saleOutdata(val) {
+      console.log(val)
+      this.personalForm.sourceNumber = val.number
+    },
     updatebatch(event, scope) {
       if (event === true) {
         if (this.personalForm.saleRepositoryId === undefined || this.personalForm.saleRepositoryId === '') {
@@ -411,6 +431,7 @@ export default {
       } else if (val === '2') {
         this.Isproduct = false
         this.IsNumber = true
+        this.personalForm.sourceNumber = ''
       }
     },
     // 总计

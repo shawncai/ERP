@@ -21,8 +21,9 @@
             </el-col>
             <el-col :span="12">
               <el-form-item :label="$t('SaleReturn.sourceNumber')" style="width: 100%;">
-                <el-input v-model="personalForm.sourceNumber" :disabled="IsNumber" style="margin-left: 18px;width: 200px" clearable/>
+                <el-input v-model="personalForm.sourceNumber" :disabled="IsNumber" style="margin-left: 18px;width: 200px" @focus="choosesaleout"/>
               </el-form-item>
+              <my-saleout :saleoutcontrol.sync="saleoutcontrol" @saleOutDetail="saleOutDetail" @saleOutdata="saleOutdata"/>
             </el-col>
             <el-col :span="12">
               <el-form-item :label="$t('SaleReturn.customerType')" prop="customerType" style="width: 100%;">
@@ -123,9 +124,11 @@
           style="width: 100%">
           <el-editable-column type="selection" min-width="55" align="center"/>
           <el-editable-column label="序号" min-width="55" align="center" type="index"/>
-          <el-editable-column :edit-render="{type: 'visible'}" prop="locationId" align="center" label="货位" min-width="150px">
+          <el-editable-column v-if="personalForm.sourceType === '1'" prop="locationName" align="center" label="货位" min-width="150px"/>
+          <el-editable-column v-if="personalForm.sourceType === '1'" prop="batch" align="center" label="批次" min-width="150px"/>
+          <el-editable-column v-if="personalForm.sourceType === '2'" :edit-render="{type: 'visible'}" prop="locationId" align="center" label="货位" min-width="170px">
             <template slot="edit" slot-scope="scope">
-              <el-select v-model="scope.row.locationId" :value="scope.row.locationId" placeholder="请选择货位" filterable clearable style="width: 100%;" @visible-change="updatebatch($event,scope)">
+              <el-select v-model="scope.row.locationId" :value="scope.row.locationId" placeholder="请选择货位" filterable clearable style="width: 100%;" @visible-change="updatebatch($event,scope)" @change="$refs.editable.updateStatus(scope)">
                 <el-option
                   v-for="(item, index) in locationlist"
                   :key="index"
@@ -134,7 +137,7 @@
               </el-select>
             </template>
           </el-editable-column>
-          <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="batch" align="center" label="批次" min-width="150px"/>
+          <el-editable-column v-if="personalForm.sourceType === '2'" :edit-render="{name: 'ElInput', type: 'visible'}" prop="batch" align="center" label="批次" min-width="150px"/>
           <el-editable-column prop="productCode" align="center" label="物品编号" min-width="150px"/>
           <el-editable-column prop="productName" align="center" label="物品名称" min-width="150px"/>
           <el-editable-column prop="productCategoryName" align="center" label="物品分类" min-width="150px"/>
@@ -299,6 +302,8 @@ export default {
       editVisible: this.editcontrol,
       // 修改信息数据
       personalForm: this.editdata,
+      // 控制源单
+      saleoutcontrol: false,
       // 合计信息
       heji1: '',
       heji2: '',
@@ -385,6 +390,20 @@ export default {
     this.getTypes()
   },
   methods: {
+    // 选择源单
+    choosesaleout() {
+      this.saleoutcontrol = true
+    },
+    saleOutDetail(val) {
+      this.$refs.editable.clear()
+      for (let i = 0; i < val.length; i++) {
+        this.$refs.editable.insert(val[i])
+      }
+    },
+    saleOutdata(val) {
+      console.log(val)
+      this.personalForm.sourceNumber = val.number
+    },
     updatebatch(event, scope) {
       if (event === true) {
         if (this.personalForm.saleRepositoryId === undefined || this.personalForm.saleRepositoryId === '') {
@@ -426,6 +445,7 @@ export default {
       } else if (val === '2') {
         this.Isproduct = false
         this.IsNumber = true
+        this.personalForm.sourceNumber = ''
       }
     },
     // 总计

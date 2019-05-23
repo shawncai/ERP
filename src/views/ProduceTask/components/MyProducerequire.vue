@@ -1,29 +1,33 @@
 <template>
   <el-dialog :visible.sync="employeeVisible" :prorequirecontrol="prorequirecontrol" :close-on-press-escape="false" top="10px" title="选择生产需求" append-to-body width="1000px" @close="$emit('update:prorequirecontrol', false)">
     <el-card class="box-card" style="margin-top: 10px;height: 60px" shadow="never">
-      <el-row>
-        <el-form ref="getemplist" :model="getemplist" label-width="100px" style="margin-top: -9px">
-          <el-col :span="5">
-            <el-form-item label="开始时间" label-width="100px">
+      <el-form ref="getemplist" :model="getemplist" style="margin-top: -9px">
+        <el-row>
+          <el-col :span="4">
+            <el-form-item>
               <el-date-picker
                 v-model="getemplist.beginTime"
                 :picker-options="pickerOptions0"
+                placeholder="开始时间"
                 type="date"
                 value-format="yyyy-MM-dd"
+                style="width: 140px"
                 @change="cleardeposit"/>
             </el-form-item>
           </el-col>
-          <el-col :span="5" style="margin-left: 10px">
-            <el-form-item label="结束时间">
+          <el-col :span="4">
+            <el-form-item>
               <el-date-picker
                 v-model="getemplist.endTime"
                 :picker-options="pickerOptions1"
+                placeholder="结束时间"
                 type="date"
-                value-format="yyyy-MM-dd"/>
+                value-format="yyyy-MM-dd"
+                style="width: 140px"/>
             </el-form-item>
           </el-col>
-          <el-col :span="5" style="margin-left: 10px">
-            <el-form-item label="工作中心">
+          <el-col :span="4">
+            <el-form-item>
               <el-input v-model="workCenterId" :placeholder="$t('ProduceRequire.workCenterId')" clearable @keyup.enter.native="handleFilter" @focus="workcenterchoose"/>
             </el-form-item>
             <my-center :control.sync="centercontrol" @center="center"/>
@@ -80,8 +84,8 @@
           <!--<el-col :span="2">-->
           <!--<el-button v-waves class="filter-item" icon="el-icon-plus" type="success" style="width: 86px" @click="handleAdd">{{ $t('public.add') }}</el-button>-->
           <!--</el-col>-->
-        </el-form>
-      </el-row>
+        </el-row>
+      </el-form>
     </el-card>
     <el-card class="box-card" style="margin-top: 10px" shadow="never">
       <!-- 列表开始 -->
@@ -389,23 +393,32 @@ export default {
     // 确认添加数据
     handleConfirm() {
       this.employeeVisible = false
-      const producedata = this.choosedata.produceTaskDetailVos
+      const prorequiredata = new Array(this.choosedata)
       console.log(this.choosedata)
-      const num = this.choosedata
-      const productDetail = producedata.map(function(item) {
+      const num = this.choosedata.sourceNumber
+      const prorequireDetail = prorequiredata.map(function(item) {
         return {
           productCode: item.productCode,
           productName: item.productName,
-          alreadyProduceQuantity: item.alreadyProduceQuantity,
-          produceQuantity: item.produceQuantity,
-          workHours: 0,
-          finishQuantity: 0,
+          productType: item.productType,
+          typeId: item.typeId,
+          unit: item.unit,
+          sourceNumber: num,
+          sourceSerialNumber: item.id,
+          workCenterId: item.workCenterId,
+          workCenterName: item.workCenterName,
+          produceQuantity: item.requireQuantity,
+          bomNumber: '',
+          processName: '',
+          alreadyProduceQuantity: 0,
+          alreadyEnterQuantity: 0,
+          reportedCheckQuantity: 0,
+          actualCheckQuantity: 0,
           passQuantity: 0,
-          passRate: 0,
-          workCenterId: item.workCenterId
+          failQuantity: 0
         }
       })
-      this.$emit('produce', productDetail)
+      this.$emit('prorequireDetail', prorequireDetail)
       this.$emit('moredata', num)
     }
     // 仓库管理员选择结束

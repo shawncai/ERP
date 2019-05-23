@@ -62,6 +62,7 @@
           <my-detail2 :control.sync="control" @product="productdetail"/>
           <el-button :disabled="addsouce" style="width: 130px" @click="handleAddSouce">从源单中选择</el-button>
           <produce-plan :procontrol.sync="producecontrol" @produce="produce" @moredata="moredata"/>
+          <my-producerequire :prorequirecontrol.sync="prorequirecontrol" @prorequireDetail="prorequireDetail"/>
           <el-button type="danger" @click="$refs.editable.removeSelecteds()">删除</el-button>
         </div>
         <div class="container">
@@ -82,8 +83,9 @@
             <el-editable-column prop="productType" align="center" label="规格" min-width="150px"/>
             <el-editable-column prop="unit" align="center" label="单位" min-width="150px"/>
             <el-editable-column prop="sourceNumber" align="center" label="源单编号" min-width="150px"/>
-            <el-editable-column prop="sourceType" align="center" label="源单类型" min-width="150px"/>
-            <el-editable-column :edit-render="{name: 'ElSelect', options: workCenterIds, type: 'visible'}" prop="workCenterId" align="center" label="工作中心" min-width="150px"/>
+            <el-editable-column prop="sourceSerialNumber" align="center" label="源单序号" min-width="150px"/>
+            <el-editable-column v-if="personalForm.sourceType==='3'" prop="workCenterName" align="center" label="工作中心" min-width="150px"/>
+            <el-editable-column v-if="personalForm.sourceType!=='3'" :edit-render="{name: 'ElSelect', options: workCenterIds, type: 'visible'}" prop="workCenterId" align="center" label="工作中心" min-width="150px"/>
             <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="produceQuantity" align="center" label="生产数量" min-width="150px"/>
             <el-editable-column :edit-render="{name: 'ElSelect', options: bomNumbers, type: 'visible'}" prop="bomNumber" align="center" label="BOM编码" min-width="150px"/>
             <el-editable-column :edit-render="{name: 'ElSelect', options: processes, type: 'visible'}" prop="processName" align="center" label="工艺路线" min-width="150px"/>
@@ -116,9 +118,10 @@ import MyDetail from './components/MyDetail'
 import ProducePlan from './components/ProducePlan'
 import MyDetail2 from './components/MyDetail2'
 import MyDelivery from '../DailyAdjust/components/MyDelivery'
+import MyProducerequire from './components/MyProducerequire'
 export default {
   name: 'AddProduceTask',
-  components: { MyDelivery, MyDetail2, ProducePlan, MyEmp, MyDetail },
+  components: { MyProducerequire, MyDelivery, MyDetail2, ProducePlan, MyEmp, MyDetail },
   data() {
     const validatePass = (rule, value, callback) => {
       console.log(value)
@@ -129,6 +132,8 @@ export default {
       }
     }
     return {
+      // 控制生产需求
+      prorequirecontrol: false,
       // 需求列表过来数据
       needsdata: [],
       // 控制添加商品按钮
@@ -276,9 +281,18 @@ export default {
     },
     // 源单数据添加控制
     handleAddSouce() {
-      this.producecontrol = true
+      if (this.personalForm.sourceType === '1') {
+        this.producecontrol = true
+      } else if (this.personalForm.sourceType === '3') {
+        this.prorequirecontrol = true
+      }
     },
     produce(val) {
+      for (let i = 0; i < val.length; i++) {
+        this.$refs.editable.insert(val[i])
+      }
+    },
+    prorequireDetail(val) {
       for (let i = 0; i < val.length; i++) {
         this.$refs.editable.insert(val[i])
       }

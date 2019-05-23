@@ -90,7 +90,7 @@
           style="width: 100%">
           <el-editable-column type="selection" min-width="55" align="center"/>
           <el-editable-column label="序号" min-width="55" align="center" type="index"/>
-          <el-editable-column prop="locationId" align="center" label="货位" min-width="150px"/>
+          <el-editable-column prop="locationName" align="center" label="货位" min-width="150px"/>
           <el-editable-column prop="batch" align="center" label="批次" min-width="150px"/>
           <el-editable-column prop="productCode" align="center" label="物品编号" min-width="150px"/>
           <el-editable-column prop="productName" align="center" label="物品名称" min-width="150px"/>
