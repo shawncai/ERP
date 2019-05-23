@@ -183,9 +183,8 @@ export default {
     },
     sourceTypeFilter(status) {
       const statusMap = {
-        1: '采购申请',
-        2: '采购需求',
-        3: '无来源'
+        1: '采购订单',
+        2: '无来源'
       }
       return statusMap[status]
     }
