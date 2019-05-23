@@ -402,7 +402,7 @@ export default {
         type: 'warning'
       }).then(() => {
         delete2(row.id, this.$store.getters.userId).then(res => {
-          if (res.data.ret === 200) {
+          if (res.data.ret === 200 || res.data.ret === 100) {
             this.$notify({
               title: '删除成功',
               type: 'success',
@@ -480,7 +480,7 @@ export default {
         type: 'warning'
       }).then(() => {
         deleteGroup(row.id, this.$store.getters.userId).then(res => {
-          if (res.data.ret === 200) {
+          if (res.data.ret === 200 || res.data.ret === 100) {
             this.$notify({
               title: '删除成功',
               type: 'success',
