@@ -12,6 +12,20 @@
               </el-form-item>
             </el-col>
             <el-col :span="12">
+              <el-form-item :label="$t('ProduceTask.sourceType')" prop="sourceType" style="width: 100%;">
+                <el-select v-model="personalForm.sourceType" style="margin-left: 18px;width: 200px" @change="chooseSource">
+                  <el-option value="1" label="无来源" />
+                  <el-option value="2" label="销售机会" />
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('SaleReturn.sourceNumber')" style="width: 100%;">
+                <el-input v-model="personalForm.sourceNumber" :disabled="IsNumber" style="margin-left: 18px;width: 200px" @focus="openoppo"/>
+                <my-opportunity :opportunitycontrol.sync="opportunitycontrol" @opportunityDetail="opportunityDetail" @opportunity="opportunity"/>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
               <el-form-item :label="$t('SaleOrder.customerType')" prop="customerType" style="width: 100%;">
                 <el-select v-model="personalForm.customerType" style="margin-left: 18px;width: 200px" @change="clearCustomer">
                   <el-option value="1" label="经销商"/>
@@ -129,7 +143,7 @@
     <el-card class="box-card" style="margin-top: 15px" shadow="never">
       <h2 ref="fuzhu" class="form-name" >订单明细</h2>
       <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
-        <el-button @click="handleAddproduct">添加商品</el-button>
+        <el-button :disabled="Isproduct" @click="handleAddproduct">添加商品</el-button>
         <my-detail :control.sync="control" @product="productdetail"/>
         <el-button type="danger" @click="$refs.editable.removeSelecteds()">删除</el-button>
       </div>
@@ -355,8 +369,9 @@ import MySupplier from '../../Product/components/MySupplier'
 import MyRequire from './MyRequire'
 import MyCustomer from './MyCustomer'
 import MyAgent from './MyAgent'
+import MyOpportunity from './MyOpportunity'
 export default {
-  components: { MyAgent, MyCustomer, MyRequire, MySupplier, MyApply, MyDetail, MyDelivery, MyEmp },
+  components: { MyAgent, MyCustomer, MyRequire, MySupplier, MyApply, MyDetail, MyDelivery, MyEmp, MyOpportunity },
   props: {
     editcontrol: {
       type: Boolean,
@@ -393,6 +408,8 @@ export default {
       heji7: '',
       heji8: '',
       heji9: '',
+      // 控制添加商品按钮是否可以点击
+      Isproduct: true,
       // 回显客户
       customerId: '',
       // 控制客户
@@ -412,12 +429,16 @@ export default {
       },
       // 结算方式数据
       colseTypes: [],
+      // 控制源单编码是否可以选择
+      IsNumber: true,
       // 结算方式获取参数
       colseTypeparms: {
         type: 3,
         pagenum: 1,
         pagesize: 99999
       },
+      // 控制销售机会
+      opportunitycontrol: false,
       // 控制商品列表窗口
       control: false,
       // 销售订单规则数据
@@ -455,15 +476,70 @@ export default {
       this.personalForm = this.editdata
       this.planPersonId = this.personalForm.planPersonName
       this.stockPersonId = this.personalForm.stockPersonName
+      this.salePersonId = this.personalForm.salePersonName
+      this.customerId = this.personalForm.customerName
       this.list2 = this.personalForm.saleOrderDetailVos
       this.list3 = this.personalForm.saleOrderCostDetails
-      this.chooseType()
+      this.chooseSource(this.personalForm.sourceType)
     }
   },
   created() {
     this.getTypes()
   },
   methods: {
+    // 从销售机会过来的源单数据
+    opportunityDetail(val) {
+      console.log(val)
+      const nowlistdata = this.$refs.editable.getRecords()
+      for (let i = 0; i < val.length; i++) {
+        for (let j = 0; j < nowlistdata.length; j++) {
+          if (val[i].sourceNumber === nowlistdata[j].sourceNumber) {
+            // this.$notify.error({
+            //   title: '错误',
+            //   message: '物品已添加',
+            //   offset: 100
+            // })
+            return false
+          }
+        }
+        this.$refs.editable.insert(val[i])
+      }
+    },
+    opportunity(val) {
+      console.log(val)
+      if (val.customerType !== null && val.customerType !== undefined && val.customerType !== '') {
+        this.personalForm.customerType = String(val.customerType)
+      }
+      // this.personalForm.customerId = val.customerId
+      // this.customerId = val.customerName
+      // this.personalForm.customerPhone = val.customerPhone
+      this.personalForm.sourceNumber = val.opportunityNumber
+      this.personalForm.salePersonId = val.handlePersonId
+      this.salePersonId = val.handlePersonName
+      this.personalForm.handleRepositoryId = val.handleRepositoryId
+      this.handleRepositoryId = val.handleRepositoryName
+    },
+    openoppo() {
+      if (this.personalForm.sourceType === '2') {
+        this.opportunitycontrol = true
+      }
+    },
+    // 控制源单类型
+    chooseSource(val) {
+      if (val === '2') {
+        this.Isproduct = true
+        this.IsNumber = false
+        this.$refs.editable.clear()
+      } else if (val === '1') {
+        this.Isproduct = false
+        this.IsNumber = true
+        this.$refs.editable.clear()
+      }
+    },
+    // 从源单中添加商品
+    handleAddSouce() {
+      this.arrivalcontrol = true
+    },
     // 总计
     getSummaries(param) {
       const { columns, data } = param

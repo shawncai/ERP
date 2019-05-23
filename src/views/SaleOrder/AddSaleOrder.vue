@@ -9,12 +9,12 @@
             <el-row>
               <el-col :span="6">
                 <el-form-item :label="$t('SaleOrder.title')" style="width: 100%;">
-                  <el-input v-model="personalForm.title" style="margin-left: 18px" clearable/>
+                  <el-input v-model="personalForm.title" style="margin-left: 18px;width: 200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('ProduceTask.sourceType')" prop="sourceType" style="width: 100%;">
-                  <el-select v-model="personalForm.sourceType" style="margin-left: 18px;width: 218px" @change="chooseType">
+                  <el-select v-model="personalForm.sourceType" style="margin-left: 18px;width: 200px" @change="chooseSource">
                     <el-option value="1" label="无来源" />
                     <el-option value="2" label="销售机会" />
                   </el-select>
@@ -22,12 +22,13 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('SaleReturn.sourceNumber')" style="width: 100%;">
-                  <el-input v-model="personalForm.sourceNumber" :disabled="IsNumber" style="margin-left: 18px" clearable/>
+                  <el-input v-model="personalForm.sourceNumber" :disabled="IsNumber" style="margin-left: 18px;width: 200px" @focus="openoppo"/>
+                  <my-opportunity :opportunitycontrol.sync="opportunitycontrol" @opportunityDetail="opportunityDetail" @opportunity="opportunity"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('SaleOrder.customerType')" prop="customerType" style="width: 100%;">
-                  <el-select v-model="personalForm.customerType" style="margin-left: 18px;width: 218px" @change="clearCustomer">
+                  <el-select v-model="personalForm.customerType" style="margin-left: 18px;width: 200px" @change="clearCustomer">
                     <el-option value="1" label="经销商"/>
                     <el-option value="2" label="零售"/>
                   </el-select>
@@ -35,19 +36,19 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('SaleOrder.customerName')" prop="customerId" style="width: 100%;">
-                  <el-input v-model="customerId" style="margin-left: 18px;width: 218px" @focus="chooseCustomer"/>
+                  <el-input v-model="customerId" style="margin-left: 18px;width: 200px" @focus="chooseCustomer"/>
                   <my-customer :customercontrol.sync="customercontrol" @customerdata="customerdata"/>
                   <my-agent :agentcontrol.sync="agentcontrol" @agentdata="agentdata"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('SaleOrder.customerPhone')" style="width: 100%;">
-                  <el-input v-model="personalForm.customerPhone" style="margin-left: 18px" clearable/>
+                  <el-input v-model="personalForm.customerPhone" style="margin-left: 18px;width: 200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('SaleOrder.invoiceType')" style="width: 100%;">
-                  <el-select v-model="personalForm.invoiceType" style="margin-left: 18px;width: 218px">
+                  <el-select v-model="personalForm.invoiceType" style="margin-left: 18px;width: 200px">
                     <el-option
                       v-for="(item, index) in invoiceTypes"
                       :value="item.id"
@@ -59,7 +60,7 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('SaleOrder.payMode')" style="width: 100%;">
-                  <el-select v-model="personalForm.payMode" style="margin-left: 18px;width: 218px">
+                  <el-select v-model="personalForm.payMode" style="margin-left: 18px;width: 200px">
                     <el-option value="1" label="货到付款"/>
                     <el-option value="2" label="当场支付"/>
                   </el-select>
@@ -72,28 +73,28 @@
                     :picker-options="pickerOptions1"
                     type="date"
                     value-format="yyyy-MM-dd"
-                    style="margin-left: 18px"/>
+                    style="margin-left: 18px;width: 200px"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('SaleOrder.salePersonId')" prop="salePersonId" style="width: 100%;">
-                  <el-input v-model="salePersonId" style="margin-left: 18px" @focus="handlechooseStock"/>
+                  <el-input v-model="salePersonId" style="margin-left: 18px;width: 200px" @focus="handlechooseStock"/>
                   <my-emp :control.sync="stockControl" @stockName="stockName"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('SaleOrder.saleRepositoryId')" style="width: 100%;">
-                  <el-input v-model="saleRepositoryId" style="margin-left: 18px;width: 218px" disabled/>
+                  <el-input v-model="saleRepositoryId" style="margin-left: 18px;width: 200px" disabled/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('SaleOrder.roleId')" style="width: 100%;">
-                  <el-input v-model="roleId" style="margin-left: 18px;width: 218px" disabled/>
+                  <el-input v-model="roleId" style="margin-left: 18px;width: 200px" disabled/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('SaleOrder.saleType')" style="width: 100%;">
-                  <el-select v-model="personalForm.saleType" style="margin-left: 18px;width: 218px">
+                  <el-select v-model="personalForm.saleType" style="margin-left: 18px;width: 200px">
                     <el-option value="1" label="类别1"/>
                     <el-option value="2" label="类别2"/>
                   </el-select>
@@ -101,7 +102,7 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('SaleOrder.payType')" style="width: 100%;">
-                  <el-select v-model="personalForm.payType" style="margin-left: 18px;width: 218px">
+                  <el-select v-model="personalForm.payType" style="margin-left: 18px;width: 200px">
                     <el-option value="1" label="方式1"/>
                     <el-option value="2" label="方式2"/>
                   </el-select>
@@ -109,7 +110,7 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('SaleOrder.currency')" style="width: 100%;">
-                  <el-select v-model="personalForm.currency" style="margin-left: 18px;width: 218px">
+                  <el-select v-model="personalForm.currency" style="margin-left: 18px;width: 200px">
                     <el-option value="1" label="RMB"/>
                     <el-option value="2" label="USD"/>
                   </el-select>
@@ -117,17 +118,17 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('SaleOrder.transAddress')" style="width: 100%;">
-                  <el-input v-model="personalForm.transAddress" style="margin-left: 18px;width: 218px"/>
+                  <el-input v-model="personalForm.transAddress" style="margin-left: 18px;width: 200px"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('SaleOrder.receiveMoney')" style="width: 100%;">
-                  <el-input v-model="personalForm.receiveMoney" style="margin-left: 18px;width: 218px"/>
+                  <el-input v-model="personalForm.receiveMoney" style="margin-left: 18px;width: 200px"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('SaleOrder.colseType')" style="width: 100%;">
-                  <el-select v-model="personalForm.colseType" style="margin-left: 18px;width: 218px">
+                  <el-select v-model="personalForm.colseType" style="margin-left: 18px;width: 200px">
                     <el-option
                       v-for="(item, index) in colseTypes"
                       :value="item.id"
@@ -144,7 +145,7 @@
       <el-card class="box-card" style="margin-top: 15px" shadow="never">
         <h2 ref="fuzhu" class="form-name" >订单明细</h2>
         <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
-          <el-button @click="handleAddproduct">添加商品</el-button>
+          <el-button :disabled="Isproduct" @click="chooseType">添加商品</el-button>
           <my-detail :control.sync="control" @product="productdetail"/>
           <el-button type="danger" @click="$refs.editable.removeSelecteds()">删除</el-button>
         </div>
@@ -331,7 +332,7 @@
             <el-row>
               <el-col :span="6">
                 <el-form-item :label="$t('SaleOrder.backType')" prop="backType" style="width: 100%;">
-                  <el-select v-model="personalForm.backType" style="margin-left: 18px;width: 218px" disabled>
+                  <el-select v-model="personalForm.backType" style="margin-left: 18px;width: 200px" disabled>
                     <el-option value="1" label="已回款"/>
                     <el-option value="2" label="未回款"/>
                   </el-select>
@@ -344,7 +345,7 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('SaleOrder.sendType')" style="width: 100%;">
-                  <el-select v-model="personalForm.sendType" style="margin-left: 18px;width: 218px" disabled>
+                  <el-select v-model="personalForm.sendType" style="margin-left: 18px;width: 200px" disabled>
                     <el-option value="1" label="已发货"/>
                     <el-option value="2" label="未发货"/>
                   </el-select>
@@ -370,18 +371,26 @@ import MyEmp from './components/MyEmp'
 import MyDelivery from '../DailyAdjust/components/MyDelivery'
 import MyDetail from './components/MyDetail'
 import MyApply from './components/MyApply'
+import MyOpportunity from './components/MyOpportunity'
 import MySupplier from '../Product/components/MySupplier'
 import MyRequire from './components/MyRequire'
 import MyCustomer from './components/MyCustomer'
 import MyAgent from './components/MyAgent'
 export default {
   name: 'AddSaleOrder',
-  components: { MyAgent, MyCustomer, MyRequire, MySupplier, MyApply, MyDetail, MyDelivery, MyEmp },
+  components: { MyAgent, MyCustomer, MyRequire, MySupplier, MyApply, MyDetail, MyDelivery, MyEmp, MyOpportunity },
   data() {
     const validatePass = (rule, value, callback) => {
       console.log(this.supplierId)
       if (this.salePersonId === undefined || this.salePersonId === null || this.salePersonId === '') {
         callback(new Error('请选择销售人员'))
+      } else {
+        callback()
+      }
+    }
+    const validatePass2 = (rule, value, callback) => {
+      if (this.customerId === undefined || this.customerId === null || this.customerId === '') {
+        callback(new Error('请选择客户'))
       } else {
         callback()
       }
@@ -418,10 +427,16 @@ export default {
       agentcontrol: false,
       // 选择的数据
       choosedata: [],
+      // 控制销售机会
+      opportunitycontrol: false,
+      // 控制添加商品按钮是否可以点击
+      Isproduct: true,
       // 销售人员回显
       salePersonId: '',
       // 控制销售人员
       stockControl: false,
+      // 控制源单编码是否可以选择
+      IsNumber: true,
       // 开票类别数据
       invoiceTypes: [],
       // 开票类别获取参数
@@ -440,6 +455,8 @@ export default {
       },
       // 控制商品列表窗口
       control: false,
+      // 控制添加商品按钮
+      addpro: true,
       // 销售订单信息数据
       personalForm: {
         createPersonId: this.$store.getters.userId,
@@ -452,10 +469,14 @@ export default {
         sendType: '2',
         currency: '1',
         transDate: null,
-        sourceType: '1'
+        sourceType: '1',
+        otherMoney: '0.00'
       },
       // 销售订单规则数据
       personalrules: {
+        customerId: [
+          { required: true, validator: validatePass2, trigger: 'change' }
+        ],
         customerType: [
           { required: true, message: '请选择客户类别', trigger: 'change' }
         ],
@@ -483,6 +504,63 @@ export default {
     this.getdatatime()
   },
   methods: {
+    // 从销售机会过来的源单数据
+    opportunityDetail(val) {
+      console.log(val)
+      const nowlistdata = this.$refs.editable.getRecords()
+      for (let i = 0; i < val.length; i++) {
+        for (let j = 0; j < nowlistdata.length; j++) {
+          if (val[i].sourceNumber === nowlistdata[j].sourceNumber) {
+            // this.$notify.error({
+            //   title: '错误',
+            //   message: '物品已添加',
+            //   offset: 100
+            // })
+            return false
+          }
+        }
+        this.$refs.editable.insert(val[i])
+      }
+    },
+    opportunity(val) {
+      console.log(val)
+      if (val.customerType !== null && val.customerType !== undefined && val.customerType !== '') {
+        this.personalForm.customerType = String(val.customerType)
+      }
+      // this.personalForm.customerId = val.customerId
+      // this.customerId = val.customerName
+      // this.personalForm.customerPhone = val.customerPhone
+      this.personalForm.sourceNumber = val.opportunityNumber
+      this.personalForm.salePersonId = val.handlePersonId
+      this.salePersonId = val.handlePersonName
+      this.personalForm.handleRepositoryId = val.handleRepositoryId
+      this.handleRepositoryId = val.handleRepositoryName
+    },
+    openoppo() {
+      if (this.personalForm.sourceType === '2') {
+        this.opportunitycontrol = true
+      }
+    },
+    // 控制源单类型
+    chooseSource(val) {
+      if (val === '2') {
+        this.Isproduct = true
+        this.IsNumber = false
+        this.$refs.editable.clear()
+      } else if (val === '1') {
+        this.Isproduct = false
+        this.IsNumber = true
+        this.$refs.editable.clear()
+      }
+    },
+    // 无来源添加商品
+    chooseType() {
+      this.control = true
+    },
+    // 从源单中添加商品
+    handleAddSouce() {
+      this.arrivalcontrol = true
+    },
     getdatatime() { // 默认显示今天
       this.personalForm.transDate = new Date()
     },
@@ -514,6 +592,7 @@ export default {
       sums[6] = ''
       sums[8] = ''
       sums[9] = ''
+      sums[23] = ''
       this.heji1 = sums[10]
       this.heji2 = sums[18]
       this.heji3 = sums[15]
