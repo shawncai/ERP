@@ -421,7 +421,7 @@ export default {
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          deleterecycling(ids).then(res => {
+          deleterecycling(ids, this.$store.getters.userId).then(res => {
             if (res.data.ret === 200 || res.data.ret === 100) {
               this.$notify({
                 title: '删除成功',
@@ -452,7 +452,7 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        deleterecycling(row.id).then(res => {
+        deleterecycling(row.id, this.$store.getters.userId).then(res => {
           if (res.data.ret === 200) {
             this.$notify({
               title: '删除成功',

@@ -59,10 +59,13 @@ export function updateCustomerChat(query) {
 }
 
 //  删除客户洽谈
-export function deleteCustomerChat(query) {
+export function deleteCustomerChat(query, query2) {
   var params = new URLSearchParams()
   if (query !== '' && query !== null && query !== undefined) {
     params.append('chatIds', query) // 你要传给后台的参数值 key/value
+  }
+  if (query2 !== '' && query2 !== null && query2 !== undefined) {
+    params.append('operatorId', query2) // 你要传给后台的参数值 key/value
   }
   return request({
     url: '/erp/customerchat/deleteCustomerChat',
@@ -130,10 +133,13 @@ export function updateCustomerVisit(query) {
 }
 
 //  删除客户回访
-export function deleteCustomerVisit(query) {
+export function deleteCustomerVisit(query, query2) {
   var params = new URLSearchParams()
   if (query !== '' && query !== null && query !== undefined) {
     params.append('visitIds', query) // 你要传给后台的参数值 key/value
+  }
+  if (query2 !== '' && query2 !== null && query2 !== undefined) {
+    params.append('operatorId', query2) // 你要传给后台的参数值 key/value
   }
   return request({
     url: '/erp/customervisit/deleteCustomerVisit',

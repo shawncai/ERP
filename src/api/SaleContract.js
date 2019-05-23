@@ -76,10 +76,13 @@ export function updatesaleContract(query, query2) {
 }
 
 // 删除销售合同
-export function deletesaleContract(query) {
+export function deletesaleContract(query, query2) {
   var params = new URLSearchParams()
   if (query !== '' && query !== null && query !== undefined) {
     params.append('modelids', query) // 你要传给后台的参数值 key/value
+  }
+  if (query2 !== '' && query2 !== null && query2 !== undefined) {
+    params.append('operatorId', query2) // 你要传给后台的参数值 key/value
   }
   return request({
     url: '/erp/saleContract/delete',

@@ -93,9 +93,12 @@ export function updatepayment2(query) {
 }
 
 // 删除付款单
-export function deletepayment(query) {
+export function deletepayment(query, query2) {
   var params = new URLSearchParams()
   params.append('paymentIds', query) // 你要传给后台的参数值 key/value
+  if (query2 !== '' && query2 !== null && query2 !== undefined) {
+    params.append('operatorId', query2) // 你要传给后台的参数值 key/value
+  }
   return request({
     url: '/erp/payment/deletepayment',
     method: 'post',

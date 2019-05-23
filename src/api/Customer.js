@@ -164,10 +164,13 @@ export function updateCustomer(query) {
 }
 
 // 删除客户信息
-export function deletecustomer(query) {
+export function deletecustomer(query, query2) {
   var params = new URLSearchParams()
   if (query !== '' && query !== null) {
     params.append('customerids', query) // 你要传给后台的参数值 key/value
+  }
+  if (query2 !== '' && query2 !== null && query2 !== undefined) {
+    params.append('operatorId', query2) // 你要传给后台的参数值 key/value
   }
   return request({
     url: '/erp/customer/deletecustomer',
@@ -341,10 +344,13 @@ export function updateagent(query) {
 }
 
 // 删除经销商信息
-export function deleteagent(query) {
+export function deleteagent(query, query2) {
   var params = new URLSearchParams()
   if (query !== '' && query !== null) {
     params.append('ids', query) // 你要传给后台的参数值 key/value
+  }
+  if (query2 !== '' && query2 !== null && query2 !== undefined) {
+    params.append('operatorId', query2) // 你要传给后台的参数值 key/value
   }
   return request({
     url: '/erp/agent/deleteagent',
@@ -416,10 +422,13 @@ export function updateEmpCategory(query) {
 }
 
 // 删除分类属性
-export function delateEmpCategory(query) {
+export function delateEmpCategory(query, query2) {
   var params = new URLSearchParams()
   if (query !== '' && query !== null) {
     params.append('ids', query) // 你要传给后台的参数值 key/value
+  }
+  if (query2 !== '' && query2 !== null && query2 !== undefined) {
+    params.append('operatorId', query2) // 你要传给后台的参数值 key/value
   }
   return request({
     url: '/erp/customer/delateCusCategory',

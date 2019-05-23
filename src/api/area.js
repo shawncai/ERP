@@ -60,9 +60,12 @@ export function createarea2(name, levle, parentid, createid, regionmanagerid) {
 }
 
 // 删除区域
-export function deleteregion(regionid) {
+export function deleteregion(regionid, query2) {
   var params = new URLSearchParams()
   params.append('regionid', regionid) // 你要传给后台的参数值 key/value
+  if (query2 !== '' && query2 !== null && query2 !== undefined) {
+    params.append('operatorId', query2) // 你要传给后台的参数值 key/value
+  }
   return request({
     url: '/erp/region/deleteregion',
     method: 'post',

@@ -80,10 +80,13 @@ export function updateEmpCategory(query) {
 }
 
 // 删除分类属性
-export function delateEmpCategory(query) {
+export function delateEmpCategory(query, query2) {
   var params = new URLSearchParams()
   if (query !== '' && query !== null) {
     params.append('ids', query) // 你要传给后台的参数值 key/value
+  }
+  if (query2 !== '' && query2 !== null && query2 !== undefined) {
+    params.append('operatorId', query2) // 你要传给后台的参数值 key/value
   }
   return request({
     url: '/erp/product/delateProCategory',
@@ -292,10 +295,13 @@ export function productlist(query) {
 }
 
 // 删除商品
-export function deleteproduct(query) {
+export function deleteproduct(query, query2) {
   var params = new URLSearchParams()
   if (query !== '' && query !== null && query !== undefined) {
     params.append('productids', query) // 你要传给后台的参数值 key/value
+  }
+  if (query2 !== '' && query2 !== null && query2 !== undefined) {
+    params.append('operatorId', query2) // 你要传给后台的参数值 key/value
   }
   return request({
     url: '/erp/product/deleteproduct',
@@ -543,10 +549,13 @@ export function updateadjustprice(query) {
 }
 
 // 删除价格变更单
-export function deleteadjustprice(query) {
+export function deleteadjustprice(query, query2) {
   var params = new URLSearchParams()
   if (query !== '' && query !== null && query !== undefined) {
     params.append('adjustids', query) // 你要传给后台的参数值 key/value
+  }
+  if (query2 !== '' && query2 !== null && query2 !== undefined) {
+    params.append('operatorId', query2) // 你要传给后台的参数值 key/value
   }
   return request({
     url: '/erp/adjustprice/deleteadjustprice',
@@ -623,10 +632,13 @@ export function updateeclassfy(query) {
 }
 
 // 删除物品分类
-export function deleteeclassfy(query) {
+export function deleteeclassfy(query, query2) {
   var params = new URLSearchParams()
   if (query !== '' && query !== null && query !== undefined) {
     params.append('id', query) // 你要传给后台的参数值 key/value
+  }
+  if (query2 !== '' && query2 !== null && query2 !== undefined) {
+    params.append('operatorId', query2) // 你要传给后台的参数值 key/value
   }
   return request({
     url: '/erp/productclassfy/delete',

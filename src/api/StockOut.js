@@ -43,10 +43,13 @@ export function searchOutlist(query) {
 }
 
 // 删除出库单
-export function deleteStock(query) {
+export function deleteStock(query, query2) {
   var params = new URLSearchParams()
   if (query !== '' && query !== null && query !== undefined) {
     params.append('modelids', query) // 你要传给后台的参数值 key/value
+  }
+  if (query2 !== '' && query2 !== null && query2 !== undefined) {
+    params.append('operatorId', query2) // 你要传给后台的参数值 key/value
   }
   return request({
     url: '/erp/otherout/delete',

@@ -30,10 +30,13 @@ export function search(query) {
 }
 
 // 删除编码规则
-export function deleteRules(query) {
+export function deleteRules(query, query2) {
   var params = new URLSearchParams()
   if (query !== '' && query !== null && query !== undefined) {
     params.append('ids', query) // 你要传给后台的参数值 key/value
+  }
+  if (query2 !== '' && query2 !== null && query2 !== undefined) {
+    params.append('operatorId', query2) // 你要传给后台的参数值 key/value
   }
   return request({
     url: '/erp/NumberingRules/delete',
@@ -158,10 +161,13 @@ export function updatemodel(query) {
 }
 
 // 批量删除短信模板
-export function deletemodel(query) {
+export function deletemodel(query, query2) {
   var params = new URLSearchParams()
   if (query !== '' && query !== null && query !== undefined) {
     params.append('modelids', query) // 你要传给后台的参数值 key/value
+  }
+  if (query2 !== '' && query2 !== null && query2 !== undefined) {
+    params.append('operatorId', query2) // 你要传给后台的参数值 key/value
   }
   return request({
     url: '/erp/messageModel/deletemodel',
@@ -233,10 +239,13 @@ export function updatemea(query) {
 }
 
 // 批量删除计量单位
-export function deletemea(query) {
+export function deletemea(query, query2) {
   var params = new URLSearchParams()
   if (query !== '' && query !== null && query !== undefined) {
     params.append('modelids', query) // 你要传给后台的参数值 key/value
+  }
+  if (query2 !== '' && query2 !== null && query2 !== undefined) {
+    params.append('operatorId', query2) // 你要传给后台的参数值 key/value
   }
   return request({
     url: '/erp/measurement/delete',
@@ -345,10 +354,13 @@ export function searchDetail(query) {
 }
 
 // 删除审批流程详细信息
-export function deleteDetail(query) {
+export function deleteDetail(query, query2) {
   var params = new URLSearchParams()
   if (query !== '' && query !== null && query !== undefined) {
     params.append('id', query) // 你要传给后台的参数值 key/value
+  }
+  if (query2 !== '' && query2 !== null && query2 !== undefined) {
+    params.append('operatorId', query2) // 你要传给后台的参数值 key/value
   }
   return request({
     url: '/erp/approvalProcess/deleteDetail',
@@ -385,10 +397,13 @@ export function searchProcess(query) {
 }
 
 // 删除查询审批流程
-export function deleteProcess(query) {
+export function deleteProcess(query, query2) {
   var params = new URLSearchParams()
   if (query !== '' && query !== null && query !== undefined) {
     params.append('modelids', query) // 你要传给后台的参数值 key/value
+  }
+  if (query2 !== '' && query2 !== null && query2 !== undefined) {
+    params.append('operatorId', query2) // 你要传给后台的参数值 key/value
   }
   return request({
     url: '/erp/approvalProcess/delete',
@@ -478,10 +493,13 @@ export function updatedept(query) {
 }
 
 // 删除部门
-export function deletedept(query) {
+export function deletedept(query, query2) {
   var params = new URLSearchParams()
   if (query !== '' && query !== null && query !== undefined) {
     params.append('ids', query) // 你要传给后台的参数值 key/value
+  }
+  if (query2 !== '' && query2 !== null && query2 !== undefined) {
+    params.append('operatorId', query2) // 你要传给后台的参数值 key/value
   }
   return request({
     url: '/erp/country/deletedept',

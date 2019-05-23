@@ -93,10 +93,13 @@ export function accesslist(query) {
 }
 
 // 删除领料单
-export function deleteaccess(query) {
+export function deleteaccess(query, query2) {
   var params = new URLSearchParams()
   if (query !== '' && query !== null && query !== undefined) {
     params.append('accessIds', query) // 你要传给后台的参数值 key/value
+  }
+  if (query2 !== '' && query2 !== null && query2 !== undefined) {
+    params.append('operatorId', query2) // 你要传给后台的参数值 key/value
   }
   return request({
     url: '/erp/accessmaterials/deleteaccess',
@@ -240,10 +243,13 @@ export function updateretreatMaterials2(query) {
 }
 
 // 删除退料单
-export function deleteretreatMaterials(query) {
+export function deleteretreatMaterials(query, query2) {
   var params = new URLSearchParams()
   if (query !== '' && query !== null && query !== undefined) {
     params.append('modelids', query) // 你要传给后台的参数值 key/value
+  }
+  if (query2 !== '' && query2 !== null && query2 !== undefined) {
+    params.append('operatorId', query2) // 你要传给后台的参数值 key/value
   }
   return request({
     url: '/erp/retreatMaterials/delete',

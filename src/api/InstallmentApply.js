@@ -79,10 +79,13 @@ export function updateapply(query, query2) {
 }
 
 // 删除分期申请
-export function deleteapply(query) {
+export function deleteapply(query, query2) {
   var params = new URLSearchParams()
   if (query !== '' && query !== null && query !== undefined) {
     params.append('applyIds', query) // 你要传给后台的参数值 key/value
+  }
+  if (query2 !== '' && query2 !== null && query2 !== undefined) {
+    params.append('operatorId', query2) // 你要传给后台的参数值 key/value
   }
   return request({
     url: '/erp/installmentapply/deleteapply',

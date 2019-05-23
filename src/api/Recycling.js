@@ -71,10 +71,13 @@ export function updaterecycling(query) {
 }
 
 //  删除二手回车单
-export function deleterecycling(query) {
+export function deleterecycling(query, query2) {
   var params = new URLSearchParams()
   if (query !== '' && query !== null && query !== undefined) {
     params.append('modelids', query) // 你要传给后台的参数值 key/value
+  }
+  if (query2 !== '' && query2 !== null && query2 !== undefined) {
+    params.append('operatorId', query2) // 你要传给后台的参数值 key/value
   }
   return request({
     url: '/erp/recycling/delete',

@@ -47,9 +47,12 @@ export function locationlist(query) {
 }
 
 // 删除货位
-export function deletelocation(query) {
+export function deletelocation(query, query2) {
   var params = new URLSearchParams()
   params.append('locationIds', query) // 你要传给后台的参数值 key/value
+  if (query2 !== '' && query2 !== null && query2 !== undefined) {
+    params.append('operatorId', query2) // 你要传给后台的参数值 key/value
+  }
   return request({
     url: '/erp/location/deletelocation',
     method: 'post',
@@ -106,9 +109,12 @@ export function enterlist(query) {
 }
 
 // 删除期初录入单
-export function deleteenter(query) {
+export function deleteenter(query, query2) {
   var params = new URLSearchParams()
   params.append('enterIds', query) // 你要传给后台的参数值 key/value
+  if (query2 !== '' && query2 !== null && query2 !== undefined) {
+    params.append('operatorId', query2) // 你要传给后台的参数值 key/value
+  }
   return request({
     url: '/erp/initialenter/deleteenter',
     method: 'post',
@@ -219,9 +225,12 @@ export function adjustlist(query) {
 }
 
 // 删除货位调整单
-export function deleteadjust(query) {
+export function deleteadjust(query, query2) {
   var params = new URLSearchParams()
   params.append('adjustIds', query) // 你要传给后台的参数值 key/value
+  if (query2 !== '' && query2 !== null && query2 !== undefined) {
+    params.append('operatorId', query2) // 你要传给后台的参数值 key/value
+  }
   return request({
     url: '/erp/locationadjust/deleteadjust',
     method: 'post',

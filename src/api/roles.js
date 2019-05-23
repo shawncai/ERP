@@ -46,9 +46,12 @@ export function updaterole(roleid, authority) {
 }
 
 // 删除角色
-export function deleterole(roleid) {
+export function deleterole(roleid, query2) {
   var params = new URLSearchParams()
   params.append('roleid', roleid) // 你要传给后台的参数值 key/value
+  if (query2 !== '' && query2 !== null && query2 !== undefined) {
+    params.append('operatorId', query2) // 你要传给后台的参数值 key/value
+  }
   return request({
     url: '/pss/role/deleterole',
     method: 'post',

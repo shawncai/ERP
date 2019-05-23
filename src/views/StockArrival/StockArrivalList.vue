@@ -438,7 +438,7 @@ export default {
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          deletestockArrival(ids).then(res => {
+          deletestockArrival(ids, this.$store.getters.userId).then(res => {
             if (res.data.ret === 200 || res.data.ret === 100) {
               this.$notify({
                 title: '删除成功',
@@ -469,7 +469,7 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        deletestockArrival(row.id).then(res => {
+        deletestockArrival(row.id, this.$store.getters.userId).then(res => {
           if (res.data.ret === 200) {
             this.$notify({
               title: '删除成功',

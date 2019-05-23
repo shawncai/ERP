@@ -229,7 +229,7 @@ export default {
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          deleteworkCenter(ids).then(res => {
+          deleteworkCenter(ids, this.$store.getters.userId).then(res => {
             if (res.data.ret === 200 || res.data.ret === 100) {
               this.$notify({
                 title: '删除成功',
@@ -260,7 +260,7 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        deleteworkCenter(row.id).then(res => {
+        deleteworkCenter(row.id, this.$store.getters.userId).then(res => {
           if (res.data.ret === 200) {
             this.$notify({
               title: '删除成功',

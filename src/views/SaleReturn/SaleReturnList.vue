@@ -488,7 +488,7 @@ export default {
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          deletesaleReturn(ids).then(res => {
+          deletesaleReturn(ids, this.$store.getters.userId).then(res => {
             if (res.data.ret === 200 || res.data.ret === 100) {
               this.$notify({
                 title: '删除成功',
@@ -519,7 +519,7 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        deletesaleReturn(row.id).then(res => {
+        deletesaleReturn(row.id, this.$store.getters.userId).then(res => {
           if (res.data.ret === 200) {
             this.$notify({
               title: '删除成功',

@@ -55,9 +55,14 @@ export function updateadvanceproduct(query) {
 }
 
 // 删除预售商品
-export function deleteadvanceproduct(query) {
+export function deleteadvanceproduct(query, query2) {
   var params = new URLSearchParams()
-  params.append('advanceId', query) // 你要传给后台的参数值 key/value
+  if (query2 !== '' && query2 !== null && query2 !== undefined) {
+    params.append('advanceId', query) // 你要传给后台的参数值 key/value
+  }
+  if (query2 !== '' && query2 !== null && query2 !== undefined) {
+    params.append('operatorId', query2) // 你要传给后台的参数值 key/value
+  }
   return request({
     url: '/erp/advanceproduct/deleteadvanceproduct',
     method: 'post',
@@ -141,9 +146,12 @@ export function updateadvanceorder(query, query2) {
 }
 
 // 删除预售商品
-export function deleteadvanceorder(query) {
+export function deleteadvanceorder(query, query2) {
   var params = new URLSearchParams()
   params.append('orderIds', query) // 你要传给后台的参数值 key/value
+  if (query2 !== '' && query2 !== null && query2 !== undefined) {
+    params.append('operatorId', query2) // 你要传给后台的参数值 key/value
+  }
   return request({
     url: '/erp/advanceorder/deleteadvanceorder',
     method: 'post',
@@ -241,9 +249,12 @@ export function updateadvancereturn(query, query2) {
 }
 
 // 删除预售退款单
-export function deleteadvancereturn(query) {
+export function deleteadvancereturn(query, query2) {
   var params = new URLSearchParams()
   params.append('returnIds', query) // 你要传给后台的参数值 key/value
+  if (query2 !== '' && query2 !== null && query2 !== undefined) {
+    params.append('operatorId', query2) // 你要传给后台的参数值 key/value
+  }
   return request({
     url: '/erp/advancereturn/deleteadvancereturn',
     method: 'post',

@@ -63,10 +63,13 @@ export function updateCheckCategory(query) {
 }
 
 // 删除分类属性
-export function delateCheckCategory(query) {
+export function delateCheckCategory(query, query2) {
   var params = new URLSearchParams()
   if (query !== '' && query !== null) {
     params.append('ids', query) // 你要传给后台的参数值 key/value
+  }
+  if (query2 !== '' && query2 !== null && query2 !== undefined) {
+    params.append('operatorId', query2) // 你要传给后台的参数值 key/value
   }
   return request({
     url: '/erp/checkcategory/delateCheckCategory',

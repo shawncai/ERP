@@ -71,10 +71,13 @@ export function produceplanlist(query) {
 }
 
 // 删除生产任务
-export function deleteproduceplan(query) {
+export function deleteproduceplan(query, query2) {
   var params = new URLSearchParams()
   if (query !== '' && query !== null && query !== undefined) {
     params.append('planIds', query) // 你要传给后台的参数值 key/value
+  }
+  if (query2 !== '' && query2 !== null && query2 !== undefined) {
+    params.append('operatorId', query2) // 你要传给后台的参数值 key/value
   }
   return request({
     url: '/erp/produceplan/deleteproduceplan',

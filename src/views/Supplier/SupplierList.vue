@@ -370,7 +370,7 @@ export default {
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          delete2(ids).then(res => {
+          delete2(ids, this.$store.getters.userId).then(res => {
             if (res.data.ret === 200 || res.data.ret === 100) {
               this.$notify({
                 title: '删除成功',
@@ -401,7 +401,7 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        delete2(row.id).then(res => {
+        delete2(row.id, this.$store.getters.userId).then(res => {
           if (res.data.ret === 200) {
             this.$notify({
               title: '删除成功',
@@ -479,7 +479,7 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        deleteGroup(row.id).then(res => {
+        deleteGroup(row.id, this.$store.getters.userId).then(res => {
           if (res.data.ret === 200) {
             this.$notify({
               title: '删除成功',

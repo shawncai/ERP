@@ -52,10 +52,13 @@ export function countlist(query) {
 }
 
 // 删除盘点单
-export function deletecount(query) {
+export function deletecount(query, query2) {
   var params = new URLSearchParams()
   if (query !== '' && query !== null && query !== undefined) {
     params.append('countIds', query) // 你要传给后台的参数值 key/value
+  }
+  if (query2 !== '' && query2 !== null && query2 !== undefined) {
+    params.append('operatorId', query2) // 你要传给后台的参数值 key/value
   }
   return request({
     url: '/erp/inventorycount/deletecount',

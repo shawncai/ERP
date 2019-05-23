@@ -100,9 +100,12 @@ export function updatecheckreport2(query) {
 }
 
 // 删除质检报告
-export function deletecheckreport(query) {
+export function deletecheckreport(query, query2) {
   var params = new URLSearchParams()
   params.append('reportIds', query) // 你要传给后台的参数值 key/value
+  if (query2 !== '' && query2 !== null && query2 !== undefined) {
+    params.append('operatorId', query2) // 你要传给后台的参数值 key/value
+  }
   return request({
     url: '/erp/checkreport/deletecheckreport',
     method: 'post',

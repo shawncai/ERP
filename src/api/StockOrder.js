@@ -85,9 +85,12 @@ export function updatestockorder(query, query2) {
 }
 
 // 删除采购订单
-export function deletestockorder(query) {
+export function deletestockorder(query, query2) {
   var params = new URLSearchParams()
   params.append('orderIds', query) // 你要传给后台的参数值 key/value
+  if (query2 !== '' && query2 !== null && query2 !== undefined) {
+    params.append('operatorId', query2) // 你要传给后台的参数值 key/value
+  }
   return request({
     url: '/erp/stockorder/deletestockorder',
     method: 'post',

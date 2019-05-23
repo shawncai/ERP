@@ -89,9 +89,12 @@ export function updatequalitycheck(query, query2) {
 }
 
 // 删除质检申请
-export function deletequalitycheck(query) {
+export function deletequalitycheck(query, query2) {
   var params = new URLSearchParams()
   params.append('checkIds', query) // 你要传给后台的参数值 key/value
+  if (query2 !== '' && query2 !== null && query2 !== undefined) {
+    params.append('operatorId', query2) // 你要传给后台的参数值 key/value
+  }
   return request({
     url: '/erp/qualitycheck/deletequalitycheck',
     method: 'post',

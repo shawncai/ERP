@@ -82,9 +82,12 @@ export function updateadvancepay2(query) {
 }
 
 // 删除预付款
-export function deleteadvancepay(query) {
+export function deleteadvancepay(query, query2) {
   var params = new URLSearchParams()
   params.append('payIds', query) // 你要传给后台的参数值 key/value
+  if (query2 !== '' && query2 !== null && query2 !== undefined) {
+    params.append('operatorId', query2) // 你要传给后台的参数值 key/value
+  }
   return request({
     url: '/erp/advancepay/deleteadvancepay',
     method: 'post',

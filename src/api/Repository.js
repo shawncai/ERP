@@ -223,10 +223,13 @@ export function updateRepCategory(query) {
 }
 
 // 删除分类属性
-export function delateRepCategory(query) {
+export function delateRepCategory(query, query2) {
   var params = new URLSearchParams()
   if (query !== '' && query !== null) {
     params.append('modelids', query) // 你要传给后台的参数值 key/value
+  }
+  if (query2 !== '' && query2 !== null && query2 !== undefined) {
+    params.append('operatorId', query2) // 你要传给后台的参数值 key/value
   }
   return request({
     url: '/erp/repository/delateRepCategory',
@@ -236,10 +239,13 @@ export function delateRepCategory(query) {
 }
 
 // 删除仓库门店
-export function deleteRepository(query) {
+export function deleteRepository(query, query2) {
   var params = new URLSearchParams()
   if (query !== '' && query !== null) {
     params.append('modelids', query) // 你要传给后台的参数值 key/value
+  }
+  if (query2 !== '' && query2 !== null && query2 !== undefined) {
+    params.append('operatorId', query2) // 你要传给后台的参数值 key/value
   }
   return request({
     url: '/erp/repository/deleteRepository',

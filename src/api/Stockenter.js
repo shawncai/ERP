@@ -52,10 +52,13 @@ export function stockenterlist(query) {
 }
 
 // 删除仓库门店
-export function deletestockenter(query) {
+export function deletestockenter(query, query2) {
   var params = new URLSearchParams()
   if (query !== '' && query !== null && query !== undefined) {
     params.append('enterIds', query) // 你要传给后台的参数值 key/value
+  }
+  if (query2 !== '' && query2 !== null && query2 !== undefined) {
+    params.append('operatorId', query2) // 你要传给后台的参数值 key/value
   }
   return request({
     url: '/erp/stockenter/deletestockenter',
@@ -326,10 +329,13 @@ export function produceenterlist(query) {
 }
 
 // 删除生产入库
-export function deleteproduceenter(query) {
+export function deleteproduceenter(query, query2) {
   var params = new URLSearchParams()
   if (query !== '' && query !== null && query !== undefined) {
     params.append('enterIds', query) // 你要传给后台的参数值 key/value
+  }
+  if (query2 !== '' && query2 !== null && query2 !== undefined) {
+    params.append('operatorId', query2) // 你要传给后台的参数值 key/value
   }
   return request({
     url: '/erp/produceenter/deleteproduceenter',
@@ -597,10 +603,13 @@ export function updateotherenter(query, query2) {
 }
 
 // 删除其他入库
-export function deleteotherenter(query) {
+export function deleteotherenter(query, query2) {
   var params = new URLSearchParams()
   if (query !== '' && query !== null && query !== undefined) {
     params.append('enterIds', query) // 你要传给后台的参数值 key/value
+  }
+  if (query2 !== '' && query2 !== null && query2 !== undefined) {
+    params.append('operatorId', query2) // 你要传给后台的参数值 key/value
   }
   return request({
     url: '/erp/otherenter/deleteotherenter',

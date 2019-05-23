@@ -45,10 +45,13 @@ export function updateinstallmentrate(query) {
 }
 
 // 删除分期利息规则
-export function deleterate(query) {
+export function deleterate(query, query2) {
   var params = new URLSearchParams()
   if (query !== '' && query !== null) {
     params.append('rateIds', query) // 你要传给后台的参数值 key/value
+  }
+  if (query2 !== '' && query2 !== null && query2 !== undefined) {
+    params.append('operatorId', query2) // 你要传给后台的参数值 key/value
   }
   return request({
     url: '/erp/installmentrate/deleterate',
@@ -99,10 +102,13 @@ export function updateOverdueFineRules(query) {
 }
 
 // 删除滞纳金规则
-export function deleteOverdueFineRules(query) {
+export function deleteOverdueFineRules(query, query2) {
   var params = new URLSearchParams()
   if (query !== '' && query !== null) {
     params.append('rateIds', query) // 你要传给后台的参数值 key/value
+  }
+  if (query2 !== '' && query2 !== null && query2 !== undefined) {
+    params.append('operatorId', query2) // 你要传给后台的参数值 key/value
   }
   return request({
     url: '/erp/overdueFineRules/deleteOverdueFineRules',
@@ -153,10 +159,13 @@ export function updateRewardRules(query) {
 }
 
 // 删除奖励规则
-export function deleteRewardRules(query) {
+export function deleteRewardRules(query, query2) {
   var params = new URLSearchParams()
   if (query !== '' && query !== null) {
     params.append('rulesIds', query) // 你要传给后台的参数值 key/value
+  }
+  if (query2 !== '' && query2 !== null && query2 !== undefined) {
+    params.append('operatorId', query2) // 你要传给后台的参数值 key/value
   }
   return request({
     url: '/erp/rewardRules/deleteRewardRules',

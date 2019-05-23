@@ -82,10 +82,13 @@ export function updatestockapply(query, query2) {
 }
 
 // 删除采购申请
-export function deletestockapply(query) {
+export function deletestockapply(query, query2) {
   var params = new URLSearchParams()
   if (query !== '' && query !== null && query !== undefined) {
     params.append('applyIds', query) // 你要传给后台的参数值 key/value
+  }
+  if (query2 !== '' && query2 !== null && query2 !== undefined) {
+    params.append('operatorId', query2) // 你要传给后台的参数值 key/value
   }
   return request({
     url: '/erp/stockapply/deletestockapply',

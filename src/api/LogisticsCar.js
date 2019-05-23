@@ -65,10 +65,13 @@ export function carlist(query) {
 }
 
 // 物流车辆管理删除
-export function deletecar(query) {
+export function deletecar(query, query2) {
   var params = new URLSearchParams()
   if (query !== '' && query !== null && query !== undefined) {
     params.append('logicarids', query) // 你要传给后台的参数值 key/value
+  }
+  if (query2 !== '' && query2 !== null && query2 !== undefined) {
+    params.append('operatorId', query2) // 你要传给后台的参数值 key/value
   }
   return request({
     url: '/erp/logisticsCar/deletecar',
@@ -176,10 +179,13 @@ export function sendcarlist(query) {
 }
 
 // 派车单删除
-export function deleteoutcar(query) {
+export function deleteoutcar(query, query2) {
   var params = new URLSearchParams()
   if (query !== '' && query !== null && query !== undefined) {
     params.append('outcarids', query) // 你要传给后台的参数值 key/value
+  }
+  if (query2 !== '' && query2 !== null && query2 !== undefined) {
+    params.append('operatorId', query2) // 你要传给后台的参数值 key/value
   }
   return request({
     url: '/erp/logisticsCar/deleteoutcar',
@@ -275,10 +281,13 @@ export function returncarlist(query) {
 }
 
 // 回车单删除
-export function deletereturncar(query) {
+export function deletereturncar(query, query2) {
   var params = new URLSearchParams()
   if (query !== '' && query !== null && query !== undefined) {
     params.append('returncarids', query) // 你要传给后台的参数值 key/value
+  }
+  if (query2 !== '' && query2 !== null && query2 !== undefined) {
+    params.append('operatorId', query2) // 你要传给后台的参数值 key/value
   }
   return request({
     url: '/erp/logisticsCar/deletereturncar',

@@ -116,10 +116,13 @@ export function updateStoragemove2(query) {
 }
 
 // 删除调拨单
-export function deletestoragemove(query) {
+export function deletestoragemove(query, query2) {
   var params = new URLSearchParams()
   if (query !== '' && query !== null && query !== undefined) {
     params.append('modelids', query) // 你要传给后台的参数值 key/value
+  }
+  if (query2 !== '' && query2 !== null && query2 !== undefined) {
+    params.append('operatorId', query2) // 你要传给后台的参数值 key/value
   }
   return request({
     url: '/erp/storagemove/delete',
@@ -212,10 +215,13 @@ export function searchapplication(query) {
 }
 
 // 删除出库申请单
-export function deleteapplication(query) {
+export function deleteapplication(query, query2) {
   var params = new URLSearchParams()
   if (query !== '' && query !== null && query !== undefined) {
     params.append('modelids', query) // 你要传给后台的参数值 key/value
+  }
+  if (query2 !== '' && query2 !== null && query2 !== undefined) {
+    params.append('operatorId', query2) // 你要传给后台的参数值 key/value
   }
   return request({
     url: '/erp/moveapplication/delete',
