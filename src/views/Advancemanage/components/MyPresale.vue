@@ -242,10 +242,8 @@ export default {
   watch: {
     presalecontrol() {
       this.employeeVisible = this.presalecontrol
+      this.getlist()
     }
-  },
-  created() {
-    this.getlist()
   },
   methods: {
     // 更新采购类型

@@ -237,11 +237,9 @@ export default {
   watch: {
     customercontrol() {
       this.employeeVisible = this.customercontrol
+      this.getlist()
+      this.getCategory()
     }
-  },
-  mounted() {
-    this.getlist()
-    this.getCategory()
   },
   methods: {
     // 获取类型

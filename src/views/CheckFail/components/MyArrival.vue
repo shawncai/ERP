@@ -245,8 +245,7 @@ export default {
         pageSize: 10,
         judgeStat: 2, receiptStat: 2,
         repositoryId: this.$store.getters.repositoryId,
-        regionIds: this.$store.getters.regionId,
-        createPersonId: this.$store.getters.userId
+        regionIds: this.$store.getters.regionId
       },
       // 传给组件的数据
       personalForm: {},
@@ -259,10 +258,8 @@ export default {
   watch: {
     arrivalcontrol() {
       this.employeeVisible = this.arrivalcontrol
+      this.getlist()
     }
-  },
-  created() {
-    this.getlist()
   },
   methods: {
     // 更新采购类型

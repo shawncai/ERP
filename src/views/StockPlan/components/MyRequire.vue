@@ -211,10 +211,8 @@ export default {
   watch: {
     requirecontrol() {
       this.employeeVisible = this.requirecontrol
+      this.getlist()
     }
-  },
-  created() {
-    this.getlist()
   },
   methods: {
     // 物料名称focus

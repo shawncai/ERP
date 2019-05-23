@@ -258,10 +258,8 @@ export default {
   watch: {
     arrivalcontrol() {
       this.employeeVisible = this.arrivalcontrol
+      this.getlist()
     }
-  },
-  created() {
-    this.getlist()
   },
   methods: {
     // 更新采购类型

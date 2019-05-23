@@ -246,10 +246,8 @@ export default {
   watch: {
     opportunitycontrol() {
       this.employeeVisible = this.opportunitycontrol
+      this.getlist()
     }
-  },
-  created() {
-    this.getlist()
   },
   methods: {
     // 选择客户类型时清理客户名称

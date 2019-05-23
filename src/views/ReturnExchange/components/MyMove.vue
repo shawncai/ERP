@@ -202,7 +202,6 @@ export default {
         pageSize: 10,
         judgeStat: 2,
         receiptStat: 2,
-        createPersonId: this.$store.getters.userId,
         countryId: this.$store.getters.countryId,
         repositoryId: this.$store.getters.repositoryId,
         regionIds: this.$store.getters.regionId

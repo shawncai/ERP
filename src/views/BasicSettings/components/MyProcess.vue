@@ -303,6 +303,7 @@ export default {
       this.personalForm = this.editdata
       this.buyerId = this.editdata.buyerName
       console.log(this.editdata)
+      this.getnationlist()
     }
   },
   created() {

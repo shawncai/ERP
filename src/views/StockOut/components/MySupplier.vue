@@ -192,10 +192,8 @@ export default {
   watch: {
     control() {
       this.employeeVisible = this.control
+      this.getlist()
     }
-  },
-  created() {
-    this.getlist()
   },
   methods: {
     getlist() {

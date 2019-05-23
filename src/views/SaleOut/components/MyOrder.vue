@@ -255,10 +255,8 @@ export default {
   watch: {
     ordercontrol() {
       this.employeeVisible = this.ordercontrol
+      this.getlist()
     }
-  },
-  created() {
-    this.getlist()
   },
   methods: {
     // 选择客户类型时清理客户名称

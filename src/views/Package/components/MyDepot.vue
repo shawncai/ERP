@@ -167,10 +167,8 @@ export default {
   watch: {
     depotcontrol() {
       this.repositoryVisible = this.depotcontrol
+      this.getlist()
     }
-  },
-  created() {
-    this.getlist()
   },
   methods: {
     getlist() {

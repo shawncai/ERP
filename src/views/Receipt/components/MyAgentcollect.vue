@@ -224,7 +224,6 @@ export default {
         pageSize: 10,
         repositoryId: this.$store.getters.repositoryId,
         regionIds: this.$store.getters.regionId,
-        createPersonId: this.$store.getters.userId,
         time: null
       },
       // 传给组件的数据
@@ -238,10 +237,8 @@ export default {
   watch: {
     agentcollectcontrol() {
       this.employeeVisible = this.agentcollectcontrol
+      this.getlist()
     }
-  },
-  created() {
-    this.getlist()
   },
   methods: {
     // 仓库列表focus事件触发

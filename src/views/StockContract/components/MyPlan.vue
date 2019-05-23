@@ -241,10 +241,8 @@ export default {
   watch: {
     plancontrol() {
       this.employeeVisible = this.plancontrol
+      this.getlist()
     }
-  },
-  created() {
-    this.getlist()
   },
   methods: {
     // 更新采购类型

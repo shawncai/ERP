@@ -231,10 +231,8 @@ export default {
   watch: {
     installmentcontrol() {
       this.employeeVisible = this.installmentcontrol
+      this.getlist()
     }
-  },
-  created() {
-    this.getlist()
   },
   methods: {
     // 更新采购类型

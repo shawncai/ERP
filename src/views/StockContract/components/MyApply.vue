@@ -247,10 +247,8 @@ export default {
   watch: {
     applycontrol() {
       this.employeeVisible = this.applycontrol
+      this.getlist()
     }
-  },
-  created() {
-    this.getlist()
   },
   methods: {
     // 更新采购类型

@@ -188,10 +188,8 @@ export default {
   watch: {
     createcontrol() {
       this.employeeVisible = this.createcontrol
+      this.gitemplist()
     }
-  },
-  created() {
-    this.gitemplist()
   },
   methods: {
     // 仓库管理员选择开始

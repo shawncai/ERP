@@ -246,10 +246,8 @@ export default {
   watch: {
     qualitycontrol() {
       this.employeeVisible = this.qualitycontrol
+      this.getlist()
     }
-  },
-  created() {
-    this.getlist()
   },
   methods: {
     // 更新采购类型

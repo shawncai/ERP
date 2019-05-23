@@ -186,10 +186,8 @@ export default {
   watch: {
     outperson() {
       this.employeeVisible = this.outperson
+      this.gitemplist()
     }
-  },
-  created() {
-    this.gitemplist()
   },
   methods: {
     // 仓库管理员选择开始

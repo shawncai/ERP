@@ -234,10 +234,8 @@ export default {
   watch: {
     procontrol() {
       this.employeeVisible = this.procontrol
+      this.getlist()
     }
-  },
-  mounted() {
-    this.getlist()
   },
   methods: {
     getlist() {

@@ -237,11 +237,9 @@ export default {
   watch: {
     agentcontrol() {
       this.employeeVisible = this.agentcontrol
+      this.getlist()
+      this.getCategory()
     }
-  },
-  mounted() {
-    this.getlist()
-    this.getCategory()
   },
   methods: {
     // 获取类型

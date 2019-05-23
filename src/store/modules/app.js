@@ -3,7 +3,8 @@ import Cookies from 'js-cookie'
 const app = {
   state: {
     sidebar: {
-      opened: !+Cookies.get('sidebarStatus'),
+      // opened: !+Cookies.get('sidebarStatus'),
+      opened: true,
       withoutAnimation: false
     },
     topmenu: 1,
@@ -13,17 +14,19 @@ const app = {
   },
   mutations: {
     TOGGLE_SIDEBAR: state => {
-      if (state.sidebar.opened) {
-        Cookies.set('sidebarStatus', 0)
-      } else {
-        Cookies.set('sidebarStatus', 0)
-      }
-      state.sidebar.opened = !state.sidebar.opened
+      // if (state.sidebar.opened) {
+      //   Cookies.set('sidebarStatus', 0)
+      // } else {
+      //   Cookies.set('sidebarStatus', 0)
+      // }
+      // state.sidebar.opened = !state.sidebar.opened
+      state.sidebar.opened = true
       state.sidebar.withoutAnimation = false
     },
     CLOSE_SIDEBAR: (state, withoutAnimation) => {
-      Cookies.set('sidebarStatus', 1)
-      state.sidebar.opened = false
+      // Cookies.set('sidebarStatus', 1)
+      // state.sidebar.opened = false
+      state.sidebar.opened = true
       state.sidebar.withoutAnimation = withoutAnimation
     },
     TOGGLE_DEVICE: (state, device) => {

@@ -182,8 +182,7 @@ export default {
         receiptStat: 2,
         isUse: 1,
         repositoryId: this.$store.getters.repositoryId,
-        regionIds: this.$store.getters.regionId,
-        createPersonId: this.$store.getters.userId
+        regionIds: this.$store.getters.regionId
       },
       // 开始时间到结束时间
       date: []
@@ -192,10 +191,8 @@ export default {
   watch: {
     procontrol() {
       this.employeeVisible = this.procontrol
+      this.getlist()
     }
-  },
-  created() {
-    this.getlist()
   },
   methods: {
     // 主生产计划列表数据

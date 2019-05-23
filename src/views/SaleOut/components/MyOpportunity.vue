@@ -247,6 +247,7 @@ export default {
   watch: {
     opportunitycontrol() {
       this.employeeVisible = this.opportunitycontrol
+      this.getlist()
     }
   },
   created() {

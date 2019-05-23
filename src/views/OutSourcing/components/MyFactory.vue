@@ -140,6 +140,7 @@ export default {
   watch: {
     factorycontrol() {
       this.employeeVisible = this.factorycontrol
+      this.getlist()
     }
   },
   created() {

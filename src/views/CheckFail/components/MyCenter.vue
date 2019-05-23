@@ -144,8 +144,7 @@ export default {
         pageNum: 1,
         pageSize: 10,
         repositoryId: this.$store.getters.repositoryId,
-        regionIds: this.$store.getters.regionId,
-        createPersonId: this.$store.getters.userId
+        regionIds: this.$store.getters.regionId
       },
       // 传给组件的数据
       personalForm: {},
@@ -158,10 +157,8 @@ export default {
   watch: {
     control() {
       this.employeeVisible = this.control
+      this.getlist()
     }
-  },
-  created() {
-    this.getlist()
   },
   methods: {
     // 工作中心列表数据

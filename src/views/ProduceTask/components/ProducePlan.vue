@@ -189,10 +189,8 @@ export default {
   watch: {
     procontrol() {
       this.employeeVisible = this.procontrol
+      this.getlist()
     }
-  },
-  created() {
-    this.getlist()
   },
   methods: {
     // 主生产计划列表数据

@@ -255,8 +255,7 @@ export default {
         judgeStat: 2, receiptStat: 2,
         repositoryId: this.$store.getters.repositoryId,
         regionIds: this.$store.getters.regionId,
-        supplierId: this.supp,
-        createPersonId: this.$store.getters.userId
+        supplierId: this.supp
       },
       // 传给组件的数据
       personalForm: {},

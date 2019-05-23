@@ -185,9 +185,6 @@ export default {
       this.getlist()
     }
   },
-  created() {
-    this.getlist()
-  },
   methods: {
     getlist() {
       // 商品列表数据
