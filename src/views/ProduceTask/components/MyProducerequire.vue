@@ -276,7 +276,8 @@ export default {
         repositoryId: this.$store.getters.repositoryId,
         regionIds: this.$store.getters.regionId,
         beginTime: null,
-        endTime: null
+        endTime: null,
+        isActive: 1
       },
       // 传给组件的数据
       personalForm: {},

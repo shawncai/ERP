@@ -255,6 +255,7 @@ export default {
         repositoryId: this.$store.getters.repositoryId,
         regionIds: this.$store.getters.regionId,
         supplierId: this.supp,
+        isActive: 1
       },
       // 传给组件的数据
       personalForm: {},
