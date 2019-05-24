@@ -204,7 +204,7 @@ export default {
       // 部门数据
       depts: [],
       // 申请人回显
-      applyPersonId: 'xu x can',
+      applyPersonId: this.$store.getters.name,
       // 控制申请人
       stockControl: false,
       // 类别数据

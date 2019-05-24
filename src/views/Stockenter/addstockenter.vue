@@ -243,7 +243,7 @@ export default {
       // 供货商控制
       empcontrol: false,
       // 入库仓库回显
-      enterRepositoryId: 'ssss',
+      enterRepositoryId: this.$store.getters.repositoryName,
       // 仓库选择控制期
       repositorycontrol: false,
       // 入库单明细数据
