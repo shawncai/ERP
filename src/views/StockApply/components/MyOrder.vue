@@ -373,7 +373,8 @@ export default {
           productType: item.productTypeName,
           planQuantity: item.quantity,
           sourceNumber: OrderNumber,
-          sourceSerialNumber: item.id
+          sourceSerialNumber: item.id,
+          applyQuantity: item.quantity
         }
       })
       const saleOrderDetail2 = saleOrderdata.map(function(item) {

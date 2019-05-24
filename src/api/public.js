@@ -366,3 +366,19 @@ export function getDetailById(query) {
     data: params
   })
 }
+
+// 根据登陆者区域id和门店id获取在其下区域
+export function getregionlistbyreid(query) {
+  var params = new URLSearchParams()
+  if (query.loginRepositoryId !== '' && query.loginRepositoryId !== null && query.loginRepositoryId !== undefined) {
+    params.append('repositoryid', query.loginRepositoryId) // 你要传给后台的参数值 key/value
+  }
+  if (query.regionIds !== '' && query.regionIds !== null && query.regionIds !== undefined) {
+    params.append('regionid', query.regionIds) // 你要传给后台的参数值 key/value
+  }
+  return request({
+    url: '/erp/region/getregionlistbyreid',
+    method: 'post',
+    data: params
+  })
+}
