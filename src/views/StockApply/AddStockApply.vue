@@ -93,7 +93,7 @@
             <el-editable-column prop="color" align="center" label="颜色" min-width="150px"/>
             <el-editable-column prop="unit" align="center" label="单位" min-width="150px"/>
             <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 1, precision: 2}, type: 'visible', events: {change: changeDate2}}" prop="requireQuantity" align="center" label="需求数量" min-width="150px"/>
-            <el-editable-column :edit-render="{name: 'ElDatePicker', attrs: {type: 'date', format: 'yyyy-MM-dd'}, type: 'visible'}" prop="requireDate" align="center" label="需求日期" min-width="150px">
+            <el-editable-column :edit-render="{name: 'ElDatePicker', attrs: {type: 'date', format: 'yyyy-MM-dd'}, type: 'visible'}" prop="requireDate" align="center" label="需求日期" min-width="160px">
               <template slot="edit" slot-scope="scope">
                 <el-date-picker
                   v-model="scope.row.requireDate"
@@ -377,6 +377,7 @@ export default {
           productType: item.productType,
           planQuantity: item.planQuantity,
           sourceSerialNumber: item.sourceSerialNumber,
+          requireDate: item.requireDate,
           applyQuantity: Number(item.shuliang).toFixed(2)
         }
       })

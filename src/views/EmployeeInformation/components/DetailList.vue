@@ -1,5 +1,5 @@
 <template>
-  <el-dialog :visible.sync="editVisible" :detailcontrol="detailcontrol" :detaildata="detaildata" :close-on-press-escape="false" :title="personalForm.account +'员工详情信息'" append-to-body width="1010px" class="edit" top="-10px" @close="$emit('update:detailcontrol', false)">
+  <el-dialog :visible.sync="editVisible" :detailcontrol="detailcontrol" :detaildata="detaildata" :close-on-press-escape="false" :title="personalForm.content.account +'员工详情信息'" append-to-body width="1010px" class="edit" top="-10px" @close="$emit('update:detailcontrol', false)">
     <!--基本信息-->
     <el-card class="box-card" style="margin-top: 63px" shadow="never">
       <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">基本信息</h2>
@@ -8,62 +8,62 @@
           <el-row>
             <el-col :span="12">
               <el-form-item :label="$t('NewEmployeeInformation.account')" prop="account" style="width: 100%;">
-                <span>{{ personalForm.account }}</span>
+                <span>{{ personalForm.content.account }}</span>
               </el-form-item>
             </el-col>
             <el-col :span="12">
               <el-form-item :label="$t('NewEmployeeInformation.password')" prop="password" style="width: 100%;">
-                <span>{{ personalForm.password }}</span>
+                <span>{{ personalForm.content.password }}</span>
               </el-form-item>
             </el-col>
             <el-col :span="12">
               <el-form-item :label="$t('NewEmployeeInformation.lastname')" prop="firstName" style="width: 100%;">
-                <span>{{ personalForm.firstName }}</span>
+                <span>{{ personalForm.content.firstName }}</span>
               </el-form-item>
             </el-col>
             <el-col :span="12">
               <el-form-item :label="$t('NewEmployeeInformation.middlename')" style="width: 100%;">
-                <span>{{ personalForm.middleName }}</span>
+                <span>{{ personalForm.content.middleName }}</span>
               </el-form-item>
             </el-col>
             <el-col :span="12">
               <el-form-item :label="$t('NewEmployeeInformation.firstname')" prop="lastName" style="width: 100%;">
-                <span>{{ personalForm.lastName }}</span>
+                <span>{{ personalForm.content.lastName }}</span>
               </el-form-item>
             </el-col>
             <el-col :span="12">
               <el-form-item :label="$t('NewEmployeeInformation.birthday')" style="width: 100%;">
-                <span>{{ personalForm.birthday }}</span>
+                <span>{{ personalForm.content.birthday }}</span>
               </el-form-item>
             </el-col>
             <el-col :span="12">
               <el-form-item :label="$t('NewEmployeeInformation.email')" prop="email" style="width: 100%;">
-                <span>{{ personalForm.email }}</span>
+                <span>{{ personalForm.content.email }}</span>
               </el-form-item>
             </el-col>
             <el-col :span="12">
               <el-form-item :label="$t('NewEmployeeInformation.gender')" prop="gender" style="width: 100%;">
-                <span>{{ personalForm.gender | genderFilter }}</span>
+                <span>{{ personalForm.content.gender | genderFilter }}</span>
               </el-form-item>
             </el-col>
             <el-col :span="12">
               <el-form-item :label="$t('NewEmployeeInformation.certificatetype')" style="width: 100%;">
-                <span>{{ personalForm.gender | certificateTypeFilter }}</span>
+                <span>{{ personalForm.content.gender | certificateTypeFilter }}</span>
               </el-form-item>
             </el-col>
             <el-col :span="12">
               <el-form-item :label="$t('NewEmployeeInformation.certificatenumber')" style="width: 100%;">
-                <span>{{ personalForm.certificateNumber }}</span>
+                <span>{{ personalForm.content.certificateNumber }}</span>
               </el-form-item>
             </el-col>
             <el-col :span="12">
               <el-form-item :label="$t('NewEmployeeInformation.country')" prop="countryId" style="width: 100%;">
-                <span>{{ personalForm.countryName }}</span>
+                <span>{{ personalForm.content.countryName }}</span>
               </el-form-item>
             </el-col>
             <el-col :span="12">
               <el-form-item :label="$t('NewEmployeeInformation.roleName')" prop="countryId" style="width: 100%;">
-                <span>{{ personalForm.roleName }}</span>
+                <span>{{ personalForm.content.roleName }}</span>
               </el-form-item>
             </el-col>
           </el-row>
@@ -74,26 +74,26 @@
     <el-card class="box-card" shadow="never" style="margin-top: 15px">
       <h2 ref="lianxi" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">联系信息</h2>
       <div class="container" style="margin-top: 37px">
-        <el-form ref="connectForm" :model="personalForm" :rules="connectrules" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
+        <el-form ref="connectForm" :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
           <el-row>
             <el-col :span="12">
               <el-form-item :label="$t('NewEmployeeInformation.address')" prop="address" style="width: 100%;">
-                <span>{{ personalForm.address }}</span>
+                <span>{{ personalForm.content.address }}</span>
               </el-form-item>
             </el-col>
             <el-col :span="12">
               <el-form-item :label="$t('NewEmployeeInformation.phone')" prop="phone" style="width: 100%;">
-                <span>{{ personalForm.phone }}</span>
+                <span>{{ personalForm.content.phone }}</span>
               </el-form-item>
             </el-col>
             <el-col :span="12">
               <el-form-item :label="$t('NewEmployeeInformation.provinceid')" prop="provinceId" style="width: 100%;">
-                <span>{{ personalForm.provinceName }}</span>
+                <span>{{ personalForm.content.provinceName }}</span>
               </el-form-item>
             </el-col>
             <el-col :span="12">
               <el-form-item :label="$t('NewEmployeeInformation.cityid')" prop="cityId" style="width: 100%;">
-                <span>{{ personalForm.cityName }}</span>
+                <span>{{ personalForm.content.cityName }}</span>
               </el-form-item>
             </el-col>
           </el-row>
@@ -103,31 +103,70 @@
     <el-card class="box-card" shadow="never" style="margin-top: 15px">
       <h2 class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">公司信息</h2>
       <div class="container" style="margin-top: 37px">
-        <el-form ref="companyForm" :model="personalForm" :rules="companyrules" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
+        <el-form ref="companyForm" :model="personalForm" ::inline="true" status-icon class="demo-ruleForm" label-width="130px">
           <el-row>
             <el-col :span="12">
               <el-form-item :label="$t('NewEmployeeInformation.jobnumber')" style="width: 100%;">
-                <span>{{ personalForm.jobNumber }}</span>
+                <span>{{ personalForm.content.jobNumber }}</span>
               </el-form-item>
             </el-col>
             <el-col :span="12">
               <el-form-item :label="$t('NewEmployeeInformation.postid')" style="width: 100%;">
-                <span>{{ personalForm.postName }}</span>
+                <span>{{ personalForm.content.postName }}</span>
               </el-form-item>
             </el-col>
             <el-col :span="12">
               <el-form-item :label="$t('NewEmployeeInformation.deptid')" prop="deptId" style="width: 100%;">
-                <span>{{ personalForm.deptName }}</span>
+                <span>{{ personalForm.content.deptName }}</span>
               </el-form-item>
             </el-col>
             <el-col :span="12">
               <el-form-item :label="$t('NewEmployeeInformation.regionid')" prop="regionId" style="width: 100%;">
-                <span>{{ personalForm.regionName }}</span>
+                <span>{{ personalForm.content.regionName }}</span>
               </el-form-item>
             </el-col>
             <el-col :span="12">
               <el-form-item :label="$t('NewEmployeeInformation.repositoryid')" style="width: 100%;">
-                <span>{{ personalForm.repositoryName }}</span>
+                <span>{{ personalForm.content.repositoryName }}</span>
+              </el-form-item>
+            </el-col>
+          </el-row>
+        </el-form>
+      </div>
+    </el-card>
+    <el-card class="box-card" shadow="never" style="margin-top: 15px">
+      <h2 class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">合同信息</h2>
+      <div class="container" style="margin-top: 37px">
+        <el-form ref="companyForm" :model="contracts" ::inline="true" status-icon class="demo-ruleForm" label-width="130px">
+          <el-row>
+            <el-col :span="12">
+              <el-form-item :label="$t('NewEmployeeInformation.contractname')" style="width: 100%;">
+                <span>{{ contracts.contractName }}</span>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('NewEmployeeInformation.contractnumber')" style="width: 100%;">
+                <span>{{ contracts.contractNumber }}</span>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('NewEmployeeInformation.typeid')" prop="deptId" style="width: 100%;">
+                <span>{{ contracts.contractType }}</span>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('public.createDate')" prop="regionId" style="width: 100%;">
+                <span>{{ contracts.createTime }}</span>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('NewEmployeeInformation.effectivetime')" style="width: 100%;">
+                <span>{{ contracts.effectiveTime }}</span>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('NewEmployeeInformation.expiredtime')" style="width: 100%;">
+                <span>{{ contracts.expiredTime }}</span>
               </el-form-item>
             </el-col>
           </el-row>
@@ -269,6 +308,8 @@ export default {
   },
   data() {
     return {
+      // 合同信息
+      contracts: {},
       // 合计数据
       heji1: '',
       heji2: '',
@@ -289,6 +330,10 @@ export default {
     },
     detaildata() {
       this.personalForm = this.detaildata
+      console.log(this.personalForm)
+      if (this.personalForm.contract !== '' && this.personalForm.contract !== null && this.personalForm.contract !== undefined) {
+        this.contracts = this.personalForm.contract
+      }
       this.list2 = this.personalForm.deliverGoodsDetailVos
       this.reviewList = this.personalForm.approvalUseVos
     }

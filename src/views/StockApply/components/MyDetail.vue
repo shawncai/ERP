@@ -268,7 +268,7 @@ export default {
           color: item.color,
           unit: item.purMeasu,
           productType: item.productType,
-          planQuantity: '1.00',
+          planQuantity: '0.00',
           applyQuantity: '1.00'
         }
       })
@@ -281,7 +281,7 @@ export default {
           unit: item.purMeasu,
           productType: item.productType,
           applyQuantity: '1.00',
-          planQuantity: '1.00'
+          planQuantity: '0.00'
         }
       })
       console.log(productDetail)

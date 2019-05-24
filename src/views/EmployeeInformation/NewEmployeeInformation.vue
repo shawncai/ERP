@@ -275,7 +275,8 @@ export default {
         gender: '',
         certificatetype: '',
         certificatenumber: '',
-        country: ''
+        country: '',
+        createPersonId: this.$store.getters.userId
       },
       // 个人信息规则数据
       personalrules: {

@@ -451,6 +451,9 @@ export default {
       sums[10] = ''
       sums[11] = ''
       sums[15] = ''
+      sums[17] = ''
+      sums[18] = ''
+      sums[19] = ''
       this.allNumber = sums[7]
       this.allMoney = sums[12]
       this.allTaxMoney = sums[14]

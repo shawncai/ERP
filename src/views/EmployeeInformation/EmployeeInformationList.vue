@@ -110,7 +110,7 @@
           <template slot-scope="scope">
             <span class="link-type" @click="handleDetail(scope.row)">{{ scope.row.id }}</span>
           </template>
-          <detail-list :detailcontrol.sync="detailvisible" :detaildata.sync="personalForm"/>
+          <detail-list :detailcontrol.sync="detailvisible" :detaildata.sync="edtiForm"/>
         </el-table-column>
         <el-table-column :label="$t('NewEmployeeInformation.jobNumber')" :resizable="false" align="center" width="80">
           <template slot-scope="scope">
@@ -389,7 +389,8 @@ export default {
         ]
       },
       // 传给组件的数据
-      personalForm: {}
+      personalForm: {},
+      edtiForm: {}
     }
   },
   mounted() {
@@ -402,9 +403,9 @@ export default {
     handleDetail(row) {
       getempinfo(row.id).then(res => {
         console.log(res)
-        const emData = res.data.data.content
+        const emData = res.data.data
         this.detailvisible = true
-        this.personalForm = Object.assign({}, emData)
+        this.edtiForm = Object.assign({}, emData)
       })
     },
     getlist() {
@@ -494,9 +495,7 @@ export default {
     },
     // 修改操作
     handleEdit(row) {
-      console.log(row)
       getempinfo(row.id).then(res => {
-        console.log(res)
         const emData = res.data.data.content
         this.editVisible = true
         this.personalForm = Object.assign({}, emData)

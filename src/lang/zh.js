@@ -379,8 +379,7 @@ export default {
     category: '种类名称',
     type: '分类类别',
     iseffective: '启用状态',
-    roleName: '角色名称',
-    zcc: '测试git'
+    roleName: '角色名称'
   },
   Repository: {
     repositoryName: '仓库/门店名称',
