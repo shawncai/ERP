@@ -430,7 +430,7 @@ export default {
       // 控制销售机会
       opportunitycontrol: false,
       // 控制添加商品按钮是否可以点击
-      Isproduct: true,
+      Isproduct: false,
       // 销售人员回显
       salePersonId: '',
       // 控制销售人员

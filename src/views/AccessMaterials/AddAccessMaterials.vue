@@ -339,6 +339,13 @@ export default {
       this.personalForm.produceTaskNumber = val.taskNumber
       getDetailByTaskNumber(this.personalForm.produceTaskNumber, this.personalForm.accessRepositoryId).then(res => {
         console.log(res)
+        if (res.data.ret === 100) {
+          this.$notify.error({
+            title: '错误',
+            message: res.data.msg,
+            offset: 100
+          })
+        }
         if (res.data.ret === 200) {
           const nowlistdata = this.$refs.editable.getRecords()
           const detaildata = res.data.data.content

@@ -135,7 +135,7 @@
             </template>
           </el-editable-column>
           <el-editable-column prop="applyQuantity" align="center" label="申请数量" min-width="150px"/>
-          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {precision: 2}}" prop="planQuantity" align="center" label="已计划数量" min-width="150px">
+          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {precision: 2}}" prop="planQuantity" align="center" label="已下达数量" min-width="150px">
             <template slot="edit" slot-scope="scope">
               <el-input-number
                 :precision="2"

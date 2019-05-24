@@ -21,8 +21,9 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('Stockenter.sourceNumber')" prop="sourceNumber" style="width: 100%;">
-                  <el-input v-model="personalForm.sourceNumber" placeholder="请输入源单编号" style="margin-left: 18px" clearable/>
+                  <el-input v-model="personalForm.produceTaskNumber" style="margin-left: 18px" clearable @focus="handleAddSouce"/>
                 </el-form-item>
+                <produce-task :procontrol.sync="producecontrol" @moredata="moredata" @productDetail="productDetail"/>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('Stockenter.processType')" prop="processType" style="width: 100%;">
@@ -133,14 +134,25 @@ import { getlocation, locationlist } from '@/api/public'
 import { getdeptlist } from '@/api/BasicSettings'
 import { addproduceenter } from '@/api/Stockenter'
 import MyRepository from './components/MyRepository'
+import ProduceTask from './components/ProduceTask'
 import MyAccept from './components/MyAccept'
 import MyDetail from './components/MyDetail'
 import MyCreate from './components/MyCreate'
 export default {
   name: 'ProduceEnter',
-  components: { MyRepository, MyDetail, MyCreate, MyAccept },
+  components: { MyRepository, MyDetail, MyCreate, MyAccept, ProduceTask },
   data() {
+    const validatePass = (rule, value, callback) => {
+      console.log(value)
+      if (value === '') {
+        callback(new Error('请选择'))
+      } else {
+        callback()
+      }
+    }
     return {
+      // 生产任务单控制
+      producecontrol: false,
       // 部门数据
       depts: [],
       // 生产负责人回显
@@ -174,7 +186,7 @@ export default {
           { required: true, message: '请选择源单类型', trigger: 'change' }
         ],
         sourceNumber: [
-          { required: true, message: '请输入源单编号', trigger: 'blur' }
+          { required: true, validator: validatePass, trigger: 'change' }
         ],
         enterPersonId: [
           { required: true, message: '请选择入库人', trigger: 'focus' }
@@ -202,6 +214,33 @@ export default {
     this.getlist()
   },
   methods: {
+    // 从销售订单过来数据
+    productDetail(val) {
+      console.log(val)
+      this.$refs.editable.clear()
+      const nowlistdata = this.$refs.editable.getRecords()
+      for (let i = 0; i < val.length; i++) {
+        for (let j = 0; j < nowlistdata.length; j++) {
+          if (val[i].sourceNumber === nowlistdata[j].sourceNumber) {
+            this.$notify.error({
+              title: '错误',
+              message: '物品已添加',
+              offset: 100
+            })
+            return false
+          }
+        }
+        this.$refs.editable.insert(val[i])
+      }
+    },
+    moredata(val) {
+      console.log(val)
+      this.personalForm.produceTaskNumber = val.taskNumber
+    },
+    // 生产任务单选择focus控制
+    handleAddSouce() {
+      this.producecontrol = true
+    },
     // 部门列表数据
     getlist() {
       getdeptlist().then(res => {
@@ -237,17 +276,6 @@ export default {
       console.log(val)
       this.enterRepositoryId = val.repositoryName
       this.personalForm.enterRepositoryId = val.id
-      // this.locationlistparms.repositoryId = val.id
-      // locationlist(this.locationlistparms).then(res => {
-      //   if (res.data.ret === 200) {
-      //     this.locationlist = res.data.data.content.list.map(function(item) {
-      //       return {
-      //         'value': item.id,
-      //         'label': item.locationName
-      //       }
-      //     })
-      //   }
-      // })
     },
     updatebatch(event, scope) {
       if (event === true) {
