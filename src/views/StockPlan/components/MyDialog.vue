@@ -394,12 +394,66 @@ export default {
       sums[12] = ''
       return sums
     },
+    // // 两表联动
+    // changeDate(scope, value) {
+    //   this.$refs.editable2.clear()
+    //   const nowlistdata = this.$refs.editable.getRecords()
+    //   for (let i = 0; i < nowlistdata.length; i++) {
+    //     this.$refs.editable2.insert(nowlistdata[i])
+    //   }
+    // },
+    // 深拷贝
+    deepClone(obj) {
+      const _obj = JSON.stringify(obj)
+      const objClone = JSON.parse(_obj)
+      return objClone
+    },
     // 两表联动
-    changeDate(scope, value) {
+    changeDate() {
       this.$refs.editable2.clear()
-      const nowlistdata = this.$refs.editable.getRecords()
-      for (let i = 0; i < nowlistdata.length; i++) {
-        this.$refs.editable2.insert(nowlistdata[i])
+      const nowlistdata = this.deepClone(this.$refs.editable.getRecords())
+      const newArr = []
+      console.log('nowlistdata', nowlistdata)
+      nowlistdata.forEach(el => {
+        console.log('el', el)
+        const result = newArr.findIndex(ol => { return el.planDeliveryDate === ol.planDeliveryDate && el.productCode === ol.productCode && el.supplierId === ol.supplierId })
+        console.log('result', result)
+        if (result !== -1) {
+          if (el.planDeliveryDate !== null && el.planDeliveryDate !== '' && el.planDeliveryDate !== undefined && el.supplierId !== null && el.supplierId !== '' && el.supplierId !== undefined) {
+            newArr[result].planQuantity = newArr[result].planQuantity + el.planQuantity
+          } else {
+            newArr.push(el)
+          }
+        } else {
+          newArr.push(el)
+        }
+      })
+      console.log('newArr', newArr)
+      const result2 = newArr.map(function(item, index) {
+        return {
+          productCode: item.productCode,
+          productName: item.productName,
+          productType: item.productType,
+          typeId: item.typeId,
+          unit: item.unit,
+          color: item.color,
+          basicQuantity: item.basicQuantity,
+          planDeliveryDate: item.planDeliveryDate,
+          planQuantity: item.planQuantity,
+          applyReason: item.applyReason,
+          sourceNumber: item.sourceNumber,
+          supplierId: item.supplierId,
+          supplierName: item.supplierName,
+          basicPrice: item.basicPrice,
+          planMoney: item.planMoney,
+          orderQuantity: item.orderQuantity,
+          requireQuantity: item.requireQuantity,
+          requireDate: item.requireDate,
+          sourceSerialNumber: item.sourceSerialNumber
+        }
+      })
+      for (let i = 0; i < result2.length; i++) {
+        this.$refs.editable2.insert(result2[i])
       }
     },
     // 供货商输入框focus事件触发
@@ -412,12 +466,7 @@ export default {
     personName(scope, val) {
       this.kongscope.row.supplierName = val.supplierName
       this.kongscope.row.supplierId = val.id
-      this.$refs.editable2.clear()
-      const nowlistdata = this.$refs.editable.getRecords()
-      console.log(nowlistdata)
-      for (let i = 0; i < nowlistdata.length; i++) {
-        this.$refs.editable2.insert(nowlistdata[i])
-      }
+      this.changeDate()
     },
 
     // 选择源单类型事件
@@ -449,35 +498,13 @@ export default {
     },
     productdetail(val) {
       console.log(val)
-      const nowlistdata = this.$refs.editable.getRecords()
       for (let i = 0; i < val.length; i++) {
-        for (let j = 0; j < nowlistdata.length; j++) {
-          if (val[i].productCode === nowlistdata[j].productCode) {
-            this.$notify.error({
-              title: '错误',
-              message: '物品已添加',
-              offset: 100
-            })
-            return false
-          }
-        }
         this.$refs.editable.insert(val[i])
       }
     },
     productdetail2(val) {
       console.log(val)
-      const nowlistdata2 = this.$refs.editable2.getRecords()
       for (let i = 0; i < val.length; i++) {
-        for (let j = 0; j < nowlistdata2.length; j++) {
-          if (val[i].productCode === nowlistdata2[j].productCode) {
-            this.$notify.error({
-              title: '错误',
-              message: '物品已添加',
-              offset: 100
-            })
-            return false
-          }
-        }
         this.$refs.editable2.insert(val[i])
       }
     },
@@ -494,84 +521,31 @@ export default {
       this.personalForm.planDate = val.applyDate
     },
     apply(val) {
-      const nowlistdata = this.$refs.editable.getRecords()
       for (let i = 0; i < val.length; i++) {
-        for (let j = 0; j < nowlistdata.length; j++) {
-          if (val[i].productCode === nowlistdata[j].productCode) {
-            this.$notify.error({
-              title: '错误',
-              message: '物品已添加',
-              offset: 100
-            })
-            return false
-          }
-        }
         this.$refs.editable.insert(val[i])
       }
     },
     apply2(val) {
-      const nowlistdata2 = this.$refs.editable2.getRecords()
       for (let i = 0; i < val.length; i++) {
-        for (let j = 0; j < nowlistdata2.length; j++) {
-          if (val[i].productCode === nowlistdata2[j].productCode) {
-            this.$notify.error({
-              title: '错误',
-              message: '物品已添加',
-              offset: 100
-            })
-            return false
-          }
-        }
         this.$refs.editable2.insert(val[i])
       }
     },
     // 采购需求数据
     requiredata(val) {
       console.log(val)
-      const nowlistdata = this.$refs.editable.getRecords()
       for (let i = 0; i < val.length; i++) {
-        for (let j = 0; j < nowlistdata.length; j++) {
-          if (val[i].productCode === nowlistdata[j].productCode) {
-            this.$notify.error({
-              title: '错误',
-              message: '物品已添加',
-              offset: 100
-            })
-            return false
-          }
-        }
         this.$refs.editable.insert(val[i])
       }
     },
     requiredata2(val) {
-      const nowlistdata2 = this.$refs.editable2.getRecords()
       for (let i = 0; i < val.length; i++) {
-        for (let j = 0; j < nowlistdata2.length; j++) {
-          if (val[i].productCode === nowlistdata2[j].productCode) {
-            this.$notify.error({
-              title: '错误',
-              message: '物品已添加',
-              offset: 100
-            })
-            return false
-          }
-        }
         this.$refs.editable2.insert(val[i])
       }
     },
     // 删除数据
     deleteEdit() {
       this.$refs.editable.removeSelecteds()
-      console.log(this.$refs.editable)
-      const nowlistdata2 = this.$refs.editable2.getRecords()
-      for (let i = 0; i < nowlistdata2.length; i++) {
-        for (let j = 0; j < this.choosedata.length; j++) {
-          if (nowlistdata2[i].productCode === this.choosedata[j].productCode) {
-            this.$refs.editable2.remove(nowlistdata2[i])
-          }
-        }
-      }
-      console.log(nowlistdata2)
+      this.changeDate()
     },
     deleteChange(val) {
       this.choosedata = val

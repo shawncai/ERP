@@ -345,29 +345,34 @@ export default {
         this.$refs.editable2.insert(nowlistdata[i])
       }
     },
+    // 深拷贝
+    deepClone(obj) {
+      const _obj = JSON.stringify(obj)
+      const objClone = JSON.parse(_obj)
+      return objClone
+    },
     // 两表联动
     changeDate2() {
       this.$refs.editable2.clear()
-      const nowlistdata2 = this.$refs.editable.getRecords()
-      const nowlistdata = Object.assign([], nowlistdata2)
+      const nowlistdata = this.deepClone(this.$refs.editable.getRecords())
       const newArr = []
+      console.log('nowlistdata', nowlistdata)
       nowlistdata.forEach(el => {
+        console.log('el', el)
         const result = newArr.findIndex(ol => { return el.requireDate === ol.requireDate && el.productCode === ol.productCode })
+        console.log('result', result)
         if (result !== -1) {
           if (el.requireDate !== null && el.requireDate !== '' && el.requireDate !== undefined) {
-            newArr[result].ceshi = newArr[result].requireQuantity + el.requireQuantity
+            newArr[result].requireQuantity = newArr[result].requireQuantity + el.requireQuantity
+          } else {
+            newArr.push(el)
           }
         } else {
           newArr.push(el)
         }
       })
       console.log('newArr', newArr)
-      const result = newArr.map(function(item, index) {
-        if (item.ceshi === '' || item.ceshi === null || item.ceshi === undefined) {
-          newArr[index].shuliang = item.requireQuantity
-        } else {
-          newArr[index].shuliang = item.ceshi
-        }
+      const result2 = newArr.map(function(item, index) {
         return {
           productCode: item.productCode,
           productName: item.productName,
@@ -378,16 +383,11 @@ export default {
           planQuantity: item.planQuantity,
           sourceSerialNumber: item.sourceSerialNumber,
           requireDate: item.requireDate,
-          applyQuantity: Number(item.shuliang).toFixed(2)
+          applyQuantity: Number(item.requireQuantity).toFixed(2)
         }
       })
-
-      // for (const i in newArr) {
-      //   result.push(newArr[i])
-      // }
-      // console.log('result', result)
-      for (let i = 0; i < result.length; i++) {
-        this.$refs.editable2.insert(result[i])
+      for (let i = 0; i < result2.length; i++) {
+        this.$refs.editable2.insert(result2[i])
       }
     },
     getdatatime() { // 默认显示今天
@@ -396,16 +396,7 @@ export default {
     // 删除数据
     deleteEdit() {
       this.$refs.editable.removeSelecteds()
-      console.log(this.$refs.editable)
-      const nowlistdata2 = this.$refs.editable2.getRecords()
-      for (let i = 0; i < nowlistdata2.length; i++) {
-        for (let j = 0; j < this.choosedata.length; j++) {
-          if (nowlistdata2[i].productCode === this.choosedata[j].productCode) {
-            this.$refs.editable2.remove(nowlistdata2[i])
-          }
-        }
-      }
-      console.log(nowlistdata2)
+      this.changeDate2()
     },
     deleteChange(val) {
       this.choosedata = val

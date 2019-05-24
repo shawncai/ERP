@@ -379,7 +379,13 @@ export default {
     category: '种类名称',
     type: '分类类别',
     iseffective: '启用状态',
-    roleName: '角色名称'
+    roleName: '角色名称',
+    saleQuantity: '销售数量',
+    saleMoney: '销售金额',
+    repoRank: '门店排行',
+    regionRank: '区域排行',
+    costMoney: '成本金额',
+    profitMoney: '利润金额'
   },
   Repository: {
     repositoryName: '仓库/门店名称',

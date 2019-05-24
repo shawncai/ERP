@@ -195,7 +195,7 @@
 
 <script>
 import { searchRepository, getcountrylist, getprovincelist, getcitylist, getregionlistbyreid } from '@/api/public'
-import { getdeptlist, getemplist, startorendemp, deleteemp, getempinfo, searchEmpCategory } from '@/api/EmployeeInformation'
+import { getdeptlist, getemplist, startorendemp, deleteemp, getempinfo, searchEmpCategory, getEmpStockInfo } from '@/api/EmployeeInformation'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
 import permission from '@/directive/permission/index.js' // 权限判断指令
@@ -406,6 +406,9 @@ export default {
         const emData = res.data.data
         this.detailvisible = true
         this.edtiForm = Object.assign({}, emData)
+      })
+      getEmpStockInfo(row.id).then(res => {
+        console.log(res)
       })
     },
     getlist() {

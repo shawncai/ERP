@@ -90,7 +90,7 @@
           <el-editable-column prop="productType" align="center" label="规格" min-width="150px"/>
           <el-editable-column prop="color" align="center" label="颜色" min-width="150px"/>
           <el-editable-column prop="unit" align="center" label="单位" min-width="150px"/>
-          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 1, precision: 2}, type: 'visible', events: {change: changeDate}}" prop="requireQuantity" align="center" label="需求数量" min-width="150px"/>
+          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 1, precision: 2}, type: 'visible', events: {change: changeDate2}}" prop="requireQuantity" align="center" label="需求数量" min-width="150px"/>
           <el-editable-column :edit-render="{name: 'ElDatePicker', attrs: {type: 'date', format: 'yyyy-MM-dd'}, type: 'visible', events: {change: changeDate}}" prop="requireDate" align="center" label="需求日期" min-width="170px">
             <template slot="edit" slot-scope="scope">
               <el-date-picker
@@ -98,7 +98,7 @@
                 :picker-options="pickerOptions1"
                 type="date"
                 value-format="yyyy-MM-dd"
-                @change="changeDate"/>
+                @change="changeDate2"/>
             </template>
           </el-editable-column>
           <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="applyReason" align="center" label="申请原因" min-width="150px"/>
@@ -334,14 +334,49 @@ export default {
       this.personalForm.applyPersonId = val.salePersonId
       this.applyPersonId = val.salePersonName
     },
+    // 深拷贝
+    deepClone(obj) {
+      const _obj = JSON.stringify(obj)
+      const objClone = JSON.parse(_obj)
+      return objClone
+    },
     // 两表联动
-    changeDate(scope, value) {
-      console.log(scope)
-      scope.row.applyQuantity = (scope.row.requireQuantity).toFixed(2)
+    changeDate2() {
       this.$refs.editable2.clear()
-      const nowlistdata = this.$refs.editable.getRecords()
-      for (let i = 0; i < nowlistdata.length; i++) {
-        this.$refs.editable2.insert(nowlistdata[i])
+      const nowlistdata = this.deepClone(this.$refs.editable.getRecords())
+      const newArr = []
+      console.log('nowlistdata', nowlistdata)
+      nowlistdata.forEach(el => {
+        console.log('el', el)
+        const result = newArr.findIndex(ol => { return el.requireDate === ol.requireDate && el.productCode === ol.productCode })
+        console.log('result', result)
+        if (result !== -1) {
+          if (el.requireDate !== null && el.requireDate !== '' && el.requireDate !== undefined) {
+            newArr[result].requireQuantity = newArr[result].requireQuantity + el.requireQuantity
+          } else {
+            newArr.push(el)
+          }
+        } else {
+          newArr.push(el)
+        }
+      })
+      console.log('newArr', newArr)
+      const result2 = newArr.map(function(item, index) {
+        return {
+          productCode: item.productCode,
+          productName: item.productName,
+          typeId: item.typeId,
+          color: item.color,
+          unit: item.unit,
+          productType: item.productType,
+          planQuantity: item.planQuantity,
+          sourceSerialNumber: item.sourceSerialNumber,
+          requireDate: item.requireDate,
+          applyQuantity: Number(item.requireQuantity).toFixed(2)
+        }
+      })
+      for (let i = 0; i < result2.length; i++) {
+        this.$refs.editable2.insert(result2[i])
       }
     },
     getdatatime() { // 默认显示今天
@@ -350,16 +385,7 @@ export default {
     // 删除数据
     deleteEdit() {
       this.$refs.editable.removeSelecteds()
-      console.log(this.$refs.editable)
-      const nowlistdata2 = this.$refs.editable2.getRecords()
-      for (let i = 0; i < nowlistdata2.length; i++) {
-        for (let j = 0; j < this.choosedata.length; j++) {
-          if (nowlistdata2[i].productCode === this.choosedata[j].productCode) {
-            this.$refs.editable2.remove(nowlistdata2[i])
-          }
-        }
-      }
-      console.log(nowlistdata2)
+      this.changeDate2()
     },
     deleteChange(val) {
       this.choosedata = val

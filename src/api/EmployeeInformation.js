@@ -54,6 +54,19 @@ export function getempinfo(query) {
   })
 }
 
+// 展示详情页面采购信息
+export function getEmpStockInfo(query) {
+  var params = new URLSearchParams()
+  if (query !== '' && query !== null) {
+    params.append('id', query) // 你要传给后台的参数值 key/value
+  }
+  return request({
+    url: '/erp/employee/getEmpStockInfo',
+    method: 'post',
+    data: params
+  })
+}
+
 // 提交修改
 export function updateemp(query) {
   var params = new URLSearchParams()

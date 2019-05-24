@@ -179,48 +179,52 @@
         <el-form :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
           <el-row>
             <el-col :span="12">
-              <el-form-item :label="$t('public.receiptStat')" style="width: 100%;">
-                {{ personalForm.receiptStat | receiptStatFilter }}
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('public.createPersonName')" prop="stockType" style="width: 100%;">
-                {{ personalForm.createPersonName }}
+              <el-form-item :label="$t('public.createPersonName')" style="width: 100%;">
+                {{ personalForm.content.createPersonName }}
               </el-form-item>
             </el-col>
             <el-col :span="12">
               <el-form-item :label="$t('public.createDate')" style="width: 100%;">
-                {{ personalForm.createDate }}
+                {{ personalForm.content.createTime }}
+              </el-form-item>
+            </el-col>
+          </el-row>
+        </el-form>
+      </div>
+    </el-card>
+    <el-card class="box-card" style="margin-top: 15px" shadow="never">
+      <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">销售信息</h2>
+      <div class="container" style="margin-top: 37px">
+        <el-form :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
+          <el-row>
+            <el-col :span="12">
+              <el-form-item :label="$t('NewEmployeeInformation.saleQuantity')" style="width: 100%;">
+                {{ personalForm.empsale.saleQuantity }}
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item :label="$t('public.judgePersonName')" prop="applyDeptId" style="width: 100%;">
-                {{ personalForm.judgePersonName }}
+              <el-form-item :label="$t('NewEmployeeInformation.saleMoney')" style="width: 100%;">
+                {{ personalForm.empsale.saleMoney }}
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item :label="$t('public.judgeDate')" prop="sourceType" style="width: 100%;">
-                {{ personalForm.judgeDate }}
+              <el-form-item :label="$t('NewEmployeeInformation.repoRank')" style="width: 100%;">
+                {{ personalForm.empsale.repoRank }}
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item :label="$t('public.endPersonName')" prop="applyDate" style="width: 100%;">
-                {{ personalForm.endPersonName }}
+              <el-form-item :label="$t('NewEmployeeInformation.regionRank')" style="width: 100%;">
+                {{ personalForm.empsale.regionRank }}
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item :label="$t('public.endDate')" prop="applyDate" style="width: 100%;">
-                {{ personalForm.endDate }}
+              <el-form-item :label="$t('NewEmployeeInformation.costMoney')" style="width: 100%;">
+                {{ personalForm.empsale.costMoney }}
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item :label="$t('public.modifyPersonName')" prop="applyDate" style="width: 100%;">
-                {{ personalForm.modifyPersonName }}
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('public.modifyDate')" prop="applyDate" style="width: 100%;">
-                {{ personalForm.modifyDate }}
+              <el-form-item :label="$t('NewEmployeeInformation.profitMoney')" style="width: 100%;">
+                {{ personalForm.empsale.profitMoney }}
               </el-form-item>
             </el-col>
           </el-row>
