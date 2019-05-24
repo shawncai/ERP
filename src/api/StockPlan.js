@@ -63,6 +63,9 @@ export function stockplanlist(query) {
   if (query.supplierId !== '' && query.supplierId !== null && query.supplierId !== undefined) {
     params.append('supplierId', query.supplierId) // 你要传给后台的参数值 key/value
   }
+  if (query.isActive !== '' && query.isActive !== null && query.isActive !== undefined) {
+    params.append('isActive', query.isActive) // 你要传给后台的参数值 key/value
+  }
   params.append('pageNum', query.pageNum) // 你要传给后台的参数值 key/value
   params.append('pageSize', query.pageSize) // 你要传给后台的参数值 key/value
   return request({

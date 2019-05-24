@@ -176,11 +176,12 @@ export default {
       listLoading: true,
       // 主生产任务列表查询加展示参数
       getemplist: {
-        pagenum: 1,
-        pagesize: 10,
+        pageNum: 1,
+        pageSize: 10,
         judgeStat: 2, receiptStat: 2,
         repositoryId: this.$store.getters.repositoryId,
-        regionIds: this.$store.getters.regionId
+        regionIds: this.$store.getters.regionId,
+        isActive: 1
       },
       // 开始时间到结束时间
       date: []
