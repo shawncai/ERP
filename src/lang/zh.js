@@ -378,7 +378,8 @@ export default {
     categoryname: '分类名称',
     category: '种类名称',
     type: '分类类别',
-    iseffective: '启用状态'
+    iseffective: '启用状态',
+    roleName: '角色名称'
   },
   Repository: {
     repositoryName: '仓库/门店名称',

@@ -92,8 +92,8 @@
             <el-editable-column prop="productType" align="center" label="规格" min-width="150px"/>
             <el-editable-column prop="color" align="center" label="颜色" min-width="150px"/>
             <el-editable-column prop="unit" align="center" label="单位" min-width="150px"/>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 1, precision: 2}, type: 'visible', events: {change: changeDate}}" prop="requireQuantity" align="center" label="需求数量" min-width="150px"/>
-            <el-editable-column :edit-render="{name: 'ElDatePicker', attrs: {type: 'date', format: 'yyyy-MM-dd'}, type: 'visible', events: {change: changeDate2}}" prop="requireDate" align="center" label="需求日期" min-width="150px">
+            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 1, precision: 2}, type: 'visible', events: {change: changeDate2}}" prop="requireQuantity" align="center" label="需求数量" min-width="150px"/>
+            <el-editable-column :edit-render="{name: 'ElDatePicker', attrs: {type: 'date', format: 'yyyy-MM-dd'}, type: 'visible'}" prop="requireDate" align="center" label="需求日期" min-width="150px">
               <template slot="edit" slot-scope="scope">
                 <el-date-picker
                   v-model="scope.row.requireDate"
@@ -191,6 +191,8 @@ export default {
           return time.getTime() < new Date().getTime() - 8.64e7
         }
       },
+      // 暂存数据
+      changedata: [],
       // 控制源单数据
       ordercontrol: false,
       // 控制是否可以从商品选择
@@ -353,20 +355,38 @@ export default {
         const result = newArr.findIndex(ol => { return el.requireDate === ol.requireDate && el.productCode === ol.productCode })
         if (result !== -1) {
           if (el.requireDate !== null && el.requireDate !== '' && el.requireDate !== undefined) {
-            newArr[result].requireQuantity = newArr[result].requireQuantity + el.requireQuantity
+            newArr[result].ceshi = newArr[result].requireQuantity + el.requireQuantity
           }
         } else {
           newArr.push(el)
         }
       })
-      console.log(newArr)
-      const result = []
-      for (const i in newArr) {
-        result.push(newArr[i])
-      }
-      console.log(result)
-      for (let i = 0; i < nowlistdata2.length; i++) {
-        this.$refs.editable2.insert(nowlistdata[i])
+      console.log('newArr', newArr)
+      const result = newArr.map(function(item, index) {
+        if (item.ceshi === '' || item.ceshi === null || item.ceshi === undefined) {
+          newArr[index].shuliang = item.requireQuantity
+        } else {
+          newArr[index].shuliang = item.ceshi
+        }
+        return {
+          productCode: item.productCode,
+          productName: item.productName,
+          typeId: item.typeId,
+          color: item.color,
+          unit: item.unit,
+          productType: item.productType,
+          planQuantity: item.planQuantity,
+          sourceSerialNumber: item.sourceSerialNumber,
+          applyQuantity: Number(item.shuliang).toFixed(2)
+        }
+      })
+
+      // for (const i in newArr) {
+      //   result.push(newArr[i])
+      // }
+      // console.log('result', result)
+      for (let i = 0; i < result.length; i++) {
+        this.$refs.editable2.insert(result[i])
       }
     },
     getdatatime() { // 默认显示今天
