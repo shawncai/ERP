@@ -428,7 +428,7 @@ export default {
       if (row.discountRate === 0) {
         row.discountMoney = 0
       } else {
-        row.discountMoney = (row.price * row.arrivalQuantity * (1 - row.discountRate / 100)).toFixed(2)
+        row.discountMoney = (row.includeTaxPrice * row.arrivalQuantity * (1 - row.discountRate / 100)).toFixed(2)
       }
       return row.discountMoney
     },

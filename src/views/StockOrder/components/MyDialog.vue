@@ -552,8 +552,8 @@ export default {
     // 通过折扣额计算折扣
     getdiscountMoney(row) {
       console.log(row)
-      if (row.price !== 0 && row.stockQuantity !== 0 && row.discountMoney !== 0) {
-        row.discountRate = ((1 - row.discountMoney / row.price / row.stockQuantity) * 100).toFixed(2)
+      if (row.includeTaxPrice !== 0 && row.stockQuantity !== 0 && row.discountMoney !== 0) {
+        row.discountRate = ((1 - row.discountMoney / row.includeTaxPrice / row.stockQuantity) * 100).toFixed(2)
       }
     },
     // 通过折扣计算折扣额
@@ -561,7 +561,7 @@ export default {
       if (row.discountRate === 0) {
         row.discountMoney = 0
       } else {
-        row.discountMoney = (row.price * row.stockQuantity * (1 - row.discountRate / 100)).toFixed(2)
+        row.discountMoney = (row.includeTaxPrice * row.stockQuantity * (1 - row.discountRate / 100)).toFixed(2)
       }
     },
     // 通过税率计算含税价
