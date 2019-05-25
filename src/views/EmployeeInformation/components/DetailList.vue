@@ -1,5 +1,16 @@
 <template>
-  <el-dialog :visible.sync="editVisible" :detailcontrol="detailcontrol" :detaildata="detaildata" :close-on-press-escape="false" :title="personalForm.content.account +'员工详情信息'" append-to-body width="1010px" class="edit" top="-10px" @close="$emit('update:detailcontrol', false)">
+  <el-dialog
+    :visible.sync="editVisible"
+    :detailcontrol="detailcontrol"
+    :detaildata="detaildata"
+    :detailid="detailid"
+    :close-on-press-escape="false"
+    :title="personalForm.content.account +'员工详情信息'"
+    append-to-body
+    width="1010px"
+    class="edit"
+    top="-10px"
+    @close="$emit('update:detailcontrol', false)">
     <!--基本信息-->
     <el-card class="box-card" style="margin-top: 63px" shadow="never">
       <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">基本信息</h2>
@@ -193,50 +204,127 @@
       </div>
     </el-card>
     <el-card class="box-card" style="margin-top: 15px" shadow="never">
-      <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">销售信息</h2>
-      <div class="container" style="margin-top: 37px">
-        <el-form :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
-          <el-row>
-            <el-col :span="12">
-              <el-form-item :label="$t('NewEmployeeInformation.saleQuantity')" style="width: 100%;">
-                {{ personalForm.empsale.saleQuantity }}
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('NewEmployeeInformation.saleMoney')" style="width: 100%;">
-                {{ personalForm.empsale.saleMoney }}
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('NewEmployeeInformation.repoRank')" style="width: 100%;">
-                {{ personalForm.empsale.repoRank }}
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('NewEmployeeInformation.regionRank')" style="width: 100%;">
-                {{ personalForm.empsale.regionRank }}
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('NewEmployeeInformation.costMoney')" style="width: 100%;">
-                {{ personalForm.empsale.costMoney }}
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('NewEmployeeInformation.profitMoney')" style="width: 100%;">
-                {{ personalForm.empsale.profitMoney }}
-              </el-form-item>
-            </el-col>
-          </el-row>
-        </el-form>
+      <div class="container" style="margin-top: 10px">
+        <el-tabs type="card">
+          <el-tab-pane label="销售信息">
+            <el-form :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
+              <el-row>
+                <el-col :span="12">
+                  <el-form-item :label="$t('NewEmployeeInformation.saleQuantity')" style="width: 100%;">
+                    {{ personalForm.empsale.saleQuantity }}
+                  </el-form-item>
+                </el-col>
+                <el-col :span="12">
+                  <el-form-item :label="$t('NewEmployeeInformation.saleMoney')" style="width: 100%;">
+                    {{ personalForm.empsale.saleMoney }}
+                  </el-form-item>
+                </el-col>
+                <el-col :span="12">
+                  <el-form-item :label="$t('NewEmployeeInformation.repoRank')" style="width: 100%;">
+                    {{ personalForm.empsale.repoRank }}
+                  </el-form-item>
+                </el-col>
+                <el-col :span="12">
+                  <el-form-item :label="$t('NewEmployeeInformation.regionRank')" style="width: 100%;">
+                    {{ personalForm.empsale.regionRank }}
+                  </el-form-item>
+                </el-col>
+                <el-col :span="12">
+                  <el-form-item :label="$t('NewEmployeeInformation.costMoney')" style="width: 100%;">
+                    {{ personalForm.empsale.costMoney }}
+                  </el-form-item>
+                </el-col>
+                <el-col :span="12">
+                  <el-form-item :label="$t('NewEmployeeInformation.profitMoney')" style="width: 100%;">
+                    {{ personalForm.empsale.profitMoney }}
+                  </el-form-item>
+                </el-col>
+              </el-row>
+            </el-form>
+          </el-tab-pane>
+          <el-tab-pane label="采购信息">
+            <el-table
+              :data="tableData"
+              border
+              style="width: 100%">
+              <el-table-column
+                prop="stockDate"
+                align="center"
+                label="采购日期"
+                min-width="150"/>
+              <el-table-column
+                prop="supplierName"
+                align="center"
+                label="供应商"
+                min-width="150"/>
+              <el-table-column
+                prop="stockQuantity"
+                align="center"
+                label="采购数量"
+                min-width="150"/>
+              <el-table-column
+                prop="stockMoney"
+                align="center"
+                label="采购金额"
+                min-width="150"/>
+              <el-table-column
+                prop="arriveQuantity"
+                align="center"
+                label="到货数量"
+                min-width="150"/>
+              <el-table-column
+                prop="enterQuantity"
+                align="center"
+                label="入库数量"
+                min-width="150"/>
+            </el-table>
+            <pagination v-show="total>0" :total="total" :page.sync="getstocklist.pagenum" :limit.sync="getstocklist.pagesize" @pagination="getstoctlist" />
+          </el-tab-pane>
+          <el-tab-pane label="收款信息">
+            <el-table
+              :data="tableData2"
+              border
+              style="width: 100%">
+              <el-table-column
+                prop="stockDate"
+                align="center"
+                label="客户"
+                min-width="150"/>
+              <el-table-column
+                prop="supplierName"
+                align="center"
+                label="收款金额"
+                min-width="150"/>
+              <el-table-column
+                prop="stockQuantity"
+                align="center"
+                label="收款期数"
+                min-width="150"/>
+              <el-table-column
+                prop="stockMoney"
+                align="center"
+                label="收款日期"
+                min-width="150"/>
+              <el-table-column
+                prop="arriveQuantity"
+                align="center"
+                label="收款方式"
+                min-width="150"/>
+            </el-table>
+            <pagination v-show="total2>0" :total="total2" :page.sync="getstocklist.pagenum" :limit.sync="getstocklist.pagesize" @pagination="getstoctlist" />
+          </el-tab-pane>
+          <el-tab-pane label="定时任务补偿">定时任务补偿</el-tab-pane>
+        </el-tabs>
       </div>
     </el-card>
   </el-dialog>
 </template>
 
 <script>
-import { productlist } from '@/api/public'
+import { getEmpStockInfo } from '@/api/EmployeeInformation'
+import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
 export default {
+  components: { Pagination },
   filters: {
     genderFilter(status) {
       const statusMap = {
@@ -308,10 +396,20 @@ export default {
     detaildata: {
       type: Object,
       default: null
+    },
+    detailid: {
+      type: Number,
+      default: null
     }
   },
   data() {
     return {
+      // 维修信息
+      repearData: {},
+      // 分页
+      total: 0,
+      // 采购信息
+      tableData: [],
       // 合同信息
       contracts: {},
       // 合计数据
@@ -325,7 +423,12 @@ export default {
       // 弹窗组件的控制
       editVisible: this.detailcontrol,
       // 供应商信息数据
-      personalForm: this.detaildata
+      personalForm: this.detaildata,
+      getstocklist: {
+        pagenum: 1,
+        pagesize: 10,
+        id: this.detailid
+      }
     }
   },
   watch: {
@@ -335,64 +438,35 @@ export default {
     detaildata() {
       this.personalForm = this.detaildata
       console.log(this.personalForm)
+      this.personalForm.content.account = this.detaildata.content.account
       if (this.personalForm.contract !== '' && this.personalForm.contract !== null && this.personalForm.contract !== undefined) {
         this.contracts = this.personalForm.contract
       }
-      this.list2 = this.personalForm.deliverGoodsDetailVos
-      this.reviewList = this.personalForm.approvalUseVos
+    },
+    detailid() {
+      this.getstocklist.id = this.detailid
+      console.log(this.detailid)
+      this.getstoctlist()
     }
   },
   methods: {
-    // 计划金额
-    planMoney(row) {
-      row.planMoney = row.basicPrice * row.planQuantity
-      return row.planMoney
-    },
-    // 计算单价和供应商
-    basicPrice(row) {
-      productlist(row.productCode).then(res => {
+    // 采购分页
+    getstoctlist() {
+      getEmpStockInfo(this.getstocklist).then(res => {
         if (res.data.ret === 200) {
-          row.basicPrice = res.data.data.content.list[0].purchasePrice
+          this.tableData = res.data.data.content.list
+          this.total = res.data.data.content.totalCount
         }
       })
-      return row.basicPrice
     },
-    // 总计
-    getSummaries(param) {
-      const { columns, data } = param
-      const sums = []
-      columns.forEach((column, index) => {
-        if (index === 0) {
-          sums[index] = '总计'
-          return
-        }
-        const values = data.map(item => Number(item[column.property]))
-        if (!values.every(value => isNaN(value))) {
-          sums[index] = values.reduce((prev, curr) => {
-            const value = Number(curr)
-            if (!isNaN(value)) {
-              return prev + curr
-            } else {
-              return prev
-            }
-          }, 0)
-          sums[index] += ''
-        } else {
-          sums[index] = ''
-        }
-      })
-      this.heji1 = sums[8]
-      this.heji2 = sums[7]
-      sums[1] = ''
-      sums[2] = ''
-      sums[3] = ''
-      sums[4] = ''
-      sums[6] = ''
-      sums[9] = ''
-      sums[10] = ''
-      sums[11] = ''
-      sums[12] = ''
-      return sums
+    // 收款分页
+    getCollect() {
+      // getEmpCollect(this.getstocklist).then(res => {
+      //   if (res.data.ret === 200) {
+      //     this.tableData = res.data.data.content.list
+      //     this.total = res.data.data.content.totalCount
+      //   }
+      // })
     },
     handlecancel() {
       this.editVisible = false
@@ -402,6 +476,27 @@ export default {
 </script>
 
 <style scoped>
+  .edit >>> .el-tabs--card>.el-tabs__header{
+    border: none;
+  }
+  .edit >>> .el-tabs--card>.el-tabs__header .el-tabs__item{
+    border: 1px solid #e4e7ed;
+  }
+  .edit >>> .el-tabs--card>.el-tabs__header .el-tabs__nav{
+    border: none;
+  }
+  .edit >>> .el-tabs--card>.el-tabs__header .el-tabs__item:first-child{
+    margin-right: 10px;
+  }
+  .edit>>> .el-tabs--card>.el-tabs__header .el-tabs__item:nth-child(2){
+    margin-right: 10px;
+  }
+  .edit>>> .el-tabs--card>.el-tabs__header .el-tabs__item:nth-child(3){
+    margin-right: 10px;
+  }
+  .edit>>> .el-tabs--card>.el-tabs__header .el-tabs__item:nth-child(4){
+    margin-right: 10px;
+  }
   .edit >>> .el-dialog{
     -webkit-transform: none;
     transform: none;

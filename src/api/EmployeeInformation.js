@@ -57,11 +57,28 @@ export function getempinfo(query) {
 // 展示详情页面采购信息
 export function getEmpStockInfo(query) {
   var params = new URLSearchParams()
-  if (query !== '' && query !== null) {
-    params.append('id', query) // 你要传给后台的参数值 key/value
+  if (query.id !== '' && query.id !== null && query.id !== undefined) {
+    params.append('id', query.id) // 你要传给后台的参数值 key/value
   }
+  params.append('pageNum', query.pagenum) // 你要传给后台的参数值 key/value
+  params.append('pageSize', query.pagesize) // 你要传给后台的参数值 key/value
   return request({
     url: '/erp/employee/getEmpStockInfo',
+    method: 'post',
+    data: params
+  })
+}
+
+// 展示详情页面收款信息
+export function getEmpCollect(query) {
+  var params = new URLSearchParams()
+  if (query.id !== '' && query.id !== null && query.id !== undefined) {
+    params.append('id', query.id) // 你要传给后台的参数值 key/value
+  }
+  params.append('pageNum', query.pagenum) // 你要传给后台的参数值 key/value
+  params.append('pageSize', query.pagesize) // 你要传给后台的参数值 key/value
+  return request({
+    url: '/erp/employee/getEmpCollect',
     method: 'post',
     data: params
   })

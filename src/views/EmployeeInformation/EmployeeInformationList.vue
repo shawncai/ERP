@@ -110,7 +110,7 @@
           <template slot-scope="scope">
             <span class="link-type" @click="handleDetail(scope.row)">{{ scope.row.id }}</span>
           </template>
-          <detail-list :detailcontrol.sync="detailvisible" :detaildata.sync="edtiForm"/>
+          <detail-list :detailcontrol.sync="detailvisible" :detaildata.sync="edtiForm" :detailid="detailid"/>
         </el-table-column>
         <el-table-column :label="$t('NewEmployeeInformation.jobNumber')" :resizable="false" align="center" width="80">
           <template slot-scope="scope">
@@ -195,7 +195,7 @@
 
 <script>
 import { searchRepository, getcountrylist, getprovincelist, getcitylist, getregionlistbyreid } from '@/api/public'
-import { getdeptlist, getemplist, startorendemp, deleteemp, getempinfo, searchEmpCategory, getEmpStockInfo } from '@/api/EmployeeInformation'
+import { getdeptlist, getemplist, startorendemp, deleteemp, getempinfo, searchEmpCategory } from '@/api/EmployeeInformation'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
 import permission from '@/directive/permission/index.js' // 权限判断指令
@@ -232,6 +232,8 @@ export default {
       }
     }
     return {
+      // 详情传递id
+      detailid: null,
       // 详情组件数据
       detailvisible: false,
       // 更多搜索条件问题
@@ -401,14 +403,12 @@ export default {
     checkPermission,
     // 详情操作
     handleDetail(row) {
+      this.detailid = row.id
       getempinfo(row.id).then(res => {
         console.log(res)
         const emData = res.data.data
         this.detailvisible = true
         this.edtiForm = Object.assign({}, emData)
-      })
-      getEmpStockInfo(row.id).then(res => {
-        console.log(res)
       })
     },
     getlist() {

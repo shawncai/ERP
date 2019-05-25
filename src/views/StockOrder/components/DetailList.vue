@@ -87,7 +87,7 @@
           <el-editable-column prop="stockQuantity" align="center" label="采购数量" min-width="150px"/>
           <el-editable-column prop="price" align="center" label="单价" min-width="170px"/>
           <el-editable-column prop="includeTaxPrice" align="center" label="含税价" min-width="170px"/>
-          <el-editable-column prop="tax" align="center" label="税率(%)" min-width="170px"/>
+          <el-editable-column prop="taxRate" align="center" label="税率(%)" min-width="170px"/>
           <el-editable-column prop="money" align="center" label="金额" min-width="150px"/>
           <el-editable-column prop="includeTaxMoney" align="center" label="含税金额" min-width="150px"/>
           <el-editable-column prop="taxMoney" align="center" label="税额" min-width="150px"/>
