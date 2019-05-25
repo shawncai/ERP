@@ -577,14 +577,14 @@ export default {
       if (row.discount === 0) {
         row.discountMoney = 0
       } else {
-        row.discountMoney = (row.salePrice * row.quantity * (1 - row.discount / 100)).toFixed(2)
+        row.discountMoney = (row.taxprice * row.quantity * (1 - row.discount / 100)).toFixed(2)
       }
     },
     // 通过折扣额计算折扣
     getdiscountMoney(row) {
       console.log(row)
-      if (row.salePrice !== 0 && row.quantity !== 0 && row.discountMoney !== 0) {
-        row.discount = ((1 - row.discountMoney / row.salePrice / row.quantity) * 100).toFixed(2)
+      if (row.taxprice !== 0 && row.quantity !== 0 && row.discountMoney !== 0) {
+        row.discount = ((1 - row.discountMoney / row.taxprice / row.quantity) * 100).toFixed(2)
       }
     },
     // 计算金额

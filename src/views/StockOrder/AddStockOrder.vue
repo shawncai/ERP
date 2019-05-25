@@ -1070,7 +1070,7 @@ export default {
         //   delete elem.discountRate
         // }
         if (elem.discountRate !== null || elem.discountRate !== '' || elem.discountRate !== undefined) {
-          elem.discountRate = Number(elem.discountRate) / 100
+          elem.discountRate = elem.discountRate / 100
         }
         if (elem.money === null || elem.money === '' || elem.money === undefined) {
           delete elem.money

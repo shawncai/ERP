@@ -324,7 +324,8 @@ export default {
           passQuantity: 0,
           passRate: 0,
           workCenterId: item.workCenterId,
-          unit: item.unit
+          unit: item.unit,
+          sourceSerialNumber: item.id
         }
       })
       const list = await Promise.all(producedata.map(function(item) {
