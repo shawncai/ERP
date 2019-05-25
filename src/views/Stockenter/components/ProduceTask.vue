@@ -336,6 +336,7 @@ export default {
         for (let j = 0; j < list.length; j++) {
           if (productDetail[i].productCode === list[j].data.data.content.list[0].code) {
             productDetail[i].price = list[j].data.data.content.list[0].costPrice
+            productDetail[i].enterPrice = list[j].data.data.content.list[0].costPrice
             productDetail[i].color = list[j].data.data.content.list[0].color
             productDetail[i].typeId = list[j].data.data.content.list[0].typeId
             productDetail[i].typeIdname = list[j].data.data.content.list[0].productType

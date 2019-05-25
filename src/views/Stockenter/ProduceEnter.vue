@@ -109,11 +109,11 @@
             <el-editable-column prop="typeIdname" align="center" label="规格" width="150px"/>
             <el-editable-column prop="unit" align="center" label="单位" width="150px"/>
             <el-editable-column prop="basicQuantity" align="center" label="基本数量" width="150px"/>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', type: 'visible'}" prop="enterQuantity" align="center" label="入库数量" width="150px"/>
+            <el-editable-column :edit-render="{name: 'ElInputNumber', type: 'visible'}" prop="actualEnterQuantity" align="center" label="入库数量" width="150px"/>
             <el-editable-column prop="price" align="center" label="单价" width="150px"/>
             <el-editable-column prop="totalMoney" align="center" label="入库金额" width="150px">
               <template slot-scope="scope">
-                <p>{{ getSize(scope.row.enterQuantity, scope.row.price) }}</p>
+                <p>{{ getSize(scope.row.actualEnterQuantity, scope.row.price) }}</p>
               </template>
             </el-editable-column>
             <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="remarks" align="center" label="备注" width="150px"/>
@@ -380,8 +380,8 @@ export default {
         if (elem.basicQuantity === null || elem.basicQuantity === '' || elem.basicQuantity === undefined) {
           delete elem.basicQuantity
         }
-        if (elem.enterQuantity === null || elem.enterQuantity === '' || elem.enterQuantity === undefined) {
-          delete elem.enterQuantity
+        if (elem.actualEnterQuantity === null || elem.actualEnterQuantity === '' || elem.actualEnterQuantity === undefined) {
+          delete elem.actualEnterQuantity
         }
         if (elem.price === null || elem.price === '' || elem.price === undefined) {
           delete elem.price
