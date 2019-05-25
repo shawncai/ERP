@@ -567,24 +567,24 @@ export default {
     // 通过税率计算含税价
     gettaxRate(row) {
       if (row.includeTaxPrice !== 0) {
-        row.includeTaxPrice = (row.price * (1 + row.tax / 100)).toFixed(2)
+        row.includeTaxPrice = (row.price * (1 + row.taxRate / 100)).toFixed(2)
       }
     },
     // 通过含税价计算税率
     getincludeTaxPrice(row) {
       if (row.price !== 0) {
-        row.tax = ((row.includeTaxPrice / row.price - 1) * 100).toFixed(2)
-        console.log(row.tax)
+        row.taxRate = ((row.includeTaxPrice / row.price - 1) * 100).toFixed(2)
+        console.log(row.taxRate)
       }
     },
     // 计算单价
     getprice(row) {
-      row.includeTaxPrice = (row.price * (1 + row.tax / 100)).toFixed(2)
+      row.includeTaxPrice = (row.price * (1 + row.taxRate / 100)).toFixed(2)
     },
     // 计算税额
     getTaxMoney2(row) {
-      row.taxMoney = (row.price * row.tax / 100 * row.stockQuantity).toFixed(2)
-      return row.taxMoney
+      row.tax = (row.price * row.taxRate / 100 * row.stockQuantity).toFixed(2)
+      return row.tax
     },
     // 计算含税金额
     getTaxMoney(row) {

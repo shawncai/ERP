@@ -286,34 +286,83 @@
               border
               style="width: 100%">
               <el-table-column
-                prop="stockDate"
+                prop="customerName"
                 align="center"
                 label="客户"
                 min-width="150"/>
               <el-table-column
-                prop="supplierName"
+                prop="money"
                 align="center"
                 label="收款金额"
                 min-width="150"/>
               <el-table-column
-                prop="stockQuantity"
+                prop="idx"
                 align="center"
                 label="收款期数"
                 min-width="150"/>
               <el-table-column
-                prop="stockMoney"
+                prop="collectDate"
                 align="center"
                 label="收款日期"
                 min-width="150"/>
               <el-table-column
-                prop="arriveQuantity"
+                prop="collectType"
                 align="center"
                 label="收款方式"
                 min-width="150"/>
             </el-table>
-            <pagination v-show="total2>0" :total="total2" :page.sync="getstocklist.pagenum" :limit.sync="getstocklist.pagesize" @pagination="getstoctlist" />
+            <pagination v-show="total2>0" :total="total2" :page.sync="getCollectlist.pagenum" :limit.sync="getCollectlist.pagesize" @pagination="getCollect" />
           </el-tab-pane>
-          <el-tab-pane label="定时任务补偿">定时任务补偿</el-tab-pane>
+          <el-tab-pane label="回访记录">
+            <el-row :gutter="20">
+              <el-form ref="getVisitlistdata" :model="getVisitlistdata">
+                <el-col :span="5">
+                  <el-form-item>
+                    <el-input v-model="getVisitlistdata.customerName" placeholder="客户姓名" clearable/>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="5">
+                  <el-date-picker
+                    v-model="date"
+                    type="daterange"
+                    range-separator="-"
+                    unlink-panels
+                    start-placeholder="回访开始日期"
+                    end-placeholder="回访结束日期"
+                    value-format="yyyy-MM-dd"/>
+                </el-col>
+                <el-col :span="3">
+                  <el-button type="primary" style="margin-left: 200px" @click="handleFilter">{{ $t('public.search') }}</el-button>
+                </el-col>
+              </el-form>
+            </el-row>
+            <el-table
+              :data="tableData3"
+              border
+              style="width: 100%">
+              <el-table-column
+                prop="visitDate"
+                align="center"
+                label="回访日期"
+                min-width="150"/>
+              <el-table-column
+                prop="customerName"
+                align="center"
+                label="客户"
+                min-width="150"/>
+              <el-table-column
+                prop="content"
+                align="center"
+                label="回访内容"
+                min-width="150"/>
+              <el-table-column
+                prop="visitMode"
+                align="center"
+                label="回访方式"
+                min-width="150"/>
+            </el-table>
+            <pagination v-show="total3>0" :total="total3" :page.sync="getVisitlistdata.pagenum" :limit.sync="getVisitlistdata.pagesize" @pagination="getVisitlist" />
+          </el-tab-pane>
         </el-tabs>
       </div>
     </el-card>
@@ -321,7 +370,7 @@
 </template>
 
 <script>
-import { getEmpStockInfo } from '@/api/EmployeeInformation'
+import { getEmpStockInfo, getEmpCollect, getEmpVisitInfo } from '@/api/EmployeeInformation'
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
 export default {
   components: { Pagination },
@@ -404,12 +453,19 @@ export default {
   },
   data() {
     return {
+      // 回访日期段
+      date: [],
+      // 回访信息分页和数据
+      tableData3: [],
+      total3: 0,
+      // 收款信息分页和数据
+      tableData2: [],
+      total2: 0,
+      // 采购信息分页和数据
+      total: 0,
+      tableData: [],
       // 维修信息
       repearData: {},
-      // 分页
-      total: 0,
-      // 采购信息
-      tableData: [],
       // 合同信息
       contracts: {},
       // 合计数据
@@ -425,6 +481,16 @@ export default {
       // 供应商信息数据
       personalForm: this.detaildata,
       getstocklist: {
+        pagenum: 1,
+        pagesize: 10,
+        id: this.detailid
+      },
+      getCollectlist: {
+        pagenum: 1,
+        pagesize: 10,
+        id: this.detailid
+      },
+      getVisitlistdata: {
         pagenum: 1,
         pagesize: 10,
         id: this.detailid
@@ -445,11 +511,41 @@ export default {
     },
     detailid() {
       this.getstocklist.id = this.detailid
-      console.log(this.detailid)
+      this.getCollectlist.id = this.detailid
+      this.getVisitlistdata.id = this.detailid
       this.getstoctlist()
+      this.getCollect()
+      this.getVisitlist()
     }
   },
   methods: {
+    // 回访搜索
+    handleFilter() {
+      this.getVisitlistdata.pagenum = 1
+      console.log(this.date)
+      if (this.date === '' || this.date === null || this.date === undefined) {
+        this.getVisitlistdata.beginTime = ''
+        this.getVisitlistdata.endTime = ''
+      } else {
+        this.getVisitlistdata.beginTime = this.date[0]
+        this.getVisitlistdata.endTime = this.date[1]
+      }
+      getEmpVisitInfo(this.getVisitlistdata).then(res => {
+        if (res.data.ret === 200) {
+          this.tableData3 = res.data.data.content.list
+          this.total3 = res.data.data.content.totalCount
+        }
+      })
+    },
+    // 回访分页
+    getVisitlist() {
+      getEmpVisitInfo(this.getVisitlistdata).then(res => {
+        if (res.data.ret === 200) {
+          this.tableData3 = res.data.data.content.list
+          this.total3 = res.data.data.content.totalCount
+        }
+      })
+    },
     // 采购分页
     getstoctlist() {
       getEmpStockInfo(this.getstocklist).then(res => {
@@ -461,12 +557,12 @@ export default {
     },
     // 收款分页
     getCollect() {
-      // getEmpCollect(this.getstocklist).then(res => {
-      //   if (res.data.ret === 200) {
-      //     this.tableData = res.data.data.content.list
-      //     this.total = res.data.data.content.totalCount
-      //   }
-      // })
+      getEmpCollect(this.getCollectlist).then(res => {
+        if (res.data.ret === 200) {
+          this.tableData2 = res.data.data.content.list
+          this.total2 = res.data.data.content.totalCount
+        }
+      })
     },
     handlecancel() {
       this.editVisible = false
