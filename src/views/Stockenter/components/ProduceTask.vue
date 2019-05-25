@@ -132,6 +132,7 @@
 
 <script>
 import { producetasklist } from '@/api/ProduceTask'
+import { productlist } from '@/api/public'
 import { getdeptlist } from '@/api/BasicSettings'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
@@ -307,7 +308,7 @@ export default {
       this.choosedata = val
     },
     // 确认添加数据
-    handleConfirm() {
+    async handleConfirm() {
       this.employeeVisible = false
       const producedata = this.choosedata.produceTaskDetailVos
       console.log(this.choosedata)
@@ -322,9 +323,25 @@ export default {
           finishQuantity: 0,
           passQuantity: 0,
           passRate: 0,
-          workCenterId: item.workCenterId
+          workCenterId: item.workCenterId,
+          unit: item.unit
         }
       })
+      const list = await Promise.all(producedata.map(function(item) {
+        return productlist(item.productCode)
+      }))
+      console.log('list', list)
+      // 在外部把数据加到数组里面去
+      for (let i = 0; i < productDetail.length; i++) {
+        for (let j = 0; j < list.length; j++) {
+          if (productDetail[i].productCode === list[j].data.data.content.list[0].code) {
+            productDetail[i].price = list[j].data.data.content.list[0].costPrice
+            productDetail[i].color = list[j].data.data.content.list[0].color
+            productDetail[i].typeId = list[j].data.data.content.list[0].typeId
+            productDetail[i].typeIdname = list[j].data.data.content.list[0].productType
+          }
+        }
+      }
       this.$emit('productDetail', productDetail)
       this.$emit('moredata', num)
     }

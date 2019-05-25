@@ -236,6 +236,7 @@ export default {
     moredata(val) {
       console.log(val)
       this.personalForm.produceTaskNumber = val.taskNumber
+      this.personalForm.sourceNumber = val.taskNumber
     },
     // 生产任务单选择focus控制
     handleAddSouce() {
