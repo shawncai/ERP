@@ -755,90 +755,90 @@ export default {
     },
     // 保存操作
     handlesave() {
-      const EnterDetail = this.$refs.editable.getRecords()
-      if (EnterDetail.length === 0) {
-        this.$notify.error({
-          title: '错误',
-          message: '明细表不能为空',
-          offset: 100
-        })
-        return false
-      }
-      EnterDetail.map(function(elem) {
-        return elem
-      }).forEach(function(elem) {
-        if (elem.productCode === null || elem.productCode === '' || elem.productCode === undefined) {
-          delete elem.productCode
-        }
-        if (elem.productName === null || elem.productName === '' || elem.productName === undefined) {
-          delete elem.productName
-        }
-        if (elem.typeId === null || elem.typeId === '' || elem.typeId === undefined) {
-          delete elem.typeId
-        }
-        if (elem.unit === null || elem.unit === '' || elem.unit === undefined) {
-          delete elem.unit
-        }
-        if (elem.color === null || elem.color === '' || elem.color === undefined) {
-          delete elem.color
-        }
-        if (elem.performanceScore === null || elem.performanceScore === '' || elem.performanceScore === undefined) {
-          delete elem.performanceScore
-        }
-        if (elem.productScore === null || elem.productScore === '' || elem.productScore === undefined) {
-          delete elem.productScore
-        }
-        if (elem.quantity === null || elem.quantity === '' || elem.quantity === undefined) {
-          delete elem.quantity
-        }
-        if (elem.salePrice === null || elem.salePrice === '' || elem.salePrice === undefined) {
-          delete elem.salePrice
-        }
-        if (elem.costPrice === null || elem.costPrice === '' || elem.costPrice === undefined) {
-          delete elem.costPrice
-        }
-        if (elem.costMoney === null || elem.costMoney === '' || elem.costMoney === undefined) {
-          delete elem.costMoney
-        }
-        if (elem.includeTaxMoney === null || elem.includeTaxMoney === '' || elem.includeTaxMoney === undefined) {
-          delete elem.includeTaxMoney
-        }
-        if (elem.taxRate === null || elem.taxRate === '' || elem.taxRate === undefined) {
-          delete elem.taxRate
-        }
-        if (elem.taxRate !== null || elem.taxRate !== '' || elem.taxRate !== undefined) {
-          elem.taxRate = elem.taxRate / 100
-        }
-        if (elem.taxMoney === null || elem.taxMoney === '' || elem.taxMoney === undefined) {
-          delete elem.taxMoney
-        }
-        if (elem.money === null || elem.money === '' || elem.money === undefined) {
-          delete elem.money
-        }
-        if (elem.includeTaxCostMoney === null || elem.includeTaxCostMoney === '' || elem.includeTaxCostMoney === undefined) {
-          delete elem.includeTaxCostMoney
-        }
-        if (elem.discount === null || elem.discount === '' || elem.discount === undefined) {
-          delete elem.discount
-        }
-        if (elem.discount !== null || elem.discount !== '' || elem.discount !== undefined) {
-          elem.discount = elem.discount / 100
-        }
-        if (elem.discountMoney === null || elem.discountMoney === '' || elem.discountMoney === undefined) {
-          delete elem.discountMoney
-        }
-        return elem
-      })
-      const parms2 = JSON.stringify(EnterDetail)
-      const Data = this.personalForm
-      for (const key in Data) {
-        if (Data[key] === '' || Data[key] === undefined || Data[key] === null) {
-          delete Data[key]
-        }
-      }
-      const parms = JSON.stringify(Data)
       this.$refs.personalForm.validate((valid) => {
         if (valid) {
+          const EnterDetail = this.$refs.editable.getRecords()
+          if (EnterDetail.length === 0) {
+            this.$notify.error({
+              title: '错误',
+              message: '明细表不能为空',
+              offset: 100
+            })
+            return false
+          }
+          EnterDetail.map(function(elem) {
+            return elem
+          }).forEach(function(elem) {
+            if (elem.productCode === null || elem.productCode === '' || elem.productCode === undefined) {
+              delete elem.productCode
+            }
+            if (elem.productName === null || elem.productName === '' || elem.productName === undefined) {
+              delete elem.productName
+            }
+            if (elem.typeId === null || elem.typeId === '' || elem.typeId === undefined) {
+              delete elem.typeId
+            }
+            if (elem.unit === null || elem.unit === '' || elem.unit === undefined) {
+              delete elem.unit
+            }
+            if (elem.color === null || elem.color === '' || elem.color === undefined) {
+              delete elem.color
+            }
+            if (elem.performanceScore === null || elem.performanceScore === '' || elem.performanceScore === undefined) {
+              delete elem.performanceScore
+            }
+            if (elem.productScore === null || elem.productScore === '' || elem.productScore === undefined) {
+              delete elem.productScore
+            }
+            if (elem.quantity === null || elem.quantity === '' || elem.quantity === undefined) {
+              delete elem.quantity
+            }
+            if (elem.salePrice === null || elem.salePrice === '' || elem.salePrice === undefined) {
+              delete elem.salePrice
+            }
+            if (elem.costPrice === null || elem.costPrice === '' || elem.costPrice === undefined) {
+              delete elem.costPrice
+            }
+            if (elem.costMoney === null || elem.costMoney === '' || elem.costMoney === undefined) {
+              delete elem.costMoney
+            }
+            if (elem.includeTaxMoney === null || elem.includeTaxMoney === '' || elem.includeTaxMoney === undefined) {
+              delete elem.includeTaxMoney
+            }
+            if (elem.taxRate === null || elem.taxRate === '' || elem.taxRate === undefined) {
+              delete elem.taxRate
+            }
+            if (elem.taxRate !== null || elem.taxRate !== '' || elem.taxRate !== undefined) {
+              elem.taxRate = elem.taxRate / 100
+            }
+            if (elem.taxMoney === null || elem.taxMoney === '' || elem.taxMoney === undefined) {
+              delete elem.taxMoney
+            }
+            if (elem.money === null || elem.money === '' || elem.money === undefined) {
+              delete elem.money
+            }
+            if (elem.includeTaxCostMoney === null || elem.includeTaxCostMoney === '' || elem.includeTaxCostMoney === undefined) {
+              delete elem.includeTaxCostMoney
+            }
+            if (elem.discount === null || elem.discount === '' || elem.discount === undefined) {
+              delete elem.discount
+            }
+            if (elem.discount !== null || elem.discount !== '' || elem.discount !== undefined) {
+              elem.discount = elem.discount / 100
+            }
+            if (elem.discountMoney === null || elem.discountMoney === '' || elem.discountMoney === undefined) {
+              delete elem.discountMoney
+            }
+            return elem
+          })
+          const parms2 = JSON.stringify(EnterDetail)
+          const Data = this.personalForm
+          for (const key in Data) {
+            if (Data[key] === '' || Data[key] === undefined || Data[key] === null) {
+              delete Data[key]
+            }
+          }
+          const parms = JSON.stringify(Data)
           createsaleOrder(parms, parms2, this.personalForm).then(res => {
             console.log(res)
             if (res.data.ret === 200) {

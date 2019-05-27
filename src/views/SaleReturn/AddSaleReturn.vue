@@ -596,114 +596,114 @@ export default {
     },
     // 保存操作
     handlesave() {
-      const EnterDetail = this.$refs.editable.getRecords()
-      if (EnterDetail.length === 0) {
-        this.$notify.error({
-          title: '错误',
-          message: '明细表不能为空',
-          offset: 100
-        })
-        return false
-      }
-      EnterDetail.map(function(elem) {
-        return elem
-      }).forEach(function(elem) {
-        if (elem.batch === null || elem.batch === '' || elem.batch === undefined) {
-          delete elem.batch
-        }
-        if (elem.productName === null || elem.productName === '' || elem.productName === undefined) {
-          delete elem.productName
-        }
-        if (elem.category === null || elem.category === '' || elem.category === undefined) {
-          delete elem.category
-        }
-        if (elem.unit === null || elem.unit === '' || elem.unit === undefined) {
-          delete elem.unit
-        }
-        if (elem.type === null || elem.type === '' || elem.type === undefined) {
-          delete elem.type
-        }
-        if (elem.color === null || elem.color === '' || elem.color === undefined) {
-          delete elem.color
-        }
-        if (elem.kpiGrade === null || elem.kpiGrade === '' || elem.kpiGrade === undefined) {
-          delete elem.kpiGrade
-        }
-        if (elem.point === null || elem.point === '' || elem.point === undefined) {
-          delete elem.point
-        }
-        if (elem.salePrice === null || elem.salePrice === '' || elem.salePrice === undefined) {
-          delete elem.salePrice
-        }
-        if (elem.costPrice === null || elem.costPrice === '' || elem.costPrice === undefined) {
-          delete elem.costPrice
-        }
-        if (elem.costMoney === null || elem.costMoney === '' || elem.costMoney === undefined) {
-          delete elem.costMoney
-        }
-        if (elem.includeTaxMoney === null || elem.includeTaxMoney === '' || elem.includeTaxMoney === undefined) {
-          delete elem.includeTaxMoney
-        }
-        if (elem.taxRate === null || elem.taxRate === '' || elem.taxRate === undefined) {
-          delete elem.taxRate
-        }
-        if (elem.taxRate !== null || elem.taxRate !== '' || elem.taxRate !== undefined) {
-          elem.taxRate = elem.taxRate / 100
-        }
-        if (elem.taxMoney === null || elem.taxMoney === '' || elem.taxMoney === undefined) {
-          delete elem.taxMoney
-        }
-        if (elem.money === null || elem.money === '' || elem.money === undefined) {
-          delete elem.money
-        }
-        if (elem.includeTaxCostMoney === null || elem.includeTaxCostMoney === '' || elem.includeTaxCostMoney === undefined) {
-          delete elem.includeTaxCostMoney
-        }
-        if (elem.discount === null || elem.discount === '' || elem.discount === undefined) {
-          delete elem.discount
-        }
-        if (elem.discount !== null || elem.discount !== '' || elem.discount !== undefined) {
-          elem.discount = elem.discount / 100
-        }
-        if (elem.discountMoney === null || elem.discountMoney === '' || elem.discountMoney === undefined) {
-          delete elem.discountMoney
-        }
-        if (elem.alreadyReturnQuantity === null || elem.alreadyReturnQuantity === '' || elem.alreadyReturnQuantity === undefined) {
-          delete elem.alreadyReturnQuantity
-        }
-        if (elem.returnQuantity === null || elem.returnQuantity === '' || elem.returnQuantity === undefined) {
-          delete elem.returnQuantity
-        }
-        if (elem.returnReason === null || elem.returnReason === '' || elem.returnReason === undefined) {
-          delete elem.returnReason
-        }
-        if (elem.sendQuantity === null || elem.sendQuantity === '' || elem.sendQuantity === undefined) {
-          delete elem.sendQuantity
-        }
-        if (elem.carCode === null || elem.carCode === '' || elem.carCode === undefined) {
-          delete elem.carCode
-        }
-        if (elem.motorCode === null || elem.motorCode === '' || elem.motorCode === undefined) {
-          delete elem.motorCode
-        }
-        if (elem.batteryCode === null || elem.batteryCode === '' || elem.batteryCode === undefined) {
-          delete elem.batteryCode
-        }
-        if (elem.locationId === null || elem.locationId === '' || elem.locationId === undefined) {
-          delete elem.locationId
-        }
-        return elem
-      })
-      const parms2 = JSON.stringify(EnterDetail)
-      const Data = this.personalForm
-      for (const key in Data) {
-        if (Data[key] === '' || Data[key] === undefined || Data[key] === null) {
-          delete Data[key]
-        }
-      }
-      const parms = JSON.stringify(Data)
       this.$refs.personalForm.validate((valid) => {
         if (valid) {
+          const EnterDetail = this.$refs.editable.getRecords()
+          if (EnterDetail.length === 0) {
+            this.$notify.error({
+              title: '错误',
+              message: '明细表不能为空',
+              offset: 100
+            })
+            return false
+          }
+          EnterDetail.map(function(elem) {
+            return elem
+          }).forEach(function(elem) {
+            if (elem.batch === null || elem.batch === '' || elem.batch === undefined) {
+              delete elem.batch
+            }
+            if (elem.productName === null || elem.productName === '' || elem.productName === undefined) {
+              delete elem.productName
+            }
+            if (elem.category === null || elem.category === '' || elem.category === undefined) {
+              delete elem.category
+            }
+            if (elem.unit === null || elem.unit === '' || elem.unit === undefined) {
+              delete elem.unit
+            }
+            if (elem.type === null || elem.type === '' || elem.type === undefined) {
+              delete elem.type
+            }
+            if (elem.color === null || elem.color === '' || elem.color === undefined) {
+              delete elem.color
+            }
+            if (elem.kpiGrade === null || elem.kpiGrade === '' || elem.kpiGrade === undefined) {
+              delete elem.kpiGrade
+            }
+            if (elem.point === null || elem.point === '' || elem.point === undefined) {
+              delete elem.point
+            }
+            if (elem.salePrice === null || elem.salePrice === '' || elem.salePrice === undefined) {
+              delete elem.salePrice
+            }
+            if (elem.costPrice === null || elem.costPrice === '' || elem.costPrice === undefined) {
+              delete elem.costPrice
+            }
+            if (elem.costMoney === null || elem.costMoney === '' || elem.costMoney === undefined) {
+              delete elem.costMoney
+            }
+            if (elem.includeTaxMoney === null || elem.includeTaxMoney === '' || elem.includeTaxMoney === undefined) {
+              delete elem.includeTaxMoney
+            }
+            if (elem.taxRate === null || elem.taxRate === '' || elem.taxRate === undefined) {
+              delete elem.taxRate
+            }
+            if (elem.taxRate !== null || elem.taxRate !== '' || elem.taxRate !== undefined) {
+              elem.taxRate = elem.taxRate / 100
+            }
+            if (elem.taxMoney === null || elem.taxMoney === '' || elem.taxMoney === undefined) {
+              delete elem.taxMoney
+            }
+            if (elem.money === null || elem.money === '' || elem.money === undefined) {
+              delete elem.money
+            }
+            if (elem.includeTaxCostMoney === null || elem.includeTaxCostMoney === '' || elem.includeTaxCostMoney === undefined) {
+              delete elem.includeTaxCostMoney
+            }
+            if (elem.discount === null || elem.discount === '' || elem.discount === undefined) {
+              delete elem.discount
+            }
+            if (elem.discount !== null || elem.discount !== '' || elem.discount !== undefined) {
+              elem.discount = elem.discount / 100
+            }
+            if (elem.discountMoney === null || elem.discountMoney === '' || elem.discountMoney === undefined) {
+              delete elem.discountMoney
+            }
+            if (elem.alreadyReturnQuantity === null || elem.alreadyReturnQuantity === '' || elem.alreadyReturnQuantity === undefined) {
+              delete elem.alreadyReturnQuantity
+            }
+            if (elem.returnQuantity === null || elem.returnQuantity === '' || elem.returnQuantity === undefined) {
+              delete elem.returnQuantity
+            }
+            if (elem.returnReason === null || elem.returnReason === '' || elem.returnReason === undefined) {
+              delete elem.returnReason
+            }
+            if (elem.sendQuantity === null || elem.sendQuantity === '' || elem.sendQuantity === undefined) {
+              delete elem.sendQuantity
+            }
+            if (elem.carCode === null || elem.carCode === '' || elem.carCode === undefined) {
+              delete elem.carCode
+            }
+            if (elem.motorCode === null || elem.motorCode === '' || elem.motorCode === undefined) {
+              delete elem.motorCode
+            }
+            if (elem.batteryCode === null || elem.batteryCode === '' || elem.batteryCode === undefined) {
+              delete elem.batteryCode
+            }
+            if (elem.locationId === null || elem.locationId === '' || elem.locationId === undefined) {
+              delete elem.locationId
+            }
+            return elem
+          })
+          const parms2 = JSON.stringify(EnterDetail)
+          const Data = this.personalForm
+          for (const key in Data) {
+            if (Data[key] === '' || Data[key] === undefined || Data[key] === null) {
+              delete Data[key]
+            }
+          }
+          const parms = JSON.stringify(Data)
           createsaleReturn(parms, parms2, this.personalForm).then(res => {
             console.log(res)
             if (res.data.ret === 200) {
