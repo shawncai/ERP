@@ -568,147 +568,158 @@ export default {
       this.personalForm.createPersonId = this.$store.getters.userId
       this.personalForm.countryId = this.$store.getters.countryId
       this.personalForm.modifyPersonId = this.$store.getters.userId
-      const EnterDetail = this.$refs.editable.getRecords()
-      if (EnterDetail.length === 0) {
-        this.$notify.error({
-          title: '错误',
-          message: '明细表不能为空',
-          offset: 100
-        })
-        return false
-      }
-      EnterDetail.map(function(elem) {
-        return elem
-      }).forEach(function(elem) {
-        if (elem.productCode === null || elem.productCode === '' || elem.productCode === undefined) {
-          delete elem.productCode
-        }
-        if (elem.productName === null || elem.productName === '' || elem.productName === undefined) {
-          delete elem.productName
-        }
-        if (elem.type === null || elem.type === '' || elem.type === undefined) {
-          delete elem.type
-        }
-        if (elem.unit === null || elem.unit === '' || elem.unit === undefined) {
-          delete elem.unit
-        }
-        if (elem.price === null || elem.price === '' || elem.price === undefined) {
-          delete elem.price
-        }
-        if (elem.arrivalQuantity === null || elem.arrivalQuantity === '' || elem.arrivalQuantity === undefined) {
-          delete elem.arrivalQuantity
-        }
-        if (elem.retreatQuantity === null || elem.retreatQuantity === '' || elem.retreatQuantity === undefined) {
-          delete elem.retreatQuantity
-        }
-        if (elem.retreatReason === null || elem.retreatReason === '' || elem.retreatReason === undefined) {
-          delete elem.retreatReason
-        }
-        if (elem.sourceSerialNumber === null || elem.sourceSerialNumber === '' || elem.sourceSerialNumber === undefined) {
-          delete elem.sourceSerialNumber
-        }
-        if (elem.includeTaxPrice === null || elem.includeTaxPrice === '' || elem.includeTaxPrice === undefined) {
-          delete elem.includeTaxPrice
-        }
-        if (elem.includeTaxPrice !== null || elem.includeTaxPrice !== '' || elem.includeTaxPrice !== undefined) {
-          elem.includeTaxPrice = (elem.includeTaxPrice).toFixed(2)
-        }
-        if (elem.taxRate === null || elem.taxRate === '' || elem.taxRate === undefined) {
-          delete elem.taxRate
-        }
-        if (elem.taxRate !== null || elem.taxRate !== '' || elem.taxRate !== undefined) {
-          elem.taxRate = (elem.taxRate).toFixed(2)
-        }
-        if (elem.discountRate === null || elem.discountRate === '' || elem.discountRate === undefined) {
-          delete elem.discountRate
-        }
-        if (elem.discountRate !== null || elem.discountRate !== '' || elem.discountRate !== undefined) {
-          elem.discountRate = (elem.discountRate).toFixed(2)
-        }
-        if (elem.money === null || elem.money === '' || elem.money === undefined) {
-          delete elem.money
-        }
-        if (elem.money !== null || elem.money !== '' || elem.money !== undefined) {
-          elem.money = (elem.money).toFixed(2)
-        }
-        if (elem.includeTaxMoney === null || elem.includeTaxMoney === '' || elem.includeTaxMoney === undefined) {
-          delete elem.includeTaxMoney
-        }
-        if (elem.includeTaxMoney !== null || elem.includeTaxMoney !== '' || elem.includeTaxMoney !== undefined) {
-          elem.includeTaxMoney = (elem.includeTaxMoney).toFixed(2)
-        }
-        if (elem.taxMoney === null || elem.taxMoney === '' || elem.taxMoney === undefined) {
-          delete elem.taxMoney
-        }
-        if (elem.taxMoney !== null || elem.taxMoney !== '' || elem.taxMoney !== undefined) {
-          elem.taxMoney = (elem.taxMoney).toFixed(2)
-        }
-        if (elem.discountRate === null || elem.discountRate === '' || elem.discountRate === undefined) {
-          delete elem.discountRate
-        }
-        if (elem.discountMoney === null || elem.discountMoney === '' || elem.discountMoney === undefined) {
-          delete elem.discountMoney
-        }
-        if (elem.discountMoney !== null || elem.discountMoney !== '' || elem.discountMoney !== undefined) {
-          elem.discountMoney = (elem.discountMoney).toFixed(2)
-        }
-        if (elem.remark === null || elem.remark === '' || elem.remark === undefined) {
-          delete elem.remark
-        }
-        if (elem.sourceNumber === null || elem.sourceNumber === '' || elem.sourceNumber === undefined) {
-          delete elem.sourceNumber
-        }
-        if (elem.sourceSerialNumber === null || elem.sourceSerialNumber === '' || elem.sourceSerialNumber === undefined) {
-          delete elem.sourceSerialNumber
-        }
-        if (elem.hadStorageQuantity === null || elem.hadStorageQuantity === '' || elem.hadStorageQuantity === undefined) {
-          delete elem.hadStorageQuantity
-        }
-        if (elem.reportCheckingQuantity === null || elem.reportCheckingQuantity === '' || elem.reportCheckingQuantity === undefined) {
-          delete elem.reportCheckingQuantity
-        }
-        if (elem.actualCheckingQuantity === null || elem.actualCheckingQuantity === '' || elem.actualCheckingQuantity === undefined) {
-          delete elem.actualCheckingQuantity
-        }
-        if (elem.qualifyQuantity === null || elem.qualifyQuantity === '' || elem.qualifyQuantity === undefined) {
-          delete elem.qualifyQuantity
-        }
-        if (elem.unqualifyQuantity === null || elem.unqualifyQuantity === '' || elem.unqualifyQuantity === undefined) {
-          delete elem.unqualifyQuantity
-        }
-        if (elem.returnQuantity === null || elem.returnQuantity === '' || elem.returnQuantity === undefined) {
-          delete elem.returnQuantity
-        }
-        return elem
-      })
-      const parms2 = JSON.stringify(EnterDetail)
-      const Data = this.personalForm
-      for (const key in Data) {
-        if (Data[key] === '' || Data[key] === undefined || Data[key] === null) {
-          delete Data[key]
-        }
-      }
-      const parms = JSON.stringify(Data)
-      updatestockRetreat(parms, parms2).then(res => {
-        if (res.data.ret === 200) {
-          this.$notify({
-            title: '操作成功',
-            message: '操作成功',
-            type: 'success',
-            duration: 1000,
-            offset: 100
+      this.$refs.personalForm.validate((valid) => {
+        if (valid) {
+          const EnterDetail = this.$refs.editable.getRecords()
+          if (EnterDetail.length === 0) {
+            this.$notify.error({
+              title: '错误',
+              message: '明细表不能为空',
+              offset: 100
+            })
+            return false
+          }
+          EnterDetail.map(function(elem) {
+            return elem
+          }).forEach(function(elem) {
+            if (elem.productCode === null || elem.productCode === '' || elem.productCode === undefined) {
+              delete elem.productCode
+            }
+            if (elem.productName === null || elem.productName === '' || elem.productName === undefined) {
+              delete elem.productName
+            }
+            if (elem.type === null || elem.type === '' || elem.type === undefined) {
+              delete elem.type
+            }
+            if (elem.unit === null || elem.unit === '' || elem.unit === undefined) {
+              delete elem.unit
+            }
+            if (elem.price === null || elem.price === '' || elem.price === undefined) {
+              delete elem.price
+            }
+            if (elem.arrivalQuantity === null || elem.arrivalQuantity === '' || elem.arrivalQuantity === undefined) {
+              delete elem.arrivalQuantity
+            }
+            if (elem.retreatQuantity === null || elem.retreatQuantity === '' || elem.retreatQuantity === undefined) {
+              delete elem.retreatQuantity
+            }
+            if (elem.retreatReason === null || elem.retreatReason === '' || elem.retreatReason === undefined) {
+              delete elem.retreatReason
+            }
+            if (elem.sourceSerialNumber === null || elem.sourceSerialNumber === '' || elem.sourceSerialNumber === undefined) {
+              delete elem.sourceSerialNumber
+            }
+            if (elem.includeTaxPrice === null || elem.includeTaxPrice === '' || elem.includeTaxPrice === undefined) {
+              delete elem.includeTaxPrice
+            }
+            if (elem.includeTaxPrice !== null || elem.includeTaxPrice !== '' || elem.includeTaxPrice !== undefined) {
+              elem.includeTaxPrice = (elem.includeTaxPrice).toFixed(2)
+            }
+            if (elem.taxRate === null || elem.taxRate === '' || elem.taxRate === undefined) {
+              delete elem.taxRate
+            }
+            if (elem.taxRate !== null || elem.taxRate !== '' || elem.taxRate !== undefined) {
+              elem.taxRate = (elem.taxRate).toFixed(2)
+            }
+            if (elem.discountRate === null || elem.discountRate === '' || elem.discountRate === undefined) {
+              delete elem.discountRate
+            }
+            if (elem.discountRate !== null || elem.discountRate !== '' || elem.discountRate !== undefined) {
+              elem.discountRate = (elem.discountRate).toFixed(2)
+            }
+            if (elem.money === null || elem.money === '' || elem.money === undefined) {
+              delete elem.money
+            }
+            if (elem.money !== null || elem.money !== '' || elem.money !== undefined) {
+              elem.money = (elem.money).toFixed(2)
+            }
+            if (elem.includeTaxMoney === null || elem.includeTaxMoney === '' || elem.includeTaxMoney === undefined) {
+              delete elem.includeTaxMoney
+            }
+            if (elem.includeTaxMoney !== null || elem.includeTaxMoney !== '' || elem.includeTaxMoney !== undefined) {
+              elem.includeTaxMoney = (elem.includeTaxMoney).toFixed(2)
+            }
+            if (elem.taxMoney === null || elem.taxMoney === '' || elem.taxMoney === undefined) {
+              delete elem.taxMoney
+            }
+            if (elem.taxMoney !== null || elem.taxMoney !== '' || elem.taxMoney !== undefined) {
+              elem.taxMoney = (elem.taxMoney).toFixed(2)
+            }
+            if (elem.discountRate === null || elem.discountRate === '' || elem.discountRate === undefined) {
+              delete elem.discountRate
+            }
+            if (elem.discountMoney === null || elem.discountMoney === '' || elem.discountMoney === undefined) {
+              delete elem.discountMoney
+            }
+            if (elem.discountMoney !== null || elem.discountMoney !== '' || elem.discountMoney !== undefined) {
+              elem.discountMoney = (elem.discountMoney).toFixed(2)
+            }
+            if (elem.remark === null || elem.remark === '' || elem.remark === undefined) {
+              delete elem.remark
+            }
+            if (elem.sourceNumber === null || elem.sourceNumber === '' || elem.sourceNumber === undefined) {
+              delete elem.sourceNumber
+            }
+            if (elem.sourceSerialNumber === null || elem.sourceSerialNumber === '' || elem.sourceSerialNumber === undefined) {
+              delete elem.sourceSerialNumber
+            }
+            if (elem.hadStorageQuantity === null || elem.hadStorageQuantity === '' || elem.hadStorageQuantity === undefined) {
+              delete elem.hadStorageQuantity
+            }
+            if (elem.reportCheckingQuantity === null || elem.reportCheckingQuantity === '' || elem.reportCheckingQuantity === undefined) {
+              delete elem.reportCheckingQuantity
+            }
+            if (elem.actualCheckingQuantity === null || elem.actualCheckingQuantity === '' || elem.actualCheckingQuantity === undefined) {
+              delete elem.actualCheckingQuantity
+            }
+            if (elem.qualifyQuantity === null || elem.qualifyQuantity === '' || elem.qualifyQuantity === undefined) {
+              delete elem.qualifyQuantity
+            }
+            if (elem.unqualifyQuantity === null || elem.unqualifyQuantity === '' || elem.unqualifyQuantity === undefined) {
+              delete elem.unqualifyQuantity
+            }
+            if (elem.returnQuantity === null || elem.returnQuantity === '' || elem.returnQuantity === undefined) {
+              delete elem.returnQuantity
+            }
+            return elem
           })
-          this.$emit('rest', true)
-          this.$refs.editable.clear()
-          this.$refs.personalForm.clearValidate()
-          this.$refs.personalForm.resetFields()
-          this.editVisible = false
+          const parms2 = JSON.stringify(EnterDetail)
+          const Data = this.personalForm
+          for (const key in Data) {
+            if (Data[key] === '' || Data[key] === undefined || Data[key] === null) {
+              delete Data[key]
+            }
+          }
+          const parms = JSON.stringify(Data)
+          updatestockRetreat(parms, parms2).then(res => {
+            if (res.data.ret === 200) {
+              this.$notify({
+                title: '操作成功',
+                message: '操作成功',
+                type: 'success',
+                duration: 1000,
+                offset: 100
+              })
+              this.$emit('rest', true)
+              this.$refs.editable.clear()
+              this.$refs.personalForm.clearValidate()
+              this.$refs.personalForm.resetFields()
+              this.editVisible = false
+            } else {
+              this.$notify.error({
+                title: '错误',
+                message: '出错了',
+                offset: 100
+              })
+            }
+          })
         } else {
           this.$notify.error({
             title: '错误',
-            message: '出错了',
+            message: '信息未填完整',
             offset: 100
           })
+          return false
         }
       })
     },
