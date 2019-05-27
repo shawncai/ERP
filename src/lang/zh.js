@@ -278,7 +278,10 @@ export default {
     ReturnExchangeList: '换货单列表',
     Package: '组合套餐',
     AddPackage: '新建组合套餐',
-    PackageList: '组合套餐列表'
+    PackageList: '组合套餐列表',
+    ProductCost: '产品成本',
+    AddProductCost: '新建产品成本',
+    ProductCostList: '产品成本列表'
   },
   navbar: {
     logOut: '退出登录',
@@ -1802,6 +1805,24 @@ export default {
     productName: '主商品名称',
     createPersonName: '创建人',
     createDate: '创建时间'
+  },
+  ProductCost: {
+    accountTime: '会计期间',
+    productName: '产品名称',
+    productCode: '产品编码',
+    accountType: '核算方法',
+    isInput: '创建时间',
+    finishQuantity: '创建时间',
+    producingQuantity: '创建时间',
+    producingMaterialsQuantity: '创建时间',
+    producingSalary: '创建时间',
+    producingCost: '创建时间',
+    finishMaterialsUsedQuantity: '创建时间',
+    finishWorkHours: '创建时间',
+    endMaterialsQuantity: '创建时间',
+    endWorkHours: '创建时间',
+    currency: '创建时间',
+    createPersonId: '创建时间'
   },
   SmartReplenishmentList: {
     productCode: '商品编号',

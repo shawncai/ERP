@@ -22,8 +22,8 @@
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item :label="$t('StockInquiry.inquiryPersonId')" prop="inquiryPersonId" style="width: 100%;">
-                <span>{{ personalForm.inquiryPersonName }}</span>
+              <el-form-item :label="$t('StockOrder.stockPersonId')" prop="inquiryPersonId" style="width: 100%;">
+                <span>{{ personalForm.stockPersonName }}</span>
               </el-form-item>
             </el-col>
             <el-col :span="12">
@@ -101,6 +101,50 @@
           <el-editable-column prop="returnQuantity" align="center" label="退货数量" min-width="150px"/>
           <el-editable-column prop="actualArrivalQuantity" align="center" label="实到数量" min-width="150px"/>
         </el-editable>
+      </div>
+    </el-card>
+    <el-card class="box-card" shadow="never" style="margin-top: 10px">
+      <h2 ref="geren" class="form-name">合计信息</h2>
+      <div class="container" style="margin-top: 37px">
+        <el-form :inline="true" status-icon class="demo-ruleForm" label-width="130px">
+          <el-row>
+            <el-col :span="12">
+              <el-form-item label="采购数量合计" style="width: 100%;">
+                <span>{{ personalForm.allQuantity }}</span>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item label="金额合计" style="width: 100%;">
+                <span>{{ personalForm.allMoney }}</span>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item label="税额合计" style="width: 100%;">
+                <span>{{ personalForm.allTaxMoney }}</span>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item label="含税金额合计" style="width: 100%;">
+                <span>{{ personalForm.allIncludeTaxMoney }}</span>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item label="整单折扣金额合计" style="width: 100%;">
+                <span>{{ personalForm.allDiscountMoney }}</span>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item label="折后含税金额合计" style="width: 100%;">
+                <span>{{ personalForm.allIncludeTaxDiscountMoney }}</span>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item label="其他费用支出合计" style="width: 100%;">
+                <span>{{ personalForm.otherMoney }}</span>
+              </el-form-item>
+            </el-col>
+          </el-row>
+        </el-form>
       </div>
     </el-card>
     <!--审核状态-->

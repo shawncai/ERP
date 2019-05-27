@@ -89,6 +89,14 @@ export default {
   name: 'AddProducePlan',
   components: { MyCenter, MyEmp, MyDetail },
   data() {
+    const validatePass = (rule, value, callback) => {
+      console.log(this.handlePersonId)
+      if (this.handlePersonId === undefined || this.handlePersonId === null || this.handlePersonId === '') {
+        callback(new Error('请选择负责人'))
+      } else {
+        callback()
+      }
+    }
     return {
       // 部门数据
       depts: [],
@@ -112,7 +120,7 @@ export default {
       // 主生产任务规则数据
       personalrules: {
         handlePersonId: [
-          { required: true, message: '请选择负责人', trigger: 'focus' }
+          { required: true, validator: validatePass, trigger: 'change' }
         ]
       },
       // 主生产任务明细数据

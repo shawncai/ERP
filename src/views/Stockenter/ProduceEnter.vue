@@ -92,7 +92,7 @@
             <el-editable-column type="selection" width="55" align="center"/>
             <el-editable-column label="编号" width="55" align="center" type="index"/>
             <el-editable-column :edit-render="{type: 'default'}" prop="locationId" align="center" label="货位" width="200px">
-              <template slot-scope="scope">
+              <template slot-scope="scope" edit="scope">
                 <el-select v-model="scope.row.locationId" :value="scope.row.locationId" placeholder="请选择货位" filterable clearable style="width: 100%;" @visible-change="updatebatch($event,scope)">
                   <el-option
                     v-for="(item, index) in locationlist"
@@ -117,6 +117,7 @@
               </template>
             </el-editable-column>
             <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="remarks" align="center" label="备注" width="150px"/>
+            <el-editable-column prop="sourceSerialNumber" align="center" label="源单序号" width="150px"/>
           </el-editable>
         </div>
       </el-card>
@@ -144,8 +145,24 @@ export default {
   data() {
     const validatePass = (rule, value, callback) => {
       console.log(value)
-      if (value === '') {
-        callback(new Error('请选择'))
+      if (this.personalForm.produceTaskNumber === undefined || this.personalForm.produceTaskNumber === null || this.personalForm.produceTaskNumber === '') {
+        callback(new Error('请选择源单'))
+      } else {
+        callback()
+      }
+    }
+    const validatePass2 = (rule, value, callback) => {
+      console.log(value)
+      if (this.enterPersonId === undefined || this.enterPersonId === null || this.enterPersonId === '') {
+        callback(new Error('请选择入库人'))
+      } else {
+        callback()
+      }
+    }
+    const validatePass3 = (rule, value, callback) => {
+      console.log(value)
+      if (this.enterRepositoryId === undefined || this.enterRepositoryId === null || this.enterRepositoryId === '') {
+        callback(new Error('请选择仓库'))
       } else {
         callback()
       }
@@ -189,10 +206,10 @@ export default {
           { required: true, validator: validatePass, trigger: 'change' }
         ],
         enterPersonId: [
-          { required: true, message: '请选择入库人', trigger: 'focus' }
+          { required: true, validator: validatePass2, trigger: 'focus' }
         ],
         enterRepositoryId: [
-          { required: true, message: '请选择入库仓库', trigger: 'focus' }
+          { required: true, validator: validatePass3, trigger: 'focus' }
         ]
       },
       // 生产入库单明细数据
@@ -207,6 +224,12 @@ export default {
       locationlist: [],
       // 生产入库单明细列表规则
       validRules: {
+        locationId: [
+          { required: true, message: '请选择货位', trigger: 'change' }
+        ],
+        actualEnterQuantity: [
+          { required: true, message: '请输入入库数量', trigger: 'blur' }
+        ]
       }
     }
   },
