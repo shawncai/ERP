@@ -436,7 +436,14 @@ export default {
     transmode: '运送方式',
     deliverymode: '交货方式',
     address2: '收货地址',
-    createName: '创建人'
+    createName: '创建人',
+    // 详情
+    productName: '商品名称',
+    productType: '型号',
+    carCode: '车架号',
+    recoverReason: '收车原因',
+    handlePersonName: '收车人',
+    recoverDate: '收车时间'
   },
   Supplier: {
     punish: '供应商惩罚',

@@ -1,40 +1,64 @@
 <template>
   <div class="ERP-container">
-    <div class="filter-container">
-      <!-- 搜索条件栏目 -->
-      <el-input v-model="getemplist.code" :placeholder="$t('Product.code')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
-      <el-input v-model="getemplist.productname" :placeholder="$t('Product.productname')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
-      <el-input v-model="supplierid" :placeholder="$t('Product.supplierid')" class="filter-item" clearable @keyup.enter.native="handleFilter" @focus="handlechoose"/>
-      <my-supplier :control.sync="empcontrol" @supplierName="supplierName"/>
-      <el-input v-model="categoryid" placeholder="物品分类" class="filter-item" clearable @focus="treechoose"/>
-      <my-tree :treecontrol.sync="treecontrol" @tree="tree"/>
-      <!-- 更多搜索条件下拉栏 -->
-      <el-popover
-        placement="bottom"
-        width="500"
-        trigger="click">
-        <el-select v-model="getemplist.typeid" placeholder="请选择规格型号" clearable style="width: 40%;float: left;margin-left: 20px">
-          <el-option
-            v-for="(item, index) in types"
-            :key="index"
-            :label="item.categoryName"
-            :value="item.id"
-          />
-        </el-select>
-        <el-select v-model="getemplist.isactive" placeholder="请选择上下架" clearable style="width: 40%;float: right;margin-right: 20px">
-          <el-option value="1" label="上1"/>
-          <el-option value="2" label="下2"/>
-        </el-select>
-        <div class="seachbutton" style="width: 100%;float: right;margin-top: 20px">
-          <el-button v-waves class="filter-item" type="primary" style="float: right" @click="handleFilter">{{ $t('public.search') }}</el-button>
-        </div>
-        <el-button v-waves slot="reference" type="primary" class="filter-item" style="width: 130px">{{ $t('public.filter') }}<svg-icon icon-class="shaixuan" style="margin-left: 4px"/></el-button>
-      </el-popover>
-      <!-- 搜索按钮 -->
-      <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 86px" @click="handleFilter">{{ $t('public.search') }}</el-button>
+    <el-card class="box-card" style="margin-top: 10px;height: 60px" shadow="never">
+      <el-row>
+        <el-form ref="getemplist" :model="getemplist" label-width="100px" style="margin-top: -9px">
+          <!-- 搜索条件栏目 -->
+          <el-col :span="5">
+            <el-form-item :label="$t('Product.code')" label-width="100px">
+              <el-input v-model="getemplist.code" :placeholder="$t('Product.code')" clearable @keyup.enter.native="handleFilter"/>
+            </el-form-item>
+          </el-col>
+          <el-col :span="5" style="margin-left: 10px">
+            <el-form-item :label="$t('Product.productname')">
+              <el-input v-model="getemplist.productname" :placeholder="$t('Product.productname')" clearable @keyup.enter.native="handleFilter"/>
+            </el-form-item>
+          </el-col>
+          <el-col :span="5" style="margin-left: 10px">
+            <el-form-item :label="$t('Product.supplierid')">
+              <el-input v-model="supplierid" :placeholder="$t('Product.supplierid')" class="filter-item" clearable @keyup.enter.native="handleFilter" @focus="handlechoose"/>
+            </el-form-item>
+            <my-supplier :control.sync="empcontrol" @supplierName="supplierName"/>
+          </el-col>
+          <!-- 更多搜索条件下拉栏 -->
+          <el-col :span="3">
+            <el-popover
+              v-model="visible2"
+              placement="bottom"
+              width="500"
+              trigger="manual">
+              <el-select v-model="getemplist.typeid" placeholder="请选择规格型号" clearable style="width: 40%;float: left;margin-left: 20px">
+                <el-option
+                  v-for="(item, index) in types"
+                  :key="index"
+                  :label="item.categoryName"
+                  :value="item.id"
+                />
+              </el-select>
+              <el-select v-model="getemplist.isactive" placeholder="请选择上下架" clearable style="width: 40%;float: right;margin-right: 20px">
+                <el-option value="1" label="上1"/>
+                <el-option value="2" label="下2"/>
+              </el-select>
+              <el-input v-model="categoryid" placeholder="物品分类" style="width: 40%;float: left;margin-left: 20px;margin-top: 20px" clearable @focus="treechoose"/>
+              <my-tree :treecontrol.sync="treecontrol" @tree="tree"/>
+              <div class="seachbutton" style="width: 100%;float: right;margin-top: 20px">
+                <el-button v-waves class="filter-item" type="primary" style="float: right" round @click="handleFilter">{{ $t('public.search') }}</el-button>
+              </div>
+              <el-button v-waves slot="reference" type="primary" class="filter-item" style="width: 130px" @click="visible2 = !visible2">{{ $t('public.filter') }}<svg-icon icon-class="shaixuan" style="margin-left: 4px"/></el-button>
+            </el-popover>
+          </el-col>
+          <!-- 搜索按钮 -->
+          <el-col :span="3" style="margin-left: 20px">
+            <!-- 搜索按钮 -->
+            <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 86px" round @click="handleFilter">{{ $t('public.search') }}</el-button>
+          </el-col>
+        </el-form>
+      </el-row>
+    </el-card>
+    <el-card class="box-card" style="margin-top: 10px" shadow="never">
       <!-- 批量操作 -->
       <el-dropdown @command="handleCommand">
-        <el-button v-waves class="filter-item" type="primary">
+        <el-button v-waves class="filter-item" style="margin-left: 0" type="primary">
           {{ $t('public.batchoperation') }} <i class="el-icon-arrow-down el-icon--right"/>
         </el-button>
         <el-dropdown-menu slot="dropdown" style="width: 140px">
@@ -46,9 +70,9 @@
       <!-- 打印操作 -->
       <el-button v-permission="['1-31-33-7']" v-waves class="filter-item" icon="el-icon-printer" style="width: 86px" @click="handlePrint">{{ $t('public.print') }}</el-button>
       <!-- 新建操作 -->
-      <el-button v-permission="['1-31-33-1']" v-waves class="filter-item" icon="el-icon-plus" type="success" style="width: 86px;float: right" @click="handleAdd">{{ $t('public.add') }}</el-button>
-    </div>
-    <div class="app-container">
+      <el-button v-permission="['1-31-33-1']" v-waves class="filter-item" icon="el-icon-plus" type="success" style="width: 86px" @click="handleAdd">{{ $t('public.add') }}</el-button>
+    </el-card>
+    <el-card class="box-card" style="margin-top: 10px" shadow="never">
       <!-- 列表开始 -->
       <el-table
         v-loading="listLoading"
@@ -65,20 +89,21 @@
           align="center"/>
         <el-table-column :label="$t('Product.code')" :resizable="false" prop="code" align="center" width="180">
           <template slot-scope="scope">
-            <span>{{ scope.row.code }}</span>
+            <span class="link-type" @click="handleDetail(scope.row)">{{ scope.row.code }}</span>
           </template>
+          <detail-list :detailcontrol.sync="detailvisible" :detaildata.sync="edtiForm" :detailid.sync="detailid"/>
         </el-table-column>
-        <el-table-column :label="$t('Product.productname')" :resizable="false" prop="ProductName" align="center" width="100">
+        <el-table-column :label="$t('Product.productname')" :resizable="false" prop="ProductName" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.productName }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('Product.categoryid')" :resizable="false" prop="category" align="center" width="100">
+        <el-table-column :label="$t('Product.categoryid')" :resizable="false" prop="category" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.category }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('Product.typeid')" :resizable="false" align="center" width="100">
+        <el-table-column :label="$t('Product.typeid')" :resizable="false" align="center" min-width="100">
           <template slot-scope="scope">
             <span>{{ scope.row.productType }}</span>
           </template>
@@ -98,7 +123,7 @@
             <span>{{ scope.row.point }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('Product.costprice')" :resizable="false" prop="costPrice" align="center" width="100">
+        <el-table-column :label="$t('Product.costprice')" :resizable="false" prop="costPrice" align="center" min-width="100">
           <template slot-scope="scope">
             <span>{{ scope.row.costPrice }}</span>
           </template>
@@ -113,10 +138,10 @@
             <span>{{ scope.row.createTime }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('public.actions')" :resizable="false" align="center" min-width="230">
+        <el-table-column :label="$t('public.actions')" :resizable="false" align="center" min-width="100">
           <template slot-scope="scope">
-            <el-button v-permission="['1-31-33-3']" type="primary" size="mini" @click="handleEdit(scope.row)">{{ $t('public.edit') }}</el-button>
-            <el-button v-permission="['1-31-33-2']" size="mini" type="danger" @click="handleDelete(scope.row)">{{ $t('public.delete') }}</el-button>
+            <el-button v-permission="['1-31-33-3']" title="修改" type="primary" size="mini" icon="el-icon-edit" circle @click="handleEdit(scope.row)"/>
+            <el-button v-permission="['1-31-33-2']" title="删除" size="mini" type="danger" icon="el-icon-delete" circle @click="handleDelete(scope.row)"/>
           </template>
         </el-table-column>
       </el-table>
@@ -125,12 +150,12 @@
       <!--修改开始=================================================-->
       <my-dialog :control.sync="editVisible" :editdata.sync="personalForm" @rest="refreshlist"/>
       <!--修改结束=================================================-->
-    </div>
+    </el-card>
   </div>
 </template>
 
 <script>
-import { productlist, deleteproduct, searchEmpCategory2 } from '@/api/Product'
+import { productlist, deleteproduct, searchEmpCategory2, productDetail } from '@/api/Product'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
 import permission from '@/directive/permission/index.js' // 权限判断指令
@@ -138,11 +163,12 @@ import checkPermission from '@/utils/permission' // 权限判断函数
 import MyDialog from './components/MyDialog'
 import MySupplier from '../DailyAdjust/components/MySupplier'
 import MyTree from './components/MyTree'
+import DetailList from './components/DetailList'
 
 export default {
   name: 'ProductList',
   directives: { waves, permission },
-  components: { MyTree, MySupplier, Pagination, MyDialog },
+  components: { DetailList, MyTree, MySupplier, Pagination, MyDialog },
   filters: {
     genderFilter(status) {
       const statusMap = {
@@ -154,6 +180,8 @@ export default {
   },
   data() {
     return {
+      // 更多搜索条件问题
+      visible2: false,
       // 规格型号数据
       types: [],
       // 物品分类控制
@@ -190,6 +218,12 @@ export default {
       },
       // 传给组件的数据
       personalForm: {},
+      // 详情id
+      detailid: null,
+      // 详情数据
+      edtiForm: {},
+      // 控制详情
+      detailvisible: false,
       // 控制组件数据
       editVisible: false
     }
@@ -199,6 +233,15 @@ export default {
   },
   methods: {
     checkPermission,
+    // 详情操作
+    handleDetail(row) {
+      this.detailid = row.id
+      productDetail(row.id).then(res => {
+        const emData = res.data.data.content
+        this.detailvisible = true
+        this.edtiForm = Object.assign({}, emData)
+      })
+    },
     getlist() {
       // 商品列表数据
       this.listLoading = true

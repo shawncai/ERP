@@ -1,58 +1,74 @@
 <template>
   <div class="ERP-container">
-    <div class="filter-container">
-      <!-- 搜索条件栏目 -->
-      <el-input v-model="getemplist.customername" :placeholder="$t('Customer.customername')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
-      <el-input v-model="getemplist.customerphone" :placeholder="$t('Customer.phone')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
-      <el-date-picker
-        v-model="getemplist.createtime"
-        type="date"
-        class="filter-item"
-        placeholder="选择日期"
-        value-format="yyyy-MM-dd"/>
-      <el-select v-model="getemplist.type" :value="getemplist.type" :placeholder="$t('Customer.customertype')" class="filter-item" clearable>
-        <el-option
-          v-for="(item, index) in customertypes"
-          :key="index"
-          :value="item.id"
-          :label="item.categoryName"/>
-      </el-select>
-      <el-select v-model="getemplist.level" :value="getemplist.level" :placeholder="$t('Customer.level')" class="filter-item" clearable>
-        <el-option
-          v-for="(item, index) in levels"
-          :key="index"
-          :value="item.id"
-          :label="item.categoryName"/>
-      </el-select>
-      <!-- 更多搜索条件下拉栏 -->
-      <el-popover
-        placement="bottom"
-        width="500"
-        trigger="click">
-        <el-select v-model="getemplist.source" :value="getemplist.source" :placeholder="$t('Customer.source')" class="filter-item" clearable style="width: 40%;float: left">
-          <el-option
-            v-for="(item, index) in sources"
-            :key="index"
-            :value="item.id"
-            :label="item.categoryName"/>
-        </el-select>
-        <el-select v-model="getemplist.repositoryid" placeholder="请选择门店" filterable clearable style="width: 40%;float: right;margin-right: 20px">
-          <el-option
-            v-for="(item, index) in repositories"
-            :key="index"
-            :label="item.repositoryName"
-            :value="item.id"/>
-        </el-select>
-        <div class="seachbutton" style="width: 100%;float: right;margin-top: 20px">
-          <el-button v-waves class="filter-item" type="primary" style="float: right" @click="handleFilter">{{ $t('public.search') }}</el-button>
-        </div>
-        <el-button v-waves slot="reference" type="primary" class="filter-item" style="width: 130px">{{ $t('public.filter') }}<svg-icon icon-class="shaixuan" style="margin-left: 4px"/></el-button>
-      </el-popover>
-      <!-- 搜索按钮 -->
-      <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 86px" @click="handleFilter">{{ $t('public.search') }}</el-button>
-      <!-- 批量操作 -->
+    <el-card class="box-card" style="margin-top: 10px;height: 60px" shadow="never">
+      <el-row>
+        <el-form ref="getemplist" :model="getemplist" label-width="100px" style="margin-top: -9px">
+          <!-- 搜索条件栏目 -->
+          <el-col :span="5">
+            <el-form-item :label="$t('Customer.customername')" label-width="100px">
+              <el-input v-model="getemplist.customername" :placeholder="$t('Customer.customername')" clearable @keyup.enter.native="handleFilter"/>
+            </el-form-item>
+          </el-col>
+          <el-col :span="5" style="margin-left: 10px">
+            <el-form-item :label="$t('Customer.phone')" label-width="100px">
+              <el-input v-model="getemplist.customerphone" :placeholder="$t('Customer.phone')" clearable @keyup.enter.native="handleFilter"/>
+            </el-form-item>
+          </el-col>
+          <el-col :span="5" style="margin-left: 10px">
+            <el-form-item :label="$t('Customer.customertype')" label-width="100px">
+              <el-select v-model="getemplist.type" :value="getemplist.type" :placeholder="$t('Customer.customertype')" clearable>
+                <el-option
+                  v-for="(item, index) in customertypes"
+                  :key="index"
+                  :value="item.id"
+                  :label="item.categoryName"/>
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <!-- 更多搜索条件下拉栏 -->
+          <el-col :span="3">
+            <el-popover
+              placement="bottom"
+              width="500"
+              trigger="click">
+              <el-select v-model="getemplist.source" :value="getemplist.source" :placeholder="$t('Customer.source')" clearable style="width: 40%;float: left;margin-left: 20px">
+                <el-option
+                  v-for="(item, index) in sources"
+                  :key="index"
+                  :value="item.id"
+                  :label="item.categoryName"/>
+              </el-select>
+              <el-select v-model="getemplist.repositoryid" placeholder="请选择门店" filterable clearable style="width: 40%;float: right;margin-right: 20px">
+                <el-option
+                  v-for="(item, index) in repositories"
+                  :key="index"
+                  :label="item.repositoryName"
+                  :value="item.id"/>
+              </el-select>
+              <el-select v-model="getemplist.level" :value="getemplist.level" :placeholder="$t('Customer.level')" style="width: 40%;float: left;margin-left: 20px;margin-top: 20px" clearable>
+                <el-option
+                  v-for="(item, index) in levels"
+                  :key="index"
+                  :value="item.id"
+                  :label="item.categoryName"/>
+              </el-select>
+              <div class="seachbutton" style="width: 100%;float: right;margin-top: 20px">
+                <el-button v-waves class="filter-item" type="primary" style="float: right" @click="handleFilter">{{ $t('public.search') }}</el-button>
+              </div>
+              <el-button v-waves slot="reference" type="primary" class="filter-item" style="width: 130px">{{ $t('public.filter') }}<svg-icon icon-class="shaixuan" style="margin-left: 4px"/></el-button>
+            </el-popover>
+          </el-col>
+          <el-col :span="3" style="margin-left: 20px">
+            <!-- 搜索按钮 -->
+            <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 86px" round @click="handleFilter">{{ $t('public.search') }}</el-button>
+          </el-col>
+          <!-- 批量操作 -->
+        </el-form>
+      </el-row>
+    </el-card>
+    <el-card class="box-card" style="margin-top: 10px" shadow="never">
       <el-dropdown @command="handleCommand">
-        <el-button v-waves class="filter-item" type="primary">
+        <el-button v-waves class="filter-item" style="margin-left: 0" type="primary">
           {{ $t('public.batchoperation') }} <i class="el-icon-arrow-down el-icon--right"/>
         </el-button>
         <el-dropdown-menu slot="dropdown" style="width: 140px">
@@ -64,9 +80,10 @@
       <!-- 打印操作 -->
       <el-button v-permission="['1-14-16-7']" v-waves class="filter-item" icon="el-icon-printer" style="width: 86px" @click="handlePrint">{{ $t('public.print') }}</el-button>
       <!-- 新建操作 -->
-      <el-button v-permission="['1-14-16-1']" v-waves class="filter-item" icon="el-icon-plus" type="success" style="width: 86px;float: right" @click="handleAdd">{{ $t('public.add') }}</el-button>
-    </div>
-    <div class="app-container">
+      <el-button v-permission="['1-14-16-1']" v-waves class="filter-item" icon="el-icon-plus" type="success" style="width: 86px" @click="handleAdd">{{ $t('public.add') }}</el-button>
+    </el-card>
+
+    <el-card class="box-card" style="margin-top: 10px" shadow="never">
       <!-- 列表开始 -->
       <el-table
         v-loading="listLoading"
@@ -83,20 +100,16 @@
           align="center"/>
         <el-table-column :label="$t('Customer.id')" :resizable="false" prop="id" align="center" width="60">
           <template slot-scope="scope">
-            <span>{{ scope.row.id }}</span>
+            <span class="link-type" @click="handleDetail(scope.row)">{{ scope.row.id }}</span>
+            <detail-list :detailcontrol.sync="detailvisible" :detailid.sync="detailid"/>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('Customer.customername')" :resizable="false" prop="customerName" align="center" width="80">
+        <el-table-column :label="$t('Customer.customername')" :resizable="false" prop="customerName" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.customerName }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('Customer.customertype')" :resizable="false" prop="customerTypeWZ" align="center" width="100">
-          <template slot-scope="scope">
-            <span>{{ scope.row.customerTypeWZ }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column :label="$t('Customer.level')" :resizable="false" prop="customerLevel" align="center" width="200">
+        <el-table-column :label="$t('Customer.level')" :resizable="false" prop="customerLevel" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.customerLevel }}</span>
           </template>
@@ -108,7 +121,7 @@
         </el-table-column>
         <el-table-column :label="$t('Customer.source')" :resizable="false" prop="source" align="center" width="100">
           <template slot-scope="scope">
-            <span>{{ scope.row.source }}</span>
+            <span>{{ scope.row.sourceName }}</span>
           </template>
         </el-table-column>
         <el-table-column :label="$t('Customer.newold')" :resizable="false" prop="newOrOld" align="center" width="100">
@@ -116,7 +129,7 @@
             <span>{{ scope.row.newOrOld | filterno }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('Customer.phone')" :resizable="false" prop="phoneNumber" align="center" width="100">
+        <el-table-column :label="$t('Customer.phone')" :resizable="false" prop="phoneNumber" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.phoneNumber }}</span>
           </template>
@@ -126,7 +139,7 @@
             <span>{{ scope.row.gender | genderFilter }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('Customer.address')" :resizable="true" prop="address" align="center" width="100">
+        <el-table-column :label="$t('Customer.address')" :resizable="true" prop="address" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.address }}</span>
           </template>
@@ -141,156 +154,36 @@
             <span>{{ scope.row.createTime }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('public.actions')" :resizable="false" align="center" min-width="230">
+        <el-table-column :label="$t('public.actions')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <el-button v-permission="['1-14-16-3']" type="primary" size="mini" @click="handleEdit(scope.row)">{{ $t('public.edit') }}</el-button>
-            <el-button v-permission="['1-14-16-2']" size="mini" type="danger" @click="handleDelete(scope.row)">{{ $t('public.delete') }}</el-button>
+            <el-button v-permission="['1-14-16-3']" title="修改" type="primary" size="mini" icon="el-icon-edit" circle @click="handleEdit(scope.row)"/>
+            <el-button v-permission="['1-14-16-2']" title="删除" size="mini" type="danger" icon="el-icon-delete" circle @click="handleDelete(scope.row)"/>
           </template>
         </el-table-column>
       </el-table>
       <!-- 列表结束 -->
       <pagination v-show="total>0" :total="total" :page.sync="getemplist.pagenum" :limit.sync="getemplist.pagesize" @pagination="getlist" />
-      <!--修改开始=================================================-->
-      <el-dialog :visible.sync="editVisible" top="10px" title="修改客户">
-        <!--零售客户-->
-        <h2 ref="geren" class="form-name">基本信息</h2>
-        <div class="container">
-          <el-form ref="customerForm" :model="customerForm" :rules="customerFormrules" :inline="true" status-icon class="demo-ruleForm" label-position="top" label-width="300px" style="margin-left: 30px;">
-            <el-form-item :label="$t('Customer.firstname')" prop="firstName" style="width: 40%;margin-top:1%">
-              <el-input v-model="customerForm.firstName" placeholder="请输入名" clearable/>
-            </el-form-item>
-            <el-form-item :label="$t('Customer.middlename')" style="width: 40%;margin-top:1%">
-              <el-input v-model="customerForm.middleName" placeholder="请输入中间名" clearable/>
-            </el-form-item>
-            <el-form-item :label="$t('Customer.lastname')" prop="lastName" style="width: 40%">
-              <el-input v-model="customerForm.lastName" placeholder="请输入姓氏" clearable/>
-            </el-form-item>
-            <el-form-item :label="$t('Customer.phone')" prop="phoneNumber" style="width: 40%">
-              <el-input v-model="customerForm.phoneNumber" placeholder="请输入客户电话" clearable/>
-            </el-form-item>
-            <el-form-item :label="$t('Customer.gender')" prop="gender" style="width: 40%">
-              <el-radio-group v-model="customerForm.gender" style="width: 80%">
-                <el-radio :label="1" style="width: 50%">{{ $t('public.male') }}</el-radio>
-                <el-radio :label="2">{{ $t('public.female') }}</el-radio>
-              </el-radio-group>
-            </el-form-item>
-            <el-form-item :label="$t('Customer.customertype')" style="width: 40%;margin-top: 1%">
-              <el-select v-model="customerForm.customerType" :value="customerForm.customerType" placeholder="请选择客户类型" style="width: 100%;">
-                <el-option
-                  v-for="(item, index) in customertypes"
-                  :key="index"
-                  :value="item.id"
-                  :label="item.categoryName"/>
-              </el-select>
-            </el-form-item>
-            <el-form-item :label="$t('Customer.level')" style="width: 40%;margin-top: 1%">
-              <el-select v-model="customerForm.level" :value="customerForm.level" placeholder="请选择客户优质级别" style="width: 100%;">
-                <el-option
-                  v-for="(item, index) in levels"
-                  :key="index"
-                  :value="item.id"
-                  :label="item.categoryName"/>
-              </el-select>
-            </el-form-item>
-            <el-form-item :label="$t('Customer.source')" style="width: 40%;margin-top: 1%">
-              <el-select v-model="customerForm.source" :value="customerForm.source" placeholder="请选择客户来源" style="width: 100%;">
-                <el-option
-                  v-for="(item, index) in sources"
-                  :key="index"
-                  :value="item.id"
-                  :label="item.categoryName"/>
-              </el-select>
-            </el-form-item>
-            <el-form-item :label="$t('Customer.newold')" style="width: 40%;margin-top: 1%">
-              <el-select v-model="customerForm.newOrOld" :value="customerForm.newOrOld" placeholder="请选择" style="width: 100%;">
-                <el-option label="老" value="1"/>
-                <el-option label="新" value="2"/>
-              </el-select>
-            </el-form-item>
-            <el-form-item :label="$t('Customer.address')" prop="address" style="width: 40%;margin-top:1%">
-              <el-input v-model="customerForm.address" placeholder="请输入地址" clearable/>
-            </el-form-item>
-            <el-form-item label="所属国家" style="width: 40%;margin-top:1%">
-              <el-input v-model="customerForm.countryName" disabled/>
-            </el-form-item>
-            <el-form-item :label="$t('public.countyrId')" style="width: 40%;margin-top: 1%">
-              <el-select v-model="countryid" placeholder="请选择国家" style="width: 100%;" @change ="handlechange">
-                <el-option
-                  v-for="(item, index) in nations"
-                  :key="index"
-                  :label="item.name"
-                  :value="item.id"/>
-              </el-select>
-            </el-form-item>
-            <el-form-item label="所属省" style="width: 40%;margin-top:1%">
-              <el-input v-model="customerForm.provinceName" disabled/>
-            </el-form-item>
-            <el-form-item :label="$t('Customer.provinceid')" style="width: 40%;margin-top: 1%">
-              <el-select v-model="provinceid" placeholder="请选择省" style="width: 100%;" @change="handlechange2">
-                <el-option
-                  v-for="(item, index) in provinces"
-                  :key="index"
-                  :label="item.name"
-                  :value="item.id"/>
-              </el-select>
-            </el-form-item>
-            <el-form-item label="所属城市" style="width: 40%;margin-top:1%">
-              <el-input v-model="customerForm.cityName" disabled/>
-            </el-form-item>
-            <el-form-item :label="$t('Customer.cityid')" style="width: 40%;margin-top: 1%">
-              <el-select v-model="cityid" placeholder="请选择市" style="width: 100%;">
-                <el-option
-                  v-for="(item, index) in cities"
-                  :key="index"
-                  :label="item.name"
-                  :value="item.id"/>
-              </el-select>
-            </el-form-item>
-            <el-form-item :label="$t('Customer.repositoryid')" style="width: 40%;margin-top:1%">
-              <el-input v-model="customerForm.repositoryName" disabled/>
-            </el-form-item>
-            <el-form-item label="修改门店" prop="repositoryid" style="width: 40%;margin-top:1%">
-              <el-select v-model="repositoryid" placeholder="请选择门店" filterable style="width: 100%;">
-                <el-option
-                  v-for="(item, index) in repositories"
-                  :key="index"
-                  :label="item.repositoryName"
-                  :value="item.id"/>
-              </el-select>
-            </el-form-item>
-            <el-form-item :label="$t('Customer.birthday')" style="width: 40%;margin-top:1%">
-              <el-date-picker
-                v-model="customerForm.birthday"
-                type="date"
-                placeholder="选择生日"
-                value-format="yyyy-MM-dd"
-                style="width: 100%"/>
-            </el-form-item>
-          </el-form>
-        </div>
-        <!--操作-->
-        <div class="buttons" style="margin-top: 20px;margin-left: 30px">
-          <el-button type="primary" @click="handleEditok()">修改</el-button>
-          <el-button type="danger" @click="handlecancel()">取消</el-button>
-        </div>
-      </el-dialog>
-      <!--修改结束=================================================-->
-    </div>
+    </el-card>
+    <!--修改开始=================================================-->
+    <my-dialog2 :editcontrol.sync="editVisible" :editdata.sync="customerForm" @rest="refreshlist"/>
+    <!--修改结束=================================================-->
   </div>
 </template>
 
 <script>
 import { getcountrylist, getprovincelist, getcitylist, searchRepository } from '@/api/public'
-import { searchCusCategory, customerlist, updateCustomer, deletecustomer } from '@/api/Customer'
+import { searchCusCategory, customerlist, deletecustomer } from '@/api/Customer'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
 import permission from '@/directive/permission/index.js' // 权限判断指令
-import checkPermission from '@/utils/permission' // 权限判断函数
+import checkPermission from '@/utils/permission'
+import MyDialog2 from './components/MyDialog2'
+import DetailList from './components/DetailList2' // 权限判断函数
 
 export default {
   name: 'CustomerList',
   directives: { waves, permission },
-  components: { Pagination },
+  components: { DetailList, MyDialog2, Pagination },
   filters: {
     genderFilter(status) {
       const statusMap = {
@@ -309,6 +202,10 @@ export default {
   },
   data() {
     return {
+      // 控制详情
+      detailvisible: false,
+      // 详情id
+      detailid: null,
       // 批量操作
       moreaction: [],
       // 控制修改数据
@@ -412,6 +309,11 @@ export default {
   },
   methods: {
     checkPermission,
+    // 详情操作
+    handleDetail(row) {
+      this.detailid = row.id
+      this.detailvisible = true
+    },
     // 获取类型
     getCategory() {
       // 获取客户类型
@@ -599,36 +501,15 @@ export default {
       this.getnationlist()
       this.editVisible = true
       this.customerForm = Object.assign({}, row)
-      this.customerForm.newOrOld = String(row.newOrOld)
+      if (row.newOrOld !== null) {
+        this.customerForm.newOrOld = String(row.newOrOld)
+      }
     },
-    handleEditok() {
-      this.customerForm.countryid = this.countryid
-      this.customerForm.provinceid = this.provinceid
-      this.customerForm.cityid = this.cityid
-      this.customerForm.repositoryid = this.repositoryid
-      console.log(this.customerForm)
-      updateCustomer(this.customerForm).then(res => {
-        if (res.data.ret === 200) {
-          this.$notify({
-            title: '操作成功',
-            message: '操作成功',
-            type: 'success',
-            duration: 1000,
-            offset: 100
-          })
-          this.getlist()
-          this.editVisible = false
-        } else {
-          this.$notify.error({
-            title: '错误',
-            message: '出错了',
-            offset: 100
-          })
-        }
-      })
-    },
-    handlecancel() {
-      this.editVisible = false
+    // 修改组件修改成功后返回
+    refreshlist(val) {
+      if (val === true) {
+        this.getlist()
+      }
     },
     // 修改操作开始 -------------------------------------------------
     // 国籍列表
@@ -680,5 +561,21 @@ export default {
   .filter-item{
     width: 140px;
     margin-left: 20px;
+  }
+  .container >>> .el-form-item.is-required:not(.is-no-asterisk)>.el-form-item__label:before{
+    margin-left: -10px;
+  }
+  .container >>> .el-form-item__label{
+    text-align: left;
+  }
+  .container >>> .el-form-item__label{
+    color: #60626696;
+  }
+  .edit >>> .el-dialog {
+    background:#f1f1f1 ;
+    height: 950px;
+  }
+  .el-col-12{
+    width: 49%;
   }
 </style>

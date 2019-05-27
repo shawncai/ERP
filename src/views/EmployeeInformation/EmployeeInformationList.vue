@@ -110,7 +110,7 @@
           <template slot-scope="scope">
             <span class="link-type" @click="handleDetail(scope.row)">{{ scope.row.id }}</span>
           </template>
-          <detail-list :detailcontrol.sync="detailvisible" :detaildata.sync="edtiForm" :detailid="detailid"/>
+          <detail-list :detailcontrol.sync="detailvisible" :detaildata.sync="edtiForm" :detailid.sync="detailid"/>
         </el-table-column>
         <el-table-column :label="$t('NewEmployeeInformation.jobNumber')" :resizable="false" align="center" width="80">
           <template slot-scope="scope">

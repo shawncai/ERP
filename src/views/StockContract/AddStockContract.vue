@@ -718,82 +718,82 @@ export default {
     },
     // 保存操作
     handlesave() {
-      const EnterDetail = this.$refs.editable.getRecords()
-      EnterDetail.map(function(elem) {
-        return elem
-      }).forEach(function(elem) {
-        if (elem.productCode === null || elem.productCode === '' || elem.productCode === undefined) {
-          delete elem.productCode
-        }
-        if (elem.productName === null || elem.productName === '' || elem.productName === undefined) {
-          delete elem.productName
-        }
-        if (elem.type === null || elem.type === '' || elem.type === undefined) {
-          delete elem.type
-        }
-        if (elem.unit === null || elem.unit === '' || elem.unit === undefined) {
-          delete elem.unit
-        }
-        if (elem.price === null || elem.price === '' || elem.price === undefined) {
-          delete elem.price
-        }
-        if (elem.plannedQuantity === null || elem.plannedQuantity === '' || elem.plannedQuantity === undefined) {
-          delete elem.plannedQuantity
-        }
-        if (elem.requireDate === null || elem.requireDate === '' || elem.requireDate === undefined) {
-          delete elem.requireDate
-        }
-        if (elem.reason === null || elem.reason === '' || elem.reason === undefined) {
-          delete elem.reason
-        }
-        if (elem.sourceNumber === null || elem.sourceNumber === '' || elem.sourceNumber === undefined) {
-          delete elem.sourceNumber
-        }
-        if (elem.sourceSerialNumber === null || elem.sourceSerialNumber === '' || elem.sourceSerialNumber === undefined) {
-          delete elem.sourceSerialNumber
-        }
-        if (elem.includeTaxPrice === null || elem.includeTaxPrice === '' || elem.includeTaxPrice === undefined) {
-          delete elem.includeTaxPrice
-        }
-        if (elem.taxRate === null || elem.taxRate === '' || elem.taxRate === undefined) {
-          delete elem.taxRate
-        }
-        if (elem.taxRate !== null || elem.taxRate !== '' || elem.taxRate !== undefined) {
-          elem.taxRate = elem.taxRate / 100
-        }
-        if (elem.discountRate === null || elem.discountRate === '' || elem.discountRate === undefined) {
-          delete elem.discountRate
-        }
-        if (elem.discountRate !== null || elem.discountRate !== '' || elem.discountRate !== undefined) {
-          elem.discountRate = elem.discountRate / 100
-        }
-        if (elem.money === null || elem.money === '' || elem.money === undefined) {
-          delete elem.money
-        }
-        if (elem.includeTaxMoney === null || elem.includeTaxMoney === '' || elem.includeTaxMoney === undefined) {
-          delete elem.includeTaxMoney
-        }
-        if (elem.taxMoney === null || elem.taxMoney === '' || elem.taxMoney === undefined) {
-          delete elem.taxMoney
-        }
-        if (elem.discountRate === null || elem.discountRate === '' || elem.discountRate === undefined) {
-          delete elem.discountRate
-        }
-        if (elem.discountMoney === null || elem.discountMoney === '' || elem.discountMoney === undefined) {
-          delete elem.discountMoney
-        }
-        return elem
-      })
-      const parms2 = JSON.stringify(EnterDetail)
-      const Data = this.personalForm
-      for (const key in Data) {
-        if (Data[key] === '' || Data[key] === undefined || Data[key] === null) {
-          delete Data[key]
-        }
-      }
-      const parms = JSON.stringify(Data)
       this.$refs.personalForm.validate((valid) => {
         if (valid) {
+          const EnterDetail = this.$refs.editable.getRecords()
+          EnterDetail.map(function(elem) {
+            return elem
+          }).forEach(function(elem) {
+            if (elem.productCode === null || elem.productCode === '' || elem.productCode === undefined) {
+              delete elem.productCode
+            }
+            if (elem.productName === null || elem.productName === '' || elem.productName === undefined) {
+              delete elem.productName
+            }
+            if (elem.type === null || elem.type === '' || elem.type === undefined) {
+              delete elem.type
+            }
+            if (elem.unit === null || elem.unit === '' || elem.unit === undefined) {
+              delete elem.unit
+            }
+            if (elem.price === null || elem.price === '' || elem.price === undefined) {
+              delete elem.price
+            }
+            if (elem.plannedQuantity === null || elem.plannedQuantity === '' || elem.plannedQuantity === undefined) {
+              delete elem.plannedQuantity
+            }
+            if (elem.requireDate === null || elem.requireDate === '' || elem.requireDate === undefined) {
+              delete elem.requireDate
+            }
+            if (elem.reason === null || elem.reason === '' || elem.reason === undefined) {
+              delete elem.reason
+            }
+            if (elem.sourceNumber === null || elem.sourceNumber === '' || elem.sourceNumber === undefined) {
+              delete elem.sourceNumber
+            }
+            if (elem.sourceSerialNumber === null || elem.sourceSerialNumber === '' || elem.sourceSerialNumber === undefined) {
+              delete elem.sourceSerialNumber
+            }
+            if (elem.includeTaxPrice === null || elem.includeTaxPrice === '' || elem.includeTaxPrice === undefined) {
+              delete elem.includeTaxPrice
+            }
+            if (elem.taxRate === null || elem.taxRate === '' || elem.taxRate === undefined) {
+              delete elem.taxRate
+            }
+            if (elem.taxRate !== null || elem.taxRate !== '' || elem.taxRate !== undefined) {
+              elem.taxRate = elem.taxRate / 100
+            }
+            if (elem.discountRate === null || elem.discountRate === '' || elem.discountRate === undefined) {
+              delete elem.discountRate
+            }
+            if (elem.discountRate !== null || elem.discountRate !== '' || elem.discountRate !== undefined) {
+              elem.discountRate = elem.discountRate / 100
+            }
+            if (elem.money === null || elem.money === '' || elem.money === undefined) {
+              delete elem.money
+            }
+            if (elem.includeTaxMoney === null || elem.includeTaxMoney === '' || elem.includeTaxMoney === undefined) {
+              delete elem.includeTaxMoney
+            }
+            if (elem.taxMoney === null || elem.taxMoney === '' || elem.taxMoney === undefined) {
+              delete elem.taxMoney
+            }
+            if (elem.discountRate === null || elem.discountRate === '' || elem.discountRate === undefined) {
+              delete elem.discountRate
+            }
+            if (elem.discountMoney === null || elem.discountMoney === '' || elem.discountMoney === undefined) {
+              delete elem.discountMoney
+            }
+            return elem
+          })
+          const parms2 = JSON.stringify(EnterDetail)
+          const Data = this.personalForm
+          for (const key in Data) {
+            if (Data[key] === '' || Data[key] === undefined || Data[key] === null) {
+              delete Data[key]
+            }
+          }
+          const parms = JSON.stringify(Data)
           createstockContract(parms, parms2, this.personalForm).then(res => {
             console.log(res)
             if (res.data.ret === 200) {

@@ -261,6 +261,104 @@ export function createnewproduct(query) {
   })
 }
 
+// 商品详情
+export function productDetail(query) {
+  var params = new URLSearchParams()
+  if (query !== '' && query !== null && query !== undefined) {
+    params.append('productId', query) // 你要传给后台的参数值 key/value
+  }
+  return request({
+    url: '/erp/product/productDetail',
+    method: 'post',
+    data: params
+  })
+}
+
+// 库存详情
+export function productInventory(query) {
+  var params = new URLSearchParams()
+  if (query.productId !== '' && query.productId !== null && query.productId !== undefined) {
+    params.append('productId', query.productId) // 你要传给后台的参数值 key/value
+  }
+  if (query.repositoryId !== '' && query.repositoryId !== null && query.repositoryId !== undefined) {
+    params.append('repositoryId', query.repositoryId) // 你要传给后台的参数值 key/value
+  }
+  params.append('pageNum', query.pagenum) // 你要传给后台的参数值 key/value
+  params.append('pageSize', query.pagesize) // 你要传给后台的参数值 key/value
+  return request({
+    url: '/erp/product/productInventory',
+    method: 'post',
+    data: params
+  })
+}
+
+// 采购退货详情
+export function productStockRetreat(query) {
+  var params = new URLSearchParams()
+  if (query.productId !== '' && query.productId !== null && query.productId !== undefined) {
+    params.append('productId', query.productId) // 你要传给后台的参数值 key/value
+  }
+  if (query.repositoryId !== '' && query.repositoryId !== null && query.repositoryId !== undefined) {
+    params.append('repositoryId', query.repositoryId) // 你要传给后台的参数值 key/value
+  }
+  if (query.supplierId !== '' && query.supplierId !== null && query.supplierId !== undefined) {
+    params.append('supplierId', query.supplierId) // 你要传给后台的参数值 key/value
+  }
+  if (query.beginTime !== '' && query.beginTime !== null && query.beginTime !== undefined) {
+    params.append('beginTime', query.beginTime) // 你要传给后台的参数值 key/value
+  }
+  if (query.endTime !== '' && query.endTime !== null && query.endTime !== undefined) {
+    params.append('endTime', query.endTime) // 你要传给后台的参数值 key/value
+  }
+  params.append('pageNum', query.pagenum) // 你要传给后台的参数值 key/value
+  params.append('pageSize', query.pagesize) // 你要传给后台的参数值 key/value
+  return request({
+    url: '/erp/product/productStockRetreat',
+    method: 'post',
+    data: params
+  })
+}
+
+// 销售退货详情
+export function productSaleReturn(query) {
+  var params = new URLSearchParams()
+  if (query.productId !== '' && query.productId !== null && query.productId !== undefined) {
+    params.append('productId', query.productId) // 你要传给后台的参数值 key/value
+  }
+  if (query.customerId !== '' && query.customerId !== null && query.customerId !== undefined) {
+    params.append('customerId', query.customerId) // 你要传给后台的参数值 key/value
+  }
+  if (query.repositoryId !== '' && query.repositoryId !== null && query.repositoryId !== undefined) {
+    params.append('repositoryId', query.repositoryId) // 你要传给后台的参数值 key/value
+  }
+  if (query.beginTime !== '' && query.beginTime !== null && query.beginTime !== undefined) {
+    params.append('beginTime', query.beginTime) // 你要传给后台的参数值 key/value
+  }
+  if (query.endTime !== '' && query.endTime !== null && query.endTime !== undefined) {
+    params.append('endTime', query.endTime) // 你要传给后台的参数值 key/value
+  }
+  params.append('pageNum', query.pagenum) // 你要传给后台的参数值 key/value
+  params.append('pageSize', query.pagesize) // 你要传给后台的参数值 key/value
+  return request({
+    url: '/erp/product/productSaleReturn',
+    method: 'post',
+    data: params
+  })
+}
+
+// 采购信息详情
+export function productStockInfo(query) {
+  var params = new URLSearchParams()
+  if (query.productId !== '' && query.productId !== null && query.productId !== undefined) {
+    params.append('productId', query.productId) // 你要传给后台的参数值 key/value
+  }
+  return request({
+    url: '/erp/product/productStockInfo',
+    method: 'post',
+    data: params
+  })
+}
+
 // 商品列表
 export function productlist(query) {
   var params = new URLSearchParams()

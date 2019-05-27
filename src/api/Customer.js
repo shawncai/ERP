@@ -47,6 +47,19 @@ export function customerlist(query) {
   })
 }
 
+// 客户详情
+export function customerDetail(query) {
+  var params = new URLSearchParams()
+  if (query !== '' && query !== null && query !== undefined) {
+    params.append('customerId', query) // 你要传给后台的参数值 key/value
+  }
+  return request({
+    url: '/erp/customer/customerDetail',
+    method: 'post',
+    data: params
+  })
+}
+
 // 新建客户
 export function addCustomer(query) {
   var params = new URLSearchParams()
