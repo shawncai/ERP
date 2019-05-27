@@ -414,6 +414,7 @@ export default {
       sums[9] = ''
       sums[10] = ''
       sums[15] = ''
+      sums[17] = ''
       sums[18] = ''
       sums[19] = ''
       this.allNumber = sums[7]
@@ -507,6 +508,8 @@ export default {
       this.personalForm.supplierId = val.supplierId
       this.supplierId = val.supplierName
       this.allOthermoney = val.otherMoney
+      this.personalForm.stockPersonId = val.stockPersonId
+      this.stockPersonId = val.stockPersonName
     },
     // 更新类型
     updatecountry() {

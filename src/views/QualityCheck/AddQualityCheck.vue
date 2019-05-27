@@ -147,9 +147,8 @@ export default {
   components: { ProduceTask, MyArrival, MyCenter, MyDelivery, MySupplier, MyDetail, MyEmp },
   data() {
     const validatePass = (rule, value, callback) => {
-      console.log(value)
-      if (value === '') {
-        callback(new Error('请选择'))
+      if (this.personalForm.reportPersonId === undefined || this.personalForm.reportPersonId === null || this.personalForm.reportPersonId === '') {
+        callback(new Error('请选择报检人员'))
       } else {
         callback()
       }
@@ -414,6 +413,14 @@ export default {
     // 保存操作
     handlesave() {
       const EnterDetail = this.$refs.editable.getRecords()
+      if (EnterDetail.length === 0) {
+        this.$notify.error({
+          title: '错误',
+          message: '明细表不能为空',
+          offset: 100
+        })
+        return false
+      }
       EnterDetail.map(function(elem) {
         return elem
       }).forEach(function(elem) {

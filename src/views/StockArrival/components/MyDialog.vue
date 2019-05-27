@@ -417,8 +417,11 @@ export default {
       sums[4] = ''
       sums[5] = ''
       sums[6] = ''
+      sums[8] = ''
+      sums[9] = ''
       sums[10] = ''
       sums[15] = ''
+      sums[17] = ''
       sums[18] = ''
       sums[19] = ''
       this.allNumber = sums[7]
@@ -430,7 +433,7 @@ export default {
       return sums
     },
     getdiscountMoney(row) {
-      row.discountMoney = row.discountRate * row.arrivalQuantity * (1 - row.discountRate / 100)
+      row.discountMoney = (row.includeTaxPrice * row.arrivalQuantity * (1 - row.discountRate / 100)).toFixed(2)
       return row.discountMoney
     },
     // 计算税额
