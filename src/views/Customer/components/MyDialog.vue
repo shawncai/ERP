@@ -1,122 +1,155 @@
 <template>
-  <el-dialog :visible.sync="editVisible" :control="control" :editdata="editdata" :close-on-press-escape="false" top="10px" title="修改经销商" @close="$emit('update:control', false)">
+  <el-dialog :visible.sync="editVisible" :control="control" :editdata="editdata" :close-on-press-escape="false" :title="customerForm.id +'    修改'" width="1010px" class="edit" top="-10px" @close="$emit('update:control', false)">
     <!--零售客户-->
-    <h2 ref="geren" class="form-name">基本信息</h2>
-    <div class="container">
-      <el-form ref="customerForm" :model="customerForm" :rules="customerFormrules" :inline="true" status-icon class="demo-ruleForm" label-position="top" label-width="300px" style="margin-left: 30px;">
-        <el-form-item :label="$t('Customer.agentname')" prop="agentName" style="width: 40%;margin-top:1%">
-          <el-input v-model="customerForm.agentName" placeholder="请输入供货商名" clearable/>
-        </el-form-item>
-        <el-form-item :label="$t('Customer.customertype')" prop="type" style="width: 40%;margin-top: 1%">
-          <el-select v-model="customerForm.type" :value="customerForm.type" placeholder="请选择客户类型" style="width: 100%;">
-            <el-option
-              v-for="(item, index) in customertypes"
-              :key="index"
-              :value="item.id"
-              :label="item.categoryName"/>
-          </el-select>
-        </el-form-item>
-        <el-form-item :label="$t('Customer.level')" style="width: 40%;margin-top: 1%">
-          <el-select v-model="customerForm.level" :value="customerForm.level" placeholder="请选择客户优质级别" style="width: 100%;">
-            <el-option
-              v-for="(item, index) in levels"
-              :key="index"
-              :value="item.id"
-              :label="item.categoryName"/>
-          </el-select>
-        </el-form-item>
-        <el-form-item :label="$t('Customer.pinyin')" style="width: 40%;margin-top: 1%">
-          <el-input v-model="customerForm.pinyin" placeholder="请输入拼音缩写" clearable/>
-        </el-form-item>
-        <el-form-item :label="$t('Customer.source')" style="width: 40%;margin-top: 1%">
-          <el-select v-model="customerForm.source" :value="customerForm.source" placeholder="请选择客户来源" style="width: 100%;">
-            <el-option
-              v-for="(item, index) in sources"
-              :key="index"
-              :value="item.id"
-              :label="item.categoryName"/>
-          </el-select>
-        </el-form-item>
-        <el-form-item :label="$t('Customer.discount')" style="width: 40%;margin-top: 1%">
-          <el-input v-model.number="customerForm.discount" placeholder="请输入折扣" clearable/>
-        </el-form-item>
-        <el-form-item :label="$t('Customer.introduce')" style="width: 40%">
-          <el-input v-model="customerForm.introduce" type="textarea" clearable/>
-        </el-form-item>
-        <!--// 基本信息结束-->
-      </el-form>
-    </div>
+    <el-card class="box-card" style="margin-top: 63px" shadow="never">
+      <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">基本信息</h2>
+      <div class="container" style="margin-top: 37px">
+        <el-form ref="customerForm" :model="customerForm" :rules="customerFormrules" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
+          <el-row>
+            <el-col :span="12">
+              <el-form-item :label="$t('Customer.agentname')" prop="agentName" style="width: 100%;">
+                <el-input v-model="customerForm.agentName" placeholder="请输入供货商名" style="margin-left: 18px;width: 200px"/>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('Customer.customertype')" prop="type" style="width: 100%;">
+                <el-select v-model="customerForm.type" :value="customerForm.type" placeholder="请选择客户类型" style="margin-left: 18px;width: 200px">
+                  <el-option
+                    v-for="(item, index) in customertypes"
+                    :key="index"
+                    :value="item.id"
+                    :label="item.categoryName"/>
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('Customer.level')" style="width: 100%;">
+                <el-select v-model="customerForm.level" :value="customerForm.level" placeholder="请选择客户优质级别" style="margin-left: 18px;width: 200px">
+                  <el-option
+                    v-for="(item, index) in levels"
+                    :key="index"
+                    :value="item.id"
+                    :label="item.categoryName"/>
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('Customer.pinyin')" style="width: 100%;">
+                <el-input v-model="customerForm.pinyin" placeholder="请输入拼音缩写" style="margin-left: 18px;width: 200px"/>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('Customer.source')" style="width: 100%;">
+                <el-select v-model="customerForm.source" :value="customerForm.source" placeholder="请选择客户来源" style="margin-left: 18px;width: 200px">
+                  <el-option
+                    v-for="(item, index) in sources"
+                    :key="index"
+                    :value="item.id"
+                    :label="item.categoryName"/>
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('Customer.discount')" style="width: 100%;">
+                <el-input v-model.number="customerForm.discount" placeholder="请输入折扣" style="margin-left: 18px;width: 200px"/>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('Customer.introduce')" style="width: 100%;">
+                <el-input v-model="customerForm.introduce" type="textarea" style="margin-left: 18px;width: 200px"/>
+              </el-form-item>
+            </el-col>
+            <!--// 基本信息结束-->
+          </el-row>
+        </el-form>
+      </div>
+    </el-card>
     <!--业务信息-->
-    <h2 class="form-name">业务信息</h2>
-    <div class="container">
-      <el-form ref="customerForm2" :model="customerForm" :rules="customerFormrules" :inline="true" status-icon class="demo-ruleForm" label-position="top" label-width="300px" style="margin-left: 30px;">
-        <el-form-item :label="$t('Customer.contactname')" prop="contactName" style="width: 40%">
-          <el-input v-model.number="customerForm.contactName" placeholder="请输入联系人" clearable/>
-        </el-form-item>
-        <el-form-item :label="$t('Customer.phone2')" prop="phone" style="width: 40%">
-          <el-input v-model.number="customerForm.phone" placeholder="请输入电话号码" clearable/>
-        </el-form-item>
-        <el-form-item :label="$t('public.countyrId')" style="width: 40%;margin-top: 1%">
-          <el-input v-model.number="customerForm.countryName" disabled/>
-        </el-form-item>
-        <el-form-item :label="$t('public.countyrId')" style="width: 40%;margin-top: 1%">
-          <el-select v-model="customerForm.countryid" placeholder="请选择国家" style="width: 100%;" @change ="handlechange">
-            <el-option
-              v-for="(item, index) in nations"
-              :key="index"
-              :label="item.name"
-              :value="item.id"/>
-          </el-select>
-        </el-form-item>
-        <el-form-item :label="$t('Customer.provinceid')" style="width: 40%;margin-top: 1%">
-          <el-input v-model.number="customerForm.provinceName" disabled/>
-        </el-form-item>
-        <el-form-item :label="$t('Customer.provinceid')" style="width: 40%;margin-top: 1%">
-          <el-select v-model="customerForm.provinceid" placeholder="请选择省" style="width: 100%;" @change="handlechange2">
-            <el-option
-              v-for="(item, index) in provinces"
-              :key="index"
-              :label="item.name"
-              :value="item.id"/>
-          </el-select>
-        </el-form-item>
-        <el-form-item :label="$t('Customer.cityid')" style="width: 40%;margin-top: 1%">
-          <el-input v-model.number="customerForm.cityName" disabled/>
-        </el-form-item>
-        <el-form-item :label="$t('Customer.cityid')" style="width: 40%;margin-top: 1%">
-          <el-select v-model="customerForm.cityid" placeholder="请选择市" style="width: 100%;">
-            <el-option
-              v-for="(item, index) in cities"
-              :key="index"
-              :label="item.name"
-              :value="item.id"/>
-          </el-select>
-        </el-form-item>
-        <el-form-item :label="$t('Customer.traderid')" prop="address" style="width: 40%;margin-top:1%">
-          <el-input v-model="trader" placeholder="请选择" @focus="handlechoose"/>
-        </el-form-item>
-        <my-emp :control.sync="empcontrol" @personName="personName"/>
-        <el-form-item :label="$t('Customer.transmode')" prop="address" style="width: 40%;margin-top:1%">
-          <el-select v-model="customerForm.transMode" :value="customerForm.transMode" placeholder="请选择" style="width: 100%;">
-            <el-option label="x1" value="1"/>
-            <el-option label="z2" value="2"/>
-          </el-select>
-        </el-form-item>
-        <el-form-item :label="$t('Customer.deliverymode')" prop="address" style="width: 40%;margin-top:1%">
-          <el-select v-model="customerForm.deliveryMode" :value="customerForm.deliveryMode" placeholder="请选择" style="width: 100%;">
-            <el-option label="p1" value="1"/>
-            <el-option label="q2" value="2"/>
-          </el-select>
-        </el-form-item>
-        <el-form-item :label="$t('Customer.address2')" prop="address" style="width: 40%;margin-top:1%">
-          <el-input v-model="customerForm.address" placeholder="请输入地址" clearable/>
-        </el-form-item>
-      </el-form>
-    </div>
-    <div class="buttons" style="margin-top: 20px;margin-left: 30px">
-      <el-button type="primary" @click="handleEditok()">修改</el-button>
-      <el-button type="danger" @click="handlecancel()">取消</el-button>
-    </div>
+    <el-card class="box-card" shadow="never" style="margin-top: 15px">
+      <h2 class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">业务信息</h2>
+      <div class="container">
+        <el-form ref="customerForm2" :model="customerForm" :rules="customerFormrules" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
+          <el-row>
+            <el-col :span="12">
+              <el-form-item :label="$t('Customer.contactname')" prop="contactName" style="width: 100%;">
+                <el-input v-model.number="customerForm.contactName" placeholder="请输入联系人" style="margin-left: 18px;width: 200px"/>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('Customer.phone2')" prop="phone" style="width: 100%;">
+                <el-input v-model.number="customerForm.phone" placeholder="请输入电话号码" style="margin-left: 18px;width: 200px"/>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('public.countyrId')" style="width: 100%;">
+                <el-select v-model="customerForm.countryId" placeholder="请选择国家" style="margin-left: 18px;width: 200px" @change ="handlechange">
+                  <el-option
+                    v-for="(item, index) in nations"
+                    :key="index"
+                    :label="item.name"
+                    :value="item.id"/>
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('Customer.provinceid')" style="width: 100%;">
+                <el-select v-model="customerForm.provinceId" placeholder="请选择省" style="margin-left: 18px;width: 200px" @change="handlechange2">
+                  <el-option
+                    v-for="(item, index) in provinces"
+                    :key="index"
+                    :label="item.name"
+                    :value="item.id"/>
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('Customer.cityid')" style="width: 100%;">
+                <el-select v-model="customerForm.cityId" placeholder="请选择市" style="margin-left: 18px;width: 200px">
+                  <el-option
+                    v-for="(item, index) in cities"
+                    :key="index"
+                    :label="item.name"
+                    :value="item.id"/>
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('Customer.traderid')" prop="address" style="width: 100%;">
+                <el-input v-model="trader" placeholder="请选择" style="margin-left: 18px;width: 200px" @focus="handlechoose"/>
+              </el-form-item>
+            </el-col>
+            <my-emp :control.sync="empcontrol" @personName="personName"/>
+            <el-col :span="12">
+              <el-form-item :label="$t('Customer.transmode')" prop="address" style="width: 100%;">
+                <el-select v-model="customerForm.transMode" :value="customerForm.transMode" placeholder="请选择" style="margin-left: 18px;width: 200px">
+                  <el-option label="x1" value="1"/>
+                  <el-option label="z2" value="2"/>
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('Customer.deliverymode')" prop="address" style="width: 100%;">
+                <el-select v-model="customerForm.deliveryMode" :value="customerForm.deliveryMode" placeholder="请选择" style="margin-left: 18px;width: 200px">
+                  <el-option label="p1" value="1"/>
+                  <el-option label="q2" value="2"/>
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('Customer.address2')" prop="address" style="width: 100%;">
+                <el-input v-model="customerForm.address" placeholder="请输入地址" style="margin-left: 18px;width: 200px"/>
+              </el-form-item>
+            </el-col>
+          </el-row>
+        </el-form>
+      </div>
+    </el-card>
+    <el-card class="box-card" style="position: fixed;width: 1010px;z-index: 100;height: 74px;bottom: 0;" shadow="never">
+      <div class="buttons" style="float: right;padding-bottom: 10px">
+        <el-button @click="handlecancel()">取消</el-button>
+        <el-button type="primary" @click="handleEditok()">保存</el-button>
+      </div>
+    </el-card>
   </el-dialog>
 </template>
 
@@ -205,6 +238,8 @@ export default {
       this.customerForm = this.editdata
       this.trader = this.editdata.traderName
       console.log(this.editdata)
+      this.handlechange(this.customerForm.countryId)
+      this.handlechange2(this.customerForm.provinceId)
     }
   },
   created() {
@@ -307,5 +342,20 @@ export default {
 </script>
 
 <style scoped>
-
+  .container >>> .el-form-item.is-required:not(.is-no-asterisk)>.el-form-item__label:before{
+    margin-left: -10px;
+  }
+  .container >>> .el-form-item__label{
+    text-align: left;
+  }
+  .container >>> .el-form-item__label{
+    color: #60626696;
+  }
+  .edit >>> .el-dialog {
+    background:#f1f1f1 ;
+    height: 950px;
+  }
+  .el-col-12{
+    width: 49%;
+  }
 </style>

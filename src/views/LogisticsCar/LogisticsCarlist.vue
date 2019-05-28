@@ -1,22 +1,54 @@
 <template>
   <div class="ERP-container">
-    <div class="filter-container">
-      <!-- 搜索条件栏目 -->
-      <el-input v-model="getemplist.carname" :placeholder="$t('LogisticsCar.carname')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
-      <el-input v-model="getemplist.carnumber" :placeholder="$t('LogisticsCar.carnumber')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
-      <el-input v-model="getemplist.licencenumber" :placeholder="$t('LogisticsCar.licencenumber')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
-      <el-select v-model="getemplist.cartype" placeholder="车辆类型" class="filter-item" clearable>
-        <el-option value="1" label="大货车"/>
-        <el-option value="2" label="小货车"/>
-        <el-option value="3" label="小轿车"/>
-      </el-select>
-      <el-select v-model="getemplist.stat" placeholder="车辆状态" class="filter-item" clearable>
-        <el-option label="正常" value="1"/>
-        <el-option label="停用" value="2"/>
-      </el-select>
-      <!-- 搜索按钮 -->
-      <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 86px" @click="handleFilter">{{ $t('public.search') }}</el-button>
-      <!-- 批量操作 -->
+    <el-card class="box-card" style="margin-top: 10px;height: 60px" shadow="never">
+      <el-row>
+        <el-form ref="getemplist" :model="getemplist" label-width="100px" style="margin-top: -9px">
+          <el-col :span="5">
+            <!-- 搜索条件栏目 -->
+            <el-form-item :label="$t('LogisticsCar.carname')" label-width="100px">
+              <el-input v-model="getemplist.carname" :placeholder="$t('LogisticsCar.carname')" clearable @keyup.enter.native="handleFilter"/>
+            </el-form-item>
+          </el-col>
+          <el-col :span="5" style="margin-left: 10px">
+            <el-form-item :label="$t('LogisticsCar.carnumber')">
+              <el-input v-model="getemplist.carnumber" :placeholder="$t('LogisticsCar.carnumber')" clearable @keyup.enter.native="handleFilter"/>
+            </el-form-item>
+          </el-col>
+          <el-col :span="5" style="margin-left: 10px">
+            <el-form-item :label="$t('LogisticsCar.licencenumber')">
+              <el-input v-model="getemplist.licencenumber" :placeholder="$t('LogisticsCar.licencenumber')" clearable @keyup.enter.native="handleFilter"/>
+            </el-form-item>
+          </el-col>
+          <el-col :span="3">
+            <el-popover
+              placement="bottom"
+              width="500"
+              trigger="click">
+              <el-select v-model="getemplist.cartype" placeholder="车辆类型" style="width: 40%;float: left;margin-left: 20px" clearable>
+                <el-option value="1" label="大货车"/>
+                <el-option value="2" label="小货车"/>
+                <el-option value="3" label="小轿车"/>
+              </el-select>
+              <el-select v-model="getemplist.stat" placeholder="车辆状态" style="width: 40%;float: right;margin-right: 20px" clearable>
+                <el-option label="正常" value="1"/>
+                <el-option label="停用" value="2"/>
+              </el-select>
+              <div class="seachbutton" style="width: 100%;float: right;margin-top: 20px">
+                <el-button v-waves class="filter-item" type="primary" style="float: right" round @click="handleFilter">{{ $t('public.search') }}</el-button>
+              </div>
+              <el-button v-waves slot="reference" type="primary" class="filter-item" style="width: 130px" >{{ $t('public.filter') }}<svg-icon icon-class="shaixuan" style="margin-left: 4px"/></el-button>
+            </el-popover>
+          </el-col>
+
+          <el-col :span="3" style="margin-left: 20px">
+            <!-- 搜索按钮 -->
+            <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 86px" round @click="handleFilter">{{ $t('public.search') }}</el-button>
+          </el-col>
+          <!-- 批量操作 -->
+        </el-form>
+      </el-row>
+    </el-card>
+    <el-card class="box-card" style="margin-top: 10px" shadow="never">
       <el-dropdown @command="handleCommand">
         <el-button v-waves class="filter-item" type="primary">
           {{ $t('public.batchoperation') }} <i class="el-icon-arrow-down el-icon--right"/>
@@ -30,9 +62,9 @@
       <!-- 打印操作 -->
       <el-button v-waves class="filter-item" icon="el-icon-printer" style="width: 86px" @click="handlePrint">{{ $t('public.print') }}</el-button>
       <!-- 新建操作 -->
-      <el-button v-waves class="filter-item" icon="el-icon-plus" type="success" style="width: 86px;float: right" @click="handleAdd">{{ $t('public.add') }}</el-button>
-    </div>
-    <div class="app-container">
+      <el-button v-waves class="filter-item" icon="el-icon-plus" type="success" style="width: 86px" @click="handleAdd">{{ $t('public.add') }}</el-button>
+    </el-card>
+    <el-card class="box-card" style="margin-top: 10px" shadow="never">
       <!-- 列表开始 -->
       <el-table
         v-loading="listLoading"
@@ -47,17 +79,18 @@
           type="selection"
           width="55"
           align="center"/>
-        <el-table-column :label="$t('LogisticsCar.carnumber')" :resizable="false" prop="carnumber" align="center" min-width="150">
+        <el-table-column :label="$t('LogisticsCar.carnumber')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.carNumber }}</span>
+            <span class="link-type" @click="handleDetail(scope.row)">{{ scope.row.carNumber }}</span>
           </template>
+          <detail-list :detailcontrol.sync="detailvisible" :detaildata.sync="edtiForm" :detailid.sync="detailid"/>
         </el-table-column>
-        <el-table-column :label="$t('LogisticsCar.carname')" :resizable="false" prop="carName" align="center" width="200">
+        <el-table-column :label="$t('LogisticsCar.carname')" :resizable="false" align="center" width="200">
           <template slot-scope="scope">
             <span>{{ scope.row.carName }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('LogisticsCar.licencenumber')" :resizable="false" prop="licenceNumber" align="center" width="250">
+        <el-table-column :label="$t('LogisticsCar.licencenumber')" :resizable="false" align="center" width="250">
           <template slot-scope="scope">
             <span>{{ scope.row.licenceNumber }}</span>
           </template>
@@ -67,20 +100,20 @@
             <span>{{ scope.row.carType | carTypeFilter }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('LogisticsCar.stat')" :resizable="false" prop="stat" align="center" width="250">
+        <el-table-column :label="$t('LogisticsCar.stat')" :resizable="false" align="center" width="250">
           <template slot-scope="scope">
             <span>{{ scope.row.stat | statFilter }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('LogisticsCar.drivers')" :resizable="false" prop="driverNames" align="center" width="250">
+        <el-table-column :label="$t('LogisticsCar.drivers')" :resizable="false" align="center" width="250">
           <template slot-scope="scope">
             <span>{{ scope.row.driverNames }}</span>
           </template>
         </el-table-column>
         <el-table-column :label="$t('public.actions')" :resizable="false" align="center" width="230">
           <template slot-scope="scope">
-            <el-button type="primary" size="mini" @click="handleEdit(scope.row)">{{ $t('public.edit') }}</el-button>
-            <el-button size="mini" type="danger" @click="handleDelete(scope.row)">{{ $t('public.delete') }}</el-button>
+            <el-button title="修改" type="primary" size="mini" icon="el-icon-edit" circle @click="handleEdit(scope.row)"/>
+            <el-button title="删除" size="mini" type="danger" icon="el-icon-delete" circle @click="handleDelete(scope.row)"/>
           </template>
         </el-table-column>
       </el-table>
@@ -89,7 +122,7 @@
       <!--修改开始=================================================-->
       <my-dialog :control.sync="editVisible" :editdata.sync="personalForm" @rest="refreshlist"/>
       <!--修改结束=================================================-->
-    </div>
+    </el-card>
   </div>
 </template>
 
@@ -98,11 +131,12 @@ import { carlist, deletecar } from '@/api/LogisticsCar'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
 import MyDialog from './components/MyDialog'
+import DetailList from './components/DetailList'
 
 export default {
   name: 'LogisticsCarlist',
   directives: { waves },
-  components: { Pagination, MyDialog },
+  components: { DetailList, Pagination, MyDialog },
   filters: {
     carTypeFilter(status) {
       const statusMap = {
@@ -122,6 +156,12 @@ export default {
   },
   data() {
     return {
+      // 详情数据以及控制
+      edtiForm: {},
+      // 详情传递id
+      detailid: null,
+      // 详情组件数据
+      detailvisible: false,
       // 新增分组参数
       groupName: '',
       // 分组表格数据
@@ -172,6 +212,12 @@ export default {
     this.getlist()
   },
   methods: {
+    // 详情操作
+    handleDetail(row) {
+      this.detailid = row.id
+      this.edtiForm = Object.assign({}, row)
+      this.detailvisible = true
+    },
     getlist() {
       // 物流车辆列表数据
       this.listLoading = true
@@ -200,8 +246,12 @@ export default {
       console.log(row)
       this.editVisible = true
       this.personalForm = Object.assign({}, row)
-      this.personalForm.carType = String(row.carType)
-      this.personalForm.stat = String(row.stat)
+      if (row.carType !== null) {
+        this.personalForm.carType = String(row.carType)
+      }
+      if (row.stat !== null) {
+        this.personalForm.stat = String(row.stat)
+      }
     },
     // 修改组件修改成功后返回
     refreshlist(val) {

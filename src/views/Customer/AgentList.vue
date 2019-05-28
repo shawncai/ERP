@@ -1,53 +1,70 @@
 <template>
   <div class="ERP-container">
-    <div class="filter-container">
-      <!-- 搜索条件栏目 -->
-      <el-input v-model="getemplist.agentname" :placeholder="$t('Customer.agentname')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
-      <el-input v-model="getemplist.phone" :placeholder="$t('Customer.phone')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
-      <el-date-picker
-        v-model="getemplist.createtime"
-        type="date"
-        class="filter-item"
-        placeholder="选择日期"
-        value-format="yyyy-MM-dd"/>
-      <el-select v-model="getemplist.type" :value="getemplist.type" :placeholder="$t('Customer.customertype')" class="filter-item" clearable>
-        <el-option
-          v-for="(item, index) in customertypes"
-          :key="index"
-          :value="item.id"
-          :label="item.categoryName"/>
-      </el-select>
-      <el-select v-model="getemplist.level" :value="getemplist.level" :placeholder="$t('Customer.level')" class="filter-item" clearable>
-        <el-option
-          v-for="(item, index) in levels"
-          :key="index"
-          :value="item.id"
-          :label="item.categoryName"/>
-      </el-select>
-      <!-- 更多搜索条件下拉栏 -->
-      <el-popover
-        placement="bottom"
-        width="500"
-        trigger="click">
-        <el-select v-model="getemplist.source" :value="getemplist.source" :placeholder="$t('Customer.source')" class="filter-item" clearable style="width: 40%;float: left">
-          <el-option
-            v-for="(item, index) in sources"
-            :key="index"
-            :value="item.id"
-            :label="item.categoryName"/>
-        </el-select>
-        <el-input v-model="getemplist.contactname" :placeholder="$t('Customer.contactname')" class="filter-item" style="width: 40%;float: left" clearable />
-        <el-input v-model="getemplist.pinyin" :placeholder="$t('Customer.pinyin')" class="filter-item" style="width: 40%;float: left;margin-top: 20px" clearable />
-        <div class="seachbutton" style="width: 100%;float: right;margin-top: 20px">
-          <el-button v-waves class="filter-item" type="primary" style="float: right" @click="handleFilter">{{ $t('public.search') }}</el-button>
-        </div>
-        <el-button v-waves slot="reference" type="primary" class="filter-item" style="width: 130px">{{ $t('public.filter') }}<svg-icon icon-class="shaixuan" style="margin-left: 4px"/></el-button>
-      </el-popover>
-      <!-- 搜索按钮 -->
-      <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 86px" @click="handleFilter">{{ $t('public.search') }}</el-button>
-      <!-- 批量操作 -->
+    <el-card class="box-card" style="margin-top: 10px;height: 60px" shadow="never">
+      <el-row>
+        <el-form ref="getemplist" :model="getemplist" label-width="100px" style="margin-top: -9px">
+          <!-- 搜索条件栏目 -->
+          <el-col :span="5">
+            <el-form-item :label="$t('Customer.agentname')" label-width="100px">
+              <el-input v-model="getemplist.agentname" :placeholder="$t('Customer.agentname')" clearable @keyup.enter.native="handleFilter"/>
+            </el-form-item>
+          </el-col>
+          <el-col :span="5" style="margin-left: 10px">
+            <el-form-item :label="$t('Customer.phone')">
+              <el-input v-model="getemplist.phone" :placeholder="$t('Customer.phone')" clearable @keyup.enter.native="handleFilter"/>
+            </el-form-item>
+          </el-col>
+          <el-col :span="5" style="margin-left: 10px">
+            <el-form-item :label="$t('Customer.customertype')">
+              <el-select v-model="getemplist.type" :value="getemplist.type" :placeholder="$t('Customer.customertype')" clearable>
+                <el-option
+                  v-for="(item, index) in customertypes"
+                  :key="index"
+                  :value="item.id"
+                  :label="item.categoryName"/>
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <!-- 更多搜索条件下拉栏 -->
+          <el-col :span="3">
+            <el-popover
+              placement="bottom"
+              width="500"
+              trigger="click">
+              <el-select v-model="getemplist.source" :value="getemplist.source" :placeholder="$t('Customer.source')" class="filter-item" clearable style="width: 40%;float: left;margin-left: 20px">
+                <el-option
+                  v-for="(item, index) in sources"
+                  :key="index"
+                  :value="item.id"
+                  :label="item.categoryName"/>
+              </el-select>
+              <el-input v-model="getemplist.contactname" :placeholder="$t('Customer.contactname')" style="width: 40%;float: right;margin-right: 20px" clearable />
+              <el-input v-model="getemplist.pinyin" :placeholder="$t('Customer.pinyin')" style="width: 40%;float: left;margin-left: 20px;margin-top: 20px" clearable />
+              <el-select v-model="getemplist.level" :value="getemplist.level" :placeholder="$t('Customer.level')" style="width: 40%;float: right;margin-right: 20px;margin-top: 20px" clearable>
+                <el-option
+                  v-for="(item, index) in levels"
+                  :key="index"
+                  :value="item.id"
+                  :label="item.categoryName"/>
+              </el-select>
+              <div class="seachbutton" style="width: 100%;float: right;margin-top: 20px">
+                <el-button v-waves class="filter-item" type="primary" style="float: right" @click="handleFilter">{{ $t('public.search') }}</el-button>
+              </div>
+              <el-button v-waves slot="reference" type="primary" class="filter-item" style="width: 130px">{{ $t('public.filter') }}<svg-icon icon-class="shaixuan" style="margin-left: 4px"/></el-button>
+            </el-popover>
+          </el-col>
+          <!-- 搜索按钮 -->
+          <el-col :span="3" style="margin-left: 20px">
+            <!-- 搜索按钮 -->
+            <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 86px" round @click="handleFilter">{{ $t('public.search') }}</el-button>
+          </el-col>
+          <!-- 批量操作 -->
+        </el-form>
+      </el-row>
+    </el-card>
+    <el-card class="box-card" style="margin-top: 10px" shadow="never">
       <el-dropdown @command="handleCommand">
-        <el-button v-waves class="filter-item" type="primary">
+        <el-button v-waves class="filter-item" style="margin-left: 0" type="primary">
           {{ $t('public.batchoperation') }} <i class="el-icon-arrow-down el-icon--right"/>
         </el-button>
         <el-dropdown-menu slot="dropdown" style="width: 140px">
@@ -59,9 +76,9 @@
       <!-- 打印操作 -->
       <el-button v-permission="['1-14-18-7']" v-waves class="filter-item" icon="el-icon-printer" style="width: 86px" @click="handlePrint">{{ $t('public.print') }}</el-button>
       <!-- 新建操作 -->
-      <el-button v-permission="['1-14-18-1']" v-waves class="filter-item" icon="el-icon-plus" type="success" style="width: 86px;float: right" @click="handleAdd">{{ $t('public.add') }}</el-button>
-    </div>
-    <div class="app-container">
+      <el-button v-permission="['1-14-18-1']" v-waves class="filter-item" icon="el-icon-plus" type="success" style="width: 86px" @click="handleAdd">{{ $t('public.add') }}</el-button>
+    </el-card>
+    <el-card class="box-card" style="margin-top: 10px" shadow="never">
       <!-- 列表开始 -->
       <el-table
         v-loading="listLoading"
@@ -76,55 +93,55 @@
           type="selection"
           width="55"
           align="center"/>
-        <el-table-column :label="$t('Customer.id')" :resizable="false" prop="id" align="center" width="60">
+        <el-table-column :label="$t('Customer.id')" :resizable="false" align="center" width="60">
           <template slot-scope="scope">
-            <span>{{ scope.row.id }}</span>
+            <span class="link-type" @click="handleDetail(scope.row)">{{ scope.row.id }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('Customer.agentname')" :resizable="false" prop="agentName" align="center" width="200">
+        <el-table-column :label="$t('Customer.agentname')" :resizable="false" align="center" min-width="200">
           <template slot-scope="scope">
             <span>{{ scope.row.agentName }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('Customer.customertype')" :resizable="false" prop="agentType" align="center" width="100">
+        <el-table-column :label="$t('Customer.customertype')" :resizable="false" align="center" min-width="100">
           <template slot-scope="scope">
             <span>{{ scope.row.agentType }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('Customer.level')" :resizable="false" prop="agentLevel" align="center" width="200">
+        <el-table-column :label="$t('Customer.level')" :resizable="false" align="center" width="200">
           <template slot-scope="scope">
             <span>{{ scope.row.agentLevel }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('Customer.traderid')" :resizable="false" prop="traderName" align="center" width="100">
+        <el-table-column :label="$t('Customer.traderid')" :resizable="false" align="center" min-width="100">
           <template slot-scope="scope">
             <span>{{ scope.row.traderName }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('Customer.contactname')" :resizable="false" prop="contactName" align="center" width="150">
+        <el-table-column :label="$t('Customer.contactname')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.contactName }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('Customer.phone')" :resizable="false" prop="phone" align="center" width="200">
+        <el-table-column :label="$t('Customer.phone')" :resizable="false" align="center" min-width="200">
           <template slot-scope="scope">
             <span>{{ scope.row.phone }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('Customer.createName')" :resizable="false" prop="createName" align="center" width="100">
+        <el-table-column :label="$t('Customer.createName')" :resizable="false" align="center" width="100">
           <template slot-scope="scope">
             <span>{{ scope.row.createName }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('Customer.createTime')" :resizable="false" prop="createTime" align="center" width="100">
+        <el-table-column :label="$t('Customer.createTime')" :resizable="false" align="center" width="100">
           <template slot-scope="scope">
             <span>{{ scope.row.createTime }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('public.actions')" :resizable="false" align="center" min-width="230">
+        <el-table-column :label="$t('public.actions')" :resizable="false" align="center" min-width="100">
           <template slot-scope="scope">
-            <el-button v-permission="['1-14-18-3']" type="primary" size="mini" @click="handleEdit(scope.row)">{{ $t('public.edit') }}</el-button>
-            <el-button v-permission="['1-14-18-2']" size="mini" type="danger" @click="handleDelete(scope.row)">{{ $t('public.delete') }}</el-button>
+            <el-button v-permission="['1-14-18-3']" title="修改" type="primary" size="mini" icon="el-icon-edit" circle @click="handleEdit(scope.row)"/>
+            <el-button v-permission="['1-14-18-2']" title="删除" size="mini" type="danger" icon="el-icon-delete" circle @click="handleDelete(scope.row)"/>
           </template>
         </el-table-column>
       </el-table>
@@ -133,7 +150,7 @@
       <!--修改开始=================================================-->
       <my-dialog :control.sync="editVisible" :editdata.sync="customerForm" @rest="refreshlist"/>
       <!--修改结束=================================================-->
-    </div>
+    </el-card>
   </div>
 </template>
 

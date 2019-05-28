@@ -286,7 +286,9 @@ export default {
           price: item.purchasePrice,
           includeTaxPrice: item.purchasePrice,
           remark: 0,
-          orderedQuantity: 0
+          orderedQuantity: 0,
+          returnQuantity: 0,
+          actualArrivalQuantity: 0
         }
       })
       console.log(productDetail)
