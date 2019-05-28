@@ -438,6 +438,12 @@ export default {
     getSize(quan, pric) {
       return quan * pric
     },
+    // 深拷贝
+    deepClone(obj) {
+      const _obj = JSON.stringify(obj)
+      const objClone = JSON.parse(_obj)
+      return objClone
+    },
     // 修改和取消按钮
     // 修改按钮
     handleEditok() {
@@ -447,7 +453,7 @@ export default {
       this.personalForm.countryId = this.$store.getters.countryId
       this.personalForm.modifyPersonId = this.$store.getters.userId
       console.log(this.personalForm)
-      const rest = this.$refs.editable.getRecords()
+      const rest = this.deepClone(this.$refs.editable.getRecords())
       console.log(rest)
       if (rest.length === 0) {
         this.$notify.error({

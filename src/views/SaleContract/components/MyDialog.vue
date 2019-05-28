@@ -757,6 +757,12 @@ export default {
       this.stockPersonId = null
       this.ourContractorId = null
     },
+    // 深拷贝
+    deepClone(obj) {
+      const _obj = JSON.stringify(obj)
+      const objClone = JSON.parse(_obj)
+      return objClone
+    },
     // 修改和取消按钮
     // 修改按钮
     handleEditok() {
@@ -767,7 +773,7 @@ export default {
           this.personalForm.createPersonId = this.$store.getters.userId
           this.personalForm.countryId = this.$store.getters.countryId
           this.personalForm.modifyPersonId = this.$store.getters.userId
-          const EnterDetail = this.$refs.editable.getRecords()
+          const EnterDetail = this.deepClone(this.$refs.editable.getRecords())
           EnterDetail.map(function(elem) {
             return elem
           }).forEach(function(elem) {

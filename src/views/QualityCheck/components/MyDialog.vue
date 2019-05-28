@@ -305,24 +305,8 @@ export default {
     // 从源单中添加商品
     handleAddSouce() {
       if (this.personalForm.sourceType === '1') {
-        if (this.personalForm.supplierId === null || this.personalForm.supplierId === undefined || this.personalForm.supplierId === '') {
-          this.$notify.error({
-            title: '错误',
-            message: '请先选择供应商',
-            duration: 0
-          })
-          return false
-        }
         this.arrivalcontrol = true
       } else if (this.personalForm.sourceType === '2') {
-        if (this.personalForm.supplierId === null || this.personalForm.supplierId === undefined || this.personalForm.supplierId === '') {
-          this.$notify.error({
-            title: '错误',
-            message: '请先选择供应商',
-            duration: 0
-          })
-          return false
-        }
         this.producecontrol = true
       }
     },

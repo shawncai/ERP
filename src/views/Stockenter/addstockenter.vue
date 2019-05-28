@@ -352,9 +352,15 @@ export default {
         }
       })
     },
+    // 深拷贝
+    deepClone(obj) {
+      const _obj = JSON.stringify(obj)
+      const objClone = JSON.parse(_obj)
+      return objClone
+    },
     // 保存操作
     handlesave() {
-      const rest = this.$refs.editable.getRecords()
+      const rest = this.deepClone(this.$refs.editable.getRecords())
       console.log(rest)
       if (rest.length === 0) {
         this.$notify.error({

@@ -336,9 +336,14 @@ export default {
       this.outRepositoryId = ''
       this.outPersonId = ''
     },
+    deepClone(obj) {
+      const _obj = JSON.stringify(obj)
+      const objClone = JSON.parse(_obj)
+      return objClone
+    },
     // 保存操作
     handlesave() {
-      const EnterDetail = this.$refs.editable.getRecords()
+      const EnterDetail = this.deepClone(this.$refs.editable.getRecords())
       console.log(this.personalForm)
       console.log(EnterDetail)
       if (EnterDetail.length === 0) {

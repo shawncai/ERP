@@ -463,8 +463,8 @@ export default {
     },
     // 保存操作
     handlesave() {
-      const EnterDetail = this.$refs.editable.getRecords()
-      const EnterDetail2 = this.$refs.editable2.getRecords()
+      const EnterDetail = this.deepClone(this.$refs.editable.getRecords())
+      const EnterDetail2 = this.deepClone(this.$refs.editable2.getRecords())
       for (let i = 0; i < EnterDetail.length; i++) {
         for (let j = 0; j < EnterDetail2.length; j++) {
           if (EnterDetail[i].productCode === EnterDetail2[j].productCode) {
