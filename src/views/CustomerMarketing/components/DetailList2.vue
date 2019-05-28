@@ -51,28 +51,13 @@
         <el-form :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
           <el-row>
             <el-col :span="12">
-              <el-form-item :label="$t('public.receiptStat')" style="width: 100%;">
-                {{ personalForm.receiptStat | receiptStatFilter }}
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('public.createPersonName')" prop="stockType" style="width: 100%;">
+              <el-form-item :label="$t('public.createPersonName2')" prop="stockType" style="width: 100%;">
                 {{ personalForm.createPersonName }}
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item :label="$t('public.createDate')" style="width: 100%;">
+              <el-form-item :label="$t('public.createDate2')" style="width: 100%;">
                 {{ personalForm.createDate }}
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('public.judgePersonName')" prop="applyDeptId" style="width: 100%;">
-                {{ personalForm.judgePersonName }}
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('public.judgeDate')" prop="sourceType" style="width: 100%;">
-                {{ personalForm.judgeDate }}
               </el-form-item>
             </el-col>
             <el-col :span="12">

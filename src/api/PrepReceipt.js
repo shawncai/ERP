@@ -50,6 +50,9 @@ export function searchprepReceipt(query) {
   if (query.regionIds !== '' && query.regionIds !== null && query.regionIds !== undefined) {
     params.append('regionIds', query.regionIds) // 你要传给后台的参数值 key/value
   }
+  if (query.agentId !== '' && query.agentId !== null && query.agentId !== undefined) {
+    params.append('agentId', query.agentId) // 你要传给后台的参数值 key/value
+  }
   params.append('pageNum', query.pageNum) // 你要传给后台的参数值 key/value
   params.append('pageSize', query.pageSize) // 你要传给后台的参数值 key/value
   return request({

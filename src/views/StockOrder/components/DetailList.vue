@@ -1,5 +1,5 @@
 <template>
-  <el-dialog :visible.sync="editVisible" :detailcontrol="detailcontrol" :detaildata="detaildata" :close-on-press-escape="false" :title="personalForm.orderNumber +'    详情'" append-to-body width="1010px" class="edit" top="-10px" @close="$emit('update:detailcontrol', false)">
+  <el-dialog :visible.sync="editVisible" :detailcontrol="detailcontrol" :detaildata="detaildata" :close-on-press-escape="false" :title="personalForm.orderNumber +'    采购订单详情信息'" append-to-body width="1010px" class="edit" top="-10px" @close="$emit('update:detailcontrol', false)">
     <!--基本信息-->
     <el-card class="box-card" style="margin-top: 63px" shadow="never">
       <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">基本信息</h2>
@@ -79,7 +79,6 @@
           size="medium"
           style="width: 100%">
           <el-editable-column label="序号" min-width="55" align="center" type="index"/>
-          <el-editable-column label="序号" min-width="55" align="center" type="index"/>
           <el-editable-column prop="productCode" align="center" label="物品编号" min-width="150px"/>
           <el-editable-column prop="productName" align="center" label="物品名称" min-width="150px"/>
           <el-editable-column prop="productType" align="center" label="规格" min-width="150px"/>
@@ -104,7 +103,7 @@
       </div>
     </el-card>
     <el-card class="box-card" shadow="never" style="margin-top: 10px">
-      <h2 ref="geren" class="form-name">合计信息</h2>
+      <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">合计信息</h2>
       <div class="container" style="margin-top: 37px">
         <el-form :inline="true" status-icon class="demo-ruleForm" label-width="130px">
           <el-row>
@@ -147,51 +146,19 @@
         </el-form>
       </div>
     </el-card>
-    <!--审核状态-->
-    <el-card class="box-card" style="margin-top: 15px" shadow="never">
-      <h2 ref="fuzhu" class="form-name">审核状态</h2>
-      <el-steps :active="reviewList.length" direction="vertical">
-        <el-step
-          v-for="(item, index) in reviewList"
-          :key="index"
-          :title="'审核步骤' + item.step"
-          style="height: 100px">
-          <template slot="description" >
-            <span style="font-size: 16px;color: red">{{ item.stat | statfilter }}</span><br>
-            <span style="font-size: 14px">审核人: {{ item.stepHandlerName }}</span><br>
-            <span style="font-size: 14px">审核时间: {{ item.createTime }}</span>
-          </template>
-        </el-step>
-      </el-steps>
-    </el-card>
     <el-card class="box-card" style="margin-top: 15px" shadow="never">
       <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">备注信息</h2>
       <div class="container" style="margin-top: 37px">
         <el-form :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
           <el-row>
             <el-col :span="12">
-              <el-form-item :label="$t('public.receiptStat')" style="width: 100%;">
-                {{ personalForm.receiptStat | receiptStatFilter }}
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('public.createPersonName')" prop="stockType" style="width: 100%;">
+              <el-form-item :label="$t('public.createPersonName2')" prop="stockType" style="width: 100%;">
                 {{ personalForm.createPersonName }}
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item :label="$t('public.createDate')" style="width: 100%;">
+              <el-form-item :label="$t('public.createDate2')" style="width: 100%;">
                 {{ personalForm.createDate }}
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('public.judgePersonName')" prop="applyDeptId" style="width: 100%;">
-                {{ personalForm.judgePersonName }}
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('public.judgeDate')" prop="sourceType" style="width: 100%;">
-                {{ personalForm.judgeDate }}
               </el-form-item>
             </el-col>
             <el-col :span="12">
@@ -218,10 +185,81 @@
         </el-form>
       </div>
     </el-card>
+    <!--审核状态-->
+    <el-card class="box-card" style="margin-top: 15px" shadow="never">
+      <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">审批记录</h2>
+      <div class="container" style="margin-top: 37px">
+        <el-table
+          :data="reviewList"
+          border
+          style="width: 100%">
+          <el-table-column
+            prop="step"
+            align="center"
+            label="当前步骤"
+            min-width="150"/>
+          <el-table-column
+            prop="stepHandlerName"
+            align="center"
+            label="当前审批人"
+            min-width="150"/>
+          <el-table-column
+            prop="handleTime"
+            align="center"
+            label="审批时间"
+            min-width="150"/>
+          <el-table-column
+            prop="stat"
+            align="center"
+            label="审批意见"
+            min-width="150">
+            <template slot-scope="scope">
+              <span>{{ scope.row.stat | statfilter }}</span>
+            </template>
+          </el-table-column>
+        </el-table>
+      </div>
+    </el-card>
+    <el-card class="box-card" style="margin-top: 15px" shadow="never">
+      <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">到货信息</h2>
+      <div class="container" style="margin-top: 37px">
+        <el-table
+          :data="arravldata"
+          border
+          style="width: 100%">
+          <el-table-column
+            prop="number"
+            align="center"
+            label="到货单编号"
+            min-width="150"/>
+          <el-table-column
+            prop="productCode"
+            align="center"
+            label="物品编号"
+            min-width="150"/>
+          <el-table-column
+            prop="arrivalQuantity"
+            align="center"
+            label="到货数量"
+            min-width="150"/>
+          <el-table-column
+            prop="arrivalDate"
+            align="center"
+            label="到货日期"
+            min-width="150"/>
+          <el-table-column
+            prop="acceptPersonName"
+            align="center"
+            label="点收人"
+            min-width="150"/>
+        </el-table>
+      </div>
+    </el-card>
   </el-dialog>
 </template>
 
 <script>
+import { searchstockArrival } from '@/api/StockArrival'
 export default {
   filters: {
     isVatFilter(status) {
@@ -281,6 +319,16 @@ export default {
   },
   data() {
     return {
+      // 质检信息
+      Checkreportdata: [],
+      // 到货信息
+      arravldata: [],
+      stockArrivaldata: {
+        pageNum: 1,
+        pageSize: 9999,
+        repositoryId: 0,
+        sourceNumber: this.detaildata.orderNumber
+      },
       // 审核数据
       reviewList: [],
       // 详细表数据
@@ -300,9 +348,29 @@ export default {
       this.personalForm = this.detaildata
       this.list2 = this.personalForm.stockOrderDetailVos
       this.reviewList = this.personalForm.approvalUseVos
+      this.stockArrivaldata.sourceNumber = this.personalForm.orderNumber
+      this.getstockArrivalList()
     }
   },
   methods: {
+    getstockArrivalList() {
+      searchstockArrival(this.stockArrivaldata).then(res => {
+        if (res.data.ret === 200) {
+          this.arravldata = res.data.data.content.list.map(function(item) {
+            const needata = item.stockArrivalDetailVos.map(function(elem) {
+              return {
+                number: item.number,
+                productCode: elem.productCode,
+                arrivalQuantity: elem.arrivalQuantity,
+                arrivalDate: item.arrivalDate,
+                acceptPersonName: item.acceptPersonName
+              }
+            })
+            return needata
+          }).flat()
+        }
+      })
+    },
     handlecancel() {
       this.editVisible = false
     }

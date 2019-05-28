@@ -435,6 +435,7 @@ export default {
     agentname: '经销商名称',
     pinyin: '拼音缩写',
     discount: '客户折扣',
+    discount2: '经销商折扣',
     introduce: '客户简介',
     introduce2: '经销商简介',
     contactname: '联系人',
@@ -1135,6 +1136,7 @@ export default {
     allIncludeTaxMoney: '含税金额合计'
   },
   StockArrival: {
+    sourceNumber: '源单编号',
     title: '采购到货单主题',
     number: '采购到货单编号',
     sourceType: '源单类型',
@@ -1156,6 +1158,7 @@ export default {
   StockRetreat: {
     title: '采购退货主题',
     sourceType: '源单类型',
+    sourceNumber: '源单编号',
     stockTypeId: '采购类别',
     deptId: '部门',
     stockPersonId: '采购员',
@@ -1842,13 +1845,15 @@ export default {
     isMove: '是否补货'
   },
   public: {
+    createPersonName2: '制单人',
+    createDate2: '制单时间',
     cancel: '取消',
     save: '保存',
-    modifyDate: '最后修改日期',
+    modifyDate: '最后更新时间',
     move: '调入',
     judgePersonName: '审核人',
     judgeDate: '审核日期',
-    modifyPersonName: '修改人',
+    modifyPersonName: '最后更新人',
     endPersonName: '结单人',
     endDate: '结单日期',
     createPersonName: '创建人',

@@ -27,6 +27,12 @@
                 </el-form-item>
               </el-col>
               <el-col :span="6">
+                <el-form-item :label="$t('StockArrival.sourceNumber')" :rules="personalForm.sourceType === '2'" prop="sourceNumber" style="width: 100%;">
+                  <el-input v-model="personalForm.sourceNumber" :disabled="addsouce" style="margin-left: 18px;width:200px" clearable @focus="handleAddSouce"/>
+                  <my-order :ordercontrol.sync="ordercontrol" :supp.sync="supp" @order="order" @allOrderinfo="allOrderinfo"/>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
                 <el-form-item :label="$t('StockArrival.stockPersonId')" prop="stockPersonId" style="width: 100%;">
                   <el-input v-model="stockPersonId" style="margin-left: 18px;width:200px" clearable @focus="handlechooseStock"/>
                   <my-emp :control.sync="stockControl" @stockName="stockName"/>
@@ -129,8 +135,6 @@
         <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
           <el-button :disabled="addpro" @click="handleAddproduct">添加商品</el-button>
           <my-detail :control.sync="control" :supp.sync="supp" @product="productdetail"/>
-          <el-button :disabled="addsouce" style="width: 130px" @click="handleAddSouce">从源单中选择</el-button>
-          <my-order :ordercontrol.sync="ordercontrol" :supp.sync="supp" @order="order" @allOrderinfo="allOrderinfo"/>
           <el-button type="danger" @click="$refs.editable.removeSelecteds()">删除</el-button>
         </div>
         <div class="container">
@@ -192,7 +196,7 @@
         </div>
       </el-card>
       <el-card class="box-card" shadow="never">
-        <h2 ref="geren" class="form-name">合计信息</h2>
+        <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">合计信息</h2>
         <div class="container" style="margin-top: 37px">
           <el-form :inline="true" status-icon class="demo-ruleForm" label-width="130px">
             <el-row>
@@ -269,6 +273,13 @@ export default {
         callback()
       }
     }
+    const validatePass2 = (rule, value, callback) => {
+      if (this.personalForm.sourceNumber === undefined || this.personalForm.sourceNumber === null || this.personalForm.sourceNumber === '') {
+        callback(new Error('请选择源单编号'))
+      } else {
+        callback()
+      }
+    }
     const checkRate = (rule, value, callback) => {
       console.log(value)
       if (value === 0 || value === '' || value === null || value === undefined) {
@@ -306,9 +317,9 @@ export default {
       // 控制源单为采购到货单
       ordercontrol: false,
       // 控制添加商品按钮
-      addpro: false,
+      addpro: true,
       // 控制从源单中选择按钮
-      addsouce: true,
+      addsouce: false,
       // 供应商回显
       supplierId: '',
       // 控制供应商
@@ -337,7 +348,7 @@ export default {
         repositoryId: this.$store.getters.repositoryId,
         regionId: this.$store.getters.regionId,
         isVat: 1,
-        sourceType: '2',
+        sourceType: '1',
         currencyId: '1',
         arrivalDate: null
       },
@@ -354,6 +365,9 @@ export default {
         ],
         sourceType: [
           { required: true, message: '请选择源单类型', trigger: 'change' }
+        ],
+        sourceNumber: [
+          { required: true, validator: validatePass2, trigger: 'change' }
         ],
         stockTypeId: [
           { required: true, message: '请选择采购类别', trigger: 'change' }
@@ -475,10 +489,13 @@ export default {
         this.addsouce = false
         this.addpro = true
         this.$refs.editable.clear()
+        this.$refs.personalForm.clearValidate()
       } else if (this.personalForm.sourceType === '2') {
         this.addpro = false
         this.addsouce = true
+        this.personalForm.sourceNumber = ''
         this.$refs.editable.clear()
+        this.$refs.personalForm.clearValidate()
       }
     },
     // 重置一下下拉
@@ -505,6 +522,7 @@ export default {
       }
     },
     allOrderinfo(val) {
+      this.personalForm.sourceNumber = val.orderNumber
       this.personalForm.supplierId = val.supplierId
       this.supplierId = val.supplierName
       this.allOthermoney = val.otherMoney
@@ -607,7 +625,9 @@ export default {
         countryId: this.$store.getters.countryId,
         repositoryId: this.$store.getters.repositoryId,
         regionId: this.$store.getters.regionId,
-        isVat: 1
+        isVat: 1,
+        sourceType: '1',
+        currencyId: '1'
       }
       this.supplierId = null
       this.inquiryPersonId = null
