@@ -9,22 +9,22 @@
             <el-row>
               <el-col :span="6">
                 <el-form-item :label="$t('ProcessFile.code2')" prop="code" style="width: 100%;">
-                  <el-input v-model="personalForm.code" style="margin-left: 18px" clearable/>
+                  <el-input v-model="personalForm.code" style="margin-left: 18px;width:200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('ProcessFile.processName')" prop="processName" style="width: 100%;">
-                  <el-input v-model="personalForm.processName" style="margin-left: 18px" clearable/>
+                  <el-input v-model="personalForm.processName" style="margin-left: 18px;width:200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('ProcessFile.shortName')" style="width: 100%;">
-                  <el-input v-model="personalForm.shortName" style="margin-left: 18px" clearable/>
+                  <el-input v-model="personalForm.shortName" style="margin-left: 18px;width:200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('ProcessFile.description')" style="width: 100%;">
-                  <el-input v-model="personalForm.description" style="margin-left: 18px" clearable/>
+                  <el-input v-model="personalForm.description" style="margin-left: 18px;width:200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">

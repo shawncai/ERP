@@ -13,7 +13,7 @@
             </el-col>
             <el-col :span="12">
               <el-form-item :label="$t('Customer.customertype')" prop="type" style="width: 100%;">
-                <el-select v-model="customerForm.type" :value="customerForm.type" placeholder="请选择客户类型" style="margin-left: 18px;width: 200px">
+                <el-select v-model="customerForm.type" :value="customerForm.type" placeholder="请选择经销商类型" style="margin-left: 18px;width: 200px" @focus="getCategory">
                   <el-option
                     v-for="(item, index) in customertypes"
                     :key="index"
@@ -24,7 +24,7 @@
             </el-col>
             <el-col :span="12">
               <el-form-item :label="$t('Customer.level')" style="width: 100%;">
-                <el-select v-model="customerForm.level" :value="customerForm.level" placeholder="请选择客户优质级别" style="margin-left: 18px;width: 200px">
+                <el-select v-model="customerForm.level" :value="customerForm.level" placeholder="请选择经销商优质级别" style="margin-left: 18px;width: 200px" @focus="getCategory">
                   <el-option
                     v-for="(item, index) in levels"
                     :key="index"
@@ -40,7 +40,7 @@
             </el-col>
             <el-col :span="12">
               <el-form-item :label="$t('Customer.source')" style="width: 100%;">
-                <el-select v-model="customerForm.source" :value="customerForm.source" placeholder="请选择客户来源" style="margin-left: 18px;width: 200px">
+                <el-select v-model="customerForm.source" :value="customerForm.source" placeholder="请选择经销商来源" style="margin-left: 18px;width: 200px" @focus="getCategory">
                   <el-option
                     v-for="(item, index) in sources"
                     :key="index"
@@ -121,17 +121,23 @@
             <my-emp :control.sync="empcontrol" @personName="personName"/>
             <el-col :span="12">
               <el-form-item :label="$t('Customer.transmode')" prop="address" style="width: 100%;">
-                <el-select v-model="customerForm.transMode" :value="customerForm.transMode" placeholder="请选择" style="margin-left: 18px;width: 200px">
-                  <el-option label="x1" value="1"/>
-                  <el-option label="z2" value="2"/>
+                <el-select v-model="customerForm.transMode" :value="customerForm.transMode" placeholder="请选择" style="margin-left: 18px;width: 200px" @focus="getCategory">
+                  <el-option
+                    v-for="(item, index) in transmodes"
+                    :key="index"
+                    :value="item.id"
+                    :label="item.categoryName"/>
                 </el-select>
               </el-form-item>
             </el-col>
             <el-col :span="12">
               <el-form-item :label="$t('Customer.deliverymode')" prop="address" style="width: 100%;">
-                <el-select v-model="customerForm.deliveryMode" :value="customerForm.deliveryMode" placeholder="请选择" style="margin-left: 18px;width: 200px">
-                  <el-option label="p1" value="1"/>
-                  <el-option label="q2" value="2"/>
+                <el-select v-model="customerForm.deliveryMode" :value="customerForm.deliveryMode" placeholder="请选择" style="margin-left: 18px;width: 200px" @focus="getCategory">
+                  <el-option
+                    v-for="(item, index) in deliverymodes"
+                    :key="index"
+                    :value="item.id"
+                    :label="item.categoryName"/>
                 </el-select>
               </el-form-item>
             </el-col>
@@ -219,15 +225,21 @@ export default {
       // 所有客户类型数据
       // 发送参数
       customertypes: [],
-      customertyp: 1,
+      customertyp: 4,
       // 优质级别类型所有数据
       // 发送参数
       levels: [],
-      levelstype: 2,
+      levelstype: 5,
       // 客户来源所有数据
       // 发送参数
       sources: [],
-      sourcestype: 3
+      sourcestype: 7,
+      // 运送方式
+      transmodes: [],
+      transmodedata: 6,
+      // 交货方式
+      deliverymodes: [],
+      deliverymodedata: 8
     }
   },
   watch: {
@@ -250,22 +262,64 @@ export default {
     // 修改操作开始 -------------------------------------------------
     // 获取类型
     getCategory() {
+      // 获取运送方式
+      searchCusCategory(this.deliverymodedata).then(res => {
+        if (res.data.ret === 200) {
+          this.deliverymodes = res.data.data.content.list
+        } else {
+          this.$notify.error({
+            title: '错误',
+            message: '出错了',
+            offset: 100
+          })
+        }
+      })
+      // 获取交货方式
+      searchCusCategory(this.transmodedata).then(res => {
+        if (res.data.ret === 200) {
+          this.transmodes = res.data.data.content.list
+        } else {
+          this.$notify.error({
+            title: '错误',
+            message: '出错了',
+            offset: 100
+          })
+        }
+      })
       // 获取客户类型
       searchCusCategory(this.customertyp).then(res => {
         if (res.data.ret === 200) {
           this.customertypes = res.data.data.content.list
+        } else {
+          this.$notify.error({
+            title: '错误',
+            message: '出错了',
+            offset: 100
+          })
         }
       })
-      // 获取客户优质级别
+      // 获取经销商优质级别
       searchCusCategory(this.levelstype).then(res => {
         if (res.data.ret === 200) {
           this.levels = res.data.data.content.list
+        } else {
+          this.$notify.error({
+            title: '错误',
+            message: '出错了',
+            offset: 100
+          })
         }
       })
-      // 获取客户来源
+      // 获取经销商来源
       searchCusCategory(this.sourcestype).then(res => {
         if (res.data.ret === 200) {
           this.sources = res.data.data.content.list
+        } else {
+          this.$notify.error({
+            title: '错误',
+            message: '出错了',
+            offset: 100
+          })
         }
       })
     },

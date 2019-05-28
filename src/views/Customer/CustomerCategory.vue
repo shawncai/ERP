@@ -7,6 +7,11 @@
         <el-option label="客户类型" value="1"/>
         <el-option label="客户优质级别" value="2"/>
         <el-option label="客户来源" value="3"/>
+        <el-option label="经销商类型" value="4"/>
+        <el-option label="经销商优质级别" value="5"/>
+        <el-option label="运送方式" value="6"/>
+        <el-option label="经销商来源" value="7"/>
+        <el-option label="交货方式" value="8"/>
       </el-select>
       <el-select v-model="getemplist.iseffective" :value="getemplist.iseffective" :placeholder="$t('NewEmployeeInformation.iseffective')" class="filter-item" clearable>
         <el-option label="active " value="1"/>
@@ -39,6 +44,11 @@
               <el-option label="客户类型" value="1"/>
               <el-option label="客户优质级别" value="2"/>
               <el-option label="客户来源" value="3"/>
+              <el-option label="经销商类型" value="4"/>
+              <el-option label="经销商优质级别" value="5"/>
+              <el-option label="运送方式" value="6"/>
+              <el-option label="经销商来源" value="7"/>
+              <el-option label="交货方式" value="8"/>
             </el-select>
           </el-form-item>
           <el-form-item :label="$t('NewEmployeeInformation.iseffective')" label-width="100px" prop="iseffective">
@@ -104,6 +114,11 @@
                 <el-option label="客户类型" value="1"/>
                 <el-option label="客户优质级别" value="2"/>
                 <el-option label="客户来源" value="3"/>
+                <el-option label="经销商类型" value="4"/>
+                <el-option label="经销商优质级别" value="5"/>
+                <el-option label="运送方式" value="6"/>
+                <el-option label="经销商来源" value="7"/>
+                <el-option label="交货方式" value="8"/>
               </el-select>
             </el-form-item>
             <el-form-item :label="$t('NewEmployeeInformation.categoryname')" label-width="100px" prop="categoryName">
@@ -142,7 +157,12 @@ export default {
       const statusMap = {
         1: '客户类型',
         2: '客户优质级别',
-        3: '客户来源'
+        3: '客户来源',
+        4: '经销商类型',
+        5: '经销商优质级别',
+        6: '运送方式',
+        7: '经销商来源',
+        8: '交货方式'
       }
       return statusMap[status]
     },

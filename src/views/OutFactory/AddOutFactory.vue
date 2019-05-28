@@ -9,73 +9,73 @@
             <el-row>
               <el-col :span="6">
                 <el-form-item :label="$t('OutFactory.factoryName')" prop="factoryName" style="width: 100%;">
-                  <el-input v-model="personalForm.factoryName" style="margin-left: 18px" clearable/>
+                  <el-input v-model="personalForm.factoryName" style="margin-left: 18px;width:200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('OutFactory.factoryNumber')" style="width: 100%;">
-                  <el-input v-model="personalForm.factoryNumber" style="margin-left: 18px" clearable/>
+                  <el-input v-model="personalForm.factoryNumber" style="margin-left: 18px;width:200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('OutFactory.factoryFax')" style="width: 100%;">
-                  <el-input v-model="personalForm.factoryFax" style="margin-left: 18px" clearable/>
+                  <el-input v-model="personalForm.factoryFax" style="margin-left: 18px;width:200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('OutFactory.factoryContactName')" style="width: 100%;">
-                  <el-input v-model="personalForm.factoryContactName" style="margin-left: 18px" clearable/>
+                  <el-input v-model="personalForm.factoryContactName" style="margin-left: 18px;width:200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('OutFactory.factoryContactPhone')" style="width: 100%;">
-                  <el-input v-model="personalForm.factoryContactPhone" style="margin-left: 18px" clearable/>
+                  <el-input v-model="personalForm.factoryContactPhone" style="margin-left: 18px;width:200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('OutFactory.taxNumber')" style="width: 100%;">
-                  <el-input v-model="personalForm.taxNumber" style="margin-left: 18px" clearable/>
+                  <el-input v-model="personalForm.taxNumber" style="margin-left: 18px;width:200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('OutFactory.accountName')" style="width: 100%;">
-                  <el-input v-model="personalForm.accountName" style="margin-left: 18px" clearable/>
+                  <el-input v-model="personalForm.accountName" style="margin-left: 18px;width:200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('OutFactory.bankName')" style="width: 100%;">
-                  <el-input v-model="personalForm.bankName" style="margin-left: 18px" clearable/>
+                  <el-input v-model="personalForm.bankName" style="margin-left: 18px;width:200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('OutFactory.account')" style="width: 100%;">
-                  <el-input v-model="personalForm.account" style="margin-left: 18px" clearable/>
+                  <el-input v-model="personalForm.account" style="margin-left: 18px;width:200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('OutFactory.businessRegisterNumber')" style="width: 100%;">
-                  <el-input v-model="personalForm.businessRegisterNumber" style="margin-left: 18px" clearable/>
+                  <el-input v-model="personalForm.businessRegisterNumber" style="margin-left: 18px;width:200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('OutFactory.productionLicense')" style="width: 100%;">
-                  <el-input v-model="personalForm.productionLicense" style="margin-left: 18px" clearable/>
+                  <el-input v-model="personalForm.productionLicense" style="margin-left: 18px;width:200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('OutFactory.unitAddress')" style="width: 100%;">
-                  <el-input v-model="personalForm.unitAddress" style="margin-left: 18px" clearable/>
+                  <el-input v-model="personalForm.unitAddress" style="margin-left: 18px;width:200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('OutFactory.unitEmail')" style="width: 100%;">
-                  <el-input v-model="personalForm.unitEmail" style="margin-left: 18px" clearable/>
+                  <el-input v-model="personalForm.unitEmail" style="margin-left: 18px;width:200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('OutFactory.stat')" style="width: 100%;">
-                  <el-radio-group v-model="personalForm.stat" style="width:277px;margin-left: 18px">
-                    <el-radio :label="1" style="width: 120px">启用</el-radio>
+                  <el-radio-group v-model="personalForm.stat" style="width:200px;margin-left: 18px">
+                    <el-radio :label="1" style="width: 100px">启用</el-radio>
                     <el-radio :label="2">停用</el-radio>
                   </el-radio-group>
                 </el-form-item>
@@ -91,18 +91,18 @@
             <el-row>
               <el-col :span="6">
                 <el-form-item :label="$t('OutFactory.receiverId')" style="width: 100%;">
-                  <el-input v-model="receiverId" style="margin-left: 18px" clearable @focus="handlechooseStock"/>
+                  <el-input v-model="receiverId" style="margin-left: 18px;width:200px" clearable @focus="handlechooseStock"/>
                   <my-delivery :deliverycontrol.sync="stockControl" @deliveryName="stockName"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('OutFactory.receivePlaceCode')" style="width: 100%;">
-                  <el-input v-model="personalForm.receivePlaceCode" style="margin-left: 18px" clearable/>
+                  <el-input v-model="personalForm.receivePlaceCode" style="margin-left: 18px;width:200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('OutFactory.countryId')" style="width: 100%;">
-                  <el-select v-model="personalForm.countryId" style="margin-left: 18px;width: 218px" @change ="handlechange" @focus="updatecountry">
+                  <el-select v-model="personalForm.countryId" style="margin-left: 18px;width: 200px" @change ="handlechange" @focus="updatecountry">
                     <el-option
                       v-for="(item, index) in nations"
                       :key="index"
@@ -113,7 +113,7 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('OutFactory.provinceId')" style="width: 100%;">
-                  <el-select v-model="personalForm.provinceId" style="margin-left: 18px;width: 218px" @change="handlechange2">
+                  <el-select v-model="personalForm.provinceId" style="margin-left: 18px;width: 200px" @change="handlechange2">
                     <el-option
                       v-for="(item, index) in provinces"
                       :key="index"
@@ -124,7 +124,7 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('OutFactory.cityId')" style="width: 100%;">
-                  <el-select v-model="personalForm.cityId" style="margin-left: 18px;width: 218px">
+                  <el-select v-model="personalForm.cityId" style="margin-left: 18px;width: 200px">
                     <el-option
                       v-for="(item, index) in cities"
                       :key="index"
@@ -143,18 +143,18 @@
                     change-on-select
                     filterable
                     clearable
-                    style="margin-left: 18px;width: 218px"
+                    style="margin-left: 18px;width: 200px"
                   />
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('OutFactory.receiverPhone')" style="width: 100%;">
-                  <el-input v-model="personalForm.receiverPhone" style="margin-left: 18px" clearable/>
+                  <el-input v-model="personalForm.receiverPhone" style="margin-left: 18px;width:200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('OutFactory.receiverAddress')" style="width: 100%;">
-                  <el-input v-model="personalForm.receiverAddress" style="margin-left: 18px" clearable/>
+                  <el-input v-model="personalForm.receiverAddress" style="margin-left: 18px;width:200px" clearable/>
                 </el-form-item>
               </el-col>
             </el-row>

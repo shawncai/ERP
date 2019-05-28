@@ -9,25 +9,25 @@
             <el-row>
               <el-col :span="6">
                 <el-form-item :label="$t('CheckFail.title')" style="width: 100%;">
-                  <el-input v-model="personalForm.title" style="margin-left: 18px" clearable/>
+                  <el-input v-model="personalForm.title" style="margin-left: 18px;width:200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('CheckFail.sourceType')" prop="sourceType" style="width: 100%;">
-                  <el-select v-model="personalForm.sourceType" style="margin-left: 18px;width: 218px">
+                  <el-select v-model="personalForm.sourceType" style="margin-left: 18px;width: 200px">
                     <el-option value="1" label="质检报告单" />
                   </el-select>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('CheckFail.sourceNumber')" prop="sourceNumber" style="width: 100%;">
-                  <el-input v-model="personalForm.sourceNumber" style="margin-left: 18px" clearable @focus="chooseNumber"/>
+                  <el-input v-model="personalForm.sourceNumber" style="margin-left: 18px;width:200px" clearable @focus="chooseNumber"/>
                   <my-report :reportcontrol.sync="reportcontrol" @allreportinfo="allreportinfo"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('CheckFail.handlePersonId')" prop="handlePersonId" style="width: 100%;">
-                  <el-input v-model="handlePersonId" style="margin-left: 18px" clearable @focus="handlechooseStock"/>
+                  <el-input v-model="handlePersonId" style="margin-left: 18px;width:200px" clearable @focus="handlechooseStock"/>
                   <my-emp :control.sync="stockControl" @stockName="stockName"/>
                 </el-form-item>
               </el-col>
@@ -37,7 +37,7 @@
                     v-model="personalForm.handleDate"
                     type="date"
                     value-format="yyyy-MM-dd"
-                    style="margin-left: 18px"/>
+                    style="margin-left: 18px;width:200px"/>
                 </el-form-item>
               </el-col>
             </el-row>
@@ -52,27 +52,27 @@
             <el-row>
               <el-col :span="6">
                 <el-form-item :label="$t('CheckFail.productCode')" prop="productCode" style="width: 100%;">
-                  <el-input v-model="personalForm.productCode" style="margin-left: 18px" disabled/>
+                  <el-input v-model="personalForm.productCode" style="margin-left: 18px;width:200px" disabled/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('CheckFail.productName')" style="width: 100%;">
-                  <el-input v-model="personalForm.productName" style="margin-left: 18px" disabled/>
+                  <el-input v-model="personalForm.productName" style="margin-left: 18px;width:200px" disabled/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('CheckFail.unit')" style="width: 100%;">
-                  <el-input v-model="personalForm.unit" style="margin-left: 18px" disabled/>
+                  <el-input v-model="personalForm.unit" style="margin-left: 18px;width:200px" disabled/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('CheckFail.typeId')" style="width: 100%;">
-                  <el-input v-model="personalForm.typeId" style="margin-left: 18px" disabled/>
+                  <el-input v-model="personalForm.typeId" style="margin-left: 18px;width:200px" disabled/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('CheckFail.failedQuantity')" style="width: 100%;">
-                  <el-input v-model="personalForm.failedQuantity" style="margin-left: 18px"/>
+                  <el-input v-model="personalForm.failedQuantity" style="margin-left: 18px;width:200px"/>
                 </el-form-item>
               </el-col>
             </el-row>

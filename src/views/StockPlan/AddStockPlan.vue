@@ -9,12 +9,12 @@
             <el-row>
               <el-col :span="6">
                 <el-form-item :label="$t('StockPlan.title')" style="width: 100%;">
-                  <el-input v-model="personalForm.title" style="margin-left: 18px" clearable/>
+                  <el-input v-model="personalForm.title" style="margin-left: 18px;width:200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('StockPlan.stockType')" prop="stockType" style="width: 100%;">
-                  <el-select v-model="personalForm.stockType" style="margin-left: 18px;width: 218px" @focus="updatecountry" @change="change()">
+                  <el-select v-model="personalForm.stockType" style="margin-left: 18px;width: 200px" @focus="updatecountry" @change="change()">
                     <el-option
                       v-for="(item, index) in types"
                       :key="index"
@@ -25,19 +25,19 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('StockPlan.planPersonId')" prop="planPersonId" style="width: 100%;">
-                  <el-input v-model="planPersonId" style="margin-left: 18px" @focus="handlechooseStock"/>
+                  <el-input v-model="planPersonId" style="margin-left: 18px;width:200px" @focus="handlechooseStock"/>
                   <my-emp :control.sync="stockControl" @stockName="stockName"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('StockPlan.stockPersonId')" prop="stockPersonId" style="width: 100%;">
-                  <el-input v-model="stockPersonId" style="margin-left: 18px" @focus="handlechooseDelivery"/>
+                  <el-input v-model="stockPersonId" style="margin-left: 18px;width:200px" @focus="handlechooseDelivery"/>
                   <my-delivery :deliverycontrol.sync="deliverycontrol" @deliveryName="deliveryName"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('StockPlan.stockDeptId')" prop="stockDeptId" style="width: 100%;">
-                  <el-select v-model="personalForm.stockDeptId" style="margin-left: 18px;width: 218px" @change="change()">
+                  <el-select v-model="personalForm.stockDeptId" style="margin-left: 18px;width: 200px" @change="change()">
                     <el-option
                       v-for="(item, index) in depts"
                       :key="index"
@@ -48,7 +48,7 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('StockPlan.sourceType')" style="width: 100%;">
-                  <el-select v-model="personalForm.sourceType" style="margin-left: 18px;width: 218px" @change="chooseType">
+                  <el-select v-model="personalForm.sourceType" style="margin-left: 18px;width: 200px" @change="chooseType">
                     <el-option value="1" label="采购申请" />
                     <el-option value="2" label="采购需求" />
                     <el-option value="3" label="无来源" />
@@ -62,7 +62,7 @@
                     :picker-options="pickerOptions1"
                     type="date"
                     value-format="yyyy-MM-dd"
-                    style="margin-left: 18px"/>
+                    style="margin-left: 18px;width:200px"/>
                 </el-form-item>
               </el-col>
             </el-row>
@@ -192,12 +192,12 @@
             <el-row>
               <el-col :span="6">
                 <el-form-item :label="$t('StockPlan.heji1')" style="width: 100%;">
-                  <el-input v-model="personalForm.allMoney" style="margin-left: 18px" disabled/>
+                  <el-input v-model="personalForm.allMoney" style="margin-left: 18px;width:200px" disabled/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('StockPlan.heji2')" style="width: 100%;">
-                  <el-input v-model="personalForm.totalQuantity" style="margin-left: 18px" disabled/>
+                  <el-input v-model="personalForm.totalQuantity" style="margin-left: 18px;width:200px" disabled/>
                 </el-form-item>
               </el-col>
             </el-row>

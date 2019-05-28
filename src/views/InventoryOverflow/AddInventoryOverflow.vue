@@ -9,18 +9,18 @@
             <el-row>
               <el-col :span="6">
                 <el-form-item :label="$t('InventoryOverflow.title')" prop="title" style="width: 100%;">
-                  <el-input v-model="personalForm.title" placeholder="请输入报溢单主题" style="margin-left: 18px" clearable/>
+                  <el-input v-model="personalForm.title" placeholder="请输入报溢单主题" style="margin-left: 18px;width:200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('InventoryOverflow.handlePersonId')" prop="handlePersonId" style="width: 100%;">
-                  <el-input v-model="handlePersonId" placeholder="请选择经办人" style="margin-left: 18px" clearable @focus="handlechoose"/>
+                  <el-input v-model="handlePersonId" placeholder="请选择经办人" style="margin-left: 18px;width:200px" clearable @focus="handlechoose"/>
                 </el-form-item>
                 <my-create :createcontrol.sync="createcontrol" @createname="createname"/>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('InventoryOverflow.overflowDeptId')" style="width: 100%;">
-                  <el-select v-model="personalForm.overflowDeptId" placeholder="请选择报溢部门" style="margin-left: 18px;width: 218px" clearable >
+                  <el-select v-model="personalForm.overflowDeptId" placeholder="请选择报溢部门" style="margin-left: 18px;width: 200px" clearable >
                     <el-option
                       v-for="(item, index) in depts"
                       :key="index"
@@ -31,13 +31,13 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('InventoryOverflow.overflowRepositoryId')" prop="overflowRepositoryId" style="width: 100%;">
-                  <el-input v-model="overflowRepositoryId" placeholder="请选择报溢仓库" style="margin-left: 18px" clearable @focus="handlechooseRep"/>
+                  <el-input v-model="overflowRepositoryId" placeholder="请选择报溢仓库" style="margin-left: 18px;width:200px" clearable @focus="handlechooseRep"/>
                 </el-form-item>
                 <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('InventoryOverflow.summary')" prop="summary" style="width: 100%;">
-                  <el-input v-model="personalForm.summary" placeholder="请输入摘要" style="margin-left: 18px" clearable/>
+                  <el-input v-model="personalForm.summary" placeholder="请输入摘要" style="margin-left: 18px;width:200px" clearable/>
                 </el-form-item>
               </el-col>
             </el-row>

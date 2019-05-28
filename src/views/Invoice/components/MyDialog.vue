@@ -87,7 +87,7 @@
               <el-col :span="12">
                 <el-form-item :label="$t('Invoice.isCheckin')" style="width: 100%;">
                   <el-radio-group v-model="personalForm.isCheckin" style="margin-left: 18px;width: 200px">
-                    <el-radio :label="1" style="width: 120px">是</el-radio>
+                    <el-radio :label="1" style="width: 100px">是</el-radio>
                     <el-radio :label="2">否</el-radio>
                   </el-radio-group>
                 </el-form-item>

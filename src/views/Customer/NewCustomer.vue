@@ -23,15 +23,15 @@
               <el-radio :label="2">{{ $t('public.female') }}</el-radio>
             </el-radio-group>
           </el-form-item>
-          <el-form-item :label="$t('Customer.customertype')" style="width: 40%;margin-top: 1%">
-            <el-select v-model="customerForm.customertype" :value="customerForm.customertype" placeholder="请选择客户类型" style="width: 100%;">
-              <el-option
-                v-for="(item, index) in customertypes"
-                :key="index"
-                :value="item.id"
-                :label="item.categoryName"/>
-            </el-select>
-          </el-form-item>
+          <!--<el-form-item :label="$t('Customer.customertype2')" style="width: 40%;margin-top: 1%">-->
+          <!--<el-select v-model="customerForm.customertype" :value="customerForm.customertype" placeholder="请选择客户类型" style="width: 100%;">-->
+          <!--<el-option-->
+          <!--v-for="(item, index) in customertypes"-->
+          <!--:key="index"-->
+          <!--:value="item.id"-->
+          <!--:label="item.categoryName"/>-->
+          <!--</el-select>-->
+          <!--</el-form-item>-->
           <el-form-item :label="$t('Customer.level')" style="width: 40%;margin-top: 1%">
             <el-select v-model="customerForm.level" :value="customerForm.level" placeholder="请选择客户优质级别" style="width: 100%;">
               <el-option

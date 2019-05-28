@@ -120,7 +120,7 @@
             <el-row>
               <el-col :span="6">
                 <el-form-item :label="$t('CheckReport.productCode')" prop="productCode" style="width: 100%;">
-                  <el-input v-model="personalForm.productCode" style="margin-left: 18px" @focus="handlemater"/>
+                  <el-input v-model="personalForm.productCode" style="margin-left: 18px;width:200px" @focus="handlemater"/>
                   <my-mater :matercontrol.sync="matercontrol" @mater="mater"/>
                   <detail-report :reportcontrol.sync="reportcontrol" :reportdata.sync="reportdata" @report="report"/>
                   <detail-report2 :reportcontrol2.sync="reportcontrol2" :reportdata2.sync="reportdata2" @report2="report2"/>
@@ -129,17 +129,17 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('CheckReport.productName')" style="width: 100%;">
-                  <el-input v-model="personalForm.productName" style="margin-left: 18px" disabled/>
+                  <el-input v-model="personalForm.productName" style="margin-left: 18px;width:200px" disabled/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('CheckReport.unit')" style="width: 100%;">
-                  <el-input v-model="personalForm.unit" style="margin-left: 18px" disabled/>
+                  <el-input v-model="personalForm.unit" style="margin-left: 18px;width:200px" disabled/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('CheckReport.typeId')" style="width: 100%;">
-                  <el-input v-model="typeId" style="margin-left: 18px" disabled/>
+                  <el-input v-model="typeId" style="margin-left: 18px;width:200px" disabled/>
                 </el-form-item>
               </el-col>
             </el-row>
@@ -153,38 +153,38 @@
             <el-row>
               <el-col :span="6">
                 <el-form-item :label="$t('CheckReport.checkQuantity')" prop="checkQuantity" style="width: 100%;">
-                  <el-input v-model="personalForm.checkQuantity" style="margin-left: 18px" clearable/>
+                  <el-input v-model="personalForm.checkQuantity" style="margin-left: 18px;width:200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('CheckReport.sampleQuantity')" prop="sampleQuantity" style="width: 100%;">
-                  <el-input v-model="personalForm.sampleQuantity" style="margin-left: 18px" clearable/>
+                  <el-input v-model="personalForm.sampleQuantity" style="margin-left: 18px;width:200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('CheckReport.passQuantity')" prop="passQuantity" style="width: 100%;">
-                  <el-input v-model="personalForm.passQuantity" style="margin-left: 18px" clearable/>
+                  <el-input v-model="personalForm.passQuantity" style="margin-left: 18px;width:200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('CheckReport.failedQuantity')" style="width: 100%;">
-                  <el-input v-model="personalForm.failedQuantity" style="margin-left: 18px" clearable/>
+                  <el-input v-model="personalForm.failedQuantity" style="margin-left: 18px;width:200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('CheckReport.passRate')" style="width: 100%;">
-                  <el-input v-model="personalForm.passRate" style="margin-left: 18px" clearable/>
+                  <el-input v-model="personalForm.passRate" style="margin-left: 18px;width:200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('CheckReport.checkResult')" style="width: 100%;">
-                  <el-input v-model="personalForm.checkResult" style="margin-left: 18px" clearable/>
+                  <el-input v-model="personalForm.checkResult" style="margin-left: 18px;width:200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('CheckReport.isRecheck')" style="width: 100%;">
-                  <el-radio-group v-model="personalForm.isRecheck" style="margin-left: 18px">
-                    <el-radio :label="1" style="width: 120px">是</el-radio>
+                  <el-radio-group v-model="personalForm.isRecheck" style="margin-left: 18px;width:200px">
+                    <el-radio :label="1" style="width: 100px">是</el-radio>
                     <el-radio :label="2">否</el-radio>
                   </el-radio-group>
                 </el-form-item>

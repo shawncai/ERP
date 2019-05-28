@@ -14,7 +14,7 @@
                     :picker-options="pickerOptions0"
                     type="date"
                     value-format="yyyy-MM-dd"
-                    style="margin-left: 18px"
+                    style="margin-left: 18px;width:200px"
                     @change="cleardeposit"/>
                 </el-form-item>
               </el-col>
@@ -25,13 +25,13 @@
                     :picker-options="pickerOptions1"
                     type="date"
                     value-format="yyyy-MM-dd"
-                    style="margin-left: 18px"/>
+                    style="margin-left: 18px;width:200px"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('Advancemanage.isSale')" style="width: 100%;">
-                  <el-radio-group v-model="personalForm.isSale" style="margin-left: 18px">
-                    <el-radio :label="1" style="width: 120px">是</el-radio>
+                  <el-radio-group v-model="personalForm.isSale" style="margin-left: 18px;width:200px">
+                    <el-radio :label="1" style="width: 100px">是</el-radio>
                     <el-radio :label="2">否</el-radio>
                   </el-radio-group>
                 </el-form-item>
@@ -43,7 +43,7 @@
                     :picker-options="pickerOptions2"
                     type="date"
                     value-format="yyyy-MM-dd"
-                    style="margin-left: 18px"
+                    style="margin-left: 18px;width:200px"
                     @change="clearfinal"/>
                 </el-form-item>
               </el-col>
@@ -54,7 +54,7 @@
                     :picker-options="pickerOptions3"
                     type="date"
                     value-format="yyyy-MM-dd"
-                    style="margin-left: 18px"/>
+                    style="margin-left: 18px;width:200px"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
@@ -63,21 +63,21 @@
                     v-model="personalForm.advanceEndtime"
                     type="date"
                     value-format="yyyy-MM-dd"
-                    style="margin-left: 18px"/>
+                    style="margin-left: 18px;width:200px"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('Advancemanage.advanceMode')" style="width: 100%;">
-                  <el-radio-group v-model="personalForm.advanceMode" style="margin-left: 18px">
-                    <el-radio :label="1" style="width: 120px">一口价</el-radio>
+                  <el-radio-group v-model="personalForm.advanceMode" style="margin-left: 18px;width:200px">
+                    <el-radio :label="1" style="width: 100px">一口价</el-radio>
                     <el-radio :label="2">阶梯价</el-radio>
                   </el-radio-group>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('Advancemanage.advanceStat')" style="width: 100%;">
-                  <el-radio-group v-model="personalForm.advanceStat" style="margin-left: 18px">
-                    <el-radio :label="1" style="width: 120px">开启</el-radio>
+                  <el-radio-group v-model="personalForm.advanceStat" style="margin-left: 18px;width:200px">
+                    <el-radio :label="1" style="width: 100px">开启</el-radio>
                     <el-radio :label="2">暂不开启</el-radio>
                   </el-radio-group>
                 </el-form-item>

@@ -9,7 +9,7 @@
             <el-input v-model="customerForm.agentname" placeholder="请输入供货商名" clearable/>
           </el-form-item>
           <el-form-item :label="$t('Customer.customertype')" prop="type" style="width: 40%;margin-top: 1%">
-            <el-select v-model="customerForm.type" :value="customerForm.type" placeholder="请选择客户类型" style="width: 100%;" @focus="updateType">
+            <el-select v-model="customerForm.type" :value="customerForm.type" placeholder="请选择经销商类型" style="width: 100%;" @focus="getCategory">
               <el-option
                 v-for="(item, index) in customertypes"
                 :key="index"
@@ -17,8 +17,8 @@
                 :label="item.categoryName"/>
             </el-select>
           </el-form-item>
-          <el-form-item :label="$t('Customer.level')" style="width: 40%;margin-top: 1%">
-            <el-select v-model="customerForm.level" :value="customerForm.level" placeholder="请选择客户优质级别" style="width: 100%;" @focus="updateLevel">
+          <el-form-item :label="$t('Customer.level2')" style="width: 40%;margin-top: 1%">
+            <el-select v-model="customerForm.level" :value="customerForm.level" placeholder="请选择经销商优质级别" style="width: 100%;" @focus="getCategory">
               <el-option
                 v-for="(item, index) in levels"
                 :key="index"
@@ -29,8 +29,8 @@
           <el-form-item :label="$t('Customer.pinyin')" style="width: 40%;margin-top: 1%">
             <el-input v-model="customerForm.pinyin" placeholder="请输入拼音缩写" clearable/>
           </el-form-item>
-          <el-form-item :label="$t('Customer.source')" style="width: 40%;margin-top: 1%">
-            <el-select v-model="customerForm.source" :value="customerForm.source" placeholder="请选择客户来源" style="width: 100%;" @focus="updateSource">
+          <el-form-item :label="$t('Customer.source2')" style="width: 40%;margin-top: 1%">
+            <el-select v-model="customerForm.source" :value="customerForm.source" placeholder="请选择客户来源" style="width: 100%;" @focus="getCategory">
               <el-option
                 v-for="(item, index) in sources"
                 :key="index"
@@ -89,15 +89,21 @@
           </el-form-item>
           <my-emp :control.sync="empcontrol" @personName="personName"/>
           <el-form-item :label="$t('Customer.transmode')" prop="address" style="width: 40%;margin-top:1%">
-            <el-select v-model="customerForm.transmode" :value="customerForm.transmode" placeholder="请选择" style="width: 100%;">
-              <el-option label="x1" value="1"/>
-              <el-option label="z2" value="2"/>
+            <el-select v-model="customerForm.transmode" :value="customerForm.transmode" placeholder="请选择" style="width: 100%;" @focus="getCategory">
+              <el-option
+                v-for="(item, index) in transmodes"
+                :key="index"
+                :value="item.id"
+                :label="item.categoryName"/>
             </el-select>
           </el-form-item>
           <el-form-item :label="$t('Customer.deliverymode')" prop="address" style="width: 40%;margin-top:1%">
-            <el-select v-model="customerForm.deliverymode" :value="customerForm.deliverymode" placeholder="请选择" style="width: 100%;">
-              <el-option label="p1" value="1"/>
-              <el-option label="q2" value="2"/>
+            <el-select v-model="customerForm.deliverymode" :value="customerForm.deliverymode" placeholder="请选择" style="width: 100%;" @focus="getCategory">
+              <el-option
+                v-for="(item, index) in deliverymodes"
+                :key="index"
+                :value="item.id"
+                :label="item.categoryName"/>
             </el-select>
           </el-form-item>
           <el-form-item :label="$t('Customer.address2')" prop="address" style="width: 40%;margin-top:1%">
@@ -193,15 +199,21 @@ export default {
       // 所有客户类型数据
       // 发送参数
       customertypes: [],
-      customertyp: 1,
+      customertyp: 4,
       // 优质级别类型所有数据
       // 发送参数
       levels: [],
-      levelstype: 2,
+      levelstype: 5,
       // 客户来源所有数据
       // 发送参数
       sources: [],
-      sourcestype: 3
+      sourcestype: 7,
+      // 运送方式
+      transmodes: [],
+      transmodedata: 6,
+      // 交货方式
+      deliverymodes: [],
+      deliverymodedata: 8
     }
   },
   created() {
@@ -212,6 +224,30 @@ export default {
     checkPermission,
     // 获取类型
     getCategory() {
+      // 获取运送方式
+      searchCusCategory(this.deliverymodedata).then(res => {
+        if (res.data.ret === 200) {
+          this.deliverymodes = res.data.data.content.list
+        } else {
+          this.$notify.error({
+            title: '错误',
+            message: '出错了',
+            offset: 100
+          })
+        }
+      })
+      // 获取交货方式
+      searchCusCategory(this.transmodedata).then(res => {
+        if (res.data.ret === 200) {
+          this.transmodes = res.data.data.content.list
+        } else {
+          this.$notify.error({
+            title: '错误',
+            message: '出错了',
+            offset: 100
+          })
+        }
+      })
       // 获取客户类型
       searchCusCategory(this.customertyp).then(res => {
         if (res.data.ret === 200) {
@@ -224,7 +260,7 @@ export default {
           })
         }
       })
-      // 获取客户优质级别
+      // 获取经销商优质级别
       searchCusCategory(this.levelstype).then(res => {
         if (res.data.ret === 200) {
           this.levels = res.data.data.content.list
@@ -236,7 +272,7 @@ export default {
           })
         }
       })
-      // 获取客户来源
+      // 获取经销商来源
       searchCusCategory(this.sourcestype).then(res => {
         if (res.data.ret === 200) {
           this.sources = res.data.data.content.list
@@ -410,16 +446,6 @@ export default {
       const view = { path: '/Customer/NewAgent', name: 'NewAgent', fullPath: '/Customer/NewAgent', title: 'NewAgent' }
       this.$store.dispatch('delView', view).then(({ visitedViews }) => {
       })
-    },
-    // focus 更新
-    updateType() {
-      this.getCategory()
-    },
-    updateLevel() {
-      this.getCategory()
-    },
-    updateSource() {
-      this.getCategory()
     }
   }
 }

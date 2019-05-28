@@ -73,8 +73,8 @@
             </el-col>
             <el-col :span="12">
               <el-form-item :label="$t('OutFactory.stat')" style="width: 100%;">
-                <el-radio-group v-model="personalForm.stat" style="width:277px;margin-left: 18px">
-                  <el-radio :label="1" style="width: 120px">启用</el-radio>
+                <el-radio-group v-model="personalForm.stat" style="width:200px;margin-left: 18px">
+                  <el-radio :label="1" style="width: 100px">启用</el-radio>
                   <el-radio :label="2">停用</el-radio>
                 </el-radio-group>
               </el-form-item>

@@ -9,12 +9,12 @@
             <el-row>
               <el-col :span="6">
                 <el-form-item :label="$t('SaleOpportunity.title')" prop="title" style="width: 100%;">
-                  <el-input v-model="personalForm.title" style="margin-left: 18px" clearable/>
+                  <el-input v-model="personalForm.title" style="margin-left: 18px;width:200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('SaleOpportunity.opportunityType')" prop="opportunityType" style="width: 100%;">
-                  <el-select v-model="personalForm.opportunityType" style="margin-left: 18px;width: 218px" @focus="getTypes">
+                  <el-select v-model="personalForm.opportunityType" style="margin-left: 18px;width: 200px" @focus="getTypes">
                     <el-option
                       v-for="(item, index) in opportunityTypes"
                       :value="item.id"
@@ -26,7 +26,7 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('SaleOpportunity.customerType')" prop="customerType" style="width: 100%;">
-                  <el-select v-model="personalForm.customerType" style="margin-left: 18px;width: 218px" @change="clearCustomer">
+                  <el-select v-model="personalForm.customerType" style="margin-left: 18px;width: 200px" @change="clearCustomer">
                     <el-option value="1" label="经销商"/>
                     <el-option value="2" label="零售"/>
                   </el-select>
@@ -34,17 +34,17 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('SaleOpportunity.customerName')" prop="customerName" style="width: 100%;">
-                  <el-input v-model="personalForm.customerName" style="margin-left: 18px;width: 218px"/>
+                  <el-input v-model="personalForm.customerName" style="margin-left: 18px;width: 200px"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('SaleOpportunity.customerPhone')" style="width: 100%;">
-                  <el-input v-model="personalForm.customerPhone" style="margin-left: 18px" clearable/>
+                  <el-input v-model="personalForm.customerPhone" style="margin-left: 18px;width:200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('SaleOpportunity.opportunitySource')" style="width: 100%;">
-                  <el-select v-model="personalForm.opportunitySource" style="margin-left: 18px;width: 218px" @focus="getTypes">
+                  <el-select v-model="personalForm.opportunitySource" style="margin-left: 18px;width: 200px" @focus="getTypes">
                     <el-option
                       v-for="(item, index) in opportunitySources"
                       :value="item.id"
@@ -56,23 +56,23 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('SaleOpportunity.handlePersonId')" prop="handlePersonId" style="width: 100%;">
-                  <el-input v-model="handlePersonId" style="margin-left: 18px" clearable @focus="handlechooseStock"/>
+                  <el-input v-model="handlePersonId" style="margin-left: 18px;width:200px" clearable @focus="handlechooseStock"/>
                   <my-emp :control.sync="stockControl" @stockName="stockName"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('SaleOpportunity.deptId')" style="width: 100%;">
-                  <el-input v-model="deptId" style="margin-left: 18px;width: 218px" disabled/>
+                  <el-input v-model="deptId" style="margin-left: 18px;width: 200px" disabled/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('SaleOpportunity.handleRepositoryId')" style="width: 100%;">
-                  <el-input v-model="handleRepositoryId" style="margin-left: 18px;width: 218px" disabled/>
+                  <el-input v-model="handleRepositoryId" style="margin-left: 18px;width: 200px" disabled/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('SaleOpportunity.isSale')" prop="isSale" style="width: 100%;">
-                  <el-select v-model="personalForm.isSale" style="margin-left: 18px;width: 218px">
+                  <el-select v-model="personalForm.isSale" style="margin-left: 18px;width: 200px">
                     <el-option value="1" label="跟进中"/>
                     <el-option value="2" label="销售成功"/>
                   </el-select>

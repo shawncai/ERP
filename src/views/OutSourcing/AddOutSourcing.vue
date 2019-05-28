@@ -9,29 +9,29 @@
             <el-row>
               <el-col :span="6">
                 <el-form-item :label="$t('OutSourcing.title')" style="width: 100%;">
-                  <el-input v-model="personalForm.title" style="margin-left: 18px" clearable/>
+                  <el-input v-model="personalForm.title" style="margin-left: 18px;width:200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('OutSourcing.personId')" prop="personId" style="width: 100%;">
-                  <el-input v-model="personId" style="margin-left: 18px" clearable @focus="handlechooseStock"/>
+                  <el-input v-model="personId" style="margin-left: 18px;width:200px" clearable @focus="handlechooseStock"/>
                 </el-form-item>
                 <my-delivery :deliverycontrol.sync="stockControl" @deliveryName="stockName"/>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('OutSourcing.taxRate')" style="width: 100%;">
-                  <el-input v-model="personalForm.taxRate" style="margin-left: 18px" clearable/>
+                  <el-input v-model="personalForm.taxRate" style="margin-left: 18px;width:200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('OutSourcing.outFactoryId')" prop="outFactoryId" style="width: 100%;">
-                  <el-input v-model="outFactoryId" style="margin-left: 18px" clearable @focus="chooseFactory"/>
+                  <el-input v-model="outFactoryId" style="margin-left: 18px;width:200px" clearable @focus="chooseFactory"/>
                 </el-form-item>
                 <my-factory :factorycontrol.sync="factorycontrol" @factoryName="factoryName"/>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('OutSourcing.paymentAgreementId')" style="width: 100%;">
-                  <el-select v-model="personalForm.paymentAgreementId" style="margin-left: 18px;width: 218px">
+                  <el-select v-model="personalForm.paymentAgreementId" style="margin-left: 18px;width: 200px">
                     <el-option value="1" label="付款1"/>
                     <el-option value="2" label="付款2"/>
                   </el-select>
@@ -44,7 +44,7 @@
                     type="date"
                     placeholder="期限"
                     value-format="yyyy-MM-dd"
-                    style="margin-left: 18px"/>
+                    style="margin-left: 18px;width:200px"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
@@ -54,7 +54,7 @@
                     type="date"
                     placeholder="生产日期"
                     value-format="yyyy-MM-dd"
-                    style="margin-left: 18px"/>
+                    style="margin-left: 18px;width:200px"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
@@ -64,12 +64,12 @@
                     type="date"
                     placeholder="完成日期"
                     value-format="yyyy-MM-dd"
-                    style="margin-left: 18px"/>
+                    style="margin-left: 18px;width:200px"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('OutSourcing.billingTypeId')" style="width: 100%;">
-                  <el-select v-model="personalForm.billingTypeId" style="margin-left: 18px;width: 218px">
+                  <el-select v-model="personalForm.billingTypeId" style="margin-left: 18px;width: 200px">
                     <el-option value="1" label="普通发票"/>
                     <el-option value="2" label="付款2"/>
                   </el-select>
@@ -77,7 +77,7 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('OutSourcing.giveAddress')" style="width: 100%;">
-                  <el-input v-model="personalForm.giveAddress" style="margin-left: 18px" disabled/>
+                  <el-input v-model="personalForm.giveAddress" style="margin-left: 18px;width:200px" disabled/>
                 </el-form-item>
               </el-col>
             </el-row>
@@ -91,7 +91,7 @@
             <el-row>
               <el-col :span="6">
                 <el-form-item :label="$t('OutSourcing.heji')" style="width: 100%;">
-                  <el-input v-model="heji" style="margin-left: 18px" disabled/>
+                  <el-input v-model="heji" style="margin-left: 18px;width:200px" disabled/>
                 </el-form-item>
               </el-col>
             </el-row>

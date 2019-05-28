@@ -9,23 +9,23 @@
             <el-row>
               <el-col :span="6">
                 <el-form-item :label="$t('Product.productname')" prop="productname" style="width: 100%;">
-                  <el-input v-model="personalForm.productname" style="margin-left: 18px" placeholder="请输入产品名称" clearable/>
+                  <el-input v-model="personalForm.productname" style="margin-left: 18px;width:200px" placeholder="请输入产品名称" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('Product.categoryid')" prop="categoryid" style="width: 100%;">
-                  <el-input v-model="categoryid" style="margin-left: 18px;width: 218px" placeholder="请选择物品分类" @focus="treechoose"/>
+                  <el-input v-model="categoryid" style="margin-left: 18px;width: 200px" placeholder="请选择物品分类" @focus="treechoose"/>
                   <my-tree :treecontrol.sync="treecontrol" @tree="tree" @finder="finder"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('Product.barcode')" style="width: 100%;">
-                  <el-input v-model="personalForm.barcode" style="margin-left: 18px" placeholder="请输入条码" clearable/>
+                  <el-input v-model="personalForm.barcode" style="margin-left: 18px;width:200px" placeholder="请输入条码" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('Product.typeid')" :rules="personalForm.categoryid === 3 || personalForm.categoryid === '' ? personalrules.typeid:[{ required: true, message: '请选择车辆型号', trigger: 'change' }]" prop="typeid" style="width: 100%;">
-                  <el-select v-model="typeid" :disabled="personalForm.categoryid === 3 || personalForm.categoryid === ''" value-key="id" style="margin-left: 18px;width: 218px" placeholder="请选择车辆型号" clearable @change="type($event)" @focus="updatecate">
+                  <el-select v-model="typeid" :disabled="personalForm.categoryid === 3 || personalForm.categoryid === ''" value-key="id" style="margin-left: 18px;width: 200px" placeholder="请选择车辆型号" clearable @change="type($event)" @focus="updatecate">
                     <el-option
                       v-for="(item, index) in types"
                       :key="index"
@@ -37,7 +37,7 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('Product.disposeId')" :rules="personalForm.categoryid === 3 || personalForm.categoryid === '' || personalForm.categoryid === 2 ? personalrules.disposeId:[{ required: true, message: '请选择配置', trigger: 'change' }]" prop="disposeId" style="width: 100%;">
-                  <el-select v-model="disposeId" :disabled="personalForm.categoryid === 3 || personalForm.categoryid === '' || personalForm.categoryid === 2" value-key="id" placeholder="请选择配置" style="margin-left: 18px;width: 218px" @change="dispose($event)" @focus="updatecate">
+                  <el-select v-model="disposeId" :disabled="personalForm.categoryid === 3 || personalForm.categoryid === '' || personalForm.categoryid === 2" value-key="id" placeholder="请选择配置" style="margin-left: 18px;width: 200px" @change="dispose($event)" @focus="updatecate">
                     <el-option
                       v-for="(item, index) in disposes"
                       :key="index"
@@ -49,7 +49,7 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('Product.versionId')" :rules="personalForm.categoryid === 3 || personalForm.categoryid === '' ? personalrules.versionId:[{ required: true, message: '请选择版本', trigger: 'change' }]" prop="versionId" style="width: 100%;">
-                  <el-select v-model="versionId" :disabled="personalForm.categoryid === 3 || personalForm.categoryid === ''" value-key="id" placeholder="请选择版本" style="margin-left: 18px;width: 218px" @change="version($event)" @focus="updatecate">
+                  <el-select v-model="versionId" :disabled="personalForm.categoryid === 3 || personalForm.categoryid === ''" value-key="id" placeholder="请选择版本" style="margin-left: 18px;width: 200px" @change="version($event)" @focus="updatecate">
                     <el-option
                       v-for="(item, index) in versions"
                       :key="index"
@@ -61,7 +61,7 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('Product.color')" :rules="personalForm.categoryid === 3 || personalForm.categoryid === '' ? personalrules.colorId:[{ required: true, message: '请选择颜色', trigger: 'change' }]" prop="colorId" style="width: 100%;">
-                  <el-select v-model="colorId" :disabled="personalForm.categoryid === 3 || personalForm.categoryid === ''" value-key="id" placeholder="请选择颜色" style="margin-left: 18px;width: 218px" @change="color($event)" @focus="updatecate">
+                  <el-select v-model="colorId" :disabled="personalForm.categoryid === 3 || personalForm.categoryid === ''" value-key="id" placeholder="请选择颜色" style="margin-left: 18px;width: 200px" @change="color($event)" @focus="updatecate">
                     <el-option
                       v-for="(item, index) in colors"
                       :key="index"
@@ -73,7 +73,7 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('Product.diameterId')" :rules="personalForm.categoryid === 1 || personalForm.categoryid === 2 || personalForm.categoryid === '' ? personalrules.diameterId:[{ required: true, message: '请选择直径规格', trigger: 'change' }]" prop="diameterId" style="width: 100%;">
-                  <el-select v-model="diameterId" :disabled="personalForm.categoryid === 1 || personalForm.categoryid === 2 || personalForm.categoryid === ''" value-key="id" placeholder="请选择直径规格" style="margin-left: 18px;width: 218px" @change="diameter($event)" @focus="updatecate">
+                  <el-select v-model="diameterId" :disabled="personalForm.categoryid === 1 || personalForm.categoryid === 2 || personalForm.categoryid === ''" value-key="id" placeholder="请选择直径规格" style="margin-left: 18px;width: 200px" @change="diameter($event)" @focus="updatecate">
                     <el-option
                       v-for="(item, index) in diameters"
                       :key="index"
@@ -85,7 +85,7 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('Product.brand')" style="width: 100%;">
-                  <el-select v-model="personalForm.brand" placeholder="请选择品牌" style="margin-left: 18px;width: 218px" @focus="updatecate">
+                  <el-select v-model="personalForm.brand" placeholder="请选择品牌" style="margin-left: 18px;width: 200px" @focus="updatecate">
                     <el-option
                       v-for="(item, index) in brands"
                       :key="index"
@@ -97,7 +97,7 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('Product.level')" style="width: 100%;">
-                  <el-select v-model="personalForm.level" placeholder="请选择档次级别" style="margin-left: 18px;width: 218px" @focus="updatecate">
+                  <el-select v-model="personalForm.level" placeholder="请选择档次级别" style="margin-left: 18px;width: 200px" @focus="updatecate">
                     <el-option
                       v-for="(item, index) in levels"
                       :key="index"
@@ -109,7 +109,7 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('Product.lengthLevelId')" :rules="personalForm.categoryid === 1 || personalForm.categoryid === 2 || personalForm.categoryid === '' ? personalrules.lengthLevelId:[{ required: true, message: '请选择长度等级', trigger: 'change' }]" prop="lengthLevelId" style="width: 100%;">
-                  <el-select v-model="lengthLevelId" :disabled="personalForm.categoryid === 1 || personalForm.categoryid === 2 || personalForm.categoryid === ''" value-key="id" placeholder="请选择长度等级" style="margin-left: 18px;width: 218px" @change="length($event)" @focus="updatecate">
+                  <el-select v-model="lengthLevelId" :disabled="personalForm.categoryid === 1 || personalForm.categoryid === 2 || personalForm.categoryid === ''" value-key="id" placeholder="请选择长度等级" style="margin-left: 18px;width: 200px" @change="length($event)" @focus="updatecate">
                     <el-option
                       v-for="(item, index) in lengthLevels"
                       :key="index"
@@ -121,7 +121,7 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('Product.faceId')" :rules="personalForm.categoryid === 1 || personalForm.categoryid === 2 || personalForm.categoryid === '' ? personalrules.faceId:[{ required: true, message: '请选择表面处理', trigger: 'change' }]" prop="faceId" style="width: 100%;">
-                  <el-select v-model="faceId" :disabled="personalForm.categoryid === 1 || personalForm.categoryid === 2 || personalForm.categoryid === ''" value-key="id" placeholder="请选择表面处理" style="margin-left: 18px;width: 218px" @change="face($event)" @focus="updatecate">
+                  <el-select v-model="faceId" :disabled="personalForm.categoryid === 1 || personalForm.categoryid === 2 || personalForm.categoryid === ''" value-key="id" placeholder="请选择表面处理" style="margin-left: 18px;width: 200px" @change="face($event)" @focus="updatecate">
                     <el-option
                       v-for="(item, index) in faces"
                       :key="index"
@@ -133,7 +133,7 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('Product.performanceLevelId')" :rules="personalForm.categoryid === 1 || personalForm.categoryid === 2 || personalForm.categoryid === '' ? personalrules.performanceLevelId:[{ required: true, message: '请选择性能等级', trigger: 'change' }]" prop="performanceLevelId" style="width: 100%;">
-                  <el-select v-model="performanceLevelId" :disabled="personalForm.categoryid === 1 || personalForm.categoryid === 2 || personalForm.categoryid === ''" value-key="id" placeholder="请选择性能等级" style="margin-left: 18px;width: 218px" @change="performanceLevel($event)" @focus="updatecate">
+                  <el-select v-model="performanceLevelId" :disabled="personalForm.categoryid === 1 || personalForm.categoryid === 2 || personalForm.categoryid === ''" value-key="id" placeholder="请选择性能等级" style="margin-left: 18px;width: 200px" @change="performanceLevel($event)" @focus="updatecate">
                     <el-option
                       v-for="(item, index) in performanceLevels"
                       :key="index"
@@ -145,7 +145,7 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('Product.purchasemeasurement')" prop="purchasemeasurement" style="width: 100%;">
-                  <el-select v-model="personalForm.purchasemeasurement" placeholder="请选择基本计量单位" style="margin-left: 18px;width: 218px" @focus="updatecate">
+                  <el-select v-model="personalForm.purchasemeasurement" placeholder="请选择基本计量单位" style="margin-left: 18px;width: 200px" @focus="updatecate">
                     <el-option
                       v-for="(item, index) in measurements"
                       :key="index"
@@ -156,7 +156,7 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('Product.salemeasurement')" style="width: 100%;">
-                  <el-select v-model="personalForm.salemeasurement" placeholder="请选择销售计量单位" style="margin-left: 18px;width: 218px" @focus="updatecate">
+                  <el-select v-model="personalForm.salemeasurement" placeholder="请选择销售计量单位" style="margin-left: 18px;width: 200px" @focus="updatecate">
                     <el-option
                       v-for="(item, index) in measurements"
                       :key="index"
@@ -167,7 +167,7 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('Product.stockmeasurement')" style="width: 100%;">
-                  <el-select v-model="personalForm.stockmeasurement" placeholder="请选择库存计量单位" style="margin-left: 18px;width: 218px" @focus="updatecate">
+                  <el-select v-model="personalForm.stockmeasurement" placeholder="请选择库存计量单位" style="margin-left: 18px;width: 200px" @focus="updatecate">
                     <el-option
                       v-for="(item, index) in measurements"
                       :key="index"
@@ -178,7 +178,7 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('Product.producemeasurement')" style="width: 100%;">
-                  <el-select v-model="personalForm.producemeasurement" placeholder="请选择生产计量单位" style="margin-left: 18px;width: 218px" @focus="updatecate">
+                  <el-select v-model="personalForm.producemeasurement" placeholder="请选择生产计量单位" style="margin-left: 18px;width: 200px" @focus="updatecate">
                     <el-option
                       v-for="(item, index) in measurements"
                       :key="index"
@@ -189,7 +189,7 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('Product.source')" style="width: 100%;">
-                  <el-select v-model="personalForm.source" placeholder="请选择来源" style="margin-left: 18px;width: 218px" @change="choosesource">
+                  <el-select v-model="personalForm.source" placeholder="请选择来源" style="margin-left: 18px;width: 200px" @change="choosesource">
                     <el-option value="2" label="生产"/>
                     <el-option value="3" label="采购"/>
                   </el-select>
@@ -197,59 +197,59 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('Product.kpigrade')" prop="kpigrade" style="width: 100%;">
-                  <el-input v-model="personalForm.kpigrade" placeholder="请输入绩效分" style="margin-left: 18px" clearable/>
+                  <el-input v-model="personalForm.kpigrade" placeholder="请输入绩效分" style="margin-left: 18px;width:200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('Product.point')" style="width: 100%;">
-                  <el-input v-model="personalForm.point" placeholder="请输入商品积分" style="margin-left: 18px" clearable/>
+                  <el-input v-model="personalForm.point" placeholder="请输入商品积分" style="margin-left: 18px;width:200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6" style="height: 58px;">
                 <el-form-item :label="$t('Product.zhibaoqi')" style="width: 100%">
-                  <el-input v-model="personalForm.zhibaoqi" placeholder="请输入质保期" style="margin-left: 18px;width: 218px" clearable>
+                  <el-input v-model="personalForm.zhibaoqi" placeholder="请输入质保期" style="margin-left: 18px;width: 200px" clearable>
                     <template slot="append">天</template>
                   </el-input>
                 </el-form-item>
               </el-col>
               <el-col :span="6" style="height: 58px;">
                 <el-form-item :label="$t('Product.weight')" style="width: 100%">
-                  <el-input v-model="personalForm.weight" placeholder="请输入重量" style="margin-left: 18px;width: 218px" clearable>
+                  <el-input v-model="personalForm.weight" placeholder="请输入重量" style="margin-left: 18px;width: 200px" clearable>
                     <template slot="append">KG</template>
                   </el-input>
                 </el-form-item>
               </el-col>
               <el-col :span="6" style="height: 58px;">
                 <el-form-item :label="$t('Product.volume')" style="width: 100%">
-                  <el-input v-model="personalForm.volume" placeholder="请输入体积" style="margin-left: 18px;width: 218px" clearable>
+                  <el-input v-model="personalForm.volume" placeholder="请输入体积" style="margin-left: 18px;width: 200px" clearable>
                     <template slot="append">m³</template>
                   </el-input>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('Product.stockCircle')" style="width: 100%;">
-                  <el-input v-model="personalForm.stockCircle" :disabled="IsCircle" placeholder="请输采购周期（天）" clearable style="margin-left: 18px"/>
+                  <el-input v-model="personalForm.stockCircle" :disabled="IsCircle" placeholder="请输采购周期（天）" clearable style="margin-left: 18px;width:200px"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('Product.produceAbility')" style="width: 100%;">
-                  <el-input v-model="personalForm.produceAbility" :disabled="IsAbility" placeholder="请输入生产能力" clearable style="margin-left: 18px"/>
+                  <el-input v-model="personalForm.produceAbility" :disabled="IsAbility" placeholder="请输入生产能力" clearable style="margin-left: 18px;width:200px"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('Product.careCircle')" style="width: 100%;">
-                  <el-input v-model="personalForm.careCircle" placeholder="请输入保养周期" clearable style="margin-left: 18px"/>
+                  <el-input v-model="personalForm.careCircle" placeholder="请输入保养周期" clearable style="margin-left: 18px;width:200px"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('Product.workCenterId')" style="width: 100%;">
-                  <el-input v-model="workCenterId" :disabled="Iscenter" placeholder="请选择工作中心" clearable style="margin-left: 18px" @focus="workcenterchoose"/>
+                  <el-input v-model="workCenterId" :disabled="Iscenter" placeholder="请选择工作中心" clearable style="margin-left: 18px;width:200px" @focus="workcenterchoose"/>
                   <my-center :control.sync="centercontrol" @center="center"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('Product.isBatch')" prop="isBatch" style="width: 100%;">
-                  <el-radio-group v-model="personalForm.isBatch" style="margin-left: 18px;width: 218px" @change="chooseBatch">
+                  <el-radio-group v-model="personalForm.isBatch" style="margin-left: 18px;width: 200px" @change="chooseBatch">
                     <el-radio :label="1" style="width: 100px">使用</el-radio>
                     <el-radio :label="2">不使用</el-radio>
                   </el-radio-group>
@@ -257,12 +257,12 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('Product.effectiveDay')" :rules="personalForm.isBatch === 2 ? personalrules.effectiveDay:[{ required: true, message: '请输入有效天数', trigger: 'blur' }]" prop="effectiveDay" style="width: 100%;">
-                  <el-input v-model="personalForm.effectiveDay" :disabled="personalForm.isBatch === 2" placeholder="请输入有效天数" clearable style="margin-left: 18px"/>
+                  <el-input v-model="personalForm.effectiveDay" :disabled="personalForm.isBatch === 2" placeholder="请输入有效天数" clearable style="margin-left: 18px;width:200px"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('Product.isactive')" style="width: 100%;">
-                  <el-radio-group v-model="personalForm.isactive" style="margin-left: 18px;width: 218px">
+                  <el-radio-group v-model="personalForm.isactive" style="margin-left: 18px;width: 200px">
                     <el-radio :label="1" style="width: 100px">YES</el-radio>
                     <el-radio :label="2">NO</el-radio>
                   </el-radio-group>
@@ -279,7 +279,7 @@
           <el-form ref="personalForm2" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="140px">
             <el-col :span="6">
               <el-form-item :label="$t('Product.valuation')" prop="valuation" style="width: 100%;">
-                <el-select v-model="personalForm.valuation" placeholder="请选择" style="margin-left: 18px;width: 218px">
+                <el-select v-model="personalForm.valuation" placeholder="请选择" style="margin-left: 18px;width: 200px">
                   <el-option value="1" label="类1"/>
                   <el-option value="2" label="类2"/>
                 </el-select>
@@ -287,17 +287,17 @@
             </el-col>
             <el-col :span="6">
               <el-form-item :label="$t('Product.costprice')" prop="costprice" style="width: 100%;">
-                <el-input v-model="personalForm.costprice" placeholder="请输入出厂价" style="margin-left: 18px" clearable/>
+                <el-input v-model="personalForm.costprice" placeholder="请输入出厂价" style="margin-left: 18px;width:200px" clearable/>
               </el-form-item>
             </el-col>
             <el-col :span="6">
               <el-form-item :label="$t('Product.tradeprice')" style="width: 100%;">
-                <el-input v-model="personalForm.tradeprice" placeholder="请输入批发价" style="margin-left: 18px" clearable/>
+                <el-input v-model="personalForm.tradeprice" placeholder="请输入批发价" style="margin-left: 18px;width:200px" clearable/>
               </el-form-item>
             </el-col>
             <el-col :span="6">
               <el-form-item :label="$t('Product.saleprice')" prop="saleprice" style="width: 100%;">
-                <el-input v-model="personalForm.saleprice" placeholder="请输入零售价" style="margin-left: 18px" clearable/>
+                <el-input v-model="personalForm.saleprice" placeholder="请输入零售价" style="margin-left: 18px;width:200px" clearable/>
               </el-form-item>
             </el-col>
             <!--<el-form-item :label="$t('Product.purchaseprice')" prop="purchaseprice" style="width: 40%;margin-top:1%">-->
@@ -305,12 +305,12 @@
             <!--</el-form-item>-->
             <el-col :span="6">
               <el-form-item :label="$t('Product.lowerprice')" style="width: 100%;">
-                <el-input v-model="personalForm.lowerprice" placeholder="请输入最低价" style="margin-left: 18px" clearable/>
+                <el-input v-model="personalForm.lowerprice" placeholder="请输入最低价" style="margin-left: 18px;width:200px" clearable/>
               </el-form-item>
             </el-col>
             <el-col :span="6">
               <el-form-item :label="$t('Product.memberprice')" style="width: 100%;">
-                <el-input v-model="personalForm.memberprice" placeholder="请输入会员价" style="margin-left: 18px" clearable/>
+                <el-input v-model="personalForm.memberprice" placeholder="请输入会员价" style="margin-left: 18px;width:200px" clearable/>
               </el-form-item>
             </el-col>
           </el-form>

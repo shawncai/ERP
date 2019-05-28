@@ -9,12 +9,12 @@
             <el-row>
               <el-col :span="6">
                 <el-form-item :label="$t('StockInquiry.inquiryTitle')" style="width: 100%;">
-                  <el-input v-model="personalForm.inquiryTitle" style="margin-left: 18px" clearable/>
+                  <el-input v-model="personalForm.inquiryTitle" style="margin-left: 18px;width:200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('StockInquiry.sourceType')" prop="sourceType" style="width: 100%;">
-                  <el-select v-model="personalForm.sourceType" style="margin-left: 18px;width: 218px" @change="chooseType">
+                  <el-select v-model="personalForm.sourceType" style="margin-left: 18px;width: 200px" @change="chooseType">
                     <el-option value="1" label="采购申请" />
                     <el-option value="2" label="采购计划" />
                     <el-option value="3" label="无来源" />
@@ -23,19 +23,19 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('StockInquiry.supplierId')" prop="supplierId" style="width: 100%;">
-                  <el-input v-model="supplierId" style="margin-left: 18px;width: 218px" @focus="handlechoose"/>
+                  <el-input v-model="supplierId" style="margin-left: 18px;width: 200px" @focus="handlechoose"/>
                   <my-supplier :control.sync="empcontrol" @supplierName="supplierName"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('StockInquiry.inquiryPersonId')" prop="inquiryPersonId" style="width: 100%;">
-                  <el-input v-model="inquiryPersonId" style="margin-left: 18px;width: 218px" @focus="handlechooseStock"/>
+                  <el-input v-model="inquiryPersonId" style="margin-left: 18px;width: 200px" @focus="handlechooseStock"/>
                   <my-emp :control.sync="stockControl" @stockName="stockName"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('StockInquiry.stockTypeId')" prop="stockTypeId" style="width: 100%;">
-                  <el-select v-model="personalForm.stockTypeId" :disabled="IsStockTypeId" style="margin-left: 18px;width: 218px" @focus="updatecountry">
+                  <el-select v-model="personalForm.stockTypeId" :disabled="IsStockTypeId" style="margin-left: 18px;width: 200px" @focus="updatecountry">
                     <el-option
                       v-for="(item, index) in types"
                       :key="index"
@@ -46,7 +46,7 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('StockInquiry.deptId')" prop="deptId" style="width: 100%;">
-                  <el-select v-model="personalForm.deptId" :disabled="IsDeptId" clearable style="margin-left: 18px;width: 218px">
+                  <el-select v-model="personalForm.deptId" :disabled="IsDeptId" clearable style="margin-left: 18px;width: 200px">
                     <el-option
                       v-for="(item, index) in depts"
                       :key="index"
@@ -61,25 +61,25 @@
                     v-model="personalForm.inquiryDate"
                     type="date"
                     value-format="yyyy-MM-dd"
-                    style="margin-left: 18px"/>
+                    style="margin-left: 18px;width:200px"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('StockInquiry.inquiryTimes')" style="width: 100%;">
-                  <el-input v-model="personalForm.inquiryTimes" disabled style="margin-left: 18px;width: 218px" clearable/>
+                  <el-input v-model="personalForm.inquiryTimes" disabled style="margin-left: 18px;width: 200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('StockInquiry.isVat')" style="width: 100%;">
-                  <el-radio-group v-model="personalForm.isVat" style="margin-left: 18px">
-                    <el-radio :label="1" style="width: 120px">是</el-radio>
+                  <el-radio-group v-model="personalForm.isVat" style="margin-left: 18px;width:200px">
+                    <el-radio :label="1" style="width: 100px">是</el-radio>
                     <el-radio :label="2">否</el-radio>
                   </el-radio-group>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('StockInquiry.currency')" style="width: 100%;">
-                  <el-select v-model="personalForm.currency" clearable style="margin-left: 18px;width: 218px">
+                  <el-select v-model="personalForm.currency" clearable style="margin-left: 18px;width: 200px">
                     <el-option value="1" label="RMB"/>
                     <el-option value="2" label="USD"/>
                   </el-select>
@@ -206,32 +206,32 @@
             <el-row>
               <el-col :span="6">
                 <el-form-item label="数量合计" style="width: 100%;">
-                  <el-input v-model="allNumber" style="margin-left: 18px" disabled/>
+                  <el-input v-model="allNumber" style="margin-left: 18px;width:200px" disabled/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item label="金额合计" style="width: 100%;">
-                  <el-input v-model="allMoney" style="margin-left: 18px" disabled/>
+                  <el-input v-model="allMoney" style="margin-left: 18px;width:200px" disabled/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item label="税额合计" style="width: 100%;">
-                  <el-input v-model="allTaxMoney" style="margin-left: 18px" disabled/>
+                  <el-input v-model="allTaxMoney" style="margin-left: 18px;width:200px" disabled/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item label="含税金额合计" style="width: 100%;">
-                  <el-input v-model="allIncludeTaxMoney" style="margin-left: 18px" disabled/>
+                  <el-input v-model="allIncludeTaxMoney" style="margin-left: 18px;width:200px" disabled/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item label="折扣金额合计" style="width: 100%;">
-                  <el-input v-model="allDiscountMoney" style="margin-left: 18px" disabled/>
+                  <el-input v-model="allDiscountMoney" style="margin-left: 18px;width:200px" disabled/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item label="折后含税金额合计" style="width: 100%;">
-                  <el-input v-model="allMoneyMoveDiscount" style="margin-left: 18px" disabled/>
+                  <el-input v-model="allMoneyMoveDiscount" style="margin-left: 18px;width:200px" disabled/>
                 </el-form-item>
               </el-col>
             </el-row>

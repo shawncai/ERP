@@ -61,7 +61,7 @@
             </el-col>
             <el-col :span="6">
               <el-form-item :label="$t('Stockenter.summary')" prop="summary" style="width: 100%;;width: 150px">
-                <el-input v-model="personalForm.summary" placeholder="请输入摘要" style="margin-left: 18px" clearable/>
+                <el-input v-model="personalForm.summary" placeholder="请输入摘要" style="margin-left: 18px;width:200px" clearable/>
               </el-form-item>
             </el-col>
           </el-row>

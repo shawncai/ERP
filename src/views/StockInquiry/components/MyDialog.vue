@@ -71,7 +71,7 @@
             <el-col :span="12">
               <el-form-item :label="$t('StockInquiry.isVat')" style="width: 100%;">
                 <el-radio-group v-model="personalForm.isVat" style="margin-left: 18px;width: 200px">
-                  <el-radio :label="1" style="width: 120px">是</el-radio>
+                  <el-radio :label="1" style="width: 100px">是</el-radio>
                   <el-radio :label="2">否</el-radio>
                 </el-radio-group>
               </el-form-item>
@@ -204,32 +204,32 @@
           <el-row>
             <el-col :span="6">
               <el-form-item label="数量合计" style="width: 100%;">
-                <el-input v-model="allNumber" style="margin-left: 18px" disabled/>
+                <el-input v-model="allNumber" style="margin-left: 18px;width:200px" disabled/>
               </el-form-item>
             </el-col>
             <el-col :span="6">
               <el-form-item label="金额合计" style="width: 100%;">
-                <el-input v-model="allMoney" style="margin-left: 18px" disabled/>
+                <el-input v-model="allMoney" style="margin-left: 18px;width:200px" disabled/>
               </el-form-item>
             </el-col>
             <el-col :span="6">
               <el-form-item label="税额合计" style="width: 100%;">
-                <el-input v-model="allTaxMoney" style="margin-left: 18px" disabled/>
+                <el-input v-model="allTaxMoney" style="margin-left: 18px;width:200px" disabled/>
               </el-form-item>
             </el-col>
             <el-col :span="6">
               <el-form-item label="含税金额合计" style="width: 100%;">
-                <el-input v-model="allIncludeTaxMoney" style="margin-left: 18px" disabled/>
+                <el-input v-model="allIncludeTaxMoney" style="margin-left: 18px;width:200px" disabled/>
               </el-form-item>
             </el-col>
             <el-col :span="6">
               <el-form-item label="折扣金额合计" style="width: 100%;">
-                <el-input v-model="allDiscountMoney" style="margin-left: 18px" disabled/>
+                <el-input v-model="allDiscountMoney" style="margin-left: 18px;width:200px" disabled/>
               </el-form-item>
             </el-col>
             <el-col :span="6">
               <el-form-item label="折后含税金额合计" style="width: 100%;">
-                <el-input v-model="allMoneyMoveDiscount" style="margin-left: 18px" disabled/>
+                <el-input v-model="allMoneyMoveDiscount" style="margin-left: 18px;width:200px" disabled/>
               </el-form-item>
             </el-col>
           </el-row>

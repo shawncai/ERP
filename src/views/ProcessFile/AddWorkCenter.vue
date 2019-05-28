@@ -9,17 +9,17 @@
             <el-row>
               <el-col :span="6">
                 <el-form-item :label="$t('ProcessFile.code')" prop="code" style="width: 100%;">
-                  <el-input v-model="personalForm.code" style="margin-left: 18px" clearable/>
+                  <el-input v-model="personalForm.code" style="margin-left: 18px;width:200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('ProcessFile.workCenterName')" prop="workCenterName" style="width: 100%;">
-                  <el-input v-model="personalForm.workCenterName" style="margin-left: 18px" clearable/>
+                  <el-input v-model="personalForm.workCenterName" style="margin-left: 18px;width:200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('ProcessFile.stat')" prop="stat" label-width="100px" style="width: 100%;">
-                  <el-radio-group v-model="personalForm.stat" style="width:277px;margin-left: 19px">
+                  <el-radio-group v-model="personalForm.stat" style="margin-left: 18px;width: 200px">
                     <el-radio :label="1">启用</el-radio>
                     <el-radio :label="2">未启用</el-radio>
                   </el-radio-group>
@@ -27,7 +27,7 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('ProcessFile.deptId')" prop="deptId" label-width="100px" style="width: 100%;">
-                  <el-select v-model="personalForm.deptId" style="margin-left: 18px;width: 218px" clearable >
+                  <el-select v-model="personalForm.deptId" style="margin-left: 18px;width: 200px" clearable >
                     <el-option
                       v-for="(item, index) in depts"
                       :key="index"
@@ -39,7 +39,7 @@
               <el-col :span="6">
                 <el-form-item :label="$t('ProcessFile.isKey')" prop="isKey" style="width: 100%;">
                   <el-radio-group v-model="personalForm.isKey" style="margin-left: 19px">
-                    <el-radio :label="1" style="width: 120px">是</el-radio>
+                    <el-radio :label="1" style="width: 100px">是</el-radio>
                     <el-radio :label="2">否</el-radio>
                   </el-radio-group>
                 </el-form-item>

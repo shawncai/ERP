@@ -9,12 +9,12 @@
             <el-row>
               <el-col :span="6">
                 <el-form-item :label="$t('Supplier.supplierName')" prop="supplierName" style="width: 100%;">
-                  <el-input v-model="personalForm.supplierName" placeholder="请输入供应商名称" style="margin-left: 18px" clearable/>
+                  <el-input v-model="personalForm.supplierName" placeholder="请输入供应商名称" style="margin-left: 18px;width:200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('Supplier.typeId')" prop="typeId" style="width: 100%;">
-                  <el-select v-model="personalForm.typeId" placeholder="请选择供应商类别" style="margin-left: 18px;width: 218px" @focus="updateType">
+                  <el-select v-model="personalForm.typeId" placeholder="请选择供应商类别" style="margin-left: 18px;width: 200px" @focus="updateType">
                     <el-option
                       v-for="(item, index) in typeIds"
                       :key="index"
@@ -26,12 +26,12 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('Supplier.supplierShortName')" prop="supplierShortName" style="width: 100%;">
-                  <el-input v-model="personalForm.supplierShortName" placeholder="请输入供应商简称" style="margin-left: 18px" clearable/>
+                  <el-input v-model="personalForm.supplierShortName" placeholder="请输入供应商简称" style="margin-left: 18px;width:200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('Supplier.supplierIntroduction')" prop="supplierShortName" style="width: 100%;">
-                  <el-input v-model="personalForm.supplierIntroduction" placeholder="请输入描述" style="margin-left: 18px" clearable/>
+                  <el-input v-model="personalForm.supplierIntroduction" placeholder="请输入描述" style="margin-left: 18px;width:200px" clearable/>
                 </el-form-item>
               </el-col>
             </el-row>
@@ -46,7 +46,7 @@
             <el-row>
               <el-col :span="6">
                 <el-form-item :label="$t('public.countyrId')" prop="countryId" style="width: 100%;">
-                  <el-select v-model="personalForm.countryId" placeholder="国家" style="margin-left: 18px;width: 218px" @change ="handlechange">
+                  <el-select v-model="personalForm.countryId" placeholder="国家" style="margin-left: 18px;width: 200px" @change ="handlechange">
                     <el-option
                       v-for="(item, index) in nations"
                       :key="index"
@@ -57,7 +57,7 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('public.provinceId')" style="width: 100%;">
-                  <el-select v-model="personalForm.provinceId" placeholder="请选择省" style="margin-left: 18px;width: 218px" @change="handlechange2">
+                  <el-select v-model="personalForm.provinceId" placeholder="请选择省" style="margin-left: 18px;width: 200px" @change="handlechange2">
                     <el-option
                       v-for="(item, index) in provinces"
                       :key="index"
@@ -68,7 +68,7 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('public.cityId')" style="width: 100%;">
-                  <el-select v-model="personalForm.cityId" placeholder="请选择市" style="margin-left: 18px;width: 218px">
+                  <el-select v-model="personalForm.cityId" placeholder="请选择市" style="margin-left: 18px;width: 200px">
                     <el-option
                       v-for="(item, index) in cities"
                       :key="index"
@@ -79,12 +79,12 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('public.address')" style="width: 100%;">
-                  <el-input v-model="personalForm.detailAddress" placeholder="请输入地址" style="margin-left: 18px" clearable/>
+                  <el-input v-model="personalForm.detailAddress" placeholder="请输入地址" style="margin-left: 18px;width:200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('Supplier.groupId')" prop="groupId" style="width: 100%;">
-                  <el-select v-model="personalForm.groupId" multiple placeholder="请选择供应商分组" style="margin-left: 18px;width: 218px" @focus="updateGroup">
+                  <el-select v-model="personalForm.groupId" multiple placeholder="请选择供应商分组" style="margin-left: 18px;width: 200px" @focus="updateGroup">
                     <el-option
                       v-for="(item, index) in groupIds"
                       :key="index"
@@ -95,17 +95,17 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('Supplier.zipCode')" style="width: 100%;">
-                  <el-input v-model="personalForm.zipCode" placeholder="请输入邮编" style="margin-left: 18px" clearable/>
+                  <el-input v-model="personalForm.zipCode" placeholder="请输入邮编" style="margin-left: 18px;width:200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('Supplier.contactPersonName')" style="width: 100%;">
-                  <el-input v-model="personalForm.contactPersonName" placeholder="请输入联系人" style="margin-left: 18px" clearable/>
+                  <el-input v-model="personalForm.contactPersonName" placeholder="请输入联系人" style="margin-left: 18px;width:200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('Supplier.contactPersonPhone')" style="width: 100%;">
-                  <el-input v-model="personalForm.contactPersonPhone" placeholder="请输入电话" style="margin-left: 18px" clearable/>
+                  <el-input v-model="personalForm.contactPersonPhone" placeholder="请输入电话" style="margin-left: 18px;width:200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
@@ -119,13 +119,13 @@
                     change-on-select
                     filterable
                     clearable
-                    style="margin-left: 18px;width: 218px"
+                    style="margin-left: 18px;width: 200px"
                   />
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('Supplier.giveId')" style="width: 100%;">
-                  <el-select v-model="personalForm.giveId" placeholder="请选择交货方式" style="margin-left: 18px;width: 218px" @focus="updateGive">
+                  <el-select v-model="personalForm.giveId" placeholder="请选择交货方式" style="margin-left: 18px;width: 200px" @focus="updateGive">
                     <el-option
                       v-for="(item, index) in giveIds"
                       :key="index"
@@ -137,7 +137,7 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('Supplier.transportId')" style="width: 100%;">
-                  <el-select v-model="personalForm.transportId" placeholder="请选择运送方式" style="margin-left: 18px;width: 218px" @focus="updateTran">
+                  <el-select v-model="personalForm.transportId" placeholder="请选择运送方式" style="margin-left: 18px;width: 200px" @focus="updateTran">
                     <el-option
                       v-for="(item, index) in transportIds"
                       :key="index"
@@ -149,7 +149,7 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('Supplier.levelId')" style="width: 100%;">
-                  <el-select v-model="personalForm.levelId" placeholder="请选择供应商优质级别" style="margin-left: 18px;width: 218px" @focus="updateLeve">
+                  <el-select v-model="personalForm.levelId" placeholder="请选择供应商优质级别" style="margin-left: 18px;width: 200px" @focus="updateLeve">
                     <el-option
                       v-for="(item, index) in levelIds"
                       :key="index"
@@ -161,7 +161,7 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('Supplier.isHot')" prop="isHot" style="width: 100%;">
-                  <el-select v-model="personalForm.isHot" placeholder="请选择" style="margin-left: 18px;width: 218px">
+                  <el-select v-model="personalForm.isHot" placeholder="请选择" style="margin-left: 18px;width: 200px">
                     <el-option label="是" value="1"/>
                     <el-option label="否" value="2"/>
                   </el-select>
@@ -169,7 +169,7 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('Supplier.isEffective')" style="width: 100%;">
-                  <el-select v-model="personalForm.isEffective" placeholder="请选择启用状态" style="margin-left: 18px;width: 218px">
+                  <el-select v-model="personalForm.isEffective" placeholder="请选择启用状态" style="margin-left: 18px;width: 200px">
                     <el-option label="启用" value="1"/>
                     <el-option label="未启用" value="2"/>
                   </el-select>
@@ -177,13 +177,13 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('Supplier.buyerId')" style="width: 100%;">
-                  <el-input v-model="buyerId" placeholder="请输入采购员" clearable style="margin-left: 18px" @focus="handlechoose"/>
+                  <el-input v-model="buyerId" placeholder="请输入采购员" clearable style="margin-left: 18px;width:200px" @focus="handlechoose"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <my-emp :control.sync="empcontrol" @personName="personName"/>
                 <el-form-item :label="$t('Supplier.businessScopeIntroduction')" style="width: 100%;">
-                  <el-input v-model="personalForm.businessScopeIntroduction" style="margin-left: 18px" clearable/>
+                  <el-input v-model="personalForm.businessScopeIntroduction" style="margin-left: 18px;width:200px" clearable/>
                 </el-form-item>
               </el-col>
             </el-row>
@@ -227,7 +227,7 @@
             <el-row>
               <el-col :span="6">
                 <el-form-item :label="$t('Supplier.paymentId')" style="width: 100%;">
-                  <el-select v-model="personalForm.paymentId" placeholder="请选择结算方式" style="margin-left: 18px;width: 218px" @focus="updatePaymen">
+                  <el-select v-model="personalForm.paymentId" placeholder="请选择结算方式" style="margin-left: 18px;width: 200px" @focus="updatePaymen">
                     <el-option
                       v-for="(item, index) in paymentIds"
                       :key="index"
@@ -239,7 +239,7 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('Supplier.moneyId')" style="width: 100%;">
-                  <el-select v-model="personalForm.moneyId" :value="personalForm.moneyId" placeholder="请选择币种" style="margin-left: 18px;width: 218px">
+                  <el-select v-model="personalForm.moneyId" :value="personalForm.moneyId" placeholder="请选择币种" style="margin-left: 18px;width: 200px">
                     <el-option label="RMB" value="1"/>
                     <el-option label="USD" value="2"/>
                   </el-select>
@@ -247,17 +247,17 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('Supplier.bankName')" style="width: 100%;">
-                  <el-input v-model="personalForm.bankName" placeholder="请输入开户行" style="margin-left: 18px" clearable/>
+                  <el-input v-model="personalForm.bankName" placeholder="请输入开户行" style="margin-left: 18px;width:200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('Supplier.accountName')" style="width: 100%;">
-                  <el-input v-model="personalForm.accountName" placeholder="请输入户名" style="margin-left: 18px" clearable/>
+                  <el-input v-model="personalForm.accountName" placeholder="请输入户名" style="margin-left: 18px;width:200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('Supplier.account')" style="width: 100%;">
-                  <el-input v-model="personalForm.account" placeholder="请输入账号" style="margin-left: 18px" clearable/>
+                  <el-input v-model="personalForm.account" placeholder="请输入账号" style="margin-left: 18px;width:200px" clearable/>
                 </el-form-item>
               </el-col>
             </el-row>
@@ -277,27 +277,27 @@
                     placeholder="选择成立时间"
                     value-format="yyyy-MM-dd"
                     clearable
-                    style="margin-left: 18px;width: 218px"/>
+                    style="margin-left: 18px;width: 200px"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('Supplier.legalPerson')" style="width: 100%;">
-                  <el-input v-model="personalForm.legalPerson" placeholder="请输入法人代表" style="margin-left: 18px" clearable/>
+                  <el-input v-model="personalForm.legalPerson" placeholder="请输入法人代表" style="margin-left: 18px;width:200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('Supplier.taxNumber')" style="width: 100%;">
-                  <el-input v-model="personalForm.taxNumber" placeholder="请输入税务登记号" style="margin-left: 18px" clearable/>
+                  <el-input v-model="personalForm.taxNumber" placeholder="请输入税务登记号" style="margin-left: 18px;width:200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('Supplier.businessLicense')" style="width: 100%;">
-                  <el-input v-model="personalForm.businessLicense" placeholder="请输入营业执照号" style="margin-left: 18px" clearable/>
+                  <el-input v-model="personalForm.businessLicense" placeholder="请输入营业执照号" style="margin-left: 18px;width:200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('Supplier.companyTypeId')" style="width: 100%;">
-                  <el-select v-model="personalForm.companyTypeId" placeholder="请选择单位性质" style="margin-left: 18px;width: 218px">
+                  <el-select v-model="personalForm.companyTypeId" placeholder="请选择单位性质" style="margin-left: 18px;width: 200px">
                     <el-option label="类型1" value="1"/>
                     <el-option label="类型2" value="2"/>
                   </el-select>

@@ -51,7 +51,7 @@
               <el-col :span="6">
                 <el-form-item :label="$t('NewEmployeeInformation.gender')" prop="gender" style="width: 100%;">
                   <el-radio-group v-model="personalForm.gender" style="margin-left: 18px;width: 200px">
-                    <el-radio :label="1" style="width: 120px">{{ $t('NewEmployeeInformation.male') }}</el-radio>
+                    <el-radio :label="1" style="width: 100px">{{ $t('NewEmployeeInformation.male') }}</el-radio>
                     <el-radio :label="2">{{ $t('NewEmployeeInformation.female') }}</el-radio>
                   </el-radio-group>
                 </el-form-item>

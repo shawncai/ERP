@@ -9,18 +9,18 @@
             <el-row>
               <el-col :span="6">
                 <el-form-item :label="$t('BuildUp.title')" style="width: 100%;">
-                  <el-input v-model="personalForm.title" placeholder="请输入组装单主题" style="margin-left: 18px" clearable/>
+                  <el-input v-model="personalForm.title" placeholder="请输入组装单主题" style="margin-left: 18px;width:200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('BuildUp.handlePersonId')" prop="handlePersonId" style="width: 100%;">
-                  <el-input v-model="handlePersonId" placeholder="请选择经办人" style="margin-left: 18px" clearable @focus="handlechoose"/>
+                  <el-input v-model="handlePersonId" placeholder="请选择经办人" style="margin-left: 18px;width:200px" clearable @focus="handlechoose"/>
                 </el-form-item>
                 <my-create :createcontrol.sync="createcontrol" @createname="createname"/>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('BuildUp.buildupDeptId')" style="width: 100%;">
-                  <el-select v-model="personalForm.buildupDeptId" placeholder="请选择组装部门" style="margin-left: 18px;width: 218px" clearable >
+                  <el-select v-model="personalForm.buildupDeptId" placeholder="请选择组装部门" style="margin-left: 18px;width: 200px" clearable >
                     <el-option
                       v-for="(item, index) in depts"
                       :key="index"
@@ -31,18 +31,18 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('BuildUp.buildupRepositoryId')" prop="buildupRepositoryId" style="width: 100%;">
-                  <el-input v-model="buildupRepositoryId" placeholder="请选择仓库" style="margin-left: 18px" clearable @focus="handlechooseRep"/>
+                  <el-input v-model="buildupRepositoryId" placeholder="请选择仓库" style="margin-left: 18px;width:200px" clearable @focus="handlechooseRep"/>
                 </el-form-item>
                 <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('BuildUp.summary')" prop="summary" style="width: 100%;">
-                  <el-input v-model="personalForm.summary" placeholder="请输入摘要" style="margin-left: 18px" clearable/>
+                  <el-input v-model="personalForm.summary" placeholder="请输入摘要" style="margin-left: 18px;width:200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item label="合为一个单据" style="width: 100%;">
-                  <el-select v-model="personalForm.type" placeholder="请选择" style="margin-left: 18px;width: 218px" clearable >
+                  <el-select v-model="personalForm.type" placeholder="请选择" style="margin-left: 18px;width: 200px" clearable >
                     <el-option value="1" label="是"/>
                     <el-option value="2" label="否"/>
                   </el-select>

@@ -9,25 +9,25 @@
             <el-row>
               <el-col :span="6">
                 <el-form-item :label="$t('Invoice.sourceNumber')" style="width: 100%;">
-                  <el-input v-model="personalForm.sourceNumber" style="margin-left: 18px" clearable @focus="handleAddSouce"/>
+                  <el-input v-model="personalForm.sourceNumber" style="margin-left: 18px;width:200px" clearable @focus="handleAddSouce"/>
                   <my-arrival :arrivalcontrol.sync="arrivalcontrol" @allarrivalinfo="allarrivalinfo"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('Invoice.sourceType')" prop="sourceType" style="width: 100%;">
-                  <el-select v-model="personalForm.sourceType" style="margin-left: 18px;width: 218px">
+                  <el-select v-model="personalForm.sourceType" style="margin-left: 18px;width: 200px">
                     <el-option value="1" label="采购到货" />
                   </el-select>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('Invoice.invoiceNumber')" prop="invoiceNumber" style="width: 100%;">
-                  <el-input v-model="personalForm.invoiceNumber" style="margin-left: 18px" clearable/>
+                  <el-input v-model="personalForm.invoiceNumber" style="margin-left: 18px;width:200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('Invoice.invoiceType')" prop="invoiceType" style="width: 100%;">
-                  <el-select v-model="personalForm.invoiceType" style="margin-left: 18px;width: 218px">
+                  <el-select v-model="personalForm.invoiceType" style="margin-left: 18px;width: 200px">
                     <el-option value="1" label="增值税" />
                     <el-option value="2" label="普通" />
                   </el-select>
@@ -35,34 +35,34 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('Invoice.supplierId')" style="width: 100%;">
-                  <el-input v-model="supplierId" style="margin-left: 18px" clearable @focus="handlechoose"/>
+                  <el-input v-model="supplierId" style="margin-left: 18px;width:200px" clearable @focus="handlechoose"/>
                   <my-supplier :control.sync="empcontrol" @supplierName="supplierName"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('Invoice.totalMoney')" style="width: 100%;">
-                  <el-input v-model="personalForm.totalMoney" style="margin-left: 18px" clearable/>
+                  <el-input v-model="personalForm.totalMoney" style="margin-left: 18px;width:200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('Invoice.paidMoney')" style="width: 100%;">
-                  <el-input v-model="personalForm.paidMoney" style="margin-left: 18px" clearable/>
+                  <el-input v-model="personalForm.paidMoney" style="margin-left: 18px;width:200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('Invoice.payingMoney')" style="width: 100%;">
-                  <el-input v-model="personalForm.payingMoney" style="margin-left: 18px" clearable/>
+                  <el-input v-model="personalForm.payingMoney" style="margin-left: 18px;width:200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('Invoice.handlePersonId')" prop="handlePersonId" style="width: 100%;">
-                  <el-input v-model="handlePersonId" style="margin-left: 18px" clearable @focus="handlechooseStock"/>
+                  <el-input v-model="handlePersonId" style="margin-left: 18px;width:200px" clearable @focus="handlechooseStock"/>
                   <my-emp :control.sync="stockControl" @stockName="stockName"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('Invoice.currency')" prop="currency" style="width: 100%;">
-                  <el-select v-model="personalForm.currency" clearable style="margin-left: 18px;width: 218px">
+                  <el-select v-model="personalForm.currency" clearable style="margin-left: 18px;width: 200px">
                     <el-option value="1" label="RMB"/>
                     <el-option value="2" label="USD"/>
                   </el-select>
@@ -70,12 +70,12 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('Invoice.rate')" style="width: 100%;">
-                  <el-input v-model="personalForm.rate" style="margin-left: 18px" clearable/>
+                  <el-input v-model="personalForm.rate" style="margin-left: 18px;width:200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('Invoice.handleDeptId')" style="width: 100%;">
-                  <el-select v-model="personalForm.handleDeptId" clearable style="margin-left: 18px;width: 218px">
+                  <el-select v-model="personalForm.handleDeptId" clearable style="margin-left: 18px;width: 200px">
                     <el-option
                       v-for="(item, index) in depts"
                       :key="index"
@@ -86,8 +86,8 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('Invoice.isCheckin')" style="width: 100%;">
-                  <el-radio-group v-model="personalForm.isCheckin" style="margin-left: 18px">
-                    <el-radio :label="1" style="width: 120px">是</el-radio>
+                  <el-radio-group v-model="personalForm.isCheckin" style="margin-left: 18px;width:200px">
+                    <el-radio :label="1" style="width: 100px">是</el-radio>
                     <el-radio :label="2">否</el-radio>
                   </el-radio-group>
                 </el-form-item>
@@ -98,12 +98,12 @@
                     v-model="personalForm.makeoutDate"
                     type="date"
                     value-format="yyyy-MM-dd"
-                    style="margin-left: 18px"/>
+                    style="margin-left: 18px;width:200px"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('Invoice.receiveMode')" style="width: 100%;">
-                  <el-select v-model="personalForm.receiveMode" clearable style="margin-left: 18px;width: 218px">
+                  <el-select v-model="personalForm.receiveMode" clearable style="margin-left: 18px;width: 200px">
                     <el-option value="1" label="接收1"/>
                     <el-option value="2" label="接收2"/>
                   </el-select>
@@ -111,7 +111,7 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('Invoice.settleStat')" style="width: 100%;">
-                  <el-select v-model="personalForm.settleStat" clearable style="margin-left: 18px;width: 218px">
+                  <el-select v-model="personalForm.settleStat" clearable style="margin-left: 18px;width: 200px">
                     <el-option
                       v-for="(item, index) in paymentIds"
                       :key="index"

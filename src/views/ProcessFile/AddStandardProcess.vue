@@ -9,28 +9,28 @@
             <el-row>
               <el-col :span="6">
                 <el-form-item :label="$t('ProcessFile.code3')" prop="code" style="width: 100%;">
-                  <el-input v-model="personalForm.code" style="margin-left: 18px" clearable/>
+                  <el-input v-model="personalForm.code" style="margin-left: 18px;width:200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('ProcessFile.processName2')" prop="processName" style="width: 100%;">
-                  <el-input v-model="personalForm.processName" style="margin-left: 18px" clearable/>
+                  <el-input v-model="personalForm.processName" style="margin-left: 18px;width:200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('ProcessFile.shortName')" style="width: 100%;">
-                  <el-input v-model="personalForm.shortName" style="margin-left: 18px" clearable/>
+                  <el-input v-model="personalForm.shortName" style="margin-left: 18px;width:200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('ProcessFile.workCenterId')" prop="workCenterId" style="width: 100%;">
-                  <el-input v-model="workCenterId" style="margin-left: 18px" clearable @focus="workcenterchoose"/>
+                  <el-input v-model="workCenterId" style="margin-left: 18px;width:200px" clearable @focus="workcenterchoose"/>
                 </el-form-item>
                 <my-center :control.sync="centercontrol" @center="center"/>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('ProcessFile.testMethod')" prop="testMethod" style="width: 100%;">
-                  <el-select v-model="personalForm.testMethod" style="margin-left: 18px;width: 218px" clearable >
+                  <el-select v-model="personalForm.testMethod" style="margin-left: 18px;width: 200px" clearable >
                     <el-option value="1" label="自检"/>
                     <el-option value="2" label="别人检"/>
                   </el-select>
@@ -38,7 +38,7 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('ProcessFile.timeUnit')" prop="timeUnit" style="width: 100%;">
-                  <el-select v-model="personalForm.timeUnit" style="margin-left: 18px;width: 218px" clearable >
+                  <el-select v-model="personalForm.timeUnit" style="margin-left: 18px;width: 200px" clearable >
                     <el-option value="1" label="天"/>
                     <el-option value="2" label="月"/>
                   </el-select>
@@ -46,18 +46,18 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('ProcessFile.preTime')" style="width: 100%;">
-                  <el-input v-model="personalForm.preTime" style="margin-left: 18px" clearable/>
+                  <el-input v-model="personalForm.preTime" style="margin-left: 18px;width:200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('ProcessFile.runTime')" style="width: 100%;">
-                  <el-input v-model="personalForm.runTime" style="margin-left: 18px" clearable/>
+                  <el-input v-model="personalForm.runTime" style="margin-left: 18px;width:200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('ProcessFile.isCost')" prop="isCost" style="width: 100%;">
-                  <el-radio-group v-model="personalForm.isCost" style="width:277px;margin-left: 19px">
-                    <el-radio :label="1" style="width: 120px">是</el-radio>
+                  <el-radio-group v-model="personalForm.isCost" style="margin-left: 18px;width: 200px">
+                    <el-radio :label="1" style="width: 100px">是</el-radio>
                     <el-radio :label="2">否</el-radio>
                   </el-radio-group>
                 </el-form-item>
@@ -72,18 +72,18 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('ProcessFile.timeWage')" style="width: 100%;">
-                  <el-input v-model="personalForm.timeWage" style="margin-left: 18px" clearable/>
+                  <el-input v-model="personalForm.timeWage" style="margin-left: 18px;width:200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('ProcessFile.numberWage')" style="width: 100%;">
-                  <el-input v-model="personalForm.numberWage" style="margin-left: 18px" clearable/>
+                  <el-input v-model="personalForm.numberWage" style="margin-left: 18px;width:200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('ProcessFile.stat')" prop="stat" style="width: 100%;">
-                  <el-radio-group v-model="personalForm.stat" style="width:277px;margin-left: 19px">
-                    <el-radio :label="1" style="width: 120px">启用</el-radio>
+                  <el-radio-group v-model="personalForm.stat" style="margin-left: 18px;width: 200px">
+                    <el-radio :label="1" style="width: 100px">启用</el-radio>
                     <el-radio :label="2">停用</el-radio>
                   </el-radio-group>
                 </el-form-item>

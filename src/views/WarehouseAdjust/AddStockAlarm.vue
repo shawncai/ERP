@@ -9,28 +9,28 @@
             <el-row>
               <el-col :span="6">
                 <el-form-item :label="$t('WarehouseAdjust.enterRepositoryId')" prop="repositoryId" style="width: 100%;">
-                  <el-input v-model="repositoryId" placeholder="请选择仓库" style="margin-left: 18px" clearable @focus="handlechooseRep"/>
+                  <el-input v-model="repositoryId" placeholder="请选择仓库" style="margin-left: 18px;width:200px" clearable @focus="handlechooseRep"/>
                 </el-form-item>
                 <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('WarehouseAdjust.upStock')" prop="upStock" style="width: 100%;">
-                  <el-input v-model="personalForm.upStock" placeholder="请输入最高库存" style="margin-left: 18px" clearable/>
+                  <el-input v-model="personalForm.upStock" placeholder="请输入最高库存" style="margin-left: 18px;width:200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('WarehouseAdjust.downStock')" prop="downStock" style="width: 100%;">
-                  <el-input v-model="personalForm.downStock" placeholder="请输入最低库存" style="margin-left: 18px" clearable/>
+                  <el-input v-model="personalForm.downStock" placeholder="请输入最低库存" style="margin-left: 18px;width:200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('WarehouseAdjust.safeStock')" prop="safeStock" style="width: 100%;">
-                  <el-input v-model="personalForm.safeStock" placeholder="请输入安全库存" style="margin-left: 18px" clearable/>
+                  <el-input v-model="personalForm.safeStock" placeholder="请输入安全库存" style="margin-left: 18px;width:200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('WarehouseAdjust.productId')" prop="productId" style="width: 100%;">
-                  <el-input v-model="productId" placeholder="请选择商品" style="margin-left: 18px" clearable @focus="handleAddproduct"/>
+                  <el-input v-model="productId" placeholder="请选择商品" style="margin-left: 18px;width:200px" clearable @focus="handleAddproduct"/>
                   <my-product :control.sync="control" @product="productdetail"/>
                 </el-form-item>
               </el-col>

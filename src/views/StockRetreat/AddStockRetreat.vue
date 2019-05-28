@@ -9,12 +9,12 @@
             <el-row>
               <el-col :span="6">
                 <el-form-item :label="$t('StockRetreat.title')" style="width: 100%;">
-                  <el-input v-model="personalForm.title" style="margin-left: 18px" clearable/>
+                  <el-input v-model="personalForm.title" style="margin-left: 18px;width:200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('StockRetreat.sourceType')" prop="sourceType" style="width: 100%;">
-                  <el-select v-model="personalForm.sourceType" style="margin-left: 18px;width: 218px" @change="chooseType">
+                  <el-select v-model="personalForm.sourceType" style="margin-left: 18px;width: 200px" @change="chooseType">
                     <el-option value="1" label="采购到货单" />
                     <el-option value="2" label="无来源" />
                     <el-option value="3" label="采购入库单" />
@@ -23,19 +23,19 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('StockRetreat.supplierId')" prop="supplierId" style="width: 100%;">
-                  <el-input v-model="supplierId" style="margin-left: 18px" clearable @focus="handlechoose"/>
+                  <el-input v-model="supplierId" style="margin-left: 18px;width:200px" clearable @focus="handlechoose"/>
                   <my-supplier :control.sync="empcontrol" @supplierName="supplierName"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('StockRetreat.stockPersonId')" prop="stockPersonId" style="width: 100%;">
-                  <el-input v-model="stockPersonId" style="margin-left: 18px" clearable @focus="handlechooseStock"/>
+                  <el-input v-model="stockPersonId" style="margin-left: 18px;width:200px" clearable @focus="handlechooseStock"/>
                   <my-emp :control.sync="stockControl" @stockName="stockName"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('StockRetreat.stockTypeId')" prop="stockType" style="width: 100%;">
-                  <el-select v-model="personalForm.stockTypeId" style="margin-left: 18px;width: 218px" @focus="updatecountry">
+                  <el-select v-model="personalForm.stockTypeId" style="margin-left: 18px;width: 200px" @focus="updatecountry">
                     <el-option
                       v-for="(item, index) in types"
                       :key="index"
@@ -46,7 +46,7 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('StockRetreat.deptId')" prop="deptId" style="width: 100%;">
-                  <el-select v-model="personalForm.deptId" clearable style="margin-left: 18px;width: 218px">
+                  <el-select v-model="personalForm.deptId" clearable style="margin-left: 18px;width: 200px">
                     <el-option
                       v-for="(item, index) in depts"
                       :key="index"
@@ -57,7 +57,7 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('StockRetreat.payId')" style="width: 100%;">
-                  <el-select v-model="personalForm.payId" clearable style="margin-left: 18px;width: 218px">
+                  <el-select v-model="personalForm.payId" clearable style="margin-left: 18px;width: 200px">
                     <el-option value="1" label="现金"/>
                   </el-select>
                 </el-form-item>
@@ -69,12 +69,12 @@
                     :picker-options="pickerOptions1"
                     type="date"
                     value-format="yyyy-MM-dd"
-                    style="margin-left: 18px"/>
+                    style="margin-left: 18px;width:200px"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('StockRetreat.deliveryModeId')" style="width: 100%;">
-                  <el-select v-model="personalForm.deliveryModeId" clearable style="margin-left: 18px;width: 218px">
+                  <el-select v-model="personalForm.deliveryModeId" clearable style="margin-left: 18px;width: 200px">
                     <el-option
                       v-for="(item, index) in giveIds"
                       :key="index"
@@ -86,15 +86,15 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('StockRetreat.isVat')" style="width: 100%;">
-                  <el-radio-group v-model="personalForm.isVat" style="margin-left: 18px">
-                    <el-radio :label="1" style="width: 120px">是</el-radio>
+                  <el-radio-group v-model="personalForm.isVat" style="margin-left: 18px;width:200px">
+                    <el-radio :label="1" style="width: 100px">是</el-radio>
                     <el-radio :label="2">否</el-radio>
                   </el-radio-group>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('StockRetreat.currencyId')" prop="currency" style="width: 100%;">
-                  <el-select v-model="personalForm.currencyId" clearable style="margin-left: 18px;width: 218px">
+                  <el-select v-model="personalForm.currencyId" clearable style="margin-left: 18px;width: 200px">
                     <el-option value="1" label="RMB"/>
                     <el-option value="2" label="USD"/>
                   </el-select>
@@ -102,12 +102,12 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('StockRetreat.acceptAddress')" style="width: 100%;">
-                  <el-input v-model="personalForm.acceptAddress" style="margin-left: 18px" clearable/>
+                  <el-input v-model="personalForm.acceptAddress" style="margin-left: 18px;width:200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('StockRetreat.transportModeId')" style="width: 100%;">
-                  <el-select v-model="personalForm.transportModeId" clearable style="margin-left: 18px;width: 218px">
+                  <el-select v-model="personalForm.transportModeId" clearable style="margin-left: 18px;width: 200px">
                     <el-option
                       v-for="(item, index) in transportIds"
                       :key="index"
@@ -119,7 +119,7 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item v-if="personalForm.sourceType === '3'" :label="$t('StockRetreat.retreatRepositoryId')" prop="retreatRepositoryId" style="width: 100%;">
-                  <el-input v-model="retreatRepositoryId" style="margin-left: 18px" clearable @focus="handlechooseRep"/>
+                  <el-input v-model="retreatRepositoryId" style="margin-left: 18px;width:200px" clearable @focus="handlechooseRep"/>
                   <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
                 </el-form-item>
               </el-col>
@@ -196,27 +196,27 @@
             <el-row>
               <el-col :span="6">
                 <el-form-item label="退货数量总计" style="width: 100%;">
-                  <el-input v-model="allNumber" style="margin-left: 18px" disabled/>
+                  <el-input v-model="allNumber" style="margin-left: 18px;width:200px" disabled/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item label="金额合计" style="width: 100%;">
-                  <el-input v-model="allMoney" style="margin-left: 18px" disabled/>
+                  <el-input v-model="allMoney" style="margin-left: 18px;width:200px" disabled/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item label="税额合计" style="width: 100%;">
-                  <el-input v-model="allTaxMoney" style="margin-left: 18px" disabled/>
+                  <el-input v-model="allTaxMoney" style="margin-left: 18px;width:200px" disabled/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item label="抵应付账款" style="width: 100%;">
-                  <el-input v-model="allIncludeTaxMoney" style="margin-left: 18px" disabled/>
+                  <el-input v-model="allIncludeTaxMoney" style="margin-left: 18px;width:200px" disabled/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item label="应退货款合计" style="width: 100%;">
-                  <el-input v-model="allDiscountMoney" style="margin-left: 18px" disabled/>
+                  <el-input v-model="allDiscountMoney" style="margin-left: 18px;width:200px" disabled/>
                 </el-form-item>
               </el-col>
             </el-row>

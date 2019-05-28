@@ -9,12 +9,12 @@
             <el-row>
               <el-col :span="6">
                 <el-form-item :label="$t('SalePlan.title')" style="width: 100%;">
-                  <el-input v-model="personalForm.title" style="margin-left: 18px" clearable/>
+                  <el-input v-model="personalForm.title" style="margin-left: 18px;width:200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('SalePlan.planType')" prop="planType" style="width: 100%;">
-                  <el-select v-model="personalForm.planType" style="margin-left: 18px;width: 218px">
+                  <el-select v-model="personalForm.planType" style="margin-left: 18px;width: 200px">
                     <el-option value="1" label="年"/>
                     <el-option value="2" label="月"/>
                     <el-option value="3" label="周"/>
@@ -28,7 +28,7 @@
                     v-model="personalForm.planDate"
                     type="date"
                     value-format="yyyy-MM-dd"
-                    style="margin-left: 18px"/>
+                    style="margin-left: 18px;width:200px"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
@@ -38,7 +38,7 @@
                     :picker-options="pickerOptions0"
                     type="date"
                     value-format="yyyy-MM-dd"
-                    style="margin-left: 18px"
+                    style="margin-left: 18px;width:200px"
                     @change="cleardeposit"/>
                 </el-form-item>
               </el-col>
@@ -49,22 +49,22 @@
                     :picker-options="pickerOptions1"
                     type="date"
                     value-format="yyyy-MM-dd"
-                    style="margin-left: 18px"/>
+                    style="margin-left: 18px;width:200px"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('SalePlan.lowerPlanMoney')" style="width: 100%;">
-                  <el-input v-model="personalForm.lowerPlanMoney" style="margin-left: 18px" clearable/>
+                  <el-input v-model="personalForm.lowerPlanMoney" style="margin-left: 18px;width:200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('SalePlan.planTotalMoney')" style="width: 100%;">
-                  <el-input v-model="personalForm.planTotalMoney" style="margin-left: 18px" clearable/>
+                  <el-input v-model="personalForm.planTotalMoney" style="margin-left: 18px;width:200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('SalePlan.urgePlan')" style="width: 100%;">
-                  <el-input v-model="personalForm.urgePlan" style="margin-left: 18px" clearable/>
+                  <el-input v-model="personalForm.urgePlan" style="margin-left: 18px;width:200px" clearable/>
                 </el-form-item>
               </el-col>
             </el-row>

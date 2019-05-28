@@ -9,24 +9,24 @@
             <el-row>
               <el-col :span="6">
                 <el-form-item :label="$t('RequirePlan.title')" style="width: 100%;">
-                  <el-input v-model="personalForm.title" style="margin-left: 18px" clearable/>
+                  <el-input v-model="personalForm.title" style="margin-left: 18px;width:200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('RequirePlan.handlePersonId')" prop="handlePersonId" style="width: 100%;">
-                  <el-input v-model="handlePersonId" style="margin-left: 18px" clearable @focus="handlechooseStock"/>
+                  <el-input v-model="handlePersonId" style="margin-left: 18px;width:200px" clearable @focus="handlechooseStock"/>
                 </el-form-item>
                 <my-emp :control.sync="stockControl" @stockName="stockName"/>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('RequirePlan.deptId')" style="width: 100%;">
-                  <el-input v-model="workCenterId" style="margin-left: 18px" clearable @focus="workcenterchoose"/>
+                  <el-input v-model="workCenterId" style="margin-left: 18px;width:200px" clearable @focus="workcenterchoose"/>
                 </el-form-item>
               </el-col>
               <my-center :control.sync="centercontrol" @center="center"/>
               <el-col :span="6">
                 <el-form-item :label="$t('RequirePlan.producePlanNumber')" prop="producePlanNumber" style="width: 100%;">
-                  <el-input v-model="producePlanNumber" :value="producePlanNumber" style="margin-left: 18px" clearable @focus="producechoose"/>
+                  <el-input v-model="producePlanNumber" :value="producePlanNumber" style="margin-left: 18px;width:200px" clearable @focus="producechoose"/>
                 </el-form-item>
                 <produce-plan :procontrol.sync="producecontrol" @allinfo="allinfo"/>
               </el-col>
@@ -37,18 +37,18 @@
                     type="date"
                     placeholder="计划供料日期"
                     value-format="yyyy-MM-dd"
-                    style="margin-left: 18px"/>
+                    style="margin-left: 18px;width:200px"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('RequirePlan.produceRepositoryId')" prop="produceRepositoryId" style="width: 100%;">
-                  <el-input v-model="produceRepositoryId" style="margin-left: 18px" clearable @focus="handlechooseRep"/>
+                  <el-input v-model="produceRepositoryId" style="margin-left: 18px;width:200px" clearable @focus="handlechooseRep"/>
                 </el-form-item>
                 <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('RequirePlan.summary')" style="width: 100%;">
-                  <el-input v-model="personalForm.summary" style="margin-left: 18px" clearable/>
+                  <el-input v-model="personalForm.summary" style="margin-left: 18px;width:200px" clearable/>
                 </el-form-item>
               </el-col>
             </el-row>

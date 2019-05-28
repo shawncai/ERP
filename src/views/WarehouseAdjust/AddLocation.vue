@@ -9,37 +9,37 @@
             <el-row>
               <el-col :span="6">
                 <el-form-item :label="$t('WarehouseAdjust.locationCode')" prop="locationCode" style="width: 100%;">
-                  <el-input v-model="personalForm.locationCode" placeholder="请输入货位编号" style="margin-left: 18px" clearable/>
+                  <el-input v-model="personalForm.locationCode" placeholder="请输入货位编号" style="margin-left: 18px;width:200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('WarehouseAdjust.locationName')" prop="locationName" style="width: 100%;">
-                  <el-input v-model="personalForm.locationName" placeholder="请输入货位名称" style="margin-left: 18px" clearable/>
+                  <el-input v-model="personalForm.locationName" placeholder="请输入货位名称" style="margin-left: 18px;width:200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('WarehouseAdjust.length')" prop="length" style="width: 100%;">
-                  <el-input v-model="personalForm.length" placeholder="请输入货位长" style="margin-left: 18px" clearable>
+                  <el-input v-model="personalForm.length" placeholder="请输入货位长" style="margin-left: 18px;width:200px" clearable>
                     <template slot="append">M</template>
                   </el-input>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('WarehouseAdjust.width')" prop="width" style="width: 100%;">
-                  <el-input v-model="personalForm.width" placeholder="请输入货位宽" style="margin-left: 18px" clearable>
+                  <el-input v-model="personalForm.width" placeholder="请输入货位宽" style="margin-left: 18px;width:200px" clearable>
                     <template slot="append">M</template>
                   </el-input>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('WarehouseAdjust.height')" prop="height" style="width: 100%;">
-                  <el-input v-model="personalForm.height" placeholder="请输入货位高" style="margin-left: 18px" clearable>
+                  <el-input v-model="personalForm.height" placeholder="请输入货位高" style="margin-left: 18px;width:200px" clearable>
                     <template slot="append">M</template>
                 </el-input></el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('WarehouseAdjust.repositoryId')" prop="repositoryId" style="width: 100%;">
-                  <el-input v-model="repositoryId" placeholder="请选择仓库" style="margin-left: 18px" clearable @focus="handlechooseRep"/>
+                  <el-input v-model="repositoryId" placeholder="请选择仓库" style="margin-left: 18px;width:200px" clearable @focus="handlechooseRep"/>
                 </el-form-item>
               </el-col>
               <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/><br>
