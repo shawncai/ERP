@@ -708,6 +708,11 @@ export default {
       this.customerId = null
       this.salePersonId = null
     },
+    deepClone(obj) {
+      const _obj = JSON.stringify(obj)
+      const objClone = JSON.parse(_obj)
+      return objClone
+    },
     // 修改和取消按钮
     // 修改按钮
     handleEditok() {
@@ -718,8 +723,8 @@ export default {
           this.personalForm.createPersonId = this.$store.getters.userId
           this.personalForm.countryId = this.$store.getters.countryId
           this.personalForm.modifyPersonId = this.$store.getters.userId
-          const EnterDetail = this.$refs.editable.getRecords()
-          const EnterDetail2 = this.$refs.editable2.getRecords()
+          const EnterDetail = this.deepClone(this.$refs.editable.getRecords())
+          const EnterDetail2 = this.deepClone(this.$refs.editable2.getRecords())
           if (EnterDetail.length === 0) {
             this.$notify.error({
               title: '错误',

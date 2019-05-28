@@ -674,12 +674,18 @@ export default {
       this.supplierId = null
       this.inquiryPersonId = null
     },
+    // 深拷贝
+    deepClone(obj) {
+      const _obj = JSON.stringify(obj)
+      const objClone = JSON.parse(_obj)
+      return objClone
+    },
     // 保存操作
     handlesave() {
       this.$refs.personalForm.validate((valid) => {
         if (valid) {
           this.$refs.editable.validate().then(valid => {
-            const EnterDetail = this.$refs.editable.getRecords()
+            const EnterDetail = this.deepClone(this.$refs.editable.getRecords())
             if (EnterDetail.length === 0) {
               this.$notify.error({
                 title: '错误',

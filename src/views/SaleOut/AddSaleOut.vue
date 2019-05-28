@@ -1024,12 +1024,18 @@ export default {
       this.transferPersonId = null
       this.outPersonId = null
     },
+    // 深拷贝
+    deepClone(obj) {
+      const _obj = JSON.stringify(obj)
+      const objClone = JSON.parse(_obj)
+      return objClone
+    },
     // 保存操作
     handlesave() {
       this.$refs.personalForm.validate((valid) => {
         if (valid) {
-          const EnterDetail = this.$refs.editable.getRecords()
-          const EnterDetail2 = this.$refs.editable2.getRecords()
+          const EnterDetail = this.deepClone(this.$refs.editable.getRecords())
+          const EnterDetail2 = this.deepClone(this.$refs.editable2.getRecords())
           if (EnterDetail.length === 0) {
             this.$notify.error({
               title: '错误',

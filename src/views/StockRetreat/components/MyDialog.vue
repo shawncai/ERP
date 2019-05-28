@@ -560,6 +560,12 @@ export default {
       this.ourContractorId = null
       this.acceptPersonId = null
     },
+    // 深拷贝
+    deepClone(obj) {
+      const _obj = JSON.stringify(obj)
+      const objClone = JSON.parse(_obj)
+      return objClone
+    },
     // 修改和取消按钮
     // 修改按钮
     handleEditok() {
@@ -570,7 +576,7 @@ export default {
       this.personalForm.modifyPersonId = this.$store.getters.userId
       this.$refs.personalForm.validate((valid) => {
         if (valid) {
-          const EnterDetail = this.$refs.editable.getRecords()
+          const EnterDetail = this.deepClone(this.$refs.editable.getRecords())
           if (EnterDetail.length === 0) {
             this.$notify.error({
               title: '错误',
