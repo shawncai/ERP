@@ -9,12 +9,12 @@
             <el-row>
               <el-col :span="6">
                 <el-form-item :label="$t('MaterialsList.bomNumber')" prop="bomNumber" style="width: 100%;">
-                  <el-input v-model="personalForm.bomNumber" style="margin-left: 18px" clearable/>
+                  <el-input v-model="personalForm.bomNumber" style="margin-left: 18px;width:200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('MaterialsList.bomTypeId')" prop="bomTypeId" style="width: 100%;">
-                  <el-select v-model="personalForm.bomTypeId" style="margin-left: 18px;width: 218px" clearable >
+                  <el-select v-model="personalForm.bomTypeId" style="margin-left: 18px;width: 200px" clearable >
                     <el-option value="1" label="工艺BOM"/>
                     <el-option value="2" label="设计BOM"/>
                     <el-option value="3" label="制造BOM"/>
@@ -23,22 +23,22 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('MaterialsList.isActive')" prop="isActive" style="width: 100%;">
-                  <el-radio-group v-model="personalForm.isActive" style="width:277px;margin-left: 19px">
-                    <el-radio :label="1" style="width: 120px">启用</el-radio>
+                  <el-radio-group v-model="personalForm.isActive" style="margin-left: 18px;width: 200px">
+                    <el-radio :label="1" style="width: 100px">启用</el-radio>
                     <el-radio :label="2">未启用</el-radio>
                   </el-radio-group>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('MaterialsList.version')" style="width: 100%;">
-                  <el-select v-model="personalForm.version" style="margin-left: 18px;width: 218px" clearable >
+                  <el-select v-model="personalForm.version" style="margin-left: 18px;width: 200px" clearable >
                     <el-option value="1" label="版本1"/>
                   </el-select>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('MaterialsList.summary')" style="width: 100%;">
-                  <el-input v-model="personalForm.summary" style="margin-left: 18px" clearable/>
+                  <el-input v-model="personalForm.summary" style="margin-left: 18px;width:200px" clearable/>
                 </el-form-item>
               </el-col>
             </el-row>
@@ -53,23 +53,23 @@
             <el-row>
               <el-col :span="6">
                 <el-form-item :label="$t('MaterialsList.productName')" prop="productName" style="width: 100%;">
-                  <el-input v-model="personalForm.productName" style="margin-left: 18px" @focus="handlemater"/>
+                  <el-input v-model="personalForm.productName" style="margin-left: 18px;width:200px" @focus="handlemater"/>
                 </el-form-item>
               </el-col>
               <my-mater :matercontrol.sync="matercontrol" @mater="mater"/>
               <el-col :span="6">
                 <el-form-item :label="$t('MaterialsList.unit')" prop="unit" style="width: 100%;">
-                  <el-input v-model="personalForm.unit" style="margin-left: 18px" disabled/>
+                  <el-input v-model="personalForm.unit" style="margin-left: 18px;width:200px" disabled/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('MaterialsList.productTypeId')" prop="productTypeId" style="width: 100%;">
-                  <el-input v-model="productTypeId" style="margin-left: 18px" disabled/>
+                  <el-input v-model="productTypeId" style="margin-left: 18px;width:200px" disabled/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('MaterialsList.code')" style="width: 100%;">
-                  <el-input v-model="personalForm.productCode" style="margin-left: 18px" disabled/>
+                  <el-input v-model="personalForm.productCode" style="margin-left: 18px;width:200px" disabled/>
                 </el-form-item>
               </el-col>
             </el-row>

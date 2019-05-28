@@ -9,18 +9,18 @@
             <el-row>
               <el-col :span="6">
                 <el-form-item :label="$t('WarehouseAdjust.title2')" style="width: 100%;">
-                  <el-input v-model="personalForm.title" style="margin-left: 18px" clearable/>
+                  <el-input v-model="personalForm.title" style="margin-left: 18px;width:200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('WarehouseAdjust.handlePersonId')" prop="handlePersonId" style="width: 100%;">
-                  <el-input v-model="handlePersonId" style="margin-left: 18px" clearable @focus="handlechoose"/>
+                  <el-input v-model="handlePersonId" style="margin-left: 18px;width:200px" clearable @focus="handlechoose"/>
                 </el-form-item>
                 <my-create :createcontrol.sync="createcontrol" @createname="createname"/>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('WarehouseAdjust.adjustDeptId')" style="width: 100%;">
-                  <el-select v-model="personalForm.adjustDeptId" style="margin-left: 18px" clearable >
+                  <el-select v-model="personalForm.adjustDeptId" style="margin-left: 18px;width:200px" clearable >
                     <el-option
                       v-for="(item, index) in depts"
                       :key="index"
@@ -31,7 +31,7 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('WarehouseAdjust.adjustRepositoryId')" prop="adjustRepositoryId" style="width: 100%;">
-                  <el-input v-model="adjustRepositoryId" style="margin-left: 18px" clearable @focus="handlechooseRep"/>
+                  <el-input v-model="adjustRepositoryId" style="margin-left: 18px;width:200px" clearable @focus="handlechooseRep"/>
                 </el-form-item>
               </el-col>
               <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/><br>
@@ -39,7 +39,7 @@
             <el-row style="margin-top: 23px">
               <el-col :span="6">
                 <el-form-item :label="$t('WarehouseAdjust.adjustReason')" style="width: 100%;">
-                  <el-input v-model="personalForm.adjustReason" style="margin-left: 18px" clearable/>
+                  <el-input v-model="personalForm.adjustReason" style="margin-left: 18px;width:200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
@@ -48,7 +48,7 @@
                     v-model="personalForm.adjustDate"
                     type="date"
                     value-format="yyyy-MM-dd"
-                    style="margin-left: 18px"/>
+                    style="margin-left: 18px;width:200px"/>
                 </el-form-item>
               </el-col>
             </el-row>

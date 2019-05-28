@@ -9,12 +9,12 @@
             <el-row>
               <el-col :span="6">
                 <el-form-item :label="$t('ProduceTask.title')" style="width: 100%;">
-                  <el-input v-model="personalForm.title" style="margin-left: 18px" clearable/>
+                  <el-input v-model="personalForm.title" style="margin-left: 18px;width:200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('ProduceTask.sourceType')" prop="sourceType" style="width: 100%;">
-                  <el-select v-model="personalForm.sourceType" style="margin-left: 18px;width: 218px" @change="chooseType">
+                  <el-select v-model="personalForm.sourceType" style="margin-left: 18px;width: 200px" @change="chooseType">
                     <el-option value="1" label="主生产计划" />
                     <el-option value="2" label="无来源" />
                     <el-option value="3" label="生产需求" />
@@ -23,7 +23,7 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('ProduceTask.produceDeptId')" prop="produceDeptId" style="width: 100%;">
-                  <el-select v-model="personalForm.produceDeptId" clearable style="margin-left: 18px" @change="choosedept">
+                  <el-select v-model="personalForm.produceDeptId" clearable style="margin-left: 18px;width:200px" @change="choosedept">
                     <el-option
                       v-for="(item, index) in depts"
                       :key="index"
@@ -34,20 +34,20 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('ProduceTask.processType')" prop="processType" style="width: 100%;">
-                  <el-select v-model="personalForm.processType" style="margin-left: 18px">
+                  <el-select v-model="personalForm.processType" style="margin-left: 18px;width:200px">
                     <el-option value="1" label="加工1" />
                   </el-select>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('ProduceTask.handlePersonId')" prop="handlePersonId" style="width: 100%;">
-                  <el-input v-model="handlePersonId" style="margin-left: 18px" clearable @focus="handlechooseStock"/>
+                  <el-input v-model="handlePersonId" style="margin-left: 18px;width:200px" clearable @focus="handlechooseStock"/>
                 </el-form-item>
                 <my-delivery :deliverycontrol.sync="deliverycontrol" @deliveryName="deliveryName"/>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('ProduceTask.summary')" style="width: 100%;">
-                  <el-input v-model="personalForm.summary" style="margin-left: 18px" clearable/>
+                  <el-input v-model="personalForm.summary" style="margin-left: 18px;width:200px" clearable/>
                 </el-form-item>
               </el-col>
             </el-row>

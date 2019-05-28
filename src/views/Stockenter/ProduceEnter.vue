@@ -9,44 +9,44 @@
             <el-row>
               <el-col :span="6">
                 <el-form-item :label="$t('Stockenter.title')" prop="title" style="width: 100%;">
-                  <el-input v-model="personalForm.title" placeholder="请输入入库单主题" style="margin-left: 18px" clearable/>
+                  <el-input v-model="personalForm.title" placeholder="请输入入库单主题" style="margin-left: 18px;width:200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('Stockenter.sourceType')" prop="sourceType" style="width: 100%;">
-                  <el-select v-model="personalForm.sourceType" placeholder="请选择源单类型" style="margin-left: 18px;width: 218px" clearable >
+                  <el-select v-model="personalForm.sourceType" placeholder="请选择源单类型" style="margin-left: 18px;width: 200px" clearable >
                     <el-option value="1" label="生产任务单"/>
                   </el-select>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('Stockenter.sourceNumber')" prop="sourceNumber" style="width: 100%;">
-                  <el-input v-model="personalForm.produceTaskNumber" style="margin-left: 18px" clearable @focus="handleAddSouce"/>
+                  <el-input v-model="personalForm.produceTaskNumber" style="margin-left: 18px;width:200px" clearable @focus="handleAddSouce"/>
                 </el-form-item>
                 <produce-task :procontrol.sync="producecontrol" @moredata="moredata" @productDetail="productDetail"/>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('Stockenter.processType')" prop="processType" style="width: 100%;">
-                  <el-select v-model="personalForm.processType" placeholder="请选择加工类别" style="margin-left: 18px;width: 218px" clearable >
+                  <el-select v-model="personalForm.processType" placeholder="请选择加工类别" style="margin-left: 18px;width: 200px" clearable >
                     <el-option value="1" label="加工1"/>
                   </el-select>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('Stockenter.produceManagerId')" style="width: 100%;">
-                  <el-input v-model="produceManagerId" placeholder="请选择生产负责人" style="margin-left: 18px" clearable @focus="handlechoose"/>
+                  <el-input v-model="produceManagerId" placeholder="请选择生产负责人" style="margin-left: 18px;width:200px" clearable @focus="handlechoose"/>
                 </el-form-item>
                 <my-create :createcontrol.sync="createcontrol" @createname="createname"/>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('Stockenter.enterPersonId')" prop="enterPersonId" style="width: 100%;">
-                  <el-input v-model="enterPersonId" placeholder="请选择入库人" style="margin-left: 18px" clearable @focus="handlechooseAccept"/>
+                  <el-input v-model="enterPersonId" placeholder="请选择入库人" style="margin-left: 18px;width:200px" clearable @focus="handlechooseAccept"/>
                 </el-form-item>
                 <my-accept :accetpcontrol.sync="accetpcontrol" @acceptName="acceptName"/>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('Stockenter.enterDeptId')" style="width: 100%;">
-                  <el-select v-model="personalForm.enterDeptId" placeholder="请选择入库部门" style="margin-left: 18px;width: 218px" clearable >
+                  <el-select v-model="personalForm.enterDeptId" placeholder="请选择入库部门" style="margin-left: 18px;width: 200px" clearable >
                     <el-option
                       v-for="(item, index) in depts"
                       :key="index"
@@ -57,13 +57,13 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('Stockenter.enterRepositoryId')" prop="enterRepositoryId" style="width: 100%;">
-                  <el-input v-model="enterRepositoryId" placeholder="请选择仓库" style="margin-left: 18px" clearable @focus="handlechooseRep"/>
+                  <el-input v-model="enterRepositoryId" placeholder="请选择仓库" style="margin-left: 18px;width:200px" clearable @focus="handlechooseRep"/>
                 </el-form-item>
                 <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('Stockenter.summary')" prop="summary" style="width: 100%;">
-                  <el-input v-model="personalForm.summary" placeholder="请输入摘要" style="margin-left: 18px" clearable/>
+                  <el-input v-model="personalForm.summary" placeholder="请输入摘要" style="margin-left: 18px;width:200px" clearable/>
                 </el-form-item>
               </el-col>
             </el-row>

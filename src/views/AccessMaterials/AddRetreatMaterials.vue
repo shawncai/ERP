@@ -9,12 +9,12 @@
             <el-row>
               <el-col :span="6">
                 <el-form-item :label="$t('AccessMaterials.title')" style="width: 100%;">
-                  <el-input v-model="personalForm.title" style="margin-left: 18px" clearable/>
+                  <el-input v-model="personalForm.title" style="margin-left: 18px;width:200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('AccessMaterials.sourceType')" prop="sourceType" style="width: 100%;">
-                  <el-select v-model="personalForm.sourceType" style="margin-left: 18px;width: 218px" @change="chooseType">
+                  <el-select v-model="personalForm.sourceType" style="margin-left: 18px;width: 200px" @change="chooseType">
                     <el-option value="1" label="领料单" />
                     <el-option value="2" label="无来源" />
                   </el-select>
@@ -22,26 +22,26 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('AccessMaterials.accessMaterialsId')" prop="accessMaterialsId" style="width: 100%;">
-                  <el-input v-model="accessMaterialsId" :disabled="addsouce" style="margin-left: 18px" clearable @focus="choosemate"/>
+                  <el-input v-model="accessMaterialsId" :disabled="addsouce" style="margin-left: 18px;width:200px" clearable @focus="choosemate"/>
                   <my-materials :matecontrol.sync="matecontrol" @material="material" @alldata="alldata"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('AccessMaterials.processType')" prop="workingType" style="width: 100%;">
-                  <el-select v-model="personalForm.workingType" style="margin-left: 18px;width: 218px">
+                  <el-select v-model="personalForm.workingType" style="margin-left: 18px;width: 200px">
                     <el-option value="1" label="加工1" />
                   </el-select>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('AccessMaterials.retreatPersonId')" prop="accessPersonId" style="width: 100%;">
-                  <el-input v-model="retreatPersonId" style="margin-left: 18px" clearable @focus="handlechooseStock"/>
+                  <el-input v-model="retreatPersonId" style="margin-left: 18px;width:200px" clearable @focus="handlechooseStock"/>
                   <my-delivery :deliverycontrol.sync="stockControl" @deliveryName="stockName"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('AccessMaterials.receivePersonId')" prop="accessPersonId" style="width: 100%;">
-                  <el-input v-model="receivePersonId" style="margin-left: 18px" clearable @focus="handlechoose"/>
+                  <el-input v-model="receivePersonId" style="margin-left: 18px;width:200px" clearable @focus="handlechoose"/>
                   <my-create :createcontrol.sync="createcontrol" @createname="createname"/>
                 </el-form-item>
               </el-col>
@@ -51,7 +51,7 @@
                     v-model="personalForm.receiveDate"
                     type="date"
                     value-format="yyyy-MM-dd"
-                    style="margin-left: 18px"/>
+                    style="margin-left: 18px;width:200px"/>
                 </el-form-item>
               </el-col>
             </el-row>

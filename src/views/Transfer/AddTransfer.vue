@@ -9,12 +9,12 @@
             <el-row>
               <el-col :span="6">
                 <el-form-item :label="$t('Transfer.title')" style="width: 100%;">
-                  <el-input v-model="personalForm.title" style="margin-left: 18px" clearable/>
+                  <el-input v-model="personalForm.title" style="margin-left: 18px;width:200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('Transfer.transferTicket')" prop="transferTicket" style="width: 100%;">
-                  <el-input v-model="personalForm.transferTicket" style="margin-left: 18px" clearable/>
+                  <el-input v-model="personalForm.transferTicket" style="margin-left: 18px;width:200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
@@ -24,48 +24,48 @@
                     :picker-options="pickerOptions1"
                     type="date"
                     value-format="yyyy-MM-dd"
-                    style="margin-left: 18px"/>
+                    style="margin-left: 18px;width:200px"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('Transfer.transferMoney')" prop="transferTicket" style="width: 100%;">
-                  <el-input v-model="personalForm.transferMoney" style="margin-left: 18px" clearable/>
+                  <el-input v-model="personalForm.transferMoney" style="margin-left: 18px;width:200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('Transfer.transferOutAccount')" prop="transferTicket" style="width: 100%;">
-                  <el-input v-model="personalForm.transferOutAccount" style="margin-left: 18px" clearable/>
+                  <el-input v-model="personalForm.transferOutAccount" style="margin-left: 18px;width:200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('Transfer.transferOutBank')" prop="transferTicket" style="width: 100%;">
-                  <el-input v-model="personalForm.transferOutBank" style="margin-left: 18px" clearable/>
+                  <el-input v-model="personalForm.transferOutBank" style="margin-left: 18px;width:200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('Transfer.transferInAccount')" prop="transferTicket" style="width: 100%;">
-                  <el-input v-model="personalForm.transferInAccount" style="margin-left: 18px" clearable/>
+                  <el-input v-model="personalForm.transferInAccount" style="margin-left: 18px;width:200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('Transfer.transferInBank')" prop="transferTicket" style="width: 100%;">
-                  <el-input v-model="personalForm.transferInBank" style="margin-left: 18px" clearable/>
+                  <el-input v-model="personalForm.transferInBank" style="margin-left: 18px;width:200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('Transfer.taxRate')" prop="transferTicket" style="width: 100%;">
-                  <el-input v-model="personalForm.taxRate" style="margin-left: 18px" clearable/>
+                  <el-input v-model="personalForm.taxRate" style="margin-left: 18px;width:200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('Transfer.handlePersonId')" prop="handlePersonId" style="width: 100%;">
-                  <el-input v-model="handlePersonId" style="margin-left: 18px;width: 218px" @focus="handlechooseStock"/>
+                  <el-input v-model="handlePersonId" style="margin-left: 18px;width: 200px" @focus="handlechooseStock"/>
                   <my-emp :control.sync="stockControl" @stockName="stockName"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('Transfer.currency')" style="width: 100%;">
-                  <el-select v-model="personalForm.currency" style="margin-left: 18px;width: 218px">
+                  <el-select v-model="personalForm.currency" style="margin-left: 18px;width: 200px">
                     <el-option value="1" label="RMB"/>
                     <el-option value="2" label="USD"/>
                   </el-select>

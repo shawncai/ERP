@@ -9,18 +9,18 @@
             <el-row>
               <el-col :span="6">
                 <el-form-item :label="$t('ProducePlan.title')" style="width: 100%;">
-                  <el-input v-model="personalForm.title" style="margin-left: 18px" clearable/>
+                  <el-input v-model="personalForm.title" style="margin-left: 18px;width:200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('ProducePlan.handlePersonId')" prop="handlePersonId" style="width: 100%;">
-                  <el-input v-model="handlePersonId" style="margin-left: 18px" clearable @focus="handlechooseStock"/>
+                  <el-input v-model="handlePersonId" style="margin-left: 18px;width:200px" clearable @focus="handlechooseStock"/>
                 </el-form-item>
                 <my-emp :control.sync="stockControl" @stockName="stockName"/>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('ProducePlan.produceDeptId')" prop="produceDeptId" style="width: 100%;">
-                  <el-select v-model="personalForm.produceDeptId" clearable style="margin-left: 18px" @change="choosedept">
+                  <el-select v-model="personalForm.produceDeptId" clearable style="margin-left: 18px;width:200px" @change="choosedept">
                     <el-option
                       v-for="(item, index) in depts"
                       :key="index"
@@ -31,7 +31,7 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('ProducePlan.summary')" style="width: 100%;">
-                  <el-input v-model="personalForm.summary" style="margin-left: 18px" clearable/>
+                  <el-input v-model="personalForm.summary" style="margin-left: 18px;width:200px" clearable/>
                 </el-form-item>
               </el-col>
             </el-row>

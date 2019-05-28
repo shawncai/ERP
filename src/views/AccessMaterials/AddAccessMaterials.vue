@@ -9,12 +9,12 @@
             <el-row>
               <el-col :span="6">
                 <el-form-item :label="$t('AccessMaterials.title')" style="width: 100%;">
-                  <el-input v-model="personalForm.title" style="margin-left: 18px" clearable/>
+                  <el-input v-model="personalForm.title" style="margin-left: 18px;width:200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('AccessMaterials.sourceType')" prop="sourceType" style="width: 100%;">
-                  <el-select v-model="personalForm.sourceType" style="margin-left: 18px;width: 218px" @change="chooseType">
+                  <el-select v-model="personalForm.sourceType" style="margin-left: 18px;width: 200px" @change="chooseType">
                     <el-option value="1" label="生产任务单" />
                     <el-option value="2" label="无来源" />
                   </el-select>
@@ -22,13 +22,13 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('AccessMaterials.produceTaskNumber')" style="width: 100%;">
-                  <el-input v-model="personalForm.produceTaskNumber" :disabled="addsouce" style="margin-left: 18px" clearable @focus="handleAddSouce"/>
+                  <el-input v-model="personalForm.produceTaskNumber" :disabled="addsouce" style="margin-left: 18px;width:200px" clearable @focus="handleAddSouce"/>
                 </el-form-item>
                 <produce-task :procontrol.sync="producecontrol" @moredata="moredata"/>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('AccessMaterials.deptId')" prop="produceDeptId" style="width: 100%;">
-                  <el-select v-model="personalForm.produceDeptId" clearable style="margin-left: 18px;width: 218px" @change="choosedept">
+                  <el-select v-model="personalForm.produceDeptId" clearable style="margin-left: 18px;width: 200px" @change="choosedept">
                     <el-option
                       v-for="(item, index) in depts"
                       :key="index"
@@ -39,14 +39,14 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('AccessMaterials.processType')" prop="processType" style="width: 100%;">
-                  <el-select v-model="personalForm.processType" style="margin-left: 18px;width: 218px">
+                  <el-select v-model="personalForm.processType" style="margin-left: 18px;width: 200px">
                     <el-option value="1" label="加工1" />
                   </el-select>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('AccessMaterials.accessPersonId')" prop="handlePersonId" style="width: 100%;">
-                  <el-input v-model="accessPersonId" style="margin-left: 18px" clearable @focus="handlechooseStock"/>
+                  <el-input v-model="accessPersonId" style="margin-left: 18px;width:200px" clearable @focus="handlechooseStock"/>
                   <my-delivery :deliverycontrol.sync="stockControl" @deliveryName="stockName"/>
                 </el-form-item>
               </el-col>
@@ -56,12 +56,12 @@
                     v-model="personalForm.accessDate"
                     type="date"
                     value-format="yyyy-MM-dd"
-                    style="margin-left: 18px"/>
+                    style="margin-left: 18px;width:200px"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('AccessMaterials.accessRepositoryId')" prop="produceRepositoryId" style="width: 100%;">
-                  <el-input v-model="accessRepositoryId" style="margin-left: 18px" clearable @focus="handlechooseRep"/>
+                  <el-input v-model="accessRepositoryId" style="margin-left: 18px;width:200px" clearable @focus="handlechooseRep"/>
                 </el-form-item>
                 <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
               </el-col>

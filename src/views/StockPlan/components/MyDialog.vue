@@ -172,12 +172,12 @@
           <el-row>
             <el-col :span="6">
               <el-form-item :label="$t('StockPlan.heji1')" style="width: 100%;">
-                <el-input v-model="heji1" style="margin-left: 18px" disabled/>
+                <el-input v-model="heji1" style="margin-left: 18px;width:200px" disabled/>
               </el-form-item>
             </el-col>
             <el-col :span="6">
               <el-form-item :label="$t('StockPlan.heji2')" style="width: 100%;">
-                <el-input v-model="heji2" style="margin-left: 18px" disabled/>
+                <el-input v-model="heji2" style="margin-left: 18px;width:200px" disabled/>
               </el-form-item>
             </el-col>
           </el-row>

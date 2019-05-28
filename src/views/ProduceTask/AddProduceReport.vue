@@ -9,12 +9,12 @@
             <el-row>
               <el-col :span="6">
                 <el-form-item :label="$t('ProduceTask.title')" style="width: 100%;">
-                  <el-input v-model="personalForm.title" style="margin-left: 18px" clearable/>
+                  <el-input v-model="personalForm.title" style="margin-left: 18px;width:200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('ProduceTask.deptId')" prop="deptId" style="width: 100%;">
-                  <el-select v-model="personalForm.deptId" clearable style="margin-left: 18px">
+                  <el-select v-model="personalForm.deptId" clearable style="margin-left: 18px;width:200px">
                     <el-option
                       v-for="(item, index) in depts"
                       :key="index"
@@ -25,13 +25,13 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('ProduceTask.workCenterId')" prop="workCenterId" style="width: 100%;">
-                  <el-input v-model="workCenterId" style="margin-left: 18px" clearable @focus="workcenterchoose"/>
+                  <el-input v-model="workCenterId" style="margin-left: 18px;width:200px" clearable @focus="workcenterchoose"/>
                 </el-form-item>
                 <my-center :control.sync="centercontrol" @center="center"/>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('ProduceTask.produceTaskNumber')" prop="produceTaskNumber" style="width: 100%;">
-                  <el-input v-model="personalForm.produceTaskNumber" style="margin-left: 18px" clearable @focus="chooseproduce"/>
+                  <el-input v-model="personalForm.produceTaskNumber" style="margin-left: 18px;width:200px" clearable @focus="chooseproduce"/>
                 </el-form-item>
                 <produce-task :procontrol.sync="producecontrol" @produce="produce" @moredata="moredata"/>
               </el-col>
@@ -41,7 +41,7 @@
                     v-model="personalForm.produceDate"
                     type="date"
                     value-format="yyyy-MM-dd"
-                    style="margin-left: 18px"/>
+                    style="margin-left: 18px;width:200px"/>
                 </el-form-item>
               </el-col>
             </el-row>
@@ -56,12 +56,12 @@
               <el-row>
                 <el-col :span="6">
                   <el-form-item :label="$t('ProduceTask.countFinishQuantity')" style="width: 100%;">
-                    <el-input v-model="personalForm.countFinishQuantity" style="margin-left: 18px" clearable/>
+                    <el-input v-model="personalForm.countFinishQuantity" style="margin-left: 18px;width:200px" clearable/>
                   </el-form-item>
                 </el-col>
                 <el-col :span="6">
                   <el-form-item :label="$t('ProduceTask.countWorkHours')" style="width: 100%;">
-                    <el-input v-model="personalForm.countWorkHours" style="margin-left: 18px" clearable/>
+                    <el-input v-model="personalForm.countWorkHours" style="margin-left: 18px;width:200px" clearable/>
                   </el-form-item>
                 </el-col>
               </el-row>
@@ -101,32 +101,32 @@
               <el-row>
                 <el-col :span="6">
                   <el-form-item :label="$t('ProduceTask.shouldPeoples')" style="width: 100%;">
-                    <el-input v-model="personalForm.shouldPeoples" style="margin-left: 18px" clearable/>
+                    <el-input v-model="personalForm.shouldPeoples" style="margin-left: 18px;width:200px" clearable/>
                   </el-form-item>
                 </el-col>
                 <el-col :span="6">
                   <el-form-item :label="$t('ProduceTask.actualPeoples')" style="width: 100%;">
-                    <el-input v-model="personalForm.actualPeoples" style="margin-left: 18px" clearable/>
+                    <el-input v-model="personalForm.actualPeoples" style="margin-left: 18px;width:200px" clearable/>
                   </el-form-item>
                 </el-col>
                 <el-col :span="6">
                   <el-form-item :label="$t('ProduceTask.shouldWorkHours')" style="width: 100%;">
-                    <el-input v-model="personalForm.shouldWorkHours" style="margin-left: 18px" clearable/>
+                    <el-input v-model="personalForm.shouldWorkHours" style="margin-left: 18px;width:200px" clearable/>
                   </el-form-item>
                 </el-col>
                 <el-col :span="6">
                   <el-form-item :label="$t('ProduceTask.overtimeHours')" style="width: 100%;">
-                    <el-input v-model="personalForm.overtimeHours" style="margin-left: 18px" clearable/>
+                    <el-input v-model="personalForm.overtimeHours" style="margin-left: 18px;width:200px" clearable/>
                   </el-form-item>
                 </el-col>
                 <el-col :span="6">
                   <el-form-item :label="$t('ProduceTask.stopHours')" style="width: 100%;">
-                    <el-input v-model="personalForm.stopHours" style="margin-left: 18px" clearable/>
+                    <el-input v-model="personalForm.stopHours" style="margin-left: 18px;width:200px" clearable/>
                   </el-form-item>
                 </el-col>
                 <el-col :span="6">
                   <el-form-item :label="$t('ProduceTask.effectiveHours')" style="width: 100%;">
-                    <el-input v-model="personalForm.effectiveHours" style="margin-left: 18px" clearable/>
+                    <el-input v-model="personalForm.effectiveHours" style="margin-left: 18px;width:200px" clearable/>
                   </el-form-item>
                 </el-col>
               </el-row>
@@ -163,47 +163,47 @@
               <el-row>
                 <el-col :span="6">
                   <el-form-item :label="$t('ProduceTask.equipmentQuantity')" style="width: 100%;">
-                    <el-input v-model="personalForm.equipmentQuantity" style="margin-left: 18px" clearable/>
+                    <el-input v-model="personalForm.equipmentQuantity" style="margin-left: 18px;width:200px" clearable/>
                   </el-form-item>
                 </el-col>
                 <el-col :span="6">
                   <el-form-item :label="$t('ProduceTask.actualEquipQuantity')" style="width: 100%;">
-                    <el-input v-model="personalForm.actualEquipQuantity" style="margin-left: 18px" clearable/>
+                    <el-input v-model="personalForm.actualEquipQuantity" style="margin-left: 18px;width:200px" clearable/>
                   </el-form-item>
                 </el-col>
                 <el-col :span="6">
                   <el-form-item :label="$t('ProduceTask.allRunTime')" style="width: 100%;">
-                    <el-input v-model="personalForm.allRunTime" style="margin-left: 18px" clearable/>
+                    <el-input v-model="personalForm.allRunTime" style="margin-left: 18px;width:200px" clearable/>
                   </el-form-item>
                 </el-col>
                 <el-col :span="6">
                   <el-form-item :label="$t('ProduceTask.runRate')" style="width: 100%;">
-                    <el-input v-model="personalForm.runRate" style="margin-left: 18px" clearable/>
+                    <el-input v-model="personalForm.runRate" style="margin-left: 18px;width:200px" clearable/>
                   </el-form-item>
                 </el-col>
                 <el-col :span="6">
                   <el-form-item :label="$t('ProduceTask.loadRate')" style="width: 100%;">
-                    <el-input v-model="personalForm.loadRate" style="margin-left: 18px" clearable/>
+                    <el-input v-model="personalForm.loadRate" style="margin-left: 18px;width:200px" clearable/>
                   </el-form-item>
                 </el-col>
                 <el-col :span="6">
                   <el-form-item :label="$t('ProduceTask.useRate')" style="width: 100%;">
-                    <el-input v-model="personalForm.useRate" style="margin-left: 18px" clearable/>
+                    <el-input v-model="personalForm.useRate" style="margin-left: 18px;width:200px" clearable/>
                   </el-form-item>
                 </el-col>
                 <el-col :span="6">
                   <el-form-item :label="$t('ProduceTask.stopQuantity')" style="width: 100%;">
-                    <el-input v-model="personalForm.stopQuantity" style="margin-left: 18px" clearable/>
+                    <el-input v-model="personalForm.stopQuantity" style="margin-left: 18px;width:200px" clearable/>
                   </el-form-item>
                 </el-col>
                 <el-col :span="6">
                   <el-form-item :label="$t('ProduceTask.stopTime')" style="width: 100%;">
-                    <el-input v-model="personalForm.stopTime" style="margin-left: 18px" clearable/>
+                    <el-input v-model="personalForm.stopTime" style="margin-left: 18px;width:200px" clearable/>
                   </el-form-item>
                 </el-col>
                 <el-col :span="6">
                   <el-form-item :label="$t('ProduceTask.stopReason')" style="width: 100%;">
-                    <el-input v-model="personalForm.stopReason" style="margin-left: 18px" clearable/>
+                    <el-input v-model="personalForm.stopReason" style="margin-left: 18px;width:200px" clearable/>
                   </el-form-item>
                 </el-col>
               </el-row>
@@ -240,17 +240,17 @@
               <el-row>
                 <el-col :span="6">
                   <el-form-item :label="$t('ProduceTask.countAccess')" style="width: 100%;">
-                    <el-input v-model="personalForm.countAccess" style="margin-left: 18px" clearable/>
+                    <el-input v-model="personalForm.countAccess" style="margin-left: 18px;width:200px" clearable/>
                   </el-form-item>
                 </el-col>
                 <el-col :span="6">
                   <el-form-item :label="$t('ProduceTask.countUseup')" style="width: 100%;">
-                    <el-input v-model="personalForm.countUseup" style="margin-left: 18px" clearable/>
+                    <el-input v-model="personalForm.countUseup" style="margin-left: 18px;width:200px" clearable/>
                   </el-form-item>
                 </el-col>
                 <el-col :span="6">
                   <el-form-item :label="$t('ProduceTask.countRemain')" style="width: 100%;">
-                    <el-input v-model="personalForm.countRemain" style="margin-left: 18px" clearable/>
+                    <el-input v-model="personalForm.countRemain" style="margin-left: 18px;width:200px" clearable/>
                   </el-form-item>
                 </el-col>
               </el-row>

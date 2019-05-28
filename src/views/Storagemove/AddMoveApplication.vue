@@ -9,12 +9,12 @@
             <el-row>
               <el-col :span="6">
                 <el-form-item :label="$t('Storagemove.title')" style="width: 100%;">
-                  <el-input v-model="personalForm.title" placeholder="请输入调拨单主题" style="margin-left: 18px" clearable/>
+                  <el-input v-model="personalForm.title" placeholder="请输入调拨单主题" style="margin-left: 18px;width:200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('Storagemove.requestDeptId')" prop="requestDeptId" style="width: 100%;">
-                  <el-select v-model="personalForm.requestDeptId" placeholder="请选择要货部门" style="margin-left: 18px;width: 218px" clearable >
+                  <el-select v-model="personalForm.requestDeptId" placeholder="请选择要货部门" style="margin-left: 18px;width: 200px" clearable >
                     <el-option
                       v-for="(item, index) in depts"
                       :key="index"
@@ -25,7 +25,7 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('Storagemove.moveInRepository')" prop="moveInRepository" style="width: 100%;">
-                  <el-input v-model="moveInRepository" placeholder="请选择调入仓库" style="margin-left: 18px" clearable @focus="handlechooseDep"/>
+                  <el-input v-model="moveInRepository" placeholder="请选择调入仓库" style="margin-left: 18px;width:200px" clearable @focus="handlechooseDep"/>
                 </el-form-item>
                 <my-depot :depotcontrol.sync="depotcontrol" @depotname="depotname"/>
               </el-col>
@@ -41,12 +41,12 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('Storagemove.moveReason')" style="width: 100%;">
-                  <el-input v-model="personalForm.moveReason" placeholder="请输入调拨原因" style="margin-left: 18px" clearable/>
+                  <el-input v-model="personalForm.moveReason" placeholder="请输入调拨原因" style="margin-left: 18px;width:200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('Storagemove.departmentId')" prop="departmentId" style="width: 100%;">
-                  <el-select v-model="personalForm.departmentId" placeholder="请选择调货部门" style="margin-left: 18px;width: 218px" clearable >
+                  <el-select v-model="personalForm.departmentId" placeholder="请选择调货部门" style="margin-left: 18px;width: 200px" clearable >
                     <el-option
                       v-for="(item, index) in depts"
                       :key="index"
@@ -57,7 +57,7 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('Storagemove.businessStat')" prop="businessStat" style="width: 100%;">
-                  <el-select v-model="personalForm.businessStat" placeholder="请选择业务" style="margin-left: 18px;width: 218px" clearable >
+                  <el-select v-model="personalForm.businessStat" placeholder="请选择业务" style="margin-left: 18px;width: 200px" clearable >
                     <el-option value="1" label="调拨申请"/>
                   </el-select>
                 </el-form-item>

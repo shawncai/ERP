@@ -9,7 +9,7 @@
             <el-row>
               <el-col :span="6">
                 <el-form-item :label="$t('Expenses.title')" style="width: 100%;">
-                  <el-input v-model="personalForm.title" style="margin-left: 18px" clearable/>
+                  <el-input v-model="personalForm.title" style="margin-left: 18px;width:200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
@@ -19,18 +19,18 @@
                     :picker-options="pickerOptions1"
                     type="date"
                     value-format="yyyy-MM-dd"
-                    style="margin-left: 18px"/>
+                    style="margin-left: 18px;width:200px"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('Expenses.handlePersonId')" prop="handlePersonId" style="width: 100%;">
-                  <el-input v-model="handlePersonId" style="margin-left: 18px;width: 218px" @focus="handlechooseStock"/>
+                  <el-input v-model="handlePersonId" style="margin-left: 18px;width: 200px" @focus="handlechooseStock"/>
                   <my-emp :control.sync="stockControl" @stockName="stockName"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('Expenses.deptId')" style="width: 100%;">
-                  <el-select v-model="personalForm.deptId" style="margin-left: 18px;width: 218px" @focus="change">
+                  <el-select v-model="personalForm.deptId" style="margin-left: 18px;width: 200px" @focus="change">
                     <el-option
                       v-for="(item, index) in depts"
                       :key="index"
@@ -41,13 +41,13 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('Expenses.expensesRepositoryId')" style="width: 100%;">
-                  <el-input v-model="expensesRepositoryId" style="margin-left: 18px;width: 218px" @focus="handlechooseRep"/>
+                  <el-input v-model="expensesRepositoryId" style="margin-left: 18px;width: 200px" @focus="handlechooseRep"/>
                   <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('Expenses.closeType')" style="width: 100%;">
-                  <el-select v-model="personalForm.closeType" clearable style="margin-left: 18px;width: 218px">
+                  <el-select v-model="personalForm.closeType" clearable style="margin-left: 18px;width: 200px">
                     <el-option
                       v-for="(item, index) in colseTypes"
                       :value="item.id"
@@ -58,12 +58,12 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('Expenses.expensesAccount')" style="width: 100%;">
-                  <el-input v-model="personalForm.expensesAccount" style="margin-left: 18px;width: 218px" clearable/>
+                  <el-input v-model="personalForm.expensesAccount" style="margin-left: 18px;width: 200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('Expenses.currency')" style="width: 100%;">
-                  <el-select v-model="personalForm.currency" style="margin-left: 18px;width: 218px">
+                  <el-select v-model="personalForm.currency" style="margin-left: 18px;width: 200px">
                     <el-option value="1" label="RMB"/>
                     <el-option value="2" label="USD"/>
                   </el-select>

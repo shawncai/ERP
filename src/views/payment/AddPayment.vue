@@ -9,12 +9,12 @@
             <el-row>
               <el-col :span="6">
                 <el-form-item :label="$t('payment.title')" style="width: 100%;">
-                  <el-input v-model="personalForm.title" style="margin-left: 18px" clearable/>
+                  <el-input v-model="personalForm.title" style="margin-left: 18px;width:200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('payment.sourceType')" prop="sourceType" style="width: 100%;">
-                  <el-select v-model="personalForm.sourceType" style="margin-left: 18px;width: 218px">
+                  <el-select v-model="personalForm.sourceType" style="margin-left: 18px;width: 200px">
                     <el-option value="1" label="采购订单" />
                     <el-option value="2" label="无来源" />
                   </el-select>
@@ -22,19 +22,19 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('payment.supplierId')" prop="supplierId" style="width: 100%;">
-                  <el-input v-model="supplierId" style="margin-left: 18px" clearable @focus="handlechoose"/>
+                  <el-input v-model="supplierId" style="margin-left: 18px;width:200px" clearable @focus="handlechoose"/>
                   <my-supplier :control.sync="empcontrol" @supplierName="supplierName"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('payment.handlePersonId')" prop="handlePersonId" style="width: 100%;">
-                  <el-input v-model="handlePersonId" style="margin-left: 18px" clearable @focus="handlechooseStock"/>
+                  <el-input v-model="handlePersonId" style="margin-left: 18px;width:200px" clearable @focus="handlechooseStock"/>
                   <my-emp :control.sync="stockControl" @stockName="stockName"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('payment.payMode')" style="width: 100%;">
-                  <el-select v-model="personalForm.payMode" clearable style="margin-left: 18px;width: 218px">
+                  <el-select v-model="personalForm.payMode" clearable style="margin-left: 18px;width: 200px">
                     <el-option value="1" label="现金"/>
                   </el-select>
                 </el-form-item>
@@ -45,12 +45,12 @@
               <!--                    v-model="personalForm.applyDate"-->
               <!--                    type="date"-->
               <!--                    value-format="yyyy-MM-dd"-->
-              <!--                    style="margin-left: 18px"/>-->
+              <!--                    style="margin-left: 18px;width:200px"/>-->
               <!--                </el-form-item>-->
               <!--              </el-col>-->
               <el-col :span="6">
                 <el-form-item :label="$t('payment.currency')" style="width: 100%;">
-                  <el-select v-model="personalForm.currency" clearable style="margin-left: 18px;width: 218px">
+                  <el-select v-model="personalForm.currency" clearable style="margin-left: 18px;width: 200px">
                     <el-option value="1" label="RMB"/>
                     <el-option value="2" label="USD"/>
                   </el-select>
@@ -58,22 +58,22 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('payment.payAccount')" style="width: 100%;">
-                  <el-input v-model="personalForm.payAccount" style="margin-left: 18px" clearable/>
+                  <el-input v-model="personalForm.payAccount" style="margin-left: 18px;width:200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('payment.payAccountNumber')" style="width: 100%;">
-                  <el-input v-model="personalForm.payAccountNumber" style="margin-left: 18px" clearable/>
+                  <el-input v-model="personalForm.payAccountNumber" style="margin-left: 18px;width:200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('payment.remarks')" style="width: 100%;">
-                  <el-input v-model="personalForm.remarks" style="margin-left: 18px" clearable/>
+                  <el-input v-model="personalForm.remarks" style="margin-left: 18px;width:200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('payment.rate')" style="width: 100%;">
-                  <el-input v-model="personalForm.rate" style="margin-left: 18px" clearable/>
+                  <el-input v-model="personalForm.rate" style="margin-left: 18px;width:200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
@@ -82,18 +82,18 @@
                     v-model="personalForm.payDate"
                     type="date"
                     value-format="yyyy-MM-dd"
-                    style="margin-left: 18px"/>
+                    style="margin-left: 18px;width:200px"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('payment.offsetAdvance')" style="width: 100%;">
-                  <el-input v-model="personalForm.offsetAdvance" style="margin-left: 18px" disabled/>
+                  <el-input v-model="personalForm.offsetAdvance" style="margin-left: 18px;width:200px" disabled/>
                 </el-form-item>
                 <span style="color: red;margin-left: 52px;font-size: 14px">预付款金额：{{ yufu }}</span>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('payment.moneyThis')" style="width: 100%;">
-                  <el-input v-model="personalForm.moneyThis" style="margin-left: 18px" disabled/>
+                  <el-input v-model="personalForm.moneyThis" style="margin-left: 18px;width:200px" disabled/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">

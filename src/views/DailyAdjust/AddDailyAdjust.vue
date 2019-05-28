@@ -9,18 +9,18 @@
             <el-row>
               <el-col :span="6">
                 <el-form-item :label="$t('DailyAdjust.title')" style="width: 100%;">
-                  <el-input v-model="personalForm.title" placeholder="请输入日常调整单主题" style="margin-left: 18px" clearable/>
+                  <el-input v-model="personalForm.title" placeholder="请输入日常调整单主题" style="margin-left: 18px;width:200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('DailyAdjust.personId')" prop="personId" style="width: 100%;">
-                  <el-input v-model="personId" placeholder="请选择经办人" style="margin-left: 18px" clearable @focus="handlechoose"/>
+                  <el-input v-model="personId" placeholder="请选择经办人" style="margin-left: 18px;width:200px" clearable @focus="handlechoose"/>
                 </el-form-item>
                 <my-create :createcontrol.sync="createcontrol" @createname="createname"/>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('DailyAdjust.deptId')" style="width: 100%;">
-                  <el-select v-model="personalForm.deptId" placeholder="请选择调整部门" style="margin-left: 18px;width: 218px" clearable >
+                  <el-select v-model="personalForm.deptId" placeholder="请选择调整部门" style="margin-left: 18px;width: 200px" clearable >
                     <el-option
                       v-for="(item, index) in depts"
                       :key="index"
@@ -31,13 +31,13 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('DailyAdjust.repositoryId')" prop="repositoryId" style="width: 100%;">
-                  <el-input v-model="repositoryId" placeholder="请选择调整仓库" style="margin-left: 18px" clearable @focus="handlechooseRep"/>
+                  <el-input v-model="repositoryId" placeholder="请选择调整仓库" style="margin-left: 18px;width:200px" clearable @focus="handlechooseRep"/>
                 </el-form-item>
                 <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('DailyAdjust.reason')" prop="reason" style="width: 100%;">
-                  <el-input v-model="personalForm.reason" placeholder="请输入调整原因" style="margin-left: 18px" clearable/>
+                  <el-input v-model="personalForm.reason" placeholder="请输入调整原因" style="margin-left: 18px;width:200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
@@ -47,7 +47,7 @@
                     type="date"
                     placeholder="选择调整日期"
                     value-format="yyyy-MM-dd"
-                    style="margin-left: 18px"/>
+                    style="margin-left: 18px;width:200px"/>
                 </el-form-item>
               </el-col>
             </el-row>

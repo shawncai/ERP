@@ -8,12 +8,12 @@
           <el-row>
             <el-col :span="12">
               <el-form-item :label="$t('StockApply.title')" style="width: 100%;">
-                <el-input v-model="personalForm.title" style="margin-left: 18px" clearable/>
+                <el-input v-model="personalForm.title" style="margin-left: 18px;width:200px" clearable/>
               </el-form-item>
             </el-col>
             <el-col :span="12">
               <el-form-item :label="$t('StockApply.stockType')" prop="stockType" style="width: 100%;">
-                <el-select v-model="personalForm.stockType" style="margin-left: 18px;width: 218px" @focus="updatecountry">
+                <el-select v-model="personalForm.stockType" style="margin-left: 18px;width: 200px" @focus="updatecountry">
                   <el-option
                     v-for="(item, index) in types"
                     :key="index"
@@ -24,13 +24,13 @@
             </el-col>
             <el-col :span="12">
               <el-form-item :label="$t('StockApply.applyPersonId')" prop="applyPersonId" style="width: 100%;">
-                <el-input v-model="applyPersonId" style="margin-left: 18px" clearable @focus="handlechooseStock"/>
+                <el-input v-model="applyPersonId" style="margin-left: 18px;width:200px" clearable @focus="handlechooseStock"/>
                 <my-emp :control.sync="stockControl" @stockName="stockName"/>
               </el-form-item>
             </el-col>
             <el-col :span="12">
               <el-form-item :label="$t('StockApply.applyDeptId')" prop="applyDeptId" style="width: 100%;">
-                <el-select v-model="personalForm.applyDeptId" clearable style="margin-left: 18px;width: 218px" @change="change()">
+                <el-select v-model="personalForm.applyDeptId" clearable style="margin-left: 18px;width: 200px" @change="change()">
                   <el-option
                     v-for="(item, index) in depts"
                     :key="index"
@@ -41,7 +41,7 @@
             </el-col>
             <el-col :span="12">
               <el-form-item :label="$t('StockApply.sourceType')" prop="sourceType" style="width: 100%;">
-                <el-select v-model="personalForm.sourceType" style="margin-left: 18px;width: 218px" @change="chooseSourceType">
+                <el-select v-model="personalForm.sourceType" style="margin-left: 18px;width: 200px" @change="chooseSourceType">
                   <el-option value="1" label="无来源" />
                   <el-option value="2" label="销售订单" />
                 </el-select>
@@ -54,7 +54,7 @@
                   :picker-options="pickerOptions1"
                   type="date"
                   value-format="yyyy-MM-dd"
-                  style="margin-left: 18px"/>
+                  style="margin-left: 18px;width:200px"/>
               </el-form-item>
             </el-col>
           </el-row>
@@ -67,7 +67,7 @@
       <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
         <el-button :disabled="Isproduct" @click="handleAddproduct">添加商品</el-button>
         <my-detail :control.sync="control" @product="productdetail" @product2="productdetail2"/>
-        <el-button :disabled="IsSourceNumber" style="width: 120px" @click="handleAddSource">从源单中选择</el-button>
+        <el-button :disabled="IsSourceNumber" style="width: 100px" @click="handleAddSource">从源单中选择</el-button>
         <my-order :ordercontrol.sync="ordercontrol" @saleOrderDetail="saleOrderDetail" @saleOrderDetail2="saleOrderDetail2" @saleOrder="saleOrder"/>
         <el-button type="danger" @click="deleteEdit">删除</el-button>
       </div>

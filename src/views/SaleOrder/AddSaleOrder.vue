@@ -278,47 +278,47 @@
             <el-row>
               <el-col :span="6">
                 <el-form-item :label="$t('SaleOrder.heji1')" style="width: 100%;">
-                  <el-input v-model="heji1" style="margin-left: 18px" disabled/>
+                  <el-input v-model="heji1" style="margin-left: 18px;width:200px" disabled/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('SaleOrder.heji2')" style="width: 100%;">
-                  <el-input v-model="heji2" style="margin-left: 18px" disabled/>
+                  <el-input v-model="heji2" style="margin-left: 18px;width:200px" disabled/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('SaleOrder.heji3')" style="width: 100%;">
-                  <el-input v-model="heji3" style="margin-left: 18px" disabled/>
+                  <el-input v-model="heji3" style="margin-left: 18px;width:200px" disabled/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('SaleOrder.heji4')" style="width: 100%;">
-                  <el-input v-model="heji4" style="margin-left: 18px" disabled/>
+                  <el-input v-model="heji4" style="margin-left: 18px;width:200px" disabled/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('SaleOrder.heji5')" style="width: 100%;">
-                  <el-input v-model="heji5" style="margin-left: 18px" disabled/>
+                  <el-input v-model="heji5" style="margin-left: 18px;width:200px" disabled/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('SaleOrder.heji6')" style="width: 100%;">
-                  <el-input v-model="heji6" style="margin-left: 18px" disabled/>
+                  <el-input v-model="heji6" style="margin-left: 18px;width:200px" disabled/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('SaleOrder.heji7')" style="width: 100%;">
-                  <el-input v-model="heji7" style="margin-left: 18px" disabled/>
+                  <el-input v-model="heji7" style="margin-left: 18px;width:200px" disabled/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('SaleOrder.heji8')" style="width: 100%;">
-                  <el-input v-model="heji8" style="margin-left: 18px" disabled/>
+                  <el-input v-model="heji8" style="margin-left: 18px;width:200px" disabled/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('SaleOrder.heji9')" style="width: 100%;">
-                  <el-input v-model="personalForm.otherMoney" style="margin-left: 18px"/>
+                  <el-input v-model="personalForm.otherMoney" style="margin-left: 18px;width:200px"/>
                 </el-form-item>
               </el-col>
             </el-row>
@@ -340,7 +340,7 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('SaleOrder.backMoney')" style="width: 100%;">
-                  <el-input v-model="personalForm.backMoney" style="margin-left: 18px" disabled />
+                  <el-input v-model="personalForm.backMoney" style="margin-left: 18px;width:200px" disabled />
                 </el-form-item>
               </el-col>
               <el-col :span="6">

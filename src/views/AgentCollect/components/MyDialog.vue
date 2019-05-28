@@ -61,7 +61,7 @@
             <el-col :span="12">
               <el-form-item :label="$t('InstallmentApply.gender')" style="width: 100%;">
                 <el-radio-group v-model="personalForm.gender" style="margin-left: 18px;width: 200px">
-                  <el-radio :label="1" style="width: 120px">男</el-radio>
+                  <el-radio :label="1" style="width: 100px">男</el-radio>
                   <el-radio :label="2">女</el-radio>
                 </el-radio-group>
               </el-form-item>

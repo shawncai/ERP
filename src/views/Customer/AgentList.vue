@@ -97,6 +97,7 @@
           <template slot-scope="scope">
             <span class="link-type" @click="handleDetail(scope.row)">{{ scope.row.id }}</span>
           </template>
+          <detail-list :detailcontrol.sync="detailvisible" :detaildata.sync="edtiForm" :detailid.sync="detailid"/>
         </el-table-column>
         <el-table-column :label="$t('Customer.agentname')" :resizable="false" align="center" min-width="200">
           <template slot-scope="scope">
@@ -161,13 +162,20 @@ import checkPermission from '@/utils/permission' // 权限判断函数
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
 import MyDialog from './components/MyDialog'
+import DetailList from './components/DetailList'
 
 export default {
   name: 'AgentList',
   directives: { waves, permission },
-  components: { Pagination, MyDialog },
+  components: { DetailList, Pagination, MyDialog },
   data() {
     return {
+      // 详情数据
+      edtiForm: {},
+      // 详情传递id
+      detailid: null,
+      // 详情组件数据
+      detailvisible: false,
       // 批量操作
       moreaction: [],
       // 控制修改数据
@@ -236,6 +244,12 @@ export default {
   },
   methods: {
     checkPermission,
+    // 详情操作
+    handleDetail(row) {
+      this.detailid = row.id
+      this.detailvisible = true
+      this.edtiForm = Object.assign({}, row)
+    },
     // 获取类型
     getCategory() {
       // 获取客户类型

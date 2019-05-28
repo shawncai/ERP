@@ -6,7 +6,7 @@
         <el-row>
           <el-col :span="24">
             <el-form-item label="惩罚内容" style="width: 100%;">
-              <el-input v-model="personalForm.comment" placeholder="惩罚内容" style="margin-left: 18px" clearable/>
+              <el-input v-model="personalForm.comment" placeholder="惩罚内容" style="margin-left: 18px;width:200px" clearable/>
             </el-form-item>
           </el-col>
         </el-row>

@@ -174,7 +174,7 @@
             <el-col :span="12">
               <el-form-item :label="$t('SaleOut.isInvoice')" style="width: 100%;">
                 <el-radio-group v-model="personalForm.isInvoice" style="margin-left: 18px;width: 200px">
-                  <el-radio :label="1" style="width: 120px">是</el-radio>
+                  <el-radio :label="1" style="width: 100px">是</el-radio>
                   <el-radio :label="2">否</el-radio>
                 </el-radio-group>
               </el-form-item>
@@ -189,7 +189,7 @@
       <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
         <el-button :disabled="Isproduct" @click="handleAddproduct">添加商品</el-button>
         <my-detail :control.sync="control" @product="productdetail"/>
-        <el-button :disabled="IsSourceNumber" style="width: 120px" @click="handleAddSource">从源单中选择</el-button>
+        <el-button :disabled="IsSourceNumber" style="width: 100px" @click="handleAddSource">从源单中选择</el-button>
         <my-order :ordercontrol.sync="ordercontrol" @saleOrderDetail="saleOrderDetail" @saleOrder="saleOrder"/>
         <my-presale :presalecontrol.sync="presalecontrol" @advanceOrderDetail="advanceOrderDetail" @advanceData="advanceData"/>
         <my-opportunity :opportunitycontrol.sync="opportunitycontrol" @opportunityDetail="opportunityDetail" @opportunity="opportunity"/>
