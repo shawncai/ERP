@@ -514,6 +514,7 @@ export default {
       this.personalForm.unit = val.unit
       this.personalForm.typeId = val.type
       this.typeId = val.typeName
+      this.personalForm.sourceSerialNumber = val.id
     },
     // 源单为采购到货单时返回数据
     report3(val) {
@@ -646,6 +647,7 @@ export default {
       this.personalForm.sourceNumber = val.number
       this.personalForm.supplierId = val.supplierId
       this.supplierId = val.supplierName
+      // this.sourceSerialNumber = val.sourceSerialNumber
     },
     // 源单类型为生产任务单
     produce(val) {

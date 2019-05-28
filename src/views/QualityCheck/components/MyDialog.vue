@@ -120,6 +120,7 @@
           <el-editable-column prop="checkedQuantity" align="center" label="已报捡数量" min-width="150px"/>
           <el-editable-column prop="arrivalQuantity" align="center" label="到货数量" min-width="150px"/>
           <el-editable-column prop="sourceNumber" align="center" label="源单编号" min-width="150px"/>
+          <el-editable-column prop="sourceSerialNumber" align="center" label="源单编号" min-width="150px"/>
         </el-editable>
       </div>
     </el-card>
