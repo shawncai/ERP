@@ -43,7 +43,7 @@
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item :label="$t('Customer.discount')" style="width: 100%;">
+              <el-form-item :label="$t('Customer.discount2')" style="width: 100%;">
                 <span>{{ customerForm.discount }}</span>
               </el-form-item>
             </el-col>
@@ -131,173 +131,130 @@
         </el-form>
       </div>
     </el-card>
-    <!--<el-card class="box-card" style="margin-top: 15px" shadow="never">-->
-    <!--<div class="container" style="margin-top: 10px">-->
-    <!--<el-tabs type="card">-->
-    <!--<el-tab-pane label="销售信息">-->
-    <!--<el-form :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">-->
-    <!--<el-row>-->
-    <!--<el-col :span="12">-->
-    <!--<el-form-item :label="$t('NewEmployeeInformation.saleQuantity')" style="width: 100%;">-->
-    <!--{{ personalForm.empsale.saleQuantity }}-->
-    <!--</el-form-item>-->
-    <!--</el-col>-->
-    <!--<el-col :span="12">-->
-    <!--<el-form-item :label="$t('NewEmployeeInformation.saleMoney')" style="width: 100%;">-->
-    <!--{{ personalForm.empsale.saleMoney }}-->
-    <!--</el-form-item>-->
-    <!--</el-col>-->
-    <!--<el-col :span="12">-->
-    <!--<el-form-item :label="$t('NewEmployeeInformation.repoRank')" style="width: 100%;">-->
-    <!--{{ personalForm.empsale.repoRank }}-->
-    <!--</el-form-item>-->
-    <!--</el-col>-->
-    <!--<el-col :span="12">-->
-    <!--<el-form-item :label="$t('NewEmployeeInformation.regionRank')" style="width: 100%;">-->
-    <!--{{ personalForm.empsale.regionRank }}-->
-    <!--</el-form-item>-->
-    <!--</el-col>-->
-    <!--<el-col :span="12">-->
-    <!--<el-form-item :label="$t('NewEmployeeInformation.costMoney')" style="width: 100%;">-->
-    <!--{{ personalForm.empsale.costMoney }}-->
-    <!--</el-form-item>-->
-    <!--</el-col>-->
-    <!--<el-col :span="12">-->
-    <!--<el-form-item :label="$t('NewEmployeeInformation.profitMoney')" style="width: 100%;">-->
-    <!--{{ personalForm.empsale.profitMoney }}-->
-    <!--</el-form-item>-->
-    <!--</el-col>-->
-    <!--</el-row>-->
-    <!--</el-form>-->
-    <!--</el-tab-pane>-->
-    <!--<el-tab-pane label="采购信息">-->
-    <!--<el-table-->
-    <!--:data="tableData"-->
-    <!--border-->
-    <!--style="width: 100%">-->
-    <!--<el-table-column-->
-    <!--prop="stockDate"-->
-    <!--align="center"-->
-    <!--label="采购日期"-->
-    <!--min-width="150"/>-->
-    <!--<el-table-column-->
-    <!--prop="supplierName"-->
-    <!--align="center"-->
-    <!--label="供应商"-->
-    <!--min-width="150"/>-->
-    <!--<el-table-column-->
-    <!--prop="stockQuantity"-->
-    <!--align="center"-->
-    <!--label="采购数量"-->
-    <!--min-width="150"/>-->
-    <!--<el-table-column-->
-    <!--prop="stockMoney"-->
-    <!--align="center"-->
-    <!--label="采购金额"-->
-    <!--min-width="150"/>-->
-    <!--<el-table-column-->
-    <!--prop="arriveQuantity"-->
-    <!--align="center"-->
-    <!--label="到货数量"-->
-    <!--min-width="150"/>-->
-    <!--<el-table-column-->
-    <!--prop="enterQuantity"-->
-    <!--align="center"-->
-    <!--label="入库数量"-->
-    <!--min-width="150"/>-->
-    <!--</el-table>-->
-    <!--<pagination v-show="total>0" :total="total" :page.sync="getstocklist.pagenum" :limit.sync="getstocklist.pagesize" @pagination="getstoctlist" />-->
-    <!--</el-tab-pane>-->
-    <!--<el-tab-pane label="收款信息">-->
-    <!--<el-table-->
-    <!--:data="tableData2"-->
-    <!--border-->
-    <!--style="width: 100%">-->
-    <!--<el-table-column-->
-    <!--prop="customerName"-->
-    <!--align="center"-->
-    <!--label="客户"-->
-    <!--min-width="150"/>-->
-    <!--<el-table-column-->
-    <!--prop="money"-->
-    <!--align="center"-->
-    <!--label="收款金额"-->
-    <!--min-width="150"/>-->
-    <!--<el-table-column-->
-    <!--prop="idx"-->
-    <!--align="center"-->
-    <!--label="收款期数"-->
-    <!--min-width="150"/>-->
-    <!--<el-table-column-->
-    <!--prop="collectDate"-->
-    <!--align="center"-->
-    <!--label="收款日期"-->
-    <!--min-width="150"/>-->
-    <!--<el-table-column-->
-    <!--prop="collectType"-->
-    <!--align="center"-->
-    <!--label="收款方式"-->
-    <!--min-width="150"/>-->
-    <!--</el-table>-->
-    <!--<pagination v-show="total2>0" :total="total2" :page.sync="getCollectlist.pagenum" :limit.sync="getCollectlist.pagesize" @pagination="getCollect" />-->
-    <!--</el-tab-pane>-->
-    <!--<el-tab-pane label="回访记录">-->
-    <!--<el-row :gutter="20">-->
-    <!--<el-form ref="getVisitlistdata" :model="getVisitlistdata">-->
-    <!--<el-col :span="5">-->
-    <!--<el-form-item>-->
-    <!--<el-input v-model="getVisitlistdata.customerName" placeholder="客户姓名" clearable/>-->
-    <!--</el-form-item>-->
-    <!--</el-col>-->
-    <!--<el-col :span="5">-->
-    <!--<el-date-picker-->
-    <!--v-model="date"-->
-    <!--type="daterange"-->
-    <!--range-separator="-"-->
-    <!--unlink-panels-->
-    <!--start-placeholder="回访开始日期"-->
-    <!--end-placeholder="回访结束日期"-->
-    <!--value-format="yyyy-MM-dd"/>-->
-    <!--</el-col>-->
-    <!--<el-col :span="3">-->
-    <!--<el-button type="primary" style="margin-left: 200px" @click="handleFilter">{{ $t('public.search') }}</el-button>-->
-    <!--</el-col>-->
-    <!--</el-form>-->
-    <!--</el-row>-->
-    <!--<el-table-->
-    <!--:data="tableData3"-->
-    <!--border-->
-    <!--style="width: 100%">-->
-    <!--<el-table-column-->
-    <!--prop="visitDate"-->
-    <!--align="center"-->
-    <!--label="回访日期"-->
-    <!--min-width="150"/>-->
-    <!--<el-table-column-->
-    <!--prop="customerName"-->
-    <!--align="center"-->
-    <!--label="客户"-->
-    <!--min-width="150"/>-->
-    <!--<el-table-column-->
-    <!--prop="content"-->
-    <!--align="center"-->
-    <!--label="回访内容"-->
-    <!--min-width="150"/>-->
-    <!--<el-table-column-->
-    <!--prop="visitMode"-->
-    <!--align="center"-->
-    <!--label="回访方式"-->
-    <!--min-width="150"/>-->
-    <!--</el-table>-->
-    <!--<pagination v-show="total3>0" :total="total3" :page.sync="getVisitlistdata.pagenum" :limit.sync="getVisitlistdata.pagesize" @pagination="getVisitlist" />-->
-    <!--</el-tab-pane>-->
-    <!--</el-tabs>-->
-    <!--</div>-->
-    <!--</el-card>-->
+    <el-card class="box-card" style="margin-top: 15px" shadow="never">
+      <div class="container" style="margin-top: 10px">
+        <el-tabs type="card">
+          <el-tab-pane label="购买记录">
+            <el-table
+              :data="tableData"
+              border
+              style="width: 100%">
+              <el-table-column
+                prop="createDate"
+                align="center"
+                label="购买日期"
+                min-width="150"/>
+              <el-table-column
+                prop="saleTypeName"
+                align="center"
+                label="销售类别"
+                min-width="150"/>
+              <el-table-column
+                prop="productName"
+                align="center"
+                label="商品名称"
+                min-width="150"/>
+              <el-table-column
+                prop="productTypeName"
+                align="center"
+                label="型号"
+                min-width="150"/>
+              <el-table-column
+                prop="quantity"
+                align="center"
+                label="数量"
+                min-width="150"/>
+              <el-table-column
+                prop="money"
+                align="center"
+                label="金额"
+                min-width="150"/>
+              <el-table-column
+                prop="salePrice"
+                align="center"
+                label="零售价"
+                min-width="150"/>
+              <el-table-column
+                prop="discountMoney"
+                align="center"
+                label="折扣"
+                min-width="150"/>
+            </el-table>
+          </el-tab-pane>
+          <el-tab-pane label="预收款记录">
+            <el-table
+              :data="tableData2"
+              border
+              style="width: 100%">
+              <el-table-column
+                prop="receiptMoney"
+                align="center"
+                label="预收金额"
+                min-width="150"/>
+              <el-table-column
+                prop="receiptDate"
+                align="center"
+                label="预收日期"
+                min-width="150"/>
+              <el-table-column
+                prop="receiptPersonName"
+                align="center"
+                label="收款人"
+                min-width="150"/>
+              <el-table-column
+                prop="closeTypeName"
+                align="center"
+                label="收款方式"
+                min-width="150"/>
+            </el-table>
+          </el-tab-pane>
+          <el-tab-pane label="退款信息">
+            <el-table
+              :data="tableData3"
+              border
+              style="width: 100%">
+              <el-table-column
+                prop="productName"
+                align="center"
+                label="物品名称"
+                min-width="150"/>
+              <el-table-column
+                prop="unit"
+                align="center"
+                label="单位"
+                min-width="150"/>
+              <el-table-column
+                prop="money"
+                align="center"
+                label="金额"
+                min-width="150"/>
+              <el-table-column
+                prop="returnQuantity"
+                align="center"
+                label="退货数量"
+                min-width="150"/>
+              <el-table-column
+                prop="returnReason"
+                align="center"
+                label="退货原因"
+                min-width="150"/>
+              <el-table-column
+                prop="closeStatusId"
+                align="center"
+                label="退货状态"
+                min-width="150"/>
+            </el-table>
+          </el-tab-pane>
+        </el-tabs>
+      </div>
+    </el-card>
   </el-dialog>
 </template>
 
 <script>
+import { searchsaleOrder } from '@/api/SaleOrder'
+import { searchprepReceipt } from '@/api/PrepReceipt'
+import { searchsaleReturn } from '@/api/SaleReturn'
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
 export default {
   components: { Pagination },
@@ -380,24 +337,38 @@ export default {
   },
   data() {
     return {
+      // 退货信息记录数据
+      tableData3: [],
+      // 预收款记录数据
+      tableData2: [],
+      // 购买记录数据
+      tableData: [],
       // 弹窗组件的控制
       editVisible: this.detailcontrol,
       // 供应商信息数据
       customerForm: this.detaildata,
-      getstocklist: {
-        pagenum: 1,
-        pagesize: 10,
-        id: this.detailid
+      // 购买记录
+      saleOrderData: {
+        pageNum: 1,
+        pageSize: 9999,
+        repositoryId: 0,
+        customerType: 1,
+        customerId: this.detailid
       },
-      getCollectlist: {
-        pagenum: 1,
-        pagesize: 10,
-        id: this.detailid
+      // 预收款记录
+      prepReceiptData: {
+        pageNum: 1,
+        pageSize: 9999,
+        agentId: this.detailid,
+        repositoryId: 0
       },
-      getVisitlistdata: {
-        pagenum: 1,
-        pagesize: 10,
-        id: this.detailid
+      // 退款记录
+      saleReturnData: {
+        pageNum: 1,
+        pageSize: 9999,
+        repositoryId: 0,
+        customerType: 1,
+        customerId: this.detailid
       }
     }
   },
@@ -409,9 +380,65 @@ export default {
       this.customerForm = this.detaildata
     },
     detailid() {
+      this.saleOrderData.customerId = this.detailid
+      this.getsaleOrder()
+      this.prepReceiptData.agentId = this.detailid
+      this.getprepReceipt()
+      this.saleReturnData.customerId = this.detailid
+      this.getsaleReturn()
     }
   },
   methods: {
+    // 退款记录
+    getsaleReturn() {
+      searchsaleReturn(this.saleReturnData).then(res => {
+        if (res.data.ret === 200) {
+          this.tableData3 = res.data.data.content.list.map(function(item) {
+            const needata = item.saleReturnDetailVos.map(function(elem) {
+              return {
+                productName: elem.productName,
+                unit: elem.unit,
+                returnQuantity: elem.returnQuantity,
+                money: elem.money,
+                returnReason: elem.returnReason,
+                closeStatusId: item.closeStatusId
+              }
+            })
+            return needata
+          }).flat()
+        }
+      })
+    },
+    // 预收款记录
+    getprepReceipt() {
+      searchprepReceipt(this.prepReceiptData).then(res => {
+        if (res.data.ret === 200) {
+          this.tableData2 = res.data.data.content.list
+        }
+      })
+    },
+    // 购买记录
+    getsaleOrder() {
+      searchsaleOrder(this.saleOrderData).then(res => {
+        if (res.data.ret === 200) {
+          this.tableData = res.data.data.content.list.map(function(item) {
+            const needata = item.saleOrderDetailVos.map(function(elem) {
+              return {
+                createDate: item.createDate,
+                saleTypeName: item.saleTypeName,
+                productName: elem.productName,
+                productTypeName: elem.productTypeName,
+                quantity: elem.quantity,
+                money: elem.money,
+                salePrice: elem.salePrice,
+                discountMoney: elem.discountMoney
+              }
+            })
+            return needata
+          }).flat()
+        }
+      })
+    },
     handlecancel() {
       this.editVisible = false
     }

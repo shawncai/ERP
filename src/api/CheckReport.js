@@ -43,6 +43,9 @@ export function checkreportlist(query) {
   if (query.sourceType !== '' && query.sourceType !== null && query.sourceType !== undefined) {
     params.append('sourceType', query.sourceType) // 你要传给后台的参数值 key/value
   }
+  if (query.sourceNumber !== '' && query.sourceNumber !== null && query.sourceNumber !== undefined) {
+    params.append('sourceNumber', query.sourceNumber) // 你要传给后台的参数值 key/value
+  }
   if (query.checkMode !== '' && query.checkMode !== null && query.checkMode !== undefined) {
     params.append('checkMode', query.checkMode) // 你要传给后台的参数值 key/value
   }

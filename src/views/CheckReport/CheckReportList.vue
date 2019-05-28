@@ -213,7 +213,10 @@ export default {
     },
     sourceTypeFilter(status) {
       const statusMap = {
-        1: '质检申请单'
+        1: '质检申请单',
+        2: '采购到货单',
+        3: '生产任务单',
+        4: '无来源'
       }
       return statusMap[status]
     },

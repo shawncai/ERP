@@ -77,20 +77,38 @@
     </el-card>
     <!--审核状态-->
     <el-card class="box-card" style="margin-top: 15px" shadow="never">
-      <h2 ref="fuzhu" class="form-name">审核状态</h2>
-      <el-steps :active="reviewList.length" direction="vertical">
-        <el-step
-          v-for="(item, index) in reviewList"
-          :key="index"
-          :title="'审核步骤' + item.step"
-          style="height: 100px">
-          <template slot="description" >
-            <span style="font-size: 16px;color: red">{{ item.stat | statfilter }}</span><br>
-            <span style="font-size: 14px">审核人: {{ item.stepHandlerName }}</span><br>
-            <span style="font-size: 14px">审核时间: {{ item.createTime }}</span>
-          </template>
-        </el-step>
-      </el-steps>
+      <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">审批记录</h2>
+      <div class="container" style="margin-top: 37px">
+        <el-table
+          :data="reviewList"
+          border
+          style="width: 100%">
+          <el-table-column
+            prop="step"
+            align="center"
+            label="当前步骤"
+            min-width="150"/>
+          <el-table-column
+            prop="stepHandlerName"
+            align="center"
+            label="当前审批人"
+            min-width="150"/>
+          <el-table-column
+            prop="handleTime"
+            align="center"
+            label="审批时间"
+            min-width="150"/>
+          <el-table-column
+            prop="stat"
+            align="center"
+            label="审批意见"
+            min-width="150">
+            <template slot-scope="scope">
+              <span>{{ scope.row.stat | statfilter }}</span>
+            </template>
+          </el-table-column>
+        </el-table>
+      </div>
     </el-card>
     <el-card class="box-card" style="margin-top: 15px" shadow="never">
       <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">备注信息</h2>

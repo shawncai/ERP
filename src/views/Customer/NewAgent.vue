@@ -38,10 +38,10 @@
                 :label="item.categoryName"/>
             </el-select>
           </el-form-item>
-          <el-form-item :label="$t('Customer.discount')" style="width: 40%;margin-top: 1%">
+          <el-form-item :label="$t('Customer.discount2')" style="width: 40%;margin-top: 1%">
             <el-input v-model.number="customerForm.discount" placeholder="请输入折扣" clearable/>
           </el-form-item>
-          <el-form-item :label="$t('Customer.introduce')" style="width: 40%">
+          <el-form-item :label="$t('Customer.introduce2')" style="width: 40%">
             <el-input v-model="customerForm.introduce" type="textarea" clearable/>
           </el-form-item>
           <!--// 基本信息结束-->

@@ -76,10 +76,44 @@
         </el-form>
       </div>
     </el-card>
+    <el-card class="box-card" style="margin-top: 15px" shadow="never">
+      <div class="container" style="margin-top: 10px">
+        <el-tabs type="card">
+          <el-tab-pane label="出车记录">
+            <el-table
+              :data="tableData"
+              border
+              style="width: 100%">
+              <el-table-column
+                prop="outDate"
+                align="center"
+                label="出车日期"
+                min-width="150"/>
+              <el-table-column
+                prop="outPersonName"
+                align="center"
+                label="出车人"
+                min-width="150"/>
+              <el-table-column
+                prop="returnDate"
+                align="center"
+                label="回车日期"
+                min-width="150"/>
+              <el-table-column
+                prop="address"
+                align="center"
+                label="目的地"
+                min-width="150"/>
+            </el-table>
+          </el-tab-pane>
+        </el-tabs>
+      </div>
+    </el-card>
   </el-dialog>
 </template>
 
 <script>
+import { useLogList } from '@/api/LogisticsCar'
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
 export default {
   components: { Pagination },
@@ -146,10 +180,18 @@ export default {
   },
   data() {
     return {
+      // 出车记录数据
+      tableData: [],
       // 弹窗组件的控制
       editVisible: this.detailcontrol,
       // 供应商信息数据
-      personalForm: this.detaildata
+      personalForm: this.detaildata,
+      // 车辆使用情况参数
+      useLogListData: {
+        pagenum: 1,
+        pagesize: 9999,
+        carId: this.detailid
+      }
     }
   },
   watch: {
@@ -160,9 +202,18 @@ export default {
       this.personalForm = this.detaildata
     },
     detailid() {
+      this.useLogListData.carId = this.detailid
+      this.getuseLogList()
     }
   },
   methods: {
+    getuseLogList() {
+      useLogList(this.useLogListData).then(res => {
+        if (res.data.ret === 200) {
+          this.tableData = res.data.data.content.list
+        }
+      })
+    },
     handlecancel() {
       this.editVisible = false
     }

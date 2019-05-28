@@ -28,6 +28,12 @@
                 </el-form-item>
               </el-col>
               <el-col :span="6">
+                <el-form-item :label="$t('StockRetreat.sourceNumber')" :rules="personalForm.sourceType === '2'" prop="sourceNumber" style="width: 100%;">
+                  <el-input v-model="personalForm.sourceNumber" :disabled="addsouce" style="margin-left: 18px;width:200px" clearable @focus="handleAddSouce"/>
+                  <my-arrival :arrivalcontrol.sync="arrivalcontrol" @arrival="arrival" @allarrivalinfo="allarrivalinfo"/>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
                 <el-form-item :label="$t('StockRetreat.stockPersonId')" prop="stockPersonId" style="width: 100%;">
                   <el-input v-model="stockPersonId" style="margin-left: 18px;width:200px" clearable @focus="handlechooseStock"/>
                   <my-emp :control.sync="stockControl" @stockName="stockName"/>
@@ -133,8 +139,6 @@
         <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
           <el-button :disabled="addpro" @click="handleAddproduct">添加商品</el-button>
           <my-detail :control.sync="control" @product="productdetail"/>
-          <el-button :disabled="addsouce" style="width: 130px" @click="handleAddSouce">从源单中选择</el-button>
-          <my-arrival :arrivalcontrol.sync="arrivalcontrol" @arrival="arrival" @allarrivalinfo="allarrivalinfo"/>
           <el-button type="danger" @click="$refs.editable.removeSelecteds()">删除</el-button>
         </div>
         <div class="container">
@@ -190,7 +194,7 @@
         </div>
       </el-card>
       <el-card class="box-card" shadow="never">
-        <h2 ref="geren" class="form-name">合计信息</h2>
+        <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">合计信息</h2>
         <div class="container" style="margin-top: 37px">
           <el-form :inline="true" status-icon class="demo-ruleForm" label-width="130px">
             <el-row>
@@ -263,6 +267,13 @@ export default {
       console.log(this.supplierId)
       if (this.supplierId === undefined || this.supplierId === null || this.supplierId === '') {
         callback(new Error('请选择供应商'))
+      } else {
+        callback()
+      }
+    }
+    const validatePass3 = (rule, value, callback) => {
+      if (this.personalForm.sourceNumber === undefined || this.personalForm.sourceNumber === null || this.personalForm.sourceNumber === '') {
+        callback(new Error('请选择源单编号'))
       } else {
         callback()
       }
@@ -342,6 +353,9 @@ export default {
         ],
         retreatDate: [
           { required: true, message: '请选择退货日期', trigger: 'change' }
+        ],
+        sourceNumber: [
+          { required: true, validator: validatePass3, trigger: 'change' }
         ],
         deptId: [
           { required: true, message: '请选择部门', trigger: 'change' }
@@ -468,10 +482,13 @@ export default {
         this.addsouce = false
         this.addpro = true
         this.$refs.editable.clear()
+        this.$refs.personalForm.clearValidate()
       } else if (this.personalForm.sourceType === '2') {
         this.addpro = false
         this.addsouce = true
+        this.personalForm.sourceNumber = ''
         this.$refs.editable.clear()
+        this.$refs.personalForm.clearValidate()
       }
     },
     // 从源单中添加商品
@@ -485,6 +502,7 @@ export default {
       }
     },
     allarrivalinfo(val) {
+      this.personalForm.sourceNumber = val.number
       this.personalForm.supplierId = val.supplierId
       this.supplierId = val.supplierName
       this.personalForm.stockTypeId = val.stockTypeId

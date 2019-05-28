@@ -64,6 +64,24 @@ export function carlist(query) {
   })
 }
 
+// 物流车使用情况
+export function useLogList(query) {
+  var params = new URLSearchParams()
+  if (query.outPersonId !== '' && query.outPersonId !== null && query.outPersonId !== undefined) {
+    params.append('outPersonId', query.outPersonId) // 你要传给后台的参数值 key/value
+  }
+  if (query.carId !== '' && query.carId !== null && query.carId !== undefined) {
+    params.append('carId', query.carId) // 你要传给后台的参数值 key/value
+  }
+  params.append('pageNum', query.pagenum) // 你要传给后台的参数值 key/value
+  params.append('pageSize', query.pagesize) // 你要传给后台的参数值 key/value
+  return request({
+    url: '/erp/logisticsCar/useLogList',
+    method: 'post',
+    data: params
+  })
+}
+
 // 物流车辆管理删除
 export function deletecar(query, query2) {
   var params = new URLSearchParams()
