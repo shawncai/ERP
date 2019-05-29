@@ -582,7 +582,6 @@ export default {
       this.transferPersonId = this.personalForm.transferPersonName
       this.saleRepositoryId = this.personalForm.saleRepositoryName
       this.outPersonId = this.personalForm.outPersonName
-      this.chooseType()
       this.updatebatch()
     }
   },

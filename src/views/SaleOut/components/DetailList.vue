@@ -180,7 +180,7 @@
       </div>
     </el-card>
     <el-card class="box-card" style="margin-top: 15px" shadow="never">
-      <h2 ref="fuzhu" class="form-name" >赠品明细</h2>
+      <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">赠品明细</h2>
       <div class="container">
         <el-editable
           ref="editable2"
@@ -211,7 +211,7 @@
     <el-card class="box-card" shadow="never" style="margin-top: 10px">
       <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">合计信息</h2>
       <div class="container" style="margin-top: 37px">
-        <el-form ref="personalForm2" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
+        <el-form ref="personalForm2" :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
           <el-row>
             <el-col :span="12">
               <el-form-item :label="$t('SaleOut.heji1')" style="width: 100%;">
@@ -345,6 +345,40 @@
         </el-form>
       </div>
     </el-card>
+    <el-card class="box-card" shadow="never" style="margin-top: 10px">
+      <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">利润明细</h2>
+      <div class="container" style="margin-top: 37px">
+        <el-form ref="personalForm2" :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
+          <el-row>
+            <el-col :span="12">
+              <el-form-item :label="$t('SaleOut.heji2')" style="width: 100%;">
+                <span>{{ personalForm.allMoney }}</span>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('SaleOut.heji11')" style="width: 100%;">
+                <span>{{ personalForm.otherMoney }}</span>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('SaleOut.heji8')" style="width: 100%;">
+                <span>{{ personalForm.allCostMoney }}</span>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('SaleOut.profit')" style="width: 100%;">
+                <span>{{ personalForm.allMoney - personalForm.allCostMoney }}</span>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('SaleOut.ProfitMargin')" style="width: 100%;">
+                <span>{{ (personalForm.allMoney - personalForm.allCostMoney) / personalForm.allCostMoney }}</span>
+              </el-form-item>
+            </el-col>
+          </el-row>
+        </el-form>
+      </div>
+    </el-card>
   </el-dialog>
 </template>
 
@@ -434,6 +468,8 @@ export default {
   },
   data() {
     return {
+      huishou: '',
+      yushou: '',
       // 合计数据
       heji1: '',
       heji2: '',

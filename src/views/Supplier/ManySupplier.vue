@@ -1,18 +1,18 @@
 <template>
   <div class="app-container">
-    <el-card class="box-card">
+    <el-card class="box-card" shadow="never">
       <div slot="header" class="clearfix">
         <span>下载模板  </span>
       </div>
       <a href="/static/file/经销商资料表.xlsx"><el-button type="primary">下载模板</el-button></a>
     </el-card>
-    <el-card class="box-card" style="margin-top: 20px">
+    <el-card class="box-card" style="margin-top: 20px" shadow="never">
       <div slot="header" class="clearfix">
         <span>上传Excel表格</span>
       </div>
       <upload-excel-component :on-success="handleSuccess" :before-upload="beforeUpload"/>
     </el-card>
-    <el-card class="box-card" style="margin-top: 20px">
+    <el-card class="box-card" style="margin-top: 20px" shadow="never">
       <div slot="header" class="clearfix">
         <span>表格数据</span>
         <el-button style="float: right; padding: 3px 0" type="primary" @click="uploads">导入数据</el-button>

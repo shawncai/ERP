@@ -27,6 +27,12 @@
                 </el-form-item>
               </el-col>
               <el-col :span="12">
+                <el-form-item :label="$t('StockArrival.sourceNumber')" :rules="personalForm.sourceType === '2'" prop="sourceNumber" style="width: 100%;">
+                  <el-input v-model="personalForm.sourceNumber" :disabled="addsouce" style="margin-left: 18px;width:200px" clearable @focus="handleAddSouce"/>
+                  <my-order :ordercontrol.sync="ordercontrol" :supp.sync="supp" @order="order" @allOrderinfo="allOrderinfo"/>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
                 <el-form-item :label="$t('StockArrival.stockPersonId')" prop="stockPersonId" style="width: 100%;">
                   <el-input v-model="stockPersonId" style="margin-left: 18px;width: 200px" clearable @focus="handlechooseStock"/>
                   <my-emp :control.sync="stockControl" @stockName="stockName"/>
@@ -125,8 +131,6 @@
       <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
         <el-button :disabled="addpro" @click="handleAddproduct">添加商品</el-button>
         <my-detail :control.sync="control" :supp.sync="supp" @product="productdetail"/>
-        <el-button :disabled="addsouce" style="width: 130px" @click="handleAddSouce">从源单中选择</el-button>
-        <my-order :ordercontrol="ordercontrol" :supp.sync="supp" @order="order" @allOrderinfo="allOrderinfo"/>
         <el-button type="danger" @click="$refs.editable.removeSelecteds()">删除</el-button>
       </div>
       <div class="container">
@@ -274,6 +278,13 @@ export default {
         callback()
       }
     }
+    const validatePass2 = (rule, value, callback) => {
+      if (this.personalForm.sourceNumber === undefined || this.personalForm.sourceNumber === null || this.personalForm.sourceNumber === '') {
+        callback(new Error('请选择源单编号'))
+      } else {
+        callback()
+      }
+    }
     const checkRate = (rule, value, callback) => {
       console.log(value)
       if (value === 0 || value === '' || value === null || value === undefined) {
@@ -349,6 +360,9 @@ export default {
         ],
         deptId: [
           { required: true, message: '请选择部门', trigger: 'change' }
+        ],
+        sourceNumber: [
+          { required: true, validator: validatePass2, trigger: 'change' }
         ],
         sourceType: [
           { required: true, message: '请选择源单类型', trigger: 'change' }
@@ -481,10 +495,13 @@ export default {
         this.addsouce = false
         this.addpro = true
         this.$refs.editable.clear()
+        this.$refs.personalForm.clearValidate()
       } else if (this.personalForm.sourceType === '2') {
         this.addpro = false
         this.addsouce = true
+        this.personalForm.sourceNumber = ''
         this.$refs.editable.clear()
+        this.$refs.personalForm.clearValidate()
       }
     },
     // 重置一下下拉
@@ -510,8 +527,12 @@ export default {
       }
     },
     allOrderinfo(val) {
+      this.personalForm.sourceNumber = val.orderNumber
       this.personalForm.supplierId = val.supplierId
       this.supplierId = val.supplierName
+      this.allOthermoney = val.otherMoney
+      this.personalForm.stockPersonId = val.stockPersonId
+      this.stockPersonId = val.stockPersonName
     },
     // 更新类型
     updatecountry() {

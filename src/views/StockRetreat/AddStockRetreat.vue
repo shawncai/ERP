@@ -271,6 +271,14 @@ export default {
         callback()
       }
     }
+    const validatePass4 = (rule, value, callback) => {
+      console.log(this.supplierId)
+      if (this.personalForm.deptId === undefined || this.personalForm.deptId === null || this.personalForm.deptId === '') {
+        callback(new Error('请选择部门'))
+      } else {
+        callback()
+      }
+    }
     const validatePass3 = (rule, value, callback) => {
       if (this.personalForm.sourceNumber === undefined || this.personalForm.sourceNumber === null || this.personalForm.sourceNumber === '') {
         callback(new Error('请选择源单编号'))
@@ -358,7 +366,7 @@ export default {
           { required: true, validator: validatePass3, trigger: 'change' }
         ],
         deptId: [
-          { required: true, message: '请选择部门', trigger: 'change' }
+          { required: true, validator: validatePass4, trigger: 'change' }
         ],
         sourceType: [
           { required: true, message: '请选择源单类型', trigger: 'change' }

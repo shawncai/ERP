@@ -1390,7 +1390,9 @@ export default {
     heji8: '订单成本金额合计',
     heji9: '赠品数量合计',
     heji10: '赠品金额合计',
-    heji11: '其他费用合计'
+    heji11: '其他费用合计',
+    profit: '利润',
+    ProfitMargin: '利润率'
   },
   SaleOrder: {
     title: '订单主题',

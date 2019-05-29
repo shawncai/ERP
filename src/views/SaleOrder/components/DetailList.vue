@@ -280,11 +280,112 @@
         </el-form>
       </div>
     </el-card>
+    <el-card class="box-card" style="margin-top: 15px" shadow="never">
+      <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">预收款记录</h2>
+      <div class="container" style="margin-top: 37px">
+        <el-table
+          :data="tableData2"
+          border
+          style="width: 100%">
+          <el-table-column
+            prop="receiptMoney"
+            align="center"
+            label="预收款金额"
+            min-width="150"/>
+          <el-table-column
+            prop="receiptDate"
+            align="center"
+            label="收款时间"
+            min-width="150"/>
+          <el-table-column
+            prop="closeTypeName"
+            align="center"
+            label="收款方式"
+            min-width="150"/>
+          <el-table-column
+            prop="receiptPersonName"
+            align="center"
+            label="收款人"
+            min-width="150"/>
+        </el-table>
+      </div>
+    </el-card>
+    <el-card class="box-card" style="margin-top: 15px" shadow="never">
+      <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">出库明细</h2>
+      <div class="container" style="margin-top: 37px">
+        <el-table
+          :data="tableData3"
+          border
+          style="width: 100%">
+          <el-table-column
+            prop="outDate"
+            align="center"
+            label="出库日期"
+            min-width="150"/>
+          <el-table-column
+            prop="saleRepositoryName"
+            align="center"
+            label="仓库"
+            min-width="150"/>
+          <el-table-column
+            prop="quantity"
+            align="center"
+            label="出库数量"
+            min-width="150"/>
+          <el-table-column
+            prop="outPersonName"
+            align="center"
+            label="出库人"
+            min-width="150"/>
+          <el-table-column
+            prop="receiptPersonName"
+            align="center"
+            label="状态"
+            min-width="150"/>
+        </el-table>
+      </div>
+    </el-card>
+    <el-card class="box-card" shadow="never" style="margin-top: 10px">
+      <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">利润明细</h2>
+      <div class="container" style="margin-top: 37px">
+        <el-form ref="personalForm2" :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
+          <el-row>
+            <el-col :span="12">
+              <el-form-item :label="$t('SaleOut.heji2')" style="width: 100%;">
+                <span>{{ personalForm.allMoney }}</span>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('SaleOut.heji11')" style="width: 100%;">
+                <span>{{ personalForm.otherMoney }}</span>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('SaleOut.heji8')" style="width: 100%;">
+                <span>{{ personalForm.allCostMoney }}</span>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('SaleOut.profit')" style="width: 100%;">
+                <span>{{ personalForm.allMoney - personalForm.allCostMoney }}</span>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('SaleOut.ProfitMargin')" style="width: 100%;">
+                <span>{{ (personalForm.allMoney - personalForm.allCostMoney) / personalForm.allCostMoney }}</span>
+              </el-form-item>
+            </el-col>
+          </el-row>
+        </el-form>
+      </div>
+    </el-card>
   </el-dialog>
 </template>
 
 <script>
 import { productlist } from '@/api/public'
+import { searchprepReceipt } from '@/api/PrepReceipt'
+import { searchsaleOut } from '@/api/SaleOut'
 export default {
   filters: {
     currencyFilter(status) {
@@ -359,6 +460,16 @@ export default {
   },
   data() {
     return {
+      // 出库明细数据
+      tableData3: [],
+      saleOutparms: {
+        pageNum: 1,
+        pageSize: 9999,
+        sourceNumber: this.detaildata.number,
+        repositoryId: 0
+      },
+      // 预收款记录数据
+      tableData2: [],
       // 合计数据
       heji1: '',
       heji2: '',
@@ -370,7 +481,14 @@ export default {
       // 弹窗组件的控制
       editVisible: this.detailcontrol,
       // 供应商信息数据
-      personalForm: this.detaildata
+      personalForm: this.detaildata,
+      // 预收款记录
+      prepReceiptData: {
+        pageNum: 1,
+        pageSize: 9999,
+        sourceNumber: this.detaildata.number,
+        repositoryId: 0
+      }
     }
   },
   watch: {
@@ -382,9 +500,38 @@ export default {
       this.list2 = this.personalForm.saleOrderDetailVos
       this.list3 = this.personalForm.saleOrderCostDetails
       this.reviewList = this.personalForm.approvalUseVos
+      this.prepReceiptData.sourceNumber = this.personalForm.number
+      this.getprepReceipt()
+      this.saleOutparms.sourceNumber = this.personalForm.number
+      this.getsaleOutLis()
     }
   },
   methods: {
+    getsaleOutLis() {
+      searchsaleOut(this.saleOutparms).then(res => {
+        if (res.data.ret === 200) {
+          this.tableData3 = res.data.data.content.list.map(function(item) {
+            const needata = item.saleOutDetailVos.map(function(elem) {
+              return {
+                outDate: item.outDate,
+                saleRepositoryName: item.saleRepositoryName,
+                quantity: elem.quantity,
+                outPersonName: item.outPersonName
+              }
+            })
+            return needata
+          }).flat()
+        }
+      })
+    },
+    // 预收款记录
+    getprepReceipt() {
+      searchprepReceipt(this.prepReceiptData).then(res => {
+        if (res.data.ret === 200) {
+          this.tableData2 = res.data.data.content.list
+        }
+      })
+    },
     // 计划金额
     planMoney(row) {
       row.planMoney = row.basicPrice * row.planQuantity

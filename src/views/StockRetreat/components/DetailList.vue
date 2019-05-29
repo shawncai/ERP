@@ -113,6 +113,40 @@
         </el-editable>
       </div>
     </el-card>
+    <el-card class="box-card" shadow="never" style="margin-top: 10px">
+      <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">合计信息</h2>
+      <div class="container" style="margin-top: 37px">
+        <el-form :inline="true" status-icon class="demo-ruleForm" label-width="130px">
+          <el-row>
+            <el-col :span="12">
+              <el-form-item label="退货数量总计" style="width: 100%;">
+                <span>{{ personalForm.allQuantity }}</span>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item label="金额合计" style="width: 100%;">
+                <span>{{ personalForm.allMoney }}</span>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item label="税额合计" style="width: 100%;">
+                <span>{{ personalForm.allTaxMoney }}</span>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item label="抵应付账款" style="width: 100%;">
+                <span>{{ personalForm.allMoney }}</span>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item label="应退货款合计" style="width: 100%;">
+                <span>{{ personalForm.allRetreatMoney }}</span>
+              </el-form-item>
+            </el-col>
+          </el-row>
+        </el-form>
+      </div>
+    </el-card>
     <!--审核状态-->
     <el-card class="box-card" style="margin-top: 15px" shadow="never">
       <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">审批记录</h2>
@@ -146,40 +180,6 @@
             </template>
           </el-table-column>
         </el-table>
-      </div>
-    </el-card>
-    <el-card class="box-card" shadow="never" style="margin-top: 10px">
-      <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">合计信息</h2>
-      <div class="container" style="margin-top: 37px">
-        <el-form :inline="true" status-icon class="demo-ruleForm" label-width="130px">
-          <el-row>
-            <el-col :span="12">
-              <el-form-item label="退货数量总计" style="width: 100%;">
-                <span>{{ personalForm.allQuantity }}</span>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item label="金额合计" style="width: 100%;">
-                <span>{{ personalForm.allMoney }}</span>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item label="税额合计" style="width: 100%;">
-                <span>{{ personalForm.allTaxMoney }}</span>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item label="抵应付账款" style="width: 100%;">
-                <span>{{ personalForm.allMoney }}</span>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item label="应退货款合计" style="width: 100%;">
-                <span>{{ personalForm.allRetreatMoney }}</span>
-              </el-form-item>
-            </el-col>
-          </el-row>
-        </el-form>
       </div>
     </el-card>
     <el-card class="box-card" style="margin-top: 15px" shadow="never">

@@ -78,10 +78,10 @@
           <el-button @click="handleAddproduct">添加明细</el-button>
           <!--<el-button type="danger" @click="deleteTreeData">删除</el-button>-->
         </div>
-        <el-dialog :visible.sync="categoryVisible" title="添加明细" class="normal" width="600px" center>
+        <el-dialog :visible.sync="categoryVisible" :close-on-click-modal="false" :close-on-press-escape="false" :before-close="handlecancel2" title="添加明细" class="normal" width="600px" center>
           <el-form ref="addCategoryForm" :model="addCategoryForm" class="demo-ruleForm" style="margin: 0 auto; width: 400px">
             <el-form-item :label="$t('SalePlan.regionId')" label-width="100px" prop="type">
-              <el-cascader v-model="addCategoryForm.regionId" :options="provinceList" :props="props" placeholder="" style="width: 100%" @active-item-change="handleItemChange" @change="handlechange4"/>
+              <el-cascader v-model="addCategoryForm.regionId" :options="provinceList" :props="props" change-on-select placeholder="" style="width: 100%" @change="handleItemChange"/>
             </el-form-item>
             <el-form-item :label="$t('SalePlan.repositoryid')" label-width="100px">
               <el-select v-model="addCategoryForm.repositoryid" placeholder="请选择门店" filterable style="width: 100%;" @change="changeValue">
@@ -101,7 +101,7 @@
           </el-form>
           <span slot="footer" class="dialog-footer">
             <el-button type="primary" @click="handlesave2()">保存</el-button>
-            <el-button type="danger" @click="handlecancel()">取消</el-button>
+            <el-button type="danger" style="width: 98px;" @click="handlecancel2()">取消</el-button>
           </span>
         </el-dialog>
         <div class="container">
@@ -126,7 +126,7 @@
       <!--操作-->
       <div class="buttons" style="margin-top: 20px">
         <el-button type="primary" style="background:#3696fd;border-color:#3696fd;width: 98px" @click="handlesave()">保存</el-button>
-        <el-button type="danger" @click="handlecancel()">取消</el-button>
+        <el-button type="danger" style="width: 98px" @click="handlecancel()">取消</el-button>
       </div>
     </div>
   </div>
@@ -278,6 +278,11 @@ export default {
     this.getTreeId()
   },
   methods: {
+    // 取消添加
+    handlecancel2() {
+      this.addCategoryForm.regionId = []
+      this.categoryVisible = false
+    },
     // 获取递归值
     getTreeId() {
       getId().then(res => {
@@ -359,21 +364,8 @@ export default {
     },
     // 根据区域选择门店
     handlechange4(val) {
-      const finalid = val[val.length - 1]
-      searchregionName(finalid).then(res => {
-        console.log(res)
-      })
-      searchRepository(finalid).then(res => {
-        console.log(res)
-        if (res.data.ret === 200) {
-          this.repositories = res.data.data.content.list
-        } else {
-          console.log('区域选择门店')
-        }
-      })
     },
     getPosition(val, cb) {
-      console.log(val)
       const vm = this // 查询省市县
       let params = {}
       if (!val) { // 初始化加载 获取所有省份数据
@@ -393,9 +385,10 @@ export default {
       }
       listbyparentid(params).then((res) => {
         if (!val) { // 初始化加载   查询省份数据
-          vm.provinceList = res.data.data.content.map((e) => {
-            return { value: e.id, label: e.regionName, cities: [] }
-          })
+          // vm.provinceList = res.data.data.content.map((e) => {
+          //   return { value: e.id, label: e.regionName, cities: [] }
+          // })
+          vm.provinceList = [{ value: this.$store.getters.regionId, label: this.$store.getters.regionName, cities: [] }]
         } else if (val.length === 1) { // 加载二级    查询该省下市级数据
           vm.provinceList.map((item) => {
             if (item.value === val[0]) {
@@ -412,6 +405,7 @@ export default {
           vm.provinceList.map((item) => {
             if (item.value === val[0]) {
               item.cities.map((value) => {
+                console.log('value', value)
                 if (value.value === val[1]) {
                   if (res.data.data.content === undefined) {
                     value.cities = null
@@ -425,7 +419,6 @@ export default {
             }
           })
         } else if (val.length === 3) { // 加载4级   查询该省市下县级数据
-          console.log(vm.provinceList)
           vm.provinceList.map((item) => {
             if (item.value === val[0]) {
               item.cities.map((value) => {
@@ -444,7 +437,6 @@ export default {
             }
           })
         } else if (val.length === 4) { // 加载5级   查询该省市下县级数据
-          console.log(vm.provinceList)
           vm.provinceList.map((item) => {
             if (item.value === val[0]) {
               item.cities.map((value) => {
@@ -467,7 +459,6 @@ export default {
             }
           })
         } else if (val.length === 5) { // 加载6级   查询该省市下县级数据
-          console.log(vm.provinceList)
           vm.provinceList.map((item) => {
             if (item.value === val[0]) {
               item.cities.map((value) => {
@@ -494,7 +485,6 @@ export default {
             }
           })
         } else if (val.length === 6) { // 加载7级   查询该省市下县级数据
-          console.log(vm.provinceList)
           vm.provinceList.map((item) => {
             if (item.value === val[0]) {
               item.cities.map((value) => {
@@ -532,6 +522,18 @@ export default {
     },
     handleItemChange(val) {
       this.getPosition(val)
+      const finalid = val[val.length - 1]
+      searchregionName(finalid).then(res => {
+        console.log(res)
+      })
+      searchRepository(finalid).then(res => {
+        console.log(res)
+        if (res.data.ret === 200) {
+          this.repositories = res.data.data.content.list
+        } else {
+          console.log('区域选择门店')
+        }
+      })
     },
     // 清空结束时间
     cleardeposit() {

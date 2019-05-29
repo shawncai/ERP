@@ -284,11 +284,98 @@
         </el-table>
       </div>
     </el-card>
+    <el-card class="box-card" style="margin-top: 15px" shadow="never">
+      <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">退货信息</h2>
+      <div class="container" style="margin-top: 37px">
+        <el-table
+          :data="stockRetreatData"
+          border
+          style="width: 100%">
+          <el-table-column
+            prop="number"
+            align="center"
+            label="退货单编号"
+            min-width="150"/>
+          <el-table-column
+            prop="productCode"
+            align="center"
+            label="物品编号"
+            min-width="150"/>
+          <el-table-column
+            prop="arrivalQuantity"
+            align="center"
+            label="关联单据"
+            min-width="150"/>
+          <el-table-column
+            prop="retreatQuantity"
+            align="center"
+            label="退货数量"
+            min-width="150"/>
+          <el-table-column
+            prop="retreatReason"
+            align="center"
+            label="退货原因"
+            min-width="150"/>
+          <el-table-column
+            prop="retreatDate"
+            align="center"
+            label="退货日期"
+            min-width="150"/>
+          <el-table-column
+            prop="stockPersonName"
+            align="center"
+            label="退货人"
+            min-width="150"/>
+        </el-table>
+      </div>
+    </el-card>
+    <el-card class="box-card" style="margin-top: 15px" shadow="never">
+      <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">入库信息</h2>
+      <div class="container" style="margin-top: 37px">
+        <el-table
+          :data="stockenterData"
+          border
+          style="width: 100%">
+          <el-table-column
+            prop="enterNumber"
+            align="center"
+            label="入库单编号"
+            min-width="150"/>
+          <el-table-column
+            prop="productCode"
+            align="center"
+            label="物品编号"
+            min-width="150"/>
+          <el-table-column
+            prop="arrivalQuantity"
+            align="center"
+            label="关联单据"
+            min-width="150"/>
+          <el-table-column
+            prop="basicQuantity"
+            align="center"
+            label="入库数量"
+            min-width="150"/>
+          <el-table-column
+            prop="enterPersonName"
+            align="center"
+            label="入库人"
+            min-width="150"/>
+          <el-table-column
+            prop="enterDate"
+            align="center"
+            label="入库时间"
+            min-width="150"/>
+        </el-table>
+      </div>
+    </el-card>
   </el-dialog>
 </template>
 
 <script>
 import { checkreportlist } from '@/api/CheckReport'
+import { searchstockRetreat } from '@/api/StockRetreat'
+import { stockenterlist } from '@/api/Stockenter'
 export default {
   filters: {
     isVatFilter(status) {
@@ -353,6 +440,22 @@ export default {
   },
   data() {
     return {
+      // 入库信息
+      stockenterData: [],
+      stockenterlistdata: {
+        sourceNumber: this.detaildata.number,
+        pagenum: 1,
+        pagesize: 999,
+        repositoryId: 0
+      },
+      // 退货信息
+      stockRetreatData: [],
+      stockRetreatlistdata: {
+        sourceNumber: this.detaildata.number,
+        pageNum: 1,
+        pageSize: 999,
+        repositoryId: 0
+      },
       // 质检信息
       Checkreportdata: [],
       checkreportData: {
@@ -382,9 +485,54 @@ export default {
       this.reviewList = this.personalForm.approvalUseVos
       this.checkreportData.sourceNumber = this.detaildata.number
       this.getcheckreportlist()
+      this.stockRetreatlistdata.sourceNumber = this.detaildata.number
+      this.getstockRetreat()
+      this.stockenterlistdata.sourceNumber = this.detaildata.number
+      this.getstockenterlist()
     }
   },
   methods: {
+    getstockenterlist() {
+      stockenterlist(this.stockenterlistdata).then(res => {
+        if (res.data.ret === 200) {
+          this.stockenterData = res.data.data.content.list.map(function(item) {
+            const needata = item.stockEnterDetailVos.map(function(elem) {
+              return {
+                enterNumber: item.enterNumber,
+                productCode: elem.productCode,
+                arrivalQuantity: '采购到货单',
+                basicQuantity: elem.basicQuantity,
+                enterPersonName: item.enterPersonName,
+                enterDate: item.enterDate
+              }
+            })
+            return needata
+          }).flat()
+        }
+      })
+    },
+    // 退货信息
+    getstockRetreat() {
+      searchstockRetreat(this.stockRetreatlistdata).then(res => {
+        if (res.data.ret === 200) {
+          this.stockRetreatData = res.data.data.content.list.map(function(item) {
+            const needata = item.stockRetreatDetailVos.map(function(elem) {
+              return {
+                number: item.number,
+                productCode: elem.productCode,
+                arrivalQuantity: '采购到货单',
+                retreatQuantity: elem.retreatQuantity,
+                retreatReason: elem.retreatReason,
+                retreatDate: item.retreatDate,
+                stockPersonName: item.stockPersonName
+              }
+            })
+            return needata
+          }).flat()
+        }
+      })
+    },
+    // 质检信息
     getcheckreportlist() {
       checkreportlist(this.checkreportData).then(res => {
         if (res.data.ret === 200) {

@@ -31,6 +31,9 @@ export function searchsaleOut(query) {
   if (query.outPersonId !== '' && query.outPersonId !== null && query.outPersonId !== undefined) {
     params.append('outPersonId', query.outPersonId) // 你要传给后台的参数值 key/value
   }
+  if (query.sourceNumber !== '' && query.sourceNumber !== null && query.sourceNumber !== undefined) {
+    params.append('sourceNumber', query.sourceNumber) // 你要传给后台的参数值 key/value
+  }
   if (query.saleRepositoryId !== '' && query.saleRepositoryId !== null && query.saleRepositoryId !== undefined) {
     params.append('saleRepositoryId', query.saleRepositoryId) // 你要传给后台的参数值 key/value
   }

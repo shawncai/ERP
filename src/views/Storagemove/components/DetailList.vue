@@ -1,76 +1,54 @@
 <template>
-  <el-dialog :visible.sync="editVisible" :detailcontrol="detailcontrol" :detaildata="detaildata" :close-on-press-escape="false" append-to-body class="edit" top="10px" title="修改采购调拨单" @close="$emit('update:detailcontrol', false)">
+  <el-dialog :visible.sync="editVisible" :detailcontrol="detailcontrol" :detaildata="detaildata" :close-on-press-escape="false" :title="personalForm.id +'    采购订单详情信息'" append-to-body width="1010px" class="edit" top="-10px" @close="$emit('update:detailcontrol', false)">
     <!--基本信息-->
-    <el-card class="box-card">
-      <h2 ref="geren" class="form-name">基本信息</h2>
-      <div class="container">
-        <el-form ref="personalForm" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="100px" style="margin-left: 30px;">
+    <el-card class="box-card" style="margin-top: 63px" shadow="never">
+      <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">基本信息</h2>
+      <div class="container" style="margin-top: 37px">
+        <el-form ref="personalForm" :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="100px" style="margin-left: 30px;">
           <el-row>
-            <el-col :span="6">
+            <el-col :span="12">
               <el-form-item :label="$t('Storagemove.title')" style="width: 100%;">
-                <el-input v-model="personalForm.title" placeholder="请输入调拨单主题" style="margin-left: 18px;width: 150px" disabled/>
+                <span>{{ personalForm.title }}</span>
               </el-form-item>
             </el-col>
-            <el-col :span="6">
+            <el-col :span="12">
               <el-form-item :label="$t('Storagemove.applicationName')" prop="applyPersonId" style="width: 100%;">
-                <el-input v-model="applyPersonId" placeholder="请选择调拨申请人" style="margin-left: 18px;width: 150px" disabled/>
+                <span>{{ personalForm.applyPersonName }}</span>
               </el-form-item>
             </el-col>
-            <el-col :span="6">
+            <el-col :span="12">
               <el-form-item :label="$t('Storagemove.requestDeptId')" prop="requestDeptId" style="width: 100%;">
-                <el-select v-model="personalForm.requestDeptId" placeholder="请选择要货部门" style="margin-left: 18px;width: 150px" disabled >
-                  <el-option
-                    v-for="(item, index) in depts"
-                    :key="index"
-                    :value="item.id"
-                    :label="item.deptName"/>
-                </el-select>
+                <span>{{ personalForm.requestDeptName }}</span>
               </el-form-item>
             </el-col>
-            <el-col :span="6">
+            <el-col :span="12">
               <el-form-item :label="$t('Storagemove.moveInRepository')" prop="moveInRepository" style="width: 100%;">
-                <el-input v-model="moveInRepository" placeholder="请选择调入仓库" style="margin-left: 18px;width: 150px" disabled @focus="handlechooseDep"/>
+                <span>{{ personalForm.moveInRepositoryName }}</span>
               </el-form-item>
-              <my-depot :depotcontrol.sync="depotcontrol" @depotname="depotname"/>
             </el-col>
-            <el-col :span="6">
+            <el-col :span="12">
               <el-form-item :label="$t('Storagemove.requestArrivalDate')" label-width="110px" prop="requestArrivalDate" style="width: 100%;">
-                <el-date-picker
-                  v-model="personalForm.requestArrivalDate"
-                  type="date"
-                  placeholder="选择要求到货日期"
-                  value-format="yyyy-MM-dd"
-                  style="margin-left: 8px;width: 150px"
-                  disabled/>
+                <span>{{ personalForm.requestArrivalDate }}</span>
               </el-form-item>
             </el-col>
-            <el-col :span="6">
+            <el-col :span="12">
               <el-form-item :label="$t('Storagemove.moveReason')" style="width: 100%;">
-                <el-input v-model="personalForm.moveReason" placeholder="请输入调拨原因" style="margin-left: 18px;width: 150px" disabled/>
+                <span>{{ personalForm.moveReason }}</span>
               </el-form-item>
             </el-col>
-            <el-col :span="6">
+            <el-col :span="12">
               <el-form-item :label="$t('Storagemove.departmentId')" prop="departmentId" style="width: 100%;">
-                <el-select v-model="personalForm.departmentId" placeholder="请选择调货部门" style="margin-left: 18px;width: 150px" disabled >
-                  <el-option
-                    v-for="(item, index) in depts"
-                    :key="index"
-                    :value="item.id"
-                    :label="item.deptName"/>
-                </el-select>
+                <span>{{ personalForm.departmentName }}</span>
               </el-form-item>
             </el-col>
-            <el-col :span="6">
+            <el-col :span="12">
               <el-form-item :label="$t('Storagemove.moveOutRepository')" prop="moveOutRepository" style="width: 100%;">
-                <el-input v-model="moveOutRepository" placeholder="请选择调出仓库" style="margin-left: 18px;width: 150px" disabled @focus="handlechooseRep"/>
+                <span>{{ personalForm.moveOutRepositoryName }}</span>
               </el-form-item>
-              <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
             </el-col>
-            <el-col :span="6">
+            <el-col :span="12">
               <el-form-item :label="$t('Storagemove.businessStat')" prop="businessStat" style="width: 100%;">
-                <el-select v-model="personalForm.businessStat" placeholder="请选择业务" style="margin-left: 10px;width: 150px" disabled >
-                  <el-option value="1" label="调拨申请"/>
-                </el-select>
+                <span>{{ personalForm.businessStat | businessStatFilter }}</span>
               </el-form-item>
             </el-col>
           </el-row>
@@ -78,8 +56,8 @@
       </div>
     </el-card>
     <!--调拨单明细-->
-    <el-card class="box-card" style="margin-top: 15px">
-      <h2 ref="fuzhu" class="form-name">调出明细</h2>
+    <el-card class="box-card" style="margin-top: 15px" shadow="never">
+      <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">调出明细</h2>
       <div class="container">
         <el-editable
           ref="editable"
@@ -91,7 +69,6 @@
           border
           size="medium"
           style="width: 100%">
-          <el-editable-column type="selection" width="55" align="center"/>
           <el-editable-column label="编号" width="55" align="center" type="index"/>
           <el-editable-column prop="locationCode" align="center" label="货位" width="200px"/>
           <el-editable-column prop="batch" align="center" label="批次" width="200px"/>
@@ -113,8 +90,8 @@
       </div>
     </el-card>
     <!--调入数据-->
-    <el-card class="box-card" style="margin-top: 15px">
-      <h2 ref="fuzhu" class="form-name">调入明细</h2>
+    <el-card class="box-card" style="margin-top: 15px" shadow="never">
+      <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">调入明细</h2>
       <div class="container">
         <el-editable
           ref="editable"
@@ -126,7 +103,6 @@
           border
           size="medium"
           style="width: 100%">
-          <el-editable-column type="selection" width="55" align="center"/>
           <el-editable-column label="编号" width="55" align="center" type="index"/>
           <el-editable-column prop="locationCode" align="center" label="货位" width="200px"/>
           <el-editable-column prop="batch" align="center" label="批次" width="200px"/>
@@ -182,9 +158,50 @@
         </el-table>
       </div>
     </el-card>
-    <div class="buttons" style="margin-top: 20px;margin-left: 30px">
-      <el-button type="danger" @click="handlecancel()">取消</el-button>
-    </div>
+    <el-card class="box-card" style="margin-top: 15px" shadow="never">
+      <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">配送信息</h2>
+      <div class="container" style="margin-top: 37px">
+        <el-table
+          :data="deliverGoodsdata"
+          border
+          style="width: 100%">
+          <el-table-column
+            prop="deliverNumber"
+            align="center"
+            label="配送单号"
+            min-width="150"/>
+          <el-table-column
+            prop="requireArriveDate"
+            align="center"
+            label="配送时间"
+            min-width="150"/>
+          <el-table-column
+            prop="deliverPersonName"
+            align="center"
+            label="配送人"
+            min-width="150"/>
+          <el-table-column
+            prop="arrivalDate"
+            align="center"
+            label="车辆编号"
+            min-width="150"/>
+          <el-table-column
+            prop="acceptPersonName"
+            align="center"
+            label="仓库"
+            min-width="150"/>
+          <el-table-column
+            prop="stat"
+            align="center"
+            label="配送单状态"
+            min-width="150">
+            <template slot-scope="scope">
+              <span>{{ scope.row.stat | statFilter }}</span>
+            </template>
+          </el-table-column>
+        </el-table>
+      </div>
+    </el-card>
   </el-dialog>
 </template>
 
@@ -192,6 +209,7 @@
 import { locationlist } from '@/api/WarehouseAdjust'
 import { updateStoragemove } from '@/api/Storagemove'
 import { getdeptlist } from '@/api/BasicSettings'
+import { deliverGoodsList } from '@/api/DeliverGoods'
 import { batchlist } from '@/api/public'
 import MyRepository from './MyRepository'
 import MyAccept from './MyAccept'
@@ -208,6 +226,21 @@ export default {
         3: '审核不通过'
       }
       return statusMap[status]
+    },
+    businessStatFilter(status) {
+      const statusMap = {
+        1: '调拨申请'
+      }
+      return statusMap[status]
+    },
+    statFilter(status) {
+      const statusMap = {
+        1: '配送申请',
+        2: '配送出库',
+        3: '配送完成',
+        4: '回车'
+      }
+      return statusMap[status]
     }
   },
   props: {
@@ -222,6 +255,14 @@ export default {
   },
   data() {
     return {
+      // 配送信息数据
+      deliverGoodsdata: [],
+      deliverGoodsListdata: {
+        pageNum: 1,
+        pageSize: 9999,
+        repositoryId: 0,
+        sourceNumber: this.detaildata.moveNumber
+      },
       // 申请人回显
       applyPersonId: '',
       // 审核步骤数据
@@ -294,12 +335,21 @@ export default {
       this.list3 = this.personalForm.storageMoveDetailConfirmVos
       this.reviewList = this.personalForm.approvalUseVos
       this.getlocation()
+      this.deliverGoodsListdata.sourceNumber = this.personalForm.moveNumber
+      this.getdeliverGoodsList()
     }
   },
   mounted() {
     this.getlist()
   },
   methods: {
+    getdeliverGoodsList() {
+      deliverGoodsList(this.deliverGoodsListdata).then(res => {
+        if (res.data.ret === 200) {
+          this.deliverGoodsdata = res.data.data.content.list
+        }
+      })
+    },
     // 部门列表数据
     getlist() {
       getdeptlist().then(res => {
@@ -474,7 +524,41 @@ export default {
 </script>
 
 <style scoped>
+  .edit >>> .el-dialog{
+    -webkit-transform: none;
+    transform: none;
+    position: absolute;
+    right: 0;
+    left: auto;
+    height: auto;
+  }
+  .edit >>> .el-dialog__header{
+    background: #fff;
+    position: fixed;
+    top: 0;
+    display: block;
+    width: 1010px;
+    z-index: 100;
+    border-bottom: 1px solid #f1f1f1;
+  }
+  .edit >>> .el-dialog__body{
+    padding-left: 0;
+    padding-right: 0;
+    padding-top: 10px;
+  }
   .edit >>> .el-dialog {
     background:#f1f1f1 ;
+  }
+  .container >>> .el-form-item.is-required:not(.is-no-asterisk)>.el-form-item__label:before{
+    margin-left: -10px;
+  }
+  .container >>> .el-form-item__label{
+    text-align: left;
+  }
+  .container >>> .el-form-item__label{
+    color: #60626696;
+  }
+  .el-col-12{
+    width: 49%;
   }
 </style>
