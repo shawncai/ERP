@@ -797,6 +797,8 @@ export default {
               this.$refs.personalForm4.resetFields()
               this.$refs.personalForm5.clearValidate()
               this.$refs.personalForm5.resetFields()
+              this.$emit('rest', true)
+              this.editVisible = false
             } else {
               this.$notify.error({
                 title: '错误',
