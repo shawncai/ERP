@@ -149,7 +149,13 @@
             </el-col>
             <el-col :span="12">
               <el-form-item :label="$t('SaleContract.installmentCount')" style="width: 100%;">
-                <el-input v-model="personalForm.installmentCount" :disabled="isinstallappley" style="margin-left: 18px;width: 200px" clearable/>
+                <el-select v-model="personalForm.installmentCount" :disabled="isinstallappley" clearable style="margin-left: 18px;width: 200px" @change="change">
+                  <el-option
+                    v-for="(item, index) in installmentCounts"
+                    :key="index"
+                    :value="item.installmentCount"
+                    :label="item.installmentCount"/>
+                </el-select>
               </el-form-item>
             </el-col>
             <el-col :span="12">
@@ -314,6 +320,7 @@ import { getdeptlist } from '@/api/BasicSettings'
 import { searchStockCategory } from '@/api/StockCategory'
 import { searchSaleCategory } from '@/api/SaleCategory'
 import { searchCategory } from '@/api/Supplier'
+import { ratelist } from '@/api/Installmentrate'
 import MyEmp from './MyEmp'
 import MyDetail from './MyDetail'
 import MySupplier from './MySupplier'
@@ -380,6 +387,14 @@ export default {
         disabledDate: (time) => {
           return time.getTime() < new Date().getTime() - 8.64e7
         }
+      },
+      // 分期数据
+      installmentCounts: [],
+      // 分期期数参数
+      ratelistData: {
+        stat: 1,
+        pagenum: 1,
+        pagesize: 9999
       },
       // 是否可以编辑分期数据
       isinstallappley: false,
@@ -506,8 +521,20 @@ export default {
   created() {
     this.getTypes()
     this.getways()
+    this.getratelist()
   },
   methods: {
+    change() {
+      this.$forceUpdate()
+    },
+    // 获取分期期数
+    getratelist() {
+      ratelist(this.ratelistData).then(res => {
+        if (res.data.ret === 200) {
+          this.installmentCounts = res.data.data.content.list
+        }
+      })
+    },
     // 选择客户类型时清理客户名称
     clearCustomer() {
       this.personalForm.customerId = ''

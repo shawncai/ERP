@@ -367,6 +367,7 @@ export default {
           productType: item.typeId,
           color: item.color,
           unit: item.unit,
+          salePrice: item.price,
           performanceScore: item.kpiGrade,
           productScore: item.point,
           quantity: 0

@@ -195,7 +195,13 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('InstallmentApply.installmentCount')" prop="installmentCount" style="width: 100%;">
-                  <el-input v-model="productForm.installmentCount" style="margin-left: 18px;width: 200px" clearable/>
+                  <el-select v-model="productForm.installmentCount" clearable style="margin-left: 18px;width: 200px">
+                    <el-option
+                      v-for="(item, index) in installmentCounts"
+                      :key="index"
+                      :value="item.installmentCount"
+                      :label="item.installmentCount"/>
+                  </el-select>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
@@ -396,6 +402,7 @@
 
 <script>
 import { addinstallmentapply } from '@/api/InstallmentApply'
+import { ratelist } from '@/api/Installmentrate'
 import { getprovincelist, getcitylist, existList } from '@/api/public'
 import MyEmp from './components/MyEmp'
 import MyDetail from './components/MyDetail'
@@ -429,6 +436,14 @@ export default {
         disabledDate: (time) => {
           return time.getTime() < new Date().getTime() - 8.64e7
         }
+      },
+      // 分期数据
+      installmentCounts: [],
+      // 分期期数参数
+      ratelistData: {
+        stat: 1,
+        pagenum: 1,
+        pagesize: 9999
       },
       // 回显规格型号
       typeName: '',
@@ -496,7 +511,7 @@ export default {
           { required: true, message: '请输入详细地址', trigger: 'blur' }
         ],
         installmentCount: [
-          { required: true, message: '请输入分期期数', trigger: 'blur' }
+          { required: true, message: '请输入分期期数', trigger: 'change' }
         ],
         totalMoney: [
           { required: true, message: '请输入分期总金额', trigger: 'blur' }
@@ -537,8 +552,17 @@ export default {
   created() {
     this.getdatatime()
     this.getprovince()
+    this.getratelist()
   },
   methods: {
+    // 获取分期期数
+    getratelist() {
+      ratelist(this.ratelistData).then(res => {
+        if (res.data.ret === 200) {
+          this.installmentCounts = res.data.data.content.list
+        }
+      })
+    },
     // 仓库列表focus事件触发
     handlechooseRep() {
       this.repositorycontrol = true
@@ -646,6 +670,7 @@ export default {
       if (val.salePrice !== null && val.salePrice !== undefined && val.salePrice !== '') {
         this.IstotalMoney = true
         this.personalForm.totalMoney = val.salePrice
+        this.personalForm.price = val.salePrice
       }
     },
     handlechangesuretyProvince(val) {
