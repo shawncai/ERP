@@ -462,7 +462,8 @@ export default {
         installmentBegintime: null,
         notaryDate: null,
         deptId: this.$store.getters.deptId,
-        saleRepositoryId: this.$store.getters.repositoryId
+        saleRepositoryId: this.$store.getters.repositoryId,
+        customerType: '2'
       },
       // 采购申请单规则数据
       personalrules: {
@@ -822,6 +823,7 @@ export default {
         installmentBegintime: null,
         notaryDate: null,
         deptId: this.$store.getters.deptId,
+        customerType: '2',
         saleRepositoryId: this.$store.getters.repositoryId
       }
       this.supplierId = null
