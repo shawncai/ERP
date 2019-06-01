@@ -22,6 +22,11 @@
               </el-form-item>
             </el-col>
             <el-col :span="12">
+              <el-form-item :label="$t('SaleContract.customerType')" style="width: 100%;">
+                <span>{{ personalForm.customerType | customerTypeFilter }}</span>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
               <el-form-item :label="$t('SaleContract.customerName')" style="width: 100%;">
                 <span>{{ personalForm.customerName }}</span>
               </el-form-item>
@@ -257,9 +262,10 @@
 <script>
 export default {
   filters: {
-    invoiceTypeFilter(status) {
+    customerTypeFilter(status) {
       const statusMap = {
-        1: '增值税'
+        1: '经销商',
+        2: '客户'
       }
       return statusMap[status]
     },

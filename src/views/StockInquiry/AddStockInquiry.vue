@@ -463,9 +463,10 @@ export default {
       return sums
     },
     getdatatime() { // 默认显示今天
-      const date = new Date()
-      date.setTime(date.getTime())
-      this.personalForm.inquiryDate = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate()
+      // const date = new Date()
+      // date.setTime(date.getTime())
+      // this.personalForm.inquiryDate = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate()
+      this.personalForm.inquiryDate = new Date()
     },
     // 通过税率计算含税价
     gettaxRate(row) {
@@ -669,7 +670,11 @@ export default {
         countryId: this.$store.getters.countryId,
         repositoryId: this.$store.getters.repositoryId,
         regionId: this.$store.getters.regionId,
-        isVat: 1
+        isVat: 1,
+        inquiryTimes: 1,
+        currency: '1',
+        inquiryDate: null,
+        sourceType: '3'
       }
       this.supplierId = null
       this.inquiryPersonId = null

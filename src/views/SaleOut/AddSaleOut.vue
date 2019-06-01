@@ -190,10 +190,11 @@
         <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
           <el-button :disabled="Isproduct" @click="handleAddproduct">添加商品</el-button>
           <my-detail :control.sync="control" @product="productdetail"/>
-          <el-button :disabled="IsSourceNumber" style="width: 100px" @click="handleAddSource">从源单中选择</el-button>
+          <el-button :disabled="IsSourceNumber" style="width: 130px" @click="handleAddSource">从源单中选择</el-button>
           <my-order :ordercontrol.sync="ordercontrol" @saleOrderDetail="saleOrderDetail" @saleOrder="saleOrder"/>
           <my-presale :presalecontrol.sync="presalecontrol" @advanceOrderDetail="advanceOrderDetail" @advanceData="advanceData"/>
           <my-opportunity :opportunitycontrol.sync="opportunitycontrol" @opportunityDetail="opportunityDetail" @opportunity="opportunity"/>
+          <my-contract :contractcontrol.sync="contractcontrol" @salecontractDetail="salecontractDetail" @salecontract="salecontract"/>
           <el-button type="danger" @click="$refs.editable.removeSelecteds()">删除</el-button>
         </div>
         <div class="container">
@@ -441,9 +442,10 @@ import MyAdvance from './components/MyAdvance'
 import MyPresale from './components/MyPresale'
 import MyOpportunity from './components/MyOpportunity'
 import MyDetail2 from './components/MyDetail2'
+import MyContract from './components/MyContract'
 export default {
   name: 'AddSaleOut',
-  components: { MyDetail2, MyOpportunity, MyPresale, MyAdvance, MyOrder, MyRepository, MyAccept, MyAgent, MyCustomer, MyRequire, MySupplier, MyApply, MyDetail, MyDelivery, MyEmp },
+  components: { MyContract, MyDetail2, MyOpportunity, MyPresale, MyAdvance, MyOrder, MyRepository, MyAccept, MyAgent, MyCustomer, MyRequire, MySupplier, MyApply, MyDetail, MyDelivery, MyEmp },
   data() {
     const validatePass = (rule, value, callback) => {
       console.log(this.supplierId)
@@ -473,6 +475,8 @@ export default {
       heji11: '',
       // 货位数据
       locationlist: [],
+      // 控制销售合同
+      contractcontrol: false,
       // 控制赠品
       giftcontrol: false,
       // 控制销售机会单
@@ -825,7 +829,7 @@ export default {
       if (this.personalForm.sourceType === '1') {
         this.ordercontrol = true
       } else if (this.personalForm.sourceType === '2') {
-        console.log('未做')
+        this.contractcontrol = true
       } else if (this.personalForm.sourceType === '3') {
         this.presalecontrol = true
       } else if (this.personalForm.sourceType === '4') {
@@ -929,6 +933,44 @@ export default {
       this.salePersonId = val.handlePersonName
       this.personalForm.handleRepositoryId = val.handleRepositoryId
       this.handleRepositoryId = val.handleRepositoryName
+    },
+    // 源单类型为销售合同
+    salecontractDetail(val) {
+      console.log(val)
+      const nowlistdata = this.$refs.editable.getRecords()
+      for (let i = 0; i < val.length; i++) {
+        for (let j = 0; j < nowlistdata.length; j++) {
+          if (val[i].sourceNumber === nowlistdata[j].sourceNumber) {
+            this.$notify.error({
+              title: '错误',
+              message: '物品已添加',
+              offset: 100
+            })
+            return false
+          }
+        }
+        this.$refs.editable.insert(val[i])
+      }
+    },
+    salecontract(val) {
+      if (val.customerType !== null && val.customerType !== undefined && val.customerType !== '') {
+        this.personalForm.customerType = '2'
+      }
+      this.personalForm.customerId = val.customerId
+      this.customerId = val.customerName
+      this.personalForm.customerPhone = val.customerPhone
+      this.personalForm.salePersonId = val.salePersonId
+      this.salePersonId = val.salePersonName
+      this.personalForm.handleRepositoryId = val.saleRepositoryId
+      this.handleRepositoryId = val.saleRepositoryName
+      if (val.saleType !== null && val.saleType !== undefined && val.saleType !== '') {
+        this.personalForm.saleType = String(val.saleType)
+      }
+      this.personalForm.closeType = val.closeType
+      this.personalForm.invoiceType = val.invoiceType
+      if (val.payType !== null && val.payType !== undefined && val.payType !== '') {
+        this.personalForm.payType = String(val.payType)
+      }
     },
     // 无来源添加商品
     handleAddproduct() {

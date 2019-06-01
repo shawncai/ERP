@@ -1477,6 +1477,7 @@ export default {
     isSale: '当前状态'
   },
   SaleContract: {
+    customerType: '客户类型',
     title: '合同主题',
     sourceType: '源单类型',
     sourceNumber: '源单编号',

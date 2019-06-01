@@ -27,9 +27,18 @@
               <my-installmentapply :installappleycontrol.sync = "installappleycontrol" @installappleyDetail="installappleyDetail" @installappley="installappley"/>
             </el-col>
             <el-col :span="12">
+              <el-form-item :label="$t('SaleOut.customerType')" prop="customerType" style="width: 100%;">
+                <el-select v-model="personalForm.customerType" style="margin-left: 18px;width: 200px" @change="clearCustomer">
+                  <el-option value="1" label="经销商"/>
+                  <el-option value="2" label="零售"/>
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
               <el-form-item :label="$t('SaleContract.customerName')" style="width: 100%;">
                 <el-input v-model="customerId" style="margin-left: 18px;width: 200px" clearable/>
                 <my-customer :customercontrol.sync="customercontrol" @customerdata="customerdata"/>
+                <my-agent :agentcontrol.sync="agentcontrol" @agentdata="agentdata"/>
               </el-form-item>
             </el-col>
             <el-col :span="12">
@@ -48,7 +57,11 @@
             <el-col :span="12">
               <el-form-item :label="$t('SaleContract.closeType')" style="width: 100%;">
                 <el-select v-model="personalForm.closeType" clearable style="margin-left: 18px;width: 200px">
-                  <el-option value="1" label="结算1"/>
+                  <el-option
+                    v-for="(item, index) in colseTypes"
+                    :value="item.id"
+                    :key="index"
+                    :label="item.categoryName"/>
                 </el-select>
               </el-form-item>
             </el-col>
@@ -120,7 +133,12 @@
             <el-col :span="12">
               <el-form-item :label="$t('SaleContract.invoiceType')" style="width: 100%;">
                 <el-select v-model="personalForm.invoiceType" clearable style="margin-left: 18px;width: 200px">
-                  <el-option value="1" label="增值税"/>
+                  <el-option
+                    v-for="(item, index) in invoiceTypes"
+                    :value="item.id"
+                    :key="index"
+                    :label="item.categoryName"
+                  />
                 </el-select>
               </el-form-item>
             </el-col>
@@ -294,6 +312,7 @@
 import { updatesaleContract } from '@/api/SaleContract'
 import { getdeptlist } from '@/api/BasicSettings'
 import { searchStockCategory } from '@/api/StockCategory'
+import { searchSaleCategory } from '@/api/SaleCategory'
 import { searchCategory } from '@/api/Supplier'
 import MyEmp from './MyEmp'
 import MyDetail from './MyDetail'
@@ -303,9 +322,10 @@ import MyPlan from './MyPlan'
 import MyDelivery from './MyDelivery'
 import MyOpportunity from './MyOpportunity'
 import MyInstallmentapply from './MyInstallmentapply'
+import MyAgent from './MyAgent'
 import MyCustomer from '../../SaleOpportunity/components/MyCustomer'
 export default {
-  components: { MyCustomer, MyInstallmentapply, MyOpportunity, MyDelivery, MyPlan, MyApply, MySupplier, MyDetail, MyEmp },
+  components: { MyCustomer, MyInstallmentapply, MyOpportunity, MyDelivery, MyPlan, MyApply, MySupplier, MyDetail, MyEmp, MyAgent },
   props: {
     editcontrol: {
       type: Boolean,
@@ -379,6 +399,24 @@ export default {
       editVisible: this.editcontrol,
       // 修改信息数据
       personalForm: this.editdata,
+      // 控制经销商
+      agentcontrol: false,
+      // 开票类别数据
+      invoiceTypes: [],
+      // 开票类别获取参数
+      invoicetypeparms: {
+        type: 4,
+        pagenum: 1,
+        pagesize: 99999
+      },
+      // 结算方式数据
+      colseTypes: [],
+      // 结算方式获取参数
+      colseTypeparms: {
+        type: 3,
+        pagenum: 1,
+        pagesize: 99999
+      },
       // 合计数据
       allNumber: '',
       allMoney: '',
@@ -421,6 +459,9 @@ export default {
       control: false,
       // 采购申请单规则数据
       personalrules: {
+        customerType: [
+          { required: true, message: '请选择客户类别', trigger: 'change' }
+        ],
         supplierId: [
           { required: true, validator: validatePass, trigger: 'change' }
         ],
@@ -467,14 +508,32 @@ export default {
     this.getways()
   },
   methods: {
+    // 选择客户类型时清理客户名称
+    clearCustomer() {
+      this.personalForm.customerId = ''
+      this.customerId = ''
+    },
     // 选择客户focus
     chooseCustomer() {
-      this.customercontrol = true
+      this.$forceUpdate()
+      if (this.personalForm.customerType === '1') {
+        this.agentcontrol = true
+        this.$forceUpdate()
+      } else if (this.personalForm.customerType === '2') {
+        this.customercontrol = true
+        this.$forceUpdate()
+      }
     },
     customerdata(val) {
       this.personalForm.customerId = val.id
       this.customerId = val.customerName
       this.personalForm.customerPhone = val.phoneNumber
+    },
+    agentdata(val) {
+      console.log(val)
+      this.personalForm.customerId = val.id
+      this.customerId = val.agentName
+      this.personalForm.customerPhone = val.phone
     },
     clearfinal() {
       this.personalForm.installmentEndtime = null
@@ -687,6 +746,18 @@ export default {
       getdeptlist().then(res => {
         if (res.data.ret === 200) {
           this.depts = res.data.data.content
+        }
+      })
+      // 开票类型数据
+      searchSaleCategory(this.invoicetypeparms).then(res => {
+        if (res.data.ret === 200) {
+          this.invoiceTypes = res.data.data.content.list
+        }
+      })
+      // 结算方式数据
+      searchSaleCategory(this.colseTypeparms).then(res => {
+        if (res.data.ret === 200) {
+          this.colseTypes = res.data.data.content.list
         }
       })
     },

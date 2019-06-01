@@ -24,16 +24,16 @@ export function searchSaleCategory(query) {
 // 新增分类属性
 export function addSaleCategory(query) {
   var params = new URLSearchParams()
-  if (query.categoryname !== '' && query.categoryname !== null) {
+  if (query.categoryname !== '' && query.categoryname !== null && query.categoryname !== undefined) {
     params.append('categoryname', query.categoryname) // 你要传给后台的参数值 key/value
   }
-  if (query.category !== '' && query.category !== null) {
+  if (query.category !== '' && query.category !== null && query.categoryname !== undefined) {
     params.append('category', query.category) // 你要传给后台的参数值 key/value
   }
-  if (query.iseffective !== '' && query.iseffective !== null) {
+  if (query.iseffective !== '' && query.iseffective !== null && query.categoryname !== undefined) {
     params.append('iseffective', query.iseffective) // 你要传给后台的参数值 key/value
   }
-  if (query.type !== '' && query.type !== null) {
+  if (query.type !== '' && query.type !== null && query.categoryname !== undefined) {
     params.append('type', query.type) // 你要传给后台的参数值 key/value
   }
   return request({
