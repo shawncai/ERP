@@ -368,6 +368,7 @@ export default {
           color: item.color,
           unit: item.unit,
           salePrice: item.price,
+          costPrice: 0,
           performanceScore: item.kpiGrade,
           productScore: item.point,
           quantity: 0
