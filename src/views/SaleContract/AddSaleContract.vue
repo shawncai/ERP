@@ -641,6 +641,7 @@ export default {
     // 计算含税金额
     getincludeTaxMoney(row) {
       row.includeTaxMoney = (row.taxprice * row.quantity).toFixed(2)
+      row.discountMoney = (row.taxprice * row.quantity * (1 - row.discount / 100)).toFixed(2)
       return row.includeTaxMoney
     },
     // 通过税率计算含税价
@@ -657,7 +658,7 @@ export default {
     // 通过折扣计算折扣额
     getdiscountRate(row) {
       if (row.discount === 0) {
-        row.discountMoney = 0
+        row.discountMoney = row.taxprice * row.quantity
       } else {
         row.discountMoney = (row.taxprice * row.quantity * (1 - row.discount / 100)).toFixed(2)
       }

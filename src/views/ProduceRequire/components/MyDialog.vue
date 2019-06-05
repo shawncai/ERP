@@ -559,7 +559,7 @@ export default {
     // 通过折扣计算折扣额
     getdiscountRate(row) {
       if (row.discountRate === 0) {
-        row.discountMoney = 0
+        row.discountMoney = row.price * row.stockQuantity
       } else {
         row.discountMoney = (row.price * row.stockQuantity * (1 - row.discountRate / 100)).toFixed(2)
       }
@@ -589,6 +589,7 @@ export default {
     // 计算含税金额
     getTaxMoney(row) {
       row.includeTaxMoney = (row.stockQuantity * row.includeTaxPrice).toFixed(2)
+      row.discountMoney = (row.price * row.stockQuantity * (1 - row.discountRate / 100)).toFixed(2)
       return row.includeTaxMoney
     },
     // 计算金额

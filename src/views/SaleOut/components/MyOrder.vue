@@ -385,7 +385,7 @@ export default {
           taxMoney: item.taxMoney,
           money: (item.money).toFixed(2),
           includeTaxCostMoney: (item.includeTaxCostMoney).toFixed(2),
-          discount: item.discount,
+          discountRate: item.discountRate,
           discountMoney: item.discountMoney,
           carCode: 0,
           motorCode: 0,

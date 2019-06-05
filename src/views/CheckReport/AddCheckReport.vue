@@ -64,7 +64,7 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('CheckReport.checkMode')" prop="checkMode" style="width: 100%;">
-                  <el-select v-model="personalForm.checkMode" value="personalForm.checkMode" style="margin-left: 18px;width: 200px" @change="change()">
+                  <el-select v-model="personalForm.checkMode" value="personalForm.checkMode" style="margin-left: 18px;width: 200px" @change="checkModeChoose">
                     <el-option value="1" label="抽样"/>
                     <el-option value="2" label="全检"/>
                   </el-select>
@@ -152,28 +152,28 @@
           <el-form ref="personalForm3" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
             <el-row>
               <el-col :span="6">
-                <el-form-item :label="$t('CheckReport.checkQuantity')" prop="checkQuantity" style="width: 100%;">
-                  <el-input v-model="personalForm.checkQuantity" style="margin-left: 18px;width:200px" clearable/>
+                <el-form-item :label="$t('CheckReport.checkQuantity')" prop="checkQuantity" style="width: 100%;" >
+                  <el-input v-model="personalForm.checkQuantity" style="margin-left: 18px;width:200px" clearable @blur="changeCheckQuantity"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('CheckReport.sampleQuantity')" prop="sampleQuantity" style="width: 100%;">
-                  <el-input v-model="personalForm.sampleQuantity" style="margin-left: 18px;width:200px" clearable/>
+                  <el-input v-model="personalForm.sampleQuantity" :disabled="IsSampleQuantity" style="margin-left: 18px;width:200px" clearable @blur="changeSampleQuantity"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('CheckReport.passQuantity')" prop="passQuantity" style="width: 100%;">
-                  <el-input v-model="personalForm.passQuantity" style="margin-left: 18px;width:200px" clearable/>
+                  <el-input v-model="personalForm.passQuantity" style="margin-left: 18px;width:200px" @blur="changePassQuantity"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('CheckReport.failedQuantity')" style="width: 100%;">
-                  <el-input v-model="personalForm.failedQuantity" style="margin-left: 18px;width:200px" clearable/>
+                  <el-input :disabled="true" v-model="personalForm.failedQuantity" style="margin-left: 18px;width:200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('CheckReport.passRate')" style="width: 100%;">
-                  <el-input v-model="personalForm.passRate" style="margin-left: 18px;width:200px" clearable/>
+                  <el-input :disabled="true" v-model="personalForm.passRate" style="margin-left: 18px;width:200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
@@ -279,6 +279,18 @@ export default {
         callback()
       }
     }
+    const validatePass10 = (rule, value, callback) => {
+      console.log(this.personalForm.checkQuantity)
+      console.log(this.personalForm.sampleQuantity)
+      if (this.personalForm.sampleQuantity === undefined || this.personalForm.sampleQuantity === null || this.personalForm.sampleQuantity === '') {
+        callback(new Error('请输入抽样数量'))
+      } else if (Number(this.personalForm.sampleQuantity) > Number(this.personalForm.checkQuantity)) {
+        console.log('132')
+        callback(new Error('抽样数量不能大于报检数量'))
+      } else {
+        callback()
+      }
+    }
     return {
       results: [{ value: 1, label: '合格' }, { value: 2, label: '不合格' }],
       // 控制报检部门是否可以编辑
@@ -289,6 +301,8 @@ export default {
       IsSupplierId: false,
       // 控制工作中心是否可以编辑
       IsWorkCenterId: false,
+      // 控制抽样数量是否可以编辑
+      IsSampleQuantity: false,
       // 控制生产负责人是否可以编辑
       IsProduceManagerId: false,
       // 生产任务单传给物品信息数据
@@ -361,7 +375,11 @@ export default {
         repositoryId: this.$store.getters.repositoryId,
         regionId: this.$store.getters.regionId,
         isRecheck: 1,
-        sourceType: '4'
+        sourceType: '4',
+        sampleQuantity: null,
+        checkQuantity: null,
+        failedQuantity: '',
+        passQuantity: ''
       },
       // 采购申请单规则数据
       personalrules: {
@@ -399,7 +417,7 @@ export default {
           { required: true, message: '请输入报检数量', trigger: 'blur' }
         ],
         sampleQuantity: [
-          { required: true, message: '请输入抽样数量', trigger: 'blur' }
+          { required: true, validator: validatePass10, trigger: 'blur' }
         ],
         passQuantity: [
           { required: true, message: '请输入合格数量', trigger: 'blur' }
@@ -584,6 +602,69 @@ export default {
     handlechooseDelivery() {
       this.deliverycontrol = true
     },
+    checkModeChoose() {
+      this.$forceUpdate()
+      console.log(this.personalForm.checkMode)
+      // if (this.personalForm.checkMode === '2') {
+      //   console.log('222')
+      //   this.IsSampleQuantity = true
+      //   console.log(this.personalForm.sampleQuantity)
+      //   this.personalForm.sampleQuantity = this.personalForm.checkQuantity
+      // } else if (this.personalForm.checkMode === '1') {
+      //   console.log('111')
+      //   this.IsSampleQuantity = false
+      // }
+      this.personalForm.checkQuantity = ''
+      this.personalForm.sampleQuantity = ''
+      this.personalForm.passQuantity = ''
+      this.personalForm.failedQuantity = ''
+      this.personalForm.passRate = ''
+    },
+    changeCheckQuantity() {
+      if (this.personalForm.checkMode === '2') {
+        this.personalForm.sampleQuantity = this.personalForm.checkQuantity
+        if (this.personalForm.passQuantity !== null && this.personalForm.passQuantity !== '' && this.personalForm.checkQuantity !== null) {
+          this.personalForm.failedQuantity = this.personalForm.checkQuantity - this.personalForm.passQuantity
+          this.personalForm.passRate = (this.personalForm.passQuantity / this.personalForm.checkQuantity).toFixed(2)
+        } else {
+          this.personalForm.failedQuantity = ''
+          this.personalForm.passRate = ''
+        }
+      }
+    },
+    changeSampleQuantity() {
+      if (this.personalForm.checkMode === '1') {
+        if (this.personalForm.passQuantity !== null && this.personalForm.passQuantity !== '' && this.personalForm.sampleQuantity !== null) {
+          this.personalForm.failedQuantity = this.personalForm.sampleQuantity - this.personalForm.passQuantity
+          this.personalForm.passRate = (this.personalForm.passQuantity / this.personalForm.sampleQuantity).toFixed(2)
+        } else {
+          this.personalForm.failedQuantity = ''
+          this.personalForm.passRate = ''
+        }
+      }
+    },
+    changePassQuantity() {
+      console.log('555')
+      if (this.personalForm.checkMode === '2') {
+        console.log(this.personalForm.passQuantity)
+        console.log(this.personalForm.checkQuantity)
+        if (this.personalForm.passQuantity !== null && this.personalForm.passQuantity !== '' && this.personalForm.checkQuantity !== null && this.personalForm.checkQuantity !== '') {
+          this.personalForm.failedQuantity = this.personalForm.checkQuantity - this.personalForm.passQuantity
+          this.personalForm.passRate = (this.personalForm.passQuantity / this.personalForm.checkQuantity).toFixed(2)
+        } else {
+          this.personalForm.failedQuantity = ''
+          this.personalForm.passRate = ''
+        }
+      } else if (this.personalForm.checkMode === '1') {
+        if (this.personalForm.passQuantity !== null && this.personalForm.passQuantity !== '' && this.personalForm.sampleQuantity !== null && this.personalForm.sampleQuantity !== '') {
+          this.personalForm.failedQuantity = this.personalForm.sampleQuantity - this.personalForm.passQuantity
+          this.personalForm.passRate = (this.personalForm.passQuantity / this.personalForm.sampleQuantity).toFixed(2)
+        } else {
+          this.personalForm.failedQuantity = ''
+          this.personalForm.passRate = ''
+        }
+      }
+    },
     deliveryName(val) {
       this.produceManagerId = val.personName
       this.personalForm.produceManagerId = val.id
@@ -608,21 +689,21 @@ export default {
     },
     allqualityinfo(val) {
       console.log(val)
-      this.reportdata = val.qualityCheckDetails
+      this.reportdata = val.qualityCheckDetailVos
       this.personalForm.sourceNumber = val.checkNumber
+      this.IsSupplierId = true
       if (val.supplierId !== '' && val.supplierId !== null && val.supplierId !== undefined) {
         this.personalForm.supplierId = val.supplierId
         this.supplierId = val.supplierName
-        this.IsSupplierId = true
       }
+      this.IsInspectionPersonId = true
       if (val.reportPersonId !== '' && val.reportPersonId !== null && val.reportPersonId !== undefined) {
         this.personalForm.inspectionPersonId = val.reportPersonId
         this.inspectionPersonId = val.reportPersonName
-        this.IsInspectionPersonId = true
       }
+      this.IsInspectionDeptId = true
       if (val.reportDeptId !== '' && val.reportDeptId !== null && val.reportDeptId !== undefined) {
         this.personalForm.inspectionDeptId = val.reportDeptId
-        this.IsInspectionDeptId = true
       }
       if (val.checkType !== '' && val.checkType !== null && val.checkType !== undefined) {
         this.personalForm.checkType = String(val.checkType)
@@ -630,15 +711,15 @@ export default {
       if (val.checkMode !== '' && val.checkMode !== null && val.checkMode !== undefined) {
         this.personalForm.checkMode = String(val.checkMode)
       }
+      this.IsProduceManagerId = true
       if (val.produceManagerId !== '' && val.produceManagerId !== null && val.produceManagerId !== undefined) {
         this.personalForm.produceManagerId = val.produceManagerId
         this.produceManagerId = val.produceManagerName
-        this.IsProduceManagerId = true
       }
+      this.IsWorkCenterId = true
       if (val.workCenterId !== '' && val.workCenterId !== null && val.workCenterId !== undefined) {
         this.personalForm.workCenterId = val.workCenterId
         this.workCenterId = val.workCenter
-        this.IsWorkCenterId = true
       }
     },
     // 源单类型为采购到货单

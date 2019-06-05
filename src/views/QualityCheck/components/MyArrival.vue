@@ -366,7 +366,8 @@ export default {
           checkedQuantity: 0,
           arrivalQuantity: item.arrivalQuantity,
           sourceNumber: number,
-          sourceSerialNumber: item.id
+          sourceSerialNumber: item.id,
+          hadCheckQuantity: item.reportCheckingQuantity
         }
       })
       console.log(arrivalDetail)

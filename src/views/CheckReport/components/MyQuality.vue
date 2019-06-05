@@ -329,6 +329,7 @@ export default {
     },
     // 确认添加数据
     handleConfirm() {
+      console.log(123, this.choosedata)
       this.employeeVisible = false
       this.$emit('allqualityinfo', this.choosedata)
     }

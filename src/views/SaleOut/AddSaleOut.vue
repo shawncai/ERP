@@ -274,12 +274,12 @@
                 <p>{{ getincludeTaxCostMoney(scope.row) }}</p>
               </template>
             </el-editable-column>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="discount" align="center" label="折扣(%)" min-width="170px">
+            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="discountRate" align="center" label="折扣(%)" min-width="170px">
               <template slot="edit" slot-scope="scope">
                 <el-input-number
                   :precision="2"
                   :controls="false"
-                  v-model="scope.row.discount"
+                  v-model="scope.row.discountRate"
                   @input="getdiscountRate(scope.row)"/>
               </template>
             </el-editable-column>
@@ -752,6 +752,7 @@ export default {
     // 计算含税金额
     getincludeTaxMoney(row) {
       row.includeTaxMoney = (row.taxprice * row.quantity).toFixed(2)
+      row.discountMoney = (row.taxprice * row.quantity * (1 - row.discountRate / 100)).toFixed(2)
       return row.includeTaxMoney
     },
     // 通过税率计算含税价
@@ -767,17 +768,17 @@ export default {
     },
     // 通过折扣计算折扣额
     getdiscountRate(row) {
-      if (row.discount === 0) {
-        row.discountMoney = 0
+      if (row.discountRate === 0) {
+        row.discountMoney = row.taxprice * row.quantity
       } else {
-        row.discountMoney = (row.taxprice * row.quantity * (1 - row.discount / 100)).toFixed(2)
+        row.discountMoney = (row.taxprice * row.quantity * (1 - row.discountRate / 100)).toFixed(2)
       }
     },
     // 通过折扣额计算折扣
     getdiscountMoney(row) {
       console.log(row)
       if (row.taxprice !== 0 && row.quantity !== 0 && row.discountMoney !== 0) {
-        row.discount = ((1 - row.discountMoney / row.taxprice / row.quantity) * 100).toFixed(2)
+        row.discountRate = ((1 - row.discountMoney / row.taxprice / row.quantity) * 100).toFixed(2)
       }
     },
     // 计算金额
@@ -1143,11 +1144,11 @@ export default {
             if (elem.includeTaxCostMoney === null || elem.includeTaxCostMoney === '' || elem.includeTaxCostMoney === undefined) {
               delete elem.includeTaxCostMoney
             }
-            if (elem.discount === null || elem.discount === '' || elem.discount === undefined) {
-              delete elem.discount
+            if (elem.discountRate === null || elem.discountRate === '' || elem.discountRate === undefined) {
+              delete elem.discountRate
             }
-            if (elem.discount !== null || elem.discount !== '' || elem.discount !== undefined) {
-              elem.discount = elem.discount / 100
+            if (elem.discountRate !== null || elem.discountRate !== '' || elem.discountRate !== undefined) {
+              elem.discountRate = elem.discountRate / 100
             }
             if (elem.discountMoney === null || elem.discountMoney === '' || elem.discountMoney === undefined) {
               delete elem.discountMoney

@@ -116,8 +116,8 @@
             <el-editable-column prop="unit" align="center" label="单位" min-width="150px"/>
             <el-editable-column prop="basicQuantity" align="center" label="基本数量" min-width="150px"/>
             <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="checkQuantity" align="center" label="报检数量" min-width="150px"/>
+            <el-editable-column prop="hadCheckQuantity" align="center" label="已报捡数量" min-width="150px"/>
             <el-editable-column prop="checkedQuantity" align="center" label="已捡数量" min-width="150px"/>
-            <el-editable-column prop="checkedQuantity" align="center" label="已报捡数量" min-width="150px"/>
             <el-editable-column prop="arrivalQuantity" align="center" label="到货数量" min-width="150px"/>
             <el-editable-column prop="sourceNumber" align="center" label="源单编号" min-width="150px"/>
             <el-editable-column prop="sourceSerialNumber" align="center" label="源单编号" min-width="150px"/>

@@ -99,7 +99,7 @@
             <el-editable-column prop="productType" align="center" label="规格" min-width="150px"/>
             <el-editable-column prop="color" align="center" label="颜色" min-width="150px"/>
             <el-editable-column prop="unit" align="center" label="单位" min-width="150px"/>
-            <el-editable-column prop="basicPrice" align="center" label="计划采购价" min-width="150px">
+            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 1, precision: 2}, type: 'visible' ,events: {change: changeDate}}" prop="basicPrice" align="center" label="计划采购价" min-width="150px">
               <template slot-scope="scope">
                 <p>{{ basicPrice(scope.row) }}</p>
               </template>
@@ -260,6 +260,14 @@ export default {
         callback()
       }
     }
+    const validatePass5 = (rule, value, callback) => {
+      console.log(value)
+      if (value === undefined || value === null || value === '') {
+        callback(new Error('请选择供应商'))
+      } else {
+        callback()
+      }
+    }
     return {
       pickerOptions1: {
         disabledDate: (time) => {
@@ -288,7 +296,7 @@ export default {
       // 部门数据
       depts: [],
       // 计划人回显
-      planPersonId: '',
+      planPersonId: this.$store.getters.name,
       // 控制计划人
       stockControl: false,
       // 采购员回显
@@ -307,6 +315,7 @@ export default {
       // 采购计划单信息数据
       personalForm: {
         createPersonId: this.$store.getters.userId,
+        planPersonId: this.$store.getters.userId,
         countryId: this.$store.getters.countryId,
         repositoryId: this.$store.getters.repositoryId,
         regionId: this.$store.getters.regionId,
@@ -343,7 +352,7 @@ export default {
       // 采购计划单明细列表规则
       validRules: {
         supplierName: [
-          { required: true, message: '请选择供应商', trigger: 'blur' }
+          { required: true, validator: validatePass5, trigger: 'change' }
         ],
         planQuantity: [
           { required: true, message: '请输入计划数量', trigger: 'blur' }
@@ -623,9 +632,10 @@ export default {
         createPersonId: this.$store.getters.userId,
         countryId: this.$store.getters.countryId,
         repositoryId: this.$store.getters.repositoryId,
-        regionId: this.$store.getters.regionId
+        regionId: this.$store.getters.regionId,
+        planPersonId: this.$store.getters.userId
       }
-      this.planPersonId = null
+      this.planPersonId = this.$store.getters.userName
       this.stockPersonId = null
     },
     // 保存操作
@@ -695,30 +705,37 @@ export default {
       this.$refs.personalForm.validate((valid) => {
         if (valid) {
           this.$refs.editable.validate().then(valid => {
-            addstockplan(parms, parms2, this.personalForm).then(res => {
-              console.log(res)
-              if (res.data.ret === 200) {
-                this.$notify({
-                  title: '成功',
-                  message: '保存成功',
-                  type: 'success',
-                  offset: 100
-                })
-                this.restAllForm()
-                this.$refs.editable.clear()
-                this.$refs.editable2.clear()
-                this.$refs.personalForm.clearValidate()
-                this.$refs.personalForm.resetFields()
-              } else {
-                this.$notify.error({
-                  title: '错误',
-                  message: res.data.msg,
-                  offset: 100
-                })
-              }
-            })
-          }).catch(valid => {
-            console.log('error submit!!')
+            if (valid) {
+              addstockplan(parms, parms2, this.personalForm).then(res => {
+                console.log(res)
+                if (res.data.ret === 200) {
+                  this.$notify({
+                    title: '成功',
+                    message: '保存成功',
+                    type: 'success',
+                    offset: 100
+                  })
+                  this.restAllForm()
+                  this.$refs.editable.clear()
+                  this.$refs.editable2.clear()
+                  this.$refs.personalForm.clearValidate()
+                  this.$refs.personalForm.resetFields()
+                } else {
+                  this.$notify.error({
+                    title: '错误',
+                    message: res.data.msg,
+                    offset: 100
+                  })
+                }
+              })
+            } else {
+              this.$notify.error({
+                title: '错误',
+                message: '信息未填完整',
+                offset: 100
+              })
+              return false
+            }
           })
         } else {
           this.$notify.error({
