@@ -143,23 +143,34 @@ export default {
       this.getemplist.rolename = null
     },
     newauthority() {
-      updaterole(this.checkroleId, this.operations, this.getemplist.rolename).then(res => {
-        if (res.data.ret === 200) {
-          this.$notify({
-            title: '成功',
-            message: '修改成功',
-            type: 'success',
-            offset: 100
-          })
-          this.getlist()
-          this.isShow = false
-        } else {
-          this.$notify.error({
-            title: '错误',
-            message: res.data.msg,
-            offset: 100
-          })
-        }
+      this.$confirm('所修改的角色需重新登录才能生效, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        updaterole(this.checkroleId, this.operations, this.getemplist.rolename).then(res => {
+          if (res.data.ret === 200) {
+            this.$notify({
+              title: '成功',
+              message: '修改成功',
+              type: 'success',
+              offset: 100
+            })
+            this.getlist()
+            this.isShow = false
+          } else {
+            this.$notify.error({
+              title: '错误',
+              message: res.data.msg,
+              offset: 100
+            })
+          }
+        })
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消删除'
+        })
       })
     },
     handleCurrentChange(val) {

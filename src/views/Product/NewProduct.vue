@@ -950,25 +950,29 @@ export default {
     },
     finder(val) {
       const Id = this.recursion(val)
-      console.log(val)
       if (Id.code === '01') {
+        console.log(val)
         this.personalForm.categoryCode = '01' + val.data.code
+        this.personalForm.categoryid = val.data.id
       } else if (Id.code === '02') {
         if (val.level === 2) {
           this.personalForm.categoryCode = '02' + val.data.code + '00' + '00'
+          this.personalForm.categoryid = val.data.id
         } else if (val.level === 3) {
           console.log(val)
           this.personalForm.categoryCode = '02' + val.parent.data.code + val.data.code + '00'
+          this.personalForm.categoryid = val.data.id
         } else if (val.level === 4) {
           this.personalForm.categoryCode = '02' + val.parent.parent.data.code + val.parent.data.code + val.data.code
+          this.personalForm.categoryid = val.data.id
         }
       } else if (Id.code === '03') {
         if (val.level === 3) {
           this.personalForm.categoryCode = '03' + val.parent.data.code + val.data.code
+          this.personalForm.categoryid = val.data.id
         }
       }
       console.log(this.personalForm.categoryCode)
-      this.personalForm.categoryid = Id.id
     },
     // 递归函数
     recursion(val) {

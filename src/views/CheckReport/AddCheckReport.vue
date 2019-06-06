@@ -217,9 +217,17 @@
             <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="checkTarget" align="center" label="检验指标" min-width="150px"/>
             <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="checkValue" align="center" label="检验值" min-width="150px"/>
             <el-editable-column :edit-render="{name: 'ElSelect',options: results ,type: 'visible'}" prop="chectResult" align="center" label="检验结果" min-width="150px"/>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="checkQuantity" align="center" label="检验数量" min-width="150px"/>
+            <el-editable-column prop="checkQuantity" align="center" label="检验数量" min-width="150px">
+              <template slot-scope="scope">
+                <p>{{ getcheckQuantity(scope.row) }}</p>
+              </template>
+            </el-editable-column>
             <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="passQuantity" align="center" label="合格数量" min-width="150px"/>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="failedQuantity" align="center" label="不合格数量" min-width="150px"/>
+            <el-editable-column prop="failedQuantity" align="center" label="不合格数量" min-width="150px">
+              <template slot-scope="scope">
+                <p>{{ getfailedQuantity(scope.row) }}</p>
+              </template>
+            </el-editable-column>
             <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="checkPersonname" align="center" label="检验人员" min-width="150px">
               <template slot="edit" slot-scope="scope">
                 <el-input v-model="scope.row.checkPersonname" @focus="handlechoosestaff"/>
@@ -379,7 +387,9 @@ export default {
         sampleQuantity: null,
         checkQuantity: null,
         failedQuantity: '',
-        passQuantity: ''
+        passQuantity: '',
+        checkMode: '1'
+        // checkQuantity: this.personalForm.sampleQuantity,
       },
       // 采购申请单规则数据
       personalrules: {
@@ -449,7 +459,16 @@ export default {
     this.getTypes()
   },
   methods: {
-
+    getcheckQuantity(row) {
+      row.sampleQuantity = this.personalForm.sampleQuantity
+      return row.sampleQuantity
+    },
+    getfailedQuantity(row) {
+      console.log(row.checkQuantity)
+      console.log(row.passQuantity)
+      row.failedQuantity = row.sampleQuantity - row.passQuantity
+      return row.failedQuantity
+    },
     handleAdd() {
       if (this.personalForm.sampleQuantity === '' || this.personalForm.sampleQuantity === null || this.personalForm.sampleQuantity === undefined) {
         this.$notify.error({
@@ -459,7 +478,7 @@ export default {
         })
         return false
       }
-      this.$refs.editable.insert(-1)
+      this.$refs.editable.insert({ checkQuantity: this.personalForm.sampleQuantity })
     },
     chooseType(val) {
       if (this.personalForm.sourceType === '1') {
@@ -605,15 +624,15 @@ export default {
     checkModeChoose() {
       this.$forceUpdate()
       console.log(this.personalForm.checkMode)
-      // if (this.personalForm.checkMode === '2') {
-      //   console.log('222')
-      //   this.IsSampleQuantity = true
-      //   console.log(this.personalForm.sampleQuantity)
-      //   this.personalForm.sampleQuantity = this.personalForm.checkQuantity
-      // } else if (this.personalForm.checkMode === '1') {
-      //   console.log('111')
-      //   this.IsSampleQuantity = false
-      // }
+      if (this.personalForm.checkMode === '2') {
+        console.log('222')
+        this.IsSampleQuantity = true
+        console.log(this.personalForm.sampleQuantity)
+        this.personalForm.sampleQuantity = this.personalForm.checkQuantity
+      } else if (this.personalForm.checkMode === '1') {
+        console.log('111')
+        this.IsSampleQuantity = false
+      }
       this.personalForm.checkQuantity = ''
       this.personalForm.sampleQuantity = ''
       this.personalForm.passQuantity = ''

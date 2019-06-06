@@ -647,7 +647,7 @@ export const asyncRouterMap = [
       title: 'AdjustPrice',
       icon: 'tiaojia',
       type: 4,
-      roles: ['131-151-1', '131-152-4']
+      roles: ['131-152-4']
     },
     children: [
       {

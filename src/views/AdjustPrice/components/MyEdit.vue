@@ -84,17 +84,17 @@
           style="width: 100%">
           <el-editable-column type="selection" width="55" align="center"/>
           <el-editable-column label="编号" width="55" align="center" type="index"/>
-          <el-editable-column :edit-render="{type: 'default'}" prop="locationId" align="center" label="货位" width="200px">
-            <template slot-scope="scope">
-              <el-select v-model="scope.row.locationId" :value="scope.row.locationId" placeholder="请选择货位" filterable clearable style="width: 100%;" @visible-change="updatebatch($event,scope)">
-                <el-option
-                  v-for="(item, index) in locationlist"
-                  :key="index"
-                  :value="item.id"
-                  :label="item.locationCode"/>
-              </el-select>
-            </template>
-          </el-editable-column>
+          <!--          <el-editable-column :edit-render="{type: 'default'}" prop="locationId" align="center" label="货位" width="200px">-->
+          <!--            <template slot-scope="scope">-->
+          <!--              <el-select v-model="scope.row.locationId" :value="scope.row.locationId" placeholder="请选择货位" filterable clearable style="width: 100%;" @visible-change="updatebatch($event,scope)">-->
+          <!--                <el-option-->
+          <!--                  v-for="(item, index) in locationlist"-->
+          <!--                  :key="index"-->
+          <!--                  :value="item.id"-->
+          <!--                  :label="item.locationCode"/>-->
+          <!--              </el-select>-->
+          <!--            </template>-->
+          <!--          </el-editable-column>-->
           <el-editable-column prop="productCode" align="center" label="物品编号" width="150px"/>
           <el-editable-column prop="productName" align="center" label="物品名称" width="150px"/>
           <el-editable-column prop="color" align="center" label="颜色" width="150px"/>

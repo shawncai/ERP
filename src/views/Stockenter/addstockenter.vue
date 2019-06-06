@@ -329,6 +329,18 @@ export default {
       console.log(val)
       this.$refs.editable.clear()
       for (let i = 0; i < val.length; i++) {
+        console.log(val[i].passQuantity)
+        if (val[i].passQuantity === 0) {
+          this.$notify.error({
+            title: '错误',
+            message: '请先进行质检',
+            offset: 100
+          })
+          return false
+        }
+      }
+      for (let i = 0; i < val.length; i++) {
+        console.log(val[i].passQuantity)
         this.$refs.editable.insert(val[i])
       }
     },

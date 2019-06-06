@@ -358,7 +358,8 @@ export default {
           taxRate: (item.taxRate * 100).toFixed(2),
           enterMoney: '0.00',
           remarks: '',
-          sourceSerialNumber: item.id
+          sourceSerialNumber: item.id,
+          passQuantity: item.qualifyQuantity
         }
       })
       console.log(arrivalDetail)
