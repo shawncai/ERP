@@ -612,7 +612,7 @@ export default {
     getdiscountMoney(row) {
       console.log(row)
       if (row.taxprice !== 0 && row.quantity !== 0 && row.discountMoney !== 0) {
-        row.discountRate = ((1 - row.discountMoney / row.taxprice / row.quantity) * 100).toFixed(2)
+        row.discountRate = ((1 - (row.discountMoney / row.includeTaxMoney).toFixed(2)) * 100).toFixed(2)
       }
     },
     // 计算金额

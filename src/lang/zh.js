@@ -915,7 +915,7 @@ export default {
   },
   ProducePlan: {
     title: '主题',
-    planNumber: '生产任务编号',
+    planNumber: '生产计划编号',
     handlePersonId: '负责人',
     deptId: '工作中心',
     summary: '摘要',

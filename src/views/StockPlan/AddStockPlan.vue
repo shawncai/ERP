@@ -263,7 +263,13 @@ export default {
     const validatePass5 = (rule, value, callback) => {
       console.log(value)
       if (value === undefined || value === null || value === '') {
-        callback(new Error('请选择供应商'))
+        // callback(new Error('请选择供应商'))
+        this.$notify.error({
+          title: '错误',
+          message: '供应商不能为空',
+          offset: 100
+        })
+        return false
       } else {
         callback()
       }
@@ -352,7 +358,7 @@ export default {
       // 采购计划单明细列表规则
       validRules: {
         supplierName: [
-          { required: true, validator: validatePass5, trigger: 'change' }
+          { required: true, validator: validatePass5, trigger: 'focus' }
         ],
         planQuantity: [
           { required: true, message: '请输入计划数量', trigger: 'blur' }

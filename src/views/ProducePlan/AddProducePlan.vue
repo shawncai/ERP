@@ -45,7 +45,8 @@
           <el-button type="success" style="background:#3696fd;border-color:#3696fd " @click="handleAddproduct">添加商品</el-button>
           <el-button type="danger" @click="$refs.editable.removeSelecteds()">删除</el-button>
         </div>
-        <my-detail :control.sync="control" @product="productdetail"/>
+        <!--        <my-detail :control.sync="control" @product="productdetail"/>-->
+        <my-materials :materialcontrol.sync="materialcontrol" @materialsData="materialsData"/>
         <div class="container">
           <el-editable
             ref="editable"
@@ -85,9 +86,10 @@ import { searchworkCenter } from '@/api/public'
 import MyCenter from './components/MyCenter'
 import MyEmp from './components/MyEmp'
 import MyDetail from './components/MyDetail'
+import MyMaterials from './components/MyMaterials'
 export default {
   name: 'AddProducePlan',
-  components: { MyCenter, MyEmp, MyDetail },
+  components: { MyMaterials, MyCenter, MyEmp, MyDetail },
   data() {
     const validatePass = (rule, value, callback) => {
       console.log(this.handlePersonId)
@@ -98,6 +100,8 @@ export default {
       }
     }
     return {
+      // 控制物料清单
+      materialcontrol: false,
       // 部门数据
       depts: [],
       // 负责人回显
@@ -181,9 +185,9 @@ export default {
     },
     // 新增主生产任务明细
     handleAddproduct() {
-      this.control = true
+      this.materialcontrol = true
     },
-    productdetail(val) {
+    materialsData(val) {
       console.log(val)
       const nowlistdata = this.$refs.editable.getRecords()
       for (let i = 0; i < val.length; i++) {

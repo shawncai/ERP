@@ -82,7 +82,11 @@
           <el-editable-column prop="unit" align="center" label="单位" min-width="150px"/>
           <el-editable-column prop="requireQuantity" align="center" label="毛需求数量" min-width="150px"/>
           <el-editable-column prop="planQuantity" align="center" label="应计划数量" min-width="150px"/>
-          <el-editable-column :edit-render="{name: 'ElSelect', options: materialsSource, type: 'visible'}" prop="materialsSource" align="center" label="物料来源" min-width="150px"/>
+          <el-editable-column prop="materialsSource" align="center" label="物料来源" min-width="150px">
+            <template slot-scope="scope">
+              <p>{{ scope.row.materialsSource | chectResultFilter }}</p>
+            </template>
+          </el-editable-column>
         </el-editable>
       </div>
     </el-card>
@@ -128,6 +132,14 @@
 import { searchEmpCategory2 } from '@/api/Product'
 export default {
   filters: {
+    chectResultFilter(status) {
+      const statusMap = {
+        1: '库存',
+        2: '生产',
+        3: '采购'
+      }
+      return statusMap[status]
+    },
     statfilter(status) {
       const statusMap = {
         1: '审核中',
