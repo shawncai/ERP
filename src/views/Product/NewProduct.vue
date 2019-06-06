@@ -280,8 +280,9 @@
             <el-col :span="6">
               <el-form-item :label="$t('Product.valuation')" prop="valuation" style="width: 100%;">
                 <el-select v-model="personalForm.valuation" placeholder="请选择" style="margin-left: 18px;width: 200px">
-                  <el-option value="1" label="类1"/>
-                  <el-option value="2" label="类2"/>
+                  <el-option value="1" label="约当产量法"/>
+                  <el-option value="2" label="定额成本发"/>
+                  <el-option value="3" label="定额比例发"/>
                 </el-select>
               </el-form-item>
             </el-col>

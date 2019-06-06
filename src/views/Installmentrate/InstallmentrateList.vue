@@ -45,7 +45,7 @@
           <el-form-item :label="$t('InstallmentrateList.installmentCount')" label-width="100px" prop="installmentCount">
             <el-input v-model="addCategoryForm.installmentCount" autocomplete="off"/>
           </el-form-item>
-          <el-form-item :label="$t('InstallmentrateList.rate')" label-width="100px" prop="rate">
+          <el-form-item :label="$t('InstallmentrateList.rate') + '%'" label-width="100px" prop="rate">
             <el-input v-model="addCategoryForm.rate" autocomplete="off"/>
           </el-form-item>
           <el-form-item :label="$t('InstallmentrateList.isEffective')" label-width="100px" prop="isEffective">
@@ -87,14 +87,19 @@
             <span>{{ scope.row.installmentCount }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('InstallmentrateList.rate')" :resizable="false" align="center" min-width="350">
+        <el-table-column :label="$t('InstallmentrateList.rate') + '%'" :resizable="false" align="center" min-width="350">
           <template slot-scope="scope">
-            <span>{{ scope.row.rate }}</span>
+            <span>{{ (scope.row.rate*100).toFixed(0) }}</span>
           </template>
         </el-table-column>
         <el-table-column :label="$t('InstallmentrateList.isEffective')" :resizable="false" align="center" min-width="250">
           <template slot-scope="scope">
             <span>{{ scope.row.isEffective | isEffectiveFilter }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column :label="$t('InstallmentrateList.createPersonName')" :resizable="false" align="center" min-width="250">
+          <template slot-scope="scope">
+            <span>{{ scope.row.createPersonName }}</span>
           </template>
         </el-table-column>
         <el-table-column :label="$t('public.actions')" :resizable="false" align="center" min-width="230">
@@ -112,7 +117,7 @@
           <el-form-item :label="$t('InstallmentrateList.installmentCount')" label-width="100px" prop="installmentCount">
             <el-input v-model="editCategoryForm.installmentCount" autocomplete="off"/>
           </el-form-item>
-          <el-form-item :label="$t('InstallmentrateList.rate')" label-width="100px" prop="rate">
+          <el-form-item :label="$t('InstallmentrateList.rate') + '%'" label-width="100px" prop="rate">
             <el-input v-model="editCategoryForm.rate" autocomplete="off"/>
           </el-form-item>
           <el-form-item :label="$t('InstallmentrateList.isEffective')" label-width="100px" prop="isEffective">
@@ -317,6 +322,7 @@ export default {
       this.editCategoryForm = Object.assign({}, row)
       this.editCategoryForm.type = String(row.type)
       this.editCategoryForm.isEffective = String(row.isEffective)
+      this.editCategoryForm.rate = row.rate * 100
     },
     // 取消修改
     handleNo() {
@@ -324,9 +330,12 @@ export default {
     },
     // 确认修改
     handleOk() {
-      const parms = JSON.stringify(this.editCategoryForm)
       this.$refs.editCategoryForm.validate((valid) => {
         if (valid) {
+          if (this.editCategoryForm.rate !== null || this.editCategoryForm.rate !== '' || this.editCategoryForm.rate !== undefined) {
+            this.editCategoryForm.rate = (this.editCategoryForm.rate / 100).toFixed(2)
+          }
+          const parms = JSON.stringify(this.editCategoryForm)
           updateinstallmentrate(parms).then(res => {
             if (res.data.ret === 200) {
               this.$notify({
@@ -371,9 +380,12 @@ export default {
     // 保存操作
     handlesave() {
       console.log(this.addCategoryForm)
-      const parms = JSON.stringify(this.addCategoryForm)
       this.$refs.addCategoryForm.validate((valid) => {
         if (valid) {
+          if (this.addCategoryForm.rate !== null || this.addCategoryForm.rate !== '' || this.addCategoryForm.rate !== undefined) {
+            this.addCategoryForm.rate = (this.addCategoryForm.rate / 100).toFixed(2)
+          }
+          const parms = JSON.stringify(this.addCategoryForm)
           addinstallmentrate(parms).then(res => {
             if (res.data.ret === 200) {
               this.$notify({

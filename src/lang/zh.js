@@ -1696,7 +1696,8 @@ export default {
     overdueDay: '逾期天数超过',
     rate2: '滞纳金',
     advanceDay: '提前天数',
-    rewardMoney: '奖励'
+    rewardMoney: '奖励',
+    createPersonName: '创建人'
   },
   Collection: {
     title: '收车单主题',

@@ -178,21 +178,21 @@
                   <el-input v-model="productForm.point" :disabled="Ispoint" style="margin-left: 18px;width: 200px"/>
                 </el-form-item>
               </el-col>
-              <el-col :span="6">
-                <el-form-item :label="$t('InstallmentApply.carCode')" style="width: 100%;">
-                  <el-input v-model="productForm.carCode" :disabled="IsCarCode" style="margin-left: 18px;width: 200px"/>
-                </el-form-item>
-              </el-col>
-              <el-col :span="6">
-                <el-form-item :label="$t('InstallmentApply.motorCode')" style="width: 100%;">
-                  <el-input v-model="productForm.motorCode" :disabled="IsmotorCode" style="margin-left: 18px;width: 200px"/>
-                </el-form-item>
-              </el-col>
-              <el-col :span="6">
-                <el-form-item :label="$t('InstallmentApply.batteryCode')" style="width: 100%;">
-                  <el-input v-model="productForm.batteryCode" :disabled="IsbatteryCode" style="margin-left: 18px;width: 200px"/>
-                </el-form-item>
-              </el-col>
+              <!--              <el-col :span="6">-->
+              <!--                <el-form-item :label="$t('InstallmentApply.carCode')" style="width: 100%;">-->
+              <!--                  <el-input v-model="productForm.carCode" :disabled="IsCarCode" style="margin-left: 18px;width: 200px"/>-->
+              <!--                </el-form-item>-->
+              <!--              </el-col>-->
+              <!--              <el-col :span="6">-->
+              <!--                <el-form-item :label="$t('InstallmentApply.motorCode')" style="width: 100%;">-->
+              <!--                  <el-input v-model="productForm.motorCode" :disabled="IsmotorCode" style="margin-left: 18px;width: 200px"/>-->
+              <!--                </el-form-item>-->
+              <!--              </el-col>-->
+              <!--              <el-col :span="6">-->
+              <!--                <el-form-item :label="$t('InstallmentApply.batteryCode')" style="width: 100%;">-->
+              <!--                  <el-input v-model="productForm.batteryCode" :disabled="IsbatteryCode" style="margin-left: 18px;width: 200px"/>-->
+              <!--                </el-form-item>-->
+              <!--              </el-col>-->
               <el-col :span="6">
                 <el-form-item :label="$t('InstallmentApply.installmentCount')" prop="installmentCount" style="width: 100%;">
                   <el-select v-model="productForm.installmentCount" clearable style="margin-left: 18px;width: 200px">
@@ -516,9 +516,9 @@ export default {
         totalMoney: [
           { required: true, message: '请输入分期总金额', trigger: 'blur' }
         ],
-        installmentDays: [
-          { required: true, message: '请输入第一期收款天数', trigger: 'blur' }
-        ],
+        // installmentDays: [
+        //   { required: true, message: '请输入第一期收款天数', trigger: 'blur' }
+        // ],
         salePersonId: [
           { required: true, validator: validatePass, trigger: 'change' }
         ],
