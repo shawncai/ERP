@@ -112,6 +112,7 @@
 
 <script>
 import { productlist } from '@/api/Product'
+import { materialslist2 } from '@/api/MaterialsList'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
 export default {
@@ -210,7 +211,7 @@ export default {
       this.productVisible = false
     },
     // 物品选择添加
-    handleAddTo() {
+    async handleAddTo() {
       this.productVisible = false
       console.log(this.moreaction)
       const productDetail = this.moreaction.map(function(item) {
@@ -233,8 +234,25 @@ export default {
           typeIdname: item.productType
         }
       })
+
+      // 通过Promise.all把所有循环中的异步接口数据加载过来，再通过async/await把数据加载完成
+      const productDetail3 = await Promise.all(productDetail.map(function(item) {
+        return materialslist2(item.productCode)
+      }))
+      console.log('productDetail3', productDetail3)
+      console.log('productDetail', productDetail3[0].data.data.content.list)
+
+      // 在外部把数据加到数组里面去
+      // for (let i = 0; i < productDetail.length; i++) {
+      //   for (let j = 0; j < list.length; j++) {
+      //     if (productDetail[i].productCode === list[j].data.data.content.list[0].code) {
+      //       productDetail[i].price = list[j].data.data.content.list[0].purchasePrice
+      //     }
+      //   }
+      // }
       console.log(productDetail)
       this.$emit('product2', productDetail)
+      this.$emit('product3', productDetail3[0].data.data.content.list)
     }
   }
 }

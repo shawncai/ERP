@@ -41,6 +41,19 @@ export function materialslist(query) {
   })
 }
 
+// 物料清单列表
+export function materialslist2(query) {
+  var params = new URLSearchParams()
+  if (query !== '' && query !== null && query !== undefined) {
+    params.append('productCode', query) // 你要传给后台的参数值 key/value
+  }
+  return request({
+    url: '/erp/materialslist/materialslist',
+    method: 'post',
+    data: params
+  })
+}
+
 // 修改物料清单
 export function updatematerials(query, query2) {
   var params = new URLSearchParams()

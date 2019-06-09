@@ -85,7 +85,7 @@
             <span>{{ scope.row.overdueDay }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('InstallmentrateList.rate2')" :resizable="false" align="center" min-width="350">
+        <el-table-column :label="$t('InstallmentrateList.rate2') + '%'" :resizable="false" align="center" min-width="350">
           <template slot-scope="scope">
             <span>{{ scope.row.rate }}</span>
           </template>

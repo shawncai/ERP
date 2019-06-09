@@ -785,16 +785,13 @@ export const asyncRouterMap = [
     ]
   },
   {
-    path: '/WarehouseAdjust',
+    path: '/locationAdjust',
     component: Layout,
     redirect: 'noredirect',
-    name: 'WarehouseAdjust',
-    alwaysShow: true,
     meta: {
-      title: 'WarehouseAdjust',
+      title: 'locationAdjust',
       icon: 'kuwei',
-      type: 4,
-      roles: ['131-163-165-1', '131-163-164-4', '131-163-166-4', '131-163-167-1', '131-163-168-13', '131-163-169-4', '131-163-170-1']
+      type: 4
     },
     children: [
       {
@@ -808,7 +805,22 @@ export const asyncRouterMap = [
         component: () => import('@/views/WarehouseAdjust/LocationAdjustList'),
         name: 'LocationAdjustList',
         meta: { title: 'LocationAdjustList', noCache: true, roles: ['131-163-166-1', '131-163-166-2', '131-163-166-3', '131-163-166-4', '131-163-166-5', '131-163-166-6', '131-163-166-7', '131-163-166-18', '131-163-166-16', '131-163-166-17'] }
-      },
+      }
+    ]
+  },
+  {
+    path: '/WarehouseAdjust',
+    component: Layout,
+    redirect: 'noredirect',
+    name: 'WarehouseAdjust',
+    alwaysShow: true,
+    meta: {
+      title: 'WarehouseAdjust',
+      icon: 'kuwei',
+      type: 4,
+      roles: ['131-163-165-1', '131-163-164-4', '131-163-166-4', '131-163-167-1', '131-163-168-13', '131-163-169-4', '131-163-170-1']
+    },
+    children: [
       {
         path: 'AddInitialenter',
         component: () => import('@/views/WarehouseAdjust/AddInitialenter'),

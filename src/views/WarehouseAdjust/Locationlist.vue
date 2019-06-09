@@ -6,7 +6,7 @@
         <el-form ref="getemplist" :model="getemplist" label-width="80px" style="margin-top: -9px">
           <el-col :span="4">
             <el-form-item label="仓库">
-              <el-input v-model="repositoryId" :placeholder="$t('WarehouseAdjust.enterRepositoryId')" class="filter-item" clearable @keyup.enter.native="handleFilter" @focus="handlechooseRep"/>
+              <el-input v-model="searchRepositoryId" :placeholder="$t('WarehouseAdjust.enterRepositoryId')" class="filter-item" clearable @keyup.enter.native="handleFilter" @focus="handlechooseRep"/>
               <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
             </el-form-item>
           </el-col>
@@ -140,7 +140,7 @@ export default {
   data() {
     return {
       // 仓库回显
-      repositoryId: '',
+      searchRepositoryId: '',
       // 仓库控制
       repositorycontrol: false,
       // 批量操作
@@ -158,7 +158,9 @@ export default {
       // 货位单列表查询加展示参数
       getemplist: {
         pageNum: 1,
-        pageSize: 10
+        pageSize: 10,
+        repositoryId: this.$store.getters.repositoryId,
+        regionIds: this.$store.getters.regionId
       },
       // 传给组件的数据
       personalForm: {},
@@ -189,8 +191,8 @@ export default {
     },
     // 清空搜索条件
     restFilter() {
-      this.repositoryId = ''
-      this.getemplist.repositoryId = ''
+      this.searchRepositoryId = ''
+      this.getemplist.searchRepositoryId = ''
     },
     // 搜索
     handleFilter() {
@@ -236,8 +238,8 @@ export default {
     },
     repositoryname(val) {
       console.log(val)
-      this.repositoryId = val.repositoryName
-      this.getemplist.repositoryId = val.id
+      this.searchRepositoryId = val.repositoryName
+      this.getemplist.searchRepositoryId = val.id
     },
     // 多条删除
     // 批量删除

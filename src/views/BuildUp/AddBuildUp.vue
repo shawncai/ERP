@@ -55,10 +55,10 @@
       <!--组装单明细-->
       <el-card class="box-card" style="margin-top: 15px">
         <h2 ref="fuzhu" class="form-name">待组装的商品</h2>
-        <div class="buttons" style="margin-top: 58px">
-          <el-button type="success" style="background:#3696fd;border-color:#3696fd " @click="handleAddproduct">添加商品</el-button>
-          <el-button type="danger" @click="$refs.editable.removeSelecteds()">删除</el-button>
-        </div>
+        <!--        <div class="buttons" style="margin-top: 58px">-->
+        <!--          <el-button type="success" style="background:#3696fd;border-color:#3696fd " @click="handleAddproduct">添加商品</el-button>-->
+        <!--          <el-button type="danger" @click="$refs.editable.removeSelecteds()">删除</el-button>-->
+        <!--        </div>-->
         <my-detail :control.sync="control" @product="productdetail"/>
         <div class="container">
           <el-editable
@@ -71,7 +71,7 @@
             border
             size="medium"
             style="width: 100%">
-            <el-editable-column type="selection" width="55" align="center"/>
+            <!--            <el-editable-column type="selection" width="55" align="center"/>-->
             <el-editable-column label="编号" width="55" align="center" type="index"/>
             <el-editable-column :edit-render="{type: 'default'}" prop="locationId" align="center" label="货位" width="200px">
               <template slot-scope="scope">
@@ -107,7 +107,7 @@
           <el-button type="success" style="background:#3696fd;border-color:#3696fd " @click="handleAddproduct2">添加商品</el-button>
           <el-button type="danger" @click="$refs.editable2.removeSelecteds()">删除</el-button>
         </div>
-        <my-bulid :buildcontrol.sync="buildcontrol" @product2="productdetail2"/>
+        <my-bulid :buildcontrol.sync="buildcontrol" @product2="productdetail2" @product3="productdetail3"/>
         <div class="container">
           <el-editable
             ref="editable2"
@@ -191,7 +191,8 @@ export default {
         countryId: this.$store.getters.countryId,
         repositoryId: this.$store.getters.repositoryId,
         regionId: this.$store.getters.regionId,
-        sourceType: '1'
+        sourceType: '1',
+        type: '1'
       },
       // 组装单规则数据
       personalrules: {
@@ -327,6 +328,16 @@ export default {
           }
         }
         this.$refs.editable2.insert(val[i])
+      }
+    },
+    productdetail3(val) {
+      console.log(val)
+      console.log('val', val)
+      for (let i = 0; i < val.length; i++) {
+        console.log(val[i].materialsListDetailVos.length)
+        for (let j = 0; j < val[i].materialsListDetailVos.length; j++) {
+          this.$refs.editable.insert(val[i].materialsListDetailVos[j])
+        }
       }
     },
     // 组装金额计算
