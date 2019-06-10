@@ -352,8 +352,8 @@ export default {
       if (row.currencyId !== null) {
         this.personalForm.currencyId = String(row.currencyId)
       }
-      if (row.payId !== null) {
-        this.personalForm.payId = String(row.payId)
+      if (row.payMode !== null) {
+        this.personalForm.payMode = String(row.payMode)
       }
     },
     // 修改组件修改成功后返回

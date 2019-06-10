@@ -100,14 +100,14 @@
                   </el-select>
                 </el-form-item>
               </el-col>
-              <el-col :span="6">
-                <el-form-item :label="$t('SaleOrder.payType')" style="width: 100%;">
-                  <el-select v-model="personalForm.payType" style="margin-left: 18px;width: 200px">
-                    <el-option value="1" label="方式1"/>
-                    <el-option value="2" label="方式2"/>
-                  </el-select>
-                </el-form-item>
-              </el-col>
+              <!--              <el-col :span="6">-->
+              <!--                <el-form-item :label="$t('SaleOrder.payType')" style="width: 100%;">-->
+              <!--                  <el-select v-model="personalForm.payType" style="margin-left: 18px;width: 200px">-->
+              <!--                    <el-option value="1" label="方式1"/>-->
+              <!--                    <el-option value="2" label="方式2"/>-->
+              <!--                  </el-select>-->
+              <!--                </el-form-item>-->
+              <!--              </el-col>-->
               <el-col :span="6">
                 <el-form-item :label="$t('SaleOrder.currency')" style="width: 100%;">
                   <el-select v-model="personalForm.currency" style="margin-left: 18px;width: 200px">
@@ -128,9 +128,9 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('SaleOrder.colseType')" style="width: 100%;">
-                  <el-select v-model="personalForm.colseType" style="margin-left: 18px;width: 200px">
+                  <el-select v-model="personalForm.settleMode" style="margin-left: 18px;width: 200px">
                     <el-option
-                      v-for="(item, index) in colseTypes"
+                      v-for="(item, index) in settleModes"
                       :value="item.id"
                       :key="index"
                       :label="item.categoryName"/>
@@ -446,9 +446,9 @@ export default {
         pagesize: 99999
       },
       // 结算方式数据
-      colseTypes: [],
+      settleModes: [],
       // 结算方式获取参数
-      colseTypeparms: {
+      settleModeparms: {
         type: 3,
         pagenum: 1,
         pagesize: 99999
@@ -716,9 +716,9 @@ export default {
         }
       })
       // 结算方式数据
-      searchSaleCategory(this.colseTypeparms).then(res => {
+      searchSaleCategory(this.settleModeparms).then(res => {
         if (res.data.ret === 200) {
-          this.colseTypes = res.data.data.content.list
+          this.settleModes = res.data.data.content.list
         }
       })
     },

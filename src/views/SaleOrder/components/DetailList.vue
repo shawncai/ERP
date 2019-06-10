@@ -61,11 +61,11 @@
                 <span>{{ personalForm.saleTypeName }}</span>
               </el-form-item>
             </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('SaleOrder.payType')" style="width: 100%;">
-                <span>{{ personalForm.payTypeName }}</span>
-              </el-form-item>
-            </el-col>
+            <!--            <el-col :span="12">-->
+            <!--              <el-form-item :label="$t('SaleOrder.payType')" style="width: 100%;">-->
+            <!--                <span>{{ personalForm.payTypeName }}</span>-->
+            <!--              </el-form-item>-->
+            <!--            </el-col>-->
             <el-col :span="12">
               <el-form-item :label="$t('SaleOrder.currency')" style="width: 100%;">
                 <span>{{ personalForm.currency | currencyFilter }}</span>
@@ -83,7 +83,7 @@
             </el-col>
             <el-col :span="12">
               <el-form-item :label="$t('SaleOrder.colseType')" style="width: 100%;">
-                <span>{{ personalForm.colseTypeName }}</span>
+                <span>{{ personalForm.settleModeName }}</span>
               </el-form-item>
             </el-col>
           </el-row>

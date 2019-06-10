@@ -38,12 +38,12 @@
             </el-col>
             <el-col :span="12">
               <el-form-item :label="$t('SaleReturn.closeType')" style="width: 100%;">
-                <span>{{ personalForm.closeTypeName }}</span>
+                <span>{{ personalForm.settleModeName }}</span>
               </el-form-item>
             </el-col>
             <el-col :span="12">
               <el-form-item :label="$t('SaleReturn.payType')" style="width: 100%;">
-                <span>{{ personalForm.payType | payTypeFilter }}</span>
+                <span>{{ personalForm.payMode | payModeFilter }}</span>
               </el-form-item>
             </el-col>
             <el-col :span="12">
@@ -282,7 +282,7 @@ export default {
       }
       return statusMap[status]
     },
-    payTypeFilter(status) {
+    payModeFilter(status) {
       const statusMap = {
         1: '货到付款',
         2: '当场支付'

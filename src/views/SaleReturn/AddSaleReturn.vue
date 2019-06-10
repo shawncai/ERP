@@ -48,7 +48,7 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('SaleReturn.closeType')" style="width: 100%;">
-                  <el-select v-model="personalForm.closeType" style="margin-left: 18px;width:200px">
+                  <el-select v-model="personalForm.settleMode" style="margin-left: 18px;width:200px">
                     <el-option
                       v-for="(item, index) in colseTypes"
                       :value="item.id"

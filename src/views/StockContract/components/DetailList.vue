@@ -38,7 +38,7 @@
             </el-col>
             <el-col :span="12">
               <el-form-item :label="$t('StockContract.payId')" style="width: 100%;">
-                <span>{{ personalForm.payId | payIdFilter }}</span>
+                <span>{{ personalForm.payMode | payModeFilter }}</span>
               </el-form-item>
             </el-col>
             <el-col :span="12">
@@ -73,7 +73,7 @@
             </el-col>
             <el-col :span="12">
               <el-form-item :label="$t('StockContract.settleId')" style="width: 100%;">
-                <span>{{ personalForm.settleName }}</span>
+                <span>{{ personalForm.settleModeName }}</span>
               </el-form-item>
             </el-col>
             <el-col :span="12">
@@ -285,7 +285,7 @@ export default {
       }
       return statusMap[status]
     },
-    payIdFilter(status) {
+    payModeFilter(status) {
       const statusMap = {
         1: '现金'
       }

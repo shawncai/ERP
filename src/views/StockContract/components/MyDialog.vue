@@ -58,7 +58,7 @@
               </el-col>
               <el-col :span="12">
                 <el-form-item :label="$t('StockContract.payId')" style="width: 100%;">
-                  <el-select v-model="personalForm.payId" clearable style="margin-left: 18px;width: 200px">
+                  <el-select v-model="personalForm.payMode" clearable style="margin-left: 18px;width: 200px">
                     <el-option value="1" label="现金"/>
                   </el-select>
                 </el-form-item>
@@ -114,7 +114,7 @@
               </el-col>
               <el-col :span="12">
                 <el-form-item :label="$t('StockContract.settleId')" style="width: 100%;">
-                  <el-select v-model="personalForm.settleId" clearable style="margin-left: 18px;width: 200px">
+                  <el-select v-model="personalForm.settleMode" clearable style="margin-left: 18px;width: 200px">
                     <el-option
                       v-for="(item, index) in paymentIds"
                       :key="index"
@@ -579,7 +579,7 @@ export default {
         if (res.data.ret === 200) {
           this.personalForm.deliveryMode = res.data.data.content.list[0].giveId
           this.personalForm.transferId = res.data.data.content.list[0].transportId
-          this.personalForm.settleId = res.data.data.content.list[0].paymentId
+          this.personalForm.settleMode = res.data.data.content.list[0].paymentId
         }
         this.getways()
       })

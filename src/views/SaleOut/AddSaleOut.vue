@@ -83,7 +83,7 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('SaleOut.closeType')" style="width: 100%;">
-                  <el-select v-model="personalForm.closeType" style="margin-left: 18px;width: 200px" @change="change">
+                  <el-select v-model="personalForm.settleMode" style="margin-left: 18px;width: 200px" @change="change">
                     <el-option
                       v-for="(item, index) in colseTypes"
                       :value="item.id"
@@ -106,7 +106,7 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('SaleOut.payType')" style="width: 100%;">
-                  <el-select v-model="personalForm.payType" style="margin-left: 18px;width: 200px" @change="change">
+                  <el-select v-model="personalForm.payMode" style="margin-left: 18px;width: 200px" @change="change">
                     <el-option value="1" label="货到付款"/>
                     <el-option value="2" label="当场支付"/>
                   </el-select>
@@ -864,10 +864,10 @@ export default {
       this.personalForm.customerPhone = val.customerPhone
       this.personalForm.salePersonId = val.salePersonId
       this.salePersonId = val.salePersonName
-      this.personalForm.closeType = val.closeType
-      if (val.payType !== null && val.payType !== undefined && val.payType !== '') {
-        this.personalForm.payType = String(val.payType)
-      }
+      this.personalForm.settleMode = val.settleMode
+      // if (val.payType !== null && val.payType !== undefined && val.payType !== '') {
+      //   this.personalForm.payType = String(val.payType)
+      // }
       this.personalForm.saleRepositoryId = val.saleRepositoryId
       this.saleRepositoryId = val.saleRepositoryName
       this.personalForm.address = val.transAddress
@@ -898,7 +898,7 @@ export default {
       this.personalForm.salePersonId = val.salePersonId
       this.salePersonId = val.salePersonName
       if (val.payMode !== null && val.payMode !== undefined && val.payMode !== '') {
-        this.personalForm.payType = String(val.payMode)
+        this.personalForm.payMode = String(val.payMode)
       }
       this.personalForm.saleRepositoryId = val.saleRepositoryId
       this.saleRepositoryId = val.saleRepositoryName
@@ -967,7 +967,7 @@ export default {
       if (val.saleType !== null && val.saleType !== undefined && val.saleType !== '') {
         this.personalForm.saleType = String(val.saleType)
       }
-      this.personalForm.closeType = val.closeType
+      this.personalForm.settleMode = val.closeType
       this.personalForm.invoiceType = val.invoiceType
       if (val.payType !== null && val.payType !== undefined && val.payType !== '') {
         this.personalForm.payType = String(val.payType)

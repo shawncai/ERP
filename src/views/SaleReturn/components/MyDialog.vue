@@ -47,7 +47,7 @@
             </el-col>
             <el-col :span="12">
               <el-form-item :label="$t('SaleReturn.closeType')" style="width: 100%;">
-                <el-select v-model="personalForm.closeType" style="margin-left: 18px;width: 200px">
+                <el-select v-model="personalForm.settleMode" style="margin-left: 18px;width: 200px">
                   <el-option
                     v-for="(item, index) in colseTypes"
                     :value="item.id"
@@ -58,7 +58,7 @@
             </el-col>
             <el-col :span="12">
               <el-form-item :label="$t('SaleReturn.payType')" style="width: 100%;">
-                <el-select v-model="personalForm.payType" style="margin-left: 18px;width: 200px">
+                <el-select v-model="personalForm.payMode " style="margin-left: 18px;width: 200px">
                   <el-option value="1" label="货到付款"/>
                   <el-option value="2" label="当场支付"/>
                 </el-select>

@@ -62,7 +62,7 @@
               </el-col>
               <el-col :span="12">
                 <el-form-item :label="$t('StockArrival.payId')" style="width: 100%;">
-                  <el-select v-model="personalForm.payId" clearable style="margin-left: 18px;width: 200px" @change="change()">
+                  <el-select v-model="personalForm.payMode" clearable style="margin-left: 18px;width: 200px" @change="change()">
                     <el-option value="1" label="现金"/>
                   </el-select>
                 </el-form-item>
@@ -94,7 +94,7 @@
               </el-col>
               <el-col :span="12">
                 <el-form-item :label="$t('StockArrival.deliveryModeId')" style="width: 100%;">
-                  <el-select v-model="personalForm.deliveryModeId" clearable style="margin-left: 18px;width: 200px">
+                  <el-select v-model="personalForm.deliveryMode" clearable style="margin-left: 18px;width: 200px">
                     <el-option
                       v-for="(item, index) in giveIds"
                       :key="index"
@@ -562,8 +562,8 @@ export default {
       this.supp = val.id
       this.supplierId = val.supplierName
       this.personalForm.supplierId = val.id
-      this.personalForm.deliveryModeId = val.giveId
-      this.personalForm.payId = val.paymentId
+      this.personalForm.deliveryMode = val.giveId
+      this.personalForm.payMode = val.paymentId
       if (val.moneyId !== null && val.moneyId !== '' && val.moneyId !== undefined) {
         this.personalForm.currencyId = String(val.moneyId)
       }

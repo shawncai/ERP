@@ -123,9 +123,9 @@
             </el-col>
             <el-col :span="12">
               <el-form-item :label="$t('Supplier.giveId')" style="width: 100%;">
-                <el-select v-model="personalForm.giveId" placeholder="请选择交货方式" style="margin-left: 18px;width: 200px" @focus="updateGive">
+                <el-select v-model="personalForm.deliveryMode" placeholder="请选择交货方式" style="margin-left: 18px;width: 200px" @focus="updateGive">
                   <el-option
-                    v-for="(item, index) in giveIds"
+                    v-for="(item, index) in deliveryModes"
                     :key="index"
                     :label="item.categoryName"
                     :value="item.id"
@@ -225,9 +225,9 @@
           <el-row>
             <el-col :span="12">
               <el-form-item :label="$t('Supplier.paymentId')" style="width: 100%;">
-                <el-select v-model="personalForm.paymentId" placeholder="请选择结算方式" style="margin-left: 18px;width: 200px" @focus="updatePaymen">
+                <el-select v-model="personalForm.settleMode" placeholder="请选择结算方式" style="margin-left: 18px;width: 200px" @focus="updatePaymen">
                   <el-option
-                    v-for="(item, index) in paymentIds"
+                    v-for="(item, index) in settleModes"
                     :key="index"
                     :label="item.categoryName"
                     :value="item.id"
@@ -344,13 +344,13 @@ export default {
       // 供应商分组数据
       groupIds: [],
       // 结算方式
-      paymentIds: [],
+      settleModes: [],
       // 优质级别
       levelIds: [],
       // 运送方式
       transportIds: [],
       // 交货方式
-      giveIds: [],
+      deliveryModes: [],
       // 供应商类别
       typeIds: [],
       // 采购员弹窗控制
@@ -467,7 +467,7 @@ export default {
       // 交货方式
       searchCategory(2).then(res => {
         if (res.data.ret === 200) {
-          this.giveIds = res.data.data.content.list
+          this.deliveryModes = res.data.data.content.list
         }
       })
       // 运送方式
@@ -485,7 +485,7 @@ export default {
       // 结算方式
       searchCategory(5).then(res => {
         if (res.data.ret === 200) {
-          this.paymentIds = res.data.data.content.list
+          this.settleModes = res.data.data.content.list
         }
       })
       // 分组数据
@@ -567,7 +567,7 @@ export default {
         contactPersonName: '',
         contactPersonPhone: '',
         regionId: '',
-        giveId: '',
+        deliveryMode: '',
         transportId: '',
         levelId: '',
         isHot: '',
@@ -575,7 +575,7 @@ export default {
         buyerId: '',
         // 财务信息
         businessScopeIntroduction: '',
-        paymentId: '',
+        settleMode: '',
         moneyId: '',
         bankName: '',
         accountName: '',

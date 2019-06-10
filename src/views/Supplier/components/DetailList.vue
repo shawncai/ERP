@@ -93,7 +93,7 @@
             </el-col>
             <el-col :span="12">
               <el-form-item :label="$t('Supplier.giveId')" style="width: 100%;">
-                <span>{{ personalForm.giveName }}</span>
+                <span>{{ personalForm.deliveryModeName }}</span>
               </el-form-item>
             </el-col>
             <el-col :span="12">
@@ -159,7 +159,7 @@
           <el-row>
             <el-col :span="12">
               <el-form-item :label="$t('Supplier.paymentId')" style="width: 100%;">
-                <span>{{ personalForm.paymentName }}</span>
+                <span>{{ personalForm.settleModeName }}</span>
               </el-form-item>
             </el-col>
             <el-col :span="12">

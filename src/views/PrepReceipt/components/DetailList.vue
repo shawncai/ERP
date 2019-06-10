@@ -53,7 +53,7 @@
             </el-col>
             <el-col :span="12">
               <el-form-item :label="$t('PrepReceipt.closeType')" style="width: 100%;">
-                <span>{{ personalForm.closeTypeName }}</span>
+                <span>{{ personalForm.payModeName }}</span>
               </el-form-item>
             </el-col>
             <el-col :span="12">

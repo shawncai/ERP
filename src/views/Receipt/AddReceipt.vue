@@ -42,7 +42,7 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('Receipt.receiptType')" style="width: 100%;">
-                  <el-select v-model="personalForm.receiptType" style="margin-left: 18px;width: 200px">
+                  <el-select v-model="personalForm.payMode" style="margin-left: 18px;width: 200px">
                     <el-option value="1" label="信用卡"/>
                     <el-option value="2" label="现金"/>
                   </el-select>

@@ -26,7 +26,7 @@
               placement="bottom"
               width="500"
               trigger="manual">
-              <el-select v-model="getemplist.closeType" placeholder="结算方式" clearable style="width: 40%;float: left;margin-left: 20px">
+              <el-select v-model="getemplist.payMode" placeholder="结算方式" clearable style="width: 40%;float: left;margin-left: 20px">
                 <el-option
                   v-for="(item, index) in colseTypes"
                   :value="item.id"
@@ -104,7 +104,7 @@
         </el-table-column>
         <el-table-column :label="$t('income.closeType')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.closeTypeName }}</span>
+            <span>{{ scope.row.payModeName }}</span>
           </template>
         </el-table-column>
         <el-table-column :label="$t('income.incomeAccount')" :resizable="false" align="center" min-width="150">

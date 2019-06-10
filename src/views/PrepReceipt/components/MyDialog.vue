@@ -66,7 +66,7 @@
             </el-col>
             <el-col :span="12">
               <el-form-item :label="$t('PrepReceipt.closeType')" style="width: 100%;">
-                <el-select v-model="personalForm.closeType" :disabled="IscloseT" clearable style="margin-left: 18px;width: 200px">
+                <el-select v-model="personalForm.payMode" :disabled="IscloseT" clearable style="margin-left: 18px;width: 200px">
                   <el-option
                     v-for="(item, index) in colseTypes"
                     :value="item.id"
@@ -253,8 +253,8 @@ export default {
         this.personalForm.currency = String(val.currency)
         this.Iscurrency = true
       }
-      if (val.closeType !== null && val.closeType !== '' && val.closeType !== undefined) {
-        this.personalForm.closeType = val.closeType
+      if (val.payMode !== null && val.payMode !== '' && val.payMode !== undefined) {
+        this.personalForm.payMode = val.payMode
         this.IscloseT = true
       }
     },

@@ -62,7 +62,7 @@
               </el-col>
               <el-col :span="12">
                 <el-form-item :label="$t('StockRetreat.payId')" style="width: 100%;">
-                  <el-select v-model="personalForm.payId" clearable style="margin-left: 18px;width: 200px">
+                  <el-select v-model="personalForm.payMode" clearable style="margin-left: 18px;width: 200px">
                     <el-option value="1" label="现金"/>
                   </el-select>
                 </el-form-item>
@@ -484,7 +484,7 @@ export default {
       this.personalForm.isVat = val.isVat
       this.personalForm.stockPersonId = val.stockPersonId
       this.stockPersonId = val.stockPersonName
-      this.personalForm.payId = String(val.payId)
+      this.personalForm.payMode = String(val.payMode)
       this.personalForm.deliveryModeId = val.deliveryModeId
       this.personalForm.currencyId = String(val.currencyId)
       this.getTypes()
@@ -519,7 +519,7 @@ export default {
       this.stockPersonId = val.stockPersonName
       this.personalForm.stockPersonId = val.stockPersonId
       this.personalForm.deptId = val.deptId
-      this.personalForm.payId = val.payMode
+      this.personalForm.payMode = val.payMode
       this.personalForm.deliveryModeId = val.deliveryMode
       this.personalForm.isVat = val.isVat
       this.personalForm.currencyId = val.currency

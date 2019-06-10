@@ -58,7 +58,7 @@
             </el-col>
             <el-col :span="12">
               <el-form-item :label="$t('SaleOut.closeType')" style="width: 100%;">
-                <span>{{ personalForm.closeTypeName }}</span>
+                <span>{{ personalForm.settleModeName }}</span>
               </el-form-item>
             </el-col>
             <el-col :span="12">
@@ -68,7 +68,7 @@
             </el-col>
             <el-col :span="12">
               <el-form-item :label="$t('SaleOut.payType')" style="width: 100%;">
-                <span>{{ personalForm.payType | payTypeFilter }}</span>
+                <span>{{ personalForm.payMode | payTypeFilter }}</span>
               </el-form-item>
             </el-col>
             <el-col :span="12">
