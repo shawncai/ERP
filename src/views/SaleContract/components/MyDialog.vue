@@ -36,7 +36,7 @@
             </el-col>
             <el-col :span="12">
               <el-form-item :label="$t('SaleContract.customerName')" style="width: 100%;">
-                <el-input v-model="customerId" style="margin-left: 18px;width: 200px" clearable/>
+                <el-input v-model="customerId" style="margin-left: 18px;width: 200px" @focus="chooseCustomer"/>
                 <my-customer :customercontrol.sync="customercontrol" @customerdata="customerdata"/>
                 <my-agent :agentcontrol.sync="agentcontrol" @agentdata="agentdata"/>
               </el-form-item>
@@ -244,17 +244,17 @@
           <el-editable-column prop="productScore" align="center" label="商品积分" min-width="150px"/>
           <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 1, precision: 2}, type: 'visible'}" prop="quantity" align="center" label="订单数量" min-width="150px"/>
           <el-editable-column prop="salePrice" align="center" label="零售价" min-width="150px"/>
-          <el-editable-column prop="costPrice" align="center" label="成本价" min-width="150px"/>
+          <!--          <el-editable-column prop="costPrice" align="center" label="成本价" min-width="150px"/>-->
           <el-editable-column prop="taxprice" align="center" label="含税价" min-width="150px">
             <template slot-scope="scope">
               <span>{{ gettaxprice(scope.row) }}</span>
             </template>
           </el-editable-column>
-          <el-editable-column prop="costMoney" align="center" label="成本金额" min-width="150px">
-            <template slot-scope="scope">
-              <p>{{ getcostMoney(scope.row) }}</p>
-            </template>
-          </el-editable-column>
+          <!--          <el-editable-column prop="costMoney" align="center" label="成本金额" min-width="150px">-->
+          <!--            <template slot-scope="scope">-->
+          <!--              <p>{{ getcostMoney(scope.row) }}</p>-->
+          <!--            </template>-->
+          <!--          </el-editable-column>-->
           <el-editable-column prop="includeTaxMoney" align="center" label="含税金额" min-width="150px">
             <template slot-scope="scope">
               <p>{{ getincludeTaxMoney(scope.row) }}</p>
@@ -279,11 +279,11 @@
               <p>{{ getMoney(scope.row) }}</p>
             </template>
           </el-editable-column>
-          <el-editable-column prop="includeTaxCostMoney" align="center" label="含税成本金额" min-width="170px">
-            <template slot-scope="scope">
-              <p>{{ getincludeTaxCostMoney(scope.row) }}</p>
-            </template>
-          </el-editable-column>
+          <!--          <el-editable-column prop="includeTaxCostMoney" align="center" label="含税成本金额" min-width="170px">-->
+          <!--            <template slot-scope="scope">-->
+          <!--              <p>{{ getincludeTaxCostMoney(scope.row) }}</p>-->
+          <!--            </template>-->
+          <!--          </el-editable-column>-->
           <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="discount" align="center" label="折扣(%)" min-width="170px">
             <template slot="edit" slot-scope="scope">
               <el-input-number
@@ -302,6 +302,9 @@
                 @input="getdiscountMoney(scope.row)"/>
             </template>
           </el-editable-column>
+          <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="carCode" align="center" label="车架编码" min-width="150px"/>
+          <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="motorCode" align="center" label="电机编码" min-width="150px"/>
+          <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="batteryCode" align="center" label="电池编码" min-width="150px"/>
         </el-editable>
       </div>
     </el-card>
@@ -515,6 +518,7 @@ export default {
       this.supplierId = this.personalForm.supplierName
       this.stockPersonId = this.personalForm.stockPersonName
       this.salePersonId = this.personalForm.salePersonName
+      this.customerId = this.personalForm.customerName
       this.list2 = this.personalForm.saleContractDetailVos
     }
   },

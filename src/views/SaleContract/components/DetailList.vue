@@ -118,7 +118,6 @@
           border
           size="medium"
           style="width: 100%">
-          <el-editable-column type="selection" min-width="55" align="center"/>
           <el-editable-column label="序号" min-width="55" align="center" type="index"/>
           <el-editable-column prop="productCode" align="center" label="物品编号" min-width="150px"/>
           <el-editable-column prop="productName" align="center" label="物品名称" min-width="150px"/>
@@ -130,16 +129,19 @@
           <el-editable-column prop="productScore" align="center" label="商品积分" min-width="150px"/>
           <el-editable-column prop="quantity" align="center" label="订单数量" min-width="150px"/>
           <el-editable-column prop="salePrice" align="center" label="零售价" min-width="150px"/>
-          <el-editable-column prop="costPrice" align="center" label="成本价" min-width="150px"/>
+          <!--          <el-editable-column prop="costPrice" align="center" label="成本价" min-width="150px"/>-->
           <el-editable-column prop="taxprice" align="center" label="含税价" min-width="150px"/>
-          <el-editable-column prop="costMoney" align="center" label="成本金额" min-width="150px"/>
+          <!--          <el-editable-column prop="costMoney" align="center" label="成本金额" min-width="150px"/>-->
           <el-editable-column prop="includeTaxMoney" align="center" label="含税金额" min-width="150px"/>
           <el-editable-column prop="taxRate" align="center" label="税率(%)" min-width="170px"/>
           <el-editable-column prop="taxMoney" align="center" label="税额" min-width="170px"/>
           <el-editable-column prop="money" align="center" label="金额" min-width="150px"/>
-          <el-editable-column prop="includeTaxCostMoney" align="center" label="含税成本金额" min-width="170px"/>
+          <!--          <el-editable-column prop="includeTaxCostMoney" align="center" label="含税成本金额" min-width="170px"/>-->
           <el-editable-column prop="discount" align="center" label="折扣(%)" min-width="170px"/>
           <el-editable-column prop="discountMoney" align="center" label="折扣额" min-width="170px"/>
+          <el-editable-column prop="carCode" align="center" label="车架编码" min-width="150px"/>
+          <el-editable-column prop="motorCode" align="center" label="电机编码" min-width="150px"/>
+          <el-editable-column prop="batteryCode" align="center" label="电池编码" min-width="150px"/>
         </el-editable>
       </div>
     </el-card>

@@ -786,6 +786,7 @@ export default {
       this.productForm.price = this.personalForm.totalMoney
       const Data2 = this.productForm
       for (const key in Data2) {
+        console.log(key)
         if (Data2[key] === '' || Data2[key] === undefined || Data2[key] === null) {
           delete Data2[key]
         }
@@ -795,8 +796,10 @@ export default {
       const parms2 = JSON.stringify(Data2)
       const Data = this.personalForm
       for (const key in Data) {
-        if (Data[key] === '' || Data[key] === undefined || Data[key] === null) {
-          delete Data[key]
+        if (key !== 'middleName') {
+          if (Data[key] === '' || Data[key] === undefined || Data[key] === null) {
+            delete Data[key]
+          }
         }
       }
       const parms = JSON.stringify(Data)

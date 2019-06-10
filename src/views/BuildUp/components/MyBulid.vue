@@ -240,7 +240,7 @@ export default {
         return materialslist2(item.productCode)
       }))
       console.log('productDetail3', productDetail3)
-      console.log('productDetail', productDetail3[0].data.data.content.list)
+      // console.log('productDetail', productDetail3[0].data.data.content.list)
 
       // 在外部把数据加到数组里面去
       // for (let i = 0; i < productDetail.length; i++) {
@@ -252,7 +252,7 @@ export default {
       // }
       console.log(productDetail)
       this.$emit('product2', productDetail)
-      this.$emit('product3', productDetail3[0].data.data.content.list)
+      this.$emit('product3', productDetail3)
     }
   }
 }

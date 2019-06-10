@@ -10,6 +10,7 @@
         <el-option label="优质级别" value="4"/>
         <el-option label="结算方式" value="5"/>
         <el-option label="推荐程度" value="6"/>
+        <el-option label="支付方式" value="7"/>
       </el-select>
       <el-select v-model="getemplist.iseffective" :value="getemplist.iseffective" :placeholder="$t('NewEmployeeInformation.iseffective')" class="filter-item" clearable>
         <el-option label="active " value="1"/>
@@ -42,6 +43,7 @@
               <el-option label="优质级别" value="4"/>
               <el-option label="结算方式" value="5"/>
               <el-option label="推荐程度" value="6"/>
+              <el-option label="支付方式" value="7"/>
             </el-select>
           </el-form-item>
           <el-form-item :label="$t('NewEmployeeInformation.categoryname')" label-width="100px" prop="categoryname">
@@ -113,6 +115,7 @@
                 <el-option label="优质级别" value="4"/>
                 <el-option label="结算方式" value="5"/>
                 <el-option label="推荐程度" value="6"/>
+                <el-option label="支付方式" value="7"/>
               </el-select>
             </el-form-item>
             <el-form-item :label="$t('NewEmployeeInformation.categoryname')" label-width="100px" prop="categoryName">
@@ -154,7 +157,8 @@ export default {
         3: '运送方式',
         4: '优质级别',
         5: '结算方式',
-        6: '推荐程度'
+        6: '推荐程度',
+        7: '支付方式'
       }
       return statusMap[status]
     },

@@ -336,6 +336,7 @@ export default {
       for (let i = 0; i < val.length; i++) {
         console.log(val[i].materialsListDetailVos.length)
         for (let j = 0; j < val[i].materialsListDetailVos.length; j++) {
+          // console.log()
           this.$refs.editable.insert(val[i].materialsListDetailVos[j])
         }
       }

@@ -36,7 +36,7 @@
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('SaleContract.customerName')" style="width: 100%;">
+                <el-form-item :label="$t('SaleContract.customerName')" prop="customerId" style="width: 100%;">
                   <el-input v-model="customerId" style="margin-left: 18px;width: 200px" @focus="chooseCustomer"/>
                   <my-customer :customercontrol.sync="customercontrol" @customerdata="customerdata"/>
                   <my-agent :agentcontrol.sync="agentcontrol" @agentdata="agentdata"/>
@@ -114,6 +114,7 @@
                 <el-form-item :label="$t('SaleContract.signDate')" style="width: 100%;">
                   <el-date-picker
                     v-model="personalForm.signDate"
+                    :picker-options="pickerOptions4"
                     type="date"
                     value-format="yyyy-MM-dd"
                     style="margin-left: 18px;width: 200px"/>
@@ -250,17 +251,17 @@
             <el-editable-column prop="productScore" align="center" label="商品积分" min-width="150px"/>
             <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 1, precision: 2}, type: 'visible'}" prop="quantity" align="center" label="订单数量" min-width="150px"/>
             <el-editable-column prop="salePrice" align="center" label="零售价" min-width="150px"/>
-            <el-editable-column prop="costPrice" align="center" label="成本价" min-width="150px"/>
+            <!--            <el-editable-column prop="costPrice" align="center" label="成本价" min-width="150px"/>-->
             <el-editable-column prop="taxprice" align="center" label="含税价" min-width="150px">
               <template slot-scope="scope">
                 <span>{{ gettaxprice(scope.row) }}</span>
               </template>
             </el-editable-column>
-            <el-editable-column prop="costMoney" align="center" label="成本金额" min-width="150px">
-              <template slot-scope="scope">
-                <p>{{ getcostMoney(scope.row) }}</p>
-              </template>
-            </el-editable-column>
+            <!--            <el-editable-column prop="costMoney" align="center" label="成本金额" min-width="150px">-->
+            <!--              <template slot-scope="scope">-->
+            <!--                <p>{{ getcostMoney(scope.row) }}</p>-->
+            <!--              </template>-->
+            <!--            </el-editable-column>-->
             <el-editable-column prop="includeTaxMoney" align="center" label="含税金额" min-width="150px">
               <template slot-scope="scope">
                 <p>{{ getincludeTaxMoney(scope.row) }}</p>
@@ -285,11 +286,11 @@
                 <p>{{ getMoney(scope.row) }}</p>
               </template>
             </el-editable-column>
-            <el-editable-column prop="includeTaxCostMoney" align="center" label="含税成本金额" min-width="170px">
-              <template slot-scope="scope">
-                <p>{{ getincludeTaxCostMoney(scope.row) }}</p>
-              </template>
-            </el-editable-column>
+            <!--            <el-editable-column prop="includeTaxCostMoney" align="center" label="含税成本金额" min-width="170px">-->
+            <!--              <template slot-scope="scope">-->
+            <!--                <p>{{ getincludeTaxCostMoney(scope.row) }}</p>-->
+            <!--              </template>-->
+            <!--            </el-editable-column>-->
             <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="discount" align="center" label="折扣(%)" min-width="170px">
               <template slot="edit" slot-scope="scope">
                 <el-input-number
@@ -308,6 +309,9 @@
                   @input="getdiscountMoney(scope.row)"/>
               </template>
             </el-editable-column>
+            <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="carCode" align="center" label="车架编码" min-width="150px"/>
+            <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="motorCode" align="center" label="电机编码" min-width="150px"/>
+            <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="batteryCode" align="center" label="电池编码" min-width="150px"/>
           </el-editable>
         </div>
       </el-card>
@@ -341,6 +345,13 @@ export default {
   name: 'AddSaleContract',
   components: { MyAgent, MyCustomer, MyInstallmentapply, MyOpportunity, MyDelivery, MyPlan, MyApply, MySupplier, MyDetail, MyEmp },
   data() {
+    const validatePass4 = (rule, value, callback) => {
+      if (this.customerId === undefined || this.customerId === null || this.customerId === '') {
+        callback(new Error('请选择客户'))
+      } else {
+        callback()
+      }
+    }
     const validatePass = (rule, value, callback) => {
       console.log(this.supplierId)
       if (this.supplierId === undefined || this.supplierId === null || this.supplierId === '') {
@@ -366,6 +377,11 @@ export default {
       }
     }
     return {
+      pickerOptions4: {
+        disabledDate: (time) => {
+          return time.getTime() < new Date(this.personalForm.signDate).getTime() - 8.64e7
+        }
+      },
       pickerOptions0: {
         disabledDate: (time) => {
           if (this.personalForm.installmentEndtime !== null) {
@@ -478,7 +494,8 @@ export default {
         notaryDate: null,
         deptId: this.$store.getters.deptId,
         saleRepositoryId: this.$store.getters.repositoryId,
-        customerType: '2'
+        customerType: '2',
+        signDate: null
       },
       // 采购申请单规则数据
       personalrules: {
@@ -505,6 +522,9 @@ export default {
         ],
         stockTypeId: [
           { required: true, message: '请选择采购类别', trigger: 'change' }
+        ],
+        customerId: [
+          { required: true, validator: validatePass4, trigger: 'change' }
         ]
       },
       // 采购申请单明细数据
@@ -518,8 +538,12 @@ export default {
     this.getTypes()
     this.getways()
     this.getratelist()
+    this.getdatatime()
   },
   methods: {
+    getdatatime() { // 默认显示今天
+      this.personalForm.signDate = new Date()
+    },
     change() {
       this.$forceUpdate()
     },
@@ -852,12 +876,14 @@ export default {
         notaryDate: null,
         deptId: this.$store.getters.deptId,
         customerType: '2',
+        customerId: null,
         saleRepositoryId: this.$store.getters.repositoryId
       }
       this.supplierId = null
       this.inquiryPersonId = null
       this.stockPersonId = null
       this.ourContractorId = null
+      this.customerId = null
       this.isinstallappley = false
     },
     // 深拷贝
