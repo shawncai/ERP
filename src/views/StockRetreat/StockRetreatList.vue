@@ -352,9 +352,6 @@ export default {
       if (row.currencyId !== null) {
         this.personalForm.currencyId = String(row.currencyId)
       }
-      if (row.payMode !== null) {
-        this.personalForm.payMode = String(row.payMode)
-      }
     },
     // 修改组件修改成功后返回
     refreshlist(val) {

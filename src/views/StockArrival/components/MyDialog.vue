@@ -62,8 +62,13 @@
               </el-col>
               <el-col :span="12">
                 <el-form-item :label="$t('StockArrival.payId')" style="width: 100%;">
-                  <el-select v-model="personalForm.payMode" clearable style="margin-left: 18px;width: 200px" @change="change()">
-                    <el-option value="1" label="现金"/>
+                  <el-select v-model="personalForm.settleMode" clearable style="margin-left: 18px;width: 200px" @change="change()">
+                    <el-option
+                      v-for="(item, index) in settleModes"
+                      :key="index"
+                      :label="item.categoryName"
+                      :value="item.id"
+                    />
                   </el-select>
                 </el-form-item>
               </el-col>
@@ -97,6 +102,18 @@
                   <el-select v-model="personalForm.deliveryMode" clearable style="margin-left: 18px;width: 200px">
                     <el-option
                       v-for="(item, index) in giveIds"
+                      :key="index"
+                      :label="item.categoryName"
+                      :value="item.id"
+                    />
+                  </el-select>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('Supplier.payMode')" style="width: 100%;">
+                  <el-select v-model="personalForm.payMode" clearable style="margin-left: 18px;width: 200px">
+                    <el-option
+                      v-for="(item, index) in payModes"
                       :key="index"
                       :label="item.categoryName"
                       :value="item.id"
@@ -331,6 +348,8 @@ export default {
       addpro: false,
       // 控制从源单中选择按钮
       addsouce: true,
+      // 支付方式
+      payModes: [],
       // 供应商回显
       supplierId: '',
       // 控制供应商
@@ -341,6 +360,8 @@ export default {
       stockPersonId: '',
       // 控制采购员
       stockControl: false,
+      // 结算方式
+      settleModes: [],
       // 类别数据
       types: [],
       // 类别获取参数
@@ -469,6 +490,17 @@ export default {
       return row.taxRate * 100
     },
     getways() {
+      searchCategory(7).then(res => {
+        if (res.data.ret === 200) {
+          this.payModes = res.data.data.content.list
+        }
+      })
+      // 结算方式
+      searchCategory(5).then(res => {
+        if (res.data.ret === 200) {
+          this.settleModes = res.data.data.content.list
+        }
+      })
       // 交货方式
       searchCategory(2).then(res => {
         if (res.data.ret === 200) {

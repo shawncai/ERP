@@ -347,12 +347,9 @@ export default {
       console.log(row)
       this.editVisible = true
       this.personalForm = Object.assign({}, row)
-      this.personalForm.payMode = String(row.payMode)
+      this.personalForm.payMode = row.payMode
       if (row.currencyId !== null) {
         this.personalForm.currencyId = String(row.currencyId)
-      }
-      if (row.payId !== null) {
-        this.personalForm.payId = String(row.payId)
       }
     },
     // 修改组件修改成功后返回

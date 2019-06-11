@@ -59,8 +59,12 @@
             <el-col :span="12">
               <el-form-item :label="$t('SaleReturn.payType')" style="width: 100%;">
                 <el-select v-model="personalForm.payMode " style="margin-left: 18px;width: 200px">
-                  <el-option value="1" label="货到付款"/>
-                  <el-option value="2" label="当场支付"/>
+                  <el-option
+                    v-for="(item, index) in payModes"
+                    :key="index"
+                    :label="item.categoryName"
+                    :value="item.id"
+                  />
                 </el-select>
               </el-form-item>
             </el-col>
@@ -265,7 +269,7 @@
 
 <script>
 import { updatesaleReturn } from '@/api/SaleReturn'
-import { searchSaleCategory } from '@/api/SaleCategory'
+import { searchCategory } from '@/api/Supplier'
 import { getlocation, locationlist } from '@/api/public'
 import MyEmp from './MyEmp'
 import MyDelivery from './MyDelivery'
@@ -316,6 +320,7 @@ export default {
       heji9: '',
       // 货位数据
       locationlist: [],
+      payModes: [],
       // 控制源单编码是否可以选择
       IsNumber: true,
       // 控制添加商品按钮是否可以点击
@@ -430,8 +435,13 @@ export default {
       }
     },
     getTypes() {
+      searchCategory(7).then(res => {
+        if (res.data.ret === 200) {
+          this.payModes = res.data.data.content.list
+        }
+      })
       // 结算方式数据
-      searchSaleCategory(this.colseTypeparms).then(res => {
+      searchCategory(5).then(res => {
         if (res.data.ret === 200) {
           this.colseTypes = res.data.data.content.list
         }

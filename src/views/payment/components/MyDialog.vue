@@ -35,7 +35,12 @@
               <el-col :span="12">
                 <el-form-item :label="$t('payment.payMode')" style="width: 100%;">
                   <el-select v-model="personalForm.payMode" clearable style="margin-left: 18px;width: 200px">
-                    <el-option value="1" label="现金"/>
+                    <el-option
+                      v-for="(item, index) in payModes"
+                      :key="index"
+                      :label="item.categoryName"
+                      :value="item.id"
+                    />
                   </el-select>
                 </el-form-item>
               </el-col>
@@ -243,6 +248,7 @@ export default {
       paymentIds: [],
       // 点收人回显
       acceptPersonId: '',
+      payModes: '',
       // 控制点收人
       deliverycontrol: false,
       // 控制源单为采购到货单
@@ -370,6 +376,11 @@ export default {
       return sums
     },
     getways() {
+      searchCategory(7).then(res => {
+        if (res.data.ret === 200) {
+          this.payModes = res.data.data.content.list
+        }
+      })
       // 交货方式
       searchCategory(2).then(res => {
         if (res.data.ret === 200) {

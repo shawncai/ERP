@@ -102,6 +102,11 @@
               </el-form-item>
             </el-col>
             <el-col :span="12">
+              <el-form-item :label="$t('Supplier.payMode')" style="width: 100%;">
+                <span>{{ personalForm.payModeName }}</span>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
               <el-form-item :label="$t('Supplier.levelId')" style="width: 100%;">
                 <span>{{ personalForm.levelName }}</span>
               </el-form-item>

@@ -61,9 +61,26 @@
                 </el-form-item>
               </el-col>
               <el-col :span="12">
-                <el-form-item :label="$t('StockRetreat.payId')" style="width: 100%;">
+                <el-form-item :label="$t('Supplier.payMode')" style="width: 100%;">
                   <el-select v-model="personalForm.payMode" clearable style="margin-left: 18px;width: 200px">
-                    <el-option value="1" label="现金"/>
+                    <el-option
+                      v-for="(item, index) in payModes"
+                      :key="index"
+                      :label="item.categoryName"
+                      :value="item.id"
+                    />
+                  </el-select>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('Supplier.settleMode')" style="width: 100%;">
+                  <el-select v-model="personalForm.settleMode" placeholder="请选择结算方式" style="margin-left: 18px;width: 200px" @focus="updatePaymen">
+                    <el-option
+                      v-for="(item, index) in settleModes"
+                      :key="index"
+                      :label="item.categoryName"
+                      :value="item.id"
+                    />
                   </el-select>
                 </el-form-item>
               </el-col>
@@ -78,7 +95,7 @@
               </el-col>
               <el-col :span="12">
                 <el-form-item :label="$t('StockRetreat.deliveryModeId')" style="width: 100%;">
-                  <el-select v-model="personalForm.deliveryModeId" clearable style="margin-left: 18px;width: 200px">
+                  <el-select v-model="personalForm.deliveryMode" clearable style="margin-left: 18px;width: 200px">
                     <el-option
                       v-for="(item, index) in giveIds"
                       :key="index"
@@ -272,6 +289,10 @@ export default {
       }
     }
     return {
+      // 结算方式
+      settleModes: [],
+      // 支付方式
+      payModes: [],
       // 选择的数据
       choosedata: [],
       // 弹窗组件的控制
@@ -430,10 +451,22 @@ export default {
       return row.money
     },
     getways() {
+      searchCategory(7).then(res => {
+        if (res.data.ret === 200) {
+          console.log('payModes', res.data.data.content.list)
+          this.payModes = res.data.data.content.list
+        }
+      })
       // 交货方式
       searchCategory(2).then(res => {
         if (res.data.ret === 200) {
           this.giveIds = res.data.data.content.list
+        }
+      })
+      // 结算方式
+      searchCategory(5).then(res => {
+        if (res.data.ret === 200) {
+          this.settleModes = res.data.data.content.list
         }
       })
       // 运送方式

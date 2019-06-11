@@ -404,7 +404,7 @@ export default {
         this.personalForm.customerType = String(row.customerType)
       }
       if (row.payMode !== null) {
-        this.personalForm.payMode = String(row.payMode)
+        this.personalForm.payMode = row.payMode
       }
       if (row.saleType !== null) {
         this.personalForm.saleType = String(row.saleType)

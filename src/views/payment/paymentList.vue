@@ -338,9 +338,6 @@ export default {
       if (row.payMode !== null) {
         this.personalForm.payMode = String(row.payMode)
       }
-      if (row.payId !== null) {
-        this.personalForm.payId = String(row.payId)
-      }
     },
     // 修改组件修改成功后返回
     refreshlist(val) {

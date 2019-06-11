@@ -41,10 +41,14 @@
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('Receipt.receiptType')" style="width: 100%;">
+                <el-form-item :label="$t('payment.payMode')" style="width: 100%;">
                   <el-select v-model="personalForm.payMode" style="margin-left: 18px;width: 200px">
-                    <el-option value="1" label="信用卡"/>
-                    <el-option value="2" label="现金"/>
+                    <el-option
+                      v-for="(item, index) in payModes"
+                      :key="index"
+                      :label="item.categoryName"
+                      :value="item.id"
+                    />
                   </el-select>
                 </el-form-item>
               </el-col>
@@ -166,6 +170,7 @@ import MyDetail from './components/MyDetail'
 import MyMater from './components/MyMater'
 import MyInstallment from './components/MyInstallment'
 import MyAgent from '../SaleOpportunity/components/MyAgent'
+import { searchCategory } from '@/api/Supplier'
 export default {
   name: 'AddReceipt',
   components: { MyAgent, MyInstallment, MyMater, MyDetail, MyEmp },
@@ -204,6 +209,7 @@ export default {
       installmentcontrol: false,
       // 编辑表格数据
       list2: [],
+      payModes: [],
       // 销售订单信息数据
       personalForm: {
         createPersonId: this.$store.getters.userId,
@@ -231,8 +237,16 @@ export default {
     }
   },
   created() {
+    this.getways()
   },
   methods: {
+    getways() {
+      searchCategory(7).then(res => {
+        if (res.data.ret === 200) {
+          this.payModes = res.data.data.content.list
+        }
+      })
+    },
     // 收款人focus事件
     handlechooseStock() {
       this.stockControl = true

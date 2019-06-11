@@ -49,7 +49,7 @@
                 <el-form-item :label="$t('Expenses.closeType')" style="width: 100%;">
                   <el-select v-model="personalForm.payMode" clearable style="margin-left: 18px;width: 200px">
                     <el-option
-                      v-for="(item, index) in colseTypes"
+                      v-for="(item, index) in payModes"
                       :value="item.id"
                       :key="index"
                       :label="item.categoryName"/>
@@ -110,6 +110,7 @@
 
 <script>
 import { createexpenses } from '@/api/Expenses'
+import { searchCategory } from '@/api/Supplier'
 import { searchSaleCategory } from '@/api/SaleCategory'
 import { getdeptlist } from '@/api/BasicSettings'
 import MyEmp from './components/MyEmp'
@@ -133,6 +134,7 @@ export default {
       },
       // 结算方式数据
       colseTypes: [],
+      payModes: [],
       // 结算方式获取参数
       colseTypeparms: {
         type: 3,
@@ -185,6 +187,11 @@ export default {
       this.$refs.editable.insertAt({ productCode: null }, index)
     },
     getTypes() {
+      searchCategory(7).then(res => {
+        if (res.data.ret === 200) {
+          this.payModes = res.data.data.content.list
+        }
+      })
       // 部门列表数据
       getdeptlist().then(res => {
         if (res.data.ret === 200) {

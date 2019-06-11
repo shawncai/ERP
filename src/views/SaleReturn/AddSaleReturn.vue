@@ -59,9 +59,13 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('SaleReturn.payType')" style="width: 100%;">
-                  <el-select v-model="personalForm.payType" style="margin-left: 18px;width:200px">
-                    <el-option value="1" label="货到付款"/>
-                    <el-option value="2" label="当场支付"/>
+                  <el-select v-model="personalForm.payMode" style="margin-left: 18px;width:200px">
+                    <el-option
+                      v-for="(item, index) in payModes"
+                      :key="index"
+                      :label="item.categoryName"
+                      :value="item.id"
+                    />
                   </el-select>
                 </el-form-item>
               </el-col>
@@ -266,7 +270,7 @@
 
 <script>
 import { createsaleReturn } from '@/api/SaleReturn'
-import { searchSaleCategory } from '@/api/SaleCategory'
+import { searchCategory } from '@/api/Supplier'
 import { getlocation, locationlist } from '@/api/public'
 import MyEmp from './components/MyEmp'
 import MyDelivery from '../DailyAdjust/components/MyDelivery'
@@ -365,6 +369,7 @@ export default {
       },
       // 订单明细数据
       list2: [],
+      payModes: [],
       // 销售费用明细
       list3: [],
       // 明细列表规则
@@ -416,8 +421,13 @@ export default {
       }
     },
     getTypes() {
+      searchCategory(7).then(res => {
+        if (res.data.ret === 200) {
+          this.payModes = res.data.data.content.list
+        }
+      })
       // 结算方式数据
-      searchSaleCategory(this.colseTypeparms).then(res => {
+      searchCategory(5).then(res => {
         if (res.data.ret === 200) {
           this.colseTypes = res.data.data.content.list
         }

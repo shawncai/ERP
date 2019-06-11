@@ -57,14 +57,14 @@
                 </el-select>
               </el-form-item>
             </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('SaleOrder.payMode')" style="width: 100%;">
-                <el-select v-model="personalForm.payMode" style="margin-left: 18px;width: 200px">
-                  <el-option value="1" label="货到付款"/>
-                  <el-option value="2" label="当场支付"/>
-                </el-select>
-              </el-form-item>
-            </el-col>
+            <!--            <el-col :span="12">-->
+            <!--              <el-form-item :label="$t('SaleOrder.payMode')" style="width: 100%;">-->
+            <!--                <el-select v-model="personalForm.payMode" style="margin-left: 18px;width: 200px">-->
+            <!--                  <el-option value="1" label="货到付款"/>-->
+            <!--                  <el-option value="2" label="当场支付"/>-->
+            <!--                </el-select>-->
+            <!--              </el-form-item>-->
+            <!--            </el-col>-->
             <el-col :span="12">
               <el-form-item :label="$t('SaleOrder.transDate')" prop="transDate" style="width: 100%;">
                 <el-date-picker
@@ -129,6 +129,17 @@
                 <el-select v-model="personalForm.settleMode" style="margin-left: 18px;width: 200px">
                   <el-option
                     v-for="(item, index) in settleModes"
+                    :value="item.id"
+                    :key="index"
+                    :label="item.categoryName"/>
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('Supplier.deliveryMode')" style="width: 100%;">
+                <el-select v-model="personalForm.deliveryMode" style="margin-left: 18px;width: 200px">
+                  <el-option
+                    v-for="(item, index) in deliveryModes"
                     :value="item.id"
                     :key="index"
                     :label="item.categoryName"/>
@@ -360,6 +371,7 @@
 
 <script>
 import { updatesaleOrder } from '@/api/SaleOrder'
+import { searchCategory } from '@/api/Supplier'
 import { searchSaleCategory } from '@/api/SaleCategory'
 import MyEmp from './MyEmp'
 import MyDelivery from '../../DailyAdjust/components/MyDelivery'
@@ -394,6 +406,7 @@ export default {
     return {
       // 选择的数据
       choosedata: [],
+      deliveryModes: [],
       // 弹窗组件的控制
       editVisible: this.editcontrol,
       // 修改信息数据
@@ -683,9 +696,15 @@ export default {
         }
       })
       // 结算方式数据
-      searchSaleCategory(this.settleModeparms).then(res => {
+      searchCategory(5).then(res => {
         if (res.data.ret === 200) {
           this.settleModes = res.data.data.content.list
+        }
+      })
+      // 结算方式数据
+      searchCategory(2).then(res => {
+        if (res.data.ret === 200) {
+          this.deliveryModes = res.data.data.content.list
         }
       })
     },

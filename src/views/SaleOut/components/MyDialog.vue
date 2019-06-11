@@ -106,8 +106,12 @@
             <el-col :span="12">
               <el-form-item :label="$t('SaleOut.payType')" style="width: 100%;">
                 <el-select v-model="personalForm.payMode" style="margin-left: 18px;width: 200px" @change="change">
-                  <el-option value="1" label="货到付款"/>
-                  <el-option value="2" label="当场支付"/>
+                  <el-option
+                    v-for="(item, index) in payModes"
+                    :key="index"
+                    :label="item.categoryName"
+                    :value="item.id"
+                  />
                 </el-select>
               </el-form-item>
             </el-col>
@@ -422,6 +426,7 @@
 
 <script>
 import { updatesaleOut } from '@/api/SaleOut'
+import { searchCategory } from '@/api/Supplier'
 import { searchSaleCategory } from '@/api/SaleCategory'
 import { getlocation, locationlist } from '@/api/public'
 import MyEmp from './MyEmp'
@@ -486,6 +491,7 @@ export default {
       heji11: '',
       // 货位数据
       locationlist: [],
+      payModes: [],
       // 控制赠品
       giftcontrol: false,
       // 控制销售机会单
@@ -1014,9 +1020,14 @@ export default {
         }
       })
       // 结算方式数据
-      searchSaleCategory(this.colseTypeparms).then(res => {
+      searchCategory(5).then(res => {
         if (res.data.ret === 200) {
           this.colseTypes = res.data.data.content.list
+        }
+      })
+      searchCategory(7).then(res => {
+        if (res.data.ret === 200) {
+          this.payModes = res.data.data.content.list
         }
       })
     },

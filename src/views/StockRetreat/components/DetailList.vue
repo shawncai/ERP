@@ -37,8 +37,13 @@
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item :label="$t('StockRetreat.payId')" style="width: 100%;">
+              <el-form-item :label="$t('Supplier.payMode')" style="width: 100%;">
                 <span>{{ personalForm.payModeName }}</span>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('Supplier.settleMode')" style="width: 100%;">
+                <span>{{ personalForm.settleModeName }}</span>
               </el-form-item>
             </el-col>
             <el-col :span="12">

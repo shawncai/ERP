@@ -455,6 +455,9 @@ export default {
     recoverDate: '收车时间'
   },
   Supplier: {
+    settleMode: '结算方式',
+    payMode: '支付方式',
+    deliveryMode: '交货方式',
     punish: '供应商惩罚',
     supplierName: '供应商名称',
     typeId: '供应商类别',

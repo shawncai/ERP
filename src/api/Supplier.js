@@ -24,8 +24,14 @@ export function create(query, query2) {
   if (query.createId !== '' && query.createId !== null && query.createId !== undefined) {
     params.append('createId', query.createId) // 你要传给后台的参数值 key/value
   }
+  if (query.payMode !== '' && query.payMode !== null && query.payMode !== undefined) {
+    params.append('payMode', query.payMode) // 你要传给后台的参数值 key/value
+  }
   if (query.typeId !== '' && query.typeId !== null && query.typeId !== undefined) {
     params.append('typeId', query.typeId) // 你要传给后台的参数值 key/value
+  }
+  if (query.deliveryMode !== '' && query.deliveryMode !== null && query.deliveryMode !== undefined) {
+    params.append('deliveryMode', query.deliveryMode) // 你要传给后台的参数值 key/value
   }
   if (query.supplierShortName !== '' && query.supplierShortName !== null && query.supplierShortName !== undefined) {
     params.append('supplierShortName', query.supplierShortName) // 你要传给后台的参数值 key/value
@@ -111,6 +117,9 @@ export function create(query, query2) {
   if (query.companyTypeId !== '' && query.companyTypeId !== null && query.companyTypeId !== undefined) {
     params.append('companyTypeId', query.companyTypeId) // 你要传给后台的参数值 key/value
   }
+  if (query.settleMode !== '' && query.settleMode !== null && query.settleMode !== undefined) {
+    params.append('settleMode', query.settleMode) // 你要传给后台的参数值 key/value
+  }
   params.append('detailJson', query2) // 你要传给后台的参数值 key/value
   return request({
     url: '/erp/supplier/create',
@@ -125,8 +134,17 @@ export function search(query) {
   if (query.id !== '' && query.id !== null && query.id !== undefined) {
     params.append('id', query.id) // 你要传给后台的参数值 key/value
   }
+  if (query.settleMode !== '' && query.settleMode !== null && query.settleMode !== undefined) {
+    params.append('settleMode', query.settleMode) // 你要传给后台的参数值 key/value
+  }
+  if (query.deliveryMode !== '' && query.deliveryMode !== null && query.deliveryMode !== undefined) {
+    params.append('deliveryMode', query.deliveryMode) // 你要传给后台的参数值 key/value
+  }
   if (query.supplierName !== '' && query.supplierName !== null && query.supplierName !== undefined) {
     params.append('supplierName', query.supplierName) // 你要传给后台的参数值 key/value
+  }
+  if (query.payMode !== '' && query.payMode !== null && query.payMode !== undefined) {
+    params.append('payMode', query.payMode) // 你要传给后台的参数值 key/value
   }
   if (query.productCode !== '' && query.productCode !== null && query.productCode !== undefined) {
     params.append('productCode', query.productCode) // 你要传给后台的参数值 key/value
@@ -162,8 +180,17 @@ export function update(query, query2) {
   if (query.supplierName !== '' && query.supplierName !== null && query.supplierName !== undefined) {
     params.append('supplierName', query.supplierName) // 你要传给后台的参数值 key/value
   }
+  if (query.deliveryMode !== '' && query.deliveryMode !== null && query.deliveryMode !== undefined) {
+    params.append('deliveryMode', query.deliveryMode) // 你要传给后台的参数值 key/value
+  }
+  if (query.settleMode !== '' && query.settleMode !== null && query.settleMode !== undefined) {
+    params.append('settleMode', query.settleMode) // 你要传给后台的参数值 key/value
+  }
   if (query.typeId !== '' && query.typeId !== null && query.typeId !== undefined) {
     params.append('typeId', query.typeId) // 你要传给后台的参数值 key/value
+  }
+  if (query.payMode !== '' && query.payMode !== null && query.payMode !== undefined) {
+    params.append('payMode', query.payMode) // 你要传给后台的参数值 key/value
   }
   if (query.supplierShortName !== '' && query.supplierShortName !== null && query.supplierShortName !== undefined) {
     params.append('supplierShortName', query.supplierShortName) // 你要传给后台的参数值 key/value

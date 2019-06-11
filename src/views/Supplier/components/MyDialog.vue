@@ -146,6 +146,17 @@
               </el-form-item>
             </el-col>
             <el-col :span="12">
+              <el-form-item :label="$t('Supplier.payMode')" style="width: 100%;">
+                <el-select v-model="personalForm.payMode" :disabled="IscloseT" clearable style="margin-left: 18px;width: 200px">
+                  <el-option
+                    v-for="(item, index) in colseTypes"
+                    :value="item.id"
+                    :key="index"
+                    :label="item.categoryName"/>
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
               <el-form-item :label="$t('Supplier.levelId')" style="width: 100%;">
                 <el-select v-model="personalForm.levelId" placeholder="请选择供应商优质级别" style="margin-left: 18px;width: 200px" @focus="updateLeve">
                   <el-option
@@ -351,6 +362,8 @@ export default {
       transportIds: [],
       // 交货方式
       deliveryModes: [],
+      // 结算方式数据
+      colseTypes: [],
       // 供应商类别
       typeIds: [],
       // 采购员弹窗控制
@@ -480,6 +493,12 @@ export default {
       searchCategory(4).then(res => {
         if (res.data.ret === 200) {
           this.levelIds = res.data.data.content.list
+        }
+      })
+      // 结算方式数据
+      searchCategory(7).then(res => {
+        if (res.data.ret === 200) {
+          this.colseTypes = res.data.data.content.list
         }
       })
       // 结算方式

@@ -110,7 +110,7 @@
 
 <script>
 import { createincome } from '@/api/income'
-import { searchSaleCategory } from '@/api/SaleCategory'
+import { searchCategory } from '@/api/Supplier'
 import { getdeptlist } from '@/api/BasicSettings'
 import MyEmp from './components/MyEmp'
 import MyRepository from './components/MyRepository'
@@ -193,7 +193,7 @@ export default {
         }
       })
       // 结算方式数据
-      searchSaleCategory(this.colseTypeparms).then(res => {
+      searchCategory(7).then(res => {
         if (res.data.ret === 200) {
           this.colseTypes = res.data.data.content.list
         }

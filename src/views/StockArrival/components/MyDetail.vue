@@ -281,7 +281,7 @@ export default {
           stockQuantity: 0,
           arrivalQuantity: 0,
           giveDate: 0,
-          price: item.purchasePrice,
+          price: item.salePrice,
           includeTaxPrice: 0,
           taxRate: 0,
           money: 0,

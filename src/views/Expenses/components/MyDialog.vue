@@ -48,7 +48,7 @@
               <el-form-item :label="$t('Expenses.closeType')" style="width: 100%;">
                 <el-select v-model="personalForm.payMode" clearable style="margin-left: 18px;width: 200px">
                   <el-option
-                    v-for="(item, index) in colseTypes"
+                    v-for="(item, index) in payModes"
                     :value="item.id"
                     :key="index"
                     :label="item.categoryName"/>
@@ -113,6 +113,7 @@ import { searchSaleCategory } from '@/api/SaleCategory'
 import { getdeptlist } from '@/api/BasicSettings'
 import MyEmp from './MyEmp'
 import MyRepository from './MyRepository'
+import { searchCategory } from '@/api/Supplier'
 export default {
   components: { MyRepository, MyEmp },
   props: {
@@ -141,6 +142,7 @@ export default {
       },
       // 选择的数据
       choosedata: [],
+      payModes: [],
       // 弹窗组件的控制
       editVisible: this.editcontrol,
       // 修改信息数据
@@ -204,6 +206,11 @@ export default {
       getdeptlist().then(res => {
         if (res.data.ret === 200) {
           this.depts = res.data.data.content
+        }
+      })
+      searchCategory(7).then(res => {
+        if (res.data.ret === 200) {
+          this.payModes = res.data.data.content.list
         }
       })
       // 结算方式数据

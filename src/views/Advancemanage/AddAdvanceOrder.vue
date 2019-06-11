@@ -50,7 +50,12 @@
               <el-col :span="6">
                 <el-form-item :label="$t('Advancemanage.payMode')" style="width: 100%;">
                   <el-select v-model="personalForm.payMode" style="margin-left: 18px;width: 200px" @change="chooseType">
-                    <el-option value="1" label="现金"/>
+                    <el-option
+                      v-for="(item, index) in payModes"
+                      :key="index"
+                      :label="item.categoryName"
+                      :value="item.id"
+                    />
                   </el-select>
                 </el-form-item>
               </el-col>
@@ -193,6 +198,7 @@ export default {
       empcontrol: false,
       // 选择的数据
       choosedata: [],
+      payModes: [],
       // 部门数据
       depts: [],
       // 采购员回显
@@ -321,6 +327,11 @@ export default {
       return sums
     },
     getways() {
+      searchCategory(7).then(res => {
+        if (res.data.ret === 200) {
+          this.payModes = res.data.data.content.list
+        }
+      })
       // 交货方式
       searchCategory(2).then(res => {
         if (res.data.ret === 200) {

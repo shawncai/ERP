@@ -49,7 +49,12 @@
               <el-col :span="12">
                 <el-form-item :label="$t('Advancemanage.payMode')" style="width: 100%;">
                   <el-select v-model="personalForm.payMode" style="margin-left: 18px;width: 200px" @change="chooseType">
-                    <el-option value="1" label="现金"/>
+                    <el-option
+                      v-for="(item, index) in payModes"
+                      :key="index"
+                      :label="item.categoryName"
+                      :value="item.id"
+                    />
                   </el-select>
                 </el-form-item>
               </el-col>
@@ -194,6 +199,7 @@ export default {
       addpro: true,
       // 控制从源单中选择按钮
       addsouce: true,
+      payModes: true,
       // 供应商回显
       supplierId: '',
       // 控制供应商
@@ -365,6 +371,11 @@ export default {
       this.getTypes()
     },
     getTypes() {
+      searchCategory(7).then(res => {
+        if (res.data.ret === 200) {
+          this.payModes = res.data.data.content.list
+        }
+      })
       // 采购类别数据
       searchStockCategory(this.typeparms).then(res => {
         if (res.data.ret === 200) {

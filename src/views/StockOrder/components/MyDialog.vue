@@ -59,7 +59,12 @@
             <el-col :span="12">
               <el-form-item :label="$t('StockOrder.payMode')" style="width: 100%;">
                 <el-select v-model="personalForm.payMode" :disabled="IsPayMode" clearable style="margin-left: 18px;width: 200px">
-                  <el-option value="1" label="现金"/>
+                  <el-option
+                    v-for="(item, index) in payModes"
+                    :key="index"
+                    :label="item.categoryName"
+                    :value="item.id"
+                  />
                 </el-select>
               </el-form-item>
             </el-col>
@@ -406,6 +411,7 @@ export default {
       empcontrol: false,
       // 部门数据
       depts: [],
+      payModes: [],
       // 采购员回显
       stockPersonId: '',
       // 控制采购员
@@ -540,6 +546,11 @@ export default {
       searchCategory(3).then(res => {
         if (res.data.ret === 200) {
           this.transportIds = res.data.data.content.list
+        }
+      })
+      searchCategory(7).then(res => {
+        if (res.data.ret === 200) {
+          this.payModes = res.data.data.content.list
         }
       })
       // 结算方式

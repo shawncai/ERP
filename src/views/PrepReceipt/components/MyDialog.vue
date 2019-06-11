@@ -105,7 +105,7 @@
 <script>
 import { updateprepReceipt } from '@/api/PrepReceipt'
 import { getlocation, locationlist } from '@/api/public'
-import { searchSaleCategory } from '@/api/SaleCategory'
+import { searchCategory } from '@/api/Supplier'
 import { getdeptlist } from '@/api/BasicSettings'
 import MyEmp from './MyEmp'
 import MyRepository from './MyRepository'
@@ -336,7 +336,7 @@ export default {
         }
       })
       // 结算方式数据
-      searchSaleCategory(this.colseTypeparms).then(res => {
+      searchCategory(5).then(res => {
         if (res.data.ret === 200) {
           this.colseTypes = res.data.data.content.list
         }

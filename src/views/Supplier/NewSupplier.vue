@@ -148,6 +148,17 @@
                 </el-form-item>
               </el-col>
               <el-col :span="6">
+                <el-form-item :label="$t('Supplier.payMode')" style="width: 100%;">
+                  <el-select v-model="personalForm.payMode" :disabled="IscloseT" clearable style="margin-left: 18px;width: 200px">
+                    <el-option
+                      v-for="(item, index) in colseTypes"
+                      :value="item.id"
+                      :key="index"
+                      :label="item.categoryName"/>
+                  </el-select>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
                 <el-form-item :label="$t('Supplier.levelId')" style="width: 100%;">
                   <el-select v-model="personalForm.levelId" placeholder="请选择供应商优质级别" style="margin-left: 18px;width: 200px" @focus="updateLeve">
                     <el-option
@@ -226,7 +237,7 @@
           <el-form ref="personalForm3" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
             <el-row>
               <el-col :span="6">
-                <el-form-item :label="$t('Supplier.paymentId')" style="width: 100%;">
+                <el-form-item :label="$t('Supplier.settleMode')" style="width: 100%;">
                   <el-select v-model="personalForm.settleMode" placeholder="请选择结算方式" style="margin-left: 18px;width: 200px" @focus="updatePaymen">
                     <el-option
                       v-for="(item, index) in settleModes"
@@ -342,6 +353,8 @@ export default {
       transportIds: [],
       // 交货方式
       deliveryModes: [],
+      // 结算方式数据
+      colseTypes: [],
       // 供应商类别
       typeIds: [],
       // 采购员弹窗控制
@@ -428,8 +441,17 @@ export default {
   },
   created() {
     this.getnationlist()
+    this.getTypes()
   },
   methods: {
+    getTypes() {
+      // 结算方式数据
+      searchCategory(7).then(res => {
+        if (res.data.ret === 200) {
+          this.colseTypes = res.data.data.content.list
+        }
+      })
+    },
     checkPermission,
     // 采购申请明细来源
     handleAddproduct() {

@@ -59,7 +59,12 @@
               <el-col :span="6">
                 <el-form-item :label="$t('StockContract.payId')" style="width: 100%;">
                   <el-select v-model="personalForm.payMode" clearable style="margin-left: 18px;width: 200px">
-                    <el-option value="1" label="现金"/>
+                    <el-option
+                      v-for="(item, index) in payModes"
+                      :key="index"
+                      :label="item.categoryName"
+                      :value="item.id"
+                    />
                   </el-select>
                 </el-form-item>
               </el-col>
@@ -116,7 +121,7 @@
                 <el-form-item :label="$t('StockContract.settleId')" style="width: 100%;">
                   <el-select v-model="personalForm.settleMode" clearable style="margin-left: 18px;width: 200px">
                     <el-option
-                      v-for="(item, index) in paymentIds"
+                      v-for="(item, index) in settleModes"
                       :key="index"
                       :label="item.categoryName"
                       :value="item.id"
@@ -338,12 +343,15 @@ export default {
       allMoneyMoveDiscount: '',
       // 交货方式
       giveIds: [],
+      payModes: [],
       // 运送方式
       transportIds: [],
       // 结算方式
       paymentIds: [],
       // 我方签约人回显
       ourContractorId: '',
+      // 结算方式
+      settleModes: [],
       // 控制我方签约人
       deliverycontrol: false,
       // 控制源单为询价单时
@@ -482,7 +490,19 @@ export default {
       // 结算方式
       searchCategory(5).then(res => {
         if (res.data.ret === 200) {
-          this.paymentIds = res.data.data.content.list
+          this.settleModes = res.data.data.content.list
+        }
+      })
+      // 结算方式
+      // searchCategory(5).then(res => {
+      //   if (res.data.ret === 200) {
+      //     this.paymentIds = res.data.data.content.list
+      //   }
+      // })
+      // 结算方式
+      searchCategory(7).then(res => {
+        if (res.data.ret === 200) {
+          this.payModes = res.data.data.content.list
         }
       })
     },

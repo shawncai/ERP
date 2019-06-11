@@ -59,7 +59,12 @@
               <el-col :span="12">
                 <el-form-item :label="$t('StockContract.payId')" style="width: 100%;">
                   <el-select v-model="personalForm.payMode" clearable style="margin-left: 18px;width: 200px">
-                    <el-option value="1" label="现金"/>
+                    <el-option
+                      v-for="(item, index) in payModes"
+                      :key="index"
+                      :label="item.categoryName"
+                      :value="item.id"
+                    />
                   </el-select>
                 </el-form-item>
               </el-col>
@@ -116,7 +121,7 @@
                 <el-form-item :label="$t('StockContract.settleId')" style="width: 100%;">
                   <el-select v-model="personalForm.settleMode" clearable style="margin-left: 18px;width: 200px">
                     <el-option
-                      v-for="(item, index) in paymentIds"
+                      v-for="(item, index) in settleModes"
                       :key="index"
                       :label="item.categoryName"
                       :value="item.id"
@@ -320,6 +325,7 @@ export default {
     return {
       // 选择的数据
       choosedata: [],
+      payModes: [],
       // 弹窗组件的控制
       editVisible: this.editcontrol,
       // 修改信息数据
@@ -333,6 +339,7 @@ export default {
       allMoneyMoveDiscount: '',
       // 交货方式
       giveIds: [],
+      settleModes: [],
       // 运送方式
       transportIds: [],
       // 结算方式
@@ -467,10 +474,21 @@ export default {
           this.giveIds = res.data.data.content.list
         }
       })
+      // 结算方式
+      searchCategory(5).then(res => {
+        if (res.data.ret === 200) {
+          this.settleModes = res.data.data.content.list
+        }
+      })
       // 运送方式
       searchCategory(3).then(res => {
         if (res.data.ret === 200) {
           this.transportIds = res.data.data.content.list
+        }
+      })
+      searchCategory(7).then(res => {
+        if (res.data.ret === 200) {
+          this.payModes = res.data.data.content.list
         }
       })
       // 结算方式

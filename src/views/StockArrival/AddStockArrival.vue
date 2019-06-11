@@ -110,6 +110,18 @@
                 </el-form-item>
               </el-col>
               <el-col :span="6">
+                <el-form-item :label="$t('Supplier.payMode')" style="width: 100%;">
+                  <el-select v-model="personalForm.payMode" clearable style="margin-left: 18px;width: 200px">
+                    <el-option
+                      v-for="(item, index) in payModes"
+                      :key="index"
+                      :label="item.categoryName"
+                      :value="item.id"
+                    />
+                  </el-select>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
                 <el-form-item :label="$t('StockArrival.isVat')" style="width: 100%;">
                   <el-radio-group v-model="personalForm.isVat" style="margin-left: 18px;width:200px">
                     <el-radio :label="1" style="width: 100px">是</el-radio>
@@ -324,6 +336,8 @@ export default {
       supplierId: '',
       // 控制供应商
       empcontrol: false,
+      // 支付方式
+      payModes: [],
       // 选择的数据
       choosedata: [],
       // 部门数据
@@ -394,6 +408,11 @@ export default {
   methods: {
     getdatatime() { // 默认显示今天
       this.personalForm.arrivalDate = new Date()
+      searchCategory(7).then(res => {
+        if (res.data.ret === 200) {
+          this.payModes = res.data.data.content.list
+        }
+      })
     },
     // 总计
     getSummaries(param) {
@@ -565,9 +584,6 @@ export default {
       this.personalForm.supplierId = val.id
       this.personalForm.deliveryMode = val.giveId
       this.personalForm.payMode = val.paymentId
-      if (val.moneyId !== null && val.moneyId !== '' && val.moneyId !== undefined) {
-        this.personalForm.currencyId = String(val.moneyId)
-      }
     },
     // 采购员focus事件
     handlechooseStock() {
