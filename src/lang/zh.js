@@ -6,6 +6,11 @@ export default {
     page404: '404',
     nwow: 'NWOW后台管理',
     home: '首页',
+    WorkDesk: '工作台',
+    SaleMange: '销售管控',
+    DriveRes: '驾驶舱',
+    InventoryMange: '库存管控',
+    StockMange: '采购管控',
     EmployeeInformation: '员工资料',
     NewEmployeeInformation: '新建员工资料',
     EmployeeInformationList: '员工资料列表',
@@ -283,6 +288,13 @@ export default {
     ProductCost: '产品成本',
     AddProductCost: '新建产品成本',
     ProductCostList: '产品成本列表'
+  },
+  index: {
+    report: '常用报表',
+    alarm: '库存预警',
+    apply: '我的申请',
+    prepare: '我的待办',
+    more: '更多'
   },
   navbar: {
     logOut: '退出登录',

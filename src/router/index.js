@@ -73,9 +73,9 @@ export const constantRouterMap = [
     children: [
       {
         path: 'home',
-        component: () => import('@/views/home/index'),
-        name: 'dashboard',
-        meta: { title: 'nwow', icon: 'shouye', noCache: true }
+        component: () => import('@/views/home/WorkDesk'),
+        name: 'home',
+        meta: { title: 'home', icon: 'shouye', noCache: true }
       }
     ]
   }
@@ -89,6 +89,50 @@ export default new Router({
 
 export const asyncRouterMap = [
   {
+    path: '/home',
+    component: Layout,
+    redirect: 'noredirect',
+    name: 'home',
+    alwaysShow: true,
+    meta: {
+      title: 'home',
+      icon: 'shouye',
+      type: 1
+    },
+    children: [
+      {
+        path: 'WorkDesk',
+        component: () => import('@/views/home/WorkDesk'),
+        name: 'WorkDesk',
+        meta: { title: 'WorkDesk', noCache: true }
+      },
+      {
+        path: 'SaleMange',
+        component: () => import('@/views/home/SaleMange'),
+        name: 'SaleMange',
+        meta: { title: 'SaleMange', noCache: true }
+      },
+      {
+        path: 'DriveRes',
+        component: () => import('@/views/home/DriveRes'),
+        name: 'DriveRes',
+        meta: { title: 'DriveRes', noCache: true }
+      },
+      {
+        path: 'InventoryMange',
+        component: () => import('@/views/home/InventoryMange'),
+        name: 'InventoryMange',
+        meta: { title: 'InventoryMange', noCache: true }
+      },
+      {
+        path: 'StockMange',
+        component: () => import('@/views/home/StockMange'),
+        name: 'StockMange',
+        meta: { title: 'StockMange', noCache: true }
+      }
+    ]
+  },
+  {
     path: '/EmployeeInformation',
     component: Layout,
     redirect: 'noredirect',
@@ -97,7 +141,7 @@ export const asyncRouterMap = [
     meta: {
       title: 'EmployeeInformation',
       icon: 'ziliao',
-      type: 1,
+      type: 10,
       roles: ['1-2-3-1', '1-2-4-4', '1-2-5-13', '1-2-6-1', '1-2-7-4']
     },
     children: [
@@ -142,7 +186,7 @@ export const asyncRouterMap = [
     meta: {
       title: 'Repository',
       icon: 'cangku',
-      type: 1,
+      type: 10,
       roles: ['1-9-10-1', '1-9-11-4', '1-9-13-4', '1-9-12-13']
     },
     children: [
@@ -181,7 +225,7 @@ export const asyncRouterMap = [
     meta: {
       title: 'Customer',
       icon: 'kehu',
-      type: 1,
+      type: 10,
       roles: ['1-14-15-1', '1-14-16-4', '1-14-19-13', '1-14-17-1', '1-14-18-4', '1-14-21-4']
     },
     children: [
@@ -232,7 +276,7 @@ export const asyncRouterMap = [
     meta: {
       title: 'Supplier',
       icon: 'gongyinshang',
-      type: 1,
+      type: 10,
       roles: ['1-22-23-1', '1-22-24-4', '1-22-25-1', '1-22-26-4', '1-22-27-13', '1-22-28-4', '1-22-29-1', '1-22-30-4']
     },
     children: [
@@ -271,7 +315,7 @@ export const asyncRouterMap = [
     meta: {
       title: 'Product',
       icon: 'wupin',
-      type: 1,
+      type: 10,
       roles: ['1-31-32-1', '1-31-33-4', '1-31-34-1', '1-31-35-4', '1-31-36-13', '1-31-37-1', '1-31-38-4']
     },
     children: [
@@ -328,7 +372,7 @@ export const asyncRouterMap = [
     meta: {
       title: 'LogisticsCar',
       icon: 'wuliu',
-      type: 1
+      type: 10
     },
     children: [
       {
@@ -354,7 +398,7 @@ export const asyncRouterMap = [
     meta: {
       title: 'BasicSettings',
       icon: 'shezhi',
-      type: 1,
+      type: 10,
       roles: ['1-39-40-1', '1-39-41-1', '1-39-41-4', '1-39-42-4', '1-39-43-1', '1-39-44-1', '1-39-45-4', '1-39-46-1', '1-39-47-4', '1-39-48-1', '1-39-49-1', '1-39-50-4', '1-39-51-1', '1-39-52-1']
     },
     children: [
@@ -426,7 +470,7 @@ export const asyncRouterMap = [
     redirect: 'noredirect',
     meta: {
       icon: 'quanxian',
-      type: 1,
+      type: 10,
       roles: ['1-39-53-1']
     },
     children: [

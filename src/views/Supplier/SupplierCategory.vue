@@ -9,7 +9,7 @@
         <el-option label="运送方式" value="3"/>
         <el-option label="优质级别" value="4"/>
         <el-option label="结算方式" value="5"/>
-        <el-option label="推荐程度" value="6"/>
+        <!--        <el-option label="推荐程度" value="6"/>-->
         <el-option label="支付方式" value="7"/>
       </el-select>
       <el-select v-model="getemplist.iseffective" :value="getemplist.iseffective" :placeholder="$t('NewEmployeeInformation.iseffective')" class="filter-item" clearable>
@@ -42,7 +42,7 @@
               <el-option label="运送方式" value="3"/>
               <el-option label="优质级别" value="4"/>
               <el-option label="结算方式" value="5"/>
-              <el-option label="推荐程度" value="6"/>
+              <!--              <el-option label="推荐程度" value="6"/>-->
               <el-option label="支付方式" value="7"/>
             </el-select>
           </el-form-item>
@@ -114,7 +114,7 @@
                 <el-option label="运送方式" value="3"/>
                 <el-option label="优质级别" value="4"/>
                 <el-option label="结算方式" value="5"/>
-                <el-option label="推荐程度" value="6"/>
+                <!--                <el-option label="推荐程度" value="6"/>-->
                 <el-option label="支付方式" value="7"/>
               </el-select>
             </el-form-item>

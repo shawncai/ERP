@@ -112,3 +112,16 @@ export function updatestockapply2(query) {
     data: params
   })
 }
+
+// 采购申请列表
+export function applyList(query) {
+  var params = new URLSearchParams()
+  if (query.employeeId !== '' && query.employeeId !== null && query.employeeId !== undefined) {
+    params.append('employeeId', query.employeeId) // 你要传给后台的参数值 key/value
+  }
+  return request({
+    url: '/erp/myApply/applyList',
+    method: 'post',
+    data: params
+  })
+}
