@@ -35,26 +35,26 @@
                     :header-cell-style="tableHeaderColor3"
                     style="width: 100%">
                     <el-table-column
-                      prop="repositoryName"
+                      prop="stockPersonName"
                       label="采购员"
                       width="320"
                       align="center">
                     </el-table-column>
                     <el-table-column align="center" label="分类">
                       <el-table-column
-                        prop="first"
+                        prop="oneNum"
                         label="原材料供应商"
                         width="220"
                         align="center">
                       </el-table-column>
                       <el-table-column
-                        prop="manyTimes"
+                        prop="twoNum"
                         label="配件供应商"
                         width="220"
                         align="center">
                       </el-table-column>
                       <el-table-column
-                        prop="important"
+                        prop="threeNum"
                         label="紧固件供应商"
                         width="220"
                         align="center">
@@ -62,25 +62,26 @@
                     </el-table-column>
                     <el-table-column align="center" label="级别">
                       <el-table-column
-                        prop="first"
+                        prop="fourNum"
                         label="一级"
                         width="220"
                         align="center">
                       </el-table-column>
                       <el-table-column
-                        prop="manyTimes"
+                        prop="fiveNum"
                         label="二级"
                         width="220"
                         align="center">
                       </el-table-column>
                       <el-table-column
-                        prop="important"
+                        prop="sixNum"
                         label="三级"
                         width="220"
                         align="center">
                       </el-table-column>
                     </el-table-column>
                   </el-table>
+                  <pagination v-show="total>0" :total="total" :page.sync="getemplist4.pageNum" :limit.sync="getemplist4.pageSize" style="margin-top: 0px;" @pagination="getlist" />
                 </div>
               </el-col>
             </el-row>
@@ -96,103 +97,164 @@
               <el-col :span="24">
                 <div style="width: 100%; min-height: 400px;" >
                   <div style="width: 100%; height: 50px;background: #d9e0e8;" >
-                    <div style="padding-top: 16px;padding-left: 20px;">产品信息追踪</div>
+                    <div style="padding-top: 16px;padding-left: 20px;width: 25%;height: 100%;float: left">产品信息追踪</div>
+                    <div style="width: 75%;height: 100%;float: left;">
+                      <el-form ref="getemplist2" :model="getemplist2" label-width="100px">
+                        <el-date-picker
+                          v-model="date"
+                          type="daterange"
+                          range-separator="-"
+                          unlink-panels
+                          start-placeholder="开始日期"
+                          end-placeholder="结束日期"
+                          value-format="yyyy-MM-dd"
+                          style="margin-left: 60%;"
+                          class="shipei"/>
+                        <!-- 搜索按钮 -->
+                        <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 86px;margin-top: 10px;" round @click="handleFilter">{{ $t('public.search') }}</el-button>
+                      </el-form>
+                    </div>
                   </div>
                   <el-table
                     :data="list2"
                     :header-cell-style="tableHeaderColor"
                     style="width: 100%">
                     <el-table-column
-                      prop="repositoryName"
+                      prop="productName"
                       label="产品名称"
-                      min-width="105"
+                      min-width="160"
                       align="center">
                     </el-table-column>
                     <el-table-column
-                      prop="repositoryName"
+                      prop="productCode"
                       label="产品编号"
-                      min-width="105"
+                      min-width="160"
                       align="center">
                     </el-table-column>
                     <el-table-column
-                      prop="repositoryName"
+                      prop="productType"
                       label="产品型号"
-                      min-width="105"
+                      min-width="160"
                       align="center">
                     </el-table-column>
                     <el-table-column
-                      prop="repositoryName"
+                      prop="unit"
                       label="单位"
                       min-width="105"
                       align="center">
                     </el-table-column>
                     <el-table-column
-                      prop="repositoryName"
+                      prop="existStock"
                       label="当前库存"
                       min-width="105"
                       align="center">
                     </el-table-column>
                     <el-table-column
-                      prop="repositoryName"
+                      prop="orderStock"
                       label="预定库存"
                       min-width="105"
                       align="center">
                     </el-table-column>
                     <el-table-column
-                      prop="repositoryName"
+                      prop="onStock"
                       label="在途库存"
                       min-width="105"
                       align="center">
                     </el-table-column>
                     <el-table-column
-                      prop="repositoryName"
+                      prop="enterQuantity"
                       label="待审批入库"
                       min-width="105"
                       align="center">
                     </el-table-column>
                     <el-table-column
-                      prop="repositoryName"
+                      prop="minPrice"
                       label="历史最低价"
                       min-width="105"
                       align="center">
                     </el-table-column>
                     <el-table-column
-                      prop="repositoryName"
+                      prop="planQuantity"
                       label="计划采购"
                       min-width="105"
                       align="center">
                     </el-table-column>
                     <el-table-column
-                      prop="repositoryName"
+                      prop="maxPrice"
                       label="历史最高价"
                       min-width="105"
                       align="center">
                     </el-table-column>
                     <el-table-column
-                      prop="repositoryName"
+                      prop="recentlyPrice"
                       label="最近购买价"
                       min-width="105"
                       align="center">
                     </el-table-column>
                     <el-table-column
-                      prop="repositoryName"
+                      prop="avgPrice"
                       label="历史平均价"
                       min-width="105"
                       align="center">
                     </el-table-column>
                     <el-table-column
-                      prop="repositoryName"
+                      prop="advicePrice"
                       label="建议进价"
                       min-width="105"
                       align="center">
                     </el-table-column>
                     <el-table-column
-                      prop="repositoryName"
+                      prop="supplierVos"
                       label="可选供应商"
-                      min-width="105"
+                      width="200"
                       align="center">
+                      <!--                      type="expand"-->
+                      <!--                      <el-select v-model="personalForm.accountType" value="personalForm.accountType" style="margin-left: 18px;width: 200px" @change="change()">-->
+                      <!--                        <el-option value="1" label="约当产量法"/>-->
+                      <!--                        <el-option value="2" label="定额成本发"/>-->
+                      <!--                        <el-option value="3" label="定额比例发"/>-->
+                      <!--                      </el-select>-->
                     </el-table-column>
                   </el-table>
+                  <pagination v-show="total2>0" :total="total2" :page.sync="getemplist2.pageNum" :limit.sync="getemplist2.pageSize" style="margin-top: 0px;" @pagination="getlist" />
+<!--质检报告-->
+                  <!--                  <el-editable-->
+<!--                    ref="editable"-->
+<!--                    :data.sync="list2"-->
+<!--                    :edit-config="{ showIcon: true, showStatus: true}"-->
+<!--                    :edit-rules="validRules"-->
+<!--                    class="click-table1"-->
+<!--                    stripe-->
+<!--                    border-->
+<!--                    size="medium"-->
+<!--                    style="width: 100%">-->
+<!--                    <el-editable-column type="selection" min-width="55" align="center"/>-->
+<!--                    <el-editable-column label="序号" min-width="55" align="center" type="index"/>-->
+<!--                    <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="checkItem" align="center" label="检验项目" min-width="150px"/>-->
+<!--                    <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="checkTarget" align="center" label="检验指标" min-width="150px"/>-->
+<!--                    <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="checkValue" align="center" label="检验值" min-width="150px"/>-->
+<!--                    <el-editable-column :edit-render="{name: 'ElSelect',options: results ,type: 'visible'}" prop="chectResult" align="center" label="检验结果" min-width="150px"/>-->
+<!--                    <el-editable-column prop="checkQuantity" align="center" label="检验数量" min-width="150px">-->
+<!--                      <template slot-scope="scope">-->
+<!--                        <p>{{ getcheckQuantity(scope.row) }}</p>-->
+<!--                      </template>-->
+<!--                    </el-editable-column>-->
+<!--                    <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="passQuantity" align="center" label="合格数量" min-width="150px"/>-->
+<!--                    <el-editable-column prop="failedQuantity" align="center" label="不合格数量" min-width="150px">-->
+<!--                      <template slot-scope="scope">-->
+<!--                        <p>{{ getfailedQuantity(scope.row) }}</p>-->
+<!--                      </template>-->
+<!--                    </el-editable-column>-->
+<!--                    <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="checkPersonname" align="center" label="检验人员" min-width="150px">-->
+<!--                      <template slot="edit" slot-scope="scope">-->
+<!--                        <el-input v-model="scope.row.checkPersonname" @focus="handlechoosestaff"/>-->
+<!--                        <my-emp2 :staffcontrol.sync="staffcontrol" @chuli="chuli(scope, $event)"/>-->
+<!--                      </template>-->
+<!--                    </el-editable-column>-->
+<!--                    <el-editable-column :edit-render="{name: 'ElSelect', options: depts2, type: 'visible'}" prop="checkDeptId" align="center" label="检验部门" min-width="150px"/>-->
+<!--                    <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="targetUp" align="center" label="指标上限" min-width="150px"/>-->
+<!--                    <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="targetDown" align="center" label="指标下限" min-width="150px"/>-->
+<!--                  </el-editable>-->
                 </div>
               </el-col>
             </el-row>
@@ -209,7 +271,7 @@
   import { searchsaleOrder, deletesaleOrder, updatesaleOrder2 } from '@/api/SaleOrder'
   import { searchalarm } from '@/api/StockAlarm'
   import { applyList } from '@/api/StockApply'
-  import { SaleMange1, SaleMange2, SaleMange3 } from '@/api/home'
+  import { SaleMange1, SaleMange2, SaleMange3, stockMange, stockMange2  } from '@/api/home'
   import waves from '@/directive/waves' // Waves directive
   import Pagination from '@/components/Pagination'
   import permission from '@/directive/permission/index.js' // 权限判断指令
@@ -258,6 +320,7 @@
     },
     data() {
       return {
+        checkDeptId: {},
         deskdata: {
         },
         // 回显客户
@@ -305,6 +368,7 @@
         applyList: [],
         // 表格数据条数
         total: 0,
+        total2: 0,
         // 表格识别
         tableKey: 0,
         // 加载表格
@@ -328,6 +392,8 @@
           regionid: this.$store.getters.regionId,
         },
         getemplist4: {
+          pageNum: 1,
+          pageSize: 10
         },
         // 传给组件的数据
         personalForm: {},
@@ -480,66 +546,48 @@
       },
       getlist() {
         this.listLoading = true
-        SaleMange1(this.getemplist3).then(res => {
+        stockMange2(this.getemplist2).then(res => {
           if (res.data.ret === 200) {
-            console.log(res.data)
-            console.log(res.data.data.repositoryName)
-            this.list3 = res.data.data.content.map(function (item) {
-              return {
-                repositoryName: item.repositoryName,
-                finished: item.finished,
-                comment: item.comment,
-                canceled: item.canceled,
-                begin: item.begin,
-                submit: item.submit,
-                repair: item.repair,
-                assigned: item.assigned
-              }
-            })
-          }
-          setTimeout(() => {
-            this.listLoading = false
-          }, 0.5 * 100)
-        })
-
-        SaleMange2(this.getemplist3).then(res => {
-          if (res.data.ret === 200) {
-            console.log(res.data)
-            console.log(res.data.data.saleManagerVos)
-            this.list2 = res.data.data.saleManagerVos.map(function (item) {
-              if (item.customerToday === null) {
-                item.customerToday = 0
-              }
-              if (item.customerMonth === null) {
-                item.customerMonth = 0
-              }
-              return {
-                repositoryName: item.repositoryName,
-                agentLast: item.agentLast,
-                agentMonth: item.agentMonth,
-                agentToday: item.agentToday,
-                customerLast: item.customerLast,
-                customerMonth: item.customerMonth,
-                customerToday: item.customerToday
-              }
-            })
-          }
-          setTimeout(() => {
-            this.listLoading = false
-          }, 0.5 * 100)
-        })
-
-        SaleMange3(this.getemplist4).then(res => {
-          if (res.data.ret === 200) {
+            this.total2 = res.data.data.content.totalCount
             console.log('list',res.data)
-            this.list = res.data.data.content.map(function (item) {
+            this.list2 = res.data.data.content.list.map(function (item) {
               return {
-                repositoryName: item.repositoryName,
-                first: item.first,
-                manyTimes: item.manyTimes,
-                important: item.important,
-                online: item.online,
-                total: item.first + item.manyTimes + item.important
+                productName: item.productName,
+                productCode: item.productCode,
+                productType: item.productType,
+                unit: item.unit,
+                existStock: item.existStock,
+                orderStock: item.orderStock,
+                onStock: item.onStock,
+                enterQuantity: item.enterQuantity,
+                planQuantity: item.planQuantity,
+                minPrice: item.minPrice,
+                maxPrice: item.maxPrice,
+                recentlyPrice: item.recentlyPrice,
+                avgPrice: item.avgPrice,
+                advicePrice: item.advicePrice
+                // supplierVos: item.supplierVos
+              }
+            })
+          }
+          setTimeout(() => {
+            this.listLoading = false
+          }, 0.5 * 100)
+        })
+
+        stockMange(this.getemplist4).then(res => {
+          if (res.data.ret === 200) {
+            this.total = res.data.data.content.totalCount
+            console.log('list',res.data)
+            this.list = res.data.data.content.list.map(function (item) {
+              return {
+                stockPersonName: item.stockPersonName,
+                oneNum: item.oneNum,
+                twoNum: item.twoNum,
+                threeNum: item.threeNum,
+                fourNum: item.fourNum,
+                fiveNum: item.fiveNum,
+                sixNum: item.sixNum
               }
             })
           }
@@ -558,26 +606,33 @@
       // 搜索
       handleFilter() {
         if (this.date === null || this.date === undefined || this.date === '') {
-          this.getemplist3.beginTime = ''
-          this.getemplist3.endTime = ''
+          this.getemplist2.beginTime = ''
+          this.getemplist2.endTime = ''
         } else {
-          this.getemplist3.beginTime = this.date[0]
-          this.getemplist3.endTime = this.date[1]
+          this.getemplist2.beginTime = this.date[0]
+          this.getemplist2.endTime = this.date[1]
         }
-        SaleMange1(this.getemplist3).then(res => {
+        stockMange2(this.getemplist2).then(res => {
           if (res.data.ret === 200) {
-            console.log(res.data)
-            console.log(res.data.data.repositoryName)
-            this.list3 = res.data.data.content.map(function (item) {
+            this.total2 = res.data.data.content.totalCount
+            console.log('list',res.data)
+            this.list2 = res.data.data.content.list.map(function (item) {
               return {
-                repositoryName: item.repositoryName,
-                finished: item.finished,
-                comment: item.comment,
-                canceled: item.canceled,
-                begin: item.begin,
-                submit: item.submit,
-                repair: item.repair,
-                assigned: item.assigned
+                productName: item.productName,
+                productCode: item.productCode,
+                productType: item.productType,
+                unit: item.unit,
+                existStock: item.existStock,
+                orderStock: item.orderStock,
+                onStock: item.onStock,
+                enterQuantity: item.enterQuantity,
+                planQuantity: item.planQuantity,
+                minPrice: item.minPrice,
+                maxPrice: item.maxPrice,
+                recentlyPrice: item.recentlyPrice,
+                avgPrice: item.avgPrice,
+                advicePrice: item.advicePrice
+                // supplierVos: item.supplierVos
               }
             })
           }
@@ -595,17 +650,19 @@
           this.getemplist4.beginTime = this.date2[0]
           this.getemplist4.endTime = this.date2[1]
         }
-        SaleMange3(this.getemplist4).then(res => {
+        stockMange(this.getemplist4).then(res => {
           if (res.data.ret === 200) {
-            console.log('list',res.data)
-            this.list = res.data.data.content.map(function (item) {
+            this.total = res.data.data.content.totalCount
+            console.log('list2',res.data.data.content.list)
+            this.list = res.data.data.content.list.map(function (item) {
               return {
-                repositoryName: item.repositoryName,
-                first: item.first,
-                manyTimes: item.manyTimes,
-                important: item.important,
-                online: item.online,
-                total: item.first + item.manyTimes + item.important
+                stockPersonName: item.stockPersonName,
+                oneNum: item.oneNum,
+                twoNum: item.twoNum,
+                threeNum: item.threeNum,
+                fourNum: item.fourNum,
+                fiveNum: item.fiveNum,
+                sixNum: item.sixNum
               }
             })
           }
