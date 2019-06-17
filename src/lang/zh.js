@@ -294,7 +294,7 @@ export default {
     alarm: '库存预警',
     apply: '我的申请',
     prepare: '我的待办',
-    more: '更多'
+    more: '更多>'
   },
   navbar: {
     logOut: '退出登录',

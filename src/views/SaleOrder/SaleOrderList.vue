@@ -101,7 +101,8 @@
           :selectable="selectInit"
           type="selection"
           width="55"
-          align="center"/>
+          align="center"
+        />
         <el-table-column :label="$t('public.id')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
             <span class="link-type" @click="handleDetail(scope.row)">{{ scope.row.number }}</span>

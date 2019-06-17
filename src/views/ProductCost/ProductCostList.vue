@@ -4,22 +4,20 @@
       <el-row>
         <el-form ref="getemplist" :model="getemplist" label-width="100px" style="margin-top: -9px">
           <el-col :span="5">
-            <el-form-item label="配送单编号" label-width="100px">
-              <el-input v-model="getemplist.deliverNumber" :placeholder="$t('DeliverGoods.deliverNumber')" clearable @keyup.enter.native="handleFilter"/>
+            <el-form-item label="报告主题" label-width="100px">
+              <el-input v-model="getemplist.title" :placeholder="$t('CheckReport.title')" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
           <el-col :span="5" style="margin-left: 10px">
-            <el-form-item label="源单编号">
-              <el-input v-model="getemplist.sourceNUmber" placeholder="源单编号" clearable @keyup.enter.native="handleFilter"/>
+            <el-form-item label="报告编号">
+              <el-input v-model="getemplist.reportNumber" placeholder="报告编号" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
           <el-col :span="5" style="margin-left: 10px">
-            <el-form-item :label="$t('DeliverGoods.sourceType')">
-              <el-select v-model="getemplist.sourceType" :value="getemplist.sourceType" clearable @keyup.enter.native="handleFilter">
-                <el-option value="1" label="销售出库单"/>
-                <el-option value="2" label="调拨单"/>
-              </el-select>
+            <el-form-item label="报检员">
+              <el-input v-model="inspectionPersonId" :placeholder="$t('CheckReport.inspectionPersonId')" clearable @keyup.enter.native="handleFilter" @focus="handlechooseStock"/>
             </el-form-item>
+            <my-emp :control.sync="stockControl" @stockName="stockName"/>
           </el-col>
           <!--更多搜索条件-->
           <el-col :span="3">
@@ -28,26 +26,32 @@
               placement="bottom"
               width="500"
               trigger="manual">
-              <el-select v-model="getemplist.receiptStat" :value="getemplist.receiptStat" placeholder="单据状态" clearable style="width: 40%;float: left;margin-left: 20px">
+              <el-select v-model="getemplist.inspectionDeptId" placeholder="报检部门" clearable style="width: 40%;float: left;margin-left: 20px">
+                <el-option
+                  v-for="(item, index) in depts"
+                  :key="index"
+                  :value="item.id"
+                  :label="item.deptName"/>
+              </el-select>
+              <el-select v-model="personalForm.checkType" placeholder="质检类型" style="width: 40%;float: right;margin-right: 20px">
+                <el-option value="1" label="来料质检"/>
+                <el-option value="2" label="送样质检"/>
+                <el-option value="3" label="生产质检"/>
+              </el-select>
+              <el-select v-model="getemplist.receiptStat" :value="getemplist.receiptStat" placeholder="单据状态" clearable style="width: 40%;float: left;margin-left: 20px;margin-top: 20px">
                 <el-option value="1" label="制单"/>
                 <el-option value="2" label="执行"/>
                 <el-option value="3" label="结单"/>
               </el-select>
-              <el-select v-model="getemplist.judgeStat" :value="getemplist.judgeStat" placeholder="审批状态" clearable style="width: 40%;float: right;margin-right: 20px">
+              <el-select v-model="getemplist.judgeStat" :value="getemplist.judgeStat" placeholder="审批状态" clearable style="width: 40%;float: right;margin-right: 20px;margin-top: 20px">
                 <el-option value="0" label="未审核"/>
                 <el-option value="1" label="审核中"/>
                 <el-option value="2" label="审核通过"/>
                 <el-option value="3" label="审核不通过"/>
               </el-select>
-              <!--<el-date-picker-->
-              <!--v-model="date"-->
-              <!--type="daterange"-->
-              <!--range-separator="-"-->
-              <!--unlink-panels-->
-              <!--start-placeholder="销售日期"-->
-              <!--end-placeholder="销售日期"-->
-              <!--value-format="yyyy-MM-dd"-->
-              <!--style="margin-top: 20px;margin-left: 20px"/>-->
+              <el-select v-model="getemplist.checkMode" :value="getemplist.checkMode" placeholder="检验方式" clearable style="width: 40%;float: left;margin-left: 20px;margin-top: 20px">
+                <el-option value="1" label="抽样"/>
+              </el-select>
               <div class="seachbutton" style="width: 100%;float: right;margin-top: 20px">
                 <el-button v-waves class="filter-item" type="primary" style="float: right" round @click="handleFilter">{{ $t('public.search') }}</el-button>
               </div>
@@ -97,38 +101,48 @@
           align="center"/>
         <el-table-column :label="$t('public.id')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span class="link-type" @click="handleDetail(scope.row)">{{ scope.row.deliverNumber }}</span>
+            <span class="link-type" @click="handleDetail(scope.row)">{{ scope.row.reportNumber }}</span>
           </template>
           <detail-list :detailcontrol.sync="detailvisible" :detaildata.sync="personalForm"/>
         </el-table-column>
-        <el-table-column :label="$t('DeliverGoods.title')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('CheckReport.title')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.title }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('DeliverGoods.deliverPersonId')" :resizable="false" align="center" min-width="150">
-          <template slot-scope="scope">
-            <span>{{ scope.row.deliverPersonName }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column :label="$t('DeliverGoods.requireArriveDate')" :resizable="false" align="center" min-width="150">
-          <template slot-scope="scope">
-            <span>{{ scope.row.requireArriveDate }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column :label="$t('DeliverGoods.sourceType')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('CheckReport.sourceType')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.sourceType | sourceTypeFilter }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('DeliverGoods.sourceNumber')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('CheckReport.supplierId')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.sourceNumber }}</span>
+            <span>{{ scope.row.supplierName }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('DeliverGoods.stat')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('CheckReport.checkType')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.stat | statFilter }}</span>
+            <span>{{ scope.row.checkType | checkTypeFilter }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column :label="$t('CheckReport.checkMode')" :resizable="false" align="center" min-width="150">
+          <template slot-scope="scope">
+            <span>{{ scope.row.checkMode | checkModeFilter }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column :label="$t('CheckReport.inspectionPersonId')" :resizable="false" align="center" min-width="150">
+          <template slot-scope="scope">
+            <span>{{ scope.row.inspectionPersonName }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column :label="$t('CheckReport.inspectionDeptId')" :resizable="false" align="center" min-width="150">
+          <template slot-scope="scope">
+            <span>{{ scope.row.inspectionDeptName }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column :label="$t('CheckReport.checkDate')" :resizable="false" align="center" min-width="150">
+          <template slot-scope="scope">
+            <span>{{ scope.row.checkDate }}</span>
           </template>
         </el-table-column>
         <el-table-column :label="$t('public.judgeStat')" :resizable="false" prop="judgeStat" align="center" min-width="150">
@@ -143,9 +157,9 @@
         </el-table-column>
         <el-table-column :label="$t('public.actions')" :resizable="false" align="center" min-width="230">
           <template slot-scope="scope">
-            <el-button v-show="scope.row.judgeStat === 0" title="修改" type="primary" size="mini" icon="el-icon-edit" circle @click="handleEdit(scope.row)"/>
+            <el-button v-if="scope.row.judgeStat === 0" title="修改" type="primary" size="mini" icon="el-icon-edit" circle @click="handleEdit(scope.row)"/>
             <el-button v-if="isReview(scope.row)" title="审批" type="warning" size="mini" icon="el-icon-view" circle @click="handleReview(scope.row)"/>
-            <el-button v-show="scope.row.judgeStat === 0" title="删除" size="mini" type="danger" icon="el-icon-delete" circle @click="handleDelete(scope.row)"/>
+            <el-button v-if="scope.row.judgeStat === 0" title="删除" size="mini" type="danger" icon="el-icon-delete" circle @click="handleDelete(scope.row)"/>
           </template>
         </el-table-column>
       </el-table>
@@ -159,23 +173,20 @@
 </template>
 
 <script>
-import { deliverGoodsList, deleteDeliverGoods, updateDeliverGoods2 } from '@/api/DeliverGoods'
+import { checkreportlist, updatecheckreport2, deletecheckreport } from '@/api/CheckReport'
 import { getdeptlist } from '@/api/BasicSettings'
 import { searchStockCategory } from '@/api/StockCategory'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination'
-import permission from '@/directive/permission/index.js' // 权限判断指令
-import checkPermission from '@/utils/permission' // 权限判断函数
 import MyEmp from './components/MyEmp'
 import DetailList from './components/DetailList'
 import MyDialog from './components/MyDialog'
-import MyCustomer from './components/MyCustomer'
-import MyAgent from './components/MyAgent'
+import MySupplier from './components/MySupplier'
 
 export default {
-  name: 'ProductCostList',
-  directives: { waves, permission },
-  components: { MyDialog, DetailList, MyEmp, MyCustomer, MyAgent, Pagination },
+  name: 'CheckReportList',
+  directives: { waves },
+  components: { MyDialog, DetailList, MyEmp, Pagination, MySupplier },
   filters: {
     judgeStatFilter(status) {
       const statusMap = {
@@ -194,30 +205,38 @@ export default {
       }
       return statusMap[status]
     },
-    sourceTypeFilter(status) {
+    stockTypeFilter(status) {
       const statusMap = {
-        1: '销售出库单',
-        2: '调拨单'
+        1: '采购1'
       }
       return statusMap[status]
     },
-    statFilter(status) {
+    sourceTypeFilter(status) {
       const statusMap = {
-        1: '配送申请',
-        2: '配送出库',
-        3: '配送完成',
-        4: '回车'
+        1: '质检申请单',
+        2: '采购到货单',
+        3: '生产任务单',
+        4: '无来源'
+      }
+      return statusMap[status]
+    },
+    checkTypeFilter(status) {
+      const statusMap = {
+        1: '来料质检',
+        2: '送样质检',
+        3: '生产质检'
+      }
+      return statusMap[status]
+    },
+    checkModeFilter(status) {
+      const statusMap = {
+        1: '抽样'
       }
       return statusMap[status]
     }
   },
   data() {
     return {
-      // 回显客户
-      customerName: '',
-      // 控制客户
-      customercontrol: false,
-      agentcontrol: false,
       // 类别获取参数
       typeparms: {
         pagenum: 1,
@@ -241,9 +260,9 @@ export default {
       supplierId: '',
       // 供应商控制框
       empcontrol: false,
-      // 采购人回显
-      stockPersonId: '',
-      // 采购人控制框
+      // 报检员回显
+      inspectionPersonId: '',
+      // 报检员控制框
       stockControl: false,
       // 批量操作
       moreaction: '',
@@ -276,7 +295,6 @@ export default {
     this.getlist()
   },
   methods: {
-    checkPermission,
     // 不让勾选
     selectInit(row, index) {
       if (row.judgeStat !== 0) {
@@ -285,27 +303,6 @@ export default {
         return true
       }
     },
-    // 选择客户类型时清理客户名称
-    clearCustomer() {
-      this.getemplist.customerId = ''
-      this.customerName = ''
-    },
-    // 选择客户focus
-    chooseCustomer() {
-      if (this.getemplist.customerType === '1') {
-        this.agentcontrol = true
-      } else if (this.getemplist.customerType === '2') {
-        this.customercontrol = true
-      }
-    },
-    customerdata(val) {
-      this.getemplist.customerId = val.id
-      this.customerName = val.customerName
-    },
-    agentdata(val) {
-      this.getemplist.customerId = val.id
-      this.customerName = val.agentName
-    },
     // 更新采购类型
     updatecountry() {
       this.getlist()
@@ -313,7 +310,7 @@ export default {
     getlist() {
       // 物料需求计划列表数据
       this.listLoading = true
-      deliverGoodsList(this.getemplist).then(res => {
+      checkreportlist(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
@@ -337,15 +334,15 @@ export default {
     },
     // 清空搜索条件
     restFilter() {
-      this.customerName = ''
-      this.getemplist.customerId = ''
-      this.stockPersonId = ''
-      this.getemplist.stockPersonId = ''
+      this.supplierId = ''
+      this.getemplist.supplierId = ''
+      this.inspectionPersonId = ''
+      this.getemplist.inspectionPersonId = ''
     },
     // 搜索
     handleFilter() {
       this.getemplist.pageNum = 1
-      deliverGoodsList(this.getemplist).then(res => {
+      checkreportlist(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
@@ -355,14 +352,14 @@ export default {
         }
       })
     },
-    // 采购人focus事件
+    // 报检员focus事件
     handlechooseStock() {
       this.stockControl = true
     },
-    // 采购人回显
+    // 报检员回显
     stockName(val) {
-      this.stockPersonId = val.personName
-      this.getemplist.stockPersonId = val.id
+      this.inspectionPersonId = val.personName
+      this.getemplist.inspectionPersonId = val.id
     },
     // 供应商输入框focus事件触发
     handlechoose() {
@@ -380,14 +377,11 @@ export default {
       this.editVisible = true
       this.personalForm = Object.assign({}, row)
       this.personalForm.sourceType = String(row.sourceType)
-      if (row.sourceType !== null) {
-        this.personalForm.sourceType = String(row.sourceType)
+      if (row.checkType !== null) {
+        this.personalForm.checkType = String(row.checkType)
       }
-      if (row.requireType !== null) {
-        this.personalForm.requireType = String(row.requireType)
-      }
-      if (row.stat !== null) {
-        this.personalForm.stat = String(row.stat)
+      if (row.checkMode !== null) {
+        this.personalForm.checkMode = String(row.checkMode)
       }
     },
     // 修改组件修改成功后返回
@@ -424,7 +418,7 @@ export default {
       }).then(() => {
         this.reviewParms.judgeStat = 2
         const parms = JSON.stringify(this.reviewParms)
-        updateDeliverGoods2(parms).then(res => {
+        updatecheckreport2(parms).then(res => {
           if (res.data.ret === 200) {
             this.$message({
               type: 'success',
@@ -437,7 +431,7 @@ export default {
         if (action === 'cancel') {
           this.reviewParms.judgeStat = 1
           const parms = JSON.stringify(this.reviewParms)
-          updateDeliverGoods2(parms).then(res => {
+          updatecheckreport2(parms).then(res => {
             if (res.data.ret === 200) {
               this.$message({
                 type: 'success',
@@ -463,7 +457,7 @@ export default {
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          deleteDeliverGoods(ids, this.$store.getters.userId).then(res => {
+          deletecheckreport(ids, this.$store.getters.userId).then(res => {
             if (res.data.ret === 200 || res.data.ret === 100) {
               this.$notify({
                 title: '删除成功',
@@ -494,7 +488,7 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        deleteDeliverGoods(row.id, this.$store.getters.userId).then(res => {
+        deletecheckreport(row.id, this.$store.getters.userId).then(res => {
           if (res.data.ret === 200 || res.data.ret === 100) {
             this.$notify({
               title: '删除成功',
@@ -519,14 +513,14 @@ export default {
     },
     // 新增数据
     handleAdd() {
-      this.$router.push('/DeliverGoods/AddDeliverGoods')
+      this.$router.push('/CheckReport/AddCheckReport')
     },
     // 导出
     handleExport() {
       this.downloadLoading = true
         import('@/vendor/Export2Excel').then(excel => {
           const tHeader = ['供应商编号', '供应商名称', '供应商简称', '供应商类别', '所在区域', '采购员', '供应商优质级别', '建档人', '建档日期']
-          const filterVal = ['id', 'DeliverGoodsName', 'DeliverGoodsShortName', 'typeName', 'regionName', 'buyerName', 'levelName', 'createName', 'createTime']
+          const filterVal = ['id', 'CheckReportName', 'CheckReportShortName', 'typeName', 'regionName', 'buyerName', 'levelName', 'createName', 'createTime']
           const data = this.formatJson(filterVal, this.list)
           excel.export_json_to_excel({
             header: tHeader,

@@ -4,657 +4,716 @@
       <div id="app">
         <p>{{ $t('route.StockMange') }}</p>
       </div>
+      <!--      第一大行开始-->
+      <el-row :gutter="20" style="margin-top: 10px">
+        <el-col :span="24">
+          <div style="width: 100%; min-height: 300px;" >
+            <el-row :gutter="20" style="margin-top: 26px">
+              <el-col :span="24">
+                <div style="width: 100%; min-height: 400px;" >
+                  <div style="width: 100%; height: 50px;background: #d9e0e8;" >
+                    <div style="padding-top: 16px;padding-left: 20px;width: 25%;height: 100%;float: left">供应商分布</div>
+                    <div style="width: 75%;height: 100%;float: left;">
+                      <el-form ref="getemplist4" :model="getemplist4" label-width="100px">
+                        <el-date-picker
+                          v-model="date2"
+                          type="daterange"
+                          range-separator="-"
+                          unlink-panels
+                          start-placeholder="开始日期"
+                          end-placeholder="结束日期"
+                          value-format="yyyy-MM-dd"
+                          style="margin-left: 60%;"
+                          class="shipei"/>
+                        <!-- 搜索按钮 -->
+                        <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 86px;margin-top: 10px;" round @click="handleFilter2">{{ $t('public.search') }}</el-button>
+                      </el-form>
+                    </div>
+                  </div>
+                  <el-table
+                    :data="list"
+                    :header-cell-style="tableHeaderColor3"
+                    style="width: 100%">
+                    <el-table-column
+                      prop="repositoryName"
+                      label="采购员"
+                      width="320"
+                      align="center">
+                    </el-table-column>
+                    <el-table-column align="center" label="分类">
+                      <el-table-column
+                        prop="first"
+                        label="原材料供应商"
+                        width="220"
+                        align="center">
+                      </el-table-column>
+                      <el-table-column
+                        prop="manyTimes"
+                        label="配件供应商"
+                        width="220"
+                        align="center">
+                      </el-table-column>
+                      <el-table-column
+                        prop="important"
+                        label="紧固件供应商"
+                        width="220"
+                        align="center">
+                      </el-table-column>
+                    </el-table-column>
+                    <el-table-column align="center" label="级别">
+                      <el-table-column
+                        prop="first"
+                        label="一级"
+                        width="220"
+                        align="center">
+                      </el-table-column>
+                      <el-table-column
+                        prop="manyTimes"
+                        label="二级"
+                        width="220"
+                        align="center">
+                      </el-table-column>
+                      <el-table-column
+                        prop="important"
+                        label="三级"
+                        width="220"
+                        align="center">
+                      </el-table-column>
+                    </el-table-column>
+                  </el-table>
+                </div>
+              </el-col>
+            </el-row>
+          </div>
+        </el-col>
+      </el-row>
+
+      <!--      第二大行开始-->
+      <el-row :gutter="20" style="margin-top: 100px">
+        <el-col :span="24">
+          <div style="width: 100%; min-height: 300px;" >
+            <el-row :gutter="20" style="margin-top: 26px">
+              <el-col :span="24">
+                <div style="width: 100%; min-height: 400px;" >
+                  <div style="width: 100%; height: 50px;background: #d9e0e8;" >
+                    <div style="padding-top: 16px;padding-left: 20px;">产品信息追踪</div>
+                  </div>
+                  <el-table
+                    :data="list2"
+                    :header-cell-style="tableHeaderColor"
+                    style="width: 100%">
+                    <el-table-column
+                      prop="repositoryName"
+                      label="产品名称"
+                      min-width="105"
+                      align="center">
+                    </el-table-column>
+                    <el-table-column
+                      prop="repositoryName"
+                      label="产品编号"
+                      min-width="105"
+                      align="center">
+                    </el-table-column>
+                    <el-table-column
+                      prop="repositoryName"
+                      label="产品型号"
+                      min-width="105"
+                      align="center">
+                    </el-table-column>
+                    <el-table-column
+                      prop="repositoryName"
+                      label="单位"
+                      min-width="105"
+                      align="center">
+                    </el-table-column>
+                    <el-table-column
+                      prop="repositoryName"
+                      label="当前库存"
+                      min-width="105"
+                      align="center">
+                    </el-table-column>
+                    <el-table-column
+                      prop="repositoryName"
+                      label="预定库存"
+                      min-width="105"
+                      align="center">
+                    </el-table-column>
+                    <el-table-column
+                      prop="repositoryName"
+                      label="在途库存"
+                      min-width="105"
+                      align="center">
+                    </el-table-column>
+                    <el-table-column
+                      prop="repositoryName"
+                      label="待审批入库"
+                      min-width="105"
+                      align="center">
+                    </el-table-column>
+                    <el-table-column
+                      prop="repositoryName"
+                      label="历史最低价"
+                      min-width="105"
+                      align="center">
+                    </el-table-column>
+                    <el-table-column
+                      prop="repositoryName"
+                      label="计划采购"
+                      min-width="105"
+                      align="center">
+                    </el-table-column>
+                    <el-table-column
+                      prop="repositoryName"
+                      label="历史最高价"
+                      min-width="105"
+                      align="center">
+                    </el-table-column>
+                    <el-table-column
+                      prop="repositoryName"
+                      label="最近购买价"
+                      min-width="105"
+                      align="center">
+                    </el-table-column>
+                    <el-table-column
+                      prop="repositoryName"
+                      label="历史平均价"
+                      min-width="105"
+                      align="center">
+                    </el-table-column>
+                    <el-table-column
+                      prop="repositoryName"
+                      label="建议进价"
+                      min-width="105"
+                      align="center">
+                    </el-table-column>
+                    <el-table-column
+                      prop="repositoryName"
+                      label="可选供应商"
+                      min-width="105"
+                      align="center">
+                    </el-table-column>
+                  </el-table>
+                </div>
+              </el-col>
+            </el-row>
+          </div>
+        </el-col>
+      </el-row>
 
       <!--      <el- v-model="getemplist.id" :placeholder="$t('route.WorkDesk')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>-->
-    </div>
-    <div class="filter-container">
-      <!-- 搜索条件栏目 -->
-      <el-input v-model="getemplist.id" :placeholder="$t('Repository.id')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
-      <el-input v-model="getemplist.repositoryName" :placeholder="$t('Repository.repositoryname')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
-      <el-select v-model="getemplist.type" :value="getemplist.type" :placeholder="$t('Repository.type2')" class="filter-item" clearable>
-        <el-option
-          v-for="(item, index) in types"
-          :key="index"
-          :value="item.id"
-          :label="item.categoryName"
-        />
-      </el-select>
-      <el-select v-model="getemplist.iseffective" :value="getemplist.iseffective" :placeholder="$t('Repository.iseffective')" class="filter-item" clearable>
-        <el-option label="启用" value="1"/>
-        <el-option label="停用" value="2"/>
-      </el-select>
-      <el-cascader
-        :options="regions"
-        :props="props"
-        v-model="getemplistregions"
-        :show-all-levels="false"
-        placeholder="请选择区域"
-        change-on-select
-        filterable
-        clearable
-        class="filter-item"
-        @change="handlechange4"
-      />
-      <el-select v-model="getemplist.countyrId" placeholder="请选择国家" class="filter-item" clearable>
-        <el-option
-          v-for="(item, index) in nations"
-          :key="index"
-          :label="item.name"
-          :value="item.id"/>
-      </el-select>
-      <!-- 搜索按钮 -->
-      <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 86px" @click="handleFilter">{{ $t('public.search') }}</el-button>
-      <!-- 批量操作 -->
-      <el-dropdown @command="handleCommand">
-        <el-button v-waves class="filter-item" type="primary">
-          {{ $t('public.batchoperation') }} <i class="el-icon-arrow-down el-icon--right"/>
-        </el-button>
-        <el-dropdown-menu slot="dropdown" style="width: 140px">
-          <el-dropdown-item v-permission="['1-9-11-9']" style="text-align: left" command="disable"><svg-icon icon-class="tingyong" style="width: 40px"/>{{ $t('public.disable') }}</el-dropdown-item>
-          <el-dropdown-item v-permission="['1-9-11-2']" style="text-align: left" command="delete"><svg-icon icon-class="shanchu" style="width: 40px"/>{{ $t('public.delete') }}</el-dropdown-item>
-        </el-dropdown-menu>
-      </el-dropdown>
-      <!-- 表格导出操作 -->
-      <el-button v-permission="['1-9-11-6']" v-waves :loading="downloadLoading" class="filter-item" style="width: 86px" @click="handleExport"> <svg-icon icon-class="daochu"/>{{ $t('public.export') }}</el-button>
-      <!-- 打印操作 -->
-      <el-button v-permission="['1-9-11-7']" v-waves class="filter-item" icon="el-icon-printer" style="width: 86px" @click="handlePrint">{{ $t('public.print') }}</el-button>
-      <!-- 新建操作 -->
-      <el-button v-permission="['1-9-11-1']" v-waves class="filter-item" icon="el-icon-plus" type="success" style="width: 86px;float: right" @click="handleAdd">{{ $t('public.add') }}</el-button>
-    </div>
-    <div class="app-container">
-      <!-- 列表开始 -->
-      <el-table
-        v-loading="listLoading"
-        :key="tableKey"
-        :data="list"
-        border
-        fit
-        highlight-current-row
-        style="width: 100%;"
-        @selection-change="handleSelectionChange">
-        <el-table-column
-          type="selection"
-          width="55"
-          align="center"/>
-        <el-table-column :label="$t('Repository.id')" :resizable="false" prop="id" align="center" width="100">
-          <template slot-scope="scope">
-            <span>{{ scope.row.id }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column :label="$t('Repository.repositoryname')" :resizable="false" prop="repositoryName" align="center" width="200">
-          <template slot-scope="scope">
-            <span>{{ scope.row.repositoryName }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column :label="$t('Repository.type2')" :resizable="false" prop="categoryName" align="center" width="230">
-          <template slot-scope="scope">
-            <span>{{ scope.row.categoryName }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column :label="$t('Repository.iseffective')" :resizable="false" prop="stat" align="center" width="230">
-          <template slot-scope="scope">
-            <span>{{ scope.row.stat | iseffectiveFilter }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column :label="$t('Repository.managerPeople')" :resizable="false" align="center" width="200">
-          <template slot-scope="scope">
-            <span>{{ scope.row.managerName }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column :label="$t('Repository.regionId')" :resizable="false" prop="regionName" align="center" width="250">
-          <template slot-scope="scope">
-            <span>{{ scope.row.regionName }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column :label="$t('public.actions')" :resizable="false" align="center" min-width="230">
-          <template slot-scope="scope">
-            <el-button v-permission="['1-9-11-3']" type="primary" size="mini" @click="handleEdit(scope.row)">{{ $t('public.edit') }}</el-button>
-            <el-button v-permission="['1-9-11-9']" v-show="scope.row.stat === 1" size="mini" type="warning" @click="handleDisable(scope.row)">{{ $t('public.disable') }}</el-button>
-            <el-button v-permission="['1-9-11-8']" v-show="scope.row.stat === 2" size="mini" type="success" @click="handleEnable(scope.row)">{{ $t('public.enable') }}</el-button>
-            <el-button v-permission="['1-9-11-2']" size="mini" type="danger" @click="handleDelete(scope.row)">{{ $t('public.delete') }}</el-button>
-          </template>
-        </el-table-column>
-      </el-table>
-      <!-- 列表结束 -->
-      <pagination v-show="total>0" :total="total" :page.sync="getemplist.pagenum" :limit.sync="getemplist.pagesize" @pagination="getlist" />
-      <!--修改操作-->
-      <!--===========================-->
-      <!--开始-->
-      <el-dialog :visible.sync="editVisible" top="10px" title="修改仓库">
-        <!--仓库信息-->
-        <h2 ref="geren" class="form-name">基本信息</h2>
-        <div class="container">
-          <el-form ref="RepositoryForm" :model="RepositoryForm" :rules="Repositoryrules" :inline="true" status-icon class="demo-ruleForm" label-position="top" label-width="300px" style="margin-left: 30px;">
-            <el-form-item :label="$t('Repository.repositoryName')" prop="repositoryName" style="width: 40%;margin-top:1%">
-              <el-input v-model="RepositoryForm.repositoryName" placeholder="请输入门店名称" clearable/>
-            </el-form-item>
-            <el-form-item :label="$t('Repository.longitude')" prop="longitude" style="width: 40%;margin-top:1%">
-              <el-input v-model.number="RepositoryForm.longitude" placeholder="请输入经度" autocomplete="new-password" clearable/>
-            </el-form-item>
-            <el-form-item :label="$t('Repository.latitude')" prop="latitude" style="width: 40%">
-              <el-input v-model.number="RepositoryForm.latitude" placeholder="请输入纬度" clearable/>
-            </el-form-item>
-            <el-form-item :label="$t('public.address')" prop="address" style="width: 40%">
-              <el-input v-model="RepositoryForm.address" placeholder="请输入详细门店地址" clearable/>
-            </el-form-item>
-            <el-form-item :label="$t('Repository.regionId')" style="width: 40%;margin-top:1%">
-              <el-input v-model="regionname" autocomplete="new-password" disabled clearable/>
-            </el-form-item>
-            <el-form-item :label="$t('Repository.editregionId')" style="width: 40%;margin-top: 1%">
-              <el-cascader
-                :options="regions"
-                :props="props"
-                v-model="regionId"
-                :show-all-levels="false"
-                placeholder="请选择区域"
-                change-on-select
-                filterable
-                clearable
-                style="width: 100%;"
-              />
-            </el-form-item>
-            <el-form-item :label="$t('Repository.stat')" style="width: 40%;margin-top: 1%">
-              <el-radio-group v-model="RepositoryForm.stat" style="width: 80%">
-                <el-radio :label="1" style="width: 50%">active</el-radio>
-                <el-radio :label="2">dead</el-radio>
-              </el-radio-group>
-            </el-form-item>
-            <el-form-item :label="$t('Repository.type')" style="width: 40%;margin-top: 1%">
-              <el-select v-model="RepositoryForm.type" :value="RepositoryForm.type" placeholder="请选择" style="width: 100%;">
-                <el-option
-                  v-for="(item, index) in types"
-                  :key="index"
-                  :value="item.id"
-                  :label="item.categoryName"
-                />
-              </el-select>
-            </el-form-item>
-            <el-form-item :label="$t('Repository.managerPeople')" style="width: 40%;margin-top: 1%">
-              <el-input v-model="managerPeople" :value="managerPeople" placeholder="请选择" @focus="handlechoose"/>
-            </el-form-item>
-            <!--=========================================-->
-            <!--店长弹出员工列表开始-->
-            <el-dialog :visible.sync="employeeVisible" append-to-body top="10px" title="选择店长">
-              <div class="filter-container">
-                <el-input v-model="getemplist.employeename" :placeholder="$t('NewEmployeeInformation.employeename')" class="filter-item" clearable @keyup.enter.native="handleFilter2"/>
-                <el-input v-model="getemplist.jobnumber" :placeholder="$t('NewEmployeeInformation.jobnumber2')" class="filter-item" clearable @keyup.enter.native="handleFilter2"/>
-                <el-date-picker
-                  v-model="getemplist.time"
-                  type="date"
-                  class="filter-item"
-                  placeholder="选择日期"
-                  value-format="yyyy-MM-dd"/>
-                <el-popover
-                  placement="bottom"
-                  width="500"
-                  trigger="click">
-                  <el-cascader
-                    :options="regions2"
-                    :props="props2"
-                    v-model="getemplistregions"
-                    :show-all-levels="false"
-                    placeholder="请选择区域"
-                    change-on-select
-                    filterable
-                    clearable
-                    style="width: 40%;float: left;margin-left: 20px"
-                    @change="handlechange4"
-                  />
-                  <el-select v-model="getemplist.repositoryid" placeholder="请选择门店" filterable clearable style="width: 40%;float: right;margin-right: 20px">
-                    <el-option
-                      v-for="(item, index) in repositories"
-                      :key="index"
-                      :label="item.repositoryName"
-                      :value="item.id"/>
-                  </el-select>
-                  <el-select v-model="getemplist.postid" :value="getemplist.postid" :placeholder="$t('NewEmployeeInformation.postid2')" class="filter-item" clearable style="width: 40%;float: left;margin-top: 10px;margin-left: 20px">
-                    <el-option label="xxx" value="1"/>
-                    <el-option label="xxx" value="2"/>
-                  </el-select>
-                  <el-select v-model="getemplist.deptid" :placeholder="$t('NewEmployeeInformation.deptid2')" class="filter-item" clearable style="width: 40%;float: right;margin-top: 10px;margin-right: 20px">
-                    <el-option
-                      v-for="(item, index) in depts"
-                      :key="index"
-                      :label="item.deptName"
-                      :value="item.id"/>
-                  </el-select>
-                  <div class="seachbutton" style="width: 100%;float: right;margin-top: 20px">
-                    <el-button v-waves class="filter-item" type="primary" style="float: right" @click="handleFilter2">{{ $t('public.search') }}</el-button>
-                  </div>
-                  <el-button v-waves slot="reference" type="primary" class="filter-item" style="width: 130px">{{ $t('public.filter') }}<svg-icon icon-class="shaixuan" style="margin-left: 4px"/></el-button>
-                </el-popover>
-                <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 86px" @click="handleFilter2">{{ $t('public.search') }}</el-button>
-                <el-button v-waves class="filter-item" icon="el-icon-plus" type="success" style="width: 86px;" @click="handleAdd2">{{ $t('public.add') }}</el-button>
-              </div>
-              <el-table
-                v-loading="listLoading"
-                :data="list"
-                :key="tableKey"
-                border
-                fit
-                highlight-current-row
-                style="width: 100%"
-                @current-change="handleCurrentChange">
-                <el-table-column
-                  :label="$t('NewEmployeeInformation.id')"
-                  :resizable="false"
-                  property="id"
-                  align="center"
-                  width="50"/>
-                <el-table-column
-                  :label="$t('NewEmployeeInformation.jobNumber')"
-                  :resizable="false"
-                  property="jobNumber"
-                  align="center"
-                  width="100"/>
-                <el-table-column
-                  :label="$t('NewEmployeeInformation.account')"
-                  :resizable="false"
-                  property="account"
-                  width="150"
-                  align="center"/>
-                <el-table-column :label="$t('NewEmployeeInformation.name')" :resizable="false" align="center" width="109">
-                  <template slot-scope="scope">
-                    <span>{{ scope.row.firstName }} {{ scope.row.middleName }} {{ scope.row.lastName }}</span>
-                  </template>
-                </el-table-column>
-                <el-table-column :label="$t('NewEmployeeInformation.gender')" :resizable="false" prop="gender" align="center" width="80">
-                  <template slot-scope="scope">
-                    <span>{{ scope.row.gender | genderFilter }}</span>
-                  </template>
-                </el-table-column>
-                <el-table-column :label="$t('NewEmployeeInformation.deptName')" :resizable="false" prop="deptName" align="center" width="100">
-                  <template slot-scope="scope">
-                    <span>{{ scope.row.deptName }}</span>
-                  </template>
-                </el-table-column>
-                <el-table-column :label="$t('NewEmployeeInformation.regionName')" :resizable="false" prop="regionName" align="center" width="230">
-                  <template slot-scope="scope">
-                    <span>{{ scope.row.regionName }}</span>
-                  </template>
-                </el-table-column>
-                <el-table-column :label="$t('NewEmployeeInformation.repositoryName')" :resizable="false" prop="repositoryName" align="center" width="100">
-                  <template slot-scope="scope">
-                    <span>{{ scope.row.repositoryName }}</span>
-                  </template>
-                </el-table-column>
-              </el-table>
-              <pagination v-show="total>0" :total="total" :page.sync="getemplist.pagenum" :limit.sync="getemplist.pagesize" @pagination="gitemplist" />
-              <span slot="footer" class="dialog-footer" style="text-align: left">
-                <el-button v-waves type="success" style="text-align: center;" @click="handleConfirm">确认添加</el-button>
-              </span>
-            </el-dialog>
-            <!--弹窗员工列表结束-->
-            <el-form-item :label="$t('Repository.createTime')" style="width: 40%;margin-top: 1%">
-              <el-date-picker
-                v-model="RepositoryForm.createTime"
-                type="date"
-                placeholder="选择开业时间"
-                value-format="yyyy-MM-dd"
-                clearable
-                disabled
-                style="width: 100%"/>
-            </el-form-item>
-            <el-form-item :label="$t('Repository.regionManager')" style="width: 40%;margin-top: 1%">
-              <el-input v-model="regionManagerId" :value="regionManagerId" placeholder="请选择" clearable @focus="handlechoose2"/>
-            </el-form-item>
-            <!--店长弹出员工列表开始-->
-            <!--==============================================-->
-            <!--==================================================-->
-            <!--小区经理选择弹窗开始-->
-            <el-dialog :visible.sync="regionManagerVisible" append-to-body top="10px" title="选择小区经理">
-              <div class="filter-container">
-                <el-input v-model="getemplist.employeename" :placeholder="$t('NewEmployeeInformation.employeename')" class="filter-item" clearable @keyup.enter.native="handleFilter2"/>
-                <el-input v-model="getemplist.jobnumber" :placeholder="$t('NewEmployeeInformation.jobnumber2')" class="filter-item" clearable @keyup.enter.native="handleFilter2"/>
-                <el-date-picker
-                  v-model="getemplist.time"
-                  type="date"
-                  class="filter-item"
-                  placeholder="选择日期"
-                  value-format="yyyy-MM-dd"/>
-                <el-popover
-                  placement="bottom"
-                  width="500"
-                  trigger="click">
-                  <el-cascader
-                    :options="regions2"
-                    :props="props2"
-                    v-model="getemplistregions"
-                    :show-all-levels="false"
-                    placeholder="请选择区域"
-                    change-on-select
-                    filterable
-                    clearable
-                    style="width: 40%;float: left;margin-left: 20px"
-                    @change="handlechange4"
-                  />
-                  <el-select v-model="getemplist.repositoryid" placeholder="请选择门店" filterable clearable style="width: 40%;float: right;margin-right: 20px">
-                    <el-option
-                      v-for="(item, index) in repositories"
-                      :key="index"
-                      :label="item.repositoryName"
-                      :value="item.id"/>
-                  </el-select>
-                  <el-select v-model="getemplist.postid" :value="getemplist.postid" :placeholder="$t('NewEmployeeInformation.postid2')" class="filter-item" clearable style="width: 40%;float: left;margin-top: 10px;margin-left: 20px">
-                    <el-option label="xxx" value="1"/>
-                    <el-option label="xxx" value="2"/>
-                  </el-select>
-                  <el-select v-model="getemplist.deptid" :placeholder="$t('NewEmployeeInformation.deptid2')" class="filter-item" clearable style="width: 40%;float: right;margin-top: 10px;margin-right: 20px">
-                    <el-option
-                      v-for="(item, index) in depts"
-                      :key="index"
-                      :label="item.deptName"
-                      :value="item.id"/>
-                  </el-select>
-                  <div class="seachbutton" style="width: 100%;float: right;margin-top: 20px">
-                    <el-button v-waves class="filter-item" type="primary" style="float: right" @click="handleFilter2">{{ $t('public.search') }}</el-button>
-                  </div>
-                  <el-button v-waves slot="reference" type="primary" class="filter-item" style="width: 130px">{{ $t('public.filter') }}<svg-icon icon-class="shaixuan" style="margin-left: 4px"/></el-button>
-                </el-popover>
-                <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 86px" @click="handleFilter2">{{ $t('public.search') }}</el-button>
-                <el-button v-waves class="filter-item" icon="el-icon-plus" type="success" style="width: 86px;" @click="handleAdd3">{{ $t('public.add') }}</el-button>
-              </div>
-              <el-table
-                v-loading="listLoading"
-                :data="list"
-                :key="tableKey"
-                border
-                fit
-                highlight-current-row
-                style="width: 100%"
-                @current-change="handleCurrentChange2">
-                <el-table-column
-                  :label="$t('NewEmployeeInformation.id')"
-                  :resizable="false"
-                  property="id"
-                  align="center"
-                  width="50"/>
-                <el-table-column
-                  :label="$t('NewEmployeeInformation.jobNumber')"
-                  :resizable="false"
-                  property="jobNumber"
-                  align="center"
-                  width="100"/>
-                <el-table-column
-                  :label="$t('NewEmployeeInformation.account')"
-                  :resizable="false"
-                  property="account"
-                  width="150"
-                  align="center"/>
-                <el-table-column :label="$t('NewEmployeeInformation.name')" :resizable="false" align="center" width="109">
-                  <template slot-scope="scope">
-                    <span>{{ scope.row.firstName }} {{ scope.row.middleName }} {{ scope.row.lastName }}</span>
-                  </template>
-                </el-table-column>
-                <el-table-column :label="$t('NewEmployeeInformation.gender')" :resizable="false" prop="gender" align="center" width="80">
-                  <template slot-scope="scope">
-                    <span>{{ scope.row.gender | genderFilter }}</span>
-                  </template>
-                </el-table-column>
-                <el-table-column :label="$t('NewEmployeeInformation.deptName')" :resizable="false" prop="deptName" align="center" width="100">
-                  <template slot-scope="scope">
-                    <span>{{ scope.row.deptName }}</span>
-                  </template>
-                </el-table-column>
-                <el-table-column :label="$t('NewEmployeeInformation.regionName')" :resizable="false" prop="regionName" align="center" width="230">
-                  <template slot-scope="scope">
-                    <span>{{ scope.row.regionName }}</span>
-                  </template>
-                </el-table-column>
-                <el-table-column :label="$t('NewEmployeeInformation.repositoryName')" :resizable="false" prop="repositoryName" align="center" width="100">
-                  <template slot-scope="scope">
-                    <span>{{ scope.row.repositoryName }}</span>
-                  </template>
-                </el-table-column>
-              </el-table>
-              <pagination v-show="total>0" :total="total" :page.sync="getemplist.pagenum" :limit.sync="getemplist.pagesize" style="padding: 0" @pagination="gitemplist" />
-              <span slot="footer" class="dialog-footer" style="text-align: left">
-                <el-button v-waves type="success" style="text-align: center;" @click="handleConfirm2">确认添加</el-button>
-              </span>
-            </el-dialog>
-            <!--小区经理选择弹窗结束-->
-            <!--弹窗员工列表结束-->
-            <el-form-item :label="$t('Repository.attributes')" style="width: 40%;margin-top: 1%">
-              <el-select v-model="RepositoryForm.attributes" :value="RepositoryForm.attributes" placeholder="请选择" clearable style="width: 100%;">
-                <el-option label="只卖" value="1"/>
-                <el-option label="既卖又维修" value="2"/>
-                <el-option label="只存储" value="3"/>
-              </el-select>
-            </el-form-item>
-            <el-form-item :label="$t('Repository.countryId')" style="width: 40%;margin-top: 1%">
-              <el-select v-model="RepositoryForm.countryId" placeholder="请选择国家" style="width: 100%;" disabled>
-                <el-option
-                  v-for="(item, index) in nations"
-                  :key="index"
-                  :label="item.name"
-                  :value="item.id"/>
-              </el-select>
-            </el-form-item>
-            <el-form-item :label="$t('Repository.description')" style="width: 40%;margin-top:1%">
-              <el-input v-model="RepositoryForm.description" type="textarea" clearable/>
-            </el-form-item>
-          </el-form>
-        </div>
-        <div class="buttons" style="margin-top: 20px;margin-left: 30px">
-          <el-button type="primary" @click="handleEditok()">修改</el-button>
-          <el-button type="danger" @click="handlecancel()">取消</el-button>
-        </div>
-      </el-dialog>
-      <!--修改操作-->
-      <!--结束-->
     </div>
   </div>
 </template>
 
 <script>
-  import { regionlist, getcountrylist, searchRepository } from '@/api/public'
-  import { searchRepCategory, searchRepository2, update, deleteRepository, startorend } from '@/api/Repository'
-  import { getemplist, getdeptlist } from '@/api/EmployeeInformation'
+  import { searchsaleOrder, deletesaleOrder, updatesaleOrder2 } from '@/api/SaleOrder'
+  import { searchalarm } from '@/api/StockAlarm'
+  import { applyList } from '@/api/StockApply'
+  import { SaleMange1, SaleMange2, SaleMange3 } from '@/api/home'
+  import waves from '@/directive/waves' // Waves directive
+  import Pagination from '@/components/Pagination'
   import permission from '@/directive/permission/index.js' // 权限判断指令
   import checkPermission from '@/utils/permission' // 权限判断函数
-  import waves from '@/directive/waves' // Waves directive
-  import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
+  import MyEmp from './components/MyEmp'
+  import DetailList from './components/DetailList'
+  import MyDialog from './components/MyDialog'
+  import MyCustomer from './components/MyCustomer'
+  import MyAgent from './components/MyAgent'
 
   export default {
     name: 'StockMange',
     directives: { waves, permission },
-    components: { Pagination },
+    components: { MyDialog, DetailList, MyEmp, MyCustomer, MyAgent, Pagination },
     filters: {
-      iseffectiveFilter(status) {
+      judgeStatFilter(status) {
         const statusMap = {
-          1: '启用',
-          2: '停用'
+          0: '未审核',
+          1: '审核中',
+          2: '审核通过',
+          3: '审核不通过'
         }
         return statusMap[status]
       },
-      genderFilter(status) {
+      receiptStatFilter(status) {
         const statusMap = {
-          1: '男',
-          2: '女'
+          1: '制单',
+          2: '执行',
+          3: '结单'
+        }
+        return statusMap[status]
+      },
+      stockTypeFilter(status) {
+        const statusMap = {
+          1: '采购1'
+        }
+        return statusMap[status]
+      },
+      sendTypeFilter(status) {
+        const statusMap = {
+          1: '已发货',
+          2: '未发货'
         }
         return statusMap[status]
       }
     },
     data() {
       return {
+        deskdata: {
+        },
+        // 回显客户
+        customerName: '',
+        // 控制客户
+        customercontrol: false,
+        agentcontrol: false,
+        // 类别获取参数
+        typeparms: {
+          pagenum: 1,
+          pagesize: 99999
+        },
+        // 采购类别数据
+        types: [],
+        // 申请部门数据
+        depts: [],
+        // 开始时间到结束时间
+        date: [],
+        // 审核传参
+        reviewParms: {
+          id: '',
+          judgePersonId: '',
+          judgeStat: ''
+        },
+        // 详情组件数据
+        detailvisible: false,
+        // 更多搜索条件问题
+        visible2: false,
+        // 供应商回显
+        supplierId: '',
+        // 供应商控制框
+        empcontrol: false,
+        // 采购人回显
+        stockPersonId: '',
+        // 采购人控制框
+        stockControl: false,
         // 批量操作
         moreaction: '',
-        // 修改列表控制
-        editVisible: false,
-        // 类型列表
-        types: [],
-        // 国家列表
-        nations: [],
         // 加载操作控制
         downloadLoading: false,
         // 表格数据
         list: [],
+        list2: [],
+        list3: [],
+        applyList: [],
         // 表格数据条数
         total: 0,
         // 表格识别
         tableKey: 0,
         // 加载表格
         listLoading: true,
-        // 仓库列表查询加展示参数
+        // 采购申请查询加展示参数
         getemplist: {
-          repositoryName: '',
-          type: '',
-          iseffective: '',
-          regionId: '',
-          countyrId: '',
-          loginRepositoryId: this.$store.getters.repositoryId,
-          regionIds: this.$store.getters.regionId,
-          id: '',
-          pagenum: 1,
-          pagesize: 10
+          pageNum: 1,
+          pageSize: 10,
+          repositoryId: this.$store.getters.repositoryId,
+          regionIds: this.$store.getters.regionId
         },
-        // 部门列表
-        depts: [],
-        // 区域级联数据转化
-        props: {
-          value: 'id',
-          label: 'regionName',
-          children: 'regionListVos'
-        },
-        // 区域数据
-        regions: [],
-        getemplistregions: [],
-        getemplistregions0: [],
-        // =====================================
-        // 修改弹窗中的数据开始
-        // 区域回显数据
-        regionname: '',
-        // 仓库管理员回显数据
-        managerPeople: '',
-        // 小区经理回显数据
-        regionManagerId: '',
-        // 仓库基本信息数据
-        RepositoryForm: {},
-        // 区域id
-        regionId: [],
-        // 仓库信息规则数据
-        Repositoryrules: {
-          longitude: [
-            { required: true, message: '请输入经度', trigger: 'blur' },
-            { type: 'number', message: '经度必须为数字值' }
-          ],
-          repositoryName: [
-            { required: true, message: '请输入仓库名称', trigger: 'blur' }
-          ],
-          latitude: [
-            { required: true, message: '请输入维度', trigger: 'blur' },
-            { type: 'number', message: '维度必须为数字值' }
-          ],
-          lastname: [
-            { required: true, message: '请输入名', trigger: 'blur' }
-          ],
-          address: [
-            { required: true, message: '请输入地址', trigger: 'blur' }
-          ],
-          countryId: [
-            { required: true, message: '请选择国家', trigger: 'change' }
-          ]
-        },
-        // / 弹窗选择
-        // 单选表格样式
-        currentRow: null,
-        // 员工表格数据
-        list2: [],
-        // 员工表格数据条数
-        total2: 0,
-        // 员工表格识别
-        tableKey2: 0,
-        // 加载员工表格
-        listLoading2: true,
-        // 员工查询列表数据
         getemplist2: {
-          repositoryid: '',
-          regionid: '',
-          postid: '',
-          deptid: '',
-          employeename: '',
-          pagenum: 1,
-          pagesize: 10,
-          stat: 1,
-          loginRepositoryId: this.$store.getters.repositoryId,
+          pageNum: 1,
+          pageSize: 10,
+          repositoryId: this.$store.getters.repositoryId,
           regionIds: this.$store.getters.regionId,
-          time: '',
-          jobnumber: ''
+          employeeId: this.$store.getters.userId
         },
-        // 部门列表
-        depts2: [],
-        // 区域级联数据转化
-        props2: {
-          value: 'id',
-          label: 'regionName',
-          children: 'regionListVos'
+        getemplist3: {
+          repositoryid: this.$store.getters.repositoryId,
+          regionid: this.$store.getters.regionId,
         },
-        // 区域数据
-        regions2: [],
-        getemplistregions2: [],
-        // 门店数据
-        repositories: [],
-        // 员工选择框控制
-        employeeVisible: false,
-        // 小区经理选择框控制
-        regionManagerVisible: false
-        // 修改弹窗中的数据结束
+        getemplist4: {
+        },
+        // 传给组件的数据
+        personalForm: {},
+        // 修改控制组件数据
+        editVisible: false,
+        // 开始时间到结束时间
+        date: [],
+        date2: []
       }
     },
     mounted() {
       this.getlist()
     },
     methods: {
+      tableHeaderColor({ row, column, rowIndex, columnIndex }) {
+        if (rowIndex === 0 && columnIndex === 0) {
+          return 'background-color: #00a9f7;color: white;'
+        }
+        if (rowIndex === 0 && columnIndex === 1) {
+          return 'background-color: #00a9f7;color: white;'
+        }
+        if (rowIndex === 0 && columnIndex === 2) {
+          return 'background-color: #00a9f7;color: white;'
+        }
+        if (rowIndex === 0 && columnIndex === 3) {
+          return 'background-color: #00a9f7;color: white;'
+        }
+        if (rowIndex === 0 && columnIndex === 4) {
+          return 'background-color: #00a9f7;color: white;'
+        }
+        if (rowIndex === 0 && columnIndex === 5) {
+          return 'background-color: #00a9f7;color: white;'
+        }
+        if (rowIndex === 0 && columnIndex === 6) {
+          return 'background-color: #00a9f7;color: white;'
+        }
+        if (rowIndex === 0 && columnIndex === 7) {
+          return 'background-color: #00a9f7;color: white;'
+        }
+        if (rowIndex === 0 && columnIndex === 8) {
+          return 'background-color: #00a9f7;color: white;'
+        }
+        if (rowIndex === 0 && columnIndex === 9) {
+          return 'background-color: #00a9f7;color: white;'
+        }
+        if (rowIndex === 0 && columnIndex === 10) {
+          return 'background-color: #00a9f7;color: white;'
+        }
+        if (rowIndex === 0 && columnIndex === 11) {
+          return 'background-color: #00a9f7;color: white;'
+        }
+        if (rowIndex === 0 && columnIndex === 12) {
+          return 'background-color: #00a9f7;color: white;'
+        }
+        if (rowIndex === 0 && columnIndex === 13) {
+          return 'background-color: #00a9f7;color: white;'
+        }
+        if (rowIndex === 0 && columnIndex === 14) {
+          return 'background-color: #00a9f7;color: white;'
+        }
+      },
+      tableHeaderColor3({ row, column, rowIndex, columnIndex }) {
+        if (rowIndex === 0 && columnIndex === 0) {
+          return 'background-color: #5bba56;color: white;'
+        }
+        if (rowIndex === 0 && columnIndex === 1) {
+          return 'background-color: #00a9f7;color: white;'
+        }
+        if (rowIndex === 1 && columnIndex === 0) {
+          return 'background-color: #00a9f7;color: white;'
+        }
+        if (rowIndex === 1 && columnIndex === 1) {
+          return 'background-color: #00a9f7;color: white;'
+        }
+        if (rowIndex === 1 && columnIndex === 2) {
+          return 'background-color: #00a9f7;color: white;'
+        }
+        if (rowIndex === 0 && columnIndex === 2) {
+          return 'background-color: #f99a00;color: white;'
+        }
+        if (rowIndex === 1 && columnIndex === 4) {
+          return 'background-color: #f99a00;color: white;'
+        }
+        if (rowIndex === 1 && columnIndex === 5) {
+          return 'background-color: #f99a00;color: white;'
+        }
+        if (rowIndex === 1 && columnIndex === 3) {
+          return 'background-color: #f99a00;color: white;'
+        }
+      },
+      tableHeaderColor2({ row, column, rowIndex, columnIndex }) {
+        if (rowIndex === 0 && columnIndex === 0) {
+          return 'background-color: #5bba56;color: white;'
+        }
+        if (rowIndex === 0 && columnIndex === 1) {
+          return 'background-color: #00a9f7;color: white;'
+        }
+        if (rowIndex === 0 && columnIndex === 2) {
+          return 'background-color: #f99a00;color: white;'
+        }
+        if (rowIndex === 0 && columnIndex === 3) {
+          return 'background-color: #f93f33;color: white;'
+        }
+        if (rowIndex === 0 && columnIndex === 4) {
+          return 'background-color: #17cb97;color: white;'
+        }
+        if (rowIndex === 0 && columnIndex === 5) {
+          return 'background-color: #a48df5;color: white;'
+        }
+        if (rowIndex === 0 && columnIndex === 6) {
+          return 'background-color: #6f8aff;color: white;'
+        }
+      },
+      getlink(row){
+        console.log(row);
+      },
       checkPermission,
+      // 不让勾选
+      selectInit(row, index) {
+        if (row.judgeStat !== 0) {
+          return false
+        } else {
+          return true
+        }
+      },
+      // 选择客户类型时清理客户名称
+      clearCustomer() {
+        this.getemplist.customerId = ''
+        this.customerName = ''
+      },
+      // 选择客户focus
+      chooseCustomer() {
+        if (this.getemplist.customerType === '1') {
+          this.agentcontrol = true
+        } else if (this.getemplist.customerType === '2') {
+          this.customercontrol = true
+        }
+      },
+      customerdata(val) {
+        this.getemplist.customerId = val.id
+        this.customerName = val.customerName
+      },
+      agentdata(val) {
+        this.getemplist.customerId = val.id
+        this.customerName = val.agentName
+      },
+      // 更新采购类型
+      updatecountry() {
+        this.getlist()
+      },
       getlist() {
-        // 国家列表
-        getcountrylist().then(res => {
-          if (res.data.ret === 200) {
-            this.nations = res.data.data.content
-          } else {
-            console.log('国家列表错误')
-          }
-        })
-        // 员工列表数据
         this.listLoading = true
-        searchRepository2(this.getemplist).then(res => {
+        SaleMange1(this.getemplist3).then(res => {
           if (res.data.ret === 200) {
-            this.list = res.data.data.content.list
-            this.total = res.data.data.content.totalCount
-          } else {
-            console.log('员工列表错误')
+            console.log(res.data)
+            console.log(res.data.data.repositoryName)
+            this.list3 = res.data.data.content.map(function (item) {
+              return {
+                repositoryName: item.repositoryName,
+                finished: item.finished,
+                comment: item.comment,
+                canceled: item.canceled,
+                begin: item.begin,
+                submit: item.submit,
+                repair: item.repair,
+                assigned: item.assigned
+              }
+            })
           }
           setTimeout(() => {
             this.listLoading = false
           }, 0.5 * 100)
         })
-        // 仓库类型
-        searchRepCategory().then(res => {
+
+        SaleMange2(this.getemplist3).then(res => {
           if (res.data.ret === 200) {
-            console.log(res)
-            this.types = res.data.data.content.list
-          } else {
-            console.log('仓库类型错误')
+            console.log(res.data)
+            console.log(res.data.data.saleManagerVos)
+            this.list2 = res.data.data.saleManagerVos.map(function (item) {
+              if (item.customerToday === null) {
+                item.customerToday = 0
+              }
+              if (item.customerMonth === null) {
+                item.customerMonth = 0
+              }
+              return {
+                repositoryName: item.repositoryName,
+                agentLast: item.agentLast,
+                agentMonth: item.agentMonth,
+                agentToday: item.agentToday,
+                customerLast: item.customerLast,
+                customerMonth: item.customerMonth,
+                customerToday: item.customerToday
+              }
+            })
           }
+          setTimeout(() => {
+            this.listLoading = false
+          }, 0.5 * 100)
         })
-        // 区域数据
-        regionlist().then(res => {
+
+        SaleMange3(this.getemplist4).then(res => {
           if (res.data.ret === 200) {
-            this.regions = this.tranKTree(res.data.data.content)
+            console.log('list',res.data)
+            this.list = res.data.data.content.map(function (item) {
+              return {
+                repositoryName: item.repositoryName,
+                first: item.first,
+                manyTimes: item.manyTimes,
+                important: item.important,
+                online: item.online,
+                total: item.first + item.manyTimes + item.important
+              }
+            })
           }
+          setTimeout(() => {
+            this.listLoading = false
+          }, 0.5 * 100)
         })
+      },
+      // 清空搜索条件
+      restFilter() {
+        this.customerName = ''
+        this.getemplist.customerId = ''
+        this.stockPersonId = ''
+        this.getemplist.stockPersonId = ''
       },
       // 搜索
       handleFilter() {
-        this.getemplist.pagenum = 1
-        this.getemplist.regionId = this.getemplistregions[this.getemplistregions.length - 1]
-        console.log(this.getemplist)
-        searchRepository2(this.getemplist).then(res => {
+        if (this.date === null || this.date === undefined || this.date === '') {
+          this.getemplist3.beginTime = ''
+          this.getemplist3.endTime = ''
+        } else {
+          this.getemplist3.beginTime = this.date[0]
+          this.getemplist3.endTime = this.date[1]
+        }
+        SaleMange1(this.getemplist3).then(res => {
           if (res.data.ret === 200) {
-            this.list = res.data.data.content.list
-            this.total = res.data.data.content.totalCount
-          } else {
-            console.log('搜索错误')
+            console.log(res.data)
+            console.log(res.data.data.repositoryName)
+            this.list3 = res.data.data.content.map(function (item) {
+              return {
+                repositoryName: item.repositoryName,
+                finished: item.finished,
+                comment: item.comment,
+                canceled: item.canceled,
+                begin: item.begin,
+                submit: item.submit,
+                repair: item.repair,
+                assigned: item.assigned
+              }
+            })
+          }
+          setTimeout(() => {
+            this.listLoading = false
+          }, 0.5 * 100)
+        })
+      },
+      // 搜索
+      handleFilter2() {
+        if (this.date2 === null || this.date2 === undefined || this.date2 === '') {
+          this.getemplist4.beginTime = ''
+          this.getemplist4.endTime = ''
+        } else {
+          this.getemplist4.beginTime = this.date2[0]
+          this.getemplist4.endTime = this.date2[1]
+        }
+        SaleMange3(this.getemplist4).then(res => {
+          if (res.data.ret === 200) {
+            console.log('list',res.data)
+            this.list = res.data.data.content.map(function (item) {
+              return {
+                repositoryName: item.repositoryName,
+                first: item.first,
+                manyTimes: item.manyTimes,
+                important: item.important,
+                online: item.online,
+                total: item.first + item.manyTimes + item.important
+              }
+            })
+          }
+          setTimeout(() => {
+            this.listLoading = false
+          }, 0.5 * 100)
+        })
+      },
+      // 采购人focus事件
+      handlechooseStock() {
+        this.stockControl = true
+      },
+      // 采购人回显
+      stockName(val) {
+        this.stockPersonId = val.personName
+        this.getemplist.stockPersonId = val.id
+      },
+      // 供应商输入框focus事件触发
+      handlechoose() {
+        this.empcontrol = true
+      },
+      // 供应商列表返回数据
+      supplierName(val) {
+        console.log(val)
+        this.supplierId = val.supplierName
+        this.getemplist.supplierId = val.id
+      },
+      // 修改操作
+      handleEdit(row) {
+        console.log(row)
+        this.editVisible = true
+        this.personalForm = Object.assign({}, row)
+        this.personalForm.sourceType = String(row.sourceType)
+        if (row.currency !== null) {
+          this.personalForm.currency = String(row.currency)
+        }
+        if (row.customerType !== null) {
+          this.personalForm.customerType = String(row.customerType)
+        }
+        if (row.payMode !== null) {
+          this.personalForm.payMode = String(row.payMode)
+        }
+        if (row.saleType !== null) {
+          this.personalForm.saleType = String(row.saleType)
+        }
+        if (row.payType !== null) {
+          this.personalForm.payType = String(row.payType)
+        }
+        if (row.payType !== null) {
+          this.personalForm.payType = String(row.payType)
+        }
+      },
+      // 修改组件修改成功后返回
+      refreshlist(val) {
+        if (val === true) {
+          this.getlist()
+        }
+      },
+      // 详情操作
+      handleDetail(row) {
+        console.log(row)
+        this.detailvisible = true
+        this.personalForm = Object.assign({}, row)
+      },
+      // 判断审核按钮
+      isReview(row) {
+        console.log(row)
+        if (row.approvalUseVos !== '' && row.approvalUseVos !== null && row.approvalUseVos !== undefined && row.approvalUseVos.length !== 0) {
+          const approvalUse = row.approvalUseVos
+          if (this.$store.getters.userId === approvalUse[approvalUse.length - 1].stepHandler && (row.judgeStat === 1 || row.judgeStat === 0)) {
+            return true
+          }
+        }
+      },
+      // 审批操作
+      handleReview(row) {
+        this.reviewParms.id = row.id
+        this.reviewParms.judgePersonId = this.$store.getters.userId
+        this.$confirm('请审核', '审核', {
+          distinguishCancelAndClose: true,
+          confirmButtonText: '通过',
+          cancelButtonText: '不通过',
+          type: 'warning'
+        }).then(() => {
+          this.reviewParms.judgeStat = 2
+          const parms = JSON.stringify(this.reviewParms)
+          updatesaleOrder2(parms).then(res => {
+            if (res.data.ret === 200) {
+              this.$message({
+                type: 'success',
+                message: '审核成功!'
+              })
+              this.getlist()
+            }
+          })
+        }).catch(action => {
+          if (action === 'cancel') {
+            this.reviewParms.judgeStat = 1
+            const parms = JSON.stringify(this.reviewParms)
+            updatesaleOrder2(parms).then(res => {
+              if (res.data.ret === 200) {
+                this.$message({
+                  type: 'success',
+                  message: '审核成功!'
+                })
+                this.getlist()
+              }
+            })
           }
         })
       },
@@ -662,31 +721,17 @@
       handleSelectionChange(val) {
         this.moreaction = val
       },
-      // 批量停用和删除
+      // 多条删除
+      // 批量删除
       handleCommand(command) {
         const ids = this.moreaction.map(item => item.id).join()
-        if (command === 'disable') {
-          startorend(ids, 2).then(res => {
-            if (res.data.ret === 200) {
-              this.$notify({
-                title: '操作成功',
-                message: '操作成功',
-                type: 'success',
-                duration: 1000,
-                offset: 100
-              })
-              this.getlist()
-            } else {
-              this.$message.error('出错了')
-            }
-          })
-        } else if (command === 'delete') {
+        if (command === 'delete') {
           this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
             confirmButtonText: '确定',
             cancelButtonText: '取消',
             type: 'warning'
           }).then(() => {
-            deleteRepository(ids, this.$store.getters.userId).then(res => {
+            deletesaleOrder(ids, this.$store.getters.userId).then(res => {
               if (res.data.ret === 200 || res.data.ret === 100) {
                 this.$notify({
                   title: '删除成功',
@@ -717,7 +762,7 @@
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          deleteRepository(row.id, this.$store.getters.userId).then(res => {
+          deletesaleOrder(row.id, this.$store.getters.userId).then(res => {
             if (res.data.ret === 200 || res.data.ret === 100) {
               this.$notify({
                 title: '删除成功',
@@ -740,59 +785,21 @@
           })
         })
       },
-      // 单条停用
-      handleDisable(row) {
-        startorend(row.id, 2).then(res => {
-          if (res.data.ret === 200) {
-            this.$notify({
-              title: '操作成功',
-              message: '操作成功',
-              type: 'success',
-              duration: 1000,
-              offset: 100
-            })
-            this.getlist()
-          } else {
-            this.$message.error('出错了')
-          }
-        })
-      },
-      // 单条启用
-      handleEnable(row) {
-        startorend(row.id, 1).then(res => {
-          if (res.data.ret === 200) {
-            this.$notify({
-              title: '操作成功',
-              message: '操作成功',
-              duration: 1000,
-              type: 'success',
-              offset: 100
-            })
-            this.getlist()
-          } else {
-            this.$message.error('出错了')
-          }
-        })
-      },
       // 新增数据
       handleAdd() {
-        this.$router.push('/Repository/NewRepository')
-      },
-      // 生成合同
-      handleContract() {
-        console.log(123)
+        this.$router.push('/SaleOrder/AddSaleOrder')
       },
       // 导出
       handleExport() {
         this.downloadLoading = true
         import('@/vendor/Export2Excel').then(excel => {
-          const tHeader = ['编号', '工号', '员工登陆账号', '姓名', '性别', '生日', '邮箱', '职位', '所属部门', '所属区域', '所属门店', '入职时间', '离职时间', '状态']
-          const filterVal = ['id', 'jobNumber', 'account', 'firstName', 'gender', 'birthday', 'email', 'postName', 'deptName', 'regionName', 'repositoryName', 'createTime', 'dimissionTime', 'stat']
+          const tHeader = ['供应商编号', '供应商名称', '供应商简称', '供应商类别', '所在区域', '采购员', '供应商优质级别', '建档人', '建档日期']
+          const filterVal = ['id', 'SaleOrderName', 'SaleOrderShortName', 'typeName', 'regionName', 'buyerName', 'levelName', 'createName', 'createTime']
           const data = this.formatJson(filterVal, this.list)
           excel.export_json_to_excel({
             header: tHeader,
             data,
-            filename: '仓库资料表'
+            filename: '经销商资料表'
           })
           this.downloadLoading = false
         })
@@ -806,198 +813,35 @@
       handlePrint() {
         console.log(456)
       },
-      // 转化数据方法
-      tranKTree(arr) {
-        if (!arr || !arr.length) return
-        return arr.map(item => ({
-          id: item.id,
-          regionName: item.regionName,
-          regionListVos: this.tranKTree(item.regionListVos)
-        }))
+      // 仓库列表focus事件触发
+      handlechooseRep() {
+        this.repositorycontrol = true
       },
-      // 修改操作
-      handleEdit(row) {
-        console.log(row)
-        this.RepositoryForm = Object.assign({}, row)
-        this.regionname = row.regionName
-        this.managerPeople = row.managerName
-        this.regionManagerId = row.regionPersonName
-        this.RepositoryForm.attributes = String(row.attributes)
-        this.editVisible = true
-      },
-      // 确认修改
-      handleEditok() {
-        this.RepositoryForm.regionId = this.regionId[this.regionId.length - 1]
-        this.$refs.RepositoryForm.validate((valid) => {
-          if (valid) {
-            update(this.RepositoryForm).then(res => {
-              if (res.data.ret === 200) {
-                this.$notify({
-                  title: '成功',
-                  message: '修改成功',
-                  type: 'success',
-                  offset: 100
-                })
-                this.getlist()
-                this.$refs.RepositoryForm.clearValidate()
-                this.$refs.RepositoryForm.resetFields()
-                this.editVisible = false
-              } else {
-                this.$notify.error({
-                  title: '错误',
-                  message: '出错了',
-                  offset: 100
-                })
-              }
-            })
-          } else {
-            this.$notify.error({
-              title: '错误',
-              message: '信息未填完整',
-              offset: 100
-            })
-            return false
-          }
-        })
-      },
-      //  取消修改
-      handlecancel() {
-        this.$refs.RepositoryForm.clearValidate()
-        this.$refs.RepositoryForm.resetFields()
-        this.editVisible = false
-      },
-      // 修改弹窗里的操作开始
-      // --------------------------------------------------
-      // 仓库管理员选择开始
-      gitemplist() {
-        // 员工列表数据
-        this.listLoading = true
-        console.log(this.getemplist)
-        getemplist(this.getemplist).then(res => {
-          if (res.data.ret === 200) {
-            this.list = res.data.data.content.list
-            this.total = res.data.data.content.totalCount
-          } else {
-            this.$notify.error({
-              title: '错误',
-              message: '出错了',
-              offset: 100
-            })
-          }
-          setTimeout(() => {
-            this.listLoading = false
-          }, 0.5 * 100)
-        })
-        // 部门列表数据
-        getdeptlist().then(res => {
-          if (res.data.ret === 200) {
-            this.depts = res.data.data.content
-          } else {
-            this.$notify.error({
-              title: '错误',
-              message: '出错了',
-              offset: 100
-            })
-          }
-        })
-        // 区域数据
-        regionlist().then(res => {
-          if (res.data.ret === 200) {
-            this.regions2 = this.tranKTree(res.data.data.content)
-          }
-        })
-      },
-      // 查询
-      handleFilter2() {
-        this.getemplist.regionid = this.getemplistregions[this.getemplistregions.length - 1]
-        getemplist(this.getemplist).then(res => {
-          if (res.data.ret === 200) {
-            this.list = res.data.data.content.list
-            this.total = res.data.data.content.totalCount
-          } else {
-            this.$notify.error({
-              title: '错误',
-              message: '出错了',
-              offset: 100
-            })
-          }
-        })
-      },
-      // 新增数据
-      handleAdd2() {
-        this.employeeVisible = false
-        this.$router.push('/EmployeeInformation/NewEmployeeInformation')
-      },
-      // 根据区域选择门店
-      handlechange4(val) {
+      repositoryname(val) {
         console.log(val)
-        const finalid = val[val.length - 1]
-        searchRepository(finalid).then(res => {
-          if (res.data.ret === 200) {
-            console.log(res)
-            this.repositories = res.data.data.content.list
-          } else {
-            this.$message.error('出错了')
-          }
-        })
+        this.enterRepositoryId = val.repositoryName
+        this.getemplist.enterRepositoryId = val.id
       },
-      // 清空历史搜索数据
-      restemplist() {
-        this.getemplist = {
-          repositoryid: '',
-          regionid: '',
-          postid: '',
-          deptid: '',
-          employeename: '',
-          pagenum: 1,
-          pagesize: 10,
-          stat: 1,
-          loginRepositoryId: this.$store.getters.repositoryId,
-          regionIds: this.$store.getters.regionId,
-          time: '',
-          jobnumber: ''
-        }
-        this.getemplistregions = []
+      // 部门列表focus刷新
+      updatedept() {
+        this.getlist()
       },
-      // 员工输入框focus事件触发
-      handlechoose() {
-        this.restemplist()
-        this.employeeVisible = true
-        this.gitemplist()
+      // 交货人foucs事件触发
+      handlechooseDelivery() {
+        this.deliverycontrol = true
       },
-      // 选择员工数据时的操作
-      handleCurrentChange(val) {
-        this.managerPeople = val.personName
-        this.RepositoryForm.managerPeopleId = val.id
+      deliveryName(val) {
+        this.deliveryPersonId = val.personName
+        this.getemplist.deliveryPersonId = val.id
       },
-      handleConfirm() {
-        this.employeeVisible = false
+      // 验收人focus事件触发
+      handlechooseAccept() {
+        this.accetpcontrol = true
       },
-      // 仓库管理员选择结束
-      // ---------------------------------------------------------------
-      // 小区经理选择开始
-      // 小区经理输入框focus事件触发
-      handlechoose2() {
-        this.restemplist()
-        this.regionManagerVisible = true
-        this.gitemplist()
-      },
-      // 新增数据
-      handleAdd3() {
-        this.regionManagerVisible = false
-        this.$router.push('/EmployeeInformation/NewEmployeeInformation')
-      },
-      // 小区经理选择员工数据时的操作
-      handleCurrentChange2(val) {
-        console.log(val)
-        this.regionManagerId = val.personName
-        this.RepositoryForm.regionManagerId = val.id
-      },
-      handleConfirm2() {
-        this.regionManagerVisible = false
+      acceptName(val) {
+        this.acceptPersonId = val.personName
+        this.getemplist.acceptPersonId = val.id
       }
-      // 小区经理选择结束
-      // 修改弹窗里的操作结束
     }
   }
 </script>
@@ -1021,5 +865,30 @@
   .filter-item{
     width: 140px;
     margin-left: 20px;
+  }
+  .el-col {
+    border-radius: 4px;
+  }
+  .bg-purple-dark {
+    background: #99a9bf;
+  }
+  .bg-purple {
+    background: white;
+  }
+  .bg-purple-light {
+    background: #e5e9f2;
+  }
+  .grid-content {
+    border-radius: 4px;
+    min-height: 400px;
+  }
+  .row-bg {
+    padding: 10px 0;
+    background-color: #f9fafc;
+  }
+  @media screen and (max-width: 1400px) {
+    .shipei {
+      margin-left: 36% !important;
+    }
   }
 </style>

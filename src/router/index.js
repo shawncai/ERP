@@ -915,6 +915,32 @@ export const asyncRouterMap = [
     ]
   },
   {
+    path: '/ProductCost',
+    component: Layout,
+    redirect: 'noredirect',
+    name: 'ProductCost',
+    alwaysShow: true,
+    meta: {
+      title: 'ProductCost',
+      icon: 'wuliao',
+      type: 7
+    },
+    children: [
+      {
+        path: 'AddProductCost',
+        component: () => import('@/views/ProductCost/AddProductCost'),
+        name: 'AddProductCost',
+        meta: { title: 'AddProductCost', noCache: false }
+      },
+      {
+        path: 'ProductCostList',
+        component: () => import('@/views/ProductCost/ProductCostList'),
+        name: 'ProductCostList',
+        meta: { title: 'ProductCostList', noCache: true }
+      }
+    ]
+  },
+  {
     path: '/MaterialsList',
     component: Layout,
     redirect: 'noredirect',

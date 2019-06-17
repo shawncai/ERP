@@ -281,7 +281,7 @@ export default {
       this.repositorycontrol = true
     },
     repositoryname(val) {
-      console.log(val)
+      console.log('123', val)
       this.adjustRepositoryId = val.repositoryName
       this.getemplist.adjustRepositoryId = val.id
     },
