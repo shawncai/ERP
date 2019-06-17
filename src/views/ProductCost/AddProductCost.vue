@@ -113,7 +113,8 @@
                   <el-col :span="24">
                     <div style="width: 100%; min-height: 400px;" >
                       <el-table
-                        :data="list2"
+                        ref="totaltable"
+                        :data.sync="list2"
                         :border="true"
                         style="width: 100%">
                         <el-table-column
@@ -137,7 +138,7 @@
                           min-width="140"
                           align="center">
                           <template slot-scope="scope">
-                            <span v-show="scope.$index >= 2" @click="getscope(scope)">{{ scope.row.material }}</span>
+                            <span v-show="scope.$index >= 2" @click="getscope(scope)">{{ scope.row.man }}</span>
                             <el-input v-show="scope.$index < 2" v-model="scope.row.man" style="width: 130px;"/>
                           </template>
                         </el-table-column>
@@ -147,7 +148,7 @@
                           min-width="140"
                           align="center">
                           <template slot-scope="scope">
-                            <span v-show="scope.$index >= 2" @click="getscope(scope)">{{ scope.row.material }}</span>
+                            <span v-show="scope.$index >= 2" @click="getscope(scope)">{{ scope.row.produce }}</span>
                             <el-input v-show="scope.$index < 2" v-model="scope.row.produce" style="width: 130px;"/>
                           </template>
                         </el-table-column>
@@ -369,42 +370,42 @@ export default {
           material: '',
           man: '',
           produce: '',
-          total: 0.00
+          total: '0.00'
         },
         {
           productCost: '本月发生生产费用',
           material: '',
           man: '',
           produce: '',
-          total: 0.00
+          total: '0.00'
         },
         {
           productCost: '合计',
-          material: 0.00,
-          man: 0.00,
-          produce: 0.00,
-          total: 0.00
+          material: '0.00',
+          man: '0.00',
+          produce: '0.00',
+          total: '0.00'
         },
         {
           productCost: '完工产品总成本',
-          material: 0.00,
-          man: 0.00,
-          produce: 0.00,
-          total: 0.00
+          material: '0.00',
+          man: '0.00',
+          produce: '0.00',
+          total: '0.00'
         },
         {
           productCost: '单位成本',
-          material: 0.00,
-          man: 0.00,
-          produce: 0.00,
-          total: 0.00
+          material: '0.00',
+          man: '0.00',
+          produce: '0.00',
+          total: '0.00'
         },
         {
           productCost: '月末在产品成本',
-          material: 0.00,
-          man: 0.00,
-          produce: 0.00,
-          total: 0.00
+          material: '0.00',
+          man: '0.00',
+          produce: '0.00',
+          total: '0.00'
         }
       ],
       // 采购申请单明细列表规则
@@ -433,6 +434,18 @@ export default {
   methods: {
     getdata(val) {
       console.log('123', val)
+      console.log('123', this.personalForm.accountType)
+      if (this.personalForm.accountType === '1') {
+        console.log('123')
+        console.log('data1', val.store)
+        console.log('data2', val.store.table.data[0].material)
+        val.row.total = 1
+        // this.list2[5].material = val.row.material
+        this.list2[5].material = this.list2[0].material
+        console.log('list2', this.list2[5])
+        console.log('refsdata', this.$refs.mater)
+        console.log('data3', val.store.table.data)
+      }
     },
     getscope(val) {
       console.log(val)
