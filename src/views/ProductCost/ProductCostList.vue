@@ -3,61 +3,31 @@
     <el-card class="box-card" style="margin-top: 10px;height: 60px" shadow="never">
       <el-row>
         <el-form ref="getemplist" :model="getemplist" label-width="100px" style="margin-top: -9px">
-          <el-col :span="5">
-            <el-form-item label="报告主题" label-width="100px">
-              <el-input v-model="getemplist.title" :placeholder="$t('CheckReport.title')" clearable @keyup.enter.native="handleFilter"/>
+          <el-col :span="6">
+            <el-form-item label="产品名称" label-width="100px">
+              <el-input v-model="getemplist.productName" :placeholder="$t('ProductCost.productName')" clearable style="width: 80%" @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
-          <el-col :span="5" style="margin-left: 10px">
-            <el-form-item label="报告编号">
-              <el-input v-model="getemplist.reportNumber" placeholder="报告编号" clearable @keyup.enter.native="handleFilter"/>
+          <el-col :span="6" style="margin-left: 10px">
+            <el-form-item :label="$t('ProductCost.accountTime')" style="width: 100%;">
+              <el-date-picker
+                v-model="getemplist.accountTime"
+                type="month"
+                value-format="yyyy-MM"
+                placeholder="选择月"
+                style="margin-left: 11px;width: 80%"/>
             </el-form-item>
           </el-col>
-          <el-col :span="5" style="margin-left: 10px">
-            <el-form-item label="报检员">
-              <el-input v-model="inspectionPersonId" :placeholder="$t('CheckReport.inspectionPersonId')" clearable @keyup.enter.native="handleFilter" @focus="handlechooseStock"/>
+          <el-col :span="6" style="margin-left: 10px">
+            <el-form-item label="成本核算方法">
+              <el-select v-model="getemplist.accountType" clearable value="personalForm.accountType">
+                <el-option value="1" label="约当产量法"/>
+                <el-option value="2" label="定额成本发"/>
+                <el-option value="3" label="定额比例发"/>
+              </el-select>
             </el-form-item>
-            <my-emp :control.sync="stockControl" @stockName="stockName"/>
           </el-col>
           <!--更多搜索条件-->
-          <el-col :span="3">
-            <el-popover
-              v-model="visible2"
-              placement="bottom"
-              width="500"
-              trigger="manual">
-              <el-select v-model="getemplist.inspectionDeptId" placeholder="报检部门" clearable style="width: 40%;float: left;margin-left: 20px">
-                <el-option
-                  v-for="(item, index) in depts"
-                  :key="index"
-                  :value="item.id"
-                  :label="item.deptName"/>
-              </el-select>
-              <el-select v-model="personalForm.checkType" placeholder="质检类型" style="width: 40%;float: right;margin-right: 20px">
-                <el-option value="1" label="来料质检"/>
-                <el-option value="2" label="送样质检"/>
-                <el-option value="3" label="生产质检"/>
-              </el-select>
-              <el-select v-model="getemplist.receiptStat" :value="getemplist.receiptStat" placeholder="单据状态" clearable style="width: 40%;float: left;margin-left: 20px;margin-top: 20px">
-                <el-option value="1" label="制单"/>
-                <el-option value="2" label="执行"/>
-                <el-option value="3" label="结单"/>
-              </el-select>
-              <el-select v-model="getemplist.judgeStat" :value="getemplist.judgeStat" placeholder="审批状态" clearable style="width: 40%;float: right;margin-right: 20px;margin-top: 20px">
-                <el-option value="0" label="未审核"/>
-                <el-option value="1" label="审核中"/>
-                <el-option value="2" label="审核通过"/>
-                <el-option value="3" label="审核不通过"/>
-              </el-select>
-              <el-select v-model="getemplist.checkMode" :value="getemplist.checkMode" placeholder="检验方式" clearable style="width: 40%;float: left;margin-left: 20px;margin-top: 20px">
-                <el-option value="1" label="抽样"/>
-              </el-select>
-              <div class="seachbutton" style="width: 100%;float: right;margin-top: 20px">
-                <el-button v-waves class="filter-item" type="primary" style="float: right" round @click="handleFilter">{{ $t('public.search') }}</el-button>
-              </div>
-              <el-button v-waves slot="reference" type="primary" class="filter-item" style="width: 130px" @click="visible2 = !visible2">{{ $t('public.filter') }}<svg-icon icon-class="shaixuan" style="margin-left: 4px"/></el-button>
-            </el-popover>
-          </el-col>
           <el-col :span="3" style="margin-left: 20px">
             <!-- 搜索按钮 -->
             <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 86px" round @click="handleFilter">{{ $t('public.search') }}</el-button>
@@ -101,48 +71,43 @@
           align="center"/>
         <el-table-column :label="$t('public.id')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span class="link-type" @click="handleDetail(scope.row)">{{ scope.row.reportNumber }}</span>
+            <span class="link-type" @click="handleDetail(scope.row)">{{ scope.row.id }}</span>
           </template>
           <detail-list :detailcontrol.sync="detailvisible" :detaildata.sync="personalForm"/>
         </el-table-column>
-        <el-table-column :label="$t('CheckReport.title')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('ProductCost.productName')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.title }}</span>
+            <span>{{ scope.row.productName }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('CheckReport.sourceType')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('ProductCost.accountTime')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.sourceType | sourceTypeFilter }}</span>
+            <span>{{ scope.row.accountTime }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('CheckReport.supplierId')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('ProductCost.accountType')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.supplierName }}</span>
+            <span>{{ scope.row.accountType | accountTypeFilter }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('CheckReport.checkType')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('ProductCost.completeRate')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.checkType | checkTypeFilter }}</span>
+            <span>{{ scope.row.completeRate }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('CheckReport.checkMode')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('ProductCost.isInput')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.checkMode | checkModeFilter }}</span>
+            <span>{{ scope.row.isInput | checkModeFilter }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('CheckReport.inspectionPersonId')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('ProductCost.finishQuantity')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.inspectionPersonName }}</span>
+            <span>{{ scope.row.finishQuantity }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('CheckReport.inspectionDeptId')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('ProductCost.producingQuantity')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.inspectionDeptName }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column :label="$t('CheckReport.checkDate')" :resizable="false" align="center" min-width="150">
-          <template slot-scope="scope">
-            <span>{{ scope.row.checkDate }}</span>
+            <span>{{ scope.row.producingQuantity }}</span>
           </template>
         </el-table-column>
         <el-table-column :label="$t('public.judgeStat')" :resizable="false" prop="judgeStat" align="center" min-width="150">
@@ -166,14 +131,14 @@
       <!-- 列表结束 -->
       <pagination v-show="total>0" :total="total" :page.sync="getemplist.pageNum" :limit.sync="getemplist.pageSize" @pagination="getlist" />
       <!--修改开始=================================================-->
-      <my-dialog :editcontrol.sync="editVisible" :editdata.sync="personalForm" @rest="refreshlist"/>
+      <!--      <my-dialog :editcontrol.sync="editVisible" :editdata.sync="personalForm" @rest="refreshlist"/>-->
       <!--修改结束=================================================-->
     </el-card>
   </div>
 </template>
 
 <script>
-import { checkreportlist, updatecheckreport2, deletecheckreport } from '@/api/CheckReport'
+import { produceCostlist, deleteproduceCost, updateproduceCost } from '@/api/ProduceCost'
 import { getdeptlist } from '@/api/BasicSettings'
 import { searchStockCategory } from '@/api/StockCategory'
 import waves from '@/directive/waves' // Waves directive
@@ -228,9 +193,18 @@ export default {
       }
       return statusMap[status]
     },
+    accountTypeFilter(status) {
+      const statusMap = {
+        1: '约当产量法',
+        2: '定额成本发',
+        3: ' 定额比例发'
+      }
+      return statusMap[status]
+    },
     checkModeFilter(status) {
       const statusMap = {
-        1: '抽样'
+        1: '是',
+        2: '否'
       }
       return statusMap[status]
     }
@@ -310,7 +284,7 @@ export default {
     getlist() {
       // 物料需求计划列表数据
       this.listLoading = true
-      checkreportlist(this.getemplist).then(res => {
+      produceCostlist(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
@@ -342,7 +316,7 @@ export default {
     // 搜索
     handleFilter() {
       this.getemplist.pageNum = 1
-      checkreportlist(this.getemplist).then(res => {
+      produceCostlist(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
@@ -418,7 +392,7 @@ export default {
       }).then(() => {
         this.reviewParms.judgeStat = 2
         const parms = JSON.stringify(this.reviewParms)
-        updatecheckreport2(parms).then(res => {
+        updateproduceCost(parms).then(res => {
           if (res.data.ret === 200) {
             this.$message({
               type: 'success',
@@ -429,9 +403,9 @@ export default {
         })
       }).catch(action => {
         if (action === 'cancel') {
-          this.reviewParms.judgeStat = 1
+          this.reviewParms.judgeStat = 3
           const parms = JSON.stringify(this.reviewParms)
-          updatecheckreport2(parms).then(res => {
+          updateproduceCost(parms).then(res => {
             if (res.data.ret === 200) {
               this.$message({
                 type: 'success',
@@ -457,7 +431,7 @@ export default {
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          deletecheckreport(ids, this.$store.getters.userId).then(res => {
+          deleteproduceCost(ids, this.$store.getters.userId).then(res => {
             if (res.data.ret === 200 || res.data.ret === 100) {
               this.$notify({
                 title: '删除成功',
@@ -488,7 +462,7 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        deletecheckreport(row.id, this.$store.getters.userId).then(res => {
+        deleteproduceCost(row.id, this.$store.getters.userId).then(res => {
           if (res.data.ret === 200 || res.data.ret === 100) {
             this.$notify({
               title: '删除成功',
@@ -513,7 +487,7 @@ export default {
     },
     // 新增数据
     handleAdd() {
-      this.$router.push('/CheckReport/AddCheckReport')
+      this.$router.push('/ProductCost/AddProductCost')
     },
     // 导出
     handleExport() {

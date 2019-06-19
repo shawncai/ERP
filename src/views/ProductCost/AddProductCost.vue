@@ -5,7 +5,7 @@
       <el-card class="box-card" shadow="never">
         <h2 ref="geren" class="form-name">基本信息</h2>
         <div class="container" style="margin-top: 37px;">
-          <el-form ref="personalForm" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="205px">
+          <el-form ref="personalForm" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-position="left" label-width="205px">
             <el-row>
               <el-col :span="6">
                 <el-form-item :label="$t('ProductCost.accountTime')" style="width: 100%;">
@@ -13,18 +13,18 @@
                     v-model="personalForm.accountTime"
                     type="month"
                     placeholder="选择月"
-                    style="margin-left: 18px;width: 200px"/>
+                    style="margin-left: 11px;width: 200px"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('ProductCost.productName')" prop="sourceType" style="width: 100%;">
-                  <el-input v-model="personalForm.productName" style="margin-left: 18px;width:200px" @focus="handlemater"/>
+                <el-form-item :label="$t('ProductCost.productName')" prop="productCode" style="width: 100%;">
+                  <el-input v-model="personalForm.productName" style="margin-left: 11px;width:200px" @focus="handlemater"/>
                   <my-mater :matercontrol.sync="matercontrol" @mater="mater"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('ProductCost.accountType')" prop="sourceNumber" style="width: 100%;">
-                  <el-select v-model="personalForm.accountType" value="personalForm.accountType" style="margin-left: 18px;width: 200px" @change="change()">
+                <el-form-item :label="$t('ProductCost.accountType')" style="width: 100%;">
+                  <el-select v-model="personalForm.accountType" value="personalForm.accountType" style="margin-left: 11px;width: 200px" @change="change()">
                     <el-option value="1" label="约当产量法"/>
                     <el-option value="2" label="定额成本发"/>
                     <el-option value="3" label="定额比例发"/>
@@ -32,66 +32,66 @@
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('ProductCost.completeRate')+'%'" style="width: 100%;">
-                  <el-input v-model="personalForm.completeRate" style="margin-left: 18px;width: 200px" clearable/>
+                <el-form-item :label="$t('ProductCost.completeRate')+'%'" prop="completeRate" style="width: 100%;">
+                  <el-input v-model="personalForm.completeRate" style="margin-left: 11px;width: 200px" clearable @blur="completeRate()"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('ProductCost.isInput')" prop="inspectionPersonId" style="width: 100%;">
-                  <el-radio-group v-model="personalForm.isInput" style="margin-left: 18px;width: 200px" >
+                <el-form-item :label="$t('ProductCost.isInput')" style="width: 100%;">
+                  <el-radio-group v-model="personalForm.isInput" style="margin-left: 11px;width: 200px" >
                     <el-radio :label="1" style="width: 100px">是</el-radio>
                     <el-radio :label="2">否</el-radio>
                   </el-radio-group>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('ProductCost.finishQuantity')" prop="reportDeptId" style="width: 100%;">
-                  <el-input v-model="personalForm.finishQuantity" style="margin-left: 18px;width: 200px" clearable/>
+                <el-form-item :label="$t('ProductCost.finishQuantity')" prop="finishQuantity" style="width: 100%;">
+                  <el-input v-model="personalForm.finishQuantity" style="margin-left: 11px;width: 200px" clearable @blur="completeRate()"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('ProductCost.producingQuantity')" prop="checkType" style="width: 100%;">
-                  <el-input v-model="personalForm.producingQuantity" style="margin-left: 18px;width: 200px" clearable/>
+                <el-form-item :label="$t('ProductCost.producingQuantity')" prop="producingQuantity" style="width: 100%;">
+                  <el-input v-model="personalForm.producingQuantity" style="margin-left: 11px;width: 200px" clearable @blur="completeRate()"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('ProductCost.producingMaterialsQuantity')" prop="checkMode" style="width: 100%;">
-                  <el-input v-model="personalForm.producingMaterialsQuantity" style="margin-left: 18px;width: 200px" clearable/>
+                <el-form-item :label="$t('ProductCost.producingMaterialsQuantity')" style="width: 100%;">
+                  <el-input v-model="personalForm.producingMaterialsQuantity" style="margin-left: 11px;width: 200px" clearable @blur="completeRate()"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('ProductCost.producingSalary')" style="width: 100%;">
-                  <el-input v-model="personalForm.producingSalary" style="margin-left: 18px;width: 200px" clearable/>
+                  <el-input v-model="personalForm.producingSalary" style="margin-left: 11px;width: 200px" clearable @blur="completeRate()"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('ProductCost.producingCost')" style="width: 100%;">
-                  <el-input v-model="personalForm.producingCost" style="margin-left: 18px;width: 200px" clearable/>
+                  <el-input v-model="personalForm.producingCost" style="margin-left: 11px;width: 200px" clearable @blur="completeRate()"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('ProductCost.finishMaterialsUsedQuantity')" style="width: 100%;">
-                  <el-input v-model="personalForm.finishMaterialsUsedQuantity" style="margin-left: 18px;width: 200px" clearable/>
+                  <el-input v-model="personalForm.finishMaterialsUsedQuantity" style="margin-left: 11px;width: 200px" clearable @blur="completeRate()"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('ProductCost.finishWorkHours')" prop="reportDeptId" style="width: 100%;">
-                  <el-input v-model="personalForm.finishWorkHours" style="margin-left: 18px;width: 200px" clearable/>
+                <el-form-item :label="$t('ProductCost.finishWorkHours')" style="width: 100%;">
+                  <el-input v-model="personalForm.finishWorkHours" style="margin-left: 11px;width: 200px" clearable @blur="completeRate()"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('ProductCost.endMaterialsQuantity')" prop="checkDate" style="width: 100%;">
-                  <el-input v-model="personalForm.endMaterialsQuantity" style="margin-left: 18px;width: 200px" clearable/>
+                <el-form-item :label="$t('ProductCost.endMaterialsQuantity')" style="width: 100%;">
+                  <el-input v-model="personalForm.endMaterialsQuantity" style="margin-left: 11px;width: 200px" clearable @blur="completeRate()"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('ProductCost.endWorkHours')" prop="reportDeptId" style="width: 100%;">
-                  <el-input v-model="personalForm.endWorkHours" style="margin-left: 18px;width: 200px" clearable/>
+                <el-form-item :label="$t('ProductCost.endWorkHours')" style="width: 100%;">
+                  <el-input v-model="personalForm.endWorkHours" style="margin-left: 11px;width: 200px" clearable @blur="completeRate()"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('ProductCost.currency')" prop="reportDeptId" style="width: 100%;">
-                  <el-select v-model="personalForm.checkMode" value="personalForm.checkMode" style="margin-left: 18px;width: 200px" >
+                <el-form-item :label="$t('ProductCost.currency')" style="width: 100%;">
+                  <el-select v-model="personalForm.currency" value="personalForm.checkMode" style="margin-left: 11px;width: 200px" >
                     <el-option value="1" label="RMB"/>
                     <el-option value="2" label="USD"/>
                   </el-select>
@@ -129,7 +129,7 @@
                           align="center">
                           <template slot-scope="scope">
                             <span v-show="scope.$index >= 2" @click="getscope(scope)">{{ scope.row.material }}</span>
-                            <el-input v-show="scope.$index < 2" v-model="scope.row.material" style="width: 130px;" @blur="getdata(scope)"/>
+                            <el-input v-show="scope.$index < 2" v-model="scope.row.material" style="width: 130px;" @blur="material('1')"/>
                           </template>
                         </el-table-column>
                         <el-table-column
@@ -139,7 +139,7 @@
                           align="center">
                           <template slot-scope="scope">
                             <span v-show="scope.$index >= 2" @click="getscope(scope)">{{ scope.row.man }}</span>
-                            <el-input v-show="scope.$index < 2" v-model="scope.row.man" style="width: 130px;"/>
+                            <el-input v-show="scope.$index < 2" v-model="scope.row.man" style="width: 130px;" @blur="man('1')" />
                           </template>
                         </el-table-column>
                         <el-table-column
@@ -149,7 +149,7 @@
                           align="center">
                           <template slot-scope="scope">
                             <span v-show="scope.$index >= 2" @click="getscope(scope)">{{ scope.row.produce }}</span>
-                            <el-input v-show="scope.$index < 2" v-model="scope.row.produce" style="width: 130px;"/>
+                            <el-input v-show="scope.$index < 2" v-model="scope.row.produce" style="width: 130px;" @blur="produce('1')"/>
                           </template>
                         </el-table-column>
                         <el-table-column
@@ -176,7 +176,7 @@
 </template>
 
 <script>
-import { addqualitycheck } from '@/api/CheckReport'
+import { addProduceCost } from '@/api/ProduceCost'
 import { productlist } from '@/api/public'
 import { getdeptlist } from '@/api/BasicSettings'
 import MyEmp from './components/MyEmp'
@@ -308,17 +308,21 @@ export default {
         countryId: this.$store.getters.countryId,
         repositoryId: this.$store.getters.repositoryId,
         regionId: this.$store.getters.regionId,
-        isRecheck: 1,
-        sourceType: '4',
-        sampleQuantity: null,
-        checkQuantity: null,
-        failedQuantity: '',
-        passQuantity: '',
-        checkMode: '1'
-        // checkQuantity: this.personalForm.sampleQuantity,
+        accountType: '1'
+      },
+      personalForm2: {
       },
       // 采购申请单规则数据
       personalrules: {
+        completeRate: [
+          { required: true, message: '请输入完工比例', trigger: 'blur' }
+        ],
+        finishQuantity: [
+          { required: true, message: '请输入完工数量', trigger: 'blur' }
+        ],
+        producingQuantity: [
+          { required: true, message: '请输入在产品数量', trigger: 'blur' }
+        ],
         sourceNumber: [
           { required: true, validator: validatePass, trigger: 'focus' }
         ],
@@ -432,20 +436,355 @@ export default {
     this.getTypes()
   },
   methods: {
-    getdata(val) {
-      console.log('123', val)
+    material(val) {
       console.log('123', this.personalForm.accountType)
       if (this.personalForm.accountType === '1') {
-        console.log('123')
-        console.log('data1', val.store)
-        console.log('data2', val.store.table.data[0].material)
-        val.row.total = 1
-        // this.list2[5].material = val.row.material
-        this.list2[5].material = this.list2[0].material
-        console.log('list2', this.list2[5])
-        console.log('refsdata', this.$refs.mater)
-        console.log('data3', val.store.table.data)
+        if (val === '1') {
+          if (this.personalForm.completeRate === '' || this.personalForm.completeRate === null || this.personalForm.completeRate === undefined || this.personalForm.finishQuantity === '' || this.personalForm.finishQuantity === null || this.personalForm.finishQuantity === undefined || this.personalForm.producingQuantity === '' || this.personalForm.producingQuantity === null || this.personalForm.producingQuantity === undefined) {
+            this.change()
+            this.$notify.error({
+              title: '错误',
+              message: '上方字段未填写完整',
+              offset: 100
+            })
+            return false
+          }
+        }
+        // else {
+        if (this.list2[0].man !== '' || this.list2[1].man !== '' || this.list2[0].material !== '' || this.list2[1].material !== '' || this.list2[0].produce !== '' || this.list2[1].produce !== '') {
+          // 列合计
+          this.list2[2].material = (Number(this.list2[0].material) + Number(this.list2[1].material)).toFixed(2)
+          console.log(Number(this.list2[0].material))
+          //         1.约当产量法：
+          // 在产品约当产量＝在产品数量×完工百分比（完工率）
+          // 某项费用分配率＝该项费用总额÷（完工产品产量＋在产品约当产量）
+          // 完工产品该项成本＝完工产品数量×费用分配率
+          //         月末在产品该项成本＝在产品数量×费用分配率
+          //         或 ＝费用总额－完工产品费用
+          // 在产品约当产量＝在产品数量×完工百分比（完工率）
+          const yuedang = (Number(this.personalForm.producingQuantity) * Number(this.personalForm.completeRate) / 100).toFixed(2)
+          // 某项费用分配率＝该项费用总额÷（完工产品产量＋在产品约当产量）
+          const moneyRate = (Number(this.list2[2].material) / (Number(this.personalForm.finishQuantity) + Number(yuedang))).toFixed(2)
+          // 完工产品该项成本＝完工产品数量×费用分配率
+          const cost = (Number(this.personalForm.finishQuantity) * moneyRate).toFixed(2)
+          // 完工产品总成本
+          this.list2[3].material = cost
+          // 月末在产品成本
+          this.list2[5].material = (this.list2[2].material - this.list2[3].material).toFixed(2)
+          // 单位成本=完工产品总成本/完工数量
+          this.list2[4].material = (this.list2[3].material / this.personalForm.finishQuantity).toFixed(2)
+          // 行合计
+          this.list2[0].total = (Number(this.list2[0].material) + Number(this.list2[0].man) + Number(this.list2[0].produce)).toFixed(2)
+          this.list2[1].total = (Number(this.list2[1].material) + Number(this.list2[1].man) + Number(this.list2[1].produce)).toFixed(2)
+          this.list2[2].total = (Number(this.list2[2].material) + Number(this.list2[2].man) + Number(this.list2[2].produce)).toFixed(2)
+          this.list2[3].total = (Number(this.list2[3].material) + Number(this.list2[3].man) + Number(this.list2[3].produce)).toFixed(2)
+          this.list2[4].total = (Number(this.list2[4].material) + Number(this.list2[4].man) + Number(this.list2[4].produce)).toFixed(2)
+          this.list2[5].total = (Number(this.list2[5].material) + Number(this.list2[5].man) + Number(this.list2[5].produce)).toFixed(2)
+        }
       }
+      // }
+      if (this.personalForm.accountType === '2') {
+        // 2.定额成本发
+        // 这种分配方法是按照预先制定的定额成本计算月末在产品成本，
+        // 即月末在产品成本按其在产品数量和单位定额成本计算。某种产品应负担的全部费用（月初在产品费用加本月生产费用），
+        // 减月末在产品的定额成本，其余额作为完工产品成本。该方法适用于各项消耗定额或费用定额比较准确、稳定，而且各月在产品数量变化不大的产品。
+        if (val === '1') {
+          if (this.personalForm.finishQuantity === '' || this.personalForm.finishQuantity === null || this.personalForm.finishQuantity === undefined || this.personalForm.producingMaterialsQuantity === '' || this.personalForm.producingMaterialsQuantity === null || this.personalForm.producingMaterialsQuantity === undefined || this.personalForm.producingQuantity === '' || this.personalForm.producingQuantity === null || this.personalForm.producingQuantity === undefined || this.personalForm.producingSalary === '' || this.personalForm.producingSalary === null || this.personalForm.producingSalary === undefined || this.personalForm.producingCost === '' || this.personalForm.producingCost === null || this.personalForm.producingCost === undefined) {
+            this.change()
+            this.$notify.error({
+              title: '错误',
+              message: '上方字段未填写完整',
+              offset: 100
+            })
+            return false
+          }
+        }
+        if (this.list2[0].man !== '' || this.list2[1].man !== '' || this.list2[0].material !== '' || this.list2[1].material !== '' || this.list2[0].produce !== '' || this.list2[1].produce !== '') {
+          // 按照预先制定的定额成本计算月末在产品成本
+          this.list2[5].material = this.personalForm.producingMaterialsQuantity
+          this.list2[5].man = this.personalForm.producingSalary
+          this.list2[5].produce = this.personalForm.producingCost
+          // 列合计
+          this.list2[2].material = (Number(this.list2[0].material) + Number(this.list2[1].material)).toFixed(2)
+          // 完工产品成本
+          this.list2[3].material = (this.list2[2].material - this.list2[5].material).toFixed(2)
+          // 单位成本=完工产品总成本/完工数量
+          this.list2[4].material = (this.list2[3].material / this.personalForm.finishQuantity).toFixed(2)
+          // 行合计
+          this.list2[0].total = (Number(this.list2[0].material) + Number(this.list2[0].man) + Number(this.list2[0].produce)).toFixed(2)
+          this.list2[1].total = (Number(this.list2[1].material) + Number(this.list2[1].man) + Number(this.list2[1].produce)).toFixed(2)
+          this.list2[2].total = (Number(this.list2[2].material) + Number(this.list2[2].man) + Number(this.list2[2].produce)).toFixed(2)
+          this.list2[3].total = (Number(this.list2[3].material) + Number(this.list2[3].man) + Number(this.list2[3].produce)).toFixed(2)
+          this.list2[4].total = (Number(this.list2[4].material) + Number(this.list2[4].man) + Number(this.list2[4].produce)).toFixed(2)
+          this.list2[5].total = (Number(this.list2[5].material) + Number(this.list2[5].man) + Number(this.list2[5].produce)).toFixed(2)
+        }
+      }
+      if (this.personalForm.accountType === '3') {
+        // 2.定额成本发
+        // 这种分配方法是按照预先制定的定额成本计算月末在产品成本，
+        // 即月末在产品成本按其在产品数量和单位定额成本计算。某种产品应负担的全部费用（月初在产品费用加本月生产费用），
+        // 减月末在产品的定额成本，其余额作为完工产品成本。该方法适用于各项消耗定额或费用定额比较准确、稳定，而且各月在产品数量变化不大的产品。
+        if (val === '1') {
+          if (this.personalForm.finishQuantity === '' || this.personalForm.finishQuantity === null || this.personalForm.finishQuantity === undefined || this.personalForm.endWorkHours === '' || this.personalForm.endWorkHours === null || this.personalForm.endWorkHours === undefined || this.personalForm.producingQuantity === '' || this.personalForm.producingQuantity === null || this.personalForm.producingQuantity === undefined || this.personalForm.endMaterialsQuantity === '' || this.personalForm.endMaterialsQuantity === null || this.personalForm.endMaterialsQuantity === undefined || this.personalForm.finishWorkHours === '' || this.personalForm.finishWorkHours === null || this.personalForm.finishWorkHours === undefined || this.personalForm.finishMaterialsUsedQuantity === '' || this.personalForm.finishMaterialsUsedQuantity === null || this.personalForm.finishMaterialsUsedQuantity === undefined) {
+            this.change()
+            this.$notify.error({
+              title: '错误',
+              message: '上方字段未填写完整',
+              offset: 100
+            })
+            return false
+          }
+        }
+        if (this.list2[0].man !== '' || this.list2[1].man !== '' || this.list2[0].material !== '' || this.list2[1].material !== '' || this.list2[0].produce !== '' || this.list2[1].produce !== '') {
+          // 消耗量分配率＝（月初在产品成本＋本月发生生产费用）÷（完工产品定额消耗量＋月末在产品定额消耗量）
+          //  完工产品实际消耗量＝完工产品定额消耗量×消耗量分配率
+          //   完工产品成本＝完工产品实际消耗量×原材料单价（完工产品定额/完工数量）
+          // 月末在产品实际消耗量＝月末在产品定额消耗量×消耗量分配率
+          //   月末在产品成本＝月末在产品实际消耗量×原材料单价（完工产品定额/完工数量）
+          // 列合计
+          this.list2[2].material = (Number(this.list2[0].material) + Number(this.list2[1].material)).toFixed(2)
+          // 消耗量分配率＝（月初在产品成本＋本月发生生产费用）÷（完工产品定额消耗量＋月末在产品定额消耗量）
+          const xiaohao = ((this.list2[2].material) / (Number(this.personalForm.finishMaterialsUsedQuantity) + Number(this.personalForm.endMaterialsQuantity))).toFixed(2)
+          //  完工产品实际消耗量＝完工产品定额消耗量×消耗量分配率
+          const actualrate = (this.personalForm.finishMaterialsUsedQuantity * xiaohao).toFixed(2)
+          //   完工产品成本＝完工产品实际消耗量×原材料单价（完工产品定额/完工数量）
+          const overCost = (actualrate * (this.personalForm.finishMaterialsUsedQuantity / this.personalForm.finishQuantity)).toFixed(2)
+          this.list2[3].material = overCost
+          // 月末在产品实际消耗量＝月末在产品定额消耗量×消耗量分配率
+          const actualCost = (this.personalForm.endMaterialsQuantity * xiaohao).toFixed(2)
+          //   月末在产品成本＝月末在产品实际消耗量×原材料单价（完工产品定额/完工数量）
+          const endCost = (actualCost * (this.personalForm.finishMaterialsUsedQuantity / this.personalForm.finishQuantity)).toFixed(2)
+          this.list2[5].material = endCost
+          // 单位成本=完工产品总成本/完工数量
+          this.list2[4].material = (this.list2[3].material / this.personalForm.finishQuantity).toFixed(2)
+          // 行合计
+          this.list2[0].total = (Number(this.list2[0].material) + Number(this.list2[0].man) + Number(this.list2[0].produce)).toFixed(2)
+          this.list2[1].total = (Number(this.list2[1].material) + Number(this.list2[1].man) + Number(this.list2[1].produce)).toFixed(2)
+          this.list2[2].total = (Number(this.list2[2].material) + Number(this.list2[2].man) + Number(this.list2[2].produce)).toFixed(2)
+          this.list2[3].total = (Number(this.list2[3].material) + Number(this.list2[3].man) + Number(this.list2[3].produce)).toFixed(2)
+          this.list2[4].total = (Number(this.list2[4].material) + Number(this.list2[4].man) + Number(this.list2[4].produce)).toFixed(2)
+          this.list2[5].total = (Number(this.list2[5].material) + Number(this.list2[5].man) + Number(this.list2[5].produce)).toFixed(2)
+        }
+      }
+    },
+    man(val) {
+      console.log('123', this.personalForm.accountType)
+      if (this.personalForm.accountType === '1') {
+        if (val === '1') {
+          if (this.personalForm.completeRate === '' || this.personalForm.completeRate === null || this.personalForm.completeRate === undefined || this.personalForm.finishQuantity === '' || this.personalForm.finishQuantity === null || this.personalForm.finishQuantity === undefined || this.personalForm.producingQuantity === '' || this.personalForm.producingQuantity === null || this.personalForm.producingQuantity === undefined) {
+            this.change()
+            this.$notify.error({
+              title: '错误',
+              message: '上方字段未填写完整',
+              offset: 100
+            })
+            return false
+          }
+        }
+        // else {
+        console.log('啊啊啊', this.list2[0].man)
+        if (this.list2[0].man !== '' || this.list2[1].man !== '' || this.list2[0].material !== '' || this.list2[1].material !== '' || this.list2[0].produce !== '' || this.list2[1].produce !== '') {
+          // 列合计
+          this.list2[2].man = (Number(this.list2[0].man) + Number(this.list2[1].man)).toFixed(2)
+          console.log(Number(this.list2[0].man))
+          //         1.约当产量法：
+          // 在产品约当产量＝在产品数量×完工百分比（完工率）
+          // 某项费用分配率＝该项费用总额÷（完工产品产量＋在产品约当产量）
+          // 完工产品该项成本＝完工产品数量×费用分配率
+          //         月末在产品该项成本＝在产品数量×费用分配率
+          //         或 ＝费用总额－完工产品费用
+          // 在产品约当产量＝在产品数量×完工百分比（完工率）
+          const yuedang = (Number(this.personalForm.producingQuantity) * Number(this.personalForm.completeRate) / 100).toFixed(2)
+          // 某项费用分配率＝该项费用总额÷（完工产品产量＋在产品约当产量）
+          const moneyRate = (Number(this.list2[2].man) / (Number(this.personalForm.finishQuantity) + Number(yuedang))).toFixed(2)
+          // 完工产品该项成本＝完工产品数量×费用分配率
+          const cost = (Number(this.personalForm.finishQuantity) * moneyRate).toFixed(2)
+          // 完工产品总成本
+          this.list2[3].man = cost
+          // 月末在产品成本
+          this.list2[5].man = (this.list2[2].man - this.list2[3].man).toFixed(2)
+          // 单位成本=完工产品总成本/完工数量
+          this.list2[4].man = (this.list2[3].man / this.personalForm.finishQuantity).toFixed(2)
+          // 行合计
+          this.list2[0].total = (Number(this.list2[0].material) + Number(this.list2[0].man) + Number(this.list2[0].produce)).toFixed(2)
+          this.list2[1].total = (Number(this.list2[1].material) + Number(this.list2[1].man) + Number(this.list2[1].produce)).toFixed(2)
+          this.list2[2].total = (Number(this.list2[2].material) + Number(this.list2[2].man) + Number(this.list2[2].produce)).toFixed(2)
+          this.list2[3].total = (Number(this.list2[3].material) + Number(this.list2[3].man) + Number(this.list2[3].produce)).toFixed(2)
+          this.list2[4].total = (Number(this.list2[4].material) + Number(this.list2[4].man) + Number(this.list2[4].produce)).toFixed(2)
+          this.list2[5].total = (Number(this.list2[5].material) + Number(this.list2[5].man) + Number(this.list2[5].produce)).toFixed(2)
+        }
+      }
+      if (this.personalForm.accountType === '2') {
+        // 2.定额成本发
+        // 这种分配方法是按照预先制定的定额成本计算月末在产品成本，
+        // 即月末在产品成本按其在产品数量和单位定额成本计算。某种产品应负担的全部费用（月初在产品费用加本月生产费用），
+        // 减月末在产品的定额成本，其余额作为完工产品成本。该方法适用于各项消耗定额或费用定额比较准确、稳定，而且各月在产品数量变化不大的产品。
+        if (val === '1') {
+          if (this.personalForm.finishQuantity === '' || this.personalForm.finishQuantity === null || this.personalForm.finishQuantity === undefined || this.personalForm.finishQuantity === '' || this.personalForm.producingMaterialsQuantity === null || this.personalForm.producingMaterialsQuantity === undefined || this.personalForm.producingQuantity === '' || this.personalForm.producingQuantity === null || this.personalForm.producingQuantity === undefined || this.personalForm.producingSalary === '' || this.personalForm.producingSalary === null || this.personalForm.producingSalary === undefined || this.personalForm.producingCost === '' || this.personalForm.producingCost === null || this.personalForm.producingCost === undefined) {
+            this.change()
+            this.$notify.error({
+              title: '错误',
+              message: '上方字段未填写完整',
+              offset: 100
+            })
+            return false
+          }
+        }
+        if (this.list2[0].man !== '' || this.list2[1].man !== '' || this.list2[0].material !== '' || this.list2[1].material !== '' || this.list2[0].produce !== '' || this.list2[1].produce !== '') {
+          // 按照预先制定的定额成本计算月末在产品成本
+          this.list2[5].material = this.personalForm.producingMaterialsQuantity
+          this.list2[5].man = this.personalForm.producingSalary
+          this.list2[5].produce = this.personalForm.producingCost
+          // 列合计
+          this.list2[2].man = (Number(this.list2[0].man) + Number(this.list2[1].man)).toFixed(2)
+          // 完工产品成本
+          this.list2[3].man = (this.list2[2].man - this.list2[5].man).toFixed(2)
+          // 单位成本=完工产品总成本/完工数量
+          this.list2[4].man = (this.list2[3].man / this.personalForm.finishQuantity).toFixed(2)
+          // 行合计
+          this.list2[0].total = (Number(this.list2[0].material) + Number(this.list2[0].man) + Number(this.list2[0].produce)).toFixed(2)
+          this.list2[1].total = (Number(this.list2[1].material) + Number(this.list2[1].man) + Number(this.list2[1].produce)).toFixed(2)
+          this.list2[2].total = (Number(this.list2[2].material) + Number(this.list2[2].man) + Number(this.list2[2].produce)).toFixed(2)
+          this.list2[3].total = (Number(this.list2[3].material) + Number(this.list2[3].man) + Number(this.list2[3].produce)).toFixed(2)
+          this.list2[4].total = (Number(this.list2[4].material) + Number(this.list2[4].man) + Number(this.list2[4].produce)).toFixed(2)
+          this.list2[5].total = (Number(this.list2[5].material) + Number(this.list2[5].man) + Number(this.list2[5].produce)).toFixed(2)
+        }
+      }
+      if (this.personalForm.accountType === '3') {
+        // 2.定额成本发
+        // 这种分配方法是按照预先制定的定额成本计算月末在产品成本，
+        // 即月末在产品成本按其在产品数量和单位定额成本计算。某种产品应负担的全部费用（月初在产品费用加本月生产费用），
+        // 减月末在产品的定额成本，其余额作为完工产品成本。该方法适用于各项消耗定额或费用定额比较准确、稳定，而且各月在产品数量变化不大的产品。
+        if (val === '1') {
+          if (this.personalForm.finishQuantity === '' || this.personalForm.finishQuantity === null || this.personalForm.finishQuantity === undefined || this.personalForm.endWorkHours === '' || this.personalForm.endWorkHours === null || this.personalForm.endWorkHours === undefined || this.personalForm.producingQuantity === '' || this.personalForm.producingQuantity === null || this.personalForm.producingQuantity === undefined || this.personalForm.endMaterialsQuantity === '' || this.personalForm.endMaterialsQuantity === null || this.personalForm.endMaterialsQuantity === undefined || this.personalForm.finishWorkHours === '' || this.personalForm.finishWorkHours === null || this.personalForm.finishWorkHours === undefined || this.personalForm.finishMaterialsUsedQuantity === '' || this.personalForm.finishMaterialsUsedQuantity === null || this.personalForm.finishMaterialsUsedQuantity === undefined) {
+            this.change()
+            this.$notify.error({
+              title: '错误',
+              message: '上方字段未填写完整',
+              offset: 100
+            })
+            return false
+          }
+        }
+        if (this.list2[0].man !== '' || this.list2[1].man !== '' || this.list2[0].material !== '' || this.list2[1].material !== '' || this.list2[0].produce !== '' || this.list2[1].produce !== '') {
+          // 消耗量分配率＝（月初在产品成本＋本月发生生产费用）÷（完工产品定额消耗量＋月末在产品定额消耗量）
+          //  完工产品实际消耗量＝完工产品定额消耗量×消耗量分配率
+          //   完工产品成本＝完工产品实际消耗量×原材料单价（完工产品定额/完工数量）
+          // 月末在产品实际消耗量＝月末在产品定额消耗量×消耗量分配率
+          //   月末在产品成本＝月末在产品实际消耗量×原材料单价（完工产品定额/完工数量）
+          // 列合计
+          this.list2[2].man = (Number(this.list2[0].man) + Number(this.list2[1].man)).toFixed(2)
+          // 消耗量分配率＝（月初在产品成本＋本月发生生产费用）÷（完工产品定额消耗量＋月末在产品定额消耗量）
+          const xiaohao = ((this.list2[2].man) / (Number(this.personalForm.finishWorkHours) + Number(this.personalForm.endWorkHours))).toFixed(2)
+          //  完工产品实际消耗量＝完工产品定额消耗量×消耗量分配率
+          const actualrate = (this.personalForm.finishWorkHours * xiaohao).toFixed(2)
+          //   完工产品成本＝完工产品实际消耗量×原材料单价（完工产品定额/完工数量）
+          const overCost = (actualrate * (this.personalForm.finishWorkHours / this.personalForm.finishQuantity)).toFixed(2)
+          this.list2[3].man = overCost
+          // 月末在产品实际消耗量＝月末在产品定额消耗量×消耗量分配率
+          const actualCost = (this.personalForm.endWorkHours * xiaohao).toFixed(2)
+          //   月末在产品成本＝月末在产品实际消耗量×原材料单价（完工产品定额/完工数量）
+          const endCost = (actualCost * (this.personalForm.finishWorkHours / this.personalForm.finishQuantity)).toFixed(2)
+          this.list2[5].man = endCost
+          // 单位成本=完工产品总成本/完工数量
+          this.list2[4].man = (this.list2[3].material / this.personalForm.finishQuantity).toFixed(2)
+          // 行合计
+          this.list2[0].total = (Number(this.list2[0].material) + Number(this.list2[0].man) + Number(this.list2[0].produce)).toFixed(2)
+          this.list2[1].total = (Number(this.list2[1].material) + Number(this.list2[1].man) + Number(this.list2[1].produce)).toFixed(2)
+          this.list2[2].total = (Number(this.list2[2].material) + Number(this.list2[2].man) + Number(this.list2[2].produce)).toFixed(2)
+          this.list2[3].total = (Number(this.list2[3].material) + Number(this.list2[3].man) + Number(this.list2[3].produce)).toFixed(2)
+          this.list2[4].total = (Number(this.list2[4].material) + Number(this.list2[4].man) + Number(this.list2[4].produce)).toFixed(2)
+          this.list2[5].total = (Number(this.list2[5].material) + Number(this.list2[5].man) + Number(this.list2[5].produce)).toFixed(2)
+        }
+      }
+      // }
+    },
+    produce(val) {
+      console.log('123', this.personalForm.accountType)
+      if (this.personalForm.accountType === '1') {
+        if (val === '1') {
+          if (this.personalForm.completeRate === '' || this.personalForm.completeRate === null || this.personalForm.completeRate === undefined || this.personalForm.finishQuantity === '' || this.personalForm.finishQuantity === null || this.personalForm.finishQuantity === undefined || this.personalForm.producingQuantity === '' || this.personalForm.producingQuantity === null || this.personalForm.producingQuantity === undefined) {
+            this.change()
+            this.$notify.error({
+              title: '错误',
+              message: '上方字段未填写完整',
+              offset: 100
+            })
+          }
+        }
+        if (this.list2[0].man !== '' || this.list2[1].man !== '' || this.list2[0].material !== '' || this.list2[1].material !== '' || this.list2[0].produce !== '' || this.list2[1].produce !== '') {
+          // 列合计
+          this.list2[2].produce = (Number(this.list2[0].produce) + Number(this.list2[1].produce)).toFixed(2)
+          console.log(Number(this.list2[0].produce))
+          //         1.约当产量法：
+          // 在产品约当产量＝在产品数量×完工百分比（完工率）
+          // 某项费用分配率＝该项费用总额÷（完工产品产量＋在产品约当产量）
+          // 完工产品该项成本＝完工产品数量×费用分配率
+          //         月末在产品该项成本＝在产品数量×费用分配率
+          //         或 ＝费用总额－完工产品费用
+          // 在产品约当产量＝在产品数量×完工百分比（完工率）
+          const yuedang = (Number(this.personalForm.producingQuantity) * Number(this.personalForm.completeRate) / 100).toFixed(2)
+          // 某项费用分配率＝该项费用总额÷（完工产品产量＋在产品约当产量）
+          const moneyRate = (Number(this.list2[2].produce) / (Number(this.personalForm.finishQuantity) + Number(yuedang))).toFixed(2)
+          // 完工产品该项成本＝完工产品数量×费用分配率
+          const cost = (Number(this.personalForm.finishQuantity) * moneyRate).toFixed(2)
+          // 完工产品总成本
+          this.list2[3].produce = cost
+          // 月末在产品成本
+          this.list2[5].produce = (this.list2[2].produce - this.list2[3].produce).toFixed(2)
+          // 单位成本=完工产品总成本/完工数量
+          this.list2[4].produce = (this.list2[3].produce / this.personalForm.finishQuantity).toFixed(2)
+          // 行合计
+          this.list2[0].total = (Number(this.list2[0].material) + Number(this.list2[0].man) + Number(this.list2[0].produce)).toFixed(2)
+          this.list2[1].total = (Number(this.list2[1].material) + Number(this.list2[1].man) + Number(this.list2[1].produce)).toFixed(2)
+          this.list2[2].total = (Number(this.list2[2].material) + Number(this.list2[2].man) + Number(this.list2[2].produce)).toFixed(2)
+          this.list2[3].total = (Number(this.list2[3].material) + Number(this.list2[3].man) + Number(this.list2[3].produce)).toFixed(2)
+          this.list2[4].total = (Number(this.list2[4].material) + Number(this.list2[4].man) + Number(this.list2[4].produce)).toFixed(2)
+          this.list2[5].total = (Number(this.list2[5].material) + Number(this.list2[5].man) + Number(this.list2[5].produce)).toFixed(2)
+          // }
+        }
+      }
+      if (this.personalForm.accountType === '2') {
+        // 2.定额成本发
+        // 这种分配方法是按照预先制定的定额成本计算月末在产品成本，
+        // 即月末在产品成本按其在产品数量和单位定额成本计算。某种产品应负担的全部费用（月初在产品费用加本月生产费用），
+        // 减月末在产品的定额成本，其余额作为完工产品成本。该方法适用于各项消耗定额或费用定额比较准确、稳定，而且各月在产品数量变化不大的产品。
+        if (val === '1') {
+          if (this.personalForm.finishQuantity === '' || this.personalForm.finishQuantity === null || this.personalForm.finishQuantity === undefined || this.personalForm.finishQuantity === '' || this.personalForm.producingMaterialsQuantity === null || this.personalForm.producingMaterialsQuantity === undefined || this.personalForm.producingQuantity === '' || this.personalForm.producingQuantity === null || this.personalForm.producingQuantity === undefined || this.personalForm.producingSalary === '' || this.personalForm.producingSalary === null || this.personalForm.producingSalary === undefined || this.personalForm.producingCost === '' || this.personalForm.producingCost === null || this.personalForm.producingCost === undefined) {
+            this.change()
+            this.$notify.error({
+              title: '错误',
+              message: '上方字段未填写完整',
+              offset: 100
+            })
+            return false
+          }
+        }
+        if (this.list2[0].man !== '' || this.list2[1].man !== '' || this.list2[0].material !== '' || this.list2[1].material !== '' || this.list2[0].produce !== '' || this.list2[1].produce !== '') {
+          // 按照预先制定的定额成本计算月末在产品成本
+          this.list2[5].material = this.personalForm.producingMaterialsQuantity
+          this.list2[5].man = this.personalForm.producingSalary
+          this.list2[5].produce = this.personalForm.producingCost
+          // 列合计
+          this.list2[2].produce = (Number(this.list2[0].produce) + Number(this.list2[1].produce)).toFixed(2)
+          // 完工产品成本
+          this.list2[3].produce = (this.list2[2].produce - this.list2[5].produce).toFixed(2)
+          // 单位成本=完工产品总成本/完工数量
+          this.list2[4].produce = (this.list2[3].produce / this.personalForm.finishQuantity).toFixed(2)
+          // 行合计
+          this.list2[0].total = (Number(this.list2[0].material) + Number(this.list2[0].man) + Number(this.list2[0].produce)).toFixed(2)
+          this.list2[1].total = (Number(this.list2[1].material) + Number(this.list2[1].man) + Number(this.list2[1].produce)).toFixed(2)
+          this.list2[2].total = (Number(this.list2[2].material) + Number(this.list2[2].man) + Number(this.list2[2].produce)).toFixed(2)
+          this.list2[3].total = (Number(this.list2[3].material) + Number(this.list2[3].man) + Number(this.list2[3].produce)).toFixed(2)
+          this.list2[4].total = (Number(this.list2[4].material) + Number(this.list2[4].man) + Number(this.list2[4].produce)).toFixed(2)
+          this.list2[5].total = (Number(this.list2[5].material) + Number(this.list2[5].man) + Number(this.list2[5].produce)).toFixed(2)
+        }
+      }
+    },
+    completeRate() {
+      this.material()
+      this.man()
+      this.produce()
     },
     getscope(val) {
       console.log(val)
@@ -553,10 +892,6 @@ export default {
       this.personalForm.unit = val.produceMeasurement
       this.personalForm.typeId = val.typeId
       this.typeId = val.productType
-    },
-    // 重置一下下拉
-    change() {
-      this.$forceUpdate()
     },
     getTypes() {
       // 部门列表数据
@@ -732,16 +1067,6 @@ export default {
       this.supplierId = val.supplierName
       // this.sourceSerialNumber = val.sourceSerialNumber
     },
-    // 源单类型为生产任务单
-    produce(val) {
-      this.reportdata3 = val.produceTaskDetailVos
-      this.personalForm.sourceNumber = val.taskNumber
-      if (val.handlePersonId !== '' && val.handlePersonId !== null && val.handlePersonId !== undefined) {
-        this.personalForm.produceManagerId = val.handlePersonId
-        this.produceManagerId = val.handlePersonName
-        this.IsProduceManagerId = true
-      }
-    },
     // 质检申请单明细来源为无来源时
     handleAddproduct() {
       this.control = true
@@ -764,6 +1089,53 @@ export default {
         this.$refs.editable.insert(val[i])
       }
     },
+    // 重置一下表单
+    change() {
+      this.list2 = [
+        {
+          productCost: '月初在产品成本',
+          material: '',
+          man: '',
+          produce: '',
+          total: '0.00'
+        },
+        {
+          productCost: '本月发生生产费用',
+          material: '',
+          man: '',
+          produce: '',
+          total: '0.00'
+        },
+        {
+          productCost: '合计',
+          material: '0.00',
+          man: '0.00',
+          produce: '0.00',
+          total: '0.00'
+        },
+        {
+          productCost: '完工产品总成本',
+          material: '0.00',
+          man: '0.00',
+          produce: '0.00',
+          total: '0.00'
+        },
+        {
+          productCost: '单位成本',
+          material: '0.00',
+          man: '0.00',
+          produce: '0.00',
+          total: '0.00'
+        },
+        {
+          productCost: '月末在产品成本',
+          material: '0.00',
+          man: '0.00',
+          produce: '0.00',
+          total: '0.00'
+        }
+      ]
+    },
     // 清空记录
     restAllForm() {
       this.personalForm = {
@@ -781,54 +1153,57 @@ export default {
     },
     // 保存操作
     handlesave() {
-      const EnterDetail = this.$refs.editable.getRecords()
-      if (EnterDetail.length === 0) {
-        this.$notify.error({
-          title: '错误',
-          message: '明细表不能为空',
-          offset: 100
-        })
-        return false
+      // const parms2 = JSON.stringify(EnterDetail)
+      if (this.list2[0].material !== '' && this.list2[0].material !== null && this.list2[0].material !== undefined) {
+        this.personalForm2.beginMaterialsMoney = this.list2[0].material
+      } else {
+        this.personalForm2.beginMaterialsMoney = 0
       }
-      EnterDetail.map(function(elem) {
-        return elem
-      }).forEach(function(elem) {
-        if (elem.checkItem === null || elem.checkItem === '' || elem.checkItem === undefined) {
-          delete elem.checkItem
-        }
-        if (elem.checkTarget === null || elem.checkTarget === '' || elem.checkTarget === undefined) {
-          delete elem.checkTarget
-        }
-        if (elem.checkValue === null || elem.checkValue === '' || elem.checkValue === undefined) {
-          delete elem.checkValue
-        }
-        if (elem.chectResult === null || elem.chectResult === '' || elem.chectResult === undefined) {
-          delete elem.chectResult
-        }
-        if (elem.checkQuantity === null || elem.checkQuantity === '' || elem.checkQuantity === undefined) {
-          delete elem.checkQuantity
-        }
-        if (elem.passQuantity === null || elem.passQuantity === '' || elem.passQuantity === undefined) {
-          delete elem.passQuantity
-        }
-        if (elem.failedQuantity === null || elem.failedQuantity === '' || elem.failedQuantity === undefined) {
-          delete elem.failedQuantity
-        }
-        if (elem.checkDeptId === null || elem.checkDeptId === '' || elem.checkDeptId === undefined) {
-          delete elem.checkDeptId
-        }
-        if (elem.checkPersonId === null || elem.checkPersonId === '' || elem.checkPersonId === undefined) {
-          delete elem.checkPersonId
-        }
-        if (elem.targetUp === null || elem.targetUp === '' || elem.targetUp === undefined) {
-          delete elem.targetUp
-        }
-        if (elem.targetDown === null || elem.targetDown === '' || elem.targetDown === undefined) {
-          delete elem.targetDown
-        }
-        return elem
-      })
-      const parms2 = JSON.stringify(EnterDetail)
+      if (this.list2[0].man !== '' && this.list2[0].man !== null && this.list2[0].man !== undefined) {
+        this.personalForm2.beginSalaryMoney = this.list2[0].man
+      } else {
+        this.personalForm2.beginSalaryMoney = 0
+      }
+      if (this.list2[0].produce !== '' && this.list2[0].produce !== null && this.list2[0].produce !== undefined) {
+        this.personalForm2.beginProduceMoney = this.list2[0].produce
+      } else {
+        this.personalForm2.beginProduceMoney = 0
+      }
+      if (this.list2[1].material !== '' && this.list2[1].material !== null && this.list2[1].material !== undefined) {
+        this.personalForm2.thisMaterialsMoney = this.list2[1].material
+      } else {
+        this.personalForm2.thisMaterialsMoney = 0
+      }
+      if (this.list2[1].man !== '' && this.list2[1].man !== null && this.list2[1].man !== undefined) {
+        this.personalForm2.thisSalaryMoney = this.list2[1].man
+      } else {
+        this.personalForm2.thisSalaryMoney = 0
+      }
+      if (this.list2[1].produce !== '' && this.list2[1].produce !== null && this.list2[1].produce !== undefined) {
+        this.personalForm2.thisProduceMoney = this.list2[1].produce
+      } else {
+        this.personalForm2.thisProduceMoney = 0
+      }
+      this.personalForm2.beginAll = this.list2[0].total
+      this.personalForm2.thisAll = this.list2[1].total
+      this.personalForm2.materialAll = this.list2[2].material
+      this.personalForm2.salaryAll = this.list2[2].man
+      this.personalForm2.produceAll = this.list2[2].produce
+      this.personalForm2.total = this.list2[2].total
+      this.personalForm2.finishMaterialsMoney = this.list2[3].material
+      this.personalForm2.finishSalaryMoney = this.list2[3].man
+      this.personalForm2.finishProduceMoney = this.list2[3].produce
+      this.personalForm2.finishAll = this.list2[3].total
+      this.personalForm2.unitMaterialsMoney = this.list2[4].material
+      this.personalForm2.unitSalaryMoney = this.list2[4].man
+      this.personalForm2.unitProduceMoney = this.list2[4].produce
+      this.personalForm2.unitAll = this.list2[4].total
+      this.personalForm2.endMaterialsMoney = this.list2[5].material
+      this.personalForm2.endSalaryMoney = this.list2[5].man
+      this.personalForm2.endProduceMoney = this.list2[5].produce
+      this.personalForm2.endAll = this.list2[5].total
+
+      const parms2 = JSON.stringify(this.personalForm2)
       const Data = this.personalForm
       for (const key in Data) {
         if (Data[key] === '' || Data[key] === undefined || Data[key] === null) {
@@ -836,67 +1211,42 @@ export default {
         }
       }
       const parms = JSON.stringify(Data)
-      this.$refs.personalForm.validate((valid) => {
-        if (valid) {
-          this.$refs.personalForm2.validate((valid) => {
-            if (valid) {
-              this.$refs.personalForm3.validate((valid) => {
-                if (valid) {
-                  this.$refs.editable.validate().then(valid => {
-                    addqualitycheck(parms, parms2, this.personalForm).then(res => {
-                      console.log(res)
-                      if (res.data.ret === 200) {
-                        this.$notify({
-                          title: '成功',
-                          message: '保存成功',
-                          type: 'success',
-                          offset: 100
-                        })
-                        this.restAllForm()
-                        this.$refs.editable.clear()
-                        this.$refs.personalForm.clearValidate()
-                        this.$refs.personalForm.resetFields()
-                        this.$refs.personalForm2.clearValidate()
-                        this.$refs.personalForm2.resetFields()
-                        this.$refs.personalForm3.clearValidate()
-                        this.$refs.personalForm3.resetFields()
-                      } else {
-                        this.$notify.error({
-                          title: '错误',
-                          message: res.data.msg,
-                          offset: 100
-                        })
-                      }
-                    })
-                  }).catch(valid => {
-                    console.log('error submit!!')
-                  })
-                } else {
-                  this.$notify.error({
-                    title: '错误',
-                    message: '信息未填完整',
-                    offset: 100
-                  })
-                  return false
-                }
+      this.$refs.personalForm.validate().then(valid => {
+        if (this.list2[0].man !== '' || this.list2[1].man !== '' || this.list2[0].material !== '' || this.list2[1].material !== '' || this.list2[0].produce !== '' || this.list2[1].produce !== '') {
+          addProduceCost(parms, parms2, this.personalForm).then(res => {
+            console.log(res)
+            if (res.data.ret === 200) {
+              this.$notify({
+                title: '成功',
+                message: '保存成功',
+                type: 'success',
+                offset: 100
               })
+              this.restAllForm()
+              this.$refs.editable.clear()
+              this.$refs.personalForm.clearValidate()
+              this.$refs.personalForm.resetFields()
+              this.$refs.personalForm2.clearValidate()
+              this.$refs.personalForm2.resetFields()
+              this.$refs.personalForm3.clearValidate()
+              this.$refs.personalForm3.resetFields()
             } else {
               this.$notify.error({
                 title: '错误',
-                message: '信息未填完整',
+                message: res.data.msg,
                 offset: 100
               })
-              return false
             }
           })
         } else {
           this.$notify.error({
             title: '错误',
-            message: '信息未填完整',
+            message: '成本费用明细未输入',
             offset: 100
           })
-          return false
         }
+      }).catch(valid => {
+        console.log('error submit!!')
       })
     },
     // 取消操作

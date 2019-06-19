@@ -4,81 +4,147 @@
     <el-card class="box-card" style="margin-top: 63px" shadow="never">
       <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">基本信息</h2>
       <div class="container" style="margin-top: 37px">
-        <el-form :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="150px">
+        <el-form :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
           <el-row>
             <el-col :span="12">
-              <el-form-item :label="$t('ProductCost.accountTime')" style="width: 100%;">
-                <span>{{ personalForm.accountTime }}</span>
+              <el-form-item :label="$t('CheckReport.title')" style="width: 100%;">
+                <span>{{ personalForm.title }}</span>
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item :label="$t('ProductCost.productName')" prop="sourceType" style="width: 100%;">
+              <el-form-item :label="$t('CheckReport.sourceType')" prop="sourceType" style="width: 100%;">
+                <span>{{ personalForm.sourceType | sourceTypeFilter }}</span>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('CheckReport.sourceNumber')" prop="sourceNumber" style="width: 100%;">
+                <span>{{ personalForm.sourceNumber }}</span>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('CheckReport.supplierId')" style="width: 100%;">
+                <span>{{ personalForm.supplierName }}</span>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('CheckReport.inspectionPersonId')" prop="reportPersonId" style="width: 100%;">
+                <span>{{ personalForm.inspectionPersonName }}</span>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('CheckReport.inspectionDeptId')" prop="reportDeptId" style="width: 100%;">
+                <span>{{ personalForm.inspectionDeptName }}</span>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('CheckReport.checkType')" prop="checkType" style="width: 100%;">
+                <span>{{ personalForm.checkType | checkTypeFilter }}</span>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('CheckReport.checkMode')" prop="checkMode" style="width: 100%;">
+                <span>{{ personalForm.checkMode | checkModeFilter }}</span>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('CheckReport.produceManagerId')" style="width: 100%;">
+                <span>{{ personalForm.produceManagerName }}</span>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('CheckReport.workCenterId')" style="width: 100%;">
+                <span>{{ personalForm.workCenter }}</span>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('CheckReport.checkPersonId')" style="width: 100%;">
+                <span>{{ personalForm.checkPersonName }}</span>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('CheckReport.checkDeptId')" prop="reportDeptId" style="width: 100%;">
+                <span>{{ personalForm.checkDeptName }}</span>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('CheckReport.checkDate')" prop="checkDate" style="width: 100%;">
+                <span>{{ personalForm.checkDate }}</span>
+              </el-form-item>
+            </el-col>
+          </el-row>
+        </el-form>
+      </div>
+    </el-card>
+    <el-card class="box-card" shadow="never" style="margin-top: 10px">
+      <h2 ref="geren" class="form-name">物品信息</h2>
+      <div class="container" style="margin-top: 37px">
+        <el-form ref="personalForm2" :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
+          <el-row>
+            <el-col :span="12">
+              <el-form-item :label="$t('CheckReport.productCode')" prop="productCode" style="width: 100%;">
+                <span>{{ personalForm.productCode }}</span>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('CheckReport.productName')" style="width: 100%;">
                 <span>{{ personalForm.productName }}</span>
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item :label="$t('ProductCost.accountType')" prop="sourceNumber" style="width: 100%;">
-                <span>{{ personalForm.accountType | accountTypeFilter }}</span>
+              <el-form-item :label="$t('CheckReport.unit')" style="width: 100%;">
+                <span>{{ personalForm.unit }}</span>
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item :label="$t('ProductCost.completeRate')" style="width: 100%;">
-                <span>{{ personalForm.completeRate }}</span>
+              <el-form-item :label="$t('CheckReport.typeId')" style="width: 100%;">
+                <span>{{ personalForm.productType }}</span>
+              </el-form-item>
+            </el-col>
+          </el-row>
+        </el-form>
+      </div>
+    </el-card>
+    <el-card class="box-card" shadow="never" style="margin-top: 10px">
+      <h2 ref="geren" class="form-name">检验信息</h2>
+      <div class="container" style="margin-top: 37px">
+        <el-form ref="personalForm3" :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
+          <el-row>
+            <el-col :span="12">
+              <el-form-item :label="$t('CheckReport.checkQuantity')" prop="checkQuantity" style="width: 100%;">
+                <span>{{ personalForm.checkQuantity }}</span>
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item :label="$t('ProductCost.isInput')" prop="reportPersonId" style="width: 100%;">
-                <span>{{ personalForm.isInput | checkModeFilter }}</span>
+              <el-form-item :label="$t('CheckReport.sampleQuantity')" prop="sampleQuantity" style="width: 100%;">
+                <span>{{ personalForm.sampleQuantity }}</span>
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item :label="$t('ProductCost.finishQuantity')" prop="reportDeptId" style="width: 100%;">
-                <span>{{ personalForm.finishQuantity }}</span>
+              <el-form-item :label="$t('CheckReport.passQuantity')" style="width: 100%;">
+                <span>{{ personalForm.passQuantity }}</span>
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item :label="$t('ProductCost.producingQuantity')" prop="checkType" style="width: 100%;">
-                <span>{{ personalForm.producingQuantity }}</span>
+              <el-form-item :label="$t('CheckReport.failedQuantity')" style="width: 100%;">
+                <span>{{ personalForm.failedQuantity }}</span>
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item :label="$t('ProductCost.producingMaterialsQuantity')" prop="checkMode" style="width: 100%;">
-                <span>{{ personalForm.producingMaterialsQuantity }}</span>
+              <el-form-item :label="$t('CheckReport.passRate')" style="width: 100%;">
+                <span>{{ personalForm.passRate }}</span>
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item :label="$t('ProductCost.producingSalary')" style="width: 100%;">
-                <span>{{ personalForm.producingSalary }}</span>
+              <el-form-item :label="$t('CheckReport.checkResult')" style="width: 100%;">
+                <span>{{ personalForm.checkResult }}</span>
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item :label="$t('ProductCost.producingCost')" style="width: 100%;">
-                <span>{{ personalForm.producingCost }}</span>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('ProductCost.finishMaterialsUsedQuantity')" style="width: 100%;">
-                <span>{{ personalForm.finishMaterialsUsedQuantity }}</span>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('ProductCost.finishWorkHours')" prop="reportDeptId" style="width: 100%;">
-                <span>{{ personalForm.finishWorkHours }}</span>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('ProductCost.endMaterialsQuantity')" prop="checkDate" style="width: 100%;">
-                <span>{{ personalForm.endMaterialsQuantity }}</span>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('ProductCost.endWorkHours')" prop="checkDate" style="width: 100%;">
-                <span>{{ personalForm.endWorkHours }}</span>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('ProductCost.currency')" prop="checkDate" style="width: 100%;">
-                <span>{{ personalForm.currency }}</span>
+              <el-form-item :label="$t('CheckReport.isRecheck')" style="width: 100%;">
+                <el-radio-group v-model="personalForm.isRecheck" style="margin-left: 18px;width: 200px" disabled>
+                  <el-radio :label="1" style="width: 100px">是</el-radio>
+                  <el-radio :label="2">否</el-radio>
+                </el-radio-group>
               </el-form-item>
             </el-col>
           </el-row>
@@ -87,51 +153,34 @@
     </el-card>
     <!--子件信息-->
     <el-card class="box-card" style="margin-top: 15px" shadow="never">
-      <h2 ref="fuzhu" class="form-name" >成本费用明细</h2>
+      <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">质检报告单明细</h2>
       <div class="container">
-        <el-row :gutter="20" style="margin-top: 100px">
-          <el-col :span="24">
-            <div style="width: 100%; min-height: 300px;" >
-              <el-row :gutter="20" style="margin-top: 26px">
-                <el-col :span="24">
-                  <div style="width: 100%; min-height: 400px;" >
-                    <el-table
-                      ref="totaltable"
-                      :data.sync="list2"
-                      :border="true"
-                      style="width: 100%">
-                      <el-table-column
-                        prop="productCost"
-                        label="产品成本"
-                        min-width="140"
-                        align="center"/>
-                      <el-table-column
-                        prop="material"
-                        label="直接材料费用"
-                        min-width="140"
-                        align="center"/>
-                      <el-table-column
-                        prop="man"
-                        label="直接人工费用"
-                        min-width="140"
-                        align="center"/>
-                      <el-table-column
-                        prop="produce"
-                        label="制造费用"
-                        min-width="140"
-                        align="center"/>
-                      <el-table-column
-                        prop="total"
-                        label="费用合计"
-                        min-width="140"
-                        align="center"/>
-                    </el-table>
-                  </div>
-                </el-col>
-              </el-row>
-            </div>
-          </el-col>
-        </el-row>
+        <el-editable
+          ref="editable"
+          :data.sync="list2"
+          :edit-config="{ showIcon: false, showStatus: true}"
+          class="click-table1"
+          stripe
+          border
+          size="medium"
+          style="width: 100%">
+          <el-editable-column label="序号" min-width="55" align="center" type="index"/>
+          <el-editable-column prop="checkItem" align="center" label="检验项目" min-width="150px"/>
+          <el-editable-column prop="checkTarget" align="center" label="检验指标" min-width="150px"/>
+          <el-editable-column prop="checkValue" align="center" label="检验值" min-width="150px"/>
+          <el-editable-column prop="chectResult" align="center" label="检验结果" min-width="150px">
+            <template slot-scope="scope">
+              <p>{{ scope.row.chectResult | chectResultFilter }}</p>
+            </template>
+          </el-editable-column>
+          <el-editable-column prop="checkQuantity" align="center" label="检验数量" min-width="150px"/>
+          <el-editable-column prop="passQuantity" align="center" label="合格数量" min-width="150px"/>
+          <el-editable-column prop="failedQuantity" align="center" label="不合格数量" min-width="150px"/>
+          <el-editable-column prop="checkPersonname" align="center" label="检验人员" min-width="150px"/>
+          <el-editable-column prop="checkDeptName" align="center" label="检验部门" min-width="150px"/>
+          <el-editable-column prop="targetUp" align="center" label="指标上限" min-width="150px"/>
+          <el-editable-column prop="targetDown" align="center" label="指标下限" min-width="150px"/>
+        </el-editable>
       </div>
     </el-card>
     <!--审核状态-->
@@ -264,18 +313,9 @@ export default {
       }
       return statusMap[status]
     },
-    accountTypeFilter(status) {
-      const statusMap = {
-        1: '约当产量法',
-        2: '定额成本发',
-        3: ' 定额比例发'
-      }
-      return statusMap[status]
-    },
     checkModeFilter(status) {
       const statusMap = {
-        1: '是',
-        2: '否'
+        1: '抽样'
       }
       return statusMap[status]
     }
@@ -298,50 +338,7 @@ export default {
       // 审核数据
       reviewList: [],
       // 详细表数据
-      list2: [
-        {
-          productCost: '月初在产品成本',
-          material: '',
-          man: '',
-          produce: '',
-          total: '0.00'
-        },
-        {
-          productCost: '本月发生生产费用',
-          material: '',
-          man: '',
-          produce: '',
-          total: '0.00'
-        },
-        {
-          productCost: '合计',
-          material: '0.00',
-          man: '0.00',
-          produce: '0.00',
-          total: '0.00'
-        },
-        {
-          productCost: '完工产品总成本',
-          material: '0.00',
-          man: '0.00',
-          produce: '0.00',
-          total: '0.00'
-        },
-        {
-          productCost: '单位成本',
-          material: '0.00',
-          man: '0.00',
-          produce: '0.00',
-          total: '0.00'
-        },
-        {
-          productCost: '月末在产品成本',
-          material: '0.00',
-          man: '0.00',
-          produce: '0.00',
-          total: '0.00'
-        }
-      ],
+      list2: [],
       list3: [],
       // 弹窗组件的控制
       editVisible: this.detailcontrol,
@@ -355,41 +352,11 @@ export default {
     },
     detaildata() {
       this.personalForm = this.detaildata
-      // this.list2 = this.personalForm.checkReportDetailVos
+      this.list2 = this.personalForm.checkReportDetailVos
       this.reviewList = this.personalForm.approvalUseVos
-      this.list2[0].material = this.personalForm.productCostDetails[0].beginMaterialsMoney
-      this.list2[0].man = this.personalForm.productCostDetails[0].beginSalaryMoney
-      this.list2[0].produce = this.personalForm.productCostDetails[0].beginProduceMoney
-      this.list2[1].material = this.personalForm.productCostDetails[0].thisMaterialsMoney
-      this.list2[1].man = this.personalForm.productCostDetails[0].thisSalaryMoney
-      this.list2[1].produce = this.personalForm.productCostDetails[0].thisProduceMoney
-      this.list2[0].total = this.personalForm.productCostDetails[0].beginAll
-      this.list2[1].total = this.personalForm.productCostDetails[0].thisAll
-      this.list2[2].material = this.personalForm.productCostDetails[0].materialAll
-      this.list2[2].man = this.personalForm.productCostDetails[0].salaryAll
-      this.list2[2].produce = this.personalForm.productCostDetails[0].produceAll
-      this.list2[2].total = this.personalForm.productCostDetails[0].total
-      this.list2[3].material = this.personalForm.productCostDetails[0].finishMaterialsMoney
-      this.list2[3].man = this.personalForm.productCostDetails[0].finishSalaryMoney
-      this.list2[3].produce = this.personalForm.productCostDetails[0].finishProduceMoney
-      this.list2[3].total = this.personalForm.productCostDetails[0].finishAll
-      this.list2[4].material = this.personalForm.productCostDetails[0].unitMaterialsMoney
-      this.list2[4].man = this.personalForm.productCostDetails[0].unitSalaryMoney
-      this.list2[4].produce = this.personalForm.productCostDetails[0].unitProduceMoney
-      this.list2[4].total = this.personalForm.productCostDetails[0].unitAll
-      this.list2[5].material = this.personalForm.productCostDetails[0].endMaterialsMoney
-      this.list2[5].man = this.personalForm.productCostDetails[0].endSalaryMoney
-      this.list2[5].produce = this.personalForm.productCostDetails[0].endProduceMoney
-      this.list2[5].total = this.personalForm.productCostDetails[0].endAll
     }
   },
-  created() {
-    this.getTypes()
-  },
   methods: {
-    getTypes() {
-
-    },
     handlecancel() {
       this.editVisible = false
     }

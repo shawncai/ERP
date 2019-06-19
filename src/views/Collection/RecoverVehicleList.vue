@@ -443,7 +443,7 @@ export default {
         })
       }).catch(action => {
         if (action === 'cancel') {
-          this.reviewParms.judgeStat = 1
+          this.reviewParms.judgeStat = 3
           const parms = JSON.stringify(this.reviewParms)
           updaterecoverVehicle2(parms).then(res => {
             if (res.data.ret === 200) {
