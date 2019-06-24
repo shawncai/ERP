@@ -1,6 +1,9 @@
 <template>
   <div class="ERP-container">
     <div class="app-container" style="padding-right: 0">
+      <el-card class="box-card" shadow="never">
+        <h2 ref="geren" style="margin: auto;font-size: 14px;" >注: <span style="color: dodgerblue">蓝色的字体</span>是额定完成法必填项,<span style="color: red">红色的字体</span>是额定比例法必填项</h2>
+      </el-card>
       <!--基本信息-->
       <el-card class="box-card" shadow="never">
         <h2 ref="geren" class="form-name">基本信息</h2>
@@ -26,8 +29,8 @@
                 <el-form-item :label="$t('ProductCost.accountType')" style="width: 100%;">
                   <el-select v-model="personalForm.accountType" value="personalForm.accountType" style="margin-left: 11px;width: 200px" @change="change()">
                     <el-option value="1" label="约当产量法"/>
-                    <el-option value="2" label="定额成本发"/>
-                    <el-option value="3" label="定额比例发"/>
+                    <el-option value="2" label="定额成本法"/>
+                    <el-option value="3" label="定额比例法"/>
                   </el-select>
                 </el-form-item>
               </el-col>
@@ -55,37 +58,37 @@
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('ProductCost.producingMaterialsQuantity')" style="width: 100%;">
+                <el-form-item :label="$t('ProductCost.producingMaterialsQuantity')" style="width: 100%;" class="bluelable">
                   <el-input v-model="personalForm.producingMaterialsQuantity" style="margin-left: 11px;width: 200px" clearable @blur="completeRate()"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('ProductCost.producingSalary')" style="width: 100%;">
+                <el-form-item :label="$t('ProductCost.producingSalary')" style="width: 100%;" class="bluelable">
                   <el-input v-model="personalForm.producingSalary" style="margin-left: 11px;width: 200px" clearable @blur="completeRate()"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('ProductCost.producingCost')" style="width: 100%;">
+                <el-form-item :label="$t('ProductCost.producingCost')" style="width: 100%;" class="bluelable">
                   <el-input v-model="personalForm.producingCost" style="margin-left: 11px;width: 200px" clearable @blur="completeRate()"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('ProductCost.finishMaterialsUsedQuantity')" style="width: 100%;">
+                <el-form-item :label="$t('ProductCost.finishMaterialsUsedQuantity')" style="width: 100%;" class="redable">
                   <el-input v-model="personalForm.finishMaterialsUsedQuantity" style="margin-left: 11px;width: 200px" clearable @blur="completeRate()"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('ProductCost.finishWorkHours')" style="width: 100%;">
+                <el-form-item :label="$t('ProductCost.finishWorkHours')" style="width: 100%;" class="redable">
                   <el-input v-model="personalForm.finishWorkHours" style="margin-left: 11px;width: 200px" clearable @blur="completeRate()"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('ProductCost.endMaterialsQuantity')" style="width: 100%;">
+                <el-form-item :label="$t('ProductCost.endMaterialsQuantity')" style="width: 100%;" class="redable">
                   <el-input v-model="personalForm.endMaterialsQuantity" style="margin-left: 11px;width: 200px" clearable @blur="completeRate()"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('ProductCost.endWorkHours')" style="width: 100%;">
+                <el-form-item :label="$t('ProductCost.endWorkHours')" style="width: 100%;" class="redable">
                   <el-input v-model="personalForm.endWorkHours" style="margin-left: 11px;width: 200px" clearable @blur="completeRate()"/>
                 </el-form-item>
               </el-col>
@@ -106,7 +109,7 @@
       <el-card class="box-card" style="margin-top: 15px" shadow="never">
         <h2 ref="fuzhu" class="form-name" >成本费用明细</h2>
         <div class="container">
-          <el-row :gutter="20" style="margin-top: 100px">
+          <el-row :gutter="20" style="margin-top: 30px">
             <el-col :span="24">
               <div style="width: 100%; min-height: 300px;" >
                 <el-row :gutter="20" style="margin-top: 26px">
@@ -194,7 +197,7 @@ import DetailReport from './components/DetailReport'
 import DetailReport2 from './components/DetailReport2'
 import DetailReport3 from './components/DetailReport3'
 export default {
-  name: 'AddCheckReport',
+  name: 'AddProductCost',
   components: { DetailReport3, DetailReport2, DetailReport, MyEmp2, MyMater, MyQuality, MyAccept, ProduceTask, MyArrival, MyCenter, MyDelivery, MySupplier, MyDetail, MyEmp },
   data() {
     const validatePass = (rule, value, callback) => {
@@ -1260,9 +1263,10 @@ export default {
 }
 </script>
 
-<style rel="stylesheet/scss" lang="scss" scoped>
+<style rel="stylesheet/css" scoped>
   .ERP-container{
     margin-right: 0;
+  }
     .form-name{
       font-size: 18px;
       color: #373e4f;
@@ -1275,9 +1279,16 @@ export default {
     .el-button+.el-button{
       width: 98px;
     }
-  }
 
   .shipei {
     width: 150px !important;
+  }
+
+  .bluelable >>> .el-form-item__label{
+    color: dodgerblue;
+  }
+
+  .redable >>> .el-form-item__label{
+    color: red;
   }
 </style>

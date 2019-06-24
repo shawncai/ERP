@@ -135,6 +135,22 @@ export function getlocation(query, query2) {
   })
 }
 
+// 单一货位列表
+export function getlocation6(query, query2) {
+  var params = new URLSearchParams()
+  if (query !== '' && query !== null && query !== undefined) {
+    params.append('repositoryId', query) // 你要传给后台的参数值 key/value
+  }
+  if (query2.toolsCode !== '' && query2.toolsCode !== null && query2.toolsCode !== undefined) {
+    params.append('productCode', query2.toolsCode) // 你要传给后台的参数值 key/value
+  }
+  return request({
+    url: '/erp/location/getlocation',
+    method: 'post',
+    data: params
+  })
+}
+
 // 货位列表
 export function locationlist(query) {
   var params = new URLSearchParams()

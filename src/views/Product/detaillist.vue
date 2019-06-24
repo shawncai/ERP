@@ -18,7 +18,7 @@
             class="filter-tree"
             @node-click="handleNodeClick">
             <span slot-scope="{ node, data }" class="custom-tree-node">
-              <span>{{ node.label }}</span>
+              <span>{{ node.label }}  ({{ data.id }})</span>
               <span v-if="data.parentId !== 0" style="margin-left: 50px">
                 <i class="el-icon-edit" @click="edittree(data)"/>
                 <i class="el-icon-delete" @click="nodedelete(data)"/>
@@ -56,7 +56,7 @@
                   <el-input v-model="personalForm.name" placeholder="请输入分类名称" style="margin-left: 18px;width: 600px" clearable/>
                 </el-form-item>
               </el-col>
-              <el-col :span="24" style="margin-top: 20px">
+              <el-col v-show="tishi === true" :span="24" style="margin-top: 20px">
                 <span v-if="tishi === true" style="float: left;color: red;margin-top: -23px;margin-left: 223px;">请输入{{ weishu }}编码</span>
                 <el-form-item :label="$t('Product.code2')" prop="code">
                   <el-input v-model="personalForm.code" placeholder="编码" style="margin-left: 18px;width: 600px" clearable @blur="zhengze"/>
@@ -224,13 +224,18 @@ export default {
       this.parentId = data.categoryName
       this.personalForm.levle = data.level + 1
       const ceshidigui = this.recursion(node)
-      console.log(ceshidigui)
+      console.log('ceshidigui', ceshidigui)
+      console.log('data', data)
+      console.log('node', node)
       if (ceshidigui.code === '01') {
         this.tishi = true
         this.weishu = '1位'
       } else {
         this.tishi = true
         this.weishu = '2位'
+      }
+      if (ceshidigui.code === '03' && data.level === 2 || data.level === 3) {
+        this.tishi = false
       }
       this.gettree()
     },
@@ -347,7 +352,7 @@ export default {
     overflow-x: hidden;
   }
   .tree{
-    height: 500px;
+    height: 600px;
   }
   .tree >>> .el-tree {
     min-width: 100%;

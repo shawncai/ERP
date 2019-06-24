@@ -332,6 +332,12 @@ export const asyncRouterMap = [
         meta: { title: 'ProductList', noCache: true, roles: ['1-31-33-1', '1-31-33-2', '1-31-33-3', '1-31-33-4', '1-31-33-5', '1-31-33-6', '1-31-33-7', '1-31-33-14', '1-31-33-15'] }
       },
       {
+        path: 'ManyProduct',
+        component: () => import('@/views/Product/Manyinsert'),
+        name: 'ManyProduct',
+        meta: { title: 'ManyProduct', noCache: true, roles: ['1-31-32-1'] }
+      },
+      {
         path: 'Newadjustprice',
         component: () => import('@/views/Product/Newadjustprice'),
         name: 'Newadjustprice',
@@ -348,12 +354,6 @@ export const asyncRouterMap = [
         component: () => import('@/views/Product/ProductCategory'),
         name: 'ProductCategory',
         meta: { title: 'ProductCategory', noCache: true, roles: ['1-31-38-1', '1-31-38-2', '1-31-38-3', '1-31-38-4', '1-31-38-5', '1-31-38-6', '1-31-38-7', '1-31-38-8', '1-31-38-9'] }
-      },
-      {
-        path: 'ManyProduct',
-        component: () => import('@/views/Product/ManyProduct'),
-        name: 'ManyProduct',
-        meta: { title: 'ManyProduct', noCache: true, roles: ['1-31-36-13'] }
       },
       {
         path: 'detaillist',
@@ -1728,6 +1728,32 @@ export const asyncRouterMap = [
         component: () => import('@/views/SaleContract/SaleContractList'),
         name: 'SaleContractList',
         meta: { title: 'SaleContractList', noCache: true, roles: ['54-65-1', '54-65-2', '54-65-3', '54-65-4', '54-65-5', '54-65-6', '54-65-7', '54-65-18', '54-65-65'] }
+      }
+    ]
+  },
+  {
+    path: '/AccessTools',
+    component: Layout,
+    redirect: 'noredirect',
+    name: 'AccessTools',
+    alwaysShow: true,
+    meta: {
+      title: 'AccessTools',
+      icon: 'xiaoshouhetong',
+      type: 3
+    },
+    children: [
+      {
+        path: 'AddAccessTools',
+        component: () => import('@/views/AccessTools/AddAccessTools'),
+        name: 'AddAccessTools',
+        meta: { title: 'AddAccessTools', noCache: false }
+      },
+      {
+        path: 'AccessToolsList',
+        component: () => import('@/views/AccessTools/AccessToolsList'),
+        name: 'AccessToolsList',
+        meta: { title: 'AccessToolsList', noCache: true }
       }
     ]
   },

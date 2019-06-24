@@ -267,8 +267,8 @@ export default {
     accountTypeFilter(status) {
       const statusMap = {
         1: '约当产量法',
-        2: '定额成本发',
-        3: ' 定额比例发'
+        2: '定额成本法',
+        3: '定额比例法'
       }
       return statusMap[status]
     },

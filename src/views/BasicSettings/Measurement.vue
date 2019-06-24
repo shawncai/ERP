@@ -71,6 +71,11 @@
           type="selection"
           width="55"
           align="center"/>
+        <el-table-column :label="$t('BasicSettings.id')" :resizable="false" align="center" min-width="150">
+          <template slot-scope="scope">
+            <span>{{ scope.row.id }}</span>
+          </template>
+        </el-table-column>
         <el-table-column :label="$t('BasicSettings.categoryname')" :resizable="false" prop="categoryName" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.categoryName }}</span>

@@ -3,31 +3,27 @@
     <el-card class="box-card" style="margin-top: 10px;height: 60px" shadow="never">
       <el-row>
         <el-form ref="getemplist" :model="getemplist" label-width="100px" style="margin-top: -9px">
-          <el-col :span="6">
-            <el-form-item label="产品名称" label-width="100px">
-              <el-input v-model="getemplist.productName" :placeholder="$t('ProductCost.productName')" clearable style="width: 80%" @keyup.enter.native="handleFilter"/>
+          <el-col :span="7">
+            <el-form-item label="领用单主题" label-width="100px">
+              <el-input v-model="getemplist.title" :placeholder="$t('AccessTools.title')" style="width: 90%;" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
-          <el-col :span="6" style="margin-left: 10px">
-            <el-form-item :label="$t('ProductCost.accountTime')" style="width: 100%;">
-              <el-date-picker
-                v-model="getemplist.accountTime"
-                type="month"
-                value-format="yyyy-MM"
-                placeholder="选择月"
-                style="margin-left: 11px;width: 80%"/>
-            </el-form-item>
-          </el-col>
-          <el-col :span="6" style="margin-left: 10px">
-            <el-form-item label="成本核算方法">
-              <el-select v-model="getemplist.accountType" clearable value="personalForm.accountType">
-                <el-option value="1" label="约当产量法"/>
-                <el-option value="2" label="定额成本法"/>
-                <el-option value="3" label="定额比例法"/>
+          <el-col :span="7" style="margin-left: 10px">
+            <el-form-item label="使用类型" label-width="100px">
+              <el-select v-model="getemplist.useType" :placeholder="$t('AccessTools.useType')" clearable style="width: 80%;float: left;margin-left: 20px">
+                <el-option value="1" label="维修" />
+                <el-option value="2" label="其他" />
               </el-select>
             </el-form-item>
           </el-col>
-          <!--更多搜索条件-->
+          <el-col :span="6" style="margin-left: 10px">
+            <el-form-item label="紧急程度" label-width="100px">
+              <el-select v-model="getemplist.emergencyLevel" :placeholder="$t('AccessTools.emergencyLevel')" clearable style="width: 80%;float: left;margin-left: 20px">
+                <el-option value="1" label="紧急" />
+                <el-option value="2" label="不紧急" />
+              </el-select>
+            </el-form-item>
+          </el-col>
           <el-col :span="3" style="margin-left: 20px">
             <!-- 搜索按钮 -->
             <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 86px" round @click="handleFilter">{{ $t('public.search') }}</el-button>
@@ -42,15 +38,15 @@
           {{ $t('public.batchoperation') }} <i class="el-icon-arrow-down el-icon--right"/>
         </el-button>
         <el-dropdown-menu slot="dropdown" style="width: 140px">
-          <el-dropdown-item style="text-align: left" command="delete"><svg-icon icon-class="shanchu" style="width: 40px"/>{{ $t('public.delete') }}</el-dropdown-item>
+          <el-dropdown-item v-permission="['54-65-2']" style="text-align: left" command="delete"><svg-icon icon-class="shanchu" style="width: 40px"/>{{ $t('public.delete') }}</el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
       <!-- 表格导出操作 -->
-      <el-button v-waves :loading="downloadLoading" class="filter-item" style="width: 86px" @click="handleExport"> <svg-icon icon-class="daochu"/>{{ $t('public.export') }}</el-button>
+      <el-button v-permission="['54-65-6']" v-waves :loading="downloadLoading" class="filter-item" style="width: 86px" @click="handleExport"> <svg-icon icon-class="daochu"/>{{ $t('public.export') }}</el-button>
       <!-- 打印操作 -->
-      <el-button v-waves class="filter-item" icon="el-icon-printer" style="width: 86px" @click="handlePrint">{{ $t('public.print') }}</el-button>
+      <el-button v-permission="['54-65-7']" v-waves class="filter-item" icon="el-icon-printer" style="width: 86px" @click="handlePrint">{{ $t('public.print') }}</el-button>
       <!-- 新建操作 -->
-      <el-button v-waves class="filter-item" icon="el-icon-plus" type="success" style="width: 86px" @click="handleAdd">{{ $t('public.add') }}</el-button>
+      <el-button v-permission="['54-65-1']" v-waves class="filter-item" icon="el-icon-plus" type="success" style="width: 86px" @click="handleAdd">{{ $t('public.add') }}</el-button>
     </el-card>
 
     <el-card class="box-card" style="margin-top: 10px" shadow="never">
@@ -75,83 +71,92 @@
           </template>
           <detail-list :detailcontrol.sync="detailvisible" :detaildata.sync="personalForm"/>
         </el-table-column>
-        <el-table-column :label="$t('ProductCost.productName')" :resizable="false" align="center" min-width="150">
+        <!--        <el-table-column :label="$t('AccessTools.number')" :resizable="false" align="center" min-width="150">-->
+        <!--          <template slot-scope="scope">-->
+        <!--            <span>{{ scope.row.id }}</span>-->
+        <!--          </template>-->
+        <!--        </el-table-column>-->
+        <el-table-column :label="$t('AccessTools.title')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.productName }}</span>
+            <span>{{ scope.row.title }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('ProductCost.accountTime')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('AccessTools.applyPersonId')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.accountTime }}</span>
+            <span>{{ scope.row.applyPersonName }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('ProductCost.accountType')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('AccessTools.applyDate')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.accountType | accountTypeFilter }}</span>
+            <span>{{ scope.row.applyDate }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('ProductCost.completeRate')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('AccessTools.deptId2')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.completeRate }}</span>
+            <span>{{ scope.row.deptName }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('ProductCost.isInput')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('AccessTools.accessRepositoryId')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.isInput | checkModeFilter }}</span>
+            <span>{{ scope.row.accessRepositoryName }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('ProductCost.finishQuantity')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('AccessTools.useType')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.finishQuantity }}</span>
+            <span>{{ scope.row.useType | useTypeFilter }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('ProductCost.producingQuantity')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('AccessTools.emergencyLevel')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.producingQuantity }}</span>
+            <span>{{ scope.row.emergencyLevel | emergencyLevelFilter }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('public.judgeStat')" :resizable="false" prop="judgeStat" align="center" min-width="150">
-          <template slot-scope="scope">
-            <span>{{ scope.row.judgeStat | judgeStatFilter }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column :label="$t('public.receiptStat')" :resizable="false" align="center" min-width="150">
-          <template slot-scope="scope">
-            <span>{{ scope.row.receiptStat | receiptStatFilter }}</span>
-          </template>
-        </el-table-column>
+        <!--        <el-table-column :label="$t('public.judgeStat')" :resizable="false" prop="judgeStat" align="center" min-width="150">-->
+        <!--          <template slot-scope="scope">-->
+        <!--            <span>{{ scope.row.judgeStat | judgeStatFilter }}</span>-->
+        <!--          </template>-->
+        <!--        </el-table-column>-->
+        <!--        <el-table-column :label="$t('public.receiptStat')" :resizable="false" align="center" min-width="150">-->
+        <!--          <template slot-scope="scope">-->
+        <!--            <span>{{ scope.row.receiptStat | receiptStatFilter }}</span>-->
+        <!--          </template>-->
+        <!--        </el-table-column>-->
         <el-table-column :label="$t('public.actions')" :resizable="false" align="center" min-width="230">
           <template slot-scope="scope">
-            <el-button v-if="scope.row.judgeStat === 0" title="修改" type="primary" size="mini" icon="el-icon-edit" circle @click="handleEdit(scope.row)"/>
-            <el-button v-if="isReview(scope.row)" title="审批" type="warning" size="mini" icon="el-icon-view" circle @click="handleReview(scope.row)"/>
-            <el-button v-if="scope.row.judgeStat === 0" title="删除" size="mini" type="danger" icon="el-icon-delete" circle @click="handleDelete(scope.row)"/>
+            <el-button v-permission="['54-65-3']" v-show="scope.row.providePersonId === null" title="修改" type="primary" size="mini" icon="el-icon-edit" circle @click="handleEdit(scope.row)"/>
+            <el-button v-show="scope.row.providePersonId === null" title="确认" type="warning" size="mini" icon="el-icon-view" circle @click="handleReview(scope.row)"/>
+            <el-button v-permission="['54-65-2']" v-show="scope.row.providePersonId === null" title="删除" size="mini" type="danger" icon="el-icon-delete" circle @click="handleDelete(scope.row)"/>
           </template>
         </el-table-column>
       </el-table>
       <!-- 列表结束 -->
       <pagination v-show="total>0" :total="total" :page.sync="getemplist.pageNum" :limit.sync="getemplist.pageSize" @pagination="getlist" />
       <!--修改开始=================================================-->
-      <!--      <my-dialog :editcontrol.sync="editVisible" :editdata.sync="personalForm" @rest="refreshlist"/>-->
+      <my-dialog :editcontrol.sync="editVisible" :editdata.sync="personalForm" @rest="refreshlist"/>
       <!--修改结束=================================================-->
     </el-card>
   </div>
 </template>
 
 <script>
-import { produceCostlist, deleteproduceCost, updateproduceCost } from '@/api/ProduceCost'
+import { updatesaleContract2 } from '@/api/SaleContract'
+import { searchAccessTools, updateAccessTools2, deleteAccessTools } from '@/api/AccessTools'
 import { getdeptlist } from '@/api/BasicSettings'
 import { searchStockCategory } from '@/api/StockCategory'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination'
+import permission from '@/directive/permission/index.js' // 权限判断指令
+import checkPermission from '@/utils/permission' // 权限判断函数
 import MyEmp from './components/MyEmp'
 import DetailList from './components/DetailList'
 import MyDialog from './components/MyDialog'
-import MySupplier from './components/MySupplier'
+import MyCustomer from './components/MyCustomer'
+import MyAgent from './components/MyAgent'
 
 export default {
-  name: 'CheckReportList',
-  directives: { waves },
-  components: { MyDialog, DetailList, MyEmp, Pagination, MySupplier },
+  name: 'AccessToolsList',
+  directives: { waves, permission },
+  components: { MyDialog, DetailList, MyEmp, MyCustomer, MyAgent, Pagination },
   filters: {
     judgeStatFilter(status) {
       const statusMap = {
@@ -176,41 +181,35 @@ export default {
       }
       return statusMap[status]
     },
-    sourceTypeFilter(status) {
+    sendTypeFilter(status) {
       const statusMap = {
-        1: '质检申请单',
-        2: '采购到货单',
-        3: '生产任务单',
-        4: '无来源'
+        1: '已发货',
+        2: '未发货'
       }
       return statusMap[status]
     },
-    checkTypeFilter(status) {
+    emergencyLevelFilter(status) {
       const statusMap = {
-        1: '来料质检',
-        2: '送样质检',
-        3: '生产质检'
+        1: '紧急',
+        2: '不紧急'
       }
       return statusMap[status]
     },
-    accountTypeFilter(status) {
+    useTypeFilter(status) {
       const statusMap = {
-        1: '约当产量法',
-        2: '定额成本法',
-        3: '定额比例法'
-      }
-      return statusMap[status]
-    },
-    checkModeFilter(status) {
-      const statusMap = {
-        1: '是',
-        2: '否'
+        1: '维修',
+        2: '其他'
       }
       return statusMap[status]
     }
   },
   data() {
     return {
+      // 回显客户
+      customerName: '',
+      // 控制客户
+      customercontrol: false,
+      agentcontrol: false,
       // 类别获取参数
       typeparms: {
         pagenum: 1,
@@ -234,9 +233,9 @@ export default {
       supplierId: '',
       // 供应商控制框
       empcontrol: false,
-      // 报检员回显
-      inspectionPersonId: '',
-      // 报检员控制框
+      // 采购人回显
+      stockPersonId: '',
+      // 采购人控制框
       stockControl: false,
       // 批量操作
       moreaction: '',
@@ -269,13 +268,35 @@ export default {
     this.getlist()
   },
   methods: {
+    checkPermission,
     // 不让勾选
     selectInit(row, index) {
-      if (row.judgeStat !== 0) {
+      if (row.providePersonId !== null) {
         return false
       } else {
         return true
       }
+    },
+    // 选择客户类型时清理客户名称
+    clearCustomer() {
+      this.getemplist.customerId = ''
+      this.customerName = ''
+    },
+    // 选择客户focus
+    chooseCustomer() {
+      if (this.getemplist.customerType === '1') {
+        this.agentcontrol = true
+      } else if (this.getemplist.customerType === '2') {
+        this.customercontrol = true
+      }
+    },
+    customerdata(val) {
+      this.getemplist.customerId = val.id
+      this.customerName = val.customerName
+    },
+    agentdata(val) {
+      this.getemplist.customerId = val.id
+      this.customerName = val.agentName
     },
     // 更新采购类型
     updatecountry() {
@@ -284,7 +305,7 @@ export default {
     getlist() {
       // 物料需求计划列表数据
       this.listLoading = true
-      produceCostlist(this.getemplist).then(res => {
+      searchAccessTools(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
@@ -308,15 +329,15 @@ export default {
     },
     // 清空搜索条件
     restFilter() {
-      this.supplierId = ''
-      this.getemplist.supplierId = ''
-      this.inspectionPersonId = ''
-      this.getemplist.inspectionPersonId = ''
+      this.customerName = ''
+      this.getemplist.customerId = ''
+      this.stockPersonId = ''
+      this.getemplist.stockPersonId = ''
     },
     // 搜索
     handleFilter() {
       this.getemplist.pageNum = 1
-      produceCostlist(this.getemplist).then(res => {
+      searchAccessTools(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
@@ -326,14 +347,14 @@ export default {
         }
       })
     },
-    // 报检员focus事件
+    // 采购人focus事件
     handlechooseStock() {
       this.stockControl = true
     },
-    // 报检员回显
+    // 采购人回显
     stockName(val) {
-      this.inspectionPersonId = val.personName
-      this.getemplist.inspectionPersonId = val.id
+      this.stockPersonId = val.personName
+      this.getemplist.stockPersonId = val.id
     },
     // 供应商输入框focus事件触发
     handlechoose() {
@@ -351,11 +372,23 @@ export default {
       this.editVisible = true
       this.personalForm = Object.assign({}, row)
       this.personalForm.sourceType = String(row.sourceType)
-      if (row.checkType !== null) {
-        this.personalForm.checkType = String(row.checkType)
+      if (row.currency !== null) {
+        this.personalForm.currency = String(row.currency)
       }
-      if (row.checkMode !== null) {
-        this.personalForm.checkMode = String(row.checkMode)
+      if (row.customerType !== null) {
+        this.personalForm.customerType = String(row.customerType)
+      }
+      if (row.payMode !== null) {
+        this.personalForm.payMode = String(row.payMode)
+      }
+      if (row.saleType !== null) {
+        this.personalForm.saleType = String(row.saleType)
+      }
+      if (row.payType !== null) {
+        this.personalForm.payType = String(row.payType)
+      }
+      if (row.payType !== null) {
+        this.personalForm.payType = String(row.payType)
       }
     },
     // 修改组件修改成功后返回
@@ -383,16 +416,16 @@ export default {
     // 审批操作
     handleReview(row) {
       this.reviewParms.id = row.id
-      this.reviewParms.judgePersonId = this.$store.getters.userId
-      this.$confirm('请审核', '审核', {
+      this.reviewParms.providePersonId = this.$store.getters.userId
+      this.$confirm('请确认', '确认', {
         distinguishCancelAndClose: true,
-        confirmButtonText: '通过',
-        cancelButtonText: '不通过',
+        confirmButtonText: '确认',
+        // cancelButtonText: '不通过',
         type: 'warning'
       }).then(() => {
-        this.reviewParms.judgeStat = 2
+        // this.reviewParms.judgeStat = 2
         const parms = JSON.stringify(this.reviewParms)
-        updateproduceCost(parms).then(res => {
+        updateAccessTools2(parms).then(res => {
           if (res.data.ret === 200) {
             this.$message({
               type: 'success',
@@ -405,7 +438,7 @@ export default {
         if (action === 'cancel') {
           this.reviewParms.judgeStat = 3
           const parms = JSON.stringify(this.reviewParms)
-          updateproduceCost(parms).then(res => {
+          updatesaleContract2(parms).then(res => {
             if (res.data.ret === 200) {
               this.$message({
                 type: 'success',
@@ -431,7 +464,7 @@ export default {
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          deleteproduceCost(ids, this.$store.getters.userId).then(res => {
+          deleteAccessTools(ids, this.$store.getters.userId).then(res => {
             if (res.data.ret === 200 || res.data.ret === 100) {
               this.$notify({
                 title: '删除成功',
@@ -462,7 +495,7 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        deleteproduceCost(row.id, this.$store.getters.userId).then(res => {
+        deleteAccessTools(row.id, this.$store.getters.userId).then(res => {
           if (res.data.ret === 200 || res.data.ret === 100) {
             this.$notify({
               title: '删除成功',
@@ -487,14 +520,14 @@ export default {
     },
     // 新增数据
     handleAdd() {
-      this.$router.push('/ProductCost/AddProductCost')
+      this.$router.push('/AccessTools/AddAccessTools')
     },
     // 导出
     handleExport() {
       this.downloadLoading = true
         import('@/vendor/Export2Excel').then(excel => {
           const tHeader = ['供应商编号', '供应商名称', '供应商简称', '供应商类别', '所在区域', '采购员', '供应商优质级别', '建档人', '建档日期']
-          const filterVal = ['id', 'CheckReportName', 'CheckReportShortName', 'typeName', 'regionName', 'buyerName', 'levelName', 'createName', 'createTime']
+          const filterVal = ['id', 'SaleContractName', 'SaleContractShortName', 'typeName', 'regionName', 'buyerName', 'levelName', 'createName', 'createTime']
           const data = this.formatJson(filterVal, this.list)
           excel.export_json_to_excel({
             header: tHeader,

@@ -744,3 +744,4 @@ export function deleteeclassfy(query, query2) {
     data: params
   })
 }
+
