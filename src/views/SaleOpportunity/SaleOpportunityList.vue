@@ -156,6 +156,7 @@
             <el-button v-permission="['54-63-3']" title="修改" type="primary" size="mini" icon="el-icon-edit" circle @click="handleEdit(scope.row)"/>
             <!--<el-button v-if="isReview(scope.row)" title="审批" type="warning" size="mini" icon="el-icon-view" circle @click="handleReview(scope.row)"/>-->
             <el-button v-permission="['54-63-2']" title="删除" size="mini" type="danger" icon="el-icon-delete" circle @click="handleDelete(scope.row)"/>
+            <el-button title="进程" size="mini" type="primary" icon="el-icon-sort" circle @click="handleReceipt(scope.row)"/>
           </template>
         </el-table-column>
       </el-table>
@@ -164,6 +165,19 @@
       <!--修改开始=================================================-->
       <my-dialog :editcontrol.sync="editVisible" :editdata.sync="personalForm" @rest="refreshlist"/>
       <!--修改结束=================================================-->
+      <el-dialog :visible.sync="receiptVisible" title="采购进程" class="normal" width="600px" center>
+        <el-form class="demo-ruleForm" style="margin: 0px 6%; width: 400px">
+          <el-form-item label-width="100px;">
+            <el-steps :space="200" style="width: 150%;" finish-status="success">
+              <el-step :status="step4" title="采购订单"/>
+              <el-step :status="step5" title="采购到货"/>
+              <el-step :status="step6" title="质检"/>
+              <el-step :status="step7" title="采购入库"/>
+              <el-step :status="step8" title="完成"/>
+            </el-steps>
+          </el-form-item>
+        </el-form>
+      </el-dialog>
     </el-card>
   </div>
 </template>
@@ -171,6 +185,7 @@
 <script>
 import { saleopportunitylist, deletesaleopportunity } from '@/api/SaleOpportunity'
 import { getdeptlist } from '@/api/BasicSettings'
+import { checkReceiptOpportunity } from '@/api/public'
 import { searchStockCategory } from '@/api/StockCategory'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination'
@@ -220,6 +235,15 @@ export default {
   },
   data() {
     return {
+      step1: '',
+      step2: '',
+      step3: '',
+      step4: '',
+      step5: '',
+      step6: '',
+      step7: '',
+      step8: '',
+      receiptVisible: false,
       // 回显客户
       customerName: '',
       // 控制客户
@@ -283,6 +307,79 @@ export default {
     this.getlist()
   },
   methods: {
+    contorlstep4(val) {
+      if (val === 0) {
+        this.step4 = 'wait'
+      }
+      if (val === 1) {
+        this.step4 = 'finish'
+      }
+      if (val === 2) {
+        this.step4 = 'success'
+      }
+    },
+    contorlstep5(val) {
+      if (val === 0) {
+        this.step5 = 'wait'
+      }
+      if (val === 1) {
+        this.step5 = 'finish'
+      }
+      if (val === 2) {
+        this.step5 = 'success'
+      }
+    },
+    contorlstep6(val) {
+      if (val === 0) {
+        this.step6 = 'wait'
+      }
+      if (val === 1) {
+        this.step6 = 'finish'
+      }
+      if (val === 2) {
+        this.step6 = 'success'
+      }
+    },
+    contorlstep7(val) {
+      if (val === 0) {
+        this.step7 = 'wait'
+      }
+      if (val === 1) {
+        this.step7 = 'finish'
+      }
+      if (val === 2) {
+        this.step7 = 'success'
+      }
+    },
+    contorlstep8(val) {
+      if (val === 0) {
+        this.step8 = 'wait'
+      }
+      if (val === 1) {
+        this.step8 = 'finish'
+      }
+      if (val === 2) {
+        this.step8 = 'success'
+      }
+    },
+    // 进程操作
+    handleReceipt(row) {
+      this.receiptVisible = true
+      console.log('row', row)
+      checkReceiptOpportunity(row.opportunityNumber).then(res => {
+        if (res.data.ret === 200) {
+          console.log('res.data.data', res.data.data)
+          this.contorlstep4(res.data.data.opportunityStat)
+          this.contorlstep5(res.data.data.orderStat)
+          this.contorlstep6(res.data.data.outStat)
+          this.contorlstep7(res.data.data.deliverStat)
+          this.contorlstep8(res.data.data.finishStat)
+        }
+        setTimeout(() => {
+          this.listLoading = false
+        }, 0.5 * 100)
+      })
+    },
     checkPermission,
     // 不让勾选
     selectInit(row, index) {
@@ -608,5 +705,22 @@ export default {
   .filter-item{
     width: 140px;
     margin-left: 30px;
+  }
+  .normal >>> .el-dialog__header {
+    padding: 20px 20px 10px;
+    background: #fff;
+    position: static;
+    top: auto;
+    z-index: auto;
+    width: auto;
+    border-bottom: none;
+  }
+  .normal >>> .el-dialog {
+    -webkit-transform: none;
+    transform: none;
+    left: 0;
+    position: relative;
+    margin: 0 auto;
+    height: auto;
   }
 </style>

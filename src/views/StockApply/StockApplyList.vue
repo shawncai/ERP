@@ -158,6 +158,7 @@
             <el-button v-permission="['104-105-3']" v-show="scope.row.judgeStat === 0" title="修改" type="primary" size="mini" icon="el-icon-edit" circle @click="handleEdit(scope.row)"/>
             <el-button v-if="isReview(scope.row)" title="审批" type="warning" size="mini" icon="el-icon-view" circle @click="handleReview(scope.row)"/>
             <el-button v-permission="['104-105-2']" v-show="scope.row.judgeStat === 0" title="删除" size="mini" type="danger" icon="el-icon-delete" circle @click="handleDelete(scope.row)"/>
+            <el-button title="进程" size="mini" type="primary" icon="el-icon-sort" circle @click="handleReceipt(scope.row)"/>
           </template>
         </el-table-column>
       </el-table>
@@ -166,12 +167,29 @@
       <!--修改开始=================================================-->
       <my-dialog :editcontrol.sync="editVisible" :editdata.sync="personalForm" @rest="refreshlist"/>
       <!--修改结束=================================================-->
+      <el-dialog :visible.sync="receiptVisible" title="采购进程" class="normal" width="600px" center>
+        <el-form class="demo-ruleForm" style="margin: 0px 6%; width: 400px">
+          <el-form-item label-width="100px;">
+            <el-steps :space="200" style="width: 150%;" finish-status="success">
+              <el-step :status="step1" title="采购申请"/>
+              <el-step :status="step2" title="采购计划"/>
+              <el-step :status="step3" title="采购询价"/>
+              <el-step :status="step4" title="采购订单"/>
+              <el-step :status="step5" title="采购到货"/>
+              <el-step :status="step6" title="质检"/>
+              <el-step :status="step7" title="采购入库"/>
+              <el-step :status="step8" title="完成"/>
+            </el-steps>
+          </el-form-item>
+        </el-form>
+      </el-dialog>
     </el-card>
   </div>
 </template>
 
 <script>
 import { stocapplylist, deletestockapply, updatestockapply2 } from '@/api/StockApply'
+import { checkReceiptApply } from '@/api/public'
 import { getdeptlist } from '@/api/BasicSettings'
 import { searchStockCategory } from '@/api/StockCategory'
 import waves from '@/directive/waves' // Waves directive
@@ -237,6 +255,7 @@ export default {
       },
       // 详情组件数据
       detailvisible: false,
+      receiptVisible: false,
       // 更多搜索条件问题
       visible2: false,
       // 申请人回显
@@ -267,13 +286,136 @@ export default {
       // 修改控制组件数据
       editVisible: false,
       // 开始时间到结束时间
-      date: []
+      date: [],
+      step1: '',
+      step2: '',
+      step3: '',
+      step4: '',
+      step5: '',
+      step6: '',
+      step7: '',
+      step8: ''
     }
   },
   mounted() {
     this.getlist()
   },
   methods: {
+    contorlstep1(val) {
+      if (val === 0) {
+        this.step1 = 'wait'
+      }
+      if (val === 1) {
+        this.step1 = 'finish'
+      }
+      if (val === 2) {
+        this.step1 = 'success'
+      }
+    },
+    contorlstep2(val) {
+      if (val === 0) {
+        this.step2 = 'wait'
+      }
+      if (val === 1) {
+        this.step2 = 'finish'
+      }
+      if (val === 2) {
+        this.step2 = 'success'
+      }
+    },
+    contorlstep3(val) {
+      if (val === 0) {
+        this.step3 = 'wait'
+      }
+      if (val === 1) {
+        this.step3 = 'finish'
+      }
+      if (val === 2) {
+        this.step3 = 'success'
+      }
+    },
+    contorlstep4(val) {
+      if (val === 0) {
+        this.step4 = 'wait'
+      }
+      if (val === 1) {
+        this.step4 = 'finish'
+      }
+      if (val === 2) {
+        this.step4 = 'success'
+      }
+    },
+    contorlstep5(val) {
+      if (val === 0) {
+        this.step5 = 'wait'
+      }
+      if (val === 1) {
+        this.step5 = 'finish'
+      }
+      if (val === 2) {
+        this.step5 = 'success'
+      }
+    },
+    contorlstep6(val) {
+      if (val === 0) {
+        this.step6 = 'wait'
+      }
+      if (val === 1) {
+        this.step6 = 'finish'
+      }
+      if (val === 2) {
+        this.step6 = 'success'
+      }
+    },
+    contorlstep7(val) {
+      if (val === 0) {
+        this.step7 = 'wait'
+      }
+      if (val === 1) {
+        this.step7 = 'finish'
+      }
+      if (val === 2) {
+        this.step7 = 'success'
+      }
+    },
+    contorlstep8(val) {
+      if (val === 0) {
+        this.step8 = 'wait'
+      }
+      if (val === 1) {
+        this.step8 = 'finish'
+      }
+      if (val === 2) {
+        this.step8 = 'success'
+      }
+    },
+    // 进程操作
+    handleReceipt(row) {
+      console.log(row)
+      this.receiptVisible = true
+      checkReceiptApply(row.applyNumber).then(res => {
+        if (res.data.ret === 200) {
+          this.contorlstep1(res.data.data.applyStat)
+          this.contorlstep2(res.data.data.planStat)
+          this.contorlstep3(res.data.data.inquiryStat)
+          this.contorlstep4(res.data.data.orderStat)
+          this.contorlstep5(res.data.data.arrivalStat)
+          this.contorlstep6(res.data.data.checkStat)
+          this.contorlstep7(res.data.data.enterStat)
+          this.contorlstep8(res.data.data.finishStat)
+        }
+        setTimeout(() => {
+          this.listLoading = false
+        }, 0.5 * 100)
+      })
+    },
+    // 修改操作
+    handleEdit(row) {
+      console.log(row)
+      this.editVisible = true
+      this.personalForm = Object.assign({}, row)
+      this.personalForm.sourceType = String(row.sourceType)
+    },
     checkPermission,
     // 不让勾选
     selectInit(row, index) {
@@ -338,13 +480,6 @@ export default {
     stockName(val) {
       this.applyPersonId = val.personName
       this.getemplist.applyPersonId = val.id
-    },
-    // 修改操作
-    handleEdit(row) {
-      console.log(row)
-      this.editVisible = true
-      this.personalForm = Object.assign({}, row)
-      this.personalForm.sourceType = String(row.sourceType)
     },
     // 修改组件修改成功后返回
     refreshlist(val) {
@@ -566,5 +701,22 @@ export default {
   .filter-item{
     width: 140px;
     margin-left: 30px;
+  }
+  .normal >>> .el-dialog__header {
+    padding: 20px 20px 10px;
+    background: #fff;
+    position: static;
+    top: auto;
+    z-index: auto;
+    width: auto;
+    border-bottom: none;
+  }
+  .normal >>> .el-dialog {
+    -webkit-transform: none;
+    transform: none;
+    left: 0;
+    position: relative;
+    margin: 0 auto;
+    height: auto;
   }
 </style>

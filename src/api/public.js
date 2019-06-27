@@ -398,3 +398,58 @@ export function getregionlistbyreid(query) {
     data: params
   })
 }
+
+// 查看单据进程
+export function checkReceiptApply(query) {
+  var params = new URLSearchParams()
+  params.append('applyNumber', query) // 你要传给后台的参数值 key/value
+  return request({
+    url: '/erp/receiptStat/checkReceiptApply',
+    method: 'post',
+    data: params
+  })
+}
+
+// 查看单据进程
+export function checkReceiptPlan(query) {
+  var params = new URLSearchParams()
+  params.append('planNumber', query) // 你要传给后台的参数值 key/value
+  return request({
+    url: '/erp/receiptStat/checkReceiptPlan',
+    method: 'post',
+    data: params
+  })
+}
+
+// 查看单据进程
+export function checkReceiptOrder(query) {
+  var params = new URLSearchParams()
+  params.append('orderNumber', query) // 你要传给后台的参数值 key/value
+  return request({
+    url: '/erp/receiptStat/checkReceiptOrder',
+    method: 'post',
+    data: params
+  })
+}
+
+// 查看单据进程
+export function checkReceiptOrder2(query) {
+  var params = new URLSearchParams()
+  params.append('orderNumber', query) // 你要传给后台的参数值 key/value
+  return request({
+    url: '/erp/saleReceiptStat/checkReceiptOrder',
+    method: 'post',
+    data: params
+  })
+}
+
+// 查看单据进程
+export function checkReceiptOpportunity(query) {
+  var params = new URLSearchParams()
+  params.append('opportunityNumber', query) // 你要传给后台的参数值 key/value
+  return request({
+    url: '/erp/saleReceiptStat/checkReceiptOpportunity',
+    method: 'post',
+    data: params
+  })
+}
