@@ -8,7 +8,19 @@
         <el-col :span="24">
           <div style="width: 100%; min-height: 400px;" >
             <div style="width: 100%; height: 50px;background: #d9e0e8;" >
-              <div style="padding-top: 16px;padding-left: 20px;">销售业绩每月对比</div>
+              <div style="padding-top: 16px;padding-left: 20px;width: 25%;height: 100%;float: left">销售业绩每月对比</div>
+              <div class="block">
+                <el-form ref="getemplist3" :model="getemplist3" label-width="100px">
+                <el-date-picker
+                  v-model="date"
+                  type="date"
+                  placeholder="选择日期"
+                  value-format="yyyy-MM-dd"
+                  style="margin-left: 52%;"
+                  class="shipei"/>
+                <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 86px;margin-top: 10px;" round @click="handleFilter">{{ $t('public.search') }}</el-button>
+                  </el-form>
+              </div>
             </div>
             <el-table
               :data="list2"
@@ -66,7 +78,23 @@
       <el-col :span="24">
         <div style="width: 100%; min-height: 400px;" >
           <div style="width: 100%; height: 50px;background: #d9e0e8;" >
-            <div style="padding-top: 16px;padding-left: 20px;">收支汇总表</div>
+            <div style="padding-top: 16px;padding-left: 20px;width: 25%;height: 100%;float: left">收支汇总表</div>
+            <div style="width: 75%;height: 100%;float: left;">
+              <el-form ref="getemplist3" :model="getemplist3" label-width="100px">
+                <el-date-picker
+                  v-model="date2"
+                  type="daterange"
+                  range-separator="-"
+                  unlink-panels
+                  start-placeholder="开始日期"
+                  end-placeholder="结束日期"
+                  value-format="yyyy-MM-dd"
+                  style="margin-left: 60%;"
+                  class="shipei"/>
+                <!-- 搜索按钮 -->
+                <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 86px;margin-top: 10px;" round @click="handleFilter2">{{ $t('public.search') }}</el-button>
+              </el-form>
+            </div>
           </div>
           <el-table
             :data="list"
@@ -234,7 +262,7 @@
         // 申请部门数据
         depts: [],
         // 开始时间到结束时间
-        date: [],
+        date: null,
         // 审核传参
         reviewParms: {
           id: '',
@@ -287,18 +315,96 @@
           regionid: this.$store.getters.regionId,
           type: 1
         },
+        getemplist4: {
+          repositoryid: this.$store.getters.repositoryId,
+          regionid: this.$store.getters.regionId,
+          type: 1
+        },
         // 传给组件的数据
         personalForm: {},
         // 修改控制组件数据
         editVisible: false,
         // 开始时间到结束时间
-        date: []
+        date2: []
       }
     },
     mounted() {
       this.getlist()
     },
     methods: {
+      // 搜索
+      handleFilter() {
+        console.log(this.date)
+        if (this.date === null || this.date === undefined || this.date === '') {
+          console.log('123', this.getemplist3.oneDay)
+          this.getemplist3.oneDay = ''
+        } else {
+          console.log('123', this.getemplist3.oneDay)
+          this.getemplist3.oneDay = this.date
+        }
+        drive2(this.getemplist3).then(res => {
+          if (res.data.ret === 200) {
+            console.log(res.data)
+            this.list2 = res.data.data.saleCompareAllVos.map(function (item) {
+              return {
+                repositoryName: item.repositoryName,
+                todaySale: item.todaySale,
+                monthSale: item.monthSale,
+                lastSale: item.lastSale,
+                todayReceipt: item.todayReceipt,
+                monthReceipt: item.monthReceipt,
+                lastReceipt: item.lastReceipt
+              }
+            })
+          }
+          setTimeout(() => {
+            this.listLoading = false
+          }, 0.5 * 100)
+        })
+      },
+      // 搜索
+      handleFilter2() {
+        if (this.date2 === null || this.date2 === undefined || this.date2 === '') {
+          this.getemplist4.beginTime = ''
+          this.getemplist4.endTime = ''
+        } else {
+          this.getemplist4.beginTime = this.date2[0]
+          this.getemplist4.endTime = this.date2[1]
+        }
+        drive(this.getemplist4).then(res => {
+          if (res.data.ret === 200) {
+            console.log(res.data)
+            console.log(res.data.data.repositoryName)
+            this.list = res.data.data.content.list.map(function (item) {
+              console.log('repaire', item.repaireOut)
+              console.log('totalPay', item.totalPay)
+              if (item.repaireOut ===null){
+                item.repaireOut = 0
+                console.log('repaire', item.repaireOut)
+              }
+              return {
+                name: item.name,
+                saleOut: item.saleOut,
+                stockRetreat: item.stockRetreat,
+                income: item.income,
+                repaireOut: item.repaireOut,
+                advanceCollect: item.advanceCollect,
+                totalCollect: item.totalCollect,
+                saleReturn: item.saleReturn,
+                payment: item.payment,
+                outlay: item.outlay,
+                totalPay: item.totalPay,
+                balance: item.balance,
+                payModeName: item.payModeName,
+                collectMoney: item.collectMoney
+              }
+            })
+          }
+          setTimeout(() => {
+            this.listLoading = false
+          }, 0.5 * 100)
+        })
+      },
       getRowClass({row, column, rowIndex, columnIndex}) {
         if (rowIndex === 0) {
           return 'background: red '
@@ -443,7 +549,7 @@
       },
       getlist() {
         this.listLoading = true
-        drive(this.getemplist3).then(res => {
+        drive(this.getemplist4).then(res => {
           if (res.data.ret === 200) {
             console.log(res.data)
             console.log(res.data.data.repositoryName)
@@ -503,37 +609,6 @@
         this.getemplist.customerId = ''
         this.stockPersonId = ''
         this.getemplist.stockPersonId = ''
-      },
-      // 搜索
-      handleFilter() {
-        if (this.date === null || this.date === undefined || this.date === '') {
-          this.getemplist3.beginTime = ''
-          this.getemplist3.endTime = ''
-        } else {
-          this.getemplist3.beginTime = this.date[0]
-          this.getemplist3.endTime = this.date[1]
-        }
-        SaleMange1(this.getemplist3).then(res => {
-          if (res.data.ret === 200) {
-            console.log(res.data)
-            console.log(res.data.data.repositoryName)
-            this.list = res.data.data.content.map(function (item) {
-              return {
-                repositoryName: item.repositoryName,
-                finished: item.finished,
-                comment: item.comment,
-                canceled: item.canceled,
-                begin: item.begin,
-                submit: item.submit,
-                repair: item.repair,
-                assigned: item.assigned
-              }
-            })
-          }
-          setTimeout(() => {
-            this.listLoading = false
-          }, 0.5 * 100)
-        })
       },
       // 采购人focus事件
       handlechooseStock() {
@@ -806,5 +881,11 @@
   .row-bg {
     padding: 10px 0;
     background-color: #f9fafc;
+  }
+
+  @media screen and (max-width: 1400px) {
+    .shipei {
+      margin-left: 36% !important;
+    }
   }
 </style>

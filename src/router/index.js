@@ -1731,18 +1731,74 @@ export const asyncRouterMap = [
       }
     ]
   },
+  // {
+  //   path: '/AccessTools',
+  //   component: Layout,
+  //   redirect: 'noredirect',
+  //   name: 'AccessTools',
+  //   alwaysShow: true,
+  //   meta: {
+  //     title: 'AccessTools',
+  //     icon: 'xiaoshouhetong',
+  //     type: 3
+  //   },
+  //   children: [
+  //     {
+  //       path: 'AddAccessTools',
+  //       component: () => import('@/views/AccessTools/AddAccessTools'),
+  //       name: 'AddAccessTools',
+  //       meta: { title: 'AddAccessTools', noCache: false }
+  //     },
+  //     {
+  //       path: 'AccessToolsList',
+  //       component: () => import('@/views/AccessTools/AccessToolsList'),
+  //       name: 'AccessToolsList',
+  //       meta: { title: 'AccessToolsList', noCache: true }
+  //     }
+  //   ]
+  // },
   {
-    path: '/AccessTools',
+    path: '/Repair',
     component: Layout,
     redirect: 'noredirect',
-    name: 'AccessTools',
+    name: 'Repair',
     alwaysShow: true,
     meta: {
-      title: 'AccessTools',
+      title: 'Repair',
       icon: 'xiaoshouhetong',
       type: 3
     },
     children: [
+      {
+        path: 'RepairList',
+        component: () => import('@/views/Repair/RepairList'),
+        name: 'RepairList',
+        meta: { title: 'RepairList', noCache: true }
+      },
+      {
+        path: 'selfCheck',
+        component: () => import('@/views/Repair/selfCheck'),
+        name: 'selfCheck',
+        meta: { title: 'selfCheck', noCache: true }
+      },
+      {
+        path: 'blackList',
+        component: () => import('@/views/Repair/blackList'),
+        name: 'blackList',
+        meta: { title: 'blackList', noCache: true }
+      },
+      {
+        path: 'lost',
+        component: () => import('@/views/Repair/lost'),
+        name: 'lost',
+        meta: { title: 'lost', noCache: true }
+      },
+      {
+        path: 'RepairProject',
+        component: () => import('@/views/Repair/RepairProject'),
+        name: 'RepairProject',
+        meta: { title: 'RepairProject', noCache: true }
+      },
       {
         path: 'AddAccessTools',
         component: () => import('@/views/AccessTools/AddAccessTools'),

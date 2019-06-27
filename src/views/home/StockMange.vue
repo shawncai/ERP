@@ -14,21 +14,21 @@
                   <div style="width: 100%; height: 50px;background: #d9e0e8;" >
                     <div style="padding-top: 16px;padding-left: 20px;width: 25%;height: 100%;float: left">供应商分布</div>
                     <div style="width: 75%;height: 100%;float: left;">
-                      <el-form ref="getemplist4" :model="getemplist4" label-width="100px">
-                        <el-date-picker
-                          v-model="date2"
-                          type="daterange"
-                          range-separator="-"
-                          unlink-panels
-                          start-placeholder="开始日期"
-                          end-placeholder="结束日期"
-                          value-format="yyyy-MM-dd"
-                          style="margin-left: 60%;"
-                          class="shipei"/>
-                        <!-- 搜索按钮 -->
-                        <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 86px;margin-top: 10px;" round @click="handleFilter2">{{ $t('public.search') }}</el-button>
-                      </el-form>
-                    </div>
+                    <el-form ref="getemplist4" :model="getemplist4" label-width="100px">
+                      <el-date-picker
+                        v-model="date2"
+                        type="daterange"
+                        range-separator="-"
+                        unlink-panels
+                        start-placeholder="开始日期"
+                        end-placeholder="结束日期"
+                        value-format="yyyy-MM-dd"
+                        style="margin-left: 60%;"
+                        class="shipei"/>
+                      <!-- 搜索按钮 -->
+                      <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 86px;margin-top: 10px;" round @click="handleFilter2">{{ $t('public.search') }}</el-button>
+                    </el-form>
+                  </div>
                   </div>
                   <el-table
                     :data="list"
@@ -216,7 +216,7 @@
                       <!--                      </el-select>-->
                     </el-table-column>
                   </el-table>
-                  <pagination v-show="total2>0" :total="total2" :page.sync="getemplist2.pageNum" :limit.sync="getemplist2.pageSize" style="margin-top: 0px;" @pagination="getlist" />
+                  <pagination v-show="total2>0" :total="total2" :page.sync="getemplist2.pageNum" :limit.sync="getemplist2.pageSize" style="margin-top: 0px;" @pagination="getlist2" />
 <!--质检报告-->
                   <!--                  <el-editable-->
 <!--                    ref="editable"-->
@@ -382,7 +382,7 @@
         },
         getemplist2: {
           pageNum: 1,
-          pageSize: 10,
+          pageSize:10,
           repositoryId: this.$store.getters.repositoryId,
           regionIds: this.$store.getters.regionId,
           employeeId: this.$store.getters.userId
@@ -406,6 +406,7 @@
     },
     mounted() {
       this.getlist()
+      this.getlist2()
     },
     methods: {
       tableHeaderColor({ row, column, rowIndex, columnIndex }) {
@@ -544,7 +545,7 @@
       updatecountry() {
         this.getlist()
       },
-      getlist() {
+      getlist2() {
         this.listLoading = true
         stockMange2(this.getemplist2).then(res => {
           if (res.data.ret === 200) {
@@ -574,7 +575,8 @@
             this.listLoading = false
           }, 0.5 * 100)
         })
-
+      },
+      getlist() {
         stockMange(this.getemplist4).then(res => {
           if (res.data.ret === 200) {
             this.total = res.data.data.content.totalCount

@@ -56,6 +56,11 @@
                 <span>{{ personalForm.providePersonName }}</span>
               </el-form-item>
             </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('AccessTools.stat')" style="width: 100%;">
+                <span>{{ personalForm.stat | statFilter }}</span>
+              </el-form-item>
+            </el-col>
           </el-row>
         </el-form>
       </div>
@@ -77,8 +82,9 @@
           <el-editable-column prop="toolsCode" align="center" label="工具编号" min-width="150px"/>
           <el-editable-column prop="toolsName" align="center" label="公平局名称" min-width="150px"/>
           <el-editable-column prop="unit" align="center" label="基本单位" min-width="150px"/>
-          <el-editable-column prop="locationName" align="center" label="货位" min-width="150px"/>
+          <!--          <el-editable-column prop="locationName" align="center" label="货位" min-width="150px"/>-->
           <el-editable-column prop="quantity" align="center" label="数量" min-width="150px"/>
+          <el-editable-column prop="lossQuantity" align="center" label="丢失数量" min-width="150px"/>
           <el-editable-column prop="stat" align="center" label="状态" min-width="150px">
             <template slot-scope="scope">
               <p>{{ scope.row.stat | statFilter }}</p>
@@ -222,8 +228,7 @@ export default {
     statFilter(status) {
       const statusMap = {
         1: '借出',
-        2: '丢失',
-        3: '归还'
+        2: '归还'
       }
       return statusMap[status]
     },

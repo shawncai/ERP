@@ -79,6 +79,12 @@ export function SaleMange3(query) {
 export function drive(query) {
   var params = new URLSearchParams()
   params.append('type', query.type) // 你要传给后台的参数值 key/value
+  if (query.beginTime !== '' && query.beginTime !== null && query.beginTime !== undefined) {
+    params.append('beginTime', query.beginTime) // 你要传给后台的参数值 key/value
+  }
+  if (query.endTime !== '' && query.endTime !== null && query.endTime !== undefined) {
+    params.append('endTime', query.endTime) // 你要传给后台的参数值 key/value
+  }
   return request({
     url: '/erp/financecount/collectAndPay',
     method: 'post',
@@ -88,8 +94,8 @@ export function drive(query) {
 
 export function drive2(query) {
   var params = new URLSearchParams()
-  if (query.beginTime !== '' && query.beginTime !== null && query.beginTime !== undefined) {
-    params.append('beginTime', query.beginTime) // 你要传给后台的参数值 key/value
+  if (query.oneDay !== '' && query.oneDay !== null && query.oneDay !== undefined) {
+    params.append('oneDay', query.oneDay) // 你要传给后台的参数值 key/value
   }
   if (query.endTime !== '' && query.endTime !== null && query.endTime !== undefined) {
     params.append('endTime', query.endTime) // 你要传给后台的参数值 key/value

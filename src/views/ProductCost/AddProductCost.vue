@@ -36,7 +36,7 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('ProductCost.completeRate')+'%'" prop="completeRate" style="width: 100%;">
-                  <el-input v-model="personalForm.completeRate" style="margin-left: 11px;width: 200px" clearable @blur="completeRate()"/>
+                  <el-input v-model="personalForm.completeRate" :placeholder="placeholder" class="number__input" type="number" style="margin-left: 11px;width: 200px" clearable @input="oninput" @blur="completeRate()"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
@@ -228,6 +228,18 @@ export default {
         callback()
       }
     }
+    const validatePass11 = (rule, value, callback) => {
+      console.log(this.personalForm.checkQuantity)
+      console.log(this.personalForm.sampleQuantity)
+      if (this.personalForm.sampleQuantity === undefined || this.personalForm.sampleQuantity === null || this.personalForm.sampleQuantity === '') {
+        callback(new Error('请输入完工比例'))
+      } else if (Number(this.personalForm.sampleQuantity) > Number(this.personalForm.checkQuantity)) {
+        console.log('132')
+        callback(new Error('抽样数量不能大于报检数量'))
+      } else {
+        callback()
+      }
+    }
     return {
       results: [{ value: 1, label: '合格' }, { value: 2, label: '不合格' }],
       // 控制报检部门是否可以编辑
@@ -318,7 +330,7 @@ export default {
       // 采购申请单规则数据
       personalrules: {
         completeRate: [
-          { required: true, message: '请输入完工比例', trigger: 'blur' }
+          { required: true, validator: validatePass11, trigger: 'blur' }
         ],
         finishQuantity: [
           { required: true, message: '请输入完工数量', trigger: 'blur' }
@@ -1291,4 +1303,5 @@ export default {
   .redable >>> .el-form-item__label{
     color: red;
   }
+
 </style>

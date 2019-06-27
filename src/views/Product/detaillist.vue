@@ -234,9 +234,6 @@ export default {
         this.tishi = true
         this.weishu = '2位'
       }
-      if (ceshidigui.code === '03' && data.level === 2 || data.level === 3) {
-        this.tishi = false
-      }
       this.gettree()
     },
     // 搜索树状图数据方法

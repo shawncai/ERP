@@ -64,9 +64,15 @@
           type="selection"
           width="55"
           align="center"/>
+        <el-table-column :label="$t('ProcessFile.id')" :resizable="false" align="center" min-width="150">
+          <template slot-scope="scope">
+            <span class="link-type" @click="handleDetail(scope.row)">{{ scope.row.id }}</span>
+          </template>
+          <detail-list :detailcontrol.sync="detailvisible" :detaildata.sync="personalForm"/>
+        </el-table-column>
         <el-table-column :label="$t('ProcessFile.code')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span class="link-type" @click="handleDetail(scope.row)">{{ scope.row.code }}</span>
+            <span>{{ scope.row.code }}</span>
           </template>
           <detail-list :detailcontrol.sync="detailvisible" :detaildata.sync="personalForm"/>
         </el-table-column>

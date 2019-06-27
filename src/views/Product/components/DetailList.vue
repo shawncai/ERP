@@ -188,12 +188,12 @@
           </el-col>
           <el-col :span="12">
             <el-form-item :label="$t('Product.tradeprice')" style="width: 100%;">
-              {{ personalForm.tradeprice }}
+              {{ personalForm.tradePrice }}
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item :label="$t('Product.saleprice')" prop="saleprice" style="width: 100%;">
-              {{ personalForm.saleprice }}
+              {{ personalForm.salePrice }}
             </el-form-item>
           </el-col>
           <!--<el-form-item :label="$t('Product.purchaseprice')" prop="purchaseprice" style="width: 40%;margin-top:1%">-->
@@ -450,8 +450,8 @@ export default {
   filters: {
     sourceFilter(status) {
       const statusMap = {
-        1: '生产',
-        2: '采购'
+        2: '生产',
+        3: '采购'
       }
       return statusMap[status]
     },

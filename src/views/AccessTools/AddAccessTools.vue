@@ -107,17 +107,17 @@
             <el-editable-column prop="unit" align="center" label="基本单位" min-width="150px"/>
             <!--            <el-editable-column prop="productType" align="center" label="规格型号" min-width="150px"/>-->
             <!--            <el-editable-column prop="color" align="center" label="颜色" min-width="150px"/>-->
-            <el-editable-column :edit-render="{type: 'default'}" prop="locationId" align="center" label="货位" width="200px">
-              <template slot-scope="scope">
-                <el-select v-model="scope.row.locationId" :value="scope.row.locationId" placeholder="请选择货位" filterable clearable style="width: 100%;" @visible-change="updatebatch($event,scope)">
-                  <el-option
-                    v-for="(item, index) in locationlist"
-                    :key="index"
-                    :value="item.id"
-                    :label="item.locationCode"/>
-                </el-select>
-              </template>
-            </el-editable-column>
+            <!--            <el-editable-column :edit-render="{type: 'default'}" prop="locationId" align="center" label="货位" width="200px">-->
+            <!--              <template slot-scope="scope">-->
+            <!--                <el-select v-model="scope.row.locationId" :value="scope.row.locationId" placeholder="请选择货位" filterable clearable style="width: 100%;" @visible-change="updatebatch($event,scope)">-->
+            <!--                  <el-option-->
+            <!--                    v-for="(item, index) in locationlist"-->
+            <!--                    :key="index"-->
+            <!--                    :value="item.id"-->
+            <!--                    :label="item.locationCode"/>-->
+            <!--                </el-select>-->
+            <!--              </template>-->
+            <!--            </el-editable-column>-->
             <el-editable-column :edit-render="{name: 'ElInputNumber', type: 'visible'}" prop="quantity" align="center" label="数量" width="150px"/>
             <el-editable-column prop="stat" align="center" label="状态" min-width="150px"/>
           </el-editable>
@@ -311,7 +311,8 @@ export default {
         saleRepositoryId: this.$store.getters.repositoryId,
         customerType: '2',
         signDate: null,
-        saleType: '1'
+        saleType: '1',
+        useType: '1'
       },
       // 采购申请单规则数据
       personalrules: {
@@ -760,6 +761,7 @@ export default {
               return elem
             }).forEach(function(elem) {
               elem.stat = '1'
+              elem.lossQuantity = '0.0'
               if (elem.toolsCode === null || elem.toolsCode === '' || elem.toolsCode === undefined) {
                 delete elem.toolsCode
               }

@@ -918,19 +918,6 @@
               return [
                 {
                   name: '金额',
-                  saleOutQuantity: item.saleOutQuantity,
-                  accessQuantity: item.accessQuantity,
-                  serviceOutQuantity: item.serviceOutQuantity,
-                  adjustQuantity: item.adjustQuantity,
-                  damagedQuantity: item.damagedQuantity,
-                  stockRetreatQuantity: item.stockRetreatQuantity,
-                  otherOutQuantity: item.otherOutQuantity,
-                  moveOutQuantity: item.moveOutQuantity,
-                  buildOutQuantity: item.buildOutQuantity,
-                  totalnum: item.saleOutQuantity+item.accessQuantity+item.serviceOutQuantity+item.adjustQuantity+item.adjustQuantity+item.damagedQuantity+item.otherOutQuantity+item.moveOutQuantity+ item.buildOutQuantity
-                },
-                {
-                  name: '数量',
                   saleOutQuantity: item.saleOutMoney,
                   accessQuantity: item.accessMoney,
                   serviceOutQuantity: item.serviceOutMoney,
@@ -941,6 +928,19 @@
                   moveOutQuantity: item.moveOutMoney,
                   buildOutQuantity: item.buildOutMoney,
                   totalnum: item.saleOutMoney+item.accessMoney+item.serviceOutMoney+item.adjustMoney+item.damagedMoney+item.stockRetrearMoney+item.otherOutMoney+item.moveOutMoney+ item.buildOutMoney
+                },
+                {
+                  name: '数量',
+                  saleOutQuantity: item.saleOutQuantity,
+                  accessQuantity: item.accessQuantity,
+                  serviceOutQuantity: item.serviceOutQuantity,
+                  adjustQuantity: item.adjustQuantity,
+                  damagedQuantity: item.damagedQuantity,
+                  stockRetreatQuantity: item.stockRetreatQuantity,
+                  otherOutQuantity: item.otherOutQuantity,
+                  moveOutQuantity: item.moveOutQuantity,
+                  buildOutQuantity: item.buildOutQuantity,
+                  totalnum: item.saleOutQuantity+item.accessQuantity+item.serviceOutQuantity+item.adjustQuantity+item.adjustQuantity+item.damagedQuantity+item.otherOutQuantity+item.moveOutQuantity+ item.buildOutQuantity
                 }
               ]
             })

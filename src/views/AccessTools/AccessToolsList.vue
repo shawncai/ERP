@@ -42,11 +42,11 @@
         </el-dropdown-menu>
       </el-dropdown>
       <!-- 表格导出操作 -->
-      <el-button v-permission="['54-65-6']" v-waves :loading="downloadLoading" class="filter-item" style="width: 86px" @click="handleExport"> <svg-icon icon-class="daochu"/>{{ $t('public.export') }}</el-button>
+      <el-button v-waves :loading="downloadLoading" class="filter-item" style="width: 86px" @click="handleExport"> <svg-icon icon-class="daochu"/>{{ $t('public.export') }}</el-button>
       <!-- 打印操作 -->
-      <el-button v-permission="['54-65-7']" v-waves class="filter-item" icon="el-icon-printer" style="width: 86px" @click="handlePrint">{{ $t('public.print') }}</el-button>
+      <el-button v-waves class="filter-item" icon="el-icon-printer" style="width: 86px" @click="handlePrint">{{ $t('public.print') }}</el-button>
       <!-- 新建操作 -->
-      <el-button v-permission="['54-65-1']" v-waves class="filter-item" icon="el-icon-plus" type="success" style="width: 86px" @click="handleAdd">{{ $t('public.add') }}</el-button>
+      <el-button v-waves class="filter-item" icon="el-icon-plus" type="success" style="width: 86px" @click="handleAdd">{{ $t('public.add') }}</el-button>
     </el-card>
 
     <el-card class="box-card" style="margin-top: 10px" shadow="never">
@@ -111,6 +111,11 @@
             <span>{{ scope.row.emergencyLevel | emergencyLevelFilter }}</span>
           </template>
         </el-table-column>
+        <el-table-column :label="$t('AccessTools.stat')" :resizable="false" align="center" min-width="150">
+          <template slot-scope="scope">
+            <span>{{ scope.row.stat | statFilter }}</span>
+          </template>
+        </el-table-column>
         <!--        <el-table-column :label="$t('public.judgeStat')" :resizable="false" prop="judgeStat" align="center" min-width="150">-->
         <!--          <template slot-scope="scope">-->
         <!--            <span>{{ scope.row.judgeStat | judgeStatFilter }}</span>-->
@@ -123,9 +128,11 @@
         <!--        </el-table-column>-->
         <el-table-column :label="$t('public.actions')" :resizable="false" align="center" min-width="230">
           <template slot-scope="scope">
-            <el-button v-permission="['54-65-3']" v-show="scope.row.providePersonId === null" title="修改" type="primary" size="mini" icon="el-icon-edit" circle @click="handleEdit(scope.row)"/>
-            <el-button v-show="scope.row.providePersonId === null" title="确认" type="warning" size="mini" icon="el-icon-view" circle @click="handleReview(scope.row)"/>
-            <el-button v-permission="['54-65-2']" v-show="scope.row.providePersonId === null" title="删除" size="mini" type="danger" icon="el-icon-delete" circle @click="handleDelete(scope.row)"/>
+            <el-button v-show="scope.row.providePersonId === null" title="修改" type="primary" size="mini" icon="el-icon-edit" circle @click="handleEdit(scope.row)"/>
+            <el-button v-show="scope.row.providePersonId === null" title="确认" type="warning" size="mini" icon="el-icon-check" circle @click="handleReview(scope.row)"/>
+            <el-button v-show="scope.row.providePersonId !== null && scope.row.stat === 1" title="丢失" type="danger" size="mini" icon="el-icon-close" circle @click="handleEdit2(scope.row)"/>
+            <el-button v-show="scope.row.providePersonId !== null && scope.row.stat === 1" title="归还" type="primary" size="mini" icon="el-icon-back" circle @click="handleEdit3(scope.row)"/>
+            <el-button v-show="scope.row.providePersonId === null" title="删除" size="mini" type="danger" icon="el-icon-delete" circle @click="handleDelete(scope.row)"/>
           </template>
         </el-table-column>
       </el-table>
@@ -133,6 +140,8 @@
       <pagination v-show="total>0" :total="total" :page.sync="getemplist.pageNum" :limit.sync="getemplist.pageSize" @pagination="getlist" />
       <!--修改开始=================================================-->
       <my-dialog :editcontrol.sync="editVisible" :editdata.sync="personalForm" @rest="refreshlist"/>
+      <my-dialog2 :editcontrol.sync="editVisible2" :editdata.sync="personalForm" @rest="refreshlist"/>
+      <my-dialog3 :editcontrol.sync="editVisible3" :editdata.sync="personalForm" @rest="refreshlist"/>
       <!--修改结束=================================================-->
     </el-card>
   </div>
@@ -150,13 +159,15 @@ import checkPermission from '@/utils/permission' // 权限判断函数
 import MyEmp from './components/MyEmp'
 import DetailList from './components/DetailList'
 import MyDialog from './components/MyDialog'
+import MyDialog2 from './components/MyDialog2'
+import MyDialog3 from './components/MyDialog3'
 import MyCustomer from './components/MyCustomer'
 import MyAgent from './components/MyAgent'
 
 export default {
   name: 'AccessToolsList',
   directives: { waves, permission },
-  components: { MyDialog, DetailList, MyEmp, MyCustomer, MyAgent, Pagination },
+  components: { MyDialog, MyDialog2, MyDialog3, DetailList, MyEmp, MyCustomer, MyAgent, Pagination },
   filters: {
     judgeStatFilter(status) {
       const statusMap = {
@@ -199,6 +210,13 @@ export default {
       const statusMap = {
         1: '维修',
         2: '其他'
+      }
+      return statusMap[status]
+    },
+    statFilter(status) {
+      const statusMap = {
+        1: '借出',
+        2: '归还'
       }
       return statusMap[status]
     }
@@ -260,6 +278,8 @@ export default {
       personalForm: {},
       // 修改控制组件数据
       editVisible: false,
+      editVisible2: false,
+      editVisible3: false,
       // 开始时间到结束时间
       date: []
     }
@@ -391,6 +411,20 @@ export default {
         this.personalForm.payType = String(row.payType)
       }
     },
+    // 丢失操作
+    handleEdit2(row) {
+      console.log('lost')
+      console.log(row)
+      this.editVisible2 = true
+      console.log(this.editVisible2)
+      this.personalForm = Object.assign({}, row)
+    },
+    // 归还操作
+    handleEdit3(row) {
+      this.editVisible3 = true
+      console.log(this.editVisible2)
+      this.personalForm = Object.assign({}, row)
+    },
     // 修改组件修改成功后返回
     refreshlist(val) {
       if (val === true) {
@@ -443,6 +477,43 @@ export default {
               this.$message({
                 type: 'success',
                 message: '审核成功!'
+              })
+              this.getlist()
+            }
+          })
+        }
+      })
+    },
+    // 归还操作
+    handleReview2(row) {
+      this.reviewParms.id = row.id
+      this.reviewParms.stat = 2
+      this.$confirm('请归还', '归还', {
+        distinguishCancelAndClose: true,
+        confirmButtonText: '归还',
+        // cancelButtonText: '不通过',
+        type: 'warning'
+      }).then(() => {
+        // this.reviewParms.judgeStat = 2
+        const parms = JSON.stringify(this.reviewParms)
+        updateAccessTools2(parms).then(res => {
+          if (res.data.ret === 200) {
+            this.$message({
+              type: 'success',
+              message: '归还成功!'
+            })
+            this.getlist()
+          }
+        })
+      }).catch(action => {
+        if (action === 'cancel') {
+          this.reviewParms.judgeStat = 3
+          const parms = JSON.stringify(this.reviewParms)
+          updatesaleContract2(parms).then(res => {
+            if (res.data.ret === 200) {
+              this.$message({
+                type: 'success',
+                message: '归还成功!'
               })
               this.getlist()
             }
@@ -520,7 +591,7 @@ export default {
     },
     // 新增数据
     handleAdd() {
-      this.$router.push('/AccessTools/AddAccessTools')
+      this.$router.push('/Repair/AddAccessTools')
     },
     // 导出
     handleExport() {
