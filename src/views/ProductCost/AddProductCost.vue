@@ -36,7 +36,8 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('ProductCost.completeRate')+'%'" prop="completeRate" style="width: 100%;">
-                  <el-input v-model="personalForm.completeRate" :placeholder="placeholder" class="number__input" type="number" style="margin-left: 11px;width: 200px" clearable @input="oninput" @blur="completeRate()"/>
+                  <!--                  <el-input v-model="personalForm.completeRate" :placeholder="placeholder" class="number__input" type="number" style="margin-left: 11px;width: 200px" clearable @input="oninput" @blur="completeRate()"/>-->
+                  <el-input-number v-model="personalForm.completeRate" :precision="2" :controls="false" :step="0.1" :min="0" :max="100" style="margin-left: 11px;width: 200px;text-align: left" @blur="completeRate()"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
@@ -49,47 +50,56 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('ProductCost.finishQuantity')" prop="finishQuantity" style="width: 100%;">
-                  <el-input v-model="personalForm.finishQuantity" style="margin-left: 11px;width: 200px" clearable @blur="completeRate()"/>
+                  <!--                  <el-input v-model="personalForm.finishQuantity" style="margin-left: 11px;width: 200px" clearable @blur="completeRate()"/>-->
+                  <el-input-number v-model="personalForm.finishQuantity" :precision="2" :controls="false" :step="0.1" :min="0" style="margin-left: 11px;width: 200px;text-align: left" @blur="completeRate()"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('ProductCost.producingQuantity')" prop="producingQuantity" style="width: 100%;">
-                  <el-input v-model="personalForm.producingQuantity" style="margin-left: 11px;width: 200px" clearable @blur="completeRate()"/>
+                  <!--                  <el-input v-model="personalForm.producingQuantity" style="margin-left: 11px;width: 200px" clearable @blur="completeRate()"/>-->
+                  <el-input-number v-model="personalForm.producingQuantity" :precision="2" :controls="false" :step="0.1" :min="0" style="margin-left: 11px;width: 200px;text-align: left" @blur="completeRate()"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('ProductCost.producingMaterialsQuantity')" style="width: 100%;" class="bluelable">
-                  <el-input v-model="personalForm.producingMaterialsQuantity" style="margin-left: 11px;width: 200px" clearable @blur="completeRate()"/>
+                  <!--                  <el-input v-model="personalForm.producingMaterialsQuantity" style="margin-left: 11px;width: 200px" clearable @blur="completeRate()"/>-->
+                  <el-input-number v-model="personalForm.producingMaterialsQuantity" :precision="2" :controls="false" :step="0.1" :min="0" style="margin-left: 11px;width: 200px;text-align: left" @blur="completeRate()"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('ProductCost.producingSalary')" style="width: 100%;" class="bluelable">
-                  <el-input v-model="personalForm.producingSalary" style="margin-left: 11px;width: 200px" clearable @blur="completeRate()"/>
+                  <!--                  <el-input v-model="personalForm.producingSalary" style="margin-left: 11px;width: 200px" clearable @blur="completeRate()"/>-->
+                  <el-input-number v-model="personalForm.producingSalary" :precision="2" :controls="false" :step="0.1" :min="0" style="margin-left: 11px;width: 200px;text-align: left" @blur="completeRate()"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('ProductCost.producingCost')" style="width: 100%;" class="bluelable">
-                  <el-input v-model="personalForm.producingCost" style="margin-left: 11px;width: 200px" clearable @blur="completeRate()"/>
+                  <!--                  <el-input v-model="personalForm.producingCost" style="margin-left: 11px;width: 200px" clearable @blur="completeRate()"/>-->
+                  <el-input-number v-model="personalForm.producingCost" :precision="2" :controls="false" :step="0.1" :min="0" style="margin-left: 11px;width: 200px;text-align: left" @blur="completeRate()"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('ProductCost.finishMaterialsUsedQuantity')" style="width: 100%;" class="redable">
-                  <el-input v-model="personalForm.finishMaterialsUsedQuantity" style="margin-left: 11px;width: 200px" clearable @blur="completeRate()"/>
+                  <!--                  <el-input v-model="personalForm.finishMaterialsUsedQuantity" style="margin-left: 11px;width: 200px" clearable @blur="completeRate()"/>-->
+                  <el-input-number v-model="personalForm.finishMaterialsUsedQuantity" :precision="2" :controls="false" :step="0.1" :min="0" style="margin-left: 11px;width: 200px;text-align: left" @blur="completeRate()"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('ProductCost.finishWorkHours')" style="width: 100%;" class="redable">
-                  <el-input v-model="personalForm.finishWorkHours" style="margin-left: 11px;width: 200px" clearable @blur="completeRate()"/>
+                  <!--                  <el-input v-model="personalForm.finishWorkHours" style="margin-left: 11px;width: 200px" clearable @blur="completeRate()"/>-->
+                  <el-input-number v-model="personalForm.finishWorkHours" :precision="2" :controls="false" :step="0.1" :min="0" style="margin-left: 11px;width: 200px;text-align: left" @blur="completeRate()"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('ProductCost.endMaterialsQuantity')" style="width: 100%;" class="redable">
-                  <el-input v-model="personalForm.endMaterialsQuantity" style="margin-left: 11px;width: 200px" clearable @blur="completeRate()"/>
+                  <!--                  <el-input v-model="personalForm.endMaterialsQuantity" style="margin-left: 11px;width: 200px" clearable @blur="completeRate()"/>-->
+                  <el-input-number v-model="personalForm.endMaterialsQuantity" :precision="2" :controls="false" :step="0.1" :min="0" style="margin-left: 11px;width: 200px;text-align: left" @blur="completeRate()"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('ProductCost.endWorkHours')" style="width: 100%;" class="redable">
-                  <el-input v-model="personalForm.endWorkHours" style="margin-left: 11px;width: 200px" clearable @blur="completeRate()"/>
+                  <!--                  <el-input v-model="personalForm.endWorkHours" style="margin-left: 11px;width: 200px" clearable @blur="completeRate()"/>-->
+                  <el-input-number v-model="personalForm.endWorkHours" :precision="2" :controls="false" :step="0.1" :min="0" style="margin-left: 11px;width: 200px;text-align: left" @blur="completeRate()"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
@@ -132,7 +142,8 @@
                           align="center">
                           <template slot-scope="scope">
                             <span v-show="scope.$index >= 2" @click="getscope(scope)">{{ scope.row.material }}</span>
-                            <el-input v-show="scope.$index < 2" v-model="scope.row.material" style="width: 130px;" @blur="material('1')"/>
+                            <!--                            <el-input v-show="scope.$index < 2" v-model="scope.row.material" style="width: 130px;" @blur="material('1')"/>-->
+                            <el-input-number v-show="scope.$index < 2" v-model="scope.row.material" :precision="2" :controls="false" :step="0.1" :min="0" style="width: 130px;" @blur="material('1')"/>
                           </template>
                         </el-table-column>
                         <el-table-column
@@ -142,7 +153,8 @@
                           align="center">
                           <template slot-scope="scope">
                             <span v-show="scope.$index >= 2" @click="getscope(scope)">{{ scope.row.man }}</span>
-                            <el-input v-show="scope.$index < 2" v-model="scope.row.man" style="width: 130px;" @blur="man('1')" />
+                            <!--                            <el-input v-show="scope.$index < 2" v-model="scope.row.man" style="width: 130px;" @blur="man('1')" />-->
+                            <el-input-number v-show="scope.$index < 2" v-model="scope.row.man" :precision="2" :controls="false" :step="0.1" :min="0" style="width: 130px;" @blur="man('1')"/>
                           </template>
                         </el-table-column>
                         <el-table-column
@@ -152,7 +164,8 @@
                           align="center">
                           <template slot-scope="scope">
                             <span v-show="scope.$index >= 2" @click="getscope(scope)">{{ scope.row.produce }}</span>
-                            <el-input v-show="scope.$index < 2" v-model="scope.row.produce" style="width: 130px;" @blur="produce('1')"/>
+                            <!--                            <el-input v-show="scope.$index < 2" v-model="scope.row.produce" style="width: 130px;" @blur="produce('1')"/>-->
+                            <el-input-number v-show="scope.$index < 2" v-model="scope.row.produce" :precision="2" :controls="false" :step="0.1" :min="0" style="width: 130px;" @blur="produce('1')"/>
                           </template>
                         </el-table-column>
                         <el-table-column
@@ -228,18 +241,18 @@ export default {
         callback()
       }
     }
-    const validatePass11 = (rule, value, callback) => {
-      console.log(this.personalForm.checkQuantity)
-      console.log(this.personalForm.sampleQuantity)
-      if (this.personalForm.sampleQuantity === undefined || this.personalForm.sampleQuantity === null || this.personalForm.sampleQuantity === '') {
-        callback(new Error('请输入完工比例'))
-      } else if (Number(this.personalForm.sampleQuantity) > Number(this.personalForm.checkQuantity)) {
-        console.log('132')
-        callback(new Error('抽样数量不能大于报检数量'))
-      } else {
-        callback()
-      }
-    }
+    // const validatePass11 = (rule, value, callback) => {
+    //   console.log(this.personalForm.checkQuantity)
+    //   console.log(this.personalForm.sampleQuantity)
+    //   if (this.personalForm.sampleQuantity === undefined || this.personalForm.sampleQuantity === null || this.personalForm.sampleQuantity === '') {
+    //     callback(new Error('请输入完工比例'))
+    //   } else if (Number(this.personalForm.sampleQuantity) > Number(this.personalForm.checkQuantity)) {
+    //     console.log('132')
+    //     callback(new Error('抽样数量不能大于报检数量'))
+    //   } else {
+    //     callback()
+    //   }
+    // }
     return {
       results: [{ value: 1, label: '合格' }, { value: 2, label: '不合格' }],
       // 控制报检部门是否可以编辑
@@ -323,14 +336,24 @@ export default {
         countryId: this.$store.getters.countryId,
         repositoryId: this.$store.getters.repositoryId,
         regionId: this.$store.getters.regionId,
-        accountType: '1'
+        accountType: '1',
+        completeRate: null,
+        finishQuantity: null,
+        producingQuantity: null,
+        producingMaterialsQuantity: null,
+        producingSalary: null,
+        producingCost: null,
+        endWorkHours: null,
+        endMaterialsQuantity: null,
+        finishWorkHours: null,
+        finishMaterialsUsedQuantity: null
       },
       personalForm2: {
       },
       // 采购申请单规则数据
       personalrules: {
         completeRate: [
-          { required: true, validator: validatePass11, trigger: 'blur' }
+          { required: true, message: '请输入完工比例', trigger: 'blur' }
         ],
         finishQuantity: [
           { required: true, message: '请输入完工数量', trigger: 'blur' }
@@ -466,7 +489,14 @@ export default {
           }
         }
         // else {
-        if (this.list2[0].man !== '' || this.list2[1].man !== '' || this.list2[0].material !== '' || this.list2[1].material !== '' || this.list2[0].produce !== '' || this.list2[1].produce !== '') {
+        console.log(this.list2[0].man)
+        if (this.list2[0].man === 0) {
+          console.log(111)
+        }
+        if (this.list2[0].man === '0') {
+          console.log(222)
+        }
+        if (this.list2[0].man !== 0 || this.list2[1].man !== 0 || this.list2[0].material !== 0 || this.list2[1].material !== 0 || this.list2[0].produce !== 0 || this.list2[1].produce !== 0) {
           // 列合计
           this.list2[2].material = (Number(this.list2[0].material) + Number(this.list2[1].material)).toFixed(2)
           console.log(Number(this.list2[0].material))
@@ -514,7 +544,7 @@ export default {
             return false
           }
         }
-        if (this.list2[0].man !== '' || this.list2[1].man !== '' || this.list2[0].material !== '' || this.list2[1].material !== '' || this.list2[0].produce !== '' || this.list2[1].produce !== '') {
+        if (this.list2[0].man !== 0 || this.list2[1].man !== 0 || this.list2[0].material !== 0 || this.list2[1].material !== 0 || this.list2[0].produce !== 0 || this.list2[1].produce !== 0) {
           // 按照预先制定的定额成本计算月末在产品成本
           this.list2[5].material = this.personalForm.producingMaterialsQuantity
           this.list2[5].man = this.personalForm.producingSalary
@@ -550,7 +580,7 @@ export default {
             return false
           }
         }
-        if (this.list2[0].man !== '' || this.list2[1].man !== '' || this.list2[0].material !== '' || this.list2[1].material !== '' || this.list2[0].produce !== '' || this.list2[1].produce !== '') {
+        if (this.list2[0].man !== 0 || this.list2[1].man !== 0 || this.list2[0].material !== 0 || this.list2[1].material !== 0 || this.list2[0].produce !== 0 || this.list2[1].produce !== 0) {
           // 消耗量分配率＝（月初在产品成本＋本月发生生产费用）÷（完工产品定额消耗量＋月末在产品定额消耗量）
           //  完工产品实际消耗量＝完工产品定额消耗量×消耗量分配率
           //   完工产品成本＝完工产品实际消耗量×原材料单价（完工产品定额/完工数量）
@@ -598,7 +628,7 @@ export default {
         }
         // else {
         console.log('啊啊啊', this.list2[0].man)
-        if (this.list2[0].man !== '' || this.list2[1].man !== '' || this.list2[0].material !== '' || this.list2[1].material !== '' || this.list2[0].produce !== '' || this.list2[1].produce !== '') {
+        if (this.list2[0].man !== 0 || this.list2[1].man !== 0 || this.list2[0].material !== 0 || this.list2[1].material !== 0 || this.list2[0].produce !== 0 || this.list2[1].produce !== 0) {
           // 列合计
           this.list2[2].man = (Number(this.list2[0].man) + Number(this.list2[1].man)).toFixed(2)
           console.log(Number(this.list2[0].man))
@@ -645,7 +675,7 @@ export default {
             return false
           }
         }
-        if (this.list2[0].man !== '' || this.list2[1].man !== '' || this.list2[0].material !== '' || this.list2[1].material !== '' || this.list2[0].produce !== '' || this.list2[1].produce !== '') {
+        if (this.list2[0].man !== 0 || this.list2[1].man !== 0 || this.list2[0].material !== 0 || this.list2[1].material !== 0 || this.list2[0].produce !== 0 || this.list2[1].produce !== 0) {
           // 按照预先制定的定额成本计算月末在产品成本
           this.list2[5].material = this.personalForm.producingMaterialsQuantity
           this.list2[5].man = this.personalForm.producingSalary
@@ -681,7 +711,7 @@ export default {
             return false
           }
         }
-        if (this.list2[0].man !== '' || this.list2[1].man !== '' || this.list2[0].material !== '' || this.list2[1].material !== '' || this.list2[0].produce !== '' || this.list2[1].produce !== '') {
+        if (this.list2[0].man !== 0 || this.list2[1].man !== 0 || this.list2[0].material !== 0 || this.list2[1].material !== 0 || this.list2[0].produce !== 0 || this.list2[1].produce !== 0) {
           // 消耗量分配率＝（月初在产品成本＋本月发生生产费用）÷（完工产品定额消耗量＋月末在产品定额消耗量）
           //  完工产品实际消耗量＝完工产品定额消耗量×消耗量分配率
           //   完工产品成本＝完工产品实际消耗量×原材料单价（完工产品定额/完工数量）
@@ -727,7 +757,7 @@ export default {
             })
           }
         }
-        if (this.list2[0].man !== '' || this.list2[1].man !== '' || this.list2[0].material !== '' || this.list2[1].material !== '' || this.list2[0].produce !== '' || this.list2[1].produce !== '') {
+        if (this.list2[0].man !== 0 || this.list2[1].man !== 0 || this.list2[0].material !== 0 || this.list2[1].material !== 0 || this.list2[0].produce !== 0 || this.list2[1].produce !== 0) {
           // 列合计
           this.list2[2].produce = (Number(this.list2[0].produce) + Number(this.list2[1].produce)).toFixed(2)
           console.log(Number(this.list2[0].produce))
@@ -775,7 +805,7 @@ export default {
             return false
           }
         }
-        if (this.list2[0].man !== '' || this.list2[1].man !== '' || this.list2[0].material !== '' || this.list2[1].material !== '' || this.list2[0].produce !== '' || this.list2[1].produce !== '') {
+        if (this.list2[0].man !== 0 || this.list2[1].man !== 0 || this.list2[0].material !== 0 || this.list2[1].material !== 0 || this.list2[0].produce !== 0 || this.list2[1].produce !== 0) {
           // 按照预先制定的定额成本计算月末在产品成本
           this.list2[5].material = this.personalForm.producingMaterialsQuantity
           this.list2[5].man = this.personalForm.producingSalary
@@ -1150,6 +1180,16 @@ export default {
           total: '0.00'
         }
       ]
+      this.personalForm.completeRate = null
+      this.personalForm.finishQuantity = null
+      this.personalForm.producingQuantity = null
+      this.personalForm.producingMaterialsQuantity = null
+      this.personalForm.producingSalary = null
+      this.personalForm.producingCost = null
+      this.personalForm.endWorkHours = null
+      this.personalForm.endMaterialsQuantity = null
+      this.personalForm.finishWorkHours = null
+      this.personalForm.finishMaterialsUsedQuantity = null
     },
     // 清空记录
     restAllForm() {
@@ -1158,13 +1198,9 @@ export default {
         countryId: this.$store.getters.countryId,
         repositoryId: this.$store.getters.repositoryId,
         regionId: this.$store.getters.regionId,
-        isVat: 1
+        accountType: '1'
       }
-      this.inspectionPersonId = null
-      this.supplierId = null
-      this.workCenterId = null
-      this.produceManagerId = null
-      this.checkPersonId = null
+      this.change()
     },
     // 保存操作
     handlesave() {

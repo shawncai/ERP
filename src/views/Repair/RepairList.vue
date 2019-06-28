@@ -663,8 +663,8 @@
         </div>
       </el-dialog>
       <el-dialog :visible.sync="dialogFormVisible" :title="$t('repair.Add')" width="60%" center lock-scroll top="20px">
-        <el-form :model="form" style="width: 400px; margin-left:50px;margin-top: 37px;">
-          <el-form-item :label-width="formLabelWidth" :label="$t('repair.Model')">
+        <el-form ref="form" :model="form" :rules="personalrules" style="width: 400px; margin-left:50px;margin-top: 37px;">
+          <el-form-item :label-width="formLabelWidth" prop="producttype" :label="$t('repair.Model')">
             <el-select v-model="form.producttype" placeholder="please choose">
               <el-option
                 v-for="(item, index) in options"
@@ -673,7 +673,7 @@
                 :value="item.categoryName"/>
             </el-select>
           </el-form-item>
-          <el-form-item :label-width="formLabelWidth" :label="$t('repair.Parts')">
+          <el-form-item :label-width="formLabelWidth" prop="components" :label="$t('repair.Parts')">
             <el-input v-model="form.components"/>
 <!--            <el-cascader-->
 <!--              :options="regions"-->
@@ -686,17 +686,21 @@
 <!--              @change="handlechange4"-->
 <!--            />-->
           </el-form-item>
-          <el-form-item :label-width="formLabelWidth" :label="$t('repair.LoginAccount')">
-            <el-input v-model="userid" @focus="chooseCustomer"/>
+<!--          <el-form-item :label-width="formLabelWidth" prop="userid" :label="$t('repair.LoginAccount')">-->
+<!--            <el-input v-model="userid" @focus="chooseCustomer"/>-->
+<!--            <my-customer :customercontrol.sync="customercontrol" @customerdata="customerdata"/>-->
+<!--          </el-form-item>-->
+          <el-form-item :label-width="formLabelWidth" prop="personname" :label="$t('repair.Name2')">
+            <el-input v-model="form.personname" @focus="chooseCustomer"/>
             <my-customer :customercontrol.sync="customercontrol" @customerdata="customerdata"/>
           </el-form-item>
-          <el-form-item :label-width="formLabelWidth" :label="$t('repair.Name2')">
-            <el-input v-model="form.personname"/>
-          </el-form-item>
-          <el-form-item :label-width="formLabelWidth" :label="$t('repair.MobileNumber')">
+<!--          <el-form-item :label-width="formLabelWidth" prop="personname" :label="$t('repair.Name2')">-->
+<!--            <el-input v-model="form.personname"/>-->
+<!--          </el-form-item>-->
+          <el-form-item :label-width="formLabelWidth" prop="phonenumber" :label="$t('repair.MobileNumber')">
             <el-input v-model="form.phonenumber"/>
           </el-form-item>
-          <el-form-item :label-width="formLabelWidth" :label="$t('Customer.provinceid')">
+          <el-form-item :label-width="formLabelWidth" prop="provinceid" :label="$t('Customer.provinceid')">
             <el-select v-model="form.provinceid" placeholder="请选择省" @change="handlechange2">
               <el-option
                 v-for="(item, index) in provinces"
@@ -705,7 +709,7 @@
                 :value="item.id"/>
             </el-select>
           </el-form-item>
-          <el-form-item :label-width="formLabelWidth" :label="$t('Customer.cityid')">
+          <el-form-item :label-width="formLabelWidth" prop="cityid" :label="$t('Customer.cityid')">
             <el-select v-model="form.cityid" placeholder="请选择市">
               <el-option
                 v-for="(item, index) in cities"
@@ -714,10 +718,10 @@
                 :value="item.id"/>
             </el-select>
           </el-form-item>
-          <el-form-item :label-width="formLabelWidth" :label="$t('repair.Address2')">
+          <el-form-item :label-width="formLabelWidth" prop="address" :label="$t('repair.Address2')">
             <el-input v-model="form.address"/>
           </el-form-item>
-          <el-form-item :label-width="formLabelWidth" :label="$t('repair.ExpectedTime')">
+          <el-form-item :label-width="formLabelWidth" prop="servicexpecttime" :label="$t('repair.ExpectedTime')">
             <el-date-picker
               v-model="form.servicexpecttime"
               type="date"
@@ -726,7 +730,7 @@
               placeholder="选择日期">
             </el-date-picker>
           </el-form-item>
-          <el-form-item :label-width="formLabelWidth" :label="$t('repair.Servicebranch')">
+          <el-form-item :label-width="formLabelWidth" prop="repositoryid" :label="$t('repair.Servicebranch')">
             <el-select v-model="form.repositoryid" placeholder="please choose">
               <el-option
                 v-for="item in shopoptions"
@@ -739,7 +743,7 @@
             <el-input v-model="form.detail"/>
           </el-form-item>
 <!--          //1上门维修，2到店维修-->
-          <el-form-item :label-width="formLabelWidth" :label="$t('repair.servicemode')">
+          <el-form-item :label-width="formLabelWidth" prop="servicemode" :label="$t('repair.servicemode')">
             <el-select v-model="form.servicemode">
               <el-option value="1" label="上门维修" />
               <el-option value="2" label="到店维修" />
@@ -831,7 +835,55 @@
       }
     },
     data() {
+      const validatePass = (rule, value, callback) => {
+        console.log(this.userid)
+        if (this.userid === undefined || this.userid === null || this.userid === '') {
+          callback(new Error('请选择客户'))
+        } else {
+          callback()
+        }
+      }
+      const validatePass2 = (rule, value, callback) => {
+        console.log(this.form.phonenumber)
+        if (this.form.phonenumber === undefined || this.form.phonenumber === null || this.form.phonenumber === '') {
+          callback(new Error('请输入联系电话'))
+        } else {
+          callback()
+        }
+      }
       return {
+        personalrules: {
+          producttype: [
+            { required: true, message: '请选择车辆型号', trigger: 'change' }
+          ],
+          components: [
+            { required: true, message: '请选择维修部位', trigger: 'change' }
+          ],
+          personname: [
+            { required: true, validator: validatePass, trigger: 'change' }
+          ],
+          phonenumber: [
+            { required: true, validator: validatePass2, trigger: 'change' }
+          ],
+          provinceid: [
+            { required: true, message: '请选择省', trigger: 'change' }
+          ],
+          cityid: [
+            { required: true, message: '请选择市', trigger: 'change' }
+          ],
+          address: [
+            { required: true, message: '请输入客户地址', trigger: 'blur' }
+          ],
+          servicexpecttime: [
+            { required: true, message: '请选择期望时间', trigger: 'change' }
+          ],
+          repositoryid: [
+            { required: true, message: '请选择维修门店', trigger: 'change' }
+          ],
+          servicemode: [
+            { required: true, message: '请选择维修方式', trigger: 'change' }
+          ]
+        },
         xiala,
         editisvisible: false,
         storelist: [],
@@ -1030,6 +1082,7 @@
         regions: [],
         websock: null,
         guijidate: '',
+        personname: '',
         fuzhi: null,
         fuzhidate: null,
         // 区域列表字段更改
@@ -1074,9 +1127,11 @@
         })
       },
       customerdata(val) {
-        console.log(val)
+        console.log('val', val)
         this.form.userid = val.id
         this.userid = val.customerName
+        this.form.phonenumber = val.phoneNumber
+        this.form.personname = val.customerName
       },
       // 选择客户focus
       chooseCustomer() {
@@ -1495,6 +1550,8 @@
         this.getproducts()
       },
       createData() {
+        this.$refs.form.validate((valid) => {
+          if (valid) {
         newservice(this.form).then(res => {
           this.getinstalllist()
           this.dialogFormVisible = false
@@ -1504,6 +1561,15 @@
             type: 'success',
             duration: 1000
           })
+        })
+          } else {
+            this.$notify.error({
+              title: '错误',
+              message: '信息未填完整',
+              offset: 100
+            })
+            return false
+          }
         })
       },
       handleDelete(row) {
