@@ -107,6 +107,13 @@ export const asyncRouterMap = [
         meta: { title: 'WorkDesk', noCache: true }
       },
       {
+        path: 'MyPrepare',
+        component: () => import('@/views/home/MyPrepare'),
+        name: 'MyPrepare',
+        meta: { title: 'MyPrepare', noCache: true },
+        hidden: true
+      },
+      {
         path: 'SaleMange',
         component: () => import('@/views/home/SaleMange'),
         name: 'SaleMange',

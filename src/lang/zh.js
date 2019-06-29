@@ -11,6 +11,7 @@ export default {
     DriveRes: '驾驶舱',
     InventoryMange: '库存管控',
     StockMange: '采购管控',
+    MyPrepare: '我的待办',
     EmployeeInformation: '员工资料',
     NewEmployeeInformation: '新建员工资料',
     EmployeeInformationList: '员工资料列表',

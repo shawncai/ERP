@@ -7,35 +7,35 @@
       <el-row :gutter="20" style="margin-bottom: 20px" >
         <el-col :span="3">
           <div class="shipei" style="width: 100%; height: 150px;background: #2daeef;display: flex;align-items: center;justify-content: center;flex-wrap: wrap" ><div style="width:52%;margin-left: 37%;margin-top: 22%; color:white">{{ deskdata.one }}</div>
-            <div class="shipei2" style="width:50%; color:white">总销售业绩</div></div>
+            <div class="shipei4" style="width:50%; color:white">总销售业绩</div></div>
         </el-col>
         <el-col :span="3">
           <div class="shipei" style="width: 100%; height: 150px;background: #f36e5d;display: flex;align-items: center;justify-content: center;flex-wrap: wrap" > <div style="width:52%;margin-left: 37%;margin-top: 22%; color:white">{{ deskdata.two }}</div>
-            <div class="shipei2" style="width:50%; color:white">账户总余额</div></div>
+            <div class="shipei4" style="width:50%; color:white">账户总余额</div></div>
         </el-col>
         <el-col :span="3">
           <div class="shipei" style="width: 100%; height: 150px;background: #a48df5;display: flex;align-items: center;justify-content: center;flex-wrap: wrap" ><div style="width:52%;margin-left: 37%;margin-top: 22%; color:white"> {{ deskdata.three }}</div>
-            <div class="shipei2" style="width:50%; color:white">本月收支差</div></div>
+            <div class="shipei4" style="width:50%; color:white">本月收支差</div></div>
         </el-col>
         <el-col :span="3">
           <div class="shipei" style="width: 100%; height: 150px;background: #22d3b9;display: flex;align-items: center;justify-content: center;flex-wrap: wrap" > <div style="width:52%;margin-left: 37%;margin-top: 22%; color:white">{{ deskdata.four }}</div>
-            <div class="shipei2" style="width:50%; color:white">本月支出</div></div>
+            <div class="shipei5" style="width:50%; color:white">本月支出</div></div>
         </el-col>
         <el-col :span="3">
           <div class="shipei" style="width: 100%; height: 150px;background: #6f8aff;display: flex;align-items: center;justify-content: center;flex-wrap: wrap" > <div style="width:46%;margin-left: 37%;margin-top: 22%; color:white">{{ deskdata.five }}</div>
-            <div class="shipei2" style="width:37%; color:white">本月利润</div></div>
+            <div class="shipei5" style="width:37%; color:white">本月利润</div></div>
         </el-col>
         <el-col :span="3">
           <div class="shipei" style="width: 100%; height: 150px;background: white;display: flex;align-items: center;justify-content: center;flex-wrap: wrap" ><div style="width:41%;margin-left: 37%;margin-top: 22%; color:black">{{ deskdata.six }} </div>
-            <div class="shipei2" style="width:62%; color:black">未付款订单(笔)</div></div>
+            <div class="shipei3" style="width:62%; color:black">未付款订单(笔)</div></div>
         </el-col>
         <el-col :span="3">
           <div class="shipei" style="width: 100%; height: 150px;background: white;display: flex;align-items: center;justify-content: center;flex-wrap: wrap" > <div style="width:52%;margin-left: 37%;margin-top: 22%; color:black">{{ deskdata.seven }}</div>
-            <div class="shipei2" style="width:74%; color:black">未付款金额(万元)</div></div>
+            <div class="shipei3" style="width:74%; color:black">未付款金额(万元)</div></div>
         </el-col>
         <el-col :span="3">
           <div class="shipei" style="width: 100%; height: 150px;background: white;display: flex;align-items: center;justify-content: center;flex-wrap: wrap" > <div style="width:52%;margin-left: 37%;margin-top: 22%; color:black">{{ deskdata.eight }}</div>
-            <div class="shipei2" style="width:78%; color:black">截止本月应付(万元)</div></div>
+            <div class="shipei3" style="width:78%; color:black">截止本月应付(万元)</div></div>
         </el-col>
       </el-row>
 
@@ -56,13 +56,13 @@
           <div class="shipei" style="width: 100%; height: 150px;background: #6f8aff;display: flex;align-items: center;justify-content: center;flex-wrap: wrap" ><div class="shipei2" style="width:80%;margin-left: 10px;margin-top: 5px; color:white">今日排名</div><div style="width: 67%; color:white">{{ deskdata.thirteen }} </div><div class="shipei2" style="width: 64%; color:white">同比昨日</div><div style="color: white">{{ deskdata.rateFive }}</div></div>
         </el-col>
         <el-col :span="3">
-          <div class="shipei" style="width: 100%; height: 150px;background: white;display: flex;align-items: center;justify-content: center;flex-wrap: wrap" > <div style="width:52%;margin-left: 37%;margin-top: 22%; color:black">{{ deskdata.fourteen}}</div><div class="shipei2" style="width:63%; color:black">未收款订单(笔)</div></div>
+          <div class="shipei" style="width: 100%; height: 150px;background: white;display: flex;align-items: center;justify-content: center;flex-wrap: wrap" > <div style="width:52%;margin-left: 37%;margin-top: 22%; color:black">{{ deskdata.fourteen}}</div><div class="shipei3" style="width:63%; color:black">未收款订单(笔)</div></div>
         </el-col>
         <el-col :span="3">
-          <div class="shipei" style="width: 100%; height: 150px;background: white;display: flex;align-items: center;justify-content: center;flex-wrap: wrap" > <div style="width:52%;margin-left: 37%;margin-top: 22%; color:black">{{ deskdata.fifteen }}</div><div class="shipei2" style="width:71%; color:black">未收款金额(万元)</div></div>
+          <div class="shipei" style="width: 100%; height: 150px;background: white;display: flex;align-items: center;justify-content: center;flex-wrap: wrap" > <div style="width:52%;margin-left: 37%;margin-top: 22%; color:black">{{ deskdata.fifteen }}</div><div class="shipei3" style="width:71%; color:black">未收款金额(万元)</div></div>
         </el-col>
         <el-col :span="3">
-          <div class="shipei" style="width: 100%; height: 150px;background: white;display: flex;align-items: center;justify-content: center;flex-wrap: wrap" ><div style="width:52%;margin-left: 37%;margin-top: 22%; color:black">{{ deskdata.sixteen }} </div><div class="shipei2" style="width:79%; color:black">截止本月应收(万元)</div></div>
+          <div class="shipei" style="width: 100%; height: 150px;background: white;display: flex;align-items: center;justify-content: center;flex-wrap: wrap" ><div style="width:52%;margin-left: 37%;margin-top: 22%; color:black">{{ deskdata.sixteen }} </div><div class="shipei3" style="width:79%; color:black">截止本月应收(万元)</div></div>
         </el-col>
       </el-row>
 
@@ -72,7 +72,7 @@
         <el-col :span="15">
           <div style="width: 100%; height: 400px;background: red;" >
             <div style="width: 100%; height: 30px;background: #d9e0e8;" >
-              <div style="padding-top: 7px">{{ $t('index.report') }}</div>
+              <div style="padding-top: 7px;margin-left: 20px">{{ $t('index.report') }}</div>
             </div>
             <div style="width: 100%; height: 395px;overflow: hidden;background: white;" >
               <el-row :gutter="2">
@@ -117,8 +117,8 @@
         <el-col :span="9">
           <div style="width: 100%; height: 400px;background: red;" >
             <div style="width: 100%; height: 30px;background: #d9e0e8;" >
-              <div style="padding-top: 7px;float: left;">{{ $t('index.alarm') }}</div>
-<!--              <div style="padding-top: 7px;float: right;">{{ $t('index.more') }}</div>-->
+              <div style="padding-top: 7px;float: left;margin-left: 20px">{{ $t('index.alarm') }}</div>
+              <div style="padding-top: 7px;float: right;color: grey;margin-right: 20px;cursor: pointer" @click="handleReceipt2()">{{ $t('index.more') }}</div>
             </div>
             <div style="width: 100%; height: 395px;overflow: hidden;background: white;" >
               <el-table
@@ -150,8 +150,8 @@
         <el-col :span="15" style="height: 400px;">
           <div style="width: 100%; height: 400px;background: red;" >
             <div style="width: 100%; height: 30px;background: #d9e0e8;" >
-              <div style="padding-top: 7px;float: left;">{{ $t('index.prepare') }}</div>
-<!--              <div style="padding-top: 7px;float: right;">{{ $t('index.more') }}</div>-->
+              <div style="padding-top: 7px;float: left;margin-left: 20px">{{ $t('index.prepare') }}</div>
+              <div style="padding-top: 7px;float: right;color: grey;margin-right: 20px;cursor: pointer" @click="handleEdit">{{ $t('index.more') }}</div>
             </div>
             <div style="width: 100%; height: 100%;background: white;" >
               <el-row :gutter="2">
@@ -170,8 +170,8 @@
         <el-col :span="9">
           <div style="width: 100%; height: 400px;background: red;" >
             <div style="width: 100%; height: 30px;background: #d9e0e8;" >
-              <div style="padding-top: 7px;float: left;">{{ $t('index.apply') }}</div>
-<!--              <div style="padding-top: 7px;float: right;">{{ $t('index.more') }}</div>-->
+              <div style="padding-top: 7px;float: left;margin-left: 20px">{{ $t('index.apply') }}</div>
+              <div style="padding-top: 7px;float: right;color: grey;margin-right: 20px;cursor: pointer" @click="handleReceipt()">{{ $t('index.more') }}</div>
             </div>
             <div style="width: 100%; height: 395px;overflow: hidden;background: white;" >
               <el-table
@@ -192,6 +192,55 @@
         </el-col>
       </el-row>
       <!--      <el- v-model="getemplist.id" :placeholder="$t('route.WorkDesk')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>-->
+      <el-dialog :visible.sync="receiptVisible2" title="库存预警" class="normal" width="600px" center>
+        <el-form class="demo-ruleForm" style="margin: 0px 6%; width: 400px">
+          <el-form-item label-width="100px;" style="    width: 550px;">
+            <div style="width: 100%; height: 395px;overflow: hidden;background: white;" >
+              <el-table
+                v-loading="listLoading"
+                :key="tableKey"
+                :data="list"
+                height="390"
+                :show-header="false"
+                style="width: 100%;"
+                @selection-change="handleSelectionChange">
+                <el-table-column :resizable="false" align="left" min-width="150">
+                  <template slot-scope="scope">
+                    <span><router-link to="/StockAlarm/StockAlarmList"> {{ scope.row.name  }}</router-link></span>
+                  </template>
+                </el-table-column>
+                <el-table-column :resizable="false" align="right" min-width="150">
+                  <template slot-scope="scope">
+                    <span>{{ scope.row.createTime  }}</span>
+                  </template>
+                </el-table-column>
+              </el-table>
+            </div>
+          </el-form-item>
+        </el-form>
+      </el-dialog>
+      <el-dialog :visible.sync="receiptVisible" title="我的申请" class="normal" width="600px" center>
+        <el-form class="demo-ruleForm" style="margin: 0px 6%; width: 400px">
+          <el-form-item label-width="100px;" style="    width: 550px;">
+            <div style="width: 100%; height: 220px;overflow: hidden;background: white;" >
+              <el-table
+                v-loading="listLoading"
+                :key="tableKey"
+                :data="applyList"
+                height="390"
+                :show-header="false"
+                style="width: 100%;"
+                @selection-change="handleSelectionChange">
+                <el-table-column :resizable="false" align="left" min-width="150">
+                  <template slot-scope="scope">
+                    <span @click="getlink(scope.row)">{{ scope.row }}</span>
+                  </template>
+                </el-table-column>
+              </el-table>
+            </div>
+          </el-form-item>
+        </el-form>
+      </el-dialog>
     </div>
   </div>
 </template>
@@ -249,7 +298,11 @@
     },
     data() {
       return {
+        receiptVisible: false,
+        receiptVisible2: false,
+        editVisible: false,
         deskdata: {
+          ones: ''
         },
         // 回显客户
         customerName: '',
@@ -299,7 +352,7 @@
         // 采购申请查询加展示参数
         getemplist: {
           pageNum: 1,
-          pageSize: 10,
+          pageSize: 9999,
           repositoryId: this.$store.getters.repositoryId,
           regionIds: this.$store.getters.regionId
         },
@@ -322,6 +375,18 @@
       this.getlist()
     },
     methods: {
+      handleReceipt2(row) {
+        this.receiptVisible2 = true
+        console.log('row', row)
+      },
+      handleReceipt(row) {
+        this.receiptVisible = true
+        console.log('row', row)
+      },
+      // 修改操作
+      handleEdit() {
+        this.$router.push('/home/MyPrepare')
+      },
       getlink(row){
         console.log(row);
       },
@@ -412,27 +477,34 @@
           if (res.data.ret === 200) {
             console.log('workDesk1', res.data)
             // this.deskdata.one = res
-            this.deskdata.nine = res.data.data.todayQuantity
-            this.deskdata.ten = res.data.data.todayMoney
-            this.deskdata.rateOne = res.data.data.changRateQuantity
-            this.deskdata.rateTwo = res.data.data.changRateMoney
-            this.deskdata.eleven = res.data.data.serviceFinishToday
-            this.deskdata.rateThree = res.data.data.ChangeRateService
-            this.deskdata.twelve = res.data.data.nowStockQuantity
+            this.deskdata.nine = (res.data.data.todayQuantity).toFixed(2)
+            this.deskdata.ten = (res.data.data.todayMoney).toFixed(2)
+            this.deskdata.eleven = (res.data.data.serviceFinishToday).toFixed(2)
+            this.deskdata.twelve = (res.data.data.nowStockQuantity).toFixed(2)
+            console.log('twelve', this.deskdata.twelve)
             this.deskdata.thirteen = '----'
-            this.deskdata.rateFour = res.data.data.changRateStock
             this.deskdata.rateFive = '----'
             if (res.data.data.ChangeRateService === 'NaN'|| res.data.data.ChangeRateService === 'Infinity'){
+              console.log('hahaha')
               this.deskdata.rateThree = '----'
+              console.log(this.deskdata.rateThree)
+            }else {
+              this.deskdata.rateThree = (res.data.data.ChangeRateService).toFixed(2)
             }
             if (res.data.data.changRateStock === 'Infinity' || res.data.data.changRateStock === 'NaN'){
               this.deskdata.rateFour = '----'
+            }else {
+              this.deskdata.rateFour = (res.data.data.changRateStock).toFixed(2)
             }
             if (res.data.data.changRateMoney === 'NaN'|| res.data.data.changRateMoney === 'Infinity'){
               this.deskdata.rateTwo = '----'
+            }else {
+              this.deskdata.rateTwo = (res.data.data.changRateMoney).toFixed(2)
             }
             if (res.data.data.changRateQuantity === 'NaN'|| res.data.data.changRateQuantity === 'Infinity'){
               this.deskdata.rateOne = '----'
+            }else {
+              this.deskdata.rateOne = (res.data.data.changRateQuantity).toFixed(2)
             }
           }
           setTimeout(() => {
@@ -445,6 +517,7 @@
             console.log('workDesk3', res.data)
             console.log('toDoTask', res.data.data.toDoTask)
             this.deskdata.ones = '您有' + res.data.data.toDoTask + '条待办的任务'
+            console.log(this.deskdata.ones)
             this.deskdata.twos = '您有' + res.data.data.toDoEvent + '条待处理的事件'
             this.deskdata.threes = '您有' + res.data.data.toJudge + '条待审批的单据'
             this.deskdata.fours = '您有0条待分配的维修订单'
@@ -458,17 +531,17 @@
         workDesk2(this.getemplist2).then(res => {
           if (res.data.ret === 200) {
             console.log('workDesk2', res.data)
-            this.deskdata.one = res.data.data.saleQuantity
+            this.deskdata.one = (res.data.data.saleQuantity).toFixed(2)
             this.deskdata.two = '----'
             this.deskdata.three = '----'
             this.deskdata.four = '----'
             this.deskdata.five = '----'
-            this.deskdata.six = res.data.data.orderNumber
-            this.deskdata.seven = res.data.data.shouldPay
+            this.deskdata.six = (res.data.data.orderNumber).toFixed(2)
+            this.deskdata.seven = (res.data.data.shouldPay).toFixed(2)
             this.deskdata.eight = '----'
             this.deskdata.sixteen = '----'
-            this.deskdata.fourteen = res.data.data.orderNumber
-            this.deskdata.fifteen = res.data.data.shouldReceipt
+            this.deskdata.fourteen = (res.data.data.orderNumber).toFixed(2)
+            this.deskdata.fifteen = (res.data.data.shouldReceipt).toFixed(2)
           }
           setTimeout(() => {
             this.listLoading = false
@@ -513,31 +586,6 @@
         console.log(val)
         this.supplierId = val.supplierName
         this.getemplist.supplierId = val.id
-      },
-      // 修改操作
-      handleEdit(row) {
-        console.log(row)
-        this.editVisible = true
-        this.personalForm = Object.assign({}, row)
-        this.personalForm.sourceType = String(row.sourceType)
-        if (row.currency !== null) {
-          this.personalForm.currency = String(row.currency)
-        }
-        if (row.customerType !== null) {
-          this.personalForm.customerType = String(row.customerType)
-        }
-        if (row.payMode !== null) {
-          this.personalForm.payMode = String(row.payMode)
-        }
-        if (row.saleType !== null) {
-          this.personalForm.saleType = String(row.saleType)
-        }
-        if (row.payType !== null) {
-          this.personalForm.payType = String(row.payType)
-        }
-        if (row.payType !== null) {
-          this.personalForm.payType = String(row.payType)
-        }
       },
       // 修改组件修改成功后返回
       refreshlist(val) {
@@ -767,12 +815,41 @@
     padding: 10px 0;
     background-color: #f9fafc;
   }
+  .normal >>> .el-dialog__header {
+    padding: 20px 20px 10px;
+    background: #fff;
+    position: static;
+    top: auto;
+    z-index: auto;
+    width: auto;
+    border-bottom: none;
+  }
+  .normal >>> .el-dialog {
+    -webkit-transform: none;
+    transform: none;
+    left: 0;
+    position: relative;
+    margin: 0 auto;
+    height: auto;
+  }
   @media screen and (max-width: 1400px) {
    .shipei {
       height: 100px !important;
     }
     .shipei2 {
-      width: 63% !important;
+      /*width: 63% !important;*/
+      font-size: 14px !important;
+    }
+    .shipei3 {
+      width: 100% !important;
+      font-size: 14px !important;
+    }
+    .shipei4 {
+      width: 66% !important;
+      font-size: 14px !important;
+    }
+    .shipei5 {
+      width: 52% !important;
       font-size: 14px !important;
     }
   }

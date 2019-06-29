@@ -453,3 +453,14 @@ export function checkReceiptOpportunity(query) {
     data: params
   })
 }
+
+// 查看单据进程
+export function checkReceiptApply2(query) {
+  var params = new URLSearchParams()
+  params.append('applyNumber', query) // 你要传给后台的参数值 key/value
+  return request({
+    url: '/erp/installmentReceiptStat/checkReceiptApply',
+    method: 'post',
+    data: params
+  })
+}
