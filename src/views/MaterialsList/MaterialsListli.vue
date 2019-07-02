@@ -69,6 +69,11 @@
             <span>{{ scope.row.bomNumber }}</span>
           </template>
         </el-table-column>
+        <el-table-column :label="$t('MaterialsList.productName2')" :resizable="false" align="center" min-width="150">
+          <template slot-scope="scope">
+            <span>{{ scope.row.productName }}</span>
+          </template>
+        </el-table-column>
         <el-table-column :label="$t('MaterialsList.bomTypeId')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.bomTypeId | bomTypeIdFliter }}</span>
@@ -82,11 +87,6 @@
         <el-table-column :label="$t('MaterialsList.judgeStat')" :resizable="false" prop="judgeStat" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.judgeStat | judgeStatFilter }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column :label="$t('MaterialsList.receiptStat')" :resizable="false" align="center" min-width="150">
-          <template slot-scope="scope">
-            <span>{{ scope.row.receiptStat | receiptStatFilter }}</span>
           </template>
         </el-table-column>
         <el-table-column :label="$t('public.actions')" :resizable="false" align="center" min-width="230">

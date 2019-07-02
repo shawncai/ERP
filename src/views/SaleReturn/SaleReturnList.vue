@@ -167,6 +167,9 @@
           <template slot-scope="scope">
             <el-button v-permission="['54-59-3']" v-show="scope.row.judgeStat === 0" title="修改" type="primary" size="mini" icon="el-icon-edit" circle @click="handleEdit(scope.row)"/>
             <el-button v-if="isReview(scope.row)" title="审批" type="warning" size="mini" icon="el-icon-view" circle @click="handleReview(scope.row)"/>
+            <el-button v-permission="['54-59-76']" v-if="isReview4(scope.row)" title="反审批" type="warning" size="mini" circle @click="handleReview4(scope.row)"><svg-icon icon-class="fanhui"/></el-button>
+            <el-button v-permission="['54-59-16']" v-if="isReview2(scope.row)" title="结单" type="success" size="mini" icon="el-icon-check" circle @click="handleReview2(scope.row)"/>
+            <el-button v-permission="['54-59-17']" v-if="isReview3(scope.row)" title="反结单" type="success" size="mini" icon="el-icon-back" circle @click="handleReview3(scope.row)"/>
             <el-button v-permission="['54-59-2']" v-show="scope.row.judgeStat === 0" title="删除" size="mini" type="danger" icon="el-icon-delete" circle @click="handleDelete(scope.row)"/>
           </template>
         </el-table-column>
@@ -295,6 +298,92 @@ export default {
     this.getlist()
   },
   methods: {
+    // 判断反审批按钮
+    isReview4(row) {
+      console.log(row)
+      if (row.judgeStat === 2) {
+        return true
+      }
+    },
+    // 反结单操作
+    handleReview4(row) {
+      this.reviewParms.id = row.id
+      this.$confirm('请反审批', '反审批', {
+        distinguishCancelAndClose: true,
+        confirmButtonText: '反审批',
+        type: 'warning'
+      }).then(() => {
+        this.reviewParms.judgeStat = 0
+        const parms = JSON.stringify(this.reviewParms)
+        updatesaleReturn2(parms).then(res => {
+          if (res.data.ret === 200) {
+            this.$message({
+              type: 'success',
+              message: '反审批成功!'
+            })
+            this.getlist()
+          }
+        })
+      })
+    },
+    // 判断反结单按钮
+    isReview3(row) {
+      console.log(row)
+      if (row.receiptStat === 3) {
+        return true
+      }
+    },
+    // 反结单操作
+    handleReview3(row) {
+      this.reviewParms.id = row.id
+      this.reviewParms.endPersonId = 0
+      this.$confirm('请反结单', '反结单', {
+        distinguishCancelAndClose: true,
+        confirmButtonText: '反结单',
+        type: 'warning'
+      }).then(() => {
+        this.reviewParms.receiptStat = 2
+        const parms = JSON.stringify(this.reviewParms)
+        updatesaleReturn2(parms).then(res => {
+          if (res.data.ret === 200) {
+            this.$message({
+              type: 'success',
+              message: '反结单成功!'
+            })
+            this.getlist()
+          }
+        })
+      })
+    },
+    // 判断结单按钮
+    isReview2(row) {
+      console.log(row)
+      if (row.receiptStat !== 3 && (row.judgeStat === 2 || row.judgeStat === 3)) {
+        return true
+      }
+    },
+    // 结单操作
+    handleReview2(row) {
+      this.reviewParms.id = row.id
+      this.reviewParms.endPersonId = this.$store.getters.userId
+      this.$confirm('请结单', '结单', {
+        distinguishCancelAndClose: true,
+        confirmButtonText: '结单',
+        type: 'warning'
+      }).then(() => {
+        this.reviewParms.receiptStat = 3
+        const parms = JSON.stringify(this.reviewParms)
+        updatesaleReturn2(parms).then(res => {
+          if (res.data.ret === 200) {
+            this.$message({
+              type: 'success',
+              message: '结单成功!'
+            })
+            this.getlist()
+          }
+        })
+      })
+    },
     checkPermission,
     // 不让勾选
     selectInit(row, index) {

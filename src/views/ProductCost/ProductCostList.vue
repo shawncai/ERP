@@ -42,15 +42,15 @@
           {{ $t('public.batchoperation') }} <i class="el-icon-arrow-down el-icon--right"/>
         </el-button>
         <el-dropdown-menu slot="dropdown" style="width: 140px">
-          <el-dropdown-item style="text-align: left" command="delete"><svg-icon icon-class="shanchu" style="width: 40px"/>{{ $t('public.delete') }}</el-dropdown-item>
+          <el-dropdown-item v-permission="['171-172-2']" style="text-align: left" command="delete"><svg-icon icon-class="shanchu" style="width: 40px"/>{{ $t('public.delete') }}</el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
       <!-- 表格导出操作 -->
-      <el-button v-waves :loading="downloadLoading" class="filter-item" style="width: 86px" @click="handleExport"> <svg-icon icon-class="daochu"/>{{ $t('public.export') }}</el-button>
+      <el-button v-permission="['171-172-6']" v-waves :loading="downloadLoading" class="filter-item" style="width: 86px" @click="handleExport"> <svg-icon icon-class="daochu"/>{{ $t('public.export') }}</el-button>
       <!-- 打印操作 -->
-      <el-button v-waves class="filter-item" icon="el-icon-printer" style="width: 86px" @click="handlePrint">{{ $t('public.print') }}</el-button>
+      <el-button v-permission="['171-172-7']" v-waves class="filter-item" icon="el-icon-printer" style="width: 86px" @click="handlePrint">{{ $t('public.print') }}</el-button>
       <!-- 新建操作 -->
-      <el-button v-waves class="filter-item" icon="el-icon-plus" type="success" style="width: 86px" @click="handleAdd">{{ $t('public.add') }}</el-button>
+      <el-button v-permission="['171-172-1']" v-waves class="filter-item" icon="el-icon-plus" type="success" style="width: 86px" @click="handleAdd">{{ $t('public.add') }}</el-button>
     </el-card>
 
     <el-card class="box-card" style="margin-top: 10px" shadow="never">
@@ -122,9 +122,12 @@
         </el-table-column>
         <el-table-column :label="$t('public.actions')" :resizable="false" align="center" min-width="230">
           <template slot-scope="scope">
-            <el-button v-if="scope.row.judgeStat === 0" title="修改" type="primary" size="mini" icon="el-icon-edit" circle @click="handleEdit(scope.row)"/>
+            <el-button v-permission="['171-172-3']" v-if="scope.row.judgeStat === 0" title="修改" type="primary" size="mini" icon="el-icon-edit" circle @click="handleEdit(scope.row)"/>
             <el-button v-if="isReview(scope.row)" title="审批" type="warning" size="mini" icon="el-icon-view" circle @click="handleReview(scope.row)"/>
-            <el-button v-if="scope.row.judgeStat === 0" title="删除" size="mini" type="danger" icon="el-icon-delete" circle @click="handleDelete(scope.row)"/>
+            <el-button v-permission="['171-172-76']" v-if="isReview4(scope.row)" title="反审批" type="warning" size="mini" circle @click="handleReview4(scope.row)"><svg-icon icon-class="fanhui"/></el-button>
+            <el-button v-permission="['171-172-16']" v-if="isReview2(scope.row)" title="结单" type="success" size="mini" icon="el-icon-check" circle @click="handleReview2(scope.row)"/>
+            <el-button v-permission="['171-172-17']" v-if="isReview3(scope.row)" title="反结单" type="success" size="mini" icon="el-icon-back" circle @click="handleReview3(scope.row)"/>
+            <el-button v-permission="['171-172-2']" v-if="scope.row.judgeStat === 0" title="删除" size="mini" type="danger" icon="el-icon-delete" circle @click="handleDelete(scope.row)"/>
           </template>
         </el-table-column>
       </el-table>
@@ -147,10 +150,12 @@ import MyEmp from './components/MyEmp'
 import DetailList from './components/DetailList'
 import MyDialog from './components/MyDialog'
 import MySupplier from './components/MySupplier'
+import permission from '@/directive/permission/index.js' // 权限判断指令
+import checkPermission from '@/utils/permission' // 权限判断函数
 
 export default {
   name: 'CheckReportList',
-  directives: { waves },
+  directives: { waves, permission },
   components: { MyDialog, DetailList, MyEmp, Pagination, MySupplier },
   filters: {
     judgeStatFilter(status) {
@@ -269,6 +274,93 @@ export default {
     this.getlist()
   },
   methods: {
+    checkPermission,
+    // 判断反审批按钮
+    isReview4(row) {
+      console.log(row)
+      if (row.judgeStat === 2) {
+        return true
+      }
+    },
+    // 反结单操作
+    handleReview4(row) {
+      this.reviewParms.id = row.id
+      this.$confirm('请反审批', '反审批', {
+        distinguishCancelAndClose: true,
+        confirmButtonText: '反审批',
+        type: 'warning'
+      }).then(() => {
+        this.reviewParms.judgeStat = 0
+        const parms = JSON.stringify(this.reviewParms)
+        updateproduceCost(parms).then(res => {
+          if (res.data.ret === 200) {
+            this.$message({
+              type: 'success',
+              message: '反审批成功!'
+            })
+            this.getlist()
+          }
+        })
+      })
+    },
+    // 判断反结单按钮
+    isReview3(row) {
+      console.log(row)
+      if (row.receiptStat === 3) {
+        return true
+      }
+    },
+    // 反结单操作
+    handleReview3(row) {
+      this.reviewParms.id = row.id
+      this.reviewParms.endPersonId = 0
+      this.$confirm('请反结单', '反结单', {
+        distinguishCancelAndClose: true,
+        confirmButtonText: '反结单',
+        type: 'warning'
+      }).then(() => {
+        this.reviewParms.receiptStat = 2
+        const parms = JSON.stringify(this.reviewParms)
+        updateproduceCost(parms).then(res => {
+          if (res.data.ret === 200) {
+            this.$message({
+              type: 'success',
+              message: '反结单成功!'
+            })
+            this.getlist()
+          }
+        })
+      })
+    },
+    // 判断结单按钮
+    isReview2(row) {
+      console.log(row)
+      if (row.receiptStat !== 3 && (row.judgeStat === 2 || row.judgeStat === 3)) {
+        return true
+      }
+    },
+    // 结单操作
+    handleReview2(row) {
+      this.reviewParms.id = row.id
+      this.reviewParms.endPersonId = this.$store.getters.userId
+      this.$confirm('请结单', '结单', {
+        distinguishCancelAndClose: true,
+        confirmButtonText: '结单',
+        type: 'warning'
+      }).then(() => {
+        this.reviewParms.receiptStat = 3
+        const parms = JSON.stringify(this.reviewParms)
+        updateproduceCost(parms).then(res => {
+          if (res.data.ret === 200) {
+            this.$message({
+              type: 'success',
+              message: '结单成功!'
+            })
+            this.getlist()
+          }
+        })
+      })
+    },
     // 不让勾选
     selectInit(row, index) {
       if (row.judgeStat !== 0) {

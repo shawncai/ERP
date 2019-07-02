@@ -930,20 +930,21 @@ export const asyncRouterMap = [
     meta: {
       title: 'ProductCost',
       icon: 'wuliao',
-      type: 7
+      type: 7,
+      roles: ['171-173-1', '171-172-4']
     },
     children: [
       {
         path: 'AddProductCost',
         component: () => import('@/views/ProductCost/AddProductCost'),
         name: 'AddProductCost',
-        meta: { title: 'AddProductCost', noCache: false }
+        meta: { title: 'AddProductCost', noCache: false, roles: ['171-173-1'] }
       },
       {
         path: 'ProductCostList',
         component: () => import('@/views/ProductCost/ProductCostList'),
         name: 'ProductCostList',
-        meta: { title: 'ProductCostList', noCache: true }
+        meta: { title: 'ProductCostList', noCache: true, roles: ['171-172-4'] }
       }
     ]
   },
@@ -1773,20 +1774,21 @@ export const asyncRouterMap = [
     meta: {
       title: 'Repair',
       icon: 'xiaoshouhetong',
-      type: 3
+      type: 3,
+      roles: ['54-67-68-4', '54-67-74-4', '54-67-71-4', '54-67-76-4', '54-67-81-4', '54-67-82-1']
     },
     children: [
       {
         path: 'RepairList',
         component: () => import('@/views/Repair/RepairList'),
         name: 'RepairList',
-        meta: { title: 'RepairList', noCache: true }
+        meta: { title: 'RepairList', noCache: true, roles: ['54-67-68-4'] }
       },
       {
         path: 'selfCheck',
         component: () => import('@/views/Repair/selfCheck'),
         name: 'selfCheck',
-        meta: { title: 'selfCheck', noCache: true }
+        meta: { title: 'selfCheck', noCache: true, roles: ['54-67-74-4'] }
       },
       {
         path: 'blackList',
@@ -1798,25 +1800,25 @@ export const asyncRouterMap = [
         path: 'lost',
         component: () => import('@/views/Repair/lost'),
         name: 'lost',
-        meta: { title: 'lost', noCache: true }
+        meta: { title: 'lost', noCache: true, roles: ['54-67-71-4'] }
       },
       {
         path: 'RepairProject',
         component: () => import('@/views/Repair/RepairProject'),
         name: 'RepairProject',
-        meta: { title: 'RepairProject', noCache: true }
+        meta: { title: 'RepairProject', noCache: true, roles: ['54-67-76-4'] }
       },
       {
         path: 'AddAccessTools',
         component: () => import('@/views/AccessTools/AddAccessTools'),
         name: 'AddAccessTools',
-        meta: { title: 'AddAccessTools', noCache: false }
+        meta: { title: 'AddAccessTools', noCache: false, roles: ['54-67-82-1'] }
       },
       {
         path: 'AccessToolsList',
         component: () => import('@/views/AccessTools/AccessToolsList'),
         name: 'AccessToolsList',
-        meta: { title: 'AccessToolsList', noCache: true }
+        meta: { title: 'AccessToolsList', noCache: true, roles: ['54-67-81-4'] }
       }
     ]
   },

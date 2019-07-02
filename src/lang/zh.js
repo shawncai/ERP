@@ -908,6 +908,7 @@ export default {
     version: '版本',
     summary: '摘要',
     productName: '父件',
+    productName2: '物料名称',
     unit: '单位',
     productTypeId: '型号',
     id: '序号',

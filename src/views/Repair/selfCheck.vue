@@ -19,8 +19,8 @@
           <span slot-scope="{ node, data }" class="custom-tree-node">
             <span>{{ node.label }}</span>
             <span style="margin-left: 50px">
-              <i v-permission="[69]" v-if="data.level == 1" class="el-icon-plus" @click="add(data)"/>
-              <i v-permission="[68]" class="el-icon-delete" @click="nodedelete(data)"/>
+              <i v-permission="['54-67-75-1']" v-if="data.level === 1" class="el-icon-plus" @click="add(data)"/>
+              <i v-permission="['54-67-74-2']" class="el-icon-delete" @click="nodedelete(data)"/>
             </span>
           </span>
         </el-tree>

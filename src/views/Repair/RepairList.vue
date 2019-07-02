@@ -16,7 +16,7 @@
           value-format="yyyy-MM-dd"/>
       </div>
       <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">{{ $t('table.search') }}</el-button>
-      <el-button v-waves class="filter-item" style="margin-left: 10px" type="primary" icon="el-icon-edit" @click="handleCreate">{{ $t('repair.add') }}</el-button>
+      <el-button v-permission="['54-67-69-1']" v-waves class="filter-item" style="margin-left: 10px" type="primary" icon="el-icon-edit" @click="handleCreate">{{ $t('repair.add') }}</el-button>
     </div>
     <div class="app-container">
       <el-tabs v-model="activeName" @tab-click="handleClick">
@@ -60,12 +60,12 @@
             </el-table-column>
             <el-table-column :resizable='false' :label="$t('table.actions')" align="center" min-width="335px">
               <template slot-scope="scope">
-                <el-button type="primary" size="mini" @click="handleDetail(scope.row)">{{ $t('table2.view') }}</el-button>
-                <el-button v-show="scope.row.stat == 1" type="danger" size="mini" @click="handleDelete(scope.row)">{{ $t('Complaint.delete') }}</el-button>
-                <el-button v-show="scope.row.stat == 1" size="mini" type="warning" @click="handleedit(scope.row)">{{ $t('repair.edit2') }}</el-button>
-                <el-button v-show="scope.row.stat == 2" size="mini" type="info" @click="handlecancel(scope.row)">{{ $t('repair.cancel') }}</el-button>
+                <el-button v-permission="['54-67-68-5']" type="primary" size="mini" @click="handleDetail(scope.row)">{{ $t('table2.view') }}</el-button>
+                <el-button v-permission="['54-67-68-2']" v-show="scope.row.stat == 1" type="danger" size="mini" @click="handleDelete(scope.row)">{{ $t('Complaint.delete') }}</el-button>
+                <el-button v-permission="['54-67-68-3']" v-show="scope.row.stat == 1" size="mini" type="warning" @click="handleedit(scope.row)">{{ $t('repair.edit2') }}</el-button>
+                <el-button v-permission="['54-67-68-29']" v-show="scope.row.stat == 2" size="mini" type="info" @click="handlecancel(scope.row)">{{ $t('repair.cancel') }}</el-button>
                 <el-button v-show="scope.row.stat == 5" size="mini" type="info" @click="handlefinish(scope.row)">{{ $t('repair.terminate') }}</el-button>
-                <el-button v-show="scope.row.stat == 1" size="mini" type="success" @click="handleDispatch(scope.row)">{{ $t('repair.Dispatch') }}</el-button>
+                <el-button v-permission="['54-67-68-29']" v-show="scope.row.stat == 1" size="mini" type="success" @click="handleDispatch(scope.row)">{{ $t('repair.Dispatch') }}</el-button>
                 <el-button v-show="scope.row.stat !== 1" size="mini" style="width: 90px;" plain disabled>{{ $t('repair.Dispatched') }}</el-button>
               </template>
             </el-table-column>
@@ -113,12 +113,12 @@
             </el-table-column>
             <el-table-column :resizable='false' :label="$t('table.actions')" align="center" min-width="335px">
               <template slot-scope="scope">
-                <el-button type="primary" size="mini" @click="handleDetail(scope.row)">{{ $t('table2.view') }}</el-button>
-                <el-button v-show="scope.row.stat == 1" type="danger" size="mini" @click="handleDelete(scope.row)">{{ $t('Complaint.delete') }}</el-button>
-                <el-button v-show="scope.row.stat == 1" size="mini" type="warning" @click="handleedit(scope.row)">{{ $t('repair.edit2') }}</el-button>
-                <el-button v-show="scope.row.stat == 2" size="mini" type="info" @click="handlecancel(scope.row)">{{ $t('repair.cancel') }}</el-button>
+                <el-button v-permission="['54-67-68-5']" type="primary" size="mini" @click="handleDetail(scope.row)">{{ $t('table2.view') }}</el-button>
+                <el-button v-permission="['54-67-68-2']" v-show="scope.row.stat == 1" type="danger" size="mini" @click="handleDelete(scope.row)">{{ $t('Complaint.delete') }}</el-button>
+                <el-button v-permission="['54-67-68-3']" v-show="scope.row.stat == 1" size="mini" type="warning" @click="handleedit(scope.row)">{{ $t('repair.edit2') }}</el-button>
+                <el-button v-permission="['54-67-68-29']" v-show="scope.row.stat == 2" size="mini" type="info" @click="handlecancel(scope.row)">{{ $t('repair.cancel') }}</el-button>
                 <el-button v-show="scope.row.stat == 5" size="mini" type="info" @click="handlefinish(scope.row)">{{ $t('repair.terminate') }}</el-button>
-                <el-button v-show="scope.row.stat == 1" size="mini" type="success" @click="handleDispatch(scope.row)">{{ $t('repair.Dispatch') }}</el-button>
+                <el-button v-permission="['54-67-68-29']" v-show="scope.row.stat == 1" size="mini" type="success" @click="handleDispatch(scope.row)">{{ $t('repair.Dispatch') }}</el-button>
                 <el-button v-show="scope.row.stat !== 1" size="mini" style="width: 90px;" plain disabled>{{ $t('repair.Dispatched') }}</el-button>
               </template>
             </el-table-column>
@@ -165,12 +165,12 @@
             </el-table-column>
             <el-table-column :resizable='false' :label="$t('table.actions')" align="center" min-width="280px">
               <template slot-scope="scope">
-                <el-button type="primary" size="mini" @click="handleDetail(scope.row)">{{ $t('table2.view') }}</el-button>
+                <el-button v-permission="['54-67-68-5']" type="primary" size="mini" @click="handleDetail(scope.row)">{{ $t('table2.view') }}</el-button>
                 <el-button v-show="scope.row.stat == 1" type="danger" size="mini" @click="handleDelete(scope.row)">{{ $t('Complaint.delete') }}</el-button>
-                <el-button v-show="scope.row.stat == 1" size="mini" type="warning" @click="handleedit(scope.row)">{{ $t('repair.edit2') }}</el-button>
-                <el-button v-show="scope.row.stat == 2" size="mini" type="info" @click="handlecancel(scope.row)">{{ $t('repair.cancel') }}</el-button>
+                <el-button v-permission="['54-67-68-3']" v-show="scope.row.stat == 1" size="mini" type="warning" @click="handleedit(scope.row)">{{ $t('repair.edit2') }}</el-button>
+                <el-button v-permission="['54-67-68-29']" v-show="scope.row.stat == 2" size="mini" type="info" @click="handlecancel(scope.row)">{{ $t('repair.cancel') }}</el-button>
                 <el-button v-show="scope.row.stat == 5" size="mini" type="info" @click="handlefinish(scope.row)">{{ $t('repair.terminate') }}</el-button>
-                <el-button v-show="scope.row.stat == 1" size="mini" type="success" @click="handleDispatch(scope.row)">{{ $t('repair.Dispatch') }}</el-button>
+                <el-button v-permission="['54-67-68-29']" v-show="scope.row.stat == 1" size="mini" type="success" @click="handleDispatch(scope.row)">{{ $t('repair.Dispatch') }}</el-button>
                 <el-button v-show="scope.row.stat !== 1" size="mini" style="width: 90px;" plain disabled>{{ $t('repair.Dispatched') }}</el-button>
               </template>
             </el-table-column>
@@ -217,12 +217,12 @@
             </el-table-column>
             <el-table-column :resizable='false' :label="$t('table.actions')" align="center" min-width="170px">
               <template slot-scope="scope">
-                <el-button type="primary" size="mini" @click="handleDetail(scope.row)">{{ $t('table2.view') }}</el-button>
-                <el-button v-show="scope.row.stat == 1" type="danger" size="mini" @click="handleDelete(scope.row)">{{ $t('Complaint.delete') }}</el-button>
-                <el-button v-show="scope.row.stat == 1" size="mini" type="warning" @click="handleedit(scope.row)">{{ $t('repair.edit2') }}</el-button>
-                <el-button v-show="scope.row.stat == 2" size="mini" type="info" @click="handlecancel(scope.row)">{{ $t('repair.cancel') }}</el-button>
+                <el-button v-permission="['54-67-68-5']" type="primary" size="mini" @click="handleDetail(scope.row)">{{ $t('table2.view') }}</el-button>
+                <el-button v-permission="['54-67-68-2']" v-show="scope.row.stat == 1" type="danger" size="mini" @click="handleDelete(scope.row)">{{ $t('Complaint.delete') }}</el-button>
+                <el-button v-permission="['54-67-68-3']" v-show="scope.row.stat == 1" size="mini" type="warning" @click="handleedit(scope.row)">{{ $t('repair.edit2') }}</el-button>
+                <el-button v-permission="['54-67-68-29']" v-show="scope.row.stat == 2" size="mini" type="info" @click="handlecancel(scope.row)">{{ $t('repair.cancel') }}</el-button>
                 <el-button v-show="scope.row.stat == 5" size="mini" type="info" @click="handlefinish(scope.row)">{{ $t('repair.terminate') }}</el-button>
-                <el-button v-show="scope.row.stat == 1" size="mini" type="success" @click="handleDispatch(scope.row)">{{ $t('repair.Dispatch') }}</el-button>
+                <el-button v-permission="['54-67-68-29']" v-show="scope.row.stat == 1" size="mini" type="success" @click="handleDispatch(scope.row)">{{ $t('repair.Dispatch') }}</el-button>
                 <el-button v-show="scope.row.stat !== 1" size="mini" style="width: 90px;" plain disabled>{{ $t('repair.Dispatched') }}</el-button>
               </template>
             </el-table-column>
@@ -269,12 +269,12 @@
             </el-table-column>
             <el-table-column :resizable='false' :label="$t('table.actions')" align="center" min-width="170px">
               <template slot-scope="scope">
-                <el-button type="primary" size="mini" @click="handleDetail(scope.row)">{{ $t('table2.view') }}</el-button>
-                <el-button v-show="scope.row.stat == 1" type="danger" size="mini" @click="handleDelete(scope.row)">{{ $t('Complaint.delete') }}</el-button>
-                <el-button v-show="scope.row.stat == 1" size="mini" type="warning" @click="handleedit(scope.row)">{{ $t('repair.edit2') }}</el-button>
-                <el-button v-show="scope.row.stat == 2" size="mini" type="info" @click="handlecancel(scope.row)">{{ $t('repair.cancel') }}</el-button>
+                <el-button v-permission="['54-67-68-5']" type="primary" size="mini" @click="handleDetail(scope.row)">{{ $t('table2.view') }}</el-button>
+                <el-button v-permission="['54-67-68-2']" v-show="scope.row.stat == 1" type="danger" size="mini" @click="handleDelete(scope.row)">{{ $t('Complaint.delete') }}</el-button>
+                <el-button v-permission="['54-67-68-3']" v-show="scope.row.stat == 1" size="mini" type="warning" @click="handleedit(scope.row)">{{ $t('repair.edit2') }}</el-button>
+                <el-button v-permission="['54-67-68-29']" v-show="scope.row.stat == 2" size="mini" type="info" @click="handlecancel(scope.row)">{{ $t('repair.cancel') }}</el-button>
                 <el-button v-show="scope.row.stat == 5" size="mini" type="info" @click="handlefinish(scope.row)">{{ $t('repair.terminate') }}</el-button>
-                <el-button v-show="scope.row.stat == 1" size="mini" type="success" @click="handleDispatch(scope.row)">{{ $t('repair.Dispatch') }}</el-button>
+                <el-button v-permission="['54-67-68-29']" v-show="scope.row.stat == 1" size="mini" type="success" @click="handleDispatch(scope.row)">{{ $t('repair.Dispatch') }}</el-button>
                 <el-button v-show="scope.row.stat !== 1" size="mini" style="width: 90px;" plain disabled>{{ $t('repair.Dispatched') }}</el-button>
               </template>
             </el-table-column>
@@ -321,12 +321,12 @@
             </el-table-column>
             <el-table-column :resizable='false' :label="$t('table.actions')" align="center" min-width="170px">
               <template slot-scope="scope">
-                <el-button type="primary" size="mini" @click="handleDetail(scope.row)">{{ $t('table2.view') }}</el-button>
-                <el-button v-show="scope.row.stat == 1" type="danger" size="mini" @click="handleDelete(scope.row)">{{ $t('Complaint.delete') }}</el-button>
-                <el-button v-show="scope.row.stat == 1" size="mini" type="warning" @click="handleedit(scope.row)">{{ $t('repair.edit2') }}</el-button>
-                <el-button v-show="scope.row.stat == 2" size="mini" type="info" @click="handlecancel(scope.row)">{{ $t('repair.cancel') }}</el-button>
+                <el-button v-permission="['54-67-68-5']" type="primary" size="mini" @click="handleDetail(scope.row)">{{ $t('table2.view') }}</el-button>
+                <el-button v-permission="['54-67-68-2']" v-show="scope.row.stat == 1" type="danger" size="mini" @click="handleDelete(scope.row)">{{ $t('Complaint.delete') }}</el-button>
+                <el-button v-permission="['54-67-68-3']" v-show="scope.row.stat == 1" size="mini" type="warning" @click="handleedit(scope.row)">{{ $t('repair.edit2') }}</el-button>
+                <el-button v-permission="['54-67-68-29']" v-show="scope.row.stat == 2" size="mini" type="info" @click="handlecancel(scope.row)">{{ $t('repair.cancel') }}</el-button>
                 <el-button v-show="scope.row.stat == 5" size="mini" type="info" @click="handlefinish(scope.row)">{{ $t('repair.terminate') }}</el-button>
-                <el-button v-show="scope.row.stat == 1" size="mini" type="success" @click="handleDispatch(scope.row)">{{ $t('repair.Dispatch') }}</el-button>
+                <el-button v-permission="['54-67-68-29']" v-show="scope.row.stat == 1" size="mini" type="success" @click="handleDispatch(scope.row)">{{ $t('repair.Dispatch') }}</el-button>
                 <el-button v-show="scope.row.stat !== 1" size="mini" style="width: 90px;" plain disabled>{{ $t('repair.Dispatched') }}</el-button>
               </template>
             </el-table-column>
@@ -373,12 +373,12 @@
             </el-table-column>
             <el-table-column :resizable='false' :label="$t('table.actions')" align="center" min-width="170px">
               <template slot-scope="scope">
-                <el-button type="primary" size="mini" @click="handleDetail(scope.row)">{{ $t('table2.view') }}</el-button>
-                <el-button v-show="scope.row.stat == 1" type="danger" size="mini" @click="handleDelete(scope.row)">{{ $t('Complaint.delete') }}</el-button>
-                <el-button v-show="scope.row.stat == 1" size="mini" type="warning" @click="handleedit(scope.row)">{{ $t('repair.edit2') }}</el-button>
-                <el-button v-show="scope.row.stat == 2" size="mini" type="info" @click="handlecancel(scope.row)">{{ $t('repair.cancel') }}</el-button>
+                <el-button v-permission="['54-67-68-5']" type="primary" size="mini" @click="handleDetail(scope.row)">{{ $t('table2.view') }}</el-button>
+                <el-button v-permission="['54-67-68-2']" v-show="scope.row.stat == 1" type="danger" size="mini" @click="handleDelete(scope.row)">{{ $t('Complaint.delete') }}</el-button>
+                <el-button v-permission="['54-67-68-3']" v-show="scope.row.stat == 1" size="mini" type="warning" @click="handleedit(scope.row)">{{ $t('repair.edit2') }}</el-button>
+                <el-button v-permission="['54-67-68-29']" v-show="scope.row.stat == 2" size="mini" type="info" @click="handlecancel(scope.row)">{{ $t('repair.cancel') }}</el-button>
                 <el-button v-show="scope.row.stat == 5" size="mini" type="info" @click="handlefinish(scope.row)">{{ $t('repair.terminate') }}</el-button>
-                <el-button v-show="scope.row.stat == 1" size="mini" type="success" @click="handleDispatch(scope.row)">{{ $t('repair.Dispatch') }}</el-button>
+                <el-button v-permission="['54-67-68-29']" v-show="scope.row.stat == 1" size="mini" type="success" @click="handleDispatch(scope.row)">{{ $t('repair.Dispatch') }}</el-button>
                 <el-button v-show="scope.row.stat !== 1" size="mini" style="width: 90px;" plain disabled>{{ $t('repair.Dispatched') }}</el-button>
               </template>
             </el-table-column>
@@ -425,12 +425,12 @@
             </el-table-column>
             <el-table-column :resizable='false' :label="$t('table.actions')" align="center" min-width="170px">
               <template slot-scope="scope">
-                <el-button type="primary" size="mini" @click="handleDetail(scope.row)">{{ $t('table2.view') }}</el-button>
-                <el-button v-show="scope.row.stat == 1" type="danger" size="mini" @click="handleDelete(scope.row)">{{ $t('Complaint.delete') }}</el-button>
-                <el-button v-show="scope.row.stat == 1" size="mini" type="warning" @click="handleedit(scope.row)">{{ $t('repair.edit2') }}</el-button>
-                <el-button v-show="scope.row.stat == 2" size="mini" type="info" @click="handlecancel(scope.row)">{{ $t('repair.cancel') }}</el-button>
+                <el-button v-permission="['54-67-68-5']" type="primary" size="mini" @click="handleDetail(scope.row)">{{ $t('table2.view') }}</el-button>
+                <el-button v-permission="['54-67-68-2']" v-show="scope.row.stat == 1" type="danger" size="mini" @click="handleDelete(scope.row)">{{ $t('Complaint.delete') }}</el-button>
+                <el-button v-permission="['54-67-68-3']" v-show="scope.row.stat == 1" size="mini" type="warning" @click="handleedit(scope.row)">{{ $t('repair.edit2') }}</el-button>
+                <el-button v-permission="['54-67-68-29']" v-show="scope.row.stat == 2" size="mini" type="info" @click="handlecancel(scope.row)">{{ $t('repair.cancel') }}</el-button>
                 <el-button v-show="scope.row.stat == 5" size="mini" type="info" @click="handlefinish(scope.row)">{{ $t('repair.terminate') }}</el-button>
-                <el-button v-show="scope.row.stat == 1" size="mini" type="success" @click="handleDispatch(scope.row)">{{ $t('repair.Dispatch') }}</el-button>
+                <el-button v-permission="['54-67-68-29']" v-show="scope.row.stat == 1" size="mini" type="success" @click="handleDispatch(scope.row)">{{ $t('repair.Dispatch') }}</el-button>
                 <el-button v-show="scope.row.stat !== 1" size="mini" style="width: 90px;" plain disabled>{{ $t('repair.Dispatched') }}</el-button>
               </template>
             </el-table-column>
@@ -764,8 +764,8 @@
           </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer">
-          <el-button @click="editisvisible = false">{{ $t('repair.cancel') }}</el-button>
-          <el-button type="primary" @click="editdata">{{ $t('repair.ok') }}</el-button>
+          <el-button v-permission="['54-67-68-29']" @click="editisvisible = false">{{ $t('repair.cancel') }}</el-button>
+          <el-button v-permission="['54-67-68-3']" type="primary" @click="editdata">{{ $t('repair.ok') }}</el-button>
         </div>
       </el-dialog>
       <el-dialog
