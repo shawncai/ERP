@@ -213,7 +213,15 @@ export default {
   data() {
     const validatePass = (rule, value, callback) => {
       console.log(value)
-      if (value === '') {
+      if (this.personalForm.supplierId === undefined || this.personalForm.supplierId === null || this.personalForm.supplierId === '') {
+        callback(new Error('请选择'))
+      } else {
+        callback()
+      }
+    }
+    const validatePass3 = (rule, value, callback) => {
+      console.log(value)
+      if (this.personalForm.handlePersonId === undefined || this.personalForm.handlePersonId === null || this.personalForm.handlePersonId === '') {
         callback(new Error('请选择'))
       } else {
         callback()
@@ -223,6 +231,19 @@ export default {
       console.log(value)
       if (this.personalForm.offsetAdvance > this.yufu) {
         callback(new Error('抵扣预付款金额不能大于预付款金额'))
+      } else {
+        callback()
+      }
+    }
+    const validatePass5 = (rule, value, callback) => {
+      console.log('value', value)
+      if (value === 0) {
+        this.$notify.error({
+          title: '错误',
+          message: '本次支付金额未填写',
+          offset: 100
+        })
+        callback()
       } else {
         callback()
       }
@@ -307,7 +328,7 @@ export default {
       // 采购申请单规则数据
       personalrules: {
         supplierId: [
-          { required: true, validator: validatePass, trigger: 'focus' }
+          { required: true, validator: validatePass, trigger: 'change' }
         ],
         applyDate: [
           { required: true, message: '请选择申请日期', trigger: 'change' }
@@ -316,7 +337,7 @@ export default {
           { required: true, message: '请输入本次付款金额', trigger: 'blur' }
         ],
         handlePersonId: [
-          { required: true, validator: validatePass, trigger: 'focus' }
+          { required: true, validator: validatePass3, trigger: 'change' }
         ],
         payDate: [
           { required: true, message: '请选择付款日期', trigger: 'change' }
@@ -327,7 +348,7 @@ export default {
       // 采购申请单明细列表规则
       validRules: {
         payThis: [
-          { required: true, message: '请输入本次支付金额', trigger: 'change' }
+          { required: true, validator: validatePass5, trigger: 'blur' }
         ],
         advanceMoney: [
           { required: true, validator: validatePass2, trigger: 'blur' }
@@ -601,6 +622,7 @@ export default {
       this.$refs.personalForm.validate((valid) => {
         if (valid) {
           this.$refs.editable.validate().then(valid => {
+            console.log('zhixing')
             addpayment(parms, parms2, this.personalForm).then(res => {
               console.log(res)
               if (res.data.ret === 200) {

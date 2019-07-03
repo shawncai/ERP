@@ -31,11 +31,11 @@
         </el-col>
         <el-col :span="3">
           <div class="shipei" style="width: 100%; height: 150px;background: white;display: flex;align-items: center;justify-content: center;flex-wrap: wrap" > <div style="width:52%;margin-left: 37%;margin-top: 22%; color:black">{{ deskdata.seven }}</div>
-            <div class="shipei3" style="width:74%; color:black">未付款金额(万元)</div></div>
+            <div class="shipei22" style="margin-left: 30%;width:74%; color:black">未付款金额</div></div>
         </el-col>
         <el-col :span="3">
           <div class="shipei" style="width: 100%; height: 150px;background: white;display: flex;align-items: center;justify-content: center;flex-wrap: wrap" > <div style="width:52%;margin-left: 37%;margin-top: 22%; color:black">{{ deskdata.eight }}</div>
-            <div class="shipei3" style="width:78%; color:black">截止本月应付(万元)</div></div>
+            <div class="shipei22" style="margin-left: 30%;width:78%; color:black">截止本月应付</div></div>
         </el-col>
       </el-row>
 
@@ -50,7 +50,7 @@
           <div class="shipei" style="width: 100%; height: 150px;background: #a48df5;display: flex;align-items: center;justify-content: center;flex-wrap: wrap" > <div class="shipei2" style="width:80%;margin-left: 10px;margin-top: 5px; color:white">今日维修量</div><div style="width: 67%; color:white">{{ deskdata.eleven }}</div><div class="shipei2" style="width: 64%; color:white">同比昨日</div><div style="color: white">{{ deskdata.rateThree }}</div></div>
         </el-col>
         <el-col :span="3">
-          <div class="shipei" style="width: 100%; height: 150px;background: #22d3b9;display: flex;align-items: center;justify-content: center;flex-wrap: wrap" > <div class="shipei2" style="width:82%;margin-left: 10px;margin-top: 5px; color:white">今日采购量</div><div style="width: 67%; color:white">{{ deskdata.twelve }}</div><div class="shipei2" style="width: 66%; color:white">同比昨日</div><div style="color: white">{{ deskdata.rateFour }}</div></div>
+          <div class="shipei" style="width: 100%; height: 150px;background: #22d3b9;display: flex;align-items: center;justify-content: center;flex-wrap: wrap" > <div class="shipei2" style="width:82%;margin-left: 10px;margin-top: 5px; color:white">本月采购量</div><div style="width: 67%; color:white">{{ deskdata.twelve }}</div><div class="shipei2" style="width: 66%; color:white">同比昨日</div><div style="color: white">{{ deskdata.rateFour }}</div></div>
         </el-col>
         <el-col :span="3">
           <div class="shipei" style="width: 100%; height: 150px;background: #6f8aff;display: flex;align-items: center;justify-content: center;flex-wrap: wrap" ><div class="shipei2" style="width:80%;margin-left: 10px;margin-top: 5px; color:white">今日排名</div><div style="width: 67%; color:white">{{ deskdata.thirteen }} </div><div class="shipei2" style="width: 64%; color:white">同比昨日</div><div style="color: white">{{ deskdata.rateFive }}</div></div>
@@ -59,10 +59,10 @@
           <div class="shipei" style="width: 100%; height: 150px;background: white;display: flex;align-items: center;justify-content: center;flex-wrap: wrap" > <div style="width:52%;margin-left: 37%;margin-top: 22%; color:black">{{ deskdata.fourteen}}</div><div class="shipei3" style="width:63%; color:black">未收款订单(笔)</div></div>
         </el-col>
         <el-col :span="3">
-          <div class="shipei" style="width: 100%; height: 150px;background: white;display: flex;align-items: center;justify-content: center;flex-wrap: wrap" > <div style="width:52%;margin-left: 37%;margin-top: 22%; color:black">{{ deskdata.fifteen }}</div><div class="shipei3" style="width:71%; color:black">未收款金额(万元)</div></div>
+          <div class="shipei" style="width: 100%; height: 150px;background: white;display: flex;align-items: center;justify-content: center;flex-wrap: wrap" > <div style="width:52%;margin-left: 37%;margin-top: 22%; color:black">{{ deskdata.fifteen }}</div><div class="shipei22" style="margin-left: 30%;width:71%; color:black">未收款金额</div></div>
         </el-col>
         <el-col :span="3">
-          <div class="shipei" style="width: 100%; height: 150px;background: white;display: flex;align-items: center;justify-content: center;flex-wrap: wrap" ><div style="width:52%;margin-left: 37%;margin-top: 22%; color:black">{{ deskdata.sixteen }} </div><div class="shipei3" style="width:79%; color:black">截止本月应收(万元)</div></div>
+          <div class="shipei" style="width: 100%; height: 150px;background: white;display: flex;align-items: center;justify-content: center;flex-wrap: wrap" ><div style="width:52%;margin-left: 37%;margin-top: 22%; color:black">{{ deskdata.sixteen }} </div><div class="shipei22" style="margin-left: 30%;width:79%; color:black">截止本月应收</div></div>
         </el-col>
       </el-row>
 
@@ -843,6 +843,11 @@
     .shipei3 {
       width: 100% !important;
       font-size: 14px !important;
+    }
+    .shipei22 {
+      width: 100% !important;
+      font-size: 14px !important;
+      margin-left: 10% !important;
     }
     .shipei4 {
       width: 66% !important;

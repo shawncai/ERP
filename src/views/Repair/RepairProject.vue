@@ -3,7 +3,7 @@
     <div class="filter-container">
       <el-input :placeholder="$t('repair.model')" v-model="listQuery.productType" style="width: 200px;" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
       <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">{{ $t('table.search') }}</el-button>
-      <el-button class="filter-item" style="margin-left: 10px;" type="primary" icon="el-icon-edit" @click="handleCreate">{{ $t('table.add') }}</el-button>
+      <el-button v-permission="['54-67-80-1']" class="filter-item" style="margin-left: 10px;" type="primary" icon="el-icon-edit" @click="handleCreate">{{ $t('table.add') }}</el-button>
     </div>
     <div class="app-container">
       <el-table
@@ -46,8 +46,8 @@
         </el-table-column>
         <el-table-column :resizable='false' :label="$t('table.actions')" align="center" min-width="200" class-name="small-padding fixed-width" fixed="right">
           <template slot-scope="scope">
-            <el-button type="primary" size="mini" @click="handleUpdate(scope.row)">{{ $t('table2.edit') }}</el-button>
-            <el-button size="mini" type="danger" @click="handleDelete(scope.row)">{{ $t('repair.delete') }}</el-button>
+            <el-button v-permission="['54-67-80-3']" type="primary" size="mini" @click="handleUpdate(scope.row)">{{ $t('table2.edit') }}</el-button>
+            <el-button v-permission="['54-67-80-2']" size="mini" type="danger" @click="handleDelete(scope.row)">{{ $t('repair.delete') }}</el-button>
           </template>
         </el-table-column>
       </el-table>

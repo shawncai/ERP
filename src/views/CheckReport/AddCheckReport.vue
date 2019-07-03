@@ -230,7 +230,7 @@
             </el-editable-column>
             <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="checkPersonname" align="center" label="检验人员" min-width="150px">
               <template slot="edit" slot-scope="scope">
-                <el-input v-model="scope.row.checkPersonname" @focus="handlechoosestaff"/>
+                <el-input v-model="scope.row.checkPersonname" @focus="handlechoosestaff(scope)"/>
                 <my-emp2 :staffcontrol.sync="staffcontrol" @chuli="chuli(scope, $event)"/>
               </template>
             </el-editable-column>
@@ -272,15 +272,29 @@ export default {
   components: { DetailReport3, DetailReport2, DetailReport, MyEmp2, MyMater, MyQuality, MyAccept, ProduceTask, MyArrival, MyCenter, MyDelivery, MySupplier, MyDetail, MyEmp },
   data() {
     const validatePass = (rule, value, callback) => {
-      console.log(value)
+      // console.log(value)
       if (value === '') {
         callback(new Error('请选择'))
       } else {
         callback()
       }
     }
+    const validatePass100 = (rule, value, callback) => {
+      console.log('value', value)
+      if (value === undefined || value === null || value === '') {
+        // callback(new Error('请选择供应商'))
+        this.$notify.error({
+          title: '错误',
+          message: '请选择质检人员',
+          offset: 100
+        })
+        callback()
+      } else {
+        callback()
+      }
+    }
     const validatePass2 = (rule, value, callback) => {
-      console.log(this.supplierId)
+      // console.log(this.supplierId)
       if (this.personalForm.productCode === undefined || this.personalForm.productCode === null || this.personalForm.productCode === '') {
         callback(new Error('请选择抽检商品'))
       } else {
@@ -288,8 +302,8 @@ export default {
       }
     }
     const validatePass10 = (rule, value, callback) => {
-      console.log(this.personalForm.checkQuantity)
-      console.log(this.personalForm.sampleQuantity)
+      // console.log(this.personalForm.checkQuantity)
+      // console.log(this.personalForm.sampleQuantity)
       if (this.personalForm.sampleQuantity === undefined || this.personalForm.sampleQuantity === null || this.personalForm.sampleQuantity === '') {
         callback(new Error('请输入抽样数量'))
       } else if (Number(this.personalForm.sampleQuantity) > Number(this.personalForm.checkQuantity)) {
@@ -300,6 +314,8 @@ export default {
       }
     }
     return {
+      // 控制scope
+      kongscope: '',
       results: [{ value: 1, label: '合格' }, { value: 2, label: '不合格' }],
       // 控制报检部门是否可以编辑
       IsInspectionDeptId: false,
@@ -447,7 +463,7 @@ export default {
           { required: true, message: '请输入合格数量', trigger: 'blur' }
         ],
         checkPersonname: [
-          { required: true, message: '请选择检验人员', trigger: 'blur' }
+          { required: true, validator: validatePass100, trigger: 'blur' }
         ],
         checkDeptId: [
           { required: true, message: '请选择检验部门', trigger: 'blur' }
@@ -464,8 +480,8 @@ export default {
       return row.sampleQuantity
     },
     getfailedQuantity(row) {
-      console.log(row.checkQuantity)
-      console.log(row.passQuantity)
+      // console.log(row.checkQuantity)
+      // console.log(row.passQuantity)
       row.failedQuantity = row.sampleQuantity - row.passQuantity
       return row.failedQuantity
     },
@@ -509,12 +525,17 @@ export default {
       }
     },
     // 检验人员focus事件触发
-    handlechoosestaff() {
+    handlechoosestaff(scope) {
       this.staffcontrol = true
+      this.kongscope = scope
     },
     chuli(scope, val) {
-      scope.row.checkPersonname = val.personName
-      scope.row.checkPersonId = val.id
+      console.log('scope', scope)
+      console.log('val', val)
+      // scope.row.checkPersonname = val.personName
+      // scope.row.checkPersonId = val.id
+      this.kongscope.row.checkPersonname = val.personName
+      this.kongscope.row.checkPersonId = val.id
     },
     // 物品信息focus事件
     handlemater() {
@@ -530,7 +551,7 @@ export default {
     },
     // 源单为质检申请单时返回数据
     report(val) {
-      console.log(val)
+      // console.log(val)
       this.personalForm.sourceSerialNumber = val.id
       this.personalForm.productCode = val.productCode
       this.personalForm.productName = val.productName

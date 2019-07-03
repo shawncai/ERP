@@ -48,9 +48,9 @@
             <span>{{ scope.row.createTime }}</span>
           </template>
         </el-table-column>
-        <el-table-column v-permission="[86]" :resizable="false" :label="$t('table.actions')" align="center" min-width="100" >
+        <el-table-column :resizable="false" :label="$t('table.actions')" align="center" min-width="100" >
           <template slot-scope="scope">
-            <el-button v-permission="[86]" type="primary" size="mini" @click="handleUpdate(scope.row)">{{ $t('table2.edit') }}</el-button>
+            <el-button v-permission="['54-67-71-3']" type="primary" size="mini" @click="handleUpdate(scope.row)">{{ $t('table2.edit') }}</el-button>
           </template>
         </el-table-column>
       </el-table>
