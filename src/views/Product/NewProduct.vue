@@ -188,7 +188,7 @@
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('Product.source')" style="width: 100%;">
+                <el-form-item :label="$t('Product.source')" prop="source" style="width: 100%;">
                   <el-select v-model="personalForm.source" placeholder="请选择来源" style="margin-left: 18px;width: 200px" @change="choosesource">
                     <el-option value="2" label="生产"/>
                     <el-option value="3" label="采购"/>
@@ -513,6 +513,9 @@ export default {
       },
       // 物品信息规则数据
       personalrules: {
+        source: [
+          { required: true, message: '请选择来源', trigger: 'blur' }
+        ],
         productname: [
           { required: true, message: '请输入产品名称', trigger: 'blur' }
         ],

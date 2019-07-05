@@ -11,432 +11,435 @@
     class="edit"
     top="-10px"
     @close="$emit('update:detailcontrol', false)">
-    <!--基本信息-->
-    <el-card class="box-card" style="margin-top: 63px" shadow="never">
-      <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">基本信息</h2>
-      <div class="container" style="margin-top: 37px">
-        <el-form :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
-          <el-row>
-            <el-col :span="12">
-              <el-form-item :label="$t('Product.productname')" style="width: 100%;">
-                {{ personalForm.productName }}
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('Product.categoryid')" style="width: 100%;">
-                {{ personalForm.category }}
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('Product.barcode')" style="width: 100%;">
-                {{ personalForm.barCode }}
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('Product.typeid')" style="width: 100%;">
-                {{ personalForm.productType }}
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('Product.disposeId')" style="width: 100%;">
-                {{ personalForm.dispose }}
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('Product.versionId')" style="width: 100%;">
-                {{ personalForm.version }}
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('Product.color')" style="width: 100%;">
-                {{ personalForm.color }}
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('Product.diameterId')" style="width: 100%;">
-                {{ personalForm.diameter }}
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('Product.brand')" style="width: 100%;">
-                {{ personalForm.brand }}
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('Product.level')" style="width: 100%;">
-                {{ personalForm.productLevel }}
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('Product.lengthLevelId')" style="width: 100%;">
-                {{ personalForm.lengthLevel }}
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('Product.faceId')" style="width: 100%;">
-                {{ personalForm.face }}
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('Product.performanceLevelId')" style="width: 100%;">
-                {{ personalForm.performanceLevel }}
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('Product.purchasemeasurement')" prop="purchasemeasurement" style="width: 100%;">
-                {{ personalForm.purMeasu }}
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('Product.salemeasurement')" style="width: 100%;">
-                {{ personalForm.saleMeasu }}
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('Product.stockmeasurement')" style="width: 100%;">
-                {{ personalForm.stockMeasu }}
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('Product.producemeasurement')" style="width: 100%;">
-                {{ personalForm.produceMeasu }}
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('Product.source')" style="width: 100%;">
-                {{ personalForm.source | sourceFilter }}
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('Product.kpigrade')" prop="kpigrade" style="width: 100%;">
-                {{ personalForm.kpigrade }}
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('Product.point')" style="width: 100%;">
-                {{ personalForm.point }}
-              </el-form-item>
-            </el-col>
-            <el-col :span="12" style="height: 58px;">
-              <el-form-item :label="$t('Product.zhibaoqi')" style="width: 100%">
-                {{ personalForm.zhiBaoQi }}天
-              </el-form-item>
-            </el-col>
-            <el-col :span="12" style="height: 58px;">
-              <el-form-item :label="$t('Product.weight')" style="width: 100%">
-                {{ personalForm.weight }}KG
-              </el-form-item>
-            </el-col>
-            <el-col :span="12" style="height: 58px;">
-              <el-form-item :label="$t('Product.volume')" style="width: 100%">
-                {{ personalForm.volume }}m³
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('Product.stockCircle')" style="width: 100%;">
-                {{ personalForm.stockCircle }}
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('Product.produceAbility')" style="width: 100%;">
-                {{ personalForm.produceAbility }}
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('Product.careCircle')" style="width: 100%;">
-                {{ personalForm.careCircle }}
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('Product.workCenterId')" style="width: 100%;">
-                {{ personalForm.workCenter }}
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('Product.effectiveDay')" prop="effectiveDay" style="width: 100%;">
-                {{ personalForm.effectiveDay }}
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('Product.isBatch')" prop="isBatch" style="width: 100%;">
-                {{ personalForm.isBatch | isBatchFilter }}
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('Product.isactive')" style="width: 100%;">
-                {{ personalForm.isactive | isactiveFilter }}
-              </el-form-item>
-            </el-col>
-          </el-row>
-        </el-form>
-      </div>
-    </el-card>
-    <!--子件信息-->
-    <el-card class="box-card" shadow="never" style="margin-top: 10px">
-      <h2 ref="lianxi" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">价格信息</h2>
-      <div class="container">
-        <el-form ref="personalForm2" :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
-          <el-col :span="12">
-            <el-form-item :label="$t('Product.valuation')" prop="valuation" style="width: 100%;">
-              {{ personalForm.valuation | valuationFilter }}
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item :label="$t('Product.costprice')" prop="costprice" style="width: 100%;">
-              {{ personalForm.costPrice }}
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item :label="$t('Product.tradeprice')" style="width: 100%;">
-              {{ personalForm.tradePrice }}
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item :label="$t('Product.saleprice')" prop="saleprice" style="width: 100%;">
-              {{ personalForm.salePrice }}
-            </el-form-item>
-          </el-col>
-          <!--<el-form-item :label="$t('Product.purchaseprice')" prop="purchaseprice" style="width: 40%;margin-top:1%">-->
-          <!--<el-input v-model="personalForm.purchaseprice" placeholder="请输入采购价" clearable/>-->
-          <!--</el-form-item>-->
-          <el-col :span="12">
-            <el-form-item :label="$t('Product.lowerprice')" style="width: 100%;">
-              {{ personalForm.lowerPrice }}
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item :label="$t('Product.memberprice')" style="width: 100%;">
-              {{ personalForm.memberPrice }}
-            </el-form-item>
-          </el-col>
-        </el-form>
-      </div>
-    </el-card>
-    <el-card class="box-card" shadow="never" style="margin-top: 10px">
-      <h2 ref="lianxi" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">图片信息</h2>
-    </el-card>
-    <el-card class="box-card" style="margin-top: 15px" shadow="never">
-      <div class="container" style="margin-top: 10px">
-        <el-tabs type="card">
-          <el-tab-pane label="库存信息">
-            <el-row :gutter="20">
-              <el-form ref="getVisitlistdata" :model="getVisitlistdata">
-                <el-col :span="5">
-                  <el-form-item>
-                    <el-input v-model="repositoryId" placeholder="仓库名称" @focus="handlechooseRep"/>
-                  </el-form-item>
-                  <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
-                </el-col>
-                <el-col :span="3">
-                  <el-button type="primary" style="margin-left: 200px" @click="handleFilter">{{ $t('public.search') }}</el-button>
-                </el-col>
-              </el-form>
+    <div id="printTest" >
+      <!--基本信息-->
+      <el-card class="box-card" style="margin-top: 63px" shadow="never">
+        <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">基本信息</h2>
+        <button v-print="'#printTest'" class="print" style="font-size: 13px;background: white;">打印</button>
+        <div class="container" style="margin-top: 37px">
+          <el-form :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
+            <el-row>
+              <el-col :span="12">
+                <el-form-item :label="$t('Product.productname')" style="width: 100%;">
+                  {{ personalForm.productName }}
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('Product.categoryid')" style="width: 100%;">
+                  {{ personalForm.category }}
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('Product.barcode')" style="width: 100%;">
+                  {{ personalForm.barCode }}
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('Product.typeid')" style="width: 100%;">
+                  {{ personalForm.productType }}
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('Product.disposeId')" style="width: 100%;">
+                  {{ personalForm.dispose }}
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('Product.versionId')" style="width: 100%;">
+                  {{ personalForm.version }}
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('Product.color')" style="width: 100%;">
+                  {{ personalForm.color }}
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('Product.diameterId')" style="width: 100%;">
+                  {{ personalForm.diameter }}
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('Product.brand')" style="width: 100%;">
+                  {{ personalForm.brand }}
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('Product.level')" style="width: 100%;">
+                  {{ personalForm.productLevel }}
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('Product.lengthLevelId')" style="width: 100%;">
+                  {{ personalForm.lengthLevel }}
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('Product.faceId')" style="width: 100%;">
+                  {{ personalForm.face }}
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('Product.performanceLevelId')" style="width: 100%;">
+                  {{ personalForm.performanceLevel }}
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('Product.purchasemeasurement')" prop="purchasemeasurement" style="width: 100%;">
+                  {{ personalForm.purMeasu }}
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('Product.salemeasurement')" style="width: 100%;">
+                  {{ personalForm.saleMeasu }}
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('Product.stockmeasurement')" style="width: 100%;">
+                  {{ personalForm.stockMeasu }}
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('Product.producemeasurement')" style="width: 100%;">
+                  {{ personalForm.produceMeasu }}
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('Product.source')" style="width: 100%;">
+                  {{ personalForm.source | sourceFilter }}
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('Product.kpigrade')" prop="kpigrade" style="width: 100%;">
+                  {{ personalForm.kpigrade }}
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('Product.point')" style="width: 100%;">
+                  {{ personalForm.point }}
+                </el-form-item>
+              </el-col>
+              <el-col :span="12" style="height: 58px;">
+                <el-form-item :label="$t('Product.zhibaoqi')" style="width: 100%">
+                  {{ personalForm.zhiBaoQi }}天
+                </el-form-item>
+              </el-col>
+              <el-col :span="12" style="height: 58px;">
+                <el-form-item :label="$t('Product.weight')" style="width: 100%">
+                  {{ personalForm.weight }}KG
+                </el-form-item>
+              </el-col>
+              <el-col :span="12" style="height: 58px;">
+                <el-form-item :label="$t('Product.volume')" style="width: 100%">
+                  {{ personalForm.volume }}m³
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('Product.stockCircle')" style="width: 100%;">
+                  {{ personalForm.stockCircle }}
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('Product.produceAbility')" style="width: 100%;">
+                  {{ personalForm.produceAbility }}
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('Product.careCircle')" style="width: 100%;">
+                  {{ personalForm.careCircle }}
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('Product.workCenterId')" style="width: 100%;">
+                  {{ personalForm.workCenter }}
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('Product.effectiveDay')" prop="effectiveDay" style="width: 100%;">
+                  {{ personalForm.effectiveDay }}
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('Product.isBatch')" prop="isBatch" style="width: 100%;">
+                  {{ personalForm.isBatch | isBatchFilter }}
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('Product.isactive')" style="width: 100%;">
+                  {{ personalForm.isactive | isactiveFilter }}
+                </el-form-item>
+              </el-col>
             </el-row>
-            <el-table
-              :data="tableData"
-              border
-              style="width: 100%">
-              <el-table-column
-                prop="repositoryName"
-                align="center"
-                label="仓库名称"
-                min-width="150"/>
-              <el-table-column
-                prop="downStock"
-                align="center"
-                label="最低库存量"
-                min-width="150"/>
-              <el-table-column
-                prop="upStock"
-                align="center"
-                label="最高库存量"
-                min-width="150"/>
-              <el-table-column
-                prop="safeStock"
-                align="center"
-                label="安全库存量"
-                min-width="150"/>
-              <el-table-column
-                prop="exsitStock"
-                align="center"
-                label="现有库存量"
-                min-width="150"/>
-              <el-table-column
-                prop="onStock"
-                align="center"
-                label="在途量"
-                min-width="150"/>
-            </el-table>
-            <pagination v-show="total>0" :total="total" :page.sync="getVisitlistdata.pagenum" :limit.sync="getVisitlistdata.pagesize" @pagination="getVisitlist" />
-          </el-tab-pane>
-          <el-tab-pane label="采购退货信息">
-            <el-row :gutter="20">
-              <el-form ref="getstocklist" :model="getstocklist">
-                <el-col :span="5">
-                  <el-form-item>
-                    <el-input v-model="repositoryId2" placeholder="仓库" @focus="handlechooseRep2"/>
-                  </el-form-item>
-                  <my-repository :repositorycontrol.sync="repositorycontrol2" @repositoryname="repositoryname2"/>
-                </el-col>
-                <el-col :span="5">
-                  <el-form-item>
-                    <el-input v-model="supplierId" placeholder="供应商姓名" @focus="handlechoose"/>
-                    <my-supplier :control.sync="empcontrol" @supplierName="supplierName"/>
-                  </el-form-item>
-                </el-col>
-                <el-col :span="5">
-                  <el-date-picker
-                    v-model="date"
-                    type="daterange"
-                    range-separator="-"
-                    unlink-panels
-                    start-placeholder="采购退货开始日期"
-                    end-placeholder="采购退货结束日期"
-                    value-format="yyyy-MM-dd"/>
-                </el-col>
-                <el-col :span="3">
-                  <el-button type="primary" style="margin-left: 200px" @click="handleFilter2">{{ $t('public.search') }}</el-button>
-                </el-col>
-              </el-form>
-            </el-row>
-            <el-table
-              :data="tableData2"
-              border
-              style="width: 100%">
-              <el-table-column
-                prop="supplierName"
-                align="center"
-                label="供应商名称"
-                min-width="150"/>
-              <el-table-column
-                prop="retreatQuantity"
-                align="center"
-                label="退货数量"
-                min-width="150"/>
-              <el-table-column
-                prop="retreatReason"
-                align="center"
-                label="退货原因"
-                min-width="150"/>
-              <el-table-column
-                prop="collectDate"
-                align="center"
-                label="仓库名称"
-                min-width="150"/>
-              <el-table-column
-                prop="stat"
-                align="center"
-                label="出入库状态"
-                min-width="150"/>
-            </el-table>
-            <pagination v-show="total2>0" :total="total2" :page.sync="getstocklist.pagenum" :limit.sync="getstocklist.pagesize" @pagination="getstoctlist" />
-          </el-tab-pane>
-          <el-tab-pane label="销售退货信息">
-            <el-row :gutter="20">
-              <el-form ref="getsalereturn" :model="getsalereturn">
-                <el-col :span="5">
-                  <el-form-item>
-                    <el-input v-model="repositoryId3" placeholder="仓库" @focus="handlechooseRep3"/>
-                  </el-form-item>
-                  <my-repository :repositorycontrol.sync="repositorycontrol3" @repositoryname="repositoryname3"/>
-                </el-col>
-                <el-col :span="5">
-                  <el-date-picker
-                    v-model="date2"
-                    type="daterange"
-                    range-separator="-"
-                    unlink-panels
-                    start-placeholder="回访开始日期"
-                    end-placeholder="回访结束日期"
-                    value-format="yyyy-MM-dd"/>
-                </el-col>
-                <el-col :span="3">
-                  <el-button type="primary" style="margin-left: 200px" @click="handleFilter3">{{ $t('public.search') }}</el-button>
-                </el-col>
-              </el-form>
-            </el-row>
-            <el-table
-              :data="tableData3"
-              border
-              style="width: 100%">
-              <el-table-column
-                prop="customerName"
-                align="center"
-                label="客户姓名"
-                min-width="150"/>
-              <el-table-column
-                prop="productCode"
-                align="center"
-                label="物品编码"
-                min-width="150"/>
-              <el-table-column
-                prop="productName"
-                align="center"
-                label="物品名称"
-                min-width="150"/>
-              <el-table-column
-                prop="unit"
-                align="center"
-                label="单位"
-                min-width="150"/>
-              <el-table-column
-                prop="quantity"
-                align="center"
-                label="数量"
-                min-width="150"/>
-              <el-table-column
-                prop="returnReason"
-                align="center"
-                label="退货原因"
-                min-width="150"/>
-              <el-table-column
-                prop="repositoryName"
-                align="center"
-                label="退货仓库"
-                min-width="150"/>
-              <el-table-column
-                prop="stat"
-                align="center"
-                label="状态"
-                min-width="150"/>
-            </el-table>
-            <pagination v-show="total3>0" :total="total3" :page.sync="getsalereturn.pagenum" :limit.sync="getsalereturn.pagesize" @pagination="getsalereturnList" />
-          </el-tab-pane>
-          <el-tab-pane label="采购信息">
-            <el-table
-              :data="tableData4"
-              border
-              style="width: 100%">
-              <el-table-column
-                prop="supplierName"
-                align="center"
-                label="供应商名称"
-                min-width="150"/>
-              <el-table-column
-                prop="maxPrice"
-                align="center"
-                label="最高单价"
-                min-width="150"/>
-              <el-table-column
-                prop="minPrice"
-                align="center"
-                label="最低单价"
-                min-width="150"/>
-              <el-table-column
-                prop="stockTimes"
-                align="center"
-                label="采购次数"
-                min-width="150"/>
-              <el-table-column
-                prop="retreatTimes"
-                align="center"
-                label="退货次数"
-                min-width="150"/>
-            </el-table>
-          </el-tab-pane>
-        </el-tabs>
-      </div>
-    </el-card>
+          </el-form>
+        </div>
+      </el-card>
+      <!--子件信息-->
+      <el-card class="box-card" shadow="never" style="margin-top: 10px">
+        <h2 ref="lianxi" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">价格信息</h2>
+        <div class="container">
+          <el-form ref="personalForm2" :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
+            <el-col :span="12">
+              <el-form-item :label="$t('Product.valuation')" prop="valuation" style="width: 100%;">
+                {{ personalForm.valuation | valuationFilter }}
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('Product.costprice')" prop="costprice" style="width: 100%;">
+                {{ personalForm.costPrice }}
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('Product.tradeprice')" style="width: 100%;">
+                {{ personalForm.tradePrice }}
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('Product.saleprice')" prop="saleprice" style="width: 100%;">
+                {{ personalForm.salePrice }}
+              </el-form-item>
+            </el-col>
+            <!--<el-form-item :label="$t('Product.purchaseprice')" prop="purchaseprice" style="width: 40%;margin-top:1%">-->
+            <!--<el-input v-model="personalForm.purchaseprice" placeholder="请输入采购价" clearable/>-->
+            <!--</el-form-item>-->
+            <el-col :span="12">
+              <el-form-item :label="$t('Product.lowerprice')" style="width: 100%;">
+                {{ personalForm.lowerPrice }}
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('Product.memberprice')" style="width: 100%;">
+                {{ personalForm.memberPrice }}
+              </el-form-item>
+            </el-col>
+          </el-form>
+        </div>
+      </el-card>
+      <el-card class="box-card" shadow="never" style="margin-top: 10px">
+        <h2 ref="lianxi" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">图片信息</h2>
+      </el-card>
+      <el-card class="box-card" style="margin-top: 15px" shadow="never">
+        <div class="container" style="margin-top: 10px">
+          <el-tabs type="card">
+            <el-tab-pane label="库存信息">
+              <el-row :gutter="20">
+                <el-form ref="getVisitlistdata" :model="getVisitlistdata">
+                  <el-col :span="5">
+                    <el-form-item>
+                      <el-input v-model="repositoryId" placeholder="仓库名称" @focus="handlechooseRep"/>
+                    </el-form-item>
+                    <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
+                  </el-col>
+                  <el-col :span="3">
+                    <el-button type="primary" style="margin-left: 200px" @click="handleFilter">{{ $t('public.search') }}</el-button>
+                  </el-col>
+                </el-form>
+              </el-row>
+              <el-table
+                :data="tableData"
+                border
+                style="width: 100%">
+                <el-table-column
+                  prop="repositoryName"
+                  align="center"
+                  label="仓库名称"
+                  min-width="150"/>
+                <el-table-column
+                  prop="downStock"
+                  align="center"
+                  label="最低库存量"
+                  min-width="150"/>
+                <el-table-column
+                  prop="upStock"
+                  align="center"
+                  label="最高库存量"
+                  min-width="150"/>
+                <el-table-column
+                  prop="safeStock"
+                  align="center"
+                  label="安全库存量"
+                  min-width="150"/>
+                <el-table-column
+                  prop="exsitStock"
+                  align="center"
+                  label="现有库存量"
+                  min-width="150"/>
+                <el-table-column
+                  prop="onStock"
+                  align="center"
+                  label="在途量"
+                  min-width="150"/>
+              </el-table>
+              <pagination v-show="total>0" :total="total" :page.sync="getVisitlistdata.pagenum" :limit.sync="getVisitlistdata.pagesize" @pagination="getVisitlist" />
+            </el-tab-pane>
+            <el-tab-pane label="采购退货信息">
+              <el-row :gutter="20">
+                <el-form ref="getstocklist" :model="getstocklist">
+                  <el-col :span="5">
+                    <el-form-item>
+                      <el-input v-model="repositoryId2" placeholder="仓库" @focus="handlechooseRep2"/>
+                    </el-form-item>
+                    <my-repository :repositorycontrol.sync="repositorycontrol2" @repositoryname="repositoryname2"/>
+                  </el-col>
+                  <el-col :span="5">
+                    <el-form-item>
+                      <el-input v-model="supplierId" placeholder="供应商姓名" @focus="handlechoose"/>
+                      <my-supplier :control.sync="empcontrol" @supplierName="supplierName"/>
+                    </el-form-item>
+                  </el-col>
+                  <el-col :span="5">
+                    <el-date-picker
+                      v-model="date"
+                      type="daterange"
+                      range-separator="-"
+                      unlink-panels
+                      start-placeholder="采购退货开始日期"
+                      end-placeholder="采购退货结束日期"
+                      value-format="yyyy-MM-dd"/>
+                  </el-col>
+                  <el-col :span="3">
+                    <el-button type="primary" style="margin-left: 200px" @click="handleFilter2">{{ $t('public.search') }}</el-button>
+                  </el-col>
+                </el-form>
+              </el-row>
+              <el-table
+                :data="tableData2"
+                border
+                style="width: 100%">
+                <el-table-column
+                  prop="supplierName"
+                  align="center"
+                  label="供应商名称"
+                  min-width="150"/>
+                <el-table-column
+                  prop="retreatQuantity"
+                  align="center"
+                  label="退货数量"
+                  min-width="150"/>
+                <el-table-column
+                  prop="retreatReason"
+                  align="center"
+                  label="退货原因"
+                  min-width="150"/>
+                <el-table-column
+                  prop="collectDate"
+                  align="center"
+                  label="仓库名称"
+                  min-width="150"/>
+                <el-table-column
+                  prop="stat"
+                  align="center"
+                  label="出入库状态"
+                  min-width="150"/>
+              </el-table>
+              <pagination v-show="total2>0" :total="total2" :page.sync="getstocklist.pagenum" :limit.sync="getstocklist.pagesize" @pagination="getstoctlist" />
+            </el-tab-pane>
+            <el-tab-pane label="销售退货信息">
+              <el-row :gutter="20">
+                <el-form ref="getsalereturn" :model="getsalereturn">
+                  <el-col :span="5">
+                    <el-form-item>
+                      <el-input v-model="repositoryId3" placeholder="仓库" @focus="handlechooseRep3"/>
+                    </el-form-item>
+                    <my-repository :repositorycontrol.sync="repositorycontrol3" @repositoryname="repositoryname3"/>
+                  </el-col>
+                  <el-col :span="5">
+                    <el-date-picker
+                      v-model="date2"
+                      type="daterange"
+                      range-separator="-"
+                      unlink-panels
+                      start-placeholder="回访开始日期"
+                      end-placeholder="回访结束日期"
+                      value-format="yyyy-MM-dd"/>
+                  </el-col>
+                  <el-col :span="3">
+                    <el-button type="primary" style="margin-left: 200px" @click="handleFilter3">{{ $t('public.search') }}</el-button>
+                  </el-col>
+                </el-form>
+              </el-row>
+              <el-table
+                :data="tableData3"
+                border
+                style="width: 100%">
+                <el-table-column
+                  prop="customerName"
+                  align="center"
+                  label="客户姓名"
+                  min-width="150"/>
+                <el-table-column
+                  prop="productCode"
+                  align="center"
+                  label="物品编码"
+                  min-width="150"/>
+                <el-table-column
+                  prop="productName"
+                  align="center"
+                  label="物品名称"
+                  min-width="150"/>
+                <el-table-column
+                  prop="unit"
+                  align="center"
+                  label="单位"
+                  min-width="150"/>
+                <el-table-column
+                  prop="quantity"
+                  align="center"
+                  label="数量"
+                  min-width="150"/>
+                <el-table-column
+                  prop="returnReason"
+                  align="center"
+                  label="退货原因"
+                  min-width="150"/>
+                <el-table-column
+                  prop="repositoryName"
+                  align="center"
+                  label="退货仓库"
+                  min-width="150"/>
+                <el-table-column
+                  prop="stat"
+                  align="center"
+                  label="状态"
+                  min-width="150"/>
+              </el-table>
+              <pagination v-show="total3>0" :total="total3" :page.sync="getsalereturn.pagenum" :limit.sync="getsalereturn.pagesize" @pagination="getsalereturnList" />
+            </el-tab-pane>
+            <el-tab-pane label="采购信息">
+              <el-table
+                :data="tableData4"
+                border
+                style="width: 100%">
+                <el-table-column
+                  prop="supplierName"
+                  align="center"
+                  label="供应商名称"
+                  min-width="150"/>
+                <el-table-column
+                  prop="maxPrice"
+                  align="center"
+                  label="最高单价"
+                  min-width="150"/>
+                <el-table-column
+                  prop="minPrice"
+                  align="center"
+                  label="最低单价"
+                  min-width="150"/>
+                <el-table-column
+                  prop="stockTimes"
+                  align="center"
+                  label="采购次数"
+                  min-width="150"/>
+                <el-table-column
+                  prop="retreatTimes"
+                  align="center"
+                  label="退货次数"
+                  min-width="150"/>
+              </el-table>
+            </el-tab-pane>
+          </el-tabs>
+        </div>
+      </el-card>
+    </div>
   </el-dialog>
 </template>
 
@@ -811,5 +814,13 @@ export default {
   }
   .el-col-12{
     width: 49%;
+  }
+  @media print {
+    .print {
+      display: none;
+    }
+    .print2 {
+      display: block !important;
+    }
   }
 </style>

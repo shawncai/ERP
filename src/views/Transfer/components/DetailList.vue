@@ -1,145 +1,153 @@
 <template>
   <el-dialog :visible.sync="editVisible" :detailcontrol="detailcontrol" :detaildata="detaildata" :close-on-press-escape="false" :title="personalForm.number +'    详情'" append-to-body width="1010px" class="edit" top="-10px" @close="$emit('update:detailcontrol', false)">
-    <!--基本信息-->
-    <el-card class="box-card" style="margin-top: 63px" shadow="never">
-      <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">基本信息</h2>
-      <div class="container" style="margin-top: 37px">
-        <el-form :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
-          <el-row>
-            <el-col :span="12">
-              <el-form-item :label="$t('Transfer.title')" style="width: 100%;">
-                <span>{{ personalForm.title }}</span>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('Transfer.transferTicket')" prop="transferTicket" style="width: 100%;">
-                <span>{{ personalForm.transferTicket }}</span>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('Transfer.transferDate')" prop="transferDate" style="width: 100%;">
-                <span>{{ personalForm.transferDate }}</span>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('Transfer.transferMoney')" prop="transferTicket" style="width: 100%;">
-                <span>{{ personalForm.transferMoney }}</span>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('Transfer.transferOutAccount')" prop="transferTicket" style="width: 100%;">
-                <span>{{ personalForm.transferOutAccount }}</span>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('Transfer.transferOutBank')" prop="transferTicket" style="width: 100%;">
-                <span>{{ personalForm.transferOutBank }}</span>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('Transfer.transferInAccount')" prop="transferTicket" style="width: 100%;">
-                <span>{{ personalForm.transferInAccount }}</span>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('Transfer.transferInBank')" prop="transferTicket" style="width: 100%;">
-                <span>{{ personalForm.transferInBank }}</span>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('Transfer.taxRate')" prop="transferTicket" style="width: 100%;">
-                <span>{{ personalForm.taxRate }}</span>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('Transfer.handlePersonId')" prop="handlePersonId" style="width: 100%;">
-                <span>{{ personalForm.handlePersonName }}</span>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('Transfer.currency')" style="width: 100%;">
-                <span>{{ personalForm.currency | currencyFilter }}</span>
-              </el-form-item>
-            </el-col>
-          </el-row>
-        </el-form>
-      </div>
-    </el-card>
-    <!--子件信息-->
-    <!--审核状态-->
-    <el-card class="box-card" style="margin-top: 15px" shadow="never">
-      <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">审批记录</h2>
-      <div class="container" style="margin-top: 37px">
-        <el-table
-          :data="reviewList"
-          border
-          style="width: 100%">
-          <el-table-column
-            prop="step"
-            align="center"
-            label="当前步骤"
-            min-width="150"/>
-          <el-table-column
-            prop="stepHandlerName"
-            align="center"
-            label="当前审批人"
-            min-width="150"/>
-          <el-table-column
-            prop="handleTime"
-            align="center"
-            label="审批时间"
-            min-width="150"/>
-          <el-table-column
-            prop="stat"
-            align="center"
-            label="审批意见"
-            min-width="150">
-            <template slot-scope="scope">
-              <span>{{ scope.row.stat | statfilter }}</span>
-            </template>
-          </el-table-column>
-        </el-table>
-      </div>
-    </el-card>
-    <el-card class="box-card" style="margin-top: 15px" shadow="never">
-      <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">备注信息</h2>
-      <div class="container" style="margin-top: 37px">
-        <el-form :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
-          <el-row>
-            <el-col :span="12">
-              <el-form-item :label="$t('public.createPersonName2')" prop="stockType" style="width: 100%;">
-                {{ personalForm.createPersonName }}
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('public.createDate2')" style="width: 100%;">
-                {{ personalForm.createDate }}
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('public.endPersonName')" prop="applyDate" style="width: 100%;">
-                {{ personalForm.endPersonName }}
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('public.endDate')" prop="applyDate" style="width: 100%;">
-                {{ personalForm.endDate }}
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('public.modifyPersonName')" prop="applyDate" style="width: 100%;">
-                {{ personalForm.modifyPersonName }}
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('public.modifyDate')" prop="applyDate" style="width: 100%;">
-                {{ personalForm.modifyDate }}
-              </el-form-item>
-            </el-col>
-          </el-row>
-        </el-form>
-      </div>
-    </el-card>
+    <div id="printTest" >
+      <!--基本信息-->
+      <el-card class="box-card" style="margin-top: 63px" shadow="never">
+        <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">基本信息</h2>
+        <button v-print="'#printTest'" class="print" style="font-size: 13px;background: white;">打印</button>
+        <div class="container" style="margin-top: 37px">
+          <el-form :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
+            <el-row>
+              <el-col :span="12">
+                <el-form-item class="print2" label="转账单编号" style="width: 100%;display: none">
+                  {{ personalForm.planNumber }}
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('Transfer.title')" style="width: 100%;">
+                  <span>{{ personalForm.title }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('Transfer.transferTicket')" prop="transferTicket" style="width: 100%;">
+                  <span>{{ personalForm.transferTicket }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('Transfer.transferDate')" prop="transferDate" style="width: 100%;">
+                  <span>{{ personalForm.transferDate }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('Transfer.transferMoney')" prop="transferTicket" style="width: 100%;">
+                  <span>{{ personalForm.transferMoney }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('Transfer.transferOutAccount')" prop="transferTicket" style="width: 100%;">
+                  <span>{{ personalForm.transferOutAccount }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('Transfer.transferOutBank')" prop="transferTicket" style="width: 100%;">
+                  <span>{{ personalForm.transferOutBank }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('Transfer.transferInAccount')" prop="transferTicket" style="width: 100%;">
+                  <span>{{ personalForm.transferInAccount }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('Transfer.transferInBank')" prop="transferTicket" style="width: 100%;">
+                  <span>{{ personalForm.transferInBank }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('Transfer.taxRate')" prop="transferTicket" style="width: 100%;">
+                  <span>{{ personalForm.taxRate }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('Transfer.handlePersonId')" prop="handlePersonId" style="width: 100%;">
+                  <span>{{ personalForm.handlePersonName }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('Transfer.currency')" style="width: 100%;">
+                  <span>{{ personalForm.currency | currencyFilter }}</span>
+                </el-form-item>
+              </el-col>
+            </el-row>
+          </el-form>
+        </div>
+      </el-card>
+      <!--子件信息-->
+      <!--审核状态-->
+      <el-card class="box-card" style="margin-top: 15px" shadow="never">
+        <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">审批记录</h2>
+        <div class="container" style="margin-top: 37px">
+          <el-table
+            :data="reviewList"
+            border
+            style="width: 100%">
+            <el-table-column
+              prop="step"
+              align="center"
+              label="当前步骤"
+              min-width="150"/>
+            <el-table-column
+              prop="stepHandlerName"
+              align="center"
+              label="当前审批人"
+              min-width="150"/>
+            <el-table-column
+              prop="handleTime"
+              align="center"
+              label="审批时间"
+              min-width="150"/>
+            <el-table-column
+              prop="stat"
+              align="center"
+              label="审批意见"
+              min-width="150">
+              <template slot-scope="scope">
+                <span>{{ scope.row.stat | statfilter }}</span>
+              </template>
+            </el-table-column>
+          </el-table>
+        </div>
+      </el-card>
+      <el-card class="box-card" style="margin-top: 15px" shadow="never">
+        <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">备注信息</h2>
+        <div class="container" style="margin-top: 37px">
+          <el-form :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
+            <el-row>
+              <el-col :span="12">
+                <el-form-item :label="$t('public.createPersonName2')" prop="stockType" style="width: 100%;">
+                  {{ personalForm.createPersonName }}
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('public.createDate2')" style="width: 100%;">
+                  {{ personalForm.createDate }}
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('public.endPersonName')" prop="applyDate" style="width: 100%;">
+                  {{ personalForm.endPersonName }}
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('public.endDate')" prop="applyDate" style="width: 100%;">
+                  {{ personalForm.endDate }}
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('public.modifyPersonName')" prop="applyDate" style="width: 100%;">
+                  {{ personalForm.modifyPersonName }}
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('public.modifyDate')" prop="applyDate" style="width: 100%;">
+                  {{ personalForm.modifyDate }}
+                </el-form-item>
+              </el-col>
+            </el-row>
+          </el-form>
+        </div>
+      </el-card>
+    </div>
   </el-dialog>
 </template>
 
@@ -262,5 +270,13 @@ export default {
   }
   .el-col-12{
     width: 49%;
+  }
+  @media print {
+    .print {
+      display: none;
+    }
+    .print2 {
+      display: block !important;
+    }
   }
 </style>

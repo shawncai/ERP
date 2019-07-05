@@ -59,7 +59,7 @@
         <!--          <el-button type="success" style="background:#3696fd;border-color:#3696fd " @click="handleAddproduct">添加商品</el-button>-->
         <!--          <el-button type="danger" @click="$refs.editable.removeSelecteds()">删除</el-button>-->
         <!--        </div>-->
-        <my-detail :control.sync="control" @product="productdetail"/>
+        <!--        <my-detail :control.sync="control" @product="productdetail"/>-->
         <div class="container">
           <el-editable
             ref="editable"
@@ -89,7 +89,8 @@
             <el-editable-column prop="color" align="center" label="颜色" width="150px"/>
             <el-editable-column prop="typeIdname" align="center" label="规格" width="150px"/>
             <el-editable-column prop="unit" align="center" label="单位" width="150px"/>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', type: 'visible'}" prop="quantity" align="center" label="数量" width="150px"/>
+            <!--            <el-editable-column :edit-render="{name: 'ElInputNumber', type: 'visible'}" prop="quantity" align="center" label="数量" width="150px"/>-->
+            <el-editable-column prop="quantity" align="center" label="数量" width="150px"/>
             <el-editable-column prop="price" align="center" label="单价" width="150px"/>
             <el-editable-column prop="totalMoney" align="center" label="金额" width="150px">
               <template slot-scope="scope">
@@ -105,7 +106,7 @@
         <h2 ref="fuzhu" class="form-name">组装后的商品</h2>
         <div class="buttons" style="margin-top: 58px">
           <el-button type="success" style="background:#3696fd;border-color:#3696fd " @click="handleAddproduct2">添加商品</el-button>
-          <el-button type="danger" @click="$refs.editable2.removeSelecteds()">删除</el-button>
+          <el-button type="danger" @click="beyond2">删除</el-button>
         </div>
         <my-bulid :buildcontrol.sync="buildcontrol" @product2="productdetail2" @product3="productdetail3"/>
         <div class="container">
@@ -137,7 +138,7 @@
             <el-editable-column prop="color" align="center" label="颜色" width="150px"/>
             <el-editable-column prop="typeIdname" align="center" label="规格" width="150px"/>
             <el-editable-column prop="unit" align="center" label="单位" width="150px"/>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', type: 'visible'}" prop="quantity" align="center" label="数量" width="150px"/>
+            <el-editable-column :edit-render="{name: 'ElInputNumber', type: 'visible', events: {change: beyond}}" prop="quantity" align="center" label="数量" width="150px"/>
             <el-editable-column prop="price" align="center" label="单价" width="150px"/>
             <el-editable-column prop="totalMoney" align="center" label="金额" width="150px">
               <template slot-scope="scope">
@@ -159,6 +160,7 @@
 
 <script>
 import { getlocation, locationlist } from '@/api/public'
+import { materialslist2 } from '@/api/MaterialsList'
 import { getdeptlist } from '@/api/BasicSettings'
 import { addbuildup } from '@/api/BuildUp'
 import MyRepository from './components/MyRepository'
@@ -224,6 +226,104 @@ export default {
     this.getlist()
   },
   methods: {
+    productdetail3(val) {
+      console.log(val)
+      console.log('val', val)
+      // for (let i = 0; i < val.length; i++) {
+      //   console.log(val[i].materialsListDetailVos.length)
+      //   for (let j = 0; j < val[i].materialsListDetailVos.length; j++) {
+      //     // console.log()
+      //     this.$refs.editable.insert(val[i].materialsListDetailVos[j])
+      //   }
+      // }
+    },
+    // 深拷贝
+    deepClone(obj) {
+      const _obj = JSON.stringify(obj)
+      const objClone = JSON.parse(_obj)
+      return objClone
+    },
+    beyond() {
+      this.$refs.editable.clear()
+      this.setbeforeproduct()
+    },
+    beyond2() {
+      this.$refs.editable2.removeSelecteds()
+      this.$refs.editable.clear()
+      this.setbeforeproduct()
+    },
+    // 设置待组装商品
+    async setbeforeproduct() {
+      this.$refs.editable.clear()
+      const edittabledata = this.$refs.editable2.getRecords()
+      if (edittabledata.length !== 0) {
+        const list = await Promise.all(edittabledata.map(item => {
+          return materialslist2(item.productCode)
+        }))
+        const bomproduct1 = list.map(item => {
+          return item.data.data.content.list
+        }).flat()
+        console.log('list', list)
+        console.log('bomproduct1-1', bomproduct1)
+        for (const i in edittabledata) {
+          for (const j in bomproduct1) {
+            if (edittabledata[i].productCode === bomproduct1[j].productCode) {
+              bomproduct1[j].quantity = edittabledata[i].quantity
+            }
+          }
+        }
+        console.log('bomproduct1', bomproduct1)
+        const materialsListDetailVos = bomproduct1.map(item => {
+          return item.materialsListDetailVos
+        }).flat()
+        for (const a in materialsListDetailVos) {
+          for (const b in bomproduct1) {
+            if (materialsListDetailVos[a].materialsId === bomproduct1[b].id) {
+              materialsListDetailVos[a].quantity = Number(materialsListDetailVos[a].quantity) * Number(bomproduct1[b].quantity)
+            }
+          }
+        }
+        for (const c in materialsListDetailVos) {
+          getlocation(this.personalForm.buildupRepositoryId, materialsListDetailVos[c].productCode).then(res => {
+            if (res.data.ret === 200) {
+              materialsListDetailVos[c].locationCode = res.data.data.content[0].locationCode
+              materialsListDetailVos[c].locationId = res.data.data.content[0].id
+              materialsListDetailVos[c].price = 0
+              materialsListDetailVos[c].totalMoney = 0
+            }
+          })
+        }
+        console.log('materialsListDetailVos', materialsListDetailVos)
+        const materialsListDetailVos2 = this.deepClone(materialsListDetailVos)
+        for (const c in materialsListDetailVos2) {
+          getlocation(this.personalForm.buildupRepositoryId, materialsListDetailVos2[c].productCode).then(res => {
+            if (res.data.ret === 200) {
+              materialsListDetailVos2[c].locationCode = res.data.data.content[0].locationCode
+              materialsListDetailVos2[c].locationId = res.data.data.content[0].id
+              materialsListDetailVos2[c].price = 0
+              materialsListDetailVos2[c].totalMoney = 0
+            }
+          })
+        }
+        const newArr = []
+        materialsListDetailVos2.forEach(el => {
+          const result = newArr.findIndex(ol => {
+            return el.productCode === ol.productCode
+          })
+          console.log('result', result)
+          if (result !== -1) {
+            newArr[result].quantity = newArr[result].quantity + el.quantity
+          } else {
+            newArr.push(el)
+          }
+        })
+        console.log('newArr', newArr)
+        // this.$refs.editable = newArr
+        for (let i = 0; i < newArr.length; i++) {
+          this.$refs.editable.insert(newArr[i])
+        }
+      }
+    },
     // 部门列表数据
     getlist() {
       getdeptlist().then(res => {
@@ -314,7 +414,7 @@ export default {
       this.buildcontrol = true
     },
     productdetail2(val) {
-      console.log(val)
+      console.log('cccc', val)
       const nowlistdata = this.$refs.editable2.getRecords()
       for (let i = 0; i < val.length; i++) {
         for (let j = 0; j < nowlistdata.length; j++) {
@@ -329,17 +429,7 @@ export default {
         }
         this.$refs.editable2.insert(val[i])
       }
-    },
-    productdetail3(val) {
-      console.log(val)
-      console.log('val', val)
-      for (let i = 0; i < val.length; i++) {
-        console.log(val[i].materialsListDetailVos.length)
-        for (let j = 0; j < val[i].materialsListDetailVos.length; j++) {
-          // console.log()
-          this.$refs.editable.insert(val[i].materialsListDetailVos[j])
-        }
-      }
+      this.setbeforeproduct()
     },
     // 组装金额计算
     getSize(quan, pric) {

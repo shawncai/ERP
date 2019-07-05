@@ -4,12 +4,12 @@
       <!--基本信息-->
       <el-card class="box-card" style="margin-top: 63px" shadow="never">
         <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">基本信息</h2>
-        <button v-print="'#printTest'" class="print" style="font-size: 10px;">打印</button>
+        <button v-print="'#printTest'" class="print" style="font-size: 13px;background: white;">打印</button>
         <div class="container" style="margin-top: 37px">
           <el-form :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
             <el-row>
               <el-col :span="12">
-                <el-form-item class="print2" label="单据编号" style="width: 100%;display: none">
+                <el-form-item class="print2" label="采购申请单编号" style="width: 100%;display: none">
                   {{ personalForm.applyNumber }}
                 </el-form-item>
               </el-col>

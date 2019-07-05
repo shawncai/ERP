@@ -259,7 +259,7 @@ export default {
     handleConfirm() {
       this.employeeVisible = false
       const producedata = this.choosedata.producePlanDetailVos
-      console.log(producedata)
+      console.log('producedata', producedata)
       const productDetail = producedata.map(function(item) {
         return {
           id: item.id,

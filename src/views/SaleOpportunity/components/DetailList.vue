@@ -1,167 +1,174 @@
 <template>
   <el-dialog :visible.sync="editVisible" :detailcontrol="detailcontrol" :detaildata="detaildata" :close-on-press-escape="false" :title="personalForm.opportunityNumber +'    详情'" append-to-body width="1010px" class="edit" top="-10px" @close="$emit('update:detailcontrol', false)">
-    <!--基本信息-->
-    <el-card class="box-card" style="margin-top: 63px" shadow="never">
-      <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">基本信息</h2>
-      <div class="container" style="margin-top: 37px">
-        <el-form :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
-          <el-row>
-            <el-col :span="12">
-              <el-form-item :label="$t('SaleOpportunity.title')" prop="title" style="width: 100%;">
-                <span>{{ personalForm.title }}</span>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('SaleOpportunity.opportunityType')" prop="opportunityType" style="width: 100%;">
-                <span>{{ personalForm.opportunityTypeName }}</span>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('SaleOpportunity.customerType')" prop="customerType" style="width: 100%;">
-                <span>{{ personalForm.customerType | customerTypeFilter }}</span>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('SaleOpportunity.customerName')" prop="customerId" style="width: 100%;">
-                <span>{{ personalForm.customerName }}</span>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('SaleOpportunity.customerPhone')" style="width: 100%;">
-                <span>{{ personalForm.customerPhone }}</span>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('SaleOpportunity.opportunitySource')" style="width: 100%;">
-                <span>{{ personalForm.opportunitySourceName }}</span>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('SaleOpportunity.handlePersonId')" prop="handlePersonId" style="width: 100%;">
-                <span>{{ personalForm.handlePersonName }}</span>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('SaleOpportunity.deptId')" style="width: 100%;">
-                <span>{{ personalForm.deptName }}</span>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('SaleOpportunity.handleRepositoryId')" style="width: 100%;">
-                <span>{{ personalForm.handleRepositoryName }}</span>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('SaleOpportunity.isSale')" prop="isSale" style="width: 100%;">
-                <span>{{ personalForm.isSale | isSaleFilter }}</span>
-              </el-form-item>
-            </el-col>
-          </el-row>
-        </el-form>
-      </div>
-    </el-card>
-    <!--子件信息-->
-    <el-card class="box-card" style="margin-top: 15px" shadow="never">
-      <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">退货明细</h2>
-      <div class="container">
-        <el-editable
-          ref="editable"
-          :data.sync="list2"
-          :edit-config="{ showIcon: true, showStatus: true}"
-          class="click-table1"
-          stripe
-          border
-          size="medium"
-          style="width: 100%">
-          <el-editable-column type="selection" min-width="55" align="center"/>
-          <el-editable-column label="序号" min-width="55" align="center" type="index"/>
-          <el-editable-column prop="productCode" align="center" label="物品编号" min-width="150px"/>
-          <el-editable-column prop="productName" align="center" label="物品名称" min-width="150px"/>
-          <el-editable-column prop="category" align="center" label="物品分类" min-width="150px"/>
-          <el-editable-column prop="unit" align="center" label="基本单位" min-width="150px"/>
-          <el-editable-column prop="typeId" align="center" label="规格型号" min-width="150px"/>
-          <el-editable-column prop="color" align="center" label="颜色" min-width="150px"/>
-          <el-editable-column prop="kpiGrade" align="center" label="绩效分" min-width="150px"/>
-          <el-editable-column prop="point" align="center" label="商品积分" min-width="150px"/>
-        </el-editable>
-      </div>
-    </el-card>
-    <el-card class="box-card" style="margin-top: 15px" shadow="never">
-      <h2 ref="fuzhu" class="form-name" >销售机会洽谈记录</h2>
-      <div class="container">
-        <el-editable
-          ref="editable2"
-          :data.sync="list3"
-          :edit-config="{ showIcon: true, showStatus: true}"
-          class="click-table1"
-          stripe
-          border
-          size="medium"
-          style="width: 100%">
-          <el-editable-column label="阶段" min-width="55" prop="phase" align="center" type="index"/>
-          <el-editable-column prop="chatDate" align="center" label="日期" min-width="150px"/>
-          <el-editable-column prop="handlePersonName" align="center" label="业务员" min-width="150px"/>
-          <el-editable-column prop="actionDesc" align="center" label="行动描述" min-width="150px"/>
-          <el-editable-column prop="customerReturn" align="center" label="客户反馈" min-width="150px"/>
-        </el-editable>
-      </div>
-    </el-card>
-    <!--审核状态-->
-    <!--<el-card class="box-card" style="margin-top: 15px" shadow="never">-->
-    <!--<h2 ref="fuzhu" class="form-name">审核状态</h2>-->
-    <!--<el-steps :active="reviewList.length" direction="vertical">-->
-    <!--<el-step-->
-    <!--v-for="(item, index) in reviewList"-->
-    <!--:key="index"-->
-    <!--:title="'审核步骤' + item.step"-->
-    <!--style="height: 100px">-->
-    <!--<template slot="description" >-->
-    <!--<span style="font-size: 16px;color: red">{{ item.stat | statfilter }}</span><br>-->
-    <!--<span style="font-size: 14px">审核人: {{ item.stepHandlerName }}</span><br>-->
-    <!--<span style="font-size: 14px">审核时间: {{ item.createTime }}</span>-->
-    <!--</template>-->
-    <!--</el-step>-->
-    <!--</el-steps>-->
-    <!--</el-card>-->
-    <el-card class="box-card" style="margin-top: 15px" shadow="never">
-      <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">备注信息</h2>
-      <div class="container" style="margin-top: 37px">
-        <el-form :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
-          <el-row>
-            <el-col :span="12">
-              <el-form-item :label="$t('public.createPersonName2')" prop="stockType" style="width: 100%;">
-                {{ personalForm.createPersonName }}
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('public.createDate2')" style="width: 100%;">
-                {{ personalForm.createDate }}
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('public.endPersonName')" prop="applyDate" style="width: 100%;">
-                {{ personalForm.endPersonName }}
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('public.endDate')" prop="applyDate" style="width: 100%;">
-                {{ personalForm.endDate }}
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('public.modifyPersonName')" prop="applyDate" style="width: 100%;">
-                {{ personalForm.modifyPersonName }}
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('public.modifyDate')" prop="applyDate" style="width: 100%;">
-                {{ personalForm.modifyDate }}
-              </el-form-item>
-            </el-col>
-          </el-row>
-        </el-form>
-      </div>
-    </el-card>
+    <div id="printTest" >
+      <!--基本信息-->
+      <el-card class="box-card" style="margin-top: 63px" shadow="never">
+        <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">基本信息</h2>
+        <button v-print="'#printTest'" class="print" style="font-size: 13px;background: white;">打印</button>
+        <div class="container" style="margin-top: 37px">
+          <el-form :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
+            <el-row>
+              <el-col :span="12">
+                <el-form-item class="print2" label="销售机会单编号" style="width: 100%;display: none">
+                  {{ personalForm.opportunityNumber }}
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('SaleOpportunity.title')" prop="title" style="width: 100%;">
+                  <span>{{ personalForm.title }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('SaleOpportunity.opportunityType')" prop="opportunityType" style="width: 100%;">
+                  <span>{{ personalForm.opportunityTypeName }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('SaleOpportunity.customerType')" prop="customerType" style="width: 100%;">
+                  <span>{{ personalForm.customerType | customerTypeFilter }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('SaleOpportunity.customerName')" prop="customerId" style="width: 100%;">
+                  <span>{{ personalForm.customerName }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('SaleOpportunity.customerPhone')" style="width: 100%;">
+                  <span>{{ personalForm.customerPhone }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('SaleOpportunity.opportunitySource')" style="width: 100%;">
+                  <span>{{ personalForm.opportunitySourceName }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('SaleOpportunity.handlePersonId')" prop="handlePersonId" style="width: 100%;">
+                  <span>{{ personalForm.handlePersonName }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('SaleOpportunity.deptId')" style="width: 100%;">
+                  <span>{{ personalForm.deptName }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('SaleOpportunity.handleRepositoryId')" style="width: 100%;">
+                  <span>{{ personalForm.handleRepositoryName }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('SaleOpportunity.isSale')" prop="isSale" style="width: 100%;">
+                  <span>{{ personalForm.isSale | isSaleFilter }}</span>
+                </el-form-item>
+              </el-col>
+            </el-row>
+          </el-form>
+        </div>
+      </el-card>
+      <!--子件信息-->
+      <el-card class="box-card" style="margin-top: 15px" shadow="never">
+        <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">退货明细</h2>
+        <div class="container">
+          <el-editable
+            ref="editable"
+            :data.sync="list2"
+            :edit-config="{ showIcon: true, showStatus: true}"
+            class="click-table1"
+            border
+            size="medium"
+            style="width: 100%">
+            <el-editable-column type="selection" min-width="55" align="center"/>
+            <el-editable-column label="序号" min-width="55" align="center" type="index"/>
+            <el-editable-column prop="productCode" align="center" label="物品编号" />
+            <el-editable-column prop="productName" align="center" label="物品名称" />
+            <el-editable-column prop="category" align="center" label="物品分类" />
+            <el-editable-column prop="unit" align="center" label="基本单位" />
+            <el-editable-column prop="typeId" align="center" label="规格型号" />
+            <el-editable-column prop="color" align="center" label="颜色" />
+            <el-editable-column prop="kpiGrade" align="center" label="绩效分" />
+            <el-editable-column prop="point" align="center" label="商品积分" />
+          </el-editable>
+        </div>
+      </el-card>
+      <el-card class="box-card" style="margin-top: 15px" shadow="never">
+        <h2 ref="fuzhu" class="form-name" >销售机会洽谈记录</h2>
+        <div class="container">
+          <el-editable
+            ref="editable2"
+            :data.sync="list3"
+            :edit-config="{ showIcon: true, showStatus: true}"
+            class="click-table1"
+            stripe
+            border
+            size="medium"
+            style="width: 100%">
+            <el-editable-column label="阶段" min-width="55" prop="phase" align="center" type="index"/>
+            <el-editable-column prop="chatDate" align="center" label="日期" />
+            <el-editable-column prop="handlePersonName" align="center" label="业务员" />
+            <el-editable-column prop="actionDesc" align="center" label="行动描述" />
+            <el-editable-column prop="customerReturn" align="center" label="客户反馈" />
+          </el-editable>
+        </div>
+      </el-card>
+      <!--审核状态-->
+      <!--<el-card class="box-card" style="margin-top: 15px" shadow="never">-->
+      <!--<h2 ref="fuzhu" class="form-name">审核状态</h2>-->
+      <!--<el-steps :active="reviewList.length" direction="vertical">-->
+      <!--<el-step-->
+      <!--v-for="(item, index) in reviewList"-->
+      <!--:key="index"-->
+      <!--:title="'审核步骤' + item.step"-->
+      <!--style="height: 100px">-->
+      <!--<template slot="description" >-->
+      <!--<span style="font-size: 16px;color: red">{{ item.stat | statfilter }}</span><br>-->
+      <!--<span style="font-size: 14px">审核人: {{ item.stepHandlerName }}</span><br>-->
+      <!--<span style="font-size: 14px">审核时间: {{ item.createTime }}</span>-->
+      <!--</template>-->
+      <!--</el-step>-->
+      <!--</el-steps>-->
+      <!--</el-card>-->
+      <el-card class="box-card" style="margin-top: 15px" shadow="never">
+        <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">备注信息</h2>
+        <div class="container" style="margin-top: 37px">
+          <el-form :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
+            <el-row>
+              <el-col :span="12">
+                <el-form-item :label="$t('public.createPersonName2')" prop="stockType" style="width: 100%;">
+                  {{ personalForm.createPersonName }}
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('public.createDate2')" style="width: 100%;">
+                  {{ personalForm.createDate }}
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('public.endPersonName')" prop="applyDate" style="width: 100%;">
+                  {{ personalForm.endPersonName }}
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('public.endDate')" prop="applyDate" style="width: 100%;">
+                  {{ personalForm.endDate }}
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('public.modifyPersonName')" prop="applyDate" style="width: 100%;">
+                  {{ personalForm.modifyPersonName }}
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('public.modifyDate')" prop="applyDate" style="width: 100%;">
+                  {{ personalForm.modifyDate }}
+                </el-form-item>
+              </el-col>
+            </el-row>
+          </el-form>
+        </div>
+      </el-card>
+    </div>
   </el-dialog>
 </template>
 
@@ -315,5 +322,13 @@ export default {
   }
   .el-col-12{
     width: 49%;
+  }
+  @media print {
+    .print {
+      display: none;
+    }
+    .print2 {
+      display: block !important;
+    }
   }
 </style>

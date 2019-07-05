@@ -414,6 +414,9 @@ export function editproduct(query) {
   if (query.productid !== '' && query.productid !== null && query.productid !== undefined) {
     params.append('productid', query.productid) // 你要传给后台的参数值 key/value
   }
+  if (query.productName !== '' && query.productName !== null && query.productName !== undefined) {
+    params.append('productname', query.productName) // 你要传给后台的参数值 key/value
+  }
   if (query.isBatch !== '' && query.isBatch !== null && query.isBatch !== undefined) {
     params.append('isBatch', query.isBatch) // 你要传给后台的参数值 key/value
   }

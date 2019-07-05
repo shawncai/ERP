@@ -11,361 +11,364 @@
     class="edit"
     top="-10px"
     @close="$emit('update:detailcontrol', false)">
-    <!--基本信息-->
-    <el-card class="box-card" style="margin-top: 63px" shadow="never">
-      <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">基本信息</h2>
-      <div class="container" style="margin-top: 37px">
-        <el-form :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
-          <el-row>
-            <el-col :span="12">
-              <el-form-item :label="$t('NewEmployeeInformation.account')" prop="account" style="width: 100%;">
-                <span>{{ personalForm.content.account }}</span>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('NewEmployeeInformation.password')" prop="password" style="width: 100%;">
-                <span>{{ personalForm.content.password }}</span>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('NewEmployeeInformation.lastname')" prop="firstName" style="width: 100%;">
-                <span>{{ personalForm.content.firstName }}</span>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('NewEmployeeInformation.middlename')" style="width: 100%;">
-                <span>{{ personalForm.content.middleName }}</span>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('NewEmployeeInformation.firstname')" prop="lastName" style="width: 100%;">
-                <span>{{ personalForm.content.lastName }}</span>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('NewEmployeeInformation.birthday')" style="width: 100%;">
-                <span>{{ personalForm.content.birthday }}</span>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('NewEmployeeInformation.email')" prop="email" style="width: 100%;">
-                <span>{{ personalForm.content.email }}</span>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('NewEmployeeInformation.gender')" prop="gender" style="width: 100%;">
-                <span>{{ personalForm.content.gender | genderFilter }}</span>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('NewEmployeeInformation.certificatetype')" style="width: 100%;">
-                <span>{{ personalForm.content.gender | certificateTypeFilter }}</span>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('NewEmployeeInformation.certificatenumber')" style="width: 100%;">
-                <span>{{ personalForm.content.certificateNumber }}</span>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('NewEmployeeInformation.country')" prop="countryId" style="width: 100%;">
-                <span>{{ personalForm.content.countryName }}</span>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('NewEmployeeInformation.roleName')" prop="countryId" style="width: 100%;">
-                <span>{{ personalForm.content.roleName }}</span>
-              </el-form-item>
-            </el-col>
-          </el-row>
-        </el-form>
-      </div>
-    </el-card>
-    <!--子件信息-->
-    <el-card class="box-card" shadow="never" style="margin-top: 15px">
-      <h2 ref="lianxi" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">联系信息</h2>
-      <div class="container" style="margin-top: 37px">
-        <el-form ref="connectForm" :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
-          <el-row>
-            <el-col :span="12">
-              <el-form-item :label="$t('NewEmployeeInformation.address')" prop="address" style="width: 100%;">
-                <span>{{ personalForm.content.address }}</span>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('NewEmployeeInformation.phone')" prop="phone" style="width: 100%;">
-                <span>{{ personalForm.content.phone }}</span>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('NewEmployeeInformation.provinceid')" prop="provinceId" style="width: 100%;">
-                <span>{{ personalForm.content.provinceName }}</span>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('NewEmployeeInformation.cityid')" prop="cityId" style="width: 100%;">
-                <span>{{ personalForm.content.cityName }}</span>
-              </el-form-item>
-            </el-col>
-          </el-row>
-        </el-form>
-      </div>
-    </el-card>
-    <el-card class="box-card" shadow="never" style="margin-top: 15px">
-      <h2 class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">公司信息</h2>
-      <div class="container" style="margin-top: 37px">
-        <el-form ref="companyForm" :model="personalForm" ::inline="true" status-icon class="demo-ruleForm" label-width="130px">
-          <el-row>
-            <el-col :span="12">
-              <el-form-item :label="$t('NewEmployeeInformation.jobnumber')" style="width: 100%;">
-                <span>{{ personalForm.content.jobNumber }}</span>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('NewEmployeeInformation.postid')" style="width: 100%;">
-                <span>{{ personalForm.content.postName }}</span>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('NewEmployeeInformation.deptid')" prop="deptId" style="width: 100%;">
-                <span>{{ personalForm.content.deptName }}</span>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('NewEmployeeInformation.regionid')" prop="regionId" style="width: 100%;">
-                <span>{{ personalForm.content.regionName }}</span>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('NewEmployeeInformation.repositoryid')" style="width: 100%;">
-                <span>{{ personalForm.content.repositoryName }}</span>
-              </el-form-item>
-            </el-col>
-          </el-row>
-        </el-form>
-      </div>
-    </el-card>
-    <el-card class="box-card" shadow="never" style="margin-top: 15px">
-      <h2 class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">合同信息</h2>
-      <div class="container" style="margin-top: 37px">
-        <el-form ref="companyForm" :model="contracts" ::inline="true" status-icon class="demo-ruleForm" label-width="130px">
-          <el-row>
-            <el-col :span="12">
-              <el-form-item :label="$t('NewEmployeeInformation.contractname')" style="width: 100%;">
-                <span>{{ contracts.contractName }}</span>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('NewEmployeeInformation.contractnumber')" style="width: 100%;">
-                <span>{{ contracts.contractNumber }}</span>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('NewEmployeeInformation.typeid')" prop="deptId" style="width: 100%;">
-                <span>{{ contracts.contractType }}</span>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('public.createDate')" prop="regionId" style="width: 100%;">
-                <span>{{ contracts.createTime }}</span>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('NewEmployeeInformation.effectivetime')" style="width: 100%;">
-                <span>{{ contracts.effectiveTime }}</span>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('NewEmployeeInformation.expiredtime')" style="width: 100%;">
-                <span>{{ contracts.expiredTime }}</span>
-              </el-form-item>
-            </el-col>
-          </el-row>
-        </el-form>
-      </div>
-    </el-card>
-    <el-card class="box-card" style="margin-top: 15px" shadow="never">
-      <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">备注信息</h2>
-      <div class="container" style="margin-top: 37px">
-        <el-form :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
-          <el-row>
-            <el-col :span="12">
-              <el-form-item :label="$t('public.createPersonName')" style="width: 100%;">
-                {{ personalForm.content.createPersonName }}
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('public.createDate')" style="width: 100%;">
-                {{ personalForm.content.createTime }}
-              </el-form-item>
-            </el-col>
-          </el-row>
-        </el-form>
-      </div>
-    </el-card>
-    <el-card class="box-card" style="margin-top: 15px" shadow="never">
-      <div class="container" style="margin-top: 10px">
-        <el-tabs type="card">
-          <el-tab-pane label="销售信息">
-            <el-form :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
-              <el-row>
-                <el-col :span="12">
-                  <el-form-item :label="$t('NewEmployeeInformation.saleQuantity')" style="width: 100%;">
-                    {{ personalForm.empsale.saleQuantity }}
-                  </el-form-item>
-                </el-col>
-                <el-col :span="12">
-                  <el-form-item :label="$t('NewEmployeeInformation.saleMoney')" style="width: 100%;">
-                    {{ personalForm.empsale.saleMoney }}
-                  </el-form-item>
-                </el-col>
-                <el-col :span="12">
-                  <el-form-item :label="$t('NewEmployeeInformation.repoRank')" style="width: 100%;">
-                    {{ personalForm.empsale.repoRank }}
-                  </el-form-item>
-                </el-col>
-                <el-col :span="12">
-                  <el-form-item :label="$t('NewEmployeeInformation.regionRank')" style="width: 100%;">
-                    {{ personalForm.empsale.regionRank }}
-                  </el-form-item>
-                </el-col>
-                <el-col :span="12">
-                  <el-form-item :label="$t('NewEmployeeInformation.costMoney')" style="width: 100%;">
-                    {{ personalForm.empsale.costMoney }}
-                  </el-form-item>
-                </el-col>
-                <el-col :span="12">
-                  <el-form-item :label="$t('NewEmployeeInformation.profitMoney')" style="width: 100%;">
-                    {{ personalForm.empsale.profitMoney }}
-                  </el-form-item>
-                </el-col>
-              </el-row>
-            </el-form>
-          </el-tab-pane>
-          <el-tab-pane label="采购信息">
-            <el-table
-              :data="tableData"
-              border
-              style="width: 100%">
-              <el-table-column
-                prop="stockDate"
-                align="center"
-                label="采购日期"
-                min-width="150"/>
-              <el-table-column
-                prop="supplierName"
-                align="center"
-                label="供应商"
-                min-width="150"/>
-              <el-table-column
-                prop="stockQuantity"
-                align="center"
-                label="采购数量"
-                min-width="150"/>
-              <el-table-column
-                prop="stockMoney"
-                align="center"
-                label="采购金额"
-                min-width="150"/>
-              <el-table-column
-                prop="arriveQuantity"
-                align="center"
-                label="到货数量"
-                min-width="150"/>
-              <el-table-column
-                prop="enterQuantity"
-                align="center"
-                label="入库数量"
-                min-width="150"/>
-            </el-table>
-            <pagination v-show="total>0" :total="total" :page.sync="getstocklist.pagenum" :limit.sync="getstocklist.pagesize" @pagination="getstoctlist" />
-          </el-tab-pane>
-          <el-tab-pane label="收款信息">
-            <el-table
-              :data="tableData2"
-              border
-              style="width: 100%">
-              <el-table-column
-                prop="customerName"
-                align="center"
-                label="客户"
-                min-width="150"/>
-              <el-table-column
-                prop="money"
-                align="center"
-                label="收款金额"
-                min-width="150"/>
-              <el-table-column
-                prop="idx"
-                align="center"
-                label="收款期数"
-                min-width="150"/>
-              <el-table-column
-                prop="collectDate"
-                align="center"
-                label="收款日期"
-                min-width="150"/>
-              <el-table-column
-                prop="collectType"
-                align="center"
-                label="收款方式"
-                min-width="150"/>
-            </el-table>
-            <pagination v-show="total2>0" :total="total2" :page.sync="getCollectlist.pagenum" :limit.sync="getCollectlist.pagesize" @pagination="getCollect" />
-          </el-tab-pane>
-          <el-tab-pane label="回访记录">
-            <el-row :gutter="20">
-              <el-form ref="getVisitlistdata" :model="getVisitlistdata">
-                <el-col :span="5">
-                  <el-form-item>
-                    <el-input v-model="getVisitlistdata.customerName" placeholder="客户姓名" clearable/>
-                  </el-form-item>
-                </el-col>
-                <el-col :span="5">
-                  <el-date-picker
-                    v-model="date"
-                    type="daterange"
-                    range-separator="-"
-                    unlink-panels
-                    start-placeholder="回访开始日期"
-                    end-placeholder="回访结束日期"
-                    value-format="yyyy-MM-dd"/>
-                </el-col>
-                <el-col :span="3">
-                  <el-button type="primary" style="margin-left: 200px" @click="handleFilter">{{ $t('public.search') }}</el-button>
-                </el-col>
-              </el-form>
+    <div id="printTest" >
+      <!--基本信息-->
+      <el-card class="box-card" style="margin-top: 63px" shadow="never">
+        <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">基本信息</h2>
+        <button v-print="'#printTest'" class="print" style="font-size: 13px;background: white;">打印</button>
+        <div class="container" style="margin-top: 37px">
+          <el-form :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
+            <el-row>
+              <el-col :span="12">
+                <el-form-item :label="$t('NewEmployeeInformation.account')" prop="account" style="width: 100%;">
+                  <span>{{ personalForm.content.account }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('NewEmployeeInformation.password')" prop="password" style="width: 100%;">
+                  <span>{{ personalForm.content.password }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('NewEmployeeInformation.lastname')" prop="firstName" style="width: 100%;">
+                  <span>{{ personalForm.content.firstName }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('NewEmployeeInformation.middlename')" style="width: 100%;">
+                  <span>{{ personalForm.content.middleName }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('NewEmployeeInformation.firstname')" prop="lastName" style="width: 100%;">
+                  <span>{{ personalForm.content.lastName }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('NewEmployeeInformation.birthday')" style="width: 100%;">
+                  <span>{{ personalForm.content.birthday }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('NewEmployeeInformation.email')" prop="email" style="width: 100%;">
+                  <span>{{ personalForm.content.email }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('NewEmployeeInformation.gender')" prop="gender" style="width: 100%;">
+                  <span>{{ personalForm.content.gender | genderFilter }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('NewEmployeeInformation.certificatetype')" style="width: 100%;">
+                  <span>{{ personalForm.content.gender | certificateTypeFilter }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('NewEmployeeInformation.certificatenumber')" style="width: 100%;">
+                  <span>{{ personalForm.content.certificateNumber }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('NewEmployeeInformation.country')" prop="countryId" style="width: 100%;">
+                  <span>{{ personalForm.content.countryName }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('NewEmployeeInformation.roleName')" prop="countryId" style="width: 100%;">
+                  <span>{{ personalForm.content.roleName }}</span>
+                </el-form-item>
+              </el-col>
             </el-row>
-            <el-table
-              :data="tableData3"
-              border
-              style="width: 100%">
-              <el-table-column
-                prop="visitDate"
-                align="center"
-                label="回访日期"
-                min-width="150"/>
-              <el-table-column
-                prop="customerName"
-                align="center"
-                label="客户"
-                min-width="150"/>
-              <el-table-column
-                prop="content"
-                align="center"
-                label="回访内容"
-                min-width="150"/>
-              <el-table-column
-                prop="visitMode"
-                align="center"
-                label="回访方式"
-                min-width="150"/>
-            </el-table>
-            <pagination v-show="total3>0" :total="total3" :page.sync="getVisitlistdata.pagenum" :limit.sync="getVisitlistdata.pagesize" @pagination="getVisitlist" />
-          </el-tab-pane>
-        </el-tabs>
-      </div>
-    </el-card>
+          </el-form>
+        </div>
+      </el-card>
+      <!--子件信息-->
+      <el-card class="box-card" shadow="never" style="margin-top: 15px">
+        <h2 ref="lianxi" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">联系信息</h2>
+        <div class="container" style="margin-top: 37px">
+          <el-form ref="connectForm" :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
+            <el-row>
+              <el-col :span="12">
+                <el-form-item :label="$t('NewEmployeeInformation.address')" prop="address" style="width: 100%;">
+                  <span>{{ personalForm.content.address }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('NewEmployeeInformation.phone')" prop="phone" style="width: 100%;">
+                  <span>{{ personalForm.content.phone }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('NewEmployeeInformation.provinceid')" prop="provinceId" style="width: 100%;">
+                  <span>{{ personalForm.content.provinceName }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('NewEmployeeInformation.cityid')" prop="cityId" style="width: 100%;">
+                  <span>{{ personalForm.content.cityName }}</span>
+                </el-form-item>
+              </el-col>
+            </el-row>
+          </el-form>
+        </div>
+      </el-card>
+      <el-card class="box-card" shadow="never" style="margin-top: 15px">
+        <h2 class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">公司信息</h2>
+        <div class="container" style="margin-top: 37px">
+          <el-form ref="companyForm" :model="personalForm" ::inline="true" status-icon class="demo-ruleForm" label-width="130px">
+            <el-row>
+              <el-col :span="12">
+                <el-form-item :label="$t('NewEmployeeInformation.jobnumber')" style="width: 100%;">
+                  <span>{{ personalForm.content.jobNumber }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('NewEmployeeInformation.postid')" style="width: 100%;">
+                  <span>{{ personalForm.content.postName }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('NewEmployeeInformation.deptid')" prop="deptId" style="width: 100%;">
+                  <span>{{ personalForm.content.deptName }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('NewEmployeeInformation.regionid')" prop="regionId" style="width: 100%;">
+                  <span>{{ personalForm.content.regionName }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('NewEmployeeInformation.repositoryid')" style="width: 100%;">
+                  <span>{{ personalForm.content.repositoryName }}</span>
+                </el-form-item>
+              </el-col>
+            </el-row>
+          </el-form>
+        </div>
+      </el-card>
+      <el-card class="box-card" shadow="never" style="margin-top: 15px">
+        <h2 class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">合同信息</h2>
+        <div class="container" style="margin-top: 37px">
+          <el-form ref="companyForm" :model="contracts" ::inline="true" status-icon class="demo-ruleForm" label-width="130px">
+            <el-row>
+              <el-col :span="12">
+                <el-form-item :label="$t('NewEmployeeInformation.contractname')" style="width: 100%;">
+                  <span>{{ contracts.contractName }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('NewEmployeeInformation.contractnumber')" style="width: 100%;">
+                  <span>{{ contracts.contractNumber }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('NewEmployeeInformation.typeid')" prop="deptId" style="width: 100%;">
+                  <span>{{ contracts.contractType }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('public.createDate')" prop="regionId" style="width: 100%;">
+                  <span>{{ contracts.createTime }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('NewEmployeeInformation.effectivetime')" style="width: 100%;">
+                  <span>{{ contracts.effectiveTime }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('NewEmployeeInformation.expiredtime')" style="width: 100%;">
+                  <span>{{ contracts.expiredTime }}</span>
+                </el-form-item>
+              </el-col>
+            </el-row>
+          </el-form>
+        </div>
+      </el-card>
+      <el-card class="box-card" style="margin-top: 15px" shadow="never">
+        <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">备注信息</h2>
+        <div class="container" style="margin-top: 37px">
+          <el-form :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
+            <el-row>
+              <el-col :span="12">
+                <el-form-item :label="$t('public.createPersonName')" style="width: 100%;">
+                  {{ personalForm.content.createPersonName }}
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('public.createDate')" style="width: 100%;">
+                  {{ personalForm.content.createTime }}
+                </el-form-item>
+              </el-col>
+            </el-row>
+          </el-form>
+        </div>
+      </el-card>
+      <el-card class="box-card" style="margin-top: 15px" shadow="never">
+        <div class="container" style="margin-top: 10px">
+          <el-tabs type="card">
+            <el-tab-pane label="销售信息">
+              <el-form :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
+                <el-row>
+                  <el-col :span="12">
+                    <el-form-item :label="$t('NewEmployeeInformation.saleQuantity')" style="width: 100%;">
+                      {{ personalForm.empsale.saleQuantity }}
+                    </el-form-item>
+                  </el-col>
+                  <el-col :span="12">
+                    <el-form-item :label="$t('NewEmployeeInformation.saleMoney')" style="width: 100%;">
+                      {{ personalForm.empsale.saleMoney }}
+                    </el-form-item>
+                  </el-col>
+                  <el-col :span="12">
+                    <el-form-item :label="$t('NewEmployeeInformation.repoRank')" style="width: 100%;">
+                      {{ personalForm.empsale.repoRank }}
+                    </el-form-item>
+                  </el-col>
+                  <el-col :span="12">
+                    <el-form-item :label="$t('NewEmployeeInformation.regionRank')" style="width: 100%;">
+                      {{ personalForm.empsale.regionRank }}
+                    </el-form-item>
+                  </el-col>
+                  <el-col :span="12">
+                    <el-form-item :label="$t('NewEmployeeInformation.costMoney')" style="width: 100%;">
+                      {{ personalForm.empsale.costMoney }}
+                    </el-form-item>
+                  </el-col>
+                  <el-col :span="12">
+                    <el-form-item :label="$t('NewEmployeeInformation.profitMoney')" style="width: 100%;">
+                      {{ personalForm.empsale.profitMoney }}
+                    </el-form-item>
+                  </el-col>
+                </el-row>
+              </el-form>
+            </el-tab-pane>
+            <el-tab-pane label="采购信息">
+              <el-table
+                :data="tableData"
+                border
+                style="width: 100%">
+                <el-table-column
+                  prop="stockDate"
+                  align="center"
+                  label="采购日期"
+                  min-width="150"/>
+                <el-table-column
+                  prop="supplierName"
+                  align="center"
+                  label="供应商"
+                  min-width="150"/>
+                <el-table-column
+                  prop="stockQuantity"
+                  align="center"
+                  label="采购数量"
+                  min-width="150"/>
+                <el-table-column
+                  prop="stockMoney"
+                  align="center"
+                  label="采购金额"
+                  min-width="150"/>
+                <el-table-column
+                  prop="arriveQuantity"
+                  align="center"
+                  label="到货数量"
+                  min-width="150"/>
+                <el-table-column
+                  prop="enterQuantity"
+                  align="center"
+                  label="入库数量"
+                  min-width="150"/>
+              </el-table>
+              <pagination v-show="total>0" :total="total" :page.sync="getstocklist.pagenum" :limit.sync="getstocklist.pagesize" @pagination="getstoctlist" />
+            </el-tab-pane>
+            <el-tab-pane label="收款信息">
+              <el-table
+                :data="tableData2"
+                border
+                style="width: 100%">
+                <el-table-column
+                  prop="customerName"
+                  align="center"
+                  label="客户"
+                  min-width="150"/>
+                <el-table-column
+                  prop="money"
+                  align="center"
+                  label="收款金额"
+                  min-width="150"/>
+                <el-table-column
+                  prop="idx"
+                  align="center"
+                  label="收款期数"
+                  min-width="150"/>
+                <el-table-column
+                  prop="collectDate"
+                  align="center"
+                  label="收款日期"
+                  min-width="150"/>
+                <el-table-column
+                  prop="collectType"
+                  align="center"
+                  label="收款方式"
+                  min-width="150"/>
+              </el-table>
+              <pagination v-show="total2>0" :total="total2" :page.sync="getCollectlist.pagenum" :limit.sync="getCollectlist.pagesize" @pagination="getCollect" />
+            </el-tab-pane>
+            <el-tab-pane label="回访记录">
+              <el-row :gutter="20">
+                <el-form ref="getVisitlistdata" :model="getVisitlistdata">
+                  <el-col :span="5">
+                    <el-form-item>
+                      <el-input v-model="getVisitlistdata.customerName" placeholder="客户姓名" clearable/>
+                    </el-form-item>
+                  </el-col>
+                  <el-col :span="5">
+                    <el-date-picker
+                      v-model="date"
+                      type="daterange"
+                      range-separator="-"
+                      unlink-panels
+                      start-placeholder="回访开始日期"
+                      end-placeholder="回访结束日期"
+                      value-format="yyyy-MM-dd"/>
+                  </el-col>
+                  <el-col :span="3">
+                    <el-button type="primary" style="margin-left: 200px" @click="handleFilter">{{ $t('public.search') }}</el-button>
+                  </el-col>
+                </el-form>
+              </el-row>
+              <el-table
+                :data="tableData3"
+                border
+                style="width: 100%">
+                <el-table-column
+                  prop="visitDate"
+                  align="center"
+                  label="回访日期"
+                  min-width="150"/>
+                <el-table-column
+                  prop="customerName"
+                  align="center"
+                  label="客户"
+                  min-width="150"/>
+                <el-table-column
+                  prop="content"
+                  align="center"
+                  label="回访内容"
+                  min-width="150"/>
+                <el-table-column
+                  prop="visitMode"
+                  align="center"
+                  label="回访方式"
+                  min-width="150"/>
+              </el-table>
+              <pagination v-show="total3>0" :total="total3" :page.sync="getVisitlistdata.pagenum" :limit.sync="getVisitlistdata.pagesize" @pagination="getVisitlist" />
+            </el-tab-pane>
+          </el-tabs>
+        </div>
+      </el-card>
+    </div>
   </el-dialog>
 </template>
 
@@ -629,5 +632,13 @@ export default {
   }
   .el-col-12{
     width: 49%;
+  }
+  @media print {
+    .print {
+      display: none;
+    }
+    .print2 {
+      display: block !important;
+    }
   }
 </style>

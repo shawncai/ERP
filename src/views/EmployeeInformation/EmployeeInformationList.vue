@@ -648,7 +648,12 @@ export default {
     },
     // 生成合同
     handleContract() {
-      console.log(123)
+      if (this.moreaction.length > 1) {
+        this.$message.error('只能选择单个员工')
+      } else {
+        this.$store.dispatch('getempcontract', this.moreaction[0])
+        this.$router.push('/EmployeeInformation/NewEmployeeContract')
+      }
     },
     // 导出
     handleExport() {

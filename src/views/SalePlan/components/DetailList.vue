@@ -1,143 +1,151 @@
 <template>
   <el-dialog :visible.sync="editVisible" :detailcontrol="detailcontrol" :detaildata="detaildata" :close-on-press-escape="false" :title="personalForm.planNumber +'    详情'" append-to-body width="1010px" class="edit" top="-10px" @close="$emit('update:detailcontrol', false)">
-    <!--基本信息-->
-    <el-card class="box-card" style="margin-top: 63px" shadow="never">
-      <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">基本信息</h2>
-      <div class="container" style="margin-top: 37px">
-        <el-form :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
-          <el-row>
-            <el-col :span="12">
-              <el-form-item :label="$t('SalePlan.title')" style="width: 100%;">
-                <span>{{ personalForm.title }}</span>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('SalePlan.planType')" prop="planType" style="width: 100%;">
-                <span>{{ personalForm.planType | planTypeFilter }}</span>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('SalePlan.planDate')" style="width: 100%;">
-                <span>{{ personalForm.planDate }}</span>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('SalePlan.beginTime')" style="width: 100%;">
-                <span>{{ personalForm.beginTime }}</span>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('SalePlan.endTime')" style="width: 100%;">
-                <span>{{ personalForm.endTime }}</span>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('SalePlan.lowerPlanMoney')" style="width: 100%;">
-                <span>{{ personalForm.lowerPlanMoney }}</span>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('SalePlan.planTotalMoney')" style="width: 100%;">
-                <span>{{ personalForm.planTotalMoney }}</span>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('SalePlan.urgePlan')" style="width: 100%;">
-                <span>{{ personalForm.urgePlan }}</span>
-              </el-form-item>
-            </el-col>
-          </el-row>
-        </el-form>
-      </div>
-    </el-card>
-    <!--子件信息-->
-    <el-card class="box-card" style="margin-top: 15px" shadow="never">
-      <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">计划明细</h2>
-      <div class="container">
-        <el-tree
-          ref="DeviceGroupTree"
-          :data="data2"
-          :props="defaultProps"
-          :check-strictly = "true"
-          default-expand-all
-          node-key="id"
-        />
-      </div>
-    </el-card>
-    <!--审核状态-->
-    <el-card class="box-card" style="margin-top: 15px" shadow="never">
-      <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">审批记录</h2>
-      <div class="container" style="margin-top: 37px">
-        <el-table
-          :data="reviewList"
-          border
-          style="width: 100%">
-          <el-table-column
-            prop="step"
-            align="center"
-            label="当前步骤"
-            min-width="150"/>
-          <el-table-column
-            prop="stepHandlerName"
-            align="center"
-            label="当前审批人"
-            min-width="150"/>
-          <el-table-column
-            prop="handleTime"
-            align="center"
-            label="审批时间"
-            min-width="150"/>
-          <el-table-column
-            prop="stat"
-            align="center"
-            label="审批意见"
-            min-width="150">
-            <template slot-scope="scope">
-              <span>{{ scope.row.stat | statfilter }}</span>
-            </template>
-          </el-table-column>
-        </el-table>
-      </div>
-    </el-card>
-    <el-card class="box-card" style="margin-top: 15px" shadow="never">
-      <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">备注信息</h2>
-      <div class="container" style="margin-top: 37px">
-        <el-form :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
-          <el-row>
-            <el-col :span="12">
-              <el-form-item :label="$t('public.createPersonName2')" prop="stockType" style="width: 100%;">
-                {{ personalForm.createPersonName }}
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('public.createDate2')" style="width: 100%;">
-                {{ personalForm.createDate }}
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('public.endPersonName')" prop="applyDate" style="width: 100%;">
-                {{ personalForm.endPersonName }}
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('public.endDate')" prop="applyDate" style="width: 100%;">
-                {{ personalForm.endDate }}
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('public.modifyPersonName')" prop="applyDate" style="width: 100%;">
-                {{ personalForm.modifyPersonName }}
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('public.modifyDate')" prop="applyDate" style="width: 100%;">
-                {{ personalForm.modifyDate }}
-              </el-form-item>
-            </el-col>
-          </el-row>
-        </el-form>
-      </div>
-    </el-card>
+    <div id="printTest" >
+      <!--基本信息-->
+      <el-card class="box-card" style="margin-top: 63px" shadow="never">
+        <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">基本信息</h2>
+        <button v-print="'#printTest'" class="print" style="font-size: 13px;background: white;">打印</button>
+        <div class="container" style="margin-top: 37px">
+          <el-form :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
+            <el-row>
+              <el-col :span="12">
+                <el-form-item class="print2" label="销售计划单编号" style="width: 100%;display: none">
+                  {{ personalForm.planNumber }}
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('SalePlan.title')" style="width: 100%;">
+                  <span>{{ personalForm.title }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('SalePlan.planType')" prop="planType" style="width: 100%;">
+                  <span>{{ personalForm.planType | planTypeFilter }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('SalePlan.planDate')" style="width: 100%;">
+                  <span>{{ personalForm.planDate }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('SalePlan.beginTime')" style="width: 100%;">
+                  <span>{{ personalForm.beginTime }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('SalePlan.endTime')" style="width: 100%;">
+                  <span>{{ personalForm.endTime }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('SalePlan.lowerPlanMoney')" style="width: 100%;">
+                  <span>{{ personalForm.lowerPlanMoney }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('SalePlan.planTotalMoney')" style="width: 100%;">
+                  <span>{{ personalForm.planTotalMoney }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('SalePlan.urgePlan')" style="width: 100%;">
+                  <span>{{ personalForm.urgePlan }}</span>
+                </el-form-item>
+              </el-col>
+            </el-row>
+          </el-form>
+        </div>
+      </el-card>
+      <!--子件信息-->
+      <el-card class="box-card" style="margin-top: 15px" shadow="never">
+        <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">计划明细</h2>
+        <div class="container">
+          <el-tree
+            ref="DeviceGroupTree"
+            :data="data2"
+            :props="defaultProps"
+            :check-strictly = "true"
+            default-expand-all
+            node-key="id"
+          />
+        </div>
+      </el-card>
+      <!--审核状态-->
+      <el-card class="box-card" style="margin-top: 15px" shadow="never">
+        <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">审批记录</h2>
+        <div class="container" style="margin-top: 37px">
+          <el-table
+            :data="reviewList"
+            border
+            style="width: 100%">
+            <el-table-column
+              prop="step"
+              align="center"
+              label="当前步骤"
+              min-width="150"/>
+            <el-table-column
+              prop="stepHandlerName"
+              align="center"
+              label="当前审批人"
+              min-width="150"/>
+            <el-table-column
+              prop="handleTime"
+              align="center"
+              label="审批时间"
+              min-width="150"/>
+            <el-table-column
+              prop="stat"
+              align="center"
+              label="审批意见"
+              min-width="150">
+              <template slot-scope="scope">
+                <span>{{ scope.row.stat | statfilter }}</span>
+              </template>
+            </el-table-column>
+          </el-table>
+        </div>
+      </el-card>
+      <el-card class="box-card" style="margin-top: 15px" shadow="never">
+        <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">备注信息</h2>
+        <div class="container" style="margin-top: 37px">
+          <el-form :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
+            <el-row>
+              <el-col :span="12">
+                <el-form-item :label="$t('public.createPersonName2')" prop="stockType" style="width: 100%;">
+                  {{ personalForm.createPersonName }}
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('public.createDate2')" style="width: 100%;">
+                  {{ personalForm.createDate }}
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('public.endPersonName')" prop="applyDate" style="width: 100%;">
+                  {{ personalForm.endPersonName }}
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('public.endDate')" prop="applyDate" style="width: 100%;">
+                  {{ personalForm.endDate }}
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('public.modifyPersonName')" prop="applyDate" style="width: 100%;">
+                  {{ personalForm.modifyPersonName }}
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('public.modifyDate')" prop="applyDate" style="width: 100%;">
+                  {{ personalForm.modifyDate }}
+                </el-form-item>
+              </el-col>
+            </el-row>
+          </el-form>
+        </div>
+      </el-card>
+    </div>
   </el-dialog>
 </template>
 
@@ -299,5 +307,13 @@ export default {
   }
   .el-col-12{
     width: 49%;
+  }
+  @media print {
+    .print {
+      display: none;
+    }
+    .print2 {
+      display: block !important;
+    }
   }
 </style>

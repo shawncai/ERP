@@ -1,189 +1,197 @@
 <template>
   <el-dialog :visible.sync="editVisible" :detailcontrol="detailcontrol" :detaildata="detaildata" :close-on-press-escape="false" :title="personalForm.number +'    详情'" append-to-body width="1010px" class="edit" top="-10px" @close="$emit('update:detailcontrol', false)">
-    <!--基本信息-->
-    <el-card class="box-card" style="margin-top: 63px" shadow="never">
-      <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">基本信息</h2>
-      <div class="container" style="margin-top: 37px">
-        <el-form :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
-          <el-row>
-            <el-col :span="12">
-              <el-form-item :label="$t('Recycling.title')" style="width: 100%;">
-                <span>{{ personalForm.title }}</span>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('Recycling.productCode')" prop="productCode" style="width: 100%;">
-                <span>{{ personalForm.productCode }}</span>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('Recycling.productType')" style="width: 100%;">
-                <span>{{ personalForm.productTypeName }}</span>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('Recycling.color')" style="width: 100%;">
-                <span>{{ personalForm.color }}</span>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('Recycling.productCategory')" style="width: 100%;">
-                <span>{{ personalForm.productCategoryName }}</span>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('Recycling.recyclingMoney')" style="width: 100%;">
-                <span>{{ personalForm.recyclingMoney }}</span>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('Recycling.recyclingDate')" prop="recyclingDate" style="width: 100%;">
-                <span>{{ personalForm.recyclingDate }}</span>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('Recycling.recyclingPersonId')" prop="recyclingPersonId" style="width: 100%;">
-                <span>{{ personalForm.recyclingPersonName }}</span>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('Recycling.recyclingRepositoryId')" style="width: 100%;">
-                <span>{{ personalForm.recyclingRepositoryName }}</span>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('Recycling.locationId')" style="width: 100%;">
-                <span>{{ personalForm.locationId }}</span>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('Recycling.batch')" style="width: 100%;">
-                <span>{{ personalForm.batch }}</span>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('Recycling.remark')" style="width: 100%;">
-                <span>{{ personalForm.remark }}</span>
-              </el-form-item>
-            </el-col>
-          </el-row>
-        </el-form>
-      </div>
-    </el-card>
-    <el-card class="box-card" shadow="never" style="margin-top: 10px">
-      <h2 ref="geren" class="form-name">客户信息</h2>
-      <div class="container" style="margin-top: 37px">
-        <el-form ref="personalForm2" :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
-          <el-row>
-            <el-col :span="12">
-              <el-form-item :label="$t('Recycling.customerId')" prop="customerId" style="width: 100%;">
-                <span>{{ personalForm.customerName }}</span>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('Recycling.sexId')" style="width: 100%;">
-                <span>{{ personalForm.sexId | sexIdFilter }}</span>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('Recycling.customerPhone')" style="width: 100%;">
-                <span>{{ personalForm.customerPhone }}</span>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('Recycling.provinceId')" style="width: 100%;">
-                <span>{{ personalForm.provinceName }}</span>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('Recycling.cityId')" style="width: 100%;">
-                <span>{{ personalForm.cityName }}</span>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('Recycling.detailAddress')" style="width: 100%;">
-                <span>{{ personalForm.detailAddress }}</span>
-              </el-form-item>
-            </el-col>
-          </el-row>
-        </el-form>
-      </div>
-    </el-card>
-    <!--子件信息-->
-    <!--审核状态-->
-    <el-card class="box-card" style="margin-top: 15px" shadow="never">
-      <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">审批记录</h2>
-      <div class="container" style="margin-top: 37px">
-        <el-table
-          :data="reviewList"
-          border
-          style="width: 100%">
-          <el-table-column
-            prop="step"
-            align="center"
-            label="当前步骤"
-            min-width="150"/>
-          <el-table-column
-            prop="stepHandlerName"
-            align="center"
-            label="当前审批人"
-            min-width="150"/>
-          <el-table-column
-            prop="handleTime"
-            align="center"
-            label="审批时间"
-            min-width="150"/>
-          <el-table-column
-            prop="stat"
-            align="center"
-            label="审批意见"
-            min-width="150">
-            <template slot-scope="scope">
-              <span>{{ scope.row.stat | statfilter }}</span>
-            </template>
-          </el-table-column>
-        </el-table>
-      </div>
-    </el-card>
-    <el-card class="box-card" style="margin-top: 15px" shadow="never">
-      <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">备注信息</h2>
-      <div class="container" style="margin-top: 37px">
-        <el-form :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
-          <el-row>
-            <el-col :span="12">
-              <el-form-item :label="$t('public.createPersonName2')" prop="stockType" style="width: 100%;">
-                {{ personalForm.createPersonName }}
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('public.createDate2')" style="width: 100%;">
-                {{ personalForm.createDate }}
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('public.endPersonName')" prop="applyDate" style="width: 100%;">
-                {{ personalForm.endPersonName }}
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('public.endDate')" prop="applyDate" style="width: 100%;">
-                {{ personalForm.endDate }}
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('public.modifyPersonName')" prop="applyDate" style="width: 100%;">
-                {{ personalForm.modifyPersonName }}
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('public.modifyDate')" prop="applyDate" style="width: 100%;">
-                {{ personalForm.modifyDate }}
-              </el-form-item>
-            </el-col>
-          </el-row>
-        </el-form>
-      </div>
-    </el-card>
+    <div id="printTest" >
+      <!--基本信息-->
+      <el-card class="box-card" style="margin-top: 63px" shadow="never">
+        <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">基本信息</h2>
+        <button v-print="'#printTest'" class="print" style="font-size: 13px;background: white;">打印</button>
+        <div class="container" style="margin-top: 37px">
+          <el-form :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
+            <el-row>
+              <el-col :span="12">
+                <el-form-item class="print2" label="二手回车单编号" style="width: 100%;display: none">
+                  {{ personalForm.planNumber }}
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('Recycling.title')" style="width: 100%;">
+                  <span>{{ personalForm.title }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('Recycling.productCode')" prop="productCode" style="width: 100%;">
+                  <span>{{ personalForm.productCode }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('Recycling.productType')" style="width: 100%;">
+                  <span>{{ personalForm.productTypeName }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('Recycling.color')" style="width: 100%;">
+                  <span>{{ personalForm.color }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('Recycling.productCategory')" style="width: 100%;">
+                  <span>{{ personalForm.productCategoryName }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('Recycling.recyclingMoney')" style="width: 100%;">
+                  <span>{{ personalForm.recyclingMoney }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('Recycling.recyclingDate')" prop="recyclingDate" style="width: 100%;">
+                  <span>{{ personalForm.recyclingDate }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('Recycling.recyclingPersonId')" prop="recyclingPersonId" style="width: 100%;">
+                  <span>{{ personalForm.recyclingPersonName }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('Recycling.recyclingRepositoryId')" style="width: 100%;">
+                  <span>{{ personalForm.recyclingRepositoryName }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('Recycling.locationId')" style="width: 100%;">
+                  <span>{{ personalForm.locationId }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('Recycling.batch')" style="width: 100%;">
+                  <span>{{ personalForm.batch }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('Recycling.remark')" style="width: 100%;">
+                  <span>{{ personalForm.remark }}</span>
+                </el-form-item>
+              </el-col>
+            </el-row>
+          </el-form>
+        </div>
+      </el-card>
+      <el-card class="box-card" shadow="never" style="margin-top: 10px">
+        <h2 ref="geren" class="form-name">客户信息</h2>
+        <div class="container" style="margin-top: 37px">
+          <el-form ref="personalForm2" :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
+            <el-row>
+              <el-col :span="12">
+                <el-form-item :label="$t('Recycling.customerId')" prop="customerId" style="width: 100%;">
+                  <span>{{ personalForm.customerName }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('Recycling.sexId')" style="width: 100%;">
+                  <span>{{ personalForm.sexId | sexIdFilter }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('Recycling.customerPhone')" style="width: 100%;">
+                  <span>{{ personalForm.customerPhone }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('Recycling.provinceId')" style="width: 100%;">
+                  <span>{{ personalForm.provinceName }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('Recycling.cityId')" style="width: 100%;">
+                  <span>{{ personalForm.cityName }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('Recycling.detailAddress')" style="width: 100%;">
+                  <span>{{ personalForm.detailAddress }}</span>
+                </el-form-item>
+              </el-col>
+            </el-row>
+          </el-form>
+        </div>
+      </el-card>
+      <!--子件信息-->
+      <!--审核状态-->
+      <el-card class="box-card" style="margin-top: 15px" shadow="never">
+        <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">审批记录</h2>
+        <div class="container" style="margin-top: 37px">
+          <el-table
+            :data="reviewList"
+            border
+            style="width: 100%">
+            <el-table-column
+              prop="step"
+              align="center"
+              label="当前步骤"
+              min-width="150"/>
+            <el-table-column
+              prop="stepHandlerName"
+              align="center"
+              label="当前审批人"
+              min-width="150"/>
+            <el-table-column
+              prop="handleTime"
+              align="center"
+              label="审批时间"
+              min-width="150"/>
+            <el-table-column
+              prop="stat"
+              align="center"
+              label="审批意见"
+              min-width="150">
+              <template slot-scope="scope">
+                <span>{{ scope.row.stat | statfilter }}</span>
+              </template>
+            </el-table-column>
+          </el-table>
+        </div>
+      </el-card>
+      <el-card class="box-card" style="margin-top: 15px" shadow="never">
+        <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">备注信息</h2>
+        <div class="container" style="margin-top: 37px">
+          <el-form :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
+            <el-row>
+              <el-col :span="12">
+                <el-form-item :label="$t('public.createPersonName2')" prop="stockType" style="width: 100%;">
+                  {{ personalForm.createPersonName }}
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('public.createDate2')" style="width: 100%;">
+                  {{ personalForm.createDate }}
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('public.endPersonName')" prop="applyDate" style="width: 100%;">
+                  {{ personalForm.endPersonName }}
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('public.endDate')" prop="applyDate" style="width: 100%;">
+                  {{ personalForm.endDate }}
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('public.modifyPersonName')" prop="applyDate" style="width: 100%;">
+                  {{ personalForm.modifyPersonName }}
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('public.modifyDate')" prop="applyDate" style="width: 100%;">
+                  {{ personalForm.modifyDate }}
+                </el-form-item>
+              </el-col>
+            </el-row>
+          </el-form>
+        </div>
+      </el-card>
+    </div>
   </el-dialog>
 </template>
 
@@ -306,5 +314,13 @@ export default {
   }
   .el-col-12{
     width: 49%;
+  }
+  @media print {
+    .print {
+      display: none;
+    }
+    .print2 {
+      display: block !important;
+    }
   }
 </style>

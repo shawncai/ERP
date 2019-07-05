@@ -1,145 +1,153 @@
 <template>
   <el-dialog :visible.sync="editVisible" :detailcontrol="detailcontrol" :editdata="detaildata" :close-on-press-escape="false" append-to-body class="edit" top="10px" title="货位调整单详情" @close="$emit('update:detailcontrol', false)">
-    <!--基本信息-->
-    <el-card class="box-card">
-      <h2 ref="geren" class="form-name">基本信息</h2>
-      <div class="container">
-        <el-form :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="120px" style="margin-left: 30px;">
-          <el-row>
-            <el-col :span="6">
-              <el-form-item :label="$t('WarehouseAdjust.title2')" style="width: 100%;">
-                <el-input v-model="personalForm.title" style="margin-left: 18px;width: 150px" disabled/>
-              </el-form-item>
-            </el-col>
-            <el-col :span="6">
-              <el-form-item :label="$t('public.modifyPersonName')" style="width: 100%;">
-                <el-input v-model="personalForm.modifyPersonName" style="margin-left: 18px;width: 150px" disabled/>
-              </el-form-item>
-            </el-col>
-            <el-col :span="6">
-              <el-form-item :label="$t('public.endPersonName')" style="width: 100%;">
-                <el-input v-model="personalForm.endPersonName" style="margin-left: 18px;width: 150px" disabled/>
-              </el-form-item>
-            </el-col>
-            <el-col :span="6">
-              <el-form-item :label="$t('public.createPersonName')" style="width: 100%;">
-                <el-input v-model="personalForm.createPersonName" style="margin-left: 18px;width: 150px" disabled/>
-              </el-form-item>
-            </el-col>
-            <el-col :span="6">
-              <el-form-item :label="$t('public.createDate')" style="width: 100%;">
-                <el-input v-model="personalForm.createDate" style="margin-left: 18px;width: 150px" disabled/>
-              </el-form-item>
-            </el-col>
-            <el-col :span="6">
-              <el-form-item :label="$t('public.countyrId')" style="width: 100%;">
-                <el-input v-model="personalForm.countryName" style="margin-left: 18px;width: 150px" disabled/>
-              </el-form-item>
-            </el-col>
-            <el-col :span="6">
-              <el-form-item :label="$t('WarehouseAdjust.handlePersonId')" prop="handlePersonId" style="width: 100%;">
-                <el-input v-model="personalForm.handlePersonName" style="margin-left: 18px;width: 150px" disabled />
-              </el-form-item>
-            </el-col>
-            <el-col :span="6">
-              <el-form-item :label="$t('WarehouseAdjust.adjustDeptId')" style="width: 100%;">
-                <el-select v-model="personalForm.adjustDeptId" style="margin-left: 18px;width: 150px" disabled >
-                  <el-option
-                    v-for="(item, index) in depts"
-                    :key="index"
-                    :value="item.id"
-                    :label="item.deptName"/>
-                </el-select>
-              </el-form-item>
-            </el-col>
-            <el-col :span="6">
-              <el-form-item :label="$t('WarehouseAdjust.adjustRepositoryId')" prop="adjustRepositoryId" style="width: 100%;">
-                <el-input v-model="personalForm.adjustRepositoryName" style="margin-left: 18px;width: 150px" disabled />
-              </el-form-item>
-            </el-col>
-            <el-col :span="6">
-              <el-form-item :label="$t('WarehouseAdjust.adjustReason')" style="width: 100%;">
-                <el-input v-model="personalForm.adjustReason" style="margin-left: 18px;width: 150px" disabled/>
-              </el-form-item>
-            </el-col>
-            <el-col :span="6">
-              <el-form-item :label="$t('WarehouseAdjust.adjustDate')" prop="adjustDate" style="width: 100%;">
-                <el-date-picker
-                  v-model="personalForm.adjustDate"
-                  type="date"
-                  value-format="yyyy-MM-dd"
-                  disabled
-                  style="margin-left: 18px;width: 150px"/>
-              </el-form-item>
-            </el-col>
-          </el-row>
-        </el-form>
+    <div id="printTest" >
+      <!--基本信息-->
+      <el-card class="box-card">
+        <h2 ref="geren" class="form-name">基本信息</h2>
+        <button v-print="'#printTest'" class="print" style="font-size: 13px;background: white;">打印</button>
+        <div class="container">
+          <el-form :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="120px" style="margin-left: 30px;">
+            <el-row>
+              <el-col :span="12">
+                <el-form-item class="print2" label="库位调整单编号" style="width: 100%;display: none">
+                  {{ personalForm.adjustNumber }}
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item :label="$t('WarehouseAdjust.title2')" style="width: 100%;">
+                  <el-input v-model="personalForm.title" style="margin-left: 18px;width: 150px" disabled/>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item :label="$t('public.modifyPersonName')" style="width: 100%;">
+                  <el-input v-model="personalForm.modifyPersonName" style="margin-left: 18px;width: 150px" disabled/>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item :label="$t('public.endPersonName')" style="width: 100%;">
+                  <el-input v-model="personalForm.endPersonName" style="margin-left: 18px;width: 150px" disabled/>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item :label="$t('public.createPersonName')" style="width: 100%;">
+                  <el-input v-model="personalForm.createPersonName" style="margin-left: 18px;width: 150px" disabled/>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item :label="$t('public.createDate')" style="width: 100%;">
+                  <el-input v-model="personalForm.createDate" style="margin-left: 18px;width: 150px" disabled/>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item :label="$t('public.countyrId')" style="width: 100%;">
+                  <el-input v-model="personalForm.countryName" style="margin-left: 18px;width: 150px" disabled/>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item :label="$t('WarehouseAdjust.handlePersonId')" prop="handlePersonId" style="width: 100%;">
+                  <el-input v-model="personalForm.handlePersonName" style="margin-left: 18px;width: 150px" disabled />
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item :label="$t('WarehouseAdjust.adjustDeptId')" style="width: 100%;">
+                  <el-select v-model="personalForm.adjustDeptId" style="margin-left: 18px;width: 150px" disabled >
+                    <el-option
+                      v-for="(item, index) in depts"
+                      :key="index"
+                      :value="item.id"
+                      :label="item.deptName"/>
+                  </el-select>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item :label="$t('WarehouseAdjust.adjustRepositoryId')" prop="adjustRepositoryId" style="width: 100%;">
+                  <el-input v-model="personalForm.adjustRepositoryName" style="margin-left: 18px;width: 150px" disabled />
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item :label="$t('WarehouseAdjust.adjustReason')" style="width: 100%;">
+                  <el-input v-model="personalForm.adjustReason" style="margin-left: 18px;width: 150px" disabled/>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item :label="$t('WarehouseAdjust.adjustDate')" prop="adjustDate" style="width: 100%;">
+                  <el-date-picker
+                    v-model="personalForm.adjustDate"
+                    type="date"
+                    value-format="yyyy-MM-dd"
+                    disabled
+                    style="margin-left: 18px;width: 150px"/>
+                </el-form-item>
+              </el-col>
+            </el-row>
+          </el-form>
+        </div>
+      </el-card>
+      <!--日常调整单明细-->
+      <el-card class="box-card" style="margin-top: 15px">
+        <h2 ref="fuzhu" class="form-name">日常调整单明细</h2>
+        <div class="container">
+          <el-editable
+            ref="editable"
+            :data.sync="list2"
+            :edit-config="{ showIcon: true, showStatus: true}"
+            class="click-table1"
+            stripe
+            border
+            size="medium"
+            style="width: 100%">
+            <el-editable-column type="selection" width="55" align="center"/>
+            <el-editable-column label="编号" width="55" align="center" type="index"/>
+            <el-editable-column prop="productCode" align="center" label="物品编号" width="150px"/>
+            <el-editable-column prop="productName" align="center" label="物品名称" width="150px"/>
+            <el-editable-column prop="productType" align="center" label="规格" width="150px"/>
+            <el-editable-column prop="unit" align="center" label="单位" width="150px"/>
+            <el-editable-column prop="outLocationCode" align="center" label="调出库位" width="150px"/>
+            <el-editable-column prop="batch" align="center" label="批次" width="200px"/>
+            <el-editable-column prop="enterLocationCode" align="center" label="调入库位" width="150px"/>
+            <el-editable-column prop="inventoryQuantity" align="center" label="库存数量" width="150px"/>
+            <el-editable-column prop="quantity" align="center" label="调动数量" width="150px"/>
+          </el-editable>
+        </div>
+      </el-card>
+      <!--审核状态-->
+      <el-card class="box-card" style="margin-top: 15px">
+        <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">审批记录</h2>
+        <div class="container" style="margin-top: 37px">
+          <el-table
+            :data="reviewList"
+            border
+            style="width: 100%">
+            <el-table-column
+              prop="step"
+              align="center"
+              label="当前步骤"
+              min-width="150"/>
+            <el-table-column
+              prop="stepHandlerName"
+              align="center"
+              label="当前审批人"
+              min-width="150"/>
+            <el-table-column
+              prop="handleTime"
+              align="center"
+              label="审批时间"
+              min-width="150"/>
+            <el-table-column
+              prop="stat"
+              align="center"
+              label="审批意见"
+              min-width="150">
+              <template slot-scope="scope">
+                <span>{{ scope.row.stat | statfilter }}</span>
+              </template>
+            </el-table-column>
+          </el-table>
+        </div>
+      </el-card>
+      <div class="buttons" style="margin-top: 20px;margin-left: 30px">
+        <el-button type="danger" @click="handlecancel()">取消</el-button>
       </div>
-    </el-card>
-    <!--日常调整单明细-->
-    <el-card class="box-card" style="margin-top: 15px">
-      <h2 ref="fuzhu" class="form-name">日常调整单明细</h2>
-      <div class="container">
-        <el-editable
-          ref="editable"
-          :data.sync="list2"
-          :edit-config="{ showIcon: true, showStatus: true}"
-          class="click-table1"
-          stripe
-          border
-          size="medium"
-          style="width: 100%">
-          <el-editable-column type="selection" width="55" align="center"/>
-          <el-editable-column label="编号" width="55" align="center" type="index"/>
-          <el-editable-column prop="productCode" align="center" label="物品编号" width="150px"/>
-          <el-editable-column prop="productName" align="center" label="物品名称" width="150px"/>
-          <el-editable-column prop="productType" align="center" label="规格" width="150px"/>
-          <el-editable-column prop="unit" align="center" label="单位" width="150px"/>
-          <el-editable-column prop="outLocationCode" align="center" label="调出库位" width="150px"/>
-          <el-editable-column prop="batch" align="center" label="批次" width="200px"/>
-          <el-editable-column prop="enterLocationCode" align="center" label="调入库位" width="150px"/>
-          <el-editable-column prop="inventoryQuantity" align="center" label="库存数量" width="150px"/>
-          <el-editable-column prop="quantity" align="center" label="调动数量" width="150px"/>
-        </el-editable>
-      </div>
-    </el-card>
-    <!--审核状态-->
-    <el-card class="box-card" style="margin-top: 15px">
-      <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">审批记录</h2>
-      <div class="container" style="margin-top: 37px">
-        <el-table
-          :data="reviewList"
-          border
-          style="width: 100%">
-          <el-table-column
-            prop="step"
-            align="center"
-            label="当前步骤"
-            min-width="150"/>
-          <el-table-column
-            prop="stepHandlerName"
-            align="center"
-            label="当前审批人"
-            min-width="150"/>
-          <el-table-column
-            prop="handleTime"
-            align="center"
-            label="审批时间"
-            min-width="150"/>
-          <el-table-column
-            prop="stat"
-            align="center"
-            label="审批意见"
-            min-width="150">
-            <template slot-scope="scope">
-              <span>{{ scope.row.stat | statfilter }}</span>
-            </template>
-          </el-table-column>
-        </el-table>
-      </div>
-    </el-card>
-    <div class="buttons" style="margin-top: 20px;margin-left: 30px">
-      <el-button type="danger" @click="handlecancel()">取消</el-button>
     </div>
   </el-dialog>
 </template>
@@ -214,5 +222,13 @@ export default {
 <style scoped>
   .edit >>> .el-dialog {
     background:#f1f1f1 ;
+  }
+  @media print {
+    .print {
+      display: none;
+    }
+    .print2 {
+      display: block !important;
+    }
   }
 </style>

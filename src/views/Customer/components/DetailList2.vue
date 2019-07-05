@@ -10,174 +10,176 @@
     class="edit"
     top="-10px"
     @close="$emit('update:detailcontrol', false)">
-    <!--基本信息-->
-    <el-card class="box-card" style="margin-top: 63px" shadow="never">
-      <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">基本信息</h2>
-      <div class="container" style="margin-top: 37px">
-        <el-form ref="customerForm" :model="customerForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
-          <el-row>
-            <el-col :span="12">
-              <el-form-item :label="$t('Customer.firstname')" prop="firstName" style="width: 100%;">
-                {{ customerForm.firstName }}
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('Customer.middlename')" style="width: 100%;">
-                {{ customerForm.middleName }}
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('Customer.lastname')" prop="lastName" sstyle="width: 100%;">
-                {{ customerForm.lastName }}
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('Customer.phone')" prop="phoneNumber" style="width: 100%">
-                {{ customerForm.phoneNumber }}
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('Customer.gender')" prop="gender" style="width: 100%">
-                {{ customerForm.gender | genderFilter }}
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('Customer.level')" style="width: 100%">
-                {{ customerForm.customerLevel }}
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('Customer.source')" style="width: 100%">
-                {{ customerForm.sourceName }}
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('Customer.newold')" style="width: 100%">
-                {{ customerForm.newOrOld | newoldFilter }}
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('Customer.address')" prop="address" style="width: 100%">
-                {{ customerForm.address }}
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('public.countyrId')" style="width: 100%">
-                {{ customerForm.countryName }}
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('Customer.provinceid')" style="width: 100%">
-                {{ customerForm.provinceName }}
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('Customer.cityid')" style="width: 100%">
-                {{ customerForm.cityName }}
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item label="门店" prop="repositoryid" style="width: 100%">
-                {{ customerForm.repositoryName }}
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('Customer.birthday')" style="width: 100%">
-                {{ customerForm.birthday }}
-              </el-form-item>
-            </el-col>
-          </el-row>
-        </el-form>
-      </div>
-    </el-card>
-    <!--子件信息-->
-    <el-card class="box-card" style="margin-top: 15px" shadow="never">
-      <div class="container" style="margin-top: 10px">
-        <el-tabs type="card">
-          <el-tab-pane label="收车信息">
-            <el-table
-              :data="tableData"
-              border
-              style="width: 100%">
-              <el-table-column
-                prop="productName"
-                align="center"
-                label="商品名称"
-                min-width="150"/>
-              <el-table-column
-                prop="productType"
-                align="center"
-                label="型号"
-                min-width="150"/>
-              <el-table-column
-                prop="carCode"
-                align="center"
-                label="车架号"
-                min-width="150"/>
-              <el-table-column
-                prop="recoverReason"
-                align="center"
-                label="收车原因"
-                min-width="150"/>
-              <el-table-column
-                prop="handlePersonName"
-                align="center"
-                label="收车人"
-                min-width="150"/>
-              <el-table-column
-                prop="recoverDate"
-                align="center"
-                label="收车时间"
-                min-width="150"/>
-            </el-table>
-          </el-tab-pane>
-          <el-tab-pane label="回款记录">
-            <el-table
-              :data="tableData2"
-              border
-              style="width: 100%">
-              <el-table-column
-                prop="idx"
-                align="center"
-                label="当前期数"
-                min-width="150"/>
-              <el-table-column
-                prop="payDate"
-                align="center"
-                label="回款日期"
-                min-width="150"/>
-              <el-table-column
-                prop="paidMoney"
-                align="center"
-                label="回款金额"
-                min-width="150"/>
-              <el-table-column
-                prop="payMode"
-                align="center"
-                label="付款方式"
-                min-width="150"/>
-              <el-table-column
-                prop="sourceNumber"
-                align="center"
-                label="单据编号"
-                min-width="150"/>
-              <el-table-column
-                prop="collectName"
-                align="center"
-                label="收款人"
-                min-width="150"/>
-              <el-table-column
-                prop="collectDate"
-                align="center"
-                label="收款日期"
-                min-width="150"/>
-              <el-table-column
-                prop="stat"
-                align="center"
-                label="状态"
-                min-width="150"/>
-            </el-table>
-          </el-tab-pane>
+    <div id="printTest" >
+      <!--基本信息-->
+      <el-card class="box-card" style="margin-top: 63px" shadow="never">
+        <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">基本信息</h2>
+        <button v-print="'#printTest'" class="print" style="font-size: 13px;background: white;">打印</button>
+        <div class="container" style="margin-top: 37px">
+          <el-form ref="customerForm" :model="customerForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
+            <el-row>
+              <el-col :span="12">
+                <el-form-item :label="$t('Customer.firstname')" prop="firstName" style="width: 100%;">
+                  {{ customerForm.firstName }}
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('Customer.middlename')" style="width: 100%;">
+                  {{ customerForm.middleName }}
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('Customer.lastname')" prop="lastName" sstyle="width: 100%;">
+                  {{ customerForm.lastName }}
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('Customer.phone')" prop="phoneNumber" style="width: 100%">
+                  {{ customerForm.phoneNumber }}
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('Customer.gender')" prop="gender" style="width: 100%">
+                  {{ customerForm.gender | genderFilter }}
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('Customer.level')" style="width: 100%">
+                  {{ customerForm.customerLevel }}
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('Customer.source')" style="width: 100%">
+                  {{ customerForm.sourceName }}
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('Customer.newold')" style="width: 100%">
+                  {{ customerForm.newOrOld | newoldFilter }}
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('Customer.address')" prop="address" style="width: 100%">
+                  {{ customerForm.address }}
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('public.countyrId')" style="width: 100%">
+                  {{ customerForm.countryName }}
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('Customer.provinceid')" style="width: 100%">
+                  {{ customerForm.provinceName }}
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('Customer.cityid')" style="width: 100%">
+                  {{ customerForm.cityName }}
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item label="门店" prop="repositoryid" style="width: 100%">
+                  {{ customerForm.repositoryName }}
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('Customer.birthday')" style="width: 100%">
+                  {{ customerForm.birthday }}
+                </el-form-item>
+              </el-col>
+            </el-row>
+          </el-form>
+        </div>
+      </el-card>
+      <!--子件信息-->
+      <el-card class="box-card" style="margin-top: 15px" shadow="never">
+        <div class="container" style="margin-top: 10px">
+          <el-tabs type="card">
+            <el-tab-pane label="收车信息">
+              <el-table
+                :data="tableData"
+                border
+                style="width: 100%">
+                <el-table-column
+                  prop="productName"
+                  align="center"
+                  label="商品名称"
+                  min-width="150"/>
+                <el-table-column
+                  prop="productType"
+                  align="center"
+                  label="型号"
+                  min-width="150"/>
+                <el-table-column
+                  prop="carCode"
+                  align="center"
+                  label="车架号"
+                  min-width="150"/>
+                <el-table-column
+                  prop="recoverReason"
+                  align="center"
+                  label="收车原因"
+                  min-width="150"/>
+                <el-table-column
+                  prop="handlePersonName"
+                  align="center"
+                  label="收车人"
+                  min-width="150"/>
+                <el-table-column
+                  prop="recoverDate"
+                  align="center"
+                  label="收车时间"
+                  min-width="150"/>
+              </el-table>
+            </el-tab-pane>
+            <el-tab-pane label="回款记录">
+              <el-table
+                :data="tableData2"
+                border
+                style="width: 100%">
+                <el-table-column
+                  prop="idx"
+                  align="center"
+                  label="当前期数"
+                  min-width="150"/>
+                <el-table-column
+                  prop="payDate"
+                  align="center"
+                  label="回款日期"
+                  min-width="150"/>
+                <el-table-column
+                  prop="paidMoney"
+                  align="center"
+                  label="回款金额"
+                  min-width="150"/>
+                <el-table-column
+                  prop="payMode"
+                  align="center"
+                  label="付款方式"
+                  min-width="150"/>
+                <el-table-column
+                  prop="sourceNumber"
+                  align="center"
+                  label="单据编号"
+                  min-width="150"/>
+                <el-table-column
+                  prop="collectName"
+                  align="center"
+                  label="收款人"
+                  min-width="150"/>
+                <el-table-column
+                  prop="collectDate"
+                  align="center"
+                  label="收款日期"
+                  min-width="150"/>
+                <el-table-column
+                  prop="stat"
+                  align="center"
+                  label="状态"
+                  min-width="150"/>
+              </el-table>
+            </el-tab-pane>
           <!--<el-tab-pane label="收款信息">-->
           <!--<el-table-->
           <!--:data="tableData2"-->
@@ -261,9 +263,10 @@
           <!--</el-table>-->
           <!--<pagination v-show="total3>0" :total="total3" :page.sync="getVisitlistdata.pagenum" :limit.sync="getVisitlistdata.pagesize" @pagination="getVisitlist" />-->
           <!--</el-tab-pane>-->
-        </el-tabs>
-      </div>
-    </el-card>
+          </el-tabs>
+        </div>
+      </el-card>
+    </div>
   </el-dialog>
 </template>
 
@@ -466,5 +469,13 @@ export default {
   }
   .el-col-12{
     width: 49%;
+  }
+  @media print {
+    .print {
+      display: none;
+    }
+    .print2 {
+      display: block !important;
+    }
   }
 </style>

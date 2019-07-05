@@ -11,479 +11,482 @@
     class="edit"
     top="-10px"
     @close="$emit('update:detailcontrol', false)">
-    <!--基本信息-->
-    <el-card class="box-card" style="margin-top: 63px" shadow="never">
-      <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">基本信息</h2>
-      <div class="container" style="margin-top: 37px">
-        <el-form :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
-          <el-row>
-            <el-col :span="12">
-              <el-form-item :label="$t('Supplier.supplierName')" prop="supplierName" style="width: 100%;">
-                <span>{{ personalForm.supplierName }}</span>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('Supplier.typeId')" prop="typeId" style="width: 100%;">
-                <span>{{ personalForm.typeName }}</span>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('Supplier.supplierShortName')" prop="supplierShortName" style="width: 100%;">
-                <span>{{ personalForm.supplierShortName }}</span>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('Supplier.supplierIntroduction')" prop="supplierShortName" style="width: 100%;">
-                <span>{{ personalForm.supplierIntroduction }}</span>
-              </el-form-item>
-            </el-col>
-          </el-row>
-        </el-form>
-      </div>
-    </el-card>
-    <el-card class="box-card" shadow="never" style="margin-top: 10px">
-      <h2 ref="lianxi" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">业务信息</h2>
-      <div class="container" style="margin-top: 37px">
-        <el-form ref="personalForm2" :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
-          <el-row>
-            <el-col :span="12">
-              <el-form-item :label="$t('public.countyrId')" prop="countryId" style="width: 100%;">
-                <span>{{ personalForm.countryNname }}</span>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('public.provinceId')" style="width: 100%;">
-                <span>{{ personalForm.provinceName }}</span>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('public.cityId')" style="width: 100%;">
-                <span>{{ personalForm.cityName }}</span>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('public.address')" style="width: 100%;">
-                <span>{{ personalForm.detailAddress }}</span>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('Supplier.groupId')" prop="groupId" style="width: 100%;">
-                <span>{{ personalForm.groupName }}</span>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('Supplier.zipCode')" style="width: 100%;">
-                <span>{{ personalForm.zipCode }}</span>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('Supplier.contactPersonName')" style="width: 100%;">
-                <span>{{ personalForm.contactPersonName }}</span>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('Supplier.contactPersonPhone')" style="width: 100%;">
-                <span>{{ personalForm.contactPersonPhone }}</span>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('Supplier.regionId')" prop="regionid" style="width: 100%;">
-                <span>{{ personalForm.regionName }}</span>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('Supplier.giveId')" style="width: 100%;">
-                <span>{{ personalForm.deliveryModeName }}</span>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('Supplier.transportId')" style="width: 100%;">
-                <span>{{ personalForm.transportName }}</span>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('Supplier.payMode')" style="width: 100%;">
-                <span>{{ personalForm.payModeName }}</span>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('Supplier.levelId')" style="width: 100%;">
-                <span>{{ personalForm.levelName }}</span>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('Supplier.isHot')" prop="isHot" style="width: 100%;">
-                <span>{{ personalForm.isHot | isHotFilter }}</span>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('Supplier.isEffective')" style="width: 100%;">
-                <span>{{ personalForm.isEffective | isEffectiveFilter }}</span>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('Supplier.buyerId')" style="width: 100%;">
-                <span>{{ personalForm.buyerName }}</span>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('Supplier.businessScopeIntroduction')" style="width: 100%;">
-                <span>{{ personalForm.businessScopeIntroduction }}</span>
-              </el-form-item>
-            </el-col>
-          </el-row>
-        </el-form>
-      </div>
-    </el-card>
-    <el-card class="box-card" style="margin-top: 15px" shadow="never">
-      <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">可提供商品明细</h2>
-      <div class="container">
-        <el-editable
-          ref="editable"
-          :data.sync="list2"
-          :edit-config="{ showIcon: true, showStatus: true}"
-          class="click-table1"
-          stripe
-          border
-          size="medium"
-          style="width: 100%">
-          <el-editable-column label="序号" min-width="55" align="center" type="index"/>
-          <el-editable-column prop="productCode" align="center" label="物品编号" min-width="150px"/>
-          <el-editable-column prop="productName" align="center" label="物品名称" min-width="150px"/>
-          <el-editable-column prop="productType" align="center" label="规格" min-width="150px"/>
-          <el-editable-column prop="unit" align="center" label="单位" min-width="150px"/>
-          <el-editable-column prop="color" align="center" label="颜色" min-width="150px"/>
-          <el-editable-column prop="proportion" align="center" label="供货比列" min-width="150px"/>
-        </el-editable>
-      </div>
-    </el-card>
-    <el-card class="box-card" shadow="never" style="margin-top: 10px">
-      <h2 class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">财务信息</h2>
-      <div class="container" style="margin-top: 37px">
-        <el-form ref="personalForm3" :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
-          <el-row>
-            <el-col :span="12">
-              <el-form-item :label="$t('Supplier.paymentId')" style="width: 100%;">
-                <span>{{ personalForm.settleModeName }}</span>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('Supplier.moneyId')" style="width: 100%;">
-                <span>{{ personalForm.moneyId | moneyIdFilter }}</span>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('Supplier.bankName')" style="width: 100%;">
-                <span>{{ personalForm.bankName }}</span>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('Supplier.accountName')" style="width: 100%;">
-                <span>{{ personalForm.accountName }}</span>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('Supplier.account')" style="width: 100%;">
-                <span>{{ personalForm.account }}</span>
-              </el-form-item>
-            </el-col>
-          </el-row>
-        </el-form>
-      </div>
-    </el-card>
-    <el-card class="box-card" shadow="never" style="margin-top: 10px">
-      <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">辅助信息</h2>
-      <div class="container" style="margin-top: 37px">
-        <el-form ref="personalForm4" :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
-          <el-row>
-            <el-col :span="12">
-              <el-form-item :label="$t('Supplier.establishDate')" style="width: 100%;">
-                <span>{{ personalForm.establishDate }}</span>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('Supplier.legalPerson')" style="width: 100%;">
-                <span>{{ personalForm.legalPerson }}</span>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('Supplier.taxNumber')" style="width: 100%;">
-                <span>{{ personalForm.taxNumber }}</span>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('Supplier.businessLicense')" style="width: 100%;">
-                <span>{{ personalForm.businessLicense }}</span>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('Supplier.companyTypeId')" style="width: 100%;">
-                <span>{{ personalForm.companyTypeId | companyTypeIdFilter }}</span>
-              </el-form-item>
-            </el-col>
-          </el-row>
-        </el-form>
-      </div>
-    </el-card>
-    <el-card class="box-card" style="margin-top: 15px" shadow="never">
-      <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">备注信息</h2>
-      <div class="container" style="margin-top: 37px">
-        <el-form :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
-          <el-row>
-            <el-col :span="12">
-              <el-form-item :label="$t('public.createPersonName')" style="width: 100%;">
-                {{ personalForm.createName }}
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('public.createDate')" style="width: 100%;">
-                {{ personalForm.createTime }}
-              </el-form-item>
-            </el-col>
-          </el-row>
-        </el-form>
-      </div>
-    </el-card>
-    <el-card class="box-card" style="margin-top: 15px" shadow="never">
-      <div class="container" style="margin-top: 10px">
-        <el-tabs type="card">
-          <el-tab-pane label="询价信息">
-            <el-table
-              :data="tableData"
-              border
-              style="width: 100%">
-              <el-table-column
-                prop="inquiryDate"
-                align="center"
-                label="询价日期"
-                min-width="150"/>
-              <el-table-column
-                prop="productName"
-                align="center"
-                label="物品名称"
-                min-width="150"/>
-              <el-table-column
-                prop="unit"
-                align="center"
-                label="单位"
-                min-width="150"/>
-              <el-table-column
-                prop="price"
-                align="center"
-                label="采购单价"
-                min-width="150"/>
-              <el-table-column
-                prop="inquiryPersonName"
-                align="center"
-                label="询价人"
-                min-width="150"/>
-            </el-table>
-          </el-tab-pane>
-          <el-tab-pane label="付款信息">
-            <el-table
-              :data="tableData2"
-              border
-              style="width: 100%">
-              <el-table-column
-                prop="payThis"
-                align="center"
-                label="付款金额"
-                min-width="150"/>
-              <el-table-column
-                prop="payDate"
-                align="center"
-                label="付款日期"
-                min-width="150"/>
-              <el-table-column
-                prop="payMode"
-                align="center"
-                label="付款方式"
-                min-width="150"/>
-              <el-table-column
-                prop="paidMoney"
-                align="center"
-                label="已付金额"
-                min-width="150"/>
-              <el-table-column
-                prop="payingMoney"
-                align="center"
-                label="未付金额"
-                min-width="150"/>
-            </el-table>
-          </el-tab-pane>
-          <el-tab-pane label="退货信息">
-            <el-table
-              :data="tableData3"
-              border
-              style="width: 100%">
-              <el-table-column
-                prop="productName"
-                align="center"
-                label="物品名称"
-                min-width="150"/>
-              <el-table-column
-                prop="unit"
-                align="center"
-                label="单位"
-                min-width="150"/>
-              <el-table-column
-                prop="money"
-                align="center"
-                label="金额"
-                min-width="150"/>
-              <el-table-column
-                prop="retreatQuantity"
-                align="center"
-                label="退货数量"
-                min-width="150"/>
-              <el-table-column
-                prop="retreatReason"
-                align="center"
-                label="退货原因"
-                min-width="150"/>
-              <el-table-column
-                prop="stat"
-                align="center"
-                label="退货状态"
-                min-width="150"/>
-            </el-table>
-          </el-tab-pane>
-          <el-tab-pane label="预付款信息">
-            <el-table
-              :data="tableData4"
-              border
-              style="width: 100%">
-              <el-table-column
-                prop="totalMoney"
-                align="center"
-                label="预付款金额"
-                min-width="150"/>
-              <el-table-column
-                prop="payDate"
-                align="center"
-                label="预付款日期"
-                min-width="150"/>
-              <el-table-column
-                prop="settleModeName"
-                align="center"
-                label="付款方式"
-                min-width="150"/>
-              <el-table-column
-                prop="stockPersonName"
-                align="center"
-                label="付款人"
-                min-width="150"/>
-            </el-table>
-          </el-tab-pane>
-          <el-tab-pane label="采购信息">
-            <el-table
-              :data="tableData5"
-              border
-              style="width: 100%">
-              <el-table-column
-                prop="productName"
-                align="center"
-                label="商品名称"
-                min-width="150"/>
-              <el-table-column
-                prop="stat"
-                align="center"
-                label="物品状态"
-                min-width="150"/>
-              <el-table-column
-                prop="stockType"
-                align="center"
-                label="供应类型"
-                min-width="150"/>
-              <el-table-column
-                prop="stockQuantity"
-                align="center"
-                label="采购数量"
-                min-width="150"/>
-              <el-table-column
-                prop="price"
-                align="center"
-                label="采购价"
-                min-width="150"/>
-              <el-table-column
-                prop="money"
-                align="center"
-                label="采购金额"
-                min-width="150"/>
-              <el-table-column
-                prop="returnQuantity"
-                align="center"
-                label="退货数量"
-                min-width="150"/>
-              <el-table-column
-                prop="stockTimes"
-                align="center"
-                label="采购次数"
-                min-width="150"/>
-              <el-table-column
-                prop="returnTimes"
-                align="center"
-                label="退货次数"
-                min-width="150"/>
-            </el-table>
-          </el-tab-pane>
-          <el-tab-pane label="惩罚信息">
-            <el-table
-              :data="tableData6"
-              border
-              style="width: 100%">
-              <el-table-column
-                prop="createTime"
-                align="center"
-                label="惩罚时间"
-                min-width="150"/>
-              <el-table-column
-                prop="comment"
-                align="center"
-                label="惩罚内容"
-                min-width="150"/>
-              <el-table-column
-                prop="reason"
-                align="center"
-                label="惩罚原因"
-                min-width="150"/>
-              <el-table-column
-                prop="createName"
-                align="center"
-                label="经办人"
-                min-width="150"/>
-            </el-table>
-          </el-tab-pane>
-          <el-tab-pane label="延迟记录">
-            <el-table
-              :data="tableData7"
-              border
-              style="width: 100%">
-              <el-table-column
-                prop="number"
-                align="center"
-                label="订单编号"
-                min-width="150"/>
-              <el-table-column
-                prop="arrivalDate"
-                align="center"
-                label="交货日期"
-                min-width="150"/>
-              <el-table-column
-                prop="acceptDate"
-                align="center"
-                label="实际到货日期"
-                min-width="150"/>
-              <el-table-column
-                prop="createName"
-                align="center"
-                label="延迟时间"
-                min-width="150"/>
-            </el-table>
-          </el-tab-pane>
-        </el-tabs>
-      </div>
-    </el-card>
+    <div id="printTest" >
+      <!--基本信息-->
+      <el-card class="box-card" style="margin-top: 63px" shadow="never">
+        <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">基本信息</h2>
+        <button v-print="'#printTest'" class="print" style="font-size: 13px;background: white;">打印</button>
+        <div class="container" style="margin-top: 37px">
+          <el-form :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
+            <el-row>
+              <el-col :span="12">
+                <el-form-item :label="$t('Supplier.supplierName')" prop="supplierName" style="width: 100%;">
+                  <span>{{ personalForm.supplierName }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('Supplier.typeId')" prop="typeId" style="width: 100%;">
+                  <span>{{ personalForm.typeName }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('Supplier.supplierShortName')" prop="supplierShortName" style="width: 100%;">
+                  <span>{{ personalForm.supplierShortName }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('Supplier.supplierIntroduction')" prop="supplierShortName" style="width: 100%;">
+                  <span>{{ personalForm.supplierIntroduction }}</span>
+                </el-form-item>
+              </el-col>
+            </el-row>
+          </el-form>
+        </div>
+      </el-card>
+      <el-card class="box-card" shadow="never" style="margin-top: 10px">
+        <h2 ref="lianxi" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">业务信息</h2>
+        <div class="container" style="margin-top: 37px">
+          <el-form ref="personalForm2" :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
+            <el-row>
+              <el-col :span="12">
+                <el-form-item :label="$t('public.countyrId')" prop="countryId" style="width: 100%;">
+                  <span>{{ personalForm.countryNname }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('public.provinceId')" style="width: 100%;">
+                  <span>{{ personalForm.provinceName }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('public.cityId')" style="width: 100%;">
+                  <span>{{ personalForm.cityName }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('public.address')" style="width: 100%;">
+                  <span>{{ personalForm.detailAddress }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('Supplier.groupId')" prop="groupId" style="width: 100%;">
+                  <span>{{ personalForm.groupName }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('Supplier.zipCode')" style="width: 100%;">
+                  <span>{{ personalForm.zipCode }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('Supplier.contactPersonName')" style="width: 100%;">
+                  <span>{{ personalForm.contactPersonName }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('Supplier.contactPersonPhone')" style="width: 100%;">
+                  <span>{{ personalForm.contactPersonPhone }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('Supplier.regionId')" prop="regionid" style="width: 100%;">
+                  <span>{{ personalForm.regionName }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('Supplier.giveId')" style="width: 100%;">
+                  <span>{{ personalForm.deliveryModeName }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('Supplier.transportId')" style="width: 100%;">
+                  <span>{{ personalForm.transportName }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('Supplier.payMode')" style="width: 100%;">
+                  <span>{{ personalForm.payModeName }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('Supplier.levelId')" style="width: 100%;">
+                  <span>{{ personalForm.levelName }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('Supplier.isHot')" prop="isHot" style="width: 100%;">
+                  <span>{{ personalForm.isHot | isHotFilter }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('Supplier.isEffective')" style="width: 100%;">
+                  <span>{{ personalForm.isEffective | isEffectiveFilter }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('Supplier.buyerId')" style="width: 100%;">
+                  <span>{{ personalForm.buyerName }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('Supplier.businessScopeIntroduction')" style="width: 100%;">
+                  <span>{{ personalForm.businessScopeIntroduction }}</span>
+                </el-form-item>
+              </el-col>
+            </el-row>
+          </el-form>
+        </div>
+      </el-card>
+      <el-card class="box-card" style="margin-top: 15px" shadow="never">
+        <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">可提供商品明细</h2>
+        <div class="container">
+          <el-editable
+            ref="editable"
+            :data.sync="list2"
+            :edit-config="{ showIcon: true, showStatus: true}"
+            class="click-table1"
+            stripe
+            border
+            size="medium"
+            style="width: 100%">
+            <el-editable-column label="序号" min-width="55" align="center" type="index"/>
+            <el-editable-column prop="productCode" align="center" label="物品编号" min-width="150px"/>
+            <el-editable-column prop="productName" align="center" label="物品名称" min-width="150px"/>
+            <el-editable-column prop="productType" align="center" label="规格" min-width="150px"/>
+            <el-editable-column prop="unit" align="center" label="单位" min-width="150px"/>
+            <el-editable-column prop="color" align="center" label="颜色" min-width="150px"/>
+            <el-editable-column prop="proportion" align="center" label="供货比列" min-width="150px"/>
+          </el-editable>
+        </div>
+      </el-card>
+      <el-card class="box-card" shadow="never" style="margin-top: 10px">
+        <h2 class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">财务信息</h2>
+        <div class="container" style="margin-top: 37px">
+          <el-form ref="personalForm3" :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
+            <el-row>
+              <el-col :span="12">
+                <el-form-item :label="$t('Supplier.paymentId')" style="width: 100%;">
+                  <span>{{ personalForm.settleModeName }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('Supplier.moneyId')" style="width: 100%;">
+                  <span>{{ personalForm.moneyId | moneyIdFilter }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('Supplier.bankName')" style="width: 100%;">
+                  <span>{{ personalForm.bankName }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('Supplier.accountName')" style="width: 100%;">
+                  <span>{{ personalForm.accountName }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('Supplier.account')" style="width: 100%;">
+                  <span>{{ personalForm.account }}</span>
+                </el-form-item>
+              </el-col>
+            </el-row>
+          </el-form>
+        </div>
+      </el-card>
+      <el-card class="box-card" shadow="never" style="margin-top: 10px">
+        <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">辅助信息</h2>
+        <div class="container" style="margin-top: 37px">
+          <el-form ref="personalForm4" :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
+            <el-row>
+              <el-col :span="12">
+                <el-form-item :label="$t('Supplier.establishDate')" style="width: 100%;">
+                  <span>{{ personalForm.establishDate }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('Supplier.legalPerson')" style="width: 100%;">
+                  <span>{{ personalForm.legalPerson }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('Supplier.taxNumber')" style="width: 100%;">
+                  <span>{{ personalForm.taxNumber }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('Supplier.businessLicense')" style="width: 100%;">
+                  <span>{{ personalForm.businessLicense }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('Supplier.companyTypeId')" style="width: 100%;">
+                  <span>{{ personalForm.companyTypeId | companyTypeIdFilter }}</span>
+                </el-form-item>
+              </el-col>
+            </el-row>
+          </el-form>
+        </div>
+      </el-card>
+      <el-card class="box-card" style="margin-top: 15px" shadow="never">
+        <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">备注信息</h2>
+        <div class="container" style="margin-top: 37px">
+          <el-form :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
+            <el-row>
+              <el-col :span="12">
+                <el-form-item :label="$t('public.createPersonName')" style="width: 100%;">
+                  {{ personalForm.createName }}
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('public.createDate')" style="width: 100%;">
+                  {{ personalForm.createTime }}
+                </el-form-item>
+              </el-col>
+            </el-row>
+          </el-form>
+        </div>
+      </el-card>
+      <el-card class="box-card" style="margin-top: 15px" shadow="never">
+        <div class="container" style="margin-top: 10px">
+          <el-tabs type="card">
+            <el-tab-pane label="询价信息">
+              <el-table
+                :data="tableData"
+                border
+                style="width: 100%">
+                <el-table-column
+                  prop="inquiryDate"
+                  align="center"
+                  label="询价日期"
+                  min-width="150"/>
+                <el-table-column
+                  prop="productName"
+                  align="center"
+                  label="物品名称"
+                  min-width="150"/>
+                <el-table-column
+                  prop="unit"
+                  align="center"
+                  label="单位"
+                  min-width="150"/>
+                <el-table-column
+                  prop="price"
+                  align="center"
+                  label="采购单价"
+                  min-width="150"/>
+                <el-table-column
+                  prop="inquiryPersonName"
+                  align="center"
+                  label="询价人"
+                  min-width="150"/>
+              </el-table>
+            </el-tab-pane>
+            <el-tab-pane label="付款信息">
+              <el-table
+                :data="tableData2"
+                border
+                style="width: 100%">
+                <el-table-column
+                  prop="payThis"
+                  align="center"
+                  label="付款金额"
+                  min-width="150"/>
+                <el-table-column
+                  prop="payDate"
+                  align="center"
+                  label="付款日期"
+                  min-width="150"/>
+                <el-table-column
+                  prop="payMode"
+                  align="center"
+                  label="付款方式"
+                  min-width="150"/>
+                <el-table-column
+                  prop="paidMoney"
+                  align="center"
+                  label="已付金额"
+                  min-width="150"/>
+                <el-table-column
+                  prop="payingMoney"
+                  align="center"
+                  label="未付金额"
+                  min-width="150"/>
+              </el-table>
+            </el-tab-pane>
+            <el-tab-pane label="退货信息">
+              <el-table
+                :data="tableData3"
+                border
+                style="width: 100%">
+                <el-table-column
+                  prop="productName"
+                  align="center"
+                  label="物品名称"
+                  min-width="150"/>
+                <el-table-column
+                  prop="unit"
+                  align="center"
+                  label="单位"
+                  min-width="150"/>
+                <el-table-column
+                  prop="money"
+                  align="center"
+                  label="金额"
+                  min-width="150"/>
+                <el-table-column
+                  prop="retreatQuantity"
+                  align="center"
+                  label="退货数量"
+                  min-width="150"/>
+                <el-table-column
+                  prop="retreatReason"
+                  align="center"
+                  label="退货原因"
+                  min-width="150"/>
+                <el-table-column
+                  prop="stat"
+                  align="center"
+                  label="退货状态"
+                  min-width="150"/>
+              </el-table>
+            </el-tab-pane>
+            <el-tab-pane label="预付款信息">
+              <el-table
+                :data="tableData4"
+                border
+                style="width: 100%">
+                <el-table-column
+                  prop="totalMoney"
+                  align="center"
+                  label="预付款金额"
+                  min-width="150"/>
+                <el-table-column
+                  prop="payDate"
+                  align="center"
+                  label="预付款日期"
+                  min-width="150"/>
+                <el-table-column
+                  prop="settleModeName"
+                  align="center"
+                  label="付款方式"
+                  min-width="150"/>
+                <el-table-column
+                  prop="stockPersonName"
+                  align="center"
+                  label="付款人"
+                  min-width="150"/>
+              </el-table>
+            </el-tab-pane>
+            <el-tab-pane label="采购信息">
+              <el-table
+                :data="tableData5"
+                border
+                style="width: 100%">
+                <el-table-column
+                  prop="productName"
+                  align="center"
+                  label="商品名称"
+                  min-width="150"/>
+                <el-table-column
+                  prop="stat"
+                  align="center"
+                  label="物品状态"
+                  min-width="150"/>
+                <el-table-column
+                  prop="stockType"
+                  align="center"
+                  label="供应类型"
+                  min-width="150"/>
+                <el-table-column
+                  prop="stockQuantity"
+                  align="center"
+                  label="采购数量"
+                  min-width="150"/>
+                <el-table-column
+                  prop="price"
+                  align="center"
+                  label="采购价"
+                  min-width="150"/>
+                <el-table-column
+                  prop="money"
+                  align="center"
+                  label="采购金额"
+                  min-width="150"/>
+                <el-table-column
+                  prop="returnQuantity"
+                  align="center"
+                  label="退货数量"
+                  min-width="150"/>
+                <el-table-column
+                  prop="stockTimes"
+                  align="center"
+                  label="采购次数"
+                  min-width="150"/>
+                <el-table-column
+                  prop="returnTimes"
+                  align="center"
+                  label="退货次数"
+                  min-width="150"/>
+              </el-table>
+            </el-tab-pane>
+            <el-tab-pane label="惩罚信息">
+              <el-table
+                :data="tableData6"
+                border
+                style="width: 100%">
+                <el-table-column
+                  prop="createTime"
+                  align="center"
+                  label="惩罚时间"
+                  min-width="150"/>
+                <el-table-column
+                  prop="comment"
+                  align="center"
+                  label="惩罚内容"
+                  min-width="150"/>
+                <el-table-column
+                  prop="reason"
+                  align="center"
+                  label="惩罚原因"
+                  min-width="150"/>
+                <el-table-column
+                  prop="createName"
+                  align="center"
+                  label="经办人"
+                  min-width="150"/>
+              </el-table>
+            </el-tab-pane>
+            <el-tab-pane label="延迟记录">
+              <el-table
+                :data="tableData7"
+                border
+                style="width: 100%">
+                <el-table-column
+                  prop="number"
+                  align="center"
+                  label="订单编号"
+                  min-width="150"/>
+                <el-table-column
+                  prop="arrivalDate"
+                  align="center"
+                  label="交货日期"
+                  min-width="150"/>
+                <el-table-column
+                  prop="acceptDate"
+                  align="center"
+                  label="实际到货日期"
+                  min-width="150"/>
+                <el-table-column
+                  prop="createName"
+                  align="center"
+                  label="延迟时间"
+                  min-width="150"/>
+              </el-table>
+            </el-tab-pane>
+          </el-tabs>
+        </div>
+      </el-card>
+    </div>
   </el-dialog>
 </template>
 
@@ -850,5 +853,13 @@ export default {
   }
   .el-col-12{
     width: 49%;
+  }
+  @media print {
+    .print {
+      display: none;
+    }
+    .print2 {
+      display: block !important;
+    }
   }
 </style>

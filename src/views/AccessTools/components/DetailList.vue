@@ -1,98 +1,99 @@
 <template>
   <el-dialog :visible.sync="editVisible" :detailcontrol="detailcontrol" :detaildata="detaildata" :close-on-press-escape="false" :title="'    详情'" append-to-body width="1010px" class="edit" top="-10px" @close="$emit('update:detailcontrol', false)">
-    <!--基本信息-->
-    <el-card class="box-card" style="margin-top: 63px" shadow="never">
-      <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">基本信息</h2>
-      <div class="container" style="margin-top: 37px">
-        <el-form :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
-          <el-row>
-            <el-col :span="12">
-              <el-form-item :label="$t('AccessTools.title')" prop="title" style="width: 100%;">
-                <span>{{ personalForm.title }}</span>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('AccessTools.applyDate')" prop="sourceType" style="width: 100%;">
-                <span>{{ personalForm.applyDate }}</span>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('AccessTools.accessDate')" style="width: 100%;">
-                <span>{{ personalForm.accessDate }}</span>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('AccessTools.applyPersonId')" style="width: 100%;">
-                <span>{{ personalForm.applyPersonName }}</span>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('AccessTools.deptId')" style="width: 100%;">
-                <span>{{ personalForm.deptName }}</span>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('AccessTools.useType')" style="width: 100%;">
-                <span>{{ personalForm.useType | useTypeFilter }}</span>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('AccessTools.emergencyLevel')" style="width: 100%;">
-                <span>{{ personalForm.emergencyLevel | emergencyLevelFilter }}</span>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('AccessTools.reason')" style="width: 100%;">
-                <span>{{ personalForm.applyReason }}</span>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('AccessTools.accessRepositoryId')" style="width: 100%;">
-                <span>{{ personalForm.accessRepositoryName }}</span>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('AccessTools.providePersonId')" style="width: 100%;">
-                <span>{{ personalForm.providePersonName }}</span>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('AccessTools.stat')" style="width: 100%;">
-                <span>{{ personalForm.stat | statFilter }}</span>
-              </el-form-item>
-            </el-col>
-          </el-row>
-        </el-form>
-      </div>
-    </el-card>
-    <!--子件信息-->
-    <el-card class="box-card" style="margin-top: 15px" shadow="never">
-      <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">工具明细</h2>
-      <div class="container">
-        <el-editable
-          ref="editable"
-          :data.sync="list2"
-          :edit-config="{ showIcon: true, showStatus: true}"
-          class="click-table1"
-          stripe
-          border
-          size="medium"
-          style="width: 100%">
-          <el-editable-column label="序号" min-width="55" align="center" type="index"/>
-          <el-editable-column prop="toolsCode" align="center" label="工具编号" min-width="150px"/>
-          <el-editable-column prop="toolsName" align="center" label="公平局名称" min-width="150px"/>
-          <el-editable-column prop="unit" align="center" label="基本单位" min-width="150px"/>
-          <!--          <el-editable-column prop="locationName" align="center" label="货位" min-width="150px"/>-->
-          <el-editable-column prop="quantity" align="center" label="数量" min-width="150px"/>
-          <el-editable-column prop="lossQuantity" align="center" label="丢失数量" min-width="150px"/>
-          <el-editable-column prop="stat" align="center" label="状态" min-width="150px">
-            <template slot-scope="scope">
-              <p>{{ scope.row.stat | statFilter }}</p>
-            </template>
-          </el-editable-column>
-        </el-editable>
-      </div>
-    </el-card>
+    <div id="printTest" >
+      <!--基本信息-->
+      <el-card class="box-card" style="margin-top: 63px" shadow="never">
+        <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">基本信息</h2>
+        <button v-print="'#printTest'" class="print" style="font-size: 13px;background: white;">打印</button>
+        <div class="container" style="margin-top: 37px">
+          <el-form :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
+            <el-row>
+              <el-col :span="12">
+                <el-form-item :label="$t('AccessTools.title')" prop="title" style="width: 100%;">
+                  <span>{{ personalForm.title }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('AccessTools.applyDate')" prop="sourceType" style="width: 100%;">
+                  <span>{{ personalForm.applyDate }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('AccessTools.accessDate')" style="width: 100%;">
+                  <span>{{ personalForm.accessDate }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('AccessTools.applyPersonId')" style="width: 100%;">
+                  <span>{{ personalForm.applyPersonName }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('AccessTools.deptId')" style="width: 100%;">
+                  <span>{{ personalForm.deptName }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('AccessTools.useType')" style="width: 100%;">
+                  <span>{{ personalForm.useType | useTypeFilter }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('AccessTools.emergencyLevel')" style="width: 100%;">
+                  <span>{{ personalForm.emergencyLevel | emergencyLevelFilter }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('AccessTools.reason')" style="width: 100%;">
+                  <span>{{ personalForm.applyReason }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('AccessTools.accessRepositoryId')" style="width: 100%;">
+                  <span>{{ personalForm.accessRepositoryName }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('AccessTools.providePersonId')" style="width: 100%;">
+                  <span>{{ personalForm.providePersonName }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('AccessTools.stat')" style="width: 100%;">
+                  <span>{{ personalForm.stat | statFilter }}</span>
+                </el-form-item>
+              </el-col>
+            </el-row>
+          </el-form>
+        </div>
+      </el-card>
+      <!--子件信息-->
+      <el-card class="box-card" style="margin-top: 15px" shadow="never">
+        <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">工具明细</h2>
+        <div class="container">
+          <el-editable
+            ref="editable"
+            :data.sync="list2"
+            :edit-config="{ showIcon: true, showStatus: true}"
+            class="click-table1"
+            border
+            size="medium"
+            style="width: 100%">
+            <el-editable-column label="序号" min-width="55" align="center" type="index"/>
+            <el-editable-column prop="toolsCode" align="center" label="工具编号" />
+            <el-editable-column prop="toolsName" align="center" label="公平局名称" />
+            <el-editable-column prop="unit" align="center" label="基本单位" />
+            <!--          <el-editable-column prop="locationName" align="center" label="货位" />-->
+            <el-editable-column prop="quantity" align="center" label="数量" />
+            <el-editable-column prop="lossQuantity" align="center" label="丢失数量" />
+            <el-editable-column prop="stat" align="center" label="状态" >
+              <template slot-scope="scope">
+                <p>{{ scope.row.stat | statFilter }}</p>
+              </template>
+            </el-editable-column>
+          </el-editable>
+        </div>
+      </el-card>
     <!--审核状态-->
     <!--    <el-card class="box-card" style="margin-top: 15px" shadow="never">-->
     <!--      <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">审批记录</h2>-->
@@ -206,6 +207,7 @@
     <!--        </el-form>-->
     <!--      </div>-->
     <!--    </el-card>-->
+    </div>
   </el-dialog>
 </template>
 
@@ -369,5 +371,13 @@ export default {
   }
   .el-col-12{
     width: 49%;
+  }
+  @media print {
+    .print {
+      display: none;
+    }
+    .print2 {
+      display: block !important;
+    }
   }
 </style>

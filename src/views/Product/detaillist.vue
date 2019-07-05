@@ -14,7 +14,6 @@
             :data="detalist"
             :props="detaillistProps"
             :filter-node-method="filterNode"
-            :default-expand-all="true"
             class="filter-tree"
             @node-click="handleNodeClick">
             <span slot-scope="{ node, data }" class="custom-tree-node">
@@ -220,10 +219,10 @@ export default {
     // 选择节点操作
     handleNodeClick(data, node) {
       this.personalForm.parentId = data.id
-      this.Iscode = data.code
       this.parentId = data.categoryName
       this.personalForm.levle = data.level + 1
       const ceshidigui = this.recursion(node)
+      this.Iscode = ceshidigui.code
       console.log('ceshidigui', ceshidigui)
       console.log('data', data)
       console.log('node', node)
@@ -234,7 +233,7 @@ export default {
         this.tishi = true
         this.weishu = '2位'
       }
-      this.gettree()
+      // this.gettree()
     },
     // 搜索树状图数据方法
     filterNode(value, data, node) {
@@ -348,12 +347,22 @@ export default {
   .ERP-container >>> .el-scrollbar__wrap {
     overflow-x: hidden;
   }
+  .ERP-container >>> .el-scrollbar__view {
+    white-space: nowrap;
+    width: 100%;
+  }
+
   .tree{
     height: 600px;
   }
   .tree >>> .el-tree {
     min-width: 100%;
   }
+
+  .tree >>> .el-tree-node>.el-tree-node__children {
+    overflow: unset!important;
+  }
+
     .form-name{
       font-size: 18px;
       color: #373e4f;

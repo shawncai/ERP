@@ -88,7 +88,11 @@
                 <p>{{ getPlanQuantity(scope.row) }}</p>
               </template>
             </el-editable-column>
-            <el-editable-column :edit-render="{name: 'ElSelect', options: materialsSource, type: 'visible'}" prop="materialsSource" align="center" label="物料来源" min-width="150px"/>
+            <el-editable-column prop="materialsSource" align="center" label="物料来源" min-width="150px">
+              <template slot-scope="scope">
+                <p>{{ getSourceName(scope.row) }}</p>
+              </template>
+            </el-editable-column>
           </el-editable>
         </div>
       </el-card>
@@ -183,6 +187,19 @@ export default {
       })
       return row.planQuantity
     },
+    getSourceName(row) {
+      console.log('row', row)
+      if (row.materialsSource === 1) {
+        return '库存'
+      }
+      if (row.materialsSource === 2) {
+        return '生产'
+      }
+      if (row.materialsSource === 3) {
+        return '采购'
+      }
+    },
+
     // 获取规格
     getTypeName(row) {
       searchEmpCategory2(row.typeId).then(res => {
@@ -228,7 +245,6 @@ export default {
       this.producePlanNumber = val.title
       this.personalForm.producePlanNumber = val.planNumber
       getBomByPlanNumber(this.personalForm.producePlanNumber, this.personalForm.produceRepositoryId).then(res => {
-        console.log(res.data.data.content)
         if (res.data.ret === 200) {
           const xuqiu = res.data.data.content
           for (const key in xuqiu) {

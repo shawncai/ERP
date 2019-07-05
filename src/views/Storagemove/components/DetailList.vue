@@ -1,207 +1,214 @@
 <template>
   <el-dialog :visible.sync="editVisible" :detailcontrol="detailcontrol" :detaildata="detaildata" :close-on-press-escape="false" :title="personalForm.id +'    采购订单详情信息'" append-to-body width="1010px" class="edit" top="-10px" @close="$emit('update:detailcontrol', false)">
-    <!--基本信息-->
-    <el-card class="box-card" style="margin-top: 63px" shadow="never">
-      <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">基本信息</h2>
-      <div class="container" style="margin-top: 37px">
-        <el-form ref="personalForm" :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="100px" style="margin-left: 30px;">
-          <el-row>
-            <el-col :span="12">
-              <el-form-item :label="$t('Storagemove.title')" style="width: 100%;">
-                <span>{{ personalForm.title }}</span>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('Storagemove.applicationName')" prop="applyPersonId" style="width: 100%;">
-                <span>{{ personalForm.applyPersonName }}</span>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('Storagemove.requestDeptId')" prop="requestDeptId" style="width: 100%;">
-                <span>{{ personalForm.requestDeptName }}</span>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('Storagemove.moveInRepository')" prop="moveInRepository" style="width: 100%;">
-                <span>{{ personalForm.moveInRepositoryName }}</span>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('Storagemove.requestArrivalDate')" label-width="110px" prop="requestArrivalDate" style="width: 100%;">
-                <span>{{ personalForm.requestArrivalDate }}</span>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('Storagemove.moveReason')" style="width: 100%;">
-                <span>{{ personalForm.moveReason }}</span>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('Storagemove.departmentId')" prop="departmentId" style="width: 100%;">
-                <span>{{ personalForm.departmentName }}</span>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('Storagemove.moveOutRepository')" prop="moveOutRepository" style="width: 100%;">
-                <span>{{ personalForm.moveOutRepositoryName }}</span>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('Storagemove.businessStat')" prop="businessStat" style="width: 100%;">
-                <span>{{ personalForm.businessStat | businessStatFilter }}</span>
-              </el-form-item>
-            </el-col>
-          </el-row>
-        </el-form>
-      </div>
-    </el-card>
-    <!--调拨单明细-->
-    <el-card class="box-card" style="margin-top: 15px" shadow="never">
-      <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">调出明细</h2>
-      <div class="container">
-        <el-editable
-          ref="editable"
-          :data.sync="list2"
-          :edit-config="{ showIcon: true, showStatus: true}"
-          :edit-rules="validRules"
-          class="click-table1"
-          stripe
-          border
-          size="medium"
-          style="width: 100%">
-          <el-editable-column label="编号" width="55" align="center" type="index"/>
-          <el-editable-column prop="locationCode" align="center" label="货位" width="200px"/>
-          <el-editable-column prop="batch" align="center" label="批次" width="200px"/>
-          <el-editable-column prop="productCode" align="center" label="物品编号" width="150px"/>
-          <el-editable-column prop="productName" align="center" label="物品名称" width="150px"/>
-          <el-editable-column prop="color" align="center" label="颜色" width="150px"/>
-          <el-editable-column prop="typeName" align="center" label="规格" width="150px"/>
-          <el-editable-column prop="unitName" align="center" label="单位" width="150px"/>
-          <el-editable-column prop="price" align="center" label="调拨单价" width="150px"/>
-          <el-editable-column prop="movePrice" align="center" label="调拨成本价" width="150px"/>
-          <el-editable-column prop="moveQuantity" align="center" label="调拨数量" width="150px"/>
-          <el-editable-column prop="totalMoney" align="center" label="调拨金额" width="150px">
-            <template slot-scope="scope">
-              <p>{{ getSize(scope.row.movePrice, scope.row.moveQuantity) }}</p>
-            </template>
-          </el-editable-column>
-          <el-editable-column prop="remarks" align="center" label="备注" width="150px"/>
-        </el-editable>
-      </div>
-    </el-card>
-    <!--调入数据-->
-    <el-card class="box-card" style="margin-top: 15px" shadow="never">
-      <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">调入明细</h2>
-      <div class="container">
-        <el-editable
-          ref="editable"
-          :data.sync="list3"
-          :edit-config="{ showIcon: true, showStatus: true}"
-          :edit-rules="validRules"
-          class="click-table1"
-          stripe
-          border
-          size="medium"
-          style="width: 100%">
-          <el-editable-column label="编号" width="55" align="center" type="index"/>
-          <el-editable-column prop="locationCode" align="center" label="货位" width="200px"/>
-          <el-editable-column prop="batch" align="center" label="批次" width="200px"/>
-          <el-editable-column prop="productCode" align="center" label="物品编号" width="150px"/>
-          <el-editable-column prop="productName" align="center" label="物品名称" width="150px"/>
-          <el-editable-column prop="color" align="center" label="颜色" width="150px"/>
-          <el-editable-column prop="typeName" align="center" label="规格" width="150px"/>
-          <el-editable-column prop="unitName" align="center" label="单位" width="150px"/>
-          <el-editable-column prop="price" align="center" label="调拨单价" width="150px"/>
-          <el-editable-column prop="movePrice" align="center" label="调拨成本价" width="150px"/>
-          <el-editable-column prop="moveQuantity" align="center" label="调拨数量" width="150px"/>
-          <el-editable-column prop="totalMoney" align="center" label="调拨金额" width="150px">
-            <template slot-scope="scope">
-              <p>{{ getSize(scope.row.movePrice, scope.row.moveQuantity) }}</p>
-            </template>
-          </el-editable-column>
-          <el-editable-column prop="remarks" align="center" label="备注" width="150px"/>
-        </el-editable>
-      </div>
-    </el-card>
-    <!--审核状态-->
-    <el-card class="box-card" style="margin-top: 15px">
-      <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">审批记录</h2>
-      <div class="container" style="margin-top: 37px">
-        <el-table
-          :data="reviewList"
-          border
-          style="width: 100%">
-          <el-table-column
-            prop="step"
-            align="center"
-            label="当前步骤"
-            min-width="150"/>
-          <el-table-column
-            prop="stepHandlerName"
-            align="center"
-            label="当前审批人"
-            min-width="150"/>
-          <el-table-column
-            prop="handleTime"
-            align="center"
-            label="审批时间"
-            min-width="150"/>
-          <el-table-column
-            prop="stat"
-            align="center"
-            label="审批意见"
-            min-width="150">
-            <template slot-scope="scope">
-              <span>{{ scope.row.stat | statfilter }}</span>
-            </template>
-          </el-table-column>
-        </el-table>
-      </div>
-    </el-card>
-    <el-card class="box-card" style="margin-top: 15px" shadow="never">
-      <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">配送信息</h2>
-      <div class="container" style="margin-top: 37px">
-        <el-table
-          :data="deliverGoodsdata"
-          border
-          style="width: 100%">
-          <el-table-column
-            prop="deliverNumber"
-            align="center"
-            label="配送单号"
-            min-width="150"/>
-          <el-table-column
-            prop="requireArriveDate"
-            align="center"
-            label="配送时间"
-            min-width="150"/>
-          <el-table-column
-            prop="deliverPersonName"
-            align="center"
-            label="配送人"
-            min-width="150"/>
-          <el-table-column
-            prop="arrivalDate"
-            align="center"
-            label="车辆编号"
-            min-width="150"/>
-          <el-table-column
-            prop="acceptPersonName"
-            align="center"
-            label="仓库"
-            min-width="150"/>
-          <el-table-column
-            prop="stat"
-            align="center"
-            label="配送单状态"
-            min-width="150">
-            <template slot-scope="scope">
-              <span>{{ scope.row.stat | statFilter }}</span>
-            </template>
-          </el-table-column>
-        </el-table>
-      </div>
-    </el-card>
+    <div id="printTest" >
+      <!--基本信息-->
+      <el-card class="box-card" style="margin-top: 63px" shadow="never">
+        <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">基本信息</h2>
+        <button v-print="'#printTest'" class="print" style="font-size: 13px;background: white;">打印</button>
+        <div class="container" style="margin-top: 37px">
+          <el-form ref="personalForm" :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="100px" style="margin-left: 30px;">
+            <el-row>
+              <el-col :span="12">
+                <el-form-item class="print2" label="调拨单编号" style="width: 100%;display: none">
+                  {{ personalForm.moveNumber }}
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('Storagemove.title')" style="width: 100%;">
+                  <span>{{ personalForm.title }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('Storagemove.applicationName')" prop="applyPersonId" style="width: 100%;">
+                  <span>{{ personalForm.applyPersonName }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('Storagemove.requestDeptId')" prop="requestDeptId" style="width: 100%;">
+                  <span>{{ personalForm.requestDeptName }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('Storagemove.moveInRepository')" prop="moveInRepository" style="width: 100%;">
+                  <span>{{ personalForm.moveInRepositoryName }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('Storagemove.requestArrivalDate')" label-width="110px" prop="requestArrivalDate" style="width: 100%;">
+                  <span>{{ personalForm.requestArrivalDate }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('Storagemove.moveReason')" style="width: 100%;">
+                  <span>{{ personalForm.moveReason }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('Storagemove.departmentId')" prop="departmentId" style="width: 100%;">
+                  <span>{{ personalForm.departmentName }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('Storagemove.moveOutRepository')" prop="moveOutRepository" style="width: 100%;">
+                  <span>{{ personalForm.moveOutRepositoryName }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('Storagemove.businessStat')" prop="businessStat" style="width: 100%;">
+                  <span>{{ personalForm.businessStat | businessStatFilter }}</span>
+                </el-form-item>
+              </el-col>
+            </el-row>
+          </el-form>
+        </div>
+      </el-card>
+      <!--调拨单明细-->
+      <el-card class="box-card" style="margin-top: 15px" shadow="never">
+        <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">调出明细</h2>
+        <div class="container">
+          <el-editable
+            ref="editable"
+            :data.sync="list2"
+            :edit-config="{ showIcon: true, showStatus: true}"
+            :edit-rules="validRules"
+            class="click-table1"
+            border
+            size="medium"
+            style="width: 100%">
+            <el-editable-column label="编号" width="55" align="center" type="index"/>
+            <el-editable-column prop="locationCode" align="center" label="货位" />
+            <el-editable-column prop="batch" align="center" label="批次" />
+            <el-editable-column prop="productCode" align="center" label="物品编号" />
+            <el-editable-column prop="productName" align="center" label="物品名称" />
+            <el-editable-column prop="color" align="center" label="颜色" />
+            <el-editable-column prop="typeName" align="center" label="规格" />
+            <el-editable-column prop="unitName" align="center" label="单位" />
+            <el-editable-column prop="price" align="center" label="调拨单价" />
+            <el-editable-column prop="movePrice" align="center" label="调拨成本价" />
+            <el-editable-column prop="moveQuantity" align="center" label="调拨数量" />
+            <el-editable-column prop="totalMoney" align="center" label="调拨金额" >
+              <template slot-scope="scope">
+                <p>{{ getSize(scope.row.movePrice, scope.row.moveQuantity) }}</p>
+              </template>
+            </el-editable-column>
+            <el-editable-column prop="remarks" align="center" label="备注" />
+          </el-editable>
+        </div>
+      </el-card>
+      <!--调入数据-->
+      <el-card class="box-card" style="margin-top: 15px" shadow="never">
+        <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">调入明细</h2>
+        <div class="container">
+          <el-editable
+            ref="editable"
+            :data.sync="list3"
+            :edit-config="{ showIcon: true, showStatus: true}"
+            :edit-rules="validRules"
+            class="click-table1"
+            stripe
+            border
+            size="medium"
+            style="width: 100%">
+            <el-editable-column label="编号" width="55" align="center" type="index"/>
+            <el-editable-column prop="locationCode" align="center" label="货位" />
+            <el-editable-column prop="batch" align="center" label="批次" />
+            <el-editable-column prop="productCode" align="center" label="物品编号" />
+            <el-editable-column prop="productName" align="center" label="物品名称" />
+            <el-editable-column prop="color" align="center" label="颜色" />
+            <el-editable-column prop="typeName" align="center" label="规格" />
+            <el-editable-column prop="unitName" align="center" label="单位" />
+            <el-editable-column prop="price" align="center" label="调拨单价" />
+            <el-editable-column prop="movePrice" align="center" label="调拨成本价" />
+            <el-editable-column prop="moveQuantity" align="center" label="调拨数量" />
+            <el-editable-column prop="totalMoney" align="center" label="调拨金额" >
+              <template slot-scope="scope">
+                <p>{{ getSize(scope.row.movePrice, scope.row.moveQuantity) }}</p>
+              </template>
+            </el-editable-column>
+            <el-editable-column prop="remarks" align="center" label="备注" />
+          </el-editable>
+        </div>
+      </el-card>
+      <!--审核状态-->
+      <el-card class="box-card" style="margin-top: 15px">
+        <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">审批记录</h2>
+        <div class="container" style="margin-top: 37px">
+          <el-table
+            :data="reviewList"
+            border
+            style="width: 100%">
+            <el-table-column
+              prop="step"
+              align="center"
+              label="当前步骤"
+              min-width="150"/>
+            <el-table-column
+              prop="stepHandlerName"
+              align="center"
+              label="当前审批人"
+              min-width="150"/>
+            <el-table-column
+              prop="handleTime"
+              align="center"
+              label="审批时间"
+              min-width="150"/>
+            <el-table-column
+              prop="stat"
+              align="center"
+              label="审批意见"
+              min-width="150">
+              <template slot-scope="scope">
+                <span>{{ scope.row.stat | statfilter }}</span>
+              </template>
+            </el-table-column>
+          </el-table>
+        </div>
+      </el-card>
+      <el-card class="box-card" style="margin-top: 15px" shadow="never">
+        <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">配送信息</h2>
+        <div class="container" style="margin-top: 37px">
+          <el-table
+            :data="deliverGoodsdata"
+            border
+            style="width: 100%">
+            <el-table-column
+              prop="deliverNumber"
+              align="center"
+              label="配送单号"
+              min-width="150"/>
+            <el-table-column
+              prop="requireArriveDate"
+              align="center"
+              label="配送时间"
+              min-width="150"/>
+            <el-table-column
+              prop="deliverPersonName"
+              align="center"
+              label="配送人"
+              min-width="150"/>
+            <el-table-column
+              prop="arrivalDate"
+              align="center"
+              label="车辆编号"
+              min-width="150"/>
+            <el-table-column
+              prop="acceptPersonName"
+              align="center"
+              label="仓库"
+              min-width="150"/>
+            <el-table-column
+              prop="stat"
+              align="center"
+              label="配送单状态"
+              min-width="150">
+              <template slot-scope="scope">
+                <span>{{ scope.row.stat | statFilter }}</span>
+              </template>
+            </el-table-column>
+          </el-table>
+        </div>
+      </el-card>
+    </div>
   </el-dialog>
 </template>
 
@@ -560,5 +567,13 @@ export default {
   }
   .el-col-12{
     width: 49%;
+  }
+  @media print {
+    .print {
+      display: none;
+    }
+    .print2 {
+      display: block !important;
+    }
   }
 </style>

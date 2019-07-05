@@ -324,8 +324,19 @@ export default {
   created() {
     this.getnationlist()
   },
+  mounted() {
+    this.getempinformation()
+  },
   methods: {
     checkPermission,
+    getempinformation() {
+      if (this.$store.getters.empcontract) {
+        console.log('getempcontract', this.$store.getters.empcontract)
+        this.contractForm.employeeid = this.$store.getters.empcontract.id
+        this.employeeName = this.$store.getters.empcontract.personName
+        this.$store.dispatch('getempcontract', '')
+      }
+    },
     getnationlist() {
       // 员工列表数据
       this.listLoading = true

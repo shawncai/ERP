@@ -8,7 +8,7 @@
           <el-row>
             <el-col :span="12">
               <el-form-item :label="$t('Product.productname')" style="width: 100%;">
-                <el-input v-model="personalForm.productName" style="margin-left: 18px;width: 200px" placeholder="请输入产品名称" disabled/>
+                <el-input v-model="personalForm.productName" style="margin-left: 18px;width: 200px" placeholder="请输入产品名称" clearable/>
               </el-form-item>
             </el-col>
             <el-col :span="12">

@@ -1,288 +1,295 @@
 <template>
   <el-dialog :visible.sync="editVisible" :detailcontrol="detailcontrol" :detaildata="detaildata" :close-on-press-escape="false" :title="personalForm.reportNumber +'    详情'" append-to-body width="1010px" class="edit" top="-10px" @close="$emit('update:detailcontrol', false)">
-    <!--基本信息-->
-    <el-card class="box-card" style="margin-top: 63px" shadow="never">
-      <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">基本信息</h2>
-      <div class="container" style="margin-top: 37px">
-        <el-form :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
-          <el-row>
-            <el-col :span="12">
-              <el-form-item :label="$t('ProduceTask.title')" style="width: 100%;">
-                <span>{{ personalForm.title }}</span>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('ProduceTask.deptId')" prop="deptId" style="width: 100%;">
-                <span>{{ personalForm.deptName }}</span>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('ProduceTask.workCenterId')" prop="workCenterId" style="width: 100%;">
-                <span>{{ personalForm.workCenter }}</span>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('ProduceTask.produceTaskNumber')" prop="produceTaskNumber" style="width: 100%;">
-                <span>{{ personalForm.produceTaskNumber }}</span>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('ProduceTask.produceDate')" prop="produceDate" style="width: 100%;">
-                <span>{{ personalForm.produceDate }}</span>
-              </el-form-item>
-            </el-col>
-          </el-row>
-        </el-form>
-      </div>
-    </el-card>
-    <!--子件信息-->
-    <el-card class="box-card" style="margin-top: 15px" shadow="never">
-      <el-tabs v-model="activeName2" type="card">
-        <el-tab-pane label="生产状况" name="first">
-          <el-form :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="110px" style="margin-left: 30px;margin-top: 10px">
+    <div id="printTest" >
+      <!--基本信息-->
+      <el-card class="box-card" style="margin-top: 63px" shadow="never">
+        <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">基本信息</h2>
+        <button v-print="'#printTest'" class="print" style="font-size: 13px;background: white;">打印</button>
+        <div class="container" style="margin-top: 37px">
+          <el-form :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="140px">
             <el-row>
               <el-col :span="12">
-                <el-form-item :label="$t('ProduceTask.countFinishQuantity')" style="width: 100%;">
-                  <span>{{ personalForm.countFinishQuantity }}</span>
+                <el-form-item class="print2" label="主生任务汇报单编号" style="width: 100%;display: none">
+                  {{ personalForm.reportNumber }}
                 </el-form-item>
               </el-col>
               <el-col :span="12">
-                <el-form-item :label="$t('ProduceTask.countWorkHours')" style="width: 100%;">
-                  <span>{{ personalForm.countWorkHours }}</span>
+                <el-form-item :label="$t('ProduceTask.title')" style="width: 100%;">
+                  <span>{{ personalForm.title }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('ProduceTask.deptId')" prop="deptId" style="width: 100%;">
+                  <span>{{ personalForm.deptName }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('ProduceTask.workCenterId')" prop="workCenterId" style="width: 100%;">
+                  <span>{{ personalForm.workCenter }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('ProduceTask.produceTaskNumber')" prop="produceTaskNumber" style="width: 100%;">
+                  <span>{{ personalForm.produceTaskNumber }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('ProduceTask.produceDate')" prop="produceDate" style="width: 100%;">
+                  <span>{{ personalForm.produceDate }}</span>
                 </el-form-item>
               </el-col>
             </el-row>
           </el-form>
-          <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266">生产明细</h2>
-          <div class="container">
-            <el-editable
-              ref="editable"
-              :data.sync="list"
-              :edit-config="{ showIcon: true, showStatus: true}"
-              class="click-table1"
-              stripe
-              border
-              size="medium"
-              style="width: 100%">
-              <el-editable-column type="selection" min-width="55" align="center"/>
-              <el-editable-column label="序号" min-width="55" align="center" type="index"/>
-              <el-editable-column prop="productCode" align="center" label="物品编号" min-width="150px"/>
-              <el-editable-column prop="productName" align="center" label="物品名称" min-width="150px"/>
-              <el-editable-column prop="workHours" align="center" label="工时" min-width="150px"/>
-              <el-editable-column prop="finishQuantity" align="center" label="完成数" min-width="150px"/>
-              <el-editable-column prop="passQuantity" align="center" label="合格数" min-width="150px"/>
-              <el-editable-column prop="passRate" align="center" label="合格率" min-width="150px"/>
-            </el-editable>
-          </div>
-        </el-tab-pane>
-        <el-tab-pane label="人员状况" name="second">
-          <el-form :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="110px" style="margin-left: 30px;margin-top: 10px">
-            <el-row>
-              <el-col :span="12">
-                <el-form-item :label="$t('ProduceTask.shouldPeoples')" style="width: 100%;">
-                  <span>{{ personalForm.shouldPeoples }}</span>
-                </el-form-item>
-              </el-col>
-              <el-col :span="12">
-                <el-form-item :label="$t('ProduceTask.actualPeoples')" style="width: 100%;">
-                  <span>{{ personalForm.actualPeoples }}</span>
-                </el-form-item>
-              </el-col>
-              <el-col :span="12">
-                <el-form-item :label="$t('ProduceTask.shouldWorkHours')" style="width: 100%;">
-                  <span>{{ personalForm.shouldWorkHours }}</span>
-                </el-form-item>
-              </el-col>
-              <el-col :span="12">
-                <el-form-item :label="$t('ProduceTask.overtimeHours')" style="width: 100%;">
-                  <span>{{ personalForm.overtimeHours }}</span>
-                </el-form-item>
-              </el-col>
-              <el-col :span="12">
-                <el-form-item :label="$t('ProduceTask.stopHours')" style="width: 100%;">
-                  <span>{{ personalForm.stopHours }}</span>
-                </el-form-item>
-              </el-col>
-              <el-col :span="12">
-                <el-form-item :label="$t('ProduceTask.effectiveHours')" style="width: 100%;">
-                  <span>{{ personalForm.effectiveHours }}</span>
-                </el-form-item>
-              </el-col>
-            </el-row>
-          </el-form>
-          <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;">人员明细</h2>
-          <div class="container">
-            <el-editable
-              ref="editable2"
-              :data.sync="list2"
-              :edit-config="{ showIcon: true, showStatus: true}"
-              class="click-table1"
-              stripe
-              border
-              size="medium"
-              style="width: 100%">
-              <el-editable-column type="selection" min-width="55" align="center"/>
-              <el-editable-column label="序号" min-width="55" align="center" type="index"/>
-              <el-editable-column prop="personName" align="center" label="人员" min-width="150px"/>
-              <el-editable-column prop="workHours" align="center" label="工时" min-width="150px"/>
-              <el-editable-column prop="finishQuantity" align="center" label="完成数" min-width="150px"/>
-              <el-editable-column prop="passQuantity" align="center" label="合格数" min-width="150px"/>
-              <el-editable-column prop="passRate" align="center" label="合格率" min-width="150px"/>
-            </el-editable>
-          </div>
-        </el-tab-pane>
-        <el-tab-pane label="设备状况" name="third">
-          <el-form :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="110px" style="margin-left: 30px;margin-top: 10px">
-            <el-row>
-              <el-col :span="12">
-                <el-form-item :label="$t('ProduceTask.equipmentQuantity')" style="width: 100%;">
-                  <span>{{ personalForm.equipmentQuantity }}</span>
-                </el-form-item>
-              </el-col>
-              <el-col :span="12">
-                <el-form-item :label="$t('ProduceTask.actualEquipQuantity')" style="width: 100%;">
-                  <span>{{ personalForm.actualEquipQuantity }}</span>
-                </el-form-item>
-              </el-col>
-              <el-col :span="12">
-                <el-form-item :label="$t('ProduceTask.allRunTime')" style="width: 100%;">
-                  <span>{{ personalForm.allRunTime }}</span>
-                </el-form-item>
-              </el-col>
-              <el-col :span="12">
-                <el-form-item :label="$t('ProduceTask.runRate')" style="width: 100%;">
-                  <span>{{ personalForm.runRate }}</span>
-                </el-form-item>
-              </el-col>
-              <el-col :span="12">
-                <el-form-item :label="$t('ProduceTask.loadRate')" style="width: 100%;">
-                  <span>{{ personalForm.loadRate }}</span>
-                </el-form-item>
-              </el-col>
-              <el-col :span="12">
-                <el-form-item :label="$t('ProduceTask.useRate')" style="width: 100%;">
-                  <span>{{ personalForm.useRate }}</span>
-                </el-form-item>
-              </el-col>
-              <el-col :span="12">
-                <el-form-item :label="$t('ProduceTask.stopQuantity')" style="width: 100%;">
-                  <span>{{ personalForm.stopQuantity }}</span>
-                </el-form-item>
-              </el-col>
-              <el-col :span="12">
-                <el-form-item :label="$t('ProduceTask.stopTime')" style="width: 100%;">
-                  <span>{{ personalForm.stopTime }}</span>
-                </el-form-item>
-              </el-col>
-              <el-col :span="12">
-                <el-form-item :label="$t('ProduceTask.stopReason')" style="width: 100%;">
-                  <span>{{ personalForm.stopReason }}</span>
-                </el-form-item>
-              </el-col>
-            </el-row>
-          </el-form>
-          <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;">设备明细</h2>
-          <div class="container">
-            <el-editable
-              ref="editable3"
-              :data.sync="list3"
-              :edit-config="{ showIcon: true, showStatus: true}"
-              class="click-table1"
-              stripe
-              border
-              size="medium"
-              style="width: 100%">
-              <el-editable-column type="selection" min-width="55" align="center"/>
-              <el-editable-column label="序号" min-width="55" align="center" type="index"/>
-              <el-editable-column prop="equipmentNumber" align="center" label="设备编号" min-width="150px"/>
-              <el-editable-column prop="equipmentName" align="center" label="设备名称" min-width="150px"/>
-              <el-editable-column prop="runTime" align="center" label="开机时长" min-width="150px"/>
-              <el-editable-column prop="finishQuantity" align="center" label="完成数" min-width="150px"/>
-              <el-editable-column prop="passQuantity" align="center" label="合格数" min-width="150px"/>
-              <el-editable-column prop="passRate" align="center" label="合格率" min-width="150px"/>
-            </el-editable>
-          </div>
-        </el-tab-pane>
-        <el-tab-pane label="物料使用情况" name="fourth">
-          <el-form :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="110px" style="margin-left: 30px;margin-top: 10px">
-            <el-row>
-              <el-col :span="12">
-                <el-form-item :label="$t('ProduceTask.countAccess')" style="width: 100%;">
-                  <span>{{ personalForm.countAccess }}</span>
-                </el-form-item>
-              </el-col>
-              <el-col :span="12">
-                <el-form-item :label="$t('ProduceTask.countUseup')" style="width: 100%;">
-                  <span>{{ personalForm.countUseup }}</span>
-                </el-form-item>
-              </el-col>
-              <el-col :span="12">
-                <el-form-item :label="$t('ProduceTask.countRemain')" style="width: 100%;">
-                  <span>{{ personalForm.countRemain }}</span>
-                </el-form-item>
-              </el-col>
-            </el-row>
-          </el-form>
-          <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;">物料明细</h2>
-          <div class="container">
-            <el-editable
-              ref="editable4"
-              :data.sync="list4"
-              :edit-config="{ showIcon: true, showStatus: true}"
-              class="click-table1"
-              stripe
-              border
-              size="medium"
-              style="width: 100%">
-              <el-editable-column type="selection" min-width="55" align="center"/>
-              <el-editable-column label="序号" min-width="55" align="center" type="index"/>
-              <el-editable-column prop="productCode" align="center" label="物品编号" min-width="150px"/>
-              <el-editable-column prop="productName" align="center" label="物品名称" min-width="150px"/>
-              <el-editable-column prop="todayAccess" align="center" label="本日领入" min-width="150px"/>
-              <el-editable-column prop="yesterdayRemain" align="center" label="昨日结存" min-width="150px"/>
-              <el-editable-column prop="todayUseup" align="center" label="本日耗用" min-width="150px"/>
-              <el-editable-column prop="todayDamaged" align="center" label="本日损坏" min-width="150px"/>
-              <el-editable-column prop="todayRemain" align="center" label="本日结存" min-width="150px"/>
-            </el-editable>
-          </div>
-        </el-tab-pane>
-      </el-tabs>
-    </el-card>
-    <!--审核状态-->
-    <el-card class="box-card" style="margin-top: 15px" shadow="never">
-      <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">审批记录</h2>
-      <div class="container" style="margin-top: 37px">
-        <el-table
-          :data="reviewList"
-          border
-          style="width: 100%">
-          <el-table-column
-            prop="step"
-            align="center"
-            label="当前步骤"
-            min-width="150"/>
-          <el-table-column
-            prop="stepHandlerName"
-            align="center"
-            label="当前审批人"
-            min-width="150"/>
-          <el-table-column
-            prop="handleTime"
-            align="center"
-            label="审批时间"
-            min-width="150"/>
-          <el-table-column
-            prop="stat"
-            align="center"
-            label="审批意见"
-            min-width="150">
-            <template slot-scope="scope">
-              <span>{{ scope.row.stat | statfilter }}</span>
-            </template>
-          </el-table-column>
-        </el-table>
-      </div>
-    </el-card>
+        </div>
+      </el-card>
+      <!--子件信息-->
+      <el-card class="box-card" style="margin-top: 15px" shadow="never">
+        <el-tabs v-model="activeName2" type="card">
+          <el-tab-pane label="生产状况" name="first">
+            <el-form :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="110px" style="margin-left: 30px;margin-top: 10px">
+              <el-row>
+                <el-col :span="12">
+                  <el-form-item :label="$t('ProduceTask.countFinishQuantity')" style="width: 100%;">
+                    <span>{{ personalForm.countFinishQuantity }}</span>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="12">
+                  <el-form-item :label="$t('ProduceTask.countWorkHours')" style="width: 100%;">
+                    <span>{{ personalForm.countWorkHours }}</span>
+                  </el-form-item>
+                </el-col>
+              </el-row>
+            </el-form>
+            <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266">生产明细</h2>
+            <div class="container">
+              <el-editable
+                ref="editable"
+                :data.sync="list"
+                :edit-config="{ showIcon: true, showStatus: true}"
+                class="click-table1"
+                stripe
+                border
+                size="medium"
+                style="width: 100%">
+                <el-editable-column type="selection" min-width="55" align="center"/>
+                <el-editable-column label="序号" min-width="55" align="center" type="index"/>
+                <el-editable-column prop="productCode" align="center" label="物品编号" />
+                <el-editable-column prop="productName" align="center" label="物品名称" />
+                <el-editable-column prop="workHours" align="center" label="工时" />
+                <el-editable-column prop="finishQuantity" align="center" label="完成数" />
+                <el-editable-column prop="passQuantity" align="center" label="合格数" />
+                <el-editable-column prop="passRate" align="center" label="合格率" />
+              </el-editable>
+            </div>
+          </el-tab-pane>
+          <el-tab-pane label="人员状况" name="second">
+            <el-form :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="110px" style="margin-left: 30px;margin-top: 10px">
+              <el-row>
+                <el-col :span="12">
+                  <el-form-item :label="$t('ProduceTask.shouldPeoples')" style="width: 100%;">
+                    <span>{{ personalForm.shouldPeoples }}</span>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="12">
+                  <el-form-item :label="$t('ProduceTask.actualPeoples')" style="width: 100%;">
+                    <span>{{ personalForm.actualPeoples }}</span>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="12">
+                  <el-form-item :label="$t('ProduceTask.shouldWorkHours')" style="width: 100%;">
+                    <span>{{ personalForm.shouldWorkHours }}</span>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="12">
+                  <el-form-item :label="$t('ProduceTask.overtimeHours')" style="width: 100%;">
+                    <span>{{ personalForm.overtimeHours }}</span>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="12">
+                  <el-form-item :label="$t('ProduceTask.stopHours')" style="width: 100%;">
+                    <span>{{ personalForm.stopHours }}</span>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="12">
+                  <el-form-item :label="$t('ProduceTask.effectiveHours')" style="width: 100%;">
+                    <span>{{ personalForm.effectiveHours }}</span>
+                  </el-form-item>
+                </el-col>
+              </el-row>
+            </el-form>
+            <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;">人员明细</h2>
+            <div class="container">
+              <el-editable
+                ref="editable2"
+                :data.sync="list2"
+                :edit-config="{ showIcon: true, showStatus: true}"
+                class="click-table1"
+                border
+                size="medium"
+                style="width: 100%">
+                <el-editable-column type="selection" min-width="55" align="center"/>
+                <el-editable-column label="序号" min-width="55" align="center" type="index"/>
+                <el-editable-column prop="personName" align="center" label="人员" />
+                <el-editable-column prop="workHours" align="center" label="工时" />
+                <el-editable-column prop="finishQuantity" align="center" label="完成数" />
+                <el-editable-column prop="passQuantity" align="center" label="合格数" />
+                <el-editable-column prop="passRate" align="center" label="合格率" />
+              </el-editable>
+            </div>
+          </el-tab-pane>
+          <el-tab-pane label="设备状况" name="third">
+            <el-form :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="110px" style="margin-left: 30px;margin-top: 10px">
+              <el-row>
+                <el-col :span="12">
+                  <el-form-item :label="$t('ProduceTask.equipmentQuantity')" style="width: 100%;">
+                    <span>{{ personalForm.equipmentQuantity }}</span>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="12">
+                  <el-form-item :label="$t('ProduceTask.actualEquipQuantity')" style="width: 100%;">
+                    <span>{{ personalForm.actualEquipQuantity }}</span>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="12">
+                  <el-form-item :label="$t('ProduceTask.allRunTime')" style="width: 100%;">
+                    <span>{{ personalForm.allRunTime }}</span>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="12">
+                  <el-form-item :label="$t('ProduceTask.runRate')" style="width: 100%;">
+                    <span>{{ personalForm.runRate }}</span>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="12">
+                  <el-form-item :label="$t('ProduceTask.loadRate')" style="width: 100%;">
+                    <span>{{ personalForm.loadRate }}</span>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="12">
+                  <el-form-item :label="$t('ProduceTask.useRate')" style="width: 100%;">
+                    <span>{{ personalForm.useRate }}</span>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="12">
+                  <el-form-item :label="$t('ProduceTask.stopQuantity')" style="width: 100%;">
+                    <span>{{ personalForm.stopQuantity }}</span>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="12">
+                  <el-form-item :label="$t('ProduceTask.stopTime')" style="width: 100%;">
+                    <span>{{ personalForm.stopTime }}</span>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="12">
+                  <el-form-item :label="$t('ProduceTask.stopReason')" style="width: 100%;">
+                    <span>{{ personalForm.stopReason }}</span>
+                  </el-form-item>
+                </el-col>
+              </el-row>
+            </el-form>
+            <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;">设备明细</h2>
+            <div class="container">
+              <el-editable
+                ref="editable3"
+                :data.sync="list3"
+                :edit-config="{ showIcon: true, showStatus: true}"
+                class="click-table1"
+                stripe
+                border
+                size="medium"
+                style="width: 100%">
+                <el-editable-column type="selection" min-width="55" align="center"/>
+                <el-editable-column label="序号" min-width="55" align="center" type="index"/>
+                <el-editable-column prop="equipmentNumber" align="center" label="设备编号" />
+                <el-editable-column prop="equipmentName" align="center" label="设备名称" />
+                <el-editable-column prop="runTime" align="center" label="开机时长" />
+                <el-editable-column prop="finishQuantity" align="center" label="完成数" />
+                <el-editable-column prop="passQuantity" align="center" label="合格数" />
+                <el-editable-column prop="passRate" align="center" label="合格率" />
+              </el-editable>
+            </div>
+          </el-tab-pane>
+          <el-tab-pane label="物料使用情况" name="fourth">
+            <el-form :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="110px" style="margin-left: 30px;margin-top: 10px">
+              <el-row>
+                <el-col :span="12">
+                  <el-form-item :label="$t('ProduceTask.countAccess')" style="width: 100%;">
+                    <span>{{ personalForm.countAccess }}</span>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="12">
+                  <el-form-item :label="$t('ProduceTask.countUseup')" style="width: 100%;">
+                    <span>{{ personalForm.countUseup }}</span>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="12">
+                  <el-form-item :label="$t('ProduceTask.countRemain')" style="width: 100%;">
+                    <span>{{ personalForm.countRemain }}</span>
+                  </el-form-item>
+                </el-col>
+              </el-row>
+            </el-form>
+            <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;">物料明细</h2>
+            <div class="container">
+              <el-editable
+                ref="editable4"
+                :data.sync="list4"
+                :edit-config="{ showIcon: true, showStatus: true}"
+                class="click-table1"
+                stripe
+                border
+                size="medium"
+                style="width: 100%">
+                <el-editable-column type="selection" min-width="55" align="center"/>
+                <el-editable-column label="序号" min-width="55" align="center" type="index"/>
+                <el-editable-column prop="productCode" align="center" label="物品编号" />
+                <el-editable-column prop="productName" align="center" label="物品名称" />
+                <el-editable-column prop="todayAccess" align="center" label="本日领入" />
+                <el-editable-column prop="yesterdayRemain" align="center" label="昨日结存" />
+                <el-editable-column prop="todayUseup" align="center" label="本日耗用" />
+                <el-editable-column prop="todayDamaged" align="center" label="本日损坏" />
+                <el-editable-column prop="todayRemain" align="center" label="本日结存" />
+              </el-editable>
+            </div>
+          </el-tab-pane>
+        </el-tabs>
+      </el-card>
+      <!--审核状态-->
+      <el-card class="box-card" style="margin-top: 15px" shadow="never">
+        <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">审批记录</h2>
+        <div class="container" style="margin-top: 37px">
+          <el-table
+            :data="reviewList"
+            border
+            style="width: 100%">
+            <el-table-column
+              prop="step"
+              align="center"
+              label="当前步骤"
+              min-width="150"/>
+            <el-table-column
+              prop="stepHandlerName"
+              align="center"
+              label="当前审批人"
+              min-width="150"/>
+            <el-table-column
+              prop="handleTime"
+              align="center"
+              label="审批时间"
+              min-width="150"/>
+            <el-table-column
+              prop="stat"
+              align="center"
+              label="审批意见"
+              min-width="150">
+              <template slot-scope="scope">
+                <span>{{ scope.row.stat | statfilter }}</span>
+              </template>
+            </el-table-column>
+          </el-table>
+        </div>
+      </el-card>
+    </div>
   </el-dialog>
 </template>
 
@@ -400,5 +407,13 @@ export default {
   }
   .el-col-12{
     width: 49%;
+  }
+  @media print {
+    .print {
+      display: none;
+    }
+    .print2 {
+      display: block !important;
+    }
   }
 </style>

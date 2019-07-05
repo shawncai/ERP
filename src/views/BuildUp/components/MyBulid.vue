@@ -225,7 +225,7 @@ export default {
           taxRate: 0,
           unit: item.saleMeasurement,
           actualEnterQuantity: 0,
-          quantity: 0,
+          quantity: 1,
           enterPrice: item.costPrice,
           productType: item.productType,
           totalMoney: 0,

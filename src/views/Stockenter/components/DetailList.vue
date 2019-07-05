@@ -1,171 +1,161 @@
 <template>
-  <el-dialog :visible.sync="editVisible" :detailcontrol="detailcontrol" :detaildata="detaildata" :close-on-press-escape="false" append-to-body class="edit" top="10px" title="修改采购入库单" @close="$emit('update:detailcontrol', false)">
-    <!--基本信息-->
-    <el-card class="box-card">
-      <h2 ref="geren" class="form-name">基本信息</h2>
-      <div class="container">
-        <el-form ref="personalForm" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="100px" style="margin-left: 30px;">
-          <el-row>
-            <el-col :span="6">
-              <el-form-item :label="$t('Stockenter.title')" style="width: 100%;">
-                <el-input v-model="personalForm.title" placeholder="请输入入库单主题" style="margin-left: 18px;width: 150px" disabled/>
-              </el-form-item>
-            </el-col>
-            <el-col :span="6">
-              <el-form-item :label="$t('Stockenter.sourceType')" prop="sourceType" style="width: 100%;">
-                <el-select v-model="personalForm.sourceType" placeholder="请选择源单类型" style="margin-left: 18px;width: 150px" disabled>
-                  <el-option value="1" label="采购到货单"/>
-                </el-select>
-              </el-form-item>
-            </el-col>
-            <el-col :span="6">
-              <el-form-item label="源单编号" style="width: 100%;">
-                <el-input v-model="personalForm.sourceNumber" style="margin-left: 18px;width: 150px" disabled/>
-              </el-form-item>
-            </el-col>
-            <el-col :span="6">
-              <el-form-item label="批次" style="width: 100%;">
-                <el-input v-model="personalForm.batch" style="margin-left: 18px;width: 150px" disabled/>
-              </el-form-item>
-            </el-col>
-            <el-col :span="6">
-              <el-form-item label="国家" style="width: 100%;">
-                <el-input v-model="personalForm.countryName" style="margin-left: 18px;width: 150px" disabled/>
-              </el-form-item>
-            </el-col>
-            <el-col :span="6">
-              <el-form-item label="制单人" style="width: 100%;">
-                <el-input v-model="personalForm.createPersonName" style="margin-left: 18px;width: 150px" disabled/>
-              </el-form-item>
-            </el-col>
-            <el-col :span="6">
-              <el-form-item :label="$t('Stockenter.supplierId')" style="width: 100%">
-                <el-input v-model="supplierId" placeholder="请选择供应商" disabled style="margin-left: 18px;width: 150px" @focus="handlechoose"/>
-              </el-form-item>
-              <my-supplier :control.sync="empcontrol" @supplierName="supplierName"/>
-            </el-col>
-            <el-col :span="6">
-              <el-form-item :label="$t('Stockenter.stockPersonId')" style="width: 100%">
-                <el-input v-model="stockPersonId" placeholder="请选择采购员" style="margin-left: 18px;width: 150px" disabled @focus="handlechooseStock"/>
-              </el-form-item>
-              <my-emp :control.sync="stockControl" @stockName="stockName"/>
-            </el-col>
-            <el-col :span="6">
-              <el-form-item :label="$t('Stockenter.stockDeptId')" style="width: 100%">
-                <el-select v-model="personalForm.stockDeptId" placeholder="请选择采购部门" disabled style="margin-left: 18px;width: 150px" @focus="updatedept">
-                  <el-option
-                    v-for="(item, index) in depts"
-                    :key="index"
-                    :value="item.id"
-                    :label="item.deptName"/>
-                </el-select>
-              </el-form-item>
-            </el-col>
-            <el-col :span="6">
-              <el-form-item :label="$t('Stockenter.deliveryPersonId')" style="width: 100%">
-                <el-input v-model="deliveryPersonId" placeholder="请选择交货人" disabled style="margin-left: 18px;width: 150px" @focus="handlechooseDelivery"/>
-              </el-form-item>
-              <my-delivery :deliverycontrol.sync="deliverycontrol" @deliveryName="deliveryName"/>
-            </el-col>
-            <el-col :span="6">
-              <el-form-item :label="$t('Stockenter.acceptPersonId')" style="width: 100%">
-                <el-input v-model="acceptPersonId" placeholder="请选择验收人" style="margin-left: 18px;width: 150px" disabled @focus="handlechooseAccept"/>
-              </el-form-item>
-              <my-accept :accetpcontrol.sync="accetpcontrol" @acceptName="acceptName"/>
-            </el-col>
-            <el-col :span="6">
-              <el-form-item :label="$t('Stockenter.enterDeptId')" style="width: 100%">
-                <el-select v-model="personalForm.enterDeptId" placeholder="请选择入库部门" disabled style="margin-left: 18px;width: 150px" @focus="updatedept">
-                  <el-option
-                    v-for="(item, index) in depts"
-                    :key="index"
-                    :value="item.id"
-                    :label="item.deptName"/>
-                </el-select>
-              </el-form-item>
-            </el-col>
-            <el-col :span="6">
-              <el-form-item :label="$t('Stockenter.enterRepositoryId')" prop="enterRepositoryId" style="width: 100%">
-                <el-input v-model="enterRepositoryId" placeholder="请选择入库仓库" disabled style="margin-left: 18px;width: 150px" @focus="handlechooseRep"/>
-              </el-form-item>
-              <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
-            </el-col>
-          </el-row>
-        </el-form>
+  <el-dialog :visible.sync="editVisible" :detailcontrol="detailcontrol" :detaildata="detaildata" :close-on-press-escape="false" :title="personalForm.enterNumber +'    详情'" append-to-body width="1010px" class="edit" top="-10px" @close="$emit('update:detailcontrol', false)">
+    <div id="printTest" >
+      <!--基本信息-->
+      <el-card class="box-card" style="margin-top: 63px" shadow="never">
+        <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">基本信息</h2>
+        <button v-print="'#printTest'" class="print" style="font-size: 13px;background: white;">打印</button>
+        <div class="container" style="margin-top: 37px">
+          <el-form :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
+            <el-row>
+              <el-col :span="12">
+                <el-form-item class="print2" label="采购入库单编号" style="width: 100%;display: none">
+                  {{ personalForm.enterNumber }}
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('Stockenter.title')" style="width: 100%;">
+                  <span>{{ personalForm.title }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('Stockenter.sourceType')" prop="sourceType" style="width: 100%;">
+                  <span>{{ personalForm.sourceType | sourceTypeFilter }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <span>{{ personalForm.sourceNumber }}</span>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item label="批次" style="width: 100%;">
+                  <span>{{ personalForm.batch }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item label="国家" style="width: 100%;">
+                  <span>{{ personalForm.countryName }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item label="制单人" style="width: 100%;">
+                  <span>{{ personalForm.createPersonName }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('Stockenter.supplierId')" style="width: 100%">
+                  <span>{{ personalForm.supplierName }}</span>
+                </el-form-item>
+                <my-supplier :control.sync="empcontrol" @supplierName="supplierName"/>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('Stockenter.stockPersonId')" style="width: 100%">
+                  <span>{{ personalForm.stockPersonName }}</span>
+                </el-form-item>
+                <my-emp :control.sync="stockControl" @stockName="stockName"/>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('Stockenter.stockDeptId')" style="width: 100%">
+                  <span>{{ personalForm.stockDeptName }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('Stockenter.deliveryPersonId')" style="width: 100%">
+                  <span>{{ personalForm.deliveryPersonName }}</span>
+                </el-form-item>
+                <my-delivery :deliverycontrol.sync="deliverycontrol" @deliveryName="deliveryName"/>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('Stockenter.acceptPersonId')" style="width: 100%">
+                  <span>{{ personalForm.acceptPersonName }}</span>
+                </el-form-item>
+                <my-accept :accetpcontrol.sync="accetpcontrol" @acceptName="acceptName"/>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('Stockenter.enterDeptId')" style="width: 100%">
+                  <span>{{ personalForm.enterDeptName }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('Stockenter.enterRepositoryId')" prop="enterRepositoryId" style="width: 100%">
+                  <span>{{ personalForm.enterRepositoryName }}</span>
+                </el-form-item>
+                <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
+              </el-col>
+            </el-row>
+          </el-form>
+        </div>
+      </el-card>
+      <!--入库单明细-->
+      <el-card class="box-card" style="margin-top: 15px" shadow="never">
+        <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">入库单明细</h2>
+        <div class="container">
+          <el-editable
+            ref="editable"
+            :data.sync="list2"
+            :edit-config="{ showIcon: true, showStatus: true}"
+            class="click-table1"
+            border
+            size="medium"
+            style="width: 100%">
+            <el-editable-column type="index" align="center" label="编号" />
+            <el-editable-column prop="locationCode" align="center" label="货位" />
+            <el-editable-column prop="productCode" align="center" label="物品编号" />
+            <el-editable-column prop="productName" align="center" label="物品名称" />
+            <el-editable-column prop="color" align="center" label="颜色" />
+            <el-editable-column prop="productType" align="center" label="规格" />
+            <el-editable-column prop="unit" align="center" label="单位" />
+            <el-editable-column prop="basicQuantity" align="center" label="基本数量" />
+            <el-editable-column prop="actualEnterQuantity" align="center" label="实收数量" />
+            <el-editable-column prop="enterPrice" align="center" label="入库单价" />
+            <el-editable-column prop="taxRate" align="center" label="税率" />
+            <el-editable-column prop="enterMoney" align="center" label="入库金额" >
+              <template slot-scope="scope">
+                <p>{{ getSize(scope.row.actualEnterQuantity, scope.row.enterPrice) }}</p>
+              </template>
+            </el-editable-column>
+            <el-editable-column :edit-render="{name: 'ElInput'}" prop="remarks" align="center" label="备注" />
+            <el-editable-column prop="sourceSerialNumber" align="center" label="源单序号" />
+          </el-editable>
+        </div>
+      </el-card>
+      <!--审核状态-->
+      <el-card class="box-card" style="margin-top: 15px" shadow="never">
+        <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">审批记录</h2>
+        <div class="container" style="margin-top: 37px">
+          <el-table
+            :data="reviewList"
+            border
+            style="width: 100%">
+            <el-table-column
+              prop="step"
+              align="center"
+              label="当前步骤"
+              min-width="150"/>
+            <el-table-column
+              prop="stepHandlerName"
+              align="center"
+              label="当前审批人"
+              min-width="150"/>
+            <el-table-column
+              prop="handleTime"
+              align="center"
+              label="审批时间"
+              min-width="150"/>
+            <el-table-column
+              prop="stat"
+              align="center"
+              label="审批意见"
+              min-width="150">
+              <template slot-scope="scope">
+                <span>{{ scope.row.stat | statfilter }}</span>
+              </template>
+            </el-table-column>
+          </el-table>
+        </div>
+      </el-card>
+      <div class="buttons" style="margin-top: 20px;margin-left: 30px">
+        <el-button type="danger" @click="handlecancel()">取消</el-button>
       </div>
-    </el-card>
-    <!--入库单明细-->
-    <el-card class="box-card" style="margin-top: 15px">
-      <h2 ref="fuzhu" class="form-name">入库单明细</h2>
-      <div class="container">
-        <el-editable
-          ref="editable"
-          :data.sync="list2"
-          :edit-config="{ showIcon: true, showStatus: true}"
-          :edit-rules="validRules"
-          class="click-table1"
-          stripe
-          border
-          size="medium"
-          style="width: 100%">
-          <el-editable-column type="index" align="center" label="编号" width="150px" />
-          <el-editable-column prop="locationCode" align="center" label="货位" width="150px"/>
-          <el-editable-column prop="productCode" align="center" label="物品编号" width="150px"/>
-          <el-editable-column prop="productName" align="center" label="物品名称" width="150px"/>
-          <el-editable-column prop="color" align="center" label="颜色" width="150px"/>
-          <el-editable-column prop="productType" align="center" label="规格" width="150px"/>
-          <el-editable-column prop="unit" align="center" label="单位" width="150px"/>
-          <el-editable-column prop="basicQuantity" align="center" label="基本数量" width="150px"/>
-          <el-editable-column prop="actualEnterQuantity" align="center" label="实收数量" width="150px"/>
-          <el-editable-column prop="enterPrice" align="center" label="入库单价" width="150px"/>
-          <el-editable-column prop="taxRate" align="center" label="税率" width="150px"/>
-          <el-editable-column prop="enterMoney" align="center" label="入库金额" width="150px">
-            <template slot-scope="scope">
-              <p>{{ getSize(scope.row.actualEnterQuantity, scope.row.enterPrice) }}</p>
-            </template>
-          </el-editable-column>
-          <el-editable-column :edit-render="{name: 'ElInput'}" prop="remarks" align="center" label="备注" width="150px"/>
-          <el-editable-column prop="sourceSerialNumber" align="center" label="源单序号" width="150px"/>
-        </el-editable>
-      </div>
-    </el-card>
-    <!--审核状态-->
-    <el-card class="box-card" style="margin-top: 15px">
-      <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">审批记录</h2>
-      <div class="container" style="margin-top: 37px">
-        <el-table
-          :data="reviewList"
-          border
-          style="width: 100%">
-          <el-table-column
-            prop="step"
-            align="center"
-            label="当前步骤"
-            min-width="150"/>
-          <el-table-column
-            prop="stepHandlerName"
-            align="center"
-            label="当前审批人"
-            min-width="150"/>
-          <el-table-column
-            prop="handleTime"
-            align="center"
-            label="审批时间"
-            min-width="150"/>
-          <el-table-column
-            prop="stat"
-            align="center"
-            label="审批意见"
-            min-width="150">
-            <template slot-scope="scope">
-              <span>{{ scope.row.stat | statfilter }}</span>
-            </template>
-          </el-table-column>
-        </el-table>
-      </div>
-    </el-card>
-    <div class="buttons" style="margin-top: 20px;margin-left: 30px">
-      <el-button type="danger" @click="handlecancel()">取消</el-button>
     </div>
   </el-dialog>
 </template>
@@ -188,6 +178,12 @@ export default {
         1: '审核中',
         2: '审核通过',
         3: '审核不通过'
+      }
+      return statusMap[status]
+    },
+    sourceTypeFilter(status) {
+      const statusMap = {
+        1: '采购到货单'
       }
       return statusMap[status]
     }
@@ -499,7 +495,49 @@ export default {
 </script>
 
 <style scoped>
+  .edit >>> .el-dialog{
+    -webkit-transform: none;
+    transform: none;
+    position: absolute;
+    right: 0;
+    left: auto;
+    height: auto;
+  }
+  .edit >>> .el-dialog__header{
+    background: #fff;
+    position: fixed;
+    top: 0;
+    display: block;
+    width: 1010px;
+    z-index: 100;
+    border-bottom: 1px solid #f1f1f1;
+  }
+  .edit >>> .el-dialog__body{
+    padding-left: 0;
+    padding-right: 0;
+    padding-top: 10px;
+  }
   .edit >>> .el-dialog {
     background:#f1f1f1 ;
+  }
+  .container >>> .el-form-item.is-required:not(.is-no-asterisk)>.el-form-item__label:before{
+    margin-left: -10px;
+  }
+  .container >>> .el-form-item__label{
+    text-align: left;
+  }
+  .container >>> .el-form-item__label{
+    color: #60626696;
+  }
+  .el-col-12{
+    width: 49%;
+  }
+  @media print {
+    .print {
+      display: none;
+    }
+    .print2 {
+      display: block !important;
+    }
   }
 </style>

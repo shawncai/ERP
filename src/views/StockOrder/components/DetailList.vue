@@ -9,6 +9,11 @@
           <el-form :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="100px" style="margin-left: 30px;">
             <el-row>
               <el-col :span="12">
+                <el-form-item class="print2" label="采购订单编号" style="width: 100%;display: none">
+                  {{ personalForm.orderNumber }}
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
                 <el-form-item :label="$t('StockInquiry.inquiryTitle')" style="width: 100%;">
                   <span>{{ personalForm.inquiryTitle }}</span>
                 </el-form-item>
@@ -76,31 +81,30 @@
             :data.sync="list2"
             :edit-config="{ showIcon: true, showStatus: true}"
             class="click-table1"
-            stripe
             border
             size="medium"
             style="width: 100%">
             <el-editable-column label="序号" min-width="55" align="center" type="index"/>
-            <el-editable-column prop="productCode" align="center" label="物品编号" min-width="150px"/>
-            <el-editable-column prop="productName" align="center" label="物品名称" min-width="150px"/>
-            <el-editable-column prop="productType" align="center" label="规格" min-width="150px"/>
-            <el-editable-column prop="unit" align="center" label="单位" min-width="150px"/>
-            <el-editable-column prop="stockQuantity" align="center" label="采购数量" min-width="150px"/>
-            <el-editable-column prop="price" align="center" label="单价" min-width="170px"/>
-            <el-editable-column prop="includeTaxPrice" align="center" label="含税价" min-width="170px"/>
-            <el-editable-column prop="taxRate" align="center" label="税率(%)" min-width="170px"/>
-            <el-editable-column prop="money" align="center" label="金额" min-width="150px"/>
-            <el-editable-column prop="includeTaxMoney" align="center" label="含税金额" min-width="150px"/>
-            <el-editable-column prop="tax" align="center" label="税额" min-width="150px"/>
-            <el-editable-column prop="deliveryDate" align="center" label="交货日期" min-width="170px"/>
-            <el-editable-column prop="discountRate" align="center" label="折扣(%)" min-width="170px"/>
-            <el-editable-column prop="discountMoney" align="center" label="折扣额" min-width="170px"/>
-            <el-editable-column prop="remark" align="center" label="备注" min-width="150px"/>
-            <el-editable-column prop="sourceNumber" align="center" label="源单编号" min-width="150px"/>
-            <el-editable-column prop="sourceSerialNumber" align="center" label="源单序号" min-width="150px"/>
-            <el-editable-column prop="arrivalQuantity" align="center" label="已到货数量" min-width="150px"/>
-            <el-editable-column prop="returnQuantity" align="center" label="退货数量" min-width="150px"/>
-            <el-editable-column prop="actualArrivalQuantity" align="center" label="实到数量" min-width="150px"/>
+            <el-editable-column prop="productCode" align="center" label="物品编号" />
+            <el-editable-column prop="productName" align="center" label="物品名称" />
+            <el-editable-column prop="productType" align="center" label="规格" />
+            <el-editable-column prop="unit" align="center" label="单位" />
+            <el-editable-column prop="stockQuantity" align="center" label="采购数量" />
+            <el-editable-column prop="price" align="center" label="单价" />
+            <el-editable-column prop="includeTaxPrice" align="center" label="含税价" />
+            <el-editable-column prop="taxRate" align="center" label="税率(%)" />
+            <el-editable-column prop="money" align="center" label="金额" />
+            <el-editable-column prop="includeTaxMoney" align="center" label="含税金额" />
+            <el-editable-column prop="tax" align="center" label="税额" />
+            <el-editable-column prop="deliveryDate" align="center" label="交货日期" />
+            <el-editable-column prop="discountRate" align="center" label="折扣(%)" />
+            <el-editable-column prop="discountMoney" align="center" label="折扣额" />
+            <el-editable-column prop="remark" align="center" label="备注" />
+            <el-editable-column prop="sourceNumber" align="center" label="源单编号" />
+            <el-editable-column prop="sourceSerialNumber" align="center" label="源单序号" />
+            <el-editable-column prop="arrivalQuantity" align="center" label="已到货数量" />
+            <el-editable-column prop="returnQuantity" align="center" label="退货数量" />
+            <el-editable-column prop="actualArrivalQuantity" align="center" label="实到数量" />
           </el-editable>
         </div>
       </el-card>
@@ -420,5 +424,13 @@ export default {
   }
   .el-col-12{
     width: 49%;
+  }
+  @media print {
+    .print {
+      display: none;
+    }
+    .print2 {
+      display: block !important;
+    }
   }
 </style>
