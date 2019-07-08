@@ -264,7 +264,35 @@ export default {
     this.getTypes()
     this.getdatatime()
   },
+  mounted() {
+    this.getinformation()
+  },
   methods: {
+    getinformation() {
+      if (this.$store.getters.empcontract) {
+        this.personalForm.sourceType = '2'
+        this.Isproduct = false
+        this.IsSourceNumber = false
+        this.personalForm.applyPersonId = this.$store.getters.empcontract.salePersonId
+        this.applyPersonId = this.$store.getters.empcontract.salePersonName
+        console.log('getempcontract', this.$store.getters.empcontract)
+        for (let i = 0; i < this.$store.getters.empcontract.saleOrderDetailVos.length; i++) {
+          this.$store.getters.empcontract.saleOrderDetailVos[i].typeId = this.$store.getters.empcontract.saleOrderDetailVos[i].productType
+          this.$store.getters.empcontract.saleOrderDetailVos[i].requireQuantity = this.$store.getters.empcontract.saleOrderDetailVos[i].quantity
+          this.$store.getters.empcontract.saleOrderDetailVos[i].productType = this.$store.getters.empcontract.saleOrderDetailVos[i].productTypeName
+          this.$store.getters.empcontract.saleOrderDetailVos[i].planQuantity = this.$store.getters.empcontract.saleOrderDetailVos[i].quantity
+          this.$store.getters.empcontract.saleOrderDetailVos[i].sourceNumber = this.$store.getters.OrderNumber
+          this.$store.getters.empcontract.saleOrderDetailVos[i].sourceSerialNumber = this.$store.getters.empcontract.saleOrderDetailVos[i].id
+          this.$store.getters.empcontract.saleOrderDetailVos[i].applyQuantity = this.$store.getters.empcontract.saleOrderDetailVos[i].quantity
+          this.$refs.editable.insert(this.$store.getters.empcontract.saleOrderDetailVos[i])
+        }
+        for (let i = 0; i < this.$store.getters.empcontract.saleOrderDetailVos.length; i++) {
+          this.$store.getters.empcontract.saleOrderDetailVos[i].planQuantity = '0.00'
+          this.$refs.editable2.insert(this.$store.getters.empcontract.saleOrderDetailVos[i])
+        }
+        this.$store.dispatch('getempcontract', '')
+      }
+    },
     // 控制不同源单类型
     chooseSourceType(val) {
       if (val === '1') {

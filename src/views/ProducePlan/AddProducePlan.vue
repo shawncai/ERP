@@ -139,7 +139,22 @@ export default {
   created() {
     this.getdepts()
   },
+  mounted() {
+    this.getinformation()
+  },
   methods: {
+    getinformation() {
+      if (this.$store.getters.empcontract) {
+        console.log('getempcontract', this.$store.getters.empcontract)
+        for (let i = 0; i < this.$store.getters.empcontract.saleOrderDetailVos.length; i++) {
+          this.$store.getters.empcontract.saleOrderDetailVos[i].typeIdname = this.$store.getters.empcontract.saleOrderDetailVos[i].productTypeName
+          this.$store.getters.empcontract.saleOrderDetailVos[i].typeId = this.$store.getters.empcontract.saleOrderDetailVos[i].productType
+          this.$store.getters.empcontract.saleOrderDetailVos[i].requireQuantity = this.$store.getters.empcontract.saleOrderDetailVos[i].quantity
+          this.$refs.editable.insert(this.$store.getters.empcontract.saleOrderDetailVos[i])
+        }
+        this.$store.dispatch('getempcontract', '')
+      }
+    },
     getdepts() {
       // 部门列表数据
       getdeptlist().then(res => {

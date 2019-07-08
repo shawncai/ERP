@@ -584,7 +584,106 @@ export default {
     this.getdatatime()
     this.chooseSourceType()
   },
+  mounted() {
+    this.getinformation()
+    this.getinformation2()
+    this.getinformation3()
+  },
   methods: {
+    getinformation3() {
+      if (this.$store.getters.empcontract2) {
+        console.log('getempcontract3', this.$store.getters.empcontract3)
+        this.personalForm.sourceType = '3'
+        this.Isproduct = true
+        this.IsSourceNumber = false
+        for (let i = 0; i < this.$store.getters.empcontract2.saleOpportunityDetailVos.length; i++) {
+          this.$refs.editable.insert(this.$store.getters.empcontract2.saleOpportunityDetailVos[i])
+        }
+        this.$store.dispatch('getempcontract2', '')
+      }
+    },
+    getinformation2() {
+      if (this.$store.getters.empcontract2) {
+        console.log('getempcontract2', this.$store.getters.empcontract2)
+        this.personalForm.sourceType = '4'
+        this.Isproduct = true
+        this.IsSourceNumber = false
+        if (this.$store.getters.empcontract2.customerType !== null && this.$store.getters.empcontract2.customerType !== undefined && this.$store.getters.empcontract2.customerType !== '') {
+          this.personalForm.customerType = String(this.$store.getters.empcontract2.customerType)
+        }
+        // this.personalForm.customerId = val.customerId
+        this.customerId = this.$store.getters.empcontract2.customerName
+        this.personalForm.customerPhone = this.$store.getters.empcontract2.customerPhone
+        this.personalForm.salePersonId = this.$store.getters.empcontract2.handlePersonId
+        this.salePersonId = this.$store.getters.empcontract2.handlePersonName
+        this.personalForm.handleRepositoryId = this.$store.getters.empcontract2.handleRepositoryId
+        this.handleRepositoryId = this.$store.getters.empcontract2.handleRepositoryName
+        for (let i = 0; i < this.$store.getters.empcontract2.saleOpportunityDetailVos.length; i++) {
+          this.$store.getters.empcontract2.saleOpportunityDetailVos[i].categoryName = this.$store.getters.empcontract2.saleOpportunityDetailVos[i].productCategory
+          this.$store.getters.empcontract2.saleOpportunityDetailVos[i].category = this.$store.getters.empcontract2.saleOpportunityDetailVos[i].categoryId
+          this.$store.getters.empcontract2.saleOpportunityDetailVos[i].typeName = this.$store.getters.empcontract2.saleOpportunityDetailVos[i].productType
+          this.$store.getters.empcontract2.saleOpportunityDetailVos[i].type = this.$store.getters.empcontract2.saleOpportunityDetailVos[i].typeId
+          this.$store.getters.empcontract2.saleOpportunityDetailVos[i].quantity = 0
+          this.$store.getters.empcontract2.saleOpportunityDetailVos[i].salePrice = '0.00'
+          this.$store.getters.empcontract2.saleOpportunityDetailVos[i].costPrice = '0.00'
+          this.$store.getters.empcontract2.saleOpportunityDetailVos[i].taxprice = '0.00'
+          this.$store.getters.empcontract2.saleOpportunityDetailVos[i].costMoney = '0.00'
+          this.$store.getters.empcontract2.saleOpportunityDetailVos[i].includeTaxMoney = '0.00'
+          this.$store.getters.empcontract2.saleOpportunityDetailVos[i].taxRate = '0.00'
+          this.$store.getters.empcontract2.saleOpportunityDetailVos[i].taxMoney = '0.00'
+          this.$store.getters.empcontract2.saleOpportunityDetailVos[i].money = '0.00'
+          this.$store.getters.empcontract2.saleOpportunityDetailVos[i].includeTaxCostMoney = '0.00'
+          this.$store.getters.empcontract2.saleOpportunityDetailVos[i].discount = '0.00'
+          this.$store.getters.empcontract2.saleOpportunityDetailVos[i].discountMoney = '0.00'
+          this.$store.getters.empcontract2.saleOpportunityDetailVos[i].carCode = 0
+          this.$store.getters.empcontract2.saleOpportunityDetailVos[i].motorCode = 0
+          this.$store.getters.empcontract2.saleOpportunityDetailVos[i].batteryCode = 0
+          this.$store.getters.empcontract2.saleOpportunityDetailVos[i].sourceNumber = this.$store.getters.empcontract2.opportunityNumber
+          this.$store.getters.empcontract2.saleOpportunityDetailVos[i].sourceSerialNumber = this.$store.getters.empcontract2.saleOpportunityDetailVos[i].id
+          this.$refs.editable.insert(this.$store.getters.empcontract2.saleOpportunityDetailVos[i])
+        }
+        this.$store.dispatch('getempcontract2', '')
+      }
+    },
+    getinformation() {
+      if (this.$store.getters.empcontract) {
+        console.log('getempcontract', this.$store.getters.empcontract)
+        this.personalForm.sourceType = '1'
+        this.Isproduct = true
+        this.IsSourceNumber = false
+        if (this.$refs.editable.getRecords().length !== 0 && this.$refs.editable.getRecords() !== undefined && this.$refs.editable.getRecords() !== null) {
+          this.$refs.editable.clear()
+        }
+        this.personalForm.sourceNumber = this.$store.getters.empcontract.number
+        if (this.$store.getters.empcontract.customerType !== null && this.$store.getters.empcontract.customerType !== undefined && this.$store.getters.empcontract.customerType !== '') {
+          this.personalForm.customerType = String(this.$store.getters.empcontract.customerType)
+        }
+        this.personalForm.customerId = this.$store.getters.empcontract.customerId
+        this.customerId = this.$store.getters.empcontract.customerName
+        this.personalForm.customerPhone = this.$store.getters.empcontract.customerPhone
+        this.personalForm.salePersonId = this.$store.getters.empcontract.salePersonId
+        this.salePersonId = this.$store.getters.empcontract.salePersonName
+        this.personalForm.settleMode = this.$store.getters.empcontract.settleMode
+        this.personalForm.saleRepositoryId = this.$store.getters.empcontract.saleRepositoryId
+        this.saleRepositoryId = this.$store.getters.empcontract.saleRepositoryName
+        this.personalForm.address = this.$store.getters.empcontract.transAddress
+        for (let i = 0; i < this.$store.getters.empcontract.saleOrderDetailVos.length; i++) {
+          this.$store.getters.empcontract.saleOrderDetailVos[i].categoryName = this.$store.getters.empcontract.saleOrderDetailVos[i].productCategoryName
+          this.$store.getters.empcontract.saleOrderDetailVos[i].category = this.$store.getters.empcontract.saleOrderDetailVos[i].productCategory
+          this.$store.getters.empcontract.saleOrderDetailVos[i].typeName = this.$store.getters.empcontract.saleOrderDetailVos[i].productTypeName
+          this.$store.getters.empcontract.saleOrderDetailVos[i].type = this.$store.getters.empcontract.saleOrderDetailVos[i].productType
+          this.$store.getters.empcontract.saleOrderDetailVos[i].kpiGrade = '0.00'
+          this.$store.getters.empcontract.saleOrderDetailVos[i].point = '0.00'
+          this.$store.getters.empcontract.saleOrderDetailVos[i].carCode = 0
+          this.$store.getters.empcontract.saleOrderDetailVos[i].motorCode = 0
+          this.$store.getters.empcontract.saleOrderDetailVos[i].batteryCode = 0
+          this.$store.getters.empcontract.saleOrderDetailVos[i].sourceNumber = this.$store.getters.empcontract.number
+          this.$store.getters.empcontract.saleOrderDetailVos[i].sourceSerialNumber = this.$store.getters.empcontract.saleOrderDetailVos[i].id
+          this.$refs.editable.insert(this.$store.getters.empcontract.saleOrderDetailVos[i])
+        }
+        this.$store.dispatch('getempcontract', '')
+      }
+    },
     // 重置一下下拉
     change() {
       this.$forceUpdate()
@@ -845,7 +944,7 @@ export default {
     },
     // 从销售订单过来数据
     saleOrderDetail(val) {
-      console.log(val)
+      console.log('val', val)
       const nowlistdata = this.$refs.editable.getRecords()
       for (let i = 0; i < val.length; i++) {
         for (let j = 0; j < nowlistdata.length; j++) {

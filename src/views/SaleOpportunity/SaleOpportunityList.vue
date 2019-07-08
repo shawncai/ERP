@@ -157,6 +157,7 @@
             <!--<el-button v-if="isReview(scope.row)" title="审批" type="warning" size="mini" icon="el-icon-view" circle @click="handleReview(scope.row)"/>-->
             <el-button v-permission="['54-63-2']" title="删除" size="mini" type="danger" icon="el-icon-delete" circle @click="handleDelete(scope.row)"/>
             <el-button title="进程" size="mini" type="primary" icon="el-icon-sort" circle @click="handleReceipt(scope.row)"/>
+            <el-button type="primary" style="width: 107px" @click="handleMyReceipt1(scope.row)"><span style="margin-left: -15px;">生成销售出库单</span></el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -307,6 +308,11 @@ export default {
     this.getlist()
   },
   methods: {
+    handleMyReceipt1(val) {
+      console.log(val)
+      this.$store.dispatch('getempcontract2', val)
+      this.$router.push('/SaleOut/AddSaleOut')
+    },
     contorlstep4(val) {
       if (val === 0) {
         this.step4 = 'wait'

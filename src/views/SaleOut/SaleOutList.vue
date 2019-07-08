@@ -136,6 +136,7 @@
             <el-button v-permission="['54-55-3']" v-show="scope.row.judgeStat === 0" title="修改" type="primary" size="mini" icon="el-icon-edit" circle @click="handleEdit(scope.row)"/>
             <el-button v-if="isReview(scope.row)" title="审批" type="warning" size="mini" icon="el-icon-view" circle @click="handleReview(scope.row)"/>
             <el-button v-permission="['54-55-2']" v-show="scope.row.judgeStat === 0" title="删除" size="mini" type="danger" icon="el-icon-delete" circle @click="handleDelete(scope.row)"/>
+            <el-button v-permission="['54-55-49']" v-waves v-show="scope.row.judgeStat === 2" class="filter-item" type="primary" style="width: 82px" @click="handleReceipt(scope.row)"><span style="margin-left: -15px;">生成配送单</span></el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -273,6 +274,11 @@ export default {
     this.getlist()
   },
   methods: {
+    handleReceipt(val) {
+      console.log(val)
+      this.$store.dispatch('getempcontract', val)
+      this.$router.push('/DeliverGoods/AddDeliverGoods')
+    },
     checkPermission,
     // 出库仓库focus事件触发
     handlechooseRep() {

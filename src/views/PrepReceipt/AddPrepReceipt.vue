@@ -131,6 +131,13 @@ export default {
         callback()
       }
     }
+    const validatePass30 = (rule, value, callback) => {
+      if (this.personalForm.sourceType === undefined || this.personalForm.sourceType === null || this.personalForm.sourceType === '') {
+        callback(new Error('请选择源单类型'))
+      } else {
+        callback()
+      }
+    }
     return {
       pickerOptions1: {
         disabledDate: (time) => {
@@ -203,7 +210,7 @@ export default {
           { required: true, message: '请选择收款时间', trigger: 'change' }
         ],
         sourceType: [
-          { required: true, message: '请选择源单类型', trigger: 'change' }
+          { required: true, validator: validatePass30, trigger: 'change' }
         ],
         receiptMoney: [
           { required: true, message: '请输入本次预收金额', trigger: 'blur' }
@@ -226,7 +233,18 @@ export default {
     this.getdatatime()
     this.getTypes()
   },
+  mounted() {
+    this.getinformation()
+  },
   methods: {
+    getinformation() {
+      if (this.$store.getters.empcontract) {
+        this.personalForm.sourceType = '1'
+        this.personalForm.sourceNumber = this.$store.getters.empcontract.number
+        console.log('getempcontract', this.$store.getters.empcontract)
+        this.$store.dispatch('getempcontract', '')
+      }
+    },
     // 选择源单
     chooseOrder() {
       this.ordercontrol = true

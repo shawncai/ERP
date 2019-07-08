@@ -23,6 +23,8 @@ const getters = {
   deptId: state => state.user.deptId,
   regionName: state => state.user.regionName,
   repositoryName: state => state.user.repositoryName,
-  empcontract: state => state.publics.empcontract
+  empcontract: state => state.publics.empcontract,
+  empcontract2: state => state.publics.empcontract2,
+  empcontract3: state => state.publics.empcontract3
 }
 export default getters

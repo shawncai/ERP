@@ -166,6 +166,13 @@ export default {
         callback()
       }
     }
+    const validatePass11 = (rule, value, callback) => {
+      if (this.personalForm.sourceType === undefined || this.personalForm.sourceType === null || this.personalForm.sourceType === '') {
+        callback(new Error('请选择源单类型'))
+      } else {
+        callback()
+      }
+    }
     return {
       pickerOptions1: {
         disabledDate: (time) => {
@@ -205,7 +212,7 @@ export default {
           { required: true, message: '请输入配送单主题', trigger: 'blur' }
         ],
         sourceType: [
-          { required: true, message: '请选择源单类型', trigger: 'change' }
+          { required: true, validator: validatePass11, trigger: 'change' }
         ],
         deliverPersonId: [
           { required: true, validator: validatePass, trigger: 'change' }
@@ -237,7 +244,34 @@ export default {
     this.getdatatime()
     this.getnationlist()
   },
+  mounted() {
+    this.getinformation()
+  },
   methods: {
+    getinformation() {
+      if (this.$store.getters.empcontract) {
+        console.log('getempcontract', this.$store.getters.empcontract)
+        this.personalForm.sourceType = '1'
+        this.personalForm.sourceNumber = this.$store.getters.empcontract.number
+        this.personalForm.address = this.$store.getters.empcontract.address
+        if (this.$store.getters.empcontract.transferPersonId !== null) {
+          this.personalForm.deliverPersonId = this.$store.getters.empcontract.transferPersonId
+          this.deliverPersonId = this.$store.getters.empcontract.transferPersonName
+        }
+        for (let i = 0; i < this.$store.getters.empcontract.saleOutDetailVos.length; i++) {
+          this.$store.getters.empcontract.saleOutDetailVos[i].productType = this.$store.getters.empcontract.saleOutDetailVos[i].productTypeName
+          this.$store.getters.empcontract.saleOutDetailVos[i].basicQuantity = this.$store.getters.empcontract.saleOutDetailVos[i].quantity
+          this.$store.getters.empcontract.saleOutDetailVos[i].deliverQuantity = this.$store.getters.empcontract.saleOutDetailVos[i].quantity
+          this.$store.getters.empcontract.saleOutDetailVos[i].deliverMoney = this.$store.getters.empcontract.saleOutDetailVos[i].money
+          this.$store.getters.empcontract.saleOutDetailVos[i].price = this.$store.getters.empcontract.saleOutDetailVos[i].salePrice
+          this.$store.getters.empcontract.saleOutDetailVos[i].outRepositoryId = this.$store.getters.empcontract.saleRepositoryId
+          this.$store.getters.empcontract.saleOutDetailVos[i].outRepositoryName = this.$store.getters.empcontract.saleRepositoryName
+          this.$store.getters.empcontract.saleOutDetailVos[i].outRepositoryName = this.$store.getters.empcontract.saleRepositoryName
+          this.$refs.editable.insert(this.$store.getters.empcontract.saleOutDetailVos[i])
+        }
+        this.$store.dispatch('getempcontract', '')
+      }
+    },
     // 选择要货方时清理
     clearrequire() {
       this.requireId = ''
@@ -284,6 +318,7 @@ export default {
     },
     // 源单类型为销售出库单时
     saleOutDetail(val) {
+      console.log('abc', val)
       this.$refs.editable.clear()
       for (let i = 0; i < val.length; i++) {
         this.$refs.editable.insert(val[i])
@@ -292,8 +327,10 @@ export default {
     saleOutdata(val) {
       this.personalForm.sourceNumber = val.number
       this.personalForm.address = val.address
-      this.personalForm.deliverPersonId = val.transferPersonId
-      this.deliverPersonId = val.transferPersonName
+      if (val.transferPersonId !== null) {
+        this.personalForm.deliverPersonId = val.transferPersonId
+        this.deliverPersonId = val.transferPersonName
+      }
     },
     // 源单为调拨单
     StoragemoveDetail(val) {
