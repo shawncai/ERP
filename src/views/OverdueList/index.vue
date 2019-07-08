@@ -141,6 +141,7 @@
             <el-button v-permission="['200-206-3']" v-show="scope.row.judgeStat === 0" title="修改" type="primary" size="mini" icon="el-icon-edit" circle @click="handleEdit(scope.row)"/>
             <el-button v-if="isReview(scope.row)" title="审批" type="warning" size="mini" icon="el-icon-view" circle @click="handleReview(scope.row)"/>
             <el-button v-permission="['200-206-2']" v-show="scope.row.judgeStat === 0" title="删除" size="mini" type="danger" icon="el-icon-delete" circle @click="handleDelete(scope.row)"/>
+            <el-button v-permission="['200-206-74']" type="primary" style="width: 84px" @click="handleMyReceipt1(scope.row)"><span style="margin-left: -15px;">生成收款单</span></el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -263,6 +264,11 @@ export default {
     this.getlist()
   },
   methods: {
+    handleMyReceipt1(val) {
+      console.log(val)
+      this.$store.dispatch('getempcontract', val)
+      this.$router.push('/Receipt/AddReceipt')
+    },
     checkPermission,
     // 销售人员focus事件
     handlechooseStock() {

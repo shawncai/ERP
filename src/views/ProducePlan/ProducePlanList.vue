@@ -134,6 +134,7 @@
             <el-button v-permission="['171-176-16']" v-if="isReview2(scope.row)" title="结单" type="success" size="mini" icon="el-icon-check" circle @click="handleReview2(scope.row)"/>
             <el-button v-permission="['171-176-17']" v-if="isReview3(scope.row)" title="反结单" type="success" size="mini" icon="el-icon-back" circle @click="handleReview3(scope.row)"/>
             <el-button v-permission="['171-176-2']" v-show="scope.row.judgeStat === 0" size="mini" type="danger" @click="handleDelete(scope.row)">{{ $t('public.delete') }}</el-button>
+            <el-button v-permission="['171-176-53']" v-show="scope.row.judgeStat === 2" type="primary" style="width: 125px" @click="handleMyReceipt1(scope.row)"><span style="margin-left: -15px;">生成物料需求计划</span></el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -231,6 +232,11 @@ export default {
     this.getlist()
   },
   methods: {
+    handleMyReceipt1(val) {
+      console.log(val)
+      this.$store.dispatch('getempcontract', val)
+      this.$router.push('/RequirePlan/AddRequirePlan')
+    },
     // 判断反审批按钮
     isReview4(row) {
       console.log(row)

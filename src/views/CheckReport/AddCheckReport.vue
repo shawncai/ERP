@@ -26,7 +26,7 @@
                 <el-form-item :label="$t('CheckReport.sourceNumber')" prop="sourceNumber" style="width: 100%;">
                   <el-input v-model="personalForm.sourceNumber" style="margin-left: 18px;width: 200px" clearable @focus="chooseNumber"/>
                   <my-quality :qualitycontrol.sync="qualitycontrol" @allqualityinfo="allqualityinfo"/>
-                  <my-arrival :arrivalcontrol.sync="arrivalcontrol" @allarrivalinfo="allarrivalinfo"/>
+                  <my-arrival :arrivalcontrol.sync="arrivalcontrol" @allarrivalinfo="arrivalcontrol"/>
                   <produce-task :procontrol.sync="producecontrol" @produce="produce"/>
                 </el-form-item>
               </el-col>
@@ -474,7 +474,22 @@ export default {
   created() {
     this.getTypes()
   },
+  mounted() {
+    this.getinformation()
+  },
   methods: {
+    getinformation() {
+      if (this.$store.getters.empcontract) {
+        console.log('getempcontract', this.$store.getters.empcontract)
+        this.personalForm.sourceType = '2'
+        this.chooseType()
+        this.allarrivalinfo(this.$store.getters.empcontract)
+        // for (let i = 0; i < this.$store.getters.empcontract.advanceOrderDetailVos.length; i++) {
+        //   this.$refs.editable.insert(this.$store.getters.empcontract.advanceOrderDetailVos[i])
+        // }
+        this.$store.dispatch('getempcontract', '')
+      }
+    },
     getcheckQuantity(row) {
       row.sampleQuantity = this.personalForm.sampleQuantity
       return row.sampleQuantity

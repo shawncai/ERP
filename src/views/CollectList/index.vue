@@ -134,6 +134,11 @@
             <span>{{ scope.row.stat }}</span>
           </template>
         </el-table-column>
+        <el-table-column :label="$t('public.actions')" :resizable="false" align="center" min-width="100">
+          <template slot-scope="scope">
+            <el-button type="primary" style="width: 84px" @click="handleMyReceipt1(scope.row)"><span style="margin-left: -15px;">生成收款单</span></el-button>
+          </template>
+        </el-table-column>
       </el-table>
       <!-- 列表结束 -->
       <pagination v-show="total>0" :total="total" :page.sync="getemplist.pageNum" :limit.sync="getemplist.pageSize" @pagination="getlist" />
@@ -258,6 +263,11 @@ export default {
     this.getlist()
   },
   methods: {
+    handleMyReceipt1(val) {
+      console.log(val)
+      this.$store.dispatch('getempcontract2', val)
+      this.$router.push('/Receipt/AddReceipt')
+    },
     getamouthDate() {
 
     },

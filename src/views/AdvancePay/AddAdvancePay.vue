@@ -206,7 +206,23 @@ export default {
     this.getways()
     this.getdatatime()
   },
+  mounted() {
+    this.getinformation()
+  },
   methods: {
+    getinformation() {
+      if (this.$store.getters.empcontract) {
+        console.log('getempcontract', this.$store.getters.empcontract)
+        this.personalForm.supplierId = this.$store.getters.empcontract.supplierId
+        this.supplierId = this.$store.getters.empcontract.supplierName
+        this.stockPersonId = this.$store.getters.empcontract.stockPersonName
+        this.personalForm.stockPersonId = this.$store.getters.empcontract.stockPersonId
+        if (this.$store.getters.empcontract.settleMode !== null) {
+          this.personalForm.settleMode = this.$store.getters.empcontract.settleMode
+        }
+        this.$store.dispatch('getempcontract', '')
+      }
+    },
     // 重置一下下拉
     change() {
       this.$forceUpdate()

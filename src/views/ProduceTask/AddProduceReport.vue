@@ -372,7 +372,29 @@ export default {
   created() {
     this.getList()
   },
+  mounted() {
+    this.getinformation()
+  },
   methods: {
+    getinformation() {
+      if (this.$store.getters.empcontract) {
+        console.log('getempcontract', this.$store.getters.empcontract)
+        this.moredata(this.$store.getters.empcontract)
+        for (let i = 0; i < this.$store.getters.empcontract.produceTaskDetailVos.length; i++) {
+          if (i === 0) {
+            this.workCenterId = this.$store.getters.empcontract.produceTaskDetailVos[0].workCenter
+            this.personalForm.workCenterId = this.$store.getters.empcontract.produceTaskDetailVos[0].workCenterId
+          }
+          this.$store.getters.empcontract.produceTaskDetailVos[i].workHours = 0
+          this.$store.getters.empcontract.produceTaskDetailVos[i].finishQuantity = 0
+          this.$store.getters.empcontract.produceTaskDetailVos[i].passQuantity = 0
+          this.$store.getters.empcontract.produceTaskDetailVos[i].passRate = 0
+          this.$refs.editable.insert(this.$store.getters.empcontract.produceTaskDetailVos[i])
+        }
+        // this.personalForm.work
+        this.$store.dispatch('getempcontract', '')
+      }
+    },
     // 部门列表数据
     getList() {
       getdeptlist().then(res => {

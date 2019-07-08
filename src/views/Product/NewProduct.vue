@@ -498,7 +498,7 @@ export default {
         producemeasurement: '',
         source: '',
         valuation: '',
-        isactive: '',
+        isactive: 1,
         picids: [],
         detailpicid: [],
         memberprice: '',

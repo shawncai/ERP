@@ -205,7 +205,19 @@ export default {
   created() {
     this.getdatatime()
   },
+  mounted() {
+    this.getinformation()
+  },
   methods: {
+    getinformation() {
+      if (this.$store.getters.empcontract) {
+        console.log('getempcontract', this.$store.getters.empcontract)
+        this.Installment(this.$store.getters.empcontract)
+        this.$store.getters.empcontract.categoryName = this.$store.getters.empcontract.productCategory
+        this.InstallmentDetail(new Array(this.$store.getters.empcontract))
+        this.$store.dispatch('getempcontract', '')
+      }
+    },
     // 仓库列表focus事件触发
     handlechooseRep() {
       this.repositorycontrol = true

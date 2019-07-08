@@ -411,7 +411,29 @@ export default {
     this.getways()
     this.getdatatime()
   },
+  mounted() {
+    this.getinformation()
+  },
   methods: {
+    getinformation() {
+      if (this.$store.getters.empcontract) {
+        console.log('getempcontract', this.$store.getters.empcontract)
+        this.personalForm.sourceType = '1'
+        this.chooseType()
+        this.allarrivalinfo(this.$store.getters.empcontract)
+        for (let i = 0; i < this.$store.getters.empcontract.stockArrivalDetailVos.length; i++) {
+          this.$store.getters.empcontract.stockArrivalDetailVos[i].typeName = this.$store.getters.empcontract.stockArrivalDetailVos[i].productType
+          this.$store.getters.empcontract.stockArrivalDetailVos[i].type = this.$store.getters.empcontract.stockArrivalDetailVos[i].typeId
+          this.$store.getters.empcontract.stockArrivalDetailVos[i].retreatQuantity = 0
+          this.$store.getters.empcontract.stockArrivalDetailVos[i].retreatReason = ''
+          this.$store.getters.empcontract.stockArrivalDetailVos[i].sourceNumber = this.$store.getters.empcontract.number
+          this.$store.getters.empcontract.stockArrivalDetailVos[i].sourceSerialNumber = this.$store.getters.empcontract.stockArrivalDetailVos[i].id
+          this.$store.getters.empcontract.stockArrivalDetailVos[i].taxRate = this.$store.getters.empcontract.stockArrivalDetailVos[i].taxRate * 100
+        }
+        this.arrival(this.$store.getters.empcontract.stockArrivalDetailVos)
+        this.$store.dispatch('getempcontract', '')
+      }
+    },
     getdatatime() { // 默认显示今天
       this.personalForm.retreatDate = new Date()
       // 结算方式

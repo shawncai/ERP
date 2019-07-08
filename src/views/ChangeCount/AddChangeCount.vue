@@ -182,7 +182,21 @@ export default {
   },
   created() {
   },
+  mounted() {
+    this.getinformation()
+  },
   methods: {
+    getinformation() {
+      if (this.$store.getters.empcontract) {
+        console.log('getempcontract', this.$store.getters.empcontract)
+        this.Installment(this.$store.getters.empcontract)
+        for (let i = 0; i < this.$store.getters.empcontract.installmentOrderDetailVos.length; i++) {
+          this.$store.getters.empcontract.installmentOrderDetailVos[i].categoryName = this.$store.getters.empcontract.installmentOrderDetailVos[i].productCategory
+        }
+        this.InstallmentDetail(this.$store.getters.empcontract.installmentOrderDetailVos)
+        this.$store.dispatch('getempcontract', '')
+      }
+    },
     // 仓库列表focus事件触发
     handlechooseRep() {
       this.repositorycontrol = true

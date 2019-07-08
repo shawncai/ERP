@@ -239,7 +239,39 @@ export default {
   created() {
     this.getways()
   },
+  mounted() {
+    this.getinformation()
+  },
   methods: {
+    getinformation() {
+      if (this.$store.getters.empcontract) {
+        console.log('getempcontract', this.$store.getters.empcontract)
+        this.personalForm.customerType = '2'
+        this.personalForm.customerId = this.$store.getters.empcontract.customerId
+        this.customerId = this.$store.getters.empcontract.customerName
+        // if (val.advanceMoney !== null && val.advanceMoney !== undefined && val.advanceMoney !== '') {
+        //   this.yufu = val.advanceMoney
+        // }
+        for (let i = 0; i < this.$store.getters.empcontract.installmentOrderDetailVos.length; i++) {
+          this.$store.getters.empcontract.installmentOrderDetailVos[i].categoryName = this.$store.getters.empcontract.installmentOrderDetailVos[i].productCategory
+        }
+        this.InstallmentDetail(this.$store.getters.empcontract.installmentOrderDetailVos)
+        this.$store.dispatch('getempcontract', '')
+      }
+    },
+    getinformation2() {
+      if (this.$store.getters.empcontract2) {
+        console.log('getempcontract2', this.$store.getters.empcontract2)
+        this.personalForm.customerType = '2'
+        this.personalForm.customerId = this.$store.getters.empcontract2.customerId
+        this.customerId = this.$store.getters.empcontract2.customerName
+        for (let i = 0; i < this.$store.getters.empcontract2.installmentOrderDetailVos.length; i++) {
+          this.$store.getters.empcontract2.installmentOrderDetailVos[i].categoryName = this.$store.getters.empcontract2.installmentOrderDetailVos[i].productCategory
+        }
+        this.InstallmentDetail(this.$store.getters.empcontract2.installmentOrderDetailVos)
+        this.$store.dispatch('getempcontract2', '')
+      }
+    },
     getways() {
       searchCategory(7).then(res => {
         if (res.data.ret === 200) {

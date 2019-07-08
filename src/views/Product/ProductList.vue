@@ -140,6 +140,8 @@
         </el-table-column>
         <el-table-column :label="$t('public.actions')" :resizable="false" align="center" min-width="100">
           <template slot-scope="scope">
+            <el-button v-permission="['1-31-33-14']" v-show="scope.row.isActive === 2" title="上架" type="primary" size="mini" icon="el-icon-caret-top" circle @click="top(scope.row)"/>
+            <el-button v-permission="['1-31-33-15']" v-show="scope.row.isActive === 1" title="下架" type="primary" size="mini" icon="el-icon-caret-bottom" circle @click="bottom(scope.row)"/>
             <el-button v-permission="['1-31-33-3']" title="修改" type="primary" size="mini" icon="el-icon-edit" circle @click="handleEdit(scope.row)"/>
             <el-button v-permission="['1-31-33-2']" title="删除" size="mini" type="danger" icon="el-icon-delete" circle @click="handleDelete(scope.row)"/>
           </template>
@@ -232,6 +234,29 @@ export default {
     this.getlist()
   },
   methods: {
+    // 修改操作
+    top(row) {
+      console.log(row)
+      this.editVisible = true
+      this.personalForm = Object.assign({}, row)
+      if (this.personalForm.valuation !== null && this.personalForm.valuation !== undefined) {
+        this.personalForm.valuation = String(row.valuation)
+      }
+      if (this.personalForm.source !== null) {
+        this.personalForm.source = String(row.source)
+      }
+    },
+    top(row) {
+      console.log(row)
+      this.editVisible = true
+      this.personalForm = Object.assign({}, row)
+      if (this.personalForm.valuation !== null && this.personalForm.valuation !== undefined) {
+        this.personalForm.valuation = String(row.valuation)
+      }
+      if (this.personalForm.source !== null) {
+        this.personalForm.source = String(row.source)
+      }
+    },
     checkPermission,
     // 详情操作
     handleDetail(row) {

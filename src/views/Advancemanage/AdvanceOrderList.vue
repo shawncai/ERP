@@ -148,8 +148,8 @@
             <el-button v-permission="['54-84-86-16']" v-if="isReview2(scope.row)" title="结单" type="success" size="mini" icon="el-icon-check" circle @click="handleReview2(scope.row)"/>
             <el-button v-permission="['54-84-86-17']" v-if="isReview3(scope.row)" title="反结单" type="success" size="mini" icon="el-icon-back" circle @click="handleReview3(scope.row)"/>
             <el-button v-permission="['54-84-86-2']" v-show="scope.row.judgeStat === 0" title="删除" size="mini" type="danger" icon="el-icon-delete" circle @click="handleDelete(scope.row)"/>
-            <el-button v-permission="['54-84-86-22']" type="primary" style="width: 107px" @click="handleMyReceipt1(scope.row)"><span style="margin-left: -15px;">生成销售出库单</span></el-button>
-            <el-button v-permission="['54-84-86-37']" type="primary" style="width: 107px" @click="handleMyReceipt1(scope.row)"><span style="margin-left: -15px;">生成预售退款单</span></el-button>
+            <el-button v-permission="['54-84-86-22']" v-show="scope.row.judgeStat === 2" type="primary" style="width: 107px" @click="handleMyReceipt1(scope.row)"><span style="margin-left: -15px;">生成销售出库单</span></el-button>
+            <el-button v-permission="['54-84-86-37']" v-show="scope.row.judgeStat === 2" type="primary" style="width: 107px" @click="handleMyReceipt2(scope.row)"><span style="margin-left: -15px;">生成预售退款单</span></el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -276,6 +276,11 @@ export default {
       console.log(val)
       this.$store.dispatch('getempcontract3', val)
       this.$router.push('/SaleOut/AddSaleOut')
+    },
+    handleMyReceipt2(val) {
+      console.log(val)
+      this.$store.dispatch('getempcontract', val)
+      this.$router.push('/Advancemanage/AddPrepReturn')
     },
     // 判断反审批按钮
     isReview4(row) {

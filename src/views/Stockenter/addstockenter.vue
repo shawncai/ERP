@@ -307,8 +307,29 @@ export default {
   mounted() {
     this.getlist()
     this.getdatatime()
+    this.getinformation()
   },
   methods: {
+    getinformation() {
+      if (this.$store.getters.empcontract) {
+        console.log('getempcontract', this.$store.getters.empcontract)
+        this.allarrivalinfo(this.$store.getters.empcontract)
+        for (let i = 0; i < this.$store.getters.empcontract.stockArrivalDetailVos.length; i++) {
+          this.$store.getters.empcontract.stockArrivalDetailVos[i].productType = this.$store.getters.empcontract.stockArrivalDetailVos[i].typeName
+          this.$store.getters.empcontract.stockArrivalDetailVos[i].typeName = this.$store.getters.empcontract.stockArrivalDetailVos[i].productType
+          this.$store.getters.empcontract.stockArrivalDetailVos[i].basicQuantity = (Number(this.$store.getters.empcontract.stockArrivalDetailVos[i].arrivalQuantity) - Number(this.$store.getters.empcontract.stockArrivalDetailVos[i].hadStorageQuantity)).toFixed(2)
+          this.$store.getters.empcontract.stockArrivalDetailVos[i].actualEnterQuantity = (Number(this.$store.getters.empcontract.stockArrivalDetailVos[i].arrivalQuantity) - Number(this.$store.getters.empcontract.stockArrivalDetailVos[i].hadStorageQuantity)).toFixed(2)
+          this.$store.getters.empcontract.stockArrivalDetailVos[i].enterPrice = (this.$store.getters.empcontract.stockArrivalDetailVos[i].includeTaxPrice)
+          this.$store.getters.empcontract.stockArrivalDetailVos[i].taxRate = (this.$store.getters.empcontract.stockArrivalDetailVos[i].taxRate * 100).toFixed(2)
+          this.$store.getters.empcontract.stockArrivalDetailVos[i].enterMoney = '0.00'
+          this.$store.getters.empcontract.stockArrivalDetailVos[i].remarks = ''
+          this.$store.getters.empcontract.stockArrivalDetailVos[i].sourceSerialNumber = this.$store.getters.empcontract.stockArrivalDetailVos[i].id
+          this.$store.getters.empcontract.stockArrivalDetailVos[i].passQuantity = this.$store.getters.empcontract.stockArrivalDetailVos[i].qualifyQuantity
+        }
+        this.arrival(this.$store.getters.empcontract.stockArrivalDetailVos)
+        this.$store.dispatch('getempcontract', '')
+      }
+    },
     beyond(scope, value) {
       this.mid = scope.row.basicQuantity
     },

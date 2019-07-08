@@ -13,7 +13,7 @@
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('Advancemanage.sourceType')" prop="sourceType" style="width: 100%;">
+                <el-form-item :label="$t('Advancemanage.sourceType')" style="width: 100%;">
                   <el-select v-model="personalForm.sourceType" style="margin-left: 18px;width: 200px">
                     <el-option value="1" label="预售订单"/>
                   </el-select>
@@ -233,6 +233,7 @@ export default {
       advancecontrol: false,
       // 采购申请单信息数据
       personalForm: {
+        sourceType: '1',
         createPersonId: this.$store.getters.userId,
         countryId: this.$store.getters.countryId,
         repositoryId: this.$store.getters.repositoryId,
@@ -271,7 +272,33 @@ export default {
     this.getTypes()
     this.getways()
   },
+  mounted() {
+    this.getinformation()
+  },
   methods: {
+    getinformation() {
+      if (this.$store.getters.empcontract) {
+        console.log('getempcontract', this.$store.getters.empcontract)
+        this.personalForm.sourceType = '1'
+        this.personalForm.sourceNumber = this.$store.getters.empcontract.advanceNumber
+        this.personalForm.customerName = this.$store.getters.empcontract.customerName
+        this.personalForm.phone = this.$store.getters.empcontract.phone
+        this.personalForm.address = this.$store.getters.empcontract.address
+        if (this.$store.getters.empcontract.payMode !== null) {
+          this.personalForm.payMode = String(this.$store.getters.empcontract.payMode)
+        }
+        this.personalForm.salePersonId = this.$store.getters.empcontract.salePersonId
+        this.salePersonId = this.$store.getters.empcontract.salePersonName
+        this.postId = this.$store.getters.empcontract.postName
+        this.personalForm.postId = this.$store.getters.empcontract.postId
+        this.saleRepositoryId = this.$store.getters.empcontract.saleRepositoryName
+        this.personalForm.saleRepositoryId = this.$store.getters.empcontract.saleRepositoryId
+        for (let i = 0; i < this.$store.getters.empcontract.advanceOrderDetailVos.length; i++) {
+          this.$refs.editable.insert(this.$store.getters.empcontract.advanceOrderDetailVos[i])
+        }
+        this.$store.dispatch('getempcontract', '')
+      }
+    },
     // 控制源单
     choosepresale() {
       this.presalecontrol = true

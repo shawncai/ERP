@@ -162,6 +162,7 @@
             <el-button v-permission="['171-185-186-16']" v-if="isReview2(scope.row)" title="结单" type="success" size="mini" icon="el-icon-check" circle @click="handleReview2(scope.row)"/>
             <el-button v-permission="['171-185-186-17']" v-if="isReview3(scope.row)" title="反结单" type="success" size="mini" icon="el-icon-back" circle @click="handleReview3(scope.row)"/>
             <el-button v-permission="['171-185-186-2']" v-show="scope.row.judgeStat === 0" title="删除" size="mini" type="danger" icon="el-icon-delete" circle @click="handleDelete(scope.row)"/>
+            <el-button v-permission="['171-185-186-55']" v-show="scope.row.judgeStat === 2" type="primary" style="width: 83px" @click="handleMyReceipt1(scope.row)"><span style="margin-left: -15px;">生成退料单</span></el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -280,6 +281,11 @@ export default {
     this.getlist()
   },
   methods: {
+    handleMyReceipt1(val) {
+      console.log(val)
+      this.$store.dispatch('getempcontract', val)
+      this.$router.push('/AccessMaterials/AddRetreatMaterials')
+    },
     // 判断反审批按钮
     isReview4(row) {
       console.log(row)

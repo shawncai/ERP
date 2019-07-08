@@ -591,15 +591,35 @@ export default {
   },
   methods: {
     getinformation3() {
-      if (this.$store.getters.empcontract2) {
+      if (this.$store.getters.empcontract3) {
         console.log('getempcontract3', this.$store.getters.empcontract3)
         this.personalForm.sourceType = '3'
         this.Isproduct = true
         this.IsSourceNumber = false
-        for (let i = 0; i < this.$store.getters.empcontract2.saleOpportunityDetailVos.length; i++) {
-          this.$refs.editable.insert(this.$store.getters.empcontract2.saleOpportunityDetailVos[i])
+        this.personalForm.customerType = '2'
+        this.personalForm.customerId = this.$store.getters.empcontract3.customerId
+        this.customerId = this.$store.getters.empcontract3.customerName
+        this.personalForm.customerPhone = this.$store.getters.empcontract3.phone
+        this.personalForm.salePersonId = this.$store.getters.empcontract3.salePersonId
+        this.salePersonId = this.$store.getters.empcontract3.salePersonName
+        if (this.$store.getters.empcontract3.payMode !== null && this.$store.getters.empcontract3.payMode !== undefined && this.$store.getters.empcontract3.payMode !== '') {
+          this.personalForm.payMode = this.$store.getters.empcontract3.payMode
         }
-        this.$store.dispatch('getempcontract2', '')
+        this.personalForm.saleRepositoryId = this.$store.getters.empcontract3.saleRepositoryId
+        this.saleRepositoryId = this.$store.getters.empcontract3.saleRepositoryName
+        this.personalForm.address = this.$store.getters.empcontract3.address
+        for (let i = 0; i < this.$store.getters.empcontract3.advanceOrderDetailVos.length; i++) {
+          this.$store.getters.empcontract3.advanceOrderDetailVos[i].categoryName = this.$store.getters.empcontract3.advanceOrderDetailVos[i].productCategoryName
+          this.$store.getters.empcontract3.advanceOrderDetailVos[i].category = this.$store.getters.empcontract3.advanceOrderDetailVos[i].categoryId
+          this.$store.getters.empcontract3.advanceOrderDetailVos[i].typeName = this.$store.getters.empcontract3.advanceOrderDetailVos[i].productType
+          this.$store.getters.empcontract3.advanceOrderDetailVos[i].type = this.$store.getters.empcontract3.advanceOrderDetailVos[i].typeId
+          this.$store.getters.empcontract3.advanceOrderDetailVos[i].taxprice = this.$store.getters.empcontract3.advanceOrderDetailVos[i].salePrice
+          this.$store.getters.empcontract3.advanceOrderDetailVos[i].sourceNumber = this.$store.getters.empcontract3.advanceNumber
+          this.$store.getters.empcontract3.advanceOrderDetailVos[i].sourceSerialNumber = this.$store.getters.empcontract3.advanceOrderDetailVos[i].id
+          this.$store.getters.empcontract3.advanceOrderDetailVos[i].categoryName = this.$store.getters.empcontract3.advanceOrderDetailVos[i].productCategoryName
+          this.$refs.editable.insert(this.$store.getters.empcontract3.advanceOrderDetailVos[i])
+        }
+        this.$store.dispatch('getempcontract3', '')
       }
     },
     getinformation2() {

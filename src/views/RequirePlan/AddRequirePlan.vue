@@ -176,7 +176,21 @@ export default {
       }
     }
   },
+  mounted() {
+    this.getinformation()
+  },
   methods: {
+    getinformation() {
+      if (this.$store.getters.empcontract) {
+        console.log('getempcontract', this.$store.getters.empcontract)
+        this.handlePersonId = this.$store.getters.empcontract.handlePersonName
+        this.personalForm.handlePersonId = this.$store.getters.empcontract.handlePersonId
+        this.produceRepositoryId = this.$store.getters.repositoryName
+        this.personalForm.produceRepositoryId = this.$store.getters.repositoryId
+        this.allinfo(this.$store.getters.empcontract)
+        this.$store.dispatch('getempcontract', '')
+      }
+    },
     // 应计划数量取整
     getPlanQuantity(row) {
       console.log(row)

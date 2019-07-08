@@ -138,6 +138,7 @@
             <el-button v-permission="['54-98-16']" v-if="isReview2(scope.row)" title="结单" type="success" size="mini" icon="el-icon-check" circle @click="handleReview2(scope.row)"/>
             <el-button v-permission="['54-98-17']" v-if="isReview3(scope.row)" title="反结单" type="success" size="mini" icon="el-icon-back" circle @click="handleReview3(scope.row)"/>
             <el-button v-permission="['54-98-2']" v-show="scope.row.judgeStat === 0" title="删除" size="mini" type="danger" icon="el-icon-delete" circle @click="handleDelete(scope.row)"/>
+            <el-button v-permission="['54-98-38']" v-show="scope.row.judgeStat === 2" type="primary" style="width: 107px" @click="handleMyReceipt1(scope.row)"><span style="margin-left: -15px;">生成预收退款单</span></el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -268,7 +269,12 @@ export default {
     this.getlist()
   },
   methods: {
-  // 判断反审批按钮
+    handleMyReceipt1(val) {
+      console.log(val)
+      this.$store.dispatch('getempcontract3', val)
+      this.$router.push('/SaleOut/AddSaleOut')
+    },
+    // 判断反审批按钮
     isReview4(row) {
       console.log(row)
       if (row.judgeStat === 2) {

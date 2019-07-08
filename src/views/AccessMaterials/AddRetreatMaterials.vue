@@ -209,7 +209,27 @@ export default {
     this.getList()
     this.chooseType()
   },
+  mounted() {
+    this.getinformation()
+  },
   methods: {
+    getinformation() {
+      if (this.$store.getters.empcontract) {
+        console.log('getempcontract', this.$store.getters.empcontract)
+        this.personalForm.sourceType = '1'
+        this.chooseType()
+        this.alldata(this.$store.getters.empcontract)
+        for (let i = 0; i < this.$store.getters.empcontract.accessMaterialsDetailVos.length; i++) {
+          this.$store.getters.empcontract.accessMaterialsDetailVos[i].quantity = this.$store.getters.empcontract.accessMaterialsDetailVos[i].accessQuantity
+          this.$store.getters.empcontract.accessMaterialsDetailVos[i].retreatRepositoryId = this.$store.getters.empcontract.accessRepositoryId
+          this.$store.getters.empcontract.accessMaterialsDetailVos[i].retreatRepositoryName = this.$store.getters.empcontract.accessRepositoryName
+          this.$store.getters.empcontract.accessMaterialsDetailVos[i].reason = ''
+          this.$store.getters.empcontract.accessMaterialsDetailVos[i].money = 0
+          this.$refs.editable.insert(this.$store.getters.empcontract.accessMaterialsDetailVos[i])
+        }
+        this.$store.dispatch('getempcontract', '')
+      }
+    },
     handlechooseRep() {
       this.repositorycontrol = true
     },
