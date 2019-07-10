@@ -142,6 +142,7 @@
           <template slot-scope="scope">
             <el-button v-if="isReview(scope.row)" title="审批" type="warning" size="mini" icon="el-icon-view" circle @click="handleReview(scope.row)"/>
             <el-button v-permission="['200-213-2']" v-show="scope.row.judgeStat === 0" title="删除" size="mini" type="danger" icon="el-icon-delete" circle @click="handleDelete(scope.row)"/>
+            <el-button title="查看附件" type="primary" size="mini" icon="el-icon-document" circle @click="check(scope.row)"/>
           </template>
         </el-table-column>
       </el-table>
@@ -150,6 +151,24 @@
       <!--修改开始=================================================-->
       <my-dialog :editcontrol.sync="editVisible" :editdata.sync="personalForm" @rest="refreshlist"/>
       <!--修改结束=================================================-->
+      <el-dialog :visible.sync="receiptVisible99" title="附件" class="normal" width="600px" center>
+        <el-form class="demo-ruleForm" style="margin: 0px 6%; width: 400px">
+          <el-form-item label-width="100px;">
+            <el-row>
+              <el-col v-for="(item, index) in picPaths" :key="index">
+                <el-card :body-style="{ padding: '0px' }">
+                  <el-popover
+                    placement="top"
+                    trigger="hover">
+                    <img :src="item " width="800px" height="800px">
+                    <img slot="reference" :src="'http://192.168.1.26:9090/uploads/receipt/'+item" width="500px" class="image" style="width: 100%">
+                  </el-popover>
+                </el-card>
+              </el-col>
+            </el-row>
+          </el-form-item>
+        </el-form>
+      </el-dialog>
     </el-card>
   </div>
 </template>
@@ -262,13 +281,21 @@ export default {
       // 修改控制组件数据
       editVisible: false,
       // 开始时间到结束时间
-      date: []
+      date: [],
+      receiptVisible9: false,
+      picPaths: []
     }
   },
   mounted() {
     this.getlist()
   },
   methods: {
+    // 附件操作
+    check(row) {
+      console.log(row)
+      this.receiptVisible9 = true
+      this.picPaths = row.picPaths
+    },
     checkPermission,
     // 收款人focus事件
     handlechooseStock() {
@@ -601,5 +628,22 @@ export default {
   .filter-item{
     width: 140px;
     margin-left: 30px;
+  }
+  .normal >>> .el-dialog__header {
+    padding: 20px 20px 10px;
+    background: #fff;
+    position: static;
+    top: auto;
+    z-index: auto;
+    width: auto;
+    border-bottom: none;
+  }
+  .normal >>> .el-dialog {
+    -webkit-transform: none;
+    transform: none;
+    left: 0;
+    position: relative;
+    margin: 0 auto;
+    height: auto;
   }
 </style>
