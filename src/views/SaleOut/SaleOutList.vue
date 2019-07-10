@@ -77,6 +77,7 @@
       <el-button v-permission="['54-55-7']" v-waves class="filter-item" icon="el-icon-printer" style="width: 86px" @click="handlePrint">{{ $t('public.print') }}</el-button>
       <!-- 新建操作 -->
       <el-button v-permission="['54-55-1']" v-waves class="filter-item" icon="el-icon-plus" type="success" style="width: 86px" @click="handleAdd">{{ $t('public.add') }}</el-button>
+      <el-button v-permission="['54-55-1']" v-waves class="filter-item" icon="el-icon-plus" type="success" style="width: 110px" @click="handleAdd2">创建补单</el-button>
     </el-card>
 
     <el-card class="box-card" style="margin-top: 10px" shadow="never">
@@ -133,6 +134,7 @@
         </el-table-column>
         <el-table-column :label="$t('public.actions')" :resizable="false" align="center" min-width="230">
           <template slot-scope="scope">
+            <el-button v-permission="['54-55-3']" v-show="scope.row.judgeStat === 2&&scope.row.confirmPersonId === null" title="确认" type="primary" size="mini" icon="el-icon-check" circle @click="handleEdit2(scope.row)"/>
             <el-button v-permission="['54-55-3']" v-show="scope.row.judgeStat === 0" title="修改" type="primary" size="mini" icon="el-icon-edit" circle @click="handleEdit(scope.row)"/>
             <el-button v-if="isReview(scope.row)" title="审批" type="warning" size="mini" icon="el-icon-view" circle @click="handleReview(scope.row)"/>
             <el-button v-permission="['54-55-2']" v-show="scope.row.judgeStat === 0" title="删除" size="mini" type="danger" icon="el-icon-delete" circle @click="handleDelete(scope.row)"/>
@@ -274,6 +276,27 @@ export default {
     this.getlist()
   },
   methods: {
+    // 确认操作
+    handleEdit2(row) {
+      this.reviewParms.id = row.id
+      this.reviewParms.confirmPersonId = this.$store.getters.userId
+      this.$confirm('请确认', '确认', {
+        distinguishCancelAndClose: true,
+        confirmButtonText: '确认',
+        type: 'warning'
+      }).then(() => {
+        const parms = JSON.stringify(this.reviewParms)
+        updatesaleOut2(parms).then(res => {
+          if (res.data.ret === 200) {
+            this.$message({
+              type: 'success',
+              message: '确认成功!'
+            })
+            this.getlist()
+          }
+        })
+      })
+    },
     handleReceipt(val) {
       console.log(val)
       this.$store.dispatch('getempcontract', val)
@@ -555,6 +578,9 @@ export default {
     // 新增数据
     handleAdd() {
       this.$router.push('/SaleOut/AddSaleOut')
+    },
+    handleAdd2() {
+      this.$router.push('/SaleOut/AddSaleOut2')
     },
     // 导出
     handleExport() {

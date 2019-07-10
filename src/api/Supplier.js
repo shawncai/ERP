@@ -389,7 +389,7 @@ export function addEmpCategory(query) {
 // 修改分类属性
 export function updateEmpCategory(query) {
   var params = new URLSearchParams()
-  if (query.categoryName !== '' && query.categoryName !== null) {
+  if (query.categoryName !== '' && query.categoryName !== null && query.categoryName !== undefined) {
     params.append('categoryname', query.categoryName) // 你要传给后台的参数值 key/value
   }
   if (query.isEffective !== '' && query.isEffective !== null) {

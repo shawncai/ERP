@@ -151,6 +151,7 @@
         </el-table-column>
         <el-table-column :label="$t('public.actions')" :resizable="false" align="center" min-width="230">
           <template slot-scope="scope">
+            <el-button v-show="scope.row.judgeStat === 2&&scope.row.receivePersonId === null" size="mini" type="success" @click="handleDispatch(scope.row)">收料</el-button>
             <el-button v-permission="['171-185-188-3']" v-show="scope.row.judgeStat === 0" title="修改" type="primary" size="mini" icon="el-icon-edit" circle @click="handleEdit(scope.row)"/>
             <el-button v-if="isReview(scope.row)" title="审批" type="warning" size="mini" icon="el-icon-view" circle @click="handleReview(scope.row)"/>
             <el-button v-permission="['171-185-188-76']" v-if="isReview4(scope.row)" title="反审批" type="warning" size="mini" circle @click="handleReview4(scope.row)"><svg-icon icon-class="fanhui"/></el-button>
@@ -276,6 +277,20 @@ export default {
     this.getlist()
   },
   methods: {
+    handleDispatch(row) {
+      this.reviewParms.id = row.id
+      this.reviewParms.receivePersonId = this.$store.getters.userId
+      const parms = JSON.stringify(this.reviewParms)
+      updateretreatMaterials2(parms).then(res => {
+        if (res.data.ret === 200) {
+          this.$message({
+            type: 'success',
+            message: '审核成功!'
+          })
+          this.getlist()
+        }
+      })
+    },
     // 判断反审批按钮
     isReview4(row) {
       console.log(row)

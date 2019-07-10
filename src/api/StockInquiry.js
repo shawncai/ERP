@@ -81,6 +81,18 @@ export function updatestockInquiry(query, query2) {
   })
 }
 
+// 再次询价
+export function updatestockInquiry3(query, query2) {
+  var params = new URLSearchParams()
+  params.append('Json', query) // 你要传给后台的参数值 key/value
+  params.append('detailJson', query2) // 你要传给后台的参数值 key/value
+  return request({
+    url: '/erp/stockInquiry/again',
+    method: 'post',
+    data: params
+  })
+}
+
 // 审核采购询价单
 export function updatestockInquiry2(query) {
   var params = new URLSearchParams()

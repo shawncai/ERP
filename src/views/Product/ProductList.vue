@@ -138,7 +138,7 @@
             <span>{{ scope.row.createTime }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('public.actions')" :resizable="false" align="center" min-width="100">
+        <el-table-column :label="$t('public.actions')" :resizable="false" align="center" min-width="120">
           <template slot-scope="scope">
             <el-button v-permission="['1-31-33-14']" v-show="scope.row.isActive === 2" title="上架" type="primary" size="mini" icon="el-icon-caret-top" circle @click="top(scope.row)"/>
             <el-button v-permission="['1-31-33-15']" v-show="scope.row.isActive === 1" title="下架" type="primary" size="mini" icon="el-icon-caret-bottom" circle @click="bottom(scope.row)"/>
@@ -157,7 +157,7 @@
 </template>
 
 <script>
-import { productlist, deleteproduct, searchEmpCategory2, productDetail } from '@/api/Product'
+import { productlist, deleteproduct, searchEmpCategory2, productDetail, editproduct } from '@/api/Product'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
 import permission from '@/directive/permission/index.js' // 权限判断指令
@@ -220,6 +220,7 @@ export default {
       },
       // 传给组件的数据
       personalForm: {},
+      personalForm2: {},
       // 详情id
       detailid: null,
       // 详情数据
@@ -234,28 +235,52 @@ export default {
     this.getlist()
   },
   methods: {
-    // 修改操作
+    // 上下架操作
     top(row) {
-      console.log(row)
-      this.editVisible = true
-      this.personalForm = Object.assign({}, row)
-      if (this.personalForm.valuation !== null && this.personalForm.valuation !== undefined) {
-        this.personalForm.valuation = String(row.valuation)
-      }
-      if (this.personalForm.source !== null) {
-        this.personalForm.source = String(row.source)
-      }
+      console.log('row', row)
+      this.personalForm2.productid = row.id
+      this.personalForm2.isActive = 1
+      editproduct(this.personalForm2).then(res => {
+        if (res.data.ret === 200) {
+          this.$notify({
+            title: '操作成功',
+            message: '操作成功',
+            type: 'success',
+            duration: 1000,
+            offset: 100
+          })
+          this.getlist()
+        } else {
+          this.$notify.error({
+            title: '错误',
+            message: '出错了',
+            offset: 100
+          })
+        }
+      })
     },
-    top(row) {
-      console.log(row)
-      this.editVisible = true
-      this.personalForm = Object.assign({}, row)
-      if (this.personalForm.valuation !== null && this.personalForm.valuation !== undefined) {
-        this.personalForm.valuation = String(row.valuation)
-      }
-      if (this.personalForm.source !== null) {
-        this.personalForm.source = String(row.source)
-      }
+    bottom(row) {
+      console.log('row', row)
+      this.personalForm2.productid = row.id
+      this.personalForm2.isActive = 2
+      editproduct(this.personalForm2).then(res => {
+        if (res.data.ret === 200) {
+          this.$notify({
+            title: '操作成功',
+            message: '操作成功',
+            type: 'success',
+            duration: 1000,
+            offset: 100
+          })
+          this.getlist()
+        } else {
+          this.$notify.error({
+            title: '错误',
+            message: '出错了',
+            offset: 100
+          })
+        }
+      })
     },
     checkPermission,
     // 详情操作

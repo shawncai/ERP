@@ -102,6 +102,24 @@ export function updateStoragemove(query, query2) {
   })
 }
 
+export function updateStoragemove3(query, query2, query3) {
+  var params = new URLSearchParams()
+  if (query !== '' && query !== null && query !== undefined) {
+    params.append('Json', query) // 你要传给后台的参数值 key/value
+  }
+  if (query2 !== '' && query2 !== null && query2 !== undefined) {
+    params.append('detailJson', query2) // 你要传给后台的参数值 key/value
+  }
+  if (query3 !== '' && query3 !== null && query3 !== undefined) {
+    params.append('detailConfirmJson', query3) // 你要传给后台的参数值 key/value
+  }
+  return request({
+    url: '/erp/storagemove/update',
+    method: 'post',
+    data: params
+  })
+}
+
 // 审核调拨单
 export function updateStoragemove2(query) {
   var params = new URLSearchParams()

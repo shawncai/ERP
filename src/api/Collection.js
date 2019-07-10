@@ -57,6 +57,49 @@ export function installmentlist(query) {
   })
 }
 
+export function updateEach(query) {
+  var params = new URLSearchParams()
+  params.append('installmentOrderDetailJson', query) // 你要传给后台的参数值 key/value
+  return request({
+    url: '/erp/installmentorder/updateEach',
+    method: 'post',
+    data: params
+  })
+}
+
+export function reToEmp(installmentId, collectPersonId) {
+  var params = new URLSearchParams()
+  params.append('installmentId', installmentId) // 你要传给后台的参数值 key/value
+  params.append('collectPersonId', collectPersonId) // 你要传给后台的参数值 key/value
+  return request({
+    url: '/erp/installmentorder/reToEmp',
+    method: 'post',
+    data: params
+  })
+}
+
+export function postphone(eachids) {
+  var params = new URLSearchParams()
+  params.append('eachids', eachids) // 你要传给后台的参数值 key/value
+  return request({
+    url: '/erp/installmentorder/postphone',
+    method: 'post',
+    data: params
+  })
+}
+
+export function pushPay(query) {
+  var params = new URLSearchParams()
+  console.log(query)
+  console.log(query.installmentId)
+  params.append('installmentId', query.installmentId) // 你要传给后台的参数值 key/value
+  return request({
+    url: '/erp/installmentorder/pushPay',
+    method: 'post',
+    data: params
+  })
+}
+
 // 添加收车单
 export function createrecoverVehicle(query, query2, query3, query4) {
   var params = new URLSearchParams()

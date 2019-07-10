@@ -166,7 +166,7 @@
               </el-col>
               <el-col :span="12">
                 <el-form-item :label="$t('Product.isactive')" style="width: 100%;">
-                  {{ personalForm.isactive | isactiveFilter }}
+                  {{ personalForm.isActive | isactiveFilter }}
                 </el-form-item>
               </el-col>
             </el-row>

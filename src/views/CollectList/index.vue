@@ -134,8 +134,10 @@
             <span>{{ scope.row.stat }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('public.actions')" :resizable="false" align="center" min-width="100">
+        <el-table-column :label="$t('public.actions')" :resizable="false" align="center" min-width="200">
           <template slot-scope="scope">
+            <el-button v-show="scope.row.collectPersonId === null" size="mini" type="success" @click="handleDispatch(scope.row)">{{ $t('repair.Dispatch') }}</el-button>
+            <el-button v-show="scope.row.isPostphone === 1&&scope.row.stat === 1" type="primary" style="width: 70px" @click="handleMyReceipt2(scope.row)"><span style="margin-left: -15px;">推迟还款</span></el-button>
             <el-button type="primary" style="width: 84px" @click="handleMyReceipt1(scope.row)"><span style="margin-left: -15px;">生成收款单</span></el-button>
           </template>
         </el-table-column>
@@ -146,10 +148,29 @@
       <my-dialog :editcontrol.sync="editVisible" :editdata.sync="personalForm" @rest="refreshlist"/>
       <!--修改结束=================================================-->
     </el-card>
+    <el-dialog :visible.sync="isvisible" :title="$t('repair.Dispatch2')" width="40%" center lock-scroll>
+      <el-form :model="dispatchform" style="width: 400px; margin:0 auto;">
+        <el-form-item :label-width="formLabelWidth" :label="$t('repair.Employee')">
+          <el-select v-model="dispatchform.id" placeholder="please choose">
+            <el-option
+              v-for="(item, index) in options2"
+              :key="index"
+              :label="item.personName"
+              :value="item.id"/>
+          </el-select>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="isvisible = false">{{ $t('repair.cancel') }}</el-button>
+        <el-button type="primary" @click="dispatch">{{ $t('repair.ok') }}</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
 <script>
+import { updateEach, postphone } from '@/api/Collection'
+import { getremplist2 } from '@/api/repair'
 import { collectlist } from '@/api/CollectList'
 import { getdeptlist } from '@/api/BasicSettings'
 import { searchStockCategory } from '@/api/StockCategory'
@@ -217,12 +238,14 @@ export default {
       types: [],
       // 申请部门数据
       depts: [],
+      options2: [],
       // 审核传参
       reviewParms: {
         id: '',
         judgePersonId: '',
         judgeStat: ''
       },
+      isvisible: false,
       // 详情组件数据
       detailvisible: false,
       // 更多搜索条件问题
@@ -255,6 +278,10 @@ export default {
       personalForm: {},
       // 修改控制组件数据
       editVisible: false,
+      formdata: [],
+      dispatchform: {
+        id: ''
+      },
       // 开始时间到结束时间
       date: []
     }
@@ -263,6 +290,52 @@ export default {
     this.getlist()
   },
   methods: {
+    handleMyReceipt2(row) {
+      postphone(row.id).then(res => {
+        if (res.data.ret === 200) {
+          this.isvisible = false
+          this.$notify({
+            title: 'successful',
+            message: 'successful',
+            type: 'success',
+            duration: 1000
+          })
+          this.getlist()
+        }
+      })
+    },
+    dispatch() {
+      const tempData = Object.assign({}, this.formdata)
+      this.reviewParms.id = tempData.id
+      this.reviewParms.collectPersonId = this.dispatchform.id
+      const parms = JSON.stringify(this.reviewParms)
+      updateEach(parms).then(res => {
+        if (res.data.ret === 200) {
+          this.isvisible = false
+          this.$notify({
+            title: 'successful',
+            message: 'successful',
+            type: 'success',
+            duration: 1000
+          })
+          this.getlist()
+        }
+      })
+    },
+    handleDispatch(row) {
+      this.restdispatchform()
+      this.formdata = Object.assign({}, row)
+      this.isvisible = true
+      console.log(row)
+      getremplist2(this.$store.getters.repositoryId, this.$store.getters.regionId).then(res => {
+        this.options2 = res.data.data.content.list
+      })
+    },
+    restdispatchform() {
+      this.dispatchform = {
+        id: ''
+      }
+    },
     handleMyReceipt1(val) {
       console.log(val)
       this.$store.dispatch('getempcontract2', val)

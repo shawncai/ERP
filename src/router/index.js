@@ -1597,6 +1597,13 @@ export const asyncRouterMap = [
         meta: { title: 'AddSaleOut', noCache: false, roles: ['54-56-1'] }
       },
       {
+        path: 'AddSaleOut2',
+        component: () => import('@/views/SaleOut/AddSaleOut2'),
+        name: 'AddSaleOut2',
+        meta: { title: 'AddSaleOut', noCache: false },
+        hidden: true
+      },
+      {
         path: 'SaleOutList',
         component: () => import('@/views/SaleOut/SaleOutList'),
         name: 'SaleOutList',

@@ -213,9 +213,12 @@ export function getremplist(repositoryid) {
 }
 
 // 根据门点id获取员工2下拉框
-export function getremplist2(repositoryid) {
+export function getremplist2(repositoryid, regionIds) {
   var params = new URLSearchParams()
   params.append('loginRepositoryId', repositoryid) // 你要传给后台的参数值 key/value
+  if (regionIds !== '' && regionIds !== null && regionIds !== undefined) {
+    params.append('regionIds', regionIds) // 你要传给后台的参数值 key/value
+  }
   params.append('stat', 1) // 你要传给后台的参数值 key/value
   params.append('pagenum', 1) // 你要传给后台的参数值 key/value
   params.append('pagesize', 999) // 你要传给后台的参数值 key/value

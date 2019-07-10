@@ -101,6 +101,8 @@
         </el-table-column>
         <el-table-column :label="$t('public.actions')" :resizable="false" align="center" min-width="230">
           <template slot-scope="scope">
+            <el-button v-permission="['1-9-11-8']" v-show="scope.row.stat === 2" style="margin-left: 18px;" title="启用" type="primary" size="mini" icon="el-icon-check" circle @click="open(scope.row)"/>
+            <el-button v-permission="['1-9-11-9']" v-show="scope.row.stat === 1" title="停用" type="primary" size="mini" icon="el-icon-close" circle @click="close(scope.row)"/>
             <el-button v-permission="['1-9-11-3']" type="primary" size="mini" @click="handleEdit(scope.row)">{{ $t('public.edit') }}</el-button>
             <el-button v-permission="['1-9-11-9']" v-show="scope.row.stat === 1" size="mini" type="warning" @click="handleDisable(scope.row)">{{ $t('public.disable') }}</el-button>
             <el-button v-permission="['1-9-11-8']" v-show="scope.row.stat === 2" size="mini" type="success" @click="handleEnable(scope.row)">{{ $t('public.enable') }}</el-button>
@@ -478,6 +480,7 @@ export default {
       types: [],
       // 国家列表
       nations: [],
+      personalForm2: {},
       // 加载操作控制
       downloadLoading: false,
       // 表格数据
@@ -598,6 +601,53 @@ export default {
     this.getlist()
   },
   methods: {
+    // 启用停用操作
+    open(row) {
+      console.log('row', row)
+      this.personalForm2.id = row.id
+      this.personalForm2.stat = 1
+      update(this.personalForm2).then(res => {
+        if (res.data.ret === 200) {
+          this.$notify({
+            title: '操作成功',
+            message: '操作成功',
+            type: 'success',
+            duration: 1000,
+            offset: 100
+          })
+          this.getlist()
+        } else {
+          this.$notify.error({
+            title: '错误',
+            message: '出错了',
+            offset: 100
+          })
+        }
+      })
+    },
+    close(row) {
+      console.log('row', row)
+      this.personalForm2.id = row.id
+      this.personalForm2.stat = 2
+      update(this.personalForm2).then(res => {
+        if (res.data.ret === 200) {
+          this.$notify({
+            title: '操作成功',
+            message: '操作成功',
+            type: 'success',
+            duration: 1000,
+            offset: 100
+          })
+          this.getlist()
+        } else {
+          this.$notify.error({
+            title: '错误',
+            message: '出错了',
+            offset: 100
+          })
+        }
+      })
+    },
     checkPermission,
     getlist() {
       // 国家列表

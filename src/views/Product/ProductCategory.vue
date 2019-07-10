@@ -120,6 +120,8 @@
           </el-table-column>
           <el-table-column :label="$t('public.actions')" :resizable="false" align="center" min-width="200">
             <template slot-scope="scope">
+              <el-button v-permission="['1-31-38-8']" v-show="scope.row.isEffective === 2" title="启用" style="margin-left: 18px;" type="primary" size="mini" icon="el-icon-check" circle @click="open(scope.row)"/>
+              <el-button v-permission="['1-31-38-9']" v-show="scope.row.isEffective === 1" title="停用" type="primary" size="mini" icon="el-icon-close" circle @click="close(scope.row)"/>
               <el-button v-permission="['1-31-38-3']" type="primary" size="mini" @click="handleEdit(scope.row)" >{{ $t('public.edit') }}</el-button>
               <el-button v-permission="['1-31-38-2']" size="mini" type="danger" @click="handleDelete(scope.row)">{{ $t('public.delete') }}</el-button>
             </template>
@@ -217,6 +219,7 @@ export default {
         type: '',
         iseffective: ''
       },
+      personalForm2: {},
       // 校验新增数据
       addCategoryFormRules: {
         categoryname: [
@@ -270,6 +273,53 @@ export default {
     this.getlist()
   },
   methods: {
+    // 启用停用操作
+    open(row) {
+      console.log('row', row)
+      this.personalForm2.id = row.id
+      this.personalForm2.isEffective = 1
+      updateEmpCategory(this.personalForm2).then(res => {
+        if (res.data.ret === 200) {
+          this.$notify({
+            title: '操作成功',
+            message: '操作成功',
+            type: 'success',
+            duration: 1000,
+            offset: 100
+          })
+          this.getlist()
+        } else {
+          this.$notify.error({
+            title: '错误',
+            message: '出错了',
+            offset: 100
+          })
+        }
+      })
+    },
+    close(row) {
+      console.log('row', row)
+      this.personalForm2.id = row.id
+      this.personalForm2.isEffective = 2
+      updateEmpCategory(this.personalForm2).then(res => {
+        if (res.data.ret === 200) {
+          this.$notify({
+            title: '操作成功',
+            message: '操作成功',
+            type: 'success',
+            duration: 1000,
+            offset: 100
+          })
+          this.getlist()
+        } else {
+          this.$notify.error({
+            title: '错误',
+            message: '出错了',
+            offset: 100
+          })
+        }
+      })
+    },
     checkPermission,
     zhengze(val) {
       if (this.addCategoryForm.type === '2') {

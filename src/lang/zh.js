@@ -1383,6 +1383,7 @@ export default {
     returnMoney: '应退金额'
   },
   SaleOut: {
+    createDate: '创建日期',
     title: '出库单主题',
     sourceType: '源单类型',
     customerType: '客户类别',

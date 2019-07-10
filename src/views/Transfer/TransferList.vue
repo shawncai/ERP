@@ -159,6 +159,8 @@
         </el-table-column>
         <el-table-column :label="$t('public.actions')" :resizable="false" align="center" min-width="230">
           <template slot-scope="scope">
+            <el-button v-if="isReview(scope.row)" v-show="scope.row.stat === 1" title="确认" type="primary" size="mini" icon="el-icon-check" circle @click="handleReview1(scope.row)"/>
+            <el-button v-if="isReview(scope.row)" v-show="scope.row.stat === 2" title="反确认" type="primary" size="mini" icon="el-icon-back" circle @click="handleReview2(scope.row)"/>
             <el-button v-permission="['54-94-3']" v-show="scope.row.judgeStat === 0" title="修改" type="primary" size="mini" icon="el-icon-edit" circle @click="handleEdit(scope.row)"/>
             <el-button v-if="isReview(scope.row)" title="审批" type="warning" size="mini" icon="el-icon-view" circle @click="handleReview(scope.row)"/>
             <el-button v-permission="['54-94-2']" v-show="scope.row.judgeStat === 0" title="删除" size="mini" type="danger" icon="el-icon-delete" circle @click="handleDelete(scope.row)"/>
@@ -292,6 +294,48 @@ export default {
     this.getlist()
   },
   methods: {
+    // 确认
+    handleReview1(row) {
+      this.reviewParms.id = row.id
+      this.reviewParms.stat = 2
+      this.$confirm('请确认', '确认', {
+        distinguishCancelAndClose: true,
+        confirmButtonText: '确认',
+        type: 'warning'
+      }).then(() => {
+        const parms = JSON.stringify(this.reviewParms)
+        updatetransfer2(parms).then(res => {
+          if (res.data.ret === 200) {
+            this.$message({
+              type: 'success',
+              message: '确认成功!'
+            })
+            this.getlist()
+          }
+        })
+      })
+    },
+    // 确认
+    handleReview2(row) {
+      this.reviewParms.id = row.id
+      this.reviewParms.stat = 1
+      this.$confirm('请反确认', '反确认', {
+        distinguishCancelAndClose: true,
+        confirmButtonText: '反确认',
+        type: 'warning'
+      }).then(() => {
+        const parms = JSON.stringify(this.reviewParms)
+        updatetransfer2(parms).then(res => {
+          if (res.data.ret === 200) {
+            this.$message({
+              type: 'success',
+              message: '反确认成功!'
+            })
+            this.getlist()
+          }
+        })
+      })
+    },
     checkPermission,
     // 不让勾选
     selectInit(row, index) {

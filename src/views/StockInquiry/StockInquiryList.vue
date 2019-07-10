@@ -165,6 +165,7 @@
         </el-table-column>
         <el-table-column :label="$t('public.actions')" :resizable="false" align="center" min-width="230">
           <template slot-scope="scope">
+            <el-button v-permission="['104-110-42']" v-show="scope.row.judgeStat === 0" title="再次询价" type="primary" size="mini" icon="el-icon-d-arrow-right" circle @click="handleEdit2(scope.row)"/>
             <el-button v-permission="['104-110-3']" v-show="scope.row.judgeStat === 0" title="修改" type="primary" size="mini" icon="el-icon-edit" circle @click="handleEdit(scope.row)"/>
             <el-button v-if="isReview(scope.row)" title="审批" type="warning" size="mini" icon="el-icon-view" circle @click="handleReview(scope.row)"/>
             <el-button v-permission="['104-110-76']" v-if="isReview4(scope.row)" title="反审批" type="warning" size="mini" circle @click="handleReview4(scope.row)"><svg-icon icon-class="fanhui"/></el-button>
@@ -178,6 +179,7 @@
       <pagination v-show="total>0" :total="total" :page.sync="getemplist.pageNum" :limit.sync="getemplist.pageSize" @pagination="getlist" />
       <!--修改开始=================================================-->
       <my-dialog :editcontrol.sync="editVisible" :editdata.sync="personalForm" @rest="refreshlist"/>
+      <my-dialog2 :editcontrol.sync="editVisible2" :editdata.sync="personalForm" @rest="refreshlist"/>
       <!--修改结束=================================================-->
     </el-card>
   </div>
@@ -194,12 +196,13 @@ import checkPermission from '@/utils/permission' // 权限判断函数
 import MyEmp from './components/MyEmp'
 import DetailList from './components/DetailList'
 import MyDialog from './components/MyDialog'
+import MyDialog2 from './components/MyDialog2'
 import MySupplier from './components/MySupplier'
 
 export default {
   name: 'StockInquiryList',
   directives: { waves, permission },
-  components: { MyDialog, DetailList, MyEmp, Pagination, MySupplier },
+  components: { MyDialog, MyDialog2, DetailList, MyEmp, Pagination, MySupplier },
   filters: {
     judgeStatFilter(status) {
       const statusMap = {
@@ -285,6 +288,7 @@ export default {
       personalForm: {},
       // 修改控制组件数据
       editVisible: false,
+      editVisible2: false,
       // 开始时间到结束时间
       date: []
     }
@@ -293,6 +297,14 @@ export default {
     this.getlist()
   },
   methods: {
+    // 修改操作
+    handleEdit2(row) {
+      console.log(row)
+      this.editVisible2 = true
+      this.personalForm = Object.assign({}, row)
+      this.personalForm.sourceType = String(row.sourceType)
+      this.personalForm.currency = String(row.currency)
+    },
     // 判断反审批按钮
     isReview4(row) {
       console.log(row)

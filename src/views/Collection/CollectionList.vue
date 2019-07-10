@@ -137,6 +137,7 @@
         </el-table-column>
         <el-table-column :label="$t('public.actions')" :resizable="false" align="center" min-width="230">
           <template slot-scope="scope">
+            <el-button size="mini" type="success" @click="handleDispatch(scope.row)">重分派</el-button>
             <el-button v-permission="['200-208-3']" v-show="scope.row.judgeStat === 0" title="修改" type="primary" size="mini" icon="el-icon-edit" circle @click="handleEdit(scope.row)"/>
             <el-button v-if="isReview(scope.row)" title="审批" type="warning" size="mini" icon="el-icon-view" circle @click="handleReview(scope.row)"/>
             <el-button v-permission="['200-208-2']" v-show="scope.row.judgeStat === 0" title="删除" size="mini" type="danger" icon="el-icon-delete" circle @click="handleDelete(scope.row)"/>
@@ -149,11 +150,29 @@
       <!--修改开始=================================================-->
       <!--修改结束=================================================-->
     </el-card>
+    <el-dialog :visible.sync="isvisible" :title="$t('repair.Dispatch2')" width="40%" center lock-scroll>
+      <el-form :model="dispatchform" style="width: 400px; margin:0 auto;">
+        <el-form-item :label-width="formLabelWidth" :label="$t('repair.Employee')">
+          <el-select v-model="dispatchform.id" placeholder="please choose">
+            <el-option
+              v-for="(item, index) in options2"
+              :key="index"
+              :label="item.personName"
+              :value="item.id"/>
+          </el-select>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="isvisible = false">{{ $t('repair.cancel') }}</el-button>
+        <el-button type="primary" @click="dispatch">{{ $t('repair.ok') }}</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
 <script>
-import { installmentlist } from '@/api/Collection'
+import { getremplist2 } from '@/api/repair'
+import { installmentlist, reToEmp } from '@/api/Collection'
 import { getdeptlist } from '@/api/BasicSettings'
 import { searchStockCategory } from '@/api/StockCategory'
 import waves from '@/directive/waves' // Waves directive
@@ -213,8 +232,10 @@ export default {
         pagenum: 1,
         pagesize: 99999
       },
+      isvisible: false,
       // 采购类别数据
       types: [],
+      options2: [],
       // 申请部门数据
       depts: [],
       // 审核传参
@@ -253,8 +274,12 @@ export default {
       },
       // 传给组件的数据
       personalForm: {},
+      formdata: [],
       // 修改控制组件数据
       editVisible: false,
+      dispatchform: {
+        id: ''
+      },
       // 开始时间到结束时间
       date: []
     }
@@ -263,6 +288,36 @@ export default {
     this.getlist()
   },
   methods: {
+    dispatch() {
+      const tempData = Object.assign({}, this.formdata)
+      reToEmp(tempData.id, this.dispatchform.id).then(res => {
+        if (res.data.ret === 200) {
+          this.isvisible = false
+          this.$notify({
+            title: 'successful',
+            message: 'successful',
+            type: 'success',
+            duration: 1000
+          })
+          this.getlist()
+        }
+      })
+    },
+    handleDispatch(row) {
+      this.restdispatchform()
+      this.formdata = Object.assign({}, row)
+      this.isvisible = true
+      console.log(row)
+      getremplist2(this.$store.getters.repositoryId, this.$store.getters.regionId).then(res => {
+        this.options2 = res.data.data.content.list
+        console.log('options2', this.options2)
+      })
+    },
+    restdispatchform() {
+      this.dispatchform = {
+        id: ''
+      }
+    },
     handleMyReceipt1(val) {
       console.log(val)
       this.$store.dispatch('getempcontract', val)

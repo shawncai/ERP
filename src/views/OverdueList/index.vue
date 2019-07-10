@@ -138,6 +138,7 @@
         </el-table-column>
         <el-table-column :label="$t('public.actions')" :resizable="false" align="center" min-width="230">
           <template slot-scope="scope">
+            <el-button v-permission="['200-206-60']" title="转催收" type="primary" size="mini" icon="el-icon-d-arrow-right" circle @click="handleEdit2(scope.row)"/>
             <el-button v-permission="['200-206-3']" v-show="scope.row.judgeStat === 0" title="修改" type="primary" size="mini" icon="el-icon-edit" circle @click="handleEdit(scope.row)"/>
             <el-button v-if="isReview(scope.row)" title="审批" type="warning" size="mini" icon="el-icon-view" circle @click="handleReview(scope.row)"/>
             <el-button v-permission="['200-206-2']" v-show="scope.row.judgeStat === 0" title="删除" size="mini" type="danger" icon="el-icon-delete" circle @click="handleDelete(scope.row)"/>
@@ -155,6 +156,7 @@
 
 <script>
 import { installmentlist } from '@/api/OverdueList'
+import { pushPay } from '@/api/Collection'
 import { getdeptlist } from '@/api/BasicSettings'
 import { searchStockCategory } from '@/api/StockCategory'
 import waves from '@/directive/waves' // Waves directive
@@ -264,6 +266,28 @@ export default {
     this.getlist()
   },
   methods: {
+    // 转催收操作
+    handleEdit2(row) {
+      console.log('row', row.id)
+      this.reviewParms.installmentId = row.id
+      this.$confirm('转催收', '确认转催收', {
+        distinguishCancelAndClose: true,
+        confirmButtonText: '确认',
+        type: 'warning'
+      }).then(() => {
+        const parms = this.reviewParms
+        console.log(parms)
+        pushPay(parms).then(res => {
+          if (res.data.ret === 200) {
+            this.$message({
+              type: 'success',
+              message: '转催收成功!'
+            })
+            this.getlist()
+          }
+        })
+      })
+    },
     handleMyReceipt1(val) {
       console.log(val)
       this.$store.dispatch('getempcontract', val)

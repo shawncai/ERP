@@ -149,8 +149,10 @@
             <span>{{ scope.row.receiptStat | receiptStatFilter }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('public.actions')" :resizable="false" align="center" min-width="230">
+        <el-table-column :label="$t('public.actions')" :resizable="false" align="center" min-width="330">
           <template slot-scope="scope">
+            <el-button v-show="scope.row.judgeStat === 2&&scope.row.confirmOutPersonId === null" size="mini" type="success" @click="handleDispatch3(scope.row)">调出确认</el-button>
+            <el-button v-show="scope.row.judgeStat === 2&&scope.row.confirmPersonId === null" size="mini" type="success" @click="handleDispatch2(scope.row)">调入确认</el-button>
             <el-button v-permission="['131-138-142-3']" v-show="scope.row.judgeStat === 0" type="primary" size="mini" @click="handleEdit(scope.row)">{{ $t('public.edit') }}</el-button>
             <el-button v-show="isReview(scope.row)" type="warning" size="mini" @click="handleReview(scope.row)">{{ $t('public.review') }}</el-button>
             <el-button v-permission="['131-138-142-76']" v-if="isReview4(scope.row)" title="反审批" type="warning" size="mini" circle @click="handleReview4(scope.row)"><svg-icon icon-class="fanhui"/></el-button>
@@ -165,6 +167,7 @@
       <pagination v-show="total>0" :total="total" :page.sync="getemplist.pageNum" :limit.sync="getemplist.pageSize" @pagination="getlist" />
       <!--修改开始=================================================-->
       <my-edit :editcontrol.sync="editVisible" :editdata.sync="personalForm" @rest="refreshlist"/>
+      <my-edit3 :editcontrol.sync="editVisible3" :editdata.sync="personalForm" @rest="refreshlist"/>
       <!--修改结束=================================================-->
       <!--调入-->
       <my-edit2 :editcontrol.sync="moveVisible" :editdata.sync="personalForm" @rest="refreshlist"/>
@@ -181,6 +184,7 @@ import permission from '@/directive/permission/index.js' // 权限判断指令
 import checkPermission from '@/utils/permission' // 权限判断函数
 import MyEdit from './components/MyEdit'
 import MyEdit2 from './components/MyEdit2'
+import MyEdit3 from './components/MyEdit3'
 import MyRepository from './components/MyRepository'
 import MyAccept from './components/MyAccept'
 import MyCreate from './components/MyCreate'
@@ -190,7 +194,7 @@ import DetailList from './components/DetailList'
 export default {
   name: 'StoragemoveList',
   directives: { waves, permission },
-  components: { DetailList, MyDepot, Pagination, MyEdit, MyRepository, MyAccept, MyCreate, MyEdit2 },
+  components: { DetailList, MyDepot, Pagination, MyEdit, MyRepository, MyAccept, MyCreate, MyEdit2, MyEdit3 },
   filters: {
     judgeStatFilter(status) {
       const statusMap = {
@@ -262,7 +266,8 @@ export default {
       // 修改传给组件的数据
       personalForm: {},
       // 修改控制修改组件数据
-      editVisible: false
+      editVisible: false,
+      editVisible3: false
       // 列表结束 -------------------------
     }
   },
@@ -271,6 +276,25 @@ export default {
     this.getlist()
   },
   methods: {
+    handleDispatch3(row) {
+      this.editVisible3 = true
+      this.personalForm = Object.assign({}, row)
+      this.personalForm.businessStat = String(row.businessStat)
+    },
+    handleDispatch2(row) {
+      this.reviewParms.id = row.id
+      this.reviewParms.confirmPersonId = this.$store.getters.userId
+      const parms = JSON.stringify(this.reviewParms)
+      updateStoragemove2(parms).then(res => {
+        if (res.data.ret === 200) {
+          this.$message({
+            type: 'success',
+            message: '成功!'
+          })
+          this.getlist()
+        }
+      })
+    },
     // 判断反审批按钮
     isReview4(row) {
       console.log(row)
@@ -397,7 +421,7 @@ export default {
       this.getemplist.moveOutRepository = val.id
     },
     getlist() {
-      // 生产调拨列表数据
+    // 生产调拨列表数据
       this.listLoading = true
       searchlist(this.getemplist).then(res => {
         if (res.data.ret === 200) {

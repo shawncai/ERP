@@ -374,7 +374,32 @@ export default {
     this.getdatatime()
     this.chooseType()
   },
+  mounted() {
+    this.getinformation()
+  },
   methods: {
+    getinformation() {
+      if (this.$store.getters.empcontract) {
+        console.log('getempcontract', this.$store.getters.empcontract)
+        this.personalForm.sourceType = '2'
+        this.chooseType()
+        this.$store.getters.empcontract.basicQuantity = this.$store.getters.empcontract.requireQuantity
+        this.$store.getters.empcontract.planQuantity = this.$store.getters.empcontract.requireQuantity
+        this.$store.getters.empcontract.planDeliveryDate = this.$store.getters.empcontract.requireDate
+        this.$store.getters.empcontract.applyReason = ''
+        this.$store.getters.empcontract.sourceNumber = this.$store.getters.empcontract.materialsRequireNumber
+        this.$store.getters.empcontract.supplierId = ''
+        this.$store.getters.empcontract.supplierName = ''
+        this.$store.getters.empcontract.basicPrice = 0
+        this.$store.getters.empcontract.planMoney = '0.00'
+        this.$store.getters.empcontract.orderQuantity = '0.00'
+        this.$store.getters.empcontract.stockRequireId = this.$store.getters.empcontract.id
+        this.$store.getters.empcontract.sourceSerialNumber = this.$store.getters.empcontract.id
+        this.$refs.editable.insert(this.$store.getters.empcontract)
+        this.$refs.editable2.insert(this.$store.getters.empcontract)
+        this.$store.dispatch('getempcontract', '')
+      }
+    },
     planQuantity(row) {
       return (row.planQuantity).toFixed(2)
     },

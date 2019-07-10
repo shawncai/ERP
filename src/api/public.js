@@ -155,8 +155,10 @@ export function getlocation6(query, query2) {
 export function locationlist(query) {
   var params = new URLSearchParams()
   if (query !== '' && query !== null && query !== undefined) {
-    params.append('repositoryId', query) // 你要传给后台的参数值 key/value
+    params.append('searchRepositoryId', query) // 你要传给后台的参数值 key/value
   }
+  // params.append('repositoryId', this.$store.getters.repositoryId) // 你要传给后台的参数值 key/value
+  // params.append('regionIds', this.$store.getters.regionId) // 你要传给后台的参数值 key/value
   params.append('pageNum', 1) // 你要传给后台的参数值 key/value
   params.append('pageSize', 99999) // 你要传给后台的参数值 key/value
   return request({

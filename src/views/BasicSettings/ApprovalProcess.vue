@@ -70,6 +70,8 @@
         </el-table-column>
         <el-table-column :label="$t('public.actions')" :resizable="false" align="center" min-width="230">
           <template slot-scope="scope">
+            <el-button v-permission="['1-39-45-8']" v-show="scope.row.isEffective === 2" title="启用" style="margin-left: 18px;" type="primary" size="mini" icon="el-icon-check" circle @click="open(scope.row)"/>
+            <el-button v-permission="['1-39-45-9']" v-show="scope.row.isEffective === 1" title="停用" type="primary" size="mini" icon="el-icon-close" circle @click="close(scope.row)"/>
             <el-button v-permission="['1-39-45-3']" type="primary" size="mini" @click="handleEdit(scope.row)">{{ $t('public.edit') }}</el-button>
             <el-button v-permission="['1-39-45-2']" size="mini" type="danger" @click="handleDelete(scope.row)">{{ $t('public.delete') }}</el-button>
           </template>
@@ -85,7 +87,7 @@
 </template>
 
 <script>
-import { searchProcess, deleteProcess, searchDetail, searchcategory } from '@/api/BasicSettings'
+import { searchProcess, deleteProcess, searchDetail, searchcategory, updateeapproval } from '@/api/BasicSettings'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
 import permission from '@/directive/permission/index.js' // 权限判断指令
@@ -114,6 +116,7 @@ export default {
   },
   data() {
     return {
+      personalForm2: {},
       // 单据类型数据
       categorys: [],
       // 批量操作
@@ -145,6 +148,53 @@ export default {
     this.getlist()
   },
   methods: {
+    // 启用停用操作
+    open(row) {
+      console.log('row', row)
+      this.personalForm2.id = row.id
+      this.personalForm2.isEffective = 1
+      updateeapproval(this.personalForm2).then(res => {
+        if (res.data.ret === 200) {
+          this.$notify({
+            title: '操作成功',
+            message: '操作成功',
+            type: 'success',
+            duration: 1000,
+            offset: 100
+          })
+          this.getlist()
+        } else {
+          this.$notify.error({
+            title: '错误',
+            message: '出错了',
+            offset: 100
+          })
+        }
+      })
+    },
+    close(row) {
+      console.log('row', row)
+      this.personalForm2.id = row.id
+      this.personalForm2.isEffective = 2
+      updateeapproval(this.personalForm2).then(res => {
+        if (res.data.ret === 200) {
+          this.$notify({
+            title: '操作成功',
+            message: '操作成功',
+            type: 'success',
+            duration: 1000,
+            offset: 100
+          })
+          this.getlist()
+        } else {
+          this.$notify.error({
+            title: '错误',
+            message: '出错了',
+            offset: 100
+          })
+        }
+      })
+    },
     checkPermission,
     getlist() {
       // 审批流程列表数据

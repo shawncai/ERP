@@ -139,8 +139,9 @@
             <span>{{ scope.row.receiptStat | receiptStatFilter }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('public.actions')" :resizable="false" align="center" min-width="230">
+        <el-table-column :label="$t('public.actions')" :resizable="false" align="center" min-width="250">
           <template slot-scope="scope">
+            <el-button v-show="scope.row.inquirePersonId === null" size="mini" type="success" @click="handleDispatch(scope.row)">{{ $t('repair.Dispatch') }}</el-button>
             <el-button v-permission="['200-201-3']" v-show="scope.row.judgeStat === 0" title="修改" type="primary" size="mini" icon="el-icon-edit" circle @click="handleEdit(scope.row)"/>
             <el-button v-if="isReview(scope.row)" title="审批" type="warning" size="mini" icon="el-icon-view" circle @click="handleReview(scope.row)"/>
             <el-button v-permission="['200-201-2']" v-show="scope.row.judgeStat === 0" title="删除" size="mini" type="danger" icon="el-icon-delete" circle @click="handleDelete(scope.row)"/>
@@ -167,11 +168,29 @@
         </el-form>
       </el-dialog>
     </el-card>
+    <el-dialog :visible.sync="isvisible" :title="$t('repair.Dispatch2')" width="40%" center lock-scroll>
+      <el-form :model="dispatchform" style="width: 400px; margin:0 auto;">
+        <el-form-item :label-width="formLabelWidth" :label="$t('repair.Employee')">
+          <el-select v-model="dispatchform.id" placeholder="please choose">
+            <el-option
+              v-for="(item, index) in options2"
+              :key="index"
+              :label="item.personName"
+              :value="item.id"/>
+          </el-select>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="isvisible = false">{{ $t('repair.cancel') }}</el-button>
+        <el-button type="primary" @click="dispatch">{{ $t('repair.ok') }}</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
 <script>
 import { checkReceiptApply2 } from '@/api/public'
+import { getremplist2 } from '@/api/repair'
 import { applylist, deleteapply, updateapply2 } from '@/api/InstallmentApply'
 import { getdeptlist } from '@/api/BasicSettings'
 import { searchStockCategory } from '@/api/StockCategory'
@@ -232,6 +251,12 @@ export default {
       step7: '',
       step8: '',
       receiptVisible: false,
+      options2: [],
+      isvisible: false,
+      formdata: [],
+      dispatchform: {
+        id: ''
+      },
       // 销售员回显
       salePersonId: '',
       // 控制销售
@@ -295,6 +320,38 @@ export default {
     this.getlist()
   },
   methods: {
+    dispatch() {
+      const tempData = Object.assign({}, this.formdata)
+      this.reviewParms.id = tempData.id
+      this.reviewParms.inquirePersonId = this.dispatchform.id
+      const parms = JSON.stringify(this.reviewParms)
+      updateapply2(parms).then(res => {
+        if (res.data.ret === 200) {
+          this.isvisible = false
+          this.$notify({
+            title: 'successful',
+            message: 'successful',
+            type: 'success',
+            duration: 1000
+          })
+          this.getlist()
+        }
+      })
+    },
+    handleDispatch(row) {
+      this.restdispatchform()
+      this.formdata = Object.assign({}, row)
+      this.isvisible = true
+      console.log(row)
+      getremplist2(this.$store.getters.repositoryId, this.$store.getters.regionId).then(res => {
+        this.options2 = res.data.data.content.list
+      })
+    },
+    restdispatchform() {
+      this.dispatchform = {
+        id: ''
+      }
+    },
     contorlstep4(val) {
       if (val === 0) {
         this.step4 = 'wait'
