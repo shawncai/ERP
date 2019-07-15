@@ -89,13 +89,14 @@
         <el-table-column
           type="selection"
           width="55"
+          fixed="left"
           align="center"/>
-        <el-table-column :label="$t('public.id')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('public.id')" :resizable="false" fixed="left" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.orderNumber }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('InstallmentList.customerName')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('InstallmentList.customerName')" :resizable="false" fixed="left" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.customerName }}</span>
           </template>

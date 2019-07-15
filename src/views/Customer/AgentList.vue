@@ -92,14 +92,15 @@
         <el-table-column
           type="selection"
           width="55"
+          fixed="left"
           align="center"/>
-        <el-table-column :label="$t('Customer.id')" :resizable="false" align="center" width="60">
+        <el-table-column :label="$t('Customer.id')" :resizable="false" fixed="left" align="center" width="60">
           <template slot-scope="scope">
             <span class="link-type" @click="handleDetail(scope.row)">{{ scope.row.id }}</span>
           </template>
           <detail-list :detailcontrol.sync="detailvisible" :detaildata.sync="edtiForm" :detailid.sync="detailid"/>
         </el-table-column>
-        <el-table-column :label="$t('Customer.agentname')" :resizable="false" align="center" min-width="200">
+        <el-table-column :label="$t('Customer.agentname')" :resizable="false" fixed="left" align="center" min-width="200">
           <template slot-scope="scope">
             <span>{{ scope.row.agentName }}</span>
           </template>

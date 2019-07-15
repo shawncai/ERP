@@ -79,9 +79,9 @@
             border
             size="medium"
             style="width: 100%">
-            <el-editable-column label="序号" min-width="55" align="center" type="index"/>
-            <el-editable-column prop="toolsCode" align="center" label="工具编号" />
-            <el-editable-column prop="toolsName" align="center" label="公平局名称" />
+            <el-editable-column label="序号" fixed="left" min-width="55" align="center" type="index"/>
+            <el-editable-column prop="toolsCode" fixed="left" align="center" label="工具编号" />
+            <el-editable-column prop="toolsName" align="center" fixed="left" label="工具名称" />
             <el-editable-column prop="unit" align="center" label="基本单位" />
             <!--          <el-editable-column prop="locationName" align="center" label="货位" />-->
             <el-editable-column prop="quantity" align="center" label="数量" />

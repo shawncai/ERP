@@ -200,6 +200,7 @@
           <my-opportunity :opportunitycontrol.sync="opportunitycontrol" @opportunityDetail="opportunityDetail" @opportunity="opportunity"/>
           <my-contract :contractcontrol.sync="contractcontrol" @salecontractDetail="salecontractDetail" @salecontract="salecontract"/>
           <el-button type="danger" @click="$refs.editable.removeSelecteds()">删除</el-button>
+          <el-button type="primary" @click="checkStock()">库存快照</el-button>
         </div>
         <div class="container">
           <el-editable
@@ -213,7 +214,8 @@
             stripe
             border
             size="medium"
-            style="width: 100%">
+            style="width: 100%"
+            @selection-change="handleSelectionChange">
             <el-editable-column type="selection" min-width="55" align="center"/>
             <el-editable-column label="序号" min-width="55" align="center" type="index"/>
             <el-editable-column :edit-render="{type: 'visible'}" prop="locationId" align="center" label="货位" min-width="170px">
@@ -423,6 +425,35 @@
         <el-button type="primary" style="background:#3696fd;border-color:#3696fd;width: 98px" @click="handlesave()">保存</el-button>
         <el-button type="danger" @click="handlecancel()">取消</el-button>
       </div>
+      <el-dialog :visible.sync="receiptVisible2" title="库存快照" class="normal" width="600px" center>
+        <el-form class="demo-ruleForm" style="margin: 0px 6%; width: 400px">
+          <el-form-item label-width="100px;" style="    width: 500px;">
+            <div style="width: 100%; height: 220px;overflow: hidden;background: white;" >
+              <el-table
+                :data="list111"
+                height="220"
+                style="width: 100%;"
+              >
+                <el-table-column :resizable="false" label="仓库" align="center" min-width="150">
+                  <template slot-scope="scope">
+                    <span >{{ scope.row.repositoryName }}</span>
+                  </template>
+                </el-table-column>
+                <el-table-column :resizable="false" label="商品名称" align="center" min-width="150">
+                  <template slot-scope="scope">
+                    <span >{{ scope.row.productName }}</span>
+                  </template>
+                </el-table-column>
+                <el-table-column :resizable="false" label="可用库存量" align="center" min-width="150">
+                  <template slot-scope="scope">
+                    <span >{{ scope.row.ableStock }}</span>
+                  </template>
+                </el-table-column>
+              </el-table>
+            </div>
+          </el-form-item>
+        </el-form>
+      </el-dialog>
     </div>
   </div>
 </template>
@@ -430,7 +461,7 @@
 <script>
 import { createsaleOut } from '@/api/SaleOut'
 import { searchSaleCategory } from '@/api/SaleCategory'
-import { getlocation, locationlist } from '@/api/public'
+import { getlocation, locationlist, countlist3 } from '@/api/public'
 import MyEmp from './components/MyEmp'
 import MyDelivery from '../DailyAdjust/components/MyDelivery'
 import MyDetail from './components/MyDetail'
@@ -576,7 +607,11 @@ export default {
       list3: [],
       // 明细列表规则
       validRules: {
-      }
+      },
+      receiptVisible2: false,
+      list111: [],
+      // 批量操作
+      moreaction: []
     }
   },
   created() {
@@ -590,6 +625,41 @@ export default {
     this.getinformation3()
   },
   methods: {
+    checkStock(row) {
+      console.log('this.personalForm.saleRepositoryId', this.personalForm.saleRepositoryId)
+      if (this.personalForm.saleRepositoryId === null || this.personalForm.saleRepositoryId === undefined || this.personalForm.saleRepositoryId === '') {
+        this.$notify.error({
+          title: '错误',
+          message: '请先选择出库仓库',
+          offset: 100
+        })
+        return false
+      } else {
+        console.log('this.moreaction.length', this.moreaction.length)
+        if (this.moreaction.length > 1 || this.moreaction.length === 0) {
+          this.$message.error('请选择单个商品')
+        } else {
+          countlist3(this.personalForm.saleRepositoryId, this.moreaction[0].productCode).then(res => {
+            console.log(res)
+            if (res.data.ret === 200) {
+              console.log('res.data.data.content', res.data.data.content)
+              this.list111 = res.data.data.content
+              this.receiptVisible2 = true
+            } else {
+              this.$notify.error({
+                title: '错误',
+                message: res.data.msg,
+                offset: 100
+              })
+            }
+          })
+        }
+      }
+    },
+    // 批量操作
+    handleSelectionChange(val) {
+      this.moreaction = val
+    },
     getinformation3() {
       if (this.$store.getters.empcontract3) {
         console.log('getempcontract3', this.$store.getters.empcontract3)
@@ -1400,5 +1470,25 @@ export default {
     .el-button+.el-button{
       width: 98px;
     }
+  }
+</style>
+
+<style rel="stylesheet/css" scoped>
+  .normal >>> .el-dialog__header {
+    padding: 20px 20px 10px;
+    background: #fff;
+    position: static;
+    top: auto;
+    z-index: auto;
+    width: auto;
+    border-bottom: none;
+  }
+  .normal >>> .el-dialog {
+    -webkit-transform: none;
+    transform: none;
+    left: 0;
+    position: relative;
+    margin: 0 auto;
+    height: auto;
   }
 </style>

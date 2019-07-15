@@ -52,6 +52,7 @@
       <div class="buttons" style="margin-top: 50px">
         <el-button type="success" @click="handleAddproduct">添加商品</el-button>
         <el-button type="danger" @click="$refs.editable.removeSelecteds()">删除</el-button>
+        <el-button type="primary" @click="checkStock()">库存快照</el-button>
       </div>
       <my-detail :control.sync="control" @product="productdetail"/>
       <div class="container">
@@ -64,7 +65,8 @@
           stripe
           border
           size="medium"
-          style="width: 100%">
+          style="width: 100%"
+          @selection-change="handleSelectionChange">
           <el-editable-column type="selection" width="55" align="center"/>
           <el-editable-column type="index" width="55" align="center"/>
           <el-editable-column :edit-render="{type: 'default'}" prop="locationCode" align="center" label="货位" width="200px">
@@ -126,6 +128,35 @@
         <el-button type="success" @click="handleentry()">继续录入</el-button>
         <el-button type="danger" @click="handlecancel()">取消</el-button>
       </div>
+      <el-dialog :visible.sync="receiptVisible2" title="库存快照" class="normal" width="600px" center>
+        <el-form class="demo-ruleForm" style="margin: 0px 6%; width: 400px">
+          <el-form-item label-width="100px;" style="    width: 500px;">
+            <div style="width: 100%; height: 220px;overflow: hidden;background: white;" >
+              <el-table
+                :data="list111"
+                height="220"
+                style="width: 100%;"
+              >
+                <el-table-column :resizable="false" label="仓库" align="center" min-width="150">
+                  <template slot-scope="scope">
+                    <span >{{ scope.row.repositoryName }}</span>
+                  </template>
+                </el-table-column>
+                <el-table-column :resizable="false" label="商品名称" align="center" min-width="150">
+                  <template slot-scope="scope">
+                    <span >{{ scope.row.productName }}</span>
+                  </template>
+                </el-table-column>
+                <el-table-column :resizable="false" label="可用库存量" align="center" min-width="150">
+                  <template slot-scope="scope">
+                    <span >{{ scope.row.ableStock }}</span>
+                  </template>
+                </el-table-column>
+              </el-table>
+            </div>
+          </el-form-item>
+        </el-form>
+      </el-dialog>
     </div>
   </div>
 </template>
@@ -133,7 +164,7 @@
 <script>
 import { getdeptlist } from '@/api/BasicSettings'
 import { addinventorycount } from '@/api/InventoryCount'
-import { batchlist, getQuantity, getlocation } from '@/api/public'
+import { batchlist, getQuantity, getlocation, countlist } from '@/api/public'
 import MyCreate from './components/MyCreate'
 import MyRepository from './components/MyRepository'
 import MyDetail from './components/MyDetail'
@@ -206,13 +237,42 @@ export default {
         countRepositoryId: [
           { required: true, validator: validatePass2, trigger: 'change' }
         ]
-      }
+      },
+      receiptVisible2: false,
+      list111: [],
+      // 批量操作
+      moreaction: []
     }
   },
   mounted() {
     this.getlist()
   },
   methods: {
+    checkStock(row) {
+      console.log('this.moreaction.length', this.moreaction.length)
+      if (this.moreaction.length > 1 || this.moreaction.length === 0) {
+        this.$message.error('请选择单个商品')
+      } else {
+        countlist(this.$store.getters.repositoryId, this.$store.getters.regionId, this.moreaction[0].productCode).then(res => {
+          console.log(res)
+          if (res.data.ret === 200) {
+            console.log('res.data.data.content', res.data.data.content.list)
+            this.list111 = res.data.data.content.list
+            this.receiptVisible2 = true
+          } else {
+            this.$notify.error({
+              title: '错误',
+              message: res.data.msg,
+              offset: 100
+            })
+          }
+        })
+      }
+    },
+    // 批量操作
+    handleSelectionChange(val) {
+      this.moreaction = val
+    },
     getlist() {
       // 部门列表数据
       getdeptlist().then(res => {
@@ -510,5 +570,24 @@ export default {
       margin-top: 2%;
       border: 1px solid #eceff6;
     }
+  }
+</style>
+<style rel="stylesheet/css" scoped>
+  .normal >>> .el-dialog__header {
+    padding: 20px 20px 10px;
+    background: #fff;
+    position: static;
+    top: auto;
+    z-index: auto;
+    width: auto;
+    border-bottom: none;
+  }
+  .normal >>> .el-dialog {
+    -webkit-transform: none;
+    transform: none;
+    left: 0;
+    position: relative;
+    margin: 0 auto;
+    height: auto;
   }
 </style>

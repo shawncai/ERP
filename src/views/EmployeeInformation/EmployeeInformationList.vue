@@ -105,24 +105,25 @@
         <el-table-column
           type="selection"
           width="55"
+          fixed="left"
           align="center"/>
-        <el-table-column :label="$t('NewEmployeeInformation.id')" :resizable="false" align="center" width="60">
+        <el-table-column :label="$t('NewEmployeeInformation.id')" :resizable="false" fixed="left" align="center" width="60">
           <template slot-scope="scope">
             <span class="link-type" @click="handleDetail(scope.row)">{{ scope.row.id }}</span>
           </template>
           <detail-list :detailcontrol.sync="detailvisible" :detaildata.sync="edtiForm" :detailid.sync="detailid"/>
         </el-table-column>
-        <el-table-column :label="$t('NewEmployeeInformation.jobNumber')" :resizable="false" align="center" width="80">
+        <el-table-column :label="$t('NewEmployeeInformation.jobNumber')" :resizable="false" fixed="left" align="center" width="80">
           <template slot-scope="scope">
             <span>{{ scope.row.jobNumber }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('NewEmployeeInformation.account')" :resizable="false" align="center" width="100">
+        <el-table-column :label="$t('NewEmployeeInformation.account')" :resizable="false" fixed="left" align="center" width="100">
           <template slot-scope="scope">
             <span>{{ scope.row.account }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('NewEmployeeInformation.name')" :resizable="false" align="center" width="100">
+        <el-table-column :label="$t('NewEmployeeInformation.name')" :resizable="false" fixed="left" align="center" width="100">
           <template slot-scope="scope">
             <span>{{ scope.row.firstName }} {{ scope.row.middleName }} {{ scope.row.lastName }}</span>
           </template>

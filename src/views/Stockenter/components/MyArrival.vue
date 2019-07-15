@@ -355,7 +355,7 @@ export default {
           basicQuantity: (Number(item.arrivalQuantity) - Number(item.hadStorageQuantity)).toFixed(2),
           actualEnterQuantity: (Number(item.arrivalQuantity) - Number(item.hadStorageQuantity)).toFixed(2),
           enterPrice: (item.includeTaxPrice).toFixed(2),
-          taxRate: (item.taxRate * 100).toFixed(2),
+          taxRate: (item.taxRate).toFixed(2),
           enterMoney: '0.00',
           remarks: '',
           sourceSerialNumber: item.id,

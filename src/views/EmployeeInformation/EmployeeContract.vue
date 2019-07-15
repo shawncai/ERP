@@ -39,13 +39,14 @@
         <el-table-column
           type="selection"
           width="55"
+          fixed="left"
           align="center"/>
-        <el-table-column :label="$t('NewEmployeeInformation.contractnumber')" :resizable="false" prop="contractNumber" align="center" width="180">
+        <el-table-column :label="$t('NewEmployeeInformation.contractnumber')" :resizable="false" fixed="left" prop="contractNumber" align="center" width="180">
           <template slot-scope="scope">
             <span>{{ scope.row.contractNumber }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('NewEmployeeInformation.contractname')" :resizable="false" prop="contractName" align="center" width="200">
+        <el-table-column :label="$t('NewEmployeeInformation.contractname')" :resizable="false" fixed="left" prop="contractName" align="center" width="200">
           <template slot-scope="scope">
             <span>{{ scope.row.contractName }}</span>
           </template>

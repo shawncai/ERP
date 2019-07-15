@@ -32,6 +32,9 @@ export function materialslist(query) {
   if (query.bomTypeId !== '' && query.bomTypeId !== null && query.bomTypeId !== undefined) {
     params.append('bomTypeId', query.bomTypeId) // 你要传给后台的参数值 key/value
   }
+  if (query.judgeStat !== '' && query.judgeStat !== null && query.judgeStat !== undefined) {
+    params.append('judgeStat', query.judgeStat) // 你要传给后台的参数值 key/value
+  }
   params.append('pageNum', query.pageNum) // 你要传给后台的参数值 key/value
   params.append('pageSize', query.pageSize) // 你要传给后台的参数值 key/value
   return request({

@@ -101,12 +101,12 @@
         <el-form ref="personalForm2" :model="productForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
           <el-row>
             <el-col :span="12">
-              <el-form-item :label="$t('InstallmentApply.productCode')" prop="productCode" style="width: 100%;">
+              <el-form-item :label="$t('InstallmentApply.productCode')" fixed="left" prop="productCode" style="width: 100%;">
                 <span>{{ productForm.productCode }}</span>
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item :label="$t('InstallmentApply.productName')" style="width: 100%;">
+              <el-form-item :label="$t('InstallmentApply.productName')" fixed="left" style="width: 100%;">
                 <span>{{ productForm.productName }}</span>
               </el-form-item>
             </el-col>

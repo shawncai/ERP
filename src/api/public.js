@@ -1,5 +1,40 @@
 import request from '@/utils/request'
 
+// 销售出库库存快照
+export function countlist3(query1, query2) {
+  var params = new URLSearchParams()
+  if (query1 !== '' && query1 !== null && query1 !== undefined) {
+    params.append('searchRepositoryId', query1) // 你要传给后台的参数值 key/value
+  }
+  if (query2 !== '' && query2 !== null && query2 !== undefined) {
+    params.append('code', query2) // 你要传给后台的参数值 key/value
+  }
+  return request({
+    url: '/erp/allinventory/countlist3',
+    method: 'post',
+    params: params
+  })
+}
+
+// 其他库存快照
+export function countlist(query1, query2, query3) {
+  var params = new URLSearchParams()
+  if (query1 !== '' && query1 !== null && query1 !== undefined) {
+    params.append('repositoryId', query1) // 你要传给后台的参数值 key/value
+  }
+  if (query2 !== '' && query2 !== null && query2 !== undefined) {
+    params.append('regionIds', query2) // 你要传给后台的参数值 key/value
+  }
+  if (query3 !== '' && query3 !== null && query3 !== undefined) {
+    params.append('code', query3) // 你要传给后台的参数值 key/value
+  }
+  return request({
+    url: '/erp/allinventory/countlist',
+    method: 'post',
+    params: params
+  })
+}
+
 // 国家列表
 export function getcountrylist(query) {
   return request({
@@ -125,8 +160,10 @@ export function getlocation(query, query2) {
   if (query !== '' && query !== null && query !== undefined) {
     params.append('repositoryId', query) // 你要传给后台的参数值 key/value
   }
-  if (query2.productCode !== '' && query2.productCode !== null && query2.productCode !== undefined) {
-    params.append('productCode', query2.productCode) // 你要传给后台的参数值 key/value
+  if (query2 !== '' && query2 !== null && query2 !== undefined) {
+    if (query2.productCode !== '' && query2.productCode !== null && query2.productCode !== undefined) {
+      params.append('productCode', query2.productCode) // 你要传给后台的参数值 key/value
+    }
   }
   return request({
     url: '/erp/location/getlocation',
@@ -152,10 +189,13 @@ export function getlocation6(query, query2) {
 }
 
 // 货位列表
-export function locationlist(query) {
+export function locationlist(query, query2) {
   var params = new URLSearchParams()
   if (query !== '' && query !== null && query !== undefined) {
     params.append('searchRepositoryId', query) // 你要传给后台的参数值 key/value
+  }
+  if (query2 !== '' && query2 !== null && query2 !== undefined) {
+    params.append('locationCode', query2) // 你要传给后台的参数值 key/value
   }
   // params.append('repositoryId', this.$store.getters.repositoryId) // 你要传给后台的参数值 key/value
   // params.append('regionIds', this.$store.getters.regionId) // 你要传给后台的参数值 key/value

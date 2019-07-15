@@ -101,14 +101,15 @@
           :selectable="selectInit"
           type="selection"
           width="55"
+          fixed="left"
           align="center"/>
-        <el-table-column :label="$t('public.id')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('public.id')" :resizable="false" fixed="left" align="center" min-width="150">
           <template slot-scope="scope">
             <span class="link-type" @click="handleDetail(scope.row)">{{ scope.row.orderNumber }}</span>
           </template>
           <detail-list :detailcontrol.sync="detailvisible" :detaildata.sync="personalForm"/>
         </el-table-column>
-        <el-table-column :label="$t('StockOrder.title')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('StockOrder.title')" :resizable="false" fixed="left" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.title }}</span>
           </template>
@@ -167,7 +168,7 @@
             <el-button v-permission="['104-114-17']" v-if="isReview3(scope.row)" title="反结单" type="success" size="mini" icon="el-icon-back" circle @click="handleReview3(scope.row)"/>
             <el-button v-permission="['104-114-2']" v-show="scope.row.judgeStat === 0" title="删除" size="mini" type="danger" icon="el-icon-delete" circle @click="handleDelete(scope.row)"/>
             <el-button title="进程" size="mini" type="primary" icon="el-icon-sort" circle @click="handleReceipt(scope.row)"/>
-            <el-button v-permission="['104-114-44']" v-show="scope.row.judgeStat === 2" type="primary" style="width: 107px" @click="handleMyReceipt1(scope.row)"><span style="margin-left: -15px;">生成销售出库单</span></el-button>
+            <el-button v-permission="['104-114-44']" v-show="scope.row.judgeStat === 2" type="primary" style="width: 107px" @click="handleMyReceipt1(scope.row)"><span style="margin-left: -15px;">生成预付款单</span></el-button>
           </template>
         </el-table-column>
       </el-table>
