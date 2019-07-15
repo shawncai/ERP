@@ -504,5 +504,6 @@ export default {
 <style scoped>
   .edit >>> .el-dialog {
     background:#f1f1f1 ;
+    left: 0;
   }
 </style>

@@ -149,9 +149,9 @@
             border
             size="medium"
             style="width: 100%">
-            <el-editable-column label="序号" min-width="55" align="center" type="index"/>
-            <el-editable-column prop="productCode" align="center" label="物品编号" min-width="150px"/>
-            <el-editable-column prop="productName" align="center" label="物品名称" min-width="150px"/>
+            <el-editable-column label="序号" fixed="left" min-width="55" align="center" type="index"/>
+            <el-editable-column prop="productCode" fixed="left" align="center" label="物品编号" min-width="150px"/>
+            <el-editable-column prop="productName" fixed="left" align="center" label="物品名称" min-width="150px"/>
             <el-editable-column prop="productType" align="center" label="规格" min-width="150px"/>
             <el-editable-column prop="unit" align="center" label="单位" min-width="150px"/>
             <el-editable-column prop="color" align="center" label="颜色" min-width="150px"/>
@@ -841,6 +841,7 @@ export default {
   }
   .edit >>> .el-dialog {
     background:#f1f1f1 ;
+    left: 0;
   }
   .container >>> .el-form-item.is-required:not(.is-no-asterisk)>.el-form-item__label:before{
     margin-left: -10px;

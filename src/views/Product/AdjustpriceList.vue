@@ -37,13 +37,14 @@
         <el-table-column
           type="selection"
           width="55"
+          fixed="left"
           align="center"/>
-        <el-table-column :label="$t('Product.id')" :resizable="false" prop="adjustNumber" align="center" width="150">
+        <el-table-column :label="$t('Product.id')" :resizable="false" fixed="left" prop="adjustNumber" align="center" width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.adjustNumber }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('Product.title')" :resizable="false" prop="title" align="center" width="150">
+        <el-table-column :label="$t('Product.title')" :resizable="false" fixed="left" prop="title" align="center" width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.title }}</span>
           </template>

@@ -79,13 +79,14 @@
         <el-table-column
           type="selection"
           width="55"
+          fixed="left"
           align="center"/>
-        <el-table-column :label="$t('BasicSettings.id')" :resizable="false" prop="id" align="center" width="150">
+        <el-table-column :label="$t('BasicSettings.id')" :resizable="false" fixed="left" prop="id" align="center" width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.id }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('BasicSettings.ruleName')" :resizable="false" prop="ruleName" align="center" width="150">
+        <el-table-column :label="$t('BasicSettings.ruleName')" :resizable="false" fixed="left" prop="ruleName" align="center" width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.ruleName }}</span>
           </template>

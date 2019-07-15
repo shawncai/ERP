@@ -86,14 +86,15 @@
         <el-table-column
           type="selection"
           width="55"
+          fixed="left"
           align="center"/>
-        <el-table-column :label="$t('Product.code')" :resizable="false" prop="code" align="center" width="180">
+        <el-table-column :label="$t('Product.code')" :resizable="false" fixed="left" prop="code" align="center" width="180">
           <template slot-scope="scope">
             <span class="link-type" @click="handleDetail(scope.row)">{{ scope.row.code }}</span>
           </template>
           <detail-list :detailcontrol.sync="detailvisible" :detaildata.sync="edtiForm" :detailid.sync="detailid"/>
         </el-table-column>
-        <el-table-column :label="$t('Product.productname')" :resizable="false" prop="ProductName" align="center" min-width="150">
+        <el-table-column :label="$t('Product.productname')" :resizable="false" fixed="left" prop="ProductName" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.productName }}</span>
           </template>

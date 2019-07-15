@@ -542,6 +542,7 @@ export default {
   }
   .edit >>> .el-dialog {
     background:#f1f1f1 ;
+    left: 0;
   }
   .container >>> .el-form-item.is-required:not(.is-no-asterisk)>.el-form-item__label:before{
     margin-left: -10px;

@@ -908,6 +908,7 @@ export default {
   }
   .edit >>> .el-dialog {
     background:#f1f1f1 ;
+    left: 0;
   }
   .el-col-12{
     width: 49%;
