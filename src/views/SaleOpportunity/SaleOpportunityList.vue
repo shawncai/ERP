@@ -99,14 +99,15 @@
         <el-table-column
           type="selection"
           width="55"
+          fixed="left"
           align="center"/>
-        <el-table-column :label="$t('public.id')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('public.id')" :resizable="false" fixed="left" align="center" min-width="150">
           <template slot-scope="scope">
             <span class="link-type" @click="handleDetail(scope.row)">{{ scope.row.opportunityNumber }}</span>
           </template>
           <detail-list :detailcontrol.sync="detailvisible" :detaildata.sync="personalForm"/>
         </el-table-column>
-        <el-table-column :label="$t('SaleOpportunity.title')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('SaleOpportunity.title')" :resizable="false" fixed="left" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.title }}</span>
           </template>
@@ -151,7 +152,7 @@
         <!--<span>{{ scope.row.receiptStat | receiptStatFilter }}</span>-->
         <!--</template>-->
         <!--</el-table-column>-->
-        <el-table-column :label="$t('public.actions')" :resizable="false" align="center" min-width="230">
+        <el-table-column :label="$t('public.actions')" :resizable="false" align="center" min-width="260">
           <template slot-scope="scope">
             <el-button v-permission="['54-63-3']" title="修改" type="primary" size="mini" icon="el-icon-edit" circle @click="handleEdit(scope.row)"/>
             <!--<el-button v-if="isReview(scope.row)" title="审批" type="warning" size="mini" icon="el-icon-view" circle @click="handleReview(scope.row)"/>-->

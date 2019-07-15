@@ -83,11 +83,11 @@
           border
           size="medium"
           style="width: 100%">
-          <el-editable-column label="序号" min-width="55" align="center" type="index"/>
+          <el-editable-column label="序号" fixed="left" min-width="55" align="center" type="index"/>
+          <el-editable-column prop="productCode" fixed="left" align="center" label="物品编号" min-width="150px"/>
+          <el-editable-column prop="productName" fixed="left" align="center" label="物品名称" min-width="150px"/>
           <el-editable-column prop="locationCode" align="center" label="货位" min-width="150px"/>
           <el-editable-column prop="batch" align="center" label="批次" min-width="150px"/>
-          <el-editable-column prop="productCode" align="center" label="物品编号" min-width="150px"/>
-          <el-editable-column prop="productName" align="center" label="物品名称" min-width="150px"/>
           <el-editable-column prop="productCategory" align="center" label="物品分类" min-width="150px"/>
           <el-editable-column prop="productType" align="center" label="规格" min-width="150px"/>
           <el-editable-column prop="color" align="center" label="颜色" min-width="150px"/>

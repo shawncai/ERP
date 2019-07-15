@@ -92,14 +92,15 @@
           :selectable="selectInit"
           type="selection"
           width="55"
+          fixed="left"
           align="center"/>
-        <el-table-column :label="$t('Stockenter.id')" :resizable="false" align="center" width="150">
+        <el-table-column :label="$t('Stockenter.id')" :resizable="false" fixed="left" align="center" width="150">
           <template slot-scope="scope">
             <span class="link-type" @click="handleDetail(scope.row)">{{ scope.row.id }}</span>
           </template>
           <detail-list2 :detailcontrol.sync="detailvisible" :detaildata.sync="personalForm"/>
         </el-table-column>
-        <el-table-column :label="$t('Stockenter.title')" :resizable="false" align="center" width="150">
+        <el-table-column :label="$t('Stockenter.title')" :resizable="false" fixed="left" align="center" width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.title }}</span>
           </template>

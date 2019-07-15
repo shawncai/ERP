@@ -88,14 +88,15 @@
           :selectable="selectInit"
           type="selection"
           width="55"
+          fixed="left"
           align="center"/>
-        <el-table-column :label="$t('WarehouseAdjust.id')" :resizable="false" prop="id" align="center" min-width="150">
+        <el-table-column :label="$t('WarehouseAdjust.id')" :resizable="false" fixed="left" prop="id" align="center" min-width="150">
           <template slot-scope="scope">
             <span class="link-type" @click="handleDetail(scope.row)">{{ scope.row.id }}</span>
           </template>
           <detail-list :detailcontrol.sync="detailvisible" :detaildata.sync="personalForm"/>
         </el-table-column>
-        <el-table-column :label="$t('WarehouseAdjust.title')" :resizable="false" prop="title" align="center" min-width="150">
+        <el-table-column :label="$t('WarehouseAdjust.title')" :resizable="false" fixed="left" prop="title" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.title }}</span>
           </template>

@@ -63,14 +63,15 @@
           :selectable="selectInit"
           type="selection"
           width="55"
+          fixed="left"
           align="center"/>
-        <el-table-column :label="$t('ProduceTask.reportNumber')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('ProduceTask.reportNumber')" :resizable="false" fixed="left" align="center" min-width="150">
           <template slot-scope="scope">
             <span class="link-type" @click="handleDetail(scope.row)">{{ scope.row.reportNumber }}</span>
           </template>
           <detail-list2 :detailcontrol.sync="detailvisible" :detaildata.sync="personalForm"/>
         </el-table-column>
-        <el-table-column :label="$t('ProduceTask.title')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('ProduceTask.title')" :resizable="false" fixed="left" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.title }}</span>
           </template>

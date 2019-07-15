@@ -59,8 +59,9 @@
         <el-table-column
           type="selection"
           width="55"
+          fixed="left"
           align="center"/>
-        <el-table-column :label="$t('LogisticsCar.carnumber')" :resizable="false" prop="carNumber" align="center" width="100">
+        <el-table-column :label="$t('LogisticsCar.carnumber')" :resizable="false" fixed="left" prop="carNumber" align="center" width="100">
           <template slot-scope="scope">
             <span>{{ scope.row.carNumber }}</span>
           </template>

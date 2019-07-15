@@ -89,9 +89,9 @@
             border
             size="medium"
             style="width: 100%">
-            <el-editable-column label="序号" min-width="55" align="center" type="index"/>
-            <el-editable-column prop="productCode" align="center" label="子件" min-width="150px"/>
-            <el-editable-column prop="productName" align="center" label="子件名称" min-width="150px"/>
+            <el-editable-column label="序号" fixed="left" min-width="55" align="center" type="index"/>
+            <el-editable-column prop="productCode" fixed="left" align="center" label="子件" min-width="150px"/>
+            <el-editable-column prop="productName" fixed="left" align="center" label="子件名称" min-width="150px"/>
             <el-editable-column prop="productType" align="center" label="规格" min-width="150px"/>
             <el-editable-column prop="color" align="center" label="颜色" min-width="150px"/>
             <el-editable-column prop="productCategory" align="center" label="子件类型" min-width="150px"/>

@@ -59,9 +59,9 @@
             border
             size="medium"
             style="width: 100%">
-            <el-editable-column label="序号" min-width="55" align="center" type="index"/>
-            <el-editable-column prop="productCode" align="center" label="物品编号" />
-            <el-editable-column prop="productName" align="center" label="物品名称" />
+            <el-editable-column label="序号" fixed="left" min-width="55" align="center" type="index"/>
+            <el-editable-column prop="productCode" fixed="left" align="center" label="物品编号" />
+            <el-editable-column prop="productName" fixed="left" align="center" label="物品名称" />
             <el-editable-column prop="productType" align="center" label="规格" />
             <el-editable-column prop="unit" align="center" label="单位" />
             <el-editable-column prop="requireQuantity" align="center" label="需求数量" />

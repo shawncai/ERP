@@ -101,14 +101,15 @@
           :selectable="selectInit"
           type="selection"
           width="55"
+          fixed="left"
           align="center"/>
-        <el-table-column :label="$t('public.id')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('public.id')" :resizable="false" fixed="left" align="center" min-width="150">
           <template slot-scope="scope">
             <span class="link-type" @click="handleDetail(scope.row)">{{ scope.row.contractNumber }}</span>
           </template>
           <detail-list :detailcontrol.sync="detailvisible" :detaildata.sync="personalForm"/>
         </el-table-column>
-        <el-table-column :label="$t('StockContract.contractTitle')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('StockContract.contractTitle')" :resizable="false" fixed="left" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.contractTitle }}</span>
           </template>

@@ -124,9 +124,9 @@
             border
             size="medium"
             style="width: 100%">
-            <el-editable-column label="序号" min-width="55" align="center" type="index"/>
-            <el-editable-column prop="productCode" align="center" label="物品编号" />
-            <el-editable-column prop="productName" align="center" label="物品名称" />
+            <el-editable-column label="序号" fixed="left" min-width="55" align="center" type="index"/>
+            <el-editable-column prop="productCode" fixed="left" align="center" label="物品编号" />
+            <el-editable-column prop="productName" fixed="left" align="center" label="物品名称" />
             <el-editable-column prop="categoryName" align="center" label="物品分类" />
             <el-editable-column prop="typeName" align="center" label="规格型号" />
             <el-editable-column prop="color" align="center" label="颜色" />
