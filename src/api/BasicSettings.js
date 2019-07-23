@@ -197,6 +197,27 @@ export function searchMea(query) {
   })
 }
 
+// 查询计量单位列表 分页
+export function searchMea2(query) {
+  var params = new URLSearchParams()
+  if (query.iseffective !== '' && query.iseffective !== null && query.iseffective !== undefined) {
+    params.append('iseffective', query.iseffective) // 你要传给后台的参数值 key/value
+  }
+  if (query.categoryname !== '' && query.categoryname !== null && query.categoryname !== undefined) {
+    params.append('categoryname', query.categoryname) // 你要传给后台的参数值 key/value
+  }
+  if (query.type !== '' && query.type !== null && query.type !== undefined) {
+    params.append('type', query.type) // 你要传给后台的参数值 key/value
+  }
+  params.append('pagenum', query.pagenum) // 你要传给后台的参数值 key/value
+  params.append('pagesize', query.pagesize) // 你要传给后台的参数值 key/value
+  return request({
+    url: '/erp/measurement/search2',
+    method: 'post',
+    data: params
+  })
+}
+
 // 新增计量单位
 export function createmea(query) {
   var params = new URLSearchParams()

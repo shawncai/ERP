@@ -36,7 +36,7 @@
       <el-button v-permission="['1-31-38-7']" v-waves class="filter-item" icon="el-icon-printer" style="width: 86px" @click="handlePrint">{{ $t('public.print') }}</el-button>
       <!-- 新建操作 -->
       <el-button v-permission="['1-31-38-1']" v-waves class="filter-item" icon="el-icon-plus" type="success" style="width: 86px;float: right" @click="handleAdd">{{ $t('public.add') }}</el-button>
-      <el-dialog :visible.sync="categoryVisible" title="新建分类属性" class="normal" width="600px" center>
+      <el-dialog :visible.sync="categoryVisible" title="新建分类属性" class="normal" width="600px" center @close="closetag">
         <el-form ref="addCategoryForm" :rules="addCategoryFormRules" :model="addCategoryForm" class="demo-ruleForm" style="margin: 0 auto; width: 400px">
           <el-form-item :label="$t('NewEmployeeInformation.type')" label-width="100px" prop="type">
             <el-select v-model="addCategoryForm.type" placeholder="请选择类别" style="width: 100%" @change="chooseType">
@@ -59,9 +59,6 @@
           <el-form-item
             v-if="tishi"
             :label="$t('NewEmployeeInformation.code2')"
-            :rules="[
-              { required: true, message: '编码不能为空'},
-              { message: '请输入编码'}]"
             prop="code"
             label-width="100px">
             <el-input v-model="addCategoryForm.code" autocomplete="off" @blur="zhengze"/>
@@ -230,6 +227,9 @@ export default {
         ],
         iseffective: [
           { required: true, message: '请选择启用状态', trigger: 'change' }
+        ],
+        code: [
+          { required: true, message: '请输入编码', trigger: 'blur' }
         ]
       },
       // 修改窗口
@@ -496,6 +496,11 @@ export default {
     // 取消修改
     handleNo() {
       this.editcategoryVisible = false
+    },
+    closetag() {
+      this.$refs.addCategoryForm.clearValidate()
+      this.$refs.addCategoryForm.resetFields()
+      this.restAddCategoryForm()
     },
     // 确认修改
     handleOk() {

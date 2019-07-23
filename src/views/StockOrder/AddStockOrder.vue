@@ -18,7 +18,6 @@
                     <el-option value="1" label="采购申请" />
                     <el-option value="2" label="采购计划" />
                     <el-option value="3" label="采购询价单" />
-                    <el-option value="4" label="采购合同" />
                     <el-option value="5" label="无来源" />
                   </el-select>
                 </el-form-item>
@@ -37,7 +36,7 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('StockOrder.stockType')" prop="stockType" style="width: 100%;">
-                  <el-select v-model="personalForm.stockTypeId" :disabled="IsStockTypeId" style="margin-left: 18px;width: 200px" @focus="updatecountry">
+                  <el-select v-model="personalForm.stockTypeId" style="margin-left: 18px;width: 200px" @focus="updatecountry">
                     <el-option
                       v-for="(item, index) in types"
                       :key="index"
@@ -48,7 +47,7 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('StockOrder.deptId')" prop="deptId" style="width: 100%;">
-                  <el-select v-model="personalForm.deptId" :disabled="IsDeptId" style="margin-left: 18px;width: 200px" @change="change()">
+                  <el-select v-model="personalForm.deptId" style="margin-left: 18px;width: 200px" @change="change()">
                     <el-option
                       v-for="(item, index) in depts"
                       :key="index"

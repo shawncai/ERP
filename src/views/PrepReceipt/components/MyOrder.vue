@@ -27,7 +27,7 @@
               v-model="visible2"
               placement="bottom"
               width="500"
-              trigger="manual">
+              trigger="click">
               <el-select v-model="getemplist.customerType" :placeholder="$t('SaleOrder.customerType')" clearable style="width: 40%;float: left;margin-left: 20px">
                 <el-option value="1" label="经销商"/>
                 <el-option value="2" label="零售"/>

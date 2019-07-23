@@ -25,7 +25,7 @@
               v-model="visible2"
               placement="bottom"
               width="500"
-              trigger="manual">
+              trigger="click">
               <el-select v-model="getemplist.deptId" placeholder="部门" clearable style="width: 40%;float: left;margin-left: 20px">
                 <el-option
                   v-for="(item, index) in depts"
@@ -231,7 +231,7 @@ export default {
     sourceTypeFilter(status) {
       const statusMap = {
         1: '采购申请',
-        2: '采购需求',
+        2: '采购计划',
         3: '无来源'
       }
       return statusMap[status]

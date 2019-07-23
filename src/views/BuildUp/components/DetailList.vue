@@ -1,5 +1,5 @@
 <template>
-  <el-dialog :visible.sync="editVisible" :detailcontrol="detailcontrol" :detaildata="detaildata" :close-on-press-escape="false" append-to-body class="edit" top="10px" title="修改采购入库单" @close="$emit('update:detailcontrol', false)">
+  <el-dialog :visible.sync="editVisible" :detailcontrol="detailcontrol" :detaildata="detaildata" :close-on-press-escape="false" append-to-body class="edit" top="10px" title="组装单" @close="$emit('update:detailcontrol', false)">
     <div id="printTest" >
       <!--基本信息-->
       <el-card class="box-card">
@@ -82,6 +82,7 @@
             <el-editable-column prop="productCode" fixed="left" align="center" label="物品编号" />
             <el-editable-column prop="productName" fixed="left" align="center" label="物品名称" />
             <el-editable-column prop="locationCode" align="center" label="货位" />
+            <el-editable-column prop="batch" align="center" label="批次" />
             <el-editable-column prop="color" align="center" label="颜色" />
             <el-editable-column prop="typeIdname" align="center" label="规格" />
             <el-editable-column prop="unit" align="center" label="单位" />
@@ -110,11 +111,10 @@
             border
             size="medium"
             style="width: 100%">
-            <el-editable-column type="selection" width="55" align="center"/>
-            <el-editable-column label="编号" width="55" align="center" type="index"/>
+            <el-editable-column label="编号" fixed="left" width="55" align="center" type="index"/>
+            <el-editable-column prop="productCode" fixed="left" align="center" label="物品编号" />
+            <el-editable-column prop="productName" fixed="left" align="center" label="物品名称" />
             <el-editable-column prop="locationCode" align="center" label="货位" />
-            <el-editable-column prop="productCode" align="center" label="物品编号" />
-            <el-editable-column prop="productName" align="center" label="物品名称" />
             <el-editable-column prop="color" align="center" label="颜色" />
             <el-editable-column prop="typeIdname" align="center" label="规格" />
             <el-editable-column prop="unit" align="center" label="单位" />

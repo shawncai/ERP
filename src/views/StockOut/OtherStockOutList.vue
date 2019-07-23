@@ -26,7 +26,7 @@
               v-model="visible2"
               placement="bottom"
               width="500"
-              trigger="manual">
+              trigger="click">
               <el-select v-model="getemplist.outReasonId" placeholder="请选择出库原因" style="margin-top: 20px;margin-left: 20px;float: left" clearable >
                 <el-option value="1" label="原因1"/>
                 <el-option value="2" label="原因2"/>

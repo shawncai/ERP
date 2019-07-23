@@ -25,7 +25,7 @@
               v-model="visible2"
               placement="bottom"
               width="500"
-              trigger="manual">
+              trigger="click">
               <el-select v-model="getemplist.enterDeptId" placeholder="请选择入库部门" clearable style="width: 40%;float: right;margin-right: 20px" @focus="updatedept">
                 <el-option
                   v-for="(item, index) in depts"

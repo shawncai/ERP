@@ -29,7 +29,7 @@
               v-model="visible2"
               placement="bottom"
               width="500"
-              trigger="manual">
+              trigger="click">
               <el-date-picker
                 v-model="date"
                 type="daterange"

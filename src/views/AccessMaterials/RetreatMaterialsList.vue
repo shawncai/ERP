@@ -25,7 +25,7 @@
               v-model="visible2"
               placement="bottom"
               width="500"
-              trigger="manual">
+              trigger="click">
               <el-select v-model="getemplist.workingType" :value="getemplist.processType" placeholder="加工类型" clearable style="width: 40%;float: right;margin-right: 20px">
                 <el-option value="1" label="加工1"/>
               </el-select>

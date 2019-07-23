@@ -55,6 +55,7 @@
         @selection-change="handleSelectionChange">
         <el-table-column
           :selectable="selectInit"
+          :reserve-selection="true"
           type="selection"
           width="55"
           fixed="left"
@@ -149,6 +150,11 @@ export default {
   },
   data() {
     return {
+      select_order_number: [],
+      // 获取row的key值
+      getRowKeys(row) {
+        return row.id
+      },
       // 审核传参
       reviewParms: {
         id: '',
@@ -330,8 +336,17 @@ export default {
       })
     },
     // 批量操作
-    handleSelectionChange(val) {
-      this.moreaction = val
+    handleSelectionChange(rows) {
+      this.moreaction = rows
+      this.select_order_number = this.moreaction.length
+      this.select_orderId = []
+      if (rows) {
+        rows.forEach(row => {
+          if (row) {
+            this.select_orderId.push(row.id)
+          }
+        })
+      }
     },
     // 多条删除
     // 批量删除

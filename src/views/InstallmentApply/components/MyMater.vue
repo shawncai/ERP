@@ -13,7 +13,7 @@
         v-model="visible2"
         placement="bottom"
         width="500"
-        trigger="manual">
+        trigger="click">
         <el-select v-model="getemplist.typeid" placeholder="请选择规格型号" clearable style="width: 40%;float: left;margin-left: 20px">
           <el-option
             v-for="(item, index) in types"
@@ -69,6 +69,11 @@
       <el-table-column :label="$t('Product.color')" :resizable="false" prop="color" align="center" width="100">
         <template slot-scope="scope">
           <span>{{ scope.row.color }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column :label="$t('Product.salemeasurement')" :resizable="false" prop="color" align="center" width="120">
+        <template slot-scope="scope">
+          <span>{{ scope.row.saleMeasu }}</span>
         </template>
       </el-table-column>
       <el-table-column :label="$t('Product.kpigrade')" :resizable="false" prop="kpiGrade" align="center" width="100">
@@ -163,7 +168,7 @@ export default {
       // 物品列表查询加展示参数
       getemplist: {
         productid: '',
-        code: '',
+        code: '01',
         productname: '',
         categoryid: '',
         typeid: '',
@@ -248,6 +253,8 @@ export default {
     },
     // 单选操作
     handleCurrentChange(val) {
+      console.log('val222', val)
+      // val.unit = val.saleMeasu
       this.moreaction = val
     },
     // 物品选择添加

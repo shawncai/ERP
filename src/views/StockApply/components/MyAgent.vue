@@ -29,7 +29,7 @@
               v-model="visible2"
               placement="bottom"
               width="500"
-              trigger="manual">
+              trigger="click">
               <el-select v-model="getemplist.type" :value="getemplist.type" :placeholder="$t('Customer.customertype')" clearable style="width: 40%;float: left;margin-left: 20px;">
                 <el-option
                   v-for="(item, index) in customertypes"

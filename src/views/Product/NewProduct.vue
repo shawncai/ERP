@@ -499,6 +499,7 @@ export default {
         source: '',
         valuation: '',
         isactive: 1,
+        isBatch: 1,
         picids: [],
         detailpicid: [],
         memberprice: '',

@@ -12,7 +12,7 @@
         v-model="visible2"
         placement="bottom"
         width="500"
-        trigger="manual">
+        trigger="click">
         <el-select v-model="getemplist.countDeptId" placeholder="请选择盘点部门" clearable style="width: 40%;float: right;margin-right: 20px">
           <el-option
             v-for="(item, index) in depts"

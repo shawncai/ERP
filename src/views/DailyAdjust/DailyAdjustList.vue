@@ -31,7 +31,7 @@
               v-model="visible2"
               placement="bottom"
               width="500"
-              trigger="manual">
+              trigger="click">
               <el-input v-model="personId" :placeholder="$t('DailyAdjust.personId')" class="filter-item" clearable style="width: 40%;float: left;margin-left: 20px" @keyup.enter.native="handleFilter" @focus="handlechoose"/>
               <my-create :createcontrol.sync="createcontrol" @createname="createname"/>
               <el-input v-model="adjustRepositoryId" :placeholder="$t('DailyAdjust.repositoryId')" class="filter-item" clearable style="width: 40%;float: right;margin-right: 20px" @keyup.enter.native="handleFilter" @focus="handlechooseRep"/>

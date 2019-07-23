@@ -25,7 +25,7 @@
               v-model="visible2"
               placement="bottom"
               width="500"
-              trigger="manual">
+              trigger="click">
               <el-select v-model="getemplist.paymentAgreementId" :value="getemplist.paymentAgreementId" placeholder="付款约定" clearable style="width: 40%;float: left;margin-left: 20px">
                 <el-option value="1" label="付款1"/>
                 <el-option value="2" label="付款2"/>

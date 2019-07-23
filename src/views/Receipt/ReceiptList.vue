@@ -24,7 +24,7 @@
           <!--v-model="visible2"-->
           <!--placement="bottom"-->
           <!--width="500"-->
-          <!--trigger="manual">-->
+          <!--trigger="click">-->
           <!--<el-select v-model="getemplist.receiptStat" :value="getemplist.receiptStat" placeholder="单据状态" clearable style="width: 40%;float: left;margin-left: 20px">-->
           <!--<el-option value="1" label="制单"/>-->
           <!--<el-option value="2" label="执行"/>-->

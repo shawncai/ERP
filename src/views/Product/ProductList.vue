@@ -26,7 +26,7 @@
               v-model="visible2"
               placement="bottom"
               width="500"
-              trigger="manual">
+              trigger="click">
               <el-select v-model="getemplist.typeid" placeholder="请选择规格型号" clearable style="width: 40%;float: left;margin-left: 20px">
                 <el-option
                   v-for="(item, index) in types"
@@ -78,12 +78,14 @@
         v-loading="listLoading"
         :key="tableKey"
         :data="list"
+        :row-key="getRowKeys"
         border
         fit
         highlight-current-row
         style="width: 100%;"
         @selection-change="handleSelectionChange">
         <el-table-column
+          :reserve-selection="true"
           type="selection"
           width="55"
           fixed="left"
@@ -183,6 +185,11 @@ export default {
   },
   data() {
     return {
+      select_order_number: [],
+      // 获取row的key值
+      getRowKeys(row) {
+        return row.code
+      },
       // 更多搜索条件问题
       visible2: false,
       // 规格型号数据
@@ -369,8 +376,17 @@ export default {
       }
     },
     // 批量操作
-    handleSelectionChange(val) {
-      this.moreaction = val
+    handleSelectionChange(rows) {
+      this.moreaction = rows
+      this.select_order_number = this.moreaction.length
+      this.select_orderId = []
+      if (rows) {
+        rows.forEach(row => {
+          if (row) {
+            this.select_orderId.push(row.code)
+          }
+        })
+      }
     },
     // 多条删除
     // 批量删除

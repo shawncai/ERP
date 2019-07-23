@@ -26,7 +26,7 @@
               v-model="visible2"
               placement="bottom"
               width="500"
-              trigger="manual">
+              trigger="click">
               <el-select v-model="getemplist.buildupDeptId" placeholder="请选择组装部门" style="width: 40%;float: right;margin-right: 20px" clearable >
                 <el-option
                   v-for="(item, index) in depts"

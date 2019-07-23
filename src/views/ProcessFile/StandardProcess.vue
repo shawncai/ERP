@@ -25,7 +25,7 @@
               v-model="visible2"
               placement="bottom"
               width="500"
-              trigger="manual">
+              trigger="click">
               <el-select v-model="getemplist.testMethod" placeholder="请选择校验方式" clearable style="width: 40%;float: left;margin-left: 20px">
                 <el-option value="1" label="自检"/>
                 <el-option value="2" label="别人检"/>

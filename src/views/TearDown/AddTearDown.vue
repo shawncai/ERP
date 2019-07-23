@@ -42,7 +42,7 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item label="合为一个单据" style="width: 100%;">
-                  <el-select v-model="personalForm.type" placeholder="请选择" style="margin-left: 18px;width: 200px" clearable >
+                  <el-select v-model="personalForm.type" placeholder="请选择" style="margin-left: 18px;width: 200px" >
                     <el-option value="1" label="是"/>
                     <el-option value="2" label="否"/>
                   </el-select>
@@ -56,15 +56,15 @@
       <el-card class="box-card" style="margin-top: 15px">
         <h2 ref="fuzhu" class="form-name">待拆装的商品</h2>
         <div class="buttons" style="margin-top: 58px">
-          <el-button type="success" style="background:#3696fd;border-color:#3696fd " @click="handleAddproduct">添加商品</el-button>
-          <el-button type="danger" @click="$refs.editable.removeSelecteds()">删除</el-button>
+          <el-button type="success" style="background:#3696fd;border-color:#3696fd " @click="handleAddproduct2">添加商品</el-button>
+          <el-button type="danger" @click="beyond2">删除</el-button>
           <el-button type="primary" @click="checkStock()">库存快照</el-button>
         </div>
-        <my-detail :control.sync="control" @product="productdetail"/>
+        <my-materials :materialcontrol.sync="materialcontrol" @product4="productdetail4"/>
         <div class="container">
           <el-editable
-            ref="editable"
-            :data.sync="list2"
+            ref="editable2"
+            :data.sync="list3"
             :edit-config="{ showIcon: true, showStatus: true}"
             :edit-rules="validRules"
             class="click-table1"
@@ -75,14 +75,25 @@
             @selection-change="handleSelectionChange">
             <el-editable-column type="selection" width="55" align="center"/>
             <el-editable-column label="编号" width="55" align="center" type="index"/>
-            <el-editable-column :edit-render="{type: 'default'}" prop="locationId" align="center" label="货位" width="200px">
-              <template slot-scope="scope">
-                <el-select v-model="scope.row.locationId" :value="scope.row.locationId" placeholder="请选择货位" filterable clearable style="width: 100%;" @visible-change="updatebatch($event,scope)">
+            <el-editable-column :edit-render="{type: 'visible'}" prop="locationId" align="center" label="货位" min-width="170px">
+              <template slot="edit" slot-scope="scope">
+                <el-select v-model="scope.row.locationCode" :value="scope.row.locationCode" placeholder="请选择货位" filterable clearable style="width: 100%;" @visible-change="updatebatch($event,scope)">
                   <el-option
                     v-for="(item, index) in locationlist"
                     :key="index"
-                    :value="item.id"
+                    :value="item.locationCode"
                     :label="item.locationCode"/>
+                </el-select>
+              </template>
+            </el-editable-column>
+            <el-editable-column :edit-render="{type: 'visible'}" prop="batch" align="center" label="批次" width="200px">
+              <template slot="edit" slot-scope="scope">
+                <el-select v-model="scope.row.batch" :value="scope.row.batch" placeholder="请选择批次" clearable style="width: 100%;" @visible-change="updatebatch2($event,scope)">
+                  <el-option
+                    v-for="(item, index) in batchlist"
+                    :key="index"
+                    :value="item"
+                    :label="item"/>
                 </el-select>
               </template>
             </el-editable-column>
@@ -91,7 +102,7 @@
             <el-editable-column prop="color" align="center" label="颜色" width="150px"/>
             <el-editable-column prop="typeIdname" align="center" label="规格" width="150px"/>
             <el-editable-column prop="unit" align="center" label="单位" width="150px"/>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', type: 'visible'}" prop="quantity" align="center" label="数量" width="150px"/>
+            <el-editable-column :edit-render="{name: 'ElInputNumber', type: 'visible', events: {change: beyond}}" prop="quantity" align="center" label="数量" width="150px"/>
             <el-editable-column prop="price" align="center" label="单价" width="150px"/>
             <el-editable-column prop="totalMoney" align="center" label="金额" width="150px">
               <template slot-scope="scope">
@@ -105,15 +116,11 @@
       <!--拆装后的商品      -->
       <el-card class="box-card" style="margin-top: 15px">
         <h2 ref="fuzhu" class="form-name">拆装后的商品</h2>
-        <div class="buttons" style="margin-top: 58px">
-          <el-button type="success" style="background:#3696fd;border-color:#3696fd " @click="handleAddproduct2">添加商品</el-button>
-          <el-button type="danger" @click="$refs.editable2.removeSelecteds()">删除</el-button>
-        </div>
         <my-bulid :buildcontrol.sync="buildcontrol" @product2="productdetail2"/>
         <div class="container">
           <el-editable
-            ref="editable2"
-            :data.sync="list3"
+            ref="editable"
+            :data.sync="list2"
             :edit-config="{ showIcon: true, showStatus: true}"
             :edit-rules="validRules"
             class="click-table1"
@@ -123,13 +130,13 @@
             style="width: 100%">
             <el-editable-column type="selection" width="55" align="center"/>
             <el-editable-column label="编号" width="55" align="center" type="index"/>
-            <el-editable-column :edit-render="{type: 'default'}" prop="locationId" align="center" label="货位" width="200px">
-              <template slot-scope="scope">
-                <el-select v-model="scope.row.locationId" :value="scope.row.locationId" placeholder="请选择货位" filterable clearable style="width: 100%;" @visible-change="updatebatch($event,scope)">
+            <el-editable-column :edit-render="{type: 'visible'}" prop="locationId" align="center" label="货位" min-width="170px">
+              <template slot="edit" slot-scope="scope">
+                <el-select v-model="scope.row.locationCode" :value="scope.row.locationCode" placeholder="请选择货位" filterable clearable style="width: 100%;" @visible-change="updatebatch4($event,scope)">
                   <el-option
                     v-for="(item, index) in locationlist"
                     :key="index"
-                    :value="item.id"
+                    :value="item.locationCode"
                     :label="item.locationCode"/>
                 </el-select>
               </template>
@@ -139,7 +146,7 @@
             <el-editable-column prop="color" align="center" label="颜色" width="150px"/>
             <el-editable-column prop="typeIdname" align="center" label="规格" width="150px"/>
             <el-editable-column prop="unit" align="center" label="单位" width="150px"/>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', type: 'visible'}" prop="quantity" align="center" label="数量" width="150px"/>
+            <el-editable-column prop="quantity" align="center" label="数量" width="150px"/>
             <el-editable-column prop="price" align="center" label="单价" width="150px"/>
             <el-editable-column prop="totalMoney" align="center" label="金额" width="150px">
               <template slot-scope="scope">
@@ -188,19 +195,36 @@
 </template>
 
 <script>
-import { getlocation, locationlist, countlist } from '@/api/public'
+import { getlocation, countlist, batchlist, locationlist } from '@/api/public'
 import { getdeptlist } from '@/api/BasicSettings'
+import { materialslist2 } from '@/api/MaterialsList'
 import { addteardown } from '@/api/TearDown'
 import MyRepository from './components/MyRepository'
 import MyAccept from './components/MyAccept'
 import MyDetail from './components/MyDetail'
 import MyCreate from './components/MyCreate'
 import MyBulid from './components/MyBulid'
+import MyMaterials from './components/MyMaterials'
 export default {
   name: 'AddTearDown',
-  components: { MyBulid, MyRepository, MyDetail, MyCreate, MyAccept },
+  components: { MyBulid, MyRepository, MyDetail, MyCreate, MyAccept, MyMaterials },
   data() {
+    const validatePass = (rule, value, callback) => {
+      if (this.handlePersonId === undefined || this.handlePersonId === null || this.handlePersonId === '') {
+        callback(new Error('请选择经办人'))
+      } else {
+        callback()
+      }
+    }
+    const validatePass2 = (rule, value, callback) => {
+      if (this.teardownRepositoryId === undefined || this.teardownRepositoryId === null || this.teardownRepositoryId === '') {
+        callback(new Error('请选择仓库'))
+      } else {
+        callback()
+      }
+    }
     return {
+      batchlist: [],
       // 部门数据
       depts: [],
       // 经办人回显
@@ -221,15 +245,16 @@ export default {
         countryId: this.$store.getters.countryId,
         repositoryId: this.$store.getters.repositoryId,
         regionId: this.$store.getters.regionId,
-        sourceType: '1'
+        sourceType: '1',
+        type: '1'
       },
       // 拆装单规则数据
       personalrules: {
         handlePersonId: [
-          { required: true, message: '请选择拆装人', trigger: 'focus' }
+          { required: true, validator: validatePass, trigger: 'change' }
         ],
         teardownRepositoryId: [
-          { required: true, message: '请选择拆装仓库', trigger: 'focus' }
+          { required: true, validator: validatePass2, trigger: 'change' }
         ]
       },
       // 拆装单明细数据
@@ -250,13 +275,173 @@ export default {
       receiptVisible2: false,
       list111: [],
       // 批量操作
-      moreaction: []
+      moreaction: [],
+      materialcontrol: false
     }
   },
   mounted() {
     this.getlist()
   },
   methods: {
+    productdetail4(val) {
+      console.log('33333333333', val)
+      const nowlistdata = this.$refs.editable2.getRecords()
+      for (let i = 0; i < val.length; i++) {
+        let m = 1
+        for (let j = 0; j < nowlistdata.length; j++) {
+          if (val[i].productCode === nowlistdata[j].productCode) {
+            m = 2
+          }
+        }
+        if (m === 1) {
+          this.$refs.editable2.insert(val[i])
+        }
+      }
+      this.setbeforeproduct()
+    },
+    updatebatch4(event, scope) {
+      console.log('我执行了')
+      this.locationlist = []
+      if (event === true) {
+        getlocation(this.personalForm.teardownRepositoryId, scope.row).then(res => {
+          if (res.data.ret === 200) {
+            console.log(res.data.data.content)
+            console.log(res.data.data.content.length)
+            if (res.data.data.content.length !== 0) {
+              this.locationlist = res.data.data.content
+            } else if (res.data.data.content.length === 0) {
+              getlocation(this.personalForm.teardownRepositoryId).then(res => {
+                if (res.data.ret === 200) {
+                  this.locationlist = res.data.data.content
+                }
+              })
+            }
+          }
+        })
+      }
+    },
+    updatebatch(event, scope) {
+      if (event === true) {
+        getlocation(this.personalForm.teardownRepositoryId, scope.row).then(res => {
+          if (res.data.ret === 200) {
+            this.locationlist = res.data.data.content
+            if (res.data.data.content.length !== 0) {
+              this.locationlist = res.data.data.content
+              scope.row.locationId = res.data.data.content[0].id
+            }
+          }
+        })
+      }
+    },
+    updatebatch3(scope) {
+      const parms3 = scope.row.productCode
+      batchlist(this.personalForm.countRepositoryId, parms3).then(res => {
+        this.batchlist = res.data.data.content
+      })
+    },
+    // 深拷贝
+    deepClone(obj) {
+      const _obj = JSON.stringify(obj)
+      const objClone = JSON.parse(_obj)
+      return objClone
+    },
+    beyond() {
+      this.$refs.editable.clear()
+      this.setbeforeproduct()
+    },
+    beyond2() {
+      this.$refs.editable2.removeSelecteds()
+      this.$refs.editable.clear()
+      this.setbeforeproduct()
+    },
+    // 设置待组装商品
+    async setbeforeproduct() {
+      console.log('error1')
+      this.$refs.editable.clear()
+      const edittabledata = this.$refs.editable2.getRecords()
+      if (edittabledata.length !== 0) {
+        const list = await Promise.all(edittabledata.map(item => {
+          return materialslist2(item.productCode)
+        }))
+        const newarr3 = list.map(item => {
+          return item.data.data.content.list
+        })
+        const bomproduct1 = [].concat.apply([], newarr3)
+
+        console.log('list', list)
+        console.log('bomproduct1-1', bomproduct1)
+        for (const i in edittabledata) {
+          for (const j in bomproduct1) {
+            if (edittabledata[i].productCode === bomproduct1[j].productCode) {
+              bomproduct1[j].quantity = edittabledata[i].quantity
+            }
+          }
+        }
+        console.log('bomproduct1', bomproduct1)
+
+        const newarr4 = bomproduct1.map(item => {
+          return item.materialsListDetailVos
+        })
+        const materialsListDetailVos = [].concat.apply([], newarr4)
+
+        for (const a in materialsListDetailVos) {
+          for (const b in bomproduct1) {
+            if (materialsListDetailVos[a].materialsId === bomproduct1[b].id) {
+              materialsListDetailVos[a].quantity = Number(materialsListDetailVos[a].quantity) * Number(bomproduct1[b].quantity)
+            }
+          }
+        }
+        for (const c in materialsListDetailVos) {
+          getlocation(this.personalForm.teardownRepositoryId, materialsListDetailVos[c].productCode).then(res => {
+            if (res.data.ret === 200) {
+              materialsListDetailVos[c].locationCode = res.data.data.content[0].locationCode
+              materialsListDetailVos[c].locationId = res.data.data.content[0].id
+              // materialsListDetailVos[c].price = 0
+              materialsListDetailVos[c].totalMoney = 0
+            }
+          })
+        }
+        console.log('materialsListDetailVos', materialsListDetailVos)
+        const materialsListDetailVos2 = this.deepClone(materialsListDetailVos)
+        for (const c in materialsListDetailVos2) {
+          getlocation(this.personalForm.teardownRepositoryId, materialsListDetailVos2[c].productCode).then(res => {
+            if (res.data.ret === 200) {
+              materialsListDetailVos2[c].locationCode = res.data.data.content[0].locationCode
+              materialsListDetailVos2[c].locationId = res.data.data.content[0].id
+              // materialsListDetailVos2[c].price = 0
+              materialsListDetailVos2[c].totalMoney = 0
+            }
+          })
+        }
+        const newArr = []
+        materialsListDetailVos2.forEach(el => {
+          const result = newArr.findIndex(ol => {
+            return el.productCode === ol.productCode
+          })
+          console.log('result', result)
+          if (result !== -1) {
+            newArr[result].quantity = newArr[result].quantity + el.quantity
+          } else {
+            newArr.push(el)
+          }
+        })
+        console.log('newArr', newArr)
+        // this.$refs.editable = newArr
+        console.log('error2')
+        for (let i = 0; i < newArr.length; i++) {
+          this.$refs.editable.insert(newArr[i])
+        }
+      }
+    },
+    updatebatch2(event, scope) {
+      if (event === true) {
+        const parms3 = scope.row.productCode
+        batchlist(this.personalForm.teardownRepositoryId, parms3).then(res => {
+          console.log(res)
+          this.batchlist = res.data.data.content
+        })
+      }
+    },
     checkStock(row) {
       console.log('this.moreaction.length', this.moreaction.length)
       if (this.moreaction.length > 1 || this.moreaction.length === 0) {
@@ -320,32 +505,6 @@ export default {
       //   }
       // })
     },
-    updatebatch(event, scope) {
-      if (event === true) {
-        console.log(this.personalForm.teardownRepositoryId)
-        if (this.personalForm.teardownRepositoryId === undefined || this.personalForm.teardownRepositoryId === '') {
-          this.$notify.error({
-            title: '错误',
-            message: '请先选择仓库',
-            offset: 100
-          })
-          return false
-        }
-        getlocation(this.personalForm.teardownRepositoryId, scope.row).then(res => {
-          if (res.data.ret === 200) {
-            if (res.data.data.content.length !== 0) {
-              this.locationlist = res.data.data.content
-            } else if (res.data.data.content.length === 0) {
-              locationlist(this.personalForm.teardownRepositoryId).then(res => {
-                if (res.data.ret === 200) {
-                  this.locationlist = res.data.data.content.list
-                }
-              })
-            }
-          }
-        })
-      }
-    },
     // 拆装单事件
     // 新增拆装单明细
     handleAddproduct() {
@@ -369,7 +528,17 @@ export default {
       }
     },
     handleAddproduct2() {
-      this.buildcontrol = true
+      // this.buildcontrol = true
+      if (this.personalForm.teardownRepositoryId === null || this.personalForm.teardownRepositoryId === undefined || this.personalForm.teardownRepositoryId === '') {
+        this.$notify.error({
+          title: '错误',
+          message: '请先选择仓库',
+          offset: 100
+        })
+        return false
+      } else {
+        this.materialcontrol = true
+      }
     },
     productdetail2(val) {
       console.log(val)
@@ -402,13 +571,15 @@ export default {
         createPersonId: this.$store.getters.userId,
         countryId: this.$store.getters.countryId,
         repositoryId: this.$store.getters.repositoryId,
-        regionId: this.$store.getters.regionId
+        regionId: this.$store.getters.regionId,
+        sourceType: '1',
+        type: '1'
       }
       this.teardownRepositoryId = ''
       this.handlePersonId = ''
     },
     // 保存操作
-    handlesave() {
+    async handlesave() {
       const EnterDetail = this.$refs.editable.getRecords()
       if (EnterDetail.length === 0) {
         this.$notify.error({
@@ -418,9 +589,20 @@ export default {
         })
         return false
       }
+      let i = 1
       EnterDetail.map(function(elem) {
         return elem
       }).forEach(function(elem) {
+        locationlist(null, elem.locationCode).then(res => {
+          if (res.data.ret === 200) {
+            elem.locationId = res.data.data.content.list[0].id
+            console.log('res.data.data.content.list[0].id', res.data.data.content.list[0].id)
+            console.log('elem.locationId', elem.locationId)
+          }
+        })
+        if (elem.locationCode === null || elem.locationCode === '' || elem.locationCode === undefined) {
+          i = 4
+        }
         if (elem.locationId === null || elem.locationId === '' || elem.locationId === undefined) {
           delete elem.locationId
         }
@@ -459,7 +641,60 @@ export default {
         }
         return elem
       })
+      if (i === 4) {
+        this.$notify.error({
+          title: '错误',
+          message: '组装后的商品货位不能为空',
+          offset: 100
+        })
+        return false
+      }
+      const list = await Promise.all(EnterDetail.map(function(item) {
+        return locationlist(null, item.locationCode)
+      }))
+
+      console.log('list', list)
+
+      const list2 = list.map(item => {
+        return item.data.data.content.list[0]
+      })
+      console.log('list2', list2)
+
+      for (const a in list2) {
+        for (const b in EnterDetail) {
+          if (list2[a].locationCode === EnterDetail[b].locationCode) {
+            EnterDetail[b].locationId = list2[a].id
+          }
+        }
+      }
+
       const EnterDetail2 = this.$refs.editable2.getRecords()
+      EnterDetail2.map(function(elem) {
+        return elem
+      }).forEach(function(elem) {
+        if (elem.locationCode === null || elem.locationCode === '' || elem.locationCode === undefined) {
+          i = 2
+        }
+        if (elem.batch === null || elem.batch === '' || elem.batch === undefined) {
+          i = 3
+        }
+      })
+      if (i === 2) {
+        this.$notify.error({
+          title: '错误',
+          message: '组装前的商品货位不能为空',
+          offset: 100
+        })
+        return false
+      }
+      if (i === 3) {
+        this.$notify.error({
+          title: '错误',
+          message: '组装前的商品批次不能为空',
+          offset: 100
+        })
+        return false
+      }
       if (EnterDetail2.length === 0) {
         this.$notify.error({
           title: '错误',
@@ -510,8 +745,8 @@ export default {
         return elem
       })
       const parms = JSON.stringify(this.personalForm)
-      const parms2 = JSON.stringify(EnterDetail)
-      const parms3 = JSON.stringify(EnterDetail2)
+      const parms2 = JSON.stringify(EnterDetail2)
+      const parms3 = JSON.stringify(EnterDetail)
       console.log(parms)
       console.log(parms2)
       console.log(parms3)
@@ -564,7 +799,7 @@ export default {
     // 取消操作
     handlecancel() {
       this.$router.go(-1)
-      const view = { path: '/TearDown/AddTearDown', name: 'AddTearDown', fullPath: '/TearDown/AddTearDown', title: 'AddTearDown' }
+      const view = { path: '/TearDown/TearDownList', name: 'TearDownList', fullPath: '/TearDown/TearDownList', title: 'TearDownList' }
       this.$store.dispatch('delView', view).then(({ visitedViews }) => {
       })
     }

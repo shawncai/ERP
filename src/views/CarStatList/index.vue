@@ -27,7 +27,7 @@
               v-model="visible2"
               placement="bottom"
               width="500"
-              trigger="manual">
+              trigger="click">
               <el-select v-model="getemplist.carType" :value="getemplist.carType" placeholder="车辆型号" clearable style="width: 40%;float: left;margin-left: 20px">
                 <el-option value="1" label="线下"/>
                 <el-option value="2" label="线上"/>

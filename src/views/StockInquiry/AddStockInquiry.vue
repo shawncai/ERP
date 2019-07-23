@@ -35,7 +35,7 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('StockInquiry.stockTypeId')" prop="stockTypeId" style="width: 100%;">
-                  <el-select v-model="personalForm.stockTypeId" :disabled="IsStockTypeId" style="margin-left: 18px;width: 200px" @focus="updatecountry">
+                  <el-select v-model="personalForm.stockTypeId" style="margin-left: 18px;width: 200px" @focus="updatecountry">
                     <el-option
                       v-for="(item, index) in types"
                       :key="index"
@@ -46,7 +46,7 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('StockInquiry.deptId')" prop="deptId" style="width: 100%;">
-                  <el-select v-model="personalForm.deptId" :disabled="IsDeptId" clearable style="margin-left: 18px;width: 200px">
+                  <el-select v-model="personalForm.deptId" clearable style="margin-left: 18px;width: 200px">
                     <el-option
                       v-for="(item, index) in depts"
                       :key="index"

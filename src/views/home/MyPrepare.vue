@@ -19,6 +19,29 @@
 
       <!--      第一大行开始-->
       <el-row :gutter="20" style="margin-top: 60px">
+        <el-col :span="12" style="height: 200px;">
+          <div style="width: 100%; height: 200px;margin-top: 20px;" >
+            <div style="width: 100%; height: 30px;background: #d9e0e8;" >
+              <div style="padding-top: 7px;float: left;margin-left: 20px">盘点任务</div>
+              <div style="padding-top: 7px;float: right;color: grey;margin-right: 20px;cursor: pointer" @click="handleReceipt99()">{{ $t('index.more') }}</div>
+            </div>
+            <div style="width: 100%; height: 220px;overflow: hidden;background: white;" >
+              <el-table
+                v-loading="listLoading"
+                :key="tableKey"
+                :data="list99"
+                :show-header="false"
+                style="width: 100%;"
+                @selection-change="handleSelectionChange">
+                <el-table-column :resizable="false" align="left" min-width="150">
+                  <template slot-scope="scope">
+                    <span @click="getlink(scope.row)"><router-link to="/InventoryCount/InventoryCountList">{{ scope.row.name }}</router-link></span>
+                  </template>
+                </el-table-column>
+              </el-table>
+            </div>
+          </div>
+        </el-col>
         <!--        我的待办-->
         <el-col :span="12" style="height: 200px;">
           <div style="width: 100%; height: 200px;margin-top: 20px;" >
@@ -43,6 +66,8 @@
             </div>
           </div>
         </el-col>
+      </el-row>
+      <el-row :gutter="20" style="margin-top: 60px">
         <el-col :span="12" style="height: 200px;">
           <div style="width: 100%; height: 200px;margin-top: 20px;" >
             <div style="width: 100%; height: 30px;background: #d9e0e8;" >
@@ -66,9 +91,9 @@
             </div>
           </div>
         </el-col>
-      </el-row>
+
       <!--      第二大行开始-->
-      <el-row :gutter="20" style="margin-top: 60px">
+
         <!--        我的待办-->
         <el-col :span="12" style="height: 200px;">
           <div style="width: 100%; height: 200px;margin-top: 20px;" >
@@ -93,6 +118,8 @@
             </div>
           </div>
         </el-col>
+      </el-row>
+      <el-row :gutter="20" style="margin-top: 60px">
         <el-col :span="12" style="height: 200px;">
           <div style="width: 100%; height: 200px;margin-top: 20px;" >
             <div style="width: 100%; height: 30px;background: #d9e0e8;" >
@@ -116,8 +143,8 @@
             </div>
           </div>
         </el-col>
-      </el-row>
-      <el-row :gutter="20" style="margin-top: 60px">
+
+
         <!--        我的待办-->
         <el-col :span="12" style="height: 200px;">
           <div style="width: 100%; height: 200px;margin-top: 20px;" >
@@ -142,6 +169,8 @@
             </div>
           </div>
         </el-col>
+      </el-row>
+      <el-row :gutter="20" style="margin-top: 60px">
         <el-col :span="12" style="height: 200px;">
           <div style="width: 100%; height: 200px;margin-top: 20px;" >
             <div style="width: 100%; height: 30px;background: #d9e0e8;" >
@@ -165,8 +194,8 @@
             </div>
           </div>
         </el-col>
-      </el-row>
-      <el-row :gutter="20" style="margin-top: 60px">
+
+
         <!--        我的待办-->
         <el-col :span="12" style="height: 200px;">
           <div style="width: 100%; height: 200px;margin-top: 20px;" >
@@ -191,6 +220,8 @@
             </div>
           </div>
         </el-col>
+      </el-row>
+      <el-row :gutter="20" style="margin-top: 60px">
         <el-col :span="12" style="height: 200px;">
           <div style="width: 100%; height: 200px;margin-top: 20px;" >
             <div style="width: 100%; height: 30px;background: #d9e0e8;" >
@@ -214,8 +245,8 @@
             </div>
           </div>
         </el-col>
-      </el-row>
-      <el-row :gutter="20" style="margin-top: 60px">
+
+
         <!--        我的待办-->
         <el-col :span="12" style="height: 200px;">
           <div style="width: 100%; height: 200px;margin-top: 20px;" >
@@ -240,6 +271,8 @@
             </div>
           </div>
         </el-col>
+      </el-row>
+      <el-row :gutter="20" style="margin-top: 60px">
         <el-col :span="12" style="height: 200px;">
           <div style="width: 100%; height: 200px;margin-top: 20px;" >
             <div style="width: 100%; height: 30px;background: #d9e0e8;" >
@@ -263,8 +296,7 @@
             </div>
           </div>
         </el-col>
-      </el-row>
-      <el-row :gutter="20" style="margin-top: 60px">
+
         <!--        我的待办-->
         <el-col :span="12" style="height: 200px;">
           <div style="width: 100%; height: 200px;margin-top: 20px;" >
@@ -289,6 +321,8 @@
             </div>
           </div>
         </el-col>
+      </el-row>
+      <el-row :gutter="20" style="margin-top: 60px">
         <el-col :span="12" style="height: 200px;">
           <div style="width: 100%; height: 200px;margin-top: 20px;" >
             <div style="width: 100%; height: 30px;background: #d9e0e8;" >
@@ -312,8 +346,7 @@
             </div>
           </div>
         </el-col>
-      </el-row>
-      <el-row :gutter="20" style="margin-top: 60px">
+
         <!--        我的待办-->
         <el-col :span="12" style="height: 200px;">
           <div style="width: 100%; height: 200px;margin-top: 20px;" >
@@ -538,6 +571,28 @@
           </el-form-item>
         </el-form>
       </el-dialog>
+      <el-dialog :visible.sync="receiptVisible99" title="盘点任务" class="normal" width="600px" center>
+        <el-form class="demo-ruleForm" style="margin: 0px 6%; width: 400px">
+          <el-form-item label-width="100px;" style="    width: 500px;">
+            <div style="width: 100%; height: 220px;overflow: hidden;background: white;" >
+              <el-table
+                v-loading="listLoading"
+                :key="tableKey"
+                :data="list99"
+                height="390"
+                :show-header="false"
+                style="width: 100%;"
+                @selection-change="handleSelectionChange">
+                <el-table-column :resizable="false" align="left" min-width="150">
+                  <template slot-scope="scope">
+                    <span @click="getlink(scope.row)"><router-link to="/InventoryCount/InventoryCountList">{{ scope.row.name }}</router-link></span>
+                  </template>
+                </el-table-column>
+              </el-table>
+            </div>
+          </el-form-item>
+        </el-form>
+      </el-dialog>
       <el-dialog :visible.sync="receiptVisible11" title="待出库" class="normal" width="600px" center>
         <el-form class="demo-ruleForm" style="margin: 0px 6%; width: 400px">
           <el-form-item label-width="100px;" style="    width: 500px;">
@@ -702,6 +757,7 @@
         receiptVisible7: false,
         receiptVisible8: false,
         receiptVisible9: false,
+        receiptVisible99: false,
         receiptVisible10: false,
         receiptVisible11: false,
         receiptVisible12: false,
@@ -761,6 +817,7 @@
         list11: [],
         list12: [],
         list13: [],
+        list99: [],
         applyList: [],
         // 表格数据条数
         total: 0,
@@ -801,6 +858,10 @@
       },
       handleReceipt2(row) {
         this.receiptVisible2 = true
+        console.log('row', row)
+      },
+      handleReceipt99(row) {
+        this.receiptVisible99 = true
         console.log('row', row)
       },
       handleReceipt3(row) {
@@ -1090,6 +1151,12 @@
             this.list8 = res.data.data.produceTaskVos.map(function (item) {
               return {
                 name: '你有采购计划单编号为'+item.taskNumber + '的事件请尽快处理',
+                createTime: item.createTime
+              }
+            })
+            this.list99 = res.data.data.inventoryCountVos.map(function (item) {
+              return {
+                name: '你有库存盘点单编号为'+item.countNumber + '的任务请尽快处理',
                 createTime: item.createTime
               }
             })

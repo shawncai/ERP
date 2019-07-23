@@ -150,141 +150,141 @@
         </div>
       </el-card>
       <!--子件信息-->
-      <el-card class="box-card" style="margin-top: 15px" shadow="never">
-        <h2 ref="fuzhu" class="form-name" >采购合同明细</h2>
-        <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
-          <el-button :disabled="addpro" @click="handleAddproduct">添加商品</el-button>
-          <my-detail :control.sync="control" @product="productdetail"/>
-          <el-button :disabled="addsouce" style="width: 130px" @click="handleAddSouce">从源单中选择</el-button>
-          <my-apply :applycontrol.sync="applycontrol" @apply="apply" @allapplyinfo="allapplyinfo"/>
-          <my-plan :plancontrol.sync="plancontrol" @plan="plan" @allPlaninfo="allPlaninfo"/>
-          <my-lnquiry :inquirycontrol.sync="inquirycontrol" @lnquiry="lnquiry" @allLnquirinfo="allLnquirinfo"/>
-          <el-button type="danger" @click="$refs.editable.removeSelecteds()">删除</el-button>
-          <el-button type="primary" @click="checkStock()">库存快照</el-button>
-        </div>
-        <div class="container">
-          <el-editable
-            ref="editable"
-            :data.sync="list2"
-            :edit-config="{ showIcon: true, showStatus: true}"
-            :edit-rules="validRules"
-            :summary-method="getSummaries"
-            class="click-table1"
-            show-summary
-            stripe
-            border
-            size="medium"
-            style="width: 100%"
-            @selection-change="handleSelectionChange">
-            <el-editable-column type="selection" min-width="55" align="center"/>
-            <el-editable-column label="序号" min-width="55" align="center" type="index"/>
-            <el-editable-column prop="productCode" align="center" label="物品编号" min-width="150px"/>
-            <el-editable-column prop="productName" align="center" label="物品名称" min-width="150px"/>
-            <el-editable-column prop="productType" align="center" label="规格" min-width="150px"/>
-            <el-editable-column prop="unit" align="center" label="单位" min-width="150px"/>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0, precision: 2}, type: 'visible'}" prop="plannedQuantity" align="center" label="采购数量" min-width="150px"/>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0, precision: 2}, type: 'visible'}" prop="price" align="center" label="单价" min-width="170px">
-              <template slot="edit" slot-scope="scope">
-                <el-input-number
-                  :precision="2"
-                  v-model="scope.row.price"
-                  @input="getprice(scope.row)"/>
-              </template>
-            </el-editable-column>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0, precision: 2}, type: 'visible'}" prop="includeTaxPrice" align="center" label="含税价" min-width="170px">
-              <template slot="edit" slot-scope="scope">
-                <el-input-number
-                  :precision="2"
-                  v-model="scope.row.includeTaxPrice"
-                  @input="getincludeTaxPrice(scope.row)"/>
-              </template>
-            </el-editable-column>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0, precision: 2}, type: 'visible'}" prop="taxRate" align="center" label="税率(%)" min-width="170px">
-              <template slot="edit" slot-scope="scope">
-                <el-input-number
-                  :precision="2"
-                  v-model="scope.row.taxRate"
-                  @input="gettaxRate(scope.row)"/>
-              </template>
-            </el-editable-column>
-            <el-editable-column prop="money" align="center" label="金额" min-width="150px">
-              <template slot-scope="scope">
-                <p>{{ getMoney(scope.row) }}</p>
-              </template>
-            </el-editable-column>
-            <el-editable-column prop="includeTaxMoney" align="center" label="含税金额" min-width="150px">
-              <template slot-scope="scope">
-                <p>{{ getTaxMoney(scope.row) }}</p>
-              </template>
-            </el-editable-column>
-            <el-editable-column prop="taxMoney" align="center" label="税额" min-width="150px">
-              <template slot-scope="scope">
-                <p>{{ getTaxMoney2(scope.row) }}</p>
-              </template>
-            </el-editable-column>
-            <el-editable-column :edit-render="{name: 'ElDatePicker', attrs: {type: 'date', format: 'yyyy-MM-dd'}, type: 'visible'}" prop="requireDate" align="center" label="交货日期" min-width="170px"/>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="discountRate" align="center" label="折扣(%)" min-width="170px">
-              <template slot="edit" slot-scope="scope">
-                <el-input-number
-                  :precision="2"
-                  v-model="scope.row.discountRate"
-                  @input="getdiscountRate(scope.row)"/>
-              </template>
-            </el-editable-column>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="discountMoney" align="center" label="折扣额" min-width="170px">
-              <template slot="edit" slot-scope="scope">
-                <el-input-number
-                  :precision="2"
-                  v-model="scope.row.discountMoney"
-                  @input="getdiscountMoney(scope.row)"/>
-              </template>
-            </el-editable-column>
-            <el-editable-column prop="remark" align="center" label="备注" min-width="150px"/>
-            <el-editable-column prop="sourceNumber" align="center" label="源单编号" min-width="150px"/>
-            <el-editable-column prop="sourceSerialNumber" align="center" label="源单序号" min-width="150px"/>
-            <el-editable-column prop="orderedQuantity" align="center" label="已订购数量" min-width="150px"/>
-          </el-editable>
-        </div>
-      </el-card>
-      <el-card class="box-card" shadow="never">
-        <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">合计信息</h2>
-        <div class="container" style="margin-top: 37px">
-          <el-form :inline="true" status-icon class="demo-ruleForm" label-width="130px">
-            <el-row>
-              <el-col :span="6">
-                <el-form-item label="采购数量合计" style="width: 100%;">
-                  <el-input v-model="allNumber" style="margin-left: 18px;width:200px" disabled/>
-                </el-form-item>
-              </el-col>
-              <el-col :span="6">
-                <el-form-item label="金额合计" style="width: 100%;">
-                  <el-input v-model="allMoney" style="margin-left: 18px;width:200px" disabled/>
-                </el-form-item>
-              </el-col>
-              <el-col :span="6">
-                <el-form-item label="税额合计" style="width: 100%;">
-                  <el-input v-model="allTaxMoney" style="margin-left: 18px;width:200px" disabled/>
-                </el-form-item>
-              </el-col>
-              <el-col :span="6">
-                <el-form-item label="含税金额合计" style="width: 100%;">
-                  <el-input v-model="allIncludeTaxMoney" style="margin-left: 18px;width:200px" disabled/>
-                </el-form-item>
-              </el-col>
-              <el-col :span="6">
-                <el-form-item label="整单折扣金额合计" style="width: 100%;">
-                  <el-input v-model="allDiscountMoney" style="margin-left: 18px;width:200px" disabled/>
-                </el-form-item>
-              </el-col>
-              <el-col :span="6">
-                <el-form-item label="折后含税金额合计" style="width: 100%;">
-                  <el-input v-model="allMoneyMoveDiscount" style="margin-left: 18px;width:200px" disabled/>
-                </el-form-item>
-              </el-col>
-            </el-row>
-          </el-form>
-        </div>
-      </el-card>
+      <!--      <el-card class="box-card" style="margin-top: 15px" shadow="never">-->
+      <!--        <h2 ref="fuzhu" class="form-name" >采购合同明细</h2>-->
+      <!--        <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">-->
+      <!--          <el-button :disabled="addpro" @click="handleAddproduct">添加商品</el-button>-->
+      <!--          <my-detail :control.sync="control" @product="productdetail"/>-->
+      <!--          <el-button :disabled="addsouce" style="width: 130px" @click="handleAddSouce">从源单中选择</el-button>-->
+      <!--          <my-apply :applycontrol.sync="applycontrol" @apply="apply" @allapplyinfo="allapplyinfo"/>-->
+      <!--          <my-plan :plancontrol.sync="plancontrol" @plan="plan" @allPlaninfo="allPlaninfo"/>-->
+      <!--          <my-lnquiry :inquirycontrol.sync="inquirycontrol" @lnquiry="lnquiry" @allLnquirinfo="allLnquirinfo"/>-->
+      <!--          <el-button type="danger" @click="$refs.editable.removeSelecteds()">删除</el-button>-->
+      <!--          <el-button type="primary" @click="checkStock()">库存快照</el-button>-->
+      <!--        </div>-->
+      <!--        <div class="container">-->
+      <!--          <el-editable-->
+      <!--            ref="editable"-->
+      <!--            :data.sync="list2"-->
+      <!--            :edit-config="{ showIcon: true, showStatus: true}"-->
+      <!--            :edit-rules="validRules"-->
+      <!--            :summary-method="getSummaries"-->
+      <!--            class="click-table1"-->
+      <!--            show-summary-->
+      <!--            stripe-->
+      <!--            border-->
+      <!--            size="medium"-->
+      <!--            style="width: 100%"-->
+      <!--            @selection-change="handleSelectionChange">-->
+      <!--            <el-editable-column type="selection" min-width="55" align="center"/>-->
+      <!--            <el-editable-column label="序号" min-width="55" align="center" type="index"/>-->
+      <!--            <el-editable-column prop="productCode" align="center" label="物品编号" min-width="150px"/>-->
+      <!--            <el-editable-column prop="productName" align="center" label="物品名称" min-width="150px"/>-->
+      <!--            <el-editable-column prop="productType" align="center" label="规格" min-width="150px"/>-->
+      <!--            <el-editable-column prop="unit" align="center" label="单位" min-width="150px"/>-->
+      <!--            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0, precision: 2}, type: 'visible'}" prop="plannedQuantity" align="center" label="采购数量" min-width="150px"/>-->
+      <!--            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0, precision: 2}, type: 'visible'}" prop="price" align="center" label="单价" min-width="170px">-->
+      <!--              <template slot="edit" slot-scope="scope">-->
+      <!--                <el-input-number-->
+      <!--                  :precision="2"-->
+      <!--                  v-model="scope.row.price"-->
+      <!--                  @input="getprice(scope.row)"/>-->
+      <!--              </template>-->
+      <!--            </el-editable-column>-->
+      <!--            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0, precision: 2}, type: 'visible'}" prop="includeTaxPrice" align="center" label="含税价" min-width="170px">-->
+      <!--              <template slot="edit" slot-scope="scope">-->
+      <!--                <el-input-number-->
+      <!--                  :precision="2"-->
+      <!--                  v-model="scope.row.includeTaxPrice"-->
+      <!--                  @input="getincludeTaxPrice(scope.row)"/>-->
+      <!--              </template>-->
+      <!--            </el-editable-column>-->
+      <!--            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0, precision: 2}, type: 'visible'}" prop="taxRate" align="center" label="税率(%)" min-width="170px">-->
+      <!--              <template slot="edit" slot-scope="scope">-->
+      <!--                <el-input-number-->
+      <!--                  :precision="2"-->
+      <!--                  v-model="scope.row.taxRate"-->
+      <!--                  @input="gettaxRate(scope.row)"/>-->
+      <!--              </template>-->
+      <!--            </el-editable-column>-->
+      <!--            <el-editable-column prop="money" align="center" label="金额" min-width="150px">-->
+      <!--              <template slot-scope="scope">-->
+      <!--                <p>{{ getMoney(scope.row) }}</p>-->
+      <!--              </template>-->
+      <!--            </el-editable-column>-->
+      <!--            <el-editable-column prop="includeTaxMoney" align="center" label="含税金额" min-width="150px">-->
+      <!--              <template slot-scope="scope">-->
+      <!--                <p>{{ getTaxMoney(scope.row) }}</p>-->
+      <!--              </template>-->
+      <!--            </el-editable-column>-->
+      <!--            <el-editable-column prop="taxMoney" align="center" label="税额" min-width="150px">-->
+      <!--              <template slot-scope="scope">-->
+      <!--                <p>{{ getTaxMoney2(scope.row) }}</p>-->
+      <!--              </template>-->
+      <!--            </el-editable-column>-->
+      <!--            <el-editable-column :edit-render="{name: 'ElDatePicker', attrs: {type: 'date', format: 'yyyy-MM-dd'}, type: 'visible'}" prop="requireDate" align="center" label="交货日期" min-width="170px"/>-->
+      <!--            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="discountRate" align="center" label="折扣(%)" min-width="170px">-->
+      <!--              <template slot="edit" slot-scope="scope">-->
+      <!--                <el-input-number-->
+      <!--                  :precision="2"-->
+      <!--                  v-model="scope.row.discountRate"-->
+      <!--                  @input="getdiscountRate(scope.row)"/>-->
+      <!--              </template>-->
+      <!--            </el-editable-column>-->
+      <!--            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="discountMoney" align="center" label="折扣额" min-width="170px">-->
+      <!--              <template slot="edit" slot-scope="scope">-->
+      <!--                <el-input-number-->
+      <!--                  :precision="2"-->
+      <!--                  v-model="scope.row.discountMoney"-->
+      <!--                  @input="getdiscountMoney(scope.row)"/>-->
+      <!--              </template>-->
+      <!--            </el-editable-column>-->
+      <!--            <el-editable-column prop="remark" align="center" label="备注" min-width="150px"/>-->
+      <!--            <el-editable-column prop="sourceNumber" align="center" label="源单编号" min-width="150px"/>-->
+      <!--            <el-editable-column prop="sourceSerialNumber" align="center" label="源单序号" min-width="150px"/>-->
+      <!--            <el-editable-column prop="orderedQuantity" align="center" label="已订购数量" min-width="150px"/>-->
+      <!--          </el-editable>-->
+      <!--        </div>-->
+      <!--      </el-card>-->
+      <!--      <el-card class="box-card" shadow="never">-->
+      <!--        <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">合计信息</h2>-->
+      <!--        <div class="container" style="margin-top: 37px">-->
+      <!--          <el-form :inline="true" status-icon class="demo-ruleForm" label-width="130px">-->
+      <!--            <el-row>-->
+      <!--              <el-col :span="6">-->
+      <!--                <el-form-item label="采购数量合计" style="width: 100%;">-->
+      <!--                  <el-input v-model="allNumber" style="margin-left: 18px;width:200px" disabled/>-->
+      <!--                </el-form-item>-->
+      <!--              </el-col>-->
+      <!--              <el-col :span="6">-->
+      <!--                <el-form-item label="金额合计" style="width: 100%;">-->
+      <!--                  <el-input v-model="allMoney" style="margin-left: 18px;width:200px" disabled/>-->
+      <!--                </el-form-item>-->
+      <!--              </el-col>-->
+      <!--              <el-col :span="6">-->
+      <!--                <el-form-item label="税额合计" style="width: 100%;">-->
+      <!--                  <el-input v-model="allTaxMoney" style="margin-left: 18px;width:200px" disabled/>-->
+      <!--                </el-form-item>-->
+      <!--              </el-col>-->
+      <!--              <el-col :span="6">-->
+      <!--                <el-form-item label="含税金额合计" style="width: 100%;">-->
+      <!--                  <el-input v-model="allIncludeTaxMoney" style="margin-left: 18px;width:200px" disabled/>-->
+      <!--                </el-form-item>-->
+      <!--              </el-col>-->
+      <!--              <el-col :span="6">-->
+      <!--                <el-form-item label="整单折扣金额合计" style="width: 100%;">-->
+      <!--                  <el-input v-model="allDiscountMoney" style="margin-left: 18px;width:200px" disabled/>-->
+      <!--                </el-form-item>-->
+      <!--              </el-col>-->
+      <!--              <el-col :span="6">-->
+      <!--                <el-form-item label="折后含税金额合计" style="width: 100%;">-->
+      <!--                  <el-input v-model="allMoneyMoveDiscount" style="margin-left: 18px;width:200px" disabled/>-->
+      <!--                </el-form-item>-->
+      <!--              </el-col>-->
+      <!--            </el-row>-->
+      <!--          </el-form>-->
+      <!--        </div>-->
+      <!--      </el-card>-->
       <!--操作-->
       <div class="buttons" style="margin-top: 20px">
         <el-button type="primary" style="background:#3696fd;border-color:#3696fd;width: 98px" @click="handlesave()">保存</el-button>

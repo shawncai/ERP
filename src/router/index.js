@@ -2321,6 +2321,33 @@ export const asyncRouterMap = [
     ]
   },
   {
+    path: '/CustomerSurveyReport',
+    component: Layout,
+    redirect: 'noredirect',
+    name: 'CustomerSurveyReport',
+    alwaysShow: true,
+    meta: {
+      title: 'CustomerSurveyReport',
+      icon: 'fenqi',
+      type: 6,
+      roles: ['200-211-4', '200-212-1']
+    },
+    children: [
+      {
+        path: 'AddCustomerSurveyReport',
+        component: () => import('@/views/CustomerSurveyReport/AddCustomerSurveyReport'),
+        name: 'AddCustomerSurveyReport',
+        meta: { title: 'AddCustomerSurveyReport', noCache: false, roles: ['200-212-1'] }
+      },
+      {
+        path: 'CustomerSurveyReportList',
+        component: () => import('@/views/CustomerSurveyReport/CustomerSurveyReportList'),
+        name: 'CustomerSurveyReportList',
+        meta: { title: 'CustomerSurveyReportList', noCache: true, roles: ['200-211-4'] }
+      }
+    ]
+  },
+  {
     path: '/InstallmentList',
     component: Layout,
     redirect: 'noredirect',
@@ -2489,6 +2516,32 @@ export const asyncRouterMap = [
         component: () => import('@/views/Receipt/ReceiptList'),
         name: 'ReceiptList',
         meta: { title: 'ReceiptList', noCache: true, roles: ['200-213-1', '200-213-2', '200-213-3', '200-213-4', '200-213-5', '200-213-6', '200-213-7', '200-213-16'] }
+      }
+    ]
+  },
+  {
+    path: '/Coupon',
+    component: Layout,
+    redirect: 'noredirect',
+    name: 'Coupon',
+    alwaysShow: true,
+    meta: {
+      title: 'Coupon',
+      icon: 'kehuyingxiao',
+      type: 5
+    },
+    children: [
+      {
+        path: 'AddCoupon',
+        component: () => import('@/views/Coupon/AddCoupon'),
+        name: 'AddCoupon',
+        meta: { title: 'AddCoupon', noCache: false }
+      },
+      {
+        path: 'CouponList',
+        component: () => import('@/views/Coupon/CouponList'),
+        name: 'CouponList',
+        meta: { title: 'CouponList', noCache: true }
       }
     ]
   },

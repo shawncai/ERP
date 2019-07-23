@@ -138,7 +138,7 @@
 </template>
 
 <script>
-import { searchMea, deletemea, createmea, updatemea } from '@/api/BasicSettings'
+import { searchMea2, deletemea, createmea, updatemea } from '@/api/BasicSettings'
 import permission from '@/directive/permission/index.js' // 权限判断指令
 import checkPermission from '@/utils/permission' // 权限判断函数
 import waves from '@/directive/waves' // Waves directive
@@ -260,10 +260,11 @@ export default {
     getlist() {
       // 计量单位数据
       this.listLoading = true
-      searchMea(this.getemplist).then(res => {
+      searchMea2(this.getemplist).then(res => {
+        console.log(res)
         if (res.data.ret === 200) {
-          this.list = res.data.data.content
-          this.total = res.data.data.content.length
+          this.list = res.data.data.content.list
+          this.total = res.data.data.content.totalCount
         }
         setTimeout(() => {
           this.listLoading = false
@@ -272,7 +273,7 @@ export default {
     },
     // 搜索
     handleFilter() {
-      searchMea(this.getemplist).then(res => {
+      searchMea2(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content
           this.total = res.data.data.content.length

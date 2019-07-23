@@ -19,8 +19,8 @@
             <span slot-scope="{ node, data }" class="custom-tree-node">
               <span>{{ node.label }}  ({{ data.id }})</span>
               <span v-if="data.parentId !== 0" style="margin-left: 50px">
-                <i class="el-icon-edit" @click="edittree(data)"/>
-                <i class="el-icon-delete" @click="nodedelete(data)"/>
+                <i class="el-icon-edit" @click="edittree(data,node)"/>
+                <i class="el-icon-delete" @click="nodedelete(data,node)"/>
               </span>
             </span>
           </el-tree>
@@ -52,23 +52,23 @@
             <el-row>
               <el-col :span="24" style="margin-top: 20px">
                 <el-form-item :label="$t('Product.name')" prop="name">
-                  <el-input v-model="personalForm.name" placeholder="请输入分类名称" style="margin-left: 18px;width: 600px" clearable/>
+                  <el-input v-model="personalForm.name" :disabled="nodata" placeholder="请输入分类名称" style="margin-left: 18px;width: 600px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col v-show="tishi === true" :span="24" style="margin-top: 20px">
                 <span v-if="tishi === true" style="float: left;color: red;margin-top: -23px;margin-left: 223px;">请输入{{ weishu }}编码</span>
                 <el-form-item :label="$t('Product.code2')" prop="code">
-                  <el-input v-model="personalForm.code" placeholder="编码" style="margin-left: 18px;width: 600px" clearable @blur="zhengze"/>
+                  <el-input v-model="personalForm.code" :disabled="nodata" placeholder="编码" style="margin-left: 18px;width: 600px" clearable @blur="zhengze"/>
                 </el-form-item>
               </el-col>
               <el-col :span="24" style="margin-top: 20px">
                 <el-form-item :label="$t('Product.parentId')">
-                  <el-input v-model="parentId" placeholder="所属父级" style="margin-left: 18px;width: 600px" clearable @focus="handlechoose"/>
+                  <el-input v-model="parentId" :disabled="true" placeholder="所属父级" style="margin-left: 18px;width: 600px" clearable @focus="handlechoose"/>
                 </el-form-item>
               </el-col>
               <el-col :span="24" style="margin-top: 20px">
                 <el-form-item :label="$t('Product.isActive')" prop="isActive">
-                  <el-radio-group v-model="personalForm.isActive" style="width: 600px">
+                  <el-radio-group v-model="personalForm.isActive" :disabled="nodata" style="width: 600px">
                     <el-radio :label="1" style="width: 400px;margin-left: 25px">启用</el-radio>
                     <el-radio :label="2">禁用</el-radio>
                   </el-radio-group>
@@ -93,6 +93,12 @@ export default {
   name: 'AddInitialenter',
   data() {
     return {
+      nodata: false,
+      newnode: '',
+      // 新增data
+      newdata2: '',
+      // 新增data
+      newdata: '',
       // 判断位数
       Iscode: '',
       // 位数提示
@@ -157,7 +163,7 @@ export default {
       }
     },
     // 删除操作
-    nodedelete(data) {
+    nodedelete(data, node) {
       this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
@@ -170,7 +176,13 @@ export default {
               type: 'success',
               offset: 100
             })
-            this.gettree()
+            // this.gettree()
+            console.log('node', node)
+            console.log('data', data)
+            const parent = node.parent
+            const children = parent.data.productClassfyVos
+            const index = children.findIndex(d => d.id === data.id)
+            children.splice(index, 1)
           } else {
             this.$notify.error({
               title: '错误',
@@ -188,7 +200,7 @@ export default {
     },
     // 确认修改
     handleOk() {
-      console.log(this.edittreeform)
+      console.log('this.edittreeform', this.edittreeform)
       updateeclassfy(this.edittreeform).then(res => {
         if (res.data.ret === 200) {
           this.$notify({
@@ -198,14 +210,23 @@ export default {
             offset: 100
           })
           this.editVisible = false
-          this.gettree()
+          // this.gettree()
+          console.log('this.newnode', this.newnode)
+          const parent = this.newnode.parent
+          const children = parent.data.productClassfyVos
+          const index = children.findIndex(d => d.id === this.newdata2.id)
+          const myob = children[index]
+          myob.categoryName = this.edittreeform.categoryName
+          myob.isActive = this.edittreeform.isActive
         }
       })
     },
     // 修改节点
-    edittree(data) {
+    edittree(data, node) {
       console.log(data)
       this.editVisible = true
+      this.newnode = node
+      this.newdata2 = data
       this.edittreeform = Object.assign({}, data)
     },
     // 递归函数
@@ -218,10 +239,18 @@ export default {
     },
     // 选择节点操作
     handleNodeClick(data, node) {
+      console.log('data', data)
+      this.nodata = false
+      const ceshidigui = this.recursion(node)
+      if (node.parent.data.code === '01' || (data.level === 4 && ceshidigui.code === '02') || (data.level === 3 && ceshidigui.code === '03')) {
+        this.tishi = false
+        this.nodata = true
+        return false
+      }
+      this.newdata = data
       this.personalForm.parentId = data.id
       this.parentId = data.categoryName
       this.personalForm.levle = data.level + 1
-      const ceshidigui = this.recursion(node)
       this.Iscode = ceshidigui.code
       console.log('ceshidigui', ceshidigui)
       console.log('data', data)
@@ -266,6 +295,14 @@ export default {
     // 保存操作
     handlesave() {
       console.log(this.personalForm)
+      if (this.personalForm.parentId === 0 || this.personalForm.parentId === '0' || this.personalForm.parentId === null || this.personalForm.parentId === undefined) {
+        this.$notify.error({
+          title: '错误',
+          message: '请选择父级',
+          offset: 100
+        })
+        return false
+      }
       this.$refs.personalForm.validate((valid) => {
         if (valid) {
           createclassfy(this.personalForm).then(res => {
@@ -280,7 +317,12 @@ export default {
               this.restAllForm()
               this.$refs.personalForm.clearValidate()
               this.$refs.personalForm.resetFields()
-              this.gettree()
+              console.log(res.data.data.content)
+              const newChild = res.data.data.content
+              if (!this.newdata.productClassfyVos) {
+                this.$set(this.newdata, 'productClassfyVos', [])
+              }
+              this.newdata.productClassfyVos.push(newChild)
             } else {
               this.$notify.error({
                 title: '错误',

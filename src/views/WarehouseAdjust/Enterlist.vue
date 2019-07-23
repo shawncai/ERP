@@ -31,7 +31,7 @@
               v-model="visible2"
               placement="bottom"
               width="500"
-              trigger="manual">
+              trigger="click">
               <el-input v-model="enterPersonId" :placeholder="$t('WarehouseAdjust.enterPersonId')" class="filter-item" clearable @keyup.enter.native="handleFilter" @focus="handlechooseDelivery"/>
               <my-delivery :deliverycontrol.sync="deliverycontrol" @deliveryName="deliveryName"/>
               <el-date-picker

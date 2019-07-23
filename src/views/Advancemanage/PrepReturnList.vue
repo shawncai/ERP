@@ -24,7 +24,7 @@
               v-model="visible2"
               placement="bottom"
               width="500"
-              trigger="manual">
+              trigger="click">
               <el-input v-model="customerName" :placeholder="$t('Advancemanage.customerName')" style="width: 40%;float: left;margin-left: 20px;" clearable @focus="chooseCustomer"/>
               <my-customer :customercontrol.sync="customercontrol" @customerdata="customerdata"/>
               <my-agent :agentcontrol.sync="agentcontrol" @agentdata="agentdata"/>

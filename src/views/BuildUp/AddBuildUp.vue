@@ -42,7 +42,7 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item label="合为一个单据" style="width: 100%;">
-                  <el-select v-model="personalForm.type" placeholder="请选择" style="margin-left: 18px;width: 200px" clearable >
+                  <el-select v-model="personalForm.type" placeholder="请选择" style="margin-left: 18px;width: 200px" >
                     <el-option value="1" label="是"/>
                     <el-option value="2" label="否"/>
                   </el-select>
@@ -55,11 +55,6 @@
       <!--组装单明细-->
       <el-card class="box-card" style="margin-top: 15px">
         <h2 ref="fuzhu" class="form-name">待组装的商品</h2>
-        <!--        <div class="buttons" style="margin-top: 58px">-->
-        <!--          <el-button type="success" style="background:#3696fd;border-color:#3696fd " @click="handleAddproduct">添加商品</el-button>-->
-        <!--          <el-button type="danger" @click="$refs.editable.removeSelecteds()">删除</el-button>-->
-        <!--        </div>-->
-        <!--        <my-detail :control.sync="control" @product="productdetail"/>-->
         <div class="container">
           <el-editable
             ref="editable"
@@ -71,19 +66,7 @@
             border
             size="medium"
             style="width: 100%">
-            <!--            <el-editable-column type="selection" width="55" align="center"/>-->
             <el-editable-column label="编号" width="55" align="center" type="index"/>
-            <!--            <el-editable-column :edit-render="{name: 'ElSelect',type: 'default'}" prop="locationCode" align="center" label="货位" width="200px">-->
-            <!--              <template slot-scope="scope">-->
-            <!--                <el-select v-model="scope.row.locationCode" :value="scope.row.locationCode" placeholder="请选择货位" clearable style="width: 100%;" @focus="updatebatch(scope)">-->
-            <!--                  <el-option-->
-            <!--                    v-for="(item, index) in locationlist"-->
-            <!--                    :key="index"-->
-            <!--                    :value="item.locationCode"-->
-            <!--                    :label="item.locationCode"/>-->
-            <!--                </el-select>-->
-            <!--              </template>-->
-            <!--            </el-editable-column>-->
             <el-editable-column :edit-render="{type: 'visible'}" prop="locationId" align="center" label="货位" min-width="170px">
               <template slot="edit" slot-scope="scope">
                 <el-select v-model="scope.row.locationCode" :value="scope.row.locationCode" placeholder="请选择货位" filterable clearable style="width: 100%;" @visible-change="updatebatch($event,scope)">
@@ -95,17 +78,6 @@
                 </el-select>
               </template>
             </el-editable-column>
-            <!--            <el-editable-column :edit-render="{name: 'ElSelect',type: 'default'}" prop="batch" align="center" label="批次" width="200px">-->
-            <!--              <template slot-scope="scope">-->
-            <!--                <el-select v-model="scope.row.batch" :value="scope.row.batch" placeholder="请选择批次" clearable style="width: 100%;" @visible-change="updatebatch2($event,scope)">-->
-            <!--                  <el-option-->
-            <!--                    v-for="(item, index) in batchlist"-->
-            <!--                    :key="index"-->
-            <!--                    :value="item"-->
-            <!--                    :label="item"/>-->
-            <!--                </el-select>-->
-            <!--              </template>-->
-            <!--            </el-editable-column>-->
             <el-editable-column :edit-render="{type: 'visible'}" prop="batch" align="center" label="批次" width="200px">
               <template slot="edit" slot-scope="scope">
                 <el-select v-model="scope.row.batch" :value="scope.row.batch" placeholder="请选择批次" clearable style="width: 100%;" @visible-change="updatebatch2($event,scope)">
@@ -122,7 +94,6 @@
             <el-editable-column prop="color" align="center" label="颜色" width="150px"/>
             <el-editable-column prop="typeIdname" align="center" label="规格" width="150px"/>
             <el-editable-column prop="unit" align="center" label="单位" width="150px"/>
-            <!--            <el-editable-column :edit-render="{name: 'ElInputNumber', type: 'visible'}" prop="quantity" align="center" label="数量" width="150px"/>-->
             <el-editable-column prop="quantity" align="center" label="数量" width="150px"/>
             <el-editable-column prop="price" align="center" label="单价" width="150px"/>
             <el-editable-column prop="totalMoney" align="center" label="金额" width="150px">
@@ -169,18 +140,7 @@
                 </el-select>
               </template>
             </el-editable-column>
-            <!--            <el-editable-column :edit-render="{name: 'ElSelect',type: 'default'}" prop="locationCode" align="center" label="货位" width="200px">-->
-            <!--              <template slot-scope="scope">-->
-            <!--                <el-select v-model="scope.row.locationCode" :value="scope.row.locationCode" placeholder="请选择货位" clearable style="width: 100%;" @visible-change="updatebatch4($event,scope)">-->
-            <!--                  <el-option-->
-            <!--                    v-for="(item, index) in locationlist"-->
-            <!--                    :key="index"-->
-            <!--                    :value="item.locationCode"-->
-            <!--                    :label="item.locationCode"/>-->
-            <!--                </el-select>-->
-            <!--              </template>-->
-            <!--            </el-editable-column>-->
-            <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" align="center" label="批次" width="150px"/>
+            <!--            <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" align="center" label="批次" width="150px"/>-->
             <el-editable-column prop="productCode" align="center" label="物品编号" width="150px"/>
             <el-editable-column prop="productName" align="center" label="物品名称" width="150px"/>
             <el-editable-column prop="color" align="center" label="颜色" width="150px"/>
@@ -250,28 +210,6 @@ export default {
   name: 'AddBuildUp',
   components: { MyBulid, MyRepository, MyDetail, MyCreate, MyAccept, MyMaterials },
   data() {
-    // const validatePass3 = (rule, value, callback) => {
-    //   if (value === undefined || value === null || value === '') {
-    //     this.$notify.error({
-    //       title: '错误',
-    //       message: '货位不能为空',
-    //       offset: 100
-    //     })
-    //   } else {
-    //     callback()
-    //   }
-    // }
-    // const validatePass4 = (rule, value, callback) => {
-    //   if (value === undefined || value === null || value === '') {
-    //     this.$notify.error({
-    //       title: '错误',
-    //       message: '批次不能为空',
-    //       offset: 100
-    //     })
-    //   } else {
-    //     callback()
-    //   }
-    // }
     const validatePass = (rule, value, callback) => {
       if (this.personalForm.handlePersonId === undefined || this.personalForm.handlePersonId === null || this.personalForm.handlePersonId === '') {
         callback(new Error('请选择经办人'))
@@ -312,17 +250,8 @@ export default {
         type: '1'
       },
       validRules: {
-        // locationCode: [
-        //   { required: true, validator: validatePass3, trigger: 'change' }
-        // ],
-        // batch: [
-        //   { required: true, validator: validatePass4, trigger: 'change' }
-        // ]
       },
       validRules2: {
-        // locationCode: [
-        //   { required: true, validator: validatePass3, trigger: 'change' }
-        // ]
       },
       // 组装单规则数据
       personalrules: {
@@ -561,6 +490,7 @@ export default {
       if (event === true) {
         getlocation(this.personalForm.buildupRepositoryId, scope.row).then(res => {
           if (res.data.ret === 200) {
+            this.locationlist = res.data.data.content
             if (res.data.data.content.length !== 0) {
               this.locationlist = res.data.data.content
               scope.row.locationId = res.data.data.content[0].id
@@ -569,19 +499,6 @@ export default {
         })
       }
     },
-    // updatebatch(scope) {
-    //   // if (event === true) {
-    //   console.log(999999)
-    //   getlocation(this.personalForm.buildupRepositoryId, scope.row).then(res => {
-    //     console.log('res', res)
-    //     if (res.data.ret === 200) {
-    //       console.log('res.data.data.content.length', res.data.data.content.length)
-    //       this.locationlist = res.data.data.content
-    //       scope.row.locationId = res.data.data.content[0].id
-    //       return scope.row.locationCode
-    //     }
-    //   })
-    // },
     updatebatch3(scope) {
       const parms3 = scope.row.productCode
       batchlist(this.personalForm.countRepositoryId, parms3).then(res => {
@@ -627,17 +544,15 @@ export default {
       console.log('33333333333', val)
       const nowlistdata = this.$refs.editable2.getRecords()
       for (let i = 0; i < val.length; i++) {
+        let m = 1
         for (let j = 0; j < nowlistdata.length; j++) {
           if (val[i].productCode === nowlistdata[j].productCode) {
-            this.$notify.error({
-              title: '错误',
-              message: '物品已添加',
-              offset: 100
-            })
-            return false
+            m = 2
           }
         }
-        this.$refs.editable2.insert(val[i])
+        if (m === 1) {
+          this.$refs.editable2.insert(val[i])
+        }
       }
       this.setbeforeproduct()
     },
@@ -673,7 +588,9 @@ export default {
         createPersonId: this.$store.getters.userId,
         countryId: this.$store.getters.countryId,
         repositoryId: this.$store.getters.repositoryId,
-        regionId: this.$store.getters.regionId
+        regionId: this.$store.getters.regionId,
+        sourceType: '1',
+        type: '1'
       }
       this.buildupRepositoryId = ''
       this.handlePersonId = ''
@@ -750,13 +667,6 @@ export default {
           i = 3
         }
       })
-      // EnterDetail2.map(function(elem) {
-      //   return elem
-      // }).forEach(function(elem) {
-      //   if (elem.locationCode === null || elem.locationCode === '' || elem.locationCode === undefined) {
-      //     i = 4
-      //   }
-      // })
       console.log(i)
       if (i === 2) {
         this.$notify.error({
@@ -919,7 +829,7 @@ export default {
     // 取消操作
     handlecancel() {
       this.$router.go(-1)
-      const view = { path: '/BuildUp/NewBuildUp', name: 'NewBuildUp', fullPath: '/BuildUp/NewBuildUp', title: 'NewBuildUp' }
+      const view = { path: '/BuildUp/BuildUpList', name: 'BuildUpList', fullPath: '/BuildUp/BuildUpList', title: 'BuildUpList' }
       this.$store.dispatch('delView', view).then(({ visitedViews }) => {
       })
     }

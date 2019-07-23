@@ -25,7 +25,7 @@
               v-model="visible2"
               placement="bottom"
               width="500"
-              trigger="manual">
+              trigger="click">
               <el-select v-model="getemplist.closeType" placeholder="结算方式" clearable style="width: 40%;float: left;margin-left: 20px">
                 <el-option
                   v-for="(item, index) in colseTypes"

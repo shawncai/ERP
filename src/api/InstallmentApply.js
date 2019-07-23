@@ -21,6 +21,9 @@ export function addinstallmentapply(query, query2, query4) {
 // 分期申请列表
 export function applylist(query) {
   var params = new URLSearchParams()
+  if (query.inquirePersonId !== '' && query.inquirePersonId !== null && query.inquirePersonId !== undefined) {
+    params.append('inquirePersonId', query.inquirePersonId) // 你要传给后台的参数值 key/value
+  }
   if (query.title !== '' && query.title !== null && query.title !== undefined) {
     params.append('title', query.title) // 你要传给后台的参数值 key/value
   }

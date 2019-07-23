@@ -2,179 +2,179 @@
   <el-dialog :visible.sync="editVisible" :detailcontrol="detailcontrol" :detaildata="detaildata" :close-on-press-escape="false" :title="personalForm.applyNumber +'    详情'" append-to-body width="1010px" class="edit" top="-10px" @close="$emit('update:detailcontrol', false)">
     <div id="printTest" >
       <!--基本信息-->
-      <el-card class="box-card" style="margin-top: 63px" shadow="never">
-        <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">基本信息</h2>
-        <button v-print="'#printTest'" class="print" style="font-size: 13px;background: white;">打印</button>
+      <el-card class="box-card" shadow="never">
+        <h2 ref="geren" class="form-name">基本信息</h2>
         <div class="container" style="margin-top: 37px">
-          <el-form :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
+          <el-form ref="personalForm" :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
             <el-row>
               <el-col :span="12">
-                <el-form-item class="print2" label="分期申请单编号" style="width: 100%;display: none">
-                  {{ personalForm.applyNumber }}
-                </el-form-item>
-              </el-col>
-              <el-col :span="12">
                 <el-form-item :label="$t('InstallmentApply.title')" style="width: 100%;">
-                  <span>{{ personalForm.title }}</span>
+                  {{ personalForm.title }}
                 </el-form-item>
               </el-col>
               <el-col :span="12">
                 <el-form-item :label="$t('InstallmentApply.firstName')" prop="firstName" style="width: 100%;">
-                  <span>{{ personalForm.firstName }}</span>
+                  {{ personalForm.firstName }}
                 </el-form-item>
               </el-col>
               <el-col :span="12">
                 <el-form-item :label="$t('InstallmentApply.middleName')" style="width: 100%;">
-                  <span>{{ personalForm.middleName }}</span>
+                  {{ personalForm.middleName }}
                 </el-form-item>
               </el-col>
               <el-col :span="12">
                 <el-form-item :label="$t('InstallmentApply.lastName')" prop="lastName" style="width: 100%;">
-                  <span>{{ personalForm.lastName }}</span>
+                  {{ personalForm.lastName }}
                 </el-form-item>
               </el-col>
               <el-col :span="12">
-                <el-form-item :label="$t('InstallmentApply.applyPhone')" prop="applyPhone" style="width: 100%;">
-                  <span>{{ personalForm.applyPhone }}</span>
+                <el-form-item :label="$t('InstallmentApply.age')" style="width: 100%;" class="redable">
+                  {{ personalForm.age }}
                 </el-form-item>
               </el-col>
               <el-col :span="12">
-                <el-form-item :label="$t('InstallmentApply.provinceId')" prop="provinceId" style="width: 100%;">
-                  <span>{{ personalForm.provinceName }}</span>
+                <el-form-item :label="$t('InstallmentApply.liveStauts')" style="width: 100%;">
+                  {{ personalForm.liveStauts | liveFilter }}
                 </el-form-item>
               </el-col>
               <el-col :span="12">
-                <el-form-item :label="$t('InstallmentApply.cityId')" prop="cityId" style="width: 100%;">
-                  <span>{{ personalForm.cityName }}</span>
+                <el-form-item :label="$t('InstallmentApply.applyPhone')" style="width: 100%;">
+                  {{ personalForm.applyPhone }}
                 </el-form-item>
               </el-col>
               <el-col :span="12">
-                <el-form-item :label="$t('InstallmentApply.address')" prop="address" style="width: 100%;">
-                  <span>{{ personalForm.address }}</span>
+                <el-form-item :label="$t('InstallmentApply.applyCellPhone')" prop="applyCellPhone" style="width: 100%;">
+                  {{ personalForm.applyCellPhone }}
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('InstallmentApply.currentAddress')" prop="currentAddress" style="width: 100%;">
+                  {{ personalForm.currentAddress }}
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('InstallmentApply.permanentAddress')" prop="permanentAddress" style="width: 100%;">
+                  {{ personalForm.permanentAddress }}
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('InstallmentApply.email')" prop="email" style="width: 100%;">
+                  {{ personalForm.email }}
                 </el-form-item>
               </el-col>
               <el-col :span="12">
                 <el-form-item :label="$t('InstallmentApply.gender')" style="width: 100%;">
-                  <span>{{ personalForm.gender | genderFilter }}</span>
+                  {{ personalForm.gender | genderFilter }}
                 </el-form-item>
               </el-col>
               <el-col :span="12">
                 <el-form-item :label="$t('InstallmentApply.birthday')" style="width: 100%;">
-                  <span>{{ personalForm.birthday }}</span>
+                  {{ personalForm.birthday }}
                 </el-form-item>
               </el-col>
               <el-col :span="12">
                 <el-form-item :label="$t('InstallmentApply.marriageStat')" style="width: 100%;">
-                  <span>{{ personalForm.marriageStat | marriageStatFilter }}</span>
+                  {{ personalForm.marriageStat | marriageStatFilter }}
                 </el-form-item>
               </el-col>
               <el-col :span="12">
                 <el-form-item :label="$t('InstallmentApply.certificateType')" style="width: 100%;">
-                  <span>{{ personalForm.certificateType | certificateTypeFilter }}</span>
+                  {{ personalForm.certificateType | certificateTypeFilter }}
                 </el-form-item>
               </el-col>
               <el-col :span="12">
                 <el-form-item :label="$t('InstallmentApply.certificateNumber')" style="width: 100%;">
-                  <span>{{ personalForm.certificateNumber }}</span>
+                  {{ personalForm.certificateNumber }}
                 </el-form-item>
               </el-col>
               <el-col :span="12">
-                <el-form-item :label="$t('InstallmentApply.workStat')" style="width: 100%;">
-                  <span>{{ personalForm.workStat | workStatFilter }}</span>
+                <el-form-item :label="$t('InstallmentApply.firstMoney')" prop="firstMoney" style="width: 100%;">
+                  {{ personalForm.firstMoney }}
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('InstallmentApply.installmentCount')" prop="installmentCount" style="width: 100%;">
+                  {{ personalForm.installmentCount }}
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('InstallmentApply.installmentDays')" prop="installmentDays" style="width: 100%;">
+                  {{ personalForm.installmentDays }}
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('InstallmentApply.totalMoney')" prop="totalMoney" style="width: 100%;">
+                  {{ personalForm.totalMoney }}
                 </el-form-item>
               </el-col>
               <el-col :span="12">
                 <el-form-item :label="$t('InstallmentApply.salePersonId')" prop="salePersonId" style="width: 100%;">
-                  <span>{{ personalForm.salePersonName }}</span>
+                  {{ personalForm.salePersonName }}
                 </el-form-item>
               </el-col>
               <el-col :span="12">
-                <el-form-item :label="$t('InstallmentApply.saleRepositoryId')" style="width: 100%;">
-                  <span>{{ personalForm.saleRepositoryName }}</span>
+                <el-form-item :label="$t('InstallmentApply.saleRepositoryId')" prop="saleRepositoryId" style="width: 100%;">
+                  {{ personalForm.saleRepositoryName }}
                 </el-form-item>
               </el-col>
               <el-col :span="12">
                 <el-form-item :label="$t('InstallmentApply.applyDate')" prop="applyDate" style="width: 100%;">
-                  <span>{{ personalForm.applyDate }}</span>
+                  {{ personalForm.applyDate }}
                 </el-form-item>
               </el-col>
             </el-row>
           </el-form>
         </div>
       </el-card>
+      <!--子件信息-->
       <el-card class="box-card" shadow="never" style="margin-top: 10px">
         <h2 ref="geren" class="form-name">商品信息</h2>
         <div class="container" style="margin-top: 37px">
-          <el-form ref="personalForm2" :model="productForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
+          <el-form ref="personalForm2" :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
             <el-row>
               <el-col :span="12">
                 <el-form-item :label="$t('InstallmentApply.productCode')" prop="productCode" style="width: 100%;">
-                  <span>{{ productForm.productCode }}</span>
+                  {{ personalForm.productCode }}
                 </el-form-item>
               </el-col>
               <el-col :span="12">
                 <el-form-item :label="$t('InstallmentApply.productName')" style="width: 100%;">
-                  <span>{{ productForm.productName }}</span>
+                  {{ personalForm.productName }}
                 </el-form-item>
               </el-col>
               <el-col :span="12">
                 <el-form-item :label="$t('InstallmentApply.color')" style="width: 100%;">
-                  <span>{{ productForm.color }}</span>
+                  {{ personalForm.color }}
                 </el-form-item>
               </el-col>
               <el-col :span="12">
                 <el-form-item :label="$t('InstallmentApply.typeId')" style="width: 100%;">
-                  <span>{{ productForm.productType }}</span>
+                  {{ personalForm.typeName }}
                 </el-form-item>
               </el-col>
               <el-col :span="12">
                 <el-form-item :label="$t('InstallmentApply.unit')" style="width: 100%;">
-                  <span>{{ productForm.unit }}</span>
+                  {{ personalForm.unit }}
                 </el-form-item>
               </el-col>
               <el-col :span="12">
                 <el-form-item :label="$t('InstallmentApply.categoryId')" style="width: 100%;">
-                  <span>{{ productForm.productCategory }}</span>
-                </el-form-item>
-              </el-col>
-              <el-col :span="12">
-                <el-form-item :label="$t('InstallmentApply.kpiGrade')" style="width: 100%;">
-                  <span>{{ productForm.kpiGrade }}</span>
-                </el-form-item>
-              </el-col>
-              <el-col :span="12">
-                <el-form-item :label="$t('InstallmentApply.point')" style="width: 100%;">
-                  <span>{{ productForm.point }}</span>
+                  {{ personalForm.categoryName }}
                 </el-form-item>
               </el-col>
               <el-col :span="12">
                 <el-form-item :label="$t('InstallmentApply.carCode')" style="width: 100%;">
-                  <span>{{ productForm.carCode }}</span>
+                  {{ personalForm.carCode }}
                 </el-form-item>
               </el-col>
               <el-col :span="12">
                 <el-form-item :label="$t('InstallmentApply.motorCode')" style="width: 100%;">
-                  <span>{{ productForm.motorCode }}</span>
+                  {{ personalForm.motorCode }}
                 </el-form-item>
               </el-col>
               <el-col :span="12">
                 <el-form-item :label="$t('InstallmentApply.batteryCode')" style="width: 100%;">
-                  <span>{{ productForm.batteryCode }}</span>
-                </el-form-item>
-              </el-col>
-              <el-col :span="12">
-                <el-form-item :label="$t('InstallmentApply.installmentCount')" prop="installmentCount" style="width: 100%;">
-                  <span>{{ personalForm.installmentCount }}</span>
-                </el-form-item>
-              </el-col>
-              <el-col :span="12">
-                <el-form-item :label="$t('InstallmentApply.installmentDays')" prop="installmentDays" style="width: 100%;">
-                  <span>{{ personalForm.installmentDays }}</span>
-                </el-form-item>
-              </el-col>
-              <el-col :span="12">
-                <el-form-item :label="$t('InstallmentApply.totalMoney')" prop="totalMoney" style="width: 100%;">
-                  <span>{{ personalForm.totalMoney }}</span>
+                  {{ personalForm.batteryCode }}
                 </el-form-item>
               </el-col>
             </el-row>
@@ -187,28 +187,43 @@
           <el-form ref="personalForm3" :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
             <el-row>
               <el-col :span="12">
-                <el-form-item :label="$t('InstallmentApply.mateName')" style="width: 100%;">
-                  <span>{{ personalForm.mateName }}</span>
+                <el-form-item :label="$t('InstallmentApply.firstName')" style="width: 100%;">
+                  {{ personalForm.mateFirstName }}
                 </el-form-item>
               </el-col>
               <el-col :span="12">
-                <el-form-item :label="$t('InstallmentApply.mateCertificateType')" style="width: 100%;">
-                  <span>{{ personalForm.mateCertificateType | mateCertificateTypeFilter }}</span>
+                <el-form-item :label="$t('InstallmentApply.middleName')" style="width: 100%;">
+                  {{ personalForm.mateMiddleName }}
                 </el-form-item>
               </el-col>
               <el-col :span="12">
-                <el-form-item :label="$t('InstallmentApply.mateCertificateNumber')" style="width: 100%;">
-                  <span>{{ personalForm.mateCertificateNumber }}</span>
+                <el-form-item :label="$t('InstallmentApply.lastName')" style="width: 100%;">
+                  {{ personalForm.mateLastName }}
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('InstallmentApply.age')" style="width: 100%;">
+                  {{ personalForm.mateAge }}
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('InstallmentApply.birthday')" style="width: 100%;">
+                  {{ personalForm.mateBirthday }}
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('InstallmentApply.liveStauts')" style="width: 100%;">
+                  {{ personalForm.mateLiveStauts | liveFilter }}
                 </el-form-item>
               </el-col>
               <el-col :span="12">
                 <el-form-item :label="$t('InstallmentApply.matePhone')" style="width: 100%;">
-                  <span>{{ personalForm.matePhone }}</span>
+                  {{ personalForm.matePhone }}
                 </el-form-item>
               </el-col>
               <el-col :span="12">
-                <el-form-item :label="$t('InstallmentApply.mateWorkStat')" style="width: 100%;">
-                  <span>{{ personalForm.mateWorkStat | mateWorkStatFilter }}</span>
+                <el-form-item :label="$t('InstallmentApply.email')" style="width: 100%;">
+                  {{ personalForm.mateEmail }}
                 </el-form-item>
               </el-col>
             </el-row>
@@ -218,104 +233,169 @@
       <el-card class="box-card" shadow="never" style="margin-top: 10px">
         <h2 ref="geren" class="form-name">工作信息</h2>
         <div class="container" style="margin-top: 37px">
-          <el-form ref="personalForm4" :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
-            <el-row>
-              <el-col :span="12">
-                <el-form-item :label="$t('InstallmentApply.workProvinceId')" style="width: 100%;">
-                  <span>{{ personalForm.workProvinceName }}</span>
-                </el-form-item>
-              </el-col>
-              <el-col :span="12">
-                <el-form-item :label="$t('InstallmentApply.workCityId')" style="width: 100%;">
-                  <span>{{ personalForm.workCityName }}</span>
-                </el-form-item>
-              </el-col>
-              <el-col :span="12">
-                <el-form-item :label="$t('InstallmentApply.workAddress')" style="width: 100%;">
-                  <span>{{ personalForm.workAddress }}</span>
-                </el-form-item>
-              </el-col>
-              <el-col :span="12">
-                <el-form-item :label="$t('InstallmentApply.enterpriseName')" style="width: 100%;">
-                  <span>{{ personalForm.enterpriseName }}</span>
-                </el-form-item>
-              </el-col>
-              <el-col :span="12">
-                <el-form-item :label="$t('InstallmentApply.enterpriseNature')" style="width: 100%;">
-                  <span>{{ personalForm.enterpriseNature | enterpriseNatureFilter }}</span>
-                </el-form-item>
-              </el-col>
-              <el-col :span="12">
-                <el-form-item :label="$t('InstallmentApply.enterprisePeoples')" style="width: 100%;">
-                  <span>{{ personalForm.enterprisePeoples }}</span>
-                </el-form-item>
-              </el-col>
-              <el-col :span="12">
-                <el-form-item :label="$t('InstallmentApply.salary')" style="width: 100%;">
-                  <span>{{ personalForm.salary }}</span>
-                </el-form-item>
-              </el-col>
-              <el-col :span="12">
-                <el-form-item :label="$t('InstallmentApply.enterpriseContact')" style="width: 100%;">
-                  <span>{{ personalForm.enterpriseContact }}</span>
-                </el-form-item>
-              </el-col>
-              <el-col :span="12">
-                <el-form-item :label="$t('InstallmentApply.enterprisePhone')" style="width: 100%;">
-                  <span>{{ personalForm.enterprisePhone }}</span>
-                </el-form-item>
-              </el-col>
-            </el-row>
-          </el-form>
+          <el-tabs v-model="activeName">
+            <el-tab-pane label="申请者" name="first">
+              <el-form ref="personalForm4" :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
+                <el-row>
+                  <el-col :span="12">
+                    <el-form-item :label="$t('InstallmentApply.workType')" style="width: 100%;">
+                      {{ personalForm.workType | workStatFilter }}
+                    </el-form-item>
+                  </el-col>
+                  <el-col :span="12">
+                    <el-form-item :label="$t('InstallmentApply.enterpriseName')" style="width: 100%;">
+                      {{ personalForm.enterpriseName }}
+                    </el-form-item>
+                  </el-col>
+                  <el-col :span="12">
+                    <el-form-item :label="$t('InstallmentApply.workAddress')" style="width: 100%;">
+                      {{ personalForm.workAddress }}
+                    </el-form-item>
+                  </el-col>
+                  <el-col :span="12">
+                    <el-form-item :label="$t('InstallmentApply.currentPost')" style="width: 100%;">
+                      {{ personalForm.currentPost }}
+                    </el-form-item>
+                  </el-col>
+                  <el-col :span="12">
+                    <el-form-item :label="$t('InstallmentApply.workTime')" style="width: 100%;">
+                      {{ personalForm.workTime }}
+                    </el-form-item>
+                  </el-col>
+                  <el-col :span="12">
+                    <el-form-item :label="$t('InstallmentApply.enterprisePhone')" style="width: 100%;">
+                      {{ personalForm.enterprisePhone }}
+                    </el-form-item>
+                  </el-col>
+                  <el-col :span="12">
+                    <el-form-item :label="$t('InstallmentApply.taxNumber')" style="width: 100%;">
+                      {{ personalForm.taxNumber }}
+                    </el-form-item>
+                  </el-col>
+                  <el-col :span="12">
+                    <el-form-item :label="$t('InstallmentApply.salary')" style="width: 100%;">
+                      {{ personalForm.salary }}
+                    </el-form-item>
+                  </el-col>
+                  <el-col :span="12">
+                    <el-form-item :label="$t('InstallmentApply.otherIncome')" style="width: 100%;">
+                      {{ personalForm.otherIncome }}
+                    </el-form-item>
+                  </el-col>
+                  <el-col :span="12">
+                    <el-form-item :label="$t('InstallmentApply.allIncome')" style="width: 100%;">
+                      {{ personalForm.allIncome }}
+                    </el-form-item>
+                  </el-col>
+                  <el-col :span="12">
+                    <el-form-item :label="$t('InstallmentApply.monthlyDebt')" style="width: 100%;">
+                      {{ personalForm.monthlyDebt }}
+                    </el-form-item>
+                  </el-col>
+                  <el-col :span="12">
+                    <el-form-item :label="$t('InstallmentApply.otherExpend')" style="width: 100%;">
+                      {{ personalForm.otherExpend }}
+                    </el-form-item>
+                  </el-col>
+                  <el-col :span="12">
+                    <el-form-item :label="$t('InstallmentApply.monthlyIncome')" style="width: 100%;">
+                      {{ personalForm.monthlyIncome }}
+                    </el-form-item>
+                  </el-col>
+                </el-row>
+              </el-form>
+            </el-tab-pane>
+            <el-tab-pane label="配偶" name="second">
+              <el-form ref="personalForm5" :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
+                <el-row>
+                  <el-col :span="12">
+                    <el-form-item :label="$t('InstallmentApply.workType')" style="width: 100%;">
+                      {{ personalForm.mateWorkType | workStatFilter }}
+                    </el-form-item>
+                  </el-col>
+                  <el-col :span="12">
+                    <el-form-item :label="$t('InstallmentApply.enterpriseName')" style="width: 100%;">
+                      {{ personalForm.mateEnterpriseName }}
+                    </el-form-item>
+                  </el-col>
+                  <el-col :span="12">
+                    <el-form-item :label="$t('InstallmentApply.workAddress')" style="width: 100%;">
+                      {{ personalForm.mateWorkAddress }}
+                    </el-form-item>
+                  </el-col>
+                  <el-col :span="12">
+                    <el-form-item :label="$t('InstallmentApply.currentPost')" style="width: 100%;">
+                      {{ personalForm.mateCurrentPost }}
+                    </el-form-item>
+                  </el-col>
+                  <el-col :span="12">
+                    <el-form-item :label="$t('InstallmentApply.workTime')" style="width: 100%;">
+                      {{ personalForm.mateWorkTime }}
+                    </el-form-item>
+                  </el-col>
+                  <el-col :span="12">
+                    <el-form-item :label="$t('InstallmentApply.enterprisePhone')" style="width: 100%;">
+                      {{ personalForm.mateEnterprisePhone }}
+                    </el-form-item>
+                  </el-col>
+                  <el-col :span="12">
+                    <el-form-item :label="$t('InstallmentApply.taxNumber')" style="width: 100%;">
+                      {{ personalForm.mateTaxNumber }}
+                    </el-form-item>
+                  </el-col>
+                  <el-col :span="12">
+                    <el-form-item :label="$t('InstallmentApply.salary')" style="width: 100%;">
+                      {{ personalForm.mateSalary }}
+                    </el-form-item>
+                  </el-col>
+                  <el-col :span="12">
+                    <el-form-item :label="$t('InstallmentApply.otherIncome')" style="width: 100%;">
+                      {{ personalForm.mateOtherIncome }}
+                    </el-form-item>
+                  </el-col>
+                  <el-col :span="12">
+                    <el-form-item :label="$t('InstallmentApply.allIncome')" style="width: 100%;">
+                      {{ personalForm.mateAllIncome }}
+                    </el-form-item>
+                  </el-col>
+                  <el-col :span="12">
+                    <el-form-item :label="$t('InstallmentApply.monthlyDebt')" style="width: 100%;">
+                      {{ personalForm.mateMonthlyDebt }}
+                    </el-form-item>
+                  </el-col>
+                  <el-col :span="12">
+                    <el-form-item :label="$t('InstallmentApply.otherExpend')" style="width: 100%;">
+                      {{ personalForm.mateOtherExpend }}
+                    </el-form-item>
+                  </el-col>
+                  <el-col :span="12">
+                    <el-form-item :label="$t('InstallmentApply.monthlyIncome')" style="width: 100%;">
+                      {{ personalForm.mateMonthlyIncome }}
+                    </el-form-item>
+                  </el-col>
+                </el-row>
+              </el-form>
+            </el-tab-pane>
+          </el-tabs>
         </div>
       </el-card>
-      <el-card class="box-card" shadow="never" style="margin-top: 10px;margin-bottom: 30px">
-        <h2 ref="geren" class="form-name">担保人信息</h2>
-        <div class="container" style="margin-top: 37px">
-          <el-form ref="personalForm5" :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
-            <el-row>
-              <el-col :span="12">
-                <el-form-item :label="$t('InstallmentApply.suretyName')" prop="suretyName" style="width: 100%;">
-                  <span>{{ personalForm.suretyName }}</span>
-                </el-form-item>
-              </el-col>
-              <el-col :span="12">
-                <el-form-item :label="$t('InstallmentApply.suretyPhone')" prop="suretyPhone" style="width: 100%;">
-                  <span>{{ personalForm.suretyPhone }}</span>
-                </el-form-item>
-              </el-col>
-              <el-col :span="12">
-                <el-form-item :label="$t('InstallmentApply.relationship')" prop="relationship" style="width: 100%;">
-                  <span>{{ personalForm.relationship }}</span>
-                </el-form-item>
-              </el-col>
-              <el-col :span="12">
-                <el-form-item :label="$t('InstallmentApply.suretyProvinceId')" prop="suretyProvinceId" style="width: 100%;">
-                  <span>{{ personalForm.suretyProvinceName }}</span>
-                </el-form-item>
-              </el-col>
-              <el-col :span="12">
-                <el-form-item :label="$t('InstallmentApply.suretyCityId')" prop="suretyCityId" style="width: 100%;">
-                  <span>{{ personalForm.suretyCityName }}</span>
-                </el-form-item>
-              </el-col>
-              <el-col :span="12">
-                <el-form-item :label="$t('InstallmentApply.suretyAddress')" style="width: 100%;">
-                  <span>{{ personalForm.suretyAddress }}</span>
-                </el-form-item>
-              </el-col>
-              <el-col :span="12">
-                <el-form-item :label="$t('InstallmentApply.suretyCertificateType')" style="width: 100%;">
-                  <span>{{ personalForm.suretyCertificateType | suretyCertificateTypeFilter }}</span>
-                </el-form-item>
-              </el-col>
-              <el-col :span="12">
-                <el-form-item :label="$t('InstallmentApply.suretyCertificateNumber')" style="width: 100%;">
-                  <span>{{ personalForm.suretyCertificateNumber }}</span>
-                </el-form-item>
-              </el-col>
-            </el-row>
-          </el-form>
+      <el-card class="box-card" shadow="never" style="margin-top: 10px">
+        <h2 ref="geren" class="form-name">征询人信息</h2>
+        <div class="container">
+          <el-editable
+            ref="editable"
+            :data.sync="list2"
+            :edit-config="{ showIcon: true, showStatus: true}"
+            class="click-table1"
+            stripe
+            border
+            size="medium"
+            style="width: 100%">
+            <el-editable-column label="序号" min-width="55" align="center" type="index"/>
+            <el-editable-column prop="consultancyName" align="center" label="姓名" min-width="150px"/>
+            <el-editable-column prop="consultancyPhone" align="center" label="联系电话" min-width="150px"/>
+            <el-editable-column prop="consultancyAddress" align="center" label="地址" min-width="150px"/>
+          </el-editable>
         </div>
       </el-card>
       <el-card class="box-card" style="margin-top: 15px" shadow="never">
@@ -398,6 +478,14 @@
 <script>
 export default {
   filters: {
+    liveFilter(status) {
+      const statusMap = {
+        1: '和亲戚一起居住',
+        2: '租房',
+        3: '按揭'
+      }
+      return statusMap[status]
+    },
     genderFilter(status) {
       const statusMap = {
         1: '男',
@@ -428,8 +516,8 @@ export default {
     },
     workStatFilter(status) {
       const statusMap = {
-        1: '无业',
-        2: '在职'
+        1: '被雇佣',
+        2: '自由职业'
       }
       return statusMap[status]
     },
@@ -490,6 +578,8 @@ export default {
   },
   data() {
     return {
+      activeName: 'first',
+      list2: [],
       // 审核数据
       reviewList: [],
       // 弹窗组件的控制
@@ -505,11 +595,51 @@ export default {
     },
     detaildata() {
       this.personalForm = this.detaildata
-      this.productForm = this.detaildata.installmentApplyDetailVos[0]
+      this.personalForm.productCode = this.detaildata.installmentApplyDetailVos[0].productCode
+      this.personalForm.productName = this.detaildata.installmentApplyDetailVos[0].productName
+      this.personalForm.color = this.detaildata.installmentApplyDetailVos[0].color
+      this.personalForm.typeName = this.detaildata.installmentApplyDetailVos[0].productType
+      this.personalForm.unit = this.detaildata.installmentApplyDetailVos[0].unit
+      this.personalForm.categoryName = this.detaildata.installmentApplyDetailVos[0].productCategory
+      this.personalForm.carCode = this.detaildata.installmentApplyDetailVos[0].carCode
+      this.personalForm.motorCode = this.detaildata.installmentApplyDetailVos[0].motorCode
+      this.personalForm.batteryCode = this.detaildata.installmentApplyDetailVos[0].batteryCode
       this.reviewList = this.personalForm.approvalUseVos
+      console.log('this.personalForm', this.personalForm)
+      const lis = {}
+      lis.consultancyName = this.personalForm.consultancyNameOne
+      lis.consultancyPhone = this.personalForm.consultancyPhoneOne
+      lis.consultancyAddress = this.personalForm.consultancyAddressOne
+      this.list2.push(lis)
+      console.log('lis', lis)
+      if (this.personalForm.consultancyNameTwo !== null && this.personalForm.consultancyPhoneTwo !== null && this.personalForm.consultancyAddressTwo !== null && this.personalForm.consultancyNameTwo !== '' && this.personalForm.consultancyPhoneTwo !== '' && this.personalForm.consultancyAddressTwo !== '' && this.personalForm.consultancyNameTwo !== undefined && this.personalForm.consultancyPhoneTwo !== undefined && this.personalForm.consultancyAddressTwo !== undefined) {
+        const lis2 = {}
+        lis2.consultancyName = this.personalForm.consultancyNameOne
+        lis2.consultancyPhone = this.personalForm.consultancyPhoneOne
+        lis2.consultancyAddress = this.personalForm.consultancyAddressOne
+        this.list2.push(lis2)
+      }
     }
   },
+  created() {
+    this.getdata()
+  },
   methods: {
+    getdata() {
+      const lis = {}
+      lis.consultancyName = this.personalForm.consultancyNameOne
+      lis.consultancyPhone = this.personalForm.consultancyPhoneOne
+      lis.consultancyAddress = this.personalForm.consultancyAddressOne
+      this.$refs.editable.insert(lis)
+      console.log('lis', lis)
+      if (this.personalForm.consultancyNameTwo !== null && this.personalForm.consultancyPhoneTwo !== null && this.personalForm.consultancyAddressTwo !== null && this.personalForm.consultancyNameTwo !== '' && this.personalForm.consultancyPhoneTwo !== '' && this.personalForm.consultancyAddressTwo !== '' && this.personalForm.consultancyNameTwo !== undefined && this.personalForm.consultancyPhoneTwo !== undefined && this.personalForm.consultancyAddressTwo !== undefined) {
+        const lis2 = {}
+        lis2.consultancyName = this.personalForm.consultancyNameOne
+        lis2.consultancyPhone = this.personalForm.consultancyPhoneOne
+        lis2.consultancyAddress = this.personalForm.consultancyAddressOne
+        this.$refs.editable.insert(lis2)
+      }
+    },
     handlecancel() {
       this.editVisible = false
     }

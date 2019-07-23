@@ -35,7 +35,7 @@
               </el-col>
               <el-col :span="12">
                 <el-form-item :label="$t('StockInquiry.stockTypeId')" prop="stockTypeId" style="width: 100%;">
-                  <span>{{ personalForm.stockTypeId | stockTypeIdFilter }}</span>
+                  <span>{{ personalForm.stockTypeName }}</span>
                 </el-form-item>
               </el-col>
               <el-col :span="12">

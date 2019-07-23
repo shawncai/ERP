@@ -26,7 +26,7 @@
               v-model="visible2"
               placement="bottom"
               width="500"
-              trigger="manual">
+              trigger="click">
               <el-input v-model="adjustRepositoryId" placeholder="请选择入库仓库" style="float: left;margin-left: 20px" class="filter-item" clearable @focus="handlechooseRep"/>
               <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
               <el-select v-model="getemplist.enterDeptId" placeholder="请选择入库部门" clearable class="filter-item" style="float: left;margin-left: 20px">

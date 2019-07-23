@@ -25,7 +25,7 @@
               v-model="visible2"
               placement="bottom"
               width="500"
-              trigger="manual">
+              trigger="click">
               <el-select v-model="getemplist.receiptStat" :value="getemplist.receiptStat" placeholder="单据状态" clearable style="width: 40%;float: left;margin-left: 20px">
                 <el-option value="1" label="制单"/>
                 <el-option value="2" label="执行"/>
@@ -110,14 +110,14 @@
             <span>{{ scope.row.applyPersonName }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('InstallmentApply.applyPhone')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('InstallmentApply.applyCellPhone')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.applyPhone }}</span>
+            <span>{{ scope.row.applyCellPhone }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('InstallmentApply.address')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('InstallmentApply.currentAddress')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.address }}</span>
+            <span>{{ scope.row.currentAddress }}</span>
           </template>
         </el-table-column>
         <el-table-column :label="$t('InstallmentApply.totalMoney')" :resizable="false" align="center" min-width="150">
@@ -528,20 +528,20 @@ export default {
       this.editVisible = true
       this.personalForm = Object.assign({}, row)
       this.personalForm.sourceType = String(row.sourceType)
+      if (row.workType !== null) {
+        this.personalForm.workType = String(row.workType)
+      }
+      if (row.mateWorkType !== null) {
+        this.personalForm.mateWorkType = String(row.mateWorkType)
+      }
+      if (row.mateLiveStauts !== null) {
+        this.personalForm.mateLiveStauts = String(row.mateLiveStauts)
+      }
       if (row.certificateType !== null) {
         this.personalForm.certificateType = String(row.certificateType)
       }
-      if (row.workStat !== null) {
-        this.personalForm.workStat = String(row.workStat)
-      }
-      if (row.mateCertificateType !== null) {
-        this.personalForm.mateCertificateType = String(row.mateCertificateType)
-      }
-      if (row.mateWorkStat !== null) {
-        this.personalForm.mateWorkStat = String(row.mateWorkStat)
-      }
-      if (row.enterpriseNature !== null) {
-        this.personalForm.enterpriseNature = String(row.enterpriseNature)
+      if (row.liveStauts !== null) {
+        this.personalForm.liveStauts = String(row.liveStauts)
       }
       if (row.suretyCertificateType !== null) {
         this.personalForm.suretyCertificateType = String(row.suretyCertificateType)
@@ -549,6 +549,7 @@ export default {
     },
     // 修改组件修改成功后返回
     refreshlist(val) {
+      console.log('val', val)
       if (val === true) {
         this.getlist()
       }
