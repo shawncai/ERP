@@ -428,6 +428,8 @@ export default {
           console.log('国家选择省出错')
         }
       })
+      this.connectForm.provinceid = ''
+      this.connectForm.cityid = ''
     },
     // 根据省选择市
     handlechange2(val) {
@@ -439,6 +441,7 @@ export default {
           console.log('省选择市出错')
         }
       })
+      this.connectForm.cityid = ''
     },
     // 转化数据方法
     tranKTree(arr) {

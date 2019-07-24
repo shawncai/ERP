@@ -503,6 +503,7 @@ export default {
         const emData = res.data.data.content
         this.editVisible = true
         this.personalForm = Object.assign({}, emData)
+
         if (emData.certificateType !== null && emData.certificateType !== undefined && emData.certificateType !== '') {
           this.personalForm.certificateType = String(emData.certificateType)
         }

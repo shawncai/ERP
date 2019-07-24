@@ -1,5 +1,5 @@
 <template>
-  <el-dialog :visible.sync="editVisible" :detailcontrol="detailcontrol" :detaildata="detaildata" :close-on-press-escape="false" :title="personalForm.contractNumber +'    详情'" append-to-body width="1010px" class="edit" top="-10px" @close="$emit('update:detailcontrol', false)">
+  <el-dialog :visible.sync="editVisible" :detailcontrol="detailcontrol" :detaildata="detaildata" :close-on-press-escape="false" :title="personalForm.number +'    详情'" append-to-body width="1010px" class="edit" top="-10px" @close="$emit('update:detailcontrol', false)">
     <div id="printTest" >
       <!--基本信息-->
       <el-card class="box-card" style="margin-top: 63px" shadow="never">
@@ -9,103 +9,33 @@
           <el-form :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
             <el-row>
               <el-col :span="12">
-                <el-form-item class="print2" label="销售合同编号" style="width: 100%;display: none">
-                  {{ personalForm.number }}
-                </el-form-item>
-              </el-col>
-              <el-col :span="12">
-                <el-form-item :label="$t('SaleContract.title')" prop="title" style="width: 100%;">
+                <el-form-item :label="$t('CustomerSurveyReport.title')" prop="title" style="width: 100%;">
                   <span>{{ personalForm.title }}</span>
                 </el-form-item>
               </el-col>
               <el-col :span="12">
-                <el-form-item :label="$t('SaleContract.sourceType')" prop="sourceType" style="width: 100%;">
+                <el-form-item :label="$t('CustomerSurveyReport.sourceType')" prop="sourceType" style="width: 100%;">
                   <span>{{ personalForm.sourceType | sourceTypeFilter }}</span>
                 </el-form-item>
               </el-col>
               <el-col :span="12">
-                <el-form-item :label="$t('SaleContract.sourceNumber')" style="width: 100%;">
+                <el-form-item :label="$t('CustomerSurveyReport.sourceNumber')" prop="sourceNumber" style="width: 100%;">
                   <span>{{ personalForm.sourceNumber }}</span>
                 </el-form-item>
               </el-col>
               <el-col :span="12">
-                <el-form-item :label="$t('SaleContract.customerType')" style="width: 100%;">
-                  <span>{{ personalForm.customerType | customerTypeFilter }}</span>
-                </el-form-item>
-              </el-col>
-              <el-col :span="12">
-                <el-form-item :label="$t('SaleContract.customerName')" style="width: 100%;">
+                <el-form-item :label="$t('CustomerSurveyReport.customerName')" style="width: 100%;">
                   <span>{{ personalForm.customerName }}</span>
                 </el-form-item>
               </el-col>
               <el-col :span="12">
-                <el-form-item :label="$t('SaleContract.customerPhone')" style="width: 100%;">
-                  <span>{{ personalForm.customerPhone }}</span>
+                <el-form-item :label="$t('CustomerSurveyReport.surveyDate')" style="width: 100%;">
+                  <span>{{ personalForm.surveyDate }}</span>
                 </el-form-item>
               </el-col>
               <el-col :span="12">
-                <el-form-item :label="$t('SaleContract.saleType')" style="width: 100%;">
-                  <span>{{ personalForm.saleType | saleTypeFilter }}</span>
-                </el-form-item>
-              </el-col>
-              <el-col :span="12">
-                <el-form-item :label="$t('SaleContract.closeType')" style="width: 100%;">
-                  <span>{{ personalForm.closeTypeName }}</span>
-                </el-form-item>
-              </el-col>
-              <el-col :span="12">
-                <el-form-item :label="$t('SaleContract.payType')" style="width: 100%;">
-                  <span>{{ personalForm.payType | payTypeFilter }}</span>
-                </el-form-item>
-              </el-col>
-              <el-col :span="12">
-                <el-form-item :label="$t('SaleContract.deliveryMode')" style="width: 100%;">
-                  <span>{{ personalForm.deliveryMode | deliveryModeFilter }}</span>
-                </el-form-item>
-              </el-col>
-              <el-col :span="12">
-                <el-form-item :label="$t('SaleContract.currency')" prop="currency" style="width: 100%;">
-                  <span>{{ personalForm.currency | currencyFilter }}</span>
-                </el-form-item>
-              </el-col>
-              <el-col :span="12">
-                <el-form-item :label="$t('SaleContract.salePersonId')" style="width: 100%;">
-                  <span>{{ personalForm.salePersonName }}</span>
-                </el-form-item>
-              </el-col>
-              <el-col :span="12">
-                <el-form-item :label="$t('SaleContract.deptId')" style="width: 100%;">
-                  <span>{{ personalForm.deptName }}</span>
-                </el-form-item>
-              </el-col>
-              <el-col :span="12">
-                <el-form-item :label="$t('SaleContract.saleRepositoryId')" style="width: 100%;">
-                  <span>{{ personalForm.saleRepositoryName }}</span>
-                </el-form-item>
-              </el-col>
-              <el-col :span="12">
-                <el-form-item :label="$t('SaleContract.signDate')" style="width: 100%;">
-                  <span>{{ personalForm.signDate }}</span>
-                </el-form-item>
-              </el-col>
-              <el-col :span="12">
-                <el-form-item :label="$t('SaleContract.signAddress')" style="width: 100%;">
-                  <span>{{ personalForm.signAddress }}</span>
-                </el-form-item>
-              </el-col>
-              <el-col :span="12">
-                <el-form-item :label="$t('SaleContract.contractStat')" style="width: 100%;">
-                  <span>{{ personalForm.contractStat | contractStatFilter }}</span>
-                </el-form-item>
-              </el-col>
-              <el-col :span="12">
-                <el-form-item :label="$t('SaleContract.invoiceType')" style="width: 100%;">
-                  <span>{{ personalForm.invoiceType | invoiceTypeFilter }}</span>
-                </el-form-item>
-              </el-col>
-              <el-col :span="12">
-                <el-form-item :label="$t('SaleContract.taxRate')" style="width: 100%;">
-                  <span>{{ personalForm.taxRate }}</span>
+                <el-form-item :label="$t('CustomerSurveyReport.surveyPersonId')" style="width: 100%;">
+                  <span>{{ personalForm.surveyPersonName }}</span>
                 </el-form-item>
               </el-col>
             </el-row>
@@ -113,112 +43,57 @@
         </div>
       </el-card>
       <!--子件信息-->
-      <el-card class="box-card" style="margin-top: 15px" shadow="never">
-        <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">采购合同明细</h2>
-        <div class="container">
-          <el-editable
-            ref="editable"
-            :data.sync="list2"
-            :edit-config="{ showIcon: true, showStatus: true}"
-            class="click-table1"
-            border
-            size="medium"
-            style="width: 100%">
-            <el-editable-column label="序号" fixed="left" min-width="55" align="center" type="index"/>
-            <el-editable-column prop="productCode" fixed="left" align="center" label="物品编号" />
-            <el-editable-column prop="productName" fixed="left" align="center" label="物品名称" />
-            <el-editable-column prop="categoryName" align="center" label="物品分类" />
-            <el-editable-column prop="typeName" align="center" label="规格型号" />
-            <el-editable-column prop="color" align="center" label="颜色" />
-            <el-editable-column prop="unit" align="center" label="单位" />
-            <el-editable-column prop="performanceScore" align="center" label="绩效分" />
-            <el-editable-column prop="productScore" align="center" label="商品积分" />
-            <el-editable-column prop="quantity" align="center" label="订单数量" />
-            <el-editable-column prop="salePrice" align="center" label="零售价" />
-            <!--          <el-editable-column prop="costPrice" align="center" label="成本价" />-->
-            <el-editable-column prop="taxprice" align="center" label="含税价" />
-            <!--          <el-editable-column prop="costMoney" align="center" label="成本金额" />-->
-            <el-editable-column prop="includeTaxMoney" align="center" label="含税金额" />
-            <el-editable-column prop="taxRate" align="center" label="税率(%)" />
-            <el-editable-column prop="taxMoney" align="center" label="税额" />
-            <el-editable-column prop="money" align="center" label="金额" />
-            <!--          <el-editable-column prop="includeTaxCostMoney" align="center" label="含税成本金额" />-->
-            <el-editable-column prop="discount" align="center" label="折扣(%)" />
-            <el-editable-column prop="discountMoney" align="center" label="折扣额" />
-            <el-editable-column prop="carCode" align="center" label="车架编码" />
-            <el-editable-column prop="motorCode" align="center" label="电机编码" />
-            <el-editable-column prop="batteryCode" align="center" label="电池编码" />
-          </el-editable>
-        </div>
-      </el-card>
-      <!--审核状态-->
-      <el-card class="box-card" style="margin-top: 15px" shadow="never">
-        <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">审批记录</h2>
+      <el-card class="box-card" shadow="never">
+        <h2 ref="geren" class="form-name">客户调查报告明细</h2>
         <div class="container" style="margin-top: 37px">
-          <el-table
-            :data="reviewList"
-            border
-            style="width: 100%">
-            <el-table-column
-              prop="step"
-              align="center"
-              label="当前步骤"
-              min-width="150"/>
-            <el-table-column
-              prop="stepHandlerName"
-              align="center"
-              label="当前审批人"
-              min-width="150"/>
-            <el-table-column
-              prop="handleTime"
-              align="center"
-              label="审批时间"
-              min-width="150"/>
-            <el-table-column
-              prop="stat"
-              align="center"
-              label="审批意见"
-              min-width="150">
-              <template slot-scope="scope">
-                <span>{{ scope.row.stat | statfilter }}</span>
-              </template>
-            </el-table-column>
-          </el-table>
-        </div>
-      </el-card>
-      <el-card class="box-card" shadow="never" style="margin-top: 10px">
-        <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">合计信息</h2>
-        <div class="container" style="margin-top: 37px">
-          <el-form :inline="true" status-icon class="demo-ruleForm" label-width="130px">
+          <el-form ref="personalForm2" :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
             <el-row>
-              <el-col :span="12">
-                <el-form-item label="采购数量合计" style="width: 100%;">
-                  <span>{{ personalForm.allQuantity }}</span>
+              <el-col :span="24">
+                <el-form-item :label="$t('CustomerSurveyReport.liveStatus')" prop="title" style="width: 100%;">
+                  <span>{{ personalForm.liveStatus | liveStatusFilter }}</span>
                 </el-form-item>
               </el-col>
-              <el-col :span="12">
-                <el-form-item label="金额合计" style="width: 100%;">
-                  <span>{{ personalForm.allMoney }}</span>
+              <el-col :span="24">
+                <el-form-item :label="$t('CustomerSurveyReport.liveType')" prop="title" style="width: 100%;">
+                  <span>{{ personalForm.liveType | liveTypeFilter }}</span>
                 </el-form-item>
               </el-col>
-              <el-col :span="12">
-                <el-form-item label="税额合计" style="width: 100%;">
-                  <span>{{ personalForm.allTaxMoney }}</span>
+              <el-col :span="24">
+                <el-form-item :label="$t('CustomerSurveyReport.personalProperty')" prop="title" style="width: 100%;">
+                  <span>{{ personalForm.personalProperty2 }}</span>
                 </el-form-item>
               </el-col>
-              <el-col :span="12">
-                <el-form-item label="含税金额合计" style="width: 100%;">
-                  <span>{{ personalForm.allIncludeTaxMoney }}</span>
+            </el-row>
+          </el-form>
+        </div>
+      </el-card>
+      <el-card class="box-card" shadow="never">
+        <h2 ref="geren" class="form-name">综合结果</h2>
+        <div class="container" style="margin-top: 37px">
+          <el-form ref="personalForm3" :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
+            <el-row>
+              <el-col :span="24">
+                <el-form-item :label="$t('CustomerSurveyReport.result')" prop="title" style="width: 100%;">
+                  <span>{{ personalForm.result | resultFilter }}</span>
                 </el-form-item>
               </el-col>
-              <el-col :span="12">
-                <el-form-item label="整单折扣金额合计" style="width: 100%;">
-                  <span>{{ personalForm.allDiscountMoney }}</span>
-                </el-form-item>
-              </el-col>
-              <el-col :span="12">
-                <el-form-item label="折后含税金额合计" style="width: 100%;">
-                  <span>{{ personalForm.allIncludeTaxDiscountMoney }}</span>
+            </el-row>
+          </el-form>
+        </div>
+      </el-card>
+      <el-card class="box-card" shadow="never">
+        <h2 ref="geren" class="form-name">原因分析</h2>
+        <div class="container" style="margin-top: 37px">
+          <el-form ref="personalForm4" :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
+            <el-row>
+              <el-col :span="24">
+                <el-form-item :label="$t('CustomerSurveyReport.reason')" prop="title" style="width: 100%;">
+                  <el-input
+                    v-model="personalForm.reason"
+                    :autosize="{ minRows: 5 }"
+                    type="textarea"
+                    style="width:300px"
+                    readonly/>
                 </el-form-item>
               </el-col>
             </el-row>
@@ -271,6 +146,33 @@
 <script>
 export default {
   filters: {
+    resultFilter(status) {
+      const statusMap = {
+        1: '通过',
+        2: '不通过'
+      }
+      return statusMap[status]
+    },
+    liveStatusFilter(status) {
+      const statusMap = {
+        1: '按揭',
+        2: '租房',
+        3: '和亲戚住'
+      }
+      return statusMap[status]
+    },
+    liveTypeFilter(status) {
+      const statusMap = {
+        1: '旧的',
+        2: '新建筑',
+        3: '高档公寓',
+        4: '小隔间',
+        5: '普通公寓',
+        6: '双层楼建筑',
+        7: '低成本住房'
+      }
+      return statusMap[status]
+    },
     customerTypeFilter(status) {
       const statusMap = {
         1: '经销商',
@@ -307,7 +209,6 @@ export default {
     },
     sourceTypeFilter(status) {
       const statusMap = {
-        1: '销售机会',
         2: '分期申请'
       }
       return statusMap[status]
@@ -363,8 +264,30 @@ export default {
     },
     detaildata() {
       this.personalForm = this.detaildata
+      console.log('this.personalForm', this.personalForm)
       this.list2 = this.personalForm.saleContractDetailVos
       this.reviewList = this.personalForm.approvalUseVos
+      let pro = ''
+      if (this.personalForm.personalProperty.indexOf('1') !== -1) {
+        pro = pro + '电视'
+      }
+      if (this.personalForm.personalProperty.indexOf('2') !== -1) {
+        pro = pro + ' ' + '   家庭影院'
+      }
+      if (this.personalForm.personalProperty.indexOf('3') !== -1) {
+        pro = pro + ' ' + '   冰箱'
+      }
+      if (this.personalForm.personalProperty.indexOf('4') !== -1) {
+        pro = pro + ' ' + '  洗衣机'
+      }
+      if (this.personalForm.personalProperty.indexOf('5') !== -1) {
+        pro = pro + ' ' + '   空调'
+      }
+      if (this.personalForm.personalProperty.indexOf('6') !== -1) {
+        pro = pro + ' ' + '   电脑'
+      }
+      this.personalForm.personalProperty2 = pro
+      // this.personalForm.personalProperty = ''
     }
   },
   methods: {

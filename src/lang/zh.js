@@ -49,6 +49,7 @@ export default {
     Commission: '提成设置',
     Parameter: '参数设置',
     NewApprovalProcess: '新建审批流程',
+    endmonth: '月末处理',
     BatchRules: '批次规则设置',
     ApprovalProcess: '审批流程设置',
     LogisticsCar: '物流资料',
@@ -83,6 +84,7 @@ export default {
     AddOtherenter: '新建其他入库单',
     OtherEnterList: '其他入库列表',
     StockOut: '出库管理',
+    UnitGroup: '计量单位组',
     AddOtherStockOut: '新建其他出库单',
     OtherStockOutList: '其他出库单列表',
     InventoryOverflow: '库存报溢',
@@ -301,6 +303,27 @@ export default {
     ProductCost: '产品成本',
     AddProductCost: '新建产品成本',
     ProductCostList: '产品成本列表'
+  },
+  UnitGroup: {
+    number: '计量单位组编号',
+    groupName: '计量单位组名称',
+    basicUnitId: '基本计量单位',
+    proportion: '比例',
+    unitId: '计量单位名称'
+  },
+  endmonth: {
+    yearAndMonth: '年月',
+    productCode: '产品编码',
+    productName: '产品名称',
+    unit: '单位',
+    beginCost: '期初成本',
+    beginQuantity: '期初数量',
+    beginMoney: '期初金额',
+    endCost: '期末成本',
+    endQuantity: '期末数量',
+    endMoney: '期末金额',
+    color: '颜色',
+    repositoryName: '仓库名称'
   },
   index: {
     report: '常用报表',
@@ -1802,6 +1825,7 @@ export default {
     retreatRepositoryId: '收车门店'
   },
   CustomerSurveyReport: {
+    number: '调查报告编号',
     title: '调查报告主题',
     sourceType: '源单类型',
     sourceNumber: '源单编号',
@@ -1811,7 +1835,8 @@ export default {
     liveStatus: '居住状况',
     liveType: '居住类型',
     personalProperty: '个人拥有财产',
-    result: '结果'
+    result: '结果',
+    reason: '原因'
   },
   Receipt: {
     title: '收款单主题',

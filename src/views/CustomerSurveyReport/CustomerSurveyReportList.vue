@@ -4,62 +4,19 @@
       <el-row>
         <el-form ref="getemplist" :model="getemplist" label-width="100px" style="margin-top: -9px">
           <el-col :span="5">
-            <el-form-item label="合同主题" label-width="100px">
-              <el-input v-model="getemplist.title" :placeholder="$t('SaleContract.title')" clearable @keyup.enter.native="handleFilter"/>
+            <el-form-item :label="$t('CustomerSurveyReport.title')">
+              <el-input v-model="getemplist.title" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
           <el-col :span="5" style="margin-left: 10px">
-            <el-form-item label="合同单号">
-              <el-input v-model="getemplist.number" placeholder="合同单号" clearable @keyup.enter.native="handleFilter"/>
+            <el-form-item :label="$t('CustomerSurveyReport.number')">
+              <el-input v-model="getemplist.number" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
           <el-col :span="5" style="margin-left: 10px">
-            <el-form-item :label="$t('SaleContract.saleType')">
-              <el-select v-model="getemplist.saleType" :value="getemplist.saleType" clearable @keyup.enter.native="handleFilter">
-                <el-option value="1" label="零售"/>
-                <el-option value="2" label="批发"/>
-              </el-select>
+            <el-form-item :label="$t('CustomerSurveyReport.customerName')">
+              <el-input v-model="getemplist.customerName" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
-          </el-col>
-          <!--更多搜索条件-->
-          <el-col :span="3">
-            <el-popover
-              v-model="visible2"
-              placement="bottom"
-              width="500"
-              trigger="click">
-              <el-select v-model="getemplist.customerType" :placeholder="$t('SaleContract.customerType')" clearable style="width: 40%;float: left;margin-left: 20px">
-                <el-option value="1" label="经销商"/>
-                <el-option value="2" label="零售"/>
-              </el-select>
-              <el-input v-model="customerName" :placeholder="$t('SaleContract.customerName')" style="width: 40%;float: right;margin-right: 20px;" clearable @focus="chooseCustomer"/>
-              <my-customer :customercontrol.sync="customercontrol" @customerdata="customerdata"/>
-              <my-agent :agentcontrol.sync="agentcontrol" @agentdata="agentdata"/>
-              <el-select v-model="getemplist.receiptStat" :value="getemplist.receiptStat" placeholder="单据状态" clearable style="width: 40%;float: left;margin-left: 20px;margin-top: 20px">
-                <el-option value="1" label="制单"/>
-                <el-option value="2" label="执行"/>
-                <el-option value="3" label="结单"/>
-              </el-select>
-              <el-select v-model="getemplist.judgeStat" :value="getemplist.judgeStat" placeholder="审批状态" clearable style="width: 40%;float: right;margin-right: 20px;margin-top: 20px">
-                <el-option value="0" label="未审核"/>
-                <el-option value="1" label="审核中"/>
-                <el-option value="2" label="审核通过"/>
-                <el-option value="3" label="审核不通过"/>
-              </el-select>
-              <!--<el-date-picker-->
-              <!--v-model="date"-->
-              <!--type="daterange"-->
-              <!--range-separator="-"-->
-              <!--unlink-panels-->
-              <!--start-placeholder="销售日期"-->
-              <!--end-placeholder="销售日期"-->
-              <!--value-format="yyyy-MM-dd"-->
-              <!--style="margin-top: 20px;margin-left: 20px"/>-->
-              <div class="seachbutton" style="width: 100%;float: right;margin-top: 20px">
-                <el-button v-waves class="filter-item" type="primary" style="float: right" round @click="handleFilter">{{ $t('public.search') }}</el-button>
-              </div>
-              <el-button v-waves slot="reference" type="primary" class="filter-item" style="width: 130px" @click="visible2 = !visible2">{{ $t('public.filter') }}<svg-icon icon-class="shaixuan" style="margin-left: 4px"/></el-button>
-            </el-popover>
           </el-col>
           <el-col :span="3" style="margin-left: 20px">
             <!-- 搜索按钮 -->
@@ -109,39 +66,29 @@
           </template>
           <detail-list :detailcontrol.sync="detailvisible" :detaildata.sync="personalForm"/>
         </el-table-column>
-        <el-table-column :label="$t('SaleContract.title')" :resizable="false" fixed="left" align="center" min-width="150">
-          <template slot-scope="scope">
-            <span>{{ scope.row.title }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column :label="$t('SaleContract.sourceNumber')" :resizable="false" align="center" min-width="150">
-          <template slot-scope="scope">
-            <span>{{ scope.row.sourceNumber }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column :label="$t('SaleContract.salePersonId')" :resizable="false" align="center" min-width="150">
-          <template slot-scope="scope">
-            <span>{{ scope.row.salePersonName }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column :label="$t('SaleContract.customerName')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('CustomerSurveyReport.customerName')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.customerName }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('SaleContract.customerPhone')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('CustomerSurveyReport.title')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.customerPhone }}</span>
+            <span>{{ scope.row.title }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('SaleContract.allMoney')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('CustomerSurveyReport.sourceType')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.allMoney }}</span>
+            <span>{{ scope.row.sourceType | sourceTypeFilter }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('public.judgeStat')" :resizable="false" prop="judgeStat" align="center" min-width="150">
+        <el-table-column :label="$t('CustomerSurveyReport.sourceNumber')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.judgeStat | judgeStatFilter }}</span>
+            <span>{{ scope.row.sourceNumber }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column :label="$t('CustomerSurveyReport.surveyPersonId')" :resizable="false" align="center" min-width="150">
+          <template slot-scope="scope">
+            <span>{{ scope.row.surveyPersonName }}</span>
           </template>
         </el-table-column>
         <el-table-column :label="$t('public.receiptStat')" :resizable="false" align="center" min-width="150">
@@ -151,9 +98,8 @@
         </el-table-column>
         <el-table-column :label="$t('public.actions')" :resizable="false" align="center" min-width="230">
           <template slot-scope="scope">
-            <el-button v-permission="['54-65-3']" v-show="scope.row.judgeStat === 0" title="修改" type="primary" size="mini" icon="el-icon-edit" circle @click="handleEdit(scope.row)"/>
-            <el-button v-if="isReview(scope.row)" title="审批" type="warning" size="mini" icon="el-icon-view" circle @click="handleReview(scope.row)"/>
-            <el-button v-permission="['54-65-2']" v-show="scope.row.judgeStat === 0" title="删除" size="mini" type="danger" icon="el-icon-delete" circle @click="handleDelete(scope.row)"/>
+            <el-button v-permission="['200-211-3']" title="修改" type="primary" size="mini" icon="el-icon-edit" circle @click="handleEdit(scope.row)"/>
+            <el-button v-permission="['200-211-2']" title="删除" size="mini" type="danger" icon="el-icon-delete" circle @click="handleDelete(scope.row)"/>
           </template>
         </el-table-column>
       </el-table>
@@ -167,7 +113,8 @@
 </template>
 
 <script>
-import { searchsaleContract, deletesaleContract, updatesaleContract2 } from '@/api/SaleContract'
+import { CustomerSurveyReportList } from '@/api/CustomerSurveyReport'
+import { deletesaleContract, updatesaleContract2 } from '@/api/SaleContract'
 import { getdeptlist } from '@/api/BasicSettings'
 import { searchStockCategory } from '@/api/StockCategory'
 import waves from '@/directive/waves' // Waves directive
@@ -191,6 +138,12 @@ export default {
         1: '审核中',
         2: '审核通过',
         3: '审核不通过'
+      }
+      return statusMap[status]
+    },
+    sourceTypeFilter(status) {
+      const statusMap = {
+        2: '分期申请'
       }
       return statusMap[status]
     },
@@ -318,7 +271,7 @@ export default {
     getlist() {
       // 物料需求计划列表数据
       this.listLoading = true
-      searchsaleContract(this.getemplist).then(res => {
+      CustomerSurveyReportList(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
@@ -350,7 +303,7 @@ export default {
     // 搜索
     handleFilter() {
       this.getemplist.pageNum = 1
-      searchsaleContract(this.getemplist).then(res => {
+      CustomerSurveyReportList(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
@@ -385,6 +338,15 @@ export default {
       this.editVisible = true
       this.personalForm = Object.assign({}, row)
       this.personalForm.sourceType = String(row.sourceType)
+      if (row.liveStatus !== null) {
+        this.personalForm.liveStatus = String(row.liveStatus)
+      }
+      if (row.liveType !== null) {
+        this.personalForm.liveType = String(row.liveType)
+      }
+      if (row.result !== null) {
+        this.personalForm.result = String(row.result)
+      }
       if (row.currency !== null) {
         this.personalForm.currency = String(row.currency)
       }

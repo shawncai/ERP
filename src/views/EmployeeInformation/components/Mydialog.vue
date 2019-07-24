@@ -70,7 +70,7 @@
             </el-col>
             <el-col :span="12">
               <el-form-item :label="$t('NewEmployeeInformation.country')" prop="countryId" style="width: 100%;">
-                <el-select v-model="personalForm.countryid" placeholder="请选择国籍" style="margin-left: 18px;width: 200px" @change ="handlechange" @focus="getnationlist">
+                <el-select v-model="personalForm.countryId" placeholder="请选择国籍" style="margin-left: 18px;width: 200px" @change ="handlechange11" @focus="getnationlist">
                   <el-option
                     v-for="(item, index) in nations"
                     :key="index"
@@ -101,7 +101,7 @@
             </el-col>
             <el-col :span="12">
               <el-form-item :label="$t('NewEmployeeInformation.provinceid')" prop="provinceId" style="width: 100%;">
-                <el-select v-model="personalForm.provinceid" placeholder="请选择省" style="margin-left: 18px;width: 200px" @change="handlechange2">
+                <el-select v-model="personalForm.provinceId" placeholder="请选择省" style="margin-left: 18px;width: 200px" @change="handlechange12">
                   <el-option
                     v-for="(item, index) in provinces"
                     :key="index"
@@ -112,7 +112,7 @@
             </el-col>
             <el-col :span="12">
               <el-form-item :label="$t('NewEmployeeInformation.cityid')" prop="cityId" style="width: 100%;">
-                <el-select v-model="personalForm.cityid" placeholder="请选择市" style="margin-left: 18px;width: 200px">
+                <el-select v-model="personalForm.cityId" placeholder="请选择市" style="margin-left: 18px;width: 200px">
                   <el-option
                     v-for="(item, index) in cities"
                     :key="index"
@@ -352,6 +352,7 @@ export default {
     },
     editdata() {
       this.personalForm = this.editdata
+      console.log('personalForm', this.personalForm)
       this.getnationlist()
       this.handlechange(this.personalForm.countryId)
       this.handlechange2(this.personalForm.provinceId)
@@ -447,6 +448,29 @@ export default {
           console.log('国家选择省出错')
         }
       })
+    },
+    // 根据国家选择省
+    handlechange11(val) {
+      getprovincelist(val).then(res => {
+        if (res.data.ret === 200) {
+          this.provinces = res.data.data.content
+        } else {
+          console.log('国家选择省出错')
+        }
+      })
+      this.personalForm.provinceId = ''
+      this.personalForm.cityId = ''
+    },
+    // 根据省选择市
+    handlechange12(val) {
+      getcitylist(val).then(res => {
+        if (res.data.ret === 200) {
+          this.cities = res.data.data.content
+        } else {
+          console.log('国家选择省出错')
+        }
+      })
+      this.personalForm.cityId = ''
     },
     // 根据省选择市
     handlechange2(val) {

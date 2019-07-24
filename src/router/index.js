@@ -464,6 +464,12 @@ export const asyncRouterMap = [
         meta: { title: 'BatchRules', noCache: true, roles: ['1-39-52-1'] }
       },
       {
+        path: 'UnitGroup',
+        component: () => import('@/views/BasicSettings/UnitGroup'),
+        name: 'UnitGroup',
+        meta: { title: 'UnitGroup', noCache: true }
+      },
+      {
         path: 'Regional',
         component: () => import('@/views/BasicSettings/Regional'),
         name: 'Regional',
@@ -901,6 +907,12 @@ export const asyncRouterMap = [
         component: () => import('@/views/WarehouseAdjust/Inventorydetaillist'),
         name: 'Inventorydetaillist',
         meta: { title: 'Inventorydetaillist', noCache: true }
+      },
+      {
+        path: 'endmonth',
+        component: () => import('@/views/WarehouseAdjust/endmonth'),
+        name: 'endmonth',
+        meta: { title: 'endmonth', noCache: true }
       }
     ]
   },
