@@ -1,29 +1,35 @@
 <template>
-  <el-dialog :visible.sync="editVisible" :editcontrol="editcontrol" :editdata="editdata" :close-on-press-escape="false" class="edit" top="10px" title="修改物料单" @close="$emit('update:editcontrol', false)">
+  <el-dialog :visible.sync="editVisible" :editcontrol="editcontrol" :editdata="editdata" :close-on-press-escape="false" class="edit" top="-10px" width="1010px" title="修改物料单" @close="$emit('update:editcontrol', false)">
     <!--基本信息-->
-    <el-card class="box-card">
+    <el-card class="box-card" style="margin-top: 63px" shadow="never">
       <h2 ref="geren" class="form-name">基本信息</h2>
       <div class="container">
         <el-form ref="personalForm" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="100px" style="margin-left: 30px;">
           <el-row>
-            <el-col :span="6">
+            <el-col :span="12">
               <el-form-item :label="$t('ProducePlan.title')" style="width: 100%;">
                 <el-input v-model="personalForm.title" style="margin-left: 18px; width: 150px" clearable/>
               </el-form-item>
             </el-col>
-            <el-col :span="6">
+            <el-col :span="12">
               <el-form-item :label="$t('ProducePlan.handlePersonId')" prop="handlePersonId" style="width: 100%;">
                 <el-input v-model="handlePersonId" style="margin-left: 18px; width: 150px" clearable @focus="handlechooseStock"/>
               </el-form-item>
               <my-emp :control.sync="stockControl" @stockName="stockName"/>
             </el-col>
-            <el-col :span="6">
-              <el-form-item :label="$t('ProducePlan.deptId')" style="width: 100%;">
-                <el-input v-model="workCenterId" style="margin-left: 18px; width: 150px" clearable @focus="workcenterchoose"/>
+            <el-col :span="12">
+              <el-form-item :label="$t('ProducePlan.produceDeptId')" style="width: 100%;">
+                <el-select v-model="personalForm.produceDeptId" clearable style="margin-left: 18px;width:200px" @change="choosedept">
+                  <el-option
+                    v-for="(item, index) in depts"
+                    :key="index"
+                    :value="item.id"
+                    :label="item.deptName"/>
+                </el-select>
               </el-form-item>
             </el-col>
             <my-center :control.sync="centercontrol" @center="center"/>
-            <el-col :span="6">
+            <el-col :span="12">
               <el-form-item :label="$t('ProducePlan.summary')" style="width: 100%;">
                 <el-input v-model="personalForm.summary" style="margin-left: 18px; width: 150px" clearable/>
               </el-form-item>
@@ -71,6 +77,8 @@
 
 <script>
 import { updateproduceplan } from '@/api/ProducePlan'
+import { getdeptlist } from '@/api/BasicSettings'
+import { searchworkCenter } from '@/api/public'
 import MyCenter from './MyCenter'
 import MyEmp from './MyEmp'
 import MyDetail from './MyDetail'
@@ -88,6 +96,7 @@ export default {
   },
   data() {
     return {
+      depts: [],
       // 弹窗组件的控制
       editVisible: this.editcontrol,
       // 修改信息数据
@@ -126,7 +135,35 @@ export default {
       this.list2 = this.personalForm.producePlanDetailVos
     }
   },
+  created() {
+    this.getdepts()
+  },
   methods: {
+    getdepts() {
+      // 部门列表数据
+      getdeptlist().then(res => {
+        if (res.data.ret === 200) {
+          this.depts = res.data.data.content
+        }
+      })
+    },
+    // 选择部门focus事件
+    choosedept() {
+      console.log(this.personalForm.produceDeptId)
+      if (this.personalForm.produceDeptId !== '' && this.personalForm.produceDeptId !== null && this.personalForm.produceDeptId !== undefined) {
+        // 工作中心数据
+        searchworkCenter(this.personalForm.produceDeptId).then(res => {
+          if (res.data.ret === 200) {
+            this.workCenterIds = res.data.data.content.list.map(function(item) {
+              return {
+                label: item.workCenterName,
+                value: item.id
+              }
+            })
+          }
+        })
+      }
+    },
     // 工作中心focus事件
     workcenterchoose() {
       this.centercontrol = true

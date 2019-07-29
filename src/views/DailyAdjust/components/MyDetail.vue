@@ -266,7 +266,7 @@ export default {
           locationId: '',
           color: item.color,
           typeId: item.typeId,
-          unit: item.purMeasu,
+          unit: item.stockMeasu,
           quantity: 0,
           adjustQuantity: 0,
           price: item.costPrice,

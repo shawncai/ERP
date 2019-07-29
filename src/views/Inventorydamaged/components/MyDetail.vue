@@ -268,7 +268,7 @@ export default {
           typeId: item.typeId,
           damagedMoney: 0,
           damagedQuantity: 0,
-          unit: item.purMeasu,
+          unit: item.stockMeasu,
           costPrice: item.costPrice
         }
       })

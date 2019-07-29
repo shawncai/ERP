@@ -265,7 +265,7 @@ export default {
           productName: item.productName,
           typeId: item.typeId,
           color: item.color,
-          unit: item.purMeasu,
+          unit: item.caigouMeasu,
           productType: item.productType,
           basicQuantity: '1.00',
           planDeliveryDate: '',

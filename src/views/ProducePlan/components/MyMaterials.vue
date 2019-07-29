@@ -94,7 +94,9 @@
 </template>
 
 <script>
+import { searchUnitGroup } from '@/api/UnitGroup'
 import { materialslist } from '@/api/MaterialsList'
+import { productlist } from '@/api/Product'
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
 import waves from '@/directive/waves' // Waves directive
 export default {
@@ -175,6 +177,10 @@ export default {
         receiptStat: 2,
         repositoryId: this.$store.getters.repositoryId,
         regionIds: this.$store.getters.regionId
+      },
+      getemplist2: {
+        pageNum: 1,
+        pageSize: 10
       },
       // 传给组件的数据
       personalForm: {},
@@ -260,8 +266,9 @@ export default {
       this.productVisible = false
     },
     // 物品选择添加
-    handleAddTo() {
+    async handleAddTo() {
       this.productVisible = false
+      console.log('this.moreaction', this.moreaction)
       const productDetail = this.moreaction.map(function(item) {
         return {
           productCode: item.productCode,
@@ -274,6 +281,43 @@ export default {
           typeIdname: item.productType
         }
       })
+      // 通过Promise.all把所有循环中的异步接口数据加载过来，再通过async/await把数据加载完成
+      const productDetail3 = await Promise.all(productDetail.map(function(item) {
+        const query = {}
+        query.code = item.productCode
+        return productlist(query)
+      }))
+      console.log('productDetail3', productDetail3)
+      for (let i = 0; i < productDetail.length; i++) {
+        for (let j = 0; j < productDetail3.length; j++) {
+          if (productDetail[i].productCode === productDetail3[j].data.data.content.list[0].code) {
+            productDetail[i].unit = productDetail3[j].data.data.content.list[0].produceMeasu
+            // 根据单位比例换算数量
+            if (productDetail3[j].data.data.content.list[0].unitGroupId !== null) {
+              const query = {}
+              query.groupId = productDetail3[j].data.data.content.list[0].unitGroupId
+              await searchUnitGroup(query).then(res => {
+                if (res.data.ret === 200) {
+                  console.log('res', res.data.data.content.list[0].unitGroupDetailVos)
+                  const unitGroupDetailVos = res.data.data.content.list[0].unitGroupDetailVos
+                  let num2 = 1
+                  for (let k = 0; k < unitGroupDetailVos.length; k++) {
+                    if (unitGroupDetailVos[k].unitId === productDetail3[j].data.data.content.list[0].produceMeasurement) {
+                      num2 = unitGroupDetailVos[k].proportion
+                      console.log('num2', num2)
+                    }
+                  }
+                  productDetail[i].quantity = ((productDetail[i].quantity) * num2).toFixed(2)
+                  console.log(productDetail[i].quantity)
+                }
+                setTimeout(() => {
+                  this.listLoading = false
+                }, 0.5 * 100)
+              })
+            }
+          }
+        }
+      }
       console.log(productDetail)
       this.$emit('materialsData', productDetail)
     }

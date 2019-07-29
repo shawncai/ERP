@@ -98,6 +98,12 @@ export function delateEmpCategory(query, query2) {
 // 新增商品
 export function createnewproduct(query) {
   var params = new URLSearchParams()
+  if (query.caigoumeasurement !== '' && query.caigoumeasurement !== null && query.caigoumeasurement !== undefined) {
+    params.append('caigoumeasurement', query.caigoumeasurement) // 你要传给后台的参数值 key/value
+  }
+  if (query.unitGroupId !== '' && query.unitGroupId !== null && query.unitGroupId !== undefined) {
+    params.append('unitGroupId', query.unitGroupId) // 你要传给后台的参数值 key/value
+  }
   if (query.code !== '' && query.code !== null && query.code !== undefined) {
     params.append('code', query.code) // 你要传给后台的参数值 key/value
   }
@@ -411,6 +417,12 @@ export function deleteproduct(query, query2) {
 // 修改商品
 export function editproduct(query) {
   var params = new URLSearchParams()
+  if (query.caigoumeasurement !== '' && query.caigoumeasurement !== null && query.caigoumeasurement !== undefined) {
+    params.append('caigoumeasurement', query.caigoumeasurement) // 你要传给后台的参数值 key/value
+  }
+  if (query.unitGroupId !== '' && query.unitGroupId !== null && query.unitGroupId !== undefined) {
+    params.append('unitGroupId', query.unitGroupId) // 你要传给后台的参数值 key/value
+  }
   if (query.productid !== '' && query.productid !== null && query.productid !== undefined) {
     params.append('productid', query.productid) // 你要传给后台的参数值 key/value
   }
@@ -465,14 +477,14 @@ export function editproduct(query) {
   if (query.purchaseMeasurement !== '' && query.purchaseMeasurement !== null && query.purchaseMeasurement !== undefined) {
     params.append('purchasemeasurement', query.purchaseMeasurement) // 你要传给后台的参数值 key/value
   }
-  if (query.saleMeasurement !== '' && query.saleMeasurement !== null && query.saleMeasurement !== undefined) {
-    params.append('salemeasurement', query.saleMeasurement) // 你要传给后台的参数值 key/value
+  if (query.salemeasurement !== '' && query.salemeasurement !== null && query.salemeasurement !== undefined) {
+    params.append('salemeasurement', query.salemeasurement) // 你要传给后台的参数值 key/value
   }
-  if (query.stockMeasurement !== '' && query.stockMeasurement !== null && query.stockMeasurement !== undefined) {
-    params.append('stockmeasurement', query.stockMeasurement) // 你要传给后台的参数值 key/value
+  if (query.stockmeasurement !== '' && query.stockmeasurement !== null && query.stockmeasurement !== undefined) {
+    params.append('stockmeasurement', query.stockmeasurement) // 你要传给后台的参数值 key/value
   }
-  if (query.produceMeasurement !== '' && query.produceMeasurement !== null && query.produceMeasurement !== undefined) {
-    params.append('producemeasurement', query.produceMeasurement) // 你要传给后台的参数值 key/value
+  if (query.producemeasurement !== '' && query.producemeasurement !== null && query.producemeasurement !== undefined) {
+    params.append('producemeasurement', query.producemeasurement) // 你要传给后台的参数值 key/value
   }
   if (query.source !== '' && query.source !== null && query.source !== undefined) {
     params.append('source', query.source) // 你要传给后台的参数值 key/value

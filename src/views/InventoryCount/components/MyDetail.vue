@@ -271,7 +271,7 @@ export default {
           actualQuantity: '',
           enterQuantity: 0,
           taxRate: 0,
-          unit: item.purMeasu,
+          unit: item.stockMeasu,
           totalMoney: 0,
           actualEnterQuantity: 0,
           basicQuantity: 0,

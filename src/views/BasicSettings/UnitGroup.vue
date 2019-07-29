@@ -142,8 +142,8 @@
             </el-select>
           </el-form-item>
           <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
-            <el-button @click="handleAdd2">添加</el-button>
-            <el-button type="danger" @click="$refs.editable.removeSelecteds()">删除</el-button>
+            <el-button @click="handleAdd3">添加</el-button>
+            <el-button type="danger" @click="$refs.editable2.removeSelecteds()">删除</el-button>
           </div>
           <el-editable
             ref="editable2"
@@ -152,7 +152,7 @@
             :edit-rules="addCategoryFormRules"
             class="click-table1"
             stripe
-            border
+            borderinsert
             size="medium"
             style="width: 100%">
             <el-editable-column type="selection" min-width="55" align="center"/>
@@ -365,6 +365,9 @@ export default {
     },
     handleAdd2() {
       this.$refs.editable.insert()
+    },
+    handleAdd3() {
+      this.$refs.editable2.insert()
     },
     // 搜索
     handleFilter() {

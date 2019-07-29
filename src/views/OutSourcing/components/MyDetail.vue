@@ -264,7 +264,7 @@ export default {
           productCode: item.code,
           productName: item.productName,
           type: item.typeId,
-          unit: item.purMeasu,
+          unit: item.produceMeasu,
           productType: item.productType,
           quantity: 0,
           money: 0,

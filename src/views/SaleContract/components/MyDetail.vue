@@ -266,7 +266,7 @@ export default {
           productType: item.productType,
           typeName: item.productType,
           type: item.typeId,
-          unit: item.produceMeasu,
+          unit: item.saleMeasu,
           color: item.color,
           plannedQuantity: 0,
           planDeliveryDate: '',

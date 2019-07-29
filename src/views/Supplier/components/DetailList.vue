@@ -155,7 +155,9 @@
             <el-editable-column prop="productType" align="center" label="规格" min-width="150px"/>
             <el-editable-column prop="unit" align="center" label="单位" min-width="150px"/>
             <el-editable-column prop="color" align="center" label="颜色" min-width="150px"/>
-            <el-editable-column prop="proportion" align="center" label="供货比列" min-width="150px"/>
+            <el-editable-column prop="proportion" align="center" label="供货比列(%)" min-width="150px"/>
+            <el-editable-column prop="price" align="center" label="价格" min-width="150px"/>
+            <el-editable-column prop="discountRate" align="center" label="折扣(%)" min-width="150px"/>
           </el-editable>
         </div>
       </el-card>

@@ -112,9 +112,9 @@
             <span>{{ scope.row.handlePersonName }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('ProducePlan.deptName')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('ProducePlan.produceDeptId')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.workCenter }}</span>
+            <span>{{ scope.row.produceDeptName }}</span>
           </template>
         </el-table-column>
         <el-table-column :label="$t('public.judgeStat')" :resizable="false" prop="judgeStat" align="center" min-width="150">
@@ -338,6 +338,7 @@ export default {
       this.listLoading = true
       produceplanlist(this.getemplist).then(res => {
         if (res.data.ret === 200) {
+          console.log('res.data.ret ', res)
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
         }

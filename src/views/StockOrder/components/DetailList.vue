@@ -5,6 +5,7 @@
       <el-card class="box-card" style="margin-top: 63px" shadow="never">
         <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">基本信息</h2>
         <button v-print="'#printTest'" style="font-size: 10px;">打印</button>
+        <button style="font-size: 10px;margin-left: 10px" @click="handleMyReceipt2()">复制单据</button>
         <div class="container" style="margin-top: 37px">
           <el-form :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="100px" style="margin-left: 30px;">
             <el-row>
@@ -14,8 +15,8 @@
                 </el-form-item>
               </el-col>
               <el-col :span="12">
-                <el-form-item :label="$t('StockInquiry.inquiryTitle')" style="width: 100%;">
-                  <span>{{ personalForm.inquiryTitle }}</span>
+                <el-form-item :label="$t('StockOrder.title')" style="width: 100%;">
+                  <span>{{ personalForm.title }}</span>
                 </el-form-item>
               </el-col>
               <el-col :span="12">
@@ -35,7 +36,7 @@
               </el-col>
               <el-col :span="12">
                 <el-form-item :label="$t('StockInquiry.stockTypeId')" prop="stockTypeId" style="width: 100%;">
-                  <span>{{ personalForm.stockTypeName }}</span>
+                  <span>{{ personalForm.stockType }}</span>
                 </el-form-item>
               </el-col>
               <el-col :span="12">
@@ -44,13 +45,28 @@
                 </el-form-item>
               </el-col>
               <el-col :span="12">
-                <el-form-item :label="$t('StockInquiry.inquiryDate')" prop="inquiryDate" style="width: 100%;">
-                  <span>{{ personalForm.inquiryDate }}</span>
+                <el-form-item :label="$t('StockOrder.payMode')" style="width: 100%;">
+                  <span>{{ personalForm.payModeName }}</span>
                 </el-form-item>
               </el-col>
               <el-col :span="12">
-                <el-form-item :label="$t('StockInquiry.inquiryTimes')" style="width: 100%;">
-                  <span>{{ personalForm.inquiryTimes }}</span>
+                <el-form-item :label="$t('StockOrder.orderDate')" prop="signDate" style="width: 100%;">
+                  <span>{{ personalForm.orderDate }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('StockOrder.signPersonId')" style="width: 100%;">
+                  <span>{{ personalForm.signPersonName }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('StockOrder.deliveryMode')" style="width: 100%;">
+                  <span>{{ personalForm.deliveryModeName }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('StockOrder.settleMode')" style="width: 100%;">
+                  <span>{{ personalForm.settleModeName }}</span>
                 </el-form-item>
               </el-col>
               <el-col :span="12">
@@ -90,16 +106,16 @@
             <el-editable-column prop="productType" align="center" label="规格" />
             <el-editable-column prop="unit" align="center" label="单位" />
             <el-editable-column prop="stockQuantity" align="center" label="采购数量" />
+            <el-editable-column prop="deliveryDate" align="center" label="交货日期" />
+            <el-editable-column prop="remarks" align="center" label="备注" />
             <el-editable-column prop="price" align="center" label="单价" />
             <el-editable-column prop="includeTaxPrice" align="center" label="含税价" />
             <el-editable-column prop="taxRate" align="center" label="税率(%)" />
             <el-editable-column prop="money" align="center" label="金额" />
             <el-editable-column prop="includeTaxMoney" align="center" label="含税金额" />
             <el-editable-column prop="tax" align="center" label="税额" />
-            <el-editable-column prop="deliveryDate" align="center" label="交货日期" />
             <el-editable-column prop="discountRate" align="center" label="折扣(%)" />
             <el-editable-column prop="discountMoney" align="center" label="折扣额" />
-            <el-editable-column prop="remark" align="center" label="备注" />
             <el-editable-column prop="sourceNumber" align="center" label="源单编号" />
             <el-editable-column prop="sourceSerialNumber" align="center" label="源单序号" />
             <el-editable-column prop="arrivalQuantity" align="center" label="已到货数量" />
@@ -362,6 +378,11 @@ export default {
     }
   },
   methods: {
+    handleMyReceipt2() {
+      console.log(this.detaildata)
+      this.$store.dispatch('getempcontract', this.detaildata)
+      this.$router.push('/StockOrder/AddStockOrder')
+    },
     getstockArrivalList() {
       searchstockArrival(this.stockArrivaldata).then(res => {
         if (res.data.ret === 200) {

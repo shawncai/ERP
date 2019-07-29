@@ -168,6 +168,9 @@
             <el-editable-column prop="productType" align="center" label="规格" min-width="150px"/>
             <el-editable-column prop="unit" align="center" label="单位" min-width="150px"/>
             <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0, precision: 2}, type: 'visible'}" prop="stockQuantity" align="center" label="采购数量" min-width="150px"/>
+            <el-editable-column :edit-render="{name: 'ElDatePicker', attrs: {type: 'date', format: 'yyyy-MM-dd'}, type: 'visible'}" prop="deliveryDate" align="center" label="交货日期" min-width="170px"/>
+            <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="remarks" align="center" label="备注" width="150px"/>
+            <!--            <el-editable-column prop="stockNumber" align="center" label="库存" min-width="150px"/>-->
             <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0, precision: 2}, type: 'visible'}" prop="price" align="center" label="单价" min-width="170px">
               <template slot="edit" slot-scope="scope">
                 <el-input-number
@@ -207,7 +210,6 @@
                 <p>{{ getTaxMoney2(scope.row) }}</p>
               </template>
             </el-editable-column>
-            <el-editable-column :edit-render="{name: 'ElDatePicker', attrs: {type: 'date', format: 'yyyy-MM-dd'}, type: 'visible'}" prop="deliveryDate" align="center" label="交货日期" min-width="170px"/>
             <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="discountRate" align="center" label="折扣(%)" min-width="170px">
               <template slot="edit" slot-scope="scope">
                 <el-input-number
@@ -224,7 +226,6 @@
                   @input="getdiscountMoney(scope.row)"/>
               </template>
             </el-editable-column>
-            <el-editable-column prop="remark" align="center" label="备注" min-width="150px"/>
             <el-editable-column prop="sourceNumber" align="center" label="源单编号" min-width="150px"/>
             <el-editable-column prop="sourceSerialNumber" align="center" label="源单序号" min-width="150px"/>
             <el-editable-column prop="arrivalQuantity" align="center" label="已到货数量" min-width="150px"/>
@@ -443,6 +444,7 @@ export default {
       },
       // 控制商品列表窗口
       control: false,
+      supplierIdDetail: [],
       // 采购申请单信息数据
       personalForm: {
         createPersonId: this.$store.getters.userId,
@@ -506,7 +508,23 @@ export default {
     this.getways()
     this.getdatatime()
   },
+  mounted() {
+    this.getinformation()
+  },
   methods: {
+    getinformation() {
+      if (this.$store.getters.empcontract) {
+        console.log('getempcontract', this.$store.getters.empcontract)
+        this.personalForm = this.$store.getters.empcontract
+        this.personalForm.sourceType = (this.personalForm.sourceType).toString()
+        this.personalForm.currency = (this.personalForm.currency).toString()
+        this.supplierId = this.$store.getters.empcontract.supplierName
+        this.stockPersonId = this.$store.getters.empcontract.stockPersonName
+        this.signPersonId = this.$store.getters.empcontract.signPersonName
+        this.list2 = this.personalForm.stockOrderDetailVos
+        this.$store.dispatch('getempcontract', '')
+      }
+    },
     checkStock(row) {
       console.log('this.moreaction.length', this.moreaction.length)
       if (this.moreaction.length > 1 || this.moreaction.length === 0) {
@@ -1007,6 +1025,7 @@ export default {
       if (val.moneyId !== null && val.moneyId !== undefined && val.moneyId !== '') {
         this.personalForm.currency = String(val.moneyId)
       }
+      this.supplierIdDetail = val.supplierDetailVos
       this.$refs.editable.clear()
     },
     // 采购员focus事件
@@ -1041,6 +1060,7 @@ export default {
     productdetail(val) {
       console.log(val)
       const nowlistdata = this.$refs.editable.getRecords()
+      const nowlistdata2 = this.supplierIdDetail
       for (let i = 0; i < val.length; i++) {
         console.log(val[i].price)
         for (let j = 0; j < nowlistdata.length; j++) {
@@ -1051,6 +1071,16 @@ export default {
               offset: 100
             })
             return false
+          }
+        }
+        console.log('nowlistdata2', nowlistdata2)
+        console.log('val', val)
+        for (let p = 0; p < nowlistdata2.length; p++) {
+          if (val[i].productCode === nowlistdata2[p].productCode) {
+            console.log('success')
+            val[i].discountRate = nowlistdata2[p].discountRate
+            val[i].price = nowlistdata2[p].price
+            val[i].includeTaxPrice = nowlistdata2[p].includeTaxPrice
           }
         }
         this.$refs.editable.insert(val[i])

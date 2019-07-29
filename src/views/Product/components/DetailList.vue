@@ -90,6 +90,16 @@
                 </el-form-item>
               </el-col>
               <el-col :span="12">
+                <el-form-item :label="$t('Product.unitGroupId')" prop="purchasemeasurement" style="width: 100%;">
+                  {{ personalForm.unitGroupName }}
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('Product.caigoumeasurement')" style="width: 100%;">
+                  {{ personalForm.caigouMeasu }}
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
                 <el-form-item :label="$t('Product.salemeasurement')" style="width: 100%;">
                   {{ personalForm.saleMeasu }}
                 </el-form-item>
@@ -606,6 +616,7 @@ export default {
     },
     detaildata() {
       this.personalForm = this.detaildata
+      console.log('this.personalForm', this.personalForm)
     },
     detailid() {
       this.getVisitlistdata.productId = this.detailid

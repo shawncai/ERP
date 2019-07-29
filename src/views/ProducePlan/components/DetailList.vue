@@ -1,11 +1,11 @@
 <template>
-  <el-dialog :visible.sync="editVisible" :detailcontrol="detailcontrol" :detaildata="detaildata" :close-on-press-escape="false" append-to-body class="edit" top="10px" title="修改采购入库单" @close="$emit('update:detailcontrol', false)">
+  <el-dialog :visible.sync="editVisible" :detailcontrol="detailcontrol" :detaildata="detaildata" :close-on-press-escape="false" width="1010px" append-to-body class="edit" top="-10px" title="修改主生产计划单" @close="$emit('update:detailcontrol', false)">
     <div id="printTest" >
       <!--基本信息-->
-      <el-card class="box-card">
-        <h2 ref="geren" class="form-name">基本信息</h2>
+      <el-card class="box-card" style="margin-top: 63px" shadow="never">
+        <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: 63px;">基本信息</h2>
         <button v-print="'#printTest'" class="print" style="font-size: 13px;background: white;">打印</button>
-        <div class="container">
+        <div class="container" style="margin-top: 37px">
           <el-form :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="100px" style="margin-left: 30px;">
             <el-row>
               <el-col :span="12">
@@ -13,34 +13,34 @@
                   {{ personalForm.planNumber }}
                 </el-form-item>
               </el-col>
-              <el-col :span="6">
+              <el-col :span="12">
                 <el-form-item :label="$t('ProducePlan.title')" style="width: 100%;">
-                  <el-input v-model="personalForm.title" style="margin-left: 18px; width: 150px" disabled/>
+                  {{ personalForm.title }}
                 </el-form-item>
               </el-col>
-              <el-col :span="6">
+              <el-col :span="12">
                 <el-form-item :label="$t('public.createPersonName')" style="width: 100%;">
-                  <el-input v-model="personalForm.createPersonName" style="margin-left: 18px; width: 150px" disabled/>
+                  {{ personalForm.createPersonName }}
                 </el-form-item>
               </el-col>
-              <el-col :span="6">
+              <el-col :span="12">
                 <el-form-item :label="$t('public.createDate')" style="width: 100%;">
-                  <el-input v-model="personalForm.createDate" style="margin-left: 18px; width: 150px" disabled/>
+                  {{ personalForm.createDate }}
                 </el-form-item>
               </el-col>
-              <el-col :span="6">
+              <el-col :span="12">
                 <el-form-item :label="$t('ProducePlan.handlePersonId')" prop="handlePersonId" style="width: 100%;">
-                  <el-input v-model="personalForm.handlePersonName" style="margin-left: 18px; width: 150px" disabled/>
+                  {{ personalForm.handlePersonName }}
                 </el-form-item>
               </el-col>
-              <el-col :span="6">
-                <el-form-item :label="$t('ProducePlan.deptId')" style="width: 100%;">
-                  <el-input v-model="personalForm.workCenter" style="margin-left: 18px; width: 150px" disabled/>
+              <el-col :span="12">
+                <el-form-item :label="$t('ProducePlan.produceDeptId')" style="width: 100%;">
+                  {{ personalForm.produceDeptName }}
                 </el-form-item>
               </el-col>
-              <el-col :span="6">
+              <el-col :span="12">
                 <el-form-item :label="$t('ProducePlan.summary')" style="width: 100%;">
-                  <el-input v-model="personalForm.summary" style="margin-left: 18px; width: 150px" disabled/>
+                  {{ personalForm.summary }}
                 </el-form-item>
               </el-col>
             </el-row>
@@ -69,9 +69,6 @@
           </el-editable>
         </div>
       </el-card>
-      <div class="buttons" style="margin-top: 20px;margin-left: 30px">
-        <el-button type="danger" @click="handlecancel()">取消</el-button>
-      </div>
     </div>
   </el-dialog>
 </template>
@@ -116,6 +113,28 @@ export default {
 </script>
 
 <style scoped>
+  .edit >>> .el-dialog{
+    -webkit-transform: none;
+    transform: none;
+    position: absolute;
+    right: 0;
+    left: auto;
+    height: auto;
+  }
+  .edit >>> .el-dialog__header{
+    background: #fff;
+    position: fixed;
+    top: 0;
+    display: block;
+    width: 1010px;
+    z-index: 100;
+    border-bottom: 1px solid #f1f1f1;
+  }
+  .edit >>> .el-dialog__body{
+    padding-left: 0;
+    padding-right: 0;
+    padding-top: 10px;
+  }
   .edit >>> .el-dialog {
     background:#f1f1f1 ;
     left: 0;

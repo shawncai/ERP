@@ -268,7 +268,7 @@ export default {
           typeId: item.typeId,
           enterQuantity: 0,
           taxRate: 0,
-          unit: item.purMeasu,
+          unit: item.stockMeasu,
           actualEnterQuantity: 0,
           basicQuantity: 0,
           enterPrice: item.costPrice,

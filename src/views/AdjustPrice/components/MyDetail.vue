@@ -263,7 +263,7 @@ export default {
           locationId: '',
           color: item.color,
           typeId: item.typeId,
-          unit: item.purMeasu,
+          unit: item.stockMeasu,
           enterPrice: item.costPrice,
           productType: item.productType,
           salePrice: item.salePrice,

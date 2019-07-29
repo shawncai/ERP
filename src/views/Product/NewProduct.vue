@@ -145,7 +145,7 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('Product.purchasemeasurement')" prop="purchasemeasurement" style="width: 100%;">
-                  <el-select v-model="personalForm.purchasemeasurement" placeholder="请选择基本计量单位" style="margin-left: 18px;width: 200px" @focus="updatecate">
+                  <el-select v-model="personalForm.purchasemeasurement" placeholder="请选择基本计量单位" style="margin-left: 18px;width: 200px" @change="clearunitGroupId">
                     <el-option
                       v-for="(item, index) in measurements"
                       :key="index"
@@ -155,35 +155,57 @@
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('Product.salemeasurement')" style="width: 100%;">
-                  <el-select v-model="personalForm.salemeasurement" placeholder="请选择销售计量单位" style="margin-left: 18px;width: 200px" @focus="updatecate">
+                <el-form-item :label="$t('Product.unitGroupId')" style="width: 100%;">
+                  <el-select v-model="personalForm.unitGroupId" placeholder="请选择计量单位组" style="margin-left: 18px;width: 200px" @focus="checkunitGroupIds" @change="clearunit">
                     <el-option
-                      v-for="(item, index) in measurements"
+                      v-for="(item, index) in unitGroupIds"
                       :key="index"
-                      :label="item.categoryName"
+                      :label="item.groupName"
                       :value="item.id"/>
                   </el-select>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('Product.stockmeasurement')" style="width: 100%;">
-                  <el-select v-model="personalForm.stockmeasurement" placeholder="请选择库存计量单位" style="margin-left: 18px;width: 200px" @focus="updatecate">
+                <el-form-item :label="$t('Product.caigoumeasurement')" prop="caigoumeasurement" style="width: 100%;">
+                  <el-select v-model="personalForm.caigoumeasurement" :disabled="con" placeholder="请选择采购计量单位" style="margin-left: 18px;width: 200px" @focus="updateunit">
                     <el-option
-                      v-for="(item, index) in measurements"
+                      v-for="(item, index) in measurements2"
                       :key="index"
-                      :label="item.categoryName"
-                      :value="item.id"/>
+                      :label="item.unit"
+                      :value="item.unitId"/>
                   </el-select>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('Product.producemeasurement')" style="width: 100%;">
-                  <el-select v-model="personalForm.producemeasurement" placeholder="请选择生产计量单位" style="margin-left: 18px;width: 200px" @focus="updatecate">
+                <el-form-item :label="$t('Product.salemeasurement')" prop="salemeasurement" style="width: 100%;">
+                  <el-select v-model="personalForm.salemeasurement" :disabled="con" placeholder="请选择销售计量单位" style="margin-left: 18px;width: 200px" @focus="updateunit">
                     <el-option
-                      v-for="(item, index) in measurements"
+                      v-for="(item, index) in measurements2"
                       :key="index"
-                      :label="item.categoryName"
-                      :value="item.id"/>
+                      :label="item.unit"
+                      :value="item.unitId"/>
+                  </el-select>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item :label="$t('Product.stockmeasurement')" prop="stockmeasurement" style="width: 100%;">
+                  <el-select v-model="personalForm.stockmeasurement" :disabled="con" placeholder="请选择库存计量单位" style="margin-left: 18px;width: 200px" @focus="updateunit">
+                    <el-option
+                      v-for="(item, index) in measurements2"
+                      :key="index"
+                      :label="item.unit"
+                      :value="item.unitId"/>
+                  </el-select>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item :label="$t('Product.producemeasurement')" prop="producemeasurement" style="width: 100%;">
+                  <el-select v-model="personalForm.producemeasurement" :disabled="con" placeholder="请选择生产计量单位" style="margin-left: 18px;width: 200px" @focus="updateunit">
+                    <el-option
+                      v-for="(item, index) in measurements2"
+                      :key="index"
+                      :label="item.unit"
+                      :value="item.unitId"/>
                   </el-select>
                 </el-form-item>
               </el-col>
@@ -205,21 +227,21 @@
                   <el-input v-model="personalForm.point" placeholder="请输入商品积分" style="margin-left: 18px;width:200px" clearable/>
                 </el-form-item>
               </el-col>
-              <el-col :span="6" style="height: 58px;">
+              <el-col :span="6">
                 <el-form-item :label="$t('Product.zhibaoqi')" style="width: 100%">
                   <el-input v-model="personalForm.zhibaoqi" placeholder="请输入质保期" style="margin-left: 18px;width: 200px" clearable>
                     <template slot="append">天</template>
                   </el-input>
                 </el-form-item>
               </el-col>
-              <el-col :span="6" style="height: 58px;">
+              <el-col :span="6">
                 <el-form-item :label="$t('Product.weight')" style="width: 100%">
                   <el-input v-model="personalForm.weight" placeholder="请输入重量" style="margin-left: 18px;width: 200px" clearable>
                     <template slot="append">KG</template>
                   </el-input>
                 </el-form-item>
               </el-col>
-              <el-col :span="6" style="height: 58px;">
+              <el-col :span="6">
                 <el-form-item :label="$t('Product.volume')" style="width: 100%">
                   <el-input v-model="personalForm.volume" placeholder="请输入体积" style="margin-left: 18px;width: 200px" clearable>
                     <template slot="append">m³</template>
@@ -250,13 +272,13 @@
               <el-col :span="6">
                 <el-form-item :label="$t('Product.isBatch')" prop="isBatch" style="width: 100%;">
                   <el-radio-group v-model="personalForm.isBatch" style="margin-left: 18px;width: 200px" @change="chooseBatch">
-                    <el-radio :label="1" style="width: 100px">使用</el-radio>
-                    <el-radio :label="2">不使用</el-radio>
+                    <el-radio :label="1" style="width: 100px">启用</el-radio>
+                    <el-radio :label="2">不启用</el-radio>
                   </el-radio-group>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('Product.effectiveDay')" :rules="personalForm.isBatch === 2 ? personalrules.effectiveDay:[{ required: true, message: '请输入有效天数', trigger: 'blur' }]" prop="effectiveDay" style="width: 100%;">
+                <el-form-item :label="$t('Product.effectiveDay')" style="width: 100%;">
                   <el-input v-model="personalForm.effectiveDay" :disabled="personalForm.isBatch === 2" placeholder="请输入有效天数" clearable style="margin-left: 18px;width:200px"/>
                 </el-form-item>
               </el-col>
@@ -370,6 +392,7 @@
 </template>
 
 <script>
+import { searchUnitGroup } from '@/api/UnitGroup'
 import { createnewproduct, searchEmpCategory2, searchMea } from '@/api/Product'
 import permission from '@/directive/permission/index.js' // 权限判断指令
 import checkPermission from '@/utils/permission' // 权限判断函数
@@ -425,6 +448,8 @@ export default {
       categoryid: '',
       // 计量单位数据
       measurements: [],
+      measurements2: [],
+      con: true,
       // 供货商弹窗控制
       empcontrol: false,
       // 商品图片数据+++++++++++++++++++++++++开始
@@ -474,6 +499,7 @@ export default {
       Iscategoryid: '',
       // 物品信息数据
       personalForm: {
+        unitGroupId: '',
         code: '',
         barcode: '',
         productname: '',
@@ -494,6 +520,7 @@ export default {
         level: '',
         purchasemeasurement: '',
         salemeasurement: '',
+        caigoumeasurement: '',
         stockmeasurement: '',
         producemeasurement: '',
         source: '',
@@ -512,10 +539,27 @@ export default {
         colorId: '',
         typeid: ''
       },
+      getemplist2: {
+        pagenum: 1,
+        pagesize: 999
+      },
+      unitGroupIds: [],
       // 物品信息规则数据
       personalrules: {
+        salemeasurement: [
+          { required: true, message: '请选择销售计量单位', trigger: 'change' }
+        ],
+        caigoumeasurement: [
+          { required: true, message: '请选择采购计量单位', trigger: 'change' }
+        ],
+        stockmeasurement: [
+          { required: true, message: '请选择库存计量单位', trigger: 'change' }
+        ],
+        producemeasurement: [
+          { required: true, message: '请选择生产计量单位', trigger: 'change' }
+        ],
         source: [
-          { required: true, message: '请选择来源', trigger: 'blur' }
+          { required: true, message: '请选择来源', trigger: 'change' }
         ],
         productname: [
           { required: true, message: '请输入产品名称', trigger: 'blur' }
@@ -526,7 +570,7 @@ export default {
         disposeId: [
         ],
         categoryid: [
-          { required: true, validator: validatePass, trigger: 'blur' }
+          { required: true, validator: validatePass, trigger: 'change' }
         ],
         versionId: [
           { message: '请选择版本', trigger: 'change' }
@@ -555,15 +599,77 @@ export default {
         effectiveDay: [
         ],
         purchasemeasurement: [
-          { required: true, message: '请选择批次设置', trigger: 'change' }
+          { required: true, message: '请选择基本计量单位', trigger: 'change' }
         ]
       }
     }
   },
   created() {
     this.getcategorys()
+    // this.getunitlist()
   },
   methods: {
+    updateunit() {
+      this.getcategorys()
+      if (this.personalForm.unitGroupId === null || this.personalForm.unitGroupId === '' || this.personalForm.unitGroupId === undefined) {
+        this.$notify.error({
+          title: '错误',
+          message: '请先选择基本计量单位组',
+          offset: 100
+        })
+      } else {
+        const nowlistdata = this.unitGroupIds
+        console.log('this.unitGroupIds', this.unitGroupIds)
+        console.log('this.personalForm.unitGroupId', this.personalForm.unitGroupId)
+        for (let j = 0; j < nowlistdata.length; j++) {
+          if (nowlistdata[j].id === this.personalForm.unitGroupId) {
+            this.measurements2 = nowlistdata[j].unitGroupDetailVos
+          }
+        }
+      }
+    },
+    clearunit() {
+      this.con = false
+      this.personalForm.salemeasurement = ''
+      this.personalForm.stockmeasurement = ''
+      this.personalForm.producemeasurement = ''
+      this.personalForm.caigoumeasurement = ''
+    },
+    clearunitGroupId() {
+      this.con = true
+      this.personalForm.unitGroupId = ''
+      this.measurements2 = this.measurements
+      for (let i = 0; i < this.measurements2.length; i++) {
+        this.measurements2[i].unitId = this.measurements2[i].id
+        this.measurements2[i].unit = this.measurements2[i].categoryName
+      }
+      console.log(this.measurements2)
+      this.personalForm.salemeasurement = this.personalForm.purchasemeasurement
+      this.personalForm.stockmeasurement = this.personalForm.purchasemeasurement
+      this.personalForm.producemeasurement = this.personalForm.purchasemeasurement
+      this.personalForm.caigoumeasurement = this.personalForm.purchasemeasurement
+      this.getemplist2.basicUnitId = this.personalForm.purchasemeasurement
+      searchUnitGroup(this.getemplist2).then(res => {
+        if (res.data.ret === 200) {
+          console.log('res', res)
+          this.unitGroupIds = res.data.data.content.list
+        } else {
+          console.log('列表出错')
+        }
+        setTimeout(() => {
+          this.listLoading = false
+        }, 0.5 * 100)
+      })
+    },
+    checkunitGroupIds() {
+      if (this.personalForm.purchasemeasurement === null || this.personalForm.purchasemeasurement === '' || this.personalForm.purchasemeasurement === undefined) {
+        this.$notify.error({
+          title: '错误',
+          message: '请先选择基本计量单位',
+          offset: 100
+        })
+      }
+    },
     checkPermission,
     chooseBatch(val) {
       if (val === 2) {

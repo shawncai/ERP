@@ -568,6 +568,7 @@ export default {
     createId: '建档人'
   },
   Product: {
+    unitGroupId: '计量单位组',
     stockCircle: '采购周期',
     produceAbility: '生产能力',
     workCenterId: '工作中心',
@@ -602,6 +603,7 @@ export default {
     level: '档次级别',
     unit: '单位',
     purchasemeasurement: '基本计量单位',
+    caigoumeasurement: '采购计量单位',
     salemeasurement: '销售计量单位',
     stockmeasurement: '库存计量单位',
     producemeasurement: '生产计量单位',
@@ -1192,7 +1194,7 @@ export default {
   },
   StockOrder: {
     supplierNumber: '供应方订单号',
-    title: '采购订货单主题',
+    title: '采购订单主题',
     orderNumber: '采购单号',
     sourceType: '源单类型',
     supplierId: '供应商',

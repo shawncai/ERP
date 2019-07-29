@@ -264,7 +264,7 @@ export default {
           productCode: item.code,
           productName: item.productName,
           typeId: item.typeId,
-          unit: item.purMeasu,
+          unit: item.produceMeasu,
           productType: item.productType,
           sourceType: '无来源',
           sourceNumber: '',

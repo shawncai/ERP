@@ -24,6 +24,9 @@ export function searchUnitGroup(query) {
   if (query.groupName !== '' && query.groupName !== null && query.groupName !== undefined) {
     params.append('groupName', query.groupName) // 你要传给后台的参数值 key/value
   }
+  if (query.basicUnitId !== '' && query.basicUnitId !== null && query.basicUnitId !== undefined) {
+    params.append('basicUnitId', query.basicUnitId) // 你要传给后台的参数值 key/value
+  }
   params.append('pageNum', query.pagenum) // 你要传给后台的参数值 key/value
   params.append('pageSize', query.pagesize) // 你要传给后台的参数值 key/value
   return request({

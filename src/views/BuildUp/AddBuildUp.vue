@@ -196,6 +196,8 @@
 </template>
 
 <script>
+import { searchUnitGroup } from '@/api/UnitGroup'
+import { productlist } from '@/api/Product'
 import { getlocation, countlist, batchlist, locationlist } from '@/api/public'
 import { materialslist2 } from '@/api/MaterialsList'
 import { getdeptlist } from '@/api/BasicSettings'
@@ -420,6 +422,43 @@ export default {
           }
         })
         console.log('newArr', newArr)
+        // 通过Promise.all把所有循环中的异步接口数据加载过来，再通过async/await把数据加载完成
+        const productDetail3 = await Promise.all(newArr.map(function(item) {
+          const query = {}
+          query.code = item.productCode
+          return productlist(query)
+        }))
+        console.log('productDetail3', productDetail3)
+        for (let i = 0; i < newArr.length; i++) {
+          for (let j = 0; j < productDetail3.length; j++) {
+            if (newArr[i].productCode === productDetail3[j].data.data.content.list[0].code) {
+              newArr[i].unit = productDetail3[j].data.data.content.list[0].stockMeasu
+              // 根据单位比例换算数量
+              if (productDetail3[j].data.data.content.list[0].unitGroupId !== null) {
+                const query = {}
+                query.groupId = productDetail3[j].data.data.content.list[0].unitGroupId
+                await searchUnitGroup(query).then(res => {
+                  if (res.data.ret === 200) {
+                    console.log('res', res.data.data.content.list[0].unitGroupDetailVos)
+                    const unitGroupDetailVos = res.data.data.content.list[0].unitGroupDetailVos
+                    let num2 = 1
+                    for (let k = 0; k < unitGroupDetailVos.length; k++) {
+                      if (unitGroupDetailVos[k].unitId === productDetail3[j].data.data.content.list[0].produceMeasurement) {
+                        num2 = unitGroupDetailVos[k].proportion
+                        console.log('num2', num2)
+                      }
+                    }
+                    newArr[i].quantity = ((newArr[i].quantity) * num2).toFixed(2)
+                    console.log(newArr[i].quantity)
+                  }
+                  setTimeout(() => {
+                    this.listLoading = false
+                  }, 0.5 * 100)
+                })
+              }
+            }
+          }
+        }
         // this.$refs.editable = newArr
         console.log('error2')
         for (let i = 0; i < newArr.length; i++) {

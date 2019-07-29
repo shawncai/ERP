@@ -79,8 +79,8 @@
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item :label="$t('Product.purchasemeasurement')" prop="purchasemeasurement" style="width: 100%;">
-                <el-select v-model="personalForm.purchaseMeasurement" placeholder="请选择基本计量单位" style="margin-left: 18px;width: 200px" @focus="updatecate">
+              <el-form-item :label="$t('Product.purchasemeasurement')" prop="purchaseMeasurement" style="width: 100%;">
+                <el-select v-model="personalForm.purchaseMeasurement" placeholder="请选择基本计量单位" style="margin-left: 18px;width: 200px" @change="clearunitGroupId">
                   <el-option
                     v-for="(item, index) in measurements"
                     :key="index"
@@ -90,35 +90,57 @@
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item :label="$t('Product.salemeasurement')" style="width: 100%;">
-                <el-select v-model="personalForm.saleMeasurement" placeholder="请选择销售计量单位" style="margin-left: 18px;width: 200px" @focus="updatecate">
+              <el-form-item :label="$t('Product.unitGroupId')" style="width: 100%;">
+                <el-select v-model="personalForm.unitGroupId" placeholder="请选择计量单位组" style="margin-left: 18px;width: 200px" @change="clearunit">
                   <el-option
-                    v-for="(item, index) in measurements"
+                    v-for="(item, index) in unitGroupIds"
                     :key="index"
-                    :label="item.categoryName"
+                    :label="item.groupName"
                     :value="item.id"/>
                 </el-select>
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item :label="$t('Product.stockmeasurement')" style="width: 100%;">
-                <el-select v-model="personalForm.stockMeasurement" placeholder="请选择库存计量单位" style="margin-left: 18px;width: 200px" @focus="updatecate">
+              <el-form-item ref="sure" :label="$t('Product.caigoumeasurement')" prop="caigoumeasurement" style="width: 100%;">
+                <el-select v-model="personalForm.caigoumeasurement" :disabled="con" placeholder="请选择采购计量单位" style="margin-left: 18px;width: 200px" @change="$forceUpdate()">
                   <el-option
-                    v-for="(item, index) in measurements"
+                    v-for="(item, index) in measurements2"
                     :key="index"
-                    :label="item.categoryName"
-                    :value="item.id"/>
+                    :label="item.unit"
+                    :value="item.unitId"/>
                 </el-select>
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item :label="$t('Product.producemeasurement')" style="width: 100%;">
-                <el-select v-model="personalForm.produceMeasurement" placeholder="请选择生产计量单位" style="margin-left: 18px;width: 200px" @focus="updatecate">
+              <el-form-item :label="$t('Product.salemeasurement')" prop="salemeasurement" style="width: 100%;">
+                <el-select v-model="personalForm.salemeasurement" :disabled="con" placeholder="请选择销售计量单位" style="margin-left: 18px;width: 200px" @change="$forceUpdate()">
                   <el-option
-                    v-for="(item, index) in measurements"
+                    v-for="(item, index) in measurements2"
                     :key="index"
-                    :label="item.categoryName"
-                    :value="item.id"/>
+                    :label="item.unit"
+                    :value="item.unitId"/>
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('Product.stockmeasurement')" prop="stockmeasurement" style="width: 100%;">
+                <el-select v-model="personalForm.stockmeasurement" :disabled="con" placeholder="请选择库存计量单位" style="margin-left: 18px;width: 200px" @change="$forceUpdate()">
+                  <el-option
+                    v-for="(item, index) in measurements2"
+                    :key="index"
+                    :label="item.unit"
+                    :value="item.unitId"/>
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('Product.producemeasurement')" prop="producemeasurement" style="width: 100%;">
+                <el-select v-model="personalForm.producemeasurement" :disabled="con" placeholder="请选择生产计量单位" style="margin-left: 18px;width: 200px" @change="$forceUpdate()">
+                  <el-option
+                    v-for="(item, index) in measurements2"
+                    :key="index"
+                    :label="item.unit"
+                    :value="item.unitId"/>
                 </el-select>
               </el-form-item>
             </el-col>
@@ -183,15 +205,15 @@
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item :label="$t('Product.effectiveDay')" prop="effectiveDay" style="width: 100%;">
+              <el-form-item :label="$t('Product.effectiveDay')" style="width: 100%;">
                 <el-input v-model="personalForm.effectiveDay" placeholder="请输入有效天数" clearable style="margin-left: 18px;width: 200px"/>
               </el-form-item>
             </el-col>
             <el-col :span="12">
               <el-form-item :label="$t('Product.isBatch')" prop="isBatch" style="width: 100%;">
                 <el-radio-group v-model="personalForm.isBatch" style="margin-left: 18px;width: 200px">
-                  <el-radio :label="1" style="width: 100px">使用</el-radio>
-                  <el-radio :label="2">不使用</el-radio>
+                  <el-radio :label="1" style="width: 100px">启用</el-radio>
+                  <el-radio :label="2">不启用</el-radio>
                 </el-radio-group>
               </el-form-item>
             </el-col>
@@ -303,6 +325,7 @@
 </template>
 
 <script>
+import { searchUnitGroup } from '@/api/UnitGroup'
 import { searchEmpCategory2, editproduct, searchMea } from '@/api/Product'
 import MyEmp from './MyEmp'
 import MySupplier from './MySupplier'
@@ -329,7 +352,40 @@ export default {
         callback()
       }
     }
+    const validatePass2 = (rule, value, callback) => {
+      console.log(value)
+      if (this.personalForm.salemeasurement === null || this.personalForm.salemeasurement === '') {
+        callback(new Error('请选择'))
+      } else {
+        callback()
+      }
+    }
+    const validatePass3 = (rule, value, callback) => {
+      console.log(value)
+      if (this.personalForm.caigoumeasurement === null || this.personalForm.caigoumeasurement === '') {
+        callback(new Error('请选择'))
+      } else {
+        callback()
+      }
+    }
+    const validatePass4 = (rule, value, callback) => {
+      console.log(value)
+      if (this.personalForm.stockmeasurement === null || this.personalForm.stockmeasurement === '') {
+        callback(new Error('请选择'))
+      } else {
+        callback()
+      }
+    }
+    const validatePass5 = (rule, value, callback) => {
+      console.log(value)
+      if (this.personalForm.producemeasurement === null || this.personalForm.producemeasurement === '') {
+        callback(new Error('请选择'))
+      } else {
+        callback()
+      }
+    }
     return {
+      unitGroupIds: [],
       // 计量单位数据
       measurements: [],
       // 弹窗组件的控制
@@ -348,6 +404,7 @@ export default {
       disposeId: '',
       // 版本回显
       versionId: '',
+      measurements2: [],
       // 颜色回显
       colorId: '',
       // 直径回显
@@ -397,6 +454,7 @@ export default {
       brands: [],
       // 直径规格数据
       diameters: [],
+      con: true,
       // 长度等级数据
       lengthLevels: [],
       // 表面处理数据
@@ -411,6 +469,18 @@ export default {
       supplierid: '',
       // 物品信息规则数据
       personalrules: {
+        salemeasurement: [
+          { required: true, validator: validatePass2, trigger: 'change' }
+        ],
+        caigoumeasurement: [
+          { required: true, validator: validatePass3, trigger: 'change' }
+        ],
+        stockmeasurement: [
+          { required: true, validator: validatePass4, trigger: 'change' }
+        ],
+        producemeasurement: [
+          { required: true, validator: validatePass5, trigger: 'change' }
+        ],
         productname: [
           { required: true, message: '请输入产品名称', trigger: 'blur' }
         ],
@@ -452,9 +522,13 @@ export default {
         effectiveDay: [
           { required: true, message: '请输入有效天数', trigger: 'blur' }
         ],
-        purchasemeasurement: [
-          { required: true, message: '请选择批次设置', trigger: 'change' }
+        purchaseMeasurement: [
+          { required: true, message: '请选择基本计量单位', trigger: 'change' }
         ]
+      },
+      getemplist2: {
+        pagenum: 1,
+        pagesize: 999
       }
     }
   },
@@ -464,16 +538,146 @@ export default {
     },
     editdata() {
       this.personalForm = this.editdata
+      console.log(this.personalForm)
       this.buyerId = this.editdata.buyerName
       console.log(this.editdata)
       this.getcategorys()
       this.choosesource()
+      this.checkunitGroupIds2()
+      this.personalForm.producemeasurement = this.personalForm.produceMeasurement
+      this.personalForm.caigoumeasurement = this.personalForm.caigouMeasurement
+      this.personalForm.salemeasurement = this.personalForm.saleMeasurement
+      this.personalForm.stockmeasurement = this.personalForm.stockMeasurement
+      if (this.personalForm.unitGroupId === null) {
+        this.con = true
+      } else {
+        this.con = false
+      }
     }
   },
   created() {
     this.getcategorys()
   },
   methods: {
+    // updateunit() {
+    //   this.getcategorys()
+    //   if (this.personalForm.unitGroupId === null || this.personalForm.unitGroupId === '' || this.personalForm.unitGroupId === undefined) {
+    //     this.$notify.error({
+    //       title: '错误',
+    //       message: '请先选择基本计量单位组',
+    //       offset: 100
+    //     })
+    //   } else {
+    //     const nowlistdata = this.unitGroupIds
+    //     console.log('this.unitGroupIds', this.unitGroupIds)
+    //     console.log('this.personalForm.unitGroupId', this.personalForm.unitGroupId)
+    //     for (let j = 0; j < nowlistdata.length; j++) {
+    //       if (nowlistdata[j].id === this.personalForm.unitGroupId) {
+    //         this.measurements2 = nowlistdata[j].unitGroupDetailVos
+    //       }
+    //     }
+    //   }
+    // },
+    clearunitGroupId() {
+      this.con = true
+      this.personalForm.unitGroupId = ''
+      this.measurements2 = this.measurements
+      for (let i = 0; i < this.measurements2.length; i++) {
+        this.measurements2[i].unitId = this.measurements2[i].id
+        this.measurements2[i].unit = this.measurements2[i].categoryName
+      }
+      console.log(this.measurements2)
+      searchUnitGroup(this.getemplist2).then(res => {
+        if (res.data.ret === 200) {
+          console.log('res', res)
+          this.unitGroupIds = res.data.data.content.list
+        } else {
+          console.log('列表出错')
+        }
+        setTimeout(() => {
+          this.listLoading = false
+        }, 0.5 * 100)
+      })
+      this.personalForm.salemeasurement = this.personalForm.purchaseMeasurement
+      this.personalForm.stockmeasurement = this.personalForm.purchaseMeasurement
+      this.personalForm.producemeasurement = this.personalForm.purchaseMeasurement
+      this.personalForm.caigoumeasurement = this.personalForm.purchaseMeasurement
+      this.getemplist2.basicUnitId = this.personalForm.purchaseMeasurement
+    },
+    clearunit() {
+      this.con = false
+      this.personalForm.salemeasurement = ''
+      this.personalForm.stockmeasurement = ''
+      this.personalForm.producemeasurement = ''
+      this.personalForm.caigoumeasurement = ''
+      const nowlistdata = this.unitGroupIds
+      console.log('this.unitGroupIds', this.unitGroupIds)
+      console.log('this.personalForm.unitGroupId', this.personalForm.unitGroupId)
+      for (let j = 0; j < nowlistdata.length; j++) {
+        if (nowlistdata[j].id === this.personalForm.unitGroupId) {
+          this.measurements2 = nowlistdata[j].unitGroupDetailVos
+        }
+      }
+    },
+    checkunitGroupIds2() {
+      if (this.personalForm.purchaseMeasurement !== null || this.personalForm.purchaseMeasurement !== '' || this.personalForm.purchaseMeasurement !== undefined) {
+        this.getemplist2.basicUnitId = this.personalForm.purchaseMeasurement
+        searchUnitGroup(this.getemplist2).then(res => {
+          if (res.data.ret === 200) {
+            this.unitGroupIds = res.data.data.content.list
+            console.log('this.personalForm.unitGroupId', this.personalForm.unitGroupId)
+            console.log('222222222222')
+            if (this.personalForm.unitGroupId !== null && this.personalForm.unitGroupId !== '' && this.personalForm.unitGroupId !== undefined) {
+              console.log('33333334')
+              const nowlistdata = this.unitGroupIds
+              console.log('this.unitGroupIds', this.unitGroupIds)
+              console.log('this.personalForm.unitGroupId', this.personalForm.unitGroupId)
+              for (let j = 0; j < nowlistdata.length; j++) {
+                if (nowlistdata[j].id === this.personalForm.unitGroupId) {
+                  this.measurements2 = nowlistdata[j].unitGroupDetailVos
+                  console.log('this.measurements2222', this.measurements2)
+                }
+              }
+            } else {
+              console.log('3333333')
+              for (let i = 0; i < this.measurements.length; i++) {
+                this.measurements[i].unitId = this.measurements[i].id
+                this.measurements[i].unit = this.measurements[i].categoryName
+              }
+              this.measurements2 = this.measurements
+              console.log('this.measurements2', this.measurements2)
+            }
+          } else {
+            console.log('列表出错')
+          }
+          setTimeout(() => {
+            this.listLoading = false
+          }, 0.5 * 100)
+        })
+      }
+    },
+    checkunitGroupIds() {
+      if (this.personalForm.purchaseMeasurement === null || this.personalForm.purchaseMeasurement === '' || this.personalForm.purchaseMeasurement === undefined) {
+        this.$notify.error({
+          title: '错误',
+          message: '请先选择基本计量单位',
+          offset: 100
+        })
+      } else {
+        this.getemplist2.basicUnitId = this.personalForm.purchaseMeasurement
+        searchUnitGroup(this.getemplist2).then(res => {
+          if (res.data.ret === 200) {
+            console.log('res', res)
+            this.unitGroupIds = res.data.data.content.list
+          } else {
+            console.log('列表出错')
+          }
+          setTimeout(() => {
+            this.listLoading = false
+          }, 0.5 * 100)
+        })
+      }
+    },
     choosesource(val) {
       if (val === '3' || val === '') {
         this.Iscenter = true
@@ -709,33 +913,45 @@ export default {
     // 修改和取消按钮
     // 修改按钮
     handleEditok() {
-      this.personalForm.picids = this.picids
-      this.personalForm.detailpicid = this.detailpicid
-      console.log(this.personalForm)
-      editproduct(this.personalForm).then(res => {
-        if (res.data.ret === 200) {
-          this.$notify({
-            title: '操作成功',
-            message: '操作成功',
-            type: 'success',
-            duration: 1000,
-            offset: 100
+      console.log('this', this.personalForm)
+      this.$refs.personalForm.validate((valid) => {
+        if (valid) {
+          this.personalForm.picids = this.picids
+          this.personalForm.detailpicid = this.detailpicid
+          console.log(this.personalForm)
+          editproduct(this.personalForm).then(res => {
+            if (res.data.ret === 200) {
+              this.$notify({
+                title: '操作成功',
+                message: '操作成功',
+                type: 'success',
+                duration: 1000,
+                offset: 100
+              })
+              this.$emit('rest', true)
+              this.restAllForm()
+              this.$refs.personalForm.clearValidate()
+              this.$refs.personalForm.resetFields()
+              this.$refs.personalForm2.clearValidate()
+              this.$refs.personalForm2.resetFields()
+              this.$refs.detailpicupload.clearFiles()
+              this.$refs.upload.clearFiles()
+              this.editVisible = false
+            } else {
+              this.$notify.error({
+                title: '错误',
+                message: '出错了',
+                offset: 100
+              })
+            }
           })
-          this.$emit('rest', true)
-          this.restAllForm()
-          this.$refs.personalForm.clearValidate()
-          this.$refs.personalForm.resetFields()
-          this.$refs.personalForm2.clearValidate()
-          this.$refs.personalForm2.resetFields()
-          this.$refs.detailpicupload.clearFiles()
-          this.$refs.upload.clearFiles()
-          this.editVisible = false
         } else {
           this.$notify.error({
             title: '错误',
-            message: '出错了',
+            message: '信息未填完整',
             offset: 100
           })
+          return false
         }
       })
     },
@@ -772,7 +988,9 @@ export default {
         supplierid: '',
         createid: '',
         level: '',
+        purchaseMeasurement: '',
         purchasemeasurement: '',
+        caigoumeasurement: '',
         salemeasurement: '',
         stockmeasurement: '',
         producemeasurement: '',
@@ -784,6 +1002,8 @@ export default {
         memberprice: ''
       }
       this.supplierid = ''
+      this.measurements2 = []
+      this.measurements = []
     }
     // 修改操作结束 -------------------------------------------------
   }

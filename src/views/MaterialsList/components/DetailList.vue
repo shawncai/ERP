@@ -1,11 +1,11 @@
 <template>
-  <el-dialog :visible.sync="editVisible" :detailcontrol="detailcontrol" :detaildata="detaildata" :close-on-press-escape="false" append-to-body class="edit" top="10px" title="修改采购入库单" @close="$emit('update:detailcontrol', false)">
+  <el-dialog :visible.sync="editVisible" :detailcontrol="detailcontrol" :detaildata="detaildata" :close-on-press-escape="false" append-to-body width="1010px" class="edit" top="-10px" title="查看物料清单" @close="$emit('update:detailcontrol', false)">
     <div id="printTest" >
       <!--基本信息-->
-      <el-card class="box-card">
-        <h2 ref="geren" class="form-name">基本信息</h2>
+      <el-card class="box-card" style="margin-top: 63px" shadow="never">
+        <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: 63px;">基本信息</h2>
         <button v-print="'#printTest'" class="print" style="font-size: 13px;background: white;">打印</button>
-        <div class="container">
+        <div class="container" style="margin-top: 37px">
           <el-form :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="100px" style="margin-left: 30px;">
             <el-row>
               <el-col :span="12">
@@ -13,38 +13,29 @@
                   {{ personalForm.bomNumber }}
                 </el-form-item>
               </el-col>
-              <el-col :span="6">
+              <el-col :span="12">
                 <el-form-item :label="$t('MaterialsList.bomNumber')" prop="bomNumber" style="width: 100%;">
-                  <el-input v-model="personalForm.bomNumber" style="margin-left: 18px;width: 150px" disabled/>
+                  {{ personalForm.bomNumber }}
                 </el-form-item>
               </el-col>
-              <el-col :span="6">
+              <el-col :span="12">
                 <el-form-item :label="$t('MaterialsList.bomTypeId')" prop="bomTypeId" style="width: 100%;">
-                  <el-select v-model="personalForm.bomTypeId" style="margin-left: 18px;width: 150px" disabled >
-                    <el-option value="1" label="工艺BOM"/>
-                    <el-option value="2" label="设计BOM"/>
-                    <el-option value="3" label="制造BOM"/>
-                  </el-select>
+                  {{ personalForm.bomType | bomTypeFilter }}
                 </el-form-item>
               </el-col>
-              <el-col :span="6">
+              <el-col :span="12">
                 <el-form-item :label="$t('MaterialsList.isActive')" prop="isActive" style="width: 100%;">
-                  <el-radio-group v-model="personalForm.isActive" style="width: 150px;margin-left: 19px" disabled>
-                    <el-radio :label="1">启用</el-radio>
-                    <el-radio :label="2">未启用</el-radio>
-                  </el-radio-group>
+                  {{ personalForm.bomType | isActiveFilter }}
                 </el-form-item>
               </el-col>
-              <el-col :span="6">
+              <el-col :span="12">
                 <el-form-item :label="$t('MaterialsList.version')" style="width: 100%;">
-                  <el-select v-model="personalForm.version" style="margin-left: 18px;width: 150px" disabled >
-                    <el-option value="1" label="版本1"/>
-                  </el-select>
+                  {{ personalForm.version | versionFilter }}
                 </el-form-item>
               </el-col>
-              <el-col :span="6">
+              <el-col :span="12">
                 <el-form-item :label="$t('MaterialsList.summary')" style="width: 100%;">
-                  <el-input v-model="personalForm.summary" style="margin-left: 18px;width: 150px" disabled/>
+                  {{ personalForm.summary }}
                 </el-form-item>
               </el-col>
             </el-row>
@@ -57,19 +48,19 @@
         <div class="container">
           <el-form :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="100px" style="margin-left: 30px;">
             <el-row>
-              <el-col :span="6">
+              <el-col :span="12">
                 <el-form-item :label="$t('MaterialsList.productName')" prop="productName" style="width: 100%;">
-                  <el-input v-model="personalForm.productName" style="margin-left: 18px;width: 150px" disabled/>
+                  {{ personalForm.productName }}
                 </el-form-item>
               </el-col>
-              <el-col :span="6">
+              <el-col :span="12">
                 <el-form-item :label="$t('MaterialsList.unit')" prop="unit" style="width: 100%;">
-                  <el-input v-model="personalForm.unit" style="margin-left: 18px;width: 150px" disabled/>
+                  {{ personalForm.unit }}
                 </el-form-item>
               </el-col>
-              <el-col :span="6">
+              <el-col :span="12">
                 <el-form-item :label="$t('MaterialsList.productTypeId')" prop="productTypeId" style="width: 100%;">
-                  <el-input v-model="personalForm.productType" style="margin-left: 18px;width: 150px" disabled/>
+                  {{ personalForm.productType }}
                 </el-form-item>
               </el-col>
             </el-row>
@@ -137,9 +128,6 @@
           </el-table>
         </div>
       </el-card>
-      <div class="buttons" style="margin-top: 20px;margin-left: 30px">
-        <el-button type="danger" @click="handlecancel()">取消</el-button>
-      </div>
     </div>
   </el-dialog>
 </template>
@@ -147,6 +135,27 @@
 <script>
 export default {
   filters: {
+    versionFilter(status) {
+      const statusMap = {
+        1: '版本1'
+      }
+      return statusMap[status]
+    },
+    isActiveFilter(status) {
+      const statusMap = {
+        1: '启用',
+        2: '未启用'
+      }
+      return statusMap[status]
+    },
+    bomTypeFilter(status) {
+      const statusMap = {
+        1: '工艺BOM',
+        2: '设计BOM',
+        3: '制造BOM'
+      }
+      return statusMap[status]
+    },
     statfilter(status) {
       const statusMap = {
         1: '审核中',
@@ -197,6 +206,28 @@ export default {
 </script>
 
 <style scoped>
+  .edit >>> .el-dialog{
+    -webkit-transform: none;
+    transform: none;
+    position: absolute;
+    right: 0;
+    left: auto;
+    height: auto;
+  }
+  .edit >>> .el-dialog__header{
+    background: #fff;
+    position: fixed;
+    top: 0;
+    display: block;
+    width: 1010px;
+    z-index: 100;
+    border-bottom: 1px solid #f1f1f1;
+  }
+  .edit >>> .el-dialog__body{
+    padding-left: 0;
+    padding-right: 0;
+    padding-top: 10px;
+  }
   .edit >>> .el-dialog {
     background:#f1f1f1 ;
     left: 0;

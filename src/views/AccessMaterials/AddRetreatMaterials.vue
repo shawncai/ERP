@@ -16,7 +16,6 @@
                 <el-form-item :label="$t('AccessMaterials.sourceType')" prop="sourceType" style="width: 100%;">
                   <el-select v-model="personalForm.sourceType" style="margin-left: 18px;width: 200px" @change="chooseType">
                     <el-option value="1" label="领料单" />
-                    <el-option value="2" label="无来源" />
                   </el-select>
                 </el-form-item>
               </el-col>

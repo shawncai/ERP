@@ -69,6 +69,14 @@ export function countlist(query1, query2, query3) {
   })
 }
 
+// 物料清单编码
+export function getbom() {
+  return request({
+    url: '/erp/materialslist/getBomNumber',
+    method: 'post'
+  })
+}
+
 // 国家列表
 export function getcountrylist(query) {
   return request({

@@ -603,7 +603,7 @@ export default {
       this.sourceSerialNumber = val.id
       this.personalForm.productCode = val.code
       this.personalForm.productName = val.productName
-      this.personalForm.unit = val.produceMeasurement
+      this.personalForm.unit = val.stockMeasu
       this.personalForm.typeId = val.typeId
       this.typeId = val.productType
     },

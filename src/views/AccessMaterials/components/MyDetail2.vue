@@ -255,13 +255,13 @@ export default {
     // 物品选择添加
     handleAddTo() {
       this.productVisible = false
-      console.log(this.moreaction)
+      console.log('this.moreaction', this.moreaction)
       const productDetail = this.moreaction.map(function(item) {
         return {
           productCode: item.code,
           productName: item.productName,
           typeId: item.typeId,
-          unit: item.purMeasu,
+          unit: item.produceMeasu,
           price: item.costPrice,
           requireQuantity: 0,
           accessQuantity: 0,

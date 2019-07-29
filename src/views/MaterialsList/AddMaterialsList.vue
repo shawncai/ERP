@@ -9,7 +9,7 @@
             <el-row>
               <el-col :span="6">
                 <el-form-item :label="$t('MaterialsList.bomNumber')" prop="bomNumber" style="width: 100%;">
-                  <el-input v-model="personalForm.bomNumber" style="margin-left: 18px;width:200px" clearable/>
+                  <el-input v-model="personalForm.bomNumber" style="margin-left: 18px;width:200px" disabled/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
@@ -119,6 +119,7 @@
 </template>
 
 <script>
+import { getbom } from '@/api/public'
 import { addmaterials, isExist } from '@/api/MaterialsList'
 import MyDetail from './components/MyDetail'
 import MyMater from './components/MyMater'
@@ -137,6 +138,7 @@ export default {
       control: false,
       // 物料信息数据
       personalForm: {
+        bomNumber: '',
         createPersonId: this.$store.getters.userId,
         countryId: this.$store.getters.countryId,
         repositoryId: this.$store.getters.repositoryId,
@@ -164,7 +166,22 @@ export default {
       }
     }
   },
+  created() {
+    this.getBom()
+  },
   methods: {
+    getBom() {
+      getbom().then(res => {
+        if (res.data.ret === 200) {
+          console.log('res.data.ret ', res.data.data.content)
+          this.personalForm.bomNumber = res.data.data.content
+          console.log('this.personalForm.bomNumber', this.personalForm.bomNumber)
+        }
+        setTimeout(() => {
+          this.listLoading = false
+        }, 0.5 * 100)
+      })
+    },
     // 父件focus事件
     handlemater() {
       this.matercontrol = true
@@ -214,12 +231,14 @@ export default {
     // 清空记录
     restAllForm() {
       this.personalForm = {
+        bomNumber: '',
         createPersonId: this.$store.getters.userId,
         countryId: this.$store.getters.countryId,
         repositoryId: this.$store.getters.repositoryId,
         regionId: this.$store.getters.regionId
       }
       this.productTypeId = null
+      this.getBom()
     },
     // 保存操作
     handlesave() {

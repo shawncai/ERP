@@ -149,7 +149,7 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('Supplier.payMode')" style="width: 100%;">
-                  <el-select v-model="personalForm.payMode" :disabled="IscloseT" clearable style="margin-left: 18px;width: 200px">
+                  <el-select v-model="personalForm.payMode" clearable style="margin-left: 18px;width: 200px">
                     <el-option
                       v-for="(item, index) in colseTypes"
                       :value="item.id"
@@ -226,7 +226,9 @@
             <el-editable-column prop="productType" align="center" label="规格" min-width="150px"/>
             <el-editable-column prop="unit" align="center" label="单位" min-width="150px"/>
             <el-editable-column prop="color" align="center" label="颜色" min-width="150px"/>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="proportion" align="center" label="供货比列" min-width="150px"/>
+            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0,max: 100,precision: 2,controls:false}, type: 'visible'}" prop="proportion" align="center" label="供货比列(%)" min-width="150px"/>
+            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0,precision: 2,controls:false}, type: 'visible'}" prop="price" align="center" label="价格" min-width="150px"/>
+            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0,max: 100,precision: 2,controls:false}, type: 'visible'}" prop="discountRate" align="center" label="折扣(%)" min-width="150px"/>
           </el-editable>
         </div>
       </el-card>

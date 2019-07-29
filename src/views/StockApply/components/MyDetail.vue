@@ -266,7 +266,7 @@ export default {
           typeId: item.typeId,
           requireQuantity: 1,
           color: item.color,
-          unit: item.purMeasu,
+          unit: item.caigouMeasu,
           productType: item.productType,
           planQuantity: '0.00',
           applyQuantity: '1.00'
@@ -278,7 +278,7 @@ export default {
           productName: item.productName,
           typeId: item.typeId,
           color: item.color,
-          unit: item.purMeasu,
+          unit: item.caigouMeasu,
           productType: item.productType,
           applyQuantity: '1.00',
           planQuantity: '0.00'

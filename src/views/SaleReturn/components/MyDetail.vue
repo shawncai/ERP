@@ -268,7 +268,7 @@ export default {
           productType: item.typeId,
           typeId: item.productType,
           color: item.color,
-          unit: item.purMeasu,
+          unit: item.saleMeasu,
           performanceScore: item.kpiGrade,
           productScore: item.point,
           quantity: 0,

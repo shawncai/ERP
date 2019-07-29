@@ -255,7 +255,7 @@ export default {
     // 物品选择添加
     handleAddTo() {
       this.productVisible = false
-      console.log(this.moreaction)
+      console.log('this.moreaction', this.moreaction)
       const productDetail = this.moreaction.map(function(item) {
         return {
           productCode: item.code,
@@ -267,7 +267,7 @@ export default {
           todayRemain: 0
         }
       })
-      console.log(productDetail)
+      console.log('productDetail', productDetail)
       this.$emit('product', productDetail)
     }
   }

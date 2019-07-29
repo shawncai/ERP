@@ -265,7 +265,7 @@ export default {
           productName: item.productName,
           productType: item.productType,
           type: item.typeId,
-          unit: item.produceMeasu,
+          unit: item.stockMeasu,
           color: item.color,
           proportion: 0
         }
