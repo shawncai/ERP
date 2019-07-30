@@ -382,7 +382,7 @@ export default {
       // 部门数据
       depts: [],
       // 采购员回显
-      stockPersonId: '',
+      stockPersonId: this.$store.getters.name,
       // 控制采购员
       stockControl: false,
       // 类别数据
@@ -396,6 +396,7 @@ export default {
       control: false,
       // 采购申请单信息数据
       personalForm: {
+        stockPersonId: this.$store.getters.userId,
         createPersonId: this.$store.getters.userId,
         countryId: this.$store.getters.countryId,
         repositoryId: this.$store.getters.repositoryId,
@@ -496,7 +497,19 @@ export default {
       }
     },
     getdatatime() { // 默认显示今天
-      this.personalForm.retreatDate = new Date()
+      var date = new Date()
+      var seperator1 = '-'
+      var year = date.getFullYear()
+      var month = date.getMonth() + 1
+      var strDate = date.getDate()
+      if (month >= 1 && month <= 9) {
+        month = '0' + month
+      }
+      if (strDate >= 0 && strDate <= 9) {
+        strDate = '0' + strDate
+      }
+      var currentdate = year + seperator1 + month + seperator1 + strDate
+      this.personalForm.retreatDate = currentdate
       // 结算方式
       searchCategory(5).then(res => {
         if (res.data.ret === 200) {
@@ -719,11 +732,12 @@ export default {
         countryId: this.$store.getters.countryId,
         repositoryId: this.$store.getters.repositoryId,
         regionId: this.$store.getters.regionId,
+        stockPersonId: this.$store.getters.userId,
         isVat: 1
       }
       this.supplierId = null
       this.inquiryPersonId = null
-      this.stockPersonId = null
+      this.stockPersonId = this.$store.getters.name
       this.ourContractorId = null
       this.acceptPersonId = null
     },

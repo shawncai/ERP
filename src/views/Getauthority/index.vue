@@ -143,6 +143,7 @@ export default {
       this.getemplist.rolename = null
     },
     newauthority() {
+      console.log('this.operations', this.operations)
       this.$confirm('所修改的角色需重新登录才能生效, 是否继续?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
@@ -175,6 +176,7 @@ export default {
     },
     handleCurrentChange(val) {
       this.IsEait = true
+      console.log('val.roleName', val.roleName)
       this.getemplist.rolename = val.roleName
       this.isShow = false
       this.checkAll = false
@@ -188,6 +190,7 @@ export default {
         this.operations = []
       }
       console.log(this.operations)
+      console.log(this.getemplist.rolename)
     },
     restAllForm() {
       this.getemplist.rolename = null
@@ -225,6 +228,8 @@ export default {
       }
     },
     handleCheckedCitiesChange(value) {
+      console.log(this.operations)
+      console.log(value)
       const checkedCount = value.length
       this.checkAll = checkedCount === this.details.length
     },

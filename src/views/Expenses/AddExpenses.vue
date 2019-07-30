@@ -206,7 +206,19 @@ export default {
       })
     },
     getdatatime() { // 默认显示今天
-      this.personalForm.expensesDate = new Date()
+      var date = new Date()
+      var seperator1 = '-'
+      var year = date.getFullYear()
+      var month = date.getMonth() + 1
+      var strDate = date.getDate()
+      if (month >= 1 && month <= 9) {
+        month = '0' + month
+      }
+      if (strDate >= 0 && strDate <= 9) {
+        strDate = '0' + strDate
+      }
+      var currentdate = year + seperator1 + month + seperator1 + strDate
+      this.personalForm.expensesDate = currentdate
     },
     // 门店focus事件触发
     handlechooseRep() {

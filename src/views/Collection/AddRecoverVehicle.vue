@@ -258,7 +258,19 @@ export default {
       this.personalForm.receivePersonId = val.id
     },
     getdatatime() { // 默认显示今天
-      this.personalForm.receiveDate = new Date()
+      var date = new Date()
+      var seperator1 = '-'
+      var year = date.getFullYear()
+      var month = date.getMonth() + 1
+      var strDate = date.getDate()
+      if (month >= 1 && month <= 9) {
+        month = '0' + month
+      }
+      if (strDate >= 0 && strDate <= 9) {
+        strDate = '0' + strDate
+      }
+      var currentdate = year + seperator1 + month + seperator1 + strDate
+      this.personalForm.receiveDate = currentdate
     },
     // 源单控制
     handleAddsourceNum() {

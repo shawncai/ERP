@@ -1,12 +1,12 @@
 <template>
-  <el-dialog :visible.sync="editVisible" :detailcontrol="detailcontrol" :detaildata="detaildata" :close-on-press-escape="false" append-to-body class="edit" top="10px" title="修改其他入库单" @close="$emit('update:detailcontrol', false)">
+  <el-dialog :visible.sync="editVisible" :detailcontrol="detailcontrol" :detaildata="detaildata" :close-on-press-escape="false" append-to-body class="edit" width="1010px" top="-10px" title="修改其他入库单" @close="$emit('update:detailcontrol', false)">
     <div id="printTest" >
       <!--基本信息-->
       <el-card class="box-card">
         <h2 ref="geren" class="form-name">基本信息</h2>
         <button v-print="'#printTest'" class="print" style="font-size: 13px;background: white;">打印</button>
         <div class="container">
-          <el-form ref="personalForm" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="100px" style="margin-left: 30px;">
+          <el-form ref="personalForm" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="130px" style="margin-left: 30px;">
             <el-row>
               <el-col :span="12">
                 <el-form-item class="print2" label="其他入库单编号" style="width: 100%;display: none">
@@ -26,18 +26,8 @@
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item label="源单编号" style="width: 100%;">
-                  <el-input v-model="personalForm.sourceNumber" placeholder="请选择源单编号" style="margin-left: 18px;width: 150px" disabled/>
-                </el-form-item>
-              </el-col>
-              <el-col :span="6">
                 <el-form-item label="国家" style="width: 100%;">
                   <el-input v-model="personalForm.countryName" style="margin-left: 18px;width: 150px" disabled/>
-                </el-form-item>
-              </el-col>
-              <el-col :span="6">
-                <el-form-item label="批次" style="width: 100%;">
-                  <el-input v-model="personalForm.batch" style="margin-left: 18px;width: 160px" disabled/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
@@ -114,10 +104,11 @@
             <el-editable-column prop="productCode" fixed="left" align="center" label="物品编号" />
             <el-editable-column prop="productName" fixed="left" align="center" label="物品名称" />
             <el-editable-column prop="locationCode" align="center" label="货位" />
+            <el-editable-column prop="batch" align="center" label="批次" />
             <el-editable-column prop="color" align="center" label="颜色" />
             <el-editable-column prop="typeIdname" align="center" label="规格" />
             <el-editable-column prop="unit" align="center" label="单位" />
-            <el-editable-column prop="basicQuantity" align="center" label="基本数量" />
+            <!--            <el-editable-column prop="basicQuantity" align="center" label="基本数量" />-->
             <el-editable-column :edit-render="{name: 'ElInputNumber'}" prop="actualEnterQuantity" align="center" label="入库数量" />
             <el-editable-column prop="enterPrice" align="center" label="单价" />
             <el-editable-column prop="enterMoney" align="center" label="入库金额" >

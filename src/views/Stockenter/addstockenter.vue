@@ -394,9 +394,19 @@ export default {
       this.mid = scope.row.basicQuantity
     },
     getdatatime() { // 默认显示今天
-      const date = new Date()
-      date.setTime(date.getTime())
-      this.personalForm.enterDate = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate()
+      var date = new Date()
+      var seperator1 = '-'
+      var year = date.getFullYear()
+      var month = date.getMonth() + 1
+      var strDate = date.getDate()
+      if (month >= 1 && month <= 9) {
+        month = '0' + month
+      }
+      if (strDate >= 0 && strDate <= 9) {
+        strDate = '0' + strDate
+      }
+      var currentdate = year + seperator1 + month + seperator1 + strDate
+      this.personalForm.enterDate = currentdate
     },
     // 重置一下下拉
     change() {

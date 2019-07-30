@@ -340,10 +340,19 @@ export default {
       else return obj
     },
     getdatatime() { // 默认显示今天
-      const date = new Date()
-      date.setTime(date.getTime())
-      this.personalForm.requireArriveDate = date.getFullYear() + '-' + this.getzero(date.getMonth() + 1) + '-' + this.getzero(date.getDate())
-      console.log(this.personalForm.requireArriveDate)
+      var date = new Date()
+      var seperator1 = '-'
+      var year = date.getFullYear()
+      var month = date.getMonth() + 1
+      var strDate = date.getDate()
+      if (month >= 1 && month <= 9) {
+        month = '0' + month
+      }
+      if (strDate >= 0 && strDate <= 9) {
+        strDate = '0' + strDate
+      }
+      var currentdate = year + seperator1 + month + seperator1 + strDate
+      this.personalForm.requireArriveDate = currentdate
     },
     // 配送员focus事件
     handlechooseStock() {

@@ -8,7 +8,7 @@
           <el-form ref="personalForm" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="100px" style="margin-left: 30px;">
             <el-row>
               <el-col :span="6">
-                <el-form-item :label="$t('Stockenter.title')" prop="title" style="width: 100%;">
+                <el-form-item :label="$t('Stockenter.title')" style="width: 100%;">
                   <el-input v-model="personalForm.title" placeholder="请输入入库单主题" style="margin-left: 18px;width:200px" clearable/>
                 </el-form-item>
               </el-col>
@@ -17,11 +17,6 @@
                   <el-select v-model="personalForm.sourceType" placeholder="请选择源单类型" style="margin-left: 18px;width: 200px" clearable >
                     <el-option value="1" label="无来源"/>
                   </el-select>
-                </el-form-item>
-              </el-col>
-              <el-col :span="6">
-                <el-form-item :label="$t('Stockenter.sourceNumber')" prop="sourceNumber" style="width: 100%;">
-                  <el-input v-model="personalForm.sourceNumber" placeholder="请输入源单编号" style="margin-left: 18px;width:200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
@@ -121,8 +116,8 @@
             <el-editable-column prop="color" align="center" label="颜色" width="150px"/>
             <el-editable-column prop="typeIdname" align="center" label="规格" width="150px"/>
             <el-editable-column prop="unit" align="center" label="单位" width="150px"/>
-            <el-editable-column prop="basicQuantity" align="center" label="基本数量" width="150px"/>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', type: 'visible'}" prop="actualEnterQuantity" align="center" label="入库数量" width="150px"/>
+            <!--            <el-editable-column prop="basicQuantity" align="center" label="基本数量" width="150px"/>-->
+            <el-editable-column :edit-render="{name: 'ElInputNumber', type: 'visible', attrs: {min: 1, precision: 2, controls:false}}" prop="actualEnterQuantity" align="center" label="入库数量" width="150px"/>
             <el-editable-column prop="enterPrice" align="center" label="单价" width="150px"/>
             <el-editable-column prop="enterMoney" align="center" label="入库金额" width="150px">
               <template slot-scope="scope">
@@ -184,6 +179,37 @@ export default {
   name: 'AddOtherenter',
   components: { MyRepository, MyDetail, MyCreate, MyAccept, MyDelivery },
   data() {
+    const validatePass1 = (rule, value, callback) => {
+      console.log('this.personalForm.enterPersonId', this.personalForm.enterPersonId)
+      if (this.personalForm.enterPersonId === '' || this.personalForm.enterPersonId === null || this.personalForm.enterPersonId === undefined) {
+        callback(new Error('入库人不能为空'))
+      } else {
+        callback()
+      }
+    }
+    const validatePass2 = (rule, value, callback) => {
+      console.log(value)
+      if (this.enterRepositoryId === '' || this.enterRepositoryId === null || this.enterRepositoryId === undefined) {
+        callback(new Error('入库仓库不能为空'))
+      } else {
+        callback()
+      }
+    }
+    const validatePass4 = (rule, value, callback) => {
+      console.log(value)
+      if (value === '' || value === null || value === undefined) {
+        callback(new Error('入库数量不能为空'))
+      } else if (value < 0) {
+        callback(new Error('入库数量需大于0'))
+      } else {
+        callback()
+      }
+      // if (value > this.mid || value === 0 || value === null || value === undefined) {
+      //   callback(new Error('计划数量不能为空'))
+      // } else {
+      //   callback()
+      // }
+    }
     return {
       // 部门数据
       depts: [],
@@ -192,9 +218,9 @@ export default {
       // 验收人回显
       acceptPersonId: '',
       // 入库仓库回显
-      enterRepositoryId: '',
+      enterRepositoryId: this.$store.getters.repositoryName,
       // 入库人回显
-      enterPersonId: '',
+      enterPersonId: this.$store.getters.name,
       // 交货人控制框
       deliverycontrol: false,
       // 入库人控制框
@@ -210,8 +236,16 @@ export default {
         createPersonId: this.$store.getters.userId,
         countryId: this.$store.getters.countryId,
         repositoryId: this.$store.getters.repositoryId,
+        enterRepositoryId: this.$store.getters.repositoryId,
+        enterPersonId: this.$store.getters.userId,
         regionId: this.$store.getters.regionId,
-        sourceType: '1'
+        sourceType: '1',
+        newOrOld: 1
+      },
+      validRules: {
+        actualEnterQuantity: [
+          { required: true, validator: validatePass4, trigger: 'blur' }
+        ]
       },
       // 入库单规则数据
       personalrules: {
@@ -225,10 +259,10 @@ export default {
           { required: true, message: '请输入源单编号', trigger: 'blur' }
         ],
         enterPersonId: [
-          { required: true, message: '请选择入库人', trigger: 'focus' }
+          { required: true, validator: validatePass1, trigger: 'change' }
         ],
         enterRepositoryId: [
-          { required: true, message: '请选择入库仓库', trigger: 'focus' }
+          { required: true, validator: validatePass2, trigger: 'change' }
         ]
       },
       // 入库单明细数据
@@ -241,9 +275,6 @@ export default {
       },
       // 入库明细中货位数据
       locationlist: [],
-      // 入库单明细列表规则
-      validRules: {
-      },
       receiptVisible2: false,
       list111: [],
       // 批量操作
@@ -384,7 +415,7 @@ export default {
     },
     // 入库金额计算
     getSize(quan, pric) {
-      return quan * pric
+      return (quan * pric).toFixed(2)
     },
     // 清空记录
     restAllForm() {
@@ -392,17 +423,36 @@ export default {
         createPersonId: this.$store.getters.userId,
         countryId: this.$store.getters.countryId,
         repositoryId: this.$store.getters.repositoryId,
+        enterRepositoryId: this.$store.getters.repositoryId,
         regionId: this.$store.getters.regionId,
-        sourceType: '1'
+        enterPersonId: this.$store.getters.userId,
+        sourceType: '1',
+        newOrOld: 1
       }
+      this.enterRepositoryId = this.$store.getters.repositoryName
+      this.enterPersonId = this.$store.getters.name
       this.acceptPersonId = null
       this.deliveryPersonId = null
-      this.enterRepositoryId = null
-      this.enterPersonId = null
     },
     // 保存操作
     handlesave() {
       const EnterDetail = this.$refs.editable.getRecords()
+      let i = 1
+      EnterDetail.map(function(elem) {
+        return elem
+      }).forEach(function(elem) {
+        if (elem.locationId === null || elem.locationId === '' || elem.locationId === undefined) {
+          i = 2
+        }
+      })
+      if (i === 2) {
+        this.$notify.error({
+          title: '错误',
+          message: '商品货位不能为空',
+          offset: 100
+        })
+        return false
+      }
       console.log(this.personalForm)
       console.log(EnterDetail)
       if (EnterDetail.length === 0) {
@@ -456,6 +506,7 @@ export default {
         if (valid) {
           this.$refs.editable.validate().then(valid => {
             if (valid) {
+              console.log('newOrOld', this.personalForm.newOrOld)
               addotherenter(this.personalForm, parms).then(res => {
                 console.log(res)
                 if (res.data.ret === 200) {

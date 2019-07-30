@@ -337,7 +337,7 @@ export default {
       // 控制计划人
       stockControl: false,
       // 采购员回显
-      stockPersonId: '',
+      stockPersonId: this.$store.getters.name,
       // 控制采购员
       deliverycontrol: false,
       // 类别数据
@@ -352,6 +352,7 @@ export default {
       // 采购计划单信息数据
       personalForm: {
         createPersonId: this.$store.getters.userId,
+        stockPersonId: this.$store.getters.userId,
         planPersonId: this.$store.getters.userId,
         countryId: this.$store.getters.countryId,
         repositoryId: this.$store.getters.repositoryId,
@@ -468,7 +469,19 @@ export default {
       this.$forceUpdate()
     },
     getdatatime() { // 默认显示今天
-      this.personalForm.planDate = new Date()
+      var date = new Date()
+      var seperator1 = '-'
+      var year = date.getFullYear()
+      var month = date.getMonth() + 1
+      var strDate = date.getDate()
+      if (month >= 1 && month <= 9) {
+        month = '0' + month
+      }
+      if (strDate >= 0 && strDate <= 9) {
+        strDate = '0' + strDate
+      }
+      var currentdate = year + seperator1 + month + seperator1 + strDate
+      this.personalForm.planDate = currentdate
     },
     // 计划金额
     planMoney(row) {
@@ -725,10 +738,11 @@ export default {
         countryId: this.$store.getters.countryId,
         repositoryId: this.$store.getters.repositoryId,
         regionId: this.$store.getters.regionId,
+        stockPersonId: this.$store.getters.userId,
         planPersonId: this.$store.getters.userId
       }
       this.planPersonId = this.$store.getters.userName
-      this.stockPersonId = null
+      this.stockPersonId = this.$store.getters.name
     },
     // 保存操作
     handlesave() {

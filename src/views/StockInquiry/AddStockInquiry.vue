@@ -524,10 +524,19 @@ export default {
       return sums
     },
     getdatatime() { // 默认显示今天
-      // const date = new Date()
-      // date.setTime(date.getTime())
-      // this.personalForm.inquiryDate = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate()
-      this.personalForm.inquiryDate = new Date()
+      var date = new Date()
+      var seperator1 = '-'
+      var year = date.getFullYear()
+      var month = date.getMonth() + 1
+      var strDate = date.getDate()
+      if (month >= 1 && month <= 9) {
+        month = '0' + month
+      }
+      if (strDate >= 0 && strDate <= 9) {
+        strDate = '0' + strDate
+      }
+      var currentdate = year + seperator1 + month + seperator1 + strDate
+      this.personalForm.inquiryDate = currentdate
     },
     // 通过税率计算含税价
     gettaxRate(row) {

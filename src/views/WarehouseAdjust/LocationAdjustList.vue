@@ -541,7 +541,7 @@ export default {
     },
     // 新增数据
     handleAdd() {
-      this.$router.push('/WarehouseAdjust/AddLocationAdjust')
+      this.$router.push('/locationAdjust/AddLocationAdjust')
     },
     // 导出
     handleExport() {

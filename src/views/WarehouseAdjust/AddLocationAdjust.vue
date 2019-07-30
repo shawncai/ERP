@@ -57,7 +57,7 @@
       </el-card>
       <!--日常调整单明细-->
       <el-card class="box-card" style="margin-top: 15px">
-        <h2 ref="fuzhu" class="form-name">日常调整单明细</h2>
+        <h2 ref="fuzhu" class="form-name">库位调整单明细</h2>
         <div class="buttons" style="margin-top: 58px">
           <el-button type="success" style="background:#3696fd;border-color:#3696fd " @click="handleAddproduct">添加商品</el-button>
           <el-button type="danger" @click="$refs.editable.removeSelecteds()">删除</el-button>
@@ -121,7 +121,6 @@
                 <p>{{ getquantity(scope.row) }}</p>
               </template>
             </el-editable-column>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', type: 'visible'}" prop="quantity" align="center" label="调动数量" width="150px"/>
           </el-editable>
         </div>
       </el-card>
@@ -163,7 +162,7 @@
 </template>
 
 <script>
-import { getlocation, locationlist, batchlist, getQuantity, countlist } from '@/api/public'
+import { getlocation, locationlist, batchlist, getQuantity2, countlist } from '@/api/public'
 import { addlocationadjust } from '@/api/WarehouseAdjust'
 import { getdeptlist } from '@/api/BasicSettings'
 import MyCreate from './components/MyCreate'
@@ -452,16 +451,16 @@ export default {
       }
     },
     getquantity(sco) {
-      const parms2 = sco.outLocationId
+      // const parms2 = sco.outLocationId
       const parms3 = sco.productCode
-      const parms4 = sco.batch
-      if (parms4 !== '' && parms4 !== null && parms4 !== undefined) {
-        getQuantity(this.personalForm.adjustRepositoryId, parms2, parms3, parms4).then(res => {
-          this.out = res.data.data.content
-          sco.inventoryQuantity = this.out
-        })
-        return sco.inventoryQuantity
-      }
+      // const parms4 = sco.batch
+      // if (parms4 !== '' && parms4 !== null && parms4 !== undefined) {
+      getQuantity2(this.personalForm.adjustRepositoryId, null, parms3, null).then(res => {
+        this.out = res.data.data.content
+        sco.inventoryQuantity = this.out
+      })
+      return sco.inventoryQuantity
+      // }
     },
     alllocations(event, scope) {
       if (event === true) {
@@ -483,7 +482,15 @@ export default {
     // 入库单事件
     // 新增入库单明细
     handleAddproduct() {
-      this.control = true
+      if (this.personalForm.adjustRepositoryId !== null && this.personalForm.adjustRepositoryId !== '' && this.personalForm.adjustRepositoryId !== undefined) {
+        this.control = true
+      } else {
+        this.$notify.error({
+          title: '错误',
+          message: '请先选择仓库',
+          offset: 100
+        })
+      }
     },
     productdetail(val) {
       const nowlistdata = this.$refs.editable.getRecords()

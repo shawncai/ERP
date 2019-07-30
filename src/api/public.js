@@ -196,6 +196,28 @@ export function getQuantity(query, query2, query3, query4) {
   })
 }
 
+// 库存余量查询
+export function getQuantity2(query, query2, query3, query4) {
+  var params = new URLSearchParams()
+  if (query !== '' && query !== null && query !== undefined) {
+    params.append('repositoryId', query) // 你要传给后台的参数值 key/value
+  }
+  if (query2 !== '' && query2 !== null && query2 !== undefined) {
+    params.append('locationId', query2) // 你要传给后台的参数值 key/value
+  }
+  if (query3 !== '' && query3 !== null && query3 !== undefined) {
+    params.append('productCode', query3) // 你要传给后台的参数值 key/value
+  }
+  if (query4 !== '' && query4 !== null && query4 !== undefined) {
+    params.append('batch', query4) // 你要传给后台的参数值 key/value
+  }
+  return request({
+    url: '/erp/location/getQuantity2',
+    method: 'post',
+    data: params
+  })
+}
+
 // 单一货位列表
 export function getlocation(query, query2) {
   var params = new URLSearchParams()

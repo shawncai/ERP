@@ -105,7 +105,6 @@
             <el-editable-column prop="batch" align="center" label="批次" width="200px"/>
             <el-editable-column prop="enterLocationCode" align="center" label="调入库位" width="150px"/>
             <el-editable-column prop="inventoryQuantity" align="center" label="库存数量" width="150px"/>
-            <el-editable-column prop="quantity" align="center" label="调动数量" width="150px"/>
           </el-editable>
         </div>
       </el-card>

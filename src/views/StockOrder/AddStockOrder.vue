@@ -432,7 +432,7 @@ export default {
       // 部门数据
       depts: [],
       // 采购员回显
-      stockPersonId: '',
+      stockPersonId: this.$store.getters.name,
       // 控制采购员
       stockControl: false,
       // 类别数据
@@ -447,6 +447,7 @@ export default {
       supplierIdDetail: [],
       // 采购申请单信息数据
       personalForm: {
+        stockPersonId: this.$store.getters.userId,
         createPersonId: this.$store.getters.userId,
         countryId: this.$store.getters.countryId,
         repositoryId: this.$store.getters.repositoryId,
@@ -1089,6 +1090,7 @@ export default {
     // 清空记录
     restAllForm() {
       this.personalForm = {
+        stockPersonId: this.$store.getters.userId,
         createPersonId: this.$store.getters.userId,
         countryId: this.$store.getters.countryId,
         repositoryId: this.$store.getters.repositoryId,
@@ -1100,7 +1102,7 @@ export default {
       this.personalForm.orderDate = new Date()
       this.supplierId = null
       this.inquiryPersonId = null
-      this.stockPersonId = null
+      this.stockPersonId = this.$store.getters.name
       this.signPersonId = null
       // 控制币种是否可以编辑
       this.IsCurrency = false

@@ -1,47 +1,42 @@
 <template>
-  <el-dialog :visible.sync="editVisible" :editcontrol="editcontrol" :editdata="editdata" :close-on-press-escape="false" class="edit" top="10px" title="修改其他入库单" @close="$emit('update:editcontrol', false)">
+  <el-dialog :visible.sync="editVisible" :editcontrol="editcontrol" :editdata="editdata" :close-on-press-escape="false" class="edit" width="1010px" top="10px" title="修改其他入库单" @close="$emit('update:editcontrol', false)">
     <!--基本信息-->
     <el-card class="box-card">
       <h2 ref="geren" class="form-name">基本信息</h2>
       <div class="container">
         <el-form ref="personalForm" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="100px" style="margin-left: 30px;">
           <el-row>
-            <el-col :span="6">
+            <el-col :span="12">
               <el-form-item :label="$t('Stockenter.title')" style="width: 100%;">
                 <el-input v-model="personalForm.title" placeholder="请输入入库单主题" style="margin-left: 18px;width: 150px" clearable/>
               </el-form-item>
             </el-col>
-            <el-col :span="6">
+            <el-col :span="12">
               <el-form-item :label="$t('Stockenter.sourceType')" prop="sourceType" style="width: 100%;">
                 <el-select v-model="personalForm.sourceType" placeholder="请选择源单类型" style="margin-left: 18px;width: 150px">
                   <el-option value="1" label="无来源"/>
                 </el-select>
               </el-form-item>
             </el-col>
-            <el-col :span="6">
-              <el-form-item label="源单编号" style="width: 100%;">
-                <el-input v-model="personalForm.sourceNumber" placeholder="请选择源单编号" style="margin-left: 18px;width: 150px" clearable/>
-              </el-form-item>
-            </el-col>
-            <el-col :span="6">
+            <el-col :span="12">
               <el-form-item :label="$t('Stockenter.deliveryPersonId')" style="width: 100%;">
                 <el-input v-model="deliveryPersonId" placeholder="请选择交货人" style="margin-left: 18px;width: 150px" clearable @focus="handlechooseDelivery"/>
               </el-form-item>
               <my-delivery :deliverycontrol.sync="deliverycontrol" @deliveryName="deliveryName"/>
             </el-col>
-            <el-col :span="6">
+            <el-col :span="12">
               <el-form-item :label="$t('Stockenter.acceptPersonId')" style="width: 100%;">
                 <el-input v-model="acceptPersonId" placeholder="请选择验收人" style="margin-left: 18px;width: 150px" clearable @focus="handlechoose"/>
               </el-form-item>
               <my-create :createcontrol.sync="createcontrol" @createname="createname"/>
             </el-col>
-            <el-col :span="6">
+            <el-col :span="12">
               <el-form-item :label="$t('Stockenter.enterPersonId')" prop="enterPersonId" style="width: 100%;">
                 <el-input v-model="enterPersonId" placeholder="请选择入库人" style="margin-left: 18px;width: 150px" clearable @focus="handlechooseAccept"/>
               </el-form-item>
               <my-accept :accetpcontrol.sync="accetpcontrol" @acceptName="acceptName"/>
             </el-col>
-            <el-col :span="6">
+            <el-col :span="12">
               <el-form-item :label="$t('Stockenter.enterDeptId')" style="width: 100%;">
                 <el-select v-model="personalForm.enterDeptId" placeholder="请选择入库部门" style="margin-left: 18px;width: 150px" clearable >
                   <el-option
@@ -52,18 +47,18 @@
                 </el-select>
               </el-form-item>
             </el-col>
-            <el-col :span="6">
+            <el-col :span="12">
               <el-form-item :label="$t('Stockenter.enterRepositoryId')" prop="enterRepositoryId" style="width: 100%;">
                 <el-input v-model="enterRepositoryId" placeholder="请选择仓库" style="margin-left: 18px;width: 150px" clearable @focus="handlechooseRep"/>
               </el-form-item>
               <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
             </el-col>
-            <el-col :span="6">
+            <el-col :span="12">
               <el-form-item :label="$t('Stockenter.enterReason')" prop="summary" style="width: 100%;">
                 <el-input v-model="personalForm.enterReason" placeholder="请输入原因" style="margin-left: 18px;width: 150px" clearable/>
               </el-form-item>
             </el-col>
-            <el-col :span="6">
+            <el-col :span="12">
               <el-form-item :label="$t('Stockenter.newOrOld')" style="width: 100%;">
                 <el-radio-group v-model="personalForm.newOrOld" style="width: 200px;margin-left: 19px">
                   <el-radio :label="1" >全新</el-radio>
@@ -71,9 +66,9 @@
                 </el-radio-group>
               </el-form-item>
             </el-col>
-            <el-col :span="6">
-              <el-form-item :label="$t('Stockenter.summary')" prop="summary" style="width: 100%;;width: 150px">
-                <el-input v-model="personalForm.summary" placeholder="请输入摘要" style="margin-left: 18px;width:200px" clearable/>
+            <el-col :span="12">
+              <el-form-item :label="$t('Stockenter.summary')" prop="summary" style="width: 100%;">
+                <el-input v-model="personalForm.summary" placeholder="请输入摘要" style="margin-left: 18px;width:150px" clearable/>
               </el-form-item>
             </el-col>
           </el-row>
@@ -112,13 +107,14 @@
               </el-select>
             </template>
           </el-editable-column>
+          <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="batch" align="center" label="批次" width="150px"/>
           <el-editable-column prop="productCode" align="center" label="物品编号" width="150px"/>
           <el-editable-column prop="productName" align="center" label="物品名称" width="150px"/>
           <el-editable-column prop="color" align="center" label="颜色" width="150px"/>
           <el-editable-column prop="typeIdname" align="center" label="规格" width="150px"/>
           <el-editable-column prop="unit" align="center" label="单位" width="150px"/>
-          <el-editable-column prop="basicQuantity" align="center" label="基本数量" width="150px"/>
-          <el-editable-column :edit-render="{name: 'ElInputNumber', type: 'visible'}" prop="actualEnterQuantity" align="center" label="入库数量" width="150px"/>
+          <!--          <el-editable-column prop="basicQuantity" align="center" label="基本数量" width="150px"/>-->
+          <el-editable-column :edit-render="{name: 'ElInputNumber', type: 'visible', attrs: {min: 1, precision: 2, controls:false}}" prop="actualEnterQuantity" align="center" label="入库数量" width="150px"/>
           <el-editable-column prop="enterPrice" align="center" label="单价" width="150px"/>
           <el-editable-column prop="enterMoney" align="center" label="入库金额" width="150px">
             <template slot-scope="scope">
@@ -158,6 +154,22 @@ export default {
     }
   },
   data() {
+    const validatePass1 = (rule, value, callback) => {
+      console.log('this.personalForm.enterPersonId', this.personalForm.enterPersonId)
+      if (this.personalForm.enterPersonId === '' || this.personalForm.enterPersonId === null || this.personalForm.enterPersonId === undefined) {
+        callback(new Error('入库人不能为空'))
+      } else {
+        callback()
+      }
+    }
+    const validatePass2 = (rule, value, callback) => {
+      console.log(value)
+      if (this.enterRepositoryId === '' || this.enterRepositoryId === null || this.enterRepositoryId === undefined) {
+        callback(new Error('入库仓库不能为空'))
+      } else {
+        callback()
+      }
+    }
     return {
       // 弹窗组件的控制
       editVisible: this.editcontrol,
@@ -170,7 +182,7 @@ export default {
       // 验收人回显
       acceptPersonId: '',
       // 入库仓库回显
-      enterRepositoryId: '',
+      enterRepositoryId: this.$store.getters.repositoryName,
       // 入库人回显
       enterPersonId: '',
       // 交货人控制框
@@ -195,10 +207,10 @@ export default {
           { required: true, message: '请输入源单编号', trigger: 'blur' }
         ],
         enterPersonId: [
-          { required: true, message: '请选择入库人', trigger: 'focus' }
+          { required: true, validator: validatePass1, trigger: 'change' }
         ],
         enterRepositoryId: [
-          { required: true, message: '请选择入库仓库', trigger: 'focus' }
+          { required: true, validator: validatePass2, trigger: 'change' }
         ]
       },
       // 入库单明细数据
@@ -361,10 +373,26 @@ export default {
       this.personalForm.modifyPersonId = this.$store.getters.userId
       console.log(this.personalForm)
       const rest = this.$refs.editable.getRecords()
-      if (rest !== true) {
+      if (rest.length === 0) {
         this.$notify.error({
           title: '错误',
           message: '明细表不能为空',
+          offset: 100
+        })
+        return false
+      }
+      let i = 1
+      rest.map(function(elem) {
+        return elem
+      }).forEach(function(elem) {
+        if (elem.locationId === null || elem.locationId === '' || elem.locationId === undefined) {
+          i = 2
+        }
+      })
+      if (i === 2) {
+        this.$notify.error({
+          title: '错误',
+          message: '商品货位不能为空',
           offset: 100
         })
         return false

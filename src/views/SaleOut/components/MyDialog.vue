@@ -680,8 +680,20 @@ export default {
       this.personalForm.transferPersonId = val.id
     },
     getdatatime() { // 默认显示今天
-      this.personalForm.sendDate = new Date()
-      this.personalForm.outDate = new Date()
+      var date = new Date()
+      var seperator1 = '-'
+      var year = date.getFullYear()
+      var month = date.getMonth() + 1
+      var strDate = date.getDate()
+      if (month >= 1 && month <= 9) {
+        month = '0' + month
+      }
+      if (strDate >= 0 && strDate <= 9) {
+        strDate = '0' + strDate
+      }
+      var currentdate = year + seperator1 + month + seperator1 + strDate
+      this.personalForm.sendDate = currentdate
+      this.personalForm.outDate = currentdate
     },
     // 总计
     getSummaries2(param) {
