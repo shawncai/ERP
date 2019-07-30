@@ -127,13 +127,14 @@
 <script>
 import { modellist, deletemodel, addmodel, updatemodel } from '@/api/BasicSettings'
 import permission from '@/directive/permission/index.js' // 权限判断指令
+import permission2 from '@/directive/permission2/index.js' // 权限判断指令
 import checkPermission from '@/utils/permission' // 权限判断函数
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
 
 export default {
   name: 'SMSModelList',
-  directives: { waves, permission },
+  directives: { waves, permission, permission2 },
   components: { Pagination },
   filters: {
     genderFilter(status) {

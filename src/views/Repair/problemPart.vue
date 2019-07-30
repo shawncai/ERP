@@ -54,13 +54,14 @@
 import treeTable from '@/components/TreeTable'
 import { searchproblemobject, addfaultcomponent, deletefaultcomponent } from '@/api/repair'
 import permission from '@/directive/permission/index.js' // 权限判断指令
+import permission2 from '@/directive/permission2/index.js' // 权限判断指令
 import checkPermission from '@/utils/permission' // 权限判断函数
 import treeToArray from './customEval'
 
 export default {
   name: 'ProblemPart',
   components: { treeTable },
-  directives: { permission },
+  directives: { permission, permission2 },
   data() {
     return {
       func: treeToArray,

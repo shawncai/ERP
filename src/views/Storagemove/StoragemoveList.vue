@@ -182,6 +182,7 @@ import { searchlist, deletestoragemove, updateStoragemove2 } from '@/api/Storage
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
 import permission from '@/directive/permission/index.js' // 权限判断指令
+import permission2 from '@/directive/permission2/index.js' // 权限判断指令
 import checkPermission from '@/utils/permission' // 权限判断函数
 import MyEdit from './components/MyEdit'
 import MyEdit2 from './components/MyEdit2'
@@ -194,7 +195,7 @@ import DetailList from './components/DetailList'
 
 export default {
   name: 'StoragemoveList',
-  directives: { waves, permission },
+  directives: { waves, permission, permission2 },
   components: { DetailList, MyDepot, Pagination, MyEdit, MyRepository, MyAccept, MyCreate, MyEdit2, MyEdit3 },
   filters: {
     judgeStatFilter(status) {

@@ -212,12 +212,13 @@ import { carStatList } from '@/api/CarStatList'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination'
 import permission from '@/directive/permission/index.js' // 权限判断指令
+import permission2 from '@/directive/permission2/index.js' // 权限判断指令
 import checkPermission from '@/utils/permission'
 import MyEmp from '../AccessMaterials/components/MyEmp' // 权限判断函数
 
 export default {
   name: 'Index',
-  directives: { waves, permission },
+  directives: { waves, permission, permission2 },
   components: { MyEmp, Pagination },
   filters: {
     judgeStatFilter(status) {

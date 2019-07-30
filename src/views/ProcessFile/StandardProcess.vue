@@ -150,6 +150,7 @@ import { searchprocess, deletestandardProcess } from '@/api/ProcessFile'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination'
 import permission from '@/directive/permission/index.js' // 权限判断指令
+import permission2 from '@/directive/permission2/index.js' // 权限判断指令
 import checkPermission from '@/utils/permission' // 权限判断函数
 import MyCenter from './components/MyCenter'
 import MyDialog3 from './components/MyDialog3'
@@ -157,7 +158,7 @@ import DetailList3 from './components/DetailList3' // Secondary package based on
 
 export default {
   name: 'StandardProcess',
-  directives: { waves, permission },
+  directives: { waves, permission, permission2 },
   components: { DetailList3, MyDialog3, MyCenter, Pagination },
   filters: {
     statFilter(status) {

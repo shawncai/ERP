@@ -148,6 +148,7 @@ import { getdeptlist } from '@/api/BasicSettings'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
 import permission from '@/directive/permission/index.js' // 权限判断指令
+import permission2 from '@/directive/permission2/index.js' // 权限判断指令
 import checkPermission from '@/utils/permission' // 权限判断函数
 import MyDialog from './components/MyDialog'
 import MyCreate from '../LogisticsCar/components/MyCreate'
@@ -156,7 +157,7 @@ import DetailList from './components/DetailList'
 
 export default {
   name: 'InventoryCountList',
-  directives: { waves, permission },
+  directives: { waves, permission, permission2 },
   components: { DetailList, MyRepository, MyCreate, Pagination, MyDialog },
   filters: {
     judgeStatFileter(status) {

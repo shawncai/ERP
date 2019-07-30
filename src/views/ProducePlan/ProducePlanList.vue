@@ -153,6 +153,7 @@ import { produceplanlist, deleteproduceplan, updateproduceplan2 } from '@/api/Pr
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
 import permission from '@/directive/permission/index.js' // 权限判断指令
+import permission2 from '@/directive/permission2/index.js' // 权限判断指令
 import checkPermission from '@/utils/permission' // 权限判断函数
 import MyCenter from './components/MyCenter'
 import MyEmp from './components/MyEmp'
@@ -161,7 +162,7 @@ import DetailList from './components/DetailList'
 
 export default {
   name: 'ProducePlanList',
-  directives: { waves, permission },
+  directives: { waves, permission, permission2 },
   components: { Pagination, MyCenter, MyEmp, MyDialog, DetailList },
   filters: {
     judgeStatFilter(status) {

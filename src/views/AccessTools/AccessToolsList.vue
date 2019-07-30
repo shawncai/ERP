@@ -129,11 +129,11 @@
         <!--        </el-table-column>-->
         <el-table-column :label="$t('public.actions')" :resizable="false" align="center" min-width="230">
           <template slot-scope="scope">
-            <el-button v-permission="['54-67-81-3']" v-show="scope.row.providePersonId === null" title="修改" type="primary" size="mini" icon="el-icon-edit" circle @click="handleEdit(scope.row)"/>
+            <el-button v-permission2="['54-67-81-3', scope.row.createPersonId]" v-show="scope.row.providePersonId === null" title="修改" type="primary" size="mini" icon="el-icon-edit" circle @click="handleEdit(scope.row)"/>
             <el-button v-show="scope.row.providePersonId === null" title="确认" type="warning" size="mini" icon="el-icon-check" circle @click="handleReview(scope.row)"/>
             <el-button v-show="scope.row.providePersonId !== null && scope.row.stat === 1" title="丢失" type="danger" size="mini" icon="el-icon-close" circle @click="handleEdit2(scope.row)"/>
             <el-button v-permission="['54-67-81-36']" v-show="scope.row.providePersonId !== null && scope.row.stat === 1" title="归还" type="primary" size="mini" icon="el-icon-back" circle @click="handleEdit3(scope.row)"/>
-            <el-button v-permission="['54-67-81-3']" v-show="scope.row.providePersonId === null" title="删除" size="mini" type="danger" icon="el-icon-delete" circle @click="handleDelete(scope.row)"/>
+            <el-button v-permission2="['54-67-81-3', scope.row.createPersonId]" v-show="scope.row.providePersonId === null" title="删除" size="mini" type="danger" icon="el-icon-delete" circle @click="handleDelete(scope.row)"/>
           </template>
         </el-table-column>
       </el-table>
@@ -156,6 +156,7 @@ import { searchStockCategory } from '@/api/StockCategory'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination'
 import permission from '@/directive/permission/index.js' // 权限判断指令
+import permission2 from '@/directive/permission2/index.js' // 权限判断指令
 import checkPermission from '@/utils/permission' // 权限判断函数
 import MyEmp from './components/MyEmp'
 import DetailList from './components/DetailList'
@@ -167,7 +168,7 @@ import MyAgent from './components/MyAgent'
 
 export default {
   name: 'AccessToolsList',
-  directives: { waves, permission },
+  directives: { waves, permission, permission2 },
   components: { MyDialog, MyDialog2, MyDialog3, DetailList, MyEmp, MyCustomer, MyAgent, Pagination },
   filters: {
     judgeStatFilter(status) {

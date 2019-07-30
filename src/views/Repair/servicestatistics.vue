@@ -71,6 +71,7 @@
   import { countservice, countservice2 } from '@/api/repair'
   import { getstatByToken } from '@/api/login'
   import permission from '@/directive/permission/index.js' // 权限判断指令
+import permission2 from '@/directive/permission2/index.js' // 权限判断指令
   import checkPermission from '@/utils/permission' // 权限判断函数
   import waves from '@/directive/waves' // Waves directive
   import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
@@ -78,7 +79,7 @@
   export default {
     name: 'Sample',
     components: { Pagination },
-    directives: { waves, permission },
+    directives: { waves, permission, permission2 },
     data() {
       return {
         categoriesform: {

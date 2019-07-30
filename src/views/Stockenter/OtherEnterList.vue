@@ -178,6 +178,7 @@ import { otherenterlist, deleteotherenter, updateotherenter5 } from '@/api/Stock
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
 import permission from '@/directive/permission/index.js' // 权限判断指令
+import permission2 from '@/directive/permission2/index.js' // 权限判断指令
 import checkPermission from '@/utils/permission' // 权限判断函数
 import MyOther from './components/MyOther'
 import MyRepository from './components/MyRepository'
@@ -188,7 +189,7 @@ import DetailList3 from './components/DetailList3'
 
 export default {
   name: 'OtherEnterList',
-  directives: { waves, permission },
+  directives: { waves, permission, permission2 },
   components: { DetailList3, Pagination, MyOther, MyRepository, MyAccept, MyCreate, MyDelivery },
   filters: {
     judgeStatFileter(status) {

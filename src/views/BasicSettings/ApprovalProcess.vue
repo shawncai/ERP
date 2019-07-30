@@ -91,12 +91,13 @@ import { searchProcess, deleteProcess, searchDetail, searchcategory, updateeappr
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
 import permission from '@/directive/permission/index.js' // 权限判断指令
+import permission2 from '@/directive/permission2/index.js' // 权限判断指令
 import checkPermission from '@/utils/permission' // 权限判断函数
 import MyDialog from './components/MyDialog'
 
 export default {
   name: 'ApprovalProcess',
-  directives: { waves, permission },
+  directives: { waves, permission, permission2 },
   components: { Pagination, MyDialog },
   filters: {
     genderFilter(status) {

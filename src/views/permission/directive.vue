@@ -32,13 +32,14 @@
 
 <script>
 import permission from '@/directive/permission/index.js' // 权限判断指令
+import permission2 from '@/directive/permission2/index.js' // 权限判断指令
 import checkPermission from '@/utils/permission' // 权限判断函数
 import SwitchRoles from './components/SwitchRoles'
 
 export default{
   name: 'DirectivePermission',
   components: { SwitchRoles },
-  directives: { permission },
+  directives: { permission, permission2 },
   data() {
     return {
       key: 1 // 为了能每次切换权限的时候重新初始化指令

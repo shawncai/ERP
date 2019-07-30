@@ -157,8 +157,8 @@
         </el-table-column>
         <el-table-column :label="$t('public.actions')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <el-button v-permission="['1-14-16-3']" title="修改" type="primary" size="mini" icon="el-icon-edit" circle @click="handleEdit(scope.row)"/>
-            <el-button v-permission="['1-14-16-2']" title="删除" size="mini" type="danger" icon="el-icon-delete" circle @click="handleDelete(scope.row)"/>
+            <el-button v-permission2="['1-14-16-3', scope.row.createPersonId]" title="修改" type="primary" size="mini" icon="el-icon-edit" circle @click="handleEdit(scope.row)"/>
+            <el-button v-permission2="['1-14-16-2', scope.row.createPersonId]" title="删除" size="mini" type="danger" icon="el-icon-delete" circle @click="handleDelete(scope.row)"/>
           </template>
         </el-table-column>
       </el-table>
@@ -177,13 +177,14 @@ import { searchCusCategory, customerlist, deletecustomer } from '@/api/Customer'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
 import permission from '@/directive/permission/index.js' // 权限判断指令
+import permission2 from '@/directive/permission2/index.js' // 权限判断指令
 import checkPermission from '@/utils/permission'
 import MyDialog2 from './components/MyDialog2'
 import DetailList from './components/DetailList2' // 权限判断函数
 
 export default {
   name: 'CustomerList',
-  directives: { waves, permission },
+  directives: { waves, permission, permission2 },
   components: { DetailList, MyDialog2, Pagination },
   filters: {
     genderFilter(status) {

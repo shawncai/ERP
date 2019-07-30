@@ -128,12 +128,13 @@ import { getdeptlist } from '@/api/BasicSettings'
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
 import waves from '@/directive/waves'
 import permission from '@/directive/permission/index.js' // 权限判断指令
+import permission2 from '@/directive/permission2/index.js' // 权限判断指令
 import checkPermission from '@/utils/permission' // 权限判断函数
 import MyDialog from './components/MyDialog'
 import DetailList from './components/DetailList' // Waves directive
 export default {
   name: 'WorkCenter',
-  directives: { waves, permission },
+  directives: { waves, permission, permission2 },
   components: { DetailList, MyDialog, Pagination },
   filters: {
     isKeyFliter(status) {

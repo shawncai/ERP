@@ -216,10 +216,11 @@
 import { getcountrylist, getprovincelist, getcitylist, regionlist, searchRepository, getDetailById, saveRegion } from '@/api/public'
 import { getdeptlist, register, searchEmpCategory } from '@/api/EmployeeInformation'
 import permission from '@/directive/permission/index.js' // 权限判断指令
+import permission2 from '@/directive/permission2/index.js' // 权限判断指令
 import checkPermission from '@/utils/permission' // 权限判断函数
 export default {
   name: 'NewEmployeeContract',
-  directives: { permission },
+  directives: { permission, permission2 },
   data() {
     var checkphone = (rule, value, callback) => {
       if (!value) {

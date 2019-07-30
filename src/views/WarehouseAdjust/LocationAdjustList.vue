@@ -164,6 +164,7 @@ import { getdeptlist } from '@/api/BasicSettings'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
 import permission from '@/directive/permission/index.js' // 权限判断指令
+import permission2 from '@/directive/permission2/index.js' // 权限判断指令
 import checkPermission from '@/utils/permission' // 权限判断函数
 import MyDialog2 from './components/MyDialog2'
 import MyDelivery from './components/MyDelivery'
@@ -172,7 +173,7 @@ import MyRepository from './components/MyRepository'
 
 export default {
   name: 'LocationAdjustList',
-  directives: { waves, permission },
+  directives: { waves, permission, permission2 },
   components: { MyRepository, DetailList2, MyDelivery, Pagination, MyDialog2 },
   filters: {
     judgeStatFileter(status) {

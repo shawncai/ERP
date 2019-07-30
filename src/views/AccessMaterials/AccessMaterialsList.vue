@@ -158,12 +158,12 @@
         <el-table-column :label="$t('public.actions')" :resizable="false" align="center" min-width="230">
           <template slot-scope="scope">
             <el-button v-show="scope.row.judgeStat === 2&&scope.row.providePersonId === null" size="mini" type="success" @click="handleDispatch(scope.row)">发料</el-button>
-            <el-button v-permission="['171-185-186-3']" v-show="scope.row.judgeStat === 0" title="修改" type="primary" size="mini" icon="el-icon-edit" circle @click="handleEdit(scope.row)"/>
+            <el-button v-permission2="['171-185-186-3', scope.row.createPersonId]" v-show="scope.row.judgeStat === 0" title="修改" type="primary" size="mini" icon="el-icon-edit" circle @click="handleEdit(scope.row)"/>
             <el-button v-if="isReview(scope.row)" title="审批" type="warning" size="mini" icon="el-icon-view" circle @click="handleReview(scope.row)"/>
             <el-button v-permission="['171-185-186-76']" v-if="isReview4(scope.row)" title="反审批" type="warning" size="mini" circle @click="handleReview4(scope.row)"><svg-icon icon-class="fanhui"/></el-button>
             <el-button v-permission="['171-185-186-16']" v-if="isReview2(scope.row)" title="结单" type="success" size="mini" icon="el-icon-check" circle @click="handleReview2(scope.row)"/>
             <el-button v-permission="['171-185-186-17']" v-if="isReview3(scope.row)" title="反结单" type="success" size="mini" icon="el-icon-back" circle @click="handleReview3(scope.row)"/>
-            <el-button v-permission="['171-185-186-2']" v-show="scope.row.judgeStat === 0" title="删除" size="mini" type="danger" icon="el-icon-delete" circle @click="handleDelete(scope.row)"/>
+            <el-button v-permission2="['171-185-186-2', scope.row.createPersonId]" v-show="scope.row.judgeStat === 0" title="删除" size="mini" type="danger" icon="el-icon-delete" circle @click="handleDelete(scope.row)"/>
             <el-button v-permission="['171-185-186-55']" v-show="scope.row.judgeStat === 2" type="primary" style="width: 83px" @click="handleMyReceipt1(scope.row)"><span style="margin-left: -15px;">生成退料单</span></el-button>
           </template>
         </el-table-column>
@@ -183,6 +183,7 @@ import { getdeptlist } from '@/api/BasicSettings'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination'
 import permission from '@/directive/permission/index.js' // 权限判断指令
+import permission2 from '@/directive/permission2/index.js' // 权限判断指令
 import checkPermission from '@/utils/permission' // 权限判断函数
 import MyDelivery from './components/MyDelivery'
 import ProduceTask from './components/ProduceTask'
@@ -192,7 +193,7 @@ import MyDialog from './components/MyDialog' // Secondary package based on el-pa
 
 export default {
   name: 'AccessMaterialsList',
-  directives: { waves, permission },
+  directives: { waves, permission, permission2 },
   components: { MyDialog, DetailList, MyCreate, ProduceTask, MyDelivery, Pagination },
   filters: {
     judgeStatFilter(status) {

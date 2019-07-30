@@ -395,6 +395,7 @@
 import { searchUnitGroup } from '@/api/UnitGroup'
 import { createnewproduct, searchEmpCategory2, searchMea } from '@/api/Product'
 import permission from '@/directive/permission/index.js' // 权限判断指令
+import permission2 from '@/directive/permission2/index.js' // 权限判断指令
 import checkPermission from '@/utils/permission' // 权限判断函数
 import MyEmp from './components/MyEmp'
 import MySupplier from './components/MySupplier'
@@ -402,7 +403,7 @@ import MyTree from './components/MyTree'
 import MyCenter from './components/MyCenter'
 export default {
   name: 'NewProduct',
-  directives: { permission },
+  directives: { permission, permission2 },
   components: { MyCenter, MyTree, MySupplier, MyEmp },
   data() {
     const validatePass = (rule, value, callback) => {

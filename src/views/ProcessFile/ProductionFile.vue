@@ -115,12 +115,13 @@ import { searchprocessFile, deleteworkCenter } from '@/api/ProcessFile'
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
 import waves from '@/directive/waves'
 import permission from '@/directive/permission/index.js' // 权限判断指令
+import permission2 from '@/directive/permission2/index.js' // 权限判断指令
 import checkPermission from '@/utils/permission' // 权限判断函数
 import MyDialog2 from './components/MyDialog2'
 import DetailList2 from './components/DetailList2' // Waves directive
 export default {
   name: 'ProductionFile',
-  directives: { waves, permission },
+  directives: { waves, permission, permission2 },
   components: { DetailList2, MyDialog2, Pagination },
   filters: {
     isKeyFliter(status) {

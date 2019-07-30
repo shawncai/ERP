@@ -334,12 +334,13 @@
 import { getcountrylist, getprovincelist, getcitylist, regionlist, saveRegion } from '@/api/public'
 import { searchCategory, create, searchGroup } from '@/api/Supplier'
 import permission from '@/directive/permission/index.js' // 权限判断指令
+import permission2 from '@/directive/permission2/index.js' // 权限判断指令
 import checkPermission from '@/utils/permission' // 权限判断函数
 import MyEmp from './components/MyEmp'
 import MyDetail from './components/MyDetail'
 export default {
   name: 'NewSupplier',
-  directives: { permission },
+  directives: { permission, permission2 },
   components: { MyDetail, MyEmp },
   data() {
     return {
