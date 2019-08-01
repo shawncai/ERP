@@ -21,7 +21,7 @@ import './icons' // icon
 import './errorLog' // error log
 import './permission' // permission control
 import './mock' // simulation data
-import Print from 'vue-print-nb'
+// import Print from 'vue-print-nb'
 import * as filters from './filters' // global filters
 
 Vue.use(Element, {
@@ -29,7 +29,7 @@ Vue.use(Element, {
   i18n: (key, value) => i18n.t(key, value)
 })
 
-Vue.use(Print)
+// Vue.use(Print)
 
 Vue.use(VueElementExtends)
 
