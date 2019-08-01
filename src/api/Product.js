@@ -8,7 +8,7 @@ export function searchEmpCategory2(query) {
   params.append('pagenum', 1) // 你要传给后台的参数值 key/value
   params.append('pagesize', 99999) // 你要传给后台的参数值 key/value
   return request({
-    url: '/erp/product/searchProCategory',
+    url: '/product/searchProCategory',
     method: 'post',
     data: params
   })
@@ -29,7 +29,7 @@ export function searchEmpCategory(query) {
   params.append('pagenum', query.pagenum) // 你要传给后台的参数值 key/value
   params.append('pagesize', query.pagesize) // 你要传给后台的参数值 key/value
   return request({
-    url: '/erp/product/searchProCategory',
+    url: '/product/searchProCategory',
     method: 'post',
     data: params
   })
@@ -54,7 +54,7 @@ export function addEmpCategory(query) {
     params.append('type', query.type) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/erp/product/addProCategory',
+    url: '/product/addProCategory',
     method: 'post',
     data: params
   })
@@ -73,7 +73,7 @@ export function updateEmpCategory(query) {
     params.append('id', query.id) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/erp/product/updateProCategory',
+    url: '/product/updateProCategory',
     method: 'post',
     data: params
   })
@@ -89,7 +89,7 @@ export function delateEmpCategory(query, query2) {
     params.append('operatorId', query2) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/erp/product/delateProCategory',
+    url: '/product/delateProCategory',
     method: 'post',
     data: params
   })
@@ -261,7 +261,7 @@ export function createnewproduct(query) {
     params.append('careCircle', query.careCircle) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/erp/product/createnewproduct',
+    url: '/product/createnewproduct',
     method: 'post',
     data: params
   })
@@ -274,7 +274,7 @@ export function productDetail(query) {
     params.append('productId', query) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/erp/product/productDetail',
+    url: '/product/productDetail',
     method: 'post',
     data: params
   })
@@ -292,7 +292,7 @@ export function productInventory(query) {
   params.append('pageNum', query.pagenum) // 你要传给后台的参数值 key/value
   params.append('pageSize', query.pagesize) // 你要传给后台的参数值 key/value
   return request({
-    url: '/erp/product/productInventory',
+    url: '/product/productInventory',
     method: 'post',
     data: params
   })
@@ -319,7 +319,7 @@ export function productStockRetreat(query) {
   params.append('pageNum', query.pagenum) // 你要传给后台的参数值 key/value
   params.append('pageSize', query.pagesize) // 你要传给后台的参数值 key/value
   return request({
-    url: '/erp/product/productStockRetreat',
+    url: '/product/productStockRetreat',
     method: 'post',
     data: params
   })
@@ -346,7 +346,7 @@ export function productSaleReturn(query) {
   params.append('pageNum', query.pagenum) // 你要传给后台的参数值 key/value
   params.append('pageSize', query.pagesize) // 你要传给后台的参数值 key/value
   return request({
-    url: '/erp/product/productSaleReturn',
+    url: '/product/productSaleReturn',
     method: 'post',
     data: params
   })
@@ -359,7 +359,7 @@ export function productStockInfo(query) {
     params.append('productId', query.productId) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/erp/product/productStockInfo',
+    url: '/product/productStockInfo',
     method: 'post',
     data: params
   })
@@ -392,7 +392,7 @@ export function productlist(query) {
   params.append('pagenum', query.pagenum) // 你要传给后台的参数值 key/value
   params.append('pagesize', query.pagesize) // 你要传给后台的参数值 key/value
   return request({
-    url: '/erp/product/productlist',
+    url: '/product/productlist',
     method: 'post',
     data: params
   })
@@ -408,7 +408,7 @@ export function deleteproduct(query, query2) {
     params.append('operatorId', query2) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/erp/product/deleteproduct',
+    url: '/product/deleteproduct',
     method: 'post',
     data: params
   })
@@ -520,7 +520,7 @@ export function editproduct(query) {
     params.append('careCircle', query.careCircle) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/erp/product/editproduct',
+    url: '/product/editproduct',
     method: 'post',
     data: params
   })
@@ -533,7 +533,7 @@ export function manyinsert(query) {
     params.append('productJson', query) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/erp/product/manyinsert',
+    url: '/product/manyinsert',
     method: 'post',
     data: params
   })
@@ -588,7 +588,7 @@ export function addadjustprice(query) {
     params.append('adjustreason', query.adjustreason) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/erp/adjustprice/addadjustprice',
+    url: '/adjustprice/addadjustprice',
     method: 'post',
     data: params
   })
@@ -612,7 +612,7 @@ export function adjustpricelist(query) {
   params.append('pagenum', query.pagenum) // 你要传给后台的参数值 key/value
   params.append('pagesize', query.pagesize) // 你要传给后台的参数值 key/value
   return request({
-    url: '/erp/adjustprice/adjustpricelist',
+    url: '/adjustprice/adjustpricelist',
     method: 'post',
     data: params
   })
@@ -655,7 +655,7 @@ export function updateadjustprice(query) {
     params.append('judgepersonid', query.judgePersonId) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/erp/adjustprice/updateadjustprice',
+    url: '/adjustprice/updateadjustprice',
     method: 'post',
     data: params
   })
@@ -671,7 +671,7 @@ export function deleteadjustprice(query, query2) {
     params.append('operatorId', query2) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/erp/adjustprice/deleteadjustprice',
+    url: '/adjustprice/deleteadjustprice',
     method: 'post',
     data: params
   })
@@ -683,7 +683,7 @@ export function searchMea() {
   params.append('pagenum', 1) // 你要传给后台的参数值 key/value
   params.append('pagesize', 9998) // 你要传给后台的参数值 key/value
   return request({
-    url: '/erp/measurement/search',
+    url: '/measurement/search',
     method: 'post',
     data: params
   })
@@ -692,7 +692,7 @@ export function searchMea() {
 // 物品分类列表
 export function detaillist() {
   return request({
-    url: '/erp/productclassfy/detaillist',
+    url: '/productclassfy/detaillist',
     method: 'post'
   })
 }
@@ -719,7 +719,7 @@ export function createclassfy(query) {
     params.append('isActive', query.isActive) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/erp/productclassfy/create',
+    url: '/productclassfy/create',
     method: 'post',
     data: params
   })
@@ -738,7 +738,7 @@ export function updateeclassfy(query) {
     params.append('isActive', query.isActive) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/erp/productclassfy/update',
+    url: '/productclassfy/update',
     method: 'post',
     data: params
   })
@@ -754,7 +754,7 @@ export function deleteeclassfy(query, query2) {
     params.append('operatorId', query2) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/erp/productclassfy/delete',
+    url: '/productclassfy/delete',
     method: 'post',
     data: params
   })

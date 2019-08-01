@@ -6,7 +6,7 @@ export function addPackage(query, query2) {
   params.append('packageMainJson', query) // 你要传给后台的参数值 key/value
   params.append('packageSubJson', query2) // 你要传给后台的参数值 key/value
   return request({
-    url: '/erp/package/addPackage',
+    url: '/package/addPackage',
     method: 'post',
     data: params
   })
@@ -27,7 +27,7 @@ export function packageList(query) {
   params.append('pageNum', query.pageNum) // 你要传给后台的参数值 key/value
   params.append('pageSize', query.pageSize) // 你要传给后台的参数值 key/value
   return request({
-    url: '/erp/package/packageList',
+    url: '/package/packageList',
     method: 'post',
     data: params
   })
@@ -39,7 +39,7 @@ export function updatePackage(query, query2) {
   params.append('packageMainJson', query) // 你要传给后台的参数值 key/value
   params.append('packageSubJson', query2) // 你要传给后台的参数值 key/value
   return request({
-    url: '/erp/package/updatePackage',
+    url: '/package/updatePackage',
     method: 'post',
     data: params
   })
@@ -55,7 +55,7 @@ export function deletePackage(query, query2) {
     params.append('operatorId', query2) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/erp/package/deletePackage',
+    url: '/package/deletePackage',
     method: 'post',
     data: params
   })

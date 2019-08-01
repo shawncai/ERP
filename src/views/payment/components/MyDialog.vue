@@ -119,7 +119,7 @@
               :on-success="handlepicsuccess"
               :data="picidsData"
               :auto-upload="false"
-              action="http://192.168.1.45:8080/erp/upload/uploadpic"
+              action="http://192.168.1.45:8080/upload/uploadpic"
               list-type="picture-card">
               <i class="el-icon-plus"/>
             </el-upload>

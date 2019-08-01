@@ -9,6 +9,8 @@ const service = axios.create({
   timeout: 5000 // request timeout
 })
 
+// console.log(store.getters.token)
+
 // request interceptor
 service.interceptors.request.use(
   config => {
@@ -17,6 +19,14 @@ service.interceptors.request.use(
       // 让每个请求携带token-- ['X-Token']为自定义key 请根据实际情况自行修改
       config.headers['X-Token'] = getToken()
     }
+    console.log('store.getters.token', store.getters.userId)
+    if (store.getters.useCountry === 1) {
+      config.baseURL = process.env.BASE_API + '/china'
+    }
+    if (store.getters.useCountry === 2) {
+      config.baseURL = process.env.BASE_API + '/philippines'
+    }
+    console.log('config', config)
     return config
   },
   error => {
