@@ -605,6 +605,11 @@ export default {
       this.personalForm.motorCode = this.detaildata.installmentApplyDetailVos[0].motorCode
       this.personalForm.batteryCode = this.detaildata.installmentApplyDetailVos[0].batteryCode
       this.reviewList = this.personalForm.approvalUseVos
+      for (let i = 0; i < this.reviewList.length; i++) {
+        if (this.reviewList[i].actualStepHandler === null) {
+          this.reviewList.splice(i, 1)
+        }
+      }
       console.log('this.personalForm', this.personalForm)
       const lis = {}
       lis.consultancyName = this.personalForm.consultancyNameOne

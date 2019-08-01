@@ -70,7 +70,7 @@
           <el-col :span="8">
             <div class="container3" style="margin-top: 20px">
               <div style="width: 100%;border: 1px solid #ebeef5;border-bottom:none;height: 30px;padding-top: 5px;padding-left: 28px;color: #606266;">操作权限</div>
-              <el-card class="box-card" shadow="never" style="height: 730px">
+              <el-card class="box-card" shadow="never" style="height: 730px;overflow-y: auto">
                 <div slot="header" class="clearfix">
                   <span>名称</span>
                   <el-checkbox v-model="checkAll" style="float: right;margin-bottom: -5px" @change="handleCheckAllChange">全选</el-checkbox>

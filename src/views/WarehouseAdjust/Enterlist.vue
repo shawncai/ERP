@@ -247,6 +247,7 @@ export default {
     // 反结单操作
     handleReview4(row) {
       this.reviewParms.id = row.id
+      this.reviewParms.judgePersonId = this.$store.getters.userId
       this.$confirm('请反审批', '反审批', {
         distinguishCancelAndClose: true,
         confirmButtonText: '反审批',
@@ -256,10 +257,17 @@ export default {
         const parms = JSON.stringify(this.reviewParms)
         updateenter2(parms).then(res => {
           if (res.data.ret === 200) {
-            this.$message({
-              type: 'success',
-              message: '反审批成功!'
-            })
+            if (res.data.data.result === false) {
+              this.$message({
+                type: 'error',
+                message: '反审批失败!'
+              })
+            } else {
+              this.$message({
+                type: 'success',
+                message: '反审批成功!'
+              })
+            }
             this.getlist()
           }
         })
@@ -402,10 +410,12 @@ export default {
     },
     // 判断审核按钮
     isReview(row) {
-      console.log(row)
       if (row.approvalUseVos !== '' && row.approvalUseVos !== null && row.approvalUseVos !== undefined && row.approvalUseVos.length !== 0) {
         const approvalUse = row.approvalUseVos
-        if (this.$store.getters.userId === approvalUse[approvalUse.length - 1].stepHandler && (row.judgeStat === 1 || row.judgeStat === 0)) {
+        const index = approvalUse[approvalUse.length - 1].stepHandler.indexOf(',' + this.$store.getters.userId + ',')
+        console.log(approvalUse[approvalUse.length - 1].stepHandler)
+        console.log(index)
+        if (index > -1 && (row.judgeStat === 1 || row.judgeStat === 0)) {
           return true
         }
       }
