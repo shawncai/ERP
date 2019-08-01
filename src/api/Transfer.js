@@ -11,7 +11,7 @@ export function createtransfer(query, query2) {
     params.append('regionId', query2.regionId) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/erp/transfer/create',
+    url: '/transfer/create',
     method: 'post',
     data: params
   })
@@ -56,7 +56,7 @@ export function searchtransfer(query) {
   params.append('pageNum', query.pageNum) // 你要传给后台的参数值 key/value
   params.append('pageSize', query.pageSize) // 你要传给后台的参数值 key/value
   return request({
-    url: '/erp/transfer/search',
+    url: '/transfer/search',
     method: 'post',
     data: params
   })
@@ -67,7 +67,7 @@ export function updatetransfer(query) {
   var params = new URLSearchParams()
   params.append('Json', query) // 你要传给后台的参数值 key/value
   return request({
-    url: '/erp/transfer/update',
+    url: '/transfer/update',
     method: 'post',
     data: params
   })
@@ -83,7 +83,7 @@ export function deletetransfer(query, query2) {
     params.append('operatorId', query2) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/erp/transfer/delete',
+    url: '/transfer/delete',
     method: 'post',
     data: params
   })
@@ -94,7 +94,7 @@ export function updatetransfer2(query) {
   var params = new URLSearchParams()
   params.append('Json', query) // 你要传给后台的参数值 key/value
   return request({
-    url: '/erp/transfer/update',
+    url: '/transfer/update',
     method: 'post',
     data: params
   })

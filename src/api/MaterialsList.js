@@ -14,7 +14,7 @@ export function addmaterials(query, query2, query3) {
     params.append('regionId', query3.regionId) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/erp/materialslist/addmaterials',
+    url: '/materialslist/addmaterials',
     method: 'post',
     data: params
   })
@@ -38,7 +38,7 @@ export function materialslist(query) {
   params.append('pageNum', query.pageNum) // 你要传给后台的参数值 key/value
   params.append('pageSize', query.pageSize) // 你要传给后台的参数值 key/value
   return request({
-    url: '/erp/materialslist/materialslist',
+    url: '/materialslist/materialslist',
     method: 'post',
     data: params
   })
@@ -51,7 +51,7 @@ export function materialslist2(query) {
     params.append('productCode', query) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/erp/materialslist/materialslist',
+    url: '/materialslist/materialslist',
     method: 'post',
     data: params
   })
@@ -63,7 +63,7 @@ export function updatematerials(query, query2) {
   params.append('materialsListJson', query) // 你要传给后台的参数值 key/value
   params.append('materialsListDetailJson', query2) // 你要传给后台的参数值 key/value
   return request({
-    url: '/erp/materialslist/updatematerials',
+    url: '/materialslist/updatematerials',
     method: 'post',
     data: params
   })
@@ -74,7 +74,7 @@ export function updatematerials2(query) {
   var params = new URLSearchParams()
   params.append('materialsListJson', query) // 你要传给后台的参数值 key/value
   return request({
-    url: '/erp/materialslist/updatematerials',
+    url: '/materialslist/updatematerials',
     method: 'post',
     data: params
   })
@@ -90,7 +90,7 @@ export function deletematerials(query, query2) {
     params.append('operatorId', query2) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/erp/materialslist/deletematerials',
+    url: '/materialslist/deletematerials',
     method: 'post',
     data: params
   })
@@ -103,7 +103,7 @@ export function isExist(query) {
     params.append('productCode', query) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/erp/materialslist/isExist',
+    url: '/materialslist/isExist',
     method: 'post',
     data: params
   })

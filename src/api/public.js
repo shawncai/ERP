@@ -28,7 +28,7 @@ export function endMonthCount(query) {
     params.append('regionIds', query.regionIds) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/erp/endmonth/endMonthCount',
+    url: '/endmonth/endMonthCount',
     method: 'post',
     params: params
   })
@@ -44,7 +44,7 @@ export function countlist3(query1, query2) {
     params.append('code', query2) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/erp/allinventory/countlist3',
+    url: '/allinventory/countlist3',
     method: 'post',
     params: params
   })
@@ -63,7 +63,7 @@ export function countlist(query1, query2, query3) {
     params.append('code', query3) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/erp/allinventory/countlist',
+    url: '/allinventory/countlist',
     method: 'post',
     params: params
   })
@@ -72,7 +72,7 @@ export function countlist(query1, query2, query3) {
 // 物料清单编码
 export function getbom() {
   return request({
-    url: '/erp/materialslist/getBomNumber',
+    url: '/materialslist/getBomNumber',
     method: 'post'
   })
 }
@@ -80,7 +80,7 @@ export function getbom() {
 // 国家列表
 export function getcountrylist(query) {
   return request({
-    url: '/erp/country/getcountrylist',
+    url: '/country/getcountrylist',
     method: 'post',
     params: query
   })
@@ -89,7 +89,7 @@ export function getcountrylist(query) {
 // 全部区域
 export function regionlist(query) {
   return request({
-    url: '/erp/region/detaillist',
+    url: '/region/detaillist',
     method: 'post',
     params: query
   })
@@ -102,7 +102,7 @@ export function listbyparentid(query) {
     params.append('parentid', query.region) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/erp/region/listbyparentid',
+    url: '/region/listbyparentid',
     method: 'post',
     data: params
   })
@@ -115,7 +115,7 @@ export function searchregionName(query) {
     params.append('regionid', query.regionid) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/erp/region/list',
+    url: '/region/list',
     method: 'post',
     data: params
   })
@@ -130,7 +130,7 @@ export function searchRepository(query) {
   params.append('pagenum', 1) // 你要传给后台的参数值 key/value
   params.append('pagesize', 99999) // 你要传给后台的参数值 key/value
   return request({
-    url: '/erp/repository/searchRepository',
+    url: '/repository/searchRepository',
     method: 'post',
     data: params
   })
@@ -141,7 +141,7 @@ export function getprovincelist(query) {
   var params = new URLSearchParams()
   params.append('countryid', query) // 你要传给后台的参数值 key/value
   return request({
-    url: '/erp/country/getprovincelist',
+    url: '/country/getprovincelist',
     method: 'post',
     data: params
   })
@@ -152,7 +152,7 @@ export function getcitylist(query) {
   var params = new URLSearchParams()
   params.append('provinceid', query) // 你要传给后台的参数值 key/value
   return request({
-    url: '/erp/country/getcitylist',
+    url: '/country/getcitylist',
     method: 'post',
     data: params
   })
@@ -168,7 +168,7 @@ export function batchlist(query, query3) {
     params.append('productCode', query3) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/erp/location/batchlist',
+    url: '/location/batchlist',
     method: 'post',
     data: params
   })
@@ -190,7 +190,7 @@ export function getQuantity(query, query2, query3, query4) {
     params.append('batch', query4) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/erp/location/getQuantity',
+    url: '/location/getQuantity',
     method: 'post',
     data: params
   })
@@ -212,7 +212,7 @@ export function getQuantity2(query, query2, query3, query4) {
     params.append('batch', query4) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/erp/location/getQuantity2',
+    url: '/location/getQuantity2',
     method: 'post',
     data: params
   })
@@ -230,7 +230,7 @@ export function getlocation(query, query2) {
     }
   }
   return request({
-    url: '/erp/location/getlocation',
+    url: '/location/getlocation',
     method: 'post',
     data: params
   })
@@ -246,7 +246,7 @@ export function getlocation6(query, query2) {
     params.append('productCode', query2.toolsCode) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/erp/location/getlocation',
+    url: '/location/getlocation',
     method: 'post',
     data: params
   })
@@ -266,7 +266,7 @@ export function locationlist(query, query2) {
   params.append('pageNum', 1) // 你要传给后台的参数值 key/value
   params.append('pageSize', 99999) // 你要传给后台的参数值 key/value
   return request({
-    url: '/erp/location/locationlist',
+    url: '/location/locationlist',
     method: 'post',
     data: params
   })
@@ -288,7 +288,7 @@ export function calPlanQuantity(query, query2) {
     params.append('productCode', query2.productCode) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/erp/requireplan/calPlanQuantity',
+    url: '/requireplan/calPlanQuantity',
     method: 'post',
     data: params
   })
@@ -300,7 +300,7 @@ export function materialslist() {
   params.append('pageNum', 1) // 你要传给后台的参数值 key/value
   params.append('pageSize', 9999) // 你要传给后台的参数值 key/value
   return request({
-    url: '/erp/materialslist/materialslist',
+    url: '/materialslist/materialslist',
     method: 'post',
     data: params
   })
@@ -313,7 +313,7 @@ export function searchprocessFile() {
   params.append('pageNum', 1) // 你要传给后台的参数值 key/value
   params.append('pageSize', 9999) // 你要传给后台的参数值 key/value
   return request({
-    url: '/erp/processFile/search',
+    url: '/processFile/search',
     method: 'post',
     data: params
   })
@@ -327,7 +327,7 @@ export function searchworkCenter(query) {
   params.append('pageNum', 1) // 你要传给后台的参数值 key/value
   params.append('pageSize', 99999) // 你要传给后台的参数值 key/value
   return request({
-    url: '/erp/workCenter/search',
+    url: '/workCenter/search',
     method: 'post',
     data: params
   })
@@ -340,7 +340,7 @@ export function requireplanlist(query) {
     params.append('sourceNumber', query) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/erp/requireplan/requireplanlist',
+    url: '/requireplan/requireplanlist',
     method: 'post',
     data: params
   })
@@ -352,7 +352,7 @@ export function saveRegion(query, query2) {
   params.append('zcc', query) // 你要传给后台的参数值 key/value
   params.append('regionId', query2) // 你要传给后台的参数值 key/value
   return request({
-    url: '/erp/zcc/saveRegion',
+    url: '/zcc/saveRegion',
     method: 'post',
     data: params
   })
@@ -363,7 +363,7 @@ export function getRegion(query) {
   var params = new URLSearchParams()
   params.append('regionId', query) // 你要传给后台的参数值 key/value
   return request({
-    url: '/erp/zcc/getRegion',
+    url: '/zcc/getRegion',
     method: 'post',
     data: params
   })
@@ -378,7 +378,7 @@ export function productlist(query) {
   params.append('pagenum', 1) // 你要传给后台的参数值 key/value
   params.append('pagesize', 99999) // 你要传给后台的参数值 key/value
   return request({
-    url: '/erp/product/productlist',
+    url: '/product/productlist',
     method: 'post',
     data: params
   })
@@ -393,7 +393,7 @@ export function searchMea(query) {
   params.append('pagenum', 1) // 你要传给后台的参数值 key/value
   params.append('pagesize', 9999) // 你要传给后台的参数值 key/value
   return request({
-    url: '/erp/measurement/search',
+    url: '/measurement/search',
     method: 'post',
     data: params
   })
@@ -406,7 +406,7 @@ export function searchsupplier(query) {
   params.append('pagenum', 1) // 你要传给后台的参数值 key/value
   params.append('pagesize', 99999) // 你要传给后台的参数值 key/value
   return request({
-    url: '/erp/supplier/search',
+    url: '/supplier/search',
     method: 'post',
     data: params
   })
@@ -421,7 +421,7 @@ export function shouldPayList(query) {
   params.append('pageNum', 1) // 你要传给后台的参数值 key/value
   params.append('pageSize', 9999) // 你要传给后台的参数值 key/value
   return request({
-    url: '/erp/payment/shouldPayList',
+    url: '/payment/shouldPayList',
     method: 'post',
     data: params
   })
@@ -430,7 +430,7 @@ export function shouldPayList(query) {
 // 递归值
 export function getId() {
   return request({
-    url: '/erp/zcc/getId',
+    url: '/zcc/getId',
     method: 'post'
   })
 }
@@ -442,7 +442,7 @@ export function existList(query) {
     params.append('customerPhone', query) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/erp/installmentapply/existList',
+    url: '/installmentapply/existList',
     method: 'post',
     data: params
   })
@@ -470,7 +470,7 @@ export function agentCollectList(query) {
   params.append('pageNum', 1) // 你要传给后台的参数值 key/value
   params.append('pageSize', 9999) // 你要传给后台的参数值 key/value
   return request({
-    url: '/erp/agentCollect/agentCollectList',
+    url: '/agentCollect/agentCollectList',
     method: 'post',
     data: params
   })
@@ -483,7 +483,7 @@ export function getDetailById(query) {
     params.append('detailId', query) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/erp/role/getDetailById',
+    url: '/role/getDetailById',
     method: 'post',
     data: params
   })
@@ -499,7 +499,7 @@ export function getregionlistbyreid(query) {
     params.append('regionid', query.regionIds) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/erp/region/getregionlistbyreid',
+    url: '/region/getregionlistbyreid',
     method: 'post',
     data: params
   })
@@ -510,7 +510,7 @@ export function checkReceiptApply(query) {
   var params = new URLSearchParams()
   params.append('applyNumber', query) // 你要传给后台的参数值 key/value
   return request({
-    url: '/erp/receiptStat/checkReceiptApply',
+    url: '/receiptStat/checkReceiptApply',
     method: 'post',
     data: params
   })
@@ -521,7 +521,7 @@ export function checkReceiptPlan(query) {
   var params = new URLSearchParams()
   params.append('planNumber', query) // 你要传给后台的参数值 key/value
   return request({
-    url: '/erp/receiptStat/checkReceiptPlan',
+    url: '/receiptStat/checkReceiptPlan',
     method: 'post',
     data: params
   })
@@ -532,7 +532,7 @@ export function checkReceiptOrder(query) {
   var params = new URLSearchParams()
   params.append('orderNumber', query) // 你要传给后台的参数值 key/value
   return request({
-    url: '/erp/receiptStat/checkReceiptOrder',
+    url: '/receiptStat/checkReceiptOrder',
     method: 'post',
     data: params
   })
@@ -543,7 +543,7 @@ export function checkReceiptOrder2(query) {
   var params = new URLSearchParams()
   params.append('orderNumber', query) // 你要传给后台的参数值 key/value
   return request({
-    url: '/erp/saleReceiptStat/checkReceiptOrder',
+    url: '/saleReceiptStat/checkReceiptOrder',
     method: 'post',
     data: params
   })
@@ -554,7 +554,7 @@ export function checkReceiptOpportunity(query) {
   var params = new URLSearchParams()
   params.append('opportunityNumber', query) // 你要传给后台的参数值 key/value
   return request({
-    url: '/erp/saleReceiptStat/checkReceiptOpportunity',
+    url: '/saleReceiptStat/checkReceiptOpportunity',
     method: 'post',
     data: params
   })
@@ -565,7 +565,7 @@ export function checkReceiptApply2(query) {
   var params = new URLSearchParams()
   params.append('applyNumber', query) // 你要传给后台的参数值 key/value
   return request({
-    url: '/erp/installmentReceiptStat/checkReceiptApply',
+    url: '/installmentReceiptStat/checkReceiptApply',
     method: 'post',
     data: params
   })

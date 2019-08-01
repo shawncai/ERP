@@ -9,7 +9,7 @@ export function searchCusCategory(query) {
   params.append('pagenum', 1) // 你要传给后台的参数值 key/value
   params.append('pagesize', 9999) // 你要传给后台的参数值 key/value
   return request({
-    url: '/erp/customer/searchCusCategory',
+    url: '/customer/searchCusCategory',
     method: 'post',
     data: params
   })
@@ -41,7 +41,7 @@ export function customerlist(query) {
   params.append('pagenum', query.pagenum) // 你要传给后台的参数值 key/value
   params.append('pagesize', query.pagesize) // 你要传给后台的参数值 key/value
   return request({
-    url: '/erp/customer/customerlist',
+    url: '/customer/customerlist',
     method: 'post',
     data: params
   })
@@ -54,7 +54,7 @@ export function customerDetail(query) {
     params.append('customerId', query) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/erp/customer/customerDetail',
+    url: '/customer/customerDetail',
     method: 'post',
     data: params
   })
@@ -112,7 +112,7 @@ export function addCustomer(query) {
     params.append('customertype', query.customertype) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/erp/customer/addCustomer',
+    url: '/customer/addCustomer',
     method: 'post',
     data: params
   })
@@ -170,7 +170,7 @@ export function updateCustomer(query) {
     params.append('customertype', query.customerType) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/erp/customer/updateCustomer',
+    url: '/customer/updateCustomer',
     method: 'post',
     data: params
   })
@@ -186,7 +186,7 @@ export function deletecustomer(query, query2) {
     params.append('operatorId', query2) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/erp/customer/deletecustomer',
+    url: '/customer/deletecustomer',
     method: 'post',
     data: params
   })
@@ -250,7 +250,7 @@ export function addagent(query) {
     params.append('newold', query.newold) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/erp/agent/addagent',
+    url: '/agent/addagent',
     method: 'post',
     data: params
   })
@@ -286,7 +286,7 @@ export function agentlist(query) {
   params.append('pagenum', query.pagenum) // 你要传给后台的参数值 key/value
   params.append('pagesize', query.pagesize) // 你要传给后台的参数值 key/value
   return request({
-    url: '/erp/agent/agentlist',
+    url: '/agent/agentlist',
     method: 'post',
     data: params
   })
@@ -350,7 +350,7 @@ export function updateagent(query) {
     params.append('deliverymode', query.deliveryMode) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/erp/agent/updateagent',
+    url: '/agent/updateagent',
     method: 'post',
     data: params
   })
@@ -366,7 +366,7 @@ export function deleteagent(query, query2) {
     params.append('operatorId', query2) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/erp/agent/deleteagent',
+    url: '/agent/deleteagent',
     method: 'post',
     data: params
   })
@@ -387,7 +387,7 @@ export function searchEmpCategory(query) {
   params.append('pagenum', query.pagenum) // 你要传给后台的参数值 key/value
   params.append('pagesize', query.pagesize) // 你要传给后台的参数值 key/value
   return request({
-    url: '/erp/customer/searchCusCategory',
+    url: '/customer/searchCusCategory',
     method: 'post',
     data: params
   })
@@ -409,7 +409,7 @@ export function addEmpCategory(query) {
     params.append('type', query.type) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/erp/customer/addCusCategory',
+    url: '/customer/addCusCategory',
     method: 'post',
     data: params
   })
@@ -428,7 +428,7 @@ export function updateEmpCategory(query) {
     params.append('id', query.id) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/erp/customer/updateCusCategory',
+    url: '/customer/updateCusCategory',
     method: 'post',
     data: params
   })
@@ -444,7 +444,7 @@ export function delateEmpCategory(query, query2) {
     params.append('operatorId', query2) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/erp/customer/delateCusCategory',
+    url: '/customer/delateCusCategory',
     method: 'post',
     data: params
   })
@@ -457,7 +457,7 @@ export function manyinsert(query) {
     params.append('customerJson', query) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/erp/customer/manyinsert',
+    url: '/customer/manyinsert',
     method: 'post',
     data: params
   })

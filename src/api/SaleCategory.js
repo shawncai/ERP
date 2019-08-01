@@ -15,7 +15,7 @@ export function searchSaleCategory(query) {
   params.append('pagenum', query.pagenum) // 你要传给后台的参数值 key/value
   params.append('pagesize', query.pagesize) // 你要传给后台的参数值 key/value
   return request({
-    url: '/erp/salecategory/searchSaleCategory',
+    url: '/salecategory/searchSaleCategory',
     method: 'post',
     data: params
   })
@@ -37,7 +37,7 @@ export function addSaleCategory(query) {
     params.append('type', query.type) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/erp/salecategory/addSaleCategory',
+    url: '/salecategory/addSaleCategory',
     method: 'post',
     data: params
   })
@@ -56,7 +56,7 @@ export function updateSaleCategory(query) {
     params.append('id', query.id) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/erp/salecategory/updateSaleCategory',
+    url: '/salecategory/updateSaleCategory',
     method: 'post',
     data: params
   })
@@ -72,7 +72,7 @@ export function delateSaleCategory(query, query2) {
     params.append('operatorId', query2) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/erp/salecategory/delateSaleCategory',
+    url: '/salecategory/delateSaleCategory',
     method: 'post',
     data: params
   })
