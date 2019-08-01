@@ -37,7 +37,7 @@
       </el-form-item>
 
       <el-form-item prop="password">
-        <el-select v-model="loginForm.country" clearable style="margin-left: 18px;width: 88%" @focus="verify" @change="changeCountry">
+        <el-select v-model="loginForm.country" clearable style="margin-left: 18px;width: 110%" @focus="verify" @change="changeCountry">
           <el-option
             v-for="(item, index) in countrys"
             :key="index"
@@ -111,6 +111,7 @@ export default {
   },
   methods: {
     changeCountry() {
+      this.$store.dispatch('getuseCountry', '')
       if (this.loginForm.country === 1) {
         this.$store.dispatch('getuseCountry', 1)
       }
