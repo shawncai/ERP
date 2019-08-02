@@ -548,8 +548,6 @@ export default {
       this.personalForm.caigoumeasurement = this.personalForm.caigouMeasurement
       this.personalForm.salemeasurement = this.personalForm.saleMeasurement
       this.personalForm.stockmeasurement = this.personalForm.stockMeasurement
-      console.log('111', this.personalForm.stockmeasurement)
-      console.log('222', this.personalForm.unitGroupId)
       if (this.personalForm.unitGroupId === null) {
         this.con = true
       } else {

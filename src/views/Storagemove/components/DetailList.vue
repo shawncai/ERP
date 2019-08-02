@@ -341,11 +341,6 @@ export default {
       this.list2 = this.personalForm.storageMoveDetailVos
       this.list3 = this.personalForm.storageMoveDetailConfirmVos
       this.reviewList = this.personalForm.approvalUseVos
-      for (let i = 0; i < this.reviewList.length; i++) {
-        if (this.reviewList[i].actualStepHandler === null) {
-          this.reviewList.splice(i, 1)
-        }
-      }
       this.getlocation()
       this.deliverGoodsListdata.sourceNumber = this.personalForm.moveNumber
       this.getdeliverGoodsList()

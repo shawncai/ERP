@@ -259,7 +259,6 @@ export default {
     // 反结单操作
     handleReview4(row) {
       this.reviewParms.id = row.id
-      this.reviewParms.judgePersonId = this.$store.getters.userId
       this.$confirm('请反审批', '反审批', {
         distinguishCancelAndClose: true,
         confirmButtonText: '反审批',
@@ -269,17 +268,10 @@ export default {
         const parms = JSON.stringify(this.reviewParms)
         updateteardown2(parms).then(res => {
           if (res.data.ret === 200) {
-            if (res.data.data.result === false) {
-              this.$message({
-                type: 'error',
-                message: '反审批失败!'
-              })
-            } else {
-              this.$message({
-                type: 'success',
-                message: '反审批成功!'
-              })
-            }
+            this.$message({
+              type: 'success',
+              message: '反审批成功!'
+            })
             this.getlist()
           }
         })
