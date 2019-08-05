@@ -36,7 +36,7 @@ export function searchOutlist(query) {
   params.append('pagenum', query.pageNum) // 你要传给后台的参数值 key/value
   params.append('pagesize', query.pageSize) // 你要传给后台的参数值 key/value
   return request({
-    url: '/erp/otherout/search',
+    url: '/otherout/search',
     method: 'post',
     data: params
   })
@@ -52,7 +52,7 @@ export function deleteStock(query, query2) {
     params.append('operatorId', query2) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/erp/otherout/delete',
+    url: '/otherout/delete',
     method: 'post',
     data: params
   })
@@ -117,7 +117,7 @@ export function createotherout(query, query2) {
     params.append('regionId', query.regionId) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/erp/otherout/create',
+    url: '/otherout/create',
     method: 'post',
     data: params
   })
@@ -129,7 +129,7 @@ export function updateotherout(query, query2) {
   params.append('otherOutJson', query) // 你要传给后台的参数值 key/value
   params.append('detailJson', query2) // 你要传给后台的参数值 key/value
   return request({
-    url: '/erp/otherout/update',
+    url: '/otherout/update',
     method: 'post',
     data: params
   })
@@ -140,7 +140,7 @@ export function updateotherenter2(query) {
   var params = new URLSearchParams()
   params.append('otherOutJson', query) // 你要传给后台的参数值 key/value
   return request({
-    url: '/erp/otherout/update',
+    url: '/otherout/update',
     method: 'post',
     data: params
   })

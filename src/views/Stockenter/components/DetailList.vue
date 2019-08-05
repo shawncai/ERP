@@ -284,11 +284,6 @@ export default {
       this.enterRepositoryId = this.personalForm.enterRepositoryName
       this.list2 = this.personalForm.stockEnterDetailVos
       this.reviewList = this.personalForm.approvalUseVos
-      for (let i = 0; i < this.reviewList.length; i++) {
-        if (this.reviewList[i].actualStepHandler === null) {
-          this.reviewList.splice(i, 1)
-        }
-      }
       this.getlocation()
     }
   },

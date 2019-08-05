@@ -17,7 +17,7 @@ export function smartReplenishmentList(query) {
   params.append('repositoryId', query.repositoryId) // 你要传给后台的参数值 key/value
   params.append('regionIds', query.regionIds) // 你要传给后台的参数值 key/value
   return request({
-    url: '/erp/smartreplenishment/smartReplenishmentList',
+    url: '/smartreplenishment/smartReplenishmentList',
     method: 'post',
     data: params
   })

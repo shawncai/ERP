@@ -16,7 +16,7 @@ export function addproduceplan(query, query2, query3) {
     params.append('regionId', query3.regionId) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/erp/produceplan/addproduceplan',
+    url: '/produceplan/addproduceplan',
     method: 'post',
     data: params
   })
@@ -67,7 +67,7 @@ export function produceplanlist(query) {
   params.append('pageNum', query.pageNum) // 你要传给后台的参数值 key/value
   params.append('pageSize', query.pageSize) // 你要传给后台的参数值 key/value
   return request({
-    url: '/erp/produceplan/produceplanlist',
+    url: '/produceplan/produceplanlist',
     method: 'post',
     data: params
   })
@@ -83,7 +83,7 @@ export function deleteproduceplan(query, query2) {
     params.append('operatorId', query2) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/erp/produceplan/deleteproduceplan',
+    url: '/produceplan/deleteproduceplan',
     method: 'post',
     data: params
   })
@@ -99,7 +99,7 @@ export function updateproduceplan(query, query2) {
     params.append('producePlanDetailJson', query2) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/erp/produceplan/updateproduceplan',
+    url: '/produceplan/updateproduceplan',
     method: 'post',
     data: params
   })
@@ -112,7 +112,7 @@ export function updateproduceplan2(query) {
     params.append('producePlanJson', query) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/erp/produceplan/updateproduceplan',
+    url: '/produceplan/updateproduceplan',
     method: 'post',
     data: params
   })

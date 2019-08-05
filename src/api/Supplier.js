@@ -9,7 +9,7 @@ export function searchCategory(query) {
   params.append('pagenum', 1) // 你要传给后台的参数值 key/value
   params.append('pagesize', 9999) // 你要传给后台的参数值 key/value
   return request({
-    url: '/erp/supplierCategory/searchCategory',
+    url: '/supplierCategory/searchCategory',
     method: 'post',
     data: params
   })
@@ -122,7 +122,7 @@ export function create(query, query2) {
   }
   params.append('detailJson', query2) // 你要传给后台的参数值 key/value
   return request({
-    url: '/erp/supplier/create',
+    url: '/supplier/create',
     method: 'post',
     data: params
   })
@@ -168,7 +168,7 @@ export function search(query) {
     params.append('pagesize', query.pagesize) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/erp/supplier/search',
+    url: '/supplier/search',
     method: 'post',
     data: params
   })
@@ -284,7 +284,7 @@ export function update(query, query2) {
   }
   params.append('detailJson', query2) // 你要传给后台的参数值 key/value
   return request({
-    url: '/erp/supplier/update',
+    url: '/supplier/update',
     method: 'post',
     data: params
   })
@@ -300,7 +300,7 @@ export function delete2(query, query2) {
     params.append('operatorId', query2) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/erp/supplier/delete',
+    url: '/supplier/delete',
     method: 'post',
     data: params
   })
@@ -309,7 +309,7 @@ export function delete2(query, query2) {
 // 查询供应商分组
 export function searchGroup() {
   return request({
-    url: '/erp/supplierGroup/search',
+    url: '/supplierGroup/search',
     method: 'post'
   })
 }
@@ -321,7 +321,7 @@ export function createGroup(query) {
     params.append('groupName', query) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/erp/supplierGroup/create',
+    url: '/supplierGroup/create',
     method: 'post',
     data: params
   })
@@ -337,7 +337,7 @@ export function deleteGroup(query, query2) {
     params.append('operatorId', query2) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/erp/supplierGroup/delete',
+    url: '/supplierGroup/delete',
     method: 'post',
     data: params
   })
@@ -358,7 +358,7 @@ export function searchEmpCategory(query) {
   params.append('pagenum', query.pagenum) // 你要传给后台的参数值 key/value
   params.append('pagesize', query.pagesize) // 你要传给后台的参数值 key/value
   return request({
-    url: '/erp/supplierCategory/searchCategory',
+    url: '/supplierCategory/searchCategory',
     method: 'post',
     data: params
   })
@@ -380,7 +380,7 @@ export function addEmpCategory(query) {
     params.append('type', query.type) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/erp/supplierCategory/addCategory',
+    url: '/supplierCategory/addCategory',
     method: 'post',
     data: params
   })
@@ -399,7 +399,7 @@ export function updateEmpCategory(query) {
     params.append('id', query.id) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/erp/supplierCategory/updateCategory',
+    url: '/supplierCategory/updateCategory',
     method: 'post',
     data: params
   })
@@ -415,7 +415,7 @@ export function delateEmpCategory(query, query2) {
     params.append('operatorId', query2) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/erp/supplierCategory/delateCategory',
+    url: '/supplierCategory/delateCategory',
     method: 'post',
     data: params
   })
@@ -428,7 +428,7 @@ export function manyinsert(query) {
     params.append('supplierJson', query) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/erp/supplierRecommendation/manyinsert',
+    url: '/supplierRecommendation/manyinsert',
     method: 'post',
     data: params
   })
@@ -441,7 +441,7 @@ export function createPunishment(query) {
     params.append('Json', query) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/erp/supplier/createPunishment',
+    url: '/supplier/createPunishment',
     method: 'post',
     data: params
   })

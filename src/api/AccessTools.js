@@ -12,7 +12,7 @@ export function createAccessTools(query, query2, query4) {
     params.append('regionId', query4.regionId) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/erp/accesstools/addAccessTools',
+    url: '/accesstools/addAccessTools',
     method: 'post',
     data: params
   })
@@ -57,7 +57,7 @@ export function searchAccessTools(query) {
   params.append('pageNum', query.pageNum) // 你要传给后台的参数值 key/value
   params.append('pageSize', query.pageSize) // 你要传给后台的参数值 key/value
   return request({
-    url: '/erp/accesstools/accessList',
+    url: '/accesstools/accessList',
     method: 'post',
     data: params
   })
@@ -69,7 +69,7 @@ export function updateAccessTools(query, query2) {
   params.append('accessRepairToolsJson', query) // 你要传给后台的参数值 key/value
   params.append('accessToolsDetailJson', query2) // 你要传给后台的参数值 key/value
   return request({
-    url: '/erp/accesstools/updateAccessTools',
+    url: '/accesstools/updateAccessTools',
     method: 'post',
     data: params
   })
@@ -85,7 +85,7 @@ export function deleteAccessTools(query, query2) {
     params.append('operatorId', query2) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/erp/accesstools/deleteAccessTools',
+    url: '/accesstools/deleteAccessTools',
     method: 'post',
     data: params
   })
@@ -96,7 +96,7 @@ export function updateAccessTools2(query) {
   var params = new URLSearchParams()
   params.append('accessRepairToolsJson', query) // 你要传给后台的参数值 key/value
   return request({
-    url: '/erp/accesstools/updateAccessTools',
+    url: '/accesstools/updateAccessTools',
     method: 'post',
     data: params
   })

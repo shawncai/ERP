@@ -287,7 +287,7 @@
               :on-success="handlepicsuccess"
               :data="picidsData"
               :auto-upload="false"
-              action="http://192.168.1.26:9090/erp/upload/uploadpic"
+              action="http://192.168.1.26:9090/upload/uploadpic"
               list-type="picture-card">
               <i class="el-icon-plus"/>
             </el-upload>
@@ -304,7 +304,7 @@
               :on-success="handledetailpicsuccess"
               :data="detailpicData"
               :auto-upload="false"
-              action="http://192.168.1.26:9090/erp/upload/uploadpic"
+              action="http://192.168.1.26:9090/upload/uploadpic"
               list-type="picture-card">
               <i class="el-icon-plus"/>
             </el-upload>
@@ -548,8 +548,6 @@ export default {
       this.personalForm.caigoumeasurement = this.personalForm.caigouMeasurement
       this.personalForm.salemeasurement = this.personalForm.saleMeasurement
       this.personalForm.stockmeasurement = this.personalForm.stockMeasurement
-      console.log('111', this.personalForm.stockmeasurement)
-      console.log('222', this.personalForm.unitGroupId)
       if (this.personalForm.unitGroupId === null) {
         this.con = true
       } else {

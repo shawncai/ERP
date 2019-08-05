@@ -5,7 +5,7 @@ export function createoutFactory(query) {
   var params = new URLSearchParams()
   params.append('Json', query) // 你要传给后台的参数值 key/value
   return request({
-    url: '/erp/outFactory/create',
+    url: '/outFactory/create',
     method: 'post',
     data: params
   })
@@ -29,7 +29,7 @@ export function searchoutFactory(query) {
   params.append('pageNum', query.pageNum) // 你要传给后台的参数值 key/value
   params.append('pageSize', query.pageSize) // 你要传给后台的参数值 key/value
   return request({
-    url: '/erp/outFactory/search',
+    url: '/outFactory/search',
     method: 'post',
     data: params
   })
@@ -45,7 +45,7 @@ export function deleteoutFactory(query, query2) {
     params.append('operatorId', query2) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/erp/outFactory/delete',
+    url: '/outFactory/delete',
     method: 'post',
     data: params
   })
@@ -56,7 +56,7 @@ export function updateoutFactory(query) {
   var params = new URLSearchParams()
   params.append('Json', query) // 你要传给后台的参数值 key/value
   return request({
-    url: '/erp/outFactory/update',
+    url: '/outFactory/update',
     method: 'post',
     data: params
   })

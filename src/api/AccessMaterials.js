@@ -10,7 +10,7 @@ export function getDetailByTaskNumber(query, query2) {
     params.append('repositoryId', query2) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/erp/accessmaterials/getDetailByTaskNumber',
+    url: '/accessmaterials/getDetailByTaskNumber',
     method: 'post',
     data: params
   })
@@ -32,7 +32,7 @@ export function addaccessmaterials(query, query2, query3) {
     params.append('regionId', query3.regionId) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/erp/accessmaterials/addaccessmaterials',
+    url: '/accessmaterials/addaccessmaterials',
     method: 'post',
     data: params
   })
@@ -89,7 +89,7 @@ export function accesslist(query) {
   params.append('pageNum', query.pageNum) // 你要传给后台的参数值 key/value
   params.append('pageSize', query.pageSize) // 你要传给后台的参数值 key/value
   return request({
-    url: '/erp/accessmaterials/accesslist',
+    url: '/accessmaterials/accesslist',
     method: 'post',
     data: params
   })
@@ -105,7 +105,7 @@ export function deleteaccess(query, query2) {
     params.append('operatorId', query2) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/erp/accessmaterials/deleteaccess',
+    url: '/accessmaterials/deleteaccess',
     method: 'post',
     data: params
   })
@@ -121,7 +121,7 @@ export function updateaccess(query, query2) {
     params.append('accessMaterialsDetailJson', query2) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/erp/accessmaterials/updateaccess',
+    url: '/accessmaterials/updateaccess',
     method: 'post',
     data: params
   })
@@ -134,7 +134,7 @@ export function updateaccess2(query) {
     params.append('accessMaterialsJson', query) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/erp/accessmaterials/updateaccess',
+    url: '/accessmaterials/updateaccess',
     method: 'post',
     data: params
   })
@@ -156,7 +156,7 @@ export function createretreatMaterials(query, query2, query3) {
     params.append('regionId', query3.regionId) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/erp/retreatMaterials/create',
+    url: '/retreatMaterials/create',
     method: 'post',
     data: params
   })
@@ -210,7 +210,7 @@ export function searchretreatMaterials(query) {
   params.append('pageNum', query.pageNum) // 你要传给后台的参数值 key/value
   params.append('pageSize', query.pageSize) // 你要传给后台的参数值 key/value
   return request({
-    url: '/erp/retreatMaterials/search',
+    url: '/retreatMaterials/search',
     method: 'post',
     data: params
   })
@@ -226,7 +226,7 @@ export function updatereatMaterials(query, query2) {
     params.append('detailJson', query2) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/erp/retreatMaterials/update',
+    url: '/retreatMaterials/update',
     method: 'post',
     data: params
   })
@@ -239,7 +239,7 @@ export function updateretreatMaterials2(query) {
     params.append('Json', query) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/erp/retreatMaterials/update',
+    url: '/retreatMaterials/update',
     method: 'post',
     data: params
   })
@@ -255,7 +255,7 @@ export function deleteretreatMaterials(query, query2) {
     params.append('operatorId', query2) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/erp/retreatMaterials/delete',
+    url: '/retreatMaterials/delete',
     method: 'post',
     data: params
   })

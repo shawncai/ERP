@@ -12,7 +12,7 @@ export function createstockInquiry(query, query2, query3) {
     params.append('regionId', query3.regionId) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/erp/stockInquiry/create',
+    url: '/stockInquiry/create',
     method: 'post',
     data: params
   })
@@ -63,7 +63,7 @@ export function stockplanlist(query) {
   params.append('pageNum', query.pageNum) // 你要传给后台的参数值 key/value
   params.append('pageSize', query.pageSize) // 你要传给后台的参数值 key/value
   return request({
-    url: '/erp/stockInquiry/search',
+    url: '/stockInquiry/search',
     method: 'post',
     data: params
   })
@@ -75,7 +75,7 @@ export function updatestockInquiry(query, query2) {
   params.append('Json', query) // 你要传给后台的参数值 key/value
   params.append('detailJson', query2) // 你要传给后台的参数值 key/value
   return request({
-    url: '/erp/stockInquiry/update',
+    url: '/stockInquiry/update',
     method: 'post',
     data: params
   })
@@ -87,7 +87,7 @@ export function updatestockInquiry3(query, query2) {
   params.append('Json', query) // 你要传给后台的参数值 key/value
   params.append('detailJson', query2) // 你要传给后台的参数值 key/value
   return request({
-    url: '/erp/stockInquiry/again',
+    url: '/stockInquiry/again',
     method: 'post',
     data: params
   })
@@ -98,7 +98,7 @@ export function updatestockInquiry2(query) {
   var params = new URLSearchParams()
   params.append('Json', query) // 你要传给后台的参数值 key/value
   return request({
-    url: '/erp/stockInquiry/update',
+    url: '/stockInquiry/update',
     method: 'post',
     data: params
   })
@@ -112,7 +112,7 @@ export function deletestockInquiry(query, query2) {
     params.append('operatorId', query2) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/erp/stockInquiry/delete',
+    url: '/stockInquiry/delete',
     method: 'post',
     data: params
   })

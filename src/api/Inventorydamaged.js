@@ -10,7 +10,7 @@ export function deletedamaged(query, query2) {
     params.append('operatorId', query2) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/erp/inventorydamaged/deletedamaged',
+    url: '/inventorydamaged/deletedamaged',
     method: 'post',
     data: params
   })
@@ -28,7 +28,7 @@ export function addinventorydamaged(query, query2, repositoryId, regionId) {
     params.append('regionId', regionId) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/erp/inventorydamaged/addinventorydamaged',
+    url: '/inventorydamaged/addinventorydamaged',
     method: 'post',
     data: params
   })
@@ -76,7 +76,7 @@ export function damagedlist(query) {
   params.append('pageNum', query.pageNum) // 你要传给后台的参数值 key/value
   params.append('pageSize', query.pageSize) // 你要传给后台的参数值 key/value
   return request({
-    url: '/erp/inventorydamaged/damagedlist',
+    url: '/inventorydamaged/damagedlist',
     method: 'post',
     data: params
   })
@@ -88,7 +88,7 @@ export function updatedamaged(query, query2) {
   params.append('inventoryDamagedJson', query) // 你要传给后台的参数值 key/value
   params.append('inventoryDamagedDetailJson', query2) // 你要传给后台的参数值 key/value
   return request({
-    url: '/erp/inventorydamaged/updatedamaged',
+    url: '/inventorydamaged/updatedamaged',
     method: 'post',
     data: params
   })
@@ -99,7 +99,7 @@ export function updatedamaged2(query) {
   var params = new URLSearchParams()
   params.append('inventoryDamagedJson', query) // 你要传给后台的参数值 key/value
   return request({
-    url: '/erp/inventorydamaged/updatedamaged',
+    url: '/inventorydamaged/updatedamaged',
     method: 'post',
     data: params
   })

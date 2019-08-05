@@ -12,7 +12,7 @@ export function createexpenses(query, query2, query4) {
     params.append('regionId', query4.regionId) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/erp/expenses/create',
+    url: '/expenses/create',
     method: 'post',
     data: params
   })
@@ -57,7 +57,7 @@ export function searchexpenses(query) {
   params.append('pageNum', query.pageNum) // 你要传给后台的参数值 key/value
   params.append('pageSize', query.pageSize) // 你要传给后台的参数值 key/value
   return request({
-    url: '/erp/expenses/search',
+    url: '/expenses/search',
     method: 'post',
     data: params
   })
@@ -69,7 +69,7 @@ export function updateexpenses(query, query2) {
   params.append('Json', query) // 你要传给后台的参数值 key/value
   params.append('detailJson', query2) // 你要传给后台的参数值 key/value
   return request({
-    url: '/erp/expenses/update',
+    url: '/expenses/update',
     method: 'post',
     data: params
   })
@@ -85,7 +85,7 @@ export function deleteexpenses(query, query2) {
     params.append('operatorId', query2) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/erp/expenses/delete',
+    url: '/expenses/delete',
     method: 'post',
     data: params
   })
@@ -96,7 +96,7 @@ export function updateexpenses2(query) {
   var params = new URLSearchParams()
   params.append('Json', query) // 你要传给后台的参数值 key/value
   return request({
-    url: '/erp/expenses/update',
+    url: '/expenses/update',
     method: 'post',
     data: params
   })

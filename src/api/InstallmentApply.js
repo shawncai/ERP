@@ -12,7 +12,7 @@ export function addinstallmentapply(query, query2, query4) {
     params.append('regionId', query4.regionId) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/erp/installmentapply/addinstallmentapply',
+    url: '/installmentapply/addinstallmentapply',
     method: 'post',
     data: params
   })
@@ -63,7 +63,7 @@ export function applylist(query) {
   params.append('pageNum', query.pageNum) // 你要传给后台的参数值 key/value
   params.append('pageSize', query.pageSize) // 你要传给后台的参数值 key/value
   return request({
-    url: '/erp/installmentapply/applylist',
+    url: '/installmentapply/applylist',
     method: 'post',
     data: params
   })
@@ -75,7 +75,7 @@ export function updateapply(query, query2) {
   params.append('installmentApplyJson', query) // 你要传给后台的参数值 key/value
   params.append('installmentApplyDetailJson', query2) // 你要传给后台的参数值 key/value
   return request({
-    url: '/erp/installmentapply/updateapply',
+    url: '/installmentapply/updateapply',
     method: 'post',
     data: params
   })
@@ -91,7 +91,7 @@ export function deleteapply(query, query2) {
     params.append('operatorId', query2) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/erp/installmentapply/deleteapply',
+    url: '/installmentapply/deleteapply',
     method: 'post',
     data: params
   })
@@ -102,7 +102,7 @@ export function updateapply2(query) {
   var params = new URLSearchParams()
   params.append('installmentApplyJson', query) // 你要传给后台的参数值 key/value
   return request({
-    url: '/erp/installmentapply/updateapply',
+    url: '/installmentapply/updateapply',
     method: 'post',
     data: params
   })
