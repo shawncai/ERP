@@ -136,7 +136,7 @@
             <el-editable-column prop="productType" align="center" label="规格" width="150px"/>
             <el-editable-column prop="unit" align="center" label="单位" width="150px"/>
             <el-editable-column prop="basicQuantity" align="center" label="应收数量" width="150px"/>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 1, precision: 2}, type: 'visible',events: { change: beyond}}" prop="actualEnterQuantity" align="center" label="入库数量" width="150px"/>
+            <el-editable-column prop="actualEnterQuantity" align="center" label="入库数量" width="150px"/>
             <el-editable-column prop="enterPrice" align="center" label="入库单价" width="150px"/>
             <el-editable-column prop="taxRate" align="center" label="税率(%)" width="150px"/>
             <el-editable-column prop="enterMoney" align="center" label="入库金额" width="150px">
@@ -227,14 +227,14 @@ export default {
         callback()
       }
     }
-    const validatePass4 = (rule, value, callback) => {
-      console.log(value)
-      if (value > this.mid || value === 0 || value === null || value === undefined) {
-        callback(new Error('计划数量不能为空'))
-      } else {
-        callback()
-      }
-    }
+    // const validatePass4 = (rule, value, callback) => {
+    //   console.log(value)
+    //   if (value > this.mid || value === 0 || value === null || value === undefined) {
+    //     callback(new Error('计划数量不能为空'))
+    //   } else {
+    //     callback()
+    //   }
+    // }
     return {
       // 中转
       mid: null,
@@ -281,9 +281,9 @@ export default {
       list2: [],
       // 入库单明细列表规则
       validRules: {
-        actualEnterQuantity: [
-          { required: true, validator: validatePass4, trigger: 'blur' }
-        ],
+        // actualEnterQuantity: [
+        //   { required: true, validator: validatePass4, trigger: 'blur' }
+        // ],
         step: [
           { required: true, message: '请输入流程步骤', trigger: 'blur' }
         ],
@@ -419,20 +419,31 @@ export default {
     arrival(val) {
       console.log(val)
       this.$refs.editable.clear()
+      // for (let i = 0; i < val.length; i++) {
+      //   console.log(val[i].passQuantity)
+      //   if (val[i].passQuantity === 0) {
+      //     this.$notify.error({
+      //       title: '错误',
+      //       message: '请先进行质检',
+      //       offset: 100
+      //     })
+      //     return false
+      //   }
+      // }
+      let qq = 1
       for (let i = 0; i < val.length; i++) {
         console.log(val[i].passQuantity)
-        if (val[i].passQuantity === 0) {
-          this.$notify.error({
-            title: '错误',
-            message: '请先进行质检',
-            offset: 100
-          })
-          return false
+        if (val[i].actualEnterQuantity > 0) {
+          this.$refs.editable.insert(val[i])
+          qq = 2
         }
       }
-      for (let i = 0; i < val.length; i++) {
-        console.log(val[i].passQuantity)
-        this.$refs.editable.insert(val[i])
+      if (qq === 1) {
+        this.$notify.error({
+          title: '错误',
+          message: '质检过的商品都已入库',
+          offset: 100
+        })
       }
     },
     allarrivalinfo(val) {
