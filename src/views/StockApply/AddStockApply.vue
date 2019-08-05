@@ -249,7 +249,7 @@ export default {
       control: false,
       // 采购申请单信息数据
       personalForm: {
-        applyPersonId: 3,
+        applyPersonId: this.$store.getters.userId,
         createPersonId: this.$store.getters.userId,
         countryId: this.$store.getters.countryId,
         repositoryId: this.$store.getters.repositoryId,

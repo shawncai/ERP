@@ -358,7 +358,7 @@ export default {
         }
       })
       console.log(arrivalDetail)
-      this.$emit('allarrivalinfo', this.choosedata)
+      this.$emit('allarrivalinfodata', this.choosedata)
     }
     // 仓库管理员选择结束
   }

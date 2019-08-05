@@ -32,7 +32,7 @@
                 :data="list"
                 border
                 fit
-                height="730px"
+                max-height="700"
                 highlight-current-row
                 style="width: 100%;"
                 @current-change="handleCurrentChange">

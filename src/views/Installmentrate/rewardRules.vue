@@ -30,11 +30,11 @@
         </el-dropdown-menu>
       </el-dropdown>
       <!-- 表格导出操作 -->
-      <el-button v-waves :loading="downloadLoading" class="filter-item" style="width: 86px" @click="handleExport"> <svg-icon icon-class="daochu"/>{{ $t('public.export') }}</el-button>
+      <el-button v-permission="['200-250-253-6']" v-waves :loading="downloadLoading" class="filter-item" style="width: 86px" @click="handleExport"> <svg-icon icon-class="daochu"/>{{ $t('public.export') }}</el-button>
       <!-- 打印操作 -->
-      <el-button v-waves class="filter-item" icon="el-icon-printer" style="width: 86px" @click="handlePrint">{{ $t('public.print') }}</el-button>
+      <el-button v-permission="['200-250-253-7']" v-waves class="filter-item" icon="el-icon-printer" style="width: 86px" @click="handlePrint">{{ $t('public.print') }}</el-button>
       <!-- 新建操作 -->
-      <el-button v-waves class="filter-item" icon="el-icon-plus" type="success" style="width: 86px" @click="handleAdd">{{ $t('public.add') }}</el-button>
+      <el-button v-permission="['200-250-253-1']" v-waves class="filter-item" icon="el-icon-plus" type="success" style="width: 86px" @click="handleAdd">{{ $t('public.add') }}</el-button>
       <el-dialog :visible.sync="categoryVisible" title="新建奖励规则设置" class="normal" width="600px" center>
         <el-form ref="addCategoryForm" :rules="addCategoryFormRules" :model="addCategoryForm" class="demo-ruleForm" style="margin: 0 auto; width: 400px">
           <el-form-item :label="$t('InstallmentrateList.advanceDay')" label-width="120px" prop="advanceDay">
@@ -94,8 +94,8 @@
         </el-table-column>
         <el-table-column :label="$t('public.actions')" :resizable="false" align="center" min-width="230">
           <template slot-scope="scope">
-            <el-button title="修改" type="primary" size="mini" icon="el-icon-edit" circle @click="handleEdit(scope.row)" />
-            <el-button title="删除" size="mini" type="danger" icon="el-icon-delete" circle @click="handleDelete(scope.row)"/>
+            <el-button v-permission2="['200-250-253-3', scope.row.createPersonId]" title="修改" type="primary" size="mini" icon="el-icon-edit" circle @click="handleEdit(scope.row)" />
+            <el-button v-permission2="['200-250-253-2', scope.row.createPersonId]" title="删除" size="mini" type="danger" icon="el-icon-delete" circle @click="handleDelete(scope.row)"/>
           </template>
         </el-table-column>
       </el-table>
@@ -131,10 +131,13 @@
 import { rulelist2, addRewardRules, updateRewardRules, deleteRewardRules } from '@/api/Installmentrate'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
+import permission from '@/directive/permission/index.js' // 权限判断指令
+import permission2 from '@/directive/permission2/index.js' // 权限判断指令
+import checkPermission from '@/utils/permission' // 权限判断函数
 
 export default {
   name: 'RewardRules',
-  directives: { waves },
+  directives: { waves, permission, permission2 },
   components: { Pagination },
   filters: {
     isEffectiveFilter(status) {
@@ -211,6 +214,7 @@ export default {
     this.getlist()
   },
   methods: {
+    checkPermission,
     getlist() {
       // 员工列表数据
       this.listLoading = true

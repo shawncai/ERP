@@ -26,7 +26,7 @@
                 <el-form-item :label="$t('CheckReport.sourceNumber')" prop="sourceNumber" style="width: 100%;">
                   <el-input v-model="personalForm.sourceNumber" style="margin-left: 18px;width: 200px" clearable @focus="chooseNumber"/>
                   <my-quality :qualitycontrol.sync="qualitycontrol" @allqualityinfo="allqualityinfo"/>
-                  <my-arrival :arrivalcontrol.sync="arrivalcontrol" @allarrivalinfo="arrivalcontrol"/>
+                  <my-arrival :arrivalcontrol.sync="arrivalcontrol" @allarrivalinfodata="allarrivalinfodata"/>
                   <produce-task :procontrol.sync="producecontrol" @produce="produce"/>
                 </el-form-item>
               </el-col>
@@ -178,7 +178,10 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('CheckReport.checkResult')" style="width: 100%;">
-                  <el-input v-model="personalForm.checkResult" style="margin-left: 18px;width:200px" clearable/>
+                  <el-select v-model="personalForm.checkResult" style="margin-left: 18px;width: 200px">
+                    <el-option value="1" label="合格"/>
+                    <el-option value="2" label="不合格"/>
+                  </el-select>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
@@ -778,7 +781,7 @@ export default {
       }
     },
     // 源单类型为采购到货单
-    allarrivalinfo(val) {
+    allarrivalinfodata(val) {
       this.reportdata2 = val.stockArrivalDetailVos
       this.personalForm.sourceNumber = val.number
       this.personalForm.supplierId = val.supplierId
@@ -824,7 +827,13 @@ export default {
         countryId: this.$store.getters.countryId,
         repositoryId: this.$store.getters.repositoryId,
         regionId: this.$store.getters.regionId,
-        isVat: 1
+        isRecheck: 1,
+        sourceType: '4',
+        sampleQuantity: null,
+        checkQuantity: null,
+        failedQuantity: '',
+        passQuantity: '',
+        checkMode: '1'
       }
       this.inspectionPersonId = null
       this.supplierId = null
@@ -895,34 +904,30 @@ export default {
             if (valid) {
               this.$refs.personalForm3.validate((valid) => {
                 if (valid) {
-                  this.$refs.editable.validate().then(valid => {
-                    addqualitycheck(parms, parms2, this.personalForm).then(res => {
-                      console.log(res)
-                      if (res.data.ret === 200) {
-                        this.$notify({
-                          title: '成功',
-                          message: '保存成功',
-                          type: 'success',
-                          offset: 100
-                        })
-                        this.restAllForm()
-                        this.$refs.editable.clear()
-                        this.$refs.personalForm.clearValidate()
-                        this.$refs.personalForm.resetFields()
-                        this.$refs.personalForm2.clearValidate()
-                        this.$refs.personalForm2.resetFields()
-                        this.$refs.personalForm3.clearValidate()
-                        this.$refs.personalForm3.resetFields()
-                      } else {
-                        this.$notify.error({
-                          title: '错误',
-                          message: res.data.msg,
-                          offset: 100
-                        })
-                      }
-                    })
-                  }).catch(valid => {
-                    console.log('error submit!!')
+                  addqualitycheck(parms, parms2, this.personalForm).then(res => {
+                    console.log(res)
+                    if (res.data.ret === 200) {
+                      this.$notify({
+                        title: '成功',
+                        message: '保存成功',
+                        type: 'success',
+                        offset: 100
+                      })
+                      this.restAllForm()
+                      this.$refs.editable.clear()
+                      this.$refs.personalForm.clearValidate()
+                      this.$refs.personalForm.resetFields()
+                      this.$refs.personalForm2.clearValidate()
+                      this.$refs.personalForm2.resetFields()
+                      this.$refs.personalForm3.clearValidate()
+                      this.$refs.personalForm3.resetFields()
+                    } else {
+                      this.$notify.error({
+                        title: '错误',
+                        message: res.data.msg,
+                        offset: 100
+                      })
+                    }
                   })
                 } else {
                   this.$notify.error({
