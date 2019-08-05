@@ -3,7 +3,7 @@ import request from '@/utils/request'
 // 部门列表
 export function getdeptlist(query) {
   return request({
-    url: '/country/getdeptlist',
+    url: '/erp/country/getdeptlist',
     method: 'post',
     params: query
   })
@@ -15,7 +15,7 @@ export function searchRepCategory() {
   params.append('pagenum', 1) // 你要传给后台的参数值 key/value
   params.append('pagesize', 99999) // 你要传给后台的参数值 key/value
   return request({
-    url: '/repository/searchRepCategory',
+    url: '/erp/repository/searchRepCategory',
     method: 'post',
     data: params
   })
@@ -64,7 +64,7 @@ export function create(query) {
     params.append('countryId', query.countryId) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/repository/create',
+    url: '/erp/repository/create',
     method: 'post',
     data: params
   })
@@ -100,7 +100,7 @@ export function searchRepository2(query) {
   params.append('pagenum', query.pagenum) // 你要传给后台的参数值 key/value
   params.append('pagesize', query.pagesize) // 你要传给后台的参数值 key/value
   return request({
-    url: '/repository/searchRepository',
+    url: '/erp/repository/searchRepository',
     method: 'post',
     data: params
   })
@@ -154,7 +154,7 @@ export function update(query) {
   params.append('pagenum', query.pagenum) // 你要传给后台的参数值 key/value
   params.append('pagesize', query.pagesize) // 你要传给后台的参数值 key/value
   return request({
-    url: '/repository/update',
+    url: '/erp/repository/update',
     method: 'post',
     data: params
   })
@@ -175,7 +175,7 @@ export function searchRepCategory2(query) {
   params.append('pagenum', query.pagenum) // 你要传给后台的参数值 key/value
   params.append('pagesize', query.pagesize) // 你要传给后台的参数值 key/value
   return request({
-    url: '/repository/searchRepCategory',
+    url: '/erp/repository/searchRepCategory',
     method: 'post',
     data: params
   })
@@ -197,7 +197,7 @@ export function addRepCategory(query) {
     params.append('type', query.type) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/repository/addRepCategory',
+    url: '/erp/repository/addRepCategory',
     method: 'post',
     data: params
   })
@@ -216,7 +216,7 @@ export function updateRepCategory(query) {
     params.append('id', query.id) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/repository/updateRepCategory',
+    url: '/erp/repository/updateRepCategory',
     method: 'post',
     data: params
   })
@@ -232,7 +232,7 @@ export function delateRepCategory(query, query2) {
     params.append('operatorId', query2) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/repository/delateRepCategory',
+    url: '/erp/repository/delateRepCategory',
     method: 'post',
     data: params
   })
@@ -248,7 +248,7 @@ export function deleteRepository(query, query2) {
     params.append('operatorId', query2) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/repository/deleteRepository',
+    url: '/erp/repository/deleteRepository',
     method: 'post',
     data: params
   })
@@ -264,7 +264,7 @@ export function startorend(query, stat) {
     params.append('iseffective', stat) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/repository/startorend',
+    url: '/erp/repository/startorend',
     method: 'post',
     data: params
   })
@@ -277,7 +277,7 @@ export function manyinsert(query) {
     params.append('repositoryJson', query) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/repository/manyinsert',
+    url: '/erp/repository/manyinsert',
     method: 'post',
     data: params
   })

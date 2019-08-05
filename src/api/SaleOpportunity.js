@@ -6,7 +6,7 @@ export function addsaleopportunity(query, query2) {
   params.append('saleOpportunityJson', query) // 你要传给后台的参数值 key/value
   params.append('saleOpportunityDetailJson', query2) // 你要传给后台的参数值 key/value
   return request({
-    url: '/saleopportunity/addsaleopportunity',
+    url: '/erp/saleopportunity/addsaleopportunity',
     method: 'post',
     data: params
   })
@@ -51,7 +51,7 @@ export function saleopportunitylist(query) {
   params.append('pageNum', query.pageNum) // 你要传给后台的参数值 key/value
   params.append('pageSize', query.pageSize) // 你要传给后台的参数值 key/value
   return request({
-    url: '/saleopportunity/saleopportunitylist',
+    url: '/erp/saleopportunity/saleopportunitylist',
     method: 'post',
     data: params
   })
@@ -63,7 +63,7 @@ export function updatesaleopportunity(query, query2) {
   params.append('saleOpportunityJson', query) // 你要传给后台的参数值 key/value
   params.append('saleOpportunityDetailJson', query2) // 你要传给后台的参数值 key/value
   return request({
-    url: '/saleopportunity/updatesaleopportunity',
+    url: '/erp/saleopportunity/updatesaleopportunity',
     method: 'post',
     data: params
   })
@@ -79,7 +79,7 @@ export function deletesaleopportunity(query, query2) {
     params.append('operatorId', query2) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/saleopportunity/deletesaleopportunity',
+    url: '/erp/saleopportunity/deletesaleopportunity',
     method: 'post',
     data: params
   })

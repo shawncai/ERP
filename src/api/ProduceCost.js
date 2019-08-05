@@ -16,7 +16,7 @@ export function addProduceCost(query, query2, query3) {
     params.append('regionId', query3.regionId) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/productCost/addProductCost',
+    url: '/erp/productCost/addProductCost',
     method: 'post',
     data: params
   })
@@ -73,7 +73,7 @@ export function produceCostlist(query) {
   params.append('pageNum', query.pageNum) // 你要传给后台的参数值 key/value
   params.append('pageSize', query.pageSize) // 你要传给后台的参数值 key/value
   return request({
-    url: '/productCost/productcostlist',
+    url: '/erp/productCost/productcostlist',
     method: 'post',
     data: params
   })
@@ -85,7 +85,7 @@ export function updatecheckreport(query, query2) {
   params.append('checkReportJson', query) // 你要传给后台的参数值 key/value
   params.append('checkReportDetailJson', query2) // 你要传给后台的参数值 key/value
   return request({
-    url: '/checkreport/updatecheckreport',
+    url: '/erp/checkreport/updatecheckreport',
     method: 'post',
     data: params
   })
@@ -96,7 +96,7 @@ export function updateproduceCost(query) {
   var params = new URLSearchParams()
   params.append('productCostJson', query) // 你要传给后台的参数值 key/value
   return request({
-    url: '/productCost/updateProductCost',
+    url: '/erp/productCost/updateProductCost',
     method: 'post',
     data: params
   })
@@ -110,7 +110,7 @@ export function deleteproduceCost(query, query2) {
     params.append('operatorId', query2) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/productCost/deleteProductCost',
+    url: '/erp/productCost/deleteProductCost',
     method: 'post',
     data: params
   })

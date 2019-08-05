@@ -3,7 +3,7 @@ import request from '@/utils/request'
 // 查询编码规则分类属性
 export function searchcategory() {
   return request({
-    url: '/NumberingRules/searchcategory',
+    url: '/erp/NumberingRules/searchcategory',
     method: 'post'
   })
 }
@@ -23,7 +23,7 @@ export function search(query) {
   params.append('pagenum', query.pagenum) // 你要传给后台的参数值 key/value
   params.append('pagesize', query.pagesize) // 你要传给后台的参数值 key/value
   return request({
-    url: '/NumberingRules/search',
+    url: '/erp/NumberingRules/search',
     method: 'post',
     data: params
   })
@@ -39,7 +39,7 @@ export function deleteRules(query, query2) {
     params.append('operatorId', query2) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/NumberingRules/delete',
+    url: '/erp/NumberingRules/delete',
     method: 'post',
     data: params
   })
@@ -67,7 +67,7 @@ export function createRules(query) {
     params.append('length', query.length) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/NumberingRules/create',
+    url: '/erp/NumberingRules/create',
     method: 'post',
     data: params
   })
@@ -95,7 +95,7 @@ export function updateRules(query) {
     params.append('length', query.length) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/NumberingRules/update',
+    url: '/erp/NumberingRules/update',
     method: 'post',
     data: params
   })
@@ -113,7 +113,7 @@ export function modellist(query) {
   params.append('pagenum', query.pagenum) // 你要传给后台的参数值 key/value
   params.append('pagesize', query.pagesize) // 你要传给后台的参数值 key/value
   return request({
-    url: '/messageModel/modellist',
+    url: '/erp/messageModel/modellist',
     method: 'post',
     data: params
   })
@@ -132,7 +132,7 @@ export function addmodel(query) {
     params.append('content', query.content) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/messageModel/addmodel',
+    url: '/erp/messageModel/addmodel',
     method: 'post',
     data: params
   })
@@ -154,7 +154,7 @@ export function updatemodel(query) {
     params.append('content', query.content) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/messageModel/updatemodel',
+    url: '/erp/messageModel/updatemodel',
     method: 'post',
     data: params
   })
@@ -170,7 +170,7 @@ export function deletemodel(query, query2) {
     params.append('operatorId', query2) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/messageModel/deletemodel',
+    url: '/erp/messageModel/deletemodel',
     method: 'post',
     data: params
   })
@@ -191,7 +191,7 @@ export function searchMea(query) {
   params.append('pagenum', query.pagenum) // 你要传给后台的参数值 key/value
   params.append('pagesize', query.pagesize) // 你要传给后台的参数值 key/value
   return request({
-    url: '/measurement/search',
+    url: '/erp/measurement/search',
     method: 'post',
     data: params
   })
@@ -212,7 +212,7 @@ export function searchMea2(query) {
   params.append('pagenum', query.pagenum) // 你要传给后台的参数值 key/value
   params.append('pagesize', query.pagesize) // 你要传给后台的参数值 key/value
   return request({
-    url: '/measurement/search2',
+    url: '/erp/measurement/search2',
     method: 'post',
     data: params
   })
@@ -234,7 +234,7 @@ export function createmea(query) {
     params.append('categoryname', query.categoryname) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/measurement/create',
+    url: '/erp/measurement/create',
     method: 'post',
     data: params
   })
@@ -253,7 +253,7 @@ export function updatemea(query) {
     params.append('categoryname', query.categoryName) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/measurement/update',
+    url: '/erp/measurement/update',
     method: 'post',
     data: params
   })
@@ -269,7 +269,7 @@ export function deletemea(query, query2) {
     params.append('operatorId', query2) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/measurement/delete',
+    url: '/erp/measurement/delete',
     method: 'post',
     data: params
   })
@@ -278,7 +278,7 @@ export function deletemea(query, query2) {
 // 查询参数设置
 export function parameter() {
   return request({
-    url: '/parameter/search',
+    url: '/erp/parameter/search',
     method: 'post'
   })
 }
@@ -293,7 +293,7 @@ export function effective(query) {
     params.append('isEffective', query.isEffective) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/parameter/effective',
+    url: '/erp/parameter/effective',
     method: 'post',
     data: params
   })
@@ -327,7 +327,7 @@ export function createapproval(query, detailJson) {
     params.append('detailJson', detailJson) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/approvalProcess/create',
+    url: '/erp/approvalProcess/create',
     method: 'post',
     data: params
   })
@@ -355,7 +355,7 @@ export function createRules2(query) {
     params.append('length', query.length) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/NumberingRules/create',
+    url: '/erp/NumberingRules/create',
     method: 'post',
     data: params
   })
@@ -368,7 +368,7 @@ export function searchDetail(query) {
     params.append('id', query) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/approvalProcess/searchDetail',
+    url: '/erp/approvalProcess/searchDetail',
     method: 'post',
     data: params
   })
@@ -384,7 +384,7 @@ export function deleteDetail(query, query2) {
     params.append('operatorId', query2) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/approvalProcess/deleteDetail',
+    url: '/erp/approvalProcess/deleteDetail',
     method: 'post',
     data: params
   })
@@ -411,7 +411,7 @@ export function searchProcess(query) {
   params.append('pagesize', query.pagesize) // 你要传给后台的参数值 key/value
   params.append('pagenum', query.pagenum) // 你要传给后台的参数值 key/value
   return request({
-    url: '/approvalProcess/search',
+    url: '/erp/approvalProcess/search',
     method: 'post',
     data: params
   })
@@ -427,7 +427,7 @@ export function deleteProcess(query, query2) {
     params.append('operatorId', query2) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/approvalProcess/delete',
+    url: '/erp/approvalProcess/delete',
     method: 'post',
     data: params
   })
@@ -464,7 +464,7 @@ export function updateeapproval(query, detailJson) {
     params.append('detailJson', detailJson) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/approvalProcess/update',
+    url: '/erp/approvalProcess/update',
     method: 'post',
     data: params
   })
@@ -473,7 +473,7 @@ export function updateeapproval(query, detailJson) {
 // 部门列表
 export function getdeptlist() {
   return request({
-    url: '/country/getdeptlist',
+    url: '/erp/country/getdeptlist',
     method: 'post'
   })
 }
@@ -488,7 +488,7 @@ export function adddept(query) {
     params.append('deptname', query.deptname) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/country/adddept',
+    url: '/erp/country/adddept',
     method: 'post',
     data: params
   })
@@ -507,7 +507,7 @@ export function updatedept(query) {
     params.append('deptname', query.deptName) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/country/updatedept',
+    url: '/erp/country/updatedept',
     method: 'post',
     data: params
   })
@@ -523,7 +523,7 @@ export function deletedept(query, query2) {
     params.append('operatorId', query2) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/country/deletedept',
+    url: '/erp/country/deletedept',
     method: 'post',
     data: params
   })

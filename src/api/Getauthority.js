@@ -3,7 +3,7 @@ import request from '@/utils/request'
 // 角色列表
 export function repairList() {
   return request({
-    url: '/role/getrolelist',
+    url: '/erp/role/getrolelist',
     method: 'post'
   })
 }
@@ -11,7 +11,7 @@ export function repairList() {
 // 角色列表
 export function getauthoritydetaillist() {
   return request({
-    url: '/role/getauthoritydetaillist',
+    url: '/erp/role/getauthoritydetaillist',
     method: 'post'
   })
 }
@@ -26,7 +26,7 @@ export function addrole(query) {
     params.append('createPersonId', query.createPersonId) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/role/addrole',
+    url: '/erp/role/addrole',
     method: 'post',
     data: params
   })
@@ -39,7 +39,7 @@ export function updaterole(roleid, authority, roleName) {
   params.append('roleName', roleName) // 你要传给后台的参数值 key/value
   params.append('authority', authority) // 你要传给后台的参数值 key/value
   return request({
-    url: '/role/updaterole',
+    url: '/erp/role/updaterole',
     method: 'post',
     data: params
   })

@@ -13,7 +13,7 @@ export function addReturnExchange(query, query2, query3, query4) {
     params.append('regionId', query4.regionId) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/returnExchange/addReturnExchange',
+    url: '/erp/returnExchange/addReturnExchange',
     method: 'post',
     data: params
   })
@@ -61,7 +61,7 @@ export function exchangelist(query) {
   params.append('pageNum', query.pageNum) // 你要传给后台的参数值 key/value
   params.append('pageSize', query.pageSize) // 你要传给后台的参数值 key/value
   return request({
-    url: '/returnExchange/exchangelist',
+    url: '/erp/returnExchange/exchangelist',
     method: 'post',
     data: params
   })
@@ -74,7 +74,7 @@ export function updateReturnExchange(query, query2, query3) {
   params.append('returnExchangeOutJson', query2) // 你要传给后台的参数值 key/value
   params.append('returnExchangeRetreatJson', query3) // 你要传给后台的参数值 key/value
   return request({
-    url: '/returnExchange/updateReturnExchange',
+    url: '/erp/returnExchange/updateReturnExchange',
     method: 'post',
     data: params
   })
@@ -90,7 +90,7 @@ export function deleteReturnExchange(query, query2) {
     params.append('operatorId', query2) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/returnExchange/deleteReturnExchange',
+    url: '/erp/returnExchange/deleteReturnExchange',
     method: 'post',
     data: params
   })
@@ -101,7 +101,7 @@ export function updateReturnExchange2(query) {
   var params = new URLSearchParams()
   params.append('returnExchangeJson', query) // 你要传给后台的参数值 key/value
   return request({
-    url: '/returnExchange/updateReturnExchange',
+    url: '/erp/returnExchange/updateReturnExchange',
     method: 'post',
     data: params
   })

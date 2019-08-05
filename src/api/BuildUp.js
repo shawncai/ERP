@@ -16,7 +16,7 @@ export function addbuildup(query, query2, query3, query4) {
     params.append('type', query4.type) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/buildup/addbuildup',
+    url: '/erp/buildup/addbuildup',
     method: 'post',
     data: params
   })
@@ -61,7 +61,7 @@ export function buildlist(query) {
   params.append('pageNum', query.pageNum) // 你要传给后台的参数值 key/value
   params.append('pageSize', query.pageSize) // 你要传给后台的参数值 key/value
   return request({
-    url: '/buildup/buildlist',
+    url: '/erp/buildup/buildlist',
     method: 'post',
     data: params
   })
@@ -77,7 +77,7 @@ export function deletebuildup(query, query2) {
     params.append('operatorId', query2) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/buildup/deletebuildup',
+    url: '/erp/buildup/deletebuildup',
     method: 'post',
     data: params
   })
@@ -90,7 +90,7 @@ export function updatebuildup(query, query2, query3) {
   params.append('buildBeforeDetailJson', query2) // 你要传给后台的参数值 key/value
   params.append('buildAfterDetailJson', query3) // 你要传给后台的参数值 key/value
   return request({
-    url: '/buildup/updatebuildup',
+    url: '/erp/buildup/updatebuildup',
     method: 'post',
     data: params
   })
@@ -101,7 +101,7 @@ export function updatebuildup2(query) {
   var params = new URLSearchParams()
   params.append('buildupJson', query) // 你要传给后台的参数值 key/value
   return request({
-    url: '/buildup/updatebuildup',
+    url: '/erp/buildup/updatebuildup',
     method: 'post',
     data: params
   })

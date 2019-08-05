@@ -16,7 +16,7 @@ export function addteardown(query, query2, query3, query4) {
     params.append('type', query4.type) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/teardown/addteardown',
+    url: '/erp/teardown/addteardown',
     method: 'post',
     data: params
   })
@@ -61,7 +61,7 @@ export function teardownlist(query) {
   params.append('pageNum', query.pageNum) // 你要传给后台的参数值 key/value
   params.append('pageSize', query.pageSize) // 你要传给后台的参数值 key/value
   return request({
-    url: '/teardown/teardownlist',
+    url: '/erp/teardown/teardownlist',
     method: 'post',
     data: params
   })
@@ -77,7 +77,7 @@ export function deleteteardown(query, query2) {
     params.append('operatorId', query2) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/teardown/deleteteardown',
+    url: '/erp/teardown/deleteteardown',
     method: 'post',
     data: params
   })
@@ -90,7 +90,7 @@ export function updateteardown(query, query2, query3) {
   params.append('teardownBeforeDetailJson', query2) // 你要传给后台的参数值 key/value
   params.append('teardownAfterDetailJson', query3) // 你要传给后台的参数值 key/value
   return request({
-    url: '/teardown/updateteardown',
+    url: '/erp/teardown/updateteardown',
     method: 'post',
     data: params
   })
@@ -101,7 +101,7 @@ export function updateteardown2(query) {
   var params = new URLSearchParams()
   params.append('teardownJson', query) // 你要传给后台的参数值 key/value
   return request({
-    url: '/teardown/updateteardown',
+    url: '/erp/teardown/updateteardown',
     method: 'post',
     data: params
   })

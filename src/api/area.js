@@ -3,7 +3,7 @@ import request from '@/utils/request'
 // 区域列表
 export function newdetailList(query) {
   return request({
-    url: '/region/newdetailList',
+    url: '/erp/region/newdetailList',
     method: 'post',
     params: query
   })
@@ -18,7 +18,7 @@ export function createarea(query) {
   params.append('firstlevelid', query.firstlevelid) // 你要传给后台的参数值 key/value
   params.append('createid', query.createid) // 你要传给后台的参数值 key/value
   return request({
-    url: '/region/create',
+    url: '/erp/region/create',
     method: 'post',
     data: params
   })
@@ -27,7 +27,7 @@ export function createarea(query) {
 // 查询所有一级区域
 export function listbyparentid(query) {
   return request({
-    url: '/region/listbyparentid',
+    url: '/erp/region/listbyparentid',
     method: 'post',
     params: query
   })
@@ -38,7 +38,7 @@ export function regionmanagercandidate(regionid) {
   var params = new URLSearchParams()
   params.append('regionid', regionid) // 你要传给后台的参数值 key/value
   return request({
-    url: '/region/regionmanagercandidate',
+    url: '/erp/region/regionmanagercandidate',
     method: 'post',
     data: params
   })
@@ -53,7 +53,7 @@ export function createarea2(name, levle, parentid, createid, regionmanagerid) {
   params.append('createid', createid) // 你要传给后台的参数值 key/value
   params.append('regionmanagerid', regionmanagerid) // 你要传给后台的参数值 key/value
   return request({
-    url: '/region/create',
+    url: '/erp/region/create',
     method: 'post',
     data: params
   })
@@ -67,7 +67,7 @@ export function deleteregion(regionid, query2) {
     params.append('operatorId', query2) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/region/deleteregion',
+    url: '/erp/region/deleteregion',
     method: 'post',
     data: params
   })
@@ -78,7 +78,7 @@ export function getregionbylevel(level) {
   var params = new URLSearchParams()
   params.append('level', level) // 你要传给后台的参数值 key/value
   return request({
-    url: '/region/getregionbylevel',
+    url: '/erp/region/getregionbylevel',
     method: 'post',
     data: params
   })
@@ -92,7 +92,7 @@ export function updateregion(regionid, name, regionmanagerid, parentid) {
   params.append('regionmanagerid', regionmanagerid) // 你要传给后台的参数值 key/value
   params.append('parentid', parentid) // 你要传给后台的参数值 key/value
   return request({
-    url: '/region/updateregion',
+    url: '/erp/region/updateregion',
     method: 'post',
     data: params
   })

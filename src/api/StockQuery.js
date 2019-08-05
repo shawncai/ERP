@@ -18,7 +18,7 @@ export function stockpricelist(query) {
   params.append('pageNum', query.pageNum) // 你要传给后台的参数值 key/value
   params.append('pageSize', query.pageSize) // 你要传给后台的参数值 key/value
   return request({
-    url: '/stockquery/stockpricelist',
+    url: '/erp/stockquery/stockpricelist',
     method: 'post',
     data: params
   })
@@ -48,7 +48,7 @@ export function searchArrivalSummary(query) {
   params.append('pageNum', query.pageNum) // 你要传给后台的参数值 key/value
   params.append('pageSize', query.pageSize) // 你要传给后台的参数值 key/value
   return request({
-    url: '/stockArrival/searchArrivalSummary',
+    url: '/erp/stockArrival/searchArrivalSummary',
     method: 'post',
     data: params
   })
@@ -78,7 +78,7 @@ export function searchOnSummary(query) {
   params.append('pageNum', query.pageNum) // 你要传给后台的参数值 key/value
   params.append('pageSize', query.pageSize) // 你要传给后台的参数值 key/value
   return request({
-    url: '/stockArrival/searchOnSummary',
+    url: '/erp/stockArrival/searchOnSummary',
     method: 'post',
     data: params
   })
@@ -108,7 +108,7 @@ export function stockcountlist(query) {
   params.append('pageNum', query.pageNum) // 你要传给后台的参数值 key/value
   params.append('pageSize', query.pageSize) // 你要传给后台的参数值 key/value
   return request({
-    url: '/stockquery/stockcountlist',
+    url: '/erp/stockquery/stockcountlist',
     method: 'post',
     data: params
   })

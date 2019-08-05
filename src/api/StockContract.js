@@ -12,7 +12,7 @@ export function createstockContract(query, query2, query3) {
     params.append('regionId', query3.regionId) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/stockContract/create',
+    url: '/erp/stockContract/create',
     method: 'post',
     data: params
   })
@@ -63,7 +63,7 @@ export function searchstockContract(query) {
   params.append('pageNum', query.pageNum) // 你要传给后台的参数值 key/value
   params.append('pageSize', query.pageSize) // 你要传给后台的参数值 key/value
   return request({
-    url: '/stockContract/search',
+    url: '/erp/stockContract/search',
     method: 'post',
     data: params
   })
@@ -75,7 +75,7 @@ export function updatestockContract(query, query2) {
   params.append('Json', query) // 你要传给后台的参数值 key/value
   params.append('detailJson', query2) // 你要传给后台的参数值 key/value
   return request({
-    url: '/stockContract/update',
+    url: '/erp/stockContract/update',
     method: 'post',
     data: params
   })
@@ -89,7 +89,7 @@ export function deletestockContract(query, query2) {
     params.append('operatorId', query2) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/stockContract/delete',
+    url: '/erp/stockContract/delete',
     method: 'post',
     data: params
   })
@@ -100,7 +100,7 @@ export function updatestockContract2(query) {
   var params = new URLSearchParams()
   params.append('Json', query) // 你要传给后台的参数值 key/value
   return request({
-    url: '/stockContract/update',
+    url: '/erp/stockContract/update',
     method: 'post',
     data: params
   })

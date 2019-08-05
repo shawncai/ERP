@@ -267,6 +267,11 @@ export default {
       console.log('this.personalForm', this.personalForm)
       this.list2 = this.personalForm.saleContractDetailVos
       this.reviewList = this.personalForm.approvalUseVos
+      for (let i = 0; i < this.reviewList.length; i++) {
+        if (this.reviewList[i].actualStepHandler === null) {
+          this.reviewList.splice(i, 1)
+        }
+      }
       let pro = ''
       if (this.personalForm.personalProperty.indexOf('1') !== -1) {
         pro = pro + '电视'

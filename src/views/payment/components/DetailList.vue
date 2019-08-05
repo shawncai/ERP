@@ -314,6 +314,11 @@ export default {
       this.personalForm = this.detaildata
       this.list2 = this.personalForm.paymentDetailVos
       this.reviewList = this.personalForm.approvalUseVos
+      for (let i = 0; i < this.reviewList.length; i++) {
+        if (this.reviewList[i].actualStepHandler === null) {
+          this.reviewList.splice(i, 1)
+        }
+      }
     }
   },
   methods: {

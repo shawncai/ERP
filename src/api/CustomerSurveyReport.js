@@ -5,7 +5,7 @@ export function addCustomerSurveyReport(query) {
   var params = new URLSearchParams()
   params.append('Json', query) // 你要传给后台的参数值 key/value
   return request({
-    url: '/customerSurveyReport/create',
+    url: '/erp/customerSurveyReport/create',
     method: 'post',
     data: params
   })
@@ -47,7 +47,7 @@ export function CustomerSurveyReportList(query) {
   params.append('pageNum', query.pageNum) // 你要传给后台的参数值 key/value
   params.append('pageSize', query.pageSize) // 你要传给后台的参数值 key/value
   return request({
-    url: '/customerSurveyReport/search',
+    url: '/erp/customerSurveyReport/search',
     method: 'post',
     data: params
   })
@@ -58,7 +58,7 @@ export function updateCustomerSurveyReport(query) {
   var params = new URLSearchParams()
   params.append('Json', query) // 你要传给后台的参数值 key/value
   return request({
-    url: '/customerSurveyReport/update',
+    url: '/erp/customerSurveyReport/update',
     method: 'post',
     data: params
   })
@@ -74,7 +74,7 @@ export function deleteCustomerChat(query, query2) {
     params.append('operatorId', query2) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/customerchat/deleteCustomerChat',
+    url: '/erp/customerchat/deleteCustomerChat',
     method: 'post',
     data: params
   })

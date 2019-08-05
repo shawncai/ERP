@@ -11,7 +11,7 @@ export function createrecycling(query, query4) {
     params.append('regionId', query4.regionId) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/recycling/create',
+    url: '/erp/recycling/create',
     method: 'post',
     data: params
   })
@@ -53,7 +53,7 @@ export function searchrecycling(query) {
   params.append('pageNum', query.pageNum) // 你要传给后台的参数值 key/value
   params.append('pageSize', query.pageSize) // 你要传给后台的参数值 key/value
   return request({
-    url: '/recycling/search',
+    url: '/erp/recycling/search',
     method: 'post',
     data: params
   })
@@ -64,7 +64,7 @@ export function updaterecycling(query) {
   var params = new URLSearchParams()
   params.append('Json', query) // 你要传给后台的参数值 key/value
   return request({
-    url: '/recycling/update',
+    url: '/erp/recycling/update',
     method: 'post',
     data: params
   })
@@ -80,7 +80,7 @@ export function deleterecycling(query, query2) {
     params.append('operatorId', query2) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/recycling/delete',
+    url: '/erp/recycling/delete',
     method: 'post',
     data: params
   })
@@ -91,7 +91,7 @@ export function updaterecycling2(query) {
   var params = new URLSearchParams()
   params.append('Json', query) // 你要传给后台的参数值 key/value
   return request({
-    url: '/recycling/update',
+    url: '/erp/recycling/update',
     method: 'post',
     data: params
   })

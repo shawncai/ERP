@@ -51,7 +51,7 @@ export function installmentlist(query) {
   params.append('pageNum', query.pageNum) // 你要传给后台的参数值 key/value
   params.append('pageSize', query.pageSize) // 你要传给后台的参数值 key/value
   return request({
-    url: '/installmentorder/installmentlist',
+    url: '/erp/installmentorder/installmentlist',
     method: 'post',
     data: params
   })
@@ -61,7 +61,7 @@ export function updateEach(query) {
   var params = new URLSearchParams()
   params.append('installmentOrderDetailJson', query) // 你要传给后台的参数值 key/value
   return request({
-    url: '/installmentorder/updateEach',
+    url: '/erp/installmentorder/updateEach',
     method: 'post',
     data: params
   })
@@ -72,7 +72,7 @@ export function reToEmp(installmentId, collectPersonId) {
   params.append('installmentId', installmentId) // 你要传给后台的参数值 key/value
   params.append('collectPersonId', collectPersonId) // 你要传给后台的参数值 key/value
   return request({
-    url: '/installmentorder/reToEmp',
+    url: '/erp/installmentorder/reToEmp',
     method: 'post',
     data: params
   })
@@ -82,7 +82,7 @@ export function postphone(eachids) {
   var params = new URLSearchParams()
   params.append('eachids', eachids) // 你要传给后台的参数值 key/value
   return request({
-    url: '/installmentorder/postphone',
+    url: '/erp/installmentorder/postphone',
     method: 'post',
     data: params
   })
@@ -94,7 +94,7 @@ export function pushPay(query) {
   console.log(query.installmentId)
   params.append('installmentId', query.installmentId) // 你要传给后台的参数值 key/value
   return request({
-    url: '/installmentorder/pushPay',
+    url: '/erp/installmentorder/pushPay',
     method: 'post',
     data: params
   })
@@ -113,7 +113,7 @@ export function createrecoverVehicle(query, query2, query3, query4) {
     params.append('regionId', query4.regionId) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/recoverVehicle/create',
+    url: '/erp/recoverVehicle/create',
     method: 'post',
     data: params
   })
@@ -158,7 +158,7 @@ export function searchrecoverVehicle(query) {
   params.append('pageNum', query.pageNum) // 你要传给后台的参数值 key/value
   params.append('pageSize', query.pageSize) // 你要传给后台的参数值 key/value
   return request({
-    url: '/recoverVehicle/search',
+    url: '/erp/recoverVehicle/search',
     method: 'post',
     data: params
   })
@@ -171,7 +171,7 @@ export function updaterecoverVehicle(query, query2, query3) {
   params.append('detailJson', query2) // 你要传给后台的参数值 key/value
   params.append('lostDetailJson', query3) // 你要传给后台的参数值 key/value
   return request({
-    url: '/recoverVehicle/update',
+    url: '/erp/recoverVehicle/update',
     method: 'post',
     data: params
   })
@@ -187,7 +187,7 @@ export function deleterecoverVehicle(query, query2) {
     params.append('operatorId', query2) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/recoverVehicle/delete',
+    url: '/erp/recoverVehicle/delete',
     method: 'post',
     data: params
   })
@@ -198,7 +198,7 @@ export function updaterecoverVehicle2(query) {
   var params = new URLSearchParams()
   params.append('Json', query) // 你要传给后台的参数值 key/value
   return request({
-    url: '/recoverVehicle/update',
+    url: '/erp/recoverVehicle/update',
     method: 'post',
     data: params
   })

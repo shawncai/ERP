@@ -5,6 +5,9 @@
       <h2 ref="geren" class="form-name">基本信息</h2>
       <div class="container">
         <el-form ref="personalForm" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-position="top" label-width="300px" style="margin-left: 30px;">
+          <!--          <el-form-item :label="$t('LogisticsCar.drivers')" prop="drivers" style="width: 40%;margin-top:1%">-->
+          <!--            <el-input v-model="drivers" placeholder="请输入驾驶员" @focus="handlechoose2"/>-->
+          <!--          </el-form-item>-->
           <el-form-item :label="$t('BasicSettings.process_name')" prop="process_name" style="width: 40%;margin-top:1%">
             <el-input v-model="personalForm.process_name" placeholder="请输入流程名称" clearable/>
           </el-form-item>
@@ -81,16 +84,9 @@
           <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="handlerName" align="center" label="步骤处理人" min-width="500px">
             <template slot="edit" slot-scope="scope">
               <el-input v-model="scope.row.handlerName" @focus="handlechoose(scope)" @input="$refs.editable.updateStatus(scope)" @change="$refs.editable.updateStatus(scope)"/>
-              <my-emp :control.sync="empcontrol" @chuli="chuli(scope, $event)"/>
+              <my-emp2 :control.sync="empcontrol2" @personName="personName(scope, $event)" @personIds="personIds(scope, $event)"/>
             </template>
           </el-editable-column>
-          <!--<el-editable-column align="center" label="操作" min-width="300px">-->
-          <!--<template slot-scope="scope">-->
-          <!--&lt;!&ndash;<el-input v-model="scope.row.handlerName" style="float: left;width: 100px" @input="$refs.editable.updateStatus(scope)"/>&ndash;&gt;-->
-          <!--<el-button icon="el-icon-more-outline" style="float: right" @click="handlechoose(scope)"/>-->
-          <!--<my-emp :control.sync="empcontrol" @personName="personName" @chuli="chuli(scope)"/>-->
-          <!--</template>-->
-          <!--</el-editable-column>-->
         </el-editable>
       </div>
       <!--操作-->
@@ -109,10 +105,11 @@ import permission from '@/directive/permission/index.js' // 权限判断指令
 import permission2 from '@/directive/permission2/index.js' // 权限判断指令
 import checkPermission from '@/utils/permission' // 权限判断函数
 import MyEmp from './components/MyEmp'
+import MyEmp2 from './components/MyEmp2'
 export default {
   name: 'NewApprovalProcess',
   directives: { permission, permission2 },
-  components: { MyEmp },
+  components: { MyEmp, MyEmp2 },
   data() {
     return {
       // 控制scope
@@ -125,6 +122,7 @@ export default {
       handlerName: '',
       // 采购员弹窗控制
       empcontrol: false,
+      empcontrol2: false,
       // 单据类型数据
       categorys: [],
       // 审批流程列表规则
@@ -173,6 +171,39 @@ export default {
     this.getnationlist()
   },
   methods: {
+    chuli(scope, val) {
+      console.log(val)
+      console.log(scope)
+      this.kongscope.row.handlerName = val.personName
+      this.kongscope.row.stepHandler = val.id
+      // scope.row.handlerName = val.personName
+      // scope.row.stepHandler = val.id
+      console.log(scope.row.step)
+      if (this.kongscope.row.step === null) {
+        this.kongscope.row.step = scope.$index + 1
+      }
+      return
+    },
+    handlechoose2() {
+      this.empcontrol2 = true
+    },
+    // 驾驶员列表返回数据
+    personName(scope, val) {
+      // this.drivers = val
+      // this.personalForm.driverNames = val
+      this.kongscope.row.handlerName = val
+      this.kongscope.row.stepHandlerName = val
+      console.log(' this.kongscope.row.handlerName', this.kongscope.row.handlerName)
+    },
+    personIds(scope, val) {
+      // this.personalForm.drivers = val
+      this.kongscope.row.stepHandler = ',' + val + ','
+      console.log('this.kongscope.row.stepHandler', this.kongscope.row.stepHandler)
+      // if (this.kongscope.row.step === null) {
+      //   this.kongscope.row.step = scope.$index + 1
+      // }
+      return
+    },
     checkPermission,
     getnationlist() {
       // 区域列表数据
@@ -234,7 +265,7 @@ export default {
     handlesave() {
       console.log(this.personalForm)
       const rest = JSON.stringify(this.$refs.editable.getRecords())
-      console.log(rest)
+      console.log('rest', rest)
       this.$refs.personalForm.validate((valid) => {
         if (valid) {
           createapproval(this.personalForm, rest).then(res => {
@@ -271,26 +302,14 @@ export default {
     // 审核人选择
     // 员工输入框focus事件触发
     handlechoose(scope) {
-      this.empcontrol = true
+      this.empcontrol2 = true
       console.log(scope)
       this.kongscope = scope
+      this.kongscope.row.step = scope.$index + 1
     },
     // 处理人change事件
     fuzhi(scope) {
       scope.row.handlerName = this.handlerName
-    },
-    chuli(scope, val) {
-      console.log(val)
-      console.log(scope)
-      this.kongscope.row.handlerName = val.personName
-      this.kongscope.row.stepHandler = val.id
-      // scope.row.handlerName = val.personName
-      // scope.row.stepHandler = val.id
-      console.log(scope.row.step)
-      if (scope.row.step === null) {
-        scope.row.step = scope.$index + 1
-      }
-      return
     },
     handleStep(row) {
       console.log(row)

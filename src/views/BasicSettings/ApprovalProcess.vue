@@ -13,14 +13,14 @@
       <!-- 搜索按钮 -->
       <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 86px" @click="handleFilter">{{ $t('public.search') }}</el-button>
       <!-- 批量操作 -->
-      <el-dropdown @command="handleCommand">
-        <el-button v-waves class="filter-item" type="primary">
-          {{ $t('public.batchoperation') }} <i class="el-icon-arrow-down el-icon--right"/>
-        </el-button>
-        <el-dropdown-menu slot="dropdown" style="width: 140px">
-          <el-dropdown-item v-permission="['1-39-45-2']" style="text-align: left" command="delete"><svg-icon icon-class="shanchu" style="width: 40px"/>{{ $t('public.delete') }}</el-dropdown-item>
-        </el-dropdown-menu>
-      </el-dropdown>
+      <!--      <el-dropdown @command="handleCommand">-->
+      <!--        <el-button v-waves class="filter-item" type="primary">-->
+      <!--          {{ $t('public.batchoperation') }} <i class="el-icon-arrow-down el-icon&#45;&#45;right"/>-->
+      <!--        </el-button>-->
+      <!--        <el-dropdown-menu slot="dropdown" style="width: 140px">-->
+      <!--          <el-dropdown-item v-permission="['1-39-45-2']" style="text-align: left" command="delete"><svg-icon icon-class="shanchu" style="width: 40px"/>{{ $t('public.delete') }}</el-dropdown-item>-->
+      <!--        </el-dropdown-menu>-->
+      <!--      </el-dropdown>-->
       <!-- 表格导出操作 -->
       <el-button v-permission="['1-39-45-6']" v-waves :loading="downloadLoading" class="filter-item" style="width: 86px" @click="handleExport"> <svg-icon icon-class="daochu"/>{{ $t('public.export') }}</el-button>
       <!-- 打印操作 -->

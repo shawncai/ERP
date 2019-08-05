@@ -48,7 +48,7 @@ export function stocapplylist(query) {
   params.append('pageNum', query.pageNum) // 你要传给后台的参数值 key/value
   params.append('pageSize', query.pageSize) // 你要传给后台的参数值 key/value
   return request({
-    url: '/stockapply/stocapplylist',
+    url: '/erp/stockapply/stocapplylist',
     method: 'post',
     data: params
   })
@@ -66,7 +66,7 @@ export function addstockapply(query, query2, query3) {
     params.append('regionId', query3.regionId) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/stockapply/addstockapply',
+    url: '/erp/stockapply/addstockapply',
     method: 'post',
     data: params
   })
@@ -78,7 +78,7 @@ export function updatestockapply(query, query2) {
   params.append('stockApplyJson', query) // 你要传给后台的参数值 key/value
   params.append('stockApplyDetailJson', query2) // 你要传给后台的参数值 key/value
   return request({
-    url: '/stockapply/updatestockapply',
+    url: '/erp/stockapply/updatestockapply',
     method: 'post',
     data: params
   })
@@ -94,7 +94,7 @@ export function deletestockapply(query, query2) {
     params.append('operatorId', query2) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/stockapply/deletestockapply',
+    url: '/erp/stockapply/deletestockapply',
     method: 'post',
     data: params
   })
@@ -107,7 +107,7 @@ export function updatestockapply2(query) {
     params.append('stockApplyJson', query) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/stockapply/updatestockapply',
+    url: '/erp/stockapply/updatestockapply',
     method: 'post',
     data: params
   })
@@ -120,7 +120,7 @@ export function applyList(query) {
     params.append('employeeId', query.employeeId) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/myApply/applyList',
+    url: '/erp/myApply/applyList',
     method: 'post',
     data: params
   })

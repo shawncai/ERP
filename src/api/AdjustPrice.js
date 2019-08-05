@@ -22,7 +22,7 @@ export function addadjustprice(query, query2, query3) {
     params.append('countryId', query3.countryId) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/repoadjustprice/addadjustprice',
+    url: '/erp/repoadjustprice/addadjustprice',
     method: 'post',
     data: params
   })
@@ -71,7 +71,7 @@ export function adjustlist(query) {
     params.append('regionIds', query.regionIds) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/repoadjustprice/adjustlist',
+    url: '/erp/repoadjustprice/adjustlist',
     method: 'post',
     data: params
   })
@@ -87,7 +87,7 @@ export function deleteadjustprice(query, query2) {
     params.append('operatorId', query2) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/repoadjustprice/deleteadjustprice',
+    url: '/erp/repoadjustprice/deleteadjustprice',
     method: 'post',
     data: params
   })
@@ -103,7 +103,7 @@ export function updatrepoadjustprice(query, query2) {
     params.append('repoAdjustPriceDetailJson', query2) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/repoadjustprice/updatrepoadjustprice',
+    url: '/erp/repoadjustprice/updatrepoadjustprice',
     method: 'post',
     data: params
   })
@@ -116,7 +116,7 @@ export function updatrepoadjustprice2(query) {
     params.append('repoAdjustPriceJson', query) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/repoadjustprice/updatrepoadjustprice',
+    url: '/erp/repoadjustprice/updatrepoadjustprice',
     method: 'post',
     data: params
   })

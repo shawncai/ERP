@@ -15,7 +15,6 @@ const user = {
       articlePlatform: []
     },
     userId: '',
-    useCountry: '',
     regionId: '',
     repositoryId: '',
     countryId: '',
@@ -25,9 +24,6 @@ const user = {
   },
 
   mutations: {
-    SET_USECOUNTRY: (state, useCountry) => {
-      state.useCountry = useCountry
-    },
     SET_CODE: (state, code) => {
       state.code = code
     },
@@ -76,9 +72,6 @@ const user = {
   },
 
   actions: {
-    getuseCountry({ commit }, useCountry) {
-      commit('SET_USECOUNTRY', useCountry)
-    },
     // 用户名登录
     LoginByUsername({ commit }, userInfo) {
       const username = userInfo.username.trim()

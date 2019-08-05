@@ -4,7 +4,7 @@
       <!--基本信息-->
       <el-card class="box-card" style="margin-top: 63px" shadow="never">
         <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">基本信息</h2>
-        <button style="font-size: 13px;background: white;" @click="printdata">打印</button>
+        <button v-print="'#printTest'" class="print" style="font-size: 13px;background: white;">打印</button>
         <div class="container" style="margin-top: 37px">
           <el-form :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
             <el-row>
@@ -389,7 +389,6 @@
 
 <script>
 import { productlist } from '@/api/public'
-import printJS from 'print-js'
 export default {
   filters: {
     sourceTypeFilter(status) {
@@ -499,35 +498,14 @@ export default {
       this.list2 = this.personalForm.saleOrderDetailVos
       this.list3 = this.personalForm.saleOrderCostDetails
       this.reviewList = this.personalForm.approvalUseVos
+      for (let i = 0; i < this.reviewList.length; i++) {
+        if (this.reviewList[i].actualStepHandler === null) {
+          this.reviewList.splice(i, 1)
+        }
+      }
     }
   },
   methods: {
-    printdata() {
-      const arr = [
-        {
-          name: '小明',
-          sex: '男'
-        },
-        {
-          name: '小红',
-          sex: '女'
-        }
-      ]
-
-      printJS({
-        printable: arr,
-        type: 'json',
-        properties: [
-          { field: 'name', displayName: '姓名', columnSize: `50%` },
-          { field: 'sex', displayName: '性别', columnSize: `50%` }
-        ],
-        header: `<p class="custom-p"> 名单 </p>`,
-        style: '.custom-p { padding:5px 0; font-size:12px; }',
-        gridHeaderStyle: 'font-size:12px; padding:3px; border:1px solid; font-weight: 100; text-align:center;',
-        gridStyle: 'font-size:12px; padding:3px; border:1px solid; text-align:left;',
-        repeatTableHeader: true
-      })
-    },
     // 计划金额
     planMoney(row) {
       row.planMoney = row.basicPrice * row.planQuantity

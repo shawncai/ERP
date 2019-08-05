@@ -12,7 +12,7 @@ export function createstockArrival(query, query2, query3) {
     params.append('regionId', query3.regionId) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/stockArrival/create',
+    url: '/erp/stockArrival/create',
     method: 'post',
     data: params
   })
@@ -69,7 +69,7 @@ export function searchstockArrival(query) {
   params.append('pageNum', query.pageNum) // 你要传给后台的参数值 key/value
   params.append('pageSize', query.pageSize) // 你要传给后台的参数值 key/value
   return request({
-    url: '/stockArrival/search',
+    url: '/erp/stockArrival/search',
     method: 'post',
     data: params
   })
@@ -81,7 +81,7 @@ export function updatestockArrival(query, query2) {
   params.append('Json', query) // 你要传给后台的参数值 key/value
   params.append('detailJson', query2) // 你要传给后台的参数值 key/value
   return request({
-    url: '/stockArrival/update',
+    url: '/erp/stockArrival/update',
     method: 'post',
     data: params
   })
@@ -92,7 +92,7 @@ export function updatestockArrival2(query) {
   var params = new URLSearchParams()
   params.append('Json', query) // 你要传给后台的参数值 key/value
   return request({
-    url: '/stockArrival/update',
+    url: '/erp/stockArrival/update',
     method: 'post',
     data: params
   })
@@ -106,7 +106,7 @@ export function deletestockArrival(query, query2) {
     params.append('operatorId', query2) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/stockArrival/delete',
+    url: '/erp/stockArrival/delete',
     method: 'post',
     data: params
   })

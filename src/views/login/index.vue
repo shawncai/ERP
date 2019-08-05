@@ -36,17 +36,6 @@
         </span>
       </el-form-item>
 
-      <el-form-item prop="password">
-        <el-select v-model="loginForm.country" clearable style="margin-left: 18px;width: 110%" @focus="verify" @change="changeCountry">
-          <el-option
-            v-for="(item, index) in countrys"
-            :key="index"
-            :label="item.name"
-            :value="item.id"
-          />
-        </el-select>
-      </el-form-item>
-
       <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="handleLogin">{{ $t('login.logIn') }}</el-button>
 
       <!--<div class="tips">-->
@@ -73,7 +62,6 @@
 </template>
 
 <script>
-import { chinaVerify, philippinesVerify } from '@/api/ChooseCountry'
 import { loginByUsername } from '@/api/login'
 import LangSelect from '@/components/LangSelect'
 import SocialSign from './socialsignin'
@@ -88,7 +76,6 @@ export default {
         password: ''
       },
       passwordType: 'password',
-      countrys: [],
       loading: false,
       showDialog: false,
       redirect: undefined
@@ -110,40 +97,6 @@ export default {
     // window.removeEventListener('hashchange', this.afterQRScan)
   },
   methods: {
-    changeCountry() {
-      this.$store.dispatch('getuseCountry', '')
-      if (this.loginForm.country === 1) {
-        this.$store.dispatch('getuseCountry', 1)
-      }
-      if (this.loginForm.country === 2) {
-        this.$store.dispatch('getuseCountry', 2)
-      }
-    },
-    verify() {
-      // this.$store.getters.repositoryId
-      console.log(123)
-      this.countrys = []
-      if (this.loginForm.username !== '' && this.loginForm.username !== undefined && this.loginForm.username !== null) {
-        chinaVerify(this.loginForm.username).then(res => {
-          if (res.data.ret === 200) {
-            const total = res.data.data.content.totalCount
-            if (total > 0) {
-              this.countrys.push({ 'name': '中国', 'id': 1 })
-            }
-          }
-        })
-        philippinesVerify(this.loginForm.username).then(res => {
-          if (res.data.ret === 200) {
-            const total = res.data.data.content.totalCount
-            if (total > 0) {
-              this.countrys.push({ 'name': '菲律宾', 'id': 2 })
-            }
-          }
-        })
-      } else {
-        this.countrys = []
-      }
-    },
     showPwd() {
       if (this.passwordType === 'password') {
         this.passwordType = ''

@@ -12,7 +12,7 @@ export function addstockplan(query, query2, query3) {
     params.append('regionId', query3.regionId) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/stockplan/addstockplan',
+    url: '/erp/stockplan/addstockplan',
     method: 'post',
     data: params
   })
@@ -69,7 +69,7 @@ export function stockplanlist(query) {
   params.append('pageNum', query.pageNum) // 你要传给后台的参数值 key/value
   params.append('pageSize', query.pageSize) // 你要传给后台的参数值 key/value
   return request({
-    url: '/stockplan/stockplanlist',
+    url: '/erp/stockplan/stockplanlist',
     method: 'post',
     data: params
   })
@@ -85,7 +85,7 @@ export function deletestockplan(query, query2) {
     params.append('operatorId', query2) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/stockplan/deletestockplan',
+    url: '/erp/stockplan/deletestockplan',
     method: 'post',
     data: params
   })
@@ -97,7 +97,7 @@ export function updatestockplan(query, query2) {
   params.append('stockPlanJson', query) // 你要传给后台的参数值 key/value
   params.append('stockPlanDetailJson', query2) // 你要传给后台的参数值 key/value
   return request({
-    url: '/stockplan/updatestockplan',
+    url: '/erp/stockplan/updatestockplan',
     method: 'post',
     data: params
   })
@@ -110,7 +110,7 @@ export function updatestockplan2(query) {
     params.append('stockPlanJson', query) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/stockplan/updatestockplan',
+    url: '/erp/stockplan/updatestockplan',
     method: 'post',
     data: params
   })

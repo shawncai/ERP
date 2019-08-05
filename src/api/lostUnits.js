@@ -3,7 +3,7 @@ import request from '@/utils/request'
 // 黑名单列表
 export function blacklist(query) {
   return request({
-    url: '/blacklist/list',
+    url: '/erp/blacklist/list',
     method: 'post',
     params: query
   })
@@ -16,7 +16,7 @@ export function searcblacklist(query) {
   params.append('stat', query.stat) // 你要传给后台的参数值 key/value
   params.append('productsn', query.productsn) // 你要传给后台的参数值 key/value
   return request({
-    url: '/blacklist/list',
+    url: '/erp/blacklist/list',
     method: 'post',
     data: params
   })
@@ -28,7 +28,7 @@ export function judgeblacklist(query) {
   params.append('blacklistid', query.id) // 你要传给后台的参数值 key/value
   params.append('stat', query.stat) // 你要传给后台的参数值 key/value
   return request({
-    url: '/blacklist/judgeblacklist',
+    url: '/erp/blacklist/judgeblacklist',
     method: 'post',
     data: params
   })
@@ -37,7 +37,7 @@ export function judgeblacklist(query) {
 // 车辆丢失列表
 export function loselist(query) {
   return request({
-    url: '/blacklist/loselist',
+    url: '/erp/blacklist/loselist',
     method: 'post',
     params: query
   })
@@ -50,7 +50,7 @@ export function searchloselist(query) {
   params.append('stat', query.stat) // 你要传给后台的参数值 key/value
   params.append('productsn', query.productsn) // 你要传给后台的参数值 key/value
   return request({
-    url: '/blacklist/loselist',
+    url: '/erp/blacklist/loselist',
     method: 'post',
     data: params
   })

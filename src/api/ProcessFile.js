@@ -7,7 +7,7 @@ export function createworkCenter(query) {
     params.append('Json', query) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/workCenter/create',
+    url: '/erp/workCenter/create',
     method: 'post',
     data: params
   })
@@ -37,7 +37,7 @@ export function searchworkCenter(query) {
   params.append('pageNum', query.pageNum) // 你要传给后台的参数值 key/value
   params.append('pageSize', query.pageSize) // 你要传给后台的参数值 key/value
   return request({
-    url: '/workCenter/search',
+    url: '/erp/workCenter/search',
     method: 'post',
     data: params
   })
@@ -50,7 +50,7 @@ export function updateworkCenter(query) {
     params.append('Json', query) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/workCenter/update',
+    url: '/erp/workCenter/update',
     method: 'post',
     data: params
   })
@@ -66,7 +66,7 @@ export function deleteworkCenter(query, query2) {
     params.append('operatorId', query2) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/workCenter/delete',
+    url: '/erp/workCenter/delete',
     method: 'post',
     data: params
   })
@@ -79,7 +79,7 @@ export function createprocessFile(query) {
     params.append('Json', query) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/processFile/create',
+    url: '/erp/processFile/create',
     method: 'post',
     data: params
   })
@@ -110,7 +110,7 @@ export function searchprocessFile(query) {
     params.append('pageSize', query.pageSize) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/processFile/search',
+    url: '/erp/processFile/search',
     method: 'post',
     data: params
   })
@@ -123,7 +123,7 @@ export function updateprocessFile(query) {
     params.append('Json', query) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/processFile/update',
+    url: '/erp/processFile/update',
     method: 'post',
     data: params
   })
@@ -135,7 +135,7 @@ export function createstandardProcess(query, query2) {
   params.append('Json', query) // 你要传给后台的参数值 key/value
   params.append('detailJson', query2) // 你要传给后台的参数值 key/value
   return request({
-    url: '/standardProcess/create',
+    url: '/erp/standardProcess/create',
     method: 'post',
     data: params
   })
@@ -168,7 +168,7 @@ export function searchprocess(query) {
   params.append('pageNum', query.pageNum) // 你要传给后台的参数值 key/value
   params.append('pageSize', query.pageSize) // 你要传给后台的参数值 key/value
   return request({
-    url: '/standardProcess/search',
+    url: '/erp/standardProcess/search',
     method: 'post',
     data: params
   })
@@ -184,7 +184,7 @@ export function deletestandardProcess(query, query2) {
     params.append('operatorId', query2) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/standardProcess/delete',
+    url: '/erp/standardProcess/delete',
     method: 'post',
     data: params
   })
@@ -196,7 +196,7 @@ export function updatestandardProcess(query, query2) {
   params.append('Json', query) // 你要传给后台的参数值 key/value
   params.append('detailJson', query2) // 你要传给后台的参数值 key/value
   return request({
-    url: '/standardProcess/update',
+    url: '/erp/standardProcess/update',
     method: 'post',
     data: params
   })

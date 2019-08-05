@@ -12,7 +12,7 @@ export function createsaleContract(query, query2, query4) {
     params.append('regionId', query4.regionId) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/saleContract/create',
+    url: '/erp/saleContract/create',
     method: 'post',
     data: params
   })
@@ -57,7 +57,7 @@ export function searchsaleContract(query) {
   params.append('pageNum', query.pageNum) // 你要传给后台的参数值 key/value
   params.append('pageSize', query.pageSize) // 你要传给后台的参数值 key/value
   return request({
-    url: '/saleContract/search',
+    url: '/erp/saleContract/search',
     method: 'post',
     data: params
   })
@@ -69,7 +69,7 @@ export function updatesaleContract(query, query2) {
   params.append('Json', query) // 你要传给后台的参数值 key/value
   params.append('detailJson', query2) // 你要传给后台的参数值 key/value
   return request({
-    url: '/saleContract/update',
+    url: '/erp/saleContract/update',
     method: 'post',
     data: params
   })
@@ -85,7 +85,7 @@ export function deletesaleContract(query, query2) {
     params.append('operatorId', query2) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/saleContract/delete',
+    url: '/erp/saleContract/delete',
     method: 'post',
     data: params
   })
@@ -96,7 +96,7 @@ export function updatesaleContract2(query) {
   var params = new URLSearchParams()
   params.append('Json', query) // 你要传给后台的参数值 key/value
   return request({
-    url: '/saleContract/update',
+    url: '/erp/saleContract/update',
     method: 'post',
     data: params
   })

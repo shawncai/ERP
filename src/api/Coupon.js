@@ -7,7 +7,7 @@ export function createCoupon(query, query2, query3) {
     params.append('Json', query) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/coupon/create',
+    url: '/erp/coupon/create',
     method: 'post',
     data: params
   })
@@ -25,7 +25,7 @@ export function couponlist(query) {
   params.append('pageNum', query.pageNum) // 你要传给后台的参数值 key/value
   params.append('pageSize', query.pageSize) // 你要传给后台的参数值 key/value
   return request({
-    url: '/coupon/search',
+    url: '/erp/coupon/search',
     method: 'post',
     data: params
   })
@@ -41,7 +41,7 @@ export function deletecoupon(query, query2) {
     params.append('operatorId', query2) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/coupon/delete',
+    url: '/erp/coupon/delete',
     method: 'post',
     data: params
   })
@@ -54,7 +54,7 @@ export function updatecoupon(query) {
     params.append('Json', query) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/coupon/update',
+    url: '/erp/coupon/update',
     method: 'post',
     data: params
   })

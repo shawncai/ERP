@@ -16,7 +16,7 @@ export function addrequireplan(query, query2, query3) {
     params.append('regionId', query3.regionId) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/requireplan/addrequireplan',
+    url: '/erp/requireplan/addrequireplan',
     method: 'post',
     data: params
   })
@@ -61,7 +61,7 @@ export function requireplanlist(query) {
   params.append('pageNum', query.pageNum) // 你要传给后台的参数值 key/value
   params.append('pageSize', query.pageSize) // 你要传给后台的参数值 key/value
   return request({
-    url: '/requireplan/requireplanlist',
+    url: '/erp/requireplan/requireplanlist',
     method: 'post',
     data: params
   })
@@ -77,7 +77,7 @@ export function deleterequireplan(query, query2) {
     params.append('operatorId', query2) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/requireplan/deleterequireplan',
+    url: '/erp/requireplan/deleterequireplan',
     method: 'post',
     data: params
   })
@@ -93,7 +93,7 @@ export function updateproduceplan(query, query2) {
     params.append('materialsRequirePlanDetailJson', query2) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/requireplan/updateproduceplan',
+    url: '/erp/requireplan/updateproduceplan',
     method: 'post',
     data: params
   })
@@ -106,7 +106,7 @@ export function updateproduceplan2(query) {
     params.append('materialsRequirePlanJson', query) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/requireplan/updateproduceplan',
+    url: '/erp/requireplan/updateproduceplan',
     method: 'post',
     data: params
   })
@@ -118,7 +118,7 @@ export function getBomByPlanNumber(query, query2) {
   params.append('planNumber', query) // 你要传给后台的参数值 key/value
   params.append('repositoryId', query2) // 你要传给后台的参数值 key/value
   return request({
-    url: '/requireplan/getBomByPlanNumber',
+    url: '/erp/requireplan/getBomByPlanNumber',
     method: 'post',
     data: params
   })

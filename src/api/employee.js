@@ -21,7 +21,7 @@ export function employeelist(query) {
   params.append('pagenum', query.pagenum) // 你要传给后台的参数值 key/value
   params.append('pagesize', query.pagesize) // 你要传给后台的参数值 key/value
   return request({
-    url: '/repository/getremplist',
+    url: '/erp/repository/getremplist',
     method: 'post',
     data: params
   })
@@ -37,7 +37,7 @@ export function searchemployeelist(query) {
   params.append('pagenum', query.pagenum) // 你要传给后台的参数值 key/value
   params.append('pagesize', query.pagesize) // 你要传给后台的参数值 key/value
   return request({
-    url: '/repository/getremplist',
+    url: '/erp/repository/getremplist',
     method: 'post',
     data: params
   })
@@ -49,7 +49,7 @@ export function allstore(repositoryid, regionid) {
   params.append('regionid', regionid) // 你要传给后台的参数值 key/value
   params.append('repositoryid', repositoryid) // 你要传给后台的参数值 key/value
   return request({
-    url: '/repository/getrepositorybyregionid',
+    url: '/erp/repository/getrepositorybyregionid',
     method: 'post',
     data: params
   })
@@ -61,7 +61,7 @@ export function allarea(repositoryid, regionid) {
   params.append('regionid', regionid) // 你要传给后台的参数值 key/value
   params.append('repositoryid', repositoryid) // 你要传给后台的参数值 key/value
   return request({
-    url: '/region/getregionlistbyreid',
+    url: '/erp/region/getregionlistbyreid',
     method: 'post',
     data: params
   })
@@ -72,7 +72,7 @@ export function editemployee(query) {
   var params = new URLSearchParams()
   params.append('userid', query.id) // 你要传给后台的参数值 key/value
   return request({
-    url: '/admin/user/getemployeeinformation',
+    url: '/erp/admin/user/getemployeeinformation',
     method: 'post',
     data: params
   })
@@ -81,7 +81,7 @@ export function editemployee(query) {
 // 员工列表
 export function editarea(query) {
   return request({
-    url: '/region/detaillist',
+    url: '/erp/region/detaillist',
     method: 'post',
     params: query
   })
@@ -94,7 +94,7 @@ export function getrepositorylist(regionid) {
   params.append('pagenum', 1) // 你要传给后台的参数值 key/value
   params.append('pagesize', 9999) // 你要传给后台的参数值 key/value
   return request({
-    url: '/repository/getrepositorylist',
+    url: '/erp/repository/getrepositorylist',
     method: 'post',
     data: params
   })
@@ -103,7 +103,7 @@ export function getrepositorylist(regionid) {
 // 获取角色列表
 export function getrolelist(query) {
   return request({
-    url: '/role/getrolelist',
+    url: '/erp/role/getrolelist',
     method: 'post',
     params: query
   })
@@ -131,7 +131,7 @@ export function updateemprepository(query) {
   params.append('phone', query.phoneNumber) // 你要传给后台的参数值 key/value
   params.append('gender', query.gender) // 你要传给后台的参数值 key/value
   return request({
-    url: '/repository/updateemprepository',
+    url: '/erp/repository/updateemprepository',
     method: 'post',
     data: params
   })
@@ -142,7 +142,7 @@ export function getrepositorybyid(repositoryid) {
   var params = new URLSearchParams()
   params.append('repositoryid', repositoryid) // 你要传给后台的参数值 key/value
   return request({
-    url: '/repository/getrepositorybyid',
+    url: '/erp/repository/getrepositorybyid',
     method: 'post',
     data: params
   })
@@ -162,7 +162,7 @@ export function addemp(query) {
   params.append('personname', query.personname) // 你要传给后台的参数值 key/value
   params.append('regionid', query.regionid) // 你要传给后台的参数值 key/value
   return request({
-    url: '/admin/user/register',
+    url: '/erp/admin/user/register',
     method: 'post',
     data: params
   })
@@ -178,7 +178,7 @@ export function kpigradelist(query) {
   params.append('endtime', query.endtime) // 你要传给后台的参数值 key/value
   params.append('repositoryid', query.repositoryid) // 你要传给后台的参数值 key/value
   return request({
-    url: '/admin/kpi/kpigradelist',
+    url: '/erp/admin/kpi/kpigradelist',
     method: 'post',
     data: params
   })
@@ -190,7 +190,7 @@ export function kpigradelist2(query) {
   params.append('pagenum', query.pagenum) // 你要传给后台的参数值 key/value
   params.append('pagesize', query.pagesize) // 你要传给后台的参数值 key/value
   return request({
-    url: '/admin/kpi/kpigradelist',
+    url: '/erp/admin/kpi/kpigradelist',
     method: 'post',
     data: params
   })
@@ -201,7 +201,7 @@ export function getcountkpibymonth(query) {
   var params = new URLSearchParams()
   params.append('employeeid', query) // 你要传给后台的参数值 key/value
   return request({
-    url: '/admin/kpi/getcountkpibymonth',
+    url: '/erp/admin/kpi/getcountkpibymonth',
     method: 'post',
     data: params
   })
@@ -212,7 +212,7 @@ export function empkpibymonth(query) {
   var params = new URLSearchParams()
   params.append('employeeid', query) // 你要传给后台的参数值 key/value
   return request({
-    url: '/admin/kpi/empkpibymonth',
+    url: '/erp/admin/kpi/empkpibymonth',
     method: 'post',
     data: params
   })
@@ -221,7 +221,7 @@ export function empkpibymonth(query) {
 // 获取绩效规则
 export function kpiruleslist(query) {
   return request({
-    url: '/admin/kpi/kpiruleslist',
+    url: '/erp/admin/kpi/kpiruleslist',
     method: 'post',
     params: query
   })
@@ -233,7 +233,7 @@ export function updaterules(kpirulesid, mark) {
   params.append('kpirulesid', kpirulesid) // 你要传给后台的参数值 key/value
   params.append('mark', mark) // 你要传给后台的参数值 key/value
   return request({
-    url: '/admin/kpi/updaterules',
+    url: '/erp/admin/kpi/updaterules',
     method: 'post',
     data: params
   })
@@ -244,7 +244,7 @@ export function deleterules(kpirulesid) {
   var params = new URLSearchParams()
   params.append('kpirulesid', kpirulesid) // 你要传给后台的参数值 key/value
   return request({
-    url: '/admin/kpi/deleterules',
+    url: '/erp/admin/kpi/deleterules',
     method: 'post',
     data: params
   })
@@ -256,7 +256,7 @@ export function gettasklistbyday(userid, date) {
   params.append('userid', userid) // 你要传给后台的参数值 key/value
   params.append('date', date) // 你要传给后台的参数值 key/value
   return request({
-    url: '/admin/position/gettasklistbyday',
+    url: '/erp/admin/position/gettasklistbyday',
     method: 'post',
     data: params
   })

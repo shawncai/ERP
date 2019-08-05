@@ -11,7 +11,7 @@ export function addadvancepay(query, query3) {
     params.append('regionId', query3.regionId) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/advancepay/addadvancepay',
+    url: '/erp/advancepay/addadvancepay',
     method: 'post',
     data: params
   })
@@ -53,7 +53,7 @@ export function paylist(query) {
   params.append('pageNum', query.pageNum) // 你要传给后台的参数值 key/value
   params.append('pageSize', query.pageSize) // 你要传给后台的参数值 key/value
   return request({
-    url: '/advancepay/paylist',
+    url: '/erp/advancepay/paylist',
     method: 'post',
     data: params
   })
@@ -64,7 +64,7 @@ export function updateadvancepay(query) {
   var params = new URLSearchParams()
   params.append('advancePayJson', query) // 你要传给后台的参数值 key/value
   return request({
-    url: '/advancepay/updateadvancepay',
+    url: '/erp/advancepay/updateadvancepay',
     method: 'post',
     data: params
   })
@@ -75,7 +75,7 @@ export function updateadvancepay2(query) {
   var params = new URLSearchParams()
   params.append('Json', query) // 你要传给后台的参数值 key/value
   return request({
-    url: '/advancepay/updateadvancepay',
+    url: '/erp/advancepay/updateadvancepay',
     method: 'post',
     data: params
   })
@@ -89,7 +89,7 @@ export function deleteadvancepay(query, query2) {
     params.append('operatorId', query2) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/advancepay/deleteadvancepay',
+    url: '/erp/advancepay/deleteadvancepay',
     method: 'post',
     data: params
   })

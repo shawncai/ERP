@@ -12,7 +12,7 @@ export function ratelist(query) {
   params.append('pageNum', query.pagenum) // 你要传给后台的参数值 key/value
   params.append('pageSize', query.pagesize) // 你要传给后台的参数值 key/value
   return request({
-    url: '/installmentrate/ratelist',
+    url: '/erp/installmentrate/ratelist',
     method: 'post',
     data: params
   })
@@ -25,7 +25,7 @@ export function addinstallmentrate(query) {
     params.append('installmentRateJson', query) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/installmentrate/addinstallmentrate',
+    url: '/erp/installmentrate/addinstallmentrate',
     method: 'post',
     data: params
   })
@@ -38,7 +38,7 @@ export function updateinstallmentrate(query) {
     params.append('installmentRateJson', query) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/installmentrate/updateinstallmentrate',
+    url: '/erp/installmentrate/updateinstallmentrate',
     method: 'post',
     data: params
   })
@@ -54,7 +54,7 @@ export function deleterate(query, query2) {
     params.append('operatorId', query2) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/installmentrate/deleterate',
+    url: '/erp/installmentrate/deleterate',
     method: 'post',
     data: params
   })
@@ -69,7 +69,7 @@ export function rulelist(query) {
   params.append('pageNum', query.pagenum) // 你要传给后台的参数值 key/value
   params.append('pageSize', query.pagesize) // 你要传给后台的参数值 key/value
   return request({
-    url: '/overdueFineRules/rulelist',
+    url: '/erp/overdueFineRules/rulelist',
     method: 'post',
     data: params
   })
@@ -82,7 +82,7 @@ export function addOverdueFineRules(query) {
     params.append('overdueFineRulesJson', query) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/overdueFineRules/addOverdueFineRules',
+    url: '/erp/overdueFineRules/addOverdueFineRules',
     method: 'post',
     data: params
   })
@@ -95,7 +95,7 @@ export function updateOverdueFineRules(query) {
     params.append('overdueFineRulesJson', query) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/overdueFineRules/updateOverdueFineRules',
+    url: '/erp/overdueFineRules/updateOverdueFineRules',
     method: 'post',
     data: params
   })
@@ -111,7 +111,7 @@ export function deleteOverdueFineRules(query, query2) {
     params.append('operatorId', query2) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/overdueFineRules/deleteOverdueFineRules',
+    url: '/erp/overdueFineRules/deleteOverdueFineRules',
     method: 'post',
     data: params
   })
@@ -126,7 +126,7 @@ export function rulelist2(query) {
   params.append('pageNum', query.pagenum) // 你要传给后台的参数值 key/value
   params.append('pageSize', query.pagesize) // 你要传给后台的参数值 key/value
   return request({
-    url: '/rewardRules/rulelist',
+    url: '/erp/rewardRules/rulelist',
     method: 'post',
     data: params
   })
@@ -139,7 +139,7 @@ export function addRewardRules(query) {
     params.append('rewardRulesJson', query) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/rewardRules/addRewardRules',
+    url: '/erp/rewardRules/addRewardRules',
     method: 'post',
     data: params
   })
@@ -152,7 +152,7 @@ export function updateRewardRules(query) {
     params.append('rewardRulesJson', query) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/rewardRules/updateRewardRules',
+    url: '/erp/rewardRules/updateRewardRules',
     method: 'post',
     data: params
   })
@@ -168,7 +168,7 @@ export function deleteRewardRules(query, query2) {
     params.append('operatorId', query2) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/rewardRules/deleteRewardRules',
+    url: '/erp/rewardRules/deleteRewardRules',
     method: 'post',
     data: params
   })

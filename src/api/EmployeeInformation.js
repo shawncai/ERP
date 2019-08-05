@@ -3,7 +3,7 @@ import request from '@/utils/request'
 // 部门列表
 export function getdeptlist(query) {
   return request({
-    url: '/country/getdeptlist',
+    url: '/erp/country/getdeptlist',
     method: 'post',
     params: query
   })
@@ -19,7 +19,7 @@ export function startorendemp(query, stat) {
     params.append('stat', stat) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/employee/startorendemp',
+    url: '/erp/employee/startorendemp',
     method: 'post',
     data: params
   })
@@ -35,7 +35,7 @@ export function deleteemp(query, query2) {
     params.append('operatorId', query2) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/employee/deleteemp',
+    url: '/erp/employee/deleteemp',
     method: 'post',
     data: params
   })
@@ -48,7 +48,7 @@ export function getempinfo(query) {
     params.append('id', query) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/employee/getempinfo',
+    url: '/erp/employee/getempinfo',
     method: 'post',
     data: params
   })
@@ -63,7 +63,7 @@ export function getEmpStockInfo(query) {
   params.append('pageNum', query.pagenum) // 你要传给后台的参数值 key/value
   params.append('pageSize', query.pagesize) // 你要传给后台的参数值 key/value
   return request({
-    url: '/employee/getEmpStockInfo',
+    url: '/erp/employee/getEmpStockInfo',
     method: 'post',
     data: params
   })
@@ -78,7 +78,7 @@ export function getEmpCollect(query) {
   params.append('pageNum', query.pagenum) // 你要传给后台的参数值 key/value
   params.append('pageSize', query.pagesize) // 你要传给后台的参数值 key/value
   return request({
-    url: '/employee/getEmpCollect',
+    url: '/erp/employee/getEmpCollect',
     method: 'post',
     data: params
   })
@@ -102,7 +102,7 @@ export function getEmpVisitInfo(query) {
   params.append('pageNum', query.pagenum) // 你要传给后台的参数值 key/value
   params.append('pageSize', query.pagesize) // 你要传给后台的参数值 key/value
   return request({
-    url: '/employee/getEmpVisitInfo',
+    url: '/erp/employee/getEmpVisitInfo',
     method: 'post',
     data: params
   })
@@ -172,7 +172,7 @@ export function updateemp(query) {
     params.append('certificatenumber', query.certificateNumber) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/employee/updateemp',
+    url: '/erp/employee/updateemp',
     method: 'post',
     data: params
   })
@@ -205,7 +205,7 @@ export function register(query) {
   params.append('certificatetype', query.certificatetype) // 你要传给后台的参数值 key/value
   params.append('certificatenumber', query.certificatenumber) // 你要传给后台的参数值 key/value
   return request({
-    url: '/employee/register',
+    url: '/erp/employee/register',
     method: 'post',
     data: params
   })
@@ -247,7 +247,7 @@ export function getemplist(query) {
   params.append('pagenum', query.pagenum) // 你要传给后台的参数值 key/value
   params.append('pagesize', query.pagesize) // 你要传给后台的参数值 key/value
   return request({
-    url: '/employee/getemplist',
+    url: '/erp/employee/getemplist',
     method: 'post',
     data: params
   })
@@ -299,7 +299,7 @@ export function addcontract(query) {
     params.append('remindpersonid', query.remindpersonid) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/contract/addcontract',
+    url: '/erp/contract/addcontract',
     method: 'post',
     data: params
   })
@@ -323,7 +323,7 @@ export function contractlist(query) {
   params.append('pagenum', query.pagenum) // 你要传给后台的参数值 key/value
   params.append('pagesize', query.pagesize) // 你要传给后台的参数值 key/value
   return request({
-    url: '/contract/contractlist',
+    url: '/erp/contract/contractlist',
     method: 'post',
     data: params
   })
@@ -375,7 +375,7 @@ export function updatecontract(query) {
     params.append('remindpersonid', query.expiredRemindPersonId) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/contract/updatecontract',
+    url: '/erp/contract/updatecontract',
     method: 'post',
     data: params
   })
@@ -391,7 +391,7 @@ export function deleteempcontract(query, query2) {
     params.append('operatorId', query2) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/contract/deleteempcontract',
+    url: '/erp/contract/deleteempcontract',
     method: 'post',
     data: params
   })
@@ -412,7 +412,7 @@ export function searchEmpCategory(query) {
   params.append('pagenum', query.pagenum) // 你要传给后台的参数值 key/value
   params.append('pagesize', query.pagesize) // 你要传给后台的参数值 key/value
   return request({
-    url: '/employee/searchEmpCategory',
+    url: '/erp/employee/searchEmpCategory',
     method: 'post',
     data: params
   })
@@ -434,7 +434,7 @@ export function addEmpCategory(query) {
     params.append('type', query.type) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/employee/addEmpCategory',
+    url: '/erp/employee/addEmpCategory',
     method: 'post',
     data: params
   })
@@ -453,7 +453,7 @@ export function updateEmpCategory(query) {
     params.append('id', query.id) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/employee/updateEmpCategory',
+    url: '/erp/employee/updateEmpCategory',
     method: 'post',
     data: params
   })
@@ -469,7 +469,7 @@ export function delateEmpCategory(query, query2) {
     params.append('operatorId', query2) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/employee/delateEmpCategory',
+    url: '/erp/employee/delateEmpCategory',
     method: 'post',
     data: params
   })

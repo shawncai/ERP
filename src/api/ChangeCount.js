@@ -12,7 +12,7 @@ export function addchangecount(query, query2, query4) {
     params.append('regionId', query4.regionId) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/changeCount/addchangecount',
+    url: '/erp/changeCount/addchangecount',
     method: 'post',
     data: params
   })
@@ -63,7 +63,7 @@ export function changelist(query) {
   params.append('pageNum', query.pageNum) // 你要传给后台的参数值 key/value
   params.append('pageSize', query.pageSize) // 你要传给后台的参数值 key/value
   return request({
-    url: '/changeCount/changelist',
+    url: '/erp/changeCount/changelist',
     method: 'post',
     data: params
   })
@@ -75,7 +75,7 @@ export function updatechange(query, query2) {
   params.append('changeCountJson', query) // 你要传给后台的参数值 key/value
   params.append('changeCountDetailJson', query2) // 你要传给后台的参数值 key/value
   return request({
-    url: '/changeCount/updatechange',
+    url: '/erp/changeCount/updatechange',
     method: 'post',
     data: params
   })
@@ -91,7 +91,7 @@ export function deletechange(query, query2) {
     params.append('operatorId', query2) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/changeCount/deletechange',
+    url: '/erp/changeCount/deletechange',
     method: 'post',
     data: params
   })
@@ -102,7 +102,7 @@ export function updatechange2(query) {
   var params = new URLSearchParams()
   params.append('changeCountJson', query) // 你要传给后台的参数值 key/value
   return request({
-    url: '/changeCount/updatechange',
+    url: '/erp/changeCount/updatechange',
     method: 'post',
     data: params
   })

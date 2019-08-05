@@ -15,7 +15,7 @@ export function searchStockCategory(query) {
   params.append('pagenum', query.pagenum) // 你要传给后台的参数值 key/value
   params.append('pagesize', query.pagesize) // 你要传给后台的参数值 key/value
   return request({
-    url: '/stockcategory/searchStockCategory',
+    url: '/erp/stockcategory/searchStockCategory',
     method: 'post',
     data: params
   })
@@ -37,7 +37,7 @@ export function addStockCategory(query) {
     params.append('type', query.type) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/stockcategory/addStockCategory',
+    url: '/erp/stockcategory/addStockCategory',
     method: 'post',
     data: params
   })
@@ -56,7 +56,7 @@ export function updateStockCategory(query) {
     params.append('id', query.id) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/stockcategory/updateStockCategory',
+    url: '/erp/stockcategory/updateStockCategory',
     method: 'post',
     data: params
   })
@@ -72,7 +72,7 @@ export function delateStockCategory(query, query2) {
     params.append('operatorId', query2) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/stockcategory/delateStockCategory',
+    url: '/erp/stockcategory/delateStockCategory',
     method: 'post',
     data: params
   })

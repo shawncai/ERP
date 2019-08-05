@@ -22,7 +22,7 @@ export function createstoragemove(query, query2, query3) {
     params.append('countryId', query3.countryId) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/storagemove/create',
+    url: '/erp/storagemove/create',
     method: 'post',
     data: params
   })
@@ -80,7 +80,7 @@ export function searchlist(query) {
     params.append('judgeStat', query.judgeStat) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/storagemove/search',
+    url: '/erp/storagemove/search',
     method: 'post',
     data: params
   })
@@ -96,7 +96,7 @@ export function updateStoragemove(query, query2) {
     params.append('detailJson', query2) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/storagemove/update',
+    url: '/erp/storagemove/update',
     method: 'post',
     data: params
   })
@@ -114,7 +114,7 @@ export function updateStoragemove3(query, query2, query3) {
     params.append('detailConfirmJson', query3) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/storagemove/update',
+    url: '/erp/storagemove/update',
     method: 'post',
     data: params
   })
@@ -127,7 +127,7 @@ export function updateStoragemove2(query) {
     params.append('Json', query) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/storagemove/update',
+    url: '/erp/storagemove/update',
     method: 'post',
     data: params
   })
@@ -143,7 +143,7 @@ export function deletestoragemove(query, query2) {
     params.append('operatorId', query2) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/storagemove/delete',
+    url: '/erp/storagemove/delete',
     method: 'post',
     data: params
   })
@@ -171,7 +171,7 @@ export function createmoveapplication(query, query2, query3) {
     params.append('countryId', query3.countryId) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/moveapplication/create',
+    url: '/erp/moveapplication/create',
     method: 'post',
     data: params
   })
@@ -226,7 +226,7 @@ export function searchapplication(query) {
     params.append('judgeStat', query.judgeStat) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/moveapplication/search',
+    url: '/erp/moveapplication/search',
     method: 'post',
     data: params
   })
@@ -242,7 +242,7 @@ export function deleteapplication(query, query2) {
     params.append('operatorId', query2) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/moveapplication/delete',
+    url: '/erp/moveapplication/delete',
     method: 'post',
     data: params
   })
@@ -258,7 +258,7 @@ export function updatemoveapplication(query, query2) {
     params.append('detailJson', query2) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/moveapplication/update',
+    url: '/erp/moveapplication/update',
     method: 'post',
     data: params
   })

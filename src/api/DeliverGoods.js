@@ -12,7 +12,7 @@ export function addDeliverGoods(query, query2, query4) {
     params.append('regionId', query4.regionId) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/deliverGoods/addDeliverGoods',
+    url: '/erp/deliverGoods/addDeliverGoods',
     method: 'post',
     data: params
   })
@@ -60,7 +60,7 @@ export function deliverGoodsList(query) {
   params.append('pageNum', query.pageNum) // 你要传给后台的参数值 key/value
   params.append('pageSize', query.pageSize) // 你要传给后台的参数值 key/value
   return request({
-    url: '/deliverGoods/deliverGoodsList',
+    url: '/erp/deliverGoods/deliverGoodsList',
     method: 'post',
     data: params
   })
@@ -72,7 +72,7 @@ export function updateDeliverGoods(query, query2) {
   params.append('deliverGoodsJson', query) // 你要传给后台的参数值 key/value
   params.append('deliverGoodsDetailJson', query2) // 你要传给后台的参数值 key/value
   return request({
-    url: '/deliverGoods/updateDeliverGoods',
+    url: '/erp/deliverGoods/updateDeliverGoods',
     method: 'post',
     data: params
   })
@@ -88,7 +88,7 @@ export function deleteDeliverGoods(query, query2) {
     params.append('operatorId', query2) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/deliverGoods/deleteDeliverGoods',
+    url: '/erp/deliverGoods/deleteDeliverGoods',
     method: 'post',
     data: params
   })
@@ -99,7 +99,7 @@ export function updateDeliverGoods2(query) {
   var params = new URLSearchParams()
   params.append('deliverGoodsJson', query) // 你要传给后台的参数值 key/value
   return request({
-    url: '/deliverGoods/updateDeliverGoods',
+    url: '/erp/deliverGoods/updateDeliverGoods',
     method: 'post',
     data: params
   })

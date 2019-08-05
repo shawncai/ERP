@@ -16,7 +16,7 @@ export function addqualitycheck(query, query2, query3) {
     params.append('regionId', query3.regionId) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/qualitycheck/addqualitycheck',
+    url: '/erp/qualitycheck/addqualitycheck',
     method: 'post',
     data: params
   })
@@ -73,7 +73,7 @@ export function qualitychecklist(query) {
   params.append('pageNum', query.pageNum) // 你要传给后台的参数值 key/value
   params.append('pageSize', query.pageSize) // 你要传给后台的参数值 key/value
   return request({
-    url: '/qualitycheck/qualitychecklist',
+    url: '/erp/qualitycheck/qualitychecklist',
     method: 'post',
     data: params
   })
@@ -85,7 +85,7 @@ export function updatequalitycheck(query, query2) {
   params.append('qualityCheckJson', query) // 你要传给后台的参数值 key/value
   params.append('qualityCheckDetailJson', query2) // 你要传给后台的参数值 key/value
   return request({
-    url: '/qualitycheck/updatequalitycheck',
+    url: '/erp/qualitycheck/updatequalitycheck',
     method: 'post',
     data: params
   })
@@ -99,7 +99,7 @@ export function deletequalitycheck(query, query2) {
     params.append('operatorId', query2) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/qualitycheck/deletequalitycheck',
+    url: '/erp/qualitycheck/deletequalitycheck',
     method: 'post',
     data: params
   })
@@ -110,7 +110,7 @@ export function updatequalitycheck2(query) {
   var params = new URLSearchParams()
   params.append('qualityCheckJson', query) // 你要传给后台的参数值 key/value
   return request({
-    url: '/qualitycheck/updatequalitycheck',
+    url: '/erp/qualitycheck/updatequalitycheck',
     method: 'post',
     data: params
   })

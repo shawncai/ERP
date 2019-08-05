@@ -8,7 +8,7 @@ export function addinitialenter(query, detail, repositoryId, regionId) {
   params.append('repositoryId', repositoryId) // 你要传给后台的参数值 key/value
   params.append('regionId', regionId) // 你要传给后台的参数值 key/value
   return request({
-    url: '/initialenter/addinitialenter',
+    url: '/erp/initialenter/addinitialenter',
     method: 'post',
     data: params
   })
@@ -19,7 +19,7 @@ export function addlocation(query) {
   var params = new URLSearchParams()
   params.append('locationJson', query) // 你要传给后台的参数值 key/value
   return request({
-    url: '/location/addlocation',
+    url: '/erp/location/addlocation',
     method: 'post',
     data: params
   })
@@ -46,7 +46,7 @@ export function locationlist(query) {
   params.append('pageNum', query.pageNum) // 你要传给后台的参数值 key/value
   params.append('pageSize', query.pageSize) // 你要传给后台的参数值 key/value
   return request({
-    url: '/location/locationlist',
+    url: '/erp/location/locationlist',
     method: 'post',
     data: params
   })
@@ -60,7 +60,7 @@ export function deletelocation(query, query2) {
     params.append('operatorId', query2) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/location/deletelocation',
+    url: '/erp/location/deletelocation',
     method: 'post',
     data: params
   })
@@ -108,7 +108,7 @@ export function enterlist(query) {
   params.append('pageNum', query.pageNum) // 你要传给后台的参数值 key/value
   params.append('pageSize', query.pageSize) // 你要传给后台的参数值 key/value
   return request({
-    url: '/initialenter/enterlist',
+    url: '/erp/initialenter/enterlist',
     method: 'post',
     data: params
   })
@@ -122,7 +122,7 @@ export function deleteenter(query, query2) {
     params.append('operatorId', query2) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/initialenter/deleteenter',
+    url: '/erp/initialenter/deleteenter',
     method: 'post',
     data: params
   })
@@ -134,7 +134,7 @@ export function updateenter(query, query2) {
   params.append('initialEnterJson', query) // 你要传给后台的参数值 key/value
   params.append('initialEnterDetailJson', query2) // 你要传给后台的参数值 key/value
   return request({
-    url: '/initialenter/updateenter',
+    url: '/erp/initialenter/updateenter',
     method: 'post',
     data: params
   })
@@ -145,7 +145,7 @@ export function updatelocation(query) {
   var params = new URLSearchParams()
   params.append('locationJson', query) // 你要传给后台的参数值 key/value
   return request({
-    url: '/location/updatelocation',
+    url: '/erp/location/updatelocation',
     method: 'post',
     data: params
   })
@@ -158,7 +158,7 @@ export function createstockalarm(query) {
     params.append('Json', query) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/stockAlarm/create',
+    url: '/erp/stockAlarm/create',
     method: 'post',
     data: params
   })
@@ -169,7 +169,7 @@ export function updateenter2(query) {
   var params = new URLSearchParams()
   params.append('initialEnterJson', query) // 你要传给后台的参数值 key/value
   return request({
-    url: '/initialenter/updateenter',
+    url: '/erp/initialenter/updateenter',
     method: 'post',
     data: params
   })
@@ -183,7 +183,7 @@ export function addlocationadjust(query, detail, query3) {
   params.append('repositoryId', query3.repositoryId) // 你要传给后台的参数值 key/value
   params.append('regionId', query3.regionId) // 你要传给后台的参数值 key/value
   return request({
-    url: '/locationadjust/addlocationadjust',
+    url: '/erp/locationadjust/addlocationadjust',
     method: 'post',
     data: params
   })
@@ -224,7 +224,7 @@ export function adjustlist(query) {
   params.append('regionIds', query.regionIds) // 你要传给后台的参数值 key/value
   params.append('repositoryId', query.repositoryId) // 你要传给后台的参数值 key/value
   return request({
-    url: '/locationadjust/adjustlist',
+    url: '/erp/locationadjust/adjustlist',
     method: 'post',
     data: params
   })
@@ -238,7 +238,7 @@ export function deleteadjust(query, query2) {
     params.append('operatorId', query2) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/locationadjust/deleteadjust',
+    url: '/erp/locationadjust/deleteadjust',
     method: 'post',
     data: params
   })
@@ -250,7 +250,7 @@ export function updateadjust(query, query2) {
   params.append('locationAdjustJson', query) // 你要传给后台的参数值 key/value
   params.append('locationAdjustDetailJson', query2) // 你要传给后台的参数值 key/value
   return request({
-    url: '/locationadjust/updateadjust',
+    url: '/erp/locationadjust/updateadjust',
     method: 'post',
     data: params
   })
@@ -261,7 +261,7 @@ export function updateadjust2(query) {
   var params = new URLSearchParams()
   params.append('locationAdjustJson', query) // 你要传给后台的参数值 key/value
   return request({
-    url: '/locationadjust/updateadjust',
+    url: '/erp/locationadjust/updateadjust',
     method: 'post',
     data: params
   })

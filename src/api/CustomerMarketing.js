@@ -5,7 +5,7 @@ export function addCustomerChat(query) {
   var params = new URLSearchParams()
   params.append('customerChatJson', query) // 你要传给后台的参数值 key/value
   return request({
-    url: '/customerchat/addCustomerChat',
+    url: '/erp/customerchat/addCustomerChat',
     method: 'post',
     data: params
   })
@@ -41,7 +41,7 @@ export function chatList(query) {
   params.append('pageNum', query.pageNum) // 你要传给后台的参数值 key/value
   params.append('pageSize', query.pageSize) // 你要传给后台的参数值 key/value
   return request({
-    url: '/customerchat/chatList',
+    url: '/erp/customerchat/chatList',
     method: 'post',
     data: params
   })
@@ -52,7 +52,7 @@ export function updateCustomerChat(query) {
   var params = new URLSearchParams()
   params.append('customerChatJson', query) // 你要传给后台的参数值 key/value
   return request({
-    url: '/customerchat/updateCustomerChat',
+    url: '/erp/customerchat/updateCustomerChat',
     method: 'post',
     data: params
   })
@@ -68,7 +68,7 @@ export function deleteCustomerChat(query, query2) {
     params.append('operatorId', query2) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/customerchat/deleteCustomerChat',
+    url: '/erp/customerchat/deleteCustomerChat',
     method: 'post',
     data: params
   })
@@ -79,7 +79,7 @@ export function addCustomerVisit(query) {
   var params = new URLSearchParams()
   params.append('customerVisitJson', query) // 你要传给后台的参数值 key/value
   return request({
-    url: '/customervisit/addCustomerVisit',
+    url: '/erp/customervisit/addCustomerVisit',
     method: 'post',
     data: params
   })
@@ -115,7 +115,7 @@ export function visitList(query) {
   params.append('pageNum', query.pageNum) // 你要传给后台的参数值 key/value
   params.append('pageSize', query.pageSize) // 你要传给后台的参数值 key/value
   return request({
-    url: '/customervisit/visitList',
+    url: '/erp/customervisit/visitList',
     method: 'post',
     data: params
   })
@@ -126,7 +126,7 @@ export function updateCustomerVisit(query) {
   var params = new URLSearchParams()
   params.append('customerVisitJson', query) // 你要传给后台的参数值 key/value
   return request({
-    url: '/customervisit/updateCustomerVisit',
+    url: '/erp/customervisit/updateCustomerVisit',
     method: 'post',
     data: params
   })
@@ -142,7 +142,7 @@ export function deleteCustomerVisit(query, query2) {
     params.append('operatorId', query2) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/customervisit/deleteCustomerVisit',
+    url: '/erp/customervisit/deleteCustomerVisit',
     method: 'post',
     data: params
   })

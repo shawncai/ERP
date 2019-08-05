@@ -60,6 +60,7 @@
           <template slot="edit" slot-scope="scope">
             <el-input v-model="scope.row.handlerName" @focus="handlechoose(scope)" @input="$refs.editable.updateStatus(scope)"/>
             <my-emp :control.sync="empcontrol" @chuli="chuli(scope, $event)"/>
+            <my-emp2 :control.sync="empcontrol2" @personName="personName(scope, $event)" @personIds="personIds(scope, $event)"/>
           </template>
         </el-editable-column>
         <!--<el-editable-column align="center" label="操作" min-width="300px">-->
@@ -82,8 +83,9 @@
 import { regionlist, searchRepository } from '@/api/public'
 import { searchcategory, searchDetail, updateeapproval } from '@/api/BasicSettings'
 import MyEmp from './MyEmp'
+import MyEmp2 from './MyEmp2'
 export default {
-  components: { MyEmp },
+  components: { MyEmp, MyEmp2 },
   props: {
     control: {
       type: Boolean,
@@ -110,6 +112,7 @@ export default {
       handlerName: '',
       // 采购员弹窗控制
       empcontrol: false,
+      empcontrol2: false,
       // 单据类型数据
       categorys: [],
       // 审批流程列表规则
@@ -167,6 +170,23 @@ export default {
     this.getnationlist()
   },
   methods: {
+    // 驾驶员列表返回数据
+    personName(scope, val) {
+      // this.drivers = val
+      // this.personalForm.driverNames = val
+      this.kongscope.row.handlerName = val
+      this.kongscope.row.stepHandlerName = val
+      console.log(' this.kongscope.row.handlerName', this.kongscope.row.handlerName)
+    },
+    personIds(scope, val) {
+      // this.personalForm.drivers = val
+      this.kongscope.row.stepHandler = ',' + val + ','
+      console.log('this.kongscope.row.stepHandler', this.kongscope.row.stepHandler)
+      if (scope.row.step === null) {
+        scope.row.step = scope.$index + 1
+      }
+      return
+    },
     // 国籍列表
     getnationlist() {
       // 区域列表数据
@@ -215,17 +235,13 @@ export default {
     // 审核人选择
     // 员工输入框focus事件触发
     handlechoose(scope) {
-      this.empcontrol = true
+      this.empcontrol2 = true
       this.kongscope = scope
+      this.kongscope.row.step = scope.$index + 1
     },
     // 处理人change事件
     fuzhi(scope) {
       scope.row.handlerName = this.handlerName
-    },
-    // 员工列表返回数据
-    personName(val) {
-      this.handlerName = val.personName
-      this.stepHandler = val.id
     },
     chuli(scope, val) {
       this.kongscope.row.handlerName = val.personName

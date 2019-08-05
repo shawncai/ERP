@@ -12,7 +12,7 @@ export function repairList(query) {
   params.append('regionid', query.regionid) // 你要传给后台的参数值 key/value
   params.append('expectrepositoryid', query.expectrepositoryid) // 你要传给后台的参数值 key/value
   return request({
-    url: '/admin/service/getservicelistbycondition',
+    url: '/erp/admin/service/getservicelistbycondition',
     method: 'post',
     data: params
   })
@@ -23,7 +23,7 @@ export function repairDetail(serviceid) {
   var params = new URLSearchParams()
   params.append('serviceid', serviceid) // 你要传给后台的参数值 key/value
   return request({
-    url: '/admin/service/getservicedetail',
+    url: '/erp/admin/service/getservicedetail',
     method: 'post',
     data: params
   })
@@ -34,7 +34,7 @@ export function serviceretoemp(serviceid) {
   var params = new URLSearchParams()
   params.append('serviceid', serviceid) // 你要传给后台的参数值 key/value
   return request({
-    url: '/admin/service/serviceretoemp',
+    url: '/erp/admin/service/serviceretoemp',
     method: 'post',
     data: params
   })
@@ -45,7 +45,7 @@ export function endservicebackground(serviceid) {
   var params = new URLSearchParams()
   params.append('serviceid', serviceid) // 你要传给后台的参数值 key/value
   return request({
-    url: '/admin/service/endservicebackground',
+    url: '/erp/admin/service/endservicebackground',
     method: 'post',
     data: params
   })
@@ -57,7 +57,7 @@ export function retoreposervice(serviceid, repositoryid) {
   params.append('serviceid', serviceid) // 你要传给后台的参数值 key/value
   params.append('repositoryid', repositoryid) // 你要传给后台的参数值 key/value
   return request({
-    url: '/admin/service/retoreposervice',
+    url: '/erp/admin/service/retoreposervice',
     method: 'post',
     data: params
   })
@@ -68,7 +68,7 @@ export function getserviceschedule(serviceid) {
   var params = new URLSearchParams()
   params.append('serviceid', serviceid) // 你要传给后台的参数值 key/value
   return request({
-    url: '/admin/serviceposition/getserviceschedule',
+    url: '/erp/admin/serviceposition/getserviceschedule',
     method: 'post',
     data: params
   })
@@ -80,7 +80,7 @@ export function repairtoemp(serviceorderid, handlerid) {
   params.append('serviceorderid', serviceorderid) // 你要传给后台的参数值 key/value
   params.append('handlerid', handlerid) // 你要传给后台的参数值 key/value
   return request({
-    url: '/admin/service/serviceordertoemp',
+    url: '/erp/admin/service/serviceordertoemp',
     method: 'post',
     data: params
   })
@@ -130,7 +130,7 @@ export function newservice(query) {
   params.append('components', query.components) // 你要传给后台的参数值 key/value
   params.append('servicemode', query.servicemode) // 你要传给后台的参数值 key/value
   return request({
-    url: '/admin/service/newservice',
+    url: '/erp/admin/service/newservice',
     method: 'post',
     data: params
   })
@@ -143,7 +143,7 @@ export function repairprojectList(query) {
   params.append('pagesize', query.pagesize) // 你要传给后台的参数值 key/value
   params.append('producttype', query.productType) // 你要传给后台的参数值 key/value
   return request({
-    url: '/admin/service/listserviceitem',
+    url: '/erp/admin/service/listserviceitem',
     method: 'post',
     data: params
   })
@@ -155,7 +155,7 @@ export function editrepairproject(price, itemid) {
   params.append('price', price) // 你要传给后台的参数值 key/value
   params.append('itemid', itemid) // 你要传给后台的参数值 key/value
   return request({
-    url: '/admin/service/updateserviceitem',
+    url: '/erp/admin/service/updateserviceitem',
     method: 'post',
     data: params
   })
@@ -166,7 +166,7 @@ export function deleterepairproject(itemid) {
   var params = new URLSearchParams()
   params.append('itemid', itemid) // 你要传给后台的参数值 key/value
   return request({
-    url: '/admin/service/deleteserviceitem',
+    url: '/erp/admin/service/deleteserviceitem',
     method: 'post',
     data: params
   })
@@ -181,7 +181,7 @@ export function addrepairproject(query) {
   params.append('desc', query.desc) // 你要传给后台的参数值 key/value
   params.append('mark', query.mark) // 你要传给后台的参数值 key/value
   return request({
-    url: '/admin/service/addserviceitem',
+    url: '/erp/admin/service/addserviceitem',
     method: 'post',
     data: params
   })
@@ -194,7 +194,7 @@ export function searchrepairproject(query) {
   params.append('pagenum', query.pagenum) // 你要传给后台的参数值 key/value
   params.append('pagesize', query.pagesize) // 你要传给后台的参数值 key/value
   return request({
-    url: '/admin/service/listserviceitem',
+    url: '/erp/admin/service/listserviceitem',
     method: 'post',
     data: params
   })
@@ -206,7 +206,7 @@ export function getremplist(repositoryid) {
   params.append('repositoryid', repositoryid) // 你要传给后台的参数值 key/value
   params.append('stat', 1) // 你要传给后台的参数值 key/value
   return request({
-    url: '/repository/getremplist',
+    url: '/erp/repository/getremplist',
     method: 'post',
     data: params
   })
@@ -223,7 +223,7 @@ export function getremplist2(repositoryid, regionIds) {
   params.append('pagenum', 1) // 你要传给后台的参数值 key/value
   params.append('pagesize', 999) // 你要传给后台的参数值 key/value
   return request({
-    url: '/employee/getemplist',
+    url: '/erp/employee/getemplist',
     method: 'post',
     data: params
   })
@@ -236,7 +236,7 @@ export function stafflist(repositoryid, regionid) {
   params.append('pagesize', 1000) // 你要传给后台的参数值 key/value
   params.append('pagenum', 1) // 你要传给后台的参数值 key/value
   return request({
-    url: '/repository/getremplist',
+    url: '/erp/repository/getremplist',
     method: 'post',
     data: params
   })
@@ -259,7 +259,7 @@ export function gettaskofflinelist(query) {
     params.append('endtime', query.endtime) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/taskoffline/gettaskofflinelist',
+    url: '/erp/taskoffline/gettaskofflinelist',
     method: 'post',
     data: params
   })
@@ -270,7 +270,7 @@ export function deletetaskoffline(query) {
   var params = new URLSearchParams()
   params.append('taskid', query.id) // 你要传给后台的参数值 key/value
   return request({
-    url: '/taskoffline/deletetaskoffline',
+    url: '/erp/taskoffline/deletetaskoffline',
     method: 'post',
     data: params
   })
@@ -286,7 +286,7 @@ export function addtaskoffline(query) {
   params.append('employeeid', query.employeeid) // 你要传给后台的参数值 key/value
   params.append('repositoryid', query.repositoryid) // 你要传给后台的参数值 key/value
   return request({
-    url: '/taskoffline/addtaskoffline',
+    url: '/erp/taskoffline/addtaskoffline',
     method: 'post',
     data: params
   })
@@ -301,7 +301,7 @@ export function searchtaskofflinelist(query) {
   params.append('pagenum', query.pagenum) // 你要传给后台的参数值 key/value
   params.append('pagesize', query.pagesize) // 你要传给后台的参数值 key/value
   return request({
-    url: '/taskoffline/gettaskofflinelist',
+    url: '/erp/taskoffline/gettaskofflinelist',
     method: 'post',
     data: params
   })
@@ -316,7 +316,7 @@ export function delaycount(query) {
   params.append('pagenum', query.pagenum) // 你要传给后台的参数值 key/value
   params.append('pagesize', query.pagesize) // 你要传给后台的参数值 key/value
   return request({
-    url: '/admin/serviceorderdelay/delaycount',
+    url: '/erp/admin/serviceorderdelay/delaycount',
     method: 'post',
     data: params
   })
@@ -333,7 +333,7 @@ export function searchdelaycount(query) {
   params.append('regionid', query.regionid) // 你要传给后台的参数值 key/value
   params.append('repositoryid', query.repositoryid) // 你要传给后台的参数值 key/value
   return request({
-    url: '/admin/serviceorderdelay/delaycount',
+    url: '/erp/admin/serviceorderdelay/delaycount',
     method: 'post',
     data: params
   })
@@ -342,7 +342,7 @@ export function searchdelaycount(query) {
 // 问题部位列表
 export function searchproblemobject(query) {
   return request({
-    url: '/admin/fault/search',
+    url: '/erp/admin/fault/search',
     method: 'post',
     params: query
   })
@@ -355,7 +355,7 @@ export function addfaultcomponent(query) {
   params.append('level', query.level) // 你要传给后台的参数值 key/value
   params.append('parentid', query.parentid) // 你要传给后台的参数值 key/value
   return request({
-    url: '/admin/fault/addfaultcomponent',
+    url: '/erp/admin/fault/addfaultcomponent',
     method: 'post',
     data: params
   })
@@ -364,7 +364,7 @@ export function addfaultcomponent(query) {
 // 自检管理列表
 export function selfChecklist(query) {
   return request({
-    url: '/admin/selfchecking/search',
+    url: '/erp/admin/selfchecking/search',
     method: 'post',
     params: query
   })
@@ -379,7 +379,7 @@ export function addselfchecking(query) {
   params.append('content', query.content) // 你要传给后台的参数值 key/value
   params.append('employeeguide', query.employeeguide) // 你要传给后台的参数值 key/value
   return request({
-    url: '/admin/selfchecking/addselfchecking',
+    url: '/erp/admin/selfchecking/addselfchecking',
     method: 'post',
     data: params
   })
@@ -390,7 +390,7 @@ export function deleteselfchecking(query) {
   var params = new URLSearchParams()
   params.append('id', query.id) // 你要传给后台的参数值 key/value
   return request({
-    url: '/admin/selfchecking/deleteselfchecking',
+    url: '/erp/admin/selfchecking/deleteselfchecking',
     method: 'post',
     data: params
   })
@@ -401,7 +401,7 @@ export function deleteservice(query) {
   var params = new URLSearchParams()
   params.append('serviceid', query.id) // 你要传给后台的参数值 key/value
   return request({
-    url: '/admin/service/deleteservice',
+    url: '/erp/admin/service/deleteservice',
     method: 'post',
     data: params
   })
@@ -412,7 +412,7 @@ export function deletefaultcomponent(query) {
   var params = new URLSearchParams()
   params.append('id', query.id) // 你要传给后台的参数值 key/value
   return request({
-    url: '/admin/fault/deletefaultcomponent',
+    url: '/erp/admin/fault/deletefaultcomponent',
     method: 'post',
     data: params
   })
@@ -424,7 +424,7 @@ export function countservice(query) {
   params.append('regionid', query.regionid) // 你要传给后台的参数值 key/value
   params.append('repositoryid', query.repositoryid) // 你要传给后台的参数值 key/value
   return request({
-    url: '/admin/service/countservice',
+    url: '/erp/admin/service/countservice',
     method: 'post',
     data: params
   })
@@ -438,7 +438,7 @@ export function countservice2(query) {
   params.append('begintime', query.begintime) // 你要传给后台的参数值 key/value
   params.append('endtime', query.endtime) // 你要传给后台的参数值 key/value
   return request({
-    url: '/admin/service/countservice',
+    url: '/erp/admin/service/countservice',
     method: 'post',
     data: params
   })
@@ -454,7 +454,7 @@ export function gettaskofflinecount(query) {
     params.append('endtime', query.endtime) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/taskoffline/gettaskofflinecount',
+    url: '/erp/taskoffline/gettaskofflinecount',
     method: 'post',
     data: params
   })

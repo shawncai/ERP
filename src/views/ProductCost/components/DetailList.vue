@@ -360,6 +360,11 @@ export default {
       this.personalForm = this.detaildata
       // this.list2 = this.personalForm.checkReportDetailVos
       this.reviewList = this.personalForm.approvalUseVos
+      for (let i = 0; i < this.reviewList.length; i++) {
+        if (this.reviewList[i].actualStepHandler === null) {
+          this.reviewList.splice(i, 1)
+        }
+      }
       this.list2[0].material = this.personalForm.productCostDetails[0].beginMaterialsMoney
       this.list2[0].man = this.personalForm.productCostDetails[0].beginSalaryMoney
       this.list2[0].produce = this.personalForm.productCostDetails[0].beginProduceMoney

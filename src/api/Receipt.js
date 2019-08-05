@@ -12,7 +12,7 @@ export function createreceipt(query, query2, query4) {
     params.append('regionId', query4.regionId) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/receipt/create',
+    url: '/erp/receipt/create',
     method: 'post',
     data: params
   })
@@ -57,7 +57,7 @@ export function searchreceipt(query) {
   params.append('pageNum', query.pageNum) // 你要传给后台的参数值 key/value
   params.append('pageSize', query.pageSize) // 你要传给后台的参数值 key/value
   return request({
-    url: '/receipt/search',
+    url: '/erp/receipt/search',
     method: 'post',
     data: params
   })
@@ -71,7 +71,7 @@ export function deletereceipt(query, query2) {
     params.append('operatorId', query2) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/receipt/delete',
+    url: '/erp/receipt/delete',
     method: 'post',
     data: params
   })
@@ -82,7 +82,7 @@ export function updatereceipt(query) {
   var params = new URLSearchParams()
   params.append('Json', query) // 你要传给后台的参数值 key/value
   return request({
-    url: '/receipt/update',
+    url: '/erp/receipt/update',
     method: 'post',
     data: params
   })
