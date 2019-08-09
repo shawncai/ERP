@@ -104,6 +104,7 @@
             <el-editable-column prop="productCode" fixed="left" align="center" label="物品编号" />
             <el-editable-column prop="productName" fixed="left" align="center" label="物品名称" />
             <el-editable-column prop="productType" align="center" label="规格" />
+            <el-editable-column prop="color" align="center" label="颜色" />
             <el-editable-column prop="unit" align="center" label="单位" />
             <el-editable-column prop="stockQuantity" align="center" label="采购数量" />
             <el-editable-column prop="deliveryDate" align="center" label="交货日期" />

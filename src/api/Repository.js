@@ -24,6 +24,9 @@ export function searchRepCategory() {
 // 新建仓库
 export function create(query) {
   var params = new URLSearchParams()
+  if (query.categoryId !== '' && query.categoryId !== null && query.categoryId !== undefined) {
+    params.append('categoryId', query.categoryId) // 你要传给后台的参数值 key/value
+  }
   if (query.repositoryName !== '' && query.repositoryName !== null) {
     params.append('repositoryName', query.repositoryName) // 你要传给后台的参数值 key/value
   }
@@ -109,6 +112,9 @@ export function searchRepository2(query) {
 // 修改仓库门店
 export function update(query) {
   var params = new URLSearchParams()
+  if (query.categoryId !== '' && query.categoryId !== null && query.categoryId !== undefined) {
+    params.append('categoryId', query.categoryId) // 你要传给后台的参数值 key/value
+  }
   if (query.repositoryName !== '' && query.repositoryName !== null && query.repositoryName !== undefined) {
     params.append('repositoryName', query.repositoryName) // 你要传给后台的参数值 key/value
   }
@@ -193,6 +199,9 @@ export function addRepCategory(query) {
   if (query.iseffective !== '' && query.iseffective !== null) {
     params.append('iseffective', query.iseffective) // 你要传给后台的参数值 key/value
   }
+  if (query.parentId !== '' && query.parentId !== null) {
+    params.append('parentId', query.parentId) // 你要传给后台的参数值 key/value
+  }
   if (query.type !== '' && query.type !== null) {
     params.append('type', query.type) // 你要传给后台的参数值 key/value
   }
@@ -206,6 +215,9 @@ export function addRepCategory(query) {
 // 修改分类属性
 export function updateRepCategory(query) {
   var params = new URLSearchParams()
+  if (query.parentId !== '' && query.parentId !== null) {
+    params.append('parentId', query.parentId) // 你要传给后台的参数值 key/value
+  }
   if (query.categoryName !== '' && query.categoryName !== null && query.categoryName !== undefined) {
     params.append('categoryname', query.categoryName) // 你要传给后台的参数值 key/value
   }

@@ -228,7 +228,7 @@ export default {
       getemplist: {
         categoryname: '',
         type: '',
-        iseffective: '',
+        iseffective: '1',
         pagenum: 1,
         pagesize: 10
       }

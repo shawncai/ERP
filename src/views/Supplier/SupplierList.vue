@@ -84,8 +84,8 @@
       </el-dropdown>
       <!-- 新建分组 -->
       <el-button v-permission="['1-22-24-64']" v-waves class="filter-item" type="primary" style="width: 100px" @click="handleGroup">{{ $t('Supplier.supplierGroup') }}</el-button>
-      <el-button v-waves class="filter-item" type="primary" style="width: 100px" @click="handlePunish">{{ $t('Supplier.punish') }}</el-button>
-      <my-punishment :punishcontrol.sync="punishcontrol" :punishdata="punishdata"/>
+      <el-button v-waves class="filter-item" type="primary" style="width: 100px" @click="handlePunish">供应商考核</el-button>
+      <my-punishment :punishcontrol.sync="punishcontrol" :punishdata="punishdata" @rest="refreshlist"/>
       <el-dialog :visible.sync="GroupVisible" title="新建分组" class="normal" width="600px" center>
         <el-input v-model="groupName" :placeholder="$t('Supplier.groupName')" class="filter-item" style="width: 200px;float: left" clearable @keyup.enter.native="handleAddGroup"/>
         <el-button v-waves class="filter-item" type="success" style="width: 86px;float: left" @click="handleAddGroup">{{ $t('public.add') }}</el-button>
@@ -168,8 +168,10 @@
             <span>{{ scope.row.createTime }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('public.actions')" :resizable="false" align="center" min-width="100">
+        <el-table-column :label="$t('public.actions')" :resizable="false" align="center" min-width="200">
           <template slot-scope="scope">
+            <el-button v-show="scope.row.isEffective === 2" title="启用" type="primary" size="mini" icon="el-icon-check" circle @click="top(scope.row)"/>
+            <el-button v-show="scope.row.isEffective === 1" title="停用" type="primary" size="mini" icon="el-icon-close" circle @click="bottom(scope.row)"/>
             <el-button v-permission2="['1-22-24-3', scope.row.createPersonId]" title="修改" type="primary" size="mini" icon="el-icon-edit" circle @click="handleEdit(scope.row)"/>
             <el-button v-permission2="['1-22-24-2', scope.row.createPersonId]" title="删除" size="mini" type="danger" icon="el-icon-delete" circle @click="handleDelete(scope.row)"/>
           </template>
@@ -186,7 +188,7 @@
 
 <script>
 import { searchRepository, regionlist } from '@/api/public'
-import { searchCategory, search, delete2, searchGroup, createGroup, deleteGroup } from '@/api/Supplier'
+import { searchCategory, search, delete2, searchGroup, createGroup, deleteGroup, update } from '@/api/Supplier'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
 import permission from '@/directive/permission/index.js' // 权限判断指令
@@ -219,6 +221,7 @@ export default {
       employeeVisible: this.control,
       // 搜索分组数据
       groupIds: [],
+      personalForm2: {},
       // 新增分组参数
       groupName: '',
       // 分组表格数据
@@ -280,23 +283,79 @@ export default {
     this.getlist()
   },
   methods: {
+    top(row) {
+      console.log('row', row)
+      this.personalForm2.id = row.id
+      this.personalForm2.isEffective = 1
+      update(this.personalForm2).then(res => {
+        if (res.data.ret === 200) {
+          this.$notify({
+            title: '操作成功',
+            message: '操作成功',
+            type: 'success',
+            duration: 1000,
+            offset: 100
+          })
+          this.getlist()
+        } else {
+          this.$notify.error({
+            title: '错误',
+            message: '出错了',
+            offset: 100
+          })
+        }
+      })
+    },
+    bottom(row) {
+      console.log('row', row)
+      this.personalForm2.id = row.id
+      this.personalForm2.isEffective = 2
+      update(this.personalForm2).then(res => {
+        if (res.data.ret === 200) {
+          this.$notify({
+            title: '操作成功',
+            message: '操作成功',
+            type: 'success',
+            duration: 1000,
+            offset: 100
+          })
+          this.getlist()
+        } else {
+          this.$notify.error({
+            title: '错误',
+            message: '出错了',
+            offset: 100
+          })
+        }
+      })
+    },
     checkPermission,
     // 详情操作
-    handleDetail(row) {
+    async handleDetail(row) {
       this.detailid = row.id
       this.edtiForm = Object.assign({}, row)
       this.detailvisible = true
     },
     // 供应商惩罚
     handlePunish() {
-      if (this.moreaction !== '' && this.moreaction !== null && this.moreaction !== undefined) {
-        const ids = this.moreaction.map(item => item.id).join()
-        this.punishdata = ids
-        this.punishcontrol = true
+      console.log('this.moreaction', this.moreaction)
+      if (this.moreaction !== '' && this.moreaction !== null && this.moreaction !== undefined && this.moreaction.length !== 0) {
+        if (this.moreaction.length > 1) {
+          this.$notify.error({
+            title: '错误',
+            message: '请选择一个供应商',
+            offset: 100
+          })
+        } else {
+          console.log('this.moreaction', this.moreaction)
+          const ids = this.moreaction.map(item => item.id).join()
+          this.punishdata = ids
+          this.punishcontrol = true
+        }
       } else {
         this.$notify.error({
           title: '错误',
-          message: '请先选择要惩罚的供应商',
+          message: '请先选择要考核的供应商',
           offset: 100
         })
       }

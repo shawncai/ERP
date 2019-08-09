@@ -28,7 +28,7 @@
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('StockRetreat.sourceNumber')" :rules="personalForm.sourceType === '2'" prop="sourceNumber" style="width: 100%;">
+                <el-form-item :label="$t('StockRetreat.sourceNumber')" prop="sourceNumber" style="width: 100%;">
                   <el-input v-model="personalForm.sourceNumber" :disabled="addsouce" style="margin-left: 18px;width:200px" clearable @focus="handleAddSouce"/>
                   <my-arrival :arrivalcontrol.sync="arrivalcontrol" @arrival="arrival" @allarrivalinfo="allarrivalinfo"/>
                 </el-form-item>
@@ -75,7 +75,7 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('Supplier.settleMode')" style="width: 100%;">
-                  <el-select v-model="personalForm.settleMode" placeholder="请选择结算方式" style="margin-left: 18px;width: 200px" @focus="updatePaymen">
+                  <el-select v-model="personalForm.settleMode" placeholder="请选择结算方式" style="margin-left: 18px;width: 200px">
                     <el-option
                       v-for="(item, index) in settleModes"
                       :key="index"
@@ -141,7 +141,7 @@
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item v-if="personalForm.sourceType === '3'" :label="$t('StockRetreat.retreatRepositoryId')" prop="retreatRepositoryId" style="width: 100%;">
+                <el-form-item :label="$t('StockRetreat.retreatRepositoryId')" prop="retreatRepositoryId" style="width: 100%;">
                   <el-input v-model="retreatRepositoryId" style="margin-left: 18px;width:200px" clearable @focus="handlechooseRep"/>
                   <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
                 </el-form-item>
@@ -178,6 +178,7 @@
             <el-editable-column prop="productCode" align="center" label="物品编号" min-width="150px"/>
             <el-editable-column prop="productName" align="center" label="物品名称" min-width="150px"/>
             <el-editable-column prop="productType" align="center" label="规格" min-width="150px"/>
+            <el-editable-column prop="color" align="center" label="颜色" min-width="150px"/>
             <el-editable-column prop="unit" align="center" label="单位" min-width="150px"/>
             <el-editable-column prop="arrivalQuantity" align="center" label="到货数量" min-width="150px"/>
             <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="retreatQuantity" align="center" label="退货数量" min-width="150px"/>
@@ -361,8 +362,6 @@ export default {
       settleModes: [],
       // 支付方式
       payModes: [],
-      // 结算方式
-      paymentIds: [],
       // 点收人回显
       acceptPersonId: '',
       // 控制点收人
@@ -510,17 +509,6 @@ export default {
       }
       var currentdate = year + seperator1 + month + seperator1 + strDate
       this.personalForm.retreatDate = currentdate
-      // 结算方式
-      searchCategory(5).then(res => {
-        if (res.data.ret === 200) {
-          this.settleModes = res.data.data.content.list
-        }
-      })
-      searchCategory(7).then(res => {
-        if (res.data.ret === 200) {
-          this.payModes = res.data.data.content.list
-        }
-      })
     },
     // 仓库列表focus事件触发
     handlechooseRep() {
@@ -605,9 +593,17 @@ export default {
         }
       })
       // 结算方式
+      searchCategory(5).then(res => {
+        if (res.data.ret === 200) {
+          console.log('123')
+          this.settleModes = res.data.data.content.list
+        }
+      })
       searchCategory(7).then(res => {
         if (res.data.ret === 200) {
-          this.paymentIds = res.data.data.content.list
+          console.log('res.data.data.content.list', res.data.data.content.list)
+          this.payModes = res.data.data.content.list
+          console.log('this.payModes', this.payModes)
         }
       })
     },

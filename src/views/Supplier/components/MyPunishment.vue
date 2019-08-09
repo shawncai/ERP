@@ -1,12 +1,15 @@
 <template>
-  <el-dialog :visible.sync="editVisible" :punishcontrol="punishcontrol" :punishdata="punishdata" :close-on-press-escape="false" class="normal" width="600px" center title="供应商惩罚" append-to-body @close="$emit('update:punishcontrol', false)">
+  <el-dialog :visible.sync="editVisible" :punishcontrol="punishcontrol" :punishdata="punishdata" :close-on-press-escape="false" class="normal" width="600px" center title="供应商考核" append-to-body @close="$emit('update:punishcontrol', false)">
     <!-- 列表开始 -->
     <div class="container" style="margin-top: 37px">
       <el-form :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
         <el-row>
           <el-col :span="24">
-            <el-form-item label="惩罚内容" style="width: 100%;">
-              <el-input v-model="personalForm.comment" placeholder="惩罚内容" style="margin-left: 18px;width:200px" clearable/>
+            <el-form-item label="考核内容" style="width: 100%;">
+              <el-input v-model="personalForm.comment" placeholder="考核内容" style="margin-left: 18px;width:200px" clearable/>
+            </el-form-item>
+            <el-form-item label="原因" style="width: 100%;">
+              <el-input v-model="personalForm.reason" placeholder="原因" style="margin-left: 18px;width:200px" clearable/>
             </el-form-item>
           </el-col>
         </el-row>
@@ -43,7 +46,7 @@ export default {
       // 惩罚内容
       personalForm: {
         // 供应商ids
-        supplierIds: this.punishdata
+        createrId: this.$store.getters.userId
       }
     }
   },
@@ -52,8 +55,7 @@ export default {
       this.editVisible = this.punishcontrol
     },
     punishdata() {
-      this.personalForm.supplierIds = this.punishdata
-      console.log(this.supplierIds)
+      console.log('this.punishdata', this.punishdata)
     }
   },
   methods: {
@@ -67,6 +69,8 @@ export default {
     },
     // 物品选择添加
     handleAddTo() {
+      this.personalForm.supplierId = this.punishdata
+      this.personalForm.createrId = this.$store.getters.userId
       console.log(this.personalForm)
       const Data = this.personalForm
       for (const key in Data) {
@@ -83,6 +87,7 @@ export default {
             type: 'success',
             offset: 100
           })
+          this.$emit('rest', true)
           this.restAllForm()
           this.editVisible = false
         }

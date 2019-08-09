@@ -102,8 +102,8 @@
         <el-table-column :label="$t('public.actions')" :resizable="false" align="center" min-width="230">
           <template slot-scope="scope">
             <el-button title="修改" type="primary" size="mini" icon="el-icon-edit" circle @click="handleEdit(scope.row)"/>
-            <el-button v-if="isReview(scope.row)" title="禁用" type="warning" size="mini" icon="el-icon-close" circle @click="handleReview(scope.row)"/>
-            <el-button v-if="isReview2(scope.row)" title="启用" type="warning" size="mini" icon="el-icon-check" circle @click="handleReview2(scope.row)"/>
+            <el-button v-show="isReview(scope.row)" title="禁用" type="warning" size="mini" icon="el-icon-close" circle @click="handleReview(scope.row)"/>
+            <el-button v-show="isReview2(scope.row)" title="启用" type="warning" size="mini" icon="el-icon-check" circle @click="handleReview2(scope.row)"/>
             <el-button title="删除" size="mini" type="danger" icon="el-icon-delete" circle @click="handleDelete(scope.row)"/>
           </template>
         </el-table-column>

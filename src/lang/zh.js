@@ -6,6 +6,8 @@ export default {
     page404: '404',
     nwow: 'NWOW后台管理',
     home: '首页',
+    AddSupplierAdjust: '新建供应商调价单',
+    SupplierAdjustList: '供应商调价单列表',
     WorkDesk: '工作台',
     SaleMange: '销售管控',
     DriveRes: '驾驶舱',
@@ -303,6 +305,14 @@ export default {
     ProductCost: '产品成本',
     AddProductCost: '新建产品成本',
     ProductCostList: '产品成本列表'
+  },
+  SupplierAdjust: {
+    title: '变更单主题',
+    number: '变更单编号',
+    applyPersonId: '申请人',
+    deptId: '部门',
+    supplierId: '供应商',
+    applyDate: '申请日期'
   },
   UnitGroup: {
     number: '计量单位组编号',

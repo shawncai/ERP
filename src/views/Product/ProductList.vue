@@ -90,6 +90,11 @@
           width="55"
           fixed="left"
           align="center"/>
+        <el-table-column :resizable="false" label="序号" fixed="left" prop="code" align="center" width="100">
+          <template slot-scope="scope">
+            <span>{{ scope.row.id }}</span>
+          </template>
+        </el-table-column>
         <el-table-column :label="$t('Product.code')" :resizable="false" fixed="left" prop="code" align="center" width="180">
           <template slot-scope="scope">
             <span class="link-type" @click="handleDetail(scope.row)">{{ scope.row.code }}</span>
@@ -141,7 +146,7 @@
             <span>{{ scope.row.createTime }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('public.actions')" :resizable="false" align="center" min-width="120">
+        <el-table-column :label="$t('public.actions')" :resizable="false" align="center" min-width="200">
           <template slot-scope="scope">
             <el-button v-permission="['1-31-33-14']" v-show="scope.row.isActive === 2" title="上架" type="primary" size="mini" icon="el-icon-caret-top" circle @click="top(scope.row)"/>
             <el-button v-permission="['1-31-33-15']" v-show="scope.row.isActive === 1" title="下架" type="primary" size="mini" icon="el-icon-caret-bottom" circle @click="bottom(scope.row)"/>

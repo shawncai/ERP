@@ -117,7 +117,7 @@
             <el-editable-column prop="typeIdname" align="center" label="规格" width="150px"/>
             <el-editable-column prop="unit" align="center" label="单位" width="150px"/>
             <!--            <el-editable-column prop="basicQuantity" align="center" label="基本数量" width="150px"/>-->
-            <el-editable-column :edit-render="{name: 'ElInputNumber', type: 'visible', attrs: {min: 1, precision: 2, controls:false}}" prop="actualEnterQuantity" align="center" label="入库数量" width="150px"/>
+            <el-editable-column :edit-render="{name: 'ElInputNumber', type: 'visible', attrs: {min: 0.01, precision: 2, controls:false}}" prop="actualEnterQuantity" align="center" label="入库数量" width="150px"/>
             <el-editable-column prop="enterPrice" align="center" label="单价" width="150px"/>
             <el-editable-column prop="enterMoney" align="center" label="入库金额" width="150px">
               <template slot-scope="scope">

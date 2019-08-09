@@ -5,6 +5,7 @@
       <el-input v-model="getemplist.categoryname" :placeholder="$t('NewEmployeeInformation.categoryname')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
       <el-select v-model="getemplist.type" :value="getemplist.type" :placeholder="$t('NewEmployeeInformation.type')" class="filter-item" clearable>
         <el-option label="仓库类型" value="1"/>
+        <el-option label="仓库类别" value="2"/>
       </el-select>
       <el-select v-model="getemplist.iseffective" :value="getemplist.iseffective" :placeholder="$t('NewEmployeeInformation.iseffective')" class="filter-item" clearable>
         <el-option label="active " value="1"/>
@@ -26,8 +27,42 @@
       <!-- 打印操作 -->
       <el-button v-permission="['1-9-13-7']" v-waves class="filter-item" icon="el-icon-printer" style="width: 86px" @click="handlePrint">{{ $t('public.print') }}</el-button>
       <!-- 新建操作 -->
-      <el-button v-permission="['1-9-13-1']" v-waves class="filter-item" icon="el-icon-plus" type="success" style="width: 86px;float: right" @click="handleAdd">{{ $t('public.add') }}</el-button>
-      <el-dialog :visible.sync="categoryVisible" title="新建分类属性" center>
+      <el-button v-permission="['1-9-13-1']" v-waves class="filter-item" icon="el-icon-plus" type="success" style="width: 86px;float: right" @click="handleAdd2">类别</el-button>
+      <el-dialog :visible.sync="categoryVisible2" append-to-body width="600px" class="normal" title="新建分类属性" center>
+        <el-form ref="addCategoryForm2" :rules="addCategoryFormRules2" :model="addCategoryForm2" class="demo-ruleForm" style="margin: 0 auto; width: 400px">
+          <el-form-item :label="$t('NewEmployeeInformation.type')" label-width="100px" prop="type">
+            <el-select v-model="addCategoryForm2.type" placeholder="请选择类别" style="width: 100%">
+              <el-option label="仓库类别" value="2"/>
+            </el-select>
+          </el-form-item>
+          <el-form-item label="类型" label-width="100px" prop="parentId">
+            <el-select v-model="addCategoryForm2.parentId" placeholder="请选择父类别" style="width: 100%" @focus="getPar">
+              <el-option
+                v-for="(item, index) in parentIds"
+                :key="index"
+                :label="item.categoryName"
+                :value="item.id"
+              />
+            </el-select>
+          </el-form-item>
+          <el-form-item :label="$t('NewEmployeeInformation.categoryname')" label-width="100px" prop="categoryname">
+            <el-input v-model="addCategoryForm2.categoryname" autocomplete="off"/>
+          </el-form-item>
+          <el-form-item :label="$t('NewEmployeeInformation.iseffective')" label-width="100px" prop="iseffective">
+            <el-select v-model="addCategoryForm2.iseffective" placeholder="请选择状态" style="width: 100%">
+              <el-option label="active " value="1"/>
+              <el-option label="dead" value="2"/>
+            </el-select>
+          </el-form-item>
+        </el-form>
+        <span slot="footer" class="dialog-footer">
+          <el-button type="primary" @click="handlesave2()">保存</el-button>
+          <el-button type="danger" @click="handlecancel2()">取消</el-button>
+        </span>
+      </el-dialog>
+      <!-- 新增2 -->
+      <el-button v-permission="['1-9-13-1']" v-waves class="filter-item" icon="el-icon-plus" type="success" style="width: 86px;float: right" @click="handleAdd">类型</el-button>
+      <el-dialog :visible.sync="categoryVisible" append-to-body width="600px" class="normal" title="新建分类属性" center>
         <el-form ref="addCategoryForm" :rules="addCategoryFormRules" :model="addCategoryForm" class="demo-ruleForm" style="margin: 0 auto; width: 400px">
           <el-form-item :label="$t('NewEmployeeInformation.type')" label-width="100px" prop="type">
             <el-select v-model="addCategoryForm.type" placeholder="请选择类别" style="width: 100%">
@@ -74,6 +109,11 @@
               <span>{{ scope.row.type | typeFilter }}</span>
             </template>
           </el-table-column>
+          <el-table-column :resizable="false" label="所属仓库类型" prop="categoryName" align="center" width="350">
+            <template slot-scope="scope">
+              <span>{{ scope.row.parentName }}</span>
+            </template>
+          </el-table-column>
           <el-table-column :label="$t('NewEmployeeInformation.categoryname')" :resizable="false" prop="categoryName" align="center" width="350">
             <template slot-scope="scope">
               <span>{{ scope.row.categoryName }}</span>
@@ -95,12 +135,16 @@
         </el-table>
         <!-- 列表结束 -->
         <pagination v-show="total>0" :total="total" :page.sync="getemplist.pagenum" :limit.sync="getemplist.pagesize" @pagination="getlist" />
-        <el-dialog :visible.sync="editcategoryVisible" title="修改分类属性" center>
+        <el-dialog :visible.sync="editcategoryVisible" append-to-body width="600px" class="normal" title="修改分类属性" center>
           <el-form ref="editCategoryForm" :rules="editCategoryFormRules" :model="editCategoryForm" class="demo-ruleForm" style="margin: 0 auto; width: 400px">
             <el-form-item :label="$t('NewEmployeeInformation.type')" label-width="100px">
               <el-select v-model="editCategoryForm.type" placeholder="请选择类别" style="width: 100%" disabled >
                 <el-option label="仓库类型" value="1"/>
+                <el-option label="仓库类别" value="2"/>
               </el-select>
+            </el-form-item>
+            <el-form-item label="类型" label-width="100px" prop="categoryName">
+              <el-input v-model="editCategoryForm.parentName" autocomplete="off" disabled/>
             </el-form-item>
             <el-form-item :label="$t('NewEmployeeInformation.categoryname')" label-width="100px" prop="categoryName">
               <el-input v-model="editCategoryForm.categoryName" autocomplete="off"/>
@@ -123,7 +167,7 @@
 </template>
 
 <script>
-import { searchRepCategory2, addRepCategory, updateRepCategory, delateRepCategory } from '@/api/Repository'
+import { searchRepCategory2, addRepCategory, updateRepCategory, delateRepCategory, searchRepCategory } from '@/api/Repository'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
 import permission from '@/directive/permission/index.js' // 权限判断指令
@@ -137,7 +181,8 @@ export default {
   filters: {
     typeFilter(status) {
       const statusMap = {
-        1: '仓库类型'
+        1: '仓库类型',
+        2: '仓库类别'
       }
       return statusMap[status]
     },
@@ -150,16 +195,31 @@ export default {
     }
   },
   data() {
+    const validatePass = (rule, value, callback) => {
+      console.log(this.stockPersonId)
+      if (this.addCategoryForm2.parentId === undefined || this.addCategoryForm2.parentId === null || this.addCategoryForm2.parentId === '') {
+        callback(new Error('请选择类型'))
+      } else {
+        callback()
+      }
+    }
     return {
+      parentIds: [],
       // 批量删除参数
       moreaction: [],
       // 新增窗口
       categoryVisible: false,
+      categoryVisible2: false,
       // 新增数据
       addCategoryForm: {
         categoryname: '',
-        type: '',
-        iseffective: ''
+        type: '1',
+        iseffective: '1'
+      },
+      addCategoryForm2: {
+        categoryname: '',
+        type: '2',
+        iseffective: '1'
       },
       // 校验新增数据
       addCategoryFormRules: {
@@ -171,6 +231,23 @@ export default {
         ],
         type: [
           { required: true, message: '请选择', trigger: 'change' }
+        ],
+        iseffective: [
+          { required: true, message: '请选择', trigger: 'change' }
+        ]
+      },
+      addCategoryFormRules2: {
+        category: [
+          { required: true, message: '请输入', trigger: 'blur' }
+        ],
+        categoryname: [
+          { required: true, message: '请输入', trigger: 'blur' }
+        ],
+        type: [
+          { required: true, message: '请选择', trigger: 'change' }
+        ],
+        parentId: [
+          { required: true, validator: validatePass, trigger: 'change' }
         ],
         iseffective: [
           { required: true, message: '请选择', trigger: 'change' }
@@ -218,6 +295,22 @@ export default {
     this.getlist()
   },
   methods: {
+    getPar() {
+      searchRepCategory().then(res => {
+        if (res.data.ret === 200) {
+          this.parentIds = []
+          const parentIds2 = res.data.data.content.list
+          console.log(this.parentIds2)
+          for (let i = 0; i < parentIds2.length; i++) {
+            if (parentIds2[i].parentId === null || parentIds2[i].parentId === '' || parentIds2[i].parentId === undefined) {
+              this.parentIds.push(parentIds2[i])
+            }
+          }
+        } else {
+          console.log('仓库类型数据出错')
+        }
+      })
+    },
     // 启用停用操作
     open(row) {
       console.log('row', row)
@@ -406,15 +499,28 @@ export default {
     handleAdd() {
       this.categoryVisible = true
     },
+    handleAdd2() {
+      this.categoryVisible2 = true
+    },
     // 取消操作
     handlecancel() {
       this.categoryVisible = false
     },
+    handlecancel2() {
+      this.categoryVisible2 = false
+    },
     restAddCategoryForm() {
       this.addCategoryForm = {
         categoryname: '',
-        type: '',
-        iseffective: ''
+        type: '1',
+        iseffective: '1'
+      }
+    },
+    restAddCategoryForm2() {
+      this.addCategoryForm = {
+        categoryname: '',
+        type: '2',
+        iseffective: '1'
       }
     },
     // 保存操作
@@ -453,6 +559,50 @@ export default {
         }
       })
     },
+    handlesave2() {
+      console.log('this.addCategoryForm2', this.addCategoryForm2)
+      this.$refs.addCategoryForm2.validate((valid) => {
+        // if (this.addCategoryForm2.parentId !== null && this.addCategoryForm2.parentId !== '' && this.addCategoryForm2.parentId !== undefined) {
+        if (valid) {
+          addRepCategory(this.addCategoryForm2).then(res => {
+            if (res.data.ret === 200) {
+              this.$notify({
+                title: '成功',
+                message: '新建成功',
+                type: 'success',
+                offset: 100
+              })
+              this.getlist()
+              this.$refs.addCategoryForm2.clearValidate()
+              this.$refs.addCategoryForm2.resetFields()
+              this.restAddCategoryForm2()
+              this.categoryVisible2 = false
+            } else {
+              this.$notify.error({
+                title: '错误',
+                message: '出错了',
+                offset: 100
+              })
+            }
+          })
+        } else {
+          this.$notify.error({
+            title: '错误',
+            message: '信息未填完整',
+            offset: 100
+          })
+          return false
+        }
+        // } else {
+        //   this.$notify.error({
+        //     title: '错误',
+        //     message: '请选择类型',
+        //     offset: 100
+        //   })
+        //   return false
+        // }
+      })
+    },
     // 生成合同
     handleContract() {
       console.log(123)
@@ -484,6 +634,30 @@ export default {
   }
 }
 </script>
+
+<style rel="stylesheet/css" scoped>
+  .el-dialog--center >>> el-dialog__body{
+    /*padding: 10px 20px 10px;*/
+    padding: 0px 25px 30px;
+  }
+  .normal >>> .el-dialog__header {
+    /*padding: 10px 20px 10px;*/
+    background: #fff;
+    position: static;
+    top: auto;
+    z-index: auto;
+    width: auto;
+    border-bottom: none;
+  }
+  .normal >>> .el-dialog {
+    -webkit-transform: none;
+    transform: none;
+    left: 0;
+    position: relative;
+    margin: 0 auto;
+    height: auto;
+  }
+</style>
 
 <style rel="stylesheet/css" scoped>
   .app-container >>> .el-table .cell {

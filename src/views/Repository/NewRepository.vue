@@ -8,10 +8,10 @@
           <el-form-item :label="$t('Repository.repositoryName')" prop="repositoryName" style="width: 40%;margin-top:1%">
             <el-input v-model="RepositoryForm.repositoryName" placeholder="请输入门店名称" clearable/>
           </el-form-item>
-          <el-form-item :label="$t('Repository.longitude')" prop="longitude" style="width: 40%;margin-top:1%">
+          <el-form-item :label="$t('Repository.longitude')" style="width: 40%;margin-top:1%">
             <el-input v-model.number="RepositoryForm.longitude" placeholder="请输入经度" autocomplete="new-password" clearable/>
           </el-form-item>
-          <el-form-item :label="$t('Repository.latitude')" prop="latitude" style="width: 40%">
+          <el-form-item :label="$t('Repository.latitude')" style="width: 40%">
             <el-input v-model.number="RepositoryForm.latitude" placeholder="请输入纬度" clearable/>
           </el-form-item>
           <el-form-item :label="$t('public.address')" prop="address" style="width: 40%">
@@ -36,9 +36,19 @@
             </el-radio-group>
           </el-form-item>
           <el-form-item :label="$t('Repository.type')" prop="type" style="width: 40%;margin-top: 1%">
-            <el-select v-model="RepositoryForm.type" :value="RepositoryForm.type" placeholder="请选择" style="width: 100%;" @focus="updateType">
+            <el-select v-model="RepositoryForm.type" :value="RepositoryForm.type" placeholder="请选择" style="width: 100%;" @change="updateType2" @focus="updateType">
               <el-option
                 v-for="(item, index) in types"
+                :key="index"
+                :value="item.id"
+                :label="item.categoryName"
+              />
+            </el-select>
+          </el-form-item>
+          <el-form-item label="类别" prop="categoryId" style="width: 40%;margin-top: 1%">
+            <el-select v-model="RepositoryForm.categoryId" placeholder="请选择" style="width: 100%;">
+              <el-option
+                v-for="(item, index) in types2"
                 :key="index"
                 :value="item.id"
                 :label="item.categoryName"
@@ -318,7 +328,7 @@
 </template>
 
 <script>
-import { getcountrylist, regionlist, searchRepository } from '@/api/public'
+import { getcountrylist, regionlist, searchRepository, getRegion } from '@/api/public'
 import { searchRepCategory, create } from '@/api/Repository'
 import { getemplist, getdeptlist } from '@/api/EmployeeInformation'
 import waves from '@/directive/waves' // Waves directive
@@ -344,6 +354,7 @@ export default {
     return {
       // 类型列表
       types: [],
+      types2: [],
       // 国家列表
       nations: [],
       // 区域列表
@@ -366,13 +377,14 @@ export default {
         latitude: '',
         managerPeopleId: '',
         createTime: '',
-        stat: '',
+        stat: 1,
         description: '',
         regionId: '',
         type: '',
+        categoryId: '',
         regionManagerId: '',
         attributes: '',
-        countryId: ''
+        countryId: this.$store.getters.countryId
       },
       // 区域id
       regionId: [],
@@ -403,6 +415,9 @@ export default {
         ],
         type: [
           { required: true, message: '请选择类型', trigger: 'change' }
+        ],
+        categoryId: [
+          { required: true, message: '请选择类别', trigger: 'change' }
         ],
         attributes: [
           { required: true, message: '请选择属性', trigger: 'change' }
@@ -453,9 +468,37 @@ export default {
   },
   created() {
     this.getnationlist()
+    this.getRegion()
   },
   methods: {
+    updateType2() {
+      this.RepositoryForm.categoryId = ''
+      this.types2 = []
+      searchRepCategory().then(res => {
+        if (res.data.ret === 200) {
+          const types = res.data.data.content.list
+          for (const i in types) {
+            if (types[i].parentId === this.RepositoryForm.type && types[i].parentId !== null) {
+              this.types2.push(types[i])
+            }
+          }
+        }
+      })
+      // }
+    },
     checkPermission,
+    getRegion() {
+      getRegion(this.$store.getters.regionId).then(res => {
+        if (res.data.ret === 200) {
+          if (res.data.data.content.zcc !== null && res.data.data.content.zcc !== '' && res.data.data.content.zcc !== undefined) {
+            const zhuz = res.data.data.content.zcc.split(',')
+            this.regionId = zhuz.map(function(item) {
+              return parseInt(item)
+            })
+          }
+        }
+      })
+    },
     // 国籍列表
     getnationlist() {
       getcountrylist().then(res => {
@@ -477,6 +520,11 @@ export default {
       searchRepCategory().then(res => {
         if (res.data.ret === 200) {
           this.types = res.data.data.content.list
+          for (let i = 0; i < this.types.length; i++) {
+            if (this.types[i].parentId !== null && this.types[i].parentId !== '') {
+              this.types.splice(i, 1)
+            }
+          }
         } else {
           console.log('仓库类型数据出错')
         }
@@ -499,13 +547,14 @@ export default {
         latitude: '',
         managerPeopleId: '',
         createTime: '',
-        stat: '',
+        stat: 1,
         description: '',
         regionId: '',
         type: '',
+        categoryId: '',
         regionManagerId: '',
         attributes: '',
-        countryId: ''
+        countryId: this.$store.getters.countryId
       }
       // 仓库管理员回显数据
       this.managerPeople = ''

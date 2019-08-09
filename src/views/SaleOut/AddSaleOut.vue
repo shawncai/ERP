@@ -238,7 +238,7 @@
             <el-editable-column prop="color" align="center" label="颜色" min-width="150px"/>
             <el-editable-column prop="kpiGrade" align="center" label="绩效分" min-width="150px"/>
             <el-editable-column prop="point" align="center" label="商品积分" min-width="150px"/>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 1, precision: 2}, type: 'visible'}" prop="quantity" align="center" label="出库数量" min-width="150px"/>
+            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0.01, precision: 2}, type: 'visible'}" prop="quantity" align="center" label="出库数量" min-width="150px"/>
             <el-editable-column prop="salePrice" align="center" label="零售价" min-width="150px"/>
             <el-editable-column prop="costPrice" align="center" label="成本价" min-width="150px"/>
             <el-editable-column prop="taxprice" align="center" label="含税价" min-width="150px">
@@ -352,7 +352,7 @@
                 <p>{{ getMoney(scope.row) }}</p>
               </template>
             </el-editable-column>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 1, precision: 2}, type: 'visible'}" prop="quantity" align="center" label="数量" min-width="150px"/>
+            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0.01, precision: 2}, type: 'visible'}" prop="quantity" align="center" label="数量" min-width="150px"/>
           </el-editable>
         </div>
       </el-card>
@@ -1047,18 +1047,18 @@ export default {
     // 从销售订单过来数据
     saleOrderDetail(val) {
       console.log('val', val)
-      const nowlistdata = this.$refs.editable.getRecords()
+      // const nowlistdata = this.$refs.editable.getRecords()
       for (let i = 0; i < val.length; i++) {
-        for (let j = 0; j < nowlistdata.length; j++) {
-          if (val[i].sourceNumber === nowlistdata[j].sourceNumber) {
-            this.$notify.error({
-              title: '错误',
-              message: '物品已添加',
-              offset: 100
-            })
-            return false
-          }
-        }
+        // for (let j = 0; j < nowlistdata.length; j++) {
+        //   if (val[i].sourceNumber === nowlistdata[j].sourceNumber) {
+        //     this.$notify.error({
+        //       title: '错误',
+        //       message: '物品已添加',
+        //       offset: 100
+        //     })
+        //     return false
+        //   }
+        // }
         this.$refs.editable.insert(val[i])
       }
     },
@@ -1082,18 +1082,18 @@ export default {
     // 从预售单过来的源单数据
     advanceOrderDetail(val) {
       console.log(val)
-      const nowlistdata = this.$refs.editable.getRecords()
+      // const nowlistdata = this.$refs.editable.getRecords()
       for (let i = 0; i < val.length; i++) {
-        for (let j = 0; j < nowlistdata.length; j++) {
-          if (val[i].sourceNumber === nowlistdata[j].sourceNumber) {
-            this.$notify.error({
-              title: '错误',
-              message: '物品已添加',
-              offset: 100
-            })
-            return false
-          }
-        }
+        // for (let j = 0; j < nowlistdata.length; j++) {
+        //   if (val[i].sourceNumber === nowlistdata[j].sourceNumber) {
+        //     this.$notify.error({
+        //       title: '错误',
+        //       message: '物品已添加',
+        //       offset: 100
+        //     })
+        //     return false
+        //   }
+        // }
         this.$refs.editable.insert(val[i])
       }
     },
@@ -1114,18 +1114,18 @@ export default {
     // 从销售机会过来的源单数据
     opportunityDetail(val) {
       console.log(val)
-      const nowlistdata = this.$refs.editable.getRecords()
+      // const nowlistdata = this.$refs.editable.getRecords()
       for (let i = 0; i < val.length; i++) {
-        for (let j = 0; j < nowlistdata.length; j++) {
-          if (val[i].sourceNumber === nowlistdata[j].sourceNumber) {
-            this.$notify.error({
-              title: '错误',
-              message: '物品已添加',
-              offset: 100
-            })
-            return false
-          }
-        }
+        // for (let j = 0; j < nowlistdata.length; j++) {
+        //   if (val[i].sourceNumber === nowlistdata[j].sourceNumber) {
+        //     this.$notify.error({
+        //       title: '错误',
+        //       message: '物品已添加',
+        //       offset: 100
+        //     })
+        //     return false
+        //   }
+        // }
         this.$refs.editable.insert(val[i])
       }
     },
@@ -1145,18 +1145,18 @@ export default {
     // 源单类型为销售合同
     salecontractDetail(val) {
       console.log(val)
-      const nowlistdata = this.$refs.editable.getRecords()
+      // const nowlistdata = this.$refs.editable.getRecords()
       for (let i = 0; i < val.length; i++) {
-        for (let j = 0; j < nowlistdata.length; j++) {
-          if (val[i].sourceNumber === nowlistdata[j].sourceNumber) {
-            this.$notify.error({
-              title: '错误',
-              message: '物品已添加',
-              offset: 100
-            })
-            return false
-          }
-        }
+        // for (let j = 0; j < nowlistdata.length; j++) {
+        //   if (val[i].sourceNumber === nowlistdata[j].sourceNumber) {
+        //     this.$notify.error({
+        //       title: '错误',
+        //       message: '物品已添加',
+        //       offset: 100
+        //     })
+        //     return false
+        //   }
+        // }
         this.$refs.editable.insert(val[i])
       }
     },
@@ -1185,18 +1185,18 @@ export default {
       this.control = true
     },
     productdetail(val) {
-      const nowlistdata = this.$refs.editable.getRecords()
+      // const nowlistdata = this.$refs.editable.getRecords()
       for (let i = 0; i < val.length; i++) {
-        for (let j = 0; j < nowlistdata.length; j++) {
-          if (val[i].productCode === nowlistdata[j].productCode) {
-            this.$notify.error({
-              title: '错误',
-              message: '物品已添加',
-              offset: 100
-            })
-            return false
-          }
-        }
+        // for (let j = 0; j < nowlistdata.length; j++) {
+        //   if (val[i].productCode === nowlistdata[j].productCode) {
+        //     this.$notify.error({
+        //       title: '错误',
+        //       message: '物品已添加',
+        //       offset: 100
+        //     })
+        //     return false
+        //   }
+        // }
         this.$refs.editable.insert(val[i])
       }
     },
@@ -1205,18 +1205,18 @@ export default {
       this.giftcontrol = true
     },
     gift(val) {
-      const nowlistdata = this.$refs.editable2.getRecords()
+      // const nowlistdata = this.$refs.editable2.getRecords()
       for (let i = 0; i < val.length; i++) {
-        for (let j = 0; j < nowlistdata.length; j++) {
-          if (val[i].productCode === nowlistdata[j].productCode) {
-            this.$notify.error({
-              title: '错误',
-              message: '物品已添加',
-              offset: 100
-            })
-            return false
-          }
-        }
+        // for (let j = 0; j < nowlistdata.length; j++) {
+        //   if (val[i].productCode === nowlistdata[j].productCode) {
+        //     this.$notify.error({
+        //       title: '错误',
+        //       message: '物品已添加',
+        //       offset: 100
+        //     })
+        //     return false
+        //   }
+        // }
         this.$refs.editable2.insert(val[i])
       }
     },

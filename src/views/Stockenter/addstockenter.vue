@@ -132,7 +132,7 @@
             <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="batch" align="center" label="批次" width="150px"/>
             <el-editable-column prop="productCode" align="center" label="物品编号" width="150px"/>
             <el-editable-column prop="productName" align="center" label="物品名称" width="150px"/>
-            <!--<el-editable-column prop="color" align="center" label="颜色" width="150px"/>-->
+            <el-editable-column prop="color" align="center" label="颜色" width="150px"/>
             <el-editable-column prop="productType" align="center" label="规格" width="150px"/>
             <el-editable-column prop="unit" align="center" label="单位" width="150px"/>
             <el-editable-column prop="basicQuantity" align="center" label="应收数量" width="150px"/>
@@ -484,11 +484,17 @@ export default {
         })
         return false
       }
+      let i = 1
       rest.map(function(elem) {
         return elem
       }).forEach(function(elem) {
         if (elem.locationId === null || elem.locationId === '' || elem.locationId === undefined) {
           delete elem.locationId
+          i = 2
+        }
+        if (elem.batch === null || elem.batch === '' || elem.batch === undefined) {
+          delete elem.batch
+          i = 3
         }
         if (elem.productCode === null || elem.productCode === '' || elem.productCode === undefined) {
           delete elem.productCode
@@ -525,6 +531,22 @@ export default {
         }
         return elem
       })
+      if (i === 2) {
+        this.$notify.error({
+          title: '错误',
+          message: '入库商品货位不能为空',
+          offset: 100
+        })
+        return false
+      }
+      if (i === 3) {
+        this.$notify.error({
+          title: '错误',
+          message: '入库商品批次不能为空',
+          offset: 100
+        })
+        return false
+      }
       console.log(rest)
       const parms2 = JSON.stringify(rest)
       this.$refs.personalForm.validate((valid) => {

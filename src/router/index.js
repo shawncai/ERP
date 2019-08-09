@@ -300,6 +300,18 @@ export const asyncRouterMap = [
         meta: { title: 'SupplierList', noCache: true, roles: ['1-22-24-1', '1-22-24-2', '1-22-24-3', '1-22-24-4', '1-22-24-5', '1-22-24-6', '1-22-24-7', '1-22-24-64'] }
       },
       {
+        path: 'AddSupplierAdjust',
+        component: () => import('@/views/SupplierAdjust/AddSupplierAdjust'),
+        name: 'AddSupplierAdjust',
+        meta: { title: 'AddSupplierAdjust', noCache: false }
+      },
+      {
+        path: 'SupplierAdjustList',
+        component: () => import('@/views/SupplierAdjust/SupplierAdjustList'),
+        name: 'SupplierAdjustList',
+        meta: { title: 'SupplierAdjustList', noCache: true }
+      },
+      {
         path: 'SupplierCategory',
         component: () => import('@/views/Supplier/SupplierCategory'),
         name: 'SupplierCategory',

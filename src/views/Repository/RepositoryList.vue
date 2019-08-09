@@ -71,8 +71,9 @@
           align="center"/>
         <el-table-column :label="$t('Repository.id')" :resizable="false" prop="id" align="center" width="100">
           <template slot-scope="scope">
-            <span>{{ scope.row.id }}</span>
+            <span class="link-type" @click="handleDetail(scope.row)">{{ scope.row.id }}</span>
           </template>
+          <detail-list :detailcontrol.sync="detailvisible" :detaildata.sync="personalForm"/>
         </el-table-column>
         <el-table-column :label="$t('Repository.repositoryname')" :resizable="false" prop="repositoryName" align="center" width="200">
           <template slot-scope="scope">
@@ -123,10 +124,10 @@
             <el-form-item :label="$t('Repository.repositoryName')" prop="repositoryName" style="width: 40%;margin-top:1%">
               <el-input v-model="RepositoryForm.repositoryName" placeholder="请输入门店名称" clearable/>
             </el-form-item>
-            <el-form-item :label="$t('Repository.longitude')" prop="longitude" style="width: 40%;margin-top:1%">
-              <el-input v-model.number="RepositoryForm.longitude" placeholder="请输入经度" autocomplete="new-password" clearable/>
+            <el-form-item :label="$t('Repository.longitude')" style="width: 40%;margin-top:1%">
+              <el-input v-model.number="RepositoryForm.longitude" autocomplete="new-password" clearable/>
             </el-form-item>
-            <el-form-item :label="$t('Repository.latitude')" prop="latitude" style="width: 40%">
+            <el-form-item :label="$t('Repository.latitude')" style="width: 40%">
               <el-input v-model.number="RepositoryForm.latitude" placeholder="请输入纬度" clearable/>
             </el-form-item>
             <el-form-item :label="$t('public.address')" prop="address" style="width: 40%">
@@ -154,10 +155,20 @@
                 <el-radio :label="2">dead</el-radio>
               </el-radio-group>
             </el-form-item>
-            <el-form-item :label="$t('Repository.type')" style="width: 40%;margin-top: 1%">
-              <el-select v-model="RepositoryForm.type" :value="RepositoryForm.type" placeholder="请选择" style="width: 100%;">
+            <el-form-item :label="$t('Repository.type')" prop="type" style="width: 40%;margin-top: 1%">
+              <el-select v-model="RepositoryForm.type" :value="RepositoryForm.type" placeholder="请选择" style="width: 100%;" @change="updateType2">
                 <el-option
                   v-for="(item, index) in types"
+                  :key="index"
+                  :value="item.id"
+                  :label="item.categoryName"
+                />
+              </el-select>
+            </el-form-item>
+            <el-form-item label="类别" prop="categoryId" style="width: 40%;margin-top: 1%">
+              <el-select v-model="RepositoryForm.categoryId" placeholder="请选择" style="width: 100%;">
+                <el-option
+                  v-for="(item, index) in types2"
                   :key="index"
                   :value="item.id"
                   :label="item.categoryName"
@@ -450,11 +461,12 @@ import permission2 from '@/directive/permission2/index.js' // 权限判断指令
 import checkPermission from '@/utils/permission' // 权限判断函数
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
+import DetailList from './DetailList'
 
 export default {
   name: 'RepositoryList',
   directives: { waves, permission, permission2 },
-  components: { Pagination },
+  components: { Pagination, DetailList },
   filters: {
     iseffectiveFilter(status) {
       const statusMap = {
@@ -479,8 +491,10 @@ export default {
       editVisible: false,
       // 类型列表
       types: [],
+      types2: [],
       // 国家列表
       nations: [],
+      personalForm: {},
       personalForm2: {},
       // 加载操作控制
       downloadLoading: false,
@@ -545,6 +559,12 @@ export default {
         lastname: [
           { required: true, message: '请输入名', trigger: 'blur' }
         ],
+        type: [
+          { required: true, message: '请选择类型', trigger: 'change' }
+        ],
+        categoryId: [
+          { required: true, message: '请选择类别', trigger: 'change' }
+        ],
         address: [
           { required: true, message: '请输入地址', trigger: 'blur' }
         ],
@@ -588,6 +608,7 @@ export default {
       },
       // 区域数据
       regions2: [],
+      detailvisible: false,
       getemplistregions2: [],
       // 门店数据
       repositories: [],
@@ -602,6 +623,26 @@ export default {
     this.getlist()
   },
   methods: {
+    updateType2() {
+      this.RepositoryForm.categoryId = ''
+      this.types2 = []
+      searchRepCategory().then(res => {
+        if (res.data.ret === 200) {
+          const types = res.data.data.content.list
+          for (const i in types) {
+            if (types[i].parentId === this.RepositoryForm.type && types[i].parentId !== null) {
+              this.types2.push(types[i])
+            }
+          }
+        }
+      })
+    },
+    handleDetail(row) {
+      this.detailid = row.id
+      this.detailvisible = true
+      this.personalForm = Object.assign({}, row)
+      console.log('this.personalForm', this.personalForm)
+    },
     // 启用停用操作
     open(row) {
       console.log('row', row)
@@ -675,10 +716,14 @@ export default {
       // 仓库类型
       searchRepCategory().then(res => {
         if (res.data.ret === 200) {
-          console.log(res)
           this.types = res.data.data.content.list
+          for (let i = 0; i < this.types.length; i++) {
+            if (this.types[i].parentId !== null && this.types[i].parentId !== '') {
+              this.types.splice(i, 1)
+            }
+          }
         } else {
-          console.log('仓库类型错误')
+          console.log('仓库类型数据出错')
         }
       })
       // 区域数据
@@ -868,6 +913,17 @@ export default {
       this.regionManagerId = row.regionPersonName
       this.RepositoryForm.attributes = String(row.attributes)
       this.editVisible = true
+      this.types2 = []
+      searchRepCategory().then(res => {
+        if (res.data.ret === 200) {
+          const types = res.data.data.content.list
+          for (const i in types) {
+            if (types[i].parentId === this.RepositoryForm.type && types[i].parentId !== null) {
+              this.types2.push(types[i])
+            }
+          }
+        }
+      })
     },
     // 确认修改
     handleEditok() {

@@ -309,7 +309,7 @@
               </el-form-item>
             </el-col>
             <el-col :span="6">
-              <el-form-item :label="$t('Product.costprice')" prop="costprice" style="width: 100%;">
+              <el-form-item :label="$t('Product.costprice')" style="width: 100%;">
                 <el-input v-model="personalForm.costprice" placeholder="请输入出厂价" style="margin-left: 18px;width:200px" clearable/>
               </el-form-item>
             </el-col>

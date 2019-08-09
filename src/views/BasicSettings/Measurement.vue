@@ -176,7 +176,7 @@ export default {
         category: '',
         categoryname: '',
         type: '',
-        iseffective: null
+        iseffective: '1'
       },
       // 修改窗口控制器
       editNumberingVisible: false,
@@ -383,7 +383,7 @@ export default {
       this.Numberingform = {
         category: '',
         type: '',
-        iseffective: null
+        iseffective: '1'
       }
     },
     // 新增数据

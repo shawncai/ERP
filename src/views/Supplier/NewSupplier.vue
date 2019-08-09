@@ -42,7 +42,7 @@
       <el-card class="box-card" shadow="never" style="margin-top: 10px">
         <h2 ref="lianxi" class="form-name">业务信息</h2>
         <div class="container" style="margin-top: 37px">
-          <el-form ref="personalForm2" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
+          <el-form ref="personalForm2" :model="personalForm" :rules="personalrules2" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
             <el-row>
               <el-col :span="6">
                 <el-form-item :label="$t('public.countyrId')" prop="countryId" style="width: 100%;">
@@ -99,12 +99,12 @@
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('Supplier.contactPersonName')" style="width: 100%;">
+                <el-form-item :label="$t('Supplier.contactPersonName')" prop="contactPersonName" style="width: 100%;">
                   <el-input v-model="personalForm.contactPersonName" placeholder="请输入联系人" style="margin-left: 18px;width:200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('Supplier.contactPersonPhone')" style="width: 100%;">
+                <el-form-item :label="$t('Supplier.contactPersonPhone')" prop="contactPersonPhone" style="width: 100%;">
                   <el-input v-model="personalForm.contactPersonPhone" placeholder="请输入电话" style="margin-left: 18px;width:200px" clearable/>
                 </el-form-item>
               </el-col>
@@ -303,11 +303,11 @@
                   <el-input v-model="personalForm.taxNumber" placeholder="请输入税务登记号" style="margin-left: 18px;width:200px" clearable/>
                 </el-form-item>
               </el-col>
-              <el-col :span="6">
-                <el-form-item :label="$t('Supplier.businessLicense')" style="width: 100%;">
-                  <el-input v-model="personalForm.businessLicense" placeholder="请输入营业执照号" style="margin-left: 18px;width:200px" clearable/>
-                </el-form-item>
-              </el-col>
+              <!--              <el-col :span="6">-->
+              <!--                <el-form-item :label="$t('Supplier.businessLicense')" style="width: 100%;">-->
+              <!--                  <el-input v-model="personalForm.businessLicense" placeholder="请输入营业执照号" style="margin-left: 18px;width:200px" clearable/>-->
+              <!--                </el-form-item>-->
+              <!--              </el-col>-->
               <el-col :span="6">
                 <el-form-item :label="$t('Supplier.companyTypeId')" style="width: 100%;">
                   <el-select v-model="personalForm.companyTypeId" placeholder="请选择单位性质" style="margin-left: 18px;width: 200px">
@@ -433,6 +433,35 @@ export default {
         ],
         countryId: [
           { required: true, message: '请选择国家', trigger: 'change' }
+        ],
+        contactPersonName: [
+          { required: true, message: '请输入', trigger: 'blur' }
+        ],
+        contactPersonPhone: [
+          { required: true, message: '请输入', trigger: 'blur' }
+        ]
+      },
+      personalrules2: {
+        supplierName: [
+          { required: true, message: '请输入供应商名称', trigger: 'blur' }
+        ],
+        typeId: [
+          { required: true, message: '请选择供应商类别', trigger: 'change' }
+        ],
+        groupId: [
+          { required: true, message: '请选择供应商分组', trigger: 'change' }
+        ],
+        isHot: [
+          { required: true, message: '请选择', trigger: 'change' }
+        ],
+        countryId: [
+          { required: true, message: '请选择国家', trigger: 'change' }
+        ],
+        contactPersonName: [
+          { required: true, message: '请输入', trigger: 'blur' }
+        ],
+        contactPersonPhone: [
+          { required: true, message: '请输入', trigger: 'blur' }
         ]
       },
       // 商品明细数据
@@ -585,32 +614,46 @@ export default {
       saveRegion(this.perregions, this.personalForm.regionId)
       this.$refs.personalForm.validate((valid) => {
         if (valid) {
-          create(this.personalForm, parms2).then(res => {
-            console.log(res)
-            if (res.data.ret === 200) {
-              this.$notify({
-                title: '成功',
-                message: '保存成功',
-                type: 'success',
-                offset: 100
+          this.$refs.personalForm2.validate((valid) => {
+            if (valid) {
+              create(this.personalForm, parms2).then(res => {
+                console.log(res)
+                if (res.data.ret === 200) {
+                  this.$notify({
+                    title: '成功',
+                    message: '保存成功',
+                    type: 'success',
+                    offset: 100
+                  })
+                  this.restAllForm()
+                  this.$refs.editable.clear()
+                  this.$refs.personalForm.clearValidate()
+                  this.$refs.personalForm.resetFields()
+                  this.$refs.personalForm2.clearValidate()
+                  this.$refs.personalForm2.resetFields()
+                  this.$refs.personalForm3.clearValidate()
+                  this.$refs.personalForm3.resetFields()
+                  this.$refs.personalForm4.clearValidate()
+                  this.$refs.personalForm4.resetFields()
+                  this.$router.go(-1)
+                } else {
+                  this.$notify.error({
+                    title: '错误',
+                    message: res.data.msg,
+                    offset: 100
+                  })
+                }
               })
-              this.restAllForm()
-              this.$refs.editable.clear()
-              this.$refs.personalForm.clearValidate()
-              this.$refs.personalForm.resetFields()
-              this.$refs.personalForm2.clearValidate()
-              this.$refs.personalForm2.resetFields()
-              this.$refs.personalForm3.clearValidate()
-              this.$refs.personalForm3.resetFields()
-              this.$refs.personalForm4.clearValidate()
-              this.$refs.personalForm4.resetFields()
-              this.$router.go(-1)
             } else {
               this.$notify.error({
                 title: '错误',
-                message: res.data.msg,
+                message: '信息未填完整',
                 offset: 100
               })
+              const anchor2 = this.$refs.geren.offsetTop
+              console.log(anchor2)
+              document.documentElement.scrollTop = anchor2 - 100
+              return false
             }
           })
         } else {
@@ -692,34 +735,48 @@ export default {
       this.personalForm.regionId = this.perregions[this.perregions.length - 1]
       this.$refs.personalForm.validate((valid) => {
         if (valid) {
-          create(this.personalForm, parms2).then(res => {
-            console.log(res)
-            if (res.data.ret === 200) {
-              this.$notify({
-                title: '成功',
-                message: '保存成功',
-                type: 'success',
-                offset: 100
+          this.$refs.personalForm2.validate((valid) => {
+            if (valid) {
+              create(this.personalForm, parms2).then(res => {
+                console.log(res)
+                if (res.data.ret === 200) {
+                  this.$notify({
+                    title: '成功',
+                    message: '保存成功',
+                    type: 'success',
+                    offset: 100
+                  })
+                  this.restAllForm()
+                  this.$refs.editable.clear()
+                  this.$refs.personalForm.clearValidate()
+                  this.$refs.personalForm.resetFields()
+                  this.$refs.personalForm2.clearValidate()
+                  this.$refs.personalForm2.resetFields()
+                  this.$refs.personalForm3.clearValidate()
+                  this.$refs.personalForm3.resetFields()
+                  this.$refs.personalForm4.clearValidate()
+                  this.$refs.personalForm4.resetFields()
+                  const anchor = this.$refs.geren.offsetTop
+                  console.log(anchor)
+                  document.documentElement.scrollTop = anchor - 100
+                } else {
+                  this.$notify.error({
+                    title: '错误',
+                    message: res.data.msg,
+                    offset: 100
+                  })
+                }
               })
-              this.restAllForm()
-              this.$refs.editable.clear()
-              this.$refs.personalForm.clearValidate()
-              this.$refs.personalForm.resetFields()
-              this.$refs.personalForm2.clearValidate()
-              this.$refs.personalForm2.resetFields()
-              this.$refs.personalForm3.clearValidate()
-              this.$refs.personalForm3.resetFields()
-              this.$refs.personalForm4.clearValidate()
-              this.$refs.personalForm4.resetFields()
-              const anchor = this.$refs.geren.offsetTop
-              console.log(anchor)
-              document.documentElement.scrollTop = anchor - 100
             } else {
               this.$notify.error({
                 title: '错误',
-                message: res.data.msg,
+                message: '信息未填完整',
                 offset: 100
               })
+              const anchor2 = this.$refs.geren.offsetTop
+              console.log(anchor2)
+              document.documentElement.scrollTop = anchor2 - 100
+              return false
             }
           })
         } else {

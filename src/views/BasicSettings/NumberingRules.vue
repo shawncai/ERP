@@ -28,8 +28,8 @@
       <!-- 新建操作 -->
       <el-button v-permission="['1-39-41-1']" v-waves class="filter-item" icon="el-icon-plus" type="success" style="width: 86px;float: right" @click="handleAdd">{{ $t('public.add') }}</el-button>
       <!--新建列表开始-->
-      <el-dialog :visible.sync="addNumberingVisible" title="新建编号规则" width="500px">
-        <el-form :model="Numberingform" label-position="left" label-width="120px" style="width: 400px; margin-left:50px;">
+      <el-dialog :visible.sync="addNumberingVisible" append-to-body width="600px" class="normal" title="新建编号规则" >
+        <el-form :model="Numberingform" label-position="left" label-width="120px" style="margin: 0 auto; width: 400px">
           <el-form-item label-width="120px" label="单据类型">
             <el-select v-model="Numberingform.type" :value="Numberingform.type" placeholder="请选择单据类型" filterable clearable>
               <el-option v-for="(item, index) in categorys" :key="index" :value="item.id" :label="item.categoryName"/>
@@ -93,7 +93,7 @@
         </el-table-column>
         <el-table-column :label="$t('BasicSettings.type')" :resizable="false" prop="type" align="center" width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.type | TypeFilter }}</span>
+            <span>{{ scope.row.typeName }}</span>
           </template>
         </el-table-column>
         <el-table-column :label="$t('BasicSettings.prefix')" :resizable="false" align="center" width="150">
@@ -133,8 +133,8 @@
       <!-- 列表结束 -->
       <pagination v-show="total>0" :total="total" :page.sync="getemplist.pagenum" :limit.sync="getemplist.pagesize" @pagination="getlist" />
       <!--修改开始=================================================-->
-      <el-dialog :visible.sync="editNumberingVisible" title="修改编号规则" width="500px">
-        <el-form :model="editNumberingform" label-position="left" label-width="120px" style="width: 400px; margin-left:50px;">
+      <el-dialog :visible.sync="editNumberingVisible" title="修改编号规则" append-to-body width="600px" class="normal">
+        <el-form :model="editNumberingform" label-position="left" label-width="120px" style="margin: 0 auto; width: 400px">
           <el-form-item label-width="120px" label="编号规则名称">
             <el-input v-model="editNumberingform.ruleName" placeholder="请输入编号规则名称" autocomplete="off" style="width: 200px"/>
           </el-form-item>
@@ -195,71 +195,6 @@ export default {
         3: '年月日'
       }
       return statusMap[status]
-    },
-    TypeFilter(status) {
-      const statusMap = {
-        1: '劳动合同',
-        2: '派车单',
-        3: '回车等级单',
-        4: '商品售价变更单',
-        5: '采购申请单',
-        6: '采购计划单',
-        7: '采购询价单',
-        8: '采购合同',
-        9: '采购订货单',
-        10: '质检申请单',
-        11: '质检报告单',
-        12: '不合格品处置单',
-        13: '采购到货单',
-        14: '采购退货单',
-        26: '付款单',
-        27: '采购发票单',
-        28: '销售出库单',
-        29: '销售单',
-        30: '销售退货单',
-        31: '销售计划单',
-        32: '销售机会划单',
-        33: '销售合同',
-        34: '维修出库单',
-        35: '售后维修单',
-        36: '预售单',
-        37: '预售退款单',
-        38: '收入单',
-        39: '支出单',
-        40: '转账单',
-        41: '二手回车单',
-        42: '预收款单',
-        43: '预收退款单',
-        44: '智能补货单',
-        45: '采购入库单',
-        46: '生产完成入库单',
-        47: '其他入库单',
-        48: '其他出库单',
-        49: '库存调拨单',
-        50: '调拨申请单',
-        51: '库存报损单',
-        52: '库存盘点单',
-        53: '库存报溢单',
-        54: '调价单',
-        55: '组装单',
-        56: '拆装单',
-        57: '日常调整单',
-        58: '期初库存录入单',
-        59: '期初库存批量导入单',
-        60: '库位调整单',
-        61: '收车单',
-        62: '客户调查报告单',
-        63: '收款单',
-        64: '物料清单',
-        65: '主生产计划单',
-        66: '物料需求计划单',
-        67: '生产任务单',
-        68: '生产任务汇报单',
-        69: '领料单',
-        70: '退料单',
-        71: '外包单'
-      }
-      return statusMap[status]
     }
   },
   data() {
@@ -272,7 +207,7 @@ export default {
       Numberingform: {
         ruleName: '',
         type: '',
-        iseffective: null,
+        iseffective: '1',
         prefix: '',
         dateType: '',
         length: ''
@@ -487,7 +422,7 @@ export default {
       this.Numberingform = {
         ruleName: '',
         type: '',
-        iseffective: null,
+        iseffective: '1',
         prefix: '',
         dateType: '',
         length: ''
@@ -566,5 +501,29 @@ export default {
   .filter-item{
     width: 140px;
     margin-left: 20px;
+  }
+</style>
+
+<style rel="stylesheet/css" scoped>
+  .el-dialog--center >>> el-dialog__body{
+    /*padding: 10px 20px 10px;*/
+    padding: 0px 25px 30px;
+  }
+  .normal >>> .el-dialog__header {
+    /*padding: 10px 20px 10px;*/
+    background: #fff;
+    position: static;
+    top: auto;
+    z-index: auto;
+    width: auto;
+    border-bottom: none;
+  }
+  .normal >>> .el-dialog {
+    -webkit-transform: none;
+    transform: none;
+    left: 0;
+    position: relative;
+    margin: 0 auto;
+    height: auto;
   }
 </style>

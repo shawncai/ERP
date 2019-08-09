@@ -100,14 +100,14 @@
             <el-editable-column prop="productType" align="center" label="规格" min-width="150px"/>
             <el-editable-column prop="color" align="center" label="颜色" min-width="150px"/>
             <el-editable-column prop="unit" align="center" label="单位" min-width="150px"/>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 1, precision: 2}, type: 'visible' ,events: {change: changeDate}}" prop="basicPrice" align="center" label="计划采购价" min-width="150px">
+            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0.01, precision: 2}, type: 'visible' ,events: {change: changeDate}}" prop="basicPrice" align="center" label="计划采购价" min-width="150px">
               <template slot-scope="scope">
                 <p>{{ basicPrice(scope.row) }}</p>
               </template>
             </el-editable-column>
             <el-editable-column prop="requireQuantity" align="center" label="需求数量" min-width="150px"/>
             <el-editable-column prop="requireDate" align="center" label="需求日期" min-width="150px"/>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 1, precision: 2}, type: 'visible' ,events: {change: changeDate}}" prop="planQuantity" align="center" label="计划数量" min-width="150px"/>
+            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0.01, precision: 2}, type: 'visible' ,events: {change: changeDate}}" prop="planQuantity" align="center" label="计划数量" min-width="150px"/>
             <el-editable-column prop="planMoney" align="center" label="计划金额" min-width="150px">
               <template slot-scope="scope">
                 <p>{{ planMoney(scope.row) }}</p>

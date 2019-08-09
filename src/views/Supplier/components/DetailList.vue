@@ -149,9 +149,9 @@
             border
             size="medium"
             style="width: 100%">
-            <el-editable-column label="序号" fixed="left" min-width="55" align="center" type="index"/>
-            <el-editable-column prop="productCode" fixed="left" align="center" label="物品编号" min-width="150px"/>
-            <el-editable-column prop="productName" fixed="left" align="center" label="物品名称" min-width="150px"/>
+            <el-editable-column label="序号" fixed="left" width="55px" align="center" type="index"/>
+            <el-editable-column prop="productCode" fixed="left" align="center" label="物品编号" width="150px"/>
+            <el-editable-column prop="productName" fixed="left" align="center" label="物品名称" width="150px"/>
             <el-editable-column prop="productType" align="center" label="规格" min-width="150px"/>
             <el-editable-column prop="unit" align="center" label="单位" min-width="150px"/>
             <el-editable-column prop="color" align="center" label="颜色" min-width="150px"/>
@@ -431,7 +431,7 @@
                   min-width="150"/>
               </el-table>
             </el-tab-pane>
-            <el-tab-pane label="惩罚信息">
+            <el-tab-pane label="考核信息">
               <el-table
                 :data="tableData6"
                 border
@@ -439,17 +439,17 @@
                 <el-table-column
                   prop="createTime"
                   align="center"
-                  label="惩罚时间"
+                  label="考核时间"
                   min-width="150"/>
                 <el-table-column
                   prop="comment"
                   align="center"
-                  label="惩罚内容"
+                  label="考核内容"
                   min-width="150"/>
                 <el-table-column
                   prop="reason"
                   align="center"
-                  label="惩罚原因"
+                  label="考核原因"
                   min-width="150"/>
                 <el-table-column
                   prop="createName"

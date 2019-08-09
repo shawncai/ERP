@@ -105,7 +105,8 @@
             <el-editable-column label="序号" fixed="left" min-width="55" align="center" type="index"/>
             <el-editable-column prop="productCode" fixed="left" align="center" label="物品编号" />
             <el-editable-column prop="productName" fixed="left" align="center" label="物品名称" />
-            <el-editable-column prop="productType" align="center" label="规格" />
+            <el-editable-column prop="typeName" align="center" label="规格" />
+            <el-editable-column prop="color" align="center" label="颜色"/>
             <el-editable-column prop="unit" align="center" label="单位" />
             <el-editable-column prop="arrivalQuantity" align="center" label="到货数量" />
             <el-editable-column prop="retreatQuantity" align="center" label="退货数量" />
