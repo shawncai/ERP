@@ -181,7 +181,7 @@
           <el-editable-column prop="color" align="center" label="颜色" min-width="150px"/>
           <el-editable-column prop="performanceScore" align="center" label="绩效分" min-width="150px"/>
           <el-editable-column prop="productScore" align="center" label="商品积分" min-width="150px"/>
-          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0.01, precision: 2}, type: 'visible'}" prop="quantity" align="center" label="订单数量" min-width="150px"/>
+          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0.00, precision: 2}, type: 'visible'}" prop="quantity" align="center" label="订单数量" min-width="150px"/>
           <el-editable-column prop="salePrice" align="center" label="零售价" min-width="150px"/>
           <el-editable-column prop="costPrice" align="center" label="成本价" min-width="150px"/>
           <el-editable-column prop="taxprice" align="center" label="含税价" min-width="150px">

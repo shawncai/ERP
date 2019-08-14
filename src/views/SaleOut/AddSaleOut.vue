@@ -192,7 +192,8 @@
       <el-card class="box-card" style="margin-top: 15px" shadow="never">
         <h2 ref="fuzhu" class="form-name" >出库单明细</h2>
         <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
-          <el-button :disabled="Isproduct" @click="handleAddproduct">添加商品</el-button>
+          <!--          <el-button :disabled="Isproduct" @click="handleAddproduct">添加商品</el-button>-->
+          <el-button @click="handleAddproduct">添加商品</el-button>
           <my-detail :control.sync="control" @product="productdetail"/>
           <el-button :disabled="IsSourceNumber" style="width: 130px" @click="handleAddSource">从源单中选择</el-button>
           <my-order :ordercontrol.sync="ordercontrol" @saleOrderDetail="saleOrderDetail" @saleOrder="saleOrder"/>
@@ -238,7 +239,7 @@
             <el-editable-column prop="color" align="center" label="颜色" min-width="150px"/>
             <el-editable-column prop="kpiGrade" align="center" label="绩效分" min-width="150px"/>
             <el-editable-column prop="point" align="center" label="商品积分" min-width="150px"/>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0.01, precision: 2}, type: 'visible'}" prop="quantity" align="center" label="出库数量" min-width="150px"/>
+            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0.00, precision: 2}, type: 'visible'}" prop="quantity" align="center" label="出库数量" min-width="150px"/>
             <el-editable-column prop="salePrice" align="center" label="零售价" min-width="150px"/>
             <el-editable-column prop="costPrice" align="center" label="成本价" min-width="150px"/>
             <el-editable-column prop="taxprice" align="center" label="含税价" min-width="150px">
@@ -352,7 +353,7 @@
                 <p>{{ getMoney(scope.row) }}</p>
               </template>
             </el-editable-column>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0.01, precision: 2}, type: 'visible'}" prop="quantity" align="center" label="数量" min-width="150px"/>
+            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0.00, precision: 2}, type: 'visible'}" prop="quantity" align="center" label="数量" min-width="150px"/>
           </el-editable>
         </div>
       </el-card>
@@ -422,7 +423,7 @@
       </el-card>
       <!--操作-->
       <div class="buttons" style="margin-top: 20px">
-        <el-button type="primary" style="background:#3696fd;border-color:#3696fd;width: 98px" @click="handlesave()">保存</el-button>
+        <el-button v-no-more-click type="primary" style="background:#3696fd;border-color:#3696fd;width: 98px" @click="handlesave()">保存</el-button>
         <el-button type="danger" @click="handlecancel()">取消</el-button>
       </div>
       <el-dialog :visible.sync="receiptVisible2" title="库存快照" class="normal" width="600px" center>
@@ -459,6 +460,7 @@
 </template>
 
 <script>
+import '@/directive/noMoreClick/index.js'
 import { createsaleOut } from '@/api/SaleOut'
 import { searchSaleCategory } from '@/api/SaleCategory'
 import { getlocation, locationlist, countlist3 } from '@/api/public'

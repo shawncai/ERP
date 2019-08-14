@@ -91,7 +91,7 @@
       </div>
       <!--操作-->
       <div class="buttons" style="margin-top: 20px">
-        <el-button v-permission="['1-39-46-1']" type="primary" @click="handlesave()">保存</el-button>
+        <el-button v-no-more-click v-permission="['1-39-46-1']" type="primary" @click="handlesave()">保存</el-button>
         <el-button v-permission="['1-39-46-1']" type="danger" @click="handlecancel()">取消</el-button>
       </div>
     </div>
@@ -99,6 +99,7 @@
 </template>
 
 <script>
+import '@/directive/noMoreClick/index.js'
 import { regionlist, searchRepository } from '@/api/public'
 import { createapproval, searchcategory } from '@/api/BasicSettings'
 import permission from '@/directive/permission/index.js' // 权限判断指令

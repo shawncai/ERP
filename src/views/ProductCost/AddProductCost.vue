@@ -2,7 +2,7 @@
   <div class="ERP-container">
     <div class="app-container" style="padding-right: 0">
       <el-card class="box-card" shadow="never">
-        <h2 ref="geren" style="margin: auto;font-size: 14px;" >注: <span style="color: dodgerblue">蓝色的字体</span>是额定完成法必填项,<span style="color: red">红色的字体</span>是额定比例法必填项</h2>
+        <h2 ref="geren" style="margin: auto;font-size: 14px;" >注: <span style="color: dodgerblue">蓝色的字体</span>是额定成本法必填项,<span style="color: red">红色的字体</span>是额定比例法必填项</h2>
       </el-card>
       <!--基本信息-->
       <el-card class="box-card" shadow="never">
@@ -63,43 +63,43 @@
               <el-col :span="6">
                 <el-form-item :label="$t('ProductCost.producingMaterialsQuantity')" style="width: 100%;" class="bluelable">
                   <!--                  <el-input v-model="personalForm.producingMaterialsQuantity" style="margin-left: 11px;width: 200px" clearable @blur="completeRate()"/>-->
-                  <el-input-number v-model="personalForm.producingMaterialsQuantity" :precision="2" :controls="false" :step="0.1" :min="0" style="margin-left: 11px;width: 200px;text-align: left" @blur="completeRate()"/>
+                  <el-input-number v-model="personalForm.producingMaterialsQuantity" :disabled="blue" :precision="2" :controls="false" :step="0.1" :min="0" style="margin-left: 11px;width: 200px;text-align: left" @blur="completeRate()"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('ProductCost.producingSalary')" style="width: 100%;" class="bluelable">
                   <!--                  <el-input v-model="personalForm.producingSalary" style="margin-left: 11px;width: 200px" clearable @blur="completeRate()"/>-->
-                  <el-input-number v-model="personalForm.producingSalary" :precision="2" :controls="false" :step="0.1" :min="0" style="margin-left: 11px;width: 200px;text-align: left" @blur="completeRate()"/>
+                  <el-input-number v-model="personalForm.producingSalary" :precision="2" :disabled="blue" :controls="false" :step="0.1" :min="0" style="margin-left: 11px;width: 200px;text-align: left" @blur="completeRate()"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('ProductCost.producingCost')" style="width: 100%;" class="bluelable">
                   <!--                  <el-input v-model="personalForm.producingCost" style="margin-left: 11px;width: 200px" clearable @blur="completeRate()"/>-->
-                  <el-input-number v-model="personalForm.producingCost" :precision="2" :controls="false" :step="0.1" :min="0" style="margin-left: 11px;width: 200px;text-align: left" @blur="completeRate()"/>
+                  <el-input-number v-model="personalForm.producingCost" :precision="2" :disabled="blue" :controls="false" :step="0.1" :min="0" style="margin-left: 11px;width: 200px;text-align: left" @blur="completeRate()"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('ProductCost.finishMaterialsUsedQuantity')" style="width: 100%;" class="redable">
                   <!--                  <el-input v-model="personalForm.finishMaterialsUsedQuantity" style="margin-left: 11px;width: 200px" clearable @blur="completeRate()"/>-->
-                  <el-input-number v-model="personalForm.finishMaterialsUsedQuantity" :precision="2" :controls="false" :step="0.1" :min="0" style="margin-left: 11px;width: 200px;text-align: left" @blur="completeRate()"/>
+                  <el-input-number v-model="personalForm.finishMaterialsUsedQuantity" :disabled="red" :precision="2" :controls="false" :step="0.1" :min="0" style="margin-left: 11px;width: 200px;text-align: left" @blur="completeRate()"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('ProductCost.finishWorkHours')" style="width: 100%;" class="redable">
                   <!--                  <el-input v-model="personalForm.finishWorkHours" style="margin-left: 11px;width: 200px" clearable @blur="completeRate()"/>-->
-                  <el-input-number v-model="personalForm.finishWorkHours" :precision="2" :controls="false" :step="0.1" :min="0" style="margin-left: 11px;width: 200px;text-align: left" @blur="completeRate()"/>
+                  <el-input-number v-model="personalForm.finishWorkHours" :precision="2" :disabled="red" :controls="false" :step="0.1" :min="0" style="margin-left: 11px;width: 200px;text-align: left" @blur="completeRate()"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('ProductCost.endMaterialsQuantity')" style="width: 100%;" class="redable">
                   <!--                  <el-input v-model="personalForm.endMaterialsQuantity" style="margin-left: 11px;width: 200px" clearable @blur="completeRate()"/>-->
-                  <el-input-number v-model="personalForm.endMaterialsQuantity" :precision="2" :controls="false" :step="0.1" :min="0" style="margin-left: 11px;width: 200px;text-align: left" @blur="completeRate()"/>
+                  <el-input-number v-model="personalForm.endMaterialsQuantity" :precision="2" :disabled="red" :controls="false" :step="0.1" :min="0" style="margin-left: 11px;width: 200px;text-align: left" @blur="completeRate()"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('ProductCost.endWorkHours')" style="width: 100%;" class="redable">
                   <!--                  <el-input v-model="personalForm.endWorkHours" style="margin-left: 11px;width: 200px" clearable @blur="completeRate()"/>-->
-                  <el-input-number v-model="personalForm.endWorkHours" :precision="2" :controls="false" :step="0.1" :min="0" style="margin-left: 11px;width: 200px;text-align: left" @blur="completeRate()"/>
+                  <el-input-number v-model="personalForm.endWorkHours" :precision="2" :disabled="red" :controls="false" :step="0.1" :min="0" style="margin-left: 11px;width: 200px;text-align: left" @blur="completeRate()"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
@@ -184,7 +184,7 @@
       </el-card>
       <!--操作-->
       <div class="buttons" style="margin-top: 20px">
-        <el-button type="primary" style="background:#3696fd;border-color:#3696fd;width: 98px" @click="handlesave()">保存</el-button>
+        <el-button v-no-more-click type="primary" style="background:#3696fd;border-color:#3696fd;width: 98px" @click="handlesave()">保存</el-button>
         <el-button type="danger" @click="handlecancel()">取消</el-button>
       </div>
     </div>
@@ -192,6 +192,7 @@
 </template>
 
 <script>
+import '@/directive/noMoreClick/index.js'
 import { addProduceCost } from '@/api/ProduceCost'
 import { productlist } from '@/api/public'
 import { getdeptlist } from '@/api/BasicSettings'
@@ -254,6 +255,8 @@ export default {
     //   }
     // }
     return {
+      blue: true,
+      red: true,
       results: [{ value: 1, label: '合格' }, { value: 2, label: '不合格' }],
       // 控制报检部门是否可以编辑
       IsInspectionDeptId: false,
@@ -1136,6 +1139,18 @@ export default {
     },
     // 重置一下表单
     change() {
+      if (this.personalForm.accountType === '1') {
+        this.blue = true
+        this.red = true
+      }
+      if (this.personalForm.accountType === '2') {
+        this.blue = false
+        this.red = true
+      }
+      if (this.personalForm.accountType === '3') {
+        this.blue = true
+        this.red = false
+      }
       this.list2 = [
         {
           productCost: '月初在产品成本',

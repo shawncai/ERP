@@ -171,7 +171,7 @@
           <el-editable-column prop="color" align="center" label="颜色" min-width="150px"/>
           <el-editable-column prop="unit" align="center" label="单位" min-width="150px"/>
           <el-editable-column prop="stockQuantity" align="center" label="采购数量" min-width="150px"/>
-          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0.01, precision: 2}, type: 'visible'}" prop="arrivalQuantity" align="center" label="到货数量" min-width="150px"/>
+          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0.00, precision: 2}, type: 'visible'}" prop="arrivalQuantity" align="center" label="到货数量" min-width="150px"/>
           <el-editable-column prop="giveDate" align="center" label="交货日期" min-width="170px"/>
           <el-editable-column prop="price" align="center" label="单价" min-width="170px"/>
           <el-editable-column prop="includeTaxPrice" align="center" label="含税价" min-width="170px"/>

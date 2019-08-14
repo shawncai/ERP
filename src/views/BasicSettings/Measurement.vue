@@ -51,7 +51,7 @@
         </el-form>
         <div slot="footer" class="dialog-footer" style="text-align: center">
           <el-button @click="addNumberingVisible = false">取 消</el-button>
-          <el-button type="primary" @click="handleOk">确 定</el-button>
+          <el-button v-no-more-click type="primary" @click="handleOk">确 定</el-button>
         </div>
       </el-dialog>
       <!--新建结束-->
@@ -138,6 +138,7 @@
 </template>
 
 <script>
+import '@/directive/noMoreClick/index.js'
 import { searchMea2, deletemea, createmea, updatemea } from '@/api/BasicSettings'
 import permission from '@/directive/permission/index.js' // 权限判断指令
 import permission2 from '@/directive/permission2/index.js' // 权限判断指令

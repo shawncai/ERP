@@ -1,4 +1,19 @@
 import request from '@/utils/request'
+export function updatestat(query, query2) {
+  var params = new URLSearchParams()
+  if (query !== '' && query !== null && query !== undefined) {
+    params.append('modelids', query) // 你要传给后台的参数值 key/value
+  }
+  if (query2 !== '' && query2 !== null && query2 !== undefined) {
+    params.append('iseffective', query2) // 你要传给后台的参数值 key/value
+  }
+  return request({
+    url: '/erp/product/updatestat',
+    method: 'post',
+    data: params
+  })
+}
+
 // 特殊分类属性列表
 export function searchEmpCategory2(query) {
   var params = new URLSearchParams()

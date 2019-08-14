@@ -40,7 +40,7 @@
       </div>
       <!--操作-->
       <div class="buttons" style="margin-top: 20px">
-        <el-button type="primary" @click="handlesave()">保存</el-button>
+        <el-button v-no-more-click type="primary" @click="handlesave()">保存</el-button>
         <el-button type="success" @click="handleentry()">继续录入</el-button>
         <el-button type="danger" @click="handlecancel()">取消</el-button>
       </div>
@@ -49,6 +49,7 @@
 </template>
 
 <script>
+import '@/directive/noMoreClick/index.js'
 import { addcar } from '@/api/LogisticsCar'
 import MyEmp from './components/MyEmp'
 import MyCreate from './components/MyCreate'

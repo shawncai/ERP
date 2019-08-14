@@ -119,7 +119,7 @@
       </el-card>
       <!--操作-->
       <div class="buttons" style="margin-top: 20px">
-        <el-button type="primary" style="background:#3696fd;border-color:#3696fd;width: 98px" @click="handlesave()">保存</el-button>
+        <el-button v-no-more-click type="primary" style="background:#3696fd;border-color:#3696fd;width: 98px" @click="handlesave()">保存</el-button>
         <el-button type="danger" @click="handlecancel()">取消</el-button>
       </div>
     </div>
@@ -127,6 +127,7 @@
 </template>
 
 <script>
+import '@/directive/noMoreClick/index.js'
 import { createstandardProcess } from '@/api/ProcessFile'
 import MyCenter from './components/MyCenter'
 import MyDetail from './components/MyDetail'

@@ -319,7 +319,7 @@
       </div>
       <!--操作-->
       <div class="buttons" style="margin-top: 20px">
-        <el-button v-permission="['1-9-10-1']" type="primary" @click="handlesave()">保存</el-button>
+        <el-button v-no-more-click v-permission="['1-9-10-1']" type="primary" @click="handlesave()">保存</el-button>
         <el-button v-permission="['1-9-10-1']" type="success" @click="handleentry()">继续录入</el-button>
         <el-button v-permission="['1-9-10-1']" type="danger" @click="handlecancel()">取消</el-button>
       </div>
@@ -328,6 +328,7 @@
 </template>
 
 <script>
+import '@/directive/noMoreClick/index.js'
 import { getcountrylist, regionlist, searchRepository, getRegion } from '@/api/public'
 import { searchRepCategory, create } from '@/api/Repository'
 import { getemplist, getdeptlist } from '@/api/EmployeeInformation'
@@ -519,10 +520,12 @@ export default {
       // 仓库类型
       searchRepCategory().then(res => {
         if (res.data.ret === 200) {
-          this.types = res.data.data.content.list
-          for (let i = 0; i < this.types.length; i++) {
-            if (this.types[i].parentId !== null && this.types[i].parentId !== '') {
-              this.types.splice(i, 1)
+          const lis = res.data.data.content.list
+          console.log('lis', lis)
+          for (let i = 0; i < lis.length; i++) {
+            if (lis[i].parentId === null || lis[i].parentId === '') {
+              this.types.push(lis[i])
+              console.log('this.types', this.types)
             }
           }
         } else {
@@ -760,7 +763,7 @@ export default {
     },
     // 小区经理选择结束
     updateType() {
-      this.getnationlist()
+      // this.getnationlist()
     }
   }
 }

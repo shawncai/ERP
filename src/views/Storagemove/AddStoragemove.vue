@@ -140,7 +140,7 @@
       </el-card>
       <!--操作-->
       <div class="buttons" style="margin-top: 20px">
-        <el-button type="primary" style="background:#3696fd;border-color:#3696fd;width: 98px" @click="handlesave()">保存</el-button>
+        <el-button v-no-more-click type="primary" style="background:#3696fd;border-color:#3696fd;width: 98px" @click="handlesave()">保存</el-button>
         <el-button type="danger" @click="handlecancel()">取消</el-button>
       </div>
     </div>
@@ -148,6 +148,7 @@
 </template>
 
 <script>
+import '@/directive/noMoreClick/index.js'
 import { getdeptlist } from '@/api/BasicSettings'
 import { batchlist, getlocation } from '@/api/public'
 import { createstoragemove } from '@/api/Storagemove'
@@ -325,18 +326,18 @@ export default {
     },
     productdetail(val) {
       console.log(val)
-      const nowlistdata = this.$refs.editable.getRecords()
+      // const nowlistdata = this.$refs.editable.getRecords()
       for (let i = 0; i < val.length; i++) {
-        for (let j = 0; j < nowlistdata.length; j++) {
-          if (val[i].productCode === nowlistdata[j].productCode) {
-            this.$notify.error({
-              title: '错误',
-              message: '物品已添加',
-              offset: 100
-            })
-            return false
-          }
-        }
+        // for (let j = 0; j < nowlistdata.length; j++) {
+        //   if (val[i].productCode === nowlistdata[j].productCode) {
+        //     this.$notify.error({
+        //       title: '错误',
+        //       message: '物品已添加',
+        //       offset: 100
+        //     })
+        //     return false
+        //   }
+        // }
         this.$refs.editable.insert(val[i])
       }
     },

@@ -16,7 +16,7 @@
                 <el-form-item :label="$t('StockRetreat.sourceType')" prop="sourceType" style="width: 100%;">
                   <el-select v-model="personalForm.sourceType" style="margin-left: 18px;width: 200px" @change="chooseType">
                     <el-option value="1" label="采购到货单" />
-                    <el-option value="2" label="无来源" />
+                    <!--                    <el-option value="2" label="无来源" />-->
                     <el-option value="3" label="采购入库单" />
                   </el-select>
                 </el-form-item>
@@ -249,7 +249,7 @@
       </el-card>
       <!--操作-->
       <div class="buttons" style="margin-top: 20px">
-        <el-button type="primary" style="background:#3696fd;border-color:#3696fd;width: 98px" @click="handlesave()">保存</el-button>
+        <el-button v-no-more-click type="primary" style="background:#3696fd;border-color:#3696fd;width: 98px" @click="handlesave()">保存</el-button>
         <el-button type="danger" @click="handlecancel()">取消</el-button>
       </div>
       <el-dialog :visible.sync="receiptVisible2" title="库存快照" class="normal" width="600px" center>
@@ -286,6 +286,7 @@
 </template>
 
 <script>
+import '@/directive/noMoreClick/index.js'
 import { countlist } from '@/api/public'
 import { createstockArrival } from '@/api/StockRetreat'
 import { getdeptlist } from '@/api/BasicSettings'

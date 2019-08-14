@@ -122,7 +122,7 @@
             <el-editable-column prop="productType" align="center" label="规格" min-width="150px"/>
             <el-editable-column prop="color" align="center" label="颜色" min-width="150px"/>
             <el-editable-column prop="unit" align="center" label="单位" min-width="150px"/>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0.01, precision: 2}, type: 'visible'}" prop="plannedQuantity" align="center" label="计划数量" min-width="170px">
+            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0.00, precision: 2}, type: 'visible'}" prop="plannedQuantity" align="center" label="计划数量" min-width="170px">
               <template slot="edit" slot-scope="scope">
                 <el-input-number
                   :disabled="IsPlannedQuantity"
@@ -242,7 +242,7 @@
       </el-card>
       <!--操作-->
       <div class="buttons" style="margin-top: 20px">
-        <el-button type="primary" style="background:#3696fd;border-color:#3696fd;width: 98px" @click="handlesave()">保存</el-button>
+        <el-button v-no-more-click type="primary" style="background:#3696fd;border-color:#3696fd;width: 98px" @click="handlesave()">保存</el-button>
         <el-button type="danger" @click="handlecancel()">取消</el-button>
       </div>
       <el-dialog :visible.sync="receiptVisible2" title="库存快照" class="normal" width="600px" center>
@@ -279,6 +279,7 @@
 </template>
 
 <script>
+import '@/directive/noMoreClick/index.js'
 import { countlist } from '@/api/public'
 import { createstockInquiry } from '@/api/StockInquiry'
 import { getdeptlist } from '@/api/BasicSettings'

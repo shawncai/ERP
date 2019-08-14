@@ -62,6 +62,8 @@
           {{ $t('public.batchoperation') }} <i class="el-icon-arrow-down el-icon--right"/>
         </el-button>
         <el-dropdown-menu slot="dropdown" style="width: 140px">
+          <el-dropdown-item v-permission="['1-31-33-14']" style="text-align: left" command="up" ><svg-icon icon-class="上架" style="width: 40px"/>{{ $t('public.up') }}</el-dropdown-item>
+          <el-dropdown-item v-permission="['1-31-33-15']" style="text-align: left" command="down"><svg-icon icon-class="下架" style="width: 40px"/>{{ $t('public.down') }}</el-dropdown-item>
           <el-dropdown-item v-permission="['1-31-33-2']" style="text-align: left" command="delete"><svg-icon icon-class="shanchu" style="width: 40px"/>{{ $t('public.delete') }}</el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
@@ -165,7 +167,7 @@
 </template>
 
 <script>
-import { productlist, deleteproduct, searchEmpCategory2, productDetail, editproduct } from '@/api/Product'
+import { productlist, deleteproduct, searchEmpCategory2, productDetail, editproduct, updatestat } from '@/api/Product'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
 import permission from '@/directive/permission/index.js' // 权限判断指令
@@ -425,6 +427,41 @@ export default {
             type: 'info',
             message: '已取消删除'
           })
+        })
+      } else if (command === 'up') {
+        console.log('success')
+        updatestat(ids, 1).then(res => {
+          if (res.data.ret === 200 || res.data.ret === 100) {
+            this.$notify({
+              title: '上架成功',
+              type: 'success',
+              offset: 100
+            })
+            this.getlist()
+          } else {
+            this.$notify.error({
+              title: '错误',
+              message: '出错了',
+              offset: 100
+            })
+          }
+        })
+      } else if (command === 'down') {
+        updatestat(ids, 2).then(res => {
+          if (res.data.ret === 200 || res.data.ret === 100) {
+            this.$notify({
+              title: '下架成功',
+              type: 'success',
+              offset: 100
+            })
+            this.getlist()
+          } else {
+            this.$notify.error({
+              title: '错误',
+              message: '出错了',
+              offset: 100
+            })
+          }
         })
       }
     },

@@ -151,7 +151,7 @@
       </el-card>
       <!--操作-->
       <div class="buttons" style="margin-top: 20px">
-        <el-button type="primary" @click="handlesave()">保存</el-button>
+        <el-button v-no-more-click type="primary" @click="handlesave()">保存</el-button>
         <el-button type="danger" @click="handlecancel()">取消</el-button>
       </div>
       <el-dialog :visible.sync="receiptVisible2" title="库存快照" class="normal" width="600px" center>
@@ -188,6 +188,7 @@
 </template>
 
 <script>
+import '@/directive/noMoreClick/index.js'
 import { addstockenter } from '@/api/Stockenter'
 import { getdeptlist } from '@/api/BasicSettings'
 import { getlocation, locationlist, countlist } from '@/api/public'

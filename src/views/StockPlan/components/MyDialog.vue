@@ -100,7 +100,7 @@
           <el-editable-column prop="basicPrice" align="center" label="单价" min-width="150px"/>
           <el-editable-column prop="requireQuantity" align="center" label="需求数量" min-width="150px"/>
           <el-editable-column prop="requireDate" align="center" label="需求日期" min-width="150px"/>
-          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0.01, precision: 2}, type: 'visible' ,events: {change: changeDate}}" prop="planQuantity" align="center" label="计划数量" min-width="150px"/>
+          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0.00, precision: 2}, type: 'visible' ,events: {change: changeDate}}" prop="planQuantity" align="center" label="计划数量" min-width="150px"/>
           <el-editable-column prop="planMoney" align="center" label="计划金额" min-width="150px">
             <template slot-scope="scope">
               <p>{{ planMoney(scope.row) }}</p>

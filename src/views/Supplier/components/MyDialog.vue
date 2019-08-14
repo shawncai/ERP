@@ -463,6 +463,7 @@ export default {
             return false
           }
         }
+        val[i].price = 0
         this.$refs.editable.insert(val[i])
       }
     },

@@ -18,7 +18,7 @@
                     <el-option value="1" label="质检申请单" />
                     <el-option value="2" label="采购到货单" />
                     <el-option value="3" label="生产任务单" />
-                    <el-option value="4" label="无来源" />
+                    <!--                    <el-option value="4" label="无来源" />-->
                   </el-select>
                 </el-form-item>
               </el-col>
@@ -200,7 +200,7 @@
       <el-card class="box-card" style="margin-top: 15px" shadow="never">
         <h2 ref="fuzhu" class="form-name" >质检报告单明细</h2>
         <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
-          <el-button @click="handleAdd">添加</el-button>
+          <!--          <el-button @click="handleAdd">添加</el-button>-->
           <el-button type="danger" @click="$refs.editable.removeSelecteds()">删除</el-button>
         </div>
         <div class="container">
@@ -214,38 +214,35 @@
             border
             size="medium"
             style="width: 100%">
-            <el-editable-column type="selection" min-width="55" align="center"/>
-            <el-editable-column label="序号" min-width="55" align="center" type="index"/>
-            <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="checkItem" align="center" label="检验项目" min-width="150px"/>
-            <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="checkTarget" align="center" label="检验指标" min-width="150px"/>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="checkValue" align="center" label="检验值" min-width="150px"/>
-            <el-editable-column :edit-render="{name: 'ElSelect',options: results ,type: 'visible'}" prop="chectResult" align="center" label="检验结果" min-width="150px"/>
-            <el-editable-column prop="checkQuantity" align="center" label="检验数量" min-width="150px">
-              <template slot-scope="scope">
-                <p>{{ getcheckQuantity(scope.row) }}</p>
-              </template>
-            </el-editable-column>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="passQuantity" align="center" label="合格数量" min-width="150px"/>
-            <el-editable-column prop="failedQuantity" align="center" label="不合格数量" min-width="150px">
-              <template slot-scope="scope">
-                <p>{{ getfailedQuantity(scope.row) }}</p>
-              </template>
-            </el-editable-column>
-            <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="checkPersonname" align="center" label="检验人员" min-width="150px">
-              <template slot="edit" slot-scope="scope">
-                <el-input v-model="scope.row.checkPersonname" @focus="handlechoosestaff(scope)"/>
-                <my-emp2 :staffcontrol.sync="staffcontrol" @chuli="chuli(scope, $event)"/>
-              </template>
-            </el-editable-column>
-            <el-editable-column :edit-render="{name: 'ElSelect', options: depts2, type: 'visible'}" prop="checkDeptId" align="center" label="检验部门" min-width="150px"/>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="targetUp" align="center" label="指标上限" min-width="150px"/>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="targetDown" align="center" label="指标下限" min-width="150px"/>
+            <el-editable-column type="selection" width="55" align="center"/>
+            <el-editable-column label="序号" width="55" align="center" type="index"/>
+            <el-editable-column prop="checkItem" align="center" label="检验项目" width="200px"/>
+            <el-editable-column prop="checkContent" align="center" label="检验内容" width="200px"/>
+            <el-editable-column prop="checkTools" align="center" label="检验工具" width="200px"/>
+            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="checkQuantity" align="center" label="样本数" width="200px"/>
+            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="passQuantity" align="center" label="合格数量" width="200px"/>
+            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="failedQuantity" align="center" label="不合格数量" width="200px"/>
+            <el-editable-column :edit-render="{name: 'ElSelect',options: results ,type: 'visible'}" prop="chectResult" align="center" label="检验结果" width="200px"/>
+            <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="remarks" align="center" label="单项结论" width="200px"/>
+            <!--            <el-editable-column :edit-render="{name: 'ElSelect',options: results ,type: 'visible'}" prop="chectResult" align="center" label="检验结果" min-width="150px"/>-->
+            <!--            <el-editable-column prop="checkQuantity" align="center" label="检验数量" min-width="150px">-->
+            <!--              <template slot-scope="scope">-->
+            <!--                <p>{{ getcheckQuantity(scope.row) }}</p>-->
+            <!--              </template>-->
+            <!--            </el-editable-column>-->
+            <!--            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="passQuantity" align="center" label="合格数量" min-width="150px"/>-->
+            <!--            <el-editable-column prop="failedQuantity" align="center" label="不合格数量" min-width="150px">-->
+            <!--              <template slot-scope="scope">-->
+            <!--                <p>{{ getfailedQuantity(scope.row) }}</p>-->
+            <!--              </template>-->
+            <!--            </el-editable-column>-->
+            <!--          </el-editable>-->
           </el-editable>
         </div>
       </el-card>
       <!--操作-->
       <div class="buttons" style="margin-top: 20px">
-        <el-button type="primary" style="background:#3696fd;border-color:#3696fd;width: 98px" @click="handlesave()">保存</el-button>
+        <el-button v-no-more-click type="primary" style="background:#3696fd;border-color:#3696fd;width: 98px" @click="handlesave()">保存</el-button>
         <el-button type="danger" @click="handlecancel()">取消</el-button>
       </div>
     </div>
@@ -253,6 +250,8 @@
 </template>
 
 <script>
+import '@/directive/noMoreClick/index.js'
+import { searchCheckSet } from '@/api/CheckSet'
 import { addqualitycheck } from '@/api/CheckReport'
 import { productlist } from '@/api/public'
 import { getdeptlist } from '@/api/BasicSettings'
@@ -379,7 +378,7 @@ export default {
       // 检验部门数据
       depts2: [],
       // 报检人员回显
-      inspectionPersonId: '',
+      inspectionPersonId: this.$store.getters.name,
       // 控制报检人员
       stockControl: false,
       // 类别数据
@@ -401,13 +400,17 @@ export default {
         countryId: this.$store.getters.countryId,
         repositoryId: this.$store.getters.repositoryId,
         regionId: this.$store.getters.regionId,
+        inspectionPersonId: this.$store.getters.userId,
         isRecheck: 1,
-        sourceType: '4',
+        sourceType: '1',
         sampleQuantity: null,
         checkQuantity: null,
         failedQuantity: '',
         passQuantity: '',
-        checkMode: '1'
+        checkMode: '1',
+        checkType: '1',
+        checkDate: null,
+        checkResult: '1'
         // checkQuantity: this.personalForm.sampleQuantity,
       },
       // 采购申请单规则数据
@@ -476,11 +479,27 @@ export default {
   },
   created() {
     this.getTypes()
+    this.getdatatime()
   },
   mounted() {
     this.getinformation()
   },
   methods: {
+    getdatatime() { // 默认显示今天
+      var date = new Date()
+      var seperator1 = '-'
+      var year = date.getFullYear()
+      var month = date.getMonth() + 1
+      var strDate = date.getDate()
+      if (month >= 1 && month <= 9) {
+        month = '0' + month
+      }
+      if (strDate >= 0 && strDate <= 9) {
+        strDate = '0' + strDate
+      }
+      var currentdate = year + seperator1 + month + seperator1 + strDate
+      this.personalForm.checkDate = currentdate
+    },
     getinformation() {
       if (this.$store.getters.empcontract) {
         console.log('getempcontract', this.$store.getters.empcontract)
@@ -567,6 +586,38 @@ export default {
         this.matercontrol = true
       }
     },
+    adddetail(val) {
+      this.$refs.editable.clear()
+      const para = {}
+      para.productCode = val
+      console.log('para', para)
+      searchCheckSet(para).then(res => {
+        if (res.data.ret === 200) {
+          const list = res.data.data.content.list
+          if (list.length < 1) {
+            this.$notify.error({
+              title: '错误',
+              message: '该物品未添加检验项目',
+              offset: 100
+            })
+          }
+          for (let i = 0; i < list.length; i++) {
+            const re = {}
+            re.checkItem = list[i].itemName
+            re.chectResult = 1
+            re.checkItemId = list[i].itemId
+            re.checkContent = list[i].checkContent
+            re.checkTools = list[i].checkTools
+            this.$refs.editable.insert(re)
+          }
+        } else {
+          console.log('列表出错')
+        }
+        setTimeout(() => {
+          this.listLoading = false
+        }, 0.5 * 100)
+      })
+    },
     // 源单为质检申请单时返回数据
     report(val) {
       // console.log(val)
@@ -580,6 +631,8 @@ export default {
           this.typeId = res.data.data.content.list[0].productType
         }
       })
+      // 增加明细
+      this.adddetail(val.productCode)
     },
     // 源单为采购到货单时返回数据
     report2(val) {
@@ -591,6 +644,8 @@ export default {
       this.personalForm.typeId = val.type
       this.typeId = val.typeName
       this.personalForm.sourceSerialNumber = val.id
+      // 增加明细
+      this.adddetail(val.productCode)
     },
     // 源单为采购到货单时返回数据
     report3(val) {
@@ -601,14 +656,30 @@ export default {
       this.personalForm.unit = val.unit
       this.personalForm.typeId = val.typeId
       this.typeId = val.productType
+      // 增加明细
+      this.adddetail(val.productCode)
     },
     mater(val) {
+      console.log(123)
       this.sourceSerialNumber = val.id
       this.personalForm.productCode = val.code
       this.personalForm.productName = val.productName
       this.personalForm.unit = val.stockMeasu
       this.personalForm.typeId = val.typeId
       this.typeId = val.productType
+      const para = {}
+      para.productCode = val.code
+      console.log('para', para)
+      searchCheckSet(para).then(res => {
+        if (res.data.ret === 200) {
+          // this.list = res.data.data.content.list
+        } else {
+          console.log('列表出错')
+        }
+        setTimeout(() => {
+          this.listLoading = false
+        }, 0.5 * 100)
+      })
     },
     // 重置一下下拉
     change() {
@@ -822,20 +893,24 @@ export default {
     },
     // 清空记录
     restAllForm() {
+      this.getdatatime()
       this.personalForm = {
         createPersonId: this.$store.getters.userId,
         countryId: this.$store.getters.countryId,
         repositoryId: this.$store.getters.repositoryId,
         regionId: this.$store.getters.regionId,
         isRecheck: 1,
-        sourceType: '4',
+        sourceType: '1',
         sampleQuantity: null,
         checkQuantity: null,
         failedQuantity: '',
         passQuantity: '',
-        checkMode: '1'
+        checkMode: '1',
+        checkType: '1',
+        inspectionPersonId: this.$store.getters.userId,
+        checkResult: '1'
       }
-      this.inspectionPersonId = null
+      this.inspectionPersonId = this.$store.getters.name
       this.supplierId = null
       this.workCenterId = null
       this.produceManagerId = null
@@ -855,14 +930,12 @@ export default {
       EnterDetail.map(function(elem) {
         return elem
       }).forEach(function(elem) {
-        if (elem.checkItem === null || elem.checkItem === '' || elem.checkItem === undefined) {
-          delete elem.checkItem
+        delete elem.checkItem
+        if (elem.checkContent === null || elem.checkContent === '' || elem.checkContent === undefined) {
+          delete elem.checkContent
         }
-        if (elem.checkTarget === null || elem.checkTarget === '' || elem.checkTarget === undefined) {
-          delete elem.checkTarget
-        }
-        if (elem.checkValue === null || elem.checkValue === '' || elem.checkValue === undefined) {
-          delete elem.checkValue
+        if (elem.checkTools === null || elem.checkTools === '' || elem.checkTools === undefined) {
+          delete elem.checkTools
         }
         if (elem.chectResult === null || elem.chectResult === '' || elem.chectResult === undefined) {
           delete elem.chectResult
@@ -882,11 +955,8 @@ export default {
         if (elem.checkPersonId === null || elem.checkPersonId === '' || elem.checkPersonId === undefined) {
           delete elem.checkPersonId
         }
-        if (elem.targetUp === null || elem.targetUp === '' || elem.targetUp === undefined) {
-          delete elem.targetUp
-        }
-        if (elem.targetDown === null || elem.targetDown === '' || elem.targetDown === undefined) {
-          delete elem.targetDown
+        if (elem.remarks === null || elem.remarks === '' || elem.remarks === undefined) {
+          delete elem.remarks
         }
         return elem
       })

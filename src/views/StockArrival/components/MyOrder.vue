@@ -372,7 +372,9 @@ export default {
           unit: item.unit,
           color: item.color,
           stockQuantity: (item.stockQuantity).toFixed(2),
-          arrivalQuantity: 0,
+          arrivalQuantity: (item.stockQuantity - item.arrivalQuantity + item.returnQuantity).toFixed(2),
+          allarrivalQuantity: item.arrivalQuantity,
+          returnQuantity: item.returnQuantity,
           giveDate: item.deliveryDate,
           price: (item.price).toFixed(2),
           includeTaxPrice: item.includeTaxPrice,
@@ -389,8 +391,7 @@ export default {
           reportCheckingQuantity: 0,
           actualCheckingQuantity: 0,
           qualifyQuantity: 0,
-          unqualifyQuantity: 0,
-          returnQuantity: 0
+          unqualifyQuantity: 0
         }
       })
       console.log(orderDetail)

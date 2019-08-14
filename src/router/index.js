@@ -597,20 +597,20 @@ export const asyncRouterMap = [
       title: 'Storagemove',
       icon: 'diaobo',
       type: 4,
-      roles: ['131-138-142-4', '131-138-143-1']
+      roles: ['131-141-142-4', '131-141-143-1']
     },
     children: [
       {
         path: 'AddStoragemove',
         component: () => import('@/views/Storagemove/AddStoragemove'),
         name: 'AddStoragemove',
-        meta: { title: 'AddStoragemove', noCache: false, roles: ['131-138-143-1'] }
+        meta: { title: 'AddStoragemove', noCache: false, roles: ['131-141-143-1'] }
       },
       {
         path: 'StoragemoveList',
         component: () => import('@/views/Storagemove/StoragemoveList'),
         name: 'StoragemoveList',
-        meta: { title: 'StoragemoveList', noCache: true, roles: ['131-138-142-1', '131-138-142-2', '131-138-142-3', '131-138-142-4', '131-138-142-5', '131-138-142-6', '131-138-142-7', '131-138-142-18', '131-138-142-16', '131-138-142-17', '131-138-142-50'] }
+        meta: { title: 'StoragemoveList', noCache: true, roles: ['131-141-142-1', '131-141-142-2', '131-141-142-3', '131-141-142-4', '131-141-142-5', '131-141-142-6', '131-141-142-7', '131-141-142-18', '131-141-142-16', '131-141-142-17', '131-141-142-50'] }
       }
       // {
       //   path: 'AddMoveApplication',
@@ -2180,6 +2180,12 @@ export const asyncRouterMap = [
         component: () => import('@/views/CheckReport/CheckReportList'),
         name: 'CheckReportList',
         meta: { title: 'CheckReportList', noCache: true, roles: ['227-231-1', '227-231-2', '227-231-3', '227-231-4', '227-231-5', '227-231-6', '227-231-7', '227-231-16', '227-231-17', '227-231-18', '227-231-76'] }
+      },
+      {
+        path: 'CheckSet',
+        component: () => import('@/views/CheckReport/CheckSet'),
+        name: 'CheckSet',
+        meta: { title: 'CheckSet', noCache: true, roles: ['227-260-1', '227-260-4', '227-260-2', '227-260-3', '227-260-5', '227-260-6', '227-260-7'] }
       }
     ]
   },

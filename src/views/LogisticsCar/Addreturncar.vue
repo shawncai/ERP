@@ -28,7 +28,7 @@
       </div>
       <!--操作-->
       <div class="buttons" style="margin-top: 20px">
-        <el-button type="primary" @click="handlesave()">保存</el-button>
+        <el-button v-no-more-click type="primary" @click="handlesave()">保存</el-button>
         <el-button type="success" @click="handleentry()">继续录入</el-button>
         <el-button type="danger" @click="handlecancel()">取消</el-button>
       </div>
@@ -37,6 +37,7 @@
 </template>
 
 <script>
+import '@/directive/noMoreClick/index.js'
 import MyDriver from './components/MyDriver'
 import MyOut from './components/MyOut'
 import MyCreate from './components/MyCreate'

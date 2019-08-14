@@ -3,25 +3,20 @@
     <el-card class="box-card" style="margin-top: 10px;height: 60px" shadow="never">
       <el-row>
         <el-form ref="getemplist" :model="getemplist" label-width="100px" style="margin-top: -9px">
-          <el-col :span="5">
-            <el-form-item label="分类名称" label-width="100px">
-              <el-input v-model="getemplist.categoryname" clearable @keyup.enter.native="handleFilter"/>
+          <el-col :span="5" style="margin-left: 10px">
+            <el-form-item label="物品编码">
+              <el-input v-model="getemplist.productCode" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
           <el-col :span="5" style="margin-left: 10px">
-            <el-form-item label="分类类别">
-              <el-select v-model="getemplist.type" :value="getemplist.type" clearable @keyup.enter.native="handleFilter">
-                <el-option label="不合格处理方式" value="1"/>
-                <el-option label="不合格原因" value="2"/>
-                <el-option label="检验项目" value="3"/>
-              </el-select>
-            </el-form-item>
-          </el-col>
-          <el-col :span="5" style="margin-left: 10px">
-            <el-form-item label="启用状态">
-              <el-select v-model="getemplist.iseffective" :value="getemplist.iseffective" clearable @keyup.enter.native="handleFilter">
-                <el-option label="active " value="1"/>
-                <el-option label="dead" value="2"/>
+            <el-form-item label="检验项目">
+              <el-select v-model="getemplist.itemId" clearable @keyup.enter.native="handleFilter">
+                <el-option
+                  v-for="(item, index) in itemIds"
+                  :key="index"
+                  :label="item.categoryName"
+                  :value="item.id"
+                />
               </el-select>
             </el-form-item>
           </el-col>
@@ -40,36 +35,40 @@
           {{ $t('public.batchoperation') }} <i class="el-icon-arrow-down el-icon--right"/>
         </el-button>
         <el-dropdown-menu slot="dropdown" style="width: 140px">
-          <el-dropdown-item style="text-align: left" command="delete"><svg-icon icon-class="shanchu" style="width: 40px"/>{{ $t('public.delete') }}</el-dropdown-item>
+          <el-dropdown-item v-permission="['227-260-2']" style="text-align: left" command="delete"><svg-icon icon-class="shanchu" style="width: 40px"/>{{ $t('public.delete') }}</el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
       <!-- 表格导出操作 -->
-      <el-button v-permission="['227-234-6']" v-waves :loading="downloadLoading" class="filter-item" style="width: 86px" @click="handleExport"> <svg-icon icon-class="daochu"/>{{ $t('public.export') }}</el-button>
+      <el-button v-waves :loading="downloadLoading" class="filter-item" style="width: 86px" @click="handleExport"> <svg-icon icon-class="daochu"/>{{ $t('public.export') }}</el-button>
       <!-- 打印操作 -->
-      <el-button v-permission="['227-234-7']" v-waves class="filter-item" icon="el-icon-printer" style="width: 86px" @click="handlePrint">{{ $t('public.print') }}</el-button>
+      <el-button v-waves class="filter-item" icon="el-icon-printer" style="width: 86px" @click="handlePrint">{{ $t('public.print') }}</el-button>
       <!-- 新建操作 -->
-      <el-button v-permission="['227-234-1']" v-waves class="filter-item" icon="el-icon-plus" type="success" style="width: 86px" @click="handleAdd">{{ $t('public.add') }}</el-button>
-      <el-dialog :visible.sync="categoryVisible" title="新建分类属性" class="normal" width="600px" center>
+      <el-button v-permission="['227-260-1']" v-waves class="filter-item" icon="el-icon-plus" type="success" style="width: 86px" @click="handleAdd">{{ $t('public.add') }}</el-button>
+      <el-dialog :visible.sync="categoryVisible" title="新建质检明细" class="normal" width="600px" center>
         <el-form ref="addCategoryForm" :rules="addCategoryFormRules" :model="addCategoryForm" class="demo-ruleForm" style="margin: 0 auto; width: 400px">
-          <el-form-item :label="$t('NewEmployeeInformation.type')" label-width="100px" prop="type">
-            <el-select v-model="addCategoryForm.type" placeholder="请选择类别" style="width: 100%">
-              <el-option label="不合格处理方式" value="1"/>
-              <el-option label="不合格原因" value="2"/>
-              <el-option label="检验项目" value="3"/>
+          <el-form-item :label="$t('CheckSet.productName')" label-width="100px" prop="productName">
+            <el-input v-model="addCategoryForm.productName" style="width:300px" @focus="handlemater"/>
+            <my-mater :matercontrol.sync="matercontrol" @mater="mater"/>
+          </el-form-item>
+          <el-form-item :label="$t('CheckSet.itemId')" label-width="100px" prop="itemId">
+            <el-select v-model="addCategoryForm.itemId" placeholder="请选择检验项目" style="width: 100%">
+              <el-option
+                v-for="(item, index) in itemIds"
+                :key="index"
+                :label="item.categoryName"
+                :value="item.id"
+              />
             </el-select>
           </el-form-item>
-          <el-form-item :label="$t('NewEmployeeInformation.categoryname')" label-width="100px" prop="categoryname">
-            <el-input v-model="addCategoryForm.categoryname" autocomplete="off"/>
+          <el-form-item :label="$t('CheckSet.checkTools')" label-width="100px" >
+            <el-input v-model="addCategoryForm.checkTools" autocomplete="off"/>
           </el-form-item>
-          <el-form-item :label="$t('NewEmployeeInformation.iseffective')" label-width="100px" prop="iseffective">
-            <el-select v-model="addCategoryForm.iseffective" placeholder="请选择状态" style="width: 100%">
-              <el-option label="active " value="1"/>
-              <el-option label="dead" value="2"/>
-            </el-select>
+          <el-form-item :label="$t('CheckSet.checkContent')" label-width="100px" >
+            <el-input v-model="addCategoryForm.checkContent" autocomplete="off"/>
           </el-form-item>
         </el-form>
         <span slot="footer" class="dialog-footer">
-          <el-button type="primary" @click="handlesave()">保存</el-button>
+          <el-button v-no-more-click type="primary" @click="handlesave()">保存</el-button>
           <el-button type="danger" @click="handlecancel()">取消</el-button>
         </span>
       </el-dialog>
@@ -95,25 +94,40 @@
             <span>{{ scope.row.id }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('NewEmployeeInformation.type')" :resizable="false" align="center" min-width="250">
+        <el-table-column :label="$t('CheckSet.productCode')" :resizable="false" align="center" min-width="200">
           <template slot-scope="scope">
-            <span>{{ scope.row.type | typeFilter }}</span>
+            <span>{{ scope.row.productCode }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('NewEmployeeInformation.categoryname')" :resizable="false" align="center" min-width="350">
+        <el-table-column :label="$t('CheckSet.productName')" :resizable="false" align="center" min-width="200">
           <template slot-scope="scope">
-            <span>{{ scope.row.categoryName }}</span>
+            <span>{{ scope.row.productName }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('NewEmployeeInformation.iseffective')" :resizable="false" align="center" min-width="250">
+        <el-table-column :label="$t('CheckSet.itemId')" :resizable="false" align="center" min-width="200">
           <template slot-scope="scope">
-            <span>{{ scope.row.isEffective | iseffectiveFilter }}</span>
+            <span>{{ scope.row.itemName }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('public.actions')" :resizable="false" align="center" min-width="230">
+        <el-table-column :label="$t('CheckSet.checkTools')" :resizable="false" align="center" min-width="200">
           <template slot-scope="scope">
-            <el-button v-permission2="['227-234-3', scope.row.createPersonId]" type="primary" size="mini" @click="handleEdit(scope.row)" >{{ $t('public.edit') }}</el-button>
-            <el-button v-permission2="['227-234-2', scope.row.createPersonId]" size="mini" type="danger" @click="handleDelete(scope.row)">{{ $t('public.delete') }}</el-button>
+            <span>{{ scope.row.checkTools }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column :label="$t('CheckSet.checkContent')" :resizable="false" align="center" min-width="200">
+          <template slot-scope="scope">
+            <span>{{ scope.row.checkContent }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column :label="$t('CheckSet.createName')" :resizable="false" align="center" min-width="200">
+          <template slot-scope="scope">
+            <span>{{ scope.row.createName }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column :label="$t('public.actions')" :resizable="false" align="center" min-width="200">
+          <template slot-scope="scope">
+            <el-button v-permission2="['227-260-3', scope.row.createPersonId]" type="primary" size="mini" @click="handleEdit(scope.row)" >{{ $t('public.edit') }}</el-button>
+            <el-button v-permission2="['227-260-2', scope.row.createPersonId]" size="mini" type="danger" @click="handleDelete(scope.row)">{{ $t('public.delete') }}</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -122,21 +136,25 @@
       <!--修改开始=================================================-->
       <el-dialog :visible.sync="editcategoryVisible" title="修改分类属性" class="normal" width="600px" center>
         <el-form ref="editCategoryForm" :rules="editCategoryFormRules" :model="editCategoryForm" class="demo-ruleForm" style="margin: 0 auto; width: 400px">
-          <el-form-item :label="$t('NewEmployeeInformation.type')" label-width="100px">
-            <el-select v-model="editCategoryForm.type" placeholder="请选择类别" style="width: 100%" disabled >
-              <el-option label="不合格处理方式" value="1"/>
-              <el-option label="不合格原因" value="2"/>
-              <el-option label="检验项目" value="3"/>
+          <el-form-item :label="$t('CheckSet.productName')" label-width="100px" prop="productName">
+            <el-input v-model="editCategoryForm.productName" style="width:300px" @focus="handlemater"/>
+            <my-mater :matercontrol.sync="matercontrol" @mater="mater"/>
+          </el-form-item>
+          <el-form-item :label="$t('CheckSet.itemId')" label-width="100px" prop="itemId">
+            <el-select v-model="editCategoryForm.itemId" placeholder="请选择检验项目" style="width: 100%">
+              <el-option
+                v-for="(item, index) in itemIds"
+                :key="index"
+                :label="item.categoryName"
+                :value="item.id"
+              />
             </el-select>
           </el-form-item>
-          <el-form-item :label="$t('NewEmployeeInformation.categoryname')" label-width="100px" prop="categoryName">
-            <el-input v-model="editCategoryForm.categoryName" autocomplete="off"/>
+          <el-form-item :label="$t('CheckSet.checkTools')" label-width="100px" >
+            <el-input v-model="editCategoryForm.checkTools" autocomplete="off"/>
           </el-form-item>
-          <el-form-item :label="$t('NewEmployeeInformation.iseffective')" label-width="100px" prop="isEffective">
-            <el-select v-model="editCategoryForm.isEffective" placeholder="请选择状态" style="width: 100%">
-              <el-option label="active " value="1"/>
-              <el-option label="dead" value="2"/>
-            </el-select>
+          <el-form-item :label="$t('CheckSet.checkContent')" label-width="100px" >
+            <el-input v-model="editCategoryForm.checkContent" autocomplete="off"/>
           </el-form-item>
         </el-form>
         <span slot="footer" class="dialog-footer">
@@ -150,17 +168,20 @@
 </template>
 
 <script>
-import { searchCheckCategory, addCheckCategory, updateCheckCategory, delateCheckCategory } from '@/api/CheckCategory'
+import '@/directive/noMoreClick/index.js'
+import { searchCheckCategory } from '@/api/CheckCategory'
+import { addCheckSet, searchCheckSet, delateCheckSet, updateCheckSet } from '@/api/CheckSet'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
 import permission from '@/directive/permission/index.js' // 权限判断指令
 import permission2 from '@/directive/permission2/index.js' // 权限判断指令
 import checkPermission from '@/utils/permission' // 权限判断函数
+import MyMater from './components/MyMater'
 
 export default {
-  name: 'CheckCategoryList',
+  name: 'CheckSet',
   directives: { waves, permission, permission2 },
-  components: { Pagination },
+  components: { Pagination, MyMater },
   filters: {
     typeFilter(status) {
       const statusMap = {
@@ -179,13 +200,25 @@ export default {
     }
   },
   data() {
+    const validatePass = (rule, value, callback) => {
+      // console.log(value)
+      if (this.addCategoryForm.productName === undefined || this.addCategoryForm.productName === null || this.addCategoryForm.productName === '') {
+        callback(new Error('请选择'))
+      } else {
+        callback()
+      }
+    }
     return {
+      // 控制物品信息
+      matercontrol: false,
+      itemIds: [],
       // 批量删除参数
       moreaction: [],
       // 新增窗口
       categoryVisible: false,
       // 新增数据
       addCategoryForm: {
+        createId: this.$store.getters.userId,
         categoryname: '',
         type: '',
         iseffective: '1'
@@ -195,11 +228,11 @@ export default {
         category: [
           { required: true, message: '请输入', trigger: 'blur' }
         ],
-        categoryname: [
-          { required: true, message: '请输入', trigger: 'blur' }
-        ],
-        type: [
+        itemId: [
           { required: true, message: '请选择', trigger: 'change' }
+        ],
+        productName: [
+          { required: true, validator: validatePass, trigger: 'change' }
         ],
         iseffective: [
           { required: true, message: '请选择', trigger: 'change' }
@@ -234,26 +267,47 @@ export default {
       listLoading: true,
       // 分类列表查询加展示参数
       getemplist: {
-        categoryname: '',
-        type: '',
-        iseffective: '1',
         pagenum: 1,
         pagesize: 10
+      },
+      getemplist2: {
+        type: '3',
+        pagenum: 1,
+        pagesize: 9999
       }
     }
   },
   mounted() {
+    this.getlist2()
     this.getlist()
   },
   methods: {
-    checkPermission,
     getlist() {
-      // 员工列表数据
       this.listLoading = true
-      searchCheckCategory(this.getemplist).then(res => {
+      searchCheckSet(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
-          this.total = res.data.data.content.totalCount
+        } else {
+          console.log('列表出错')
+        }
+        setTimeout(() => {
+          this.listLoading = false
+        }, 0.5 * 100)
+      })
+    },
+    mater(val) {
+      this.addCategoryForm.productCode = val.code
+      this.addCategoryForm.productName = val.productName
+    },
+    handlemater() {
+      this.matercontrol = true
+    },
+    checkPermission,
+    getlist2() {
+      this.listLoading = true
+      searchCheckCategory(this.getemplist2).then(res => {
+        if (res.data.ret === 200) {
+          this.itemIds = res.data.data.content.list
         } else {
           console.log('列表出错')
         }
@@ -265,7 +319,7 @@ export default {
     // 搜索
     handleFilter() {
       this.getemplist.pagenum = 1
-      searchCheckCategory(this.getemplist).then(res => {
+      searchCheckSet(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
@@ -287,7 +341,7 @@ export default {
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          delateCheckCategory(ids, this.$store.getters.userId).then(res => {
+          delateCheckSet(ids, this.$store.getters.userId).then(res => {
             if (res.data.ret === 200 || res.data.ret === 100) {
               this.$notify({
                 title: '删除成功',
@@ -318,7 +372,7 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        delateCheckCategory(row.id, this.$store.getters.userId).then(res => {
+        delateCheckSet(row.id, this.$store.getters.userId).then(res => {
           if (res.data.ret === 200 || res.data.ret === 100) {
             this.$notify({
               title: '删除成功',
@@ -357,7 +411,7 @@ export default {
     handleOk() {
       this.$refs.editCategoryForm.validate((valid) => {
         if (valid) {
-          updateCheckCategory(this.editCategoryForm).then(res => {
+          updateCheckSet(this.editCategoryForm).then(res => {
             if (res.data.ret === 200) {
               this.$notify({
                 title: '成功',
@@ -393,6 +447,7 @@ export default {
     },
     restAddCategoryForm() {
       this.addCategoryForm = {
+        createId: this.$store.getters.userId,
         categoryname: '',
         type: '',
         iseffective: '1'
@@ -403,7 +458,7 @@ export default {
       console.log(this.addCategoryForm)
       this.$refs.addCategoryForm.validate((valid) => {
         if (valid) {
-          addCheckCategory(this.addCategoryForm).then(res => {
+          addCheckSet(this.addCategoryForm).then(res => {
             if (res.data.ret === 200) {
               this.$notify({
                 title: '成功',

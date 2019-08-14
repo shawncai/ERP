@@ -100,14 +100,14 @@
             <el-editable-column prop="productType" align="center" label="规格" min-width="150px"/>
             <el-editable-column prop="color" align="center" label="颜色" min-width="150px"/>
             <el-editable-column prop="unit" align="center" label="单位" min-width="150px"/>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0.01, precision: 2}, type: 'visible' ,events: {change: changeDate}}" prop="basicPrice" align="center" label="计划采购价" min-width="150px">
+            <el-editable-column prop="basicPrice" align="center" label="计划采购价" min-width="150px">
               <template slot-scope="scope">
                 <p>{{ basicPrice(scope.row) }}</p>
               </template>
             </el-editable-column>
             <el-editable-column prop="requireQuantity" align="center" label="需求数量" min-width="150px"/>
             <el-editable-column prop="requireDate" align="center" label="需求日期" min-width="150px"/>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0.01, precision: 2}, type: 'visible' ,events: {change: changeDate}}" prop="planQuantity" align="center" label="计划数量" min-width="150px"/>
+            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0.00, precision: 2}, type: 'visible' ,events: {change: changeDate}}" prop="planQuantity" align="center" label="计划数量" min-width="150px"/>
             <el-editable-column prop="planMoney" align="center" label="计划金额" min-width="150px">
               <template slot-scope="scope">
                 <p>{{ planMoney(scope.row) }}</p>
@@ -207,7 +207,7 @@
       </el-card>
       <!--操作-->
       <div class="buttons" style="margin-top: 20px">
-        <el-button type="primary" style="background:#3696fd;border-color:#3696fd;width: 98px" @click="handlesave()">保存</el-button>
+        <el-button v-no-more-click type="primary" style="background:#3696fd;border-color:#3696fd;width: 98px" @click="handlesave()">保存</el-button>
         <el-button type="danger" @click="handlecancel()">取消</el-button>
       </div>
       <el-dialog :visible.sync="receiptVisible2" title="库存快照" class="normal" width="600px" center>
@@ -244,6 +244,8 @@
 </template>
 
 <script>
+import '@/directive/noMoreClick/index.js'
+import { materialslist2 } from '@/api/MaterialsList'
 import { countlist } from '@/api/public'
 import { addstockplan } from '@/api/StockPlan'
 import { getdeptlist } from '@/api/BasicSettings'
@@ -601,10 +603,16 @@ export default {
     },
     // 供货商列表返回数据
     personName(scope, val) {
-      console.log(scope)
-      console.log(val)
+      console.log('scope', scope)
+      console.log('val', val)
       // scope.row.supplierName = val.supplierName
       // scope.row.supplierId = val.id
+      for (let i = 0; i < val.supplierDetailVos.length; i++) {
+        if (val.supplierDetailVos[i].productCode === scope.row.productCode) {
+          console.log('val.supplierDetailVos[i]', val.supplierDetailVos[i])
+          this.kongscope.row.basicPrice = val.supplierDetailVos[i].price
+        }
+      }
       this.kongscope.row.supplierName = val.supplierName
       this.kongscope.row.supplierId = val.id
       this.changeDate()
@@ -662,15 +670,43 @@ export default {
       console.log(val)
       this.personalForm.planDate = val.applyDate
       this.personalForm.stockType = val.stockType
+      this.personalForm.stockDeptId = val.applyDeptId
     },
-    apply(val) {
+    async apply(val) {
+      console.log('val', val)
       for (let i = 0; i < val.length; i++) {
-        this.$refs.editable.insert(val[i])
+        if (val[i].productCode.substring(0, 2) === '01') {
+          console.log('01')
+          const list = await materialslist2(val[i].productCode)
+          console.log('list', list.data.data.content.list[0].materialsListDetailVos)
+          const list2 = list.data.data.content.list[0].materialsListDetailVos
+          for (let j = 0; j < list2.length; j++) {
+            list2[j].basicPrice = 0
+            list2[j].planQuantity = val[i].quantity
+            console.log(list2[j])
+            this.$refs.editable.insert(list2[j])
+          }
+        } else {
+          this.$refs.editable.insert(val[i])
+        }
       }
     },
-    apply2(val) {
+    async apply2(val) {
       for (let i = 0; i < val.length; i++) {
-        this.$refs.editable2.insert(val[i])
+        if (val[i].productCode.substring(0, 2) === '01') {
+          console.log('01')
+          const list = await materialslist2(val[i].productCode)
+          console.log('list', list.data.data.content.list[0].materialsListDetailVos)
+          const list2 = list.data.data.content.list[0].materialsListDetailVos
+          for (let j = 0; j < list2.length; j++) {
+            list2[j].basicPrice = 0
+            list2[j].planQuantity = 0
+            console.log(list2[j])
+            this.$refs.editable2.insert(list2[j])
+          }
+        } else {
+          this.$refs.editable2.insert(val[i])
+        }
       }
     },
     // 采购需求数据

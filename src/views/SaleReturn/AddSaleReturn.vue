@@ -263,7 +263,7 @@
       </el-card>
       <!--操作-->
       <div class="buttons" style="margin-top: 20px">
-        <el-button type="primary" style="background:#3696fd;border-color:#3696fd;width: 98px" @click="handlesave()">保存</el-button>
+        <el-button v-no-more-click type="primary" style="background:#3696fd;border-color:#3696fd;width: 98px" @click="handlesave()">保存</el-button>
         <el-button type="danger" @click="handlecancel()">取消</el-button>
       </div>
       <el-dialog :visible.sync="receiptVisible2" title="库存快照" class="normal" width="600px" center>
@@ -300,6 +300,7 @@
 </template>
 
 <script>
+import '@/directive/noMoreClick/index.js'
 import { createsaleReturn } from '@/api/SaleReturn'
 import { searchCategory } from '@/api/Supplier'
 import { getlocation, locationlist, countlist } from '@/api/public'

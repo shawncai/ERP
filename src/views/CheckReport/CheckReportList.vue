@@ -388,6 +388,9 @@ export default {
       if (row.checkMode !== null) {
         this.personalForm.checkMode = String(row.checkMode)
       }
+      if (row.checkResult !== null) {
+        this.personalForm.checkResult = String(row.checkResult)
+      }
     },
     // 修改组件修改成功后返回
     refreshlist(val) {

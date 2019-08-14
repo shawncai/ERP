@@ -165,21 +165,18 @@
           size="medium"
           style="width: 100%">
           <el-editable-column label="序号" min-width="55" align="center" type="index"/>
-          <el-editable-column prop="checkItem" align="center" label="检验项目" min-width="150px"/>
-          <el-editable-column prop="checkTarget" align="center" label="检验指标" min-width="150px"/>
-          <el-editable-column prop="checkValue" align="center" label="检验值" min-width="150px"/>
-          <el-editable-column prop="chectResult" align="center" label="检验结果" min-width="150px">
+          <el-editable-column prop="checkItemName" align="center" label="检验项目" min-width="150px"/>
+          <el-editable-column prop="checkContent" align="center" label="检验内容" min-width="150px"/>
+          <el-editable-column prop="checkTools" align="center" label="检验工具" min-width="150px"/>
+          <el-editable-column prop="checkQuantity" align="center" label="样本数" min-width="150px"/>
+          <el-editable-column prop="passQuantity" align="center" label="合格数量" min-width="150px"/>
+          <el-editable-column prop="failedQuantity" align="center" label="不合格数量" min-width="150px"/>
+          <el-editable-column prop="checkResult" align="center" label="检验结果" min-width="150px">
             <template slot-scope="scope">
               <p>{{ scope.row.chectResult | chectResultFilter }}</p>
             </template>
           </el-editable-column>
-          <el-editable-column prop="checkQuantity" align="center" label="检验数量" min-width="150px"/>
-          <el-editable-column prop="passQuantity" align="center" label="合格数量" min-width="150px"/>
-          <el-editable-column prop="failedQuantity" align="center" label="不合格数量" min-width="150px"/>
-          <el-editable-column prop="checkPersonname" align="center" label="检验人员" min-width="150px"/>
-          <el-editable-column prop="checkDeptName" align="center" label="检验部门" min-width="150px"/>
-          <el-editable-column prop="targetUp" align="center" label="指标上限" min-width="150px"/>
-          <el-editable-column prop="targetDown" align="center" label="指标下限" min-width="150px"/>
+          <el-editable-column prop="remarks" align="center" label="单项结论" min-width="150px"/>
         </el-editable>
       </div>
     </el-card>

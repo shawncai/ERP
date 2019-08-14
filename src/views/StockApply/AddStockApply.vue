@@ -93,7 +93,7 @@
             <el-editable-column prop="productType" align="center" label="规格" min-width="150px"/>
             <el-editable-column prop="color" align="center" label="颜色" min-width="150px"/>
             <el-editable-column prop="unit" align="center" label="单位" min-width="150px"/>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0.01, precision: 2}, type: 'visible', events: {change: changeDate2}}" prop="requireQuantity" align="center" label="需求数量" min-width="150px"/>
+            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0.00, precision: 2}, type: 'visible', events: {change: changeDate2}}" prop="requireQuantity" align="center" label="需求数量" min-width="150px"/>
             <el-editable-column :edit-render="{name: 'ElDatePicker', attrs: {type: 'date', format: 'yyyy-MM-dd'}, type: 'visible'}" prop="requireDate" align="center" label="需求日期" min-width="160px">
               <template slot="edit" slot-scope="scope">
                 <el-date-picker
@@ -152,7 +152,7 @@
       </el-card>
       <!--操作-->
       <div class="buttons" style="margin-top: 20px">
-        <el-button type="primary" style="background:#3696fd;border-color:#3696fd;width: 98px" @click="handlesave()">保存</el-button>
+        <el-button v-no-more-click type="primary" style="background:#3696fd;border-color:#3696fd;width: 98px" @click="handlesave()">保存</el-button>
         <el-button type="danger" @click="handlecancel()">取消</el-button>
       </div>
       <el-dialog :visible.sync="receiptVisible2" title="库存快照" class="normal" width="600px" center>
@@ -189,6 +189,7 @@
 </template>
 
 <script>
+import '@/directive/noMoreClick/index.js'
 import { countlist } from '@/api/public'
 import { addstockapply } from '@/api/StockApply'
 import { getdeptlist } from '@/api/BasicSettings'
@@ -550,13 +551,17 @@ export default {
     // 清空记录
     restAllForm() {
       this.personalForm = {
+        applyPersonId: this.$store.getters.userId,
         createPersonId: this.$store.getters.userId,
         countryId: this.$store.getters.countryId,
         repositoryId: this.$store.getters.repositoryId,
+        applyDeptId: 1,
         regionId: this.$store.getters.regionId,
-        sourceType: '1'
+        sourceType: '1',
+        applyDate: null
       }
-      this.applyPersonId = null
+      this.applyPersonId = this.$store.getters.name
+      this.getdatatime()
     },
     // 保存操作
     handlesave() {

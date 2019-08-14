@@ -55,7 +55,7 @@
             </el-select>
           </el-form-item>
           <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
-            <el-button @click="handleAdd2">添加</el-button>
+            <el-button v-no-more-click @click="handleAdd2">添加</el-button>
             <el-button type="danger" @click="$refs.editable.removeSelecteds()">删除</el-button>
           </div>
           <div class="container">
@@ -207,6 +207,7 @@
 </template>
 
 <script>
+import '@/directive/noMoreClick/index.js'
 import { creatUnitGroup, searchUnitGroup, updateUnitGroup, deleteUnitGroup } from '@/api/UnitGroup'
 import { searchMea } from '@/api/BasicSettings'
 import waves from '@/directive/waves' // Waves directive

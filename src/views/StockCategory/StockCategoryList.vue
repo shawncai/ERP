@@ -65,7 +65,7 @@
           </el-form-item>
         </el-form>
         <span slot="footer" class="dialog-footer">
-          <el-button type="primary" @click="handlesave()">保存</el-button>
+          <el-button v-no-more-click type="primary" @click="handlesave()">保存</el-button>
           <el-button type="danger" @click="handlecancel()">取消</el-button>
         </span>
       </el-dialog>
@@ -144,6 +144,7 @@
 </template>
 
 <script>
+import '@/directive/noMoreClick/index.js'
 import { searchStockCategory, addStockCategory, updateStockCategory, delateStockCategory } from '@/api/StockCategory'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination

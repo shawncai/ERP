@@ -13,14 +13,16 @@
             </el-col>
             <el-col :span="12">
               <el-form-item :label="$t('CheckReport.sourceType')" prop="sourceType" style="width: 100%;">
-                <el-select v-model="personalForm.sourceType" style="margin-left: 18px;width: 200px">
+                <el-select v-model="personalForm.sourceType" disabled style="margin-left: 18px;width: 200px">
                   <el-option value="1" label="质检申请单" />
+                  <el-option value="2" label="采购到货单" />
+                  <el-option value="3" label="生产任务单" />
                 </el-select>
               </el-form-item>
             </el-col>
             <el-col :span="12">
               <el-form-item :label="$t('CheckReport.sourceNumber')" prop="sourceNumber" style="width: 100%;">
-                <el-input v-model="personalForm.sourceNumber" style="margin-left: 18px;width: 200px" clearable @focus="chooseNumber"/>
+                <el-input v-model="personalForm.sourceNumber" disabled style="margin-left: 18px;width: 200px" clearable @focus="chooseNumber"/>
                 <my-quality :qualitycontrol.sync="qualitycontrol" @allqualityinfo="allqualityinfo"/>
               </el-form-item>
             </el-col>
@@ -112,7 +114,7 @@
           <el-row>
             <el-col :span="12">
               <el-form-item :label="$t('CheckReport.productCode')" prop="productCode" style="width: 100%;">
-                <el-input v-model="personalForm.productCode" style="margin-left: 18px;width: 200px" @focus="handlemater"/>
+                <el-input v-model="personalForm.productCode" disabled style="margin-left: 18px;width: 200px" @focus="handlemater"/>
                 <my-mater :matercontrol.sync="matercontrol" @mater="mater"/>
               </el-form-item>
             </el-col>
@@ -142,32 +144,35 @@
           <el-row>
             <el-col :span="12">
               <el-form-item :label="$t('CheckReport.checkQuantity')" prop="checkQuantity" style="width: 100%;">
-                <el-input v-model="personalForm.checkQuantity" style="margin-left: 18px;width: 200px" clearable/>
+                <el-input v-model="personalForm.checkQuantity" style="margin-left: 18px;width: 200px" clearable @blur="changeCheckQuantity"/>
               </el-form-item>
             </el-col>
             <el-col :span="12">
               <el-form-item :label="$t('CheckReport.sampleQuantity')" prop="sampleQuantity" style="width: 100%;">
-                <el-input v-model="personalForm.sampleQuantity" style="margin-left: 18px;width: 200px" clearable/>
+                <el-input v-model="personalForm.sampleQuantity" style="margin-left: 18px;width: 200px" clearable @blur="changeSampleQuantity"/>
               </el-form-item>
             </el-col>
             <el-col :span="12">
               <el-form-item :label="$t('CheckReport.passQuantity')" style="width: 100%;">
-                <el-input v-model="personalForm.passQuantity" style="margin-left: 18px;width: 200px" clearable/>
+                <el-input v-model="personalForm.passQuantity" style="margin-left: 18px;width: 200px" clearable @blur="changePassQuantity"/>
               </el-form-item>
             </el-col>
             <el-col :span="12">
               <el-form-item :label="$t('CheckReport.failedQuantity')" style="width: 100%;">
-                <el-input v-model="personalForm.failedQuantity" style="margin-left: 18px;width: 200px" clearable/>
+                <el-input :disabled="true" v-model="personalForm.failedQuantity" style="margin-left: 18px;width:200px" clearable/>
               </el-form-item>
             </el-col>
             <el-col :span="12">
               <el-form-item :label="$t('CheckReport.passRate')" style="width: 100%;">
-                <el-input v-model="personalForm.passRate" style="margin-left: 18px;width: 200px" clearable/>
+                <el-input :disabled="true" v-model="personalForm.passRate" style="margin-left: 18px;width:200px" clearable/>
               </el-form-item>
             </el-col>
             <el-col :span="12">
               <el-form-item :label="$t('CheckReport.checkResult')" style="width: 100%;">
-                <el-input v-model="personalForm.checkResult" style="margin-left: 18px;width: 200px" clearable/>
+                <el-select v-model="personalForm.checkResult" style="margin-left: 18px;width: 200px">
+                  <el-option value="1" label="合格"/>
+                  <el-option value="2" label="不合格"/>
+                </el-select>
               </el-form-item>
             </el-col>
             <el-col :span="12">
@@ -186,7 +191,7 @@
     <el-card class="box-card" style="margin-top: 15px;margin-bottom: 30px" shadow="never">
       <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">质检报告单明细</h2>
       <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
-        <el-button @click="$refs.editable.insert(-1)">添加</el-button>
+        <!--        <el-button @click="$refs.editable.insert(-1)">添加</el-button>-->
         <el-button type="danger" @click="$refs.editable.removeSelecteds()">删除</el-button>
       </div>
       <div class="container">
@@ -202,22 +207,14 @@
           style="width: 100%">
           <el-editable-column type="selection" min-width="55" align="center"/>
           <el-editable-column label="序号" min-width="55" align="center" type="index"/>
-          <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="checkItem" align="center" label="检验项目" min-width="150px"/>
-          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="checkTarget" align="center" label="检验指标" min-width="150px"/>
-          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="checkValue" align="center" label="检验值" min-width="150px"/>
-          <el-editable-column :edit-render="{name: 'ElSelect',options: results ,type: 'visible'}" prop="chectResult" align="center" label="检验结果" min-width="150px"/>
-          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="checkQuantity" align="center" label="检验数量" min-width="150px"/>
-          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="passQuantity" align="center" label="合格数量" min-width="150px"/>
-          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="failedQuantity" align="center" label="不合格数量" min-width="150px"/>
-          <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="checkPersonname" align="center" label="检验人员" min-width="150px">
-            <template slot="edit" slot-scope="scope">
-              <el-input v-model="scope.row.checkPersonname" @focus="handlechoosestaff"/>
-              <my-emp2 :staffcontrol.sync="staffcontrol" @chuli="chuli(scope, $event)"/>
-            </template>
-          </el-editable-column>
-          <el-editable-column :edit-render="{name: 'ElSelect', options: depts2, type: 'visible'}" prop="checkDeptId" align="center" label="检验部门" min-width="150px"/>
-          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="targetUp" align="center" label="指标上限" min-width="150px"/>
-          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="targetDown" align="center" label="指标下限" min-width="150px"/>
+          <el-editable-column prop="checkItem" align="center" label="检验项目" width="200px"/>
+          <el-editable-column prop="checkContent" align="center" label="检验内容" width="200px"/>
+          <el-editable-column prop="checkTools" align="center" label="检验工具" width="200px"/>
+          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="checkQuantity" align="center" label="样本数" width="200px"/>
+          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="passQuantity" align="center" label="合格数量" width="200px"/>
+          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="failedQuantity" align="center" label="不合格数量" width="200px"/>
+          <el-editable-column :edit-render="{name: 'ElSelect',options: results ,type: 'visible'}" prop="chectResult" align="center" label="检验结果" width="200px"/>
+          <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="remarks" align="center" label="单项结论" width="200px"/>
         </el-editable>
       </div>
     </el-card>
@@ -381,6 +378,9 @@ export default {
       this.unit = this.personalForm.unit
       this.typeId = this.personalForm.productType
       this.produceManagerId = this.personalForm.produceManagerName
+      for (let i = 0; i < this.personalForm.checkReportDetailVos.length; i++) {
+        this.personalForm.checkReportDetailVos[i].checkItem = this.personalForm.checkReportDetailVos[i].checkItemName
+      }
       this.list2 = this.personalForm.checkReportDetailVos
       this.getTypes()
     }
@@ -389,6 +389,51 @@ export default {
     this.getTypes()
   },
   methods: {
+    changeSampleQuantity() {
+      if (this.personalForm.checkMode === '1') {
+        if (this.personalForm.passQuantity !== null && this.personalForm.passQuantity !== '' && this.personalForm.sampleQuantity !== null) {
+          this.personalForm.failedQuantity = (this.personalForm.sampleQuantity - this.personalForm.passQuantity).toFixed(2)
+          this.personalForm.passRate = (this.personalForm.passQuantity / this.personalForm.sampleQuantity).toFixed(2)
+        } else {
+          this.personalForm.failedQuantity = ''
+          this.personalForm.passRate = ''
+        }
+      }
+    },
+    changeCheckQuantity() {
+      if (this.personalForm.checkMode === '2') {
+        this.personalForm.sampleQuantity = this.personalForm.checkQuantity
+        if (this.personalForm.passQuantity !== null && this.personalForm.passQuantity !== '' && this.personalForm.checkQuantity !== null) {
+          this.personalForm.failedQuantity = (this.personalForm.checkQuantity - this.personalForm.passQuantity).toFixed(2)
+          this.personalForm.passRate = (this.personalForm.passQuantity / this.personalForm.checkQuantity).toFixed(2)
+        } else {
+          this.personalForm.failedQuantity = ''
+          this.personalForm.passRate = ''
+        }
+      }
+    },
+    changePassQuantity() {
+      console.log('555')
+      if (this.personalForm.checkMode === '2') {
+        console.log(this.personalForm.passQuantity)
+        console.log(this.personalForm.checkQuantity)
+        if (this.personalForm.passQuantity !== null && this.personalForm.passQuantity !== '' && this.personalForm.checkQuantity !== null && this.personalForm.checkQuantity !== '') {
+          this.personalForm.failedQuantity = (this.personalForm.checkQuantity - this.personalForm.passQuantity).toFixed(2)
+          this.personalForm.passRate = (this.personalForm.passQuantity / this.personalForm.checkQuantity).toFixed(2)
+        } else {
+          this.personalForm.failedQuantity = ''
+          this.personalForm.passRate = ''
+        }
+      } else if (this.personalForm.checkMode === '1') {
+        if (this.personalForm.passQuantity !== null && this.personalForm.passQuantity !== '' && this.personalForm.sampleQuantity !== null && this.personalForm.sampleQuantity !== '') {
+          this.personalForm.failedQuantity = (this.personalForm.sampleQuantity - this.personalForm.passQuantity).toFixed(2)
+          this.personalForm.passRate = (this.personalForm.passQuantity / this.personalForm.sampleQuantity).toFixed(2)
+        } else {
+          this.personalForm.failedQuantity = ''
+          this.personalForm.passRate = ''
+        }
+      }
+    },
     // 检验人员focus事件触发
     handlechoosestaff() {
       this.staffcontrol = true

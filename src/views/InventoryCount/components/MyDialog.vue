@@ -350,18 +350,18 @@ export default {
       // console.log(val)
       // console.log(val[0])
       console.log(this.$refs.editable.getRecords())
-      const nowlistdata = this.$refs.editable.getRecords()
+      // const nowlistdata = this.$refs.editable.getRecords()
       for (let i = 0; i < val.length; i++) {
-        for (let j = 0; j < nowlistdata.length; j++) {
-          if (val[i].productCode === nowlistdata[j].productCode) {
-            this.$notify.error({
-              title: '错误',
-              message: '物品已添加',
-              offset: 100
-            })
-            return false
-          }
-        }
+        // for (let j = 0; j < nowlistdata.length; j++) {
+        //   if (val[i].productCode === nowlistdata[j].productCode) {
+        //     this.$notify.error({
+        //       title: '错误',
+        //       message: '物品已添加',
+        //       offset: 100
+        //     })
+        //     return false
+        //   }
+        // }
         this.$refs.editable.insert(val[i])
       }
       // console.log(val)

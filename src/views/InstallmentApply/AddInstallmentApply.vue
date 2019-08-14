@@ -496,7 +496,7 @@
               </el-col>
             </el-row>
             <div class="buttons" style="margin-left: 27%;margin-top: 20px">
-              <el-button type="primary" style="background:#3696fd;border-color:#3696fd;width: 98px" @click="handlesave2()">保存</el-button>
+              <el-button v-no-more-click type="primary" style="background:#3696fd;border-color:#3696fd;width: 98px" @click="handlesave2()">保存</el-button>
               <el-button type="danger" @click="handlecance2()">取消</el-button>
             </div>
           </el-form>
@@ -507,6 +507,7 @@
 </template>
 
 <script>
+import '@/directive/noMoreClick/index.js'
 import { addinstallmentapply } from '@/api/InstallmentApply'
 import { ratelist } from '@/api/Installmentrate'
 import { getprovincelist, getcitylist, existList } from '@/api/public'

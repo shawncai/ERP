@@ -149,7 +149,7 @@
           </el-form-item>
         </el-form>
         <span slot="footer" class="dialog-footer">
-          <el-button type="primary" @click="handleOk()">修改</el-button>
+          <el-button v-no-more-click type="primary" @click="handleOk()">修改</el-button>
           <el-button type="danger" @click="handleNo()">取消</el-button>
         </span>
       </el-dialog>
@@ -159,6 +159,7 @@
 </template>
 
 <script>
+import '@/directive/noMoreClick/index.js'
 import { searchSaleCategory, addSaleCategory, updateSaleCategory, delateSaleCategory } from '@/api/SaleCategory'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination

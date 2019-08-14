@@ -26,12 +26,11 @@
                   <my-supplier :control.sync="empcontrol" @supplierName="supplierName"/>
                 </el-form-item>
               </el-col>
-              <el-col :span="6">
-                <el-form-item :label="$t('StockArrival.sourceNumber')" :rules="personalForm.sourceType === '2'" prop="sourceNumber" style="width: 100%;">
-                  <el-input v-model="personalForm.sourceNumber" :disabled="addsouce" style="margin-left: 18px;width:200px" clearable @focus="handleAddSouce"/>
-                  <my-order :ordercontrol.sync="ordercontrol" :supp.sync="supp" @order="order" @allOrderinfo="allOrderinfo"/>
-                </el-form-item>
-              </el-col>
+              <!--              <el-col :span="6">-->
+              <!--                <el-form-item :label="$t('StockArrival.sourceNumber')" :rules="personalForm.sourceType === '2'" prop="sourceNumber" style="width: 100%;">-->
+              <!--                  <el-input v-model="personalForm.sourceNumber" :disabled="addsouce" style="margin-left: 18px;width:200px" clearable @focus="handleAddSouce"/>-->
+              <!--                </el-form-item>-->
+              <!--              </el-col>-->
               <el-col :span="6">
                 <el-form-item :label="$t('StockArrival.stockPersonId')" prop="stockPersonId" style="width: 100%;">
                   <el-input v-model="stockPersonId" style="margin-left: 18px;width:200px" clearable @focus="handlechooseStock"/>
@@ -147,6 +146,8 @@
         <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
           <el-button :disabled="addpro" @click="handleAddproduct">添加商品</el-button>
           <my-detail :control.sync="control" :supp.sync="supp" @product="productdetail"/>
+          <el-button :disabled="IsSourceNumber" style="width: 130px" @click="handleAddSouce">从源单中选择</el-button>
+          <my-order :ordercontrol.sync="ordercontrol" :supp.sync="supp" @order="order" @allOrderinfo="allOrderinfo"/>
           <el-button type="danger" @click="$refs.editable.removeSelecteds()">删除</el-button>
           <el-button type="primary" @click="checkStock()">库存快照</el-button>
         </div>
@@ -172,7 +173,7 @@
             <el-editable-column prop="color" align="center" label="颜色" min-width="150px"/>
             <el-editable-column prop="unit" align="center" label="单位" min-width="150px"/>
             <el-editable-column prop="stockQuantity" align="center" label="采购数量" min-width="150px"/>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0.01, precision: 2}, type: 'visible'}" prop="arrivalQuantity" align="center" label="到货数量" min-width="150px"/>
+            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0.00, precision: 2}, type: 'visible'}" prop="arrivalQuantity" align="center" label="到货数量" min-width="150px"/>
             <el-editable-column prop="giveDate" align="center" label="交货日期" min-width="170px"/>
             <el-editable-column prop="price" align="center" label="单价" min-width="170px"/>
             <el-editable-column prop="includeTaxPrice" align="center" label="含税价" min-width="170px"/>
@@ -256,7 +257,7 @@
       </el-card>
       <!--操作-->
       <div class="buttons" style="margin-top: 20px">
-        <el-button type="primary" style="background:#3696fd;border-color:#3696fd;width: 98px" @click="handlesave()">保存</el-button>
+        <el-button v-no-more-click type="primary" style="background:#3696fd;border-color:#3696fd;width: 98px" @click="handlesave()">保存</el-button>
         <el-button type="danger" @click="handlecancel()">取消</el-button>
       </div>
       <el-dialog :visible.sync="receiptVisible2" title="库存快照" class="normal" width="600px" center>
@@ -293,6 +294,7 @@
 </template>
 
 <script>
+import '@/directive/noMoreClick/index.js'
 import { countlist } from '@/api/public'
 import { createstockArrival } from '@/api/StockArrival'
 import { getdeptlist } from '@/api/BasicSettings'
@@ -306,6 +308,7 @@ import MyPlan from './components/MyPlan'
 import MyDelivery from './components/MyDelivery'
 import MyLnquiry from './components/MyLnquiry'
 import MyOrder from './components/MyOrder'
+import '@/directive/noMoreClick/index.js'
 export default {
   name: 'AddStockArrival',
   components: { MyOrder, MyLnquiry, MyDelivery, MyPlan, MyApply, MySupplier, MyDetail, MyEmp },
@@ -325,20 +328,22 @@ export default {
         callback()
       }
     }
-    const checkRate = (rule, value, callback) => {
-      console.log(value)
-      if (value === 0 || value === '' || value === null || value === undefined) {
-        callback(new Error('到货数量不能为0'))
-      } else {
-        callback()
-      }
-    }
+    // const checkRate = (rule, value, callback) => {
+    //   console.log(value)
+    //   if (value === 0 || value === '' || value === null || value === undefined) {
+    //     callback(new Error('到货数量不能为0'))
+    //   } else {
+    //     callback()
+    //   }
+    // }
     return {
       pickerOptions1: {
         disabledDate: (time) => {
           return time.getTime() < new Date().getTime() - 8.64e7
         }
       },
+      // 控制是否可以从源单选择
+      IsSourceNumber: false,
       // 带入的供应商
       supp: null,
       // 结算方式
@@ -428,9 +433,9 @@ export default {
       list2: [],
       // 采购申请单明细列表规则
       validRules: {
-        arrivalQuantity: [
-          { required: true, validator: checkRate, trigger: 'blur' }
-        ]
+        // arrivalQuantity: [
+        //   { required: true, validator: checkRate, trigger: 'blur' }
+        // ]
       },
       receiptVisible2: false,
       list111: [],
@@ -584,7 +589,9 @@ export default {
         this.addpro = true
         this.$refs.editable.clear()
         this.$refs.personalForm.clearValidate()
+        this.IsSourceNumber = false
       } else if (this.personalForm.sourceType === '2') {
+        this.IsSourceNumber = true
         this.addpro = false
         this.addsouce = true
         this.personalForm.sourceNumber = ''
@@ -606,13 +613,20 @@ export default {
         })
         return false
       }
-      this.$refs.editable.clear()
       this.ordercontrol = true
     },
     order(val) {
-      this.$refs.editable.clear()
       for (let i = 0; i < val.length; i++) {
-        this.$refs.editable.insert(val[i])
+        // allarrivalQuantity 到货数量
+        if ((val[i].allarrivalQuantity - val[i].returnQuantity) >= val[i].stockQuantity) {
+          this.$notify.error({
+            title: '错误',
+            message: val[i].productCode + '总到货数量-退货数量已达到订单数量',
+            duration: 0
+          })
+        } else {
+          this.$refs.editable.insert(val[i])
+        }
       }
     },
     allOrderinfo(val) {
@@ -659,6 +673,7 @@ export default {
       this.personalForm.supplierId = val.id
       this.personalForm.deliveryMode = val.giveId
       this.personalForm.payMode = val.paymentId
+      this.$refs.editable.clear()
     },
     // 采购员focus事件
     handlechooseStock() {
@@ -738,6 +753,46 @@ export default {
       this.$refs.personalForm.validate((valid) => {
         if (valid) {
           const EnterDetail = this.deepClone(this.$refs.editable.getRecords())
+          if (EnterDetail.length === 0) {
+            this.$notify.error({
+              title: '错误',
+              message: '明细表不能为空',
+              offset: 100
+            })
+            return false
+          }
+          let ll = 1
+          let lll = 1
+          console.log('ll', ll)
+          EnterDetail.map(function(elem) {
+            return elem
+          }).forEach(function(elem) {
+            if (elem.arrivalQuantity === 0) {
+              ll = 2
+            }
+            // 订单数量-到货数量+退货数量 < 0
+            if ((elem.stockQuantity - elem.arrivalQuantity + elem.returnQuantity) < 0) {
+              lll = 2
+            }
+          })
+          console.log('ll', ll)
+          console.log('lll', lll)
+          if (ll === 2) {
+            this.$notify.error({
+              title: '错误',
+              message: '到货数量不能为0',
+              offset: 100
+            })
+            return false
+          }
+          if (lll === 2) {
+            this.$notify.error({
+              title: '错误',
+              message: '不允许超过关联的采购订单数量',
+              offset: 100
+            })
+            return false
+          }
           EnterDetail.map(function(elem) {
             return elem
           }).forEach(function(elem) {

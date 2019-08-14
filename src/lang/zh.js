@@ -5,6 +5,7 @@ export default {
     page401: '401',
     page404: '404',
     nwow: 'NWOW后台管理',
+    CheckSet: '质检明细设置',
     home: '首页',
     AddSupplierAdjust: '新建供应商调价单',
     SupplierAdjustList: '供应商调价单列表',
@@ -305,6 +306,14 @@ export default {
     ProductCost: '产品成本',
     AddProductCost: '新建产品成本',
     ProductCostList: '产品成本列表'
+  },
+  CheckSet: {
+    productCode: '物品编码',
+    productName: '物品名称',
+    itemId: '检验项目',
+    checkTools: '检验工具',
+    checkContent: '检验内容',
+    createName: '创建人'
   },
   SupplierAdjust: {
     title: '变更单主题',
@@ -1372,6 +1381,14 @@ export default {
     workCenterId: '生产中心'
   },
   CheckReport: {
+    checkItemId: '检验项目',
+    checkContent: '检验指标',
+    checkTools: '检验工具',
+    checkQuantity: '样本数量',
+    passQuantity: '合格数量',
+    failedQuantity: '不合格数量',
+    checkResult: '检验结果',
+    remarks: '单项结论',
     title: '报告主题',
     sourceType: '源单类型',
     sourceNumber: '源单编号',
@@ -1389,12 +1406,8 @@ export default {
     productName: '物品名称',
     unit: '单位',
     typeId: '规格型号',
-    checkQuantity: '报检数量',
     sampleQuantity: '抽样数量',
-    passQuantity: '合格数量',
-    failedQuantity: '不合格数量',
     passRate: '合格率',
-    checkResult: '检验结果',
     isRecheck: '是否需要复检'
   },
   CheckFail: {
@@ -1985,6 +1998,8 @@ export default {
     isMove: '是否补货'
   },
   public: {
+    up: '上架',
+    down: '下架',
     createPersonName2: '制单人',
     createDate2: '制单时间',
     cancel: '取消',
