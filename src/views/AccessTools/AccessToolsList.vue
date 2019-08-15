@@ -453,6 +453,7 @@ export default {
     },
     // 审批操作
     handleReview(row) {
+      this.reviewParms = {}
       this.reviewParms.id = row.id
       this.reviewParms.providePersonId = this.$store.getters.userId
       this.$confirm('请确认', '确认', {
@@ -490,6 +491,7 @@ export default {
     },
     // 归还操作
     handleReview2(row) {
+      this.reviewParms = {}
       this.reviewParms.id = row.id
       this.reviewParms.stat = 2
       this.$confirm('请归还', '归还', {

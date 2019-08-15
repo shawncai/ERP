@@ -1384,7 +1384,7 @@ export default {
     checkItemId: '检验项目',
     checkContent: '检验指标',
     checkTools: '检验工具',
-    checkQuantity: '样本数量',
+    checkQuantity: '报检数量',
     passQuantity: '合格数量',
     failedQuantity: '不合格数量',
     checkResult: '检验结果',
@@ -1405,7 +1405,7 @@ export default {
     productCode: '物品编号',
     productName: '物品名称',
     unit: '单位',
-    typeId: '规格型号',
+    typeId: '适用车型',
     sampleQuantity: '抽样数量',
     passRate: '合格率',
     isRecheck: '是否需要复检'

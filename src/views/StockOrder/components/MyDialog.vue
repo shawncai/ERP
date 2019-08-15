@@ -169,7 +169,7 @@
           <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0, precision: 2}, type: 'visible'}" prop="stockQuantity" align="center" label="采购数量" min-width="150px"/>
           <el-editable-column :edit-render="{name: 'ElDatePicker', attrs: {type: 'date', format: 'yyyy-MM-dd'}, type: 'visible'}" prop="deliveryDate" align="center" label="交货日期" min-width="170px"/>
           <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="remarks" align="center" label="备注" min-width="150px"/>
-          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0, precision: 2}, type: 'visible'}" prop="price" align="center" label="单价" min-width="170px">
+          <el-editable-column prop="price" align="center" label="单价" min-width="170px">
             <template slot="edit" slot-scope="scope">
               <el-input-number
                 :precision="2"
@@ -1066,6 +1066,7 @@ export default {
               if (elem.productName === null || elem.productName === '' || elem.productName === undefined) {
                 delete elem.productName
               }
+              elem.typeId = elem.type
               if (elem.type === null || elem.type === '' || elem.type === undefined) {
                 delete elem.type
               }

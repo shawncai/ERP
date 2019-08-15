@@ -604,10 +604,11 @@ export default {
       this.personalForm.carCode = this.detaildata.installmentApplyDetailVos[0].carCode
       this.personalForm.motorCode = this.detaildata.installmentApplyDetailVos[0].motorCode
       this.personalForm.batteryCode = this.detaildata.installmentApplyDetailVos[0].batteryCode
-      this.reviewList = this.personalForm.approvalUseVos
-      for (let i = 0; i < this.reviewList.length; i++) {
-        if (this.reviewList[i].actualStepHandler === null) {
-          this.reviewList.splice(i, 1)
+      this.reviewList = []
+      const review = this.personalForm.approvalUseVos
+      for (const i in review) {
+        if (review[i].actualStepHandler !== null) {
+          this.reviewList.push(review[i])
         }
       }
       console.log('this.personalForm', this.personalForm)

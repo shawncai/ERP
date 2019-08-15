@@ -402,7 +402,7 @@ export default {
         regionId: this.$store.getters.regionId,
         inspectionPersonId: this.$store.getters.userId,
         isRecheck: 1,
-        sourceType: '1',
+        sourceType: '2',
         sampleQuantity: null,
         checkQuantity: null,
         failedQuantity: '',
@@ -608,6 +608,7 @@ export default {
             re.checkItemId = list[i].itemId
             re.checkContent = list[i].checkContent
             re.checkTools = list[i].checkTools
+            re.checkQuantity = this.personalForm.sampleQuantity
             this.$refs.editable.insert(re)
           }
         } else {
@@ -642,6 +643,19 @@ export default {
       this.personalForm.productName = val.productName
       this.personalForm.unit = val.unit
       this.personalForm.typeId = val.type
+      this.personalForm.checkQuantity = val.arrivalQuantity - val.reportCheckingQuantity
+      if (this.personalForm.checkQuantity >= 3 && this.personalForm.checkQuantity <= 100) {
+        this.personalForm.sampleQuantity = 3
+      }
+      if (this.personalForm.checkQuantity >= 101 && this.personalForm.checkQuantity <= 500) {
+        this.personalForm.sampleQuantity = 5
+      }
+      if (this.personalForm.checkQuantity >= 501 && this.personalForm.checkQuantity <= 1200) {
+        this.personalForm.sampleQuantity = 8
+      }
+      if (this.personalForm.checkQuantity >= 1201 && this.personalForm.checkQuantity <= 3200) {
+        this.personalForm.sampleQuantity = 12
+      }
       this.typeId = val.typeName
       this.personalForm.sourceSerialNumber = val.id
       // 增加明细
@@ -853,7 +867,14 @@ export default {
     },
     // 源单类型为采购到货单
     allarrivalinfodata(val) {
-      this.reportdata2 = val.stockArrivalDetailVos
+      const lis = []
+      for (let i = 0; i < val.stockArrivalDetailVos.length; i++) {
+        console.log('val.arrivalQuantity - val.reportCheckingQuantity', val)
+        if ((val.stockArrivalDetailVos[i].arrivalQuantity - val.stockArrivalDetailVos[i].reportCheckingQuantity) > 0) {
+          lis.push(val.stockArrivalDetailVos[i])
+        }
+      }
+      this.reportdata2 = lis
       this.personalForm.sourceNumber = val.number
       this.personalForm.supplierId = val.supplierId
       this.supplierId = val.supplierName
@@ -900,7 +921,7 @@ export default {
         repositoryId: this.$store.getters.repositoryId,
         regionId: this.$store.getters.regionId,
         isRecheck: 1,
-        sourceType: '1',
+        sourceType: '2',
         sampleQuantity: null,
         checkQuantity: null,
         failedQuantity: '',

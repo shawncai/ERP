@@ -324,6 +324,7 @@ export default {
     },
     // 确认
     handleReview1(row) {
+      this.reviewParms = {}
       this.reviewParms.id = row.id
       this.reviewParms.stat = 2
       this.$confirm('请确认', '确认', {
@@ -345,6 +346,7 @@ export default {
     },
     // 确认
     handleReview2(row) {
+      this.reviewParms = {}
       this.reviewParms.id = row.id
       this.reviewParms.stat = 1
       this.$confirm('请反确认', '反确认', {
@@ -457,6 +459,7 @@ export default {
     },
     // 审批操作
     handleReview(row) {
+      this.reviewParms = {}
       this.reviewParms.id = row.id
       this.reviewParms.judgePersonId = this.$store.getters.userId
       this.$confirm('请审核', '审核', {

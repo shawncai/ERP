@@ -47,7 +47,8 @@
       <el-dialog :visible.sync="categoryVisible" title="新建质检明细" class="normal" width="600px" center>
         <el-form ref="addCategoryForm" :rules="addCategoryFormRules" :model="addCategoryForm" class="demo-ruleForm" style="margin: 0 auto; width: 400px">
           <el-form-item :label="$t('CheckSet.productName')" label-width="100px" prop="productName">
-            <el-input v-model="addCategoryForm.productName" style="width:300px" @focus="handlemater"/>
+            <el-input v-model="addCategoryForm.productName" type="textarea" autosize style="min-width:300px" @focus="handlemater"/>
+            <my-detail :control.sync="control" @product="productdetail"/>
             <my-mater :matercontrol.sync="matercontrol" @mater="mater"/>
           </el-form-item>
           <el-form-item :label="$t('CheckSet.itemId')" label-width="100px" prop="itemId">
@@ -134,11 +135,11 @@
       <!-- 列表结束 -->
       <pagination v-show="total>0" :total="total" :page.sync="getemplist.pagenum" :limit.sync="getemplist.pagesize" @pagination="getlist" />
       <!--修改开始=================================================-->
-      <el-dialog :visible.sync="editcategoryVisible" title="修改分类属性" class="normal" width="600px" center>
+      <el-dialog :visible.sync="editcategoryVisible" title="修改质检明细" class="normal" width="600px" center>
         <el-form ref="editCategoryForm" :rules="editCategoryFormRules" :model="editCategoryForm" class="demo-ruleForm" style="margin: 0 auto; width: 400px">
           <el-form-item :label="$t('CheckSet.productName')" label-width="100px" prop="productName">
-            <el-input v-model="editCategoryForm.productName" style="width:300px" @focus="handlemater"/>
-            <my-mater :matercontrol.sync="matercontrol" @mater="mater"/>
+            <el-input v-model="editCategoryForm.productName" disabled style="width:300px" @focus="handlemater"/>
+            <!--            <my-mater :matercontrol.sync="matercontrol" @mater="mater"/>-->
           </el-form-item>
           <el-form-item :label="$t('CheckSet.itemId')" label-width="100px" prop="itemId">
             <el-select v-model="editCategoryForm.itemId" placeholder="请选择检验项目" style="width: 100%">
@@ -168,9 +169,10 @@
 </template>
 
 <script>
+import MyDetail from './components/MyDetail'
 import '@/directive/noMoreClick/index.js'
 import { searchCheckCategory } from '@/api/CheckCategory'
-import { addCheckSet, searchCheckSet, delateCheckSet, updateCheckSet } from '@/api/CheckSet'
+import { addCheckSet, searchCheckSet, delateCheckSet, updateCheckSet, addCheckSetMany } from '@/api/CheckSet'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
 import permission from '@/directive/permission/index.js' // 权限判断指令
@@ -181,7 +183,7 @@ import MyMater from './components/MyMater'
 export default {
   name: 'CheckSet',
   directives: { waves, permission, permission2 },
-  components: { Pagination, MyMater },
+  components: { Pagination, MyMater, MyDetail },
   filters: {
     typeFilter(status) {
       const statusMap = {
@@ -223,6 +225,7 @@ export default {
         type: '',
         iseffective: '1'
       },
+      control: false,
       // 校验新增数据
       addCategoryFormRules: {
         category: [
@@ -274,7 +277,8 @@ export default {
         type: '3',
         pagenum: 1,
         pagesize: 9999
-      }
+      },
+      product: []
     }
   },
   mounted() {
@@ -282,11 +286,25 @@ export default {
     this.getlist()
   },
   methods: {
+    productdetail(val) {
+      console.log('val', val)
+      this.product = val
+      console.log('this.product', this.product)
+      let name = ''
+      for (let i = 0; i < this.product.length; i++) {
+        name = name + this.product[i].productName + ','
+      }
+      console.log('name', name)
+      name = name.substring(0, name.length - 1)
+      this.addCategoryForm.productName = name
+      console.log('name', name)
+    },
     getlist() {
       this.listLoading = true
       searchCheckSet(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
+          this.total = res.data.data.content.totalCount
         } else {
           console.log('列表出错')
         }
@@ -300,7 +318,7 @@ export default {
       this.addCategoryForm.productName = val.productName
     },
     handlemater() {
-      this.matercontrol = true
+      this.control = true
     },
     checkPermission,
     getlist2() {
@@ -456,9 +474,17 @@ export default {
     // 保存操作
     handlesave() {
       console.log(this.addCategoryForm)
+      for (let i = 0; i < this.product.length; i++) {
+        this.product[i].createId = this.addCategoryForm.createId
+        this.product[i].checkContent = this.addCategoryForm.checkContent
+        this.product[i].checkTools = this.addCategoryForm.checkTools
+        this.product[i].itemId = this.addCategoryForm.itemId
+      }
+      const parms = JSON.stringify(this.product)
+      console.log('parms', parms)
       this.$refs.addCategoryForm.validate((valid) => {
         if (valid) {
-          addCheckSet(this.addCategoryForm).then(res => {
+          addCheckSetMany(parms).then(res => {
             if (res.data.ret === 200) {
               this.$notify({
                 title: '成功',

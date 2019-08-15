@@ -248,6 +248,7 @@ export default {
     },
     // 反结单操作
     handleReview4(row) {
+      this.reviewParms = {}
       this.reviewParms.id = row.id
       this.reviewParms.judgePersonId = this.$store.getters.userId
       this.$confirm('请反审批', '反审批', {
@@ -284,8 +285,9 @@ export default {
     },
     // 反结单操作
     handleReview3(row) {
+      this.reviewParms = {}
       this.reviewParms.id = row.id
-      this.reviewParms.endPersonId = 0
+      this.reviewParms.endPersonId = this.$store.getters.userId
       this.$confirm('请反结单', '反结单', {
         distinguishCancelAndClose: true,
         confirmButtonText: '反结单',
@@ -313,6 +315,7 @@ export default {
     },
     // 结单操作
     handleReview2(row) {
+      this.reviewParms = {}
       this.reviewParms.id = row.id
       this.reviewParms.endPersonId = this.$store.getters.userId
       this.$confirm('请结单', '结单', {
@@ -428,6 +431,7 @@ export default {
     },
     // 审批操作
     handleReview(row) {
+      this.reviewParms = {}
       this.reviewParms.id = row.id
       this.reviewParms.judgePersonId = this.$store.getters.userId
       this.$confirm('请审核', '审核', {

@@ -1204,6 +1204,7 @@ export default {
             if (elem.productName === null || elem.productName === '' || elem.productName === undefined) {
               delete elem.productName
             }
+            elem.typeId = elem.type
             if (elem.type === null || elem.type === '' || elem.type === undefined) {
               delete elem.type
             }

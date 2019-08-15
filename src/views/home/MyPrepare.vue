@@ -1288,7 +1288,8 @@ import permission2 from '@/directive/permission2/index.js' // 权限判断指令
     },
       // 审批操作
       handleReview(row) {
-        this.reviewParms.id = row.id
+        this.reviewParms = {}
+      this.reviewParms.id = row.id
         this.reviewParms.judgePersonId = this.$store.getters.userId
         this.$confirm('请审核', '审核', {
           distinguishCancelAndClose: true,

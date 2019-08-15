@@ -243,6 +243,7 @@ export default {
   methods: {
     // 确认操作
     handleEdit2(row) {
+      this.reviewParms = {}
       this.reviewParms.id = row.id
       this.reviewParms.confirmPersonId = this.$store.getters.userId
       this.$confirm('请确认', '确认', {
@@ -439,6 +440,7 @@ export default {
       }
     },
     handleReview(row) {
+      this.reviewParms = {}
       this.reviewParms.id = row.id
       this.reviewParms.stat = 1
       const parms = JSON.stringify(this.reviewParms)
@@ -454,6 +456,7 @@ export default {
     },
     // 审批操作
     handleReview2(row) {
+      this.reviewParms = {}
       this.reviewParms.id = row.id
       this.reviewParms.stat = 2
       const parms = JSON.stringify(this.reviewParms)

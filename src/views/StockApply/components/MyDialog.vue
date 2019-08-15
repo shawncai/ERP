@@ -91,7 +91,7 @@
           <el-editable-column prop="color" align="center" label="颜色" min-width="150px"/>
           <el-editable-column prop="unit" align="center" label="单位" min-width="150px"/>
           <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0.00, precision: 2}, type: 'visible', events: {change: changeDate2}}" prop="requireQuantity" align="center" label="需求数量" min-width="150px"/>
-          <el-editable-column :edit-render="{name: 'ElDatePicker', attrs: {type: 'date', format: 'yyyy-MM-dd'}, type: 'visible', events: {change: changeDate}}" prop="requireDate" align="center" label="需求日期" min-width="170px">
+          <el-editable-column :edit-render="{name: 'ElDatePicker', attrs: {type: 'date', format: 'yyyy-MM-dd'}, type: 'visible', events: {change: changeDate2}}" prop="requireDate" align="center" label="需求日期" min-width="170px">
             <template slot="edit" slot-scope="scope">
               <el-date-picker
                 v-model="scope.row.requireDate"

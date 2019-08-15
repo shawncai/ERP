@@ -418,6 +418,7 @@ export default {
     },
     // 审批操作
     handleReview(row) {
+      this.reviewParms = {}
       this.reviewParms.id = row.id
       this.reviewParms.judgePersonId = this.$store.getters.userId
       this.$confirm('请审核', '审核', {

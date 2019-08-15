@@ -280,6 +280,7 @@ export default {
   methods: {
     // 确认操作
     handleEdit2(row) {
+      this.reviewParms = {}
       this.reviewParms.id = row.id
       this.reviewParms.confirmPersonId = this.$store.getters.userId
       this.$confirm('请确认', '确认', {
@@ -476,6 +477,7 @@ export default {
     },
     // 审批操作
     handleReview(row) {
+      this.reviewParms = {}
       this.reviewParms.id = row.id
       this.reviewParms.judgePersonId = this.$store.getters.userId
       this.$confirm('请审核', '审核', {

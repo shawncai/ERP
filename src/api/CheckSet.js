@@ -1,5 +1,17 @@
 import request from '@/utils/request'
 
+export function addCheckSetMany(query) {
+  var params = new URLSearchParams()
+  if (query !== '' && query !== null && query !== undefined) {
+    params.append('checkSetJson', query) // 你要传给后台的参数值 key/value
+  }
+  return request({
+    url: '/erp/checkset/addCheckSetMany',
+    method: 'post',
+    data: params
+  })
+}
+
 // 分类属性列表
 export function addCheckSet(query) {
   var params = new URLSearchParams()
@@ -43,8 +55,8 @@ export function searchCheckSet(query) {
   if (query.createId !== '' && query.createId !== null && query.createId !== undefined) {
     params.append('createId', query.createId) // 你要传给后台的参数值 key/value
   }
-  params.append('pageNum', query.pagenum) // 你要传给后台的参数值 key/value
-  params.append('pageSize', query.pagesize) // 你要传给后台的参数值 key/value
+  params.append('pagenum', query.pagenum) // 你要传给后台的参数值 key/value
+  params.append('pagesize', query.pagesize) // 你要传给后台的参数值 key/value
   return request({
     url: '/erp/checkset/searchCheckSet',
     method: 'post',

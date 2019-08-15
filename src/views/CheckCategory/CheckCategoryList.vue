@@ -150,7 +150,7 @@
 </template>
 
 <script>
-import { searchCheckCategory, addCheckCategory, updateCheckCategory, delateCheckCategory } from '@/api/CheckCategory'
+import { searchCheckCategory, addCheckCategory, updateCheckCategory, delateCheckCategory,  } from '@/api/CheckCategory'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
 import permission from '@/directive/permission/index.js' // 权限判断指令
