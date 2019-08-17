@@ -214,11 +214,11 @@
             border
             size="medium"
             style="width: 100%">
-            <el-editable-column type="selection" width="55" align="center"/>
-            <el-editable-column label="序号" width="55" align="center" type="index"/>
-            <el-editable-column prop="checkItem" align="center" label="检验项目" width="200px"/>
-            <el-editable-column prop="checkContent" align="center" label="检验内容" width="200px"/>
-            <el-editable-column prop="checkTools" align="center" label="检验工具" width="200px"/>
+            <el-editable-column type="selection" fixed width="55" align="center"/>
+            <el-editable-column label="序号" fixed width="55" align="center" type="index"/>
+            <el-editable-column prop="checkItem" fixed align="center" label="检验项目" width="200px"/>
+            <el-editable-column prop="checkContent" fixed align="center" label="检验内容" width="200px"/>
+            <el-editable-column prop="checkTools" fixed align="center" label="检验工具" width="200px"/>
             <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="checkQuantity" align="center" label="样本数" width="200px"/>
             <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="passQuantity" align="center" label="合格数量" width="200px"/>
             <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="failedQuantity" align="center" label="不合格数量" width="200px"/>
@@ -534,6 +534,16 @@ export default {
       this.$refs.editable.insert({ checkQuantity: this.personalForm.sampleQuantity })
     },
     chooseType(val) {
+      this.$refs.editable.clear()
+      this.$refs.personalForm2.clearValidate()
+      this.$refs.personalForm2.resetFields()
+      this.$refs.personalForm3.clearValidate()
+      this.$refs.personalForm3.resetFields()
+      this.personalForm.productName = ''
+      this.personalForm.unit = ''
+      this.personalForm.typeId = ''
+      this.personalForm.failedQuantity = ''
+      this.personalForm.passRate = ''
       if (this.personalForm.sourceType === '1') {
         this.IsProduceManagerId = false
         this.IsWorkCenterId = false
@@ -789,8 +799,6 @@ export default {
     changePassQuantity() {
       console.log('555')
       if (this.personalForm.checkMode === '2') {
-        console.log(this.personalForm.passQuantity)
-        console.log(this.personalForm.checkQuantity)
         if (this.personalForm.passQuantity !== null && this.personalForm.passQuantity !== '' && this.personalForm.checkQuantity !== null && this.personalForm.checkQuantity !== '') {
           this.personalForm.failedQuantity = (this.personalForm.checkQuantity - this.personalForm.passQuantity).toFixed(2)
           this.personalForm.passRate = (this.personalForm.passQuantity / this.personalForm.checkQuantity).toFixed(2)
@@ -806,6 +814,15 @@ export default {
           this.personalForm.failedQuantity = ''
           this.personalForm.passRate = ''
         }
+      }
+      console.log(this.personalForm.passQuantity)
+      console.log(this.personalForm.sampleQuantity)
+      if (this.personalForm.passQuantity > this.personalForm.sampleQuantity) {
+        this.$notify.error({
+          title: '错误',
+          message: '合格数量不能大于抽样数量',
+          offset: 100
+        })
       }
     },
     deliveryName(val) {
@@ -831,6 +848,17 @@ export default {
       }
     },
     allqualityinfo(val) {
+      console.log(123)
+      this.$refs.editable.clear()
+      this.$refs.personalForm2.clearValidate()
+      this.$refs.personalForm2.resetFields()
+      this.$refs.personalForm3.clearValidate()
+      this.$refs.personalForm3.resetFields()
+      this.personalForm.productName = ''
+      this.personalForm.unit = ''
+      this.personalForm.typeId = ''
+      this.personalForm.failedQuantity = ''
+      this.personalForm.passRate = ''
       console.log(val)
       this.reportdata = val.qualityCheckDetailVos
       this.personalForm.sourceNumber = val.checkNumber
@@ -867,6 +895,17 @@ export default {
     },
     // 源单类型为采购到货单
     allarrivalinfodata(val) {
+      console.log(123)
+      this.$refs.editable.clear()
+      this.$refs.personalForm2.clearValidate()
+      this.$refs.personalForm2.resetFields()
+      this.$refs.personalForm3.clearValidate()
+      this.$refs.personalForm3.resetFields()
+      this.personalForm.productName = ''
+      this.personalForm.unit = ''
+      this.personalForm.typeId = ''
+      this.personalForm.failedQuantity = ''
+      this.personalForm.passRate = ''
       const lis = []
       for (let i = 0; i < val.stockArrivalDetailVos.length; i++) {
         console.log('val.arrivalQuantity - val.reportCheckingQuantity', val)
@@ -882,6 +921,17 @@ export default {
     },
     // 源单类型为生产任务单
     produce(val) {
+      console.log(123)
+      this.$refs.editable.clear()
+      this.$refs.personalForm2.clearValidate()
+      this.$refs.personalForm2.resetFields()
+      this.$refs.personalForm3.clearValidate()
+      this.$refs.personalForm3.resetFields()
+      this.personalForm.productName = ''
+      this.personalForm.unit = ''
+      this.personalForm.typeId = ''
+      this.personalForm.failedQuantity = ''
+      this.personalForm.passRate = ''
       this.reportdata3 = val.produceTaskDetailVos
       this.personalForm.sourceNumber = val.taskNumber
       if (val.handlePersonId !== '' && val.handlePersonId !== null && val.handlePersonId !== undefined) {
@@ -944,6 +994,14 @@ export default {
         this.$notify.error({
           title: '错误',
           message: '明细表不能为空',
+          offset: 100
+        })
+        return false
+      }
+      if (this.personalForm.passQuantity > this.personalForm.sampleQuantity) {
+        this.$notify.error({
+          title: '错误',
+          message: '合格数量不能大于抽样数量',
           offset: 100
         })
         return false

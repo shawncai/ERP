@@ -172,7 +172,7 @@
 import MyDetail from './components/MyDetail'
 import '@/directive/noMoreClick/index.js'
 import { searchCheckCategory } from '@/api/CheckCategory'
-import { addCheckSet, searchCheckSet, delateCheckSet, updateCheckSet, addCheckSetMany } from '@/api/CheckSet'
+import { searchCheckSet, delateCheckSet, updateCheckSet, addCheckSetMany } from '@/api/CheckSet'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
 import permission from '@/directive/permission/index.js' // 权限判断指令

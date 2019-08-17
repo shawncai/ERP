@@ -252,7 +252,7 @@ export default {
       // 加载表格
       listLoading: true,
       // 采购申请查询加展示参数
-      ggetemplist: {
+      getemplist: {
         pageNum: 1,
         pageSize: 10,
         judgeStat: 2,

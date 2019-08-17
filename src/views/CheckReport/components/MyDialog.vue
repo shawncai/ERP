@@ -205,11 +205,11 @@
           border
           size="medium"
           style="width: 100%">
-          <el-editable-column type="selection" min-width="55" align="center"/>
-          <el-editable-column label="序号" min-width="55" align="center" type="index"/>
-          <el-editable-column prop="checkItem" align="center" label="检验项目" width="200px"/>
-          <el-editable-column prop="checkContent" align="center" label="检验内容" width="200px"/>
-          <el-editable-column prop="checkTools" align="center" label="检验工具" width="200px"/>
+          <el-editable-column type="selection" fixed min-width="55" align="center"/>
+          <el-editable-column label="序号" fixed min-width="55" align="center" type="index"/>
+          <el-editable-column prop="checkItem" fixed align="center" label="检验项目" width="200px"/>
+          <el-editable-column prop="checkContent" fixed align="center" label="检验内容" width="200px"/>
+          <el-editable-column prop="checkTools" fixed align="center" label="检验工具" width="200px"/>
           <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="checkQuantity" align="center" label="样本数" width="200px"/>
           <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="passQuantity" align="center" label="合格数量" width="200px"/>
           <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="failedQuantity" align="center" label="不合格数量" width="200px"/>
@@ -415,8 +415,6 @@ export default {
     changePassQuantity() {
       console.log('555')
       if (this.personalForm.checkMode === '2') {
-        console.log(this.personalForm.passQuantity)
-        console.log(this.personalForm.checkQuantity)
         if (this.personalForm.passQuantity !== null && this.personalForm.passQuantity !== '' && this.personalForm.checkQuantity !== null && this.personalForm.checkQuantity !== '') {
           this.personalForm.failedQuantity = (this.personalForm.checkQuantity - this.personalForm.passQuantity).toFixed(2)
           this.personalForm.passRate = (this.personalForm.passQuantity / this.personalForm.checkQuantity).toFixed(2)
@@ -432,6 +430,15 @@ export default {
           this.personalForm.failedQuantity = ''
           this.personalForm.passRate = ''
         }
+      }
+      console.log(this.personalForm.passQuantity)
+      console.log(this.personalForm.sampleQuantity)
+      if (this.personalForm.passQuantity > this.personalForm.sampleQuantity) {
+        this.$notify.error({
+          title: '错误',
+          message: '合格数量不能大于抽样数量',
+          offset: 100
+        })
       }
     },
     // 检验人员focus事件触发
@@ -598,6 +605,14 @@ export default {
     // 修改和取消按钮
     // 修改按钮
     handleEditok() {
+      if (this.personalForm.passQuantity > this.personalForm.sampleQuantity) {
+        this.$notify.error({
+          title: '错误',
+          message: '合格数量不能大于抽样数量',
+          offset: 100
+        })
+        return false
+      }
       this.personalForm.repositoryId = this.$store.getters.repositoryId
       this.personalForm.regionId = this.$store.getters.regionId
       this.personalForm.createPersonId = this.$store.getters.userId

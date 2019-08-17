@@ -398,6 +398,7 @@ export default {
     effectDay: '有效天数'
   },
   NewEmployeeInformation: {
+    isEnd: '是否到期',
     code: '物品编码',
     code2: '编码',
     account: '员工端登陆账号',

@@ -6,7 +6,10 @@
       <el-input v-model="getcontractlist.contractname" :placeholder="$t('NewEmployeeInformation.contractname')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
       <el-input v-model="getcontractlist.empnumber" :placeholder="$t('NewEmployeeInformation.empnumber')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
       <el-input v-model="getcontractlist.empname" :placeholder="$t('NewEmployeeInformation.empname')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
-      <!-- 搜索按钮 -->
+      <el-select v-model="getcontractlist.isEnd" placeholder="是否到期" class="filter-item" clearable @keyup.enter.native="handleFilter">
+        <el-option label="是" value="1"/>
+        <el-option label="否" value="2"/>
+      </el-select>      <!-- 搜索按钮 -->
       <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 86px" @click="handleFilter">{{ $t('public.search') }}</el-button>
       <!-- 批量操作 -->
       <el-dropdown @command="handleCommand">
@@ -43,7 +46,7 @@
           align="center"/>
         <el-table-column :label="$t('NewEmployeeInformation.contractnumber')" :resizable="false" fixed="left" prop="contractNumber" align="center" width="180">
           <template slot-scope="scope">
-            <span>{{ scope.row.contractNumber }}</span>
+            <span class="link-type" @click="handleDetail(scope.row)">{{ scope.row.contractNumber }}</span>
           </template>
         </el-table-column>
         <el-table-column :label="$t('NewEmployeeInformation.contractname')" :resizable="false" fixed="left" prop="contractName" align="center" width="200">
@@ -76,6 +79,11 @@
             <span>{{ scope.row.expiredTime }}</span>
           </template>
         </el-table-column>
+        <el-table-column :label="$t('NewEmployeeInformation.isEnd')" :resizable="false" prop="expiredTime" align="center" width="200">
+          <template slot-scope="scope">
+            <span>{{ scope.row.isEnd | isEndFilter }}</span>
+          </template>
+        </el-table-column>
         <el-table-column :label="$t('public.actions')" :resizable="false" align="center" min-width="230">
           <template slot-scope="scope">
             <el-button v-permission="['1-2-7-3']" type="primary" size="mini" @click="handleEdit(scope.row)">{{ $t('public.edit') }}</el-button>
@@ -86,91 +94,146 @@
       <!-- 列表结束 -->
       <pagination v-show="total>0" :total="total" :page.sync="getcontractlist.pagenum" :limit.sync="getcontractlist.pagesize" @pagination="getlist" />
       <!--修改弹窗-->
-      <el-dialog :visible.sync="editVisible" :title="'合同编号' + contractNumber" top="10px">
-        <el-form ref="contractForm" :model="contractForm" :rules="contractFormRules" :inline="true" status-icon class="demo-ruleForm" label-position="top" label-width="300px" style="margin-left: 30px;">
-          <el-form-item :label="$t('NewEmployeeInformation.employeeid')" prop="employeeId" style="width: 40%;margin-top:1%">
-            <el-input v-model="employeeName" :disabled="true" placeholder="请选择员工" clearable/>
-          </el-form-item>
-          <el-form-item :label="$t('NewEmployeeInformation.typeid')" prop="type" style="width: 40%;margin-top:1%">
-            <el-select v-model="contractForm.type" placeholder="请选择合同类别" style="width: 100%;">
-              <el-option
-                v-for="(item, index) in alltypes"
-                :key="index"
-                :label="item.categoryName"
-                :value="item.id"/>
-            </el-select>
-          </el-form-item>
-          <el-form-item :label="$t('NewEmployeeInformation.contractname')" prop="contractName" style="width: 40%">
-            <el-input v-model="contractForm.contractName" placeholder="请输入合同名称" clearable/>
-          </el-form-item>
-          <el-form-item :label="$t('NewEmployeeInformation.signtime')" style="width: 40%" prop="signTime">
-            <el-date-picker
-              v-model="contractForm.signTime"
-              type="date"
-              placeholder="选择签约时间"
-              value-format="yyyy-MM-dd"
-              style="width: 100%"/>
-          </el-form-item>
-          <el-form-item :label="$t('NewEmployeeInformation.expiredtime')" style="width: 40%" prop="expiredTime">
-            <el-date-picker
-              v-model="contractForm.expiredTime"
-              type="date"
-              placeholder="选择到期时间"
-              value-format="yyyy-MM-dd"
-              style="width: 100%"/>
-          </el-form-item>
-          <el-form-item :label="$t('NewEmployeeInformation.effectivetime')" style="width: 40%" prop="effectiveTime">
-            <el-date-picker
-              v-model="contractForm.effectiveTime"
-              type="date"
-              placeholder="选择生效时间"
-              value-format="yyyy-MM-dd"
-              style="width: 100%"/>
-          </el-form-item>
-          <el-form-item :label="$t('NewEmployeeInformation.period')" style="width: 40%;margin-top:1%">
-            <el-select v-model="contractForm.period" placeholder="请选择合同期限" style="width: 100%;">
-              <el-option label="类型1" value="1"/>
-              <el-option label="类型2" value="2"/>
-            </el-select>
-          </el-form-item>
-          <el-form-item :label="$t('NewEmployeeInformation.attribute')" style="width: 40%;margin-top:1%">
-            <el-select v-model="contractForm.contractAttribute" placeholder="请选择合同属性" style="width: 100%;">
-              <el-option label="类型1" value="1"/>
-              <el-option label="类型2" value="2"/>
-            </el-select>
-          </el-form-item>
-          <el-form-item :label="$t('NewEmployeeInformation.iscorrection')" style="width: 40%;margin-top:1%">
-            <el-radio-group v-model="contractForm.isCorrection" style="width: 80%">
-              <el-radio :label="1" style="width: 50%">是</el-radio>
-              <el-radio :label="2">否</el-radio>
-            </el-radio-group>
-          </el-form-item>
-          <el-form-item :label="$t('NewEmployeeInformation.contractstat')" style="width: 40%;margin-top:1%">
-            <el-radio-group v-model="contractForm.stat" style="width: 80%">
-              <el-radio :label="1" style="width: 50%">生效</el-radio>
-              <el-radio :label="2">未生效</el-radio>
-            </el-radio-group>
-          </el-form-item>
-          <el-form-item :label="$t('NewEmployeeInformation.trialsalary')" style="width: 40%">
-            <el-input v-model="contractForm.trialSalary" placeholder="请输入试用工资" clearable/>
-          </el-form-item>
-          <el-form-item :label="$t('NewEmployeeInformation.correctionsalary')" style="width: 40%">
-            <el-input v-model="contractForm.correctionSalary" placeholder="请输入转正工资" clearable/>
-          </el-form-item>
-          <el-form-item :label="$t('NewEmployeeInformation.remindpersonid')" style="width: 40%">
-            <el-input v-model="remindpersonid" placeholder="请选择提醒人" clearable @focus="controlremin"/>
-          </el-form-item>
-          <my-create :createcontrol.sync="createcontrol" @createname="createname"/>
-          <el-form-item :label="$t('NewEmployeeInformation.advanceday')" style="width: 40%">
-            <el-input v-model="contractForm.advanceDay" placeholder="请输入提前时间" clearable>
-              <template slot="append">天</template>
-            </el-input>
-          </el-form-item>
-        </el-form>
-        <div class="buttons" style="margin-top: 20px;margin-left: 30px">
-          <el-button type="primary" @click="handleEditok()">修改</el-button>
-          <el-button type="danger" @click="handlecancel()">取消</el-button>
-        </div>
+      <el-dialog :visible.sync="editVisible" :title="'合同编号' + contractNumber" width="1010px" class="edit" top="-10px">
+        <el-card class="box-card" style="margin-top: 63px" shadow="never">
+          <el-form ref="contractForm" :model="contractForm" :rules="contractFormRules" :inline="true" status-icon class="demo-ruleForm" label-position="top" label-width="300px" style="margin-left: 30px;">
+            <el-form-item :label="$t('NewEmployeeInformation.employeeid')" prop="employeeId" style="width: 40%;">
+              <el-input v-model="employeeName" :disabled="true" placeholder="请选择员工" clearable/>
+            </el-form-item>
+            <el-form-item :label="$t('NewEmployeeInformation.typeid')" prop="type" style="width: 40%;">
+              <el-select v-model="contractForm.type" placeholder="请选择合同类别" style="width: 100%;">
+                <el-option
+                  v-for="(item, index) in alltypes"
+                  :key="index"
+                  :label="item.categoryName"
+                  :value="item.id"/>
+              </el-select>
+            </el-form-item>
+            <el-form-item :label="$t('NewEmployeeInformation.contractname')" prop="contractName" style="width: 40%">
+              <el-input v-model="contractForm.contractName" placeholder="请输入合同名称" clearable/>
+            </el-form-item>
+            <el-form-item :label="$t('NewEmployeeInformation.signtime')" style="width: 40%" prop="signTime">
+              <el-date-picker
+                v-model="contractForm.signTime"
+                type="date"
+                placeholder="选择签约时间"
+                value-format="yyyy-MM-dd"
+                style="width: 100%"/>
+            </el-form-item>
+            <el-form-item :label="$t('NewEmployeeInformation.expiredtime')" style="width: 40%" prop="expiredTime">
+              <el-date-picker
+                v-model="contractForm.expiredTime"
+                type="date"
+                placeholder="选择到期时间"
+                value-format="yyyy-MM-dd"
+                style="width: 100%"/>
+            </el-form-item>
+            <el-form-item :label="$t('NewEmployeeInformation.effectivetime')" style="width: 40%" prop="effectiveTime">
+              <el-date-picker
+                v-model="contractForm.effectiveTime"
+                type="date"
+                placeholder="选择生效时间"
+                value-format="yyyy-MM-dd"
+                style="width: 100%"/>
+            </el-form-item>
+            <el-form-item :label="$t('NewEmployeeInformation.period')" style="width: 40%;margin-top:1%">
+              <el-select v-model="contractForm.period" placeholder="请选择合同期限" style="width: 100%;">
+                <el-option label="类型1" value="1"/>
+                <el-option label="类型2" value="2"/>
+              </el-select>
+            </el-form-item>
+            <el-form-item :label="$t('NewEmployeeInformation.attribute')" style="width: 40%;margin-top:1%">
+              <el-select v-model="contractForm.contractAttribute" placeholder="请选择合同属性" style="width: 100%;">
+                <el-option label="类型1" value="1"/>
+                <el-option label="类型2" value="2"/>
+              </el-select>
+            </el-form-item>
+            <el-form-item :label="$t('NewEmployeeInformation.iscorrection')" style="width: 40%;margin-top:1%">
+              <el-radio-group v-model="contractForm.isCorrection" style="width: 80%">
+                <el-radio :label="1" style="width: 50%">是</el-radio>
+                <el-radio :label="2">否</el-radio>
+              </el-radio-group>
+            </el-form-item>
+            <el-form-item :label="$t('NewEmployeeInformation.contractstat')" style="width: 40%;margin-top:1%">
+              <el-radio-group v-model="contractForm.stat" style="width: 80%">
+                <el-radio :label="1" style="width: 50%">生效</el-radio>
+                <el-radio :label="2">未生效</el-radio>
+              </el-radio-group>
+            </el-form-item>
+            <el-form-item :label="$t('NewEmployeeInformation.trialsalary')" style="width: 40%">
+              <el-input v-model="contractForm.trialSalary" placeholder="请输入试用工资" clearable/>
+            </el-form-item>
+            <el-form-item :label="$t('NewEmployeeInformation.correctionsalary')" style="width: 40%">
+              <el-input v-model="contractForm.correctionSalary" placeholder="请输入转正工资" clearable/>
+            </el-form-item>
+            <el-form-item :label="$t('NewEmployeeInformation.remindpersonid')" style="width: 40%">
+              <el-input v-model="remindpersonid" placeholder="请选择提醒人" clearable @focus="controlremin"/>
+            </el-form-item>
+            <my-create :createcontrol.sync="createcontrol" @createname="createname"/>
+            <el-form-item :label="$t('NewEmployeeInformation.advanceday')" style="width: 40%">
+              <el-input v-model="contractForm.advanceDay" placeholder="请输入提前时间" clearable>
+                <template slot="append">天</template>
+              </el-input>
+            </el-form-item>
+          </el-form>
+          <div class="buttons" style="margin-top: 20px;margin-left: 30px">
+            <el-button type="primary" @click="handleEditok()">修改</el-button>
+            <el-button type="danger" @click="handlecancel()">取消</el-button>
+          </div>
+        </el-card>
+      </el-dialog>
+      <!--      详情-->
+      <el-dialog :visible.sync="detailVisible" :title="'合同编号' + contractNumber" width="1010px" class="edit" top="-10px">
+        <el-card class="box-card" style="margin-top: 63px" shadow="never">
+          <el-form ref="contractForm" :model="contractForm" :rules="contractFormRules" :inline="true" status-icon class="demo-ruleForm" label-position="top" label-width="300px" style="margin-left: 30px;">
+            <el-form-item :label="$t('NewEmployeeInformation.employeeid')" prop="employeeId" style="width: 40%;">
+              {{ contractForm.empName }}
+            </el-form-item>
+            <el-form-item :label="$t('NewEmployeeInformation.typeid')" prop="type" style="width: 40%;">
+              {{ contractForm.contractType }}
+            </el-form-item>
+            <el-form-item :label="$t('NewEmployeeInformation.contractname')" prop="contractName" style="width: 40%">
+              {{ contractForm.contractName }}
+            </el-form-item>
+            <el-form-item :label="$t('NewEmployeeInformation.signtime')" style="width: 40%" prop="signTime">
+              {{ contractForm.signTime }}
+            </el-form-item>
+            <el-form-item :label="$t('NewEmployeeInformation.expiredtime')" style="width: 40%" prop="expiredTime">
+              {{ contractForm.expiredTime }}
+            </el-form-item>
+            <el-form-item :label="$t('NewEmployeeInformation.effectivetime')" style="width: 40%" prop="effectiveTime">
+              {{ contractForm.effectiveTime }}
+            </el-form-item>
+            <el-form-item :label="$t('NewEmployeeInformation.period')" style="width: 40%;margin-top:1%">
+              {{ contractForm.period | periodFilter }}
+            </el-form-item>
+            <el-form-item :label="$t('NewEmployeeInformation.attribute')" style="width: 40%;margin-top:1%">
+              {{ contractForm.contractAttribute | contractAttributeFilter }}
+            </el-form-item>
+            <el-form-item :label="$t('NewEmployeeInformation.iscorrection')" style="width: 40%;margin-top:1%">
+              {{ contractForm.isCorrection | isCorrectionFilter }}
+            </el-form-item>
+            <el-form-item :label="$t('NewEmployeeInformation.contractstat')" style="width: 40%;margin-top:1%">
+              {{ contractForm.stat | statFilter }}
+            </el-form-item>
+            <el-form-item :label="$t('NewEmployeeInformation.trialsalary')" style="width: 40%">
+              {{ contractForm.trialSalary }}
+            </el-form-item>
+            <el-form-item :label="$t('NewEmployeeInformation.correctionsalary')" style="width: 40%">
+              {{ contractForm.correctionSalary }}
+            </el-form-item>
+            <el-form-item :label="$t('NewEmployeeInformation.remindpersonid')" style="width: 40%">
+              {{ contractForm.remindPerson }}
+            </el-form-item>
+            <el-form-item :label="$t('NewEmployeeInformation.advanceday')" style="width: 40%">
+              {{ contractForm.advanceDay }}天
+            </el-form-item>
+          </el-form>
+          <div class="buttons" style="margin-top: 20px;margin-left: 30px">
+            <el-button type="primary" @click="handleEditok()">修改</el-button>
+            <el-button type="danger" @click="handlecancel()">取消</el-button>
+          </div>
+        </el-card>
       </el-dialog>
     </div>
   </div>
@@ -189,6 +252,43 @@ export default {
   name: 'EmployeeContract',
   directives: { waves, permission, permission2 },
   components: { Pagination, MyCreate },
+  filters: {
+    isEndFilter(status) {
+      const statusMap = {
+        1: '是',
+        2: '否'
+      }
+      return statusMap[status]
+    },
+    contractAttributeFilter(status) {
+      const statusMap = {
+        1: '类型1',
+        2: '类型2'
+      }
+      return statusMap[status]
+    },
+    periodFilter(status) {
+      const statusMap = {
+        1: '类型1',
+        2: '类型2'
+      }
+      return statusMap[status]
+    },
+    isCorrectionFilter(status) {
+      const statusMap = {
+        1: '是',
+        2: '否'
+      }
+      return statusMap[status]
+    },
+    statFilter(status) {
+      const statusMap = {
+        1: '生效',
+        2: '未生效'
+      }
+      return statusMap[status]
+    }
+  },
   data() {
     return {
       // 提醒人回显
@@ -226,6 +326,7 @@ export default {
       },
       // 修改弹窗控制
       editVisible: false,
+      detailVisible: false,
       // 修改数据
       employeeName: '',
       contractNumber: '',
@@ -272,6 +373,11 @@ export default {
     this.getlist()
   },
   methods: {
+    // 详情操作
+    handleDetail(row) {
+      this.detailVisible = true
+      this.contractForm = Object.assign({}, row)
+    },
     checkPermission,
     getlist() {
       // 员工列表数据
@@ -514,3 +620,23 @@ export default {
     margin-left: 20px;
   }
 </style>
+
+<style scoped>
+  .container >>> .el-form-item.is-required:not(.is-no-asterisk)>.el-form-item__label:before{
+    margin-left: -10px;
+  }
+  .container >>> .el-form-item__label{
+    text-align: left;
+  }
+  .container >>> .el-form-item__label{
+    color: #60626696;
+  }
+  .edit >>> .el-dialog {
+    background:#f1f1f1 ;
+    left: 0;
+  }
+  .el-col-12{
+    width: 49%;
+  }
+</style>
+

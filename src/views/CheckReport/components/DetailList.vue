@@ -164,10 +164,10 @@
           border
           size="medium"
           style="width: 100%">
-          <el-editable-column label="序号" min-width="55" align="center" type="index"/>
-          <el-editable-column prop="checkItemName" align="center" label="检验项目" min-width="150px"/>
-          <el-editable-column prop="checkContent" align="center" label="检验内容" min-width="150px"/>
-          <el-editable-column prop="checkTools" align="center" label="检验工具" min-width="150px"/>
+          <el-editable-column label="序号" fixed min-width="55" align="center" type="index"/>
+          <el-editable-column prop="checkItemName" fixed align="center" label="检验项目" min-width="150px"/>
+          <el-editable-column prop="checkContent" fixed align="center" label="检验内容" min-width="150px"/>
+          <el-editable-column prop="checkTools" fixed align="center" label="检验工具" min-width="150px"/>
           <el-editable-column prop="checkQuantity" align="center" label="样本数" min-width="150px"/>
           <el-editable-column prop="passQuantity" align="center" label="合格数量" min-width="150px"/>
           <el-editable-column prop="failedQuantity" align="center" label="不合格数量" min-width="150px"/>
