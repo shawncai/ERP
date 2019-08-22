@@ -1,7 +1,14 @@
 <template>
   <div class="navbar">
-    <hamburger :toggle-click="toggleSideBar" :is-active="sidebar.opened" class="hamburger-container"/>
     <el-menu class="el-menu-demo" mode="horizontal" style="float: left;height: 50px" @select="handleSelect">
+      <!--      <hamburger :toggle-click="toggleSideBar" :is-active="sidebar.opened" class="hamburger-container"/>-->
+      <el-submenu index="44">
+        <template slot="title"><svg-icon icon-class="menus" style="margin-left: 4px"/></template>
+        <el-menu-item index="9">物流管理</el-menu-item>
+        <el-menu-item index="11">财务管理</el-menu-item>
+        <el-menu-item index="12">报表统计</el-menu-item>
+        <el-menu-item index="13">日志管理</el-menu-item>
+      </el-submenu>
       <el-menu-item index="1">首页</el-menu-item>
       <el-menu-item index="10">系统管理</el-menu-item>
       <el-menu-item index="2">采购管理</el-menu-item>
@@ -11,10 +18,6 @@
       <el-menu-item index="6">分期管理</el-menu-item>
       <el-menu-item index="7">生产管理</el-menu-item>
       <el-menu-item index="8">质检管理</el-menu-item>
-      <el-menu-item index="9">物流管理</el-menu-item>
-      <el-menu-item index="11">财务管理</el-menu-item>
-      <el-menu-item index="12">报表统计</el-menu-item>
-      <el-menu-item index="13">日志管理</el-menu-item>
       <!--<el-menu-item index="9">报表统计</el-menu-item>-->
       <!--<el-menu-item index="10">操作日志</el-menu-item>-->
     </el-menu>
@@ -101,11 +104,15 @@ export default {
 }
 </script>
 
-<style rel="stylesheet/scss" lang="scss" scoped>
-  .navbar >>> .el-menu--horizontal>.el-menu-item {
-    height: 50px;
-    line-height: 47px;
+<style rel="stylesheet/css" scoped>
+  .el-menu-demo >>> .el-submenu__icon-arrow {
+    display: none;
   }
+
+  .navbar >>> .el-menu--popup-bottom-start {
+    margin-top: -15px !important;
+  }
+
 .navbar {
   height: 50px;
   line-height: 50px;
@@ -115,6 +122,7 @@ export default {
   z-index: 10;
   background: #fff;
   width: 90%;
+}
   .hamburger-container {
     line-height: 58px;
     height: 50px;
@@ -132,7 +140,8 @@ export default {
     float: right;
     height: 100%;
     margin-right: 80px;
-    &:focus{
+  }
+  .right-menu:focus{
      outline: none;
     }
     .right-menu-item {
@@ -151,9 +160,11 @@ export default {
     .avatar-container {
       height: 50px;
       margin-right: 30px;
+    }
       .avatar-wrapper {
         margin-top: 5px;
         position: relative;
+      }
         .user-avatar {
           cursor: pointer;
           width: 40px;
@@ -167,8 +178,5 @@ export default {
           top: 25px;
           font-size: 12px;
         }
-      }
-    }
-  }
-}
+
 </style>
