@@ -172,14 +172,12 @@
             <el-editable-column prop="shouldMoney" align="center" label="应付金额" min-width="150px"/>
             <el-editable-column prop="paidMoney" align="center" label="已付金额" min-width="150px"/>
             <el-editable-column prop="payingMoney" align="center" label="未付金额" min-width="150px"/>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', type: 'visible'}" prop="invoiceNumber" align="center" label="发票号" min-width="150px">
-              <template slot="edit" slot-scope="scope">
-                <el-input-number
-                  v-model="scope.row.invoiceNumber"
-                  :disabled="scope.row.invoiceNumber !== 0"/>
+            <el-editable-column prop="invoiceNumber" align="center" label="发票号" min-width="150px"/>
+            <el-editable-column prop="invoiceType" align="center" label="发票类型" min-width="150px">
+              <template slot-scope="scope">
+                <span>{{ scope.row.invoiceType | invoiceTypeFilter }}</span>
               </template>
             </el-editable-column>
-            <el-editable-column :edit-render="{name: 'ElSelect', options: invoiceTypes, type: 'visible'}" prop="invoiceType" align="center" label="发票类型" min-width="170px"/>
             <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="payThis" align="center" label="本次支付金额" min-width="170px"/>
             <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="advanceMoney" align="center" label="抵扣预付款" min-width="170px"/>
           </el-editable>
@@ -211,6 +209,15 @@ import MyOrder from './components/MyOrder'
 export default {
   name: 'AddPayment',
   components: { MyOrder, MyLnquiry, MyDelivery, MyPlan, MyApply, MySupplier, MyDetail, MyEmp },
+  filters: {
+    invoiceTypeFilter(status) {
+      const statusMap = {
+        1: '采购发票',
+        2: '费用发票'
+      }
+      return statusMap[status]
+    }
+  },
   data() {
     const validatePass = (rule, value, callback) => {
       console.log(value)
@@ -265,7 +272,7 @@ export default {
         type: 8
       },
       // 商品图片数据+++++++++++++++++++++++++结束
-      invoiceTypes: [{ value: 1, label: '增值税' }, { value: 2, label: '其他' }],
+      invoiceTypes: [{ value: 1, label: '采购发票' }, { value: 2, label: '费用发票' }],
       // 预付款金额
       yufu: '0.00',
       // 合计数据

@@ -388,6 +388,8 @@ export default {
         pagenum: 1,
         pagesize: 99999
       },
+      arrivalQuantity: '',
+      reportCheckingQuantity: '',
       // 控制商品列表窗口
       control: false,
       // 控制源单为采购到货单时
@@ -648,6 +650,8 @@ export default {
     // 源单为采购到货单时返回数据
     report2(val) {
       console.log(val)
+      this.arrivalQuantity = val.arrivalQuantity
+      this.reportCheckingQuantity = val.reportCheckingQuantity
       this.sourceSerialNumber = val.id
       this.personalForm.productCode = val.productCode
       this.personalForm.productName = val.productName
@@ -766,9 +770,19 @@ export default {
       } else if (this.personalForm.checkMode === '1') {
         console.log('111')
         this.IsSampleQuantity = false
+        if (this.personalForm.checkQuantity >= 3 && this.personalForm.checkQuantity <= 100) {
+          this.personalForm.sampleQuantity = 3
+        }
+        if (this.personalForm.checkQuantity >= 101 && this.personalForm.checkQuantity <= 500) {
+          this.personalForm.sampleQuantity = 5
+        }
+        if (this.personalForm.checkQuantity >= 501 && this.personalForm.checkQuantity <= 1200) {
+          this.personalForm.sampleQuantity = 8
+        }
+        if (this.personalForm.checkQuantity >= 1201 && this.personalForm.checkQuantity <= 3200) {
+          this.personalForm.sampleQuantity = 12
+        }
       }
-      this.personalForm.checkQuantity = ''
-      this.personalForm.sampleQuantity = ''
       this.personalForm.passQuantity = ''
       this.personalForm.failedQuantity = ''
       this.personalForm.passRate = ''
@@ -964,7 +978,6 @@ export default {
     },
     // 清空记录
     restAllForm() {
-      this.getdatatime()
       this.personalForm = {
         createPersonId: this.$store.getters.userId,
         countryId: this.$store.getters.countryId,
@@ -986,6 +999,7 @@ export default {
       this.workCenterId = null
       this.produceManagerId = null
       this.checkPersonId = null
+      this.getdatatime()
     },
     // 保存操作
     handlesave() {
@@ -1005,6 +1019,19 @@ export default {
           offset: 100
         })
         return false
+      }
+      console.log(this.personalForm.sourceType)
+      if (this.personalForm.sourceType === '2') {
+        console.log(this.personalForm.sourceType)
+        console.log(this.personalForm.checkQuantity > (this.arrivalQuantity - this.reportCheckingQuantity))
+        if (this.personalForm.checkQuantity > (this.arrivalQuantity - this.reportCheckingQuantity)) {
+          this.$notify.error({
+            title: '错误',
+            message: '质检数量超过关联单据数量',
+            offset: 100
+          })
+          return false
+        }
       }
       EnterDetail.map(function(elem) {
         return elem

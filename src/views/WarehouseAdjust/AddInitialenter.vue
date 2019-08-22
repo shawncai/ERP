@@ -116,6 +116,14 @@ export default {
   name: 'AddInitialenter',
   components: { MyCreate, MyRepository, MyDetail },
   data() {
+    const validatePass = (rule, value, callback) => {
+      console.log(this.supplierId)
+      if (this.enterRepositoryId === undefined || this.enterRepositoryId === null || this.enterRepositoryId === '') {
+        callback(new Error('请选择仓库'))
+      } else {
+        callback()
+      }
+    }
     return {
       locationlistparms: {
         pageNum: 1,
@@ -159,6 +167,9 @@ export default {
       regionId: this.$store.getters.regionId,
       // 库存入库单规则数据
       personalrules: {
+        enterRepositoryId: [
+          { required: true, validator: validatePass, trigger: 'blue' }
+        ],
         enterPersonId: [
           { required: true, message: '请选择入库人', trigger: 'blue' }
         ],
@@ -183,6 +194,24 @@ export default {
     // 保存操作
     handlesave() {
       const EnterDetail = this.$refs.editable.getRecords()
+      let ll = 1
+      console.log('nowlistdata', EnterDetail)
+      EnterDetail.map(function(elem) {
+        return elem
+      }).forEach(function(elem) {
+        if (elem.locationId === null || elem.locationId === '' || elem.locationId === undefined) {
+          ll = 2
+        }
+      })
+      console.log('ll', ll)
+      if (ll === 2) {
+        this.$notify.error({
+          title: '错误',
+          message: '货位不能为空',
+          offset: 100
+        })
+        return false
+      }
       if (EnterDetail.length === 0) {
         this.$notify.error({
           title: '错误',

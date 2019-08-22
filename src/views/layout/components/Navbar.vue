@@ -12,6 +12,9 @@
       <el-menu-item index="7">生产管理</el-menu-item>
       <el-menu-item index="8">质检管理</el-menu-item>
       <el-menu-item index="9">物流管理</el-menu-item>
+      <el-menu-item index="11">财务管理</el-menu-item>
+      <el-menu-item index="12">报表统计</el-menu-item>
+      <el-menu-item index="13">日志管理</el-menu-item>
       <!--<el-menu-item index="9">报表统计</el-menu-item>-->
       <!--<el-menu-item index="10">操作日志</el-menu-item>-->
     </el-menu>

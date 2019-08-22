@@ -27,6 +27,9 @@ export function stockenterlist(query) {
   if (query.receiptStat !== '' && query.receiptStat !== null && query.receiptStat !== undefined) {
     params.append('receiptStat', query.receiptStat) // 你要传给后台的参数值 key/value
   }
+  if (query.judgeStat !== '' && query.judgeStat !== null && query.judgeStat !== undefined) {
+    params.append('judgeStat', query.judgeStat) // 你要传给后台的参数值 key/value
+  }
   if (query.createPersonId !== '' && query.createPersonId !== null && query.createPersonId !== undefined) {
     params.append('createPersonId', query.createPersonId) // 你要传给后台的参数值 key/value
   }
@@ -42,8 +45,11 @@ export function stockenterlist(query) {
   if (query.regionIds !== '' && query.regionIds !== null && query.regionIds !== undefined) {
     params.append('regionIds', query.regionIds) // 你要传给后台的参数值 key/value
   }
-  params.append('pagenum', query.pagenum) // 你要传给后台的参数值 key/value
-  params.append('pagesize', query.pagesize) // 你要传给后台的参数值 key/value
+  if (query.supplierId !== '' && query.supplierId !== null && query.supplierId !== undefined) {
+    params.append('supplierId', query.supplierId) // 你要传给后台的参数值 key/value
+  }
+  params.append('pageNum', query.pagenum) // 你要传给后台的参数值 key/value
+  params.append('pageSize', query.pagesize) // 你要传给后台的参数值 key/value
   return request({
     url: '/erp/stockenter/stockenterlist',
     method: 'post',

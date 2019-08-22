@@ -371,7 +371,7 @@ export default {
           orderNumber: item.orderNumber
         }
       })
-      console.log(arrivalDetail)
+      console.log('arrivalDetail', arrivalDetail)
       this.$emit('arrival', arrivalDetail)
       this.$emit('allarrivalinfo', this.choosedata)
     }

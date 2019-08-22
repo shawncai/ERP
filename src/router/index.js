@@ -1586,7 +1586,7 @@ export const asyncRouterMap = [
     meta: {
       title: 'Invoice',
       icon: 'fapiao',
-      type: 2,
+      type: 11,
       roles: ['104-129-4', '104-130-1']
     },
     children: [
@@ -1601,6 +1601,58 @@ export const asyncRouterMap = [
         component: () => import('@/views/Invoice/InvoiceList'),
         name: 'InvoiceList',
         meta: { title: 'InvoiceList', noCache: true, roles: ['104-129-1', '104-129-2', '104-129-3', '104-129-4', '104-129-5', '104-129-6', '104-129-7', '104-129-18'] }
+      },
+      {
+        path: 'AddStockInvoice',
+        component: () => import('@/views/StockInvoice/AddStockInvoice'),
+        name: 'AddStockInvoice',
+        meta: { title: 'AddStockInvoice', noCache: false, roles: ['104-256-1'] }
+      },
+      {
+        path: 'StockInvoiceList',
+        component: () => import('@/views/StockInvoice/StockInvoiceList'),
+        name: 'StockInvoiceList',
+        meta: { title: 'StockInvoiceList', noCache: true, roles: ['104-257-1', '104-257-2', '104-257-3', '104-257-4', '104-257-5', '104-257-6', '104-257-7', '104-257-18'] }
+      },
+      {
+        path: 'AddRedStockInvoice',
+        component: () => import('@/views/StockInvoice/AddRedStockInvoice'),
+        hidden: true,
+        name: 'AddRedStockInvoice',
+        meta: { title: 'AddRedStockInvoice', noCache: false }
+      },
+      {
+        path: 'AddCostInvoice',
+        component: () => import('@/views/CostInvoice/AddCostInvoice'),
+        name: 'AddCostInvoice',
+        meta: { title: 'AddCostInvoice', noCache: false, roles: ['104-258-1'] }
+      },
+      {
+        path: 'CostInvoiceList',
+        component: () => import('@/views/CostInvoice/CostInvoiceList'),
+        name: 'CostInvoiceList',
+        meta: { title: 'CostInvoiceList', noCache: true, roles: ['104-259-1', '104-259-2', '104-259-3', '104-259-4', '104-259-5', '104-259-6', '104-259-7', '104-259-18'] }
+      }
+    ]
+  },
+  {
+    path: '/SubjectFinance',
+    component: Layout,
+    redirect: 'noredirect',
+    name: 'Invoice',
+    alwaysShow: true,
+    meta: {
+      title: 'SubjectFinance',
+      icon: 'fapiao',
+      type: 11,
+      roles: ['266-267-4']
+    },
+    children: [
+      {
+        path: 'SubjectFinance',
+        component: () => import('@/views/SubjectFinance/index'),
+        name: 'SubjectFinance',
+        meta: { title: 'SubjectFinance', noCache: false, roles: ['266-267-4'] }
       }
     ]
   },

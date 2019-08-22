@@ -60,8 +60,9 @@
             </el-col>
             <el-col :span="12">
               <el-form-item :label="$t('CheckReport.checkMode')" prop="checkMode" style="width: 100%;">
-                <el-select v-model="personalForm.checkMode" value="personalForm.checkMode" clearable style="margin-left: 18px;width: 200px" @change="change()">
+                <el-select v-model="personalForm.checkMode" disabled value="personalForm.checkMode" clearable style="margin-left: 18px;width: 200px" @change="change()">
                   <el-option value="1" label="抽样"/>
+                  <el-option value="2" label="全检"/>
                 </el-select>
               </el-form-item>
             </el-col>

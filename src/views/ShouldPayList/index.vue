@@ -90,6 +90,16 @@
             <span>{{ scope.row.returnOffset }}</span>
           </template>
         </el-table-column>
+        <el-table-column :label="$t('ShouldPayList.invoiceNumber')" :resizable="false" align="center" min-width="150">
+          <template slot-scope="scope">
+            <span>{{ scope.row.invoiceNumber }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column :label="$t('ShouldPayList.invoiceType')" :resizable="false" align="center" min-width="150">
+          <template slot-scope="scope">
+            <span>{{ scope.row.invoiceType | invoiceTypeFilter }}</span>
+          </template>
+        </el-table-column>
         <!--<el-table-column :label="$t('public.judgeStat')" :resizable="false" prop="judgeStat" align="center" min-width="150">-->
         <!--<template slot-scope="scope">-->
         <!--<span>{{ scope.row.judgeStat | judgeStatFilter }}</span>-->
@@ -141,6 +151,13 @@ export default {
         1: '审核中',
         2: '审核通过',
         3: '审核不通过'
+      }
+      return statusMap[status]
+    },
+    invoiceTypeFilter(status) {
+      const statusMap = {
+        1: '采购发票',
+        2: '费用发票'
       }
       return statusMap[status]
     },

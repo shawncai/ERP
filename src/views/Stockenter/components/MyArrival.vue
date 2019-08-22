@@ -359,7 +359,8 @@ export default {
           enterMoney: '0.00',
           remarks: '',
           sourceSerialNumber: item.id,
-          passQuantity: item.qualifyQuantity
+          passQuantity: item.qualifyQuantity,
+          orderNumber: item.sourceNumber
         }
       })
       console.log(arrivalDetail)

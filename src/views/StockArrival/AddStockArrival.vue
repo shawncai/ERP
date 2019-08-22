@@ -61,7 +61,7 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('StockArrival.payId')" style="width: 100%;">
-                  <el-select v-model="personalForm.payMode" style="margin-left: 18px;width: 200px" @change="change()">
+                  <el-select v-model="personalForm.settleMode" style="margin-left: 18px;width: 200px" @change="change()">
                     <el-option
                       v-for="(item, index) in paymentIds"
                       :key="index"
@@ -671,8 +671,12 @@ export default {
       this.supp = val.id
       this.supplierId = val.supplierName
       this.personalForm.supplierId = val.id
-      this.personalForm.deliveryMode = val.giveId
-      this.personalForm.payMode = val.paymentId
+      if (val.giveId !== null && val.giveId !== '' && val.giveId !== undefined) {
+        this.personalForm.deliveryMode = val.giveId
+      }
+      if (val.payMode !== null && val.payMode !== '' && val.payMode !== undefined) {
+        this.personalForm.payMode = val.paymentId
+      }
       this.$refs.editable.clear()
     },
     // 采购员focus事件

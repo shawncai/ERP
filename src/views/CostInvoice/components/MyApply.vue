@@ -1,21 +1,21 @@
 <template>
-  <el-dialog :visible.sync="employeeVisible" :arrivalcontrol="arrivalcontrol" :close-on-press-escape="false" top="10px" title="选择采购到货单" append-to-body width="1100px" @close="$emit('update:arrivalcontrol', false)">
+  <el-dialog :visible.sync="employeeVisible" :applycontrol="applycontrol" :close-on-press-escape="false" top="10px" title="选择采购申请单" append-to-body width="1100px" @close="$emit('update:applycontrol', false)">
     <el-card class="box-card" style="margin-top: 15px;height: 60px;padding-left:0 " shadow="never">
       <el-row>
         <el-form ref="getemplist" :model="getemplist" style="margin-top: -9px">
           <el-col :span="4">
             <el-form-item>
-              <el-input v-model="getemplist.title" :placeholder="$t('StockPlan.title')" clearable @keyup.enter.native="handleFilter"/>
+              <el-input v-model="getemplist.title" :placeholder="$t('StockApply.title')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
           <el-col :span="3" style="margin-left: 5px">
             <el-form-item>
-              <el-input v-model="getemplist.number" placeholder="单据编号" clearable @keyup.enter.native="handleFilter"/>
+              <el-input v-model="getemplist.applyNumber" placeholder="单据编号" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
           <el-col :span="3" style="margin-left: 20px">
             <el-form-item>
-              <el-input v-model="stockPersonId" :placeholder="$t('StockArrival.stockPersonId')" clearable @keyup.enter.native="handleFilter" @focus="handlechooseStock"/>
+              <el-input v-model="applyPersonId" :placeholder="$t('StockApply.applyPersonId')" class="filter-item" clearable @keyup.enter.native="handleFilter" @focus="handlechooseStock"/>
             </el-form-item>
             <my-emp :control.sync="stockControl" @stockName="stockName"/>
           </el-col>
@@ -26,33 +26,38 @@
               placement="bottom"
               width="500"
               trigger="click">
-              <el-select v-model="getemplist.deptId" placeholder="部门" clearable style="width: 40%;float: left;margin-left: 20px">
+              <el-select v-model="getemplist.applyDeptId" placeholder="申请部门" clearable style="width: 40%;float: left;margin-left: 20px">
                 <el-option
                   v-for="(item, index) in depts"
                   :key="index"
                   :value="item.id"
                   :label="item.deptName"/>
               </el-select>
-              <el-input v-model="supplierId" placeholder="供应商" style="width: 40%;float: right;margin-right: 20px;" clearable @focus="handlechoose"/>
-              <my-supplier :control.sync="empcontrol" @supplierName="supplierName"/>
-              <el-select v-model="getemplist.receiptStat" :value="getemplist.receiptStat" placeholder="单据状态" clearable style="width: 40%;float: left;margin-left: 20px;margin-top: 20px">
-                <el-option value="1" label="制单"/>
-                <el-option value="2" label="执行"/>
-                <el-option value="3" label="结单"/>
+              <el-select v-model="getemplist.stockType" style="width: 40%;float: right;margin-right: 20px" clearable @focus="updatecountry">
+                <el-option
+                  v-for="(item, index) in types"
+                  :key="index"
+                  :label="item.categoryName"
+                  :value="item.id"/>
               </el-select>
-              <el-select v-model="getemplist.judgeStat" :value="getemplist.judgeStat" placeholder="审批状态" clearable style="width: 40%;float: right;margin-right: 20px;margin-top: 20px">
+              <el-select v-model="getemplist.judgeStat" :value="getemplist.judgeStat" placeholder="审批状态" clearable style="width: 40%;float: left;margin-left: 20px;margin-top: 20px">
                 <el-option value="0" label="未审核"/>
                 <el-option value="1" label="审核中"/>
                 <el-option value="2" label="审核通过"/>
                 <el-option value="3" label="审核不通过"/>
+              </el-select>
+              <el-select v-model="getemplist.receiptStat" :value="getemplist.receiptStat" placeholder="单据状态" clearable style="width: 40%;float: right;margin-right: 20px;margin-top: 20px">
+                <el-option value="1" label="制单"/>
+                <el-option value="2" label="执行"/>
+                <el-option value="3" label="结单"/>
               </el-select>
               <el-date-picker
                 v-model="date"
                 type="daterange"
                 range-separator="-"
                 unlink-panels
-                start-placeholder="询价日期"
-                end-placeholder="询价日期"
+                start-placeholder="Start"
+                end-placeholder="End"
                 value-format="yyyy-MM-dd"
                 style="margin-top: 20px;margin-left: 20px"/>
               <div class="seachbutton" style="width: 100%;float: right;margin-top: 20px">
@@ -84,47 +89,37 @@
         @current-change="handleCurrentChange">
         <el-table-column :label="$t('public.id')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.number }}</span>
+            <span>{{ scope.row.applyNumber }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('StockArrival.title')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('StockApply.title')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.title }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('StockArrival.stockTypeId')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('StockApply.stockType')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.stockType | stockTypeFilter }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('StockArrival.sourceType')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('StockApply.sourceType')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.sourceType | sourceTypeFilter }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('StockArrival.stockPersonId')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('StockApply.applyPersonId')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.stockPersonName }}</span>
+            <span>{{ scope.row.applyPersonName }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('StockArrival.supplierId')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('StockApply.applyDeptId')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.supplierName }}</span>
+            <span>{{ scope.row.applyDeptName }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('StockArrival.allMoney')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('StockApply.applyDate')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.allMoney }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column :label="$t('StockArrival.allTaxMoney')" :resizable="false" align="center" min-width="150">
-          <template slot-scope="scope">
-            <span>{{ scope.row.allTaxMoney }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column :label="$t('StockArrival.allIncludeTaxMoney')" :resizable="false" align="center" min-width="150">
-          <template slot-scope="scope">
-            <span>{{ scope.row.allIncludeTaxMoney }}</span>
+            <span>{{ scope.row.applyDate }}</span>
           </template>
         </el-table-column>
         <el-table-column :label="$t('public.judgeStat')" :resizable="false" prop="judgeStat" align="center" min-width="150">
@@ -139,7 +134,7 @@
         </el-table-column>
       </el-table>
       <!-- 列表结束 -->
-      <pagination v-show="total>0" :total="total" :page.sync="getemplist.pageNum" :limit.sync="getemplist.pageSize" @pagination="getlist" />
+      <pagination v-show="total>0" :total="total" :page.sync="getemplist.pagenum" :limit.sync="getemplist.pagesize" @pagination="getlist" />
       <!--修改开始=================================================-->
       <el-button v-waves class="filter-item" type="success" style="width: 100px;float: left;margin-bottom: 10px" @click="handleConfirm">确认添加</el-button>
     </el-card>
@@ -147,16 +142,16 @@
 </template>
 
 <script>
-import { searchstockArrival } from '@/api/StockArrival'
+import { stocapplylist } from '@/api/StockApply'
 import { getdeptlist } from '@/api/BasicSettings'
 import { searchStockCategory } from '@/api/StockCategory'
+import { productlist } from '@/api/public'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination'
-import MyEmp from './MyEmp'
-import MySupplier from './MySupplier'
+import MyEmp from '../../StockApply/components/MyEmp'
 export default {
   directives: { waves },
-  components: { MyEmp, Pagination, MySupplier },
+  components: { MyEmp, Pagination },
   filters: {
     judgeStatFilter(status) {
       const statusMap = {
@@ -183,15 +178,13 @@ export default {
     },
     sourceTypeFilter(status) {
       const statusMap = {
-        1: '采购申请',
-        2: '采购需求',
-        3: '无来源'
+        1: '无来源'
       }
       return statusMap[status]
     }
   },
   props: {
-    arrivalcontrol: {
+    applycontrol: {
       type: Boolean,
       default: false
     }
@@ -199,7 +192,7 @@ export default {
   data() {
     return {
       // 选择框控制
-      employeeVisible: this.arrivalcontrol,
+      employeeVisible: this.applycontrol,
       // 类别获取参数
       typeparms: {
         pagenum: 1,
@@ -219,13 +212,9 @@ export default {
       detailvisible: false,
       // 更多搜索条件问题
       visible2: false,
-      // 供应商回显
-      supplierId: '',
-      // 供应商控制框
-      empcontrol: false,
-      // 采购人回显
-      stockPersonId: '',
-      // 采购人控制框
+      // 申请人回显
+      applyPersonId: '',
+      // 申请人控制框
       stockControl: false,
       // 批量操作
       moreaction: '',
@@ -257,8 +246,8 @@ export default {
     }
   },
   watch: {
-    arrivalcontrol() {
-      this.employeeVisible = this.arrivalcontrol
+    applycontrol() {
+      this.employeeVisible = this.applycontrol
       this.getlist()
     }
   },
@@ -270,7 +259,7 @@ export default {
     getlist() {
       // 物料需求计划列表数据
       this.listLoading = true
-      searchstockArrival(this.getemplist).then(res => {
+      stocapplylist(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
@@ -294,15 +283,13 @@ export default {
     },
     // 清空搜索条件
     restFilter() {
-      this.supplierId = ''
-      this.getemplist.supplierId = ''
-      this.stockPersonId = ''
-      this.getemplist.stockPersonId = ''
+      this.applyPersonId = ''
+      this.getemplist.applyPersonId = ''
     },
     // 搜索
     handleFilter() {
       this.getemplist.pageNum = 1
-      searchstockArrival(this.getemplist).then(res => {
+      stocapplylist(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
@@ -312,28 +299,18 @@ export default {
         }
       })
     },
-    // 采购人focus事件
+    // 申请人focus事件
     handlechooseStock() {
       this.stockControl = true
     },
-    // 采购人回显
+    // 申请人回显
     stockName(val) {
-      this.stockPersonId = val.personName
-      this.getemplist.stockPersonId = val.id
-    },
-    // 供应商输入框focus事件触发
-    handlechoose() {
-      this.empcontrol = true
-    },
-    // 供应商列表返回数据
-    supplierName(val) {
-      console.log(val)
-      this.supplierId = val.supplierName
-      this.getemplist.supplierId = val.id
+      this.applyPersonId = val.personName
+      this.getemplist.applyPersonId = val.id
     },
     // 新增数据
     handleAdd() {
-      this.$router.push('/StockArrival/AddStockArrival')
+      this.$router.push('/StockApply/AddStockApply')
     },
     // 选择主生产计划数据时的操作
     handleCurrentChange(val) {
@@ -342,38 +319,46 @@ export default {
     // 确认添加数据
     async handleConfirm() {
       this.employeeVisible = false
-      console.log(this.choosedata)
-      const arrivaldata = this.choosedata.stockArrivalDetailVos
-      const number = this.choosedata.number
-      const arrivalDetail = arrivaldata.map(function(item) {
+      const applydata = this.choosedata.stockApplyDetailVos
+      const number = this.choosedata.applyNumber
+      const applyDetail = applydata.map(function(item) {
         return {
           productCode: item.productCode,
           productName: item.productName,
-          productType: item.productType,
+          productType: item.typeName,
           typeName: item.productType,
           type: item.typeId,
           unit: item.unit,
           color: item.color,
-          arrivalQuantity: item.arrivalQuantity,
-          retreatQuantity: 0,
-          retreatReason: '',
+          plannedQuantity: item.planQuantity,
+          planDeliveryDate: item.requireDate,
+          applicationReason: item.applyReason,
           sourceNumber: number,
-          sourceSerialNumber: item.id,
-          remark: item.remark,
-          price: item.price,
-          includeTaxPrice: item.includeTaxPrice,
-          taxRate: item.taxRate * 100,
-          money: item.money,
-          includeTaxMoney: item.includeTaxMoney,
-          taxMoney: item.taxMoney,
-          discountMoney: item.discountMoney,
-          discountRate: item.discountRate * 100,
-          orderNumber: item.orderNumber
+          sourceSerialNumber: item.applyId,
+          price: '',
+          discountRate: 0,
+          discountMoney: 0,
+          remark: 0,
+          orderedQuantity: 0
         }
       })
-      console.log(arrivalDetail)
-      this.$emit('arrival', arrivalDetail)
-      this.$emit('allarrivalinfo', this.choosedata)
+
+      const list = await Promise.all(applydata.map(function(item) {
+        return productlist(item.productCode)
+      }))
+
+      for (let i = 0; i < applyDetail.length; i++) {
+        for (let j = 0; j < list.length; j++) {
+          if (applyDetail[i].productCode === list[j].data.data.content.list[0].code) {
+            applyDetail[i].price = list[j].data.data.content.list[0].purchasePrice
+            applyDetail[i].includeTaxPrice = list[j].data.data.content.list[0].purchasePrice
+          }
+        }
+      }
+      console.log(applydata[0].price)
+      this.$emit('apply', applyDetail)
+      this.$emit('apply2', applyDetail)
+      this.$emit('allapplyinfo', this.choosedata)
     }
     // 仓库管理员选择结束
   }

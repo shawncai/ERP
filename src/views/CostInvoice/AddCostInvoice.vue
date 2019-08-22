@@ -8,73 +8,7 @@
           <el-form ref="personalForm" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
             <el-row>
               <el-col :span="6">
-                <el-form-item :label="$t('StockRetreat.title')" style="width: 100%;">
-                  <el-input v-model="personalForm.title" style="margin-left: 18px;width:200px" clearable/>
-                </el-form-item>
-              </el-col>
-              <el-col :span="6">
-                <el-form-item :label="$t('StockRetreat.sourceType')" prop="sourceType" style="width: 100%;">
-                  <el-select v-model="personalForm.sourceType" style="margin-left: 18px;width: 200px" @change="chooseType">
-                    <el-option value="1" label="采购到货单" />
-                    <!--                    <el-option value="2" label="无来源" />-->
-                    <el-option value="3" label="采购入库单" />
-                  </el-select>
-                </el-form-item>
-              </el-col>
-              <el-col :span="6">
-                <el-form-item :label="$t('StockRetreat.supplierId')" prop="supplierId" style="width: 100%;">
-                  <el-input v-model="supplierId" style="margin-left: 18px;width:200px" clearable @focus="handlechoose"/>
-                  <my-supplier :control.sync="empcontrol" @supplierName="supplierName"/>
-                </el-form-item>
-              </el-col>
-              <el-col :span="6">
-                <el-form-item :label="$t('StockRetreat.sourceNumber')" prop="sourceNumber" style="width: 100%;">
-                  <el-input v-model="personalForm.sourceNumber" :disabled="addsouce" style="margin-left: 18px;width:200px" clearable @focus="handleAddSouce"/>
-                  <my-arrival :arrivalcontrol.sync="arrivalcontrol" @arrival="arrival" @allarrivalinfo="allarrivalinfo"/>
-                </el-form-item>
-              </el-col>
-              <el-col :span="6">
-                <el-form-item :label="$t('StockRetreat.stockPersonId')" prop="stockPersonId" style="width: 100%;">
-                  <el-input v-model="stockPersonId" style="margin-left: 18px;width:200px" clearable @focus="handlechooseStock"/>
-                  <my-emp :control.sync="stockControl" @stockName="stockName"/>
-                </el-form-item>
-              </el-col>
-              <el-col :span="6">
-                <el-form-item :label="$t('StockRetreat.stockTypeId')" prop="stockType" style="width: 100%;">
-                  <el-select v-model="personalForm.stockTypeId" style="margin-left: 18px;width: 200px" @focus="updatecountry">
-                    <el-option
-                      v-for="(item, index) in types"
-                      :key="index"
-                      :label="item.categoryName"
-                      :value="item.id"/>
-                  </el-select>
-                </el-form-item>
-              </el-col>
-              <el-col :span="6">
-                <el-form-item :label="$t('StockRetreat.deptId')" prop="deptId" style="width: 100%;">
-                  <el-select v-model="personalForm.deptId" clearable style="margin-left: 18px;width: 200px">
-                    <el-option
-                      v-for="(item, index) in depts"
-                      :key="index"
-                      :value="item.id"
-                      :label="item.deptName"/>
-                  </el-select>
-                </el-form-item>
-              </el-col>
-              <el-col :span="6">
-                <el-form-item :label="$t('Supplier.payMode')" style="width: 100%;">
-                  <el-select v-model="personalForm.payMode" clearable style="margin-left: 18px;width: 200px" @change="change()">
-                    <el-option
-                      v-for="(item, index) in payModes"
-                      :key="index"
-                      :label="item.categoryName"
-                      :value="item.id"
-                    />
-                  </el-select>
-                </el-form-item>
-              </el-col>
-              <el-col :span="6">
-                <el-form-item :label="$t('Supplier.settleMode')" style="width: 100%;">
+                <el-form-item :label="$t('CostInvoice.settleMode')" style="width: 100%;">
                   <el-select v-model="personalForm.settleMode" placeholder="请选择结算方式" style="margin-left: 18px;width: 200px" @change="change()">
                     <el-option
                       v-for="(item, index) in settleModes"
@@ -86,9 +20,9 @@
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('StockRetreat.retreatDate')" prop="retreatDate" style="width: 100%;">
+                <el-form-item :label="$t('CostInvoice.payDate')" prop="payDate" style="width: 100%;">
                   <el-date-picker
-                    v-model="personalForm.retreatDate"
+                    v-model="personalForm.payDate"
                     :picker-options="pickerOptions1"
                     type="date"
                     value-format="yyyy-MM-dd"
@@ -96,54 +30,73 @@
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('StockRetreat.deliveryModeId')" style="width: 100%;">
-                  <el-select v-model="personalForm.deliveryModeId" clearable style="margin-left: 18px;width: 200px" @change="change()">
-                    <el-option
-                      v-for="(item, index) in giveIds"
-                      :key="index"
-                      :label="item.categoryName"
-                      :value="item.id"
-                    />
-                  </el-select>
-                </el-form-item>
-              </el-col>
-              <el-col :span="6">
-                <el-form-item :label="$t('StockRetreat.isVat')" style="width: 100%;">
-                  <el-radio-group v-model="personalForm.isVat" style="margin-left: 18px;width:200px">
-                    <el-radio :label="1" style="width: 100px">是</el-radio>
-                    <el-radio :label="2">否</el-radio>
+                <el-form-item :label="$t('CostInvoice.isInclude')" prop="isInclude" style="width: 100%;">
+                  <el-radio-group v-model="personalForm.isInclude" style="margin-left: 18px;width:200px">
+                    <el-radio :label="1" style="width: 100px">计入成本</el-radio>
+                    <el-radio :label="2">不计入</el-radio>
                   </el-radio-group>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('StockRetreat.currencyId')" prop="currency" style="width: 100%;">
-                  <el-select v-model="personalForm.currencyId" clearable style="margin-left: 18px;width: 200px" @change="change()">
+                <el-form-item :label="$t('CostInvoice.invoiceNumber')" prop="invoiceNumber" style="width: 100%;">
+                  <el-input v-model="personalForm.invoiceNumber" style="margin-left: 18px;width:200px" clearable/>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item :label="$t('CostInvoice.supplierId')" prop="supplierId" style="width: 100%;">
+                  <el-input v-model="supplierId" style="margin-left: 18px;width:200px" clearable @focus="handlechoose"/>
+                  <my-emp :control.sync="stockControl" @stockName="stockName"/>
+                  <my-supplier :control.sync="empcontrol" @supplierName="supplierName"/>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item :label="$t('CostInvoice.taxNumber')" prop="taxNumber" style="width: 100%;">
+                  <el-input v-model="personalForm.taxNumber" disabled style="margin-left: 18px;width:200px" clearable/>
+                </el-form-item>
+              </el-col>
+              <!--              <el-col :span="6">-->
+              <!--                <el-form-item :label="$t('CostInvoice.subject')" prop="stockType" style="width: 100%;">-->
+              <!--                  <el-select v-model="personalForm.stockTypeId" style="margin-left: 18px;width: 200px" @focus="updatecountry">-->
+              <!--                    <el-option-->
+              <!--                      v-for="(item, index) in types"-->
+              <!--                      :key="index"-->
+              <!--                      :label="item.categoryName"-->
+              <!--                      :value="item.id"/>-->
+              <!--                  </el-select>-->
+              <!--                </el-form-item>-->
+              <!--              </el-col>-->
+              <el-col :span="6">
+                <el-form-item :label="$t('CostInvoice.address')" style="width: 100%;">
+                  <el-input v-model="personalForm.address" disabled style="margin-left: 18px;width:200px" clearable/>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item :label="$t('CostInvoice.bank')" style="width: 100%;">
+                  <el-input v-model="personalForm.bank" disabled style="margin-left: 18px;width:200px" clearable/>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item :label="$t('CostInvoice.currency')" prop="currency" style="width: 100%;">
+                  <el-select v-model="personalForm.currency" clearable style="margin-left: 18px;width: 200px" @change="change()">
                     <el-option value="1" label="RMB"/>
                     <el-option value="2" label="USD"/>
                   </el-select>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('StockRetreat.acceptAddress')" style="width: 100%;">
-                  <el-input v-model="personalForm.acceptAddress" style="margin-left: 18px;width:200px" clearable/>
+                <el-form-item :label="$t('CostInvoice.handlePersonId')" style="width: 100%;">
+                  <el-input v-model="handlePersonId" style="margin-left: 18px;width:200px" clearable @focus="handlechooseStock"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('StockRetreat.transportModeId')" style="width: 100%;">
-                  <el-select v-model="personalForm.transportModeId" clearable style="margin-left: 18px;width: 200px">
+                <el-form-item :label="$t('CostInvoice.deptId')" style="width: 100%;">
+                  <el-select v-model="personalForm.deptId" clearable style="margin-left: 18px;width: 200px">
                     <el-option
-                      v-for="(item, index) in transportIds"
+                      v-for="(item, index) in depts"
                       :key="index"
-                      :label="item.categoryName"
                       :value="item.id"
-                    />
+                      :label="item.deptName"/>
                   </el-select>
-                </el-form-item>
-              </el-col>
-              <el-col :span="6">
-                <el-form-item :label="$t('StockRetreat.retreatRepositoryId')" prop="retreatRepositoryId" style="width: 100%;">
-                  <el-input v-model="retreatRepositoryId" style="margin-left: 18px;width:200px" clearable @focus="handlechooseRep"/>
-                  <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
                 </el-form-item>
               </el-col>
             </el-row>
@@ -152,9 +105,9 @@
       </el-card>
       <!--子件信息-->
       <el-card class="box-card" style="margin-top: 15px" shadow="never">
-        <h2 ref="fuzhu" class="form-name" >采购退货单明细</h2>
+        <h2 ref="fuzhu" class="form-name" >费用发票明细</h2>
         <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
-          <el-button :disabled="addpro" @click="handleAddproduct">添加商品</el-button>
+          <el-button @click="handleAdd2">添加</el-button>
           <my-detail :control.sync="control" @product="productdetail"/>
           <el-button type="danger" @click="$refs.editable.removeSelecteds()">删除</el-button>
           <el-button type="primary" @click="checkStock()">库存快照</el-button>
@@ -167,7 +120,6 @@
             :edit-rules="validRules"
             :summary-method="getSummaries"
             class="click-table1"
-            show-summary
             stripe
             border
             size="medium"
@@ -175,43 +127,50 @@
             @selection-change="handleSelectionChange">
             <el-editable-column type="selection" min-width="55" align="center"/>
             <el-editable-column label="序号" min-width="55" align="center" type="index"/>
-            <el-editable-column prop="productCode" align="center" label="物品编号" min-width="150px"/>
-            <el-editable-column prop="productName" align="center" label="物品名称" min-width="150px"/>
-            <el-editable-column prop="productType" align="center" label="规格" min-width="150px"/>
-            <el-editable-column prop="color" align="center" label="颜色" min-width="150px"/>
-            <el-editable-column prop="unit" align="center" label="单位" min-width="150px"/>
-            <el-editable-column prop="arrivalQuantity" align="center" label="到货数量" min-width="150px"/>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="retreatQuantity" align="center" label="退货数量" min-width="150px"/>
-            <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="retreatReason" align="center" label="退货原因" min-width="170px"/>
-            <el-editable-column prop="price" align="center" label="单价" min-width="170px"/>
+            <el-editable-column prop="productCode" align="center" label="费用代码" min-width="150px"/>
+            <el-editable-column prop="productName" align="center" label="费用名称" min-width="150px"/>
+            <el-editable-column prop="productType" align="center" label="费用类型" min-width="150px"/>
+            <el-editable-column prop="color" align="center" label="计量单位" min-width="150px"/>
+            <el-editable-column prop="unit" align="center" label="数量" min-width="150px"/>
             <el-editable-column prop="includeTaxPrice" align="center" label="含税价" min-width="170px"/>
+            <el-editable-column prop="includeTaxPrice" align="center" label="含税额" min-width="170px"/>
             <el-editable-column prop="taxRate" align="center" label="税率(%)" min-width="170px"/>
-            <el-editable-column prop="money" align="center" label="金额" min-width="150px">
-              <template slot-scope="scope">
-                <p>{{ getMoney(scope.row) }}</p>
-              </template>
-            </el-editable-column>
-            <el-editable-column prop="includeTaxMoney" align="center" label="含税金额" min-width="150px">
-              <template slot-scope="scope">
-                <p>{{ getTaxMoney(scope.row) }}</p>
-              </template>
-            </el-editable-column>
-            <el-editable-column prop="taxMoney" align="center" label="税额" min-width="150px">
-              <template slot-scope="scope">
-                <p>{{ getTaxMoney2(scope.row) }}</p>
-              </template>
-            </el-editable-column>
-            <el-editable-column prop="discountRate" align="center" label="折扣(%)" min-width="170px"/>
-            <el-editable-column prop="discountMoney" align="center" label="折扣额" min-width="170px">
-              <template slot-scope="scope">
-                <p>{{ getdiscountMoney(scope.row) }}</p>
-              </template>
-            </el-editable-column>
-            <el-editable-column prop="remark" align="center" label="备注" min-width="150px"/>
-            <el-editable-column prop="sourceNumber" align="center" label="源单编号" min-width="150px"/>
-            <el-editable-column prop="sourceSerialNumber" align="center" label="源单序号" min-width="150px"/>
-          </el-editable>
-        </div>
+            <el-editable-column prop="taxRate" align="center" label="可抵用税额" min-width="170px"/>
+            <el-editable-column prop="taxRate" align="center" label="不含税金额" min-width="170px"/>
+            <el-editable-column prop="taxRate" align="center" label="备注" min-width="170px"/>
+            <el-editable-column prop="taxRate" align="center" label="费用科目" min-width="170px"/>
+
+            <!--            <el-editable-column prop="arrivalQuantity" align="center" label="到货数量" min-width="150px"/>-->
+            <!--            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="retreatQuantity" align="center" label="退货数量" min-width="150px"/>-->
+            <!--            <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="retreatReason" align="center" label="退货原因" min-width="170px"/>-->
+            <!--            <el-editable-column prop="price" align="center" label="单价" min-width="170px"/>-->
+            <!--            <el-editable-column prop="taxRate" align="center" label="税率(%)" min-width="170px"/>-->
+            <!--            <el-editable-column prop="money" align="center" label="金额" min-width="150px">-->
+            <!--              <template slot-scope="scope">-->
+            <!--                <p>{{ getMoney(scope.row) }}</p>-->
+            <!--              </template>-->
+            <!--            </el-editable-column>-->
+            <!--            <el-editable-column prop="includeTaxMoney" align="center" label="含税金额" min-width="150px">-->
+            <!--              <template slot-scope="scope">-->
+            <!--                <p>{{ getTaxMoney(scope.row) }}</p>-->
+            <!--              </template>-->
+            <!--            </el-editable-column>-->
+            <!--            <el-editable-column prop="taxMoney" align="center" label="税额" min-width="150px">-->
+            <!--              <template slot-scope="scope">-->
+            <!--                <p>{{ getTaxMoney2(scope.row) }}</p>-->
+            <!--              </template>-->
+            <!--            </el-editable-column>-->
+            <!--            <el-editable-column prop="discountRate" align="center" label="折扣(%)" min-width="170px"/>-->
+            <!--            <el-editable-column prop="discountMoney" align="center" label="折扣额" min-width="170px">-->
+            <!--              <template slot-scope="scope">-->
+            <!--                <p>{{ getdiscountMoney(scope.row) }}</p>-->
+            <!--              </template>-->
+            <!--            </el-editable-column>-->
+            <!--            <el-editable-column prop="remark" align="center" label="备注" min-width="150px"/>-->
+            <!--            <el-editable-column prop="sourceNumber" align="center" label="源单编号" min-width="150px"/>-->
+            <!--            <el-editable-column prop="sourceSerialNumber" align="center" label="源单序号" min-width="150px"/>-->
+            <!--          </el-editable>-->
+        </el-editable></div>
       </el-card>
       <el-card class="box-card" shadow="never">
         <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">合计信息</h2>
@@ -288,7 +247,7 @@
 <script>
 import '@/directive/noMoreClick/index.js'
 import { countlist } from '@/api/public'
-import { createstockArrival } from '@/api/StockRetreat'
+import { addCostInvoice } from '@/api/CostInvoice'
 import { getdeptlist } from '@/api/BasicSettings'
 import { searchStockCategory } from '@/api/StockCategory'
 import { searchCategory } from '@/api/Supplier'
@@ -303,7 +262,7 @@ import MyOrder from './components/MyOrder'
 import MyArrival from './components/MyArrival'
 import MyRepository from './components/MyRepository'
 export default {
-  name: 'AddStockRetreat',
+  name: 'AddCostInvoice',
   components: { MyRepository, MyArrival, MyOrder, MyLnquiry, MyDelivery, MyPlan, MyApply, MySupplier, MyDetail, MyEmp },
   data() {
     const validatePass = (rule, value, callback) => {
@@ -453,6 +412,9 @@ export default {
     this.getinformation()
   },
   methods: {
+    handleAdd2() {
+      this.$refs.editable.insert()
+    },
     // 重置一下下拉
     change() {
       this.$forceUpdate()
@@ -873,7 +835,7 @@ export default {
             }
           }
           const parms = JSON.stringify(Data)
-          createstockArrival(parms, parms2, this.personalForm).then(res => {
+          addCostInvoice(parms, parms2, this.personalForm).then(res => {
             console.log(res)
             if (res.data.ret === 200) {
               this.$notify({
@@ -907,7 +869,7 @@ export default {
     // 取消操作
     handlecancel() {
       this.$router.go(-1)
-      const view = { path: '/StockRetreat/AddStockRetreat', name: 'AddStockRetreat', fullPath: '/StockRetreat/AddStockRetreat', title: 'AddStockRetreat' }
+      const view = { path: '/CostInvoice/AddCostInvoice', name: 'AddCostInvoice', fullPath: '/CostInvoice/AddCostInvoice', title: 'AddCostInvoice' }
       this.$store.dispatch('delView', view).then(({ visitedViews }) => {
       })
     }

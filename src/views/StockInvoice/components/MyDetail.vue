@@ -41,14 +41,12 @@
       v-loading="listLoading"
       :key="tableKey"
       :data="list"
-      :row-key="getRowKeys"
       border
       fit
       highlight-current-row
       style="width: 100%;"
       @selection-change="handleSelectionChange">
       <el-table-column
-        :reserve-selection="true"
         type="selection"
         width="55"
         align="center"/>
@@ -142,10 +140,6 @@ export default {
   },
   data() {
     return {
-      // 获取row的key值
-      getRowKeys(row) {
-        return row.code
-      },
       // 供应商回显
       supplierid: '',
       // 供货商控制
@@ -162,7 +156,6 @@ export default {
       visible2: false,
       // 批量操作
       moreaction: '',
-      select_order_number: [],
       // 表格数据
       list: [],
       // 表格数据条数
@@ -235,17 +228,8 @@ export default {
       })
     },
     // 批量操作
-    handleSelectionChange(rows) {
-      this.moreaction = rows
-      this.select_order_number = this.moreaction.length
-      this.select_orderId = []
-      if (rows) {
-        rows.forEach(row => {
-          if (row) {
-            this.select_orderId.push(row.code)
-          }
-        })
-      }
+    handleSelectionChange(val) {
+      this.moreaction = val
     },
     // 供应商输入框focus事件触发
     handlechoose() {
@@ -279,12 +263,31 @@ export default {
         return {
           productCode: item.code,
           productName: item.productName,
-          unit: item.produceMeasu,
-          basicQuantity: 0,
-          checkQuantity: 0,
-          checkedQuantity: 0,
+          productType: item.productType,
+          typeName: item.productType,
+          type: item.typeId,
+          unit: item.caigouMeasu,
+          color: item.color,
+          stockQuantity: 0,
           arrivalQuantity: 0,
-          sourceNumber: ''
+          giveDate: 0,
+          price: item.salePrice,
+          includeTaxPrice: 0,
+          taxRate: 0,
+          money: 0,
+          includeTaxMoney: 0,
+          taxMoney: 0,
+          discountRate: 0,
+          discountMoney: 0,
+          remark: 0,
+          sourceNumber: '',
+          sourceSerialNumber: item.id,
+          hadStorageQuantity: 0,
+          reportCheckingQuantity: 0,
+          actualCheckingQuantity: 0,
+          qualifyQuantity: 0,
+          unqualifyQuantity: 0,
+          returnQuantity: 0
         }
       })
       console.log(productDetail)

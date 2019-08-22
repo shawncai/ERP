@@ -367,8 +367,7 @@ export default {
           includeTaxMoney: item.includeTaxMoney,
           taxMoney: item.taxMoney,
           discountMoney: item.discountMoney,
-          discountRate: item.discountRate * 100,
-          orderNumber: item.orderNumber
+          discountRate: item.discountRate * 100
         }
       })
       console.log(arrivalDetail)

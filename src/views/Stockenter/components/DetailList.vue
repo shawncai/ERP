@@ -108,6 +108,12 @@
             <el-editable-column prop="unit" align="center" label="单位" />
             <el-editable-column prop="basicQuantity" align="center" label="基本数量" />
             <el-editable-column prop="actualEnterQuantity" align="center" label="实收数量" />
+            <el-editable-column prop="invoiceQuantity" align="center" label="已开票数量" min-width="100px" />
+            <el-editable-column prop="noinvoiceQuantity" align="center" label="未开票数量" min-width="100px" >
+              <template slot-scope="scope">
+                <p>{{ getSize2(scope.row.actualEnterQuantity, scope.row.invoiceQuantity) }}</p>
+              </template>
+            </el-editable-column>
             <el-editable-column prop="enterPrice" align="center" label="入库单价" />
             <el-editable-column prop="taxRate" align="center" label="税率" />
             <el-editable-column prop="enterMoney" align="center" label="入库金额" >
@@ -406,6 +412,9 @@ export default {
     // 入库金额计算
     getSize(quan, pric) {
       return quan * pric
+    },
+    getSize2(quan, pric) {
+      return (quan - pric).toFixed(2)
     },
     // 修改和取消按钮
     // 修改按钮
