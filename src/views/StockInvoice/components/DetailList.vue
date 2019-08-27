@@ -15,7 +15,7 @@
               </el-col>
               <el-col :span="12">
                 <el-form-item :label="$t('StockInvoice.subject')" prop="sourceType" style="width: 100%;">
-                  <span>{{ personalForm.subject }}</span>
+                  <span>{{ personalForm.subjectName }}</span>
                 </el-form-item>
               </el-col>
               <el-col :span="12">

@@ -17,7 +17,7 @@
             class="filter-tree"
             @node-click="handleNodeClick">
             <span slot-scope="{ node, data }" class="custom-tree-node" @click="getlist(data,node)">
-              <span>{{ node.label }}  ({{ data.subjectNumber }})</span>
+              <span>{{ node.label }}</span>
               <span v-if="data.level > 3">
                 <!--                <i class="el-icon-plus" @click="addtree(data,node)"/>-->
                 <!--                <i class="el-icon-edit" @click="edittree(data,node)"/>-->
@@ -155,14 +155,14 @@
           </div>
         </el-dialog>
       </el-card>
-      <el-card class="box-card" style="float: left;width: 65%; height: 800px;margin-left: 15px">
-        <el-button v-waves v-if="showLevel > 2" class="filter-item" icon="el-icon-plus" type="success" style="width: 86px;margin-bottom: 10px" @click="handleAdd">{{ $t('public.add') }}</el-button>
+      <el-card class="box-card" style="float: left;width: 65%; max-height: 800px;margin-left: 15px">
+        <el-button v-permission="['266-267-1']" v-waves v-if="showLevel > 3" class="filter-item" icon="el-icon-plus" type="success" style="width: 86px;margin-bottom: 10px" @click="handleAdd">{{ $t('public.add') }}</el-button>
         <el-table
           :key="tableKey"
           :data="list"
           border
           fit
-          highlight-current-row
+          max-height="750"
           style="width: 100%;">
           <el-table-column :label="$t('SubjectFinance.itemCode')" :resizable="false" fixed="left" align="center" min-width="150">
             <template slot-scope="scope">
@@ -206,7 +206,7 @@
           </el-table-column>
           <el-table-column :label="$t('public.actions')" :resizable="false" align="center" min-width="230">
             <template slot-scope="scope">
-              <el-button title="修改" type="primary" size="mini" icon="el-icon-edit" circle @click="handleEdit(scope.row)"/>
+              <el-button v-permission="['266-267-3']" title="修改" type="primary" size="mini" icon="el-icon-edit" circle @click="handleEdit(scope.row)"/>
             </template>
           </el-table-column>
         </el-table>
@@ -338,19 +338,20 @@ export default {
   methods: {
     handleEdit(val) {
       console.log('val', val)
+      // this.newnode = node
       this.edititemVisible = true
       this.edititem = val
       this.edititem.itemCode = val.itemCode
-      this.edititem = val
-      this.edititem = val
-      this.edititem = val
+      const last = val.itemCode.lastIndexOf('.')
+      this.edititem.itemCode2 = val.itemCode.substring(0, last + 1)
     },
     handleAdd() {
       this.additemVisible = true
-      this.additem.itemCode = ''
+      // this.additem.itemCode = ''
       this.additem.itemName = ''
     },
     getlist(data, node) {
+      this.newdata = data
       console.log('node.data.level', node.data.level)
       if (node.data.level >= 3) {
         this.puttype(node)
@@ -362,6 +363,8 @@ export default {
       this.additem.subjectId = data.id
       // this.additem.itemCode = data.subjectNumber
       // this.additem.itemName = data.subjectName
+      this.additem.itemCode = data.subjectNumber + '.'
+      this.additem.itemCode2 = data.subjectNumber + '.'
       this.showLevel = data.level
       this.addtreeform.level = data.level + 1
       this.addtreeform.parentId = data.id
@@ -470,13 +473,6 @@ export default {
           })
           this.editVisible = false
           this.gettree()
-          console.log('this.newnode', this.newnode)
-          const parent = this.newnode.parent
-          const children = parent.data.productClassfyVos
-          const index = children.findIndex(d => d.id === this.newdata2.id)
-          const myob = children[index]
-          myob.categoryName = this.edittreeform.categoryName
-          myob.isActive = this.edittreeform.isActive
         }
       })
     },
@@ -596,6 +592,14 @@ export default {
       })
     },
     handleedit() {
+      if ((this.edititem.itemCode.substring(0, this.edititem.itemCode2.length) !== this.edititem.itemCode2) || (this.edititem.itemCode.substring(this.edititem.itemCode2.length, this.edititem.itemCode.length).length === 0)) {
+        this.$notify.error({
+          title: '错误',
+          message: '请按照编码规则填写',
+          offset: 100
+        })
+        return false
+      }
       if (this.edititem.itemCode === null || this.edititem.itemCode === '' || this.edititem.itemCode === undefined || this.edititem.itemName === null || this.edititem.itemName === '' || this.edititem.itemName === undefined) {
         this.$notify.error({
           title: '错误',
@@ -616,14 +620,9 @@ export default {
             offset: 100
           })
           this.refreshlist()
-          this.gettree()
+          this.changeSome(this.detalist)
+          // this.gettree()
           this.edititemVisible = false
-          console.log(res.data.data.content)
-          const newChild = res.data.data.content
-          if (!this.newdata.productClassfyVos) {
-            this.$set(this.newdata, 'productClassfyVos', [])
-          }
-          this.newdata.productClassfyVos.push(newChild)
         } else {
           this.$notify.error({
             title: '错误',
@@ -633,7 +632,26 @@ export default {
         }
       })
     },
+    changeSome(val) {
+      console.log('val', val)
+      for (let i = 0; i < val.length; i++) {
+        if (val[i].id === this.edititem.subjectId) {
+          val[i].subjectName = this.edititem.itemName
+        } else if (val[i].subjectFinanceVos) {
+          this.changeSome(val[i].subjectFinanceVos)
+        }
+      }
+    },
     handlesave2() {
+      console.log('this.additem.itemCode', this.additem.itemCode)
+      if ((this.additem.itemCode.substring(0, this.additem.itemCode2.length) !== this.additem.itemCode2) || (this.additem.itemCode.substring(this.additem.itemCode2.length, this.additem.itemCode.length).length === 0)) {
+        this.$notify.error({
+          title: '错误',
+          message: '请按照编码规则填写',
+          offset: 100
+        })
+        return false
+      }
       if (this.additem.itemCode === null || this.additem.itemCode === '' || this.additem.itemCode === undefined || this.additem.itemName === null || this.additem.itemName === '' || this.additem.itemName === undefined) {
         this.$notify.error({
           title: '错误',
@@ -663,14 +681,14 @@ export default {
           this.additem.bankItem = 1
           this.additem.level = 1
           this.refreshlist()
-          this.gettree()
+          // this.gettree()
           this.additemVisible = false
           console.log(res.data.data.content)
           const newChild = res.data.data.content
-          if (!this.newdata.productClassfyVos) {
-            this.$set(this.newdata, 'productClassfyVos', [])
+          if (!this.newdata.subjectFinanceVos) {
+            this.$set(this.newdata, 'subjectFinanceVos', [])
           }
-          this.newdata.productClassfyVos.push(newChild)
+          this.newdata.subjectFinanceVos.push(newChild)
         } else {
           this.$notify.error({
             title: '错误',

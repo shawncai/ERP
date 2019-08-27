@@ -391,7 +391,7 @@ export const asyncRouterMap = [
     meta: {
       title: 'LogisticsCar',
       icon: 'wuliu',
-      type: 10,
+      type: 9,
       roles: ['1-247-248-1', '1-247-249-4']
     },
     children: [
@@ -452,12 +452,12 @@ export const asyncRouterMap = [
         name: 'Commission',
         meta: { title: 'Commission', noCache: true, roles: ['1-39-44-1'] }
       },
-      {
-        path: 'Parameter',
-        component: () => import('@/views/BasicSettings/Parameter'),
-        name: 'Parameter',
-        meta: { title: 'Parameter', noCache: true, roles: ['1-39-49-1'] }
-      },
+      // {
+      //   path: 'Parameter',
+      //   component: () => import('@/views/BasicSettings/Parameter'),
+      //   name: 'Parameter',
+      //   meta: { title: 'Parameter', noCache: true, roles: ['1-39-49-1'] }
+      // },
       {
         path: 'NewApprovalProcess',
         component: () => import('@/views/BasicSettings/NewApprovalProcess'),
@@ -735,6 +735,27 @@ export const asyncRouterMap = [
     ]
   },
   {
+    path: '/countlist',
+    component: Layout,
+    redirect: 'noredirect',
+    name: 'countlist',
+    alwaysShow: true,
+    meta: {
+      title: 'countlist',
+      icon: 'yujing',
+      type: 4,
+      roles: ['131-154-4']
+    },
+    children: [
+      {
+        path: 'index',
+        component: () => import('@/views/countlist/index'),
+        name: 'countlist',
+        meta: { title: 'countlist', noCache: true, roles: ['131-154-4', '131-154-6', '131-154-7'] }
+      }
+    ]
+  },
+  {
     path: '/StockAlarm',
     component: Layout,
     redirect: 'noredirect',
@@ -770,6 +791,39 @@ export const asyncRouterMap = [
         component: () => import('@/views/StockAlarm/SearchStockAlarmRules'),
         name: 'SearchStockAlarmRules',
         meta: { title: 'SearchStockAlarmRules', noCache: true }
+      }
+    ]
+  },
+  {
+    path: '/inventoryAlarm',
+    component: Layout,
+    redirect: 'noredirect',
+    name: 'inventoryAlarm',
+    alwaysShow: true,
+    meta: {
+      title: 'inventoryAlarm',
+      icon: 'yujing',
+      type: 4,
+      roles: ['131-270-4']
+    },
+    children: [
+      {
+        path: 'SearchInventoryAlarmRules',
+        component: () => import('@/views/inventoryAlarm/SearchInventoryAlarmRules'),
+        name: 'SearchInventoryAlarmRules',
+        meta: { title: 'SearchInventoryAlarmRules', noCache: true, roles: ['131-270-4', '131-270-1', '131-270-2', '131-270-3', '131-270-5', '131-270-6', '131-270-7'] }
+      },
+      {
+        path: 'AddInventoryAlarm',
+        component: () => import('@/views/inventoryAlarm/AddInventoryAlarm'),
+        name: 'AddInventoryAlarm',
+        meta: { title: 'AddInventoryAlarm', noCache: true, roles: ['131-269-1'] }
+      },
+      {
+        path: 'InventoryAlarmList',
+        component: () => import('@/views/inventoryAlarm/InventoryAlarmList'),
+        name: 'InventoryAlarmList',
+        meta: { title: 'InventoryAlarmList', noCache: false, roles: ['131-271-4'] }
       }
     ]
   },
@@ -1493,7 +1547,7 @@ export const asyncRouterMap = [
     meta: {
       title: 'payment',
       icon: 'fukuandan',
-      type: 2,
+      type: 11,
       roles: ['104-126-4', '104-127-1']
     },
     children: [
@@ -1517,7 +1571,7 @@ export const asyncRouterMap = [
     redirect: 'noredirect',
     meta: {
       icon: 'yingfukuan',
-      type: 2,
+      type: 11,
       roles: ['104-127-1', '104-128-6', '104-128-4', '104-128-7', '104-128-67', '104-128-5']
     },
     children: [
@@ -1559,7 +1613,7 @@ export const asyncRouterMap = [
     meta: {
       title: 'AdvancePay',
       icon: 'yufukuan',
-      type: 2,
+      type: 11,
       roles: ['104-221-1', '104-221-4']
     },
     children: [
@@ -1578,6 +1632,24 @@ export const asyncRouterMap = [
     ]
   },
   {
+    path: '/CostInstall',
+    component: Layout,
+    redirect: 'noredirect',
+    meta: {
+      icon: 'yingfukuan',
+      type: 11,
+      roles: ['266-268-1', '104-128-6', '104-128-4', '104-128-7', '104-128-67', '104-128-5']
+    },
+    children: [
+      {
+        path: 'index',
+        component: () => import('@/views/CostInstall/index'),
+        name: 'CostInstall',
+        meta: { title: 'CostInstall', noCache: true }
+      }
+    ]
+  },
+  {
     path: '/Invoice',
     component: Layout,
     redirect: 'noredirect',
@@ -1590,18 +1662,18 @@ export const asyncRouterMap = [
       roles: ['104-129-4', '104-130-1']
     },
     children: [
-      {
-        path: 'AddInvoice',
-        component: () => import('@/views/Invoice/AddInvoice'),
-        name: 'AddInvoice',
-        meta: { title: 'AddInvoice', noCache: false, roles: ['104-130-1'] }
-      },
-      {
-        path: 'InvoiceList',
-        component: () => import('@/views/Invoice/InvoiceList'),
-        name: 'InvoiceList',
-        meta: { title: 'InvoiceList', noCache: true, roles: ['104-129-1', '104-129-2', '104-129-3', '104-129-4', '104-129-5', '104-129-6', '104-129-7', '104-129-18'] }
-      },
+      // {
+      //   path: 'AddInvoice',
+      //   component: () => import('@/views/Invoice/AddInvoice'),
+      //   name: 'AddInvoice',
+      //   meta: { title: 'AddInvoice', noCache: false, roles: ['104-130-1'] }
+      // },
+      // {
+      //   path: 'InvoiceList',
+      //   component: () => import('@/views/Invoice/InvoiceList'),
+      //   name: 'InvoiceList',
+      //   meta: { title: 'InvoiceList', noCache: true, roles: ['104-129-1', '104-129-2', '104-129-3', '104-129-4', '104-129-5', '104-129-6', '104-129-7', '104-129-18'] }
+      // },
       {
         path: 'AddStockInvoice',
         component: () => import('@/views/StockInvoice/AddStockInvoice'),
@@ -1825,6 +1897,27 @@ export const asyncRouterMap = [
       }
     ]
   },
+  {
+    path: '/operation',
+    component: Layout,
+    redirect: 'noredirect',
+    name: 'operation',
+    alwaysShow: true,
+    meta: {
+      title: 'operation',
+      icon: 'xiaoshouhetong',
+      type: 13,
+      roles: ['273-274-4']
+    },
+    children: [
+      {
+        path: 'operationList',
+        component: () => import('@/views/operation/operationList'),
+        name: 'operationList',
+        meta: { title: 'operationList', noCache: true, roles: ['273-274-4'] }
+      }
+    ]
+  },
   // {
   //   path: '/AccessTools',
   //   component: Layout,
@@ -1861,7 +1954,7 @@ export const asyncRouterMap = [
       title: 'Repair',
       icon: 'xiaoshouhetong',
       type: 3,
-      roles: ['54-67-68-4', '54-67-74-4', '54-67-71-4', '54-67-76-4', '54-67-81-4', '54-67-82-1']
+      roles: ['54-67-68-4', '54-67-74-4', '54-67-71-4', '54-67-76-4', '54-67-81-4', '54-67-82-1', '54-67-272-4']
     },
     children: [
       {
@@ -1869,6 +1962,12 @@ export const asyncRouterMap = [
         component: () => import('@/views/Repair/RepairList'),
         name: 'RepairList',
         meta: { title: 'RepairList', noCache: true, roles: ['54-67-68-4'] }
+      },
+      {
+        path: 'offlineTask',
+        component: () => import('@/views/Repair/offlineTask'),
+        name: 'offlineTask',
+        meta: { title: 'offlineTask', noCache: true, roles: ['54-67-272-4', '54-67-272-1', '54-67-272-2', '54-67-272-3', '54-67-272-5', '54-67-272-6', '54-67-272-7'] }
       },
       {
         path: 'selfCheck',

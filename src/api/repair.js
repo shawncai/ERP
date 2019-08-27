@@ -206,7 +206,7 @@ export function getremplist(repositoryid) {
   params.append('repositoryid', repositoryid) // 你要传给后台的参数值 key/value
   params.append('stat', 1) // 你要传给后台的参数值 key/value
   return request({
-    url: '/erp/repository/getremplist',
+    url: '/erp/employee/getremplist',
     method: 'post',
     data: params
   })
@@ -231,12 +231,12 @@ export function getremplist2(repositoryid, regionIds) {
 // 项目所有员工
 export function stafflist(repositoryid, regionid) {
   var params = new URLSearchParams()
-  params.append('repositoryid', repositoryid) // 你要传给后台的参数值 key/value
-  params.append('regionid', regionid) // 你要传给后台的参数值 key/value
+  params.append('loginRepositoryId', repositoryid) // 你要传给后台的参数值 key/value
+  params.append('regionIds', regionid) // 你要传给后台的参数值 key/value
   params.append('pagesize', 1000) // 你要传给后台的参数值 key/value
   params.append('pagenum', 1) // 你要传给后台的参数值 key/value
   return request({
-    url: '/erp/repository/getremplist',
+    url: '/erp/employee/getemplist',
     method: 'post',
     data: params
   })

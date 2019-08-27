@@ -311,7 +311,52 @@ export default {
     AddCostInvoice: '新建费用发票',
     CostInvoiceList: '费用发票列表',
     AddRedStockInvoice: '新建红字采购发票',
-    SubjectFinance: '往来科目'
+    CostInstall: '费用设置',
+    SubjectFinance: '往来科目',
+    countlist: '库存查询',
+    SearchInventoryAlarmRules: '货物流转报警规则列表',
+    AddInventoryAlarm: '新增货物流转报警规则',
+    InventoryAlarmList: '货物流转报警查询',
+    inventoryAlarm: '货物流转报警',
+    offlineTask: '线下任务',
+    operation: '操作日志',
+    operationList: '操作日志列表'
+  },
+  operation: {
+    context: '操作内容',
+    createTime: '操作时间',
+    ipAddress: 'IP地址',
+    module: '操作模块',
+    operatorId: '操作人'
+  },
+  inventoryAlarm: {
+    repositoryId: '仓库',
+    productCode: '商品编码',
+    productName: '商品名称',
+    createTime: '创建时间',
+    categoryName: '物品分类',
+    typeName: '规格型号',
+    stockMeasurement: '单位',
+    content: '内容',
+    createDate: '创建时间',
+    upStock: '库存上限',
+    onStock: '现有库存',
+    safeStock: '安全库存',
+    alarmDays: '报警天数'
+  },
+  countlist: {
+    existStock: '现有库存',
+    onStock: '在途量',
+    ableStock: '可用库存',
+    safeStock: '安全库存'
+  },
+  CostInstall: {
+    costCode: '费用代码',
+    costCategory: '费用类别',
+    costName: '费用名称',
+    subjectId: '往来科目',
+    isEffective: '启用状态',
+    createId: '创建人'
   },
   SubjectFinance: {
     subjectNumber: '科目代码',

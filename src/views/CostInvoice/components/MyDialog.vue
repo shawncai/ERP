@@ -6,150 +6,106 @@
       <div class="container" style="margin-top: 37px">
         <el-form ref="personalForm" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
           <el-row>
-            <el-row>
-              <el-col :span="12">
-                <el-form-item :label="$t('StockRetreat.title')" style="width: 100%;">
-                  <el-input v-model="personalForm.title" style="margin-left: 18px;width: 200px" clearable/>
-                </el-form-item>
-              </el-col>
-              <el-col :span="12">
-                <el-form-item :label="$t('StockRetreat.sourceType')" prop="sourceType" style="width: 100%;">
-                  <el-select v-model="personalForm.sourceType" style="margin-left: 18px;width: 200px" @change="chooseType">
-                    <el-option value="1" label="采购到货单" />
-                    <el-option value="2" label="无来源" />
-                  </el-select>
-                </el-form-item>
-              </el-col>
-              <el-col :span="12">
-                <el-form-item :label="$t('StockRetreat.supplierId')" prop="supplierId" style="width: 100%;">
-                  <el-input v-model="supplierId" style="margin-left: 18px;width: 200px" clearable @focus="handlechoose"/>
-                  <my-supplier :control.sync="empcontrol" @supplierName="supplierName"/>
-                </el-form-item>
-              </el-col>
-              <el-col :span="12">
-                <el-form-item :label="$t('StockRetreat.sourceNumber')" :rules="personalForm.sourceType === '2'" prop="sourceNumber" style="width: 100%;">
-                  <el-input v-model="personalForm.sourceNumber" :disabled="addsouce" style="margin-left: 18px;width:200px" clearable @focus="handleAddSouce"/>
-                  <my-arrival :arrivalcontrol.sync="arrivalcontrol" @arrival="arrival" @allarrivalinfo="allarrivalinfo"/>
-                </el-form-item>
-              </el-col>
-              <el-col :span="12">
-                <el-form-item :label="$t('StockRetreat.stockPersonId')" prop="stockPersonId" style="width: 100%;">
-                  <el-input v-model="stockPersonId" style="margin-left: 18px;width: 200px" clearable @focus="handlechooseStock"/>
-                  <my-emp :control.sync="stockControl" @stockName="stockName"/>
-                </el-form-item>
-              </el-col>
-              <el-col :span="12">
-                <el-form-item :label="$t('StockRetreat.stockTypeId')" prop="stockType" style="width: 100%;">
-                  <el-select v-model="personalForm.stockTypeId" style="margin-left: 18px;width: 200px" @focus="updatecountry">
-                    <el-option
-                      v-for="(item, index) in types"
-                      :key="index"
-                      :label="item.categoryName"
-                      :value="item.id"/>
-                  </el-select>
-                </el-form-item>
-              </el-col>
-              <el-col :span="12">
-                <el-form-item :label="$t('StockRetreat.deptId')" prop="deptId" style="width: 100%;">
-                  <el-select v-model="personalForm.deptId" clearable style="margin-left: 18px;width: 200px">
-                    <el-option
-                      v-for="(item, index) in depts"
-                      :key="index"
-                      :value="item.id"
-                      :label="item.deptName"/>
-                  </el-select>
-                </el-form-item>
-              </el-col>
-              <el-col :span="12">
-                <el-form-item :label="$t('Supplier.payMode')" style="width: 100%;">
-                  <el-select v-model="personalForm.payMode" clearable style="margin-left: 18px;width: 200px">
-                    <el-option
-                      v-for="(item, index) in payModes"
-                      :key="index"
-                      :label="item.categoryName"
-                      :value="item.id"
-                    />
-                  </el-select>
-                </el-form-item>
-              </el-col>
-              <el-col :span="12">
-                <el-form-item :label="$t('Supplier.settleMode')" style="width: 100%;">
-                  <el-select v-model="personalForm.settleMode" placeholder="请选择结算方式" style="margin-left: 18px;width: 200px" @focus="updatePaymen">
-                    <el-option
-                      v-for="(item, index) in settleModes"
-                      :key="index"
-                      :label="item.categoryName"
-                      :value="item.id"
-                    />
-                  </el-select>
-                </el-form-item>
-              </el-col>
-              <el-col :span="12">
-                <el-form-item :label="$t('StockRetreat.retreatDate')" prop="signDate" style="width: 100%;">
-                  <el-date-picker
-                    v-model="personalForm.retreatDate"
-                    type="date"
-                    value-format="yyyy-MM-dd"
-                    style="margin-left: 18px;width: 200px"/>
-                </el-form-item>
-              </el-col>
-              <el-col :span="12">
-                <el-form-item :label="$t('StockRetreat.deliveryModeId')" style="width: 100%;">
-                  <el-select v-model="personalForm.deliveryMode" clearable style="margin-left: 18px;width: 200px">
-                    <el-option
-                      v-for="(item, index) in giveIds"
-                      :key="index"
-                      :label="item.categoryName"
-                      :value="item.id"
-                    />
-                  </el-select>
-                </el-form-item>
-              </el-col>
-              <el-col :span="12">
-                <el-form-item :label="$t('StockRetreat.isVat')" style="width: 100%;">
-                  <el-radio-group v-model="personalForm.isVat" style="margin-left: 18px;width: 200px">
-                    <el-radio :label="1" style="width: 100px">是</el-radio>
-                    <el-radio :label="2">否</el-radio>
-                  </el-radio-group>
-                </el-form-item>
-              </el-col>
-              <el-col :span="12">
-                <el-form-item :label="$t('StockRetreat.currencyId')" prop="currency" style="width: 100%;">
-                  <el-select v-model="personalForm.currencyId" clearable style="margin-left: 18px;width: 200px">
-                    <el-option value="1" label="RMB"/>
-                    <el-option value="2" label="USD"/>
-                  </el-select>
-                </el-form-item>
-              </el-col>
-              <el-col :span="12">
-                <el-form-item :label="$t('StockRetreat.acceptAddress')" style="width: 100%;">
-                  <el-input v-model="personalForm.acceptAddress" style="margin-left: 18px;width: 200px" clearable/>
-                </el-form-item>
-              </el-col>
-              <el-col :span="12">
-                <el-form-item :label="$t('StockRetreat.transportModeId')" style="width: 100%;">
-                  <el-select v-model="personalForm.transportModeId" clearable style="margin-left: 18px;width: 200px">
-                    <el-option
-                      v-for="(item, index) in transportIds"
-                      :key="index"
-                      :label="item.categoryName"
-                      :value="item.id"
-                    />
-                  </el-select>
-                </el-form-item>
-              </el-col>
-            </el-row>
+            <el-col :span="12">
+              <el-form-item :label="$t('CostInvoice.settleMode')" style="width: 100%;">
+                <el-select v-model="personalForm.settleMode" placeholder="请选择结算方式" style="margin-left: 18px;width: 200px">
+                  <el-option
+                    v-for="(item, index) in settleModes"
+                    :key="index"
+                    :label="item.categoryName"
+                    :value="item.id"
+                  />
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('CostInvoice.payDate')" prop="payDate" style="width: 100%;">
+                <el-date-picker
+                  v-model="personalForm.payDate"
+                  :picker-options="pickerOptions1"
+                  type="date"
+                  value-format="yyyy-MM-dd"
+                  style="margin-left: 18px;width:200px"/>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('StockInvoice.subject')" prop="type" style="width: 100%;">
+                <el-select v-model="personalForm.subject" filterable style="margin-left: 18px;width: 200px">
+                  <el-option v-for="(item, index) in subjects" :key="index" :value="item.id" :label="item.itemName"/>
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('CostInvoice.isInclude')" prop="isInclude" style="width: 100%;">
+                <el-radio-group v-model="personalForm.isInclude" style="margin-left: 18px;width:200px">
+                  <el-radio :label="1" style="width: 100px">计入成本</el-radio>
+                  <el-radio :label="2">不计入</el-radio>
+                </el-radio-group>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('CostInvoice.invoiceNumber')" prop="invoiceNumber" style="width: 100%;">
+                <el-input v-model="personalForm.invoiceNumber" style="margin-left: 18px;width:200px" clearable/>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('CostInvoice.supplierId')" prop="supplierId" style="width: 100%;">
+                <el-input v-model="supplierId" style="margin-left: 18px;width:200px" clearable @focus="handlechoose"/>
+                <my-emp :control.sync="stockControl" @stockName="stockName"/>
+                <my-supplier :control.sync="empcontrol" @supplierName="supplierName"/>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('CostInvoice.taxNumber')" prop="taxNumber" style="width: 100%;">
+                <el-input v-model="personalForm.taxNumber" disabled style="margin-left: 18px;width:200px" clearable/>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('CostInvoice.address')" style="width: 100%;">
+                <el-input v-model="personalForm.address" disabled style="margin-left: 18px;width:200px" clearable/>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('CostInvoice.bank')" style="width: 100%;">
+                <el-input v-model="personalForm.bank" disabled style="margin-left: 18px;width:200px" clearable/>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('CostInvoice.currency')" prop="currency" style="width: 100%;">
+                <el-select v-model="personalForm.currency" clearable style="margin-left: 18px;width: 200px" @change="change()">
+                  <el-option value="1" label="RMB"/>
+                  <el-option value="2" label="USD"/>
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('CostInvoice.handlePersonId')" style="width: 100%;">
+                <el-input v-model="handlePersonId" style="margin-left: 18px;width:200px" @focus="handlechooseStock"/>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('CostInvoice.deptId')" style="width: 100%;">
+                <el-select v-model="personalForm.deptId" style="margin-left: 18px;width: 200px">
+                  <el-option
+                    v-for="(item, index) in depts"
+                    :key="index"
+                    :value="item.id"
+                    :label="item.deptName"/>
+                </el-select>
+              </el-form-item>
+            </el-col>
           </el-row>
         </el-form>
       </div>
     </el-card>
     <!--子件信息-->
-    <el-card class="box-card" style="margin-top: 15px" shadow="never">
-      <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">采购退货单明细</h2>
+    <el-card class="box-card" style="margin-top: 15px;margin-bottom: 30px" shadow="never">
+      <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">费用发票明细</h2>
       <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
-        <el-button :disabled="addpro" @click="handleAddproduct">添加商品</el-button>
+        <el-button @click="handleAdd2">添加</el-button>
         <my-detail :control.sync="control" @product="productdetail"/>
         <el-button type="danger" @click="$refs.editable.removeSelecteds()">删除</el-button>
+        <el-button type="primary" @click="checkStock()">库存快照</el-button>
       </div>
       <div class="container">
         <el-editable
@@ -159,83 +115,25 @@
           :edit-rules="validRules"
           :summary-method="getSummaries"
           class="click-table1"
-          show-summary
           stripe
           border
           size="medium"
           style="width: 100%">
           <el-editable-column type="selection" min-width="55" align="center"/>
           <el-editable-column label="序号" min-width="55" align="center" type="index"/>
-          <el-editable-column prop="productCode" align="center" label="物品编号" min-width="150px"/>
-          <el-editable-column prop="productName" align="center" label="物品名称" min-width="150px"/>
-          <el-editable-column prop="typeName" align="center" label="规格" min-width="150px"/>
-          <el-editable-column prop="color" align="center" label="颜色" min-width="150px"/>
-          <el-editable-column prop="unit" align="center" label="单位" min-width="150px"/>
-          <el-editable-column prop="arrivalQuantity" align="center" label="到货数量" min-width="150px"/>
-          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="retreatQuantity" align="center" label="退货数量" min-width="150px"/>
-          <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="retreatReason" align="center" label="退货原因" min-width="170px"/>
-          <el-editable-column prop="price" align="center" label="单价" min-width="170px"/>
-          <el-editable-column prop="includeTaxPrice" align="center" label="含税价" min-width="170px"/>
-          <el-editable-column prop="taxRate" align="center" label="税率(%)" min-width="170px"/>
-          <el-editable-column prop="money" align="center" label="金额" min-width="150px">
-            <template slot-scope="scope">
-              <p>{{ getMoney(scope.row) }}</p>
-            </template>
-          </el-editable-column>
-          <el-editable-column prop="includeTaxMoney" align="center" label="含税金额" min-width="150px">
-            <template slot-scope="scope">
-              <p>{{ getTaxMoney(scope.row) }}</p>
-            </template>
-          </el-editable-column>
-          <el-editable-column prop="taxMoney" align="center" label="税额" min-width="150px">
-            <template slot-scope="scope">
-              <p>{{ getTaxMoney2(scope.row) }}</p>
-            </template>
-          </el-editable-column>
-          <el-editable-column prop="discountRate" align="center" label="折扣(%)" min-width="170px"/>
-          <el-editable-column prop="discountMoney" align="center" label="折扣额" min-width="170px">
-            <template slot-scope="scope">
-              <p>{{ getdiscountMoney(scope.row) }}</p>
-            </template>
-          </el-editable-column>
-          <el-editable-column prop="remark" align="center" label="备注" min-width="150px"/>
-          <el-editable-column prop="sourceNumber" align="center" label="源单编号" min-width="150px"/>
-          <el-editable-column prop="sourceSerialNumber" align="center" label="源单序号" min-width="150px"/>
+          <el-editable-column :edit-render="{name: 'ElSelect',options: costs ,type: 'visible', events: {change: change2}}" prop="costCode" align="center" label="费用代码" min-width="150px" @click="changedata()"/>
+          <el-editable-column prop="costName" align="center" label="费用名称" min-width="150px"/>
+          <el-editable-column prop="costCategory" align="center" label="费用类型" min-width="150px"/>
+          <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="unit" align="center" label="计量单位" min-width="150px"/>
+          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0, precision: 2}, type: 'visible'}" prop="quantity" align="center" label="数量" min-width="150px"/>
+          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0, precision: 2}, type: 'visible'}" prop="includeTaxPrice" align="center" label="含税价" min-width="170px"/>
+          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0, precision: 2}, type: 'visible'}" prop="includeTaxMoney" align="center" label="含税额" min-width="170px"/>
+          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0, precision: 2}, type: 'visible'}" prop="taxRate" align="center" label="税率(%)" min-width="170px"/>
+          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0, precision: 2}, type: 'visible'}" prop="deduTaxMoney" align="center" label="可抵用税额" min-width="170px"/>
+          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0, precision: 2}, type: 'visible'}" prop="money" align="center" label="不含税金额" min-width="170px"/>
+          <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="remark" align="center" label="备注" min-width="170px"/>
+          <el-editable-column prop="subjectName" align="center" label="费用科目" min-width="170px"/>
         </el-editable>
-      </div>
-    </el-card>
-    <el-card class="box-card" shadow="never" style="margin-top: 10px">
-      <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">合计信息</h2>
-      <div class="container" style="margin-top: 37px">
-        <el-form :inline="true" status-icon class="demo-ruleForm" label-width="130px">
-          <el-row>
-            <el-col :span="12">
-              <el-form-item label="退货数量总计" style="width: 100%;">
-                <el-input v-model="allNumber" style="margin-left: 18px;width: 200px" disabled/>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item label="金额合计" style="width: 100%;">
-                <el-input v-model="allMoney" style="margin-left: 18px;width: 200px" disabled/>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item label="税额合计" style="width: 100%;">
-                <el-input v-model="allTaxMoney" style="margin-left: 18px;width: 200px" disabled/>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item label="抵应付账款" style="width: 100%;">
-                <el-input v-model="allIncludeTaxMoney" style="margin-left: 18px;width: 200px" disabled/>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item label="应退货款合计" style="width: 100%;">
-                <el-input v-model="allDiscountMoney" style="margin-left: 18px;width: 200px" disabled/>
-              </el-form-item>
-            </el-col>
-          </el-row>
-        </el-form>
       </div>
     </el-card>
     <el-card class="box-card" style="position: fixed;width: 1010px;z-index: 100;height: 74px;bottom: 0;" shadow="never">
@@ -248,7 +146,9 @@
 </template>
 
 <script>
-import { updatestockRetreat } from '@/api/StockRetreat'
+import { searchCostInstall } from '@/api/CostInstall'
+import { itemList } from '@/api/SubjectFinance'
+import { updatecostinvoice } from '@/api/CostInvoice'
 import { getdeptlist } from '@/api/BasicSettings'
 import { searchStockCategory } from '@/api/StockCategory'
 import { searchCategory } from '@/api/Supplier'
@@ -290,6 +190,11 @@ export default {
       }
     }
     return {
+      pickerOptions1: {
+        disabledDate: (time) => {
+          return time.getTime() < new Date().getTime() - 8.64e7
+        }
+      },
       // 结算方式
       settleModes: [],
       // 支付方式
@@ -300,6 +205,9 @@ export default {
       editVisible: this.editcontrol,
       // 修改信息数据
       personalForm: this.editdata,
+      subjects: [],
+      costs: [],
+      cost: {},
       // 合计数据
       allNumber: '',
       allMoney: '',
@@ -318,6 +226,7 @@ export default {
       acceptPersonId: '',
       // 控制点收人
       deliverycontrol: false,
+      handlePersonId: '',
       // 控制源单为采购到货单
       arrivalcontrol: false,
       // 控制添加商品按钮
@@ -345,6 +254,12 @@ export default {
       control: false,
       // 采购申请单规则数据
       personalrules: {
+        payDate: [
+          { required: true, message: '请选择日期', trigger: 'change' }
+        ],
+        invoiceNumber: [
+          { required: true, message: '请输入', trigger: 'blur' }
+        ],
         supplierId: [
           { required: true, validator: validatePass, trigger: 'focus' }
         ],
@@ -377,20 +292,48 @@ export default {
   watch: {
     editcontrol() {
       this.editVisible = this.editcontrol
+      this.changedata()
     },
     editdata() {
+      this.changedata()
       this.personalForm = this.editdata
       this.supplierId = this.personalForm.supplierName
-      this.stockPersonId = this.personalForm.stockPersonName
+      this.handlePersonId = this.personalForm.handlePersonName
       this.ourContractorId = this.personalForm.ourContractorName
-      this.list2 = this.personalForm.stockRetreatDetailVos
+      this.list2 = this.personalForm.costInvoiceDetailVos
     }
   },
   created() {
     this.getTypes()
     this.getways()
+    this.changedata()
   },
   methods: {
+    changedata() {
+      console.log(123)
+      for (let i = 0; i < this.costs.length; i++) {
+        this.costs[i].value = this.costs[i].costCode
+        this.costs[i].label = this.costs[i].costCode
+      }
+    },
+    change2(val) {
+      console.log('val', val)
+      for (let i = 0; i < this.costs.length; i++) {
+        if (this.costs[i].costCode === val.row.costCode) {
+          val.row.costName = this.costs[i].costName
+          val.row.costCategory = this.costs[i].costCategory
+          val.row.subject = this.costs[i].subjectId
+          val.row.subjectName = this.costs[i].subjectName
+        }
+      }
+    },
+    handleAdd2() {
+      for (let i = 0; i < this.costs.length; i++) {
+        this.costs[i].value = this.costs[i].costCode
+        this.costs[i].label = this.costs[i].costCode
+      }
+      this.$refs.editable.insert()
+    },
     // 总计
     getSummaries(param) {
       const { columns, data } = param
@@ -528,6 +471,24 @@ export default {
       this.getTypes()
     },
     getTypes() {
+      const param = {}
+      param.subjectId = 1
+      itemList(param).then(res => {
+        if (res.data.ret === 200) {
+          this.subjects = res.data.data.content
+        }
+      })
+      const param2 = {}
+      param2.pageNum = 1
+      param2.pageSize = 9999
+      searchCostInstall(param2).then(res => {
+        if (res.data.ret === 200) {
+          console.log('res.data.data.content.list', res.data.data.content.list)
+          this.costs = res.data.data.content.list
+          console.log('this.costs', this.costs)
+        }
+      })
+      console.log('this.costs', this.costs)
       // 采购类别数据
       searchStockCategory(this.typeparms).then(res => {
         if (res.data.ret === 200) {
@@ -550,7 +511,7 @@ export default {
       console.log(val)
       this.supplierId = val.supplierName
       this.personalForm.supplierId = val.id
-      this.stockPersonId = val.stockPersonName
+      this.handlePersonId = val.handlePersonName
       this.personalForm.stockPersonId = val.stockPersonId
       this.personalForm.deptId = val.deptId
       this.personalForm.payMode = val.payMode
@@ -564,7 +525,7 @@ export default {
     },
     // 采购员回显
     stockName(val) {
-      this.stockPersonId = val.personName
+      this.handlePersonId = val.personName
       this.personalForm.stockPersonId = val.id
     },
     // 点收人人foucs事件触发
@@ -637,110 +598,20 @@ export default {
             })
             return false
           }
-          EnterDetail.map(function(elem) {
-            return elem
-          }).forEach(function(elem) {
-            if (elem.productCode === null || elem.productCode === '' || elem.productCode === undefined) {
-              delete elem.productCode
+          let m = 1
+          for (let i = 0; i < EnterDetail.length; i++) {
+            if (EnterDetail[i].costCode === null) {
+              m = 2
             }
-            if (elem.productName === null || elem.productName === '' || elem.productName === undefined) {
-              delete elem.productName
-            }
-            if (elem.type === null || elem.type === '' || elem.type === undefined) {
-              delete elem.type
-            }
-            if (elem.unit === null || elem.unit === '' || elem.unit === undefined) {
-              delete elem.unit
-            }
-            if (elem.price === null || elem.price === '' || elem.price === undefined) {
-              delete elem.price
-            }
-            if (elem.arrivalQuantity === null || elem.arrivalQuantity === '' || elem.arrivalQuantity === undefined) {
-              delete elem.arrivalQuantity
-            }
-            if (elem.retreatQuantity === null || elem.retreatQuantity === '' || elem.retreatQuantity === undefined) {
-              delete elem.retreatQuantity
-            }
-            if (elem.retreatReason === null || elem.retreatReason === '' || elem.retreatReason === undefined) {
-              delete elem.retreatReason
-            }
-            if (elem.sourceSerialNumber === null || elem.sourceSerialNumber === '' || elem.sourceSerialNumber === undefined) {
-              delete elem.sourceSerialNumber
-            }
-            if (elem.includeTaxPrice === null || elem.includeTaxPrice === '' || elem.includeTaxPrice === undefined) {
-              delete elem.includeTaxPrice
-            }
-            if (elem.includeTaxPrice !== null || elem.includeTaxPrice !== '' || elem.includeTaxPrice !== undefined) {
-              elem.includeTaxPrice = (elem.includeTaxPrice).toFixed(2)
-            }
-            if (elem.taxRate === null || elem.taxRate === '' || elem.taxRate === undefined) {
-              delete elem.taxRate
-            }
-            if (elem.taxRate !== null || elem.taxRate !== '' || elem.taxRate !== undefined) {
-              elem.taxRate = (elem.taxRate).toFixed(2)
-            }
-            if (elem.discountRate === null || elem.discountRate === '' || elem.discountRate === undefined) {
-              delete elem.discountRate
-            }
-            if (elem.discountRate !== null || elem.discountRate !== '' || elem.discountRate !== undefined) {
-              elem.discountRate = (elem.discountRate).toFixed(2)
-            }
-            if (elem.money === null || elem.money === '' || elem.money === undefined) {
-              delete elem.money
-            }
-            if (elem.money !== null || elem.money !== '' || elem.money !== undefined) {
-              elem.money = (elem.money).toFixed(2)
-            }
-            if (elem.includeTaxMoney === null || elem.includeTaxMoney === '' || elem.includeTaxMoney === undefined) {
-              delete elem.includeTaxMoney
-            }
-            if (elem.includeTaxMoney !== null || elem.includeTaxMoney !== '' || elem.includeTaxMoney !== undefined) {
-              elem.includeTaxMoney = (elem.includeTaxMoney).toFixed(2)
-            }
-            if (elem.taxMoney === null || elem.taxMoney === '' || elem.taxMoney === undefined) {
-              delete elem.taxMoney
-            }
-            if (elem.taxMoney !== null || elem.taxMoney !== '' || elem.taxMoney !== undefined) {
-              elem.taxMoney = (elem.taxMoney).toFixed(2)
-            }
-            if (elem.discountRate === null || elem.discountRate === '' || elem.discountRate === undefined) {
-              delete elem.discountRate
-            }
-            if (elem.discountMoney === null || elem.discountMoney === '' || elem.discountMoney === undefined) {
-              delete elem.discountMoney
-            }
-            if (elem.discountMoney !== null || elem.discountMoney !== '' || elem.discountMoney !== undefined) {
-              elem.discountMoney = (elem.discountMoney).toFixed(2)
-            }
-            if (elem.remark === null || elem.remark === '' || elem.remark === undefined) {
-              delete elem.remark
-            }
-            if (elem.sourceNumber === null || elem.sourceNumber === '' || elem.sourceNumber === undefined) {
-              delete elem.sourceNumber
-            }
-            if (elem.sourceSerialNumber === null || elem.sourceSerialNumber === '' || elem.sourceSerialNumber === undefined) {
-              delete elem.sourceSerialNumber
-            }
-            if (elem.hadStorageQuantity === null || elem.hadStorageQuantity === '' || elem.hadStorageQuantity === undefined) {
-              delete elem.hadStorageQuantity
-            }
-            if (elem.reportCheckingQuantity === null || elem.reportCheckingQuantity === '' || elem.reportCheckingQuantity === undefined) {
-              delete elem.reportCheckingQuantity
-            }
-            if (elem.actualCheckingQuantity === null || elem.actualCheckingQuantity === '' || elem.actualCheckingQuantity === undefined) {
-              delete elem.actualCheckingQuantity
-            }
-            if (elem.qualifyQuantity === null || elem.qualifyQuantity === '' || elem.qualifyQuantity === undefined) {
-              delete elem.qualifyQuantity
-            }
-            if (elem.unqualifyQuantity === null || elem.unqualifyQuantity === '' || elem.unqualifyQuantity === undefined) {
-              delete elem.unqualifyQuantity
-            }
-            if (elem.returnQuantity === null || elem.returnQuantity === '' || elem.returnQuantity === undefined) {
-              delete elem.returnQuantity
-            }
-            return elem
-          })
+          }
+          if (m === 2) {
+            this.$notify.error({
+              title: '错误',
+              message: '费用代码不能为空',
+              offset: 100
+            })
+            return false
+          }
           const parms2 = JSON.stringify(EnterDetail)
           const Data = this.personalForm
           for (const key in Data) {
@@ -749,7 +620,7 @@ export default {
             }
           }
           const parms = JSON.stringify(Data)
-          updatestockRetreat(parms, parms2).then(res => {
+          updatecostinvoice(parms, parms2).then(res => {
             if (res.data.ret === 200) {
               this.$notify({
                 title: '操作成功',

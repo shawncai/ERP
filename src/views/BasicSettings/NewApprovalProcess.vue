@@ -100,7 +100,7 @@
 
 <script>
 import '@/directive/noMoreClick/index.js'
-import { regionlist, searchRepository } from '@/api/public'
+import { getRegion, regionlist, searchRepository } from '@/api/public'
 import { createapproval, searchcategory } from '@/api/BasicSettings'
 import permission from '@/directive/permission/index.js' // 权限判断指令
 import permission2 from '@/directive/permission2/index.js' // 权限判断指令
@@ -170,8 +170,21 @@ export default {
   },
   created() {
     this.getnationlist()
+    this.getRegion()
   },
   methods: {
+    getRegion() {
+      getRegion(this.$store.getters.regionId).then(res => {
+        if (res.data.ret === 200) {
+          if (res.data.data.content.zcc !== null && res.data.data.content.zcc !== '' && res.data.data.content.zcc !== undefined) {
+            const zhuz = res.data.data.content.zcc.split(',')
+            this.personalForm.region = zhuz.map(function(item) {
+              return parseInt(item)
+            })
+          }
+        }
+      })
+    },
     chuli(scope, val) {
       console.log(val)
       console.log(scope)
@@ -261,6 +274,7 @@ export default {
     // 清空记录
     restAllForm() {
       this.personalForm = {}
+      this.getRegion()
     },
     // 保存操作
     handlesave() {

@@ -4,54 +4,17 @@
       <el-row>
         <el-form ref="getemplist" :model="getemplist" label-width="100px" style="margin-top: -9px">
           <el-col :span="5">
-            <el-form-item label="单据主题" label-width="100px">
-              <el-input v-model="getemplist.title" :placeholder="$t('CostInvoice.title')" clearable @keyup.enter.native="handleFilter"/>
+            <el-form-item label="供应商" label-width="100px">
+              <el-input v-model="supplierId" placeholder="供应商" style="width: 100%;float: right;margin-right: 20px;" clearable @focus="handlechoose"/>
+              <my-supplier :control.sync="empcontrol" @supplierName="supplierName"/>
             </el-form-item>
           </el-col>
           <el-col :span="5" style="margin-left: 10px">
-            <el-form-item label="单据编号">
-              <el-input v-model="getemplist.number" placeholder="单据编号" clearable @keyup.enter.native="handleFilter"/>
+            <el-form-item label="发票号">
+              <el-input v-model="getemplist.invoiceNumber" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
-          </el-col>
-          <el-col :span="5" style="margin-left: 10px">
-            <el-form-item label="采购员">
-              <el-input v-model="stockPersonId" :placeholder="$t('CostInvoice.stockPersonId')" clearable @keyup.enter.native="handleFilter" @focus="handlechooseStock"/>
-            </el-form-item>
-            <my-emp :control.sync="stockControl" @stockName="stockName"/>
           </el-col>
           <!--更多搜索条件-->
-          <el-col :span="3">
-            <el-popover
-              v-model="visible2"
-              placement="bottom"
-              width="500"
-              trigger="click">
-              <el-select v-model="getemplist.deptId" placeholder="部门" clearable style="width: 40%;float: left;margin-left: 20px">
-                <el-option
-                  v-for="(item, index) in depts"
-                  :key="index"
-                  :value="item.id"
-                  :label="item.deptName"/>
-              </el-select>
-              <el-input v-model="supplierId" placeholder="供应商" style="width: 40%;float: right;margin-right: 20px;" clearable @focus="handlechoose"/>
-              <my-supplier :control.sync="empcontrol" @supplierName="supplierName"/>
-              <el-select v-model="getemplist.receiptStat" :value="getemplist.receiptStat" placeholder="单据状态" clearable style="width: 40%;float: left;margin-left: 20px;margin-top: 20px">
-                <el-option value="1" label="制单"/>
-                <el-option value="2" label="执行"/>
-                <el-option value="3" label="结单"/>
-              </el-select>
-              <el-select v-model="getemplist.judgeStat" :value="getemplist.judgeStat" placeholder="审批状态" clearable style="width: 40%;float: right;margin-right: 20px;margin-top: 20px">
-                <el-option value="0" label="未审核"/>
-                <el-option value="1" label="审核中"/>
-                <el-option value="2" label="审核通过"/>
-                <el-option value="3" label="审核不通过"/>
-              </el-select>
-              <div class="seachbutton" style="width: 100%;float: right;margin-top: 20px">
-                <el-button v-waves class="filter-item" type="primary" style="float: right" round @click="handleFilter">{{ $t('public.search') }}</el-button>
-              </div>
-              <el-button v-waves slot="reference" type="primary" class="filter-item" style="width: 130px" @click="visible2 = !visible2">{{ $t('public.filter') }}<svg-icon icon-class="shaixuan" style="margin-left: 4px"/></el-button>
-            </el-popover>
-          </el-col>
           <el-col :span="3" style="margin-left: 20px">
             <!-- 搜索按钮 -->
             <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 86px" round @click="handleFilter">{{ $t('public.search') }}</el-button>
@@ -94,30 +57,15 @@
           width="55"
           fixed="left"
           align="center"/>
-        <el-table-column :label="$t('public.id')" :resizable="false" fixed="left" align="center" min-width="150">
+        <el-table-column :label="$t('public.id')" :resizable="false" fixed="left" align="center" min-width="180">
           <template slot-scope="scope">
             <span class="link-type" @click="handleDetail(scope.row)">{{ scope.row.number }}</span>
           </template>
           <detail-list :detailcontrol.sync="detailvisible" :detaildata.sync="personalForm"/>
         </el-table-column>
-        <el-table-column :label="$t('CostInvoice.title')" :resizable="false" fixed="left" align="center" min-width="150">
+        <el-table-column :label="$t('CostInvoice.invoiceNumber')" :resizable="false" fixed="left" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.title }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column :label="$t('CostInvoice.stockTypeId')" :resizable="false" align="center" min-width="150">
-          <template slot-scope="scope">
-            <span>{{ scope.row.stockTypeName }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column :label="$t('CostInvoice.sourceType')" :resizable="false" align="center" min-width="150">
-          <template slot-scope="scope">
-            <span>{{ scope.row.sourceType | sourceTypeFilter }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column :label="$t('CostInvoice.stockPersonId')" :resizable="false" align="center" min-width="150">
-          <template slot-scope="scope">
-            <span>{{ scope.row.stockPersonName }}</span>
+            <span>{{ scope.row.invoiceNumber }}</span>
           </template>
         </el-table-column>
         <el-table-column :label="$t('CostInvoice.supplierId')" :resizable="false" align="center" min-width="150">
@@ -125,9 +73,24 @@
             <span>{{ scope.row.supplierName }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('CostInvoice.allRetreatMoney')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('CostInvoice.payDate')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.allRetreatMoney }}</span>
+            <span>{{ scope.row.payDate }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column :label="$t('CostInvoice.handlePersonId')" :resizable="false" align="center" min-width="150">
+          <template slot-scope="scope">
+            <span>{{ scope.row.handlePersonName }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column :label="$t('CostInvoice.deptId')" :resizable="false" align="center" min-width="150">
+          <template slot-scope="scope">
+            <span>{{ scope.row.deptName }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column :label="$t('CostInvoice.currency')" :resizable="false" align="center" min-width="150">
+          <template slot-scope="scope">
+            <span>{{ scope.row.currency | currencyFilter }}</span>
           </template>
         </el-table-column>
         <el-table-column :label="$t('public.judgeStat')" :resizable="false" prop="judgeStat" align="center" min-width="150">
@@ -196,9 +159,10 @@ export default {
       }
       return statusMap[status]
     },
-    stockTypeFilter(status) {
+    currencyFilter(status) {
       const statusMap = {
-        1: '采购1'
+        1: 'RMB',
+        2: 'USD'
       }
       return statusMap[status]
     },
@@ -228,6 +192,7 @@ export default {
         judgePersonId: '',
         judgeStat: ''
       },
+      handlePersonId: '',
       // 详情组件数据
       detailvisible: false,
       // 更多搜索条件问题
@@ -416,13 +381,11 @@ export default {
     // 搜索
     handleFilter() {
       this.getemplist.pageNum = 1
+      console.log(this.getemplist)
       costInvoiceList(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
-          this.restFilter()
-        } else {
-          this.restFilter()
         }
       })
     },
@@ -432,8 +395,8 @@ export default {
     },
     // 采购人回显
     stockName(val) {
-      this.stockPersonId = val.personName
-      this.getemplist.stockPersonId = val.id
+      this.handlePersonId = val.personName
+      this.getemplist.handlePersonId = val.id
     },
     // 供应商输入框focus事件触发
     handlechoose() {
@@ -451,8 +414,8 @@ export default {
       this.editVisible = true
       this.personalForm = Object.assign({}, row)
       this.personalForm.sourceType = String(row.sourceType)
-      if (row.currencyId !== null) {
-        this.personalForm.currencyId = String(row.currencyId)
+      if (row.currency !== null) {
+        this.personalForm.currency = String(row.currency)
       }
     },
     // 修改组件修改成功后返回

@@ -214,7 +214,7 @@
 
 <script>
 import '@/directive/noMoreClick/index.js'
-import { getcountrylist, getprovincelist, getcitylist, regionlist, searchRepository, getDetailById, saveRegion } from '@/api/public'
+import { getRegion, getcountrylist, getprovincelist, getcitylist, regionlist, searchRepository, getDetailById, saveRegion } from '@/api/public'
 import { getdeptlist, register, searchEmpCategory } from '@/api/EmployeeInformation'
 import permission from '@/directive/permission/index.js' // 权限判断指令
 import permission2 from '@/directive/permission2/index.js' // 权限判断指令
@@ -277,7 +277,7 @@ export default {
         gender: '',
         certificatetype: '',
         certificatenumber: '',
-        country: '',
+        country: this.$store.getters.countryId,
         createPersonId: this.$store.getters.userId
       },
       // 个人信息规则数据
@@ -353,8 +353,21 @@ export default {
   created() {
     this.getnationlist()
     this.getroleName()
+    this.getRegion()
   },
   methods: {
+    getRegion() {
+      getRegion(this.$store.getters.regionId).then(res => {
+        if (res.data.ret === 200) {
+          if (res.data.data.content.zcc !== null && res.data.data.content.zcc !== '' && res.data.data.content.zcc !== undefined) {
+            const zhuz = res.data.data.content.zcc.split(',')
+            this.companyForm.regionid = zhuz.map(function(item) {
+              return parseInt(item)
+            })
+          }
+        }
+      })
+    },
     checkPermission,
     async getroleName() {
       console.log(this.$store.getters)
@@ -563,7 +576,7 @@ export default {
         gender: '',
         certificatetype: '',
         certificatenumber: '',
-        country: ''
+        country: this.$store.getters.countryId
       }
       this.connectForm = {
         address: '',
@@ -578,6 +591,7 @@ export default {
         regionid: [],
         repositoryid: ''
       }
+      this.getRegion()
     },
     // 继续录入
     handleentry() {

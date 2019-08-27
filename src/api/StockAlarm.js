@@ -1,5 +1,28 @@
 import request from '@/utils/request'
 
+// 库存查询
+export function countlist(query) {
+  var params = new URLSearchParams()
+  if (query.searchRepositoryId !== '' && query.searchRepositoryId !== null && query.searchRepositoryId !== undefined) {
+    params.append('searchRepositoryId', query.searchRepositoryId) // 你要传给后台的参数值 key/value
+  }
+  if (query.code !== '' && query.code !== null && query.code !== undefined) {
+    params.append('code', query.code) // 你要传给后台的参数值 key/value
+  }
+  if (query.productName !== '' && query.productName !== null && query.productName !== undefined) {
+    params.append('productName', query.productName) // 你要传给后台的参数值 key/value
+  }
+  params.append('pageNum', query.pageNum) // 你要传给后台的参数值 key/value
+  params.append('pageSize', query.pageSize) // 你要传给后台的参数值 key/value
+  params.append('repositoryId', query.repositoryId) // 你要传给后台的参数值 key/value
+  params.append('regionIds', query.regionIds) // 你要传给后台的参数值 key/value
+  return request({
+    url: '/erp/allinventory/countlist',
+    method: 'post',
+    data: params
+  })
+}
+
 // 预警列表
 export function searchalarm(query) {
   var params = new URLSearchParams()

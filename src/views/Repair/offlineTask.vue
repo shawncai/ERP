@@ -21,7 +21,7 @@
         <el-option v-for="item in calendarTypeOptions" :key="item.key" :label="item.display_name" :value="item.key"/>
       </el-select>
       <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">{{ $t('table.search') }}</el-button>
-      <el-button v-permission="[88]" class="filter-item" style="margin-left: 10px;" type="primary" icon="el-icon-edit" @click="handleCreate">{{ $t('table.add') }}</el-button>
+      <el-button v-permission="['54-67-272-1']" class="filter-item" style="margin-left: 10px;" type="primary" icon="el-icon-edit" @click="handleCreate">{{ $t('table.add') }}</el-button>
     </div>
     <div class="app-container">
       <el-table
@@ -78,9 +78,9 @@
             <span>{{ scope.row.result | result }}</span>
           </template>
         </el-table-column>
-        <el-table-column v-permission="[89]" :resizable='false' :label="$t('table.actions')" align="center" min-width="100">
+        <el-table-column :resizable='false' :label="$t('table.actions')" align="center" min-width="100">
           <template slot-scope="scope">
-            <el-button v-permission="[89]" size="mini" type="danger" @click="handleDelete(scope.row)">{{ $t('repair.delete') }}</el-button>
+            <el-button v-permission="['54-67-272-2']" size="mini" type="danger" @click="handleDelete(scope.row)">{{ $t('repair.delete') }}</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -158,8 +158,8 @@ import permission2 from '@/directive/permission2/index.js' // 权限判断指令
           begintime: '',
           endtime: '',
           code: '',
-          repositoryid: this.$store.getters.repositoryid,
-          regionid: this.$store.getters.regionid
+          repositoryid: this.$store.getters.repositoryId,
+          regionid: this.$store.getters.regionId
         },
         dialogFormVisible: false,
         dialogStatus: '',
@@ -170,7 +170,7 @@ import permission2 from '@/directive/permission2/index.js' // 权限判断指令
           taskcontent: '',
           createid: '',
           employeeid: '',
-          repositoryid: this.$store.getters.repositoryid,
+          repositoryid: this.$store.getters.repositoryId,
         },
         formLabelWidth: '120px',
         dialogVisible: false,
@@ -184,8 +184,10 @@ import permission2 from '@/directive/permission2/index.js' // 权限判断指令
       this.getAllStores()
     },
     mounted() {
-      stafflist().then(res => {
-        this.restaurants = res.data.data.content.list
+      const repositoryid = this.$store.getters.repositoryId
+      const regionid = this.$store.getters.regionId
+      stafflist(repositoryid, regionid).then(res => {
+        this.staffnamelist = res.data.data.content.list
         return this.restaurants
       })
     },
@@ -203,15 +205,15 @@ import permission2 from '@/directive/permission2/index.js' // 权限判断指令
         })
       },
       getAllStores() {
-        const repositoryid = this.$store.getters.repositoryid
-        const regionid = this.$store.getters.regionid
+        const repositoryid = this.$store.getters.repositoryId
+        const regionid = this.$store.getters.regionId
         allstore(repositoryid, regionid).then(res => {
           this.storelist = res.data.data.content
         })
       },
       getAllStaff() {
-        const repositoryid = this.$store.getters.repositoryid
-        const regionid = this.$store.getters.regionid
+        const repositoryid = this.$store.getters.repositoryId
+        const regionid = this.$store.getters.regionId
         stafflist(repositoryid, regionid).then(res => {
           this.staffnamelist = res.data.data.content.list
         })
@@ -229,7 +231,7 @@ import permission2 from '@/directive/permission2/index.js' // 权限判断指令
             this.listQuery.endtime = this.twotime[1]
         }
         if(this.storesid === '') {
-          this.listQuery.repositoryid = this.$store.getters.repositoryid
+          this.listQuery.repositoryid = this.$store.getters.repositoryId
         } else {
           this.listQuery.repositoryid = this.storesid
         }

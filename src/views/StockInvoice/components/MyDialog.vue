@@ -15,13 +15,13 @@
                   </el-select>
                 </el-form-item>
               </el-col>
-              <!--              <el-col :span="6">-->
-              <!--                <el-form-item :label="$t('StockInvoice.subject')" prop="subject" style="width: 100%;">-->
-              <!--                  <el-select v-model="personalForm.subject" style="margin-left: 18px;width: 200px" @change="chooseType">-->
-              <!--                    <el-option value="1" label="应付款" />-->
-              <!--                  </el-select>-->
-              <!--                </el-form-item>-->
-              <!--              </el-col>-->
+              <el-col :span="12">
+                <el-form-item :label="$t('StockInvoice.subject')" prop="type" style="width: 100%;">
+                  <el-select v-model="personalForm.subject" filterable style="margin-left: 18px;width: 200px">
+                    <el-option v-for="(item, index) in subjects" :key="index" :value="item.id" :label="item.itemName"/>
+                  </el-select>
+                </el-form-item>
+              </el-col>
               <el-col :span="12">
                 <el-form-item :label="$t('StockInvoice.invoiceNumber')" prop="invoiceNumber" style="width: 100%;">
                   <el-input v-model="personalForm.invoiceNumber" style="margin-left: 18px;width:200px" clearable/>
@@ -228,6 +228,7 @@
 </template>
 
 <script>
+import { itemList } from '@/api/SubjectFinance'
 import { updatestockinvoice } from '@/api/StockInvoice'
 import { getdeptlist } from '@/api/BasicSettings'
 import { searchStockCategory } from '@/api/StockCategory'
@@ -302,6 +303,7 @@ export default {
       transportIds: [],
       // 结算方式
       settleModes: [],
+      subjects: [],
       supp: null,
       // 支付方式
       payModes: [],
@@ -637,6 +639,13 @@ export default {
       this.getTypes()
     },
     getTypes() {
+      const param = {}
+      param.subjectId = 1
+      itemList(param).then(res => {
+        if (res.data.ret === 200) {
+          this.subjects = res.data.data.content
+        }
+      })
       // 采购类别数据
       searchStockCategory(this.typeparms).then(res => {
         if (res.data.ret === 200) {

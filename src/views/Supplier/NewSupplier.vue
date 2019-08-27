@@ -332,7 +332,7 @@
 
 <script>
 import '@/directive/noMoreClick/index.js'
-import { getcountrylist, getprovincelist, getcitylist, regionlist, saveRegion } from '@/api/public'
+import { getRegion, getcountrylist, getprovincelist, getcitylist, regionlist, saveRegion } from '@/api/public'
 import { searchCategory, create, searchGroup } from '@/api/Supplier'
 import permission from '@/directive/permission/index.js' // 权限判断指令
 import permission2 from '@/directive/permission2/index.js' // 权限判断指令
@@ -390,7 +390,7 @@ export default {
         supplierShortName: '',
         supplierIntroduction: '',
         // 业务信息
-        countryId: '',
+        countryId: this.$store.getters.countryId,
         provinceId: '',
         cityId: '',
         detailAddress: '',
@@ -475,8 +475,21 @@ export default {
   created() {
     this.getnationlist()
     this.getTypes()
+    this.getRegion()
   },
   methods: {
+    getRegion() {
+      getRegion(this.$store.getters.regionId).then(res => {
+        if (res.data.ret === 200) {
+          if (res.data.data.content.zcc !== null && res.data.data.content.zcc !== '' && res.data.data.content.zcc !== undefined) {
+            const zhuz = res.data.data.content.zcc.split(',')
+            this.perregions = zhuz.map(function(item) {
+              return parseInt(item)
+            })
+          }
+        }
+      })
+    },
     getTypes() {
       // 结算方式数据
       searchCategory(7).then(res => {
@@ -675,7 +688,7 @@ export default {
         supplierShortName: '',
         supplierIntroduction: '',
         // 业务信息
-        countryId: '',
+        countryId: this.$store.getters.countryId,
         provinceId: '',
         cityId: '',
         detailAddress: '',
@@ -705,6 +718,7 @@ export default {
       }
       this.perregions = []
       this.buyerId = ''
+      this.getRegion()
     },
     // 继续录入
     handleentry() {

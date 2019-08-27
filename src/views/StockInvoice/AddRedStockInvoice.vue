@@ -14,13 +14,13 @@
                   </el-select>
                 </el-form-item>
               </el-col>
-              <!--              <el-col :span="6">-->
-              <!--                <el-form-item :label="$t('StockInvoice.subject')" prop="subject" style="width: 100%;">-->
-              <!--                  <el-select v-model="personalForm.subject" style="margin-left: 18px;width: 200px" @change="chooseType">-->
-              <!--                    <el-option value="1" label="应付款" />-->
-              <!--                  </el-select>-->
-              <!--                </el-form-item>-->
-              <!--              </el-col>-->
+              <el-col :span="6">
+                <el-form-item :label="$t('StockInvoice.subject')" prop="type" style="width: 100%;">
+                  <el-select v-model="personalForm.subject" disabled filterable style="margin-left: 18px;width: 200px">
+                    <el-option v-for="(item, index) in subjects" :key="index" :value="item.id" :label="item.itemName"/>
+                  </el-select>
+                </el-form-item>
+              </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('StockInvoice.invoiceNumber')" prop="invoiceNumber" style="width: 100%;">
                   <el-input v-model="personalForm.invoiceNumber" disabled style="margin-left: 18px;width:200px" clearable/>
@@ -295,6 +295,7 @@
 
 <script>
 import '@/directive/noMoreClick/index.js'
+import { itemList } from '@/api/SubjectFinance'
 import { countlist } from '@/api/public'
 import { addStockInvoice } from '@/api/StockInvoice'
 import { getdeptlist } from '@/api/BasicSettings'
@@ -359,6 +360,8 @@ export default {
       allOthermoney: '',
       // 交货方式
       giveIds: [],
+      // 单据类型数据
+      subjects: [],
       // 运送方式
       transportIds: [],
       // 结算方式
@@ -453,7 +456,6 @@ export default {
   created() {
     this.getTypes()
     this.getways()
-    this.getdatatime()
   },
   mounted() {
     this.getinformation()
@@ -501,6 +503,7 @@ export default {
         this.personalForm.bank = this.$store.getters.empcontract.bank
         this.personalForm.handlePersonId = this.$store.getters.empcontract.handlePersonId
         this.personalForm.deptId = this.$store.getters.empcontract.deptId
+        this.personalForm.subject = this.$store.getters.empcontract.subject
         this.personalForm.payDate = this.$store.getters.empcontract.payDate
         this.supplierId = this.$store.getters.empcontract.supplierName
         this.handlePersonId = this.$store.getters.empcontract.handlePersonName
@@ -726,6 +729,13 @@ export default {
       this.getTypes()
     },
     getTypes() {
+      const param = {}
+      param.subjectId = 1
+      itemList(param).then(res => {
+        if (res.data.ret === 200) {
+          this.subjects = res.data.data.content
+        }
+      })
       // 采购类别数据
       searchStockCategory(this.typeparms).then(res => {
         if (res.data.ret === 200) {

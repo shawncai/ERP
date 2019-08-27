@@ -1142,42 +1142,45 @@ import permission2 from '@/directive/permission2/index.js' // 权限判断指令
         })
       },
       handleFilter3() {
-        this.getemplist4.pageNum = this.getemplist4.pageNum - 1
-        if (this.date2 === null || this.date2 === undefined || this.date2 === '' || this.date2.length === 0) {
-          // this.getemplist4.date = null
-        } else {
-          this.getemplist4.date = this.date2
-        }
-        inventoryMange(this.getemplist4).then(res => {
-          if (res.data.ret === 200) {
-            console.log('list',res.data)
-            this.list = res.data.data.content.map(function (item) {
-              if (item.endQuantity === null) {
-                item.endQuantity = 0
-              }
-              if (item.endMoney === null) {
-                item.endMoney = 0
-              }
-              return {
-                repositoryName: item.repositoryName,
-                productName: item.productName,
-                beginQuantity: item.beginQuantity,
-                enterQuantity: item.enterQuantity,
-                outQuantity: item.outQuantity,
-                endQuantity: item.endQuantity,
-                beginMoney: item.beginMoney,
-                enterMoney: item.enterMoney,
-                outMoney: item.outMoney,
-                endMoney: item.endMoney
-              }
-            })
+        if (this.getemplist4.pageNum !== 1) {
+          this.getemplist4.pageNum = this.getemplist4.pageNum - 1
+          if (this.date2 === null || this.date2 === undefined || this.date2 === '' || this.date2.length === 0) {
+            // this.getemplist4.date = null
+          } else {
+            this.getemplist4.date = this.date2
           }
-          setTimeout(() => {
-            this.listLoading = false
-          }, 0.5 * 100)
-        })
+          inventoryMange(this.getemplist4).then(res => {
+            if (res.data.ret === 200) {
+              console.log('list', res.data)
+              this.list = res.data.data.content.map(function (item) {
+                if (item.endQuantity === null) {
+                  item.endQuantity = 0
+                }
+                if (item.endMoney === null) {
+                  item.endMoney = 0
+                }
+                return {
+                  repositoryName: item.repositoryName,
+                  productName: item.productName,
+                  beginQuantity: item.beginQuantity,
+                  enterQuantity: item.enterQuantity,
+                  outQuantity: item.outQuantity,
+                  endQuantity: item.endQuantity,
+                  beginMoney: item.beginMoney,
+                  enterMoney: item.enterMoney,
+                  outMoney: item.outMoney,
+                  endMoney: item.endMoney
+                }
+              })
+            }
+            setTimeout(() => {
+              this.listLoading = false
+            }, 0.5 * 100)
+          })
+        }
       },
       handleFilter4() {
+        console.log('this.getemplist4.pageNum1', this.getemplist4.pageNum)
         this.getemplist4.pageNum = this.getemplist4.pageNum + 1
         if (this.date2 === null || this.date2 === undefined || this.date2 === '' || this.date2.length === 0) {
           // this.getemplist4.date = null
