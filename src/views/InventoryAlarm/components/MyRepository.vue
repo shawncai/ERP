@@ -87,7 +87,7 @@
 </template>
 
 <script>
-import { regionlist, getcountrylist } from '@/api/public'
+import { getRegion, regionlist, getcountrylist } from '@/api/public'
 import { searchRepCategory, searchRepository2 } from '@/api/Repository'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
@@ -168,9 +168,23 @@ export default {
     repositorycontrol() {
       this.repositoryVisible = this.repositorycontrol
       this.getlist()
+      this.getRegion()
     }
   },
   methods: {
+    getRegion() {
+      this.getemplist.countyrId = this.$store.getters.countryId
+      getRegion(this.$store.getters.regionId).then(res => {
+        if (res.data.ret === 200) {
+          if (res.data.data.content.zcc !== null && res.data.data.content.zcc !== '' && res.data.data.content.zcc !== undefined) {
+            const zhuz = res.data.data.content.zcc.split(',')
+            this.getemplistregions = zhuz.map(function(item) {
+              return parseInt(item)
+            })
+          }
+        }
+      })
+    },
     getlist() {
       // 国家列表
       getcountrylist().then(res => {

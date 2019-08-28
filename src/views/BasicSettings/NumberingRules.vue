@@ -298,8 +298,8 @@ export default {
       this.listLoading = true
       search(this.getemplist).then(res => {
         if (res.data.ret === 200) {
-          this.list = res.data.data.content
-          this.total = res.data.data.content.length
+          this.list = res.data.data.content.list
+          this.total = res.data.data.content.totalCount
         }
         setTimeout(() => {
           this.listLoading = false
@@ -316,8 +316,8 @@ export default {
     handleFilter() {
       search(this.getemplist).then(res => {
         if (res.data.ret === 200) {
-          this.list = res.data.data.content
-          this.total = res.data.data.content.length
+          this.list = res.data.data.content.list
+          this.total = res.data.data.content.totalCount
         }
       })
     },

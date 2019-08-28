@@ -402,11 +402,7 @@ export default {
       for (const i in arr) {
         arr[i].step = Number(i) + 1
       }
-      const handleperson = this.reviewList.map(item => {
-        if (item.actualStepHandler) {
-          return item.actualStepHandler
-        }
-      }).join(',')
+      const handleperson = this.reviewList[this.reviewList.length - 1].stepHandlerName
       console.log(handleperson)
       printJS({
         printable: arr,
@@ -424,7 +420,7 @@ export default {
           { field: 'remarks', displayName: '备注', columnSize: `100px` }
         ],
         header: `<div class="pringtitle">
-                    <div class="custom-p"> 江苏新视窗国际贸易有限公司 </div>
+                    <div class="custom-p"> 江苏新世窗国际贸易有限公司 </div>
                       <br>
                       <div class="ordername">采购订单</div>
                         <br>

@@ -560,10 +560,14 @@ export default {
         if (result !== -1) {
           if (el.planDeliveryDate !== null && el.planDeliveryDate !== '' && el.planDeliveryDate !== undefined && el.supplierId !== null && el.supplierId !== '' && el.supplierId !== undefined) {
             newArr[result].planQuantity = newArr[result].planQuantity + el.planQuantity
+            newArr[result].planMoney = newArr[result].basicPrice * newArr[result].planQuantity
+            console.log(newArr[result].planMoney)
           } else {
+            el.planMoney = el.basicPrice * el.planQuantity
             newArr.push(el)
           }
         } else {
+          el.planMoney = el.basicPrice * el.planQuantity
           newArr.push(el)
         }
       })

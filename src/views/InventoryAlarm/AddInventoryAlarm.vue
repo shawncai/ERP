@@ -58,7 +58,7 @@ export default {
       }
     }
     const validatePass2 = (rule, value, callback) => {
-      console.log(this.productCode)
+      console.log(value)
       if (this.productCode === undefined || this.productCode === null || this.productCode === '') {
         callback(new Error('请选择商品'))
       } else {
