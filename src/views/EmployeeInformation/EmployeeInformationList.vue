@@ -19,7 +19,8 @@
                 v-model="getemplist.time"
                 type="date"
                 placeholder="选择日期"
-                value-format="yyyy-MM-dd"/>
+                value-format="yyyy-MM-dd"
+                style="width:100%"/>
             </el-form-item>
           </el-col>
           <el-col :span="3">
