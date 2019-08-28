@@ -215,7 +215,7 @@ export default {
       addCategoryForm: {
         categoryname: '',
         type: '',
-        iseffective: ''
+        iseffective: '1'
       },
       personalForm2: {},
       // 校验新增数据
@@ -549,7 +549,7 @@ export default {
       this.addCategoryForm = {
         categoryname: '',
         type: '',
-        iseffective: ''
+        iseffective: '1'
       }
     },
     // 保存操作

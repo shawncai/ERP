@@ -30,7 +30,7 @@
       <!-- 新建操作 -->
       <el-button v-permission="['1-39-47-1']" v-waves class="filter-item" icon="el-icon-plus" type="success" style="width: 86px;float: right" @click="handleAdd">{{ $t('public.add') }}</el-button>
       <!--新建列表开始-->
-      <el-dialog :visible.sync="addNumberingVisible" title="新建计量单位" width="500px">
+      <el-dialog :visible.sync="addNumberingVisible" title="新建计量单位" class="normal" width="600px">
         <el-form :model="Numberingform" label-position="left" label-width="120px" style="width: 400px; margin-left:50px;">
           <el-form-item label-width="120px" label="计量单位名称">
             <el-input v-model="Numberingform.categoryname" placeholder="请输入计量单位名称" autocomplete="off" style="width: 200px"/>
@@ -108,7 +108,7 @@
       <!-- 列表结束 -->
       <pagination v-show="total>0" :total="total" :page.sync="getemplist.pagenum" :limit.sync="getemplist.pagesize" @pagination="getlist" />
       <!--修改开始=================================================-->
-      <el-dialog :visible.sync="editNumberingVisible" title="修改计量单位" width="500px">
+      <el-dialog :visible.sync="editNumberingVisible" title="修改计量单位" class="normal" width="600px">
         <el-form :model="editNumberingform" label-position="left" label-width="120px" style="width: 400px; margin-left:50px;">
           <el-form-item label-width="120px" label="计量单位名称">
             <el-input v-model="editNumberingform.categoryName" placeholder="请输入计量单位名称" autocomplete="off" style="width: 200px"/>
@@ -171,7 +171,7 @@ export default {
     return {
       personalForm2: {},
       // 修改数据集合
-      editNumberingform: '',
+      editNumberingform: {},
       // 新建数据集合
       Numberingform: {
         category: '',
@@ -285,7 +285,7 @@ export default {
     // 修改操作
     handleEdit(row) {
       console.log(row)
-      this.editNumberingform = row
+      this.editNumberingform.categoryName = row.categoryName
       this.editNumberingform.isEffective = String(row.isEffective)
       this.editNumberingform.type = String(row.type)
       this.editNumberingVisible = true
@@ -441,6 +441,23 @@ export default {
 </script>
 
 <style rel="stylesheet/css" scoped>
+  .normal >>> .el-dialog__header {
+    padding: 20px 20px 10px;
+    background: #fff;
+    position: static;
+    top: auto;
+    z-index: auto;
+    width: auto;
+    border-bottom: none;
+  }
+  .normal >>> .el-dialog {
+    -webkit-transform: none;
+    transform: none;
+    left: 0;
+    position: relative;
+    margin: 0 auto;
+    height: auto;
+  }
   .app-container >>> .el-table .cell {
     -webkit-box-sizing: border-box;
     box-sizing: border-box;

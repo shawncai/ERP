@@ -25,7 +25,7 @@
       <!-- 新建操作 -->
       <el-button v-permission="['1-39-42-1']" v-waves class="filter-item" icon="el-icon-plus" type="success" style="width: 86px;float: right" @click="handleAdd">{{ $t('public.add') }}</el-button>
       <!--新建列表开始-->
-      <el-dialog :visible.sync="addNumberingVisible" title="新建短信模板" width="600px">
+      <el-dialog :visible.sync="addNumberingVisible" title="新建短信模板" class="normal" width="600px">
         <el-form ref="Numberingform" :model="Numberingform" :rules="Numberingformrules" label-position="left" label-width="120px" style="width: 500px; margin-left:50px;">
           <el-form-item :label="$t('BasicSettings.modelname')" prop="modelname" label-width="120px">
             <el-input v-model="Numberingform.modelname" placeholder="请输入短信模板名称" autocomplete="off" style="width: 300px"/>
@@ -99,7 +99,7 @@
       <!-- 列表结束 -->
       <pagination v-show="total>0" :total="total" :page.sync="getemplist.pagenum" :limit.sync="getemplist.pagesize" @pagination="getlist" />
       <!--修改开始=================================================-->
-      <el-dialog :visible.sync="editNumberingVisible" title="修改编号规则" width="600px">
+      <el-dialog :visible.sync="editNumberingVisible" title="修改编号规则" class="normal" width="600px">
         <el-form ref="editNumberingform" :model="editNumberingform" :rules="editNumberingformrules" label-position="left" label-width="120px" style="width: 500px; margin-left:50px;">
           <el-form-item :label="$t('BasicSettings.modelname')" prop="modelName" label-width="120px">
             <el-input v-model="editNumberingform.modelName" placeholder="请输入短信模板名称" autocomplete="off" style="width: 300px"/>
@@ -164,7 +164,7 @@ export default {
       },
       // 短信模板新建数据集合
       Numberingform: {
-        iseffective: '',
+        iseffective: 1,
         modelname: '',
         content: ''
       },
@@ -395,7 +395,7 @@ export default {
     // 清除数据
     restNumberingform() {
       this.Numberingform = {
-        iseffective: '',
+        iseffective: 1,
         modelname: '',
         content: ''
       }
@@ -469,6 +469,23 @@ export default {
 </script>
 
 <style rel="stylesheet/css" scoped>
+  .normal >>> .el-dialog__header {
+    padding: 20px 20px 10px;
+    background: #fff;
+    position: static;
+    top: auto;
+    z-index: auto;
+    width: auto;
+    border-bottom: none;
+  }
+  .normal >>> .el-dialog {
+    -webkit-transform: none;
+    transform: none;
+    left: 0;
+    position: relative;
+    margin: 0 auto;
+    height: auto;
+  }
   .app-container >>> .el-table .cell {
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
