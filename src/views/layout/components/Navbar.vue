@@ -1,23 +1,49 @@
 <template>
   <div class="navbar">
-    <el-menu class="el-menu-demo" mode="horizontal" style="float: left;height: 50px" @select="handleSelect">
+    <el-menu
+      class="el-menu-demo"
+      mode="horizontal"
+      style="float: left;height: 50px"
+      @select="handleSelect"
+    >
       <!--      <hamburger :toggle-click="toggleSideBar" :is-active="sidebar.opened" class="hamburger-container"/>-->
-      <el-submenu index="44">
-        <template slot="title"><svg-icon icon-class="menus" style="margin-left: 4px"/></template>
+      <el-submenu v-if="show" index="44">
+        <template slot="title">
+          <svg-icon icon-class="menus" style="margin-left: 4px" />
+        </template>
         <el-menu-item index="9">物流管理</el-menu-item>
         <el-menu-item index="11">财务管理</el-menu-item>
         <el-menu-item index="12">报表统计</el-menu-item>
         <el-menu-item index="13">日志管理</el-menu-item>
       </el-submenu>
-      <el-menu-item index="1">首页</el-menu-item>
-      <el-menu-item index="10">系统管理</el-menu-item>
-      <el-menu-item index="2">采购管理</el-menu-item>
-      <el-menu-item index="3">销售管理</el-menu-item>
-      <el-menu-item index="4">库存管理</el-menu-item>
-      <el-menu-item index="5">营销管理</el-menu-item>
-      <el-menu-item index="6">分期管理</el-menu-item>
-      <el-menu-item index="7">生产管理</el-menu-item>
-      <el-menu-item index="8">质检管理</el-menu-item>
+      <el-menu-item v-if="show" index="1">首页</el-menu-item>
+      <el-menu-item v-if="show" index="10">系统管理</el-menu-item>
+      <el-menu-item v-if="show" index="2">采购管理</el-menu-item>
+      <el-menu-item v-if="show" index="3">销售管理</el-menu-item>
+      <el-menu-item v-if="show" index="4">库存管理</el-menu-item>
+      <el-menu-item v-if="show" index="5">营销管理</el-menu-item>
+      <el-menu-item v-if="show" index="6">分期管理</el-menu-item>
+      <el-menu-item v-if="show" index="7">生产管理</el-menu-item>
+      <el-menu-item v-if="show" index="8">质检管理</el-menu-item>
+
+      <el-submenu v-else index="44">
+        <template slot="title">
+          <svg-icon icon-class="menus" style="margin-left: 4px" />
+        </template>
+        <el-menu-item index="9">物流管理</el-menu-item>
+        <el-menu-item index="11">财务管理</el-menu-item>
+        <el-menu-item index="12">报表统计</el-menu-item>
+        <el-menu-item index="13">日志管理</el-menu-item>
+        <el-menu-item index="1">首页</el-menu-item>
+        <el-menu-item index="10">系统管理</el-menu-item>
+        <el-menu-item index="2">采购管理</el-menu-item>
+        <el-menu-item index="3">销售管理</el-menu-item>
+        <el-menu-item index="4">库存管理</el-menu-item>
+        <el-menu-item index="5">营销管理</el-menu-item>
+        <el-menu-item index="6">分期管理</el-menu-item>
+        <el-menu-item index="7">生产管理</el-menu-item>
+        <el-menu-item index="8">质检管理</el-menu-item>
+      </el-submenu>
       <!--<el-menu-item index="9">报表统计</el-menu-item>-->
       <!--<el-menu-item index="10">操作日志</el-menu-item>-->
     </el-menu>
@@ -31,7 +57,7 @@
         <!--<screenfull class="screenfull right-menu-item"/>-->
         <!--</el-tooltip>-->
 
-        <lang-select class="international right-menu-item"/>
+        <lang-select class="international right-menu-item" />
 
         <!--<el-tooltip :content="$t('navbar.theme')" effect="dark" placement="bottom">-->
         <!--<theme-picker class="theme-switch right-menu-item"/>-->
@@ -39,14 +65,16 @@
       </template>
       <el-dropdown class="avatar-container right-menu-item" trigger="click">
         <div class="avatar-wrapper">
-          <img :src="avatar === undefined ? 'static/img/tp.png' : avatar+'?imageView2/1/w/80/h/80'" class="user-avatar">
-          <i class="el-icon-caret-bottom"/>
+          <!-- eslint-disable-next-line -->
+          <img
+            :src="avatar === undefined ? 'static/img/tp.png' : avatar+'?imageView2/1/w/80/h/80'"
+            class="user-avatar"
+          />
+          <i class="el-icon-caret-bottom" />
         </div>
         <el-dropdown-menu slot="dropdown">
           <router-link to="/">
-            <el-dropdown-item>
-              {{ $t('navbar.dashboard') }}
-            </el-dropdown-item>
+            <el-dropdown-item>{{ $t('navbar.dashboard') }}</el-dropdown-item>
           </router-link>
           <el-dropdown-item divided>
             <span style="display:block;" @click="logout">{{ $t('navbar.logOut') }}</span>
@@ -59,14 +87,15 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-import Breadcrumb from '@/components/Breadcrumb'
-import Hamburger from '@/components/Hamburger'
-import ErrorLog from '@/components/ErrorLog'
-import Screenfull from '@/components/Screenfull'
-import SizeSelect from '@/components/SizeSelect'
-import LangSelect from '@/components/LangSelect'
-import ThemePicker from '@/components/ThemePicker'
+/* eslint-disable */
+import { mapGetters } from "vuex";
+import Breadcrumb from "@/components/Breadcrumb";
+import Hamburger from "@/components/Hamburger";
+import ErrorLog from "@/components/ErrorLog";
+import Screenfull from "@/components/Screenfull";
+import SizeSelect from "@/components/SizeSelect";
+import LangSelect from "@/components/LangSelect";
+import ThemePicker from "@/components/ThemePicker";
 
 export default {
   components: {
@@ -78,40 +107,76 @@ export default {
     LangSelect,
     ThemePicker
   },
+  data() {
+    return {
+      show: true,
+      screenWidth: document.body.clientWidth
+    };
+  },
   computed: {
     ...mapGetters([
-      'sidebar',
-      'name',
-      'avatar',
-      'device',
-      'name',
-      'permission_routers'
+      "sidebar",
+      "name",
+      "avatar",
+      "device",
+      "name",
+      "permission_routers"
     ])
   },
   methods: {
     toggleSideBar() {
-      this.$store.dispatch('toggleSideBar')
+      this.$store.dispatch("toggleSideBar");
     },
     logout() {
-      this.$store.dispatch('LogOut').then(() => {
-        location.reload()// In order to re-instantiate the vue-router object to avoid bugs
-      })
+      this.$store.dispatch("LogOut").then(() => {
+        location.reload(); // In order to re-instantiate the vue-router object to avoid bugs
+      });
     },
     handleSelect(key) {
-      this.$store.dispatch('setTopmenu', key)
+      this.$store.dispatch("setTopmenu", key);
+    }
+  },
+  mounted() {
+    const that = this;
+    window.onresize = () => {
+      return (() => {
+        window.screenWidth = document.body.clientWidth;
+        that.screenWidth = window.screenWidth;
+      })();
+    };
+  },
+  watch: {
+    screenWidth(val) {
+      // 为了避免频繁触发resize函数导致页面卡顿，使用定时器
+      if (!this.timer) {
+        // 一旦监听到的screenWidth值改变，就将其重新赋给data里的screenWidth
+        this.screenWidth = val;
+        this.timer = true;
+        let that = this;
+        setTimeout(function() {
+          // 打印screenWidth变化的值
+          console.log(123, that.screenWidth);
+          that.timer = false;
+          if (that.screenWidth <= 1525) {
+            that.show = false;
+          } else {
+            that.show = true;
+          }
+        }, 200);
+      }
     }
   }
-}
+};
 </script>
 
 <style rel="stylesheet/css" scoped>
-  .el-menu-demo >>> .el-submenu__icon-arrow {
-    display: none;
-  }
+.el-menu-demo >>> .el-submenu__icon-arrow {
+  display: none;
+}
 
-  .navbar >>> .el-menu--popup-bottom-start {
-    margin-top: -15px !important;
-  }
+.navbar >>> .el-menu--popup-bottom-start {
+  margin-top: -15px !important;
+}
 
 .navbar {
   height: 50px;
@@ -122,61 +187,65 @@ export default {
   z-index: 10;
   background: #fff;
   width: 90%;
+  display: flex;
 }
-  .hamburger-container {
-    line-height: 58px;
-    height: 50px;
-    float: left;
-    padding: 0 10px;
-  }
-  .breadcrumb-container{
-    float: left;
-  }
-  .errLog-container {
-    display: inline-block;
-    vertical-align: top;
-  }
-  .right-menu {
-    float: right;
-    height: 100%;
-    margin-right: 80px;
-  }
-  .right-menu:focus{
-     outline: none;
-    }
-    .right-menu-item {
-      display: inline-block;
-      margin: 0 8px;
-    }
-    .screenfull {
-      height: 20px;
-    }
-    .international{
-      vertical-align: top;
-    }
-    .theme-switch {
-      vertical-align: 15px;
-    }
-    .avatar-container {
-      height: 50px;
-      margin-right: 30px;
-    }
-      .avatar-wrapper {
-        margin-top: 5px;
-        position: relative;
-      }
-        .user-avatar {
-          cursor: pointer;
-          width: 40px;
-          height: 40px;
-          border-radius: 10px;
-        }
-        .el-icon-caret-bottom {
-          cursor: pointer;
-          position: absolute;
-          right: -20px;
-          top: 25px;
-          font-size: 12px;
-        }
-
+.el-menu-demo {
+  flex: 7;
+}
+.hamburger-container {
+  line-height: 58px;
+  height: 50px;
+  float: left;
+  padding: 0 10px;
+}
+.breadcrumb-container {
+  float: left;
+}
+.errLog-container {
+  display: inline-block;
+  vertical-align: top;
+}
+.right-menu {
+  /* float: right; */
+  flex: 3;
+  height: 100%;
+  margin-right: 80px;
+}
+.right-menu:focus {
+  outline: none;
+}
+.right-menu-item {
+  display: inline-block;
+  margin: 0 8px;
+}
+.screenfull {
+  height: 20px;
+}
+.international {
+  vertical-align: top;
+}
+.theme-switch {
+  vertical-align: 15px;
+}
+.avatar-container {
+  height: 50px;
+  margin-right: 30px;
+}
+.avatar-wrapper {
+  margin-top: 5px;
+  position: relative;
+}
+.user-avatar {
+  cursor: pointer;
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+}
+.el-icon-caret-bottom {
+  cursor: pointer;
+  position: absolute;
+  right: -20px;
+  top: 25px;
+  font-size: 12px;
+}
 </style>

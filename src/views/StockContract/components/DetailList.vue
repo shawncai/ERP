@@ -4,7 +4,7 @@
       <!--基本信息-->
       <el-card class="box-card" style="margin-top: 63px" shadow="never">
         <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">基本信息</h2>
-        <button v-print="'#printTest'" class="print" style="font-size: 13px;background: white;">打印</button>
+        <button class="print" style="font-size: 13px;background: white;" @click="printdata">打印</button>
         <div class="container" style="margin-top: 37px">
           <el-form :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
             <el-row>
@@ -252,6 +252,7 @@
 </template>
 
 <script>
+import printJS from 'print-js'
 export default {
   filters: {
     statfilter(status) {
@@ -356,6 +357,113 @@ export default {
     },
     handlecancel() {
       this.editVisible = false
+    },
+    cutnull(data) {
+      for (const x in data) {
+        if (data[x] === null) { // 如果是null 把直接内容转为 ''
+          data[x] = ''
+        } else {
+          if (Array.isArray(data[x])) { // 是数组遍历数组 递归继续处理
+            data[x] = data[x].map(z => {
+              return this.cutnull(z)
+            })
+          }
+          if (typeof (data[x]) === 'object') { // 是json 递归继续处理
+            data[x] = this.cutnull(data[x])
+          }
+        }
+      }
+      return data
+    },
+    printdata() {
+      const arr = this.cutnull(this.list2) || []
+      for (const i in arr) {
+        arr[i].step = Number(i) + 1
+      }
+      const handleperson = this.reviewList.map(item => {
+        if (item.actualStepHandler) {
+          return item.actualStepHandler
+        }
+      }).join(',')
+      console.log(handleperson)
+      printJS({
+        printable: arr,
+        type: 'json',
+        properties: [
+          { field: 'step', displayName: '行号', columnSize: `100px` },
+          { field: 'productCode', displayName: '物料代码', columnSize: `100px` },
+          { field: 'productName', displayName: '物料名称', columnSize: `100px` },
+          { field: 'typeName', displayName: '规格型号', columnSize: `100px` },
+          { field: 'unit', displayName: '单位', columnSize: `100px` },
+          { field: 'plannedQuantity', displayName: '计划数量', columnSize: `100px` },
+          { field: 'price', displayName: '单价', columnSize: `100px` },
+          { field: 'includeTaxPrice', displayName: '含税价', columnSize: `100px` },
+          { field: 'planDeliveryDate', displayName: '交货日期', columnSize: `100px` },
+          { field: 'applicationReason', displayName: '备注', columnSize: `100px` }
+        ],
+        header: `<div class="pringtitle">
+                    <div class="custom-p"> 江苏新视窗国际贸易有限公司 </div>
+                      <br>
+                      <div class="ordername">采购合同列表</div>
+                        <br>
+                        <div class="line1"></div>
+                        <div class="line2"></div>
+                        <div class="supplier">
+                        <div class="item">
+                        <div class="itemname">供应商：</div>
+                        <div class="itemcontent">${this.personalForm.supplierName}</div>
+                        </div>
+                        <div class="item">
+                         <div class="itemname">日期：</div>
+                        <div class="itemcontent">${this.personalForm.modifyDate}</div>
+                          </div>
+                        <div class="item">
+                         <div class="itemname">编号：</div>
+                        <div class="itemcontent">${this.personalForm.contractNumber}</div>
+                          </div>
+                          </div>
+                        </div>`,
+        bottom: `<div>
+                  <div class="allmoney" style="display: flex;justify-content: space-around;width: 99%;height: 40px;align-items: center;border:1px solid;border-top: none;padding-right: 1%">
+                  <div class="allmoneyname" style="margin-right: 10%">合计</div>
+                  <div class="allmoneynum" style="width: 10%;border-left: 1px solid; border-right: 1px solid;height: 40px;display: flex;align-items: center;justify-content: center;">${this.personalForm.advicePrice}</div>
+                  </div>
+                  <div class="printbottom" style="display: flex;align-items: center;justify-content: center;width: 100%;margin-top: 20px">
+                    <div class="bottomitem" style="width: 25%;display: flex;align-items: center;justify-content: center;flex-wrap: nowrap">
+                        <div class="ceshi">审核：</div>
+                        <div class="bottomname" >${handleperson}</div>
+                    </div>
+                    <div class="bottomitem" style="width: 25%;display: flex;align-items: center;justify-content: center;flex-wrap: nowrap">
+                        <div class="ceshi">部门：</div>
+                        <div class="bottomname">${this.personalForm.deptName}</div>
+                    </div>
+                    <div class="bottomitem" style="width: 25%;display: flex;align-items: center;justify-content: center;flex-wrap: nowrap">
+                        <div class="ceshi">业务员：</div>
+                        <div class="bottomname">${this.personalForm.stockPersonName}</div>
+                    </div>
+                    <div class="bottomitem" style="width: 25%;display: flex;align-items: center;justify-content: center;flex-wrap: nowrap">
+                        <div class="ceshi">制单：</div>
+                        <div class="bottomname">${this.personalForm.createPersonName}</div>
+                    </div>
+                   </div>
+                  </div>`,
+        bottomStyle: '.printbottom: { display: flex;margin-top: 20px}',
+        style: '.custom-p {font-size:20px;text-align: center; }' +
+          ' .ordername {text-align: center; font-size:25px;letter-spacing:15px}' +
+          '.pringtitle { line-height: 20px; margin-bottom: 10px }' +
+          '.line1 { width: 200px; border: 1px solid #000; margin: 0 auto }' +
+          '.line2 {width: 200px; border: 2px dashed #000; margin: 3px auto }' +
+          '.supplier {display: flex;justify-content: center; align-items: center;margin-top: 10px}' +
+          '.item { width: 33%; justify-content: center; align-items: center; display: flex}' +
+          '.item2 { width: 50%; justify-content: center; align-items: center; display: flex}' +
+          '.itemname2 { width: 20% }' +
+          '.itemcontent2 {width: 80%}' +
+          '.itemname { width: 40% }' +
+          '.itemcontent {width: 80%}',
+        gridHeaderStyle: 'font-size:12px; padding:3px; border:1px solid; color: #000; text-align:center;',
+        gridStyle: 'font-size:12px; padding:3px; border:1px solid; text-align:center;',
+        repeatTableHeader: true
+      })
     }
   }
 }
