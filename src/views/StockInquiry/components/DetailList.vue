@@ -335,7 +335,7 @@ export default {
                         <div class="supplier">
                         <div class="item">
                         <div class="itemname">供应商：</div>
-                        <div class="itemcontent">${this.personalForm.supplierName}</div>
+                        <div class="itemcontent">${this.personalForm.supplierName || ''}</div>
                         </div>
                         <div class="item">
                          <div class="itemname">日期：</div>
@@ -363,7 +363,7 @@ export default {
                     </div>
                     <div class="bottomitem" style="width: 25%;display: flex;align-items: center;justify-content: center;flex-wrap: nowrap">
                         <div class="ceshi">业务员：</div>
-                        <div class="bottomname">${this.personalForm.stockPersonName}</div>
+                        <div class="bottomname">${this.personalForm.inquiryPersonName}</div>
                     </div>
                     <div class="bottomitem" style="width: 25%;display: flex;align-items: center;justify-content: center;flex-wrap: nowrap">
                         <div class="ceshi">制单：</div>

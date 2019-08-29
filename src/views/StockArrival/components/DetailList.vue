@@ -650,7 +650,7 @@ export default {
                     </div>
                     <div class="bottomitem" style="width: 25%;display: flex;align-items: center;justify-content: center;flex-wrap: nowrap">
                         <div class="ceshi">部门：</div>
-                        <div class="bottomname">${this.personalForm.deptName}</div>
+                        <div class="bottomname">${this.personalForm.deptName || ''}</div>
                     </div>
                     <div class="bottomitem" style="width: 25%;display: flex;align-items: center;justify-content: center;flex-wrap: nowrap">
                         <div class="ceshi">业务员：</div>

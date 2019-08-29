@@ -411,11 +411,11 @@ export default {
                         <div class="supplier">
                         <div class="item">
                         <div class="itemname">供应商：</div>
-                        <div class="itemcontent">${this.personalForm.supplierName}</div>
+                        <div class="itemcontent">${this.personalForm.supplierName || ''}</div>
                         </div>
                         <div class="item">
                          <div class="itemname">日期：</div>
-                        <div class="itemcontent">${this.personalForm.modifyDate}</div>
+                        <div class="itemcontent">${this.personalForm.modifyDate || ''}</div>
                           </div>
                         <div class="item">
                          <div class="itemname">编号：</div>
@@ -426,7 +426,7 @@ export default {
         bottom: `<div>
                   <div class="allmoney" style="display: flex;justify-content: space-around;width: 99%;height: 40px;align-items: center;border:1px solid;border-top: none;padding-right: 1%">
                   <div class="allmoneyname" style="margin-right: 10%">合计</div>
-                  <div class="allmoneynum" style="width: 10%;border-left: 1px solid; border-right: 1px solid;height: 40px;display: flex;align-items: center;justify-content: center;">${this.personalForm.advicePrice}</div>
+                  <div class="allmoneynum" style="width: 10%;border-left: 1px solid; border-right: 1px solid;height: 40px;display: flex;align-items: center;justify-content: center;">${this.personalForm.advicePrice || ''}</div>
                   </div>
                   <div class="printbottom" style="display: flex;align-items: center;justify-content: center;width: 100%;margin-top: 20px">
                     <div class="bottomitem" style="width: 25%;display: flex;align-items: center;justify-content: center;flex-wrap: nowrap">
