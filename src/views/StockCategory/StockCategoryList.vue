@@ -181,7 +181,7 @@ export default {
       addCategoryForm: {
         categoryname: '',
         type: '',
-        iseffective: ''
+        iseffective: '1'
       },
       // 校验新增数据
       addCategoryFormRules: {
@@ -388,7 +388,7 @@ export default {
       this.addCategoryForm = {
         categoryname: '',
         type: '',
-        iseffective: ''
+        iseffective: '1'
       }
     },
     // 保存操作

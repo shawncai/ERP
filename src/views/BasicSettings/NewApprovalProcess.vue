@@ -149,6 +149,7 @@ export default {
       },
       // 审批流程信息数据
       personalForm: {
+        is_effective: '1',
         region: []
       },
       // 个人信息规则数据
@@ -273,7 +274,9 @@ export default {
     },
     // 清空记录
     restAllForm() {
-      this.personalForm = {}
+      this.personalForm = {
+        is_effective: '1'
+      }
       this.getRegion()
     },
     // 保存操作

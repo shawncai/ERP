@@ -105,8 +105,8 @@
             <el-button v-permission="['1-9-11-8']" v-show="scope.row.stat === 2" style="margin-left: 18px;" title="启用" type="primary" size="mini" icon="el-icon-check" circle @click="open(scope.row)"/>
             <el-button v-permission="['1-9-11-9']" v-show="scope.row.stat === 1" title="停用" type="primary" size="mini" icon="el-icon-close" circle @click="close(scope.row)"/>
             <el-button v-permission="['1-9-11-3']" type="primary" size="mini" @click="handleEdit(scope.row)">{{ $t('public.edit') }}</el-button>
-            <el-button v-permission="['1-9-11-9']" v-show="scope.row.stat === 1" size="mini" type="warning" @click="handleDisable(scope.row)">{{ $t('public.disable') }}</el-button>
-            <el-button v-permission="['1-9-11-8']" v-show="scope.row.stat === 2" size="mini" type="success" @click="handleEnable(scope.row)">{{ $t('public.enable') }}</el-button>
+            <!--            <el-button v-permission="['1-9-11-9']" v-show="scope.row.stat === 1" size="mini" type="warning" @click="handleDisable(scope.row)">{{ $t('public.disable') }}</el-button>-->
+            <!--            <el-button v-permission="['1-9-11-8']" v-show="scope.row.stat === 2" size="mini" type="success" @click="handleEnable(scope.row)">{{ $t('public.enable') }}</el-button>-->
             <el-button v-permission="['1-9-11-2']" size="mini" type="danger" @click="handleDelete(scope.row)">{{ $t('public.delete') }}</el-button>
           </template>
         </el-table-column>
