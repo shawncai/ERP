@@ -15,18 +15,27 @@
         <el-menu-item index="11">财务管理</el-menu-item>
         <el-menu-item index="12">报表统计</el-menu-item>
         <el-menu-item index="13">日志管理</el-menu-item>
+        <el-menu-item v-if="show < 1" index="1">首页</el-menu-item>
+        <el-menu-item v-if="show < 2" index="10">系统管理</el-menu-item>
+        <el-menu-item v-if="show < 3" index="2">采购管理</el-menu-item>
+        <el-menu-item v-if="show < 4" index="3">销售管理</el-menu-item>
+        <el-menu-item v-if="show < 5" index="4">库存管理</el-menu-item>
+        <el-menu-item v-if="show < 6" index="5">营销管理</el-menu-item>
+        <el-menu-item v-if="show < 7" index="6">分期管理</el-menu-item>
+        <el-menu-item v-if="show < 8" index="7">生产管理</el-menu-item>
+        <el-menu-item v-if="show < 9" index="8">质检管理</el-menu-item>
       </el-submenu>
-      <el-menu-item v-if="show" index="1">首页</el-menu-item>
-      <el-menu-item v-if="show" index="10">系统管理</el-menu-item>
-      <el-menu-item v-if="show" index="2">采购管理</el-menu-item>
-      <el-menu-item v-if="show" index="3">销售管理</el-menu-item>
-      <el-menu-item v-if="show" index="4">库存管理</el-menu-item>
-      <el-menu-item v-if="show" index="5">营销管理</el-menu-item>
-      <el-menu-item v-if="show" index="6">分期管理</el-menu-item>
-      <el-menu-item v-if="show" index="7">生产管理</el-menu-item>
-      <el-menu-item v-if="show" index="8">质检管理</el-menu-item>
-
-      <el-submenu v-else index="44">
+      <el-menu-item v-if="show > 0" index="1">首页</el-menu-item>
+      <el-menu-item v-if="show > 1" index="10">系统管理</el-menu-item>
+      <el-menu-item v-if="show > 2" index="2">采购管理</el-menu-item>
+      <el-menu-item v-if="show > 3" index="3">销售管理</el-menu-item>
+      <el-menu-item v-if="show > 4" index="4">库存管理</el-menu-item>
+      <el-menu-item v-if="show > 5" index="5">营销管理</el-menu-item>
+      <el-menu-item v-if="show > 6" index="6">分期管理</el-menu-item>
+      <el-menu-item v-if="show > 7" index="7">生产管理</el-menu-item>
+      <el-menu-item v-if="show > 8" index="8">质检管理</el-menu-item>
+      <!-- a -->
+      <!-- <el-submenu v-else index="44">
         <template slot="title">
           <svg-icon icon-class="menus" style="margin-left: 4px" />
         </template>
@@ -43,9 +52,7 @@
         <el-menu-item index="6">分期管理</el-menu-item>
         <el-menu-item index="7">生产管理</el-menu-item>
         <el-menu-item index="8">质检管理</el-menu-item>
-      </el-submenu>
-      <!--<el-menu-item index="9">报表统计</el-menu-item>-->
-      <!--<el-menu-item index="10">操作日志</el-menu-item>-->
+      </el-submenu>-->
     </el-menu>
     <!--<breadcrumb class="breadcrumb-container"/>-->
 
@@ -109,7 +116,7 @@ export default {
   },
   data() {
     return {
-      show: true,
+      show: 0,
       screenWidth: document.body.clientWidth
     };
   },
@@ -134,6 +141,44 @@ export default {
     },
     handleSelect(key) {
       this.$store.dispatch("setTopmenu", key);
+    },
+    //获取屏幕宽度
+    getBrowserWidth() {
+      window.screenWidth = document.body.clientWidth;
+      this.screenWidth = window.screenWidth;
+      const that = this;
+      // console.log(12323123123)
+      if (that.screenWidth > 1525) {
+        that.show = 9;
+      }
+      if (that.screenWidth <= 1525) {
+        that.show = 8;
+      }
+      if (that.screenWidth <= 1373) {
+        that.show = 7;
+      }
+      if (that.screenWidth <= 1220) {
+        that.show = 6;
+      }
+      if (that.screenWidth <= 1068) {
+        that.show = 5;
+      }
+      if (that.screenWidth <= 899) {
+        that.show = 4;
+      }
+      if (that.screenWidth <= 747) {
+        that.show = 3;
+      }
+      if (that.screenWidth <= 594) {
+        that.show = 2;
+      }
+      if (that.screenWidth <= 444) {
+        that.show = 1;
+      }
+      if (that.screenWidth <= 338) {
+        that.show = 0;
+      }
+      console.log(123123, that.show);
     }
   },
   mounted() {
@@ -145,24 +190,49 @@ export default {
       })();
     };
   },
+  created() {
+    this.getBrowserWidth();
+  },
   watch: {
     screenWidth(val) {
-      // 为了避免频繁触发resize函数导致页面卡顿，使用定时器
       if (!this.timer) {
         // 一旦监听到的screenWidth值改变，就将其重新赋给data里的screenWidth
         this.screenWidth = val;
         this.timer = true;
         let that = this;
-        setTimeout(function() {
-          // 打印screenWidth变化的值
-          console.log(123, that.screenWidth);
-          that.timer = false;
-          if (that.screenWidth <= 1525) {
-            that.show = false;
-          } else {
-            that.show = true;
-          }
-        }, 200);
+        // 打印screenWidth变化的值
+        that.timer = false;
+        if (that.screenWidth > 1525) {
+          that.show = 9;
+        }
+        if (that.screenWidth <= 1525) {
+          that.show = 8;
+        }
+        if (that.screenWidth <= 1373) {
+          that.show = 7;
+        }
+        if (that.screenWidth <= 1220) {
+          that.show = 6;
+        }
+        if (that.screenWidth <= 1068) {
+          that.show = 5;
+        }
+        if (that.screenWidth <= 899) {
+          that.show = 4;
+        }
+        if (that.screenWidth <= 747) {
+          that.show = 3;
+        }
+        if (that.screenWidth <= 594) {
+          that.show = 2;
+        }
+        if (that.screenWidth <= 444) {
+          that.show = 1;
+        }
+        if (that.screenWidth <= 338) {
+          that.show = 0;
+        }
+        console.log(that.show);
       }
     }
   }

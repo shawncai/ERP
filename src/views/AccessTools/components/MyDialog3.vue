@@ -1,5 +1,5 @@
 <template>
-  <el-dialog :visible.sync="editVisible3" :editcontrol="editcontrol" :editdata="editdata" :close-on-press-escape="false" :title="修改" width="1010px" class="edit" top="-10px" @close="$emit('update:editcontrol', false)">
+  <el-dialog :visible.sync="editVisible3" :editcontrol="editcontrol" :editdata="editdata" :close-on-press-escape="false" :title="'修改'" width="1010px" class="edit" top="-10px" @close="$emit('update:editcontrol', false)">
     <!--子件信息-->
     <el-card class="box-card" style="margin-top: 15px" shadow="never">
       <h2 ref="fuzhu" class="form-name" >归还明细</h2>
