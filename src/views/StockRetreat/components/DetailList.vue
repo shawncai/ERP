@@ -368,7 +368,7 @@ export default {
       }
       const handleperson = this.reviewList.map(item => {
         if (item.actualStepHandler) {
-          return item.actualStepHandler
+          return item.stepHandlerName
         }
       }).join(',')
       console.log(handleperson)
@@ -382,12 +382,10 @@ export default {
           { field: 'typeName', displayName: '规格型号', columnSize: `100px` },
           { field: 'unit', displayName: '单位', columnSize: `100px` },
           { field: 'retreatQuantity', displayName: '退货数量', columnSize: `100px` },
-          { field: 'price', displayName: '单价', columnSize: `100px` },
-          { field: 'includeTaxPrice', displayName: '含税价', columnSize: `100px` },
           { field: 'remark', displayName: '备注', columnSize: `100px` }
         ],
         header: `<div class="pringtitle">
-                    <div class="custom-p"> 江苏新视窗国际贸易有限公司 </div>
+                    <div class="custom-p"> 江苏新世窗国际贸易有限公司 </div>
                       <br>
                       <div class="ordername">采购退货单</div>
                         <br>
@@ -409,10 +407,6 @@ export default {
                           </div>
                         </div>`,
         bottom: `<div>
-                  <div class="allmoney" style="display: flex;justify-content: space-around;width: 99%;height: 40px;align-items: center;border:1px solid;border-top: none;padding-right: 1%">
-                  <div class="allmoneyname" style="margin-right: 10%">合计</div>
-                  <div class="allmoneynum" style="width: 10%;border-left: 1px solid; border-right: 1px solid;height: 40px;display: flex;align-items: center;justify-content: center;">${this.personalForm.allMoney}</div>
-                  </div>
                   <div class="printbottom" style="display: flex;align-items: center;justify-content: center;width: 100%;margin-top: 20px">
                     <div class="bottomitem" style="width: 25%;display: flex;align-items: center;justify-content: center;flex-wrap: nowrap">
                         <div class="ceshi">审核：</div>
