@@ -182,6 +182,7 @@ export default {
             this.personalForm.region = zhuz.map(function(item) {
               return parseInt(item)
             })
+            console.log('this.personalForm.region', this.personalForm.region)
           }
         }
       })
@@ -286,6 +287,8 @@ export default {
       console.log('rest', rest)
       this.$refs.personalForm.validate((valid) => {
         if (valid) {
+          const finalid = this.personalForm.region[this.personalForm.region.length - 1]
+          this.personalForm.effect_region = finalid
           createapproval(this.personalForm, rest).then(res => {
             console.log(res)
             if (res.data.ret === 200) {

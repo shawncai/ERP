@@ -2016,7 +2016,7 @@ export const asyncRouterMap = [
     meta: {
       title: 'income',
       icon: 'shourudan',
-      type: 3,
+      type: 11,
       roles: ['54-90-4', '54-91-1']
     },
     children: [
@@ -2043,7 +2043,7 @@ export const asyncRouterMap = [
     meta: {
       title: 'Expenses',
       icon: 'zhichudan',
-      type: 3,
+      type: 11,
       roles: ['54-92-4', '54-93-1']
     },
     children: [
@@ -2070,7 +2070,7 @@ export const asyncRouterMap = [
     meta: {
       title: 'Transfer',
       icon: 'zhuanzhang',
-      type: 3,
+      type: 11,
       roles: ['54-94-4', '54-95-1']
     },
     children: [
@@ -2169,7 +2169,7 @@ export const asyncRouterMap = [
     meta: {
       title: 'PrepReceipt',
       icon: 'yushoukuan',
-      type: 3,
+      type: 11,
       roles: ['54-98-4', '54-99-1']
     },
     children: [
