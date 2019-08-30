@@ -344,12 +344,6 @@ export default {
         callback()
       }
     }
-    // 基本信息  所在城市 企业名称 管理员手机号 介入渠道 业务经办人 创建时间 系统版本 上线时间 服务到期时间 状态1在线2离线3未上线4冻结5试用
-    // 企业信息  所在城市 企业名称 企业简介 企业地址 经营类型 座机
-    // 系统管理员信息 姓名 身份证 手机号 安全码 邮箱
-    // 考情机序列号
-    // 服务续费记录 时间 天数 价格
-    // 系统日志 时间 内容
     const validatePass2 = (rule, value, callback) => {
       console.log(this.signPersonId)
       if (this.signPersonId === undefined || this.signPersonId === null || this.signPersonId === '') {

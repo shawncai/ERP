@@ -86,7 +86,7 @@
             style="width: 100%">
             <el-editable-column label="序号" fixed="left" min-width="55" align="center" type="index"/>
             <el-editable-column prop="costCode" align="center" label="费用代码" min-width="150px"/>
-            <el-editable-column prop="costName" align="center" label="费用名称" min-width="150px"/>
+            <!--            <el-editable-column prop="costName" align="center" label="费用名称" min-width="150px"/>-->
             <el-editable-column prop="costCategory" align="center" label="费用类型" min-width="150px"/>
             <el-editable-column prop="unit" align="center" label="计量单位" min-width="150px"/>
             <el-editable-column prop="quantity" align="center" label="数量" min-width="150px"/>

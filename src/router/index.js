@@ -1548,20 +1548,20 @@ export const asyncRouterMap = [
       title: 'payment',
       icon: 'fukuandan',
       type: 11,
-      roles: ['104-126-4', '104-127-1']
+      roles: ['266-126-4', '266-127-1']
     },
     children: [
       {
         path: 'AddPayment',
         component: () => import('@/views/payment/AddPayment'),
         name: 'AddPayment',
-        meta: { title: 'AddPayment', noCache: false, roles: ['104-127-1'] }
+        meta: { title: 'AddPayment', noCache: false, roles: ['266-127-1'] }
       },
       {
         path: 'paymentList',
         component: () => import('@/views/payment/paymentList'),
         name: 'paymentList',
-        meta: { title: 'paymentList', noCache: true, roles: ['104-126-1', '104-126-2', '104-126-3', '104-126-4', '104-126-5', '104-126-6', '104-126-7', '104-126-16', '104-126-17', '104-126-18'] }
+        meta: { title: 'paymentList', noCache: true, roles: ['266-126-1', '266-126-2', '266-126-3', '266-126-4', '266-126-5', '266-126-6', '266-126-7', '266-126-16', '266-126-17', '266-126-18'] }
       }
     ]
   },
@@ -1572,7 +1572,7 @@ export const asyncRouterMap = [
     meta: {
       icon: 'yingfukuan',
       type: 11,
-      roles: ['104-127-1', '104-128-6', '104-128-4', '104-128-7', '104-128-67', '104-128-5']
+      roles: ['266-127-1', '266-128-6', '266-128-4', '266-128-7', '266-128-67', '266-128-5']
     },
     children: [
       {
@@ -1614,20 +1614,20 @@ export const asyncRouterMap = [
       title: 'AdvancePay',
       icon: 'yufukuan',
       type: 11,
-      roles: ['104-221-1', '104-221-4']
+      roles: ['266-221-1', '266-221-4']
     },
     children: [
       {
         path: 'AddAdvancePay',
         component: () => import('@/views/AdvancePay/AddAdvancePay'),
         name: 'AddAdvancePay',
-        meta: { title: 'AddAdvancePay', noCache: false, roles: ['104-221-1'] }
+        meta: { title: 'AddAdvancePay', noCache: false, roles: ['266-221-1'] }
       },
       {
         path: 'AdvancePayList',
         component: () => import('@/views/AdvancePay/AdvancePayList'),
         name: 'AdvancePayList',
-        meta: { title: 'AdvancePayList', noCache: true, roles: ['104-221-1', '104-221-4', '104-221-2', '104-221-3', '104-221-5', '104-221-6', '104-221-7', '104-221-18', '104-221-16', '104-221-17', '104-221-76'] }
+        meta: { title: 'AdvancePayList', noCache: true, roles: ['266-221-1', '266-221-4', '266-221-2', '266-221-3', '266-221-5', '266-221-6', '266-221-7', '266-221-18', '266-221-16', '266-221-17', '266-221-76'] }
       }
     ]
   },
@@ -1659,32 +1659,20 @@ export const asyncRouterMap = [
       title: 'Invoice',
       icon: 'fapiao',
       type: 11,
-      roles: ['104-129-4', '104-130-1']
+      roles: ['266-257-4', '266-256-1', '266-259-4', '266-258-1']
     },
     children: [
-      // {
-      //   path: 'AddInvoice',
-      //   component: () => import('@/views/Invoice/AddInvoice'),
-      //   name: 'AddInvoice',
-      //   meta: { title: 'AddInvoice', noCache: false, roles: ['104-130-1'] }
-      // },
-      // {
-      //   path: 'InvoiceList',
-      //   component: () => import('@/views/Invoice/InvoiceList'),
-      //   name: 'InvoiceList',
-      //   meta: { title: 'InvoiceList', noCache: true, roles: ['104-129-1', '104-129-2', '104-129-3', '104-129-4', '104-129-5', '104-129-6', '104-129-7', '104-129-18'] }
-      // },
       {
         path: 'AddStockInvoice',
         component: () => import('@/views/StockInvoice/AddStockInvoice'),
         name: 'AddStockInvoice',
-        meta: { title: 'AddStockInvoice', noCache: false, roles: ['104-256-1'] }
+        meta: { title: 'AddStockInvoice', noCache: false, roles: ['266-256-1'] }
       },
       {
         path: 'StockInvoiceList',
         component: () => import('@/views/StockInvoice/StockInvoiceList'),
         name: 'StockInvoiceList',
-        meta: { title: 'StockInvoiceList', noCache: true, roles: ['104-257-1', '104-257-2', '104-257-3', '104-257-4', '104-257-5', '104-257-6', '104-257-7', '104-257-18'] }
+        meta: { title: 'StockInvoiceList', noCache: true, roles: ['266-257-1', '266-257-2', '266-257-3', '266-257-4', '266-257-5', '266-257-6', '266-257-7', '266-257-18'] }
       },
       {
         path: 'AddRedStockInvoice',
@@ -1697,13 +1685,13 @@ export const asyncRouterMap = [
         path: 'AddCostInvoice',
         component: () => import('@/views/CostInvoice/AddCostInvoice'),
         name: 'AddCostInvoice',
-        meta: { title: 'AddCostInvoice', noCache: false, roles: ['104-258-1'] }
+        meta: { title: 'AddCostInvoice', noCache: false, roles: ['266-258-1'] }
       },
       {
         path: 'CostInvoiceList',
         component: () => import('@/views/CostInvoice/CostInvoiceList'),
         name: 'CostInvoiceList',
-        meta: { title: 'CostInvoiceList', noCache: true, roles: ['104-259-1', '104-259-2', '104-259-3', '104-259-4', '104-259-5', '104-259-6', '104-259-7', '104-259-18'] }
+        meta: { title: 'CostInvoiceList', noCache: true, roles: ['266-259-1', '266-259-2', '266-259-3', '266-259-4', '266-259-5', '266-259-6', '266-259-7', '266-259-18'] }
       }
     ]
   },
@@ -2044,20 +2032,20 @@ export const asyncRouterMap = [
       title: 'Expenses',
       icon: 'zhichudan',
       type: 11,
-      roles: ['54-92-4', '54-93-1']
+      roles: ['266-92-4', '266-93-1']
     },
     children: [
       {
         path: 'AddExpenses',
         component: () => import('@/views/Expenses/AddExpenses'),
         name: 'AddExpenses',
-        meta: { title: 'AddExpenses', noCache: false, roles: ['54-93-1'] }
+        meta: { title: 'AddExpenses', noCache: false, roles: ['266-93-1'] }
       },
       {
         path: 'ExpensesList',
         component: () => import('@/views/Expenses/ExpensesList'),
         name: 'ExpensesList',
-        meta: { title: 'ExpensesList', noCache: true, roles: ['54-92-1', '54-92-2', '54-92-3', '54-92-4', '54-92-5', '54-92-6', '54-92-7', '54-92-18', '54-92-16', '54-92-17'] }
+        meta: { title: 'ExpensesList', noCache: true, roles: ['266-92-1', '266-92-2', '266-92-3', '266-92-4', '266-92-5', '266-92-6', '266-92-7', '266-92-18', '266-92-16', '266-92-17'] }
       }
     ]
   },
@@ -2071,20 +2059,20 @@ export const asyncRouterMap = [
       title: 'Transfer',
       icon: 'zhuanzhang',
       type: 11,
-      roles: ['54-94-4', '54-95-1']
+      roles: ['266-94-4', '266-95-1']
     },
     children: [
       {
         path: 'AddTransfer',
         component: () => import('@/views/Transfer/AddTransfer'),
         name: 'AddTransfer',
-        meta: { title: 'AddTransfer', noCache: false, roles: ['54-95-1'] }
+        meta: { title: 'AddTransfer', noCache: false, roles: ['266-95-1'] }
       },
       {
         path: 'TransferList',
         component: () => import('@/views/Transfer/TransferList'),
         name: 'TransferList',
-        meta: { title: 'TransferList', noCache: true, roles: ['54-94-1', '54-94-2', '54-94-3', '54-94-4', '54-94-5', '54-94-6', '54-94-7', '54-94-18', '54-94-16', '54-94-17'] }
+        meta: { title: 'TransferList', noCache: true, roles: ['266-94-1', '266-94-2', '266-94-3', '266-94-4', '266-94-5', '266-94-6', '266-94-7', '266-94-18', '266-94-16', '266-94-17'] }
       }
     ]
   },
@@ -2170,20 +2158,20 @@ export const asyncRouterMap = [
       title: 'PrepReceipt',
       icon: 'yushoukuan',
       type: 11,
-      roles: ['54-98-4', '54-99-1']
+      roles: ['266-98-4', '266-99-1']
     },
     children: [
       {
         path: 'AddPrepReceipt',
         component: () => import('@/views/PrepReceipt/AddPrepReceipt'),
         name: 'AddPrepReceipt',
-        meta: { title: 'AddPrepReceipt', noCache: false, roles: ['54-99-1'] }
+        meta: { title: 'AddPrepReceipt', noCache: false, roles: ['266-99-1'] }
       },
       {
         path: 'PrepReceiptList',
         component: () => import('@/views/PrepReceipt/PrepReceiptList'),
         name: 'PrepReceiptList',
-        meta: { title: 'PrepReceiptList', noCache: true, roles: ['54-98-1', '54-98-2', '54-98-3', '54-98-4', '54-98-5', '54-98-6', '54-98-7', '54-98-18', '54-98-16', '54-98-17', '54-98-38'] }
+        meta: { title: 'PrepReceiptList', noCache: true, roles: ['266-98-1', '266-98-2', '266-98-3', '266-98-4', '266-98-5', '266-98-6', '266-98-7', '266-98-18', '266-98-16', '266-98-17', '266-98-38'] }
       }
     ]
   },

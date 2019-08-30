@@ -106,7 +106,6 @@
           <el-button @click="handleAdd2">添加</el-button>
           <my-detail :control.sync="control" @product="productdetail"/>
           <el-button type="danger" @click="$refs.editable.removeSelecteds()">删除</el-button>
-          <el-button type="primary" @click="checkStock()">库存快照</el-button>
         </div>
         <div class="container">
           <el-editable
@@ -124,15 +123,23 @@
             <el-editable-column type="selection" min-width="55" align="center"/>
             <el-editable-column label="序号" min-width="55" align="center" type="index"/>
             <el-editable-column :edit-render="{name: 'ElSelect',options: costs ,type: 'visible', events: {change: change2}}" prop="costCode" align="center" label="费用代码" min-width="150px"/>
-            <el-editable-column prop="costName" align="center" label="费用名称" min-width="150px"/>
+            <!--            <el-editable-column prop="costName" align="center" label="费用名称" min-width="150px"/>-->
             <el-editable-column prop="costCategory" align="center" label="费用类型" min-width="150px"/>
             <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="unit" align="center" label="计量单位" min-width="150px"/>
             <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0, precision: 2}, type: 'visible'}" prop="quantity" align="center" label="数量" min-width="150px"/>
             <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0, precision: 2}, type: 'visible'}" prop="includeTaxPrice" align="center" label="含税价" min-width="170px"/>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0, precision: 2}, type: 'visible'}" prop="includeTaxMoney" align="center" label="含税额" min-width="170px"/>
+            <el-editable-column prop="includeTaxMoney" align="center" label="含税金额" min-width="150px">
+              <template slot-scope="scope">
+                <p>{{ getTaxMoney(scope.row) }}</p>
+              </template>
+            </el-editable-column>
             <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0, precision: 2}, type: 'visible'}" prop="taxRate" align="center" label="税率(%)" min-width="170px"/>
             <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0, precision: 2}, type: 'visible'}" prop="deduTaxMoney" align="center" label="可抵用税额" min-width="170px"/>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0, precision: 2}, type: 'visible'}" prop="money" align="center" label="不含税金额" min-width="170px"/>
+            <el-editable-column prop="money" align="center" label="不含税金额" min-width="150px">
+              <template slot-scope="scope">
+                <p>{{ getMoney(scope.row) }}</p>
+              </template>
+            </el-editable-column>
             <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="remark" align="center" label="备注" min-width="170px"/>
             <el-editable-column prop="subjectName" align="center" label="费用科目" min-width="170px"/>
           </el-editable>
@@ -359,6 +366,7 @@ export default {
         this.costs[i].label = this.costs[i].costCode
       }
       this.$refs.editable.insert()
+      this.list2[0].quantity = 1
     },
     // 重置一下下拉
     change() {
@@ -484,12 +492,12 @@ export default {
     },
     // 计算含税金额
     getTaxMoney(row) {
-      row.includeTaxMoney = (row.retreatQuantity * row.includeTaxPrice).toFixed(2)
+      row.includeTaxMoney = (row.quantity * row.includeTaxPrice).toFixed(2)
       return row.includeTaxMoney
     },
     // 计算金额
     getMoney(row) {
-      row.money = (row.retreatQuantity * row.price).toFixed(2)
+      row.money = (row.includeTaxMoney - row.deduTaxMoney).toFixed(2)
       return row.money
     },
     getways() {
@@ -702,15 +710,27 @@ export default {
             return false
           }
           let m = 1
+          let m2 = 1
           for (let i = 0; i < EnterDetail.length; i++) {
             if (EnterDetail[i].costCode === null) {
               m = 2
+            }
+            if (EnterDetail[i].includeTaxMoney === '0.00') {
+              m2 = 2
             }
           }
           if (m === 2) {
             this.$notify.error({
               title: '错误',
               message: '费用代码不能为空',
+              offset: 100
+            })
+            return false
+          }
+          if (m2 === 2) {
+            this.$notify.error({
+              title: '错误',
+              message: '含税金额不能为0',
               offset: 100
             })
             return false
