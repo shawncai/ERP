@@ -490,15 +490,20 @@ export default {
     },
     getstockArrivalList() {
       searchstockArrival(this.stockArrivaldata).then(res => {
+        const sourceNumber = this.stockArrivaldata.sourceNumber
         if (res.data.ret === 200) {
           this.arravldata = res.data.data.content.list.map(function(item) {
             const needata = item.stockArrivalDetailVos.map(function(elem) {
-              return {
-                number: item.number,
-                productCode: elem.productCode,
-                arrivalQuantity: elem.arrivalQuantity,
-                arrivalDate: item.arrivalDate,
-                acceptPersonName: item.acceptPersonName
+              console.log('elem.sourceNumber', elem.sourceNumber)
+              console.log('this.stockArrivaldata.sourceNumber', sourceNumber)
+              if (elem.sourceNumber === sourceNumber) {
+                return {
+                  number: item.number,
+                  productCode: elem.productCode,
+                  arrivalQuantity: elem.arrivalQuantity,
+                  arrivalDate: item.arrivalDate,
+                  acceptPersonName: item.acceptPersonName
+                }
               }
             })
             return needata

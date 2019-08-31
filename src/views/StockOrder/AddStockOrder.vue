@@ -601,22 +601,20 @@ export default {
       sums[2] = ''
       sums[3] = ''
       sums[4] = ''
-      sums[5] = ''
-      sums[7] = ''
       sums[8] = ''
       sums[9] = ''
-      sums[13] = ''
-      sums[14] = ''
+      sums[10] = ''
+      sums[11] = ''
+      sums[12] = ''
       sums[16] = ''
-      sums[17] = ''
       sums[18] = ''
       sums[19] = ''
-      this.allNumber = sums[6]
-      this.allMoney = sums[10]
-      this.allTaxMoney = sums[12]
-      this.allIncludeTaxMoney = sums[11]
-      this.allDiscountMoney = sums[15]
-      this.allMoneyMoveDiscount = sums[11] - sums[15]
+      this.allNumber = sums[7]
+      this.allMoney = sums[13]
+      this.allTaxMoney = sums[15]
+      this.allIncludeTaxMoney = sums[14]
+      this.allDiscountMoney = sums[17]
+      this.allMoneyMoveDiscount = (sums[14] - sums[17]).toFixed(2)
       return sums
     },
     getways() {

@@ -411,7 +411,8 @@ export default {
         countryId: this.$store.getters.countryId,
         repositoryId: this.$store.getters.repositoryId,
         regionId: this.$store.getters.regionId,
-        isVat: 1
+        isVat: 1,
+        payDate: null
       }
       this.supplierId = null
       this.inquiryPersonId = null

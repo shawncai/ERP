@@ -139,6 +139,7 @@ export default {
       control: false,
       // 物料信息数据
       personalForm: {
+        isActive: 1,
         bomNumber: '',
         createPersonId: this.$store.getters.userId,
         countryId: this.$store.getters.countryId,
@@ -232,6 +233,7 @@ export default {
     // 清空记录
     restAllForm() {
       this.personalForm = {
+        isActive: 1,
         bomNumber: '',
         createPersonId: this.$store.getters.userId,
         countryId: this.$store.getters.countryId,

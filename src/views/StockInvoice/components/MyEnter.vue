@@ -371,7 +371,7 @@ export default {
           quantity2: item.actualEnterQuantity,
           price: item.enterPrice,
           includeTaxPrice: (item.enterPrice * (1 + item.taxRate)).toFixed(2),
-          taxRate: item.taxRate * 100,
+          taxRate: item.taxRate,
           money: item.money,
           includeTaxMoney: item.includeTaxMoney,
           taxMoney: item.taxMoney,

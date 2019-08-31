@@ -983,6 +983,7 @@ export default {
         countryId: this.$store.getters.countryId,
         repositoryId: this.$store.getters.repositoryId,
         regionId: this.$store.getters.regionId,
+        inspectionPersonId: this.$store.getters.userId,
         isRecheck: 1,
         sourceType: '2',
         sampleQuantity: null,
@@ -991,7 +992,7 @@ export default {
         passQuantity: '',
         checkMode: '1',
         checkType: '1',
-        inspectionPersonId: this.$store.getters.userId,
+        checkDate: null,
         checkResult: '1'
       }
       this.inspectionPersonId = this.$store.getters.name

@@ -733,9 +733,11 @@ export default {
         installmentBegintime: null,
         notaryDate: null,
         deptId: this.$store.getters.deptId,
+        saleRepositoryId: this.$store.getters.repositoryId,
         customerType: '2',
-        customerId: null,
-        saleRepositoryId: this.$store.getters.repositoryId
+        signDate: null,
+        saleType: '1',
+        useType: '1'
       }
       this.supplierId = null
       this.inquiryPersonId = null
@@ -743,6 +745,7 @@ export default {
       this.ourContractorId = null
       this.customerId = null
       this.isinstallappley = false
+      this.getdatatime()
     },
     // 深拷贝
     deepClone(obj) {

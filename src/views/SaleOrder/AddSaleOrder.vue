@@ -330,8 +330,8 @@
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('SaleOrder.heji9')" style="width: 100%;">
-                  <el-input v-model="personalForm.otherMoney" style="margin-left: 18px;width:200px"/>
+                <el-form-item :label="$t('SaleOrder.heji9')" prop="otherMoney" style="width: 100%;">
+                  <el-input-number :precision="0" :controls="false" :step="1" :min="0" v-model="personalForm.otherMoney" style="margin-left: 18px;width:200px"/>
                 </el-form-item>
               </el-col>
             </el-row>
@@ -857,6 +857,14 @@ export default {
     handlesave() {
       this.$refs.personalForm.validate((valid) => {
         if (valid) {
+          if (this.personalForm.otherMoney === null || this.personalForm.otherMoney === undefined || this.personalForm.otherMoney === '') {
+            this.$notify.error({
+              title: '错误',
+              message: '其他费用不能为空',
+              offset: 100
+            })
+            return false
+          }
           const EnterDetail = this.deepClone(this.$refs.editable.getRecords())
           if (EnterDetail.length === 0) {
             this.$notify.error({
