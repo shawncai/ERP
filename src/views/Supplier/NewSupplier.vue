@@ -14,13 +14,17 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('Supplier.typeId')" prop="typeId" style="width: 100%;">
-                  <el-select v-model="personalForm.typeId" placeholder="请选择供应商类别" style="margin-left: 18px;width: 200px" @focus="updateType">
+                  <el-select ref="clear" v-model="personalForm.typeId" placeholder="请选择供应商类别" style="margin-left: 18px;width: 200px" @focus="updateType">
+                    <el-option v-show="false" label="" value=""/>
                     <el-option
                       v-for="(item, index) in typeIds"
                       :key="index"
                       :label="item.categoryName"
                       :value="item.id"
                     />
+                    <template>
+                      <el-button icon="el-icon-circle-plus-outline" style="width:100%" @click="go_creat">新增</el-button>
+                    </template>
                   </el-select>
                 </el-form-item>
               </el-col>
@@ -125,48 +129,64 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('Supplier.giveId')" style="width: 100%;">
-                  <el-select v-model="personalForm.deliveryMode" placeholder="请选择交货方式" style="margin-left: 18px;width: 200px" @focus="updateGive">
+                  <el-select ref="clear2" v-model="personalForm.deliveryMode" placeholder="请选择交货方式" style="margin-left: 18px;width: 200px" @focus="updateGive">
+                    <el-option v-show="false" label="" value=""/>
                     <el-option
                       v-for="(item, index) in deliveryModes"
                       :key="index"
                       :label="item.categoryName"
                       :value="item.id"
                     />
+                    <template>
+                      <el-button icon="el-icon-circle-plus-outline" style="width:100%" @click="go_creat2">新增</el-button>
+                    </template>
                   </el-select>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('Supplier.transportId')" style="width: 100%;">
-                  <el-select v-model="personalForm.transportId" placeholder="请选择运送方式" style="margin-left: 18px;width: 200px" @focus="updateTran">
+                  <el-select ref="clear3" v-model="personalForm.transportId" placeholder="请选择运送方式" style="margin-left: 18px;width: 200px" @focus="updateTran">
+                    <el-option v-show="false" label="" value=""/>
                     <el-option
                       v-for="(item, index) in transportIds"
                       :key="index"
                       :label="item.categoryName"
                       :value="item.id"
                     />
+                    <template>
+                      <el-button icon="el-icon-circle-plus-outline" style="width:100%" @click="go_creat3">新增</el-button>
+                    </template>
                   </el-select>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('Supplier.payMode')" style="width: 100%;">
-                  <el-select v-model="personalForm.payMode" clearable style="margin-left: 18px;width: 200px">
+                  <el-select ref="clear4" v-model="personalForm.payMode" clearable style="margin-left: 18px;width: 200px">
+                    <el-option v-show="false" label="" value=""/>
                     <el-option
                       v-for="(item, index) in colseTypes"
                       :value="item.id"
                       :key="index"
                       :label="item.categoryName"/>
+                    <template>
+                      <el-button icon="el-icon-circle-plus-outline" style="width:100%" @click="go_creat4">新增</el-button>
+                    </template>
                   </el-select>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('Supplier.levelId')" style="width: 100%;">
-                  <el-select v-model="personalForm.levelId" placeholder="请选择供应商优质级别" style="margin-left: 18px;width: 200px" @focus="updateLeve">
+                  <el-select ref="clear5" v-model="personalForm.levelId" placeholder="请选择供应商优质级别" style="margin-left: 18px;width: 200px" @focus="updateLeve">
+                    <el-option v-show="false" label="" value=""/>
                     <el-option
                       v-for="(item, index) in levelIds"
                       :key="index"
                       :label="item.categoryName"
                       :value="item.id"
                     />
+                    <template>
+                      <el-button icon="el-icon-circle-plus-outline" style="width:100%" @click="go_creat5">新增</el-button>
+                    </template>
                   </el-select>
                 </el-form-item>
               </el-col>
@@ -842,6 +862,26 @@ export default {
     },
     updatePaymen() {
       this.getnationlist()
+    },
+    go_creat() {
+      this.$router.push('/Supplier/SupplierCategory')
+      this.$refs.clear.blur()
+    },
+    go_creat2() {
+      this.$router.push('/Supplier/SupplierCategory')
+      this.$refs.clear2.blur()
+    },
+    go_creat3() {
+      this.$router.push('/Supplier/SupplierCategory')
+      this.$refs.clear3.blur()
+    },
+    go_creat4() {
+      this.$router.push('/Supplier/SupplierCategory')
+      this.$refs.clear4.blur()
+    },
+    go_creat5() {
+      this.$router.push('/Supplier/SupplierCategory')
+      this.$refs.clear5.blur()
     }
   }
 }

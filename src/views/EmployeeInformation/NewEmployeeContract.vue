@@ -121,12 +121,16 @@
           </el-dialog>
           <!--弹窗员工列表结束-->
           <el-form-item :label="$t('NewEmployeeInformation.typeid')" prop="typeid" style="width: 40%;margin-top:1%">
-            <el-select v-model="contractForm.typeid" placeholder="请选择合同类别" style="width: 100%;" @focus="updatetypes">
+            <el-select ref="clear" v-model="contractForm.typeid" placeholder="请选择合同类别" style="width: 100%;" @focus="updatetypes">
+              <el-option v-show="false" label="" value=""/>
               <el-option
                 v-for="(item, index) in alltypes"
                 :key="index"
                 :label="item.categoryName"
                 :value="item.id"/>
+              <template>
+                <el-button type="success" icon="el-icon-circle-plus-outline" style="width:100%" @click="go_creat">新增</el-button>
+              </template>
             </el-select>
           </el-form-item>
           <el-form-item :label="$t('NewEmployeeInformation.contractname')" prop="contractname" style="width: 40%">
@@ -566,6 +570,10 @@ export default {
     createname(val) {
       this.remindpersonid = val.personName
       this.contractForm.remindpersonid = val.id
+    },
+    go_creat() {
+      this.$router.push('/EmployeeInformation/EmpCategory')
+      this.$refs.clear.blur()
     }
   }
 }

@@ -9,33 +9,45 @@
             <el-input v-model="customerForm.agentname" placeholder="请输入供货商名" clearable/>
           </el-form-item>
           <el-form-item :label="$t('Customer.customertype')" prop="type" style="width: 40%;margin-top: 1%">
-            <el-select v-model="customerForm.type" :value="customerForm.type" placeholder="请选择经销商类型" style="width: 100%;" @focus="getCategory">
+            <el-select ref="clear" v-model="customerForm.type" :value="customerForm.type" placeholder="请选择经销商类型" style="width: 100%;" @focus="getCategory">
+              <el-option v-show="false" label="" value=""/>
               <el-option
                 v-for="(item, index) in customertypes"
                 :key="index"
                 :value="item.id"
                 :label="item.categoryName"/>
+              <template>
+                <el-button icon="el-icon-circle-plus-outline" style="width:100%" @click="go_creat">新增</el-button>
+              </template>
             </el-select>
           </el-form-item>
           <el-form-item :label="$t('Customer.level2')" style="width: 40%;margin-top: 1%">
-            <el-select v-model="customerForm.level" :value="customerForm.level" placeholder="请选择经销商优质级别" style="width: 100%;" @focus="getCategory">
+            <el-select ref="clear2" v-model="customerForm.level" :value="customerForm.level" placeholder="请选择经销商优质级别" style="width: 100%;" @focus="getCategory">
+              <el-option v-show="false" label="" value=""/>
               <el-option
                 v-for="(item, index) in levels"
                 :key="index"
                 :value="item.id"
                 :label="item.categoryName"/>
+              <template>
+                <el-button icon="el-icon-circle-plus-outline" style="width:100%" @click="go_creat2">新增</el-button>
+              </template>
             </el-select>
           </el-form-item>
           <el-form-item :label="$t('Customer.pinyin')" style="width: 40%;margin-top: 1%">
             <el-input v-model="customerForm.pinyin" placeholder="请输入拼音缩写" clearable/>
           </el-form-item>
           <el-form-item :label="$t('Customer.source2')" style="width: 40%;margin-top: 1%">
-            <el-select v-model="customerForm.source" :value="customerForm.source" placeholder="请选择客户来源" style="width: 100%;" @focus="getCategory">
+            <el-select ref="clear3" v-model="customerForm.source" :value="customerForm.source" placeholder="请选择客户来源" style="width: 100%;" @focus="getCategory">
+              <el-option v-show="false" label="" value=""/>
               <el-option
                 v-for="(item, index) in sources"
                 :key="index"
                 :value="item.id"
                 :label="item.categoryName"/>
+              <template>
+                <el-button icon="el-icon-circle-plus-outline" style="width:100%" @click="go_creat3">新增</el-button>
+              </template>
             </el-select>
           </el-form-item>
           <el-form-item :label="$t('Customer.discount2')" style="width: 40%;margin-top: 1%">
@@ -448,6 +460,19 @@ export default {
       const view = { path: '/Customer/NewAgent', name: 'NewAgent', fullPath: '/Customer/NewAgent', title: 'NewAgent' }
       this.$store.dispatch('delView', view).then(({ visitedViews }) => {
       })
+    },
+    // 触发下拉框blur
+    go_creat() {
+      this.$router.push('/Customer/CustomerCategory')
+      this.$refs.clear.blur()
+    },
+    go_creat2() {
+      this.$router.push('/Customer/CustomerCategory')
+      this.$refs.clear2.blur()
+    },
+    go_creat3() {
+      this.$router.push('/Customer/CustomerCategory')
+      this.$refs.clear3.blur()
     }
   }
 }

@@ -139,23 +139,31 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('NewEmployeeInformation.postid')" style="width: 100%;">
-                  <el-select v-model="companyForm.postid" :value="companyForm.postid" placeholder="请选择职位" style="margin-left: 18px;width: 200px" @focus="updatepost">
+                  <el-select ref="clear" v-model="companyForm.postid" :value="companyForm.postid" placeholder="请选择职位" style="margin-left: 18px;width: 200px" @focus="updatepost">
+                    <el-option v-show="false" label="" value=""/>
                     <el-option
                       v-for="(item, index) in jobs"
                       :key="index"
                       :label="item.categoryName"
                       :value="item.id"/>
+                    <template>
+                      <el-button icon="el-icon-circle-plus-outline" style="width:100%" @click="go_creat">新增</el-button>
+                    </template>
                   </el-select>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('NewEmployeeInformation.deptid')" prop="deptid" style="width: 100%;">
-                  <el-select v-model="companyForm.deptid" placeholder="请选择部门" style="margin-left: 18px;width: 200px" @focus="updatedept">
+                  <el-select ref="clear2" v-model="companyForm.deptid" placeholder="请选择部门" style="margin-left: 18px;width: 200px" @focus="updatedept">
+                    <el-option v-show="false" label="" value=""/>
                     <el-option
                       v-for="(item, index) in depts"
                       :key="index"
                       :label="item.deptName"
                       :value="item.id"/>
+                    <template>
+                      <el-button icon="el-icon-circle-plus-outline" style="width:100%" @click="go_creat2">新增</el-button>
+                    </template>
                   </el-select>
                 </el-form-item>
               </el-col>
@@ -354,6 +362,7 @@ export default {
     this.getnationlist()
     this.getroleName()
     this.getRegion()
+    this.handlechange(1)
   },
   methods: {
     getRegion() {
@@ -677,6 +686,14 @@ export default {
     // 更新部门下拉
     updatedept() {
       this.getnationlist()
+    },
+    go_creat() {
+      this.$router.push('/EmployeeInformation/EmpCategory')
+      this.$refs.clear.blur()
+    },
+    go_creat2() {
+      this.$router.push('/EmployeeInformation/EmpCategory')
+      this.$refs.clear2.blur()
     }
   }
 }

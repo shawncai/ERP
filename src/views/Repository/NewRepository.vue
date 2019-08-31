@@ -36,23 +36,31 @@
             </el-radio-group>
           </el-form-item>
           <el-form-item :label="$t('Repository.type')" prop="type" style="width: 40%;margin-top: 1%">
-            <el-select v-model="RepositoryForm.type" :value="RepositoryForm.type" placeholder="请选择" style="width: 100%;" @change="updateType2" @focus="updateType">
+            <el-select ref="clear" v-model="RepositoryForm.type" :value="RepositoryForm.type" placeholder="请选择" style="width: 100%;" @change="updateType2" @focus="updateType">
+              <el-option v-show="false" label="" value=""/>
               <el-option
                 v-for="(item, index) in types"
                 :key="index"
                 :value="item.id"
                 :label="item.categoryName"
               />
+              <template>
+                <el-button icon="el-icon-circle-plus-outline" style="width:100%" @click="go_creat">新增</el-button>
+              </template>
             </el-select>
           </el-form-item>
           <el-form-item label="类别" prop="categoryId" style="width: 40%;margin-top: 1%">
-            <el-select v-model="RepositoryForm.categoryId" placeholder="请选择" style="width: 100%;">
+            <el-select ref="clear2" v-model="RepositoryForm.categoryId" placeholder="请选择" style="width: 100%;">
+              <el-option v-show="false" label="" value=""/>
               <el-option
                 v-for="(item, index) in types2"
                 :key="index"
                 :value="item.id"
                 :label="item.categoryName"
               />
+              <template>
+                <el-button icon="el-icon-circle-plus-outline" style="width:100%" @click="go_creat2">新增</el-button>
+              </template>
             </el-select>
           </el-form-item>
           <el-form-item :label="$t('Repository.managerPeople')" style="width: 40%;margin-top: 1%">
@@ -764,6 +772,14 @@ export default {
     // 小区经理选择结束
     updateType() {
       // this.getnationlist()
+    },
+    go_creat() {
+      this.$router.push('/Repository/RepCategory')
+      this.$refs.clear.blur()
+    },
+    go_creat2() {
+      this.$router.push('/Repository/RepCategory')
+      this.$refs.clear2.blur()
     }
   }
 }
