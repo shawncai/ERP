@@ -11,7 +11,7 @@
           <el-col :span="5" style="margin-left: 10px">
             <el-form-item label="分类类别">
               <el-select v-model="getemplist.type" :value="getemplist.type" clearable @keyup.enter.native="handleFilter">
-                <el-option label="部门类别" value="1"/>
+                <el-option label="合同属性" value="1"/>
                 <el-option label="职位类别" value="2"/>
                 <el-option label="合同类型" value="3"/>
               </el-select>
@@ -53,7 +53,7 @@
         <el-form ref="addCategoryForm" :rules="addCategoryFormRules" :model="addCategoryForm" class="demo-ruleForm" style="margin: 0 auto; width: 400px">
           <el-form-item :label="$t('NewEmployeeInformation.type')" label-width="100px" prop="type">
             <el-select v-model="addCategoryForm.type" placeholder="请选择类别" style="width: 100%">
-              <el-option label="部门类别" value="1"/>
+              <el-option label="合同属性" value="1"/>
               <el-option label="职位类别" value="2"/>
               <el-option label="合同类型" value="3"/>
             </el-select>
@@ -129,7 +129,7 @@
         <el-form ref="editCategoryForm" :rules="editCategoryFormRules" :model="editCategoryForm" class="demo-ruleForm" style="margin: 0 auto; width: 400px">
           <el-form-item :label="$t('NewEmployeeInformation.type')" label-width="100px">
             <el-select v-model="editCategoryForm.type" placeholder="请选择类别" style="width: 100%" disabled >
-              <el-option label="部门类别" value="1"/>
+              <el-option label="合同属性" value="1"/>
               <el-option label="职位类别" value="2"/>
               <el-option label="合同类型" value="3"/>
             </el-select>
@@ -169,7 +169,7 @@ export default {
   filters: {
     typeFilter(status) {
       const statusMap = {
-        1: '部门类别',
+        1: '合同属性',
         2: '职位类别',
         3: '合同类型'
       }

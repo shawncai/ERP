@@ -41,7 +41,7 @@
                 :value="item.id"
                 :label="item.categoryName"/>
               <template>
-                <el-button icon="el-icon-circle-plus-outline" style="width:100%" @click="go_creat">新增</el-button>
+                <el-button v-if="isshow" icon="el-icon-circle-plus-outline" style="width:100%" @click="go_creat">新增</el-button>
               </template>
             </el-select>
           </el-form-item>
@@ -54,7 +54,7 @@
                 :value="item.id"
                 :label="item.categoryName"/>
               <template>
-                <el-button icon="el-icon-circle-plus-outline" style="width:100%" @click="go_creat2">新增</el-button>
+                <el-button v-if="isshow" icon="el-icon-circle-plus-outline" style="width:100%" @click="go_creat2">新增</el-button>
               </template>
             </el-select>
           </el-form-item>
@@ -148,6 +148,8 @@ export default {
       }, 1000)
     }
     return {
+      // 判断增加按钮
+      isshow: false,
       // 国家列表
       nations: [],
       // 省列表
@@ -209,6 +211,10 @@ export default {
     this.getCategory()
   },
   methods: {
+    jungleshow() {
+      const roles = this.$store.getters.roles
+      this.isshow = roles.includes('1-14-21-1')
+    },
     checkPermission,
     // 获取类型
     getCategory() {

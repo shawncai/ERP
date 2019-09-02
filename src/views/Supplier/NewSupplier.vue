@@ -23,7 +23,7 @@
                       :value="item.id"
                     />
                     <template>
-                      <el-button icon="el-icon-circle-plus-outline" style="width:100%" @click="go_creat">新增</el-button>
+                      <el-button v-if="isshow" icon="el-icon-circle-plus-outline" style="width:100%" @click="go_creat">新增</el-button>
                     </template>
                   </el-select>
                 </el-form-item>
@@ -138,7 +138,7 @@
                       :value="item.id"
                     />
                     <template>
-                      <el-button icon="el-icon-circle-plus-outline" style="width:100%" @click="go_creat2">新增</el-button>
+                      <el-button v-if="isshow" icon="el-icon-circle-plus-outline" style="width:100%" @click="go_creat2">新增</el-button>
                     </template>
                   </el-select>
                 </el-form-item>
@@ -154,7 +154,7 @@
                       :value="item.id"
                     />
                     <template>
-                      <el-button icon="el-icon-circle-plus-outline" style="width:100%" @click="go_creat3">新增</el-button>
+                      <el-button v-if="isshow" icon="el-icon-circle-plus-outline" style="width:100%" @click="go_creat3">新增</el-button>
                     </template>
                   </el-select>
                 </el-form-item>
@@ -169,7 +169,7 @@
                       :key="index"
                       :label="item.categoryName"/>
                     <template>
-                      <el-button icon="el-icon-circle-plus-outline" style="width:100%" @click="go_creat4">新增</el-button>
+                      <el-button v-if="isshow" icon="el-icon-circle-plus-outline" style="width:100%" @click="go_creat4">新增</el-button>
                     </template>
                   </el-select>
                 </el-form-item>
@@ -185,7 +185,7 @@
                       :value="item.id"
                     />
                     <template>
-                      <el-button icon="el-icon-circle-plus-outline" style="width:100%" @click="go_creat5">新增</el-button>
+                      <el-button v-if="isshow" icon="el-icon-circle-plus-outline" style="width:100%" @click="go_creat5">新增</el-button>
                     </template>
                   </el-select>
                 </el-form-item>
@@ -365,6 +365,8 @@ export default {
   components: { MyDetail, MyEmp },
   data() {
     return {
+      // 是否显示添加按钮
+      isshow: false,
       // 控制可提供商品明细
       control: false,
       // 供应商分组数据
@@ -496,8 +498,13 @@ export default {
     this.getnationlist()
     this.getTypes()
     this.getRegion()
+    this.jungleshow()
   },
   methods: {
+    jungleshow() {
+      const roles = this.$store.getters.roles
+      this.isshow = roles.includes('1-22-28-1')
+    },
     getRegion() {
       getRegion(this.$store.getters.regionId).then(res => {
         if (res.data.ret === 200) {

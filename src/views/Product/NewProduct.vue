@@ -25,121 +25,161 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('Product.typeid')" :rules="Iscategoryid === 3 || Iscategoryid === '' ? personalrules.typeid:[{ required: true, message: '请选择车辆型号', trigger: 'change' }]" prop="typeid" style="width: 100%;">
-                  <el-select v-model="typeid" :disabled="Iscategoryid === 3 || Iscategoryid === ''" value-key="id" style="margin-left: 18px;width: 200px" placeholder="请选择车辆型号" clearable @change="type($event)" @focus="updatecate">
+                  <el-select ref="clear" v-model="typeid" :disabled="Iscategoryid === 3 || Iscategoryid === ''" value-key="id" style="margin-left: 18px;width: 200px" placeholder="请选择车辆型号" clearable @change="type($event)" @focus="updatecate">
+                    <el-option v-show="false" label="" value=""/>
                     <el-option
                       v-for="(item, index) in types"
                       :key="index"
                       :label="item.categoryName"
                       :value="item"
                     />
+                    <template>
+                      <el-button v-if="isshow" icon="el-icon-circle-plus-outline" style="width:100%" @click="go_creat">新增</el-button>
+                    </template>
                   </el-select>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('Product.disposeId')" :rules="Iscategoryid === 3 || Iscategoryid === '' || Iscategoryid === 2 ? personalrules.disposeId:[{ required: true, message: '请选择配置', trigger: 'change' }]" prop="disposeId" style="width: 100%;">
-                  <el-select v-model="disposeId" :disabled="Iscategoryid === 3 || Iscategoryid === '' || Iscategoryid === 2" value-key="id" placeholder="请选择配置" style="margin-left: 18px;width: 200px" @change="dispose($event)" @focus="updatecate">
+                  <el-select ref="clear2" v-model="disposeId" :disabled="Iscategoryid === 3 || Iscategoryid === '' || Iscategoryid === 2" value-key="id" placeholder="请选择配置" style="margin-left: 18px;width: 200px" @change="dispose($event)" @focus="updatecate">
+                    <el-option v-show="false" label="" value=""/>
                     <el-option
                       v-for="(item, index) in disposes"
                       :key="index"
                       :label="item.categoryName"
                       :value="item"
                     />
+                    <template>
+                      <el-button v-if="isshow" icon="el-icon-circle-plus-outline" style="width:100%" @click="go_creat2">新增</el-button>
+                    </template>
                   </el-select>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('Product.versionId')" :rules="Iscategoryid === 3 || Iscategoryid === '' ? personalrules.versionId:[{ required: true, message: '请选择版本', trigger: 'change' }]" prop="versionId" style="width: 100%;">
-                  <el-select v-model="versionId" :disabled="Iscategoryid === 3 || Iscategoryid === ''" value-key="id" placeholder="请选择版本" style="margin-left: 18px;width: 200px" @change="version($event)" @focus="updatecate">
+                  <el-select ref="clear3" v-model="versionId" :disabled="Iscategoryid === 3 || Iscategoryid === ''" value-key="id" placeholder="请选择版本" style="margin-left: 18px;width: 200px" @change="version($event)" @focus="updatecate">
+                    <el-option v-show="false" label="" value=""/>
                     <el-option
                       v-for="(item, index) in versions"
                       :key="index"
                       :label="item.categoryName"
                       :value="item"
                     />
+                    <template>
+                      <el-button v-if="isshow" icon="el-icon-circle-plus-outline" style="width:100%" @click="go_creat3">新增</el-button>
+                    </template>
                   </el-select>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('Product.color')" :rules="Iscategoryid === 3 || Iscategoryid === '' ? personalrules.colorId:[{ required: true, message: '请选择颜色', trigger: 'change' }]" prop="colorId" style="width: 100%;">
-                  <el-select v-model="colorId" :disabled="Iscategoryid === 3 || Iscategoryid === ''" value-key="id" placeholder="请选择颜色" style="margin-left: 18px;width: 200px" @change="color($event)" @focus="updatecate">
+                  <el-select ref="clear4" v-model="colorId" :disabled="Iscategoryid === 3 || Iscategoryid === ''" value-key="id" placeholder="请选择颜色" style="margin-left: 18px;width: 200px" @change="color($event)" @focus="updatecate">
+                    <el-option v-show="false" label="" value=""/>
                     <el-option
                       v-for="(item, index) in colors"
                       :key="index"
                       :label="item.categoryName"
                       :value="item"
                     />
+                    <template>
+                      <el-button v-if="isshow" icon="el-icon-circle-plus-outline" style="width:100%" @click="go_creat4">新增</el-button>
+                    </template>
                   </el-select>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('Product.diameterId')" :rules="Iscategoryid === 1 || Iscategoryid === 2 || Iscategoryid === '' ? personalrules.diameterId:[{ required: true, message: '请选择直径规格', trigger: 'change' }]" prop="diameterId" style="width: 100%;">
-                  <el-select v-model="diameterId" :disabled="Iscategoryid === 1 || Iscategoryid === 2 || Iscategoryid === ''" value-key="id" placeholder="请选择直径规格" style="margin-left: 18px;width: 200px" @change="diameter($event)" @focus="updatecate">
+                  <el-select ref="clear5" v-model="diameterId" :disabled="Iscategoryid === 1 || Iscategoryid === 2 || Iscategoryid === ''" value-key="id" placeholder="请选择直径规格" style="margin-left: 18px;width: 200px" @change="diameter($event)" @focus="updatecate">
+                    <el-option v-show="false" label="" value=""/>
                     <el-option
                       v-for="(item, index) in diameters"
                       :key="index"
                       :label="item.categoryName"
                       :value="item"
                     />
+                    <template>
+                      <el-button v-permission="['1-31-38-1']" icon="el-icon-circle-plus-outline" style="width:100%" @click="go_creat5">新增</el-button>
+                    </template>
                   </el-select>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('Product.brand')" style="width: 100%;">
-                  <el-select v-model="personalForm.brand" placeholder="请选择品牌" style="margin-left: 18px;width: 200px" @focus="updatecate">
+                  <el-select ref="clear6" v-model="personalForm.brand" placeholder="请选择品牌" style="margin-left: 18px;width: 200px" @focus="updatecate">
+                    <el-option v-show="false" label="" value=""/>
                     <el-option
                       v-for="(item, index) in brands"
                       :key="index"
                       :label="item.categoryName"
                       :value="item.id"
                     />
+                    <template>
+                      <el-button v-if="isshow" icon="el-icon-circle-plus-outline" style="width:100%" @click="go_creat6">新增</el-button>
+                    </template>
                   </el-select>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('Product.level')" style="width: 100%;">
-                  <el-select v-model="personalForm.level" placeholder="请选择档次级别" style="margin-left: 18px;width: 200px" @focus="updatecate">
+                  <el-select ref="clear7" v-model="personalForm.level" placeholder="请选择档次级别" style="margin-left: 18px;width: 200px" @focus="updatecate">
+                    <el-option v-show="false" label="" value=""/>
                     <el-option
                       v-for="(item, index) in levels"
                       :key="index"
                       :label="item.categoryName"
                       :value="item.id"
                     />
+                    <template>
+                      <el-button v-permission="['1-31-38-1']" icon="el-icon-circle-plus-outline" style="width:100%" @click="go_creat7">新增</el-button>
+                    </template>
                   </el-select>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('Product.lengthLevelId')" :rules="Iscategoryid === 1 || Iscategoryid === 2 || Iscategoryid === '' ? personalrules.lengthLevelId:[{ required: true, message: '请选择长度等级', trigger: 'change' }]" prop="lengthLevelId" style="width: 100%;">
-                  <el-select v-model="lengthLevelId" :disabled="Iscategoryid === 1 || Iscategoryid === 2 || personalForm.categoryid === ''" value-key="id" placeholder="请选择长度等级" style="margin-left: 18px;width: 200px" @change="length($event)" @focus="updatecate">
+                  <el-select ref="clear8" v-model="lengthLevelId" :disabled="Iscategoryid === 1 || Iscategoryid === 2 || personalForm.categoryid === ''" value-key="id" placeholder="请选择长度等级" style="margin-left: 18px;width: 200px" @change="length($event)" @focus="updatecate">
+                    <el-option v-show="false" label="" value=""/>
                     <el-option
                       v-for="(item, index) in lengthLevels"
                       :key="index"
                       :label="item.categoryName"
                       :value="item"
                     />
+                    <template>
+                      <el-button v-if="isshow" icon="el-icon-circle-plus-outline" style="width:100%" @click="go_creat8">新增</el-button>
+                    </template>
                   </el-select>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('Product.faceId')" :rules="Iscategoryid === 1 || Iscategoryid === 2 || Iscategoryid === '' ? personalrules.faceId:[{ required: true, message: '请选择表面处理', trigger: 'change' }]" prop="faceId" style="width: 100%;">
-                  <el-select v-model="faceId" :disabled="Iscategoryid === 1 || Iscategoryid === 2 || Iscategoryid === ''" value-key="id" placeholder="请选择表面处理" style="margin-left: 18px;width: 200px" @change="face($event)" @focus="updatecate">
+                  <el-select ref="clear9" v-model="faceId" :disabled="Iscategoryid === 1 || Iscategoryid === 2 || Iscategoryid === ''" value-key="id" placeholder="请选择表面处理" style="margin-left: 18px;width: 200px" @change="face($event)" @focus="updatecate">
+                    <el-option v-show="false" label="" value=""/>
                     <el-option
                       v-for="(item, index) in faces"
                       :key="index"
                       :label="item.categoryName"
                       :value="item"
                     />
+                    <template>
+                      <el-button v-permission="['1-31-38-1']" icon="el-icon-circle-plus-outline" style="width:100%" @click="go_creat9">新增</el-button>
+                    </template>
                   </el-select>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('Product.performanceLevelId')" :rules="Iscategoryid === 1 || Iscategoryid === 2 || Iscategoryid === '' ? personalrules.performanceLevelId:[{ required: true, message: '请选择性能等级', trigger: 'change' }]" prop="performanceLevelId" style="width: 100%;">
-                  <el-select v-model="performanceLevelId" :disabled="Iscategoryid === 1 || Iscategoryid === 2 || Iscategoryid === ''" value-key="id" placeholder="请选择性能等级" style="margin-left: 18px;width: 200px" @change="performanceLevel($event)" @focus="updatecate">
+                  <el-select ref="clear10" v-model="performanceLevelId" :disabled="Iscategoryid === 1 || Iscategoryid === 2 || Iscategoryid === ''" value-key="id" placeholder="请选择性能等级" style="margin-left: 18px;width: 200px" @change="performanceLevel($event)" @focus="updatecate">
+                    <el-option v-show="false" label="" value=""/>
                     <el-option
                       v-for="(item, index) in performanceLevels"
                       :key="index"
                       :label="item.categoryName"
                       :value="item"
                     />
+                    <template>
+                      <el-button v-if="isshow" icon="el-icon-circle-plus-outline" style="width:100%" @click="go_creat10">新增</el-button>
+                    </template>
                   </el-select>
                 </el-form-item>
               </el-col>
@@ -416,6 +456,8 @@ export default {
       }
     }
     return {
+      // 是否显示添加按钮
+      isshow: false,
       // 控制生产能力是否可输入
       IsAbility: true,
       // 控制采购周期是否可输入
@@ -609,8 +651,13 @@ export default {
   created() {
     this.getcategorys()
     // this.getunitlist()
+    this.jungleshow()
   },
   methods: {
+    jungleshow() {
+      const roles = this.$store.getters.roles
+      this.isshow = roles.includes('1-31-38-1')
+    },
     updateunit() {
       this.getcategorys()
       if (this.personalForm.unitGroupId === null || this.personalForm.unitGroupId === '' || this.personalForm.unitGroupId === undefined) {
@@ -1097,6 +1144,46 @@ export default {
       } else {
         return this.recursion(val.parent)
       }
+    },
+    go_creat() {
+      this.$router.push('/Product/ProductCategory')
+      this.$refs.clear.blur()
+    },
+    go_creat2() {
+      this.$router.push('/Product/ProductCategory')
+      this.$refs.clear2.blur()
+    },
+    go_creat3() {
+      this.$router.push('/Product/ProductCategory')
+      this.$refs.clear3.blur()
+    },
+    go_creat4() {
+      this.$router.push('/Product/ProductCategory')
+      this.$refs.clear4.blur()
+    },
+    go_creat5() {
+      this.$router.push('/Product/ProductCategory')
+      this.$refs.clear5.blur()
+    },
+    go_creat6() {
+      this.$router.push('/Product/ProductCategory')
+      this.$refs.clear6.blur()
+    },
+    go_creat7() {
+      this.$router.push('/Product/ProductCategory')
+      this.$refs.clear7.blur()
+    },
+    go_creat8() {
+      this.$router.push('/Product/ProductCategory')
+      this.$refs.clear8.blur()
+    },
+    go_creat9() {
+      this.$router.push('/Product/ProductCategory')
+      this.$refs.clear9.blur()
+    },
+    go_creat10() {
+      this.$router.push('/Product/ProductCategory')
+      this.$refs.clear10.blur()
     }
   }
 }

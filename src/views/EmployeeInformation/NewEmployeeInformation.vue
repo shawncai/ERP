@@ -147,23 +147,19 @@
                       :label="item.categoryName"
                       :value="item.id"/>
                     <template>
-                      <el-button icon="el-icon-circle-plus-outline" style="width:100%" @click="go_creat">新增</el-button>
+                      <el-button v-if="isshow" icon="el-icon-circle-plus-outline" style="width:100%" @click="go_creat">新增</el-button>
                     </template>
                   </el-select>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('NewEmployeeInformation.deptid')" prop="deptid" style="width: 100%;">
-                  <el-select ref="clear2" v-model="companyForm.deptid" placeholder="请选择部门" style="margin-left: 18px;width: 200px" @focus="updatedept">
-                    <el-option v-show="false" label="" value=""/>
+                  <el-select v-model="companyForm.deptid" placeholder="请选择部门" style="margin-left: 18px;width: 200px" @focus="updatedept">
                     <el-option
                       v-for="(item, index) in depts"
                       :key="index"
                       :label="item.deptName"
                       :value="item.id"/>
-                    <template>
-                      <el-button icon="el-icon-circle-plus-outline" style="width:100%" @click="go_creat2">新增</el-button>
-                    </template>
                   </el-select>
                 </el-form-item>
               </el-col>
@@ -244,6 +240,8 @@ export default {
       }, 1000)
     }
     return {
+      // 判断新增按钮是否显示
+      isshow: false,
       // 角色数据
       roleNames: [],
       radio2: 3,
@@ -363,8 +361,13 @@ export default {
     this.getroleName()
     this.getRegion()
     this.handlechange(1)
+    this.jungleshow()
   },
   methods: {
+    jungleshow() {
+      const roles = this.$store.getters.roles
+      this.isshow = roles.includes('1-2-8-1')
+    },
     getRegion() {
       getRegion(this.$store.getters.regionId).then(res => {
         if (res.data.ret === 200) {
@@ -690,10 +693,6 @@ export default {
     go_creat() {
       this.$router.push('/EmployeeInformation/EmpCategory')
       this.$refs.clear.blur()
-    },
-    go_creat2() {
-      this.$router.push('/EmployeeInformation/EmpCategory')
-      this.$refs.clear2.blur()
     }
   }
 }

@@ -129,7 +129,7 @@
                 :label="item.categoryName"
                 :value="item.id"/>
               <template>
-                <el-button type="success" icon="el-icon-circle-plus-outline" style="width:100%" @click="go_creat">新增</el-button>
+                <el-button v-if="isshow" icon="el-icon-circle-plus-outline" style="width:100%" @click="go_creat">新增</el-button>
               </template>
             </el-select>
           </el-form-item>
@@ -162,14 +162,22 @@
           </el-form-item>
           <el-form-item :label="$t('NewEmployeeInformation.period')" style="width: 40%;margin-top:1%">
             <el-select v-model="contractForm.period" placeholder="请选择合同期限" style="width: 100%;">
+              <el-option v-show="false" label="" value=""/>
               <el-option label="类型1" value="1"/>
               <el-option label="类型2" value="2"/>
             </el-select>
           </el-form-item>
           <el-form-item :label="$t('NewEmployeeInformation.attribute')" style="width: 40%;margin-top:1%">
-            <el-select v-model="contractForm.attribute" placeholder="请选择合同属性" style="width: 100%;">
-              <el-option label="类型1" value="1"/>
-              <el-option label="类型2" value="2"/>
+            <el-select ref="clear2" v-model="contractForm.attribute" placeholder="请选择合同属性" style="width: 100%;" @focus="updatetypes">
+              <el-option v-show="false" label="" value=""/>
+              <el-option
+                v-for="(item, index) in allattribute"
+                :key="index"
+                :label="item.categoryName"
+                :value="item.id"/>
+              <template>
+                <el-button v-if="isshow" icon="el-icon-circle-plus-outline" style="width:100%" @click="go_creat2">新增</el-button>
+              </template>
             </el-select>
           </el-form-item>
           <el-form-item :label="$t('NewEmployeeInformation.iscorrection')" style="width: 40%;margin-top:1%">
@@ -236,6 +244,16 @@ export default {
   },
   data() {
     return {
+      // 判断是否显示增加按钮
+      isshow: false,
+      // 所有合同属性类别
+      allattribute: [],
+      // 合同属性参数
+      attributeCat: {
+        type: 1,
+        pagenum: 1,
+        pagesize: 9999
+      },
       // 提醒人回显
       remindpersonid: '',
       // 控制提醒人窗口
@@ -332,8 +350,13 @@ export default {
   },
   mounted() {
     this.getempinformation()
+    this.jungleshow()
   },
   methods: {
+    jungleshow() {
+      const roles = this.$store.getters.roles
+      this.isshow = roles.includes('1-2-8-1')
+    },
     checkPermission,
     getempinformation() {
       if (this.$store.getters.empcontract) {
@@ -380,6 +403,14 @@ export default {
           this.alltypes = res.data.data.content.list
         } else {
           console.log('合同类别数据出错了')
+        }
+      })
+      // 合同属性数据
+      searchEmpCategory(this.attributeCat).then(res => {
+        if (res.data.ret === 200) {
+          this.allattribute = res.data.data.content.list
+        } else {
+          console.log('合同属性数据出错了')
         }
       })
     },
@@ -574,6 +605,10 @@ export default {
     go_creat() {
       this.$router.push('/EmployeeInformation/EmpCategory')
       this.$refs.clear.blur()
+    },
+    go_creat2() {
+      this.$router.push('/EmployeeInformation/EmpCategory')
+      this.$refs.clear2.blur()
     }
   }
 }

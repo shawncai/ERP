@@ -45,7 +45,7 @@
                 :label="item.categoryName"
               />
               <template>
-                <el-button icon="el-icon-circle-plus-outline" style="width:100%" @click="go_creat">新增</el-button>
+                <el-button v-if="isshow" icon="el-icon-circle-plus-outline" style="width:100%" @click="go_creat">新增</el-button>
               </template>
             </el-select>
           </el-form-item>
@@ -59,7 +59,7 @@
                 :label="item.categoryName"
               />
               <template>
-                <el-button icon="el-icon-circle-plus-outline" style="width:100%" @click="go_creat2">新增</el-button>
+                <el-button v-if="isshow" icon="el-icon-circle-plus-outline" style="width:100%" @click="go_creat2">新增</el-button>
               </template>
             </el-select>
           </el-form-item>
@@ -361,6 +361,8 @@ export default {
   },
   data() {
     return {
+      // 是否显示增加
+      isshow: false,
       // 类型列表
       types: [],
       types2: [],
@@ -478,8 +480,13 @@ export default {
   created() {
     this.getnationlist()
     this.getRegion()
+    this.jungleshow()
   },
   methods: {
+    jungleshow() {
+      const roles = this.$store.getters.roles
+      this.isshow = roles.includes('1-9-13-1')
+    },
     updateType2() {
       this.RepositoryForm.categoryId = ''
       this.types2 = []

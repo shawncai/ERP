@@ -17,7 +17,7 @@
                 :value="item.id"
                 :label="item.categoryName"/>
               <template>
-                <el-button icon="el-icon-circle-plus-outline" style="width:100%" @click="go_creat">新增</el-button>
+                <el-button v-if="isshow" icon="el-icon-circle-plus-outline" style="width:100%" @click="go_creat">新增</el-button>
               </template>
             </el-select>
           </el-form-item>
@@ -30,7 +30,7 @@
                 :value="item.id"
                 :label="item.categoryName"/>
               <template>
-                <el-button icon="el-icon-circle-plus-outline" style="width:100%" @click="go_creat2">新增</el-button>
+                <el-button v-if="isshow" icon="el-icon-circle-plus-outline" style="width:100%" @click="go_creat2">新增</el-button>
               </template>
             </el-select>
           </el-form-item>
@@ -46,7 +46,7 @@
                 :value="item.id"
                 :label="item.categoryName"/>
               <template>
-                <el-button icon="el-icon-circle-plus-outline" style="width:100%" @click="go_creat3">新增</el-button>
+                <el-button v-if="isshow" icon="el-icon-circle-plus-outline" style="width:100%" @click="go_creat3">新增</el-button>
               </template>
             </el-select>
           </el-form-item>
@@ -159,6 +159,8 @@ export default {
       }, 1000)
     }
     return {
+      // 是否显示添加
+      isshow: false,
       // 分管业务员回显
       trader: '',
       // 分管业务员控制
@@ -233,8 +235,13 @@ export default {
   created() {
     this.getnationlist()
     this.getCategory()
+    this.jungleshow()
   },
   methods: {
+    jungleshow() {
+      const roles = this.$store.getters.roles
+      this.isshow = roles.includes('1-14-21-1')
+    },
     checkPermission,
     // 获取类型
     getCategory() {
