@@ -18,11 +18,11 @@
                   <span>{{ personalForm.title }}</span>
                 </el-form-item>
               </el-col>
-              <el-col :span="12">
-                <el-form-item :label="$t('payment.sourceType')" prop="sourceType" style="width: 100%;">
-                  <span>{{ personalForm.sourceType | sourceTypeFilter }}</span>
-                </el-form-item>
-              </el-col>
+              <!--              <el-col :span="12">-->
+              <!--                <el-form-item :label="$t('payment.sourceType')" prop="sourceType" style="width: 100%;">-->
+              <!--                  <span>{{ personalForm.sourceType | sourceTypeFilter }}</span>-->
+              <!--                </el-form-item>-->
+              <!--              </el-col>-->
               <el-col :span="12">
                 <el-form-item :label="$t('payment.supplierId')" prop="supplierId" style="width: 100%;">
                   <span>{{ personalForm.supplierName }}</span>

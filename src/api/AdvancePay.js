@@ -73,7 +73,7 @@ export function updateadvancepay(query) {
 //  审批预付款单
 export function updateadvancepay2(query) {
   var params = new URLSearchParams()
-  params.append('Json', query) // 你要传给后台的参数值 key/value
+  params.append('advancePayJson', query) // 你要传给后台的参数值 key/value
   return request({
     url: '/erp/advancepay/updateadvancepay',
     method: 'post',

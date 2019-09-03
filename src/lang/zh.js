@@ -2101,6 +2101,7 @@ export default {
     isMove: '是否补货'
   },
   public: {
+    rate: '汇率',
     up: '上架',
     down: '下架',
     createPersonName2: '制单人',

@@ -105,7 +105,7 @@
         </el-table-column>
         <el-table-column :label="$t('payment.payMode')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.payMode }}</span>
+            <span>{{ scope.row.payModeName }}</span>
           </template>
         </el-table-column>
         <el-table-column :label="$t('payment.handlePersonId')" :resizable="false" align="center" min-width="150">

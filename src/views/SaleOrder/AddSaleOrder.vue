@@ -58,24 +58,40 @@
                   </el-select>
                 </el-form-item>
               </el-col>
-              <!--              <el-col :span="6">-->
-              <!--                <el-form-item :label="$t('SaleOrder.payMode')" style="width: 100%;">-->
-              <!--                  <el-select v-model="personalForm.payMode" style="margin-left: 18px;width: 200px">-->
-              <!--                    <el-option value="1" label="货到付款"/>-->
-              <!--                    <el-option value="2" label="当场支付"/>-->
-              <!--                  </el-select>-->
-              <!--                </el-form-item>-->
-              <!--              </el-col>-->
               <el-col :span="6">
-                <el-form-item :label="$t('SaleOrder.transDate')" prop="transDate" style="width: 100%;">
-                  <el-date-picker
-                    v-model="personalForm.transDate"
-                    :picker-options="pickerOptions1"
-                    type="date"
-                    value-format="yyyy-MM-dd"
-                    style="margin-left: 18px;width: 200px"/>
+                <el-form-item :label="$t('StockContract.payId')" style="width: 100%;">
+                  <el-select v-model="personalForm.payMode" clearable style="margin-left: 18px;width: 200px">
+                    <el-option
+                      v-for="(item, index) in payModes"
+                      :key="index"
+                      :label="item.categoryName"
+                      :value="item.id"
+                    />
+                  </el-select>
                 </el-form-item>
               </el-col>
+              <el-col :span="6">
+                <el-form-item :label="$t('StockRetreat.transportModeId')" style="width: 100%;">
+                  <el-select v-model="personalForm.transMode" clearable style="margin-left: 18px;width: 200px">
+                    <el-option
+                      v-for="(item, index) in transportIds"
+                      :key="index"
+                      :label="item.categoryName"
+                      :value="item.id"
+                    />
+                  </el-select>
+                </el-form-item>
+              </el-col>
+              <!--              <el-col :span="6">-->
+              <!--                <el-form-item :label="$t('SaleOrder.transDate')" prop="transDate" style="width: 100%;">-->
+              <!--                  <el-date-picker-->
+              <!--                    v-model="personalForm.transDate"-->
+              <!--                    :picker-options="pickerOptions1"-->
+              <!--                    type="date"-->
+              <!--                    value-format="yyyy-MM-dd"-->
+              <!--                    style="margin-left: 18px;width: 200px"/>-->
+              <!--                </el-form-item>-->
+              <!--              </el-col>-->
               <el-col :span="6">
                 <el-form-item :label="$t('SaleOrder.salePersonId')" prop="salePersonId" style="width: 100%;">
                   <el-input v-model="salePersonId" style="margin-left: 18px;width: 200px" @focus="handlechooseStock"/>
@@ -110,10 +126,15 @@
               <!--              </el-col>-->
               <el-col :span="6">
                 <el-form-item :label="$t('SaleOrder.currency')" style="width: 100%;">
-                  <el-select v-model="personalForm.currency" style="margin-left: 18px;width: 200px">
+                  <el-select v-model="personalForm.currency" style="margin-left: 18px;width: 200px" @change="changeRate">
                     <el-option value="1" label="RMB"/>
                     <el-option value="2" label="USD"/>
                   </el-select>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item :label="$t('public.rate')" style="width: 100%;">
+                  <el-input v-model="personalForm.rate" disabled style="margin-left: 18px;width: 200px"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
@@ -121,11 +142,11 @@
                   <el-input v-model="personalForm.transAddress" style="margin-left: 18px;width: 200px"/>
                 </el-form-item>
               </el-col>
-              <el-col :span="6">
-                <el-form-item :label="$t('SaleOrder.receiveMoney')" style="width: 100%;">
-                  <el-input v-model="personalForm.receiveMoney" style="margin-left: 18px;width: 200px"/>
-                </el-form-item>
-              </el-col>
+              <!--              <el-col :span="6">-->
+              <!--                <el-form-item :label="$t('SaleOrder.receiveMoney')" style="width: 100%;">-->
+              <!--                  <el-input v-model="personalForm.receiveMoney" style="margin-left: 18px;width: 200px"/>-->
+              <!--                </el-form-item>-->
+              <!--              </el-col>-->
               <el-col :span="6">
                 <el-form-item :label="$t('SaleOrder.colseType')" style="width: 100%;">
                   <el-select v-model="personalForm.settleMode" style="margin-left: 18px;width: 200px">
@@ -186,6 +207,8 @@
             <el-editable-column prop="performanceScore" align="center" label="绩效分" min-width="150px"/>
             <el-editable-column prop="productScore" align="center" label="商品积分" min-width="150px"/>
             <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0.00, precision: 2}, type: 'visible'}" prop="quantity" align="center" label="订单数量" min-width="150px"/>
+            <el-editable-column prop="alreadyOutQuantity" align="center" label="已出库数量" min-width="150px"/>
+            <el-editable-column prop="retreatQuantity" align="center" label="已退货数量" min-width="150px"/>
             <el-editable-column prop="salePrice" align="center" label="零售价" min-width="150px"/>
             <el-editable-column prop="costPrice" align="center" label="成本价" min-width="150px"/>
             <el-editable-column prop="taxprice" align="center" label="含税价" min-width="150px">
@@ -246,7 +269,7 @@
               </template>
             </el-editable-column>
             <el-editable-column prop="alreadyApplicationQuantity" align="center" label="已下达采购数量" min-width="150px"/>
-            <el-editable-column :edit-render="{name: 'ElDatePicker', attrs: {type: 'date', format: 'yyyy-MM-dd'}, type: 'visible'}" prop="deliveryDate" align="center" label="需求日期" min-width="180px">
+            <el-editable-column :edit-render="{name: 'ElDatePicker', attrs: {type: 'date', format: 'yyyy-MM-dd'}, type: 'visible'}" prop="deliveryDate" align="center" label="交货日期" min-width="180px">
               <template slot="edit" slot-scope="scope">
                 <el-date-picker
                   v-model="scope.row.deliveryDate"
@@ -408,7 +431,7 @@
 
 <script>
 import '@/directive/noMoreClick/index.js'
-import { countlist } from '@/api/public'
+import { countlist, getRate } from '@/api/public'
 import { createsaleOrder } from '@/api/SaleOrder'
 import { searchSaleCategory } from '@/api/SaleCategory'
 import { searchCategory } from '@/api/Supplier'
@@ -467,6 +490,7 @@ export default {
       saleRepositoryId: '',
       // 回显客户
       customerId: '',
+      payModes: [],
       // 控制客户
       customercontrol: false,
       agentcontrol: false,
@@ -493,6 +517,7 @@ export default {
       },
       // 结算方式数据
       settleModes: [],
+      transportIds: [],
       // 结算方式获取参数
       settleModeparms: {
         type: 3,
@@ -516,7 +541,8 @@ export default {
         currency: '1',
         transDate: null,
         sourceType: '1',
-        otherMoney: '0.00'
+        otherMoney: '0.00',
+        rate: 1
       },
       // 销售订单规则数据
       personalrules: {
@@ -554,6 +580,25 @@ export default {
     this.getdatatime()
   },
   methods: {
+    changeRate() {
+      if (this.personalForm.currency === '2') {
+        getRate(this.personalForm.currency).then(res => {
+          console.log(res)
+          if (res.data.ret === 200) {
+            console.log('res.data.data.content', res.data.data.content)
+            this.personalForm.rate = res.data.data.content.rate
+          } else {
+            this.$notify.error({
+              title: '错误',
+              message: res.data.msg,
+              offset: 100
+            })
+          }
+        })
+      } else if (this.personalForm.currency === '1') {
+        this.personalForm.rate = 1
+      }
+    },
     checkStock(row) {
       console.log('this.moreaction.length', this.moreaction.length)
       if (this.moreaction.length > 1 || this.moreaction.length === 0) {
@@ -594,6 +639,8 @@ export default {
             return false
           }
         }
+        val[i].alreadyOutQuantity = 0
+        val[i].retreatQuantity = 0
         this.$refs.editable.insert(val[i])
       }
     },
@@ -785,6 +832,9 @@ export default {
             return false
           }
         }
+        val[i].quantity = 1
+        val[i].alreadyOutQuantity = 0
+        val[i].retreatQuantity = 0
         this.$refs.editable.insert(val[i])
       }
     },
@@ -796,6 +846,16 @@ export default {
       this.getTypes()
     },
     getTypes() {
+      searchCategory(3).then(res => {
+        if (res.data.ret === 200) {
+          this.transportIds = res.data.data.content.list
+        }
+      })
+      searchCategory(7).then(res => {
+        if (res.data.ret === 200) {
+          this.payModes = res.data.data.content.list
+        }
+      })
       // 开票类型数据
       searchSaleCategory(this.invoicetypeparms).then(res => {
         if (res.data.ret === 200) {

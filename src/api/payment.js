@@ -84,7 +84,7 @@ export function updatepayment(query, query2, query3) {
 //  审批付款单
 export function updatepayment2(query) {
   var params = new URLSearchParams()
-  params.append('Json', query) // 你要传给后台的参数值 key/value
+  params.append('paymentJson', query) // 你要传给后台的参数值 key/value
   return request({
     url: '/erp/payment/updatepayment',
     method: 'post',

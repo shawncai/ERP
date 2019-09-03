@@ -12,14 +12,14 @@
                   <el-input v-model="personalForm.title" style="margin-left: 18px;width: 200px" clearable/>
                 </el-form-item>
               </el-col>
-              <el-col :span="12">
-                <el-form-item :label="$t('payment.sourceType')" prop="sourceType" style="width: 100%;">
-                  <el-select v-model="personalForm.sourceType" style="margin-left: 18px;width: 200px">
-                    <el-option value="1" label="采购订单" />
-                    <el-option value="2" label="无来源" />
-                  </el-select>
-                </el-form-item>
-              </el-col>
+              <!--              <el-col :span="12">-->
+              <!--                <el-form-item :label="$t('payment.sourceType')" prop="sourceType" style="width: 100%;">-->
+              <!--                  <el-select v-model="personalForm.sourceType" style="margin-left: 18px;width: 200px">-->
+              <!--                    <el-option value="1" label="采购订单" />-->
+              <!--                    <el-option value="2" label="无来源" />-->
+              <!--                  </el-select>-->
+              <!--                </el-form-item>-->
+              <!--              </el-col>-->
               <el-col :span="12">
                 <el-form-item :label="$t('payment.supplierId')" prop="supplierId" style="width: 100%;">
                   <el-input v-model="supplierId" style="margin-left: 18px;width: 200px" clearable @focus="handlechoose"/>

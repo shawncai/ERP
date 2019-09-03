@@ -1,23 +1,52 @@
 <template>
   <div class="ERP-container">
-    <el-card class="box-card" style="margin-top: 10px;height: 60px" shadow="never">
+    <el-card
+      class="box-card"
+      style="margin-top: 10px;height: 60px"
+      shadow="never">
       <el-row>
-        <el-form ref="getemplist" :model="getemplist" label-width="100px" style="margin-top: -9px">
+        <el-form
+          ref="getemplist"
+          :model="getemplist"
+          label-width="100px"
+          style="margin-top: -9px">
           <el-col :span="5">
-            <el-form-item label="单据主题" label-width="100px">
-              <el-input v-model="getemplist.title" :placeholder="$t('AccessMaterials.title')" clearable @keyup.enter.native="handleFilter"/>
+            <el-form-item
+              label="单据主题"
+              label-width="100px">
+              <el-input
+                v-model="getemplist.title"
+                :placeholder="$t('AccessMaterials.title')"
+                clearable
+                @keyup.enter.native="handleFilter" />
             </el-form-item>
           </el-col>
-          <el-col :span="5" style="margin-left: 10px">
+          <el-col
+            :span="5"
+            style="margin-left: 10px">
             <el-form-item label="单据编号">
-              <el-input v-model="getemplist.planNumber" placeholder="单据编号" clearable @keyup.enter.native="handleFilter"/>
+              <el-input
+                v-model="getemplist.planNumber"
+                placeholder="单据编号"
+                clearable
+                @keyup.enter.native="handleFilter" />
             </el-form-item>
           </el-col>
-          <el-col :span="5" style="margin-left: 10px">
+
+          <el-col
+            :span="5"
+            style="margin-left: 10px">
             <el-form-item label="领料人">
-              <el-input v-model="accessPersonId" :placeholder="$t('AccessMaterials.accessPersonId')" clearable @keyup.enter.native="handleFilter" @focus="handlechooseStock"/>
+              <el-input
+                v-model="accessPersonId"
+                :placeholder="$t('AccessMaterials.accessPersonId')"
+                clearable
+                @keyup.enter.native="handleFilter"
+                @focus="handlechooseStock" />
             </el-form-item>
-            <my-delivery :deliverycontrol.sync="stockControl" @deliveryName="stockName"/>
+            <my-delivery
+              :deliverycontrol.sync="stockControl"
+              @deliveryName="stockName" />
           </el-col>
           <!--更多搜索条件-->
           <el-col :span="3">
@@ -26,73 +55,197 @@
               placement="bottom"
               width="500"
               trigger="click">
-              <el-select v-model="getemplist.processType" :value="getemplist.processType" placeholder="加工类型" clearable style="width: 40%;float: right;margin-right: 20px">
-                <el-option value="1" label="加工1"/>
+              <el-select
+                v-model="getemplist.processType"
+                :value="getemplist.processType"
+                placeholder="加工类型"
+                clearable
+                style="width: 40%;float: right;margin-right: 20px">
+                <el-option
+                  value="1"
+                  label="加工1" />
               </el-select>
-              <el-select v-model="getemplist.sourceType" :value="getemplist.sourceType" placeholder="源单类型" clearable style="width: 40%;float: left;margin-left: 20px">
-                <el-option value="1" label="生产任务单" />
-                <el-option value="2" label="无来源" />
+              <el-select
+                v-model="getemplist.sourceType"
+                :value="getemplist.sourceType"
+                placeholder="源单类型"
+                clearable
+                style="width: 40%;float: left;margin-left: 20px">
+                <el-option
+                  value="1"
+                  label="生产任务单" />
+                <el-option
+                  value="2"
+                  label="无来源" />
               </el-select>
-              <el-input v-model="getemplist.taskNumber" placeholder="生产任务单" style="width: 40%;float: right;margin-right: 20px;margin-top: 20px" clearable @focus="handleAddSouce"/>
-              <produce-task :procontrol.sync="producecontrol" @moredata="moredata"/>
-              <el-select v-model="getemplist.produceDeptId" placeholder="生产部门" clearable style="width: 40%;float: left;margin-left: 20px;margin-top: 20px">
+              <el-input
+                v-model="getemplist.taskNumber"
+                placeholder="生产任务单"
+                style="width: 40%;float: right;margin-right: 20px;margin-top: 20px"
+                clearable
+                @focus="handleAddSouce" />
+              <produce-task
+                :procontrol.sync="producecontrol"
+                @moredata="moredata" />
+              <el-select
+                v-model="getemplist.produceDeptId"
+                placeholder="生产部门"
+                clearable
+                style="width: 40%;float: left;margin-left: 20px;margin-top: 20px">
                 <el-option
                   v-for="(item, index) in depts"
                   :key="index"
                   :value="item.id"
-                  :label="item.deptName"/>
+                  :label="item.deptName" />
               </el-select>
-              <el-select v-model="getemplist.judgeStat" :value="getemplist.judgeStat" placeholder="审批状态" clearable style="width: 40%;float: right;margin-right: 20px;margin-top: 20px">
-                <el-option value="0" label="未审核"/>
-                <el-option value="1" label="审核中"/>
-                <el-option value="2" label="审核通过"/>
-                <el-option value="3" label="审核不通过"/>
+              <el-select
+                v-model="getemplist.judgeStat"
+                :value="getemplist.judgeStat"
+                placeholder="审批状态"
+                clearable
+                style="width: 40%;float: right;margin-right: 20px;margin-top: 20px">
+                <el-option
+                  value="0"
+                  label="未审核" />
+                <el-option
+                  value="1"
+                  label="审核中" />
+                <el-option
+                  value="2"
+                  label="审核通过" />
+                <el-option
+                  value="3"
+                  label="审核不通过" />
               </el-select>
-              <el-select v-model="getemplist.receiptStat" :value="getemplist.receiptStat" placeholder="单据状态" clearable style="width: 40%;float: left;margin-left: 20px;margin-top: 20px">
-                <el-option value="1" label="制单"/>
-                <el-option value="2" label="执行"/>
-                <el-option value="3" label="结单"/>
+              <el-select
+                v-model="getemplist.receiptStat"
+                :value="getemplist.receiptStat"
+                placeholder="单据状态"
+                clearable
+                style="width: 40%;float: left;margin-left: 20px;margin-top: 20px">
+                <el-option
+                  value="1"
+                  label="制单" />
+                <el-option
+                  value="2"
+                  label="执行" />
+                <el-option
+                  value="3"
+                  label="结单" />
               </el-select>
-              <el-input v-model="providePersonId" :placeholder="$t('AccessMaterials.providePersonId')" clearable style="width: 40%;float: left;margin-left: 20px;margin-top: 20px" @keyup.enter.native="handleFilter" @focus="handlechoose"/>
-              <my-create :createcontrol.sync="createcontrol" @createname="createname"/>
+              <el-input
+                v-model="providePersonId"
+                :placeholder="$t('AccessMaterials.providePersonId')"
+                clearable
+                style="width: 40%;float: left;margin-left: 20px;margin-top: 20px"
+                @keyup.enter.native="handleFilter"
+                @focus="handlechoose" />
+              <my-create
+                :createcontrol.sync="createcontrol"
+                @createname="createname" />
               <el-date-picker
                 v-model="getemplist.accessTime"
                 placeholder="领料时间"
                 type="date"
                 value-format="yyyy-MM-dd"
-                style="width: 40%;float: right;margin-right: 20px;margin-top: 20px"/>
-              <div class="seachbutton" style="width: 100%;float: right;margin-top: 20px">
-                <el-button v-waves class="filter-item" type="primary" style="float: right" round @click="handleFilter">{{ $t('public.search') }}</el-button>
+                style="width: 40%;float: right;margin-right: 20px;margin-top: 20px" />
+              <div
+                class="seachbutton"
+                style="width: 100%;float: right;margin-top: 20px">
+                <el-button
+                  v-waves
+                  class="filter-item"
+                  type="primary"
+                  style="float: right"
+                  round
+                  @click="handleFilter">{{ $t('public.search') }}</el-button>
               </div>
-              <el-button v-waves slot="reference" type="primary" class="filter-item" style="width: 130px" @click="visible2 = !visible2">{{ $t('public.filter') }}<svg-icon icon-class="shaixuan" style="margin-left: 4px"/></el-button>
+              <el-button
+                v-waves
+                slot="reference"
+                type="primary"
+                class="filter-item"
+                style="width: 130px"
+                @click="visible2 = !visible2">{{ $t('public.filter') }}
+                <svg-icon
+                  icon-class="shaixuan"
+                  style="margin-left: 4px" />
+              </el-button>
             </el-popover>
           </el-col>
-          <el-col :span="3" style="margin-left: 20px">
+          <el-col
+            :span="3"
+            style="margin-left: 20px">
             <!-- 搜索按钮 -->
-            <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 86px" round @click="handleFilter">{{ $t('public.search') }}</el-button>
+            <el-button
+              v-waves
+              class="filter-item"
+              type="primary"
+              icon="el-icon-search"
+              style="width: 86px"
+              round
+              @click="handleFilter">{{ $t('public.search') }}</el-button>
           </el-col>
         </el-form>
       </el-row>
     </el-card>
-    <el-card class="box-card" style="margin-top: 10px" shadow="never">
+    <el-card
+      class="box-card"
+      style="margin-top: 10px"
+      shadow="never">
       <!-- 批量操作 -->
       <el-dropdown @command="handleCommand">
-        <el-button v-waves class="filter-item" style="margin-left: 0" type="primary">
-          {{ $t('public.batchoperation') }} <i class="el-icon-arrow-down el-icon--right"/>
+        <el-button
+          v-waves
+          class="filter-item"
+          style="margin-left: 0"
+          type="primary">
+          {{ $t('public.batchoperation') }} <i class="el-icon-arrow-down el-icon--right" />
         </el-button>
-        <el-dropdown-menu slot="dropdown" style="width: 140px">
-          <el-dropdown-item v-permission="['171-185-186-2']" style="text-align: left" command="delete"><svg-icon icon-class="shanchu" style="width: 40px"/>{{ $t('public.delete') }}</el-dropdown-item>
+        <el-dropdown-menu
+          slot="dropdown"
+          style="width: 140px">
+          <el-dropdown-item
+            v-permission="['171-185-186-2']"
+            style="text-align: left"
+            command="delete">
+            <svg-icon
+              icon-class="shanchu"
+              style="width: 40px" />{{ $t('public.delete') }}</el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
       <!-- 表格导出操作 -->
-      <el-button v-permission="['171-185-186-6']" v-waves :loading="downloadLoading" class="filter-item" style="width: 86px" @click="handleExport"> <svg-icon icon-class="daochu"/>{{ $t('public.export') }}</el-button>
+      <el-button
+        v-permission="['171-185-186-6']"
+        v-waves
+        :loading="downloadLoading"
+        class="filter-item"
+        style="width: 86px"
+        @click="handleExport">
+      <svg-icon icon-class="daochu" />{{ $t('public.export') }}</el-button>
       <!-- 打印操作 -->
-      <el-button v-permission="['171-185-186-7']" v-waves class="filter-item" icon="el-icon-printer" style="width: 86px" @click="handlePrint">{{ $t('public.print') }}</el-button>
+      <el-button
+        v-permission="['171-185-186-7']"
+        v-waves
+        class="filter-item"
+        icon="el-icon-printer"
+        style="width: 86px"
+        @click="handlePrint">{{ $t('public.print') }}</el-button>
       <!-- 新建操作 -->
-      <el-button v-permission="['171-185-186-1']" v-waves class="filter-item" icon="el-icon-plus" type="success" style="width: 86px" @click="handleAdd">{{ $t('public.add') }}</el-button>
+      <el-button
+        v-permission="['171-185-186-1']"
+        v-waves
+        class="filter-item"
+        icon="el-icon-plus"
+        type="success"
+        style="width: 86px"
+        @click="handleAdd">{{ $t('public.add') }}</el-button>
     </el-card>
 
-    <el-card class="box-card" style="margin-top: 10px" shadow="never">
+    <el-card
+      class="box-card"
+      style="margin-top: 10px"
+      shadow="never">
       <!-- 列表开始 -->
       <el-table
         v-loading="listLoading"
@@ -108,71 +261,183 @@
           type="selection"
           width="55"
           fixed="left"
-          align="center"/>
-        <el-table-column :label="$t('public.id')" :resizable="false" fixed="left" align="center" min-width="150">
+          align="center" />
+        <el-table-column
+          :label="$t('public.id')"
+          :resizable="false"
+          fixed="left"
+          align="center"
+          min-width="150">
           <template slot-scope="scope">
-            <span class="link-type" @click="handleDetail(scope.row)">{{ scope.row.accessNumber }}</span>
+            <span
+              class="link-type"
+              @click="handleDetail(scope.row)">{{ scope.row.accessNumber }}</span>
           </template>
-          <detail-list :detailcontrol.sync="detailvisible" :detaildata.sync="personalForm"/>
+          <detail-list
+            :detailcontrol.sync="detailvisible"
+            :detaildata.sync="personalForm" />
         </el-table-column>
-        <el-table-column :label="$t('AccessMaterials.title')" :resizable="false" fixed="left" align="center" min-width="150">
+        <el-table-column
+          :label="$t('AccessMaterials.title')"
+          :resizable="false"
+          fixed="left"
+          align="center"
+          min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.title }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('AccessMaterials.sourceType')" :resizable="false" align="center" min-width="150">
+        <el-table-column
+          :label="$t('AccessMaterials.sourceType')"
+          :resizable="false"
+          align="center"
+          min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.sourceType | sourceTypeFilter }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('AccessMaterials.produceTaskNumber')" :resizable="false" align="center" min-width="150">
+        <el-table-column
+          :label="$t('AccessMaterials.produceTaskNumber')"
+          :resizable="false"
+          align="center"
+          min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.produceTaskNumber }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('AccessMaterials.produceDeptName')" :resizable="false" align="center" min-width="150">
+        <el-table-column
+          :label="$t('AccessMaterials.produceDeptName')"
+          :resizable="false"
+          align="center"
+          min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.produceDeptName }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('AccessMaterials.processType')" :resizable="false" align="center" min-width="150">
+        <el-table-column
+          :label="$t('AccessMaterials.processType')"
+          :resizable="false"
+          align="center"
+          min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.processType | processTypeFilter }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('AccessMaterials.accessPersonId')" :resizable="false" align="center" min-width="150">
+        <el-table-column
+          :label="$t('AccessMaterials.accessPersonId')"
+          :resizable="false"
+          align="center"
+          min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.accessPersonName }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('public.judgeStat')" :resizable="false" prop="judgeStat" align="center" min-width="150">
+        <el-table-column
+          :label="$t('public.judgeStat')"
+          :resizable="false"
+          prop="judgeStat"
+          align="center"
+          min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.judgeStat | judgeStatFilter }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('public.receiptStat')" :resizable="false" align="center" min-width="150">
+        <el-table-column
+          :label="$t('public.receiptStat')"
+          :resizable="false"
+          align="center"
+          min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.receiptStat | receiptStatFilter }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('public.actions')" :resizable="false" align="center" min-width="230">
+        <el-table-column
+          :label="$t('public.actions')"
+          :resizable="false"
+          align="center"
+          min-width="230">
           <template slot-scope="scope">
-            <el-button v-show="scope.row.judgeStat === 2&&scope.row.providePersonId === null" size="mini" type="success" @click="handleDispatch(scope.row)">发料</el-button>
-            <el-button v-permission2="['171-185-186-3', scope.row.createPersonId]" v-show="scope.row.judgeStat === 0" title="修改" type="primary" size="mini" icon="el-icon-edit" circle @click="handleEdit(scope.row)"/>
-            <el-button v-show="isReview(scope.row)" title="审批" type="warning" size="mini" icon="el-icon-view" circle @click="handleReview(scope.row)"/>
-            <el-button v-permission="['171-185-186-76']" v-show="isReview4(scope.row)" title="反审批" type="warning" size="mini" circle @click="handleReview4(scope.row)"><svg-icon icon-class="fanhui"/></el-button>
-            <el-button v-permission="['171-185-186-16']" v-show="isReview2(scope.row)" title="结单" type="success" size="mini" icon="el-icon-check" circle @click="handleReview2(scope.row)"/>
-            <el-button v-permission="['171-185-186-17']" v-show="isReview3(scope.row)" title="反结单" type="success" size="mini" icon="el-icon-back" circle @click="handleReview3(scope.row)"/>
-            <el-button v-permission2="['171-185-186-2', scope.row.createPersonId]" v-show="scope.row.judgeStat === 0" title="删除" size="mini" type="danger" icon="el-icon-delete" circle @click="handleDelete(scope.row)"/>
-            <el-button v-permission="['171-185-186-55']" v-show="scope.row.judgeStat === 2" type="primary" style="width: 83px" @click="handleMyReceipt1(scope.row)"><span style="margin-left: -15px;">生成退料单</span></el-button>
+            <el-button
+              v-show="scope.row.judgeStat === 2&&scope.row.providePersonId === null"
+              size="mini"
+              type="success"
+              @click="handleDispatch(scope.row)">发料</el-button>
+            <el-button
+              v-permission2="['171-185-186-3', scope.row.createPersonId]"
+              v-show="scope.row.judgeStat === 0"
+              title="修改"
+              type="primary"
+              size="mini"
+              icon="el-icon-edit"
+              circle
+              @click="handleEdit(scope.row)" />
+            <el-button
+              v-show="isReview(scope.row)"
+              title="审批"
+              type="warning"
+              size="mini"
+              icon="el-icon-view"
+              circle
+              @click="handleReview(scope.row)" />
+            <el-button
+              v-permission="['171-185-186-76']"
+              v-show="isReview4(scope.row)"
+              title="反审批"
+              type="warning"
+              size="mini"
+              circle
+              @click="handleReview4(scope.row)">
+              <svg-icon icon-class="fanhui" />
+            </el-button>
+            <el-button
+              v-permission="['171-185-186-16']"
+              v-show="isReview2(scope.row)"
+              title="结单"
+              type="success"
+              size="mini"
+              icon="el-icon-check"
+              circle
+              @click="handleReview2(scope.row)" />
+            <el-button
+              v-permission="['171-185-186-17']"
+              v-show="isReview3(scope.row)"
+              title="反结单"
+              type="success"
+              size="mini"
+              icon="el-icon-back"
+              circle
+              @click="handleReview3(scope.row)" />
+            <el-button
+              v-permission2="['171-185-186-2', scope.row.createPersonId]"
+              v-show="scope.row.judgeStat === 0"
+              title="删除"
+              size="mini"
+              type="danger"
+              icon="el-icon-delete"
+              circle
+              @click="handleDelete(scope.row)" />
+            <el-button
+              v-permission="['171-185-186-55']"
+              v-show="scope.row.judgeStat === 2"
+              type="primary"
+              style="width: 83px"
+              @click="handleMyReceipt1(scope.row)"><span style="margin-left: -15px;">生成退料单</span></el-button>
           </template>
         </el-table-column>
       </el-table>
       <!-- 列表结束 -->
-      <pagination v-show="total>0" :total="total" :page.sync="getemplist.pagenum" :limit.sync="getemplist.pagesize" @pagination="getlist" />
+      <pagination
+        v-show="total>0"
+        :total="total"
+        :page.sync="getemplist.pagenum"
+        :limit.sync="getemplist.pagesize"
+        @pagination="getlist" />
       <!--修改开始=================================================-->
-      <my-dialog :editcontrol.sync="editVisible" :editdata.sync="personalForm" @rest="refreshlist"/>
-      <!--修改结束=================================================-->
+      <my-dialog
+        :editcontrol.sync="editVisible"
+        :editdata.sync="personalForm"
+        @rest="refreshlist" />
+        <!--修改结束=================================================-->
     </el-card>
   </div>
 </template>
@@ -622,17 +887,17 @@ export default {
     // 导出
     handleExport() {
       this.downloadLoading = true
-        import('@/vendor/Export2Excel').then(excel => {
-          const tHeader = ['供应商编号', '供应商名称', '供应商简称', '供应商类别', '所在区域', '采购员', '供应商优质级别', '建档人', '建档日期']
-          const filterVal = ['id', 'AccessMaterialsName', 'AccessMaterialsShortName', 'typeName', 'regionName', 'buyerName', 'levelName', 'createName', 'createTime']
-          const data = this.formatJson(filterVal, this.list)
-          excel.export_json_to_excel({
-            header: tHeader,
-            data,
-            filename: '经销商资料表'
-          })
-          this.downloadLoading = false
+      import('@/vendor/Export2Excel').then(excel => {
+        const tHeader = ['供应商编号', '供应商名称', '供应商简称', '供应商类别', '所在区域', '采购员', '供应商优质级别', '建档人', '建档日期']
+        const filterVal = ['id', 'AccessMaterialsName', 'AccessMaterialsShortName', 'typeName', 'regionName', 'buyerName', 'levelName', 'createName', 'createTime']
+        const data = this.formatJson(filterVal, this.list)
+        excel.export_json_to_excel({
+          header: tHeader,
+          data,
+          filename: '经销商资料表'
         })
+        this.downloadLoading = false
+      })
     },
     formatJson(filterVal, jsonData) {
       return jsonData.map(v => filterVal.map(j => {
@@ -648,27 +913,27 @@ export default {
 </script>
 
 <style rel="stylesheet/css" scoped>
-  .ERP-container >>>  .el-form-item__label{
-    color: #909399;
-    text-align: left;
-  }
-  .app-container >>> .el-table .cell {
-    -webkit-box-sizing: border-box;
-    box-sizing: border-box;
-    line-height: 24px;
-    word-break: keep-all;
-    word-wrap: break-word;
-    white-space: pre-wrap;
-  }
-  .ERP-container {
-    margin: 0px 10px;
-  }
-  .filter-container{
-    padding: 20px;
-    padding-left: 0px;
-  }
-  .filter-item{
-    width: 140px;
-    margin-left: 30px;
-  }
+.ERP-container >>> .el-form-item__label {
+  color: #909399;
+  text-align: left;
+}
+.app-container >>> .el-table .cell {
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  line-height: 24px;
+  word-break: keep-all;
+  word-wrap: break-word;
+  white-space: pre-wrap;
+}
+.ERP-container {
+  margin: 0px 10px;
+}
+.filter-container {
+  padding: 20px;
+  padding-left: 0px;
+}
+.filter-item {
+  width: 140px;
+  margin-left: 30px;
+}
 </style>

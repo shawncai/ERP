@@ -230,8 +230,9 @@ export default {
     },
     sendTypeFilter(status) {
       const statusMap = {
-        1: '已发货',
-        2: '未发货'
+        1: '未发货',
+        2: '发货中',
+        3: '已发货'
       }
       return statusMap[status]
     }
@@ -502,14 +503,8 @@ export default {
       if (row.customerType !== null) {
         this.personalForm.customerType = String(row.customerType)
       }
-      if (row.payMode !== null) {
-        this.personalForm.payMode = String(row.payMode)
-      }
       if (row.saleType !== null) {
         this.personalForm.saleType = String(row.saleType)
-      }
-      if (row.payType !== null) {
-        this.personalForm.payType = String(row.payType)
       }
       if (row.payType !== null) {
         this.personalForm.payType = String(row.payType)

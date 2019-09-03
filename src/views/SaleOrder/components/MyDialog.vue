@@ -57,23 +57,39 @@
                 </el-select>
               </el-form-item>
             </el-col>
-            <!--            <el-col :span="12">-->
-            <!--              <el-form-item :label="$t('SaleOrder.payMode')" style="width: 100%;">-->
-            <!--                <el-select v-model="personalForm.payMode" style="margin-left: 18px;width: 200px">-->
-            <!--                  <el-option value="1" label="货到付款"/>-->
-            <!--                  <el-option value="2" label="当场支付"/>-->
-            <!--                </el-select>-->
-            <!--              </el-form-item>-->
-            <!--            </el-col>-->
             <el-col :span="12">
-              <el-form-item :label="$t('SaleOrder.transDate')" prop="transDate" style="width: 100%;">
-                <el-date-picker
-                  v-model="personalForm.transDate"
-                  type="date"
-                  value-format="yyyy-MM-dd"
-                  style="margin-left: 18px;width: 200px"/>
+              <el-form-item :label="$t('StockContract.payId')" style="width: 100%;">
+                <el-select v-model="personalForm.payMode" clearable style="margin-left: 18px;width: 200px">
+                  <el-option
+                    v-for="(item, index) in payModes"
+                    :key="index"
+                    :label="item.categoryName"
+                    :value="item.id"
+                  />
+                </el-select>
               </el-form-item>
             </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('StockRetreat.transportModeId')" style="width: 100%;">
+                <el-select v-model="personalForm.transMode" clearable style="margin-left: 18px;width: 200px">
+                  <el-option
+                    v-for="(item, index) in transportIds"
+                    :key="index"
+                    :label="item.categoryName"
+                    :value="item.id"
+                  />
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <!--            <el-col :span="12">-->
+            <!--              <el-form-item :label="$t('SaleOrder.transDate')" prop="transDate" style="width: 100%;">-->
+            <!--                <el-date-picker-->
+            <!--                  v-model="personalForm.transDate"-->
+            <!--                  type="date"-->
+            <!--                  value-format="yyyy-MM-dd"-->
+            <!--                  style="margin-left: 18px;width: 200px"/>-->
+            <!--              </el-form-item>-->
+            <!--            </el-col>-->
             <el-col :span="12">
               <el-form-item :label="$t('SaleOrder.salePersonId')" prop="salePersonId" style="width: 100%;">
                 <el-input v-model="salePersonId" style="margin-left: 18px;width: 200px" clearable @focus="handlechooseStock"/>
@@ -108,10 +124,15 @@
             <!--            </el-col>-->
             <el-col :span="12">
               <el-form-item :label="$t('SaleOrder.currency')" style="width: 100%;">
-                <el-select v-model="personalForm.currency" style="margin-left: 18px;width: 200px">
+                <el-select v-model="personalForm.currency" style="margin-left: 18px;width: 200px" @change="changeRate">
                   <el-option value="1" label="RMB"/>
                   <el-option value="2" label="USD"/>
                 </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('public.rate')" style="width: 100%;">
+                <el-input v-model="rate" disabled style="margin-left: 18px;width: 200px"/>
               </el-form-item>
             </el-col>
             <el-col :span="12">
@@ -119,11 +140,11 @@
                 <el-input v-model="personalForm.transAddress" style="margin-left: 18px;width: 200px"/>
               </el-form-item>
             </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('SaleOrder.receiveMoney')" style="width: 100%;">
-                <el-input v-model="personalForm.receiveMoney" style="margin-left: 18px;width: 200px"/>
-              </el-form-item>
-            </el-col>
+            <!--            <el-col :span="12">-->
+            <!--              <el-form-item :label="$t('SaleOrder.receiveMoney')" style="width: 100%;">-->
+            <!--                <el-input v-model="personalForm.receiveMoney" style="margin-left: 18px;width: 200px"/>-->
+            <!--              </el-form-item>-->
+            <!--            </el-col>-->
             <el-col :span="12">
               <el-form-item :label="$t('SaleOrder.colseType')" style="width: 100%;">
                 <el-select v-model="personalForm.settleMode" style="margin-left: 18px;width: 200px">
@@ -182,9 +203,11 @@
           <el-editable-column prop="performanceScore" align="center" label="绩效分" min-width="150px"/>
           <el-editable-column prop="productScore" align="center" label="商品积分" min-width="150px"/>
           <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0.00, precision: 2}, type: 'visible'}" prop="quantity" align="center" label="订单数量" min-width="150px"/>
+          <el-editable-column prop="alreadyOutQuantity" align="center" label="已出库数量" min-width="150px"/>
+          <el-editable-column prop="retreatQuantity" align="center" label="已退货数量" min-width="150px"/>
           <el-editable-column prop="salePrice" align="center" label="零售价" min-width="150px"/>
           <el-editable-column prop="costPrice" align="center" label="成本价" min-width="150px"/>
-          <el-editable-column prop="taxprice" align="center" label="含税价" min-width="150px">
+          <el-editable-column prop="taxprice" align="center" label="销售单价" min-width="150px">
             <template slot-scope="scope">
               <span>{{ gettaxprice(scope.row) }}</span>
             </template>
@@ -194,7 +217,7 @@
               <p>{{ getcostMoney(scope.row) }}</p>
             </template>
           </el-editable-column>
-          <el-editable-column prop="includeTaxMoney" align="center" label="含税金额" min-width="150px">
+          <el-editable-column prop="includeTaxMoney" align="center" label="销售金额" min-width="150px">
             <template slot-scope="scope">
               <p>{{ getincludeTaxMoney(scope.row) }}</p>
             </template>
@@ -238,7 +261,7 @@
             </template>
           </el-editable-column>
           <el-editable-column prop="alreadyApplicationQuantity" align="center" label="已下达采购数量" min-width="150px"/>
-          <el-editable-column :edit-render="{name: 'ElDatePicker', attrs: {type: 'date', format: 'yyyy-MM-dd'}, type: 'visible'}" prop="deliveryDate" align="center" label="需求日期" min-width="180px">
+          <el-editable-column :edit-render="{name: 'ElDatePicker', attrs: {type: 'date', format: 'yyyy-MM-dd'}, type: 'visible'}" prop="deliveryDate" align="center" label="交货日期" min-width="180px">
             <template slot="edit" slot-scope="scope">
               <el-date-picker
                 v-model="scope.row.deliveryDate"
@@ -370,6 +393,7 @@
 </template>
 
 <script>
+import { getRate } from '@/api/public'
 import { updatesaleOrder } from '@/api/SaleOrder'
 import { searchCategory } from '@/api/Supplier'
 import { searchSaleCategory } from '@/api/SaleCategory'
@@ -404,6 +428,12 @@ export default {
       }
     }
     return {
+      pickerOptions2: {
+        disabledDate: (time) => {
+          return time.getTime() < new Date().getTime() - 8.64e7
+        }
+      },
+      rate: 1,
       // 选择的数据
       choosedata: [],
       deliveryModes: [],
@@ -452,6 +482,8 @@ export default {
       },
       // 控制销售机会
       opportunitycontrol: false,
+      payModes: [],
+      transportIds: [],
       // 控制商品列表窗口
       control: false,
       // 销售订单规则数据
@@ -498,8 +530,32 @@ export default {
   },
   created() {
     this.getTypes()
+    this.changeRate()
   },
   methods: {
+    changeRate() {
+      if (this.personalForm.currency === '2') {
+        getRate(this.personalForm.currency).then(res => {
+          console.log(res)
+          if (res.data.ret === 200) {
+            console.log('res.data.data.content.rate', res.data.data.content.rate)
+            // this.$set(this.personalForm.rate, res.data.data.content.rate)
+            this.rate = res.data.data.content.rate
+            console.log('this.personalForm.rate', this.personalForm.rate)
+          } else {
+            this.$notify.error({
+              title: '错误',
+              message: res.data.msg,
+              offset: 100
+            })
+          }
+        })
+      } else if (this.personalForm.currency === '1') {
+        this.rate = 1
+      }
+      // this.personalForm.rate = 7
+      console.log('this.personalForm.rate', this.personalForm.rate)
+    },
     // 从销售机会过来的源单数据
     opportunityDetail(val) {
       console.log(val)
@@ -689,6 +745,16 @@ export default {
       this.getTypes()
     },
     getTypes() {
+      searchCategory(3).then(res => {
+        if (res.data.ret === 200) {
+          this.transportIds = res.data.data.content.list
+        }
+      })
+      searchCategory(7).then(res => {
+        if (res.data.ret === 200) {
+          this.payModes = res.data.data.content.list
+        }
+      })
       // 开票类型数据
       searchSaleCategory(this.invoicetypeparms).then(res => {
         if (res.data.ret === 200) {
@@ -744,7 +810,6 @@ export default {
           this.personalForm.countryId = this.$store.getters.countryId
           this.personalForm.modifyPersonId = this.$store.getters.userId
           const EnterDetail = this.deepClone(this.$refs.editable.getRecords())
-          const EnterDetail2 = this.deepClone(this.$refs.editable2.getRecords())
           if (EnterDetail.length === 0) {
             this.$notify.error({
               title: '错误',
@@ -818,22 +883,7 @@ export default {
             }
             return elem
           })
-          EnterDetail2.map(function(elem) {
-            return elem
-          }).forEach(function(elem) {
-            if (elem.costName === null || elem.costName === '' || elem.costName === undefined) {
-              delete elem.costName
-            }
-            if (elem.money === null || elem.money === '' || elem.money === undefined) {
-              delete elem.money
-            }
-            if (elem.remark === null || elem.remark === '' || elem.remark === undefined) {
-              delete elem.remark
-            }
-            return elem
-          })
           const parms2 = JSON.stringify(EnterDetail)
-          const parms3 = JSON.stringify(EnterDetail2)
           const Data = this.personalForm
           for (const key in Data) {
             if (Data[key] === '' || Data[key] === undefined || Data[key] === null) {
@@ -841,7 +891,7 @@ export default {
             }
           }
           const parms = JSON.stringify(Data)
-          updatesaleOrder(parms, parms2, parms3).then(res => {
+          updatesaleOrder(parms, parms2, null).then(res => {
             if (res.data.ret === 200) {
               this.$notify({
                 title: '操作成功',
@@ -852,7 +902,6 @@ export default {
               })
               this.$emit('rest', true)
               this.$refs.editable.clear()
-              this.$refs.editable2.clear()
               this.$refs.personalForm.clearValidate()
               this.$refs.personalForm.resetFields()
               this.editVisible = false
@@ -876,7 +925,6 @@ export default {
     },
     handlecancel() {
       this.$refs.editable.clear()
-      this.$refs.editable2.clear()
       this.$refs.personalForm.clearValidate()
       this.$refs.personalForm.resetFields()
       this.editVisible = false
