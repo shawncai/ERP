@@ -1422,14 +1422,14 @@ export default {
     },
     // 保存操作
     handlesave() {
-      // if (this.ableSubmission === false) {
-      //   this.$notify.error({
-      //     title: '错误',
-      //     message: '出库数量超出了当前可用存量，请修改后再进行确认!',
-      //     offset: 100
-      //   })
-      //   return false
-      // }
+      if (this.ableSubmission === false) {
+        this.$notify.error({
+          title: '错误',
+          message: '出库数量超出了当前可用存量，请修改后再进行确认!',
+          offset: 100
+        })
+        return false
+      }
       this.$refs.personalForm.validate((valid) => {
         if (valid) {
           const EnterDetail = this.deepClone(this.$refs.editable.getRecords())
