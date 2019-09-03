@@ -53,11 +53,11 @@
                   <el-input v-model="personalForm.customerPhone" style="margin-left: 18px;width: 200px" clearable/>
                 </el-form-item>
               </el-col>
-              <el-col :span="6">
+              <!-- <el-col :span="6">
                 <el-form-item :label="$t('SaleOut.customerAccount')" style="width: 100%;">
                   <el-input v-model="personalForm.customerAccount" style="margin-left: 18px;width: 200px"/>
                 </el-form-item>
-              </el-col>
+              </el-col> -->
               <el-col :span="6">
                 <el-form-item :label="$t('SaleOut.outType')" prop="outType" style="width: 100%;">
                   <el-select v-model="personalForm.outType" style="margin-left: 18px;width: 200px">
@@ -127,13 +127,13 @@
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('SaleOut.transferPersonId')" style="width: 100%;">
+                <el-form-item :label="$t('SaleOut.transferPersonId')" prop="transferPersonId" style="width: 100%;">
                   <el-input v-model="transferPersonId" style="margin-left: 18px;width: 200px" @focus="handlechooseDelivery"/>
                 </el-form-item>
                 <my-delivery :deliverycontrol.sync="deliverycontrol" @deliveryName="deliveryName"/>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('SaleOut.saleRepositoryId')" style="width: 100%;">
+                <el-form-item :label="$t('SaleOut.saleRepositoryId')" prop="saleRepositoryId" style="width:100%;">
                   <el-input v-model="saleRepositoryId" style="margin-left: 18px;width: 200px" @focus="handlechooseRep"/>
                   <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
                 </el-form-item>
@@ -143,14 +143,14 @@
                   <el-input v-model="personalForm.address" style="margin-left: 18px;width: 200px"/>
                 </el-form-item>
               </el-col>
-              <el-col :span="6">
+              <!-- <el-col :span="6">
                 <el-form-item :label="$t('SaleOut.outPersonId')" style="width: 100%;">
                   <el-input v-model="outPersonId" style="margin-left: 18px;width: 200px" @focus="handlechooseAccept"/>
                 </el-form-item>
                 <my-accept :accetpcontrol.sync="accetpcontrol" @acceptName="acceptName"/>
-              </el-col>
+              </el-col> -->
               <el-col :span="6">
-                <el-form-item :label="$t('SaleOut.outDate')" style="width: 100%;">
+                <el-form-item :label="$t('SaleOut.outDate')" prop="outDate" style="width: 100%;">
                   <el-date-picker
                     v-model="personalForm.outDate"
                     :picker-options="pickerOptions1"
@@ -160,7 +160,7 @@
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('SaleOut.pointSupport')" style="width: 100%;">
+                <el-form-item :label="$t('SaleOut.pointSupport')+`(${point})`" prop="pointSupport" style="width: 100%;">
                   <el-input v-model="personalForm.pointSupport" style="margin-left: 18px;width: 200px"/>
                 </el-form-item>
               </el-col>
@@ -226,8 +226,8 @@
             style="width: 100%">
             <el-editable-column type="selection" min-width="55" align="center"/>
             <el-editable-column label="序号" min-width="55" align="center" type="index"/>
-            <el-editable-column :edit-render="{type: 'visible'}" prop="locationId" align="center" label="货位" min-width="170px">
-              <template slot="edit" slot-scope="scope">
+            <el-editable-column prop="locationId" align="center" label="货位" min-width="170px">
+              <!-- <template slot="edit" slot-scope="scope">
                 <el-select v-model="scope.row.locationId" :value="scope.row.locationId" placeholder="请选择货位" filterable clearable style="width: 100%;" @visible-change="updatebatch($event,scope)">
                   <el-option
                     v-for="(item, index) in locationlist"
@@ -235,7 +235,7 @@
                     :value="item.id"
                     :label="item.locationCode"/>
                 </el-select>
-              </template>
+              </template> -->
             </el-editable-column>
             <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="batch" align="center" label="批次" min-width="150px"/>
             <el-editable-column prop="productCode" align="center" label="物品编号" min-width="150px"/>
@@ -336,8 +336,8 @@
             style="width: 100%">
             <el-editable-column type="selection" min-width="55" align="center"/>
             <el-editable-column label="序号" min-width="55" align="center" type="index"/>
-            <el-editable-column :edit-render="{type: 'visible'}" prop="locationId" align="center" label="货位" min-width="170px">
-              <template slot="edit" slot-scope="scope">
+            <el-editable-column prop="locationId" align="center" label="货位" min-width="170px">
+              <!-- <template slot="edit" slot-scope="scope">
                 <el-select v-model="scope.row.locationId" :value="scope.row.locationId" placeholder="请选择货位" filterable clearable style="width: 100%;" @visible-change="updatebatch($event,scope)">
                   <el-option
                     v-for="(item, index) in locationlist"
@@ -345,7 +345,7 @@
                     :value="item.id"
                     :label="item.locationCode"/>
                 </el-select>
-              </template>
+              </template> -->
             </el-editable-column>
             <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="batch" align="center" label="批次" min-width="150px"/>
             <el-editable-column prop="productCode" align="center" label="物品编号" min-width="150px"/>
@@ -470,6 +470,47 @@ export default {
         callback()
       }
     }
+    const validatePass2 = (rule, value, callback) => {
+      console.log(this.saleRepositoryId)
+      if (this.saleRepositoryId === undefined || this.saleRepositoryId === null || this.saleRepositoryId === '') {
+        callback(new Error('请选择出库仓库'))
+      } else {
+        callback()
+      }
+    }
+    const validatePass3 = (rule, value, callback) => {
+      console.log(1789, this.personalForm.pointSupport)
+      if (Number(this.personalForm.pointSupport) < 0 || Number(this.personalForm.pointSupport) > this.point) {
+        callback(new Error('请输入正确积分'))
+      } else {
+        callback()
+      }
+    }
+    const validatePass4 = (rule, value, callback) => {
+      console.log(89, this.customerId)
+      if (this.customerId === undefined || this.customerId === null || this.customerId === '') {
+        callback(new Error('请输入顾客姓名'))
+      } else {
+        callback()
+      }
+    }
+    const validatePass5 = (rule, value, callback) => {
+      console.log(89, this.customerId)
+      if (this.transferPersonId === undefined || this.transferPersonId === null || this.transferPersonId === '') {
+        callback(new Error('请选择出库人'))
+      } else {
+        callback()
+      }
+    }
+    const validatePass6 = (rule, value, callback) => {
+      console.log(89, this.customerId)
+      if (this.personalForm.outDate === undefined || this.personalForm.outDate === null || this.personalForm.outDate === '') {
+        callback(new Error('请选择出库时间'))
+      } else {
+        callback()
+      }
+    }
+
     return {
       pickerOptions1: {
         disabledDate: (time) => {
@@ -481,6 +522,8 @@ export default {
           return time.getTime() > new Date().getTime() - 8.64e7
         }
       },
+      // 积分信息
+      point: 0,
       // 合计信息
       heji1: '',
       heji2: '',
@@ -514,7 +557,7 @@ export default {
       // 预售款金额
       yushou: '0.00',
       // 仓库回显
-      saleRepositoryId: '',
+      saleRepositoryId: this.$store.getters.repositoryName,
       // 控制仓库
       repositorycontrol: false,
       // 回显出库人
@@ -536,7 +579,7 @@ export default {
       // 选择的数据
       choosedata: [],
       // 销售人员回显
-      salePersonId: '',
+      salePersonId: this.$store.state.user.name,
       // 控制销售人员
       stockControl: false,
       // 开票类别数据
@@ -559,11 +602,12 @@ export default {
       control: false,
       // 销售订单信息数据
       personalForm: {
+        address: '',
         createPersonId: this.$store.getters.userId,
         countryId: this.$store.getters.countryId,
         repositoryId: this.$store.getters.repositoryId,
         regionId: this.$store.getters.regionId,
-        customerType: '1',
+        customerType: '2',
         sendType: '2',
         sendDate: null,
         outDate: null,
@@ -583,6 +627,21 @@ export default {
         ],
         backType: [
           { required: true, message: '请选择回款状态', trigger: 'change' }
+        ],
+        pointSupport: [
+          { validator: validatePass3, trigger: 'change' }
+        ],
+        saleRepositoryId: [
+          { required: true, validator: validatePass2, trigger: 'change' }
+        ],
+        customerId: [
+          { required: true, validator: validatePass4, trigger: 'change' }
+        ],
+        transferPersonId: [
+          { required: true, validator: validatePass5, trigger: 'change' }
+        ],
+        outDate: [
+          { required: true, validator: validatePass6, trigger: 'change' }
         ]
       },
       // 订单明细数据
@@ -957,6 +1016,8 @@ export default {
       this.personalForm.customerId = val.id
       this.customerId = val.customerName
       this.personalForm.customerPhone = val.phoneNumber
+      this.personalForm.address = val.address
+      this.point = val.point
     },
     agentdata(val) {
       console.log(val)
@@ -964,6 +1025,8 @@ export default {
       this.personalForm.customerId = val.id
       this.customerId = val.agentName
       this.personalForm.customerPhone = val.phone
+      this.personalForm.address = val.address
+      this.point = val.point
     },
     // 从源单添加商品
     handleAddSource() {
@@ -1207,8 +1270,8 @@ export default {
         otherMoney: ''
       }
       this.customerId = null
-      this.salePersonId = null
-      this.saleRepositoryId = null
+      this.salePersonId = this.$store.state.user.name
+      this.saleRepositoryId = this.$store.getters.repositoryName
       this.transferPersonId = null
       this.outPersonId = null
     },

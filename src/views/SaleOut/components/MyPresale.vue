@@ -339,7 +339,7 @@ export default {
           color: item.color,
           kpiGrade: item.kpiGrade,
           point: item.point,
-          quantity: item.quantity,
+          allQuantity: item.quantity,
           salePrice: (item.salePrice).toFixed(2),
           costPrice: (item.costPrice).toFixed(2),
           taxprice: (item.salePrice).toFixed(2),

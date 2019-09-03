@@ -237,7 +237,7 @@
                   <span>{{ personalForm.allTaxMoney }}</span>
                 </el-form-item>
               </el-col>
-              <el-col :span="12">
+              <!-- <el-col :span="12">
                 <el-form-item :label="$t('SaleOut.heji5')" style="width: 100%;">
                   <span>{{ personalForm.allDiscountMoney }}</span>
                 </el-form-item>
@@ -256,7 +256,7 @@
                 <el-form-item :label="$t('SaleOut.heji8')" style="width: 100%;">
                   <span>{{ personalForm.allCostMoney }}</span>
                 </el-form-item>
-              </el-col>
+              </el-col> -->
               <el-col :span="12">
                 <el-form-item :label="$t('SaleOut.heji9')" style="width: 100%;">
                   <span>{{ personalForm.allGiftQuantity }}</span>
@@ -495,8 +495,8 @@ export default {
     },
     detaildata() {
       this.personalForm = this.detaildata
-      this.list2 = this.personalForm.saleOrderDetailVos
-      this.list3 = this.personalForm.saleOrderCostDetails
+      this.list2 = this.personalForm.saleOutDetailVos
+      this.list3 = this.personalForm.saleOutGiftVos
       this.reviewList = []
       const review = this.personalForm.approvalUseVos
       for (const i in review) {

@@ -597,6 +597,10 @@ export default {
     this.chooseSourceType()
   },
   methods: {
+    // 初始化税率
+    gettaxRate2(row) {
+      return (row * 100).toFixed(2)
+    },
     // 重置一下下拉
     change() {
       this.$forceUpdate()

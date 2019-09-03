@@ -375,7 +375,7 @@ export default {
           color: item.color,
           kpiGrade: '0.00',
           point: '0.00',
-          quantity: item.quantity,
+          allQuantity: item.quantity,
           salePrice: (item.salePrice).toFixed(2),
           costPrice: (item.costPrice).toFixed(2),
           taxprice: (item.salePrice).toFixed(2),

@@ -386,7 +386,8 @@ export default {
           motorCode: 0,
           batteryCode: 0,
           sourceNumber: opportunityNumber,
-          sourceSerialNumber: item.id
+          sourceSerialNumber: item.id,
+          allQuantity: 0
         }
       })
       this.$emit('opportunityDetail', opportunityDetail)
