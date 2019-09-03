@@ -369,7 +369,7 @@ export default {
           color: item.color,
           kpiGrade: item.kpiGrade,
           point: item.point,
-          quantity: 0,
+          quantity: 1,
           salePrice: '0.00',
           costPrice: '0.00',
           taxprice: '0.00',

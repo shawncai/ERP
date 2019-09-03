@@ -39,15 +39,25 @@
                 </el-form-item>
               </el-col>
               <el-col :span="12">
+                <el-form-item :label="$t('StockContract.payId')" style="width: 100%;">
+                  <span>{{ personalForm.payModeName }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('StockRetreat.transportModeId')" style="width: 100%;">
+                  <span>{{ personalForm.transModeName }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
                 <el-form-item :label="$t('SaleOrder.payMode')" style="width: 100%;">
                   <span>{{ personalForm.payMode | payModeFilter }}</span>
                 </el-form-item>
               </el-col>
-              <el-col :span="12">
-                <el-form-item :label="$t('SaleOrder.transDate')" prop="transDate" style="width: 100%;">
-                  <span>{{ personalForm.transDate }}</span>
-                </el-form-item>
-              </el-col>
+              <!--              <el-col :span="12">-->
+              <!--                <el-form-item :label="$t('SaleOrder.transDate')" prop="transDate" style="width: 100%;">-->
+              <!--                  <span>{{ personalForm.transDate }}</span>-->
+              <!--                </el-form-item>-->
+              <!--              </el-col>-->
               <el-col :span="12">
                 <el-form-item :label="$t('SaleOrder.salePersonId')" prop="salePersonId" style="width: 100%;">
                   <span>{{ personalForm.salePersonName }}</span>
@@ -83,11 +93,11 @@
                   <span>{{ personalForm.transAddress }}</span>
                 </el-form-item>
               </el-col>
-              <el-col :span="12">
-                <el-form-item :label="$t('SaleOrder.receiveMoney')" style="width: 100%;">
-                  <span>{{ personalForm.receiveMoney }}</span>
-                </el-form-item>
-              </el-col>
+              <!--              <el-col :span="12">-->
+              <!--                <el-form-item :label="$t('SaleOrder.receiveMoney')" style="width: 100%;">-->
+              <!--                  <span>{{ personalForm.receiveMoney }}</span>-->
+              <!--                </el-form-item>-->
+              <!--              </el-col>-->
               <el-col :span="12">
                 <el-form-item :label="$t('SaleOrder.colseType')" style="width: 100%;">
                   <span>{{ personalForm.settleModeName }}</span>
@@ -124,6 +134,8 @@
             <el-editable-column prop="performanceScore" align="center" label="绩效分" />
             <el-editable-column prop="productScore" align="center" label="商品积分" />
             <el-editable-column prop="quantity" align="center" label="订单数量" />
+            <el-editable-column prop="alreadyOutQuantity" align="center" label="已出库数量" min-width="150px"/>
+            <el-editable-column prop="retreatQuantity" align="center" label="已退货数量" min-width="150px"/>
             <el-editable-column prop="salePrice" align="center" label="零售价" />
             <el-editable-column prop="costPrice" align="center" label="成本价" />
             <el-editable-column prop="taxprice" align="center" label="含税价" />
@@ -136,7 +148,7 @@
             <el-editable-column prop="discountRate" align="center" label="折扣(%)" />
             <el-editable-column prop="discountMoney" align="center" label="折扣额" />
             <el-editable-column prop="alreadyApplicationQuantity" align="center" label="已下达采购数量" />
-            <el-editable-column prop="deliveryDate" align="center" label="需求日期" min-width="180px"/>
+            <el-editable-column prop="deliveryDate" align="center" label="交货日期" min-width="180px"/>
             <el-editable-column prop="alreadyProduceQuantity" align="center" label="已下达生产数量" />
           </el-editable>
         </div>

@@ -12,14 +12,14 @@
                   <el-input v-model="personalForm.title" style="margin-left: 18px;width:200px" clearable/>
                 </el-form-item>
               </el-col>
-              <el-col :span="6">
-                <el-form-item :label="$t('payment.sourceType')" prop="sourceType" style="width: 100%;">
-                  <el-select v-model="personalForm.sourceType" style="margin-left: 18px;width: 200px">
-                    <el-option value="1" label="采购订单" />
-                    <el-option value="2" label="无来源" />
-                  </el-select>
-                </el-form-item>
-              </el-col>
+              <!--              <el-col :span="6">-->
+              <!--                <el-form-item :label="$t('payment.sourceType')" prop="sourceType" style="width: 100%;">-->
+              <!--                  <el-select v-model="personalForm.sourceType" style="margin-left: 18px;width: 200px">-->
+              <!--                    <el-option value="1" label="采购订单" />-->
+              <!--                    <el-option value="2" label="无来源" />-->
+              <!--                  </el-select>-->
+              <!--                </el-form-item>-->
+              <!--              </el-col>-->
               <el-col :span="6">
                 <el-form-item :label="$t('payment.supplierId')" prop="supplierId" style="width: 100%;">
                   <el-input v-model="supplierId" style="margin-left: 18px;width:200px" clearable @focus="handlechoose"/>
@@ -251,7 +251,6 @@ export default {
           message: '本次支付金额未填写',
           offset: 100
         })
-        callback()
       } else {
         callback()
       }
@@ -530,6 +529,7 @@ export default {
           this.$refs.editable.clear()
           const detailList = res.data.data.content.list
           for (let i = 0; i < detailList.length; i++) {
+            detailList[i].shouldPayId = detailList[i].id
             this.$refs.editable.insert(detailList[i])
           }
         }
@@ -642,29 +642,38 @@ export default {
       this.$refs.personalForm.validate((valid) => {
         if (valid) {
           this.$refs.editable.validate().then(valid => {
-            console.log('zhixing')
-            addpayment(parms, parms2, this.personalForm).then(res => {
-              console.log(res)
-              if (res.data.ret === 200) {
-                this.$notify({
-                  title: '成功',
-                  message: '保存成功',
-                  type: 'success',
-                  offset: 100
-                })
-                this.restAllForm()
-                this.$refs.editable.clear()
-                this.$refs.personalForm.clearValidate()
-                this.$refs.personalForm.resetFields()
-                this.$refs.upload.clearFiles()
-              } else {
-                this.$notify.error({
-                  title: '错误',
-                  message: res.data.msg,
-                  offset: 100
-                })
-              }
-            })
+            if (valid) {
+              console.log('zhixing')
+              addpayment(parms, parms2, this.personalForm).then(res => {
+                console.log(res)
+                if (res.data.ret === 200) {
+                  this.$notify({
+                    title: '成功',
+                    message: '保存成功',
+                    type: 'success',
+                    offset: 100
+                  })
+                  this.restAllForm()
+                  this.$refs.editable.clear()
+                  this.$refs.personalForm.clearValidate()
+                  this.$refs.personalForm.resetFields()
+                  this.$refs.upload.clearFiles()
+                } else {
+                  this.$notify.error({
+                    title: '错误',
+                    message: res.data.msg,
+                    offset: 100
+                  })
+                }
+              })
+            } else {
+              this.$notify.error({
+                title: '错误',
+                message: '信息未填完整',
+                offset: 100
+              })
+              return false
+            }
           }).catch(valid => {
             console.log('error submit!!')
           })

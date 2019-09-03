@@ -1233,8 +1233,6 @@ export default {
               this.$refs.personalForm.resetFields()
               this.$refs.personalForm2.clearValidate()
               this.$refs.personalForm2.resetFields()
-              this.$refs.personalForm3.clearValidate()
-              this.$refs.personalForm3.resetFields()
               this.editVisible = false
             } else {
               this.$notify.error({
@@ -1261,8 +1259,6 @@ export default {
       this.$refs.personalForm.resetFields()
       this.$refs.personalForm2.clearValidate()
       this.$refs.personalForm2.resetFields()
-      this.$refs.personalForm3.clearValidate()
-      this.$refs.personalForm3.resetFields()
       this.editVisible = false
     }
     // 修改操作结束 -------------------------------------------------

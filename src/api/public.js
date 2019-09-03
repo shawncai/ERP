@@ -1,6 +1,19 @@
 import request from '@/utils/request'
 
 // 销售出库库存快照
+export function getRate(query) {
+  var params = new URLSearchParams()
+  if (query !== '' && query !== null && query !== undefined) {
+    params.append('currencyId', query) // 你要传给后台的参数值 key/value
+  }
+  return request({
+    url: '/erp/zcc/getRate',
+    method: 'post',
+    params: params
+  })
+}
+
+// 销售出库库存快照
 export function endMonthCount(query) {
   var params = new URLSearchParams()
   if (query.searchRepositoryId !== '' && query.searchRepositoryId !== null && query.searchRepositoryId !== undefined) {

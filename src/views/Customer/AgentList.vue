@@ -143,7 +143,7 @@
         <el-table-column :label="$t('public.actions')" :resizable="false" align="center" min-width="100">
           <template slot-scope="scope">
             <el-button v-permission2="['1-14-18-3', scope.row.createPersonId]" title="修改" type="primary" size="mini" icon="el-icon-edit" circle @click="handleEdit(scope.row)"/>
-            <el-button v-permission2="['1-14-18-2', scope.row.createPersonId]" title="删除" size="mini" type="danger" icon="el-icon-delete" circle @click="handleDelete(scope.row)"/>
+            <!--            <el-button v-permission2="['1-14-18-2', scope.row.createPersonId]" title="删除" size="mini" type="danger" icon="el-icon-delete" circle @click="handleDelete(scope.row)"/>-->
           </template>
         </el-table-column>
       </el-table>

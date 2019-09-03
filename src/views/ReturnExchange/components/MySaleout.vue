@@ -232,10 +232,8 @@ export default {
         pageNum: 1,
         pageSize: 10,
         judgeStat: 2,
-        receiptStat: 2,
         repositoryId: this.$store.getters.repositoryId,
-        regionIds: this.$store.getters.regionId,
-        isActive: 1
+        regionIds: this.$store.getters.regionId
       },
       // 传给组件的数据
       personalForm: {},
