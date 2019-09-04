@@ -209,9 +209,9 @@
             <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0.00, precision: 2}, type: 'visible'}" prop="quantity" align="center" label="订单数量" min-width="150px"/>
             <el-editable-column prop="alreadyOutQuantity" align="center" label="已出库数量" min-width="150px"/>
             <el-editable-column prop="retreatQuantity" align="center" label="已退货数量" min-width="150px"/>
-            <el-editable-column prop="salePrice" align="center" label="零售价" min-width="150px"/>
-            <el-editable-column prop="costPrice" align="center" label="成本价" min-width="150px"/>
-            <el-editable-column prop="taxprice" align="center" label="含税价" min-width="150px">
+            <!--            <el-editable-column prop="salePrice" align="center" label="零售价" min-width="150px"/>-->
+            <!--            <el-editable-column prop="costPrice" align="center" label="成本价" min-width="150px"/>-->
+            <el-editable-column prop="taxprice" align="center" label="销售单价" min-width="150px">
               <template slot-scope="scope">
                 <span>{{ gettaxprice(scope.row) }}</span>
               </template>

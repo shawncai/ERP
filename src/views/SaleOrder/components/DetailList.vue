@@ -136,9 +136,9 @@
             <el-editable-column prop="quantity" align="center" label="订单数量" />
             <el-editable-column prop="alreadyOutQuantity" align="center" label="已出库数量" min-width="150px"/>
             <el-editable-column prop="retreatQuantity" align="center" label="已退货数量" min-width="150px"/>
-            <el-editable-column prop="salePrice" align="center" label="零售价" />
-            <el-editable-column prop="costPrice" align="center" label="成本价" />
-            <el-editable-column prop="taxprice" align="center" label="含税价" />
+            <!--            <el-editable-column prop="salePrice" align="center" label="零售价" />-->
+            <!--            <el-editable-column prop="costPrice" align="center" label="成本价" />-->
+            <el-editable-column prop="taxprice" align="center" label="销售单价" />
             <el-editable-column prop="costMoney" align="center" label="成本金额" />
             <el-editable-column prop="includeTaxMoney" align="center" label="含税金额" />
             <el-editable-column prop="taxRate" align="center" label="税率(%)" />
