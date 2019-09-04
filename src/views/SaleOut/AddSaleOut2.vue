@@ -219,14 +219,15 @@
             :edit-rules="validRules"
             :summary-method="getSummaries"
             class="click-table1"
-            show-summary
             stripe
             border
             size="medium"
             style="width: 100%">
-            <el-editable-column type="selection" min-width="55" align="center"/>
-            <el-editable-column label="序号" min-width="55" align="center" type="index"/>
-            <el-editable-column prop="locationId" align="center" label="货位" min-width="170px">
+            <el-editable-column type="selection" min-width="55" align="center" fixed="left"/>
+            <el-editable-column label="序号" min-width="55" align="center" type="index" fixed="left"/>
+            <el-editable-column prop="productCode" align="center" label="物品编号" min-width="150" fixed="left"/>
+            <el-editable-column prop="productName" align="center" label="物品名称" min-width="150" fixed="left"/>
+            <el-editable-column prop="locationId" align="center" label="货位" min-width="170">
               <!-- <template slot="edit" slot-scope="scope">
                 <el-select v-model="scope.row.locationId" :value="scope.row.locationId" placeholder="请选择货位" filterable clearable style="width: 100%;" @visible-change="updatebatch($event,scope)">
                   <el-option
@@ -237,58 +238,68 @@
                 </el-select>
               </template> -->
             </el-editable-column>
-            <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="batch" align="center" label="批次" min-width="150px"/>
-            <el-editable-column prop="productCode" align="center" label="物品编号" min-width="150px"/>
-            <el-editable-column prop="productName" align="center" label="物品名称" min-width="150px"/>
-            <el-editable-column prop="categoryName" align="center" label="物品分类" min-width="150px"/>
-            <el-editable-column prop="unit" align="center" label="基本单位" min-width="150px"/>
-            <el-editable-column prop="typeName" align="center" label="规格型号" min-width="150px"/>
-            <el-editable-column prop="color" align="center" label="颜色" min-width="150px"/>
-            <el-editable-column prop="kpiGrade" align="center" label="绩效分" min-width="150px"/>
-            <el-editable-column prop="point" align="center" label="商品积分" min-width="150px"/>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0.00, precision: 2}, type: 'visible'}" prop="quantity" align="center" label="出库数量" min-width="150px"/>
-            <el-editable-column prop="salePrice" align="center" label="零售价" min-width="150px"/>
-            <el-editable-column prop="costPrice" align="center" label="成本价" min-width="150px"/>
-            <el-editable-column prop="taxprice" align="center" label="含税价" min-width="150px">
+            <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="batch" align="center" label="批次" min-width="150"/>
+            <el-editable-column prop="categoryName" align="center" label="物品分类" min-width="150"/>
+            <el-editable-column prop="unit" align="center" label="基本单位" min-width="150"/>
+            <el-editable-column prop="typeName" align="center" label="规格型号" min-width="150"/>
+            <el-editable-column prop="color" align="center" label="颜色" min-width="150"/>
+            <el-editable-column prop="kpiGrade" align="center" label="绩效分" min-width="150"/>
+            <el-editable-column prop="point" align="center" label="商品积分" min-width="150"/>
+            <el-editable-column prop="allQuantity" align="center" label="源单数量" min-width="150"/>
+            <el-editable-column prop="allQuantity" align="center" label="未出库数量" min-width="150"/>
+            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 1.00, precision: 2}, type: 'visible'}" prop="quantity" align="center" label="出库数量" min-width="150">
+              <template slot="edit" slot-scope="scope">
+                <el-input-number
+                  :precision="2"
+                  :controls="true"
+                  :min="1.00"
+                  v-model="scope.row.quantity"
+                  @change="queryStock(scope.row)"
+                />
+              </template>
+            </el-editable-column>
+            <el-editable-column v-if="false" prop="salePrice" align="center" label="零售价" min-width="150"/>
+            <el-editable-column v-if="false" prop="costPrice" align="center" label="成本价" min-width="150"/>
+            <el-editable-column prop="taxprice" align="center" label="出库价" min-width="150">
               <template slot-scope="scope">
                 <span>{{ gettaxprice(scope.row) }}</span>
               </template>
             </el-editable-column>
-            <el-editable-column prop="costMoney" align="center" label="成本金额" min-width="150px">
+            <el-editable-column v-if="false" prop="costMoney" align="center" label="成本金额" min-width="150">
               <template slot-scope="scope">
                 <p>{{ getcostMoney(scope.row) }}</p>
               </template>
             </el-editable-column>
-            <el-editable-column prop="includeTaxMoney" align="center" label="含税金额" min-width="150px">
+            <el-editable-column v-if="false" prop="includeTaxMoney" align="center" label="含税金额" min-width="150">
               <template slot-scope="scope">
                 <p>{{ getincludeTaxMoney(scope.row) }}</p>
               </template>
             </el-editable-column>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="taxRate" align="center" label="税率(%)" min-width="170px">
+            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="taxRate" align="center" label="税率(%)" min-width="170">
               <template slot="edit" slot-scope="scope">
                 <el-input-number
                   :precision="2"
                   :controls="false"
                   v-model="scope.row.taxRate"
-                  @change="gettaxRate(scope.row)"/>
+                  @input="gettaxRate(scope.row)"/>
               </template>
             </el-editable-column>
-            <el-editable-column prop="taxMoney" align="center" label="税额" min-width="170px">
+            <el-editable-column prop="taxMoney" align="center" label="税额" min-width="170">
               <template slot-scope="scope">
                 <p>{{ getTaxMoney2(scope.row) }}</p>
               </template>
             </el-editable-column>
-            <el-editable-column prop="money" align="center" label="金额" min-width="150px">
+            <el-editable-column v-if="false" prop="money" align="center" label="金额" min-width="150">
               <template slot-scope="scope">
                 <p>{{ getMoney(scope.row) }}</p>
               </template>
             </el-editable-column>
-            <el-editable-column prop="includeTaxCostMoney" align="center" label="含税成本金额" min-width="170px">
+            <el-editable-column prop="includeTaxCostMoney" align="center" label="出库金额" min-width="170">
               <template slot-scope="scope">
                 <p>{{ getincludeTaxCostMoney(scope.row) }}</p>
               </template>
             </el-editable-column>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="discountRate" align="center" label="折扣(%)" min-width="170px">
+            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="discountRate" align="center" label="折扣(%)" min-width="170">
               <template slot="edit" slot-scope="scope">
                 <el-input-number
                   :precision="2"
@@ -297,7 +308,7 @@
                   @input="getdiscountRate(scope.row)"/>
               </template>
             </el-editable-column>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="discountMoney" align="center" label="折扣额" min-width="170px">
+            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="discountMoney" align="center" label="折扣额" min-width="170">
               <template slot="edit" slot-scope="scope">
                 <el-input-number
                   :precision="2"
@@ -329,13 +340,14 @@
             :edit-rules="validRules"
             :summary-method="getSummaries2"
             class="click-table1"
-            show-summary
             stripe
             border
             size="medium"
             style="width: 100%">
-            <el-editable-column type="selection" min-width="55" align="center"/>
-            <el-editable-column label="序号" min-width="55" align="center" type="index"/>
+            <el-editable-column type="selection" width="55" align="center" fixed="left"/>
+            <el-editable-column label="序号" width="55" align="center" type="index" fixed="left"/>
+            <el-editable-column prop="productCode" align="center" label="物品编号" min-width="150px" fixed="left"/>
+            <el-editable-column prop="productName" align="center" label="物品名称" min-width="150px" fixed="left"/>
             <el-editable-column prop="locationId" align="center" label="货位" min-width="170px">
               <!-- <template slot="edit" slot-scope="scope">
                 <el-select v-model="scope.row.locationId" :value="scope.row.locationId" placeholder="请选择货位" filterable clearable style="width: 100%;" @visible-change="updatebatch($event,scope)">
@@ -348,8 +360,6 @@
               </template> -->
             </el-editable-column>
             <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="batch" align="center" label="批次" min-width="150px"/>
-            <el-editable-column prop="productCode" align="center" label="物品编号" min-width="150px"/>
-            <el-editable-column prop="productName" align="center" label="物品名称" min-width="150px"/>
             <el-editable-column prop="categoryName" align="center" label="物品分类" min-width="150px"/>
             <el-editable-column prop="unit" align="center" label="基本单位" min-width="150px"/>
             <el-editable-column prop="typeName" align="center" label="规格型号" min-width="150px"/>
@@ -360,7 +370,17 @@
                 <p>{{ getMoney(scope.row) }}</p>
               </template>
             </el-editable-column>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0.00, precision: 2}, type: 'visible'}" prop="quantity" align="center" label="数量" min-width="150px"/>
+            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 1.00, precision: 2}, type: 'visible'}" prop="quantity" align="center" label="数量" min-width="150px">
+              <template slot="edit" slot-scope="scope">
+                <el-input-number
+                  :precision="2"
+                  :controls="true"
+                  :min="1.00"
+                  v-model="scope.row.quantity"
+                  @change="queryStock(scope.row)"
+                />
+              </template>
+            </el-editable-column>
           </el-editable>
         </div>
       </el-card>
@@ -374,11 +394,11 @@
                   <el-input v-model="heji1" style="margin-left: 18px;width: 200px" disabled/>
                 </el-form-item>
               </el-col>
-              <el-col :span="6">
+              <!-- <el-col :span="6">
                 <el-form-item :label="$t('SaleOut.heji2')" style="width: 100%;">
                   <el-input v-model="heji2" style="margin-left: 18px;width: 200px" disabled/>
                 </el-form-item>
-              </el-col>
+              </el-col> -->
               <el-col :span="6">
                 <el-form-item :label="$t('SaleOut.heji3')" style="width: 100%;">
                   <el-input v-model="heji3" style="margin-left: 18px;width: 200px" disabled/>
@@ -389,7 +409,7 @@
                   <el-input v-model="heji4" style="margin-left: 18px;width: 200px" disabled/>
                 </el-form-item>
               </el-col>
-              <el-col :span="6">
+              <!-- <el-col :span="6">
                 <el-form-item :label="$t('SaleOut.heji5')" style="width: 100%;">
                   <el-input v-model="heji5" style="margin-left: 18px;width: 200px" disabled/>
                 </el-form-item>
@@ -408,7 +428,7 @@
                 <el-form-item :label="$t('SaleOut.heji8')" style="width: 100%;">
                   <el-input v-model="heji8" style="margin-left: 18px;width: 200px" disabled/>
                 </el-form-item>
-              </el-col>
+              </el-col> -->
               <el-col :span="6">
                 <el-form-item :label="$t('SaleOut.heji9')" style="width: 100%;">
                   <el-input v-model="heji9" style="margin-left: 18px;width: 200px" disabled/>
@@ -440,7 +460,7 @@
 <script>
 import { createsaleOut } from '@/api/SaleOut'
 import { searchSaleCategory } from '@/api/SaleCategory'
-import { getlocation, locationlist } from '@/api/public'
+import { getlocation, locationlist, countlist3, countlist } from '@/api/public'
 import MyEmp from './components/MyEmp'
 import MyDelivery from '../DailyAdjust/components/MyDelivery'
 import MyDetail from './components/MyDetail'
@@ -510,7 +530,15 @@ export default {
         callback()
       }
     }
-
+    const validatePass7 = (rule, value, callback) => {
+      if (value === '' || value === null || value === undefined) {
+        callback(new Error('入库数量不能为空'))
+      } else if (value < 0) {
+        callback(new Error('入库数量需大于0'))
+      } else {
+        callback()
+      }
+    }
     return {
       pickerOptions1: {
         disabledDate: (time) => {
@@ -650,7 +678,47 @@ export default {
       list3: [],
       // 明细列表规则
       validRules: {
-      }
+        quantity: [
+          { required: true, validator: validatePass7, trigger: 'blur' }
+        ]
+      },
+      // 可否提交
+      ableSubmission: true
+    }
+  },
+  watch: {
+    list2: {
+      handler(oldval, newval) {
+        let num = 0
+        let num1 = 0
+        let num2 = 0
+        for (const i in this.list2) {
+          // console.log(typeof (this.list2[i].taxprice))
+          num += this.list2[i].quantity
+          num2 += Number(this.list2[i].discountMoney)
+          num1 += this.list2[i].includeTaxCostMoney
+        }
+        this.heji1 = num
+        this.heji3 = num1
+        this.heji4 = num2
+        // console.log(num)
+      },
+      deep: true
+    },
+    list3: {
+      handler(oldval, newval) {
+        let num = 0
+        let num1 = 0
+        for (const i in this.list3) {
+          // console.log(typeof (this.list3[i].taxprice))
+          num += this.list3[i].quantity
+          num1 += this.list3[i].salePrice * num
+        }
+        this.heji9 = num
+        this.heji10 = num1
+        // console.log(num)
+      },
+      deep: true
     }
   },
   created() {
@@ -664,6 +732,78 @@ export default {
     this.getinformation3()
   },
   methods: {
+    test() {
+      const list = [...this.list2]
+      console.log(list.length)
+      if (list.length === 0) {
+        this.ableSubmission = true
+        console.log(this.ableSubmission)
+      }
+    },
+    queryStock(row) {
+      console.log(row.productCode)
+      countlist(0, this.personalForm.saleRepositoryId, row.productCode).then(res => {
+        if (res.data.ret === 200) {
+          // console.log('res.data.data.content', res.data.data.content)
+          if (!res.data.data.content.list.ableStock || row.quantity > res.data.data.content.list.ableStock) {
+            this.$notify.error({
+              title: '错误',
+              message: '出库数量超出了当前可用存量，请修改后再进行确认!',
+              offset: 100
+            })
+            this.ableSubmission = false
+          } else {
+            this.ableSubmission = true
+          }
+        } else {
+          this.$notify.error({
+            title: '错误',
+            message: res.data.msg,
+            offset: 100
+          })
+        }
+      })
+      if (row.discountRate === 0) {
+        row.discountMoney = row.taxprice * row.quantity
+      } else {
+        row.discountMoney = (row.taxprice * row.quantity * (1 - row.discountRate / 100)).toFixed(2)
+      }
+    },
+    checkStock(row) {
+      console.log('this.personalForm.saleRepositoryId', this.personalForm.saleRepositoryId)
+      if (this.personalForm.saleRepositoryId === null || this.personalForm.saleRepositoryId === undefined || this.personalForm.saleRepositoryId === '') {
+        this.$notify.error({
+          title: '错误',
+          message: '请先选择出库仓库',
+          offset: 100
+        })
+        return false
+      } else {
+        console.log('this.moreaction.length', this.moreaction.length)
+        if (this.moreaction.length > 1 || this.moreaction.length === 0) {
+          this.$message.error('请选择单个商品')
+        } else {
+          countlist3(this.personalForm.saleRepositoryId, this.moreaction[0].productCode).then(res => {
+            console.log(res)
+            if (res.data.ret === 200) {
+              console.log('res.data.data.content', res.data.data.content)
+              this.list111 = res.data.data.content
+              this.receiptVisible2 = true
+            } else {
+              this.$notify.error({
+                title: '错误',
+                message: res.data.msg,
+                offset: 100
+              })
+            }
+          })
+        }
+      }
+    },
+    // 批量操作
+    handleSelectionChange(val) {
+      this.moreaction = val
+    },
     getinformation3() {
       if (this.$store.getters.empcontract3) {
         console.log('getempcontract3', this.$store.getters.empcontract3)
@@ -958,6 +1098,11 @@ export default {
     gettaxRate(row) {
       if (row.taxprice !== 0) {
         row.taxprice = (row.salePrice * (1 + row.taxRate / 100)).toFixed(2)
+      }
+      if (row.discountRate === 0) {
+        row.discountMoney = row.taxprice * row.quantity
+      } else {
+        row.discountMoney = (row.taxprice * row.quantity * (1 - row.discountRate / 100)).toFixed(2)
       }
     },
     // 计算税额
@@ -1283,6 +1428,14 @@ export default {
     },
     // 保存操作
     handlesave() {
+      if (this.ableSubmission === false) {
+        this.$notify.error({
+          title: '错误',
+          message: '出库数量超出了当前可用存量，请修改后再进行确认!',
+          offset: 100
+        })
+        return false
+      }
       this.$refs.personalForm.validate((valid) => {
         if (valid) {
           const EnterDetail = this.deepClone(this.$refs.editable.getRecords())
