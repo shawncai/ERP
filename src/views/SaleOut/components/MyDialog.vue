@@ -582,6 +582,9 @@ export default {
       this.planPersonId = this.personalForm.planPersonName
       this.stockPersonId = this.personalForm.stockPersonName
       this.list2 = this.personalForm.saleOutDetailVos
+      for (const i in this.list2) {
+        this.list2[i].taxRate = (this.list2[i].taxRate) * 100
+      }
       this.list3 = this.personalForm.saleOutGiftVos
       this.customerId = this.personalForm.customerName
       this.salePersonId = this.personalForm.salePersonName
