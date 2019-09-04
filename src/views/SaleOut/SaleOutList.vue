@@ -69,6 +69,7 @@
         </el-button>
         <el-dropdown-menu slot="dropdown" style="width: 140px">
           <el-dropdown-item v-permission="['54-55-2']" style="text-align: left" command="delete"><svg-icon icon-class="shanchu" style="width: 40px"/>{{ $t('public.delete') }}</el-dropdown-item>
+          <el-dropdown-item v-permission="['54-55-2']" style="text-align: left" command="review"><svg-icon icon-class="shengchanxuqiu" style="width: 40px"/>{{ $t('public.review') }}</el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
       <!-- 表格导出操作 -->
@@ -283,7 +284,7 @@ export default {
       this.reviewParms = {}
       this.reviewParms.id = row.id
       this.reviewParms.confirmPersonId = this.$store.getters.userId
-      this.$confirm('请确认', '确认', {
+      this.$confirm('是否确认货物已经出库', '确认', {
         distinguishCancelAndClose: true,
         confirmButtonText: '确认',
         type: 'warning'
@@ -547,6 +548,36 @@ export default {
           this.$message({
             type: 'info',
             message: '已取消删除'
+          })
+        })
+      }
+      if (command === 'review') {
+        this.$confirm('此操作将批量审查文件, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          // deletesaleOut(ids, this.$store.getters.userId).then(res => {
+          //   if (res.data.ret === 200 || res.data.ret === 100) {
+          //     this.$notify({
+          //       title: '审查成功',
+          //       type: 'success',
+          //       offset: 100
+          //     })
+          //     this.getlist()
+          //   } else {
+          //     this.$notify.error({
+          //       title: '错误',
+          //       message: '出错了',
+          //       offset: 100
+          //     })
+          //   }
+          // })
+          console.log('审查')
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消审批'
           })
         })
       }
