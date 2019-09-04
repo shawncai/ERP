@@ -149,7 +149,7 @@
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item :label="$t('SaleOut.pointSupport')" style="width: 100%;">
+              <el-form-item :label="$t('SaleOut.pointSupport')+`(${point})`" style="width: 100%;">
                 <el-input v-model="personalForm.pointSupport" style="margin-left: 18px;width: 200px"/>
               </el-form-item>
             </el-col>
@@ -197,7 +197,7 @@
         <my-order :ordercontrol.sync="ordercontrol" @saleOrderDetail="saleOrderDetail" @saleOrder="saleOrder"/>
         <my-presale :presalecontrol.sync="presalecontrol" @advanceOrderDetail="advanceOrderDetail" @advanceData="advanceData"/>
         <my-opportunity :opportunitycontrol.sync="opportunitycontrol" @opportunityDetail="opportunityDetail" @opportunity="opportunity"/>
-        <el-button type="danger" @click="$refs.editable.removeSelecteds()">删除</el-button>
+        <el-button type="danger" @click="$refs.editable.removeSelecteds();test()">删除</el-button>
       </div>
       <div class="container">
         <el-editable
@@ -235,19 +235,19 @@
           <el-editable-column prop="kpiGrade" align="center" label="绩效分" min-width="150px"/>
           <el-editable-column prop="point" align="center" label="商品积分" min-width="150px"/>
           <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0.00, precision: 2}, type: 'visible'}" prop="quantity" align="center" label="出库数量" min-width="150px"/>
-          <el-editable-column prop="salePrice" align="center" label="零售价" min-width="150px"/>
-          <el-editable-column prop="costPrice" align="center" label="成本价" min-width="150px"/>
-          <el-editable-column prop="taxprice" align="center" label="含税价" min-width="150px">
+          <el-editable-column v-if="false" prop="salePrice" align="center" label="零售价" min-width="150px"/>
+          <el-editable-column v-if="false" prop="costPrice" align="center" label="成本价" min-width="150px"/>
+          <el-editable-column prop="taxprice" align="center" label="出库价" min-width="150px">
             <template slot-scope="scope">
               <span>{{ gettaxprice(scope.row) }}</span>
             </template>
           </el-editable-column>
-          <el-editable-column prop="costMoney" align="center" label="成本金额" min-width="150px">
+          <el-editable-column v-if="false" prop="costMoney" align="center" label="成本金额" min-width="150px">
             <template slot-scope="scope">
               <p>{{ getcostMoney(scope.row) }}</p>
             </template>
           </el-editable-column>
-          <el-editable-column prop="includeTaxMoney" align="center" label="含税金额" min-width="150px">
+          <el-editable-column v-if="false" prop="includeTaxMoney" align="center" label="含税金额" min-width="150px">
             <template slot-scope="scope">
               <p>{{ getincludeTaxMoney(scope.row) }}</p>
             </template>
@@ -258,7 +258,7 @@
                 :precision="2"
                 :controls="false"
                 v-model="scope.row.taxRate"
-                @change="gettaxRate(scope.row)"/>
+                @input="gettaxRate(scope.row)"/>
             </template>
           </el-editable-column>
           <el-editable-column prop="taxMoney" align="center" label="税额" min-width="170px">
@@ -266,22 +266,22 @@
               <p>{{ getTaxMoney2(scope.row) }}</p>
             </template>
           </el-editable-column>
-          <el-editable-column prop="money" align="center" label="金额" min-width="150px">
+          <el-editable-column v-if="false" prop="money" align="center" label="金额" min-width="150px">
             <template slot-scope="scope">
               <p>{{ getMoney(scope.row) }}</p>
             </template>
           </el-editable-column>
-          <el-editable-column prop="includeTaxCostMoney" align="center" label="含税成本金额" min-width="170px">
+          <el-editable-column prop="includeTaxCostMoney" align="center" label="出库金额" min-width="170px">
             <template slot-scope="scope">
               <p>{{ getincludeTaxCostMoney(scope.row) }}</p>
             </template>
           </el-editable-column>
-          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="discount" align="center" label="折扣(%)" min-width="170px">
+          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="discountRate" align="center" label="折扣(%)" min-width="170px">
             <template slot="edit" slot-scope="scope">
               <el-input-number
                 :precision="2"
                 :controls="false"
-                v-model="scope.row.discount"
+                v-model="scope.row.discountRate"
                 @input="getdiscountRate(scope.row)"/>
             </template>
           </el-editable-column>
@@ -361,11 +361,11 @@
                 <el-input v-model="personalForm.allQuantity" style="margin-left: 18px;width: 200px" disabled/>
               </el-form-item>
             </el-col>
-            <el-col :span="12">
+            <!-- <el-col :span="12">
               <el-form-item :label="$t('SaleOut.heji2')" style="width: 100%;">
                 <el-input v-model="personalForm.allMoney" style="margin-left: 18px;width: 200px" disabled/>
               </el-form-item>
-            </el-col>
+            </el-col> -->
             <el-col :span="12">
               <el-form-item :label="$t('SaleOut.heji3')" style="width: 100%;">
                 <el-input v-model="personalForm.allIncludeTaxMoney" style="margin-left: 18px;width: 200px" disabled/>
@@ -376,34 +376,34 @@
                 <el-input v-model="personalForm.allTaxMoney" style="margin-left: 18px;width: 200px" disabled/>
               </el-form-item>
             </el-col>
-            <el-col :span="12">
+            <!-- <el-col :span="12">
               <el-form-item :label="$t('SaleOut.heji5')" style="width: 100%;">
                 <el-input v-model="personalForm.allDiscountMoney" style="margin-left: 18px;width: 200px" disabled/>
               </el-form-item>
-            </el-col>
-            <el-col :span="12">
+            </el-col> -->
+            <!-- <el-col :span="12">
               <el-form-item :label="$t('SaleOut.heji6')" style="width: 100%;">
                 <el-input v-model="personalForm.allIncludeTaxDiscountMoney" style="margin-left: 18px;width: 200px" disabled/>
               </el-form-item>
-            </el-col>
-            <el-col :span="12">
+            </el-col> -->
+            <!-- <el-col :span="12">
               <el-form-item :label="$t('SaleOut.heji7')" style="width: 100%;">
                 <el-input v-model="personalForm.allIncludeTaxCostMoney" style="margin-left: 18px;width: 200px" disabled/>
               </el-form-item>
-            </el-col>
-            <el-col :span="12">
+            </el-col> -->
+            <!-- <el-col :span="12">
               <el-form-item :label="$t('SaleOut.heji8')" style="width: 100%;">
                 <el-input v-model="personalForm.allCostMoney" style="margin-left: 18px;width: 200px" disabled/>
               </el-form-item>
-            </el-col>
+            </el-col> -->
             <el-col :span="12">
               <el-form-item :label="$t('SaleOut.heji9')" style="width: 100%;">
-                <el-input v-model="personalForm.allGiftQuantity" style="margin-left: 18px;width: 200px" disabled/>
+                <el-input v-model="heji9" style="margin-left: 18px;width: 200px" disabled/>
               </el-form-item>
             </el-col>
             <el-col :span="12">
               <el-form-item :label="$t('SaleOut.heji10')" style="width: 100%;">
-                <el-input v-model="personalForm.allGiftMoney" style="margin-left: 18px;width: 200px" disabled/>
+                <el-input v-model="heji10" style="margin-left: 18px;width: 200px" disabled/>
               </el-form-item>
             </el-col>
             <el-col :span="12">
@@ -428,7 +428,7 @@
 import { updatesaleOut } from '@/api/SaleOut'
 import { searchCategory } from '@/api/Supplier'
 import { searchSaleCategory } from '@/api/SaleCategory'
-import { getlocation, locationlist } from '@/api/public'
+import { getlocation, locationlist, countlist } from '@/api/public'
 import MyEmp from './MyEmp'
 import MyDelivery from './MyDelivery'
 import MyDetail from './MyDetail'
@@ -465,12 +465,23 @@ export default {
         callback()
       }
     }
+    const validatePass7 = (rule, value, callback) => {
+      if (value === '' || value === null || value === undefined) {
+        callback(new Error('入库数量不能为空'))
+      } else if (value < 0) {
+        callback(new Error('入库数量需大于0'))
+      } else {
+        callback()
+      }
+    }
     return {
       pickerOptions1: {
         disabledDate: (time) => {
           return time.getTime() < new Date().getTime() - 8.64e7
         }
       },
+      // 积分信息
+      point: 0,
       // 选择的数据
       choosedata: [],
       // 弹窗组件的控制
@@ -570,7 +581,11 @@ export default {
       list3: [],
       // 明细列表规则
       validRules: {
-      }
+        quantity: [
+          { required: true, validator: validatePass7, trigger: 'blur' }
+        ]
+      },
+      ableSubmission: true
     }
   },
   watch: {
@@ -597,6 +612,43 @@ export default {
     this.chooseSourceType()
   },
   methods: {
+    test() {
+      const list = [...this.list2]
+      console.log(list.length)
+      if (list.length === 0) {
+        this.ableSubmission = true
+        console.log(this.ableSubmission)
+      }
+    },
+    queryStock(row) {
+      console.log(row.productCode)
+      countlist(0, this.personalForm.saleRepositoryId, row.productCode).then(res => {
+        if (res.data.ret === 200) {
+          // console.log('res.data.data.content', res.data.data.content)
+          if (!res.data.data.content.list.ableStock || row.quantity > res.data.data.content.list.ableStock) {
+            this.$notify.error({
+              title: '错误',
+              message: '出库数量超出了当前可用存量，请修改后再进行确认!',
+              offset: 100
+            })
+            this.ableSubmission = false
+          } else {
+            this.ableSubmission = true
+          }
+        } else {
+          this.$notify.error({
+            title: '错误',
+            message: res.data.msg,
+            offset: 100
+          })
+        }
+      })
+      if (row.discountRate === 0) {
+        row.discountMoney = row.taxprice * row.quantity
+      } else {
+        row.discountMoney = (row.taxprice * row.quantity * (1 - row.discountRate / 100)).toFixed(2)
+      }
+    },
     // 初始化税率
     gettaxRate2(row) {
       return (row * 100).toFixed(2)
@@ -733,7 +785,8 @@ export default {
       sums[8] = ''
       sums[9] = ''
       sums[10] = ''
-      sums[11] = ''
+      this.heji9 = sums[12]
+      this.heji10 = sums[11]
       this.personalForm.otherMoney = sums[12]
       return sums
     },
@@ -781,14 +834,14 @@ export default {
       sums[25] = ''
       sums[26] = ''
       sums[27] = ''
-      this.heji1 = sums[12]
-      this.heji2 = sums[20]
-      this.heji3 = sums[17]
-      this.heji4 = sums[19]
-      this.heji5 = sums[23]
-      this.heji6 = sums[17] - sums[23]
-      this.heji7 = sums[21]
-      this.heji8 = sums[16]
+      this.heji1 = sums[14]
+      // this.heji2 = sums[20]
+      this.heji3 = sums[18]
+      this.heji4 = sums[20]
+      // this.heji5 = sums[23]
+      // this.heji6 = sums[17] - sums[23]
+      // this.heji7 = sums[21]
+      // this.heji8 = sums[16]
       return sums
     },
     // 计算成本金额
@@ -806,6 +859,11 @@ export default {
     gettaxRate(row) {
       if (row.taxprice !== 0) {
         row.taxprice = (row.salePrice * (1 + row.taxRate / 100)).toFixed(2)
+      }
+      if (row.discountRate === 0) {
+        row.discountMoney = row.taxprice * row.quantity
+      } else {
+        row.discountMoney = (row.taxprice * row.quantity * (1 - row.discountRate / 100)).toFixed(2)
       }
     },
     // 计算税额
@@ -864,6 +922,8 @@ export default {
       this.personalForm.customerId = val.id
       this.customerId = val.customerName
       this.personalForm.customerPhone = val.phoneNumber
+      this.personalForm.address = val.address
+      this.point = val.point
     },
     agentdata(val) {
       console.log(val)
@@ -871,6 +931,8 @@ export default {
       this.personalForm.customerId = val.id
       this.customerId = val.agentName
       this.personalForm.customerPhone = val.phone
+      this.personalForm.address = val.address
+      this.point = val.point
     },
     // 从源单添加商品
     handleAddSource() {
@@ -1083,6 +1145,14 @@ export default {
     // 修改和取消按钮
     // 修改按钮
     handleEditok() {
+      if (this.ableSubmission === false) {
+        this.$notify.error({
+          title: '错误',
+          message: '出库数量超出了当前可用存量，请修改后再进行确认!',
+          offset: 100
+        })
+        return false
+      }
       this.$refs.personalForm.validate((valid) => {
         if (valid) {
           this.personalForm.repositoryId = this.$store.getters.repositoryId

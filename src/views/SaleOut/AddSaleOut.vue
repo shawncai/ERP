@@ -217,11 +217,11 @@
             size="medium"
             style="width: 100%"
             @selection-change="handleSelectionChange">
-            <el-editable-column type="selection" min-width="55" align="center"/>
-            <el-editable-column :resizable="false" label="序号" fixed="left" min-width="55" align="center" type="index" />
-            <el-editable-column :resizable="false" prop="productCode" fixed="left" align="center" label="物品编号" min-width="150px" />
-            <el-editable-column :resizable="false" prop="productName" fixed="left" align="center" label="物品名称" min-width="150px"/>
-            <el-editable-column prop="locationId" align="center" label="货位" min-width="170px">
+            <el-editable-column type="selection" min-width="55" align="center" fixed="left"/>
+            <el-editable-column :resizable="false" label="序号" min-width="55" align="center" type="index" fixed="left"/>
+            <el-editable-column :resizable="false" prop="productCode" align="center" label="物品编号" min-width="150" fixed="left"/>
+            <el-editable-column :resizable="false" prop="productName" align="center" label="物品名称" min-width="150" fixed="left"/>
+            <el-editable-column prop="locationId" align="center" label="货位" min-width="170">
               <!-- <template slot="edit" slot-scope="scope">
                 <el-select v-model="scope.row.locationId" :value="scope.row.locationId" placeholder="请选择货位" filterable clearable style="width: 100%;" @visible-change="updatebatch($event,scope)">
                   <el-option
@@ -232,16 +232,16 @@
                 </el-select>
               </template> -->
             </el-editable-column>
-            <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="batch" align="center" label="批次" min-width="150px"/>
-            <el-editable-column prop="categoryName" align="center" label="物品分类" min-width="150px"/>
-            <el-editable-column prop="unit" align="center" label="基本单位" min-width="150px"/>
-            <el-editable-column prop="typeName" align="center" label="规格型号" min-width="150px"/>
-            <el-editable-column prop="color" align="center" label="颜色" min-width="150px"/>
-            <el-editable-column prop="kpiGrade" align="center" label="绩效分" min-width="150px"/>
-            <el-editable-column prop="point" align="center" label="商品积分" min-width="150px"/>
-            <el-editable-column prop="allQuantity" align="center" label="源单数量" min-width="150px"/>
-            <el-editable-column prop="allQuantity" align="center" label="未出库数量" min-width="150px"/>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 1.00, precision: 2}, type: 'visible'}" prop="quantity" align="center" label="出库数量" min-width="150px">
+            <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="batch" align="center" label="批次" min-width="150"/>
+            <el-editable-column prop="categoryName" align="center" label="物品分类" min-width="150"/>
+            <el-editable-column prop="unit" align="center" label="基本单位" min-width="150"/>
+            <el-editable-column prop="typeName" align="center" label="规格型号" min-width="150"/>
+            <el-editable-column prop="color" align="center" label="颜色" min-width="150"/>
+            <el-editable-column prop="kpiGrade" align="center" label="绩效分" min-width="150"/>
+            <el-editable-column prop="point" align="center" label="商品积分" min-width="150"/>
+            <el-editable-column prop="allQuantity" align="center" label="源单数量" min-width="150"/>
+            <el-editable-column prop="allQuantity" align="center" label="未出库数量" min-width="150"/>
+            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 1.00, precision: 2}, type: 'visible'}" prop="quantity" align="center" label="出库数量" min-width="150">
               <template slot="edit" slot-scope="scope">
                 <el-input-number
                   :precision="2"
@@ -252,25 +252,25 @@
                 />
               </template>
             </el-editable-column>
-            <el-editable-column v-if="false" prop="salePrice" align="center" label="零售价" min-width="150px"/>
-            <el-editable-column v-if="false" prop="costPrice" align="center" label="成本价" min-width="150px"/>
+            <el-editable-column v-if="false" prop="salePrice" align="center" label="零售价" min-width="150"/>
+            <el-editable-column v-if="false" prop="costPrice" align="center" label="成本价" min-width="150"/>
             <!-- <el-editable-column prop="taxprice" align="center" label="含税价" min-width="150px"> -->
-            <el-editable-column prop="taxprice" align="center" label="出库价" min-width="150px">
+            <el-editable-column prop="taxprice" align="center" label="出库价" min-width="150">
               <template slot-scope="scope">
                 <span>{{ gettaxprice(scope.row) }}</span>
               </template>
             </el-editable-column>
-            <el-editable-column v-if="false" prop="costMoney" align="center" label="成本金额" min-width="150px">
+            <el-editable-column v-if="false" prop="costMoney" align="center" label="成本金额" min-width="150">
               <template slot-scope="scope">
                 <p>{{ getcostMoney(scope.row) }}</p>
               </template>
             </el-editable-column>
-            <el-editable-column v-if="false" prop="includeTaxMoney" align="center" label="含税金额" min-width="150px">
+            <el-editable-column v-if="false" prop="includeTaxMoney" align="center" label="含税金额" min-width="150">
               <template slot-scope="scope">
                 <p>{{ getincludeTaxMoney(scope.row) }}</p>
               </template>
             </el-editable-column>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="taxRate" align="center" label="税率(%)" min-width="170px">
+            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="taxRate" align="center" label="税率(%)" min-width="170">
               <template slot="edit" slot-scope="scope">
                 <el-input-number
                   :precision="2"
@@ -279,22 +279,22 @@
                   @change="gettaxRate(scope.row)"/>
               </template>
             </el-editable-column>
-            <el-editable-column prop="taxMoney" align="center" label="税额" min-width="170px">
+            <el-editable-column prop="taxMoney" align="center" label="税额" min-width="170">
               <template slot-scope="scope">
                 <p>{{ getTaxMoney2(scope.row) }}</p>
               </template>
             </el-editable-column>
-            <el-editable-column v-if="false" prop="money" align="center" label="金额" min-width="150px">
+            <el-editable-column v-if="false" prop="money" align="center" label="金额" min-width="150">
               <template slot-scope="scope">
                 <p>{{ getMoney(scope.row) }}</p>
               </template>
             </el-editable-column>
-            <el-editable-column prop="includeTaxCostMoney" align="center" label="出库金额" min-width="170px">
+            <el-editable-column prop="includeTaxCostMoney" align="center" label="出库金额" min-width="170">
               <template slot-scope="scope">
                 <p>{{ getincludeTaxCostMoney(scope.row) }}</p>
               </template>
             </el-editable-column>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="discountRate" align="center" label="折扣(%)" min-width="170px">
+            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="discountRate" align="center" label="折扣(%)" min-width="170">
               <template slot="edit" slot-scope="scope">
                 <el-input-number
                   :precision="2"
@@ -303,7 +303,7 @@
                   @input="getdiscountRate(scope.row)"/>
               </template>
             </el-editable-column>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="discountMoney" align="center" label="折扣额" min-width="170px">
+            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="discountMoney" align="center" label="折扣额" min-width="170">
               <template slot="edit" slot-scope="scope">
                 <el-input-number
                   :precision="2"
@@ -340,10 +340,10 @@
             border
             size="medium"
             style="width: 100%">
-            <el-editable-column type="selection" min-width="55" align="center"/>
-            <el-editable-column label="序号" min-width="55" align="center" type="index" fixed/>
-            <el-editable-column prop="productCode" align="center" label="物品编号" min-width="150px" fixed="left"/>
-            <el-editable-column prop="productName" align="center" label="物品名称" min-width="150px" fixed="left"/>
+            <el-editable-column type="selection" width="55" align="center"/>
+            <el-editable-column label="序号" width="55" align="center" type="index"/>
+            <el-editable-column prop="productCode" align="center" label="物品编号" min-width="150px"/>
+            <el-editable-column prop="productName" align="center" label="物品名称" min-width="150px"/>
             <el-editable-column prop="locationId" align="center" label="货位" min-width="170px">
               <!-- <template slot="edit" slot-scope="scope">
                 <el-select v-model="scope.row.locationId" :value="scope.row.locationId" placeholder="请选择货位" filterable clearable style="width: 100%;" @visible-change="updatebatch($event,scope)">
@@ -1645,19 +1645,5 @@ export default {
     position: relative;
     margin: 0 auto;
     height: auto;
-  }
-  .el-table {
-  overflow-x: auto;
-  }
-  .el-table__header-wrapper,
-  .el-table__body-wrapper,
-  .el-table__footer-wrapper {
-    overflow: visible;
-  }
-  .el-table::after {
-    position: relative;
-  }
-  .el-table--scrollable-x .el-table__body-wrapper {
-    overflow: visible;
   }
 </style>

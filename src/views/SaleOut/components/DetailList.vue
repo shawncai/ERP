@@ -166,6 +166,7 @@
             <el-editable-column prop="kpiGrade" align="center" label="绩效分" />
             <el-editable-column prop="point" align="center" label="商品积分" />
             <el-editable-column prop="quantity" align="center" label="出库数量" />
+            <el-editable-column prop="retreatQuantity" align="center" label="退货数量" />
             <el-editable-column prop="salePrice" align="center" label="零售价" />
             <el-editable-column prop="costPrice" align="center" label="成本价" />
             <el-editable-column prop="taxprice" align="center" label="含税价" />
