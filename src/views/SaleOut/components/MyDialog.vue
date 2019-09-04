@@ -38,7 +38,7 @@
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item :label="$t('SaleOut.customerPhone')" style="width: 100%;">
+              <el-form-item :label="$t('SaleOut.customerPhone')" prop="phoneNumber" style="width: 100%;">
                 <el-input v-model="personalForm.phoneNumber" style="margin-left: 18px;width: 200px" clearable/>
               </el-form-item>
             </el-col>
@@ -71,7 +71,7 @@
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item :label="$t('SaleOut.sendDate')" style="width: 100%;">
+              <el-form-item :label="$t('SaleOut.sendDate')" prop="sendDate" style="width: 100%;">
                 <el-date-picker
                   v-model="personalForm.sendDate"
                   :picker-options="pickerOptions1"
@@ -116,13 +116,13 @@
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item :label="$t('SaleOut.transferPersonId')" style="width: 100%;">
+              <el-form-item :label="$t('SaleOut.transferPersonId')" prop="transferPersonId" style="width: 100%;">
                 <el-input v-model="transferPersonId" style="margin-left: 18px;width: 200px" @focus="handlechooseDelivery"/>
               </el-form-item>
               <my-delivery :deliverycontrol.sync="deliverycontrol" @deliveryName="deliveryName"/>
             </el-col>
             <el-col :span="12">
-              <el-form-item :label="$t('SaleOut.saleRepositoryId')" style="width: 100%;">
+              <el-form-item :label="$t('SaleOut.saleRepositoryId')" prop="saleRepositoryId" style="width: 100%;">
                 <el-input v-model="saleRepositoryId" style="margin-left: 18px;width: 200px" @focus="handlechooseRep"/>
                 <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
               </el-form-item>
@@ -139,7 +139,7 @@
               <my-accept :accetpcontrol.sync="accetpcontrol" @acceptName="acceptName"/>
             </el-col>
             <el-col :span="12">
-              <el-form-item :label="$t('SaleOut.outDate')" style="width: 100%;">
+              <el-form-item :label="$t('SaleOut.outDate')" prop="outDate" style="width: 100%;">
                 <el-date-picker
                   v-model="personalForm.outDate"
                   :picker-options="pickerOptions1"
@@ -149,8 +149,8 @@
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item :label="$t('SaleOut.pointSupport')+`(${point})`" style="width: 100%;">
-                <el-input v-model="personalForm.pointSupport" style="margin-left: 18px;width: 200px"/>
+              <el-form-item :label="$t('SaleOut.pointSupport')+`(${point || 0})`" prop="pointSupport" style="width: 100%;">
+                <el-input v-model="personalForm.pointSupport" :disabled="personalForm.customerType === '1'" style="margin-left: 18px;width: 200px"/>
               </el-form-item>
             </el-col>
             <el-col :span="12">
@@ -207,15 +207,16 @@
           :edit-rules="validRules"
           :summary-method="getSummaries"
           class="click-table1"
-          show-summary
           stripe
           border
           size="medium"
           style="width: 100%">
-          <el-editable-column type="selection" min-width="55" align="center"/>
-          <el-editable-column label="序号" min-width="55" align="center" type="index"/>
-          <el-editable-column :edit-render="{type: 'visible'}" prop="locationId" align="center" label="货位" min-width="170px">
-            <template slot="edit" slot-scope="scope">
+          <el-editable-column type="selection" min-width="55" align="center" fixed="left"/>
+          <el-editable-column label="序号" min-width="55" align="center" type="index" fixed="left"/>
+          <el-editable-column prop="productCode" align="center" label="物品编号" min-width="150" fixed="left"/>
+          <el-editable-column prop="productName" align="center" label="物品名称" min-width="150" fixed="left"/>
+          <el-editable-column prop="locationId" align="center" label="货位" min-width="170">
+            <!-- <template slot="edit" slot-scope="scope">
               <el-select v-model="scope.row.locationId" :value="scope.row.locationId" placeholder="请选择货位" filterable clearable style="width: 100%;" @visible-change="updatebatch($event,scope)">
                 <el-option
                   v-for="(item, index) in locationlist"
@@ -223,36 +224,44 @@
                   :value="item.id"
                   :label="item.locationCode"/>
               </el-select>
+            </template> -->
+          </el-editable-column>
+          <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="batch" align="center" label="批次" min-width="150"/>
+          <el-editable-column prop="categoryName" align="center" label="物品分类" min-width="150"/>
+          <el-editable-column prop="unit" align="center" label="基本单位" min-width="150"/>
+          <el-editable-column prop="typeName" align="center" label="规格型号" min-width="150"/>
+          <el-editable-column prop="color" align="center" label="颜色" min-width="150"/>
+          <el-editable-column prop="kpiGrade" align="center" label="绩效分" min-width="150"/>
+          <el-editable-column ref="haspoint" prop="point" align="center" label="商品积分" min-width="150"/>
+          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 1.00, precision: 2}, type: 'visible'}" prop="quantity" align="center" label="出库数量" min-width="150">
+            <template slot="edit" slot-scope="scope">
+              <el-input-number
+                :precision="2"
+                :controls="true"
+                :min="1.00"
+                v-model="scope.row.quantity"
+                @change="queryStock(scope.row)"
+              />
             </template>
           </el-editable-column>
-          <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="batch" align="center" label="批次" min-width="150px"/>
-          <el-editable-column prop="productCode" align="center" label="物品编号" min-width="150px"/>
-          <el-editable-column prop="productName" align="center" label="物品名称" min-width="150px"/>
-          <el-editable-column prop="categoryName" align="center" label="物品分类" min-width="150px"/>
-          <el-editable-column prop="unit" align="center" label="基本单位" min-width="150px"/>
-          <el-editable-column prop="typeName" align="center" label="规格型号" min-width="150px"/>
-          <el-editable-column prop="color" align="center" label="颜色" min-width="150px"/>
-          <el-editable-column prop="kpiGrade" align="center" label="绩效分" min-width="150px"/>
-          <el-editable-column prop="point" align="center" label="商品积分" min-width="150px"/>
-          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0.00, precision: 2}, type: 'visible'}" prop="quantity" align="center" label="出库数量" min-width="150px"/>
-          <el-editable-column v-if="false" prop="salePrice" align="center" label="零售价" min-width="150px"/>
-          <el-editable-column v-if="false" prop="costPrice" align="center" label="成本价" min-width="150px"/>
-          <el-editable-column prop="taxprice" align="center" label="出库价" min-width="150px">
+          <el-editable-column v-if="false" prop="salePrice" align="center" label="零售价" min-width="150"/>
+          <el-editable-column v-if="false" prop="costPrice" align="center" label="成本价" min-width="150"/>
+          <el-editable-column prop="taxprice" align="center" label="出库价" min-width="150">
             <template slot-scope="scope">
               <span>{{ gettaxprice(scope.row) }}</span>
             </template>
           </el-editable-column>
-          <el-editable-column v-if="false" prop="costMoney" align="center" label="成本金额" min-width="150px">
+          <el-editable-column v-if="false" prop="costMoney" align="center" label="成本金额" min-width="150">
             <template slot-scope="scope">
               <p>{{ getcostMoney(scope.row) }}</p>
             </template>
           </el-editable-column>
-          <el-editable-column v-if="false" prop="includeTaxMoney" align="center" label="含税金额" min-width="150px">
+          <el-editable-column v-if="false" prop="includeTaxMoney" align="center" label="含税金额" min-width="150">
             <template slot-scope="scope">
               <p>{{ getincludeTaxMoney(scope.row) }}</p>
             </template>
           </el-editable-column>
-          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="taxRate" align="center" label="税率(%)" min-width="170px">
+          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="taxRate" align="center" label="税率(%)" min-width="170">
             <template slot="edit" slot-scope="scope">
               <el-input-number
                 :precision="2"
@@ -261,22 +270,22 @@
                 @input="gettaxRate(scope.row)"/>
             </template>
           </el-editable-column>
-          <el-editable-column prop="taxMoney" align="center" label="税额" min-width="170px">
+          <el-editable-column prop="taxMoney" align="center" label="税额" min-width="170">
             <template slot-scope="scope">
               <p>{{ getTaxMoney2(scope.row) }}</p>
             </template>
           </el-editable-column>
-          <el-editable-column v-if="false" prop="money" align="center" label="金额" min-width="150px">
+          <el-editable-column v-if="false" prop="money" align="center" label="金额" min-width="150">
             <template slot-scope="scope">
               <p>{{ getMoney(scope.row) }}</p>
             </template>
           </el-editable-column>
-          <el-editable-column prop="includeTaxCostMoney" align="center" label="出库金额" min-width="170px">
+          <el-editable-column prop="includeTaxCostMoney" align="center" label="出库金额" min-width="170">
             <template slot-scope="scope">
               <p>{{ getincludeTaxCostMoney(scope.row) }}</p>
             </template>
           </el-editable-column>
-          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="discountRate" align="center" label="折扣(%)" min-width="170px">
+          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="discountRate" align="center" label="折扣(%)" min-width="170">
             <template slot="edit" slot-scope="scope">
               <el-input-number
                 :precision="2"
@@ -285,7 +294,7 @@
                 @input="getdiscountRate(scope.row)"/>
             </template>
           </el-editable-column>
-          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="discountMoney" align="center" label="折扣额" min-width="170px">
+          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="discountMoney" align="center" label="折扣额" min-width="170">
             <template slot="edit" slot-scope="scope">
               <el-input-number
                 :precision="2"
@@ -316,15 +325,16 @@
           :edit-rules="validRules"
           :summary-method="getSummaries2"
           class="click-table1"
-          show-summary
           stripe
           border
           size="medium"
           style="width: 100%">
-          <el-editable-column type="selection" min-width="55" align="center"/>
-          <el-editable-column label="序号" min-width="55" align="center" type="index"/>
-          <el-editable-column :edit-render="{type: 'visible'}" prop="locationId" align="center" label="货位" min-width="170px">
-            <template slot="edit" slot-scope="scope">
+          <el-editable-column type="selection" width="55" align="center" fixed="left"/>
+          <el-editable-column label="序号" width="55" align="center" type="index" fixed="left"/>
+          <el-editable-column prop="productCode" align="center" label="物品编号" min-width="150px" fixed="left"/>
+          <el-editable-column prop="productName" align="center" label="物品名称" min-width="150px" fixed="left"/>
+          <el-editable-column prop="locationId" align="center" label="货位" min-width="170px">
+            <!-- <template slot="edit" slot-scope="scope">
               <el-select v-model="scope.row.locationId" :value="scope.row.locationId" placeholder="请选择货位" filterable clearable style="width: 100%;" @visible-change="updatebatch($event,scope)">
                 <el-option
                   v-for="(item, index) in locationlist"
@@ -332,11 +342,9 @@
                   :value="item.id"
                   :label="item.locationCode"/>
               </el-select>
-            </template>
+            </template> -->
           </el-editable-column>
           <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="batch" align="center" label="批次" min-width="150px"/>
-          <el-editable-column prop="productCode" align="center" label="物品编号" min-width="150px"/>
-          <el-editable-column prop="productName" align="center" label="物品名称" min-width="150px"/>
           <el-editable-column prop="categoryName" align="center" label="物品分类" min-width="150px"/>
           <el-editable-column prop="unit" align="center" label="基本单位" min-width="150px"/>
           <el-editable-column prop="typeName" align="center" label="规格型号" min-width="150px"/>
@@ -347,7 +355,17 @@
               <p>{{ getMoney(scope.row) }}</p>
             </template>
           </el-editable-column>
-          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0.00, precision: 2}, type: 'visible'}" prop="quantity" align="center" label="数量" min-width="150px"/>
+          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0.00, precision: 2}, type: 'visible'}" prop="quantity" align="center" label="数量" min-width="150px">
+            <template slot="edit" slot-scope="scope">
+              <el-input-number
+                :precision="2"
+                :controls="true"
+                :min="1.00"
+                v-model="scope.row.quantity"
+                @change="queryStock(scope.row)"
+              />
+            </template>
+          </el-editable-column>
         </el-editable>
       </div>
     </el-card>
@@ -358,7 +376,7 @@
           <el-row>
             <el-col :span="12">
               <el-form-item :label="$t('SaleOut.heji1')" style="width: 100%;">
-                <el-input v-model="personalForm.allQuantity" style="margin-left: 18px;width: 200px" disabled/>
+                <el-input v-model="heji1" style="margin-left: 18px;width: 200px" disabled/>
               </el-form-item>
             </el-col>
             <!-- <el-col :span="12">
@@ -368,12 +386,12 @@
             </el-col> -->
             <el-col :span="12">
               <el-form-item :label="$t('SaleOut.heji3')" style="width: 100%;">
-                <el-input v-model="personalForm.allIncludeTaxMoney" style="margin-left: 18px;width: 200px" disabled/>
+                <el-input v-model="heji3" style="margin-left: 18px;width: 200px" disabled/>
               </el-form-item>
             </el-col>
             <el-col :span="12">
               <el-form-item :label="$t('SaleOut.heji4')" style="width: 100%;">
-                <el-input v-model="personalForm.allTaxMoney" style="margin-left: 18px;width: 200px" disabled/>
+                <el-input v-model="heji4" style="margin-left: 18px;width: 200px" disabled/>
               </el-form-item>
             </el-col>
             <!-- <el-col :span="12">
@@ -445,6 +463,7 @@ import MyPresale from './MyPresale'
 import MyOpportunity from './MyOpportunity'
 import MyDetail2 from './MyDetail2'
 export default {
+  name: 'MyDialog',
   components: { MyDetail2, MyOpportunity, MyPresale, MyAdvance, MyOrder, MyRepository, MyAccept, MyAgent, MyCustomer, MyRequire, MySupplier, MyApply, MyDetail, MyDelivery, MyEmp },
   props: {
     editcontrol: {
@@ -461,6 +480,46 @@ export default {
       console.log(this.supplierId)
       if (this.salePersonId === undefined || this.salePersonId === null || this.salePersonId === '') {
         callback(new Error('请选择销售人员'))
+      } else {
+        callback()
+      }
+    }
+    const validatePass2 = (rule, value, callback) => {
+      console.log(this.saleRepositoryId)
+      if (this.saleRepositoryId === undefined || this.saleRepositoryId === null || this.saleRepositoryId === '') {
+        callback(new Error('请选择出库仓库'))
+      } else {
+        callback()
+      }
+    }
+    const validatePass3 = (rule, value, callback) => {
+      console.log(1789, this.personalForm.pointSupport)
+      if (Number(this.personalForm.pointSupport) < 0 || Number(this.personalForm.pointSupport) > this.point) {
+        callback(new Error('请输入正确积分'))
+      } else {
+        callback()
+      }
+    }
+    const validatePass4 = (rule, value, callback) => {
+      console.log(89, this.customerId)
+      if (this.customerId === undefined || this.customerId === null || this.customerId === '') {
+        callback(new Error('请输入顾客姓名'))
+      } else {
+        callback()
+      }
+    }
+    const validatePass5 = (rule, value, callback) => {
+      console.log(89, this.customerId)
+      if (this.transferPersonId === undefined || this.transferPersonId === null || this.transferPersonId === '') {
+        callback(new Error('请选择出库人'))
+      } else {
+        callback()
+      }
+    }
+    const validatePass6 = (rule, value, callback) => {
+      console.log(89, this.customerId)
+      if (this.personalForm.outDate === undefined || this.personalForm.outDate === null || this.personalForm.outDate === '') {
+        callback(new Error('请选择出库时间'))
       } else {
         callback()
       }
@@ -565,7 +624,7 @@ export default {
         customerType: [
           { required: true, message: '请选择客户类别', trigger: 'change' }
         ],
-        transDate: [
+        sendDate: [
           { required: true, message: '请选择送货日期', trigger: 'change' }
         ],
         salePersonId: [
@@ -573,6 +632,21 @@ export default {
         ],
         backType: [
           { required: true, message: '请选择回款状态', trigger: 'change' }
+        ],
+        pointSupport: [
+          { validator: validatePass3, trigger: 'change' }
+        ],
+        saleRepositoryId: [
+          { required: true, validator: validatePass2, trigger: 'change' }
+        ],
+        customerId: [
+          { required: true, validator: validatePass4, trigger: 'change' }
+        ],
+        transferPersonId: [
+          { required: true, validator: validatePass5, trigger: 'change' }
+        ],
+        outDate: [
+          { required: true, validator: validatePass6, trigger: 'change' }
         ]
       },
       // 订单明细数据
@@ -598,7 +672,18 @@ export default {
       this.stockPersonId = this.personalForm.stockPersonName
       this.list2 = this.personalForm.saleOutDetailVos
       for (const i in this.list2) {
-        this.list2[i].taxRate = (this.list2[i].taxRate) * 100
+        if (this.list2[i].taxRate < 1) {
+          this.list2[i].taxRate = (this.list2[i].taxRate) * 100
+        }
+      }
+      for (const i in this.list2) {
+        if (this.list2[i].discountRate === 0 || this.list2[i].discountRate === 1) {
+          this.list2[i].discountRate = 100
+          console.log(this.list2[i].discountRate)
+        }
+        if (this.list2[i].discountRate < 1) {
+          this.list2[i].discountRate = (this.list2[i].discountRate) * 100
+        }
       }
       this.list3 = this.personalForm.saleOutGiftVos
       this.customerId = this.personalForm.customerName
@@ -606,8 +691,44 @@ export default {
       this.transferPersonId = this.personalForm.transferPersonName
       this.saleRepositoryId = this.personalForm.saleRepositoryName
       this.outPersonId = this.personalForm.outPersonName
+      this.customerPhone = this.personalForm.customerPhone
       this.updatebatch()
+    },
+    // 监听明细表计算合计
+    list2: {
+      handler(oldval, newval) {
+        let num = 0
+        let num1 = 0
+        let num2 = 0
+        for (const i in this.list2) {
+          // console.log(typeof (this.list2[i].taxprice))
+          num += this.list2[i].quantity
+          num2 += Number(this.list2[i].discountMoney)
+          num1 += this.list2[i].includeTaxCostMoney
+        }
+        this.heji1 = num
+        this.heji3 = num1
+        this.heji4 = num2
+        // console.log(num)
+      },
+      deep: true
+    },
+    list3: {
+      handler(oldval, newval) {
+        let num = 0
+        let num1 = 0
+        for (const i in this.list3) {
+          // console.log(typeof (this.list3[i].taxprice))
+          num += this.list3[i].quantity
+          num1 += this.list3[i].salePrice * num
+        }
+        this.heji9 = num
+        this.heji10 = num1
+        // console.log(num)
+      },
+      deep: true
     }
+
   },
   created() {
     this.getTypes()
@@ -617,14 +738,14 @@ export default {
   methods: {
     test() {
       const list = [...this.list2]
-      console.log(list.length)
+      // console.log(list.length)
       if (list.length === 0) {
         this.ableSubmission = true
         console.log(this.ableSubmission)
       }
     },
     queryStock(row) {
-      console.log(row.productCode)
+      // console.log(row.productCode)
       countlist(0, this.personalForm.saleRepositoryId, row.productCode).then(res => {
         if (res.data.ret === 200) {
           // console.log('res.data.data.content', res.data.data.content)
@@ -651,10 +772,6 @@ export default {
       } else {
         row.discountMoney = (row.taxprice * row.quantity * (1 - row.discountRate / 100)).toFixed(2)
       }
-    },
-    // 初始化税率
-    gettaxRate2(row) {
-      return (row * 100).toFixed(2)
     },
     // 重置一下下拉
     change() {
@@ -829,18 +946,17 @@ export default {
       sums[10] = ''
       sums[11] = ''
       sums[13] = ''
-      sums[14] = ''
       sums[15] = ''
-      sums[18] = ''
+      sums[17] = ''
+      sums[21] = ''
       sums[22] = ''
+      sums[23] = ''
       sums[24] = ''
       sums[25] = ''
-      sums[26] = ''
-      sums[27] = ''
-      this.heji1 = sums[14]
+      this.heji1 = sums[12]
       // this.heji2 = sums[20]
-      this.heji3 = sums[18]
-      this.heji4 = sums[20]
+      this.heji3 = sums[16]
+      this.heji4 = sums[18]
       // this.heji5 = sums[23]
       // this.heji6 = sums[17] - sums[23]
       // this.heji7 = sums[21]
@@ -920,20 +1036,21 @@ export default {
       }
     },
     customerdata(val) {
-      console.log(val)
+      console.log(111, val.phoneNumber)
+      console.log(111, this.personalForm.customerPhone)
       this.personalForm.transAddress = val.address
       this.personalForm.customerId = val.id
       this.customerId = val.customerName
-      this.personalForm.customerPhone = val.phoneNumber
+      this.personalForm.phoneNumber = val.phoneNumber
       this.personalForm.address = val.address
       this.point = val.point
     },
     agentdata(val) {
-      console.log(val)
+      console.log(222, val)
       this.personalForm.transAddress = val.address
       this.personalForm.customerId = val.id
       this.customerId = val.agentName
-      this.personalForm.customerPhone = val.phone
+      this.personalForm.phoneNumber = val.phone
       this.personalForm.address = val.address
       this.point = val.point
     },

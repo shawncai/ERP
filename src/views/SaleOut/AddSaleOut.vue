@@ -211,16 +211,15 @@
             :edit-rules="validRules"
             :summary-method="getSummaries"
             class="click-table1"
-            show-summary
             stripe
             border
             size="medium"
             style="width: 100%"
             @selection-change="handleSelectionChange">
             <el-editable-column type="selection" min-width="55" align="center" fixed="left"/>
-            <el-editable-column :resizable="false" label="序号" min-width="55" align="center" type="index" fixed="left"/>
-            <el-editable-column :resizable="false" prop="productCode" align="center" label="物品编号" min-width="150" fixed="left"/>
-            <el-editable-column :resizable="false" prop="productName" align="center" label="物品名称" min-width="150" fixed="left"/>
+            <el-editable-column label="序号" min-width="55" align="center" type="index" fixed="left"/>
+            <el-editable-column prop="productCode" align="center" label="物品编号" min-width="150" fixed="left"/>
+            <el-editable-column prop="productName" align="center" label="物品名称" min-width="150" fixed="left"/>
             <el-editable-column prop="locationId" align="center" label="货位" min-width="170">
               <!-- <template slot="edit" slot-scope="scope">
                 <el-select v-model="scope.row.locationId" :value="scope.row.locationId" placeholder="请选择货位" filterable clearable style="width: 100%;" @visible-change="updatebatch($event,scope)">
@@ -276,7 +275,7 @@
                   :precision="2"
                   :controls="false"
                   v-model="scope.row.taxRate"
-                  @change="gettaxRate(scope.row)"/>
+                  @input="gettaxRate(scope.row)"/>
               </template>
             </el-editable-column>
             <el-editable-column prop="taxMoney" align="center" label="税额" min-width="170">
@@ -335,15 +334,14 @@
             :edit-rules="validRules"
             :summary-method="getSummaries2"
             class="click-table1"
-            show-summary
             stripe
             border
             size="medium"
             style="width: 100%">
-            <el-editable-column type="selection" width="55" align="center"/>
-            <el-editable-column label="序号" width="55" align="center" type="index"/>
-            <el-editable-column prop="productCode" align="center" label="物品编号" min-width="150px"/>
-            <el-editable-column prop="productName" align="center" label="物品名称" min-width="150px"/>
+            <el-editable-column type="selection" width="55" align="center" fixed="left"/>
+            <el-editable-column label="序号" width="55" align="center" type="index" fixed="left"/>
+            <el-editable-column prop="productCode" align="center" label="物品编号" min-width="150px" fixed="left"/>
+            <el-editable-column prop="productName" align="center" label="物品名称" min-width="150px" fixed="left"/>
             <el-editable-column prop="locationId" align="center" label="货位" min-width="170px">
               <!-- <template slot="edit" slot-scope="scope">
                 <el-select v-model="scope.row.locationId" :value="scope.row.locationId" placeholder="请选择货位" filterable clearable style="width: 100%;" @visible-change="updatebatch($event,scope)">
@@ -366,7 +364,17 @@
                 <p>{{ getMoney(scope.row) }}</p>
               </template>
             </el-editable-column>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0.00, precision: 2}, type: 'visible'}" prop="quantity" align="center" label="数量" min-width="150px"/>
+            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 1.00, precision: 2}, type: 'visible'}" prop="quantity" align="center" label="数量" min-width="150px">
+              <template slot="edit" slot-scope="scope">
+                <el-input-number
+                  :precision="2"
+                  :controls="true"
+                  :min="1.00"
+                  v-model="scope.row.quantity"
+                  @change="queryStock(scope.row)"
+                />
+              </template>
+            </el-editable-column>
           </el-editable>
         </div>
       </el-card>
@@ -700,6 +708,41 @@ export default {
       moreaction: [],
       // 可否提交
       ableSubmission: true
+    }
+  },
+  watch: {
+    list2: {
+      handler(oldval, newval) {
+        let num = 0
+        let num1 = 0
+        let num2 = 0
+        for (const i in this.list2) {
+          // console.log(typeof (this.list2[i].taxprice))
+          num += this.list2[i].quantity
+          num2 += Number(this.list2[i].discountMoney)
+          num1 += this.list2[i].includeTaxCostMoney
+        }
+        this.heji1 = num
+        this.heji3 = num1
+        this.heji4 = num2
+        // console.log(num)
+      },
+      deep: true
+    },
+    list3: {
+      handler(oldval, newval) {
+        let num = 0
+        let num1 = 0
+        for (const i in this.list3) {
+          // console.log(typeof (this.list3[i].taxprice))
+          num += this.list3[i].quantity
+          num1 += this.list3[i].salePrice * num
+        }
+        this.heji9 = num
+        this.heji10 = num1
+        // console.log(num)
+      },
+      deep: true
     }
   },
   created() {

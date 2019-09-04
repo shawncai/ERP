@@ -167,16 +167,16 @@
             <el-editable-column prop="point" align="center" label="商品积分" />
             <el-editable-column prop="quantity" align="center" label="出库数量" />
             <el-editable-column prop="retreatQuantity" align="center" label="退货数量" />
-            <el-editable-column prop="salePrice" align="center" label="零售价" />
-            <el-editable-column prop="costPrice" align="center" label="成本价" />
-            <el-editable-column prop="taxprice" align="center" label="含税价" />
-            <el-editable-column prop="costMoney" align="center" label="成本金额" />
-            <el-editable-column prop="includeTaxMoney" align="center" label="含税金额" />
+            <!-- <el-editable-column prop="salePrice" align="center" label="零售价" />
+            <el-editable-column prop="costPrice" align="center" label="成本价" /> -->
+            <el-editable-column prop="taxprice" align="center" label="出库价" />
+            <!-- <el-editable-column prop="costMoney" align="center" label="成本金额" />
+            <el-editable-column prop="includeTaxMoney" align="center" label="含税金额" /> -->
             <el-editable-column prop="taxRate" align="center" label="税率(%)" />
             <el-editable-column prop="taxMoney" align="center" label="税额" />
-            <el-editable-column prop="money" align="center" label="金额" />
-            <el-editable-column prop="includeTaxCostMoney" align="center" label="含税成本金额" />
-            <el-editable-column prop="discountRate" align="center" label="折扣(%)" />
+            <!-- <el-editable-column prop="money" align="center" label="金额" /> -->
+            <el-editable-column prop="includeTaxCostMoney" align="center" label="出库金额" />
+            <el-editable-column :formatter="formatter" prop="discountRate" align="center" label="折扣(%)"/>
             <el-editable-column prop="discountMoney" align="center" label="折扣额" />
             <el-editable-column prop="carCode" align="center" label="车架编码" />
             <el-editable-column prop="motorCode" align="center" label="电机编码" />
@@ -223,19 +223,19 @@
                   <span>{{ personalForm.allQuantity }}</span>
                 </el-form-item>
               </el-col>
-              <el-col :span="12">
+              <!-- <el-col :span="12">
                 <el-form-item :label="$t('SaleOut.heji2')" style="width: 100%;">
                   <span>{{ personalForm.allMoney }}</span>
                 </el-form-item>
-              </el-col>
+              </el-col> -->
               <el-col :span="12">
                 <el-form-item :label="$t('SaleOut.heji3')" style="width: 100%;">
-                  <span>{{ personalForm.allIncludeTaxMoney }}</span>
+                  <span>{{ personalForm.allIncludeTaxCostMoney }}</span>
                 </el-form-item>
               </el-col>
               <el-col :span="12">
                 <el-form-item :label="$t('SaleOut.heji4')" style="width: 100%;">
-                  <span>{{ personalForm.allTaxMoney }}</span>
+                  <span>{{ personalForm.allIncludeTaxCostMoney }}</span>
                 </el-form-item>
               </el-col>
               <!-- <el-col :span="12">
@@ -356,8 +356,13 @@
           <el-form ref="personalForm2" :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
             <el-row>
               <el-col :span="12">
-                <el-form-item :label="$t('SaleOut.heji2')" style="width: 100%;">
-                  <span>{{ personalForm.allMoney }}</span>
+                <el-form-item :label="$t('SaleOut.heji3')" style="width: 100%;">
+                  <span>{{ personalForm.allIncludeTaxCostMoney }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('SaleOut.heji4')" style="width: 100%;">
+                  <span>{{ personalForm.allDiscountMoney }}</span>
                 </el-form-item>
               </el-col>
               <el-col :span="12">
@@ -372,12 +377,12 @@
               </el-col>
               <el-col :span="12">
                 <el-form-item :label="$t('SaleOut.profit')" style="width: 100%;">
-                  <span>{{ personalForm.allMoney - personalForm.allCostMoney }}</span>
+                  <span>{{ personalForm.allIncludeTaxCostMoney - personalForm.allDiscountMoney - personalForm.otherMoney - personalForm.allCostMoney }}</span>
                 </el-form-item>
               </el-col>
               <el-col :span="12">
                 <el-form-item :label="$t('SaleOut.ProfitMargin')" style="width: 100%;">
-                  <span>{{ (personalForm.allMoney - personalForm.allCostMoney) / personalForm.allCostMoney }}</span>
+                  <span>{{ (personalForm.allIncludeTaxCostMoney - personalForm.allDiscountMoney - personalForm.otherMoney - personalForm.allCostMoney) / personalForm.allCostMoney }}</span>
                 </el-form-item>
               </el-col>
             </el-row>
@@ -508,6 +513,14 @@ export default {
     }
   },
   methods: {
+    // 格式化折扣
+    formatter(row, column) {
+      if (row.discountRate === 1) {
+        return 100
+      } else {
+        return row.discountRate
+      }
+    },
     // 计划金额
     planMoney(row) {
       row.planMoney = row.basicPrice * row.planQuantity
