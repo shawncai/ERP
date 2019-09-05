@@ -137,6 +137,7 @@
 import '@/directive/noMoreClick/index.js'
 import { getcountrylist, getprovincelist, getcitylist } from '@/api/public'
 import { searchCusCategory, addagent } from '@/api/Customer'
+import { searchCategory } from '@/api/Supplier'
 import permission from '@/directive/permission/index.js' // 权限判断指令
 import permission2 from '@/directive/permission2/index.js' // 权限判断指令
 import checkPermission from '@/utils/permission' // 权限判断函数
@@ -246,7 +247,7 @@ export default {
     // 获取类型
     getCategory() {
       // 获取运送方式
-      searchCusCategory(this.deliverymodedata).then(res => {
+      searchCategory(3).then(res => {
         if (res.data.ret === 200) {
           this.deliverymodes = res.data.data.content.list
         } else {
@@ -258,7 +259,7 @@ export default {
         }
       })
       // 获取交货方式
-      searchCusCategory(this.transmodedata).then(res => {
+      searchCategory(2).then(res => {
         if (res.data.ret === 200) {
           this.transmodes = res.data.data.content.list
         } else {

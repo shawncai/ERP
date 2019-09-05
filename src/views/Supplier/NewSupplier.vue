@@ -578,6 +578,7 @@ export default {
       searchCategory(3).then(res => {
         if (res.data.ret === 200) {
           this.transportIds = res.data.data.content.list
+          1
         }
       })
       // 优质级别

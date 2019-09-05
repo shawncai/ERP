@@ -119,7 +119,7 @@
           <el-button :disabled="Isproduct" @click="handleAddproduct">添加商品</el-button>
           <my-detail :control.sync="control" @product="productdetail"/>
           <el-button :disabled="IsSourceNumber" style="width: 130px" @click="handleAddSource">从源单中选择</el-button>
-          <my-saleout :saleoutcontrol.sync="saleoutcontrol" :customertype.sync="personalForm.customerType" :customerid.sync="customerId" @saleOutDetail="saleOutDetail" @saleOutdata="saleOutdata"/>
+          <my-saleout :saleoutcontrol.sync="saleoutcontrol" :customertype="personalForm.customerType" :customerid="personalForm.customerId" @saleOutDetail="saleOutDetail" @saleOutdata="saleOutdata"/>
           <el-button type="danger" @click="$refs.editable.removeSelecteds()">删除</el-button>
           <el-button type="primary" @click="checkStock()">库存快照</el-button>
         </div>
@@ -161,15 +161,15 @@
             <el-editable-column prop="color" align="center" label="颜色" min-width="150px"/>
             <el-editable-column prop="kpiGrade" align="center" label="绩效分" min-width="150px"/>
             <el-editable-column prop="point" align="center" label="商品积分" min-width="150px"/>
-            <el-editable-column prop="salePrice" align="center" label="零售价" min-width="150px"/>
-            <el-editable-column prop="costPrice" align="center" label="成本价" min-width="150px"/>
-            <el-editable-column prop="taxprice" align="center" label="含税价" min-width="150px"/>
-            <el-editable-column prop="costMoney" align="center" label="成本金额" min-width="150px"/>
-            <el-editable-column prop="includeTaxMoney" align="center" label="含税金额" min-width="150px"/>
+            <el-editable-column v-if="false" prop="salePrice" align="center" label="零售价" min-width="150px"/>
+            <el-editable-column v-if="false" prop="costPrice" align="center" label="成本价" min-width="150px"/>
+            <el-editable-column prop="taxprice" align="center" label="销售单价" min-width="150px"/>
+            <el-editable-column v-if="false" prop="costMoney" align="center" label="成本金额" min-width="150px"/>
+            <el-editable-column v-if="false" prop="includeTaxMoney" align="center" label="含税金额" min-width="150px"/>
             <el-editable-column prop="taxRate" align="center" label="税率(%)" min-width="150px"/>
             <el-editable-column prop="taxMoney" align="center" label="税额" min-width="150px"/>
-            <el-editable-column prop="money" align="center" label="金额" min-width="150px"/>
-            <el-editable-column prop="includeTaxCostMoney" align="center" label="含税成本金额" min-width="150px"/>
+            <el-editable-column v-if="false" prop="money" align="center" label="金额" min-width="150px"/>
+            <el-editable-column prop="includeTaxCostMoney" align="center" label="销售金额" min-width="150px"/>
             <el-editable-column prop="discount" align="center" label="折扣" min-width="150px"/>
             <el-editable-column prop="discountMoney" align="center" label="折扣额" min-width="150px"/>
             <el-editable-column prop="alreadyReturnQuantity" align="center" label="已退货数量" min-width="150px"/>
@@ -389,6 +389,7 @@ export default {
         repositoryId: this.$store.getters.repositoryId,
         regionId: this.$store.getters.regionId,
         customerType: '1',
+        customerId: 0,
         sourceType: '2',
         exchangeRate: '1.0000',
         currency: '1'
@@ -657,6 +658,7 @@ export default {
     },
     // 选择客户类型时清理客户名称
     clearCustomer() {
+      console.log(this.personalForm.customerType)
       this.personalForm.customerId = ''
       this.customerId = ''
     },
@@ -667,16 +669,17 @@ export default {
       } else if (this.personalForm.customerType === '2') {
         this.customercontrol = true
       }
+      console.log(this.personalForm.customerId)
     },
     customerdata(val) {
-      console.log('customer', val)
+      console.log('customer', this.personalForm.customerId)
       this.personalForm.customerId = val.id
       this.customerId = val.customerName
       this.personalForm.customerPhone = val.phoneNumber
       this.personalForm.receiveAddress = val.address
     },
     agentdata(val) {
-      console.log('agent', val)
+      console.log('agent', this.personalForm.customerId)
       this.personalForm.customerId = val.id
       this.customerId = val.agentName
       this.personalForm.customerPhone = val.phone

@@ -209,11 +209,13 @@ export default {
   created() {
     this.getnationlist()
     this.getCategory()
+    this.jungleshow()
   },
   methods: {
     jungleshow() {
       const roles = this.$store.getters.roles
       this.isshow = roles.includes('1-14-21-1')
+      console.log(this.isshow)
     },
     checkPermission,
     // 获取类型
