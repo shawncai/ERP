@@ -359,7 +359,7 @@ export default {
       // 控制添加商品按钮是否可以点击
       Isproduct: false,
       // 回显门店
-      saleRepositoryId: '',
+      saleRepositoryId: this.$store.getters.repositoryName,
       // 回显客户
       customerId: '',
       // 控制客户
@@ -392,7 +392,8 @@ export default {
         customerId: 0,
         sourceType: '2',
         exchangeRate: '1.0000',
-        currency: '1'
+        currency: '1',
+        saleRepositoryId: this.$store.getters.repositoryId
       },
       // 销售订单规则数据
       personalrules: {
@@ -731,10 +732,14 @@ export default {
         createPersonId: this.$store.getters.userId,
         countryId: this.$store.getters.countryId,
         repositoryId: this.$store.getters.repositoryId,
-        regionId: this.$store.getters.regionId
+        regionId: this.$store.getters.regionId,
+        saleRepositoryId: this.$store.getters.repositoryId,
+        currency: '1'
       }
       this.customerId = null
       this.salePersonId = null
+      this.saleRepositoryId = this.$store.getters.repositoryName
+      this.getdatatime()
     },
     // 深拷贝
     deepClone(obj) {

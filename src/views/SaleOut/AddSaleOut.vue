@@ -209,17 +209,16 @@
             :data.sync="list2"
             :edit-config="{ showIcon: true, showStatus: true}"
             :edit-rules="validRules"
-            :summary-method="getSummaries"
             class="click-table1"
             stripe
             border
             size="medium"
             style="width: 100%"
             @selection-change="handleSelectionChange">
-            <el-editable-column type="selection" min-width="55" align="center" fixed="left"/>
-            <el-editable-column label="序号" min-width="55" align="center" type="index" fixed="left"/>
-            <el-editable-column prop="productCode" align="center" label="物品编号" min-width="150" fixed="left"/>
-            <el-editable-column prop="productName" align="center" label="物品名称" min-width="150" fixed="left"/>
+            <el-editable-column type="selection" min-width="55" align="center" />
+            <el-editable-column :fixed="isfixed" label="序号" min-width="55" align="center" type="index"/>
+            <el-editable-column :fixed="isfixed" prop="productCode" align="center" label="物品编号" min-width="150"/>
+            <el-editable-column :fixed="isfixed" prop="productName" align="center" label="物品名称" min-width="150"/>
             <el-editable-column :edit-render="{type: 'default'}" prop="locationId" align="center" label="货位" width="170">
               <template slot-scope="scope">
                 <el-select v-model="scope.row.locationId" :value="scope.row.locationId" placeholder="请选择货位" filterable clearable style="width: 100%;" @visible-change="updatebatch($event,scope)">
@@ -582,6 +581,8 @@ export default {
       },
       // 积分信息
       point: 0,
+      // 滚动判断
+      isfixed: false,
       // 合计信息
       heji1: '',
       heji2: '',
@@ -727,6 +728,13 @@ export default {
   watch: {
     list2: {
       handler(oldval, newval) {
+        console.log(this.list2.length)
+        if (this.list2.length !== 0) {
+          this.isfixed = true
+          console.log('可以滚动')
+        } else {
+          this.isfixed = false
+        }
         let num = 0
         let num1 = 0
         let num2 = 0
