@@ -1,5 +1,5 @@
 <template>
-  <el-dialog :visible.sync="employeeVisible" :saleoutcontrol="saleoutcontrol" :close-on-press-escape="false" top="10px" title="选择销售出库单" append-to-body width="1100px" @close="$emit('update:saleoutcontrol', false)">
+  <el-dialog :visible.sync="employeeVisible" :saleoutcontrol="saleoutcontrol" :customertype="personalForm.customerType" :customerid="customerId" :close-on-press-escape="false" top="10px" title="选择销售出库单" append-to-body width="1100px" @close="$emit('update:saleoutcontrol', false)">
     <el-card class="box-card" style="margin-top: 15px;height: 60px;padding-left:0 " shadow="never">
       <el-row>
         <el-form ref="getemplist" :model="getemplist" style="margin-top: -9px">
@@ -169,6 +169,14 @@ export default {
     saleoutcontrol: {
       type: Boolean,
       default: false
+    },
+    customertype: {
+      type: null,
+      default: null
+    },
+    customerid: {
+      type: null,
+      default: null
     }
   },
   data() {
@@ -228,12 +236,14 @@ export default {
       // 加载表格
       listLoading: true,
       // 采购申请查询加展示参数
-      ggetemplist: {
+      getemplist: {
         pageNum: 1,
         pageSize: 10,
         judgeStat: 2,
         repositoryId: this.$store.getters.repositoryId,
-        regionIds: this.$store.getters.regionId
+        regionIds: this.$store.getters.regionId,
+        customerType: '1',
+        customerId: this.customerid
       },
       // 传给组件的数据
       personalForm: {},

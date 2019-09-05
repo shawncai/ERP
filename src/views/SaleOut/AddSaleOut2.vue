@@ -76,8 +76,8 @@
               <el-col :span="6">
                 <el-form-item :label="$t('SaleOut.saleType')" style="width: 100%;">
                   <el-select v-model="personalForm.saleType" style="margin-left: 18px;width: 200px">
-                    <el-option value="1" label="类别1"/>
-                    <el-option value="2" label="类别2"/>
+                    <el-option value="1" label="零售" />
+                    <el-option value="2" label="批发" />
                   </el-select>
                 </el-form-item>
               </el-col>
@@ -160,8 +160,8 @@
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('SaleOut.pointSupport')+`(${point})`" prop="pointSupport" style="width: 100%;">
-                  <el-input v-model="personalForm.pointSupport" style="margin-left: 18px;width: 200px"/>
+                <el-form-item :label="$t('SaleOut.pointSupport')+`(${point || '无'})`" prop="pointSupport" style="width: 100%;">
+                  <el-input v-model="personalForm.pointSupport" :disabled="personalForm.customerType === '1'" style="margin-left: 18px;width: 200px"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">

@@ -1638,6 +1638,7 @@ export default {
     customerName: '客户姓名',
     customerPhone: '客户电话',
     closeType: '结算方式',
+    exchangeRate: '汇率',
     customerType: '客户类型',
     payType: '支付方式',
     salePersonId: '销售员',

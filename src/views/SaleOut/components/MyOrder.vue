@@ -356,6 +356,7 @@ export default {
     // 选择主生产计划数据时的操作
     handleCurrentChange(val) {
       this.choosedata = val
+      console.log('tczjx', val)
     },
     // 确认添加数据
     handleConfirm() {
@@ -394,6 +395,7 @@ export default {
           sourceSerialNumber: item.id
         }
       })
+      console.log(58520, saleOrderDetail)
       this.$emit('saleOrderDetail', saleOrderDetail)
       this.$emit('saleOrder', this.choosedata)
     }

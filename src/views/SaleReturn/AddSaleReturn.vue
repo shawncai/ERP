@@ -20,12 +20,12 @@
                   </el-select>
                 </el-form-item>
               </el-col>
-              <el-col :span="6">
+              <!-- <el-col :span="6">
                 <el-form-item :label="$t('SaleReturn.sourceNumber')" style="width: 100%;">
                   <el-input v-model="personalForm.sourceNumber" :disabled="IsNumber" style="margin-left: 18px;width:200px" @focus="choosesaleout"/>
                 </el-form-item>
                 <my-saleout :saleoutcontrol.sync="saleoutcontrol" @saleOutDetail="saleOutDetail" @saleOutdata="saleOutdata"/>
-              </el-col>
+              </el-col> -->
               <el-col :span="6">
                 <el-form-item :label="$t('SaleReturn.customerType')" prop="customerType" style="width: 100%;">
                   <el-select v-model="personalForm.customerType" style="margin-left: 18px;width:200px" @change="clearCustomer">
@@ -89,6 +89,7 @@
                 <el-form-item :label="$t('SaleReturn.returnDate')" prop="returnDate" style="width: 100%;">
                   <el-date-picker
                     v-model="personalForm.returnDate"
+                    :picker-options="pickerOptions1"
                     type="date"
                     value-format="yyyy-MM-dd"
                     style="margin-left: 18px;width:200px"/>
@@ -96,10 +97,15 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('SaleReturn.currency')" prop="currency" style="width: 100%;">
-                  <el-select v-model="personalForm.currency" style="margin-left: 18px;width:200px">
+                  <el-select v-model="personalForm.currency" style="margin-left: 18px;width:200px" @change="changeRate">
                     <el-option value="1" label="RMB"/>
                     <el-option value="2" label="USD"/>
                   </el-select>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item :label="$t('SaleReturn.exchangeRate')" style="width: 100%;">
+                  <el-input v-model="personalForm.exchangeRate" style="margin-left: 18px;width:200px" disabled/>
                 </el-form-item>
               </el-col>
             </el-row>
@@ -112,6 +118,8 @@
         <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
           <el-button :disabled="Isproduct" @click="handleAddproduct">添加商品</el-button>
           <my-detail :control.sync="control" @product="productdetail"/>
+          <el-button :disabled="IsSourceNumber" style="width: 130px" @click="handleAddSource">从源单中选择</el-button>
+          <my-saleout :saleoutcontrol.sync="saleoutcontrol" :customertype.sync="personalForm.customerType" :customerid.sync="customerId" @saleOutDetail="saleOutDetail" @saleOutdata="saleOutdata"/>
           <el-button type="danger" @click="$refs.editable.removeSelecteds()">删除</el-button>
           <el-button type="primary" @click="checkStock()">库存快照</el-button>
         </div>
@@ -238,7 +246,7 @@
             <el-row>
               <el-col :span="6">
                 <el-form-item :label="$t('SaleReturn.closeStatusId')" prop="closeStatusId" style="width: 100%;">
-                  <el-select v-model="personalForm.closeStatusId" style="margin-left: 18px;width:200px">
+                  <el-select v-model="personalForm.closeStatusId" style="margin-left: 18px;width:200px" disabled>
                     <el-option value="1" label="已结算"/>
                     <el-option value="2" label="未结算"/>
                   </el-select>
@@ -246,12 +254,12 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('SaleReturn.alreadyMoney')" style="width: 100%;">
-                  <el-input v-model="personalForm.alreadyMoney" style="margin-left: 18px;width:200px"/>
+                  <el-input v-model="personalForm.alreadyMoney" style="margin-left: 18px;width:200px" disabled/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('SaleReturn.enterStatusId')" style="width: 100%;">
-                  <el-select v-model="personalForm.enterStatusId" style="margin-left: 18px;width:200px">
+                  <el-select v-model="personalForm.enterStatusId" style="margin-left: 18px;width:200px" disabled>
                     <el-option value="1" label="已入库"/>
                     <el-option value="2" label="未入库"/>
                   </el-select>
@@ -303,7 +311,7 @@
 import '@/directive/noMoreClick/index.js'
 import { createsaleReturn } from '@/api/SaleReturn'
 import { searchCategory } from '@/api/Supplier'
-import { getlocation, locationlist, countlist } from '@/api/public'
+import { getlocation, locationlist, countlist, getRate } from '@/api/public'
 import MyEmp from './components/MyEmp'
 import MyDelivery from '../DailyAdjust/components/MyDelivery'
 import MyDetail from './components/MyDetail'
@@ -325,6 +333,13 @@ export default {
       }
     }
     return {
+      pickerOptions1: {
+        disabledDate: (time) => {
+          return time.getTime() < new Date().getTime() - 8.64e7
+        }
+      },
+      // 控制是否从源单添加
+      IsSourceNumber: true,
       // 控制源单
       saleoutcontrol: false,
       // 合计信息
@@ -342,7 +357,7 @@ export default {
       // 控制源单编码是否可以选择
       IsNumber: true,
       // 控制添加商品按钮是否可以点击
-      Isproduct: true,
+      Isproduct: false,
       // 回显门店
       saleRepositoryId: '',
       // 回显客户
@@ -353,7 +368,7 @@ export default {
       // 选择的数据
       choosedata: [],
       // 销售人员回显
-      salePersonId: '',
+      salePersonId: this.$store.getters.name,
       // 控制销售人员
       stockControl: false,
       // 结算方式数据
@@ -373,7 +388,10 @@ export default {
         countryId: this.$store.getters.countryId,
         repositoryId: this.$store.getters.repositoryId,
         regionId: this.$store.getters.regionId,
-        customerType: '1'
+        customerType: '1',
+        sourceType: '2',
+        exchangeRate: '1.0000',
+        currency: '1'
       },
       // 销售订单规则数据
       personalrules: {
@@ -415,8 +433,52 @@ export default {
   },
   created() {
     this.getTypes()
+    this.getdatatime()
+    this.chooseSource()
   },
   methods: {
+    // 添加源单操作
+    handleAddSource() {
+      this.saleoutcontrol = true
+      console.log(123)
+    },
+    // 汇率变化
+    changeRate() {
+      console.log(123)
+      if (this.personalForm.currency === '2') {
+        getRate(this.personalForm.currency).then(res => {
+          console.log(res)
+          if (res.data.ret === 200) {
+            // console.log('res.data.data.content', res.data.data.content)
+            this.personalForm.exchangeRate = res.data.data.content.rate
+          } else {
+            this.$notify.error({
+              title: '错误',
+              message: res.data.msg,
+              offset: 100
+            })
+          }
+        })
+      } else if (this.personalForm.currency === '1') {
+        this.personalForm.exchangeRate = '1.0000'
+      }
+    },
+    // 默认显示今天
+    getdatatime() { // 默认显示今天
+      var date = new Date()
+      var seperator1 = '-'
+      var year = date.getFullYear()
+      var month = date.getMonth() + 1
+      var strDate = date.getDate()
+      if (month >= 1 && month <= 9) {
+        month = '0' + month
+      }
+      if (strDate >= 0 && strDate <= 9) {
+        strDate = '0' + strDate
+      }
+      var currentdate = year + seperator1 + month + seperator1 + strDate
+      this.personalForm.returnDate = currentdate
+    },
     checkStock(row) {
       console.log('this.moreaction.length', this.moreaction.length)
       if (this.moreaction.length > 1 || this.moreaction.length === 0) {
@@ -443,9 +505,9 @@ export default {
       this.moreaction = val
     },
     // 选择源单
-    choosesaleout() {
-      this.saleoutcontrol = true
-    },
+    // choosesaleout() {
+    //   this.saleoutcontrol = true
+    // },
     saleOutDetail(val) {
       this.$refs.editable.clear()
       for (let i = 0; i < val.length; i++) {
@@ -499,10 +561,12 @@ export default {
       if (val === '1') {
         this.Isproduct = true
         this.IsNumber = false
+        this.IsSourceNumber = false
       } else if (val === '2') {
         this.Isproduct = false
         this.IsNumber = true
         this.personalForm.sourceNumber = ''
+        this.IsSourceNumber = true
       }
     },
     // 总计
@@ -605,14 +669,18 @@ export default {
       }
     },
     customerdata(val) {
+      console.log('customer', val)
       this.personalForm.customerId = val.id
       this.customerId = val.customerName
       this.personalForm.customerPhone = val.phoneNumber
+      this.personalForm.receiveAddress = val.address
     },
     agentdata(val) {
+      console.log('agent', val)
       this.personalForm.customerId = val.id
       this.customerId = val.agentName
       this.personalForm.customerPhone = val.phone
+      this.personalForm.receiveAddress = val.address
     },
     // 无来源添加商品
     handleAddproduct() {

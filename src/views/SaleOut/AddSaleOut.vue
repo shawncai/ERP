@@ -66,8 +66,8 @@
               <el-col :span="6">
                 <el-form-item :label="$t('SaleOut.saleType')" style="width: 100%;">
                   <el-select v-model="personalForm.saleType" style="margin-left: 18px;width: 200px">
-                    <el-option value="1" label="类别1"/>
-                    <el-option value="2" label="类别2"/>
+                    <el-option value="1" label="零售" />
+                    <el-option value="2" label="批发" />
                   </el-select>
                 </el-form-item>
               </el-col>
@@ -150,8 +150,8 @@
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('SaleOut.pointSupport')+`(${point})`" prop="pointSupport" style="width: 100%;">
-                  <el-input v-model="personalForm.pointSupport" style="margin-left: 18px;width: 200px"/>
+                <el-form-item :label="$t('SaleOut.pointSupport')+`(${point || '无'})`" prop="pointSupport" style="width: 100%;">
+                  <el-input v-model="personalForm.pointSupport" :disabled="personalForm.customerType === '1'" style="margin-left: 18px;width: 200px"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
@@ -220,8 +220,8 @@
             <el-editable-column label="序号" min-width="55" align="center" type="index" fixed="left"/>
             <el-editable-column prop="productCode" align="center" label="物品编号" min-width="150" fixed="left"/>
             <el-editable-column prop="productName" align="center" label="物品名称" min-width="150" fixed="left"/>
-            <el-editable-column prop="locationId" align="center" label="货位" min-width="170">
-              <!-- <template slot="edit" slot-scope="scope">
+            <el-editable-column :edit-render="{type: 'default'}" prop="locationId" align="center" label="货位" width="170">
+              <template slot-scope="scope">
                 <el-select v-model="scope.row.locationId" :value="scope.row.locationId" placeholder="请选择货位" filterable clearable style="width: 100%;" @visible-change="updatebatch($event,scope)">
                   <el-option
                     v-for="(item, index) in locationlist"
@@ -229,12 +229,23 @@
                     :value="item.id"
                     :label="item.locationCode"/>
                 </el-select>
-              </template> -->
+              </template>
             </el-editable-column>
-            <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="batch" align="center" label="批次" min-width="150"/>
+            <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="batch" align="center" label="批次" min-width="150" >
+              <template slot="edit" slot-scope="scope">
+                <el-select v-if="scope.row.batch !== '不使用'" v-model="scope.row.batch" :value="scope.row.batch" placeholder="请选择批次" filterable clearable style="width: 100%;" @visible-change="updatebatch2($event,scope)">
+                  <el-option
+                    v-for="(item, index) in batchlist"
+                    :key="index"
+                    :value="item"
+                    :label="item"/>
+                </el-select>
+                <span v-else>{{ scope.row.batch }}</span>
+              </template>
+            </el-editable-column>
             <el-editable-column prop="categoryName" align="center" label="物品分类" min-width="150"/>
             <el-editable-column prop="unit" align="center" label="基本单位" min-width="150"/>
-            <el-editable-column prop="typeName" align="center" label="规格型号" min-width="150"/>
+            <el-editable-column prop="typeId" align="center" label="规格型号" min-width="150"/>
             <el-editable-column prop="color" align="center" label="颜色" min-width="150"/>
             <el-editable-column prop="kpiGrade" align="center" label="绩效分" min-width="150"/>
             <el-editable-column prop="point" align="center" label="商品积分" min-width="150"/>
@@ -484,7 +495,7 @@
 import '@/directive/noMoreClick/index.js'
 import { createsaleOut } from '@/api/SaleOut'
 import { searchSaleCategory } from '@/api/SaleCategory'
-import { getlocation, locationlist, countlist3, countlist } from '@/api/public'
+import { getlocation, locationlist, countlist3, countlist, batchlist } from '@/api/public'
 import MyEmp from './components/MyEmp'
 import MyDelivery from '../DailyAdjust/components/MyDelivery'
 import MyDetail from './components/MyDetail'
@@ -707,7 +718,9 @@ export default {
       // 批量操作
       moreaction: [],
       // 可否提交
-      ableSubmission: true
+      ableSubmission: true,
+      // 批次列表
+      batchlist: []
     }
   },
   watch: {
@@ -971,6 +984,21 @@ export default {
         })
       }
     },
+    updatebatch3(scope) {
+      const parms3 = scope.row.productCode
+      batchlist(this.personalForm.outRepositoryId, parms3).then(res => {
+        this.batchlist = res.data.data.content
+      })
+    },
+    updatebatch2(event, scope) {
+      if (event === true) {
+        const parms3 = scope.row.productCode
+        batchlist(this.personalForm.outRepositoryId, parms3).then(res => {
+          console.log(res)
+          this.batchlist = res.data.data.content
+        })
+      }
+    },
     chooseSourceType(val) {
       console.log(val)
       if (val === '5' || val === undefined) {
@@ -1208,7 +1236,6 @@ export default {
       this.customerId = val.agentName
       this.personalForm.customerPhone = val.phone
       this.personalForm.address = val.address
-      this.point = val.point
     },
     // 从源单添加商品
     handleAddSource() {
