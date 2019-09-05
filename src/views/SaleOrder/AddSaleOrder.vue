@@ -487,7 +487,7 @@ export default {
       // 回显职务
       roleId: '',
       // 回显门店
-      saleRepositoryId: '',
+      saleRepositoryId: this.$store.getters.repositoryName,
       // 回显客户
       customerId: '',
       payModes: [],
@@ -501,7 +501,7 @@ export default {
       // 控制添加商品按钮是否可以点击
       Isproduct: false,
       // 销售人员回显
-      salePersonId: '',
+      salePersonId: this.$store.getters.name,
       // 控制销售人员
       stockControl: false,
       // 控制源单编码是否可以选择
@@ -531,8 +531,10 @@ export default {
       // 销售订单信息数据
       personalForm: {
         createPersonId: this.$store.getters.userId,
+        salePersonId: this.$store.getters.userId,
         countryId: this.$store.getters.countryId,
         repositoryId: this.$store.getters.repositoryId,
+        saleRepositoryId: this.$store.getters.repositoryId,
         regionId: this.$store.getters.regionId,
         customerType: '1',
         backType: '2',
@@ -669,10 +671,12 @@ export default {
         this.Isproduct = true
         this.IsNumber = false
         this.$refs.editable.clear()
+        this.personalForm.sourceNumber = ''
       } else if (val === '1') {
         this.Isproduct = false
         this.IsNumber = true
         this.$refs.editable.clear()
+        this.personalForm.sourceNumber = ''
       }
     },
     // 无来源添加商品
@@ -900,11 +904,14 @@ export default {
         backMoney: '0.00',
         sendType: '2',
         currency: '1',
-        transDate: null
+        transDate: null,
+        saleRepositoryId: this.$store.getters.repositoryId,
+        salePersonId: this.$store.getters.userId
       }
+      this.salePersonId = this.$store.getters.name
       this.customerId = null
       this.salePersonId = null
-      this.saleRepositoryId = null
+      this.saleRepositoryId = this.$store.getters.repositoryName
       this.roleId = null
     },
     // 深拷贝

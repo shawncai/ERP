@@ -113,8 +113,10 @@
           border
           size="medium"
           style="width: 100%">
-          <el-editable-column type="selection" width="55" align="center"/>
-          <el-editable-column type="index" align="center" label="编号" width="150px" />
+          <el-editable-column type="selection" fixed width="55" align="center"/>
+          <el-editable-column type="index" fixed align="center" label="编号" width="150px" />
+          <el-editable-column prop="productCode" fixed align="center" label="物品编号" width="150px"/>
+          <el-editable-column prop="productName" fixed align="center" label="物品名称" width="150px"/>
           <el-editable-column :edit-render="{type: 'default'}" prop="locationId" align="center" label="货位" width="200px">
             <template slot-scope="scope">
               <el-select v-model="scope.row.locationId" :value="scope.row.locationId" placeholder="请选择货位" filterable clearable style="width: 100%;" @visible-change="updatebatch($event,scope)">
@@ -126,8 +128,6 @@
               </el-select>
             </template>
           </el-editable-column>
-          <el-editable-column prop="productCode" align="center" label="物品编号" width="150px"/>
-          <el-editable-column prop="productName" align="center" label="物品名称" width="150px"/>
           <el-editable-column prop="color" align="center" label="颜色" width="150px"/>
           <el-editable-column prop="productType" align="center" label="规格" width="150px"/>
           <el-editable-column prop="unit" align="center" label="单位" width="150px"/>
