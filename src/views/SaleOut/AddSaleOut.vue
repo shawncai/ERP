@@ -321,9 +321,12 @@
                   @input="getdiscountMoney(scope.row)"/>
               </template>
             </el-editable-column>
-            <el-editable-column prop="carCode" align="center" label="车架编码" min-width="150px"/>
-            <el-editable-column prop="motorCode" align="center" label="电机编码" min-width="150px"/>
-            <el-editable-column prop="batteryCode" align="center" label="电池编码" min-width="150px"/>
+            <el-editable-column v-if="isEdit" :edit-render="{name: 'ElInput', type: 'visible'}" prop="carCode" align="center" label="车架编码" min-width="150px"/>
+            <el-editable-column v-else prop="carCode" align="center" label="车架编码" min-width="150px"/>
+            <el-editable-column v-if="isEdit" :edit-render="{name: 'ElInput', type: 'visible'}" prop="motorCode" align="center" label="电机编码" min-width="150px"/>
+            <el-editable-column v-else prop="motorCode" align="center" label="电机编码" min-width="150px"/>
+            <el-editable-column v-if="isEdit" :edit-render="{name: 'ElInput', type: 'visible'}" prop="batteryCode" align="center" label="电池编码" min-width="150px"/>
+            <el-editable-column v-else prop="batteryCode" align="center" label="电池编码" min-width="150px"/>
             <el-editable-column prop="sourceNumber" align="center" label="源单编号" min-width="150px"/>
             <el-editable-column prop="sourceSerialNumber" align="center" label="源单序号" min-width="150px"/>
           </el-editable>
@@ -583,6 +586,8 @@ export default {
       point: 0,
       // 滚动判断
       isfixed: false,
+      // 判断是否可以编辑
+      isEdit: false,
       // 合计信息
       heji1: '',
       heji2: '',
@@ -1025,6 +1030,12 @@ export default {
     },
     chooseSourceType(val) {
       console.log(val)
+      if (val === '5' || val === '4') {
+        this.isEdit = true
+      } else {
+        this.isEdit = false
+      }
+      console.log('isedit', this.isEdit)
       if (val === '5' || val === undefined) {
         this.Isproduct = false
         this.IsSourceNumber = true
