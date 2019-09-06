@@ -427,12 +427,12 @@ export default {
     },
     // 修改操作
     handleEdit(row) {
-      console.log(row)
+      console.log('修改', row)
       this.editVisible = true
       this.customerForm = Object.assign({}, row)
       this.customerForm.newOrOld = String(row.newOrOld)
-      this.customerForm.transMode = String(row.transMode)
-      this.customerForm.deliveryMode = String(row.deliveryMode)
+      this.customerForm.transMode = String(row.deliveryModeWZ)
+      this.customerForm.deliveryMode = String(row.transModeWZ)
     },
     // 修改组件修改成功后返回
     refreshlist(val) {
