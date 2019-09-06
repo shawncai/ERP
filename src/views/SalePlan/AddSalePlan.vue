@@ -16,18 +16,31 @@
                 <el-form-item :label="$t('SalePlan.planType')" prop="planType" style="width: 100%;">
                   <el-select v-model="personalForm.planType" style="margin-left: 18px;width: 200px">
                     <el-option value="1" label="年"/>
-                    <el-option value="2" label="月"/>
-                    <el-option value="3" label="周"/>
-                    <el-option value="4" label="日"/>
+                    <el-option value="2" label="季"/>
+                    <el-option value="3" label="月"/>
+                    <el-option value="4" label="周"/>
+                    <el-option value="5" label="日"/>
                   </el-select>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('SalePlan.planDate')" style="width: 100%;">
                   <el-date-picker
+                    v-if="personalForm.planType == 5"
                     v-model="personalForm.planDate"
                     type="date"
                     value-format="yyyy-MM-dd"
+                    style="margin-left: 18px;width:200px"/>
+                  <el-input
+                    v-else-if="personalForm.planType == 1"
+                    v-model="personalForm.planDate"
+                    placeholder="2019"
+                    disabled
+                    style="margin-left: 18px;width:200px"/>
+                  <el-input
+                    v-else
+                    v-model="personalForm.planDate"
+                    disabled
                     style="margin-left: 18px;width:200px"/>
                 </el-form-item>
               </el-col>
@@ -246,6 +259,9 @@ export default {
       },
       // 销售订单规则数据
       personalrules: {
+        planType: [
+          { required: true, message: '请选择计划类型', trigger: 'change' }
+        ],
         customerType: [
           { required: true, message: '请选择客户类别', trigger: 'change' }
         ],

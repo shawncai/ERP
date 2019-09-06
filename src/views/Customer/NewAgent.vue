@@ -257,7 +257,7 @@ export default {
     // 获取类型
     getCategory() {
       // 获取运送方式
-      searchCategory(3).then(res => {
+      searchCategory(2).then(res => {
         if (res.data.ret === 200) {
           this.deliverymodes = res.data.data.content.list
         } else {
@@ -269,7 +269,7 @@ export default {
         }
       })
       // 获取交货方式
-      searchCategory(2).then(res => {
+      searchCategory(3).then(res => {
         if (res.data.ret === 200) {
           this.transmodes = res.data.data.content.list
         } else {

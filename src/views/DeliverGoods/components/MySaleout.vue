@@ -1,5 +1,5 @@
 <template>
-  <el-dialog :visible.sync="employeeVisible" :saleoutcontrol="saleoutcontrol" :customertype="personalForm.customerType" :customerid="customerid" :close-on-press-escape="false" top="10px" title="选择销售出库单" append-to-body width="1100px" @close="$emit('update:saleoutcontrol', false)">
+  <el-dialog :visible.sync="employeeVisible" :saleoutcontrol="saleoutcontrol" :close-on-press-escape="false" top="10px" title="选择销售出库单" append-to-body width="1100px" @close="$emit('update:saleoutcontrol', false)">
     <el-card class="box-card" style="margin-top: 15px;height: 60px;padding-left:0 " shadow="never">
       <el-row>
         <el-form ref="getemplist" :model="getemplist" style="margin-top: -9px">
@@ -169,14 +169,6 @@ export default {
     saleoutcontrol: {
       type: Boolean,
       default: false
-    },
-    customertype: {
-      type: null,
-      default: 1
-    },
-    customerid: {
-      type: null,
-      default: 1
     }
   },
   data() {
@@ -244,6 +236,8 @@ export default {
         repositoryId: this.$store.getters.repositoryId,
         regionIds: this.$store.getters.regionId,
         isActive: 1
+        // customerType: this.$store.state.saleout.customertype
+        // customerId: this.$store.state.saleout.customerid
       },
       // 传给组件的数据
       personalForm: {},
@@ -298,10 +292,12 @@ export default {
       }
     },
     customerdata(val) {
+      // console.log('操作', val)
       this.getemplist.customerId = val.id
       this.customerName = val.customerName
     },
     agentdata(val) {
+      // console.log('操作', val)
       this.getemplist.customerId = val.id
       this.customerName = val.agentName
     },
@@ -312,6 +308,7 @@ export default {
     getlist() {
       // 物料需求计划列表数据
       this.listLoading = true
+      this.getemplist.customerType = '1'
       searchsaleOut(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list

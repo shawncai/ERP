@@ -494,7 +494,7 @@
 import '@/directive/noMoreClick/index.js'
 import { createsaleOut } from '@/api/SaleOut'
 import { searchSaleCategory } from '@/api/SaleCategory'
-import { getlocation, locationlist, countlist3, countlist, batchlist } from '@/api/public'
+import { getlocation, locationlist, countlist, batchlist } from '@/api/public'
 import MyEmp from './components/MyEmp'
 import MyDelivery from '../DailyAdjust/components/MyDelivery'
 import MyDetail from './components/MyDetail'
@@ -840,15 +840,15 @@ export default {
         })
         return false
       } else {
-        console.log('this.moreaction.length', this.moreaction.length)
+        console.log('this.moreaction.length', this.moreaction)
         if (this.moreaction.length > 1 || this.moreaction.length === 0) {
           this.$message.error('请选择单个商品')
         } else {
-          countlist3(this.personalForm.saleRepositoryId, this.moreaction[0].productCode).then(res => {
+          countlist(this.personalForm.saleRepositoryId, 0, this.moreaction[0].productCode).then(res => {
             console.log(res)
             if (res.data.ret === 200) {
               console.log('res.data.data.content', res.data.data.content)
-              this.list111 = res.data.data.content
+              this.list111 = res.data.data.content.list
               this.receiptVisible2 = true
             } else {
               this.$notify.error({
@@ -1010,14 +1010,14 @@ export default {
     },
     updatebatch3(scope) {
       const parms3 = scope.row.productCode
-      batchlist(this.personalForm.outRepositoryId, parms3).then(res => {
+      batchlist(this.personalForm.saleRepositoryId, parms3).then(res => {
         this.batchlist = res.data.data.content
       })
     },
     updatebatch2(event, scope) {
       if (event === true) {
         const parms3 = scope.row.productCode
-        batchlist(this.personalForm.outRepositoryId, parms3).then(res => {
+        batchlist(this.personalForm.saleRepositoryId, parms3).then(res => {
           console.log(res)
           this.batchlist = res.data.data.content
         })

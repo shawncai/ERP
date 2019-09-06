@@ -746,10 +746,18 @@ export default {
     },
     queryStock(row) {
       // console.log(row.productCode)
-      countlist(0, this.personalForm.saleRepositoryId, row.productCode).then(res => {
+      countlist(this.personalForm.saleRepositoryId, 0, row.productCode).then(res => {
         if (res.data.ret === 200) {
-          // console.log('res.data.data.content', res.data.data.content)
-          if (!res.data.data.content.list.ableStock || row.quantity > res.data.data.content.list.ableStock) {
+          console.log('res.data.data.content', res.data.data.content)
+          if (res.data.data.content.list.length === 0) {
+            this.$notify.error({
+              title: '错误',
+              message: '仓库内无该物品',
+              offset: 100
+            })
+            this.ableSubmission = false
+          }
+          if (row.quantity > res.data.data.content.list[0].ableStock) {
             this.$notify.error({
               title: '错误',
               message: '出库数量超出了当前可用存量，请修改后再进行确认!',
