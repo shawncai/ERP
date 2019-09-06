@@ -1288,6 +1288,7 @@ export default {
         //     return false
         //   }
         // }
+        val[i].quantity = (val[i].quantity - val[i].alreadyOutQuantity).toFixed(2)
         this.$refs.editable.insert(val[i])
       }
     },

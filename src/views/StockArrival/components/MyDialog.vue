@@ -554,9 +554,18 @@ export default {
       this.ordercontrol = true
     },
     order(val) {
-      this.$refs.editable.clear()
       for (let i = 0; i < val.length; i++) {
-        this.$refs.editable.insert(val[i])
+        // allarrivalQuantity 到货数量
+        if ((val[i].allarrivalQuantity - val[i].returnQuantity) >= val[i].stockQuantity) {
+          this.$notify.error({
+            title: '错误',
+            message: val[i].productCode + '总到货数量-退货数量已达到订单数量',
+            duration: 0
+          })
+        } else {
+          val[i].arrivalQuantity = (val[i].stockQuantity - val[i].allarrivalQuantity + val[i].returnQuantity).toFixed(2)
+          this.$refs.editable.insert(val[i])
+        }
       }
     },
     allOrderinfo(val) {

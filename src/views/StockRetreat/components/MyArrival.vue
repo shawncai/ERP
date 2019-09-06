@@ -355,6 +355,7 @@ export default {
           unit: item.unit,
           color: item.color,
           arrivalQuantity: item.arrivalQuantity,
+          returnQuantity: item.returnQuantity,
           retreatQuantity: 0,
           retreatReason: '',
           sourceNumber: number,

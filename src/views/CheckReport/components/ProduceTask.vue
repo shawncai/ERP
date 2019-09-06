@@ -309,6 +309,22 @@ export default {
     // 确认添加数据
     handleConfirm() {
       this.employeeVisible = false
+      const producedata = this.choosedata.produceTaskDetailVos
+      console.log(this.choosedata)
+      const productDetail = producedata.map(function(item) {
+        return {
+          productCode: item.productCode,
+          productName: item.productName,
+          workHours: 0,
+          finishQuantity: 0,
+          passQuantity: 0,
+          passRate: 0,
+          workCenterId: item.workCenterId,
+          produceQuantity: item.produceQuantity,
+          alreadyProduceQuantity: item.alreadyProduceQuantity
+        }
+      })
+      this.$emit('productDetail', productDetail)
       this.$emit('produce', this.choosedata)
     }
     // 仓库管理员选择结束

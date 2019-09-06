@@ -313,6 +313,7 @@ export default {
             return false
           }
         }
+        val[i].actualEnterQuantity = val[i].produceQuantity - val[i].alreadyEnterQuantity
         this.$refs.editable.insert(val[i])
       }
     },

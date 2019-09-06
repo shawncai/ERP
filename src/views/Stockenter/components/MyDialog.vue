@@ -293,8 +293,21 @@ export default {
     arrival(val) {
       console.log(val)
       this.$refs.editable.clear()
+      let qq = 1
       for (let i = 0; i < val.length; i++) {
-        this.$refs.editable.insert(val[i])
+        console.log(val[i].passQuantity)
+        if (val[i].actualEnterQuantity > 0) {
+          val[i].actualEnterQuantity = (val[i].arrivalQuantity - val[i].hadStorageQuantity).toFixed(2)
+          this.$refs.editable.insert(val[i])
+          qq = 2
+        }
+      }
+      if (qq === 1) {
+        this.$notify.error({
+          title: '错误',
+          message: '质检过的商品都已入库',
+          offset: 100
+        })
       }
     },
     allarrivalinfo(val) {

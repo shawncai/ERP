@@ -252,6 +252,7 @@ export default {
             return false
           }
         }
+        val[i].quantity = (val[i].accessQuantity - val[i].retreatQuantity).toFixed(2)
         this.$refs.editable.insert(val[i])
       }
     },

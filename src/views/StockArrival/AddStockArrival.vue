@@ -625,6 +625,7 @@ export default {
             duration: 0
           })
         } else {
+          val[i].arrivalQuantity = (val[i].stockQuantity - val[i].allarrivalQuantity + val[i].returnQuantity).toFixed(2)
           this.$refs.editable.insert(val[i])
         }
       }

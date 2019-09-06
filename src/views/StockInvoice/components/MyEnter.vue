@@ -377,7 +377,9 @@ export default {
           taxMoney: item.taxMoney,
           discountMoney: 0.0,
           discountRate: 0.0,
-          orderNumber: item.orderNumber
+          orderNumber: item.orderNumber,
+          actualEnterQuantity: item.actualEnterQuantity,
+          invoiceQuantity: item.invoiceQuantity
         }
       })
       console.log(enterDetail)

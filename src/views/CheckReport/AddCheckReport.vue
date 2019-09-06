@@ -644,6 +644,22 @@ export default {
           this.typeId = res.data.data.content.list[0].productType
         }
       })
+      this.personalForm.checkQuantity = (val.checkQuantity - val.checkedQuantity).toFixed(2)
+      if (this.personalForm.checkQuantity < 3) {
+        this.personalForm.sampleQuantity = 1
+      }
+      if (this.personalForm.checkQuantity >= 3 && this.personalForm.checkQuantity <= 100) {
+        this.personalForm.sampleQuantity = 3
+      }
+      if (this.personalForm.checkQuantity >= 101 && this.personalForm.checkQuantity <= 500) {
+        this.personalForm.sampleQuantity = 5
+      }
+      if (this.personalForm.checkQuantity >= 501 && this.personalForm.checkQuantity <= 1200) {
+        this.personalForm.sampleQuantity = 8
+      }
+      if (this.personalForm.checkQuantity >= 1201 && this.personalForm.checkQuantity <= 3200) {
+        this.personalForm.sampleQuantity = 12
+      }
       // 增加明细
       this.adddetail(val.productCode)
     },
@@ -658,6 +674,9 @@ export default {
       this.personalForm.unit = val.unit
       this.personalForm.typeId = val.type
       this.personalForm.checkQuantity = val.arrivalQuantity - val.reportCheckingQuantity
+      if (this.personalForm.checkQuantity < 3) {
+        this.personalForm.sampleQuantity = 1
+      }
       if (this.personalForm.checkQuantity >= 3 && this.personalForm.checkQuantity <= 100) {
         this.personalForm.sampleQuantity = 3
       }
@@ -684,6 +703,22 @@ export default {
       this.personalForm.unit = val.unit
       this.personalForm.typeId = val.typeId
       this.typeId = val.productType
+      this.personalForm.checkQuantity = (val.produceQuantity - val.alreadyProduceQuantity).toFixed(2)
+      if (this.personalForm.checkQuantity < 3) {
+        this.personalForm.sampleQuantity = 1
+      }
+      if (this.personalForm.checkQuantity >= 3 && this.personalForm.checkQuantity <= 100) {
+        this.personalForm.sampleQuantity = 3
+      }
+      if (this.personalForm.checkQuantity >= 101 && this.personalForm.checkQuantity <= 500) {
+        this.personalForm.sampleQuantity = 5
+      }
+      if (this.personalForm.checkQuantity >= 501 && this.personalForm.checkQuantity <= 1200) {
+        this.personalForm.sampleQuantity = 8
+      }
+      if (this.personalForm.checkQuantity >= 1201 && this.personalForm.checkQuantity <= 3200) {
+        this.personalForm.sampleQuantity = 12
+      }
       // 增加明细
       this.adddetail(val.productCode)
     },
@@ -924,6 +959,7 @@ export default {
       for (let i = 0; i < val.stockArrivalDetailVos.length; i++) {
         console.log('val.arrivalQuantity - val.reportCheckingQuantity', val)
         if ((val.stockArrivalDetailVos[i].arrivalQuantity - val.stockArrivalDetailVos[i].reportCheckingQuantity) > 0) {
+          val.stockArrivalDetailVos[i].checkQuantity = (val.stockArrivalDetailVos[i].arrivalQuantity - val.stockArrivalDetailVos[i].reportCheckingQuantity).toFixed(2)
           lis.push(val.stockArrivalDetailVos[i])
         }
       }

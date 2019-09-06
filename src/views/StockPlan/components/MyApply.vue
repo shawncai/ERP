@@ -324,6 +324,7 @@ export default {
       const number = this.choosedata.applyNumber
       const applyDetail = applydata.map(function(item) {
         return {
+          applyQuantity: item.applyQuantity,
           productCode: item.productCode,
           productName: item.productName,
           productType: item.productType,
@@ -332,7 +333,7 @@ export default {
           color: item.color,
           basicQuantity: item.applyQuantity,
           planDeliveryDate: item.requireDate,
-          planQuantity: item.applyQuantity,
+          planQuantity: item.planQuantity,
           applyReason: item.applyReason,
           sourceNumber: number,
           supplierId: '',
