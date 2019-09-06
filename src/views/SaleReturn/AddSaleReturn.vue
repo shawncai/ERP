@@ -659,6 +659,7 @@ export default {
     },
     // 选择客户类型时清理客户名称
     clearCustomer() {
+      // this.$store.dispatch('get_customtype', this.personalForm.customerType)
       console.log(this.personalForm.customerType)
       this.personalForm.customerId = ''
       this.customerId = ''
@@ -670,18 +671,22 @@ export default {
       } else if (this.personalForm.customerType === '2') {
         this.customercontrol = true
       }
-      console.log(this.personalForm.customerId)
+      // console.log(this.personalForm.customerId)
     },
     customerdata(val) {
+      // this.$store.dispatch('get_customid', this.personalForm.customerId)
+      this.$set(this.personalForm, 'customerId', val.id)
       console.log('customer', this.personalForm.customerId)
-      this.personalForm.customerId = val.id
+      // this.personalForm.customerId = val.id
       this.customerId = val.customerName
       this.personalForm.customerPhone = val.phoneNumber
       this.personalForm.receiveAddress = val.address
     },
     agentdata(val) {
+      // this.$store.dispatch('get_customid', this.personalForm.customerId)
+      this.$set(this.personalForm, 'customerId', val.id)
       console.log('agent', this.personalForm.customerId)
-      this.personalForm.customerId = val.id
+      // this.personalForm.customerId = val.id
       this.customerId = val.agentName
       this.personalForm.customerPhone = val.phone
       this.personalForm.receiveAddress = val.address
