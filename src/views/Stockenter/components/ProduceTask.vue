@@ -319,6 +319,7 @@ export default {
           productName: item.productName,
           alreadyProduceQuantity: item.alreadyProduceQuantity,
           produceQuantity: item.produceQuantity,
+          alreadyEnterQuantity: item.alreadyEnterQuantity,
           workHours: 0,
           finishQuantity: 0,
           passQuantity: 0,

@@ -420,21 +420,11 @@ export default {
     arrival(val) {
       console.log(val)
       this.$refs.editable.clear()
-      // for (let i = 0; i < val.length; i++) {
-      //   console.log(val[i].passQuantity)
-      //   if (val[i].passQuantity === 0) {
-      //     this.$notify.error({
-      //       title: '错误',
-      //       message: '请先进行质检',
-      //       offset: 100
-      //     })
-      //     return false
-      //   }
-      // }
       let qq = 1
       for (let i = 0; i < val.length; i++) {
         console.log(val[i].passQuantity)
         if (val[i].actualEnterQuantity > 0) {
+          val[i].actualEnterQuantity = (val[i].arrivalQuantity - val[i].hadStorageQuantity).toFixed(2)
           this.$refs.editable.insert(val[i])
           qq = 2
         }

@@ -315,13 +315,13 @@ export default {
         return {
           productCode: item.productCode,
           productName: item.productName,
-          alreadyProduceQuantity: item.alreadyProduceQuantity,
-          produceQuantity: item.produceQuantity,
           workHours: 0,
           finishQuantity: 0,
           passQuantity: 0,
           passRate: 0,
-          workCenterId: item.workCenterId
+          workCenterId: item.workCenterId,
+          produceQuantity: item.produceQuantity,
+          alreadyProduceQuantity: item.alreadyProduceQuantity
         }
       })
       this.$emit('produce', productDetail)

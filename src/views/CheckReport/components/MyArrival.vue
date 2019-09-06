@@ -354,6 +354,7 @@ export default {
           checkQuantity: item.arrivalQuantity,
           checkedQuantity: 0,
           arrivalQuantity: item.arrivalQuantity,
+          reportCheckingQuantity: item.reportCheckingQuantity,
           sourceNumber: number
         }
       })

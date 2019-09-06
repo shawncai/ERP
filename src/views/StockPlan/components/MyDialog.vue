@@ -547,11 +547,13 @@ export default {
     requiredata(val) {
       console.log(val)
       for (let i = 0; i < val.length; i++) {
+        val[i].planQuantity = val[i].requireQuantity - val[i].planedQuantity
         this.$refs.editable.insert(val[i])
       }
     },
     requiredata2(val) {
       for (let i = 0; i < val.length; i++) {
+        val[i].planQuantity = val[i].requireQuantity - val[i].planedQuantity
         this.$refs.editable2.insert(val[i])
       }
     },

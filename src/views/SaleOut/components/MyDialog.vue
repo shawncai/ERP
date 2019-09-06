@@ -1068,19 +1068,20 @@ export default {
     },
     // 从销售订单过来数据
     saleOrderDetail(val) {
-      console.log(val)
-      const nowlistdata = this.$refs.editable.getRecords()
+      console.log('val', val)
+      // const nowlistdata = this.$refs.editable.getRecords()
       for (let i = 0; i < val.length; i++) {
-        for (let j = 0; j < nowlistdata.length; j++) {
-          if (val[i].sourceNumber === nowlistdata[j].sourceNumber) {
-            this.$notify.error({
-              title: '错误',
-              message: '物品已添加',
-              offset: 100
-            })
-            return false
-          }
-        }
+        // for (let j = 0; j < nowlistdata.length; j++) {
+        //   if (val[i].sourceNumber === nowlistdata[j].sourceNumber) {
+        //     this.$notify.error({
+        //       title: '错误',
+        //       message: '物品已添加',
+        //       offset: 100
+        //     })
+        //     return false
+        //   }
+        // }
+        val[i].quantity = (val[i].quantity - val[i].alreadyOutQuantity).toFixed(2)
         this.$refs.editable.insert(val[i])
       }
     },

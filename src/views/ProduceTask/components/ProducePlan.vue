@@ -277,7 +277,9 @@ export default {
           reportedCheckQuantity: 0,
           actualCheckQuantity: 0,
           passQuantity: 0,
-          failQuantity: 0
+          failQuantity: 0,
+          planQuantity: item.planQuantity,
+          issueQuantity: item.issueQuantity
         }
       })
       this.$emit('produce', productDetail)

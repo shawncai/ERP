@@ -843,20 +843,26 @@ export default {
     },
     // 采购申请加载过来数据
     apply(val) {
-      console.log(val)
-      const nowlistdata = this.$refs.editable.getRecords()
-      for (let i = 0; i < val.length; i++) {
-        for (let j = 0; j < nowlistdata.length; j++) {
-          if (val[i].productCode === nowlistdata[j].productCode) {
-            this.$notify.error({
-              title: '错误',
-              message: '物品已添加',
-              offset: 100
-            })
-            return false
+      this.$refs.editable.clear()
+      console.log('val', val)
+      console.log('this.supplierDetailVos', this.supplierDetailVos)
+      let re = 1
+      for (const x in val) {
+        for (const j in this.supplierDetailVos) {
+          if (this.supplierDetailVos[j].productCode === val[x].productCode) {
+            val[x].price = this.supplierDetailVos[j].price
+            val[x].stockQuantity = val[x].planQuantity - val[x].applyQuantity
+            this.$refs.editable.insert(val[x])
+            re = 2
           }
         }
-        this.$refs.editable.insert(val[i])
+      }
+      if (re === 1) {
+        this.$notify.error({
+          title: '错误',
+          message: '源单中的商品该供应商都无法提供',
+          offset: 100
+        })
       }
     },
     allapplyinfo(val) {

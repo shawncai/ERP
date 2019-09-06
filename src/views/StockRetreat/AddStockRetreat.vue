@@ -636,6 +636,7 @@ export default {
     arrival(val) {
       this.$refs.editable.clear()
       for (let i = 0; i < val.length; i++) {
+        val[i].retreatQuantity = (val[i].arrivalQuantity - val[i].returnQuantity).toFixed(2)
         this.$refs.editable.insert(val[i])
       }
     },

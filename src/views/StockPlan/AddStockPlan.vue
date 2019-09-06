@@ -464,7 +464,11 @@ export default {
       }
     },
     planQuantity(row) {
-      return (row.planQuantity).toFixed(2)
+      if (row.planQuantity !== null && row.planQuantity !== '' && row.planQuantity !== undefined) {
+        return (row.planQuantity).toFixed(2)
+      } else {
+        return row.planQuantity
+      }
     },
     // 重置一下下拉
     change() {
@@ -686,12 +690,14 @@ export default {
           const list2 = list.data.data.content.list[0].materialsListDetailVos
           for (let j = 0; j < list2.length; j++) {
             list2[j].basicPrice = 0
-            list2[j].planQuantity = val[i].quantity
+            console.log('val[i]', val[i])
+            list2[j].planQuantity = (list2[j].quantity * (val[i].planQuantity - val[i].applyQuantity)).toFixed(2)
             // - val.alre
             console.log(list2[j])
             this.$refs.editable.insert(list2[j])
           }
         } else {
+          val[i].planQuantity = (val[i].planQuantity - val[i].applyQuantity).toFixed(2)
           this.$refs.editable.insert(val[i])
         }
       }
@@ -718,11 +724,13 @@ export default {
     requiredata(val) {
       console.log(val)
       for (let i = 0; i < val.length; i++) {
+        val[i].planQuantity = val[i].requireQuantity - val[i].planedQuantity
         this.$refs.editable.insert(val[i])
       }
     },
     requiredata2(val) {
       for (let i = 0; i < val.length; i++) {
+        val[i].planQuantity = val[i].requireQuantity - val[i].planedQuantity
         this.$refs.editable2.insert(val[i])
       }
     },

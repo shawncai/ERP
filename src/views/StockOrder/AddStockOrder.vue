@@ -945,6 +945,7 @@ export default {
         for (const j in this.supplierDetailVos) {
           if (this.supplierDetailVos[j].productCode === val[x].productCode) {
             val[x].price = this.supplierDetailVos[j].price
+            val[x].stockQuantity = val[x].planQuantity - val[x].applyQuantity
             this.$refs.editable.insert(val[x])
             re = 2
           }
@@ -993,6 +994,7 @@ export default {
           console.log(1234)
           continue
         }
+        val[i].stockQuantity = (val[i].planQuantity - val[i].orderQuantity).toFixed(2)
         this.$refs.editable.insert(val[i])
       }
     },

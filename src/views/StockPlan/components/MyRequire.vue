@@ -302,9 +302,10 @@ export default {
           planMoney: '0.00',
           orderQuantity: '0.00',
           stockRequireId: item.id,
-          requireQuantity: item.requireQuantity,
           requireDate: item.requireDate,
-          sourceSerialNumber: item.id
+          sourceSerialNumber: item.id,
+          requireQuantity: item.requireQuantity,
+          planedQuantity: item.planedQuantity
         }
       })
       this.$emit('require', requireDetail)

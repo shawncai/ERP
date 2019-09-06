@@ -339,7 +339,9 @@ export default {
           discountRate: 0,
           discountMoney: 0,
           remark: 0,
-          orderedQuantity: 0
+          orderedQuantity: 0,
+          checkQuantity: item.checkQuantity,
+          checkedQuantity: item.checkedQuantity
         }
       })
 

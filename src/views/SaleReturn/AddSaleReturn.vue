@@ -449,6 +449,7 @@ export default {
     saleOutDetail(val) {
       this.$refs.editable.clear()
       for (let i = 0; i < val.length; i++) {
+        val[i].returnQuantity = (val[i].quantity - val[i].retreatQuantity).toFixed(2)
         this.$refs.editable.insert(val[i])
       }
     },

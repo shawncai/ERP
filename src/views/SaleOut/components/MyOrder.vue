@@ -391,7 +391,9 @@ export default {
           motorCode: 0,
           batteryCode: 0,
           sourceNumber: OrderNumber,
-          sourceSerialNumber: item.id
+          sourceSerialNumber: item.id,
+          quantity: item.quantity,
+          alreadyOutQuantity: item.alreadyOutQuantity
         }
       })
       this.$emit('saleOrderDetail', saleOrderDetail)

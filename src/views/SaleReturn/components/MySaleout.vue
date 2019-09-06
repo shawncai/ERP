@@ -413,7 +413,9 @@ export default {
           carCode: item.carCode,
           motorCode: item.motorCode,
           batteryCode: item.batteryCode,
-          sourceNumber: number
+          sourceNumber: number,
+          retreatQuantity: item.retreatQuantity,
+          quantity: item.quantity
         }
       })
       this.$emit('saleOutDetail', saleOutDetail)

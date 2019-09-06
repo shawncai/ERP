@@ -360,7 +360,9 @@ export default {
           remarks: '',
           sourceSerialNumber: item.id,
           passQuantity: item.qualifyQuantity,
-          orderNumber: item.sourceNumber
+          orderNumber: item.sourceNumber,
+          arrivalQuantity: item.arrivalQuantity,
+          hadStorageQuantity: item.hadStorageQuantity
         }
       })
       console.log(arrivalDetail)
