@@ -101,21 +101,29 @@
           </el-form-item>
           <my-emp :control.sync="empcontrol" @personName="personName"/>
           <el-form-item :label="$t('Customer.transmode')" prop="address" style="width: 40%;margin-top:1%">
-            <el-select v-model="customerForm.transmode" :value="customerForm.transmode" placeholder="请选择" style="width: 100%;" @focus="getCategory">
+            <el-select ref="clear4" v-model="customerForm.transmode" :value="customerForm.transmode" placeholder="请选择" style="width: 100%;" @focus="getCategory">
+              <el-option v-show="false" label="" value=""/>
               <el-option
                 v-for="(item, index) in transmodes"
                 :key="index"
                 :value="item.id"
                 :label="item.categoryName"/>
+              <template>
+                <el-button v-if="isshow2" icon="el-icon-circle-plus-outline" style="width:100%" @click="go_creat4">新增</el-button>
+              </template>
             </el-select>
           </el-form-item>
           <el-form-item :label="$t('Customer.deliverymode')" prop="address" style="width: 40%;margin-top:1%">
-            <el-select v-model="customerForm.deliverymode" :value="customerForm.deliverymode" placeholder="请选择" style="width: 100%;" @focus="getCategory">
+            <el-select ref="clear5" v-model="customerForm.deliverymode" :value="customerForm.deliverymode" placeholder="请选择" style="width: 100%;" @focus="getCategory">
+              <el-option v-show="false" label="" value=""/>
               <el-option
                 v-for="(item, index) in deliverymodes"
                 :key="index"
                 :value="item.id"
                 :label="item.categoryName"/>
+              <template>
+                <el-button v-if="isshow2" icon="el-icon-circle-plus-outline" style="width:100%" @click="go_creat5">新增</el-button>
+              </template>
             </el-select>
           </el-form-item>
           <el-form-item :label="$t('Customer.address2')" prop="address" style="width: 40%;margin-top:1%">
@@ -137,6 +145,7 @@
 import '@/directive/noMoreClick/index.js'
 import { getcountrylist, getprovincelist, getcitylist } from '@/api/public'
 import { searchCusCategory, addagent } from '@/api/Customer'
+import { searchCategory } from '@/api/Supplier'
 import permission from '@/directive/permission/index.js' // 权限判断指令
 import permission2 from '@/directive/permission2/index.js' // 权限判断指令
 import checkPermission from '@/utils/permission' // 权限判断函数
@@ -161,6 +170,7 @@ export default {
     return {
       // 是否显示添加
       isshow: false,
+      isshow2: false,
       // 分管业务员回显
       trader: '',
       // 分管业务员控制
@@ -241,12 +251,13 @@ export default {
     jungleshow() {
       const roles = this.$store.getters.roles
       this.isshow = roles.includes('1-14-21-1')
+      this.isshow2 = roles.includes('1-22-28-1')
     },
     checkPermission,
     // 获取类型
     getCategory() {
       // 获取运送方式
-      searchCusCategory(this.deliverymodedata).then(res => {
+      searchCategory(3).then(res => {
         if (res.data.ret === 200) {
           this.deliverymodes = res.data.data.content.list
         } else {
@@ -258,7 +269,7 @@ export default {
         }
       })
       // 获取交货方式
-      searchCusCategory(this.transmodedata).then(res => {
+      searchCategory(2).then(res => {
         if (res.data.ret === 200) {
           this.transmodes = res.data.data.content.list
         } else {
@@ -480,6 +491,14 @@ export default {
     go_creat3() {
       this.$router.push('/Customer/CustomerCategory')
       this.$refs.clear3.blur()
+    },
+    go_creat4() {
+      this.$router.push('/Supplier/SupplierCategory')
+      this.$refs.clear4.blur()
+    },
+    go_creat5() {
+      this.$router.push('/Supplier/SupplierCategory')
+      this.$refs.clear5.blur()
     }
   }
 }

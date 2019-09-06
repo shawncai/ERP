@@ -66,8 +66,8 @@
               <el-col :span="6">
                 <el-form-item :label="$t('SaleOut.saleType')" style="width: 100%;">
                   <el-select v-model="personalForm.saleType" style="margin-left: 18px;width: 200px">
-                    <el-option value="1" label="类别1"/>
-                    <el-option value="2" label="类别2"/>
+                    <el-option value="1" label="零售" />
+                    <el-option value="2" label="批发" />
                   </el-select>
                 </el-form-item>
               </el-col>
@@ -150,8 +150,8 @@
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('SaleOut.pointSupport')+`(${point})`" prop="pointSupport" style="width: 100%;">
-                  <el-input v-model="personalForm.pointSupport" style="margin-left: 18px;width: 200px"/>
+                <el-form-item :label="$t('SaleOut.pointSupport')+`(${point || '无'})`" prop="pointSupport" style="width: 100%;">
+                  <el-input v-model="personalForm.pointSupport" :disabled="personalForm.customerType === '1'" style="margin-left: 18px;width: 200px"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
@@ -209,19 +209,18 @@
             :data.sync="list2"
             :edit-config="{ showIcon: true, showStatus: true}"
             :edit-rules="validRules"
-            :summary-method="getSummaries"
             class="click-table1"
             stripe
             border
             size="medium"
             style="width: 100%"
             @selection-change="handleSelectionChange">
-            <el-editable-column type="selection" min-width="55" align="center" fixed="left"/>
-            <el-editable-column label="序号" min-width="55" align="center" type="index" fixed="left"/>
-            <el-editable-column prop="productCode" align="center" label="物品编号" min-width="150" fixed="left"/>
-            <el-editable-column prop="productName" align="center" label="物品名称" min-width="150" fixed="left"/>
-            <el-editable-column prop="locationId" align="center" label="货位" min-width="170">
-              <!-- <template slot="edit" slot-scope="scope">
+            <el-editable-column type="selection" min-width="55" align="center" />
+            <el-editable-column :fixed="isfixed" label="序号" min-width="55" align="center" type="index"/>
+            <el-editable-column :fixed="isfixed" prop="productCode" align="center" label="物品编号" min-width="150"/>
+            <el-editable-column :fixed="isfixed" prop="productName" align="center" label="物品名称" min-width="150"/>
+            <el-editable-column :edit-render="{type: 'default'}" prop="locationId" align="center" label="货位" width="170">
+              <template slot-scope="scope">
                 <el-select v-model="scope.row.locationId" :value="scope.row.locationId" placeholder="请选择货位" filterable clearable style="width: 100%;" @visible-change="updatebatch($event,scope)">
                   <el-option
                     v-for="(item, index) in locationlist"
@@ -229,12 +228,23 @@
                     :value="item.id"
                     :label="item.locationCode"/>
                 </el-select>
-              </template> -->
+              </template>
             </el-editable-column>
-            <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="batch" align="center" label="批次" min-width="150"/>
+            <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="batch" align="center" label="批次" min-width="150" >
+              <template slot="edit" slot-scope="scope">
+                <el-select v-if="scope.row.batch !== '不使用'" v-model="scope.row.batch" :value="scope.row.batch" placeholder="请选择批次" filterable clearable style="width: 100%;" @visible-change="updatebatch2($event,scope)">
+                  <el-option
+                    v-for="(item, index) in batchlist"
+                    :key="index"
+                    :value="item"
+                    :label="item"/>
+                </el-select>
+                <span v-else>{{ scope.row.batch }}</span>
+              </template>
+            </el-editable-column>
             <el-editable-column prop="categoryName" align="center" label="物品分类" min-width="150"/>
             <el-editable-column prop="unit" align="center" label="基本单位" min-width="150"/>
-            <el-editable-column prop="typeName" align="center" label="规格型号" min-width="150"/>
+            <el-editable-column prop="typeId" align="center" label="规格型号" min-width="150"/>
             <el-editable-column prop="color" align="center" label="颜色" min-width="150"/>
             <el-editable-column prop="kpiGrade" align="center" label="绩效分" min-width="150"/>
             <el-editable-column prop="point" align="center" label="商品积分" min-width="150"/>
@@ -484,7 +494,7 @@
 import '@/directive/noMoreClick/index.js'
 import { createsaleOut } from '@/api/SaleOut'
 import { searchSaleCategory } from '@/api/SaleCategory'
-import { getlocation, locationlist, countlist3, countlist } from '@/api/public'
+import { getlocation, locationlist, countlist3, countlist, batchlist } from '@/api/public'
 import MyEmp from './components/MyEmp'
 import MyDelivery from '../DailyAdjust/components/MyDelivery'
 import MyDetail from './components/MyDetail'
@@ -571,6 +581,8 @@ export default {
       },
       // 积分信息
       point: 0,
+      // 滚动判断
+      isfixed: false,
       // 合计信息
       heji1: '',
       heji2: '',
@@ -660,7 +672,8 @@ export default {
         outDate: null,
         sourceType: '5',
         otherMoney: '0',
-        outType: '1'
+        outType: '1',
+        saleRepositoryId: this.$store.getters.repositoryId
       },
       // 销售订单规则数据
       personalrules: {
@@ -707,12 +720,21 @@ export default {
       // 批量操作
       moreaction: [],
       // 可否提交
-      ableSubmission: true
+      ableSubmission: true,
+      // 批次列表
+      batchlist: []
     }
   },
   watch: {
     list2: {
       handler(oldval, newval) {
+        console.log(this.list2.length)
+        if (this.list2.length !== 0) {
+          this.isfixed = true
+          console.log('可以滚动')
+        } else {
+          this.isfixed = false
+        }
         let num = 0
         let num1 = 0
         let num2 = 0
@@ -765,11 +787,26 @@ export default {
       }
     },
     queryStock(row) {
-      console.log(row.productCode)
-      countlist(0, this.personalForm.saleRepositoryId, row.productCode).then(res => {
+      if (!this.personalForm.saleRepositoryId) {
+        this.$notify.error({
+          title: '错误',
+          message: '请先选择仓库',
+          offset: 100
+        })
+        return false
+      }
+      countlist(this.personalForm.saleRepositoryId, 0, row.productCode).then(res => {
         if (res.data.ret === 200) {
-          // console.log('res.data.data.content', res.data.data.content)
-          if (!res.data.data.content.list.ableStock || row.quantity > res.data.data.content.list.ableStock) {
+          console.log('res.data.data.content', res.data.data.content)
+          if (res.data.data.content.list.length === 0) {
+            this.$notify.error({
+              title: '错误',
+              message: '仓库内无该物品',
+              offset: 100
+            })
+            this.ableSubmission = false
+          }
+          if (row.quantity > res.data.data.content.list[0].ableStock) {
             this.$notify.error({
               title: '错误',
               message: '出库数量超出了当前可用存量，请修改后再进行确认!',
@@ -968,6 +1005,21 @@ export default {
               })
             }
           }
+        })
+      }
+    },
+    updatebatch3(scope) {
+      const parms3 = scope.row.productCode
+      batchlist(this.personalForm.outRepositoryId, parms3).then(res => {
+        this.batchlist = res.data.data.content
+      })
+    },
+    updatebatch2(event, scope) {
+      if (event === true) {
+        const parms3 = scope.row.productCode
+        batchlist(this.personalForm.outRepositoryId, parms3).then(res => {
+          console.log(res)
+          this.batchlist = res.data.data.content
         })
       }
     },
@@ -1208,7 +1260,6 @@ export default {
       this.customerId = val.agentName
       this.personalForm.customerPhone = val.phone
       this.personalForm.address = val.address
-      this.point = val.point
     },
     // 从源单添加商品
     handleAddSource() {
@@ -1450,7 +1501,8 @@ export default {
         sendDate: null,
         outDate: null,
         sourceType: '5',
-        otherMoney: ''
+        otherMoney: '',
+        saleRepositoryId: this.$store.getters.repositoryId
       }
       this.customerId = null
       this.salePersonId = this.$store.state.user.name

@@ -109,8 +109,8 @@
             <el-col :span="12">
               <el-form-item :label="$t('SaleOrder.saleType')" style="width: 100%;">
                 <el-select v-model="personalForm.saleType" style="margin-left: 18px;width: 200px">
-                  <el-option value="1" label="类别1"/>
-                  <el-option value="2" label="类别2"/>
+                  <el-option value="1" label="零售" />
+                  <el-option value="2" label="批发" />
                 </el-select>
               </el-form-item>
             </el-col>

@@ -1,5 +1,5 @@
 <template>
-  <el-dialog :visible.sync="employeeVisible" :saleoutcontrol="saleoutcontrol" :close-on-press-escape="false" top="10px" title="选择销售出库单" append-to-body width="1100px" @close="$emit('update:saleoutcontrol', false)">
+  <el-dialog :visible.sync="employeeVisible" :saleoutcontrol="saleoutcontrol" :customertype="personalForm.customerType" :customerid="customerid" :close-on-press-escape="false" top="10px" title="选择销售出库单" append-to-body width="1100px" @close="$emit('update:saleoutcontrol', false)">
     <el-card class="box-card" style="margin-top: 15px;height: 60px;padding-left:0 " shadow="never">
       <el-row>
         <el-form ref="getemplist" :model="getemplist" style="margin-top: -9px">
@@ -169,6 +169,14 @@ export default {
     saleoutcontrol: {
       type: Boolean,
       default: false
+    },
+    customertype: {
+      type: null,
+      default: 1
+    },
+    customerid: {
+      type: null,
+      default: 1
     }
   },
   data() {
@@ -340,6 +348,8 @@ export default {
     // 搜索
     handleFilter() {
       this.getemplist.pageNum = 1
+      this.getemplist.customerType = this.customertype
+      this.getemplist.customerId = this.customerid
       searchsaleOut(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
