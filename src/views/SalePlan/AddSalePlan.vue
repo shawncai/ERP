@@ -133,8 +133,11 @@
         <h2 ref="fuzhu" class="form-name">计划明细</h2>
         <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
           <el-button @click="handleAddproduct">添加明细</el-button>
-          <!--<el-button type="danger" @click="deleteTreeData">删除</el-button>-->
+          <!-- <el-button @click="handleAddproduct2">添加下级区域明细</el-button> -->
+          <el-button @click="handleAddproduct2">修改本级明细</el-button>
+          <el-button type="danger" @click="deleteTreeData">删除明细</el-button>
         </div>
+        <!-- 添加明细弹框 -->
         <el-dialog
           :visible.sync="categoryVisible"
           :close-on-click-modal="false"
@@ -186,6 +189,57 @@
             <el-button type="danger" style="width: 98px;" @click="handlecancel2()">取消</el-button>
           </span>
         </el-dialog>
+        <el-dialog
+          :visible.sync="categoryVisible2"
+          :close-on-click-modal="false"
+          :close-on-press-escape="false"
+          :before-close="handlecancel3"
+          title="修改明细"
+          class="normal"
+          width="600px"
+          center>
+          <el-form
+            ref="addCategoryForm"
+            :model="addCategoryForm"
+            :rules="addCategoryFormrules"
+            class="demo-ruleForm"
+            style="margin: 0 auto; width: 400px">
+            <el-form-item :label="$t('SalePlan.regionId')" label-width="100px" prop="regionId">
+              <el-cascader
+                v-model="addCategoryForm.regionId"
+                :options="provinceList"
+                :props="props"
+                change-on-select
+                placeholder=""
+                style="width: 100%"
+                @change="handleItemChange" />
+            </el-form-item>
+            <!-- <el-form-item :label="$t('SalePlan.repositoryid')" label-width="100px">
+              <el-select
+                v-model="addCategoryForm.repositoryid"
+                placeholder="请选择门店"
+                filterable
+                style="width: 100%;"
+                @change="changeValue">
+                <el-option
+                  v-for="(item, index) in repositories"
+                  :key="index"
+                  :label="item.repositoryName"
+                  :value="item.id" />
+              </el-select>
+            </el-form-item> -->
+            <el-form-item :label="$t('SalePlan.lowerPlanMoney')" prop="lowerMoney" label-width="100px">
+              <el-input v-model="addCategoryForm.lowerMoney" autocomplete="off" />
+            </el-form-item>
+            <el-form-item :label="$t('SalePlan.targetMoney')" prop="targetMoney" label-width="100px">
+              <el-input v-model="addCategoryForm.targetMoney" autocomplete="off" />
+            </el-form-item>
+          </el-form>
+          <span slot="footer" class="dialog-footer">
+            <el-button type="primary" @click="handlesave2()">保存</el-button>
+            <el-button type="danger" style="width: 98px;" @click="handlecancel3()">取消</el-button>
+          </span>
+        </el-dialog>
         <div class="container">
           <el-tree
             ref="DeviceGroupTree"
@@ -198,7 +252,7 @@
             @check-change="handleCheckChange">
             <span slot-scope="{ node, data }" class="custom-tree-node">
               <span>{{ node.label }}</span>
-              <span v-if="data.parentId !== 0" style="margin-left: 50px">
+              <span style="margin-left: 50px">
                 <i class="el-icon-delete" @click="nodeDelete(node, data)" />
               </span>
             </span>
@@ -229,7 +283,6 @@ import {
 import {
   listbyparentid,
   searchRepository,
-  searchregionName,
   getId
 } from '@/api/public'
 import MyEmp from './components/MyEmp'
@@ -287,6 +340,8 @@ export default {
       },
       // 添加明细
       categoryVisible: false,
+      // 修改明细
+      categoryVisible2: false,
       // 明细数据
       addCategoryForm: {
         label: '',
@@ -445,6 +500,12 @@ export default {
     this.getTreeId()
   },
   methods: {
+    // 删除树
+    deleteTreeData() {
+      console.log('delete')
+      this.nodeDelete()
+    },
+    // 判断一年多少周
     isLeapYear(year) {
       if (year % 4 === 0 && year % 100 !== 0 || year % 400 === 0) {
         console.log(year + 'is leap year')
@@ -518,6 +579,11 @@ export default {
       this.addCategoryForm.regionId = []
       this.categoryVisible = false
     },
+    // 取消修改
+    handlecancel3() {
+      this.addCategoryForm.regionId = []
+      this.categoryVisible2 = false
+    },
     // 获取递归值
     getTreeId() {
       getId().then(res => {
@@ -581,10 +647,10 @@ export default {
             message: '信息未填完整',
             offset: 100
           })
-          return false
+          return
         }
       })
-      console.log('循环未结束')
+      console.log(this.provinceList[this.provinceList.length - 1].label)
       if (this.child === false) {
         const treeData = {
           label: '',
@@ -593,7 +659,7 @@ export default {
           level: 1,
           children: []
         }
-        treeData.label = this.addCategoryForm.repositoryName + ':  最低目标额(元):  ' + this.addCategoryForm.lowerMoney +
+        treeData.label = this.provinceList[this.provinceList.length - 1].label + ':  最低目标额(元):  ' + this.addCategoryForm.lowerMoney +
             '     ' + '目标额（元): ' + this.addCategoryForm.targetMoney
         treeData.id = this.treeIds++
         treeData.repositoryid = this.addCategoryForm.repositoryid
@@ -611,7 +677,7 @@ export default {
           level: 1,
           children: []
         }
-        treeData.label = this.addCategoryForm.repositoryName + ':  最低目标额(元):  ' + this.addCategoryForm.lowerMoney +
+        treeData.label = this.provinceList[this.provinceList.length - 1].label + ':  最低目标额(元):  ' + this.addCategoryForm.lowerMoney +
             '     ' + '目标额（元): ' + this.addCategoryForm.targetMoney
         treeData.parentId = this.childData.id
         treeData.repositoryid = this.addCategoryForm.repositoryid
@@ -835,19 +901,20 @@ export default {
       })
     },
     handleItemChange(val) {
+      console.log('门店', val)
       this.getPosition(val)
-      const finalid = val[val.length - 1]
-      searchregionName(finalid).then(res => {
-        console.log(res)
-      })
-      searchRepository(finalid).then(res => {
-        console.log(res)
-        if (res.data.ret === 200) {
-          this.repositories = res.data.data.content.list
-        } else {
-          console.log('区域选择门店')
-        }
-      })
+      // const finalid = val[val.length - 1]
+      // searchregionName(finalid).then(res => {
+      //   console.log('123', res)
+      // })
+      // searchRepository(finalid).then(res => {
+      //   console.log(res)
+      //   if (res.data.ret === 200) {
+      //     this.repositories = res.data.data.content.list
+      //   } else {
+      //     console.log('区域选择门店')
+      //   }
+      // })
     },
     // 清空结束时间
     cleardeposit() {
@@ -870,63 +937,63 @@ export default {
       })
     },
     // 控制源单类型
-    chooseSource(val) {
-      if (val === '1') {
-        this.Isproduct = true
-        this.IsNumber = false
-      } else if (val === '2') {
-        this.Isproduct = false
-        this.IsNumber = true
-      }
-    },
+    // chooseSource(val) {
+    //   if (val === '1') {
+    //     this.Isproduct = true
+    //     this.IsNumber = false
+    //   } else if (val === '2') {
+    //     this.Isproduct = false
+    //     this.IsNumber = true
+    //   }
+    // },
     // 总计
-    getSummaries(param) {
-      const {
-        columns,
-        data
-      } = param
-      const sums = []
-      columns.forEach((column, index) => {
-        if (index === 0) {
-          sums[index] = '总计'
-          return
-        }
-        const values = data.map(item => Number(item[column.property]))
-        if (!values.every(value => isNaN(value))) {
-          sums[index] = values.reduce((prev, curr) => {
-            const value = Number(curr)
-            if (!isNaN(value)) {
-              return prev + curr
-            } else {
-              return (prev).toFixed(2)
-            }
-          }, 0)
-          sums[index] += ''
-        } else {
-          sums[index] = ''
-        }
-      })
-      sums[2] = ''
-      sums[3] = ''
-      sums[4] = ''
-      sums[5] = ''
-      sums[6] = ''
-      sums[7] = ''
-      sums[8] = ''
-      sums[9] = ''
-      sums[25] = ''
-      sums[27] = ''
-      sums[28] = ''
-      sums[29] = ''
-      sums[30] = ''
-      this.heji1 = sums[24]
-      this.heji2 = sums[19]
-      this.heji3 = sums[16]
-      this.heji4 = sums[18]
-      this.heji5 = sums[22]
-      this.heji6 = sums[20] - sums[22]
-      return sums
-    },
+    // getSummaries(param) {
+    //   const {
+    //     columns,
+    //     data
+    //   } = param
+    //   const sums = []
+    //   columns.forEach((column, index) => {
+    //     if (index === 0) {
+    //       sums[index] = '总计'
+    //       return
+    //     }
+    //     const values = data.map(item => Number(item[column.property]))
+    //     if (!values.every(value => isNaN(value))) {
+    //       sums[index] = values.reduce((prev, curr) => {
+    //         const value = Number(curr)
+    //         if (!isNaN(value)) {
+    //           return prev + curr
+    //         } else {
+    //           return (prev).toFixed(2)
+    //         }
+    //       }, 0)
+    //       sums[index] += ''
+    //     } else {
+    //       sums[index] = ''
+    //     }
+    //   })
+    //   sums[2] = ''
+    //   sums[3] = ''
+    //   sums[4] = ''
+    //   sums[5] = ''
+    //   sums[6] = ''
+    //   sums[7] = ''
+    //   sums[8] = ''
+    //   sums[9] = ''
+    //   sums[25] = ''
+    //   sums[27] = ''
+    //   sums[28] = ''
+    //   sums[29] = ''
+    //   sums[30] = ''
+    //   this.heji1 = sums[24]
+    //   this.heji2 = sums[19]
+    //   this.heji3 = sums[16]
+    //   this.heji4 = sums[18]
+    //   this.heji5 = sums[22]
+    //   this.heji6 = sums[20] - sums[22]
+    //   return sums
+    // },
     // 通过折扣额计算折扣
     getdiscountMoney(row) {
       row.discount = ((1 - row.discountMoney / row.salePrice / row.quantity) * 100).toFixed(2)
@@ -995,6 +1062,11 @@ export default {
     handleAddproduct() {
       this.categoryVisible = true
       this.handleItemChange()
+    },
+    // 修改本级明细
+    handleAddproduct2() {
+      this.categoryVisible2 = true
+      console.log('获取节点', this.$refs.DeviceGroupTree.getCheckedKeys())
     },
     deleteChange(val) {
       this.choosedata = val
@@ -1152,8 +1224,8 @@ export default {
     margin-top: 40px;
   }
 
-  .el-button+.el-button {
+  /* .el-button+.el-button {
     width: 98px;
-  }
+  } */
 
 </style>

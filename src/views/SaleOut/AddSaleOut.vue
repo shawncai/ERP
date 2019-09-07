@@ -497,7 +497,7 @@
 import '@/directive/noMoreClick/index.js'
 import { createsaleOut } from '@/api/SaleOut'
 import { searchSaleCategory } from '@/api/SaleCategory'
-import { getlocation, locationlist, countlist, batchlist } from '@/api/public'
+import { getlocation, locationlist, countlist, batchlist, productlist } from '@/api/public'
 import MyEmp from './components/MyEmp'
 import MyDelivery from '../DailyAdjust/components/MyDelivery'
 import MyDetail from './components/MyDetail'
@@ -744,10 +744,24 @@ export default {
         let num1 = 0
         let num2 = 0
         for (const i in this.list2) {
-          // console.log(typeof (this.list2[i].taxprice))
+          console.log(this.list2[i].productCode)
           num += this.list2[i].quantity
           num2 += Number(this.list2[i].discountMoney)
           num1 += this.list2[i].includeTaxCostMoney
+          productlist(this.list2[i].productCode).then(res => {
+            if (res.data.ret === 200) {
+              console.log(res.data.data.content.list[0].isBatch)
+              if (res.data.data.content.list[0].isBatch === 2) {
+                this.list2[i].batch = '不使用'
+              }
+            } else {
+              this.$notify.error({
+                title: '错误',
+                message: res.data.msg,
+                offset: 100
+              })
+            }
+          })
         }
         this.heji1 = num
         this.heji3 = num1
