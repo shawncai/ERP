@@ -135,7 +135,19 @@ export default {
   },
   created() {
   },
+  mounted() {
+    this.getinformation()
+  },
   methods: {
+    getinformation() {
+      if (this.$store.getters.empcontract) {
+        console.log('getempcontract', this.$store.getters.empcontract)
+        this.personalForm.customerName = this.$store.getters.empcontract.customerName
+        this.personalForm.handlePersonId = this.$store.getters.empcontract.handlePersonId
+        this.handlePersonId = this.$store.getters.empcontract.handlePersonName
+        this.$store.dispatch('getempcontract', '')
+      }
+    },
     // 我方联络人focus事件
     handlechooseStock() {
       this.stockControl = true

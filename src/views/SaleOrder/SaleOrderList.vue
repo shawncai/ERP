@@ -172,9 +172,9 @@
         <el-form class="demo-ruleForm" style="margin: 0px 6%; width: 400px">
           <el-form-item label-width="100px;">
             <el-steps :space="200" style="width: 150%;" finish-status="success">
-              <el-step :status="step5" title="采购到货"/>
-              <el-step :status="step6" title="质检"/>
-              <el-step :status="step7" title="采购入库"/>
+              <el-step :status="step5" title="销售订单"/>
+              <el-step :status="step6" title="销售出库单"/>
+              <el-step :status="step7" title="销售配送单"/>
               <el-step :status="step8" title="完成"/>
             </el-steps>
           </el-form-item>
