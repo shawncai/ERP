@@ -162,6 +162,7 @@
 <script>
 import { getcountrylist, getprovincelist, getcitylist } from '@/api/public'
 import { searchCusCategory, updateagent } from '@/api/Customer'
+import { searchCategory } from '@/api/Supplier'
 import MyEmp from './MyEmp'
 export default {
   components: { MyEmp },
@@ -263,7 +264,7 @@ export default {
     // 获取类型
     getCategory() {
       // 获取运送方式
-      searchCusCategory(this.deliverymodedata).then(res => {
+      searchCategory(2).then(res => {
         if (res.data.ret === 200) {
           this.deliverymodes = res.data.data.content.list
         } else {
@@ -275,7 +276,7 @@ export default {
         }
       })
       // 获取交货方式
-      searchCusCategory(this.transmodedata).then(res => {
+      searchCategory(3).then(res => {
         if (res.data.ret === 200) {
           this.transmodes = res.data.data.content.list
         } else {

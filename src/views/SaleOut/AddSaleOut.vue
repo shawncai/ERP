@@ -321,9 +321,12 @@
                   @input="getdiscountMoney(scope.row)"/>
               </template>
             </el-editable-column>
-            <el-editable-column prop="carCode" align="center" label="车架编码" min-width="150px"/>
-            <el-editable-column prop="motorCode" align="center" label="电机编码" min-width="150px"/>
-            <el-editable-column prop="batteryCode" align="center" label="电池编码" min-width="150px"/>
+            <el-editable-column v-if="isEdit" :edit-render="{name: 'ElInput', type: 'visible'}" prop="carCode" align="center" label="车架编码" min-width="150px"/>
+            <el-editable-column v-else prop="carCode" align="center" label="车架编码" min-width="150px"/>
+            <el-editable-column v-if="isEdit" :edit-render="{name: 'ElInput', type: 'visible'}" prop="motorCode" align="center" label="电机编码" min-width="150px"/>
+            <el-editable-column v-else prop="motorCode" align="center" label="电机编码" min-width="150px"/>
+            <el-editable-column v-if="isEdit" :edit-render="{name: 'ElInput', type: 'visible'}" prop="batteryCode" align="center" label="电池编码" min-width="150px"/>
+            <el-editable-column v-else prop="batteryCode" align="center" label="电池编码" min-width="150px"/>
             <el-editable-column prop="sourceNumber" align="center" label="源单编号" min-width="150px"/>
             <el-editable-column prop="sourceSerialNumber" align="center" label="源单序号" min-width="150px"/>
           </el-editable>
@@ -494,7 +497,7 @@
 import '@/directive/noMoreClick/index.js'
 import { createsaleOut } from '@/api/SaleOut'
 import { searchSaleCategory } from '@/api/SaleCategory'
-import { getlocation, locationlist, countlist3, countlist, batchlist } from '@/api/public'
+import { getlocation, locationlist, countlist, batchlist } from '@/api/public'
 import MyEmp from './components/MyEmp'
 import MyDelivery from '../DailyAdjust/components/MyDelivery'
 import MyDetail from './components/MyDetail'
@@ -583,6 +586,8 @@ export default {
       point: 0,
       // 滚动判断
       isfixed: false,
+      // 判断是否可以编辑
+      isEdit: false,
       // 合计信息
       heji1: '',
       heji2: '',
@@ -840,15 +845,15 @@ export default {
         })
         return false
       } else {
-        console.log('this.moreaction.length', this.moreaction.length)
+        console.log('this.moreaction.length', this.moreaction)
         if (this.moreaction.length > 1 || this.moreaction.length === 0) {
           this.$message.error('请选择单个商品')
         } else {
-          countlist3(this.personalForm.saleRepositoryId, this.moreaction[0].productCode).then(res => {
+          countlist(this.personalForm.saleRepositoryId, 0, this.moreaction[0].productCode).then(res => {
             console.log(res)
             if (res.data.ret === 200) {
               console.log('res.data.data.content', res.data.data.content)
-              this.list111 = res.data.data.content
+              this.list111 = res.data.data.content.list
               this.receiptVisible2 = true
             } else {
               this.$notify.error({
@@ -1010,14 +1015,14 @@ export default {
     },
     updatebatch3(scope) {
       const parms3 = scope.row.productCode
-      batchlist(this.personalForm.outRepositoryId, parms3).then(res => {
+      batchlist(this.personalForm.saleRepositoryId, parms3).then(res => {
         this.batchlist = res.data.data.content
       })
     },
     updatebatch2(event, scope) {
       if (event === true) {
         const parms3 = scope.row.productCode
-        batchlist(this.personalForm.outRepositoryId, parms3).then(res => {
+        batchlist(this.personalForm.saleRepositoryId, parms3).then(res => {
           console.log(res)
           this.batchlist = res.data.data.content
         })
@@ -1025,6 +1030,12 @@ export default {
     },
     chooseSourceType(val) {
       console.log(val)
+      if (val === '5' || val === '4') {
+        this.isEdit = true
+      } else {
+        this.isEdit = false
+      }
+      console.log('isedit', this.isEdit)
       if (val === '5' || val === undefined) {
         this.Isproduct = false
         this.IsSourceNumber = true

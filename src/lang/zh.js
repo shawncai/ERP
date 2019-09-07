@@ -1670,7 +1670,10 @@ export default {
     urgePlan: '激励方案',
     targetMoney: '计划额',
     regionId: '区域',
-    repositoryid: '门店'
+    repositoryid: '门店',
+    week: '周',
+    month: '月',
+    quarter: '季度'
   },
   SaleOpportunity: {
     title: '机会主题',

@@ -5,30 +5,87 @@
       <el-card class="box-card" shadow="never">
         <h2 ref="geren" class="form-name">基本信息</h2>
         <div class="container" style="margin-top: 37px">
-          <el-form ref="personalForm" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
+          <el-form
+            ref="personalForm"
+            :model="personalForm"
+            :rules="personalrules"
+            :inline="true"
+            status-icon
+            class="demo-ruleForm"
+            label-width="130px">
             <el-row>
               <el-col :span="6">
                 <el-form-item :label="$t('SalePlan.title')" style="width: 100%;">
-                  <el-input v-model="personalForm.title" style="margin-left: 18px;width:200px" clearable/>
+                  <el-input v-model="personalForm.title" style="margin-left: 18px;width:200px" clearable />
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('SalePlan.planType')" prop="planType" style="width: 100%;">
-                  <el-select v-model="personalForm.planType" style="margin-left: 18px;width: 200px">
-                    <el-option value="1" label="年"/>
-                    <el-option value="2" label="月"/>
-                    <el-option value="3" label="周"/>
-                    <el-option value="4" label="日"/>
+                  <el-select
+                    v-model="personalForm.planType"
+                    style="margin-left: 18px;width: 200px"
+                    @change="listenplanType">
+                    <el-option value="1" label="年" />
+                    <el-option value="2" label="季" />
+                    <el-option value="3" label="月" />
+                    <el-option value="4" label="周" />
+                    <el-option value="5" label="日" />
                   </el-select>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('SalePlan.planDate')" style="width: 100%;">
+                <el-form-item :label="$t('SalePlan.planDate')" style="100%">
                   <el-date-picker
+                    v-if="personalForm.planType == 5"
                     v-model="personalForm.planDate"
                     type="date"
                     value-format="yyyy-MM-dd"
-                    style="margin-left: 18px;width:200px"/>
+                    style="margin-left: 18px;width:200px" />
+                  <el-date-picker
+                    v-else-if="personalForm.planType == 1 || 2 || 3 || 4"
+                    v-model="personalForm.planDate"
+                    type="year"
+                    value-format="yyyy"
+                    placeholder="选择年"
+                    style="margin-left: 18px;width: 200px"
+                    @change="getnum" />
+                  <el-input v-else v-model="personalForm.planDate" disabled style="margin-left: 18px;width:200px" />
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item v-if="isshow" :label="$t(typeName)" style="width: 100%;">
+                  <el-select
+                    v-if="personalForm.planType == 2"
+                    v-model="personalForm.planDateAdd"
+                    style="margin-left: 18px;width: 200px">
+                    <el-option value="1" label="春季" />
+                    <el-option value="2" label="夏季" />
+                    <el-option value="3" label="秋季" />
+                    <el-option value="4" label="冬季" />
+                  </el-select>
+                  <el-select
+                    v-if="personalForm.planType == 3"
+                    v-model="personalForm.planDateAdd"
+                    style="margin-left: 18px;width: 200px">
+                    <el-option value="1" label="一月" />
+                    <el-option value="2" label="二月" />
+                    <el-option value="3" label="三月" />
+                    <el-option value="4" label="四月" />
+                    <el-option value="5" label="五月" />
+                    <el-option value="6" label="六月" />
+                    <el-option value="7" label="七月" />
+                    <el-option value="8" label="八月" />
+                    <el-option value="9" label="九月" />
+                    <el-option value="10" label="十月" />
+                    <el-option value="11" label="十一月" />
+                    <el-option value="12" label="十二月" />
+                  </el-select>
+                  <el-select
+                    v-if="personalForm.planType == 4"
+                    v-model="personalForm.planDateAdd"
+                    style="margin-left: 18px;width: 200px">
+                    <el-option v-for="item in weeklist" :key="item.id" :label="item.label" :value="item.value"/>
+                  </el-select>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
@@ -39,7 +96,7 @@
                     type="date"
                     value-format="yyyy-MM-dd"
                     style="margin-left: 18px;width:200px"
-                    @change="cleardeposit"/>
+                    @change="cleardeposit" />
                 </el-form-item>
               </el-col>
               <el-col :span="6">
@@ -49,22 +106,22 @@
                     :picker-options="pickerOptions1"
                     type="date"
                     value-format="yyyy-MM-dd"
-                    style="margin-left: 18px;width:200px"/>
+                    style="margin-left: 18px;width:200px" />
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('SalePlan.lowerPlanMoney')" style="width: 100%;">
-                  <el-input v-model="personalForm.lowerPlanMoney" style="margin-left: 18px;width:200px" clearable/>
+                  <el-input v-model="personalForm.lowerPlanMoney" style="margin-left: 18px;width:200px" clearable />
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('SalePlan.planTotalMoney')" style="width: 100%;">
-                  <el-input v-model="personalForm.planTotalMoney" style="margin-left: 18px;width:200px" clearable/>
+                  <el-input v-model="personalForm.planTotalMoney" style="margin-left: 18px;width:200px" clearable />
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('SalePlan.urgePlan')" style="width: 100%;">
-                  <el-input v-model="personalForm.urgePlan" style="margin-left: 18px;width:200px" clearable/>
+                  <el-input v-model="personalForm.urgePlan" style="margin-left: 18px;width:200px" clearable />
                 </el-form-item>
               </el-col>
             </el-row>
@@ -73,30 +130,55 @@
       </el-card>
       <!--子件信息-->
       <el-card class="box-card" style="margin-top: 15px" shadow="never">
-        <h2 ref="fuzhu" class="form-name" >计划明细</h2>
+        <h2 ref="fuzhu" class="form-name">计划明细</h2>
         <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
           <el-button @click="handleAddproduct">添加明细</el-button>
           <!--<el-button type="danger" @click="deleteTreeData">删除</el-button>-->
         </div>
-        <el-dialog :visible.sync="categoryVisible" :close-on-click-modal="false" :close-on-press-escape="false" :before-close="handlecancel2" title="添加明细" class="normal" width="600px" center>
-          <el-form ref="addCategoryForm" :model="addCategoryForm" class="demo-ruleForm" style="margin: 0 auto; width: 400px">
-            <el-form-item :label="$t('SalePlan.regionId')" label-width="100px" prop="type">
-              <el-cascader v-model="addCategoryForm.regionId" :options="provinceList" :props="props" change-on-select placeholder="" style="width: 100%" @change="handleItemChange"/>
+        <el-dialog
+          :visible.sync="categoryVisible"
+          :close-on-click-modal="false"
+          :close-on-press-escape="false"
+          :before-close="handlecancel2"
+          title="添加明细"
+          class="normal"
+          width="600px"
+          center>
+          <el-form
+            ref="addCategoryForm"
+            :model="addCategoryForm"
+            :rules="addCategoryFormrules"
+            class="demo-ruleForm"
+            style="margin: 0 auto; width: 400px">
+            <el-form-item :label="$t('SalePlan.regionId')" label-width="100px" prop="regionId">
+              <el-cascader
+                v-model="addCategoryForm.regionId"
+                :options="provinceList"
+                :props="props"
+                change-on-select
+                placeholder=""
+                style="width: 100%"
+                @change="handleItemChange" />
             </el-form-item>
-            <el-form-item :label="$t('SalePlan.repositoryid')" label-width="100px">
-              <el-select v-model="addCategoryForm.repositoryid" placeholder="请选择门店" filterable style="width: 100%;" @change="changeValue">
+            <!-- <el-form-item :label="$t('SalePlan.repositoryid')" label-width="100px">
+              <el-select
+                v-model="addCategoryForm.repositoryid"
+                placeholder="请选择门店"
+                filterable
+                style="width: 100%;"
+                @change="changeValue">
                 <el-option
                   v-for="(item, index) in repositories"
                   :key="index"
                   :label="item.repositoryName"
-                  :value="item.id"/>
+                  :value="item.id" />
               </el-select>
+            </el-form-item> -->
+            <el-form-item :label="$t('SalePlan.lowerPlanMoney')" prop="lowerMoney" label-width="100px">
+              <el-input v-model="addCategoryForm.lowerMoney" autocomplete="off" />
             </el-form-item>
-            <el-form-item :label="$t('SalePlan.lowerPlanMoney')" label-width="100px">
-              <el-input v-model="addCategoryForm.lowerMoney" autocomplete="off"/>
-            </el-form-item>
-            <el-form-item :label="$t('SalePlan.targetMoney')" label-width="100px">
-              <el-input v-model="addCategoryForm.targetMoney" autocomplete="off"/>
+            <el-form-item :label="$t('SalePlan.targetMoney')" prop="targetMoney" label-width="100px">
+              <el-input v-model="addCategoryForm.targetMoney" autocomplete="off" />
             </el-form-item>
           </el-form>
           <span slot="footer" class="dialog-footer">
@@ -109,7 +191,7 @@
             ref="DeviceGroupTree"
             :data="data2"
             :props="defaultProps"
-            :check-strictly = "true"
+            :check-strictly="true"
             show-checkbox
             default-expand-all
             node-key="id"
@@ -117,7 +199,7 @@
             <span slot-scope="{ node, data }" class="custom-tree-node">
               <span>{{ node.label }}</span>
               <span v-if="data.parentId !== 0" style="margin-left: 50px">
-                <i class="el-icon-delete" @click="nodeDelete(node, data)"/>
+                <i class="el-icon-delete" @click="nodeDelete(node, data)" />
               </span>
             </span>
           </el-tree>
@@ -125,7 +207,11 @@
       </el-card>
       <!--操作-->
       <div class="buttons" style="margin-top: 20px">
-        <el-button v-no-more-click type="primary" style="background:#3696fd;border-color:#3696fd;width: 98px" @click="handlesave()">保存</el-button>
+        <el-button
+          v-no-more-click
+          type="primary"
+          style="background:#3696fd;border-color:#3696fd;width: 98px"
+          @click="handlesave()">保存</el-button>
         <el-button type="danger" style="width: 98px" @click="handlecancel()">取消</el-button>
       </div>
     </div>
@@ -134,9 +220,18 @@
 
 <script>
 import '@/directive/noMoreClick/index.js'
-import { addsaleplan } from '@/api/SalePlan'
-import { searchSaleCategory } from '@/api/SaleCategory'
-import { listbyparentid, searchRepository, searchregionName, getId } from '@/api/public'
+import {
+  addsaleplan
+} from '@/api/SalePlan'
+import {
+  searchSaleCategory
+} from '@/api/SaleCategory'
+import {
+  listbyparentid,
+  searchRepository,
+  searchregionName,
+  getId
+} from '@/api/public'
 import MyEmp from './components/MyEmp'
 import MyDelivery from '../DailyAdjust/components/MyDelivery'
 import MyDetail from './components/MyDetail'
@@ -146,12 +241,20 @@ import MyCustomer from './components/MyCustomer'
 import MyAgent from './components/MyAgent'
 export default {
   name: 'AddSalePlan',
-  components: { MyAgent, MyCustomer, MyRequire, MyApply, MyDetail, MyDelivery, MyEmp },
+  components: {
+    MyAgent,
+    MyCustomer,
+    MyRequire,
+    MyApply,
+    MyDetail,
+    MyDelivery,
+    MyEmp
+  },
   data() {
     const validatePass = (rule, value, callback) => {
       console.log(value)
-      if (value === '') {
-        callback(new Error('请选择'))
+      if (value === '' || value === undefined || value === null) {
+        callback(new Error('请输入'))
       } else {
         callback()
       }
@@ -169,16 +272,31 @@ export default {
           return time.getTime() < new Date(this.personalForm.beginTime).getTime() - 8.64e7
         }
       },
+      // 周数列表
+      weeklist: [],
+      // 是否显示周月
+      isshow: false,
       // 门店数据
       repositories: [],
       // 区域数据
       provinceList: [],
       // 转化数据
-      props: { value: 'value', children: 'cities' },
+      props: {
+        value: 'value',
+        children: 'cities'
+      },
       // 添加明细
       categoryVisible: false,
       // 明细数据
-      addCategoryForm: { label: '', id: 1, parentId: 0, level: 1, children: [], lowerMoney: '', targetMoney: '' },
+      addCategoryForm: {
+        label: '',
+        id: 1,
+        parentId: 0,
+        level: 1,
+        children: [],
+        lowerMoney: '',
+        targetMoney: ''
+      },
       // 最低计划额
       lowerMoney: '',
       // 计划额
@@ -246,31 +364,79 @@ export default {
       },
       // 销售订单规则数据
       personalrules: {
-        customerType: [
-          { required: true, message: '请选择客户类别', trigger: 'change' }
-        ],
-        customerName: [
-          { required: true, validator: validatePass, trigger: 'focus' }
-        ],
-        returnDate: [
-          { required: true, message: '请选择退货日期', trigger: 'change' }
-        ],
-        currency: [
-          { required: true, message: '请选择币种', trigger: 'change' }
-        ],
-        sourceType: [
-          { required: true, message: '请选择源单类型', trigger: 'change' }
-        ],
-        closeStatusId: [
-          { required: true, message: '请选择结算状态', trigger: 'change' }
-        ]
+        planType: [{
+          required: true,
+          message: '请选择计划类型',
+          trigger: 'change'
+        }],
+        customerType: [{
+          required: true,
+          message: '请选择客户类别',
+          trigger: 'change'
+        }],
+        customerName: [{
+          required: true,
+          validator: validatePass,
+          trigger: 'focus'
+        }],
+        returnDate: [{
+          required: true,
+          message: '请选择退货日期',
+          trigger: 'change'
+        }],
+        currency: [{
+          required: true,
+          message: '请选择币种',
+          trigger: 'change'
+        }],
+        sourceType: [{
+          required: true,
+          message: '请选择源单类型',
+          trigger: 'change'
+        }],
+        closeStatusId: [{
+          required: true,
+          message: '请选择结算状态',
+          trigger: 'change'
+        }]
+      },
+      addCategoryFormrules: {
+        lowerMoney: [{
+          required: true,
+          validator: validatePass,
+          trigger: 'change'
+        }],
+        targetMoney: [{
+          required: true,
+          validator: validatePass,
+          trigger: 'change'
+        }],
+        regionId: [{
+          required: true,
+          validator: validatePass,
+          trigger: 'change'
+        }]
       },
       // 订单明细数据
       list2: [],
       // 销售费用明细
       list3: [],
       // 明细列表规则
-      validRules: {
+      validRules: {},
+      // 周数
+      week: 0
+    }
+  },
+  computed: {
+    typeName: function() {
+      if (this.personalForm.planType === '2') {
+        return 'SalePlan.quarter'
+      }
+      if (this.personalForm.planType === '3') {
+        return 'SalePlan.month'
+      }
+      if (this.personalForm.planType === '4') {
+        return 'SalePlan.week'
       }
     }
   },
@@ -279,6 +445,74 @@ export default {
     this.getTreeId()
   },
   methods: {
+    isLeapYear(year) {
+      if (year % 4 === 0 && year % 100 !== 0 || year % 400 === 0) {
+        console.log(year + 'is leap year')
+        return true
+      } else {
+        console.log(year + 'is not leap year')
+        return false
+      }
+    },
+    getDate(date) {
+      const oDate = new Date(date)
+      const day = oDate.getDay()
+      console.log(typeof day)
+      switch (day) {
+        case 0:
+          console.log('星期日')
+          return 0
+        case 1:
+          console.log('星期一')
+          return 1
+        case 2:
+          console.log('星期二')
+          return 2
+        case 3:
+          console.log('星期三')
+          return 3
+        case 4:
+          console.log('星期四')
+          return 4
+        case 5:
+          console.log('星期五')
+          return 5
+        case 6:
+          console.log('星期六')
+          return 6
+      }
+    },
+    main() {
+      const currentYearDays = this.isLeapYear(2019) ? 366 : 365
+      const beforeDays = 7 - this.getDate(`${this.personalForm.planDate}-1-1`) + 1
+      const afterDays = this.getDate(`${this.personalForm.planDate}-12-31`)
+      const vaildDays = currentYearDays - beforeDays - afterDays
+      this.week = (vaildDays / 7).toFixed(0)
+    },
+    test(year) {
+    },
+    getnum() {
+      console.log(this.personalForm.planDate)
+      this.main()
+      this.weeklist
+      let obj = {}
+      for (let i = 1; i <= this.week; i++) {
+        obj = {}
+        obj.value = i
+        obj.label = `第${i}周`
+        this.weeklist.push(obj)
+      }
+    },
+    // 判断显示
+    listenplanType() {
+      console.log('listen')
+      if (this.personalForm.planType === '1' || this.personalForm.planType === '5') {
+        console.log(this.personalForm.planType)
+        this.isshow = false
+      } else {
+        this.isshow = true
+      }
+    },
     // 取消添加
     handlecancel2() {
       this.addCategoryForm.regionId = []
@@ -323,13 +557,44 @@ export default {
     },
     // 清理明细数据
     cleardata() {
-      this.addCategoryForm = { label: '', id: 1, parentId: 0, level: 1, children: [] }
+      this.addCategoryForm = {
+        label: '',
+        id: 1,
+        parentId: 0,
+        level: 1,
+        children: []
+      }
     },
     // 保存明细
     handlesave2() {
+      this.$refs.addCategoryForm.validate((valid) => {
+        if (valid) {
+          this.$notify({
+            title: '成功',
+            message: '保存成功',
+            type: 'success',
+            offset: 100
+          })
+        } else {
+          this.$notify.error({
+            title: '错误',
+            message: '信息未填完整',
+            offset: 100
+          })
+          return false
+        }
+      })
+      console.log('循环未结束')
       if (this.child === false) {
-        const treeData = { label: '', id: 1, parentId: 0, level: 1, children: [] }
-        treeData.label = this.addCategoryForm.repositoryName + ':  最低目标额(元):  ' + this.addCategoryForm.lowerMoney + '     ' + '目标额（元): ' + this.addCategoryForm.targetMoney
+        const treeData = {
+          label: '',
+          id: 1,
+          parentId: 0,
+          level: 1,
+          children: []
+        }
+        treeData.label = this.addCategoryForm.repositoryName + ':  最低目标额(元):  ' + this.addCategoryForm.lowerMoney +
+            '     ' + '目标额（元): ' + this.addCategoryForm.targetMoney
         treeData.id = this.treeIds++
         treeData.repositoryid = this.addCategoryForm.repositoryid
         treeData.targetMoney = this.addCategoryForm.targetMoney
@@ -339,8 +604,15 @@ export default {
         this.cleardata()
         this.addCategoryForm.id++
       } else if (this.child === true) {
-        const treeData = { label: '', id: 1, parentId: 0, level: 1, children: [] }
-        treeData.label = this.addCategoryForm.repositoryName + ':  最低目标额(元):  ' + this.addCategoryForm.lowerMoney + '     ' + '目标额（元): ' + this.addCategoryForm.targetMoney
+        const treeData = {
+          label: '',
+          id: 1,
+          parentId: 0,
+          level: 1,
+          children: []
+        }
+        treeData.label = this.addCategoryForm.repositoryName + ':  最低目标额(元):  ' + this.addCategoryForm.lowerMoney +
+            '     ' + '目标额（元): ' + this.addCategoryForm.targetMoney
         treeData.parentId = this.childData.id
         treeData.repositoryid = this.addCategoryForm.repositoryid
         treeData.repositoryid = this.addCategoryForm.repositoryid
@@ -364,32 +636,49 @@ export default {
       this.addCategoryForm.repositoryName = obj.repositoryName
     },
     // 根据区域选择门店
-    handlechange4(val) {
-    },
+    handlechange4(val) {},
     getPosition(val, cb) {
       const vm = this // 查询省市县
       let params = {}
       if (!val) { // 初始化加载 获取所有省份数据
-        params = { region: this.personalForm.regionId }
+        params = {
+          region: this.personalForm.regionId
+        }
       } else if (val.length === 1) { // 加载二级  获取市级数据
-        params = { region: val[0] }
+        params = {
+          region: val[0]
+        }
       } else if (val.length === 2) { // 加载3级   获取县级数据
-        params = { region: val[1] }
+        params = {
+          region: val[1]
+        }
       } else if (val.length === 3) { // 加载4级   获取县级数据
-        params = { region: val[2] }
+        params = {
+          region: val[2]
+        }
       } else if (val.length === 4) { // 加载5级   获取县级数据
-        params = { region: val[3] }
+        params = {
+          region: val[3]
+        }
       } else if (val.length === 5) { // 加载6级   获取县级数据
-        params = { region: val[4] }
+        params = {
+          region: val[4]
+        }
       } else if (val.length === 6) { // 加载7级   获取县级数据
-        params = { region: val[5] }
+        params = {
+          region: val[5]
+        }
       }
       listbyparentid(params).then((res) => {
         if (!val) { // 初始化加载   查询省份数据
           // vm.provinceList = res.data.data.content.map((e) => {
           //   return { value: e.id, label: e.regionName, cities: [] }
           // })
-          vm.provinceList = [{ value: this.$store.getters.regionId, label: this.$store.getters.regionName, cities: [] }]
+          vm.provinceList = [{
+            value: this.$store.getters.regionId,
+            label: this.$store.getters.regionName,
+            cities: []
+          }]
         } else if (val.length === 1) { // 加载二级    查询该省下市级数据
           vm.provinceList.map((item) => {
             if (item.value === val[0]) {
@@ -398,7 +687,11 @@ export default {
                 return
               }
               item.cities = res.data.data.content.map((e) => {
-                return { value: e.id, label: e.regionName, cities: [] }
+                return {
+                  value: e.id,
+                  label: e.regionName,
+                  cities: []
+                }
               })
             }
           })
@@ -413,7 +706,11 @@ export default {
                     return
                   }
                   value.cities = res.data.data.content.map((e) => {
-                    return { value: e.id, label: e.regionName, cities: [] }
+                    return {
+                      value: e.id,
+                      label: e.regionName,
+                      cities: []
+                    }
                   })
                 }
               })
@@ -430,7 +727,11 @@ export default {
                       return
                     }
                     value2.cities = res.data.data.content.map((e) => {
-                      return { value: e.id, label: e.regionName, cities: [] }
+                      return {
+                        value: e.id,
+                        label: e.regionName,
+                        cities: []
+                      }
                     })
                   })
                 }
@@ -450,7 +751,11 @@ export default {
                           return
                         }
                         value3.cities = res.data.data.content.map((e) => {
-                          return { value: e.id, label: e.regionName, cities: [] }
+                          return {
+                            value: e.id,
+                            label: e.regionName,
+                            cities: []
+                          }
                         })
                       })
                     }
@@ -474,7 +779,11 @@ export default {
                               return
                             }
                             value4.cities = res.data.data.content.map((e) => {
-                              return { value: e.id, label: e.regionName, cities: [] }
+                              return {
+                                value: e.id,
+                                label: e.regionName,
+                                cities: []
+                              }
                             })
                           })
                         }
@@ -502,7 +811,11 @@ export default {
                                   return
                                 }
                                 value5.cities = res.data.data.content.map((e) => {
-                                  return { value: e.id, label: e.regionName, cities: [] }
+                                  return {
+                                    value: e.id,
+                                    label: e.regionName,
+                                    cities: []
+                                  }
                                 })
                               })
                             }
@@ -568,7 +881,10 @@ export default {
     },
     // 总计
     getSummaries(param) {
-      const { columns, data } = param
+      const {
+        columns,
+        data
+      } = param
       const sums = []
       columns.forEach((column, index) => {
         if (index === 0) {
@@ -786,16 +1102,23 @@ export default {
     // 取消操作
     handlecancel() {
       this.$router.go(-1)
-      const view = { path: '/SalePlan/AddSalePlan', name: 'AddSalePlan', fullPath: '/SalePlan/AddSalePlan', title: 'AddSalePlan' }
-      this.$store.dispatch('delView', view).then(({ visitedViews }) => {
-      })
+      const view = {
+        path: '/SalePlan/AddSalePlan',
+        name: 'AddSalePlan',
+        fullPath: '/SalePlan/AddSalePlan',
+        title: 'AddSalePlan'
+      }
+      this.$store.dispatch('delView', view).then(({
+        visitedViews
+      }) => {})
     }
   }
 }
+
 </script>
 
 <style rel="stylesheet/css" scoped>
-  .normal >>> .el-dialog__header {
+  .normal>>>.el-dialog__header {
     padding: 20px 20px 10px;
     background: #fff;
     position: static;
@@ -804,7 +1127,8 @@ export default {
     width: auto;
     border-bottom: none;
   }
-  .normal >>> .el-dialog {
+
+  .normal>>>.el-dialog {
     -webkit-transform: none;
     transform: none;
     left: 0;
@@ -812,19 +1136,24 @@ export default {
     margin: 0 auto;
     height: auto;
   }
+
   .ERP-container {
     margin-right: 0;
   }
-    .form-name{
-      font-size: 18px;
-      color: #373e4f;
-      margin-bottom: -20px;
-      margin-top: 20px;
-    }
-    .container{
-      margin-top: 40px;
-    }
-    .el-button+.el-button{
-      width: 98px;
-    }
+
+  .form-name {
+    font-size: 18px;
+    color: #373e4f;
+    margin-bottom: -20px;
+    margin-top: 20px;
+  }
+
+  .container {
+    margin-top: 40px;
+  }
+
+  .el-button+.el-button {
+    width: 98px;
+  }
+
 </style>
