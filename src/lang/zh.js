@@ -1685,7 +1685,9 @@ export default {
     handlePersonId: '业务员',
     deptId: '所属部门',
     handleRepositoryId: '所属门店',
-    isSale: '当前状态'
+    isSale: '当前状态',
+    createPersonName: '创建人',
+    createTime: '创建时间'
   },
   SaleContract: {
     customerType: '客户类型',

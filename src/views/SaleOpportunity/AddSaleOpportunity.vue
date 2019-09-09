@@ -97,7 +97,7 @@
           <el-button @click="handleAddproduct">添加商品</el-button>
           <my-detail :control.sync="control" @product="productdetail"/>
           <el-button type="danger" @click="$refs.editable.removeSelecteds()">删除</el-button>
-          <el-button type="primary" @click="checkStock()">库存快照</el-button>
+          <!-- <el-button type="primary" @click="checkStock()">库存快照</el-button> -->
         </div>
         <div class="container">
           <el-editable
@@ -231,13 +231,14 @@ export default {
       // 选择的数据
       choosedata: [],
       // 业务员回显
-      handlePersonId: '',
+      handlePersonId: this.$store.getters.name,
       // 控制业务员
       stockControl: false,
       // 控制商品列表窗口
       control: false,
       // 销售订单信息数据
       personalForm: {
+        handlePersonId: this.$store.getters.userId,
         createPersonId: this.$store.getters.userId,
         countryId: this.$store.getters.countryId,
         repositoryId: this.$store.getters.repositoryId,
@@ -376,6 +377,7 @@ export default {
     // 清空记录
     restAllForm() {
       this.personalForm = {
+        handlePersonId: this.$store.getters.userId,
         createPersonId: this.$store.getters.userId,
         countryId: this.$store.getters.countryId,
         repositoryId: this.$store.getters.repositoryId,
@@ -388,8 +390,7 @@ export default {
       this.personalForm.customerPhone = null
       this.customerId = null
       this.personalForm.deptId = null
-      this.personalForm.handlePersonId = null
-      this.handlePersonId = null
+      this.handlePersonId = this.$store.getters.name
       this.deptId = null
       this.personalForm.deptId = null
       this.handleRepositoryId = null

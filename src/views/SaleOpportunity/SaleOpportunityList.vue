@@ -142,6 +142,16 @@
             <span>{{ scope.row.isSale | isSaleFilter }}</span>
           </template>
         </el-table-column>
+        <el-table-column :label="$t('SaleOpportunity.createPersonName')" :resizable="false" align="center" min-width="150">
+          <template slot-scope="scope">
+            <span>{{ scope.row.createPersonName }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column :label="$t('SaleOpportunity.createTime')" :resizable="false" align="center" min-width="150">
+          <template slot-scope="scope">
+            <span>{{ scope.row.createDate }}</span>
+          </template>
+        </el-table-column>
         <!--<el-table-column :label="$t('public.judgeStat')" :resizable="false" prop="judgeStat" align="center" min-width="150">-->
         <!--<template slot-scope="scope">-->
         <!--<span>{{ scope.row.judgeStat | judgeStatFilter }}</span>-->
@@ -152,13 +162,14 @@
         <!--<span>{{ scope.row.receiptStat | receiptStatFilter }}</span>-->
         <!--</template>-->
         <!--</el-table-column>-->
-        <el-table-column :label="$t('public.actions')" :resizable="false" align="center" min-width="260">
+        <el-table-column :label="$t('public.actions')" :resizable="false" align="center" min-width="400">
           <template slot-scope="scope">
             <el-button v-permission2="['54-63-3', scope.row.createPersonId]" title="修改" type="primary" size="mini" icon="el-icon-edit" circle @click="handleEdit(scope.row)"/>
             <!--<el-button v-show="isReview(scope.row)" title="审批" type="warning" size="mini" icon="el-icon-view" circle @click="handleReview(scope.row)"/>-->
             <el-button v-permission2="['54-63-2', scope.row.createPersonId]" title="删除" size="mini" type="danger" icon="el-icon-delete" circle @click="handleDelete(scope.row)"/>
             <el-button title="进程" size="mini" type="primary" icon="el-icon-sort" circle @click="handleReceipt(scope.row)"/>
             <el-button type="primary" style="width: 107px" @click="handleMyReceipt1(scope.row)"><span style="margin-left: -15px;">生成销售出库单</span></el-button>
+            <el-button type="primary" style="width: 107px" @click="handleMyReceipt2(scope.row)"><span style="margin-left: -15px;">新建客户洽谈</span></el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -171,10 +182,10 @@
         <el-form class="demo-ruleForm" style="margin: 0px 6%; width: 400px">
           <el-form-item label-width="100px;">
             <el-steps :space="200" style="width: 150%;" finish-status="success">
-              <el-step :status="step4" title="采购订单"/>
-              <el-step :status="step5" title="采购到货"/>
-              <el-step :status="step6" title="质检"/>
-              <el-step :status="step7" title="采购入库"/>
+              <el-step :status="step4" title="销售机会"/>
+              <el-step :status="step5" title="销售订单"/>
+              <el-step :status="step6" title="销售出库单"/>
+              <el-step :status="step7" title="销售配送单"/>
               <el-step :status="step8" title="完成"/>
             </el-steps>
           </el-form-item>
@@ -314,6 +325,11 @@ export default {
       console.log(val)
       this.$store.dispatch('getempcontract2', val)
       this.$router.push('/SaleOut/AddSaleOut')
+    },
+    handleMyReceipt2(val) {
+      console.log(val)
+      this.$store.dispatch('getempcontract', val)
+      this.$router.push('/CustomerMarketing/AddCustomerChat')
     },
     contorlstep4(val) {
       if (val === 0) {
