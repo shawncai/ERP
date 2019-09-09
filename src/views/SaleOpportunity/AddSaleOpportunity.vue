@@ -14,13 +14,17 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('SaleOpportunity.opportunityType')" prop="opportunityType" style="width: 100%;">
-                  <el-select v-model="personalForm.opportunityType" style="margin-left: 18px;width: 200px" @focus="getTypes">
+                  <el-select ref="clear" v-model="personalForm.opportunityType" style="margin-left: 18px;width: 200px" @focus="getTypes">
+                    <el-option v-show="false" label="" value=""/>
                     <el-option
                       v-for="(item, index) in opportunityTypes"
                       :value="item.id"
                       :key="index"
                       :label="item.categoryName"
                     />
+                    <template>
+                      <el-button v-if="isshow" icon="el-icon-circle-plus-outline" style="width:100%" @click="go_creat">新增</el-button>
+                    </template>
                   </el-select>
                 </el-form-item>
               </el-col>
@@ -44,13 +48,17 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('SaleOpportunity.opportunitySource')" style="width: 100%;">
-                  <el-select v-model="personalForm.opportunitySource" style="margin-left: 18px;width: 200px" @focus="getTypes">
+                  <el-select ref="clear2" v-model="personalForm.opportunitySource" style="margin-left: 18px;width: 200px" @focus="getTypes">
+                    <el-option v-show="false" label="" value=""/>
                     <el-option
                       v-for="(item, index) in opportunitySources"
                       :value="item.id"
                       :key="index"
                       :label="item.categoryName"
                     />
+                    <template>
+                      <el-button v-if="isshow" icon="el-icon-circle-plus-outline" style="width:100%" @click="go_creat2">新增</el-button>
+                    </template>
                   </el-select>
                 </el-form-item>
               </el-col>
@@ -187,6 +195,8 @@ export default {
       }
     }
     return {
+      // 权限判断
+      isshow: false,
       // 机会来源数据
       opportunitySources: [],
       // 机会来源获取参数
@@ -268,8 +278,14 @@ export default {
   },
   created() {
     this.getTypes()
+    this.jungleshow()
   },
   methods: {
+    jungleshow() {
+      const roles = this.$store.getters.roles
+      this.isshow = roles.includes('54-83-1')
+      console.log(this.isshow)
+    },
     checkStock(row) {
       console.log('this.moreaction.length', this.moreaction.length)
       if (this.moreaction.length > 1 || this.moreaction.length === 0) {
@@ -466,6 +482,14 @@ export default {
       const view = { path: '/SaleOpportunity/AddSaleOpportunity', name: 'AddSaleOpportunity', fullPath: '/SaleOpportunity/AddSaleOpportunity', title: 'AddSaleOpportunity' }
       this.$store.dispatch('delView', view).then(({ visitedViews }) => {
       })
+    },
+    go_creat() {
+      this.$router.push('/SaleCategory/SaleCategoryList')
+      this.$refs.clear.blur()
+    },
+    go_creat2() {
+      this.$router.push('/SaleCategory/SaleCategoryList')
+      this.$refs.clear2.blur()
     }
   }
 }

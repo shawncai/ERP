@@ -114,7 +114,7 @@
       </el-card>
       <!--子件信息-->
       <el-card class="box-card" style="margin-top: 15px" shadow="never">
-        <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">采购合同明细</h2>
+        <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">销售合同明细</h2>
         <div class="container">
           <el-editable
             ref="editable"
@@ -192,7 +192,7 @@
           <el-form :inline="true" status-icon class="demo-ruleForm" label-width="130px">
             <el-row>
               <el-col :span="12">
-                <el-form-item label="采购数量合计" style="width: 100%;">
+                <el-form-item label="销售数量合计" style="width: 100%;">
                   <span>{{ personalForm.allQuantity }}</span>
                 </el-form-item>
               </el-col>

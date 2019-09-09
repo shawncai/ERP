@@ -48,24 +48,32 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('SaleReturn.closeType')" style="width: 100%;">
-                  <el-select v-model="personalForm.settleMode" style="margin-left: 18px;width:200px">
+                  <el-select ref="clear" v-model="personalForm.settleMode" style="margin-left: 18px;width:200px">
+                    <el-option v-show="false" label="" value=""/>
                     <el-option
                       v-for="(item, index) in colseTypes"
                       :value="item.id"
                       :key="index"
                       :label="item.categoryName"/>
+                    <template>
+                      <el-button v-if="isshow" icon="el-icon-circle-plus-outline" style="width:100%" @click="go_creat">新增</el-button>
+                    </template>
                   </el-select>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('SaleReturn.payType')" style="width: 100%;">
-                  <el-select v-model="personalForm.payMode" style="margin-left: 18px;width:200px">
+                  <el-select ref="clear2" v-model="personalForm.payMode" style="margin-left: 18px;width:200px">
+                    <el-option v-show="false" label="" value=""/>
                     <el-option
                       v-for="(item, index) in payModes"
                       :key="index"
                       :label="item.categoryName"
                       :value="item.id"
                     />
+                    <template>
+                      <el-button v-if="isshow" icon="el-icon-circle-plus-outline" style="width:100%" @click="go_creat2">新增</el-button>
+                    </template>
                   </el-select>
                 </el-form-item>
               </el-col>
@@ -338,6 +346,8 @@ export default {
           return time.getTime() < new Date().getTime() - 8.64e7
         }
       },
+      // 判断权限
+      isshow: false,
       // 控制是否从源单添加
       IsSourceNumber: true,
       // 控制源单
@@ -437,8 +447,15 @@ export default {
     this.getTypes()
     this.getdatatime()
     this.chooseSource()
+    this.jungleshow()
   },
   methods: {
+    // 判断权限
+    jungleshow() {
+      const roles = this.$store.getters.roles
+      this.isshow = roles.includes('1-22-28-1')
+      console.log(this.isshow)
+    },
     // 添加源单操作
     handleAddSource() {
       this.saleoutcontrol = true
@@ -904,6 +921,14 @@ export default {
       const view = { path: '/SaleReturn/AddSaleReturn', name: 'AddSaleReturn', fullPath: '/SaleReturn/AddSaleReturn', title: 'AddSaleReturn' }
       this.$store.dispatch('delView', view).then(({ visitedViews }) => {
       })
+    },
+    go_creat() {
+      this.$router.push('/Supplier/SupplierCategory')
+      this.$refs.clear.blur()
+    },
+    go_creat2() {
+      this.$router.push('/Supplier/SupplierCategory')
+      this.$refs.clear2.blur()
     }
   }
 }

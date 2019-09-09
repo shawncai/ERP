@@ -17,12 +17,13 @@
                   <el-select v-model="personalForm.sourceType" style="margin-left: 18px;width: 200px" @change="chooseType">
                     <el-option value="1" label="销售机会" />
                     <el-option value="2" label="分期申请" />
+                    <el-option value="3" label="无来源" />
                   </el-select>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('SaleContract.sourceNumber')" style="width: 100%;">
-                  <el-input v-model="personalForm.sourceNumber" style="margin-left: 18px;width: 200px" @focus="chooseData"/>
+                  <el-input :disabled="personalForm.sourceType === '3'" v-model="personalForm.sourceNumber" style="margin-left: 18px;width: 200px" @focus="chooseData"/>
                 </el-form-item>
                 <my-opportunity :opportunitycontrol.sync="opportunitycontrol" @opportunityDetail="opportunityDetail" @opportunity="opportunity"/>
                 <my-installmentapply :installappleycontrol.sync = "installappleycontrol" @installappleyDetail="installappleyDetail" @installappley="installappley"/>
@@ -57,32 +58,53 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('SaleContract.closeType')" style="width: 100%;">
-                  <el-select v-model="personalForm.closeType" clearable style="margin-left: 18px;width: 200px">
+                  <el-select ref="clear" v-model="personalForm.closeType" clearable style="margin-left: 18px;width: 200px">
+                    <el-option v-show="false" label="" value=""/>
                     <el-option
                       v-for="(item, index) in colseTypes"
                       :value="item.id"
                       :key="index"
                       :label="item.categoryName"/>
+                    <template>
+                      <el-button v-if="isshow2" icon="el-icon-circle-plus-outline" style="width:100%" @click="go_creat">新增</el-button>
+                    </template>
                   </el-select>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('SaleContract.payType')" style="width: 100%;">
-                  <el-select v-model="personalForm.payType" clearable style="margin-left: 18px;width: 200px">
-                    <el-option value="1" label="支付1"/>
+                  <el-select ref="clear2" v-model="personalForm.payType" clearable style="margin-left: 18px;width: 200px">
+                    <el-option v-show="false" label="" value=""/>
+                    <el-option
+                      v-for="(item, index) in payModes"
+                      :key="index"
+                      :label="item.categoryName"
+                      :value="item.id"
+                    />
+                    <template>
+                      <el-button v-if="isshow2" icon="el-icon-circle-plus-outline" style="width:100%" @click="go_creat2">新增</el-button>
+                    </template>
                   </el-select>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('SaleContract.deliveryMode')" style="width: 100%;">
-                  <el-select v-model="personalForm.deliveryMode" clearable style="margin-left: 18px;width: 200px">
-                    <el-option value="1" label="交货1"/>
+                  <el-select ref="clear5" v-model="personalForm.deliveryMode" clearable style="margin-left: 18px;width: 200px">
+                    <el-option v-show="false" label="" value=""/>
+                    <el-option
+                      v-for="(item, index) in deliverymodes"
+                      :key="index"
+                      :value="item.id"
+                      :label="item.categoryName"/>
+                    <template>
+                      <el-button v-if="isshow2" icon="el-icon-circle-plus-outline" style="width:100%" @click="go_creat5">新增</el-button>
+                    </template>
                   </el-select>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('SaleContract.currency')" prop="currency" style="width: 100%;">
-                  <el-select v-model="personalForm.currency" clearable style="margin-left: 18px;width: 200px">
+                  <el-select v-model="personalForm.currency" clearable style="margin-left: 18px;width: 200px" @change="changeRate">
                     <el-option value="1" label="RMB"/>
                     <el-option value="2" label="USD"/>
                   </el-select>
@@ -128,25 +150,31 @@
               <el-col :span="6">
                 <el-form-item :label="$t('SaleContract.contractStat')" style="width: 100%;">
                   <el-select v-model="personalForm.contractStat" clearable style="margin-left: 18px;width: 200px">
-                    <el-option value="1" label="状态1"/>
+                    <el-option value="1" label="制单中"/>
+                    <el-option value="2" label="执行中"/>
+                    <el-option value="3" label="结束"/>
                   </el-select>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('SaleContract.invoiceType')" style="width: 100%;">
-                  <el-select v-model="personalForm.invoiceType" clearable style="margin-left: 18px;width: 200px">
+                  <el-select ref="clear3" v-model="personalForm.invoiceType" clearable style="margin-left: 18px;width: 200px">
+                    <el-option v-show="false" label="" value=""/>
                     <el-option
                       v-for="(item, index) in invoiceTypes"
                       :value="item.id"
                       :key="index"
                       :label="item.categoryName"
                     />
+                    <template>
+                      <el-button v-if="isshow" icon="el-icon-circle-plus-outline" style="width:100%" @click="go_creat3">新增</el-button>
+                    </template>
                   </el-select>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('SaleContract.taxRate')" style="width: 100%;">
-                  <el-input v-model="personalForm.taxRate" style="margin-left: 18px;width: 200px" clearable/>
+                  <el-input v-model="personalForm.taxRate" style="margin-left: 18px;width: 200px" clearable disabled/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
@@ -211,14 +239,33 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('SaleContract.firstMoney')" style="width: 100%;">
-                  <el-input v-model="personalForm.firstMoney" :disabled="isinstallappley" style="margin-left: 18px;width: 200px" clearable/>
+                  <el-input-number v-model="personalForm.firstMoney" :precision="2" :controls="false" :disabled="isinstallappley" style="margin-left: 18px;width: 200px" clearable/>
                 </el-form-item>
               </el-col>
-              <!--<el-col :span="6">-->
-              <!--<el-form-item :label="$t('SaleContract.eachMoney')" style="width: 100%;">-->
-              <!--<el-input v-model="personalForm.eachMoney" style="margin-left: 18px;width: 200px" clearable/>-->
-              <!--</el-form-item>-->
-              <!--</el-col>-->
+              <el-col :span="6">
+                <el-form-item :label="$t('SaleContract.uploadAttachments')" style="width: 100%;">
+                  <el-upload
+                    :on-change="handleChange"
+                    :file-list="fileList3"
+                    class="upload-demo"
+                    action="https://jsonplaceholder.typicode.com/posts/"
+                    style="margin-left: 18px"
+                  >
+                    <el-button size="small" type="primary" style="width: 200px">点击上传</el-button>
+                    <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
+                  </el-upload>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item :label="$t('SaleContract.installmentAllMoney')" style="width: 100%;">
+                  <el-input v-model="personalForm.totalMoney" :disabled="isinstallappley" style="margin-left: 18px;width: 200px" clearable/>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item :label="$t('SaleContract.eachMoney')" style="width: 100%;">
+                  <el-input v-model="personalForm.eachMoney" :disabled="isinstallappley" style="margin-left: 18px;width: 200px" clearable/>
+                </el-form-item>
+              </el-col>
             </el-row>
           </el-form>
         </div>
@@ -227,6 +274,8 @@
       <el-card class="box-card" style="margin-top: 15px" shadow="never">
         <h2 ref="fuzhu" class="form-name" >合同明细</h2>
         <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
+          <el-button :disabled="canclick" @click="handleAddproduct">添加商品</el-button>
+          <my-detail :control.sync="control" @product="productdetail"/>
           <el-button type="primary" @click="checkStock()">库存快照</el-button>
         </div>
         <div class="container">
@@ -253,7 +302,7 @@
             <el-editable-column prop="unit" align="center" label="单位" min-width="150px"/>
             <el-editable-column prop="performanceScore" align="center" label="绩效分" min-width="150px"/>
             <el-editable-column prop="productScore" align="center" label="商品积分" min-width="150px"/>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0.00, precision: 2}, type: 'visible'}" prop="quantity" align="center" label="订单数量" min-width="150px"/>
+            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 1.00, precision: 2}, type: 'visible'}" prop="quantity" align="center" label="订单数量" min-width="150px"/>
             <el-editable-column prop="salePrice" align="center" label="零售价" min-width="150px"/>
             <!--            <el-editable-column prop="costPrice" align="center" label="成本价" min-width="150px"/>-->
             <el-editable-column prop="taxprice" align="center" label="含税价" min-width="150px">
@@ -359,7 +408,7 @@
 
 <script>
 import '@/directive/noMoreClick/index.js'
-import { countlist } from '@/api/public'
+import { countlist, getRate } from '@/api/public'
 import { createsaleContract } from '@/api/SaleContract'
 import { getdeptlist } from '@/api/BasicSettings'
 import { searchStockCategory } from '@/api/StockCategory'
@@ -436,6 +485,15 @@ export default {
           return time.getTime() < new Date().getTime() - 8.64e7
         }
       },
+      // 支付方式
+      payModes: [],
+      // 附件列表
+      fileList3: [],
+      // 判断点击
+      canclick: false,
+      // 权限判断
+      isshow: false,
+      isshow2: false,
       // 分期数据
       installmentCounts: [],
       // 分期期数参数
@@ -463,7 +521,7 @@ export default {
         pagesize: 99999
       },
       // 是否可以编辑分期数据
-      isinstallappley: false,
+      isinstallappley: true,
       // 回显客户
       customerId: '',
       // 控制客户弹窗
@@ -478,7 +536,7 @@ export default {
       // 分期申请
       installappleycontrol: false,
       // 交货方式
-      giveIds: [],
+      deliverymodes: [],
       // 运送方式
       transportIds: [],
       // 结算方式
@@ -530,7 +588,10 @@ export default {
         deptId: this.$store.getters.deptId,
         saleRepositoryId: this.$store.getters.repositoryId,
         customerType: '2',
-        signDate: null
+        signDate: null,
+        sourceType: '3',
+        taxRate: 0,
+        contractStat: '1'
       },
       // 采购申请单规则数据
       personalrules: {
@@ -578,8 +639,75 @@ export default {
     this.getways()
     this.getratelist()
     this.getdatatime()
+    this.getCategory()
+    this.jungleshow()
   },
   methods: {
+    // 上传附件
+    handleChange(file, fileList) {
+      this.fileList3 = fileList.slice(-3)
+    },
+    // 汇率变化
+    changeRate() {
+      console.log(123)
+      if (this.personalForm.currency === '2') {
+        getRate(this.personalForm.currency).then(res => {
+          console.log(res)
+          if (res.data.ret === 200) {
+            // console.log('res.data.data.content', res.data.data.content)
+            this.personalForm.taxRate = res.data.data.content.rate
+            console.log(this.personalForm.taxRate)
+          } else {
+            this.$notify.error({
+              title: '错误',
+              message: res.data.msg,
+              offset: 100
+            })
+          }
+        })
+      } else if (this.personalForm.currency === '1') {
+        this.personalForm.taxRate = '1.0000'
+      }
+    },
+    // 无来源添加商品
+    handleAddproduct() {
+      this.control = true
+    },
+    // 判断权限
+    jungleshow() {
+      const roles = this.$store.getters.roles
+      this.isshow = roles.includes('54-83-1')
+      this.isshow2 = roles.includes('1-22-28-1')
+      console.log(this.isshow)
+      console.log(this.isshow2)
+    },
+    // 获取类型
+    getCategory() {
+      // 获取运送方式
+      searchCategory(3).then(res => {
+        if (res.data.ret === 200) {
+          this.transmodes = res.data.data.content.list
+        } else {
+          this.$notify.error({
+            title: '错误',
+            message: '出错了',
+            offset: 100
+          })
+        }
+      })
+      // 获取交货方式
+      searchCategory(2).then(res => {
+        if (res.data.ret === 200) {
+          this.deliverymodes = res.data.data.content.list
+        } else {
+          this.$notify.error({
+            title: '错误',
+            message: '出错了',
+            offset: 100
+          })
+        }
+      })
+    },
     checkStock(row) {
       console.log('this.moreaction.length', this.moreaction.length)
       if (this.moreaction.length > 1 || this.moreaction.length === 0) {
@@ -619,9 +747,30 @@ export default {
       }
       var currentdate = year + seperator1 + month + seperator1 + strDate
       this.personalForm.signDate = currentdate
+      this.personalForm.installmentBegintime = currentdate
     },
     change() {
       this.$forceUpdate()
+      console.log('期数', this.personalForm.installmentCount)
+      if (this.personalForm.installmentCount >= 12 || this.personalForm.installmentCount < 24) {
+        const date = new Date()
+        const year = date.getFullYear() + 1
+        const month = date.getMonth() + (this.personalForm.installmentCount % 12)
+        const strDate = this.personalForm.installmentCount
+        const seperator1 = '-'
+        const currentdate = year + seperator1 + month + seperator1 + strDate
+        this.personalForm.installmentEndtime = currentdate
+      }
+      if (this.personalForm.installmentCount >= 24) {
+        const date = new Date()
+        const year = date.getFullYear() + 2
+        const month = date.getMonth() + (this.personalForm.installmentCount % 24)
+        const strDate = this.personalForm.installmentCount
+        const seperator1 = '-'
+        const currentdate = year + seperator1 + month + seperator1 + strDate
+        this.personalForm.installmentEndtime = currentdate
+      }
+      this.personalForm.eachMoney = (this.personalForm.totalMoney - this.personalForm.firstMoney) / this.personalForm.installmentCount
     },
     // 获取分期期数
     getratelist() {
@@ -653,10 +802,11 @@ export default {
       this.personalForm.customerPhone = val.phoneNumber
     },
     agentdata(val) {
-      console.log(val)
+      console.log('经销信息', val)
       this.personalForm.customerId = val.id
       this.customerId = val.agentName
       this.personalForm.customerPhone = val.phone
+      this.personalForm.deliveryMode = val.deliveryMode
     },
     clearfinal() {
       this.personalForm.installmentEndtime = null
@@ -682,9 +832,9 @@ export default {
           sums[index] = values.reduce((prev, curr) => {
             const value = Number(curr)
             if (!isNaN(value)) {
-              return (prev + curr).toFixed(2)
+              return (Number(prev) + Number(curr)).toFixed(2)
             } else {
-              return (prev).toFixed(2)
+              return (Number(prev)).toFixed(2)
             }
           }, 0)
           sums[index] += ''
@@ -717,7 +867,7 @@ export default {
       // 交货方式
       searchCategory(2).then(res => {
         if (res.data.ret === 200) {
-          this.giveIds = res.data.data.content.list
+          this.deliverymodes = res.data.data.content.list
         }
       })
       // 运送方式
@@ -730,6 +880,11 @@ export default {
       searchCategory(5).then(res => {
         if (res.data.ret === 200) {
           this.paymentIds = res.data.data.content.list
+        }
+      })
+      searchCategory(7).then(res => {
+        if (res.data.ret === 200) {
+          this.payModes = res.data.data.content.list
         }
       })
     },
@@ -792,11 +947,19 @@ export default {
         this.personalForm.sourceNumber = ''
         this.personalForm.installmentCount = ''
         this.isinstallappley = true
+        this.canclick = true
       } else if (this.personalForm.sourceType === '2') {
         this.$refs.editable.clear()
         this.personalForm.sourceNumber = ''
         this.personalForm.installmentCount = ''
         this.isinstallappley = false
+        this.canclick = true
+      } else if (this.personalForm.sourceType === '3') {
+        this.$refs.editable.clear()
+        this.personalForm.sourceNumber = ''
+        this.personalForm.installmentCount = ''
+        this.isinstallappley = true
+        this.canclick = false
       }
     },
     // 从源单中添加商品
@@ -829,9 +992,14 @@ export default {
       }
     },
     opportunity(val) {
+      console.log('销售机会', val)
       this.personalForm.sourceNumber = val.opportunityNumber
       this.personalForm.salePersonId = val.handlePersonId
       this.salePersonId = val.handlePersonName
+      this.personalForm.customerType = String(val.customerType)
+      this.saleRepositoryId = val.handleRepositoryName
+      this.personalForm.saleRepositoryId = val.handleRepositoryId
+      this.personalForm.deptId = val.deptId
     },
     installappleyDetail(val) {
       console.log(val)
@@ -852,8 +1020,31 @@ export default {
       }
     },
     installappley(val) {
+      console.log('源单数据', val)
       this.personalForm.sourceNumber = val.applyNumber
       this.personalForm.installmentCount = val.installmentCount
+      this.personalForm.dayOfMonth = val.installmentDays
+      this.personalForm.firstMoney = val.firstMoney
+      this.personalForm.totalMoney = val.totalMoney
+      this.personalForm.eachMoney = (val.totalMoney - val.firstMoney) / val.installmentCount
+      if (val.installmentCount >= 12 || val.installmentCount < 24) {
+        const date = new Date()
+        const year = date.getFullYear() + 1
+        const month = date.getMonth() + (val.installmentCount % 12)
+        const strDate = val.installmentDays
+        const seperator1 = '-'
+        const currentdate = year + seperator1 + month + seperator1 + strDate
+        this.personalForm.installmentEndtime = currentdate
+      }
+      if (val.installmentCount >= 24) {
+        const date = new Date()
+        const year = date.getFullYear() + 2
+        const month = date.getMonth() + (val.installmentCount % 24)
+        const strDate = val.installmentDays
+        const seperator1 = '-'
+        const currentdate = year + seperator1 + month + seperator1 + strDate
+        this.personalForm.installmentEndtime = currentdate
+      }
     },
     // 更新类型
     updatecountry() {
@@ -879,7 +1070,7 @@ export default {
         }
       })
       // 结算方式数据
-      searchSaleCategory(this.colseTypeparms).then(res => {
+      searchCategory(5).then(res => {
         if (res.data.ret === 200) {
           this.colseTypes = res.data.data.content.list
         }
@@ -917,9 +1108,9 @@ export default {
       this.personalForm.ourContractorId = val.id
     },
     // 采购申请明细来源
-    handleAddproduct() {
-      this.control = true
-    },
+    // handleAddproduct() {
+    //   this.control = true
+    // },
     productdetail(val) {
       console.log(val)
       const nowlistdata = this.$refs.editable.getRecords()
@@ -1083,6 +1274,23 @@ export default {
       const view = { path: '/SaleContract/AddSaleContract', name: 'AddSaleContract', fullPath: '/SaleContract/AddSaleContract', title: 'AddSaleContract' }
       this.$store.dispatch('delView', view).then(({ visitedViews }) => {
       })
+    },
+    // 触发下拉blur
+    go_creat() {
+      this.$router.push('/Supplier/SupplierCategory')
+      this.$refs.clear.blur()
+    },
+    go_creat2() {
+      this.$router.push('/Supplier/SupplierCategory')
+      this.$refs.clear2.blur()
+    },
+    go_creat3() {
+      this.$router.push('/SaleCategory/SaleCategoryList')
+      this.$refs.clear3.blur()
+    },
+    go_creat5() {
+      this.$router.push('/Supplier/SupplierCategory')
+      this.$refs.clear5.blur()
     }
   }
 }

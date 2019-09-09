@@ -494,18 +494,18 @@ export default {
   watch: {
     detailcontrol() {
       this.editVisible = this.detailcontrol
-    },
-    detaildata() {
-      this.personalForm = this.detaildata
-      this.productForm = this.detaildata.installmentApplyDetailVos[0]
-      this.reviewList = []
-      const review = this.personalForm.approvalUseVos
-      for (const i in review) {
-        if (review[i].actualStepHandler !== null) {
-          this.reviewList.push(review[i])
-        }
-      }
     }
+    // detaildata() {
+    //   this.personalForm = this.detaildata
+    //   this.productForm = this.detaildata.installmentApplyDetailVos[0]
+    //   this.reviewList = []
+    //   const review = this.personalForm.approvalUseVos
+    //   for (const i in review) {
+    //     if (review[i].actualStepHandler !== null) {
+    //       this.reviewList.push(review[i])
+    //     }
+    //   }
+    // }
   },
   methods: {
     handlecancel() {

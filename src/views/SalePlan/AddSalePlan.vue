@@ -155,6 +155,7 @@
             style="margin: 0 auto; width: 400px">
             <el-form-item :label="$t('SalePlan.regionId')" label-width="100px" prop="regionId">
               <el-cascader
+                ref="mycascader"
                 v-model="addCategoryForm.regionId"
                 :options="provinceList"
                 :props="props"
@@ -163,7 +164,7 @@
                 style="width: 100%"
                 @change="handleItemChange" />
             </el-form-item>
-            <!-- <el-form-item :label="$t('SalePlan.repositoryid')" label-width="100px">
+            <el-form-item :label="$t('SalePlan.repositoryid')" label-width="100px">
               <el-select
                 v-model="addCategoryForm.repositoryid"
                 placeholder="请选择门店"
@@ -176,7 +177,7 @@
                   :label="item.repositoryName"
                   :value="item.id" />
               </el-select>
-            </el-form-item> -->
+            </el-form-item>
             <el-form-item :label="$t('SalePlan.lowerPlanMoney')" prop="lowerMoney" label-width="100px">
               <el-input v-model="addCategoryForm.lowerMoney" autocomplete="off" />
             </el-form-item>
@@ -199,14 +200,14 @@
           width="600px"
           center>
           <el-form
-            ref="addCategoryForm"
-            :model="addCategoryForm"
-            :rules="addCategoryFormrules"
+            ref="editCategoryForm"
+            :model="editCategoryForm"
+            :rules="editCategoryFormrules"
             class="demo-ruleForm"
             style="margin: 0 auto; width: 400px">
             <el-form-item :label="$t('SalePlan.regionId')" label-width="100px" prop="regionId">
               <el-cascader
-                v-model="addCategoryForm.regionId"
+                v-model="editCategoryForm.regionId"
                 :options="provinceList"
                 :props="props"
                 change-on-select
@@ -214,9 +215,9 @@
                 style="width: 100%"
                 @change="handleItemChange" />
             </el-form-item>
-            <!-- <el-form-item :label="$t('SalePlan.repositoryid')" label-width="100px">
+            <el-form-item :label="$t('SalePlan.repositoryid')" label-width="100px">
               <el-select
-                v-model="addCategoryForm.repositoryid"
+                v-model="editCategoryForm.repositoryId"
                 placeholder="请选择门店"
                 filterable
                 style="width: 100%;"
@@ -227,16 +228,16 @@
                   :label="item.repositoryName"
                   :value="item.id" />
               </el-select>
-            </el-form-item> -->
+            </el-form-item>
             <el-form-item :label="$t('SalePlan.lowerPlanMoney')" prop="lowerMoney" label-width="100px">
-              <el-input v-model="addCategoryForm.lowerMoney" autocomplete="off" />
+              <el-input v-model="editCategoryForm.lowerMoney" autocomplete="off" />
             </el-form-item>
             <el-form-item :label="$t('SalePlan.targetMoney')" prop="targetMoney" label-width="100px">
-              <el-input v-model="addCategoryForm.targetMoney" autocomplete="off" />
+              <el-input v-model="editCategoryForm.targetMoney" autocomplete="off" />
             </el-form-item>
           </el-form>
           <span slot="footer" class="dialog-footer">
-            <el-button type="primary" @click="handlesave2()">保存</el-button>
+            <el-button type="primary" @click="handlesave3()">保存</el-button>
             <el-button type="danger" style="width: 98px;" @click="handlecancel3()">取消</el-button>
           </span>
         </el-dialog>
@@ -253,7 +254,8 @@
             <span slot-scope="{ node, data }" class="custom-tree-node">
               <span>{{ node.label }}</span>
               <span style="margin-left: 50px">
-                <i class="el-icon-delete" @click="nodeDelete(node, data)" />
+                <i class="el-icon-delete" style="margin-right: 20px" @click="nodeDelete(node, data)"/>
+                <i class="el-icon-edit" @click="nodeEdit(node, data)" />
               </span>
             </span>
           </el-tree>
@@ -283,7 +285,8 @@ import {
 import {
   listbyparentid,
   searchRepository,
-  getId
+  getId,
+  searchregionName
 } from '@/api/public'
 import MyEmp from './components/MyEmp'
 import MyDelivery from '../DailyAdjust/components/MyDelivery'
@@ -344,6 +347,17 @@ export default {
       categoryVisible2: false,
       // 明细数据
       addCategoryForm: {
+        label: '',
+        id: 1,
+        parentId: 0,
+        level: 1,
+        children: [],
+        lowerMoney: '',
+        targetMoney: '',
+        regionId: []
+      },
+      // 修改数据
+      editCategoryForm: {
         label: '',
         id: 1,
         parentId: 0,
@@ -472,6 +486,23 @@ export default {
           trigger: 'change'
         }]
       },
+      editCategoryFormrules: {
+        lowerMoney: [{
+          required: true,
+          validator: validatePass,
+          trigger: 'change'
+        }],
+        targetMoney: [{
+          required: true,
+          validator: validatePass,
+          trigger: 'change'
+        }],
+        regionId: [{
+          required: true,
+          validator: validatePass,
+          trigger: 'change'
+        }]
+      },
       // 订单明细数据
       list2: [],
       // 销售费用明细
@@ -479,7 +510,9 @@ export default {
       // 明细列表规则
       validRules: {},
       // 周数
-      week: 0
+      week: 0,
+      // 修改id
+      editId: 0
     }
   },
   computed: {
@@ -603,6 +636,16 @@ export default {
 
       children.splice(index, 1)
     },
+    // 修改tree数据
+    nodeEdit(node, data) {
+      this.categoryVisible2 = true
+      this.editCategoryForm.lowerMoney = data.lowerMoney
+      this.editCategoryForm.targetMoney = data.targetMoney
+      this.editCategoryForm.regionId = data.regionId
+      this.editCategoryForm.repositoryId = data.repositoryid
+      console.log(data)
+      console.log(this.editCategoryForm)
+    },
     // checkGroupNode: function(a, b) {
     //   if (b.checkedKeys.length > 0) {
     //     this.$refs.DeviceGroupTree.setCheckedKeys([a.id])
@@ -616,6 +659,10 @@ export default {
         this.childData = data
         this.childData2 = data
         this.editCheckId = data.id
+        this.editCategoryForm = data
+        this.editCategoryForm.repositoryId = data.repositoryid
+        this.editId = data.id
+        console.log('修改', this.editCategoryForm)
       } else if (checked === false) {
         this.child = false
         this.childData = ''
@@ -628,7 +675,9 @@ export default {
         id: 1,
         parentId: 0,
         level: 1,
-        children: []
+        children: [],
+        regionId: [],
+        repositoryName: ''
       }
     },
     // 保存明细
@@ -647,10 +696,9 @@ export default {
             message: '信息未填完整',
             offset: 100
           })
-          return
+          return false
         }
       })
-      console.log(this.provinceList[this.provinceList.length - 1].label)
       if (this.child === false) {
         const treeData = {
           label: '',
@@ -659,10 +707,13 @@ export default {
           level: 1,
           children: []
         }
-        treeData.label = this.provinceList[this.provinceList.length - 1].label + ':  最低目标额(元):  ' + this.addCategoryForm.lowerMoney +
+        treeData.label = this.addCategoryForm.labelName + ':  最低目标额(元):  ' + this.addCategoryForm.lowerMoney +
             '     ' + '目标额（元): ' + this.addCategoryForm.targetMoney
         treeData.id = this.treeIds++
         treeData.repositoryid = this.addCategoryForm.repositoryid
+        treeData.regionId = this.addCategoryForm.regionId
+        treeData.labelName = this.addCategoryForm.labelName
+        treeData.repositoryName = this.addCategoryForm.repositoryName
         treeData.targetMoney = this.addCategoryForm.targetMoney
         treeData.lowerMoney = this.addCategoryForm.lowerMoney
         this.data2.push(treeData)
@@ -677,11 +728,13 @@ export default {
           level: 1,
           children: []
         }
-        treeData.label = this.provinceList[this.provinceList.length - 1].label + ':  最低目标额(元):  ' + this.addCategoryForm.lowerMoney +
+        treeData.label = this.addCategoryForm.labelName + ':  最低目标额(元):  ' + this.addCategoryForm.lowerMoney +
             '     ' + '目标额（元): ' + this.addCategoryForm.targetMoney
         treeData.parentId = this.childData.id
         treeData.repositoryid = this.addCategoryForm.repositoryid
-        treeData.repositoryid = this.addCategoryForm.repositoryid
+        treeData.regionId = this.addCategoryForm.regionId
+        treeData.labelName = this.addCategoryForm.labelName
+        treeData.repositoryName = this.addCategoryForm.repositoryName
         treeData.targetMoney = this.addCategoryForm.targetMoney
         treeData.lowerMoney = this.addCategoryForm.lowerMoney
         treeData.id = this.treeIds++
@@ -692,6 +745,40 @@ export default {
         this.addCategoryForm.id++
       }
     },
+    // 修改保存明细
+    handlesave3() {
+      this.$refs.editCategoryForm.validate((valid) => {
+        if (valid) {
+          this.$notify({
+            title: '成功',
+            message: '保存成功',
+            type: 'success',
+            offset: 100
+          })
+        } else {
+          this.$notify.error({
+            title: '错误',
+            message: '信息未填完整',
+            offset: 100
+          })
+          return false
+        }
+      })
+      const label = this.editCategoryForm.labelName + ':  最低目标额(元):  ' + this.editCategoryForm.lowerMoney +
+            '     ' + '目标额（元): ' + this.editCategoryForm.targetMoney
+      console.log(label)
+      this.$refs.DeviceGroupTree.updateKeyChildren(this.editId, {
+        label: label,
+        repositoryId: this.editCategoryForm.repositoryid,
+        regionId: this.editCategoryForm.regionId,
+        labelName: this.editCategoryForm.labelName,
+        repositoryName: this.editCategoryForm.repositoryName,
+        targetMoney: this.editCategoryForm.targetMoney,
+        lowerMoney: this.editCategoryForm.lowerMoney
+
+      })
+      this.categoryVisible2 = false
+    },
     changeValue(value) {
       console.log(value)
       console.log(this.repositories)
@@ -700,6 +787,8 @@ export default {
         return item.id === value
       })
       this.addCategoryForm.repositoryName = obj.repositoryName
+      this.editCategoryForm.repositoryName = obj.repositoryName
+      console.log(obj.repositoryName)
     },
     // 根据区域选择门店
     handlechange4(val) {},
@@ -903,18 +992,48 @@ export default {
     handleItemChange(val) {
       console.log('门店', val)
       this.getPosition(val)
-      // const finalid = val[val.length - 1]
-      // searchregionName(finalid).then(res => {
-      //   console.log('123', res)
-      // })
-      // searchRepository(finalid).then(res => {
-      //   console.log(res)
-      //   if (res.data.ret === 200) {
-      //     this.repositories = res.data.data.content.list
-      //   } else {
-      //     console.log('区域选择门店')
-      //   }
-      // })
+      console.log('this.addCategoryForm.regionId', this.addCategoryForm.regionId)
+      console.log('this.provinceList', this.provinceList)
+      setTimeout(() => {
+        this.addCategoryForm.labelName = this.$refs.mycascader.currentLabels.join('/')
+        this.editCategoryForm.labelName = this.$refs.mycascader.currentLabels.join('/')
+        console.log('this.$refs.mycascader', this.$refs.mycascader.currentLabels.length)
+      }, 0)
+
+      const finalid = val[val.length - 1]
+      searchregionName(finalid).then(res => {
+        console.log('123', res)
+      })
+      searchRepository(finalid).then(res => {
+        console.log(res)
+        if (res.data.ret === 200) {
+          this.repositories = res.data.data.content.list
+        } else {
+          console.log('区域选择门店')
+        }
+      })
+    },
+    handleItemChange_edit(val) {
+      console.log('门店', val)
+      this.getPosition(val)
+      console.log('this.addCategoryForm.regionId', this.addCategoryForm.regionId)
+      console.log('this.provinceList', this.provinceList)
+      setTimeout(() => {
+        console.log('this.$refs.mycascader', this.$refs.mycascader.currentLabels.length)
+      }, 0)
+
+      const finalid = val[val.length - 1]
+      searchregionName(finalid).then(res => {
+        console.log('123', res)
+      })
+      searchRepository(finalid).then(res => {
+        console.log(res)
+        if (res.data.ret === 200) {
+          this.repositories = res.data.data.content.list
+        } else {
+          console.log('区域选择门店')
+        }
+      })
     },
     // 清空结束时间
     cleardeposit() {
@@ -994,47 +1113,6 @@ export default {
     //   this.heji6 = sums[20] - sums[22]
     //   return sums
     // },
-    // 通过折扣额计算折扣
-    getdiscountMoney(row) {
-      row.discount = ((1 - row.discountMoney / row.salePrice / row.quantity) * 100).toFixed(2)
-    },
-    // 通过折扣计算折扣额
-    getdiscount(row) {
-      row.discountMoney = (row.salePrice * row.quantity * (1 - row.discount / 100)).toFixed(2)
-    },
-    // 通过数量计算成本金额， 含税金额， 金额， 含税成本金额
-    getquantity(row) {
-      row.costMoney = row.returnQuantity * row.costPrice
-      row.includeTaxMoney = row.returnQuantity * row.taxprice
-      row.money = row.returnQuantity * row.salePrice
-      row.includeTaxCostMoney = row.includeTaxMoney + row.costMoney
-      row.taxMoney = ((row.taxRate / 100) * row.salePrice * row.returnQuantity).toFixed(2)
-      if (row.returnQuantity !== 0) {
-        row.taxRate = ((row.taxMoney / (row.salePrice * row.returnQuantity)) * 100).toFixed(2)
-        row.discount = (1 - row.discountMoney / row.salePrice / row.returnQuantity).toFixed(2)
-      }
-      row.discountMoney = (row.salePrice * row.returnQuantity * (1 - row.discount)).toFixed(2)
-      return row.returnQuantity
-    },
-    // 计算含税价
-    gettaxprice(row) {
-      row.taxprice = (row.salePrice * (1 + row.taxRate / 100)).toFixed(2)
-      return row.taxprice
-    },
-    // 通过税率计算税额
-    gettaxRate(row) {
-      if (row.taxRate !== 0) {
-        row.taxMoney = (row.salePrice * row.taxRate * row.quantity / 100).toFixed(2)
-      }
-      return row.taxRate
-    },
-    // 通过税额计算税率
-    gettaxMoney(row) {
-      if (row.taxMoney !== 0 && row.quantity !== 0 && row.salePrice !== 0) {
-        row.taxRate = ((row.taxMoney / (row.salePrice * row.quantity)) * 100).toFixed(2)
-      }
-      return row.taxMoney
-    },
     // 选择客户类型时清理客户名称
     clearCustomer() {
       this.personalForm.customerId = ''

@@ -260,13 +260,17 @@
             <el-row>
               <el-col :span="6">
                 <el-form-item :label="$t('Supplier.settleMode')" style="width: 100%;">
-                  <el-select v-model="personalForm.settleMode" placeholder="请选择结算方式" style="margin-left: 18px;width: 200px" @focus="updatePaymen">
+                  <el-select ref="clear6" v-model="personalForm.settleMode" placeholder="请选择结算方式" style="margin-left: 18px;width: 200px" @focus="updatePaymen">
+                    <el-option v-show="false" label="" value=""/>
                     <el-option
                       v-for="(item, index) in settleModes"
                       :key="index"
                       :label="item.categoryName"
                       :value="item.id"
                     />
+                    <template>
+                      <el-button v-if="isshow" icon="el-icon-circle-plus-outline" style="width:100%" @click="go_creat6">新增</el-button>
+                    </template>
                   </el-select>
                 </el-form-item>
               </el-col>
@@ -891,6 +895,10 @@ export default {
     go_creat5() {
       this.$router.push('/Supplier/SupplierCategory')
       this.$refs.clear5.blur()
+    },
+    go_creat6() {
+      this.$router.push('/Supplier/SupplierCategory')
+      this.$refs.clear6.blur()
     }
   }
 }

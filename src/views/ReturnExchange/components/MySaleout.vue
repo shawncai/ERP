@@ -405,7 +405,7 @@ export default {
           carCode: item.carCode,
           batteryCode: item.batteryCode,
           motorCode: item.motorCode,
-          discount: Number(item.discount) * 100,
+          discount: Number(item.discountRate) * 100,
           discountMoney: item.discountMoney
         }
       })

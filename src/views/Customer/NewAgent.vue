@@ -101,8 +101,8 @@
           </el-form-item>
           <my-emp :control.sync="empcontrol" @personName="personName"/>
           <el-form-item :label="$t('Customer.transmode')" prop="address" style="width: 40%;margin-top:1%">
-            <el-select ref="clear4" v-model="customerForm.transmode" :value="customerForm.transmode" placeholder="请选择" style="width: 100%;" @focus="getCategory">
-              <el-option v-show="false" label="" value=""/>
+            <el-select ref="clear4" v-model="customerForm.transmode" :value="customerForm.transmode" placeholder="请选择" style="width: 100%;" @focus="getCategory" @change="test">
+              <el-option v-show="false" label="" value="" />
               <el-option
                 v-for="(item, index) in transmodes"
                 :key="index"
@@ -114,7 +114,7 @@
             </el-select>
           </el-form-item>
           <el-form-item :label="$t('Customer.deliverymode')" prop="address" style="width: 40%;margin-top:1%">
-            <el-select ref="clear5" v-model="customerForm.deliverymode" :value="customerForm.deliverymode" placeholder="请选择" style="width: 100%;" @focus="getCategory">
+            <el-select ref="clear5" v-model="customerForm.deliverymode" :value="customerForm.deliverymode" placeholder="请选择" style="width: 100%;" @focus="getCategory" @change="test">
               <el-option v-show="false" label="" value=""/>
               <el-option
                 v-for="(item, index) in deliverymodes"
@@ -248,6 +248,10 @@ export default {
     this.jungleshow()
   },
   methods: {
+    test() {
+      console.log('运送id', this.customerForm.transmode)
+      console.log('交货方式', this.customerForm.deliverymode)
+    },
     jungleshow() {
       const roles = this.$store.getters.roles
       this.isshow = roles.includes('1-14-21-1')
@@ -257,9 +261,9 @@ export default {
     // 获取类型
     getCategory() {
       // 获取运送方式
-      searchCategory(2).then(res => {
+      searchCategory(3).then(res => {
         if (res.data.ret === 200) {
-          this.deliverymodes = res.data.data.content.list
+          this.transmodes = res.data.data.content.list
         } else {
           this.$notify.error({
             title: '错误',
@@ -269,9 +273,9 @@ export default {
         }
       })
       // 获取交货方式
-      searchCategory(3).then(res => {
+      searchCategory(2).then(res => {
         if (res.data.ret === 200) {
-          this.transmodes = res.data.data.content.list
+          this.deliverymodes = res.data.data.content.list
         } else {
           this.$notify.error({
             title: '错误',

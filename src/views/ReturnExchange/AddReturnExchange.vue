@@ -28,8 +28,8 @@
               <el-col :span="6">
                 <el-form-item :label="$t('ReturnExchange.customerType')" prop="customerType" style="width: 100%;">
                   <el-select v-model="personalForm.customerType" style="margin-left: 18px;width: 200px" @change="clearrequire">
-                    <el-option value="1" label="客户"/>
-                    <el-option value="2" label="经销商"/>
+                    <el-option value="1" label="经销商"/>
+                    <el-option value="2" label="零售"/>
                   </el-select>
                 </el-form-item>
               </el-col>
@@ -388,9 +388,9 @@ export default {
     },
     // 选择客户focus
     chooseCustomer() {
-      if (this.personalForm.customerType === '2') {
+      if (this.personalForm.customerType === '1') {
         this.agentcontrol = true
-      } else if (this.personalForm.customerType === '1') {
+      } else if (this.personalForm.customerType === '2') {
         this.customercontrol = true
       }
     },
@@ -401,6 +401,7 @@ export default {
       this.personalForm.customerPhone = val.phoneNumber
     },
     agentdata(val) {
+      console.log(val)
       this.personalForm.customerId = val.id
       this.customerId = val.agentName
     },
@@ -419,7 +420,12 @@ export default {
       console.log(val)
       this.personalForm.sourceNumber = val.number
       this.personalForm.sourceMoney = val.allTaxMoney
+      this.personalForm.customerType = String(val.customerType)
       this.Issource = true
+      this.customerId = val.customerName
+      this.personalForm.customerPhone = val.phoneNumber
+      this.personalForm.customerId = val.customerId
+      this.personalForm.diffMoney = val.actualMoney
     },
     // 源单为调拨单
     StoragemoveDetail(val) {

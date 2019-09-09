@@ -49,13 +49,17 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('Advancemanage.payMode')" style="width: 100%;">
-                  <el-select v-model="personalForm.payMode" style="margin-left: 18px;width: 200px" @change="chooseType">
+                  <el-select ref="clear" v-model="personalForm.payMode" style="margin-left: 18px;width: 200px" @change="chooseType">
+                    <el-option v-show="false" label="" value=""/>
                     <el-option
                       v-for="(item, index) in payModes"
                       :key="index"
                       :label="item.categoryName"
                       :value="item.id"
                     />
+                    <template>
+                      <el-button v-if="isshow" icon="el-icon-circle-plus-outline" style="width:100%" @click="go_creat">新增</el-button>
+                    </template>
                   </el-select>
                 </el-form-item>
               </el-col>
@@ -163,6 +167,8 @@ export default {
       }
     }
     return {
+      // 判断显示
+      isshow: false,
       // 控制地址是否可以编辑
       Isaddress: false,
       // 控制电话是否可以编辑
@@ -254,8 +260,15 @@ export default {
   created() {
     this.getTypes()
     this.getways()
+    this.jungleshow()
   },
   methods: {
+    // 判断是否显示
+    jungleshow() {
+      const roles = this.$store.getters.roles
+      this.isshow = roles.includes('1-22-28-1')
+      console.log(this.isshow)
+    },
     // 选择客户focus
     chooseCustomer() {
       this.customercontrol = true
@@ -550,6 +563,11 @@ export default {
       const view = { path: '/StockArrival/AddStockArrival', name: 'AddStockArrival', fullPath: '/StockArrival/AddStockArrival', title: 'AddStockArrival' }
       this.$store.dispatch('delView', view).then(({ visitedViews }) => {
       })
+    },
+    // 出发bulr
+    go_creat() {
+      this.$router.push('/Supplier/SupplierCategory')
+      this.$refs.clear.blur()
     }
   }
 }
