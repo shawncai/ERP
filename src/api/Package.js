@@ -33,6 +33,21 @@ export function packageList(query) {
   })
 }
 
+export function getPackage(query) {
+  var params = new URLSearchParams()
+  if (query.productCode !== '' && query.productCode !== null && query.productCode !== undefined) {
+    params.append('productCode', query.productCode) // 你要传给后台的参数值 key/value
+  }
+  if (query.repositoryId !== '' && query.repositoryId !== null && query.repositoryId !== undefined) {
+    params.append('repositoryId', query.repositoryId) // 你要传给后台的参数值 key/value
+  }
+  return request({
+    url: '/erp/package/getPackage',
+    method: 'post',
+    data: params
+  })
+}
+
 // 修改组合商品
 export function updatePackage(query, query2) {
   var params = new URLSearchParams()

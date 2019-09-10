@@ -583,3 +583,25 @@ export function checkReceiptApply2(query) {
     data: params
   })
 }
+
+// 获取批次数量
+export function getAllBatch(query) {
+  var params = new URLSearchParams()
+  if (query.productCode !== '' && query.productCode !== null && query.productCode !== undefined) {
+    params.append('productCode', query.productCode) // 你要传给后台的参数值 key/value
+  }
+  if (query.batch !== '' && query.batch !== null && query.batch !== undefined) {
+    params.append('batch', query.batch) // 你要传给后台的参数值 key/value
+  }
+  if (query.repositoryId !== '' && query.repositoryId !== null && query.repositoryId !== undefined) {
+    params.append('repositoryId', query.repositoryId) // 你要传给后台的参数值 key/value
+  }
+  if (query.locationId !== '' && query.locationId !== null && query.locationId !== undefined) {
+    params.append('locationId', query.locationId) // 你要传给后台的参数值 key/value
+  }
+  return request({
+    url: '/erp/allinventory/getAllBatch',
+    method: 'post',
+    data: params
+  })
+}
