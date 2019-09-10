@@ -1,5 +1,5 @@
 <template>
-  <el-dialog :visible.sync="employeeVisible" :saleoutcontrol="saleoutcontrol" :close-on-press-escape="false" top="10px" title="选择销售出库单" append-to-body width="1100px" @close="$emit('update:saleoutcontrol', false)">
+  <el-dialog :visible.sync="employeeVisible" :saleoutcontrol="saleoutcontrol" :personaldata="personalForm" :close-on-press-escape="false" top="10px" title="选择销售出库单" append-to-body width="1100px" @close="$emit('update:saleoutcontrol', false)">
     <el-card class="box-card" style="margin-top: 15px;height: 60px;padding-left:0 " shadow="never">
       <el-row>
         <el-form ref="getemplist" :model="getemplist" style="margin-top: -9px">
@@ -169,10 +169,16 @@ export default {
     saleoutcontrol: {
       type: Boolean,
       default: false
+    },
+    personaldata: {
+      type: Object,
+      default: null
     }
   },
   data() {
     return {
+      // 接受数据
+      querydata: this.personaldata,
       // 选择框控制
       employeeVisible: this.saleoutcontrol,
       // 回显仓库
@@ -235,9 +241,9 @@ export default {
         receiptStat: 2,
         repositoryId: this.$store.getters.repositoryId,
         regionIds: this.$store.getters.regionId,
-        isActive: 1
-        // customerType: this.$store.state.saleout.customertype
-        // customerId: this.$store.state.saleout.customerid
+        isActive: 1,
+        customerType: 0,
+        customerId: 0
       },
       // 传给组件的数据
       personalForm: {},
@@ -251,6 +257,11 @@ export default {
     saleoutcontrol() {
       this.employeeVisible = this.saleoutcontrol
       this.getlist()
+      console.log(this.querydata)
+    },
+    personaldata() {
+      this.querydata = this.personaldata
+      console.log(this.querydata)
     }
   },
   methods: {
@@ -308,7 +319,9 @@ export default {
     getlist() {
       // 物料需求计划列表数据
       this.listLoading = true
-      this.getemplist.customerType = '1'
+      this.getemplist.customerType = this.querydata.customerType
+      this.getemplist.customerId = this.querydata.customerId
+      console.log(this.getemplist)
       searchsaleOut(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list

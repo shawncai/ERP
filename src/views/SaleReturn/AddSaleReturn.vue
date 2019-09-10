@@ -36,7 +36,7 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('SaleReturn.customerName')" prop="customerId" style="width: 100%;">
-                  <el-input v-model="customerId" style="margin-left: 18px;width:200px" @focus="chooseCustomer"/>
+                  <el-input v-model="customerId" style="margin-left: 18px;width:200px" clearable @focus="chooseCustomer"/>
                   <my-customer :customercontrol.sync="customercontrol" @customerdata="customerdata"/>
                   <my-agent :agentcontrol.sync="agentcontrol" @agentdata="agentdata"/>
                 </el-form-item>
@@ -127,7 +127,7 @@
           <el-button :disabled="Isproduct" @click="handleAddproduct">添加商品</el-button>
           <my-detail :control.sync="control" @product="productdetail"/>
           <el-button :disabled="IsSourceNumber" style="width: 130px" @click="handleAddSource">从源单中选择</el-button>
-          <my-saleout :saleoutcontrol.sync="saleoutcontrol" :customertype="personalForm.customerType" :customerid="personalForm.customerId" @saleOutDetail="saleOutDetail" @saleOutdata="saleOutdata"/>
+          <my-saleout :saleoutcontrol.sync="saleoutcontrol" :personaldata="personalForm" @saleOutDetail="saleOutDetail" @saleOutdata="saleOutdata"/>
           <el-button type="danger" @click="$refs.editable.removeSelecteds()">删除</el-button>
           <el-button type="primary" @click="checkStock()">库存快照</el-button>
         </div>
