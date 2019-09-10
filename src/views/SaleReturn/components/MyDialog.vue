@@ -380,16 +380,16 @@ export default {
   watch: {
     editcontrol() {
       this.editVisible = this.editcontrol
-    },
-    editdata() {
-      this.personalForm = this.editdata
-      this.salePersonId = this.personalForm.salePersonName
-      this.customerId = this.personalForm.customerName
-      this.saleRepositoryId = this.personalForm.saleRepositoryName
-      this.personalForm.customerPhone = this.personalForm.phoneNumber
-      this.list2 = this.personalForm.saleReturnDetailVos
-      this.chooseSource()
     }
+    // editdata() {
+    //   this.personalForm = this.editdata
+    //   this.salePersonId = this.personalForm.salePersonName
+    //   this.customerId = this.personalForm.customerName
+    //   this.saleRepositoryId = this.personalForm.saleRepositoryName
+    //   this.personalForm.customerPhone = this.personalForm.phoneNumber
+    //   this.list2 = this.personalForm.saleReturnDetailVos
+    //   this.chooseSource()
+    // }
   },
   created() {
     this.getTypes()

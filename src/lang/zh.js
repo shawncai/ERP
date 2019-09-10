@@ -1790,7 +1790,9 @@ export default {
     regionId: '区',
     detailAddress: '详细地址',
     certificateType: '证件类型',
-    certificateNumber: '证件号'
+    certificateNumber: '证件号',
+    currency: '货币',
+    exchangeRate: '汇率'
   },
   PrepReceipt: {
     title: '预收款主题',

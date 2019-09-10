@@ -1,5 +1,5 @@
 <template>
-  <el-dialog :visible.sync="editVisible" :detailcontrol="detailcontrol" :detaildata="detaildata" :close-on-press-escape="false" :title="personalForm.applyNumber +'    详情'" append-to-body width="1010px" class="edit" top="-10px" @close="$emit('update:detailcontrol', false)">
+  <el-dialog :visible.sync="editVisible" :detailcontrol="detailcontrol" :detaildata="detaildata" :close-on-press-escape="false" :title="personalForm.sourceNumber +'    详情'" append-to-body width="1010px" class="edit" top="-10px" @close="$emit('update:detailcontrol', false)">
     <!--基本信息-->
     <el-card class="box-card" style="margin-top: 63px" shadow="never">
       <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">基本信息</h2>
@@ -494,18 +494,18 @@ export default {
   watch: {
     detailcontrol() {
       this.editVisible = this.detailcontrol
+    },
+    detaildata() {
+      this.personalForm = this.detaildata
+      this.productForm = this.detaildata.installmentApplyDetailVos[0]
+      this.reviewList = []
+      const review = this.personalForm.approvalUseVos
+      for (const i in review) {
+        if (review[i].actualStepHandler !== null) {
+          this.reviewList.push(review[i])
+        }
+      }
     }
-    // detaildata() {
-    //   this.personalForm = this.detaildata
-    //   this.productForm = this.detaildata.installmentApplyDetailVos[0]
-    //   this.reviewList = []
-    //   const review = this.personalForm.approvalUseVos
-    //   for (const i in review) {
-    //     if (review[i].actualStepHandler !== null) {
-    //       this.reviewList.push(review[i])
-    //     }
-    //   }
-    // }
   },
   methods: {
     handlecancel() {

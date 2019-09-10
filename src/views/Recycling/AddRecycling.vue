@@ -81,6 +81,19 @@
                   <el-input v-model="personalForm.remark" style="margin-left: 18px;width: 200px" clearable/>
                 </el-form-item>
               </el-col>
+              <el-col :span="6">
+                <el-form-item :label="$t('Recycling.currency')" prop="currency" style="width: 100%;">
+                  <el-select v-model="personalForm.currency" style="margin-left: 18px;width: 200px" @change="changeRate">
+                    <el-option value="1" label="RMB"/>
+                    <el-option value="2" label="USD"/>
+                  </el-select>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item :label="$t('Recycling.exchangeRate')" style="width: 100%;">
+                  <el-input v-model="personalForm.exchangeRate" style="margin-left: 18px;width:200px" disabled/>
+                </el-form-item>
+              </el-col>
             </el-row>
           </el-form>
         </div>
@@ -140,7 +153,7 @@
 <script>
 import '@/directive/noMoreClick/index.js'
 import { createrecycling } from '@/api/Recycling'
-import { getlocation, locationlist } from '@/api/public'
+import { getlocation, locationlist, getRate } from '@/api/public'
 import { searchSaleCategory } from '@/api/SaleCategory'
 import { getdeptlist } from '@/api/BasicSettings'
 import MyEmp from './components/MyEmp'
@@ -193,7 +206,7 @@ export default {
         pagesize: 99999
       },
       // 门店回显
-      recyclingRepositoryId: '',
+      recyclingRepositoryId: this.$store.getters.repositoryName,
       // 控制门店
       repositorycontrol: false,
       // 选择的数据
@@ -201,7 +214,7 @@ export default {
       // 部门数据
       depts: [],
       // 回收人回显
-      recyclingPersonId: '',
+      recyclingPersonId: this.$store.getters.name,
       // 控制回收人
       stockControl: false,
       // 收入单信息数据
@@ -210,9 +223,11 @@ export default {
         createPersonId: this.$store.getters.userId,
         countryId: this.$store.getters.countryId,
         currency: '1',
-        repositoryId: this.$store.getters.repositoryId,
+        recyclingRepositoryId: this.$store.getters.repositoryId,
         regionId: this.$store.getters.regionId,
-        recyclingDate: null
+        recyclingDate: null,
+        exchangeRate: '1.0000',
+        recyclingPersonId: this.$store.getters.userId
       },
       // 收入单规则数据
       personalrules: {
@@ -235,6 +250,27 @@ export default {
     this.getTypes()
   },
   methods: {
+    // 汇率变化
+    changeRate() {
+      console.log(123)
+      if (this.personalForm.currency === '2') {
+        getRate(this.personalForm.currency).then(res => {
+          console.log(res)
+          if (res.data.ret === 200) {
+            // console.log('res.data.data.content', res.data.data.content)
+            this.personalForm.exchangeRate = res.data.data.content.rate
+          } else {
+            this.$notify.error({
+              title: '错误',
+              message: res.data.msg,
+              offset: 100
+            })
+          }
+        })
+      } else if (this.personalForm.currency === '1') {
+        this.personalForm.exchangeRate = '1.0000'
+      }
+    },
     // 选择客户focus
     chooseCustomer() {
       this.customercontrol = true
