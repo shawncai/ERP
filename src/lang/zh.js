@@ -1523,6 +1523,9 @@ export default {
     failedQuantity: '不合格数量'
   },
   Advancemanage: {
+    startend: '预售时间',
+    starttime: '预售开始时间',
+    endtime: '预售结束时间',
     depositTime: '预售定金时间',
     isSale: '预售前是否销售',
     finalTime: '预售尾款时间',

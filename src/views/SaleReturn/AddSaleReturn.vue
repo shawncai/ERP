@@ -234,12 +234,12 @@
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('SaleReturn.ridMoney')" style="width: 100%;">
-                  <el-input v-model="personalForm.ridMoney" style="margin-left: 18px;width:200px"/>
+                <el-form-item :label="$t('SaleReturn.ridMoney')" prop="ridMoney" style="width: 100%;">
+                  <el-input v-model="personalForm.ridMoney" :disabled="personalForm.customerType === '2'" style="margin-left: 18px;width:200px"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('SaleReturn.actualReturnMoney')" style="width: 100%;">
+                <el-form-item :label="$t('SaleReturn.actualReturnMoney')" prop="actualReturnMoney" style="width: 100%;">
                   <el-input v-model="personalForm.actualReturnMoney" style="margin-left: 18px;width:200px"/>
                 </el-form-item>
               </el-col>
@@ -340,6 +340,14 @@ export default {
         callback()
       }
     }
+    const validatePass2 = (rule, value, callback) => {
+      console.log(value)
+      if (this.personalForm.actualReturnMoney === '' || this.personalForm.actualReturnMoney === undefined || this.personalForm.actualReturnMoney === null) {
+        callback(new Error('请输入退款金额'))
+      } else {
+        callback()
+      }
+    }
     return {
       pickerOptions1: {
         disabledDate: (time) => {
@@ -427,6 +435,9 @@ export default {
         ],
         closeStatusId: [
           { required: true, message: '请选择结算状态', trigger: 'change' }
+        ],
+        actualReturnMoney: [
+          { required: true, message: validatePass2, trigger: 'change' }
         ]
       },
       // 订单明细数据
@@ -643,6 +654,7 @@ export default {
       this.heji4 = sums[14]
       this.heji5 = sums[18]
       this.heji6 = sums[15] - sums[18]
+      this.personalForm.actualReturnMoney = this.heji6
       return sums
     },
     // 通过折扣额计算折扣

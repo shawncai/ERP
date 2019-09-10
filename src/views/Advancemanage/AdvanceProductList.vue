@@ -13,14 +13,14 @@
               <el-input v-model="getemplist.productCode" placeholder="物品编号" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
-          <el-col :span="5" style="margin-left: 10px">
+          <!-- <el-col :span="5" style="margin-left: 10px">
             <el-form-item label="预售模式">
               <el-select v-model="getemplist.advanceMode" :value="getemplist.advanceMode" placeholder="预售模式" clearable>
                 <el-option value="1" label="一口价"/>
                 <el-option value="2" label="阶梯价"/>
               </el-select>
             </el-form-item>
-          </el-col>
+          </el-col> -->
           <!--更多搜索条件-->
           <el-col :span="3" style="margin-left: 20px">
             <!-- 搜索按钮 -->
@@ -63,7 +63,7 @@
           width="55"
           fixed="left"
           align="center"/>
-        <el-table-column :label="$t('public.id')" :resizable="false" fixed="left" align="center" min-width="150">
+        <el-table-column :label="$t('public.id')" :resizable="false" fixed="left" align="center" min-width="75">
           <template slot-scope="scope">
             <span class="link-type" @click="handleDetail(scope.row)">{{ scope.row.id }}</span>
           </template>
@@ -89,17 +89,17 @@
             <span>{{ scope.row.color }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('Advancemanage.advanceMode')" :resizable="false" align="center" min-width="150">
-          <template slot-scope="scope">
-            <span>{{ scope.row.advanceMode | advanceModeFilter }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column :label="$t('Advancemanage.depositBegintime')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('Advancemanage.starttime')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.depositBegintime }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('Advancemanage.depositEndtime')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('Advancemanage.endtime')" :resizable="false" align="center" min-width="150">
+          <template slot-scope="scope">
+            <span>{{ scope.row.depositEndtime }}</span>
+          </template>
+        </el-table-column>
+        <!-- <el-table-column :label="$t('Advancemanage.depositEndtime')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.depositEndtime }}</span>
           </template>
@@ -113,7 +113,7 @@
           <template slot-scope="scope">
             <span>{{ scope.row.finalEndtime }}</span>
           </template>
-        </el-table-column>
+        </el-table-column> -->
         <el-table-column :label="$t('public.actions')" :resizable="false" align="center" min-width="230">
           <template slot-scope="scope">
             <el-button v-permission2="['54-84-87-3', scope.row.createPersonId]" title="修改" type="primary" size="mini" icon="el-icon-edit" circle @click="handleEdit(scope.row)"/>

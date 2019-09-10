@@ -7,7 +7,7 @@
         <div class="container" style="margin-top: 37px">
           <el-form ref="personalForm" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
             <el-row>
-              <el-col :span="6">
+              <!-- <el-col :span="6">
                 <el-form-item :label="$t('Advancemanage.depositBegintime')" style="width: 100%;">
                   <el-date-picker
                     v-model="personalForm.depositBegintime"
@@ -27,16 +27,21 @@
                     value-format="yyyy-MM-dd"
                     style="margin-left: 18px;width:200px"/>
                 </el-form-item>
-              </el-col>
-              <el-col :span="6">
-                <el-form-item :label="$t('Advancemanage.isSale')" style="width: 100%;">
-                  <el-radio-group v-model="personalForm.isSale" style="margin-left: 18px;width:200px">
-                    <el-radio :label="1" style="width: 100px">是</el-radio>
-                    <el-radio :label="2">否</el-radio>
-                  </el-radio-group>
+              </el-col> -->
+              <el-col :span="12">
+                <el-form-item :label="$t('Advancemanage.startend')" prop="startend" style="width: 100%;">
+                  <el-date-picker
+                    v-model="personalForm.startend"
+                    type="daterange"
+                    value-format="yyyy-MM-dd"
+                    align="right"
+                    unlink-panels
+                    range-separator="到"
+                    style="margin-left: 18px;width:400px"
+                  />
                 </el-form-item>
               </el-col>
-              <el-col :span="6">
+              <!-- <el-col :span="6">
                 <el-form-item :label="$t('Advancemanage.finalBegintime')" style="width: 100%;">
                   <el-date-picker
                     v-model="personalForm.finalBegintime"
@@ -81,7 +86,7 @@
                     <el-radio :label="2">暂不开启</el-radio>
                   </el-radio-group>
                 </el-form-item>
-              </el-col>
+              </el-col> -->
             </el-row>
           </el-form>
         </div>
@@ -112,7 +117,15 @@
             <el-editable-column prop="color" align="center" label="颜色" min-width="150px"/>
             <el-editable-column prop="unit" align="center" label="单位" min-width="150px"/>
             <el-editable-column prop="salePrice" align="center" label="单价" min-width="150px"/>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="deposit" align="center" label="预售定金" min-width="150px"/>
+            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="deposit" align="center" label="预售定金" min-width="150px">
+              <template slot="edit" slot-scope="scope">
+                <el-input-number
+                  :precision="2"
+                  :controls="false"
+                  v-model="scope.row.deposit"
+                  @input="jungle(scope.row)"/>
+              </template>
+            </el-editable-column>
           </el-editable>
         </div>
       </el-card>
@@ -151,6 +164,15 @@ export default {
         callback()
       }
     }
+    const validatePass2 = (rule, value, callback) => {
+      console.log(value)
+      console.log(this.personalForm.startend)
+      if (this.personalForm.startend === '' || this.personalForm.startend === undefined || this.personalForm.startend === null) {
+        callback(new Error('请选择预售时间'))
+      } else {
+        callback()
+      }
+    }
     return {
       pickerOptions0: {
         disabledDate: (time) => {
@@ -166,9 +188,7 @@ export default {
       },
       pickerOptions2: {
         disabledDate: (time) => {
-          if (this.personalForm.finalEndtime !== null) {
-            return time.getTime() > new Date(this.personalForm.finalEndtime).getTime() - 8.64e7
-          }
+          return time.getTime() > new Date(this.personalForm.startend).getTime() - 8.64e7
         }
       },
       pickerOptions3: {
@@ -251,6 +271,9 @@ export default {
         ],
         AdvancemanageNumber: [
           { required: true, message: '请输入发票号', trigger: 'blur' }
+        ],
+        startend: [
+          { required: true, validator: validatePass2, trigger: 'change' }
         ]
       },
       // 采购申请单明细数据
@@ -265,6 +288,19 @@ export default {
     this.getways()
   },
   methods: {
+    // 判断销售定金
+    jungle(row) {
+      console.log(row)
+      if (row.deposit > row.salePrice) {
+        this.$notify.error({
+          title: '错误',
+          message: '预售定金不能大于销售价格',
+          offset: 100
+        })
+        console.log(this.$refs.editable)
+        this.$refs.editable.reloadRow()
+      }
+    },
     // 清空结束时间
     cleardeposit() {
       this.personalForm.depositEndtime = null
@@ -433,6 +469,8 @@ export default {
         }
         return elem
       })
+      this.personalForm.depositBegintime = this.personalForm.startend[0]
+      this.personalForm.depositEndtime = this.personalForm.startend[1]
       const Data = this.personalForm
       for (const key in Data) {
         if (Data[key] === '' || Data[key] === undefined || Data[key] === null) {

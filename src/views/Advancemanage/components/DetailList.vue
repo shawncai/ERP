@@ -9,16 +9,16 @@
           <el-form :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
             <el-row>
               <el-col :span="12">
-                <el-form-item :label="$t('Advancemanage.depositBegintime')" style="width: 100%;">
+                <el-form-item :label="$t('Advancemanage.starttime')" style="width: 100%;">
                   <span>{{ personalForm.depositBegintime }}</span>
                 </el-form-item>
               </el-col>
               <el-col :span="12">
-                <el-form-item :label="$t('Advancemanage.depositEndtime')" style="width: 100%;">
+                <el-form-item :label="$t('Advancemanage.endtime')" style="width: 100%;">
                   <span>{{ personalForm.depositEndtime }}</span>
                 </el-form-item>
               </el-col>
-              <el-col :span="12">
+              <!-- <el-col :span="12">
                 <el-form-item :label="$t('Advancemanage.isSale')" style="width: 100%;">
                   <el-radio-group v-model="personalForm.isSale" style="margin-left: 18px;width: 200px" disabled>
                     <el-radio :label="1" style="width: 100px">是</el-radio>
@@ -56,7 +56,7 @@
                     <el-radio :label="2">暂不开启</el-radio>
                   </el-radio-group>
                 </el-form-item>
-              </el-col>
+              </el-col> -->
             </el-row>
           </el-form>
         </div>
