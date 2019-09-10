@@ -1718,7 +1718,8 @@ export default {
     notaryPerson: '公证人',
     notaryDate: '公证日期',
     firstMoney: '首付金额',
-    eachMoney: '每期还款金额'
+    eachMoney: '每期还款金额',
+    uploadAttachments: '上传附件'
   },
   AccessTools: {
     stat: '状态',
@@ -1789,7 +1790,9 @@ export default {
     regionId: '区',
     detailAddress: '详细地址',
     certificateType: '证件类型',
-    certificateNumber: '证件号'
+    certificateNumber: '证件号',
+    currency: '货币',
+    exchangeRate: '汇率'
   },
   PrepReceipt: {
     title: '预收款主题',
@@ -1811,6 +1814,7 @@ export default {
     consultancyName: '姓名',
     consultancyPhone: '电话',
     consultancyAddress: '地址',
+    address: '客户地址',
     monthlyIncome: '月净收',
     otherExpend: '其他生活花费',
     monthlyDebt: '每月固定债务',
@@ -1847,7 +1851,8 @@ export default {
     firstMoney: '首付金额',
     installmentCount: '分期期数',
     totalMoney: '分期总金额',
-    installmentDays: '第一期收款天数',
+    // installmentDays: '第一期收款天数',
+    installmentDays: '每月还款日期',
     saleRepositoryId: '销售门店',
     salePersonId: '销售员',
     applyDate: '申请日期',

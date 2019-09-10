@@ -97,7 +97,7 @@
           align="center"/>
         <el-table-column :label="$t('public.id')" :resizable="false" fixed="left" align="center" min-width="150">
           <template slot-scope="scope">
-            <span class="link-type" @click="handleDetail(scope.row)">{{ scope.row.id }}</span>
+            <span>{{ scope.row.sourceNumber }}</span>
           </template>
           <detail-list :detailcontrol.sync="detailvisible" :detaildata.sync="personalForm"/>
         </el-table-column>
@@ -108,14 +108,14 @@
         </el-table-column>
         <el-table-column :label="$t('AgentCollect.shouldMoney')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.shouldMoney }}</span>
+            <span>{{ scope.row.shouldMoney - scope.row.discountMoney }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('AgentCollect.discountMoney')" :resizable="false" align="center" min-width="150">
+        <!-- <el-table-column :label="$t('AgentCollect.discountMoney')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.discountMoney }}</span>
           </template>
-        </el-table-column>
+        </el-table-column> -->
         <el-table-column :label="$t('AgentCollect.returnMoney')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.returnMoney }}</span>
@@ -133,7 +133,7 @@
         </el-table-column>
         <el-table-column :label="$t('AgentCollect.stat')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.stat }}</span>
+            <span>{{ scope.row.stat | payStatFilter }}</span>
           </template>
         </el-table-column>
       </el-table>
@@ -180,6 +180,13 @@ export default {
         1: '制单',
         2: '执行',
         3: '结单'
+      }
+      return statusMap[status]
+    },
+    payStatFilter(status) {
+      const statusMap = {
+        1: '待收款',
+        2: '收款完成'
       }
       return statusMap[status]
     },
@@ -407,7 +414,7 @@ export default {
     },
     // 详情操作
     handleDetail(row) {
-      console.log(row)
+      console.log('row', row)
       this.detailvisible = true
       this.personalForm = Object.assign({}, row)
     },

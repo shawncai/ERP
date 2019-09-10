@@ -55,30 +55,44 @@
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('Recycling.recyclingRepositoryId')" style="width: 100%;">
+                <el-form-item :label="$t('Recycling.recyclingRepositoryId')" prop="recyclingRepositoryId" style="width: 100%;">
                   <el-input v-model="recyclingRepositoryId" style="margin-left: 18px;width: 200px" @focus="handlechooseRep"/>
                 </el-form-item>
                 <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('Recycling.locationId')" style="width: 100%;">
-                  <el-select v-model="personalForm.locationId" style="margin-left: 18px;width: 200px" @visible-change="changelocation($event)">
+                  <el-select v-if="junglelocation" v-model="personalForm.locationId" style="margin-left: 18px;width: 200px" @visible-change="changelocation($event)">
                     <el-option
-                      v-for="(item, index) in locationlist"
-                      :key="index"
+                      v-for="item in locationlist"
+                      :key="item.id"
                       :value="item.id"
                       :label="item.locationCode"/>
+                  </el-select>
+                  <el-input v-else v-model="locationId" style="margin-left: 18px;width: 200px" disabled/>
+                </el-form-item>
+              </el-col>
+              <!-- <el-col :span="6">
+                <el-form-item :label="$t('Recycling.batch')" style="width: 100%;">
+                  <el-input v-model="personalForm.batch" style="margin-left: 18px;width: 200px" clearable/>
+                </el-form-item>
+              </el-col> -->
+              <el-col :span="6">
+                <el-form-item :label="$t('Recycling.remark')" style="width: 100%;">
+                  <el-input v-model="personalForm.remark" style="margin-left: 18px;width: 200px" clearable/>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item :label="$t('Recycling.currency')" prop="currency" style="width: 100%;">
+                  <el-select v-model="personalForm.currency" style="margin-left: 18px;width: 200px" @change="changeRate">
+                    <el-option value="1" label="RMB"/>
+                    <el-option value="2" label="USD"/>
                   </el-select>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('Recycling.batch')" style="width: 100%;">
-                  <el-input v-model="personalForm.batch" style="margin-left: 18px;width: 200px" clearable/>
-                </el-form-item>
-              </el-col>
-              <el-col :span="6">
-                <el-form-item :label="$t('Recycling.remark')" style="width: 100%;">
-                  <el-input v-model="personalForm.remark" style="margin-left: 18px;width: 200px" clearable/>
+                <el-form-item :label="$t('Recycling.exchangeRate')" style="width: 100%;">
+                  <el-input v-model="personalForm.exchangeRate" style="margin-left: 18px;width:200px" disabled/>
                 </el-form-item>
               </el-col>
             </el-row>
@@ -140,7 +154,7 @@
 <script>
 import '@/directive/noMoreClick/index.js'
 import { createrecycling } from '@/api/Recycling'
-import { getlocation, locationlist } from '@/api/public'
+import { getlocation, locationlist, getRate } from '@/api/public'
 import { searchSaleCategory } from '@/api/SaleCategory'
 import { getdeptlist } from '@/api/BasicSettings'
 import MyEmp from './components/MyEmp'
@@ -158,12 +172,30 @@ export default {
         callback()
       }
     }
+    const validatePass3 = (rule, value, callback) => {
+      // console.log('物品编码', value)
+      if (this.personalForm.productCode === undefined || this.personalForm.productCode === null || this.personalForm.productCode === '') {
+        callback(new Error('请选择物品编码'))
+      } else {
+        callback()
+      }
+    }
+    const validatePass4 = (rule, value, callback) => {
+      console.log('回收门店', value)
+      if (this.recyclingRepositoryId === undefined || this.recyclingRepositoryId === null || this.recyclingRepositoryId === '') {
+        callback(new Error('请选择回收门店'))
+      } else {
+        callback()
+      }
+    }
     return {
       pickerOptions1: {
         disabledDate: (time) => {
           return time.getTime() < new Date().getTime() - 8.64e7
         }
       },
+      // 判断货位的显示
+      junglelocation: true,
       // 回显证件类型
       certificateType: '',
       // 回显市
@@ -193,7 +225,7 @@ export default {
         pagesize: 99999
       },
       // 门店回显
-      recyclingRepositoryId: '',
+      recyclingRepositoryId: this.$store.getters.repositoryName,
       // 控制门店
       repositorycontrol: false,
       // 选择的数据
@@ -201,7 +233,7 @@ export default {
       // 部门数据
       depts: [],
       // 回收人回显
-      recyclingPersonId: '',
+      recyclingPersonId: this.$store.getters.name,
       // 控制回收人
       stockControl: false,
       // 收入单信息数据
@@ -210,9 +242,12 @@ export default {
         createPersonId: this.$store.getters.userId,
         countryId: this.$store.getters.countryId,
         currency: '1',
-        repositoryId: this.$store.getters.repositoryId,
+        recyclingRepositoryId: this.$store.getters.repositoryId,
         regionId: this.$store.getters.regionId,
-        recyclingDate: null
+        recyclingDate: null,
+        exchangeRate: '1.0000',
+        recyclingPersonId: this.$store.getters.userId,
+        repositoryId: this.$store.getters.repositoryId
       },
       // 收入单规则数据
       personalrules: {
@@ -221,6 +256,12 @@ export default {
         ],
         recyclingDate: [
           { required: true, message: '请选择回收时间', trigger: 'change' }
+        ],
+        productCode: [
+          { required: true, validator: validatePass3, trigger: 'change' }
+        ],
+        recyclingRepositoryId: [
+          { required: true, validator: validatePass4, trigger: 'change' }
         ]
       },
       // 收入单明细数据
@@ -235,6 +276,27 @@ export default {
     this.getTypes()
   },
   methods: {
+    // 汇率变化
+    changeRate() {
+      console.log(123)
+      if (this.personalForm.currency === '2') {
+        getRate(this.personalForm.currency).then(res => {
+          console.log(res)
+          if (res.data.ret === 200) {
+            // console.log('res.data.data.content', res.data.data.content)
+            this.personalForm.exchangeRate = res.data.data.content.rate
+          } else {
+            this.$notify.error({
+              title: '错误',
+              message: res.data.msg,
+              offset: 100
+            })
+          }
+        })
+      } else if (this.personalForm.currency === '1') {
+        this.personalForm.exchangeRate = '1.0000'
+      }
+    },
     // 选择客户focus
     chooseCustomer() {
       this.customercontrol = true
@@ -261,32 +323,16 @@ export default {
       console.log(val)
       this.recyclingRepositoryId = val.repositoryName
       this.personalForm.recyclingRepositoryId = val.id
-    },
-    // 批次change事件
-    changelocation(event) {
-      console.log(event)
-      if (event === true) {
-        if (this.personalForm.recyclingRepositoryId === null || this.personalForm.recyclingRepositoryId === '' || this.personalForm.recyclingRepositoryId === undefined) {
-          this.$notify.error({
-            title: '错误',
-            message: '请先选择门店',
-            offset: 100
-          })
-          return false
-        }
-        if (this.personalForm.productCode === null || this.personalForm.productCode === '' || this.personalForm.productCode === undefined) {
-          this.$notify.error({
-            title: '错误',
-            message: '请先选择物品',
-            offset: 100
-          })
-          return false
-        }
+      if (this.personalForm.productCode) {
+        // console.log('gogogo')
         getlocation(this.personalForm.recyclingRepositoryId, this.personalForm).then(res => {
           if (res.data.ret === 200) {
             if (res.data.data.content.length !== 0) {
-              this.locationlist = res.data.data.content
-            } else if (res.data.data.content.length === 0) {
+              this.junglelocation = false
+              this.locationId = res.data.data.content[0].locationCode
+              this.personalForm.locationId = res.data.data.content[0].id
+            } else {
+              this.junglelocation = true
               locationlist(this.personalForm.recyclingRepositoryId).then(res => {
                 if (res.data.ret === 200) {
                   this.locationlist = res.data.data.content.list
@@ -296,6 +342,41 @@ export default {
           }
         })
       }
+    },
+    // 批次change事件
+    changelocation(event) {
+      console.log(event)
+      // if (event === true) {
+      //   if (this.personalForm.recyclingRepositoryId === null || this.personalForm.recyclingRepositoryId === '' || this.personalForm.recyclingRepositoryId === undefined) {
+      //     this.$notify.error({
+      //       title: '错误',
+      //       message: '请先选择门店',
+      //       offset: 100
+      //     })
+      //     return false
+      //   }
+      //   if (this.personalForm.productCode === null || this.personalForm.productCode === '' || this.personalForm.productCode === undefined) {
+      //     this.$notify.error({
+      //       title: '错误',
+      //       message: '请先选择物品',
+      //       offset: 100
+      //     })
+      //     return false
+      //   }
+      //   getlocation(this.personalForm.recyclingRepositoryId, this.personalForm).then(res => {
+      //     if (res.data.ret === 200) {
+      //       if (res.data.data.content.length !== 0) {
+      //         this.locationlist = res.data.data.content
+      //       } else if (res.data.data.content.length === 0) {
+      //         locationlist(this.personalForm.recyclingRepositoryId).then(res => {
+      //           if (res.data.ret === 200) {
+      //             this.locationlist = res.data.data.content.list
+      //           }
+      //         })
+      //       }
+      //     }
+      //   })
+      // }
     },
     // 物品focus事件
     handlemater() {
@@ -309,6 +390,25 @@ export default {
       this.personalForm.productCategory = val.categoryId
       this.productCategory = val.category
       this.personalForm.color = val.color
+      if (this.recyclingRepositoryId) {
+        // console.log('gogogo')
+        getlocation(this.personalForm.recyclingRepositoryId, this.personalForm).then(res => {
+          if (res.data.ret === 200) {
+            if (res.data.data.content.length !== 0) {
+              this.junglelocation = false
+              this.locationId = res.data.data.content[0].locationCode
+              this.personalForm.locationId = res.data.data.content[0].id
+            } else {
+              this.junglelocation = true
+              locationlist(this.personalForm.recyclingRepositoryId).then(res => {
+                if (res.data.ret === 200) {
+                  this.locationlist = res.data.data.content.list
+                }
+              })
+            }
+          }
+        })
+      }
     },
     // 新增收入明细
     insertEvent(index) {

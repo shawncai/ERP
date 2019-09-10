@@ -12,9 +12,9 @@
             <el-form-item label="分类类别">
               <el-select v-model="getemplist.type" :value="getemplist.type" clearable @keyup.enter.native="handleFilter">
                 <el-option label="销售来源" value="1"/>
-                <el-option label="订单类型" value="2"/>
-                <el-option label="结算方式" value="3"/>
-                <el-option label="发票类型" value="4"/>
+                <!-- <el-option label="订单类型" value="2"/> -->
+                <!-- <el-option label="结算方式" value="3"/> -->
+                <el-option label="开票类型" value="4"/>
                 <el-option label="机会类型" value="5"/>
                 <el-option label="机会来源" value="6"/>
               </el-select>
@@ -57,9 +57,9 @@
           <el-form-item :label="$t('NewEmployeeInformation.type')" label-width="100px" prop="type">
             <el-select v-model="addCategoryForm.type" placeholder="请选择类别" style="width: 100%">
               <el-option label="销售来源" value="1"/>
-              <el-option label="订单类型" value="2"/>
-              <el-option label="结算方式" value="3"/>
-              <el-option label="发票类型" value="4"/>
+              <!-- <el-option label="订单类型" value="2"/> -->
+              <!-- <el-option label="结算方式" value="3"/> -->
+              <el-option label="开票类型" value="4"/>
               <el-option label="机会类型" value="5"/>
               <el-option label="机会来源" value="6"/>
             </el-select>
@@ -131,9 +131,9 @@
           <el-form-item :label="$t('NewEmployeeInformation.type')" label-width="100px">
             <el-select v-model="editCategoryForm.type" placeholder="请选择类别" style="width: 100%" disabled >
               <el-option label="销售来源" value="1"/>
-              <el-option label="订单类型" value="2"/>
-              <el-option label="结算方式" value="3"/>
-              <el-option label="发票类型" value="4"/>
+              <!-- <el-option label="订单类型" value="2"/> -->
+              <!-- <el-option label="结算方式" value="3"/> -->
+              <el-option label="开票类型" value="4"/>
               <el-option label="机会类型" value="5"/>
               <el-option label="机会来源" value="6"/>
             </el-select>

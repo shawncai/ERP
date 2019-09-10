@@ -83,36 +83,48 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('SaleOut.closeType')" style="width: 100%;">
-                  <el-select v-model="personalForm.settleMode" style="margin-left: 18px;width: 200px" @change="change">
+                  <el-select ref="clear" v-model="personalForm.settleMode" style="margin-left: 18px;width: 200px" @change="change">
+                    <el-option v-show="false" label="" value=""/>
                     <el-option
                       v-for="(item, index) in colseTypes"
                       :value="item.id"
                       :key="index"
                       :label="item.categoryName"/>
+                    <template>
+                      <el-button v-if="isshow" icon="el-icon-circle-plus-outline" style="width:100%" @click="go_creat">新增</el-button>
+                    </template>
                   </el-select>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('SaleOut.invoiceType')" style="width: 100%;">
-                  <el-select v-model="personalForm.invoiceType" style="margin-left: 18px;width: 200px" @change="change">
+                  <el-select ref="clear2" v-model="personalForm.invoiceType" style="margin-left: 18px;width: 200px" @change="change">
+                    <el-option v-show="false" label="" value=""/>
                     <el-option
                       v-for="(item, index) in invoiceTypes"
                       :value="item.id"
                       :key="index"
                       :label="item.categoryName"
                     />
+                    <template>
+                      <el-button v-if="isshow2" icon="el-icon-circle-plus-outline" style="width:100%" @click="go_creat2">新增</el-button>
+                    </template>
                   </el-select>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('SaleOut.payType')" style="width: 100%;">
-                  <el-select v-model="personalForm.payMode" style="margin-left: 18px;width: 200px" @change="change">
+                  <el-select ref="clear3" v-model="personalForm.payMode" style="margin-left: 18px;width: 200px" @change="change">
+                    <el-option v-show="false" label="" value=""/>
                     <el-option
                       v-for="(item, index) in payModes"
                       :key="index"
                       :label="item.categoryName"
                       :value="item.id"
                     />
+                    <template>
+                      <el-button v-if="isshow" icon="el-icon-circle-plus-outline" style="width:100%" @click="go_creat3">新增</el-button>
+                    </template>
                   </el-select>
                 </el-form-item>
               </el-col>
@@ -483,7 +495,7 @@ import { getPackage } from '@/api/Package'
 import { getAllBatch } from '@/api/public'
 import { createsaleOut } from '@/api/SaleOut'
 import { searchSaleCategory } from '@/api/SaleCategory'
-import { getlocation, locationlist, countlist, batchlist } from '@/api/public'
+import { getlocation, locationlist, countlist, batchlist, productlist } from '@/api/public'
 import MyEmp from './components/MyEmp'
 import MyDelivery from '../DailyAdjust/components/MyDelivery'
 import MyDetail from './components/MyDetail'
@@ -568,6 +580,9 @@ export default {
           return time.getTime() < new Date().getTime() - 8.64e7
         }
       },
+      // 判断权限
+      isshow: false,
+      isshow2: false,
       // 积分信息
       point: 0,
       // 滚动判断
@@ -731,10 +746,24 @@ export default {
         let num1 = 0
         let num2 = 0
         for (const i in this.list2) {
-          // console.log(typeof (this.list2[i].taxprice))
+          console.log(this.list2[i].productCode)
           num += this.list2[i].quantity
           num2 += Number(this.list2[i].discountMoney)
           num1 += this.list2[i].includeTaxCostMoney
+          productlist(this.list2[i].productCode).then(res => {
+            if (res.data.ret === 200) {
+              console.log(res.data.data.content.list[0].isBatch)
+              if (res.data.data.content.list[0].isBatch === 2) {
+                this.list2[i].batch = '不使用'
+              }
+            } else {
+              this.$notify.error({
+                title: '错误',
+                message: res.data.msg,
+                offset: 100
+              })
+            }
+          })
         }
         this.heji1 = num
         this.heji3 = num1
@@ -760,6 +789,7 @@ export default {
     }
   },
   created() {
+    this.jungleshow()
     this.getTypes()
     this.getdatatime()
     this.chooseSourceType()
@@ -770,6 +800,13 @@ export default {
     this.getinformation3()
   },
   methods: {
+    // 判断权限显示
+    jungleshow() {
+      const roles = this.$store.getters.roles
+      this.isshow = roles.includes('1-22-28-1')
+      this.isshow2 = roles.includes('54-83-1')
+      console.log(this.isshow)
+    },
     test() {
       const list = [...this.list2]
       console.log(list.length)
@@ -1866,6 +1903,18 @@ export default {
       const view = { path: '/SaleOut/AddSaleOut', name: 'AddSaleOut', fullPath: '/SaleOut/AddSaleOut', title: 'AddSaleOut' }
       this.$store.dispatch('delView', view).then(({ visitedViews }) => {
       })
+    },
+    go_creat() {
+      this.$router.push('/Supplier/SupplierCategory')
+      this.$refs.clear.blur()
+    },
+    go_creat2() {
+      this.$router.push('/SaleCategory/SaleCategoryList')
+      this.$refs.clear2.blur()
+    },
+    go_creat3() {
+      this.$router.push('/Supplier/SupplierCategory')
+      this.$refs.clear3.blur()
     }
   }
 }

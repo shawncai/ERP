@@ -103,12 +103,12 @@
         </el-table-column>
         <el-table-column :label="$t('Recycling.productType')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.productType }}</span>
+            <span>{{ scope.row.productTypeName }}</span>
           </template>
         </el-table-column>
         <el-table-column :label="$t('Recycling.productCategory')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.productCategory }}</span>
+            <span>{{ scope.row.productCategoryName }}</span>
           </template>
         </el-table-column>
         <el-table-column :label="$t('Recycling.recyclingMoney')" :resizable="false" align="center" min-width="150">
@@ -144,7 +144,7 @@
             <el-button v-permission="['54-96-16']" v-show="isReview2(scope.row)" title="结单" type="success" size="mini" icon="el-icon-check" circle @click="handleReview2(scope.row)"/>
             <el-button v-permission="['54-96-17']" v-show="isReview3(scope.row)" title="反结单" type="success" size="mini" icon="el-icon-back" circle @click="handleReview3(scope.row)"/>
             <el-button v-permission2="['54-96-2', scope.row.createPersonId]" v-show="scope.row.judgeStat === 0" title="删除" size="mini" type="danger" icon="el-icon-delete" circle @click="handleDelete(scope.row)"/>
-            <el-button title="查看附件" type="primary" size="mini" icon="el-icon-document" circle @click="check(scope.row)"/>
+            <!-- <el-button title="查看附件" type="primary" size="mini" icon="el-icon-document" circle @click="check(scope.row)"/> -->
           </template>
         </el-table-column>
       </el-table>
@@ -297,11 +297,11 @@ export default {
   },
   methods: {
     // 附件操作
-    check(row) {
-      console.log(row)
-      this.receiptVisible9 = true
-      this.picPaths = row.picPaths
-    },
+    // check(row) {
+    //   console.log(row)
+    //   this.receiptVisible9 = true
+    //   this.picPaths = row.picPaths
+    // },
     // 判断反审批按钮
     isReview4(row) {
       console.log(row)

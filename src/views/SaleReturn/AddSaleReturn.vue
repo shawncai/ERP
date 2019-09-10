@@ -36,7 +36,7 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('SaleReturn.customerName')" prop="customerId" style="width: 100%;">
-                  <el-input v-model="customerId" style="margin-left: 18px;width:200px" @focus="chooseCustomer"/>
+                  <el-input v-model="customerId" style="margin-left: 18px;width:200px" clearable @focus="chooseCustomer"/>
                   <my-customer :customercontrol.sync="customercontrol" @customerdata="customerdata"/>
                   <my-agent :agentcontrol.sync="agentcontrol" @agentdata="agentdata"/>
                 </el-form-item>
@@ -48,24 +48,32 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('SaleReturn.closeType')" style="width: 100%;">
-                  <el-select v-model="personalForm.settleMode" style="margin-left: 18px;width:200px">
+                  <el-select ref="clear" v-model="personalForm.settleMode" style="margin-left: 18px;width:200px">
+                    <el-option v-show="false" label="" value=""/>
                     <el-option
                       v-for="(item, index) in colseTypes"
                       :value="item.id"
                       :key="index"
                       :label="item.categoryName"/>
+                    <template>
+                      <el-button v-if="isshow" icon="el-icon-circle-plus-outline" style="width:100%" @click="go_creat">新增</el-button>
+                    </template>
                   </el-select>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('SaleReturn.payType')" style="width: 100%;">
-                  <el-select v-model="personalForm.payMode" style="margin-left: 18px;width:200px">
+                  <el-select ref="clear2" v-model="personalForm.payMode" style="margin-left: 18px;width:200px">
+                    <el-option v-show="false" label="" value=""/>
                     <el-option
                       v-for="(item, index) in payModes"
                       :key="index"
                       :label="item.categoryName"
                       :value="item.id"
                     />
+                    <template>
+                      <el-button v-if="isshow" icon="el-icon-circle-plus-outline" style="width:100%" @click="go_creat2">新增</el-button>
+                    </template>
                   </el-select>
                 </el-form-item>
               </el-col>
@@ -119,7 +127,7 @@
           <el-button :disabled="Isproduct" @click="handleAddproduct">添加商品</el-button>
           <my-detail :control.sync="control" @product="productdetail"/>
           <el-button :disabled="IsSourceNumber" style="width: 130px" @click="handleAddSource">从源单中选择</el-button>
-          <my-saleout :saleoutcontrol.sync="saleoutcontrol" :customertype="personalForm.customerType" :customerid="personalForm.customerId" @saleOutDetail="saleOutDetail" @saleOutdata="saleOutdata"/>
+          <my-saleout :saleoutcontrol.sync="saleoutcontrol" :personaldata="personalForm" @saleOutDetail="saleOutDetail" @saleOutdata="saleOutdata"/>
           <el-button type="danger" @click="$refs.editable.removeSelecteds()">删除</el-button>
           <el-button type="primary" @click="checkStock()">库存快照</el-button>
         </div>
@@ -169,11 +177,11 @@
             <el-editable-column prop="taxRate" align="center" label="税率(%)" min-width="150px"/>
             <el-editable-column prop="taxMoney" align="center" label="税额" min-width="150px"/>
             <el-editable-column v-if="false" prop="money" align="center" label="金额" min-width="150px"/>
-            <el-editable-column prop="includeTaxCostMoney" align="center" label="销售金额" min-width="150px"/>
-            <el-editable-column prop="discount" align="center" label="折扣" min-width="150px"/>
+            <el-editable-column prop="includeTaxCostMoney" align="center" label="退货金额" min-width="150px"/>
+            <el-editable-column prop="discountRate" align="center" label="折扣(%)" min-width="150px"/>
             <el-editable-column prop="discountMoney" align="center" label="折扣额" min-width="150px"/>
             <el-editable-column prop="alreadyReturnQuantity" align="center" label="已退货数量" min-width="150px"/>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="returnQuantity" align="center" label="退货数量" min-width="150px">
+            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 1}, type: 'visible'}" prop="returnQuantity" align="center" label="退货数量" min-width="150px">
               <template slot="edit" slot-scope="scope">
                 <el-input-number
                   :controls="false"
@@ -200,11 +208,11 @@
                   <el-input v-model="heji1" style="margin-left: 18px;width:200px" disabled/>
                 </el-form-item>
               </el-col>
-              <el-col :span="6">
+              <!-- <el-col :span="6">
                 <el-form-item :label="$t('SaleReturn.heji2')" style="width: 100%;">
                   <el-input v-model="heji2" style="margin-left: 18px;width:200px" disabled/>
                 </el-form-item>
-              </el-col>
+              </el-col> -->
               <el-col :span="6">
                 <el-form-item :label="$t('SaleReturn.heji3')" style="width: 100%;">
                   <el-input v-model="heji3" style="margin-left: 18px;width:200px" disabled/>
@@ -338,6 +346,8 @@ export default {
           return time.getTime() < new Date().getTime() - 8.64e7
         }
       },
+      // 判断权限
+      isshow: false,
       // 控制是否从源单添加
       IsSourceNumber: true,
       // 控制源单
@@ -437,8 +447,15 @@ export default {
     this.getTypes()
     this.getdatatime()
     this.chooseSource()
+    this.jungleshow()
   },
   methods: {
+    // 判断权限
+    jungleshow() {
+      const roles = this.$store.getters.roles
+      this.isshow = roles.includes('1-22-28-1')
+      console.log(this.isshow)
+    },
     // 添加源单操作
     handleAddSource() {
       this.saleoutcontrol = true
@@ -520,6 +537,11 @@ export default {
     saleOutdata(val) {
       console.log(val)
       this.personalForm.sourceNumber = val.number
+      this.customerId = val.customerName
+      this.personalForm.customerId = val.customerId
+      this.personalForm.customerPhone = val.phoneNumber
+      this.personalForm.receiveAddress = val.address
+      console.log(this.list2)
     },
     updatebatch(event, scope) {
       if (event === true) {
@@ -571,6 +593,7 @@ export default {
         this.personalForm.sourceNumber = ''
         this.IsSourceNumber = true
       }
+      // this.restAllForm()
     },
     // 总计
     getSummaries(param) {
@@ -604,17 +627,22 @@ export default {
       sums[7] = ''
       sums[8] = ''
       sums[9] = ''
+      sums[10] = ''
+      sums[11] = ''
+      sums[12] = ''
+      sums[13] = ''
+      sums[16] = ''
+      sums[20] = ''
+      sums[22] = ''
+      sums[23] = ''
+      sums[24] = ''
       sums[25] = ''
-      sums[27] = ''
-      sums[28] = ''
-      sums[29] = ''
-      sums[30] = ''
-      this.heji1 = sums[24]
+      this.heji1 = sums[19]
       this.heji2 = sums[19]
-      this.heji3 = sums[16]
-      this.heji4 = sums[18]
-      this.heji5 = sums[22]
-      this.heji6 = sums[20] - sums[22]
+      this.heji3 = sums[15]
+      this.heji4 = sums[14]
+      this.heji5 = sums[18]
+      this.heji6 = sums[15] - sums[18]
       return sums
     },
     // 通过折扣额计算折扣
@@ -627,16 +655,21 @@ export default {
     },
     // 通过数量计算成本金额， 含税金额， 金额， 含税成本金额
     getquantity(row) {
-      row.costMoney = row.returnQuantity * row.costPrice
-      row.includeTaxMoney = row.returnQuantity * row.taxprice
-      row.money = row.returnQuantity * row.salePrice
-      row.includeTaxCostMoney = row.includeTaxMoney + row.costMoney
-      row.taxMoney = ((row.taxRate / 100) * row.salePrice * row.returnQuantity).toFixed(2)
-      if (row.returnQuantity !== 0) {
-        row.taxRate = ((row.taxMoney / (row.salePrice * row.returnQuantity)) * 100).toFixed(2)
-        row.discount = (1 - row.discountMoney / row.salePrice / row.returnQuantity).toFixed(2)
+      row.includeTaxCostMoney = (row.taxprice * row.returnQuantity).toFixed(2)
+      row.taxMoney = (row.taxMoney * row.returnQuantity).toFixed(2)
+      row.discountMoney = (row.taxprice * (1 - row.discountRate / 100) * row.returnQuantity).toFixed(2)
+      if (row.returnQuantity > (row.sendQuantity - row.alreadyReturnQuantity) && this.personalForm.sourceType === '1') {
+        this.$notify.error({
+          title: '错误',
+          message: '超过可退货数量',
+          offset: 100
+        })
+        row.returnQuantity = 1
+        row.includeTaxCostMoney = (row.taxprice * row.returnQuantity).toFixed(2)
+        row.taxMoney = (row.taxMoney * row.returnQuantity).toFixed(2)
+        row.discountMoney = (row.taxprice * (1 - row.discountRate / 100) * row.returnQuantity).toFixed(2)
+        return false
       }
-      row.discountMoney = (row.salePrice * row.returnQuantity * (1 - row.discount)).toFixed(2)
       return row.returnQuantity
     },
     // 计算含税价
@@ -904,6 +937,14 @@ export default {
       const view = { path: '/SaleReturn/AddSaleReturn', name: 'AddSaleReturn', fullPath: '/SaleReturn/AddSaleReturn', title: 'AddSaleReturn' }
       this.$store.dispatch('delView', view).then(({ visitedViews }) => {
       })
+    },
+    go_creat() {
+      this.$router.push('/Supplier/SupplierCategory')
+      this.$refs.clear.blur()
+    },
+    go_creat2() {
+      this.$router.push('/Supplier/SupplierCategory')
+      this.$refs.clear2.blur()
     }
   }
 }
