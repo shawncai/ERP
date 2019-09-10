@@ -389,6 +389,7 @@ export default {
       this.employeeVisible = false
       console.log(this.choosedata)
       const saleOutdata = this.choosedata.saleOutDetailVos
+      console.log('源单', saleOutdata)
       const outRepositoryId = this.choosedata.saleRepositoryId
       const outRepositoryName = this.choosedata.saleRepositoryName
       const saleOutDetail = saleOutdata.map(function(item) {
@@ -396,16 +397,32 @@ export default {
           productCode: item.productCode,
           productName: item.productName,
           productType: item.productTypeName,
-          typeId: item.typeId,
           unit: item.unit,
           color: item.color,
+          Categoryid: item.productCategoryName,
+          typeId: item.productTypeName,
           basicQuantity: item.quantity,
           price: item.salePrice,
           deliverQuantity: item.quantity,
           deliverMoney: item.money,
           outRepositoryId: outRepositoryId,
           outRepositoryName: outRepositoryName,
-          batch: item.batch
+          batch: item.batch,
+          kpiGrade: item.kpiGrade,
+          point: item.point,
+          taxprice: item.salePrice - item.taxMoney,
+          taxRate: item.taxRate,
+          taxMoney: item.taxMoney,
+          discountRate: item.discountRate * 100,
+          discountMoney: item.discountMoney,
+          alreadyReturnQuantity: item.retreatQuantity,
+          carCode: item.carCode,
+          motorCode: item.motorCode,
+          batteryCode: item.batteryCode,
+          sourceNumber: item.sourceNumber,
+          sendQuantity: item.quantity,
+          locationName: item.locationName,
+          includeTaxCostMoney: 0
         }
       })
       this.$emit('saleOutDetail', saleOutDetail)

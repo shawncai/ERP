@@ -177,11 +177,11 @@
             <el-editable-column prop="taxRate" align="center" label="税率(%)" min-width="150px"/>
             <el-editable-column prop="taxMoney" align="center" label="税额" min-width="150px"/>
             <el-editable-column v-if="false" prop="money" align="center" label="金额" min-width="150px"/>
-            <el-editable-column prop="includeTaxCostMoney" align="center" label="销售金额" min-width="150px"/>
-            <el-editable-column prop="discount" align="center" label="折扣" min-width="150px"/>
+            <el-editable-column prop="includeTaxCostMoney" align="center" label="退货金额" min-width="150px"/>
+            <el-editable-column prop="discountRate" align="center" label="折扣(%)" min-width="150px"/>
             <el-editable-column prop="discountMoney" align="center" label="折扣额" min-width="150px"/>
             <el-editable-column prop="alreadyReturnQuantity" align="center" label="已退货数量" min-width="150px"/>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="returnQuantity" align="center" label="退货数量" min-width="150px">
+            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 1}, type: 'visible'}" prop="returnQuantity" align="center" label="退货数量" min-width="150px">
               <template slot="edit" slot-scope="scope">
                 <el-input-number
                   :controls="false"
@@ -208,11 +208,11 @@
                   <el-input v-model="heji1" style="margin-left: 18px;width:200px" disabled/>
                 </el-form-item>
               </el-col>
-              <el-col :span="6">
+              <!-- <el-col :span="6">
                 <el-form-item :label="$t('SaleReturn.heji2')" style="width: 100%;">
                   <el-input v-model="heji2" style="margin-left: 18px;width:200px" disabled/>
                 </el-form-item>
-              </el-col>
+              </el-col> -->
               <el-col :span="6">
                 <el-form-item :label="$t('SaleReturn.heji3')" style="width: 100%;">
                   <el-input v-model="heji3" style="margin-left: 18px;width:200px" disabled/>
@@ -537,6 +537,11 @@ export default {
     saleOutdata(val) {
       console.log(val)
       this.personalForm.sourceNumber = val.number
+      this.customerId = val.customerName
+      this.personalForm.customerId = val.customerId
+      this.personalForm.customerPhone = val.phoneNumber
+      this.personalForm.receiveAddress = val.address
+      console.log(this.list2)
     },
     updatebatch(event, scope) {
       if (event === true) {
@@ -588,6 +593,7 @@ export default {
         this.personalForm.sourceNumber = ''
         this.IsSourceNumber = true
       }
+      // this.restAllForm()
     },
     // 总计
     getSummaries(param) {
@@ -621,17 +627,22 @@ export default {
       sums[7] = ''
       sums[8] = ''
       sums[9] = ''
+      sums[10] = ''
+      sums[11] = ''
+      sums[12] = ''
+      sums[13] = ''
+      sums[16] = ''
+      sums[20] = ''
+      sums[22] = ''
+      sums[23] = ''
+      sums[24] = ''
       sums[25] = ''
-      sums[27] = ''
-      sums[28] = ''
-      sums[29] = ''
-      sums[30] = ''
-      this.heji1 = sums[24]
+      this.heji1 = sums[19]
       this.heji2 = sums[19]
-      this.heji3 = sums[16]
-      this.heji4 = sums[18]
-      this.heji5 = sums[22]
-      this.heji6 = sums[20] - sums[22]
+      this.heji3 = sums[15]
+      this.heji4 = sums[14]
+      this.heji5 = sums[18]
+      this.heji6 = sums[15] - sums[18]
       return sums
     },
     // 通过折扣额计算折扣
@@ -644,16 +655,21 @@ export default {
     },
     // 通过数量计算成本金额， 含税金额， 金额， 含税成本金额
     getquantity(row) {
-      row.costMoney = row.returnQuantity * row.costPrice
-      row.includeTaxMoney = row.returnQuantity * row.taxprice
-      row.money = row.returnQuantity * row.salePrice
-      row.includeTaxCostMoney = row.includeTaxMoney + row.costMoney
-      row.taxMoney = ((row.taxRate / 100) * row.salePrice * row.returnQuantity).toFixed(2)
-      if (row.returnQuantity !== 0) {
-        row.taxRate = ((row.taxMoney / (row.salePrice * row.returnQuantity)) * 100).toFixed(2)
-        row.discount = (1 - row.discountMoney / row.salePrice / row.returnQuantity).toFixed(2)
+      row.includeTaxCostMoney = (row.taxprice * row.returnQuantity).toFixed(2)
+      row.taxMoney = (row.taxMoney * row.returnQuantity).toFixed(2)
+      row.discountMoney = (row.taxprice * (1 - row.discountRate / 100) * row.returnQuantity).toFixed(2)
+      if (row.returnQuantity > (row.sendQuantity - row.alreadyReturnQuantity) && this.personalForm.sourceType === '1') {
+        this.$notify.error({
+          title: '错误',
+          message: '超过可退货数量',
+          offset: 100
+        })
+        row.returnQuantity = 1
+        row.includeTaxCostMoney = (row.taxprice * row.returnQuantity).toFixed(2)
+        row.taxMoney = (row.taxMoney * row.returnQuantity).toFixed(2)
+        row.discountMoney = (row.taxprice * (1 - row.discountRate / 100) * row.returnQuantity).toFixed(2)
+        return false
       }
-      row.discountMoney = (row.salePrice * row.returnQuantity * (1 - row.discount)).toFixed(2)
       return row.returnQuantity
     },
     // 计算含税价

@@ -227,7 +227,8 @@ export default {
         regionId: this.$store.getters.regionId,
         recyclingDate: null,
         exchangeRate: '1.0000',
-        recyclingPersonId: this.$store.getters.userId
+        recyclingPersonId: this.$store.getters.userId,
+        repositoryId: this.$store.getters.repositoryId
       },
       // 收入单规则数据
       personalrules: {
