@@ -588,7 +588,7 @@ export default {
       // 滚动判断
       isfixed: false,
       // 判断是否可以编辑
-      isEdit: false,
+      isEdit: true,
       // 合计信息
       heji1: '',
       heji2: '',
@@ -1132,7 +1132,7 @@ export default {
     },
     chooseSourceType(val) {
       console.log(val)
-      if (val === '5' || val === '4') {
+      if (val === '5' || val === '4' || val === '3' || val === undefined) {
         this.isEdit = true
       } else {
         this.isEdit = false

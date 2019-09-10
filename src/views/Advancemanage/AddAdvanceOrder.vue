@@ -115,18 +115,44 @@
             <el-editable-column prop="color" align="center" label="颜色" min-width="150px"/>
             <el-editable-column prop="kpiGrade" align="center" label="绩效分" min-width="150px"/>
             <el-editable-column prop="point" align="center" label="商品积分" min-width="150px"/>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="quantity" align="center" label="预售数量" min-width="170px"/>
+            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 1.00, precision: 2}, type: 'visible'}" prop="quantity" align="center" label="预售数量" min-width="150">
+              <template slot="edit" slot-scope="scope">
+                <el-input-number
+                  :precision="2"
+                  :controls="true"
+                  :min="1.00"
+                  v-model="scope.row.quantity"
+                  @change="queryStock(scope.row)"
+                />
+              </template>
+            </el-editable-column>
             <el-editable-column prop="salePrice" align="center" label="零售价" min-width="170px"/>
             <el-editable-column prop="costPrice" align="center" label="成本价" min-width="170px"/>
             <el-editable-column prop="includeTaxMoney" align="center" label="含税金额" min-width="170px"/>
-            <el-editable-column prop="taxRate" align="center" label="税率" min-width="170px"/>
+            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="taxRate" align="center" label="税率(%)" min-width="170">
+              <template slot="edit" slot-scope="scope">
+                <el-input-number
+                  :precision="2"
+                  :controls="false"
+                  v-model="scope.row.taxRate"
+                  @input="gettaxRate(scope.row)"/>
+              </template>
+            </el-editable-column>
             <el-editable-column prop="taxMoney" align="center" label="税额" min-width="170px"/>
             <el-editable-column prop="money" align="center" label="金额" min-width="170px"/>
             <el-editable-column prop="includeTaxCostMoney" align="center" label="含税成本金额" min-width="170px"/>
-            <el-editable-column prop="carCode" align="center" label="车架编码" min-width="170px"/>
-            <el-editable-column prop="batteryCode" align="center" label="电池编码" min-width="170px"/>
-            <el-editable-column prop="motorCode" align="center" label="电机编码" min-width="170px"/>
-            <el-editable-column prop="discount" align="center" label="折扣" min-width="170px"/>
+            <!-- <el-editable-column prop="carCode" align="center" label="车架编码" min-width="170px"/> -->
+            <!-- <el-editable-column prop="batteryCode" align="center" label="电池编码" min-width="170px"/> -->
+            <!-- <el-editable-column prop="motorCode" align="center" label="电机编码" min-width="170px"/> -->
+            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="discountRate" align="center" label="折扣(%)" min-width="170">
+              <template slot="edit" slot-scope="scope">
+                <el-input-number
+                  :precision="2"
+                  :controls="false"
+                  v-model="scope.row.discountRate"
+                  @input="getdiscountRate(scope.row)"/>
+              </template>
+            </el-editable-column>
             <el-editable-column prop="discountMoney" align="center" label="折扣额" min-width="170px"/>
           </el-editable>
         </div>
@@ -176,11 +202,11 @@ export default {
       // 控制客户
       customercontrol: false,
       // 回显所属门店
-      saleRepositoryId: '',
+      saleRepositoryId: this.$store.getters.repositoryName,
       // 回显职务
       postId: '',
       // 回显业务员
-      salePersonId: '',
+      salePersonId: this.$store.getters.name,
       // 控制业务员
       control: false,
       // 交货方式
@@ -227,7 +253,8 @@ export default {
         countryId: this.$store.getters.countryId,
         repositoryId: this.$store.getters.repositoryId,
         regionId: this.$store.getters.regionId,
-        isVat: 1
+        isVat: 1,
+        salePersonId: this.$store.getters.userId
       },
       // 采购申请单规则数据
       personalrules: {
@@ -264,6 +291,25 @@ export default {
     this.getdatatime()
   },
   methods: {
+    // 通过折扣计算折扣额
+    getdiscountRate(row) {
+      if (row.discountRate === 0) {
+        row.discountMoney = row.taxprice * row.quantity
+      } else {
+        row.discountMoney = (row.taxprice * row.quantity * (1 - row.discountRate / 100)).toFixed(2)
+      }
+    },
+    // 根据税率获取含税价格
+    gettaxRate(row) {
+      if (row.taxprice !== 0) {
+        row.taxprice = (row.salePrice * (1 + row.taxRate / 100)).toFixed(2)
+      }
+      if (row.discountRate === 0) {
+        row.discountMoney = row.taxprice * row.quantity
+      } else {
+        row.discountMoney = (row.taxprice * row.quantity * (1 - row.discountRate / 100)).toFixed(2)
+      }
+    },
     // 默认显示今天
     getdatatime() {
       var date = new Date()
@@ -457,6 +503,8 @@ export default {
       this.advancecontrol = true
     },
     advance(val) {
+      console.log('值', val)
+      this.personalForm.salePrice = val[0].salePrice
       const nowlistdata = this.$refs.editable.getRecords()
       for (let i = 0; i < val.length; i++) {
         for (let j = 0; j < nowlistdata.length; j++) {
