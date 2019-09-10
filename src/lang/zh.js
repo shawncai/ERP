@@ -1546,7 +1546,7 @@ export default {
     address: '地址',
     advanceDate: '预售日期',
     salePrice: '商品价格',
-    advanceMoney: '预售金额',
+    advanceMoney: '本次收款金额',
     payMode: '付款方式',
     salePersonId: '业务员',
     postId: '职务',

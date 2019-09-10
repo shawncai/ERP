@@ -321,10 +321,12 @@ export default {
           batteryCode: '',
           motorCode: '',
           discount: 0,
+          discountRate: 100,
           discountMoney: 0,
           quantity: '0.00',
           salePrice: '0.00',
-          costPrice: '0.00'
+          costPrice: '0.00',
+          deposit: item.deposit
         }
       })
       console.log(list)

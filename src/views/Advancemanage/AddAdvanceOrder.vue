@@ -104,8 +104,8 @@
             style="width: 100%">
             <el-editable-column type="selection" min-width="55" align="center"/>
             <el-editable-column label="序号" min-width="55" align="center" type="index"/>
-            <el-editable-column prop="locationId" align="center" label="货位" min-width="150px"/>
-            <el-editable-column prop="batch" align="center" label="批次号" min-width="150px"/>
+            <!-- <el-editable-column prop="locationId" align="center" label="货位" min-width="150px"/>
+            <el-editable-column prop="batch" align="center" label="批次号" min-width="150px"/> -->
             <el-editable-column prop="category" align="center" label="商品分类" min-width="150px"/>
             <el-editable-column prop="productCode" align="center" label="商品编号" min-width="150px"/>
             <el-editable-column prop="productName" align="center" label="商品名称" min-width="150px"/>
@@ -122,7 +122,6 @@
                   :controls="true"
                   :min="1.00"
                   v-model="scope.row.quantity"
-                  @change="queryStock(scope.row)"
                 />
               </template>
             </el-editable-column>
@@ -138,9 +137,21 @@
                   @input="gettaxRate(scope.row)"/>
               </template>
             </el-editable-column>
-            <el-editable-column prop="taxMoney" align="center" label="税额" min-width="170px"/>
-            <el-editable-column prop="money" align="center" label="金额" min-width="170px"/>
-            <el-editable-column prop="includeTaxCostMoney" align="center" label="含税成本金额" min-width="170px"/>
+            <el-editable-column prop="taxMoney" align="center" label="税额" min-width="170">
+              <template slot-scope="scope">
+                <p>{{ getTaxMoney2(scope.row) }}</p>
+              </template>
+            </el-editable-column>
+            <el-editable-column v-if="false" prop="money" align="center" label="金额" min-width="150">
+              <template slot-scope="scope">
+                <p>{{ getMoney(scope.row) }}</p>
+              </template>
+            </el-editable-column>
+            <el-editable-column prop="includeTaxCostMoney" align="center" label="含税成本金额" min-width="170">
+              <template slot-scope="scope">
+                <p>{{ getincludeTaxCostMoney(scope.row) }}</p>
+              </template>
+            </el-editable-column>
             <!-- <el-editable-column prop="carCode" align="center" label="车架编码" min-width="170px"/> -->
             <!-- <el-editable-column prop="batteryCode" align="center" label="电池编码" min-width="170px"/> -->
             <!-- <el-editable-column prop="motorCode" align="center" label="电机编码" min-width="170px"/> -->
@@ -153,7 +164,15 @@
                   @input="getdiscountRate(scope.row)"/>
               </template>
             </el-editable-column>
-            <el-editable-column prop="discountMoney" align="center" label="折扣额" min-width="170px"/>
+            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="discountMoney" align="center" label="折扣额" min-width="170">
+              <template slot="edit" slot-scope="scope">
+                <el-input-number
+                  :precision="2"
+                  :controls="false"
+                  v-model="scope.row.discountMoney"
+                  @input="getdiscountMoney(scope.row)"/>
+              </template>
+            </el-editable-column>
           </el-editable>
         </div>
       </el-card>
@@ -291,15 +310,18 @@ export default {
     this.getdatatime()
   },
   methods: {
-    // 通过折扣计算折扣额
-    getdiscountRate(row) {
-      if (row.discountRate === 0) {
-        row.discountMoney = row.taxprice * row.quantity
-      } else {
-        row.discountMoney = (row.taxprice * row.quantity * (1 - row.discountRate / 100)).toFixed(2)
-      }
+    // 计算成本金额
+    getcostMoney(row) {
+      row.costMoney = (row.costPrice * row.quantity).toFixed(2)
+      return row.costMoney
     },
-    // 根据税率获取含税价格
+    // 计算含税金额
+    getincludeTaxMoney(row) {
+      row.includeTaxMoney = (row.taxprice * row.quantity).toFixed(2)
+      row.discountMoney = (row.taxprice * row.quantity * (1 - row.discountRate / 100)).toFixed(2)
+      return row.includeTaxMoney
+    },
+    // 通过税率计算含税价
     gettaxRate(row) {
       if (row.taxprice !== 0) {
         row.taxprice = (row.salePrice * (1 + row.taxRate / 100)).toFixed(2)
@@ -309,6 +331,40 @@ export default {
       } else {
         row.discountMoney = (row.taxprice * row.quantity * (1 - row.discountRate / 100)).toFixed(2)
       }
+    },
+    // 计算税额
+    getTaxMoney2(row) {
+      row.taxMoney = (row.salePrice * row.taxRate / 100 * row.quantity).toFixed(2)
+      return row.taxMoney
+    },
+    // 通过折扣计算折扣额
+    getdiscountRate(row) {
+      if (row.discountRate === 0) {
+        row.discountMoney = row.taxprice * row.quantity
+      } else {
+        row.discountMoney = (row.taxprice * row.quantity * (1 - row.discountRate / 100)).toFixed(2)
+      }
+    },
+    // 通过折扣额计算折扣
+    getdiscountMoney(row) {
+      console.log(row)
+      if (row.taxprice !== 0 && row.quantity !== 0 && row.discountMoney !== 0) {
+        row.discountRate = ((1 - (row.discountMoney / row.includeTaxCostMoney).toFixed(2)) * 100).toFixed(2)
+      }
+    },
+    // 计算金额
+    getMoney(row) {
+      row.money = (row.quantity * row.salePrice).toFixed(2)
+      return row.money
+    },
+    // 含税价
+    gettaxprice(row) {
+      row.taxprice = (row.salePrice * (1 + row.taxRate / 100)).toFixed(2)
+      return row.taxprice
+    },
+    getincludeTaxCostMoney(row) {
+      row.includeTaxCostMoney = Number(row.salePrice * row.quantity) + Number(row.taxMoney)
+      return row.includeTaxCostMoney
     },
     // 默认显示今天
     getdatatime() {
@@ -505,6 +561,7 @@ export default {
     advance(val) {
       console.log('值', val)
       this.personalForm.salePrice = val[0].salePrice
+      this.personalForm.advanceMoney = val[0].deposit
       const nowlistdata = this.$refs.editable.getRecords()
       for (let i = 0; i < val.length; i++) {
         for (let j = 0; j < nowlistdata.length; j++) {
