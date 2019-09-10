@@ -2236,14 +2236,14 @@ export const asyncRouterMap = [
       title: 'SaleCategory',
       icon: 'shuxing',
       type: 3,
-      roles: ['54-67-83-4']
+      roles: ['54-83-4']
     },
     children: [
       {
         path: 'SaleCategoryList',
         component: () => import('@/views/SaleCategory/SaleCategoryList'),
         name: 'SaleCategoryList',
-        meta: { title: 'SaleCategoryList', noCache: true, roles: ['54-67-83-1', '54-67-83-2', '54-67-83-3', '54-67-83-5', '54-67-83-6', '54-67-83-7'] }
+        meta: { title: 'SaleCategoryList', noCache: true, roles: ['54-83-1', '54-83-2', '54-83-3', '54-83-5', '54-83-6', '54-83-7'] }
       }
     ]
   },

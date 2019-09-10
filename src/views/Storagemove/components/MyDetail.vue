@@ -259,6 +259,11 @@ export default {
     handleAddTo() {
       this.productVisible = false
       console.log(this.moreaction)
+      for (const i in this.moreaction) {
+        if (this.moreaction[i].isBatch === 2) {
+          this.moreaction[i].batch = '不使用'
+        }
+      }
       const productDetail = this.moreaction.map(function(item) {
         return {
           productCode: item.code,
@@ -279,6 +284,7 @@ export default {
           price: item.costPrice,
           typeName: item.productType,
           movePrice: 0,
+          batch: item.batch,
           moveQuantity: 0
         }
       })
