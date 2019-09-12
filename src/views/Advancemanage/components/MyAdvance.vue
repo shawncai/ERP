@@ -329,7 +329,7 @@ export default {
           deposit: item.deposit
         }
       })
-      console.log(list)
+      console.log('list', list)
       for (let i = 0; i < this.choosedata.length; i++) {
         for (let j = 0; j < list.length; j++) {
           if (advanceDetail[i].productCode === list[j].data.data.content.list[0].code) {

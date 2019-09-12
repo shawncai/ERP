@@ -43,7 +43,7 @@
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('Advancemanage.advanceMoney')" style="width: 100%;">
+                <el-form-item :label="$t('Advancemanage.advanceMoney')" prop="advanceMoney" style="width: 100%;">
                   <el-input v-model="personalForm.advanceMoney" style="margin-left: 18px;width: 200px" clearable/>
                 </el-form-item>
               </el-col>
@@ -64,7 +64,7 @@
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('Advancemanage.salePersonId')" style="width: 100%;">
+                <el-form-item :label="$t('Advancemanage.salePersonId')" prop="salePersonId" style="width: 100%;">
                   <el-input v-model="salePersonId" style="margin-left: 18px;width: 200px" clearable @focus="choosesale"/>
                   <my-emp :control.sync="control" @stockName="stockName"/>
                 </el-form-item>
@@ -75,7 +75,7 @@
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('Advancemanage.saleRepositoryId')" style="width: 100%;">
+                <el-form-item :label="$t('Advancemanage.saleRepositoryId')" prop="saleRepositoryId" style="width: 100%;">
                   <el-input v-model="saleRepositoryId" style="margin-left: 18px;width: 200px" disabled/>
                 </el-form-item>
               </el-col>
@@ -127,7 +127,7 @@
             </el-editable-column>
             <el-editable-column prop="salePrice" align="center" label="零售价" min-width="170px"/>
             <el-editable-column prop="costPrice" align="center" label="成本价" min-width="170px"/>
-            <el-editable-column prop="includeTaxMoney" align="center" label="含税金额" min-width="170px"/>
+            <el-editable-column prop="taxprice" align="center" label="含税金额" min-width="170px"/>
             <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="taxRate" align="center" label="税率(%)" min-width="170">
               <template slot="edit" slot-scope="scope">
                 <el-input-number
@@ -207,6 +207,30 @@ export default {
       console.log(value)
       if (this.personalForm.customerName === '' || this.personalForm.customerName === null || this.personalForm.customerName === undefined) {
         callback(new Error('请选择客户'))
+      } else {
+        callback()
+      }
+    }
+    const validatePass2 = (rule, value, callback) => {
+      console.log(value)
+      if (this.personalForm.advanceMoney === '' || this.personalForm.advanceMoney === null || this.personalForm.advanceMoney === undefined) {
+        callback(new Error('请输入金额'))
+      } else {
+        callback()
+      }
+    }
+    const validatePass3 = (rule, value, callback) => {
+      console.log(value)
+      if (this.salePersonId === '' || this.salePersonId === null || this.salePersonId === undefined) {
+        callback(new Error('请选择业务员'))
+      } else {
+        callback()
+      }
+    }
+    const validatePass4 = (rule, value, callback) => {
+      console.log(value)
+      if (this.saleRepositoryId === '' || this.saleRepositoryId === null || this.saleRepositoryId === undefined) {
+        callback(new Error('请指定门店'))
       } else {
         callback()
       }
@@ -294,6 +318,15 @@ export default {
         ],
         stockTypeId: [
           { required: true, message: '请选择采购类别', trigger: 'change' }
+        ],
+        advanceMoney: [
+          { required: true, validator: validatePass2, trigger: 'change' }
+        ],
+        salePersonId: [
+          { required: true, validator: validatePass3, trigger: 'change' }
+        ],
+        saleRepositoryId: [
+          { required: true, validator: validatePass4, trigger: 'change' }
         ]
       },
       // 采购申请单明细数据
@@ -621,6 +654,9 @@ export default {
         if (elem.point === null || elem.point === '' || elem.point === undefined) {
           delete elem.point
         }
+        if (elem.quantity === null || elem.quantity === '' || elem.quantity === undefined) {
+          delete elem.quantity
+        }
         if (elem.salePrice === null || elem.salePrice === '' || elem.salePrice === undefined) {
           delete elem.salePrice
         }
@@ -630,11 +666,33 @@ export default {
         if (elem.costMoney === null || elem.costMoney === '' || elem.costMoney === undefined) {
           delete elem.costMoney
         }
-        if (elem.quantity === null || elem.quantity === '' || elem.quantity === undefined) {
-          delete elem.quantity
+        if (elem.includeTaxMoney === null || elem.includeTaxMoney === '' || elem.includeTaxMoney === undefined) {
+          delete elem.includeTaxMoney
+        }
+        if (elem.taxRate === null || elem.taxRate === '' || elem.taxRate === undefined) {
+          delete elem.taxRate
+        }
+        if (elem.taxRate !== null || elem.taxRate !== '' || elem.taxRate !== undefined) {
+          elem.taxRate = elem.taxRate / 100
+        }
+        if (elem.taxMoney === null || elem.taxMoney === '' || elem.taxMoney === undefined) {
+          delete elem.taxMoney
+        }
+        if (elem.money === null || elem.money === '' || elem.money === undefined) {
+          delete elem.money
         }
         if (elem.includeTaxCostMoney === null || elem.includeTaxCostMoney === '' || elem.includeTaxCostMoney === undefined) {
           delete elem.includeTaxCostMoney
+        }
+        if (elem.discountRate === null || elem.discountRate === '' || elem.discountRate === undefined) {
+          delete elem.discountRate
+        }
+        if (elem.discountRate !== null || elem.discountRate !== '' || elem.discountRate !== undefined) {
+          elem.discountRate = elem.discountRate / 100
+          elem.discount = elem.discountRate
+        }
+        if (elem.discountMoney === null || elem.discountMoney === '' || elem.discountMoney === undefined) {
+          delete elem.discountMoney
         }
         return elem
       })

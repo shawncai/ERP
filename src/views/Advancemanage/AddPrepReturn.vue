@@ -20,7 +20,7 @@
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('Advancemanage.sourceNumber')" style="width: 100%;">
+                <el-form-item :label="$t('Advancemanage.sourceNumber')" prop="sourceNumber" style="width: 100%;">
                   <el-input v-model="personalForm.sourceNumber" style="margin-left: 18px;width: 200px" @focus="choosepresale"/>
                 </el-form-item>
                 <my-presale :presalecontrol.sync="presalecontrol" @presale="presale"/>
@@ -58,7 +58,7 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('Advancemanage.settleMoney')" style="width: 100%;">
-                  <el-input v-model="personalForm.settleMoney" style="margin-left: 18px;width: 200px" clearable/>
+                  <el-input v-model="personalForm.settleMoney" disabled style="margin-left: 18px;width: 200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
@@ -106,7 +106,7 @@
       <el-card class="box-card" style="margin-top: 15px" shadow="never">
         <h2 ref="fuzhu" class="form-name" >订单明细</h2>
         <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
-          <el-button @click="handleAddproduct">添加预售商品</el-button>
+          <!-- <el-button @click="handleAddproduct">添加预售商品</el-button> -->
           <my-advance :advancecontrol.sync="advancecontrol" @advance="advance"/>
           <el-button type="danger" @click="$refs.editable.removeSelecteds()">删除</el-button>
         </div>
@@ -123,7 +123,7 @@
             style="width: 100%">
             <el-editable-column type="selection" min-width="55" align="center"/>
             <el-editable-column label="序号" min-width="55" align="center" type="index"/>
-            <el-editable-column prop="category" align="center" label="商品分类" min-width="150px"/>
+            <el-editable-column prop="productCategory" align="center" label="商品分类" min-width="150px"/>
             <el-editable-column prop="productCode" align="center" label="商品编号" min-width="150px"/>
             <el-editable-column prop="productName" align="center" label="商品名称" min-width="150px"/>
             <el-editable-column prop="unit" align="center" label="基本单位" min-width="150px"/>
@@ -160,7 +160,7 @@
 <script>
 import '@/directive/noMoreClick/index.js'
 import { addadvancereturn } from '@/api/Advancemanage'
-import { searchSaleCategory } from '@/api/SaleCategory'
+// import { searchSaleCategory } from '@/api/SaleCategory'
 import { searchCategory } from '@/api/Supplier'
 import MyEmp from './components/MyEmp'
 import MyDetail from './components/MyDetail'
@@ -179,6 +179,14 @@ export default {
       console.log(value)
       if (this.personalForm.customerName === '' || this.personalForm.customerName === null || this.personalForm.customerName === undefined) {
         callback(new Error('请选择客户'))
+      } else {
+        callback()
+      }
+    }
+    const validatePass2 = (rule, value, callback) => {
+      console.log(value)
+      if (this.personalForm.sourceNumber === '' || this.personalForm.sourceNumber === null || this.personalForm.sourceNumber === undefined) {
+        callback(new Error('请选择源单'))
       } else {
         callback()
       }
@@ -277,6 +285,9 @@ export default {
         ],
         stockTypeId: [
           { required: true, message: '请选择采购类别', trigger: 'change' }
+        ],
+        sourceNumber: [
+          { required: true, validator: validatePass2, trigger: 'change' }
         ]
       },
       // 采购申请单明细数据
@@ -329,12 +340,18 @@ export default {
       this.presalecontrol = true
     },
     presale(val) {
+      console.log('预售退货单', val)
       this.personalForm.sourceNumber = val.advanceNumber
       this.personalForm.customerName = val.customerName
+      for (const i in val.advanceOrderDetailVos) {
+        val.advanceOrderDetailVos[i].taxRate
+      }
+      this.list2 = val.advanceOrderDetailVos
       this.personalForm.phone = val.phone
       this.personalForm.address = val.address
+      this.personalForm.settleMoney = this.personalForm.returnMoney = val.advanceMoney
       if (val.payMode !== null) {
-        this.personalForm.payMode = String(val.payMode)
+        this.personalForm.payMode = val.payMode
       }
       this.personalForm.salePersonId = val.salePersonId
       this.salePersonId = val.salePersonName
@@ -472,7 +489,7 @@ export default {
         }
       })
       // 结算方式数据
-      searchSaleCategory(5).then(res => {
+      searchCategory(5).then(res => {
         if (res.data.ret === 200) {
           this.colseTypes = res.data.data.content.list
         }
@@ -504,9 +521,9 @@ export default {
       this.personalForm.acceptPersonId = val.id
     },
     // 订单明细来源
-    handleAddproduct() {
-      this.advancecontrol = true
-    },
+    // handleAddproduct() {
+    //   this.advancecontrol = true
+    // },
     advance(val) {
       const nowlistdata = this.$refs.editable.getRecords()
       for (let i = 0; i < val.length; i++) {

@@ -2115,6 +2115,7 @@ export default {
     isMove: '是否补货'
   },
   public: {
+    businessStatus: '业务状态',
     rate: '汇率',
     up: '上架',
     down: '下架',

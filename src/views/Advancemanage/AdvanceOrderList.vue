@@ -113,7 +113,7 @@
         </el-table-column>
         <el-table-column :label="$t('Advancemanage.payMode')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.payMode }}</span>
+            <span>{{ scope.row.payModeName }}</span>
           </template>
         </el-table-column>
         <el-table-column :label="$t('Advancemanage.salePersonId')" :resizable="false" align="center" min-width="150">
@@ -139,6 +139,11 @@
         <el-table-column :label="$t('public.receiptStat')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.receiptStat | receiptStatFilter }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column :label="$t('public.businessStatus')" :resizable="false" align="center" min-width="150">
+          <template slot-scope="scope">
+            <span>{{ getbussiness(scope.row) }}</span>
           </template>
         </el-table-column>
         <el-table-column :label="$t('public.actions')" :resizable="false" align="center" min-width="320">
@@ -274,6 +279,19 @@ export default {
     this.getlist()
   },
   methods: {
+    // 判断业务状态
+    getbussiness(row) {
+      console.log(row)
+      if (row.judgeStat === 0) {
+        return '预售申请'
+      }
+      if (row.judgeStat === 2) {
+        return '预售中'
+      }
+      if (row.receiptStat === 3) {
+        return '完成'
+      }
+    },
     handleMyReceipt1(val) {
       console.log(val)
       this.$store.dispatch('getempcontract3', val)
