@@ -272,6 +272,24 @@ export default {
       searchstockArrival(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
+          // 判断数组中产品过检数量 - 已入库数量是否小于0
+          // console.log('处理前', this.list)
+          for (let i = 0; i < this.list.length; i++) {
+            for (let j = 0; j < this.list[i].stockArrivalDetailVos.length; j++) {
+              if (this.list[i].stockArrivalDetailVos[j].qualifyQuantity - this.list[i].stockArrivalDetailVos[j].hadStorageQuantity <= 0) {
+                console.log('序号' + i, j)
+                this.list[i].stockArrivalDetailVos.splice(j, 1)
+                j--
+              }
+            }
+          }
+          for (let i = 0; i < this.list.length; i++) {
+            if (this.list[i].stockArrivalDetailVos.length === 0) {
+              this.list.splice(i, 1)
+              i--
+            }
+          }
+          console.log('处理后', this.list)
           this.total = res.data.data.content.totalCount
         }
         setTimeout(() => {
@@ -353,7 +371,7 @@ export default {
           unit: item.unit,
           color: item.color,
           basicQuantity: (Number(item.arrivalQuantity) - Number(item.hadStorageQuantity)).toFixed(2),
-          actualEnterQuantity: (Number(item.qualifyQuantity) - Number(item.hadStorageQuantity)).toFixed(2),
+          actualEnterQuantity: (Number(item.arrivalQuantity) - Number(item.hadStorageQuantity)).toFixed(2),
           enterPrice: (item.includeTaxPrice).toFixed(2),
           taxRate: (item.taxRate).toFixed(2),
           enterMoney: '0.00',

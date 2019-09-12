@@ -118,6 +118,8 @@
         </el-table-column>
         <el-table-column :label="$t('public.actions')" :resizable="false" align="center" min-width="230">
           <template slot-scope="scope">
+            <el-button v-permission="['54-83-3']" v-if="scope.row.isEffective === 1" type="danger" size="mini" @click="handleActive(scope.row)" >{{ $t('public.disable') }}</el-button>
+            <el-button v-permission="['54-83-3']" v-else type="success" size="mini" @click="handleActive(scope.row)" >{{ $t('public.enable') }}</el-button>
             <el-button v-permission="['54-83-3']" type="primary" size="mini" @click="handleEdit(scope.row)" >{{ $t('public.edit') }}</el-button>
             <el-button v-permission="['54-83-2']" size="mini" type="danger" @click="handleDelete(scope.row)">{{ $t('public.delete') }}</el-button>
           </template>
@@ -259,6 +261,31 @@ export default {
     this.getlist()
   },
   methods: {
+    // 启用，停用
+    handleActive(row) {
+      let editEffective = 0
+      console.log(row.id, row.isEffective)
+      if (row.isEffective === 2) {
+        editEffective = 1
+        console.log('启用', editEffective)
+      }
+      if (row.isEffective === 1) {
+        editEffective = 2
+        console.log('停用', editEffective)
+      }
+      const params = {
+        id: row.id,
+        isEffective: editEffective,
+        categoryName: row.categoryName
+      }
+      updateSaleCategory(params).then(res => {
+        if (res.data.ret === 200) {
+          this.getlist()
+        } else {
+          console.log('改变出错')
+        }
+      })
+    },
     checkPermission,
     getlist() {
       // 员工列表数据

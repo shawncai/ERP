@@ -103,8 +103,8 @@
               <template slot-scope="scope">
                 <el-select v-model="scope.row.locationId" :value="scope.row.locationId" placeholder="请选择货位" filterable clearable style="width: 100%;" @visible-change="updatebatch($event,scope)">
                   <el-option
-                    v-for="(item, index) in locationlist"
-                    :key="index"
+                    v-for="item in locationlist"
+                    :key="item.id"
                     :value="item.id"
                     :label="item.locationCode"/>
                 </el-select>

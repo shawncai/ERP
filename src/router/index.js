@@ -525,7 +525,7 @@ export const asyncRouterMap = [
       {
         path: 'addstockenter',
         component: () => import('@/views/Stockenter/addstockenter'),
-        name: 'addstockenter',
+        name: 'Addstockenter',
         meta: { title: 'addstockenter', noCache: false, roles: ['131-132-134-1'] }
       },
       {

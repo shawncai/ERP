@@ -820,6 +820,7 @@ export default {
     createTime: '登记日期'
   },
   Stockenter: {
+    heji: '入库数量',
     title: '入库单主题',
     sourceNumber: '源单编号',
     sourceType: '源单类型',

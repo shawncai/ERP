@@ -274,16 +274,17 @@ export default {
     },
     // 反结单操作
     handleReview4(row) {
-      this.reviewParms = {}
-      this.reviewParms.id = row.id
-      this.reviewParms.judgePersonId = this.$store.getters.userId
+      const reviewParms = {
+        id: row.id,
+        judgePersonId: this.$store.getters.userId
+      }
       this.$confirm('请反审批', '反审批', {
         distinguishCancelAndClose: true,
         confirmButtonText: '反审批',
         type: 'warning'
       }).then(() => {
-        this.reviewParms.judgeStat = 0
-        const parms = JSON.stringify(this.reviewParms)
+        reviewParms.judgeStat = 0
+        const parms = JSON.stringify(reviewParms)
         updatestockenter3(parms).then(res => {
           if (res.data.ret === 200) {
             if (res.data.data.result === false) {
@@ -298,6 +299,11 @@ export default {
               })
             }
             this.getlist()
+          } else {
+            this.$message({
+              type: 'error',
+              message: '反审批失败!'
+            })
           }
         })
       })
@@ -321,6 +327,7 @@ export default {
       }).then(() => {
         this.reviewParms.receiptStat = 2
         const parms = JSON.stringify(this.reviewParms)
+        console.log(parms)
         updatestockenter3(parms).then(res => {
           if (res.data.ret === 200) {
             this.$message({
@@ -330,6 +337,8 @@ export default {
             this.getlist()
           }
         })
+      }).catch(() => {
+        console.log('wrong')
       })
     },
     // 判断结单按钮

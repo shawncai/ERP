@@ -152,6 +152,11 @@
             <span>{{ scope.row.receiptStat | receiptStatFilter }}</span>
           </template>
         </el-table-column>
+        <el-table-column :label="$t('public.businessStatus')" :resizable="false" align="center" min-width="150">
+          <template slot-scope="scope">
+            <span>{{ getbusinessStatus(scope.row) }}</span>
+          </template>
+        </el-table-column>
         <el-table-column :label="$t('public.actions')" :resizable="false" align="center" min-width="230">
           <template slot-scope="scope">
             <el-button v-permission2="['54-84-89-3', scope.row.createPersonId]" v-show="scope.row.judgeStat === 0" title="修改" type="primary" size="mini" icon="el-icon-edit" circle @click="handleEdit(scope.row)"/>
@@ -288,6 +293,19 @@ export default {
     this.getlist()
   },
   methods: {
+    // 获取业务状态
+    getbusinessStatus(row) {
+      console.log('row.receiptStat', row.receiptStat)
+      if (row.judgeStat === 0) {
+        return '退款申请'
+      }
+      if (row.judgeStat === 2 && row.receiptStat === 3) {
+        return '退款完成'
+      }
+      if (row.judgeStat === 2) {
+        return '退款中'
+      }
+    },
     // 判断反审批按钮
     isReview4(row) {
       console.log(row)
@@ -367,9 +385,9 @@ export default {
       this.reviewParms = {}
       this.reviewParms.id = row.id
       this.reviewParms.endPersonId = this.$store.getters.userId
-      this.$confirm('请结单', '结单', {
+      this.$confirm('请确认是否已退款', '退款', {
         distinguishCancelAndClose: true,
-        confirmButtonText: '结单',
+        confirmButtonText: '确认退款',
         type: 'warning'
       }).then(() => {
         this.reviewParms.receiptStat = 3
@@ -378,7 +396,7 @@ export default {
           if (res.data.ret === 200) {
             this.$message({
               type: 'success',
-              message: '结单成功!'
+              message: '退款成功!'
             })
             this.getlist()
           }
