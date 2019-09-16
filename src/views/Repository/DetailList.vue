@@ -44,7 +44,7 @@
                 </el-form-item>
               </el-col>
               <el-col :span="12">
-                <el-form-item label="类别" style="width: 100%;">
+                <el-form-item label="类型" style="width: 100%;">
                   <span>{{ personalForm.categoryName }}</span>
                 </el-form-item>
               </el-col>
@@ -63,11 +63,11 @@
                   <span>{{ personalForm.regionPersonName }}</span>
                 </el-form-item>
               </el-col>
-              <el-col :span="12">
+              <!-- <el-col :span="12">
                 <el-form-item :label="$t('Repository.attributes')" style="width: 100%;">
                   <span>{{ personalForm.attributes | attributesFilter }}</span>
                 </el-form-item>
-              </el-col>
+              </el-col> -->
               <el-col :span="12">
                 <el-form-item :label="$t('Repository.countryId')" style="width: 100%;">
                   <span>{{ personalForm.countryName }}</span>

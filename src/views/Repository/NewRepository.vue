@@ -44,12 +44,12 @@
                 :value="item.id"
                 :label="item.categoryName"
               />
-              <template>
+              <!-- <template>
                 <el-button v-if="isshow" icon="el-icon-circle-plus-outline" style="width:100%" @click="go_creat">新增</el-button>
-              </template>
+              </template> -->
             </el-select>
           </el-form-item>
-          <el-form-item label="类别" prop="categoryId" style="width: 40%;margin-top: 1%">
+          <el-form-item label="类型" prop="categoryId" style="width: 40%;margin-top: 1%">
             <el-select ref="clear2" v-model="RepositoryForm.categoryId" placeholder="请选择" style="width: 100%;">
               <el-option v-show="false" label="" value=""/>
               <el-option
@@ -304,13 +304,13 @@
           </el-dialog>
           <!--小区经理选择弹窗结束-->
           <!--弹窗员工列表结束-->
-          <el-form-item :label="$t('Repository.attributes')" prop="attributes" style="width: 40%;margin-top: 1%">
+          <!-- <el-form-item :label="$t('Repository.attributes')" prop="attributes" style="width: 40%;margin-top: 1%">
             <el-select v-model="RepositoryForm.attributes" :value="RepositoryForm.attributes" placeholder="请选择" clearable style="width: 100%;">
               <el-option label="只卖" value="1"/>
               <el-option label="既卖又维修" value="2"/>
               <el-option label="只存储" value="3"/>
             </el-select>
-          </el-form-item>
+          </el-form-item> -->
           <el-form-item :label="$t('Repository.countryId')" prop="countryId" style="width: 40%;margin-top: 1%">
             <el-select v-model="RepositoryForm.countryId" placeholder="请选择国家" style="width: 100%;">
               <el-option
