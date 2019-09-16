@@ -27,15 +27,15 @@
       <!-- 打印操作 -->
       <el-button v-permission="['1-9-13-7']" v-waves class="filter-item" icon="el-icon-printer" style="width: 86px" @click="handlePrint">{{ $t('public.print') }}</el-button>
       <!-- 新建操作 -->
-      <el-button v-permission="['1-9-13-1']" v-waves class="filter-item" icon="el-icon-plus" type="success" style="width: 86px;float: right" @click="handleAdd2">类别</el-button>
+      <el-button v-permission="['1-9-13-1']" v-waves class="filter-item" icon="el-icon-plus" type="success" style="width: 86px;float: right" @click="handleAdd2">类型</el-button>
       <el-dialog :visible.sync="categoryVisible2" append-to-body width="600px" class="normal" title="新建分类属性" center>
         <el-form ref="addCategoryForm2" :rules="addCategoryFormRules2" :model="addCategoryForm2" class="demo-ruleForm" style="margin: 0 auto; width: 400px">
           <el-form-item :label="$t('NewEmployeeInformation.type')" label-width="100px" prop="type">
             <el-select v-model="addCategoryForm2.type" placeholder="请选择类别" style="width: 100%">
-              <el-option label="仓库类别" value="2"/>
+              <el-option label="仓库类型" value="1"/>
             </el-select>
           </el-form-item>
-          <el-form-item label="类型" label-width="100px" prop="parentId">
+          <el-form-item label="类别" label-width="100px" prop="parentId">
             <el-select v-model="addCategoryForm2.parentId" placeholder="请选择父类别" style="width: 100%" @focus="getPar">
               <el-option
                 v-for="(item, index) in parentIds"
@@ -61,12 +61,12 @@
         </span>
       </el-dialog>
       <!-- 新增2 -->
-      <el-button v-permission="['1-9-13-1']" v-waves class="filter-item" icon="el-icon-plus" type="success" style="width: 86px;float: right" @click="handleAdd">类型</el-button>
+      <!-- <el-button v-permission="['1-9-13-1']" v-waves class="filter-item" icon="el-icon-plus" type="success" style="width: 86px;float: right" @click="handleAdd">类别</el-button> -->
       <el-dialog :visible.sync="categoryVisible" append-to-body width="600px" class="normal" title="新建分类属性" center>
         <el-form ref="addCategoryForm" :rules="addCategoryFormRules" :model="addCategoryForm" class="demo-ruleForm" style="margin: 0 auto; width: 400px">
           <el-form-item :label="$t('NewEmployeeInformation.type')" label-width="100px" prop="type">
             <el-select v-model="addCategoryForm.type" placeholder="请选择类别" style="width: 100%">
-              <el-option label="仓库类型" value="1"/>
+              <el-option label="仓库类别" value="2"/>
             </el-select>
           </el-form-item>
           <el-form-item :label="$t('NewEmployeeInformation.categoryname')" label-width="100px" prop="categoryname">
@@ -109,7 +109,7 @@
               <span>{{ scope.row.type | typeFilter }}</span>
             </template>
           </el-table-column>
-          <el-table-column :resizable="false" label="所属仓库类型" prop="categoryName" align="center" width="350">
+          <el-table-column :resizable="false" label="所属仓库类别" prop="categoryName" align="center" width="350">
             <template slot-scope="scope">
               <span>{{ scope.row.parentName }}</span>
             </template>
@@ -126,10 +126,10 @@
           </el-table-column>
           <el-table-column :label="$t('public.actions')" :resizable="false" align="center" min-width="230">
             <template slot-scope="scope">
-              <el-button v-permission="['1-9-13-8']" v-show="scope.row.isEffective === 2" title="启用" type="primary" size="mini" style="margin-left: 18px;" icon="el-icon-check" circle @click="open(scope.row)"/>
-              <el-button v-permission="['1-9-13-9']" v-show="scope.row.isEffective === 1" title="停用" type="primary" size="mini" icon="el-icon-close" circle @click="close(scope.row)"/>
-              <el-button v-permission="['1-9-13-3']" type="primary" size="mini" @click="handleEdit(scope.row)" >{{ $t('public.edit') }}</el-button>
-              <el-button v-permission="['1-9-13-2']" size="mini" type="danger" @click="handleDelete(scope.row)">{{ $t('public.delete') }}</el-button>
+              <el-button v-permission="['1-9-13-8']" v-show="scope.row.isEffective === 2&&scope.row.type === 1" title="启用" type="primary" size="mini" style="margin-left: 18px;" icon="el-icon-check" circle @click="open(scope.row)"/>
+              <el-button v-permission="['1-9-13-9']" v-show="scope.row.isEffective === 1&&scope.row.type === 1" title="停用" type="primary" size="mini" icon="el-icon-close" circle @click="close(scope.row)"/>
+              <el-button v-permission="['1-9-13-3']" v-show="scope.row.type === 1" type="primary" size="mini" @click="handleEdit(scope.row)" >{{ $t('public.edit') }}</el-button>
+              <el-button v-permission="['1-9-13-2']" v-show="scope.row.type === 1" size="mini" type="danger" @click="handleDelete(scope.row)">{{ $t('public.delete') }}</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -214,12 +214,12 @@ export default {
       // 新增数据
       addCategoryForm: {
         categoryname: '',
-        type: '1',
+        type: '2',
         iseffective: '1'
       },
       addCategoryForm2: {
         categoryname: '',
-        type: '2',
+        type: '1',
         iseffective: '1'
       },
       // 校验新增数据
@@ -296,6 +296,13 @@ export default {
     this.getlist()
   },
   methods: {
+    isReview(val) {
+      if (val.type === 2) {
+        return false
+      } else {
+        return true
+      }
+    },
     getPar() {
       searchRepCategory().then(res => {
         if (res.data.ret === 200) {
@@ -513,14 +520,14 @@ export default {
     restAddCategoryForm() {
       this.addCategoryForm = {
         categoryname: '',
-        type: '1',
+        type: '2',
         iseffective: '1'
       }
     },
     restAddCategoryForm2() {
       this.addCategoryForm = {
         categoryname: '',
-        type: '2',
+        type: '1',
         iseffective: '1'
       }
     },

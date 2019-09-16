@@ -143,7 +143,6 @@
                 v-model="regionId"
                 :show-all-levels="false"
                 placeholder="请选择区域"
-                change-on-select
                 filterable
                 clearable
                 style="width: 100%;"
@@ -165,7 +164,7 @@
                 />
               </el-select>
             </el-form-item>
-            <el-form-item label="类别" prop="categoryId" style="width: 40%;margin-top: 1%">
+            <el-form-item label="类型" prop="categoryId" style="width: 40%;margin-top: 1%">
               <el-select v-model="RepositoryForm.categoryId" placeholder="请选择" style="width: 100%;">
                 <el-option
                   v-for="(item, index) in types2"
@@ -420,13 +419,13 @@
             </el-dialog>
             <!--小区经理选择弹窗结束-->
             <!--弹窗员工列表结束-->
-            <el-form-item :label="$t('Repository.attributes')" style="width: 40%;margin-top: 1%">
+            <!-- <el-form-item :label="$t('Repository.attributes')" style="width: 40%;margin-top: 1%">
               <el-select v-model="RepositoryForm.attributes" :value="RepositoryForm.attributes" placeholder="请选择" clearable style="width: 100%;">
                 <el-option label="只卖" value="1"/>
                 <el-option label="既卖又维修" value="2"/>
                 <el-option label="只存储" value="3"/>
               </el-select>
-            </el-form-item>
+            </el-form-item> -->
             <el-form-item :label="$t('Repository.countryId')" style="width: 40%;margin-top: 1%">
               <el-select v-model="RepositoryForm.countryId" placeholder="请选择国家" style="width: 100%;" disabled>
                 <el-option
@@ -716,12 +715,18 @@ export default {
       // 仓库类型
       searchRepCategory().then(res => {
         if (res.data.ret === 200) {
-          this.types = res.data.data.content.list
-          for (let i = 0; i < this.types.length; i++) {
-            if (this.types[i].parentId !== null && this.types[i].parentId !== '') {
-              this.types.splice(i, 1)
+          const result = []
+          // this.types = res.data.data.content.list
+          for (let i = 0; i < res.data.data.content.list.length; i++) {
+            // if (this.types[i].parentId !== null && this.types[i].parentId !== '') {
+            //   this.types.splice(i, 1)
+            // }
+            if (res.data.data.content.list[i].parentId === null || res.data.data.content.list[i].parentId === '') {
+              result.push(res.data.data.content.list[i])
             }
           }
+          console.log('result', result)
+          this.types = result
         } else {
           console.log('仓库类型数据出错')
         }

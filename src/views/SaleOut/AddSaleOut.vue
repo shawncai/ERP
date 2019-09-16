@@ -831,6 +831,9 @@ export default {
       } else if (this.personalForm.ridMoney !== null && this.personalForm.ridMoney !== '' && this.personalForm.ridMoney !== undefined) {
         console.log('this.heji3 - this.heji4 - this.personalForm.ridMoney', this.heji3 - this.heji4 - this.personalForm.ridMoney)
         return (this.heji3 - this.heji4 - this.personalForm.ridMoney)
+      } else if (this.personalForm.ridBikeMoney !== null && this.personalForm.ridBikeMoney !== '' && this.personalForm.ridBikeMoney !== undefined) {
+        console.log('this.heji3 - this.heji4 - this.personalForm.ridMoney', this.heji3 - this.heji4 - this.personalForm.ridMoney)
+        return (this.heji3 - this.heji4 - this.personalForm.ridBikeMoney)
       } else {
         if (this.personalForm.sourceType === '1' || this.personalForm.sourceType === '4' || this.personalForm.sourceType === '5') {
           console.log('this.heji3 - this.heji4', this.heji3 - this.heji4)
@@ -1598,7 +1601,7 @@ export default {
       }
     },
     recyclingdata(val) {
-      this.ridBikeMoney = val.recyclingMoney
+      this.personalForm.ridBikeMoney = val.recyclingMoney
       console.log('val', val)
       this.personalForm.customerType = '2'
       this.personalForm.customerId = val.customerId
@@ -1608,6 +1611,9 @@ export default {
       const data = {}
       data.productCode = val.productCode
       data.productName = val.productName
+      data.salePrice = val.price
+      data.discountRate = 100
+      data.costPrice = val.costPrice
       data.categoryName = val.productCategoryName
       data.category = val.productCategory
       data.unit = val.unit

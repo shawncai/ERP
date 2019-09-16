@@ -590,13 +590,13 @@ export default {
     description: '仓库说明',
     regionId: '所属区域',
     editregionId: '修改区域',
-    type: '类型',
+    type: '类别',
     regionManager: '小区经理',
     attributes: '属性',
     countryId: '国家',
     id: '仓库编号',
     repositoryname: '仓库名称',
-    type2: '仓库类型',
+    type2: '仓库类别',
     iseffective: '仓库状态'
   },
   Customer: {
