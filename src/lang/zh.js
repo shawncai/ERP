@@ -600,6 +600,20 @@ export default {
     iseffective: '仓库状态'
   },
   Customer: {
+    // 财务信息
+    accountsDays: '财账天数',
+    settleMode: '结算方式',
+    payMode: '支付方式',
+    currency: '币种',
+    invoiceType: '开票类型',
+    openingbank: '开户行',
+    accountname: '户名',
+    account: '账号',
+    // 辅助信息
+    establishmenttime: '成立时间',
+    totalnumber: '员工总数',
+    corporaterepresentative: '法人代表',
+    businesslicense: '营业执照号',
     firstname: '名',
     middlename: '中间名',
     lastname: '姓氏',
@@ -1597,7 +1611,7 @@ export default {
     // heji6: '折后含税金额合计',
     // heji7: '含税成本金额',
     heji8: '订单成本金额合计',
-    heji2: '出库价',
+    heji2: '出库金额',
     heji3: '出库金额',
     heji4: '折扣总额',
     heji9: '赠品数量合计',

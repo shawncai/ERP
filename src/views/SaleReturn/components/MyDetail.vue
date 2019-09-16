@@ -280,9 +280,10 @@ export default {
           taxMoney: 0,
           money: 0,
           includeTaxCostMoney: 0,
-          discount: 0,
+          discount: 100,
           discountMoney: 0,
-          taxprice: 0
+          taxprice: item.salePrice,
+          discountRate: 100
         }
       })
       console.log(productDetail)

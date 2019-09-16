@@ -49,9 +49,9 @@
               <el-form-item :label="$t('SaleReturn.closeType')" style="width: 100%;">
                 <el-select v-model="personalForm.settleMode" style="margin-left: 18px;width: 200px">
                   <el-option
-                    v-for="(item, index) in colseTypes"
+                    v-for="item in colseTypes"
                     :value="item.id"
-                    :key="index"
+                    :key="item.id"
                     :label="item.categoryName"/>
                 </el-select>
               </el-form-item>
@@ -60,8 +60,8 @@
               <el-form-item :label="$t('SaleReturn.payType')" style="width: 100%;">
                 <el-select v-model="personalForm.payMode " style="margin-left: 18px;width: 200px">
                   <el-option
-                    v-for="(item, index) in payModes"
-                    :key="index"
+                    v-for="item in payModes"
+                    :key="item.id"
                     :label="item.categoryName"
                     :value="item.id"
                   />
@@ -134,10 +134,11 @@
             <template slot="edit" slot-scope="scope">
               <el-select v-model="scope.row.locationId" :value="scope.row.locationId" placeholder="请选择货位" filterable clearable style="width: 100%;" @visible-change="updatebatch($event,scope)" @change="$refs.editable.updateStatus(scope)">
                 <el-option
-                  v-for="(item, index) in locationlist"
-                  :key="index"
+                  v-for="item in locationlist"
+                  :key="item.id"
+                  :label="item.locationCode"
                   :value="item.id"
-                  :label="item.locationCode"/>
+                />
               </el-select>
             </template>
           </el-editable-column>
@@ -150,15 +151,15 @@
           <el-editable-column prop="color" align="center" label="颜色" min-width="150px"/>
           <el-editable-column prop="kpiGrade" align="center" label="绩效分" min-width="150px"/>
           <el-editable-column prop="point" align="center" label="商品积分" min-width="150px"/>
-          <el-editable-column prop="salePrice" align="center" label="零售价" min-width="150px"/>
-          <el-editable-column prop="costPrice" align="center" label="成本价" min-width="150px"/>
-          <el-editable-column prop="taxprice" align="center" label="含税价" min-width="150px"/>
-          <el-editable-column prop="costMoney" align="center" label="成本金额" min-width="150px"/>
-          <el-editable-column prop="includeTaxMoney" align="center" label="含税金额" min-width="150px"/>
+          <el-editable-column v-if="false" prop="salePrice" align="center" label="零售价" min-width="150px"/>
+          <el-editable-column v-if="false" prop="costPrice" align="center" label="成本价" min-width="150px"/>
+          <el-editable-column prop="taxprice" align="center" label="销售单价" min-width="150px"/>
+          <el-editable-column v-if="false" prop="costMoney" align="center" label="成本金额" min-width="150px"/>
+          <el-editable-column v-if="false" prop="includeTaxMoney" align="center" label="含税金额" min-width="150px"/>
           <el-editable-column prop="taxRate" align="center" label="税率(%)" min-width="150px"/>
           <el-editable-column prop="taxMoney" align="center" label="税额" min-width="150px"/>
-          <el-editable-column prop="money" align="center" label="金额" min-width="150px"/>
-          <el-editable-column prop="includeTaxCostMoney" align="center" label="含税成本金额" min-width="150px"/>
+          <el-editable-column v-if="false" prop="money" align="center" label="金额" min-width="150px"/>
+          <el-editable-column prop="includeTaxCostMoney" align="center" label="退货金额" min-width="150px"/>
           <el-editable-column prop="discount" align="center" label="折扣" min-width="150px"/>
           <el-editable-column prop="discountMoney" align="center" label="折扣额" min-width="150px"/>
           <el-editable-column prop="alreadyReturnQuantity" align="center" label="已退货数量" min-width="150px"/>
@@ -228,7 +229,7 @@
         </el-form>
       </div>
     </el-card>
-    <el-card class="box-card" shadow="never" style="margin-top: 10px">
+    <!-- <el-card class="box-card" shadow="never" style="margin-top: 10px">
       <h2 ref="geren" class="form-name">相关单据状态</h2>
       <div class="container" style="margin-top: 37px">
         <el-form ref="personalForm3" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
@@ -257,7 +258,7 @@
           </el-row>
         </el-form>
       </div>
-    </el-card>
+    </el-card> -->
     <el-card class="box-card" style="position: fixed;width: 1010px;z-index: 100;height: 74px;bottom: 0;" shadow="never">
       <div class="buttons" style="float: right;padding-bottom: 10px">
         <el-button @click="handlecancel()">取消</el-button>
@@ -380,16 +381,16 @@ export default {
   watch: {
     editcontrol() {
       this.editVisible = this.editcontrol
+    },
+    editdata() {
+      this.personalForm = this.editdata
+      this.salePersonId = this.personalForm.salePersonName
+      this.customerId = this.personalForm.customerName
+      this.saleRepositoryId = this.personalForm.saleRepositoryName
+      this.personalForm.customerPhone = this.personalForm.phoneNumber
+      this.list2 = this.personalForm.saleReturnDetailVos
+      this.chooseSource()
     }
-    // editdata() {
-    //   this.personalForm = this.editdata
-    //   this.salePersonId = this.personalForm.salePersonName
-    //   this.customerId = this.personalForm.customerName
-    //   this.saleRepositoryId = this.personalForm.saleRepositoryName
-    //   this.personalForm.customerPhone = this.personalForm.phoneNumber
-    //   this.list2 = this.personalForm.saleReturnDetailVos
-    //   this.chooseSource()
-    // }
   },
   created() {
     this.getTypes()

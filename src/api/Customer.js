@@ -249,6 +249,42 @@ export function addagent(query) {
   if (query.newold !== '' && query.newold !== null && query.newold !== undefined) {
     params.append('newold', query.newold) // 你要传给后台的参数值 key/value
   }
+  if (query.accountsDays !== '' && query.accountsDays !== null && query.accountsDays !== undefined) {
+    params.append('accountsdays', query.accountsDays) // 你要传给后台的参数值 key/value
+  }
+  if (query.settleMode !== '' && query.settleMode !== null && query.settleMode !== undefined) {
+    params.append('settlemode', query.settleMode) // 你要传给后台的参数值 key/value
+  }
+  if (query.payMode !== '' && query.payMode !== null && query.payMode !== undefined) {
+    params.append('paymode', query.payMode) // 你要传给后台的参数值 key/value
+  }
+  if (query.currency !== '' && query.currency !== null && query.currency !== undefined) {
+    params.append('currency', query.currency) // 你要传给后台的参数值 key/value
+  }
+  if (query.invoiceType !== '' && query.invoiceType !== null && query.invoiceType !== undefined) {
+    params.append('invoicetype', query.invoiceType) // 你要传给后台的参数值 key/value
+  }
+  if (query.openingbank !== '' && query.openingbank !== null && query.openingbank !== undefined) {
+    params.append('openingbank', query.openingbank) // 你要传给后台的参数值 key/value
+  }
+  if (query.accountname !== '' && query.accountname !== null && query.accountname !== undefined) {
+    params.append('accountname', query.accountname) // 你要传给后台的参数值 key/value
+  }
+  if (query.account !== '' && query.account !== null && query.account !== undefined) {
+    params.append('account', query.account) // 你要传给后台的参数值 key/value
+  }
+  if (query.establishmenttime !== '' && query.establishmenttime !== null && query.establishmenttime !== undefined) {
+    params.append('establishmenttime', query.establishmenttime) // 你要传给后台的参数值 key/value
+  }
+  if (query.totalnumber !== '' && query.totalnumber !== null && query.totalnumber !== undefined) {
+    params.append('totalnumber', query.totalnumber) // 你要传给后台的参数值 key/value
+  }
+  if (query.corporaterepresentative !== '' && query.corporaterepresentative !== null && query.corporaterepresentative !== undefined) {
+    params.append('corporaterepresentative', query.corporaterepresentative) // 你要传给后台的参数值 key/value
+  }
+  if (query.businesslicense !== '' && query.businesslicense !== null && query.businesslicense !== undefined) {
+    params.append('businesslicense', query.businesslicense) // 你要传给后台的参数值 key/value
+  }
   return request({
     url: '/erp/agent/addagent',
     method: 'post',
@@ -348,6 +384,42 @@ export function updateagent(query) {
   }
   if (query.deliveryMode !== '' && query.deliveryMode !== null && query.deliveryMode !== undefined) {
     params.append('deliverymode', query.deliveryMode) // 你要传给后台的参数值 key/value
+  }
+  if (query.accountsDays !== '' && query.accountsDays !== null && query.accountsDays !== undefined) {
+    params.append('accountsdays', query.accountsDays) // 你要传给后台的参数值 key/value
+  }
+  if (query.settleMode !== '' && query.settleMode !== null && query.settleMode !== undefined) {
+    params.append('settlemode', query.settleMode) // 你要传给后台的参数值 key/value
+  }
+  if (query.payMode !== '' && query.payMode !== null && query.payMode !== undefined) {
+    params.append('paymode', query.payMode) // 你要传给后台的参数值 key/value
+  }
+  if (query.currency !== '' && query.currency !== null && query.currency !== undefined) {
+    params.append('currency', query.currency) // 你要传给后台的参数值 key/value
+  }
+  if (query.invoiceType !== '' && query.invoiceType !== null && query.invoiceType !== undefined) {
+    params.append('invoicetype', query.invoiceType) // 你要传给后台的参数值 key/value
+  }
+  if (query.openingBank !== '' && query.openingBank !== null && query.openingBank !== undefined) {
+    params.append('openingbank', query.openingBank) // 你要传给后台的参数值 key/value
+  }
+  if (query.accountName !== '' && query.accountName !== null && query.accountName !== undefined) {
+    params.append('accountname', query.accountName) // 你要传给后台的参数值 key/value
+  }
+  if (query.account !== '' && query.account !== null && query.account !== undefined) {
+    params.append('account', query.account) // 你要传给后台的参数值 key/value
+  }
+  if (query.establishmenttime !== '' && query.establishmenttime !== null && query.establishmenttime !== undefined) {
+    params.append('establishmenttime', query.establishmenttime) // 你要传给后台的参数值 key/value
+  }
+  if (query.totalNumber !== '' && query.totalNumber !== null && query.totalNumber !== undefined) {
+    params.append('totalnumber', query.totalNumber) // 你要传给后台的参数值 key/value
+  }
+  if (query.corporaterepresentative !== '' && query.corporaterepresentative !== null && query.corporaterepresentative !== undefined) {
+    params.append('corporaterepresentative', query.corporaterepresentative) // 你要传给后台的参数值 key/value
+  }
+  if (query.businessLicense !== '' && query.businessLicense !== null && query.businessLicense !== undefined) {
+    params.append('businesslicense', query.businessLicense) // 你要传给后台的参数值 key/value
   }
   return request({
     url: '/erp/agent/updateagent',

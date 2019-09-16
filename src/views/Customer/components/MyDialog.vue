@@ -150,6 +150,114 @@
         </el-form>
       </div>
     </el-card>
+    <!-- 财务信息 -->
+    <el-card class="box-card" shadow="never" style="margin-top: 15px">
+      <h2 class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">业务信息</h2>
+      <div class="container">
+        <el-form ref="customerForm3" :model="customerForm" :rules="customerFormrules" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
+          <el-row>
+            <el-col :span="12">
+              <el-form-item :label="$t('Customer.accountsDays')" prop="accountsDays" style="width: 100%;">
+                <el-input v-model.number="customerForm.accountsDays" placeholder="请输入天数" style="margin-left: 18px;width: 200px" clearable/>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('Customer.settleMode')" style="width: 100%;">
+                <el-select v-model.number="customerForm.settleMode" placeholder="请选择结算方式" style="margin-left: 18px;width: 200px">
+                  <el-option
+                    v-for="(item, index) in settleMode"
+                    :key="index"
+                    :label="item.categoryName"
+                    :value="item.id"/>
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('Customer.currency')" style="width: 100%;">
+                <el-select v-model="customerForm.currency" placeholder="请选择币种" style="margin-left: 18px;width: 200px" @change ="handlechange">
+                  <el-option value="1" label="RMB" />
+                  <el-option value="2" label="USD" />
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('Customer.invoiceType')" style="width: 100%;">
+                <el-select v-model="customerForm.invoiceType" placeholder="请选择发票类型" style="margin-left: 18px;width: 200px" @change="handlechange2">
+                  <el-option
+                    v-for="(item, index) in invoiceTypes"
+                    :key="index"
+                    :label="item.categoryName"
+                    :value="item.id"/>
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('Customer.payMode')" style="width: 100%;">
+                <el-select v-model="customerForm.payMode" placeholder="请选择支付方式" style="margin-left: 18px;width: 200px">
+                  <el-option
+                    v-for="(item, index) in payMode"
+                    :key="index"
+                    :label="item.categoryName"
+                    :value="item.id"/>
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('Customer.openingbank')" prop="address" style="width: 100%;">
+                <el-input v-model="customerForm.openingBank" placeholder="请输入开户行" style="margin-left: 18px;width: 200px"/>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('Customer.accountname')" prop="address" style="width: 100%;">
+                <el-input v-model="customerForm.accountName" placeholder="请输入户名" style="margin-left: 18px;width: 200px"/>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('Customer.account')" style="width: 100%;">
+                <el-input v-model="customerForm.account" placeholder="请输入账号" style="margin-left: 18px;width: 200px"/>
+              </el-form-item>
+            </el-col>
+          </el-row>
+        </el-form>
+      </div>
+    </el-card>
+    <!-- 辅助信息 -->
+    <el-card class="box-card" shadow="never" style="margin-top: 15px">
+      <h2 class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">业务信息</h2>
+      <div class="container">
+        <el-form ref="customerForm4" :model="customerForm" :rules="customerFormrules" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
+          <el-row>
+            <el-col :span="12">
+              <el-form-item :label="$t('Customer.establishmenttime')" style="width: 100%;">
+                <el-date-picker
+                  v-model="customerForm.establishmenttime"
+                  :picker-options="pickerOptions"
+                  value-format="yyyy-MM-dd"
+                  type="date"
+                  placeholder="选择日期"
+                  style="margin-left: 18px;width: 200px"
+                />
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('Customer.totalnumber')" style="width: 100%;">
+                <el-input v-model.number="customerForm.totalNumber" placeholder="请输入员工总数" style="margin-left: 18px;width: 200px"/>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('Customer.corporaterepresentative')" style="width: 100%;">
+                <el-input v-model="customerForm.corporaterepresentative" placeholder="请输入法人代表" style="margin-left: 18px;width: 200px"/>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('Customer.businesslicense')" style="width: 100%;">
+                <el-input v-model="customerForm.businessLicense" placeholder="请输入营业执照号" style="margin-left: 18px;width: 200px"/>
+              </el-form-item>
+            </el-col>
+          </el-row>
+        </el-form>
+      </div>
+    </el-card>
     <el-card class="box-card" style="position: fixed;width: 1010px;z-index: 100;height: 74px;bottom: 0;" shadow="never">
       <div class="buttons" style="float: right;padding-bottom: 10px">
         <el-button @click="handlecancel()">取消</el-button>
@@ -163,6 +271,7 @@
 import { getcountrylist, getprovincelist, getcitylist } from '@/api/public'
 import { searchCusCategory, updateagent } from '@/api/Customer'
 import { searchCategory } from '@/api/Supplier'
+import { searchSaleCategory } from '@/api/SaleCategory'
 import MyEmp from './MyEmp'
 export default {
   components: { MyEmp },
@@ -190,6 +299,23 @@ export default {
       }, 1000)
     }
     return {
+      pickerOptions: {
+        disabledDate(time) {
+          return time.getTime() > Date.now()
+        }
+      },
+      // 财务信息
+      settleMode: [],
+      invoiceType: [],
+      payMode: [],
+      // 开票类别数据
+      invoiceTypes: [],
+      // 开票类别获取参数
+      invoicetypeparms: {
+        type: 4,
+        pagenum: 1,
+        pagesize: 99999
+      },
       editVisible: this.control,
       // 分管业务员回显
       trader: this.editdata.traderName,
@@ -221,6 +347,9 @@ export default {
         ],
         contactName: [
           { required: true, message: '请输入联系人', trigger: 'blur' }
+        ],
+        accountsDays: [
+          { required: true, message: '请输入天数', trigger: 'change' }
         ]
       },
       // 所有客户类型数据
@@ -250,6 +379,9 @@ export default {
     editdata() {
       this.customerForm = this.editdata
       this.trader = this.editdata.traderName
+      this.customerForm.currency = String(this.editdata.currency)
+      // this.customerForm.establishmenttime = new Date(this.editdata.establishmentTime)
+      this.customerForm.establishmenttime = this.formatTime(this.editdata.establishmentTime, 'Y-M-D')
       console.log(this.editdata)
       this.handlechange(this.customerForm.countryId)
       this.handlechange2(this.customerForm.provinceId)
@@ -258,9 +390,32 @@ export default {
   created() {
     this.getnationlist()
     this.getCategory()
+    this.getTypes()
   },
   methods: {
     // 修改操作开始 -------------------------------------------------
+    // 格式化日期，如月、日、时、分、秒保证为2位数
+    formatNumber(n) {
+      n = n.toString()
+      return n[1] ? n : '0' + n
+    },
+    // 参数number为毫秒时间戳，format为需要转换成的日期格式
+    formatTime(number, format) {
+      const time = new Date(number)
+      const newArr = []
+      const formatArr = ['Y', 'M', 'D', 'h', 'm', 's']
+      newArr.push(time.getFullYear())
+      newArr.push(this.formatNumber(time.getMonth() + 1))
+      newArr.push(this.formatNumber(time.getDate()))
+      newArr.push(this.formatNumber(time.getHours()))
+      newArr.push(this.formatNumber(time.getMinutes()))
+      newArr.push(this.formatNumber(time.getSeconds()))
+
+      for (const i in newArr) {
+        format = format.replace(formatArr[i], newArr[i])
+      }
+      return format
+    },
     // 获取类型
     getCategory() {
       // 获取运送方式
@@ -324,6 +479,25 @@ export default {
         }
       })
     },
+    // 获取结算，支付方式
+    getTypes() {
+      searchSaleCategory(this.invoicetypeparms).then(res => {
+        if (res.data.ret === 200) {
+          this.invoiceTypes = res.data.data.content.list
+        }
+      })
+      searchCategory(7).then(res => {
+        if (res.data.ret === 200) {
+          this.payMode = res.data.data.content.list
+        }
+      })
+      // 结算方式数据
+      searchCategory(5).then(res => {
+        if (res.data.ret === 200) {
+          this.settleMode = res.data.data.content.list
+        }
+      })
+    },
     // 国籍列表
     getnationlist() {
       getcountrylist().then(res => {
@@ -374,6 +548,10 @@ export default {
           this.$refs.customerForm.resetFields()
           this.$refs.customerForm2.clearValidate()
           this.$refs.customerForm2.resetFields()
+          this.$refs.customerForm3.clearValidate()
+          this.$refs.customerForm3.resetFields()
+          this.$refs.customerForm4.clearValidate()
+          this.$refs.customerForm4.resetFields()
           this.editVisible = false
         } else {
           this.$notify.error({
@@ -389,6 +567,10 @@ export default {
       this.$refs.customerForm.resetFields()
       this.$refs.customerForm2.clearValidate()
       this.$refs.customerForm2.resetFields()
+      this.$refs.customerForm3.clearValidate()
+      this.$refs.customerForm3.resetFields()
+      this.$refs.customerForm4.clearValidate()
+      this.$refs.customerForm4.resetFields()
       this.editVisible = false
     }
     // 修改操作结束 -------------------------------------------------
@@ -408,7 +590,7 @@ export default {
   }
   .edit >>> .el-dialog {
     background:#f1f1f1 ;
-    height: 950px;
+    height: 1200px;
   }
   .el-col-12{
     width: 49%;

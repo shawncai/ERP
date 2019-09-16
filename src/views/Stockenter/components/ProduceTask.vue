@@ -247,6 +247,21 @@ export default {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
+          // 判断是否有过检数量
+          for (let i = 0; i < this.list.length; i++) {
+            for (let j = 0; j < this.list[i].produceTaskDetailVos.length; j++) {
+              if (this.list[i].produceTaskDetailVos[j].passQuantity === 0) {
+                this.list[i].produceTaskDetailVos.splice(j, 1)
+                j--
+              }
+            }
+          }
+          // for (let i = 0; i < this.list.length; i++) {
+          //   if (this.list[i].produceTaskDetailVos.length === 0) {
+          //     this.list.splice(i, 1)
+          //     i--
+          //   }
+          // }
         }
         setTimeout(() => {
           this.listLoading = false
@@ -311,7 +326,7 @@ export default {
     async handleConfirm() {
       this.employeeVisible = false
       const producedata = this.choosedata.produceTaskDetailVos
-      console.log(this.choosedata)
+      console.log('choosedata', this.choosedata)
       const num = this.choosedata
       const productDetail = producedata.map(function(item) {
         return {
@@ -332,17 +347,19 @@ export default {
       const list = await Promise.all(producedata.map(function(item) {
         return productlist(item.productCode)
       }))
-      console.log('list', list)
-      console.log('list34', list.data.data.content)
+      console.log('list', list[0].data.data.content.list)
+      console.log('productDetail', productDetail)
       // 在外部把数据加到数组里面去
       for (let i = 0; i < productDetail.length; i++) {
         for (let j = 0; j < list.length; j++) {
-          if (productDetail[i].productCode === list[j].data.data.content.list[0].code) {
-            productDetail[i].price = list[j].data.data.content.list[0].costPrice
-            productDetail[i].enterPrice = list[j].data.data.content.list[0].costPrice
-            productDetail[i].color = list[j].data.data.content.list[0].color
-            productDetail[i].typeId = list[j].data.data.content.list[0].typeId
-            productDetail[i].typeIdname = list[j].data.data.content.list[0].productType
+          if (list[j].data.data.content.length) {
+            if (productDetail[i].productCode === list[j].data.data.content.list[0].code) {
+              productDetail[i].price = list[j].data.data.content.list[0].costPrice
+              productDetail[i].enterPrice = list[j].data.data.content.list[0].costPrice
+              productDetail[i].color = list[j].data.data.content.list[0].color
+              productDetail[i].typeId = list[j].data.data.content.list[0].typeId
+              productDetail[i].typeIdname = list[j].data.data.content.list[0].productType
+            }
           }
         }
       }

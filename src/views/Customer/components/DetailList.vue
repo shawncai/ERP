@@ -26,7 +26,7 @@
               </el-col>
               <el-col :span="12">
                 <el-form-item :label="$t('Customer.customertype')" prop="type" style="width: 100%;">
-                  <span>{{ customerForm.typeName }}</span>
+                  <span>{{ customerForm.agentType }}</span>
                 </el-form-item>
               </el-col>
               <el-col :span="12">
@@ -108,6 +108,84 @@
               <el-col :span="12">
                 <el-form-item :label="$t('Customer.address2')" prop="address" style="width: 100%;">
                   <span>{{ customerForm.address }}</span>
+                </el-form-item>
+              </el-col>
+            </el-row>
+          </el-form>
+        </div>
+      </el-card>
+      <el-card class="box-card" shadow="never" style="margin-top: 15px">
+        <h2 ref="caiwu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">财务信息</h2>
+        <div class="container" style="margin-top: 37px">
+          <el-form ref="customerForm2" :model="customerForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
+            <el-row>
+              <el-col :span="12">
+                <el-form-item :label="$t('Customer.accountsDays')" style="width: 100%;">
+                  <span>{{ customerForm.accountsDays }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('Customer.settleMode')" style="width: 100%;">
+                  <span>{{ customerForm.settleModeName }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('Customer.currency')" style="width: 100%;">
+                  <span>{{ customerForm.currency | currencyFilter }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('Customer.invoiceType')" style="width: 100%;">
+                  <span>{{ customerForm.invoiceTypeName }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('Customer.payMode')" style="width: 100%;">
+                  <span>{{ customerForm.payModeName }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('Customer.openingbank')" style="width: 100%;">
+                  <span>{{ customerForm.openingBank }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('Customer.accountname')" style="width: 100%;">
+                  <span>{{ customerForm.accountName }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('Customer.account')" prop="address" style="width: 100%;">
+                  <span>{{ customerForm.account }}</span>
+                </el-form-item>
+              </el-col>
+            </el-row>
+          </el-form>
+        </div>
+      </el-card>
+      <el-card class="box-card" shadow="never" style="margin-top: 15px">
+        <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">辅助信息</h2>
+        <div class="container" style="margin-top: 37px">
+          <el-form ref="customerForm2" :model="customerForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
+            <el-row>
+              <el-col :span="12">
+                <el-form-item :label="$t('Customer.establishmenttime')" prop="contactName" style="width: 100%;">
+                  <span>{{ formatTime(customerForm.establishmentTime,'Y-M-D') }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('Customer.totalnumber')" prop="phone" style="width: 100%;">
+                  <span>{{ customerForm.totalNumber }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('Customer.corporaterepresentative')" style="width: 100%;">
+                  <span>{{ customerForm.corporaterepresentative }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('Customer.businesslicense')" style="width: 100%;">
+                  <span>{{ customerForm.businessLicense }}</span>
                 </el-form-item>
               </el-col>
             </el-row>
@@ -321,6 +399,13 @@ export default {
         3: '结单'
       }
       return statusMap[status]
+    },
+    currencyFilter(status) {
+      const statusMap = {
+        1: 'RMB',
+        2: 'USD'
+      }
+      return statusMap[status]
     }
   },
   props: {
@@ -391,6 +476,28 @@ export default {
     }
   },
   methods: {
+    // 格式化日期，如月、日、时、分、秒保证为2位数
+    formatNumber(n) {
+      n = n.toString()
+      return n[1] ? n : '0' + n
+    },
+    // 参数number为毫秒时间戳，format为需要转换成的日期格式
+    formatTime(number, format) {
+      const time = new Date(number)
+      const newArr = []
+      const formatArr = ['Y', 'M', 'D', 'h', 'm', 's']
+      newArr.push(time.getFullYear())
+      newArr.push(this.formatNumber(time.getMonth() + 1))
+      newArr.push(this.formatNumber(time.getDate()))
+      newArr.push(this.formatNumber(time.getHours()))
+      newArr.push(this.formatNumber(time.getMinutes()))
+      newArr.push(this.formatNumber(time.getSeconds()))
+
+      for (const i in newArr) {
+        format = format.replace(formatArr[i], newArr[i])
+      }
+      return format
+    },
     // 退款记录
     getsaleReturn() {
       searchsaleReturn(this.saleReturnData).then(res => {
