@@ -111,7 +111,7 @@
             <el-editable-column prop="typeIdname" align="center" label="规格" width="150px"/>
             <el-editable-column prop="unit" align="center" label="单位" width="150px"/>
             <el-editable-column prop="basicQuantity" align="center" label="基本数量" width="150px"/>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', type: 'visible'}" prop="actualEnterQuantity" align="center" label="入库数量" width="150px"/>
+            <el-editable-column :edit-render="{name: 'ElInputNumber', type: 'visible', min: 1.00}" prop="actualEnterQuantity" align="center" label="入库数量" width="150px"/>
             <el-editable-column prop="price" align="center" label="单价" width="150px"/>
             <el-editable-column prop="totalMoney" align="center" label="入库金额" width="150px">
               <template slot-scope="scope">
@@ -206,9 +206,9 @@ export default {
       // 生产负责人回显
       produceManagerId: '',
       // 生产入库仓库回显
-      enterRepositoryId: '',
+      enterRepositoryId: this.$store.getters.repositoryName,
       // 生产入库人回显
-      enterPersonId: '',
+      enterPersonId: this.$store.getters.name,
       // 生产入库人控制框
       accetpcontrol: false,
       // 控制仓库选择窗口
@@ -223,7 +223,10 @@ export default {
         countryId: this.$store.getters.countryId,
         repositoryId: this.$store.getters.repositoryId,
         regionId: this.$store.getters.regionId,
-        sourceType: '1'
+        sourceType: '1',
+        enterPersonId: this.$store.getters.userId,
+        enterRepositoryId: this.$store.getters.repositoryId,
+        enterDeptId: this.$store.getters.deptId
       },
       // 生产入库单规则数据
       personalrules: {

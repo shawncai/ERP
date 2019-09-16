@@ -321,13 +321,15 @@ export default {
           batteryCode: '',
           motorCode: '',
           discount: 0,
+          discountRate: 100,
           discountMoney: 0,
           quantity: '0.00',
           salePrice: '0.00',
-          costPrice: '0.00'
+          costPrice: '0.00',
+          deposit: item.deposit
         }
       })
-      console.log(list)
+      console.log('list', list)
       for (let i = 0; i < this.choosedata.length; i++) {
         for (let j = 0; j < list.length; j++) {
           if (advanceDetail[i].productCode === list[j].data.data.content.list[0].code) {

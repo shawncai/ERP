@@ -43,7 +43,7 @@
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('Advancemanage.advanceMoney')" style="width: 100%;">
+                <el-form-item :label="$t('Advancemanage.advanceMoney')" prop="advanceMoney" style="width: 100%;">
                   <el-input v-model="personalForm.advanceMoney" style="margin-left: 18px;width: 200px" clearable/>
                 </el-form-item>
               </el-col>
@@ -64,7 +64,7 @@
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('Advancemanage.salePersonId')" style="width: 100%;">
+                <el-form-item :label="$t('Advancemanage.salePersonId')" prop="salePersonId" style="width: 100%;">
                   <el-input v-model="salePersonId" style="margin-left: 18px;width: 200px" clearable @focus="choosesale"/>
                   <my-emp :control.sync="control" @stockName="stockName"/>
                 </el-form-item>
@@ -75,7 +75,7 @@
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('Advancemanage.saleRepositoryId')" style="width: 100%;">
+                <el-form-item :label="$t('Advancemanage.saleRepositoryId')" prop="saleRepositoryId" style="width: 100%;">
                   <el-input v-model="saleRepositoryId" style="margin-left: 18px;width: 200px" disabled/>
                 </el-form-item>
               </el-col>
@@ -104,8 +104,8 @@
             style="width: 100%">
             <el-editable-column type="selection" min-width="55" align="center"/>
             <el-editable-column label="序号" min-width="55" align="center" type="index"/>
-            <el-editable-column prop="locationId" align="center" label="货位" min-width="150px"/>
-            <el-editable-column prop="batch" align="center" label="批次号" min-width="150px"/>
+            <!-- <el-editable-column prop="locationId" align="center" label="货位" min-width="150px"/>
+            <el-editable-column prop="batch" align="center" label="批次号" min-width="150px"/> -->
             <el-editable-column prop="category" align="center" label="商品分类" min-width="150px"/>
             <el-editable-column prop="productCode" align="center" label="商品编号" min-width="150px"/>
             <el-editable-column prop="productName" align="center" label="商品名称" min-width="150px"/>
@@ -115,19 +115,64 @@
             <el-editable-column prop="color" align="center" label="颜色" min-width="150px"/>
             <el-editable-column prop="kpiGrade" align="center" label="绩效分" min-width="150px"/>
             <el-editable-column prop="point" align="center" label="商品积分" min-width="150px"/>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="quantity" align="center" label="预售数量" min-width="170px"/>
+            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 1.00, precision: 2}, type: 'visible'}" prop="quantity" align="center" label="预售数量" min-width="150">
+              <template slot="edit" slot-scope="scope">
+                <el-input-number
+                  :precision="2"
+                  :controls="true"
+                  :min="1.00"
+                  v-model="scope.row.quantity"
+                />
+              </template>
+            </el-editable-column>
             <el-editable-column prop="salePrice" align="center" label="零售价" min-width="170px"/>
             <el-editable-column prop="costPrice" align="center" label="成本价" min-width="170px"/>
-            <el-editable-column prop="includeTaxMoney" align="center" label="含税金额" min-width="170px"/>
-            <el-editable-column prop="taxRate" align="center" label="税率" min-width="170px"/>
-            <el-editable-column prop="taxMoney" align="center" label="税额" min-width="170px"/>
-            <el-editable-column prop="money" align="center" label="金额" min-width="170px"/>
-            <el-editable-column prop="includeTaxCostMoney" align="center" label="含税成本金额" min-width="170px"/>
-            <el-editable-column prop="carCode" align="center" label="车架编码" min-width="170px"/>
-            <el-editable-column prop="batteryCode" align="center" label="电池编码" min-width="170px"/>
-            <el-editable-column prop="motorCode" align="center" label="电机编码" min-width="170px"/>
-            <el-editable-column prop="discount" align="center" label="折扣" min-width="170px"/>
-            <el-editable-column prop="discountMoney" align="center" label="折扣额" min-width="170px"/>
+            <el-editable-column prop="taxprice" align="center" label="含税金额" min-width="170px"/>
+            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="taxRate" align="center" label="税率(%)" min-width="170">
+              <template slot="edit" slot-scope="scope">
+                <el-input-number
+                  :precision="2"
+                  :controls="false"
+                  v-model="scope.row.taxRate"
+                  @input="gettaxRate(scope.row)"/>
+              </template>
+            </el-editable-column>
+            <el-editable-column prop="taxMoney" align="center" label="税额" min-width="170">
+              <template slot-scope="scope">
+                <p>{{ getTaxMoney2(scope.row) }}</p>
+              </template>
+            </el-editable-column>
+            <el-editable-column v-if="false" prop="money" align="center" label="金额" min-width="150">
+              <template slot-scope="scope">
+                <p>{{ getMoney(scope.row) }}</p>
+              </template>
+            </el-editable-column>
+            <el-editable-column prop="includeTaxCostMoney" align="center" label="含税成本金额" min-width="170">
+              <template slot-scope="scope">
+                <p>{{ getincludeTaxCostMoney(scope.row) }}</p>
+              </template>
+            </el-editable-column>
+            <!-- <el-editable-column prop="carCode" align="center" label="车架编码" min-width="170px"/> -->
+            <!-- <el-editable-column prop="batteryCode" align="center" label="电池编码" min-width="170px"/> -->
+            <!-- <el-editable-column prop="motorCode" align="center" label="电机编码" min-width="170px"/> -->
+            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="discountRate" align="center" label="折扣(%)" min-width="170">
+              <template slot="edit" slot-scope="scope">
+                <el-input-number
+                  :precision="2"
+                  :controls="false"
+                  v-model="scope.row.discountRate"
+                  @input="getdiscountRate(scope.row)"/>
+              </template>
+            </el-editable-column>
+            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="discountMoney" align="center" label="折扣额" min-width="170">
+              <template slot="edit" slot-scope="scope">
+                <el-input-number
+                  :precision="2"
+                  :controls="false"
+                  v-model="scope.row.discountMoney"
+                  @input="getdiscountMoney(scope.row)"/>
+              </template>
+            </el-editable-column>
           </el-editable>
         </div>
       </el-card>
@@ -166,6 +211,30 @@ export default {
         callback()
       }
     }
+    const validatePass2 = (rule, value, callback) => {
+      console.log(value)
+      if (this.personalForm.advanceMoney === '' || this.personalForm.advanceMoney === null || this.personalForm.advanceMoney === undefined) {
+        callback(new Error('请输入金额'))
+      } else {
+        callback()
+      }
+    }
+    const validatePass3 = (rule, value, callback) => {
+      console.log(value)
+      if (this.salePersonId === '' || this.salePersonId === null || this.salePersonId === undefined) {
+        callback(new Error('请选择业务员'))
+      } else {
+        callback()
+      }
+    }
+    const validatePass4 = (rule, value, callback) => {
+      console.log(value)
+      if (this.saleRepositoryId === '' || this.saleRepositoryId === null || this.saleRepositoryId === undefined) {
+        callback(new Error('请指定门店'))
+      } else {
+        callback()
+      }
+    }
     return {
       // 判断显示
       isshow: false,
@@ -176,11 +245,11 @@ export default {
       // 控制客户
       customercontrol: false,
       // 回显所属门店
-      saleRepositoryId: '',
+      saleRepositoryId: this.$store.getters.repositoryName,
       // 回显职务
       postId: '',
       // 回显业务员
-      salePersonId: '',
+      salePersonId: this.$store.getters.name,
       // 控制业务员
       control: false,
       // 交货方式
@@ -227,7 +296,8 @@ export default {
         countryId: this.$store.getters.countryId,
         repositoryId: this.$store.getters.repositoryId,
         regionId: this.$store.getters.regionId,
-        isVat: 1
+        isVat: 1,
+        salePersonId: this.$store.getters.userId
       },
       // 采购申请单规则数据
       personalrules: {
@@ -248,6 +318,15 @@ export default {
         ],
         stockTypeId: [
           { required: true, message: '请选择采购类别', trigger: 'change' }
+        ],
+        advanceMoney: [
+          { required: true, validator: validatePass2, trigger: 'change' }
+        ],
+        salePersonId: [
+          { required: true, validator: validatePass3, trigger: 'change' }
+        ],
+        saleRepositoryId: [
+          { required: true, validator: validatePass4, trigger: 'change' }
         ]
       },
       // 采购申请单明细数据
@@ -264,6 +343,62 @@ export default {
     this.getdatatime()
   },
   methods: {
+    // 计算成本金额
+    getcostMoney(row) {
+      row.costMoney = (row.costPrice * row.quantity).toFixed(2)
+      return row.costMoney
+    },
+    // 计算含税金额
+    getincludeTaxMoney(row) {
+      row.includeTaxMoney = (row.taxprice * row.quantity).toFixed(2)
+      row.discountMoney = (row.taxprice * row.quantity * (1 - row.discountRate / 100)).toFixed(2)
+      return row.includeTaxMoney
+    },
+    // 通过税率计算含税价
+    gettaxRate(row) {
+      if (row.taxprice !== 0) {
+        row.taxprice = (row.salePrice * (1 + row.taxRate / 100)).toFixed(2)
+      }
+      if (row.discountRate === 0) {
+        row.discountMoney = row.taxprice * row.quantity
+      } else {
+        row.discountMoney = (row.taxprice * row.quantity * (1 - row.discountRate / 100)).toFixed(2)
+      }
+    },
+    // 计算税额
+    getTaxMoney2(row) {
+      row.taxMoney = (row.salePrice * row.taxRate / 100 * row.quantity).toFixed(2)
+      return row.taxMoney
+    },
+    // 通过折扣计算折扣额
+    getdiscountRate(row) {
+      if (row.discountRate === 0) {
+        row.discountMoney = row.taxprice * row.quantity
+      } else {
+        row.discountMoney = (row.taxprice * row.quantity * (1 - row.discountRate / 100)).toFixed(2)
+      }
+    },
+    // 通过折扣额计算折扣
+    getdiscountMoney(row) {
+      console.log(row)
+      if (row.taxprice !== 0 && row.quantity !== 0 && row.discountMoney !== 0) {
+        row.discountRate = ((1 - (row.discountMoney / row.includeTaxCostMoney).toFixed(2)) * 100).toFixed(2)
+      }
+    },
+    // 计算金额
+    getMoney(row) {
+      row.money = (row.quantity * row.salePrice).toFixed(2)
+      return row.money
+    },
+    // 含税价
+    gettaxprice(row) {
+      row.taxprice = (row.salePrice * (1 + row.taxRate / 100)).toFixed(2)
+      return row.taxprice
+    },
+    getincludeTaxCostMoney(row) {
+      row.includeTaxCostMoney = Number(row.salePrice * row.quantity) + Number(row.taxMoney)
+      return row.includeTaxCostMoney
+    },
     // 默认显示今天
     getdatatime() {
       var date = new Date()
@@ -457,6 +592,9 @@ export default {
       this.advancecontrol = true
     },
     advance(val) {
+      console.log('值', val)
+      this.personalForm.salePrice = val[0].salePrice
+      this.personalForm.advanceMoney = val[0].deposit
       const nowlistdata = this.$refs.editable.getRecords()
       for (let i = 0; i < val.length; i++) {
         for (let j = 0; j < nowlistdata.length; j++) {
@@ -516,6 +654,9 @@ export default {
         if (elem.point === null || elem.point === '' || elem.point === undefined) {
           delete elem.point
         }
+        if (elem.quantity === null || elem.quantity === '' || elem.quantity === undefined) {
+          delete elem.quantity
+        }
         if (elem.salePrice === null || elem.salePrice === '' || elem.salePrice === undefined) {
           delete elem.salePrice
         }
@@ -525,11 +666,33 @@ export default {
         if (elem.costMoney === null || elem.costMoney === '' || elem.costMoney === undefined) {
           delete elem.costMoney
         }
-        if (elem.quantity === null || elem.quantity === '' || elem.quantity === undefined) {
-          delete elem.quantity
+        if (elem.includeTaxMoney === null || elem.includeTaxMoney === '' || elem.includeTaxMoney === undefined) {
+          delete elem.includeTaxMoney
+        }
+        if (elem.taxRate === null || elem.taxRate === '' || elem.taxRate === undefined) {
+          delete elem.taxRate
+        }
+        if (elem.taxRate !== null || elem.taxRate !== '' || elem.taxRate !== undefined) {
+          elem.taxRate = elem.taxRate / 100
+        }
+        if (elem.taxMoney === null || elem.taxMoney === '' || elem.taxMoney === undefined) {
+          delete elem.taxMoney
+        }
+        if (elem.money === null || elem.money === '' || elem.money === undefined) {
+          delete elem.money
         }
         if (elem.includeTaxCostMoney === null || elem.includeTaxCostMoney === '' || elem.includeTaxCostMoney === undefined) {
           delete elem.includeTaxCostMoney
+        }
+        if (elem.discountRate === null || elem.discountRate === '' || elem.discountRate === undefined) {
+          delete elem.discountRate
+        }
+        if (elem.discountRate !== null || elem.discountRate !== '' || elem.discountRate !== undefined) {
+          elem.discountRate = elem.discountRate / 100
+          elem.discount = elem.discountRate
+        }
+        if (elem.discountMoney === null || elem.discountMoney === '' || elem.discountMoney === undefined) {
+          delete elem.discountMoney
         }
         return elem
       })

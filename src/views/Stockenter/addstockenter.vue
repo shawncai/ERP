@@ -149,6 +149,21 @@
           </el-editable>
         </div>
       </el-card>
+      <!-- 合计信息 -->
+      <el-card class="box-card" shadow="never" style="margin-top: 10px">
+        <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">合计信息</h2>
+        <div class="container" style="margin-top: 37px">
+          <el-form ref="personalForm2" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
+            <el-row>
+              <el-col :span="6">
+                <el-form-item :label="$t('Stockenter.heji')" style="width: 100%;">
+                  <el-input v-model="heji1" style="margin-left: 18px;width: 200px" disabled/>
+                </el-form-item>
+              </el-col>
+            </el-row>
+          </el-form>
+        </div>
+      </el-card>
       <!--操作-->
       <div class="buttons" style="margin-top: 20px">
         <el-button v-no-more-click type="primary" @click="handlesave()">保存</el-button>
@@ -237,6 +252,8 @@ export default {
     //   }
     // }
     return {
+      // 合计
+      heji1: '',
       // 中转
       mid: null,
       // 控制供应商不可以编辑
@@ -338,6 +355,20 @@ export default {
       list111: [],
       // 批量操作
       moreaction: []
+    }
+  },
+  watch: {
+    list2: {
+      handler(oldval, newval) {
+        let num = 0
+        for (const i in this.list2) {
+          console.log(this.list2[i].actualEnterQuantity)
+          num += this.list2[i].actualEnterQuantity
+        }
+        this.heji1 = num
+        // console.log(num)
+      },
+      deep: true
     }
   },
   mounted() {

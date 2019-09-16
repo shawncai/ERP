@@ -4,22 +4,22 @@
       <el-row>
         <el-form ref="getemplist" :model="getemplist" label-width="100px" style="margin-top: -9px">
           <el-col :span="5">
-            <el-form-item label="分类名称" label-width="100px">
-              <el-input v-model="getemplist.categoryname" clearable @keyup.enter.native="handleFilter"/>
+            <el-form-item label="仓库编号" label-width="100px">
+              <el-input v-model="getemplist.repositoryId" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
-          <el-col :span="5" style="margin-left: 10px">
+          <!-- <el-col :span="5">
+            <el-form-item label="仓库名称" label-width="100px">
+              <el-input v-model="getemplist.repositoryId" clearable @keyup.enter.native="handleFilter"/>
+            </el-form-item>
+          </el-col> -->
+          <!-- <el-col :span="5" style="margin-left: 10px">
             <el-form-item label="分类类别">
               <el-select v-model="getemplist.type" :value="getemplist.type" clearable @keyup.enter.native="handleFilter">
-                <el-option label="销售来源" value="1"/>
-                <!-- <el-option label="订单类型" value="2"/> -->
-                <!-- <el-option label="结算方式" value="3"/> -->
-                <el-option label="开票类型" value="4"/>
-                <el-option label="机会类型" value="5"/>
-                <el-option label="机会来源" value="6"/>
+                <el-option label="采购类别" value="1"/>
               </el-select>
             </el-form-item>
-          </el-col>
+          </el-col> -->
           <el-col :span="5" style="margin-left: 10px">
             <el-form-item label="启用状态">
               <el-select v-model="getemplist.iseffective" :value="getemplist.iseffective" clearable @keyup.enter.native="handleFilter">
@@ -43,31 +43,31 @@
           {{ $t('public.batchoperation') }} <i class="el-icon-arrow-down el-icon--right"/>
         </el-button>
         <el-dropdown-menu slot="dropdown" style="width: 140px">
-          <el-dropdown-item v-permission="['54-83-2']" style="text-align: left" command="delete"><svg-icon icon-class="shanchu" style="width: 40px"/>{{ $t('public.delete') }}</el-dropdown-item>
+          <!-- <el-dropdown-item v-permission="['104-125-2']" style="text-align: left" command="delete"><svg-icon icon-class="shanchu" style="width: 40px"/>{{ $t('public.delete') }}</el-dropdown-item> -->
         </el-dropdown-menu>
       </el-dropdown>
       <!-- 表格导出操作 -->
-      <el-button v-permission="['54-83-6']" v-waves :loading="downloadLoading" class="filter-item" style="width: 86px" @click="handleExport"> <svg-icon icon-class="daochu"/>{{ $t('public.export') }}</el-button>
+      <el-button v-permission="['104-125-6']" v-waves :loading="downloadLoading" class="filter-item" style="width: 86px" @click="handleExport"> <svg-icon icon-class="daochu"/>{{ $t('public.export') }}</el-button>
       <!-- 打印操作 -->
-      <el-button v-permission="['54-83-7']" v-waves class="filter-item" icon="el-icon-printer" style="width: 86px" @click="handlePrint">{{ $t('public.print') }}</el-button>
+      <el-button v-permission="['104-125-7']" v-waves class="filter-item" icon="el-icon-printer" style="width: 86px" @click="handlePrint">{{ $t('public.print') }}</el-button>
       <!-- 新建操作 -->
-      <el-button v-permission="['54-83-1']" v-waves class="filter-item" icon="el-icon-plus" type="success" style="width: 86px" @click="handleAdd">{{ $t('public.add') }}</el-button>
-      <el-dialog :visible.sync="categoryVisible" title="新建分类属性" class="normal" width="600px" center>
+      <el-button v-permission="['104-125-1']" v-waves class="filter-item" icon="el-icon-plus" type="success" style="width: 86px" @click="handleAdd">{{ $t('public.add') }}</el-button>
+      <el-dialog :visible.sync="categoryVisible" title="补货周期设置" class="normal" width="600px" center>
         <el-form ref="addCategoryForm" :rules="addCategoryFormRules" :model="addCategoryForm" class="demo-ruleForm" style="margin: 0 auto; width: 400px">
-          <el-form-item :label="$t('NewEmployeeInformation.type')" label-width="100px" prop="type">
-            <el-select v-model="addCategoryForm.type" placeholder="请选择类别" style="width: 100%">
-              <el-option label="销售来源" value="1"/>
-              <!-- <el-option label="订单类型" value="2"/> -->
-              <!-- <el-option label="结算方式" value="3"/> -->
-              <el-option label="开票类型" value="4"/>
-              <el-option label="机会类型" value="5"/>
-              <el-option label="机会来源" value="6"/>
-            </el-select>
+          <el-form-item :label="$t('InventoryReplenishment.Repository')" label-width="120px" prop="repositoryId">
+            <el-input v-model="repositoryId" @focus="handlechooseRep"/>
+            <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
           </el-form-item>
-          <el-form-item :label="$t('NewEmployeeInformation.categoryname')" label-width="100px" prop="categoryname">
-            <el-input v-model="addCategoryForm.categoryname" autocomplete="off"/>
+          <el-form-item :label="$t('InventoryReplenishment.replenishmentCycle')" label-width="120px" prop="circle">
+            <el-input v-model="addCategoryForm.circle" autocomplete="off"/>
           </el-form-item>
-          <el-form-item :label="$t('NewEmployeeInformation.iseffective')" label-width="100px" prop="iseffective">
+          <el-form-item :label="$t('InventoryReplenishment.normalTime')" label-width="120px" prop="nomalDay">
+            <el-input v-model="addCategoryForm.nomalDay" autocomplete="off"/>
+          </el-form-item>
+          <el-form-item :label="$t('InventoryReplenishment.emergencyTime')" label-width="120px" prop="emergencyDay">
+            <el-input v-model="addCategoryForm.emergencyDay" autocomplete="off"/>
+          </el-form-item>
+          <el-form-item :label="$t('InventoryReplenishment.iseffective')" label-width="120px" prop="iseffective">
             <el-select v-model="addCategoryForm.iseffective" placeholder="请选择状态" style="width: 100%">
               <el-option label="active " value="1"/>
               <el-option label="dead" value="2"/>
@@ -75,7 +75,7 @@
           </el-form-item>
         </el-form>
         <span slot="footer" class="dialog-footer">
-          <el-button type="primary" @click="handlesave()">保存</el-button>
+          <el-button v-no-more-click type="primary" @click="handlesave()">保存</el-button>
           <el-button type="danger" @click="handlecancel()">取消</el-button>
         </span>
       </el-dialog>
@@ -96,62 +96,69 @@
           type="selection"
           width="55"
           align="center"/>
-        <el-table-column :label="$t('NewEmployeeInformation.id')" :resizable="false" align="center" min-width="100">
+        <el-table-column :label="$t('InventoryReplenishment.id')" :resizable="false" align="center" min-width="100">
           <template slot-scope="scope">
             <span>{{ scope.row.id }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('NewEmployeeInformation.type')" :resizable="false" align="center" min-width="250">
+        <el-table-column :label="$t('InventoryReplenishment.Repository')" :resizable="false" align="center" min-width="250">
           <template slot-scope="scope">
-            <span>{{ scope.row.type | typeFilter }}</span>
+            <span>{{ scope.row.repositoryName }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('NewEmployeeInformation.categoryname')" :resizable="false" align="center" min-width="350">
+        <el-table-column :label="$t('InventoryReplenishment.replenishmentCycle')" :resizable="false" align="center" min-width="100">
           <template slot-scope="scope">
-            <span>{{ scope.row.categoryName }}</span>
+            <span>{{ scope.row.circle }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('NewEmployeeInformation.iseffective')" :resizable="false" align="center" min-width="250">
+        <el-table-column :label="$t('InventoryReplenishment.normalTime')" :resizable="false" align="center" min-width="100">
+          <template slot-scope="scope">
+            <span>{{ scope.row.nomalDay }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column :label="$t('InventoryReplenishment.emergencyTime')" :resizable="false" align="center" min-width="100">
+          <template slot-scope="scope">
+            <span>{{ scope.row.emergencyDay }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column :label="$t('InventoryReplenishment.iseffective')" :resizable="false" align="center" min-width="100">
           <template slot-scope="scope">
             <span>{{ scope.row.isEffective | iseffectiveFilter }}</span>
           </template>
         </el-table-column>
         <el-table-column :label="$t('public.actions')" :resizable="false" align="center" min-width="230">
           <template slot-scope="scope">
-            <el-button v-permission="['54-83-3']" v-if="scope.row.isEffective === 1" type="danger" size="mini" @click="handleActive(scope.row)" >{{ $t('public.disable') }}</el-button>
-            <el-button v-permission="['54-83-3']" v-else type="success" size="mini" @click="handleActive(scope.row)" >{{ $t('public.enable') }}</el-button>
-            <el-button v-permission="['54-83-3']" type="primary" size="mini" @click="handleEdit(scope.row)" >{{ $t('public.edit') }}</el-button>
-            <el-button v-permission="['54-83-2']" size="mini" type="danger" @click="handleDelete(scope.row)">{{ $t('public.delete') }}</el-button>
+            <el-button v-permission="['104-125-3']" type="primary" size="mini" @click="handleEdit(scope.row)" >{{ $t('public.edit') }}</el-button>
+            <!-- <el-button v-permission="['104-125-2']" size="mini" type="danger" @click="handleDelete(scope.row)">{{ $t('public.delete') }}</el-button> -->
           </template>
         </el-table-column>
       </el-table>
       <!-- 列表结束 -->
       <pagination v-show="total>0" :total="total" :page.sync="getemplist.pagenum" :limit.sync="getemplist.pagesize" @pagination="getlist" />
       <!--修改开始=================================================-->
-      <el-dialog :visible.sync="editcategoryVisible" title="修改分类属性" class="normal" width="600px" center>
+      <el-dialog :visible.sync="editcategoryVisible" title="修改补货周期设置" class="normal" width="600px" center>
         <el-form ref="editCategoryForm" :rules="editCategoryFormRules" :model="editCategoryForm" class="demo-ruleForm" style="margin: 0 auto; width: 400px">
-          <el-form-item :label="$t('NewEmployeeInformation.type')" label-width="100px">
-            <el-select v-model="editCategoryForm.type" placeholder="请选择类别" style="width: 100%" disabled >
-              <el-option label="销售来源" value="1"/>
-              <!-- <el-option label="订单类型" value="2"/> -->
-              <!-- <el-option label="结算方式" value="3"/> -->
-              <el-option label="开票类型" value="4"/>
-              <el-option label="机会类型" value="5"/>
-              <el-option label="机会来源" value="6"/>
-            </el-select>
+          <el-form-item :label="$t('InventoryReplenishment.Repository')" label-width="120px">
+            <el-input v-model="repositoryId" disabled/>
           </el-form-item>
-          <el-form-item :label="$t('NewEmployeeInformation.categoryname')" label-width="100px" prop="categoryName">
-            <el-input v-model="editCategoryForm.categoryName" autocomplete="off"/>
+          <el-form-item :label="$t('InventoryReplenishment.replenishmentCycle')" label-width="120px" prop="circle">
+            <el-input v-model="editCategoryForm.circle" style="width: 100%" />
           </el-form-item>
-          <el-form-item :label="$t('NewEmployeeInformation.iseffective')" label-width="100px" prop="isEffective">
-            <el-select v-model="editCategoryForm.isEffective" placeholder="请选择状态" style="width: 100%">
+          <el-form-item :label="$t('InventoryReplenishment.normalTime')" label-width="120px" prop="nomalDay">
+            <el-input v-model="editCategoryForm.nomalDay" style="width: 100%" />
+          </el-form-item>
+          <el-form-item :label="$t('InventoryReplenishment.emergencyTime')" label-width="120px" prop="emergencyDay">
+            <el-input v-model="editCategoryForm.emergencyDay" autocomplete="off"/>
+          </el-form-item>
+          <el-form-item :label="$t('InventoryReplenishment.iseffective')" label-width="120px" prop="isEffective">
+            <el-select v-model="editCategoryForm.isEffective" placeholder="请选择状态" style="width: 100%" @change="test">
               <el-option label="active " value="1"/>
               <el-option label="dead" value="2"/>
             </el-select>
           </el-form-item>
         </el-form>
         <span slot="footer" class="dialog-footer">
-          <el-button v-no-more-click type="primary" @click="handleOk()">修改</el-button>
+          <el-button type="primary" @click="handleOk()">修改</el-button>
           <el-button type="danger" @click="handleNo()">取消</el-button>
         </span>
       </el-dialog>
@@ -162,26 +169,22 @@
 
 <script>
 import '@/directive/noMoreClick/index.js'
-import { searchSaleCategory, addSaleCategory, updateSaleCategory, delateSaleCategory } from '@/api/SaleCategory'
+import { delateStockCategory } from '@/api/StockCategory'
+import { addinventoryreplenishment, queryinventoryreplenishment, updateinventoryreplenishment } from '@/api/InventoryReplenishment'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
 import permission from '@/directive/permission/index.js' // 权限判断指令
 import permission2 from '@/directive/permission2/index.js' // 权限判断指令
 import checkPermission from '@/utils/permission' // 权限判断函数
-
+import MyRepository from './components/MyRepository'
 export default {
-  name: 'SaleCategoryList',
+  name: 'InventoryReplenishment',
   directives: { waves, permission, permission2 },
-  components: { Pagination },
+  components: { Pagination, MyRepository },
   filters: {
     typeFilter(status) {
       const statusMap = {
-        1: '销售来源',
-        2: '订单类型',
-        3: '结算方式',
-        4: '发票类型',
-        5: '机会类型',
-        6: '机会来源'
+        1: '采购类别'
       }
       return statusMap[status]
     },
@@ -194,27 +197,44 @@ export default {
     }
   },
   data() {
+    const validatePass = (rule, value, callback) => {
+      // console.log(this.supplierId)
+      if (this.repositoryId === undefined || this.repositoryId === null || this.repositoryId === '') {
+        callback(new Error('请选择仓库'))
+      } else {
+        callback()
+      }
+    }
     return {
+      // 仓库开关
+      repositorycontrol: false,
+      // 仓库回显
+      repositoryId: '',
       // 批量删除参数
       moreaction: [],
       // 新增窗口
       categoryVisible: false,
       // 新增数据
       addCategoryForm: {
-        categoryname: '',
-        type: '',
+        repositoryId: '',
+        circle: '',
+        nomalDay: '',
+        emergencyDay: '',
         iseffective: '1'
       },
       // 校验新增数据
       addCategoryFormRules: {
-        category: [
-          { required: true, message: '请输入', trigger: 'blur' }
+        repositoryId: [
+          { required: true, validator: validatePass, trigger: 'change' }
         ],
-        categoryname: [
-          { required: true, message: '请输入', trigger: 'blur' }
+        circle: [
+          { required: true, message: '请输入补货周期', trigger: 'change' }
         ],
-        type: [
-          { required: true, message: '请选择', trigger: 'change' }
+        nomalDay: [
+          { required: true, message: '请输入正常时间', trigger: 'change' }
+        ],
+        emergencyDay: [
+          { required: true, message: '请输入紧急时间', trigger: 'change' }
         ],
         iseffective: [
           { required: true, message: '请选择', trigger: 'change' }
@@ -224,14 +244,22 @@ export default {
       editcategoryVisible: false,
       // 修改数据
       editCategoryForm: {
-        categoryName: '',
-        type: '',
+        repositoryId: '',
+        circle: '',
+        nomalDay: '',
+        emergencyDay: '',
         isEffective: ''
       },
       // 校验修改数据
       editCategoryFormRules: {
-        categoryName: [
+        circle: [
           { required: true, message: '请输入', trigger: 'blur' }
+        ],
+        nomalDay: [
+          { required: true, message: '请输入', trigger: 'change' }
+        ],
+        emergencyDay: [
+          { required: true, message: '请输入', trigger: 'change' }
         ],
         isEffective: [
           { required: true, message: '请选择', trigger: 'change' }
@@ -249,11 +277,11 @@ export default {
       listLoading: true,
       // 分类列表查询加展示参数
       getemplist: {
-        categoryname: '',
-        type: '',
+        id: '',
+        repositoryId: '',
         iseffective: '',
-        pagenum: 1,
-        pagesize: 10
+        pageNum: 1,
+        pageSize: 10
       }
     }
   },
@@ -261,36 +289,32 @@ export default {
     this.getlist()
   },
   methods: {
-    // 启用，停用
-    handleActive(row) {
-      let editEffective = 0
-      console.log(row.id, row.isEffective)
-      if (row.isEffective === 2) {
-        editEffective = 1
-        console.log('启用', editEffective)
-      }
-      if (row.isEffective === 1) {
-        editEffective = 2
-        console.log('停用', editEffective)
-      }
-      const params = {
-        id: row.id,
-        isEffective: editEffective,
-        categoryName: row.categoryName
-      }
-      updateSaleCategory(params).then(res => {
-        if (res.data.ret === 200) {
-          this.getlist()
-        } else {
-          console.log('改变出错')
-        }
-      })
-    },
     checkPermission,
+    // 出库仓库focus事件触发
+    handlechooseRep() {
+      this.repositorycontrol = true
+    },
+    repositoryname(val) {
+      // const EnterDetail = this.$refs.editable.getRecords()
+      // EnterDetail.map(function(elem) {
+      //   return elem
+      // }).forEach(function(elem) {
+      //   elem.quantity = 1
+      // })
+      // const EnterDetail2 = this.$refs.editable2.getRecords()
+      // EnterDetail2.map(function(elem) {
+      //   return elem
+      // }).forEach(function(elem) {
+      //   elem.quantity = 1
+      // })
+      console.log('val', val)
+      this.repositoryId = val.repositoryName
+      this.addCategoryForm.repositoryId = val.id
+    },
     getlist() {
       // 员工列表数据
       this.listLoading = true
-      searchSaleCategory(this.getemplist).then(res => {
+      queryinventoryreplenishment(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
@@ -305,7 +329,7 @@ export default {
     // 搜索
     handleFilter() {
       this.getemplist.pagenum = 1
-      searchSaleCategory(this.getemplist).then(res => {
+      queryinventoryreplenishment(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
@@ -327,7 +351,7 @@ export default {
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          delateSaleCategory(ids, this.$store.getters.userId).then(res => {
+          delateStockCategory(ids, this.$store.getters.userId).then(res => {
             if (res.data.ret === 200 || res.data.ret === 100) {
               this.$notify({
                 title: '删除成功',
@@ -358,7 +382,7 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        delateSaleCategory(row.id, this.$store.getters.userId).then(res => {
+        delateStockCategory(row.id, this.$store.getters.userId).then(res => {
           if (res.data.ret === 200 || res.data.ret === 100) {
             this.$notify({
               title: '删除成功',
@@ -383,11 +407,14 @@ export default {
     },
     // 修改数据
     handleEdit(row) {
-      console.log(row)
       this.editcategoryVisible = true
       this.editCategoryForm = Object.assign({}, row)
-      this.editCategoryForm.type = String(row.type)
+      this.repositoryId = row.repositoryName
+      // this.editCategoryForm.circle = row.circle
+      // this.editCategoryForm.nomalDay = row.nomalDay
+      // this.editCategoryForm.emergencyDay = row.emergencyDay
       this.editCategoryForm.isEffective = String(row.isEffective)
+      console.log('add', this.editCategoryForm)
     },
     // 取消修改
     handleNo() {
@@ -397,7 +424,7 @@ export default {
     handleOk() {
       this.$refs.editCategoryForm.validate((valid) => {
         if (valid) {
-          updateSaleCategory(this.editCategoryForm).then(res => {
+          updateinventoryreplenishment(this.editCategoryForm).then(res => {
             if (res.data.ret === 200) {
               this.$notify({
                 title: '成功',
@@ -407,7 +434,8 @@ export default {
               })
               this.getlist()
               this.$refs.editCategoryForm.clearValidate()
-              this.$refs.editCategoryForm.resetFields()
+              // this.$refs.editCategoryForm.resetFields()
+              this.repositoryId = ''
               this.editcategoryVisible = false
             } else {
               console.log('列表出错')
@@ -425,6 +453,7 @@ export default {
     },
     // 新增数据
     handleAdd() {
+      this.repositoryId = ''
       this.categoryVisible = true
     },
     // 取消操作
@@ -443,7 +472,7 @@ export default {
       console.log(this.addCategoryForm)
       this.$refs.addCategoryForm.validate((valid) => {
         if (valid) {
-          addSaleCategory(this.addCategoryForm).then(res => {
+          addinventoryreplenishment(this.addCategoryForm).then(res => {
             if (res.data.ret === 200) {
               this.$notify({
                 title: '成功',
@@ -454,6 +483,7 @@ export default {
               this.getlist()
               this.$refs.addCategoryForm.clearValidate()
               this.$refs.addCategoryForm.resetFields()
+              this.repositoryId = ''
               this.restAddCategoryForm()
               this.categoryVisible = false
             } else {
@@ -501,11 +531,14 @@ export default {
     // 打印
     handlePrint() {
       console.log(456)
+    },
+    test() {
+      console.log('this.ed', this.editCategoryForm)
     }
   }
+
 }
 </script>
-
 <style rel="stylesheet/css" scoped>
   .normal >>> .el-dialog__header {
     padding: 20px 20px 10px;

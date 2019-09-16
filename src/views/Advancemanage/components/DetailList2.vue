@@ -197,6 +197,14 @@ export default {
     },
     detaildata() {
       this.personalForm = this.detaildata
+      for (const i in this.personalForm.advanceOrderDetailVos) {
+        if (this.personalForm.advanceOrderDetailVos[i].taxRate < 1) {
+          this.personalForm.advanceOrderDetailVos[i].taxRate = this.personalForm.advanceOrderDetailVos[i].taxRate * 100
+        }
+        if (this.personalForm.advanceOrderDetailVos[i].discount < 1) {
+          this.personalForm.advanceOrderDetailVos[i].discount = this.personalForm.advanceOrderDetailVos[i].discount * 100
+        }
+      }
       this.list2 = this.personalForm.advanceOrderDetailVos
       this.reviewList = []
       const review = this.personalForm.approvalUseVos

@@ -333,6 +333,7 @@ export default {
         return productlist(item.productCode)
       }))
       console.log('list', list)
+      console.log('list34', list.data.data.content)
       // 在外部把数据加到数组里面去
       for (let i = 0; i < productDetail.length; i++) {
         for (let j = 0; j < list.length; j++) {

@@ -126,6 +126,60 @@
           </el-editable>
         </div>
       </el-card>
+      <!-- 合计信息 -->
+      <el-card class="box-card" shadow="never" style="margin-top: 10px">
+        <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">合计信息</h2>
+        <div class="container" style="margin-top: 37px">
+          <el-form ref="personalForm2" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
+            <el-row>
+              <el-col :span="6">
+                <el-form-item :label="$t('Stockenter.heji')" style="width: 100%;">
+                  <el-input v-model="heji1" style="margin-left: 18px;width: 200px" disabled/>
+                </el-form-item>
+              </el-col>
+            </el-row>
+          </el-form>
+        </div>
+      </el-card>
+      <el-card class="box-card" style="margin-top: 15px" shadow="never">
+        <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">备注信息</h2>
+        <div class="container" style="margin-top: 37px">
+          <el-form :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
+            <el-row>
+              <el-col :span="12">
+                <el-form-item :label="$t('public.createPersonName2')" prop="stockType" style="width: 100%;">
+                  {{ personalForm.createPersonName }}
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('public.createDate2')" style="width: 100%;">
+                  {{ personalForm.createDate }}
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('public.endPersonName')" prop="applyDate" style="width: 100%;">
+                  {{ personalForm.endPersonName }}
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('public.endDate')" prop="applyDate" style="width: 100%;">
+                  {{ personalForm.endDate }}
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('public.modifyPersonName')" prop="applyDate" style="width: 100%;">
+                  {{ personalForm.modifyPersonName }}
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('public.modifyDate')" prop="applyDate" style="width: 100%;">
+                  {{ personalForm.modifyDate }}
+                </el-form-item>
+              </el-col>
+            </el-row>
+          </el-form>
+        </div>
+      </el-card>
       <!--审核状态-->
       <el-card class="box-card" style="margin-top: 15px" shadow="never">
         <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">审批记录</h2>
@@ -209,6 +263,8 @@ export default {
   },
   data() {
     return {
+      // 合计信息
+      heji1: '',
       // 审核步骤数据
       reviewList: [],
       // 弹窗组件的控制
@@ -292,6 +348,12 @@ export default {
       this.acceptPersonId = this.personalForm.acceptPersonName
       this.enterRepositoryId = this.personalForm.enterRepositoryName
       this.list2 = this.personalForm.stockEnterDetailVos
+      let num = 0
+      for (const i in this.list2) {
+        console.log(this.list2[i].basicQuantity)
+        num += this.list2[i].basicQuantity
+      }
+      this.heji1 = num
       this.reviewList = []
       const review = this.personalForm.approvalUseVos
       for (const i in review) {
