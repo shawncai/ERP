@@ -252,6 +252,7 @@ export default {
     PrepReceiptList: '预收款列表',
     SmartReplenishment: '智能补货管理',
     SmartReplenishmentList: '智能补货列表',
+    InventoryReplenishment: '补货周期设置',
     MaintenanceRemind: '车辆保养提醒',
     AddMaintenanceRemind: '新建车辆保养提醒',
     MaintenanceRemindList: '车辆保养提醒列表',
@@ -2114,6 +2115,14 @@ export default {
     salesDay: '日均销量',
     Days: '可售天数',
     isMove: '是否补货'
+  },
+  InventoryReplenishment: {
+    id: '编号',
+    Repository: '仓库',
+    replenishmentCycle: '补货周期(天)',
+    normalTime: '正常时间(天)',
+    emergencyTime: '紧急时间(天)',
+    iseffective: '启用状态'
   },
   public: {
     businessStatus: '业务状态',

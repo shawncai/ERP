@@ -2265,6 +2265,12 @@ export const asyncRouterMap = [
         component: () => import('@/views/SmartReplenishment/SmartReplenishmentList'),
         name: 'SmartReplenishmentList',
         meta: { title: 'SmartReplenishmentList', noCache: true, roles: ['54-102-2', '54-102-6', '54-102-7', '54-102-39'] }
+      },
+      {
+        path: 'InventoryReplenishment',
+        component: () => import('@/views/SmartReplenishment/InventoryReplenishment'),
+        name: 'InventoryReplenishment',
+        meta: { title: 'InventoryReplenishment', noCache: true, roles: ['54-102-2', '54-102-6', '54-102-7', '54-102-39'] }
       }
     ]
   },
