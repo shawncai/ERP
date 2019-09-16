@@ -238,15 +238,18 @@
           <el-editable-column prop="color" align="center" label="颜色" min-width="150"/>
           <el-editable-column prop="kpiGrade" align="center" label="绩效分" min-width="150"/>
           <el-editable-column ref="haspoint" prop="point" align="center" label="商品积分" min-width="150"/>
-          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 1.00, precision: 2}, type: 'visible'}" prop="quantity" align="center" label="出库数量" min-width="150">
+          <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="quantity" align="center" label="出库数量" min-width="150" >
             <template slot="edit" slot-scope="scope">
               <el-input-number
+                v-if="isEdit3(scope.row)"
                 :precision="2"
-                :controls="true"
+                :controls="false"
                 :min="1.00"
                 v-model="scope.row.quantity"
                 @change="queryStock(scope.row)"
               />
+              <!-- <el-input v-if="isEdit2(scope.row)" v-model="personalForm.carCode" clearable/> -->
+              <span v-else>{{ scope.row.quantity }}</span>
             </template>
           </el-editable-column>
           <el-editable-column v-if="false" prop="salePrice" align="center" label="零售价" min-width="150"/>
@@ -308,12 +311,24 @@
                 @input="getdiscountMoney(scope.row)"/>
             </template>
           </el-editable-column>
-          <el-editable-column v-if="isEdit" :edit-render="{name: 'ElInput', type: 'visible'}" prop="carCode" align="center" label="车架编码" min-width="150px"/>
-          <el-editable-column v-else prop="carCode" align="center" label="车架编码" min-width="150px"/>
-          <el-editable-column v-if="isEdit" :edit-render="{name: 'ElInput', type: 'visible'}" prop="motorCode" align="center" label="电机编码" min-width="150px"/>
-          <el-editable-column v-else prop="motorCode" align="center" label="电机编码" min-width="150px"/>
-          <el-editable-column v-if="isEdit" :edit-render="{name: 'ElInput', type: 'visible'}" prop="batteryCode" align="center" label="电池编码" min-width="150px"/>
-          <el-editable-column v-else prop="batteryCode" align="center" label="电池编码" min-width="150px"/>
+          <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="carCode" align="center" label="车架编码" min-width="150" >
+            <template slot="edit" slot-scope="scope">
+              <el-input v-if="isEdit2(scope.row)" v-model="scope.row.carCode" clearable/>
+              <span v-else>{{ scope.row.carCode }}</span>
+            </template>
+          </el-editable-column>
+          <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="motorCode" align="center" label="电机编码" min-width="150" >
+            <template slot="edit" slot-scope="scope">
+              <el-input v-if="isEdit2(scope.row)" v-model="scope.row.motorCode" clearable/>
+              <span v-else>{{ scope.row.motorCode }}</span>
+            </template>
+          </el-editable-column>
+          <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="batteryCode" align="center" label="电池编码" min-width="150" >
+            <template slot="edit" slot-scope="scope">
+              <el-input v-if="isEdit2(scope.row)" v-model="scope.row.batteryCode" clearable/>
+              <span v-else>{{ scope.row.batteryCode }}</span>
+            </template>
+          </el-editable-column>
           <el-editable-column prop="sourceNumber" align="center" label="源单编号" min-width="150px"/>
         </el-editable>
       </div>
@@ -359,8 +374,8 @@
                 :precision="2"
                 :controls="true"
                 :min="1.00"
-                v-model="scope.row.quantity"
-                @change="queryStock(scope.row)"
+                :value="scope.row.quantity"
+                @input="queryStock(scope.row)"
               />
             </template>
           </el-editable-column>
@@ -744,6 +759,20 @@ export default {
     this.chooseSourceType()
   },
   methods: {
+    isEdit3(row) {
+      console.log('222', row)
+      const re = row.productCode.slice(0, 2)
+      if (re === '01') { return false } else { return true }
+    },
+    isEdit2(row) {
+      console.log('222', row)
+      const re = row.productCode.slice(0, 2)
+      // if (re === '01') {
+      //   row.quantity = 1
+      //   return row.quantity
+      // }
+      if (re === '01') { return true } else { return false }
+    },
     test() {
       const list = [...this.list2]
       // console.log(list.length)
@@ -1206,17 +1235,17 @@ export default {
       console.log('val', val)
       // const nowlistdata = this.$refs.editable.getRecords()
       for (let i = 0; i < val.length; i++) {
-        // for (let j = 0; j < nowlistdata.length; j++) {
-        //   if (val[i].sourceNumber === nowlistdata[j].sourceNumber) {
-        //     this.$notify.error({
-        //       title: '错误',
-        //       message: '物品已添加',
-        //       offset: 100
-        //     })
-        //     return false
-        //   }
-        // }
         val[i].quantity = (val[i].quantity - val[i].alreadyOutQuantity).toFixed(2)
+        const re = val[i].productCode.slice(0, 2)
+        console.log('re === ', re === '01')
+        let size = 1
+        if (re === '01') {
+          size = val[i].quantity
+          val[i].quantity = 1
+          for (let m = 1; m < size; m++) {
+            val.push(val[i])
+          }
+        }
         this.$refs.editable.insert(val[i])
       }
     },
@@ -1233,23 +1262,23 @@ export default {
       // if (val.payType !== null && val.payType !== undefined && val.payType !== '') {
       //   this.personalForm.payType = String(val.payType)
       // }
-      this.personalForm.saleRepositoryId = val.saleRepositoryId
-      this.saleRepositoryId = val.saleRepositoryName
+      // this.personalForm.saleRepositoryId = val.saleRepositoryId
+      // this.saleRepositoryId = val.saleRepositoryName
       this.personalForm.address = val.transAddress
     },
     // 从预售单过来的源单数据
     advanceOrderDetail(val) {
       console.log(val)
-      const nowlistdata = this.$refs.editable.getRecords()
+      // const nowlistdata = this.$refs.editable.getRecords()
       for (let i = 0; i < val.length; i++) {
-        for (let j = 0; j < nowlistdata.length; j++) {
-          if (val[i].sourceNumber === nowlistdata[j].sourceNumber) {
-            this.$notify.error({
-              title: '错误',
-              message: '物品已添加',
-              offset: 100
-            })
-            return false
+        const re = val[i].productCode.slice(0, 2)
+        console.log('re === ', re === '01')
+        let size = 1
+        if (re === '01') {
+          size = val[i].quantity
+          val[i].quantity = 1
+          for (let m = 1; m < size; m++) {
+            val.push(val[i])
           }
         }
         this.$refs.editable.insert(val[i])
@@ -1429,14 +1458,6 @@ export default {
     // 修改和取消按钮
     // 修改按钮
     handleEditok() {
-      if (this.ableSubmission === false) {
-        this.$notify.error({
-          title: '错误',
-          message: '出库数量超出了当前可用存量，请修改后再进行确认!',
-          offset: 100
-        })
-        return false
-      }
       this.$refs.personalForm.validate((valid) => {
         if (valid) {
           this.personalForm.repositoryId = this.$store.getters.repositoryId
@@ -1445,6 +1466,26 @@ export default {
           this.personalForm.countryId = this.$store.getters.countryId
           this.personalForm.modifyPersonId = this.$store.getters.userId
           const EnterDetail = this.$refs.editable.getRecords()
+          // 整车出库时相关编码必填
+          let m = 1
+          EnterDetail.map(function(elem) {
+            return elem
+          }).forEach(function(elem) {
+            const re = elem.productCode.slice(0, 2)
+            if (re === '01') {
+              if (elem.carCode === null || elem.carCode === undefined || elem.carCode === '' || elem.motorCode === null || elem.motorCode === undefined || elem.motorCode === '' || elem.batteryCode === null || elem.batteryCode === undefined || elem.batteryCode === '') {
+                m = 2
+              }
+            }
+          })
+          if (m === 2) {
+            this.$notify.error({
+              title: '错误',
+              message: '整车出库时相关编码必填',
+              offset: 100
+            })
+            return false
+          }
           // 保存时同样商品不能有同一个批次
           let i = 0
           EnterDetail.map(function(elem) {
@@ -1454,7 +1495,11 @@ export default {
               return elem2
             }).forEach(function(elem2) {
               if (elem2.productCode === elem.productCode && elem2.batch === elem.batch) {
-                i++
+                const re = elem2.productCode.slice(0, 2)
+                // 去除整车
+                if (re !== '01') {
+                  i++
+                }
               }
             })
           })

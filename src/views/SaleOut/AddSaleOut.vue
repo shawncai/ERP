@@ -20,6 +20,7 @@
                     <el-option value="3" label="预售单"/>
                     <el-option value="4" label="销售机会"/>
                     <el-option value="5" label="无来源"/>
+                    <el-option value="6" label="二手回车单"/>
                   </el-select>
                 </el-form-item>
               </el-col>
@@ -173,19 +174,22 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('SaleOut.ridMoney')" style="width: 100%;">
-                  <el-input v-model="personalForm.ridMoney" style="margin-left: 18px;width: 200px"/>
+                  <el-input v-model="personalForm.ridMoney" disabled style="margin-left: 18px;width: 200px"/>
                 </el-form-item>
-                <span style="color: red;margin-left: 52px;font-size: 14px">预售款金额：{{ yushou }}</span>
+                <!-- <span style="color: red;margin-left: 52px;font-size: 14px">预售款金额：{{ yushou }}</span> -->
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('SaleOut.ridBikeMoney')" style="width: 100%;">
-                  <el-input v-model="personalForm.ridBikeMoney" style="margin-left: 18px;width: 200px"/>
+                  <el-input v-model="personalForm.ridBikeMoney" disabled style="margin-left: 18px;width: 200px"/>
                 </el-form-item>
-                <span style="color: red;margin-left: 52px;font-size: 14px">回收车金额：{{ huishou }}</span>
+                <!-- <span style="color: red;margin-left: 52px;font-size: 14px">回收车金额：{{ huishou }}</span> -->
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('SaleOut.receivableMoney')" style="width: 100%;">
-                  <el-input v-model="personalForm.receivableMoney" style="margin-left: 18px;width: 200px"/>
+                  <span style="margin-left: 20px;">
+                    <!-- {{ receivableMoney }} -->
+                    {{ getReceivableMoney() }}
+                  </span>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
@@ -212,6 +216,7 @@
           <my-presale :presalecontrol.sync="presalecontrol" @advanceOrderDetail="advanceOrderDetail" @advanceData="advanceData"/>
           <my-opportunity :opportunitycontrol.sync="opportunitycontrol" @opportunityDetail="opportunityDetail" @opportunity="opportunity"/>
           <my-contract :contractcontrol.sync="contractcontrol" @salecontractDetail="salecontractDetail" @salecontract="salecontract"/>
+          <my-recycling :recyclingcontrol.sync="recyclingcontrol" @recyclingdata="recyclingdata"/>
           <el-button type="danger" @click="$refs.editable.removeSelecteds();test()">删除</el-button>
           <el-button type="primary" @click="checkStock()">库存快照</el-button>
         </div>
@@ -256,15 +261,18 @@
             <el-editable-column prop="point" align="center" label="商品积分" min-width="150"/>
             <el-editable-column prop="allQuantity" align="center" label="源单数量" min-width="150"/>
             <el-editable-column prop="allQuantity" align="center" label="未出库数量" min-width="150"/>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 1.00, precision: 2}, type: 'visible'}" prop="quantity" align="center" label="出库数量" min-width="150">
+            <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="quantity" align="center" label="出库数量" min-width="150" >
               <template slot="edit" slot-scope="scope">
                 <el-input-number
+                  v-if="isEdit3(scope.row)"
                   :precision="2"
-                  :controls="true"
+                  :controls="false"
                   :min="1.00"
                   v-model="scope.row.quantity"
                   @change="queryStock(scope.row)"
                 />
+                <!-- <el-input v-if="isEdit2(scope.row)" v-model="personalForm.carCode" clearable/> -->
+                <span v-else>{{ scope.row.quantity }}</span>
               </template>
             </el-editable-column>
             <el-editable-column v-if="false" prop="salePrice" align="center" label="零售价" min-width="150"/>
@@ -327,12 +335,24 @@
                   @input="getdiscountMoney(scope.row)"/>
               </template>
             </el-editable-column>
-            <el-editable-column v-if="isEdit" :edit-render="{name: 'ElInput', type: 'visible'}" prop="carCode" align="center" label="车架编码" min-width="150px"/>
-            <el-editable-column v-else prop="carCode" align="center" label="车架编码" min-width="150px"/>
-            <el-editable-column v-if="isEdit" :edit-render="{name: 'ElInput', type: 'visible'}" prop="motorCode" align="center" label="电机编码" min-width="150px"/>
-            <el-editable-column v-else prop="motorCode" align="center" label="电机编码" min-width="150px"/>
-            <el-editable-column v-if="isEdit" :edit-render="{name: 'ElInput', type: 'visible'}" prop="batteryCode" align="center" label="电池编码" min-width="150px"/>
-            <el-editable-column v-else prop="batteryCode" align="center" label="电池编码" min-width="150px"/>
+            <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="carCode" align="center" label="车架编码" min-width="150" >
+              <template slot="edit" slot-scope="scope">
+                <el-input v-if="isEdit2(scope.row)" v-model="scope.row.carCode" clearable/>
+                <span v-else>{{ scope.row.carCode }}</span>
+              </template>
+            </el-editable-column>
+            <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="motorCode" align="center" label="电机编码" min-width="150" >
+              <template slot="edit" slot-scope="scope">
+                <el-input v-if="isEdit2(scope.row)" v-model="scope.row.motorCode" clearable/>
+                <span v-else>{{ scope.row.motorCode }}</span>
+              </template>
+            </el-editable-column>
+            <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="batteryCode" align="center" label="电池编码" min-width="150" >
+              <template slot="edit" slot-scope="scope">
+                <el-input v-if="isEdit2(scope.row)" v-model="scope.row.batteryCode" clearable/>
+                <span v-else>{{ scope.row.batteryCode }}</span>
+              </template>
+            </el-editable-column>
             <el-editable-column prop="sourceNumber" align="center" label="源单编号" min-width="150px"/>
             <el-editable-column prop="sourceSerialNumber" align="center" label="源单序号" min-width="150px"/>
           </el-editable>
@@ -379,8 +399,8 @@
                   :precision="2"
                   :controls="true"
                   :min="1.00"
-                  v-model="scope.row.quantity"
-                  @change="queryStock(scope.row)"
+                  :value="scope.row.quantity"
+                  @input="queryStock(scope.row)"
                 />
               </template>
             </el-editable-column>
@@ -513,9 +533,10 @@ import MyPresale from './components/MyPresale'
 import MyOpportunity from './components/MyOpportunity'
 import MyDetail2 from './components/MyDetail2'
 import MyContract from './components/MyContract'
+import MyRecycling from './components/MyRecycling'
 export default {
   name: 'AddSaleOut',
-  components: { MyContract, MyDetail2, MyOpportunity, MyPresale, MyAdvance, MyOrder, MyRepository, MyAccept, MyAgent, MyCustomer, MyRequire, MySupplier, MyApply, MyDetail, MyDelivery, MyEmp },
+  components: { MyRecycling, MyContract, MyDetail2, MyOpportunity, MyPresale, MyAdvance, MyOrder, MyRepository, MyAccept, MyAgent, MyCustomer, MyRequire, MySupplier, MyApply, MyDetail, MyDelivery, MyEmp },
   data() {
     const validatePass = (rule, value, callback) => {
       console.log(this.supplierId)
@@ -605,6 +626,7 @@ export default {
       locationlist: [],
       // 控制销售合同
       contractcontrol: false,
+      recyclingcontrol: false,
       // 控制赠品
       giftcontrol: false,
       // 控制销售机会单
@@ -712,6 +734,7 @@ export default {
           { required: true, validator: validatePass6, trigger: 'change' }
         ]
       },
+      receivableMoney: 0,
       // 订单明细数据
       list2: [],
       // 销售费用明细
@@ -800,6 +823,35 @@ export default {
     this.getinformation3()
   },
   methods: {
+    getReceivableMoney(val) {
+      console.log('666', 666)
+      console.log('val', val)
+      if (this.receivableMoney !== null && this.receivableMoney !== '' && this.receivableMoney !== undefined) {
+        return this.receivableMoney
+      } else if (this.personalForm.ridMoney !== null && this.personalForm.ridMoney !== '' && this.personalForm.ridMoney !== undefined) {
+        console.log('this.heji3 - this.heji4 - this.personalForm.ridMoney', this.heji3 - this.heji4 - this.personalForm.ridMoney)
+        return (this.heji3 - this.heji4 - this.personalForm.ridMoney)
+      } else {
+        if (this.personalForm.sourceType === '1' || this.personalForm.sourceType === '4' || this.personalForm.sourceType === '5') {
+          console.log('this.heji3 - this.heji4', this.heji3 - this.heji4)
+          return (this.heji3 - this.heji4)
+        }
+      }
+    },
+    isEdit3(row) {
+      console.log('222', row)
+      const re = row.productCode.slice(0, 2)
+      if (re === '01') { return false } else { return true }
+    },
+    isEdit2(row) {
+      console.log('222', row)
+      const re = row.productCode.slice(0, 2)
+      // if (re === '01') {
+      //   row.quantity = 1
+      //   return row.quantity
+      // }
+      if (re === '01') { return true } else { return false }
+    },
     // 判断权限显示
     jungleshow() {
       const roles = this.$store.getters.roles
@@ -1131,13 +1183,10 @@ export default {
       return row.location
     },
     chooseSourceType(val) {
+      this.receivableMoney = ''
+      this.personalForm.ridMoney = ''
+      this.personalForm.ridBikeMoney = ''
       console.log(val)
-      if (val === '5' || val === '4') {
-        this.isEdit = true
-      } else {
-        this.isEdit = false
-      }
-      console.log('isedit', this.isEdit)
       if (val === '5' || val === undefined) {
         this.Isproduct = false
         this.IsSourceNumber = true
@@ -1404,6 +1453,8 @@ export default {
         this.presalecontrol = true
       } else if (this.personalForm.sourceType === '4') {
         this.opportunitycontrol = true
+      } else if (this.personalForm.sourceType === '6') {
+        this.recyclingcontrol = true
       }
     },
     // 从销售订单过来数据
@@ -1411,21 +1462,22 @@ export default {
       console.log('val', val)
       // const nowlistdata = this.$refs.editable.getRecords()
       for (let i = 0; i < val.length; i++) {
-        // for (let j = 0; j < nowlistdata.length; j++) {
-        //   if (val[i].sourceNumber === nowlistdata[j].sourceNumber) {
-        //     this.$notify.error({
-        //       title: '错误',
-        //       message: '物品已添加',
-        //       offset: 100
-        //     })
-        //     return false
-        //   }
-        // }
         val[i].quantity = (val[i].quantity - val[i].alreadyOutQuantity).toFixed(2)
+        const re = val[i].productCode.slice(0, 2)
+        console.log('re === ', re === '01')
+        let size = 1
+        if (re === '01') {
+          size = val[i].quantity
+          val[i].quantity = 1
+          for (let m = 1; m < size; m++) {
+            val.push(val[i])
+          }
+        }
         this.$refs.editable.insert(val[i])
       }
     },
     saleOrder(val) {
+      this.receivableMoney = ''
       if (val.customerType !== null && val.customerType !== undefined && val.customerType !== '') {
         this.personalForm.customerType = String(val.customerType)
       }
@@ -1438,8 +1490,8 @@ export default {
       // if (val.payType !== null && val.payType !== undefined && val.payType !== '') {
       //   this.personalForm.payType = String(val.payType)
       // }
-      this.personalForm.saleRepositoryId = val.saleRepositoryId
-      this.saleRepositoryId = val.saleRepositoryName
+      // this.personalForm.saleRepositoryId = val.saleRepositoryId
+      // this.saleRepositoryId = val.saleRepositoryName
       this.personalForm.address = val.transAddress
     },
     // 从预售单过来的源单数据
@@ -1447,20 +1499,21 @@ export default {
       console.log(val)
       // const nowlistdata = this.$refs.editable.getRecords()
       for (let i = 0; i < val.length; i++) {
-        // for (let j = 0; j < nowlistdata.length; j++) {
-        //   if (val[i].sourceNumber === nowlistdata[j].sourceNumber) {
-        //     this.$notify.error({
-        //       title: '错误',
-        //       message: '物品已添加',
-        //       offset: 100
-        //     })
-        //     return false
-        //   }
-        // }
+        const re = val[i].productCode.slice(0, 2)
+        console.log('re === ', re === '01')
+        let size = 1
+        if (re === '01') {
+          size = val[i].quantity
+          val[i].quantity = 1
+          for (let m = 1; m < size; m++) {
+            val.push(val[i])
+          }
+        }
         this.$refs.editable.insert(val[i])
       }
     },
     advanceData(val) {
+      this.personalForm.ridMoney = val.advanceMoney
       this.personalForm.customerType = '2'
       this.personalForm.customerId = val.customerId
       this.customerId = val.customerName
@@ -1470,8 +1523,6 @@ export default {
       if (val.payMode !== null && val.payMode !== undefined && val.payMode !== '') {
         this.personalForm.payMode = val.payMode
       }
-      this.personalForm.saleRepositoryId = val.saleRepositoryId
-      this.saleRepositoryId = val.saleRepositoryName
       this.personalForm.address = val.address
     },
     // 从销售机会过来的源单数据
@@ -1493,6 +1544,7 @@ export default {
       }
     },
     opportunity(val) {
+      this.receivableMoney = ''
       console.log(val)
       if (val.customerType !== null && val.customerType !== undefined && val.customerType !== '') {
         this.personalForm.customerType = String(val.customerType)
@@ -1524,6 +1576,8 @@ export default {
       }
     },
     salecontract(val) {
+      console.log('val.firstMoney', val.firstMoney)
+      this.receivableMoney = val.firstMoney
       if (val.customerType !== null && val.customerType !== undefined && val.customerType !== '') {
         this.personalForm.customerType = '2'
       }
@@ -1543,6 +1597,28 @@ export default {
         this.personalForm.payType = String(val.payType)
       }
     },
+    recyclingdata(val) {
+      this.ridBikeMoney = val.recyclingMoney
+      console.log('val', val)
+      this.personalForm.customerType = '2'
+      this.personalForm.customerId = val.customerId
+      this.customerId = val.customerName
+      this.personalForm.salePersonId = val.recyclingPersonId
+      this.salePersonId = val.recyclingPersonName
+      const data = {}
+      data.productCode = val.productCode
+      data.productName = val.productName
+      data.categoryName = val.productCategoryName
+      data.category = val.productCategory
+      data.unit = val.unit
+      data.typeName = val.productTypeName
+      data.type = val.productType
+      data.color = val.color
+      data.kpiGrade = '0.00'
+      data.point = '0.00'
+      data.quantity = 1
+      this.$refs.editable.insert(data)
+    },
     // 无来源添加商品
     handleAddproduct() {
       if (this.saleRepositoryId === null || this.saleRepositoryId === '' || this.saleRepositoryId === undefined) {
@@ -1558,6 +1634,7 @@ export default {
     async productdetail(val) {
       console.log('val', val)
       for (let i = 0; i < val.length; i++) {
+        val[i].quantity = 1
         this.$refs.editable.insert(val[i])
       }
 
@@ -1680,17 +1757,29 @@ export default {
     },
     // 保存操作
     handlesave() {
-      if (this.ableSubmission === false) {
-        this.$notify.error({
-          title: '错误',
-          message: '出库数量超出了当前可用存量，请修改后再进行确认!',
-          offset: 100
-        })
-        return false
-      }
       this.$refs.personalForm.validate((valid) => {
         if (valid) {
           const EnterDetail = this.deepClone(this.$refs.editable.getRecords())
+          // 整车出库时相关编码必填
+          let m = 1
+          EnterDetail.map(function(elem) {
+            return elem
+          }).forEach(function(elem) {
+            const re = elem.productCode.slice(0, 2)
+            if (re === '01') {
+              if (elem.carCode === null || elem.carCode === undefined || elem.carCode === '' || elem.motorCode === null || elem.motorCode === undefined || elem.motorCode === '' || elem.batteryCode === null || elem.batteryCode === undefined || elem.batteryCode === '') {
+                m = 2
+              }
+            }
+          })
+          if (m === 2) {
+            this.$notify.error({
+              title: '错误',
+              message: '整车出库时相关编码必填',
+              offset: 100
+            })
+            return false
+          }
           // 保存时同样商品不能有同一个批次
           let i = 0
           EnterDetail.map(function(elem) {
@@ -1700,7 +1789,11 @@ export default {
               return elem2
             }).forEach(function(elem2) {
               if (elem2.productCode === elem.productCode && elem2.batch === elem.batch) {
-                i++
+                const re = elem2.productCode.slice(0, 2)
+                // 去除整车
+                if (re !== '01') {
+                  i++
+                }
               }
             })
           })

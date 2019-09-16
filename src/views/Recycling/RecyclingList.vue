@@ -228,6 +228,7 @@ export default {
   },
   data() {
     return {
+      receiptVisible99: false,
       // 结算方式数据
       colseTypes: [],
       // 结算方式获取参数
