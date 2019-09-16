@@ -1187,12 +1187,6 @@ export default {
       this.personalForm.ridMoney = ''
       this.personalForm.ridBikeMoney = ''
       console.log(val)
-      // if (val === '5' || val === '4' || val === '3' || val === undefined) {
-      //   this.isEdit = true
-      // } else {
-      //   this.isEdit = false
-      // }
-      // console.log('isedit', this.isEdit)
       if (val === '5' || val === undefined) {
         this.Isproduct = false
         this.IsSourceNumber = true
