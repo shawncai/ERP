@@ -41,7 +41,8 @@ export default {
       // 批次规则设置信息数据
       personalForm: {
         type: 0,
-        iseffective: 1
+        iseffective: 1,
+        dateType: 1
       },
       // 批次规则设置信息规则
       personalrules: {
@@ -60,7 +61,9 @@ export default {
   methods: {
     // 清空记录
     restAllForm() {
-      this.personalForm = {}
+      this.personalForm = {
+        dateType: 1
+      }
     },
     // 保存操作
     handlesave() {

@@ -22,7 +22,7 @@ export function createdailyAdjust(query, query2, query3) {
     params.append('countryId', query3.countryId) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/erp/dailyAdjust/create',
+    url: '/dailyAdjust/create',
     method: 'post',
     data: params
   })
@@ -74,7 +74,7 @@ export function dailyAdjustlist(query) {
     params.append('regionIds', query.regionIds) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/erp/dailyAdjust/search',
+    url: '/dailyAdjust/search',
     method: 'post',
     data: params
   })
@@ -90,7 +90,7 @@ export function updatedailyAdjust(query, query2) {
     params.append('detailJson', query2) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/erp/dailyAdjust/update',
+    url: '/dailyAdjust/update',
     method: 'post',
     data: params
   })
@@ -106,7 +106,7 @@ export function deletedailyAdjust(query, query2) {
     params.append('operatorId', query2) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/erp/dailyAdjust/delete',
+    url: '/dailyAdjust/delete',
     method: 'post',
     data: params
   })
@@ -119,7 +119,7 @@ export function updatedailyAdjust2(query) {
     params.append('Json', query) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/erp/dailyAdjust/update',
+    url: '/dailyAdjust/update',
     method: 'post',
     data: params
   })

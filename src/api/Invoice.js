@@ -11,7 +11,7 @@ export function addinvoice(query, query3) {
     params.append('regionId', query3.regionId) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/erp/invoice/addinvoice',
+    url: '/invoice/addinvoice',
     method: 'post',
     data: params
   })
@@ -62,7 +62,7 @@ export function invoicelist(query) {
   params.append('pageNum', query.pageNum) // 你要传给后台的参数值 key/value
   params.append('pageSize', query.pageSize) // 你要传给后台的参数值 key/value
   return request({
-    url: '/erp/invoice/invoicelist',
+    url: '/invoice/invoicelist',
     method: 'post',
     data: params
   })
@@ -73,7 +73,7 @@ export function updateinvoice(query) {
   var params = new URLSearchParams()
   params.append('invoiceJson', query) // 你要传给后台的参数值 key/value
   return request({
-    url: '/erp/invoice/updateinvoice',
+    url: '/invoice/updateinvoice',
     method: 'post',
     data: params
   })
@@ -84,7 +84,7 @@ export function updateinvoice2(query) {
   var params = new URLSearchParams()
   params.append('Json', query) // 你要传给后台的参数值 key/value
   return request({
-    url: '/erp/invoice/updateinvoice',
+    url: '/invoice/updateinvoice',
     method: 'post',
     data: params
   })
@@ -98,7 +98,7 @@ export function deleteinvoice(query, query2) {
     params.append('operatorId', query2) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/erp/invoice/deleteinvoice',
+    url: '/invoice/deleteinvoice',
     method: 'post',
     data: params
   })

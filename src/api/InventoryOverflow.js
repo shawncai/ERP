@@ -22,7 +22,7 @@ export function addinventoryoverflow(query, query2, query3) {
     params.append('countryId', query3.countryId) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/erp/inventoryoverflow/addinventoryoverflow',
+    url: '/inventoryoverflow/addinventoryoverflow',
     method: 'post',
     data: params
   })
@@ -74,7 +74,7 @@ export function overflowlist(query) {
     params.append('regionIds', query.regionIds) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/erp/inventoryoverflow/overflowlist',
+    url: '/inventoryoverflow/overflowlist',
     method: 'post',
     data: params
   })
@@ -90,7 +90,7 @@ export function deleteoverflow(query, query2) {
     params.append('operatorId', query2) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/erp/inventoryoverflow/deleteoverflow',
+    url: '/inventoryoverflow/deleteoverflow',
     method: 'post',
     data: params
   })
@@ -106,7 +106,7 @@ export function updateoverflow(query, query2) {
     params.append('inventoryOverflowDetailJson', query2) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/erp/inventoryoverflow/updateoverflow',
+    url: '/inventoryoverflow/updateoverflow',
     method: 'post',
     data: params
   })
@@ -117,7 +117,7 @@ export function updateoverflow2(query) {
   var params = new URLSearchParams()
   params.append('inventoryOverflowJson', query) // 你要传给后台的参数值 key/value
   return request({
-    url: '/erp/inventoryoverflow/updateoverflow',
+    url: '/inventoryoverflow/updateoverflow',
     method: 'post',
     data: params
   })

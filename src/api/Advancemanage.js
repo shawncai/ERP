@@ -7,7 +7,7 @@ export function addadvanceproduct(query) {
     params.append('advanceProductJson', query) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/erp/advanceproduct/addadvanceproduct',
+    url: '/advanceproduct/addadvanceproduct',
     method: 'post',
     data: params
   })
@@ -37,7 +37,7 @@ export function advancelist(query) {
   params.append('pageNum', query.pageNum) // 你要传给后台的参数值 key/value
   params.append('pageSize', query.pageSize) // 你要传给后台的参数值 key/value
   return request({
-    url: '/erp/advanceproduct/advancelist',
+    url: '/advanceproduct/advancelist',
     method: 'post',
     data: params
   })
@@ -48,7 +48,7 @@ export function updateadvanceproduct(query) {
   var params = new URLSearchParams()
   params.append('advanceProductJson', query) // 你要传给后台的参数值 key/value
   return request({
-    url: '/erp/advanceproduct/updateadvanceproduct',
+    url: '/advanceproduct/updateadvanceproduct',
     method: 'post',
     data: params
   })
@@ -64,7 +64,7 @@ export function deleteadvanceproduct(query, query2) {
     params.append('operatorId', query2) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/erp/advanceproduct/deleteadvanceproduct',
+    url: '/advanceproduct/deleteadvanceproduct',
     method: 'post',
     data: params
   })
@@ -82,7 +82,7 @@ export function addadvanceorder(query, query2, query3) {
     params.append('regionId', query3.regionId) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/erp/advanceorder/addadvanceorder',
+    url: '/advanceorder/addadvanceorder',
     method: 'post',
     data: params
   })
@@ -127,7 +127,7 @@ export function advanceorderlist(query) {
   params.append('pageNum', query.pageNum) // 你要传给后台的参数值 key/value
   params.append('pageSize', query.pageSize) // 你要传给后台的参数值 key/value
   return request({
-    url: '/erp/advanceorder/advanceorderlist',
+    url: '/advanceorder/advanceorderlist',
     method: 'post',
     data: params
   })
@@ -139,7 +139,7 @@ export function updateadvanceorder(query, query2) {
   params.append('advanceOrderJson', query) // 你要传给后台的参数值 key/value
   params.append('advanceOrderDetailJson', query2) // 你要传给后台的参数值 key/value
   return request({
-    url: '/erp/advanceorder/updateadvanceorder',
+    url: '/advanceorder/updateadvanceorder',
     method: 'post',
     data: params
   })
@@ -153,7 +153,7 @@ export function deleteadvanceorder(query, query2) {
     params.append('operatorId', query2) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/erp/advanceorder/deleteadvanceorder',
+    url: '/advanceorder/deleteadvanceorder',
     method: 'post',
     data: params
   })
@@ -164,7 +164,7 @@ export function updateadvanceorder2(query) {
   var params = new URLSearchParams()
   params.append('advanceOrderJson', query) // 你要传给后台的参数值 key/value
   return request({
-    url: '/erp/advanceorder/updateadvanceorder',
+    url: '/advanceorder/updateadvanceorder',
     method: 'post',
     data: params
   })
@@ -182,7 +182,7 @@ export function addadvancereturn(query, query2, query3) {
     params.append('regionId', query3.regionId) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/erp/advancereturn/addadvancereturn',
+    url: '/advancereturn/addadvancereturn',
     method: 'post',
     data: params
   })
@@ -230,7 +230,7 @@ export function advancereturnlist(query) {
   params.append('pageNum', query.pageNum) // 你要传给后台的参数值 key/value
   params.append('pageSize', query.pageSize) // 你要传给后台的参数值 key/value
   return request({
-    url: '/erp/advancereturn/advancereturnlist',
+    url: '/advancereturn/advancereturnlist',
     method: 'post',
     data: params
   })
@@ -242,7 +242,7 @@ export function updateadvancereturn(query, query2) {
   params.append('advanceReturnJson', query) // 你要传给后台的参数值 key/value
   params.append('advanceReturnDetailJson', query2) // 你要传给后台的参数值 key/value
   return request({
-    url: '/erp/advancereturn/updateadvancereturn',
+    url: '/advancereturn/updateadvancereturn',
     method: 'post',
     data: params
   })
@@ -256,7 +256,7 @@ export function deleteadvancereturn(query, query2) {
     params.append('operatorId', query2) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/erp/advancereturn/deleteadvancereturn',
+    url: '/advancereturn/deleteadvancereturn',
     method: 'post',
     data: params
   })
@@ -267,7 +267,7 @@ export function updateadvancereturn2(query) {
   var params = new URLSearchParams()
   params.append('advanceReturnJson', query) // 你要传给后台的参数值 key/value
   return request({
-    url: '/erp/advancereturn/updateadvancereturn',
+    url: '/advancereturn/updateadvancereturn',
     method: 'post',
     data: params
   })

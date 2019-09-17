@@ -13,7 +13,7 @@ export function createsaleOut(query, query2, query3, query4) {
     params.append('regionId', query4.regionId) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/erp/saleOut/create',
+    url: '/saleOut/create',
     method: 'post',
     data: params
   })
@@ -67,7 +67,7 @@ export function searchsaleOut(query) {
   params.append('pageNum', query.pageNum) // 你要传给后台的参数值 key/value
   params.append('pageSize', query.pageSize) // 你要传给后台的参数值 key/value
   return request({
-    url: '/erp/saleOut/search',
+    url: '/saleOut/search',
     method: 'post',
     data: params
   })
@@ -80,7 +80,7 @@ export function updatesaleOut(query, query2, query3) {
   params.append('detailJson', query2) // 你要传给后台的参数值 key/value
   params.append('giftJson', query3) // 你要传给后台的参数值 key/value
   return request({
-    url: '/erp/saleOut/update',
+    url: '/saleOut/update',
     method: 'post',
     data: params
   })
@@ -96,7 +96,7 @@ export function deletesaleOut(query, query2) {
     params.append('operatorId', query2) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/erp/saleOut/delete',
+    url: '/saleOut/delete',
     method: 'post',
     data: params
   })
@@ -107,7 +107,7 @@ export function updatesaleOut2(query) {
   var params = new URLSearchParams()
   params.append('Json', query) // 你要传给后台的参数值 key/value
   return request({
-    url: '/erp/saleOut/update',
+    url: '/saleOut/update',
     method: 'post',
     data: params
   })

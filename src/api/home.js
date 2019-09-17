@@ -5,7 +5,7 @@ export function workDesk1(query) {
   params.append('repositoryId', query.repositoryId) // 你要传给后台的参数值 key/value
   params.append('regionIds', query.regionIds) // 你要传给后台的参数值 key/value
   return request({
-    url: '/erp/repoData/countData',
+    url: '/repoData/countData',
     method: 'post',
     data: params
   })
@@ -17,7 +17,7 @@ export function workDesk2(query) {
   params.append('repositoryId', query.repositoryId) // 你要传给后台的参数值 key/value
   params.append('regionIds', query.regionIds) // 你要传给后台的参数值 key/value
   return request({
-    url: '/erp/repoData/workbench',
+    url: '/repoData/workbench',
     method: 'post',
     data: params
   })
@@ -28,7 +28,7 @@ export function workDesk3(query) {
   var params = new URLSearchParams()
   params.append('employeeId', query.employeeId) // 你要传给后台的参数值 key/value
   return request({
-    url: '/erp/myToDo/toDoNumber',
+    url: '/myToDo/toDoNumber',
     method: 'post',
     data: params
   })
@@ -46,7 +46,7 @@ export function SaleMange1(query) {
     params.append('endTime', query.endTime) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/erp/admin/service/countservice',
+    url: '/admin/service/countservice',
     method: 'post',
     data: params
   })
@@ -55,7 +55,7 @@ export function SaleMange1(query) {
 // 客户维修
 export function SaleMange2() {
   return request({
-    url: '/erp/saleManager/customerCompare',
+    url: '/saleManager/customerCompare',
     method: 'post'
   })
 }
@@ -69,7 +69,7 @@ export function SaleMange3(query) {
     params.append('endTime', query.endTime) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/erp/saleManager/customerDistribut',
+    url: '/saleManager/customerDistribut',
     method: 'post',
     data: params
   })
@@ -86,7 +86,7 @@ export function drive(query) {
     params.append('endTime', query.endTime) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/erp/financecount/collectAndPay',
+    url: '/financecount/collectAndPay',
     method: 'post',
     data: params
   })
@@ -101,7 +101,7 @@ export function drive2(query) {
     params.append('endTime', query.endTime) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/erp/cockpit/saleCompare',
+    url: '/cockpit/saleCompare',
     method: 'post',
     data: params
   })
@@ -128,7 +128,7 @@ export function inventoryMange(query) {
     params.append('pageSize', query.pageSize) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/erp/inventoryManager/inventoryTrack',
+    url: '/inventoryManager/inventoryTrack',
     method: 'post',
     data: params
   })
@@ -158,7 +158,7 @@ export function inventoryMange2(query) {
     params.append('pageSize', query.pageSize) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/erp/inventoryManager/inventoryNavigation',
+    url: '/inventoryManager/inventoryNavigation',
     method: 'post',
     data: params
   })
@@ -188,7 +188,7 @@ export function inventoryMange3(query) {
     params.append('pageSize', query.pageSize) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/erp/inventoryManager/inventoryEnter',
+    url: '/inventoryManager/inventoryEnter',
     method: 'post',
     data: params
   })
@@ -218,7 +218,7 @@ export function inventoryMange5(query) {
     params.append('pageSize', query.pageSize) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/erp/inventoryManager/inventoryOut',
+    url: '/inventoryManager/inventoryOut',
     method: 'post',
     data: params
   })
@@ -248,7 +248,7 @@ export function stockMange(query) {
     params.append('pageSize', query.pageSize) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/erp/stockManager/supplierDistribut',
+    url: '/stockManager/supplierDistribut',
     method: 'post',
     data: params
   })
@@ -278,7 +278,7 @@ export function stockMange2(query) {
     params.append('pageSize', query.pageSize) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/erp/stockManager/productTrack',
+    url: '/stockManager/productTrack',
     method: 'post',
     data: params
   })

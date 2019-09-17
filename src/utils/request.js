@@ -17,11 +17,19 @@ service.interceptors.request.use(
       // 让每个请求携带token-- ['X-Token']为自定义key 请根据实际情况自行修改
       config.headers['X-Token'] = getToken()
     }
+    console.log('store.getters.useCountry', store.getters.useCountry)
+    if (store.getters.useCountry === 1 || store.getters.useCountry === '1') {
+      config.baseURL = process.env.BASE_API + '/erp'
+    }
+    if (store.getters.useCountry === 2 || store.getters.useCountry === '2') {
+      config.baseURL = process.env.BASE_API + '/philippines'
+    }
+    // console.log('config', config)
     return config
   },
   error => {
     // Do something with request error
-    console.log(error) // for debug
+    // console.log(error) // for debug
     Promise.reject(error)
   }
 )
@@ -63,7 +71,7 @@ service.interceptors.response.use(
   //   }
   // },
   error => {
-    console.log('err' + error) // for debug
+    // console.log('err' + error) // for debug
     Message({
       message: error.message,
       type: 'error',
