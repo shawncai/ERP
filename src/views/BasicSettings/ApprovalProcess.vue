@@ -43,12 +43,12 @@
           type="selection"
           width="55"
           align="center"/>
-        <el-table-column :label="$t('BasicSettings.id2')" :resizable="false" prop="id" align="center" width="250">
+        <el-table-column :label="$t('BasicSettings.id2')" :resizable="false" fixed="left" prop="id" align="center" width="250">
           <template slot-scope="scope">
             <span>{{ scope.row.id }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('BasicSettings.process_name')" :resizable="false" prop="processName" align="center" width="250">
+        <el-table-column :label="$t('BasicSettings.process_name')" :resizable="false" fixed="left" prop="processName" align="center" width="250">
           <template slot-scope="scope">
             <span>{{ scope.row.processName }}</span>
           </template>
@@ -66,6 +66,16 @@
         <el-table-column :label="$t('BasicSettings.isMessage')" :resizable="false" prop="isMessage" align="center" width="250">
           <template slot-scope="scope">
             <span>{{ scope.row.isMessage | isMessageFilter }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column :label="$t('UnitGroup.createPersonName')" :resizable="false" align="center" width="250">
+          <template slot-scope="scope">
+            <span>{{ scope.row.createPersonName }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column :label="$t('UnitGroup.createDate')" :resizable="false" align="center" width="250">
+          <template slot-scope="scope">
+            <span>{{ scope.row.createTime }}</span>
           </template>
         </el-table-column>
         <el-table-column :label="$t('public.actions')" :resizable="false" align="center" min-width="230">

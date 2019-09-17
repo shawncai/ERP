@@ -426,7 +426,9 @@ export default {
     groupName: '计量单位组名称',
     basicUnitId: '基本计量单位',
     proportion: '比例',
-    unitId: '计量单位名称'
+    unitId: '计量单位名称',
+    createPersonName: '创建人',
+    createDate: '创建时间'
   },
   endmonth: {
     yearAndMonth: '年月',

@@ -470,12 +470,12 @@ export const asyncRouterMap = [
         name: 'ApprovalProcess',
         meta: { title: 'ApprovalProcess', noCache: true, roles: ['1-39-45-1', '1-39-45-2', '1-39-45-3', '1-39-45-4', '1-39-45-5', '1-39-45-6', '1-39-45-7', '1-39-45-8', '1-39-45-9'] }
       },
-      {
-        path: 'BatchRules',
-        component: () => import('@/views/BasicSettings/BatchRules'),
-        name: 'BatchRules',
-        meta: { title: 'BatchRules', noCache: true, roles: ['1-39-52-1'] }
-      },
+      // {
+      //   path: 'BatchRules',
+      //   component: () => import('@/views/BasicSettings/BatchRules'),
+      //   name: 'BatchRules',
+      //   meta: { title: 'BatchRules', noCache: true, roles: ['1-39-52-1'] }
+      // },
       {
         path: 'UnitGroup',
         component: () => import('@/views/BasicSettings/UnitGroup'),

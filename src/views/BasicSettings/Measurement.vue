@@ -32,15 +32,17 @@
       <!--新建列表开始-->
       <el-dialog :visible.sync="addNumberingVisible" title="新建计量单位" class="normal" width="600px">
         <el-form :model="Numberingform" label-position="left" label-width="120px" style="width: 400px; margin-left:50px;">
-          <el-form-item label-width="120px" label="计量单位名称">
-            <el-input v-model="Numberingform.categoryname" placeholder="请输入计量单位名称" autocomplete="off" style="width: 200px"/>
-          </el-form-item>
           <el-form-item label-width="120px" label="计量单位类别">
             <el-select v-model="Numberingform.type" placeholder="请选择计量单位类别">
               <el-option label="数量" value="1"/>
               <el-option label="体积" value="2"/>
               <el-option label="重量" value="3"/>
+              <el-option label="长度" value="4"/>
+              <el-option label="面积" value="5"/>
             </el-select>
+          </el-form-item>
+          <el-form-item label-width="120px" label="计量单位名称">
+            <el-input v-model="Numberingform.categoryname" placeholder="请输入计量单位名称" autocomplete="off" style="width: 200px"/>
           </el-form-item>
           <el-form-item label-width="120px" label="启用状态">
             <el-select v-model="Numberingform.iseffective" placeholder="请选择启用状态">
@@ -91,6 +93,11 @@
             <span>{{ scope.row.isEffective | genderFilter }}</span>
           </template>
         </el-table-column>
+        <el-table-column :label="$t('UnitGroup.createPersonName')" :resizable="false" align="center" min-width="150">
+          <template slot-scope="scope">
+            <span>{{ scope.row.createPersonName }}</span>
+          </template>
+        </el-table-column>
         <el-table-column :label="$t('BasicSettings.createTime')" :resizable="false" prop="createTime" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.createTime }}</span>
@@ -110,15 +117,17 @@
       <!--修改开始=================================================-->
       <el-dialog :visible.sync="editNumberingVisible" title="修改计量单位" class="normal" width="600px">
         <el-form :model="editNumberingform" label-position="left" label-width="120px" style="width: 400px; margin-left:50px;">
-          <el-form-item label-width="120px" label="计量单位名称">
-            <el-input v-model="editNumberingform.categoryName" placeholder="请输入计量单位名称" autocomplete="off" style="width: 200px"/>
-          </el-form-item>
           <el-form-item label-width="120px" label="计量单位类别">
             <el-select v-model="editNumberingform.type" placeholder="请选择计量单位类别" disabled>
               <el-option label="数量" value="1"/>
               <el-option label="体积" value="2"/>
               <el-option label="重量" value="3"/>
+              <el-option label="长度" value="4"/>
+              <el-option label="面积" value="5"/>
             </el-select>
+          </el-form-item>
+          <el-form-item label-width="120px" label="计量单位名称">
+            <el-input v-model="editNumberingform.categoryName" placeholder="请输入计量单位名称" autocomplete="off" style="width: 200px"/>
           </el-form-item>
           <el-form-item label-width="120px" label="启用状态">
             <el-select v-model="editNumberingform.isEffective" placeholder="请选择启用状态">
@@ -162,7 +171,9 @@ export default {
       const statusMap = {
         1: '数量',
         2: '体积',
-        3: '重量'
+        3: '重量',
+        4: '长度',
+        5: '面积'
       }
       return statusMap[status]
     }
@@ -177,6 +188,7 @@ export default {
         category: '',
         categoryname: '',
         type: '',
+        createPersonId: this.$store.getters.userId,
         iseffective: '1'
       },
       // 修改窗口控制器
@@ -202,6 +214,7 @@ export default {
         categoryname: '',
         type: '',
         iseffective: '',
+        createPersonId: this.$store.getters.userId,
         pagenum: 1,
         pagesize: 10
       }
@@ -292,6 +305,14 @@ export default {
     },
     // 确认修改
     handleEditOk() {
+      if (this.editNumberingform.type === null || this.editNumberingform.type === '' || this.editNumberingform.type === undefined || this.editNumberingform.categoryname === null || this.editNumberingform.categoryname === '' || this.editNumberingform.categoryname === undefined) {
+        this.$notify.error({
+          title: '错误',
+          message: '名称和类别不能为空',
+          offset: 100
+        })
+        return false
+      }
       console.log(this.editNumberingform)
       updatemea(this.editNumberingform).then(res => {
         if (res.data.ret === 200) {
@@ -393,6 +414,14 @@ export default {
     },
     // 确认新增
     handleOk() {
+      if (this.Numberingform.type === null || this.Numberingform.type === '' || this.Numberingform.type === undefined || this.Numberingform.categoryname === null || this.Numberingform.categoryname === '' || this.Numberingform.categoryname === undefined) {
+        this.$notify.error({
+          title: '错误',
+          message: '名称和类别不能为空',
+          offset: 100
+        })
+        return false
+      }
       createmea(this.Numberingform).then(res => {
         if (res.data.ret === 200) {
           this.$notify({

@@ -39,9 +39,9 @@
       <el-button v-waves class="filter-item" icon="el-icon-plus" type="success" style="width: 86px" @click="handleAdd">{{ $t('public.add') }}</el-button>
       <el-dialog :visible.sync="categoryVisible" title="新建计量单位组" class="normal" width="600px" center>
         <el-form ref="addCategoryForm" :rules="addCategoryFormRules" :model="addCategoryForm" class="demo-ruleForm" style="margin: 0 auto; width: 400px">
-          <el-form-item :label="$t('UnitGroup.number')" label-width="140px" prop="number">
+          <!-- <el-form-item :label="$t('UnitGroup.number')" label-width="140px" prop="number">
             <el-input v-model="addCategoryForm.number" autocomplete="off"/>
-          </el-form-item>
+          </el-form-item> -->
           <el-form-item :label="$t('UnitGroup.groupName')" label-width="140px" prop="groupName">
             <el-input v-model="addCategoryForm.groupName" autocomplete="off"/>
           </el-form-item>
@@ -104,14 +104,24 @@
             <span class="link-type" @click="handleDetail(scope.row)">{{ scope.row.number }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('UnitGroup.groupName')" :resizable="false" fixed="left" align="center" min-width="150">
+        <!-- <el-table-column :label="$t('UnitGroup.groupName')" :resizable="false" fixed="left" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.groupName }}</span>
           </template>
-        </el-table-column>
+        </el-table-column> -->
         <el-table-column :label="$t('UnitGroup.basicUnitId')" :resizable="false" fixed="left" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.basicUnit }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column :label="$t('UnitGroup.createPersonName')" :resizable="false" fixed="left" align="center" min-width="150">
+          <template slot-scope="scope">
+            <span>{{ scope.row.createPersonName }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column :label="$t('UnitGroup.createDate')" :resizable="false" fixed="left" align="center" min-width="150">
+          <template slot-scope="scope">
+            <span>{{ scope.row.createDate }}</span>
           </template>
         </el-table-column>
         <el-table-column :label="$t('public.actions')" :resizable="false" align="center" min-width="230">

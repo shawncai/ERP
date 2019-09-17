@@ -150,6 +150,8 @@ export default {
       // 审批流程信息数据
       personalForm: {
         is_effective: '1',
+        is_message: '1',
+        createPersonId: this.$store.getters.userId,
         region: []
       },
       // 个人信息规则数据
@@ -276,7 +278,9 @@ export default {
     // 清空记录
     restAllForm() {
       this.personalForm = {
-        is_effective: '1'
+        createPersonId: this.$store.getters.userId,
+        is_effective: '1',
+        is_message: '1'
       }
       this.getRegion()
     },

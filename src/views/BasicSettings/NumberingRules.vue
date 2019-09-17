@@ -116,6 +116,11 @@
             <span>{{ scope.row.isEffective | genderFilter }}</span>
           </template>
         </el-table-column>
+        <el-table-column :label="$t('UnitGroup.createPersonName')" :resizable="false" align="center" width="250">
+          <template slot-scope="scope">
+            <span>{{ scope.row.createPersonName }}</span>
+          </template>
+        </el-table-column>
         <el-table-column :label="$t('BasicSettings.createTime')" :resizable="false" prop="createTime" align="center" width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.createTime }}</span>

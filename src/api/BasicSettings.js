@@ -224,6 +224,9 @@ export function createmea(query) {
   if (query.category !== '' && query.category !== null && query.category !== undefined) {
     params.append('category', query.category) // 你要传给后台的参数值 key/value
   }
+  if (query.createPersonId !== '' && query.createPersonId !== null && query.createPersonId !== undefined) {
+    params.append('createPersonId', query.createPersonId) // 你要传给后台的参数值 key/value
+  }
   if (query.type !== '' && query.type !== null && query.type !== undefined) {
     params.append('type', query.type) // 你要传给后台的参数值 key/value
   }
@@ -322,6 +325,9 @@ export function createapproval(query, detailJson) {
   }
   if (query.country_id !== '' && query.country_id !== null && query.country_id !== undefined) {
     params.append('country_id', query.country_id) // 你要传给后台的参数值 key/value
+  }
+  if (query.createPersonId !== '' && query.createPersonId !== null && query.createPersonId !== undefined) {
+    params.append('createPersonId', query.createPersonId) // 你要传给后台的参数值 key/value
   }
   if (detailJson !== '' && detailJson !== null && detailJson !== undefined) {
     params.append('detailJson', detailJson) // 你要传给后台的参数值 key/value

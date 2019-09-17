@@ -8,7 +8,13 @@
           <el-form-item :label="$t('BasicSettings.roleId')" prop="roleId" style="width: 40%;margin-top:1%">
             <el-input v-model="personalForm.roleId" placeholder="请选择员工职位" clearable/>
           </el-form-item>
-          <el-form-item :label="$t('BasicSettings.productCategoryId')" prop="productCategoryId" style="width: 40%;margin-top:1%">
+          <el-col :span="6">
+            <el-form-item :label="$t('Product.categoryid')" prop="categoryid" style="width: 100%;">
+              <el-input v-model="productCategoryId" style="margin-left: 18px;width: 200px" placeholder="请选择物品分类" @focus="treechoose"/>
+              <my-tree :treecontrol.sync="treecontrol" @tree="tree"/>
+            </el-form-item>
+          </el-col>
+          <!-- <el-form-item :label="$t('BasicSettings.productCategoryId')" prop="productCategoryId" style="width: 40%;margin-top:1%">
             <el-select v-model="personalForm.productCategoryId" placeholder="请选择商品类别" style="width: 100%;">
               <el-option
                 v-for="(item, index) in typeIds"
@@ -17,12 +23,12 @@
                 :value="item.id"
               />
             </el-select>
-          </el-form-item>
-          <el-form-item :label="$t('BasicSettings.commissionType')" prop="commissionType" style="width: 40%;margin-top:1%">
+          </el-form-item> -->
+          <el-form-item :label="$t('BasicSettings.commissionType')" prop="commissionType" style="width: 35%;margin-top:1%">
             <el-radio-group v-model="personalForm.commissionType">
               <el-radio :label="1">提成比例</el-radio>
               <el-radio :label="2">固定金额</el-radio>
-              <el-radio :label="3">绩效分</el-radio>
+              <!-- <el-radio :label="3">绩效分</el-radio> -->
             </el-radio-group>
           </el-form-item>
           <el-form-item :label="$t('BasicSettings.commissionValue')" prop="commissionValue" style="width: 40%;margin-top:1%">
@@ -54,10 +60,11 @@ import permission from '@/directive/permission/index.js' // 权限判断指令
 import permission2 from '@/directive/permission2/index.js' // 权限判断指令
 import checkPermission from '@/utils/permission' // 权限判断函数
 import MyEmp from './components/MyEmp'
+import MyTree from './components/MyTree'
 export default {
   name: 'Commission',
   directives: { permission, permission2 },
-  components: { MyEmp },
+  components: { MyEmp, MyTree },
   data() {
     return {
       // 结算方式
@@ -90,11 +97,14 @@ export default {
       buyerId: '',
       // 转化区域id
       perregions: [],
+      // 控制物品分类
+      treecontrol: false,
+      productCategoryId: '',
       // 提成信息数据
       personalForm: {
         roleId: '',
         productCategoryId: '',
-        commissionType: '',
+        commissionType: 1,
         commissionValue: '',
         countryId: ''
       },
@@ -123,6 +133,14 @@ export default {
   },
   methods: {
     checkPermission,
+    tree(val) {
+      console.log(val)
+      this.productCategoryId = val.categoryName
+      this.personalForm.productCategoryId = val.code
+    },
+    treechoose() {
+      this.treecontrol = true
+    },
     // 国籍列表
     getnationlist() {
       getcountrylist().then(res => {
@@ -279,6 +297,7 @@ export default {
     // 清空记录
     restAllForm() {
       this.personalForm = {
+        commissionType: 1,
         BasicSettingsName: '',
         typeId: '',
         BasicSettingsShortName: '',
