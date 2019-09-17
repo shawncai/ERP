@@ -36,6 +36,13 @@
         </span>
       </el-form-item>
 
+      <el-form-item>
+        <el-select v-model="loginForm.country" clearable style="margin-left: 18px;width: 88%">
+          <el-option label="china" value="1"/>
+          <el-option label="philippines" value="2"/>
+        </el-select>
+      </el-form-item>
+
       <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="handleLogin">{{ $t('login.logIn') }}</el-button>
 
       <!--<div class="tips">-->
@@ -73,7 +80,8 @@ export default {
     return {
       loginForm: {
         username: '',
-        password: ''
+        password: '',
+        country: '1'
       },
       passwordType: 'password',
       loading: false,
@@ -105,6 +113,12 @@ export default {
       }
     },
     handleLogin() {
+      if (this.loginForm.country === '1') {
+        this.$store.dispatch('getuseCountry', 1)
+      }
+      if (this.loginForm.country === '2') {
+        this.$store.dispatch('getuseCountry', 2)
+      }
       this.loading = true
       loginByUsername(this.loginForm.username, this.loginForm.password).then(res => {
         if (res.data.ret === 100) {

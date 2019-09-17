@@ -5,7 +5,7 @@ export function addSubject(query) {
   var params = new URLSearchParams()
   params.append('subjectFinanceJson', query) // 你要传给后台的参数值 key/value
   return request({
-    url: '/erp/subject/addSubject',
+    url: '/subject/addSubject',
     method: 'post',
     data: params
   })
@@ -15,7 +15,7 @@ export function addSubject(query) {
 export function subjectList(query) {
   var params = new URLSearchParams()
   return request({
-    url: '/erp/subject/subjectList',
+    url: '/subject/subjectList',
     method: 'post',
     data: params
   })
@@ -26,7 +26,7 @@ export function deleteSubject(query) {
   var params = new URLSearchParams()
   params.append('subjectId', query) // 你要传给后台的参数值 key/value
   return request({
-    url: '/erp/subject/deleteSubject',
+    url: '/subject/deleteSubject',
     method: 'post',
     data: params
   })
@@ -37,7 +37,7 @@ export function updateSubject(query) {
   var params = new URLSearchParams()
   params.append('subjectFinanceJson', query) // 你要传给后台的参数值 key/value
   return request({
-    url: '/erp/subject/updateSubject',
+    url: '/subject/updateSubject',
     method: 'post',
     data: params
   })
@@ -49,7 +49,7 @@ export function addSubjectDetail(query, query2) {
   params.append('subjectDetailJson', query) // 你要传给后台的参数值 key/value
   params.append('subjectFinanceJson', query2) // 你要传给后台的参数值 key/value
   return request({
-    url: '/erp/subject/addSubjectDetail',
+    url: '/subject/addSubjectDetail',
     method: 'post',
     data: params
   })
@@ -66,7 +66,7 @@ export function itemList(query) {
     params.append('subjectType', query.subjectType) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/erp/subject/itemList2',
+    url: '/subject/itemList2',
     method: 'post',
     data: params
   })
@@ -77,7 +77,7 @@ export function deleteSubjectDetail(query) {
   var params = new URLSearchParams()
   params.append('subjectDetailId', query) // 你要传给后台的参数值 key/value
   return request({
-    url: '/erp/subject/deleteSubjectDetail',
+    url: '/subject/deleteSubjectDetail',
     method: 'post',
     data: params
   })
@@ -88,7 +88,7 @@ export function updateSubjectDetail(query) {
   var params = new URLSearchParams()
   params.append('subjectDetailJson', query) // 你要传给后台的参数值 key/value
   return request({
-    url: '/erp/subject/updateSubjectDetail',
+    url: '/subject/updateSubjectDetail',
     method: 'post',
     data: params
   })

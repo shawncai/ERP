@@ -11,7 +11,7 @@ export function ruleList(query) {
   params.append('repositoryId', query.repositoryId) // 你要传给后台的参数值 key/value
   params.append('regionIds', query.regionIds) // 你要传给后台的参数值 key/value
   return request({
-    url: '/erp/inventoryAlarm/ruleList',
+    url: '/inventoryAlarm/ruleList',
     method: 'post',
     data: params
   })
@@ -26,7 +26,7 @@ export function alarmList(query) {
   params.append('pageNum', query.pageNum) // 你要传给后台的参数值 key/value
   params.append('pageSize', query.pageSize) // 你要传给后台的参数值 key/value
   return request({
-    url: '/erp/inventoryAlarm/alarmList',
+    url: '/inventoryAlarm/alarmList',
     method: 'post',
     data: params
   })
@@ -39,7 +39,7 @@ export function create(query) {
     params.append('Json', query) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/erp/inventoryAlarm/create',
+    url: '/inventoryAlarm/create',
     method: 'post',
     data: params
   })
@@ -52,7 +52,7 @@ export function update(query) {
     params.append('Json', query) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/erp/inventoryAlarm/update',
+    url: '/inventoryAlarm/update',
     method: 'post',
     data: params
   })
@@ -75,7 +75,7 @@ export function searchBatchAlarm(query) {
   params.append('repositoryId', query.repositoryId) // 你要传给后台的参数值 key/value
   params.append('regionIds', query.regionIds) // 你要传给后台的参数值 key/value
   return request({
-    url: '/erp/stockAlarm/searchBatchAlarm',
+    url: '/stockAlarm/searchBatchAlarm',
     method: 'post',
     data: params
   })

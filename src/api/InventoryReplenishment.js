@@ -18,7 +18,7 @@ export function addinventoryreplenishment(query) {
     params.append('isEffective', query.iseffective) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/erp/smartreplenishment/addRules',
+    url: '/smartreplenishment/addRules',
     method: 'post',
     data: params
   })
@@ -39,7 +39,7 @@ export function queryinventoryreplenishment(query) {
   params.append('pageNum', query.pageNum) // 你要传给后台的参数值 key/value
   params.append('pageSize', query.pageSize) // 你要传给后台的参数值 key/value
   return request({
-    url: '/erp/smartreplenishment/searchRules',
+    url: '/smartreplenishment/searchRules',
     method: 'post',
     data: params
   })
@@ -63,7 +63,7 @@ export function updateinventoryreplenishment(query) {
     params.append('iseffective', query.isEffective) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/erp/smartreplenishment/updateRules',
+    url: '/smartreplenishment/updateRules',
     method: 'post',
     data: params
   })

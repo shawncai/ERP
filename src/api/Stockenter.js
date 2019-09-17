@@ -51,7 +51,7 @@ export function stockenterlist(query) {
   params.append('pageNum', query.pagenum) // 你要传给后台的参数值 key/value
   params.append('pageSize', query.pagesize) // 你要传给后台的参数值 key/value
   return request({
-    url: '/erp/stockenter/stockenterlist',
+    url: '/stockenter/stockenterlist',
     method: 'post',
     data: params
   })
@@ -67,7 +67,7 @@ export function deletestockenter(query, query2) {
     params.append('operatorId', query2) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/erp/stockenter/deletestockenter',
+    url: '/stockenter/deletestockenter',
     method: 'post',
     data: params
   })
@@ -138,7 +138,7 @@ export function addstockenter(query, query2) {
     params.append('regionId', query.regionId) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/erp/stockenter/addstockenter',
+    url: '/stockenter/addstockenter',
     method: 'post',
     data: params
   })
@@ -221,7 +221,7 @@ export function updatestockenter(query, query2) {
     params.append('regionId', query.regionId) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/erp/stockenter/updatestockenter',
+    url: '/stockenter/updatestockenter',
     method: 'post',
     data: params
   })
@@ -274,7 +274,7 @@ export function addproduceenter(query, query2) {
     params.append('regionId', query.regionId) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/erp/produceenter/addproduceenter',
+    url: '/produceenter/addproduceenter',
     method: 'post',
     data: params
   })
@@ -328,7 +328,7 @@ export function produceenterlist(query) {
   params.append('pageNum', query.pageNum) // 你要传给后台的参数值 key/value
   params.append('pageSize', query.pageSize) // 你要传给后台的参数值 key/value
   return request({
-    url: '/erp/produceenter/produceenterlist',
+    url: '/produceenter/produceenterlist',
     method: 'post',
     data: params
   })
@@ -344,7 +344,7 @@ export function deleteproduceenter(query, query2) {
     params.append('operatorId', query2) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/erp/produceenter/deleteproduceenter',
+    url: '/produceenter/deleteproduceenter',
     method: 'post',
     data: params
   })
@@ -409,7 +409,7 @@ export function updatestockenter2(query, query2) {
     params.append('regionId', query.regionId) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/erp/produceenter/updatestockenter',
+    url: '/produceenter/updatestockenter',
     method: 'post',
     data: params
   })
@@ -471,7 +471,7 @@ export function addotherenter(query, query2) {
     params.append('regionId', query.regionId) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/erp/otherenter/addotherenter',
+    url: '/otherenter/addotherenter',
     method: 'post',
     data: params
   })
@@ -528,7 +528,7 @@ export function otherenterlist(query) {
   params.append('pageNum', query.pageNum) // 你要传给后台的参数值 key/value
   params.append('pageSize', query.pageSize) // 你要传给后台的参数值 key/value
   return request({
-    url: '/erp/otherenter/otherenterlist',
+    url: '/otherenter/otherenterlist',
     method: 'post',
     data: params
   })
@@ -602,7 +602,7 @@ export function updateotherenter(query, query2) {
     params.append('judgeStat', query.judgeStat) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/erp/otherenter/updateotherenter',
+    url: '/otherenter/updateotherenter',
     method: 'post',
     data: params
   })
@@ -618,7 +618,7 @@ export function deleteotherenter(query, query2) {
     params.append('operatorId', query2) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/erp/otherenter/deleteotherenter',
+    url: '/otherenter/deleteotherenter',
     method: 'post',
     data: params
   })
@@ -637,7 +637,7 @@ export function updatestockenter3(query, query2, query3) {
     params.append('judgeStat', query2) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/erp/stockenter/updatestockenter',
+    url: '/stockenter/updatestockenter',
     method: 'post',
     data: params
   })
@@ -656,7 +656,7 @@ export function updatestockenter4(query, query2, query3) {
     params.append('judgeStat', query2) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/erp/produceenter/updatestockenter',
+    url: '/produceenter/updatestockenter',
     method: 'post',
     data: params
   })
@@ -675,7 +675,7 @@ export function updateotherenter5(query, query2, query3) {
     params.append('judgeStat', query2) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/erp/otherenter/updateotherenter',
+    url: '/otherenter/updateotherenter',
     method: 'post',
     data: params
   })

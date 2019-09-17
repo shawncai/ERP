@@ -6,7 +6,7 @@ export function addCheckSetMany(query) {
     params.append('checkSetJson', query) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/erp/checkset/addCheckSetMany',
+    url: '/checkset/addCheckSetMany',
     method: 'post',
     data: params
   })
@@ -34,7 +34,7 @@ export function addCheckSet(query) {
     params.append('createId', query.createId) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/erp/checkset/addCheckSet',
+    url: '/checkset/addCheckSet',
     method: 'post',
     data: params
   })
@@ -58,7 +58,7 @@ export function searchCheckSet(query) {
   params.append('pagenum', query.pagenum) // 你要传给后台的参数值 key/value
   params.append('pagesize', query.pagesize) // 你要传给后台的参数值 key/value
   return request({
-    url: '/erp/checkset/searchCheckSet',
+    url: '/checkset/searchCheckSet',
     method: 'post',
     data: params
   })
@@ -80,7 +80,7 @@ export function updateCheckSet(query) {
     params.append('checkContent', query.checkContent) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/erp/checkset/updateCheckSet',
+    url: '/checkset/updateCheckSet',
     method: 'post',
     data: params
   })
@@ -96,7 +96,7 @@ export function delateCheckSet(query, query2) {
     params.append('operatorId', query2) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/erp/checkset/delateCheckSet',
+    url: '/checkset/delateCheckSet',
     method: 'post',
     data: params
   })

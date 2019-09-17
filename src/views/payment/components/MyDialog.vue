@@ -119,7 +119,7 @@
               :on-success="handlepicsuccess"
               :data="picidsData"
               :auto-upload="false"
-              action="http://192.168.1.45:8080/erp/upload/uploadpic"
+              :action="path"
               list-type="picture-card">
               <i class="el-icon-plus"/>
             </el-upload>
@@ -212,6 +212,7 @@ export default {
       }
     }
     return {
+      path: '',
       payDate: null,
       // 选择的数据
       choosedata: [],
@@ -376,6 +377,12 @@ export default {
       return sums
     },
     getways() {
+      if (this.$store.getters.useCountry === 1) {
+        this.path = 'http://192.168.1.45:8080/erp/upload/uploadpic'
+      }
+      if (this.$store.getters.useCountry === 2) {
+        this.path = 'http://192.168.1.45:8080/philippines/upload/uploadpic'
+      }
       searchCategory(7).then(res => {
         if (res.data.ret === 200) {
           this.payModes = res.data.data.content.list

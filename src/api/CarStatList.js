@@ -33,7 +33,7 @@ export function carStatList(query) {
   params.append('pageNum', query.pageNum) // 你要传给后台的参数值 key/value
   params.append('pageSize', query.pageSize) // 你要传给后台的参数值 key/value
   return request({
-    url: '/erp/logisticsCar/carStatList',
+    url: '/logisticsCar/carStatList',
     method: 'post',
     data: params
   })

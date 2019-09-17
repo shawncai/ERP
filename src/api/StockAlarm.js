@@ -17,7 +17,7 @@ export function countlist(query) {
   params.append('repositoryId', query.repositoryId) // 你要传给后台的参数值 key/value
   params.append('regionIds', query.regionIds) // 你要传给后台的参数值 key/value
   return request({
-    url: '/erp/allinventory/countlist',
+    url: '/allinventory/countlist',
     method: 'post',
     data: params
   })
@@ -40,7 +40,7 @@ export function searchalarm(query) {
   params.append('repositoryId', query.repositoryId) // 你要传给后台的参数值 key/value
   params.append('regionIds', query.regionIds) // 你要传给后台的参数值 key/value
   return request({
-    url: '/erp/stockAlarm/searchalarm',
+    url: '/stockAlarm/searchalarm',
     method: 'post',
     data: params
   })
@@ -63,7 +63,7 @@ export function searchalarmrules(query) {
   params.append('repositoryId2', query.repositoryId2) // 你要传给后台的参数值 key/value
   params.append('regionIds', query.regionIds) // 你要传给后台的参数值 key/value
   return request({
-    url: '/erp/stockAlarm/search',
+    url: '/stockAlarm/search',
     method: 'post',
     data: params
   })
@@ -79,7 +79,7 @@ export function deletealarmrules(query, query2) {
     params.append('operatorId', query2) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/erp/stockAlarm/delete',
+    url: '/stockAlarm/delete',
     method: 'post',
     data: params
   })
@@ -92,7 +92,7 @@ export function updatealarmrules(query) {
     params.append('Json', query) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/erp/stockAlarm/update',
+    url: '/stockAlarm/update',
     method: 'post',
     data: params
   })
@@ -115,7 +115,7 @@ export function searchBatchAlarm(query) {
   params.append('repositoryId', query.repositoryId) // 你要传给后台的参数值 key/value
   params.append('regionIds', query.regionIds) // 你要传给后台的参数值 key/value
   return request({
-    url: '/erp/stockAlarm/searchBatchAlarm',
+    url: '/stockAlarm/searchBatchAlarm',
     method: 'post',
     data: params
   })

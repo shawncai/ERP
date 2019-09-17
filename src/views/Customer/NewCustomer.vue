@@ -209,6 +209,7 @@ export default {
   created() {
     this.getnationlist()
     this.getCategory()
+    this.handlechange(2)
     this.jungleshow()
   },
   methods: {
@@ -272,6 +273,9 @@ export default {
           console.log('国家选择省错误')
         }
       })
+      this.customerForm.provinceid = ''
+      this.customerForm.cityid = ''
+      this.cities = []
     },
     // 根据省选择市
     handlechange2(val) {
@@ -283,6 +287,7 @@ export default {
           console.log('省选择市错误')
         }
       })
+      this.customerForm.cityid = ''
     },
     // 保存操作
     handlesave() {

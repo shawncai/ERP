@@ -31,7 +31,7 @@ export function addcar(query) {
     params.append('driverNames', query.driverNames) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/erp/logisticsCar/addcar',
+    url: '/logisticsCar/addcar',
     method: 'post',
     data: params
   })
@@ -58,7 +58,7 @@ export function carlist(query) {
   params.append('pagenum', query.pagenum) // 你要传给后台的参数值 key/value
   params.append('pagesize', query.pagesize) // 你要传给后台的参数值 key/value
   return request({
-    url: '/erp/logisticsCar/carlist',
+    url: '/logisticsCar/carlist',
     method: 'post',
     data: params
   })
@@ -76,7 +76,7 @@ export function useLogList(query) {
   params.append('pageNum', query.pagenum) // 你要传给后台的参数值 key/value
   params.append('pageSize', query.pagesize) // 你要传给后台的参数值 key/value
   return request({
-    url: '/erp/logisticsCar/useLogList',
+    url: '/logisticsCar/useLogList',
     method: 'post',
     data: params
   })
@@ -92,7 +92,7 @@ export function deletecar(query, query2) {
     params.append('operatorId', query2) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/erp/logisticsCar/deletecar',
+    url: '/logisticsCar/deletecar',
     method: 'post',
     data: params
   })
@@ -126,7 +126,7 @@ export function updatecar(query) {
     params.append('driverNames', query.driverNames) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/erp/logisticsCar/updatecar',
+    url: '/logisticsCar/updatecar',
     method: 'post',
     data: params
   })
@@ -160,7 +160,7 @@ export function addsendcar(query) {
     params.append('starttime', query.starttime) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/erp/logisticsCar/addsendcar',
+    url: '/logisticsCar/addsendcar',
     method: 'post',
     data: params
   })
@@ -190,7 +190,7 @@ export function sendcarlist(query) {
   params.append('pagenum', query.pagenum) // 你要传给后台的参数值 key/value
   params.append('pagesize', query.pagesize) // 你要传给后台的参数值 key/value
   return request({
-    url: '/erp/logisticsCar/sendcarlist',
+    url: '/logisticsCar/sendcarlist',
     method: 'post',
     data: params
   })
@@ -206,7 +206,7 @@ export function deleteoutcar(query, query2) {
     params.append('operatorId', query2) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/erp/logisticsCar/deleteoutcar',
+    url: '/logisticsCar/deleteoutcar',
     method: 'post',
     data: params
   })
@@ -237,7 +237,7 @@ export function updatesendcar(query) {
     params.append('starttime', query.startTime) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/erp/logisticsCar/updatesendcar',
+    url: '/logisticsCar/updatesendcar',
     method: 'post',
     data: params
   })
@@ -259,7 +259,7 @@ export function addreturncar(query) {
     params.append('returntime', query.returntime) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/erp/logisticsCar/addreturncar',
+    url: '/logisticsCar/addreturncar',
     method: 'post',
     data: params
   })
@@ -292,7 +292,7 @@ export function returncarlist(query) {
   params.append('pagenum', query.pagenum) // 你要传给后台的参数值 key/value
   params.append('pagesize', query.pagesize) // 你要传给后台的参数值 key/value
   return request({
-    url: '/erp/logisticsCar/returncarlist',
+    url: '/logisticsCar/returncarlist',
     method: 'post',
     data: params
   })
@@ -308,7 +308,7 @@ export function deletereturncar(query, query2) {
     params.append('operatorId', query2) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/erp/logisticsCar/deletereturncar',
+    url: '/logisticsCar/deletereturncar',
     method: 'post',
     data: params
   })
@@ -330,7 +330,7 @@ export function updatereturncar(query) {
     params.append('returntime', query.returnTime) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/erp/logisticsCar/updatereturncar',
+    url: '/logisticsCar/updatereturncar',
     method: 'post',
     data: params
   })

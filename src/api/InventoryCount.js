@@ -45,7 +45,7 @@ export function countlist(query) {
   params.append('pagenum', query.pagenum) // 你要传给后台的参数值 key/value
   params.append('pagesize', query.pagesize) // 你要传给后台的参数值 key/value
   return request({
-    url: '/erp/inventorycount/countlist',
+    url: '/inventorycount/countlist',
     method: 'post',
     data: params
   })
@@ -61,7 +61,7 @@ export function deletecount(query, query2) {
     params.append('operatorId', query2) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/erp/inventorycount/deletecount',
+    url: '/inventorycount/deletecount',
     method: 'post',
     data: params
   })
@@ -79,7 +79,7 @@ export function addinventorycount(query, query2, repositoryId, regionId) {
     params.append('regionId', regionId) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/erp/inventorycount/addinventorycount',
+    url: '/inventorycount/addinventorycount',
     method: 'post',
     data: params
   })
@@ -91,7 +91,7 @@ export function updatecount(query, query2) {
   params.append('inventoryCountDetailJson', query2) // 你要传给后台的参数值 key/value
   params.append('inventoryCountJson', query) // 你要传给后台的参数值 key/value
   return request({
-    url: '/erp/inventorycount/updatecount',
+    url: '/inventorycount/updatecount',
     method: 'post',
     data: params
   })
@@ -102,7 +102,7 @@ export function updatecount2(query) {
   var params = new URLSearchParams()
   params.append('inventoryCountJson', query) // 你要传给后台的参数值 key/value
   return request({
-    url: '/erp/inventorycount/updatecount',
+    url: '/inventorycount/updatecount',
     method: 'post',
     data: params
   })

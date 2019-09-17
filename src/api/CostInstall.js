@@ -22,7 +22,7 @@ export function addCostInstall(query) {
     params.append('createId', query.createId) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/erp/costInstall/addCostInstall',
+    url: '/costInstall/addCostInstall',
     method: 'post',
     data: params
   })
@@ -49,7 +49,7 @@ export function searchCostInstall(query) {
   params.append('pageNum', query.pageNum) // 你要传给后台的参数值 key/value
   params.append('pageSize', query.pageSize) // 你要传给后台的参数值 key/value
   return request({
-    url: '/erp/costInstall/searchCostInstall',
+    url: '/costInstall/searchCostInstall',
     method: 'post',
     data: params
   })
@@ -63,7 +63,7 @@ export function delateCostInstall(query, query2) {
     params.append('operatorId', query2) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/erp/costInstall/delateCostInstall',
+    url: '/costInstall/delateCostInstall',
     method: 'post',
     data: params
   })
@@ -91,7 +91,7 @@ export function updateCostInstall(query, query2) {
     params.append('id', query.id) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/erp/costInstall/updateCostInstall',
+    url: '/costInstall/updateCostInstall',
     method: 'post',
     data: params
   })

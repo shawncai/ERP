@@ -15,7 +15,7 @@ export function searchCheckCategory(query) {
   params.append('pagenum', query.pagenum) // 你要传给后台的参数值 key/value
   params.append('pagesize', query.pagesize) // 你要传给后台的参数值 key/value
   return request({
-    url: '/erp/checkcategory/searchCheckCategory',
+    url: '/checkcategory/searchCheckCategory',
     method: 'post',
     data: params
   })
@@ -37,7 +37,7 @@ export function addCheckCategory(query) {
     params.append('type', query.type) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/erp/checkcategory/addCheckCategory',
+    url: '/checkcategory/addCheckCategory',
     method: 'post',
     data: params
   })
@@ -56,7 +56,7 @@ export function updateCheckCategory(query) {
     params.append('id', query.id) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/erp/checkcategory/updateCheckCategory',
+    url: '/checkcategory/updateCheckCategory',
     method: 'post',
     data: params
   })
@@ -72,7 +72,7 @@ export function delateCheckCategory(query, query2) {
     params.append('operatorId', query2) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/erp/checkcategory/delateCheckCategory',
+    url: '/checkcategory/delateCheckCategory',
     method: 'post',
     data: params
   })

@@ -12,7 +12,7 @@ export function addSupplierAdjust(query, query2, query3) {
     params.append('regionId', query3.regionId) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/erp/supplieradjust/addSupplierAdjust',
+    url: '/supplieradjust/addSupplierAdjust',
     method: 'post',
     data: params
   })
@@ -45,7 +45,7 @@ export function SupplierAdjustlist(query) {
   params.append('pageNum', query.pageNum) // 你要传给后台的参数值 key/value
   params.append('pageSize', query.pageSize) // 你要传给后台的参数值 key/value
   return request({
-    url: '/erp/supplieradjust/supplierAdjustList',
+    url: '/supplieradjust/supplierAdjustList',
     method: 'post',
     data: params
   })
@@ -57,7 +57,7 @@ export function updateSupplierAdjust(query, query2) {
   params.append('supplierAdjustJson', query) // 你要传给后台的参数值 key/value
   params.append('supplierAdjustDetailJson', query2) // 你要传给后台的参数值 key/value
   return request({
-    url: '/erp/supplieradjust/updateSupplierAdjust',
+    url: '/supplieradjust/updateSupplierAdjust',
     method: 'post',
     data: params
   })
@@ -71,7 +71,7 @@ export function deleteSupplierAdjust(query, query2) {
     params.append('operatorId', query2) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/erp/supplieradjust/deleteSupplierAdjust',
+    url: '/supplieradjust/deleteSupplierAdjust',
     method: 'post',
     data: params
   })
@@ -82,7 +82,7 @@ export function updateSupplierAdjust2(query) {
   var params = new URLSearchParams()
   params.append('supplierAdjustJson', query) // 你要传给后台的参数值 key/value
   return request({
-    url: '/erp/supplieradjust/updateSupplierAdjust',
+    url: '/supplieradjust/updateSupplierAdjust',
     method: 'post',
     data: params
   })

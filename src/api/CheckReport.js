@@ -16,7 +16,7 @@ export function addqualitycheck(query, query2, query3) {
     params.append('regionId', query3.regionId) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/erp/checkreport/addcheckreport',
+    url: '/checkreport/addcheckreport',
     method: 'post',
     data: params
   })
@@ -73,7 +73,7 @@ export function checkreportlist(query) {
   params.append('pageNum', query.pageNum) // 你要传给后台的参数值 key/value
   params.append('pageSize', query.pageSize) // 你要传给后台的参数值 key/value
   return request({
-    url: '/erp/checkreport/checkreportlist',
+    url: '/checkreport/checkreportlist',
     method: 'post',
     data: params
   })
@@ -85,7 +85,7 @@ export function updatecheckreport(query, query2) {
   params.append('checkReportJson', query) // 你要传给后台的参数值 key/value
   params.append('checkReportDetailJson', query2) // 你要传给后台的参数值 key/value
   return request({
-    url: '/erp/checkreport/updatecheckreport',
+    url: '/checkreport/updatecheckreport',
     method: 'post',
     data: params
   })
@@ -96,7 +96,7 @@ export function updatecheckreport2(query) {
   var params = new URLSearchParams()
   params.append('checkReportJson', query) // 你要传给后台的参数值 key/value
   return request({
-    url: '/erp/checkreport/updatecheckreport',
+    url: '/checkreport/updatecheckreport',
     method: 'post',
     data: params
   })
@@ -110,7 +110,7 @@ export function deletecheckreport(query, query2) {
     params.append('operatorId', query2) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/erp/checkreport/deletecheckreport',
+    url: '/checkreport/deletecheckreport',
     method: 'post',
     data: params
   })

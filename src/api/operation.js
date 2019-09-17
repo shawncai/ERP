@@ -16,7 +16,7 @@ export function getOperationLog(query) {
     params.append('operatorId', query.operatorId) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/erp/zcc/operationList',
+    url: '/zcc/operationList',
     method: 'post',
     data: params
   })

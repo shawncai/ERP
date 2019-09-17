@@ -360,7 +360,7 @@ export default {
     this.getnationlist()
     this.getroleName()
     this.getRegion()
-    this.handlechange(1)
+    this.handlechange(2)
     this.jungleshow()
   },
   methods: {
@@ -457,6 +457,7 @@ export default {
       })
       this.connectForm.provinceid = ''
       this.connectForm.cityid = ''
+      this.cities = []
     },
     // 根据省选择市
     handlechange2(val) {

@@ -12,7 +12,7 @@ export function addStockInvoice(query, query2, query3) {
     params.append('regionId', query3.regionId) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/erp/stockInvoice/addStockInvoice',
+    url: '/stockInvoice/addStockInvoice',
     method: 'post',
     data: params
   })
@@ -60,7 +60,7 @@ export function stockInvoiceList(query) {
   params.append('pageNum', query.pageNum) // 你要传给后台的参数值 key/value
   params.append('pageSize', query.pageSize) // 你要传给后台的参数值 key/value
   return request({
-    url: '/erp/stockInvoice/stockInvoiceList',
+    url: '/stockInvoice/stockInvoiceList',
     method: 'post',
     data: params
   })
@@ -74,7 +74,7 @@ export function deletestockinvoice(query, query2) {
     params.append('operatorId', query2) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/erp/stockInvoice/deletestockinvoice',
+    url: '/stockInvoice/deletestockinvoice',
     method: 'post',
     data: params
   })
@@ -86,7 +86,7 @@ export function updatestockinvoice(query, query2) {
   params.append('stockInvoiceJson', query) // 你要传给后台的参数值 key/value
   params.append('stockInvoiceDetailJson', query2) // 你要传给后台的参数值 key/value
   return request({
-    url: '/erp/stockInvoice/updatestockinvoice',
+    url: '/stockInvoice/updatestockinvoice',
     method: 'post',
     data: params
   })
@@ -97,7 +97,7 @@ export function updatestockinvoice2(query) {
   var params = new URLSearchParams()
   params.append('stockInvoiceJson', query) // 你要传给后台的参数值 key/value
   return request({
-    url: '/erp/stockInvoice/updatestockinvoice',
+    url: '/stockInvoice/updatestockinvoice',
     method: 'post',
     data: params
   })

@@ -8,7 +8,7 @@ export function createoutFactory(query, query2, query3) {
   params.append('repositoryId', query3.repositoryId) // 你要传给后台的参数值 key/value
   params.append('regionId', query3.regionId) // 你要传给后台的参数值 key/value
   return request({
-    url: '/erp/outsourcing/create',
+    url: '/outsourcing/create',
     method: 'post',
     data: params
   })
@@ -41,7 +41,7 @@ export function searchoutsourcing(query) {
   params.append('pagenum', query.pageNum) // 你要传给后台的参数值 key/value
   params.append('pagesize', query.pageSize) // 你要传给后台的参数值 key/value
   return request({
-    url: '/erp/outsourcing/search',
+    url: '/outsourcing/search',
     method: 'post',
     data: params
   })
@@ -53,7 +53,7 @@ export function updateoutsourcing(query, query2) {
   params.append('Json', query) // 你要传给后台的参数值 key/value
   params.append('detailJson', query2) // 你要传给后台的参数值 key/value
   return request({
-    url: '/erp/outsourcing/update',
+    url: '/outsourcing/update',
     method: 'post',
     data: params
   })
@@ -69,7 +69,7 @@ export function deleteoutsourcing(query, query2) {
     params.append('operatorId', query2) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/erp/outsourcing/delete',
+    url: '/outsourcing/delete',
     method: 'post',
     data: params
   })
@@ -80,7 +80,7 @@ export function updateoutsourcing2(query) {
   var params = new URLSearchParams()
   params.append('Json', query) // 你要传给后台的参数值 key/value
   return request({
-    url: '/erp/outsourcing/update',
+    url: '/outsourcing/update',
     method: 'post',
     data: params
   })

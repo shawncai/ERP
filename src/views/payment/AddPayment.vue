@@ -5,11 +5,23 @@
       <el-card class="box-card" shadow="never">
         <h2 ref="geren" class="form-name">基本信息</h2>
         <div class="container" style="margin-top: 37px">
-          <el-form ref="personalForm" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
+          <el-form
+            ref="personalForm"
+            :model="personalForm"
+            :rules="personalrules"
+            :inline="true"
+            status-icon
+            class="demo-ruleForm"
+            label-width="130px"
+          >
             <el-row>
               <el-col :span="6">
                 <el-form-item :label="$t('payment.title')" style="width: 100%;">
-                  <el-input v-model="personalForm.title" style="margin-left: 18px;width:200px" clearable/>
+                  <el-input
+                    v-model="personalForm.title"
+                    style="margin-left: 18px;width:200px"
+                    clearable
+                  />
                 </el-form-item>
               </el-col>
               <!--              <el-col :span="6">-->
@@ -21,20 +33,42 @@
               <!--                </el-form-item>-->
               <!--              </el-col>-->
               <el-col :span="6">
-                <el-form-item :label="$t('payment.supplierId')" prop="supplierId" style="width: 100%;">
-                  <el-input v-model="supplierId" style="margin-left: 18px;width:200px" clearable @focus="handlechoose"/>
-                  <my-supplier :control.sync="empcontrol" @supplierName="supplierName"/>
+                <el-form-item
+                  :label="$t('payment.supplierId')"
+                  prop="supplierId"
+                  style="width: 100%;"
+                >
+                  <el-input
+                    v-model="supplierId"
+                    style="margin-left: 18px;width:200px"
+                    clearable
+                    @focus="handlechoose"
+                  />
+                  <my-supplier :control.sync="empcontrol" @supplierName="supplierName" />
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('payment.handlePersonId')" prop="handlePersonId" style="width: 100%;">
-                  <el-input v-model="handlePersonId" style="margin-left: 18px;width:200px" clearable @focus="handlechooseStock"/>
-                  <my-emp :control.sync="stockControl" @stockName="stockName"/>
+                <el-form-item
+                  :label="$t('payment.handlePersonId')"
+                  prop="handlePersonId"
+                  style="width: 100%;"
+                >
+                  <el-input
+                    v-model="handlePersonId"
+                    style="margin-left: 18px;width:200px"
+                    clearable
+                    @focus="handlechooseStock"
+                  />
+                  <my-emp :control.sync="stockControl" @stockName="stockName" />
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('payment.payMode')" style="width: 100%;">
-                  <el-select v-model="personalForm.payMode" clearable style="margin-left: 18px;width: 200px">
+                  <el-select
+                    v-model="personalForm.payMode"
+                    clearable
+                    style="margin-left: 18px;width: 200px"
+                  >
                     <el-option
                       v-for="(item, index) in payModes"
                       :key="index"
@@ -55,30 +89,50 @@
               <!--              </el-col>-->
               <el-col :span="6">
                 <el-form-item :label="$t('payment.currency')" style="width: 100%;">
-                  <el-select v-model="personalForm.currency" clearable style="margin-left: 18px;width: 200px">
-                    <el-option value="1" label="RMB"/>
-                    <el-option value="2" label="USD"/>
+                  <el-select
+                    v-model="personalForm.currency"
+                    clearable
+                    style="margin-left: 18px;width: 200px"
+                  >
+                    <el-option value="1" label="RMB" />
+                    <el-option value="2" label="USD" />
                   </el-select>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('payment.payAccount')" style="width: 100%;">
-                  <el-input v-model="personalForm.payAccount" style="margin-left: 18px;width:200px" clearable/>
+                  <el-input
+                    v-model="personalForm.payAccount"
+                    style="margin-left: 18px;width:200px"
+                    clearable
+                  />
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('payment.payAccountNumber')" style="width: 100%;">
-                  <el-input v-model="personalForm.payAccountNumber" style="margin-left: 18px;width:200px" clearable/>
+                  <el-input
+                    v-model="personalForm.payAccountNumber"
+                    style="margin-left: 18px;width:200px"
+                    clearable
+                  />
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('payment.remarks')" style="width: 100%;">
-                  <el-input v-model="personalForm.remarks" style="margin-left: 18px;width:200px" clearable/>
+                  <el-input
+                    v-model="personalForm.remarks"
+                    style="margin-left: 18px;width:200px"
+                    clearable
+                  />
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('payment.rate')" style="width: 100%;">
-                  <el-input v-model="personalForm.rate" style="margin-left: 18px;width:200px" clearable/>
+                  <el-input
+                    v-model="personalForm.rate"
+                    style="margin-left: 18px;width:200px"
+                    clearable
+                  />
                 </el-form-item>
               </el-col>
               <el-col :span="6">
@@ -87,23 +141,37 @@
                     v-model="personalForm.payDate"
                     type="date"
                     value-format="yyyy-MM-dd"
-                    style="margin-left: 18px;width:200px"/>
+                    style="margin-left: 18px;width:200px"
+                  />
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('payment.offsetAdvance')" style="width: 100%;">
-                  <el-input v-model="personalForm.offsetAdvance" style="margin-left: 18px;width:200px" disabled/>
+                  <el-input
+                    v-model="personalForm.offsetAdvance"
+                    style="margin-left: 18px;width:200px"
+                    disabled
+                  />
                 </el-form-item>
                 <span style="color: red;margin-left: 52px;font-size: 14px">预付款金额：{{ yufu }}</span>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('payment.moneyThis')" style="width: 100%;">
-                  <el-input v-model="personalForm.moneyThis" style="margin-left: 18px;width:200px" disabled/>
+                  <el-input
+                    v-model="personalForm.moneyThis"
+                    style="margin-left: 18px;width:200px"
+                    disabled
+                  />
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('payment.picids')" style="width: 100%;margin-top: 1%">
-                  <el-button style="margin-bottom: 10px" size="small" type="success" @click="submitUpload">{{ $t('public.uploadimage') }}</el-button>
+                  <el-button
+                    style="margin-bottom: 10px"
+                    size="small"
+                    type="success"
+                    @click="submitUpload"
+                  >{{ $t('public.uploadimage') }}</el-button>
                   <el-upload
                     ref="upload"
                     :on-preview="handlepicPreview"
@@ -111,14 +179,15 @@
                     :on-success="handlepicsuccess"
                     :data="picidsData"
                     :auto-upload="false"
-                    action="http://192.168.1.45:8080/erp/upload/uploadpic"
-                    list-type="picture-card">
-                    <i class="el-icon-plus"/>
+                    :action="path"
+                    list-type="picture-card"
+                  >
+                    <i class="el-icon-plus" />
                   </el-upload>
                   <el-dialog :visible.sync="picidsVisible">
-                    <img :src="picidsImageUrl" width="100%" alt="">
+                    <img :src="picidsImageUrl" width="100%" alt >
                   </el-dialog>
-                </el-form-item >
+                </el-form-item>
               </el-col>
             </el-row>
           </el-form>
@@ -137,7 +206,7 @@
       <!--                :on-success="handlepicsuccess"-->
       <!--                :data="picidsData"-->
       <!--                :auto-upload="false"-->
-      <!--                action="http://192.168.1.45:8080/erp/upload/uploadpic"-->
+      <!--                action="http://192.168.1.45:8080/upload/uploadpic"-->
       <!--                list-type="picture-card">-->
       <!--                <i class="el-icon-plus"/>-->
       <!--              </el-upload>-->
@@ -149,7 +218,7 @@
       <!--        </div>-->
       <!--      </el-card>-->
       <el-card class="box-card" style="margin-top: 15px" shadow="never">
-        <h2 ref="fuzhu" class="form-name" >付款明细</h2>
+        <h2 ref="fuzhu" class="form-name">付款明细</h2>
         <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
           <el-button type="danger" @click="$refs.editable.removeSelecteds()">删除</el-button>
         </div>
@@ -165,26 +234,44 @@
             stripe
             border
             size="medium"
-            style="width: 100%">
-            <el-editable-column type="selection" min-width="55" align="center"/>
-            <el-editable-column label="序号" min-width="55" align="center" type="index"/>
+            style="width: 100%"
+          >
+            <el-editable-column type="selection" min-width="55" align="center" />
+            <el-editable-column label="序号" min-width="55" align="center" type="index" />
             <!--            <el-editable-column :edit-render="{name: 'ElDatePicker', attrs: {type: 'date', format: 'yyyy-MM-dd'}, type: 'visible'}" prop="payDate" align="center" label="付款日期" min-width="150px"/>-->
-            <el-editable-column prop="shouldMoney" align="center" label="应付金额" min-width="150px"/>
-            <el-editable-column prop="paidMoney" align="center" label="已付金额" min-width="150px"/>
-            <el-editable-column prop="payingMoney" align="center" label="未付金额" min-width="150px"/>
-            <el-editable-column prop="invoiceNumber" align="center" label="发票号" min-width="150px"/>
+            <el-editable-column prop="shouldMoney" align="center" label="应付金额" min-width="150px" />
+            <el-editable-column prop="paidMoney" align="center" label="已付金额" min-width="150px" />
+            <el-editable-column prop="payingMoney" align="center" label="未付金额" min-width="150px" />
+            <el-editable-column prop="invoiceNumber" align="center" label="发票号" min-width="150px" />
             <el-editable-column prop="invoiceType" align="center" label="发票类型" min-width="150px">
               <template slot-scope="scope">
                 <span>{{ scope.row.invoiceType | invoiceTypeFilter }}</span>
               </template>
             </el-editable-column>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="payThis" align="center" label="本次支付金额" min-width="170px"/>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="advanceMoney" align="center" label="抵扣预付款" min-width="170px"/>
+            <el-editable-column
+              :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}"
+              prop="payThis"
+              align="center"
+              label="本次支付金额"
+              min-width="170px"
+            />
+            <el-editable-column
+              :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}"
+              prop="advanceMoney"
+              align="center"
+              label="抵扣预付款"
+              min-width="170px"
+            />
           </el-editable>
         </div>
       </el-card>
       <div class="buttons" style="margin-top: 20px">
-        <el-button v-no-more-click type="primary" style="background:#3696fd;border-color:#3696fd;width: 98px" @click="handlesave()">保存</el-button>
+        <el-button
+          v-no-more-click
+          type="primary"
+          style="background:#3696fd;border-color:#3696fd;width: 98px"
+          @click="handlesave()"
+        >保存</el-button>
         <el-button type="danger" @click="handlecancel()">取消</el-button>
       </div>
     </div>
@@ -208,7 +295,16 @@ import MyLnquiry from './components/MyLnquiry'
 import MyOrder from './components/MyOrder'
 export default {
   name: 'AddPayment',
-  components: { MyOrder, MyLnquiry, MyDelivery, MyPlan, MyApply, MySupplier, MyDetail, MyEmp },
+  components: {
+    MyOrder,
+    MyLnquiry,
+    MyDelivery,
+    MyPlan,
+    MyApply,
+    MySupplier,
+    MyDetail,
+    MyEmp
+  },
   filters: {
     invoiceTypeFilter(status) {
       const statusMap = {
@@ -221,7 +317,11 @@ export default {
   data() {
     const validatePass = (rule, value, callback) => {
       console.log(value)
-      if (this.personalForm.supplierId === undefined || this.personalForm.supplierId === null || this.personalForm.supplierId === '') {
+      if (
+        this.personalForm.supplierId === undefined ||
+        this.personalForm.supplierId === null ||
+        this.personalForm.supplierId === ''
+      ) {
         callback(new Error('请选择'))
       } else {
         callback()
@@ -229,7 +329,11 @@ export default {
     }
     const validatePass3 = (rule, value, callback) => {
       console.log(value)
-      if (this.personalForm.handlePersonId === undefined || this.personalForm.handlePersonId === null || this.personalForm.handlePersonId === '') {
+      if (
+        this.personalForm.handlePersonId === undefined ||
+        this.personalForm.handlePersonId === null ||
+        this.personalForm.handlePersonId === ''
+      ) {
         callback(new Error('请选择'))
       } else {
         callback()
@@ -256,8 +360,10 @@ export default {
       }
     }
     return {
+      path: '',
+
       pickerOptions1: {
-        disabledDate: (time) => {
+        disabledDate: time => {
           return time.getTime() < new Date().getTime() - 8.64e7
         }
       },
@@ -271,7 +377,10 @@ export default {
         type: 8
       },
       // 商品图片数据+++++++++++++++++++++++++结束
-      invoiceTypes: [{ value: 1, label: '采购发票' }, { value: 2, label: '费用发票' }],
+      invoiceTypes: [
+        { value: 1, label: '采购发票' },
+        { value: 2, label: '费用发票' }
+      ],
       // 预付款金额
       yufu: '0.00',
       // 合计数据
@@ -369,7 +478,8 @@ export default {
     this.getdatatime()
   },
   methods: {
-    getdatatime() { // 默认显示今天
+    getdatatime() {
+      // 默认显示今天
       var date = new Date()
       var seperator1 = '-'
       var year = date.getFullYear()
@@ -420,7 +530,7 @@ export default {
             if (!isNaN(value)) {
               return prev + curr
             } else {
-              return (prev).toFixed(2)
+              return prev.toFixed(2)
             }
           }, 0)
           sums[index] += ''
@@ -442,6 +552,12 @@ export default {
       return sums
     },
     getways() {
+      if (this.$store.getters.useCountry === 1) {
+        this.path = 'http://192.168.1.45:8080/erp/upload/uploadpic'
+      }
+      if (this.$store.getters.useCountry === 2) {
+        this.path = 'http://192.168.1.45:8080/philippines/upload/uploadpic'
+      }
       // 交货方式
       searchCategory(2).then(res => {
         if (res.data.ret === 200) {
@@ -596,37 +712,81 @@ export default {
       EnterDetail.map(function(elem) {
         return elem
       }).forEach(function(elem) {
-        if (elem.shouldPayId === null || elem.shouldPayId === '' || elem.shouldPayId === undefined) {
+        if (
+          elem.shouldPayId === null ||
+          elem.shouldPayId === '' ||
+          elem.shouldPayId === undefined
+        ) {
           delete elem.shouldPayId
         }
-        if (elem.payDate === null || elem.payDate === '' || elem.payDate === undefined) {
+        if (
+          elem.payDate === null ||
+          elem.payDate === '' ||
+          elem.payDate === undefined
+        ) {
           delete elem.payDate
         }
-        if (elem.shouldMoney === null || elem.shouldMoney === '' || elem.shouldMoney === undefined) {
+        if (
+          elem.shouldMoney === null ||
+          elem.shouldMoney === '' ||
+          elem.shouldMoney === undefined
+        ) {
           delete elem.shouldMoney
         }
-        if (elem.paidMoney === null || elem.paidMoney === '' || elem.paidMoney === undefined) {
+        if (
+          elem.paidMoney === null ||
+          elem.paidMoney === '' ||
+          elem.paidMoney === undefined
+        ) {
           delete elem.paidMoney
         }
-        if (elem.payingMoney === null || elem.payingMoney === '' || elem.payingMoney === undefined) {
+        if (
+          elem.payingMoney === null ||
+          elem.payingMoney === '' ||
+          elem.payingMoney === undefined
+        ) {
           delete elem.payingMoney
         }
-        if (elem.invoiceNumber === null || elem.invoiceNumber === '' || elem.invoiceNumber === undefined) {
+        if (
+          elem.invoiceNumber === null ||
+          elem.invoiceNumber === '' ||
+          elem.invoiceNumber === undefined
+        ) {
           delete elem.invoiceNumber
         }
-        if (elem.invoiceType === null || elem.invoiceType === '' || elem.invoiceType === undefined) {
+        if (
+          elem.invoiceType === null ||
+          elem.invoiceType === '' ||
+          elem.invoiceType === undefined
+        ) {
           delete elem.invoiceType
         }
-        if (elem.payThis === null || elem.payThis === '' || elem.payThis === undefined) {
+        if (
+          elem.payThis === null ||
+          elem.payThis === '' ||
+          elem.payThis === undefined
+        ) {
           delete elem.payThis
         }
-        if (elem.advanceMoney === null || elem.advanceMoney === '' || elem.advanceMoney === undefined) {
+        if (
+          elem.advanceMoney === null ||
+          elem.advanceMoney === '' ||
+          elem.advanceMoney === undefined
+        ) {
           delete elem.advanceMoney
         }
-        if (elem.supplierId === null || elem.supplierId === '' || elem.supplierId === undefined) {
+        if (
+          elem.supplierId === null ||
+          elem.supplierId === '' ||
+          elem.supplierId === undefined
+        ) {
           delete elem.supplierId
         }
-        if (elem.paymentId === null || elem.paymentId === '' || elem.paymentId === undefined) {
+        if (
+          elem.paymentId === null ||
+          elem.paymentId === '' ||
+          elem.paymentId === undefined
+        ) {
           delete elem.paymentId
         }
         return elem
@@ -639,44 +799,47 @@ export default {
         }
       }
       const parms = JSON.stringify(Data)
-      this.$refs.personalForm.validate((valid) => {
+      this.$refs.personalForm.validate(valid => {
         if (valid) {
-          this.$refs.editable.validate().then(valid => {
-            if (valid) {
-              console.log('zhixing')
-              addpayment(parms, parms2, this.personalForm).then(res => {
-                console.log(res)
-                if (res.data.ret === 200) {
-                  this.$notify({
-                    title: '成功',
-                    message: '保存成功',
-                    type: 'success',
-                    offset: 100
-                  })
-                  this.restAllForm()
-                  this.$refs.editable.clear()
-                  this.$refs.personalForm.clearValidate()
-                  this.$refs.personalForm.resetFields()
-                  this.$refs.upload.clearFiles()
-                } else {
-                  this.$notify.error({
-                    title: '错误',
-                    message: res.data.msg,
-                    offset: 100
-                  })
-                }
-              })
-            } else {
-              this.$notify.error({
-                title: '错误',
-                message: '信息未填完整',
-                offset: 100
-              })
-              return false
-            }
-          }).catch(valid => {
-            console.log('error submit!!')
-          })
+          this.$refs.editable
+            .validate()
+            .then(valid => {
+              if (valid) {
+                console.log('zhixing')
+                addpayment(parms, parms2, this.personalForm).then(res => {
+                  console.log(res)
+                  if (res.data.ret === 200) {
+                    this.$notify({
+                      title: '成功',
+                      message: '保存成功',
+                      type: 'success',
+                      offset: 100
+                    })
+                    this.restAllForm()
+                    this.$refs.editable.clear()
+                    this.$refs.personalForm.clearValidate()
+                    this.$refs.personalForm.resetFields()
+                    this.$refs.upload.clearFiles()
+                  } else {
+                    this.$notify.error({
+                      title: '错误',
+                      message: res.data.msg,
+                      offset: 100
+                    })
+                  }
+                })
+              } else {
+                this.$notify.error({
+                  title: '错误',
+                  message: '信息未填完整',
+                  offset: 100
+                })
+                return false
+              }
+            })
+            .catch(valid => {
+              console.log('error submit!!')
+            })
         } else {
           this.$notify.error({
             title: '错误',
@@ -690,28 +853,32 @@ export default {
     // 取消操作
     handlecancel() {
       this.$router.go(-1)
-      const view = { path: '/payment/Addpayment', name: 'Addpayment', fullPath: '/payment/Addpayment', title: 'Addpayment' }
-      this.$store.dispatch('delView', view).then(({ visitedViews }) => {
-      })
+      const view = {
+        path: '/payment/Addpayment',
+        name: 'Addpayment',
+        fullPath: '/payment/Addpayment',
+        title: 'Addpayment'
+      }
+      this.$store.dispatch('delView', view).then(({ visitedViews }) => {})
     }
   }
 }
 </script>
 
 <style rel="stylesheet/scss" lang="scss" scoped>
-  .ERP-container{
-    margin-right: 0;
-    .form-name{
-      font-size: 18px;
-      color: #373e4f;
-      margin-bottom: -20px;
-      margin-top: 20px;
-    }
-    .container{
-      margin-top: 40px;
-    }
-    .el-button+.el-button{
-      width: 98px;
-    }
+.ERP-container {
+  margin-right: 0;
+  .form-name {
+    font-size: 18px;
+    color: #373e4f;
+    margin-bottom: -20px;
+    margin-top: 20px;
   }
+  .container {
+    margin-top: 40px;
+  }
+  .el-button + .el-button {
+    width: 98px;
+  }
+}
 </style>

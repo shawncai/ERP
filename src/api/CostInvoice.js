@@ -12,7 +12,7 @@ export function addCostInvoice(query, query2, query3) {
     params.append('regionId', query3.regionId) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/erp/costInvoice/addCostInvoice',
+    url: '/costInvoice/addCostInvoice',
     method: 'post',
     data: params
   })
@@ -57,7 +57,7 @@ export function costInvoiceList(query) {
   params.append('pageNum', query.pageNum) // 你要传给后台的参数值 key/value
   params.append('pageSize', query.pageSize) // 你要传给后台的参数值 key/value
   return request({
-    url: '/erp/costInvoice/costInvoiceList',
+    url: '/costInvoice/costInvoiceList',
     method: 'post',
     data: params
   })
@@ -71,7 +71,7 @@ export function deletecostinvoice(query, query2) {
     params.append('operatorId', query2) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/erp/costInvoice/deletecostinvoice',
+    url: '/costInvoice/deletecostinvoice',
     method: 'post',
     data: params
   })
@@ -83,7 +83,7 @@ export function updatecostinvoice(query, query2) {
   params.append('costInvoiceJson', query) // 你要传给后台的参数值 key/value
   params.append('costInvoiceDetailJson', query2) // 你要传给后台的参数值 key/value
   return request({
-    url: '/erp/costInvoice/updatecostinvoice',
+    url: '/costInvoice/updatecostinvoice',
     method: 'post',
     data: params
   })
@@ -94,7 +94,7 @@ export function updatecostinvoice2(query) {
   var params = new URLSearchParams()
   params.append('costInvoiceJson', query) // 你要传给后台的参数值 key/value
   return request({
-    url: '/erp/costInvoice/updatecostinvoice',
+    url: '/costInvoice/updatecostinvoice',
     method: 'post',
     data: params
   })

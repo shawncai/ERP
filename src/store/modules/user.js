@@ -1,5 +1,5 @@
 import { loginByUsername, logout, getUserInfo } from '@/api/login'
-import { getToken, setToken, removeToken } from '@/utils/auth'
+import { getToken, setToken, removeToken, getToken2, setToken2 } from '@/utils/auth'
 
 const user = {
   state: {
@@ -15,6 +15,7 @@ const user = {
       articlePlatform: []
     },
     userId: '',
+    useCountry: getToken2(),
     regionId: '',
     repositoryId: '',
     countryId: '',
@@ -24,6 +25,9 @@ const user = {
   },
 
   mutations: {
+    SET_USECOUNTRY: (state, useCountry) => {
+      state.useCountry = useCountry
+    },
     SET_CODE: (state, code) => {
       state.code = code
     },
@@ -72,13 +76,19 @@ const user = {
   },
 
   actions: {
+    getuseCountry({ commit }, useCountry) {
+      console.log('getToken2()', getToken2())
+
+      setToken2(useCountry)
+      commit('SET_USECOUNTRY', useCountry)
+    },
     // 用户名登录
     LoginByUsername({ commit }, userInfo) {
       const username = userInfo.username.trim()
       return new Promise((resolve, reject) => {
         loginByUsername(username, userInfo.password).then(response => {
           const data = response.data
-          console.log(data)
+          // console.log(data)
 
           commit('SET_TOKEN', data.data.content.token)
           setToken(data.data.content.token)
@@ -96,14 +106,14 @@ const user = {
           if (!response.data) { // 由于mockjs 不支持自定义状态码只能这样hack
             reject('error')
           }
-          console.log(response)
+          // console.log(response)
           const data = response.data.data.content
           if (data.roles && data.roles.length > 0) { // 验证返回的roles是否是一个非空数组
             commit('SET_ROLES', data.roles)
           } else {
             reject('getInfo: roles must be a non-null array !')
           }
-          console.log(data)
+          // console.log(data)
           commit('SET_NAME', data.userName)
           commit('SET_AVATAR', data.avatar)
           commit('SET_INTRODUCTION', data.introduction)
@@ -162,7 +172,7 @@ const user = {
     ChangeRoles({ commit, dispatch }, role) {
       return new Promise(resolve => {
         commit('SET_TOKEN', role)
-        console.log(resolve)
+        // console.log(resolve)
         setToken(role)
         getUserInfo(role).then(response => {
           const data = response.data

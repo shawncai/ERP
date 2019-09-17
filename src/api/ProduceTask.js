@@ -16,7 +16,7 @@ export function addproducetask(query, query2, query3) {
     params.append('regionId', query3.regionId) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/erp/producetask/addproducetask',
+    url: '/producetask/addproducetask',
     method: 'post',
     data: params
   })
@@ -67,7 +67,7 @@ export function producetasklist(query) {
   params.append('pageNum', query.pageNum) // 你要传给后台的参数值 key/value
   params.append('pageSize', query.pageSize) // 你要传给后台的参数值 key/value
   return request({
-    url: '/erp/producetask/producetasklist',
+    url: '/producetask/producetasklist',
     method: 'post',
     data: params
   })
@@ -83,7 +83,7 @@ export function deleteproducetask(query, query2) {
     params.append('operatorId', query2) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/erp/producetask/deleteproducetask',
+    url: '/producetask/deleteproducetask',
     method: 'post',
     data: params
   })
@@ -99,7 +99,7 @@ export function updateproducetask(query, query2) {
     params.append('produceTaskDetailJson', query2) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/erp/producetask/updateproducetask',
+    url: '/producetask/updateproducetask',
     method: 'post',
     data: params
   })
@@ -112,7 +112,7 @@ export function updateproducetask2(query) {
     params.append('produceTaskJson', query) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/erp/producetask/updateproducetask',
+    url: '/producetask/updateproducetask',
     method: 'post',
     data: params
   })
@@ -129,7 +129,7 @@ export function addproducereport(query, query2, query3, query4, query5, query6) 
   params.append('repositoryId', query6.repositoryId) // 你要传给后台的参数值 key/value
   params.append('regionId', query6.regionId) // 你要传给后台的参数值 key/value
   return request({
-    url: '/erp/producereport/addproducereport',
+    url: '/producereport/addproducereport',
     method: 'post',
     data: params
   })
@@ -171,7 +171,7 @@ export function producereportlist(query) {
   params.append('pageNum', query.pageNum) // 你要传给后台的参数值 key/value
   params.append('pageSize', query.pageSize) // 你要传给后台的参数值 key/value
   return request({
-    url: '/erp/producereport/producereportlist',
+    url: '/producereport/producereportlist',
     method: 'post',
     data: params
   })
@@ -187,7 +187,7 @@ export function deleteproducereport(query, query2) {
     params.append('operatorId', query2) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/erp/producereport/deleteproducereport',
+    url: '/producereport/deleteproducereport',
     method: 'post',
     data: params
   })
@@ -202,7 +202,7 @@ export function updateproducereport(query, query2, query3, query4, query5) {
   params.append('produceReportEquipmentDetailJson', query4) // 你要传给后台的参数值 key/value
   params.append('produceReportMaterialsDetailJson', query5) // 你要传给后台的参数值 key/value
   return request({
-    url: '/erp/producereport/updateproducereport',
+    url: '/producereport/updateproducereport',
     method: 'post',
     data: params
   })
@@ -213,7 +213,7 @@ export function updateproducereport2(query) {
   var params = new URLSearchParams()
   params.append('produceReportJson', query) // 你要传给后台的参数值 key/value
   return request({
-    url: '/erp/producereport/updateproducereport',
+    url: '/producereport/updateproducereport',
     method: 'post',
     data: params
   })
