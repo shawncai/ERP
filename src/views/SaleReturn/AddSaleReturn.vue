@@ -247,7 +247,7 @@
           </el-form>
         </div>
       </el-card>
-      <el-card class="box-card" shadow="never" style="margin-top: 10px">
+      <!-- <el-card class="box-card" shadow="never" style="margin-top: 10px">
         <h2 ref="geren" class="form-name">相关单据状态</h2>
         <div class="container" style="margin-top: 37px">
           <el-form ref="personalForm3" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
@@ -276,7 +276,7 @@
             </el-row>
           </el-form>
         </div>
-      </el-card>
+      </el-card> -->
       <!--操作-->
       <div class="buttons" style="margin-top: 20px">
         <el-button v-no-more-click type="primary" style="background:#3696fd;border-color:#3696fd;width: 98px" @click="handlesave()">保存</el-button>
@@ -481,6 +481,7 @@ export default {
           if (res.data.ret === 200) {
             // console.log('res.data.data.content', res.data.data.content)
             this.personalForm.exchangeRate = res.data.data.content.rate
+            console.log(this.personalForm.exchangeRate)
           } else {
             this.$notify.error({
               title: '错误',
@@ -868,8 +869,8 @@ export default {
             if (elem.discount === null || elem.discount === '' || elem.discount === undefined) {
               delete elem.discount
             }
-            if (elem.discount !== null || elem.discount !== '' || elem.discount !== undefined) {
-              elem.discount = elem.discount / 100
+            if (elem.discountRate !== null || elem.discountRate !== '' || elem.discountRate !== undefined) {
+              elem.discount = elem.discountRate / 100
             }
             if (elem.discountMoney === null || elem.discountMoney === '' || elem.discountMoney === undefined) {
               delete elem.discountMoney

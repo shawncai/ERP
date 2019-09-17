@@ -236,12 +236,12 @@
                 <span>{{ gettaxprice(scope.row) }}</span>
               </template>
             </el-editable-column>
-            <el-editable-column prop="costMoney" align="center" label="成本金额" min-width="150px">
+            <el-editable-column v-if="false" prop="costMoney" align="center" label="成本金额" min-width="150px">
               <template slot-scope="scope">
                 <p>{{ getcostMoney(scope.row) }}</p>
               </template>
             </el-editable-column>
-            <el-editable-column prop="includeTaxMoney" align="center" label="含税金额" min-width="150px">
+            <el-editable-column v-if="false" prop="includeTaxMoney" align="center" label="含税金额" min-width="150px">
               <template slot-scope="scope">
                 <p>{{ getincludeTaxMoney(scope.row) }}</p>
               </template>
@@ -260,12 +260,12 @@
                 <p>{{ getTaxMoney2(scope.row) }}</p>
               </template>
             </el-editable-column>
-            <el-editable-column prop="money" align="center" label="金额" min-width="150px">
+            <el-editable-column v-if="false" prop="money" align="center" label="金额" min-width="150px">
               <template slot-scope="scope">
                 <p>{{ getMoney(scope.row) }}</p>
               </template>
             </el-editable-column>
-            <el-editable-column prop="includeTaxCostMoney" align="center" label="含税成本金额" min-width="170px">
+            <el-editable-column prop="includeTaxCostMoney" align="center" label="销售金额" min-width="170px">
               <template slot-scope="scope">
                 <p>{{ getincludeTaxCostMoney(scope.row) }}</p>
               </template>

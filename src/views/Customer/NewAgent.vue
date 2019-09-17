@@ -50,7 +50,7 @@
               </template>
             </el-select>
           </el-form-item>
-          <el-form-item :label="$t('Customer.discount2')" style="width: 40%;margin-top: 1%">
+          <el-form-item :label="$t('Customer.discount2')" prop="discount" style="width: 40%;margin-top: 1%">
             <el-input v-model.number="customerForm.discount" placeholder="请输入折扣" clearable/>
           </el-form-item>
           <el-form-item :label="$t('Customer.introduce2')" style="width: 40%">
@@ -60,7 +60,7 @@
         </el-form>
       </div>
       <!--业务信息-->
-      <h2 class="form-name">业务信息</h2>
+      <h2 ref="yewu" class="form-name">业务信息</h2>
       <div class="container">
         <el-form ref="customerForm2" :model="customerForm" :rules="customerFormrules" :inline="true" status-icon class="demo-ruleForm" label-position="top" label-width="300px" style="margin-left: 30px;">
           <el-form-item :label="$t('Customer.contactname')" prop="contactname" style="width: 40%">
@@ -131,6 +131,95 @@
           </el-form-item>
         </el-form>
       </div>
+      <!-- 财务信息 -->
+      <h2 ref="caiwu" class="form-name">财务信息</h2>
+      <div class="container">
+        <el-form ref="customerForm3" :model="customerForm" :rules="customerFormrules" :inline="true" status-icon class="demo-ruleForm" label-position="top" label-width="300px" style="margin-left: 30px;">
+          <el-form-item :label="$t('Customer.accountsDays')" prop="accountsDays" style="width: 40%">
+            <el-input v-model.number="customerForm.accountsDays" placeholder="请输入天数" clearable/>
+          </el-form-item>
+          <el-form-item :label="$t('Customer.settleMode')" style="width: 40%">
+            <el-select ref="clear6" v-model="customerForm.settleMode" placeholder="请选择结算方式" style="width: 100%;">
+              <el-option v-show="false" label="" value=""/>
+              <el-option
+                v-for="(item, index) in settleMode"
+                :key="index"
+                :label="item.categoryName"
+                :value="item.id"/>
+              <template>
+                <el-button v-if="isshow2" icon="el-icon-circle-plus-outline" style="width:100%" @click="go_creat6">新增</el-button>
+              </template>
+            </el-select>
+          </el-form-item>
+          <el-form-item :label="$t('Customer.currency')" style="width: 40%;margin-top: 1%">
+            <el-select v-model="customerForm.currency" placeholder="请选择币种" style="width: 100%;">
+              <el-option value="1" label="RMB" />
+              <el-option value="2" label="USD" />
+            </el-select>
+          </el-form-item>
+          <el-form-item :label="$t('Customer.invoiceType')" style="width: 40%;margin-top: 1%">
+            <el-select ref="clear7" v-model="customerForm.invoiceType" placeholder="请选择发票类型" style="width: 100%;">
+              <el-option v-show="false" label="" value=""/>
+              <el-option
+                v-for="(item, index) in invoiceTypes"
+                :key="index"
+                :label="item.categoryName"
+                :value="item.id"/>
+              <template>
+                <el-button v-if="isshow3" icon="el-icon-circle-plus-outline" style="width:100%" @click="go_creat7">新增</el-button>
+              </template>
+            </el-select>
+          </el-form-item>
+          <el-form-item :label="$t('Customer.payMode')" style="width: 40%;margin-top: 1%">
+            <el-select ref="clear8" v-model="customerForm.payMode" placeholder="请选择支付方式" style="width: 100%;">
+              <el-option v-show="false" label="" value=""/>
+              <el-option
+                v-for="(item, index) in payMode"
+                :key="index"
+                :label="item.categoryName"
+                :value="item.id"/>
+              <template>
+                <el-button v-if="isshow2" icon="el-icon-circle-plus-outline" style="width:100%" @click="go_creat8">新增</el-button>
+              </template>
+            </el-select>
+          </el-form-item>
+          <el-form-item :label="$t('Customer.openingbank')" style="width: 40%;margin-top:1%">
+            <el-input v-model="customerForm.openingbank" placeholder="请输入开户行" clearable />
+          </el-form-item>
+          <my-emp :control.sync="empcontrol" @personName="personName"/>
+          <el-form-item :label="$t('Customer.accountname')" style="width: 40%;margin-top:1%">
+            <el-input v-model="customerForm.accountname" placeholder="请输入户名" clearable />
+          </el-form-item>
+          <el-form-item :label="$t('Customer.account')" style="width: 40%;margin-top:1%">
+            <el-input v-model="customerForm.account" placeholder="请输入账号" clearable/>
+          </el-form-item>
+        </el-form>
+      </div>
+      <!-- 辅助信息 -->
+      <h2 ref="fuzhu" class="form-name">辅助信息</h2>
+      <div class="container">
+        <el-form ref="customerForm4" :model="customerForm" :rules="customerFormrules" :inline="true" status-icon class="demo-ruleForm" label-position="top" label-width="300px" style="margin-left: 30px;">
+          <el-form-item :label="$t('Customer.establishmenttime')" style="width: 40%">
+            <el-date-picker
+              v-model="customerForm.establishmenttime"
+              :picker-options="pickerOptions"
+              value-format="yyyy-MM-dd"
+              type="date"
+              placeholder="选择日期"
+              style="width: 100%"
+            />
+          </el-form-item>
+          <el-form-item :label="$t('Customer.totalnumber')" style="width: 40%">
+            <el-input v-model.number="customerForm.totalnumber" placeholder="请输入员工总数" clearable/>
+          </el-form-item>
+          <el-form-item :label="$t('Customer.corporaterepresentative')" style="width: 40%;margin-top: 1%">
+            <el-input v-model="customerForm.corporaterepresentative" placeholder="请输入法人代表" clearable/>
+          </el-form-item>
+          <el-form-item :label="$t('Customer.businesslicense')" style="width: 40%;margin-top:1%">
+            <el-input v-model="customerForm.businesslicense" placeholder="请输入营业执照号" clearable/>
+          </el-form-item>
+        </el-form>
+      </div>
       <!--操作-->
       <div class="buttons" style="margin-top: 20px">
         <el-button v-no-more-click v-permission="['1-14-17-1']" type="primary" @click="handlesave()">保存</el-button>
@@ -143,6 +232,7 @@
 
 <script>
 import '@/directive/noMoreClick/index.js'
+import { searchSaleCategory } from '@/api/SaleCategory'
 import { getcountrylist, getprovincelist, getcitylist } from '@/api/public'
 import { searchCusCategory, addagent } from '@/api/Customer'
 import { searchCategory } from '@/api/Supplier'
@@ -167,10 +257,34 @@ export default {
         }
       }, 1000)
     }
+    const checkdiscount = (rule, value, callback) => {
+      var pattern = /[^%&',;=?$\x22]+/
+      console.log('1', pattern.test(this.customerForm.discount))
+      var pattern2 = /^[0-9]*$/
+      console.log('2', pattern2.test(this.customerForm.discount))
+    }
     return {
+      pickerOptions: {
+        disabledDate(time) {
+          return time.getTime() > Date.now()
+        }
+      },
+      // 财务信息
+      settleMode: [],
+      invoiceType: [],
+      payMode: [],
+      // 开票类别数据
+      invoiceTypes: [],
+      // 开票类别获取参数
+      invoicetypeparms: {
+        type: 4,
+        pagenum: 1,
+        pagesize: 99999
+      },
       // 是否显示添加
       isshow: false,
       isshow2: false,
+      isshow3: false,
       // 分管业务员回显
       trader: '',
       // 分管业务员控制
@@ -220,6 +334,12 @@ export default {
         ],
         contactname: [
           { required: true, message: '请输入联系人', trigger: 'blur' }
+        ],
+        accountsDays: [
+          { required: true, message: '请输入天数', trigger: 'change' }
+        ],
+        discount: [
+          { validator: checkdiscount, trigger: 'change' }
         ]
       },
       // 所有客户类型数据
@@ -246,8 +366,28 @@ export default {
     this.getnationlist()
     this.getCategory()
     this.jungleshow()
+    this.getTypes()
   },
   methods: {
+    // 获取结算，支付方式
+    getTypes() {
+      searchSaleCategory(this.invoicetypeparms).then(res => {
+        if (res.data.ret === 200) {
+          this.invoiceTypes = res.data.data.content.list
+        }
+      })
+      searchCategory(7).then(res => {
+        if (res.data.ret === 200) {
+          this.payMode = res.data.data.content.list
+        }
+      })
+      // 结算方式数据
+      searchCategory(5).then(res => {
+        if (res.data.ret === 200) {
+          this.settleMode = res.data.data.content.list
+        }
+      })
+    },
     test() {
       console.log('运送id', this.customerForm.transmode)
       console.log('交货方式', this.customerForm.deliverymode)
@@ -256,6 +396,7 @@ export default {
       const roles = this.$store.getters.roles
       this.isshow = roles.includes('1-14-21-1')
       this.isshow2 = roles.includes('1-22-28-1')
+      this.isshow3 = roles.includes('54-83-1')
     },
     checkPermission,
     // 获取类型
@@ -376,28 +517,66 @@ export default {
     },
     // 保存操作
     handlesave() {
+      console.log('保存的数据', this.customerForm)
       this.$refs.customerForm.validate((valid) => {
         if (valid) {
-          addagent(this.customerForm).then(res => {
-            console.log(res)
-            if (res.data.ret === 200) {
-              this.$notify({
-                title: '成功',
-                message: '保存成功',
-                type: 'success',
-                offset: 100
+          this.$refs.customerForm2.validate((valid) => {
+            if (valid) {
+              this.$refs.customerForm3.validate((valid) => {
+                if (valid) {
+                  this.$refs.customerForm4.validate((valid) => {
+                    if (valid) {
+                      addagent(this.customerForm).then(res => {
+                        console.log(res)
+                        if (res.data.ret === 200) {
+                          this.$notify({
+                            title: '成功',
+                            message: '保存成功',
+                            type: 'success',
+                            offset: 100
+                          })
+                          this.restAllForm()
+                          this.$refs.customerForm.clearValidate()
+                          this.$refs.customerForm.resetFields()
+                          this.$refs.customerForm2.clearValidate()
+                          this.$refs.customerForm2.resetFields()
+                          this.$refs.customerForm3.clearValidate()
+                          this.$refs.customerForm3.resetFields()
+                          this.$refs.customerForm4.clearValidate()
+                          this.$refs.customerForm4.resetFields()
+                        } else {
+                          this.$notify.error({
+                            title: '错误',
+                            message: res.data.msg,
+                            offset: 100
+                          })
+                        }
+                      })
+                    } else {
+                      this.$notify.error({
+                        title: '错误',
+                        message: '信息未填完整',
+                        offset: 100
+                      })
+                      return false
+                    }
+                  })
+                } else {
+                  this.$notify.error({
+                    title: '错误',
+                    message: '信息未填完整',
+                    offset: 100
+                  })
+                  return false
+                }
               })
-              this.restAllForm()
-              this.$refs.customerForm.clearValidate()
-              this.$refs.customerForm.resetFields()
-              this.$refs.customerForm2.clearValidate()
-              this.$refs.customerForm2.resetFields()
             } else {
               this.$notify.error({
                 title: '错误',
-                message: res.data.msg,
+                message: '信息未填完整',
                 offset: 100
               })
+              return false
             }
           })
         } else {
@@ -438,29 +617,75 @@ export default {
     handleentry() {
       this.$refs.customerForm.validate((valid) => {
         if (valid) {
-          addagent(this.customerForm).then(res => {
-            console.log(res)
-            if (res.data.ret === 200) {
-              this.$notify({
-                title: '成功',
-                message: '保存成功',
-                type: 'success',
-                offset: 100
+          this.$refs.customerForm2.validate((valid) => {
+            if (valid) {
+              this.$refs.customerForm3.validate((valid) => {
+                if (valid) {
+                  this.$refs.customerForm4.validate((valid) => {
+                    if (valid) {
+                      addagent(this.customerForm).then(res => {
+                        console.log(res)
+                        if (res.data.ret === 200) {
+                          this.$notify({
+                            title: '成功',
+                            message: '保存成功',
+                            type: 'success',
+                            offset: 100
+                          })
+                          this.restAllForm()
+                          this.$refs.customerForm.clearValidate()
+                          this.$refs.customerForm.resetFields()
+                          this.$refs.customerForm2.clearValidate()
+                          this.$refs.customerForm2.resetFields()
+                          this.$refs.customerForm3.clearValidate()
+                          this.$refs.customerForm3.resetFields()
+                          this.$refs.customerForm4.clearValidate()
+                          this.$refs.customerForm4.resetFields()
+                          const anchor = this.$refs.geren.offsetTop
+                          console.log(anchor)
+                          document.documentElement.scrollTop = anchor - 100
+                        } else {
+                          this.$notify.error({
+                            title: '错误',
+                            message: res.data.msg,
+                            offset: 100
+                          })
+                        }
+                      })
+                    } else {
+                      this.$notify.error({
+                        title: '错误',
+                        message: '信息未填完整',
+                        offset: 100
+                      })
+                      const anchor = this.$refs.fuzhu.offsetTop
+                      console.log(anchor)
+                      document.documentElement.scrollTop = anchor - 100
+                      return false
+                    }
+                  })
+                } else {
+                  this.$notify.error({
+                    title: '错误',
+                    message: '信息未填完整',
+                    offset: 100
+                  })
+                  const anchor = this.$refs.caiwu.offsetTop
+                  console.log(anchor)
+                  document.documentElement.scrollTop = anchor - 100
+                  return false
+                }
               })
-              this.restAllForm()
-              this.$refs.customerForm.clearValidate()
-              this.$refs.customerForm.resetFields()
-              this.$refs.customerForm2.clearValidate()
-              this.$refs.customerForm2.resetFields()
-              const anchor = this.$refs.geren.offsetTop
-              console.log(anchor)
-              document.documentElement.scrollTop = anchor - 100
             } else {
               this.$notify.error({
                 title: '错误',
-                message: res.data.msg,
+                message: '信息未填完整',
                 offset: 100
               })
+              const anchor = this.$refs.yewu.offsetTop
+              console.log(anchor)
+              document.documentElement.scrollTop = anchor - 100
+              return false
             }
           })
         } else {
@@ -503,6 +728,18 @@ export default {
     go_creat5() {
       this.$router.push('/Supplier/SupplierCategory')
       this.$refs.clear5.blur()
+    },
+    go_creat6() {
+      this.$router.push('/Supplier/SupplierCategory')
+      this.$refs.clear6.blur()
+    },
+    go_creat7() {
+      this.$router.push('/SaleCategory/SaleCategoryList')
+      this.$refs.clear7.blur()
+    },
+    go_creat8() {
+      this.$router.push('/Supplier/SupplierCategory')
+      this.$refs.clear8.blur()
     }
   }
 }

@@ -151,7 +151,7 @@
         </el-table-column>
         <el-table-column :label="$t('SaleReturn.allMoney')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.allMoney }}</span>
+            <span>{{ scope.row.actualReturnMoney }}</span>
           </template>
         </el-table-column>
         <el-table-column :label="$t('public.judgeStat')" :resizable="false" prop="judgeStat" align="center" min-width="150">

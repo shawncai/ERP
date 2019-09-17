@@ -139,12 +139,12 @@
             <!--            <el-editable-column prop="salePrice" align="center" label="零售价" />-->
             <!--            <el-editable-column prop="costPrice" align="center" label="成本价" />-->
             <el-editable-column prop="taxprice" align="center" label="销售单价" />
-            <el-editable-column prop="costMoney" align="center" label="成本金额" />
-            <el-editable-column prop="includeTaxMoney" align="center" label="含税金额" />
+            <!-- <el-editable-column prop="costMoney" align="center" label="成本金额" /> -->
+            <!-- <el-editable-column prop="includeTaxMoney" align="center" label="含税金额" /> -->
             <el-editable-column prop="taxRate" align="center" label="税率(%)" />
             <el-editable-column prop="taxMoney" align="center" label="税额" />
-            <el-editable-column prop="money" align="center" label="金额" />
-            <el-editable-column prop="includeTaxCostMoney" align="center" label="含税成本金额" />
+            <!-- <el-editable-column prop="money" align="center" label="金额" /> -->
+            <el-editable-column prop="includeTaxCostMoney" align="center" label="销售金额" />
             <el-editable-column prop="discountRate" align="center" label="折扣(%)" />
             <el-editable-column prop="discountMoney" align="center" label="折扣额" />
             <el-editable-column prop="alreadyApplicationQuantity" align="center" label="已下达采购数量" />
@@ -390,12 +390,12 @@
               </el-col>
               <el-col :span="12">
                 <el-form-item :label="$t('SaleOut.profit')" style="width: 100%;">
-                  <span>{{ personalForm.allMoney - personalForm.allCostMoney }}</span>
+                  <span>{{ personalForm.allMoney - personalForm.allCostMoney - personalForm.otherMoney }}</span>
                 </el-form-item>
               </el-col>
               <el-col :span="12">
                 <el-form-item :label="$t('SaleOut.ProfitMargin')" style="width: 100%;">
-                  <span>{{ (personalForm.allMoney - personalForm.allCostMoney) / personalForm.allCostMoney }}</span>
+                  <span>{{ (personalForm.allMoney - personalForm.allCostMoney - personalForm.otherMoney) / personalForm.allCostMoney }}</span>
                 </el-form-item>
               </el-col>
             </el-row>
@@ -560,6 +560,7 @@ export default {
       searchprepReceipt(this.prepReceiptData).then(res => {
         if (res.data.ret === 200) {
           this.tableData2 = res.data.data.content.list
+          console.log('预收款', res)
         }
       })
     },

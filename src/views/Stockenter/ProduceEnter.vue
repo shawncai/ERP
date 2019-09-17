@@ -111,7 +111,7 @@
             <el-editable-column prop="typeIdname" align="center" label="规格" width="150px"/>
             <el-editable-column prop="unit" align="center" label="单位" width="150px"/>
             <el-editable-column prop="basicQuantity" align="center" label="基本数量" width="150px"/>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', type: 'visible', min: 1.00}" prop="actualEnterQuantity" align="center" label="入库数量" width="150px"/>
+            <el-editable-column :edit-render="{name: 'ElInputNumber', type: 'visible'}" prop="actualEnterQuantity" align="center" label="入库数量" width="150px"/>
             <el-editable-column prop="price" align="center" label="单价" width="150px"/>
             <el-editable-column prop="totalMoney" align="center" label="入库金额" width="150px">
               <template slot-scope="scope">
@@ -316,14 +316,16 @@ export default {
             return false
           }
         }
-        val[i].actualEnterQuantity = val[i].produceQuantity - val[i].alreadyEnterQuantity
+        // val[i].actualEnterQuantity = val[i].produceQuantity - val[i].alreadyEnterQuantity
+        val[i].actualEnterQuantity = val[i].passQuantity
         this.$refs.editable.insert(val[i])
-      }
+      }0
     },
     moredata(val) {
       console.log(val)
       this.personalForm.produceTaskNumber = val.taskNumber
       this.personalForm.sourceNumber = val.taskNumber
+      this.personalForm.processType = String(val.processType)
     },
     // 生产任务单选择focus控制
     handleAddSouce() {

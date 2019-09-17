@@ -105,15 +105,15 @@
             <el-editable-column prop="color" align="center" label="颜色" />
             <el-editable-column prop="kpiGrade" align="center" label="绩效分" />
             <el-editable-column prop="point" align="center" label="商品积分" />
-            <el-editable-column prop="salePrice" align="center" label="零售价" />
-            <el-editable-column prop="costPrice" align="center" label="成本价" />
-            <el-editable-column prop="taxprice" align="center" label="含税价" />
-            <el-editable-column prop="costMoney" align="center" label="成本金额" />
-            <el-editable-column prop="includeTaxMoney" align="center" label="含税金额" />
+            <!-- <el-editable-column prop="salePrice" align="center" label="零售价" />
+            <el-editable-column prop="costPrice" align="center" label="成本价" /> -->
+            <el-editable-column prop="taxprice" align="center" label="销售单价" />
+            <!-- <el-editable-column prop="costMoney" align="center" label="成本金额" /> -->
+            <!-- <el-editable-column prop="includeTaxMoney" align="center" label="含税金额" /> -->
             <el-editable-column prop="taxRate" align="center" label="税率(%)" />
             <el-editable-column prop="taxMoney" align="center" label="税额" />
-            <el-editable-column prop="money" align="center" label="金额" />
-            <el-editable-column prop="includeTaxCostMoney" align="center" label="含税成本金额" />
+            <!-- <el-editable-column prop="money" align="center" label="金额" /> -->
+            <el-editable-column prop="includeTaxCostMoney" align="center" label="退货金额" />
             <el-editable-column prop="discount" align="center" label="折扣" />
             <el-editable-column prop="discountMoney" align="center" label="折扣额" />
             <el-editable-column prop="alreadyReturnQuantity" align="center" label="已退货数量" />
@@ -176,7 +176,7 @@
           </el-form>
         </div>
       </el-card>
-      <el-card class="box-card" shadow="never" style="margin-top: 10px">
+      <!-- <el-card class="box-card" shadow="never" style="margin-top: 10px">
         <h2 ref="geren" class="form-name">相关单据状态</h2>
         <div class="container" style="margin-top: 37px">
           <el-form ref="personalForm3" :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
@@ -199,7 +199,7 @@
             </el-row>
           </el-form>
         </div>
-      </el-card>
+      </el-card> -->
       <!--审核状态-->
       <el-card class="box-card" style="margin-top: 15px" shadow="never">
         <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">审批记录</h2>
@@ -373,6 +373,12 @@ export default {
     detaildata() {
       this.personalForm = this.detaildata
       this.list2 = this.personalForm.saleReturnDetailVos
+      for (const i in this.list2) {
+        this.list2[i].taxprice = this.list2[i].salePrice + this.list2[i].taxMoney
+        if (this.list2[i].discount <= 1) {
+          this.list2[i].discount = this.list2[i].discount * 100
+        }
+      }
       this.reviewList = []
       const review = this.personalForm.approvalUseVos
       for (const i in review) {
