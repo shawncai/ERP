@@ -275,6 +275,7 @@ export default {
     },
     // 提交修改
     handleEditok() {
+      console.log('修改数据', this.customerForm)
       this.$refs.customerForm.validate((valid) => {
         if (valid) {
           updateCustomer(this.customerForm).then(res => {

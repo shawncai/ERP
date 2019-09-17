@@ -29,16 +29,16 @@
       <el-button v-permission="['1-39-41-1']" v-waves class="filter-item" icon="el-icon-plus" type="success" style="width: 86px;float: right" @click="handleAdd">{{ $t('public.add') }}</el-button>
       <!--新建列表开始-->
       <el-dialog :visible.sync="addNumberingVisible" append-to-body width="600px" class="normal" title="新建编号规则" >
-        <el-form :model="Numberingform" label-position="left" label-width="120px" style="margin: 0 auto; width: 400px">
-          <el-form-item label-width="120px" label="单据类型">
+        <el-form ref="Numberingform" :model="Numberingform" :rules="NumberingformRule" label-width="120px" style="margin: 0 auto; width: 400px">
+          <el-form-item label-width="120px" label="单据类型" prop="type">
             <el-select v-model="Numberingform.type" :value="Numberingform.type" placeholder="请选择单据类型" filterable clearable>
               <el-option v-for="(item, index) in categorys" :key="index" :value="item.id" :label="item.categoryName"/>
             </el-select>
           </el-form-item>
-          <el-form-item label-width="120px" label="编号规则名称">
+          <el-form-item label-width="120px" label="编号规则名称" prop="ruleName">
             <el-input v-model="Numberingform.ruleName" placeholder="请输入编号规则名称" autocomplete="off" style="width: 200px"/>
           </el-form-item>
-          <el-form-item label-width="120px" label="编号前缀">
+          <el-form-item label-width="120px" label="编号前缀" prop="prefix">
             <el-input v-model="Numberingform.prefix" placeholder="请输入编号前缀" autocomplete="off" style="width: 200px"/>
           </el-form-item>
           <el-form-item label-width="120px" label="日期类型">
@@ -48,7 +48,7 @@
               <el-radio :label="3">年月日</el-radio>
             </el-radio-group>
           </el-form-item>
-          <el-form-item label-width="120px" label="流水号长度">
+          <el-form-item label-width="120px" label="流水号长度" prop="length">
             <el-input v-model="Numberingform.length" placeholder="请输入流水号长度" autocomplete="off" style="width: 200px"/>
           </el-form-item>
           <el-form-item label-width="120px" label="启用状态">
@@ -121,6 +121,11 @@
             <span>{{ scope.row.createTime }}</span>
           </template>
         </el-table-column>
+        <el-table-column :label="$t('BasicSettings.personName')" :resizable="false" prop="createTime" align="center" width="150">
+          <template slot-scope="scope">
+            <span>{{ scope.row.createPersonName }}</span>
+          </template>
+        </el-table-column>
         <el-table-column :label="$t('public.actions')" :resizable="false" align="center" min-width="230">
           <template slot-scope="scope">
             <el-button v-permission="['1-39-41-8']" v-show="scope.row.isEffective === 2" title="启用" style="margin-left: 18px;" type="primary" size="mini" icon="el-icon-check" circle @click="open(scope.row)"/>
@@ -134,11 +139,11 @@
       <pagination v-show="total>0" :total="total" :page.sync="getemplist.pagenum" :limit.sync="getemplist.pagesize" @pagination="getlist" />
       <!--修改开始=================================================-->
       <el-dialog :visible.sync="editNumberingVisible" title="修改编号规则" append-to-body width="600px" class="normal">
-        <el-form :model="editNumberingform" label-position="left" label-width="120px" style="margin: 0 auto; width: 400px">
-          <el-form-item label-width="120px" label="编号规则名称">
+        <el-form ref="editNumberingform" :model="editNumberingform" :rules="editNumberingformRule" label-width="120px" style="margin: 0 auto; width: 400px">
+          <el-form-item label-width="120px" label="编号规则名称" prop="ruleName">
             <el-input v-model="editNumberingform.ruleName" placeholder="请输入编号规则名称" autocomplete="off" style="width: 200px"/>
           </el-form-item>
-          <el-form-item label-width="120px" label="编号前缀">
+          <el-form-item label-width="120px" label="编号前缀" prop="prefix">
             <el-input v-model="editNumberingform.prefix" placeholder="请输入编号前缀" autocomplete="off" style="width: 200px"/>
           </el-form-item>
           <el-form-item label-width="120px" label="日期类型">
@@ -148,7 +153,7 @@
               <el-radio :label="3">年月日</el-radio>
             </el-radio-group>
           </el-form-item>
-          <el-form-item label-width="120px" label="流水号长度">
+          <el-form-item label-width="120px" label="流水号长度" prop="length">
             <el-input v-model="editNumberingform.length" placeholder="请输入流水号长度" autocomplete="off" style="width: 200px"/>
           </el-form-item>
           <el-form-item label-width="120px" label="启用状态">
@@ -209,8 +214,9 @@ export default {
         type: '',
         iseffective: '1',
         prefix: '',
-        dateType: '',
-        length: ''
+        dateType: 1,
+        length: '',
+        createid: this.$store.getters.userId
       },
       // 修改窗口控制器
       editNumberingVisible: false,
@@ -238,6 +244,32 @@ export default {
         iseffective: '',
         pagenum: 1,
         pagesize: 10
+      },
+      // 新增规则
+      NumberingformRule: {
+        type: [
+          { required: true, message: '请选择规则', trigger: 'change' }
+        ],
+        ruleName: [
+          { required: true, message: '请填写规则', trigger: 'change' }
+        ],
+        prefix: [
+          { required: true, message: '请填写编号前缀', trigger: 'change' }
+        ],
+        length: [
+          { required: true, message: '请填写流水长度', trigger: 'change' }
+        ]
+      },
+      editNumberingformRule: {
+        ruleName: [
+          { required: true, message: '请填写规则', trigger: 'change' }
+        ],
+        prefix: [
+          { required: true, message: '请填写编号前缀', trigger: 'change' }
+        ],
+        length: [
+          { required: true, message: '请填写流水长度', trigger: 'change' }
+        ]
       }
     }
   },
@@ -331,21 +363,34 @@ export default {
     // 确认修改
     handleEditOk() {
       console.log(this.editNumberingform)
-      updateRules(this.editNumberingform).then(res => {
-        if (res.data.ret === 200) {
-          this.$notify({
-            title: '修改成功',
-            type: 'success',
-            offset: 100
+      this.$refs.editNumberingform.validate((valid) => {
+        if (valid) {
+          updateRules(this.editNumberingform).then(res => {
+            if (res.data.ret === 200) {
+              this.$notify({
+                title: '修改成功',
+                type: 'success',
+                offset: 100
+              })
+              this.getlist()
+              this.editNumberingVisible = false
+            } else {
+              this.$notify.error({
+                title: '错误',
+                message: res.data.msg,
+                offset: 100
+              })
+            }
           })
-          this.getlist()
-          this.editNumberingVisible = false
+          this.$refs.editNumberingform.clearValidate()
+          this.$refs.editNumberingform.resetFields()
         } else {
           this.$notify.error({
             title: '错误',
-            message: res.data.msg,
+            message: '信息未填完整',
             offset: 100
           })
+          return false
         }
       })
     },
@@ -435,22 +480,35 @@ export default {
     // 确认新增
     handleOk() {
       console.log(this.Numberingform)
-      createRules(this.Numberingform).then(res => {
-        if (res.data.ret === 200) {
-          this.$notify({
-            title: '新增成功',
-            type: 'success',
-            offset: 100
+      this.$refs.Numberingform.validate((valid) => {
+        if (valid) {
+          createRules(this.Numberingform).then(res => {
+            if (res.data.ret === 200) {
+              this.$notify({
+                title: '新增成功',
+                type: 'success',
+                offset: 100
+              })
+              this.getlist()
+              this.restNumberingform()
+              this.addNumberingVisible = false
+            } else {
+              this.$notify.error({
+                title: '错误',
+                message: res.data.msg,
+                offset: 100
+              })
+            }
           })
-          this.getlist()
-          this.restNumberingform()
-          this.addNumberingVisible = false
+          this.$refs.Numberingform.clearValidate()
+          this.$refs.Numberingform.resetFields()
         } else {
           this.$notify.error({
             title: '错误',
-            message: res.data.msg,
+            message: '信息未填完整',
             offset: 100
           })
+          return false
         }
       })
     },

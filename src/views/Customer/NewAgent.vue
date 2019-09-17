@@ -51,7 +51,7 @@
             </el-select>
           </el-form-item>
           <el-form-item :label="$t('Customer.discount2')" prop="discount" style="width: 40%;margin-top: 1%">
-            <el-input v-model.number="customerForm.discount" placeholder="请输入折扣" clearable/>
+            <el-input v-model="customerForm.discount" placeholder="请输入折扣" clearable @change="onlynumber"/>
           </el-form-item>
           <el-form-item :label="$t('Customer.introduce2')" style="width: 40%">
             <el-input v-model="customerForm.introduce" type="textarea" clearable/>
@@ -257,12 +257,6 @@ export default {
         }
       }, 1000)
     }
-    const checkdiscount = (rule, value, callback) => {
-      var pattern = /[^%&',;=?$\x22]+/
-      console.log('1', pattern.test(this.customerForm.discount))
-      var pattern2 = /^[0-9]*$/
-      console.log('2', pattern2.test(this.customerForm.discount))
-    }
     return {
       pickerOptions: {
         disabledDate(time) {
@@ -337,10 +331,10 @@ export default {
         ],
         accountsDays: [
           { required: true, message: '请输入天数', trigger: 'change' }
-        ],
-        discount: [
-          { validator: checkdiscount, trigger: 'change' }
         ]
+        // discount: [
+        //   { validator: checkdiscount, trigger: 'change' }
+        // ]
       },
       // 所有客户类型数据
       // 发送参数
@@ -369,6 +363,25 @@ export default {
     this.getTypes()
   },
   methods: {
+    // 正则限制
+    onlynumber() {
+      console.log('123')
+      // 得到第一个字符是否为负号
+      var t = this.customerForm.discount.charAt(0)
+      // 先把非数字的都替换掉，除了数字和.
+      this.customerForm.discount = this.customerForm.discount.replace(/[^\d\.\%]/g, '')
+      // 必须保证第一个为数字而不是.
+      this.customerForm.discount = this.customerForm.discount.replace(/^\./g, '')
+      // 保证只有出现一个.而没有多个.
+      this.customerForm.discount = this.customerForm.discount.replace(/\.{2,}/g, '.')
+      // 保证.只出现一次，而不能出现两次以上
+      this.customerForm.discount = this.customerForm.discount.replace('.', '$#$').replace(/\./g, '').replace(
+        '$#$', '.')
+      // 如果第一位是负号，则允许添加
+      if (t === '-') {
+        this.customerForm.discount = '-' + this.customerForm.discount
+      }
+    },
     // 获取结算，支付方式
     getTypes() {
       searchSaleCategory(this.invoicetypeparms).then(res => {

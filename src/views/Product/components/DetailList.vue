@@ -484,8 +484,9 @@ export default {
     },
     valuationFilter(status) {
       const statusMap = {
-        1: '类1',
-        2: '类2'
+        1: '约当产量法',
+        2: '定额成本法',
+        3: '定额比例法'
       }
       return statusMap[status]
     },

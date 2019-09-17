@@ -126,6 +126,10 @@ export default {
 </script>
 
 <style rel="stylesheet/css" scoped>
+  .box-card .filter-tree{
+    height: 200px;
+    overflow-y: scroll;
+  }
   .box-card >>> .el-tree-node__content:hover {
     background: #409EFF;
   }

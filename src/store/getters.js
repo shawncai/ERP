@@ -25,6 +25,7 @@ const getters = {
   repositoryName: state => state.user.repositoryName,
   empcontract: state => state.publics.empcontract,
   empcontract2: state => state.publics.empcontract2,
-  empcontract3: state => state.publics.empcontract3
+  empcontract3: state => state.publics.empcontract3,
+  empcontract4: state => state.publics.empcontract4
 }
 export default getters

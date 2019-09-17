@@ -16,13 +16,19 @@
       <el-button v-waves class="filter-item" icon="el-icon-printer" style="width: 86px" @click="handlePrint">{{ $t('public.print') }}</el-button>
       <!-- 新建操作 -->
       <el-button v-waves class="filter-item" icon="el-icon-plus" type="success" style="width: 86px" @click="handleAdd">{{ $t('public.add') }}</el-button>
-      <el-dialog :visible.sync="addDeptVisible" title="新建部门" width="500px">
+      <el-dialog :visible.sync="addDeptVisible" title="新建部门" width="500px" style="margin-top:10px">
         <el-form :model="AddDeptform" label-position="left" label-width="120px" style="width: 400px; margin-left:50px;">
           <el-form-item label-width="120px" label="部门编号">
             <el-input v-model="AddDeptform.deptno" placeholder="请输入部门编号" autocomplete="off" style="width: 200px"/>
           </el-form-item>
           <el-form-item label-width="120px" label="部门名称">
             <el-input v-model="AddDeptform.deptname" placeholder="请输入部门名称" autocomplete="off" style="width: 200px"/>
+          </el-form-item>
+          <el-form-item label-width="120px" label="启用状态">
+            <el-select v-model="AddDeptform.iseffective" placeholder="请选择状态" style="width: 200px">
+              <el-option label="active " value="1"/>
+              <el-option label="dead" value="2"/>
+            </el-select>
           </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer" style="text-align: center">
@@ -61,9 +67,19 @@
             <span>{{ scope.row.deptNo }}</span>
           </template>
         </el-table-column>
+        <el-table-column :label="$t('BasicSettings.iseffective')" :resizable="false" align="center" min-width="150">
+          <template slot-scope="scope">
+            <span>{{ scope.row.isEffective | iseffectiveFilter }}</span>
+          </template>
+        </el-table-column>
         <el-table-column :label="$t('BasicSettings.createTime')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.createTime }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column :label="$t('BasicSettings.personName')" :resizable="false" align="center" min-width="150">
+          <template slot-scope="scope">
+            <span>{{ scope.row.createPersonName }}</span>
           </template>
         </el-table-column>
         <el-table-column :label="$t('public.actions')" :resizable="false" align="center" min-width="230">
@@ -82,6 +98,12 @@
           </el-form-item>
           <el-form-item label-width="120px" label="部门名称">
             <el-input v-model="editDeptform.deptName" autocomplete="off" style="width: 200px"/>
+          </el-form-item>
+          <el-form-item label-width="120px" label="启用状态">
+            <el-select v-model="editDeptform.isEffective" placeholder="请选择状态" style="width: 200px">
+              <el-option label="active " value="1"/>
+              <el-option label="dead" value="2"/>
+            </el-select>
           </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer" style="text-align: center">
@@ -111,6 +133,13 @@ export default {
         2: '女'
       }
       return statusMap[status]
+    },
+    iseffectiveFilter(status) {
+      const statusMap = {
+        1: '启用',
+        2: '禁用'
+      }
+      return statusMap[status]
     }
   },
   data() {
@@ -135,7 +164,10 @@ export default {
         pagesize: 10
       },
       // 新建部门
-      AddDeptform: {},
+      AddDeptform: {
+        iseffective: '1',
+        createid: this.$store.getters.userId
+      },
       // 修改部门弹窗
       editDeptVisible: false,
       // 修改部门
@@ -164,6 +196,7 @@ export default {
       console.log(row)
       this.editDeptVisible = true
       this.editDeptform = Object.assign({}, row)
+      this.editDeptform.isEffective = String(row.isEffective)
     },
     // 确认修改
     handleYes() {
@@ -302,19 +335,21 @@ export default {
 </script>
 
 <style rel="stylesheet/css" scoped>
-  .app-container >>> .el-table .cell {
-    -webkit-box-sizing: border-box;
-    box-sizing: border-box;
-    line-height: 24px;
-    word-break: keep-all;
-    word-wrap: break-word;
-    white-space: pre-wrap;
-  }
   .filter-container >>> .el-form-item__label{
     padding: 0;
   }
   .ERP-container {
     margin: 0px 30px;
+  }
+  .ERP-container >>> .el-dialog {
+    transform: none;
+    left: 0;
+    position: relative;
+    margin: 0 auto;
+  }
+  .ERP-container >>> .el-dialog__header {
+    position: inherit;
+    width: 500px;
   }
   .filter-container{
     padding: 20px;

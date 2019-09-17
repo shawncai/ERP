@@ -13,7 +13,7 @@
             </el-col>
             <el-col :span="12">
               <el-form-item :label="$t('NewEmployeeInformation.password')" prop="password" style="width: 100%;">
-                <el-input v-model="personalForm.password" placeholder="请输入密码" clearable style="margin-left: 18px;width: 200px"/>
+                <el-input v-model="personalForm.password" placeholder="请输入密码" disabled style="margin-left: 18px;width: 200px"/>
               </el-form-item>
             </el-col>
             <el-col :span="12">

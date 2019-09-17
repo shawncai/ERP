@@ -343,19 +343,19 @@
               <el-form-item :label="$t('Product.valuation')" prop="valuation" style="width: 100%;">
                 <el-select v-model="personalForm.valuation" placeholder="请选择" style="margin-left: 18px;width: 200px">
                   <el-option value="1" label="约当产量法"/>
-                  <el-option value="2" label="定额成本发"/>
-                  <el-option value="3" label="定额比例发"/>
+                  <el-option value="2" label="定额成本法"/>
+                  <el-option value="3" label="定额比例法"/>
                 </el-select>
               </el-form-item>
             </el-col>
             <el-col :span="6">
-              <el-form-item :label="$t('Product.costprice')" style="width: 100%;">
+              <el-form-item :label="$t('Product.costprice')" prop="costprice" style="width: 100%;">
                 <el-input v-model="personalForm.costprice" placeholder="请输入出厂价" style="margin-left: 18px;width:200px" clearable/>
               </el-form-item>
             </el-col>
             <el-col :span="6">
-              <el-form-item :label="$t('Product.tradeprice')" style="width: 100%;">
-                <el-input v-model="personalForm.tradeprice" placeholder="请输入批发价" style="margin-left: 18px;width:200px" clearable/>
+              <el-form-item :label="$t('Product.tradeprice')" prop="tradeprice" style="width: 100%;">
+                <el-input v-model="personalForm.tradeprice" placeholder="请输入批发价" style="margin-left: 18px;width:200px" clearable @change="personalForm.tradeprice=personalForm.tradeprice.replace(/\D/g,'')"/>
               </el-form-item>
             </el-col>
             <el-col :span="6">
@@ -367,12 +367,12 @@
             <!--<el-input v-model="personalForm.purchaseprice" placeholder="请输入采购价" clearable/>-->
             <!--</el-form-item>-->
             <el-col :span="6">
-              <el-form-item :label="$t('Product.lowerprice')" style="width: 100%;">
+              <el-form-item :label="$t('Product.lowerprice')" prop="lowerprice" style="width: 100%;">
                 <el-input v-model="personalForm.lowerprice" placeholder="请输入最低价" style="margin-left: 18px;width:200px" clearable/>
               </el-form-item>
             </el-col>
             <el-col :span="6">
-              <el-form-item :label="$t('Product.memberprice')" style="width: 100%;">
+              <el-form-item :label="$t('Product.memberprice')" prop="memberprice" style="width: 100%;">
                 <el-input v-model="personalForm.memberprice" placeholder="请输入会员价" style="margin-left: 18px;width:200px" clearable/>
               </el-form-item>
             </el-col>
@@ -449,11 +449,39 @@ export default {
   data() {
     const validatePass = (rule, value, callback) => {
       console.log(value)
-      if (value === null) {
-        callback(new Error('请选择'))
+      if (this.categoryid === null || this.categoryid === undefined || this.categoryid === '') {
+        callback(new Error('请选择物品分类'))
       } else {
         callback()
       }
+    }
+    const validatePass2 = (rule, value, callback) => {
+      console.log(value)
+      value = Number(value)
+      if (value === null || value === undefined || value === '') {
+        callback(new Error('请输入'))
+      } else {
+        if (!Number.isInteger(value)) {
+          console.log('成功', Number.isInteger(value))
+          callback(new Error('请输入正确数字'))
+        } else {
+          console.log('失败', Number.isInteger(value))
+          callback()
+        }
+      }
+    }
+    const validatePass3 = (rule, value, callback) => {
+      console.log(value)
+      value = Number(value)
+      setTimeout(() => {
+        if (!Number.isInteger(value)) {
+          callback(new Error('请输入正确数字'))
+          console.log('成功', Number.isInteger(value))
+        } else {
+          console.log('失败', Number.isInteger(value))
+          callback()
+        }
+      }, 1000)
     }
     return {
       // 是否显示添加按钮
@@ -550,16 +578,16 @@ export default {
         categoryid: '',
         color: '',
         brand: '',
-        kpigrade: '',
-        point: '',
+        kpigrade: '0.00',
+        point: '0.00',
         zhibaoqi: '',
-        weight: '',
-        volume: '',
-        costprice: '',
-        tradeprice: '',
-        saleprice: '',
-        purchaseprice: '',
-        lowerprice: '',
+        weight: '0.00',
+        volume: '0.00',
+        costprice: '0.00',
+        tradeprice: '0.00',
+        saleprice: '0.00',
+        purchaseprice: '0.00',
+        lowerprice: '0.00',
         createid: '',
         level: '',
         purchasemeasurement: '',
@@ -631,12 +659,6 @@ export default {
         ],
         typeid: [
         ],
-        costprice: [
-          { required: true, message: '请输入成本价', trigger: 'blur' }
-        ],
-        saleprice: [
-          { required: true, message: '请输入零售价', trigger: 'blur' }
-        ],
         isBatch: [
           { required: true, message: '请选择批次设置', trigger: 'change' }
         ],
@@ -644,6 +666,21 @@ export default {
         ],
         purchasemeasurement: [
           { required: true, message: '请选择基本计量单位', trigger: 'change' }
+        ],
+        costprice: [
+          { required: true, validator: validatePass2, trigger: 'change' }
+        ],
+        tradeprice: [
+          { validator: validatePass3, trigger: 'change' }
+        ],
+        saleprice: [
+          { validator: validatePass3, trigger: 'change' }
+        ],
+        lowerprice: [
+          { validator: validatePass3, trigger: 'change' }
+        ],
+        memberprice: [
+          { validator: validatePass3, trigger: 'change' }
         ]
       }
     }

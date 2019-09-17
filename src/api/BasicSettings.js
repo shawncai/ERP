@@ -66,6 +66,9 @@ export function createRules(query) {
   if (query.length !== '' && query.length !== null && query.length !== undefined) {
     params.append('length', query.length) // 你要传给后台的参数值 key/value
   }
+  if (query.createid !== '' && query.createid !== null && query.createid !== undefined) {
+    params.append('createid', query.createid) // 你要传给后台的参数值 key/value
+  }
   return request({
     url: '/erp/NumberingRules/create',
     method: 'post',
@@ -487,6 +490,12 @@ export function adddept(query) {
   if (query.deptname !== '' && query.deptname !== null && query.deptname !== undefined) {
     params.append('deptname', query.deptname) // 你要传给后台的参数值 key/value
   }
+  if (query.iseffective !== '' && query.iseffective !== null && query.iseffective !== undefined) {
+    params.append('iseffective', query.iseffective) // 你要传给后台的参数值 key/value
+  }
+  if (query.createid !== '' && query.createid !== null && query.createid !== undefined) {
+    params.append('createid', query.createid) // 你要传给后台的参数值 key/value
+  }
   return request({
     url: '/erp/country/adddept',
     method: 'post',
@@ -505,6 +514,12 @@ export function updatedept(query) {
   }
   if (query.deptName !== '' && query.deptName !== null && query.deptName !== undefined) {
     params.append('deptname', query.deptName) // 你要传给后台的参数值 key/value
+  }
+  if (query.isEffective !== '' && query.isEffective !== null && query.isEffective !== undefined) {
+    params.append('iseffective', query.isEffective) // 你要传给后台的参数值 key/value
+  }
+  if (query.createid !== '' && query.createid !== null && query.createid !== undefined) {
+    params.append('createid', query.createid) // 你要传给后台的参数值 key/value
   }
   return request({
     url: '/erp/country/updatedept',

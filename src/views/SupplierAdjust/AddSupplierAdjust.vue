@@ -282,6 +282,12 @@ export default {
     this.getTypes()
     this.getdatatime()
   },
+  mounted() {
+    this.getinformation4()
+  },
+  activated() {
+    this.getinformation4()
+  },
   methods: {
     checkStock(row) {
       console.log('this.moreaction.length', this.moreaction.length)
@@ -641,6 +647,23 @@ export default {
       const view = { path: '/SupplierAdjust/AddSupplierAdjust', name: 'AddSupplierAdjust', fullPath: '/SupplierAdjust/AddSupplierAdjust', title: 'AddSupplierAdjust' }
       this.$store.dispatch('delView', view).then(({ visitedViews }) => {
       })
+    },
+    // 获取信息
+    getinformation4() {
+      if (this.$store.getters.empcontract4) {
+        console.log('getempcontract4', this.$store.getters.empcontract4)
+        this.supplierId = this.$store.getters.empcontract4[0].supplierName
+        this.personalForm.supplierId = this.$store.getters.empcontract4[0].id
+        if (this.$refs.editable.getRecords().length !== 0 && this.$refs.editable.getRecords() !== undefined && this.$refs.editable.getRecords() !== null) {
+          this.$refs.editable.clear()
+        }
+        for (let i = 0; i < this.$store.getters.empcontract4[0].supplierDetailVos.length; i++) {
+          this.$store.getters.empcontract4[0].supplierDetailVos[i].type = this.$store.getters.empcontract4[0].supplierDetailVos[i].productTypeName
+          this.$store.getters.empcontract4[0].supplierDetailVos[i].oldPrice = this.$store.getters.empcontract4[0].supplierDetailVos[i].price
+          this.$refs.editable.insert(this.$store.getters.empcontract4[0].supplierDetailVos[i])
+        }
+        this.$store.dispatch('getempcontract4', '')
+      }
     }
   }
 }

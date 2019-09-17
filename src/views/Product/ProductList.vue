@@ -138,6 +138,11 @@
             <span>{{ scope.row.costPrice }}</span>
           </template>
         </el-table-column>
+        <el-table-column :label="$t('Product.isactive')" :resizable="false" prop="active" align="center" min-width="100">
+          <template slot-scope="scope">
+            <span>{{ scope.row.isActive | activefilter }}</span>
+          </template>
+        </el-table-column>
         <el-table-column :label="$t('Product.createid')" :resizable="false" prop="createName" align="center" width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.createName }}</span>
@@ -187,6 +192,13 @@ export default {
       const statusMap = {
         1: '男',
         2: '女'
+      }
+      return statusMap[status]
+    },
+    activefilter(status) {
+      const statusMap = {
+        1: '上架',
+        2: '下架'
       }
       return statusMap[status]
     }

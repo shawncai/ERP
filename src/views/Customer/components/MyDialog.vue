@@ -534,6 +534,7 @@ export default {
       this.customerForm.traderid = val.id
     },
     handleEditok() {
+      console.log('save', this.customerForm)
       updateagent(this.customerForm).then(res => {
         if (res.data.ret === 200) {
           this.$notify({

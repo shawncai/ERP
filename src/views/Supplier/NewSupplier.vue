@@ -344,6 +344,36 @@
           </el-form>
         </div>
       </el-card>
+      <!-- 动态信息 -->
+      <!-- <el-card class="box-card" shadow="never" style="margin-top: 10px">
+        <h2 ref="fuzhu" class="form-name">动态信息</h2>
+        <div class="container" style="margin-top: 37px">
+          <el-form ref="personalForm4" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
+            <el-row>
+              <el-col :span="6">
+                <el-form-item :label="$t('Supplier.amountinvoiced')" style="width: 100%;">
+                  <el-input v-model="personalForm.taxNumber" placeholder="请输入税务登记号" style="margin-left: 18px;width:200px" clearable/>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item :label="$t('Supplier.amountpaid')" style="width: 100%;">
+                  <el-input v-model="personalForm.taxNumber" placeholder="请输入税务登记号" style="margin-left: 18px;width:200px" clearable/>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item :label="$t('Supplier.amountpayable')" style="width: 100%;">
+                  <el-input v-model="personalForm.taxNumber" placeholder="请输入税务登记号" style="margin-left: 18px;width:200px" clearable/>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item :label="$t('Supplier.orderquantity')" style="width: 100%;">
+                  <el-input v-model="personalForm.taxNumber" placeholder="请输入税务登记号" style="margin-left: 18px;width:200px" clearable/>
+                </el-form-item>
+              </el-col>
+            </el-row>
+          </el-form>
+        </div>
+      </el-card> -->
       <!--操作-->
       <div class="buttons" style="margin-top: 20px">
         <el-button v-no-more-click v-permission="['1-22-23-1']" type="primary" style="background:#3696fd;border-color:#3696fd;width: 98px" @click="handlesave()">保存</el-button>
@@ -428,13 +458,13 @@ export default {
         deliveryMode: '',
         transportId: '',
         levelId: '',
-        isHot: '',
-        isEffective: '',
+        isHot: '1',
+        isEffective: '1',
         buyerId: '',
         // 财务信息
         businessScopeIntroduction: '',
         settleMode: '',
-        moneyId: '',
+        moneyId: '1',
         bankName: '',
         accountName: '',
         account: '',
@@ -503,6 +533,7 @@ export default {
     this.getTypes()
     this.getRegion()
     this.jungleshow()
+    this.handlechange(2)
   },
   methods: {
     jungleshow() {

@@ -8,13 +8,27 @@
           <el-form-item :label="$t('Repository.repositoryName')" prop="repositoryName" style="width: 40%;margin-top:1%">
             <el-input v-model="RepositoryForm.repositoryName" placeholder="请输入门店名称" clearable/>
           </el-form-item>
+          <el-form-item :label="$t('Repository.type')" prop="type" style="width: 40%;margin-top: 1%">
+            <el-select ref="clear" v-model="RepositoryForm.type" :value="RepositoryForm.type" placeholder="请选择" style="width: 100%;" @change="updateType2" @focus="updateType">
+              <el-option v-show="false" label="" value=""/>
+              <el-option
+                v-for="item in types"
+                :key="item.id"
+                :value="item.id"
+                :label="item.categoryName"
+              />
+              <!-- <template>
+                <el-button v-if="isshow" icon="el-icon-circle-plus-outline" style="width:100%" @click="go_creat">新增</el-button>
+              </template> -->
+            </el-select>
+          </el-form-item>
           <el-form-item :label="$t('Repository.longitude')" style="width: 40%;margin-top:1%">
             <el-input v-model.number="RepositoryForm.longitude" placeholder="请输入经度" autocomplete="new-password" clearable/>
           </el-form-item>
-          <el-form-item :label="$t('Repository.latitude')" style="width: 40%">
+          <el-form-item :label="$t('Repository.latitude')" style="width: 40%;margin-top:1%">
             <el-input v-model.number="RepositoryForm.latitude" placeholder="请输入纬度" clearable/>
           </el-form-item>
-          <el-form-item :label="$t('public.address')" prop="address" style="width: 40%">
+          <el-form-item :label="$t('public.address')" prop="address" style="width: 40%;margin-top:1%">
             <el-input v-model="RepositoryForm.address" placeholder="请输入详细门店地址" clearable/>
           </el-form-item>
           <el-form-item :label="$t('Repository.regionId')" prop="regionId" style="width: 40%;margin-top: 1%">
@@ -35,22 +49,8 @@
               <el-radio :label="2">dead</el-radio>
             </el-radio-group>
           </el-form-item>
-          <el-form-item :label="$t('Repository.type')" prop="type" style="width: 40%;margin-top: 1%">
-            <el-select ref="clear" v-model="RepositoryForm.type" :value="RepositoryForm.type" placeholder="请选择" style="width: 100%;" @change="updateType2" @focus="updateType">
-              <el-option v-show="false" label="" value=""/>
-              <el-option
-                v-for="(item, index) in types"
-                :key="index"
-                :value="item.id"
-                :label="item.categoryName"
-              />
-              <!-- <template>
-                <el-button v-if="isshow" icon="el-icon-circle-plus-outline" style="width:100%" @click="go_creat">新增</el-button>
-              </template> -->
-            </el-select>
-          </el-form-item>
           <el-form-item label="类型" prop="categoryId" style="width: 40%;margin-top: 1%">
-            <el-select ref="clear2" v-model="RepositoryForm.categoryId" placeholder="请选择" style="width: 100%;">
+            <el-select ref="clear2" v-model="RepositoryForm.categoryId" placeholder="请选择" style="width: 100%;" @focus="updateType2">
               <el-option v-show="false" label="" value=""/>
               <el-option
                 v-for="(item, index) in types2"
@@ -488,6 +488,7 @@ export default {
       this.isshow = roles.includes('1-9-13-1')
     },
     updateType2() {
+      console.log(123)
       this.RepositoryForm.categoryId = ''
       this.types2 = []
       searchRepCategory().then(res => {

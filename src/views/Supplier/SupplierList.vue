@@ -85,6 +85,7 @@
       <!-- 新建分组 -->
       <el-button v-permission="['1-22-24-64']" v-waves class="filter-item" type="primary" style="width: 100px" @click="handleGroup">{{ $t('Supplier.supplierGroup') }}</el-button>
       <el-button v-waves class="filter-item" type="primary" style="width: 100px" @click="handlePunish">供应商考核</el-button>
+      <el-button v-waves class="filter-item" type="primary" style="width: 100px" @click="handleModify">生成调价单</el-button>
       <my-punishment :punishcontrol.sync="punishcontrol" :punishdata="punishdata" @rest="refreshlist"/>
       <el-dialog :visible.sync="GroupVisible" title="新建分组" class="normal" width="600px" center>
         <el-input v-model="groupName" :placeholder="$t('Supplier.groupName')" class="filter-item" style="width: 200px;float: left" clearable @keyup.enter.native="handleAddGroup"/>
@@ -351,6 +352,29 @@ export default {
           const ids = this.moreaction.map(item => item.id).join()
           this.punishdata = ids
           this.punishcontrol = true
+        }
+      } else {
+        this.$notify.error({
+          title: '错误',
+          message: '请先选择要考核的供应商',
+          offset: 100
+        })
+      }
+    },
+    // 新建调价单
+    handleModify() {
+      console.log('this.moreaction', this.moreaction)
+      if (this.moreaction !== '' && this.moreaction !== null && this.moreaction !== undefined && this.moreaction.length !== 0) {
+        if (this.moreaction.length > 1) {
+          this.$notify.error({
+            title: '错误',
+            message: '请选择一个供应商',
+            offset: 100
+          })
+        } else {
+          console.log('this.moreaction', this.moreaction)
+          this.$store.dispatch('getempcontract4', this.moreaction)
+          this.$router.push('/Supplier/AddSupplierAdjust')
         }
       } else {
         this.$notify.error({

@@ -697,7 +697,12 @@ export default {
     provinceId: '修改省',
     cityId: '修改市',
     groupName: '组名称',
-    createId: '建档人'
+    createId: '建档人',
+    // 辅助信息
+    amountinvoiced: '已开票总金额',
+    amountpaid: '已付款总金额',
+    amountpayable: '应付款总金额',
+    orderquantity: '订单数量合计'
   },
   Product: {
     unitGroupId: '计量单位组',
@@ -810,7 +815,8 @@ export default {
     isEffective: '流程使用状态',
     isMessage: '是否手机提醒',
     deptNo: '部门编号',
-    deptName: '部门名称'
+    deptName: '部门名称',
+    personName: '创建人'
   },
   LogisticsCar: {
     cartype: '车辆类型',

@@ -17,7 +17,7 @@
           <el-form-item :label="$t('Customer.phone')" prop="phone" style="width: 40%">
             <el-input v-model.number="customerForm.phone" placeholder="请输入客户电话" clearable/>
           </el-form-item>
-          <el-form-item :label="$t('Customer.gender')" prop="gender" style="width: 40%">
+          <el-form-item :label="$t('Customer.gender')" prop="gender" style="width: 40%;margin-top:1%">
             <el-radio-group v-model="customerForm.gender" style="width: 80%">
               <el-radio :label="1" style="width: 50%">{{ $t('public.male') }}</el-radio>
               <el-radio :label="2">{{ $t('public.female') }}</el-radio>
@@ -103,7 +103,7 @@
               clearable
               style="width: 100%"/>
           </el-form-item>
-          <el-form-item :label="$t('Customer.repositoryid')" prop="repositoryid" style="width: 40%">
+          <el-form-item :label="$t('Customer.repositoryid')" prop="repositoryid" style="width: 40%;margin-top:1%">
             <el-select v-model="customerForm.repositoryid" placeholder="请选择门店" filterable style="width: 100%;">
               <el-option
                 v-for="(item, index) in repositories"
@@ -210,6 +210,7 @@ export default {
     this.getnationlist()
     this.getCategory()
     this.jungleshow()
+    this.handlechange(2)
   },
   methods: {
     jungleshow() {
@@ -265,6 +266,8 @@ export default {
     },
     // 根据国家选择省
     handlechange(val) {
+      this.customerForm.provinceid = ''
+      this.customerForm.cityid = ''
       getprovincelist(val).then(res => {
         if (res.data.ret === 200) {
           this.provinces = res.data.data.content

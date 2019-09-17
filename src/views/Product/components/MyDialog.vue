@@ -219,7 +219,7 @@
             </el-col>
             <el-col :span="12">
               <el-form-item :label="$t('Product.isactive')" style="width: 100%;">
-                <el-radio-group v-model="personalForm.isactive" style="margin-left: 18px;width: 200px">
+                <el-radio-group v-model="personalForm.isActive" style="margin-left: 18px;width: 200px">
                   <el-radio :label="1" style="width: 100px">YES</el-radio>
                   <el-radio :label="2">NO</el-radio>
                 </el-radio-group>
@@ -237,8 +237,9 @@
           <el-col :span="12">
             <el-form-item :label="$t('Product.valuation')" prop="valuation" style="width: 100%;">
               <el-select v-model="personalForm.valuation" placeholder="请选择" style="margin-left: 18px;width: 200px">
-                <el-option value="1" label="类1"/>
-                <el-option value="2" label="类2"/>
+                <el-option value="1" label="约当产量法"/>
+                <el-option value="2" label="定额成本法"/>
+                <el-option value="3" label="定额比例法"/>
               </el-select>
             </el-form-item>
           </el-col>
@@ -998,7 +999,7 @@ export default {
         producemeasurement: '',
         source: '',
         valuation: '',
-        isactive: '',
+        isActive: '',
         picids: [],
         detailpicid: [],
         memberprice: ''

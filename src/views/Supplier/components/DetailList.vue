@@ -229,6 +229,36 @@
           </el-form>
         </div>
       </el-card>
+      <!-- 动态信息 -->
+      <el-card class="box-card" shadow="never" style="margin-top: 10px">
+        <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">动态信息</h2>
+        <div class="container" style="margin-top: 37px">
+          <el-form ref="personalForm4" :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
+            <el-row>
+              <el-col :span="12">
+                <el-form-item :label="$t('Supplier.amountinvoiced')" style="width: 100%;">
+                  <span>{{ personalForm.amountinvoiced }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('Supplier.amountpaid')" style="width: 100%;">
+                  <span>{{ personalForm.amountpaid }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('Supplier.amountpayable')" style="width: 100%;">
+                  <span>{{ personalForm.amountpayable }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('Supplier.orderquantity')" style="width: 100%;">
+                  <span>{{ personalForm.orderquantity }}</span>
+                </el-form-item>
+              </el-col>
+            </el-row>
+          </el-form>
+        </div>
+      </el-card>
       <el-card class="box-card" style="margin-top: 15px" shadow="never">
         <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">备注信息</h2>
         <div class="container" style="margin-top: 37px">

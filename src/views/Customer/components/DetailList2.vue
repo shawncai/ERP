@@ -399,6 +399,7 @@ export default {
         if (res.data.ret === 200) {
           console.log(res.data.data)
           this.customerForm = res.data.data.content
+          console.log('this.customerForm', this.customerForm)
           this.tableData = res.data.data.recover
           this.tableData2 = res.data.data.repayment
         }
