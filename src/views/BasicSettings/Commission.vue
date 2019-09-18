@@ -6,24 +6,24 @@
       <div class="container">
         <el-form ref="personalForm" :model="personalForm" :rules="personalrules" status-icon class="demo-ruleForm" label-position="left" label-width="300px" style="margin-left: 30px;">
           <el-form-item :label="$t('BasicSettings.roleId')" prop="roleId" style="width: 40%;margin-top:1%">
-            <el-input v-model="personalForm.roleId" placeholder="请选择员工职位" clearable/>
-          </el-form-item>
-          <el-col :span="6">
-            <el-form-item :label="$t('Product.categoryid')" prop="categoryid" style="width: 100%;">
-              <el-input v-model="productCategoryId" style="margin-left: 18px;width: 200px" placeholder="请选择物品分类" @focus="treechoose"/>
-              <my-tree :treecontrol.sync="treecontrol" @tree="tree"/>
-            </el-form-item>
-          </el-col>
-          <!-- <el-form-item :label="$t('BasicSettings.productCategoryId')" prop="productCategoryId" style="width: 40%;margin-top:1%">
-            <el-select v-model="personalForm.productCategoryId" placeholder="请选择商品类别" style="width: 100%;">
+            <el-select v-model="personalForm.roleId" style="width: 100%;" @change ="handlechange">
               <el-option
-                v-for="(item, index) in typeIds"
+                v-for="(item, index) in roleIds"
                 :key="index"
                 :label="item.categoryName"
-                :value="item.id"
-              />
+                :value="item.id"/>
             </el-select>
-          </el-form-item> -->
+          </el-form-item>
+          <el-form-item :label="$t('Product.categoryid')" prop="productCategoryId" style="width: 40%;">
+            <el-input v-model="productCategoryId" style="width: 100%;" placeholder="请选择物品分类" @focus="treechoose"/>
+            <my-tree :treecontrol.sync="treecontrol" @tree="tree"/>
+          </el-form-item>
+          <el-form-item :label="$t('BasicSettings.commissionCategory')" prop="commissionType" style="width: 35%;margin-top:1%">
+            <el-radio-group v-model="personalForm.commissionCategory">
+              <el-radio :label="1">利润提成</el-radio>
+              <el-radio :label="2">销售收入提成</el-radio>
+            </el-radio-group>
+          </el-form-item>
           <el-form-item :label="$t('BasicSettings.commissionType')" prop="commissionType" style="width: 35%;margin-top:1%">
             <el-radio-group v-model="personalForm.commissionType">
               <el-radio :label="1">提成比例</el-radio>
@@ -55,6 +55,8 @@
 </template>
 
 <script>
+import { create } from '@/api/BasicSettings'
+import { searchEmpCategory } from '@/api/EmployeeInformation'
 import { getcountrylist, getprovincelist, getcitylist, regionlist } from '@/api/public'
 import permission from '@/directive/permission/index.js' // 权限判断指令
 import permission2 from '@/directive/permission2/index.js' // 权限判断指令
@@ -66,6 +68,14 @@ export default {
   directives: { permission, permission2 },
   components: { MyEmp, MyTree },
   data() {
+    const validatePass = (rule, value, callback) => {
+      console.log(value)
+      if (this.productCategoryId === null || this.productCategoryId === undefined || this.productCategoryId === '') {
+        callback(new Error('请选择物品分类'))
+      } else {
+        callback()
+      }
+    }
     return {
       // 结算方式
       paymentIds: [],
@@ -95,6 +105,7 @@ export default {
       },
       // 采购员回显
       buyerId: '',
+      roleIds: [],
       // 转化区域id
       perregions: [],
       // 控制物品分类
@@ -103,7 +114,7 @@ export default {
       // 提成信息数据
       personalForm: {
         roleId: '',
-        productCategoryId: '',
+        commissionCategory: 1,
         commissionType: 1,
         commissionValue: '',
         countryId: ''
@@ -111,16 +122,16 @@ export default {
       // 个人信息规则数据
       personalrules: {
         roleId: [
-          { required: true, message: '请输入供应商名称', trigger: 'blur' }
+          { required: true, message: '请选择职位', trigger: 'change' }
         ],
         productCategoryId: [
-          { required: true, message: '请选择供应商类别', trigger: 'change' }
+          { required: true, validator: validatePass, trigger: 'change' }
         ],
         commissionType: [
           { required: true, message: '请选择供应商分组', trigger: 'change' }
         ],
         commissionValue: [
-          { required: true, message: '请选择', trigger: 'change' }
+          { required: true, message: '请输入提成', trigger: 'blur' }
         ],
         countryId: [
           { required: true, message: '请选择国家', trigger: 'change' }
@@ -136,10 +147,12 @@ export default {
     tree(val) {
       console.log(val)
       this.productCategoryId = val.categoryName
-      this.personalForm.productCategoryId = val.code
+      this.personalForm.productCategoryId = val.id
     },
     treechoose() {
+      console.log('this.treecontrol', this.treecontrol)
       this.treecontrol = true
+      console.log('this.treecontrol', this.treecontrol)
     },
     // 国籍列表
     getnationlist() {
@@ -155,17 +168,22 @@ export default {
         }
       })
       // 供应商类别
-      // searchCategory(1).then(res => {
-      //   if (res.data.ret === 200) {
-      //     this.typeIds = res.data.data.content.list
-      //   } else {
-      //     this.$notify.error({
-      //       title: '错误',
-      //       message: '出错了',
-      //       offset: 100
-      //     })
-      //   }
-      // })
+      const param = {}
+      param.iseffective = 1
+      param.iseffective = 1
+      param.type = 2
+      param.pagesize = 999
+      searchEmpCategory(param).then(res => {
+        if (res.data.ret === 200) {
+          this.roleIds = res.data.data.content.list
+        } else {
+          this.$notify.error({
+            title: '错误',
+            message: '出错了',
+            offset: 100
+          })
+        }
+      })
       // 交货方式
       // searchCategory(2).then(res => {
       //   if (res.data.ret === 200) {
@@ -255,44 +273,37 @@ export default {
     },
     // 保存操作
     handlesave() {
-      this.personalForm.regionId = this.perregions[this.perregions.length - 1]
-      // this.$refs.personalForm.validate((valid) => {
-      //   if (valid) {
-      //     create(this.personalForm).then(res => {
-      //       console.log(res)
-      //       if (res.data.ret === 200) {
-      //         this.$notify({
-      //           title: '成功',
-      //           message: '保存成功',
-      //           type: 'success',
-      //           offset: 100
-      //         })
-      //         this.restAllForm()
-      //         this.$refs.personalForm.clearValidate()
-      //         this.$refs.personalForm.resetFields()
-      //         this.$refs.personalForm2.clearValidate()
-      //         this.$refs.personalForm2.resetFields()
-      //         this.$refs.personalForm3.clearValidate()
-      //         this.$refs.personalForm3.resetFields()
-      //         this.$refs.personalForm4.clearValidate()
-      //         this.$refs.personalForm4.resetFields()
-      //       } else {
-      //         this.$notify.error({
-      //           title: '错误',
-      //           message: res.data.msg,
-      //           offset: 100
-      //         })
-      //       }
-      //     })
-      //   } else {
-      //     this.$notify.error({
-      //       title: '错误',
-      //       message: '信息未填完整',
-      //       offset: 100
-      //     })
-      //     return false
-      //   }
-      // })
+      this.$refs.personalForm.validate((valid) => {
+        if (valid) {
+          create(this.personalForm).then(res => {
+            console.log(res)
+            if (res.data.ret === 200) {
+              this.$notify({
+                title: '成功',
+                message: '保存成功',
+                type: 'success',
+                offset: 100
+              })
+              this.restAllForm()
+              this.$refs.personalForm.clearValidate()
+              this.$refs.personalForm.resetFields()
+            } else {
+              this.$notify.error({
+                title: '错误',
+                message: res.data.msg,
+                offset: 100
+              })
+            }
+          })
+        } else {
+          this.$notify.error({
+            title: '错误',
+            message: '信息未填完整',
+            offset: 100
+          })
+          return false
+        }
+      })
     },
     // 清空记录
     restAllForm() {
@@ -328,9 +339,10 @@ export default {
         establishDate: '',
         legalPerson: '',
         taxNumber: '',
-        businessLicense: '',
+        commissionCategory: 1,
         companyTypeId: ''
       }
+      this.productCategoryId = ''
       this.perregions = []
       this.buyerId = ''
     },

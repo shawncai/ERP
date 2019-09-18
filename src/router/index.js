@@ -452,6 +452,12 @@ export const asyncRouterMap = [
         name: 'Commission',
         meta: { title: 'Commission', noCache: true, roles: ['1-39-44-1'] }
       },
+      {
+        path: 'CommissionList',
+        component: () => import('@/views/BasicSettings/CommissionList'),
+        name: 'CommissionList',
+        meta: { title: 'CommissionList', noCache: true, roles: ['1-39-277-1', '1-39-277-2', '1-39-277-3', '1-39-277-4', '1-39-277-5', '1-39-277-6', '1-39-277-7', '1-39-277-8', '1-39-277-9'] }
+      },
       // {
       //   path: 'Parameter',
       //   component: () => import('@/views/BasicSettings/Parameter'),
@@ -480,7 +486,7 @@ export const asyncRouterMap = [
         path: 'UnitGroup',
         component: () => import('@/views/BasicSettings/UnitGroup'),
         name: 'UnitGroup',
-        meta: { title: 'UnitGroup', noCache: true }
+        meta: { title: 'UnitGroup', noCache: true, roles: ['1-39-48-1', '1-39-48-2', '1-39-48-3', '1-39-48-4', '1-39-48-5', '1-39-48-6', '1-39-48-7', '1-39-48-8', '1-39-48-9'] }
       },
       {
         path: 'Regional',

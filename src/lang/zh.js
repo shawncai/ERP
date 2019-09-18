@@ -11,6 +11,7 @@ export default {
     SupplierAdjustList: '供应商调价单列表',
     WorkDesk: '工作台',
     SaleMange: '销售管控',
+    CommissionList: '提成设置列表',
     DriveRes: '驾驶舱',
     InventoryMange: '库存管控',
     StockMange: '采购管控',
@@ -49,7 +50,7 @@ export default {
     AdjustpriceList: '价格变更单列表',
     SMSModelList: '短信设置',
     Measurement: '计量单位设置',
-    Commission: '提成设置',
+    Commission: '新建提成设置',
     Parameter: '参数设置',
     NewApprovalProcess: '新建审批流程',
     endmonth: '月末处理',
@@ -782,6 +783,7 @@ export default {
     isActive: '应用状态'
   },
   BasicSettings: {
+    commissionCategory: '提成类别',
     ruleName: '编号规则名称',
     type: '单据类型',
     iseffective: '启用状态',
