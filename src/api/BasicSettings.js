@@ -201,6 +201,108 @@ export function searchMea(query) {
 }
 
 // 查询计量单位列表 分页
+export function getCommissionlist(query) {
+  var params = new URLSearchParams()
+  if (query.productCategoryId !== '' && query.productCategoryId !== null && query.productCategoryId !== undefined) {
+    params.append('productCategoryId', query.productCategoryId) // 你要传给后台的参数值 key/value
+  }
+  if (query.commissionType !== '' && query.commissionType !== null && query.commissionType !== undefined) {
+    params.append('commissionType', query.commissionType) // 你要传给后台的参数值 key/value
+  }
+  if (query.commissionId !== '' && query.commissionId !== null && query.commissionId !== undefined) {
+    params.append('commissionId', query.commissionId) // 你要传给后台的参数值 key/value
+  }
+  params.append('pageNum', query.pagenum) // 你要传给后台的参数值 key/value
+  params.append('pageSize', query.pagesize) // 你要传给后台的参数值 key/value
+  return request({
+    url: '/commission/getCommissionlist',
+    method: 'post',
+    data: params
+  })
+}
+
+// 新增计量单位
+export function create(query) {
+  var params = new URLSearchParams()
+  if (query.roleId !== '' && query.roleId !== null && query.roleId !== undefined) {
+    params.append('postId', query.roleId) // 你要传给后台的参数值 key/value
+  }
+  if (query.productCategoryId !== '' && query.productCategoryId !== null && query.productCategoryId !== undefined) {
+    params.append('productCategoryId', query.productCategoryId) // 你要传给后台的参数值 key/value
+  }
+  if (query.commissionType !== '' && query.commissionType !== null && query.commissionType !== undefined) {
+    params.append('commissionType', query.commissionType) // 你要传给后台的参数值 key/value
+  }
+  if (query.commissionCategory !== '' && query.commissionCategory !== null && query.commissionCategory !== undefined) {
+    params.append('commissionCategory', query.commissionCategory) // 你要传给后台的参数值 key/value
+  }
+  if (query.commissionValue !== '' && query.commissionValue !== null && query.commissionValue !== undefined) {
+    params.append('commissionValue', query.commissionValue) // 你要传给后台的参数值 key/value
+  }
+  if (query.countryId !== '' && query.countryId !== null && query.countryId !== undefined) {
+    params.append('countryId', query.countryId) // 你要传给后台的参数值 key/value
+  }
+  if (query.kpiMoney !== '' && query.kpiMoney !== null && query.kpiMoney !== undefined) {
+    params.append('kpiMoney', query.kpiMoney) // 你要传给后台的参数值 key/value
+  }
+  return request({
+    url: '/commission/create',
+    method: 'post',
+    data: params
+  })
+}
+
+// 修改计量单位
+export function update(query) {
+  var params = new URLSearchParams()
+  if (query.id !== '' && query.id !== null && query.id !== undefined) {
+    params.append('id', query.id) // 你要传给后台的参数值 key/value
+  }
+  if (query.postId !== '' && query.postId !== null && query.postId !== undefined) {
+    params.append('postId', query.postId) // 你要传给后台的参数值 key/value
+  }
+  if (query.productCategoryId !== '' && query.productCategoryId !== null && query.productCategoryId !== undefined) {
+    params.append('productCategoryId', query.productCategoryId) // 你要传给后台的参数值 key/value
+  }
+  if (query.commissionType !== '' && query.commissionType !== null && query.commissionType !== undefined) {
+    params.append('commissionType', query.commissionType) // 你要传给后台的参数值 key/value
+  }
+  if (query.commissionCategory !== '' && query.commissionCategory !== null && query.commissionCategory !== undefined) {
+    params.append('commissionCategory', query.commissionCategory) // 你要传给后台的参数值 key/value
+  }
+  if (query.commissionValue !== '' && query.commissionValue !== null && query.commissionValue !== undefined) {
+    params.append('commissionValue', query.commissionValue) // 你要传给后台的参数值 key/value
+  }
+  if (query.countryId !== '' && query.countryId !== null && query.countryId !== undefined) {
+    params.append('countryId', query.countryId) // 你要传给后台的参数值 key/value
+  }
+  if (query.kpiMoney !== '' && query.kpiMoney !== null && query.kpiMoney !== undefined) {
+    params.append('kpiMoney', query.kpiMoney) // 你要传给后台的参数值 key/value
+  }
+  return request({
+    url: '/commission/update',
+    method: 'post',
+    data: params
+  })
+}
+
+// 批量删除计量单位
+export function deleteCommission(query, query2) {
+  var params = new URLSearchParams()
+  if (query !== '' && query !== null && query !== undefined) {
+    params.append('commissionId', query) // 你要传给后台的参数值 key/value
+  }
+  if (query2 !== '' && query2 !== null && query2 !== undefined) {
+    params.append('operatorId', query2) // 你要传给后台的参数值 key/value
+  }
+  return request({
+    url: '/commission/delete',
+    method: 'post',
+    data: params
+  })
+}
+
+// 查询计量单位列表 分页
 export function searchMea2(query) {
   var params = new URLSearchParams()
   if (query.iseffective !== '' && query.iseffective !== null && query.iseffective !== undefined) {
