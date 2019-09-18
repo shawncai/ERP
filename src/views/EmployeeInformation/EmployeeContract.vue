@@ -449,7 +449,7 @@ export default {
       let name = []
       // 接受提醒人id
       let id = []
-      id = [...row.expiredRemindPersonId.split(',')]
+      id = row.expiredRemindPersonId.split(',')
       name = row.remindPerson.split(',')
       for (let i = 0; i < name.length - 1; i++) {
         const temp = {}
@@ -474,10 +474,10 @@ export default {
         if (valid) {
           const stringid = []
           for (const i in this.remindpersonname) {
-            stringid.push(this.remindpersonname[i].id)
+            stringid.push(this.remindpersonname[i].personId)
           }
           console.log(stringid)
-          this.contractForm.remindpersonid = stringid.join(',')
+          this.contractForm.expiredRemindPersonId = stringid.join(',')
           console.log('上传', this.contractForm.remindpersonid)
           updatecontract(this.contractForm).then(res => {
             if (res.data.ret === 200) {
