@@ -5,7 +5,7 @@
     :detaildata="detaildata"
     :detailid="detailid"
     :close-on-press-escape="false"
-    :title="personalForm.content.account +'员工详情信息'"
+    title="personalForm.content.account +'员工详情信息'"
     append-to-body
     width="1010px"
     class="edit"
@@ -506,7 +506,7 @@ export default {
     },
     detaildata() {
       this.personalForm = this.detaildata
-      console.log(this.personalForm)
+      console.log('this.personalForm', this.personalForm)
       this.personalForm.content.account = this.detaildata.content.account
       if (this.personalForm.contract !== '' && this.personalForm.contract !== null && this.personalForm.contract !== undefined) {
         this.contracts = this.personalForm.contract

@@ -81,8 +81,8 @@
           {{ $t('public.batchoperation') }} <i class="el-icon-arrow-down el-icon--right"/>
         </el-button>
         <el-dropdown-menu slot="dropdown" style="width: 140px">
-          <el-dropdown-item v-permission="['1-2-4-9']" style="text-align: left" command="disable"><svg-icon icon-class="tingyong" style="width: 40px"/>{{ $t('public.disable') }}</el-dropdown-item>
-          <el-dropdown-item v-permission="['1-2-4-2']" style="text-align: left" command="delete"><svg-icon icon-class="shanchu" style="width: 40px"/>{{ $t('public.delete') }}</el-dropdown-item>
+          <el-dropdown-item v-permission="['1-2-4-9']" :disabled="selected" style="text-align: left" command="disable"><svg-icon icon-class="tingyong" style="width: 40px"/>{{ $t('public.disable') }}</el-dropdown-item>
+          <el-dropdown-item v-permission="['1-2-4-2']" :disabled="selected" style="text-align: left" command="delete"><svg-icon icon-class="shanchu" style="width: 40px"/>{{ $t('public.delete') }}</el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
       <el-button v-permission="['1-2-4-10']" v-waves class="filter-item" type="primary" style="width: 86px" @click="handleContract">{{ $t('public.contract') }}</el-button>
@@ -235,6 +235,8 @@ export default {
       }
     }
     return {
+      // 判断是否能点击
+      selected: true,
       // 详情传递id
       detailid: null,
       // 详情组件数据
@@ -517,6 +519,12 @@ export default {
     // 批量操作
     handleSelectionChange(val) {
       this.moreaction = val
+      console.log(this.moreaction.length)
+      if (this.moreaction.length === 0) {
+        this.selected = true
+      } else {
+        this.selected = false
+      }
     },
     // 批量停用和删除
     handleCommand(command) {

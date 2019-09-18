@@ -1,5 +1,5 @@
 <template>
-  <el-dialog :visible.sync="employeeVisible" :createcontrol="createcontrol" :close-on-press-escape="false" top="10px" title="选择创建人" append-to-body @close="$emit('update:createcontrol', false)">
+  <el-dialog :visible.sync="employeeVisible" :createcontrol="createcontrol" :close-on-press-escape="false" top="10px" title="选择到期提醒人" append-to-body @close="$emit('update:createcontrol', false)">
     <div class="filter-container">
       <el-input v-model="getemplist.employeename" :placeholder="$t('NewEmployeeInformation.employeename')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
       <el-input v-model="getemplist.jobnumber" :placeholder="$t('NewEmployeeInformation.jobnumber2')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
@@ -55,11 +55,17 @@
       v-loading="listLoading"
       :data="list"
       :key="tableKey"
+      :row-key="getRowKey"
       border
       fit
       highlight-current-row
       style="width: 100%"
-      @current-change="handleCurrentChange">
+      @current-change="handleCurrentChange"
+      @selection-change="handleSelectionChange">
+      <el-table-column
+        :reserve-selection="true"
+        type="selection"
+        width="50"/>
       <el-table-column
         :label="$t('NewEmployeeInformation.id')"
         :resizable="false"
@@ -136,6 +142,8 @@ export default {
   },
   data() {
     return {
+      // 批量选择
+      moreaction: [],
       // 仓库管理员回显数据
       managerPeople: '',
       // 小区经理回显数据
@@ -190,6 +198,10 @@ export default {
     }
   },
   methods: {
+    // 记住之前的批量
+    getRowKey(row) {
+      return row.id
+    },
     // 仓库管理员选择开始
     gitemplist() {
       // 员工列表数据
@@ -275,6 +287,11 @@ export default {
     // 确认添加数据
     handleConfirm() {
       this.employeeVisible = false
+      this.$emit('createname', this.moreaction)
+    },
+    handleSelectionChange(val) {
+      this.moreaction = val
+      console.log('批量操作', this.moreaction)
     }
     // 仓库管理员选择结束
   }

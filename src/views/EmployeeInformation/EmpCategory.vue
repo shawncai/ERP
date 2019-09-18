@@ -20,8 +20,8 @@
           <el-col :span="5" style="margin-left: 10px">
             <el-form-item label="启用状态">
               <el-select v-model="getemplist.iseffective" :value="getemplist.iseffective" clearable @keyup.enter.native="handleFilter">
-                <el-option label="active " value="1"/>
-                <el-option label="dead" value="2"/>
+                <el-option label="启用 " value="1"/>
+                <el-option label="停用" value="2"/>
               </el-select>
             </el-form-item>
           </el-col>
@@ -87,7 +87,6 @@
         style="width: 100%;"
         @selection-change="handleSelectionChange">
         <el-table-column
-          :selectable="selectInit"
           type="selection"
           width="55"
           align="center"/>

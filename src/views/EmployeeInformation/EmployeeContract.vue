@@ -79,6 +79,11 @@
             <span>{{ scope.row.expiredTime }}</span>
           </template>
         </el-table-column>
+        <el-table-column :label="$t('NewEmployeeInformation.status')" :resizable="false" prop="expiredTime" align="center" width="200">
+          <template slot-scope="scope">
+            <span>{{ scope.row.stat | statFilter }}</span>
+          </template>
+        </el-table-column>
         <el-table-column :label="$t('NewEmployeeInformation.isEnd')" :resizable="false" prop="expiredTime" align="center" width="200">
           <template slot-scope="scope">
             <span>{{ scope.row.isEnd | isEndFilter }}</span>
@@ -168,6 +173,16 @@
             </el-form-item>
             <el-form-item :label="$t('NewEmployeeInformation.remindpersonid')" style="width: 40%">
               <el-input v-model="remindpersonid" placeholder="请选择提醒人" clearable @focus="controlremin"/>
+              <div class="showtag">
+                <el-tag
+                  v-for="tag in remindpersonname"
+                  :key="tag.id"
+                  :disable-transitions="false"
+                  closable
+                  @close="handleClose(tag)">
+                  {{ tag.personName }}
+                </el-tag>
+              </div>
             </el-form-item>
             <my-create :createcontrol.sync="createcontrol" @createname="createname"/>
             <el-form-item :label="$t('NewEmployeeInformation.advanceday')" style="width: 40%">
@@ -291,6 +306,8 @@ export default {
   },
   data() {
     return {
+      // 多选小标签
+      remindpersonname: [],
       // 提醒人回显
       remindpersonid: '',
       // 控制提醒人窗口
@@ -426,12 +443,26 @@ export default {
     },
     // 修改数据
     handleEdit(row) {
+      this.remindpersonname = []
       console.log(row)
+      // 接受提醒人名称
+      let name = []
+      // 接受提醒人id
+      let id = []
+      id = [...row.expiredRemindPersonId.split(',')]
+      name = row.remindPerson.split(',')
+      for (let i = 0; i < name.length - 1; i++) {
+        const temp = {}
+        temp.personName = name[i]
+        temp.id = id[i]
+        this.remindpersonname.push(temp)
+      }
+      console.log(this.remindpersonname)
       this.editVisible = true
       this.employeeName = row.empName
       this.contractNumber = row.contractNumber
       this.contractForm = Object.assign({}, row)
-      this.remindpersonid = this.contractForm.remindPerson
+      // this.remindpersonid = this.contractForm.remindPerson
       this.contractForm.period = String(row.period)
       this.contractForm.contractAttribute = String(row.contractAttribute)
       console.log(this.contractForm)
@@ -441,6 +472,13 @@ export default {
       console.log(this.contractForm)
       this.$refs.contractForm.validate((valid) => {
         if (valid) {
+          const stringid = []
+          for (const i in this.remindpersonname) {
+            stringid.push(this.remindpersonname[i].id)
+          }
+          console.log(stringid)
+          this.contractForm.remindpersonid = stringid.join(',')
+          console.log('上传', this.contractForm.remindpersonid)
           updatecontract(this.contractForm).then(res => {
             if (res.data.ret === 200) {
               this.$notify({
@@ -592,8 +630,23 @@ export default {
     },
     // 合同到期提醒人回显
     createname(val) {
-      this.remindpersonid = val.personName
-      this.contractForm.remindpersonid = val.id
+      this.remindpersonname = []
+      console.log('到期提醒', val)
+      // const remindid = []
+      for (const i in val) {
+        const remindpersonname = {}
+        remindpersonname.personName = val[i].personName
+        remindpersonname.personId = val[i].id
+        this.remindpersonname.push(remindpersonname)
+      }
+      // this.contractForm.remindpersonid = remindid.join(',')
+      console.log('数据', this.remindpersonname, this.contractForm.remindpersonid)
+      // this.remindpersonid = val.personName
+      // this.contractForm.remindpersonid = val.id
+    },
+    handleClose(tag) {
+      this.remindpersonname.splice(this.remindpersonname.indexOf(tag), 1)
+      console.log('this.remindpersonname', this.remindpersonname)
     }
   }
 }

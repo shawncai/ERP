@@ -498,6 +498,7 @@ export default {
     effectDay: '有效天数'
   },
   NewEmployeeInformation: {
+    Enclosure: '附件信息',
     isEnd: '是否到期',
     code: '物品编码',
     code2: '编码',

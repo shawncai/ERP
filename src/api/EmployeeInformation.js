@@ -320,7 +320,7 @@ export function contractlist(query) {
   if (query.empname !== '') {
     params.append('empname', query.empname) // 你要传给后台的参数值 key/value
   }
-  if (query.isEnd !== '') {
+  if (query.isEnd !== '' && query.isEnd !== undefined && query.isEnd !== null) {
     params.append('isEnd', query.isEnd) // 你要传给后台的参数值 key/value
   }
   params.append('pagenum', query.pagenum) // 你要传给后台的参数值 key/value

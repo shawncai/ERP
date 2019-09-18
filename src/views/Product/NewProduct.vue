@@ -1233,6 +1233,16 @@ export default {
   .ERP-container {
     margin-right: 0;
   }
+  .ERP-container >>> .el-dialog {
+    transform: none;
+    left: 0;
+    position: relative;
+    margin: 0 auto;
+  }
+  .ERP-container >>> .el-dialog__header {
+    position: inherit;
+    width: 689px;
+  }
     .form-name{
       font-size: 18px;
       color: #373e4f;

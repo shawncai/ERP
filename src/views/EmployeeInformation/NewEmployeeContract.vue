@@ -142,11 +142,13 @@
               type="date"
               placeholder="选择签约时间"
               value-format="yyyy-MM-dd"
-              style="width: 100%"/>
+              style="width: 100%"
+              @change="test"/>
           </el-form-item>
           <el-form-item :label="$t('NewEmployeeInformation.expiredtime')" style="width: 40%" prop="expiredtime">
             <el-date-picker
               v-model="contractForm.expiredtime"
+              :picker-options="pickerOptions1"
               type="date"
               placeholder="选择到期时间"
               value-format="yyyy-MM-dd"
@@ -163,8 +165,8 @@
           <el-form-item :label="$t('NewEmployeeInformation.period')" style="width: 40%;margin-top:1%">
             <el-select v-model="contractForm.period" placeholder="请选择合同期限" style="width: 100%;">
               <el-option v-show="false" label="" value=""/>
-              <el-option label="类型1" value="1"/>
-              <el-option label="类型2" value="2"/>
+              <el-option label="固定期限" value="1"/>
+              <el-option label="不固定期限" value="2"/>
             </el-select>
           </el-form-item>
           <el-form-item :label="$t('NewEmployeeInformation.attribute')" style="width: 40%;margin-top:1%">
@@ -200,6 +202,16 @@
           </el-form-item>
           <el-form-item :label="$t('NewEmployeeInformation.remindpersonid')" style="width: 40%">
             <el-input v-model="remindpersonid" placeholder="请选择提醒人" clearable @focus="controlremin"/>
+            <div class="showtag">
+              <el-tag
+                v-for="tag in remindpersonname"
+                :key="tag.id"
+                :disable-transitions="false"
+                closable
+                @close="handleClose(tag)">
+                {{ tag.personName }}
+              </el-tag>
+            </div>
           </el-form-item>
           <my-create :createcontrol.sync="createcontrol" @createname="createname"/>
           <el-form-item :label="$t('NewEmployeeInformation.advanceday')" style="width: 40%">
@@ -207,6 +219,29 @@
               <template slot="append">天</template>
             </el-input>
           </el-form-item>
+        </el-form>
+      </div>
+      <!-- 上传附件 -->
+      <h2 ref="fujian" class="form-name">上传附件</h2>
+      <div class="container">
+        <el-form :model="contractForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
+          <el-form-item :label="$t('NewEmployeeInformation.Enclosure')" style="width: 100%;margin-top: 1%">
+            <el-button style="margin-bottom: 10px" size="small" type="success" @click="submitUpload">{{ $t('public.uploadimage') }}</el-button>
+            <el-upload
+              ref="upload"
+              :on-preview="handlepicPreview"
+              :on-remove="handlepicRemove"
+              :on-success="handlepicsuccess"
+              :data="picidsData"
+              :auto-upload="false"
+              action="http://192.168.1.26:9090/erp/upload/uploadpic"
+              list-type="picture-card">
+              <i class="el-icon-plus"/>
+            </el-upload>
+            <el-dialog :visible.sync="picidsVisible">
+              <img :src="picidsImageUrl" width="100%" alt="">
+            </el-dialog>
+          </el-form-item >
         </el-form>
       </div>
       <!--操作-->
@@ -244,6 +279,18 @@ export default {
   },
   data() {
     return {
+      // 多选小标签
+      remindpersonname: [],
+      // 商品图片数据+++++++++++++++++++++++++开始
+      // 商品图片控制器
+      picidsVisible: false,
+      // 商品图片地址
+      picidsImageUrl: '',
+      // 发送后端type
+      picidsData: {
+        type: 2
+      },
+      // 商品图片数据+++++++++++++++++++++++++结束
       // 判断是否显示增加按钮
       isshow: false,
       // 所有合同属性类别
@@ -320,7 +367,8 @@ export default {
         advanceday: '',
         trialsalary: '',
         correctionsalary: '',
-        remindpersonid: ''
+        remindpersonid: '',
+        picids: ''
       },
       // 基本信息规则数据
       contractFormRules: {
@@ -342,6 +390,8 @@ export default {
         effectivetime: [
           { required: true, message: '请选择签约时间', trigger: 'blur' }
         ]
+      },
+      pickerOptions1: {
       }
     }
   },
@@ -353,6 +403,30 @@ export default {
     this.jungleshow()
   },
   methods: {
+    // 上传图片----------------------------------------------------------------------
+    submitUpload() {
+      this.$refs.upload.submit()
+    },
+    handlepicRemove(file, fileList) {
+      console.log(file, fileList)
+    },
+    handlepicPreview(file) {
+      this.picidsImageUrl = file.url
+      this.picidsVisible = true
+    },
+    handlepicsuccess(response) {
+      this.contractForm.picids.push(response.data.content.picId)
+      console.log(response.data.content.picId)
+    },
+    // 上传图片结束----------------------------------------------------------------------
+    test() {
+      this.contractForm.expiredtime = ''
+      this.pickerOptions1.disabledDate = (time) => {
+        return time.getTime() < new Date(this.contractForm.signtime).getTime()
+        // return time.getTime() > Date.now()
+      }
+      console.log(this.pickerOptions1)
+    },
     jungleshow() {
       const roles = this.$store.getters.roles
       this.isshow = roles.includes('1-2-8-1')
@@ -492,6 +566,13 @@ export default {
     handlesave() {
       this.$refs.contractForm.validate((valid) => {
         if (valid) {
+          const stringid = []
+          for (const i in this.remindpersonname) {
+            // remindpersonid
+            stringid.push(this.remindpersonname[i].personId)
+          }
+          console.log(stringid)
+          this.contractForm.remindpersonid = stringid.join(',')
           addcontract(this.contractForm).then(res => {
             if (res.data.ret === 200) {
               this.$notify({
@@ -543,12 +624,20 @@ export default {
         remindpersonid: ''
       }
       this.employeeName = ''
+      this.remindpersonname = []
     },
     // 继续录入
     handleentry() {
       console.log(this.contractForm)
       this.$refs.contractForm.validate((valid) => {
         if (valid) {
+          const stringid = []
+          for (const i in this.remindpersonname) {
+            // remindpersonid
+            stringid.push(this.remindpersonname[i].personId)
+          }
+          console.log(stringid)
+          this.contractForm.remindpersonid = stringid.join(',')
           addcontract(this.contractForm).then(res => {
             if (res.data.ret === 200) {
               this.$notify({
@@ -599,8 +688,23 @@ export default {
     },
     // 合同到期提醒人回显
     createname(val) {
-      this.remindpersonid = val.personName
-      this.contractForm.remindpersonid = val.id
+      console.log('到期提醒', val)
+      // const remindid = []
+      this.remindpersonname = []
+      for (const i in val) {
+        const remindpersonname = {}
+        remindpersonname.personName = val[i].personName
+        remindpersonname.personId = val[i].id
+        this.remindpersonname.push(remindpersonname)
+      }
+      // this.contractForm.remindpersonid = remindid.join(',')
+      console.log('数据', this.remindpersonname, this.contractForm.remindpersonid)
+      // this.remindpersonid = val.personName
+      // this.contractForm.remindpersonid = val.id
+    },
+    handleClose(tag) {
+      this.remindpersonname.splice(this.remindpersonname.indexOf(tag), 1)
+      console.log('传输id', this.remindpersonname)
     },
     go_creat() {
       this.$router.push('/EmployeeInformation/EmpCategory')
@@ -620,6 +724,16 @@ export default {
   }
   .ERP-container{
     margin:0px 30px;
+  }
+  .ERP-container >>> .el-dialog {
+    transform: none;
+    left: 0;
+    position: relative;
+    margin: 0 auto;
+  }
+  .ERP-container >>> .el-dialog__header {
+    position: inherit;
+    width: 753px;
   }
   .filter-container{
     padding: 20px;
