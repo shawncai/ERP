@@ -555,6 +555,7 @@ export default {
                 }
               })
             } else {
+              this.$refs.companyForm.validate()
               this.$notify.error({
                 title: '错误',
                 message: '信息未填完整',
@@ -566,6 +567,8 @@ export default {
             }
           })
         } else {
+          this.$refs.connectForm.validate()
+          this.$refs.companyForm.validate()
           this.$notify.error({
             title: '错误',
             message: '信息未填完整',

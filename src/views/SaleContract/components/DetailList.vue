@@ -281,7 +281,9 @@ export default {
     },
     contractStatFilter(status) {
       const statusMap = {
-        1: '状态1'
+        1: '制单中',
+        2: '执行中',
+        3: '完成'
       }
       return statusMap[status]
     },
@@ -365,6 +367,11 @@ export default {
     detaildata() {
       this.personalForm = this.detaildata
       this.list2 = this.personalForm.saleContractDetailVos
+      for (const i in this.list2) {
+        if (this.list2[i].discount <= 1) {
+          this.list2[i].discount = this.list2[i].discount * 100
+        }
+      }
       this.reviewList = []
       const review = this.personalForm.approvalUseVos
       for (const i in review) {

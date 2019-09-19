@@ -445,17 +445,19 @@ export default {
     handleEdit(row) {
       this.remindpersonname = []
       console.log(row)
-      // 接受提醒人名称
-      let name = []
-      // 接受提醒人id
-      let id = []
-      id = row.expiredRemindPersonId.split(',')
-      name = row.remindPerson.split(',')
-      for (let i = 0; i < name.length - 1; i++) {
-        const temp = {}
-        temp.personName = name[i]
-        temp.id = id[i]
-        this.remindpersonname.push(temp)
+      if (row.remindPerson !== null) {
+        // 接受提醒人名称
+        let name = []
+        // 接受提醒人id
+        let id = []
+        id = row.expiredRemindPersonId.split(',')
+        name = row.remindPerson.split(',')
+        for (let i = 0; i < name.length - 1; i++) {
+          const temp = {}
+          temp.personName = name[i]
+          temp.id = id[i]
+          this.remindpersonname.push(temp)
+        }
       }
       console.log(this.remindpersonname)
       this.editVisible = true

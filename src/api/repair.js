@@ -107,7 +107,7 @@ export function repositorylist(query) {
   params.append('pageNum', 1) // 你要传给后台的参数值 key/value
   params.append('pageSize', 9999) // 你要传给后台的参数值 key/value
   return request({
-    url: 'erp/repository/getRepositoryList',
+    url: '/repository/getRepositoryList',
     method: 'post',
     params: params
   })

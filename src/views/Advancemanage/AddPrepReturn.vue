@@ -305,6 +305,9 @@ export default {
   mounted() {
     this.getinformation()
   },
+  activated() {
+    this.getinformation()
+  },
   methods: {
     // 判断权限
     jungleshow() {
@@ -320,6 +323,8 @@ export default {
         this.personalForm.customerName = this.$store.getters.empcontract.customerName
         this.personalForm.phone = this.$store.getters.empcontract.phone
         this.personalForm.address = this.$store.getters.empcontract.address
+        this.personalForm.settleMoney = this.$store.getters.empcontract.advanceMoney
+        this.personalForm.returnMoney = this.$store.getters.empcontract.advanceMoney
         if (this.$store.getters.empcontract.payMode !== null) {
           this.personalForm.payMode = String(this.$store.getters.empcontract.payMode)
         }

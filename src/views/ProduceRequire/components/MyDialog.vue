@@ -206,7 +206,7 @@
               <el-input-number
                 :precision="2"
                 v-model="scope.row.discountRate"
-                @input="getdiscountRate(scope.row)"/>
+                @change="getdiscountRate(scope.row)"/>
             </template>
           </el-editable-column>
           <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="discountMoney" align="center" label="折扣额" min-width="170px">
@@ -214,7 +214,7 @@
               <el-input-number
                 :precision="2"
                 v-model="scope.row.discountMoney"
-                @input="getdiscountMoney(scope.row)"/>
+                @change="getdiscountMoney(scope.row)"/>
             </template>
           </el-editable-column>
           <el-editable-column prop="remark" align="center" label="备注" min-width="150px"/>

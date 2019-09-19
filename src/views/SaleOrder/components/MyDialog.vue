@@ -202,7 +202,17 @@
           <el-editable-column prop="color" align="center" label="颜色" min-width="150px"/>
           <el-editable-column prop="performanceScore" align="center" label="绩效分" min-width="150px"/>
           <el-editable-column prop="productScore" align="center" label="商品积分" min-width="150px"/>
-          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0.00, precision: 2}, type: 'visible'}" prop="quantity" align="center" label="订单数量" min-width="150px"/>
+          <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="quantity" align="center" label="出库数量" min-width="150" >
+            <template slot="edit" slot-scope="scope">
+              <el-input-number
+                :precision="2"
+                :controls="false"
+                :min="1.00"
+                v-model="scope.row.quantity"
+                @change="queryStock(scope.row)"
+              />
+            </template>
+          </el-editable-column>
           <el-editable-column prop="alreadyOutQuantity" align="center" label="已出库数量" min-width="150px"/>
           <el-editable-column prop="retreatQuantity" align="center" label="已退货数量" min-width="150px"/>
           <!--          <el-editable-column prop="salePrice" align="center" label="零售价" min-width="150px"/>-->
@@ -248,7 +258,7 @@
                 :precision="2"
                 :controls="false"
                 v-model="scope.row.discountRate"
-                @input="getdiscountRate(scope.row)"/>
+                @change="getdiscountRate(scope.row)"/>
             </template>
           </el-editable-column>
           <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="discountMoney" align="center" label="折扣额" min-width="170px">
@@ -257,7 +267,7 @@
                 :precision="2"
                 :controls="false"
                 v-model="scope.row.discountMoney"
-                @input="getdiscountMoney(scope.row)"/>
+                @change="getdiscountMoney(scope.row)"/>
             </template>
           </el-editable-column>
           <el-editable-column prop="alreadyApplicationQuantity" align="center" label="已下达采购数量" min-width="150px"/>
@@ -533,6 +543,14 @@ export default {
     this.changeRate()
   },
   methods: {
+    // 数量变化其他参数
+    queryStock(row) {
+      if (row.discountRate === 0) {
+        row.discountMoney = row.taxprice * row.quantity
+      } else {
+        row.discountMoney = (row.taxprice * row.quantity * (1 - row.discountRate / 100)).toFixed(2)
+      }
+    },
     changeRate() {
       if (this.personalForm.currency === '2') {
         getRate(this.personalForm.currency).then(res => {
@@ -681,7 +699,7 @@ export default {
     getdiscountMoney(row) {
       console.log(row)
       if (row.taxprice !== 0 && row.quantity !== 0 && row.discountMoney !== 0) {
-        row.discountRate = ((1 - (row.discountMoney / row.includeTaxMoney).toFixed(2)) * 100).toFixed(2)
+        row.discountRate = ((1 - (row.discountMoney / row.includeTaxCostMoney)) * 100).toFixed(2)
       }
     },
     // 计算金额
