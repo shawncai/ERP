@@ -799,7 +799,7 @@ export default {
     categoryname: '计量单位名称',
     type2: '计量单位类别',
     iseffective3: '状态',
-    roleId: '员工职位',
+    roleId: '员工角色',
     productCategoryId: '商品类别',
     commissionType: '提成类型',
     commissionValue: '提成',

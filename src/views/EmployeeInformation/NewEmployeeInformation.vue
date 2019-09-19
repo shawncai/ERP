@@ -362,7 +362,7 @@ export default {
     this.getnationlist()
     this.getroleName()
     this.getRegion()
-    this.handlechange(2)
+    this.handlechange(this.$store.getters.countryId)
     this.jungleshow()
   },
   methods: {

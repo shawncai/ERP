@@ -224,6 +224,18 @@ export default {
     },
     checkPermission,
     getnationlist() {
+      searchRepository(this.$store.getters.regionId).then(res => {
+        console.log(res)
+        if (res.data.ret === 200) {
+          this.repositories = res.data.data.content.list
+        } else {
+          this.$notify.error({
+            title: '错误',
+            message: '出错了',
+            offset: 100
+          })
+        }
+      })
       // 区域列表数据
       regionlist().then(res => {
         if (res.data.ret === 200) {

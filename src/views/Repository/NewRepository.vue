@@ -22,10 +22,10 @@
               </template> -->
             </el-select>
           </el-form-item>
-          <el-form-item :label="$t('Repository.longitude')" style="width: 40%;margin-top:1%">
+          <el-form-item :label="$t('Repository.longitude')" prop="longitude" style="width: 40%;margin-top:1%">
             <el-input v-model.number="RepositoryForm.longitude" placeholder="请输入经度" autocomplete="new-password" clearable/>
           </el-form-item>
-          <el-form-item :label="$t('Repository.latitude')" style="width: 40%;margin-top:1%">
+          <el-form-item :label="$t('Repository.latitude')" prop="latitude" style="width: 40%;margin-top:1%">
             <el-input v-model.number="RepositoryForm.latitude" placeholder="请输入纬度" clearable/>
           </el-form-item>
           <el-form-item :label="$t('public.address')" prop="address" style="width: 40%;margin-top:1%">
@@ -402,8 +402,7 @@ export default {
       // 仓库信息规则数据
       Repositoryrules: {
         longitude: [
-          { required: true, message: '请输入经度', trigger: 'blur' },
-          { type: 'number', message: '经度必须为数字值' }
+          { required: true, message: '请输入经度', trigger: 'blur' }
         ],
         repositoryName: [
           { required: true, message: '请输入仓库名称', trigger: 'blur' }
@@ -412,8 +411,7 @@ export default {
           { required: true, message: '请选择区域', trigger: 'blur' }
         ],
         latitude: [
-          { required: true, message: '请输入维度', trigger: 'blur' },
-          { type: 'number', message: '维度必须为数字值' }
+          { required: true, message: '请输入维度', trigger: 'blur' }
         ],
         lastname: [
           { required: true, message: '请输入名', trigger: 'blur' }

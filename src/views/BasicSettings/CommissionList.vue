@@ -90,11 +90,11 @@
       <el-dialog :visible.sync="editNumberingVisible" title="修改编号规则" append-to-body width="600px" class="normal">
         <el-form ref="editNumberingform" :model="editNumberingform" :rules="editNumberingformRule" label-width="120px" style="margin: 0 auto; width: 400px">
           <el-form-item :label="$t('BasicSettings.roleId')" prop="roleId" style="width: 40%;margin-top:1%">
-            <el-select v-model="editNumberingform.postId" style="width: 150px;">
+            <el-select v-model="editNumberingform.roleId" style="width: 150px;">
               <el-option
                 v-for="(item, index) in roleIds"
                 :key="index"
-                :label="item.categoryName"
+                :label="item.roleName"
                 :value="item.id"/>
             </el-select>
           </el-form-item>
@@ -139,7 +139,7 @@
 </template>
 
 <script>
-import { searchEmpCategory } from '@/api/EmployeeInformation'
+import { repairList } from '@/api/Getauthority'
 import { getcountrylist } from '@/api/public'
 import { getCommissionlist, createRules, updateRules, deleteCommission, update } from '@/api/BasicSettings'
 import permission from '@/directive/permission/index.js' // 权限判断指令
@@ -317,9 +317,9 @@ export default {
       param.iseffective = 1
       param.type = 2
       param.pagesize = 999
-      searchEmpCategory(param).then(res => {
+      repairList().then(res => {
         if (res.data.ret === 200) {
-          this.roleIds = res.data.data.content.list
+          this.roleIds = res.data.data.content
         } else {
           this.$notify.error({
             title: '错误',
@@ -355,7 +355,6 @@ export default {
     handleEdit(row) {
       console.log(row)
       this.editNumberingform = row
-      this.editNumberingform.roleId = this.editNumberingform.postId
       this.productCategoryId = row.productCategoryName
       this.editNumberingVisible = true
     },

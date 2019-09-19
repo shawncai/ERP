@@ -10,7 +10,7 @@
               <el-option
                 v-for="(item, index) in roleIds"
                 :key="index"
-                :label="item.categoryName"
+                :label="item.roleName"
                 :value="item.id"/>
             </el-select>
           </el-form-item>
@@ -56,7 +56,7 @@
 
 <script>
 import { create } from '@/api/BasicSettings'
-import { searchEmpCategory } from '@/api/EmployeeInformation'
+import { repairList } from '@/api/Getauthority'
 import { getcountrylist, getprovincelist, getcitylist, regionlist } from '@/api/public'
 import permission from '@/directive/permission/index.js' // 权限判断指令
 import permission2 from '@/directive/permission2/index.js' // 权限判断指令
@@ -173,9 +173,9 @@ export default {
       param.iseffective = 1
       param.type = 2
       param.pagesize = 999
-      searchEmpCategory(param).then(res => {
+      repairList().then(res => {
         if (res.data.ret === 200) {
-          this.roleIds = res.data.data.content.list
+          this.roleIds = res.data.data.content
         } else {
           this.$notify.error({
             title: '错误',

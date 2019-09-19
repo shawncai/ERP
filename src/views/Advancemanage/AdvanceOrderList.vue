@@ -323,6 +323,7 @@ export default {
         const parms = JSON.stringify(this.reviewParms)
         updateadvanceorder2(parms).then(res => {
           if (res.data.ret === 200) {
+            console.log('result', res.data.data.result)
             if (res.data.data.result === false) {
               this.$message({
                 type: 'error',
