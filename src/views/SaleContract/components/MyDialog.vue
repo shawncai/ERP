@@ -126,7 +126,9 @@
             <el-col :span="12">
               <el-form-item :label="$t('SaleContract.contractStat')" style="width: 100%;">
                 <el-select v-model="personalForm.contractStat" clearable style="margin-left: 18px;width: 200px">
-                  <el-option value="1" label="状态1"/>
+                  <el-option value="1" label="制单中"/>
+                  <el-option value="2" label="执行中"/>
+                  <el-option value="3" label="完成"/>
                 </el-select>
               </el-form-item>
             </el-col>
@@ -242,7 +244,17 @@
           <el-editable-column prop="unit" align="center" label="单位" min-width="150px"/>
           <el-editable-column prop="performanceScore" align="center" label="绩效分" min-width="150px"/>
           <el-editable-column prop="productScore" align="center" label="商品积分" min-width="150px"/>
-          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0.00, precision: 2}, type: 'visible'}" prop="quantity" align="center" label="订单数量" min-width="150px"/>
+          <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="quantity" align="center" label="订单数量" min-width="150" >
+            <template slot="edit" slot-scope="scope">
+              <el-input-number
+                :precision="2"
+                :controls="false"
+                :min="1.00"
+                v-model="scope.row.quantity"
+                @change="queryStock(scope.row)"
+              />
+            </template>
+          </el-editable-column>
           <el-editable-column prop="salePrice" align="center" label="零售价" min-width="150px"/>
           <!--          <el-editable-column prop="costPrice" align="center" label="成本价" min-width="150px"/>-->
           <el-editable-column prop="taxprice" align="center" label="含税价" min-width="150px">
@@ -290,7 +302,7 @@
                 :precision="2"
                 :controls="false"
                 v-model="scope.row.discount"
-                @input="getdiscountRate(scope.row)"/>
+                @change="getdiscountRate(scope.row)"/>
             </template>
           </el-editable-column>
           <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="discountMoney" align="center" label="折扣额" min-width="170px">
@@ -299,7 +311,7 @@
                 :precision="2"
                 :controls="false"
                 v-model="scope.row.discountMoney"
-                @input="getdiscountMoney(scope.row)"/>
+                @change="getdiscountMoney(scope.row)"/>
             </template>
           </el-editable-column>
           <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="carCode" align="center" label="车架编码" min-width="150px"/>
@@ -528,6 +540,14 @@ export default {
     this.getratelist()
   },
   methods: {
+    // 数量变化其他参数
+    queryStock(row) {
+      if (row.discountRate === 0) {
+        row.discountMoney = row.taxprice * row.quantity
+      } else {
+        row.discountMoney = (row.taxprice * row.quantity * (1 - row.discountRate / 100)).toFixed(2)
+      }
+    },
     change() {
       this.$forceUpdate()
     },
@@ -675,7 +695,7 @@ export default {
     getdiscountMoney(row) {
       console.log(row)
       if (row.taxprice !== 0 && row.quantity !== 0 && row.discountMoney !== 0) {
-        row.discount = ((1 - row.discountMoney / row.taxprice / row.quantity) * 100).toFixed(2)
+        row.discount = ((1 - (row.discountMoney / row.includeTaxCostMoney)) * 100).toFixed(2)
       }
     },
     // 计算金额

@@ -276,7 +276,8 @@ export default {
           price: item.purchasePrice,
           includeTaxPrice: item.purchasePrice,
           remark: 0,
-          orderedQuantity: 0
+          orderedQuantity: 0,
+          categoryName: item.category
         }
       })
       console.log(productDetail)
