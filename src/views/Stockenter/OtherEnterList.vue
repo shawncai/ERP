@@ -98,7 +98,7 @@
           align="center"/>
         <el-table-column :label="$t('Stockenter.id')" :resizable="false" fixed="left" align="center" min-width="80">
           <template slot-scope="scope">
-            <span class="link-type" @click="handleDetail(scope.row)">{{ scope.row.id }}</span>
+            <span class="link-type" @click="handleDetail(scope.row)">{{ scope.row.enterNumber }}</span>
           </template>
           <detail-list3 :detailcontrol.sync="detailvisible" :detaildata.sync="personalForm"/>
         </el-table-column>
@@ -107,11 +107,11 @@
             <span>{{ scope.row.title }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('Stockenter.enterNumber')" :resizable="false" align="center" min-width="150">
+        <!-- <el-table-column :label="$t('Stockenter.enterNumber')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.enterNumber }}</span>
           </template>
-        </el-table-column>
+        </el-table-column> -->
         <el-table-column :label="$t('Stockenter.deliveryPersonId')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.deliveryPersonName }}</span>

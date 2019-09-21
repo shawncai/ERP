@@ -104,7 +104,7 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('SaleContract.currency')" prop="currency" style="width: 100%;">
-                  <el-select v-model="personalForm.currency" clearable style="margin-left: 18px;width: 200px" @change="changeRate">
+                  <el-select v-model="personalForm.currency" clearable style="margin-left: 18px;width: 200px" @input="changeRate">
                     <el-option value="1" label="RMB"/>
                     <el-option value="2" label="USD"/>
                   </el-select>
@@ -349,11 +349,11 @@
                 <p>{{ getMoney(scope.row) }}</p>
               </template>
             </el-editable-column>
-            <!--            <el-editable-column prop="includeTaxCostMoney" align="center" label="含税成本金额" min-width="170px">-->
-            <!--              <template slot-scope="scope">-->
-            <!--                <p>{{ getincludeTaxCostMoney(scope.row) }}</p>-->
-            <!--              </template>-->
-            <!--            </el-editable-column>-->
+            <el-editable-column prop="includeTaxCostMoney" align="center" label="含税成本金额" min-width="170px">
+              <template slot-scope="scope">
+                <p>{{ getincludeTaxCostMoney(scope.row) }}</p>
+              </template>
+            </el-editable-column>
             <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="discount" align="center" label="折扣(%)" min-width="170px">
               <template slot="edit" slot-scope="scope">
                 <el-input-number
@@ -825,6 +825,11 @@ export default {
       this.customerId = val.agentName
       this.personalForm.customerPhone = val.phone
       this.personalForm.deliveryMode = val.deliveryMode
+      this.personalForm.payType = val.payMode
+      this.personalForm.invoiceType = val.invoiceType
+      this.personalForm.closeType = val.settleMode
+      this.personalForm.currency = String(val.currency)
+      this.changeRate()
     },
     clearfinal() {
       this.personalForm.installmentEndtime = null
@@ -940,7 +945,7 @@ export default {
     getdiscountMoney(row) {
       console.log(row)
       if (row.taxprice !== 0 && row.quantity !== 0 && row.discountMoney !== 0) {
-        row.discount = ((1 - row.discountMoney / row.taxprice / row.quantity) * 100).toFixed(2)
+        row.discountRate = ((1 - (row.discountMoney / row.includeTaxCostMoney)) * 100).toFixed(2)
       }
     },
     // 计算金额
@@ -1035,6 +1040,7 @@ export default {
           }
         }
         this.$refs.editable.insert(val[i])
+        console.log('表单2', this.list2)
       }
     },
     installappley(val) {

@@ -107,6 +107,59 @@ export function getEmpVisitInfo(query) {
     data: params
   })
 }
+// 展示详情页维修信息
+export function getEmpRepairInfo(query) {
+  var params = new URLSearchParams()
+  if (query.id !== '' && query.id !== null && query.id !== undefined) {
+    params.append('id', query.id) // 你要传给后台的参数值 key/value
+  }
+  return request({
+    url: '/employee/getEmpServiceInfo',
+    method: 'post',
+    data: params
+  })
+}
+// 展示详情投诉记录
+export function getComplaintInfo(query) {
+  var params = new URLSearchParams()
+  if (query.id !== '' && query.id !== null && query.id !== undefined) {
+    params.append('handlerid', query.id) // 你要传给后台的参数值 key/value
+  }
+  params.append('pagenum', query.pagenum) // 你要传给后台的参数值 key/value
+  params.append('pagesize', query.pagesize) // 你要传给后台的参数值 key/value
+  return request({
+    url: '/admin/complaint/listcomplaintsemp',
+    method: 'post',
+    data: params
+  })
+}
+// 展示详情投诉记录
+export function getCommissionInfo(query) {
+  var params = new URLSearchParams()
+  if (query.id !== '' && query.id !== null && query.id !== undefined) {
+    params.append('empId', query.id) // 你要传给后台的参数值 key/value
+  }
+  params.append('pageNum', query.pagenum) // 你要传给后台的参数值 key/value
+  params.append('pageSize', query.pagesize) // 你要传给后台的参数值 key/value
+  return request({
+    url: '/SaleReport/empCommission',
+    method: 'post',
+    data: params
+  })
+}
+
+// 查询账号是否重复
+export function Verifyaccount(query) {
+  var params = new URLSearchParams()
+  if (query.account !== '' && query.account !== null && query.account !== undefined) {
+    params.append('account', query.account) // 你要传给后台的参数值 key/value
+  }
+  return request({
+    url: '/employee/validation',
+    method: 'post',
+    data: params
+  })
+}
 
 // 提交修改
 export function updateemp(query) {

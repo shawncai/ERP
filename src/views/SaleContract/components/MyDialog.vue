@@ -1,5 +1,5 @@
 <template>
-  <el-dialog :visible.sync="editVisible" :editcontrol="editcontrol" :editdata="editdata" :close-on-press-escape="false" :title="personalForm.contractNumber +'    修改'" width="1010px" class="edit" top="-10px" @close="$emit('update:editcontrol', false)">
+  <el-dialog :visible.sync="editVisible" :editcontrol="editcontrol" :editdata="editdata" :close-on-press-escape="false" :title="personalForm.number +'    修改'" width="1010px" class="edit" top="-10px" @close="$emit('update:editcontrol', false)">
     <!--基本信息-->
     <el-card class="box-card" style="margin-top: 63px" shadow="never">
       <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">基本信息</h2>
@@ -56,7 +56,7 @@
             </el-col>
             <el-col :span="12">
               <el-form-item :label="$t('SaleContract.closeType')" style="width: 100%;">
-                <el-select v-model="personalForm.closeType" clearable style="margin-left: 18px;width: 200px">
+                <el-select v-model="personalForm.closeType" clearable style="margin-left: 18px;width: 200px" @change="change">
                   <el-option
                     v-for="(item, index) in colseTypes"
                     :value="item.id"
@@ -67,15 +67,24 @@
             </el-col>
             <el-col :span="12">
               <el-form-item :label="$t('SaleContract.payType')" style="width: 100%;">
-                <el-select v-model="personalForm.payType" clearable style="margin-left: 18px;width: 200px">
-                  <el-option value="1" label="支付1"/>
+                <el-select v-model="personalForm.payType" clearable style="margin-left: 18px;width: 200px" @change="change">
+                  <el-option
+                    v-for="(item, index) in payModes"
+                    :key="index"
+                    :label="item.categoryName"
+                    :value="item.id"
+                  />
                 </el-select>
               </el-form-item>
             </el-col>
             <el-col :span="12">
               <el-form-item :label="$t('SaleContract.deliveryMode')" style="width: 100%;">
-                <el-select v-model="personalForm.deliveryMode" clearable style="margin-left: 18px;width: 200px">
-                  <el-option value="1" label="交货1"/>
+                <el-select v-model="personalForm.deliveryMode" clearable style="margin-left: 18px;width: 200px" @change="change">
+                  <el-option
+                    v-for="(item, index) in deliverymodes"
+                    :key="index"
+                    :value="item.id"
+                    :label="item.categoryName"/>
                 </el-select>
               </el-form-item>
             </el-col>
@@ -134,7 +143,7 @@
             </el-col>
             <el-col :span="12">
               <el-form-item :label="$t('SaleContract.invoiceType')" style="width: 100%;">
-                <el-select v-model="personalForm.invoiceType" clearable style="margin-left: 18px;width: 200px">
+                <el-select v-model="personalForm.invoiceType" clearable style="margin-left: 18px;width: 200px" @change="change">
                   <el-option
                     v-for="(item, index) in invoiceTypes"
                     :value="item.id"
@@ -238,8 +247,8 @@
           <el-editable-column label="序号" min-width="55" align="center" type="index"/>
           <el-editable-column prop="productCode" align="center" label="物品编号" min-width="150px"/>
           <el-editable-column prop="productName" align="center" label="物品名称" min-width="150px"/>
-          <el-editable-column prop="categoryName" align="center" label="物品分类" min-width="150px"/>
-          <el-editable-column prop="typeName" align="center" label="规格型号" min-width="150px"/>
+          <el-editable-column prop="productCategoryName" align="center" label="物品分类" min-width="150px"/>
+          <el-editable-column prop="productTypeName" align="center" label="规格型号" min-width="150px"/>
           <el-editable-column prop="color" align="center" label="颜色" min-width="150px"/>
           <el-editable-column prop="unit" align="center" label="单位" min-width="150px"/>
           <el-editable-column prop="performanceScore" align="center" label="绩效分" min-width="150px"/>
@@ -433,20 +442,10 @@ export default {
       agentcontrol: false,
       // 开票类别数据
       invoiceTypes: [],
-      // 开票类别获取参数
-      invoicetypeparms: {
-        type: 4,
-        pagenum: 1,
-        pagesize: 99999
-      },
       // 结算方式数据
       colseTypes: [],
-      // 结算方式获取参数
-      colseTypeparms: {
-        type: 3,
-        pagenum: 1,
-        pagesize: 99999
-      },
+      // 支付方式
+      payModes: [],
       // 合计数据
       allNumber: '',
       allMoney: '',
@@ -455,7 +454,7 @@ export default {
       allDiscountMoney: '',
       allMoneyMoveDiscount: '',
       // 交货方式
-      giveIds: [],
+      deliverymodes: [],
       // 运送方式
       transportIds: [],
       // 结算方式
@@ -482,6 +481,12 @@ export default {
       types: [],
       // 类别获取参数
       typeparms: {
+        pagenum: 1,
+        pagesize: 99999
+      },
+      // 开票类别获取参数
+      invoicetypeparms: {
+        type: 4,
         pagenum: 1,
         pagesize: 99999
       },
@@ -524,14 +529,19 @@ export default {
   watch: {
     editcontrol() {
       this.editVisible = this.editcontrol
+      // this.getTypes()
     },
     editdata() {
       this.personalForm = this.editdata
+      this.personalForm.notaryDate = this.formatTime(this.personalForm.notaryDate, 'Y-M-D')
+      this.personalForm.contractStat = String(this.personalForm.contractStat)
+      this.personalForm.payType = Number(this.personalForm.payType)
       this.supplierId = this.personalForm.supplierName
       this.stockPersonId = this.personalForm.stockPersonName
       this.salePersonId = this.personalForm.salePersonName
       this.customerId = this.personalForm.customerName
       this.list2 = this.personalForm.saleContractDetailVos
+      // this.getTypes()
     }
   },
   created() {
@@ -540,6 +550,28 @@ export default {
     this.getratelist()
   },
   methods: {
+    // 格式化日期，如月、日、时、分、秒保证为2位数
+    formatNumber(n) {
+      n = n.toString()
+      return n[1] ? n : '0' + n
+    },
+    // 参数number为毫秒时间戳，format为需要转换成的日期格式
+    formatTime(number, format) {
+      const time = new Date(number)
+      const newArr = []
+      const formatArr = ['Y', 'M', 'D', 'h', 'm', 's']
+      newArr.push(time.getFullYear())
+      newArr.push(this.formatNumber(time.getMonth() + 1))
+      newArr.push(this.formatNumber(time.getDate()))
+      newArr.push(this.formatNumber(time.getHours()))
+      newArr.push(this.formatNumber(time.getMinutes()))
+      newArr.push(this.formatNumber(time.getSeconds()))
+
+      for (const i in newArr) {
+        format = format.replace(formatArr[i], newArr[i])
+      }
+      return format
+    },
     // 数量变化其他参数
     queryStock(row) {
       if (row.discountRate === 0) {
@@ -807,9 +839,22 @@ export default {
         }
       })
       // 结算方式数据
-      searchSaleCategory(this.colseTypeparms).then(res => {
+      searchCategory(5).then(res => {
         if (res.data.ret === 200) {
           this.colseTypes = res.data.data.content.list
+        }
+      })
+
+      searchCategory(7).then(res => {
+        if (res.data.ret === 200) {
+          this.payModes = res.data.data.content.list
+        }
+      })
+      // 获取交货方式
+      searchCategory(2).then(res => {
+        if (res.data.ret === 200) {
+          this.deliverymodes = res.data.data.content.list
+          console.log(this.deliverymodes)
         }
       })
     },

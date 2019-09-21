@@ -209,9 +209,8 @@ export default {
   created() {
     this.getnationlist()
     this.getCategory()
-    this.handlechange(2)
+    this.handlechange(this.$store.getters.countryId)
     this.jungleshow()
-    this.handlechange(2)
   },
   methods: {
     jungleshow() {

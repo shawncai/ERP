@@ -28,6 +28,7 @@
                       :label="item.deptName"/>
                   </el-select>
                 </el-form-item>
+
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('WarehouseAdjust.enterRepositoryId')" prop="enterRepositoryId" style="width: 100%;">
@@ -83,9 +84,9 @@
             <el-editable-column prop="color" align="center" label="颜色" width="150px"/>
             <el-editable-column prop="productType" align="center" label="规格" width="150px"/>
             <el-editable-column prop="unit" align="center" label="单位" width="150px"/>
-            <el-editable-column prop="basicQuantity" align="center" label="基本数量" width="150px"/>
+            <!-- <el-editable-column prop="basicQuantity" align="center" label="基本数量" width="150px"/> -->
             <el-editable-column :edit-render="{name: 'ElInputNumber', type: 'visible'}" prop="enterQuantity" align="center" label="入库数量" width="150px"/>
-            <el-editable-column prop="price" align="center" label="单价" width="150px"/>
+            <el-editable-column :edit-render="{name: 'ElInputNumber', type: 'visible'}" prop="price" align="center" label="单价" width="150px"/>
             <el-editable-column prop="totalMoney" align="center" label="入库金额" width="150px">
               <template slot-scope="scope">
                 <p>{{ getSize(scope.row.enterQuantity, scope.row.price) }}</p>
@@ -135,9 +136,9 @@ export default {
       // 部门数据
       depts: [],
       // 入库仓库回显
-      enterRepositoryId: '',
+      enterRepositoryId: this.$store.getters.repositoryName,
       // 入库人回显
-      enterPersonId: '',
+      enterPersonId: this.$store.getters.name,
       // 控制仓库选择窗口
       repositorycontrol: false,
       // 控制经办人选择窗口
@@ -160,7 +161,10 @@ export default {
       },
       // 库存入库单信息数据
       personalForm: {
+        enterPersonId: this.$store.getters.userId,
         createPersonId: this.$store.getters.userId,
+        enterRepositoryId: this.$store.getters.repositoryId,
+        enterDeptId: this.$store.getters.deptId,
         countryId: 1
       },
       repositoryId: this.$store.getters.repositoryId,
@@ -216,6 +220,23 @@ export default {
         this.$notify.error({
           title: '错误',
           message: '明细表不能为空',
+          offset: 100
+        })
+        return false
+      }
+      let l = 1
+      EnterDetail.map(function(elem) {
+        return elem
+      }).forEach(function(elem) {
+        if (elem.enterQuantity === 0) {
+          l = 2
+        }
+      })
+      console.log('l', l)
+      if (l === 2) {
+        this.$notify.error({
+          title: '错误',
+          message: '入库数量不能为0',
           offset: 100
         })
         return false
@@ -299,11 +320,14 @@ export default {
     // 清空记录
     restAllForm() {
       this.personalForm = {
+        enterPersonId: this.$store.getters.userId,
         createPersonId: this.$store.getters.userId,
+        enterRepositoryId: this.$store.getters.repositoryId,
+        enterDeptId: this.$store.getters.deptId,
         countryId: 1
       }
-      this.enterPersonId = ''
-      this.enterRepositoryId = ''
+      this.enterRepositoryId = this.$store.getters.repositoryName
+      this.enterPersonId = this.$store.getters.name
     },
     // 取消操作
     handlecancel() {

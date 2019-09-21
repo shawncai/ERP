@@ -361,6 +361,7 @@ export default {
     this.getCategory()
     this.jungleshow()
     this.getTypes()
+    this.handlechange(this.$store.getters.countryId)
   },
   methods: {
     // 正则限制
@@ -502,6 +503,9 @@ export default {
           })
         }
       })
+      this.customerForm.provinceid = ''
+      this.customerForm.cityid = ''
+      this.cities = []
     },
     // 根据省选择市
     handlechange2(val) {
@@ -517,6 +521,7 @@ export default {
           })
         }
       })
+      this.customerForm.cityid = ''
     },
     // 员工输入框focus事件触发
     handlechoose() {

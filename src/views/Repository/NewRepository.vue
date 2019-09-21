@@ -22,10 +22,10 @@
               </template> -->
             </el-select>
           </el-form-item>
-          <el-form-item :label="$t('Repository.longitude')" style="width: 40%;margin-top:1%">
+          <el-form-item :label="$t('Repository.longitude')" prop="longitude" style="width: 40%;margin-top:1%">
             <el-input v-model.number="RepositoryForm.longitude" placeholder="请输入经度" autocomplete="new-password" clearable/>
           </el-form-item>
-          <el-form-item :label="$t('Repository.latitude')" style="width: 40%;margin-top:1%">
+          <el-form-item :label="$t('Repository.latitude')" prop="latitude" style="width: 40%;margin-top:1%">
             <el-input v-model.number="RepositoryForm.latitude" placeholder="请输入纬度" clearable/>
           </el-form-item>
           <el-form-item :label="$t('public.address')" prop="address" style="width: 40%;margin-top:1%">
@@ -312,7 +312,7 @@
             </el-select>
           </el-form-item> -->
           <el-form-item :label="$t('Repository.countryId')" prop="countryId" style="width: 40%;margin-top: 1%">
-            <el-select v-model="RepositoryForm.countryId" placeholder="请选择国家" style="width: 100%;">
+            <el-select v-model="RepositoryForm.countryId" placeholder="请选择国家" style="width: 100%;" @change ="handlechange">
               <el-option
                 v-for="(item, index) in nations"
                 :key="index"
@@ -337,7 +337,7 @@
 
 <script>
 import '@/directive/noMoreClick/index.js'
-import { getcountrylist, regionlist, searchRepository, getRegion } from '@/api/public'
+import { getcountrylist, getprovincelist, getcitylist, regionlist, searchRepository, getRegion } from '@/api/public'
 import { searchRepCategory, create } from '@/api/Repository'
 import { getemplist, getdeptlist } from '@/api/EmployeeInformation'
 import waves from '@/directive/waves' // Waves directive
@@ -361,6 +361,10 @@ export default {
   },
   data() {
     return {
+      // 省列表
+      provinces: [],
+      // 城市列表
+      cities: [],
       // 是否显示增加
       isshow: false,
       // 类型列表
@@ -402,8 +406,7 @@ export default {
       // 仓库信息规则数据
       Repositoryrules: {
         longitude: [
-          { required: true, message: '请输入经度', trigger: 'blur' },
-          { type: 'number', message: '经度必须为数字值' }
+          { required: true, message: '请输入经度', trigger: 'blur' }
         ],
         repositoryName: [
           { required: true, message: '请输入仓库名称', trigger: 'blur' }
@@ -412,8 +415,7 @@ export default {
           { required: true, message: '请选择区域', trigger: 'blur' }
         ],
         latitude: [
-          { required: true, message: '请输入维度', trigger: 'blur' },
-          { type: 'number', message: '维度必须为数字值' }
+          { required: true, message: '请输入维度', trigger: 'blur' }
         ],
         lastname: [
           { required: true, message: '请输入名', trigger: 'blur' }
@@ -482,7 +484,13 @@ export default {
     this.getRegion()
     this.jungleshow()
   },
+  mounted() {
+    this.handlechange(this.$store.getters.useCountry)
+  },
   methods: {
+    test() {
+      console.log(this.RepositoryForm.cityid)
+    },
     jungleshow() {
       const roles = this.$store.getters.roles
       this.isshow = roles.includes('1-9-13-1')
@@ -548,6 +556,30 @@ export default {
           console.log('仓库类型数据出错')
         }
       })
+    },
+    handlechange(val) {
+      getprovincelist(val).then(res => {
+        if (res.data.ret === 200) {
+          this.provinces = res.data.data.content
+        } else {
+          console.log('国家选择省出错')
+        }
+      })
+      this.RepositoryForm.provinceid = ''
+      this.RepositoryForm.cityid = ''
+      this.cities = []
+    },
+    // 根据省选择市
+    handlechange2(val) {
+      getcitylist(val).then(res => {
+        console.log(res)
+        if (res.data.ret === 200) {
+          this.cities = res.data.data.content
+        } else {
+          console.log('省选择市出错')
+        }
+      })
+      // this.RepositoryForm.cityid = ''
     },
     // 转化数据方法
     tranKTree(arr) {

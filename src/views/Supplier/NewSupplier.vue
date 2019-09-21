@@ -533,7 +533,7 @@ export default {
     this.getTypes()
     this.getRegion()
     this.jungleshow()
-    this.handlechange(2)
+    this.handlechange(this.$store.getters.countryId)
   },
   methods: {
     jungleshow() {
@@ -642,6 +642,9 @@ export default {
           this.provinces = res.data.data.content
         }
       })
+      this.personalForm.provinceId = ''
+      this.personalForm.cityId = ''
+      this.cities = []
     },
     // 根据省选择市
     handlechange2(val) {
@@ -651,6 +654,7 @@ export default {
           this.cities = res.data.data.content
         }
       })
+      this.personalForm.cityId = ''
     },
     // 转化数据方法
     tranKTree(arr) {

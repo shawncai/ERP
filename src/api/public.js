@@ -81,6 +81,21 @@ export function countlist(query1, query2, query3) {
     params: params
   })
 }
+// 库存查询
+export function querycount(query) {
+  var params = new URLSearchParams()
+  if (query.searchRepositoryId !== '' && query.searchRepositoryId !== null && query.searchRepositoryId !== undefined) {
+    params.append('searchRepositoryId', query.searchRepositoryId) // 你要传给后台的参数值 key/value
+  }
+  params.append('pageNum', query.pageNum) // 你要传给后台的参数值 key/value
+  params.append('pageSize', query.pageSize) // 你要传给后台的参数值 key/value
+  params.append('repositoryId', query.repositoryId) // 你要传给后台的参数值 key/value
+  return request({
+    url: '/allinventory/countlist',
+    method: 'post',
+    data: params
+  })
+}
 
 // 物料清单编码
 export function getbom() {

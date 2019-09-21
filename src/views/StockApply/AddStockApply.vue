@@ -254,7 +254,7 @@ export default {
         createPersonId: this.$store.getters.userId,
         countryId: this.$store.getters.countryId,
         repositoryId: this.$store.getters.repositoryId,
-        applyDeptId: 1,
+        applyDeptId: this.$store.getters.deptId,
         regionId: this.$store.getters.regionId,
         sourceType: '1',
         applyDate: null

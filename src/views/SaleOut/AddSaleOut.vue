@@ -210,7 +210,7 @@
         <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
           <!--          <el-button :disabled="Isproduct" @click="handleAddproduct">添加商品</el-button>-->
           <el-button @click="handleAddproduct">添加商品</el-button>
-          <my-detail :control.sync="control" @product="productdetail"/>
+          <my-detail :control.sync="control" :personalform="personalForm" @product="productdetail"/>
           <el-button :disabled="IsSourceNumber" style="width: 130px" @click="handleAddSource">从源单中选择</el-button>
           <my-order :ordercontrol.sync="ordercontrol" @saleOrderDetail="saleOrderDetail" @saleOrder="saleOrder"/>
           <my-presale :presalecontrol.sync="presalecontrol" @advanceOrderDetail="advanceOrderDetail" @advanceData="advanceData"/>
@@ -827,16 +827,20 @@ export default {
       console.log('666', 666)
       console.log('val', val)
       if (this.receivableMoney !== null && this.receivableMoney !== '' && this.receivableMoney !== undefined) {
+        this.personalForm.receivableMoney = this.receivableMoney
         return this.receivableMoney
       } else if (this.personalForm.ridMoney !== null && this.personalForm.ridMoney !== '' && this.personalForm.ridMoney !== undefined) {
         console.log('this.heji3 - this.heji4 - this.personalForm.ridMoney', this.heji3 - this.heji4 - this.personalForm.ridMoney)
+        this.personalForm.receivableMoney = this.heji3 - this.heji4 - this.personalForm.ridMoney
         return (this.heji3 - this.heji4 - this.personalForm.ridMoney)
       } else if (this.personalForm.ridBikeMoney !== null && this.personalForm.ridBikeMoney !== '' && this.personalForm.ridBikeMoney !== undefined) {
         console.log('this.heji3 - this.heji4 - this.personalForm.ridMoney', this.heji3 - this.heji4 - this.personalForm.ridMoney)
+        this.personalForm.receivableMoney = this.heji3 - this.heji4 - this.personalForm.ridBikeMoney
         return (this.heji3 - this.heji4 - this.personalForm.ridBikeMoney)
       } else {
         if (this.personalForm.sourceType === '1' || this.personalForm.sourceType === '4' || this.personalForm.sourceType === '5') {
           console.log('this.heji3 - this.heji4', this.heji3 - this.heji4)
+          this.personalForm.receivableMoney = this.heji3 - this.heji4
           return (this.heji3 - this.heji4)
         }
       }
@@ -1364,6 +1368,7 @@ export default {
     gettaxRate(row) {
       if (row.taxprice !== 0) {
         row.taxprice = (row.salePrice * (1 + row.taxRate / 100)).toFixed(2)
+        row.discountMoney = row.includeTaxCostMoney * row.discountRate
       }
       if (row.discountRate === 0) {
         row.discountMoney = row.taxprice * row.quantity
@@ -1437,6 +1442,9 @@ export default {
       this.customerId = val.agentName
       this.personalForm.customerPhone = val.phone
       this.personalForm.address = val.address
+      this.personalForm.settleMode = val.settleMode
+      this.personalForm.payMode = val.payMode
+      this.personalForm.invoiceType = val.invoiceType
     },
     // 从源单添加商品
     handleAddSource() {

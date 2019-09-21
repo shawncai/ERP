@@ -528,6 +528,7 @@ export default {
       this.editVisible = this.editcontrol
     },
     editdata() {
+      console.log(this.editdata)
       this.personalForm = this.editdata
       this.planPersonId = this.personalForm.planPersonName
       this.stockPersonId = this.personalForm.stockPersonName
@@ -535,7 +536,7 @@ export default {
       this.customerId = this.personalForm.customerName
       this.list2 = this.personalForm.saleOrderDetailVos
       this.list3 = this.personalForm.saleOrderCostDetails
-      this.chooseSource(this.personalForm.sourceType)
+      // this.chooseSource(this.personalForm.sourceType)
     }
   },
   created() {
@@ -699,7 +700,8 @@ export default {
     getdiscountMoney(row) {
       console.log(row)
       if (row.taxprice !== 0 && row.quantity !== 0 && row.discountMoney !== 0) {
-        row.discountRate = ((1 - (row.discountMoney / row.includeTaxCostMoney)) * 100).toFixed(2)
+        row.discountRate = ((1 - (row.discountMoney / row.includeTaxCostMoney)) * 100).toFixed(0)
+        console.log(row.discountRate)
       }
     },
     // 计算金额

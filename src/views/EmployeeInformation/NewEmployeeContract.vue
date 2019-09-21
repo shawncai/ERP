@@ -6,7 +6,7 @@
       <div class="container">
         <el-form ref="contractForm" :model="contractForm" :rules="contractFormRules" :inline="true" status-icon class="demo-ruleForm" label-position="top" label-width="300px" style="margin-left: 30px;">
           <el-form-item :label="$t('NewEmployeeInformation.employeeid')" prop="employeeid" style="width: 40%;margin-top:1%">
-            <el-input v-model="employeeName" placeholder="请选择员工" clearable @focus="handlechoose"/>
+            <el-input v-model="employeeName" :disabled="isclick" placeholder="请选择员工" clearable @focus="handlechoose"/>
           </el-form-item>
           <!--弹出员工列表开始-->
           <el-dialog :visible.sync="employeeVisible" top="10px" title="选择员工">
@@ -279,6 +279,8 @@ export default {
   },
   data() {
     return {
+      // 控制员工选择
+      isclick: false,
       // 多选小标签
       remindpersonname: [],
       // 商品图片数据+++++++++++++++++++++++++开始
@@ -395,14 +397,37 @@ export default {
       }
     }
   },
+  watch: {
+    employeeVisible() {
+      console.log(this.employeeVisible)
+      this.isclick = this.employeeVisible
+    }
+  },
   created() {
     this.getnationlist()
   },
   mounted() {
     this.getempinformation()
     this.jungleshow()
+    this.getdatatime()
   },
   methods: {
+    // 默认显示今天
+    getdatatime() {
+      var date = new Date()
+      var seperator1 = '-'
+      var year = date.getFullYear()
+      var month = date.getMonth() + 1
+      var strDate = date.getDate()
+      if (month >= 1 && month <= 9) {
+        month = '0' + month
+      }
+      if (strDate >= 0 && strDate <= 9) {
+        strDate = '0' + strDate
+      }
+      var currentdate = year + seperator1 + month + seperator1 + strDate
+      this.contractForm.effectivetime = currentdate
+    },
     // 上传图片----------------------------------------------------------------------
     submitUpload() {
       this.$refs.upload.submit()

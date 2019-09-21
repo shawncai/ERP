@@ -261,6 +261,9 @@ export default {
           console.log('国家选择省错误')
         }
       })
+      this.customerForm.provinceId = ''
+      this.customerForm.cityId = ''
+      this.cities = []
     },
     // 根据省选择市
     handlechange2(val) {
@@ -272,6 +275,7 @@ export default {
           console.log('省选择市错误')
         }
       })
+      this.customerForm.cityId = ''
     },
     // 提交修改
     handleEditok() {

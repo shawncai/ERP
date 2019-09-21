@@ -117,13 +117,13 @@
                 <el-form-item :label="$t('SaleOut.ridMoney')" style="width: 100%;">
                   <span>{{ personalForm.ridMoney }}</span>
                 </el-form-item>
-                <span style="color: red;font-size: 14px">预售款金额：{{ yushou }}</span>
+                <!-- <span style="color: red;font-size: 14px">预售款金额：{{ yushou }}</span> -->
               </el-col>
               <el-col :span="12">
                 <el-form-item :label="$t('SaleOut.ridBikeMoney')" style="width: 100%;">
                   <span>{{ personalForm.ridBikeMoney }}</span>
                 </el-form-item>
-                <span style="color: red;font-size: 14px">回收车金额：{{ huishou }}</span>
+                <!-- <span style="color: red;font-size: 14px">回收车金额：{{ huishou }}</span> -->
               </el-col>
               <el-col :span="12">
                 <el-form-item :label="$t('SaleOut.receivableMoney')" style="width: 100%;">
@@ -149,7 +149,7 @@
           <el-editable
             ref="editable"
             :data.sync="list2"
-            :edit-config="{ showIcon: true, showStatus: true}"
+            :edit-config="{ showIcon: false, showStatus: false}"
             class="click-table1"
             border
             size="medium"
@@ -581,6 +581,7 @@ export default {
 </script>
 
 <style scoped>
+/* 修改css样式 */
   .edit >>> .el-dialog{
     -webkit-transform: none;
     transform: none;

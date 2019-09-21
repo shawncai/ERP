@@ -371,7 +371,11 @@ export default {
           costPrice: 0,
           performanceScore: item.kpiGrade,
           productScore: item.point,
-          quantity: 0
+          quantity: 0,
+          discount: 100,
+          carCode: item.carCode,
+          batteryCode: item.batteryCode,
+          motorCode: item.motorCode
         }
       })
       this.$emit('installappleyDetail', installappleyDetail)

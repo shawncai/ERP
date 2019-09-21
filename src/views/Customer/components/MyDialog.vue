@@ -513,6 +513,9 @@ export default {
           this.provinces = res.data.data.content
         }
       })
+      this.customerForm.provinceId = ''
+      this.customerForm.cityId = ''
+      this.cities = []
     },
     // 根据省选择市
     handlechange2(val) {
@@ -522,6 +525,7 @@ export default {
           this.cities = res.data.data.content
         }
       })
+      this.customerForm.cityId = ''
     },
     // 员工输入框focus事件触发
     handlechoose() {

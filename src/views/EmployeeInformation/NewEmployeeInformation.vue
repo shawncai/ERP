@@ -219,7 +219,7 @@
 <script>
 import '@/directive/noMoreClick/index.js'
 import { getRegion, getcountrylist, getprovincelist, getcitylist, regionlist, searchRepository, getDetailById, saveRegion } from '@/api/public'
-import { getdeptlist, register, searchEmpCategory } from '@/api/EmployeeInformation'
+import { getdeptlist, register, searchEmpCategory, Verifyaccount } from '@/api/EmployeeInformation'
 import permission from '@/directive/permission/index.js' // 权限判断指令
 import permission2 from '@/directive/permission2/index.js' // 权限判断指令
 import checkPermission from '@/utils/permission' // 权限判断函数
@@ -240,6 +240,24 @@ export default {
           callback()
         }
       }, 1000)
+    }
+    const chenckrepeat = (rule, value, callback) => {
+      console.log()
+      setTimeout(() => {
+        Verifyaccount({
+          account: value
+        }).then(res => {
+          if (res.data.ret === 200) {
+            if (value === '' || value === undefined || value === null) {
+              callback(new Error('请输入账号'))
+            } else {
+              callback()
+            }
+          } else {
+            callback(new Error('账号已存在'))
+          }
+        })
+      }, 2000)
     }
     return {
       // 判断新增按钮是否显示
@@ -295,7 +313,7 @@ export default {
           { min: 6, max: 100, message: '密码长度要大于6个字符', trigger: 'blur' }
         ],
         account: [
-          { required: true, message: '请输入员工端登陆账号', trigger: 'blur' }
+          { required: true, validator: chenckrepeat, trigger: 'change' }
         ],
         firstname: [
           { required: true, message: '请输入姓氏', trigger: 'blur' }
@@ -362,8 +380,11 @@ export default {
     this.getnationlist()
     this.getroleName()
     this.getRegion()
-    this.handlechange(2)
+    // this.handlechange(this.$store.getters.countryId)
     this.jungleshow()
+  },
+  mounted() {
+    this.handlechange(this.$store.getters.useCountry)
   },
   methods: {
     jungleshow() {

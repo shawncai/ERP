@@ -130,7 +130,7 @@
       <h2 ref="fuzhu" class="form-name" >换出明细</h2>
       <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
         <el-button @click="handleAddproduct">添加商品</el-button>
-        <my-detail :control.sync="control" @product="productdetail"/>
+        <my-detail :control.sync="control" :personalform="personalForm" @product="productdetail"/>
         <el-button type="danger" @click="$refs.editable2.removeSelecteds()">删除</el-button>
       </div>
       <div class="container">

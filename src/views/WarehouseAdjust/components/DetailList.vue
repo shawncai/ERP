@@ -85,7 +85,7 @@
             <el-editable-column prop="color" align="center" label="颜色" />
             <el-editable-column prop="productType" align="center" label="规格" />
             <el-editable-column prop="unit" align="center" label="单位" />
-            <el-editable-column prop="basicQuantity" align="center" label="基本数量" />
+            <!-- <el-editable-column prop="basicQuantity" align="center" label="基本数量" /> -->
             <el-editable-column prop="enterQuantity" align="center" label="入库数量" />
             <el-editable-column prop="price" align="center" label="单价" />
             <el-editable-column prop="totalMoney" align="center" label="入库金额" >

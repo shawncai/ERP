@@ -33,7 +33,7 @@
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item :label="$t('Recycling.recyclingMoney')" style="width: 100%;">
+              <el-form-item :label="$t('Recycling.recyclingMoney')" prop="recyclingMoney" style="width: 100%;">
                 <el-input v-model="personalForm.recyclingMoney" style="margin-left: 18px;width: 200px" clearable/>
               </el-form-item>
             </el-col>
@@ -224,6 +224,9 @@ export default {
         ],
         recyclingDate: [
           { required: true, message: '请选择回收时间', trigger: 'change' }
+        ],
+        recyclingMoney: [
+          { required: true, message: '请输入回收金额', trigger: 'change' }
         ]
       },
       // 收入单明细数据

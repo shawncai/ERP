@@ -63,8 +63,8 @@
           </el-form-item>
           <el-form-item :label="$t('NewEmployeeInformation.iseffective')" label-width="100px" prop="iseffective">
             <el-select v-model="addCategoryForm.iseffective" placeholder="请选择状态" style="width: 100%">
-              <el-option label="active " value="1"/>
-              <el-option label="dead" value="2"/>
+              <el-option label="启用 " value="1"/>
+              <el-option label="停用" value="2"/>
             </el-select>
           </el-form-item>
         </el-form>
@@ -134,8 +134,8 @@
           </el-form-item>
           <el-form-item :label="$t('NewEmployeeInformation.iseffective')" label-width="100px" prop="isEffective">
             <el-select v-model="editCategoryForm.isEffective" placeholder="请选择状态" style="width: 100%">
-              <el-option label="active " value="1"/>
-              <el-option label="dead" value="2"/>
+              <el-option label="启用 " value="1"/>
+              <el-option label="停用" value="2"/>
             </el-select>
           </el-form-item>
         </el-form>

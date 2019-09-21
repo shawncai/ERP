@@ -46,6 +46,7 @@
                 <el-form-item :label="$t('WarehouseAdjust.adjustDate')" prop="adjustDate" style="width: 100%;">
                   <el-date-picker
                     v-model="personalForm.adjustDate"
+                    :picker-options="pickerOptions1"
                     type="date"
                     value-format="yyyy-MM-dd"
                     style="margin-left: 18px;width:200px"/>
@@ -63,7 +64,7 @@
           <el-button type="danger" @click="$refs.editable.removeSelecteds()">删除</el-button>
           <el-button type="primary" @click="checkStock()">库存快照</el-button>
         </div>
-        <my-detail :control.sync="control" @product="productdetail"/>
+        <my-detail :control.sync="control" :personalform="personalForm" @product="productdetail"/>
         <div class="container">
           <el-editable
             ref="editable"
@@ -85,24 +86,7 @@
             <el-editable-column prop="unit" align="center" label="单位" width="150px"/>
             <el-editable-column prop="outLocationCode" align="center" label="调出库位" width="150px">
               <template slot-scope="scope">
-                <el-select v-model="scope.row.outLocationCode" :value="scope.row.outLocationCode" placeholder="请选择货位" filterable clearable style="width: 100%;" @visible-change="updatebatch($event,scope)">
-                  <el-option
-                    v-for="(item, index) in locationlist"
-                    :key="index"
-                    :label="item.locationCode"
-                    :value="item.locationCode"/>
-                </el-select>
-              </template>
-            </el-editable-column>
-            <el-editable-column :edit-render="{type: 'default'}" prop="batch" align="center" label="批次" width="200px">
-              <template slot-scope="scope">
-                <el-select v-model="scope.row.batch" :value="scope.row.batch" placeholder="请选择批次" filterable clearable style="width: 100%;" @visible-change="updatebatch2($event,scope)">
-                  <el-option
-                    v-for="(item, index) in batchlist"
-                    :key="index"
-                    :value="item"
-                    :label="item"/>
-                </el-select>
+                <p>{{ getLocationData(scope.row) }}</p>
               </template>
             </el-editable-column>
             <el-editable-column prop="enterLocationId" align="center" label="调入库位" width="150px">
@@ -174,12 +158,17 @@ export default {
   components: { MyCreate, MyRepository, MyDetail },
   data() {
     return {
+      pickerOptions1: {
+        disabledDate: (time) => {
+          return time.getTime() < new Date().getTime() - 8.64e7
+        }
+      },
       // 调整仓库回显
-      adjustRepositoryId: '',
+      adjustRepositoryId: this.$store.getters.repositoryName,
       // 批次数据
       batchlist: [],
       // 经办人回显
-      handlePersonId: '',
+      handlePersonId: this.$store.getters.name,
       locationlistparms: {
         pageNum: 1,
         pageSize: 1999,
@@ -191,10 +180,6 @@ export default {
       locationlist2: [],
       // 部门数据
       depts: [],
-      // 入库仓库回显
-      enterRepositoryId: '',
-      // 入库人回显
-      enterPersonId: '',
       // 控制仓库选择窗口
       repositorycontrol: false,
       // 控制经办人选择窗口
@@ -205,13 +190,18 @@ export default {
       list2: [],
       // 入库单明细列表规则
       validRules: {
+
       },
       // 库存入库单信息数据
       personalForm: {
+        adjustDate: null,
         createPersonId: this.$store.getters.userId,
         countryId: this.$store.getters.countryId,
         repositoryId: this.$store.getters.repositoryId,
-        regionId: this.$store.getters.regionId
+        regionId: this.$store.getters.regionId,
+        handlePersonId: this.$store.getters.userId,
+        adjustDeptId: this.$store.getters.deptId,
+        adjustRepositoryId: this.$store.getters.repositoryId
       },
       // 库存入库单规则数据
       personalrules: {
@@ -233,8 +223,43 @@ export default {
   },
   mounted() {
     this.getlist()
+    this.getdatatime()
   },
   methods: {
+    getLocationData(row) {
+      // 默认货位
+      getlocation(this.personalForm.saleRepositoryId, row).then(res => {
+        if (res.data.ret === 200) {
+          console.log('res', res)
+          if (res.data.data.content.length !== 0) {
+            row.location = res.data.data.content[0].locationCode
+            row.outLocationCode = res.data.data.content[0].id
+            row.outLocationId = res.data.data.content[0].id
+            console.log('row.locationId', row.locationId)
+          } else {
+            row.location = null
+            row.locationId = null
+          }
+        }
+      })
+      return row.location
+    },
+    // 默认显示今天
+    getdatatime() { // 默认显示今天
+      var date = new Date()
+      var seperator1 = '-'
+      var year = date.getFullYear()
+      var month = date.getMonth() + 1
+      var strDate = date.getDate()
+      if (month >= 1 && month <= 9) {
+        month = '0' + month
+      }
+      if (strDate >= 0 && strDate <= 9) {
+        strDate = '0' + strDate
+      }
+      var currentdate = year + seperator1 + month + seperator1 + strDate
+      this.personalForm.adjustDate = currentdate
+    },
     checkStock(row) {
       console.log('this.moreaction.length', this.moreaction.length)
       if (this.moreaction.length > 1 || this.moreaction.length === 0) {
@@ -276,6 +301,23 @@ export default {
         this.$notify.error({
           title: '错误',
           message: '明细表不能为空',
+          offset: 100
+        })
+        return false
+      }
+      let j = 1
+      EnterDetail.map(function(elem) {
+        return elem
+      }).forEach(function(elem) {
+        if (elem.outLocationCode === null || elem.outLocationCode === undefined || elem.outLocationCode === '' || elem.enterLocationId === null || elem.enterLocationId === undefined || elem.enterLocationId === '') {
+          j = 2
+        }
+      })
+      console.log(j)
+      if (j === 2) {
+        this.$notify.error({
+          title: '错误',
+          message: '调入货位和调出货位都不能为空',
           offset: 100
         })
         return false
@@ -374,10 +416,14 @@ export default {
         createPersonId: this.$store.getters.userId,
         countryId: this.$store.getters.countryId,
         repositoryId: this.$store.getters.repositoryId,
-        regionId: this.$store.getters.regionId
+        regionId: this.$store.getters.regionId,
+        handlePersonId: this.$store.getters.userId,
+        adjustDeptId: this.$store.getters.deptId,
+        adjustRepositoryId: this.$store.getters.repositoryId,
+        adjustDate: null
       }
-      this.handlePersonId = ''
-      this.adjustRepositoryId = ''
+      this.handlePersonId = this.$store.getters.name
+      this.adjustRepositoryId = this.$store.getters.repositoryName
     },
     // 取消操作
     handlecancel() {
@@ -392,9 +438,12 @@ export default {
     },
     // 员工列表返回经办人数据
     createname(val) {
-      console.log(val)
+      console.log('val', val)
       this.handlePersonId = val.personName
       this.personalForm.handlePersonId = val.id
+      this.personalForm.adjustDeptId = val.deptId
+      this.personalForm.adjustRepositoryId = val.repositoryId
+      this.adjustRepositoryId = val.repositoryName
     },
     // 仓库列表focus事件触发
     handlechooseRep() {
@@ -421,7 +470,6 @@ export default {
           if (res.data.ret === 200) {
             if (res.data.data.content.length !== 0) {
               this.locationlist = res.data.data.content
-              scope.row.outLocationId = res.data.data.content[0].id
               this.updatebatch3(scope)
             } else if (res.data.data.content.length === 0) {
               this.$notify.error({

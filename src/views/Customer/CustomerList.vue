@@ -575,7 +575,7 @@ export default {
   }
   .edit >>> .el-dialog {
     background:#f1f1f1 ;
-    height: 950px;
+    height: 1015px;
   }
   .el-col-12{
     width: 49%;

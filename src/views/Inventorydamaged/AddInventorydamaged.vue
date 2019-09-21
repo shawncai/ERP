@@ -46,7 +46,7 @@
         <el-button type="danger" @click="$refs.editable.removeSelecteds()">删除</el-button>
         <el-button type="primary" @click="checkStock()">库存快照</el-button>
       </div>
-      <my-detail :control.sync="control" @product="productdetail"/>
+      <my-detail :control.sync="control" :personalform="personalForm" @product="productdetail"/>
       <div class="container">
         <el-editable
           ref="editable"

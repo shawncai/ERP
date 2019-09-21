@@ -61,7 +61,7 @@
         <el-button type="success" style="background:#3696fd;border-color:#3696fd " @click="handleAddproduct">添加商品</el-button>
         <el-button type="danger" @click="$refs.editable.removeSelecteds()">删除</el-button>
       </div>
-      <my-detail :control.sync="control" @product="productdetail"/>
+      <my-detail :control.sync="control" :personalform="personalForm" @product="productdetail"/>
       <div class="container">
         <el-editable
           ref="editable"
@@ -81,24 +81,7 @@
           <el-editable-column prop="unit" align="center" label="单位" width="150px"/>
           <el-editable-column prop="outLocationCode" align="center" label="调出库位" width="150px">
             <template slot-scope="scope">
-              <el-select v-model="scope.row.outLocationCode" :value="scope.row.outLocationCode" placeholder="请选择货位" filterable clearable style="width: 100%;" @visible-change="updatebatch($event,scope)">
-                <el-option
-                  v-for="(item, index) in locationlist"
-                  :key="index"
-                  :label="item.locationCode"
-                  :value="item.locationCode"/>
-              </el-select>
-            </template>
-          </el-editable-column>
-          <el-editable-column :edit-render="{type: 'default'}" prop="batch" align="center" label="批次" width="200px">
-            <template slot-scope="scope">
-              <el-select v-model="scope.row.batch" :value="scope.row.batch" placeholder="请选择批次" filterable clearable style="width: 100%;" @visible-change="updatebatch2($event,scope)">
-                <el-option
-                  v-for="(item, index) in batchlist"
-                  :key="index"
-                  :value="item"
-                  :label="item"/>
-              </el-select>
+              <p>{{ getLocationData(scope.row) }}</p>
             </template>
           </el-editable-column>
           <el-editable-column prop="enterLocationId" align="center" label="调入库位" width="150px">
@@ -214,6 +197,24 @@ export default {
     this.getlist()
   },
   methods: {
+    getLocationData(row) {
+      // 默认货位
+      getlocation(this.personalForm.saleRepositoryId, row).then(res => {
+        if (res.data.ret === 200) {
+          console.log('res', res)
+          if (res.data.data.content.length !== 0) {
+            row.location = res.data.data.content[0].locationCode
+            row.outLocationCode = res.data.data.content[0].id
+            row.outLocationId = res.data.data.content[0].id
+            console.log('row.locationId', row.locationId)
+          } else {
+            row.location = null
+            row.locationId = null
+          }
+        }
+      })
+      return row.location
+    },
     getlist() {
       // 部门列表数据
       getdeptlist().then(res => {
@@ -240,6 +241,9 @@ export default {
       console.log(val)
       this.handlePersonId = val.personName
       this.personalForm.handlePersonId = val.id
+      this.personalForm.adjustDeptId = val.deptId
+      this.personalForm.adjustRepositoryId = val.repositoryId
+      this.adjustRepositoryId = val.repositoryName
     },
     // 仓库列表focus事件触发
     handlechooseRep() {
@@ -370,6 +374,23 @@ export default {
         this.$notify.error({
           title: '错误',
           message: '明细表不能为空',
+          offset: 100
+        })
+        return false
+      }
+      let j = 1
+      EnterDetail.map(function(elem) {
+        return elem
+      }).forEach(function(elem) {
+        if (elem.outLocationCode === null || elem.outLocationCode === undefined || elem.outLocationCode === '' || elem.enterLocationId === null || elem.enterLocationId === undefined || elem.enterLocationId === '') {
+          j = 2
+        }
+      })
+      console.log(j)
+      if (j === 2) {
+        this.$notify.error({
+          title: '错误',
+          message: '调入货位和调出货位都不能为空',
           offset: 100
         })
         return false

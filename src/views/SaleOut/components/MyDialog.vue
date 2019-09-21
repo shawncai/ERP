@@ -160,19 +160,19 @@
             </el-col>
             <el-col :span="12">
               <el-form-item :label="$t('SaleOut.ridMoney')" style="width: 100%;">
-                <el-input v-model="personalForm.ridMoney" style="margin-left: 18px;width: 200px"/>
+                <el-input v-model="personalForm.ridMoney" style="margin-left: 18px;width: 200px" disabled/>
               </el-form-item>
-              <span style="color: red;font-size: 14px">预售款金额：{{ yushou }}</span>
+              <!-- <span style="color: red;font-size: 14px">预售款金额：{{ yushou }}</span> -->
             </el-col>
             <el-col :span="12">
               <el-form-item :label="$t('SaleOut.ridBikeMoney')" style="width: 100%;">
-                <el-input v-model="personalForm.ridBikeMoney" style="margin-left: 18px;width: 200px"/>
+                <el-input v-model="personalForm.ridBikeMoney" style="margin-left: 18px;width: 200px" disabled/>
               </el-form-item>
-              <span style="color: red;font-size: 14px">回收车金额：{{ huishou }}</span>
+              <!-- <span style="color: red;font-size: 14px">回收车金额：{{ huishou }}</span> -->
             </el-col>
             <el-col :span="12">
               <el-form-item :label="$t('SaleOut.receivableMoney')" style="width: 100%;">
-                <el-input v-model="personalForm.receivableMoney" style="margin-left: 18px;width: 200px"/>
+                <el-input v-model="personalForm.receivableMoney" style="margin-left: 18px;width: 200px" disabled/>
               </el-form-item>
             </el-col>
             <el-col :span="12">
@@ -192,7 +192,7 @@
       <h2 ref="fuzhu" class="form-name" >出库单明细</h2>
       <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
         <el-button :disabled="Isproduct" @click="handleAddproduct">添加商品</el-button>
-        <my-detail :control.sync="control" @product="productdetail"/>
+        <my-detail :control.sync="control" :personalform="personalForm" @product="productdetail"/>
         <el-button :disabled="IsSourceNumber" style="width: 130px" @click="handleAddSource">从源单中选择</el-button>
         <my-order :ordercontrol.sync="ordercontrol" @saleOrderDetail="saleOrderDetail" @saleOrder="saleOrder"/>
         <my-presale :presalecontrol.sync="presalecontrol" @advanceOrderDetail="advanceOrderDetail" @advanceData="advanceData"/>

@@ -89,7 +89,7 @@
           align="center"/>
         <el-table-column :label="$t('StockOut.id')" :resizable="false" fixed="left" align="center" min-width="150">
           <template slot-scope="scope">
-            <span class="link-type" @click="handleDetail(scope.row)">{{ scope.row.id }}</span>
+            <span class="link-type" @click="handleDetail(scope.row)">{{ scope.row.outNumber }}</span>
           </template>
           <detail-list :detailcontrol.sync="detailvisible" :detaildata.sync="personalForm"/>
         </el-table-column>
@@ -98,11 +98,11 @@
             <span>{{ scope.row.title }}</span>
           </template>
         </el-table-column>、
-        <el-table-column :label="$t('StockOut.code')" :resizable="false" align="center" min-width="150">
+        <!-- <el-table-column :label="$t('StockOut.code')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.outNumber }}</span>
           </template>
-        </el-table-column>
+        </el-table-column> -->
         <el-table-column :label="$t('StockOut.sourceType')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.sourceType }}</span>

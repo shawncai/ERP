@@ -4,7 +4,7 @@
       <!-- 搜索条件栏目 -->
       <el-input v-model="getemplist.code" :placeholder="$t('Product.code')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
       <el-input v-model="getemplist.productname" :placeholder="$t('Product.productname')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
-      <el-input v-model="supplierid" :placeholder="$t('Product.supplierid')" class="filter-item" clearable @keyup.enter.native="handleFilter" @focus="handlechoose"/>
+      <!-- <el-input v-model="supplierid" :placeholder="$t('Product.supplierid')" class="filter-item" clearable @keyup.enter.native="handleFilter" @focus="handlechoose"/> -->
       <my-supplier :control.sync="empcontrol" @supplierName="supplierName"/>
       <el-input v-model="categoryid" placeholder="物品分类" class="filter-item" clearable @focus="treechoose"/>
       <my-tree :treecontrol.sync="treecontrol" @tree="tree"/>
@@ -90,11 +90,11 @@
           <span>{{ scope.row.costPrice }}</span>
         </template>
       </el-table-column>
-      <el-table-column :label="$t('Product.purchaseprice')" :resizable="false" prop="purchasePrice" align="center" width="150">
+      <!-- <el-table-column :label="$t('Product.purchaseprice')" :resizable="false" prop="purchasePrice" align="center" width="150">
         <template slot-scope="scope">
           <span>{{ scope.row.purchasePrice }}</span>
         </template>
-      </el-table-column>
+      </el-table-column> -->
       <el-table-column :label="$t('Product.createid')" :resizable="false" prop="createName" align="center" width="150">
         <template slot-scope="scope">
           <span>{{ scope.row.createName }}</span>
@@ -115,7 +115,7 @@
 </template>
 
 <script>
-import { productlist, searchEmpCategory2 } from '@/api/Product'
+import { searchEmpCategory2, chooseProduct } from '@/api/Product'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination'
 import MySupplier from '../../Product/components/MySupplier'
@@ -136,10 +136,16 @@ export default {
     control: {
       type: Boolean,
       default: false
+    },
+    personalform: {
+      type: Object,
+      default: null
     }
   },
   data() {
     return {
+      // 仓库数据
+      query: this.personalform,
       // 供应商回显
       supplierid: '',
       // 供货商控制
@@ -175,24 +181,37 @@ export default {
         Productid: '',
         pagenum: 1,
         pagesize: 10
+      },
+      // 根据仓库查询仓库存量
+      queryemplist: {
+        pagenum: 1,
+        pagesize: 10,
+        repositoryId: 0
+      },
+      // 根据id查物品详情
+      detailList: {
+        pagenum: 1,
+        pagesize: 10
       }
     }
   },
   watch: {
     control() {
       this.productVisible = this.control
-      console.log(this.control)
+      // console.log(this.control)
       this.getlist()
+    },
+    personalform() {
+      this.query = this.personalform
     }
-  },
-  created() {
-    this.getlist()
   },
   methods: {
     getlist() {
+      this.list = []
       // 商品列表数据
       this.listLoading = true
-      productlist(this.getemplist).then(res => {
+      this.getemplist.searchRepositoryId = this.query.saleRepositoryId
+      chooseProduct(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
@@ -201,6 +220,20 @@ export default {
           this.listLoading = false
         }, 0.5 * 100)
       })
+
+      // querycount(this.queryemplist).then(res => {
+      //   if (res.data.ret === 200) {
+      //     const result = res.data.data.content.list
+      //     for (const i in result) {
+      //       this.detailList.code = result[i].code
+      //       productlist(this.detailList).then(res => {
+      //         this.list.push(res.data.data.content.list[0])
+      //         console.log(this.list)
+      //       })
+      //     }
+      //     this.listLoading = false
+      //   }
+      // })
       // 规格型号数据
       searchEmpCategory2(2).then(res => {
         if (res.data.ret === 200) {
@@ -217,8 +250,9 @@ export default {
     // 搜索
     handleFilter() {
       this.getemplist.pagenum = 1
-      productlist(this.getemplist).then(res => {
+      chooseProduct(this.getemplist).then(res => {
         if (res.data.ret === 200) {
+          console.log(res.data.data.content.list)
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
           this.restFilter()
@@ -295,7 +329,7 @@ export default {
           discountRate: 100
         }
       })
-      console.log(productDetail)
+      // console.log(productDetail)
       this.$emit('product', productDetail)
     }
   }

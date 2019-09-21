@@ -806,6 +806,7 @@ export default {
       if (row.taxprice !== 0) {
         row.taxprice = (row.salePrice * (1 + row.taxRate / 100)).toFixed(2)
       }
+      row.discountMoney = row.includeTaxCostMoney * row.discountRate
     },
     // 计算税额
     getTaxMoney2(row) {
@@ -867,6 +868,12 @@ export default {
       this.personalForm.customerId = val.id
       this.customerId = val.agentName
       this.personalForm.customerPhone = val.phone
+      this.personalForm.settleMode = val.settleMode
+      this.personalForm.payMode = val.payMode
+      this.personalForm.invoiceType = val.invoiceType
+      this.personalForm.transMode = val.transMode
+      this.personalForm.currency = String(val.currency)
+      this.personalForm.deliveryMode = val.deliveryMode
     },
     // 无来源添加商品
     handleAddproduct() {

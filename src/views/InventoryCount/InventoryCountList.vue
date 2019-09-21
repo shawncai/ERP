@@ -73,7 +73,7 @@
           align="center"/>
         <el-table-column :label="$t('InventoryCount.id')" :resizable="false" fixed="left" prop="id" align="center" width="150">
           <template slot-scope="scope">
-            <span class="link-type" @click="handleDetail(scope.row)">{{ scope.row.id }}</span>
+            <span class="link-type" @click="handleDetail(scope.row)">{{ scope.row.countNumber }}</span>
           </template>
           <detail-list :detailcontrol.sync="detailvisible" :detaildata.sync="personalForm"/>
         </el-table-column>

@@ -45,7 +45,7 @@
               </el-col>
               <el-col :span="12">
                 <el-form-item :label="$t('SaleContract.saleType')" style="width: 100%;">
-                  <span>{{ personalForm.saleType | saleTypeFilter }}</span>
+                  <span>{{ personalForm.saleTypeName }}</span>
                 </el-form-item>
               </el-col>
               <el-col :span="12">
@@ -55,12 +55,12 @@
               </el-col>
               <el-col :span="12">
                 <el-form-item :label="$t('SaleContract.payType')" style="width: 100%;">
-                  <span>{{ personalForm.payType | payTypeFilter }}</span>
+                  <span>{{ personalForm.payTypeName }}</span>
                 </el-form-item>
               </el-col>
               <el-col :span="12">
                 <el-form-item :label="$t('SaleContract.deliveryMode')" style="width: 100%;">
-                  <span>{{ personalForm.deliveryMode | deliveryModeFilter }}</span>
+                  <span>{{ personalForm.deliveryModeName }}</span>
                 </el-form-item>
               </el-col>
               <el-col :span="12">
@@ -100,12 +100,57 @@
               </el-col>
               <el-col :span="12">
                 <el-form-item :label="$t('SaleContract.invoiceType')" style="width: 100%;">
-                  <span>{{ personalForm.invoiceType | invoiceTypeFilter }}</span>
+                  <span>{{ personalForm.invoiceType }}</span>
                 </el-form-item>
               </el-col>
               <el-col :span="12">
                 <el-form-item :label="$t('SaleContract.taxRate')" style="width: 100%;">
                   <span>{{ personalForm.taxRate }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('SaleContract.installmentCount')" style="width: 100%;">
+                  <span>{{ personalForm.installmentCount }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('SaleContract.dayOfMonth')" style="width: 100%;">
+                  <span>{{ personalForm.dayOfMonth }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('SaleContract.installmentBegintime')" style="width: 100%;">
+                  <span>{{ personalForm.installmentBegintime }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('SaleContract.installmentEndtime')" style="width: 100%;">
+                  <span>{{ personalForm.installmentEndtime }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('SaleContract.notaryPerson')" style="width: 100%;">
+                  <span>{{ personalForm.notaryPerson }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('SaleContract.notaryDate')" style="width: 100%;">
+                  <span>{{ formatTime(personalForm.notaryDate, 'Y-M-D') }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('SaleContract.firstMoney')" style="width: 100%;">
+                  <span>{{ personalForm.firstMoney }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('SaleContract.installmentAllMoney')" style="width: 100%;">
+                  <span>{{ personalForm.installmentAllMoney }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('SaleContract.eachMoney')" style="width: 100%;">
+                  <span>{{ personalForm.eachMoney }}</span>
                 </el-form-item>
               </el-col>
             </el-row>
@@ -371,6 +416,9 @@ export default {
         if (this.list2[i].discount <= 1) {
           this.list2[i].discount = this.list2[i].discount * 100
         }
+        if (this.list2[i].taxRate <= 1) {
+          this.list2[i].taxRate = this.list2[i].taxRate * 100
+        }
       }
       this.reviewList = []
       const review = this.personalForm.approvalUseVos
@@ -382,6 +430,28 @@ export default {
     }
   },
   methods: {
+    // 格式化日期，如月、日、时、分、秒保证为2位数
+    formatNumber(n) {
+      n = n.toString()
+      return n[1] ? n : '0' + n
+    },
+    // 参数number为毫秒时间戳，format为需要转换成的日期格式
+    formatTime(number, format) {
+      const time = new Date(number)
+      const newArr = []
+      const formatArr = ['Y', 'M', 'D', 'h', 'm', 's']
+      newArr.push(time.getFullYear())
+      newArr.push(this.formatNumber(time.getMonth() + 1))
+      newArr.push(this.formatNumber(time.getDate()))
+      newArr.push(this.formatNumber(time.getHours()))
+      newArr.push(this.formatNumber(time.getMinutes()))
+      newArr.push(this.formatNumber(time.getSeconds()))
+
+      for (const i in newArr) {
+        format = format.replace(formatArr[i], newArr[i])
+      }
+      return format
+    },
     // 计算税额
     getTaxMoney2(row) {
       row.taxMoney = row.price * row.taxRate

@@ -102,7 +102,6 @@
             <el-editable-column prop="productType" align="center" label="规格" width="150px"/>
             <el-editable-column prop="unit" align="center" label="单位" width="150px"/>
             <el-editable-column prop="outLocationCode" align="center" label="调出库位" width="150px"/>
-            <el-editable-column prop="batch" align="center" label="批次" width="200px"/>
             <el-editable-column prop="enterLocationCode" align="center" label="调入库位" width="150px"/>
             <el-editable-column prop="inventoryQuantity" align="center" label="库存数量" width="150px"/>
           </el-editable>

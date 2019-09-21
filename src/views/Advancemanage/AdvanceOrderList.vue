@@ -285,11 +285,11 @@ export default {
       if (row.judgeStat === 0) {
         return '预售申请'
       }
-      if (row.judgeStat === 2) {
-        return '预售中'
-      }
       if (row.receiptStat === 3) {
         return '完成'
+      }
+      if (row.judgeStat === 2) {
+        return '预售中'
       }
     },
     handleMyReceipt1(val) {
@@ -323,6 +323,7 @@ export default {
         const parms = JSON.stringify(this.reviewParms)
         updateadvanceorder2(parms).then(res => {
           if (res.data.ret === 200) {
+            console.log('result', res.data.data.result)
             if (res.data.data.result === false) {
               this.$message({
                 type: 'error',

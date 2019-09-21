@@ -511,6 +511,7 @@ export default {
       stockorderlist(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
+          console.log(this.list)
           this.total = res.data.data.content.totalCount
         }
         setTimeout(() => {

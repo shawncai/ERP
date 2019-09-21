@@ -277,7 +277,8 @@ export default {
           includeTaxPrice: item.purchasePrice,
           remark: 0,
           orderedQuantity: 0,
-          categoryName: item.category
+          categoryName: item.category,
+          discount: 100
         }
       })
       console.log(productDetail)

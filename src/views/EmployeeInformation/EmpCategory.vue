@@ -13,7 +13,7 @@
               <el-select v-model="getemplist.type" :value="getemplist.type" clearable @keyup.enter.native="handleFilter">
                 <el-option label="合同属性" value="1"/>
                 <el-option label="职位类别" value="2"/>
-                <el-option label="合同类型" value="3"/>
+                <el-option label="合同类别" value="3"/>
               </el-select>
             </el-form-item>
           </el-col>
@@ -55,7 +55,7 @@
             <el-select v-model="addCategoryForm.type" placeholder="请选择类别" style="width: 100%">
               <el-option label="合同属性" value="1"/>
               <el-option label="职位类别" value="2"/>
-              <el-option label="合同类型" value="3"/>
+              <el-option label="合同类别" value="3"/>
             </el-select>
           </el-form-item>
           <el-form-item :label="$t('NewEmployeeInformation.categoryname')" label-width="100px" prop="categoryname">
@@ -63,8 +63,8 @@
           </el-form-item>
           <el-form-item :label="$t('NewEmployeeInformation.iseffective')" label-width="100px" prop="iseffective">
             <el-select v-model="addCategoryForm.iseffective" placeholder="请选择状态" style="width: 100%">
-              <el-option label="active " value="1"/>
-              <el-option label="dead" value="2"/>
+              <el-option label="启用 " value="1"/>
+              <el-option label="停用" value="2"/>
             </el-select>
           </el-form-item>
         </el-form>
@@ -130,7 +130,7 @@
             <el-select v-model="editCategoryForm.type" placeholder="请选择类别" style="width: 100%" disabled >
               <el-option label="合同属性" value="1"/>
               <el-option label="职位类别" value="2"/>
-              <el-option label="合同类型" value="3"/>
+              <el-option label="合同类别" value="3"/>
             </el-select>
           </el-form-item>
           <el-form-item :label="$t('NewEmployeeInformation.categoryname')" label-width="100px" prop="categoryName">
@@ -138,8 +138,8 @@
           </el-form-item>
           <el-form-item :label="$t('NewEmployeeInformation.iseffective')" label-width="100px" prop="isEffective">
             <el-select v-model="editCategoryForm.isEffective" placeholder="请选择状态" style="width: 100%">
-              <el-option label="active " value="1"/>
-              <el-option label="dead" value="2"/>
+              <el-option label="启用 " value="1"/>
+              <el-option label="停用" value="2"/>
             </el-select>
           </el-form-item>
         </el-form>
@@ -170,7 +170,7 @@ export default {
       const statusMap = {
         1: '合同属性',
         2: '职位类别',
-        3: '合同类型'
+        3: '合同类别'
       }
       return statusMap[status]
     },

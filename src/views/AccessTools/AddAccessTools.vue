@@ -534,6 +534,7 @@ export default {
     gettaxRate(row) {
       if (row.taxprice !== 0) {
         row.taxprice = (row.salePrice * (1 + row.taxRate / 100)).toFixed(2)
+        row.discountMoney = row.includeTaxCostMoney * row.discountRate
       }
     },
     // 计算税额

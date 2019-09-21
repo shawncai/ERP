@@ -225,7 +225,7 @@ export function getCommissionlist(query) {
 export function create(query) {
   var params = new URLSearchParams()
   if (query.roleId !== '' && query.roleId !== null && query.roleId !== undefined) {
-    params.append('postId', query.roleId) // 你要传给后台的参数值 key/value
+    params.append('roleId', query.roleId) // 你要传给后台的参数值 key/value
   }
   if (query.productCategoryId !== '' && query.productCategoryId !== null && query.productCategoryId !== undefined) {
     params.append('productCategoryId', query.productCategoryId) // 你要传给后台的参数值 key/value
@@ -258,8 +258,8 @@ export function update(query) {
   if (query.id !== '' && query.id !== null && query.id !== undefined) {
     params.append('id', query.id) // 你要传给后台的参数值 key/value
   }
-  if (query.postId !== '' && query.postId !== null && query.postId !== undefined) {
-    params.append('postId', query.postId) // 你要传给后台的参数值 key/value
+  if (query.roleId !== '' && query.roleId !== null && query.roleId !== undefined) {
+    params.append('roleId', query.roleId) // 你要传给后台的参数值 key/value
   }
   if (query.productCategoryId !== '' && query.productCategoryId !== null && query.productCategoryId !== undefined) {
     params.append('productCategoryId', query.productCategoryId) // 你要传给后台的参数值 key/value

@@ -5,7 +5,7 @@
     :detaildata="detaildata"
     :detailid="detailid"
     :close-on-press-escape="false"
-    title="personalForm.content.account +'员工详情信息'"
+    :title="personalForm.content.account +'员工详情信息'"
     append-to-body
     width="1010px"
     class="edit"
@@ -365,6 +365,102 @@
               </el-table>
               <pagination v-show="total3>0" :total="total3" :page.sync="getVisitlistdata.pagenum" :limit.sync="getVisitlistdata.pagesize" @pagination="getVisitlist" />
             </el-tab-pane>
+            <el-tab-pane label="维修信息">
+              <el-form :model="RepairInfo" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
+                <el-row>
+                  <el-col :span="12">
+                    <el-form-item :label="$t('NewEmployeeInformation.Maintenancetimes')" style="width: 100%;">
+                      {{ RepairInfo.serviceCount }}
+                    </el-form-item>
+                  </el-col>
+                  <el-col :span="12">
+                    <el-form-item :label="$t('NewEmployeeInformation.Delaytimes')" style="width: 100%;">
+                      {{ 0 }}
+                    </el-form-item>
+                  </el-col>
+                  <el-col :span="12">
+                    <el-form-item :label="$t('NewEmployeeInformation.Regionalranking')" style="width: 100%;">
+                      {{ RepairInfo.regionRank }}
+                    </el-form-item>
+                  </el-col>
+                  <el-col :span="12">
+                    <el-form-item :label="$t('NewEmployeeInformation.Customerevaluation')" style="width: 100%;">
+                      <el-rate
+                        v-model="RepairInfo.avgGrade"
+                        disabled
+                        show-score
+                        text-color="#ff9900"
+                        score-template="{value}"/>
+                    </el-form-item>
+                  </el-col>
+                  <el-col :span="12">
+                    <el-form-item :label="$t('NewEmployeeInformation.Storeranking')" style="width: 100%;">
+                      {{ RepairInfo.repositoryRank }}
+                    </el-form-item>
+                  </el-col>
+                </el-row>
+              </el-form>
+            </el-tab-pane>
+            <el-tab-pane label="投诉信息">
+              <el-table
+                :data="tableData4"
+                border
+                style="width: 100%">
+                <el-table-column
+                  prop="id"
+                  align="center"
+                  label="序号"
+                  min-width="150"/>
+                <el-table-column
+                  prop="createTime"
+                  align="center"
+                  label="投诉日期"
+                  min-width="150"/>
+                <el-table-column
+                  prop="content"
+                  align="center"
+                  label="投诉内容"
+                  min-width="150"/>
+              </el-table>
+              <pagination v-show="total4>0" :total="total4" :page.sync="getComplaintdata.pagenum" :limit.sync="getComplaintdata.pagesize" @pagination="getComplaintList" />
+            </el-tab-pane>
+            <el-tab-pane label="提成信息">
+              <el-table
+                :data="tableData5"
+                border
+                style="width: 100%">
+                <el-table-column
+                  prop="customerName"
+                  align="center"
+                  label="日期"
+                  min-width="150">
+                  <template slot-scope="scope">
+                    <span>{{ formatTime(scope.row.saleDate,'Y-M-D') }}</span>
+                  </template>
+                </el-table-column>
+                <el-table-column
+                  prop="saleMoney"
+                  align="center"
+                  label="销售金额"
+                  min-width="150"/>
+                <el-table-column
+                  prop="saleCost"
+                  align="center"
+                  label="销售成本"
+                  min-width="150"/>
+                <el-table-column
+                  prop="saleProfit"
+                  align="center"
+                  label="利润"
+                  min-width="150"/>
+                <el-table-column
+                  prop="commissionMoney"
+                  align="center"
+                  label="提成"
+                  min-width="150"/>
+              </el-table>
+              <pagination v-show="total5>0" :total="total5" :page.sync="getCommissiondata.pagenum" :limit.sync="getCommissiondata.pagesize" @pagination="getCommissionList" />
+            </el-tab-pane>
           </el-tabs>
         </div>
       </el-card>
@@ -373,7 +469,7 @@
 </template>
 
 <script>
-import { getEmpStockInfo, getEmpCollect, getEmpVisitInfo } from '@/api/EmployeeInformation'
+import { getEmpStockInfo, getEmpCollect, getEmpVisitInfo, getEmpRepairInfo, getComplaintInfo, getCommissionInfo } from '@/api/EmployeeInformation'
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
 export default {
   components: { Pagination },
@@ -456,6 +552,11 @@ export default {
   },
   data() {
     return {
+      // 维修信息
+      RepairInfo: {},
+      // 投诉信息
+      tableData4: [],
+      total4: 0,
       // 回访日期段
       date: [],
       // 回访信息分页和数据
@@ -497,6 +598,21 @@ export default {
         pagenum: 1,
         pagesize: 10,
         id: this.detailid
+      },
+      getRepairdata: {
+        pagenum: 1,
+        pagesize: 10,
+        id: this.detailid
+      },
+      getComplaintdata: {
+        pagenum: 1,
+        pagesize: 10,
+        id: this.detailid
+      },
+      getCommissiondata: {
+        pagenum: 1,
+        pagesize: 10,
+        id: this.detailid
       }
     }
   },
@@ -516,12 +632,40 @@ export default {
       this.getstocklist.id = this.detailid
       this.getCollectlist.id = this.detailid
       this.getVisitlistdata.id = this.detailid
+      this.getRepairdata.id = this.detailid
+      this.getComplaintdata.id = this.detailid
+      this.getCommissiondata.id = this.detailid
       this.getstoctlist()
       this.getCollect()
       this.getVisitlist()
+      this.getRepairlist()
+      this.getComplaintList()
+      this.getCommissionList()
     }
   },
   methods: {
+    // 格式化日期，如月、日、时、分、秒保证为2位数
+    formatNumber(n) {
+      n = n.toString()
+      return n[1] ? n : '0' + n
+    },
+    // 参数number为毫秒时间戳，format为需要转换成的日期格式
+    formatTime(number, format) {
+      const time = new Date(number)
+      const newArr = []
+      const formatArr = ['Y', 'M', 'D', 'h', 'm', 's']
+      newArr.push(time.getFullYear())
+      newArr.push(this.formatNumber(time.getMonth() + 1))
+      newArr.push(this.formatNumber(time.getDate()))
+      newArr.push(this.formatNumber(time.getHours()))
+      newArr.push(this.formatNumber(time.getMinutes()))
+      newArr.push(this.formatNumber(time.getSeconds()))
+
+      for (const i in newArr) {
+        format = format.replace(formatArr[i], newArr[i])
+      }
+      return format
+    },
     // 回访搜索
     handleFilter() {
       this.getVisitlistdata.pagenum = 1
@@ -546,6 +690,7 @@ export default {
         if (res.data.ret === 200) {
           this.tableData3 = res.data.data.content.list
           this.total3 = res.data.data.content.totalCount
+          console.log('成功')
         }
       })
     },
@@ -569,6 +714,36 @@ export default {
     },
     handlecancel() {
       this.editVisible = false
+    },
+    // 维修信息
+    getRepairlist() {
+      console.log('189189')
+      getEmpRepairInfo(this.getRepairdata).then(res => {
+        if (res.data.ret === 200) {
+          console.log('维修信息', res.data)
+          this.RepairInfo = res.data.data
+        }
+      })
+    },
+    // 投诉信息
+    getComplaintList() {
+      getComplaintInfo(this.getComplaintdata).then(res => {
+        if (res.data.ret === 200) {
+          this.tableData4 = res.data.data.content.list
+          console.log('tabledata', this.tableData4)
+          this.total4 = res.data.data.content.totalCount
+        }
+      })
+    },
+    // 提成信息
+    getCommissionList() {
+      getCommissionInfo(this.getCommissiondata).then(res => {
+        if (res.data.ret === 200) {
+          this.tableData5 = res.data.data.content.list
+          console.log('tabledata', this.tableData5)
+          this.total5 = res.data.data.content.totalCount
+        }
+      })
     }
   }
 }
@@ -594,6 +769,12 @@ export default {
     margin-right: 10px;
   }
   .edit>>> .el-tabs--card>.el-tabs__header .el-tabs__item:nth-child(4){
+    margin-right: 10px;
+  }
+  .edit>>> .el-tabs--card>.el-tabs__header .el-tabs__item:nth-child(5){
+    margin-right: 10px;
+  }
+  .edit>>> .el-tabs--card>.el-tabs__header .el-tabs__item:nth-child(6){
     margin-right: 10px;
   }
   .edit >>> .el-dialog{

@@ -26,8 +26,8 @@
           </el-form-item>
           <el-form-item label-width="120px" label="启用状态">
             <el-select v-model="AddDeptform.iseffective" placeholder="请选择状态" style="width: 200px">
-              <el-option label="active " value="1"/>
-              <el-option label="dead" value="2"/>
+              <el-option label="启用 " value="1"/>
+              <el-option label="停用" value="2"/>
             </el-select>
           </el-form-item>
         </el-form>
@@ -101,8 +101,8 @@
           </el-form-item>
           <el-form-item label-width="120px" label="启用状态">
             <el-select v-model="editDeptform.isEffective" placeholder="请选择状态" style="width: 200px">
-              <el-option label="active " value="1"/>
-              <el-option label="dead" value="2"/>
+              <el-option label="启用 " value="1"/>
+              <el-option label="停用" value="2"/>
             </el-select>
           </el-form-item>
         </el-form>

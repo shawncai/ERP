@@ -448,6 +448,28 @@ export default {
 </script>
 
 <style scoped>
+  .edit >>> .el-dialog{
+    -webkit-transform: none;
+    transform: none;
+    position: absolute;
+    right: 0;
+    left: auto;
+    height: auto;
+  }
+  .edit >>> .el-dialog__header{
+    background: #fff;
+    position: fixed;
+    top: 0;
+    display: block;
+    width: 1010px;
+    z-index: 100;
+    border-bottom: 1px solid #f1f1f1;
+  }
+  .edit >>> .el-dialog__body{
+    padding-left: 0;
+    padding-right: 0;
+    padding-top: 10px;
+  }
   .edit >>> .el-dialog {
     background:#f1f1f1 ;
     left: 0;

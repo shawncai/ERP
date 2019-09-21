@@ -101,7 +101,7 @@
       <div class="buttons" style="margin-top: 28px;margin-bottom: 20px">
         <el-button type="danger" @click="$refs.editable.removeSelecteds()">删除</el-button>
       </div>
-      <my-detail :control.sync="control" @product="productdetail"/>
+      <my-detail :control.sync="control" :personalform="personalForm" @product="productdetail"/>
       <div class="container">
         <el-editable
           ref="editable"
