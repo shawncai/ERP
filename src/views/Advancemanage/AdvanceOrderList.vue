@@ -285,11 +285,11 @@ export default {
       if (row.judgeStat === 0) {
         return '预售申请'
       }
-      if (row.judgeStat === 2) {
-        return '预售中'
-      }
       if (row.receiptStat === 3) {
         return '完成'
+      }
+      if (row.judgeStat === 2) {
+        return '预售中'
       }
     },
     handleMyReceipt1(val) {

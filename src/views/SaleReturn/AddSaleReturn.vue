@@ -411,6 +411,7 @@ export default {
         sourceType: '2',
         exchangeRate: '1.0000',
         currency: '1',
+        returnDate: null,
         saleRepositoryId: this.$store.getters.repositoryId
       },
       // 销售订单规则数据
@@ -786,6 +787,7 @@ export default {
         repositoryId: this.$store.getters.repositoryId,
         regionId: this.$store.getters.regionId,
         saleRepositoryId: this.$store.getters.repositoryId,
+        returnDate: null,
         currency: '1'
       }
       this.customerId = null

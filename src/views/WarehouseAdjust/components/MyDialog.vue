@@ -80,9 +80,9 @@
           <el-editable-column prop="color" align="center" label="颜色" width="150px"/>
           <el-editable-column prop="productType" align="center" label="规格" width="150px"/>
           <el-editable-column prop="unit" align="center" label="单位" width="150px"/>
-          <el-editable-column prop="basicQuantity" align="center" label="基本数量" width="150px"/>
+          <!-- <el-editable-column prop="basicQuantity" align="center" label="基本数量" width="150px"/> -->
           <el-editable-column :edit-render="{name: 'ElInputNumber', type: 'visible'}" prop="enterQuantity" align="center" label="入库数量" width="150px"/>
-          <el-editable-column prop="price" align="center" label="单价" width="150px"/>
+          <el-editable-column :edit-render="{name: 'ElInputNumber', type: 'visible'}" prop="price" align="center" label="单价" width="150px"/>
           <el-editable-column prop="totalMoney" align="center" label="入库金额" width="150px">
             <template slot-scope="scope">
               <p>{{ getSize(scope.row.enterQuantity, scope.row.price) }}</p>
