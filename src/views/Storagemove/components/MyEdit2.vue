@@ -1,5 +1,5 @@
 <template>
-  <el-dialog :visible.sync="editVisible" :editcontrol="editcontrol" :editdata="editdata" :close-on-press-escape="false" class="edit" top="10px" @close="$emit('update:editcontrol', false)">
+  <el-dialog :visible.sync="editVisible" :editcontrol="editcontrol" :editdata="editdata" :close-on-press-escape="false" class="edit" width="1010px" top="-10px" @close="$emit('update:editcontrol', false)">
     <!--调拨单明细-->
     <el-card class="box-card" style="margin-top: 15px">
       <h2 ref="fuzhu" class="form-name">调入明细</h2>
