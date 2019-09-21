@@ -77,7 +77,7 @@
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('ReturnExchange.repositoryId')" style="width: 100%;">
+                <el-form-item :label="$t('ReturnExchange.repositoryId')" prop="repositoryId" style="width: 100%;">
                   <el-input v-model="repositoryId" style="margin-left: 18px;width: 200px" @focus="chooserep"/>
                 </el-form-item>
                 <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
@@ -113,17 +113,19 @@
             <el-editable-column prop="kpiGrade" align="center" label="绩效分" min-width="150px"/>
             <el-editable-column prop="point" align="center" label="商品积分" min-width="150px"/>
             <el-editable-column prop="quantity" align="center" label="出库数量" min-width="150px"/>
-            <el-editable-column prop="salePrice" align="center" label="零售价" min-width="150px"/>
-            <el-editable-column prop="costPrice" align="center" label="成本价" min-width="150px"/>
-            <el-editable-column prop="costMoney" align="center" label="成本金额" min-width="150px"/>
+            <!-- <el-editable-column prop="salePrice" align="center" label="零售价" min-width="150px"/> -->
+            <!-- <el-editable-column prop="costPrice" align="center" label="成本价" min-width="150px"/> -->
+            <!-- <el-editable-column prop="costMoney" align="center" label="成本金额" min-width="150px"/> -->
+            <el-editable-column prop="taxPrice" align="center" label="出库价" min-width="150px"/>
             <el-editable-column prop="taxRate" align="center" label="税率" min-width="150px"/>
             <el-editable-column prop="taxMoney" align="center" label="税额" min-width="150px"/>
-            <el-editable-column prop="money" align="center" label="金额" min-width="150px"/>
+            <!-- <el-editable-column prop="money" align="center" label="金额" min-width="150px"/> -->
+            <el-editable-column prop="includeTaxCostMoney" align="center" label="出库金额" min-width="150px"/>
+            <el-editable-column prop="discount" align="center" label="折扣（%）" min-width="150px"/>
+            <el-editable-column prop="discountMoney" align="center" label="折扣额" min-width="150px"/>
             <el-editable-column prop="carCode" align="center" label="车架编码" min-width="150px"/>
             <el-editable-column prop="batteryCode" align="center" label="电池编码" min-width="150px"/>
             <el-editable-column prop="motorCode" align="center" label="电机编码" min-width="150px"/>
-            <el-editable-column prop="discount" align="center" label="折扣" min-width="150px"/>
-            <el-editable-column prop="discountMoney" align="center" label="折扣额" min-width="150px"/>
           </el-editable>
         </div>
       </el-card>
@@ -168,17 +170,18 @@
             <el-editable-column prop="kpiGrade" align="center" label="绩效分" min-width="150px"/>
             <el-editable-column prop="point" align="center" label="商品积分" min-width="150px"/>
             <el-editable-column prop="quantity" align="center" label="出库数量" min-width="150px"/>
-            <el-editable-column prop="salePrice" align="center" label="零售价" min-width="150px"/>
-            <el-editable-column prop="costPrice" align="center" label="成本价" min-width="150px"/>
-            <el-editable-column prop="costMoney" align="center" label="成本金额" min-width="150px"/>
+            <!-- <el-editable-column prop="salePrice" align="center" label="零售价" min-width="150px"/> -->
+            <!-- <el-editable-column prop="costPrice" align="center" label="成本价" min-width="150px"/> -->
+            <!-- <el-editable-column prop="costMoney" align="center" label="成本金额" min-width="150px"/> -->
+            <el-editable-column prop="taxPrice" align="center" label="出库价" min-width="150px"/>
             <el-editable-column prop="taxRate" align="center" label="税率" min-width="150px"/>
             <el-editable-column prop="taxMoney" align="center" label="税额" min-width="150px"/>
-            <el-editable-column prop="money" align="center" label="金额" min-width="150px"/>
+            <!-- <el-editable-column prop="money" align="center" label="金额" min-width="150px"/> -->
+            <el-editable-column prop="discount" align="center" label="折扣（%）" min-width="150px"/>
+            <el-editable-column prop="discountMoney" align="center" label="折扣额" min-width="150px"/>
             <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="carCode" align="center" label="车架编码" min-width="150px"/>
             <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="batteryCode" align="center" label="电池编码" min-width="150px"/>
             <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="motorCode" align="center" label="电机编码" min-width="150px"/>
-            <el-editable-column prop="discount" align="center" label="折扣" min-width="150px"/>
-            <el-editable-column prop="discountMoney" align="center" label="折扣额" min-width="150px"/>
           </el-editable>
         </div>
       </el-card>
@@ -226,6 +229,13 @@ export default {
     const validatePass2 = (rule, value, callback) => {
       if (this.personalForm.sourceNumber === undefined || this.personalForm.sourceNumber === null || this.personalForm.sourceNumber === '') {
         callback(new Error('请选择源单编号'))
+      } else {
+        callback()
+      }
+    }
+    const validatePass4 = (rule, value, callback) => {
+      if (this.repositoryId === undefined || this.repositoryId === null || this.repositoryId === '') {
+        callback(new Error('请选择仓库'))
       } else {
         callback()
       }
@@ -304,6 +314,9 @@ export default {
         ],
         diffMoney: [
           { required: true, message: '请输差异金额', trigger: 'blur' }
+        ],
+        repositoryId: [
+          { required: true, validator: validatePass4, trigger: 'blur' }
         ]
       },
       // 订单明细数据
@@ -426,6 +439,9 @@ export default {
       this.personalForm.customerPhone = val.phoneNumber
       this.personalForm.customerId = val.customerId
       this.personalForm.diffMoney = val.actualMoney
+      this.personalForm.sourceMoney = val.actualMoney
+      this.repositoryId = val.saleRepositoryName
+      this.personalForm.repositoryId = val.saleRepositoryId
     },
     // 源单为调拨单
     StoragemoveDetail(val) {

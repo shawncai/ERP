@@ -396,6 +396,7 @@ export default {
           kpiGrade: item.kpiGrade,
           point: item.point,
           quantity: item.quantity,
+          taxPrice: Number(item.salePrice) + Number(item.taxMoney),
           salePrice: item.salePrice,
           costPrice: item.costPrice,
           costMoney: item.costMoney,
@@ -406,7 +407,8 @@ export default {
           batteryCode: item.batteryCode,
           motorCode: item.motorCode,
           discount: Number(item.discountRate) * 100,
-          discountMoney: item.discountMoney
+          discountMoney: item.discountMoney,
+          includeTaxCostMoney: item.includeTaxCostMoney
         }
       })
       this.$emit('saleOutDetail', saleOutDetail)

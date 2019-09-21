@@ -112,17 +112,19 @@
           <el-editable-column prop="kpiGrade" align="center" label="绩效分" min-width="150px"/>
           <el-editable-column prop="point" align="center" label="商品积分" min-width="150px"/>
           <el-editable-column prop="quantity" align="center" label="出库数量" min-width="150px"/>
-          <el-editable-column prop="salePrice" align="center" label="零售价" min-width="150px"/>
-          <el-editable-column prop="costPrice" align="center" label="成本价" min-width="150px"/>
-          <el-editable-column prop="costMoney" align="center" label="成本金额" min-width="150px"/>
+          <!-- <el-editable-column prop="salePrice" align="center" label="零售价" min-width="150px"/> -->
+          <!-- <el-editable-column prop="costPrice" align="center" label="成本价" min-width="150px"/> -->
+          <!-- <el-editable-column prop="costMoney" align="center" label="成本金额" min-width="150px"/> -->
+          <el-editable-column prop="taxPrice" align="center" label="出库价" min-width="150px"/>
           <el-editable-column prop="taxRate" align="center" label="税率" min-width="150px"/>
           <el-editable-column prop="taxMoney" align="center" label="税额" min-width="150px"/>
-          <el-editable-column prop="money" align="center" label="金额" min-width="150px"/>
+          <!-- <el-editable-column prop="money" align="center" label="金额" min-width="150px"/> -->
+          <el-editable-column prop="includeTaxCostMoney" align="center" label="出库金额" min-width="150px"/>
+          <el-editable-column prop="discount" align="center" label="折扣（%）" min-width="150px"/>
+          <el-editable-column prop="discountMoney" align="center" label="折扣额" min-width="150px"/>
           <el-editable-column prop="carCode" align="center" label="车架编码" min-width="150px"/>
           <el-editable-column prop="batteryCode" align="center" label="电池编码" min-width="150px"/>
           <el-editable-column prop="motorCode" align="center" label="电机编码" min-width="150px"/>
-          <el-editable-column prop="discount" align="center" label="折扣" min-width="150px"/>
-          <el-editable-column prop="discountMoney" align="center" label="折扣额" min-width="150px"/>
         </el-editable>
       </div>
     </el-card>
@@ -176,7 +178,7 @@
           <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="carCode" align="center" label="车架编码" min-width="150px"/>
           <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="batteryCode" align="center" label="电池编码" min-width="150px"/>
           <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="motorCode" align="center" label="电机编码" min-width="150px"/>
-          <el-editable-column prop="discount" align="center" label="折扣" min-width="150px"/>
+          <el-editable-column prop="discount" align="center" label="折扣（%）" min-width="150px"/>
           <el-editable-column prop="discountMoney" align="center" label="折扣额" min-width="150px"/>
         </el-editable>
       </div>
@@ -328,6 +330,9 @@ export default {
       this.handlePersonId = this.personalForm.handlePersonName
       this.repositoryId = this.personalForm.repositoryName
       this.list2 = this.personalForm.returnExchangeOutVos
+      for (const i in this.list2) {
+        this.list2[i].taxPrice = this.list2[i].salePrice + this.list2[i].taxMoney
+      }
       this.list3 = this.personalForm.returnExchangeRetreatVos
     }
   },
