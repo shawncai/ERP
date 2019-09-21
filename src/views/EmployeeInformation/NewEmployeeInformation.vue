@@ -380,7 +380,7 @@ export default {
     this.getnationlist()
     this.getroleName()
     this.getRegion()
-    // this.handlechange(this.$store.getters.countryId)
+    this.handlechange(this.$store.getters.countryId)
     this.jungleshow()
   },
   mounted() {
