@@ -788,7 +788,7 @@ export default {
         const currentdate = year + seperator1 + month + seperator1 + strDate
         this.personalForm.installmentEndtime = currentdate
       }
-      this.personalForm.eachMoney = (this.personalForm.totalMoney - this.personalForm.firstMoney) / this.personalForm.installmentCount
+      this.personalForm.eachMoney = ((this.personalForm.totalMoney - this.personalForm.firstMoney) / this.personalForm.installmentCount).toFixed(2)
     },
     // 获取分期期数
     getratelist() {
@@ -1050,7 +1050,7 @@ export default {
       this.personalForm.dayOfMonth = val.installmentDays
       this.personalForm.firstMoney = val.firstMoney
       this.personalForm.totalMoney = val.totalMoney
-      this.personalForm.eachMoney = (val.totalMoney - val.firstMoney) / val.installmentCount
+      this.personalForm.eachMoney = ((val.totalMoney - val.firstMoney) / val.installmentCount).toFixed(2)
       if (val.installmentCount >= 12 || val.installmentCount < 24) {
         const date = new Date()
         const year = date.getFullYear() + 1

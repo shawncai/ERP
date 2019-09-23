@@ -1085,7 +1085,12 @@ export default {
         }
         this.personalForm.customerId = this.$store.getters.empcontract.customerId
         this.customerId = this.$store.getters.empcontract.customerName
+        // console.log('顾客姓名', this.customerId)
         this.personalForm.customerPhone = this.$store.getters.empcontract.customerPhone
+        // console.log('顾客电话', this.personalForm.customerPhone)
+        this.personalForm.saleType = String(this.$store.getters.empcontract.saleType)
+        this.personalForm.payMode = this.$store.getters.empcontract.payMode
+        this.personalForm.invoiceType = this.$store.getters.empcontract.invoiceType
         this.personalForm.salePersonId = this.$store.getters.empcontract.salePersonId
         this.salePersonId = this.$store.getters.empcontract.salePersonName
         this.personalForm.settleMode = this.$store.getters.empcontract.settleMode

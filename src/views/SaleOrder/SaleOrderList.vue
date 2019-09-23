@@ -312,7 +312,7 @@ export default {
   },
   methods: {
     handleMyReceipt1(val) {
-      console.log('val', val)
+      console.log('handleMyReceipt1', val)
       this.$store.dispatch('getempcontract', val)
       console.log('getempcontract', this.$store.getters.empcontract)
       this.$router.push('/SaleOut/AddSaleOut')

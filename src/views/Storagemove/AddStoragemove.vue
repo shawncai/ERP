@@ -156,7 +156,7 @@
 import '@/directive/noMoreClick/index.js'
 import { getAllBatch } from '@/api/public'
 import { getdeptlist } from '@/api/BasicSettings'
-import { batchlist, getlocation, countlist } from '@/api/public'
+import { batchlist, getlocation, countlist, productlist } from '@/api/public'
 import { createstoragemove } from '@/api/Storagemove'
 import MyRepository from './components/MyRepository'
 import MyAccept from './components/MyAccept'
@@ -236,7 +236,47 @@ export default {
   mounted() {
     this.getlist()
   },
+  activated() {
+    this.getinformation4()
+  },
   methods: {
+    // 获取智能补货信息
+    getinformation4() {
+      if (this.$store.getters.empcontract4) {
+        console.log('只能补货消息', this.$store.getters.empcontract4)
+        this.moveOutRepository = this.$store.getters.empcontract4.repositoryName
+        this.personalForm.moveOutRepository = this.$store.getters.empcontract4.repositoryId
+        productlist(this.$store.getters.empcontract4.productCode).then(res => {
+          const productDetail = res.data.data.content.list.map(function(item) {
+            return {
+              productCode: item.code,
+              productName: item.productName,
+              locationId: '',
+              color: item.color,
+              typeId: item.typeId,
+              enterQuantity: 0,
+              taxRate: 0,
+              unit: item.stockMeasu,
+              unitName: item.stockMeasu,
+              actualEnterQuantity: 0,
+              basicQuantity: 0,
+              enterPrice: item.costPrice,
+              productType: item.productType,
+              totalMoney: 0,
+              enterMoney: 0,
+              price: item.costPrice,
+              typeName: item.productType,
+              movePrice: 0,
+              batch: item.batch,
+              moveQuantity: 0
+            }
+          })
+          console.log(res.data.data.content.list[0])
+          this.list2 = productDetail
+        })
+        this.$store.dispatch('getempcontract4', '')
+      }
+    },
     // 部门列表数据
     getlist() {
       getdeptlist().then(res => {

@@ -453,7 +453,7 @@
 
 <script>
 import { regionlist, getcountrylist, searchRepository } from '@/api/public'
-import { searchRepCategory, searchRepository2, update, deleteRepository, startorend } from '@/api/Repository'
+import { searchRepCategory, searchRepository3, update, deleteRepository, startorend } from '@/api/Repository'
 import { getemplist, getdeptlist } from '@/api/EmployeeInformation'
 import permission from '@/directive/permission/index.js' // 权限判断指令
 import permission2 from '@/directive/permission2/index.js' // 权限判断指令
@@ -699,7 +699,7 @@ export default {
       })
       // 员工列表数据
       this.listLoading = true
-      searchRepository2(this.getemplist).then(res => {
+      searchRepository3(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
@@ -741,7 +741,7 @@ export default {
       this.getemplist.pagenum = 1
       this.getemplist.regionId = this.getemplistregions[this.getemplistregions.length - 1]
       console.log(this.getemplist)
-      searchRepository2(this.getemplist).then(res => {
+      searchRepository3(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount

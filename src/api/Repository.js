@@ -102,6 +102,43 @@ export function searchRepository2(query) {
   }
   params.append('pagenum', query.pagenum) // 你要传给后台的参数值 key/value
   params.append('pagesize', query.pagesize) // 你要传给后台的参数值 key/value
+  params.append('iseffective', 1) // 你要传给后台的参数值 key/value
+  return request({
+    url: '/repository/searchRepository',
+    method: 'post',
+    data: params
+  })
+}
+
+// 仓库页面查询全部仓库
+export function searchRepository3(query) {
+  var params = new URLSearchParams()
+  if (query.id !== '' && query.id !== null && query.id !== undefined) {
+    params.append('id', query.id) // 你要传给后台的参数值 key/value
+  }
+  if (query.repositoryName !== '' && query.repositoryName !== null && query.repositoryName !== undefined) {
+    params.append('repositoryName', query.repositoryName) // 你要传给后台的参数值 key/value
+  }
+  if (query.type !== '' && query.type !== null && query.type !== undefined) {
+    params.append('type', query.type) // 你要传给后台的参数值 key/value
+  }
+  if (query.iseffective !== '' && query.iseffective !== null && query.iseffective !== undefined) {
+    params.append('iseffective', query.iseffective) // 你要传给后台的参数值 key/value
+  }
+  if (query.loginRepositoryId !== '' && query.loginRepositoryId !== undefined && query.loginRepositoryId !== null) {
+    params.append('loginRepositoryId', query.loginRepositoryId) // 你要传给后台的参数值 key/value
+  }
+  if (query.regionIds !== '' && query.regionIds !== undefined && query.regionIds !== null) {
+    params.append('regionIds', query.regionIds) // 你要传给后台的参数值 key/value
+  }
+  if (query.regionId !== '' && query.regionId !== null && query.regionId !== undefined) {
+    params.append('regionId', query.regionId) // 你要传给后台的参数值 key/value
+  }
+  if (query.countyrId !== '' && query.countyrId !== null && query.countyrId !== undefined) {
+    params.append('countyrId', query.countyrId) // 你要传给后台的参数值 key/value
+  }
+  params.append('pagenum', query.pagenum) // 你要传给后台的参数值 key/value
+  params.append('pagesize', query.pagesize) // 你要传给后台的参数值 key/value
   return request({
     url: '/repository/searchRepository',
     method: 'post',
