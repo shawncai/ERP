@@ -326,6 +326,8 @@ export default {
       this.personalForm.produceTaskNumber = val.taskNumber
       this.personalForm.sourceNumber = val.taskNumber
       this.personalForm.processType = String(val.processType)
+      this.produceManagerId = val.handlePersonName
+      this.personalForm.produceManagerId = val.handlePersonId
     },
     // 生产任务单选择focus控制
     handleAddSouce() {

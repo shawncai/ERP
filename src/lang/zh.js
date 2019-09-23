@@ -1936,7 +1936,13 @@ export default {
     paidCount: '已还期数',
     count: '分期期数',
     rate: '利息率',
-    Interest: '利息金额'
+    Interest: '利息金额',
+    Repaymentdate: '还款日期',
+    Currentamount: '本期金额',
+    Principal: '本金',
+    reward: '奖励',
+    Latefee: '滞纳金',
+    status: '还款状态'
   },
   ChangeCount: {
     title: '改期主题',
@@ -2144,11 +2150,12 @@ export default {
     existStock: '现有库存',
     onStock: '在途库存',
     upStock: '最高库存',
-    downStock: '最低库存',
+    downStock: '安全库存',
     salesDay: '日均销量',
     Days: '可售天数',
     isMove: '是否补货',
-    Storagemove: '调拨'
+    Storagemove: '调拨',
+    adviceQuantity: '建议补货数量'
   },
   InventoryReplenishment: {
     id: '编号',

@@ -118,7 +118,7 @@
             <el-editable-column prop="unit" align="center" label="单位" width="150px"/>
             <!--            <el-editable-column prop="basicQuantity" align="center" label="基本数量" width="150px"/>-->
             <el-editable-column :edit-render="{name: 'ElInputNumber', type: 'visible', attrs: {min: 0.00, precision: 2, controls:false}}" prop="actualEnterQuantity" align="center" label="入库数量" width="150px"/>
-            <el-editable-column prop="enterPrice" align="center" label="单价" width="150px"/>
+            <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="enterPrice" align="center" label="单价" width="150px"/>
             <el-editable-column prop="enterMoney" align="center" label="入库金额" width="150px">
               <template slot-scope="scope">
                 <p>{{ getSize(scope.row.actualEnterQuantity, scope.row.enterPrice) }}</p>
@@ -440,6 +440,17 @@ export default {
     // 保存操作
     handlesave() {
       const EnterDetail = this.$refs.editable.getRecords()
+      console.log(EnterDetail)
+      for (const i in EnterDetail) {
+        if (EnterDetail[i].actualEnterQuantity === 0) {
+          this.$notify.error({
+            title: '错误',
+            message: '商品数量不能为0',
+            offset: 100
+          })
+          return false
+        }
+      }
       let i = 1
       EnterDetail.map(function(elem) {
         return elem

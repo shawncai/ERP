@@ -1,5 +1,5 @@
 <template>
-  <el-dialog :visible.sync="employeeVisible" :procontrol="procontrol" :close-on-press-escape="false" top="10px" title="选择生产任务" append-to-body width="1000px" @close="$emit('update:procontrol', false)">
+  <el-dialog :visible.sync="employeeVisible" :procontrol="procontrol" :close-on-press-escape="false" top="10px" title="选择生产任务1" append-to-body width="1000px" @close="$emit('update:procontrol', false)">
     <el-card class="box-card" style="margin-top: 10px;height: 60px" shadow="never">
       <el-row>
         <el-form ref="getemplist" :model="getemplist" label-width="100px" style="margin-top: -9px">
@@ -347,7 +347,7 @@ export default {
       const list = await Promise.all(producedata.map(function(item) {
         return productlist(item.productCode)
       }))
-      console.log('list', list[0].data.data.content.list)
+      // console.log('list', list[0].data.data.content.list)
       console.log('productDetail', productDetail)
       // 在外部把数据加到数组里面去
       for (let i = 0; i < productDetail.length; i++) {

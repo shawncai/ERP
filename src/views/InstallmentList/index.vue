@@ -77,57 +77,60 @@
     </el-card>
 
     <el-card class="box-card" style="margin-top: 10px" shadow="never">
-      <!-- 列表开始 -->
-      <el-table
-        v-loading="listLoading"
-        :key="tableKey"
-        :data="list"
-        border
-        fit
-        highlight-current-row
-        style="width: 100%;"
-      >
-        <el-table-column
-          type="selection"
-          width="55"
-          fixed="left"
-          align="center"/>
-        <el-table-column :label="$t('public.id')" :resizable="false" fixed="left" align="center" min-width="150">
-          <template slot-scope="scope">
-            <span>{{ scope.row.orderNumber }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column :label="$t('InstallmentList.customerName')" :resizable="false" fixed="left" align="center" min-width="150">
-          <template slot-scope="scope">
-            <span>{{ scope.row.customerName }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column :label="$t('InstallmentList.customerPhone')" :resizable="false" align="center" min-width="150">
-          <template slot-scope="scope">
-            <span>{{ scope.row.customerPhone }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column :label="$t('InstallmentList.address')" :resizable="false" align="center" min-width="150">
-          <template slot-scope="scope">
-            <span>{{ scope.row.address }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column :label="$t('InstallmentList.totalMoney')" :resizable="false" align="center" min-width="150">
-          <template slot-scope="scope">
-            <span>{{ scope.row.totalMoney }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column :label="$t('InstallmentList.leftMoney')" :resizable="false" align="center" min-width="150">
-          <template slot-scope="scope">
-            <span>{{ scope.row.leftMoney }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column :label="$t('InstallmentList.Interest')" :resizable="false" align="center" min-width="150">
-          <template slot-scope="scope">
-            <span>{{ scope.row.totalMoney - scope.row.installmentMoney }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column :label="$t('public.judgeStat')" :resizable="false" prop="judgeStat" align="center" min-width="150">
+      <h2 ref="fuzhu" class="form-name">分期列表</h2>
+      <div class="container">
+        <!-- 列表开始 -->
+        <el-table
+          v-loading="listLoading"
+          :key="tableKey"
+          :data="list"
+          border
+          fit
+          highlight-current-row
+          style="width: 100%;"
+          @current-change="getPayPlan"
+        >
+          <el-table-column
+            type="selection"
+            width="55"
+            fixed="left"
+            align="center"/>
+          <el-table-column :label="$t('public.id')" :resizable="false" fixed="left" align="center" min-width="150">
+            <template slot-scope="scope">
+              <span>{{ scope.row.orderNumber }}</span>
+            </template>
+          </el-table-column>
+          <el-table-column :label="$t('InstallmentList.customerName')" :resizable="false" fixed="left" align="center" min-width="150">
+            <template slot-scope="scope">
+              <span>{{ scope.row.customerName }}</span>
+            </template>
+          </el-table-column>
+          <el-table-column :label="$t('InstallmentList.customerPhone')" :resizable="false" align="center" min-width="150">
+            <template slot-scope="scope">
+              <span>{{ scope.row.customerPhone }}</span>
+            </template>
+          </el-table-column>
+          <el-table-column :label="$t('InstallmentList.address')" :resizable="false" align="center" min-width="150">
+            <template slot-scope="scope">
+              <span>{{ scope.row.address }}</span>
+            </template>
+          </el-table-column>
+          <el-table-column :label="$t('InstallmentList.totalMoney')" :resizable="false" align="center" min-width="150">
+            <template slot-scope="scope">
+              <span>{{ scope.row.totalMoney }}</span>
+            </template>
+          </el-table-column>
+          <el-table-column :label="$t('InstallmentList.leftMoney')" :resizable="false" align="center" min-width="150">
+            <template slot-scope="scope">
+              <span>{{ scope.row.leftMoney }}</span>
+            </template>
+          </el-table-column>
+          <el-table-column :label="$t('InstallmentList.Interest')" :resizable="false" align="center" min-width="150">
+            <template slot-scope="scope">
+              <span>{{ scope.row.totalMoney - scope.row.installmentMoney }}</span>
+            </template>
+          </el-table-column>
+          <!-- <el-table-column :label="$t('public.judgeStat')" :resizable="false" prop="judgeStat" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.judgeStat | judgeStatFilter }}</span>
           </template>
@@ -136,20 +139,88 @@
           <template slot-scope="scope">
             <span>{{ scope.row.receiptStat | receiptStatFilter }}</span>
           </template>
-        </el-table-column>
-        <el-table-column :label="$t('public.actions')" :resizable="false" align="center" min-width="230">
-          <template slot-scope="scope">
-            <el-button v-permission2="['200-203-3', scope.row.createPersonId]" v-show="scope.row.judgeStat === 0" title="修改" type="primary" size="mini" icon="el-icon-edit" circle @click="handleEdit(scope.row)"/>
-            <el-button v-show="isReview(scope.row)" title="审批" type="warning" size="mini" icon="el-icon-view" circle @click="handleReview(scope.row)"/>
-            <el-button v-permission2="['200-203-2', scope.row.createPersonId]" v-show="scope.row.judgeStat === 0" title="删除" size="mini" type="danger" icon="el-icon-delete" circle @click="handleDelete(scope.row)"/>
-            <el-button v-permission="['200-203-59']" v-show="scope.row.stat !== 2" type="primary" style="width: 125px" @click="handleMyReceipt1(scope.row)"><span style="margin-left: -15px;">生成物料需求计划</span></el-button>
-          </template>
-        </el-table-column>
-      </el-table>
-      <!-- 列表结束 -->
-      <pagination v-show="total>0" :total="total" :page.sync="getemplist.pageNum" :limit.sync="getemplist.pageSize" @pagination="getlist" />
+        </el-table-column> -->
+          <el-table-column :label="$t('public.actions')" :resizable="false" align="center" min-width="230">
+            <template slot-scope="scope">
+              <el-button v-permission2="['200-203-3', scope.row.createPersonId]" v-show="scope.row.judgeStat === 0" title="修改" type="primary" size="mini" icon="el-icon-edit" circle @click="handleEdit(scope.row)"/>
+              <el-button v-show="isReview(scope.row)" title="审批" type="warning" size="mini" icon="el-icon-view" circle @click="handleReview(scope.row)"/>
+              <el-button v-permission2="['200-203-2', scope.row.createPersonId]" v-show="scope.row.judgeStat === 0" title="删除" size="mini" type="danger" icon="el-icon-delete" circle @click="handleDelete(scope.row)"/>
+              <el-button v-permission="['200-203-59']" v-show="scope.row.stat !== 2" type="primary" style="width: 125px" @click="handleMyReceipt1(scope.row)"><span style="margin-left: -15px;">生成物料需求计划</span></el-button>
+            </template>
+          </el-table-column>
+        </el-table>
+        <!-- 列表结束 -->
+        <pagination v-show="total>0" :total="total" :page.sync="getemplist.pageNum" :limit.sync="getemplist.pageSize" @pagination="getlist" />
       <!--修改开始=================================================-->
       <!--修改结束=================================================-->
+      </div>
+    </el-card>
+
+    <el-card class="box-card" style="margin-top: 10px" shadow="never">
+      <h2 ref="fuzhu" class="form-name">还款计划</h2>
+      <!-- 列表开始 -->
+      <div class="container">
+        <el-table
+          v-loading="listLoading"
+          :key="tableKey"
+          :data="list2"
+          border
+          fit
+          highlight-current-row
+          style="width: 100%;"
+        >
+          <el-table-column :label="$t('public.id')" :resizable="false" fixed="left" align="center" min-width="150">
+            <template slot-scope="scope">
+              <span>{{ scope.row.orderNumber }}</span>
+            </template>
+          </el-table-column>
+          <el-table-column :label="$t('InstallmentList.count')" :resizable="false" fixed="left" align="center" min-width="150">
+            <template slot-scope="scope">
+              <span>{{ scope.row.customerName }}</span>
+            </template>
+          </el-table-column>
+          <el-table-column :label="$t('InstallmentList.Repaymentdate')" :resizable="false" align="center" min-width="150">
+            <template slot-scope="scope">
+              <span>{{ scope.row.customerPhone }}</span>
+            </template>
+          </el-table-column>
+          <el-table-column :label="$t('InstallmentList.Currentamount')" :resizable="false" align="center" min-width="150">
+            <template slot-scope="scope">
+              <span>{{ scope.row.address }}</span>
+            </template>
+          </el-table-column>
+          <el-table-column :label="$t('InstallmentList.Principal')" :resizable="false" align="center" min-width="150">
+            <template slot-scope="scope">
+              <span>{{ scope.row.totalMoney }}</span>
+            </template>
+          </el-table-column>
+          <el-table-column :label="$t('InstallmentList.Interest')" :resizable="false" align="center" min-width="150">
+            <template slot-scope="scope">
+              <span>{{ scope.row.leftMoney }}</span>
+            </template>
+          </el-table-column>
+          <el-table-column :label="$t('InstallmentList.reward')" :resizable="false" align="center" min-width="150">
+            <template slot-scope="scope">
+              <span>{{ scope.row.totalMoney - scope.row.installmentMoney }}</span>
+            </template>
+          </el-table-column>
+          <el-table-column :label="$t('InstallmentList.Latefee')" :resizable="false" prop="Latefee" align="center" min-width="150">
+            <template slot-scope="scope">
+              <span>{{ scope.row.judgeStat | judgeStatFilter }}</span>
+            </template>
+          </el-table-column>
+          <el-table-column :label="$t('InstallmentList.status')" :resizable="false" prop="status" align="center" min-width="150">
+            <template slot-scope="scope">
+              <span>{{ scope.row.judgeStat | judgeStatFilter }}</span>
+            </template>
+          </el-table-column>
+        </el-table>
+        <!-- 列表结束 -->
+        <pagination v-show="total>0" :total="total2" :page.sync="getemplist.pageNum" :limit.sync="getemplist.pageSize" @pagination="getlist" />
+      <!--修改开始=================================================-->
+      <!--修改结束=================================================-->
+      </div>
+
     </el-card>
   </div>
 </template>
@@ -243,6 +314,9 @@ export default {
       moreaction: '',
       // 加载操作控制
       downloadLoading: false,
+      // 还款计划表格
+      list2: [],
+      total2: 0,
       // 表格数据
       list: [],
       // 表格数据条数
@@ -270,6 +344,12 @@ export default {
     this.getlist()
   },
   methods: {
+    // 单选获取还款计划
+    getPayPlan(val) {
+      console.log(val)
+      this.list2 = val.installmentOrderDetailVos
+      this.total2 = val.installmentOrderDetailVos.length
+    },
     handleMyReceipt1(val) {
       console.log(val)
       this.$store.dispatch('getempcontract', val)
@@ -602,6 +682,15 @@ export default {
   .ERP-container {
     margin: 0px 10px;
   }
+  .container {
+    margin-top: 40px;
+  }
+  .form-name{
+      font-size: 18px;
+      color: #373e4f;
+      margin-bottom: -20px;
+      margin-top: 20px;
+    }
   .filter-container{
     padding: 20px;
     padding-left: 0px;

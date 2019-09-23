@@ -241,39 +241,81 @@ export default {
   },
   methods: {
     // 获取智能补货信息
-    getinformation4() {
+    async getinformation4() {
       if (this.$store.getters.empcontract4) {
-        console.log('只能补货消息', this.$store.getters.empcontract4)
-        this.moveOutRepository = this.$store.getters.empcontract4.repositoryName
-        this.personalForm.moveOutRepository = this.$store.getters.empcontract4.repositoryId
-        productlist(this.$store.getters.empcontract4.productCode).then(res => {
-          const productDetail = res.data.data.content.list.map(function(item) {
-            return {
-              productCode: item.code,
-              productName: item.productName,
-              locationId: '',
-              color: item.color,
-              typeId: item.typeId,
-              enterQuantity: 0,
-              taxRate: 0,
-              unit: item.stockMeasu,
-              unitName: item.stockMeasu,
-              actualEnterQuantity: 0,
-              basicQuantity: 0,
-              enterPrice: item.costPrice,
-              productType: item.productType,
-              totalMoney: 0,
-              enterMoney: 0,
-              price: item.costPrice,
-              typeName: item.productType,
-              movePrice: 0,
-              batch: item.batch,
-              moveQuantity: 0
+        console.log(this.$store.getters.empcontract4)
+        if (this.$store.getters.empcontract4.length) {
+          this.moveOutRepository = this.$store.getters.empcontract4[0].repositoryName
+          this.personalForm.moveOutRepository = this.$store.getters.empcontract4[0].repositoryId
+          for (const i in this.$store.getters.empcontract4) {
+            const productDetail = []
+            await productlist(this.$store.getters.empcontract4[i].productCode).then(res => {
+              if (res.data.data.content.list[i].isBatch === 2) {
+                this.$store.getters.empcontract4[i].batch = '不使用'
+              }
+              productDetail.push(res.data.data.content.list[0])
+            })
+            this.list2 = productDetail.map(function(item) {
+              return {
+                productCode: item.code,
+                productName: item.productName,
+                locationId: '',
+                color: item.color,
+                typeId: item.typeId,
+                enterQuantity: 0,
+                taxRate: 0,
+                unit: item.stockMeasu,
+                unitName: item.stockMeasu,
+                actualEnterQuantity: 0,
+                basicQuantity: 0,
+                enterPrice: item.costPrice,
+                productType: item.productType,
+                totalMoney: 0,
+                enterMoney: 0,
+                price: item.costPrice,
+                typeName: item.productType,
+                movePrice: 0,
+                batch: item.batch,
+                moveQuantity: 0
+              }
+            })
+            console.log(this.list2)
+            console.log('one', productDetail)
+          }
+        } else {
+          this.moveOutRepository = this.$store.getters.empcontract4.repositoryName
+          this.personalForm.moveOutRepository = this.$store.getters.empcontract4.repositoryId
+          productlist(this.$store.getters.empcontract4.productCode).then(res => {
+            if (res.data.data.content.list[0].isBatch === 2) {
+              this.moreaction.batch = '不使用'
             }
+            const productDetail = res.data.data.content.list.map(function(item) {
+              return {
+                productCode: item.code,
+                productName: item.productName,
+                locationId: '',
+                color: item.color,
+                typeId: item.typeId,
+                enterQuantity: 0,
+                taxRate: 0,
+                unit: item.stockMeasu,
+                unitName: item.stockMeasu,
+                actualEnterQuantity: 0,
+                basicQuantity: 0,
+                enterPrice: item.costPrice,
+                productType: item.productType,
+                totalMoney: 0,
+                enterMoney: 0,
+                price: item.costPrice,
+                typeName: item.productType,
+                movePrice: 0,
+                batch: item.batch,
+                moveQuantity: 0
+              }
+            })
+            this.list2 = productDetail
           })
-          console.log(res.data.data.content.list[0])
-          this.list2 = productDetail
-        })
+        }
         this.$store.dispatch('getempcontract4', '')
       }
     },

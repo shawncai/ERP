@@ -88,13 +88,12 @@
 
     <el-card class="box-card" style="margin-top: 10px" shadow="never">
       <!-- 列表开始 -->
-      <el-table
+      <!-- <el-table
         v-loading="listLoading"
         :key="tableKey"
         :data="list"
         border
         fit
-        highlight-current-row
         style="width: 100%;"
         @selection-change="handleSelectionChange">
         <el-table-column
@@ -103,6 +102,85 @@
           width="55"
           fixed="left"
           align="center"/>
+        <el-table-column :label="$t('public.id')" :resizable="false" fixed="left" align="center" min-width="150">
+          <template slot-scope="scope">
+            <span class="link-type" @click="handleDetail(scope.row)">{{ scope.row.orderNumber }}</span>
+          </template>
+          <detail-list :detailcontrol.sync="detailvisible" :detaildata.sync="personalForm"/>
+        </el-table-column>
+        <el-table-column :label="$t('StockOrder.title')" :resizable="false" fixed="left" align="center" min-width="150">
+          <template slot-scope="scope">
+            <span>{{ scope.row.title }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column :label="$t('StockOrder.stockType')" :resizable="false" align="center" min-width="150">
+          <template slot-scope="scope">
+            <span>{{ scope.row.stockTypeName }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column :label="$t('StockOrder.sourceType')" :resizable="false" align="center" min-width="150">
+          <template slot-scope="scope">
+            <span>{{ scope.row.sourceType | sourceTypeFilter }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column :label="$t('StockOrder.stockPersonId')" :resizable="false" align="center" min-width="150">
+          <template slot-scope="scope">
+            <span>{{ scope.row.stockPersonName }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column :label="$t('StockOrder.supplierId')" :resizable="false" align="center" min-width="150">
+          <template slot-scope="scope">
+            <span>{{ scope.row.supplierName }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column :label="$t('StockOrder.allMoney')" :resizable="false" align="center" min-width="150">
+          <template slot-scope="scope">
+            <span>{{ scope.row.allMoney }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column :label="$t('StockOrder.allTaxMoney')" :resizable="false" align="center" min-width="150">
+          <template slot-scope="scope">
+            <span>{{ scope.row.allTaxMoney }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column :label="$t('StockOrder.allIncludeTaxMoney')" :resizable="false" align="center" min-width="150">
+          <template slot-scope="scope">
+            <span>{{ scope.row.allIncludeTaxMoney }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column :label="$t('public.judgeStat')" :resizable="false" prop="judgeStat" align="center" min-width="150">
+          <template slot-scope="scope">
+            <span>{{ scope.row.judgeStat | judgeStatFilter }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column :label="$t('public.receiptStat')" :resizable="false" align="center" min-width="150">
+          <template slot-scope="scope">
+            <span>{{ scope.row.receiptStat | receiptStatFilter }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column :label="$t('public.actions')" :resizable="false" align="center" min-width="270">
+          <template slot-scope="scope">
+            <el-button v-permission2="['104-114-3', scope.row.createPersonId]" v-show="scope.row.judgeStat === 0" title="修改" type="primary" size="mini" icon="el-icon-edit" circle @click="handleEdit(scope.row)"/>
+            <el-button v-show="isReview(scope.row)" title="审批" type="warning" size="mini" icon="el-icon-view" circle @click="handleReview(scope.row)"/>
+            <el-button v-permission="['104-114-76']" v-show="isReview4(scope.row)" title="反审批" type="warning" size="mini" circle @click="handleReview4(scope.row)"><svg-icon icon-class="fanhui"/></el-button>
+            <el-button v-permission="['104-114-16']" v-show="isReview2(scope.row)" title="结单" type="success" size="mini" icon="el-icon-check" circle @click="handleReview2(scope.row)"/>
+            <el-button v-permission="['104-114-17']" v-show="isReview3(scope.row)" title="反结单" type="success" size="mini" icon="el-icon-back" circle @click="handleReview3(scope.row)"/>
+            <el-button v-permission2="['104-114-2', scope.row.createPersonId]" v-show="scope.row.judgeStat === 0" title="删除" size="mini" type="danger" icon="el-icon-delete" circle @click="handleDelete(scope.row)"/>
+            <el-button title="进程" size="mini" type="primary" icon="el-icon-sort" circle @click="handleReceipt(scope.row)"/>
+            <el-button v-permission="['104-114-44']" v-show="scope.row.judgeStat === 2" type="primary" style="width: 107px" @click="handleMyReceipt1(scope.row)"><span style="margin-left: -15px;">生成预付款单</span></el-button>
+          </template>
+        </el-table-column>
+      </el-table> -->
+      <el-table
+        v-loading="listLoading"
+        :data="list"
+        border
+        fit
+        style="width: 100%"
+        @selection-change="handleSelectionChange">
+        <el-table-column
+          type="selection"
+          width="55"/>
         <el-table-column :label="$t('public.id')" :resizable="false" fixed="left" align="center" min-width="150">
           <template slot-scope="scope">
             <span class="link-type" @click="handleDetail(scope.row)">{{ scope.row.orderNumber }}</span>
@@ -596,8 +674,9 @@ export default {
     isReview(row) {
       if (row.approvalUseVos !== '' && row.approvalUseVos !== null && row.approvalUseVos !== undefined && row.approvalUseVos.length !== 0) {
         const approvalUse = row.approvalUseVos
+        console.log('11', approvalUse)
         const index = approvalUse[approvalUse.length - 1].stepHandler.indexOf(',' + this.$store.getters.userId + ',')
-        console.log(approvalUse[approvalUse.length - 1].stepHandler)
+        console.log('22', approvalUse[approvalUse.length - 1].stepHandler)
         console.log(index)
         if (index > -1 && (row.judgeStat === 1 || row.judgeStat === 0)) {
           return true

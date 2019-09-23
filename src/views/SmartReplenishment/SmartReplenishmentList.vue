@@ -47,6 +47,7 @@
         style="width: 100%;"
         @selection-change="handleSelectionChange">
         <el-table-column
+          :selectable="selectInit"
           type="selection"
           width="55"
           reserve-selection
@@ -94,7 +95,12 @@
         </el-table-column>
         <el-table-column :label="$t('SmartReplenishmentList.salesDay')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.salesDay }}</span>
+            <span>{{ scope.row.daySale }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column :label="$t('SmartReplenishmentList.adviceQuantity')" :resizable="false" align="center" min-width="150">
+          <template slot-scope="scope">
+            <span>{{ scope.row.adviceQuantity }}</span>
           </template>
         </el-table-column>
         <el-table-column :label="$t('SmartReplenishmentList.Days')" :resizable="false" align="center" min-width="150">
@@ -102,11 +108,11 @@
             <span>{{ scope.row.days }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('SmartReplenishmentList.isMove')" :resizable="false" align="center" min-width="150">
+        <!-- <el-table-column :label="$t('SmartReplenishmentList.isMove')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.isMove | isMoveFilter }}</span>
           </template>
-        </el-table-column>
+        </el-table-column> -->
         <el-table-column :label="$t('public.actions')" :resizable="false" align="center" min-width="230">
           <template slot-scope="scope">
             <el-button v-permission="['54-83-3']" type="primary" size="mini" @click="handleallocation(scope.row)" >生成调拨单</el-button>
@@ -182,6 +188,23 @@ export default {
     this.getlist()
   },
   methods: {
+    // 禁止选择
+    selectInit(row, index) {
+      if (this.moreaction.length) {
+        if (row.repositoryId !== this.moreaction[0].repositoryId) {
+          return false
+        } else {
+          return true
+        }
+      } else {
+        return true
+      }
+      // if (row.repositoryId !== this.moreaction[0].repositoryId) {
+      //   return true
+      // } else {
+      //   return false
+      // }
+    },
     // 获取row的key值
     getRowKeys(row) {
       console.log(row.id)

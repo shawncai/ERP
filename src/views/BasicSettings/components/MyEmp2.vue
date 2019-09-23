@@ -55,6 +55,7 @@
       v-loading="listLoading"
       :data="list"
       :key="tableKey"
+      :row-key="getRowKeys"
       border
       fit
       highlight-current-row
@@ -63,7 +64,8 @@
       <el-table-column
         type="selection"
         width="55"
-        align="center"/>
+        align="center"
+        reserve-selection/>
       <el-table-column
         :label="$t('NewEmployeeInformation.id')"
         :resizable="false"
@@ -198,6 +200,10 @@ export default {
     this.gitemplist()
   },
   methods: {
+    // 多级选择
+    getRowKeys(row) {
+      return row.id
+    },
     // 仓库管理员选择开始
     gitemplist() {
       // 员工列表数据

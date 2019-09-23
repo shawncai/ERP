@@ -83,7 +83,7 @@
           <!--<el-editable-column :edit-render="{name: 'ElInput'}" prop="handlerName" align="center" label="步骤处理人" width="200px"/>-->
           <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="handlerName" align="center" label="步骤处理人" min-width="500px">
             <template slot="edit" slot-scope="scope">
-              <el-input v-model="scope.row.handlerName" @focus="handlechoose(scope)" @input="$refs.editable.updateStatus(scope)" @change="$refs.editable.updateStatus(scope)"/>
+              <el-input v-model="scope.row.handlerName" clearable @focus="handlechoose(scope)" @input="$refs.editable.updateStatus(scope)" @change="$refs.editable.updateStatus(scope)"/>
               <my-emp2 :control.sync="empcontrol2" @personName="personName(scope, $event)" @personIds="personIds(scope, $event)"/>
             </template>
           </el-editable-column>
@@ -112,6 +112,14 @@ export default {
   directives: { permission, permission2 },
   components: { MyEmp, MyEmp2 },
   data() {
+    // const validatePass = (rule, value, callback) => {
+    //   console.log(value)
+    //   if (value === '') {
+    //     callback(new Error('请选择审批人'))
+    //   } else {
+    //     callback()
+    //   }
+    // }
     return {
       // 控制scope
       kongscope: '',
@@ -129,7 +137,7 @@ export default {
       // 审批流程列表规则
       validRules: {
         handlerName: [
-          { required: true, message: '请选择步骤处理人', trigger: 'blue' }
+          { required: true, message: '请选择审批人', trigger: 'change' }
         ]
       },
       // 多选控制
@@ -300,31 +308,57 @@ export default {
     handlesave() {
       console.log(this.personalForm)
       const rest = JSON.stringify(this.$refs.editable.getRecords())
+      if (this.$refs.editable.getRecords().length === 0) {
+        this.$notify.error({
+          title: '错误',
+          message: '请填写细则',
+          offset: 100
+        })
+        return false
+      }
       console.log('rest', rest)
       this.$refs.personalForm.validate((valid) => {
         if (valid) {
-          const finalid = this.personalForm.region[this.personalForm.region.length - 1]
-          this.personalForm.effect_region = finalid
-          createapproval(this.personalForm, rest).then(res => {
-            console.log(res)
-            if (res.data.ret === 200) {
-              this.$notify({
-                title: '成功',
-                message: '保存成功',
-                type: 'success',
-                offset: 100
+          this.$refs.editable.validate((valid) => {
+            if (valid) {
+              const finalid = this.personalForm.region[this.personalForm.region.length - 1]
+              this.personalForm.effect_region = finalid
+              createapproval(this.personalForm, rest).then(res => {
+                console.log(res)
+                if (res.data.ret === 200) {
+                  this.$notify({
+                    title: '成功',
+                    message: '保存成功',
+                    type: 'success',
+                    offset: 100
+                  })
+                  this.restAllForm()
+                  this.$refs.personalForm.clearValidate()
+                  this.$refs.personalForm.resetFields()
+                  this.$refs.editable.clear()
+                } else {
+                  this.$notify.error({
+                    title: '错误',
+                    message: res.data.msg,
+                    offset: 100
+                  })
+                  return false
+                }
               })
-              this.restAllForm()
-              this.$refs.personalForm.clearValidate()
-              this.$refs.personalForm.resetFields()
-              this.$refs.editable.clear()
             } else {
               this.$notify.error({
                 title: '错误',
-                message: res.data.msg,
+                message: '信息未填写完整',
                 offset: 100
               })
+              return false
             }
+          })
+        } else {
+          this.$notify.error({
+            title: '错误',
+            message: '信息未填写完整',
+            offset: 100
           })
         }
       })
