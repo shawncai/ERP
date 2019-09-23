@@ -98,7 +98,7 @@
             </el-col>
             <el-col :span="12">
               <el-form-item :label="$t('SaleOrder.saleRepositoryId')" style="width: 100%;">
-                <el-input v-model="personalForm.saleRepositoryName" style="margin-left: 18px;width: 200px" disabled/>
+                <el-input v-model="repositoryId" style="margin-left: 18px;width: 200px" disabled/>
               </el-form-item>
             </el-col>
             <el-col :span="12">
@@ -472,6 +472,8 @@ export default {
       salePersonId: '',
       // 控制销售人员
       stockControl: false,
+      // 仓库回显
+      repositoryId: '',
       // 开票类别数据
       invoiceTypes: [],
       // 开票类别获取参数
@@ -800,8 +802,11 @@ export default {
     },
     // 销售员回显
     stockName(val) {
+      console.log('销售员回显', val)
       this.salePersonId = val.personName
       this.personalForm.salePersonId = val.id
+      this.repositoryId = val.repositoryName
+      this.personalForm.repositoryId = val.repositoryId
     },
     // 清空记录
     restAllForm() {
