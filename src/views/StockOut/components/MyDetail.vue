@@ -189,9 +189,6 @@ export default {
       this.productVisible = this.control
       console.log(this.control)
       this.getlist()
-    },
-    personalform() {
-      this.query = this.personalform
     }
   },
   created() {
