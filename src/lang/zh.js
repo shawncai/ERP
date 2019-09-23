@@ -1102,7 +1102,9 @@ export default {
     repositoryId: '调整仓库',
     reason: '调整原因',
     adjustDate: '调整日期',
-    judgeStat: '审批状态'
+    judgeStat: '审批状态',
+    heji1: '调整数量合计',
+    heji2: '调整金额合计'
   },
   MaterialsList: {
     bomNumber: 'BOM编码',
