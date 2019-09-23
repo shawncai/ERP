@@ -383,6 +383,9 @@ export function productStockInfo(query) {
 // 商品列表
 export function productlist(query) {
   var params = new URLSearchParams()
+  if (query.repositoryId !== '' && query.repositoryId !== null && query.repositoryId !== undefined) {
+    params.append('repositoryId', query.repositoryId) // 你要传给后台的参数值 key/value
+  }
   if (query.productid !== '' && query.productid !== null && query.productid !== undefined) {
     params.append('productid', query.productid) // 你要传给后台的参数值 key/value
   }

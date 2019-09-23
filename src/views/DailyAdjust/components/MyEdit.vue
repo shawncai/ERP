@@ -67,8 +67,10 @@
           :data.sync="list2"
           :edit-config="{ showIcon: true, showStatus: true}"
           :edit-rules="validRules"
+          :summary-method="getSummaries"
           class="click-table1"
           stripe
+          show-summary
           border
           size="medium"
           style="width: 100%">
@@ -102,15 +104,81 @@
           <el-editable-column prop="typeIdname" align="center" label="规格" width="150px"/>
           <el-editable-column prop="unit" align="center" label="单位" width="150px"/>Q
           <el-editable-column prop="quantity" align="center" label="数量" width="150px"/>
+          <el-editable-column :edit-render="{type: 'default'}" prop="adjustType" align="center" label="调整类型" width="200px">
+            <template slot-scope="scope">
+              <el-select v-model="scope.row.adjustType" :value="scope.row.adjustType" filterable style="width: 100%;">
+                <el-option value="1" label="调增"/>
+                <el-option value="2" label="调减"/>
+              </el-select>
+            </template>
+          </el-editable-column>
           <el-editable-column :edit-render="{name: 'ElInputNumber', type: 'visible'}" prop="adjustQuantity" align="center" label="调整数量" width="150px"/>
           <el-editable-column prop="price" align="center" label="成本单价" width="150px"/>
           <el-editable-column prop="adjustMoney" align="center" label="调整金额" width="150px">
             <template slot-scope="scope">
-              <p>{{ getSize(scope.row.adjustQuantity, scope.row.price) }}</p>
+              <p>{{ getSize(scope.row) }}</p>
             </template>
           </el-editable-column>
           <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="remarks" align="center" label="备注" width="150px"/>
         </el-editable>
+      </div>
+    </el-card>
+    <el-card class="box-card" style="margin-top: 15px" shadow="never">
+      <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">备注信息</h2>
+      <div class="container" style="margin-top: 37px">
+        <el-form :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
+          <el-row>
+            <el-col :span="12">
+              <el-form-item :label="$t('public.createPersonName2')" prop="stockType" style="width: 100%;">
+                {{ personalForm.createName }}
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('public.createDate2')" style="width: 100%;">
+                {{ personalForm.createDate }}
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('public.endPersonName')" prop="applyDate" style="width: 100%;">
+                {{ personalForm.endPersonName }}
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('public.endDate')" prop="applyDate" style="width: 100%;">
+                {{ personalForm.endDate }}
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('public.modifyPersonName')" prop="applyDate" style="width: 100%;">
+                {{ personalForm.modifyPersonName }}
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('public.modifyDate')" prop="applyDate" style="width: 100%;">
+                {{ personalForm.modifyDate }}
+              </el-form-item>
+            </el-col>
+          </el-row>
+        </el-form>
+      </div>
+    </el-card>
+    <el-card class="box-card" shadow="never" style="margin-top: 10px">
+      <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">合计信息</h2>
+      <div class="container" style="margin-top: 37px">
+        <el-form ref="personalForm2" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
+          <el-row>
+            <el-col :span="6">
+              <el-form-item :label="$t('SaleOrder.heji1')" style="width: 100%;">
+                <el-input v-model="heji1" style="margin-left: 18px;width:200px" disabled/>
+              </el-form-item>
+            </el-col>
+            <el-col :span="6">
+              <el-form-item :label="$t('SaleOrder.heji2')" style="width: 100%;">
+                <el-input v-model="heji2" style="margin-left: 18px;width:200px" disabled/>
+              </el-form-item>
+            </el-col>
+          </el-row>
+        </el-form>
       </div>
     </el-card>
     <div class="buttons" style="margin-top: 20px;margin-left: 30px">
@@ -142,6 +210,8 @@ export default {
   },
   data() {
     return {
+      heji1: '',
+      heji2: '',
       // 弹窗组件的控制
       editVisible: this.editcontrol,
       // 修改row数据
@@ -206,6 +276,50 @@ export default {
     this.getlist()
   },
   methods: {
+    getSummaries(param) {
+      const { columns, data } = param
+      console.log('param', param)
+      const sums = []
+      columns.forEach((column, index) => {
+        if (index === 0) {
+          sums[index] = '总计'
+          return
+        }
+        const values = data.map(item => Number(item[column.property]))
+        if (!values.every(value => isNaN(value))) {
+          sums[index] = values.reduce((prev, curr) => {
+            const value = Number(curr)
+            if (!isNaN(value)) {
+              return (Number(prev) + Number(curr)).toFixed(2)
+            } else {
+              return (Number(prev)).toFixed(2)
+            }
+          }, 0)
+          sums[index] += ''
+        } else {
+          sums[index] = ''
+        }
+      })
+      sums[2] = ''
+      sums[3] = ''
+      sums[4] = ''
+      sums[8] = ''
+      sums[9] = ''
+      sums[10] = ''
+      sums[12] = ''
+      sums[14] = ''
+      sums[15] = ''
+      sums[16] = ''
+      sums[18] = ''
+      sums[19] = ''
+      this.heji1 = sums[11]
+      console.log('this.heji1', this.heji1)
+      this.heji2 = sums[13]
+      console.log('this.heji2', this.heji2)
+      console.log('sums', sums)
+
+      return sums
+    },
     // 部门列表数据
     getlist() {
       getdeptlist().then(res => {
@@ -231,6 +345,9 @@ export default {
       console.log(val)
       this.personId = val.personName
       this.personalForm.personId = val.id
+      this.personalForm.deptId = val.deptId
+      this.personalForm.repositoryId = val.repositoryId
+      this.repositoryId = val.repositoryName
     },
     // 仓库列表focus事件触发
     handlechooseRep() {
@@ -318,8 +435,9 @@ export default {
       }
     },
     // 日常调整金额计算
-    getSize(quan, pric) {
-      return quan * pric
+    getSize(val) {
+      val.adjustMoney = Number(val.adjustQuantity * val.price)
+      return Number(val.adjustQuantity * val.price)
     },
     // 修改和取消按钮
     // 修改按钮

@@ -41,11 +41,11 @@
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('DailyAdjust.adjustDate')" prop="adjustDate" style="width: 100%;">
+                <el-form-item :label="$t('WarehouseAdjust.adjustDate')" prop="adjustDate" style="width: 100%;">
                   <el-date-picker
                     v-model="personalForm.adjustDate"
+                    :picker-options="pickerOptions1"
                     type="date"
-                    placeholder="选择调整日期"
                     value-format="yyyy-MM-dd"
                     style="margin-left: 18px;width:200px"/>
                 </el-form-item>
@@ -62,13 +62,15 @@
           <el-button type="danger" @click="$refs.editable.removeSelecteds()">删除</el-button>
           <el-button type="primary" @click="checkStock()">库存快照</el-button>
         </div>
-        <my-detail :control.sync="control" @product="productdetail"/>
+        <my-detail :control.sync="control" :editdata.sync="personalForm" @product="productdetail"/>
         <div class="container">
           <el-editable
             ref="editable"
             :data.sync="list2"
             :edit-config="{ showIcon: true, showStatus: true}"
             :edit-rules="validRules"
+            :summary-method="getSummaries"
+            show-summary
             class="click-table1"
             stripe
             border
@@ -117,11 +119,30 @@
             <el-editable-column prop="price" align="center" label="成本单价" width="150px"/>
             <el-editable-column prop="adjustMoney" align="center" label="调整金额" width="150px">
               <template slot-scope="scope">
-                <p>{{ getSize(scope.row.adjustQuantity, scope.row.price) }}</p>
+                <p>{{ getSize(scope.row) }}</p>
               </template>
             </el-editable-column>
             <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="remarks" align="center" label="备注" width="150px"/>
           </el-editable>
+        </div>
+      </el-card>
+      <el-card class="box-card" shadow="never" style="margin-top: 10px">
+        <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">合计信息</h2>
+        <div class="container" style="margin-top: 37px">
+          <el-form ref="personalForm2" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
+            <el-row>
+              <el-col :span="6">
+                <el-form-item :label="$t('SaleOrder.heji1')" style="width: 100%;">
+                  <el-input v-model="heji1" style="margin-left: 18px;width:200px" disabled/>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item :label="$t('SaleOrder.heji2')" style="width: 100%;">
+                  <el-input v-model="heji2" style="margin-left: 18px;width:200px" disabled/>
+                </el-form-item>
+              </el-col>
+            </el-row>
+          </el-form>
         </div>
       </el-card>
       <!--操作-->
@@ -175,14 +196,21 @@ export default {
   components: { MyRepository, MyDetail, MyCreate, MyAccept },
   data() {
     return {
+      heji1: '',
+      heji2: '',
+      pickerOptions1: {
+        disabledDate: (time) => {
+          return time.getTime() < new Date().getTime() - 8.64e7
+        }
+      },
       // 批次数据
       batchlist: [],
       // 部门数据
       depts: [],
       // 经办人回显
-      personId: '',
+      personId: this.$store.getters.name,
       // 调整仓库回显
-      repositoryId: '',
+      repositoryId: this.$store.getters.repositoryName,
       // 控制仓库选择窗口
       repositorycontrol: false,
       // 控制经办人选择窗口
@@ -191,9 +219,13 @@ export default {
       control: false,
       // 日常调整信息数据
       personalForm: {
+        adjustDate: null,
+        deptId: this.$store.getters.deptId,
         createPersonId: this.$store.getters.userId,
+        personId: this.$store.getters.userId,
         countryId: this.$store.getters.countryId,
         repositoryId2: this.$store.getters.repositoryId,
+        repositoryId: this.$store.getters.repositoryId,
         regionId: 2
       },
       // 日常调整单规则数据
@@ -232,8 +264,69 @@ export default {
   },
   mounted() {
     this.getlist()
+    this.getdatatime()
   },
   methods: {
+    getSummaries(param) {
+      const { columns, data } = param
+      console.log('param', param)
+      const sums = []
+      columns.forEach((column, index) => {
+        if (index === 0) {
+          sums[index] = '总计'
+          return
+        }
+        const values = data.map(item => Number(item[column.property]))
+        if (!values.every(value => isNaN(value))) {
+          sums[index] = values.reduce((prev, curr) => {
+            const value = Number(curr)
+            if (!isNaN(value)) {
+              return (Number(prev) + Number(curr)).toFixed(2)
+            } else {
+              return (Number(prev)).toFixed(2)
+            }
+          }, 0)
+          sums[index] += ''
+        } else {
+          sums[index] = ''
+        }
+      })
+      sums[2] = ''
+      sums[3] = ''
+      sums[4] = ''
+      sums[8] = ''
+      sums[9] = ''
+      sums[10] = ''
+      sums[12] = ''
+      sums[14] = ''
+      sums[15] = ''
+      sums[16] = ''
+      sums[18] = ''
+      sums[19] = ''
+      this.heji1 = sums[11]
+      console.log('this.heji1', this.heji1)
+      this.heji2 = sums[13]
+      console.log('this.heji2', this.heji2)
+      console.log('sums', sums)
+
+      return sums
+    },
+    // 默认显示今天
+    getdatatime() { // 默认显示今天
+      var date = new Date()
+      var seperator1 = '-'
+      var year = date.getFullYear()
+      var month = date.getMonth() + 1
+      var strDate = date.getDate()
+      if (month >= 1 && month <= 9) {
+        month = '0' + month
+      }
+      if (strDate >= 0 && strDate <= 9) {
+        strDate = '0' + strDate
+      }
+      var currentdate = year + seperator1 + month + seperator1 + strDate
+      this.personalForm.adjustDate = currentdate
+    },
     checkStock(row) {
       console.log('this.moreaction.length', this.moreaction.length)
       if (this.moreaction.length > 1 || this.moreaction.length === 0) {
@@ -276,6 +369,9 @@ export default {
       console.log(val)
       this.personId = val.personName
       this.personalForm.personId = val.id
+      this.personalForm.deptId = val.deptId
+      this.personalForm.repositoryId = val.repositoryId
+      this.repositoryId = val.repositoryName
     },
     // 仓库列表focus事件触发
     handlechooseRep() {
@@ -285,17 +381,7 @@ export default {
       console.log(val)
       this.repositoryId = val.repositoryName
       this.personalForm.repositoryId = val.id
-      // this.locationlistparms.repositoryId = val.id
-      // locationlist(this.locationlistparms).then(res => {
-      //   if (res.data.ret === 200) {
-      //     this.locationlist = res.data.data.content.list.map(function(item) {
-      //       return {
-      //         'value': item.id,
-      //         'label': item.locationName
-      //       }
-      //     })
-      //   }
-      // })
+      this.$refs.editable.clear()
     },
     updatebatch(event, scope) {
       if (event === true) {
@@ -343,7 +429,15 @@ export default {
     // 日常调整单事件
     // 新增日常调整单明细
     handleAddproduct() {
-      this.control = true
+      if (this.repositoryId !== null && this.repositoryId !== '' && this.repositoryId !== undefined) {
+        this.control = true
+      } else {
+        this.$notify.error({
+          title: '错误',
+          message: '请先选择门店',
+          offset: 100
+        })
+      }
     },
     productdetail(val) {
       console.log(val)
@@ -363,19 +457,24 @@ export default {
       }
     },
     // 日常调整金额计算
-    getSize(quan, pric) {
-      return quan * pric
+    getSize(val) {
+      val.adjustMoney = Number(val.adjustQuantity * val.price)
+      return Number(val.adjustQuantity * val.price)
     },
     // 清空记录
     restAllForm() {
       this.personalForm = {
+        adjustDate: null,
         createPersonId: this.$store.getters.userId,
         countryId: this.$store.getters.countryId,
         repositoryId: this.$store.getters.repositoryId,
+        personId: this.$store.getters.userId,
+        deptId: this.$store.getters.deptId,
+        repositoryId2: this.$store.getters.repositoryId,
         regionId: this.$store.getters.regionId
       }
-      this.personId = ''
-      this.repositoryId = ''
+      this.personId = this.$store.getters.name
+      this.repositoryId = this.$store.getters.repositoryName
     },
     // 保存操作
     handlesave() {
