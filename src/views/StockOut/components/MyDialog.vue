@@ -1,5 +1,5 @@
 <template>
-  <el-dialog :visible.sync="editVisible" :editcontrol="editcontrol" :editdata="editdata" :close-on-press-escape="false" class="edit" top="10px" title="修改采购入库单" @close="$emit('update:editcontrol', false)">
+  <el-dialog :visible.sync="editVisible" :editcontrol="editcontrol" :editdata="editdata" :close-on-press-escape="false" class="edit" width="1010px" top="-10px" title="修改采购入库单" @close="$emit('update:editcontrol', false)">
     <!--基本信息-->
     <el-card class="box-card">
       <h2 ref="geren" class="form-name">基本信息</h2>
@@ -86,7 +86,7 @@
         <el-button type="success" style="background:#3696fd;border-color:#3696fd " @click="handleAddproduct">添加商品</el-button>
         <el-button type="danger" @click="$refs.editable.removeSelecteds()">删除</el-button>
       </div>
-      <my-detail :control.sync="control" @product="productdetail"/>
+      <my-detail :control.sync="control" :personalform="personalForm" @product="productdetail"/>
       <div class="container">
         <el-editable
           ref="editable"

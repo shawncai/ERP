@@ -160,7 +160,7 @@
           <el-editable-column prop="taxMoney" align="center" label="税额" min-width="150px"/>
           <el-editable-column v-if="false" prop="money" align="center" label="金额" min-width="150px"/>
           <el-editable-column prop="includeTaxCostMoney" align="center" label="退货金额" min-width="150px"/>
-          <el-editable-column prop="discount" align="center" label="折扣" min-width="150px"/>
+          <el-editable-column prop="discount" align="center" label="折扣（%）" min-width="150px"/>
           <el-editable-column prop="discountMoney" align="center" label="折扣额" min-width="150px"/>
           <el-editable-column prop="alreadyReturnQuantity" align="center" label="已退货数量" min-width="150px"/>
           <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="returnQuantity" align="center" label="退货数量" min-width="150px">

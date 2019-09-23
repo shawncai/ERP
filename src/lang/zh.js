@@ -2149,7 +2149,8 @@ export default {
     downStock: '最低库存',
     salesDay: '日均销量',
     Days: '可售天数',
-    isMove: '是否补货'
+    isMove: '是否补货',
+    Storagemove: '调拨'
   },
   InventoryReplenishment: {
     id: '编号',

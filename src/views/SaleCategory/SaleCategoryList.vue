@@ -162,7 +162,7 @@
 
 <script>
 import '@/directive/noMoreClick/index.js'
-import { searchSaleCategory, addSaleCategory, updateSaleCategory, delateSaleCategory } from '@/api/SaleCategory'
+import { searchSaleCategoryall, addSaleCategory, updateSaleCategory, delateSaleCategory } from '@/api/SaleCategory'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
 import permission from '@/directive/permission/index.js' // 权限判断指令
@@ -179,7 +179,7 @@ export default {
         1: '销售来源',
         2: '订单类型',
         3: '结算方式',
-        4: '发票类型',
+        4: '开票类型',
         5: '机会类型',
         6: '机会来源'
       }
@@ -290,7 +290,7 @@ export default {
     getlist() {
       // 员工列表数据
       this.listLoading = true
-      searchSaleCategory(this.getemplist).then(res => {
+      searchSaleCategoryall(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
@@ -305,7 +305,7 @@ export default {
     // 搜索
     handleFilter() {
       this.getemplist.pagenum = 1
-      searchSaleCategory(this.getemplist).then(res => {
+      searchSaleCategoryall(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount

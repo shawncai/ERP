@@ -98,7 +98,7 @@
             </el-col>
             <el-col :span="12">
               <el-form-item :label="$t('SaleOrder.saleRepositoryId')" style="width: 100%;">
-                <el-input v-model="personalForm.saleRepositoryName" style="margin-left: 18px;width: 200px" disabled/>
+                <el-input v-model="saleRepositoryName" style="margin-left: 18px;width: 200px" disabled/>
               </el-form-item>
             </el-col>
             <el-col :span="12">
@@ -472,6 +472,8 @@ export default {
       salePersonId: '',
       // 控制销售人员
       stockControl: false,
+      // 仓库回显
+      saleRepositoryName: '',
       // 开票类别数据
       invoiceTypes: [],
       // 开票类别获取参数
@@ -530,6 +532,7 @@ export default {
     editdata() {
       console.log(this.editdata)
       this.personalForm = this.editdata
+      this.saleRepositoryName = this.personalForm.saleRepositoryName
       this.planPersonId = this.personalForm.planPersonName
       this.stockPersonId = this.personalForm.stockPersonName
       this.salePersonId = this.personalForm.salePersonName
@@ -800,15 +803,18 @@ export default {
     },
     // 销售员回显
     stockName(val) {
+      console.log('销售员回显', val)
       this.salePersonId = val.personName
       this.personalForm.salePersonId = val.id
+      this.saleRepositoryName = val.repositoryName
+      this.personalForm.saleRepositoryId = val.repositoryId
     },
     // 清空记录
     restAllForm() {
       this.personalForm = {
         createPersonId: this.$store.getters.userId,
         countryId: this.$store.getters.countryId,
-        repositoryId: this.$store.getters.repositoryId,
+        saleRepositoryId: this.$store.getters.repositoryId,
         regionId: this.$store.getters.regionId
       }
       this.customerId = null
@@ -824,7 +830,7 @@ export default {
     handleEditok() {
       this.$refs.personalForm.validate((valid) => {
         if (valid) {
-          this.personalForm.repositoryId = this.$store.getters.repositoryId
+          // this.personalForm.repositoryId = this.$store.getters.repositoryId
           this.personalForm.regionId = this.$store.getters.regionId
           this.personalForm.createPersonId = this.$store.getters.userId
           this.personalForm.countryId = this.$store.getters.countryId

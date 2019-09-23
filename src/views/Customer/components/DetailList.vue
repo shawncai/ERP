@@ -257,7 +257,7 @@
                 <el-table-column
                   prop="discountMoney"
                   align="center"
-                  label="折扣"
+                  label="折扣（%）"
                   min-width="150"/>
               </el-table>
             </el-tab-pane>

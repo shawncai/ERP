@@ -32,6 +32,7 @@
       <el-button v-waves :loading="downloadLoading" class="filter-item" style="width: 86px" @click="handleExport"> <svg-icon icon-class="daochu"/>{{ $t('public.export') }}</el-button>
       <!-- 打印操作 -->
       <el-button v-waves class="filter-item" icon="el-icon-printer" style="width: 86px" @click="handlePrint">{{ $t('public.print') }}</el-button>
+      <el-button v-waves class="filter-item" icon="el-icon-document" style="width: 86px" @click="handleStoragemove">{{ $t('SmartReplenishmentList.Storagemove') }}</el-button>
     </el-card>
     <el-card class="box-card" style="margin-top: 15px">
       <!-- 列表开始 -->
@@ -39,11 +40,17 @@
         v-loading="listLoading"
         :key="tableKey"
         :data="list"
+        :row-key="getRowKeys"
         border
         fit
         highlight-current-row
         style="width: 100%;"
         @selection-change="handleSelectionChange">
+        <el-table-column
+          type="selection"
+          width="55"
+          reserve-selection
+        />
         <el-table-column :label="$t('public.id')" :resizable="false" type="index" align="center" width="100"/>
         <el-table-column :label="$t('SmartReplenishmentList.productCode')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
@@ -98,6 +105,11 @@
         <el-table-column :label="$t('SmartReplenishmentList.isMove')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.isMove | isMoveFilter }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column :label="$t('public.actions')" :resizable="false" align="center" min-width="230">
+          <template slot-scope="scope">
+            <el-button v-permission="['54-83-3']" type="primary" size="mini" @click="handleallocation(scope.row)" >生成调拨单</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -170,7 +182,23 @@ export default {
     this.getlist()
   },
   methods: {
+    // 获取row的key值
+    getRowKeys(row) {
+      console.log(row.id)
+      return row.id
+    },
     checkPermission,
+    // 批量新建调拨单
+    handleStoragemove() {
+      this.$store.dispatch('getempcontract4', this.moreaction)
+      this.$router.push('/Storagemove/AddStoragemove')
+    },
+    // 新建调拨单
+    handleallocation(row) {
+      console.log('消息', row)
+      this.$store.dispatch('getempcontract4', row)
+      this.$router.push('/Storagemove/AddStoragemove')
+    },
     // 仓库列表focus事件触发
     handlechooseRep() {
       this.repositorycontrol = true
@@ -218,6 +246,7 @@ export default {
     },
     // 批量操作
     handleSelectionChange(val) {
+      console.log('多选', val)
       this.moreaction = val
     },
     // 导出

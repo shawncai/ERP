@@ -104,7 +104,7 @@
           <template slot-scope="scope">
             <el-button v-permission="['1-9-11-8']" v-show="scope.row.stat === 2" style="margin-left: 18px;" title="启用" type="primary" size="mini" icon="el-icon-check" circle @click="open(scope.row)"/>
             <el-button v-permission="['1-9-11-9']" v-show="scope.row.stat === 1" title="停用" type="primary" size="mini" icon="el-icon-close" circle @click="close(scope.row)"/>
-            <!-- <el-button v-permission="['1-9-11-3']" type="primary" size="mini" @click="handleEdit(scope.row)">{{ $t('public.edit') }}</el-button> -->
+            <el-button v-permission="['1-9-11-3']" type="primary" size="mini" @click="handleEdit(scope.row)">{{ $t('public.edit') }}</el-button>
             <!--            <el-button v-permission="['1-9-11-9']" v-show="scope.row.stat === 1" size="mini" type="warning" @click="handleDisable(scope.row)">{{ $t('public.disable') }}</el-button>-->
             <!--            <el-button v-permission="['1-9-11-8']" v-show="scope.row.stat === 2" size="mini" type="success" @click="handleEnable(scope.row)">{{ $t('public.enable') }}</el-button>-->
             <!-- <el-button v-permission="['1-9-11-2']" size="mini" type="danger" @click="handleDelete(scope.row)">{{ $t('public.delete') }}</el-button> -->
@@ -116,7 +116,7 @@
       <!--修改操作-->
       <!--===========================-->
       <!--开始-->
-      <el-dialog :visible.sync="editVisible" top="10px" title="修改仓库">
+      <el-dialog :visible.sync="editVisible" class="editdialog" width="1010px" top="-10px" title="修改仓库">
         <!--仓库信息-->
         <h2 ref="geren" class="form-name">基本信息</h2>
         <div class="container">
@@ -453,7 +453,7 @@
 
 <script>
 import { regionlist, getcountrylist, searchRepository } from '@/api/public'
-import { searchRepCategory, searchRepository2, update, deleteRepository, startorend } from '@/api/Repository'
+import { searchRepCategory, searchRepository3, update, deleteRepository, startorend } from '@/api/Repository'
 import { getemplist, getdeptlist } from '@/api/EmployeeInformation'
 import permission from '@/directive/permission/index.js' // 权限判断指令
 import permission2 from '@/directive/permission2/index.js' // 权限判断指令
@@ -699,7 +699,7 @@ export default {
       })
       // 员工列表数据
       this.listLoading = true
-      searchRepository2(this.getemplist).then(res => {
+      searchRepository3(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
@@ -741,7 +741,7 @@ export default {
       this.getemplist.pagenum = 1
       this.getemplist.regionId = this.getemplistregions[this.getemplistregions.length - 1]
       console.log(this.getemplist)
-      searchRepository2(this.getemplist).then(res => {
+      searchRepository3(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
@@ -1135,5 +1135,8 @@ export default {
   .filter-item{
     width: 140px;
     margin-left: 20px;
+  }
+  .app-container >>> .el-dialog {
+    left: 0;
   }
 </style>

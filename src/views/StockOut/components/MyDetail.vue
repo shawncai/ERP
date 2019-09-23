@@ -115,7 +115,7 @@
 </template>
 
 <script>
-import { productlist, searchEmpCategory2 } from '@/api/Product'
+import { chooseProduct, searchEmpCategory2 } from '@/api/Product'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination'
 import MySupplier from '../../Product/components/MySupplier'
@@ -136,10 +136,16 @@ export default {
     control: {
       type: Boolean,
       default: false
+    },
+    personalform: {
+      type: Object,
+      default: null
     }
   },
   data() {
     return {
+      // 查询仓库
+      query: this.personalform,
       // 供应商回显
       supplierid: '',
       // 供货商控制
@@ -192,7 +198,8 @@ export default {
     getlist() {
       // 商品列表数据
       this.listLoading = true
-      productlist(this.getemplist).then(res => {
+      this.getemplist.searchRepositoryId = this.query.outRepositoryId
+      chooseProduct(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
@@ -217,7 +224,8 @@ export default {
     // 搜索
     handleFilter() {
       this.getemplist.pagenum = 1
-      productlist(this.getemplist).then(res => {
+      this.getemplist.searchRepositoryId = this.query.outRepositoryId
+      chooseProduct(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount

@@ -1,5 +1,5 @@
 <template>
-  <el-dialog :visible.sync="editVisible" :detailcontrol="detailcontrol" :detaildata="detaildata" :close-on-press-escape="false" append-to-body class="edit" top="10px" title="修改拆装单" @close="$emit('update:detailcontrol', false)">
+  <el-dialog :visible.sync="editVisible" :detailcontrol="detailcontrol" :detaildata="detaildata" :close-on-press-escape="false" append-to-body class="edit" width="1010px" top="-10px" title="拆装单详情" @close="$emit('update:detailcontrol', false)">
     <div id="printTest" >
       <!--基本信息-->
       <el-card class="box-card">
@@ -514,6 +514,28 @@ export default {
 </script>
 
 <style scoped>
+  .edit >>> .el-dialog{
+    -webkit-transform: none;
+    transform: none;
+    position: absolute;
+    right: 0;
+    left: auto;
+    height: auto;
+  }
+  .edit >>> .el-dialog__header{
+    background: #fff;
+    position: fixed;
+    top: 0;
+    display: block;
+    width: 1010px;
+    z-index: 100;
+    border-bottom: 1px solid #f1f1f1;
+  }
+  .edit >>> .el-dialog__body{
+    padding-left: 0;
+    padding-right: 0;
+    padding-top: 10px;
+  }
   .edit >>> .el-dialog {
     background:#f1f1f1 ;
     left: 0;

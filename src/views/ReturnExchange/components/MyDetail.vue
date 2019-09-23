@@ -284,11 +284,12 @@ export default {
           quantity: '0.00',
           salePrice: item.salePrice,
           costPrice: item.costPrice,
+          taxPrice: item.salePrice,
           costMoney: '0.00',
           taxRate: '0.00',
           taxMoney: '0.00',
           money: '0.00',
-          discount: '0.00',
+          discount: '100.00',
           discountMoney: '0.00'
         }
       })
