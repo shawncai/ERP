@@ -30,7 +30,7 @@
                 </el-form-item>
               </el-col>
               <el-col :span="12">
-                <el-form-item :label="$t('NewEmployeeInformation.lastname')" prop="firstName" style="width: 100%;">
+                <el-form-item :label="$t('NewEmployeeInformation.firstname')" prop="firstName" style="width: 100%;">
                   <span>{{ personalForm.content.firstName }}</span>
                 </el-form-item>
               </el-col>
@@ -40,7 +40,7 @@
                 </el-form-item>
               </el-col>
               <el-col :span="12">
-                <el-form-item :label="$t('NewEmployeeInformation.firstname')" prop="lastName" style="width: 100%;">
+                <el-form-item :label="$t('NewEmployeeInformation.lastname')" prop="lastName" style="width: 100%;">
                   <span>{{ personalForm.content.lastName }}</span>
                 </el-form-item>
               </el-col>
