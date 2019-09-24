@@ -77,7 +77,7 @@
     </el-card>
 
     <el-card class="box-card" style="margin-top: 10px" shadow="never">
-      <h2 ref="fuzhu" class="form-name">分期列表</h2>
+      <h2 ref="fenqi" class="form-name">分期列表</h2>
       <div class="container">
         <!-- 列表开始 -->
         <el-table
@@ -157,7 +157,7 @@
     </el-card>
 
     <el-card class="box-card" style="margin-top: 10px" shadow="never">
-      <h2 ref="fuzhu" class="form-name">还款计划</h2>
+      <h2 ref="huankuan" class="form-name">还款计划</h2>
       <!-- 列表开始 -->
       <div class="container">
         <el-table
@@ -361,8 +361,7 @@ export default {
       console.log(this.planList)
       const showData = this.processData.slice((this.planList.pageNum - 1) * this.planList.pageSize, this.planList.pageSize * this.planList.pageNum)
       this.list2 = showData
-      console.log('原始数据', this.processData)
-      console.log('处理的数据', showData)
+      // this.$refs.huankuan.
     },
     // 单选获取还款计划
     getPayPlan(val) {
@@ -370,6 +369,7 @@ export default {
       this.list2 = val.installmentOrderDetailVos
       this.total2 = val.installmentOrderDetailVos.length
       this.processData = this.deepClone(this.list2)
+      this.pagingPlan()
     },
     handleMyReceipt1(val) {
       console.log(val)

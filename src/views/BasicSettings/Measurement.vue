@@ -129,12 +129,12 @@
           <el-form-item label-width="120px" label="计量单位名称">
             <el-input v-model="editNumberingform.categoryName" placeholder="请输入计量单位名称" autocomplete="off" style="width: 200px"/>
           </el-form-item>
-          <el-form-item label-width="120px" label="启用状态">
+          <!-- <el-form-item label-width="120px" label="启用状态">
             <el-select v-model="editNumberingform.isEffective" placeholder="请选择启用状态">
               <el-option label="启用" value="1"/>
               <el-option label="禁用" value="2"/>
             </el-select>
-          </el-form-item>
+          </el-form-item> -->
         </el-form>
         <div slot="footer" class="dialog-footer" style="text-align: center">
           <el-button @click="editNumberingVisible = false">取 消</el-button>
@@ -300,12 +300,13 @@ export default {
       console.log(row)
       this.editNumberingform.id = row.id
       this.editNumberingform.categoryName = row.categoryName
-      this.editNumberingform.isEffective = String(row.isEffective)
+      // this.editNumberingform.isEffective = row.isEffective
       this.editNumberingform.type = String(row.type)
       this.editNumberingVisible = true
     },
     // 确认修改
     handleEditOk() {
+      console.log(this.editNumberingform)
       if (this.editNumberingform.type === null || this.editNumberingform.type === '' || this.editNumberingform.type === undefined || this.editNumberingform.categoryName === null || this.editNumberingform.categoryName === '' || this.editNumberingform.categoryName === undefined) {
         this.$notify.error({
           title: '错误',
