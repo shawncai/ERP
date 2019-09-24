@@ -1932,7 +1932,7 @@ export default {
     customerName: '客户姓名',
     customerPhone: '客户电话',
     address: '地址',
-    installmentMoney: '本金',
+    installmentMoney: '剩余本金',
     totalMoney: '分期金额',
     leftMoney: '剩余本金',
     paidCount: '已还期数',
@@ -1944,7 +1944,10 @@ export default {
     Principal: '本金',
     reward: '奖励',
     Latefee: '滞纳金',
-    status: '还款状态'
+    status: '还款状态',
+    productCode: '商品编号',
+    productName: '商品名称',
+    leftAllmoney: '剩余金额'
   },
   ChangeCount: {
     title: '改期主题',

@@ -23,7 +23,7 @@
                 <el-form-item :label="$t('ChangeCount.sourceNumber')" prop="sourceNumber" style="width: 100%;">
                   <el-input v-model="personalForm.sourceNumber" style="margin-left: 18px;width: 200px" @focus="handleAddsourceNum"/>
                 </el-form-item>
-                <my-installment :installmentcontrol.sync="installmentcontrol" @InstallmentDetail="InstallmentDetail" @Installment="Installment"/>
+                <my-installment :installmentcontrol.sync="installmentcontrol" @Installment="Installment"/>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('ChangeCount.customerId')" prop="customerId" style="width: 100%;">
@@ -81,8 +81,8 @@
         </div>
       </el-card>
       <!--子件信息-->
-      <el-card class="box-card" style="margin-top: 15px" shadow="never">
-        <h2 ref="fuzhu" class="form-name" >分期明细</h2>
+      <!-- <el-card class="box-card" style="margin-top: 15px" shadow="never">
+        <h2 ref="fuzhu" class="form-name" >商品明细</h2>
         <div class="container">
           <el-editable
             ref="editable"
@@ -109,7 +109,7 @@
             <el-editable-column prop="motorCode" align="center" label="电机编码" min-width="150px"/>
           </el-editable>
         </div>
-      </el-card>
+      </el-card> -->
       <!--操作-->
       <div class="buttons" style="margin-top: 20px">
         <el-button v-no-more-click type="primary" style="background:#3696fd;border-color:#3696fd;width: 98px" @click="handlesave()">保存</el-button>
@@ -186,15 +186,18 @@ export default {
   mounted() {
     this.getinformation()
   },
+  activated() {
+    this.getinformation()
+  },
   methods: {
     getinformation() {
       if (this.$store.getters.empcontract) {
         console.log('getempcontract', this.$store.getters.empcontract)
         this.Installment(this.$store.getters.empcontract)
-        for (let i = 0; i < this.$store.getters.empcontract.installmentOrderDetailVos.length; i++) {
-          this.$store.getters.empcontract.installmentOrderDetailVos[i].categoryName = this.$store.getters.empcontract.installmentOrderDetailVos[i].productCategory
-        }
-        this.InstallmentDetail(this.$store.getters.empcontract.installmentOrderDetailVos)
+        // for (let i = 0; i < this.$store.getters.empcontract.installmentOrderDetailVos.length; i++) {
+        //   this.$store.getters.empcontract.installmentOrderDetailVos[i].categoryName = this.$store.getters.empcontract.installmentOrderDetailVos[i].productCategory
+        // }
+        // this.InstallmentDetail(this.$store.getters.empcontract.installmentOrderDetailVos)
         this.$store.dispatch('getempcontract', '')
       }
     },
@@ -210,13 +213,13 @@ export default {
     handleAddsourceNum() {
       this.installmentcontrol = true
     },
-    InstallmentDetail(val) {
-      console.log(val)
-      this.$refs.editable.clear()
-      for (let i = 0; i < val.length; i++) {
-        this.$refs.editable.insert(val[i])
-      }
-    },
+    // InstallmentDetail(val) {
+    //   console.log(val)
+    //   this.$refs.editable.clear()
+    //   for (let i = 0; i < val.length; i++) {
+    //     this.$refs.editable.insert(val[i])
+    //   }
+    // },
     Installment(val) {
       this.personalForm.sourceNumber = val.applyNumber
       this.personalForm.customerId = val.customerId
