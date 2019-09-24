@@ -169,56 +169,49 @@
           highlight-current-row
           style="width: 100%;"
         >
-          <el-table-column :label="$t('public.id')" :resizable="false" fixed="left" align="center" min-width="150">
-            <template slot-scope="scope">
-              <span>{{ scope.row.orderNumber }}</span>
-            </template>
-          </el-table-column>
           <el-table-column :label="$t('InstallmentList.count')" :resizable="false" fixed="left" align="center" min-width="150">
             <template slot-scope="scope">
-              <span>{{ scope.row.customerName }}</span>
+              <span>{{ `第${scope.row.idx}期` }}</span>
             </template>
           </el-table-column>
           <el-table-column :label="$t('InstallmentList.Repaymentdate')" :resizable="false" align="center" min-width="150">
             <template slot-scope="scope">
-              <span>{{ scope.row.customerPhone }}</span>
+              <span>{{ scope.row.deadline }}</span>
             </template>
           </el-table-column>
           <el-table-column :label="$t('InstallmentList.Currentamount')" :resizable="false" align="center" min-width="150">
             <template slot-scope="scope">
-              <span>{{ scope.row.address }}</span>
+              <span>{{ scope.row.shouldMoney }}</span>
             </template>
           </el-table-column>
           <el-table-column :label="$t('InstallmentList.Principal')" :resizable="false" align="center" min-width="150">
             <template slot-scope="scope">
-              <span>{{ scope.row.totalMoney }}</span>
+              <span>{{ scope.row.capitalMoney }}</span>
             </template>
           </el-table-column>
           <el-table-column :label="$t('InstallmentList.Interest')" :resizable="false" align="center" min-width="150">
             <template slot-scope="scope">
-              <span>{{ scope.row.leftMoney }}</span>
+              <span>{{ scope.row.interestMoney }}</span>
             </template>
           </el-table-column>
           <el-table-column :label="$t('InstallmentList.reward')" :resizable="false" align="center" min-width="150">
             <template slot-scope="scope">
-              <span>{{ scope.row.totalMoney - scope.row.installmentMoney }}</span>
+              <span>{{ scope.row.reward }}</span>
             </template>
           </el-table-column>
           <el-table-column :label="$t('InstallmentList.Latefee')" :resizable="false" prop="Latefee" align="center" min-width="150">
             <template slot-scope="scope">
-              <span>{{ scope.row.judgeStat | judgeStatFilter }}</span>
+              <span>{{ scope.row.penalty }}</span>
             </template>
           </el-table-column>
           <el-table-column :label="$t('InstallmentList.status')" :resizable="false" prop="status" align="center" min-width="150">
             <template slot-scope="scope">
-              <span>{{ scope.row.judgeStat | judgeStatFilter }}</span>
+              <span>{{ scope.row.stat | payFilter }}</span>
             </template>
           </el-table-column>
         </el-table>
         <!-- 列表结束 -->
-        <pagination v-show="total>0" :total="total2" :page.sync="getemplist.pageNum" :limit.sync="getemplist.pageSize" @pagination="getlist" />
-      <!--修改开始=================================================-->
-      <!--修改结束=================================================-->
+        <pagination v-show="total>0" :total="total2" :page.sync="planList.pageNum" :limit.sync="planList.pageSize" @pagination="pagingPlan" />
       </div>
 
     </el-card>
@@ -272,6 +265,14 @@ export default {
       const statusMap = {
         1: '已发货',
         2: '未发货'
+      }
+      return statusMap[status]
+    },
+    payFilter(status) {
+      const statusMap = {
+        1: '已还',
+        2: '未还',
+        3: '逾期'
       }
       return statusMap[status]
     }
@@ -337,18 +338,38 @@ export default {
       // 修改控制组件数据
       editVisible: false,
       // 开始时间到结束时间
-      date: []
+      date: [],
+      planList: {
+        pageNum: 1,
+        pageSize: 10
+      },
+      processData: []
     }
   },
   mounted() {
     this.getlist()
   },
   methods: {
+    // 深拷贝
+    deepClone(obj) {
+      const _obj = JSON.stringify(obj)
+      const objClone = JSON.parse(_obj)
+      return objClone
+    },
+    // 还款计划分页
+    pagingPlan() {
+      console.log(this.planList)
+      const showData = this.processData.slice((this.planList.pageNum - 1) * this.planList.pageSize, this.planList.pageSize * this.planList.pageNum)
+      this.list2 = showData
+      console.log('原始数据', this.processData)
+      console.log('处理的数据', showData)
+    },
     // 单选获取还款计划
     getPayPlan(val) {
       console.log(val)
       this.list2 = val.installmentOrderDetailVos
       this.total2 = val.installmentOrderDetailVos.length
+      this.processData = this.deepClone(this.list2)
     },
     handleMyReceipt1(val) {
       console.log(val)

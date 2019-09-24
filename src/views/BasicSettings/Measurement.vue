@@ -298,6 +298,7 @@ export default {
     // 修改操作
     handleEdit(row) {
       console.log(row)
+      this.editNumberingform.id = row.id
       this.editNumberingform.categoryName = row.categoryName
       this.editNumberingform.isEffective = String(row.isEffective)
       this.editNumberingform.type = String(row.type)
@@ -305,7 +306,7 @@ export default {
     },
     // 确认修改
     handleEditOk() {
-      if (this.editNumberingform.type === null || this.editNumberingform.type === '' || this.editNumberingform.type === undefined || this.editNumberingform.categoryname === null || this.editNumberingform.categoryname === '' || this.editNumberingform.categoryname === undefined) {
+      if (this.editNumberingform.type === null || this.editNumberingform.type === '' || this.editNumberingform.type === undefined || this.editNumberingform.categoryName === null || this.editNumberingform.categoryName === '' || this.editNumberingform.categoryName === undefined) {
         this.$notify.error({
           title: '错误',
           message: '名称和类别不能为空',
