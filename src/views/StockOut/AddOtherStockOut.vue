@@ -42,7 +42,7 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('StockOut.outPersonId')" prop="outPersonId" style="width: 100%;">
-                  <el-input v-model="outPersonId" placeholder="请选择出库人" style="margin-left: 18px;width:200px" clearable @focus="handlechooseAccept"/>
+                  <el-input v-model="outPersonId" placeholder="请选择出库人" style="margin-left: 18px;width:200px" clearable disabled @focus="handlechooseAccept"/>
                 </el-form-item>
                 <my-accept :accetpcontrol.sync="accetpcontrol" @acceptName="acceptName"/>
               </el-col>
@@ -59,6 +59,17 @@
                   <el-input v-model="outRepositoryId" placeholder="请选择出库仓库" style="margin-left: 18px;width:200px" clearable @focus="handlechooseRep"/>
                 </el-form-item>
                 <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item :label="$t('StockOut.time')" style="width: 100%;">
+                  <el-date-picker
+                    v-model="personalForm.outDate"
+                    placeholder="出库时间"
+                    type="date"
+                    value-format="yyyy-MM-dd"
+                    style="margin-left: 18px;width: 200px"
+                  />
+                </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('StockOut.summary')" prop="summary" style="width: 100%;">
@@ -136,6 +147,27 @@
           </el-editable>
         </div>
       </el-card>
+
+      <!-- 合计信息 -->
+      <el-card class="box-card" shadow="never" style="margin-top: 10px">
+        <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">合计信息</h2>
+        <div class="container" style="margin-top: 37px">
+          <el-form ref="personalForm2" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
+            <el-row>
+              <el-col :span="6">
+                <el-form-item :label="$t('StockOut.heji')" style="width: 100%;">
+                  <el-input v-model="heji1" style="margin-left: 18px;width: 200px" disabled/>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item :label="$t('StockOut.heji2')" style="width: 100%;">
+                  <el-input v-model="heji3" style="margin-left: 18px;width: 200px" disabled/>
+                </el-form-item>
+              </el-col>
+            </el-row>
+          </el-form>
+        </div>
+      </el-card>
       <!--操作-->
       <div class="buttons" style="margin-top: 20px">
         <el-button v-no-more-click type="primary" style="background:#3696fd;border-color:#3696fd;width: 98px" @click="handlesave()">保存</el-button>
@@ -189,6 +221,9 @@ export default {
   components: { MyRepository, MyDetail, MyCreate, MyAccept },
   data() {
     return {
+      // 合计信息
+      heji1: 0,
+      heji3: 0,
       // 批次列表
       batchlist: [],
       // 部门数据
@@ -196,7 +231,7 @@ export default {
       // 出库仓库回显
       outRepositoryId: '',
       // 出库人回显
-      outPersonId: '',
+      outPersonId: this.$store.getters.name,
       // 出库人控制框
       accetpcontrol: false,
       // 控制仓库选择窗口
@@ -211,7 +246,8 @@ export default {
         countryId: this.$store.getters.countryId,
         repositoryId: this.$store.getters.repositoryId,
         regionId: this.$store.getters.regionId,
-        sourceType: '1'
+        sourceType: '1',
+        outPersonId: this.$store.getters.userId
       },
       // 出库单规则数据
       personalrules: {
@@ -253,10 +289,31 @@ export default {
       moreaction: []
     }
   },
+  watch: {
+    list2: {
+      handler() {
+        let num = 0
+        let num1 = 0
+        for (const i in this.list2) {
+          console.log(this.list2[i])
+          num += Number(this.list2[i].outQuantity)
+          num1 += Number(this.list2[i].outQuantity * this.list2[i].outPrice)
+        }
+        this.heji1 = num
+        this.heji3 = num1
+      },
+      deep: true
+    }
+  },
   mounted() {
     this.getlist()
+    this.getdatatime()
   },
   methods: {
+    // 默认显示今天
+    getdatatime() { // 默认显示今天
+      this.personalForm.outDate = new Date()
+    },
     checkStock(row) {
       console.log('this.moreaction.length', this.moreaction.length)
       if (this.moreaction.length > 1 || this.moreaction.length === 0) {
@@ -522,11 +579,14 @@ export default {
         countryId: this.$store.getters.countryId,
         repositoryId: this.$store.getters.repositoryId,
         regionId: this.$store.getters.regionId,
-        sourceType: '1'
+        sourceType: '1',
+        outDate: new Date(),
+        outPersonId: this.$store.getters.userId
       }
       this.produceManagerId = ''
       this.outRepositoryId = ''
       this.outPersonId = ''
+      this.outPersonId = this.$store.getters.name
     },
     deepClone(obj) {
       const _obj = JSON.stringify(obj)

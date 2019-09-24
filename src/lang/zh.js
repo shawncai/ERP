@@ -916,7 +916,9 @@ export default {
     code: '出库单编号',
     time: '出库时间',
     stat: '单据状态',
-    id: '编号'
+    id: '编号',
+    heji: '出库数量',
+    heji2: '出库金额'
   },
   InventoryCount: {
     title: '盘点单主题',
