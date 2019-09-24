@@ -294,6 +294,10 @@ export default {
   mounted() {
     this.getinformation()
   },
+  activated() {
+    this.getinformation()
+    this.getinformation2()
+  },
   methods: {
     // 批量操作
     handleSelectionChange(val) {
@@ -335,10 +339,10 @@ export default {
         this.personalForm.customerType = '2'
         this.personalForm.customerId = this.$store.getters.empcontract2.customerId
         this.customerId = this.$store.getters.empcontract2.customerName
-        for (let i = 0; i < this.$store.getters.empcontract2.installmentOrderDetailVos.length; i++) {
-          this.$store.getters.empcontract2.installmentOrderDetailVos[i].categoryName = this.$store.getters.empcontract2.installmentOrderDetailVos[i].productCategory
-        }
-        this.InstallmentDetail(this.$store.getters.empcontract2.installmentOrderDetailVos)
+        // for (let i = 0; i < this.$store.getters.empcontract2.installmentOrderDetailVos.length; i++) {
+        //   this.$store.getters.empcontract2.installmentOrderDetailVos[i].categoryName = this.$store.getters.empcontract2.installmentOrderDetailVos[i].productCategory
+        // }
+        this.InstallmentDetail(this.$store.getters.empcontract2)
         this.$store.dispatch('getempcontract2', '')
       }
     },
@@ -466,10 +470,47 @@ export default {
     },
     InstallmentDetail(val) {
       console.log(val)
-      this.$refs.editable2.clear()
-      for (let i = 0; i < val.length; i++) {
-        this.$refs.editable2.insert(val[i])
-      }
+      setTimeout(() => {
+        this.$refs.editable2.clear()
+        if (val.length) {
+          const InstallmentDetail = val.map(function(item) {
+            return {
+              presentCount: item.idx,
+              returnMoney: item.shouldMoney,
+              returnSource: item.capitalMoney,
+              reward: item.reward,
+              penalty: item.penalty,
+              returnInterest: item.interestMoney,
+              paidmoney: item.paidMoney,
+              unpay: item.shouldMoney - item.paidMoney
+            }
+          })
+          for (let i = 0; i < InstallmentDetail.length; i++) {
+            this.$refs.editable2.insert(InstallmentDetail[i])
+          }
+        } else {
+          console.log(val)
+          this.$refs.editable2.clear()
+          const valmap = []
+          valmap.push(val)
+          const InstallmentDetail = valmap.map(function(item) {
+            return {
+              presentCount: item.idx,
+              returnMoney: item.shouldMoney,
+              returnSource: item.capitalMoney,
+              reward: item.reward,
+              penalty: item.penalty,
+              returnInterest: item.interestMoney,
+              paidmoney: item.paidMoney,
+              unpay: item.shouldMoney - item.paidMoney
+            }
+          })
+          console.log(InstallmentDetail)
+          for (let i = 0; i < InstallmentDetail.length; i++) {
+            this.$refs.editable2.insert(InstallmentDetail[i])
+          }
+        }
+      }, 0)
     },
     // 源单控制
     handleAddsourceNum() {

@@ -17,8 +17,8 @@
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item :label="$t('NewEmployeeInformation.lastname')" prop="firstName" style="width: 100%;">
-                <el-input v-model="personalForm.firstName" placeholder="请输入姓氏" clearable style="margin-left: 18px;width: 200px"/>
+              <el-form-item :label="$t('NewEmployeeInformation.firstname')" prop="firstName" style="width: 100%;">
+                <el-input v-model="personalForm.lastName" placeholder="请输入姓氏" clearable style="margin-left: 18px;width: 200px"/>
               </el-form-item>
             </el-col>
             <el-col :span="12">
@@ -27,8 +27,8 @@
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item :label="$t('NewEmployeeInformation.firstname')" prop="lastName" style="width: 100%;">
-                <el-input v-model="personalForm.lastName" placeholder="请输入名" clearable style="margin-left: 18px;width: 200px"/>
+              <el-form-item :label="$t('NewEmployeeInformation.lastname')" prop="lastName" style="width: 100%;">
+                <el-input v-model="personalForm.firstName" placeholder="请输入名" clearable style="margin-left: 18px;width: 200px"/>
               </el-form-item>
             </el-col>
             <el-col :span="12">
