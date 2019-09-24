@@ -15,11 +15,11 @@
           </el-col>
           <el-col :span="5">
             <el-form-item label="分期申请编号" label-width="100px">
-              <el-input v-model="getemplist.customerName" :placeholder="$t('InstallmentList.applyNumber')" clearable @keyup.enter.native="handleFilter"/>
+              <el-input v-model="getemplist.applyNumber" :placeholder="$t('InstallmentList.applyNumber')" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
           <!--更多搜索条件-->
-          <el-col :span="3">
+          <!-- <el-col :span="3">
             <el-popover
               v-model="visible2"
               placement="bottom"
@@ -36,22 +36,22 @@
                 <el-option value="2" label="审核通过"/>
                 <el-option value="3" label="审核不通过"/>
               </el-select>
-              <!--<el-date-picker-->
-              <!--v-model="date"-->
-              <!--type="daterange"-->
-              <!--range-separator="-"-->
-              <!--unlink-panels-->
-              <!--start-placeholder="销售日期"-->
-              <!--end-placeholder="销售日期"-->
-              <!--value-format="yyyy-MM-dd"-->
-              <!--style="margin-top: 20px;margin-left: 20px"/>-->
-              <div class="seachbutton" style="width: 100%;float: right;margin-top: 20px">
-                <el-button v-waves class="filter-item" type="primary" style="float: right" round @click="handleFilter">{{ $t('public.search') }}</el-button>
-              </div>
-              <el-button v-waves slot="reference" type="primary" class="filter-item" style="width: 130px" @click="visible2 = !visible2">{{ $t('public.filter') }}<svg-icon icon-class="shaixuan" style="margin-left: 4px"/></el-button>
+        <el-date-picker
+          v-model="date"
+          type="daterange"
+          range-separator="-"
+          unlink-panels
+          start-placeholder="销售日期"
+          end-placeholder="销售日期"
+          value-format="yyyy-MM-dd"
+          style="margin-top: 20px;margin-left: 20px"/>
+          <div class="seachbutton" style="width: 100%;float: right;margin-top: 20px">
+            <el-button v-waves class="filter-item" type="primary" style="float: right" round @click="handleFilter">{{ $t('public.search') }}</el-button>
+          </div>
+          <el-button v-waves slot="reference" type="primary" class="filter-item" style="width: 130px" @click="visible2 = !visible2">{{ $t('public.filter') }}<svg-icon icon-class="shaixuan" style="margin-left: 4px"/></el-button>
             </el-popover>
-          </el-col>
-          <el-col :span="3" style="margin-left: 20px">
+          </el-col> -->
+          <el-col :span="3" style="margin-left: 20px"> -->
             <!-- 搜索按钮 -->
             <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 86px" round @click="handleFilter">{{ $t('public.search') }}</el-button>
           </el-col>
@@ -194,6 +194,7 @@
           v-loading="listLoading"
           :key="tableKey"
           :data="list2"
+          :row-class-name="tableRowClassName"
           border
           fit
           highlight-current-row
@@ -232,6 +233,16 @@
           <el-table-column :label="$t('InstallmentList.Latefee')" :resizable="false" prop="Latefee" align="center" min-width="150">
             <template slot-scope="scope">
               <span>{{ scope.row.penalty }}</span>
+            </template>
+          </el-table-column>
+          <el-table-column :label="$t('InstallmentList.pay')" :resizable="false" align="center" min-width="150">
+            <template slot-scope="scope">
+              <span>{{ scope.row.paidMoney }}</span>
+            </template>
+          </el-table-column>
+          <el-table-column :label="$t('InstallmentList.unpay')" :resizable="false" align="center" min-width="150">
+            <template slot-scope="scope">
+              <span>{{ scope.row.shouldMoney - scope.row.paidMoney }}</span>
             </template>
           </el-table-column>
           <el-table-column :label="$t('InstallmentList.status')" :resizable="false" prop="status" align="center" min-width="150">
@@ -380,6 +391,15 @@ export default {
     this.getlist()
   },
   methods: {
+    // 提示逾期
+    tableRowClassName({ row, rowIndex }) {
+      console.log('状态判断', row)
+      if (row.stat === 3) {
+        console.log('row.id', row.id)
+        return 'warning-row'
+      }
+      return ''
+    },
     // 深拷贝
     deepClone(obj) {
       const _obj = JSON.stringify(obj)
@@ -395,10 +415,14 @@ export default {
     // 单选获取还款计划
     getPayPlan(val) {
       console.log(val)
-      this.list2 = val.installmentOrderDetailVos
-      this.total2 = val.installmentOrderDetailVos.length
-      this.processData = this.deepClone(this.list2)
-      this.pagingPlan()
+      try {
+        this.list2 = val.installmentOrderDetailVos
+        this.total2 = val.installmentOrderDetailVos.length
+        this.processData = this.deepClone(this.list2)
+        this.pagingPlan()
+      } catch (error) {
+        this.list2 = []
+      }
     },
     handleMyReceipt1(val) {
       console.log(val)
@@ -480,6 +504,7 @@ export default {
     },
     // 搜索
     handleFilter() {
+      this.list2 = []
       this.getemplist.pageNum = 1
       installmentlist(this.getemplist).then(res => {
         if (res.data.ret === 200) {
@@ -748,5 +773,8 @@ export default {
   .filter-item{
     width: 140px;
     margin-left: 30px;
+  }
+  .el-table >>> .warning-row {
+    background: oldlace;
   }
 </style>

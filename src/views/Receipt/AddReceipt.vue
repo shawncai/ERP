@@ -37,11 +37,11 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('Receipt.receiptMoney')" prop="receiptMoney" style="width: 100%;">
-                  <el-input v-model="personalForm.receiptMoney" style="margin-left: 18px;width: 200px" disabled/>
+                  <el-input v-model="personalForm.receiptMoney" style="margin-left: 18px;width: 200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('payment.payMode')" style="width: 100%;">
+                <el-form-item :label="$t('payment.payMode')" prop="payMode" style="width: 100%;">
                   <el-select v-model="personalForm.payMode" style="margin-left: 18px;width: 200px">
                     <el-option
                       v-for="(item, index) in payModes"
@@ -58,18 +58,18 @@
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('Receipt.receiptAccountNumber')" prop="totalMoney" style="width: 100%;">
+                <el-form-item :label="$t('Receipt.receiptAccountNumber')" style="width: 100%;">
                   <el-input v-model="personalForm.receiptAccountNumber" style="margin-left: 18px;width: 200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('Receipt.receiptPersonId')" prop="totalMoney" style="width: 100%;">
+                <el-form-item :label="$t('Receipt.receiptPersonId')" prop="receiptPersonId" style="width: 100%;">
                   <el-input v-model="receiptPersonId" style="margin-left: 18px;width: 200px" @focus="handlechooseStock"/>
                 </el-form-item>
                 <my-emp :control.sync="stockControl" @stockName="stockName"/>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('Receipt.receiptDate')" prop="receiptDate" style="width: 100%;">
+                <el-form-item :label="$t('Receipt.receiptDate')" prop="payDate" style="width: 100%;">
                   <el-date-picker
                     v-model="personalForm.payDate"
                     type="date"
@@ -79,7 +79,7 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('Receipt.totalLackMoney')" prop="totalLackMoney" style="width: 100%;">
-                  <el-input v-model="personalForm.totalLackMoney" style="margin-left: 18px;width: 200px" clearable/>
+                  <el-input v-model="personalForm.totalLackMoney" style="margin-left: 18px;width: 200px" disabled/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
@@ -88,7 +88,7 @@
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('Receipt.penaltyMoney')" style="width: 100%;">
+                <el-form-item :label="$t('Receipt.penaltyMoney')" prop="penaltyMoney" style="width: 100%;">
                   <el-input v-model="personalForm.penaltyMoney" style="margin-left: 18px;width: 200px" clearable/>
                 </el-form-item>
               </el-col>
@@ -116,7 +116,8 @@
             stripe
             border
             size="medium"
-            style="width: 100%">
+            style="width: 100%"
+            @selection-change="handleSelectionChange">
             <el-editable-column type="selection" min-width="55" align="center"/>
             <el-editable-column label="序号" min-width="55" align="center" type="index"/>
             <el-editable-column prop="presentCount" align="center" label="当前期数" min-width="150px"/>
@@ -125,6 +126,8 @@
             <el-editable-column prop="reward" align="center" label="奖励" min-width="150px"/>
             <el-editable-column prop="penalty" align="center" label="滞纳金" min-width="150px"/>
             <el-editable-column prop="returnInterest" align="center" label="本期还款利息" min-width="150px"/>
+            <el-editable-column prop="paidmoney" align="center" label="已收金额" min-width="150px"/>
+            <el-editable-column prop="unpay" align="center" label="未收金额" min-width="150px"/>
           </el-editable>
         </div>
       </el-card>
@@ -141,7 +144,8 @@
             stripe
             border
             size="medium"
-            style="width: 100%">
+            style="width: 100%"
+            @selection-change="handleSelectionChange2">
             <el-editable-column type="selection" min-width="55" align="center"/>
             <el-editable-column label="序号" min-width="55" align="center" type="index"/>
             <el-editable-column prop="shouldMoney" align="center" label="应收款金额" min-width="150px"/>
@@ -183,7 +187,31 @@ export default {
         callback()
       }
     }
+    const validatePass = (rule, value, callback) => {
+      if (this.customerId === undefined || this.customerId === null || this.customerId === '') {
+        callback(new Error('请选择顾客'))
+      } else {
+        callback()
+      }
+    }
+    const validatePass3 = (rule, value, callback) => {
+      if (this.receiptPersonId === undefined || this.receiptPersonId === null || this.receiptPersonId === '') {
+        callback(new Error('请选择收款人'))
+      } else {
+        callback()
+      }
+    }
+    const validatePass4 = (rule, value, callback) => {
+      if (this.personalForm.payDate === undefined || this.personalForm.payDate === null || this.personalForm.payDate === '') {
+        callback(new Error('请选择收款日期'))
+      } else {
+        callback()
+      }
+    }
     return {
+      // 批量操作
+      moreaction: [],
+      moreaction2: [],
       // 回显收款人
       receiptPersonId: '',
       // 控制收款人
@@ -233,8 +261,31 @@ export default {
         ],
         afterCount: [
           { required: true, message: '请输入修改之后期数', trigger: 'blur' }
+        ],
+        customerId: [
+          { required: true, validator: validatePass, trigger: 'change' }
+        ],
+        payMode: [
+          { required: true, message: '请选择支付方式', trigger: 'change' }
+        ],
+        receiptPersonId: [
+          { required: true, validator: validatePass3, trigger: 'change' }
+        ],
+        payDate: [
+          { required: true, validator: validatePass4, trigger: 'change' }
+        ],
+        penaltyMoney: [
+          { required: true, message: '请输入滞纳金金额', trigger: 'change' }
         ]
       }
+    }
+  },
+  watch: {
+    personalForm: {
+      handler() {
+        this.personalForm.totalLackMoney = this.allmoney - this.personalForm.receiptMoney
+      },
+      deep: true
     }
   },
   created() {
@@ -244,6 +295,24 @@ export default {
     this.getinformation()
   },
   methods: {
+    // 批量操作
+    handleSelectionChange(val) {
+      // console.log(val)
+      this.moreaction = val
+      // this.personalForm.receiptMoney
+      this.personalForm.receiptMoney = 0
+      const processdata = this.moreaction
+      for (const i in processdata) {
+        this.personalForm.receiptMoney += processdata[i].unpay
+      }
+      this.personalForm.totalLackMoney = this.allmoney - this.personalForm.receiptMoney
+    },
+    handleSelectionChange2(val) {
+      console.log(val)
+      this.moreaction2 = val
+      // this.personalForm.receiptMoney = 0
+      this.personalForm.totalLackMoney = this.allmoney - this.personalForm.receiptMoney
+    },
     getinformation() {
       if (this.$store.getters.empcontract) {
         console.log('getempcontract', this.$store.getters.empcontract)
@@ -303,9 +372,9 @@ export default {
           sums[index] = values.reduce((prev, curr) => {
             const value = Number(curr)
             if (!isNaN(value)) {
-              return prev + curr
+              return (Number(prev) + Number(curr)).toFixed(2)
             } else {
-              return prev
+              return (Number(prev).toFixed(2))
             }
           }, 0)
           sums[index] += ''
@@ -314,7 +383,7 @@ export default {
         }
       })
       sums[2] = ''
-      this.personalForm.receiptMoney = sums[3]
+      this.allmoney = sums[9]
       return sums
     },
     // 总计
@@ -342,6 +411,8 @@ export default {
         }
       })
       sums[2] = ''
+      this.allmoney = sums[6]
+      this.personalForm.receiptMoney = sums[7]
       this.personalForm.deductionMoney = sums[7]
       return sums
     },
@@ -367,6 +438,7 @@ export default {
       this.customerId = val.agentName
       agentCollectList(val).then(res => {
         if (res.data.ret === 200) {
+          console.log('供应商欠款', res.data.data.content.list)
           const agentcollectDetail = res.data.data.content.list.map(function(item) {
             return {
               agentCollectId: item.id,

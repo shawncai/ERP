@@ -101,13 +101,17 @@
           align="center"/>
         <el-table-column :label="$t('public.id')" :resizable="false" fixed="left" align="center" min-width="150">
           <template slot-scope="scope">
-            <span class="link-type" @click="handleDetail(scope.row)">{{ scope.row.id }}</span>
+            <span>{{ scope.row.orderNumber }}</span>
           </template>
-          <detail-list :detailcontrol.sync="detailvisible" :detaildata.sync="personalForm"/>
         </el-table-column>
         <el-table-column :label="$t('CollectList.customerName')" :resizable="false" fixed="left" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.customerName }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column :label="$t('CollectList.count')" :resizable="false" fixed="left" align="center" min-width="150">
+          <template slot-scope="scope">
+            <span>{{ `第${scope.row.idx}期` }}</span>
           </template>
         </el-table-column>
         <el-table-column :label="$t('CollectList.shouldMoney')" :resizable="false" align="center" min-width="150">
@@ -127,12 +131,22 @@
         </el-table-column>
         <el-table-column :label="$t('CollectList.actualDate')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.actualDate }}</span>
+            <span>{{ scope.row.deadline }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column :label="$t('CollectList.pay')" :resizable="false" align="center" min-width="150">
+          <template slot-scope="scope">
+            <span>{{ scope.row.paidMoney }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column :label="$t('CollectList.unpay')" :resizable="false" align="center" min-width="150">
+          <template slot-scope="scope">
+            <span>{{ scope.row.shouldMoney - scope.row.paidMoney }}</span>
           </template>
         </el-table-column>
         <el-table-column :label="$t('CollectList.stat')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.stat }}</span>
+            <span>{{ scope.row.stat | payFilter }}</span>
           </template>
         </el-table-column>
         <el-table-column :label="$t('public.actions')" :resizable="false" align="center" min-width="200">
@@ -217,6 +231,14 @@ export default {
         2: '未发货'
       }
       return statusMap[status]
+    },
+    payFilter(status) {
+      const statusMap = {
+        1: '已还',
+        2: '未还',
+        3: '逾期'
+      }
+      return statusMap[status]
     }
   },
   data() {
@@ -284,7 +306,8 @@ export default {
         id: ''
       },
       // 开始时间到结束时间
-      date: []
+      date: [],
+      formLabelWidth: '120px'
     }
   },
   created() {

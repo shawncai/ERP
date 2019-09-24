@@ -1932,7 +1932,7 @@ export default {
     customerName: '客户姓名',
     customerPhone: '客户电话',
     address: '地址',
-    installmentMoney: '剩余本金',
+    installmentMoney: '分期本金',
     totalMoney: '分期金额',
     leftMoney: '剩余本金',
     paidCount: '已还期数',
@@ -1947,7 +1947,13 @@ export default {
     status: '还款状态',
     productCode: '商品编号',
     productName: '商品名称',
-    leftAllmoney: '剩余金额'
+    leftAllmoney: '剩余金额',
+    pay: '已收金额',
+    unpay: '未收金额',
+    Overdueamount: '逾期金额',
+    Overduefrequency: '逾期次数',
+    collectperson: '收款人',
+    collectstatus: '收款状态'
   },
   ChangeCount: {
     title: '改期主题',
@@ -1975,6 +1981,8 @@ export default {
     shouldMoney: '应收款金额',
     capitalMoney: '还款本金',
     actualDate: '还款日期',
+    pay: '已收款金额',
+    unpay: '未收款金额',
     stat: '状态'
   },
   AgentCollect: {

@@ -227,6 +227,7 @@ export default {
   },
   data() {
     return {
+      receiptVisible99: false,
       // 回显收款人
       receiptPersonId: '',
       // 控制收款人
