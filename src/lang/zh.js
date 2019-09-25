@@ -1060,7 +1060,9 @@ export default {
     moveOutRepository: '调出仓库',
     businessStat: '业务状态',
     applicationName: '调拨申请人',
-    judgeStat: '审批状态'
+    judgeStat: '审批状态',
+    storageMovePerson: '调拨出库人',
+    storageMoveDate: '调拨出库日期'
   },
   StockAlarm: {
     searchRepositoryId: '仓库',

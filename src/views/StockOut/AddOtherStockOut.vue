@@ -282,6 +282,9 @@ export default {
       locationlist: [],
       // 出库单明细列表规则
       validRules: {
+        outQuantity: [
+          { required: true, message: '请填写出库数量', trigger: 'change' }
+        ]
       },
       receiptVisible2: false,
       list111: [],

@@ -74,6 +74,22 @@
                   </el-select>
                 </el-form-item>
               </el-col>
+              <el-col :span="6">
+                <el-form-item :label="$t('Storagemove.storageMovePerson')" prop="storageMovePerson" style="width: 100%;">
+                  <el-input v-model="storageMovePerson" placeholder="请选择调拨出库人" style="margin-left: 18px;width:200px" clearable @focus="handlechooseAccept"/>
+                </el-form-item>
+              </el-col>
+              <my-accept :accetpcontrol.sync="accetpcontrol" @acceptName="acceptName"/>
+              <el-col :span="6">
+                <el-form-item :label="$t('Storagemove.storageMoveDate')" label-width="110px" prop="requestArrivalDate" style="width: 100%;">
+                  <el-date-picker
+                    v-model="personalForm.storageMoveDate"
+                    type="date"
+                    placeholder="选择调拨出库日期"
+                    value-format="yyyy-MM-dd"
+                    style="margin-left: 8px"/>
+                </el-form-item>
+              </el-col>
             </el-row>
           </el-form>
         </div>
@@ -169,7 +185,7 @@ export default {
   data() {
     return {
       // 申请人回显
-      applyPersonId: '',
+      applyPersonId: this.$store.getters.name,
       // 申请人控制
       accetpcontrol: false,
       // 批次列表
@@ -179,7 +195,7 @@ export default {
       // 调出仓库回显
       moveOutRepository: '',
       // 调入仓库回显
-      moveInRepository: '',
+      moveInRepository: this.$store.getters.repositoryName,
       // 控制调出仓库选择窗口
       repositorycontrol: false,
       // 控制调入仓库选择窗口
@@ -192,7 +208,10 @@ export default {
         countryId: this.$store.getters.countryId,
         repositoryId: this.$store.getters.repositoryId,
         regionId: this.$store.getters.regionId,
-        sourceType: '1'
+        sourceType: '1',
+        applyPersonId: this.$store.getters.userId,
+        requestDeptId: this.$store.getters.deptId,
+        moveInRepository: this.$store.getters.repositoryId
       },
       // 调拨单规则数据
       personalrules: {

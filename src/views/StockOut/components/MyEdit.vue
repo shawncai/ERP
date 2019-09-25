@@ -60,6 +60,17 @@
               <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
             </el-col>
             <el-col :span="6">
+              <el-form-item :label="$t('StockOut.time')" style="width: 100%;">
+                <el-date-picker
+                  v-model="personalForm.outDate"
+                  placeholder="出库时间"
+                  type="date"
+                  value-format="yyyy-MM-dd"
+                  style="margin-left: 18px;width: 200px"
+                />
+              </el-form-item>
+            </el-col>
+            <el-col :span="6">
               <el-form-item :label="$t('StockOut.summary')" prop="summary" style="width: 100%;">
                 <el-input v-model="personalForm.summary" placeholder="请输入摘要" style="margin-left: 18px;width: 150px" clearable/>
               </el-form-item>
@@ -520,6 +531,11 @@ export default {
     },
     // 修改和取消按钮
     // 修改按钮
+    deepClone(obj) {
+      const _obj = JSON.stringify(obj)
+      const objClone = JSON.parse(_obj)
+      return objClone
+    },
     handleEditok() {
       const EnterDetail = this.deepClone(this.$refs.editable.getRecords())
       // 保存时同样商品不能有同一个批次
