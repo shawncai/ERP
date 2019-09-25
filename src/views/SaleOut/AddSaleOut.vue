@@ -1477,6 +1477,7 @@ export default {
     saleOrderDetail(val) {
       console.log('val', val)
       // const nowlistdata = this.$refs.editable.getRecords()
+      this.$refs.editable.clear()
       for (let i = 0; i < val.length; i++) {
         val[i].quantity = (val[i].quantity - val[i].alreadyOutQuantity).toFixed(2)
         const re = val[i].productCode.slice(0, 2)
@@ -1514,6 +1515,7 @@ export default {
     advanceOrderDetail(val) {
       console.log(val)
       // const nowlistdata = this.$refs.editable.getRecords()
+      this.$refs.editable.clear()
       for (let i = 0; i < val.length; i++) {
         const re = val[i].productCode.slice(0, 2)
         console.log('re === ', re === '01')
@@ -1545,6 +1547,7 @@ export default {
     opportunityDetail(val) {
       console.log(val)
       // const nowlistdata = this.$refs.editable.getRecords()
+      this.$refs.editable.clear()
       for (let i = 0; i < val.length; i++) {
         // for (let j = 0; j < nowlistdata.length; j++) {
         //   if (val[i].sourceNumber === nowlistdata[j].sourceNumber) {
@@ -1577,6 +1580,7 @@ export default {
     salecontractDetail(val) {
       console.log(val)
       // const nowlistdata = this.$refs.editable.getRecords()
+      this.$refs.editable.clear()
       for (let i = 0; i < val.length; i++) {
         // for (let j = 0; j < nowlistdata.length; j++) {
         //   if (val[i].sourceNumber === nowlistdata[j].sourceNumber) {

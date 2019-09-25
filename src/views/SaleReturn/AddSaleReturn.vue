@@ -407,7 +407,7 @@ export default {
         repositoryId: this.$store.getters.repositoryId,
         regionId: this.$store.getters.regionId,
         customerType: '1',
-        customerId: 0,
+        customerId: '',
         sourceType: '2',
         exchangeRate: '1.0000',
         currency: '1',

@@ -242,7 +242,7 @@ export default {
         judgeStat: 2,
         repositoryId: this.$store.getters.repositoryId,
         regionIds: this.$store.getters.regionId,
-        customerType: '1',
+        customerType: this.customertype,
         customerId: this.customerid
       },
       // 传给组件的数据
@@ -312,6 +312,7 @@ export default {
     getlist() {
       // 物料需求计划列表数据
       this.listLoading = true
+      console.log('查询参数', this.getemplist)
       searchsaleOut(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list

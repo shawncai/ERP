@@ -238,7 +238,7 @@ export default {
         pageNum: 1,
         pageSize: 10,
         judgeStat: 2,
-        receiptStat: 2,
+        receiptStat: 3,
         repositoryId: this.$store.getters.repositoryId,
         regionIds: this.$store.getters.regionId,
         isActive: 1,
@@ -260,8 +260,8 @@ export default {
       console.log(this.querydata)
     },
     personaldata() {
+      console.log(this.personaldata)
       this.querydata = this.personaldata
-      console.log(this.querydata)
     }
   },
   methods: {
