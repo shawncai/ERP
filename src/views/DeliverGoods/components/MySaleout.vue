@@ -402,6 +402,9 @@ export default {
       this.employeeVisible = false
       console.log(this.choosedata)
       const saleOutdata = this.choosedata.saleOutDetailVos
+      for (const i in saleOutdata) {
+        saleOutdata[i].sourceNumber = this.choosedata.number
+      }
       console.log('源单', saleOutdata)
       const outRepositoryId = this.choosedata.saleRepositoryId
       const outRepositoryName = this.choosedata.saleRepositoryName
@@ -412,10 +415,14 @@ export default {
           productType: item.productTypeName,
           unit: item.unit,
           color: item.color,
-          Categoryid: item.productCategoryName,
-          typeId: item.productTypeName,
-          basicQuantity: item.quantity,
-          price: item.salePrice,
+          category: item.category,
+          productCategoryName: item.productCategoryName,
+          type: item.type,
+          productTypeName: item.productTypeName,
+          // basicQuantity: item.quantity,
+          salePrice: item.salePrice,
+          costPrice: 0,
+          costMonney: 0,
           deliverQuantity: item.quantity,
           deliverMoney: item.money,
           outRepositoryId: outRepositoryId,
@@ -423,19 +430,22 @@ export default {
           batch: item.batch,
           kpiGrade: item.kpiGrade,
           point: item.point,
-          taxprice: item.salePrice - item.taxMoney,
+          // taxprice: item.salePrice - item.taxMoney,
           taxRate: item.taxRate,
           taxMoney: item.taxMoney,
-          discountRate: item.discountRate * 100,
-          discountMoney: item.discountMoney,
+          discount: item.discountRate * 100,
+          discountMoney: 0,
+          OriginalDiscountMont: item.discountMoney,
           alreadyReturnQuantity: item.retreatQuantity,
           carCode: item.carCode,
           motorCode: item.motorCode,
           batteryCode: item.batteryCode,
           sourceNumber: item.sourceNumber,
           sendQuantity: item.quantity,
+          locationId: item.locationId,
           locationName: item.locationName,
-          includeTaxCostMoney: 0
+          includeTaxCostMoney: 0,
+          includeTaxMoney: 0
         }
       })
       this.$emit('saleOutDetail', saleOutDetail)

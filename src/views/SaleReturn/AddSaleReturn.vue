@@ -163,22 +163,22 @@
             <el-editable-column v-if="personalForm.sourceType === '2'" :edit-render="{name: 'ElInput', type: 'visible'}" prop="batch" align="center" label="批次" min-width="150px"/>
             <el-editable-column prop="productCode" align="center" label="物品编号" min-width="150px"/>
             <el-editable-column prop="productName" align="center" label="物品名称" min-width="150px"/>
-            <el-editable-column prop="Categoryid" align="center" label="物品分类" min-width="150px"/>
+            <el-editable-column prop="productCategoryName" align="center" label="物品分类" min-width="150px"/>
             <el-editable-column prop="unit" align="center" label="基本单位" min-width="150px"/>
-            <el-editable-column prop="typeId" align="center" label="规格型号" min-width="150px"/>
+            <el-editable-column prop="productTypeName" align="center" label="规格型号" min-width="150px"/>
             <el-editable-column prop="color" align="center" label="颜色" min-width="150px"/>
             <el-editable-column prop="kpiGrade" align="center" label="绩效分" min-width="150px"/>
             <el-editable-column prop="point" align="center" label="商品积分" min-width="150px"/>
             <el-editable-column v-if="false" prop="salePrice" align="center" label="零售价" min-width="150px"/>
             <el-editable-column v-if="false" prop="costPrice" align="center" label="成本价" min-width="150px"/>
-            <el-editable-column prop="taxprice" align="center" label="销售单价" min-width="150px"/>
+            <el-editable-column prop="salePrice" align="center" label="销售单价" min-width="150px"/>
             <el-editable-column v-if="false" prop="costMoney" align="center" label="成本金额" min-width="150px"/>
             <el-editable-column v-if="false" prop="includeTaxMoney" align="center" label="含税金额" min-width="150px"/>
             <el-editable-column prop="taxRate" align="center" label="税率(%)" min-width="150px"/>
             <el-editable-column prop="taxMoney" align="center" label="税额" min-width="150px"/>
             <el-editable-column v-if="false" prop="money" align="center" label="金额" min-width="150px"/>
-            <el-editable-column prop="includeTaxCostMoney" align="center" label="退货金额" min-width="150px"/>
-            <el-editable-column prop="discountRate" align="center" label="折扣(%)" min-width="150px"/>
+            <el-editable-column prop="money" align="center" label="退货金额" min-width="150px"/>
+            <el-editable-column prop="discount" align="center" label="折扣(%)" min-width="150px"/>
             <el-editable-column prop="discountMoney" align="center" label="折扣额" min-width="150px"/>
             <el-editable-column prop="alreadyReturnQuantity" align="center" label="已退货数量" min-width="150px"/>
             <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 1}, type: 'visible'}" prop="returnQuantity" align="center" label="退货数量" min-width="150px">
@@ -651,27 +651,27 @@ export default {
       sums[24] = ''
       sums[25] = ''
       this.heji1 = sums[19]
-      this.heji2 = sums[19]
       this.heji3 = sums[15]
       this.heji4 = sums[14]
-      this.heji5 = sums[18]
-      this.heji6 = sums[15] - sums[18]
+      this.heji5 = sums[17]
+      this.heji6 = sums[15] - sums[17]
       this.personalForm.actualReturnMoney = this.heji6
       return sums
     },
     // 通过折扣额计算折扣
-    getdiscountMoney(row) {
-      row.discount = ((1 - row.discountMoney / row.salePrice / row.quantity) * 100).toFixed(2)
-    },
+    // getdiscountMoney(row) {
+    //   row.discount = ((1 - row.discountMoney / row.salePrice / row.quantity) * 100).toFixed(2)
+    // },
     // 通过折扣计算折扣额
-    getdiscount(row) {
-      row.discountMoney = (row.salePrice * row.quantity * (1 - row.discount / 100)).toFixed(2)
-    },
+    // getdiscount(row) {
+    //   row.discountMoney = (row.salePrice * row.quantity * (1 - row.discount / 100)).toFixed(2)
+    // },
     // 通过数量计算成本金额， 含税金额， 金额， 含税成本金额
     getquantity(row) {
-      row.includeTaxCostMoney = (row.taxprice * row.returnQuantity).toFixed(2)
-      row.taxMoney = (row.taxMoney * row.returnQuantity).toFixed(2)
-      row.discountMoney = (row.taxprice * (1 - row.discountRate / 100) * row.returnQuantity).toFixed(2)
+      console.log(row.discount)
+      row.money = (row.salePrice * row.returnQuantity).toFixed(2)
+      row.taxMoney = (row.salePrice / (1 + row.taxRate) * row.taxRate * row.returnQuantity).toFixed(2)
+      row.discountMoney = (row.OriginalDiscountMont * row.returnQuantity).toFixed(2)
       if (row.returnQuantity > (row.sendQuantity - row.alreadyReturnQuantity) && this.personalForm.sourceType === '1') {
         this.$notify.error({
           title: '错误',
@@ -679,32 +679,32 @@ export default {
           offset: 100
         })
         row.returnQuantity = 1
-        row.includeTaxCostMoney = (row.taxprice * row.returnQuantity).toFixed(2)
-        row.taxMoney = (row.taxMoney * row.returnQuantity).toFixed(2)
-        row.discountMoney = (row.taxprice * (1 - row.discountRate / 100) * row.returnQuantity).toFixed(2)
+        row.money = (row.salePrice * row.returnQuantity).toFixed(2)
+        row.taxMoney = (row.salePrice / (1 + row.taxRate) * row.taxRate * row.returnQuantity).toFixed(2)
+        row.discountMoney = (row.OriginalDiscountMont * row.returnQuantity).toFixed(2)
         return false
       }
       return row.returnQuantity
     },
     // 计算含税价
-    gettaxprice(row) {
-      row.taxprice = (row.salePrice * (1 + row.taxRate / 100)).toFixed(2)
-      return row.taxprice
-    },
+    // gettaxprice(row) {
+    //   row.taxprice = (row.salePrice * (1 + row.taxRate / 100)).toFixed(2)
+    //   return row.taxprice
+    // },
     // 通过税率计算税额
-    gettaxRate(row) {
-      if (row.taxRate !== 0) {
-        row.taxMoney = (row.salePrice * row.taxRate * row.quantity / 100).toFixed(2)
-      }
-      return row.taxRate
-    },
+    // gettaxRate(row) {
+    //   if (row.taxRate !== 0) {
+    //     row.taxMoney = (row.salePrice * row.taxRate * row.quantity / 100).toFixed(2)
+    //   }
+    //   return row.taxRate
+    // },
     // 通过税额计算税率
-    gettaxMoney(row) {
-      if (row.taxMoney !== 0 && row.quantity !== 0 && row.salePrice !== 0) {
-        row.taxRate = ((row.taxMoney / (row.salePrice * row.quantity)) * 100).toFixed(2)
-      }
-      return row.taxMoney
-    },
+    // gettaxMoney(row) {
+    //   if (row.taxMoney !== 0 && row.quantity !== 0 && row.salePrice !== 0) {
+    //     row.taxRate = ((row.taxMoney / (row.salePrice * row.quantity)) * 100).toFixed(2)
+    //   }
+    //   return row.taxMoney
+    // },
     // 选择客户类型时清理客户名称
     clearCustomer() {
       // this.$store.dispatch('get_customtype', this.personalForm.customerType)
@@ -806,6 +806,7 @@ export default {
       this.$refs.personalForm.validate((valid) => {
         if (valid) {
           const EnterDetail = this.deepClone(this.$refs.editable.getRecords())
+          console.log(EnterDetail)
           if (EnterDetail.length === 0) {
             this.$notify.error({
               title: '错误',
@@ -817,90 +818,84 @@ export default {
           EnterDetail.map(function(elem) {
             return elem
           }).forEach(function(elem) {
-            if (elem.batch === null || elem.batch === '' || elem.batch === undefined) {
-              delete elem.batch
-            }
-            if (elem.productName === null || elem.productName === '' || elem.productName === undefined) {
-              delete elem.productName
-            }
-            if (elem.category === null || elem.category === '' || elem.category === undefined) {
-              delete elem.category
-            }
-            if (elem.unit === null || elem.unit === '' || elem.unit === undefined) {
-              delete elem.unit
-            }
-            if (elem.type === null || elem.type === '' || elem.type === undefined) {
-              delete elem.type
-            }
-            if (elem.color === null || elem.color === '' || elem.color === undefined) {
-              delete elem.color
-            }
-            if (elem.kpiGrade === null || elem.kpiGrade === '' || elem.kpiGrade === undefined) {
-              delete elem.kpiGrade
-            }
-            if (elem.point === null || elem.point === '' || elem.point === undefined) {
-              delete elem.point
-            }
-            if (elem.salePrice === null || elem.salePrice === '' || elem.salePrice === undefined) {
-              delete elem.salePrice
-            }
-            if (elem.costPrice === null || elem.costPrice === '' || elem.costPrice === undefined) {
-              delete elem.costPrice
-            }
-            if (elem.costMoney === null || elem.costMoney === '' || elem.costMoney === undefined) {
-              delete elem.costMoney
-            }
-            if (elem.includeTaxMoney === null || elem.includeTaxMoney === '' || elem.includeTaxMoney === undefined) {
-              delete elem.includeTaxMoney
-            }
-            if (elem.taxRate === null || elem.taxRate === '' || elem.taxRate === undefined) {
-              delete elem.taxRate
-            }
+            // if (elem.batch === null || elem.batch === '' || elem.batch === undefined) {
+            //   delete elem.batch
+            // }
+            // if (elem.productName === null || elem.productName === '' || elem.productName === undefined) {
+            //   delete elem.productName
+            // }
+            // if (elem.unit === null || elem.unit === '' || elem.unit === undefined) {
+            //   delete elem.unit
+            // }
+            // if (elem.color === null || elem.color === '' || elem.color === undefined) {
+            //   delete elem.color
+            // }
+            // if (elem.kpiGrade === null || elem.kpiGrade === '' || elem.kpiGrade === undefined) {
+            //   delete elem.kpiGrade
+            // }
+            // if (elem.point === null || elem.point === '' || elem.point === undefined) {
+            //   delete elem.point
+            // }
+            // if (elem.salePrice === null || elem.salePrice === '' || elem.salePrice === undefined) {
+            //   delete elem.salePrice
+            // }
+            // if (elem.costPrice === null || elem.costPrice === '' || elem.costPrice === undefined) {
+            //   delete elem.costPrice
+            // }
+            // if (elem.costMoney === null || elem.costMoney === '' || elem.costMoney === undefined) {
+            //   delete elem.costMoney
+            // }
+            // if (elem.includeTaxMoney === null || elem.includeTaxMoney === '' || elem.includeTaxMoney === undefined) {
+            //   delete elem.includeTaxMoney
+            // }
+            // if (elem.taxRate === null || elem.taxRate === '' || elem.taxRate === undefined) {
+            //   delete elem.taxRate
+            // }
             if (elem.taxRate !== null || elem.taxRate !== '' || elem.taxRate !== undefined) {
               elem.taxRate = elem.taxRate / 100
             }
-            if (elem.taxMoney === null || elem.taxMoney === '' || elem.taxMoney === undefined) {
-              delete elem.taxMoney
-            }
-            if (elem.money === null || elem.money === '' || elem.money === undefined) {
-              delete elem.money
-            }
-            if (elem.includeTaxCostMoney === null || elem.includeTaxCostMoney === '' || elem.includeTaxCostMoney === undefined) {
-              delete elem.includeTaxCostMoney
-            }
-            if (elem.discount === null || elem.discount === '' || elem.discount === undefined) {
-              delete elem.discount
-            }
+            // if (elem.taxMoney === null || elem.taxMoney === '' || elem.taxMoney === undefined) {
+            //   delete elem.taxMoney
+            // }
+            // if (elem.money === null || elem.money === '' || elem.money === undefined) {
+            //   delete elem.money
+            // }
+            // if (elem.includeTaxCostMoney === null || elem.includeTaxCostMoney === '' || elem.includeTaxCostMoney === undefined) {
+            //   delete elem.includeTaxCostMoney
+            // }
+            // if (elem.discount === null || elem.discount === '' || elem.discount === undefined) {
+            //   delete elem.discount
+            // }
             if (elem.discountRate !== null || elem.discountRate !== '' || elem.discountRate !== undefined) {
-              elem.discount = elem.discountRate / 100
+              elem.discount = elem.discount / 100
             }
-            if (elem.discountMoney === null || elem.discountMoney === '' || elem.discountMoney === undefined) {
-              delete elem.discountMoney
-            }
-            if (elem.alreadyReturnQuantity === null || elem.alreadyReturnQuantity === '' || elem.alreadyReturnQuantity === undefined) {
-              delete elem.alreadyReturnQuantity
-            }
-            if (elem.returnQuantity === null || elem.returnQuantity === '' || elem.returnQuantity === undefined) {
-              delete elem.returnQuantity
-            }
-            if (elem.returnReason === null || elem.returnReason === '' || elem.returnReason === undefined) {
-              delete elem.returnReason
-            }
-            if (elem.sendQuantity === null || elem.sendQuantity === '' || elem.sendQuantity === undefined) {
-              delete elem.sendQuantity
-            }
-            if (elem.carCode === null || elem.carCode === '' || elem.carCode === undefined) {
-              delete elem.carCode
-            }
-            if (elem.motorCode === null || elem.motorCode === '' || elem.motorCode === undefined) {
-              delete elem.motorCode
-            }
-            if (elem.batteryCode === null || elem.batteryCode === '' || elem.batteryCode === undefined) {
-              delete elem.batteryCode
-            }
-            if (elem.locationId === null || elem.locationId === '' || elem.locationId === undefined) {
-              delete elem.locationId
-            }
+            // if (elem.discountMoney === null || elem.discountMoney === '' || elem.discountMoney === undefined) {
+            //   delete elem.discountMoney
+            // }
+            // if (elem.alreadyReturnQuantity === null || elem.alreadyReturnQuantity === '' || elem.alreadyReturnQuantity === undefined) {
+            //   delete elem.alreadyReturnQuantity
+            // }
+            // if (elem.returnQuantity === null || elem.returnQuantity === '' || elem.returnQuantity === undefined) {
+            //   delete elem.returnQuantity
+            // }
+            // if (elem.returnReason === null || elem.returnReason === '' || elem.returnReason === undefined) {
+            //   delete elem.returnReason
+            // }
+            // if (elem.sendQuantity === null || elem.sendQuantity === '' || elem.sendQuantity === undefined) {
+            //   delete elem.sendQuantity
+            // }
+            // if (elem.carCode === null || elem.carCode === '' || elem.carCode === undefined) {
+            //   delete elem.carCode
+            // }
+            // if (elem.motorCode === null || elem.motorCode === '' || elem.motorCode === undefined) {
+            //   delete elem.motorCode
+            // }
+            // if (elem.batteryCode === null || elem.batteryCode === '' || elem.batteryCode === undefined) {
+            //   delete elem.batteryCode
+            // }
+            // if (elem.locationId === null || elem.locationId === '' || elem.locationId === undefined) {
+            //   delete elem.locationId
+            // }
             return elem
           })
           const parms2 = JSON.stringify(EnterDetail)
