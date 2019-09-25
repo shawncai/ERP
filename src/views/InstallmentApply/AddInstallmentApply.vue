@@ -128,7 +128,7 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('InstallmentApply.firstMoney')" prop="firstMoney" style="width: 100%;">
-                  <el-input-number v-model="personalForm.firstMoney" :precision="2" :controls="false" style="margin-left: 18px;width: 200px" clearable @blur="changeTotalMoney"/>
+                  <el-input-number v-model="personalForm.firstMoney" :precision="2" :controls="false" style="margin-left: 18px;width: 200px" clearable @change="changeTotalMoney"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
@@ -736,29 +736,35 @@ export default {
       }
     },
     changeTotalMoney() {
+      console.log('首付款', this.personalForm.firstMoney)
+      console.log('单价', this.productForm.price)
+      console.log('折扣', this.rate)
       if (this.personalForm.firstMoney != null && this.personalForm.firstMoney !== '' && this.personalForm.firstMoney !== undefined) {
         if (this.productForm.price != null && this.productForm.price !== '' && this.productForm.price !== undefined) {
           if (this.rate != null && this.rate !== '' && this.rate !== undefined) {
-            this.personalForm.totalMoney = ((Number(this.productForm.price) - Number(this.personalForm.firstMoney)) * (1 + (Number(this.rate) /
-              100)) + Number(this.personalForm.firstMoney)).toFixed(2)
+            this.personalForm.totalMoney = ((Number(this.productForm.price) - Number(this.personalForm.firstMoney)) * (1 + Number(this.rate))).toFixed(2)
           }
         }
       }
     },
-    changeRate(val) {
-      console.log('val', val)
-      console.log('this.installmentCounts', this.installmentCounts)
+    async changeRate(val) {
+      console.log('首付款', this.personalForm.firstMoney)
+      console.log('单价', this.productForm.price)
+      console.log('折扣1', this.rate)
+      // console.log('val', val)
+      // console.log('this.installmentCounts', this.installmentCounts)
       const needval = this.installmentCounts.find(item => {
         if (item.installmentCount === val) {
           return (item)
         }
       })
-      console.log('needval', needval)
+      // console.log('needval', needval)
       this.rate = needval.rate
+      console.log('折扣2', this.rate)
       if (this.personalForm.firstMoney != null && this.personalForm.firstMoney !== '' && this.personalForm.firstMoney !== undefined) {
         if (this.productForm.price != null && this.productForm.price !== '' && this.productForm.price !== undefined) {
           if (needval.rate != null && needval.rate !== '' && needval.rate !== undefined) {
-            this.personalForm.totalMoney = ((Number(this.productForm.price) - Number(this.personalForm.firstMoney)) * (1 + (Number(needval.rate))) + Number(this.personalForm.firstMoney)).toFixed(2)
+            this.personalForm.totalMoney = ((Number(this.productForm.price) - Number(this.personalForm.firstMoney)) * (1 + Number(this.rate))).toFixed(2)
           }
         }
       }
@@ -970,7 +976,9 @@ export default {
         createPersonId: this.$store.getters.userId,
         countryId: this.$store.getters.countryId,
         repositoryId: this.$store.getters.repositoryId,
-        regionId: this.$store.getters.regionId
+        regionId: this.$store.getters.regionId,
+        gender: 1,
+        firstMoney: 0.0
       }
       this.productForm = {}
       this.personalForm.applyDate = new Date()

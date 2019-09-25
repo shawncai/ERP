@@ -51,18 +51,33 @@ export default {
   watch: {
     treecontrol() {
       this.editVisible = this.treecontrol
-      this.gettree()
+      // this.gettree()
+      if (this.$refs.tree2) {
+        console.log(this.filterText)
+        this.$refs.tree2.filter(this.filterText)
+      }
     },
-    filterText(val) {
-      this.$refs.tree2.filter(val)
+    filterText: {
+      handler(o, n) {
+        if (this.$refs.tree2) {
+          console.log(o)
+          this.$refs.tree2.filter(o)
+        }
+      },
+      immediate: true
+
     }
   },
   created() {
     this.gettree()
   },
+  activated() {
+    this.gettree()
+  },
   methods: {
     // 搜索树状图数据方法
     filterNode(value, data, node) {
+      console.log(value)
       if (!value) return true
       // return data.categoryName.indexOf(value) !== -1
       const _array = []// 这里使用数组存储 只是为了存储值。
