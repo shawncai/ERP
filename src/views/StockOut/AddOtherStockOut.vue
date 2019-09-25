@@ -161,7 +161,7 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('StockOut.heji2')" style="width: 100%;">
-                  <el-input v-model="heji3" style="margin-left: 18px;width: 200px" disabled/>
+                  <el-input v-model="heji2" style="margin-left: 18px;width: 200px" disabled/>
                 </el-form-item>
               </el-col>
             </el-row>
@@ -223,7 +223,7 @@ export default {
     return {
       // 合计信息
       heji1: 0,
-      heji3: 0,
+      heji2: 0,
       // 批次列表
       batchlist: [],
       // 部门数据
@@ -300,7 +300,7 @@ export default {
           num1 += Number(this.list2[i].outQuantity * this.list2[i].outPrice)
         }
         this.heji1 = num
-        this.heji3 = num1
+        this.heji2 = num1
       },
       deep: true
     }
