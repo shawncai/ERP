@@ -148,6 +148,26 @@
           </el-table>
         </div>
       </el-card>
+      <!-- 合计信息 -->
+      <el-card class="box-card">
+        <h2 ref="geren" class="form-name">合计信息</h2>
+        <div class="container">
+          <el-form ref="personalForm" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="100px" style="margin-left: 30px;">
+            <el-row>
+              <el-col :span="6">
+                <el-form-item :label="$t('StockOut.heji')" style="width: 100%;">
+                  <el-input v-model="heji" placeholder="请输入摘要" style="margin-left: 18px;width: 150px" disabled/>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item :label="$t('StockOut.heji2')" style="width: 100%;">
+                  <el-input v-model="heji2" placeholder="请输入摘要" style="margin-left: 18px;width: 150px" disabled/>
+                </el-form-item>
+              </el-col>
+            </el-row>
+          </el-form>
+        </div>
+      </el-card>
       <div class="buttons" style="margin-top: 20px;margin-left: 30px">
         <el-button type="danger" @click="handlecancel()">取消</el-button>
       </div>
@@ -189,6 +209,9 @@ export default {
   },
   data() {
     return {
+      // 合计信息
+      heji: 0,
+      heji2: 0,
       // 批次列表
       batchlist: [],
       // 审核步骤数据
@@ -253,9 +276,19 @@ export default {
     },
     detaildata() {
       this.personalForm = this.detaildata
+      console.log(this.personalForm)
       this.outPersonId = this.personalForm.outPersonName
       this.outRepositoryId = this.personalForm.outRepositoryName
       this.list2 = this.personalForm.otherOutDetails
+      let num = 0
+      let num1 = 0
+      for (const i in this.list2) {
+        console.log(this.list2[i])
+        num += Number(this.list2[i].outQuantity)
+        num1 += Number(this.list2[i].outQuantity * this.list2[i].outPrice)
+      }
+      this.heji = num
+      this.heji2 = num1
       this.reviewList = []
       const review = this.personalForm.approvalUseVos
       for (const i in review) {
