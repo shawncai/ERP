@@ -76,12 +76,12 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('Storagemove.storageMovePerson')" prop="storageMovePerson" style="width: 100%;">
-                  <el-input v-model="storageMovePerson" placeholder="请选择调拨出库人" style="margin-left: 18px;width:200px" clearable @focus="handlechooseAccept"/>
+                  <el-input v-model="storageMovePerson" placeholder="请选择调拨出库人" style="margin-left: 18px;width:200px" clearable @focus="handlechooseAccept2"/>
                 </el-form-item>
               </el-col>
-              <my-accept :accetpcontrol.sync="accetpcontrol" @acceptName="acceptName"/>
+              <my-out :outcontrol.sync="outcontrol" @outName="outName"/>
               <el-col :span="6">
-                <el-form-item :label="$t('Storagemove.storageMoveDate')" label-width="110px" prop="requestArrivalDate" style="width: 100%;">
+                <el-form-item :label="$t('Storagemove.storageMoveDate')" label-width="110px" style="width: 100%;">
                   <el-date-picker
                     v-model="personalForm.storageMoveDate"
                     type="date"
@@ -176,18 +176,23 @@ import { batchlist, getlocation, countlist, productlist } from '@/api/public'
 import { createstoragemove } from '@/api/Storagemove'
 import MyRepository from './components/MyRepository'
 import MyAccept from './components/MyAccept'
+import MyOut from './components/MyOut'
 import MyDetail from './components/MyDetail'
 import MyCreate from './components/MyCreate'
 import MyDepot from './components/MyDepot'
 export default {
   name: 'AddStoragemove',
-  components: { MyDepot, MyRepository, MyDetail, MyCreate, MyAccept },
+  components: { MyDepot, MyRepository, MyDetail, MyCreate, MyAccept, MyOut },
   data() {
     return {
       // 申请人回显
       applyPersonId: this.$store.getters.name,
       // 申请人控制
       accetpcontrol: false,
+      // 调拨出库人回显
+      storageMovePerson: '',
+      // 出库人控制
+      outcontrol: false,
       // 批次列表
       batchlist: [],
       // 部门数据
@@ -254,11 +259,15 @@ export default {
   },
   mounted() {
     this.getlist()
+    this.getdatatime()
   },
   activated() {
     this.getinformation4()
   },
   methods: {
+    getdatatime() { // 默认显示今天
+      this.personalForm.storageMoveDate = new Date()
+    },
     // 获取智能补货信息
     async getinformation4() {
       if (this.$store.getters.empcontract4) {
@@ -547,6 +556,15 @@ export default {
     acceptName(val) {
       this.applyPersonId = val.personName
       this.personalForm.applyPersonId = val.id
+    },
+    // 调拨出库人触发
+    handlechooseAccept2() {
+      this.outcontrol = true
+      console.log(this.outcontrol)
+    },
+    outName(val) {
+      this.storageMovePerson = val.personName
+      this.personalForm.storageMovePerson = val.id
     },
     // 调拨单事件
     // 新增调拨单明细

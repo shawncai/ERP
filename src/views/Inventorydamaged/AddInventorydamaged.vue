@@ -2,102 +2,126 @@
   <div class="ERP-container">
     <div class="app-container">
       <!--基本信息-->
-      <h2 ref="geren" class="form-name">基本信息</h2>
-      <div class="container">
-        <el-form ref="personalForm" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-position="top" label-width="300px" style="margin-left: 30px;">
-          <el-form-item :label="$t('Inventorydamaged.title')" style="width: 40%;margin-top:1%">
-            <el-input v-model="personalForm.title" placeholder="请输入报损单主题" clearable/>
-          </el-form-item>
-          <el-form-item :label="$t('Inventorydamaged.handlePersonId')" prop="handlePersonId" style="width: 40%;margin-top:1%">
-            <el-input v-model="handlePersonId" placeholder="请选择经办人" clearable @focus="handlechoose"/>
-          </el-form-item>
-          <my-create :createcontrol.sync="createcontrol" @createname="createname"/>
-          <el-form-item :label="$t('Inventorydamaged.damagedDeptId')" style="width: 40%;margin-top:1%">
-            <el-select v-model="personalForm.damagedDeptId" placeholder="请选择报损部门" clearable style="width: 100%;" @focus="updatedept">
-              <el-option
-                v-for="(item, index) in depts"
-                :key="index"
-                :value="item.id"
-                :label="item.deptName"/>
-            </el-select>
-          </el-form-item>
-          <el-form-item :label="$t('Inventorydamaged.damagedRepositoryId')" prop="countRepositoryId" style="width: 40%;margin-top:1%">
-            <el-input v-model="damagedRepositoryId" placeholder="请选择报损仓库" clearable @focus="handlechooseRep"/>
-          </el-form-item>
-          <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
-          <el-form-item :label="$t('Inventorydamaged.damagedDate')" prop="damagedDate" style="width: 40%;margin-top:1%">
-            <el-date-picker
-              v-model="personalForm.damagedDate"
-              type="date"
-              placeholder="报损日期"
-              value-format="yyyy-MM-dd"
-              clearable
-              style="width: 100%"/>
-          </el-form-item>
-          <el-form-item :label="$t('Inventorydamaged.damagedReason')" style="width: 80%;margin-top:1%">
-            <el-input v-model="personalForm.damagedReason" placeholder="请输入报损原因" type="textarea" clearable/>
-          </el-form-item>
-        </el-form>
-      </div>
-      <!--报损单明细-->
-      <h2 ref="fuzhu" class="form-name">报损单明细</h2>
-      <div class="buttons" style="margin-top: 50px">
-        <el-button type="success" @click="handleAddproduct">添加商品</el-button>
-        <el-button type="danger" @click="$refs.editable.removeSelecteds()">删除</el-button>
-        <el-button type="primary" @click="checkStock()">库存快照</el-button>
-      </div>
-      <my-detail :control.sync="control" :personalform="personalForm" @product="productdetail"/>
-      <div class="container">
-        <el-editable
-          ref="editable"
-          :data.sync="list2"
-          :edit-config="{ showIcon: true, showStatus: true}"
-          :edit-rules="validRules"
-          class="click-table1"
-          stripe
-          border
-          size="medium"
-          style="width: 100%"
-          @selection-change="handleSelectionChange">
-          <el-editable-column type="selection" width="55" align="center"/>
-          <el-editable-column label="编号" width="55" align="center" type="index" />
-          <el-editable-column :edit-render="{type: 'default'}" prop="locationId" align="center" label="货位" width="200px">
-            <template slot-scope="scope">
-              <el-select v-model="scope.row.locationId" :value="scope.row.locationId" placeholder="请选择货位" filterable clearable style="width: 100%;" @visible-change="updatebatch($event,scope)">
+      <el-card class="box-card" shadow="never" style="margin-top: 10px">
+        <h2 ref="geren" class="form-name">基本信息</h2>
+        <div class="container">
+          <el-form ref="personalForm" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-position="top" label-width="300px" style="margin-left: 30px;">
+            <el-form-item :label="$t('Inventorydamaged.title')" style="width: 40%;margin-top:1%">
+              <el-input v-model="personalForm.title" placeholder="请输入报损单主题" clearable/>
+            </el-form-item>
+            <el-form-item :label="$t('Inventorydamaged.handlePersonId')" prop="handlePersonId" style="width: 40%;margin-top:1%">
+              <el-input v-model="handlePersonId" placeholder="请选择经办人" clearable @focus="handlechoose"/>
+            </el-form-item>
+            <my-create :createcontrol.sync="createcontrol" @createname="createname"/>
+            <el-form-item :label="$t('Inventorydamaged.damagedDeptId')" style="width: 40%;margin-top:1%">
+              <el-select v-model="personalForm.damagedDeptId" placeholder="请选择报损部门" clearable style="width: 100%;" @focus="updatedept">
                 <el-option
-                  v-for="(item, index) in locationlist"
+                  v-for="(item, index) in depts"
                   :key="index"
                   :value="item.id"
-                  :label="item.locationCode"/>
+                  :label="item.deptName"/>
               </el-select>
-            </template>
-          </el-editable-column>
-          <el-editable-column :edit-render="{type: 'default'}" prop="batch" align="center" label="批次" width="200px">
-            <template slot-scope="scope">
-              <el-select v-model="scope.row.batch" :value="scope.row.batch" placeholder="请选择批次" filterable clearable style="width: 100%;" @visible-change="updatebatch2($event,scope)">
-                <el-option
-                  v-for="(item, index) in batchlist"
-                  :key="index"
-                  :value="item"
-                  :label="item"/>
-              </el-select>
-            </template>
-          </el-editable-column>
-          <el-editable-column prop="productCode" align="center" label="物品编号" width="150px"/>
-          <el-editable-column prop="productName" align="center" label="物品名称" width="150px"/>
-          <el-editable-column prop="color" align="center" label="颜色" width="150px"/>
-          <el-editable-column prop="typeId" align="center" label="规格" width="150px"/>
-          <el-editable-column prop="unit" align="center" label="单位" width="150px"/>
-          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="damagedQuantity" align="center" label="报损数量" width="150px"/>
-          <el-editable-column prop="costPrice" align="center" label="成本单价" width="150px"/>
-          <el-editable-column prop="damagedMoney" align="center" label="报损金额" width="150px">
-            <template slot-scope="scope">
-              <p>{{ getSize(scope.row.damagedQuantity, scope.row.costPrice) }}</p>
-            </template>
-          </el-editable-column>
-          <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="remarks" align="center" label="备注" width="150px"/>
-        </el-editable>
-      </div>
+            </el-form-item>
+            <el-form-item :label="$t('Inventorydamaged.damagedRepositoryId')" prop="damagedRepositoryId" style="width: 40%;margin-top:1%">
+              <el-input v-model="damagedRepositoryId" placeholder="请选择报损仓库" clearable @focus="handlechooseRep"/>
+            </el-form-item>
+            <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
+            <el-form-item :label="$t('Inventorydamaged.damagedDate')" prop="damagedDate" style="width: 40%;margin-top:1%">
+              <el-date-picker
+                v-model="personalForm.damagedDate"
+                type="date"
+                placeholder="报损日期"
+                value-format="yyyy-MM-dd"
+                clearable
+                style="width: 100%"/>
+            </el-form-item>
+            <el-form-item :label="$t('Inventorydamaged.damagedReason')" style="width: 80%;margin-top:1%">
+              <el-input v-model="personalForm.damagedReason" placeholder="请输入报损原因" type="textarea" clearable/>
+            </el-form-item>
+          </el-form>
+        </div>
+      </el-card>
+      <!--报损单明细-->
+      <el-card class="box-card" shadow="never" style="margin-top: 10px">
+        <h2 ref="fuzhu" class="form-name">报损单明细</h2>
+        <div class="buttons" style="margin-top: 50px">
+          <el-button type="success" @click="handleAddproduct">添加商品</el-button>
+          <el-button type="danger" @click="$refs.editable.removeSelecteds()">删除</el-button>
+          <el-button type="primary" @click="checkStock()">库存快照</el-button>
+        </div>
+        <my-detail :control.sync="control" :personalform="personalForm" @product="productdetail"/>
+        <div class="container">
+          <el-editable
+            ref="editable"
+            :data.sync="list2"
+            :edit-config="{ showIcon: true, showStatus: true}"
+            :edit-rules="validRules"
+            class="click-table1"
+            stripe
+            border
+            size="medium"
+            style="width: 100%"
+            @selection-change="handleSelectionChange">
+            <el-editable-column type="selection" width="55" align="center"/>
+            <el-editable-column label="编号" width="55" align="center" type="index" />
+            <el-editable-column :edit-render="{type: 'default'}" prop="locationId" align="center" label="货位" width="200px">
+              <template slot-scope="scope">
+                <el-select v-model="scope.row.locationId" :value="scope.row.locationId" placeholder="请选择货位" filterable clearable style="width: 100%;" @visible-change="updatebatch($event,scope)">
+                  <el-option
+                    v-for="(item, index) in locationlist"
+                    :key="index"
+                    :value="item.id"
+                    :label="item.locationCode"/>
+                </el-select>
+              </template>
+            </el-editable-column>
+            <el-editable-column :edit-render="{type: 'default'}" prop="batch" align="center" label="批次" width="200px">
+              <template slot-scope="scope">
+                <el-select v-model="scope.row.batch" :value="scope.row.batch" placeholder="请选择批次" filterable clearable style="width: 100%;" @visible-change="updatebatch2($event,scope)">
+                  <el-option
+                    v-for="(item, index) in batchlist"
+                    :key="index"
+                    :value="item"
+                    :label="item"/>
+                </el-select>
+              </template>
+            </el-editable-column>
+            <el-editable-column prop="productCode" align="center" label="物品编号" width="150px"/>
+            <el-editable-column prop="productName" align="center" label="物品名称" width="150px"/>
+            <el-editable-column prop="color" align="center" label="颜色" width="150px"/>
+            <el-editable-column prop="typeId" align="center" label="规格" width="150px"/>
+            <el-editable-column prop="unit" align="center" label="单位" width="150px"/>
+            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="damagedQuantity" align="center" label="报损数量" width="150px"/>
+            <el-editable-column prop="costPrice" align="center" label="成本单价" width="150px"/>
+            <el-editable-column prop="damagedMoney" align="center" label="报损金额" width="150px">
+              <template slot-scope="scope">
+                <p>{{ getSize(scope.row.damagedQuantity, scope.row.costPrice) }}</p>
+              </template>
+            </el-editable-column>
+            <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="remarks" align="center" label="备注" width="150px"/>
+          </el-editable>
+        </div>
+      </el-card>
+      <!-- 合计信息 -->
+      <el-card class="box-card" shadow="never" style="margin-top: 10px">
+        <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">合计信息</h2>
+        <div class="container" style="margin-top: 37px">
+          <el-form ref="personalForm2" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
+            <el-row>
+              <el-col :span="6">
+                <el-form-item :label="$t('Inventorydamaged.heji')" style="width: 100%;">
+                  <el-input v-model="heji1" style="margin-left: 18px;width: 200px" disabled/>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item :label="$t('Inventorydamaged.heji2')" style="width: 100%;">
+                  <el-input v-model="heji2" style="margin-left: 18px;width: 200px" disabled/>
+                </el-form-item>
+              </el-col>
+            </el-row>
+          </el-form>
+        </div>
+      </el-card>
       <!--操作-->
       <div class="buttons" style="margin-top: 20px">
         <el-button v-no-more-click type="primary" @click="handlesave()">保存</el-button>
@@ -148,7 +172,31 @@ export default {
   name: 'AddInventorydamaged',
   components: { MyCreate, MyRepository, MyDetail },
   data() {
+    var validatePass = (rule, value, callback) => {
+      if (this.handlePersonId === '' || this.handlePersonId === undefined || this.handlePersonId === null) {
+        callback(new Error('请选择经办人'))
+      } else {
+        callback()
+      }
+    }
+    var validatePass2 = (rule, value, callback) => {
+      if (this.damagedRepositoryId === '' || this.damagedRepositoryId === undefined || this.damagedRepositoryId === null) {
+        callback(new Error('请选择报损仓库'))
+      } else {
+        callback()
+      }
+    }
+    var validatePass3 = (rule, value, callback) => {
+      if (this.personalForm.damagedDate === '' || this.personalForm.damagedDate === undefined || this.personalForm.damagedDate === null) {
+        callback(new Error('请选择报损仓库'))
+      } else {
+        callback()
+      }
+    }
     return {
+      // 合计信息
+      heji1: 0,
+      heji2: 0,
       // 获取货位参数
       locationlistparms: {
         pageNum: 1,
@@ -164,9 +212,9 @@ export default {
       // 货位数据
       locationlist: [],
       // 仓库回显
-      damagedRepositoryId: '',
+      damagedRepositoryId: this.$store.getters.repositoryName,
       // 经办人回显
-      handlePersonId: '',
+      handlePersonId: this.$store.getters.name,
       // 控制仓库选择窗口
       repositorycontrol: false,
       // 控制经办人选择窗口
@@ -176,13 +224,16 @@ export default {
       // 报损单明细列表规则
       validRules: {
         step: [
-          { required: true, message: '请输入流程步骤', trigger: 'blur' }
+          { required: true, message: '请输入流程步骤', trigger: 'change' }
         ],
         money: [
-          { required: true, message: '请输入流转条件', trigger: 'blue' }
+          { required: true, message: '请输入流转条件', trigger: 'change' }
         ],
         handlerName: [
-          { required: true, message: '请选择步骤处理人', trigger: 'blue' }
+          { required: true, message: '请选择步骤处理人', trigger: 'change' }
+        ],
+        damagedQuantity: [
+          { required: true, message: '请输入报损数量', trigger: 'change' }
         ]
       },
       // 库存报损单信息数据
@@ -190,24 +241,44 @@ export default {
         repositoryId: this.$store.getters.repositoryId,
         regionId: this.$store.getters.regionId,
         createPersonId: this.$store.getters.userId,
-        countryId: 1
+        countryId: 1,
+        handlePersonId: this.$store.getters.userId,
+        damagedDeptId: this.$store.getters.deptId,
+        damagedRepositoryId: this.$store.getters.repositoryId,
+        damagedDate: new Date()
       },
       // 库存报损单规则数据
       personalrules: {
         handlePersonId: [
-          { required: true, message: '请选择经办人', trigger: 'blue' }
+          { required: true, validator: validatePass, trigger: 'change' }
         ],
         damagedRepositoryId: [
-          { required: true, message: '请选择报损仓库', trigger: 'blue' }
+          { required: true, validator: validatePass2, trigger: 'change' }
         ],
         damagedDate: [
-          { required: true, message: '请选择报损日期', trigger: 'change' }
+          { required: true, validator: validatePass3, trigger: 'change' }
         ]
       },
       receiptVisible2: false,
       list111: [],
       // 批量操作
       moreaction: []
+    }
+  },
+  watch: {
+    list2: {
+      handler() {
+        console.log('list2', this.list2)
+        let num1 = 0
+        let num2 = 0
+        for (const i in this.list2) {
+          num1 = this.list2[i].damagedQuantity
+          num2 = this.list2[i].damagedQuantity * this.list2[i].costPrice
+        }
+        this.heji1 = num1
+        this.heji2 = num2
+      },
+      deep: true
     }
   },
   mounted() {
@@ -337,10 +408,13 @@ export default {
         repositoryId: this.$store.getters.repositoryId,
         regionId: this.$store.getters.regionId,
         createPersonId: this.$store.getters.userId,
-        countryId: 1
+        countryId: 1,
+        handlePersonId: this.$store.getters.userId,
+        damagedDeptId: this.$store.getters.deptId,
+        damagedRepositoryId: this.$store.getters.repositoryId
       }
-      this.handlePersonId = ''
-      this.damagedRepositoryId = ''
+      this.handlePersonId = this.$store.getters.name
+      this.damagedRepositoryId = this.$store.getters.repositoryName
     },
     // 取消操作
     handlecancel() {
@@ -429,6 +503,14 @@ export default {
     // 报损单事件
     // 新增报损单明细
     handleAddproduct() {
+      if (this.damagedRepositoryId === '' || this.damagedRepositoryId === undefined || this.damagedRepositoryId === null) {
+        this.$notify.error({
+          title: '错误',
+          message: '请先选择报损仓库',
+          offset: 100
+        })
+        return false
+      }
       this.control = true
     },
     productdetail(val) {
@@ -466,7 +548,6 @@ export default {
     }
     .container{
       margin-top: 2%;
-      border: 1px solid #eceff6;
     }
   }
 </style>

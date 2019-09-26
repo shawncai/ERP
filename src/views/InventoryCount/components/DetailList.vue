@@ -1,118 +1,125 @@
 <template>
-  <el-dialog :visible.sync="editVisible" :detailcontrol="detailcontrol" :detaildata="detaildata" :close-on-press-escape="false" append-to-body top="10px" title="修改物流车辆" @close="$emit('update:detailcontrol', false)">
+  <el-dialog :visible.sync="editVisible" :detailcontrol="detailcontrol" :detaildata="detaildata" :close-on-press-escape="false" class="edit" append-to-body width="1010px" top="20px" title="库存盘点单详情" @close="$emit('update:detailcontrol', false)">
     <div id="printTest" >
       <!--基本信息-->
-      <h2 ref="geren" class="form-name">基本信息</h2>
-      <button v-print="'#printTest'" class="print" style="font-size: 13px;background: white;">打印</button>
-      <div class="container">
-        <el-form ref="personalForm" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-position="top" label-width="300px" style="margin-left: 30px;">
-          <el-col :span="12">
-            <el-form-item class="print2" label="盘点单编号" style="width: 100%;display: none">
-              {{ personalForm.countNumber }}
+      <el-card class="box-card" shadow="never">
+        <h2 ref="geren" class="form-name">基本信息</h2>
+        <button v-print="'#printTest'" class="print" style="font-size: 13px;background: white;">打印</button>
+        <div class="container">
+          <el-form ref="personalForm" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-position="top" label-width="300px" style="margin-left: 30px;">
+            <el-col :span="12">
+              <el-form-item class="print2" label="盘点单编号" style="width: 100%;display: none">
+                {{ personalForm.countNumber }}
+              </el-form-item>
+            </el-col>
+            <el-form-item :label="$t('InventoryCount.title')" style="width: 40%;margin-top:1%">
+              <el-input v-model="personalForm.title" placeholder="请输入入盘点单主题" disabled/>
             </el-form-item>
-          </el-col>
-          <el-form-item :label="$t('InventoryCount.title')" style="width: 40%;margin-top:1%">
-            <el-input v-model="personalForm.title" placeholder="请输入入盘点单主题" disabled/>
-          </el-form-item>
-          <el-form-item :label="$t('InventoryCount.handlePersonId')" prop="handlePersonId" style="width: 40%;margin-top:1%">
-            <el-input v-model="handlePersonId" placeholder="请选择经办人" disabled @focus="handlechoose"/>
-          </el-form-item>
-          <el-form-item label="国家" style="width: 40%;margin-top:1%">
-            <el-input v-model="personalForm.countryName" disabled/>
-          </el-form-item>
-          <el-form-item label="制单人" style="width: 40%;margin-top:1%">
-            <el-input v-model="personalForm.createPersonName" disabled/>
-          </el-form-item>
-          <my-create :createcontrol.sync="createcontrol" @createname="createname"/>
-          <el-form-item :label="$t('InventoryCount.countDeptId')" style="width: 40%;margin-top:1%">
-            <el-select v-model="personalForm.countDeptId" placeholder="请选择盘点部门" disabled style="width: 100%;">
-              <el-option
-                v-for="(item, index) in depts"
-                :key="index"
-                :value="item.id"
-                :label="item.deptName"/>
-            </el-select>
-          </el-form-item>
-          <el-form-item :label="$t('InventoryCount.countRepositoryId')" prop="countRepositoryId" style="width: 40%;margin-top:1%">
-            <el-input v-model="countRepositoryId" placeholder="请选择盘点仓库" disabled @focus="handlechooseRep"/>
-          </el-form-item>
-          <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
-          <el-form-item :label="$t('InventoryCount.countType')" style="width: 40%;margin-top:1%">
-            <el-select v-model="personalForm.countType" placeholder="请选择盘点类型" disabled style="width: 100%;">
-              <el-option value="1" label="zzz"/>
-              <el-option value="2" label="xxx"/>
-            </el-select>
-          </el-form-item>
-          <el-form-item :label="$t('Inventorydetaillist.beginTime')" style="width: 40%;margin-top:1%">
-            <el-date-picker
-              v-model="personalForm.beginTime"
-              type="date"
-              placeholder="盘点开始日期"
-              value-format="yyyy-MM-dd"
-              disabled
-              style="width: 350px"/>
-          </el-form-item>
-          <el-form-item :label="$t('Inventorydetaillist.endTime')" style="width: 40%;margin-top:1%">
-            <el-date-picker
-              v-model="personalForm.endTime"
-              type="date"
-              placeholder="盘点结束日期"
-              value-format="yyyy-MM-dd"
-              disabled
-              style="width: 350px"/>
-          </el-form-item>
-          <el-form-item :label="$t('InventoryCount.summary')" prop="summary" style="width: 80%;margin-top:1%">
-            <el-input v-model="personalForm.summary" placeholder="请输入摘要" type="textarea" disabled/>
-          </el-form-item>
-        </el-form>
-      </div>
-      <h2 ref="fuzhu" class="form-name">盘点单明细</h2>
-      <div class="container">
-        <el-editable
-          ref="editable"
-          :data.sync="list2"
-          :edit-config="{ showIcon: false, showStatus: true,trigger: 'click', mode: 'cell'}"
-          :edit-rules="validRules"
-          class="click-table1"
-          border
-          size="medium"
-          style="width: 100%">
-          <el-editable-column type="index" fixed="left" width="55" align="center"/>
-          <el-editable-column prop="productCode" fixed="left" align="center" label="物品编号" />
-          <el-editable-column prop="productName" fixed="left" align="center" label="物品名称" />
-          <el-editable-column prop="locationCode" align="center" label="货位" />
-          <!--<el-editable-column :edit-render="{name: 'ElSelect', options: batchlist, type: 'visible'}" prop="batch" align="center" label="批次" />-->
-          <el-editable-column prop="batch" align="center" label="批次" />
-          <el-editable-column prop="color" align="center" label="颜色" />
-          <el-editable-column prop="typeId" align="center" label="规格" />
-          <el-editable-column prop="unit" align="center" label="单位" />
-          <el-editable-column prop="price" align="center" label="价格" />
-          <el-editable-column prop="inventoryQuantity" align="center" label="库存数量" >
-            <template slot-scope="scope">
-              <p>{{ getquantity(scope.row) }}</p>
-            </template>
-          </el-editable-column>
-          <el-editable-column prop="actualQuantity" align="center" label="实盘数量" />
-          <el-editable-column prop="diffQuantity" align="center" label="差异数量" >
-            <template slot-scope="scope">
-              <p>{{ getDiff(scope.row.inventoryQuantity, scope.row.actualQuantity, scope.row) }}</p>
-            </template>
-          </el-editable-column>
-          <el-editable-column prop="diffType" align="center" label="盈亏类型" >
-            <template slot-scope="scope">
-              <p>{{ getdiffType(scope.row.inventoryQuantity, scope.row.actualQuantity, scope.row) }}</p>
-            </template>
-          </el-editable-column>
-          <el-editable-column prop="totalMoney" align="center" label="总金额" >
-            <template slot-scope="scope">
-              <p>{{ getSize(scope.row.actualQuantity, scope.row.price) }}</p>
-            </template>
-          </el-editable-column>
-          <el-editable-column prop="remarks" align="center" label="备注" />
-        </el-editable>
-      </div>
+            <el-form-item :label="$t('InventoryCount.handlePersonId')" prop="handlePersonId" style="width: 40%;margin-top:1%">
+              <el-input v-model="handlePersonId" placeholder="请选择经办人" disabled @focus="handlechoose"/>
+            </el-form-item>
+            <el-form-item label="国家" style="width: 40%;margin-top:1%">
+              <el-input v-model="personalForm.countryName" disabled/>
+            </el-form-item>
+            <el-form-item label="制单人" style="width: 40%;margin-top:1%">
+              <el-input v-model="personalForm.createPersonName" disabled/>
+            </el-form-item>
+            <my-create :createcontrol.sync="createcontrol" @createname="createname"/>
+            <el-form-item :label="$t('InventoryCount.countDeptId')" style="width: 40%;margin-top:1%">
+              <el-select v-model="personalForm.countDeptId" placeholder="请选择盘点部门" disabled style="width: 100%;">
+                <el-option
+                  v-for="(item, index) in depts"
+                  :key="index"
+                  :value="item.id"
+                  :label="item.deptName"/>
+              </el-select>
+            </el-form-item>
+            <el-form-item :label="$t('InventoryCount.countRepositoryId')" prop="countRepositoryId" style="width: 40%;margin-top:1%">
+              <el-input v-model="countRepositoryId" placeholder="请选择盘点仓库" disabled @focus="handlechooseRep"/>
+            </el-form-item>
+            <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
+            <el-form-item :label="$t('InventoryCount.countType')" style="width: 40%;margin-top:1%">
+              <el-select v-model="personalForm.countType" placeholder="请选择盘点类型" disabled style="width: 100%;">
+                <el-option value="1" label="zzz"/>
+                <el-option value="2" label="xxx"/>
+              </el-select>
+            </el-form-item>
+            <el-form-item :label="$t('Inventorydetaillist.beginTime')" style="width: 40%;margin-top:1%">
+              <el-date-picker
+                v-model="personalForm.beginTime"
+                type="date"
+                placeholder="盘点开始日期"
+                value-format="yyyy-MM-dd"
+                disabled
+                style="width: 100%"/>
+            </el-form-item>
+            <el-form-item :label="$t('Inventorydetaillist.endTime')" style="width: 40%;margin-top:1%">
+              <el-date-picker
+                v-model="personalForm.endTime"
+                type="date"
+                placeholder="盘点结束日期"
+                value-format="yyyy-MM-dd"
+                disabled
+                style="width: 100%"/>
+            </el-form-item>
+            <el-form-item :label="$t('InventoryCount.summary')" prop="summary" style="width: 80%;margin-top:1%">
+              <el-input v-model="personalForm.summary" placeholder="请输入摘要" type="textarea" disabled/>
+            </el-form-item>
+          </el-form>
+        </div>
+      </el-card>
+
+      <el-card class="box-card" shadow="never" style="margin-top: 15px">
+        <h2 ref="fuzhu" class="form-name">盘点单明细</h2>
+        <div class="container">
+          <el-editable
+            ref="editable"
+            :data.sync="list2"
+            :edit-config="{ showIcon: false, showStatus: true,trigger: 'click', mode: 'cell'}"
+            :edit-rules="validRules"
+            class="click-table1"
+            border
+            size="medium"
+            style="width: 100%">
+            <el-editable-column type="index" fixed="left" width="55" align="center"/>
+            <el-editable-column prop="productCode" fixed="left" align="center" label="物品编号" />
+            <el-editable-column prop="productName" fixed="left" align="center" label="物品名称" />
+            <el-editable-column prop="locationCode" align="center" label="货位" />
+            <!--<el-editable-column :edit-render="{name: 'ElSelect', options: batchlist, type: 'visible'}" prop="batch" align="center" label="批次" />-->
+            <el-editable-column prop="batch" align="center" label="批次" />
+            <el-editable-column prop="color" align="center" label="颜色" />
+            <el-editable-column prop="typeId" align="center" label="规格" />
+            <el-editable-column prop="unit" align="center" label="单位" />
+            <el-editable-column prop="price" align="center" label="价格" />
+            <el-editable-column prop="inventoryQuantity" align="center" label="库存数量" >
+              <template slot-scope="scope">
+                <p>{{ getquantity(scope.row) }}</p>
+              </template>
+            </el-editable-column>
+            <el-editable-column prop="actualQuantity" align="center" label="实盘数量" />
+            <el-editable-column prop="diffQuantity" align="center" label="差异数量" >
+              <template slot-scope="scope">
+                <p>{{ getDiff(scope.row.inventoryQuantity, scope.row.actualQuantity, scope.row) }}</p>
+              </template>
+            </el-editable-column>
+            <el-editable-column prop="diffType" align="center" label="盈亏类型" >
+              <template slot-scope="scope">
+                <p>{{ getdiffType(scope.row.inventoryQuantity, scope.row.actualQuantity, scope.row) }}</p>
+              </template>
+            </el-editable-column>
+            <el-editable-column prop="countPersonName" align="center" label="盘点人" />
+            <el-editable-column prop="countDate" align="center" label="盘点日期" width="200px"/>
+            <el-editable-column v-if="false" prop="totalMoney" align="center" label="总金额" >
+              <template slot-scope="scope">
+                <p>{{ getSize(scope.row.actualQuantity, scope.row.price) }}</p>
+              </template>
+            </el-editable-column>
+            <el-editable-column prop="remarks" align="center" label="备注" />
+          </el-editable>
+        </div>
+      </el-card>
       <!--审核状态-->
-      <el-card class="box-card" style="margin-top: 15px">
+      <el-card class="box-card" shadow="never" style="margin-top: 15px">
         <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">审批记录</h2>
         <div class="container" style="margin-top: 37px">
           <el-table
@@ -144,6 +151,86 @@
               </template>
             </el-table-column>
           </el-table>
+        </div>
+      </el-card>
+      <!-- 合计信息 -->
+      <el-card class="box-card" shadow="never" style="margin-top: 10px">
+        <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">合计信息</h2>
+        <div class="container" style="margin-top: 37px">
+          <el-form ref="personalForm2" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
+            <el-row>
+              <el-col :span="6">
+                <el-form-item :label="$t('InventoryCount.heji1')" style="width: 100%;">
+                  <el-input v-model="heji1" style="margin-left: 18px;width: 200px" disabled/>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item :label="$t('InventoryCount.heji2')" style="width: 100%;">
+                  <el-input v-model="heji2" style="margin-left: 18px;width: 200px" disabled/>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item :label="$t('InventoryCount.heji3')" style="width: 100%;">
+                  <el-input v-model="heji3" style="margin-left: 18px;width: 200px" disabled/>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item :label="$t('InventoryCount.heji4')" style="width: 100%;">
+                  <el-input v-model="heji4" style="margin-left: 18px;width: 200px" disabled/>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item :label="$t('InventoryCount.heji5')" style="width: 100%;">
+                  <el-input v-model="heji5" style="margin-left: 18px;width: 200px" disabled/>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item :label="$t('InventoryCount.heji6')" style="width: 100%;">
+                  <el-input v-model="heji6" style="margin-left: 18px;width: 200px" disabled/>
+                </el-form-item>
+              </el-col>
+            </el-row>
+          </el-form>
+        </div>
+      </el-card>
+      <!-- 备注信息 -->
+      <el-card class="box-card" style="margin-top: 15px" shadow="never">
+        <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">备注信息</h2>
+        <div class="container" style="margin-top: 37px">
+          <el-form :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
+            <el-row>
+              <el-col :span="12">
+                <el-form-item :label="$t('public.createPersonName2')" prop="stockType" style="width: 100%;">
+                  {{ personalForm.createPersonName }}
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('public.createDate2')" style="width: 100%;">
+                  {{ personalForm.createDate }}
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('public.endPersonName')" prop="applyDate" style="width: 100%;">
+                  {{ personalForm.endPersonName }}
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('public.endDate')" prop="applyDate" style="width: 100%;">
+                  {{ personalForm.endDate }}
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('public.modifyPersonName')" prop="applyDate" style="width: 100%;">
+                  {{ personalForm.modifyPersonName }}
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('public.modifyDate')" prop="applyDate" style="width: 100%;">
+                  {{ personalForm.modifyDate }}
+                </el-form-item>
+              </el-col>
+            </el-row>
+          </el-form>
         </div>
       </el-card>
       <!--操作-->
@@ -185,6 +272,13 @@ export default {
   },
   data() {
     return {
+      // 合计信息
+      heji1: 0,
+      heji2: 0,
+      heji3: 0,
+      heji4: 0,
+      heji5: 0,
+      heji6: 0,
       // 审核步骤数据
       reviewList: [],
       // 批次列表
@@ -237,6 +331,27 @@ export default {
       this.handlePersonId = this.personalForm.handlePersonName
       this.countRepositoryId = this.personalForm.countRepositoryName
       this.list2 = this.personalForm.inventoryCountDetailVos
+      let num1 = 0
+      let num2 = 0
+      let num3 = 0
+      let num4 = 0
+      let num5 = 0
+      let num6 = 0
+      for (const i in this.list2) {
+        num1 += this.list2[i].inventoryQuantity
+        num2 += this.list2[i].actualQuantity
+        num3 += this.list2[i].diffQuantity
+        num4 += this.list2[i].price * this.list2[i].inventoryQuantity
+        num5 += this.list2[i].price * this.list2[i].actualQuantity
+        num6 += this.list2[i].price * this.list2[i].diffQuantity
+        this.list2[i].countDate = this.personalForm.createDate
+      }
+      this.heji1 = num1
+      this.heji2 = num2
+      this.heji3 = num3
+      this.heji4 = num4
+      this.heji5 = num5
+      this.heji6 = num6
       this.reviewList = []
       const review = this.personalForm.approvalUseVos
       for (const i in review) {

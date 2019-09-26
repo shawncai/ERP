@@ -8,7 +8,7 @@
           <el-form ref="personalForm" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="100px" style="margin-left: 30px;">
             <el-row>
               <el-col :span="6">
-                <el-form-item :label="$t('AdjustPrice.title')" prop="title" style="width: 100%;">
+                <el-form-item :label="$t('AdjustPrice.title')" style="width: 100%;">
                   <el-input v-model="personalForm.title" placeholder="请输入调价单主题" style="margin-left: 18px;width:200px" clearable/>
                 </el-form-item>
               </el-col>
@@ -42,13 +42,15 @@
                     type="date"
                     placeholder="选择调价日期"
                     value-format="yyyy-MM-dd"
-                    style="margin-left: 18px;width:200px"/>
+                    style="margin-left: 18px;width:200px"
+                    @change="test"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('AdjustPrice.effectiveDate')" prop="effectiveDate" style="width: 100%;">
                   <el-date-picker
                     v-model="personalForm.effectiveDate"
+                    :picker-options="pickerOptions1"
                     type="date"
                     placeholder="选择生效日期"
                     value-format="yyyy-MM-dd"
@@ -133,13 +135,20 @@ export default {
   name: 'AddAdjustPrice',
   components: { MyRepository, MyDetail, MyCreate, MyAccept },
   data() {
+    const validatepass = (rule, value, callback) => {
+      if (this.adjustRepositoryId === '' || this.adjustRepositoryId === undefined || this.adjustRepositoryId === null) {
+        callback(new Error('请选择仓库'))
+      } else {
+        callback()
+      }
+    }
     return {
       // 部门数据
       depts: [],
       // 经办人回显
-      handlePersonId: '',
+      handlePersonId: this.$store.getters.name,
       // 调价仓库回显
-      adjustRepositoryId: '',
+      adjustRepositoryId: this.$store.getters.repositoryName,
       // 经办人控制框
       createcontrol: false,
       // 控制调价仓库选择窗口
@@ -152,7 +161,11 @@ export default {
         countryId: this.$store.getters.countryId,
         repositoryId: this.$store.getters.repositoryId,
         regionId: this.$store.getters.regionId,
-        sourceType: '1'
+        sourceType: '1',
+        handlePersonId: this.$store.getters.userId,
+        adjustDeptId: this.$store.getters.deptId,
+        adjustRepositoryId: this.$store.getters.repositoryId,
+        adjustDate: new Date()
       },
       // 调价单规则数据
       personalrules: {
@@ -163,7 +176,7 @@ export default {
           { required: true, message: '请选择经办人', trigger: 'focus' }
         ],
         adjustRepositoryId: [
-          { required: true, message: '请选择调价仓库', trigger: 'focus' }
+          { required: true, validator: validatepass, trigger: 'change' }
         ],
         adjustDate: [
           { required: true, message: '请选择调价日期', trigger: 'change' }
@@ -186,13 +199,23 @@ export default {
       validRules: {
         locationId: [
         ]
-      }
+      },
+      pickerOptions1: {}
     }
   },
   mounted() {
     this.getlist()
   },
   methods: {
+    // 限制生效日期
+    test() {
+      this.personalForm.effectiveDate = ''
+      this.pickerOptions1.disabledDate = (time) => {
+        return time.getTime() < new Date(this.personalForm.adjustDate).getTime()
+        // return time.getTime() > Date.now()
+      }
+      console.log(new Date(this.personalForm.adjustDate).getTime())
+    },
     // 部门列表数据
     getlist() {
       getdeptlist().then(res => {
@@ -285,10 +308,16 @@ export default {
         countryId: this.$store.getters.countryId,
         repositoryId: this.$store.getters.repositoryId,
         regionId: this.$store.getters.regionId,
-        sourceType: '1'
+        sourceType: '1',
+        handlePersonId: this.$store.getters.userId,
+        adjustDeptId: this.$store.getters.deptId,
+        adjustRepositoryId: this.$store.getters.repositoryId,
+        adjustDate: new Date()
       }
-      this.handlePersonId = ''
-      this.adjustRepositoryId = ''
+      // 经办人回显
+      this.handlePersonId = this.$store.getters.name
+      // 调价仓库回显
+      this.adjustRepositoryId = this.$store.getters.repositoryName
     },
     // 保存操作
     handlesave() {

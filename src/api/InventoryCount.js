@@ -67,6 +67,19 @@ export function deletecount(query, query2) {
   })
 }
 
+// 删除盘点单明细
+export function deletecountdetail(query) {
+  var params = new URLSearchParams()
+  if (query !== '' && query !== null && query !== undefined) {
+    params.append('ids', query) // 你要传给后台的参数值 key/value
+  }
+  return request({
+    url: '/inventorycount/deletecountdetail',
+    method: 'post',
+    data: params
+  })
+}
+
 // 添加库存盘点单据
 export function addinventorycount(query, query2, repositoryId, regionId) {
   var params = new URLSearchParams()
