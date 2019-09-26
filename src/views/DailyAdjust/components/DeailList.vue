@@ -43,7 +43,7 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('DailyAdjust.reason')" prop="reason" style="width: 100%;">
-                  <el-input v-model="personalForm.reason" placeholder="请输入调整原因" style="margin-left: 18px;width: 150px" disabled/>
+                  <el-input v-model="personalForm.adjustReason" placeholder="请输入调整原因" style="margin-left: 18px;width: 150px" disabled/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
