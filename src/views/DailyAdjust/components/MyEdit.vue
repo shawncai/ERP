@@ -36,7 +36,13 @@
             </el-col>
             <el-col :span="6">
               <el-form-item :label="$t('DailyAdjust.reason')" prop="reason" style="width: 100%;">
-                <el-input v-model="personalForm.reason" placeholder="请输入调整原因" style="margin-left: 18px;width: 150px" clearable/>
+                <el-select v-model="personalForm.reason" style="margin-left: 18px;width: 200px" @focus="updatecountry" @change="change()">
+                  <el-option
+                    v-for="(item, index) in types"
+                    :key="index"
+                    :label="item.categoryName"
+                    :value="item.id"/>
+                </el-select>
               </el-form-item>
             </el-col>
             <el-col :span="6">
@@ -190,6 +196,7 @@
 
 <script>
 import { getlocation, locationlist, batchlist } from '@/api/public'
+import { searchInventoryCategory } from '@/api/InventoryCategory'
 import { updatedailyAdjust } from '@/api/DailyAdjust'
 import { getdeptlist } from '@/api/BasicSettings'
 import MyRepository from './MyRepository'
@@ -210,6 +217,12 @@ export default {
   },
   data() {
     return {
+      typeparms: {
+        pagenum: 1,
+        pagesize: 99999,
+        type: 1
+      },
+      types: [],
       heji1: '',
       heji2: '',
       // 弹窗组件的控制
@@ -322,6 +335,11 @@ export default {
     },
     // 部门列表数据
     getlist() {
+      searchInventoryCategory(this.typeparms).then(res => {
+        if (res.data.ret === 200) {
+          this.types = res.data.data.content.list
+        }
+      })
       getdeptlist().then(res => {
         if (res.data.ret === 200) {
           this.depts = res.data.data.content

@@ -212,6 +212,8 @@ export default {
     PrepReturnList: '预售退款单列表',
     SaleOut: '销售出库单',
     AddSaleOut: '新建销售出库单',
+    InventoryCategoryList: '分类属性列表',
+    InventoryCategory: '分类属性',
     SaleOutList: '销售出库单列表',
     SaleOrder: '销售订单',
     AddSaleOrder: '新建销售订单',

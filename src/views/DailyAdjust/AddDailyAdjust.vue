@@ -37,7 +37,13 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('DailyAdjust.reason')" prop="reason" style="width: 100%;">
-                  <el-input v-model="personalForm.reason" placeholder="请输入调整原因" style="margin-left: 18px;width:200px" clearable/>
+                  <el-select v-model="personalForm.reason" style="margin-left: 18px;width: 200px" @focus="updatecountry" @change="change()">
+                    <el-option
+                      v-for="(item, index) in types"
+                      :key="index"
+                      :label="item.categoryName"
+                      :value="item.id"/>
+                  </el-select>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
@@ -185,6 +191,7 @@
 <script>
 import '@/directive/noMoreClick/index.js'
 import { getlocation, batchlist, countlist } from '@/api/public'
+import { searchInventoryCategory } from '@/api/InventoryCategory'
 import { getdeptlist } from '@/api/BasicSettings'
 import { createdailyAdjust } from '@/api/DailyAdjust'
 import MyRepository from './components/MyRepository'
@@ -196,6 +203,11 @@ export default {
   components: { MyRepository, MyDetail, MyCreate, MyAccept },
   data() {
     return {
+      typeparms: {
+        pagenum: 1,
+        pagesize: 99999,
+        type: 1
+      },
       heji1: '',
       heji2: '',
       pickerOptions1: {
@@ -217,6 +229,7 @@ export default {
       createcontrol: false,
       // 控制商品列表窗口
       control: false,
+      types: [],
       // 日常调整信息数据
       personalForm: {
         adjustDate: null,
@@ -359,6 +372,11 @@ export default {
           this.depts = res.data.data.content
         }
       })
+      searchInventoryCategory(this.typeparms).then(res => {
+        if (res.data.ret === 200) {
+          this.types = res.data.data.content.list
+        }
+      })
     },
     // 经办人输入框focus事件触发
     handlechoose() {
@@ -483,6 +501,40 @@ export default {
         this.$notify.error({
           title: '错误',
           message: '明细表不能为空',
+          offset: 100
+        })
+        return false
+      }
+      let n = 1
+      EnterDetail.map(function(elem) {
+        return elem
+      }).forEach(function(elem) {
+        if (elem.adjustQuantity === null || elem.adjustQuantity === undefined || elem.adjustQuantity === '') {
+          n = 2
+        }
+      })
+      if (n === 2) {
+        this.$notify.error({
+          title: '错误',
+          message: '调整数量不能为空',
+          offset: 100
+        })
+        return false
+      }
+      let m = 1
+      EnterDetail.map(function(elem) {
+        return elem
+      }).forEach(function(elem) {
+        if (elem.adjustType === '2') {
+          if (elem.adjustQuantity > elem.quantity) {
+            m = 2
+          }
+        }
+      })
+      if (m === 2) {
+        this.$notify.error({
+          title: '错误',
+          message: '调整数量不能大于库存数量',
           offset: 100
         })
         return false

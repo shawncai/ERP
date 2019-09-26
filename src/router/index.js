@@ -1590,6 +1590,27 @@ export const asyncRouterMap = [
     ]
   },
   {
+    path: '/InventoryCategory',
+    component: Layout,
+    redirect: 'noredirect',
+    name: 'InventoryCategory',
+    alwaysShow: true,
+    meta: {
+      title: 'InventoryCategory',
+      icon: 'shuxing',
+      type: 4,
+      roles: ['131-278-1', '131-278-2', '131-278-3', '131-278-4', '131-278-5', '131-278-6', '131-278-7']
+    },
+    children: [
+      {
+        path: 'InventoryCategoryList',
+        component: () => import('@/views/InventoryCategory/InventoryCategoryList'),
+        name: 'InventoryCategoryList',
+        meta: { title: 'InventoryCategoryList', noCache: true }
+      }
+    ]
+  },
+  {
     path: '/StockCategory',
     component: Layout,
     redirect: 'noredirect',

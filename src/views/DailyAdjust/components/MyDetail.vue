@@ -115,7 +115,7 @@
 </template>
 
 <script>
-import { productlist, searchEmpCategory2 } from '@/api/Product'
+import { chooseProduct, searchEmpCategory2 } from '@/api/Product'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination'
 import MySupplier from '../../Product/components/MySupplier'
@@ -187,12 +187,16 @@ export default {
   watch: {
     control() {
       this.productVisible = this.control
-      console.log(this.control)
+      console.log('this.control', this.control)
+      console.log('this.editdata', this.editdata)
+      this.personalForm = this.editdata
+      this.getemplist.searchRepositoryId = this.personalForm.repositoryId
       this.getlist()
     },
     editdata() {
+      console.log('this.editdata', this.editdata)
       this.personalForm = this.editdata
-      this.getemplist.repositoriId = this.personalForm.repositoriId
+      this.getemplist.searchRepositoryId = this.personalForm.repositoryId
     }
   },
   created() {
@@ -202,7 +206,7 @@ export default {
     getlist() {
       // 商品列表数据
       this.listLoading = true
-      productlist(this.getemplist).then(res => {
+      chooseProduct(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
@@ -227,7 +231,7 @@ export default {
     // 搜索
     handleFilter() {
       this.getemplist.pagenum = 1
-      productlist(this.getemplist).then(res => {
+      chooseProduct(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
@@ -270,16 +274,21 @@ export default {
       this.productVisible = false
       console.log(this.moreaction)
       const productDetail = this.moreaction.map(function(item) {
+        if (item.newPrice !== null && item.newPrice !== '' && item.newPrice !== undefined) {
+          item.price = item.newPrice
+        } else {
+          item.price = item.costPrice
+        }
         return {
+          quantity: item.existStock,
           productCode: item.code,
           productName: item.productName,
           locationId: '',
           color: item.color,
           typeId: item.typeId,
           unit: item.stockMeasu,
-          quantity: 0,
           adjustQuantity: 0,
-          price: item.costPrice,
+          price: item.price,
           productType: item.productType,
           totalMoney: 0,
           enterMoney: 0,
@@ -287,6 +296,13 @@ export default {
           adjustType: '2'
         }
       })
+      if (productDetail.newPrice !== null && productDetail.newPrice !== '' && productDetail.newPrice !== undefined) {
+        productDetail.price = productDetail.newPrice
+      } else {
+        productDetail.price = productDetail.costPrice
+      }
+      console.log('productDetail.newPrice', productDetail.newPrice)
+
       console.log(productDetail)
       this.$emit('product', productDetail)
     }
