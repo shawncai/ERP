@@ -636,8 +636,9 @@ export default {
       lis.consultancyName = this.personalForm.consultancyNameOne
       lis.consultancyPhone = this.personalForm.consultancyPhoneOne
       lis.consultancyAddress = this.personalForm.consultancyAddressOne
-      this.$refs.editable.insert(lis)
       console.log('lis', lis)
+      console.log('lis', lis)
+      this.$refs.editable.insert(lis)
       if (this.personalForm.consultancyNameTwo !== null && this.personalForm.consultancyPhoneTwo !== null && this.personalForm.consultancyAddressTwo !== null && this.personalForm.consultancyNameTwo !== '' && this.personalForm.consultancyPhoneTwo !== '' && this.personalForm.consultancyAddressTwo !== '' && this.personalForm.consultancyNameTwo !== undefined && this.personalForm.consultancyPhoneTwo !== undefined && this.personalForm.consultancyAddressTwo !== undefined) {
         const lis2 = {}
         lis2.consultancyName = this.personalForm.consultancyNameOne

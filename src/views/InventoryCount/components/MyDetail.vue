@@ -115,7 +115,7 @@
 </template>
 
 <script>
-import { productlist, searchEmpCategory2 } from '@/api/Product'
+import { chooseProduct, searchEmpCategory2 } from '@/api/Product'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination'
 import MySupplier from '../../Product/components/MySupplier'
@@ -136,10 +136,16 @@ export default {
     control: {
       type: Boolean,
       default: false
+    },
+    personalform: {
+      type: Object,
+      default: null
     }
   },
   data() {
     return {
+      // 查询仓库
+      query: this.personalform,
       // 供应商回显
       supplierid: '',
       // 供货商控制
@@ -193,7 +199,8 @@ export default {
     getlist() {
       // 商品列表数据
       this.listLoading = true
-      productlist(this.getemplist).then(res => {
+      this.getemplist.searchRepositoryId = this.query.countRepositoryId
+      chooseProduct(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
@@ -218,7 +225,8 @@ export default {
     // 搜索
     handleFilter() {
       this.getemplist.pagenum = 1
-      productlist(this.getemplist).then(res => {
+      this.getemplist.searchRepositoryId = this.query.countRepositoryId
+      chooseProduct(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
@@ -256,10 +264,33 @@ export default {
       this.$router.push('/Product/NewProduct')
       this.productVisible = false
     },
+    // 默认显示今天
+    getdatatime() {
+      var date = new Date()
+      var seperator1 = '-'
+      var year = date.getFullYear()
+      var month = date.getMonth() + 1
+      var strDate = date.getDate()
+      if (month >= 1 && month <= 9) {
+        month = '0' + month
+      }
+      if (strDate >= 0 && strDate <= 9) {
+        strDate = '0' + strDate
+      }
+      var currentdate = year + seperator1 + month + seperator1 + strDate
+      return currentdate
+    },
     // 物品选择添加
     handleAddTo() {
       this.productVisible = false
       console.log(this.moreaction)
+      const date = this.getdatatime()
+      console.log('123123123123', date)
+      for (const i in this.moreaction) {
+        this.moreaction[i].countperson = this.$store.getters.name
+        this.moreaction[i].countpersonid = this.$store.getters.userId
+        this.moreaction[i].countDate = date
+      }
       const productDetail = this.moreaction.map(function(item) {
         return {
           productCode: item.code,
@@ -267,8 +298,8 @@ export default {
           locationId: '',
           color: item.color,
           typeId: item.typeId,
-          inventoryQuantity: '',
-          actualQuantity: '',
+          inventoryQuantity: 0,
+          actualQuantity: 0,
           enterQuantity: 0,
           taxRate: 0,
           unit: item.stockMeasu,
@@ -277,7 +308,10 @@ export default {
           basicQuantity: 0,
           batch: '',
           price: item.costPrice,
-          productType: item.productType
+          productType: item.productType,
+          countPerson: item.countperson,
+          countPersonId: item.countpersonid,
+          countDate: item.countDate
         }
       })
       console.log(productDetail)

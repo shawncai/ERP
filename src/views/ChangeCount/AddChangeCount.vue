@@ -67,7 +67,13 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('ChangeCount.afterCount')" prop="afterCount" style="width: 100%;">
-                  <el-input v-model="personalForm.afterCount" style="margin-left: 18px;width: 200px" clearable/>
+                  <el-select v-model="personalForm.afterCount" clearable style="margin-left: 18px;width: 200px">
+                    <el-option
+                      v-for="(item, index) in installmentCounts"
+                      :key="index"
+                      :value="item.installmentCount"
+                      :label="item.installmentCount"/>
+                  </el-select>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
@@ -122,6 +128,7 @@
 <script>
 import '@/directive/noMoreClick/index.js'
 import { addchangecount } from '@/api/ChangeCount'
+import { ratelist } from '@/api/Installmentrate'
 import MyEmp from './components/MyEmp'
 import MyDetail from './components/MyDetail'
 import MyMater from './components/MyMater'
@@ -178,10 +185,19 @@ export default {
         afterCount: [
           { required: true, message: '请输入修改之后期数', trigger: 'blur' }
         ]
+      },
+      // 分期数据
+      installmentCounts: [],
+      // 分期参数
+      ratelistData: {
+        stat: 1,
+        pagenum: 1,
+        pagesize: 9999
       }
     }
   },
   created() {
+    this.getratelist()
   },
   mounted() {
     this.getinformation()
@@ -190,6 +206,14 @@ export default {
     this.getinformation()
   },
   methods: {
+    // 获取分款期数
+    getratelist() {
+      ratelist(this.ratelistData).then(res => {
+        if (res.data.ret === 200) {
+          this.installmentCounts = res.data.data.content.list
+        }
+      })
+    },
     getinformation() {
       if (this.$store.getters.empcontract) {
         console.log('getempcontract', this.$store.getters.empcontract)

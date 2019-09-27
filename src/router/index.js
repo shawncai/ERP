@@ -686,33 +686,34 @@ export const asyncRouterMap = [
       }
     ]
   },
-  {
-    path: '/InventoryOverflow',
-    component: Layout,
-    redirect: 'noredirect',
-    name: 'InventoryOverflow',
-    alwaysShow: true,
-    meta: {
-      title: 'InventoryOverflow',
-      icon: 'baoyi',
-      type: 4,
-      roles: ['131-149-1', '131-150-4']
-    },
-    children: [
-      {
-        path: 'AddInventoryOverflow',
-        component: () => import('@/views/InventoryOverflow/AddInventoryOverflow'),
-        name: 'AddInventoryOverflow',
-        meta: { title: 'AddInventoryOverflow', noCache: false, roles: ['131-149-1'] }
-      },
-      {
-        path: 'OverflowList',
-        component: () => import('@/views/InventoryOverflow/OverflowList'),
-        name: 'OverflowList',
-        meta: { title: 'OverflowList', noCache: true, roles: ['131-150-1', '131-150-2', '131-150-3', '131-150-4', '131-150-5', '131-150-6', '131-150-7', '131-150-18', '131-150-16', '131-150-17'] }
-      }
-    ]
-  },
+  // 取消库存报溢
+  // {
+  //   path: '/InventoryOverflow',
+  //   component: Layout,
+  //   redirect: 'noredirect',
+  //   name: 'InventoryOverflow',
+  //   alwaysShow: true,
+  //   meta: {
+  //     title: 'InventoryOverflow',
+  //     icon: 'baoyi',
+  //     type: 4,
+  //     roles: ['131-149-1', '131-150-4']
+  //   },
+  //   children: [
+  //     {
+  //       path: 'AddInventoryOverflow',
+  //       component: () => import('@/views/InventoryOverflow/AddInventoryOverflow'),
+  //       name: 'AddInventoryOverflow',
+  //       meta: { title: 'AddInventoryOverflow', noCache: false, roles: ['131-149-1'] }
+  //     },
+  //     {
+  //       path: 'OverflowList',
+  //       component: () => import('@/views/InventoryOverflow/OverflowList'),
+  //       name: 'OverflowList',
+  //       meta: { title: 'OverflowList', noCache: true, roles: ['131-150-1', '131-150-2', '131-150-3', '131-150-4', '131-150-5', '131-150-6', '131-150-7', '131-150-18', '131-150-16', '131-150-17'] }
+  //     }
+  //   ]
+  // },
   {
     path: '/AdjustPrice',
     component: Layout,

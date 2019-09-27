@@ -1,5 +1,5 @@
 <template>
-  <el-dialog :visible.sync="editVisible" :editcontrol="editcontrol" :editdata="editdata" :close-on-press-escape="false" class="edit" width="1010px" top="-10px" title="修改采购入库单" @close="$emit('update:editcontrol', false)">
+  <el-dialog :visible.sync="editVisible" :editcontrol="editcontrol" :editdata="editdata" :close-on-press-escape="false" class="edit" width="1010px" top="10px" title="修改库存报损单" @close="$emit('update:editcontrol', false)">
     <!--基本信息-->
     <el-card class="box-card">
       <h2 ref="geren" class="form-name">基本信息</h2>
@@ -113,6 +113,26 @@
         </el-editable>
       </div>
     </el-card>
+    <!-- 合计信息 -->
+    <el-card class="box-card">
+      <h2 ref="geren" class="form-name">合计信息</h2>
+      <div class="container">
+        <el-form ref="personalForm" :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="100px" style="margin-left: 30px;">
+          <el-row>
+            <el-col :span="6">
+              <el-form-item :label="$t('Inventorydamaged.heji')" style="width: 100%;">
+                <el-input v-model="heji1" style="margin-left: 18px;width: 150px" disabled/>
+              </el-form-item>
+            </el-col>
+            <el-col :span="6">
+              <el-form-item :label="$t('Inventorydamaged.heji2')" style="width: 100%;">
+                <el-input v-model="heji2" style="margin-left: 18px;width: 150px" disabled/>
+              </el-form-item>
+            </el-col>
+          </el-row>
+        </el-form>
+      </div>
+    </el-card>
     <div class="buttons" style="margin-top: 20px;margin-left: 30px">
       <el-button type="primary" @click="handleEditok()">修改</el-button>
       <el-button type="danger" @click="handlecancel()">取消</el-button>
@@ -141,6 +161,9 @@ export default {
   },
   data() {
     return {
+      // 合计消息
+      heji1: 0,
+      heji2: 0,
       // 弹窗组件的控制
       editVisible: this.editcontrol,
       // 供应商信息数据
@@ -204,6 +227,20 @@ export default {
       this.damagedRepositoryId = this.personalForm.damagedRepositoryName
       this.list2 = this.personalForm.inventoryDamagedDetailVos
       this.getlocation()
+    },
+    list2: {
+      handler() {
+        let num = 0
+        let num1 = 0
+        for (const i in this.list2) {
+          console.log(this.list2[i])
+          num += Number(this.list2[i].damagedQuantity)
+          num1 += Number(this.list2[i].damagedQuantity * this.list2[i].costPrice)
+        }
+        this.heji1 = num
+        this.heji2 = num1
+      },
+      deep: true
     }
   },
   mounted() {

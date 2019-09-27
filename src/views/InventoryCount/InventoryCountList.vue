@@ -1,6 +1,6 @@
 <template>
   <div class="ERP-container">
-    <div class="filter-container">
+    <el-card class="box-card" style="margin-top: 15px;height: 60px">
       <!-- 搜索条件栏目 -->
       <el-input v-model="getemplist.title" :placeholder="$t('InventoryCount.title')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
       <el-input v-model="getemplist.sourceNumber" :placeholder="$t('InventoryCount.sourceNumber')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
@@ -38,7 +38,9 @@
       </el-popover>
       <!-- 搜索按钮 -->
       <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 86px" @click="handleFilter">{{ $t('public.search') }}</el-button>
-      <!-- 批量操作 -->
+    </el-card>
+    <!-- 批量操作 -->
+    <el-card class="box-card" style="margin-top: 15px">
       <el-dropdown @command="handleCommand">
         <el-button v-waves class="filter-item" type="primary">
           {{ $t('public.batchoperation') }} <i class="el-icon-arrow-down el-icon--right"/>
@@ -53,8 +55,8 @@
       <el-button v-permission="['131-148-7']" v-waves class="filter-item" icon="el-icon-printer" style="width: 86px" @click="handlePrint">{{ $t('public.print') }}</el-button>
       <!-- 新建操作 -->
       <el-button v-permission="['131-148-1']" v-waves class="filter-item" icon="el-icon-plus" type="success" style="width: 86px;float: right" @click="handleAdd">{{ $t('public.add') }}</el-button>
-    </div>
-    <div class="app-container">
+    </el-card>
+    <el-card class="box-card" style="margin-top: 15px">
       <!-- 列表开始 -->
       <el-table
         v-loading="listLoading"
@@ -109,7 +111,7 @@
         </el-table-column>
         <el-table-column :label="$t('InventoryCount.countType')" :resizable="false" prop="countType" align="center" width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.countType }}</span>
+            <span>{{ scope.row.countType | countTypeFilter }}</span>
           </template>
         </el-table-column>
         <el-table-column :label="$t('Inventorydamaged.judgeStat')" :resizable="false" prop="judgeStat" align="center" width="150">
@@ -138,7 +140,7 @@
       <!--修改开始=================================================-->
       <my-dialog :incontrol.sync="editVisible" :editdata.sync="personalForm" @rest="refreshlist"/>
       <!--修改结束=================================================-->
-    </div>
+    </el-card>
   </div>
 </template>
 
@@ -174,6 +176,13 @@ export default {
         1: '制单',
         2: '执行',
         3: '结单'
+      }
+      return statusMap[status]
+    },
+    countTypeFilter(status) {
+      const statusMap = {
+        1: 'zzz',
+        2: 'xxx'
       }
       return statusMap[status]
     }
@@ -228,6 +237,9 @@ export default {
     }
   },
   mounted() {
+    this.getlist()
+  },
+  activated() {
     this.getlist()
   },
   methods: {

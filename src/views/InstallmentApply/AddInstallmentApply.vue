@@ -747,7 +747,7 @@ export default {
         }
       }
     },
-    async changeRate(val) {
+    changeRate(val) {
       console.log('首付款', this.personalForm.firstMoney)
       console.log('单价', this.productForm.price)
       console.log('折扣1', this.rate)
@@ -889,8 +889,7 @@ export default {
       if (this.personalForm.firstMoney != null && this.personalForm.firstMoney !== '' && this.personalForm.firstMoney !== undefined) {
         if (this.productForm.price != null && this.productForm.price !== '' && this.productForm.price !== undefined) {
           if (this.rate != null && this.rate !== '' && this.rate !== undefined) {
-            this.personalForm.totalMoney = ((Number(this.productForm.price) - Number(this.personalForm.firstMoney)) * (1 + (Number(this.rate) /
-              100)) + Number(this.personalForm.firstMoney)).toFixed(2)
+            this.personalForm.totalMoney = ((Number(this.productForm.price) - Number(this.personalForm.firstMoney)) * (1 + Number(this.rate))).toFixed(2)
           }
         }
       }

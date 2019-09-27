@@ -8,7 +8,7 @@
           <el-form ref="personalForm" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="100px" style="margin-left: 30px;">
             <el-row>
               <el-col :span="6">
-                <el-form-item :label="$t('AdjustPrice.title')" prop="title" style="width: 100%;">
+                <el-form-item :label="$t('AdjustPrice.title')" style="width: 100%;">
                   <el-input v-model="personalForm.title" placeholder="请输入调价单主题" style="margin-left: 18px;width:200px" clearable/>
                 </el-form-item>
               </el-col>
@@ -42,13 +42,15 @@
                     type="date"
                     placeholder="选择调价日期"
                     value-format="yyyy-MM-dd"
-                    style="margin-left: 18px;width:200px"/>
+                    style="margin-left: 18px;width:200px"
+                    @change="test"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('AdjustPrice.effectiveDate')" prop="effectiveDate" style="width: 100%;">
                   <el-date-picker
                     v-model="personalForm.effectiveDate"
+                    :picker-options="pickerOptions1"
                     type="date"
                     placeholder="选择生效日期"
                     value-format="yyyy-MM-dd"
@@ -58,6 +60,17 @@
               <el-col :span="6">
                 <el-form-item :label="$t('AdjustPrice.summary')" prop="summary" style="width: 100%;">
                   <el-input v-model="personalForm.summary" placeholder="请输入摘要" style="margin-left: 18px;width:200px" clearable/>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item :label="$t('AdjustPrice.reason')" prop="reason" style="width: 100%;">
+                  <el-select v-model="personalForm.adjustReason" placeholder="请选择调价部门" style="margin-left: 18px;width: 200px" clearable >
+                    <el-option
+                      v-for="(item, index) in reasonlist"
+                      :key="index"
+                      :value="item.adjustReason"
+                      :label="item.reasonName"/>
+                  </el-select>
                 </el-form-item>
               </el-col>
             </el-row>
@@ -71,7 +84,7 @@
           <el-button type="success" style="background:#3696fd;border-color:#3696fd " @click="handleAddproduct">添加商品</el-button>
           <el-button type="danger" @click="$refs.editable.removeSelecteds()">删除</el-button>
         </div>
-        <my-detail :control.sync="control" @product="productdetail"/>
+        <my-detail :control.sync="control" :personalform="personalForm" @product="productdetail"/>
         <div class="container">
           <el-editable
             ref="editable"
@@ -102,11 +115,32 @@
             <el-editable-column prop="typeIdname" align="center" label="规格" width="150px"/>
             <el-editable-column prop="unit" align="center" label="单位" width="150px"/>
             <el-editable-column prop="salePrice" align="center" label="零售原价" width="150px"/>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', type: 'visible'}" prop="newSalePrice" align="center" label="零售调整价" width="150px"/>
+            <el-editable-column :edit-render="{name: 'ElInputNumber', type: 'visible', attrs: {min: 0}}" prop="newSalePrice" align="center" label="零售调整价" width="150px">
+              <template slot="edit" slot-scope="scope">
+                <el-input-number
+                  :precision="2"
+                  :controls="false"
+                  v-model="scope.row.newSalePrice"/>
+              </template>
+            </el-editable-column>
             <el-editable-column prop="tradePrice" align="center" label="批发原价" width="150px"/>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', type: 'visible'}" prop="newTradePrice" align="center" label="批发调整价" width="150px"/>
+            <el-editable-column :edit-render="{name: 'ElInputNumber', type: 'visible', attrs: {min: 0}}" prop="newTradePrice" align="center" label="批发调整价" width="150px">
+              <template slot="edit" slot-scope="scope">
+                <el-input-number
+                  :precision="2"
+                  :controls="false"
+                  v-model="scope.row.newTradePrice"/>
+              </template>
+            </el-editable-column>
             <el-editable-column prop="memberPrice" align="center" label="会员原价" width="150px"/>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', type: 'visible'}" prop="newMemberPrice" align="center" label="会员调整价" width="150px"/>
+            <el-editable-column :edit-render="{name: 'ElInputNumber', type: 'visible', attrs: {min: 0}}" prop="newMemberPrice" align="center" label="会员调整价" width="150px">
+              <template slot="edit" slot-scope="scope">
+                <el-input-number
+                  :precision="2"
+                  :controls="false"
+                  v-model="scope.row.newMemberPrice"/>
+              </template>
+            </el-editable-column>
             <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="remarks" align="center" label="备注" width="150px"/>
           </el-editable>
         </div>
@@ -125,6 +159,7 @@ import '@/directive/noMoreClick/index.js'
 import { getlocation, locationlist } from '@/api/public'
 import { getdeptlist } from '@/api/BasicSettings'
 import { addadjustprice } from '@/api/AdjustPrice'
+import { searchInventoryCategory } from '@/api/InventoryCategory'
 import MyRepository from './components/MyRepository'
 import MyAccept from './components/MyAccept'
 import MyDetail from './components/MyDetail'
@@ -133,13 +168,43 @@ export default {
   name: 'AddAdjustPrice',
   components: { MyRepository, MyDetail, MyCreate, MyAccept },
   data() {
+    const validatepass = (rule, value, callback) => {
+      if (this.adjustRepositoryId === '' || this.adjustRepositoryId === undefined || this.adjustRepositoryId === null) {
+        callback(new Error('请选择仓库'))
+      } else {
+        callback()
+      }
+    }
+    const validatepass2 = (rule, value, callback) => {
+      if (this.personalForm.adjustDate === '' || this.personalForm.adjustDate === undefined || this.personalForm.adjustDate === null) {
+        callback(new Error('请选择调价日期'))
+      } else {
+        callback()
+      }
+    }
+    const validatepass3 = (rule, value, callback) => {
+      if (this.personalForm.effectiveDate === '' || this.personalForm.effectiveDate === undefined || this.personalForm.effectiveDate === null) {
+        callback(new Error('请选择生效日期'))
+      } else {
+        callback()
+      }
+    }
     return {
+      // 调价原因
+      reasonlist: [],
+      // 调价参数
+      gettemplist: {
+        pagenum: 1,
+        pagesize: 9999,
+        type: 2,
+        iseffective: 1
+      },
       // 部门数据
       depts: [],
       // 经办人回显
-      handlePersonId: '',
+      handlePersonId: this.$store.getters.name,
       // 调价仓库回显
-      adjustRepositoryId: '',
+      adjustRepositoryId: this.$store.getters.repositoryName,
       // 经办人控制框
       createcontrol: false,
       // 控制调价仓库选择窗口
@@ -152,7 +217,11 @@ export default {
         countryId: this.$store.getters.countryId,
         repositoryId: this.$store.getters.repositoryId,
         regionId: this.$store.getters.regionId,
-        sourceType: '1'
+        sourceType: '1',
+        handlePersonId: this.$store.getters.userId,
+        adjustDeptId: this.$store.getters.deptId,
+        adjustRepositoryId: this.$store.getters.repositoryId,
+        adjustDate: new Date()
       },
       // 调价单规则数据
       personalrules: {
@@ -163,13 +232,13 @@ export default {
           { required: true, message: '请选择经办人', trigger: 'focus' }
         ],
         adjustRepositoryId: [
-          { required: true, message: '请选择调价仓库', trigger: 'focus' }
+          { required: true, validator: validatepass, trigger: 'change' }
         ],
         adjustDate: [
-          { required: true, message: '请选择调价日期', trigger: 'change' }
+          { required: true, validator: validatepass2, trigger: 'change' }
         ],
         effectiveDate: [
-          { required: true, message: '请选择生效日期', trigger: 'change' }
+          { required: true, validator: validatepass3, trigger: 'change' }
         ]
       },
       // 调价单明细数据
@@ -184,20 +253,42 @@ export default {
       locationlist: [],
       // 调价单明细列表规则
       validRules: {
-        locationId: [
+        newSalePrice: [
+          { required: true, message: '请填写价格', trigger: 'focus' }
+        ],
+        newTradePrice: [
+          { required: true, message: '请填写价格', trigger: 'focus' }
+        ],
+        newMemberPrice: [
+          { required: true, message: '请填写价格', trigger: 'focus' }
         ]
-      }
+      },
+      pickerOptions1: {}
     }
   },
   mounted() {
     this.getlist()
+    this.test()
   },
   methods: {
+    // 限制生效日期
+    test() {
+      this.pickerOptions1.disabledDate = (time) => {
+        return time.getTime() < new Date(this.personalForm.adjustDate).getTime()
+        // return time.getTime() > Date.now()
+      }
+      console.log(new Date(this.personalForm.adjustDate).getTime())
+    },
     // 部门列表数据
     getlist() {
       getdeptlist().then(res => {
         if (res.data.ret === 200) {
           this.depts = res.data.data.content
+        }
+      })
+      searchInventoryCategory(this.gettemplist).then(res => {
+        if (res.data.ret === 200) {
+          this.reasonlist = res.data.data.content.list
         }
       })
     },
@@ -285,10 +376,16 @@ export default {
         countryId: this.$store.getters.countryId,
         repositoryId: this.$store.getters.repositoryId,
         regionId: this.$store.getters.regionId,
-        sourceType: '1'
+        sourceType: '1',
+        handlePersonId: this.$store.getters.userId,
+        adjustDeptId: this.$store.getters.deptId,
+        adjustRepositoryId: this.$store.getters.repositoryId,
+        adjustDate: new Date()
       }
-      this.handlePersonId = ''
-      this.adjustRepositoryId = ''
+      // 经办人回显
+      this.handlePersonId = this.$store.getters.name
+      // 调价仓库回显
+      this.adjustRepositoryId = this.$store.getters.repositoryName
     },
     // 保存操作
     handlesave() {

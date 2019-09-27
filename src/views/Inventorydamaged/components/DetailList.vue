@@ -1,8 +1,8 @@
 <template>
-  <el-dialog :visible.sync="editVisible" :detailcontrol="detailcontrol" :detaildata="detaildata" :close-on-press-escape="false" append-to-body class="edit" top="10px" title="修改采购入库单" @close="$emit('update:detailcontrol', false)">
+  <el-dialog :visible.sync="editVisible" :detailcontrol="detailcontrol" :detaildata="detaildata" :close-on-press-escape="false" append-to-body class="edit" width="1010px" top="10px" title="修改库存报损单" @close="$emit('update:detailcontrol', false)">
     <div id="printTest" >
       <!--基本信息-->
-      <el-card class="box-card">
+      <el-card class="box-card" shadow="never">
         <h2 ref="geren" class="form-name">基本信息</h2>
         <button v-print="'#printTest'" class="print" style="font-size: 13px;background: white;">打印</button>
         <div class="container">
@@ -72,7 +72,7 @@
         </div>
       </el-card>
       <!--入库单明细-->
-      <el-card class="box-card" style="margin-top: 15px">
+      <el-card class="box-card" style="margin-top: 15px" shadow="never">
         <h2 ref="fuzhu" class="form-name">报损单明细</h2>
         <div class="container">
           <el-editable
@@ -105,7 +105,7 @@
         </div>
       </el-card>
       <!--审核状态-->
-      <el-card class="box-card" style="margin-top: 15px">
+      <el-card class="box-card" style="margin-top: 15px" shadow="never">
         <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">审批记录</h2>
         <div class="container" style="margin-top: 37px">
           <el-table
@@ -137,6 +137,65 @@
               </template>
             </el-table-column>
           </el-table>
+        </div>
+      </el-card>
+      <!-- 合计信息 -->
+      <el-card class="box-card" style="margin-top: 15px" shadow="never">
+        <h2 ref="geren" style="font-size: 16px;color: #606266;margin-top: -5px;">合计信息</h2>
+        <div class="container">
+          <el-form ref="personalForm" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="100px" style="margin-left: 30px;">
+            <el-row>
+              <el-col :span="6">
+                <el-form-item :label="$t('Inventorydamaged.heji')" style="width: 100%;">
+                  <el-input v-model="heji1" placeholder="请输入摘要" style="margin-left: 18px;width: 150px" disabled/>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item :label="$t('Inventorydamaged.heji2')" style="width: 100%;">
+                  <el-input v-model="heji2" placeholder="请输入摘要" style="margin-left: 18px;width: 150px" disabled/>
+                </el-form-item>
+              </el-col>
+            </el-row>
+          </el-form>
+        </div>
+      </el-card>
+      <el-card class="box-card" style="margin-top: 15px" shadow="never">
+        <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">备注信息</h2>
+        <div class="container" style="margin-top: 37px">
+          <el-form :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
+            <el-row>
+              <el-col :span="12">
+                <el-form-item :label="$t('public.createPersonName2')" prop="stockType" style="width: 100%;">
+                  {{ personalForm.createPersonName }}
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('public.createDate2')" style="width: 100%;">
+                  {{ personalForm.createDate }}
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('public.endPersonName')" prop="applyDate" style="width: 100%;">
+                  {{ personalForm.endPersonName }}
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('public.endDate')" prop="applyDate" style="width: 100%;">
+                  {{ personalForm.endDate }}
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('public.modifyPersonName')" prop="applyDate" style="width: 100%;">
+                  {{ personalForm.modifyPersonName }}
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('public.modifyDate')" prop="applyDate" style="width: 100%;">
+                  {{ personalForm.modifyDate }}
+                </el-form-item>
+              </el-col>
+            </el-row>
+          </el-form>
         </div>
       </el-card>
       <div class="buttons" style="margin-top: 20px;margin-left: 30px">
@@ -177,6 +236,9 @@ export default {
   },
   data() {
     return {
+      // 合计信息
+      heji1: 0,
+      heji2: 0,
       // 审核步骤数据
       reviewList: [],
       // 弹窗组件的控制
@@ -239,6 +301,15 @@ export default {
       this.handlePersonId = this.personalForm.handlePersonName
       this.damagedRepositoryId = this.personalForm.damagedRepositoryName
       this.list2 = this.personalForm.inventoryDamagedDetailVos
+      let num = 0
+      let num1 = 0
+      for (const i in this.list2) {
+        console.log(this.list2[i])
+        num += Number(this.list2[i].damagedQuantity)
+        num1 += Number(this.list2[i].damagedQuantity * this.list2[i].costPrice)
+      }
+      this.heji1 = num
+      this.heji2 = num1
       this.reviewList = []
       const review = this.personalForm.approvalUseVos
       for (const i in review) {

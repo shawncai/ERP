@@ -1,7 +1,7 @@
 <template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
   <div class="ERP-container">
-    <div class="app-container">
-      <!--基本信息-->
+    <!--基本信息-->
+    <el-card class="box-card" shadow="never">
       <h2 ref="geren" class="form-name">基本信息</h2>
       <div class="container">
         <el-form ref="personalForm" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-position="top" label-width="300px" style="margin-left: 30px;">
@@ -31,7 +31,7 @@
               <el-option value="2" label="xxx"/>
             </el-select>
           </el-form-item>
-          <el-form-item :label="$t('InventoryCount.Time')" style="width: 40%;margin-top:1%">
+          <el-form-item :label="$t('InventoryCount.Time')" prop="Time" style="width: 40%;margin-top:1%">
             <el-date-picker
               v-model="Time"
               type="daterange"
@@ -47,14 +47,16 @@
           </el-form-item>
         </el-form>
       </div>
-      <!--入库单明细-->
+    </el-card>
+    <!--入库单明细-->
+    <el-card class="box-card" shadow="never" style="margin-top: 10px">
       <h2 ref="fuzhu" class="form-name">盘点单明细</h2>
       <div class="buttons" style="margin-top: 50px">
         <el-button type="success" @click="handleAddproduct">添加商品</el-button>
         <el-button type="danger" @click="$refs.editable.removeSelecteds()">删除</el-button>
         <el-button type="primary" @click="checkStock()">库存快照</el-button>
       </div>
-      <my-detail :control.sync="control" @product="productdetail"/>
+      <my-detail :control.sync="control" :personalform="personalForm" @product="productdetail"/>
       <div class="container">
         <el-editable
           ref="editable"
@@ -97,7 +99,7 @@
           <el-editable-column prop="color" align="center" label="颜色" width="150px"/>
           <el-editable-column prop="typeId" align="center" label="规格" width="150px"/>
           <el-editable-column prop="unit" align="center" label="单位" width="150px"/>
-          <el-editable-column prop="price" align="center" label="价格" width="150px"/>
+          <el-editable-column prop="price" align="center" label="成本单价" width="150px"/>
           <el-editable-column prop="inventoryQuantity" align="center" label="库存数量" width="150px">
             <template slot-scope="scope">
               <p>{{ getquantity(scope.row) }}</p>
@@ -114,50 +116,96 @@
               <p>{{ getdiffType(scope.row.inventoryQuantity, scope.row.actualQuantity, scope.row) }}</p>
             </template>
           </el-editable-column>
-          <el-editable-column prop="totalMoney" align="center" label="总金额" width="150px">
+          <el-editable-column v-if="false" prop="totalMoney" align="center" label="总金额" width="150px">
             <template slot-scope="scope">
               <p>{{ getSize(scope.row.actualQuantity, scope.row.price) }}</p>
             </template>
           </el-editable-column>
           <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="remarks" align="center" label="备注" width="150px"/>
+          <el-editable-column prop="countPerson" align="center" label="盘点人" width="150px">
+            <template slot-scope="scope">
+              <p>{{ scope.row.countPerson }}</p>
+            </template>
+          </el-editable-column>
+          <el-editable-column prop="countDate" align="center" label="盘点日期" width="150px"/>
         </el-editable>
       </div>
-      <!--操作-->
-      <div class="buttons" style="margin-top: 20px">
-        <el-button v-no-more-click type="primary" @click="handlesave()">保存</el-button>
-        <el-button type="success" @click="handleentry()">继续录入</el-button>
-        <el-button type="danger" @click="handlecancel()">取消</el-button>
-      </div>
-      <el-dialog :visible.sync="receiptVisible2" title="库存快照" class="normal" width="600px" center>
-        <el-form class="demo-ruleForm" style="margin: 0px 6%; width: 400px">
-          <el-form-item label-width="100px;" style="    width: 500px;">
-            <div style="width: 100%; height: 220px;overflow: hidden;background: white;" >
-              <el-table
-                :data="list111"
-                height="220"
-                style="width: 100%;"
-              >
-                <el-table-column :resizable="false" label="仓库" align="center" min-width="150">
-                  <template slot-scope="scope">
-                    <span >{{ scope.row.repositoryName }}</span>
-                  </template>
-                </el-table-column>
-                <el-table-column :resizable="false" label="商品名称" align="center" min-width="150">
-                  <template slot-scope="scope">
-                    <span >{{ scope.row.productName }}</span>
-                  </template>
-                </el-table-column>
-                <el-table-column :resizable="false" label="可用库存量" align="center" min-width="150">
-                  <template slot-scope="scope">
-                    <span >{{ scope.row.ableStock }}</span>
-                  </template>
-                </el-table-column>
-              </el-table>
-            </div>
-          </el-form-item>
+    </el-card>
+    <!-- 合计信息 -->
+    <el-card class="box-card" shadow="never" style="margin-top: 10px">
+      <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">合计信息</h2>
+      <div class="container" style="margin-top: 37px">
+        <el-form ref="personalForm2" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
+          <el-row>
+            <el-col :span="6">
+              <el-form-item :label="$t('InventoryCount.heji1')" style="width: 100%;">
+                <el-input v-model="heji1" style="margin-left: 18px;width: 200px" disabled/>
+              </el-form-item>
+            </el-col>
+            <el-col :span="6">
+              <el-form-item :label="$t('InventoryCount.heji2')" style="width: 100%;">
+                <el-input v-model="heji2" style="margin-left: 18px;width: 200px" disabled/>
+              </el-form-item>
+            </el-col>
+            <el-col :span="6">
+              <el-form-item :label="$t('InventoryCount.heji3')" style="width: 100%;">
+                <el-input v-model="heji3" style="margin-left: 18px;width: 200px" disabled/>
+              </el-form-item>
+            </el-col>
+            <el-col :span="6">
+              <el-form-item :label="$t('InventoryCount.heji4')" style="width: 100%;">
+                <el-input v-model="heji4" style="margin-left: 18px;width: 200px" disabled/>
+              </el-form-item>
+            </el-col>
+            <el-col :span="6">
+              <el-form-item :label="$t('InventoryCount.heji5')" style="width: 100%;">
+                <el-input v-model="heji5" style="margin-left: 18px;width: 200px" disabled/>
+              </el-form-item>
+            </el-col>
+            <el-col :span="6">
+              <el-form-item :label="$t('InventoryCount.heji6')" style="width: 100%;">
+                <el-input v-model="heji6" style="margin-left: 18px;width: 200px" disabled/>
+              </el-form-item>
+            </el-col>
+          </el-row>
         </el-form>
-      </el-dialog>
+      </div>
+    </el-card>
+    <!--操作-->
+    <div class="buttons" style="margin-top: 20px">
+      <el-button v-no-more-click type="primary" @click="handlesave()">保存</el-button>
+      <el-button type="success" @click="handleentry()">继续录入</el-button>
+      <el-button type="danger" @click="handlecancel()">取消</el-button>
     </div>
+    <el-dialog :visible.sync="receiptVisible2" title="库存快照" class="normal" width="600px" center>
+      <el-form class="demo-ruleForm" style="margin: 0px 6%; width: 400px">
+        <el-form-item label-width="100px;" style="    width: 500px;">
+          <div style="width: 100%; height: 220px;overflow: hidden;background: white;" >
+            <el-table
+              :data="list111"
+              height="220"
+              style="width: 100%;"
+            >
+              <el-table-column :resizable="false" label="仓库" align="center" min-width="150">
+                <template slot-scope="scope">
+                  <span >{{ scope.row.repositoryName }}</span>
+                </template>
+              </el-table-column>
+              <el-table-column :resizable="false" label="商品名称" align="center" min-width="150">
+                <template slot-scope="scope">
+                  <span >{{ scope.row.productName }}</span>
+                </template>
+              </el-table-column>
+              <el-table-column :resizable="false" label="可用库存量" align="center" min-width="150">
+                <template slot-scope="scope">
+                  <span >{{ scope.row.ableStock }}</span>
+                </template>
+              </el-table-column>
+            </el-table>
+          </div>
+        </el-form-item>
+      </el-form>
+    </el-dialog>
   </div>
 </template>
 
@@ -187,7 +235,21 @@ export default {
         callback()
       }
     }
+    const validatePass3 = (rule, value, callback) => {
+      console.log(this.Time)
+      if (this.Time === undefined || this.Time === null || this.Time === '') {
+        callback(new Error('请选择盘点时间'))
+      } else {
+        callback()
+      }
+    }
     return {
+      heji1: 0,
+      heji2: 0,
+      heji3: 0,
+      heji4: 0,
+      heji5: 0,
+      heji6: 0,
       // 库存数量
       out: '',
       // 货位发送参数
@@ -206,7 +268,7 @@ export default {
       // 部门数据
       depts: [],
       // 仓库回显
-      countRepositoryId: '',
+      countRepositoryId: this.$store.getters.repositoryName,
       // 经办人回显
       handlePersonId: '',
       // 控制仓库选择窗口
@@ -219,6 +281,9 @@ export default {
       validRules: {
         locationId: [
           { required: true, message: '请选择货位', trigger: 'change' }
+        ],
+        actualQuantity: [
+          { required: true, message: '请填写实盘数量', trigger: 'change' }
         ]
       },
       // 库存盘点日期
@@ -228,7 +293,8 @@ export default {
         repositoryId: this.$store.getters.repositoryId,
         regionId: this.$store.getters.regionId,
         createPersonId: this.$store.getters.userId,
-        countryId: 1
+        countryId: 1,
+        countRepositoryId: this.$store.getters.repositoryId
       },
       // 库存盘点单规则数据
       personalrules: {
@@ -237,12 +303,42 @@ export default {
         ],
         countRepositoryId: [
           { required: true, validator: validatePass2, trigger: 'change' }
+        ],
+        Time: [
+          { required: true, validator: validatePass3, trigger: 'change' }
         ]
       },
       receiptVisible2: false,
       list111: [],
       // 批量操作
       moreaction: []
+    }
+  },
+  watch: {
+    list2: {
+      handler() {
+        let num1 = 0
+        let num2 = 0
+        let num3 = 0
+        let num4 = 0
+        let num5 = 0
+        let num6 = 0
+        for (const i in this.list2) {
+          num1 += this.list2[i].inventoryQuantity
+          num2 += this.list2[i].actualQuantity
+          num3 += this.list2[i].diffQuantity
+          num4 += this.list2[i].price * this.list2[i].inventoryQuantity
+          num5 += this.list2[i].price * this.list2[i].actualQuantity
+          num6 += this.list2[i].price * this.list2[i].diffQuantity
+        }
+        this.heji1 = num1
+        this.heji2 = num2
+        this.heji3 = num3
+        this.heji4 = num4
+        this.heji5 = num5
+        this.heji6 = num6
+      },
+      deep: true
     }
   },
   mounted() {
@@ -315,6 +411,9 @@ export default {
           this.out = res.data.data.content
           sco.inventoryQuantity = res.data.data.content
         })
+        return sco.inventoryQuantity
+      } else {
+        sco.inventoryQuantity = 0
         return sco.inventoryQuantity
       }
     },
@@ -485,10 +584,11 @@ export default {
         repositoryId: this.$store.getters.repositoryId,
         regionId: this.$store.getters.regionId,
         createPersonId: this.$store.getters.userId,
-        countryId: 1
+        countryId: 1,
+        countRepositoryId: this.$store.getters.repositoryId
       }
       this.handlePersonId = ''
-      this.countRepositoryId = ''
+      this.countRepositoryId = this.$store.getters.repositoryName
       this.Time = ''
     },
     // 取消操作
@@ -531,6 +631,14 @@ export default {
     // 盘点单事件
     // 新增盘点单明细
     handleAddproduct() {
+      if (this.countRepositoryId === '' || this.countRepositoryId === null || this.countRepositoryId === undefined) {
+        this.$notify.error({
+          title: '错误',
+          message: '请先选择仓库',
+          offset: 100
+        })
+        return false
+      }
       this.control = true
     },
     productdetail(val) {
@@ -569,7 +677,6 @@ export default {
     }
     .container{
       margin-top: 2%;
-      border: 1px solid #eceff6;
     }
   }
 </style>

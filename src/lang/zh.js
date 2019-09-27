@@ -966,7 +966,15 @@ export default {
     countNumber: '盘点单编号',
     receiptStat: '单据状态',
     createPersonId: '创建人',
-    judgeStat: '审批状态'
+    countperson: '盘点人',
+    countdate: '盘点日期',
+    judgeStat: '审批状态',
+    heji1: '库存量合计',
+    heji2: '实盘量合计',
+    heji3: '差异量合计',
+    heji4: '库存金额合计',
+    heji5: '实盘金额合计',
+    heji6: '差异金额合计'
   },
   Inventorydamaged: {
     id: '编号',
@@ -982,7 +990,9 @@ export default {
     createPersonId: '创建人',
     beginTime: '开始时间',
     endTime: '结束时间',
-    judgeStat: '审批状态'
+    judgeStat: '审批状态',
+    heji: '合计报损数量',
+    heji2: '合计报损金额'
   },
   WarehouseAdjust: {
     title: '入库单主题',
@@ -1064,7 +1074,8 @@ export default {
     adjustDate: '调价日期',
     effectiveDate: '生效日期',
     summary: '摘要',
-    judgeStat: '审批状态'
+    judgeStat: '审批状态',
+    reason: '调价原因'
   },
   Storagemove: {
     title: '调拨单主题',
@@ -1974,7 +1985,8 @@ export default {
     Overdueamount: '逾期金额',
     Overduefrequency: '逾期次数',
     collectperson: '收款人',
-    collectstatus: '收款状态'
+    collectstatus: '收款状态',
+    actualDate: '收款日期'
   },
   ChangeCount: {
     title: '改期主题',

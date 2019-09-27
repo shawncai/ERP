@@ -7,18 +7,18 @@
         <div class="container">
           <el-form ref="personalForm" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="100px" style="margin-left: 30px;">
             <el-row>
-              <el-col :span="6">
+              <el-col :span="8">
                 <el-form-item :label="$t('Storagemove.title')" style="width: 100%;">
-                  <el-input v-model="personalForm.title" placeholder="请输入调拨单主题" style="margin-left: 18px;width:200px" clearable/>
+                  <el-input v-model="personalForm.title" placeholder="请输入调拨单主题" style="margin-left: 18px;width:180px" clearable/>
                 </el-form-item>
               </el-col>
-              <el-col :span="6">
+              <el-col :span="8">
                 <el-form-item :label="$t('Storagemove.applicationName')" prop="applyPersonId" style="width: 100%;">
-                  <el-input v-model="applyPersonId" placeholder="请选择调拨申请人" style="margin-left: 18px;width:200px" clearable @focus="handlechooseAccept"/>
+                  <el-input v-model="applyPersonId" placeholder="请选择调拨申请人" style="margin-left: 18px;width:180px" clearable @focus="handlechooseAccept"/>
                 </el-form-item>
               </el-col>
               <my-accept :accetpcontrol.sync="accetpcontrol" @acceptName="acceptName"/>
-              <el-col :span="6">
+              <!-- <el-col :span="6">
                 <el-form-item :label="$t('Storagemove.requestDeptId')" prop="requestDeptId" style="width: 100%;">
                   <el-select v-model="personalForm.requestDeptId" placeholder="请选择要货部门" style="margin-left: 18px;width: 200px" clearable >
                     <el-option
@@ -28,29 +28,35 @@
                       :label="item.deptName"/>
                   </el-select>
                 </el-form-item>
-              </el-col>
-              <el-col :span="6">
+              </el-col> -->
+              <el-col :span="8">
                 <el-form-item :label="$t('Storagemove.moveInRepository')" prop="moveInRepository" style="width: 100%;">
-                  <el-input v-model="moveInRepository" placeholder="请选择调入仓库" style="margin-left: 18px;width:200px" clearable @focus="handlechooseDep"/>
+                  <el-input v-model="moveInRepository" placeholder="请选择调入仓库" style="margin-left: 18px;width:180px" clearable @focus="handlechooseDep"/>
                 </el-form-item>
                 <my-depot :depotcontrol.sync="depotcontrol" @depotname="depotname"/>
               </el-col>
-              <el-col :span="6">
+              <el-col :span="8">
+                <el-form-item :label="$t('Storagemove.moveOutRepository')" prop="moveOutRepository" style="width: 100%;">
+                  <el-input v-model="moveOutRepository" placeholder="请选择调出仓库" style="margin-left: 18px;width: 180px" clearable @focus="handlechooseRep"/>
+                </el-form-item>
+                <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
+              </el-col>
+              <el-col :span="8">
                 <el-form-item :label="$t('Storagemove.requestArrivalDate')" label-width="110px" prop="requestArrivalDate" style="width: 100%;">
                   <el-date-picker
                     v-model="personalForm.requestArrivalDate"
                     type="date"
                     placeholder="选择要求到货日期"
                     value-format="yyyy-MM-dd"
-                    style="margin-left: 8px"/>
+                    style="margin-left: 8px;width: 180px"/>
                 </el-form-item>
               </el-col>
-              <el-col :span="6">
+              <el-col :span="8">
                 <el-form-item :label="$t('Storagemove.moveReason')" style="width: 100%;">
-                  <el-input v-model="personalForm.moveReason" placeholder="请输入调拨原因" style="margin-left: 18px;width:200px" clearable/>
+                  <el-input v-model="personalForm.moveReason" placeholder="请输入调拨原因" style="margin-left: 18px;width:180px" clearable/>
                 </el-form-item>
               </el-col>
-              <el-col :span="6">
+              <!-- <el-col :span="6">
                 <el-form-item :label="$t('Storagemove.departmentId')" prop="departmentId" style="width: 100%;">
                   <el-select v-model="personalForm.departmentId" placeholder="请选择调货部门" style="margin-left: 18px;width: 200px" clearable >
                     <el-option
@@ -60,28 +66,25 @@
                       :label="item.deptName"/>
                   </el-select>
                 </el-form-item>
-              </el-col>
-              <el-col :span="6">
-                <el-form-item :label="$t('Storagemove.moveOutRepository')" prop="moveOutRepository" style="width: 100%;">
-                  <el-input v-model="moveOutRepository" placeholder="请选择调出仓库" style="margin-left: 18px;width: 200px" clearable @focus="handlechooseRep"/>
-                </el-form-item>
-                <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
-              </el-col>
-              <el-col :span="6">
+              </el-col>               -->
+              <el-col :span="8">
                 <el-form-item :label="$t('Storagemove.businessStat')" prop="businessStat" style="width: 100%;">
-                  <el-select v-model="personalForm.businessStat" placeholder="请选择业务" style="margin-left: 18px;width: 200px" clearable >
+                  <el-select v-model="personalForm.businessStat" placeholder="请选择业务" style="margin-left: 18px;width: 180px" disabled >
                     <el-option value="1" label="调拨申请"/>
+                    <el-option value="2" label="调拨出库"/>
+                    <el-option value="3" label="调拨入库"/>
+                    <el-option value="4" label="调拨完成"/>
                   </el-select>
                 </el-form-item>
               </el-col>
-              <el-col :span="6">
+              <!-- <el-col :span="6">
                 <el-form-item :label="$t('Storagemove.storageMovePerson')" prop="storageMovePerson" style="width: 100%;">
-                  <el-input v-model="storageMovePerson" placeholder="请选择调拨出库人" style="margin-left: 18px;width:200px" clearable @focus="handlechooseAccept"/>
+                  <el-input v-model="storageMovePerson" placeholder="请选择调拨出库人" style="margin-left: 18px;width:200px" clearable @focus="handlechooseAccept2"/>
                 </el-form-item>
               </el-col>
-              <my-accept :accetpcontrol.sync="accetpcontrol" @acceptName="acceptName"/>
-              <el-col :span="6">
-                <el-form-item :label="$t('Storagemove.storageMoveDate')" label-width="110px" prop="requestArrivalDate" style="width: 100%;">
+              <my-out :outcontrol.sync="outcontrol" @outName="outName"/> -->
+              <!-- <el-col :span="6">
+                <el-form-item :label="$t('Storagemove.storageMoveDate')" label-width="110px" style="width: 100%;">
                   <el-date-picker
                     v-model="personalForm.storageMoveDate"
                     type="date"
@@ -89,19 +92,84 @@
                     value-format="yyyy-MM-dd"
                     style="margin-left: 8px"/>
                 </el-form-item>
-              </el-col>
+              </el-col> -->
             </el-row>
           </el-form>
         </div>
       </el-card>
-      <!--调拨单明细-->
+      <!--调拨申请明细-->
       <el-card class="box-card" style="margin-top: 15px">
-        <h2 ref="fuzhu" class="form-name">调拨单明细</h2>
+        <h2 ref="fuzhu" class="form-name">调拨申请明细</h2>
         <div class="buttons" style="margin-top: 58px">
           <el-button type="success" style="background:#3696fd;border-color:#3696fd " @click="handleAddproduct">添加商品</el-button>
           <el-button type="danger" @click="$refs.editable.removeSelecteds()">删除</el-button>
         </div>
         <my-detail :control.sync="control" :personalform="personalForm" @product="productdetail"/>
+        <div class="container">
+          <el-editable
+            ref="editable"
+            :data.sync="list2"
+            :edit-config="{ showIcon: true, showStatus: true}"
+            :edit-rules="validRules"
+            class="click-table1"
+            stripe
+            border
+            size="medium"
+            style="width: 100%">
+            <el-editable-column type="selection" width="55" align="center"/>
+            <el-editable-column label="编号" width="55" align="center" type="index"/>
+            <!-- <el-editable-column prop="location" align="center" label="货位" min-width="150">
+              <template slot-scope="scope">
+                <p>{{ getLocationData(scope.row) }}</p>
+              </template>
+            </el-editable-column> -->
+            <!-- <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="batch" align="center" label="批次" min-width="150" >
+              <template slot="edit" slot-scope="scope">
+                <el-select v-if="scope.row.batch !== '不使用'" v-model="scope.row.batch" :value="scope.row.batch" placeholder="请选择批次" filterable clearable style="width: 100%;" @visible-change="updatebatch2($event,scope)">
+                  <el-option
+                    v-for="(item, index) in batchlist"
+                    :key="index"
+                    :value="item"
+                    :label="item"/>
+                </el-select>
+                <span v-else>{{ scope.row.batch }}</span>
+              </template>
+            </el-editable-column> -->
+            <el-editable-column prop="productCode" align="center" label="物品编号" width="150px"/>
+            <el-editable-column prop="productName" align="center" label="物品名称" width="150px"/>
+            <el-editable-column prop="color" align="center" label="颜色" width="150px"/>
+            <el-editable-column prop="typeName" align="center" label="规格" width="150px"/>
+            <el-editable-column prop="unitName" align="center" label="单位" width="150px"/>
+            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 1.00, precision: 2}, type: 'visible'}" prop="moveQuantity" align="center" label="申请数量" min-width="150">
+              <template slot="edit" slot-scope="scope">
+                <el-input-number
+                  :precision="2"
+                  :controls="true"
+                  :min="1.00"
+                  v-model="scope.row.moveQuantity"
+                  @change="queryStock(scope.row)"
+                />
+              </template>
+            </el-editable-column>
+            <el-editable-column prop="price" align="center" label="调拨单价" width="150px"/>
+            <!-- <el-editable-column :edit-render="{name: 'ElInputNumber', type: 'visible'}" prop="movePrice" align="center" label="调拨成本价" width="150px"/> -->
+            <el-editable-column prop="totalMoney" align="center" label="调拨金额" width="150px">
+              <template slot-scope="scope">
+                <p>{{ getSize(scope.row.movePrice, scope.row.moveQuantity) }}</p>
+              </template>
+            </el-editable-column>
+            <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="remarks" align="center" label="备注" width="150px"/>
+          </el-editable>
+        </div>
+      </el-card>
+      <!-- 调拨出库明细 -->
+      <el-card class="box-card" style="margin-top: 15px">
+        <h2 ref="fuzhu" class="form-name">调拨出库明细</h2>
+        <!-- <div class="buttons" style="margin-top: 58px">
+          <el-button type="success" style="background:#3696fd;border-color:#3696fd " @click="handleAddproduct">添加商品</el-button>
+          <el-button type="danger" @click="$refs.editable.removeSelecteds()">删除</el-button>
+        </div> -->
+        <!-- <my-detail :control.sync="control" :personalform="personalForm" @product="productdetail"/> -->
         <div class="container">
           <el-editable
             ref="editable"
@@ -137,9 +205,7 @@
             <el-editable-column prop="color" align="center" label="颜色" width="150px"/>
             <el-editable-column prop="typeName" align="center" label="规格" width="150px"/>
             <el-editable-column prop="unitName" align="center" label="单位" width="150px"/>
-            <el-editable-column prop="price" align="center" label="调拨单价" width="150px"/>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', type: 'visible'}" prop="movePrice" align="center" label="调拨成本价" width="150px"/>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 1.00, precision: 2}, type: 'visible'}" prop="moveQuantity" align="center" label="调拨数量" min-width="150">
+            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 1.00, precision: 2}, type: 'visible'}" prop="moveQuantity" align="center" label="申请数量" min-width="150">
               <template slot="edit" slot-scope="scope">
                 <el-input-number
                   :precision="2"
@@ -150,6 +216,91 @@
                 />
               </template>
             </el-editable-column>
+            <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="carCode" align="center" label="车架编码" min-width="150" >
+              <template slot="edit" slot-scope="scope">
+                <el-input v-if="isEdit2(scope.row)" v-model="scope.row.carCode" clearable/>
+                <span v-else>{{ scope.row.carCode }}</span>
+              </template>
+            </el-editable-column>
+            <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="motorCode" align="center" label="电机编码" min-width="150" >
+              <template slot="edit" slot-scope="scope">
+                <el-input v-if="isEdit2(scope.row)" v-model="scope.row.motorCode" clearable/>
+                <span v-else>{{ scope.row.motorCode }}</span>
+              </template>
+            </el-editable-column>
+            <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="batteryCode" align="center" label="电池编码" min-width="150" >
+              <template slot="edit" slot-scope="scope">
+                <el-input v-if="isEdit2(scope.row)" v-model="scope.row.batteryCode" clearable/>
+                <span v-else>{{ scope.row.batteryCode }}</span>
+              </template>
+            </el-editable-column>
+            <el-editable-column prop="price" align="center" label="调拨单价" width="150px"/>
+            <!-- <el-editable-column :edit-render="{name: 'ElInputNumber', type: 'visible'}" prop="movePrice" align="center" label="调拨成本价" width="150px"/> -->
+            <el-editable-column prop="totalMoney" align="center" label="调拨金额" width="150px">
+              <template slot-scope="scope">
+                <p>{{ getSize(scope.row.movePrice, scope.row.moveQuantity) }}</p>
+              </template>
+            </el-editable-column>
+            <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="remarks" align="center" label="备注" width="150px"/>
+          </el-editable>
+        </div>
+      </el-card>
+      <!-- 调拨入库明细 -->
+      <el-card class="box-card" style="margin-top: 15px">
+        <h2 ref="fuzhu" class="form-name">调拨入库明细</h2>
+        <!-- <div class="buttons" style="margin-top: 58px">
+          <el-button type="success" style="background:#3696fd;border-color:#3696fd " @click="handleAddproduct">添加商品</el-button>
+          <el-button type="danger" @click="$refs.editable.removeSelecteds()">删除</el-button>
+        </div> -->
+        <!-- <my-detail :control.sync="control" :personalform="personalForm" @product="productdetail"/> -->
+        <div class="container">
+          <el-editable
+            ref="editable"
+            :data.sync="list2"
+            :edit-config="{ showIcon: true, showStatus: true}"
+            :edit-rules="validRules"
+            class="click-table1"
+            stripe
+            border
+            size="medium"
+            style="width: 100%">
+            <el-editable-column type="selection" width="55" align="center"/>
+            <el-editable-column label="编号" width="55" align="center" type="index"/>
+            <!-- <el-editable-column prop="location" align="center" label="货位" min-width="150">
+              <template slot-scope="scope">
+                <p>{{ getLocationData(scope.row) }}</p>
+              </template>
+            </el-editable-column> -->
+            <!-- <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="batch" align="center" label="批次" min-width="150" >
+              <template slot="edit" slot-scope="scope">
+                <el-select v-if="scope.row.batch !== '不使用'" v-model="scope.row.batch" :value="scope.row.batch" placeholder="请选择批次" filterable clearable style="width: 100%;" @visible-change="updatebatch2($event,scope)">
+                  <el-option
+                    v-for="(item, index) in batchlist"
+                    :key="index"
+                    :value="item"
+                    :label="item"/>
+                </el-select>
+                <span v-else>{{ scope.row.batch }}</span>
+              </template>
+            </el-editable-column> -->
+            <el-editable-column prop="productCode" align="center" label="物品编号" width="150px"/>
+            <el-editable-column prop="productName" align="center" label="物品名称" width="150px"/>
+            <el-editable-column prop="color" align="center" label="颜色" width="150px"/>
+            <el-editable-column prop="typeName" align="center" label="规格" width="150px"/>
+            <el-editable-column prop="unitName" align="center" label="单位" width="150px"/>
+            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 1.00, precision: 2}, type: 'visible'}" prop="moveQuantity" align="center" label="申请数量" min-width="150">
+              <template slot="edit" slot-scope="scope">
+                <el-input-number
+                  :precision="2"
+                  :controls="true"
+                  :min="1.00"
+                  v-model="scope.row.moveQuantity"
+                  @change="queryStock(scope.row)"
+                />
+              </template>
+            </el-editable-column>
+            <el-editable-column prop="price" align="center" label="调拨单价" width="150px"/>
+            <!-- <el-editable-column :edit-render="{name: 'ElInputNumber', type: 'visible'}" prop="movePrice" align="center" label="调拨成本价" width="150px"/> -->
             <el-editable-column prop="totalMoney" align="center" label="调拨金额" width="150px">
               <template slot-scope="scope">
                 <p>{{ getSize(scope.row.movePrice, scope.row.moveQuantity) }}</p>
@@ -176,18 +327,23 @@ import { batchlist, getlocation, countlist, productlist } from '@/api/public'
 import { createstoragemove } from '@/api/Storagemove'
 import MyRepository from './components/MyRepository'
 import MyAccept from './components/MyAccept'
+import MyOut from './components/MyOut'
 import MyDetail from './components/MyDetail'
 import MyCreate from './components/MyCreate'
 import MyDepot from './components/MyDepot'
 export default {
   name: 'AddStoragemove',
-  components: { MyDepot, MyRepository, MyDetail, MyCreate, MyAccept },
+  components: { MyDepot, MyRepository, MyDetail, MyCreate, MyAccept, MyOut },
   data() {
     return {
       // 申请人回显
       applyPersonId: this.$store.getters.name,
       // 申请人控制
       accetpcontrol: false,
+      // 调拨出库人回显
+      storageMovePerson: '',
+      // 出库人控制
+      outcontrol: false,
       // 批次列表
       batchlist: [],
       // 部门数据
@@ -211,7 +367,8 @@ export default {
         sourceType: '1',
         applyPersonId: this.$store.getters.userId,
         requestDeptId: this.$store.getters.deptId,
-        moveInRepository: this.$store.getters.repositoryId
+        moveInRepository: this.$store.getters.repositoryId,
+        businessStat: '1'
       },
       // 调拨单规则数据
       personalrules: {
@@ -254,11 +411,15 @@ export default {
   },
   mounted() {
     this.getlist()
+    this.getdatatime()
   },
   activated() {
     this.getinformation4()
   },
   methods: {
+    getdatatime() { // 默认显示今天
+      this.personalForm.storageMoveDate = new Date()
+    },
     // 获取智能补货信息
     async getinformation4() {
       if (this.$store.getters.empcontract4) {
@@ -547,6 +708,15 @@ export default {
     acceptName(val) {
       this.applyPersonId = val.personName
       this.personalForm.applyPersonId = val.id
+    },
+    // 调拨出库人触发
+    handlechooseAccept2() {
+      this.outcontrol = true
+      console.log(this.outcontrol)
+    },
+    outName(val) {
+      this.storageMovePerson = val.personName
+      this.personalForm.storageMovePerson = val.id
     },
     // 调拨单事件
     // 新增调拨单明细

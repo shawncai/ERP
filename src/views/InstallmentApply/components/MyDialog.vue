@@ -673,7 +673,8 @@ export default {
         saleRepositoryId: [
           { required: true, validator: validatePass3, trigger: 'change' }
         ]
-      }
+      },
+      editVisible: this.editcontrol
     }
   },
   watch: {

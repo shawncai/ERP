@@ -359,7 +359,7 @@ export default {
     // 确认添加数据
     handleConfirm() {
       this.employeeVisible = false
-      console.log(this.choosedata)
+      console.log('销售合同', this.choosedata)
       const salecontractdata = this.choosedata.saleContractDetailVos
       const contractNumber = this.choosedata.number
       const salecontractDetail = salecontractdata.map(function(item) {
@@ -386,9 +386,9 @@ export default {
           // includeTaxCostMoney: (item.includeTaxCostMoney).toFixed(2),
           discount: item.discount,
           discountMoney: item.discountMoney,
-          carCode: 0,
-          motorCode: 0,
-          batteryCode: 0,
+          carCode: item.carCode,
+          motorCode: item.motorCode,
+          batteryCode: item.batteryCode,
           sourceNumber: contractNumber,
           sourceSerialNumber: item.id
         }

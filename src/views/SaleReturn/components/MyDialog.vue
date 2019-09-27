@@ -23,7 +23,7 @@
               <el-form-item :label="$t('SaleReturn.sourceNumber')" style="width: 100%;">
                 <el-input v-model="personalForm.sourceNumber" :disabled="IsNumber" style="margin-left: 18px;width: 200px" @focus="choosesaleout"/>
               </el-form-item>
-              <my-saleout :saleoutcontrol.sync="saleoutcontrol" @saleOutDetail="saleOutDetail" @saleOutdata="saleOutdata"/>
+              <my-saleout :saleoutcontrol.sync="saleoutcontrol" :personaldata="personalForm" @saleOutDetail="saleOutDetail" @saleOutdata="saleOutdata"/>
             </el-col>
             <el-col :span="12">
               <el-form-item :label="$t('SaleReturn.customerType')" prop="customerType" style="width: 100%;">
@@ -279,8 +279,9 @@ import MyApply from './MyApply'
 import MyRequire from './MyRequire'
 import MyCustomer from './MyCustomer'
 import MyAgent from './MyAgent'
+import MySaleout from '../../DeliverGoods/components/MySaleout'
 export default {
-  components: { MyAgent, MyCustomer, MyRequire, MyApply, MyDetail, MyDelivery, MyEmp },
+  components: { MyAgent, MyCustomer, MyRequire, MyApply, MyDetail, MyDelivery, MyEmp, MySaleout },
   props: {
     editcontrol: {
       type: Boolean,

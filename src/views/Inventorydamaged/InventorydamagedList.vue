@@ -1,6 +1,6 @@
 <template>
   <div class="ERP-container">
-    <div class="filter-container">
+    <el-card class="box-card" style="margin-top: 15px;height: 60px">
       <!-- 搜索条件栏目 -->
       <el-input v-model="getemplist.title" :placeholder="$t('Inventorydamaged.title')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
       <el-input v-model="getemplist.damagedNumber" :placeholder="$t('Inventorydamaged.damagedNumber')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
@@ -35,6 +35,8 @@
       </el-popover>
       <!-- 搜索按钮 -->
       <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 86px" @click="handleFilter">{{ $t('public.search') }}</el-button>
+    </el-card>
+    <el-card class="box-card" style="margin-top: 15px">
       <!-- 批量操作 -->
       <el-dropdown @command="handleCommand">
         <el-button v-waves class="filter-item" type="primary">
@@ -50,8 +52,8 @@
       <el-button v-permission="['131-146-7']" v-waves class="filter-item" icon="el-icon-printer" style="width: 86px" @click="handlePrint">{{ $t('public.print') }}</el-button>
       <!-- 新建操作 -->
       <el-button v-permission="['131-146-1']" v-waves class="filter-item" icon="el-icon-plus" type="success" style="width: 86px;float: right" @click="handleAdd">{{ $t('public.add') }}</el-button>
-    </div>
-    <div class="app-container">
+    </el-card>
+    <el-card class="box-card" style="margin-top: 15px">
       <!-- 列表开始 -->
       <el-table
         v-loading="listLoading"
@@ -140,7 +142,7 @@
       <!--修改开始=================================================-->
       <my-dialog :editcontrol.sync="editVisible" :editdata.sync="personalForm" @rest="refreshlist"/>
       <!--修改结束=================================================-->
-    </div>
+    </el-card>
   </div>
 </template>
 

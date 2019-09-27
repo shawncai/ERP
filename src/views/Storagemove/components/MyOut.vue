@@ -1,5 +1,5 @@
 <template>
-  <el-dialog :visible.sync="employeeVisible" :accetpcontrol="accetpcontrol" :close-on-press-escape="false" top="10px" title="选择员工" append-to-body @close="$emit('update:accetpcontrol', false)">
+  <el-dialog :visible.sync="employeeVisible" :outcontrol="outcontrol" :close-on-press-escape="false" top="10px" title="选择员工" append-to-body @close="$emit('update:outcontrol', false)">
     <div class="filter-container">
       <el-input v-model="getemplist.employeename" :placeholder="$t('NewEmployeeInformation.employeename')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
       <el-input v-model="getemplist.jobnumber" :placeholder="$t('NewEmployeeInformation.jobnumber2')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
@@ -130,7 +130,7 @@ export default {
     }
   },
   props: {
-    accetpcontrol: {
+    outcontrol: {
       type: Boolean,
       default: false
     }
@@ -189,14 +189,15 @@ export default {
       // 门店数据
       repositories: [],
       // 员工选择框控制
-      employeeVisible: this.accetpcontrol,
+      employeeVisible: this.outcontrol,
       // 小区经理选择框控制
       regionManagerVisible: false
     }
   },
   watch: {
-    accetpcontrol() {
-      this.employeeVisible = this.accetpcontrol
+    outcontrol() {
+      this.employeeVisible = this.outcontrol
+      console.log('弹框', this.employeeVisible)
       this.gitemplist()
     }
   },
@@ -294,7 +295,7 @@ export default {
     // 确认添加数据
     handleConfirm() {
       this.employeeVisible = false
-      this.$emit('acceptName', this.choosedata)
+      this.$emit('outName', this.choosedata)
     }
     // 仓库管理员选择结束
   }

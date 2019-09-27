@@ -648,7 +648,7 @@ export default {
     this.getTypes()
     this.getways()
     this.getratelist()
-    this.getdatatime()
+    // this.getdatatime()
     this.getCategory()
     this.jungleshow()
   },
@@ -751,43 +751,38 @@ export default {
     handleSelectionChange(val) {
       this.moreaction = val
     },
-    getdatatime() { // 默认显示今天
-      var date = new Date()
-      var seperator1 = '-'
-      var year = date.getFullYear()
-      var month = date.getMonth() + 1
-      var strDate = date.getDate()
-      if (month >= 1 && month <= 9) {
-        month = '0' + month
-      }
-      if (strDate >= 0 && strDate <= 9) {
-        strDate = '0' + strDate
-      }
-      var currentdate = year + seperator1 + month + seperator1 + strDate
-      this.personalForm.signDate = currentdate
-      this.personalForm.installmentBegintime = currentdate
-    },
+    // getdatatime() { // 默认显示今天
+    //   var date = new Date()
+    //   var seperator1 = '-'
+    //   var year = date.getFullYear()
+    //   var month = date.getMonth() + 1
+    //   var strDate = date.getDate()
+    //   if (month >= 1 && month <= 9) {
+    //     month = '0' + month
+    //   }
+    //   if (strDate >= 0 && strDate <= 9) {
+    //     strDate = '0' + strDate
+    //   }
+    //   var currentdate = year + seperator1 + month + seperator1 + strDate
+    //   this.personalForm.signDate = currentdate
+    //   this.personalForm.installmentBegintime = currentdate
+    // },
     change() {
       this.$forceUpdate()
       console.log('期数', this.personalForm.installmentCount)
-      if (this.personalForm.installmentCount >= 12 || this.personalForm.installmentCount < 24) {
-        const date = new Date()
-        const year = date.getFullYear() + 1
-        const month = date.getMonth() + (this.personalForm.installmentCount % 12)
-        const strDate = this.personalForm.installmentCount
-        const seperator1 = '-'
-        const currentdate = year + seperator1 + month + seperator1 + strDate
-        this.personalForm.installmentEndtime = currentdate
+      console.log('开始时间', this.personalForm.installmentBegintime.split('-'))
+      const byear = Number(this.personalForm.installmentBegintime.split('-')[0])
+      const bmonth = Number(this.personalForm.installmentBegintime.split('-')[1])
+      let eyear = 0
+      let emonth = 0
+      if (bmonth + this.personalForm.installmentCount % 12 >= 12) {
+        eyear = byear + parseInt(this.personalForm.installmentCount / 12) + 1
+        emonth = bmonth + this.personalForm.installmentCount % 12 - 12
+      } else {
+        eyear = byear + parseInt(this.personalForm.installmentCount / 12)
+        emonth = bmonth + this.personalForm.installmentCount % 12
       }
-      if (this.personalForm.installmentCount >= 24) {
-        const date = new Date()
-        const year = date.getFullYear() + 2
-        const month = date.getMonth() + (this.personalForm.installmentCount % 24)
-        const strDate = this.personalForm.installmentCount
-        const seperator1 = '-'
-        const currentdate = year + seperator1 + month + seperator1 + strDate
-        this.personalForm.installmentEndtime = currentdate
-      }
+      this.personalForm.installmentEndtime = `${eyear}-${emonth}`
       this.personalForm.eachMoney = ((this.personalForm.totalMoney - this.personalForm.firstMoney) / this.personalForm.installmentCount).toFixed(2)
     },
     // 获取分期期数
@@ -1045,30 +1040,33 @@ export default {
     },
     installappley(val) {
       console.log('源单数据', val)
+      const date = new Date()
       this.personalForm.sourceNumber = val.applyNumber
       this.personalForm.installmentCount = val.installmentCount
       this.personalForm.dayOfMonth = val.installmentDays
       this.personalForm.firstMoney = val.firstMoney
       this.personalForm.totalMoney = val.totalMoney
+      let byear = 0
+      let bmonth = 0
+      let eyear = 0
+      let emonth = 0
+      if (date.getMonth() + 2 >= 12) {
+        byear = date.getFullYear() + 1
+        bmonth = date.getMonth() - 10
+      } else {
+        byear = date.getFullYear()
+        bmonth = date.getMonth() + 2
+      }
+      if (bmonth + val.installmentCount % 12 >= 12) {
+        eyear = byear + parseInt(val.installmentCount / 12) + 1
+        emonth = bmonth + val.installmentCount % 12 - 12
+      } else {
+        eyear = byear + parseInt(val.installmentCount / 12)
+        emonth = bmonth + val.installmentCount % 12
+      }
+      this.personalForm.installmentBegintime = `${byear}-${bmonth}`
+      this.personalForm.installmentEndtime = `${eyear}-${emonth}`
       this.personalForm.eachMoney = ((val.totalMoney - val.firstMoney) / val.installmentCount).toFixed(2)
-      if (val.installmentCount >= 12 || val.installmentCount < 24) {
-        const date = new Date()
-        const year = date.getFullYear() + 1
-        const month = date.getMonth() + (val.installmentCount % 12)
-        const strDate = val.installmentDays
-        const seperator1 = '-'
-        const currentdate = year + seperator1 + month + seperator1 + strDate
-        this.personalForm.installmentEndtime = currentdate
-      }
-      if (val.installmentCount >= 24) {
-        const date = new Date()
-        const year = date.getFullYear() + 2
-        const month = date.getMonth() + (val.installmentCount % 24)
-        const strDate = val.installmentDays
-        const seperator1 = '-'
-        const currentdate = year + seperator1 + month + seperator1 + strDate
-        this.personalForm.installmentEndtime = currentdate
-      }
     },
     // 更新类型
     updatecountry() {
