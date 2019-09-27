@@ -1,5 +1,7 @@
 export default {
   route: {
+    Stockcount: '采购统计',
+    stockOrderCount: '采购订单汇总表',
     dashboard: '首页',
     errorPages: '错误页面',
     page401: '401',
@@ -325,6 +327,19 @@ export default {
     offlineTask: '线下任务',
     operation: '操作日志',
     operationList: '操作日志列表'
+  },
+  stockOrderCount: {
+    type: '汇总方式',
+    date: '开单日期',
+    order: '订货',
+    id: '编号',
+    name: '供应商名称',
+    orderQuantity: '数量',
+    totalMoney: '金额',
+    taxMoney: '税额',
+    heji: '合计',
+    arrivedQuantity: '已到货数量',
+    notArrivedQuantity: '未到货数量'
   },
   operation: {
     context: '操作内容',

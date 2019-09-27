@@ -2825,6 +2825,26 @@ export const asyncRouterMap = [
       }
     ]
   },
+  {
+    path: '/Stockcount',
+    component: Layout,
+    redirect: 'noredirect',
+    name: 'Stockcount',
+    alwaysShow: true,
+    meta: {
+      title: 'Stockcount',
+      icon: 'shuxing',
+      type: 12
+    },
+    children: [
+      {
+        path: 'stockOrderCount',
+        component: () => import('@/views/StockCount/stockOrderCount'),
+        name: 'stockOrderCount',
+        meta: { title: 'stockOrderCount', noCache: true }
+      }
+    ]
+  },
   // {
   //   path: '/GroupBuyRules',
   //   component: Layout,
