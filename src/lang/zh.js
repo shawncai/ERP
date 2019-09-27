@@ -1059,7 +1059,8 @@ export default {
     adjustDate: '调价日期',
     effectiveDate: '生效日期',
     summary: '摘要',
-    judgeStat: '审批状态'
+    judgeStat: '审批状态',
+    reason: '调价原因'
   },
   Storagemove: {
     title: '调拨单主题',
@@ -1969,7 +1970,8 @@ export default {
     Overdueamount: '逾期金额',
     Overduefrequency: '逾期次数',
     collectperson: '收款人',
-    collectstatus: '收款状态'
+    collectstatus: '收款状态',
+    actualDate: '收款日期'
   },
   ChangeCount: {
     title: '改期主题',

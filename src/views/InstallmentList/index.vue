@@ -245,6 +245,16 @@
               <span>{{ scope.row.shouldMoney - scope.row.paidMoney }}</span>
             </template>
           </el-table-column>
+          <el-table-column :label="$t('InstallmentList.collectperson')" :resizable="false" align="center" min-width="150">
+            <template slot-scope="scope">
+              <span>{{ scope.row.collectPersonName }}</span>
+            </template>
+          </el-table-column>
+          <el-table-column :label="$t('InstallmentList.actualDate')" :resizable="false" align="center" min-width="150">
+            <template slot-scope="scope">
+              <span>{{ scope.row.actualDate }}</span>
+            </template>
+          </el-table-column>
           <el-table-column :label="$t('InstallmentList.status')" :resizable="false" prop="status" align="center" min-width="150">
             <template slot-scope="scope">
               <span>{{ scope.row.stat | payFilter }}</span>
@@ -311,8 +321,8 @@ export default {
     },
     payFilter(status) {
       const statusMap = {
-        1: '已还',
-        2: '未还',
+        1: '未还',
+        2: '已还',
         3: '逾期'
       }
       return statusMap[status]
@@ -397,6 +407,9 @@ export default {
       if (row.stat === 3) {
         console.log('row.id', row.id)
         return 'warning-row'
+      }
+      if (row.stat === 2) {
+        return 'success-row'
       }
       return ''
     },
@@ -775,6 +788,9 @@ export default {
     margin-left: 30px;
   }
   .el-table >>> .warning-row {
-    background: oldlace;
+    background: #F56C6C;
+  }
+  .el-table >>> .success-row {
+    background: #409EFF;
   }
 </style>

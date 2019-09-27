@@ -12,6 +12,7 @@
             <el-form-item label="分类类别">
               <el-select v-model="getemplist.type" :value="getemplist.type" clearable @keyup.enter.native="handleFilter">
                 <el-option label="调整原因" value="1"/>
+                <el-option label="调价原因" value="2"/>
               </el-select>
             </el-form-item>
           </el-col>
@@ -52,6 +53,7 @@
           <el-form-item :label="$t('NewEmployeeInformation.type')" label-width="100px" prop="type">
             <el-select v-model="addCategoryForm.type" placeholder="请选择类别" style="width: 100%">
               <el-option label="调整原因" value="1"/>
+              <el-option label="调价原因" value="2"/>
             </el-select>
           </el-form-item>
           <el-form-item :label="$t('NewEmployeeInformation.categoryname')" label-width="100px" prop="categoryname">
@@ -121,6 +123,7 @@
           <el-form-item :label="$t('NewEmployeeInformation.type')" label-width="100px">
             <el-select v-model="editCategoryForm.type" placeholder="请选择类别" style="width: 100%" disabled >
               <el-option label="调整原因" value="1"/>
+              <el-option label="调价原因" value="2"/>
             </el-select>
           </el-form-item>
           <el-form-item :label="$t('NewEmployeeInformation.categoryname')" label-width="100px" prop="categoryName">

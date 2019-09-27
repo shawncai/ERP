@@ -259,6 +259,7 @@ export default {
       dispatchform: {
         id: ''
       },
+      formLabelWidth: '150px',
       // 销售员回显
       salePersonId: '',
       // 控制销售
