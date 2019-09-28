@@ -1,10 +1,10 @@
 import request from '@/utils/request'
 
 // 添加销售订单
-export function addchangecount(query, query2, query4) {
+export function addchangecount(query, query4) {
   var params = new URLSearchParams()
   params.append('changeCountJson', query) // 你要传给后台的参数值 key/value
-  params.append('changeCountDetailJson', query2) // 你要传给后台的参数值 key/value
+  // params.append('changeCountDetailJson', query2) // 你要传给后台的参数值 key/value
   if (query4.repositoryId !== '' && query4.repositoryId !== null && query4.repositoryId !== undefined) {
     params.append('repositoryId', query4.repositoryId) // 你要传给后台的参数值 key/value
   }

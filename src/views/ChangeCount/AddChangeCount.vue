@@ -289,57 +289,58 @@ export default {
     },
     // 保存操作
     handlesave() {
-      const EnterDetail = this.$refs.editable.getRecords()
-      if (EnterDetail.length === 0) {
-        this.$notify.error({
-          title: '错误',
-          message: '明细表不能为空',
-          offset: 100
-        })
-        return false
-      }
-      EnterDetail.map(function(elem) {
-        return elem
-      }).forEach(function(elem) {
-        if (elem.productCode === null || elem.productCode === '' || elem.productCode === undefined) {
-          delete elem.productCode
-        }
-        if (elem.productName === null || elem.productName === '' || elem.productName === undefined) {
-          delete elem.productName
-        }
-        if (elem.categoryId === null || elem.categoryId === '' || elem.categoryId === undefined) {
-          delete elem.categoryId
-        }
-        if (elem.typeId === null || elem.typeId === '' || elem.typeId === undefined) {
-          delete elem.typeId
-        }
-        if (elem.unit === null || elem.unit === '' || elem.unit === undefined) {
-          delete elem.unit
-        }
-        if (elem.color === null || elem.color === '' || elem.color === undefined) {
-          delete elem.color
-        }
-        if (elem.kpiGrade === null || elem.kpiGrade === '' || elem.kpiGrade === undefined) {
-          delete elem.kpiGrade
-        }
-        if (elem.point === null || elem.point === '' || elem.point === undefined) {
-          delete elem.point
-        }
-        if (elem.price === null || elem.price === '' || elem.price === undefined) {
-          delete elem.price
-        }
-        if (elem.carCode === null || elem.carCode === '' || elem.carCode === undefined) {
-          delete elem.carCode
-        }
-        if (elem.batteryCode === null || elem.batteryCode === '' || elem.batteryCode === undefined) {
-          delete elem.batteryCode
-        }
-        if (elem.motorCode === null || elem.motorCode === '' || elem.motorCode === undefined) {
-          delete elem.motorCode
-        }
-        return elem
-      })
-      const parms2 = JSON.stringify(EnterDetail)
+      // const EnterDetail = this.$refs.editable.getRecords()
+      // if (EnterDetail.length === 0) {
+      //   this.$notify.error({
+      //     title: '错误',
+      //     message: '明细表不能为空',
+      //     offset: 100
+      //   })
+      //   return false
+      // }
+      // EnterDetail.map(function(elem) {
+      //   return elem
+      // }).forEach(function(elem) {
+      //   if (elem.productCode === null || elem.productCode === '' || elem.productCode === undefined) {
+      //     delete elem.productCode
+      //   }
+      //   if (elem.productName === null || elem.productName === '' || elem.productName === undefined) {
+      //     delete elem.productName
+      //   }
+      //   if (elem.categoryId === null || elem.categoryId === '' || elem.categoryId === undefined) {
+      //     delete elem.categoryId
+      //   }
+      //   if (elem.typeId === null || elem.typeId === '' || elem.typeId === undefined) {
+      //     delete elem.typeId
+      //   }
+      //   if (elem.unit === null || elem.unit === '' || elem.unit === undefined) {
+      //     delete elem.unit
+      //   }
+      //   if (elem.color === null || elem.color === '' || elem.color === undefined) {
+      //     delete elem.color
+      //   }
+      //   if (elem.kpiGrade === null || elem.kpiGrade === '' || elem.kpiGrade === undefined) {
+      //     delete elem.kpiGrade
+      //   }
+      //   if (elem.point === null || elem.point === '' || elem.point === undefined) {
+      //     delete elem.point
+      //   }
+      //   if (elem.price === null || elem.price === '' || elem.price === undefined) {
+      //     delete elem.price
+      //   }
+      //   if (elem.carCode === null || elem.carCode === '' || elem.carCode === undefined) {
+      //     delete elem.carCode
+      //   }
+      //   if (elem.batteryCode === null || elem.batteryCode === '' || elem.batteryCode === undefined) {
+      //     delete elem.batteryCode
+      //   }
+      //   if (elem.motorCode === null || elem.motorCode === '' || elem.motorCode === undefined) {
+      //     delete elem.motorCode
+      //   }
+      //   return elem
+      // })
+      // const parms2 = JSON.stringify(EnterDetail)
+      console.log(this.personalForm)
       const Data = this.personalForm
       for (const key in Data) {
         if (Data[key] === '' || Data[key] === undefined || Data[key] === null) {
@@ -349,7 +350,7 @@ export default {
       const parms = JSON.stringify(Data)
       this.$refs.personalForm.validate((valid) => {
         if (valid) {
-          addchangecount(parms, parms2, this.personalForm).then(res => {
+          addchangecount(parms, this.personalForm).then(res => {
             console.log(res)
             if (res.data.ret === 200) {
               this.$notify({

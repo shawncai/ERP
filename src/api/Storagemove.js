@@ -7,7 +7,7 @@ export function createstoragemove(query, query2, query3) {
     params.append('Json', query) // 你要传给后台的参数值 key/value
   }
   if (query2 !== '' && query2 !== null && query2 !== undefined) {
-    params.append('detailJson', query2) // 你要传给后台的参数值 key/value
+    params.append('applyDetailJson', query2) // 你要传给后台的参数值 key/value
   }
   if (query3.repositoryId !== '' && query3.repositoryId !== null && query3.repositoryId !== undefined) {
     params.append('repositoryId', query3.repositoryId) // 你要传给后台的参数值 key/value

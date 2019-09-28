@@ -139,23 +139,23 @@
             <el-editable-column prop="productName" align="center" label="物品名称" width="150px"/>
             <el-editable-column prop="color" align="center" label="颜色" width="150px"/>
             <el-editable-column prop="typeName" align="center" label="规格" width="150px"/>
-            <el-editable-column prop="unitName" align="center" label="单位" width="150px"/>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 1.00, precision: 2}, type: 'visible'}" prop="moveQuantity" align="center" label="申请数量" min-width="150">
+            <el-editable-column prop="unit" align="center" label="单位" width="150px"/>
+            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 1.00, precision: 2}, type: 'visible'}" prop="applyQuantity" align="center" label="申请数量" min-width="150">
               <template slot="edit" slot-scope="scope">
                 <el-input-number
                   :precision="2"
                   :controls="true"
                   :min="1.00"
-                  v-model="scope.row.moveQuantity"
+                  v-model="scope.row.applyQuantity"
                   @change="queryStock(scope.row)"
                 />
               </template>
             </el-editable-column>
-            <el-editable-column prop="price" align="center" label="调拨单价" width="150px"/>
+            <el-editable-column prop="movePrice" align="center" label="调拨单价" width="150px"/>
             <!-- <el-editable-column :edit-render="{name: 'ElInputNumber', type: 'visible'}" prop="movePrice" align="center" label="调拨成本价" width="150px"/> -->
-            <el-editable-column prop="totalMoney" align="center" label="调拨金额" width="150px">
+            <el-editable-column prop="moveMoney" align="center" label="商品金额" width="150px">
               <template slot-scope="scope">
-                <p>{{ getSize(scope.row.movePrice, scope.row.moveQuantity) }}</p>
+                <p>{{ getSize(scope.row) }}</p>
               </template>
             </el-editable-column>
             <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="remarks" align="center" label="备注" width="150px"/>
@@ -163,13 +163,8 @@
         </div>
       </el-card>
       <!-- 调拨出库明细 -->
-      <el-card class="box-card" style="margin-top: 15px">
+      <!-- <el-card class="box-card" style="margin-top: 15px">
         <h2 ref="fuzhu" class="form-name">调拨出库明细</h2>
-        <!-- <div class="buttons" style="margin-top: 58px">
-          <el-button type="success" style="background:#3696fd;border-color:#3696fd " @click="handleAddproduct">添加商品</el-button>
-          <el-button type="danger" @click="$refs.editable.removeSelecteds()">删除</el-button>
-        </div> -->
-        <!-- <my-detail :control.sync="control" :personalform="personalForm" @product="productdetail"/> -->
         <div class="container">
           <el-editable
             ref="editable"
@@ -183,6 +178,8 @@
             style="width: 100%">
             <el-editable-column type="selection" width="55" align="center"/>
             <el-editable-column label="编号" width="55" align="center" type="index"/>
+            <el-editable-column prop="productCode" align="center" label="物品编号" width="150px"/>
+            <el-editable-column prop="productName" align="center" label="物品名称" width="150px"/>
             <el-editable-column prop="location" align="center" label="货位" min-width="150">
               <template slot-scope="scope">
                 <p>{{ getLocationData(scope.row) }}</p>
@@ -200,12 +197,10 @@
                 <span v-else>{{ scope.row.batch }}</span>
               </template>
             </el-editable-column>
-            <el-editable-column prop="productCode" align="center" label="物品编号" width="150px"/>
-            <el-editable-column prop="productName" align="center" label="物品名称" width="150px"/>
             <el-editable-column prop="color" align="center" label="颜色" width="150px"/>
             <el-editable-column prop="typeName" align="center" label="规格" width="150px"/>
             <el-editable-column prop="unitName" align="center" label="单位" width="150px"/>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 1.00, precision: 2}, type: 'visible'}" prop="moveQuantity" align="center" label="申请数量" min-width="150">
+            <el-editable-column prop="moveQuantity" align="center" label="出库数量" min-width="150">
               <template slot="edit" slot-scope="scope">
                 <el-input-number
                   :precision="2"
@@ -235,24 +230,28 @@
               </template>
             </el-editable-column>
             <el-editable-column prop="price" align="center" label="调拨单价" width="150px"/>
-            <!-- <el-editable-column :edit-render="{name: 'ElInputNumber', type: 'visible'}" prop="movePrice" align="center" label="调拨成本价" width="150px"/> -->
+            <el-editable-column :edit-render="{name: 'ElInputNumber', type: 'visible'}" prop="movePrice" align="center" label="调拨成本价" width="150px"/>
             <el-editable-column prop="totalMoney" align="center" label="调拨金额" width="150px">
               <template slot-scope="scope">
                 <p>{{ getSize(scope.row.movePrice, scope.row.moveQuantity) }}</p>
               </template>
             </el-editable-column>
-            <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="remarks" align="center" label="备注" width="150px"/>
+            <el-editable-column prop="totalMoney" align="center" label="出库状态" width="150px">
+              <template slot-scope="scope">
+                <p>{{ getSize(scope.row.movePrice, scope.row.moveQuantity) }}</p>
+              </template>
+            </el-editable-column>
+            <el-table-column :label="$t('public.actions')" :resizable="false" align="center" min-width="230">
+              <template slot-scope="scope">
+                <el-button v-permission="['54-55-98']" v-show="scope.row.judgeStat === 2&&scope.row.confirmPersonId === null" title="确认" type="primary" size="mini" icon="el-icon-check" circle @click="handleEdit2(scope.row)"/>
+              </template>
+            </el-table-column>
           </el-editable>
         </div>
-      </el-card>
+      </el-card> -->
       <!-- 调拨入库明细 -->
-      <el-card class="box-card" style="margin-top: 15px">
+      <!-- <el-card class="box-card" style="margin-top: 15px">
         <h2 ref="fuzhu" class="form-name">调拨入库明细</h2>
-        <!-- <div class="buttons" style="margin-top: 58px">
-          <el-button type="success" style="background:#3696fd;border-color:#3696fd " @click="handleAddproduct">添加商品</el-button>
-          <el-button type="danger" @click="$refs.editable.removeSelecteds()">删除</el-button>
-        </div> -->
-        <!-- <my-detail :control.sync="control" :personalform="personalForm" @product="productdetail"/> -->
         <div class="container">
           <el-editable
             ref="editable"
@@ -266,12 +265,14 @@
             style="width: 100%">
             <el-editable-column type="selection" width="55" align="center"/>
             <el-editable-column label="编号" width="55" align="center" type="index"/>
-            <!-- <el-editable-column prop="location" align="center" label="货位" min-width="150">
+            <el-editable-column prop="productCode" align="center" label="物品编号" width="150px"/>
+            <el-editable-column prop="productName" align="center" label="物品名称" width="150px"/>
+            <el-editable-column prop="location" align="center" label="货位" min-width="150">
               <template slot-scope="scope">
                 <p>{{ getLocationData(scope.row) }}</p>
               </template>
-            </el-editable-column> -->
-            <!-- <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="batch" align="center" label="批次" min-width="150" >
+            </el-editable-column>
+            <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="batch" align="center" label="批次" min-width="150" >
               <template slot="edit" slot-scope="scope">
                 <el-select v-if="scope.row.batch !== '不使用'" v-model="scope.row.batch" :value="scope.row.batch" placeholder="请选择批次" filterable clearable style="width: 100%;" @visible-change="updatebatch2($event,scope)">
                   <el-option
@@ -282,13 +283,11 @@
                 </el-select>
                 <span v-else>{{ scope.row.batch }}</span>
               </template>
-            </el-editable-column> -->
-            <el-editable-column prop="productCode" align="center" label="物品编号" width="150px"/>
-            <el-editable-column prop="productName" align="center" label="物品名称" width="150px"/>
+            </el-editable-column>
             <el-editable-column prop="color" align="center" label="颜色" width="150px"/>
             <el-editable-column prop="typeName" align="center" label="规格" width="150px"/>
             <el-editable-column prop="unitName" align="center" label="单位" width="150px"/>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 1.00, precision: 2}, type: 'visible'}" prop="moveQuantity" align="center" label="申请数量" min-width="150">
+            <el-editable-column prop="moveQuantity" align="center" label="出库数量" min-width="150">
               <template slot="edit" slot-scope="scope">
                 <el-input-number
                   :precision="2"
@@ -299,31 +298,70 @@
                 />
               </template>
             </el-editable-column>
+            <el-editable-column prop="carCode" align="center" label="车架编码" min-width="150" >
+              <template slot="edit" slot-scope="scope">
+                <el-input v-if="isEdit2(scope.row)" v-model="scope.row.carCode" clearable/>
+                <span v-else>{{ scope.row.carCode }}</span>
+              </template>
+            </el-editable-column>
+            <el-editable-column prop="motorCode" align="center" label="电机编码" min-width="150" >
+              <template slot="edit" slot-scope="scope">
+                <el-input v-if="isEdit2(scope.row)" v-model="scope.row.motorCode" clearable/>
+                <span v-else>{{ scope.row.motorCode }}</span>
+              </template>
+            </el-editable-column>
+            <el-editable-column prop="batteryCode" align="center" label="电池编码" min-width="150" >
+              <template slot="edit" slot-scope="scope">
+                <el-input v-if="isEdit2(scope.row)" v-model="scope.row.batteryCode" clearable/>
+                <span v-else>{{ scope.row.batteryCode }}</span>
+              </template>
+            </el-editable-column>
             <el-editable-column prop="price" align="center" label="调拨单价" width="150px"/>
-            <!-- <el-editable-column :edit-render="{name: 'ElInputNumber', type: 'visible'}" prop="movePrice" align="center" label="调拨成本价" width="150px"/> -->
+            <el-editable-column prop="movePrice" align="center" label="调拨成本价" width="150px"/>
             <el-editable-column prop="totalMoney" align="center" label="调拨金额" width="150px">
               <template slot-scope="scope">
                 <p>{{ getSize(scope.row.movePrice, scope.row.moveQuantity) }}</p>
               </template>
             </el-editable-column>
-            <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="remarks" align="center" label="备注" width="150px"/>
+            <el-editable-column prop="totalMoney" align="center" label="出库状态" width="150px">
+              <template slot-scope="scope">
+                <p>{{ getSize(scope.row.movePrice, scope.row.moveQuantity) }}</p>
+              </template>
+            </el-editable-column>
+            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0.00, precision: 2}, type: 'visible'}" prop="quantity" align="center" label="实际入库" min-width="150px">
+              <template slot="edit" slot-scope="scope">
+                <el-input-number
+                  :precision="2"
+                  :controls="false"
+                  :min="0.00"
+                  :value="scope.row.quantity"
+                />
+              </template>
+            </el-editable-column>
+            <el-table-column :label="$t('public.actions')" :resizable="false" align="center" min-width="230">
+              <template slot-scope="scope">
+                <el-button v-permission="['54-55-98']" v-show="scope.row.judgeStat === 2&&scope.row.confirmPersonId === null" title="确认" type="primary" size="mini" icon="el-icon-check" circle @click="handleEdit2(scope.row)"/>
+              </template>
+            </el-table-column>
           </el-editable>
         </div>
-      </el-card>
-      <!--操作-->
+      </el-card> -->
+      <!-- 操作 -->
       <div class="buttons" style="margin-top: 20px">
         <el-button v-no-more-click type="primary" style="background:#3696fd;border-color:#3696fd;width: 98px" @click="handlesave()">保存</el-button>
         <el-button type="danger" @click="handlecancel()">取消</el-button>
       </div>
+      <!-- 备注 -->
+      <!-- <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="remarks" align="center" label="备注" width="150px"/> -->
     </div>
   </div>
 </template>
 
 <script>
 import '@/directive/noMoreClick/index.js'
-import { getAllBatch } from '@/api/public'
+// import { getAllBatch } from '@/api/public'
 import { getdeptlist } from '@/api/BasicSettings'
-import { batchlist, getlocation, countlist, productlist } from '@/api/public'
+import { batchlist, getlocation, productlist } from '@/api/public'
 import { createstoragemove } from '@/api/Storagemove'
 import MyRepository from './components/MyRepository'
 import MyAccept from './components/MyAccept'
@@ -542,83 +580,14 @@ export default {
       // })
     },
     queryStock(row) {
-      if (row.location === null || row.location === '' || row.location === undefined) {
+      console.log(this.$refs.editable.getRecords())
+      if (row.applyQuantity > row.existStock) {
         this.$notify.error({
           title: '错误',
-          message: '仓库不存在此商品!',
+          message: '申请数量超过库存数量',
           offset: 100
         })
-        row.moveQuantity = 1
-        return false
-      }
-      // 1.批次只有一个 不能超过总库存
-      // 2.批次有多个 不能超过单个批次数量
-      let i = 0
-      const EnterDetail = this.$refs.editable.getRecords()
-      EnterDetail.map(function(elem) {
-        return elem
-      }).forEach(function(elem) {
-        if (elem.productCode === row.productCode) {
-          i++
-        }
-      })
-      if (i === 1) {
-        // 1.批次只有一个 不能超过总库存
-        countlist(this.personalForm.moveOutRepository, 0, row.productCode).then(res => {
-          if (res.data.ret === 200) {
-            console.log('res.data.data.content', res.data.data.content)
-            if (res.data.data.content.list.length === 0) {
-              this.$notify.error({
-                title: '错误',
-                message: '仓库内无该物品',
-                offset: 100
-              })
-              row.moveQuantity = 1
-              return false
-            }
-            if (row.moveQuantity > res.data.data.content.list[0].ableStock) {
-              this.$notify.error({
-                title: '错误',
-                message: '出库数量超出了当前仓库可用存量，请输入正确出库数量!',
-                offset: 100
-              })
-              row.moveQuantity = 1
-              return false
-            }
-          } else {
-            this.$notify.error({
-              title: '错误',
-              message: res.data.msg,
-              offset: 100
-            })
-          }
-        })
-      } else {
-        // 2.批次有多个 不能超过单个批次数量
-        const param = {}
-        param.productCode = row.productCode
-        param.batch = row.batch
-        param.repositoryId = row.repositoryId
-        getAllBatch(param).then(res => {
-          if (res.data.ret === 200) {
-            console.log('res.data.data.content', res.data.data.content)
-            if (row.moveQuantity > res.data.data.content[0].moveQuantity) {
-              this.$notify.error({
-                title: '错误',
-                message: '出库数量超出了当前批次可用存量，请输入正确出库数量!',
-                offset: 100
-              })
-              row.moveQuantity = 1
-              return false
-            }
-          } else {
-            this.$notify.error({
-              title: '错误',
-              message: res.data.msg,
-              offset: 100
-            })
-          }
-        })
+        row.applyQuantity = 1
       }
     },
     getLocationData(row) {
@@ -733,24 +702,25 @@ export default {
     },
     productdetail(val) {
       console.log(val)
-      // const nowlistdata = this.$refs.editable.getRecords()
+      const nowlistdata = this.$refs.editable.getRecords()
       for (let i = 0; i < val.length; i++) {
-        // for (let j = 0; j < nowlistdata.length; j++) {
-        //   if (val[i].productCode === nowlistdata[j].productCode) {
-        //     this.$notify.error({
-        //       title: '错误',
-        //       message: '物品已添加',
-        //       offset: 100
-        //     })
-        //     return false
-        //   }
-        // }
+        for (let j = 0; j < nowlistdata.length; j++) {
+          if (val[i].productCode === nowlistdata[j].productCode) {
+            this.$notify.error({
+              title: '错误',
+              message: '物品已添加',
+              offset: 100
+            })
+            return false
+          }
+        }
         this.$refs.editable.insert(val[i])
       }
     },
     // 调拨金额计算
-    getSize(quan, pric) {
-      return quan * pric
+    getSize(row) {
+      row.moveMoney = row.movePrice * row.applyQuantity
+      return row.moveMoney
     },
     // 清空记录
     restAllForm() {
@@ -768,47 +738,47 @@ export default {
     handlesave() {
       const EnterDetail = this.$refs.editable.getRecords()
       // 保存时同样商品不能有同一个批次
-      let i = 0
-      EnterDetail.map(function(elem) {
-        return elem
-      }).forEach(function(elem) {
-        EnterDetail.map(function(elem2) {
-          return elem2
-        }).forEach(function(elem2) {
-          if (elem2.productCode === elem.productCode && elem2.batch === elem.batch) {
-            i++
-          }
-        })
-      })
-      console.log(i)
-      if (i > EnterDetail.length) {
-        this.$notify.error({
-          title: '错误',
-          message: '同样商品不能有同一个批次',
-          offset: 100
-        })
-        return false
-      }
-      // 批次货位不能为空
-      let j = 1
-      EnterDetail.map(function(elem) {
-        return elem
-      }).forEach(function(elem) {
-        if (elem.batch === null || elem.batch === undefined || elem.batch === '' || elem.location === null || elem.location === undefined || elem.location === '') {
-          j = 2
-        }
-      })
-      console.log(j)
-      if (j === 2) {
-        this.$notify.error({
-          title: '错误',
-          message: '批次货位不能为空',
-          offset: 100
-        })
-        return false
-      }
-      console.log(this.personalForm)
-      console.log(EnterDetail)
+      // let i = 0
+      // EnterDetail.map(function(elem) {
+      //   return elem
+      // }).forEach(function(elem) {
+      //   EnterDetail.map(function(elem2) {
+      //     return elem2
+      //   }).forEach(function(elem2) {
+      //     if (elem2.productCode === elem.productCode && elem2.batch === elem.batch) {
+      //       i++
+      //     }
+      //   })
+      // })
+      // console.log(i)
+      // if (i > EnterDetail.length) {
+      //   this.$notify.error({
+      //     title: '错误',
+      //     message: '同样商品不能有同一个批次',
+      //     offset: 100
+      //   })
+      //   return false
+      // }
+      // // 批次货位不能为空
+      // let j = 1
+      // EnterDetail.map(function(elem) {
+      //   return elem
+      // }).forEach(function(elem) {
+      //   if (elem.batch === null || elem.batch === undefined || elem.batch === '' || elem.location === null || elem.location === undefined || elem.location === '') {
+      //     j = 2
+      //   }
+      // })
+      // console.log(j)
+      // if (j === 2) {
+      //   this.$notify.error({
+      //     title: '错误',
+      //     message: '批次货位不能为空',
+      //     offset: 100
+      //   })
+      //   return false
+      // }
+      // console.log(this.personalForm)
+      // console.log(EnterDetail)
       if (EnterDetail.length === 0) {
         this.$notify.error({
           title: '错误',
@@ -823,12 +793,12 @@ export default {
         if (elem.locationId === null || elem.locationId === '' || elem.locationId === undefined) {
           delete elem.locationId
         }
-        if (elem.productCode === null || elem.productCode === '' || elem.productCode === undefined) {
-          delete elem.productCode
-        }
-        if (elem.productName === null || elem.productName === '' || elem.productName === undefined) {
-          delete elem.productName
-        }
+        // if (elem.productCode === null || elem.productCode === '' || elem.productCode === undefined) {
+        //   delete elem.productCode
+        // }
+        // if (elem.productName === null || elem.productName === '' || elem.productName === undefined) {
+        //   delete elem.productName
+        // }
         if (elem.batch === null || elem.batch === '' || elem.batch === undefined) {
           delete elem.batch
         }
@@ -838,24 +808,24 @@ export default {
         if (elem.typeId === null || elem.typeId === '' || elem.typeId === undefined) {
           delete elem.typeId
         }
-        if (elem.unit === null || elem.unit === '' || elem.unit === undefined) {
-          delete elem.unit
-        }
-        if (elem.price === null || elem.price === '' || elem.price === undefined) {
-          delete elem.price
-        }
-        if (elem.movePrice === null || elem.movePrice === '' || elem.movePrice === undefined) {
-          delete elem.movePrice
-        }
-        if (elem.moveQuantity === null || elem.moveQuantity === '' || elem.moveQuantity === undefined) {
-          delete elem.moveQuantity
-        }
-        if (elem.totalMoney === null || elem.totalMoney === '' || elem.totalMoney === undefined) {
-          delete elem.totalMoney
-        }
-        if (elem.remarks === null || elem.remarks === '' || elem.remarks === undefined) {
-          delete elem.remarks
-        }
+        // if (elem.unit === null || elem.unit === '' || elem.unit === undefined) {
+        //   delete elem.unit
+        // }
+        // if (elem.price === null || elem.price === '' || elem.price === undefined) {
+        //   delete elem.price
+        // }
+        // if (elem.movePrice === null || elem.movePrice === '' || elem.movePrice === undefined) {
+        //   delete elem.movePrice
+        // }
+        // if (elem.moveQuantity === null || elem.moveQuantity === '' || elem.moveQuantity === undefined) {
+        //   delete elem.moveQuantity
+        // }
+        // if (elem.totalMoney === null || elem.totalMoney === '' || elem.totalMoney === undefined) {
+        //   delete elem.totalMoney
+        // }
+        // if (elem.remarks === null || elem.remarks === '' || elem.remarks === undefined) {
+        //   delete elem.remarks
+        // }
         return elem
       })
       const Data = this.personalForm
