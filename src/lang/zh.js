@@ -1075,7 +1075,8 @@ export default {
     applicationName: '调拨申请人',
     judgeStat: '审批状态',
     storageMovePerson: '调拨出库人',
-    storageMoveDate: '调拨出库日期'
+    storageMoveDate: '调拨出库日期',
+    moveoutconfirm: '调拨出库确认'
   },
   StockAlarm: {
     searchRepositoryId: '仓库',

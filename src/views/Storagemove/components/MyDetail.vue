@@ -270,34 +270,30 @@ export default {
     // 物品选择添加
     handleAddTo() {
       this.productVisible = false
-      console.log(this.moreaction)
-      for (const i in this.moreaction) {
-        if (this.moreaction[i].isBatch === 2) {
-          this.moreaction[i].batch = '不使用'
-        }
-      }
       const productDetail = this.moreaction.map(function(item) {
         return {
           productCode: item.code,
           productName: item.productName,
-          locationId: '',
           color: item.color,
-          typeId: item.typeId,
-          enterQuantity: 0,
-          taxRate: 0,
-          unit: item.stockMeasu,
-          unitName: item.stockMeasu,
-          actualEnterQuantity: 0,
-          basicQuantity: 0,
-          enterPrice: item.costPrice,
-          productType: item.productType,
-          totalMoney: 0,
-          enterMoney: 0,
-          price: item.costPrice,
+          type: item.typeId,
           typeName: item.productType,
-          movePrice: 0,
-          batch: item.batch,
-          moveQuantity: 0
+          // applyQuantity: '',
+          enterQuantity: 0,
+          // taxRate: 0,
+          unit: item.stockMeasu,
+          // unitName: item.stockMeasu,
+          // actualEnterQuantity: 0,
+          // basicQuantity: 0,
+          // enterPrice: item.costPrice,
+          // productType: item.productType,
+          // totalMoney: 0,
+          // enterMoney: 0,
+          // price: item.costPrice,
+          movePrice: item.costPrice,
+          // batch: item.batch,
+          moveQuantity: 0,
+          existStock: item.existStock,
+          moveMoney: 0
         }
       })
       console.log(productDetail)

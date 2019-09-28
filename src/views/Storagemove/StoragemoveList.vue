@@ -161,6 +161,7 @@
             <el-button v-permission="['131-141-142-17']" v-show="isReview3(scope.row)" title="反结单" type="success" size="mini" icon="el-icon-back" circle @click="handleReview3(scope.row)"/>
             <el-button v-permission="['131-141-142-2']" v-show="scope.row.judgeStat === 0" size="mini" type="danger" @click="handleDelete(scope.row)">{{ $t('public.delete') }}</el-button>
             <el-button v-permission="['131-141-142-50']" v-show="scope.row.judgeStat === 2" type="primary" size="mini" @click="handlemove(scope.row)">{{ $t('public.move') }}</el-button>
+            <el-button v-show="scope.row.judgeStat === 2" type="primary" size="mini" @click="handlemoveconfirm(scope.row)">{{ $t('Storagemove.moveoutconfirm') }}</el-button>
           </template>
         </el-table-column>
       </el-table>
