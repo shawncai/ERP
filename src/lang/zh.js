@@ -326,7 +326,30 @@ export default {
     inventoryAlarm: '货物流转报警',
     offlineTask: '线下任务',
     operation: '操作日志',
-    operationList: '操作日志列表'
+    operationList: '操作日志列表',
+    stockDetailCount: '采购订单明细表',
+    stockBillCount: '采购开单汇总表',
+    stockBillList: '采购开单明细表'
+  },
+  stockBillCount: {
+    Stockenter: '采购入库',
+    StockRetreat: '采购退货',
+    actualEnterQuantity: '实际入库',
+    retreatrate: '退货率'
+  },
+  stockDetailCount: {
+    order: '订货',
+    productCode: '物品编号',
+    productName: '物品名称',
+    productType: '型号规格',
+    // id: '生产厂家',
+    unit: '单位',
+    orderQuantity: '数量',
+    totalMoney: '金额',
+    taxMoney: '税额',
+    heji: '合计',
+    arrivedQuantity: '已到货数量',
+    notArrivedQuantity: '未到货数量'
   },
   stockOrderCount: {
     type: '汇总方式',

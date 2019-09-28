@@ -3,17 +3,18 @@
     <el-card class="box-card" style="margin-top: 10px;height: 60px" shadow="never">
       <el-row>
         <el-form ref="getemplist" :model="getemplist" label-width="100px" style="margin-top: -9px">
-          <el-col :span="5" style="margin-left: 10px">
-            <el-form-item :label="$t('stockOrderCount.type')">
-              <el-select v-model="getemplist.type" :value="getemplist.type" clearable @keyup.enter.native="handleFilter" @change="changeName">
-                <el-option value="1" label="供应商"/>
-                <el-option value="2" label="经办人"/>
-                <!-- <el-option value="3" label="品牌"/> -->
-                <el-option value="4" label="种类"/>
-              </el-select>
+          <el-col :span="5">
+            <el-form-item label="物品名称">
+              <el-input v-model="getemplist.productName" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
-          <el-col :span="5" style="margin-left: 65px">
+          <el-col :span="5">
+            <el-form-item :label="$t('StockContract.supplierId')">
+              <el-input v-model="supplierId" @focus="handlechoose"/>
+              <my-supplier :control.sync="empcontrol" @supplierName="supplierName"/>
+            </el-form-item>
+          </el-col>
+          <el-col :span="5" style="margin-left: 47px">
             <el-form-item :label="$t('stockOrderCount.date')">
               <el-date-picker
                 v-model="date"
@@ -24,7 +25,7 @@
                 style="margin-left: 70px"/>
             </el-form-item>
           </el-col>
-          <el-col :span="3" style="margin-left: 400px">
+          <el-col :span="3" style="margin-left: 252px">
             <!-- 搜索按钮 -->
             <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 86px" round @click="handleFilter">{{ $t('public.search') }}</el-button>
           </el-col>
@@ -38,14 +39,24 @@
         :data="list"
         style="width: 100%">
         <el-table-column
-          :label="$t('stockOrderCount.id')"
-          prop="id"
+          :label="$t('stockDetailCount.productCode')"
+          prop="productCode"
           width="200"
           align="center"/>
         <el-table-column
-          :label="first"
-          prop="name"
-          width="300"
+          :label="$t('stockDetailCount.productName')"
+          prop="productName"
+          width="200"
+          align="center"/>
+        <el-table-column
+          :label="$t('stockDetailCount.productType')"
+          prop="productType"
+          width="200"
+          align="center"/>
+        <el-table-column
+          :label="$t('stockDetailCount.unit')"
+          prop="unit"
+          width="200"
           align="center"/>
         <el-table-column :label="$t('stockOrderCount.order')" align="center">
           <el-table-column
@@ -87,8 +98,9 @@
 </template>
 
 <script>
-import { stockOrderCount } from '@/api/count'
+import { stockDetailCount } from '@/api/count'
 import { searchStockCategory } from '@/api/StockCategory'
+import MyRepository from './components/MyRepository'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination'
 import permission from '@/directive/permission/index.js' // 权限判断指令
@@ -99,11 +111,12 @@ import DetailList from './components/DetailList'
 import MyDialog from './components/MyDialog'
 import MyCustomer from './components/MyCustomer'
 import MyAgent from './components/MyAgent'
+import MySupplier from './components/MySupplier'
 
 export default {
-  name: 'StockOrderCount',
+  name: 'StockDetailCount',
   directives: { waves, permission, permission2 },
-  components: { MyDialog, DetailList, MyEmp, MyCustomer, MyAgent, Pagination },
+  components: { MyDialog, DetailList, MyEmp, MyCustomer, MySupplier, MyAgent, MyRepository, Pagination },
   filters: {
     judgeStatFilter(status) {
       const statusMap = {
@@ -214,6 +227,11 @@ export default {
     this.changeName()
   },
   methods: {
+    supplierName(val) {
+      console.log(val)
+      this.supplierId = val.supplierName
+      this.getemplist.supplierId = val.id
+    },
     changeName() {
       if (this.getemplist.type === '1') {
         this.first = '供应商名称'
@@ -266,7 +284,7 @@ export default {
     getlist() {
       // 物料需求计划列表数据
       this.listLoading = true
-      stockOrderCount(this.getemplist).then(res => {
+      stockDetailCount(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           for (let i = 0; i < this.list.length; i++) {
@@ -302,7 +320,7 @@ export default {
         this.getemplist.beginTime = this.date[0]
         this.getemplist.endTime = this.date[1]
       }
-      stockOrderCount(this.getemplist).then(res => {
+      stockDetailCount(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           for (let i = 0; i < this.list.length; i++) {
@@ -327,12 +345,6 @@ export default {
     // 供应商输入框focus事件触发
     handlechoose() {
       this.empcontrol = true
-    },
-    // 供应商列表返回数据
-    supplierName(val) {
-      console.log(val)
-      this.supplierId = val.supplierName
-      this.getemplist.supplierId = val.id
     },
     // 修改操作
     handleEdit(row) {

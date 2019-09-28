@@ -4,8 +4,6 @@
       <!-- 搜索条件栏目 -->
       <el-input v-model="getemplist.code" :placeholder="$t('Product.code')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
       <el-input v-model="getemplist.productname" :placeholder="$t('Product.productname')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
-      <el-input v-model="supplierId" :placeholder="$t('Product.supplierid')" class="filter-item" clearable @keyup.enter.native="handleFilter" @focus="handlechoose"/>
-      <my-supplier :control.sync="empcontrol" @supplierName="supplierName"/>
       <el-input v-model="categoryid" placeholder="物品分类" class="filter-item" clearable @focus="treechoose"/>
       <my-tree :treecontrol.sync="treecontrol" @tree="tree"/>
       <!-- 更多搜索条件下拉栏 -->
@@ -88,11 +86,6 @@
       <el-table-column :label="$t('Product.costprice')" :resizable="false" prop="costPrice" align="center" width="100">
         <template slot-scope="scope">
           <span>{{ scope.row.costPrice }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column :label="$t('Product.purchaseprice')" :resizable="false" prop="purchasePrice" align="center" width="150">
-        <template slot-scope="scope">
-          <span>{{ scope.row.purchasePrice }}</span>
         </template>
       </el-table-column>
       <el-table-column :label="$t('Product.createid')" :resizable="false" prop="createName" align="center" width="150">
@@ -231,9 +224,6 @@ export default {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
-          this.restFilter()
-        } else {
-          this.restFilter()
         }
       })
     },

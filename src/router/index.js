@@ -2843,6 +2843,24 @@ export const asyncRouterMap = [
         component: () => import('@/views/StockCount/stockOrderCount'),
         name: 'stockOrderCount',
         meta: { title: 'stockOrderCount', noCache: true }
+      },
+      {
+        path: 'stockDetailCount',
+        component: () => import('@/views/StockCount/stockDetailCount'),
+        name: 'stockDetailCount',
+        meta: { title: 'stockDetailCount', noCache: true }
+      },
+      {
+        path: 'stockBillCount',
+        component: () => import('@/views/StockCount/stockBillCount'),
+        name: 'stockBillCount',
+        meta: { title: 'stockBillCount', noCache: true }
+      },
+      {
+        path: 'stockBillList',
+        component: () => import('@/views/StockCount/stockBillList'),
+        name: 'stockBillList',
+        meta: { title: 'stockBillList', noCache: true }
       }
     ]
   },

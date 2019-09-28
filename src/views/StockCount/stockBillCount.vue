@@ -3,17 +3,25 @@
     <el-card class="box-card" style="margin-top: 10px;height: 60px" shadow="never">
       <el-row>
         <el-form ref="getemplist" :model="getemplist" label-width="100px" style="margin-top: -9px">
-          <el-col :span="5" style="margin-left: 10px">
+          <el-col :span="5">
             <el-form-item :label="$t('stockOrderCount.type')">
               <el-select v-model="getemplist.type" :value="getemplist.type" clearable @keyup.enter.native="handleFilter" @change="changeName">
-                <el-option value="1" label="供应商"/>
-                <el-option value="2" label="经办人"/>
-                <!-- <el-option value="3" label="品牌"/> -->
-                <el-option value="4" label="种类"/>
+                <el-option value="1" label="仓库"/>
+                <el-option value="2" label="供应商"/>
+                <el-option value="3" label="类别"/>
+                <el-option value="4" label="品牌"/>
+                <el-option value="5" label="年"/>
+                <el-option value="6" label="月"/>
               </el-select>
             </el-form-item>
           </el-col>
-          <el-col :span="5" style="margin-left: 65px">
+          <el-col :span="5">
+            <el-form-item label="门店">
+              <el-input v-model="repositoryId" class="filter-item" clearable @keyup.enter.native="handleFilter" @focus="handlechooseRep"/>
+              <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
+            </el-form-item>
+          </el-col>
+          <el-col :span="5" style="margin-left: 47px">
             <el-form-item :label="$t('stockOrderCount.date')">
               <el-date-picker
                 v-model="date"
@@ -24,7 +32,7 @@
                 style="margin-left: 70px"/>
             </el-form-item>
           </el-col>
-          <el-col :span="3" style="margin-left: 400px">
+          <el-col :span="3" style="margin-left: 252px">
             <!-- 搜索按钮 -->
             <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 86px" round @click="handleFilter">{{ $t('public.search') }}</el-button>
           </el-col>
@@ -47,38 +55,77 @@
           prop="name"
           width="300"
           align="center"/>
-        <el-table-column :label="$t('stockOrderCount.order')" align="center">
+        <el-table-column :label="$t('stockBillCount.Stockenter')" align="center">
           <el-table-column
             :label="$t('stockOrderCount.orderQuantity')"
-            prop="orderQuantity"
+            prop="stockQuantity"
             width="200"
             align="center"/>
           <el-table-column
             :label="$t('stockOrderCount.totalMoney')"
-            prop="totalMoney"
+            prop="stockMoney"
             width="200"
             align="center"/>
           <el-table-column
             :label="$t('stockOrderCount.taxMoney')"
-            prop="taxMoney"
+            prop="stockTax"
             width="200"
             align="center"/>
           <el-table-column
             :label="$t('stockOrderCount.heji')"
-            prop="heji"
+            prop="stockTotalMoney"
             width="200"
             align="center"/>
         </el-table-column>
-        <el-table-column
-          :label="$t('stockOrderCount.arrivedQuantity')"
+        <el-table-column :label="$t('stockBillCount.StockRetreat')" align="center">
+          <el-table-column
+            :label="$t('stockOrderCount.orderQuantity')"
+            prop="retreatQuantity"
+            width="200"
+            align="center"/>
+          <el-table-column
+            :label="$t('stockOrderCount.totalMoney')"
+            prop="retreatMoney"
+            width="200"
+            align="center"/>
+          <el-table-column
+            :label="$t('stockOrderCount.taxMoney')"
+            prop="retreatTax"
+            width="200"
+            align="center"/>
+          <el-table-column
+            :label="$t('stockOrderCount.heji')"
+            prop="retreatTotalMoney"
+            width="200"
+            align="center"/>
+        </el-table-column>
+        <el-table-column :label="$t('stockBillCount.actualEnterQuantity')" align="center">
+          <el-table-column
+            :label="$t('stockOrderCount.orderQuantity')"
+            prop="enterQuantity"
+            width="200"
+            align="center"/>
+          <el-table-column
+            :label="$t('stockOrderCount.totalMoney')"
+            prop="enterMoney"
+            width="200"
+            align="center"/>
+          <el-table-column
+            :label="$t('stockOrderCount.taxMoney')"
+            prop="enterTax"
+            width="200"
+            align="center"/>
+          <el-table-column
+            :label="$t('stockOrderCount.heji')"
+            prop="enterTotalMoney"
+            width="200"
+            align="center"/>
+        </el-table-column>
+        <!-- <el-table-column
+          :label="$t('stockBillCount.retreatrate')"
           prop="arrivedQuantity"
           width="200"
-          align="center"/>
-        <el-table-column
-          :label="$t('stockOrderCount.notArrivedQuantity')"
-          prop="notArrivedQuantity"
-          width="200"
-          align="center"/>
+          align="center"/> -->
       </el-table>
       <!-- 列表结束 -->
       <pagination v-show="total>0" :total="total" :page.sync="getemplist.pageNum" :limit.sync="getemplist.pageSize" @pagination="getlist" />
@@ -87,7 +134,7 @@
 </template>
 
 <script>
-import { stockOrderCount } from '@/api/count'
+import { stockBillCount } from '@/api/count'
 import { searchStockCategory } from '@/api/StockCategory'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination'
@@ -99,11 +146,12 @@ import DetailList from './components/DetailList'
 import MyDialog from './components/MyDialog'
 import MyCustomer from './components/MyCustomer'
 import MyAgent from './components/MyAgent'
+import MyRepository from './components/MyRepository'
 
 export default {
   name: 'StockOrderCount',
   directives: { waves, permission, permission2 },
-  components: { MyDialog, DetailList, MyEmp, MyCustomer, MyAgent, Pagination },
+  components: { MyDialog, DetailList, MyRepository, MyEmp, MyCustomer, MyAgent, Pagination },
   filters: {
     judgeStatFilter(status) {
       const statusMap = {
@@ -148,6 +196,7 @@ export default {
       step6: '',
       step7: '',
       step8: '',
+      repositoryId: '',
       receiptVisible: false,
       // 回显客户
       customerName: '',
@@ -171,6 +220,7 @@ export default {
       },
       // 详情组件数据
       detailvisible: false,
+      repositorycontrol: false,
       // 更多搜索条件问题
       visible2: false,
       // 供应商回显
@@ -197,8 +247,6 @@ export default {
       getemplist: {
         pageNum: 1,
         pageSize: 10,
-        repositoryId: this.$store.getters.repositoryId,
-        regionIds: this.$store.getters.regionId,
         type: '1'
       },
       // 传给组件的数据
@@ -216,16 +264,22 @@ export default {
   methods: {
     changeName() {
       if (this.getemplist.type === '1') {
-        this.first = '供应商名称'
+        this.first = '仓库名称'
       }
       if (this.getemplist.type === '2') {
-        this.first = '经办人名称'
+        this.first = '供应商名称'
       }
       if (this.getemplist.type === '3') {
-        this.first = '品牌名称'
+        this.first = '类别'
       }
       if (this.getemplist.type === '4') {
-        this.first = '种类名称'
+        this.first = '品牌'
+      }
+      if (this.getemplist.type === '5') {
+        this.first = '年'
+      }
+      if (this.getemplist.type === '6') {
+        this.first = '月'
       }
       this.getlist()
     },
@@ -266,7 +320,7 @@ export default {
     getlist() {
       // 物料需求计划列表数据
       this.listLoading = true
-      stockOrderCount(this.getemplist).then(res => {
+      stockBillCount(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           for (let i = 0; i < this.list.length; i++) {
@@ -302,7 +356,7 @@ export default {
         this.getemplist.beginTime = this.date[0]
         this.getemplist.endTime = this.date[1]
       }
-      stockOrderCount(this.getemplist).then(res => {
+      stockBillCount(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           for (let i = 0; i < this.list.length; i++) {
@@ -383,8 +437,8 @@ export default {
     },
     repositoryname(val) {
       console.log(val)
-      this.enterRepositoryId = val.repositoryName
-      this.getemplist.enterRepositoryId = val.id
+      this.repositoryId = val.repositoryName
+      this.getemplist.repositoryId = val.id
     },
     // 部门列表focus刷新
     updatedept() {
