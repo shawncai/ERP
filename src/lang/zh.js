@@ -329,7 +329,19 @@ export default {
     operationList: '操作日志列表',
     stockDetailCount: '采购订单明细表',
     stockBillCount: '采购开单汇总表',
-    stockBillList: '采购开单明细表'
+    stockBillList: '采购开单明细表',
+    stockTrackList: '采购订单全程跟踪表',
+    supplierPunishmentCount: '供应商惩罚汇总表',
+    productStockFluid: '商品采购流水账'
+  },
+  stockTrackList: {
+
+  },
+  supplierPunishmentCount: {
+
+  },
+  productStockFluid: {
+
   },
   stockBillCount: {
     Stockenter: '采购入库',
