@@ -152,7 +152,8 @@
         </el-table-column>
         <el-table-column :label="$t('public.actions')" :resizable="false" align="center" min-width="330">
           <template slot-scope="scope">
-            <el-button v-show="scope.row.judgeStat === 2&&scope.row.confirmOutPersonId === null" size="mini" type="success" @click="handleDispatch3(scope.row)">调出确认</el-button>
+            <!-- 调出确认 -->
+            <el-button v-show="scope.row.judgeStat === 2&&scope.row.confirmOutPersonId === null&&scope.row.storageMoveDetailConfirmVos.length !== scope.row.storageMoveDetailVos.length" size="mini" type="success" @click="handleDispatch3(scope.row)">{{ $t('Storagemove.moveoutconfirm') }}</el-button>
             <el-button v-show="scope.row.judgeStat === 2&&scope.row.confirmPersonId === null" size="mini" type="success" @click="handleDispatch2(scope.row)">调入确认</el-button>
             <el-button v-permission="['131-141-142-3']" v-show="scope.row.judgeStat === 0" type="primary" size="mini" @click="handleEdit(scope.row)">{{ $t('public.edit') }}</el-button>
             <el-button v-show="isReview(scope.row)" type="warning" size="mini" @click="handleReview(scope.row)">{{ $t('public.review') }}</el-button>
@@ -160,8 +161,8 @@
             <el-button v-permission="['131-141-142-16']" v-show="isReview2(scope.row)" title="结单" type="success" size="mini" icon="el-icon-check" circle @click="handleReview2(scope.row)"/>
             <el-button v-permission="['131-141-142-17']" v-show="isReview3(scope.row)" title="反结单" type="success" size="mini" icon="el-icon-back" circle @click="handleReview3(scope.row)"/>
             <el-button v-permission="['131-141-142-2']" v-show="scope.row.judgeStat === 0" size="mini" type="danger" @click="handleDelete(scope.row)">{{ $t('public.delete') }}</el-button>
-            <el-button v-permission="['131-141-142-50']" v-show="scope.row.judgeStat === 2" type="primary" size="mini" @click="handlemove(scope.row)">{{ $t('public.move') }}</el-button>
-            <el-button v-show="scope.row.judgeStat === 2" type="primary" size="mini" @click="handlemoveconfirm(scope.row)">{{ $t('Storagemove.moveoutconfirm') }}</el-button>
+            <el-button v-permission="['131-141-142-50']" v-show="isReview5(scope.row)" type="primary" size="mini" @click="handlemove(scope.row)">{{ $t('public.move') }}</el-button>
+            <!-- <el-button v-show="scope.row.judgeStat === 2" type="primary" size="mini" @click="handlemoveconfirm(scope.row)">{{ $t('Storagemove.moveoutconfirm') }}</el-button> -->
           </template>
         </el-table-column>
       </el-table>
@@ -279,6 +280,18 @@ export default {
     this.getlist()
   },
   methods: {
+    // 判断调入按钮
+    isReview5(row) {
+      let jungle = false
+      if (row.storageMoveDetailConfirmVos.length === row.storageMoveDetailVos.length) {
+        jungle = true
+      } else {
+        jungle = false
+      }
+      if (row.judgeStat === 2 && jungle === true) {
+        return true
+      }
+    },
     handleDispatch3(row) {
       this.editVisible3 = true
       this.personalForm = Object.assign({}, row)
@@ -302,7 +315,13 @@ export default {
     // 判断反审批按钮
     isReview4(row) {
       console.log(row)
-      if (row.judgeStat === 2) {
+      let jungle = false
+      if (row.storageMoveDetailConfirmVos.length === row.storageMoveDetailVos.length) {
+        jungle = true
+      } else {
+        jungle = false
+      }
+      if (row.judgeStat === 2 && jungle === false) {
         return true
       }
     },
@@ -366,11 +385,11 @@ export default {
         })
       })
     },
-    // 判断结单按钮
+    // 判断结单按钮(稍后修改)
     isReview2(row) {
       console.log(row)
       if (row.receiptStat !== 3 && (row.judgeStat === 2 || row.judgeStat === 3)) {
-        return true
+        return false // true
       }
     },
     // 结单操作
@@ -524,6 +543,7 @@ export default {
       this.reviewParms = {}
       this.reviewParms.id = row.id
       this.reviewParms.judgePersonId = this.$store.getters.userId
+      this.reviewParms.businessStat = 2
       this.$confirm('请审核', '审核', {
         distinguishCancelAndClose: true,
         confirmButtonText: '通过',

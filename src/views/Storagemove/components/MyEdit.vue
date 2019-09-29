@@ -97,71 +97,6 @@
       </div>
     </el-card>
     <!--调拨单明细-->
-    <!-- <el-card class="box-card" style="margin-top: 15px">
-      <h2 ref="fuzhu" class="form-name">调拨单明细</h2>
-      <div class="buttons" style="margin-top: 28px;margin-bottom: 20px">
-        <el-button type="success" style="background:#3696fd;border-color:#3696fd " @click="handleAddproduct">添加商品</el-button>
-        <el-button type="danger" @click="$refs.editable.removeSelecteds()">删除</el-button>
-      </div>
-      <my-detail :control.sync="control" :personalform="personalForm" @product="productdetail"/>
-      <div class="container">
-        <el-editable
-          ref="editable"
-          :data.sync="list2"
-          :edit-config="{ showIcon: true, showStatus: true}"
-          :edit-rules="validRules"
-          class="click-table1"
-          stripe
-          border
-          size="medium"
-          style="width: 100%">
-          <el-editable-column type="selection" width="55" align="center"/>
-          <el-editable-column label="编号" width="55" align="center" type="index"/>
-          <el-editable-column prop="location" align="center" label="货位" min-width="150">
-            <template slot-scope="scope">
-              <p>{{ getLocationData(scope.row) }}</p>
-            </template>
-          </el-editable-column>
-          <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="batch" align="center" label="批次" min-width="150" >
-            <template slot="edit" slot-scope="scope">
-              <el-select v-if="scope.row.batch !== '不使用'" v-model="scope.row.batch" :value="scope.row.batch" placeholder="请选择批次" filterable clearable style="width: 100%;" @visible-change="updatebatch2($event,scope)">
-                <el-option
-                  v-for="(item, index) in batchlist"
-                  :key="index"
-                  :value="item"
-                  :label="item"/>
-              </el-select>
-              <span v-else>{{ scope.row.batch }}</span>
-            </template>
-          </el-editable-column>
-          <el-editable-column prop="productCode" align="center" label="物品编号" width="150px"/>
-          <el-editable-column prop="productName" align="center" label="物品名称" width="150px"/>
-          <el-editable-column prop="color" align="center" label="颜色" width="150px"/>
-          <el-editable-column prop="typeName" align="center" label="规格" width="150px"/>
-          <el-editable-column prop="unitName" align="center" label="单位" width="150px"/>
-          <el-editable-column prop="price" align="center" label="调拨单价" width="150px"/>
-          <el-editable-column :edit-render="{name: 'ElInputNumber', type: 'visible'}" prop="movePrice" align="center" label="调拨成本价" width="150px"/>
-          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 1.00, precision: 2}, type: 'visible'}" prop="moveQuantity" align="center" label="调拨数量" min-width="150">
-            <template slot="edit" slot-scope="scope">
-              <el-input-number
-                :precision="2"
-                :controls="true"
-                :min="1.00"
-                v-model="scope.row.moveQuantity"
-                @change="queryStock(scope.row)"
-              />
-            </template>
-          </el-editable-column>
-          <el-editable-column prop="moveMoney" align="center" label="调拨金额" width="150px">
-            <template slot-scope="scope">
-              <p>{{ scope.row.moveMoney }}</p>
-            </template>
-          </el-editable-column>
-          <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="remarks" align="center" label="备注" width="150px"/>
-        </el-editable>
-      </div>
-    </el-card> -->
-
     <el-card class="box-card" style="margin-top: 15px">
       <h2 ref="fuzhu" class="form-name">调拨申请明细</h2>
       <div class="buttons" style="margin-top: 58px">
@@ -396,22 +331,24 @@ export default {
       // })
     },
     queryStock(row) {
-      const getemplist = {
-        productid: '',
-        code: row.productCode,
-        productname: '',
-        categoryid: '',
-        typeid: '',
-        isactive: '',
-        Productid: '',
-        pagenum: 1,
-        pagesize: 10,
-        searchRepositoryId: this.personalForm.moveOutRepository
+      if (!row.existStock) {
+        const getemplist = {
+          productid: '',
+          code: row.productCode,
+          productname: '',
+          categoryid: '',
+          typeid: '',
+          isactive: '',
+          Productid: '',
+          pagenum: 1,
+          pagesize: 10,
+          searchRepositoryId: this.personalForm.moveOutRepository
+        }
+        chooseProduct(getemplist).then(res => {
+          console.log(res)
+          row.existStock = res.data.data.content.list[0].existStock
+        })
       }
-      chooseProduct(getemplist).then(res => {
-        console.log(res)
-        row.existStock = res.data.data.content.list[0].existStock
-      })
       console.log(this.$refs.editable.getRecords())
       if (row.applyQuantity > row.existStock) {
         this.$notify.error({

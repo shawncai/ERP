@@ -236,7 +236,10 @@ export default {
     },
     businessStatFilter(status) {
       const statusMap = {
-        1: '调拨申请'
+        1: '调拨申请',
+        2: '调拨出库',
+        3: '调拨入库',
+        4: '调拨完成'
       }
       return statusMap[status]
     },

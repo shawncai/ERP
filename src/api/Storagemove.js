@@ -93,7 +93,7 @@ export function updateStoragemove(query, query2) {
     params.append('Json', query) // 你要传给后台的参数值 key/value
   }
   if (query2 !== '' && query2 !== null && query2 !== undefined) {
-    params.append('detailJson', query2) // 你要传给后台的参数值 key/value
+    params.append('applyDetailJson', query2) // 你要传给后台的参数值 key/value
   }
   return request({
     url: '/storagemove/update',
@@ -132,7 +132,26 @@ export function updateStoragemove2(query) {
     data: params
   })
 }
-
+// 确认调拨出库
+export function confirmStoragemove(query) {
+  var params = new URLSearchParams()
+  params.append('detailId', query) // 你要传给后台的参数值 key/value
+  return request({
+    url: '/storagemove/confirmOut',
+    method: 'post',
+    data: params
+  })
+}
+// 修改调拨出库
+export function editStoragemove(query) {
+  var params = new URLSearchParams()
+  params.append('detailJson', query) // 你要传给后台的参数值 key/value
+  return request({
+    url: '/storagemove/updateMoveOut',
+    method: 'post',
+    data: params
+  })
+}
 // 删除调拨单
 export function deletestoragemove(query, query2) {
   var params = new URLSearchParams()
