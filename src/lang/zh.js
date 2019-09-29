@@ -1114,7 +1114,12 @@ export default {
     judgeStat: '审批状态',
     storageMovePerson: '调拨出库人',
     storageMoveDate: '调拨出库日期',
-    moveoutconfirm: '调拨出库确认'
+    moveoutconfirm: '调拨出库确认',
+    confirmOutPerson: '确认出库人',
+    confirmOutDate: '确认出库日期',
+    confirmInDate: '确认入库日期',
+    confirmInPerson: '确认入库人'
+
   },
   StockAlarm: {
     searchRepositoryId: '仓库',
@@ -2245,7 +2250,7 @@ export default {
     cancel: '取消',
     save: '保存',
     modifyDate: '最后更新时间',
-    move: '调入',
+    move: '调入确认',
     judgePersonName: '审核人',
     judgeDate: '审核日期',
     modifyPersonName: '最后更新人',

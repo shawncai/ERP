@@ -154,7 +154,7 @@
           <template slot-scope="scope">
             <!-- 调出确认 -->
             <el-button v-show="scope.row.judgeStat === 2&&scope.row.confirmOutPersonId === null&&scope.row.storageMoveDetailConfirmVos.length !== scope.row.storageMoveDetailVos.length" size="mini" type="success" @click="handleDispatch3(scope.row)">{{ $t('Storagemove.moveoutconfirm') }}</el-button>
-            <el-button v-show="scope.row.judgeStat === 2&&scope.row.confirmPersonId === null" size="mini" type="success" @click="handleDispatch2(scope.row)">调入确认</el-button>
+            <!-- <el-button v-show="scope.row.judgeStat === 2&&scope.row.confirmPersonId === null" size="mini" type="success" @click="handleDispatch2(scope.row)">调入确认</el-button> -->
             <el-button v-permission="['131-141-142-3']" v-show="scope.row.judgeStat === 0" type="primary" size="mini" @click="handleEdit(scope.row)">{{ $t('public.edit') }}</el-button>
             <el-button v-show="isReview(scope.row)" type="warning" size="mini" @click="handleReview(scope.row)">{{ $t('public.review') }}</el-button>
             <el-button v-permission="['131-141-142-76']" v-show="isReview4(scope.row)" title="反审批" type="warning" size="mini" circle @click="handleReview4(scope.row)"><svg-icon icon-class="fanhui"/></el-button>
@@ -282,13 +282,19 @@ export default {
   methods: {
     // 判断调入按钮
     isReview5(row) {
-      let jungle = false
-      if (row.storageMoveDetailConfirmVos.length === row.storageMoveDetailVos.length) {
-        jungle = true
+      let jungle1 = false
+      let jungle2 = false
+      if (row.businessStat === 4) {
+        jungle1 = false
       } else {
-        jungle = false
+        jungle1 = true
       }
-      if (row.judgeStat === 2 && jungle === true) {
+      if (row.storageMoveDetailConfirmVos.length === row.storageMoveDetailVos.length) {
+        jungle2 = true
+      } else {
+        jungle2 = false
+      }
+      if (row.judgeStat === 2 && jungle2 === true && jungle1) {
         return true
       }
     },
@@ -330,6 +336,7 @@ export default {
       this.reviewParms = {}
       this.reviewParms.id = row.id
       this.reviewParms.judgePersonId = this.$store.getters.userId
+      this.reviewParms.businessStat = 1
       this.$confirm('请反审批', '反审批', {
         distinguishCancelAndClose: true,
         confirmButtonText: '反审批',
@@ -388,8 +395,8 @@ export default {
     // 判断结单按钮(稍后修改)
     isReview2(row) {
       console.log(row)
-      if (row.receiptStat !== 3 && (row.judgeStat === 2 || row.judgeStat === 3)) {
-        return false // true
+      if (row.businessStat === 4 && row.receiptStat !== 3) {
+        return true // true
       }
     },
     // 结单操作

@@ -152,6 +152,26 @@ export function editStoragemove(query) {
     data: params
   })
 }
+// 确认调拨入库
+export function confirmStoragein(query) {
+  var params = new URLSearchParams()
+  params.append('detailId', query) // 你要传给后台的参数值 key/value
+  return request({
+    url: '/storagemove/confirmIn',
+    method: 'post',
+    data: params
+  })
+}
+// 修改调拨入库
+export function editStoragein(query) {
+  var params = new URLSearchParams()
+  params.append('detailJson', query) // 你要传给后台的参数值 key/value
+  return request({
+    url: '/storagemove/updateMoveIn',
+    method: 'post',
+    data: params
+  })
+}
 // 删除调拨单
 export function deletestoragemove(query, query2) {
   var params = new URLSearchParams()

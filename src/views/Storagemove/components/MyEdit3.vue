@@ -137,7 +137,7 @@
           <el-editable-column prop="productCode" align="center" label="物品编号" width="150px"/>
           <el-editable-column prop="productName" align="center" label="物品名称" width="150px"/>
           <el-editable-column prop="color" align="center" label="颜色" width="150px"/>
-          <el-editable-column prop="typeName" align="center" label="规格" width="150px"/>
+          <el-editable-column prop="productType" align="center" label="规格" width="150px"/>
           <el-editable-column prop="unit" align="center" label="单位" width="150px"/>
           <el-editable-column prop="applyQuantity" align="center" label="申请数量" min-width="150"/>
           <el-editable-column prop="movePrice" align="center" label="调拨单价" width="150px"/>
@@ -254,7 +254,7 @@
 
 <script>
 // import { locationlist } from '@/api/WarehouseAdjust'
-import { updateStoragemove3, confirmStoragemove, editStoragemove } from '@/api/Storagemove'
+import { updateStoragemove3, confirmStoragemove, editStoragemove, updateStoragemove2 } from '@/api/Storagemove'
 import { getdeptlist } from '@/api/BasicSettings'
 import { batchlist, getlocation } from '@/api/public'
 import MyRepository from './MyRepository'
@@ -285,6 +285,8 @@ export default {
   },
   data() {
     return {
+      // 单据id
+      id: '',
       // 判断操作按钮
       isshow: true,
       // 申请人回显
@@ -352,17 +354,65 @@ export default {
     },
     editdata() {
       this.personalForm = this.editdata
+      console.log(this.personalForm)
+      this.id = this.personalForm.id
       this.moveOutRepository = this.personalForm.moveOutRepositoryName
       this.moveInRepository = this.personalForm.moveInRepositoryName
       this.applyPersonId = this.personalForm.applicationName
       this.list2 = this.personalForm.storageMoveDetailApplyVos
       this.list3 = this.personalForm.storageMoveDetailVos
+    },
+    list3: {
+      handler() {
+        console.log(123123123123)
+        console.log(this.personalForm.businessStat)
+        if (this.personalForm.businessStat === '2') {
+          console.log('监听开始')
+          const reviewParms = {}
+          reviewParms.id = this.id
+          reviewParms.confirmOutPersonId = this.$store.getters.userId
+          reviewParms.confirmOutDate = this.getdatatime()
+          reviewParms.businessStat = 3
+          let count = 0
+          for (const i in this.list3) {
+            if (this.list3[i].stat === 2) {
+              count++
+              this.list3.confirmNumber = count
+            }
+            console.log('监听', this.list3)
+          }
+          if (this.list3.confirmNumber === this.list3.length) {
+            console.log('监听变化')
+            const parms = JSON.stringify(reviewParms)
+            updateStoragemove2(parms).then(res => {
+              console.log(res)
+              this.$emit('rest', true)
+            })
+          }
+        }
+      },
+      deep: true
     }
   },
   mounted() {
     this.getlist()
   },
   methods: {
+    getdatatime() { // 默认显示今天
+      var date = new Date()
+      var seperator1 = '-'
+      var year = date.getFullYear()
+      var month = date.getMonth() + 1
+      var strDate = date.getDate()
+      if (month >= 1 && month <= 9) {
+        month = '0' + month
+      }
+      if (strDate >= 0 && strDate <= 9) {
+        strDate = '0' + strDate
+      }
+      var currentdate = year + seperator1 + month + seperator1 + strDate
+      return currentdate
+    },
     // 判断是否编辑
     isEdit3(row) {
       if (row.stat === 2) {
@@ -400,6 +450,7 @@ export default {
     },
     // 调拨出库单
     handleconfirm(row) {
+      this.handleEdit(row.data)
       console.log(row.data.id)
       const EnterDetail = this.deepClone(row.data)
       let m = 1

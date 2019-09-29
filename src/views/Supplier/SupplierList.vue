@@ -387,6 +387,14 @@ export default {
     getlist() {
       // 供应商列表数据
       this.listLoading = true
+      const roles = this.$store.getters.roles
+      const isshow = roles.includes('1-22-24-115')
+      if (isshow) {
+        this.getemplist.isRole = 1
+      } else {
+        this.getemplist.isRole = 2
+      }
+      console.log(this.getemplist.isRole)
       search(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
