@@ -286,6 +286,7 @@ export default {
   },
   mounted() {
     this.getlist()
+    this.isReview()
   },
   methods: {
     checkPermission,
@@ -428,6 +429,7 @@ export default {
         const index = approvalUse[approvalUse.length - 1].stepHandler.indexOf(',' + this.$store.getters.userId + ',')
         console.log(approvalUse[approvalUse.length - 1].stepHandler)
         console.log(index)
+        console.log('index', index)
         if (index > -1 && (row.judgeStat === 1 || row.judgeStat === 0)) {
           return true
         }

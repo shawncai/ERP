@@ -245,7 +245,8 @@ export default {
     //   }
     // },
     Installment(val) {
-      this.personalForm.sourceNumber = val.applyNumber
+      console.log(val)
+      this.personalForm.sourceNumber = val.orderNumber
       this.personalForm.customerId = val.customerId
       this.personalForm.customerName = val.customerName
       this.personalForm.customerPhone = val.customerPhone
