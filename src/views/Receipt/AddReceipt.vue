@@ -119,15 +119,15 @@
             style="width: 100%"
             @selection-change="handleSelectionChange">
             <el-editable-column type="selection" min-width="55" align="center"/>
-            <el-editable-column label="序号" min-width="55" align="center" type="index"/>
-            <el-editable-column prop="presentCount" align="center" label="当前期数" min-width="150px"/>
-            <el-editable-column prop="returnMoney" align="center" label="本期还款金额" min-width="150px"/>
-            <el-editable-column prop="returnSource" align="center" label="本期还款本金" min-width="150px"/>
-            <el-editable-column prop="reward" align="center" label="奖励" min-width="150px"/>
-            <el-editable-column prop="penalty" align="center" label="滞纳金" min-width="150px"/>
-            <el-editable-column prop="returnInterest" align="center" label="本期还款利息" min-width="150px"/>
-            <el-editable-column prop="paidmoney" align="center" label="已收金额" min-width="150px"/>
-            <el-editable-column prop="unpay" align="center" label="未收金额" min-width="150px"/>
+            <el-editable-column :key="Math.random()" label="序号" min-width="55" align="center" type="index"/>
+            <el-editable-column :key="Math.random()" prop="presentCount" align="center" label="当前期数" min-width="150px"/>
+            <el-editable-column :key="Math.random()" prop="returnMoney" align="center" label="本期还款金额" min-width="150px"/>
+            <el-editable-column :key="Math.random()" prop="returnSource" align="center" label="本期还款本金" min-width="150px"/>
+            <el-editable-column :key="Math.random()" prop="reward" align="center" label="奖励" min-width="150px"/>
+            <el-editable-column :key="Math.random()" prop="penalty" align="center" label="滞纳金" min-width="150px"/>
+            <el-editable-column :key="Math.random()" prop="returnInterest" align="center" label="本期还款利息" min-width="150px"/>
+            <el-editable-column :key="Math.random()" prop="paidmoney" align="center" label="已收金额" min-width="150px"/>
+            <el-editable-column :key="Math.random()" prop="unpay" align="center" label="未收金额" min-width="150px"/>
           </el-editable>
         </div>
       </el-card>
@@ -147,13 +147,13 @@
             style="width: 100%"
             @selection-change="handleSelectionChange2">
             <el-editable-column type="selection" min-width="55" align="center"/>
-            <el-editable-column label="序号" min-width="55" align="center" type="index"/>
-            <el-editable-column prop="shouldMoney" align="center" label="应收款金额" min-width="150px"/>
-            <el-editable-column prop="discountMoney" align="center" label="折扣额" min-width="150px"/>
-            <el-editable-column prop="retreatMoney" align="center" label="退货抵扣" min-width="150px"/>
-            <el-editable-column prop="collectedMoney" align="center" label="已收金额" min-width="150px"/>
-            <el-editable-column prop="uncollectedMoney" align="center" label="未收款金额" min-width="150px"/>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="thisMoney" align="center" label="本次收款" min-width="150px"/>
+            <el-editable-column :key="Math.random()" prop="sourceNumber" label="编号" min-width="200" align="center" />
+            <el-editable-column :key="Math.random()" prop="shouldMoney" align="center" label="应收款金额" min-width="150px"/>
+            <el-editable-column :key="Math.random()" prop="discountMoney" align="center" label="折扣额" min-width="150px"/>
+            <el-editable-column :key="Math.random()" prop="retreatMoney" align="center" label="退货抵扣" min-width="150px"/>
+            <el-editable-column :key="Math.random()" prop="collectedMoney" align="center" label="已收金额" min-width="150px"/>
+            <el-editable-column :key="Math.random()" prop="uncollectedMoney" align="center" label="未收款金额" min-width="150px"/>
+            <el-editable-column :key="Math.random()" :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="thisMoney" align="center" label="本次收款" min-width="150px"/>
           </el-editable>
         </div>
       </el-card>
@@ -209,6 +209,7 @@ export default {
       }
     }
     return {
+      allmoney: '',
       // 批量操作
       moreaction: [],
       moreaction2: [],
@@ -285,7 +286,8 @@ export default {
       handler() {
         this.personalForm.totalLackMoney = this.allmoney - this.personalForm.receiptMoney
       },
-      deep: true
+      deep: true,
+      immediate: true
     }
   },
   created() {
@@ -301,9 +303,7 @@ export default {
   methods: {
     // 批量操作
     handleSelectionChange(val) {
-      // console.log(val)
       this.moreaction = val
-      // this.personalForm.receiptMoney
       this.personalForm.receiptMoney = 0
       const processdata = this.moreaction
       for (const i in processdata) {
@@ -312,9 +312,7 @@ export default {
       this.personalForm.totalLackMoney = this.allmoney - this.personalForm.receiptMoney
     },
     handleSelectionChange2(val) {
-      console.log(val)
       this.moreaction2 = val
-      // this.personalForm.receiptMoney = 0
       this.personalForm.totalLackMoney = this.allmoney - this.personalForm.receiptMoney
     },
     getinformation() {
@@ -404,9 +402,9 @@ export default {
           sums[index] = values.reduce((prev, curr) => {
             const value = Number(curr)
             if (!isNaN(value)) {
-              return prev + curr
+              return (Number(prev) + Number(curr)).toFixed(2)
             } else {
-              return prev
+              return Number(prev).toFixed(2)
             }
           }, 0)
           sums[index] += ''
@@ -424,6 +422,7 @@ export default {
     clearCustomer() {
       this.personalForm.customerId = ''
       this.customerId = ''
+      this.list2 = []
     },
     // 选择客户focus
     chooseCustomer() {
@@ -442,9 +441,10 @@ export default {
       this.customerId = val.agentName
       agentCollectList(val).then(res => {
         if (res.data.ret === 200) {
-          console.log('供应商欠款', res.data.data.content.list)
+          // console.log('供应商欠款', res.data.data.content.list)
           const agentcollectDetail = res.data.data.content.list.map(function(item) {
             return {
+              sourceNumber: item.sourceNumber,
               agentCollectId: item.id,
               shouldMoney: item.shouldMoney,
               discountMoney: item.discountMoney,
@@ -461,35 +461,37 @@ export default {
       })
     },
     Installment(val) {
-      console.log(val)
+      // console.log(val)
       this.personalForm.customerId = val.customerId
       this.customerId = val.customerName
       if (val.advanceMoney !== null && val.advanceMoney !== undefined && val.advanceMoney !== '') {
         this.yufu = val.advanceMoney
       }
+      this.personalForm.totalLackMoney = this.allmoney - this.personalForm.receiptMoney
     },
     InstallmentDetail(val) {
-      console.log(val)
+      // console.log(val)
       setTimeout(() => {
         this.$refs.editable2.clear()
         if (val.length) {
           const InstallmentDetail = val.map(function(item) {
             return {
-              presentCount: item.idx,
-              returnMoney: item.shouldMoney,
-              returnSource: item.capitalMoney,
+              id: item.id,
+              presentCount: item.presentCount,
+              returnMoney: item.returnMoney,
+              returnSource: item.returnSource,
               reward: item.reward,
               penalty: item.penalty,
-              returnInterest: item.interestMoney,
-              paidmoney: item.paidMoney,
-              unpay: item.shouldMoney - item.paidMoney
+              returnInterest: item.returnInterest,
+              paidmoney: item.paidmoney,
+              unpay: Number(item.returnMoney) - Number(item.paidmoney)
             }
           })
           for (let i = 0; i < InstallmentDetail.length; i++) {
             this.$refs.editable2.insert(InstallmentDetail[i])
           }
+          this.personalForm.totalLackMoney = this.allmoney - this.personalForm.receiptMoney
         } else {
-          console.log(val)
           this.$refs.editable2.clear()
           const valmap = []
           valmap.push(val)
@@ -505,10 +507,11 @@ export default {
               unpay: item.shouldMoney - item.paidMoney
             }
           })
-          console.log(InstallmentDetail)
+          // console.log(InstallmentDetail)
           for (let i = 0; i < InstallmentDetail.length; i++) {
             this.$refs.editable2.insert(InstallmentDetail[i])
           }
+          this.personalForm.totalLackMoney = this.allmoney - this.personalForm.receiptMoney
         }
       }, 0)
     },
@@ -553,7 +556,6 @@ export default {
         this.$refs.personalForm.validate((valid) => {
           if (valid) {
             createreceipt(parms, parms2, this.personalForm).then(res => {
-              console.log(res)
               if (res.data.ret === 200) {
                 this.$notify({
                   title: '成功',
@@ -603,7 +605,6 @@ export default {
         this.$refs.personalForm.validate((valid) => {
           if (valid) {
             createreceipt(parms, parms2, this.personalForm).then(res => {
-              console.log(res)
               if (res.data.ret === 200) {
                 this.$notify({
                   title: '成功',

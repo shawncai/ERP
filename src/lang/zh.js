@@ -2067,7 +2067,8 @@ export default {
     returnMoney: '退货抵扣',
     collectedMoney: '已收金额',
     uncollectedMoney: '未收款金额',
-    stat: '状态'
+    stat: '状态',
+    Receivables: '收款'
   },
   InstallmentrateList: {
     id: '序号',

@@ -128,6 +128,7 @@
 
 <script>
 import { installmentlist } from '@/api/InstallmentList'
+import { collectlist } from '@/api/CollectList'
 import { getdeptlist } from '@/api/BasicSettings'
 import { searchStockCategory } from '@/api/StockCategory'
 import waves from '@/directive/waves' // Waves directive
@@ -301,10 +302,25 @@ export default {
       this.choosedata = val
     },
     // 确认添加数据
-    handleConfirm() {
+    async handleConfirm() {
       this.employeeVisible = false
+      const date = new Date()
       console.log(this.choosedata)
-      const Installmentdata = this.choosedata.installmentOrderDetailVos
+      console.log(this.choosedata.customerName)
+      const str = this.choosedata.customerName
+      const getemplist = {
+        pageNum: 1,
+        pageSize: 10,
+        repositoryId: this.$store.getters.repositoryId,
+        regionIds: this.$store.getters.regionId,
+        time: date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate(),
+        customerName: str.replace(/\s*/g, '')
+      }
+      let Installmentdata = []
+      await collectlist(getemplist).then(res => {
+        console.log(res)
+        Installmentdata = res.data.data.content.list
+      })
       const InstallmentDetail = Installmentdata.map(function(item) {
         return {
           presentCount: item.idx,

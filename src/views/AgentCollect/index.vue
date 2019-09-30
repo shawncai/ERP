@@ -76,6 +76,7 @@
       <el-button v-permission="['54-225-6']" v-waves :loading="downloadLoading" class="filter-item" style="width: 86px" @click="handleExport"> <svg-icon icon-class="daochu"/>{{ $t('public.export') }}</el-button>
       <!-- 打印操作 -->
       <el-button v-permission="['54-225-7']" v-waves class="filter-item" icon="el-icon-printer" style="width: 86px" @click="handlePrint">{{ $t('public.print') }}</el-button>
+      <el-button v-permission="['54-225-7']" v-waves class="filter-item" icon="el-icon-printer" style="width: 86px" @click="handleReceivables">{{ $t('AgentCollect.Receivables') }}</el-button>
       <!-- 新建操作 -->
       <!--<el-button v-waves class="filter-item" icon="el-icon-plus" type="success" style="width: 86px" @click="handleAdd">{{ $t('public.add') }}</el-button>-->
     </el-card>
@@ -274,6 +275,10 @@ export default {
     this.getlist()
   },
   methods: {
+    // 收款
+    handleReceivables() {
+
+    },
     checkPermission,
     // 仓库列表focus事件触发
     handlechooseRep() {
