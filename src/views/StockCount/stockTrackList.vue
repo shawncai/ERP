@@ -39,6 +39,26 @@
         :data="list"
         style="width: 100%">
         <el-table-column
+          :label="$t('stockTrackList.supplierName')"
+          prop="supplierName"
+          width="200"
+          align="center"/>
+        <el-table-column
+          :label="$t('stockTrackList.receiptDate')"
+          prop="receiptDate"
+          width="200"
+          align="center"/>
+        <el-table-column
+          :label="$t('stockTrackList.orderNumber')"
+          prop="orderNumber"
+          width="200"
+          align="center"/>
+        <el-table-column
+          :label="$t('stockTrackList.deliveryDate')"
+          prop="deliveryDate"
+          width="200"
+          align="center"/>
+        <el-table-column
           :label="$t('stockDetailCount.productCode')"
           prop="productCode"
           width="200"
@@ -49,45 +69,57 @@
           width="200"
           align="center"/>
         <el-table-column
-          :label="$t('stockDetailCount.productType')"
-          prop="productType"
-          width="200"
-          align="center"/>
-        <el-table-column
           :label="$t('stockDetailCount.unit')"
           prop="unit"
           width="200"
           align="center"/>
-        <el-table-column :label="$t('stockOrderCount.order')" align="center">
+        <el-table-column
+          :label="$t('stockTrackList.quantity')"
+          prop="quantity"
+          width="200"
+          align="center"/>
+        <el-table-column
+          :label="$t('stockTrackList.price')"
+          prop="price"
+          width="200"
+          align="center"/>
+        <el-table-column
+          :label="$t('stockTrackList.money')"
+          prop="money"
+          width="200"
+          align="center"/>
+        <el-table-column :label="$t('stockTrackList.enter')" align="center">
           <el-table-column
-            :label="$t('stockOrderCount.orderQuantity')"
-            prop="orderQuantity"
+            :label="$t('stockTrackList.enterQuantity')"
+            prop="enterQuantity"
             width="200"
             align="center"/>
           <el-table-column
-            :label="$t('stockOrderCount.totalMoney')"
-            prop="totalMoney"
+            :label="$t('stockTrackList.notenterQuantity')"
+            prop="notenterQuantity"
+            width="200"
+            align="center"/>
+        </el-table-column>
+        <el-table-column :label="$t('stockTrackList.invoice')" align="center">
+          <el-table-column
+            :label="$t('stockTrackList.invoiceQuantity')"
+            prop="invoiceQuantity"
             width="200"
             align="center"/>
           <el-table-column
-            :label="$t('stockOrderCount.taxMoney')"
-            prop="taxMoney"
-            width="200"
-            align="center"/>
-          <el-table-column
-            :label="$t('stockOrderCount.heji')"
-            prop="heji"
+            :label="$t('stockTrackList.notinvoiceQuantity')"
+            prop="notinvoiceQuantity"
             width="200"
             align="center"/>
         </el-table-column>
         <el-table-column
-          :label="$t('stockOrderCount.arrivedQuantity')"
-          prop="arrivedQuantity"
+          :label="$t('stockTrackList.invoiceMoney')"
+          prop="invoiceMoney"
           width="200"
           align="center"/>
         <el-table-column
-          :label="$t('stockOrderCount.notArrivedQuantity')"
-          prop="notArrivedQuantity"
+          :label="$t('stockTrackList.notinvoiceMoney')"
+          prop="notinvoiceMoney"
           width="200"
           align="center"/>
       </el-table>
@@ -98,7 +130,7 @@
 </template>
 
 <script>
-import { stockDetailCount } from '@/api/count'
+import { stockTrackList } from '@/api/count'
 import { searchStockCategory } from '@/api/StockCategory'
 import MyRepository from './components/MyRepository'
 import waves from '@/directive/waves' // Waves directive
@@ -114,7 +146,7 @@ import MyAgent from './components/MyAgent'
 import MySupplier from './components/MySupplier'
 
 export default {
-  name: 'StockDetailCount',
+  name: 'StockTrackList',
   directives: { waves, permission, permission2 },
   components: { MyDialog, DetailList, MyEmp, MyCustomer, MySupplier, MyAgent, MyRepository, Pagination },
   filters: {
@@ -284,11 +316,13 @@ export default {
     getlist() {
       // 物料需求计划列表数据
       this.listLoading = true
-      stockDetailCount(this.getemplist).then(res => {
+      stockTrackList(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           for (let i = 0; i < this.list.length; i++) {
-            this.list[i].heji = this.list[i].totalMoney + this.list[i].taxMoney
+            this.list[i].notenterQuantity = (this.list[i].quantity - this.list[i].enterQuantity).toFixed(2)
+            this.list[i].notinvoiceQuantity = (this.list[i].quantity - this.list[i].invoiceQuantity).toFixed(2)
+            this.list[i].notinvoiceMoney = (this.list[i].money - this.list[i].invoiceMoney).toFixed(2)
           }
           this.total = res.data.data.content.totalCount
         }
@@ -320,11 +354,13 @@ export default {
         this.getemplist.beginTime = this.date[0]
         this.getemplist.endTime = this.date[1]
       }
-      stockDetailCount(this.getemplist).then(res => {
+      stockTrackList(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           for (let i = 0; i < this.list.length; i++) {
-            this.list[i].heji = this.list[i].totalMoney + this.list[i].taxMoney
+            this.list[i].notenterQuantity = (this.list[i].quantity - this.list[i].enterQuantity).toFixed(2)
+            this.list[i].notinvoiceQuantity = (this.list[i].quantity - this.list[i].invoiceQuantity).toFixed(2)
+            this.list[i].notinvoiceMoney = (this.list[i].money - this.list[i].invoiceMoney).toFixed(2)
           }
           this.total = res.data.data.content.totalCount
           this.restFilter()

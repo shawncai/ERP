@@ -4,25 +4,18 @@
       <el-row>
         <el-form ref="getemplist" :model="getemplist" label-width="100px" style="margin-top: -9px">
           <el-col :span="5">
-            <el-form-item label="物品名称">
-              <el-input v-model="getemplist.productName" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
+            <el-form-item label="供应商姓名">
+              <el-input v-model="getemplist.supplierName" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
           <el-col :span="5">
-            <el-form-item :label="$t('StockContract.supplierId')">
-              <el-input v-model="supplierId" @focus="handlechoose"/>
-              <my-supplier :control.sync="empcontrol" @supplierName="supplierName"/>
+            <el-form-item label="联系人姓名">
+              <el-input v-model="getemplist.contactName" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
-          <el-col :span="5" style="margin-left: 47px">
-            <el-form-item :label="$t('stockOrderCount.date')">
-              <el-date-picker
-                v-model="date"
-                type="daterange"
-                range-separator="-"
-                unlink-panels
-                value-format="yyyy-MM-dd"
-                style="margin-left: 70px"/>
+          <el-col :span="5">
+            <el-form-item label="联系人电话">
+              <el-input v-model="getemplist.contactPhone" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
           <el-col :span="3" style="margin-left: 252px">
@@ -39,56 +32,39 @@
         :data="list"
         style="width: 100%">
         <el-table-column
-          :label="$t('stockDetailCount.productCode')"
-          prop="productCode"
+          :label="$t('supplierPunishmentCount.supplierId')"
+          prop="supplierId"
           width="200"
           align="center"/>
         <el-table-column
-          :label="$t('stockDetailCount.productName')"
-          prop="productName"
-          width="200"
+          :label="$t('supplierPunishmentCount.supplierName')"
+          prop="supplierName"
+          width="250"
           align="center"/>
         <el-table-column
-          :label="$t('stockDetailCount.productType')"
-          prop="productType"
-          width="200"
+          :label="$t('supplierPunishmentCount.supplierGroupName')"
+          prop="supplierGroupName"
+          width="250"
           align="center"/>
         <el-table-column
-          :label="$t('stockDetailCount.unit')"
-          prop="unit"
-          width="200"
-          align="center"/>
-        <el-table-column :label="$t('stockOrderCount.order')" align="center">
-          <el-table-column
-            :label="$t('stockOrderCount.orderQuantity')"
-            prop="orderQuantity"
-            width="200"
-            align="center"/>
-          <el-table-column
-            :label="$t('stockOrderCount.totalMoney')"
-            prop="totalMoney"
-            width="200"
-            align="center"/>
-          <el-table-column
-            :label="$t('stockOrderCount.taxMoney')"
-            prop="taxMoney"
-            width="200"
-            align="center"/>
-          <el-table-column
-            :label="$t('stockOrderCount.heji')"
-            prop="heji"
-            width="200"
-            align="center"/>
-        </el-table-column>
-        <el-table-column
-          :label="$t('stockOrderCount.arrivedQuantity')"
-          prop="arrivedQuantity"
-          width="200"
+          :label="$t('supplierPunishmentCount.contactName')"
+          prop="contactName"
+          width="250"
           align="center"/>
         <el-table-column
-          :label="$t('stockOrderCount.notArrivedQuantity')"
-          prop="notArrivedQuantity"
-          width="200"
+          :label="$t('supplierPunishmentCount.contactPhone')"
+          prop="contactPhone"
+          width="250"
+          align="center"/>
+        <el-table-column
+          :label="$t('supplierPunishmentCount.stockPersonName')"
+          prop="stockPersonName"
+          width="250"
+          align="center"/>
+        <el-table-column
+          :label="$t('supplierPunishmentCount.punishmentCount')"
+          prop="punishmentCount"
+          width="250"
           align="center"/>
       </el-table>
       <!-- 列表结束 -->
@@ -98,7 +74,7 @@
 </template>
 
 <script>
-import { stockDetailCount } from '@/api/count'
+import { supplierPunishmentCount } from '@/api/count'
 import { searchStockCategory } from '@/api/StockCategory'
 import MyRepository from './components/MyRepository'
 import waves from '@/directive/waves' // Waves directive
@@ -114,7 +90,7 @@ import MyAgent from './components/MyAgent'
 import MySupplier from './components/MySupplier'
 
 export default {
-  name: 'StockDetailCount',
+  name: 'SupplierPunishmentCount',
   directives: { waves, permission, permission2 },
   components: { MyDialog, DetailList, MyEmp, MyCustomer, MySupplier, MyAgent, MyRepository, Pagination },
   filters: {
@@ -284,7 +260,7 @@ export default {
     getlist() {
       // 物料需求计划列表数据
       this.listLoading = true
-      stockDetailCount(this.getemplist).then(res => {
+      supplierPunishmentCount(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           for (let i = 0; i < this.list.length; i++) {
@@ -320,7 +296,7 @@ export default {
         this.getemplist.beginTime = this.date[0]
         this.getemplist.endTime = this.date[1]
       }
-      stockDetailCount(this.getemplist).then(res => {
+      supplierPunishmentCount(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           for (let i = 0; i < this.list.length; i++) {

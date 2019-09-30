@@ -135,6 +135,21 @@
               <span>{{ scope.row.paidCount }}</span>
             </template>
           </el-table-column>
+          <el-table-column :label="$t('InstallmentList.isChange')" :resizable="false" align="center" min-width="150">
+            <template slot-scope="scope">
+              <span>{{ scope.row.isChange | isChangeFilter }}</span>
+            </template>
+          </el-table-column>
+          <el-table-column :label="$t('InstallmentList.afterCount')" :resizable="false" align="center" min-width="150">
+            <template slot-scope="scope">
+              <span>{{ scope.row.afterCount }}</span>
+            </template>
+          </el-table-column>
+          <!-- <el-table-column :label="$t('InstallmentList.afterRate')" :resizable="false" align="center" min-width="150">
+            <template slot-scope="scope">
+              <span>{{ scope.row.afterRate }}</span>
+            </template>
+          </el-table-column> -->
           <el-table-column :label="$t('InstallmentList.leftAllmoney')" :resizable="false" align="center" min-width="150">
             <template slot-scope="scope">
               <span>{{ scope.row.leftAllmoney }}</span>
@@ -289,6 +304,13 @@ export default {
   directives: { waves, permission, permission2 },
   components: { MyDialog, DetailList, MyEmp, MyCustomer, MyAgent, Pagination },
   filters: {
+    isChangeFilter(status) {
+      const statusMap = {
+        1: '未改期',
+        2: '已改期'
+      }
+      return statusMap[status]
+    },
     judgeStatFilter(status) {
       const statusMap = {
         0: '未审核',
