@@ -335,13 +335,39 @@ export default {
     productStockFluid: '商品采购流水账'
   },
   stockTrackList: {
-
+    supplierName: '供应商名称',
+    receiptDate: '单据日期',
+    orderNumber: '单据编号',
+    deliveryDate: '交货日期',
+    quantity: '数量',
+    enter: '入库',
+    price: '含税价',
+    money: '含税金额',
+    enterQuantity: '已入库',
+    notenterQuantity: '未入库',
+    invoiceQuantity: '已开票数',
+    notinvoiceQuantity: '未开票数',
+    invoiceMoney: '已开票额',
+    notinvoiceMoney: '未开票额',
+    invoice: '开票'
   },
   supplierPunishmentCount: {
-
+    supplierName: '供应商名称',
+    supplierId: '供应商编号',
+    supplierGroupName: '供应商分组',
+    contactName: '联系人',
+    contactPhone: '电话',
+    stockPersonName: '采购员',
+    punishmentCount: '惩罚次数'
   },
   productStockFluid: {
-
+    color: '颜色',
+    price: '价格',
+    batch: '批次号',
+    categoryName: '商品类别',
+    supplierName: '供应商',
+    repositoryName: '仓库',
+    receiptType: '单据类型'
   },
   stockBillCount: {
     Stockenter: '采购入库',
@@ -1996,6 +2022,9 @@ export default {
     customerName: '客户姓名'
   },
   InstallmentList: {
+    isChange: '是否改期',
+    afterCount: '改期后期数',
+    afterRate: '改期后利率',
     applyNumber: '分期申请编号',
     customerName: '客户姓名',
     customerPhone: '客户电话',

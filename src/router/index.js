@@ -2861,26 +2861,25 @@ export const asyncRouterMap = [
         component: () => import('@/views/StockCount/stockBillList'),
         name: 'stockBillList',
         meta: { title: 'stockBillList', noCache: true }
+      },
+      {
+        path: 'stockTrackList',
+        component: () => import('@/views/StockCount/stockTrackList'),
+        name: 'stockTrackList',
+        meta: { title: 'stockTrackList', noCache: true }
+      },
+      {
+        path: 'supplierPunishmentCount',
+        component: () => import('@/views/StockCount/supplierPunishmentCount'),
+        name: 'supplierPunishmentCount',
+        meta: { title: 'supplierPunishmentCount', noCache: true }
+      },
+      {
+        path: 'productStockFluid',
+        component: () => import('@/views/StockCount/productStockFluid'),
+        name: 'productStockFluid',
+        meta: { title: 'productStockFluid', noCache: true }
       }
-      // ,
-      // {
-      //   path: 'stockTrackList',
-      //   component: () => import('@/views/StockCount/stockTrackList'),
-      //   name: 'stockTrackList',
-      //   meta: { title: 'stockTrackList', noCache: true }
-      // },
-      // {
-      //   path: 'supplierPunishmentCount',
-      //   component: () => import('@/views/StockCount/supplierPunishmentCount'),
-      //   name: 'supplierPunishmentCount',
-      //   meta: { title: 'supplierPunishmentCount', noCache: true }
-      // },
-      // {
-      //   path: 'productStockFluid',
-      //   component: () => import('@/views/StockCount/productStockFluid'),
-      //   name: 'productStockFluid',
-      //   meta: { title: 'productStockFluid', noCache: true }
-      // }
     ]
   },
   // {

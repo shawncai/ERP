@@ -3,25 +3,21 @@
     <el-card class="box-card" style="margin-top: 10px;height: 60px" shadow="never">
       <el-row>
         <el-form ref="getemplist" :model="getemplist" label-width="70px" style="margin-top: -9px">
-          <el-col :span="3" style="margin-left: 30px">
-            <el-form-item label="型号">
-              <el-select v-model="getemplist.brandId" placeholder="请选择规格型号" clearable>
-                <el-option
-                  v-for="(item, index) in types"
-                  :key="index"
-                  :label="item.categoryName"
-                  :value="item.id"
-                />
+          <el-col :span="3" style="margin-left: 10px">
+            <el-form-item label="状态">
+              <el-select v-model="getemplist.receiptType" :value="getemplist.type" clearable @keyup.enter.native="handleFilter">
+                <el-option value="1" label="已结"/>
+                <el-option value="2" label="未结清"/>
               </el-select>
             </el-form-item>
           </el-col>
-          <el-col :span="3" style="margin-left: 10px">
-            <el-form-item label="分类">
-              <el-input v-model="categoryId" placeholder="物品分类" clearable @focus="treechoose"/>
-              <my-tree :treecontrol.sync="treecontrol" @tree="tree"/>
+          <el-col :span="3" style="margin-left: 15px">
+            <el-form-item :label="$t('StockContract.supplierId')">
+              <el-input v-model="supplierId" @focus="handlechoose"/>
+              <my-supplier :control.sync="empcontrol" @supplierName="supplierName"/>
             </el-form-item>
           </el-col>
-          <el-col :span="3" style="margin-left: 10px">
+          <el-col :span="3" style="margin-left: 15px">
             <el-form-item label="门店">
               <el-input v-model="repositoryId" class="filter-item" clearable @keyup.enter.native="handleFilter" @focus="handlechooseRep"/>
               <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
@@ -52,6 +48,21 @@
         :data="list"
         style="width: 100%">
         <el-table-column
+          :label="$t('stockTrackList.orderNumber')"
+          prop="receiptNumber"
+          width="200"
+          align="center"/>
+        <el-table-column
+          :label="$t('stockTrackList.receiptDate')"
+          prop="receiptDate"
+          width="200"
+          align="center"/>
+        <el-table-column
+          :label="$t('productStockFluid.receiptType')"
+          prop="receiptType"
+          width="200"
+          align="center"/>
+        <el-table-column
           :label="$t('stockDetailCount.productCode')"
           prop="productCode"
           width="200"
@@ -67,81 +78,50 @@
           width="200"
           align="center"/>
         <el-table-column
+          :label="$t('productStockFluid.color')"
+          prop="color"
+          width="200"
+          align="center"/>
+        <el-table-column
+          :label="$t('productStockFluid.batch')"
+          prop="batch"
+          width="200"
+          align="center"/>
+        <el-table-column
           :label="$t('stockDetailCount.unit')"
           prop="unit"
           width="200"
           align="center"/>
-        <el-table-column :label="$t('stockBillCount.Stockenter')" align="center">
-          <el-table-column
-            :label="$t('stockOrderCount.orderQuantity')"
-            prop="stockQuantity"
-            width="200"
-            align="center"/>
-          <el-table-column
-            :label="$t('stockOrderCount.totalMoney')"
-            prop="stockMoney"
-            width="200"
-            align="center"/>
-          <el-table-column
-            :label="$t('stockOrderCount.taxMoney')"
-            prop="stockTax"
-            width="200"
-            align="center"/>
-          <el-table-column
-            :label="$t('stockOrderCount.heji')"
-            prop="stockTotalMoney"
-            width="200"
-            align="center"/>
-        </el-table-column>
-        <el-table-column :label="$t('stockBillCount.StockRetreat')" align="center">
-          <el-table-column
-            :label="$t('stockOrderCount.orderQuantity')"
-            prop="retreatQuantity"
-            width="200"
-            align="center"/>
-          <el-table-column
-            :label="$t('stockOrderCount.totalMoney')"
-            prop="retreatMoney"
-            width="200"
-            align="center"/>
-          <el-table-column
-            :label="$t('stockOrderCount.taxMoney')"
-            prop="retreatTax"
-            width="200"
-            align="center"/>
-          <el-table-column
-            :label="$t('stockOrderCount.heji')"
-            prop="retreatTotalMoney"
-            width="200"
-            align="center"/>
-        </el-table-column>
-        <el-table-column :label="$t('stockBillCount.actualEnterQuantity')" align="center">
-          <el-table-column
-            :label="$t('stockOrderCount.orderQuantity')"
-            prop="enterQuantity"
-            width="200"
-            align="center"/>
-          <el-table-column
-            :label="$t('stockOrderCount.totalMoney')"
-            prop="enterMoney"
-            width="200"
-            align="center"/>
-          <el-table-column
-            :label="$t('stockOrderCount.taxMoney')"
-            prop="enterTax"
-            width="200"
-            align="center"/>
-          <el-table-column
-            :label="$t('stockOrderCount.heji')"
-            prop="enterTotalMoney"
-            width="200"
-            align="center"/>
-        </el-table-column>
-        <!-- <el-table-column
-          :label="$t('stockBillCount.retreatrate')"
-          prop="arrivedQuantity"
+        <el-table-column
+          :label="$t('stockOrderCount.orderQuantity')"
+          prop="quantity"
           width="200"
-          align="center"/> -->
+          align="center"/>
+        <el-table-column
+          :label="$t('productStockFluid.price')"
+          prop="price"
+          width="200"
+          align="center"/>
+        <el-table-column
+          :label="$t('stockOrderCount.totalMoney')"
+          prop="money"
+          width="200"
+          align="center"/>
+        <el-table-column
+          :label="$t('productStockFluid.categoryName')"
+          prop="categoryName"
+          width="200"
+          align="center"/>
+        <el-table-column
+          :label="$t('productStockFluid.supplierName')"
+          prop="supplierName"
+          width="200"
+          align="center"/>
+        <el-table-column
+          :label="$t('productStockFluid.repositoryName')"
+          prop="repositoryName"
+          width="200"
+          align="center"/>
       </el-table>
       <!-- 列表结束 -->
       <pagination v-show="total>0" :total="total" :page.sync="getemplist.pageNum" :limit.sync="getemplist.pageSize" @pagination="getlist" />
@@ -151,7 +131,7 @@
 
 <script>
 import { searchEmpCategory2 } from '@/api/Product'
-import { stockBillList } from '@/api/count'
+import { productStockFluid } from '@/api/count'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination'
 import permission from '@/directive/permission/index.js' // 权限判断指令
@@ -164,11 +144,12 @@ import MyCustomer from './components/MyCustomer'
 import MyAgent from './components/MyAgent'
 import MyRepository from './components/MyRepository'
 import MyTree from './components/MyTree'
+import MySupplier from './components/MySupplier'
 
 export default {
-  name: 'StockOrderCount',
+  name: 'ProductStockFluid',
   directives: { waves, permission, permission2 },
-  components: { MyDialog, DetailList, MyRepository, MyEmp, MyCustomer, MyTree, MyAgent, Pagination },
+  components: { MyDialog, DetailList, MyRepository, MySupplier, MyEmp, MyCustomer, MyTree, MyAgent, Pagination },
   filters: {
     judgeStatFilter(status) {
       const statusMap = {
@@ -345,7 +326,7 @@ export default {
       })
       // 物料需求计划列表数据
       this.listLoading = true
-      stockBillList(this.getemplist).then(res => {
+      productStockFluid(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           for (let i = 0; i < this.list.length; i++) {
@@ -375,7 +356,7 @@ export default {
         this.getemplist.beginTime = this.date[0]
         this.getemplist.endTime = this.date[1]
       }
-      stockBillList(this.getemplist).then(res => {
+      productStockFluid(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           for (let i = 0; i < this.list.length; i++) {
