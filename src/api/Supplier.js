@@ -167,6 +167,9 @@ export function search(query) {
   if (query.pagesize !== '' && query.pagesize !== null && query.pagesize !== undefined) {
     params.append('pagesize', query.pagesize) // 你要传给后台的参数值 key/value
   }
+  if (query.isRole !== '' && query.isRole !== null && query.isRole !== undefined) {
+    params.append('isRole', query.isRole) // 你要传给后台的参数值 key/value
+  }
   return request({
     url: '/supplier/search',
     method: 'post',
