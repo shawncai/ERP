@@ -68,6 +68,8 @@ export default {
       }
     }
     return {
+      // 商品编码
+      productCode: '',
       // 弹窗组件的控制
       editVisible: this.editcontrol,
       // 修改row数据

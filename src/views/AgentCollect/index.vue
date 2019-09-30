@@ -90,8 +90,10 @@
         border
         fit
         highlight-current-row
-        style="width: 100%;">
+        style="width: 100%;"
+        @selection-change="handleSelectionChange">
         <el-table-column
+          :selectable="selectInit"
           type="selection"
           width="55"
           fixed="left"
@@ -244,7 +246,7 @@ export default {
       // 供应商控制框
       empcontrol: false,
       // 批量操作
-      moreaction: '',
+      moreaction: [],
       // 加载操作控制
       downloadLoading: false,
       // 表格数据
@@ -277,7 +279,18 @@ export default {
   methods: {
     // 收款
     handleReceivables() {
-
+      if (this.moreaction.length === 0) {
+        this.$notify.error({
+          title: '错误',
+          message: '请选择收款对象',
+          offset: 100
+        })
+        return false
+      }
+      console.log('开始')
+      console.log(this.moreaction)
+      this.$store.dispatch('getempcontract3', this.moreaction)
+      this.$router.push('/Receipt/AddReceipt')
     },
     checkPermission,
     // 仓库列表focus事件触发
@@ -302,8 +315,12 @@ export default {
     },
     // 不让勾选
     selectInit(row, index) {
-      if (row.judgeStat !== 0) {
-        return false
+      if (this.moreaction.length > 0) {
+        if (row.id !== this.moreaction[0].id) {
+          return false
+        } else {
+          return true
+        }
       } else {
         return true
       }
@@ -472,10 +489,10 @@ export default {
     //     }
     //   })
     // },
-    // // 批量操作
-    // handleSelectionChange(val) {
-    //   this.moreaction = val
-    // },
+    // 批量操作
+    handleSelectionChange(val) {
+      this.moreaction = val
+    },
     // // 多条删除
     // // 批量删除
     // handleCommand(command) {

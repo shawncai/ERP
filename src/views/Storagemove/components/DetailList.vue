@@ -250,7 +250,7 @@
                 <p>{{ scope.row.stat | inFilter }}</p>
               </template>
             </el-editable-column>
-            <el-editable-column prop="actualQuantity" align="center" label="实际入库" min-width="150px"/>
+            <el-editable-column prop="actualQuantity" align="center" label="实际入库数量" min-width="150px"/>
           </el-editable>
         </div>
       </el-card>

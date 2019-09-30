@@ -14,18 +14,76 @@
                 <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
               </el-col>
               <el-col :span="6">
+                <el-form-item :label="$t('inventoryAlarm.handlePerson')" prop="handlePersonId" style="width: 100%;">
+                  <el-input v-model="handlePersonId" placeholder="经办人" style="margin-left: 18px;width:200px" clearable @focus="handlechooseAccept"/>
+                </el-form-item>
+                <my-accept :accetpcontrol.sync="accetpcontrol" @acceptName="acceptName"/>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item :label="$t('inventoryAlarm.createDate')" prop="creatDate" style="width: 100%;">
+                  <el-date-picker
+                    v-model="personalForm.creatDate"
+                    placeholder="创建时间"
+                    type="date"
+                    value-format="yyyy-MM-dd"
+                    style="margin-left: 18px;width: 200px"
+                  />
+                </el-form-item>
+              </el-col>
+              <!-- <el-col :span="6">
                 <el-form-item :label="$t('WarehouseAdjust.productId')" prop="productCode" style="width: 100%;">
                   <el-input v-model="productCode" placeholder="请选择商品" style="margin-left: 18px;width:200px" clearable @focus="handleAddproduct"/>
                   <my-product :control.sync="control" @product="productdetail"/>
                 </el-form-item>
-              </el-col>
-              <el-col :span="6">
+              </el-col> -->
+              <!-- <el-col :span="6">
                 <el-form-item :label="$t('inventoryAlarm.alarmDays')" prop="alarmDays" style="width: 100%;">
                   <el-input-number v-model="personalForm.alarmDays" :precision="0" :controls="false" :step="1" :min="0" style="margin-left: 18px;width:200px" clearable/>
                 </el-form-item>
-              </el-col>
+              </el-col> -->
             </el-row>
           </el-form>
+        </div>
+      </el-card>
+      <!-- 货物流转规则明细 -->
+      <el-card class="box-card" style="margin-top: 15px">
+        <h2 ref="fuzhu" class="form-name">货物流转规则明细</h2>
+        <div class="buttons" style="margin-top: 58px">
+          <el-button type="success" style="background:#3696fd;border-color:#3696fd " @click="handleAddproduct">添加商品</el-button>
+          <el-button type="danger" @click="$refs.editable.removeSelecteds()">删除</el-button>
+          <!-- <el-button type="primary" @click="checkStock()">库存快照</el-button> -->
+        </div>
+        <my-detail :control.sync="control" :personalform="personalForm" @product="productdetail"/>
+        <div class="container">
+          <el-editable
+            ref="editable"
+            :data.sync="list2"
+            :edit-config="{ showIcon: true, showStatus: true}"
+            :edit-rules="validRules"
+            class="click-table1"
+            stripe
+            border
+            size="medium"
+            style="width: 100%"
+            @selection-change="handleSelectionChange">
+            <el-editable-column type="selection" width="55" align="center"/>
+            <el-editable-column label="编号" width="55" align="center" type="index"/>
+            <el-editable-column prop="productCode" align="center" label="物品编号" width="150px"/>
+            <el-editable-column prop="productName" align="center" label="物品名称" width="150px"/>
+            <el-editable-column prop="color" align="center" label="颜色" width="150px"/>
+            <el-editable-column prop="typeIdname" align="center" label="规格" width="150px"/>
+            <el-editable-column prop="unit" align="center" label="单位" width="150px"/>
+            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 1, precision: 0}, type: 'visible'}" :label="$t('inventoryAlarm.alarmDays')" prop="alarmDays" align="center" min-width="100">
+              <template slot="edit" slot-scope="scope">
+                <el-input-number
+                  :precision="0"
+                  :controls="true"
+                  :min="1"
+                  v-model="scope.row.alarmDays"
+                />
+              </template>
+            </el-editable-column>
+          </el-editable>
         </div>
       </el-card>
       <!--操作-->
@@ -59,13 +117,25 @@ export default {
     }
     const validatePass2 = (rule, value, callback) => {
       console.log(value)
-      if (this.productCode === undefined || this.productCode === null || this.productCode === '') {
-        callback(new Error('请选择商品'))
+      if (this.handlePersonId === undefined || this.handlePersonId === null || this.handlePersonId === '') {
+        callback(new Error('请选择经办人'))
+      } else {
+        callback()
+      }
+    }
+    const validatePass3 = (rule, value, callback) => {
+      console.log(value)
+      if (this.personalForm.creatDate === undefined || this.personalForm.creatDate === null || this.personalForm.creatDate === '') {
+        callback(new Error('请选择时间'))
       } else {
         callback()
       }
     }
     return {
+      // 经办人回显
+      handlePersonId: this.$store.getters.name,
+      // 出库人控制框
+      accetpcontrol: false,
       // 商品回显
       productCode: '',
       // 仓库回显
@@ -78,29 +148,46 @@ export default {
       personalForm: {
         createPersonId: this.$store.getters.userId,
         createId: 3,
-        countryId: this.$store.getters.countryId
+        countryId: this.$store.getters.countryId,
+        handlePersonId: this.$store.getters.userId,
+        creatDate: new Date()
       },
       // 库存预警规则数据
       personalrules: {
         repositoryId: [
           { required: true, validator: validatePass, trigger: 'change' }
         ],
-        productCode: [
+        handlePersonId: [
           { required: true, validator: validatePass2, trigger: 'change' }
         ],
-        downStock: [
-          { required: true, message: '请输入库存下限', trigger: 'blur' }
-        ],
+        creatDate: [
+          { required: true, validator: validatePass3, trigger: 'change' }
+        ]
+      },
+      // 表格数据
+      list2: [],
+      // 表格验证
+      validRules: {
         alarmDays: [
-          { required: true, message: '请输入报警天数', trigger: 'blur' }
-        ],
-        safeStock: [
-          { required: true, message: '请输入安全库存', trigger: 'blur' }
+          { required: true, message: '请输入流转天数', trigger: 'change' }
         ]
       }
     }
   },
   methods: {
+    // 批量操作
+    handleSelectionChange(val) {
+      this.moreaction = val
+    },
+    // 出库人focus事件触发
+    handlechooseAccept() {
+      this.accetpcontrol = true
+    },
+    // 出库人列表返回数据
+    acceptName(val) {
+      this.handlePersonId = val.personName
+      this.personalForm.handlePersonId = val.id
+    },
     // 仓库列表focus事件触发
     handlechooseRep() {
       this.repositorycontrol = true
@@ -112,12 +199,32 @@ export default {
     },
     // 选择商品
     handleAddproduct() {
+      if (this.repositoryId === null || this.repositoryId === '' || this.repositoryId === undefined) {
+        this.$notify.error({
+          title: '错误',
+          message: '请先选择出库仓库',
+          offset: 100
+        })
+        return false
+      }
       this.control = true
     },
     productdetail(val) {
       console.log(val)
-      this.personalForm.productCode = val.code
-      this.productCode = val.productName
+      const nowlistdata = this.$refs.editable.getRecords()
+      for (let i = 0; i < val.length; i++) {
+        for (let j = 0; j < nowlistdata.length; j++) {
+          if (val[i].productCode === nowlistdata[j].productCode) {
+            this.$notify.error({
+              title: '错误',
+              message: '物品已添加',
+              offset: 100
+            })
+            return false
+          }
+        }
+        this.$refs.editable.insert(val[i])
+      }
     },
     // 清空记录
     restAllForm() {
@@ -142,23 +249,34 @@ export default {
       const parms = JSON.stringify(Data)
       this.$refs.personalForm.validate((valid) => {
         if (valid) {
-          create(parms).then(res => {
-            if (res.data.ret === 200) {
-              this.$notify({
-                title: '成功',
-                message: '保存成功',
-                type: 'success',
-                offset: 100
+          this.$refs.editable.validate((valid) => {
+            if (valid) {
+              create(parms).then(res => {
+                if (res.data.ret === 200) {
+                  this.$notify({
+                    title: '成功',
+                    message: '保存成功',
+                    type: 'success',
+                    offset: 100
+                  })
+                  this.restAllForm()
+                  this.$refs.personalForm.clearValidate()
+                  this.$refs.personalForm.resetFields()
+                } else {
+                  this.$notify.error({
+                    title: '错误',
+                    message: res.data.msg,
+                    offset: 100
+                  })
+                }
               })
-              this.restAllForm()
-              this.$refs.personalForm.clearValidate()
-              this.$refs.personalForm.resetFields()
             } else {
               this.$notify.error({
                 title: '错误',
-                message: res.data.msg,
+                message: '信息未填完整',
                 offset: 100
               })
+              return false
             }
           })
         } else {

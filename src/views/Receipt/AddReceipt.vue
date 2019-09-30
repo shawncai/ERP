@@ -146,7 +146,6 @@
             size="medium"
             style="width: 100%"
             @selection-change="handleSelectionChange2">
-            <el-editable-column type="selection" min-width="55" align="center"/>
             <el-editable-column :key="Math.random()" prop="sourceNumber" label="编号" min-width="200" align="center" />
             <el-editable-column :key="Math.random()" prop="shouldMoney" align="center" label="应收款金额" min-width="150px"/>
             <el-editable-column :key="Math.random()" prop="discountMoney" align="center" label="折扣额" min-width="150px"/>
@@ -299,6 +298,7 @@ export default {
   activated() {
     this.getinformation()
     this.getinformation2()
+    this.getinformation3()
   },
   methods: {
     // 批量操作
@@ -342,6 +342,32 @@ export default {
         // }
         this.InstallmentDetail(this.$store.getters.empcontract2)
         this.$store.dispatch('getempcontract2', '')
+      }
+    },
+    getinformation3() {
+      if (this.$store.getters.empcontract3) {
+        console.log('getempcontract3', this.$store.getters.empcontract3)
+        this.personalForm.customerType = '1'
+        this.personalForm.customerId = this.$store.getters.empcontract3[0].agentId
+        this.customerId = this.$store.getters.empcontract3[0].agentName
+        const agentcollectDetail = this.$store.getters.empcontract3.map(function(item) {
+          return {
+            sourceNumber: item.sourceNumber,
+            agentCollectId: item.id,
+            shouldMoney: item.shouldMoney,
+            discountMoney: item.discountMoney,
+            retreatMoney: item.returnMoney,
+            collectedMoney: item.collectedMoney,
+            uncollectedMoney: item.uncollectedMoney,
+            thisMoney: '0.00'
+          }
+        })
+        setTimeout(() => {
+          for (let i = 0; i < agentcollectDetail.length; i++) {
+            this.$refs.editable.insert(agentcollectDetail[i])
+          }
+        }, 0)
+        this.$store.dispatch('getempcontract3', '')
       }
     },
     getways() {
@@ -412,7 +438,7 @@ export default {
           sums[index] = ''
         }
       })
-      sums[2] = ''
+      sums[1] = ''
       this.allmoney = sums[6]
       this.personalForm.receiptMoney = sums[7]
       this.personalForm.deductionMoney = sums[7]
@@ -436,29 +462,31 @@ export default {
       }
     },
     agentdata(val) {
-      this.$refs.editable.clear()
-      this.personalForm.customerId = val.id
-      this.customerId = val.agentName
-      agentCollectList(val).then(res => {
-        if (res.data.ret === 200) {
+      setTimeout(() => {
+        this.$refs.editable.clear()
+        this.personalForm.customerId = val.id
+        this.customerId = val.agentName
+        agentCollectList(val).then(res => {
+          if (res.data.ret === 200) {
           // console.log('供应商欠款', res.data.data.content.list)
-          const agentcollectDetail = res.data.data.content.list.map(function(item) {
-            return {
-              sourceNumber: item.sourceNumber,
-              agentCollectId: item.id,
-              shouldMoney: item.shouldMoney,
-              discountMoney: item.discountMoney,
-              retreatMoney: item.returnMoney,
-              collectedMoney: item.collectedMoney,
-              uncollectedMoney: item.uncollectedMoney,
-              thisMoney: '0.00'
+            const agentcollectDetail = res.data.data.content.list.map(function(item) {
+              return {
+                sourceNumber: item.sourceNumber,
+                agentCollectId: item.id,
+                shouldMoney: item.shouldMoney,
+                discountMoney: item.discountMoney,
+                retreatMoney: item.returnMoney,
+                collectedMoney: item.collectedMoney,
+                uncollectedMoney: item.uncollectedMoney,
+                thisMoney: '0.00'
+              }
+            })
+            for (let i = 0; i < agentcollectDetail.length; i++) {
+              this.$refs.editable.insert(agentcollectDetail[i])
             }
-          })
-          for (let i = 0; i < agentcollectDetail.length; i++) {
-            this.$refs.editable.insert(agentcollectDetail[i])
           }
-        }
-      })
+        })
+      }, 0)
     },
     Installment(val) {
       // console.log(val)

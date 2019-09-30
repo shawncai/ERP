@@ -396,7 +396,10 @@ export default {
     upStock: '库存上限',
     onStock: '现有库存',
     safeStock: '安全库存',
-    alarmDays: '报警天数'
+    alarmDays: '报警天数',
+    Daysoftransfer: '流转天数',
+    creatPerson: '创建人',
+    handlePerson: '经办人'
   },
   countlist: {
     existStock: '现有库存',
