@@ -9,7 +9,7 @@
             <el-input v-model="personalForm.title" placeholder="请输入入盘点单主题" clearable/>
           </el-form-item>
           <el-form-item :label="$t('InventoryCount.handlePersonId')" prop="handlePersonId" style="width: 40%;margin-top:1%">
-            <el-input v-model="handlePersonId" placeholder="请选择经办人" clearable @focus="handlechoose"/>
+            <el-input v-model="handlePersonId" :autosize="{ minRows: 1}" type="textarea" resize="none" placeholder="请选择经办人" clearable @focus="handlechoose"/>
           </el-form-item>
           <my-create :createcontrol.sync="createcontrol" @createname="createname"/>
           <el-form-item :label="$t('InventoryCount.countDeptId')" style="width: 40%;margin-top:1%">
@@ -366,7 +366,7 @@ export default {
       const parms2 = sco.locationId
       const parms3 = sco.productCode
       const parms4 = sco.batch
-      if (parms4 !== '' && parms4 !== null && parms4 !== undefined) {
+      if (parms4 !== '' && parms4 !== null && parms4 !== undefined && parms2 !== '' && parms2 !== null && parms2 !== undefined) {
         getQuantity(this.personalForm.countRepositoryId, parms2, parms3, parms4).then(res => {
           this.out = res.data.data.content
           sco.inventoryQuantity = res.data.data.content
@@ -427,8 +427,15 @@ export default {
     // 员工列表返回经办人数据
     createname(val) {
       console.log(val)
-      this.handlePersonId = val.personName
-      this.personalForm.handlePersonId = val.id
+      const arr = []
+      const arr2 = []
+      for (const i in val) {
+        arr.push(val[i].personName)
+        arr2.push(val[i].id)
+      }
+      console.log(arr, arr2)
+      this.handlePersonId = arr.join(',').replace(/\s*/g, '')
+      this.personalForm.handlePersonId = arr2.join(',')
     },
     // 仓库列表focus事件触发
     handlechooseRep() {

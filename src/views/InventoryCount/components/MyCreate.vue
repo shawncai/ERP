@@ -55,11 +55,16 @@
       v-loading="listLoading"
       :data="list"
       :key="tableKey"
+      :row-key="getRowKey"
       border
       fit
       highlight-current-row
       style="width: 100%"
-      @current-change="handleCurrentChange">
+      @selection-change="handleSelectionChange">
+      <el-table-column
+        :reserve-selection="true"
+        type="selection"
+        width="55"/>
       <el-table-column
         :label="$t('NewEmployeeInformation.id')"
         :resizable="false"
@@ -134,6 +139,8 @@ export default {
   },
   data() {
     return {
+      // 批量数据
+      moreaction: '',
       // 转化数据
       choosedata: '',
       // 仓库管理员回显数据
@@ -190,6 +197,16 @@ export default {
     }
   },
   methods: {
+    // 记住之前的批量
+    getRowKey(row) {
+      return row.id
+    },
+    // 批量操作
+    handleSelectionChange(val) {
+      console.log(val)
+      // this.moreaction = val
+      this.choosedata = val
+    },
     // 仓库管理员选择开始
     gitemplist() {
       // 员工列表数据

@@ -146,11 +146,11 @@ export default {
       control: false,
       // 库存预警数据
       personalForm: {
-        createPersonId: this.$store.getters.userId,
-        createId: 3,
+        create: this.$store.getters.userId,
+        // createId: 3,
         countryId: this.$store.getters.countryId,
         handlePersonId: this.$store.getters.userId,
-        creatDate: new Date()
+        creatDate: ''
       },
       // 库存预警规则数据
       personalrules: {
@@ -174,7 +174,25 @@ export default {
       }
     }
   },
+  mounted() {
+    this.getdatatime()
+  },
   methods: {
+    getdatatime() { // 默认显示今天
+      var date = new Date()
+      var seperator1 = '-'
+      var year = date.getFullYear()
+      var month = date.getMonth() + 1
+      var strDate = date.getDate()
+      if (month >= 1 && month <= 9) {
+        month = '0' + month
+      }
+      if (strDate >= 0 && strDate <= 9) {
+        strDate = '0' + strDate
+      }
+      var currentdate = year + seperator1 + month + seperator1 + strDate
+      this.personalForm.creatDate = currentdate
+    },
     // 批量操作
     handleSelectionChange(val) {
       this.moreaction = val
@@ -186,7 +204,7 @@ export default {
     // 出库人列表返回数据
     acceptName(val) {
       this.handlePersonId = val.personName
-      this.personalForm.handlePersonId = val.id
+      this.personalForm.createId = val.id
     },
     // 仓库列表focus事件触发
     handlechooseRep() {
@@ -229,13 +247,12 @@ export default {
     // 清空记录
     restAllForm() {
       this.personalForm = {
-        createPersonId: this.$store.getters.userId,
+        create: this.$store.getters.userId,
         countryId: this.$store.getters.countryId,
         repositoryId: this.$store.getters.repositoryId,
         regionId: this.$store.getters.regionId
       }
       this.repositoryId = ''
-      this.productCode = ''
     },
     // 保存操作
     handlesave() {
@@ -246,12 +263,22 @@ export default {
           delete Data[key]
         }
       }
+      const EnterDetail = this.$refs.editable.getRecords()
+      if (EnterDetail.length === 0) {
+        this.$notify.error({
+          title: '错误',
+          message: '明细表不能为空',
+          offset: 100
+        })
+        return false
+      }
       const parms = JSON.stringify(Data)
+      const parms2 = JSON.stringify(EnterDetail)
       this.$refs.personalForm.validate((valid) => {
         if (valid) {
           this.$refs.editable.validate((valid) => {
             if (valid) {
-              create(parms).then(res => {
+              create(parms, parms2).then(res => {
                 if (res.data.ret === 200) {
                   this.$notify({
                     title: '成功',
@@ -262,6 +289,7 @@ export default {
                   this.restAllForm()
                   this.$refs.personalForm.clearValidate()
                   this.$refs.personalForm.resetFields()
+                  this.$refs.editable.clear()
                 } else {
                   this.$notify.error({
                     title: '错误',

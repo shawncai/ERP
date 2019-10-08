@@ -225,19 +225,10 @@ export default {
         return {
           productCode: item.code,
           productName: item.productName,
-          locationId: '',
           color: item.color,
           typeId: item.typeId,
-          enterQuantity: 0,
-          taxRate: 0,
           unit: item.purMeasu,
-          actualEnterQuantity: 0,
-          basicQuantity: 0,
-          enterPrice: item.costPrice,
           productType: item.productType,
-          totalMoney: 0,
-          enterMoney: 0,
-          price: item.costPrice,
           typeIdname: item.productType
         }
       })

@@ -430,9 +430,7 @@ export default {
       console.log('修改', row)
       this.editVisible = true
       this.customerForm = Object.assign({}, row)
-      this.customerForm.newOrOld = String(row.newOrOld)
-      this.customerForm.transMode = String(row.deliveryModeWZ)
-      this.customerForm.deliveryMode = String(row.transModeWZ)
+      console.log(this.customerForm)
     },
     // 修改组件修改成功后返回
     refreshlist(val) {

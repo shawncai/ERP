@@ -33,10 +33,13 @@ export function alarmList(query) {
 }
 
 // 删除预警规则
-export function create(query) {
+export function create(query, query2) {
   var params = new URLSearchParams()
   if (query !== '' && query !== null && query !== undefined) {
     params.append('Json', query) // 你要传给后台的参数值 key/value
+  }
+  if (query2 !== '' && query2 !== null && query2 !== undefined) {
+    params.append('detailJson', query2) // 你要传给后台的参数值 key/value
   }
   return request({
     url: '/inventoryAlarm/create',
@@ -46,10 +49,13 @@ export function create(query) {
 }
 
 // 修改库存预警规则
-export function update(query) {
+export function update(query, query2) {
   var params = new URLSearchParams()
   if (query !== '' && query !== null && query !== undefined) {
     params.append('Json', query) // 你要传给后台的参数值 key/value
+  }
+  if (query2 !== '' && query2 !== null && query2 !== undefined) {
+    params.append('detailJson', query2) // 你要传给后台的参数值 key/value
   }
   return request({
     url: '/inventoryAlarm/update',

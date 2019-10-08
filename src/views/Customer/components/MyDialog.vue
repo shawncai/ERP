@@ -230,7 +230,7 @@
             <el-col :span="12">
               <el-form-item :label="$t('Customer.establishmenttime')" style="width: 100%;">
                 <el-date-picker
-                  v-model="customerForm.establishmenttime"
+                  v-model="customerForm.establishmentTime"
                   :picker-options="pickerOptions"
                   value-format="yyyy-MM-dd"
                   type="date"
@@ -378,13 +378,13 @@ export default {
     },
     editdata() {
       this.customerForm = this.editdata
-      this.trader = this.editdata.traderName
-      this.customerForm.currency = String(this.editdata.currency)
+      this.trader = this.customerForm.traderName
+      this.customerForm.currency = String(this.editdata.currency || '')
       // this.customerForm.establishmenttime = new Date(this.editdata.establishmentTime)
-      this.customerForm.establishmenttime = this.formatTime(this.editdata.establishmentTime, 'Y-M-D')
-      console.log(this.editdata)
-      this.handlechange(this.customerForm.countryId)
-      this.handlechange2(this.customerForm.provinceId)
+      this.customerForm.establishmentTime = this.formatTime(this.editdata.establishmentTime, 'Y-M-D')
+      console.log('11223344', this.editdata)
+      this.handlechange(this.editdata.countryId)
+      this.handlechange2(this.editdata.provinceId)
     }
   },
   created() {
@@ -393,6 +393,23 @@ export default {
     this.getTypes()
   },
   methods: {
+    cutnull(data) {
+      for (const x in data) {
+        if (data[x] === null) { // 如果是null 把直接内容转为 ''
+          data[x] = ''
+        } else {
+          if (Array.isArray(data[x])) { // 是数组遍历数组 递归继续处理
+            data[x] = data[x].map(z => {
+              return this.cutnull(z)
+            })
+          }
+          if (typeof (data[x]) === 'object') { // 是json 递归继续处理
+            data[x] = this.cutnull(data[x])
+          }
+        }
+      }
+      return data
+    },
     // 修改操作开始 -------------------------------------------------
     // 格式化日期，如月、日、时、分、秒保证为2位数
     formatNumber(n) {
@@ -513,9 +530,6 @@ export default {
           this.provinces = res.data.data.content
         }
       })
-      this.customerForm.provinceId = ''
-      this.customerForm.cityId = ''
-      this.cities = []
     },
     // 根据省选择市
     handlechange2(val) {
@@ -525,7 +539,6 @@ export default {
           this.cities = res.data.data.content
         }
       })
-      this.customerForm.cityId = ''
     },
     // 员工输入框focus事件触发
     handlechoose() {
