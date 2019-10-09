@@ -283,6 +283,22 @@ export default {
       this.listLoading = true
       checkreportlist(this.getemplist).then(res => {
         if (res.data.ret === 200) {
+          const processArr = res.data.data.content.list
+          for (let i = 0; i < processArr.length; i++) {
+            processArr[i].isOk = 0
+            for (let j = 0; j < processArr[i].checkReportDetailVos.length; j++) {
+              if (processArr[i].checkReportDetailVos[j].chectResult === 1) {
+                processArr[i].isOk++
+              }
+            }
+            console.log(i, processArr[i].isOk)
+          }
+          for (let i = 0; i < processArr.length; i++) {
+            if (processArr[i].isOk === processArr[i].checkReportDetailVos.length) {
+              processArr.splice(i, 1)
+              i--
+            }
+          }
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
         }

@@ -282,9 +282,9 @@ export default {
               }
             }
           }
-          for (let i = 0; i < res.data.data.content.list[i].stockArrivalDetailVos.length; i++) {
-            if (res.data.data.content[i].stockArrivalDetailVos.length === 0) {
-              res.data.data.content[i].stockArrivalDetailVos.slpclice(i, 1)
+          for (let i = 0; i < res.data.data.content.list.length; i++) {
+            if (res.data.data.content.list[i].stockArrivalDetailVos.length === 0) {
+              res.data.data.content.list.splice(i, 1)
               i--
             }
           }
