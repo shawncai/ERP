@@ -16,7 +16,7 @@
               <el-input v-model="personalForm.title" placeholder="请输入入盘点单主题" disabled/>
             </el-form-item>
             <el-form-item :label="$t('InventoryCount.handlePersonId')" prop="handlePersonId" style="width: 40%;margin-top:1%">
-              <el-input v-model="handlePersonId" placeholder="请选择经办人" disabled @focus="handlechoose"/>
+              <el-input v-model="handlePersonId" :autosize="{ minRows: 1}" type="textarea" resize="none" placeholder="请选择经办人" disabled @focus="handlechoose"/>
             </el-form-item>
             <el-form-item label="国家" style="width: 40%;margin-top:1%">
               <el-input v-model="personalForm.countryName" disabled/>

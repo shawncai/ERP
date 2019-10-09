@@ -355,14 +355,14 @@ export function updateagent(query) {
   if (query.discount !== '' && query.discount !== null && query.discount !== undefined) {
     params.append('discount', query.discount) // 你要传给后台的参数值 key/value
   }
-  if (query.countryid !== '' && query.countryid !== null && query.countryid !== undefined) {
-    params.append('countryid', query.countryid) // 你要传给后台的参数值 key/value
+  if (query.countryId !== '' && query.countryId !== null && query.countryId !== undefined) {
+    params.append('countryid', query.countryId) // 你要传给后台的参数值 key/value
   }
-  if (query.provinceid !== '' && query.provinceid !== null && query.provinceid !== undefined) {
-    params.append('provinceid', query.provinceid) // 你要传给后台的参数值 key/value
+  if (query.provinceId !== '' && query.provinceId !== null && query.provinceId !== undefined) {
+    params.append('provinceid', query.provinceId) // 你要传给后台的参数值 key/value
   }
-  if (query.cityid !== '' && query.cityid !== null && query.cityid !== undefined) {
-    params.append('cityid', query.cityid) // 你要传给后台的参数值 key/value
+  if (query.cityId !== '' && query.cityId !== null && query.cityId !== undefined) {
+    params.append('cityid', query.cityId) // 你要传给后台的参数值 key/value
   }
   if (query.introduce !== '' && query.introduce !== null && query.introduce !== undefined) {
     params.append('introduce', query.introduce) // 你要传给后台的参数值 key/value

@@ -260,7 +260,25 @@ export default {
       this.listLoading = true
       qualitychecklist(this.getemplist).then(res => {
         if (res.data.ret === 200) {
-          this.list = res.data.data.content.list
+          // 处理源单过来的数据，筛选已经质检过的内容
+          console.log('处理前', res.data.data.content.list)
+          const processArr = res.data.data.content.list
+          for (let i = 0; i < processArr.length; i++) {
+            for (let j = 0; j < processArr[i].qualityCheckDetailVos.length; j++) {
+              if (processArr[i].qualityCheckDetailVos[j].basicQuantity - processArr[i].qualityCheckDetailVos[j].checkedQuantity === 0) {
+                processArr[i].qualityCheckDetailVos.splice(j, 1)
+                j--
+              }
+            }
+          }
+          for (let i = 0; i < processArr.length; i++) {
+            if (processArr[i].qualityCheckDetailVos.length === 0) {
+              processArr.splice(i, 1)
+              i--
+            }
+          }
+          console.log('处理后', processArr)
+          this.list = processArr
           this.total = res.data.data.content.totalCount
         }
         setTimeout(() => {

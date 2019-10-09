@@ -87,7 +87,7 @@
 </template>
 
 <script>
-import { getRegion, regionlist, getcountrylist } from '@/api/public'
+import { regionlist, getcountrylist } from '@/api/public'
 import { searchRepCategory, searchRepository2 } from '@/api/Repository'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
@@ -168,28 +168,34 @@ export default {
     repositorycontrol() {
       this.repositoryVisible = this.repositorycontrol
       this.getlist()
-      this.getRegion()
+      // this.getRegion()
     }
   },
   methods: {
-    getRegion() {
-      this.getemplist.countyrId = this.$store.getters.countryId
-      getRegion(this.$store.getters.regionId).then(res => {
-        if (res.data.ret === 200) {
-          if (res.data.data.content.zcc !== null && res.data.data.content.zcc !== '' && res.data.data.content.zcc !== undefined) {
-            const zhuz = res.data.data.content.zcc.split(',')
-            this.getemplistregions = zhuz.map(function(item) {
-              return parseInt(item)
-            })
-          }
-        }
-      })
-    },
+    // getRegion() {
+    //   this.getemplist.countyrId = this.$store.getters.countryId
+    //   getRegion(this.$store.getters.regionId).then(res => {
+    //     if (res.data.ret === 200) {
+    //       if (res.data.data.content.zcc !== null && res.data.data.content.zcc !== '' && res.data.data.content.zcc !== undefined) {
+    //         const zhuz = res.data.data.content.zcc.split(',')
+    //         this.getemplistregions = zhuz.map(function(item) {
+    //           return parseInt(item)
+    //         })
+    //       }
+    //     }
+    //   })
+    // },
     getlist() {
       // 国家列表
       getcountrylist().then(res => {
         if (res.data.ret === 200) {
           this.nations = res.data.data.content
+        } else {
+          this.$notify.error({
+            title: '错误',
+            message: '出错了',
+            offset: 100
+          })
         }
       })
       // 仓库列表数据
@@ -198,6 +204,12 @@ export default {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
+        } else {
+          this.$notify.error({
+            title: '错误',
+            message: '出错了',
+            offset: 100
+          })
         }
         setTimeout(() => {
           this.listLoading = false
@@ -208,6 +220,12 @@ export default {
         if (res.data.ret === 200) {
           console.log(res)
           this.types = res.data.data.content.list
+        } else {
+          this.$notify.error({
+            title: '错误',
+            message: '出错了',
+            offset: 100
+          })
         }
       })
       // 区域数据
@@ -227,6 +245,12 @@ export default {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
           this.repositoryVisible = true
+        } else {
+          this.$notify.error({
+            title: '错误',
+            message: '出错了',
+            offset: 100
+          })
         }
       })
     },

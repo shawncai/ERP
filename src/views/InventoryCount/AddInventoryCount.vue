@@ -605,8 +605,15 @@ export default {
     // 员工列表返回经办人数据
     createname(val) {
       console.log(val)
-      this.handlePersonId = val.personName
-      this.personalForm.handlePersonId = val.id
+      const arr = []
+      const arr2 = []
+      for (const i in val) {
+        arr.push(val[i].personName)
+        arr2.push(val[i].id)
+      }
+      console.log(arr, arr2)
+      this.handlePersonId = arr.join(',').replace(/\s*/g, '')
+      this.personalForm.handlePersonId = arr2.join(',')
     },
     // 仓库列表focus事件触发
     handlechooseRep() {

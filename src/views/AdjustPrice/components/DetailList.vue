@@ -152,6 +152,26 @@
           </el-table>
         </div>
       </el-card>
+      <!-- 备注消息 -->
+      <el-card class="box-card">
+        <h2 ref="geren" class="form-name">合计信息</h2>
+        <div class="container">
+          <el-form ref="personalForm" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="100px" style="margin-left: 30px;">
+            <el-row>
+              <el-col :span="6">
+                <el-form-item :label="$t('StockOut.heji')" style="width: 100%;">
+                  <el-input v-model="heji" placeholder="请输入摘要" style="margin-left: 18px;width: 150px" disabled/>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item :label="$t('StockOut.heji2')" style="width: 100%;">
+                  <el-input v-model="heji2" placeholder="请输入摘要" style="margin-left: 18px;width: 150px" disabled/>
+                </el-form-item>
+              </el-col>
+            </el-row>
+          </el-form>
+        </div>
+      </el-card>
       <div class="buttons" style="margin-top: 20px;margin-left: 30px">
         <el-button type="danger" @click="handlecancel()">取消</el-button>
       </div>

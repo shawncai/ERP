@@ -273,6 +273,22 @@ export default {
       searchstockArrival(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
+          console.log(res.data.data.content.list)
+          for (let i = 0; i < res.data.data.content.list.length; i++) {
+            for (let j = 0; j < res.data.data.content.list[i].stockArrivalDetailVos.length; j++) {
+              if (res.data.data.content.list[i].stockArrivalDetailVos[j].arrivalQuantity - res.data.data.content.list[i].stockArrivalDetailVos[j].actualCheckingQuantity === 0) {
+                res.data.data.content[i].stockArrivalDetailVos.splice(j, 1)
+                j--
+              }
+            }
+          }
+          for (let i = 0; i < res.data.data.content.list.length; i++) {
+            if (res.data.data.content.list[i].stockArrivalDetailVos.length === 0) {
+              res.data.data.content.list.splice(i, 1)
+              i--
+            }
+          }
+          console.log()
           this.total = res.data.data.content.totalCount
         }
         setTimeout(() => {

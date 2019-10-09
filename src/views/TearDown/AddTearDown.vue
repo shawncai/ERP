@@ -231,9 +231,9 @@ export default {
       // 部门数据
       depts: [],
       // 经办人回显
-      handlePersonId: '',
+      handlePersonId: this.$store.getters.name,
       // 仓库回显
-      teardownRepositoryId: '',
+      teardownRepositoryId: this.$store.getters.repositoryName,
       // 经办人控制窗口
       createcontrol: false,
       // 仓库控制窗口
@@ -249,7 +249,10 @@ export default {
         repositoryId: this.$store.getters.repositoryId,
         regionId: this.$store.getters.regionId,
         sourceType: '1',
-        type: '1'
+        type: '1',
+        handlePersonId: this.$store.getters.userId,
+        teardownDeptId: this.$store.getters.deptId,
+        teardownRepositoryId: this.$store.getters.repositoryId
       },
       // 拆装单规则数据
       personalrules: {

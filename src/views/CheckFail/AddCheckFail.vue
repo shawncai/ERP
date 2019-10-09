@@ -99,7 +99,7 @@
             style="width: 100%">
             <el-editable-column type="selection" min-width="55" align="center"/>
             <el-editable-column label="序号" min-width="55" align="center" type="index"/>
-            <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="failedReason" align="center" label="不合格原因" min-width="150px"/>
+            <el-editable-column :edit-render="{name: 'ElSelect', options: unqualify, type: 'visible'}" prop="failedReason" align="center" label="不合格原因" min-width="150px"/>
             <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="quantity" align="center" label="数量" min-width="150px">
               <template slot="edit" slot-scope="scope">
                 <el-input-number
@@ -126,6 +126,7 @@
 import '@/directive/noMoreClick/index.js'
 import { addcheckfail } from '@/api/CheckFail'
 import { getdeptlist } from '@/api/BasicSettings'
+import { searchCheckCategory } from '@/api/CheckCategory'
 import MyEmp from './components/MyEmp'
 import MyDetail from './components/MyDetail'
 import MySupplier from './components/MySupplier'
@@ -151,6 +152,8 @@ export default {
       }
     }
     return {
+      // 不合格下拉
+      unqualify: [],
       // 控制质检报告单
       reportcontrol: false,
       // 所有处置方式
@@ -190,7 +193,7 @@ export default {
       // 检验部门数据
       depts2: [],
       // 处置负责人员回显
-      handlePersonId: '',
+      handlePersonId: this.$store.getters.name,
       // 控制处置负责人员
       stockControl: false,
       // 类别数据
@@ -213,7 +216,8 @@ export default {
         repositoryId: this.$store.getters.repositoryId,
         regionId: this.$store.getters.regionId,
         isVat: 1,
-        sourceType: '1'
+        sourceType: '1',
+        handlePersonId: this.$store.getters.userId
       },
       // 采购申请单规则数据
       personalrules: {
@@ -258,13 +262,46 @@ export default {
       list2: [],
       // 采购申请单明细列表规则
       validRules: {
+        failedReason: [
+          { required: true, message: '请选择不合格原因', trigger: 'change' }
+        ],
+        quantity: [
+          { required: true, message: '请选择检验方式', trigger: 'change' }
+        ],
+        handleMode: [
+          { required: true, message: '请输入报检数量', trigger: 'change' }
+        ]
+      },
+      // 退货原因
+      getemplist: {
+        categoryname: '',
+        type: '2',
+        iseffective: '1',
+        pagenum: 1,
+        pagesize: 99999
       }
     }
   },
   created() {
     this.getTypes()
+    this.getdatatime()
   },
   methods: {
+    getdatatime() { // 默认显示今天
+      var date = new Date()
+      var seperator1 = '-'
+      var year = date.getFullYear()
+      var month = date.getMonth() + 1
+      var strDate = date.getDate()
+      if (month >= 1 && month <= 9) {
+        month = '0' + month
+      }
+      if (strDate >= 0 && strDate <= 9) {
+        strDate = '0' + strDate
+      }
+      var currentdate = year + seperator1 + month + seperator1 + strDate
+      this.personalForm.handleDate = currentdate
+    },
     // 计算不合格数量
     getrate(row) {
       console.log(row)
@@ -328,6 +365,18 @@ export default {
             return {
               'value': item.id,
               'label': item.deptName
+            }
+          })
+        }
+      })
+      searchCheckCategory(this.getemplist).then(res => {
+        if (res.data.ret === 200) {
+          this.depts = res.data.data.content.list
+          // this.unqualify =res.data.data.content.list
+          this.unqualify = res.data.data.content.list.map(function(item) {
+            return {
+              'value': item.id,
+              'label': item.categoryName
             }
           })
         }
@@ -457,29 +506,40 @@ export default {
       const parms = JSON.stringify(Data)
       this.$refs.personalForm.validate((valid) => {
         if (valid) {
-          addcheckfail(parms, parms2, this.personalForm).then(res => {
-            console.log(res)
-            if (res.data.ret === 200) {
-              this.$notify({
-                title: '成功',
-                message: '保存成功',
-                type: 'success',
-                offset: 100
+          this.$refs.editable.validate((valid) => {
+            if (valid) {
+              addcheckfail(parms, parms2, this.personalForm).then(res => {
+                console.log(res)
+                if (res.data.ret === 200) {
+                  this.$notify({
+                    title: '成功',
+                    message: '保存成功',
+                    type: 'success',
+                    offset: 100
+                  })
+                  this.restAllForm()
+                  this.$refs.editable.clear()
+                  this.$refs.personalForm.clearValidate()
+                  this.$refs.personalForm.resetFields()
+                  this.$refs.personalForm2.clearValidate()
+                  this.$refs.personalForm2.resetFields()
+                  this.$refs.personalForm3.clearValidate()
+                  this.$refs.personalForm3.resetFields()
+                } else {
+                  this.$notify.error({
+                    title: '错误',
+                    message: res.data.msg,
+                    offset: 100
+                  })
+                }
               })
-              this.restAllForm()
-              this.$refs.editable.clear()
-              this.$refs.personalForm.clearValidate()
-              this.$refs.personalForm.resetFields()
-              this.$refs.personalForm2.clearValidate()
-              this.$refs.personalForm2.resetFields()
-              this.$refs.personalForm3.clearValidate()
-              this.$refs.personalForm3.resetFields()
             } else {
               this.$notify.error({
                 title: '错误',
-                message: res.data.msg,
+                message: '信息未填完整',
                 offset: 100
               })
+              return false
             }
           })
         } else {

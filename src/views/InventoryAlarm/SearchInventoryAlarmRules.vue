@@ -56,15 +56,16 @@
           align="center"/>
         <el-table-column :label="$t('public.id')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.id }}</span>
+            <span class="link-type" @click="handleDetail(scope.row)">{{ scope.row.id }}</span>
           </template>
+          <detail-list :detailcontrol.sync="detailvisible" :detaildata.sync="personalForm"/>
         </el-table-column>
         <el-table-column :label="$t('StockAlarm.searchRepositoryId')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.repositoryName }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('inventoryAlarm.productName')" :resizable="false" align="center" min-width="150">
+        <!-- <el-table-column :label="$t('inventoryAlarm.productName')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.productName }}</span>
           </template>
@@ -72,6 +73,16 @@
         <el-table-column :label="$t('inventoryAlarm.productCode')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.productCode }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column :label="$t('inventoryAlarm.Daysoftransfer')" :resizable="false" align="center" min-width="150">
+          <template slot-scope="scope">
+            <span>{{ scope.row.productName }}</span>
+          </template>
+        </el-table-column> -->
+        <el-table-column :label="$t('inventoryAlarm.creatPerson')" :resizable="false" align="center" min-width="150">
+          <template slot-scope="scope">
+            <span>{{ scope.row.createName }}</span>
           </template>
         </el-table-column>
         <el-table-column :label="$t('inventoryAlarm.createDate')" :resizable="false" align="center" min-width="150">
@@ -99,16 +110,18 @@
 import { getdeptlist } from '@/api/BasicSettings'
 import { ruleList } from '@/api/InventoryAlarm'
 import { deletealarmrules } from '@/api/StockAlarm'
+import permission from '@/directive/permission/index.js' // 权限判断指令
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
 import MyRepository from './components/MyRepository'
 import MyProduct from './components/MyProduct'
 import MyRules from './components/MyRules'
+import DetailList from './components/DetailList'
 
 export default {
   name: 'SearchInventoryAlarmRules',
-  directives: { waves },
-  components: { MyRules, MyProduct, Pagination, MyRepository },
+  directives: { waves, permission },
+  components: { MyRules, MyProduct, Pagination, MyRepository, DetailList },
   filters: {
     judgeStatFileter(status) {
       const statusMap = {
@@ -144,6 +157,8 @@ export default {
       },
       // 搜索结束 ----------------------
       // 列表操作 -------------------------
+      // 详情组件数据
+      detailvisible: false,
       // 批量操作
       moreaction: '',
       // 加载操作控制
@@ -168,6 +183,12 @@ export default {
     this.getlist()
   },
   methods: {
+    // 点击详情
+    handleDetail(row) {
+      console.log(row)
+      this.detailvisible = true
+      this.personalForm = Object.assign({}, row)
+    },
     // 部门列表数据
     getdeptlist() {
       getdeptlist().then(res => {

@@ -356,7 +356,7 @@ export default {
       // 控制质检申请
       qualitycontrol: false,
       // 检验人员回显
-      checkPersonId: '',
+      checkPersonId: this.$store.getters.name,
       // 控制检验人员
       accetpcontrol: false,
       // 工作中心回显
@@ -412,7 +412,9 @@ export default {
         checkMode: '1',
         checkType: '1',
         checkDate: null,
-        checkResult: '1'
+        checkResult: '1',
+        checkPersonId: this.$store.getters.userId,
+        checkDeptId: this.$store.getters.deptId
         // checkQuantity: this.personalForm.sampleQuantity,
       },
       // 采购申请单规则数据
@@ -967,6 +969,7 @@ export default {
       this.personalForm.sourceNumber = val.number
       this.personalForm.supplierId = val.supplierId
       this.supplierId = val.supplierName
+      this.personalForm.inspectionDeptId = val.deptId
       // this.sourceSerialNumber = val.sourceSerialNumber
     },
     // 源单类型为生产任务单
@@ -984,6 +987,7 @@ export default {
       this.personalForm.passRate = ''
       this.reportdata3 = val.produceTaskDetailVos
       this.personalForm.sourceNumber = val.taskNumber
+      this.personalForm.inspectionDeptId = val.produceDeptId
       if (val.handlePersonId !== '' && val.handlePersonId !== null && val.handlePersonId !== undefined) {
         this.personalForm.produceManagerId = val.handlePersonId
         this.produceManagerId = val.handlePersonName

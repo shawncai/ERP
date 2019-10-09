@@ -112,7 +112,7 @@
 </template>
 
 <script>
-import { productlist } from '@/api/Product'
+import { chooseProduct } from '@/api/Product'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
 export default {
@@ -131,10 +131,16 @@ export default {
     control: {
       type: Boolean,
       default: false
+    },
+    personalform: {
+      type: Object,
+      default: null
     }
   },
   data() {
     return {
+      // 传过来的仓库
+      query: this.personalform,
       // 物品选择框控制
       productVisible: this.control,
       // 更多搜索条件问题
@@ -168,6 +174,9 @@ export default {
       this.productVisible = this.control
       console.log(this.control)
       this.getlist()
+    },
+    personalform() {
+      this.query = this.personalform
     }
   },
   created() {
@@ -177,7 +186,8 @@ export default {
     getlist() {
       // 商品列表数据
       this.listLoading = true
-      productlist(this.getemplist).then(res => {
+      this.getemplist.searchRepositoryId = this.personalform.repositoryId
+      chooseProduct(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
@@ -190,7 +200,8 @@ export default {
     // 搜索
     handleFilter() {
       this.getemplist.pagenum = 1
-      productlist(this.getemplist).then(res => {
+      this.getemplist.searchRepositoryId = this.personalform.repositoryId
+      chooseProduct(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
@@ -214,19 +225,10 @@ export default {
         return {
           productCode: item.code,
           productName: item.productName,
-          locationId: '',
           color: item.color,
           typeId: item.typeId,
-          enterQuantity: 0,
-          taxRate: 0,
           unit: item.purMeasu,
-          actualEnterQuantity: 0,
-          basicQuantity: 0,
-          enterPrice: item.costPrice,
           productType: item.productType,
-          totalMoney: 0,
-          enterMoney: 0,
-          price: item.costPrice,
           typeIdname: item.productType
         }
       })
