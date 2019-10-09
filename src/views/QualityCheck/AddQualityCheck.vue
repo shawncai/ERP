@@ -15,8 +15,8 @@
               <el-col :span="6">
                 <el-form-item :label="$t('QualityCheck.sourceType')" prop="sourceType" style="width: 100%;">
                   <el-select v-model="personalForm.sourceType" style="margin-left: 18px;width: 200px" @change="chooseType">
-                    <el-option value="1" label="采购到货单" />
-                    <el-option value="2" label="生产任务单" />
+                    <!-- <el-option value="1" label="采购到货单" /> -->
+                    <!-- <el-option value="2" label="生产任务单" /> -->
                     <el-option value="3" label="无来源" />
                   </el-select>
                 </el-form-item>
