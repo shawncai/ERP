@@ -55,10 +55,24 @@ export default {
     },
     handleSuccess({ results, header }) {
       this.tableData = results
-      this.tableHeader = ['物料编码(必填)',	'条形码',	'商品名称(必填)',	'质保期(天数)',	'重量(保留两位小数)',	'体积(保留两位小数)',	'会员价',	'出厂价(必填)',	'批发价',	'销售价(必填)',	'最低价',	'档次级别编号(id)',	'基本计量单位编号(id)(必填)',	'来源(2生产3采购)',	'成本核算计价方式(1约当产量法，2定额成本法，3定额比例法)(必填)',	'上下架(1上架，2下架)',	'是否适用批次(1使用2不使用)(必填)',	'有效天数(必填)',	'采购周期(天)',	'保养周期(天数)',	'1可以作为赠品，2不可以',	'生产能力(日产量)',	'生产中心序号(id)',	'绩效分',	'积分', '种类id(必填)']
+      this.tableHeader = ['开始编码（01整车，02零部件，03紧固件）（必填）',	'分类名称（必填）',	'车辆型号（01，02填）',	'配置（01填）',	'版本（01，02填）',
+        '颜色（01，02填）',	'直径规格（03填）',	'长度规格（03填）',	'性能等级（03填）',	'表面处理（03填）',	'条形码',
+        '商品名称(必填)',	'质保期(天数)',	'重量(保留两位小数)',	'体积(保留两位小数)',	'会员价',	'出厂价(必填)',	'批发价',
+        '销售价(必填)',	'最低价',	'档次级别编号(id)',	'基本计量单位名称（必填）',	'来源(2生产3采购)',	'成本核算计价方式(1约当产量法，2定额成本法，3定额比例法)(必填)',
+        '上下架(1上架，2下架)',	'是否适用批次(1使用2不使用)(必填)',	'有效天数',	'采购周期(天)',	'保养周期(天数)',	'1可以作为赠品，2不可以',
+        '生产能力(日产量)', '生产中心',	'绩效分（分数）',	'积分（分数）']
       this.uploadHead = results.map(function(item) {
         return {
-          code: item['物料编码(必填)'],
+          beginCode: item['开始编码（01整车，02零部件，03紧固件）（必填）'],
+          categoryName: item['分类名称（必填）'],
+          productTypeName: item['车辆型号（01，02填）'],
+          disposeName: item['配置（01填）'],
+          versionName: item['版本（01，02填）'],
+          color: item['颜色（01，02填）'],
+          diameterName: item['直径规格（03填）'],
+          lengthName: item['长度规格（03填）'],
+          performanceLevelName: item['性能等级（03填）'],
+          faceName: item['表面处理（03填）'],
           barCode: item['条形码'],
           productName: item['商品名称(必填)'],
           zhiBaoQi: item['质保期(天数)'],
@@ -70,20 +84,19 @@ export default {
           salePrice: item['销售价(必填)'],
           lowerPrice: item['最低价'],
           level: item['档次级别编号(id)'],
-          purchaseMeasurement: item['基本计量单位编号(id)(必填)'],
+          unitName: item['基本计量单位名称（必填）'],
           source: item['来源(2生产3采购)'],
           valuation: item['成本核算计价方式(1约当产量法，2定额成本法，3定额比例法)(必填)'],
           isActive: item['上下架(1上架，2下架)'],
           isBatch: item['是否适用批次(1使用2不使用)(必填)'],
-          effectiveDay: item['有效天数(必填)'],
+          effectiveDay: item['有效天数'],
           stockCircle: item['采购周期(天)'],
           careCircle: item['保养周期(天数)'],
           isGift: item['1可以作为赠品，2不可以'],
           produceAbility: item['生产能力(日产量)'],
-          workCenterId: item['生产中心序号(id)'],
-          kpiGrade: item['绩效分'],
-          point: item['积分'],
-          categoryId: item['种类id(必填)']
+          workCenterName: item['生产中心'],
+          kpiGrade: item['绩效分（分数）'],
+          point: item['积分（分数）']
         }
       })
       console.log(header)
@@ -94,7 +107,7 @@ export default {
         if (res.data.ret === 200) {
           this.$notify({
             title: '成功',
-            message: '上传成功',
+            message: res.data.msg,
             type: 'success',
             offset: 100
           })

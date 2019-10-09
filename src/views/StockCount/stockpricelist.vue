@@ -9,20 +9,8 @@
             </el-form-item>
           </el-col>
           <el-col :span="5">
-            <el-form-item :label="$t('StockContract.supplierId')">
-              <el-input v-model="supplierId" @focus="handlechoose"/>
-              <my-supplier :control.sync="empcontrol" @supplierName="supplierName"/>
-            </el-form-item>
-          </el-col>
-          <el-col :span="5" style="margin-left: 47px">
-            <el-form-item :label="$t('stockOrderCount.date')">
-              <el-date-picker
-                v-model="date"
-                type="daterange"
-                range-separator="-"
-                unlink-panels
-                value-format="yyyy-MM-dd"
-                style="margin-left: 70px"/>
+            <el-form-item label="物品编号">
+              <el-input v-model="getemplist.productCode" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
           <el-col :span="3" style="margin-left: 252px">
@@ -40,11 +28,6 @@
         border
         style="width: 100%">
         <el-table-column
-          :label="$t('stockTrackList.supplierName')"
-          prop="supplierName"
-          width="200"
-          align="center"/>
-        <el-table-column
           :label="$t('stockTrackList.receiptDate')"
           prop="receiptDate"
           width="200"
@@ -52,11 +35,6 @@
         <el-table-column
           :label="$t('stockTrackList.orderNumber')"
           prop="orderNumber"
-          width="200"
-          align="center"/>
-        <el-table-column
-          :label="$t('stockTrackList.deliveryDate')"
-          prop="deliveryDate"
           width="200"
           align="center"/>
         <el-table-column
@@ -76,7 +54,7 @@
           align="center"/>
         <el-table-column
           :label="$t('stockTrackList.quantity')"
-          prop="quantity"
+          prop="stockQuantity"
           width="200"
           align="center"/>
         <el-table-column
@@ -89,40 +67,16 @@
           prop="money"
           width="200"
           align="center"/>
-        <el-table-column :label="$t('stockTrackList.enter')" align="center">
-          <el-table-column
-            :label="$t('stockTrackList.enterQuantity')"
-            prop="enterQuantity"
-            width="200"
-            align="center"/>
-          <el-table-column
-            :label="$t('stockTrackList.notenterQuantity')"
-            prop="notenterQuantity"
-            width="200"
-            align="center"/>
-        </el-table-column>
-        <el-table-column :label="$t('stockTrackList.invoice')" align="center">
-          <el-table-column
-            :label="$t('stockTrackList.invoiceQuantity')"
-            prop="invoiceQuantity"
-            width="200"
-            align="center"/>
-          <el-table-column
-            :label="$t('stockTrackList.notinvoiceQuantity')"
-            prop="notinvoiceQuantity"
-            width="200"
-            align="center"/>
-        </el-table-column>
         <el-table-column
-          :label="$t('stockTrackList.invoiceMoney')"
-          prop="invoiceMoney"
+          :label="$t('stockTrackList.supplierName')"
+          prop="supplierName"
           width="200"
           align="center"/>
-        <el-table-column
-          :label="$t('stockTrackList.notinvoiceMoney')"
-          prop="notinvoiceMoney"
+          <!-- <el-table-column
+          :label="$t('productStockFluid.repositoryName')"
+          prop="repositoryName"
           width="200"
-          align="center"/>
+          align="center"/> -->
       </el-table>
       <!-- 列表结束 -->
       <pagination v-show="total>0" :total="total" :page.sync="getemplist.pageNum" :limit.sync="getemplist.pageSize" @pagination="getlist" />
@@ -131,7 +85,7 @@
 </template>
 
 <script>
-import { stockTrackList } from '@/api/count'
+import { stockpricelist } from '@/api/count'
 import { searchStockCategory } from '@/api/StockCategory'
 import MyRepository from './components/MyRepository'
 import waves from '@/directive/waves' // Waves directive
@@ -147,7 +101,7 @@ import MyAgent from './components/MyAgent'
 import MySupplier from './components/MySupplier'
 
 export default {
-  name: 'StockTrackList',
+  name: 'Stockpricelist',
   directives: { waves, permission, permission2 },
   components: { MyDialog, DetailList, MyEmp, MyCustomer, MySupplier, MyAgent, MyRepository, Pagination },
   filters: {
@@ -317,13 +271,15 @@ export default {
     getlist() {
       // 物料需求计划列表数据
       this.listLoading = true
-      stockTrackList(this.getemplist).then(res => {
+      stockpricelist(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           for (let i = 0; i < this.list.length; i++) {
-            this.list[i].notenterQuantity = (this.list[i].quantity - this.list[i].enterQuantity).toFixed(2)
-            this.list[i].notinvoiceQuantity = (this.list[i].quantity - this.list[i].invoiceQuantity).toFixed(2)
-            this.list[i].notinvoiceMoney = (this.list[i].money - this.list[i].invoiceMoney).toFixed(2)
+            if (this.list[i].stockOrderVos.length > 0) {
+              this.list[i].receiptDate = this.list[i].stockOrderVos[0].createDate
+              this.list[i].orderNumber = this.list[i].stockOrderVos[0].orderNumber
+              this.list[i].supplierName = this.list[i].stockOrderVos[0].supplierName
+            }
           }
           this.total = res.data.data.content.totalCount
         }
@@ -355,7 +311,7 @@ export default {
         this.getemplist.beginTime = this.date[0]
         this.getemplist.endTime = this.date[1]
       }
-      stockTrackList(this.getemplist).then(res => {
+      stockpricelist(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           for (let i = 0; i < this.list.length; i++) {
