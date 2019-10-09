@@ -2329,7 +2329,8 @@ export default {
     email: '邮箱',
     male: '男',
     female: '女',
-    addTo: '添加'
+    addTo: '添加',
+    phone: '电话'
   },
   area: {
     SerialNumber: '序号',

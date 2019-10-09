@@ -28,6 +28,9 @@
           <el-form-item :label="$t('Repository.latitude')" :required="RepositoryForm.type === 2" prop="latitude" style="width: 40%;margin-top:1%">
             <el-input v-model.number="RepositoryForm.latitude" placeholder="请输入纬度" clearable/>
           </el-form-item>
+          <el-form-item :label="$t('public.phone')" prop="phone" style="width: 40%;margin-top:1%">
+            <el-input v-model="RepositoryForm.phone" placeholder="请输入门店号码" clearable/>
+          </el-form-item>
           <el-form-item :label="$t('public.address')" prop="address" style="width: 40%;margin-top:1%">
             <el-input v-model="RepositoryForm.address" placeholder="请输入详细门店地址" clearable/>
           </el-form-item>
@@ -360,6 +363,15 @@ export default {
     }
   },
   data() {
+    const validatePass = (rule, value, callback) => {
+      var pattern = /((\d{11})|^((\d{7,8})|(\d{4}|\d{3})-(\d{7,8})|(\d{4}|\d{3})-(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d)|(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d))$)/
+      console.log(pattern.test(value))
+      if (!pattern.test(value)) {
+        callback(new Error('输入正确联系号码'))
+      } else {
+        callback()
+      }
+    }
     return {
       // 省列表
       provinces: [],
@@ -434,6 +446,9 @@ export default {
         ],
         attributes: [
           { required: true, message: '请选择属性', trigger: 'change' }
+        ],
+        phone: [
+          { trigger: 'change', validator: validatePass }
         ]
       },
       // / 弹窗选择
