@@ -52,15 +52,15 @@
           prop="productType"
           width="200"
           align="center"/>
-        <el-table-column :label="$t('productSendAndReceive.begin')" align="center">
-          <el-table-column
-            :label="$t('inventoryCollect.unit')"
-            prop="unit"
-            width="200"
-            align="center"/>
+        <el-table-column
+          :label="$t('inventoryCollect.unit')"
+          prop="unit"
+          width="200"
+          align="center"/>
+        <el-table-column :label="$t('inventorychangelist.begin')" align="center">
           <el-table-column
             :label="$t('stockOrderCount.orderQuantity')"
-            prop="beginQuantity"
+            prop="begin"
             width="200"
             align="center"/>
           <el-table-column
@@ -69,49 +69,154 @@
             width="200"
             align="center"/>
         </el-table-column>
-        <el-table-column :label="$t('productSendAndReceive.enter')" align="center">
-          <el-table-column
-            :label="$t('inventoryCollect.unit')"
-            prop="unit"
-            width="200"
-            align="center"/>
+        <el-table-column :label="$t('inventorychangelist.saleOut')" align="center">
           <el-table-column
             :label="$t('stockOrderCount.orderQuantity')"
-            prop="enterQuantity"
+            prop="saleOut"
             width="200"
             align="center"/>
           <el-table-column
             :label="$t('stockOrderCount.totalMoney')"
-            prop="enterMoney"
+            prop="saleOutMoney"
             width="200"
             align="center"/>
         </el-table-column>
-        <el-table-column :label="$t('productSendAndReceive.out')" align="center">
-          <el-table-column
-            :label="$t('inventoryCollect.unit')"
-            prop="unit"
-            width="200"
-            align="center"/>
+        <el-table-column :label="$t('inventorychangelist.stockReturn')" align="center">
           <el-table-column
             :label="$t('stockOrderCount.orderQuantity')"
-            prop="outQuantity"
+            prop="stockReturn"
             width="200"
             align="center"/>
           <el-table-column
             :label="$t('stockOrderCount.totalMoney')"
-            prop="outMoney"
+            prop="stockReturnMoney"
             width="200"
             align="center"/>
         </el-table-column>
-        <el-table-column :label="$t('productSendAndReceive.end')" align="center">
+        <el-table-column :label="$t('inventorychangelist.saleReturn')" align="center">
           <el-table-column
-            :label="$t('inventoryCollect.unit')"
-            prop="unit"
+            :label="$t('stockOrderCount.orderQuantity')"
+            prop="saleReturn"
             width="200"
             align="center"/>
           <el-table-column
+            :label="$t('stockOrderCount.totalMoney')"
+            prop="saleReturnMoney"
+            width="200"
+            align="center"/>
+        </el-table-column>
+        <el-table-column :label="$t('inventorychangelist.stockEnter')" align="center">
+          <el-table-column
             :label="$t('stockOrderCount.orderQuantity')"
-            prop="endQuantity"
+            prop="stockEnter"
+            width="200"
+            align="center"/>
+          <el-table-column
+            :label="$t('stockOrderCount.totalMoney')"
+            prop="stockEnterMoney"
+            width="200"
+            align="center"/>
+        </el-table-column>
+        <el-table-column :label="$t('inventorychangelist.otherEnter')" align="center">
+          <el-table-column
+            :label="$t('stockOrderCount.orderQuantity')"
+            prop="otherEnter"
+            width="200"
+            align="center"/>
+          <el-table-column
+            :label="$t('stockOrderCount.totalMoney')"
+            prop="otherEnterMoney"
+            width="200"
+            align="center"/>
+        </el-table-column>
+        <el-table-column :label="$t('inventorychangelist.produceEnter')" align="center">
+          <el-table-column
+            :label="$t('stockOrderCount.orderQuantity')"
+            prop="produceEnter"
+            width="200"
+            align="center"/>
+          <el-table-column
+            :label="$t('stockOrderCount.totalMoney')"
+            prop="produceEnterMoney"
+            width="200"
+            align="center"/>
+        </el-table-column>
+        <el-table-column :label="$t('inventorychangelist.moveIn')" align="center">
+          <el-table-column
+            :label="$t('stockOrderCount.orderQuantity')"
+            prop="moveIn"
+            width="200"
+            align="center"/>
+          <el-table-column
+            :label="$t('stockOrderCount.totalMoney')"
+            prop="moveInMoney"
+            width="200"
+            align="center"/>
+        </el-table-column>
+        <el-table-column :label="$t('inventorychangelist.moveOut')" align="center">
+          <el-table-column
+            :label="$t('stockOrderCount.orderQuantity')"
+            prop="moveOut"
+            width="200"
+            align="center"/>
+          <el-table-column
+            :label="$t('stockOrderCount.totalMoney')"
+            prop="moveOutMoney"
+            width="200"
+            align="center"/>
+        </el-table-column>
+        <el-table-column :label="$t('inventorychangelist.countFlow')" align="center">
+          <el-table-column
+            :label="$t('stockOrderCount.orderQuantity')"
+            prop="countFlow"
+            width="200"
+            align="center"/>
+          <el-table-column
+            :label="$t('stockOrderCount.totalMoney')"
+            prop="countFlowMoney"
+            width="200"
+            align="center"/>
+        </el-table-column>
+        <el-table-column :label="$t('inventorychangelist.countLess')" align="center">
+          <el-table-column
+            :label="$t('stockOrderCount.orderQuantity')"
+            prop="countLess"
+            width="200"
+            align="center"/>
+          <el-table-column
+            :label="$t('stockOrderCount.totalMoney')"
+            prop="countLessMoney"
+            width="200"
+            align="center"/>
+        </el-table-column>
+        <el-table-column :label="$t('inventorychangelist.allEnter')" align="center">
+          <el-table-column
+            :label="$t('stockOrderCount.orderQuantity')"
+            prop="allEnter"
+            width="200"
+            align="center"/>
+          <el-table-column
+            :label="$t('stockOrderCount.totalMoney')"
+            prop="allEnterMoney"
+            width="200"
+            align="center"/>
+        </el-table-column>
+        <el-table-column :label="$t('inventorychangelist.allOut')" align="center">
+          <el-table-column
+            :label="$t('stockOrderCount.orderQuantity')"
+            prop="allOut"
+            width="200"
+            align="center"/>
+          <el-table-column
+            :label="$t('stockOrderCount.totalMoney')"
+            prop="allOutMoney"
+            width="200"
+            align="center"/>
+        </el-table-column>
+        <el-table-column :label="$t('inventorychangelist.end')" align="center">
+          <el-table-column
+            :label="$t('stockOrderCount.orderQuantity')"
+            prop="end"
             width="200"
             align="center"/>
           <el-table-column
@@ -129,7 +234,7 @@
 
 <script>
 import { searchEmpCategory2 } from '@/api/Product'
-import { productSendAndReceive } from '@/api/count'
+import { inventorychangelist } from '@/api/count'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination'
 import permission from '@/directive/permission/index.js' // 权限判断指令
@@ -346,7 +451,7 @@ export default {
       } else {
         this.getemplist.date = this.date2
       }
-      productSendAndReceive(this.getemplist).then(res => {
+      inventorychangelist(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content
           this.total = res.data.data.content.totalCount
@@ -372,7 +477,7 @@ export default {
       } else {
         this.getemplist.date = this.date2
       }
-      productSendAndReceive(this.getemplist).then(res => {
+      inventorychangelist(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content
           this.total = res.data.data.content.totalCount

@@ -340,10 +340,45 @@ export default {
     inventoryCollect: '商品库存汇总表',
     moveDetailList: '商品调拨明细表',
     inventoryFluid: '商品库存流水表',
-    productSendAndReceive: '物料收发汇总'
+    productSendAndReceive: '物料收发汇总',
+    inventorychangelist: '库存月报表',
+    inventorydetaillist: '商品库存明细表'
   },
-  // 物品编码，物品名称，规格型号，颜色，期初结存（单位，单价，数量，金额），本期收入（单位，单价，数量，金额），本期发出（单位，单价，数量，金额），期末结存（单位，单价，数量，金额），金额
+  inventorychangelist: {
+    begin: '期初结存',
+    saleOut: '销售出库',
+    stockReturn: '本期采购退货',
+    saleReturn: '本期销售退货',
+    stockEnter: '采购入库',
+    otherEnter: '其它入库',
+    produceEnter: '生产完工入库',
+    // out: '其它出库',
+    moveIn: '调拨入库',
+    moveOut: '调拨出库',
+    countFlow: '盘盈',
+    countLess: '盘亏',
+    // inventorychang2el7ist: '平均库存',
+    allEnter: '本期入库',
+    allOut: '本期出库',
+    end: '期末结存'
+  },
+  inventorydetaillist: {
+    quantity: '库存数量',
+    actualCostPrice: '成本均价',
+    actualCostMoney: '库存金额',
+    tradePrice: '批发价',
+    salePrice: '零售价',
+    tradeMoney: '批发金额',
+    saleMoney: '零售金额',
+    rate: '毛利率',
+    locationCode: '货位编号',
+    repositoryName: '仓库'
+  },
   productSendAndReceive: {
+    begin: '期初结存',
+    enter: '本期收入',
+    out: '本期发出',
+    end: '期末结存'
   },
   inventoryCollect: {
     productCode: '物品编码',

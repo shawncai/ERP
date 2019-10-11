@@ -2861,6 +2861,18 @@ export const asyncRouterMap = [
         component: () => import('@/views/inventorycount2/productSendAndReceive'),
         name: 'productSendAndReceive',
         meta: { title: 'productSendAndReceive', noCache: true }
+      },
+      {
+        path: 'inventorychangelist',
+        component: () => import('@/views/inventorycount2/inventorychangelist'),
+        name: 'inventorychangelist',
+        meta: { title: 'inventorychangelist', noCache: true }
+      },
+      {
+        path: 'inventorydetaillist',
+        component: () => import('@/views/inventorycount2/inventorydetaillist'),
+        name: 'inventorydetaillist',
+        meta: { title: 'inventorydetaillist', noCache: true }
       }
     ]
   },

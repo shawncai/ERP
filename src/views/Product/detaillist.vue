@@ -20,7 +20,7 @@
               <span>{{ node.label }}  ({{ data.id }})</span>
               <span v-if="data.parentId !== 0" style="margin-left: 50px">
                 <i class="el-icon-edit" @click="edittree(data,node)"/>
-                <i class="el-icon-delete" @click="nodedelete(data,node)"/>
+                <i v-if="data.productClassfyVos.length === 0" class="el-icon-delete" @click="nodedelete(data,node)"/>
               </span>
             </span>
           </el-tree>
