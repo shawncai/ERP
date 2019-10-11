@@ -411,7 +411,7 @@ export default {
   }
   .filter-item{
     width: 140px;
-    margin-left: 30px;
+    margin-left: 20px;
   }
   .normal >>> .el-dialog__header {
     padding: 20px 20px 10px;

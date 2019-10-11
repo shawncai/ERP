@@ -3,18 +3,18 @@
     <el-card class="box-card" style="margin-top: 10px;height: 130px" shadow="never">
       <el-form ref="getemplist" :model="getemplist" label-width="70px" style="margin-top: -9px">
         <el-row>
-          <el-col :span="4" style="margin-left: 15px">
+          <el-col :span="5" style="margin-left: 15px">
             <el-form-item label="门店">
               <el-input v-model="repositoryId" class="filter-item" clearable @keyup.enter.native="handleFilter" @focus="handlechooseRep"/>
               <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
             </el-form-item>
           </el-col>
-          <el-col :span="4" style="margin-left: 35px">
+          <el-col :span="5" style="margin-left: 40px">
             <el-form-item label="品牌">
               <el-input v-model="getemplist.brand" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
-          <el-col :span="4" style="margin-left: 35px">
+          <el-col :span="5" style="margin-left: 40px">
             <el-form-item label="型号">
               <el-select v-model="getemplist.typeId" placeholder="请选择规格型号" clearable>
                 <el-option
@@ -26,20 +26,19 @@
               </el-select>
             </el-form-item>
           </el-col>
-          <el-col :span="4" style="margin-left: 35px">
-            <el-form-item label="物品编码">
-              <el-input v-model="getemplist.code" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="4" style="margin-left: 15px">
+
+          <el-col :span="5" style="margin-left: 40px">
             <el-form-item label="分类">
               <el-input v-model="categoryId" placeholder="物品分类" clearable @focus="treechoose"/>
               <my-tree :treecontrol.sync="treecontrol" @tree="tree"/>
             </el-form-item>
           </el-col>
-          <el-col :span="4" style="margin-left: 35px">
+          <el-col :span="5" style="margin-left: 15px">
+            <el-form-item label="物品编码">
+              <el-input v-model="getemplist.code" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
+            </el-form-item>
+          </el-col>
+          <el-col :span="5" style="margin-left: 15px">
             <!-- 搜索按钮 -->
             <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 86px" round @click="handleFilter">{{ $t('public.search') }}</el-button>
           </el-col>
@@ -472,7 +471,7 @@ export default {
   }
   .filter-item{
     width: 140px;
-    margin-left: 30px;
+    margin-left: 20px;
   }
   .normal >>> .el-dialog__header {
     padding: 20px 20px 10px;

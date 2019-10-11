@@ -3,22 +3,22 @@
     <el-card class="box-card" style="margin-top: 10px;height: 60px" shadow="never">
       <el-row>
         <el-form ref="getemplist" :model="getemplist" label-width="100px" style="margin-top: -9px">
-          <el-col :span="5">
+          <el-col :span="5" style="margin-left: 30px">
             <el-form-item label="供应商姓名">
               <el-input v-model="getemplist.supplierName" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
-          <el-col :span="5">
+          <el-col :span="5" style="margin-left: 60px">
             <el-form-item label="联系人姓名">
               <el-input v-model="getemplist.contactName" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
-          <el-col :span="5">
+          <el-col :span="5" style="margin-left: 60px">
             <el-form-item label="联系人电话">
               <el-input v-model="getemplist.contactPhone" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
-          <el-col :span="3" style="margin-left: 252px">
+          <el-col :span="3" style="margin-left: 80px">
             <!-- 搜索按钮 -->
             <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 86px" round @click="handleFilter">{{ $t('public.search') }}</el-button>
           </el-col>
@@ -431,7 +431,7 @@ export default {
   }
   .filter-item{
     width: 140px;
-    margin-left: 30px;
+    margin-left: 20px;
   }
   .normal >>> .el-dialog__header {
     padding: 20px 20px 10px;

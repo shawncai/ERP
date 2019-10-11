@@ -21,6 +21,20 @@
         <el-table-column v-for="item of tableHeader" :prop="item" :label="item" :key="item"/>
       </el-table>
     </el-card>
+
+    <el-dialog
+      :visible.sync="dialogVisible"
+      :before-close="handleClose"
+      title="提示"
+      width="1010px"
+      top="-10px"
+      class="edit">
+      <div class="noties">{{ contentdata }}</div>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="dialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
@@ -33,6 +47,8 @@ export default {
   components: { UploadExcelComponent },
   data() {
     return {
+      contentdata: '',
+      dialogVisible: false,
       tableData: [],
       tableHeader: [],
       dizhi: 'static/file/ceshi.xlsx',
@@ -105,20 +121,29 @@ export default {
       console.log('json', this.uploadHead)
       manyinsert(JSON.stringify(this.uploadHead)).then(res => {
         if (res.data.ret === 200) {
-          this.$notify({
-            title: '成功',
-            message: res.data.msg,
-            type: 'success',
-            offset: 100
-          })
+          this.dialogVisible = true
+          this.contentdata = res.data.msg
+          // this.$notify({
+          //   title: '成功',
+          //   message: res.data.msg,
+          //   type: 'success',
+          //   duration: 0
+          // })
         } else {
           this.$notify.error({
             title: '错误',
             message: res.data.msg,
-            offset: 100
+            duration: 0
           })
         }
       })
+    },
+    handleClose(done) {
+      this.$confirm('确认关闭？')
+        .then(_ => {
+          done()
+        })
+        .catch(_ => {})
     }
   }
 }
@@ -126,5 +151,15 @@ export default {
 <style scoped>
   .app-container {
     margin-top: 20px;
+  }
+  .noties {
+   font-size: 15px;
+    line-height: 30px;
+    padding: 20px;
+    margin-top: 63px
+  }
+  .edit >>> .el-dialog {
+    background:#f1f1f1 ;
+    left: 0;
   }
 </style>

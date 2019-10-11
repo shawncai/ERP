@@ -9,11 +9,11 @@
             </el-form-item>
           </el-col>
           <el-col :span="5">
-            <el-form-item label="物品编号">
+            <el-form-item label="物品编号" style="margin-left: 150px">
               <el-input v-model="getemplist.productCode" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
-          <el-col :span="3" style="margin-left: 252px">
+          <el-col :span="5" style="margin-left: 350px">
             <!-- 搜索按钮 -->
             <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 86px" round @click="handleFilter">{{ $t('public.search') }}</el-button>
           </el-col>
@@ -437,7 +437,7 @@ export default {
   }
   .filter-item{
     width: 140px;
-    margin-left: 30px;
+    margin-left: 20px;
   }
   .normal >>> .el-dialog__header {
     padding: 20px 20px 10px;

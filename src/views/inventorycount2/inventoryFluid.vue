@@ -9,19 +9,19 @@
               <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
             </el-form-item>
           </el-col>
-          <el-col :span="4" style="margin-left: 35px">
+          <el-col :span="4" style="margin-left: 70px">
             <el-form-item label="单据类型">
               <el-select v-model="getemplist.receiptType" :value="getemplist.receiptType" filterable placeholder="请选择单据类型" style="width: 150px" class="filter-item" clearable>
                 <el-option v-for="(item, index) in categorys" :key="index" :value="item.id" :label="item.categoryName"/>
               </el-select>
             </el-form-item>
           </el-col>
-          <el-col :span="4" style="margin-left: 35px">
+          <el-col :span="4" style="margin-left: 70px">
             <el-form-item label="物品编码">
               <el-input v-model="getemplist.code" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
-          <el-col :span="4" style="margin-left: 35px">
+          <el-col :span="4" style="margin-left: 70px">
             <el-form-item label="单据编号">
               <el-input v-model="getemplist.receiptNumber" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
@@ -36,7 +36,7 @@
                 range-separator="-"
                 unlink-panels
                 value-format="yyyy-MM-dd"
-                style="margin-left: 10px"/>
+                style="width: 260px"/>
             </el-form-item>
           </el-col>
           <el-col :span="3" style="margin-left: 220px">
@@ -504,7 +504,7 @@ export default {
   }
   .filter-item{
     width: 140px;
-    margin-left: 30px;
+    margin-left: 0px;
   }
   .normal >>> .el-dialog__header {
     padding: 20px 20px 10px;
