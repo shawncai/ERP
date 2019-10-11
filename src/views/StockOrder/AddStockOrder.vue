@@ -168,7 +168,15 @@
             <el-editable-column prop="productType" align="center" label="规格" min-width="150px"/>
             <el-editable-column prop="color" align="center" label="颜色" min-width="150px"/>
             <el-editable-column prop="unit" align="center" label="单位" min-width="150px"/>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0, precision: 2}, type: 'visible'}" prop="stockQuantity" align="center" label="采购数量" min-width="150px"/>
+            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0, precision: 2}, type: 'visible'}" prop="stockQuantity" align="center" label="采购数量" min-width="150px">
+              <template slot="edit" slot-scope="scope">
+                <el-input-number
+                  :precision="2"
+                  v-model="scope.row.stockQuantity"
+                  @focus="changenumber(scope.row)"
+                  @keyup.enter.native="test(scope.row)"/>
+              </template>
+            </el-editable-column>
             <el-editable-column :edit-render="{name: 'ElDatePicker', attrs: {type: 'date', format: 'yyyy-MM-dd'}, type: 'visible'}" prop="deliveryDate" align="center" label="交货日期" min-width="170px"/>
             <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="remarks" align="center" label="备注" width="150px"/>
             <!--            <el-editable-column prop="stockNumber" align="center" label="库存" min-width="150px"/>-->
@@ -517,6 +525,18 @@ export default {
     this.getinformation()
   },
   methods: {
+    test(row) {
+      console.log(row.stockQuantity)
+      for (let i = 0; i < this.list2.length; i++) {
+        this.list2[i].temp = i
+      }
+      for (let i = row.temp; i < this.list2.length; i++) {
+        this.list2[i].stockQuantity = row.stockQuantity
+      }
+    },
+    changenumber(val) {
+      console.log(val)
+    },
     getinformation() {
       if (this.$store.getters.empcontract) {
         console.log('getempcontract', this.$store.getters.empcontract)

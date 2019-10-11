@@ -221,7 +221,8 @@ export default {
   methods: {
     // 批量生成
     handleNumbers() {
-      console.log(this.moreaction)
+      this.$store.dispatch('getempcontract', this.moreaction)
+      this.$router.push('/StockPlan/AddStockPlan')
     },
     handleMyReceipt1(val) {
       console.log(val)

@@ -681,7 +681,16 @@ export default {
         if (Data[key] === '' || Data[key] === undefined || Data[key] === null) {
           delete Data[key]
         }
+        if (key === 'judgeStat') {
+          delete Data[key]
+        }
       }
+      for (const key in this.personalForm) {
+        if (key === 'judgeStat') {
+          delete this.personalForm[key]
+        }
+      }
+      console.log(this.personalForm, Data)
       const parms = JSON.stringify(Data)
       this.$refs.personalForm.validate((valid) => {
         if (valid) {

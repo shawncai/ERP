@@ -415,6 +415,9 @@ export default {
   mounted() {
     this.getinformation()
   },
+  activated() {
+    this.getinformation()
+  },
   methods: {
     checkStock(row) {
       console.log('this.moreaction.length', this.moreaction.length)
@@ -443,31 +446,55 @@ export default {
     },
     getinformation() {
       if (this.$store.getters.empcontract) {
-        console.log('getempcontract', this.$store.getters.empcontract)
-        this.personalForm.sourceType = '2'
-        this.chooseType()
-        this.$store.getters.empcontract.basicQuantity = this.$store.getters.empcontract.requireQuantity
-        this.$store.getters.empcontract.planQuantity = this.$store.getters.empcontract.requireQuantity
-        this.$store.getters.empcontract.planDeliveryDate = this.$store.getters.empcontract.requireDate
-        this.$store.getters.empcontract.applyReason = ''
-        this.$store.getters.empcontract.sourceNumber = this.$store.getters.empcontract.materialsRequireNumber
-        this.$store.getters.empcontract.supplierId = ''
-        this.$store.getters.empcontract.supplierName = ''
-        this.$store.getters.empcontract.basicPrice = 0
-        this.$store.getters.empcontract.planMoney = '0.00'
-        this.$store.getters.empcontract.orderQuantity = '0.00'
-        this.$store.getters.empcontract.stockRequireId = this.$store.getters.empcontract.id
-        this.$store.getters.empcontract.sourceSerialNumber = this.$store.getters.empcontract.id
-        this.$refs.editable.insert(this.$store.getters.empcontract)
-        this.$refs.editable2.insert(this.$store.getters.empcontract)
-        this.$store.dispatch('getempcontract', '')
+        if (this.$store.getters.empcontract.length) {
+          this.personalForm.sourceType = '2'
+          this.chooseType()
+          for (const i in this.$store.getters.empcontract) {
+            this.$store.getters.empcontract[i].basicQuantity = this.$store.getters.empcontract[i].requireQuantity
+            this.$store.getters.empcontract[i].planQuantity = this.$store.getters.empcontract[i].requireQuantity
+            this.$store.getters.empcontract[i].planDeliveryDate = this.$store.getters.empcontract[i].requireDate
+            this.$store.getters.empcontract[i].applyReason = ''
+            this.$store.getters.empcontract[i].sourceNumber = this.$store.getters.empcontract[i].materialsRequireNumber
+            this.$store.getters.empcontract[i].supplierId = ''
+            this.$store.getters.empcontract[i].supplierName = ''
+            this.$store.getters.empcontract[i].basicPrice = 0
+            this.$store.getters.empcontract[i].planMoney = '0.00'
+            this.$store.getters.empcontract[i].orderQuantity = '0.00'
+            this.$store.getters.empcontract[i].stockRequireId = this.$store.getters.empcontract[i].id
+            this.$store.getters.empcontract[i].sourceSerialNumber = this.$store.getters.empcontract[i].id
+            this.$refs.editable.insert(this.$store.getters.empcontract[i])
+            this.$refs.editable2.insert(this.$store.getters.empcontract[i])
+          }
+          this.$store.dispatch('getempcontract', '')
+        } else {
+          console.log('getempcontract', this.$store.getters.empcontract)
+          this.personalForm.sourceType = '2'
+          this.chooseType()
+          this.$store.getters.empcontract.basicQuantity = this.$store.getters.empcontract.requireQuantity
+          this.$store.getters.empcontract.planQuantity = this.$store.getters.empcontract.requireQuantity
+          this.$store.getters.empcontract.planDeliveryDate = this.$store.getters.empcontract.requireDate
+          this.$store.getters.empcontract.applyReason = ''
+          this.$store.getters.empcontract.sourceNumber = this.$store.getters.empcontract.materialsRequireNumber
+          this.$store.getters.empcontract.supplierId = ''
+          this.$store.getters.empcontract.supplierName = ''
+          this.$store.getters.empcontract.basicPrice = 0
+          this.$store.getters.empcontract.planMoney = '0.00'
+          this.$store.getters.empcontract.orderQuantity = '0.00'
+          this.$store.getters.empcontract.stockRequireId = this.$store.getters.empcontract.id
+          this.$store.getters.empcontract.sourceSerialNumber = this.$store.getters.empcontract.id
+          console.log('查看例子', this.$store.getters.empcontract)
+          this.$refs.editable.insert(this.$store.getters.empcontract)
+          this.$refs.editable2.insert(this.$store.getters.empcontract)
+          this.$store.dispatch('getempcontract', '')
+        }
       }
     },
     planQuantity(row) {
+      console.log('行', row)
       if (row.planQuantity !== null && row.planQuantity !== '' && row.planQuantity !== undefined) {
-        return (row.planQuantity).toFixed(2)
+        return Number(row.planQuantity).toFixed(2)
       } else {
-        return row.planQuantity
+        return Number(row.planQuantity)
       }
     },
     // 重置一下下拉
@@ -629,26 +656,76 @@ export default {
 
     // 选择源单类型事件
     chooseType() {
-      console.log(this.personalForm.sourceType)
-      if (this.personalForm.sourceType === '1' || this.personalForm.sourceType === '2') {
-        this.addsouce = false
-        this.addpro = false
-        if (this.$refs.editable.getRecords().length !== 0) {
-          this.$refs.editable.clear()
+      try {
+        if (this.personalForm.sourceType === '1' || this.personalForm.sourceType === '2') {
+          this.addsouce = false
+          this.addpro = false
+          if (this.$refs.editable.getRecords().length !== 0) {
+            for (let i = 0; i < this.list2.length; i++) {
+              if (this.list2[i].sourceNumber) {
+                this.list2.splice(i, 1)
+                i--
+              }
+              // this.$refs.editable.insert(this.list2[i])
+            }
+            console.log('嘻嘻哈哈', this.list2)
+          }
+          if (this.$refs.editable2.getRecords().length !== 0) {
+            for (let i = 0; i < this.list3.length; i++) {
+              if (this.list3[i].sourceNumber) {
+                this.list3.splice(i, 1)
+                i--
+              }
+              // this.$refs.editable.insert(this.list2[i])
+            }
+          }
+        } else if (this.personalForm.sourceType === '3') {
+          this.addpro = false
+          this.addsouce = true
+          if (this.$refs.editable.getRecords().length !== 0) {
+            for (let i = 0; i < this.list2.length; i++) {
+              if (this.list2[i].sourceNumber) {
+                this.list2.splice(i, 1)
+                i--
+              }
+              // this.$refs.editable.insert(this.list2[i])
+            }
+            console.log('嘻嘻哈哈', this.list2)
+            // this.$refs.editable.clear()
+          }
+          if (this.$refs.editable2.getRecords().length !== 0) {
+            for (let i = 0; i < this.list2.length; i++) {
+              if (this.list3[i].sourceNumber) {
+                this.list3.splice(i, 1)
+                i--
+              }
+              // this.$refs.editable.insert(this.list2[i])
+            }
+          }
         }
-        if (this.$refs.editable2.getRecords().length !== 0) {
-          this.$refs.editable2.clear()
-        }
-      } else if (this.personalForm.sourceType === '3') {
-        this.addpro = false
-        this.addsouce = true
-        if (this.$refs.editable.getRecords().length !== 0) {
-          this.$refs.editable.clear()
-        }
-        if (this.$refs.editable2.getRecords().length !== 0) {
-          this.$refs.editable2.clear()
-        }
+      } catch (error) {
+        console.log(error)
       }
+      console.log(this.personalForm.sourceType)
+      // if (this.personalForm.sourceType === '1' || this.personalForm.sourceType === '2') {
+      //   this.addsouce = false
+      //   this.addpro = false
+      //   if (this.$refs.editable.getRecords().length !== 0) {
+      //     this.$refs.editable.clear()
+      //   }
+      //   if (this.$refs.editable2.getRecords().length !== 0) {
+      //     this.$refs.editable2.clear()
+      //   }
+      // } else if (this.personalForm.sourceType === '3') {
+      //   this.addpro = false
+      //   this.addsouce = true
+      //   if (this.$refs.editable.getRecords().length !== 0) {
+      //     this.$refs.editable.clear()
+      //   }
+      //   if (this.$refs.editable2.getRecords().length !== 0) {
+      //     this.$refs.editable2.clear()
+      //   }
+      // }
     },
     // 无来源添加商品
     handleAddproduct() {
@@ -691,13 +768,13 @@ export default {
           for (let j = 0; j < list2.length; j++) {
             list2[j].basicPrice = 0
             console.log('val[i]', val[i])
-            list2[j].planQuantity = (list2[j].quantity * (val[i].planQuantity - val[i].applyQuantity)).toFixed(2)
+            list2[j].planQuantity = (Number(list2[j].quantity) * (Number(val[i].applyQuantity) - Number(val[i].planQuantity))).toFixed(2)
             // - val.alre
             console.log(list2[j])
             this.$refs.editable.insert(list2[j])
           }
         } else {
-          val[i].planQuantity = (val[i].planQuantity - val[i].applyQuantity).toFixed(2)
+          val[i].planQuantity = (Number(val[i].applyQuantity) - Number(val[i].planQuantity)).toFixed(2)
           this.$refs.editable.insert(val[i])
         }
       }

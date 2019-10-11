@@ -344,7 +344,8 @@ export default {
           sourceSerialNumber: item.id,
           price: item.basicPrice,
           includeTaxPrice: item.basicPrice,
-          supplierId: item.supplierId
+          supplierId: item.supplierId,
+          discountRate: 100
         }
       })
       console.log(applyDetail)

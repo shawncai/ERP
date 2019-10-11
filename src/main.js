@@ -30,6 +30,7 @@ Vue.use(Element, {
   i18n: (key, value) => i18n.t(key, value)
 })
 
+// Vue.config.keyCodes.f6 = 117
 Vue.use(Print)
 
 Vue.use(VueElementExtends)
