@@ -407,6 +407,9 @@ export function productlist(query) {
   if (query.supplierId !== '' && query.supplierId !== null && query.supplierId !== undefined) {
     params.append('supplierid', query.supplierId) // 你要传给后台的参数值 key/value
   }
+  if (query.isVehicle !== '' && query.isVehicle !== null && query.isVehicle !== undefined) {
+    params.append('isVehicle', query.isVehicle) // 你要传给后台的参数值 key/value
+  }
   params.append('pagenum', query.pagenum) // 你要传给后台的参数值 key/value
   params.append('pagesize', query.pagesize) // 你要传给后台的参数值 key/value
   return request({

@@ -124,10 +124,10 @@
             <el-form-item :label="$t('Repository.repositoryName')" prop="repositoryName" style="width: 40%;margin-top:1%">
               <el-input v-model="RepositoryForm.repositoryName" placeholder="请输入门店名称" clearable/>
             </el-form-item>
-            <el-form-item :label="$t('Repository.longitude')" prop="longitude" style="width: 40%;margin-top:1%">
+            <el-form-item :label="$t('Repository.longitude')" :required="RepositoryForm.type === 2" prop="longitude" style="width: 40%;margin-top:1%">
               <el-input v-model.number="RepositoryForm.longitude" autocomplete="new-password" clearable/>
             </el-form-item>
-            <el-form-item :label="$t('Repository.latitude')" prop="latitude" style="width: 40%">
+            <el-form-item :label="$t('Repository.latitude')" :required="RepositoryForm.type === 2" prop="latitude" style="width: 40%">
               <el-input v-model.number="RepositoryForm.latitude" placeholder="请输入纬度" clearable/>
             </el-form-item>
             <el-form-item :label="$t('public.address')" prop="address" style="width: 40%">
@@ -150,8 +150,8 @@
             </el-form-item>
             <el-form-item :label="$t('Repository.stat')" style="width: 40%;margin-top: 1%">
               <el-radio-group v-model="RepositoryForm.stat" style="width: 80%">
-                <el-radio :label="1" style="width: 50%">active</el-radio>
-                <el-radio :label="2">dead</el-radio>
+                <el-radio :label="1" style="width: 50%">启用</el-radio>
+                <el-radio :label="2">停用</el-radio>
               </el-radio-group>
             </el-form-item>
             <el-form-item :label="$t('Repository.type')" prop="type" style="width: 40%;margin-top: 1%">
@@ -545,13 +545,13 @@ export default {
       // 仓库信息规则数据
       Repositoryrules: {
         longitude: [
-          { required: true, message: '请输入经度', trigger: 'blur' }
+          { message: '请输入经度', trigger: 'blur' }
         ],
         repositoryName: [
           { required: true, message: '请输入仓库名称', trigger: 'blur' }
         ],
         latitude: [
-          { required: true, message: '请输入维度', trigger: 'blur' }
+          { message: '请输入维度', trigger: 'blur' }
         ],
         lastname: [
           { required: true, message: '请输入名', trigger: 'blur' }

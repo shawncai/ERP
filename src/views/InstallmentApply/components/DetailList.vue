@@ -1,5 +1,5 @@
 <template>
-  <el-dialog :visible.sync="editVisible" :detailcontrol="detailcontrol" :detaildata="detaildata" :close-on-press-escape="false" :title="personalForm.applyNumber +'    详情'" append-to-body width="1010px" class="edit" top="-10px" @close="$emit('update:detailcontrol', false)">
+  <el-dialog :visible.sync="editVisible" :detailcontrol="detailcontrol" :detaildata="detaildata" :close-on-press-escape="false" :title="personalForm.applyNumber +'    详情'" append-to-body width="1010px" class="edit" top="10px" @close="$emit('update:detailcontrol', false)">
     <div id="printTest" >
       <!--基本信息-->
       <el-card class="box-card" shadow="never">
@@ -181,7 +181,7 @@
           </el-form>
         </div>
       </el-card>
-      <el-card class="box-card" shadow="never" style="margin-top: 10px">
+      <el-card v-if="personalForm.marriageStat === 2" class="box-card" shadow="never" style="margin-top: 10px">
         <h2 ref="geren" class="form-name">配偶信息</h2>
         <div class="container" style="margin-top: 37px">
           <el-form ref="personalForm3" :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
@@ -305,7 +305,7 @@
                 </el-row>
               </el-form>
             </el-tab-pane>
-            <el-tab-pane label="配偶" name="second">
+            <el-tab-pane v-if="personalForm.marriageStat === 2" label="配偶" name="second">
               <el-form ref="personalForm5" :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
                 <el-row>
                   <el-col :span="12">
@@ -594,6 +594,7 @@ export default {
       this.editVisible = this.detailcontrol
     },
     detaildata() {
+      const lisArr = []
       this.personalForm = this.detaildata
       this.personalForm.productCode = this.detaildata.installmentApplyDetailVos[0].productCode
       this.personalForm.productName = this.detaildata.installmentApplyDetailVos[0].productName
@@ -616,23 +617,27 @@ export default {
       lis.consultancyName = this.personalForm.consultancyNameOne
       lis.consultancyPhone = this.personalForm.consultancyPhoneOne
       lis.consultancyAddress = this.personalForm.consultancyAddressOne
-      this.list2.push(lis)
-      console.log('lis', lis)
+      // console.log('lis', lis)
+      lisArr.push(lis)
       if (this.personalForm.consultancyNameTwo !== null && this.personalForm.consultancyPhoneTwo !== null && this.personalForm.consultancyAddressTwo !== null && this.personalForm.consultancyNameTwo !== '' && this.personalForm.consultancyPhoneTwo !== '' && this.personalForm.consultancyAddressTwo !== '' && this.personalForm.consultancyNameTwo !== undefined && this.personalForm.consultancyPhoneTwo !== undefined && this.personalForm.consultancyAddressTwo !== undefined) {
         const lis2 = {}
         lis2.consultancyName = this.personalForm.consultancyNameOne
         lis2.consultancyPhone = this.personalForm.consultancyPhoneOne
         lis2.consultancyAddress = this.personalForm.consultancyAddressOne
-        this.list2.push(lis2)
+        lisArr.push(lis2)
       }
+      this.list2 = lisArr
     }
   },
   created() {
-    this.getdata()
+    // this.getdata()
   },
   methods: {
     getdata() {
       const lis = {}
+      // if (this.$refs.editable.getRecords()) {
+      // 1
+      // }
       lis.consultancyName = this.personalForm.consultancyNameOne
       lis.consultancyPhone = this.personalForm.consultancyPhoneOne
       lis.consultancyAddress = this.personalForm.consultancyAddressOne

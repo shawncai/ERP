@@ -42,8 +42,8 @@
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('InstallmentApply.applyPhone')" style="width: 100%;">
-                  <el-input-number v-model="personalForm.applyPhone" :controls="false" style="margin-left: 18px;width: 200px" clearable @blur="haveAccess"/>
+                <el-form-item :label="$t('InstallmentApply.applyPhone')" prop="applyPhone" style="width: 100%;">
+                  <el-input v-model="personalForm.applyPhone" :controls="false" style="margin-left: 18px;width: 200px" clearable @blur="haveAccess"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
@@ -107,14 +107,14 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('InstallmentApply.marriageStat')" style="width: 100%;">
-                  <el-radio-group v-model="personalForm.marriageStat" style="margin-left: 18px;width: 200px">
+                  <el-radio-group v-model="personalForm.marriageStat" style="margin-left: 18px;width: 200px" @change="changepanel">
                     <el-radio :label="1" style="width: 100px">未婚</el-radio>
                     <el-radio :label="2">已婚</el-radio>
                   </el-radio-group>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('InstallmentApply.certificateType')" style="width: 100%;">
+                <el-form-item :label="$t('InstallmentApply.certificateType')" prop="certificateType" style="width: 100%;">
                   <el-select v-model="personalForm.certificateType" style="margin-left: 18px;width: 200px">
                     <el-option value="1" label="身份证"/>
                     <el-option value="2" label="其他"/>
@@ -122,7 +122,7 @@
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('InstallmentApply.certificateNumber')" style="width: 100%;">
+                <el-form-item :label="$t('InstallmentApply.certificateNumber')" prop="certificateNumber" style="width: 100%;">
                   <el-input v-model="personalForm.certificateNumber" style="margin-left: 18px;width: 200px" clearable/>
                 </el-form-item>
               </el-col>
@@ -234,33 +234,33 @@
           </el-form>
         </div>
       </el-card>
-      <el-card class="box-card" shadow="never" style="margin-top: 10px">
+      <el-card v-if="personalForm.marriageStat === 2" class="box-card" shadow="never" style="margin-top: 10px">
         <h2 ref="geren" class="form-name">配偶信息</h2>
         <div class="container" style="margin-top: 37px">
           <el-form ref="personalForm3" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
             <el-row>
               <el-col :span="6">
-                <el-form-item :label="$t('InstallmentApply.firstName')" style="width: 100%;">
+                <el-form-item :label="$t('InstallmentApply.firstName')" :required="personalForm.marriageStat === 2" style="width: 100%;">
                   <el-input v-model="personalForm.mateFirstName" style="margin-left: 18px;width: 200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('InstallmentApply.middleName')" style="width: 100%;">
+                <el-form-item :label="$t('InstallmentApply.middleName')" :required="personalForm.marriageStat === 2" style="width: 100%;">
                   <el-input v-model="personalForm.mateMiddleName" style="margin-left: 18px;width: 200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('InstallmentApply.lastName')" style="width: 100%;">
+                <el-form-item :label="$t('InstallmentApply.lastName')" :required="personalForm.marriageStat === 2" style="width: 100%;">
                   <el-input v-model="personalForm.mateLastName" style="margin-left: 18px;width: 200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('InstallmentApply.age')" style="width: 100%;">
+                <el-form-item :label="$t('InstallmentApply.age')" :required="personalForm.marriageStat === 2" style="width: 100%;">
                   <el-input v-model="personalForm.mateAge" style="margin-left: 18px;width: 200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('InstallmentApply.birthday')" style="width: 100%;">
+                <el-form-item :label="$t('InstallmentApply.birthday')" :required="personalForm.marriageStat === 2" style="width: 100%;">
                   <el-date-picker
                     v-model="personalForm.mateBirthday"
                     type="date"
@@ -269,7 +269,7 @@
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('InstallmentApply.liveStauts')" style="width: 100%;">
+                <el-form-item :label="$t('InstallmentApply.liveStauts')" :required="personalForm.marriageStat === 2" style="width: 100%;">
                   <el-select v-model="personalForm.mateLiveStauts" value="personalForm.liveStauts" style="margin-left: 18px;width: 200px" @change="change()">
                     <el-option value="1" label="和亲戚一起居住"/>
                     <el-option value="2" label="租房"/>
@@ -278,12 +278,12 @@
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('InstallmentApply.matePhone')" style="width: 100%;">
+                <el-form-item :label="$t('InstallmentApply.matePhone')" :required="personalForm.marriageStat === 2" style="width: 100%;">
                   <el-input v-model="personalForm.matePhone" style="margin-left: 18px;width: 200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('InstallmentApply.email')" style="width: 100%;">
+                <el-form-item :label="$t('InstallmentApply.email')" :required="personalForm.marriageStat === 2" style="width: 100%;">
                   <el-input v-model="personalForm.mateEmail" style="margin-left: 18px;width: 200px" clearable/>
                 </el-form-item>
               </el-col>
@@ -322,12 +322,12 @@
                     </el-form-item>
                   </el-col>
                   <el-col :span="6">
-                    <el-form-item :label="$t('InstallmentApply.workTime')" style="width: 100%;">
-                      <el-input v-model="personalForm.workTime" style="margin-left: 18px;width: 200px"/>
+                    <el-form-item :label="$t('InstallmentApply.workTime')" prop="workTime" style="width: 100%;">
+                      <el-input v-model.number="personalForm.workTime" style="margin-left: 18px;width: 200px"/>
                     </el-form-item>
                   </el-col>
                   <el-col :span="6">
-                    <el-form-item :label="$t('InstallmentApply.enterprisePhone')" style="width: 100%;">
+                    <el-form-item :label="$t('InstallmentApply.enterprisePhone')" prop="enterprisePhone" style="width: 100%;">
                       <el-input v-model="personalForm.enterprisePhone" style="margin-left: 18px;width: 200px"/>
                     </el-form-item>
                   </el-col>
@@ -369,7 +369,7 @@
                 </el-row>
               </el-form>
             </el-tab-pane>
-            <el-tab-pane label="配偶" name="second">
+            <el-tab-pane v-if="personalForm.marriageStat === 2" label="配偶" name="second">
               <el-form ref="personalForm5" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
                 <el-row>
                   <el-col :span="6">
@@ -470,6 +470,25 @@
           </el-editable>
         </div>
       </el-card>
+      <!-- 上传附件（接口未调试） -->
+      <el-card class="box-card" style="margin-top: 10px" shadow="never">
+        <h2 ref="geren" class="form-name">证件上传</h2>
+        <div class="upload">
+          <el-upload
+            ref="upload"
+            :auto-upload="false"
+            :action="`${$upload}/erp/upload/uploadpic`"
+            :data="paperData"
+            :on-success="handlepicsuccess"
+            class="upload-demo"
+            drag
+            multiple>
+            <i class="el-icon-upload"/>
+            <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
+            <div slot="tip" class="el-upload__tip">支持扩展名：.rar .zip .doc .docx...</div>
+          </el-upload>
+        </div>
+      </el-card>
       <!--操作-->
       <div class="buttons" style="margin-top: 20px">
         <el-button type="primary" style="background:#3696fd;border-color:#3696fd;width: 98px" @click="handlesave()">保存</el-button>
@@ -554,7 +573,36 @@ export default {
         callback()
       }
     }
+    const validatePass6 = (rule, value, callback) => {
+      var mobile = /^1[3|5|8]\d{9}$/
+      var phone = /^0\d{2,3}-?\d{7,8}$/
+      console.log(mobile.test(value) || phone.test(value))
+      const flag = mobile.test(value) || phone.test(value)
+      if (flag) {
+        callback()
+      } else {
+        callback(new Error('请输入正确电话号码'))
+      }
+    }
+    const validatePass7 = (rule, value, callback) => {
+      var email = /^([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/
+      const flag = email.test(value)
+      if (flag) {
+        callback()
+      } else {
+        callback(new Error('请输入正确的邮箱地址'))
+      }
+    }
+    // const validatePass8 = (rule, value, callback) => {
+    //   console.log(!Number.isInteger(value))
+    //   if (!Number.isInteger(value)) {
+    //     callback(new Error('请输入数字值'))
+    //   } else {
+    //     callback()
+    //   }
+    // }
     return {
+      // 上传图片
       pickerOptions1: {
         disabledDate: (time) => {
           return time.getTime() < new Date(this.personalForm.transDate).getTime() - 8.64e7
@@ -564,6 +612,10 @@ export default {
         disabledDate: (time) => {
           return time.getTime() < new Date().getTime() - 8.64e7
         }
+      },
+      // 证件额外参数
+      paperData: {
+        type: 13
       },
       // 分期数据
       installmentCounts: [],
@@ -604,11 +656,11 @@ export default {
       provinces: [],
       activeName: 'first',
       // 回显门店
-      saleRepositoryId: '',
+      saleRepositoryId: this.$store.getters.repositoryName,
       // 控制销售门店
       repositorycontrol: false,
       // 销售人员回显
-      salePersonId: '',
+      salePersonId: this.$store.getters.name,
       // 控制销售人员
       stockControl: false,
       // 控制分期商品列表窗口
@@ -620,13 +672,16 @@ export default {
         repositoryId: this.$store.getters.repositoryId,
         regionId: this.$store.getters.regionId,
         gender: 1,
-        firstMoney: 0.0
+        firstMoney: 0.0,
+        salePersonId: this.$store.getters.userId,
+        saleRepositoryId: this.$store.getters.repositoryId,
+        picids: []
       },
       productForm: {},
       // 销售订单规则数据
       personalrules: {
         applyCellPhone: [
-          { required: true, message: '请输入移动电话', trigger: 'blur' }
+          { required: true, validator: validatePass6, trigger: 'blur' }
         ],
         age: [
           { required: true, message: '请输入年龄', trigger: 'blur' }
@@ -638,7 +693,7 @@ export default {
           { required: true, message: '请输入姓', trigger: 'blur' }
         ],
         applyPhone: [
-          { required: true, message: '请输入电话', trigger: 'blur' }
+          { validator: validatePass6, trigger: 'blur' }
         ],
         provinceId: [
           { required: true, message: '请选择省', trigger: 'change' }
@@ -647,7 +702,7 @@ export default {
           { required: true, message: '请选择市', trigger: 'change' }
         ],
         email: [
-          { required: true, message: '请输入电子邮箱', trigger: 'blur' }
+          { validator: validatePass7, trigger: 'blur' }
         ],
         currentAddress: [
           { required: true, message: '请输入当前地址', trigger: 'blur' }
@@ -693,6 +748,43 @@ export default {
         ],
         saleRepositoryId: [
           { required: true, validator: validatePass3, trigger: 'change' }
+        ],
+        certificateType: [
+          { required: true, message: '请选择证件类型', trigger: 'change' }
+        ],
+        certificateNumber: [
+          { required: true, message: '请输入身份证号码', trigger: 'change' }
+        ],
+        // 结婚验证
+        mateFirstName: [
+          { message: '请输入名', trigger: 'change' }
+        ],
+        mateMiddleName: [
+          { message: '请输入中间名', trigger: 'change' }
+        ],
+        mateLastName: [
+          { message: '请输入姓', trigger: 'change' }
+        ],
+        mateAge: [
+          { message: '请输入年龄', trigger: 'change' }
+        ],
+        mateBirthday: [
+          { message: '请输入出生日期', trigger: 'change' }
+        ],
+        mateLiveStauts: [
+          { message: '请输入居住状况', trigger: 'change' }
+        ],
+        matePhone: [
+          { message: '请输入电话', trigger: 'change' }
+        ],
+        mateEmail: [
+          { message: '请输入电子邮箱', trigger: 'change' }
+        ],
+        enterprisePhone: [
+          { validator: validatePass6, trigger: 'blur' }
+        ],
+        workTime: [
+          { type: 'number', trigger: 'blur', message: '年龄必须为数字值' }
         ]
       }
     }
@@ -703,6 +795,18 @@ export default {
     this.getratelist()
   },
   methods: {
+    // 选择已未婚，标签变化
+    changepanel(val) {
+      console.log(val)
+      if (val === 1) {
+        this.activeName = 'first'
+      }
+    },
+    // 上传图片
+    handlepicsuccess(response) {
+      this.personalForm.picids.push(response.data.content.picId)
+      console.log(response.data.content.picId)
+    },
     handlesave2() {
       if (this.personalForm.consultancyName !== null && this.personalForm.consultancyPhone !== null && this.personalForm.consultancyAddress !== null && this.personalForm.consultancyName !== '' && this.personalForm.consultancyPhone !== '' && this.personalForm.consultancyAddress !== '' && this.personalForm.consultancyName !== undefined && this.personalForm.consultancyPhone !== undefined && this.personalForm.consultancyAddress !== undefined) {
         const lis = {}
@@ -1000,6 +1104,7 @@ export default {
     },
     // 保存操作
     handlesave() {
+      console.log(this.personalForm)
       if (this.productForm.productCode === null || this.productForm.productCode === undefined || this.productForm.productCode === '') {
         this.$notify.error({
           title: '错误',
@@ -1044,6 +1149,7 @@ export default {
       const parms = JSON.stringify(Data)
       this.$refs.personalForm.validate((valid) => {
         if (valid) {
+          this.$refs.upload.submit()
           addinstallmentapply(parms, parms2, this.personalForm).then(res => {
             console.log(res)
             if (res.data.ret === 200) {
@@ -1131,5 +1237,9 @@ export default {
     position: relative;
     margin: 0 auto;
     height: auto;
+  }
+  .upload {
+    text-align: center;
+    margin-top: 10px;
   }
 </style>

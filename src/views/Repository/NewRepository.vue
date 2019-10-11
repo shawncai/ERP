@@ -439,10 +439,10 @@ export default {
           { required: true, message: '请选择国家', trigger: 'change' }
         ],
         type: [
-          { required: true, message: '请选择类型', trigger: 'change' }
+          { required: true, message: '请选择类别', trigger: 'change' }
         ],
         categoryId: [
-          { required: true, message: '请选择类别', trigger: 'change' }
+          { required: true, message: '请选择类型', trigger: 'change' }
         ],
         attributes: [
           { required: true, message: '请选择属性', trigger: 'change' }

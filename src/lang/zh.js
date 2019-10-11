@@ -2027,7 +2027,10 @@ export default {
     suretyAddress: '详细地址',
     suretyCertificateType: '证件类型',
     suretyCertificateNumber: '证件号',
-    customerName: '客户姓名'
+    customerName: '客户姓名',
+    isInvestigation: '是否调查',
+    investigationDetail: '调查结果',
+    addInvestigationReport: '客户调查报告'
   },
   InstallmentList: {
     isChange: '是否改期',

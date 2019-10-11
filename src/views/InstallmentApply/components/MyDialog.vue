@@ -106,7 +106,7 @@
             </el-col>
             <el-col :span="12">
               <el-form-item :label="$t('InstallmentApply.marriageStat')" style="width: 100%;">
-                <el-radio-group v-model="personalForm.marriageStat" style="margin-left: 18px;width: 200px">
+                <el-radio-group v-model="personalForm.marriageStat" style="margin-left: 18px;width: 200px" @change="changepanel">
                   <el-radio :label="1" style="width: 100px">未婚</el-radio>
                   <el-radio :label="2">已婚</el-radio>
                 </el-radio-group>
@@ -233,7 +233,7 @@
         </el-form>
       </div>
     </el-card>
-    <el-card class="box-card" shadow="never" style="margin-top: 10px">
+    <el-card v-if="personalForm.marriageStat === 2" class="box-card" shadow="never" style="margin-top: 10px">
       <h2 ref="geren" class="form-name">配偶信息</h2>
       <div class="container" style="margin-top: 37px">
         <el-form ref="personalForm3" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
@@ -322,7 +322,7 @@
                 </el-col>
                 <el-col :span="12">
                   <el-form-item :label="$t('InstallmentApply.workTime')" style="width: 100%;">
-                    <el-input v-model="personalForm.workTime" style="margin-left: 18px;width: 200px"/>
+                    <el-input v-model.number="personalForm.workTime" style="margin-left: 18px;width: 200px"/>
                   </el-form-item>
                 </el-col>
                 <el-col :span="12">
@@ -368,7 +368,7 @@
               </el-row>
             </el-form>
           </el-tab-pane>
-          <el-tab-pane label="配偶" name="second">
+          <el-tab-pane v-if="personalForm.marriageStat === 2" label="配偶" name="second">
             <el-form ref="personalForm5" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
               <el-row>
                 <el-col :span="12">
@@ -445,7 +445,7 @@
         </el-tabs>
       </div>
     </el-card>
-    <el-card class="box-card" shadow="never" style="margin-top: 10px">
+    <el-card class="box-card" shadow="never" style="margin-top: 10px;margin-bottom:40px">
       <h2 ref="geren" class="form-name">征询人信息</h2>
       <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
         <el-button @click="handleAddproduct">添加征询人</el-button>
@@ -485,8 +485,9 @@ import { ratelist } from '@/api/Installmentrate'
 import MyEmp from './MyEmp'
 import MyDetail from './MyDetail'
 import MyMater from './MyMater'
+import MyRepository from './MyRepository'
 export default {
-  components: { MyMater, MyDetail, MyEmp },
+  components: { MyMater, MyDetail, MyEmp, MyRepository },
   props: {
     editcontrol: {
       type: Boolean,
@@ -531,6 +532,26 @@ export default {
         callback(new Error('请选择分期期数'))
       } else {
         callback()
+      }
+    }
+    const validatePass6 = (rule, value, callback) => {
+      var mobile = /^1[3|5|8]\d{9}$/
+      var phone = /^0\d{2,3}-?\d{7,8}$/
+      console.log(mobile.test(value) || phone.test(value))
+      const flag = mobile.test(value) || phone.test(value)
+      if (flag) {
+        callback()
+      } else {
+        callback(new Error('请输入正确电话号码'))
+      }
+    }
+    const validatePass7 = (rule, value, callback) => {
+      var email = /^([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/
+      const flag = email.test(value)
+      if (flag) {
+        callback()
+      } else {
+        callback(new Error('请输入正确的邮箱地址'))
       }
     }
     return {
@@ -626,10 +647,10 @@ export default {
           { required: true, message: '请选择市', trigger: 'change' }
         ],
         email: [
-          { required: true, message: '请输入电子邮箱', trigger: 'blur' }
+          { validator: validatePass7, trigger: 'blur' }
         ],
         currentAddress: [
-          { required: true, message: '请输入当前地址', trigger: 'blur' }
+          { required: true, message: validatePass7, trigger: 'blur' }
         ],
         permanentAddress: [
           { required: true, message: '请输入永久地址', trigger: 'blur' }
@@ -672,6 +693,36 @@ export default {
         ],
         saleRepositoryId: [
           { required: true, validator: validatePass3, trigger: 'change' }
+        ],
+        mateFirstName: [
+          { message: '请输入名', trigger: 'change' }
+        ],
+        mateMiddleName: [
+          { message: '请输入中间名', trigger: 'change' }
+        ],
+        mateLastName: [
+          { message: '请输入姓', trigger: 'change' }
+        ],
+        mateAge: [
+          { message: '请输入年龄', trigger: 'change' }
+        ],
+        mateBirthday: [
+          { message: '请输入出生日期', trigger: 'change' }
+        ],
+        mateLiveStauts: [
+          { message: '请输入居住状况', trigger: 'change' }
+        ],
+        matePhone: [
+          { message: '请输入电话', trigger: 'change' }
+        ],
+        mateEmail: [
+          { message: '请输入电子邮箱', trigger: 'change' }
+        ],
+        enterprisePhone: [
+          { validator: validatePass6, trigger: 'blur' }
+        ],
+        workTime: [
+          { type: 'number', trigger: 'blur', message: '年龄必须为数字值' }
         ]
       },
       editVisible: this.editcontrol
@@ -682,6 +733,7 @@ export default {
       this.editVisible = this.editcontrol
     },
     editdata() {
+      const lisArr = []
       this.personalForm = this.editdata
       this.salePersonId = this.personalForm.salePersonName
       this.saleRepositoryId = this.personalForm.saleRepositoryName
@@ -696,15 +748,16 @@ export default {
       lis.consultancyName = this.personalForm.consultancyNameOne
       lis.consultancyPhone = this.personalForm.consultancyPhoneOne
       lis.consultancyAddress = this.personalForm.consultancyAddressOne
-      this.list2.push(lis)
+      lisArr.push(lis)
       console.log('lis', lis)
       if (this.personalForm.consultancyNameTwo !== null && this.personalForm.consultancyPhoneTwo !== null && this.personalForm.consultancyAddressTwo !== null && this.personalForm.consultancyNameTwo !== '' && this.personalForm.consultancyPhoneTwo !== '' && this.personalForm.consultancyAddressTwo !== '' && this.personalForm.consultancyNameTwo !== undefined && this.personalForm.consultancyPhoneTwo !== undefined && this.personalForm.consultancyAddressTwo !== undefined) {
         const lis2 = {}
         lis2.consultancyName = this.personalForm.consultancyNameOne
         lis2.consultancyPhone = this.personalForm.consultancyPhoneOne
         lis2.consultancyAddress = this.personalForm.consultancyAddressOne
-        this.list2.push(lis2)
+        lisArr.push(lis2)
       }
+      this.list2 = lisArr
     }
   },
   created() {
@@ -713,6 +766,13 @@ export default {
     this.getratelist()
   },
   methods: {
+    // 选择已未婚，标签变化
+    changepanel(val) {
+      console.log(val)
+      if (val === 1) {
+        this.activeName = 'first'
+      }
+    },
     handlesave2() {
       if (this.personalForm.consultancyName !== null && this.personalForm.consultancyPhone !== null && this.personalForm.consultancyAddress !== null && this.personalForm.consultancyName !== '' && this.personalForm.consultancyPhone !== '' && this.personalForm.consultancyAddress !== '' && this.personalForm.consultancyName !== undefined && this.personalForm.consultancyPhone !== undefined && this.personalForm.consultancyAddress !== undefined) {
         const lis = {}
@@ -1039,6 +1099,7 @@ export default {
         }
       }
       const parms2 = JSON.stringify(Data2)
+      this.personalForm.modifyPersonId = this.$store.getters.userId
       const Data = this.personalForm
       for (const key in Data) {
         if (Data[key] === '' || Data[key] === undefined || Data[key] === null) {

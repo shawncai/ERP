@@ -52,7 +52,19 @@ export function CustomerSurveyReportList(query) {
     data: params
   })
 }
-
+// 查询洽谈
+export function CustomerSurveyReportList2(query) {
+  var params = new URLSearchParams()
+  params.append('regionIds', query.regionIds) // 你要传给后台的参数值 key/value
+  params.append('sourceNumber', query.applyNumber) // 你要传给后台的参数值 key/value
+  // params.append('regionIds', '') // 你要传给后台的参数值 key/value
+  params.append('repositoryId', 0) // 你要传给后台的参数值 key/value
+  return request({
+    url: '/customerSurveyReport/search',
+    method: 'post',
+    data: params
+  })
+}
 // 修改客户洽谈
 export function updateCustomerSurveyReport(query) {
   var params = new URLSearchParams()

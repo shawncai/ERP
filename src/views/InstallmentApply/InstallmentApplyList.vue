@@ -75,6 +75,7 @@
       <el-button v-permission="['200-201-7']" v-waves class="filter-item" icon="el-icon-printer" style="width: 86px" @click="handlePrint">{{ $t('public.print') }}</el-button>
       <!-- 新建操作 -->
       <el-button v-permission="['200-201-1']" v-waves class="filter-item" icon="el-icon-plus" type="success" style="width: 86px" @click="handleAdd">{{ $t('public.add') }}</el-button>
+      <el-button v-permission="['54-65-1']" v-waves class="filter-item" icon="el-icon-plus" type="success" @click="handleAddreport">{{ $t('InstallmentApply.addInvestigationReport') }}</el-button>
     </el-card>
 
     <el-card class="box-card" style="margin-top: 10px" shadow="never">
@@ -140,6 +141,19 @@
             <span>{{ scope.row.receiptStat | receiptStatFilter }}</span>
           </template>
         </el-table-column>
+        <el-table-column :label="$t('InstallmentApply.isInvestigation')" :resizable="false" align="center" min-width="150">
+          <template slot-scope="scope">
+            <span>{{ scope.row.isInvestigation | InvestigationFilter }}</span>
+          </template>
+        </el-table-column>
+        <!-- <el-table-column :label="$t('InstallmentApply.isInvestigation')" :resizable="false" :formatter="getisInvestigation" prop="isInvestigation" align="center" min-width="150"/> -->
+        <el-table-column :label="$t('InstallmentApply.investigationDetail')" :resizable="false" align="center" min-width="150">
+          <template slot-scope="scope">
+            <span v-if="scope.row.isInvestigation === 2" class="link-type" @click="handlerdetail(scope.row)">{{ scope.row.InvestigationResult | resultFilter }}</span>
+            <span v-else>无</span>
+          </template>
+          <detail-list2 :detailcontrol.sync="detailvisible2" :detaildata.sync="personalForm2"/>
+        </el-table-column>
         <el-table-column :label="$t('public.actions')" :resizable="false" align="center" min-width="250">
           <template slot-scope="scope">
             <el-button v-show="scope.row.inquirePersonId === null" size="mini" type="success" @click="handleDispatch(scope.row)">{{ $t('repair.Dispatch') }}</el-button>
@@ -169,7 +183,7 @@
         </el-form>
       </el-dialog>
     </el-card>
-    <el-dialog :visible.sync="isvisible" :title="$t('repair.Dispatch2')" width="40%" center lock-scroll>
+    <el-dialog :visible.sync="isvisible" :title="$t('repair.Dispatch2')" append-to-body width="600px" class="normal" center lock-scroll>
       <el-form :model="dispatchform" style="width: 400px; margin:0 auto;">
         <el-form-item :label-width="formLabelWidth" :label="$t('repair.Employee')">
           <el-select v-model="dispatchform.id" placeholder="please choose">
@@ -195,6 +209,7 @@ import { getremplist2 } from '@/api/repair'
 import { applylist, deleteapply, updateapply2 } from '@/api/InstallmentApply'
 import { getdeptlist } from '@/api/BasicSettings'
 import { searchStockCategory } from '@/api/StockCategory'
+import { CustomerSurveyReportList2 } from '@/api/CustomerSurveyReport'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination'
 import permission from '@/directive/permission/index.js' // 权限判断指令
@@ -205,11 +220,12 @@ import DetailList from './components/DetailList'
 import MyDialog from './components/MyDialog'
 import MyCustomer from './components/MyCustomer'
 import MyAgent from './components/MyAgent'
+import DetailList2 from './components/DetailList2'
 
 export default {
   name: 'InstallmentApplyList',
   directives: { waves, permission, permission2 },
-  components: { MyDialog, DetailList, MyEmp, MyCustomer, MyAgent, Pagination },
+  components: { MyDialog, DetailList, MyEmp, MyCustomer, MyAgent, Pagination, DetailList2 },
   filters: {
     judgeStatFilter(status) {
       const statusMap = {
@@ -238,6 +254,20 @@ export default {
       const statusMap = {
         1: '已发货',
         2: '未发货'
+      }
+      return statusMap[status]
+    },
+    InvestigationFilter(status) {
+      const statusMap = {
+        0: '未调查',
+        2: '已调查'
+      }
+      return statusMap[status]
+    },
+    resultFilter(status) {
+      const statusMap = {
+        1: '通过',
+        2: '不通过'
       }
       return statusMap[status]
     }
@@ -286,6 +316,8 @@ export default {
       },
       // 详情组件数据
       detailvisible: false,
+      // 调查结果详情
+      detailvisible2: false,
       // 更多搜索条件问题
       visible2: false,
       // 供应商回显
@@ -313,6 +345,8 @@ export default {
       },
       // 传给组件的数据
       personalForm: {},
+      // 用户调查数据
+      personalForm2: {},
       // 修改控制组件数据
       editVisible: false,
       // 开始时间到结束时间
@@ -323,6 +357,31 @@ export default {
     this.getlist()
   },
   methods: {
+    // 新建客户报告
+    handleAddreport() {
+      if (this.moreaction.length > 1) {
+        this.$notify.error({
+          title: '错误',
+          message: '征询人最多两位',
+          offset: 100
+        })
+        return false
+      }
+      this.$router.push('/CustomerSurveyReport/AddCustomerSurveyReport')
+    },
+    // 打开客户报告
+    handlerdetail(row) {
+      console.log(row)
+      this.detailvisible2 = true
+      this.personalForm2 = Object.assign({}, row.InvestigationDetailvos[0])
+    },
+    getisInvestigation(row) {
+      checkReceiptApply2(row.applyNumber).then(res => {
+        console.log('结果', res.data.data.reportStat)
+        const test = res.data.data.reportStat
+        return test
+      })
+    },
     dispatch() {
       const tempData = Object.assign({}, this.formdata)
       this.reviewParms.id = tempData.id
@@ -471,18 +530,45 @@ export default {
     updatecountry() {
       this.getlist()
     },
-    getlist() {
+    async getlist() {
+      const regionIds = this.$store.getters.regionId
+      console.log(regionIds)
       // 物料需求计划列表数据
-      this.listLoading = true
-      applylist(this.getemplist).then(res => {
-        if (res.data.ret === 200) {
-          this.list = res.data.data.content.list
-          this.total = res.data.data.content.totalCount
+      // this.listLoading = true
+      const needdata = await (applylist(this.getemplist).then(res => {
+        return res
+      }))
+      const processdata = needdata.data.data.content.list
+      this.total = needdata.data.data.content.totalCount
+      const lists = await Promise.all(processdata.map(function(item) {
+        return checkReceiptApply2(item.applyNumber)
+      }))
+      const lists2 = await Promise.all(processdata.map(function(item) {
+        return CustomerSurveyReportList2({
+          applyNumber: item.applyNumber,
+          regionIds: regionIds
+        })
+      }))
+      console.log('调查结果', lists2)
+      for (let i = 0; i < processdata.length; i++) {
+        for (let j = 0; j < lists.length; j++) {
+          if (processdata[i].applyNumber === lists[j].data.data.applyNumber) {
+            processdata[i].isInvestigation = lists[j].data.data.reportStat
+          }
         }
-        setTimeout(() => {
-          this.listLoading = false
-        }, 0.5 * 100)
-      })
+      }
+      for (let i = 0; i < processdata.length; i++) {
+        for (let j = 0; j < lists2.length; j++) {
+          if (lists2[j].data.data.content.list.length > 0) {
+            if (processdata[i].applyNumber === lists2[j].data.data.content.list[0].sourceNumber) {
+              processdata[i].InvestigationDetailvos = lists2[j].data.data.content.list
+              processdata[i].InvestigationResult = lists2[j].data.data.content.list[0].result
+            }
+          }
+        }
+      }
+      this.list = processdata
+      this.listLoading = false
       // 部门列表数据
       getdeptlist().then(res => {
         if (res.data.ret === 200) {
@@ -740,6 +826,30 @@ export default {
   }
 }
 </script>
+
+<style rel="stylesheet/css" scoped>
+  .el-dialog--center >>> el-dialog__body{
+    /*padding: 10px 20px 10px;*/
+    padding: 0px 25px 30px;
+  }
+  .normal >>> .el-dialog__header {
+    /*padding: 10px 20px 10px;*/
+    background: #fff;
+    position: static;
+    top: auto;
+    z-index: auto;
+    width: auto;
+    border-bottom: none;
+  }
+  .normal >>> .el-dialog {
+    -webkit-transform: none;
+    transform: none;
+    left: 0;
+    position: relative;
+    margin: 0 auto;
+    height: auto;
+  }
+</style>
 
 <style rel="stylesheet/css" scoped>
   .ERP-container >>>  .el-form-item__label{

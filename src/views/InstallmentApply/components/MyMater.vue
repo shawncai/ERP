@@ -175,7 +175,8 @@ export default {
         isactive: '',
         Productid: '',
         pagenum: 1,
-        pagesize: 10
+        pagesize: 10,
+        isVehicle: 1
       }
     }
   },

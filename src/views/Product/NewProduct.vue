@@ -393,7 +393,7 @@
                 :on-success="handlepicsuccess"
                 :data="picidsData"
                 :auto-upload="false"
-                action="http://192.168.1.26:9090/erp/upload/uploadpic"
+                :action="`${$upload}/erp/upload/uploadpic`"
                 list-type="picture-card">
                 <i class="el-icon-plus"/>
               </el-upload>
@@ -410,7 +410,7 @@
                 :on-success="handledetailpicsuccess"
                 :data="detailpicData"
                 :auto-upload="false"
-                action="http://192.168.1.26:9090/upload/uploadpic"
+                :action="`${$upload}/erp/upload/uploadpic`"
                 list-type="picture-card">
                 <i class="el-icon-plus"/>
               </el-upload>
