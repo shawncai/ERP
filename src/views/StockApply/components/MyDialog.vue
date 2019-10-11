@@ -1,5 +1,5 @@
 <template>
-  <el-dialog :visible.sync="editVisible" :editcontrol="editcontrol" :editdata="editdata" :close-on-press-escape="false" :title="personalForm.applyNumber +'    修改'" width="1010px" class="edit" top="-10px" @close="$emit('update:editcontrol', false)">
+  <el-dialog :visible.sync="editVisible" :editcontrol="editcontrol" :editdata="editdata" :close-on-press-escape="false" :title="personalForm.applyNumber +'    修改'" width="1010px" class="edit" top="-10px" @close="$emit('update:editcontrol', false)" @closed="clearValidate">
     <!--基本信息-->
     <el-card class="box-card" style="margin-top: 63px" shadow="never">
       <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">基本信息</h2>
@@ -266,6 +266,11 @@ export default {
     this.getTypes()
   },
   methods: {
+    // 移除表单验证
+    clearValidate() {
+      this.$refs.editable.revert()
+      // this.$refs.editable
+    },
     // 控制不同源单类型
     chooseSourceType(val) {
       if (val === '1') {

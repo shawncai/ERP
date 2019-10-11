@@ -80,7 +80,7 @@
           {{ $t('public.batchoperation') }} <i class="el-icon-arrow-down el-icon--right"/>
         </el-button>
         <el-dropdown-menu slot="dropdown" style="width: 140px">
-          <el-dropdown-item v-permission="['104-105-2']" style="text-align: left" command="delete"><svg-icon icon-class="shanchu" style="width: 40px"/>{{ $t('public.delete') }}</el-dropdown-item>
+          <el-dropdown-item v-permission="['104-105-2']" :disabled="junglehandle()" style="text-align: left" command="delete"><svg-icon icon-class="shanchu" style="width: 40px"/>{{ $t('public.delete') }}</el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
       <!-- 表格导出操作 -->
@@ -103,7 +103,6 @@
         style="width: 100%;"
         @selection-change="handleSelectionChange">
         <el-table-column
-          :selectable="selectInit"
           type="selection"
           width="55"
           fixed="left"
@@ -151,7 +150,8 @@
         </el-table-column>
         <el-table-column :label="$t('public.receiptStat')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.receiptStat | receiptStatFilter }}</span>
+            <span v-if="scope.row.endPersonId">{{ scope.row.receiptStat | receiptStatFilter }}</span>
+            <span v-else>{{ scope.row.receiptStat | receiptStatFilter2 }}</span>
           </template>
         </el-table-column>
         <el-table-column :label="$t('public.actions')" :resizable="false" align="center" min-width="230">
@@ -177,7 +177,7 @@
             <el-steps :space="200" style="width: 150%;" finish-status="success">
               <el-step :status="step1" title="采购申请"/>
               <el-step :status="step2" title="采购计划"/>
-              <el-step :status="step3" title="采购询价"/>
+              <!-- <el-step :status="step3" title="采购询价"/> -->
               <el-step :status="step4" title="采购订单"/>
               <el-step :status="step5" title="采购到货"/>
               <el-step :status="step6" title="质检"/>
@@ -223,7 +223,15 @@ export default {
       const statusMap = {
         1: '制单',
         2: '执行',
-        3: '结单'
+        3: '结单(手动)'
+      }
+      return statusMap[status]
+    },
+    receiptStatFilter2(status) {
+      const statusMap = {
+        1: '制单',
+        2: '执行',
+        3: '结单(自动)'
       }
       return statusMap[status]
     },
@@ -306,6 +314,25 @@ export default {
     this.getlist()
   },
   methods: {
+    // 判断能否删除
+    junglehandle() {
+      let temp = 0
+      console.log('判断', this.moreaction)
+      if (this.moreaction.length === 0) {
+        return false
+      } else {
+        for (const i in this.moreaction) {
+          if (this.moreaction[i].judgeStat !== 0) {
+            return true
+          } else {
+            temp++
+          }
+          if (temp === this.moreaction.length) {
+            return false
+          }
+        }
+      }
+    },
     // 判断反审批按钮
     isReview4(row) {
       console.log(row)
@@ -520,13 +547,13 @@ export default {
     },
     checkPermission,
     // 不让勾选
-    selectInit(row, index) {
-      if (row.judgeStat !== 0) {
-        return false
-      } else {
-        return true
-      }
-    },
+    // selectInit(row, index) {
+    //   if (row.judgeStat !== 0) {
+    //     return false
+    //   } else {
+    //     return true
+    //   }
+    // },
     // 更新采购类型
     updatecountry() {
       this.getlist()

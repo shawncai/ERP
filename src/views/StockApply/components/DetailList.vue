@@ -165,12 +165,12 @@
               </el-col>
               <el-col :span="12">
                 <el-form-item :label="$t('public.modifyPersonName')" prop="applyDate" style="width: 100%;">
-                  {{ personalForm.modifyPersonName }}
+                  {{ personalForm.modifyPersonName || personalForm.createPersonName }}
                 </el-form-item>
               </el-col>
               <el-col :span="12">
                 <el-form-item :label="$t('public.modifyDate')" prop="applyDate" style="width: 100%;">
-                  {{ personalForm.modifyDate }}
+                  {{ personalForm.modifyDate || personalForm.createDate }}
                 </el-form-item>
               </el-col>
             </el-row>
