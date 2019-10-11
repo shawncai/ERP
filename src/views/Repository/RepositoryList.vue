@@ -80,7 +80,7 @@
             <span>{{ scope.row.repositoryName }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('Repository.type2')" :resizable="false" prop="categoryName" align="center" width="230">
+        <el-table-column :label="$t('Repository.type3')" :resizable="false" prop="categoryName" align="center" width="230">
           <template slot-scope="scope">
             <span>{{ scope.row.categoryName }}</span>
           </template>

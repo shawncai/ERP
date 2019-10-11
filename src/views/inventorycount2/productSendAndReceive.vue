@@ -1,36 +1,34 @@
 <template>
   <div class="ERP-container">
-    <el-card class="box-card" style="margin-top: 10px;height: 60px" shadow="never">
-      <el-row>
-        <el-form ref="getemplist" :model="getemplist" label-width="100px" style="margin-top: -9px">
-          <el-col :span="5">
-            <el-form-item label="物品名称">
-              <el-input v-model="getemplist.productName" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
-            </el-form-item>
-          </el-col>
-          <el-col :span="5">
-            <el-form-item :label="$t('StockContract.supplierId')">
-              <el-input v-model="supplierId" @focus="handlechoose"/>
-              <my-supplier :control.sync="empcontrol" @supplierName="supplierName"/>
-            </el-form-item>
-          </el-col>
-          <el-col :span="5" style="margin-left: 47px">
-            <el-form-item :label="$t('stockOrderCount.date')">
+    <el-card class="box-card" style="margin-top: 10px;height: 70px" shadow="never">
+      <el-form ref="getemplist" :model="getemplist" label-width="70px" style="margin-top: -9px">
+        <el-row>
+          <el-col :span="4">
+            <el-form-item label="月份">
               <el-date-picker
-                v-model="date"
-                type="daterange"
-                range-separator="-"
-                unlink-panels
-                value-format="yyyy-MM-dd"
-                style="margin-left: 70px"/>
+                v-model="date2"
+                type="month"
+                value-format="yyyy-MM"
+                placeholder="选择月"/>
             </el-form-item>
           </el-col>
-          <el-col :span="3" style="margin-left: 252px">
+          <el-col :span="4" style="margin-left: 120px">
+            <el-form-item label="门店">
+              <el-input v-model="repositoryId" class="filter-item" @keyup.enter.native="handleFilter" @focus="handlechooseRep"/>
+              <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
+            </el-form-item>
+          </el-col>
+          <el-col :span="4" style="margin-left: 60px">
+            <el-form-item label="物品编码">
+              <el-input v-model="getemplist.code" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
+            </el-form-item>
+          </el-col>
+          <el-col :span="4" style="margin-left: 60px">
             <!-- 搜索按钮 -->
             <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 86px" round @click="handleFilter">{{ $t('public.search') }}</el-button>
           </el-col>
-        </el-form>
-      </el-row>
+        </el-row>
+      </el-form>
     </el-card>
 
     <el-card class="box-card" style="margin-top: 10px" shadow="never">
@@ -40,89 +38,88 @@
         border
         style="width: 100%">
         <el-table-column
-          :label="$t('stockTrackList.supplierName')"
-          prop="supplierName"
-          width="200"
-          align="center"/>
-        <el-table-column
-          :label="$t('stockTrackList.receiptDate')"
-          prop="receiptDate"
-          width="200"
-          align="center"/>
-        <el-table-column
-          :label="$t('stockTrackList.orderNumber')"
-          prop="orderNumber"
-          width="200"
-          align="center"/>
-        <el-table-column
-          :label="$t('stockTrackList.deliveryDate')"
-          prop="deliveryDate"
-          width="200"
-          align="center"/>
-        <el-table-column
-          :label="$t('stockDetailCount.productCode')"
+          :label="$t('inventoryCollect.productCode')"
           prop="productCode"
           width="200"
           align="center"/>
         <el-table-column
-          :label="$t('stockDetailCount.productName')"
+          :label="$t('inventoryCollect.productName')"
           prop="productName"
           width="200"
           align="center"/>
         <el-table-column
-          :label="$t('stockDetailCount.unit')"
-          prop="unit"
+          :label="$t('inventoryCollect.productType')"
+          prop="productType"
           width="200"
           align="center"/>
-        <el-table-column
-          :label="$t('stockTrackList.quantity')"
-          prop="quantity"
-          width="200"
-          align="center"/>
-        <el-table-column
-          :label="$t('stockTrackList.price')"
-          prop="price"
-          width="200"
-          align="center"/>
-        <el-table-column
-          :label="$t('stockTrackList.money')"
-          prop="money"
-          width="200"
-          align="center"/>
-        <el-table-column :label="$t('stockTrackList.enter')" align="center">
+        <el-table-column :label="$t('productSendAndReceive.begin')" align="center">
           <el-table-column
-            :label="$t('stockTrackList.enterQuantity')"
+            :label="$t('inventoryCollect.unit')"
+            prop="unit"
+            width="200"
+            align="center"/>
+          <el-table-column
+            :label="$t('stockOrderCount.orderQuantity')"
+            prop="beginQuantity"
+            width="200"
+            align="center"/>
+          <el-table-column
+            :label="$t('stockOrderCount.totalMoney')"
+            prop="beginMoney"
+            width="200"
+            align="center"/>
+        </el-table-column>
+        <el-table-column :label="$t('productSendAndReceive.enter')" align="center">
+          <el-table-column
+            :label="$t('inventoryCollect.unit')"
+            prop="unit"
+            width="200"
+            align="center"/>
+          <el-table-column
+            :label="$t('stockOrderCount.orderQuantity')"
             prop="enterQuantity"
             width="200"
             align="center"/>
           <el-table-column
-            :label="$t('stockTrackList.notenterQuantity')"
-            prop="notenterQuantity"
+            :label="$t('stockOrderCount.totalMoney')"
+            prop="enterMoney"
             width="200"
             align="center"/>
         </el-table-column>
-        <el-table-column :label="$t('stockTrackList.invoice')" align="center">
+        <el-table-column :label="$t('productSendAndReceive.out')" align="center">
           <el-table-column
-            :label="$t('stockTrackList.invoiceQuantity')"
-            prop="invoiceQuantity"
+            :label="$t('inventoryCollect.unit')"
+            prop="unit"
             width="200"
             align="center"/>
           <el-table-column
-            :label="$t('stockTrackList.notinvoiceQuantity')"
-            prop="notinvoiceQuantity"
+            :label="$t('stockOrderCount.orderQuantity')"
+            prop="outQuantity"
+            width="200"
+            align="center"/>
+          <el-table-column
+            :label="$t('stockOrderCount.totalMoney')"
+            prop="outMoney"
             width="200"
             align="center"/>
         </el-table-column>
-        <el-table-column
-          :label="$t('stockTrackList.invoiceMoney')"
-          prop="invoiceMoney"
-          width="200"
-          align="center"/>
-        <el-table-column
-          :label="$t('stockTrackList.notinvoiceMoney')"
-          prop="notinvoiceMoney"
-          width="200"
-          align="center"/>
+        <el-table-column :label="$t('productSendAndReceive.end')" align="center">
+          <el-table-column
+            :label="$t('inventoryCollect.unit')"
+            prop="unit"
+            width="200"
+            align="center"/>
+          <el-table-column
+            :label="$t('stockOrderCount.orderQuantity')"
+            prop="endQuantity"
+            width="200"
+            align="center"/>
+          <el-table-column
+            :label="$t('stockOrderCount.totalMoney')"
+            prop="endMoney"
+            width="200"
+            align="center"/>
+        </el-table-column>
       </el-table>
       <!-- 列表结束 -->
       <pagination v-show="total>0" :total="total" :page.sync="getemplist.pageNum" :limit.sync="getemplist.pageSize" @pagination="getlist" />
@@ -131,9 +128,8 @@
 </template>
 
 <script>
-import { stockTrackList } from '@/api/count'
-import { searchStockCategory } from '@/api/StockCategory'
-import MyRepository from './components/MyRepository'
+import { searchEmpCategory2 } from '@/api/Product'
+import { productSendAndReceive } from '@/api/count'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination'
 import permission from '@/directive/permission/index.js' // 权限判断指令
@@ -144,12 +140,14 @@ import DetailList from './components/DetailList'
 import MyDialog from './components/MyDialog'
 import MyCustomer from './components/MyCustomer'
 import MyAgent from './components/MyAgent'
+import MyRepository from './components/MyRepository'
+import MyTree from './components/MyTree'
 import MySupplier from './components/MySupplier'
 
 export default {
-  name: 'StockTrackList',
+  name: 'ProductSendAndReceive',
   directives: { waves, permission, permission2 },
-  components: { MyDialog, DetailList, MyEmp, MyCustomer, MySupplier, MyAgent, MyRepository, Pagination },
+  components: { MyDialog, DetailList, MyRepository, MySupplier, MyEmp, MyCustomer, MyTree, MyAgent, Pagination },
   filters: {
     judgeStatFilter(status) {
       const statusMap = {
@@ -185,6 +183,7 @@ export default {
   },
   data() {
     return {
+      categoryId: '',
       first: '',
       step1: '',
       step2: '',
@@ -193,7 +192,10 @@ export default {
       step5: '',
       step6: '',
       step7: '',
+      date2: [],
       step8: '',
+      types: [],
+      repositoryId: '',
       receiptVisible: false,
       // 回显客户
       customerName: '',
@@ -206,7 +208,6 @@ export default {
         pagesize: 99999
       },
       // 采购类别数据
-      types: [],
       // 申请部门数据
       depts: [],
       // 审核传参
@@ -216,7 +217,9 @@ export default {
         judgeStat: ''
       },
       // 详情组件数据
+      treecontrol: false,
       detailvisible: false,
+      repositorycontrol: false,
       // 更多搜索条件问题
       visible2: false,
       // 供应商回显
@@ -243,8 +246,6 @@ export default {
       getemplist: {
         pageNum: 1,
         pageSize: 10,
-        repositoryId: this.$store.getters.repositoryId,
-        regionIds: this.$store.getters.regionId,
         type: '1'
       },
       // 传给组件的数据
@@ -256,14 +257,32 @@ export default {
     }
   },
   mounted() {
+    this.getdatatime()
     this.getlist()
     this.changeName()
   },
   methods: {
-    supplierName(val) {
-      console.log(val)
-      this.supplierId = val.supplierName
-      this.getemplist.supplierId = val.id
+    getdatatime() { // 默认显示今天
+      var date = new Date()
+      var seperator1 = '-'
+      var year = date.getFullYear()
+      var month = date.getMonth() + 1
+      var strDate = date.getDate()
+      if (month >= 1 && month <= 9) {
+        month = '0' + month
+      }
+      if (strDate >= 0 && strDate <= 9) {
+        strDate = '0' + strDate
+      }
+      var currentdate = year + seperator1 + month
+      this.date2 = currentdate
+    },
+    treechoose() {
+      this.treecontrol = true
+    },
+    tree(val) {
+      this.categoryId = val.categoryName
+      this.getemplist.categoryId = val.id
     },
     changeName() {
       if (this.getemplist.type === '1') {
@@ -315,27 +334,26 @@ export default {
       this.getlist()
     },
     getlist() {
+      searchEmpCategory2(2).then(res => {
+        if (res.data.ret === 200) {
+          this.types = res.data.data.content.list
+        }
+      })
       // 物料需求计划列表数据
       this.listLoading = true
-      stockTrackList(this.getemplist).then(res => {
+      if (this.date2 === null || this.date2 === undefined || this.date2 === '' || this.date2.length === 0) {
+        this.getemplist.date = '2019-10'
+      } else {
+        this.getemplist.date = this.date2
+      }
+      productSendAndReceive(this.getemplist).then(res => {
         if (res.data.ret === 200) {
-          this.list = res.data.data.content.list
-          for (let i = 0; i < this.list.length; i++) {
-            this.list[i].notenterQuantity = (this.list[i].quantity - this.list[i].enterQuantity).toFixed(2)
-            this.list[i].notinvoiceQuantity = (this.list[i].quantity - this.list[i].invoiceQuantity).toFixed(2)
-            this.list[i].notinvoiceMoney = (this.list[i].money - this.list[i].invoiceMoney).toFixed(2)
-          }
+          this.list = res.data.data.content
           this.total = res.data.data.content.totalCount
         }
         setTimeout(() => {
           this.listLoading = false
         }, 0.5 * 100)
-      })
-      // 采购类别数据
-      searchStockCategory(this.typeparms).then(res => {
-        if (res.data.ret === 200) {
-          this.types = res.data.data.content.list
-        }
       })
     },
     // 清空搜索条件
@@ -348,21 +366,15 @@ export default {
     // 搜索
     handleFilter() {
       this.getemplist.pageNum = 1
-      if (this.date === null || this.date === undefined || this.date === '') {
-        this.getemplist.beginTime = ''
-        this.getemplist.endTime = ''
+      console.log('this.date2', this.date2)
+      if (this.date2 === null || this.date2 === undefined || this.date2 === '' || this.date2.length === 0) {
+        this.getemplist.date = '2019-10'
       } else {
-        this.getemplist.beginTime = this.date[0]
-        this.getemplist.endTime = this.date[1]
+        this.getemplist.date = this.date2
       }
-      stockTrackList(this.getemplist).then(res => {
+      productSendAndReceive(this.getemplist).then(res => {
         if (res.data.ret === 200) {
-          this.list = res.data.data.content.list
-          for (let i = 0; i < this.list.length; i++) {
-            this.list[i].notenterQuantity = (this.list[i].quantity - this.list[i].enterQuantity).toFixed(2)
-            this.list[i].notinvoiceQuantity = (this.list[i].quantity - this.list[i].invoiceQuantity).toFixed(2)
-            this.list[i].notinvoiceMoney = (this.list[i].money - this.list[i].invoiceMoney).toFixed(2)
-          }
+          this.list = res.data.data.content
           this.total = res.data.data.content.totalCount
           this.restFilter()
         } else {
@@ -382,6 +394,12 @@ export default {
     // 供应商输入框focus事件触发
     handlechoose() {
       this.empcontrol = true
+    },
+    // 供应商列表返回数据
+    supplierName(val) {
+      console.log(val)
+      this.supplierId = val.supplierName
+      this.getemplist.supplierId = val.id
     },
     // 修改操作
     handleEdit(row) {
@@ -432,8 +450,8 @@ export default {
     },
     repositoryname(val) {
       console.log(val)
-      this.enterRepositoryId = val.repositoryName
-      this.getemplist.enterRepositoryId = val.id
+      this.repositoryId = val.repositoryName
+      this.getemplist.repositoryId = val.id
     },
     // 部门列表focus刷新
     updatedept() {

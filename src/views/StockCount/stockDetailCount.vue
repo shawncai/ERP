@@ -37,6 +37,7 @@
       <!-- 列表开始 -->
       <el-table
         :data="list"
+        border
         style="width: 100%">
         <el-table-column
           :label="$t('stockDetailCount.productCode')"

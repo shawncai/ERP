@@ -5,7 +5,7 @@
         <el-form ref="getemplist" :model="getemplist" label-width="100px" style="margin-top: -9px">
           <el-col :span="5" style="margin-left: 10px">
             <el-form-item :label="$t('stockOrderCount.type')">
-              <el-select v-model="getemplist.type" :value="getemplist.type" clearable @keyup.enter.native="handleFilter" @change="changeName">
+              <el-select v-model="getemplist.type" :value="getemplist.type" @keyup.enter.native="handleFilter" @change="changeName">
                 <el-option value="1" label="供应商"/>
                 <el-option value="2" label="经办人"/>
                 <!-- <el-option value="3" label="品牌"/> -->
@@ -36,6 +36,7 @@
       <!-- 列表开始 -->
       <el-table
         :data="list"
+        border
         style="width: 100%">
         <el-table-column
           :label="$t('stockOrderCount.id')"

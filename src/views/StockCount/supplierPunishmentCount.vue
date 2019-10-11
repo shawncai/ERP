@@ -30,6 +30,7 @@
       <!-- 列表开始 -->
       <el-table
         :data="list"
+        border
         style="width: 100%">
         <el-table-column
           :label="$t('supplierPunishmentCount.supplierId')"
@@ -66,6 +67,11 @@
           prop="punishmentCount"
           width="250"
           align="center"/>
+        <el-table-column :label="$t('public.actions')" :resizable="false" align="center" min-width="230">
+          <template slot-scope="scope">
+            <el-button type="primary" style="width: 66px" @click="handleMyReceipt1(scope.row)"><span>{{ $t('public.detail') }}</span></el-button>
+          </template>
+        </el-table-column>
       </el-table>
       <!-- 列表结束 -->
       <pagination v-show="total>0" :total="total" :page.sync="getemplist.pageNum" :limit.sync="getemplist.pageSize" @pagination="getlist" />
@@ -203,6 +209,11 @@ export default {
     this.changeName()
   },
   methods: {
+    handleMyReceipt1(val) {
+      console.log(val)
+      this.$store.dispatch('getempcontract', val)
+      this.$router.push('/StockCount/supplierPunishmentCountDetail')
+    },
     supplierName(val) {
       console.log(val)
       this.supplierId = val.supplierName

@@ -332,7 +332,90 @@ export default {
     stockBillList: '采购开单明细表',
     stockTrackList: '采购订单全程跟踪表',
     supplierPunishmentCount: '供应商惩罚汇总表',
-    productStockFluid: '商品采购流水账'
+    productStockFluid: '商品采购流水账',
+    stockpricelist: '商品进价分析表',
+    supplierPunishmentCountDetail: '供应商惩罚明细表',
+    stockOrderExecute: '采购订单执行情况表',
+    inventorycount: '库存统计',
+    inventoryCollect: '商品库存汇总表',
+    moveDetailList: '商品调拨明细表',
+    inventoryFluid: '商品库存流水表',
+    productSendAndReceive: '物料收发汇总',
+    inventorychangelist: '库存月报表',
+    inventorydetaillist: '商品库存明细表'
+  },
+  inventorychangelist: {
+    begin: '期初结存',
+    saleOut: '销售出库',
+    stockReturn: '本期采购退货',
+    saleReturn: '本期销售退货',
+    stockEnter: '采购入库',
+    otherEnter: '其它入库',
+    produceEnter: '生产完工入库',
+    // out: '其它出库',
+    moveIn: '调拨入库',
+    moveOut: '调拨出库',
+    countFlow: '盘盈',
+    countLess: '盘亏',
+    // inventorychang2el7ist: '平均库存',
+    allEnter: '本期入库',
+    allOut: '本期出库',
+    end: '期末结存'
+  },
+  inventorydetaillist: {
+    quantity: '库存数量',
+    actualCostPrice: '成本均价',
+    actualCostMoney: '库存金额',
+    tradePrice: '批发价',
+    salePrice: '零售价',
+    tradeMoney: '批发金额',
+    saleMoney: '零售金额',
+    rate: '毛利率',
+    locationCode: '货位编号',
+    repositoryName: '仓库'
+  },
+  productSendAndReceive: {
+    begin: '期初结存',
+    enter: '本期收入',
+    out: '本期发出',
+    end: '期末结存'
+  },
+  inventoryCollect: {
+    productCode: '物品编码',
+    productName: '物品名称',
+    productType: '规格型号',
+    color: '颜色',
+    unit: '单位',
+    allQuantity: '库存数量',
+    actualCostPrice: '成本均价',
+    actualMoney: '库存金额',
+    saleMoney: '零售金额',
+    tradeMOney: '批发金额',
+    rate: '毛利率'
+  },
+  moveDetailList: {
+    moveQuantity: '调拨数量',
+    price: '调拨单价',
+    totalMoney: '调拨金额',
+    moveDiff: '调拨差额'
+  },
+  // 单据编号，单据类型，仓库编号，仓库名称，批次，物品编号，货位，物品名称，单位，规格型号，颜色，出入库时间，出入库数量，结存数量，创建人
+  inventoryFluid: {
+    recieptNumber: '单据编号',
+    recieptType: '单据类型',
+    repositoryId: '仓库编号',
+    repositoryName: '仓库名称',
+    batch: '批次',
+    locationCode: '货位',
+    time: '出入库时间',
+    quantity: '出入库数量',
+    endQuantity: '结存数量',
+    createPersonName: '创建人'
+  },
+  stockOrderExecute: {
+    supplierTypeName: '供应商类别',
+    orderNum: '签订数量',
+    price: '单价'
   },
   stockTrackList: {
     supplierName: '供应商名称',
@@ -358,7 +441,12 @@ export default {
     contactName: '联系人',
     contactPhone: '电话',
     stockPersonName: '采购员',
+    reason: '惩罚原因',
+    comment: '惩罚内容',
+    createTime: '惩罚时间',
+    createName: '惩罚人',
     punishmentCount: '惩罚次数'
+
   },
   productStockFluid: {
     color: '颜色',
@@ -690,6 +778,7 @@ export default {
     id: '仓库编号',
     repositoryname: '仓库名称',
     type2: '仓库类别',
+    type3: '仓库类型',
     iseffective: '仓库状态'
   },
   Customer: {
@@ -1950,8 +2039,6 @@ export default {
     currency: '币种',
     remark: '备注'
   },
-  SmartReplenishment: {
-  },
   InstallmentApply: {
     consultancyName: '姓名',
     consultancyPhone: '电话',
@@ -2289,6 +2376,7 @@ export default {
     iseffective: '启用状态'
   },
   public: {
+    detail: '明细',
     businessStatus: '业务状态',
     rate: '汇率',
     up: '上架',

@@ -2827,6 +2827,56 @@ export const asyncRouterMap = [
     ]
   },
   {
+    path: '/inventorycount2',
+    component: Layout,
+    redirect: 'noredirect',
+    name: 'inventorycount',
+    alwaysShow: true,
+    meta: {
+      title: 'inventorycount',
+      icon: 'shuxing',
+      type: 12
+    },
+    children: [
+      {
+        path: 'inventoryCollect',
+        component: () => import('@/views/inventorycount2/inventoryCollect'),
+        name: 'inventoryCollect',
+        meta: { title: 'inventoryCollect', noCache: true }
+      },
+      {
+        path: 'moveDetailList',
+        component: () => import('@/views/inventorycount2/moveDetailList'),
+        name: 'moveDetailList',
+        meta: { title: 'moveDetailList', noCache: true }
+      },
+      {
+        path: 'inventoryFluid',
+        component: () => import('@/views/inventorycount2/inventoryFluid'),
+        name: 'inventoryFluid',
+        meta: { title: 'inventoryFluid', noCache: true }
+      },
+      {
+        path: 'productSendAndReceive',
+        component: () => import('@/views/inventorycount2/productSendAndReceive'),
+        name: 'productSendAndReceive',
+        meta: { title: 'productSendAndReceive', noCache: true }
+      },
+      {
+        path: 'inventorychangelist',
+        component: () => import('@/views/inventorycount2/inventorychangelist'),
+        name: 'inventorychangelist',
+        meta: { title: 'inventorychangelist', noCache: true }
+      },
+      {
+        path: 'inventorydetaillist',
+        component: () => import('@/views/inventorycount2/inventorydetaillist'),
+        name: 'inventorydetaillist',
+        meta: { title: 'inventorydetaillist', noCache: true }
+      }
+    ]
+  },
+  {
     path: '/Stockcount',
     component: Layout,
     redirect: 'noredirect',
@@ -2875,10 +2925,29 @@ export const asyncRouterMap = [
         meta: { title: 'supplierPunishmentCount', noCache: true }
       },
       {
+        path: 'supplierPunishmentCountDetail',
+        component: () => import('@/views/StockCount/supplierPunishmentCountDetail'),
+        hidden: true,
+        name: 'supplierPunishmentCountDetail',
+        meta: { title: 'supplierPunishmentCountDetail', noCache: true }
+      },
+      {
         path: 'productStockFluid',
         component: () => import('@/views/StockCount/productStockFluid'),
         name: 'productStockFluid',
         meta: { title: 'productStockFluid', noCache: true }
+      },
+      {
+        path: 'stockpricelist',
+        component: () => import('@/views/StockCount/stockpricelist'),
+        name: 'stockpricelist',
+        meta: { title: 'stockpricelist', noCache: true }
+      },
+      {
+        path: 'stockOrderExecute',
+        component: () => import('@/views/StockCount/stockOrderExecute'),
+        name: 'stockOrderExecute',
+        meta: { title: 'stockOrderExecute', noCache: true }
       }
     ]
   },
