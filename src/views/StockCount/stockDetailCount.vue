@@ -3,18 +3,18 @@
     <el-card class="box-card" style="margin-top: 10px;height: 60px" shadow="never">
       <el-row>
         <el-form ref="getemplist" :model="getemplist" label-width="100px" style="margin-top: -9px">
-          <el-col :span="5">
+          <el-col :span="4">
             <el-form-item label="物品名称">
               <el-input v-model="getemplist.productName" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
-          <el-col :span="5">
+          <el-col :span="4" style="margin-left: 80px">
             <el-form-item :label="$t('StockContract.supplierId')">
-              <el-input v-model="supplierId" @focus="handlechoose"/>
+              <el-input v-model="supplierId" style="width: 130px" @focus="handlechoose"/>
               <my-supplier :control.sync="empcontrol" @supplierName="supplierName"/>
             </el-form-item>
           </el-col>
-          <el-col :span="5" style="margin-left: 47px">
+          <el-col :span="4" style="margin-left: 63px">
             <el-form-item :label="$t('stockOrderCount.date')">
               <el-date-picker
                 v-model="date"
@@ -22,10 +22,10 @@
                 range-separator="-"
                 unlink-panels
                 value-format="yyyy-MM-dd"
-                style="margin-left: 70px"/>
+                style="width: 250px"/>
             </el-form-item>
           </el-col>
-          <el-col :span="3" style="margin-left: 252px">
+          <el-col :span="4" style="margin-left: 197px">
             <!-- 搜索按钮 -->
             <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 86px" round @click="handleFilter">{{ $t('public.search') }}</el-button>
           </el-col>
@@ -445,7 +445,7 @@ export default {
   }
   .filter-item{
     width: 140px;
-    margin-left: 30px;
+    margin-left: 0px;
   }
   .normal >>> .el-dialog__header {
     padding: 20px 20px 10px;

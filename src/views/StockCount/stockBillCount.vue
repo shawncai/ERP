@@ -3,9 +3,9 @@
     <el-card class="box-card" style="margin-top: 10px;height: 60px" shadow="never">
       <el-row>
         <el-form ref="getemplist" :model="getemplist" label-width="100px" style="margin-top: -9px">
-          <el-col :span="5">
+          <el-col :span="4">
             <el-form-item :label="$t('stockOrderCount.type')">
-              <el-select v-model="getemplist.type" :value="getemplist.type" @keyup.enter.native="handleFilter" @change="changeName">
+              <el-select v-model="getemplist.type" :value="getemplist.type" style="width: 100px" @keyup.enter.native="handleFilter" @change="changeName">
                 <el-option value="1" label="仓库"/>
                 <el-option value="2" label="供应商"/>
                 <el-option value="3" label="类别"/>
@@ -15,13 +15,13 @@
               </el-select>
             </el-form-item>
           </el-col>
-          <el-col :span="5">
+          <el-col :span="4" style="margin-left: 35px">
             <el-form-item label="门店">
               <el-input v-model="repositoryId" class="filter-item" clearable @keyup.enter.native="handleFilter" @focus="handlechooseRep"/>
               <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
             </el-form-item>
           </el-col>
-          <el-col :span="5" style="margin-left: 47px">
+          <el-col :span="4" style="margin-left: 80px">
             <el-form-item :label="$t('stockOrderCount.date')">
               <el-date-picker
                 v-model="date"
@@ -29,10 +29,10 @@
                 range-separator="-"
                 unlink-panels
                 value-format="yyyy-MM-dd"
-                style="margin-left: 70px"/>
+                style="width: 250px"/>
             </el-form-item>
           </el-col>
-          <el-col :span="3" style="margin-left: 252px">
+          <el-col :span="4" style="margin-left: 210px">
             <!-- 搜索按钮 -->
             <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 86px" round @click="handleFilter">{{ $t('public.search') }}</el-button>
           </el-col>
@@ -487,7 +487,7 @@ export default {
   }
   .filter-item{
     width: 140px;
-    margin-left: 30px;
+    margin-left: 0px;
   }
   .normal >>> .el-dialog__header {
     padding: 20px 20px 10px;

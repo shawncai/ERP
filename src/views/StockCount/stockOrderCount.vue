@@ -24,7 +24,7 @@
                 style="margin-left: 70px"/>
             </el-form-item>
           </el-col>
-          <el-col :span="3" style="margin-left: 400px">
+          <el-col :span="3" style="margin-left: 360px">
             <!-- 搜索按钮 -->
             <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 86px" round @click="handleFilter">{{ $t('public.search') }}</el-button>
           </el-col>
@@ -433,7 +433,7 @@ export default {
   }
   .filter-item{
     width: 140px;
-    margin-left: 30px;
+    margin-left: 20px;
   }
   .normal >>> .el-dialog__header {
     padding: 20px 20px 10px;

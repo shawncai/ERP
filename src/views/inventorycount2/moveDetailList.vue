@@ -3,35 +3,36 @@
     <el-card class="box-card" style="margin-top: 10px;height: 60px" shadow="never">
       <el-form ref="getemplist" :model="getemplist" label-width="70px" style="margin-top: -9px">
         <el-row>
-          <el-col :span="4" style="margin-left: 15px">
+          <el-col :span="3" style="margin-left: 15px">
             <el-form-item label="调出仓库">
               <el-input v-model="outRepositoryId" class="filter-item" clearable @keyup.enter.native="handleFilter" @focus="handlechooseRep"/>
               <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
             </el-form-item>
           </el-col>
-          <el-col :span="4" style="margin-left: 50px">
+          <el-col :span="3" style="margin-left: 100px">
             <el-form-item label="调入仓库">
               <el-input v-model="enterRepositoryId" class="filter-item" clearable @keyup.enter.native="handleFilter" @focus="handlechooseRep2"/>
               <my-repository :repositorycontrol.sync="repositorycontrol2" @repositoryname="repositoryname2"/>
             </el-form-item>
           </el-col>
-          <el-col :span="4" style="margin-left: 50px">
+          <el-col :span="3" style="margin-left: 100px">
             <el-form-item label="分类">
-              <el-input v-model="categoryId" placeholder="物品分类" clearable @focus="treechoose"/>
+              <el-input v-model="categoryId" placeholder="物品分类" style="width: 100px" clearable @focus="treechoose"/>
               <my-tree :treecontrol.sync="treecontrol" @tree="tree"/>
             </el-form-item>
           </el-col>
-          <el-col :span="4" style="margin-left: 20px">
+          <el-col :span="3" style="margin-left: 50px">
             <el-form-item label="日期">
               <el-date-picker
                 v-model="date"
                 type="date"
+                style="width: 130px"
                 placeholder="选择日期"
                 value-format="yyyy-MM-dd"
               />
             </el-form-item>
           </el-col>
-          <el-col :span="4" style="margin-left: 70px">
+          <el-col :span="3" style="margin-left: 100px">
             <!-- 搜索按钮 -->
             <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 86px" round @click="handleFilter">{{ $t('public.search') }}</el-button>
           </el-col>
@@ -471,7 +472,7 @@ export default {
   }
   .filter-item{
     width: 140px;
-    margin-left: 30px;
+    margin-left: 0px;
   }
   .normal >>> .el-dialog__header {
     padding: 20px 20px 10px;

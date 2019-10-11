@@ -12,18 +12,18 @@
                 placeholder="选择月"/>
             </el-form-item>
           </el-col>
-          <el-col :span="4" style="margin-left: 120px">
+          <el-col :span="4" style="margin-left: 140px">
             <el-form-item label="门店">
               <el-input v-model="repositoryId" class="filter-item" @keyup.enter.native="handleFilter" @focus="handlechooseRep"/>
               <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
             </el-form-item>
           </el-col>
-          <el-col :span="4" style="margin-left: 60px">
+          <el-col :span="4" style="margin-left: 70px">
             <el-form-item label="物品编码">
               <el-input v-model="getemplist.code" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
-          <el-col :span="4" style="margin-left: 60px">
+          <el-col :span="4" style="margin-left: 70px">
             <!-- 搜索按钮 -->
             <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 86px" round @click="handleFilter">{{ $t('public.search') }}</el-button>
           </el-col>
@@ -604,7 +604,7 @@ export default {
   }
   .filter-item{
     width: 140px;
-    margin-left: 30px;
+    margin-left: 20px;
   }
   .normal >>> .el-dialog__header {
     padding: 20px 20px 10px;

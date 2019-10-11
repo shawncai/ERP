@@ -6,12 +6,12 @@
         <el-row>
           <el-col :span="3">
             <el-form-item label="物品名称">
-              <el-input v-model="getemplist.productName" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
+              <el-input v-model="getemplist.productName" style="width: 100px" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
           <el-col :span="3" style="margin-left: 100px">
             <el-form-item label="采购类别">
-              <el-select v-model="getemplist.stockType" clearable>
+              <el-select v-model="getemplist.stockType" style="width: 100px" clearable>
                 <el-option
                   v-for="(item, index) in types"
                   :key="index"
@@ -21,9 +21,9 @@
               </el-select>
             </el-form-item>
           </el-col>
-          <el-col :span="4" style="margin-left: 40px">
+          <el-col :span="4" style="margin-left: 60px">
             <el-form-item :label="$t('stockOrderCount.type')">
-              <el-select v-model="getemplist.type" :value="getemplist.type" @keyup.enter.native="handleFilter" @change="changeName">
+              <el-select v-model="getemplist.type" :value="getemplist.type" style="width: 100px" @keyup.enter.native="handleFilter" @change="changeName">
                 <el-option value="1" label="供应商类别分组"/>
                 <el-option value="2" label="物品类别"/>
                 <el-option value="3" label="供应商分组"/>
@@ -31,7 +31,7 @@
               </el-select>
             </el-form-item>
           </el-col>
-          <el-col :span="3" style="margin-left: 80px">
+          <el-col :span="3" style="margin-left: 20px">
             <el-form-item label="日期">
               <el-date-picker
                 v-model="date"
@@ -39,7 +39,7 @@
                 range-separator="-"
                 unlink-panels
                 value-format="yyyy-MM-dd"
-                style="margin-left: 70px"/>
+                style="width: 250px"/>
             </el-form-item>
           </el-col>
         </el-row>
@@ -543,7 +543,7 @@ export default {
   }
   .filter-item{
     width: 140px;
-    margin-left: 30px;
+    margin-left: 0px;
   }
   .normal >>> .el-dialog__header {
     padding: 20px 20px 10px;

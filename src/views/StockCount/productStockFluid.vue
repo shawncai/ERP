@@ -3,27 +3,27 @@
     <el-card class="box-card" style="margin-top: 10px;height: 60px" shadow="never">
       <el-row>
         <el-form ref="getemplist" :model="getemplist" label-width="70px" style="margin-top: -9px">
-          <el-col :span="3" style="margin-left: 10px">
+          <el-col :span="3">
             <el-form-item label="状态">
-              <el-select v-model="getemplist.receiptType" :value="getemplist.type" clearable @keyup.enter.native="handleFilter">
+              <el-select v-model="getemplist.receiptType" :value="getemplist.type" style="width: 100px" clearable @keyup.enter.native="handleFilter">
                 <el-option value="1" label="已结"/>
                 <el-option value="2" label="未结清"/>
               </el-select>
             </el-form-item>
           </el-col>
-          <el-col :span="3" style="margin-left: 15px">
+          <el-col :span="3" style="margin-left: 45px">
             <el-form-item :label="$t('StockContract.supplierId')">
-              <el-input v-model="supplierId" @focus="handlechoose"/>
+              <el-input v-model="supplierId" style="width: 120px" @focus="handlechoose"/>
               <my-supplier :control.sync="empcontrol" @supplierName="supplierName"/>
             </el-form-item>
           </el-col>
-          <el-col :span="3" style="margin-left: 15px">
+          <el-col :span="3" style="margin-left: 65px">
             <el-form-item label="门店">
-              <el-input v-model="repositoryId" class="filter-item" clearable @keyup.enter.native="handleFilter" @focus="handlechooseRep"/>
+              <el-input v-model="repositoryId" style="width: 120px" class="filter-item" clearable @keyup.enter.native="handleFilter" @focus="handlechooseRep"/>
               <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
             </el-form-item>
           </el-col>
-          <el-col :span="4" style="margin-left: 100px">
+          <el-col :span="4" style="margin-left: 80px">
             <el-form-item :label="$t('stockOrderCount.date')">
               <el-date-picker
                 v-model="date"
@@ -31,10 +31,10 @@
                 range-separator="-"
                 unlink-panels
                 value-format="yyyy-MM-dd"
-                style="margin-left: 70px"/>
+                style="width: 250px"/>
             </el-form-item>
           </el-col>
-          <el-col :span="3" style="margin-left: 266px">
+          <el-col :span="3" style="margin-left: 150px">
             <!-- 搜索按钮 -->
             <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 86px" round @click="handleFilter">{{ $t('public.search') }}</el-button>
           </el-col>
@@ -487,7 +487,7 @@ export default {
   }
   .filter-item{
     width: 140px;
-    margin-left: 30px;
+    margin-left: 0px;
   }
   .normal >>> .el-dialog__header {
     padding: 20px 20px 10px;
