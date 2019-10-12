@@ -2877,6 +2877,98 @@ export const asyncRouterMap = [
     ]
   },
   {
+    path: '/SaleReport',
+    component: Layout,
+    redirect: 'noredirect',
+    name: 'SaleReport',
+    alwaysShow: true,
+    meta: {
+      title: 'SaleReport',
+      icon: 'shuxing',
+      type: 12
+    },
+    children: [
+      {
+        path: 'searchSaleOrderReport',
+        component: () => import('@/views/SaleReport/searchSaleOrderReport'),
+        name: 'searchSaleOrderReport',
+        meta: { title: 'searchSaleOrderReport', noCache: true }
+      },
+      {
+        path: 'searchSaleOrderDetailReport',
+        component: () => import('@/views/SaleReport/searchSaleOrderDetailReport'),
+        name: 'searchSaleOrderDetailReport',
+        meta: { title: 'searchSaleOrderDetailReport', noCache: true }
+      },
+      {
+        path: 'searchSaleReport',
+        component: () => import('@/views/SaleReport/searchSaleReport'),
+        name: 'searchSaleReport',
+        meta: { title: 'searchSaleReport', noCache: true }
+      },
+      {
+        path: 'saleBillList',
+        component: () => import('@/views/SaleReport/saleBillList'),
+        name: 'saleBillList',
+        meta: { title: 'saleBillList', noCache: true }
+      },
+      {
+        path: 'saleBillDay',
+        component: () => import('@/views/SaleReport/saleBillDay'),
+        name: 'saleBillDay',
+        meta: { title: 'saleBillDay', noCache: true }
+      },
+      {
+        path: 'saleReceipt',
+        component: () => import('@/views/SaleReport/saleReceipt'),
+        name: 'saleReceipt',
+        meta: { title: 'saleReceipt', noCache: true }
+      },
+      {
+        path: 'saleFlow',
+        component: () => import('@/views/SaleReport/saleFlow'),
+        name: 'saleFlow',
+        meta: { title: 'saleFlow', noCache: true }
+      },
+      {
+        path: 'unsalableProduct',
+        component: () => import('@/views/SaleReport/unsalableProduct'),
+        name: 'unsalableProduct',
+        meta: { title: 'unsalableProduct', noCache: true }
+      },
+      {
+        path: 'empCommission',
+        component: () => import('@/views/SaleReport/empCommission'),
+        name: 'empCommission',
+        meta: { title: 'empCommission', noCache: true }
+      },
+      {
+        path: 'supplierSale',
+        component: () => import('@/views/SaleReport/supplierSale'),
+        name: 'supplierSale',
+        meta: { title: 'supplierSale', noCache: true }
+      },
+      {
+        path: 'saleFluid',
+        component: () => import('@/views/SaleReport/saleFluid'),
+        name: 'saleFluid',
+        meta: { title: 'saleFluid', noCache: true }
+      },
+      {
+        path: 'saleGiftList',
+        component: () => import('@/views/SaleReport/saleGiftList'),
+        name: 'saleGiftList',
+        meta: { title: 'saleGiftList', noCache: true }
+      },
+      {
+        path: 'giftDetailList',
+        component: () => import('@/views/SaleReport/giftDetailList'),
+        name: 'giftDetailList',
+        meta: { title: 'giftDetailList', noCache: true }
+      }
+    ]
+  },
+  {
     path: '/Stockcount',
     component: Layout,
     redirect: 'noredirect',
