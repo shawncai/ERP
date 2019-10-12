@@ -246,11 +246,11 @@
                   <el-input v-model="allMoneyMoveDiscount" style="margin-left: 18px;width:200px" disabled/>
                 </el-form-item>
               </el-col>
-              <el-col :span="6">
+              <!-- <el-col :span="6">
                 <el-form-item label="其他费用支出合计" style="width: 100%;">
                   <el-input v-model="personalForm.otherMoney" style="margin-left: 18px;width:200px"/>
                 </el-form-item>
-              </el-col>
+              </el-col> -->
             </el-row>
           </el-form>
         </div>
@@ -488,6 +488,7 @@ export default {
       }
       var currentdate = year + seperator1 + month + seperator1 + strDate
       this.personalForm.arrivalDate = currentdate
+      this.personalForm.arrivalDate = currentdate
       searchCategory(7).then(res => {
         if (res.data.ret === 200) {
           this.payModes = res.data.data.content.list
@@ -634,7 +635,6 @@ export default {
       this.personalForm.sourceNumber = val.orderNumber
       this.personalForm.supplierId = val.supplierId
       this.supplierId = val.supplierName
-      this.allOthermoney = val.otherMoney
       this.personalForm.stockPersonId = val.stockPersonId
       this.stockPersonId = val.stockPersonName
     },
@@ -672,6 +672,9 @@ export default {
       this.supp = val.id
       this.supplierId = val.supplierName
       this.personalForm.supplierId = val.id
+      this.personalForm.deliveryMode = val.deliveryMode
+      this.personalForm.settleMode = val.settleMode
+      this.personalForm.payMode = val.payMode
       if (val.giveId !== null && val.giveId !== '' && val.giveId !== undefined) {
         this.personalForm.deliveryMode = val.giveId
       }

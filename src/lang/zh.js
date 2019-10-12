@@ -1499,7 +1499,8 @@ export default {
     planDate: '计划日期',
     heji1: '合计金额',
     heji2: '合计数量',
-    allMoney: '预控金额'
+    allMoney: '预控金额',
+    isused: '是否被调用'
   },
   StockInquiry: {
     inquiryTitle: '采购询价主题',

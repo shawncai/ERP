@@ -163,11 +163,11 @@
                   <span> {{ personalForm.allIncludeTaxDiscountMoney }} </span>
                 </el-form-item>
               </el-col>
-              <el-col :span="12">
+              <!-- <el-col :span="12">
                 <el-form-item label="其他费用支出合计" style="width: 100%;">
                   <span> {{ personalForm.otherMoney }} </span>
                 </el-form-item>
-              </el-col>
+              </el-col> -->
             </el-row>
           </el-form>
         </div>
