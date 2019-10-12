@@ -342,6 +342,8 @@ export default {
           return time.getTime() < new Date().getTime() - 8.64e7
         }
       },
+      // 采购数量
+      arrivalNumber: 0,
       // 控制是否可以从源单选择
       IsSourceNumber: false,
       // 带入的供应商
@@ -524,14 +526,14 @@ export default {
       sums[4] = ''
       sums[5] = ''
       sums[6] = ''
-      sums[8] = ''
       sums[9] = ''
       sums[10] = ''
       sums[15] = ''
       sums[17] = ''
       sums[18] = ''
       sums[19] = ''
-      this.allNumber = sums[7]
+      this.arrivalNumber = sums[7]
+      this.allNumber = sums[8]
       this.allMoney = sums[12]
       this.allTaxMoney = sums[14]
       this.allIncludeTaxMoney = sums[13]
@@ -910,27 +912,41 @@ export default {
             return false
           }
           this.$refs.editable.validate().then(valid => {
-            createstockArrival(parms, parms2, this.personalForm).then(res => {
-              console.log(res)
-              if (res.data.ret === 200) {
-                this.$notify({
-                  title: '成功',
-                  message: '保存成功',
-                  type: 'success',
-                  offset: 100
+            if (this.arrivalNumber > this.allNumber) {
+              this.$confirm('到货数量小于采购数量, 是否继续保存?', '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning'
+              }).then(() => {
+                createstockArrival(parms, parms2, this.personalForm).then(res => {
+                  console.log(res)
+                  if (res.data.ret === 200) {
+                    this.$notify({
+                      title: '成功',
+                      message: '保存成功',
+                      type: 'success',
+                      offset: 100
+                    })
+                    this.restAllForm()
+                    this.$refs.editable.clear()
+                    this.$refs.personalForm.clearValidate()
+                    this.$refs.personalForm.resetFields()
+                  } else {
+                    this.$notify.error({
+                      title: '错误',
+                      message: res.data.msg,
+                      offset: 100
+                    })
+                  }
                 })
-                this.restAllForm()
-                this.$refs.editable.clear()
-                this.$refs.personalForm.clearValidate()
-                this.$refs.personalForm.resetFields()
-              } else {
-                this.$notify.error({
-                  title: '错误',
-                  message: res.data.msg,
-                  offset: 100
+              }).catch(() => {
+                this.$message({
+                  type: 'info',
+                  message: '已取消保存'
                 })
-              }
-            })
+                return false
+              })
+            }
           }).catch(valid => {
             console.log('error submit!!')
           })

@@ -81,7 +81,6 @@
         fit
         highlight-current-row
         style="width: 100%;"
-        @current-change="handleCurrentChange"
         @selection-change="handleSelectionChange">
         <el-table-column
           type="selection"
@@ -360,10 +359,6 @@ export default {
     handleAdd() {
       this.$router.push('/StockOrder/AddStockOrder')
     },
-    // 选择主生产计划数据时的操作
-    handleCurrentChange(val) {
-      this.choosedata = val
-    },
     // 确认添加数据
     async handleConfirm() {
       this.employeeVisible = false
@@ -371,9 +366,12 @@ export default {
       console.log(this.moreaction)
       // const orderdata = this.choosedata.stockOrderDetailVos
       const orderdata = []
-      const number = this.choosedata.orderNumber
-      for (const i in this.moreaction) {
-        orderdata.push(this.moreaction[i].stockOrderDetailVos)
+      // const number = this.choosedata.orderNumber
+      for (let i = 0; i < this.moreaction.length; i++) {
+        for (let j = 0; j < this.moreaction[i].stockOrderDetailVos.length; j++) {
+          this.moreaction[i].stockOrderDetailVos[j].sourceNumber = this.moreaction[i].orderNumber
+          orderdata.push(this.moreaction[i].stockOrderDetailVos[j])
+        }
       }
       const orderDetail = orderdata.map(function(item) {
         return {
@@ -384,21 +382,21 @@ export default {
           type: item.typeId,
           unit: item.unit,
           color: item.color,
-          stockQuantity: (item.stockQuantity).toFixed(2),
-          arrivalQuantity: (item.stockQuantity - item.arrivalQuantity + item.returnQuantity).toFixed(2),
+          stockQuantity: (Number(item.stockQuantity)).toFixed(2),
+          arrivalQuantity: (Number(item.stockQuantity) - Number(item.arrivalQuantity) + Number(item.returnQuantity)).toFixed(2),
           allarrivalQuantity: item.arrivalQuantity,
           returnQuantity: item.returnQuantity,
           giveDate: item.deliveryDate,
-          price: (item.price).toFixed(2),
+          price: (Number(item.price)).toFixed(2),
           includeTaxPrice: item.includeTaxPrice,
-          taxRate: (item.taxRate).toFixed(2),
+          taxRate: (Number(item.taxRate)).toFixed(2),
           money: item.money,
           includeTaxMoney: item.includeTaxMoney,
           taxMoney: item.tax,
-          discountRate: (item.discountRate).toFixed(2),
-          discountMoney: (item.discountMoney).toFixed(2),
+          discountRate: (Number(item.discountRate)).toFixed(2),
+          discountMoney: (Number(item.discountMoney)).toFixed(2),
           remark: item.remarks,
-          sourceNumber: number,
+          sourceNumber: item.sourceNumber,
           sourceSerialNumber: item.id,
           hadStorageQuantity: 0,
           reportCheckingQuantity: 0,
@@ -409,7 +407,7 @@ export default {
       })
       console.log(orderDetail)
       this.$emit('order', orderDetail)
-      this.$emit('allOrderinfo', this.choosedata)
+      this.$emit('allOrderinfo', this.moreaction[0])
     }
     // 仓库管理员选择结束
   }
