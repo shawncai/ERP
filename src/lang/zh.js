@@ -358,6 +358,22 @@ export default {
     saleGiftList: '赠品汇总表',
     giftDetailList: '赠品统计明细表'
   },
+  searchSaleReport: {
+    saleOut: '销售出库',
+    saleReturn: '销售退货',
+    actualSale: '实际销售',
+    money: '金额',
+    taxMoney: '税额',
+    discountMoney: '折扣额',
+    totalMoney: '合计'
+  },
+  searchSaleOrderDetailReport: {
+    productCategoryName: '种类',
+    productCode: '物品编号',
+    productName: '物品名称',
+    productTypeName: '型号规格',
+    quantity: '数量'
+  },
   searchSaleOrderReport: {
     id: '序号',
     name: '名称',

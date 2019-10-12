@@ -1,6 +1,7 @@
 <template>
   <div class="ERP-container">
     <el-card class="box-card" style="margin-top: 10px;height: 60px" shadow="never">
+
       <el-form ref="getemplist" :model="getemplist" label-width="70px" style="margin-top: -9px">
         <el-row>
           <el-col :span="3">
@@ -53,67 +54,50 @@
         border
         style="width: 100%">
         <el-table-column
-          :label="first"
-          prop="name"
-          width="300"
+          :label="$t('searchSaleOrderDetailReport.productCode')"
+          prop="productCode"
+          width="240"
           align="center"/>
         <el-table-column
-          v-if="second"
-          label="物品类别"
-          prop="productCategory"
-          width="300"
+          :label="$t('searchSaleOrderDetailReport.productName')"
+          prop="productName"
+          width="240"
           align="center"/>
         <el-table-column
-          :label="$t('stockDetailCount.unit')"
-          prop="unit"
-          width="200"
+          :label="$t('searchSaleOrderDetailReport.productTypeName')"
+          prop="productTypeName"
+          width="240"
           align="center"/>
-        <el-table-column :label="$t('stockOrderExecute.orderNum')" align="center">
-          <el-table-column
-            :label="$t('stockOrderCount.orderQuantity')"
-            prop="orderQuantity"
-            width="200"
-            align="center"/>
-          <el-table-column
-            :label="$t('stockOrderExecute.price')"
-            prop="orderPrice"
-            width="200"
-            align="center"/>
-          <el-table-column
-            :label="$t('stockOrderCount.totalMoney')"
-            prop="orderMoney"
-            width="200"
-            align="center"/>
-        </el-table-column>
-        <el-table-column :label="$t('stockTrackList.enterQuantity')" align="center">
-          <el-table-column
-            :label="$t('stockDetailCount.unit')"
-            prop="unit"
-            width="200"
-            align="center"/>
-          <el-table-column
-            :label="$t('stockOrderCount.orderQuantity')"
-            prop="enterQuantity"
-            width="200"
-            align="center"/>
-        </el-table-column>
-        <el-table-column :label="$t('stockTrackList.notenterQuantity')" align="center">
-          <el-table-column
-            :label="$t('stockDetailCount.unit')"
-            prop="unit"
-            width="200"
-            align="center"/>
-          <el-table-column
-            :label="$t('stockOrderCount.orderQuantity')"
-            prop="quantity2"
-            width="200"
-            align="center"/>
-        </el-table-column>
-        <!-- <el-table-column
-          :label="$t('stockBillCount.retreatrate')"
-          prop="arrivedQuantity"
-          width="200"
-          align="center"/> -->
+        <el-table-column
+          :label="$t('searchSaleOrderDetailReport.productCategoryName')"
+          prop="productCategoryName"
+          width="240"
+          align="center"/>
+        <el-table-column
+          :label="$t('searchSaleOrderDetailReport.quantity')"
+          prop="quantity"
+          width="240"
+          align="center"/>
+        <el-table-column
+          :label="$t('searchSaleOrderReport.money')"
+          prop="money"
+          width="240"
+          align="center"/>
+        <el-table-column
+          :label="$t('searchSaleOrderReport.discountMoney')"
+          prop="discountMoney"
+          width="240"
+          align="center"/>
+        <el-table-column
+          :label="$t('searchSaleOrderReport.taxMoney')"
+          prop="taxMoney"
+          width="240"
+          align="center"/>
+        <el-table-column
+          :label="$t('searchSaleOrderReport.actualMoney')"
+          prop="actualMoney"
+          width="240"
+          align="center"/>
       </el-table>
       <!-- 列表结束 -->
       <pagination v-show="total>0" :total="total" :page.sync="getemplist.pageNum" :limit.sync="getemplist.pageSize" @pagination="getlist" />
@@ -122,8 +106,8 @@
 </template>
 
 <script>
-import { searchStockCategory } from '@/api/StockCategory'
-import { stockOrderExecute } from '@/api/count'
+import { searchEmpCategory2 } from '@/api/Product'
+import { searchSaleOrderDetailReport } from '@/api/count'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination'
 import permission from '@/directive/permission/index.js' // 权限判断指令
@@ -139,7 +123,7 @@ import MyTree from './components/MyTree'
 import MySupplier from './components/MySupplier'
 
 export default {
-  name: 'StockOrderCount',
+  name: 'SearchSaleOrderDetailReport',
   directives: { waves, permission, permission2 },
   components: { MyDialog, DetailList, MyRepository, MySupplier, MyEmp, MyCustomer, MyTree, MyAgent, Pagination },
   filters: {
@@ -242,7 +226,7 @@ export default {
       getemplist: {
         pageNum: 1,
         pageSize: 10,
-        type: '1'
+        type: '3'
       },
       // 传给组件的数据
       personalForm: {},
@@ -270,15 +254,15 @@ export default {
         this.second = false
       }
       if (this.getemplist.type === '2') {
-        this.first = '物品类别'
+        this.first = '客户'
         this.second = false
       }
       if (this.getemplist.type === '3') {
-        this.first = '供应商分组'
+        this.first = '员工'
         this.second = false
       }
       if (this.getemplist.type === '4') {
-        this.first = '供应商'
+        this.first = '门店'
         this.second = true
       }
       this.getlist()
@@ -323,35 +307,16 @@ export default {
       para.type = 1
       para.pagenum = 1
       para.pagesize = 999
-      searchStockCategory(para).then(res => {
+      searchEmpCategory2(2).then(res => {
         if (res.data.ret === 200) {
           this.types = res.data.data.content.list
         }
       })
       // 物料需求计划列表数据
       this.listLoading = true
-      stockOrderExecute(this.getemplist).then(res => {
+      searchSaleOrderDetailReport(this.getemplist).then(res => {
         if (res.data.ret === 200) {
-          this.list = res.data.data.content.list
-          for (let i = 0; i < this.list.length; i++) {
-            if (this.list[i].productCategory === null) {
-              this.list[i].productCategory = ''
-            }
-            this.list[i].quantity2 = (this.list[i].orderQuantity - this.list[i].enterQuantity).toFixed(2)
-            if (this.getemplist.type === '1') {
-              this.list[i].name = this.list[i].supplierTypeName
-            }
-            if (this.getemplist.type === '2') {
-              this.list[i].name = this.list[i].productCategory
-            }
-            if (this.getemplist.type === '3') {
-              this.list[i].name = this.list[i].supplierName
-            }
-            if (this.getemplist.type === '4') {
-              this.list[i].name = this.list[i].supplierName
-            }
-            this.list[i].heji = this.list[i].totalMoney + this.list[i].taxMoney
-          }
+          this.list = res.data.data.content
           this.total = res.data.data.content.totalCount
         }
         setTimeout(() => {
@@ -378,35 +343,19 @@ export default {
         this.getemplist.beginTime = this.date[0]
         this.getemplist.endTime = this.date[1]
       }
-      stockOrderExecute(this.getemplist).then(res => {
+      searchSaleOrderDetailReport(this.getemplist).then(res => {
         if (res.data.ret === 200) {
-          this.list = res.data.data.content.list
-          for (let i = 0; i < this.list.length; i++) {
-            for (let i = 0; i < this.list.length; i++) {
-              if (this.list[i].productCategory === null) {
-                this.list[i].productCategory = ''
-              }
-              if (this.getemplist.type === '1') {
-                this.list[i].name = this.list[i].supplierTypeName
-              }
-              if (this.getemplist.type === '2') {
-                this.list[i].name = this.list[i].productCategory
-              }
-              if (this.getemplist.type === '3') {
-                this.list[i].name = this.list[i].supplierName
-              }
-              if (this.getemplist.type === '4') {
-                this.list[i].name = this.list[i].supplierName
-              }
-              this.list[i].heji = this.list[i].totalMoney + this.list[i].taxMoney
-            }
-          }
+          this.list = res.data.data.content
           this.total = res.data.data.content.totalCount
           this.restFilter()
         } else {
           this.restFilter()
         }
       })
+      this.productCategory = ''
+      this.getemplist.productCategory = ''
+      this.repositoryId = ''
+      this.getemplist.repositoryId = ''
     },
     // 采购人focus事件
     handlechooseStock() {
