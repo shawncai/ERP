@@ -177,7 +177,7 @@
             <el-steps :space="200" style="width: 150%;" finish-status="success">
               <el-step :status="step1" title="采购申请"/>
               <el-step :status="step2" title="采购计划"/>
-              <!-- <el-step :status="step3" title="采购询价"/> -->
+              <el-step :status="step3" title="采购询价"/>
               <el-step :status="step4" title="采购订单"/>
               <el-step :status="step5" title="采购到货"/>
               <el-step :status="step6" title="质检"/>

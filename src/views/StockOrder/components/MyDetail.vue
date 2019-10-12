@@ -278,7 +278,8 @@ export default {
           remark: 0,
           orderedQuantity: 0,
           returnQuantity: 0,
-          actualArrivalQuantity: 0
+          actualArrivalQuantity: 0,
+          discountRate: 100
         }
       })
       console.log(productDetail)

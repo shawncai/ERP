@@ -344,7 +344,7 @@ export default {
           sourceNumber: number,
           sourceSerialNumber: item.id,
           remark: 0,
-          discountRate: 0,
+          discountRate: 100,
           discountMoney: 0,
           arrivalQuantity: '0.00',
           price: item.basicPrice,

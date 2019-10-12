@@ -100,8 +100,8 @@
                 <el-form-item :label="$t('StockArrival.deliveryModeId')" style="width: 100%;">
                   <el-select v-model="personalForm.deliveryMode" clearable style="margin-left: 18px;width: 200px">
                     <el-option
-                      v-for="(item, index) in giveIds"
-                      :key="index"
+                      v-for="item in giveIds"
+                      :key="item.id"
                       :label="item.categoryName"
                       :value="item.id"
                     />
@@ -112,8 +112,8 @@
                 <el-form-item :label="$t('Supplier.payMode')" style="width: 100%;">
                   <el-select v-model="personalForm.payMode" clearable style="margin-left: 18px;width: 200px">
                     <el-option
-                      v-for="(item, index) in payModes"
-                      :key="index"
+                      v-for="item in payModes"
+                      :key="item.id"
                       :label="item.categoryName"
                       :value="item.id"
                     />
@@ -405,7 +405,11 @@ export default {
         isVat: 1,
         sourceType: '1',
         currencyId: '1',
-        arrivalDate: null
+        arrivalDate: null,
+        deliveryMode: '',
+        payMode: '',
+        settleMode: '',
+        stockTypeId: ''
       },
       // 采购申请单规则数据
       personalrules: {
@@ -639,6 +643,7 @@ export default {
       this.supplierId = val.supplierName
       this.personalForm.stockPersonId = val.stockPersonId
       this.stockPersonId = val.stockPersonName
+      this.personalForm.stockTypeId = val.stockTypeId
     },
     // 更新类型
     updatecountry() {

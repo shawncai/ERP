@@ -609,13 +609,13 @@ export default {
         printable: arr,
         type: 'json',
         properties: [
-          { field: 'step', displayName: '行号', columnSize: `100px` },
-          { field: 'productCode', displayName: '物料代码', columnSize: `100px` },
-          { field: 'productName', displayName: '物料名称', columnSize: `100px` },
+          { field: 'step', displayName: '行号', columnSize: `50px` },
+          { field: 'productCode', displayName: '物料代码', columnSize: `200px` },
+          { field: 'productName', displayName: '物料名称', columnSize: `50px` },
           { field: 'typeName', displayName: '规格型号', columnSize: `100px` },
           { field: 'unit', displayName: '单位', columnSize: `100px` },
-          { field: 'stockQuantity', displayName: '采购数量', columnSize: `100px` },
-          { field: 'arrivalQuantity', displayName: '到货数量', columnSize: `100px` },
+          { field: 'stockQuantity', displayName: '到货数量', columnSize: `100px` },
+          { field: 'arrivalQuantity', displayName: '合格数量', columnSize: `100px` },
           { field: 'remark', displayName: '备注', columnSize: `100px` }
         ],
         header: `<div class="pringtitle">
@@ -642,6 +642,8 @@ export default {
                         </div>`,
         bottom: `<div>
                   <div class="allmoney" style="display: flex;justify-content: space-around;width: 99%;height: 40px;align-items: center;border:1px solid;border-top: none;padding-right: 1%">
+                  <div class="allmoneyname" style="margin-right: 10%">合计</div>
+                  <div class="allmoneynum" style="width: 10%;border-left: 1px solid; border-right: 1px solid;height: 40px;display: flex;align-items: center;justify-content: center;">${this.personalForm.allQuantity}</div>
                   </div>
                   <div class="printbottom" style="display: flex;align-items: center;justify-content: center;width: 100%;margin-top: 20px">
                     <div class="bottomitem" style="width: 25%;display: flex;align-items: center;justify-content: center;flex-wrap: nowrap">
@@ -676,7 +678,7 @@ export default {
           '.itemname { width: 40% }' +
           '.itemcontent {width: 80%}',
         gridHeaderStyle: 'font-size:12px; padding:3px; border:1px solid; color: #000; text-align:center;',
-        gridStyle: 'font-size:12px; padding:3px; border:1px solid; text-align:center;',
+        gridStyle: 'font-size:12px; padding:3px; border:1px solid; text-align:center; text-overflow:ellipsis; white-space:nowrap;',
         repeatTableHeader: true
       })
     }
