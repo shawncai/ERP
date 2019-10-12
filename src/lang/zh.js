@@ -342,7 +342,30 @@ export default {
     inventoryFluid: '商品库存流水表',
     productSendAndReceive: '物料收发汇总',
     inventorychangelist: '库存月报表',
-    inventorydetaillist: '商品库存明细表'
+    inventorydetaillist: '商品库存明细表',
+    SaleReport: '销售统计',
+    searchSaleOrderReport: '销售订单汇总表',
+    searchSaleOrderDetailReport: '销售订单明细汇总表',
+    searchSaleReport: '销售出库单汇总表',
+    saleBillList: '销售出库单明细表',
+    saleBillDay: '销售出库单日报表',
+    saleReceipt: '销售收款明细表',
+    saleFlow: '销售流向表',
+    unsalableProduct: '滞销商品明细表',
+    empCommission: '员工提成明细表',
+    supplierSale: '供应商销售分析',
+    saleFluid: '商品销售流水账',
+    saleGiftList: '赠品汇总表',
+    giftDetailList: '赠品统计明细表'
+  },
+  searchSaleOrderReport: {
+    id: '序号',
+    name: '名称',
+    money: '金额',
+    discountMoney: '折扣额',
+    taxMoney: '税额',
+    otherMoney: '其他费用',
+    actualMoney: '净收'
   },
   inventorychangelist: {
     begin: '期初结存',
