@@ -671,7 +671,7 @@ export default {
           '.itemname { width: 15% }' +
           '.itemcontent {width: 80%}',
         gridHeaderStyle: 'font-size:12px; padding:3px; border:1px solid; color: #000; text-align:center;',
-        gridStyle: 'font-size:12px; padding:3px; border:1px solid; text-align:center;',
+        gridStyle: 'font-size:12px; padding:3px; border:1px solid; text-align:center; text-overflow:ellipsis; white-space:nowrap;',
         repeatTableHeader: true
       })
     }
