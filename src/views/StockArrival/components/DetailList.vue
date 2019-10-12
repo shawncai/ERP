@@ -599,6 +599,10 @@ export default {
       for (const i in arr) {
         arr[i].step = Number(i) + 1
       }
+      for (const i in arr) {
+        const temp = arr[i].productCode
+        arr[i].productCode = temp.split('-').join('')
+      }
       const handleperson = this.reviewList.map(item => {
         if (item.actualStepHandler) {
           return item.stepHandlerName
