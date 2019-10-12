@@ -137,6 +137,12 @@
             <span>{{ scope.row.sourceType | sourceTypeFilter }}</span>
           </template>
         </el-table-column>
+        <el-table-column :label="$t('StockPlan.isused')" :resizable="false" align="center" min-width="150">
+          <template slot-scope="scope">
+            <span v-if="scope.row.isused">已调用</span>
+            <span v-else>未调用</span>
+          </template>
+        </el-table-column>
         <el-table-column :label="$t('public.judgeStat')" :resizable="false" prop="judgeStat" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.judgeStat | judgeStatFilter }}</span>
@@ -185,6 +191,7 @@
 
 <script>
 import { stockplanlist, deletestockplan, updatestockplan2 } from '@/api/StockPlan'
+import { stockorderlist2 } from '@/api/StockOrder'
 import { checkReceiptPlan } from '@/api/public'
 import { getdeptlist } from '@/api/BasicSettings'
 import { searchStockCategory } from '@/api/StockCategory'
@@ -506,18 +513,30 @@ export default {
     updatecountry() {
       this.getlist()
     },
-    getlist() {
+    async getlist() {
+      const regionIds = this.$store.getters.regionId
+      // 数据待处理
       // 物料需求计划列表数据
       this.listLoading = true
-      stockplanlist(this.getemplist).then(res => {
-        if (res.data.ret === 200) {
-          this.list = res.data.data.content.list
-          this.total = res.data.data.content.totalCount
+      const needdata = await (stockplanlist(this.getemplist).then(res => {
+        return res
+      }))
+      const processdata = needdata.data.data.content.list
+      this.total = needdata.data.data.content.totalCount
+      const lists = await Promise.all(processdata.map((item) => {
+        return stockorderlist2({
+          sourceNumber: item.sourceNumber,
+          regionIds
+        })
+      }))
+      for (let i = 0; i < lists.length; i++) {
+        if (lists[i].data.data.content.list.length > 0) {
+          processdata[i].isused = 1
         }
-        setTimeout(() => {
-          this.listLoading = false
-        }, 0.5 * 100)
-      })
+      }
+      this.list = processdata
+      this.listLoading = false
+      console.log('数据数据数据', processdata)
       // 部门列表数据
       getdeptlist().then(res => {
         if (res.data.ret === 200) {

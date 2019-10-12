@@ -36,7 +36,7 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('StockOrder.stockType')" prop="stockType" style="width: 100%;">
-                  <el-select v-model="personalForm.stockTypeId" style="margin-left: 18px;width: 200px" @focus="updatecountry">
+                  <el-select v-model="personalForm.stockTypeId" :disabled="isedit" style="margin-left: 18px;width: 200px" @focus="updatecountry">
                     <el-option
                       v-for="(item, index) in types"
                       :key="index"
@@ -47,7 +47,7 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('StockOrder.deptId')" prop="deptId" style="width: 100%;">
-                  <el-select v-model="personalForm.deptId" style="margin-left: 18px;width: 200px" @change="change()">
+                  <el-select v-model="personalForm.deptId" :disabled="isedit" style="margin-left: 18px;width: 200px" @change="change()">
                     <el-option
                       v-for="(item, index) in depts"
                       :key="index"
@@ -118,17 +118,22 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('StockOrder.currency')" prop="currency" style="width: 100%;">
-                  <el-select v-model="personalForm.currency" :disabled="IsCurrency" clearable style="margin-left: 18px;width: 200px">
+                  <el-select v-model="personalForm.currency" :disabled="IsCurrency" clearable style="margin-left: 18px;width: 200px" @change="changeRate">
                     <el-option value="1" label="RMB"/>
                     <el-option value="2" label="USD"/>
                   </el-select>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
+                <el-form-item :label="$t('Recycling.exchangeRate')" style="width: 100%;">
+                  <el-input v-model="personalForm.exchangeRate" style="margin-left: 18px;width:200px" disabled/>
+                </el-form-item>
+              </el-col>
+              <!-- <el-col :span="6">
                 <el-form-item :label="$t('StockOrder.supplierNumber')" style="width: 100%;">
                   <el-input v-model="personalForm.supplierNumber" style="margin-left: 18px;width:200px" clearable/>
                 </el-form-item>
-              </el-col>
+              </el-col> -->
             </el-row>
           </el-form>
         </div>
@@ -168,7 +173,16 @@
             <el-editable-column prop="productType" align="center" label="规格" min-width="150px"/>
             <el-editable-column prop="color" align="center" label="颜色" min-width="150px"/>
             <el-editable-column prop="unit" align="center" label="单位" min-width="150px"/>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0, precision: 2}, type: 'visible'}" prop="stockQuantity" align="center" label="采购数量" min-width="150px"/>
+            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 1.00, precision: 2}, type: 'visible'}" prop="stockQuantity" align="center" label="采购数量" min-width="150px">
+              <template slot="edit" slot-scope="scope">
+                <el-input-number
+                  :precision="2"
+                  :min="1.00"
+                  v-model="scope.row.stockQuantity"
+                  @focus="changenumber(scope.row)"
+                  @keyup.enter.native="test(scope.row)"/>
+              </template>
+            </el-editable-column>
             <el-editable-column :edit-render="{name: 'ElDatePicker', attrs: {type: 'date', format: 'yyyy-MM-dd'}, type: 'visible'}" prop="deliveryDate" align="center" label="交货日期" min-width="170px"/>
             <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="remarks" align="center" label="备注" width="150px"/>
             <!--            <el-editable-column prop="stockNumber" align="center" label="库存" min-width="150px"/>-->
@@ -323,7 +337,7 @@ import { addstockorder } from '@/api/StockOrder'
 import { getdeptlist } from '@/api/BasicSettings'
 import { searchStockCategory } from '@/api/StockCategory'
 import { searchCategory } from '@/api/Supplier'
-import { searchsupplier, countlist } from '@/api/public'
+import { searchsupplier, countlist, getRate } from '@/api/public'
 import MyEmp from './components/MyEmp'
 import MyDetail from './components/MyDetail'
 import MySupplier from './components/MySupplier'
@@ -374,6 +388,8 @@ export default {
           return time.getTime() < new Date().getTime() - 8.64e7
         }
       },
+      // 控制采购类型，采购部门是否可以编辑
+      isedit: false,
       priceabled: false,
       // 带入的供应商
       supp: null,
@@ -458,7 +474,9 @@ export default {
         isVat: 1,
         sourceType: '5',
         currency: '1',
-        orderDate: null
+        orderDate: null,
+        deptId: this.$store.getters.deptId,
+        exchangeRate: '1.0000'
       },
       // 采购申请单规则数据
       personalrules: {
@@ -500,6 +518,12 @@ export default {
         ],
         includeTaxPrice: [
           { required: true, message: '请输入含税价', trigger: 'blur' }
+        ],
+        stockQuantity: [
+          { required: true, message: '请输入采购数量', trigger: 'blur' }
+        ],
+        deliveryDate: [
+          { required: true, message: '请输入交货日期', trigger: 'blur' }
         ]
       },
       receiptVisible2: false,
@@ -517,6 +541,39 @@ export default {
     this.getinformation()
   },
   methods: {
+    // 处理汇率
+    changeRate() {
+      console.log(123)
+      if (this.personalForm.currency === '2') {
+        getRate(this.personalForm.currency).then(res => {
+          console.log(res)
+          if (res.data.ret === 200) {
+            // console.log('res.data.data.content', res.data.data.content)
+            this.personalForm.exchangeRate = res.data.data.content.rate
+          } else {
+            this.$notify.error({
+              title: '错误',
+              message: res.data.msg,
+              offset: 100
+            })
+          }
+        })
+      } else if (this.personalForm.currency === '1') {
+        this.personalForm.exchangeRate = '1.0000'
+      }
+    },
+    test(row) {
+      console.log(row.stockQuantity)
+      for (let i = 0; i < this.list2.length; i++) {
+        this.list2[i].temp = i
+      }
+      for (let i = row.temp; i < this.list2.length; i++) {
+        this.list2[i].stockQuantity = row.stockQuantity
+      }
+    },
+    changenumber(val) {
+      console.log(val)
+    },
     getinformation() {
       if (this.$store.getters.empcontract) {
         console.log('getempcontract', this.$store.getters.empcontract)
@@ -775,6 +832,7 @@ export default {
         this.IsSignPersonId = false
         this.currency = false
         this.IsSupplierId = false
+        this.isedit = false
         if (this.$refs.editable.getRecords().length !== 0) {
           const ceshi2 = this.$refs.editable.getRecords()
           console.log(ceshi2)
@@ -790,6 +848,15 @@ export default {
     handleAddSouce() {
       console.log(this.personalForm.supplierId)
       if (this.personalForm.sourceType === '1') {
+        if (this.stockPersonId !== '') {
+          this.IsStockPersonId = true
+        }
+        if (this.personalForm.stockTypeId !== '') {
+          this.isedit = true
+        }
+        if (this.personalForm.deptId !== '') {
+          this.isedit = true
+        }
         if (this.personalForm.supplierId === null || this.personalForm.supplierId === undefined || this.personalForm.supplierId === '') {
           this.$notify.error({
             title: '错误',
@@ -800,6 +867,15 @@ export default {
         }
         this.applycontrol = true
       } else if (this.personalForm.sourceType === '2') {
+        if (this.stockPersonId !== '') {
+          this.IsStockPersonId = true
+        }
+        if (this.personalForm.stockTypeId !== '') {
+          this.isedit = true
+        }
+        if (this.personalForm.deptId !== '') {
+          this.isedit = true
+        }
         if (this.personalForm.supplierId === null || this.personalForm.supplierId === undefined || this.personalForm.supplierId === '') {
           this.$notify.error({
             title: '错误',
@@ -810,6 +886,15 @@ export default {
         }
         this.plancontrol = true
       } else if (this.personalForm.sourceType === '3') {
+        if (this.stockPersonId !== '') {
+          this.IsStockPersonId = true
+        }
+        if (this.personalForm.stockTypeId !== '') {
+          this.isedit = true
+        }
+        if (this.personalForm.deptId !== '') {
+          this.isedit = true
+        }
         if (this.personalForm.supplierId === null || this.personalForm.supplierId === undefined || this.personalForm.supplierId === '') {
           this.$notify.error({
             title: '错误',
@@ -830,6 +915,7 @@ export default {
         }
         this.contractcontrol = true
       }
+
       // if (this.$refs.editable.getRecords().length !== 0) {
       //
       // }
@@ -874,7 +960,7 @@ export default {
         this.personalForm.deptId = val.deptId
         this.IsDeptId = true
       }
-      this.personalForm.isVat = val.isVat
+      // this.personalForm.isVat = String(val.isVat)
       this.personalForm.payMode = String(val.payId)
       this.signPersonId = val.ourContractorName
       this.personalForm.signPersonId = val.ourContractorId
@@ -1019,7 +1105,7 @@ export default {
         this.personalForm.stockPersonId = val.stockPersonId
         this.IsStockPersonId = true
       }
-      this.personalForm.isVat = val.isVat
+      // this.personalForm.isVat = String(val.isVat)
     },
     // 更新类型
     updatecountry() {
@@ -1050,8 +1136,9 @@ export default {
       this.supplierId = val.supplierName
       this.personalForm.supplierId = val.id
       this.supp = val.id
-      this.personalForm.deliveryMode = val.giveId
-      this.personalForm.settleMode = val.paymentId
+      this.personalForm.deliveryMode = val.deliveryMode
+      this.personalForm.settleMode = val.settleMode
+      this.personalForm.payMode = val.payMode
       if (val.moneyId !== null && val.moneyId !== undefined && val.moneyId !== '') {
         this.personalForm.currency = String(val.moneyId)
       }
@@ -1064,8 +1151,10 @@ export default {
     },
     // 采购员回显
     stockName(val) {
+      console.log(val)
       this.stockPersonId = val.personName
       this.personalForm.stockPersonId = val.id
+      this.personalForm.deptId = val.deptId
     },
     // 我方签约人foucs事件触发
     handlechooseDelivery() {

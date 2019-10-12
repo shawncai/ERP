@@ -57,6 +57,7 @@
       <el-button v-permission="['104-107-6']" v-waves :loading="downloadLoading" class="filter-item" style="width: 86px" @click="handleExport"> <svg-icon icon-class="daochu"/>{{ $t('public.export') }}</el-button>
       <!-- 打印操作 -->
       <el-button v-permission="['104-107-7']" v-waves class="filter-item" icon="el-icon-printer" style="width: 86px" @click="handlePrint">{{ $t('public.print') }}</el-button>
+      <el-button v-waves class="filter-item" icon="el-icon-plus" style="width: 160px;" @click="handleNumbers">生成采购计划单</el-button>
     </el-card>
 
     <el-card class="box-card" style="margin-top: 10px" shadow="never">
@@ -70,6 +71,9 @@
         highlight-current-row
         style="width: 100%;"
         @selection-change="handleSelectionChange">
+        <el-table-column
+          type="selection"
+          width="55"/>
         <el-table-column :label="$t('public.id')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
             <span class="link-type" @click="handleDetail(scope.row)">{{ scope.row.materialsRequireNumber }}</span>
@@ -215,6 +219,11 @@ export default {
     this.getlist()
   },
   methods: {
+    // 批量生成
+    handleNumbers() {
+      this.$store.dispatch('getempcontract', this.moreaction)
+      this.$router.push('/StockPlan/AddStockPlan')
+    },
     handleMyReceipt1(val) {
       console.log(val)
       this.$store.dispatch('getempcontract', val)

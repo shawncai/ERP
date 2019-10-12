@@ -283,7 +283,8 @@ export default {
           sourceNumber: '',
           sourceSerialNumber: '',
           price: item.purchasePrice,
-          includeTaxPrice: item.purchasePrice
+          includeTaxPrice: item.purchasePrice,
+          discountRate: 100
         }
       })
       console.log(productDetail)

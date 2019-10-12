@@ -81,7 +81,11 @@
         fit
         highlight-current-row
         style="width: 100%;"
-        @current-change="handleCurrentChange">
+        @current-change="handleCurrentChange"
+        @selection-change="handleSelectionChange">
+        <el-table-column
+          type="selection"
+          width="55"/>
         <el-table-column :label="$t('public.id')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.orderNumber }}</span>
@@ -280,6 +284,10 @@ export default {
     this.getlist()
   },
   methods: {
+    // 多选
+    handleSelectionChange(val) {
+      this.moreaction = val
+    },
     // 更新采购类型
     updatecountry() {
       this.getlist()
@@ -360,8 +368,13 @@ export default {
     async handleConfirm() {
       this.employeeVisible = false
       console.log(this.choosedata)
-      const orderdata = this.choosedata.stockOrderDetailVos
+      console.log(this.moreaction)
+      // const orderdata = this.choosedata.stockOrderDetailVos
+      const orderdata = []
       const number = this.choosedata.orderNumber
+      for (const i in this.moreaction) {
+        orderdata.push(this.moreaction[i].stockOrderDetailVos)
+      }
       const orderDetail = orderdata.map(function(item) {
         return {
           productCode: item.productCode,

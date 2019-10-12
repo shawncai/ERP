@@ -152,7 +152,7 @@
       </el-card>
       <!--操作-->
       <div class="buttons" style="margin-top: 20px">
-        <el-button v-no-more-click type="primary" style="background:#3696fd;border-color:#3696fd;width: 98px" @click="handlesave()">保存</el-button>
+        <el-button v-no-more-click :loading="canClick" type="primary" style="background:#3696fd;border-color:#3696fd;width: 98px" @click="handlesave()">保存</el-button>
         <el-button type="danger" @click="handlecancel()">取消</el-button>
       </div>
       <el-dialog :visible.sync="receiptVisible2" title="库存快照" class="normal" width="600px" center>
@@ -223,6 +223,8 @@ export default {
           return time.getTime() < new Date().getTime() - 8.64e7
         }
       },
+      // 网络卡顿
+      canClick: false,
       // 暂存数据
       changedata: [],
       // 控制源单数据
@@ -555,7 +557,7 @@ export default {
         createPersonId: this.$store.getters.userId,
         countryId: this.$store.getters.countryId,
         repositoryId: this.$store.getters.repositoryId,
-        applyDeptId: 1,
+        applyDeptId: this.$store.getters.deptId,
         regionId: this.$store.getters.regionId,
         sourceType: '1',
         applyDate: null
@@ -625,14 +627,25 @@ export default {
         if (Data[key] === '' || Data[key] === undefined || Data[key] === null) {
           delete Data[key]
         }
+        if (key === 'judgeStat') {
+          delete Data[key]
+        }
+      }
+      console.log('judgeStat', Data.judgeStat)
+      for (const key in this.personalForm) {
+        if (key === 'judgeStat') {
+          delete this.personalForm[key]
+        }
       }
       const parms = JSON.stringify(Data)
       this.$refs.personalForm.validate((valid) => {
         if (valid) {
           this.$refs.editable.validate().then(valid => {
+            this.canClick = true
             addstockapply(parms, parms2, this.personalForm).then(res => {
               console.log(res)
               if (res.data.ret === 200) {
+                this.canClick = false
                 this.$notify({
                   title: '成功',
                   message: '保存成功',

@@ -99,7 +99,7 @@
         </el-table-column>
         <el-table-column :label="$t('StockApply.stockType')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.stockType | stockTypeFilter }}</span>
+            <span>{{ scope.row.stockTypeName }}</span>
           </template>
         </el-table-column>
         <el-table-column :label="$t('StockApply.sourceType')" :resizable="false" align="center" min-width="150">
@@ -322,6 +322,7 @@ export default {
       console.log(this.choosedata)
       const applydata = this.choosedata.stockApplyDetailVos
       const number = this.choosedata.applyNumber
+      console.log('1111122222', applydata)
       const applyDetail = applydata.map(function(item) {
         return {
           applyQuantity: item.applyQuantity,
@@ -346,7 +347,7 @@ export default {
           sourceSerialNumber: item.id
         }
       })
-      console.log(applyDetail)
+      console.log('22222333333', applyDetail[0].planQuantity)
       this.$emit('apply', applyDetail)
       this.$emit('apply2', applyDetail)
       this.$emit('allinfo', this.choosedata)

@@ -74,6 +74,22 @@ export function stockorderlist(query) {
     data: params
   })
 }
+// 查询是否被调用
+export function stockorderlist2(query) {
+  var params = new URLSearchParams()
+  params.append('repositoryId', 0) // 你要传给后台的参数值 key/value
+  if (query.regionIds !== '' && query.regionIds !== null && query.regionIds !== undefined) {
+    params.append('regionIds', query.regionIds) // 你要传给后台的参数值 key/value
+  }
+  if (query.sourceNumber !== '' && query.sourceNumber !== null && query.sourceNumber !== undefined) {
+    params.append('sourceNumber', query.sourceNumber) // 你要传给后台的参数值 key/value
+  }
+  return request({
+    url: '/stockorder/stockorderlist',
+    method: 'post',
+    data: params
+  })
+}
 
 //  更新采购订单
 export function updatestockorder(query, query2) {
