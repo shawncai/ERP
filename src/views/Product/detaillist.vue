@@ -149,7 +149,15 @@ export default {
     this.gettree()
   },
   methods: {
+    // 判断是否显示
     isshow(val) {
+      if (val.productClassfyVos) {
+        if (val.productClassfyVos.length > 0) {
+          return false
+        } else {
+          return true
+        }
+      }
       console.log('111222333', val)
     },
     zhengze(val) {
