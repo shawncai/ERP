@@ -157,8 +157,9 @@ export default {
         } else {
           return true
         }
+      } else {
+        return true
       }
-      console.log('111222333', val)
     },
     zhengze(val) {
       if (this.Iscode === '01') {
