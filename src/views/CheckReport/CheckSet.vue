@@ -65,7 +65,7 @@
             <el-input v-model="addCategoryForm.checkTools" autocomplete="off"/>
           </el-form-item>
           <el-form-item :label="$t('CheckSet.checkContent')" label-width="100px" >
-            <el-input v-model="addCategoryForm.checkContent" autocomplete="off"/>
+            <el-input v-model="addCategoryForm.checkContent" :autosize="{minRows:1}" type="textarea" autocomplete="off"/>
           </el-form-item>
         </el-form>
         <span slot="footer" class="dialog-footer">
@@ -155,7 +155,7 @@
             <el-input v-model="editCategoryForm.checkTools" autocomplete="off"/>
           </el-form-item>
           <el-form-item :label="$t('CheckSet.checkContent')" label-width="100px" >
-            <el-input v-model="editCategoryForm.checkContent" autocomplete="off"/>
+            <el-input v-model="editCategoryForm.checkContent" :autosize="{minRows:1}" type="textarea" resize="none" autocomplete="off"/>
           </el-form-item>
         </el-form>
         <span slot="footer" class="dialog-footer">

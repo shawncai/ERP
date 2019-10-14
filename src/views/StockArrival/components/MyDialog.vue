@@ -27,7 +27,7 @@
                 </el-form-item>
               </el-col>
               <el-col :span="12">
-                <el-form-item :label="$t('StockArrival.sourceNumber')" :rules="personalForm.sourceType === '2'" prop="sourceNumber" style="width: 100%;">
+                <el-form-item :label="$t('StockArrival.sourceNumber')" :disabled="personalForm.sourceType === '2'" prop="sourceNumber" style="width: 100%;">
                   <el-input v-model="personalForm.sourceNumber" :disabled="addsouce" style="margin-left: 18px;width:200px" clearable @focus="handleAddSouce"/>
                   <my-order :ordercontrol.sync="ordercontrol" :supp.sync="supp" @order="order" @allOrderinfo="allOrderinfo"/>
                 </el-form-item>
@@ -290,8 +290,8 @@ export default {
   data() {
     const validatePass = (rule, value, callback) => {
       console.log(value)
-      if (value === '') {
-        callback(new Error('请选择'))
+      if (this.supplierId === '' || this.supplierId === null || this.supplierId === undefined) {
+        callback(new Error('请选择供应商'))
       } else {
         callback()
       }
@@ -453,14 +453,13 @@ export default {
       sums[4] = ''
       sums[5] = ''
       sums[6] = ''
-      sums[8] = ''
       sums[9] = ''
       sums[10] = ''
       sums[15] = ''
       sums[17] = ''
       sums[18] = ''
       sums[19] = ''
-      this.allNumber = sums[7]
+      this.allQuantity = sums[8]
       this.allMoney = sums[12]
       this.allTaxMoney = sums[14]
       this.allIncludeTaxMoney = sums[13]

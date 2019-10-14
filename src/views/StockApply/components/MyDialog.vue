@@ -160,6 +160,7 @@
 import { updatestockapply } from '@/api/StockApply'
 import { getdeptlist } from '@/api/BasicSettings'
 import { searchStockCategory } from '@/api/StockCategory'
+import { materialslist2 } from '@/api/MaterialsList'
 import MyEmp from './MyEmp'
 import MyDetail from './MyDetail'
 import MyOrder from './MyOrder'
@@ -346,7 +347,7 @@ export default {
       return objClone
     },
     // 两表联动
-    changeDate2() {
+    async changeDate2() {
       this.$refs.editable2.clear()
       const nowlistdata = this.deepClone(this.$refs.editable.getRecords())
       const newArr = []
@@ -380,8 +381,30 @@ export default {
           applyQuantity: Number(item.requireQuantity).toFixed(2)
         }
       })
+      // for (let i = 0; i < result2.length; i++) {
+      //   this.$refs.editable2.insert(result2[i])
+      // }
       for (let i = 0; i < result2.length; i++) {
-        this.$refs.editable2.insert(result2[i])
+        if (result2[i].productCode.substring(0, 2) === '01') {
+          console.log('01')
+          const list = await materialslist2(result2[i].productCode)
+          console.log('list', list.data.data.content.list[0].materialsListDetailVos)
+          const list2 = list.data.data.content.list[0].materialsListDetailVos
+          for (let j = 0; j < list2.length; j++) {
+            list2[j].basicPrice = 0
+            console.log('val[i]', result2[i])
+            list2[j].applyQuantity = (Number(list2[j].quantity) * (Number(result2[i].applyQuantity) - Number(result2[i].planQuantity))).toFixed(2)
+            list2[j].requireDate = result2[i].requireDate
+            list2[j].sourceSerialNumber = result2[i].sourceSerialNumber
+            list2[j].requireDate = result2[i].requireDate
+            // - val.alre
+            console.log(list2[j])
+            this.$refs.editable2.insert(list2[j])
+          }
+        } else {
+          result2[i].planQuantity = (Number(result2[i].applyQuantity) - Number(result2[i].planQuantity)).toFixed(2)
+          this.$refs.editable2.insert(result2[i])
+        }
       }
     },
     getdatatime() { // 默认显示今天
@@ -451,9 +474,10 @@ export default {
     },
     productdetail2(val) {
       console.log(val)
-      for (let i = 0; i < val.length; i++) {
-        this.$refs.editable2.insert(val[i])
-      }
+      // for (let i = 0; i < val.length; i++) {
+      //   this.$refs.editable2.insert(val[i])
+      // }
+      this.changeDate2()
     },
     // 清空记录
     restAllForm() {

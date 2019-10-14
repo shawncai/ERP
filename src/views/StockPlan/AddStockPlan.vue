@@ -245,7 +245,7 @@
 
 <script>
 import '@/directive/noMoreClick/index.js'
-import { materialslist2 } from '@/api/MaterialsList'
+// import { materialslist2 } from '@/api/MaterialsList'
 import { countlist } from '@/api/public'
 import { addstockplan } from '@/api/StockPlan'
 import { getdeptlist } from '@/api/BasicSettings'
@@ -759,42 +759,50 @@ export default {
     },
     async apply(val) {
       console.log('val', val)
+      // for (let i = 0; i < val.length; i++) {
+      //   if (val[i].productCode.substring(0, 2) === '01') {
+      //     console.log('01')
+      //     const list = await materialslist2(val[i].productCode)
+      //     console.log('list', list.data.data.content.list[0].materialsListDetailVos)
+      //     const list2 = list.data.data.content.list[0].materialsListDetailVos
+      //     for (let j = 0; j < list2.length; j++) {
+      //       list2[j].basicPrice = 0
+      //       console.log('val[i]', val[i])
+      //       list2[j].planQuantity = (Number(list2[j].quantity) * (Number(val[i].applyQuantity) - Number(val[i].planQuantity))).toFixed(2)
+      //       // - val.alre
+      //       console.log(list2[j])
+      //       this.$refs.editable.insert(list2[j])
+      //     }
+      //   } else {
+      //     val[i].planQuantity = (Number(val[i].applyQuantity) - Number(val[i].planQuantity)).toFixed(2)
+      //     this.$refs.editable.insert(val[i])
+      //   }
+      // }
+
       for (let i = 0; i < val.length; i++) {
-        if (val[i].productCode.substring(0, 2) === '01') {
-          console.log('01')
-          const list = await materialslist2(val[i].productCode)
-          console.log('list', list.data.data.content.list[0].materialsListDetailVos)
-          const list2 = list.data.data.content.list[0].materialsListDetailVos
-          for (let j = 0; j < list2.length; j++) {
-            list2[j].basicPrice = 0
-            console.log('val[i]', val[i])
-            list2[j].planQuantity = (Number(list2[j].quantity) * (Number(val[i].applyQuantity) - Number(val[i].planQuantity))).toFixed(2)
-            // - val.alre
-            console.log(list2[j])
-            this.$refs.editable.insert(list2[j])
-          }
-        } else {
-          val[i].planQuantity = (Number(val[i].applyQuantity) - Number(val[i].planQuantity)).toFixed(2)
-          this.$refs.editable.insert(val[i])
-        }
+        this.$refs.editable.insert(val[i])
       }
     },
     async apply2(val) {
+      // for (let i = 0; i < val.length; i++) {
+      //   if (val[i].productCode.substring(0, 2) === '01') {
+      //     console.log('01')
+      //     const list = await materialslist2(val[i].productCode)
+      //     console.log('list', list.data.data.content.list[0].materialsListDetailVos)
+      //     const list2 = list.data.data.content.list[0].materialsListDetailVos
+      //     for (let j = 0; j < list2.length; j++) {
+      //       list2[j].basicPrice = 0
+      //       list2[j].planQuantity = 0
+      //       console.log(list2[j])
+      //       this.$refs.editable2.insert(list2[j])
+      //     }
+      //   } else {
+      //     this.$refs.editable2.insert(val[i])
+      //   }
+      // }
+
       for (let i = 0; i < val.length; i++) {
-        if (val[i].productCode.substring(0, 2) === '01') {
-          console.log('01')
-          const list = await materialslist2(val[i].productCode)
-          console.log('list', list.data.data.content.list[0].materialsListDetailVos)
-          const list2 = list.data.data.content.list[0].materialsListDetailVos
-          for (let j = 0; j < list2.length; j++) {
-            list2[j].basicPrice = 0
-            list2[j].planQuantity = 0
-            console.log(list2[j])
-            this.$refs.editable2.insert(list2[j])
-          }
-        } else {
-          this.$refs.editable2.insert(val[i])
-        }
+        this.$refs.editable2.insert(val[i])
       }
     },
     // 采购需求数据
