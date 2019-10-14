@@ -1,37 +1,24 @@
 <template>
   <div class="ERP-container">
-    <el-card class="box-card" style="margin-top: 10px;height: 115px" shadow="never">
+    <el-card class="box-card" style="margin-top: 10px;height: 60px" shadow="never">
 
       <el-form ref="getemplist" :model="getemplist" label-width="70px" style="margin-top: -9px">
         <el-row>
-          <el-col :span="3">
-            <el-form-item label="物品名称">
+          <!-- <el-col :span="3">
+            <el-form-item label="名称">
               <el-input v-model="getemplist.productName" style="width: 100px" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
-          </el-col>
-          <el-col :span="3" style="margin-left: 100px">
-            <el-form-item label="采购类别">
-              <el-select v-model="getemplist.stockType" style="width: 100px" clearable>
-                <el-option
-                  v-for="(item, index) in types"
-                  :key="index"
-                  :label="item.categoryName"
-                  :value="item.id"
-                />
-              </el-select>
-            </el-form-item>
-          </el-col>
-          <el-col :span="4" style="margin-left: 60px">
+          </el-col> -->
+          <el-col :span="5" style="margin-left: 60px">
             <el-form-item :label="$t('stockOrderCount.type')">
-              <el-select v-model="getemplist.type" :value="getemplist.type" style="width: 100px" @keyup.enter.native="handleFilter" @change="changeName">
-                <el-option value="1" label="供应商类别分组"/>
-                <el-option value="2" label="物品类别"/>
-                <el-option value="3" label="供应商分组"/>
-                <el-option value="4" label="供应商+物品类别分组"/>
+              <el-select v-model="getemplist.type" :value="getemplist.type" style="width: 120px" @keyup.enter.native="handleFilter" @change="changeName">
+                <el-option value="2" label="客户"/>
+                <el-option value="3" label="员工"/>
+                <el-option value="4" label="门店"/>
               </el-select>
             </el-form-item>
           </el-col>
-          <el-col :span="3" style="margin-left: 20px">
+          <el-col :span="5" style="margin-left: 20px">
             <el-form-item label="日期">
               <el-date-picker
                 v-model="date"
@@ -42,21 +29,7 @@
                 style="width: 250px"/>
             </el-form-item>
           </el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="4">
-            <el-form-item :label="$t('StockContract.supplierId')">
-              <el-input v-model="supplierId" @focus="handlechoose"/>
-              <my-supplier :control.sync="empcontrol" @supplierName="supplierName"/>
-            </el-form-item>
-          </el-col>
-          <el-col :span="4" style="margin-left: 46px">
-            <el-form-item label="业务员">
-              <el-input v-model="handlePersonId" clearable @keyup.enter.native="handleFilter" @focus="handlechooseStock"/>
-            </el-form-item>
-            <my-emp :control.sync="stockControl" @stockName="stockName"/>
-          </el-col>
-          <el-col :span="4" style="margin-left: 266px">
+          <el-col :span="5" style="margin-left: 266px">
             <!-- 搜索按钮 -->
             <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 86px" round @click="handleFilter">{{ $t('public.search') }}</el-button>
           </el-col>
@@ -71,67 +44,81 @@
         border
         style="width: 100%">
         <el-table-column
+          :label="$t('searchSaleOrderReport.id')"
+          prop="id"
+          width="240"
+          align="center"/>
+        <el-table-column
           :label="first"
           prop="name"
-          width="300"
+          width="240"
           align="center"/>
-        <el-table-column
-          v-if="second"
-          label="物品类别"
-          prop="productCategory"
-          width="300"
-          align="center"/>
-        <el-table-column
-          :label="$t('stockDetailCount.unit')"
-          prop="unit"
-          width="200"
-          align="center"/>
-        <el-table-column :label="$t('stockOrderExecute.orderNum')" align="center">
+        <el-table-column :label="$t('searchSaleReport.saleOut')" align="center">
           <el-table-column
-            :label="$t('stockOrderCount.orderQuantity')"
-            prop="orderQuantity"
+            :label="$t('searchSaleReport.money')"
+            prop="outMoney"
             width="200"
             align="center"/>
           <el-table-column
-            :label="$t('stockOrderExecute.price')"
-            prop="orderPrice"
+            :label="$t('searchSaleReport.saleOut')"
+            prop="outTaxMoney"
             width="200"
             align="center"/>
           <el-table-column
-            :label="$t('stockOrderCount.totalMoney')"
-            prop="orderMoney"
+            :label="$t('searchSaleReport.discountMoney')"
+            prop="outDiscountMoney"
+            width="200"
+            align="center"/>
+          <el-table-column
+            :label="$t('searchSaleReport.totalMoney')"
+            prop="outActualMoney"
             width="200"
             align="center"/>
         </el-table-column>
-        <el-table-column :label="$t('stockTrackList.enterQuantity')" align="center">
+        <el-table-column :label="$t('searchSaleReport.saleReturn')" align="center">
           <el-table-column
-            :label="$t('stockDetailCount.unit')"
+            :label="$t('searchSaleReport.money')"
+            prop="returnMoney"
+            width="200"
+            align="center"/>
+          <el-table-column
+            :label="$t('searchSaleReport.taxMoney')"
+            prop="returnTaxMoney"
+            width="200"
+            align="center"/>
+          <el-table-column
+            :label="$t('searchSaleReport.discountMoney')"
+            prop="returnDiscountMoney"
+            width="200"
+            align="center"/>
+          <el-table-column
+            :label="$t('searchSaleReport.totalMoney')"
+            prop="returnActualMoney"
+            width="200"
+            align="center"/>
+        </el-table-column>
+        <el-table-column :label="$t('searchSaleReport.actualSale')" align="center">
+          <el-table-column
+            :label="$t('searchSaleReport.money')"
             prop="unit"
             width="200"
             align="center"/>
           <el-table-column
-            :label="$t('stockOrderCount.orderQuantity')"
-            prop="enterQuantity"
+            :label="$t('searchSaleReport.taxMoney')"
+            prop="quantity2"
             width="200"
             align="center"/>
-        </el-table-column>
-        <el-table-column :label="$t('stockTrackList.notenterQuantity')" align="center">
           <el-table-column
-            :label="$t('stockDetailCount.unit')"
+            :label="$t('searchSaleReport.discountMoney')"
             prop="unit"
             width="200"
             align="center"/>
           <el-table-column
-            :label="$t('stockOrderCount.orderQuantity')"
+            :label="$t('searchSaleReport.totalMoney')"
             prop="quantity2"
             width="200"
             align="center"/>
         </el-table-column>
-        <!-- <el-table-column
-          :label="$t('stockBillCount.retreatrate')"
-          prop="arrivedQuantity"
-          width="200"
-          align="center"/> -->
       </el-table>
       <!-- 列表结束 -->
       <pagination v-show="total>0" :total="total" :page.sync="getemplist.pageNum" :limit.sync="getemplist.pageSize" @pagination="getlist" />
@@ -141,7 +128,7 @@
 
 <script>
 import { searchStockCategory } from '@/api/StockCategory'
-import { stockOrderExecute } from '@/api/count'
+import { searchSaleReport } from '@/api/count'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination'
 import permission from '@/directive/permission/index.js' // 权限判断指令
@@ -260,7 +247,7 @@ export default {
       getemplist: {
         pageNum: 1,
         pageSize: 10,
-        type: '1'
+        type: '3'
       },
       // 传给组件的数据
       personalForm: {},
@@ -288,15 +275,15 @@ export default {
         this.second = false
       }
       if (this.getemplist.type === '2') {
-        this.first = '物品类别'
+        this.first = '客户'
         this.second = false
       }
       if (this.getemplist.type === '3') {
-        this.first = '供应商分组'
+        this.first = '员工'
         this.second = false
       }
       if (this.getemplist.type === '4') {
-        this.first = '供应商'
+        this.first = '门店'
         this.second = true
       }
       this.getlist()
@@ -348,28 +335,9 @@ export default {
       })
       // 物料需求计划列表数据
       this.listLoading = true
-      stockOrderExecute(this.getemplist).then(res => {
+      searchSaleReport(this.getemplist).then(res => {
         if (res.data.ret === 200) {
-          this.list = res.data.data.content.list
-          for (let i = 0; i < this.list.length; i++) {
-            if (this.list[i].productCategory === null) {
-              this.list[i].productCategory = ''
-            }
-            this.list[i].quantity2 = (this.list[i].orderQuantity - this.list[i].enterQuantity).toFixed(2)
-            if (this.getemplist.type === '1') {
-              this.list[i].name = this.list[i].supplierTypeName
-            }
-            if (this.getemplist.type === '2') {
-              this.list[i].name = this.list[i].productCategory
-            }
-            if (this.getemplist.type === '3') {
-              this.list[i].name = this.list[i].supplierName
-            }
-            if (this.getemplist.type === '4') {
-              this.list[i].name = this.list[i].supplierName
-            }
-            this.list[i].heji = this.list[i].totalMoney + this.list[i].taxMoney
-          }
+          this.list = res.data.data.content
           this.total = res.data.data.content.totalCount
         }
         setTimeout(() => {
@@ -396,29 +364,9 @@ export default {
         this.getemplist.beginTime = this.date[0]
         this.getemplist.endTime = this.date[1]
       }
-      stockOrderExecute(this.getemplist).then(res => {
+      searchSaleReport(this.getemplist).then(res => {
         if (res.data.ret === 200) {
-          this.list = res.data.data.content.list
-          for (let i = 0; i < this.list.length; i++) {
-            for (let i = 0; i < this.list.length; i++) {
-              if (this.list[i].productCategory === null) {
-                this.list[i].productCategory = ''
-              }
-              if (this.getemplist.type === '1') {
-                this.list[i].name = this.list[i].supplierTypeName
-              }
-              if (this.getemplist.type === '2') {
-                this.list[i].name = this.list[i].productCategory
-              }
-              if (this.getemplist.type === '3') {
-                this.list[i].name = this.list[i].supplierName
-              }
-              if (this.getemplist.type === '4') {
-                this.list[i].name = this.list[i].supplierName
-              }
-              this.list[i].heji = this.list[i].totalMoney + this.list[i].taxMoney
-            }
-          }
+          this.list = res.data.data.content
           this.total = res.data.data.content.totalCount
           this.restFilter()
         } else {
