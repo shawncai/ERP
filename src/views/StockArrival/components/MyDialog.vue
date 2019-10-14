@@ -172,7 +172,11 @@
           <el-editable-column prop="unit" align="center" label="单位" min-width="150px"/>
           <el-editable-column prop="stockQuantity" align="center" label="采购数量" min-width="150px"/>
           <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0.00, precision: 2}, type: 'visible'}" prop="arrivalQuantity" align="center" label="到货数量" min-width="150px"/>
-          <el-editable-column prop="giveDate" align="center" label="交货日期" min-width="170px"/>
+          <el-editable-column prop="giveDate" align="center" label="交货日期" min-width="170px">
+            <template slot-scope="scope">
+              <span> {{ timestampToTime(scope.row.giveDate) }}</span>
+            </template>
+          </el-editable-column>
           <el-editable-column prop="price" align="center" label="单价" min-width="170px"/>
           <el-editable-column prop="includeTaxPrice" align="center" label="含税价" min-width="170px"/>
           <el-editable-column prop="taxRate" align="center" label="税率(%)" min-width="170px"/>
@@ -328,7 +332,7 @@ export default {
       // 结算方式
       paymentIds: [],
       // 合计数据
-      allNumber: '',
+      allQuantity: '',
       allMoney: '',
       allTaxMoney: '',
       allIncludeTaxMoney: '',
@@ -424,6 +428,17 @@ export default {
     this.getways()
   },
   methods: {
+    // 转换时间格式
+    timestampToTime(timestamp) {
+      var date = new Date(timestamp)// 时间戳为10位需*1000，时间戳为13位的话不需乘1000
+      var Y = date.getFullYear() + '-'
+      var M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-'
+      var D = date.getDate() + ' '
+      // var h = date.getHours() + ':'
+      // var m = date.getMinutes() + ':'
+      // var s = date.getSeconds()
+      return Y + M + D
+    },
     // 总计
     getSummaries(param) {
       const { columns, data } = param

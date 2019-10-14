@@ -20,7 +20,7 @@
               <span>{{ node.label }}  ({{ data.id }})</span>
               <span v-if="data.parentId !== 0" style="margin-left: 50px">
                 <i class="el-icon-edit" @click="edittree(data,node)"/>
-                <i v-if="data.productClassfyVos.length === 0" class="el-icon-delete" @click="nodedelete(data,node)"/>
+                <i v-if="isshow(data)" class="el-icon-delete" @click="nodedelete(data,node)"/>
               </span>
             </span>
           </el-tree>
@@ -149,6 +149,9 @@ export default {
     this.gettree()
   },
   methods: {
+    isshow(val) {
+      console.log('111222333', val)
+    },
     zhengze(val) {
       if (this.Iscode === '01') {
         const reg = /^[A-Z0-9]{1}$/

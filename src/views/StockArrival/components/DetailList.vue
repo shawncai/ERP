@@ -107,7 +107,11 @@
             <el-editable-column prop="unit" align="center" label="单位" />
             <el-editable-column prop="stockQuantity" align="center" label="采购数量" />
             <el-editable-column prop="arrivalQuantity" align="center" label="到货数量" />
-            <el-editable-column prop="giveDate" align="center" label="交货日期" />
+            <el-editable-column prop="giveDate" align="center" label="交货日期" >
+              <template slot-scope="scope">
+                <span >{{ timestampToTime(scope.row.giveDate) }}</span>
+              </template>
+            </el-editable-column>
             <el-editable-column prop="price" align="center" label="单价" />
             <el-editable-column prop="includeTaxPrice" align="center" label="含税价" />
             <el-editable-column prop="taxRate" align="center" label="税率(%)" />
@@ -454,6 +458,17 @@ export default {
   },
   data() {
     return {
+      // 转换时间格式
+      timestampToTime(timestamp) {
+        var date = new Date(timestamp)// 时间戳为10位需*1000，时间戳为13位的话不需乘1000
+        var Y = date.getFullYear() + '-'
+        var M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-'
+        var D = date.getDate() + ' '
+        // var h = date.getHours() + ':'
+        // var m = date.getMinutes() + ':'
+        // var s = date.getSeconds()
+        return Y + M + D
+      },
       // 入库信息
       stockenterData: [],
       stockenterlistdata: {
