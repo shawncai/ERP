@@ -454,14 +454,8 @@ export default {
       list2: [],
       // 采购申请单明细列表规则
       validRules: {
-        name: [
-          { required: true, message: '请输入名称', trigger: 'change' }
-        ],
         stockQuantity: [
           { required: true, message: '请输入采购数量', trigger: 'blur' }
-        ],
-        price: [
-          { required: true, message: '请输入单价', trigger: 'blur' }
         ],
         includeTaxPrice: [
           { required: true, message: '请输入含税价', trigger: 'blur' }
@@ -1135,6 +1129,9 @@ export default {
               if (Data[key] === '' || Data[key] === undefined || Data[key] === null) {
                 delete Data[key]
               }
+              if (key === 'judgeStat') {
+                delete Data[key]
+              }
             }
             const parms = JSON.stringify(Data)
             updatestockorder(parms, parms2).then(res => {
@@ -1160,7 +1157,7 @@ export default {
               }
             })
           }).catch(valid => {
-            console.log('error submit!!')
+            console.log('error submit!!', valid)
           })
         } else {
           this.$notify.error({

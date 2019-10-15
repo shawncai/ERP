@@ -1567,6 +1567,9 @@ export default {
             if (Data[key] === '' || Data[key] === undefined || Data[key] === null) {
               delete Data[key]
             }
+            if (key === 'judgeStat') {
+              delete Data[key]
+            }
           }
           const parms = JSON.stringify(Data)
           createsaleOut(parms, parms2, parms3, this.personalForm).then(res => {
