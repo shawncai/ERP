@@ -82,7 +82,7 @@
           </el-form>
         </div>
       </el-card>
-      <el-card class="box-card" style="margin-top: 15px" shadow="never">
+      <!-- <el-card class="box-card" style="margin-top: 15px" shadow="never">
         <h2 ref="fuzhu" class="form-name" >分期明细</h2>
         <div class="container">
           <el-editable
@@ -108,7 +108,7 @@
             <el-editable-column prop="motorCode" align="center" label="电机编码" />
           </el-editable>
         </div>
-      </el-card>
+      </el-card> -->
       <el-card class="box-card" style="margin-top: 15px" shadow="never">
         <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">审批记录</h2>
         <div class="container" style="margin-top: 37px">

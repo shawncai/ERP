@@ -218,7 +218,7 @@ export default {
       },
       pickerOptions3: {
         disabledDate: (time) => {
-          return time.getTime() < new Date().getTime() - 8.64e7
+          return time.getTime() >= new Date().getTime() - 8.64e7
         }
       },
       personalProperty: [],
@@ -321,7 +321,8 @@ export default {
         signDate: null,
         sourceType: '2',
         sourceNumber: '',
-        customerName: ''
+        customerName: '',
+        surveyDate: ''
       },
       // 采购申请单规则数据
       personalrules: {

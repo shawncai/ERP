@@ -12,7 +12,7 @@
           style="margin-top: -9px">
           <el-col :span="5">
             <el-form-item
-              label="单据主题"
+              label="$t('AccessMaterials.Billtheme')"
               label-width="100px">
               <el-input
                 v-model="getemplist.title"
@@ -24,10 +24,10 @@
           <el-col
             :span="5"
             style="margin-left: 10px">
-            <el-form-item label="单据编号">
+            <el-form-item label="$t('AccessMaterials.taskNumber')">
               <el-input
                 v-model="getemplist.planNumber"
-                placeholder="单据编号"
+                placeholder="$t('AccessMaterials.taskNumber')"
                 clearable
                 @keyup.enter.native="handleFilter" />
             </el-form-item>
@@ -36,7 +36,7 @@
           <el-col
             :span="5"
             style="margin-left: 10px">
-            <el-form-item label="领料人">
+            <el-form-item label="$t('AccessMaterials.accessPersonId')">
               <el-input
                 v-model="accessPersonId"
                 :placeholder="$t('AccessMaterials.accessPersonId')"
@@ -58,7 +58,7 @@
               <el-select
                 v-model="getemplist.processType"
                 :value="getemplist.processType"
-                placeholder="加工类型"
+                placeholder="$t('AccessMaterials.processType')"
                 clearable
                 style="width: 40%;float: right;margin-right: 20px">
                 <el-option
@@ -68,19 +68,19 @@
               <el-select
                 v-model="getemplist.sourceType"
                 :value="getemplist.sourceType"
-                placeholder="源单类型"
+                placeholder="$t('AccessMaterials.sourceType')"
                 clearable
                 style="width: 40%;float: left;margin-left: 20px">
                 <el-option
                   value="1"
-                  label="生产任务单" />
+                  label="$t('AccessMaterials.produceTaskNumber')" />
                 <el-option
                   value="2"
-                  label="无来源" />
+                  label="$t('AccessMaterials.produceTaskNumber')" />
               </el-select>
               <el-input
                 v-model="getemplist.taskNumber"
-                placeholder="生产任务单"
+                placeholder="$t('AccessMaterials.produceTaskNumber')"
                 style="width: 40%;float: right;margin-right: 20px;margin-top: 20px"
                 clearable
                 @focus="handleAddSouce" />
@@ -89,7 +89,7 @@
                 @moredata="moredata" />
               <el-select
                 v-model="getemplist.produceDeptId"
-                placeholder="生产部门"
+                placeholder="$t('AccessMaterials.produceDeptName')"
                 clearable
                 style="width: 40%;float: left;margin-left: 20px;margin-top: 20px">
                 <el-option
@@ -101,37 +101,37 @@
               <el-select
                 v-model="getemplist.judgeStat"
                 :value="getemplist.judgeStat"
-                placeholder="审批状态"
+                placeholder="$t('AccessMaterials.Approvalstatus')"
                 clearable
                 style="width: 40%;float: right;margin-right: 20px;margin-top: 20px">
                 <el-option
                   value="0"
-                  label="未审核" />
+                  label="$t(AccessMaterials.Unaudited)" />
                 <el-option
                   value="1"
-                  label="审核中" />
+                  label="$t('AccessMaterials.underreview')" />
                 <el-option
                   value="2"
-                  label="审核通过" />
+                  label="$t('AccessMaterials.pass" />
                 <el-option
                   value="3"
-                  label="审核不通过" />
+                  label="$t('AccessMaterials.unpass" />
               </el-select>
               <el-select
                 v-model="getemplist.receiptStat"
                 :value="getemplist.receiptStat"
-                placeholder="单据状态"
+                placeholder="$t('AccessMaterials.billstatus')"
                 clearable
                 style="width: 40%;float: left;margin-left: 20px;margin-top: 20px">
                 <el-option
                   value="1"
-                  label="制单" />
+                  label="$t('AccessMaterials.Ordermaking')" />
                 <el-option
                   value="2"
-                  label="执行" />
+                  label="$t('AccessMaterials.implement')" />
                 <el-option
                   value="3"
-                  label="结单" />
+                  label="$t('AccessMaterials.finish')" />
               </el-select>
               <el-input
                 v-model="providePersonId"
@@ -145,7 +145,7 @@
                 @createname="createname" />
               <el-date-picker
                 v-model="getemplist.accessTime"
-                placeholder="领料时间"
+                placeholder="$t('AccessMaterials.accessDate')"
                 type="date"
                 value-format="yyyy-MM-dd"
                 style="width: 40%;float: right;margin-right: 20px;margin-top: 20px" />
@@ -361,11 +361,11 @@
               v-show="scope.row.judgeStat === 2&&scope.row.providePersonId === null"
               size="mini"
               type="success"
-              @click="handleDispatch(scope.row)">发料</el-button>
+              @click="handleDispatch(scope.row)">{{ $t('AccessMaterials.provide') }}</el-button>
             <el-button
               v-permission2="['171-185-186-3', scope.row.createPersonId]"
               v-show="scope.row.judgeStat === 0"
-              title="修改"
+              title="$t(AccessMaterials.edit)"
               type="primary"
               size="mini"
               icon="el-icon-edit"
@@ -373,7 +373,7 @@
               @click="handleEdit(scope.row)" />
             <el-button
               v-show="isReview(scope.row)"
-              title="审批"
+              title="$t(AccessMaterials.shengpi)"
               type="warning"
               size="mini"
               icon="el-icon-view"
@@ -382,7 +382,7 @@
             <el-button
               v-permission="['171-185-186-76']"
               v-show="isReview4(scope.row)"
-              title="反审批"
+              title="$(AccessMaterials.unshengpi)"
               type="warning"
               size="mini"
               circle
@@ -392,7 +392,7 @@
             <el-button
               v-permission="['171-185-186-16']"
               v-show="isReview2(scope.row)"
-              title="结单"
+              title="$t(AccessMaterials.)"
               type="success"
               size="mini"
               icon="el-icon-check"
