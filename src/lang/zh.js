@@ -356,7 +356,14 @@ export default {
     supplierSale: '供应商销售分析',
     saleFluid: '商品销售流水账',
     saleGiftList: '赠品汇总表',
-    giftDetailList: '赠品统计明细表'
+    giftDetailList: '赠品统计明细表',
+    Financecount: '财务统计',
+    shouldPayCount: '应付款汇总表',
+    shouldPayDetail: '应付款明细表'
+  },
+  shouldPayCount: {
+    startMonth: '开始月份',
+    endMonth: '结束月份'
   },
   searchSaleReport: {
     saleOut: '销售出库',
