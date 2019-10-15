@@ -4,24 +4,38 @@
       <el-row>
         <el-form ref="getemplist" :model="getemplist" label-width="100px" style="margin-top: -9px">
           <el-col :span="4">
-            <el-form-item label="物品名称">
-              <el-input v-model="getemplist.productName" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
-            </el-form-item>
-          </el-col>
-          <el-col :span="4" style="margin-left: 80px">
             <el-form-item :label="$t('StockContract.supplierId')">
-              <el-input v-model="supplierId" style="width: 130px" @focus="handlechoose"/>
+              <el-input v-model="supplierId" style="margin-left: -34px;width: 130px" @focus="handlechoose"/>
               <my-supplier :control.sync="empcontrol" @supplierName="supplierName"/>
             </el-form-item>
           </el-col>
-          <el-col :span="4" style="margin-left: 63px">
-            <el-date-picker
-              v-model="monthValue"
-              :editable = "false"
-              type="month"
-              placeholder="选择月"/>
+          <el-col :span="4" style="margin-left: 40px">
+            <el-form-item :label="$t('shouldPayCount.startMonth')">
+              <el-date-picker
+                ref="datesRef"
+                v-model="data1"
+                :editable = "false"
+                type="month"
+                format="yyyy-MM"
+                value-format="yyyy-MM"
+                style="margin-left: -34px;"
+                placeholder="选择月"/>
+            </el-form-item>
           </el-col>
-          <el-col :span="4" style="margin-left: 197px">
+          <el-col :span="4" style="margin-left: 140px">
+            <el-form-item :label="$t('shouldPayCount.endMonth')">
+              <el-date-picker
+                ref="datesRef"
+                v-model="data2"
+                :editable = "false"
+                type="month"
+                format="yyyy-MM"
+                style="margin-left: -34px;"
+                value-format="yyyy-MM"
+                placeholder="选择月"/>
+            </el-form-item>
+          </el-col>
+          <el-col :span="4" style="margin-left: 160px">
             <!-- 搜索按钮 -->
             <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 86px" round @click="handleFilter">{{ $t('public.search') }}</el-button>
           </el-col>
@@ -36,67 +50,47 @@
         border
         style="width: 100%">
         <el-table-column
-          :label="$t('stockDetailCount.productCode')"
-          prop="productCode"
-          width="200"
+          :label="$t('shouldPayDetail.financeDate')"
+          prop="financeDate"
+          width="250"
           align="center"/>
         <el-table-column
-          :label="$t('stockDetailCount.productName')"
-          prop="productName"
-          width="200"
+          :label="$t('shouldPayDetail.receiptType')"
+          prop="receiptType"
+          width="250"
           align="center"/>
         <el-table-column
-          :label="$t('stockDetailCount.productType')"
-          prop="productType"
-          width="200"
+          :label="$t('shouldPayDetail.receiptNumber')"
+          prop="receiptNumber"
+          width="250"
           align="center"/>
         <el-table-column
-          :label="$t('stockDetailCount.unit')"
-          prop="unit"
-          width="200"
-          align="center"/>
-        <el-table-column :label="$t('stockOrderCount.order')" align="center">
-          <el-table-column
-            :label="$t('stockOrderCount.orderQuantity')"
-            prop="orderQuantity"
-            width="200"
-            align="center"/>
-          <el-table-column
-            :label="$t('stockOrderCount.totalMoney')"
-            prop="totalMoney"
-            width="200"
-            align="center"/>
-          <el-table-column
-            :label="$t('stockOrderCount.taxMoney')"
-            prop="taxMoney"
-            width="200"
-            align="center"/>
-          <el-table-column
-            :label="$t('stockOrderCount.heji')"
-            prop="heji"
-            width="200"
-            align="center"/>
-        </el-table-column>
-        <el-table-column
-          :label="$t('stockOrderCount.arrivedQuantity')"
-          prop="arrivedQuantity"
-          width="200"
+          :label="$t('shouldPayDetail.deptName')"
+          prop="deptName"
+          width="250"
           align="center"/>
         <el-table-column
-          :label="$t('stockOrderCount.notArrivedQuantity')"
-          prop="notArrivedQuantity"
-          width="200"
+          :label="$t('shouldPayDetail.handlePersonName')"
+          prop="handlePersonName"
+          width="250"
+          align="center"/>
+        <el-table-column
+          :label="$t('shouldPayDetail.shouldPay')"
+          prop="shouldPay"
+          width="250"
+          align="center"/>
+        <el-table-column
+          :label="$t('shouldPayDetail.paid')"
+          prop="paid"
+          width="250"
           align="center"/>
       </el-table>
-      <!-- 列表结束 -->
-      <pagination v-show="total>0" :total="total" :page.sync="getemplist.pageNum" :limit.sync="getemplist.pageSize" @pagination="getlist" />
     </el-card>
   </div>
 </template>
 
 <script>
-import { stockDetailCount } from '@/api/count'
-import { searchStockCategory } from '@/api/StockCategory'
+import { shouldPayDetail } from '@/api/count'
 import MyRepository from './components/MyRepository'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination'
@@ -111,7 +105,7 @@ import MyAgent from './components/MyAgent'
 import MySupplier from './components/MySupplier'
 
 export default {
-  name: 'StockDetailCount',
+  name: 'ShouldPayDetail',
   directives: { waves, permission, permission2 },
   components: { MyDialog, DetailList, MyEmp, MyCustomer, MySupplier, MyAgent, MyRepository, Pagination },
   filters: {
@@ -161,6 +155,8 @@ export default {
       receiptVisible: false,
       // 回显客户
       customerName: '',
+      data1: '',
+      data2: '',
       // 控制客户
       customercontrol: false,
       agentcontrol: false,
@@ -207,7 +203,7 @@ export default {
       getemplist: {
         pageNum: 1,
         pageSize: 10,
-        repositoryId: this.$store.getters.repositoryId,
+        repositoryId: '',
         regionIds: this.$store.getters.regionId,
         type: '1'
       },
@@ -220,8 +216,8 @@ export default {
     }
   },
   mounted() {
-    this.getlist()
-    this.changeName()
+    // this.getlist()
+    // this.changeName()
   },
   methods: {
     supplierName(val) {
@@ -280,25 +276,19 @@ export default {
     },
     getlist() {
       // 物料需求计划列表数据
-      this.listLoading = true
-      stockDetailCount(this.getemplist).then(res => {
-        if (res.data.ret === 200) {
-          this.list = res.data.data.content.list
-          for (let i = 0; i < this.list.length; i++) {
-            this.list[i].heji = this.list[i].totalMoney + this.list[i].taxMoney
-          }
-          this.total = res.data.data.content.totalCount
-        }
-        setTimeout(() => {
-          this.listLoading = false
-        }, 0.5 * 100)
-      })
-      // 采购类别数据
-      searchStockCategory(this.typeparms).then(res => {
-        if (res.data.ret === 200) {
-          this.types = res.data.data.content.list
-        }
-      })
+      // this.listLoading = true
+      // shouldPayCount(this.getemplist).then(res => {
+      //   if (res.data.ret === 200) {
+      //     this.list = res.data.data.content
+      //     for (let i = 0; i < this.list.length; i++) {
+      //       this.list[i].heji = this.list[i].totalMoney + this.list[i].taxMoney
+      //     }
+      //     this.total = res.data.data.content.totalCount
+      //   }
+      //   setTimeout(() => {
+      //     this.listLoading = false
+      //   }, 0.5 * 100)
+      // })
     },
     // 清空搜索条件
     restFilter() {
@@ -309,26 +299,67 @@ export default {
     },
     // 搜索
     handleFilter() {
-      this.getemplist.pageNum = 1
-      if (this.date === null || this.date === undefined || this.date === '') {
-        this.getemplist.beginTime = ''
-        this.getemplist.endTime = ''
-      } else {
-        this.getemplist.beginTime = this.date[0]
-        this.getemplist.endTime = this.date[1]
-      }
-      stockDetailCount(this.getemplist).then(res => {
-        if (res.data.ret === 200) {
-          this.list = res.data.data.content.list
-          for (let i = 0; i < this.list.length; i++) {
-            this.list[i].heji = this.list[i].totalMoney + this.list[i].taxMoney
+      if (this.supplierId !== null && this.data1 !== null && this.data2 !== null && this.supplierId !== '' && this.data1 !== '' && this.data2 !== '') {
+        console.log(66666)
+        var result = []
+        var starts = this.data1.split('-')
+        var ends = this.data2.split('-')
+        var staYear = parseInt(starts[0])
+        var staMon = parseInt(starts[1])
+        var endYear = parseInt(ends[0])
+        var endMon = parseInt(ends[1])
+        while (staYear <= endYear) {
+          if (staYear === endYear) {
+            while (staMon < endMon) {
+              staMon++
+              let needdatas = ''
+              console.log('staMon.length', staMon.length)
+              console.log('staMon', staMon)
+              if (staMon.toString().length === 1) {
+                needdatas = staYear + '-0' + staMon
+              } else {
+                needdatas = staYear + '-' + staMon
+              }
+              console.log('needdatas', needdatas)
+              result.push(needdatas)
+            }
+            staYear++
+          } else {
+            staMon++
+            if (staMon > 12) {
+              staMon = 1
+              staYear++
+            }
+            let needdatas = ''
+            if (staMon.toString().length === 1) {
+              needdatas = staYear + '-0' + staMon
+            } else {
+              needdatas = staYear + '-' + staMon
+            }
+            console.log('needdatas', needdatas)
+            result.push(needdatas)
           }
-          this.total = res.data.data.content.totalCount
-          this.restFilter()
-        } else {
-          this.restFilter()
         }
-      })
+
+        this.getemplist.dateList = result
+        shouldPayDetail(this.getemplist).then(res => {
+          if (res.data.ret === 200) {
+            this.list = res.data.data.content
+            console.log('this.list', this.list)
+            // for (let i = 0; i < this.list.length; i++) {
+            //   this.list[i].heji = this.list[i].totalMoney + this.list[i].taxMoney
+            // }
+            // this.total = res.data.data.content.totalCount
+          }
+        })
+      } else {
+        this.list = []
+        this.$notify.error({
+          title: '错误',
+          message: '搜索条件不能为空',
+          offset: 100
+        })
+      }
     },
     // 采购人focus事件
     handlechooseStock() {
@@ -389,11 +420,6 @@ export default {
     // 仓库列表focus事件触发
     handlechooseRep() {
       this.repositorycontrol = true
-    },
-    repositoryname(val) {
-      console.log(val)
-      this.enterRepositoryId = val.repositoryName
-      this.getemplist.enterRepositoryId = val.id
     },
     // 部门列表focus刷新
     updatedept() {

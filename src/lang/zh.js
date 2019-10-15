@@ -361,8 +361,10 @@ export default {
     shouldPayCount: '应付款汇总表',
     shouldPayDetail: '应付款明细表'
   },
+  saleBillList: {
+    saleType: '销售方式'
+  },
   shouldPayCount: {
-    // 供应商编号 供应商名称 期间 期初余额 本期应付 本期实付 本年累计应付 本年累计实付 期末余额
     supplierId: '供应商编号',
     supplierName: '供应商名称',
     time: '期间',
@@ -374,6 +376,19 @@ export default {
     end: '期末余额',
     startMonth: '开始月份',
     endMonth: '结束月份'
+  },
+  shouldPayDetail: {
+    // 付款日期 单据类型 单据编号 明细类型 凭证号 往来科目 摘要 部门 业务员 本期应付 本期实付 期末余额
+    financeDate: '付款日期',
+    receiptType: '单据类型',
+    receiptNumber: '单据编号',
+    // receiptType: '明细类型',
+    // subjectName: '凭证号',
+    // deptName: '摘要',
+    deptName: '部门',
+    handlePersonName: '业务员',
+    shouldPay: '本期应付',
+    paid: '本期实付'
   },
   searchSaleReport: {
     saleOut: '销售出库',
