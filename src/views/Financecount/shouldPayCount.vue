@@ -222,7 +222,7 @@ export default {
       getemplist: {
         pageNum: 1,
         pageSize: 10,
-        repositoryId: this.$store.getters.repositoryId,
+        repositoryId: '',
         regionIds: this.$store.getters.regionId,
         type: '1'
       },
@@ -424,11 +424,6 @@ export default {
     // 仓库列表focus事件触发
     handlechooseRep() {
       this.repositorycontrol = true
-    },
-    repositoryname(val) {
-      console.log(val)
-      this.enterRepositoryId = val.repositoryName
-      this.getemplist.enterRepositoryId = val.id
     },
     // 部门列表focus刷新
     updatedept() {
