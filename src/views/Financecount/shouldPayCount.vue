@@ -321,28 +321,45 @@ export default {
       if (this.supplierId !== null && this.data1 !== null && this.data2 !== null && this.supplierId !== '' && this.data1 !== '' && this.data2 !== '') {
         console.log(66666)
         var result = []
-        var s = this.data1.split('-')
-        var e = this.data2.split('-')
-        var min = new Date()
-        var max = new Date()
-        min.setFullYear(s[0], s[1])
-        max.setFullYear(e[0], e[1])
-        console.log(e[0] + '---- ' + e[1])
-        var curr = min
-        // eslint-disable-next-line no-unmodified-loop-condition
-        while (curr <= max) {
-          var month = curr.getMonth()
-          // month=month==0?12:month;
-          console.log(month)
-          var str = curr.getFullYear() + '-' + (month)
-          var s2 = curr.getFullYear() + '-0'
-          if (str === s2) {
-            str = curr.getFullYear() + '-12'
+        var starts = this.data1.split('-')
+        var ends = this.data2.split('-')
+        var staYear = parseInt(starts[0])
+        var staMon = parseInt(starts[1])
+        var endYear = parseInt(ends[0])
+        var endMon = parseInt(ends[1])
+        while (staYear <= endYear) {
+          if (staYear === endYear) {
+            while (staMon < endMon) {
+              staMon++
+              let needdatas = ''
+              console.log('staMon.length', staMon.length)
+              console.log('staMon', staMon)
+              if (staMon.toString().length === 1) {
+                needdatas = staYear + '-0' + staMon
+              } else {
+                needdatas = staYear + '-' + staMon
+              }
+              console.log('needdatas', needdatas)
+              result.push(needdatas)
+            }
+            staYear++
+          } else {
+            staMon++
+            if (staMon > 12) {
+              staMon = 1
+              staYear++
+            }
+            let needdatas = ''
+            if (staMon.toString().length === 1) {
+              needdatas = staYear + '-0' + staMon
+            } else {
+              needdatas = staYear + '-' + staMon
+            }
+            console.log('needdatas', needdatas)
+            result.push(needdatas)
           }
-          result.push(str)
-          curr.setMonth(month + 1)
         }
-        console.log('result', result)
+
         this.getemplist.dateList = result
         shouldPayCount(this.getemplist).then(res => {
           if (res.data.ret === 200) {

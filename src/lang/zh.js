@@ -362,6 +362,16 @@ export default {
     shouldPayDetail: '应付款明细表'
   },
   shouldPayCount: {
+    // 供应商编号 供应商名称 期间 期初余额 本期应付 本期实付 本年累计应付 本年累计实付 期末余额
+    supplierId: '供应商编号',
+    supplierName: '供应商名称',
+    time: '期间',
+    begin: '期初余额',
+    shouldPay: '本期应付',
+    paid: '本期实付',
+    thisYearShould: '本年累计应付',
+    thisYearPaid: '本年累计实付',
+    end: '期末余额',
     startMonth: '开始月份',
     endMonth: '结束月份'
   },
