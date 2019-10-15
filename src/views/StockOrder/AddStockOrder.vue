@@ -183,7 +183,14 @@
                   @keyup.enter.native="test(scope.row)"/>
               </template>
             </el-editable-column>
-            <el-editable-column :edit-render="{name: 'ElDatePicker', attrs: {type: 'date', format: 'yyyy-MM-dd'}, type: 'visible'}" prop="deliveryDate" align="center" label="交货日期" min-width="170px"/>
+            <el-editable-column :edit-render="{name: 'ElDatePicker', attrs: {type: 'date', format: 'yyyy-MM-dd'}, type: 'visible'}" prop="deliveryDate" align="center" label="交货日期" min-width="170px">
+              <template slot="edit" slot-scope="scope">
+                <el-date-picker
+                  v-model="scope.row.deliveryDate"
+                  value-format="yyyy-MM-dd"
+                  @change="copydate(scope.row)"/>
+              </template>
+            </el-editable-column>
             <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="remarks" align="center" label="备注" width="150px"/>
             <!--            <el-editable-column prop="stockNumber" align="center" label="库存" min-width="150px"/>-->
             <el-editable-column prop="price" align="center" label="单价" min-width="170px">
@@ -507,18 +514,12 @@ export default {
       supplierDetailVos: [],
       // 采购申请单明细列表规则
       validRules: {
-        name: [
-          { required: true, message: '请输入名称', trigger: 'change' }
-        ],
+        // name: [
+        //   { required: true, message: '请输入名称', trigger: 'change' }
+        // ],
         // stockQuantity: [
         //   { required: true, message: '请输入采购数量', trigger: 'blur' }
         // ],
-        price: [
-          { required: true, message: '请输入单价', trigger: 'blur' }
-        ],
-        includeTaxPrice: [
-          { required: true, message: '请输入含税价', trigger: 'blur' }
-        ],
         stockQuantity: [
           { required: true, message: '请输入采购数量', trigger: 'blur' }
         ],
@@ -544,6 +545,18 @@ export default {
     this.getinformation()
   },
   methods: {
+    copydate(row) {
+      if (row.deliveryDate === '' || row.deliveryDate === null || row.deliveryDate === undefined) {
+        return false
+      }
+      for (let i = 0; i < this.list2.length; i++) {
+        this.list2[i].temp = i
+      }
+      for (let i = row.temp; i < this.list2.length; i++) {
+        this.list2[i].deliveryDate = row.deliveryDate
+      }
+      console.log(row)
+    },
     // 处理汇率
     changeRate() {
       console.log(123)
@@ -1262,133 +1275,133 @@ export default {
     handlesave() {
       this.$refs.personalForm.validate((valid) => {
         if (valid) {
-          // this.$refs.editable.validate().then(valid => {
-          console.log('123')
-          const EnterDetail = this.deepClone(this.$refs.editable.getRecords())
-          if (EnterDetail.length === 0) {
-            this.$notify.error({
-              title: '错误',
-              message: '明细表不能为空',
-              offset: 100
-            })
-            return false
-          }
-          let ll = 1
-          console.log('ll', ll)
-          EnterDetail.map(function(elem) {
-            return elem
-          }).forEach(function(elem) {
-            if (elem.stockQuantity === 0) {
-              ll = 2
-            }
-          })
-          console.log('ll', ll)
-          if (ll === 2) {
-            this.$notify.error({
-              title: '错误',
-              message: '采购数量不能为0',
-              offset: 100
-            })
-            return false
-          }
-          EnterDetail.map(function(elem) {
-            return elem
-          }).forEach(function(elem) {
-            if (elem.productCode === null || elem.productCode === '' || elem.productCode === undefined) {
-              delete elem.productCode
-            }
-            if (elem.productName === null || elem.productName === '' || elem.productName === undefined) {
-              delete elem.productName
-            }
-            elem.typeId = elem.type
-            if (elem.type === null || elem.type === '' || elem.type === undefined) {
-              delete elem.type
-            }
-            if (elem.unit === null || elem.unit === '' || elem.unit === undefined) {
-              delete elem.unit
-            }
-            if (elem.price === null || elem.price === '' || elem.price === undefined) {
-              delete elem.price
-            }
-            if (elem.stockQuantity === null || elem.stockQuantity === '' || elem.stockQuantity === undefined) {
-              delete elem.stockQuantity
-            }
-            if (elem.deliveryDate === null || elem.deliveryDate === '' || elem.deliveryDate === undefined) {
-              delete elem.deliveryDate
-            }
-            if (elem.remarks === null || elem.remarks === '' || elem.remarks === undefined) {
-              delete elem.remarks
-            }
-            if (elem.sourceNumber === null || elem.sourceNumber === '' || elem.sourceNumber === undefined) {
-              delete elem.sourceNumber
-            }
-            if (elem.sourceSerialNumber === null || elem.sourceSerialNumber === '' || elem.sourceSerialNumber === undefined) {
-              delete elem.sourceSerialNumber
-            }
-            if (elem.includeTaxPrice === null || elem.includeTaxPrice === '' || elem.includeTaxPrice === undefined) {
-              delete elem.includeTaxPrice
-            }
-            // if (elem.taxRate === null || elem.taxRate === '' || elem.taxRate === undefined) {
-            //   delete elem.taxRate
-            // }
-            if (elem.taxRate !== null || elem.taxRate !== '' || elem.taxRate !== undefined) {
-              elem.taxRate = elem.taxRate / 100
-            }
-            // if (elem.discountRate === null || elem.discountRate === '' || elem.discountRate === undefined) {
-            //   delete elem.discountRate
-            // }
-            if (elem.discountRate !== null || elem.discountRate !== '' || elem.discountRate !== undefined) {
-              elem.discountRate = elem.discountRate / 100
-            }
-            if (elem.money === null || elem.money === '' || elem.money === undefined) {
-              delete elem.money
-            }
-            if (elem.includeTaxMoney === null || elem.includeTaxMoney === '' || elem.includeTaxMoney === undefined) {
-              delete elem.includeTaxMoney
-            }
-            if (elem.tax === null || elem.tax === '' || elem.tax === undefined) {
-              delete elem.tax
-            }
-            if (elem.discountMoney === null || elem.discountMoney === '' || elem.discountMoney === undefined) {
-              delete elem.discountMoney
-            }
-            return elem
-          })
-          const parms2 = JSON.stringify(EnterDetail)
-          const Data = this.personalForm
-          for (const key in Data) {
-            if (Data[key] === '' || Data[key] === undefined || Data[key] === null) {
-              delete Data[key]
-            }
-            if (key === 'judgeStat') {
-              delete Data[key]
-            }
-          }
-          const parms = JSON.stringify(Data)
-          addstockorder(parms, parms2, this.personalForm).then(res => {
-            console.log(res)
-            if (res.data.ret === 200) {
-              this.$notify({
-                title: '成功',
-                message: '保存成功',
-                type: 'success',
-                offset: 100
-              })
-              this.restAllForm()
-              this.$refs.editable.clear()
-              this.$refs.personalForm.clearValidate()
-              this.$refs.personalForm.resetFields()
-            } else {
+          this.$refs.editable.validate().then(valid => {
+            console.log('123')
+            const EnterDetail = this.deepClone(this.$refs.editable.getRecords())
+            if (EnterDetail.length === 0) {
               this.$notify.error({
                 title: '错误',
-                message: res.data.msg,
+                message: '明细表不能为空',
                 offset: 100
               })
+              return false
             }
+            let ll = 1
+            console.log('ll', ll)
+            EnterDetail.map(function(elem) {
+              return elem
+            }).forEach(function(elem) {
+              if (elem.stockQuantity === 0) {
+                ll = 2
+              }
+            })
+            console.log('ll', ll)
+            if (ll === 2) {
+              this.$notify.error({
+                title: '错误',
+                message: '采购数量不能为0',
+                offset: 100
+              })
+              return false
+            }
+            EnterDetail.map(function(elem) {
+              return elem
+            }).forEach(function(elem) {
+              if (elem.productCode === null || elem.productCode === '' || elem.productCode === undefined) {
+                delete elem.productCode
+              }
+              if (elem.productName === null || elem.productName === '' || elem.productName === undefined) {
+                delete elem.productName
+              }
+              elem.typeId = elem.type
+              if (elem.type === null || elem.type === '' || elem.type === undefined) {
+                delete elem.type
+              }
+              if (elem.unit === null || elem.unit === '' || elem.unit === undefined) {
+                delete elem.unit
+              }
+              if (elem.price === null || elem.price === '' || elem.price === undefined) {
+                delete elem.price
+              }
+              if (elem.stockQuantity === null || elem.stockQuantity === '' || elem.stockQuantity === undefined) {
+                delete elem.stockQuantity
+              }
+              if (elem.deliveryDate === null || elem.deliveryDate === '' || elem.deliveryDate === undefined) {
+                delete elem.deliveryDate
+              }
+              if (elem.remarks === null || elem.remarks === '' || elem.remarks === undefined) {
+                delete elem.remarks
+              }
+              if (elem.sourceNumber === null || elem.sourceNumber === '' || elem.sourceNumber === undefined) {
+                delete elem.sourceNumber
+              }
+              if (elem.sourceSerialNumber === null || elem.sourceSerialNumber === '' || elem.sourceSerialNumber === undefined) {
+                delete elem.sourceSerialNumber
+              }
+              if (elem.includeTaxPrice === null || elem.includeTaxPrice === '' || elem.includeTaxPrice === undefined) {
+                delete elem.includeTaxPrice
+              }
+              // if (elem.taxRate === null || elem.taxRate === '' || elem.taxRate === undefined) {
+              //   delete elem.taxRate
+              // }
+              if (elem.taxRate !== null || elem.taxRate !== '' || elem.taxRate !== undefined) {
+                elem.taxRate = elem.taxRate / 100
+              }
+              // if (elem.discountRate === null || elem.discountRate === '' || elem.discountRate === undefined) {
+              //   delete elem.discountRate
+              // }
+              if (elem.discountRate !== null || elem.discountRate !== '' || elem.discountRate !== undefined) {
+                elem.discountRate = elem.discountRate / 100
+              }
+              if (elem.money === null || elem.money === '' || elem.money === undefined) {
+                delete elem.money
+              }
+              if (elem.includeTaxMoney === null || elem.includeTaxMoney === '' || elem.includeTaxMoney === undefined) {
+                delete elem.includeTaxMoney
+              }
+              if (elem.tax === null || elem.tax === '' || elem.tax === undefined) {
+                delete elem.tax
+              }
+              if (elem.discountMoney === null || elem.discountMoney === '' || elem.discountMoney === undefined) {
+                delete elem.discountMoney
+              }
+              return elem
+            })
+            const parms2 = JSON.stringify(EnterDetail)
+            const Data = this.personalForm
+            for (const key in Data) {
+              if (Data[key] === '' || Data[key] === undefined || Data[key] === null) {
+                delete Data[key]
+              }
+              if (key === 'judgeStat') {
+                delete Data[key]
+              }
+            }
+            const parms = JSON.stringify(Data)
+            addstockorder(parms, parms2, this.personalForm).then(res => {
+              console.log(res)
+              if (res.data.ret === 200) {
+                this.$notify({
+                  title: '成功',
+                  message: '保存成功',
+                  type: 'success',
+                  offset: 100
+                })
+                this.restAllForm()
+                this.$refs.editable.clear()
+                this.$refs.personalForm.clearValidate()
+                this.$refs.personalForm.resetFields()
+              } else {
+                this.$notify.error({
+                  title: '错误',
+                  message: res.data.msg,
+                  offset: 100
+                })
+              }
+            })
+          }).catch(valid => {
+            console.log('error submit!!')
           })
-          // }).catch(valid => {
-          //   console.log('error submit!!')
-          // })
         } else {
           this.$notify.error({
             title: '错误',
