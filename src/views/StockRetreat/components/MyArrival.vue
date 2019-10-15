@@ -369,9 +369,16 @@ export default {
           taxMoney: item.taxMoney,
           discountMoney: item.discountMoney,
           discountRate: item.discountRate * 100,
-          orderNumber: item.orderNumber
+          orderNumber: item.orderNumber,
+          unqualifyQuantity: item.unqualifyQuantity
         }
       })
+      for (let i = 0; i < arrivalDetail.length; i++) {
+        if (arrivalDetail[i].unqualifyQuantity === 0) {
+          arrivalDetail.splice(i, 1)
+          i--
+        }
+      }
       console.log(arrivalDetail)
       this.$emit('arrival', arrivalDetail)
       this.$emit('allarrivalinfo', this.choosedata)
