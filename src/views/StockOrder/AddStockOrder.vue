@@ -540,6 +540,9 @@ export default {
   mounted() {
     this.getinformation()
   },
+  activated() {
+    this.getinformation()
+  },
   methods: {
     // 处理汇率
     changeRate() {
@@ -584,6 +587,10 @@ export default {
         this.stockPersonId = this.$store.getters.empcontract.stockPersonName
         this.signPersonId = this.$store.getters.empcontract.signPersonName
         this.list2 = this.personalForm.stockOrderDetailVos
+        this.personalForm.createPersonId = this.$store.getters.userId
+        this.personalForm.countryId = this.$store.getters.countryId
+        this.personalForm.repositoryId = this.$store.getters.repositoryId
+        this.personalForm.regionId = this.$store.getters.regionId
         this.$store.dispatch('getempcontract', '')
       }
     },
@@ -1351,6 +1358,9 @@ export default {
           const Data = this.personalForm
           for (const key in Data) {
             if (Data[key] === '' || Data[key] === undefined || Data[key] === null) {
+              delete Data[key]
+            }
+            if (key === 'judgeStat') {
               delete Data[key]
             }
           }

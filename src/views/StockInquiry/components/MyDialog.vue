@@ -745,6 +745,9 @@ export default {
               if (Data[key] === '' || Data[key] === undefined || Data[key] === null) {
                 delete Data[key]
               }
+              if (key === 'judgeStat') {
+                delete Data[key]
+              }
             }
             const parms = JSON.stringify(Data)
             updatestockInquiry(parms, parms2).then(res => {
