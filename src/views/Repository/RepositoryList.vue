@@ -125,10 +125,10 @@
               <el-input v-model="RepositoryForm.repositoryName" placeholder="请输入门店名称" clearable/>
             </el-form-item>
             <el-form-item :label="$t('Repository.longitude')" :required="RepositoryForm.type === 2" prop="longitude" style="width: 40%;margin-top:1%">
-              <el-input v-model.number="RepositoryForm.longitude" autocomplete="new-password" clearable/>
+              <el-input v-model="RepositoryForm.longitude" autocomplete="new-password" clearable/>
             </el-form-item>
             <el-form-item :label="$t('Repository.latitude')" :required="RepositoryForm.type === 2" prop="latitude" style="width: 40%">
-              <el-input v-model.number="RepositoryForm.latitude" placeholder="请输入纬度" clearable/>
+              <el-input v-model="RepositoryForm.latitude" placeholder="请输入纬度" clearable/>
             </el-form-item>
             <el-form-item :label="$t('public.address')" prop="address" style="width: 40%">
               <el-input v-model="RepositoryForm.address" placeholder="请输入详细门店地址" clearable/>
