@@ -40,7 +40,8 @@ export default {
   },
   methods: {
     beforeUpload(file) {
-      const isLt1M = file.size / 1024 / 1024 < 1
+      // const isLt1M = file.size / 1024 / 1024 < 1
+      const isLt1M = true
 
       if (isLt1M) {
         return true
@@ -54,20 +55,28 @@ export default {
     },
     handleSuccess({ results, header }) {
       this.tableData = results
-      this.tableHeader = ['编号', '客户姓名', '客户类型', '客户优质级别', '生日', '客户来源', '新老客户', '客户电话', '性别', '详细地址', '积分']
+      this.tableHeader = ['id', '账号', '名 （必填）', '中间名', '姓氏（必填）', '客户电话（必填）', '性别 (1男2女)', '客户优质级别id', '客户来源id', '新老客户 (1老2新)', '国家id（必填）', '省id', '市id', '详细地址', '生日', '所属门店id', '邮箱', '密码', '创建时间']
       this.uploadHead = results.map(function(item) {
         return {
-          id: item.编号,
-          customerName: item.客户姓名,
-          customerTypeWZ: item.客户类型,
-          customerLevel: item.客户优质级别,
-          birthday: item.生日,
-          source: item.客户来源,
-          newOrOld: item.新老客户,
-          phoneNumber: item.客户电话,
-          gender: item.性别,
-          address: item.详细地址,
-          point: item.积分
+          id: item['id'],
+          account: item['账号'],
+          lastName: item['名 （必填）'],
+          middleName: item['中间名'],
+          firstName: item['姓氏（必填）'],
+          phoneNumber: item['客户电话（必填）'],
+          gender: item['性别 (1男2女)'],
+          level: item['客户优质级别id'],
+          source: item['客户来源id'],
+          newOrOld: item['新老客户 (1老2新)'],
+          countryId: item['国家id（必填）'],
+          provinceId: item['省id'],
+          cityId: item['市id'],
+          address: item['详细地址'],
+          birthday: item['生日'],
+          repositoryId: item['所属门店id'],
+          email: item['邮箱'],
+          password: item['密码'],
+          createTime: item['创建时间']
         }
       })
       console.log(header)
