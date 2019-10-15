@@ -1,5 +1,5 @@
 <template>
-  <el-dialog :visible.sync="editVisible" :control="control" :editdata="editdata" :close-on-press-escape="false" top="10px" title="修改供应商" @close="$emit('update:control', false)">
+  <el-dialog :visible.sync="editVisible" :control="control" :editdata="editdata" :close-on-press-escape="false" width="1010px" top="10px" title="修改供应商" @close="$emit('update:control', false)">
     <!--基本信息-->
     <h2 ref="geren" class="form-name">基本信息</h2>
     <div class="container">

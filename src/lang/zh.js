@@ -658,7 +658,8 @@ export default {
     alarm: '库存预警',
     apply: '我的申请',
     prepare: '我的待办',
-    more: '更多>'
+    more: '更多>',
+    chinese: '中文'
   },
   navbar: {
     logOut: '退出登录',
@@ -1460,7 +1461,24 @@ export default {
     accessMaterialsId: '领料单',
     retreatPersonId: '退料人',
     receivePersonId: '收料人',
-    receiveDate: '收料时间'
+    receiveDate: '收料时间',
+    Billtheme: '单据主题',
+    Nosource: '无来源',
+    Approvalstatus: '审批状态',
+    Unaudited: '未审核',
+    underreview: '审核中',
+    pass: '审核通过',
+    unpass: '审核不通过',
+    billstatus: '单据状态',
+    Ordermaking: '制单',
+    implement: '执行',
+    finish: '结单',
+    provide: '发料',
+    edit: '修改',
+    shengpi: '审批',
+    unshengpi: '反审批',
+    fin: '结单',
+    unfin: '反结单'
   },
   OutFactory: {
     code: '工厂编号',
@@ -2221,7 +2239,9 @@ export default {
     actualDate: '还款日期',
     pay: '已收款金额',
     unpay: '未收款金额',
-    stat: '状态'
+    stat: '状态',
+    reward: '奖励金',
+    Dispatch: '分派收款人'
   },
   AgentCollect: {
     agentName: '经销商姓名',

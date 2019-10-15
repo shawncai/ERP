@@ -90,6 +90,7 @@
         v-loading="listLoading"
         :key="tableKey"
         :data="list"
+        :row-class-name="tableRowClassName"
         border
         fit
         highlight-current-row
@@ -134,6 +135,11 @@
             <span>{{ scope.row.deadline }}</span>
           </template>
         </el-table-column>
+        <el-table-column :label="$t('CollectList.reward')" :resizable="false" align="center" min-width="150">
+          <template slot-scope="scope">
+            <span>{{ scope.row.reward }}</span>
+          </template>
+        </el-table-column>
         <el-table-column :label="$t('CollectList.pay')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.paidMoney }}</span>
@@ -163,7 +169,7 @@
       <my-dialog :editcontrol.sync="editVisible" :editdata.sync="personalForm" @rest="refreshlist"/>
       <!--修改结束=================================================-->
     </el-card>
-    <el-dialog :visible.sync="isvisible" :title="$t('repair.Dispatch2')" width="40%" center lock-scroll>
+    <el-dialog :visible.sync="isvisible" :title="$t('CollectList.Dispatch')" class="normal" width="40%" center lock-scroll>
       <el-form :model="dispatchform" style="width: 400px; margin:0 auto;">
         <el-form-item :label-width="formLabelWidth" :label="$t('repair.Employee')">
           <el-select v-model="dispatchform.id" placeholder="please choose">
@@ -314,6 +320,18 @@ export default {
     this.getlist()
   },
   methods: {
+    // 提示逾期
+    tableRowClassName({ row, rowIndex }) {
+      console.log('状态判断', row)
+      if (row.stat === 3) {
+        console.log('row.id', row.id)
+        return 'warning-row'
+      }
+      if (row.stat === 2) {
+        return 'success-row'
+      }
+      return ''
+    },
     handleMyReceipt2(row) {
       postphone(row.id).then(res => {
         if (res.data.ret === 200) {
@@ -704,5 +722,28 @@ export default {
   .filter-item{
     width: 140px;
     margin-left: 30px;
+  }
+  .normal >>> .el-dialog__header {
+    /*padding: 10px 20px 10px;*/
+    background: #fff;
+    position: static;
+    top: auto;
+    z-index: auto;
+    width: auto;
+    border-bottom: none;
+  }
+  .normal >>> .el-dialog {
+    -webkit-transform: none;
+    transform: none;
+    left: 0;
+    position: relative;
+    margin: 0 auto;
+    height: auto;
+  }
+  .el-table >>> .warning-row {
+    background: #F56C6C;
+  }
+  .el-table >>> .success-row {
+    background: #409EFF;
   }
 </style>
