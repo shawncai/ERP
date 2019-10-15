@@ -652,7 +652,21 @@ export default {
     this.getCategory()
     this.jungleshow()
   },
+  activated() {
+    this.getinformation()
+  },
   methods: {
+    // 获取默认消息（分期列表）
+    getinformation() {
+      console.log(11111111111111111111111111)
+      if (this.$store.getters.empcontract) {
+        this.personalForm.sourceType = '2'
+        this.isinstallappley = false
+        this.installappley(this.$store.getters.empcontract[0])
+        console.log('empcontract', this.$store.getters.empcontract)
+      }
+      this.$store.dispatch('getempcontract', '')
+    },
     // 数量变化其他参数
     queryStock(row) {
       if (row.discountRate === 0) {

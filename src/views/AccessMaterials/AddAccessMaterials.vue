@@ -71,7 +71,7 @@
       </el-card>
       <!--子件信息-->
       <el-card class="box-card" style="margin-top: 15px" shadow="never">
-        <h2 ref="fuzhu" class="form-name">生成任务单明细</h2>
+        <h2 ref="fuzhu" class="form-name">领料单明细</h2>
         <div class="buttons" style="margin-top: 58px">
           <el-button :disabled="addpro" @click="handleAddproduct">添加商品</el-button>
           <my-detail2 :control.sync="control" :personalform="personalForm" @product="productdetail"/>

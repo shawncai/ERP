@@ -85,6 +85,12 @@
                   </el-select>
                 </el-form-item>
               </el-col>
+              <!-- <el-col :span="6">
+                <el-form-item :label="$t('StockRetreat.retreatPerson')" prop="supplierId" style="width: 100%;">
+                  <el-input v-model="receivePerson" style="margin-left: 18px;width:200px" clearable @focus="handlechoose"/>
+                  <my-retreat :control.sync="empcontrol2" @supplierName="supplierName2"/>
+                </el-form-item>
+              </el-col> -->
               <el-col :span="6">
                 <el-form-item :label="$t('StockRetreat.retreatDate')" prop="retreatDate" style="width: 100%;">
                   <el-date-picker
@@ -181,7 +187,7 @@
             <el-editable-column prop="color" align="center" label="颜色" min-width="150px"/>
             <el-editable-column prop="unit" align="center" label="单位" min-width="150px"/>
             <el-editable-column prop="arrivalQuantity" align="center" label="到货数量" min-width="150px"/>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="retreatQuantity" align="center" label="退货数量" min-width="150px"/>
+            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible', events: {change: jungleNumbers}}" prop="retreatQuantity" align="center" label="退货数量" min-width="150px"/>
             <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="retreatReason" align="center" label="退货原因" min-width="170px"/>
             <el-editable-column prop="price" align="center" label="单价" min-width="170px"/>
             <el-editable-column prop="includeTaxPrice" align="center" label="含税价" min-width="170px"/>
@@ -233,7 +239,7 @@
                   <el-input v-model="allTaxMoney" style="margin-left: 18px;width:200px" disabled/>
                 </el-form-item>
               </el-col>
-              <el-col :span="6">
+              <!-- <el-col :span="6">
                 <el-form-item label="抵应付账款" style="width: 100%;">
                   <el-input v-model="allIncludeTaxMoney" style="margin-left: 18px;width:200px" disabled/>
                 </el-form-item>
@@ -242,7 +248,7 @@
                 <el-form-item label="应退货款合计" style="width: 100%;">
                   <el-input v-model="allDiscountMoney" style="margin-left: 18px;width:200px" disabled/>
                 </el-form-item>
-              </el-col>
+              </el-col> -->
             </el-row>
           </el-form>
         </div>
@@ -302,9 +308,10 @@ import MyLnquiry from './components/MyLnquiry'
 import MyOrder from './components/MyOrder'
 import MyArrival from './components/MyArrival'
 import MyRepository from './components/MyRepository'
+import MyRetreat from './components/MyRetreat'
 export default {
   name: 'AddStockRetreat',
-  components: { MyRepository, MyArrival, MyOrder, MyLnquiry, MyDelivery, MyPlan, MyApply, MySupplier, MyDetail, MyEmp },
+  components: { MyRepository, MyArrival, MyOrder, MyLnquiry, MyDelivery, MyPlan, MyApply, MySupplier, MyDetail, MyEmp, MyRetreat },
   data() {
     const validatePass = (rule, value, callback) => {
       console.log(this.stockPersonId)
@@ -343,8 +350,10 @@ export default {
           return time.getTime() < new Date().getTime() - 8.64e7
         }
       },
+      // 收货人回显
+      retreatPerson: '',
       // 回显仓库
-      retreatRepositoryId: '',
+      retreatRepositoryId: this.$store.getters.repositoryName,
       // 控制仓库
       repositorycontrol: false,
       // 合计数据
@@ -377,6 +386,8 @@ export default {
       supplierId: '',
       // 控制供应商
       empcontrol: false,
+      // 控制收货人
+      empcontrol2: false,
       // 选择的数据
       choosedata: [],
       // 部门数据
@@ -396,6 +407,7 @@ export default {
       control: false,
       // 采购申请单信息数据
       personalForm: {
+        transportModeId: '',
         stockPersonId: this.$store.getters.userId,
         createPersonId: this.$store.getters.userId,
         countryId: this.$store.getters.countryId,
@@ -404,7 +416,8 @@ export default {
         deptId: this.$store.getters.deptId,
         isVat: 1,
         sourceType: '1',
-        retreatDate: null
+        retreatDate: null,
+        retreatRepositoryId: this.$store.getters.repositoryId
       },
       // 采购申请单规则数据
       personalrules: {
@@ -453,6 +466,20 @@ export default {
     this.getinformation()
   },
   methods: {
+    // 判断数量
+    jungleNumbers(scope) {
+      console.log(this.actualilNumber, this.allNumber)
+      console.log(scope.row)
+      if (scope.row.retreatQuantity > scope.row.arrivalQuantity) {
+        // scope.row.retreatQuantity = scope.row.arrivalQuantity
+        this.$refs.editable.revert(scope.row)
+        this.$notify.error({
+          title: '错误',
+          message: '退货数量不能大于到货数量',
+          offset: 100
+        })
+      }
+    },
     // 重置一下下拉
     change() {
       this.$forceUpdate()
@@ -558,7 +585,8 @@ export default {
       sums[15] = ''
       sums[18] = ''
       sums[19] = ''
-      this.allNumber = sums[7]
+      this.actualilNumber = sums[7]
+      this.allNumber = sums[8]
       this.allMoney = sums[12]
       this.allTaxMoney = sums[14]
       this.allIncludeTaxMoney = sums[13]
@@ -685,6 +713,10 @@ export default {
     handlechoose() {
       this.empcontrol = true
     },
+    // 收货人事件触发
+    handlechoose2() {
+      this.empcontrol2 = true
+    },
     // 供应商列表返回数据
     supplierName(val) {
       console.log(val)
@@ -696,8 +728,16 @@ export default {
       }
       this.personalForm.payMode = val.payMode
       this.personalForm.deliveryModeId = val.deliveryMode
+      this.personalForm.settleMode = val.settleMode
+      this.personalForm.transportModeId = val.transportId
       this.personalForm.isVat = val.isVat
       this.personalForm.currencyId = val.currency
+    },
+    // 收货人返回数据
+    supplierName2(val) {
+      console.log(val)
+      this.retreatPerson = val.supplierName
+      this.personalForm.retreatPerson = val.id
     },
     // 采购员focus事件
     handlechooseStock() {

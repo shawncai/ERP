@@ -125,11 +125,11 @@
             <span>{{ scope.row.supplierName }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('StockRetreat.allRetreatMoney')" :resizable="false" align="center" min-width="150">
+        <!-- <el-table-column :label="$t('StockRetreat.allRetreatMoney')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.allRetreatMoney }}</span>
           </template>
-        </el-table-column>
+        </el-table-column> -->
         <el-table-column :label="$t('public.judgeStat')" :resizable="false" prop="judgeStat" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.judgeStat | judgeStatFilter }}</span>

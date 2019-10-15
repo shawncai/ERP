@@ -1643,7 +1643,8 @@ export default {
     retreatDate: '退货日期',
     isVat: '是否为增值税',
     allRetreatMoney: '应退款合计',
-    retreatRepositoryId: '退货仓库'
+    retreatRepositoryId: '退货仓库',
+    retreatPerson: '收货人'
   },
   StockQuery: {
     productName: '物品名称',
@@ -2164,7 +2165,8 @@ export default {
     customerName: '客户姓名',
     isInvestigation: '是否调查',
     investigationDetail: '调查结果',
-    addInvestigationReport: '客户调查报告'
+    addInvestigationReport: '客户调查报告',
+    salecontrat: '销售合同'
   },
   InstallmentList: {
     isChange: '是否改期',

@@ -27,7 +27,7 @@
                 </el-form-item>
               </el-col>
               <el-col :span="12">
-                <el-form-item :label="$t('StockRetreat.sourceNumber')" :rules="personalForm.sourceType === '2'" prop="sourceNumber" style="width: 100%;">
+                <el-form-item :label="$t('StockRetreat.sourceNumber')" :required="personalForm.sourceType === 2" prop="sourceNumber" style="width: 100%;">
                   <el-input v-model="personalForm.sourceNumber" :disabled="addsouce" style="margin-left: 18px;width:200px" clearable @focus="handleAddSouce"/>
                   <my-arrival :arrivalcontrol.sync="arrivalcontrol" @arrival="arrival" @allarrivalinfo="allarrivalinfo"/>
                 </el-form-item>
@@ -172,7 +172,7 @@
           <el-editable-column prop="color" align="center" label="颜色" min-width="150px"/>
           <el-editable-column prop="unit" align="center" label="单位" min-width="150px"/>
           <el-editable-column prop="arrivalQuantity" align="center" label="到货数量" min-width="150px"/>
-          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="retreatQuantity" align="center" label="退货数量" min-width="150px"/>
+          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible', events: {change: jungleNumbers}}" prop="retreatQuantity" align="center" label="退货数量" min-width="150px"/>
           <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="retreatReason" align="center" label="退货原因" min-width="170px"/>
           <el-editable-column prop="price" align="center" label="单价" min-width="170px"/>
           <el-editable-column prop="includeTaxPrice" align="center" label="含税价" min-width="170px"/>
@@ -224,16 +224,16 @@
                 <el-input v-model="allTaxMoney" style="margin-left: 18px;width: 200px" disabled/>
               </el-form-item>
             </el-col>
-            <el-col :span="12">
+            <!-- <el-col :span="12">
               <el-form-item label="抵应付账款" style="width: 100%;">
                 <el-input v-model="allIncludeTaxMoney" style="margin-left: 18px;width: 200px" disabled/>
               </el-form-item>
-            </el-col>
-            <el-col :span="12">
+            </el-col> -->
+            <!-- <el-col :span="12">
               <el-form-item label="应退货款合计" style="width: 100%;">
                 <el-input v-model="allDiscountMoney" style="margin-left: 18px;width: 200px" disabled/>
               </el-form-item>
-            </el-col>
+            </el-col> -->
           </el-row>
         </el-form>
       </div>
@@ -323,7 +323,7 @@ export default {
       // 控制添加商品按钮
       addpro: true,
       // 控制从源单中选择按钮
-      addsouce: true,
+      addsouce: false,
       // 供应商回显
       supplierId: '',
       // 控制供应商
@@ -361,7 +361,7 @@ export default {
           { required: true, message: '请选择源单类型', trigger: 'change' }
         ],
         sourceNumber: [
-          { required: true, validator: validatePass3, trigger: 'change' }
+          { validator: validatePass3, trigger: 'change' }
         ],
         stockTypeId: [
           { required: true, message: '请选择采购类别', trigger: 'change' }
@@ -391,6 +391,23 @@ export default {
     this.getways()
   },
   methods: {
+    updatePaymen() {
+      this.getTypes()
+    },
+    // 判断数量
+    jungleNumbers(scope) {
+      console.log(this.actualilNumber, this.allNumber)
+      console.log(scope.row)
+      if (scope.row.retreatQuantity > scope.row.arrivalQuantity) {
+        // scope.row.retreatQuantity = scope.row.arrivalQuantity
+        this.$refs.editable.revert(scope.row)
+        this.$notify.error({
+          title: '错误',
+          message: '退货数量不能大于到货数量',
+          offset: 100
+        })
+      }
+    },
     // 总计
     getSummaries(param) {
       const { columns, data } = param
@@ -690,19 +707,19 @@ export default {
               delete elem.money
             }
             if (elem.money !== null || elem.money !== '' || elem.money !== undefined) {
-              elem.money = (elem.money).toFixed(2)
+              elem.money = (Number(elem.money)).toFixed(2)
             }
             if (elem.includeTaxMoney === null || elem.includeTaxMoney === '' || elem.includeTaxMoney === undefined) {
               delete elem.includeTaxMoney
             }
             if (elem.includeTaxMoney !== null || elem.includeTaxMoney !== '' || elem.includeTaxMoney !== undefined) {
-              elem.includeTaxMoney = (elem.includeTaxMoney).toFixed(2)
+              elem.includeTaxMoney = Number(elem.includeTaxMoney).toFixed(2)
             }
             if (elem.taxMoney === null || elem.taxMoney === '' || elem.taxMoney === undefined) {
               delete elem.taxMoney
             }
             if (elem.taxMoney !== null || elem.taxMoney !== '' || elem.taxMoney !== undefined) {
-              elem.taxMoney = (elem.taxMoney).toFixed(2)
+              elem.taxMoney = Number(elem.taxMoney).toFixed(2)
             }
             if (elem.discountRate === null || elem.discountRate === '' || elem.discountRate === undefined) {
               delete elem.discountRate
@@ -711,7 +728,7 @@ export default {
               delete elem.discountMoney
             }
             if (elem.discountMoney !== null || elem.discountMoney !== '' || elem.discountMoney !== undefined) {
-              elem.discountMoney = (elem.discountMoney).toFixed(2)
+              elem.discountMoney = Number(elem.discountMoney).toFixed(2)
             }
             if (elem.remark === null || elem.remark === '' || elem.remark === undefined) {
               delete elem.remark
