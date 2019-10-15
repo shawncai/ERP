@@ -27,8 +27,8 @@
                 </el-form-item>
               </el-col>
               <el-col :span="12">
-                <el-form-item :label="$t('StockArrival.sourceNumber')" :disabled="personalForm.sourceType === '2'" prop="sourceNumber" style="width: 100%;">
-                  <el-input v-model="personalForm.sourceNumber" :disabled="addsouce" style="margin-left: 18px;width:200px" clearable @focus="handleAddSouce"/>
+                <el-form-item :label="$t('StockArrival.sourceNumber')" prop="sourceNumber" style="width: 100%;">
+                  <el-input v-model="personalForm.sourceNumber" :disabled="IsSourceNumber" style="margin-left: 18px;width:200px" clearable @focus="handleAddSouce"/>
                   <my-order :ordercontrol.sync="ordercontrol" :supp.sync="supp" @order="order" @allOrderinfo="allOrderinfo"/>
                 </el-form-item>
               </el-col>
@@ -148,6 +148,8 @@
       <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
         <el-button :disabled="addpro" @click="handleAddproduct">添加商品</el-button>
         <my-detail :control.sync="control" :supp.sync="supp" @product="productdetail"/>
+        <!-- <el-button :disabled="IsSourceNumber" style="width: 130px" @click="handleAddSouce">从源单中选择</el-button> -->
+        <!-- <my-order :ordercontrol.sync="ordercontrol" :supp.sync="supp" @order="order" @allOrderinfo="allOrderinfo"/> -->
         <el-button type="danger" @click="$refs.editable.removeSelecteds()">删除</el-button>
       </div>
       <div class="container">
@@ -316,6 +318,8 @@ export default {
       }
     }
     return {
+      // 控制是否可以从源单选择
+      IsSourceNumber: false,
       // 选择的数据
       choosedata: [],
       // 弹窗组件的控制
@@ -421,6 +425,7 @@ export default {
       this.acceptPersonId = this.personalForm.acceptPersonName
       this.ourContractorId = this.personalForm.ourContractorName
       this.list2 = this.personalForm.stockArrivalDetailVos
+      this.supp = this.personalForm.supplierId
     }
   },
   created() {
@@ -474,12 +479,12 @@ export default {
       sums[17] = ''
       sums[18] = ''
       sums[19] = ''
-      this.allQuantity = sums[8]
-      this.allMoney = sums[12]
-      this.allTaxMoney = sums[14]
-      this.allIncludeTaxMoney = sums[13]
-      this.allDiscountMoney = sums[16]
-      this.allMoneyMoveDiscount = sums[13] - sums[16]
+      this.personalForm.allQuantity = sums[8]
+      this.personalForm.allMoney = sums[12]
+      this.personalForm.allTaxMoney = sums[14]
+      this.personalForm.allIncludeTaxMoney = sums[13]
+      this.personalForm.allDiscountMoney = sums[16]
+      this.personalForm.allMoneyMoveDiscount = sums[13] - sums[16]
       return sums
     },
     getdiscountMoney(row) {
@@ -543,7 +548,9 @@ export default {
         this.addpro = true
         this.$refs.editable.clear()
         this.$refs.personalForm.clearValidate()
+        this.IsSourceNumber = false
       } else if (this.personalForm.sourceType === '2') {
+        this.IsSourceNumber = true
         this.addpro = false
         this.addsouce = true
         this.personalForm.sourceNumber = ''
@@ -755,6 +762,9 @@ export default {
               }
               if (elem.discountRate === null || elem.discountRate === '' || elem.discountRate === undefined) {
                 delete elem.discountRate
+              }
+              if (elem.taxRate !== null || elem.taxRate !== '' || elem.taxRate !== undefined) {
+                elem.taxRate = elem.taxRate / 100
               }
               if (elem.discountRate !== null || elem.discountRate !== '' || elem.discountRate !== undefined) {
                 elem.discountRate = elem.discountRate / 100

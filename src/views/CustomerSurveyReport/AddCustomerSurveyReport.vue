@@ -319,7 +319,9 @@ export default {
         saleRepositoryId: this.$store.getters.repositoryId,
         customerType: '2',
         signDate: null,
-        sourceType: '2'
+        sourceType: '2',
+        sourceNumber: '',
+        customerName: ''
       },
       // 采购申请单规则数据
       personalrules: {
@@ -374,7 +376,18 @@ export default {
     this.getratelist()
     this.getdatatime()
   },
+  activated() {
+    this.getinformation()
+  },
   methods: {
+    // 获取默认信息(分期列表)
+    getinformation() {
+      if (this.$store.getters.empcontract) {
+        this.personalForm.sourceNumber = this.$store.getters.empcontract[0].applyNumber
+        this.personalForm.customerName = this.$store.getters.empcontract[0].applyPersonName
+      }
+      this.$store.dispatch('getempcontract', '')
+    },
     checkStock(row) {
       console.log('this.moreaction.length', this.moreaction.length)
       if (this.moreaction.length > 1 || this.moreaction.length === 0) {
@@ -414,6 +427,7 @@ export default {
       }
       var currentdate = year + seperator1 + month + seperator1 + strDate
       this.personalForm.signDate = currentdate
+      this.personalForm.surveyDate = currentdate
     },
     change() {
       this.$forceUpdate()

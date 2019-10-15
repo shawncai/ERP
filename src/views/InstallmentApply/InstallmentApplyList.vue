@@ -76,6 +76,7 @@
       <!-- 新建操作 -->
       <el-button v-permission="['200-201-1']" v-waves class="filter-item" icon="el-icon-plus" type="success" style="width: 86px" @click="handleAdd">{{ $t('public.add') }}</el-button>
       <el-button v-permission="['54-65-1']" v-waves class="filter-item" icon="el-icon-plus" type="success" @click="handleAddreport">{{ $t('InstallmentApply.addInvestigationReport') }}</el-button>
+      <el-button v-permission="['54-65-1']" v-waves class="filter-item" icon="el-icon-plus" type="success" @click="handleAddcontrat">{{ $t('InstallmentApply.salecontrat') }}</el-button>
     </el-card>
 
     <el-card class="box-card" style="margin-top: 10px" shadow="never">
@@ -90,7 +91,6 @@
         style="width: 100%;"
         @selection-change="handleSelectionChange">
         <el-table-column
-          :selectable="selectInit"
           type="selection"
           width="55"
           fixed="left"
@@ -362,12 +362,44 @@ export default {
       if (this.moreaction.length > 1) {
         this.$notify.error({
           title: '错误',
-          message: '征询人最多两位',
+          message: '请不要选择多个单据',
           offset: 100
         })
         return false
+      } else {
+        if (this.moreaction[0].judgeStat !== 0) {
+          this.$notify.error({
+            title: '错误',
+            message: '单据已审核',
+            offset: 100
+          })
+          return false
+        }
       }
+      this.$store.dispatch('getempcontract', this.moreaction)
       this.$router.push('/CustomerSurveyReport/AddCustomerSurveyReport')
+    },
+    // 新建销售合同
+    handleAddcontrat() {
+      if (this.moreaction.length > 1) {
+        this.$notify.error({
+          title: '错误',
+          message: '请不要选择多个单据',
+          offset: 100
+        })
+        return false
+      } else {
+        if (this.moreaction[0].judgeStat === 0) {
+          this.$notify.error({
+            title: '错误',
+            message: '请先审核单据',
+            offset: 100
+          })
+          return false
+        }
+      }
+      this.$store.dispatch('getempcontract', this.moreaction)
+      this.$router.push('/SaleContract/AddSaleContract')
     },
     // 打开客户报告
     handlerdetail(row) {
@@ -498,13 +530,13 @@ export default {
       this.personalForm.salePersonId = val.id
     },
     // 不让勾选
-    selectInit(row, index) {
-      if (row.judgeStat !== 0) {
-        return false
-      } else {
-        return true
-      }
-    },
+    // selectInit(row, index) {
+    //   if (row.judgeStat !== 0) {
+    //     return false
+    //   } else {
+    //     return true
+    //   }
+    // },
     // 选择客户类型时清理客户名称
     clearCustomer() {
       this.getemplist.customerId = ''
@@ -653,9 +685,17 @@ export default {
       if (row.approvalUseVos !== '' && row.approvalUseVos !== null && row.approvalUseVos !== undefined && row.approvalUseVos.length !== 0) {
         const approvalUse = row.approvalUseVos
         const index = approvalUse[approvalUse.length - 1].stepHandler.indexOf(',' + this.$store.getters.userId + ',')
-        console.log(approvalUse[approvalUse.length - 1].stepHandler)
-        console.log(index)
         if (index > -1 && (row.judgeStat === 1 || row.judgeStat === 0)) {
+          return true
+        }
+      }
+      console.log('row', row)
+      if (row.isInvestigation === 0) {
+        return false
+      } else {
+        if (row.judgeStat !== 0) {
+          return false
+        } else {
           return true
         }
       }

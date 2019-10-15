@@ -111,3 +111,14 @@ export function deletestockArrival(query, query2) {
     data: params
   })
 }
+
+// 查询采购到货进程
+export function queryArrivalProcess(query) {
+  var params = new URLSearchParams()
+  params.append('arrivalNumber', query) // 你要传给后台的参数值 key/value
+  return request({
+    url: '/receiptStat/checkReceiptArrival',
+    method: 'post',
+    data: params
+  })
+}

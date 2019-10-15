@@ -145,16 +145,16 @@
                   <span>{{ personalForm.allTaxMoney }}</span>
                 </el-form-item>
               </el-col>
-              <el-col :span="12">
+              <!-- <el-col :span="12">
                 <el-form-item label="抵应付账款" style="width: 100%;">
                   <span>{{ personalForm.allMoney }}</span>
                 </el-form-item>
-              </el-col>
-              <el-col :span="12">
+              </el-col> -->
+              <!-- <el-col :span="12">
                 <el-form-item label="应退货款合计" style="width: 100%;">
                   <span>{{ personalForm.allRetreatMoney }}</span>
                 </el-form-item>
-              </el-col>
+              </el-col> -->
             </el-row>
           </el-form>
         </div>

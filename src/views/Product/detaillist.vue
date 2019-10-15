@@ -124,7 +124,8 @@ export default {
       personalForm: {
         createId: 1,
         levle: 1,
-        parentId: 0
+        parentId: 0,
+        isActive: 1
       },
       // 库存入库单规则数据
       personalrules: {

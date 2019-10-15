@@ -161,6 +161,7 @@
             <el-button v-permission="['104-116-45']" v-show="scope.row.judgeStat === 2" type="primary" style="width: 107px" @click="handleMyReceipt1(scope.row)"><span style="margin-left: -15px;">生成采购入库单</span></el-button>
             <el-button v-permission="['104-116-46']" v-show="scope.row.judgeStat === 2" type="primary" style="width: 107px" @click="handleMyReceipt2(scope.row)"><span style="margin-left: -15px;">生成质检报告单</span></el-button>
             <el-button v-permission="['104-116-47']" v-show="scope.row.judgeStat === 2" type="primary" style="width: 107px" @click="handleMyReceipt3(scope.row)"><span style="margin-left: -15px;">生成采购退货单</span></el-button>
+            <el-button title="进程" size="mini" type="primary" icon="el-icon-sort" circle @click="handleReceipt(scope.row)"/>
           </template>
         </el-table-column>
       </el-table>
@@ -169,12 +170,25 @@
       <!--修改开始=================================================-->
       <my-dialog :editcontrol.sync="editVisible" :editdata.sync="personalForm" @rest="refreshlist"/>
       <!--修改结束=================================================-->
+      <!-- 进程====================================================-->
+      <el-dialog :visible.sync="receiptVisible" title="采购到货进程" class="normal" width="600px" center>
+        <el-form class="demo-ruleForm" style="margin: 0px 6%; width: 400px">
+          <el-form-item label-width="100px;">
+            <el-steps :space="200" style="width: 150%;" finish-status="success">
+              <el-step :status="step1" title="采购到货"/>
+              <el-step :status="step2" title="质检"/>
+              <el-step :status="step3" title="采购入库"/>
+              <el-step :status="step4" title="完成"/>
+            </el-steps>
+          </el-form-item>
+        </el-form>
+      </el-dialog>
     </el-card>
   </div>
 </template>
 
 <script>
-import { searchstockArrival, updatestockArrival2, deletestockArrival } from '@/api/StockArrival'
+import { searchstockArrival, updatestockArrival2, deletestockArrival, queryArrivalProcess } from '@/api/StockArrival'
 import { getdeptlist } from '@/api/BasicSettings'
 import { searchStockCategory } from '@/api/StockCategory'
 import waves from '@/directive/waves' // Waves directive
@@ -225,6 +239,10 @@ export default {
   },
   data() {
     return {
+      step1: '',
+      step2: '',
+      step3: '',
+      step4: '',
       // 类别获取参数
       typeparms: {
         pagenum: 1,
@@ -276,13 +294,76 @@ export default {
       // 修改控制组件数据
       editVisible: false,
       // 开始时间到结束时间
-      date: []
+      date: [],
+      // 进程弹窗
+      receiptVisible: false
     }
   },
   mounted() {
     this.getlist()
   },
   methods: {
+    contorlstep1(val) {
+      if (val === 0) {
+        this.step1 = 'wait'
+      }
+      if (val === 1) {
+        this.step1 = 'finish'
+      }
+      if (val === 2) {
+        this.step1 = 'success'
+      }
+    },
+    contorlstep2(val) {
+      if (val === 0) {
+        this.step2 = 'wait'
+      }
+      if (val === 1) {
+        this.step2 = 'finish'
+      }
+      if (val === 2) {
+        this.step2 = 'success'
+      }
+    },
+    contorlstep3(val) {
+      if (val === 0) {
+        this.step3 = 'wait'
+      }
+      if (val === 1) {
+        this.step3 = 'finish'
+      }
+      if (val === 2) {
+        this.step3 = 'success'
+      }
+    },
+    contorlstep4(val) {
+      if (val === 0) {
+        this.step4 = 'wait'
+      }
+      if (val === 1) {
+        this.step4 = 'finish'
+      }
+      if (val === 2) {
+        this.step4 = 'success'
+      }
+    },
+    // 进程操作
+    handleReceipt(row) {
+      console.log(row)
+      this.receiptVisible = true
+      queryArrivalProcess(row.number).then(res => {
+        if (res.data.ret === 100) {
+          // console.log('111111222222', res)
+          this.contorlstep1(res.data.data.arrivalStat)
+          this.contorlstep2(res.data.data.checkStat)
+          this.contorlstep3(res.data.data.enterStat)
+          this.contorlstep4(res.data.data.finishStat)
+        }
+        setTimeout(() => {
+          this.listLoading = false
+        }, 0.5 * 100)
+      })
+    },
     handleMyReceipt1(val) {
       console.log(val)
       this.$store.dispatch('getempcontract', val)
@@ -699,5 +780,22 @@ export default {
   .filter-item{
     width: 140px;
     margin-left: 30px;
+  }
+  .normal >>> .el-dialog__header {
+    padding: 20px 20px 10px;
+    background: #fff;
+    position: static;
+    top: auto;
+    z-index: auto;
+    width: auto;
+    border-bottom: none;
+  }
+  .normal >>> .el-dialog {
+    -webkit-transform: none;
+    transform: none;
+    left: 0;
+    position: relative;
+    margin: 0 auto;
+    height: auto;
   }
 </style>
