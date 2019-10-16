@@ -80,59 +80,98 @@
         border
         style="width: 100%">
         <el-table-column
-          :label="first"
-          prop="name"
-          width="300"
-          align="center"/>
-        <el-table-column
-          v-if="second"
-          label="物品类别"
-          prop="productCategory"
-          width="300"
-          align="center"/>
-        <el-table-column
-          :label="$t('stockDetailCount.unit')"
-          prop="unit"
+          :label="$t('saleBillList.repositoryName')"
+          prop="repositoryName"
           width="200"
           align="center"/>
-        <el-table-column :label="$t('stockOrderExecute.orderNum')" align="center">
+        <el-table-column
+          :label="$t('saleBillList.productName')"
+          prop="productName"
+          width="200"
+          align="center"/>
+        <el-table-column
+          :label="$t('saleBillList.productCode')"
+          prop="productCode"
+          width="200"
+          align="center"/>
+        <el-table-column :label="$t('saleBillList.saleout')" align="center">
           <el-table-column
-            :label="$t('stockOrderCount.orderQuantity')"
-            prop="orderQuantity"
+            :label="$t('saleBillList.money')"
+            prop="outMoney"
             width="200"
             align="center"/>
           <el-table-column
-            :label="$t('stockOrderExecute.price')"
-            prop="orderPrice"
+            :label="$t('saleBillList.taxMoney')"
+            prop="outTaxMoney"
             width="200"
             align="center"/>
           <el-table-column
-            :label="$t('stockOrderCount.totalMoney')"
-            prop="orderMoney"
+            :label="$t('saleBillList.outDiscountMoney')"
+            prop="outDiscountMoney"
+            width="200"
+            align="center"/>
+          <el-table-column
+            :label="$t('saleBillList.total')"
+            prop="outActualMoney"
             width="200"
             align="center"/>
         </el-table-column>
-        <el-table-column :label="$t('stockTrackList.enterQuantity')" align="center">
+        <el-table-column :label="$t('saleBillList.salereurn')" align="center">
           <el-table-column
-            :label="$t('stockDetailCount.unit')"
-            prop="unit"
+            :label="$t('saleBillList.money')"
+            prop="returnMoney"
             width="200"
             align="center"/>
           <el-table-column
-            :label="$t('stockOrderCount.orderQuantity')"
-            prop="enterQuantity"
+            :label="$t('saleBillList.taxMoney')"
+            prop="returnTaxMoney"
+            width="200"
+            align="center"/>
+          <el-table-column
+            :label="$t('saleBillList.outDiscountMoney')"
+            prop="returnDiscountMoney"
+            width="200"
+            align="center"/>
+          <el-table-column
+            :label="$t('saleBillList.total')"
+            prop="returnActualMoney"
             width="200"
             align="center"/>
         </el-table-column>
-        <el-table-column :label="$t('stockTrackList.notenterQuantity')" align="center">
+        <el-table-column :label="$t('saleBillList.actualsale')" align="center">
           <el-table-column
-            :label="$t('stockDetailCount.unit')"
-            prop="unit"
+            :label="$t('saleBillList.money')"
+            prop="money"
             width="200"
             align="center"/>
           <el-table-column
-            :label="$t('stockOrderCount.orderQuantity')"
-            prop="quantity2"
+            :label="$t('saleBillList.taxMoney')"
+            prop="taxMoney"
+            width="200"
+            align="center"/>
+          <el-table-column
+            :label="$t('saleBillList.outDiscountMoney')"
+            prop="discountMoney"
+            width="200"
+            align="center"/>
+          <el-table-column
+            :label="$t('saleBillList.total')"
+            prop="actualMoney"
+            width="200"
+            align="center"/>
+          <el-table-column
+            :label="$t('saleBillList.costMoney')"
+            prop="costMoney"
+            width="200"
+            align="center"/>
+          <el-table-column
+            :label="$t('saleBillList.grossProfit')"
+            prop="grossProfit"
+            width="200"
+            align="center"/>
+          <el-table-column
+            :label="$t('saleBillList.grossProfitRate')"
+            prop="grossProfitRate"
             width="200"
             align="center"/>
         </el-table-column>
