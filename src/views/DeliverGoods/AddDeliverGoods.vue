@@ -111,7 +111,7 @@
             <el-editable-column prop="productType" align="center" label="规格" min-width="150px"/>
             <el-editable-column prop="color" align="center" label="颜色" min-width="150px"/>
             <el-editable-column prop="unit" align="center" label="单位" min-width="150px"/>
-            <el-editable-column prop="basicQuantity" align="center" label="基本数量" min-width="150px"/>
+            <!-- <el-editable-column prop="basicQuantity" align="center" label="基本数量" min-width="150px"/> -->
             <el-editable-column prop="price" align="center" label="单价" min-width="150px"/>
             <el-editable-column prop="deliverQuantity" align="center" label="配送数量" min-width="150px"/>
             <el-editable-column prop="deliverMoney" align="center" label="配送金额" min-width="150px"/>

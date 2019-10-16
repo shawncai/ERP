@@ -319,9 +319,6 @@ export default {
     getlist() {
       // 物料需求计划列表数据
       this.listLoading = true
-      this.getemplist.customerType = this.querydata.customerType
-      this.getemplist.customerId = this.querydata.customerId
-      console.log(this.getemplist)
       searchsaleOut(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
@@ -358,8 +355,6 @@ export default {
     // 搜索
     handleFilter() {
       this.getemplist.pageNum = 1
-      this.getemplist.customerType = this.customertype
-      this.getemplist.customerId = this.customerid
       searchsaleOut(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
@@ -418,12 +413,12 @@ export default {
           category: item.category,
           productCategoryName: item.productCategoryName,
           type: item.type,
-          productTypeName: item.productTypeName,
+          productTypeName: item.productType,
           // basicQuantity: item.quantity,
           salePrice: item.salePrice,
           costPrice: 0,
           costMonney: 0,
-          deliverQuantity: item.quantity,
+          deliverQuantity: item.applyQuantity,
           deliverMoney: item.money,
           outRepositoryId: outRepositoryId,
           outRepositoryName: outRepositoryName,

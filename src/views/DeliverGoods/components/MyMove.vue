@@ -336,7 +336,7 @@ export default {
     handleConfirm() {
       this.employeeVisible = false
       console.log(this.choosedata)
-      const Storagemovedata = this.choosedata.storageMoveDetailConfirmVos
+      const Storagemovedata = this.choosedata.storageMoveDetailVos
       const moveOutRepository = this.choosedata.moveOutRepository
       const moveOutRepositoryName = this.choosedata.moveOutRepositoryName
       const StoragemoveDetail = Storagemovedata.map(function(item) {
@@ -348,9 +348,9 @@ export default {
           unit: item.unit,
           color: item.color,
           basicQuantity: item.moveQuantity,
-          price: item.price,
+          price: item.movePrice,
           deliverQuantity: item.moveQuantity,
-          deliverMoney: item.totalMoney,
+          deliverMoney: item.price,
           outRepositoryId: moveOutRepository,
           outRepositoryName: moveOutRepositoryName,
           batch: item.batch
