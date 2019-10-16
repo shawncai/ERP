@@ -5,29 +5,23 @@
       <el-form ref="getemplist" :model="getemplist" label-width="70px" style="margin-top: -9px">
         <el-row>
           <el-col :span="3">
-            <el-form-item label="物品名称">
-              <el-input v-model="getemplist.productName" style="width: 100px" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
+            <el-form-item label="分类">
+              <el-input v-model="productCategory" style="width: 100px" placeholder="物品分类" clearable @focus="treechoose"/>
+              <my-tree :treecontrol.sync="treecontrol" @tree="tree"/>
             </el-form-item>
           </el-col>
-          <el-col :span="3" style="margin-left: 100px">
-            <el-form-item label="采购类别">
-              <el-select v-model="getemplist.stockType" style="width: 100px" clearable>
-                <el-option
-                  v-for="(item, index) in types"
-                  :key="index"
-                  :label="item.categoryName"
-                  :value="item.id"
-                />
-              </el-select>
+          <el-col :span="3" style="margin-left: 55px">
+            <el-form-item label="门店">
+              <el-input v-model="repositoryId" class="filter-item" @keyup.enter.native="handleFilter" @focus="handlechooseRep"/>
+              <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
             </el-form-item>
           </el-col>
-          <el-col :span="4" style="margin-left: 60px">
-            <el-form-item :label="$t('stockOrderCount.type')">
-              <el-select v-model="getemplist.type" :value="getemplist.type" style="width: 100px" @keyup.enter.native="handleFilter" @change="changeName">
-                <el-option value="1" label="供应商类别分组"/>
-                <el-option value="2" label="物品类别"/>
-                <el-option value="3" label="供应商分组"/>
-                <el-option value="4" label="供应商+物品类别分组"/>
+          <el-col :span="4" style="margin-left: 90px">
+            <el-form-item :label="$t('saleBillList.saleType')">
+              <el-select v-model="getemplist.saleType" :value="getemplist.type" clearable style="width: 100px" @keyup.enter.native="handleFilter" @change="changeName">
+                <el-option value="1" label="现金销售"/>
+                <el-option value="2" label="分期销售"/>
+                <el-option value="3" label="配件销售"/>
               </el-select>
             </el-form-item>
           </el-col>
@@ -44,19 +38,34 @@
           </el-col>
         </el-row>
         <el-row>
-          <el-col :span="4">
-            <el-form-item :label="$t('StockContract.supplierId')">
-              <el-input v-model="supplierId" @focus="handlechoose"/>
-              <my-supplier :control.sync="empcontrol" @supplierName="supplierName"/>
+          <el-col :span="3">
+            <el-form-item label="型号">
+              <el-select v-model="getemplist.brand" style="width: 100px" placeholder="请选择规格型号" clearable>
+                <el-option
+                  v-for="(item, index) in types"
+                  :key="index"
+                  :label="item.categoryName"
+                  :value="item.id"
+                />
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="4" style="margin-left: 56px">
+            <el-form-item label="车架号">
+              <el-input v-model="getemplist.carCode" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
           <el-col :span="4" style="margin-left: 46px">
-            <el-form-item label="业务员">
-              <el-input v-model="handlePersonId" clearable @keyup.enter.native="handleFilter" @focus="handlechooseStock"/>
+            <el-form-item label="电机编号">
+              <el-input v-model="getemplist.motorCode" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
-            <my-emp :control.sync="stockControl" @stockName="stockName"/>
           </el-col>
-          <el-col :span="4" style="margin-left: 266px">
+          <el-col :span="4" style="margin-left: 26px">
+            <el-form-item label="电池编码">
+              <el-input v-model="getemplist.batteryCode" clearable @keyup.enter.native="handleFilter"/>
+            </el-form-item>
+          </el-col>
+          <el-col :span="4" style="margin-left: 44px">
             <!-- 搜索按钮 -->
             <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 86px" round @click="handleFilter">{{ $t('public.search') }}</el-button>
           </el-col>
@@ -141,7 +150,7 @@
 
 <script>
 import { searchStockCategory } from '@/api/StockCategory'
-import { stockOrderExecute } from '@/api/count'
+import { saleBillList } from '@/api/count'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination'
 import permission from '@/directive/permission/index.js' // 权限判断指令
@@ -157,7 +166,7 @@ import MyTree from './components/MyTree'
 import MySupplier from './components/MySupplier'
 
 export default {
-  name: 'StockOrderCount',
+  name: 'SaleBillList',
   directives: { waves, permission, permission2 },
   components: { MyDialog, DetailList, MyRepository, MySupplier, MyEmp, MyCustomer, MyTree, MyAgent, Pagination },
   filters: {
@@ -348,7 +357,7 @@ export default {
       })
       // 物料需求计划列表数据
       this.listLoading = true
-      stockOrderExecute(this.getemplist).then(res => {
+      saleBillList(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           for (let i = 0; i < this.list.length; i++) {
@@ -396,7 +405,7 @@ export default {
         this.getemplist.beginTime = this.date[0]
         this.getemplist.endTime = this.date[1]
       }
-      stockOrderExecute(this.getemplist).then(res => {
+      saleBillList(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           for (let i = 0; i < this.list.length; i++) {

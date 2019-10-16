@@ -50,60 +50,51 @@
         border
         style="width: 100%">
         <el-table-column
-          :label="$t('stockDetailCount.productCode')"
-          prop="productCode"
+          :label="$t('shouldPayCount.supplierId')"
+          prop="supplierId"
           width="200"
           align="center"/>
         <el-table-column
-          :label="$t('stockDetailCount.productName')"
-          prop="productName"
+          :label="$t('shouldPayCount.supplierName')"
+          prop="supplierName"
           width="200"
           align="center"/>
         <el-table-column
-          :label="$t('stockDetailCount.productType')"
-          prop="productType"
+          :label="$t('shouldPayCount.time')"
+          prop="time"
           width="200"
           align="center"/>
         <el-table-column
-          :label="$t('stockDetailCount.unit')"
-          prop="unit"
-          width="200"
-          align="center"/>
-        <el-table-column :label="$t('stockOrderCount.order')" align="center">
-          <el-table-column
-            :label="$t('stockOrderCount.orderQuantity')"
-            prop="orderQuantity"
-            width="200"
-            align="center"/>
-          <el-table-column
-            :label="$t('stockOrderCount.totalMoney')"
-            prop="totalMoney"
-            width="200"
-            align="center"/>
-          <el-table-column
-            :label="$t('stockOrderCount.taxMoney')"
-            prop="taxMoney"
-            width="200"
-            align="center"/>
-          <el-table-column
-            :label="$t('stockOrderCount.heji')"
-            prop="heji"
-            width="200"
-            align="center"/>
-        </el-table-column>
-        <el-table-column
-          :label="$t('stockOrderCount.arrivedQuantity')"
-          prop="arrivedQuantity"
+          :label="$t('shouldPayCount.begin')"
+          prop="begin"
           width="200"
           align="center"/>
         <el-table-column
-          :label="$t('stockOrderCount.notArrivedQuantity')"
-          prop="notArrivedQuantity"
+          :label="$t('shouldPayCount.shouldPay')"
+          prop="shouldPay"
+          width="200"
+          align="center"/>
+        <el-table-column
+          :label="$t('shouldPayCount.paid')"
+          prop="paid"
+          width="200"
+          align="center"/>
+        <el-table-column
+          :label="$t('shouldPayCount.thisYearShould')"
+          prop="thisYearShould"
+          width="200"
+          align="center"/>
+        <el-table-column
+          :label="$t('shouldPayCount.thisYearPaid')"
+          prop="thisYearPaid"
+          width="200"
+          align="center"/>
+        <el-table-column
+          :label="$t('shouldPayCount.end')"
+          prop="end"
           width="200"
           align="center"/>
       </el-table>
-      <!-- 列表结束 -->
-      <pagination v-show="total>0" :total="total" :page.sync="getemplist.pageNum" :limit.sync="getemplist.pageSize" @pagination="getlist" />
     </el-card>
   </div>
 </template>
@@ -295,19 +286,19 @@ export default {
     },
     getlist() {
       // 物料需求计划列表数据
-      this.listLoading = true
-      shouldPayCount(this.getemplist).then(res => {
-        if (res.data.ret === 200) {
-          this.list = res.data.data.content.list
-          for (let i = 0; i < this.list.length; i++) {
-            this.list[i].heji = this.list[i].totalMoney + this.list[i].taxMoney
-          }
-          this.total = res.data.data.content.totalCount
-        }
-        setTimeout(() => {
-          this.listLoading = false
-        }, 0.5 * 100)
-      })
+      // this.listLoading = true
+      // shouldPayCount(this.getemplist).then(res => {
+      //   if (res.data.ret === 200) {
+      //     this.list = res.data.data.content
+      //     for (let i = 0; i < this.list.length; i++) {
+      //       this.list[i].heji = this.list[i].totalMoney + this.list[i].taxMoney
+      //     }
+      //     this.total = res.data.data.content.totalCount
+      //   }
+      //   setTimeout(() => {
+      //     this.listLoading = false
+      //   }, 0.5 * 100)
+      // })
     },
     // 清空搜索条件
     restFilter() {
@@ -363,14 +354,12 @@ export default {
         this.getemplist.dateList = result
         shouldPayCount(this.getemplist).then(res => {
           if (res.data.ret === 200) {
-            this.list = res.data.data.content.list
+            this.list = res.data.data.content[0]
+            console.log('this.list', this.list)
             // for (let i = 0; i < this.list.length; i++) {
             //   this.list[i].heji = this.list[i].totalMoney + this.list[i].taxMoney
             // }
             // this.total = res.data.data.content.totalCount
-            this.restFilter()
-          } else {
-            this.restFilter()
           }
         })
       } else {
