@@ -362,7 +362,20 @@ export default {
     shouldPayDetail: '应付款明细表'
   },
   saleBillList: {
-    saleType: '销售方式'
+    // 序号，仓库名称，仓库编码，销售出库（金额，税额，合计），销售退货（金额，税额，合计），实际销售（金额，税额，合计，成本，，出厂成本，毛利，毛利率），名次
+    saleType: '销售方式',
+    repositoryName: '仓库名称',
+    productCode: '物品编码',
+    productName: '物品名称',
+    saleout: '销售出库',
+    salereurn: '销售退货',
+    actualsale: '实际销售',
+    money: '金额',
+    taxMoney: '税额',
+    total: '合计',
+    costMoney: '成本',
+    grossProfit: '毛利',
+    grossProfitRate: '毛利率'
   },
   shouldPayCount: {
     supplierId: '供应商编号',
