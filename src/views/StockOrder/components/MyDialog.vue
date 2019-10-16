@@ -511,7 +511,14 @@ export default {
         this.list2[i].temp = i
       }
       for (let i = row.temp; i < this.list2.length; i++) {
-        this.list2[i].deliveryDate = row.deliveryDate
+        console.log(this.list2[i].deliveryDate)
+        if (this.list2[i].deliveryDate !== null && this.list2[i].deliveryDate !== '' && this.list2[i].deliveryDate !== undefined) {
+          console.log(111)
+          continue
+        } else {
+          console.log(222)
+          this.list2[i].deliveryDate = row.deliveryDate
+        }
       }
       console.log(row)
     },
