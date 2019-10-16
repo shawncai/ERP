@@ -23,10 +23,10 @@
             </el-select>
           </el-form-item>
           <el-form-item :label="$t('Repository.longitude')" :required="RepositoryForm.type === 2" prop="longitude" style="width: 40%;margin-top:1%">
-            <el-input v-model.number="RepositoryForm.longitude" placeholder="请输入经度" autocomplete="new-password" clearable/>
+            <el-input v-model="RepositoryForm.longitude" placeholder="请输入经度" autocomplete="new-password" clearable/>
           </el-form-item>
           <el-form-item :label="$t('Repository.latitude')" :required="RepositoryForm.type === 2" prop="latitude" style="width: 40%;margin-top:1%">
-            <el-input v-model.number="RepositoryForm.latitude" placeholder="请输入纬度" clearable/>
+            <el-input v-model="RepositoryForm.latitude" placeholder="请输入纬度" clearable/>
           </el-form-item>
           <el-form-item :label="$t('public.phone')" prop="phone" style="width: 40%;margin-top:1%">
             <el-input v-model="RepositoryForm.phone" placeholder="请输入门店号码" clearable/>
@@ -70,7 +70,7 @@
             <el-input v-model="managerPeople" :value="managerPeople" placeholder="请选择" clearable @focus="handlechoose"/>
           </el-form-item>
           <!--弹出员工列表开始-->
-          <el-dialog :visible.sync="employeeVisible" top="10px" title="选择员工">
+          <el-dialog :visible.sync="employeeVisible" class="normal" width="1010px" top="20px" title="选择员工">
             <div class="filter-container">
               <el-input v-model="getemplist.employeename" :placeholder="$t('NewEmployeeInformation.employeename')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
               <el-input v-model="getemplist.jobnumber" :placeholder="$t('NewEmployeeInformation.jobnumber2')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
@@ -195,7 +195,7 @@
           </el-form-item>
           <!--弹出员工列表开始-->
           <!--小区经理选择弹窗开始-->
-          <el-dialog :visible.sync="regionManagerVisible" top="10px" title="选择员工">
+          <el-dialog :visible.sync="regionManagerVisible" class="normal" width="1010px" top="20px" title="选择员工">
             <div class="filter-container">
               <el-input v-model="getemplist.employeename" :placeholder="$t('NewEmployeeInformation.employeename')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
               <el-input v-model="getemplist.jobnumber" :placeholder="$t('NewEmployeeInformation.jobnumber2')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
@@ -372,6 +372,14 @@ export default {
         callback()
       }
     }
+    const validatePass2 = (rule, value, callback) => {
+      console.log(value)
+      if (value === '' || value === undefined || value === null) {
+        callback(new Error('输入正确位置信息'))
+      } else {
+        callback()
+      }
+    }
     return {
       // 省列表
       provinces: [],
@@ -418,7 +426,7 @@ export default {
       // 仓库信息规则数据
       Repositoryrules: {
         longitude: [
-          { message: '请输入经度', trigger: 'change' }
+          { validator: validatePass2, trigger: 'change' }
         ],
         repositoryName: [
           { required: true, message: '请输入仓库名称', trigger: 'blur' }
@@ -427,7 +435,7 @@ export default {
           { required: true, message: '请选择区域', trigger: 'blur' }
         ],
         latitude: [
-          { message: '请输入维度', trigger: 'change' }
+          { validator: validatePass2, trigger: 'change' }
         ],
         lastname: [
           { required: true, message: '请输入名', trigger: 'blur' }
@@ -858,4 +866,21 @@ export default {
       margin-top: 2%;
       border: 1px solid #eceff6;
     }
+    .normal >>> .el-dialog__header {
+    padding: 20px 20px 10px;
+    background: #fff;
+    position: static;
+    top: auto;
+    z-index: auto;
+    width: auto;
+    border-bottom: none;
+  }
+  .normal >>> .el-dialog {
+    -webkit-transform: none;
+    transform: none;
+    left: 0;
+    position: relative;
+    margin: 0 auto;
+    height: auto;
+  }
 </style>
