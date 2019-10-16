@@ -125,7 +125,7 @@
               <el-input v-model="RepositoryForm.repositoryName" placeholder="请输入门店名称" clearable/>
             </el-form-item>
             <el-form-item :label="$t('Repository.longitude')" :required="RepositoryForm.type === 2" prop="longitude" style="width: 40%;margin-top:1%">
-              <el-input v-model="RepositoryForm.longitude" autocomplete="new-password" clearable/>
+              <el-input v-model="RepositoryForm.longitude" clearable/>
             </el-form-item>
             <el-form-item :label="$t('Repository.latitude')" :required="RepositoryForm.type === 2" prop="latitude" style="width: 40%">
               <el-input v-model="RepositoryForm.latitude" placeholder="请输入纬度" clearable/>
@@ -483,6 +483,14 @@ export default {
     }
   },
   data() {
+    const validatePass2 = (rule, value, callback) => {
+      console.log(value)
+      if (value === '' || value === undefined || value === null) {
+        callback(new Error('输入正确位置信息'))
+      } else {
+        callback()
+      }
+    }
     return {
       // 批量操作
       moreaction: '',
@@ -545,13 +553,13 @@ export default {
       // 仓库信息规则数据
       Repositoryrules: {
         longitude: [
-          { message: '请输入经度', trigger: 'blur' }
+          { validator: validatePass2, trigger: 'blur' }
         ],
         repositoryName: [
           { required: true, message: '请输入仓库名称', trigger: 'blur' }
         ],
         latitude: [
-          { message: '请输入维度', trigger: 'blur' }
+          { validator: validatePass2, trigger: 'blur' }
         ],
         lastname: [
           { required: true, message: '请输入名', trigger: 'blur' }

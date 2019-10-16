@@ -372,6 +372,14 @@ export default {
         callback()
       }
     }
+    const validatePass2 = (rule, value, callback) => {
+      console.log(value)
+      if (value === '' || value === undefined || value === null) {
+        callback(new Error('输入正确位置信息'))
+      } else {
+        callback()
+      }
+    }
     return {
       // 省列表
       provinces: [],
@@ -418,7 +426,7 @@ export default {
       // 仓库信息规则数据
       Repositoryrules: {
         longitude: [
-          { message: '请输入经度', trigger: 'change' }
+          { validator: validatePass2, trigger: 'change' }
         ],
         repositoryName: [
           { required: true, message: '请输入仓库名称', trigger: 'blur' }
@@ -427,7 +435,7 @@ export default {
           { required: true, message: '请选择区域', trigger: 'blur' }
         ],
         latitude: [
-          { message: '请输入维度', trigger: 'change' }
+          { validator: validatePass2, trigger: 'change' }
         ],
         lastname: [
           { required: true, message: '请输入名', trigger: 'blur' }
