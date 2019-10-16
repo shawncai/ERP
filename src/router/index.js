@@ -2996,6 +2996,70 @@ export const asyncRouterMap = [
     ]
   },
   {
+    path: '/countProduce',
+    component: Layout,
+    redirect: 'noredirect',
+    name: 'countProduce',
+    alwaysShow: true,
+    meta: {
+      title: 'countProduce',
+      icon: 'shuxing',
+      type: 12
+    },
+    children: [
+      {
+        path: 'accessStatus',
+        component: () => import('@/views/countProduce/accessStatus'),
+        name: 'accessStatus',
+        meta: { title: 'accessStatus', noCache: true }
+      },
+      {
+        path: 'failReasonCount',
+        component: () => import('@/views/countProduce/failReasonCount'),
+        name: 'failReasonCount',
+        meta: { title: 'failReasonCount', noCache: true }
+      },
+      {
+        path: 'produceFailCount',
+        component: () => import('@/views/countProduce/produceFailCount'),
+        name: 'produceFailCount',
+        meta: { title: 'produceFailCount', noCache: true }
+      }
+    ]
+  },
+  {
+    path: '/installmentCount',
+    component: Layout,
+    redirect: 'noredirect',
+    name: 'installmentCount',
+    alwaysShow: true,
+    meta: {
+      title: 'installmentCount',
+      icon: 'shuxing',
+      type: 12
+    },
+    children: [
+      {
+        path: 'installmentComplete',
+        component: () => import('@/views/installmentCount/installmentComplete'),
+        name: 'installmentComplete',
+        meta: { title: 'installmentComplete', noCache: true }
+      },
+      {
+        path: 'recoveryCarDetail',
+        component: () => import('@/views/installmentCount/recoveryCarDetail'),
+        name: 'recoveryCarDetail',
+        meta: { title: 'recoveryCarDetail', noCache: true }
+      },
+      {
+        path: 'installmentPayList',
+        component: () => import('@/views/installmentCount/installmentPayList'),
+        name: 'installmentPayList',
+        meta: { title: 'installmentPayList', noCache: true }
+      }
+    ]
+  },
+  {
     path: '/Stockcount',
     component: Layout,
     redirect: 'noredirect',

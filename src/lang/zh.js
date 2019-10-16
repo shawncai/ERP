@@ -359,7 +359,29 @@ export default {
     giftDetailList: '赠品统计明细表',
     Financecount: '财务统计',
     shouldPayCount: '应付款汇总表',
-    shouldPayDetail: '应付款明细表'
+    shouldPayDetail: '应付款明细表',
+    countProduce: '生产统计',
+    accessStatus: '生产领料汇总',
+    failReasonCount: '不良原因统计表',
+    produceFailCount: '生产不良品统计表',
+    installmentCount: '分期统计',
+    installmentComplete: '分期付款完成率统计',
+    recoveryCarDetail: '收车明细表',
+    installmentPayList: '分期付款情况明细表'
+  },
+  produceFailCount: {
+    produceQuantity: '生产数量',
+    passQuantity: '合格数量',
+    failQuantity: '不合格数量',
+    failRate: '合格率'
+  },
+  accessStatus: {
+    produceQuantity: '生产数量',
+    taskNumber: '生产任务单编号',
+    requireQuantity: '需求数量',
+    accessQuantity: '领料数量',
+    providePerrsonName: '发料人',
+    existQuantity: '现有数量'
   },
   saleBillList: {
     // 序号，仓库名称，仓库编码，销售出库（金额，税额，合计），销售退货（金额，税额，合计），实际销售（金额，税额，合计，成本，，出厂成本，毛利，毛利率），名次
