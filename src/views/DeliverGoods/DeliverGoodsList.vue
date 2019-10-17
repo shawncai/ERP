@@ -144,10 +144,12 @@
         </el-table-column>
         <el-table-column :label="$t('public.actions')" :resizable="false" align="center" min-width="230">
           <template slot-scope="scope">
-            <el-button v-permission2="['235-237-3', scope.row.createPersonId]" v-show="scope.row.judgeStat === 0" title="修改" type="primary" size="mini" icon="el-icon-edit" circle @click="handleEdit(scope.row)"/>
+            <el-button v-permission2="['235-237-3']" v-show="scope.row.judgeStat === 0" title="修改" type="primary" size="mini" icon="el-icon-edit" circle @click="handleEdit(scope.row)"/>
             <el-button v-show="isReview(scope.row)" title="审批" type="warning" size="mini" icon="el-icon-view" circle @click="handleReview(scope.row)"/>
             <el-button v-permission2="['235-237-2', scope.row.createPersonId]" v-show="scope.row.judgeStat === 0" title="删除" size="mini" type="danger" icon="el-icon-delete" circle @click="handleDelete(scope.row)"/>
+            <el-button v-permission2="['235-237-2', scope.row.createPersonId]" v-show="scope.row.judgeStat === 2" title="确认送货单" size="mini" type="success" icon="el-icon-circle-check" circle @click="handleconfirm(scope.row)"/>
           </template>
+          <my-confirm :detailcontrol.sync="detailvisible2" :detaildata.sync="personalForm"/>
         </el-table-column>
       </el-table>
       <!-- 列表结束 -->
@@ -173,11 +175,12 @@ import DetailList from './components/DetailList'
 import MyDialog from './components/MyDialog'
 import MyCustomer from './components/MyCustomer'
 import MyAgent from './components/MyAgent'
+import MyConfirm from './components/DetailListconfirm'
 
 export default {
   name: 'DeliverGoodsList',
   directives: { waves, permission, permission2 },
-  components: { MyDialog, DetailList, MyEmp, MyCustomer, MyAgent, Pagination },
+  components: { MyDialog, DetailList, MyEmp, MyCustomer, MyAgent, Pagination, MyConfirm },
   filters: {
     judgeStatFilter(status) {
       const statusMap = {
@@ -237,6 +240,7 @@ export default {
       },
       // 详情组件数据
       detailvisible: false,
+      detailvisible2: false,
       // 更多搜索条件问题
       visible2: false,
       // 供应商回显
@@ -278,6 +282,11 @@ export default {
     this.getlist()
   },
   methods: {
+    handleconfirm(row) {
+      console.log(row)
+      this.detailvisible2 = true
+      this.personalForm = Object.assign({}, row)
+    },
     checkPermission,
     // 不让勾选
     selectInit(row, index) {

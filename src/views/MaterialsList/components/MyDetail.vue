@@ -41,14 +41,12 @@
       v-loading="listLoading"
       :key="tableKey"
       :data="list"
-      :row-key="getRowKeys"
       border
       fit
       highlight-current-row
       style="width: 100%;"
       @selection-change="handleSelectionChange">
       <el-table-column
-        :reserve-selection="true"
         type="selection"
         width="55"
         align="center"/>

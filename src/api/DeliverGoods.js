@@ -104,3 +104,14 @@ export function updateDeliverGoods2(query) {
     data: params
   })
 }
+
+// 确认配送单
+export function confirmDeliverGoods(query) {
+  var params = new URLSearchParams()
+  params.append('detailId', query)
+  return request({
+    url: '/deliverGoods/confirmDeliverGoods',
+    method: 'post',
+    data: params
+  })
+}
