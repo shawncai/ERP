@@ -821,3 +821,189 @@ export function shouldPayDetail(query) {
     data: params
   })
 }
+
+export function accessStatus(query) {
+  var params = new URLSearchParams()
+  if (query.beginTime !== '' && query.beginTime !== null && query.beginTime !== undefined) {
+    params.append('beginTime', query.beginTime) // 你要传给后台的参数值 key/value
+  }
+  if (query.endTime !== '' && query.endTime !== null && query.endTime !== undefined) {
+    params.append('endTime', query.endTime) // 你要传给后台的参数值 key/value
+  }
+  if (query.taskNumber !== '' && query.taskNumber !== null && query.taskNumber !== undefined) {
+    params.append('taskNumber', query.taskNumber) // 你要传给后台的参数值 key/value
+  }
+  if (query.pageNum !== '' && query.pageNum !== null && query.pageNum !== undefined) {
+    params.append('pageNum', query.pageNum) // 你要传给后台的参数值 key/value
+  }
+  if (query.pageSize !== '' && query.pageSize !== null && query.pageSize !== undefined) {
+    params.append('pageSize', query.pageSize) // 你要传给后台的参数值 key/value
+  }
+  return request({
+    url: '/countProduce/accessStatus',
+    method: 'post',
+    data: params
+  })
+}
+
+export function failReasonCount(query) {
+  var params = new URLSearchParams()
+  if (query.pageNum !== '' && query.pageNum !== null && query.pageNum !== undefined) {
+    params.append('pageNum', query.pageNum) // 你要传给后台的参数值 key/value
+  }
+  if (query.pageSize !== '' && query.pageSize !== null && query.pageSize !== undefined) {
+    params.append('pageSize', query.pageSize) // 你要传给后台的参数值 key/value
+  }
+  return request({
+    url: '/countProduce/failReasonCount',
+    method: 'post',
+    data: params
+  })
+}
+
+export function produceFailCount(query) {
+  var params = new URLSearchParams()
+  if (query.beginTime !== '' && query.beginTime !== null && query.beginTime !== undefined) {
+    params.append('beginTime', query.beginTime) // 你要传给后台的参数值 key/value
+  }
+  if (query.endTime !== '' && query.endTime !== null && query.endTime !== undefined) {
+    params.append('endTime', query.endTime) // 你要传给后台的参数值 key/value
+  }
+  if (query.productCode !== '' && query.productCode !== null && query.productCode !== undefined) {
+    params.append('productCode', query.productCode) // 你要传给后台的参数值 key/value
+  }
+  if (query.pageNum !== '' && query.pageNum !== null && query.pageNum !== undefined) {
+    params.append('pageNum', query.pageNum) // 你要传给后台的参数值 key/value
+  }
+  if (query.pageSize !== '' && query.pageSize !== null && query.pageSize !== undefined) {
+    params.append('pageSize', query.pageSize) // 你要传给后台的参数值 key/value
+  }
+  return request({
+    url: '/countProduce/produceFailCount',
+    method: 'post',
+    data: params
+  })
+}
+
+export function installmentComplete(query) {
+  var params = new URLSearchParams()
+  if (query.type !== '' && query.type !== null && query.type !== undefined) {
+    params.append('type', query.type) // 你要传给后台的参数值 key/value
+  }
+  if (query.time !== '' && query.time !== null && query.time !== undefined) {
+    params.append('time', query.time) // 你要传给后台的参数值 key/value
+  }
+  if (query.pageNum !== '' && query.pageNum !== null && query.pageNum !== undefined) {
+    params.append('pageNum', query.pageNum) // 你要传给后台的参数值 key/value
+  }
+  if (query.pageSize !== '' && query.pageSize !== null && query.pageSize !== undefined) {
+    params.append('pageSize', query.pageSize) // 你要传给后台的参数值 key/value
+  }
+  return request({
+    url: '/installmentCount/installmentComplete',
+    method: 'post',
+    data: params
+  })
+}
+
+export function recoveryCarDetail(query) {
+  var params = new URLSearchParams()
+  if (query.beginTime !== '' && query.beginTime !== null && query.beginTime !== undefined) {
+    params.append('beginTime', query.beginTime) // 你要传给后台的参数值 key/value
+  }
+  if (query.endTime !== '' && query.endTime !== null && query.endTime !== undefined) {
+    params.append('endTime', query.endTime) // 你要传给后台的参数值 key/value
+  }
+  if (query.repositoryId !== '' && query.repositoryId !== null && query.repositoryId !== undefined) {
+    params.append('repositoryId', query.repositoryId) // 你要传给后台的参数值 key/value
+  }
+  if (query.receivePersonId !== '' && query.receivePersonId !== null && query.receivePersonId !== undefined) {
+    params.append('receivePersonId', query.receivePersonId) // 你要传给后台的参数值 key/value
+  }
+  if (query.pageNum !== '' && query.pageNum !== null && query.pageNum !== undefined) {
+    params.append('pageNum', query.pageNum) // 你要传给后台的参数值 key/value
+  }
+  if (query.pageSize !== '' && query.pageSize !== null && query.pageSize !== undefined) {
+    params.append('pageSize', query.pageSize) // 你要传给后台的参数值 key/value
+  }
+  return request({
+    url: '/installmentCount/recoveryCarDetail',
+    method: 'post',
+    data: params
+  })
+}
+
+export function installmentPayList(query) {
+  var params = new URLSearchParams()
+  if (query.carCode !== '' && query.carCode !== null && query.carCode !== undefined) {
+    params.append('carCode', query.carCode) // 你要传给后台的参数值 key/value
+  }
+  if (query.batteryCode !== '' && query.batteryCode !== null && query.batteryCode !== undefined) {
+    params.append('batteryCode', query.batteryCode) // 你要传给后台的参数值 key/value
+  }
+  if (query.motorCode !== '' && query.motorCode !== null && query.motorCode !== undefined) {
+    params.append('motorCode', query.motorCode) // 你要传给后台的参数值 key/value
+  }
+  if (query.typeId !== '' && query.typeId !== null && query.typeId !== undefined) {
+    params.append('typeId', query.typeId) // 你要传给后台的参数值 key/value
+  }
+  if (query.customerId !== '' && query.customerId !== null && query.customerId !== undefined) {
+    params.append('customerId', query.customerId) // 你要传给后台的参数值 key/value
+  }
+  if (query.customerName !== '' && query.customerName !== null && query.customerName !== undefined) {
+    params.append('customerName', query.customerName) // 你要传给后台的参数值 key/value
+  }
+  if (query.customerPhone !== '' && query.customerPhone !== null && query.customerPhone !== undefined) {
+    params.append('customerPhone', query.customerPhone) // 你要传给后台的参数值 key/value
+  }
+  if (query.saleRepositoryId !== '' && query.saleRepositoryId !== null && query.saleRepositoryId !== undefined) {
+    params.append('saleRepositoryId', query.saleRepositoryId) // 你要传给后台的参数值 key/value
+  }
+  if (query.beginTime !== '' && query.beginTime !== null && query.beginTime !== undefined) {
+    params.append('beginTime', query.beginTime) // 你要传给后台的参数值 key/value
+  }
+  if (query.endTime !== '' && query.endTime !== null && query.endTime !== undefined) {
+    params.append('endTime', query.endTime) // 你要传给后台的参数值 key/value
+  }
+  if (query.pageNum !== '' && query.pageNum !== null && query.pageNum !== undefined) {
+    params.append('pageNum', query.pageNum) // 你要传给后台的参数值 key/value
+  }
+  if (query.pageSize !== '' && query.pageSize !== null && query.pageSize !== undefined) {
+    params.append('pageSize', query.pageSize) // 你要传给后台的参数值 key/value
+  }
+  return request({
+    url: '/installmentCount/installmentPayList',
+    method: 'post',
+    data: params
+  })
+}
+
+export function installmentAnalyze(query) {
+  var params = new URLSearchParams()
+  if (query.repositoryId !== '' && query.repositoryId !== null && query.repositoryId !== undefined) {
+    params.append('repositoryId', query.repositoryId) // 你要传给后台的参数值 key/value
+  }
+  if (query.date !== '' && query.date !== null && query.date !== undefined) {
+    params.append('date', query.date) // 你要传给后台的参数值 key/value
+  }
+  if (query.regionIds !== '' && query.regionIds !== null && query.regionIds !== undefined) {
+    params.append('regionIds', query.regionIds) // 你要传给后台的参数值 key/value
+  }
+  if (query.beginTime !== '' && query.beginTime !== null && query.beginTime !== undefined) {
+    params.append('beginTime', query.beginTime) // 你要传给后台的参数值 key/value
+  }
+  if (query.endTime !== '' && query.endTime !== null && query.endTime !== undefined) {
+    params.append('endTime', query.endTime) // 你要传给后台的参数值 key/value
+  }
+  if (query.pageNum !== '' && query.pageNum !== null && query.pageNum !== undefined) {
+    params.append('pageNum', query.pageNum) // 你要传给后台的参数值 key/value
+  }
+  if (query.pageSize !== '' && query.pageSize !== null && query.pageSize !== undefined) {
+    params.append('pageSize', query.pageSize) // 你要传给后台的参数值 key/value
+  }
+  return request({
+    url: '/installmentCount/installmentAnalyze',
+    method: 'post',
+    data: params
+  })
+}

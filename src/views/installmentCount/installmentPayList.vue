@@ -5,27 +5,22 @@
       <el-form ref="getemplist" :model="getemplist" label-width="70px" style="margin-top: -9px">
         <el-row>
           <el-col :span="3">
-            <el-form-item label="分类">
-              <el-input v-model="productCategory" style="width: 100px" placeholder="物品分类" clearable @focus="treechoose"/>
-              <my-tree :treecontrol.sync="treecontrol" @tree="tree"/>
+            <el-form-item label="用户名">
+              <el-input v-model="getemplist.customerName" style="width: 100px" clearable/>
             </el-form-item>
           </el-col>
           <el-col :span="3" style="margin-left: 55px">
+            <el-form-item label="用户电话">
+              <el-input v-model="getemplist.customerPhone" style="width: 100px" clearable/>
+            </el-form-item>
+          </el-col>
+          <el-col :span="3" style="margin-left: 100px">
             <el-form-item label="门店">
-              <el-input v-model="repositoryId" class="filter-item" @keyup.enter.native="handleFilter" @focus="handlechooseRep"/>
+              <el-input v-model="saleRepositoryId" class="filter-item" @keyup.enter.native="handleFilter" @focus="handlechooseRep"/>
               <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
             </el-form-item>
           </el-col>
-          <el-col :span="4" style="margin-left: 90px">
-            <el-form-item :label="$t('saleBillList.saleType')">
-              <el-select v-model="getemplist.saleType" :value="getemplist.type" clearable style="width: 100px" @keyup.enter.native="handleFilter" @change="changeName">
-                <el-option value="1" label="现金销售"/>
-                <el-option value="2" label="分期销售"/>
-                <el-option value="3" label="配件销售"/>
-              </el-select>
-            </el-form-item>
-          </el-col>
-          <el-col :span="3" style="margin-left: 20px">
+          <el-col :span="3" style="margin-left: 100px">
             <el-form-item label="日期">
               <el-date-picker
                 v-model="date"
@@ -40,7 +35,7 @@
         <el-row>
           <el-col :span="3">
             <el-form-item label="型号">
-              <el-select v-model="getemplist.brand" style="width: 100px" placeholder="请选择规格型号" clearable>
+              <el-select v-model="getemplist.typeId" style="width: 100px" placeholder="请选择规格型号" clearable>
                 <el-option
                   v-for="(item, index) in types"
                   :key="index"
@@ -94,92 +89,81 @@
           prop="productCode"
           width="200"
           align="center"/>
-        <el-table-column :label="$t('saleBillList.saleout')" align="center">
-          <el-table-column
-            :label="$t('saleBillList.money')"
-            prop="outMoney"
-            width="200"
-            align="center"/>
-          <el-table-column
-            :label="$t('saleBillList.taxMoney')"
-            prop="outTaxMoney"
-            width="200"
-            align="center"/>
-          <el-table-column
-            :label="$t('saleBillList.discountMoney')"
-            prop="outDiscountMoney"
-            width="200"
-            align="center"/>
-          <el-table-column
-            :label="$t('saleBillList.total')"
-            prop="outActualMoney"
-            width="200"
-            align="center"/>
-        </el-table-column>
-        <el-table-column :label="$t('saleBillList.salereurn')" align="center">
-          <el-table-column
-            :label="$t('saleBillList.money')"
-            prop="returnMoney"
-            width="200"
-            align="center"/>
-          <el-table-column
-            :label="$t('saleBillList.taxMoney')"
-            prop="returnTaxMoney"
-            width="200"
-            align="center"/>
-          <el-table-column
-            :label="$t('saleBillList.discountMoney')"
-            prop="returnDiscountMoney"
-            width="200"
-            align="center"/>
-          <el-table-column
-            :label="$t('saleBillList.total')"
-            prop="returnActualMoney"
-            width="200"
-            align="center"/>
-        </el-table-column>
-        <el-table-column :label="$t('saleBillList.actualsale')" align="center">
-          <el-table-column
-            :label="$t('saleBillList.money')"
-            prop="money"
-            width="200"
-            align="center"/>
-          <el-table-column
-            :label="$t('saleBillList.taxMoney')"
-            prop="taxMoney"
-            width="200"
-            align="center"/>
-          <el-table-column
-            :label="$t('saleBillList.discountMoney')"
-            prop="discountMoney"
-            width="200"
-            align="center"/>
-          <el-table-column
-            :label="$t('saleBillList.total')"
-            prop="actualMoney"
-            width="200"
-            align="center"/>
-          <el-table-column
-            :label="$t('saleBillList.costMoney')"
-            prop="costMoney"
-            width="200"
-            align="center"/>
-          <el-table-column
-            :label="$t('saleBillList.grossProfit')"
-            prop="grossProfit"
-            width="200"
-            align="center"/>
-          <el-table-column
-            :label="$t('saleBillList.grossProfitRate')"
-            prop="grossProfitRate"
-            width="200"
-            align="center"/>
-        </el-table-column>
-        <!-- <el-table-column
-          :label="$t('stockBillCount.retreatrate')"
-          prop="arrivedQuantity"
+        <el-table-column
+          :label="$t('installmentPayList.createDate')"
+          prop="createDate"
           width="200"
-          align="center"/> -->
+          align="center"/>
+        <el-table-column
+          :label="$t('installmentPayList.customerName')"
+          prop="customerName"
+          width="200"
+          align="center"/>
+        <el-table-column
+          :label="$t('installmentPayList.address')"
+          prop="address"
+          width="200"
+          align="center"/>
+        <el-table-column
+          :label="$t('installmentPayList.customerPhone')"
+          prop="customerPhone"
+          width="200"
+          align="center"/>
+        <el-table-column
+          :label="$t('installmentPayList.recoveryCarDetail')"
+          prop="recoveryCarDetail"
+          width="200"
+          align="center"/>
+        <el-table-column
+          :label="$t('installmentPayList.carCode')"
+          prop="carCode"
+          width="200"
+          align="center"/>
+        <el-table-column
+          :label="$t('installmentPayList.motorCode')"
+          prop="motorCode"
+          width="200"
+          align="center"/>
+        <el-table-column
+          :label="$t('installmentPayList.batteryCode')"
+          prop="batteryCode"
+          width="200"
+          align="center"/>
+        <el-table-column
+          :label="$t('installmentPayList.color')"
+          prop="color"
+          width="200"
+          align="center"/>
+        <el-table-column
+          :label="$t('installmentPayList.totalMoney')"
+          prop="totalMoney"
+          width="200"
+          align="center"/>
+        <el-table-column
+          :label="$t('installmentPayList.firstMoney')"
+          prop="firstMoney"
+          width="200"
+          align="center"/>
+        <el-table-column
+          :label="$t('installmentPayList.paidMoney')"
+          prop="paidMoney"
+          width="200"
+          align="center"/>
+        <el-table-column
+          :label="$t('installmentPayList.unpaidMoney')"
+          prop="unpaidMoney"
+          width="200"
+          align="center"/>
+        <el-table-column
+          :label="$t('installmentPayList.monthlyMoney')"
+          prop="monthlyMoney"
+          width="200"
+          align="center"/>
+        <el-table-column
+          :label="$t('installmentPayList.day')"
+          prop="day"
+          width="200"
+          align="center"/>
       </el-table>
       <!-- 列表结束 -->
       <pagination v-show="total>0" :total="total" :page.sync="getemplist.pageNum" :limit.sync="getemplist.pageSize" @pagination="getlist" />
@@ -189,7 +173,7 @@
 
 <script>
 import { searchEmpCategory2 } from '@/api/Product'
-import { saleBillList } from '@/api/count'
+import { installmentPayList } from '@/api/count'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination'
 import permission from '@/directive/permission/index.js' // 权限判断指令
@@ -205,7 +189,7 @@ import MyTree from './components/MyTree'
 import MySupplier from './components/MySupplier'
 
 export default {
-  name: 'SaleBillList',
+  name: 'InstallmentPayList',
   directives: { waves, permission, permission2 },
   components: { MyDialog, DetailList, MyRepository, MySupplier, MyEmp, MyCustomer, MyTree, MyAgent, Pagination },
   filters: {
@@ -256,7 +240,7 @@ export default {
       step7: '',
       step8: '',
       types: [],
-      repositoryId: '',
+      saleRepositoryId: '',
       handlePersonId: '',
       receiptVisible: false,
       // 回显客户
@@ -396,7 +380,7 @@ export default {
       })
       // 物料需求计划列表数据
       this.listLoading = true
-      saleBillList(this.getemplist).then(res => {
+      installmentPayList(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           for (let i = 0; i < this.list.length; i++) {
@@ -444,7 +428,7 @@ export default {
         this.getemplist.beginTime = this.date[0]
         this.getemplist.endTime = this.date[1]
       }
-      saleBillList(this.getemplist).then(res => {
+      installmentPayList(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           for (let i = 0; i < this.list.length; i++) {
@@ -542,8 +526,8 @@ export default {
     },
     repositoryname(val) {
       console.log(val)
-      this.repositoryId = val.repositoryName
-      this.getemplist.repositoryId = val.id
+      this.saleRepositoryId = val.repositoryName
+      this.getemplist.saleRepositoryId = val.id
     },
     // 部门列表focus刷新
     updatedept() {

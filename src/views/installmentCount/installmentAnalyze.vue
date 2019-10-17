@@ -1,32 +1,23 @@
 <template>
   <div class="ERP-container">
-    <el-card class="box-card" style="margin-top: 10px;height: 115px" shadow="never">
-
-      <el-form ref="getemplist" :model="getemplist" label-width="70px" style="margin-top: -9px">
-        <el-row>
-          <el-col :span="3">
-            <el-form-item label="分类">
-              <el-input v-model="productCategory" style="width: 100px" placeholder="物品分类" clearable @focus="treechoose"/>
-              <my-tree :treecontrol.sync="treecontrol" @tree="tree"/>
-            </el-form-item>
-          </el-col>
-          <el-col :span="3" style="margin-left: 55px">
-            <el-form-item label="门店">
-              <el-input v-model="repositoryId" class="filter-item" @keyup.enter.native="handleFilter" @focus="handlechooseRep"/>
-              <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
-            </el-form-item>
-          </el-col>
-          <el-col :span="4" style="margin-left: 90px">
-            <el-form-item :label="$t('saleBillList.saleType')">
-              <el-select v-model="getemplist.saleType" :value="getemplist.type" clearable style="width: 100px" @keyup.enter.native="handleFilter" @change="changeName">
-                <el-option value="1" label="现金销售"/>
-                <el-option value="2" label="分期销售"/>
-                <el-option value="3" label="配件销售"/>
-              </el-select>
-            </el-form-item>
-          </el-col>
-          <el-col :span="3" style="margin-left: 20px">
+    <el-card class="box-card" style="margin-top: 10px;height: 60px" shadow="never">
+      <el-row>
+        <el-form ref="getemplist" :model="getemplist" label-width="100px" style="margin-top: -9px">
+          <el-col :span="4" style="margin-left: 40px">
             <el-form-item label="日期">
+              <el-date-picker
+                ref="datesRef"
+                v-model="getemplist.date"
+                :editable = "false"
+                type="month"
+                format="yyyy-MM"
+                value-format="yyyy-MM"
+                style="margin-left: -34px;"
+                placeholder="选择月"/>
+            </el-form-item>
+          </el-col>
+          <el-col :span="4" style="margin-left: 150px">
+            <el-form-item :label="$t('stockOrderCount.date')">
               <el-date-picker
                 v-model="date"
                 type="daterange"
@@ -36,41 +27,12 @@
                 style="width: 250px"/>
             </el-form-item>
           </el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="3">
-            <el-form-item label="型号">
-              <el-select v-model="getemplist.brand" style="width: 100px" placeholder="请选择规格型号" clearable>
-                <el-option
-                  v-for="(item, index) in types"
-                  :key="index"
-                  :label="item.categoryName"
-                  :value="item.id"
-                />
-              </el-select>
-            </el-form-item>
-          </el-col>
-          <el-col :span="4" style="margin-left: 56px">
-            <el-form-item label="车架号">
-              <el-input v-model="getemplist.carCode" clearable @keyup.enter.native="handleFilter"/>
-            </el-form-item>
-          </el-col>
-          <el-col :span="4" style="margin-left: 46px">
-            <el-form-item label="电机编号">
-              <el-input v-model="getemplist.motorCode" clearable @keyup.enter.native="handleFilter"/>
-            </el-form-item>
-          </el-col>
-          <el-col :span="4" style="margin-left: 26px">
-            <el-form-item label="电池编码">
-              <el-input v-model="getemplist.batteryCode" clearable @keyup.enter.native="handleFilter"/>
-            </el-form-item>
-          </el-col>
-          <el-col :span="4" style="margin-left: 44px">
+          <el-col :span="4" style="margin-left: 250px">
             <!-- 搜索按钮 -->
             <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 86px" round @click="handleFilter">{{ $t('public.search') }}</el-button>
           </el-col>
-        </el-row>
-      </el-form>
+        </el-form>
+      </el-row>
     </el-card>
 
     <el-card class="box-card" style="margin-top: 10px" shadow="never">
@@ -80,106 +42,61 @@
         border
         style="width: 100%">
         <el-table-column
-          :label="$t('saleBillList.repositoryName')"
+          :label="$t('installmentAnalyze.repositoryId')"
+          prop="repositoryId"
+          width="200"
+          align="center"/>
+        <el-table-column
+          :label="$t('installmentAnalyze.repositoryName')"
           prop="repositoryName"
-          width="200"
+          width="300"
           align="center"/>
         <el-table-column
-          :label="$t('saleBillList.productName')"
-          prop="productName"
-          width="200"
+          :label="$t('installmentAnalyze.yearAndMonth')"
+          prop="yearAndMonth"
+          width="300"
           align="center"/>
+        <el-table-column :label="$t('installmentAnalyze.beginMoney')" align="center">
+          <el-table-column
+            :label="$t('installmentAnalyze.saleAdd')"
+            prop="saleAdd"
+            width="200"
+            align="center"/>
+          <el-table-column
+            :label="$t('installmentAnalyze.collectLess')"
+            prop="collectLess"
+            width="200"
+            align="center"/>
+        </el-table-column>
         <el-table-column
-          :label="$t('saleBillList.productCode')"
-          prop="productCode"
+          :label="$t('installmentAnalyze.change')"
+          prop="change"
+          width="300"
+          align="center"/>
+        <el-table-column :label="$t('installmentAnalyze.rewardPenalty')" align="center">
+          <el-table-column
+            :label="$t('installmentAnalyze.reward')"
+            prop="reward"
+            width="200"
+            align="center"/>
+          <el-table-column
+            :label="$t('installmentAnalyze.penalty')"
+            prop="penalty"
+            width="200"
+            align="center"/>
+        </el-table-column>
+        <el-table-column :label="$t('installmentAnalyze.badMoney')" align="center">
+          <el-table-column
+            :label="$t('installmentAnalyze.bad')"
+            prop="bad"
+            width="200"
+            align="center"/>
+        </el-table-column>
+        <el-table-column
+          :label="$t('installmentAnalyze.endMoney')"
+          prop="endMoney"
           width="200"
           align="center"/>
-        <el-table-column :label="$t('saleBillList.saleout')" align="center">
-          <el-table-column
-            :label="$t('saleBillList.money')"
-            prop="outMoney"
-            width="200"
-            align="center"/>
-          <el-table-column
-            :label="$t('saleBillList.taxMoney')"
-            prop="outTaxMoney"
-            width="200"
-            align="center"/>
-          <el-table-column
-            :label="$t('saleBillList.discountMoney')"
-            prop="outDiscountMoney"
-            width="200"
-            align="center"/>
-          <el-table-column
-            :label="$t('saleBillList.total')"
-            prop="outActualMoney"
-            width="200"
-            align="center"/>
-        </el-table-column>
-        <el-table-column :label="$t('saleBillList.salereurn')" align="center">
-          <el-table-column
-            :label="$t('saleBillList.money')"
-            prop="returnMoney"
-            width="200"
-            align="center"/>
-          <el-table-column
-            :label="$t('saleBillList.taxMoney')"
-            prop="returnTaxMoney"
-            width="200"
-            align="center"/>
-          <el-table-column
-            :label="$t('saleBillList.discountMoney')"
-            prop="returnDiscountMoney"
-            width="200"
-            align="center"/>
-          <el-table-column
-            :label="$t('saleBillList.total')"
-            prop="returnActualMoney"
-            width="200"
-            align="center"/>
-        </el-table-column>
-        <el-table-column :label="$t('saleBillList.actualsale')" align="center">
-          <el-table-column
-            :label="$t('saleBillList.money')"
-            prop="money"
-            width="200"
-            align="center"/>
-          <el-table-column
-            :label="$t('saleBillList.taxMoney')"
-            prop="taxMoney"
-            width="200"
-            align="center"/>
-          <el-table-column
-            :label="$t('saleBillList.discountMoney')"
-            prop="discountMoney"
-            width="200"
-            align="center"/>
-          <el-table-column
-            :label="$t('saleBillList.total')"
-            prop="actualMoney"
-            width="200"
-            align="center"/>
-          <el-table-column
-            :label="$t('saleBillList.costMoney')"
-            prop="costMoney"
-            width="200"
-            align="center"/>
-          <el-table-column
-            :label="$t('saleBillList.grossProfit')"
-            prop="grossProfit"
-            width="200"
-            align="center"/>
-          <el-table-column
-            :label="$t('saleBillList.grossProfitRate')"
-            prop="grossProfitRate"
-            width="200"
-            align="center"/>
-        </el-table-column>
-        <!-- <el-table-column
-          :label="$t('stockBillCount.retreatrate')"
-          prop="arrivedQuantity"
-          width="200"
-          align="center"/> -->
       </el-table>
       <!-- 列表结束 -->
       <pagination v-show="total>0" :total="total" :page.sync="getemplist.pageNum" :limit.sync="getemplist.pageSize" @pagination="getlist" />
@@ -188,8 +105,8 @@
 </template>
 
 <script>
-import { searchEmpCategory2 } from '@/api/Product'
-import { saleBillList } from '@/api/count'
+import { installmentAnalyze } from '@/api/count'
+import { searchStockCategory } from '@/api/StockCategory'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination'
 import permission from '@/directive/permission/index.js' // 权限判断指令
@@ -201,13 +118,11 @@ import MyDialog from './components/MyDialog'
 import MyCustomer from './components/MyCustomer'
 import MyAgent from './components/MyAgent'
 import MyRepository from './components/MyRepository'
-import MyTree from './components/MyTree'
-import MySupplier from './components/MySupplier'
 
 export default {
-  name: 'SaleBillList',
+  name: 'InstallmentAnalyze',
   directives: { waves, permission, permission2 },
-  components: { MyDialog, DetailList, MyRepository, MySupplier, MyEmp, MyCustomer, MyTree, MyAgent, Pagination },
+  components: { MyDialog, DetailList, MyRepository, MyEmp, MyCustomer, MyAgent, Pagination },
   filters: {
     judgeStatFilter(status) {
       const statusMap = {
@@ -243,10 +158,8 @@ export default {
   },
   data() {
     return {
-      categoryId: '',
+      data1: '',
       first: '',
-      second: false,
-      third: '',
       step1: '',
       step2: '',
       step3: '',
@@ -255,9 +168,7 @@ export default {
       step6: '',
       step7: '',
       step8: '',
-      types: [],
       repositoryId: '',
-      handlePersonId: '',
       receiptVisible: false,
       // 回显客户
       customerName: '',
@@ -270,6 +181,7 @@ export default {
         pagesize: 99999
       },
       // 采购类别数据
+      types: [],
       // 申请部门数据
       depts: [],
       // 审核传参
@@ -279,7 +191,6 @@ export default {
         judgeStat: ''
       },
       // 详情组件数据
-      treecontrol: false,
       detailvisible: false,
       repositorycontrol: false,
       // 更多搜索条件问题
@@ -308,7 +219,9 @@ export default {
       getemplist: {
         pageNum: 1,
         pageSize: 10,
-        type: '1'
+        type: '1',
+        repositoryId: this.$store.getters.repositoryId,
+        regionIds: this.$store.getters.regionId
       },
       // 传给组件的数据
       personalForm: {},
@@ -323,29 +236,24 @@ export default {
     this.changeName()
   },
   methods: {
-    treechoose() {
-      this.treecontrol = true
-    },
-    tree(val) {
-      this.categoryId = val.categoryName
-      this.getemplist.categoryId = val.id
-    },
     changeName() {
       if (this.getemplist.type === '1') {
-        this.first = '供应商类别分组'
-        this.second = false
+        this.first = '仓库名称'
       }
       if (this.getemplist.type === '2') {
-        this.first = '物品类别'
-        this.second = false
+        this.first = '供应商名称'
       }
       if (this.getemplist.type === '3') {
-        this.first = '供应商分组'
-        this.second = false
+        this.first = '类别'
       }
       if (this.getemplist.type === '4') {
-        this.first = '供应商'
-        this.second = true
+        this.first = '品牌'
+      }
+      if (this.getemplist.type === '5') {
+        this.first = '年'
+      }
+      if (this.getemplist.type === '6') {
+        this.first = '月'
       }
       this.getlist()
     },
@@ -384,38 +292,12 @@ export default {
       this.getlist()
     },
     getlist() {
-      const para = {}
-      para.iseffective = 1
-      para.type = 1
-      para.pagenum = 1
-      para.pagesize = 999
-      searchEmpCategory2(2).then(res => {
-        if (res.data.ret === 200) {
-          this.types = res.data.data.content.list
-        }
-      })
       // 物料需求计划列表数据
       this.listLoading = true
-      saleBillList(this.getemplist).then(res => {
+      installmentAnalyze(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           for (let i = 0; i < this.list.length; i++) {
-            if (this.list[i].productCategory === null) {
-              this.list[i].productCategory = ''
-            }
-            this.list[i].quantity2 = (this.list[i].orderQuantity - this.list[i].enterQuantity).toFixed(2)
-            if (this.getemplist.type === '1') {
-              this.list[i].name = this.list[i].supplierTypeName
-            }
-            if (this.getemplist.type === '2') {
-              this.list[i].name = this.list[i].productCategory
-            }
-            if (this.getemplist.type === '3') {
-              this.list[i].name = this.list[i].supplierName
-            }
-            if (this.getemplist.type === '4') {
-              this.list[i].name = this.list[i].supplierName
-            }
             this.list[i].heji = this.list[i].totalMoney + this.list[i].taxMoney
           }
           this.total = res.data.data.content.totalCount
@@ -424,6 +306,12 @@ export default {
           this.listLoading = false
         }, 0.5 * 100)
       })
+      // 采购类别数据
+      searchStockCategory(this.typeparms).then(res => {
+        if (res.data.ret === 200) {
+          this.types = res.data.data.content.list
+        }
+      })
     },
     // 清空搜索条件
     restFilter() {
@@ -431,8 +319,6 @@ export default {
       this.getemplist.customerId = ''
       this.stockPersonId = ''
       this.getemplist.stockPersonId = ''
-      this.handlePersonId = ''
-      this.getemplist.handlePersonId = ''
     },
     // 搜索
     handleFilter() {
@@ -444,28 +330,11 @@ export default {
         this.getemplist.beginTime = this.date[0]
         this.getemplist.endTime = this.date[1]
       }
-      saleBillList(this.getemplist).then(res => {
+      installmentAnalyze(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           for (let i = 0; i < this.list.length; i++) {
-            for (let i = 0; i < this.list.length; i++) {
-              if (this.list[i].productCategory === null) {
-                this.list[i].productCategory = ''
-              }
-              if (this.getemplist.type === '1') {
-                this.list[i].name = this.list[i].supplierTypeName
-              }
-              if (this.getemplist.type === '2') {
-                this.list[i].name = this.list[i].productCategory
-              }
-              if (this.getemplist.type === '3') {
-                this.list[i].name = this.list[i].supplierName
-              }
-              if (this.getemplist.type === '4') {
-                this.list[i].name = this.list[i].supplierName
-              }
-              this.list[i].heji = this.list[i].totalMoney + this.list[i].taxMoney
-            }
+            this.list[i].heji = this.list[i].totalMoney + this.list[i].taxMoney
           }
           this.total = res.data.data.content.totalCount
           this.restFilter()
@@ -480,8 +349,8 @@ export default {
     },
     // 采购人回显
     stockName(val) {
-      this.handlePersonId = val.personName
-      this.getemplist.handlePersonId = val.id
+      this.stockPersonId = val.personName
+      this.getemplist.stockPersonId = val.id
     },
     // 供应商输入框focus事件触发
     handlechoose() {

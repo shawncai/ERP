@@ -120,28 +120,34 @@ export default {
         this.$store.dispatch('getuseCountry', 2)
       }
       this.loading = true
-      loginByUsername(this.loginForm.username, this.loginForm.password).then(res => {
-        if (res.data.ret === 100) {
-          this.$message({
-            showClose: true,
-            message: res.data.msg,
-            type: 'error'
-          })
+      loginByUsername(this.loginForm.username, this.loginForm.password)
+        .then(res => {
+          if (res.data.ret === 100) {
+            this.$message({
+              showClose: true,
+              message: res.data.msg,
+              type: 'error'
+            })
+            this.loading = false
+          } else if (res.data.ret === 200) {
+            this.$message({
+              showClose: true,
+              message: 'login successful',
+              type: 'success'
+            })
+            this.$store.dispatch('LoginByUsername', this.loginForm)
+              .then(res => {
+                this.loading = false
+                this.$router.push({ path: this.redirect || '/' })
+              })
+              .catch(() => {
+                this.loading = false
+              })
+          }
+        })
+        .catch(() => {
           this.loading = false
-        } else if (res.data.ret === 200) {
-          this.$message({
-            showClose: true,
-            message: 'login successful',
-            type: 'success'
-          })
-          this.$store.dispatch('LoginByUsername', this.loginForm).then(res => {
-            this.loading = false
-            this.$router.push({ path: this.redirect || '/' })
-          }).catch(() => {
-            this.loading = false
-          })
-        }
-      })
+        })
     },
     afterQRScan() {
       // const hash = window.location.hash.slice(1)
