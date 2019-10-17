@@ -72,6 +72,11 @@
                   <el-input v-model="personalForm.productCode" style="margin-left: 18px;width:200px" disabled/>
                 </el-form-item>
               </el-col>
+              <el-col :span="6">
+                <el-form-item :label="$t('MaterialsList.color')" prop="color" style="width: 100%;">
+                  <el-input v-model="personalForm.color" style="margin-left: 18px;width:200px" disabled/>
+                </el-form-item>
+              </el-col>
             </el-row>
           </el-form>
         </div>
@@ -196,6 +201,7 @@ export default {
           this.personalForm.productTypeId = val.typeId
           this.productTypeId = val.productType
           this.personalForm.productCode = val.code
+          this.personalForm.color = val.color
         } else if (res.data.data.content === true) {
           this.$notify.error({
             title: '错误',

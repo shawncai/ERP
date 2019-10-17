@@ -1469,7 +1469,8 @@ export default {
     id: '序号',
     judgeStat: '审批状态',
     receiptStat: '单据状态',
-    code: '物料编码'
+    code: '物料编码',
+    color: '颜色'
   },
   ProcessFile: {
     id: '工作中心序号',
