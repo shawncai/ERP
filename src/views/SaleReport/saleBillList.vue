@@ -106,7 +106,7 @@
             width="200"
             align="center"/>
           <el-table-column
-            :label="$t('saleBillList.outDiscountMoney')"
+            :label="$t('saleBillList.discountMoney')"
             prop="outDiscountMoney"
             width="200"
             align="center"/>
@@ -128,7 +128,7 @@
             width="200"
             align="center"/>
           <el-table-column
-            :label="$t('saleBillList.outDiscountMoney')"
+            :label="$t('saleBillList.discountMoney')"
             prop="returnDiscountMoney"
             width="200"
             align="center"/>
@@ -150,7 +150,7 @@
             width="200"
             align="center"/>
           <el-table-column
-            :label="$t('saleBillList.outDiscountMoney')"
+            :label="$t('saleBillList.discountMoney')"
             prop="discountMoney"
             width="200"
             align="center"/>
@@ -188,7 +188,7 @@
 </template>
 
 <script>
-import { searchStockCategory } from '@/api/StockCategory'
+import { searchEmpCategory2 } from '@/api/Product'
 import { saleBillList } from '@/api/count'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination'
@@ -389,7 +389,7 @@ export default {
       para.type = 1
       para.pagenum = 1
       para.pagesize = 999
-      searchStockCategory(para).then(res => {
+      searchEmpCategory2(2).then(res => {
         if (res.data.ret === 200) {
           this.types = res.data.data.content.list
         }

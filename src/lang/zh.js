@@ -367,7 +367,56 @@ export default {
     installmentCount: '分期统计',
     installmentComplete: '分期付款完成率统计',
     recoveryCarDetail: '收车明细表',
-    installmentPayList: '分期付款情况明细表'
+    installmentPayList: '分期付款情况明细表',
+    installmentAnalyze: '分期应收款分析'
+  },
+  installmentAnalyze: {
+    repositoryName: '仓库名称',
+    repositoryId: '仓库编码',
+    yearAndMonth: '日期',
+    beginMoney: '期初应收账款',
+    shouldCollect: '应收账款',
+    saleAdd: '销售增加',
+    collectLess: '收款减少',
+    change: '分期变更利息',
+    rewardPenalty: '奖励/惩罚',
+    reward: '奖励(+)',
+    penalty: '惩罚(-)',
+    badMoney: '坏账',
+    bad: '核销减少',
+    endMoney: '期末应收账款余额'
+  },
+  installmentPayList: {
+    createDate: '购买日期',
+    customerName: '客户名称',
+    address: '通讯地址',
+    customerPhone: '联系电话',
+    recoveryCarDetail: '车型',
+    carCode: '车架号',
+    motorCode: '电机编码',
+    batteryCode: '电池编码',
+    color: '颜色',
+    totalMoney: '总金额',
+    firstMoney: '首付金额',
+    paidMoney: '已结算',
+    unpaidMoney: '未结算',
+    monthlyMoney: '月供金额',
+    day: '还款周期'
+  },
+  recoveryCarDetail: {
+    repositoryName: '门店名称',
+    receivePersonName: '收车人',
+    customerName: '顾客姓名',
+    createDate: '创建日期',
+    receiptNumber: '单据编号',
+    carCode: '车架号',
+    motorCode: '电机编码',
+    batteryCode: '电池编码'
+  },
+  installmentComplete: {
+    shouldMoney: '到期应收欠款',
+    collectedMOney: '已收金额',
+    finishRate: '完成率'
   },
   produceFailCount: {
     produceQuantity: '生产数量',
@@ -376,7 +425,9 @@ export default {
     failRate: '合格率'
   },
   accessStatus: {
-    produceQuantity: '生产数量',
+    planFinishDate: '投产日期',
+    planStartDate: '完工日期',
+    produceQuantity: '投产数量',
     taskNumber: '生产任务单编号',
     requireQuantity: '需求数量',
     accessQuantity: '领料数量',
@@ -384,7 +435,6 @@ export default {
     existQuantity: '现有数量'
   },
   saleBillList: {
-    // 序号，仓库名称，仓库编码，销售出库（金额，税额，合计），销售退货（金额，税额，合计），实际销售（金额，税额，合计，成本，，出厂成本，毛利，毛利率），名次
     saleType: '销售方式',
     repositoryName: '仓库名称',
     productCode: '物品编码',
@@ -394,6 +444,7 @@ export default {
     actualsale: '实际销售',
     money: '金额',
     taxMoney: '税额',
+    discountMoney: '折扣额',
     total: '合计',
     costMoney: '成本',
     grossProfit: '毛利',

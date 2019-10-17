@@ -3056,6 +3056,12 @@ export const asyncRouterMap = [
         component: () => import('@/views/installmentCount/installmentPayList'),
         name: 'installmentPayList',
         meta: { title: 'installmentPayList', noCache: true }
+      },
+      {
+        path: 'installmentAnalyze',
+        component: () => import('@/views/installmentCount/installmentAnalyze'),
+        name: 'installmentAnalyze',
+        meta: { title: 'installmentAnalyze', noCache: true }
       }
     ]
   },

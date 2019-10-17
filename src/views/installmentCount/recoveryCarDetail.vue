@@ -4,11 +4,18 @@
       <el-row>
         <el-form ref="getemplist" :model="getemplist" label-width="100px" style="margin-top: -9px">
           <el-col :span="4">
-            <el-form-item label="物品编码">
-              <el-input v-model="getemplist.productCode" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
+            <el-form-item label="收车人">
+              <el-input v-model="receivePersonId" @keyup.enter.native="handleFilter" @focus="handlechooseStock"/>
+            </el-form-item>
+            <my-emp :control.sync="stockControl" @stockName="stockName"/>
+          </el-col>
+          <el-col :span="4" style="margin-left: 35px">
+            <el-form-item label="门店">
+              <el-input v-model="repositoryId" class="filter-item" @keyup.enter.native="handleFilter" @focus="handlechooseRep"/>
+              <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
             </el-form-item>
           </el-col>
-          <el-col :span="4" style="margin-left: 150px">
+          <el-col :span="4" style="margin-left: 80px">
             <el-form-item :label="$t('stockOrderCount.date')">
               <el-date-picker
                 v-model="date"
@@ -19,7 +26,7 @@
                 style="width: 250px"/>
             </el-form-item>
           </el-col>
-          <el-col :span="43" style="margin-left: 300px">
+          <el-col :span="4" style="margin-left: 210px">
             <!-- 搜索按钮 -->
             <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 86px" round @click="handleFilter">{{ $t('public.search') }}</el-button>
           </el-col>
@@ -34,34 +41,44 @@
         border
         style="width: 100%">
         <el-table-column
-          :label="$t('stockDetailCount.productCode')"
-          prop="productCode"
-          width="280"
+          :label="$t('recoveryCarDetail.repositoryName')"
+          prop="repositoryName"
+          width="210"
           align="center"/>
         <el-table-column
-          :label="$t('stockDetailCount.productName')"
-          prop="productName"
-          width="280"
+          :label="$t('recoveryCarDetail.receivePersonName')"
+          prop="receivePersonName"
+          width="210"
           align="center"/>
         <el-table-column
-          :label="$t('produceFailCount.produceQuantity')"
-          prop="produceQuantity"
-          width="280"
+          :label="$t('recoveryCarDetail.customerName')"
+          prop="customerName"
+          width="210"
           align="center"/>
         <el-table-column
-          :label="$t('produceFailCount.passQuantity')"
-          prop="passQuantity"
-          width="280"
+          :label="$t('recoveryCarDetail.createDate')"
+          prop="createDate"
+          width="210"
           align="center"/>
         <el-table-column
-          :label="$t('produceFailCount.failQuantity')"
-          prop="failQuantity"
-          width="280"
+          :label="$t('recoveryCarDetail.receiptNumber')"
+          prop="receiptNumber"
+          width="210"
           align="center"/>
         <el-table-column
-          :label="$t('produceFailCount.failRate')"
-          prop="failRate"
-          width="280"
+          :label="$t('recoveryCarDetail.carCode')"
+          prop="carCode"
+          width="210"
+          align="center"/>
+        <el-table-column
+          :label="$t('recoveryCarDetail.motorCode')"
+          prop="motorCode"
+          width="210"
+          align="center"/>
+        <el-table-column
+          :label="$t('recoveryCarDetail.batteryCode')"
+          prop="batteryCode"
+          width="210"
           align="center"/>
       </el-table>
       <!-- 列表结束 -->
@@ -71,9 +88,8 @@
 </template>
 
 <script>
-import { produceFailCount } from '@/api/count'
+import { recoveryCarDetail } from '@/api/count'
 import { searchStockCategory } from '@/api/StockCategory'
-import MyRepository from './components/MyRepository'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination'
 import permission from '@/directive/permission/index.js' // 权限判断指令
@@ -84,12 +100,12 @@ import DetailList from './components/DetailList'
 import MyDialog from './components/MyDialog'
 import MyCustomer from './components/MyCustomer'
 import MyAgent from './components/MyAgent'
-import MySupplier from './components/MySupplier'
+import MyRepository from './components/MyRepository'
 
 export default {
-  name: 'ProduceFailCount',
+  name: 'RecoveryCarDetail',
   directives: { waves, permission, permission2 },
-  components: { MyDialog, DetailList, MyEmp, MyCustomer, MySupplier, MyAgent, MyRepository, Pagination },
+  components: { MyDialog, DetailList, MyRepository, MyEmp, MyCustomer, MyAgent, Pagination },
   filters: {
     judgeStatFilter(status) {
       const statusMap = {
@@ -134,6 +150,7 @@ export default {
       step6: '',
       step7: '',
       step8: '',
+      repositoryId: '',
       receiptVisible: false,
       // 回显客户
       customerName: '',
@@ -157,6 +174,7 @@ export default {
       },
       // 详情组件数据
       detailvisible: false,
+      repositorycontrol: false,
       // 更多搜索条件问题
       visible2: false,
       // 供应商回显
@@ -183,10 +201,9 @@ export default {
       getemplist: {
         pageNum: 1,
         pageSize: 10,
-        repositoryId: this.$store.getters.repositoryId,
-        regionIds: this.$store.getters.regionId,
         type: '1'
       },
+      receivePersonId: '',
       // 传给组件的数据
       personalForm: {},
       // 修改控制组件数据
@@ -200,23 +217,24 @@ export default {
     this.changeName()
   },
   methods: {
-    supplierName(val) {
-      console.log(val)
-      this.supplierId = val.supplierName
-      this.getemplist.supplierId = val.id
-    },
     changeName() {
       if (this.getemplist.type === '1') {
-        this.first = '供应商名称'
+        this.first = '仓库名称'
       }
       if (this.getemplist.type === '2') {
-        this.first = '经办人名称'
+        this.first = '供应商名称'
       }
       if (this.getemplist.type === '3') {
-        this.first = '品牌名称'
+        this.first = '类别'
       }
       if (this.getemplist.type === '4') {
-        this.first = '种类名称'
+        this.first = '品牌'
+      }
+      if (this.getemplist.type === '5') {
+        this.first = '年'
+      }
+      if (this.getemplist.type === '6') {
+        this.first = '月'
       }
       this.getlist()
     },
@@ -257,13 +275,11 @@ export default {
     getlist() {
       // 物料需求计划列表数据
       this.listLoading = true
-      produceFailCount(this.getemplist).then(res => {
+      recoveryCarDetail(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           for (let i = 0; i < this.list.length; i++) {
-            this.list[i].notenterQuantity = (this.list[i].quantity - this.list[i].enterQuantity).toFixed(2)
-            this.list[i].notinvoiceQuantity = (this.list[i].quantity - this.list[i].invoiceQuantity).toFixed(2)
-            this.list[i].notinvoiceMoney = (this.list[i].money - this.list[i].invoiceMoney).toFixed(2)
+            this.list[i].heji = this.list[i].totalMoney + this.list[i].taxMoney
           }
           this.total = res.data.data.content.totalCount
         }
@@ -282,8 +298,8 @@ export default {
     restFilter() {
       this.customerName = ''
       this.getemplist.customerId = ''
-      this.stockPersonId = ''
-      this.getemplist.stockPersonId = ''
+      // this.receivePersonId = ''
+      // this.getemplist.receivePersonId = ''
     },
     // 搜索
     handleFilter() {
@@ -295,13 +311,11 @@ export default {
         this.getemplist.beginTime = this.date[0]
         this.getemplist.endTime = this.date[1]
       }
-      produceFailCount(this.getemplist).then(res => {
+      recoveryCarDetail(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           for (let i = 0; i < this.list.length; i++) {
-            this.list[i].notenterQuantity = (this.list[i].quantity - this.list[i].enterQuantity).toFixed(2)
-            this.list[i].notinvoiceQuantity = (this.list[i].quantity - this.list[i].invoiceQuantity).toFixed(2)
-            this.list[i].notinvoiceMoney = (this.list[i].money - this.list[i].invoiceMoney).toFixed(2)
+            this.list[i].heji = this.list[i].totalMoney + this.list[i].taxMoney
           }
           this.total = res.data.data.content.totalCount
           this.restFilter()
@@ -316,12 +330,18 @@ export default {
     },
     // 采购人回显
     stockName(val) {
-      this.stockPersonId = val.personName
-      this.getemplist.stockPersonId = val.id
+      this.receivePersonId = val.personName
+      this.getemplist.receivePersonId = val.id
     },
     // 供应商输入框focus事件触发
     handlechoose() {
       this.empcontrol = true
+    },
+    // 供应商列表返回数据
+    supplierName(val) {
+      console.log(val)
+      this.supplierId = val.supplierName
+      this.getemplist.supplierId = val.id
     },
     // 修改操作
     handleEdit(row) {
@@ -372,8 +392,8 @@ export default {
     },
     repositoryname(val) {
       console.log(val)
-      this.enterRepositoryId = val.repositoryName
-      this.getemplist.enterRepositoryId = val.id
+      this.repositoryId = val.repositoryName
+      this.getemplist.repositoryId = val.id
     },
     // 部门列表focus刷新
     updatedept() {
