@@ -389,7 +389,8 @@ export default {
           }
         }
         for (const c in materialsListDetailVos) {
-          getlocation(this.personalForm.buildupRepositoryId, materialsListDetailVos[c].productCode).then(res => {
+          console.log(materialsListDetailVos[c].productCode)
+          getlocation(this.personalForm.buildupRepositoryId, materialsListDetailVos[c]).then(res => {
             if (res.data.ret === 200) {
               materialsListDetailVos[c].locationCode = res.data.data.content[0].locationCode
               materialsListDetailVos[c].locationId = res.data.data.content[0].id
@@ -401,7 +402,7 @@ export default {
         console.log('materialsListDetailVos', materialsListDetailVos)
         const materialsListDetailVos2 = this.deepClone(materialsListDetailVos)
         for (const c in materialsListDetailVos2) {
-          getlocation(this.personalForm.buildupRepositoryId, materialsListDetailVos2[c].productCode).then(res => {
+          getlocation(this.personalForm.buildupRepositoryId, materialsListDetailVos2[c]).then(res => {
             if (res.data.ret === 200) {
               materialsListDetailVos2[c].locationCode = res.data.data.content[0].locationCode
               materialsListDetailVos2[c].locationId = res.data.data.content[0].id
