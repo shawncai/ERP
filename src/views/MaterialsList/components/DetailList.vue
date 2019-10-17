@@ -99,7 +99,11 @@
             <el-editable-column prop="unit" align="center" label="单位" min-width="150px"/>
             <el-editable-column prop="quantity" align="center" label="定额" min-width="150px"/>
             <el-editable-column prop="lossRate" align="center" label="损耗率" min-width="150px"/>
-            <el-editable-column prop="isKey" align="center" label="是否关键件" min-width="150px"/>
+            <el-editable-column prop="isKey" align="center" label="是否关键件" min-width="150px">
+              <template slot-scope="scope">
+                <span>{{ scope.row.isKey | keyfilter }}</span>
+              </template>
+            </el-editable-column>
           </el-editable>
         </div>
       </el-card>
@@ -172,6 +176,13 @@ export default {
         1: '审核中',
         2: '审核通过',
         3: '审核不通过'
+      }
+      return statusMap[status]
+    },
+    keyfilter(status) {
+      const statusMap = {
+        1: '是',
+        2: '不是'
       }
       return statusMap[status]
     }

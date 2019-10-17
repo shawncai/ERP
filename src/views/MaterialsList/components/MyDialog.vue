@@ -97,7 +97,7 @@
           <el-editable-column prop="color" align="center" label="颜色" min-width="150px"/>
           <el-editable-column prop="productCategory" align="center" label="子件类型" min-width="150px"/>
           <el-editable-column prop="unit" align="center" label="单位" min-width="150px"/>
-          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 1}, type: 'visible'}" prop="quantity" align="center" label="定额" min-width="150px"/>
+          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="quantity" align="center" label="定额" min-width="150px"/>
           <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="lossRate" align="center" label="损耗率" min-width="150px"/>
           <el-editable-column :edit-render="{name: 'ElSelect', options: isKeyList, type: 'visible'}" prop="isKey" align="center" label="是否关键件" min-width="150px"/>
         </el-editable>
@@ -190,6 +190,7 @@ export default {
       console.log(val)
       const nowlistdata = this.$refs.editable.getRecords()
       for (let i = 0; i < val.length; i++) {
+        val[i].isKey = Number(val[i].isKey)
         for (let j = 0; j < nowlistdata.length; j++) {
           if (val[i].productCode === nowlistdata[j].productCode) {
             this.$notify.error({

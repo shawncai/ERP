@@ -280,7 +280,7 @@ export default {
           color: item.color,
           typeId: item.typeId,
           lossRate: 0,
-          quantity: 0,
+          quantity: 1,
           isKey: '1',
           categoryId: item.categoryId,
           productCategory: item.category,

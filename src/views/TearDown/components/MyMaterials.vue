@@ -285,7 +285,8 @@ export default {
           totalMoney: 0,
           enterMoney: 0,
           price: item.price,
-          typeIdname: item.productType
+          typeIdname: item.productType,
+          color: item.color
         }
       })
       // 通过Promise.all把所有循环中的异步接口数据加载过来，再通过async/await把数据加载完成
