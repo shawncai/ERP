@@ -101,7 +101,7 @@
             <el-editable-column prop="productName" align="center" label="子件名称" min-width="150px"/>
             <el-editable-column prop="typeIdname" align="center" label="规格" min-width="150px"/>
             <el-editable-column prop="color" align="center" label="颜色" min-width="150px"/>
-            <el-editable-column prop="category" align="center" label="子件类型" min-width="150px"/>
+            <el-editable-column prop="productCategory" align="center" label="子件类型" min-width="150px"/>
             <el-editable-column prop="unit" align="center" label="单位" min-width="150px"/>
             <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="quantity" align="center" label="定额" min-width="150px"/>
             <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0.0, max: 1.0}, type: 'visible'}" prop="lossRate" align="center" label="损耗率" min-width="150px"/>

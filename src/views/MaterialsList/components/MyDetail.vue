@@ -283,7 +283,7 @@ export default {
           quantity: 0,
           isKey: '1',
           categoryId: item.categoryId,
-          category: item.category,
+          productCategory: item.category,
           unit: item.purMeasu,
           productType: item.productType,
           typeIdname: item.productType
