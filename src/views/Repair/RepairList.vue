@@ -447,8 +447,12 @@
         class="edit"
         top="-10px"
       >
+
         <el-row>
           <el-card class="box-card">
+            <div slot="header" class="clearfix">
+              <span>{{ $t('repair.CustomerInfo') }}</span>
+            </div>
             <div style="margin-bottom:10px;">
               <el-col :span="6" >
                 <div class="text">{{ $t('repair.Ordernumber') }}：{{ details.code }}</div>
@@ -1525,18 +1529,26 @@ export default {
       const tempData = Object.assign({}, this.formdata)
       const serviceorderid = tempData.id
       const handlerid = this.dispatchform.id
-      repairtoemp(serviceorderid, handlerid).then(res => {
-        if (res.data.ret === 200) {
-          this.getinstalllist()
-          this.isvisible = false
-          this.$notify({
-            title: 'successful',
-            message: 'successful',
-            type: 'success',
-            duration: 1000
-          })
-        }
-      })
+      if (handlerid !== null && handlerid !== undefined && handlerid !== '') {
+        repairtoemp(serviceorderid, handlerid).then(res => {
+          if (res.data.ret === 200) {
+            this.getinstalllist()
+            this.isvisible = false
+            this.$notify({
+              title: 'successful',
+              message: 'successful',
+              type: 'success',
+              duration: 1000
+            })
+          }
+        })
+      } else {
+        this.$notify.error({
+          title: '错误',
+          message: '请填写',
+          offset: 100
+        })
+      }
     },
 
     handleCreate() {

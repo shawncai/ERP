@@ -1817,6 +1817,7 @@ export default {
     unIncludeTaxEnterMoney: '去税进价'
   },
   payment: {
+    allMoney: '总金额',
     title: '付款主题',
     applyDate: '申请日期',
     supplierId: '供应商',

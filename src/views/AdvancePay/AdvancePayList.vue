@@ -118,6 +118,11 @@
             <span>{{ scope.row.totalMoney }}</span>
           </template>
         </el-table-column>
+        <el-table-column :label="$t('AdvancePay.summary')" :resizable="false" align="center" min-width="200">
+          <template slot-scope="scope">
+            <span>{{ scope.row.summary }}</span>
+          </template>
+        </el-table-column>
         <el-table-column :label="$t('public.judgeStat')" :resizable="false" prop="judgeStat" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.judgeStat | judgeStatFilter }}</span>

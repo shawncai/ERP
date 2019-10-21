@@ -190,18 +190,18 @@ export default {
       console.log(val)
       const nowlistdata = this.$refs.editable.getRecords()
       for (let i = 0; i < val.length; i++) {
-        val[i].isKey = Number(val[i].isKey)
+        // if (val[i].productCode === this.personalForm.productCode) {
+        //   continue
+        // }
+        let m = 1
         for (let j = 0; j < nowlistdata.length; j++) {
           if (val[i].productCode === nowlistdata[j].productCode) {
-            this.$notify.error({
-              title: '错误',
-              message: '物品已添加',
-              offset: 100
-            })
-            return false
+            m = 2
           }
         }
-        this.$refs.editable.insert(val[i])
+        if (m === 1) {
+          this.$refs.editable.insert(val[i])
+        }
       }
     },
     // 清空记录

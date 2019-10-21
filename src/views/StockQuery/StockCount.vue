@@ -3,19 +3,19 @@
     <el-card class="box-card" style="margin-top: 10px;height: 60px" shadow="never">
       <el-row>
         <el-form ref="getemplist" :model="getemplist" label-width="90px" style="margin-top: -9px">
-          <el-col :span="5">
+          <el-col :span="4">
             <el-form-item label="物品编码">
               <el-input v-model="getemplist.productCode" :placeholder="$t('StockQuery.productCode')" clearable style="width: 200px" @keyup.enter.native="handleFilter" @focus="handleAddproduct"/>
               <my-detail :control.sync="control" @product="product"/>
             </el-form-item>
           </el-col>
-          <el-col :span="5">
+          <el-col :span="4" style="margin-left: 40px">
             <el-form-item label="供应商">
               <el-input v-model="supplierId" :placeholder="$t('StockQuery.supplierId')" style="width: 200px" clearable @keyup.enter.native="handleFilter" @focus="handlechoose"/>
               <my-supplier :control.sync="empcontrol" @supplierName="supplierName"/>
             </el-form-item>
           </el-col>
-          <el-col :span="10" style="margin-left: 118px">
+          <el-col :span="4" style="margin-left: 118px">
             <el-form-item label="采购时间段">
               <el-date-picker
                 v-model="date"

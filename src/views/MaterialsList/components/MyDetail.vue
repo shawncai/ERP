@@ -39,16 +39,20 @@
     <!-- 列表开始 -->
     <el-table
       v-loading="listLoading"
+      ref="multipleTable"
       :key="tableKey"
       :data="list"
+      :row-key="getRowKeys"
       border
       fit
       highlight-current-row
       style="width: 100%;"
       @selection-change="handleSelectionChange">
       <el-table-column
+        :reserve-selection="true"
         type="selection"
         width="55"
+        fixed="left"
         align="center"/>
       <el-table-column :label="$t('Product.code')" :resizable="false" prop="code" align="center" width="120">
         <template slot-scope="scope">
@@ -136,15 +140,23 @@ export default {
     control: {
       type: Boolean,
       default: false
+    },
+    checklist: {
+      type: Array,
+      default() {
+        return []
+      }
     }
   },
   data() {
     return {
+      select_orderId: [],
       select_order_number: [],
       // 获取row的key值
       getRowKeys(row) {
         return row.code
       },
+      checklistprop: this.checklist,
       // 供应商回显
       supplierid: '',
       // 供货商控制
@@ -186,8 +198,20 @@ export default {
   watch: {
     control() {
       this.productVisible = this.control
-      console.log(this.control)
+      this.select_orderId = []
+      // this.$refs.multipleTable.clearSelection()
       this.getlist()
+    },
+    checklist() {
+      this.checklistprop = this.checklist
+      if (this.checklistprop) {
+        this.checklistprop.forEach(row => {
+          if (row) {
+            this.select_orderId.push(row.productCode)
+          }
+        })
+      }
+      console.log(this.select_orderId)
     }
   },
   created() {
@@ -237,6 +261,8 @@ export default {
       this.moreaction = rows
       this.select_order_number = this.moreaction.length
       this.select_orderId = []
+
+      console.log(rows)
       if (rows) {
         rows.forEach(row => {
           if (row) {

@@ -3,12 +3,17 @@
     <el-card class="box-card" style="margin-top: 10px;height: 60px" shadow="never">
       <el-row>
         <el-form ref="getemplist" :model="getemplist" label-width="100px" style="margin-top: -9px">
-          <el-col :span="5" style="margin-left: 10px">
+          <el-col :span="6">
             <el-form-item label="物品编码">
-              <el-input v-model="getemplist.productCode" clearable @keyup.enter.native="handleFilter"/>
+              <el-input v-model="getemplist.productCode" style="width: 190px" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
-          <el-col :span="5" style="margin-left: 10px">
+          <el-col :span="6" style="margin-left: 20px">
+            <el-form-item label="物品名称">
+              <el-input v-model="getemplist.productName" style="width: 160px" clearable @keyup.enter.native="handleFilter"/>
+            </el-form-item>
+          </el-col>
+          <el-col :span="6" style="margin-left: 10px">
             <el-form-item label="检验项目">
               <el-select v-model="getemplist.itemId" clearable @keyup.enter.native="handleFilter">
                 <el-option
