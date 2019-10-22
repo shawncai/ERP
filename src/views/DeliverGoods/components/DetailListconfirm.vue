@@ -85,9 +85,10 @@
           <el-editable-column prop="deliverMoney" align="center" label="配送金额" min-width="150px"/>
           <el-editable-column prop="outRepositoryName" align="center" label="出货仓库" min-width="150px"/>
           <el-editable-column prop="batch" align="center" label="批次" min-width="150px"/>
-          <el-table-column :label="$t('public.actions')" :resizable="false" align="center" min-width="230">
+          <el-table-column v-show="isdeliverperson()" :label="$t('public.actions')" :resizable="false" align="center" min-width="230">
             <template slot-scope="scope">
-              <el-button title="确认" size="mini" type="success" icon="el-icon-check" circle @click="handleconfirm(scope.row)"/>
+              <el-button v-if="isok(scope.row)" title="确认" size="mini" type="success" icon="el-icon-check" circle @click="handleconfirm(scope.row)"/>
+              <span v-else>已确认</span>
             </template>
           </el-table-column>
         </el-editable>
@@ -279,11 +280,28 @@ export default {
     }
   },
   methods: {
+    isok(row) {
+      console.log(row)
+      if (row.data.stat !== 2) {
+        return true
+      } else {
+        return false
+      }
+    },
+    isdeliverperson() {
+      console.log('判断条件', this.personalForm)
+      if (this.$store.getters.userId === this.personalForm.deliverPersonId && this.personalForm.judgeStat === 2) {
+        return true
+      } else {
+        return false
+      }
+    },
     handleconfirm(row) {
       console.log(row.data)
       confirmDeliverGoods(row.data.id).then(res => {
         if (res.data.ret === 200) {
           console.log(res)
+          row.data.stat = 2
         }
       })
     },

@@ -440,7 +440,8 @@ export default {
           locationId: item.locationId,
           locationName: item.locationName,
           includeTaxCostMoney: 0,
-          includeTaxMoney: 0
+          includeTaxMoney: 0,
+          stat: 0
         }
       })
       this.$emit('saleOutDetail', saleOutDetail)

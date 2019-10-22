@@ -280,15 +280,15 @@ export default {
       }
     }
   },
-  watch: {
-    personalForm: {
-      handler() {
-        this.personalForm.totalLackMoney = this.allmoney - this.personalForm.receiptMoney
-      },
-      deep: true,
-      immediate: true
-    }
-  },
+  // watch: {
+  //   personalForm: {
+  //     handler() {
+  //       this.personalForm.totalLackMoney = this.allmoney - this.personalForm.receiptMoney
+  //     },
+  //     deep: true,
+  //     immediate: true
+  //   }
+  // },
   created() {
     this.getways()
   },
@@ -439,9 +439,10 @@ export default {
         }
       })
       sums[1] = ''
-      this.allmoney = sums[6]
-      this.personalForm.receiptMoney = sums[7]
-      this.personalForm.deductionMoney = sums[7]
+      this.allmoney = sums[5]
+      this.personalForm.receiptMoney = sums[6]
+      this.personalForm.deductionMoney = sums[6]
+      this.personalForm.totalLackMoney = sums[5] - sums[6]
       return sums
     },
     // 选择客户类型时清理客户名称
@@ -482,6 +483,7 @@ export default {
               }
             })
             for (let i = 0; i < agentcollectDetail.length; i++) {
+              console.log(agentcollectDetail[i])
               this.$refs.editable.insert(agentcollectDetail[i])
             }
           }
@@ -495,7 +497,7 @@ export default {
       if (val.advanceMoney !== null && val.advanceMoney !== undefined && val.advanceMoney !== '') {
         this.yufu = val.advanceMoney
       }
-      this.personalForm.totalLackMoney = this.allmoney - this.personalForm.receiptMoney
+      this.personalForm.totalLackMoney = Number(this.allmoney) - Number(this.personalForm.receiptMoney)
     },
     InstallmentDetail(val) {
       // console.log(val)
@@ -518,7 +520,7 @@ export default {
           for (let i = 0; i < InstallmentDetail.length; i++) {
             this.$refs.editable2.insert(InstallmentDetail[i])
           }
-          this.personalForm.totalLackMoney = this.allmoney - this.personalForm.receiptMoney
+          this.personalForm.totalLackMoney = Number(this.allmoney) - Number(this.personalForm.receiptMoney)
         } else {
           this.$refs.editable2.clear()
           const valmap = []
@@ -539,7 +541,7 @@ export default {
           for (let i = 0; i < InstallmentDetail.length; i++) {
             this.$refs.editable2.insert(InstallmentDetail[i])
           }
-          this.personalForm.totalLackMoney = this.allmoney - this.personalForm.receiptMoney
+          this.personalForm.totalLackMoney = Number(this.allmoney) - Number(this.personalForm.receiptMoney)
         }
       }, 0)
     },

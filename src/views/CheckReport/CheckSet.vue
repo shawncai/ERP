@@ -25,6 +25,11 @@
               </el-select>
             </el-form-item>
           </el-col>
+          <el-col :span="5" style="margin-left: 10px">
+            <el-form-item label="车辆型号">
+              <el-input v-model="getemplist.typeid" clearable @keyup.enter.native="handleFilter"/>
+            </el-form-item>
+          </el-col>
           <!--更多搜索条件-->
           <el-col :span="3" style="margin-left: 20px">
             <!-- 搜索按钮 -->
