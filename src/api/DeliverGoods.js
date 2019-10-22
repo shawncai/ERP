@@ -110,7 +110,7 @@ export function confirmDeliverGoods(query) {
   var params = new URLSearchParams()
   params.append('detailId', query)
   return request({
-    url: '/deliverGoods/confirmDeliverGoods',
+    url: '/deliverGoods/confirm',
     method: 'post',
     data: params
   })

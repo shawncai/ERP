@@ -404,8 +404,8 @@ export function productlist(query) {
   if (query.isactive !== '' && query.isactive !== null && query.isactive !== undefined) {
     params.append('isactive', query.isactive) // 你要传给后台的参数值 key/value
   }
-  if (query.supplierId !== '' && query.supplierId !== null && query.supplierId !== undefined) {
-    params.append('supplierid', query.supplierId) // 你要传给后台的参数值 key/value
+  if (query.supplierid !== '' && query.supplierid !== null && query.supplierid !== undefined) {
+    params.append('supplierid', query.supplierid) // 你要传给后台的参数值 key/value
   }
   if (query.isVehicle !== '' && query.isVehicle !== null && query.isVehicle !== undefined) {
     params.append('isVehicle', query.isVehicle) // 你要传给后台的参数值 key/value

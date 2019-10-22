@@ -353,7 +353,8 @@ export default {
           deliverMoney: item.price,
           outRepositoryId: moveOutRepository,
           outRepositoryName: moveOutRepositoryName,
-          batch: item.batch
+          batch: item.batch,
+          stat: 0
         }
       })
       this.$emit('StoragemoveDetail', StoragemoveDetail)

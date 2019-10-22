@@ -55,6 +55,9 @@ export function searchCheckSet(query) {
   if (query.createId !== '' && query.createId !== null && query.createId !== undefined) {
     params.append('createId', query.createId) // 你要传给后台的参数值 key/value
   }
+  if (query.typeid !== '' && query.typeid !== null && query.typeid !== undefined) {
+    params.append('typeid', query.typeid) // 你要传给后台的参数值 key/value
+  }
   params.append('pagenum', query.pagenum) // 你要传给后台的参数值 key/value
   params.append('pagesize', query.pagesize) // 你要传给后台的参数值 key/value
   return request({
