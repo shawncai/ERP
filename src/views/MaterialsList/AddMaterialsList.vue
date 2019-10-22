@@ -221,20 +221,46 @@ export default {
     productdetail(val) {
       console.log(val)
       const nowlistdata = this.$refs.editable.getRecords()
-      for (let i = 0; i < val.length; i++) {
-        // if (val[i].productCode === this.personalForm.productCode) {
-        //   continue
-        // }
-        let m = 1
-        for (let j = 0; j < nowlistdata.length; j++) {
-          if (val[i].productCode === nowlistdata[j].productCode) {
-            m = 2
-          }
-        }
-        if (m === 1) {
-          this.$refs.editable.insert(val[i])
-        }
-      }
+
+      console.log(nowlistdata)
+      var ret4 = val.findIndex((value, index, arr) => {
+        return value.productCode === this.personalForm.productCode
+      })
+
+      console.log(ret4)
+      this.list2 = val.filter(item => {
+        return item.productCode !== this.personalForm.productCode
+      })
+
+      // for (let i = 0; i < val.length; i++) {
+      //   if (val[i].productCode === this.personalForm.productCode) {
+      //     continue
+      //   }
+      //   let m = 1
+      //   for (let j = 0; j < nowlistdata.length; j++) {
+      //     if (val[i].productCode === nowlistdata[j].productCode) {
+      //       m = 2
+      //     }
+      //   }
+      //   if (m === 1) {
+      //     this.$refs.editable.insert(val[i])
+      //   }
+      // }
+      // if (nowlistdata.length === 0) {
+      //   for (const s in val) {
+      //     this.$refs.editable.insert(val[s])
+      //   }
+      // } else {
+      //   for (const i in nowlistdata) {
+      //     for (const j in val) {
+      //       if (nowlistdata[i].productCode !== val[j].productCode) {
+      //         this.$refs.editable.insert(val[i])
+      //       } else {
+      //         continue
+      //       }
+      //     }
+      //   }
+      // }
     },
     // 清空记录
     restAllForm() {

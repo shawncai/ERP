@@ -200,9 +200,12 @@ export default {
     },
     checklist() {
       this.checklistprop = this.checklist
+      console.log('this.checklistprop', this.checklistprop)
 
       const needarr = this.$refs.multipleTable.selection
       const delearr = this.checklistprop
+
+      console.log('needarr', needarr)
 
       const add = needarr.filter(item => !delearr.some(ele => ele.productCode === item.code))
       console.log('add', add)
@@ -224,15 +227,15 @@ export default {
     },
     list() {
       console.log('this.select_orderId', this.select_orderId)
-      // this.$nextTick(() => {
-      //   for (const i in this.list) {
-      //     for (const j in this.checklistprop) {
-      //       if (this.checklistprop[j].productCode === this.list[i].code) {
-      //         this.$refs.multipleTable.toggleRowSelection(this.list[i], true)
-      //       }
-      //     }
-      //   }
-      // })
+      this.$nextTick(() => {
+        for (const i in this.list) {
+          for (const j in this.checklistprop) {
+            if (this.checklistprop[j].productCode === this.list[i].code) {
+              this.$refs.multipleTable.toggleRowSelection(this.list[i], true)
+            }
+          }
+        }
+      })
     }
   },
   created() {

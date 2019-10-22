@@ -56,7 +56,7 @@
             <my-detail :control.sync="control" @product="productdetail"/>
             <my-mater :matercontrol.sync="matercontrol" @mater="mater"/>
           </el-form-item>
-          <el-form-item :label="$t('CheckSet.itemId')" label-width="100px" prop="itemId">
+          <!-- <el-form-item :label="$t('CheckSet.itemId')" label-width="100px" prop="itemId">
             <el-select v-model="addCategoryForm.itemId" placeholder="请选择检验项目" style="width: 100%">
               <el-option
                 v-for="(item, index) in itemIds"
@@ -71,8 +71,41 @@
           </el-form-item>
           <el-form-item :label="$t('CheckSet.checkContent')" label-width="100px" >
             <el-input v-model="addCategoryForm.checkContent" :autosize="{minRows:1}" type="textarea" autocomplete="off"/>
-          </el-form-item>
+          </el-form-item> -->
         </el-form>
+        <div
+          style="display: flex; align-items: center; justify-content: flex-start;padding-left: 35px;padding-bottom: 20px;">
+          <el-button @click="insertEvent(-1)">添加</el-button>
+          <el-button type="danger" @click="$refs.editable.removeSelecteds()">删除</el-button>
+        </div>
+
+        <el-editable
+          ref="editable"
+          :data.sync="list2"
+          :edit-config="{ showIcon: true, showStatus: true}"
+          :edit-rules="validRules"
+          class="click-table1"
+          stripe
+          border
+          size="medium"
+          style="width: 90%;margin:0 auto"
+          @selection-change="handleSelectionChange2">
+          <el-editable-column type="selection" min-width="55" align="center" />
+          <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('CheckSet.itemId')" prop="itemId" align="center" min-width="150" >
+            <template slot="edit" slot-scope="scope">
+              <el-select v-model="scope.row.itemId" :value="scope.row.itemId" placeholder="请选择检验项目" filterable clearable style="width: 100%;">
+                <el-option
+                  v-for="(item, index) in itemIds"
+                  :key="index"
+                  :value="item.id"
+                  :label="item.categoryName"/>
+              </el-select>
+              <span>{{ scope.row.itemIds }}</span>
+            </template>
+          </el-editable-column>
+          <el-editable-column :label="$t('CheckSet.checkTools')" :edit-render="{name: 'ElInput', type: 'visible'}" prop="checkTools" align="center" min-width="150"/>
+          <el-editable-column :label="$t('CheckSet.checkContent')" :edit-render="{name: 'ElInput',type: 'visible', attrs: {type: 'textarea', autosize: {minRows: 1, maxRows: 4}}}" prop="checkContent" align="center" min-width="150"/>
+        </el-editable>
         <span slot="footer" class="dialog-footer">
           <el-button v-no-more-click type="primary" @click="handlesave()">保存</el-button>
           <el-button type="danger" @click="handlecancel()">取消</el-button>
@@ -216,6 +249,7 @@ export default {
       }
     }
     return {
+      list2: [],
       // 控制物品信息
       matercontrol: false,
       itemIds: [],
@@ -283,7 +317,12 @@ export default {
         pagenum: 1,
         pagesize: 9999
       },
-      product: []
+      product: [],
+      validRules: {
+        itemId: [
+          { required: true, message: '请选择检验项目', trigger: 'change' }
+        ]
+      }
     }
   },
   mounted() {
@@ -350,6 +389,25 @@ export default {
           console.log('搜索出错')
         }
       })
+    },
+    // 编辑表格批量操作
+    handleSelectionChange2(val) {
+      console.log('val', val)
+    },
+
+    // 新增表格
+    insertEvent(index) {
+      this.$refs.editable.insertAt(-1)
+    },
+
+    updatebatch2(event, scope) {
+      // if (event === true) {
+      //   const parms3 = scope.row.productCode
+      //   batchlist(this.personalForm.saleRepositoryId, parms3).then(res => {
+      //     console.log(res)
+      //     this.batchlist = res.data.data.content
+      //   })
+      // }
     },
     // 多选数据
     handleSelectionChange(val) {
@@ -479,35 +537,55 @@ export default {
     // 保存操作
     handlesave() {
       console.log(this.addCategoryForm)
-      for (let i = 0; i < this.product.length; i++) {
-        this.product[i].createId = this.addCategoryForm.createId
-        this.product[i].checkContent = this.addCategoryForm.checkContent
-        this.product[i].checkTools = this.addCategoryForm.checkTools
-        this.product[i].itemId = this.addCategoryForm.itemId
+      const products = this.product
+      const tabledata = this.$refs.editable.getRecords()
+      console.log(tabledata)
+      const jsonarr = []
+      for (const i in products) {
+        for (const j in tabledata) {
+          const jsondata = {}
+          jsondata.productCode = products[i].productCode
+          jsondata.productName = products[i].productName
+          jsondata.itemId = tabledata[j].itemId
+          jsondata.checkContent = tabledata[j].checkContent
+          jsondata.checkTools = tabledata[j].checkTools
+          jsonarr.push(jsondata)
+        }
       }
-      const parms = JSON.stringify(this.product)
-      console.log('parms', parms)
+      console.log(jsonarr)
+      const parms = JSON.stringify(jsonarr)
       this.$refs.addCategoryForm.validate((valid) => {
         if (valid) {
-          addCheckSetMany(parms).then(res => {
-            if (res.data.ret === 200) {
-              this.$notify({
-                title: '成功',
-                message: '新建成功',
-                type: 'success',
-                offset: 100
+          this.$refs.editable.validate((valid) => {
+            if (valid) {
+              addCheckSetMany(parms).then(res => {
+                if (res.data.ret === 200) {
+                  this.$notify({
+                    title: '成功',
+                    message: '新建成功',
+                    type: 'success',
+                    offset: 100
+                  })
+                  this.getlist()
+                  this.$refs.addCategoryForm.clearValidate()
+                  this.$refs.addCategoryForm.resetFields()
+                  this.restAddCategoryForm()
+                  this.categoryVisible = false
+                } else {
+                  this.$notify.error({
+                    title: '错误',
+                    message: '出错了',
+                    offset: 100
+                  })
+                }
               })
-              this.getlist()
-              this.$refs.addCategoryForm.clearValidate()
-              this.$refs.addCategoryForm.resetFields()
-              this.restAddCategoryForm()
-              this.categoryVisible = false
             } else {
               this.$notify.error({
                 title: '错误',
-                message: '出错了',
+                message: '信息未填完整',
                 offset: 100
               })
+              return false
             }
           })
         } else {
