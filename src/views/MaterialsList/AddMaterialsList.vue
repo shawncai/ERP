@@ -88,7 +88,7 @@
           <el-button type="success" style="background:#3696fd;border-color:#3696fd " @click="handleAddproduct">添加商品</el-button>
           <el-button type="danger" @click="$refs.editable.removeSelecteds()">删除</el-button>
         </div>
-        <my-detail :control.sync="control" @product="productdetail"/>
+        <my-detail :control.sync="control" :checklist.sync="checklist" @product="productdetail"/>
         <div class="container">
           <el-editable
             ref="editable"
@@ -134,6 +134,7 @@ export default {
   components: { MyMater, MyDetail },
   data() {
     return {
+      checklist: [],
       // 父件型号回显
       productTypeId: '',
       // 控制父件窗口
@@ -215,26 +216,51 @@ export default {
     // 新增物料单明细
     handleAddproduct() {
       this.control = true
+      this.checklist = this.$refs.editable.getRecords()
     },
     productdetail(val) {
       console.log(val)
       const nowlistdata = this.$refs.editable.getRecords()
-      for (let i = 0; i < val.length; i++) {
-        if (val[i].productCode === this.personalForm.productCode) {
-          continue
-        }
-        for (let j = 0; j < nowlistdata.length; j++) {
-          if (val[i].productCode === nowlistdata[j].productCode) {
-            this.$notify.error({
-              title: '错误',
-              message: '物品已添加',
-              offset: 100
-            })
-            return false
-          }
-        }
-        this.$refs.editable.insert(val[i])
-      }
+
+      console.log(nowlistdata)
+      var ret4 = val.findIndex((value, index, arr) => {
+        return value.productCode === this.personalForm.productCode
+      })
+
+      console.log(ret4)
+      this.list2 = val.filter(item => {
+        return item.productCode !== this.personalForm.productCode
+      })
+
+      // for (let i = 0; i < val.length; i++) {
+      //   if (val[i].productCode === this.personalForm.productCode) {
+      //     continue
+      //   }
+      //   let m = 1
+      //   for (let j = 0; j < nowlistdata.length; j++) {
+      //     if (val[i].productCode === nowlistdata[j].productCode) {
+      //       m = 2
+      //     }
+      //   }
+      //   if (m === 1) {
+      //     this.$refs.editable.insert(val[i])
+      //   }
+      // }
+      // if (nowlistdata.length === 0) {
+      //   for (const s in val) {
+      //     this.$refs.editable.insert(val[s])
+      //   }
+      // } else {
+      //   for (const i in nowlistdata) {
+      //     for (const j in val) {
+      //       if (nowlistdata[i].productCode !== val[j].productCode) {
+      //         this.$refs.editable.insert(val[i])
+      //       } else {
+      //         continue
+      //       }
+      //     }
+      //   }
+      // }
     },
     // 清空记录
     restAllForm() {

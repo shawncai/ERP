@@ -11,7 +11,7 @@
           </el-col>
           <el-col :span="5">
             <el-form-item label="供应商">
-              <el-input v-model="supplierId" :placeholder="$t('StockQuery.supplierId')" style="width: 200px" clearable @keyup.enter.native="handleFilter" @focus="handlechoose"/>
+              <el-input v-model="supplierId" :placeholder="$t('StockQuery.supplierId')" style="width: 200px" @keyup.enter.native="handleFilter" @focus="handlechoose"/>
               <my-supplier :control.sync="empcontrol" @supplierName="supplierName"/>
             </el-form-item>
           </el-col>
@@ -219,8 +219,8 @@ export default {
     },
     // 清空搜索条件
     restFilter() {
-      this.supplierId = ''
-      this.getemplist.supplierId = ''
+      // this.supplierId = ''
+      // this.getemplist.supplierId = ''
       this.stockPersonId = ''
       this.getemplist.stockPersonId = ''
     },

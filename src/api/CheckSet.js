@@ -49,6 +49,9 @@ export function searchCheckSet(query) {
   if (query.productCode !== '' && query.productCode !== null && query.productCode !== undefined) {
     params.append('productCode', query.productCode) // 你要传给后台的参数值 key/value
   }
+  if (query.productName !== '' && query.productName !== null && query.productName !== undefined) {
+    params.append('productName', query.productName) // 你要传给后台的参数值 key/value
+  }
   if (query.itemId !== '' && query.itemId !== null && query.itemId !== undefined) {
     params.append('itemId', query.itemId) // 你要传给后台的参数值 key/value
   }

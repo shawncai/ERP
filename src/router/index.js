@@ -140,6 +140,208 @@ export const asyncRouterMap = [
     ]
   },
   {
+    path: '/MaterialsList',
+    component: Layout,
+    redirect: 'noredirect',
+    name: 'MaterialsList',
+    alwaysShow: true,
+    meta: {
+      title: 'MaterialsList',
+      icon: 'wuliao',
+      type: 7,
+      roles: ['171-175-1', '171-174-4']
+    },
+    children: [
+      {
+        path: 'AddMaterialsList',
+        component: () => import('@/views/MaterialsList/AddMaterialsList'),
+        name: 'AddMaterialsList',
+        meta: { title: 'AddMaterialsList', noCache: false, roles: ['171-175-1'] }
+      },
+      {
+        path: 'MaterialsListli',
+        component: () => import('@/views/MaterialsList/MaterialsListli'),
+        name: 'MaterialsListli',
+        meta: { title: 'MaterialsListli', noCache: true, roles: ['171-174-1', '171-174-2', '171-174-3', '171-174-4', '171-174-5', '171-174-6', '171-174-7', '171-174-18', '171-174-71'] }
+      }
+    ]
+  },
+  {
+    path: '/ProducePlan',
+    component: Layout,
+    redirect: 'noredirect',
+    name: 'ProducePlan',
+    alwaysShow: true,
+    meta: {
+      title: 'ProducePlan',
+      icon: 'jihua',
+      type: 7,
+      roles: ['171-176-4', '171-177-1']
+    },
+    children: [
+      {
+        path: 'AddProducePlan',
+        component: () => import('@/views/ProducePlan/AddProducePlan'),
+        name: 'AddProducePlan',
+        meta: { title: 'AddProducePlan', noCache: false, roles: ['171-177-1'] }
+      },
+      {
+        path: 'ProducePlanList',
+        component: () => import('@/views/ProducePlan/ProducePlanList'),
+        name: 'ProducePlanList',
+        meta: { title: 'ProducePlanList', noCache: true, roles: ['171-176-1', '171-176-2', '171-176-3', '171-176-4', '171-176-5', '171-176-6', '171-176-7', '171-176-18', '171-176-16', '171-176-17', '171-176-52', '171-176-53'] }
+      }
+    ]
+  },
+  {
+    path: '/RequirePlan',
+    component: Layout,
+    redirect: 'noredirect',
+    name: 'RequirePlan',
+    alwaysShow: true,
+    meta: {
+      title: 'RequirePlan',
+      icon: 'xuqiu',
+      type: 7,
+      roles: ['171-179-1', '171-178-4']
+    },
+    children: [
+      {
+        path: 'AddRequirePlan',
+        component: () => import('@/views/RequirePlan/AddRequirePlan'),
+        name: 'AddRequirePlan',
+        meta: { title: 'AddRequirePlan', noCache: false, roles: ['171-179-1'] }
+      },
+      {
+        path: 'RequirePlanList',
+        component: () => import('@/views/RequirePlan/RequirePlanList'),
+        name: 'RequirePlanList',
+        meta: { title: 'RequirePlanList', noCache: true, roles: ['171-178-1', '171-178-2', '171-178-3', '171-178-4', '171-178-5', '171-178-6', '171-178-7', '171-178-18', '171-178-16', '171-178-17', '171-178-52', '171-178-24'] }
+      }
+    ]
+  },
+  {
+    path: '/ProduceRequire',
+    component: Layout,
+    redirect: 'noredirect',
+    meta: {
+      icon: 'shengchanxuqiu',
+      type: 7,
+      roles: ['171-226-4']
+    },
+    children: [
+      {
+        path: 'index',
+        component: () => import('@/views/ProduceRequire/index'),
+        name: 'ProduceRequire',
+        meta: { title: 'ProduceRequire', noCache: true, roles: ['171-226-6', '171-226-4', '171-226-7'] }
+      }
+    ]
+  },
+  {
+    path: '/ProduceTask',
+    component: Layout,
+    redirect: 'noredirect',
+    name: 'ProduceTask',
+    alwaysShow: true,
+    meta: {
+      title: 'ProduceTask',
+      icon: 'renwu',
+      type: 7,
+      roles: ['171-180-181-4', '171-180-182-1', '171-180-183-4', '171-180-184-1']
+    },
+    children: [
+      {
+        path: 'AddProduceTask',
+        component: () => import('@/views/ProduceTask/AddProduceTask'),
+        name: 'AddProduceTask',
+        meta: { title: 'AddProduceTask', noCache: false, roles: ['171-180-182-1'] }
+      },
+      {
+        path: 'ProduceTaskList',
+        component: () => import('@/views/ProduceTask/ProduceTaskList'),
+        name: 'ProduceTaskList',
+        meta: { title: 'ProduceTaskList', noCache: true, roles: ['171-180-181-1', '171-180-181-2', '171-180-181-3', '171-180-181-4', '171-180-181-5', '171-180-181-6', '171-180-181-7', '171-180-181-18', '171-180-181-16', '171-180-181-17', '171-180-181-54'] }
+      },
+      {
+        path: 'AddProduceReport',
+        component: () => import('@/views/ProduceTask/AddProduceReport'),
+        name: 'AddProduceReport',
+        meta: { title: 'AddProduceReport', noCache: false, roles: ['171-180-184-1'] }
+      },
+      {
+        path: 'ProduceReportList',
+        component: () => import('@/views/ProduceTask/ProduceReportList'),
+        name: 'ProduceReportList',
+        meta: { title: 'ProduceReportList', noCache: true, roles: ['171-180-183-1', '171-180-183-2', '171-180-183-3', '171-180-183-4', '171-180-183-5', '171-180-183-6', '171-180-183-7', '171-180-183-18', '171-180-183-16', '171-180-183-17'] }
+      }
+    ]
+  },
+  {
+    path: '/Invoice',
+    component: Layout,
+    redirect: 'noredirect',
+    name: 'Invoice',
+    alwaysShow: true,
+    meta: {
+      title: 'Invoice',
+      icon: 'fapiao',
+      type: 11,
+      roles: ['266-257-4', '266-256-1', '266-259-4', '266-258-1']
+    },
+    children: [
+      {
+        path: 'AddStockInvoice',
+        component: () => import('@/views/StockInvoice/AddStockInvoice'),
+        name: 'AddStockInvoice',
+        meta: { title: 'AddStockInvoice', noCache: false, roles: ['266-256-1'] }
+      },
+      {
+        path: 'StockInvoiceList',
+        component: () => import('@/views/StockInvoice/StockInvoiceList'),
+        name: 'StockInvoiceList',
+        meta: { title: 'StockInvoiceList', noCache: true, roles: ['266-257-1', '266-257-2', '266-257-3', '266-257-4', '266-257-5', '266-257-6', '266-257-7', '266-257-18'] }
+      },
+      {
+        path: 'AddRedStockInvoice',
+        component: () => import('@/views/StockInvoice/AddRedStockInvoice'),
+        hidden: true,
+        name: 'AddRedStockInvoice',
+        meta: { title: 'AddRedStockInvoice', noCache: false }
+      },
+      {
+        path: 'AddCostInvoice',
+        component: () => import('@/views/CostInvoice/AddCostInvoice'),
+        name: 'AddCostInvoice',
+        meta: { title: 'AddCostInvoice', noCache: false, roles: ['266-258-1'] }
+      },
+      {
+        path: 'CostInvoiceList',
+        component: () => import('@/views/CostInvoice/CostInvoiceList'),
+        name: 'CostInvoiceList',
+        meta: { title: 'CostInvoiceList', noCache: true, roles: ['266-259-1', '266-259-2', '266-259-3', '266-259-4', '266-259-5', '266-259-6', '266-259-7', '266-259-18'] }
+      }
+    ]
+  },
+  {
+    path: '/ShouldPayList',
+    component: Layout,
+    redirect: 'noredirect',
+    meta: {
+      icon: 'yingfukuan',
+      type: 11,
+      roles: ['266-127-1', '266-128-6', '266-128-4', '266-128-7', '266-128-67', '266-128-5']
+    },
+    children: [
+      {
+        path: 'index',
+        component: () => import('@/views/ShouldPayList/index'),
+        name: 'ShouldPayList',
+        meta: { title: 'ShouldPayList', noCache: true }
+      }
+    ]
+  },
+  {
     path: '/EmployeeInformation',
     component: Layout,
     redirect: 'noredirect',
@@ -991,24 +1193,6 @@ export const asyncRouterMap = [
     ]
   },
   {
-    path: '/ProduceRequire',
-    component: Layout,
-    redirect: 'noredirect',
-    meta: {
-      icon: 'shengchanxuqiu',
-      type: 7,
-      roles: ['171-226-4']
-    },
-    children: [
-      {
-        path: 'index',
-        component: () => import('@/views/ProduceRequire/index'),
-        name: 'ProduceRequire',
-        meta: { title: 'ProduceRequire', noCache: true, roles: ['171-226-6', '171-226-4', '171-226-7'] }
-      }
-    ]
-  },
-  {
     path: '/ProductCost',
     component: Layout,
     redirect: 'noredirect',
@@ -1032,126 +1216,6 @@ export const asyncRouterMap = [
         component: () => import('@/views/ProductCost/ProductCostList'),
         name: 'ProductCostList',
         meta: { title: 'ProductCostList', noCache: true, roles: ['171-172-4'] }
-      }
-    ]
-  },
-  {
-    path: '/MaterialsList',
-    component: Layout,
-    redirect: 'noredirect',
-    name: 'MaterialsList',
-    alwaysShow: true,
-    meta: {
-      title: 'MaterialsList',
-      icon: 'wuliao',
-      type: 7,
-      roles: ['171-175-1', '171-174-4']
-    },
-    children: [
-      {
-        path: 'AddMaterialsList',
-        component: () => import('@/views/MaterialsList/AddMaterialsList'),
-        name: 'AddMaterialsList',
-        meta: { title: 'AddMaterialsList', noCache: false, roles: ['171-175-1'] }
-      },
-      {
-        path: 'MaterialsListli',
-        component: () => import('@/views/MaterialsList/MaterialsListli'),
-        name: 'MaterialsListli',
-        meta: { title: 'MaterialsListli', noCache: true, roles: ['171-174-1', '171-174-2', '171-174-3', '171-174-4', '171-174-5', '171-174-6', '171-174-7', '171-174-18', '171-174-71'] }
-      }
-    ]
-  },
-  {
-    path: '/ProducePlan',
-    component: Layout,
-    redirect: 'noredirect',
-    name: 'ProducePlan',
-    alwaysShow: true,
-    meta: {
-      title: 'ProducePlan',
-      icon: 'jihua',
-      type: 7,
-      roles: ['171-176-4', '171-177-1']
-    },
-    children: [
-      {
-        path: 'AddProducePlan',
-        component: () => import('@/views/ProducePlan/AddProducePlan'),
-        name: 'AddProducePlan',
-        meta: { title: 'AddProducePlan', noCache: false, roles: ['171-177-1'] }
-      },
-      {
-        path: 'ProducePlanList',
-        component: () => import('@/views/ProducePlan/ProducePlanList'),
-        name: 'ProducePlanList',
-        meta: { title: 'ProducePlanList', noCache: true, roles: ['171-176-1', '171-176-2', '171-176-3', '171-176-4', '171-176-5', '171-176-6', '171-176-7', '171-176-18', '171-176-16', '171-176-17', '171-176-52', '171-176-53'] }
-      }
-    ]
-  },
-  {
-    path: '/RequirePlan',
-    component: Layout,
-    redirect: 'noredirect',
-    name: 'RequirePlan',
-    alwaysShow: true,
-    meta: {
-      title: 'RequirePlan',
-      icon: 'xuqiu',
-      type: 7,
-      roles: ['171-179-1', '171-178-4']
-    },
-    children: [
-      {
-        path: 'AddRequirePlan',
-        component: () => import('@/views/RequirePlan/AddRequirePlan'),
-        name: 'AddRequirePlan',
-        meta: { title: 'AddRequirePlan', noCache: false, roles: ['171-179-1'] }
-      },
-      {
-        path: 'RequirePlanList',
-        component: () => import('@/views/RequirePlan/RequirePlanList'),
-        name: 'RequirePlanList',
-        meta: { title: 'RequirePlanList', noCache: true, roles: ['171-178-1', '171-178-2', '171-178-3', '171-178-4', '171-178-5', '171-178-6', '171-178-7', '171-178-18', '171-178-16', '171-178-17', '171-178-52', '171-178-24'] }
-      }
-    ]
-  },
-  {
-    path: '/ProduceTask',
-    component: Layout,
-    redirect: 'noredirect',
-    name: 'ProduceTask',
-    alwaysShow: true,
-    meta: {
-      title: 'ProduceTask',
-      icon: 'renwu',
-      type: 7,
-      roles: ['171-180-181-4', '171-180-182-1', '171-180-183-4', '171-180-184-1']
-    },
-    children: [
-      {
-        path: 'AddProduceTask',
-        component: () => import('@/views/ProduceTask/AddProduceTask'),
-        name: 'AddProduceTask',
-        meta: { title: 'AddProduceTask', noCache: false, roles: ['171-180-182-1'] }
-      },
-      {
-        path: 'ProduceTaskList',
-        component: () => import('@/views/ProduceTask/ProduceTaskList'),
-        name: 'ProduceTaskList',
-        meta: { title: 'ProduceTaskList', noCache: true, roles: ['171-180-181-1', '171-180-181-2', '171-180-181-3', '171-180-181-4', '171-180-181-5', '171-180-181-6', '171-180-181-7', '171-180-181-18', '171-180-181-16', '171-180-181-17', '171-180-181-54'] }
-      },
-      {
-        path: 'AddProduceReport',
-        component: () => import('@/views/ProduceTask/AddProduceReport'),
-        name: 'AddProduceReport',
-        meta: { title: 'AddProduceReport', noCache: false, roles: ['171-180-184-1'] }
-      },
-      {
-        path: 'ProduceReportList',
-        component: () => import('@/views/ProduceTask/ProduceReportList'),
-        name: 'ProduceReportList',
-        meta: { title: 'ProduceReportList', noCache: true, roles: ['171-180-183-1', '171-180-183-2', '171-180-183-3', '171-180-183-4', '171-180-183-5', '171-180-183-6', '171-180-183-7', '171-180-183-18', '171-180-183-16', '171-180-183-17'] }
       }
     ]
   },
@@ -1573,24 +1637,6 @@ export const asyncRouterMap = [
     ]
   },
   {
-    path: '/ShouldPayList',
-    component: Layout,
-    redirect: 'noredirect',
-    meta: {
-      icon: 'yingfukuan',
-      type: 11,
-      roles: ['266-127-1', '266-128-6', '266-128-4', '266-128-7', '266-128-67', '266-128-5']
-    },
-    children: [
-      {
-        path: 'index',
-        component: () => import('@/views/ShouldPayList/index'),
-        name: 'ShouldPayList',
-        meta: { title: 'ShouldPayList', noCache: true }
-      }
-    ]
-  },
-  {
     path: '/InventoryCategory',
     component: Layout,
     redirect: 'noredirect',
@@ -1633,33 +1679,6 @@ export const asyncRouterMap = [
     ]
   },
   {
-    path: '/AdvancePay',
-    component: Layout,
-    redirect: 'noredirect',
-    name: 'AdvancePay',
-    alwaysShow: true,
-    meta: {
-      title: 'AdvancePay',
-      icon: 'yufukuan',
-      type: 11,
-      roles: ['266-221-1', '266-221-4']
-    },
-    children: [
-      {
-        path: 'AddAdvancePay',
-        component: () => import('@/views/AdvancePay/AddAdvancePay'),
-        name: 'AddAdvancePay',
-        meta: { title: 'AddAdvancePay', noCache: false, roles: ['266-221-1'] }
-      },
-      {
-        path: 'AdvancePayList',
-        component: () => import('@/views/AdvancePay/AdvancePayList'),
-        name: 'AdvancePayList',
-        meta: { title: 'AdvancePayList', noCache: true, roles: ['266-221-1', '266-221-4', '266-221-2', '266-221-3', '266-221-5', '266-221-6', '266-221-7', '266-221-18', '266-221-16', '266-221-17', '266-221-76'] }
-      }
-    ]
-  },
-  {
     path: '/CostInstall',
     component: Layout,
     redirect: 'noredirect',
@@ -1674,52 +1693,6 @@ export const asyncRouterMap = [
         component: () => import('@/views/CostInstall/index'),
         name: 'CostInstall',
         meta: { title: 'CostInstall', noCache: true }
-      }
-    ]
-  },
-  {
-    path: '/Invoice',
-    component: Layout,
-    redirect: 'noredirect',
-    name: 'Invoice',
-    alwaysShow: true,
-    meta: {
-      title: 'Invoice',
-      icon: 'fapiao',
-      type: 11,
-      roles: ['266-257-4', '266-256-1', '266-259-4', '266-258-1']
-    },
-    children: [
-      {
-        path: 'AddStockInvoice',
-        component: () => import('@/views/StockInvoice/AddStockInvoice'),
-        name: 'AddStockInvoice',
-        meta: { title: 'AddStockInvoice', noCache: false, roles: ['266-256-1'] }
-      },
-      {
-        path: 'StockInvoiceList',
-        component: () => import('@/views/StockInvoice/StockInvoiceList'),
-        name: 'StockInvoiceList',
-        meta: { title: 'StockInvoiceList', noCache: true, roles: ['266-257-1', '266-257-2', '266-257-3', '266-257-4', '266-257-5', '266-257-6', '266-257-7', '266-257-18'] }
-      },
-      {
-        path: 'AddRedStockInvoice',
-        component: () => import('@/views/StockInvoice/AddRedStockInvoice'),
-        hidden: true,
-        name: 'AddRedStockInvoice',
-        meta: { title: 'AddRedStockInvoice', noCache: false }
-      },
-      {
-        path: 'AddCostInvoice',
-        component: () => import('@/views/CostInvoice/AddCostInvoice'),
-        name: 'AddCostInvoice',
-        meta: { title: 'AddCostInvoice', noCache: false, roles: ['266-258-1'] }
-      },
-      {
-        path: 'CostInvoiceList',
-        component: () => import('@/views/CostInvoice/CostInvoiceList'),
-        name: 'CostInvoiceList',
-        meta: { title: 'CostInvoiceList', noCache: true, roles: ['266-259-1', '266-259-2', '266-259-3', '266-259-4', '266-259-5', '266-259-6', '266-259-7', '266-259-18'] }
       }
     ]
   },

@@ -77,7 +77,7 @@
         <el-button type="success" style="background:#3696fd;border-color:#3696fd " @click="handleAddproduct">添加商品</el-button>
         <el-button type="danger" @click="$refs.editable.removeSelecteds()">删除</el-button>
       </div>
-      <my-detail :control.sync="control" @product="productdetail"/>
+      <my-detail :control.sync="control" :checklist.sync="checklist" @product="productdetail"/>
       <div class="container">
         <el-editable
           ref="editable"
@@ -112,7 +112,7 @@
 
 <script>
 import { updatematerials } from '@/api/MaterialsList'
-import MyDetail from './MyDetail'
+import MyDetail from './MyDetail2'
 import MyMater from './MyMater'
 export default {
   components: { MyDetail, MyMater },
@@ -132,6 +132,7 @@ export default {
       editVisible: this.editcontrol,
       // 修改信息数据
       personalForm: this.editdata,
+      checklist: [],
       // 父件型号回显
       productTypeId: '',
       // 控制父件窗口
@@ -185,23 +186,24 @@ export default {
     // 新增物料单明细
     handleAddproduct() {
       this.control = true
+      this.checklist = this.$refs.editable.getRecords()
     },
     productdetail(val) {
       console.log(val)
       const nowlistdata = this.$refs.editable.getRecords()
       for (let i = 0; i < val.length; i++) {
-        val[i].isKey = Number(val[i].isKey)
+        // if (val[i].productCode === this.personalForm.productCode) {
+        //   continue
+        // }
+        let m = 1
         for (let j = 0; j < nowlistdata.length; j++) {
           if (val[i].productCode === nowlistdata[j].productCode) {
-            this.$notify.error({
-              title: '错误',
-              message: '物品已添加',
-              offset: 100
-            })
-            return false
+            m = 2
           }
         }
-        this.$refs.editable.insert(val[i])
+        if (m === 1) {
+          this.$refs.editable.insert(val[i])
+        }
       }
     },
     // 清空记录

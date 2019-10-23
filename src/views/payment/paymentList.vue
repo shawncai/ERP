@@ -98,9 +98,19 @@
             <span>{{ scope.row.supplierName }}</span>
           </template>
         </el-table-column>
+        <el-table-column :label="$t('payment.allMoney')" :resizable="false" align="center" min-width="150">
+          <template slot-scope="scope">
+            <span>{{ scope.row.allMoney }}</span>
+          </template>
+        </el-table-column>
         <el-table-column :label="$t('payment.moneyThis')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.moneyThis }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column :label="$t('payment.offsetAdvance')" :resizable="false" align="center" min-width="150">
+          <template slot-scope="scope">
+            <span>{{ scope.row.offsetAdvance }}</span>
           </template>
         </el-table-column>
         <el-table-column :label="$t('payment.payMode')" :resizable="false" align="center" min-width="150">
