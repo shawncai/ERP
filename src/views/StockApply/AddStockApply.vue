@@ -492,7 +492,7 @@ export default {
             this.$refs.editable2.insert(list2[j])
           }
         } else {
-          result2[i].planQuantity = (Number(result2[i].applyQuantity) - Number(result2[i].planQuantity)).toFixed(2)
+          // result2[i].planQuantity = (Number(result2[i].applyQuantity) - Number(result2[i].planQuantity)).toFixed(2)
           this.$refs.editable2.insert(result2[i])
         }
       }
