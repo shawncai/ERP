@@ -627,7 +627,7 @@ export default {
         const approvalUse = row.approvalUseVos
         const index = approvalUse[approvalUse.length - 1].stepHandler.indexOf(',' + this.$store.getters.userId + ',')
         console.log(approvalUse[approvalUse.length - 1].stepHandler)
-        console.log(index)
+        console.log('asdasdasdasdadasdasda', index)
         console.log('row.createPersonDept', row.createPersonDept)
         if (index > -1 && (row.judgeStat === 1 || row.judgeStat === 0)) {
           if (row.createPersonDept === this.$store.getters.deptId) {

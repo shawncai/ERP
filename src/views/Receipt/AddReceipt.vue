@@ -93,8 +93,8 @@
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('Receipt.deductionMoney')" style="width: 100%;">
-                  <el-input v-model="personalForm.deductionMoney" style="margin-left: 18px;width: 200px" disabled/>
+                <el-form-item :label="$t('Receipt.deductionMoney')" prop="deductionMoney" style="width: 100%;">
+                  <el-input v-model="personalForm.deductionMoney" style="margin-left: 18px;width: 200px" disabled @change="junglemoney"/>
                 </el-form-item>
                 <span style="color: red;margin-left: 52px;font-size: 14px">预收款：{{ yufu }}</span>
               </el-col>
@@ -118,7 +118,7 @@
             size="medium"
             style="width: 100%"
             @selection-change="handleSelectionChange">
-            <el-editable-column type="selection" min-width="55" align="center"/>
+            <!-- <el-editable-column type="selection" min-width="55" align="center"/> -->
             <el-editable-column :key="Math.random()" label="序号" min-width="55" align="center" type="index"/>
             <el-editable-column :key="Math.random()" prop="presentCount" align="center" label="当前期数" min-width="150px"/>
             <el-editable-column :key="Math.random()" prop="returnMoney" align="center" label="本期还款金额" min-width="150px"/>
@@ -128,6 +128,7 @@
             <el-editable-column :key="Math.random()" prop="returnInterest" align="center" label="本期还款利息" min-width="150px"/>
             <el-editable-column :key="Math.random()" prop="paidmoney" align="center" label="已收金额" min-width="150px"/>
             <el-editable-column :key="Math.random()" prop="unpay" align="center" label="未收金额" min-width="150px"/>
+            <el-editable-column :key="Math.random()" :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="thisMoney" align="center" label="本次收款" min-width="150px"/>
           </el-editable>
         </div>
       </el-card>
@@ -153,6 +154,7 @@
             <el-editable-column :key="Math.random()" prop="collectedMoney" align="center" label="已收金额" min-width="150px"/>
             <el-editable-column :key="Math.random()" prop="uncollectedMoney" align="center" label="未收款金额" min-width="150px"/>
             <el-editable-column :key="Math.random()" :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="thisMoney" align="center" label="本次收款" min-width="150px"/>
+            <el-editable-column :key="Math.random()" :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="deductionMoney" align="center" label="本次抵扣预收款" min-width="150px"/>
           </el-editable>
         </div>
       </el-card>
@@ -203,6 +205,13 @@ export default {
     const validatePass4 = (rule, value, callback) => {
       if (this.personalForm.payDate === undefined || this.personalForm.payDate === null || this.personalForm.payDate === '') {
         callback(new Error('请选择收款日期'))
+      } else {
+        callback()
+      }
+    }
+    const validatePass5 = (rule, value, callback) => {
+      if (this.personalForm.deductionMoney > this.yufu) {
+        callback(new Error('抵扣额不可大于预付款'))
       } else {
         callback()
       }
@@ -276,6 +285,9 @@ export default {
         ],
         penaltyMoney: [
           { required: true, message: '请输入滞纳金金额', trigger: 'change' }
+        ],
+        deductionMoney: [
+          { validator: validatePass5, trigger: 'change' }
         ]
       }
     }
@@ -301,6 +313,9 @@ export default {
     this.getinformation3()
   },
   methods: {
+    junglemoney() {
+      console.log(123123123)
+    },
     // 批量操作
     handleSelectionChange(val) {
       this.moreaction = val
@@ -327,7 +342,36 @@ export default {
         for (let i = 0; i < this.$store.getters.empcontract.installmentOrderDetailVos.length; i++) {
           this.$store.getters.empcontract.installmentOrderDetailVos[i].categoryName = this.$store.getters.empcontract.installmentOrderDetailVos[i].productCategory
         }
-        this.InstallmentDetail(this.$store.getters.empcontract.installmentOrderDetailVos)
+        console.log(this.$store.getters.empcontract.installmentOrderDetailVos)
+        const val = this.$store.getters.empcontract.installmentOrderDetailVos
+        setTimeout(() => {
+          this.$refs.editable2.clear()
+          const valmap = []
+          for (const i in val) {
+            valmap.push(val[i])
+          }
+          const InstallmentDetail = valmap.map(function(item) {
+            return {
+              installmentDetailId: item.id,
+              presentCount: item.idx,
+              returnMoney: item.shouldMoney,
+              shouldMoney: item.shouldMoney,
+              returnSource: item.capitalMoney,
+              reward: item.reward,
+              penalty: item.penalty,
+              returnInterest: item.interestMoney,
+              paidmoney: item.paidMoney,
+              unpay: item.shouldMoney - item.paidMoney,
+              thisMoney: item.shouldMoney - item.paidMoney,
+              installmentId: item.installmentId
+            }
+          })
+          // console.log(InstallmentDetail)
+          for (let i = 0; i < InstallmentDetail.length; i++) {
+            this.$refs.editable2.insert(InstallmentDetail[i])
+          }
+          this.personalForm.totalLackMoney = Number(this.allmoney) - Number(this.personalForm.receiptMoney)
+        }, 0)
         this.$store.dispatch('getempcontract', '')
       }
     },
@@ -411,7 +455,9 @@ export default {
         }
       })
       sums[2] = ''
-      this.allmoney = sums[9]
+      this.allmoney = sums[8]
+      this.personalForm.receiptMoney = sums[9]
+      this.personalForm.totalLackMoney = sums[8] - sums[9]
       return sums
     },
     // 总计
@@ -441,7 +487,7 @@ export default {
       sums[1] = ''
       this.allmoney = sums[5]
       this.personalForm.receiptMoney = sums[6]
-      this.personalForm.deductionMoney = sums[6]
+      this.personalForm.deductionMoney = sums[7]
       this.personalForm.totalLackMoney = sums[5] - sums[6]
       return sums
     },
@@ -479,7 +525,8 @@ export default {
                 retreatMoney: item.returnMoney,
                 collectedMoney: item.collectedMoney,
                 uncollectedMoney: item.uncollectedMoney,
-                thisMoney: '0.00'
+                thisMoney: '0.00',
+                deductionMoney: '0.00'
               }
             })
             for (let i = 0; i < agentcollectDetail.length; i++) {
@@ -504,19 +551,24 @@ export default {
       setTimeout(() => {
         this.$refs.editable2.clear()
         if (val.length) {
+          console.log('sdsdsdsdsdsdsdsdsdsdsdsdsd', val)
           const InstallmentDetail = val.map(function(item) {
             return {
-              id: item.id,
+              installmentDetailId: item.installmentDetailId,
               presentCount: item.presentCount,
               returnMoney: item.returnMoney,
+              shouldMoney: item.shouldMoney,
               returnSource: item.returnSource,
               reward: item.reward,
               penalty: item.penalty,
               returnInterest: item.returnInterest,
               paidmoney: item.paidmoney,
-              unpay: Number(item.returnMoney) - Number(item.paidmoney)
+              unpay: item.unpay,
+              thisMoney: item.unpay,
+              installmentId: item.installmentId
             }
           })
+          console.log('shushushushushsuhsuhsuhsuhsushu', InstallmentDetail)
           for (let i = 0; i < InstallmentDetail.length; i++) {
             this.$refs.editable2.insert(InstallmentDetail[i])
           }
@@ -527,17 +579,21 @@ export default {
           valmap.push(val)
           const InstallmentDetail = valmap.map(function(item) {
             return {
+              installmentDetailId: item.id,
               presentCount: item.idx,
               returnMoney: item.shouldMoney,
+              shouldMoney: item.shouldMoney,
               returnSource: item.capitalMoney,
               reward: item.reward,
               penalty: item.penalty,
               returnInterest: item.interestMoney,
               paidmoney: item.paidMoney,
-              unpay: item.shouldMoney - item.paidMoney
+              unpay: item.shouldMoney - item.paidMoney,
+              thisMoney: item.shouldMoney - item.paidMoney,
+              installmentId: item.installmentId
             }
           })
-          // console.log(InstallmentDetail)
+          console.log('shushushushushsuhsuhsuhsuhsushu', InstallmentDetail)
           for (let i = 0; i < InstallmentDetail.length; i++) {
             this.$refs.editable2.insert(InstallmentDetail[i])
           }

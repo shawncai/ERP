@@ -323,14 +323,17 @@ export default {
       })
       const InstallmentDetail = Installmentdata.map(function(item) {
         return {
+          installmentDetailId: item.id,
           presentCount: item.idx,
           returnMoney: item.shouldMoney,
+          shouldMoney: item.shouldMoney,
           returnSource: item.capitalMoney,
           reward: item.reward,
           penalty: item.penalty,
           returnInterest: item.interestMoney,
           paidmoney: item.paidMoney,
-          unpay: item.shouldMoney - item.paidMoney
+          unpay: item.shouldMoney - item.paidMoney,
+          installmentId: item.installmentId
         }
       })
       this.$emit('InstallmentDetail', InstallmentDetail)

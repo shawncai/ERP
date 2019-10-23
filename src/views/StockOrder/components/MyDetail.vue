@@ -170,7 +170,7 @@ export default {
         typeid: '',
         isactive: '',
         Productid: '',
-        supplierId: this.supp,
+        supplierid: this.supp,
         pagenum: 1,
         pagesize: 10
       }
@@ -183,9 +183,9 @@ export default {
       this.getlist()
     },
     supp() {
-      this.getemplist.supplierId = this.supp
+      this.getemplist.supplierid = this.supp
       this.getlist()
-      console.log(this.supp)
+      console.log('123123123123123', this.supp)
     }
   },
   created() {
