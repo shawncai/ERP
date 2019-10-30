@@ -176,7 +176,7 @@
             <el-editable-column prop="taxMoney" align="center" label="税额" />
             <!-- <el-editable-column prop="money" align="center" label="金额" /> -->
             <el-editable-column prop="includeTaxCostMoney" align="center" label="出库金额" />
-            <el-editable-column :formatter="formatter" prop="discountRate" align="center" label="折扣(%)"/>
+            <el-editable-column :formatter="formatter" prop="discountRate" align="center" label="折扣率(%)"/>
             <el-editable-column prop="discountMoney" align="center" label="折扣额" />
             <el-editable-column prop="carCode" align="center" label="车架编码" />
             <el-editable-column prop="motorCode" align="center" label="电机编码" />

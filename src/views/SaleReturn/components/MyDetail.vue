@@ -283,7 +283,7 @@ export default {
           discount: 100,
           discountMoney: 0,
           taxprice: item.salePrice,
-          discountRate: 100
+          discountRate: 0
         }
       })
       console.log(productDetail)

@@ -193,7 +193,7 @@
                 <p>{{ getTaxMoney2(scope.row) }}</p>
               </template>
             </el-editable-column>
-            <el-editable-column prop="discountRate" align="center" label="折扣(%)" min-width="170px"/>
+            <el-editable-column prop="discountRate" align="center" label="折扣率(%)" min-width="170px"/>
             <el-editable-column prop="discountMoney" align="center" label="折扣额" min-width="170px">
               <template slot-scope="scope">
                 <p>{{ getdiscountMoney(scope.row) }}</p>
@@ -532,24 +532,25 @@ export default {
       sums[6] = ''
       sums[9] = ''
       sums[10] = ''
-      sums[15] = ''
-      sums[17] = ''
+      sums[12] = ''
+      sums[16] = ''
       sums[18] = ''
       sums[19] = ''
+      sums[20] = ''
       this.arrivalNumber = sums[7]
       this.allNumber = sums[8]
-      this.allMoney = sums[12]
-      this.allTaxMoney = sums[14]
-      this.allIncludeTaxMoney = sums[13]
-      this.allDiscountMoney = sums[16]
-      this.allMoneyMoveDiscount = sums[13] - sums[16]
+      this.allMoney = sums[13]
+      this.allTaxMoney = sums[15]
+      this.allIncludeTaxMoney = sums[14]
+      this.allDiscountMoney = sums[17]
+      this.allMoneyMoveDiscount = sums[14] - sums[17]
       return sums
     },
     getdiscountMoney(row) {
       if (row.discountRate === 0) {
         row.discountMoney = 0
       } else {
-        row.discountMoney = (row.includeTaxPrice * row.arrivalQuantity * (1 - row.discountRate / 100)).toFixed(2)
+        row.discountMoney = (row.includeTaxPrice * row.arrivalQuantity * (row.discountRate / 100)).toFixed(2)
       }
       return row.discountMoney
     },

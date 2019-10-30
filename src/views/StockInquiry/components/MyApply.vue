@@ -337,7 +337,7 @@ export default {
           sourceNumber: number,
           sourceSerialNumber: item.applyId,
           price: '',
-          discountRate: 100
+          discountRate: 0
         }
       })
       this.$emit('apply', applyDetail)

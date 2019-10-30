@@ -116,7 +116,7 @@
             <el-editable-column prop="carCode" align="center" label="车架编码" />
             <el-editable-column prop="batteryCode" align="center" label="电池编码" />
             <el-editable-column prop="motorCode" align="center" label="电机编码" />
-            <el-editable-column prop="discount" align="center" label="折扣（%）" />
+            <el-editable-column prop="discount" align="center" label="折扣率（%）" />
             <el-editable-column prop="discountMoney" align="center" label="折扣额" />
           </el-editable>
         </div>

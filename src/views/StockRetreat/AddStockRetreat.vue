@@ -207,7 +207,7 @@
                 <p>{{ getTaxMoney2(scope.row) }}</p>
               </template>
             </el-editable-column>
-            <el-editable-column prop="discountRate" align="center" label="折扣(%)" min-width="170px"/>
+            <el-editable-column prop="discountRate" align="center" label="折扣率(%)" min-width="170px"/>
             <el-editable-column prop="discountMoney" align="center" label="折扣额" min-width="170px">
               <template slot-scope="scope">
                 <p>{{ getdiscountMoney(scope.row) }}</p>

@@ -45,7 +45,7 @@
                 </el-select>
               </el-form-item>
             </el-col>
-            <el-col :span="12">
+            <!-- <el-col :span="12">
               <el-form-item :label="$t('Customer.source')" style="width: 100%">
                 <el-select v-model="customerForm.source" :value="customerForm.source" placeholder="请选择客户来源" style="margin-left: 18px;width: 200px">
                   <el-option
@@ -55,7 +55,7 @@
                     :label="item.categoryName"/>
                 </el-select>
               </el-form-item>
-            </el-col>
+            </el-col> -->
             <el-col :span="12">
               <el-form-item :label="$t('Customer.newold')" style="width: 100%">
                 <el-select v-model="customerForm.newOrOld" :value="customerForm.newOrOld" placeholder="请选择" style="margin-left: 18px;width: 200px">

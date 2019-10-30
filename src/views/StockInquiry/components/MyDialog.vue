@@ -175,7 +175,7 @@
               <p>{{ getTaxMoney2(scope.row) }}</p>
             </template>
           </el-editable-column>
-          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="discountRate" align="center" label="折扣(%)" min-width="170px">
+          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="discountRate" align="center" label="折扣率(%)" min-width="170px">
             <template slot="edit" slot-scope="scope">
               <el-input-number
                 :precision="2"
@@ -428,7 +428,7 @@ export default {
     getdiscountMoney(row) {
       console.log(row)
       if (row.includeTaxPrice !== 0 && row.plannedQuantity !== 0 && row.discountMoney !== 0) {
-        row.discountRate = ((1 - (row.discountMoney / row.includeTaxMoney).toFixed(2)) * 100).toFixed(2)
+        row.discountRate = (((row.discountMoney / row.includeTaxMoney).toFixed(2)) * 100).toFixed(2)
       }
     },
     // 通过折扣计算折扣额
@@ -436,7 +436,7 @@ export default {
       if (row.discountRate === 0) {
         row.discountMoney = row.includeTaxPrice * row.plannedQuantity
       } else {
-        row.discountMoney = (row.includeTaxPrice * row.plannedQuantity * (1 - row.discountRate / 100)).toFixed(2)
+        row.discountMoney = (row.includeTaxPrice * row.plannedQuantity * (row.discountRate / 100)).toFixed(2)
       }
     },
     // 通过税率计算含税价
@@ -464,7 +464,7 @@ export default {
     // 计算含税金额
     getTaxMoney(row) {
       row.includeTaxMoney = (row.plannedQuantity * row.includeTaxPrice).toFixed(2)
-      row.discountMoney = (row.includeTaxPrice * row.plannedQuantity * (1 - row.discountRate / 100)).toFixed(2)
+      row.discountMoney = (row.includeTaxPrice * row.plannedQuantity * (row.discountRate / 100)).toFixed(2)
       return row.includeTaxMoney
     },
     // 计算金额

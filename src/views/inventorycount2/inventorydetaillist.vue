@@ -69,6 +69,21 @@
           width="200"
           align="center"/>
         <el-table-column
+          :label="$t('inventorydetaillist.repositoryName')"
+          prop="repositoryName"
+          width="200"
+          align="center"/>
+        <el-table-column
+          :label="$t('inventorydetaillist.locationCode')"
+          prop="locationCode"
+          width="200"
+          align="center"/>
+        <el-table-column
+          :label="$t('inventorydetaillist.batch')"
+          prop="batch"
+          width="200"
+          align="center"/>
+        <el-table-column
           :label="$t('inventoryCollect.productType')"
           prop="productType"
           width="200"
@@ -116,16 +131,6 @@
         <el-table-column
           :label="$t('inventorydetaillist.rate')"
           prop="rate"
-          width="200"
-          align="center"/>
-        <el-table-column
-          :label="$t('inventorydetaillist.locationCode')"
-          prop="locationCode"
-          width="200"
-          align="center"/>
-        <el-table-column
-          :label="$t('inventorydetaillist.repositoryName')"
-          prop="repositoryName"
           width="200"
           align="center"/>
       </el-table>

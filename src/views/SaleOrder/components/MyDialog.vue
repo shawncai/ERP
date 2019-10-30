@@ -252,7 +252,7 @@
             </template>
           </el-editable-column>
           <el-editable-column prop="includeTaxCostMoney" align="center" label="销售金额" min-width="170px"/>
-          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="discountRate" align="center" label="折扣(%)" min-width="170px">
+          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="discountRate" align="center" label="折扣率(%)" min-width="170px">
             <template slot="edit" slot-scope="scope">
               <el-input-number
                 :precision="2"
@@ -552,7 +552,7 @@ export default {
       if (row.discountRate === 0) {
         row.discountMoney = row.taxprice * row.quantity
       } else {
-        row.discountMoney = (row.taxprice * row.quantity * (1 - row.discountRate / 100)).toFixed(2)
+        row.discountMoney = (row.taxprice * row.quantity * (row.discountRate / 100)).toFixed(2)
       }
     },
     changeRate() {
@@ -660,11 +660,11 @@ export default {
       sums[8] = ''
       sums[9] = ''
       this.heji1 = sums[10]
-      this.heji2 = sums[18]
-      this.heji3 = sums[15]
-      this.heji4 = sums[17]
-      this.heji5 = sums[21]
-      this.heji6 = sums[15] - sums[21]
+      this.heji2 = sums[16]
+      this.heji3 = sums[16]
+      this.heji4 = sums[15]
+      this.heji5 = sums[18]
+      this.heji6 = sums[16] - sums[18]
       this.heji7 = sums[19]
       this.heji8 = sums[14]
       return sums
@@ -677,7 +677,7 @@ export default {
     // 计算含税金额
     getincludeTaxMoney(row) {
       row.includeTaxMoney = (row.taxprice * row.quantity).toFixed(2)
-      row.discountMoney = (row.taxprice * row.quantity * (1 - row.discountRate / 100)).toFixed(2)
+      row.discountMoney = (row.taxprice * row.quantity * (row.discountRate / 100)).toFixed(2)
       return row.includeTaxMoney
     },
     // 通过税率计算含税价
@@ -696,14 +696,14 @@ export default {
       if (row.discountRate === 0) {
         row.discountMoney = row.taxprice * row.quantity
       } else {
-        row.discountMoney = (row.taxprice * row.quantity * (1 - row.discountRate / 100)).toFixed(2)
+        row.discountMoney = (row.taxprice * row.quantity * (row.discountRate / 100)).toFixed(2)
       }
     },
     // 通过折扣额计算折扣
     getdiscountMoney(row) {
       console.log(row)
       if (row.taxprice !== 0 && row.quantity !== 0 && row.discountMoney !== 0) {
-        row.discountRate = ((1 - (row.discountMoney / row.includeTaxCostMoney)) * 100).toFixed(0)
+        row.discountRate = (((row.discountMoney / row.includeTaxCostMoney)) * 100).toFixed(0)
         console.log(row.discountRate)
       }
     },

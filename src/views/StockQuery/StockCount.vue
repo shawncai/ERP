@@ -5,11 +5,11 @@
         <el-form ref="getemplist" :model="getemplist" label-width="90px" style="margin-top: -9px">
           <el-col :span="4">
             <el-form-item label="物品编码">
-              <el-input v-model="getemplist.productCode" :placeholder="$t('StockQuery.productCode')" clearable style="width: 200px" @keyup.enter.native="handleFilter" @focus="handleAddproduct"/>
+              <el-input v-model="getemplist.productCode" :placeholder="$t('StockQuery.productCode')" clearable style="width: 150px" @keyup.enter.native="handleFilter" @focus="handleAddproduct"/>
               <my-detail :control.sync="control" @product="product"/>
             </el-form-item>
           </el-col>
-          <el-col :span="4" style="margin-left: 40px">
+          <el-col :span="4" style="margin-left: 70px">
             <el-form-item label="供应商">
               <el-input v-model="supplierId" :placeholder="$t('StockQuery.supplierId')" style="width: 200px" clearable @keyup.enter.native="handleFilter" @focus="handlechoose"/>
               <my-supplier :control.sync="empcontrol" @supplierName="supplierName"/>
@@ -22,6 +22,7 @@
                 type="daterange"
                 range-separator="-"
                 unlink-panels
+                style="width: 230px;"
                 start-placeholder="Start"
                 end-placeholder="End"
                 value-format="yyyy-MM-dd"
@@ -29,7 +30,7 @@
             </el-form-item>
           </el-col>
           <!--更多搜索条件-->
-          <el-col :span="4" style="margin-left: 255px">
+          <el-col :span="4" style="margin-left: 155px">
             <!-- 搜索按钮 -->
             <el-button v-waves type="primary" icon="el-icon-search" style="width: 86px" round @click="handleFilter">{{ $t('public.search') }}</el-button>
           </el-col>

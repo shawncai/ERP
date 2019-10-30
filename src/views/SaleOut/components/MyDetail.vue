@@ -326,7 +326,7 @@ export default {
           alreadyProduceQuantity: 0,
           allQuantity: 0,
           batch: item.batch,
-          discountRate: 100
+          discountRate: 0
         }
       })
       // console.log(productDetail)
