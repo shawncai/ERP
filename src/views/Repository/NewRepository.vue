@@ -22,13 +22,13 @@
               </template> -->
             </el-select>
           </el-form-item>
-          <el-form-item :label="$t('Repository.longitude')" :required="RepositoryForm.type === 2" prop="longitude" style="width: 40%;margin-top:1%">
+          <el-form-item :label="$t('Repository.longitude')" :rules="RepositoryForm.type !== 2 ? Repositoryrules.longitude:[{ required: true, message: '请输入经度', trigger: 'change' }]" prop="longitude" style="width: 40%;margin-top:1%">
             <el-input v-model="RepositoryForm.longitude" placeholder="请输入经度" autocomplete="new-password" clearable/>
           </el-form-item>
-          <el-form-item :label="$t('Repository.latitude')" :required="RepositoryForm.type === 2" prop="latitude" style="width: 40%;margin-top:1%">
+          <el-form-item :label="$t('Repository.latitude')" :rules="RepositoryForm.type !== 2 ? Repositoryrules.longitude:[{ required: true, message: '请输入纬度', trigger: 'change' }]" prop="latitude" style="width: 40%;margin-top:1%">
             <el-input v-model="RepositoryForm.latitude" placeholder="请输入纬度" clearable/>
           </el-form-item>
-          <el-form-item :label="$t('public.phone')" prop="phone" style="width: 40%;margin-top:1%">
+          <el-form-item :label="$t('public.phone')" style="width: 40%;margin-top:1%">
             <el-input v-model="RepositoryForm.phone" placeholder="请输入门店号码" clearable/>
           </el-form-item>
           <el-form-item :label="$t('public.address')" prop="address" style="width: 40%;margin-top:1%">
@@ -363,23 +363,23 @@ export default {
     }
   },
   data() {
-    const validatePass = (rule, value, callback) => {
-      var pattern = /((\d{11})|^((\d{7,8})|(\d{4}|\d{3})-(\d{7,8})|(\d{4}|\d{3})-(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d)|(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d))$)/
-      console.log(pattern.test(value))
-      if (!pattern.test(value)) {
-        callback(new Error('输入正确联系号码'))
-      } else {
-        callback()
-      }
-    }
-    const validatePass2 = (rule, value, callback) => {
-      console.log(value)
-      if (value === '' || value === undefined || value === null) {
-        callback(new Error('输入正确位置信息'))
-      } else {
-        callback()
-      }
-    }
+    // const validatePass = (rule, value, callback) => {
+    //   var pattern = /((\d{11})|^((\d{7,8})|(\d{4}|\d{3})-(\d{7,8})|(\d{4}|\d{3})-(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d)|(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d))$)/
+    //   console.log(pattern.test(value))
+    //   if (!pattern.test(value)) {
+    //     callback(new Error('输入正确联系号码'))
+    //   } else {
+    //     callback()
+    //   }
+    // }
+    // const validatePass2 = (rule, value, callback) => {
+    //   console.log(value)
+    //   if (value === '' || value === undefined || value === null) {
+    //     callback(new Error('输入正确位置信息'))
+    //   } else {
+    //     callback()
+    //   }
+    // }
     return {
       // 省列表
       provinces: [],
@@ -419,24 +419,25 @@ export default {
         categoryId: '',
         regionManagerId: '',
         attributes: '',
-        countryId: this.$store.getters.countryId
+        countryId: this.$store.getters.countryId,
+        phone: ''
       },
       // 区域id
       regionId: [],
       // 仓库信息规则数据
       Repositoryrules: {
-        longitude: [
-          { validator: validatePass2, trigger: 'change' }
-        ],
+        // longitude: [
+        //   { validator: validatePass2, trigger: 'blur' }
+        // ],
         repositoryName: [
           { required: true, message: '请输入仓库名称', trigger: 'blur' }
         ],
         regionId: [
           { required: true, message: '请选择区域', trigger: 'blur' }
         ],
-        latitude: [
-          { validator: validatePass2, trigger: 'change' }
-        ],
+        // latitude: [
+        //   { validator: validatePass2, trigger: 'blur' }
+        // ],
         lastname: [
           { required: true, message: '请输入名', trigger: 'blur' }
         ],
@@ -454,10 +455,10 @@ export default {
         ],
         attributes: [
           { required: true, message: '请选择属性', trigger: 'change' }
-        ],
-        phone: [
-          { trigger: 'change', validator: validatePass }
         ]
+        // phone: [
+        //   { required: false, trigger: 'change', validator: validatePass }
+        // ]
       },
       // / 弹窗选择
       // 单选表格样式
@@ -525,6 +526,7 @@ export default {
       searchRepCategory().then(res => {
         if (res.data.ret === 200) {
           const types = res.data.data.content.list
+          console.log(types)
           for (const i in types) {
             if (types[i].parentId === this.RepositoryForm.type && types[i].parentId !== null) {
               this.types2.push(types[i])
@@ -628,18 +630,37 @@ export default {
         categoryId: '',
         regionManagerId: '',
         attributes: '',
-        countryId: this.$store.getters.countryId
+        countryId: this.$store.getters.countryId,
+        phone: ''
       }
       // 仓库管理员回显数据
       this.managerPeople = ''
       // 小区经理回显数据
       this.regionManagerId = ''
     },
+    validatePass(value) {
+
+    },
     // 保存操作
     handlesave() {
       this.RepositoryForm.regionId = this.regionId[this.regionId.length - 1]
+      var pattern = /((\d{11})|^((\d{7,8})|(\d{4}|\d{3})-(\d{7,8})|(\d{4}|\d{3})-(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d)|(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d))$)/
+      // console.log(pattern.test(this.RepositoryForm.phone))
+      console.log('手机号码', this.RepositoryForm.phone)
+      console.log('手机号码2', this.RepositoryForm.phone !== '' || this.RepositoryForm.phone !== null || this.RepositoryForm.phone !== undefined)
+      if (this.RepositoryForm.phone !== '' && this.RepositoryForm.phone !== null && this.RepositoryForm.phone !== undefined) {
+        if (!pattern.test(this.RepositoryForm.phone)) {
+          this.$notify.error({
+            title: '错误',
+            message: '输入正确号码',
+            offset: 100
+          })
+          return false
+        }
+      }
       this.$refs.RepositoryForm.validate((valid) => {
         if (valid) {
+          console.log('haode1')
           create(this.RepositoryForm).then(res => {
             if (res.data.ret === 200) {
               this.$notify({

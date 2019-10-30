@@ -124,10 +124,10 @@
             <el-form-item :label="$t('Repository.repositoryName')" prop="repositoryName" style="width: 40%;margin-top:1%">
               <el-input v-model="RepositoryForm.repositoryName" placeholder="请输入门店名称" clearable/>
             </el-form-item>
-            <el-form-item :label="$t('Repository.longitude')" :required="RepositoryForm.type === 2" prop="longitude" style="width: 40%;margin-top:1%">
+            <el-form-item :label="$t('Repository.longitude')" :rules="RepositoryForm.type !== 2 ? Repositoryrules.longitude:[{ required: true, message: '请输入经度', trigger: 'change' }]" prop="longitude" style="width: 40%;margin-top:1%">
               <el-input v-model="RepositoryForm.longitude" clearable/>
             </el-form-item>
-            <el-form-item :label="$t('Repository.latitude')" :required="RepositoryForm.type === 2" prop="latitude" style="width: 40%">
+            <el-form-item :label="$t('Repository.latitude')" :rules="RepositoryForm.type !== 2 ? Repositoryrules.longitude:[{ required: true, message: '请输入纬度', trigger: 'change' }]" prop="latitude" style="width: 40%">
               <el-input v-model="RepositoryForm.latitude" placeholder="请输入纬度" clearable/>
             </el-form-item>
             <el-form-item :label="$t('public.address')" prop="address" style="width: 40%">
@@ -483,14 +483,14 @@ export default {
     }
   },
   data() {
-    const validatePass2 = (rule, value, callback) => {
-      console.log(value)
-      if (value === '' || value === undefined || value === null) {
-        callback(new Error('输入正确位置信息'))
-      } else {
-        callback()
-      }
-    }
+    // const validatePass2 = (rule, value, callback) => {
+    //   console.log(value)
+    //   if (value === '' || value === undefined || value === null) {
+    //     callback(new Error('输入正确位置信息'))
+    //   } else {
+    //     callback()
+    //   }
+    // }
     return {
       // 批量操作
       moreaction: '',
@@ -552,14 +552,8 @@ export default {
       regionId: [],
       // 仓库信息规则数据
       Repositoryrules: {
-        longitude: [
-          { validator: validatePass2, trigger: 'blur' }
-        ],
         repositoryName: [
           { required: true, message: '请输入仓库名称', trigger: 'blur' }
-        ],
-        latitude: [
-          { validator: validatePass2, trigger: 'blur' }
         ],
         lastname: [
           { required: true, message: '请输入名', trigger: 'blur' }

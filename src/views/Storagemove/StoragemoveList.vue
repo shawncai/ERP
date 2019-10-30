@@ -153,7 +153,7 @@
         <el-table-column :label="$t('public.actions')" :resizable="false" align="center" min-width="330">
           <template slot-scope="scope">
             <!-- 调出确认 -->
-            <el-button v-show="scope.row.judgeStat === 2&&scope.row.confirmOutPersonId === null&&scope.row.storageMoveDetailConfirmVos.length !== scope.row.storageMoveDetailVos.length" size="mini" type="success" @click="handleDispatch3(scope.row)">{{ $t('Storagemove.moveoutconfirm') }}</el-button>
+            <el-button v-show="scope.row.judgeStat === 2&&scope.row.storageMoveDetailConfirmVos.length !== scope.row.storageMoveDetailVos.length" size="mini" type="success" @click="handleDispatch3(scope.row)">{{ $t('Storagemove.moveoutconfirm') }}</el-button>
             <!-- <el-button v-show="scope.row.judgeStat === 2&&scope.row.confirmPersonId === null" size="mini" type="success" @click="handleDispatch2(scope.row)">调入确认</el-button> -->
             <el-button v-permission="['131-141-142-3']" v-show="scope.row.judgeStat === 0" type="primary" size="mini" @click="handleEdit(scope.row)">{{ $t('public.edit') }}</el-button>
             <el-button v-show="isReview(scope.row)" type="warning" size="mini" @click="handleReview(scope.row)">{{ $t('public.review') }}</el-button>
@@ -320,7 +320,7 @@ export default {
     },
     // 判断反审批按钮
     isReview4(row) {
-      console.log(row)
+      console.log(row.moveNumber, row.judgeStat === 2 && row.confirmOutPersonId === null && row.storageMoveDetailConfirmVos.length !== row.storageMoveDetailVos.length, row.judgeStat === 2, row.confirmOutPersonId === null, row.storageMoveDetailConfirmVos.length !== row.storageMoveDetailVos.length)
       let jungle = false
       if (row.storageMoveDetailConfirmVos.length === row.storageMoveDetailVos.length) {
         jungle = true
