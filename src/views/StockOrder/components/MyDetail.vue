@@ -279,7 +279,7 @@ export default {
           orderedQuantity: 0,
           returnQuantity: 0,
           actualArrivalQuantity: 0,
-          discountRate: 100
+          discountRate: 0
         }
       })
       console.log(productDetail)

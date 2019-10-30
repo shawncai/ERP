@@ -155,7 +155,7 @@
             <!-- <el-editable-column prop="carCode" align="center" label="车架编码" min-width="170px"/> -->
             <!-- <el-editable-column prop="batteryCode" align="center" label="电池编码" min-width="170px"/> -->
             <!-- <el-editable-column prop="motorCode" align="center" label="电机编码" min-width="170px"/> -->
-            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="discountRate" align="center" label="折扣(%)" min-width="170">
+            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="discountRate" align="center" label="折扣率(%)" min-width="170">
               <template slot="edit" slot-scope="scope">
                 <el-input-number
                   :precision="2"
@@ -351,7 +351,7 @@ export default {
     // 计算含税金额
     getincludeTaxMoney(row) {
       row.includeTaxMoney = (row.taxprice * row.quantity).toFixed(2)
-      row.discountMoney = (row.taxprice * row.quantity * (1 - row.discountRate / 100)).toFixed(2)
+      row.discountMoney = (row.taxprice * row.quantity * (row.discountRate / 100)).toFixed(2)
       return row.includeTaxMoney
     },
     // 通过税率计算含税价
@@ -362,7 +362,7 @@ export default {
       if (row.discountRate === 0) {
         row.discountMoney = row.taxprice * row.quantity
       } else {
-        row.discountMoney = (row.taxprice * row.quantity * (1 - row.discountRate / 100)).toFixed(2)
+        row.discountMoney = (row.taxprice * row.quantity * (row.discountRate / 100)).toFixed(2)
       }
     },
     // 计算税额
@@ -375,7 +375,7 @@ export default {
       if (row.discountRate === 0) {
         row.discountMoney = row.taxprice * row.quantity
       } else {
-        row.discountMoney = (row.taxprice * row.quantity * (1 - row.discountRate / 100)).toFixed(2)
+        row.discountMoney = (row.taxprice * row.quantity * (row.discountRate / 100)).toFixed(2)
       }
     },
     // 通过折扣额计算折扣

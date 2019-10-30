@@ -520,6 +520,7 @@ export default {
     end: '期末结存'
   },
   inventorydetaillist: {
+    batch: '批次',
     quantity: '库存数量',
     actualCostPrice: '成本均价',
     actualCostMoney: '库存金额',
@@ -1715,6 +1716,7 @@ export default {
     allIncludeTaxMoney: '含税金额合计'
   },
   StockOrder: {
+    discountMoney: '折扣额',
     supplierNumber: '供应方订单号',
     title: '采购订单主题',
     orderNumber: '采购单号',

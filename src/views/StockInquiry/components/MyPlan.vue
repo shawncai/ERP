@@ -345,7 +345,7 @@ export default {
           price: item.basicPrice,
           includeTaxPrice: item.basicPrice,
           supplierId: item.supplierId,
-          discountRate: 100
+          discountRate: 0
         }
       })
       console.log(applyDetail)

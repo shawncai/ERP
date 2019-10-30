@@ -122,8 +122,8 @@
             @selection-change="handleSelectionChange">
             <el-editable-column type="selection" min-width="55" align="center"/>
             <el-editable-column label="序号" min-width="55" align="center" type="index"/>
-            <el-editable-column :edit-render="{name: 'ElSelect',options: costs ,type: 'visible', events: {change: change2}}" prop="costCode" align="center" label="费用代码" min-width="150px"/>
-            <!--            <el-editable-column prop="costName" align="center" label="费用名称" min-width="150px"/>-->
+            <el-editable-column :edit-render="{name: 'ElSelect',options: costs ,type: 'visible', events: {change: change2}}" prop="costName" align="center" label="费用名称" min-width="150px"/>
+            <el-editable-column prop="costCode" align="center" label="费用代码" min-width="150px"/>
             <el-editable-column prop="costCategory" align="center" label="费用类型" min-width="150px"/>
             <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="unit" align="center" label="计量单位" min-width="150px"/>
             <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0, precision: 2}, type: 'visible'}" prop="quantity" align="center" label="数量" min-width="150px"/>
@@ -298,7 +298,7 @@ export default {
         repositoryId: this.$store.getters.repositoryId,
         regionId: this.$store.getters.regionId,
         deptId: this.$store.getters.deptId,
-        isInclude: 1,
+        isInclude: 2,
         currency: '1',
         retreatDate: null
       },
@@ -352,8 +352,10 @@ export default {
     change2(val) {
       console.log('val', val)
       for (let i = 0; i < this.costs.length; i++) {
-        if (this.costs[i].costCode === val.row.costCode) {
+        if (this.costs[i].costName === val.row.costName) {
+          console.log('this.costs[i]', this.costs[i])
           val.row.costName = this.costs[i].costName
+          val.row.costCode = this.costs[i].costCode
           val.row.costCategory = this.costs[i].costCategory
           val.row.subject = this.costs[i].subjectId
           val.row.subjectName = this.costs[i].subjectName
@@ -362,10 +364,12 @@ export default {
     },
     handleAdd2() {
       for (let i = 0; i < this.costs.length; i++) {
-        this.costs[i].value = this.costs[i].costCode
-        this.costs[i].label = this.costs[i].costCode
+        this.costs[i].value = this.costs[i].costName
+        this.costs[i].label = this.costs[i].costName
       }
-      this.$refs.editable.insert()
+      // this.$refs.editable.insertAt(-1)
+      const row = this.$refs.editable.insertAt('', -1)
+      this.$nextTick(() => this.$refs.editable.setActiveCell(row, 'name'))
       this.list2[0].quantity = 1
     },
     // 重置一下下拉
@@ -679,7 +683,7 @@ export default {
         repositoryId: this.$store.getters.repositoryId,
         regionId: this.$store.getters.regionId,
         deptId: this.$store.getters.deptId,
-        isInclude: 1,
+        isInclude: 2,
         currency: '1',
         retreatDate: null
       }

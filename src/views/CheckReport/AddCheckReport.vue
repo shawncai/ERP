@@ -604,6 +604,8 @@ export default {
       this.$refs.editable.clear()
       const para = {}
       para.productCode = val
+      para.pagenum = 1
+      para.pagesize = 99
       console.log('para', para)
       searchCheckSet(para).then(res => {
         if (res.data.ret === 200) {

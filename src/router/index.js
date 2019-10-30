@@ -422,6 +422,18 @@ export const asyncRouterMap = [
         component: () => import('@/views/Repository/Manyinsert'),
         name: 'Manyinsert',
         meta: { title: 'Manyinsert', noCache: true, roles: ['1-9-12-13'] }
+      },
+      {
+        path: 'AddLocation',
+        component: () => import('@/views/WarehouseAdjust/AddLocation'),
+        name: 'AddLocation',
+        meta: { title: 'AddLocation', noCache: false, roles: ['1-9-170-1'] }
+      },
+      {
+        path: 'Locationlist',
+        component: () => import('@/views/WarehouseAdjust/Locationlist'),
+        name: 'Locationlist',
+        meta: { title: 'Locationlist', noCache: true, roles: ['1-9-169-1', '1-9-169-2', '1-9-169-3', '1-9-169-4', '1-9-169-5', '1-9-169-6', '1-9-169-7', '1-9-169-18', '1-9-169-16', '1-9-169-17'] }
       }
     ]
   },
@@ -1167,18 +1179,6 @@ export const asyncRouterMap = [
         meta: { title: 'Enterlist', noCache: true, roles: ['131-163-166-1', '131-163-166-2', '131-163-166-3', '131-163-166-4', '131-163-166-5', '131-163-166-6', '131-163-166-7', '131-163-166-18', '131-163-166-16', '131-163-166-17'] }
       },
       {
-        path: 'AddLocation',
-        component: () => import('@/views/WarehouseAdjust/AddLocation'),
-        name: 'AddLocation',
-        meta: { title: 'AddLocation', noCache: false, roles: ['131-163-170-1'] }
-      },
-      {
-        path: 'Locationlist',
-        component: () => import('@/views/WarehouseAdjust/Locationlist'),
-        name: 'Locationlist',
-        meta: { title: 'Locationlist', noCache: true, roles: ['131-163-169-1', '131-163-169-2', '131-163-169-3', '131-163-169-4', '131-163-169-5', '131-163-169-6', '131-163-169-7', '131-163-169-18', '131-163-169-16', '131-163-169-17'] }
-      },
-      {
         path: 'Inventorydetaillist',
         component: () => import('@/views/WarehouseAdjust/Inventorydetaillist'),
         name: 'Inventorydetaillist',
@@ -1606,6 +1606,33 @@ export const asyncRouterMap = [
         component: () => import('@/views/StockQuery/OnSummary'),
         name: 'OnSummary',
         meta: { title: 'OnSummary', noCache: true, roles: ['104-120-124-8', '104-120-124-9', '104-120-124-4'] }
+      }
+    ]
+  },
+  {
+    path: '/AdvancePay',
+    component: Layout,
+    redirect: 'noredirect',
+    name: 'AdvancePay',
+    alwaysShow: true,
+    meta: {
+      title: 'AdvancePay',
+      icon: 'fukuandan',
+      type: 11,
+      roles: ['266-126-4', '266-127-1']
+    },
+    children: [
+      {
+        path: 'AddAdvancePay',
+        component: () => import('@/views/AdvancePay/AddAdvancePay'),
+        name: 'AddAdvancePay',
+        meta: { title: 'AddAdvancePay', noCache: false, roles: ['266-221-1'] }
+      },
+      {
+        path: 'AdvancePayList',
+        component: () => import('@/views/AdvancePay/AdvancePayList'),
+        name: 'AdvancePayList',
+        meta: { title: 'AdvancePayList', noCache: true, roles: ['266-222-1', '266-222-2', '266-222-3', '266-222-4', '266-222-5', '266-222-6', '266-222-7', '266-222-16', '266-222-17', '266-222-18'] }
       }
     ]
   },

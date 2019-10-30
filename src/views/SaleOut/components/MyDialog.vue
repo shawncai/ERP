@@ -293,7 +293,7 @@
               <p>{{ getincludeTaxCostMoney(scope.row) }}</p>
             </template>
           </el-editable-column>
-          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="discountRate" align="center" label="折扣(%)" min-width="170">
+          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="discountRate" align="center" label="折扣率(%)" min-width="170">
             <template slot="edit" slot-scope="scope">
               <el-input-number
                 :precision="2"
@@ -873,7 +873,7 @@ export default {
       if (row.discountRate === 0) {
         row.discountMoney = row.taxprice * row.quantity
       } else {
-        row.discountMoney = (row.taxprice * row.quantity * (1 - row.discountRate / 100)).toFixed(2)
+        row.discountMoney = (row.taxprice * row.quantity * (row.discountRate / 100)).toFixed(2)
       }
     },
     // 重置一下下拉
@@ -1138,7 +1138,7 @@ export default {
       if (row.discountRate === 0) {
         row.discountMoney = row.taxprice * row.quantity
       } else {
-        row.discountMoney = (row.taxprice * row.quantity * (1 - row.discountRate / 100)).toFixed(2)
+        row.discountMoney = (row.taxprice * row.quantity * (row.discountRate / 100)).toFixed(2)
       }
     },
     // 计算税额
@@ -1151,14 +1151,14 @@ export default {
       if (row.discountRate === 0) {
         row.discountMoney = row.taxprice * row.quantity
       } else {
-        row.discountMoney = (row.taxprice * row.quantity * (1 - row.discountRate / 100)).toFixed(2)
+        row.discountMoney = (row.taxprice * row.quantity * (row.discountRate / 100)).toFixed(2)
       }
     },
     // 通过折扣额计算折扣
     getdiscountMoney(row) {
       console.log(row)
       if (row.taxprice !== 0 && row.quantity !== 0 && row.discountMoney !== 0) {
-        row.discountRate = ((1 - (row.discountMoney / row.includeTaxCostMoney)) * 100).toFixed(2)
+        row.discountRate = (((row.discountMoney / row.includeTaxCostMoney)) * 100).toFixed(2)
       }
     },
     // 计算金额

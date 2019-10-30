@@ -475,16 +475,17 @@ export default {
       sums[6] = ''
       sums[9] = ''
       sums[10] = ''
-      sums[15] = ''
-      sums[17] = ''
+      sums[12] = ''
+      sums[16] = ''
       sums[18] = ''
       sums[19] = ''
-      this.personalForm.allQuantity = sums[8]
-      this.personalForm.allMoney = sums[12]
-      this.personalForm.allTaxMoney = sums[14]
-      this.personalForm.allIncludeTaxMoney = sums[13]
-      this.personalForm.allDiscountMoney = sums[16]
-      this.personalForm.allMoneyMoveDiscount = sums[13] - sums[16]
+      sums[20] = ''
+      this.personalForm.allQuantity = sums[7]
+      this.personalForm.allMoney = sums[13]
+      this.personalForm.allTaxMoney = sums[15]
+      this.personalForm.allIncludeTaxMoney = sums[14]
+      this.personalForm.allDiscountMoney = sums[17]
+      this.personalForm.allMoneyMoveDiscount = sums[14] - sums[15]
       return sums
     },
     getdiscountMoney(row) {

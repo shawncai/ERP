@@ -309,7 +309,7 @@ export default {
     },
     // 搜索
     handleFilter() {
-      if (this.supplierId !== null && this.data1 !== null && this.data2 !== null && this.supplierId !== '' && this.data1 !== '' && this.data2 !== '') {
+      if (this.data1 !== null && this.data2 !== null && this.data1 !== '' && this.data2 !== '') {
         console.log(66666)
         var result = []
         var starts = this.data1.split('-')
@@ -354,12 +354,22 @@ export default {
         this.getemplist.dateList = result
         shouldPayCount(this.getemplist).then(res => {
           if (res.data.ret === 200) {
-            this.list = res.data.data.content[0]
-            console.log('this.list', this.list)
-            // for (let i = 0; i < this.list.length; i++) {
-            //   this.list[i].heji = this.list[i].totalMoney + this.list[i].taxMoney
+            this.list = res.data.data.content.flat(1)
+            // for (let i = 0; i < res.data.data.content.length; i++) {
+            //   for (let j = 0; j < res.data.data.content[i].length; i++) {
+            //     this.list.push(res.data.data.content[i][j])
+            //   }
             // }
-            // this.total = res.data.data.content.totalCount
+
+            const arr1 = res.data.data.content
+            for (const i in arr1) {
+              console.log(arr1[i])
+              const newarr = arr1[i].filter(item => {
+                return (item.time === arr1[i].time)
+              })
+              console.log(newarr)
+            }
+            console.log('this.list', this.list)
           }
         })
       } else {

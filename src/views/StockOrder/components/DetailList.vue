@@ -115,7 +115,7 @@
             <el-editable-column prop="money" align="center" label="金额" />
             <el-editable-column prop="includeTaxMoney" align="center" label="含税金额" />
             <el-editable-column prop="tax" align="center" label="税额" />
-            <el-editable-column prop="discountRate" align="center" label="折扣(%)" />
+            <el-editable-column prop="discountRate" align="center" label="折扣率(%)" />
             <el-editable-column prop="discountMoney" align="center" label="折扣额" />
             <el-editable-column prop="sourceNumber" align="center" label="源单编号" />
             <el-editable-column prop="sourceSerialNumber" align="center" label="源单序号" />

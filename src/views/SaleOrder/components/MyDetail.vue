@@ -281,7 +281,7 @@ export default {
           money: 0,
           includeTaxCostMoney: '0.00',
           discount: 100,
-          discountRate: 100,
+          discountRate: 0,
           discountMoney: 0,
           taxprice: '0.00',
           alreadyApplicationQuantity: 0,

@@ -179,7 +179,7 @@
                   :precision="2"
                   :min="1.00"
                   v-model="scope.row.stockQuantity"
-                  @focus="changenumber(scope.row)"
+                  @change="changenumber(scope.row)"
                   @keyup.enter.native="test(scope.row)"/>
               </template>
             </el-editable-column>
@@ -232,7 +232,7 @@
                 <p>{{ getTaxMoney2(scope.row) }}</p>
               </template>
             </el-editable-column>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="discountRate" align="center" label="折扣(%)" min-width="170px">
+            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="discountRate" align="center" label="折扣率(%)" min-width="170px">
               <template slot="edit" slot-scope="scope">
                 <el-input-number
                   :precision="2"
@@ -545,6 +545,22 @@ export default {
     this.getinformation()
   },
   methods: {
+    changenumber(row) {
+      if (row.stockQuantity === 1 || row.stockQuantity === '' || row.stockQuantity === null || row.stockQuantity === undefined) {
+        return false
+      }
+      let re = 1
+      for (let i = 0; i < this.list2.length; i++) {
+        if (this.list2[i].stockQuantity !== 1) {
+          re++
+        }
+      }
+      if (re === 2) {
+        for (let i = 0; i < this.list2.length; i++) {
+          this.list2[i].stockQuantity = row.stockQuantity
+        }
+      }
+    },
     copydate(row) {
       if (row.deliveryDate === '' || row.deliveryDate === null || row.deliveryDate === undefined) {
         return false
@@ -593,9 +609,6 @@ export default {
       for (let i = row.temp; i < this.list2.length; i++) {
         this.list2[i].stockQuantity = row.stockQuantity
       }
-    },
-    changenumber(val) {
-      console.log(val)
     },
     getinformation() {
       if (this.$store.getters.empcontract) {
@@ -730,7 +743,7 @@ export default {
     getdiscountMoney(row) {
       console.log(row)
       if (row.includeTaxPrice !== 0 && row.stockQuantity !== 0 && row.discountMoney !== 0) {
-        row.discountRate = ((1 - (row.discountMoney / row.includeTaxMoney).toFixed(2)) * 100).toFixed(2)
+        row.discountRate = (((row.discountMoney / row.includeTaxMoney).toFixed(2)) * 100).toFixed(2)
       }
     },
     // 通过折扣计算折扣额
@@ -738,7 +751,7 @@ export default {
       if (row.discountRate === 0) {
         row.discountMoney = 0
       } else {
-        row.discountMoney = (row.includeTaxPrice * row.stockQuantity * (1 - row.discountRate / 100)).toFixed(2)
+        row.discountMoney = (row.includeTaxPrice * row.stockQuantity * (row.discountRate / 100)).toFixed(2)
       }
     },
     // 通过税率计算含税价
@@ -770,6 +783,7 @@ export default {
     // 计算含税金额
     getTaxMoney(row) {
       row.includeTaxMoney = (row.stockQuantity * row.includeTaxPrice).toFixed(2)
+      row.discountMoney = (row.includeTaxPrice * row.stockQuantity * (row.discountRate / 100)).toFixed(2)
       return row.includeTaxMoney
     },
     // 计算金额

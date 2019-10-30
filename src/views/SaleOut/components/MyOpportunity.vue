@@ -382,7 +382,7 @@ export default {
           includeTaxCostMoney: '0.00',
           discount: '0.00',
           discountMoney: '0.00',
-          discountRate: 100,
+          discountRate: 0,
           carCode: 0,
           motorCode: 0,
           batteryCode: 0,

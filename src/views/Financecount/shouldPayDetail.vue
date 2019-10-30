@@ -299,7 +299,7 @@ export default {
     },
     // 搜索
     handleFilter() {
-      if (this.supplierId !== null && this.data1 !== null && this.data2 !== null && this.supplierId !== '' && this.data1 !== '' && this.data2 !== '') {
+      if (this.data1 !== null && this.data2 !== null && this.supplierId !== '' && this.data1 !== '' && this.data2 !== '') {
         console.log(66666)
         var result = []
         var starts = this.data1.split('-')
