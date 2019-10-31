@@ -93,7 +93,7 @@
             <el-editable-column prop="price" align="center" label="价格" />
             <el-editable-column prop="inventoryQuantity" align="center" label="库存数量" >
               <template slot-scope="scope">
-                <p>{{ getquantity(scope.row) }}</p>
+                <p>{{ scope.row.inventoryQuantity }}</p>
               </template>
             </el-editable-column>
             <el-editable-column prop="actualQuantity" align="center" label="实盘数量" />
@@ -244,7 +244,7 @@
 import { locationlist } from '@/api/WarehouseAdjust'
 import { getdeptlist } from '@/api/BasicSettings'
 import { updatecount } from '@/api/InventoryCount'
-import { batchlist, getQuantity } from '@/api/public'
+import { batchlist } from '@/api/public'
 import MyCreate from './MyCreate'
 import MyRepository from './MyRepository'
 import MyDetail from './MyDetail'
@@ -412,16 +412,18 @@ export default {
       return quan * pric
     },
     getquantity(sco) {
-      const parms2 = sco.locationId
-      const parms3 = sco.productCode
-      const parms4 = sco.batch
-      if (parms4 !== '' && parms4 !== null && parms4 !== undefined) {
-        getQuantity(this.personalForm.countRepositoryId, parms2, parms3, parms4).then(res => {
-          this.out = res.data.data.content
-          sco.inventoryQuantity = res.data.data.content
-        })
-        return this.out
-      }
+      console.log(sco)
+      // if (sco.inventoryQuantity) {
+      // }
+      // const parms2 = sco.locationId
+      // const parms3 = sco.productCode
+      // const parms4 = sco.batch
+      // if (parms4 !== '' && parms4 !== null && parms4 !== undefined) {
+      //   getQuantity(this.personalForm.countRepositoryId, parms2, parms3, parms4).then(res => {
+      //     this.out = res.data.data.content
+      //     sco.inventoryQuantity = res.data.data.content
+      //   })
+      // }
     },
     updatebatch(event, scope) {
       if (event === true) {

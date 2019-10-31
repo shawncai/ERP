@@ -153,7 +153,7 @@
         <el-table-column :label="$t('public.actions')" :resizable="false" align="center" min-width="330">
           <template slot-scope="scope">
             <!-- 调出确认 -->
-            <el-button v-show="scope.row.judgeStat === 2&&scope.row.storageMoveDetailConfirmVos.length !== scope.row.storageMoveDetailVos.length" size="mini" type="success" @click="handleDispatch3(scope.row)">{{ $t('Storagemove.moveoutconfirm') }}</el-button>
+            <el-button v-show="isshow9(scope.row)" size="mini" type="success" @click="handleDispatch3(scope.row)">{{ $t('Storagemove.moveoutconfirm') }}</el-button>
             <!-- <el-button v-show="scope.row.judgeStat === 2&&scope.row.confirmPersonId === null" size="mini" type="success" @click="handleDispatch2(scope.row)">调入确认</el-button> -->
             <el-button v-permission="['131-141-142-3']" v-show="scope.row.judgeStat === 0" type="primary" size="mini" @click="handleEdit(scope.row)">{{ $t('public.edit') }}</el-button>
             <el-button v-show="isReview(scope.row)" type="warning" size="mini" @click="handleReview(scope.row)">{{ $t('public.review') }}</el-button>
@@ -280,6 +280,14 @@ export default {
     this.getlist()
   },
   methods: {
+    isshow9(row) {
+      console.log('调入确认', row.judgeStat === 2 && row.storageMoveDetailConfirmVos.length !== row.storageMoveDetailVos.length)
+      if (row.judgeStat === 2 && row.storageMoveDetailConfirmVos.length !== row.storageMoveDetailVos.length) {
+        return true
+      } else {
+        return false
+      }
+    },
     // 判断调入按钮
     isReview5(row) {
       let jungle1 = false

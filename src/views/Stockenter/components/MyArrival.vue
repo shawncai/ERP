@@ -359,8 +359,9 @@ export default {
     // 确认添加数据
     async handleConfirm() {
       this.employeeVisible = false
-      console.log(this.choosedata)
+      // console.log('1231231',this.choosedata)
       const arrivaldata = this.choosedata.stockArrivalDetailVos
+      const number = this.choosedata.number
       const arrivalDetail = arrivaldata.map(function(item) {
         return {
           productCode: item.productCode,
@@ -379,6 +380,7 @@ export default {
           sourceSerialNumber: item.id,
           passQuantity: item.qualifyQuantity,
           orderNumber: item.sourceNumber,
+          sourceNumber: number,
           arrivalQuantity: item.arrivalQuantity,
           hadStorageQuantity: item.hadStorageQuantity
         }

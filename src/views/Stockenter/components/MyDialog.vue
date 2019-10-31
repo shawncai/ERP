@@ -128,6 +128,7 @@
               </el-select>
             </template>
           </el-editable-column>
+          <el-editable-column prop="batch" align="center" label="批次" />
           <el-editable-column prop="color" align="center" label="颜色" width="150px"/>
           <el-editable-column prop="productType" align="center" label="规格" width="150px"/>
           <el-editable-column prop="unit" align="center" label="单位" width="150px"/>

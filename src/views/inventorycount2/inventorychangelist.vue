@@ -47,9 +47,14 @@
           prop="productName"
           width="200"
           align="center"/>
-        <el-table-column
+        <!-- <el-table-column
           :label="$t('inventoryCollect.productType')"
           prop="productType"
+          width="200"
+          align="center"/> -->
+        <el-table-column
+          :label="$t('inventoryCollect.repositoryName')"
+          prop="repositoryName"
           width="200"
           align="center"/>
         <el-table-column

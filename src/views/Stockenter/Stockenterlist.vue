@@ -171,7 +171,7 @@
 </template>
 
 <script>
-import { stockenterlist, deletestockenter, updatestockenter3 } from '@/api/Stockenter'
+import { stockenterlist, deletestockenter, updatestockenter3, updatestockenter } from '@/api/Stockenter'
 import { getdeptlist } from '@/api/BasicSettings'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
@@ -326,9 +326,13 @@ export default {
         type: 'warning'
       }).then(() => {
         this.reviewParms.receiptStat = 2
-        const parms = JSON.stringify(this.reviewParms)
-        console.log(parms)
-        updatestockenter3(parms).then(res => {
+        const parms = {
+          receiptStat: 2,
+          id: row.id
+        }
+        // const parms = JSON.stringify(this.reviewParms)
+        console.log(this.reviewParms)
+        updatestockenter(parms, '').then(res => {
           if (res.data.ret === 200) {
             this.$message({
               type: 'success',

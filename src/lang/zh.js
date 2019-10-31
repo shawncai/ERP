@@ -549,7 +549,9 @@ export default {
     actualMoney: '库存金额',
     saleMoney: '零售金额',
     tradeMOney: '批发金额',
-    rate: '毛利率'
+    rate: '毛利率',
+    receiptNumber: '调拨单号',
+    repositoryName: '仓库'
   },
   moveDetailList: {
     moveQuantity: '调拨数量',

@@ -47,6 +47,11 @@
         border
         style="width: 100%">
         <el-table-column
+          :label="$t('inventoryCollect.receiptNumber')"
+          prop="receiptNumber"
+          width="200"
+          align="center"/>
+        <el-table-column
           :label="$t('inventoryCollect.productCode')"
           prop="productCode"
           width="200"
@@ -78,7 +83,7 @@
           align="center"/>
         <el-table-column
           :label="$t('moveDetailList.price')"
-          prop="price"
+          prop="movePrice"
           width="200"
           align="center"/>
         <el-table-column
@@ -86,11 +91,11 @@
           prop="totalMoney"
           width="200"
           align="center"/>
-        <el-table-column
+          <!-- <el-table-column
           :label="$t('moveDetailList.moveDiff')"
           prop="moveDiff"
           width="200"
-          align="center"/>
+          align="center"/> -->
       </el-table>
       <!-- 列表结束 -->
       <pagination v-show="total>0" :total="total" :page.sync="getemplist.pageNum" :limit.sync="getemplist.pageSize" @pagination="getlist" />

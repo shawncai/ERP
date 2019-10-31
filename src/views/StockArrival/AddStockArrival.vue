@@ -955,28 +955,29 @@ export default {
                 })
                 return false
               })
+            } else {
+              createstockArrival(parms, parms2, this.personalForm).then(res => {
+                console.log(res)
+                if (res.data.ret === 200) {
+                  this.$notify({
+                    title: '成功',
+                    message: '保存成功',
+                    type: 'success',
+                    offset: 100
+                  })
+                  this.restAllForm()
+                  this.$refs.editable.clear()
+                  this.$refs.personalForm.clearValidate()
+                  this.$refs.personalForm.resetFields()
+                } else {
+                  this.$notify.error({
+                    title: '错误',
+                    message: res.data.msg,
+                    offset: 100
+                  })
+                }
+              })
             }
-            createstockArrival(parms, parms2, this.personalForm).then(res => {
-              console.log(res)
-              if (res.data.ret === 200) {
-                this.$notify({
-                  title: '成功',
-                  message: '保存成功',
-                  type: 'success',
-                  offset: 100
-                })
-                this.restAllForm()
-                this.$refs.editable.clear()
-                this.$refs.personalForm.clearValidate()
-                this.$refs.personalForm.resetFields()
-              } else {
-                this.$notify.error({
-                  title: '错误',
-                  message: res.data.msg,
-                  offset: 100
-                })
-              }
-            })
           }).catch(valid => {
             console.log('error submit!!')
           })

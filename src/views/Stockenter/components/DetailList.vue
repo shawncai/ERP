@@ -103,6 +103,7 @@
             <el-editable-column prop="productCode" fixed align="center" label="物品编号" />
             <el-editable-column prop="productName" fixed align="center" label="物品名称" />
             <el-editable-column prop="locationCode" align="center" label="货位" />
+            <el-editable-column prop="batch" align="center" label="批次" />
             <el-editable-column prop="color" align="center" label="颜色" />
             <el-editable-column prop="productType" align="center" label="规格" />
             <el-editable-column prop="unit" align="center" label="单位" />

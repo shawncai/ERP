@@ -729,10 +729,15 @@ export default {
         countryId: this.$store.getters.countryId,
         repositoryId: this.$store.getters.repositoryId,
         regionId: this.$store.getters.regionId,
-        sourceType: '1'
+        sourceType: '1',
+        applyPersonId: this.$store.getters.userId,
+        requestDeptId: this.$store.getters.deptId,
+        moveInRepository: this.$store.getters.repositoryId,
+        businessStat: '1'
       }
-      this.moveOutRepository = ''
+      this.moveOutRepository = this.$store.getters.repositoryName
       this.moveInRepository = ''
+      this.applyPersonId = this.$store.getters.name
     },
     // 保存操作
     handlesave() {
