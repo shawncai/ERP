@@ -26,7 +26,7 @@
               <my-center :control.sync="centercontrol" @center="center"/>
               <el-col :span="6">
                 <el-form-item :label="$t('RequirePlan.producePlanNumber')" prop="producePlanNumber" style="width: 100%;">
-                  <el-input v-model="producePlanNumber" :value="producePlanNumber" style="margin-left: 18px;width:200px" clearable @focus="producechoose"/>
+                  <el-input v-model="personalForm.producePlanNumber" style="margin-left: 18px;width:200px" clearable @focus="producechoose"/>
                 </el-form-item>
                 <produce-plan :procontrol.sync="producecontrol" @allinfo="allinfo"/>
               </el-col>
@@ -256,8 +256,9 @@ export default {
     // },
     // 回显主生产计划
     allinfo(val) {
+      console.log(val)
       this.$refs.editable.clear()
-      this.producePlanNumber = val.title
+      this.producePlanNumber = val.planNumber
       this.personalForm.producePlanNumber = val.planNumber
       getBomByPlanNumber(this.personalForm.producePlanNumber, this.personalForm.produceRepositoryId).then(res => {
         if (res.data.ret === 200) {
@@ -313,7 +314,7 @@ export default {
     // 仓库回显
     repositoryname(val) {
       console.log(val)
-      this.$refs.editable.clear()
+      // this.$refs.editable.clear()
       this.produceRepositoryId = val.repositoryName
       this.personalForm.produceRepositoryId = val.id
     },

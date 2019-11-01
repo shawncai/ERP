@@ -8,12 +8,12 @@
           <el-row>
             <el-col :span="8">
               <el-form-item :label="$t('Storagemove.title')" style="width: 100%;">
-                <el-input v-model="personalForm.title" placeholder="请输入调拨单主题" style="margin-left: 18px;width:180px" clearable/>
+                <el-input v-model="personalForm.title" placeholder="请输入调拨单主题" style="margin-left: 18px;width:180px" disabled/>
               </el-form-item>
             </el-col>
             <el-col :span="8">
               <el-form-item :label="$t('Storagemove.applicationName')" prop="applyPersonId" style="width: 100%;">
-                <el-input v-model="applyPersonId" placeholder="请选择调拨申请人" style="margin-left: 18px;width:180px" clearable @focus="handlechooseAccept"/>
+                <el-input v-model="applyPersonId" placeholder="请选择调拨申请人" style="margin-left: 18px;width:180px" disabled @focus="handlechooseAccept"/>
               </el-form-item>
             </el-col>
             <my-accept :accetpcontrol.sync="accetpcontrol" @acceptName="acceptName"/>
@@ -30,18 +30,18 @@
               </el-col> -->
             <el-col :span="8">
               <el-form-item :label="$t('Storagemove.moveInRepository')" prop="moveInRepository" style="width: 100%;">
-                <el-input v-model="moveInRepository" placeholder="请选择调入仓库" style="margin-left: 18px;width:180px" clearable @focus="handlechooseDep"/>
+                <el-input v-model="moveInRepository" placeholder="请选择调入仓库" style="margin-left: 18px;width:180px" clearable disabled @focus="handlechooseDep"/>
               </el-form-item>
               <my-depot :depotcontrol.sync="depotcontrol" @depotname="depotname"/>
             </el-col>
             <el-col :span="8">
               <el-form-item :label="$t('Storagemove.moveOutRepository')" prop="moveOutRepository" style="width: 100%;">
-                <el-input v-model="moveOutRepository" placeholder="请选择调出仓库" style="margin-left: 18px;width: 180px" clearable @focus="handlechooseRep"/>
+                <el-input v-model="moveOutRepository" placeholder="请选择调出仓库" style="margin-left: 18px;width: 180px" clearable disabled @focus="handlechooseRep"/>
               </el-form-item>
               <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
             </el-col>
             <el-col :span="8">
-              <el-form-item :label="$t('Storagemove.requestArrivalDate')" label-width="110px" prop="requestArrivalDate" style="width: 100%;">
+              <el-form-item :label="$t('Storagemove.requestArrivalDate')" label-width="110px" prop="requestArrivalDate" disabled style="width: 100%;">
                 <el-date-picker
                   v-model="personalForm.requestArrivalDate"
                   type="date"
@@ -52,7 +52,7 @@
             </el-col>
             <el-col :span="8">
               <el-form-item :label="$t('Storagemove.moveReason')" style="width: 100%;">
-                <el-input v-model="personalForm.moveReason" placeholder="请输入调拨原因" style="margin-left: 18px;width:180px" clearable/>
+                <el-input v-model="personalForm.moveReason" placeholder="请输入调拨原因" style="margin-left: 18px;width:180px" disabled/>
               </el-form-item>
             </el-col>
             <!-- <el-col :span="6">
@@ -361,12 +361,13 @@ export default {
       this.applyPersonId = this.personalForm.applicationName
       this.list2 = this.personalForm.storageMoveDetailApplyVos
       this.list3 = this.personalForm.storageMoveDetailVos
+      this.personalForm.businessStat = String(this.personalForm.businessStat)
     },
     list3: {
       handler() {
         console.log(123123123123)
         console.log(this.personalForm.businessStat)
-        if (this.personalForm.businessStat === '2') {
+        if (this.personalForm.businessStat === '2' || this.personalForm.businessStat === 2) {
           console.log('监听开始')
           const reviewParms = {}
           reviewParms.id = this.id
@@ -391,7 +392,8 @@ export default {
           }
         }
       },
-      deep: true
+      deep: true,
+      immediate: true
     }
   },
   mounted() {

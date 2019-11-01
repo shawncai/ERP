@@ -474,8 +474,9 @@ export default {
         type: '',
         iseffective: '1',
         prefix: '',
-        dateType: '',
-        length: ''
+        dateType: 1,
+        length: '',
+        createid: this.$store.getters.userId
       }
     },
     // 新增数据

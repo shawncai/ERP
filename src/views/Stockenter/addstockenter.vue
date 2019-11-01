@@ -122,11 +122,11 @@
             <el-editable-column prop="productName" fixed align="center" label="物品名称" width="150px"/>
             <el-editable-column :edit-render="{type: 'visible'}" prop="locationId" align="center" label="货位" width="200px">
               <template slot="edit" slot-scope="scope">
-                <el-select v-model="scope.row.locationId" :value="scope.row.locationId" placeholder="请选择货位" filterable clearable style="width: 100%;" @visible-change="updatebatch($event,scope)">
+                <el-select v-model="scope.row.locationCode" :value="scope.row.locationCode" placeholder="请选择货位" filterable clearable style="width: 100%;" @visible-change="updatebatch($event,scope)">
                   <el-option
-                    v-for="(item, index) in locationlist"
-                    :key="index"
-                    :value="item.id"
+                    v-for="item in locationlist"
+                    :key="item.id"
+                    :value="item.locationCode"
                     :label="item.locationCode"/>
                 </el-select>
               </template>
@@ -495,7 +495,7 @@ export default {
       return objClone
     },
     // 保存操作
-    handlesave() {
+    async handlesave() {
       const rest = this.deepClone(this.$refs.editable.getRecords())
       console.log(rest)
       if (rest.length === 0) {
@@ -507,16 +507,101 @@ export default {
         return false
       }
       let i = 1
+      // rest.map(function(elem) {
+      //   return elem
+      // }).forEach(function(elem) {
+      //   if (elem.locationCode === null || elem.locationCode === '' || elem.locationCode === undefined) {
+      //     delete elem.locationId
+      //     i = 2
+      //   }
+      //   if (elem.batch === null || elem.batch === '' || elem.batch === undefined) {
+      //     delete elem.batch
+      //     i = 3
+      //   }
+      //   if (elem.productCode === null || elem.productCode === '' || elem.productCode === undefined) {
+      //     delete elem.productCode
+      //   }
+      //   if (elem.productName === null || elem.productName === '' || elem.productName === undefined) {
+      //     delete elem.productName
+      //   }
+      //   if (elem.color === null || elem.color === '' || elem.color === undefined) {
+      //     delete elem.color
+      //   }
+      //   if (elem.typeId === null || elem.typeId === '' || elem.typeId === undefined) {
+      //     delete elem.typeId
+      //   }
+      //   if (elem.unit === null || elem.unit === '' || elem.unit === undefined) {
+      //     delete elem.unit
+      //   }
+      //   if (elem.basicQuantity === null || elem.basicQuantity === '' || elem.basicQuantity === undefined) {
+      //     delete elem.basicQuantity
+      //   }
+      //   if (elem.actualEnterQuantity === null || elem.actualEnterQuantity === '' || elem.actualEnterQuantity === undefined) {
+      //     delete elem.actualEnterQuantity
+      //   }
+      //   if (elem.remarks === null || elem.remarks === '' || elem.remarks === undefined) {
+      //     delete elem.remarks
+      //   }
+      //   if (elem.enterPrice === null || elem.enterPrice === '' || elem.enterPrice === undefined) {
+      //     delete elem.enterPrice
+      //   }
+      //   if (elem.taxRate === null || elem.taxRate === '' || elem.taxRate === undefined) {
+      //     delete elem.taxRate
+      //   }
+      //   if (elem.enterMoney === null || elem.enterMoney === '' || elem.enterMoney === undefined) {
+      //     delete elem.enterMoney
+      //   }
+      //   return elem
+      // })
+      // if (i === 2) {
+      //   this.$notify.error({
+      //     title: '错误',
+      //     message: '入库商品货位不能为空',
+      //     offset: 100
+      //   })
+      //   return false
+      // }
+      // if (i === 3) {
+      //   this.$notify.error({
+      //     title: '错误',
+      //     message: '入库商品批次不能为空',
+      //     offset: 100
+      //   })
+      //   return false
+      // }
+      // const list = await Promise.all(rest.map(function(item) {
+      //   return locationlist(null, item.locationCode)
+      // }))
+
+      // console.log('list', list)
+
+      // const list2 = list.map(item => {
+      //   return item.data.data.content.list[0]
+      // })
+      // console.log('list2', list2)
+
+      // for (const a in list2) {
+      //   for (const b in EnterDetail2) {
+      //     if (list2[a].locationCode === EnterDetail2[b].locationCode) {
+      //       EnterDetail2[b].locationId = list2[a].id
+      //     }
+      //   }
+      // }
       rest.map(function(elem) {
         return elem
       }).forEach(function(elem) {
+        locationlist(null, elem.locationCode).then(res => {
+          if (res.data.ret === 200) {
+            elem.locationId = res.data.data.content.list[0].id
+            console.log('res.data.data.content.list[0].id', res.data.data.content.list[0].id)
+            console.log('elem.locationId', elem.locationId)
+          }
+        })
+        if (elem.locationCode === null || elem.locationCode === '' || elem.locationCode === undefined) {
+          i = 4
+        }
         if (elem.locationId === null || elem.locationId === '' || elem.locationId === undefined) {
           delete elem.locationId
-          i = 2
-        }
-        if (elem.batch === null || elem.batch === '' || elem.batch === undefined) {
-          delete elem.batch
-          i = 3
         }
         if (elem.productCode === null || elem.productCode === '' || elem.productCode === undefined) {
           delete elem.productCode
@@ -533,38 +618,30 @@ export default {
         if (elem.unit === null || elem.unit === '' || elem.unit === undefined) {
           delete elem.unit
         }
-        if (elem.basicQuantity === null || elem.basicQuantity === '' || elem.basicQuantity === undefined) {
-          delete elem.basicQuantity
+        if (elem.quantity === null || elem.quantity === '' || elem.quantity === undefined) {
+          delete elem.quantity
         }
-        if (elem.actualEnterQuantity === null || elem.actualEnterQuantity === '' || elem.actualEnterQuantity === undefined) {
-          delete elem.actualEnterQuantity
+        if (elem.price === null || elem.price === '' || elem.price === undefined) {
+          delete elem.price
+        }
+        if (elem.totalMoney === null || elem.totalMoney === '' || elem.totalMoney === undefined) {
+          delete elem.totalMoney
         }
         if (elem.remarks === null || elem.remarks === '' || elem.remarks === undefined) {
           delete elem.remarks
         }
-        if (elem.enterPrice === null || elem.enterPrice === '' || elem.enterPrice === undefined) {
-          delete elem.enterPrice
+        if (elem.typeIdname === null || elem.typeIdname === '' || elem.typeIdname === undefined) {
+          delete elem.typeIdname
         }
-        if (elem.taxRate === null || elem.taxRate === '' || elem.taxRate === undefined) {
-          delete elem.taxRate
-        }
-        if (elem.enterMoney === null || elem.enterMoney === '' || elem.enterMoney === undefined) {
-          delete elem.enterMoney
+        if (elem.productType === null || elem.productType === '' || elem.productType === undefined) {
+          delete elem.productType
         }
         return elem
       })
-      if (i === 2) {
+      if (i === 4) {
         this.$notify.error({
           title: '错误',
-          message: '入库商品货位不能为空',
-          offset: 100
-        })
-        return false
-      }
-      if (i === 3) {
-        this.$notify.error({
-          title: '错误',
-          message: '入库商品批次不能为空',
+          message: '商品货位不能为空',
           offset: 100
         })
         return false

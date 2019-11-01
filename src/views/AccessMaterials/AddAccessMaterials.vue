@@ -308,9 +308,12 @@ export default {
     },
     // 获取规格
     getTypeName(row) {
-      searchEmpCategory2(row.typeId).then(res => {
+      console.log('查询数据', row)
+      searchEmpCategory2(row.typeId || 0).then(res => {
+        console.log('原始', row)
         if (res.data.ret === 200) {
           row.productType = res.data.data.content.list[0].categoryName
+          console.log('2222222', row, row.productType)
         }
       })
       return row.productType

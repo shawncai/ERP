@@ -362,16 +362,17 @@ export default {
     getSize(quan, pric) {
       return quan * pric
     },
-    getquantity(sco) {
+    async getquantity(sco) {
       const parms2 = sco.locationId
       const parms3 = sco.productCode
       const parms4 = sco.batch
       if (parms4 !== '' && parms4 !== null && parms4 !== undefined && parms2 !== '' && parms2 !== null && parms2 !== undefined) {
-        getQuantity(this.personalForm.countRepositoryId, parms2, parms3, parms4).then(res => {
+        await getQuantity(this.personalForm.countRepositoryId, parms2, parms3, parms4).then(res => {
           this.out = res.data.data.content
-          sco.inventoryQuantity = res.data.data.content
+          // sco.inventoryQuantity = res.data.data.content
         })
-        return this.out
+        console.log('111112222222222', this.out)
+        return 'aaaaaaaa'
       } else {
         this.out = 0
         return this.out

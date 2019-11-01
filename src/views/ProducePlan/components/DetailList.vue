@@ -63,6 +63,7 @@
             <el-editable-column prop="productCode" fixed="left" align="center" label="物品编号" />
             <el-editable-column prop="productName" fixed="left" align="center" label="物品名称" />
             <el-editable-column prop="productType" align="center" label="规格" />
+            <el-editable-column prop="workCenter" align="center" label="工作中心" />
             <el-editable-column prop="unit" align="center" label="单位" />
             <el-editable-column prop="requireQuantity" align="center" label="需求数量" />
             <el-editable-column prop="planQuantity" align="center" label="计划生产数量" />

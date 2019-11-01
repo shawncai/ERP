@@ -471,14 +471,6 @@ export default {
         this.personalForm.endTime = this.Time[1]
       }
       const EnterDetail = this.$refs.editable.getRecords()
-      if (EnterDetail.length === 0) {
-        this.$notify.error({
-          title: '错误',
-          message: '明细表不能为空',
-          offset: 100
-        })
-        return false
-      }
       EnterDetail.map(function(elem) {
         return elem
       }).forEach(function(elem) {

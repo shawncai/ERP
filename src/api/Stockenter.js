@@ -147,7 +147,9 @@ export function addstockenter(query, query2) {
 //  修改采购入库
 export function updatestockenter(query, query2) {
   var params = new URLSearchParams()
-  params.append('stockEnterDetailJson', query2) // 你要传给后台的参数值 key/value
+  if (query2 !== '' && query2 !== null && query2 !== undefined) {
+    params.append('stockEnterDetailJson', query2) // 你要传给后台的参数值 key/value
+  }
   if (query.id !== '' && query.id !== null && query.id !== undefined) {
     params.append('enterId', query.id) // 你要传给后台的参数值 key/value
   }

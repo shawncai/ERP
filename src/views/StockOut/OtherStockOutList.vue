@@ -135,6 +135,7 @@
         </el-table-column>
         <el-table-column :label="$t('public.actions')" :resizable="false" align="center" min-width="230">
           <template slot-scope="scope">
+            <el-button v-permission="['131-138-140-98']" v-show="scope.row.judgeStat === 2&&scope.row.confirmPersonId === null" title="确认" type="primary" size="mini" icon="el-icon-check" circle @click="handleEdit2(scope.row)"/>
             <el-button v-permission="['131-138-140-3']" v-show="scope.row.judgeStat === 0" type="primary" size="mini" @click="handleEdit(scope.row)">{{ $t('public.edit') }}</el-button>
             <el-button v-show="isReview(scope.row)" type="warning" size="mini" @click="handleReview(scope.row)">{{ $t('public.review') }}</el-button>
             <el-button v-permission="['131-138-140-76']" v-show="isReview4(scope.row)" title="反审批" type="warning" size="mini" circle @click="handleReview4(scope.row)"><svg-icon icon-class="fanhui"/></el-button>
@@ -241,6 +242,28 @@ export default {
     this.getlist()
   },
   methods: {
+    // 确认操作
+    handleEdit2(row) {
+      this.reviewParms = {}
+      this.reviewParms.id = row.id
+      this.reviewParms.confirmPersonId = this.$store.getters.userId
+      this.$confirm('是否确认货物已经出库', '确认', {
+        distinguishCancelAndClose: true,
+        confirmButtonText: '确认',
+        type: 'warning'
+      }).then(() => {
+        const parms = JSON.stringify(this.reviewParms)
+        updateotherenter2(parms).then(res => {
+          if (res.data.ret === 200) {
+            this.$message({
+              type: 'success',
+              message: '确认成功!'
+            })
+            this.getlist()
+          }
+        })
+      })
+    },
     // 判断反审批按钮
     isReview4(row) {
       console.log(row)

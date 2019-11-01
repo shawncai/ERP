@@ -265,6 +265,7 @@ export default {
           productCode: item.productCode,
           productName: item.productName,
           productType: item.productType,
+          typeId: item.typeId,
           unit: item.unit,
           produceQuantity: item.planQuantity,
           sourceNumber: num,

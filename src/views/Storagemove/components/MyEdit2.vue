@@ -388,7 +388,7 @@ export default {
       handler() {
         console.log(123123123123)
         console.log(this.personalForm.businessStat)
-        if (this.personalForm.businessStat === 3) {
+        if (this.personalForm.businessStat === 3 || this.personalForm.businessStat === '3') {
           console.log('监听开始')
           const reviewParms = {}
           reviewParms.id = this.id
@@ -412,7 +412,8 @@ export default {
           }
         }
       },
-      deep: true
+      deep: true,
+      immediate: true
     }
   },
   mounted() {

@@ -658,7 +658,7 @@ export default {
         if (elem.productCode === null || elem.productCode === '' || elem.productCode === undefined) {
           delete elem.productCode
         }
-        if (elem.batch === null || elem.batch === '' || elem.batch === undefined) {
+        if (elem.batch === null || elem.batch === '' || elem.batch === undefined || elem.batch === '不使用') {
           delete elem.batch
         }
         if (elem.productName === null || elem.productName === '' || elem.productName === undefined) {
