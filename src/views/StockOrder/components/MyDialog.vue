@@ -1123,6 +1123,48 @@ export default {
               })
               return false
             }
+            let ll = 1
+            console.log('ll', ll)
+            EnterDetail.map(function(elem) {
+              return elem
+            }).forEach(function(elem) {
+              if (elem.stockQuantity === 0) {
+                ll = 2
+              }
+            })
+            console.log('ll', ll)
+            if (ll === 2) {
+              this.$notify.error({
+                title: '错误',
+                message: '采购数量不能为0',
+                offset: 100
+              })
+              return false
+            }
+            let ll2 = 1
+            console.log('ll2', ll2)
+            const date = this.personalForm.orderDate
+            EnterDetail.map(function(elem) {
+              return elem
+            }).forEach(function(elem) {
+              console.log('elem.deliveryDate', elem.deliveryDate)
+              console.log('elem.deliveryDate', Date.parse(elem.deliveryDate))
+              console.log('this.personalForm.orderDate', date)
+              console.log('this.personalForm.orderDate', Date.parse(date))
+              if (Date.parse(elem.deliveryDate) < Date.parse(date)) {
+                ll2 = 2
+              }
+              console.log('ll2', ll2)
+            })
+            console.log('ll2', ll2)
+            if (ll2 === 2) {
+              this.$notify.error({
+                title: '错误',
+                message: '交货日期不能早于下单日期',
+                offset: 100
+              })
+              return false
+            }
             EnterDetail.map(function(elem) {
               return elem
             }).forEach(function(elem) {

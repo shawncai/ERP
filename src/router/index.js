@@ -1185,12 +1185,6 @@ export const asyncRouterMap = [
         meta: { title: 'Enterlist', noCache: true, roles: ['131-163-166-1', '131-163-166-2', '131-163-166-3', '131-163-166-4', '131-163-166-5', '131-163-166-6', '131-163-166-7', '131-163-166-18', '131-163-166-16', '131-163-166-17'] }
       },
       {
-        path: 'Inventorydetaillist',
-        component: () => import('@/views/WarehouseAdjust/Inventorydetaillist'),
-        name: 'Inventorydetaillist',
-        meta: { title: 'Inventorydetaillist', noCache: true }
-      },
-      {
         path: 'endmonth',
         component: () => import('@/views/WarehouseAdjust/endmonth'),
         name: 'endmonth',
@@ -2841,44 +2835,45 @@ export const asyncRouterMap = [
     meta: {
       title: 'inventorycount',
       icon: 'shuxing',
-      type: 12
+      type: 12,
+      roles: ['311-312-318-4', '311-312-319-4', '311-312-320-4', '311-312-321-4', '311-312-322-4', '311-312-323-4']
     },
     children: [
       {
         path: 'inventoryCollect',
         component: () => import('@/views/inventorycount2/inventoryCollect'),
         name: 'inventoryCollect',
-        meta: { title: 'inventoryCollect', noCache: true }
+        meta: { title: 'inventoryCollect', noCache: true, roles: ['311-312-318-4'] }
       },
       {
         path: 'moveDetailList',
         component: () => import('@/views/inventorycount2/moveDetailList'),
         name: 'moveDetailList',
-        meta: { title: 'moveDetailList', noCache: true }
+        meta: { title: 'moveDetailList', noCache: true, roles: ['311-312-319-4'] }
       },
       {
         path: 'inventoryFluid',
         component: () => import('@/views/inventorycount2/inventoryFluid'),
         name: 'inventoryFluid',
-        meta: { title: 'inventoryFluid', noCache: true }
+        meta: { title: 'inventoryFluid', noCache: true, roles: ['311-312-320-4'] }
       },
       {
         path: 'productSendAndReceive',
         component: () => import('@/views/inventorycount2/productSendAndReceive'),
         name: 'productSendAndReceive',
-        meta: { title: 'productSendAndReceive', noCache: true }
+        meta: { title: 'productSendAndReceive', noCache: true, roles: ['311-312-321-4'] }
       },
       {
         path: 'inventorychangelist',
         component: () => import('@/views/inventorycount2/inventorychangelist'),
         name: 'inventorychangelist',
-        meta: { title: 'inventorychangelist', noCache: true }
+        meta: { title: 'inventorychangelist', noCache: true, roles: ['311-312-322-4'] }
       },
       {
-        path: 'inventorydetaillist',
-        component: () => import('@/views/inventorycount2/inventorydetaillist'),
-        name: 'inventorydetaillist',
-        meta: { title: 'inventorydetaillist', noCache: true }
+        path: 'Inventorydetaillist',
+        component: () => import('@/views/inventorycount2/Inventorydetaillist'),
+        name: 'Inventorydetaillist',
+        meta: { title: 'Inventorydetaillist', noCache: true, roles: ['311-312-323-4'] }
       }
     ]
   },
@@ -2891,32 +2886,33 @@ export const asyncRouterMap = [
     meta: {
       title: 'SaleReport',
       icon: 'shuxing',
-      type: 12
+      type: 12,
+      roles: ['311-313-324-4', '311-313-325-4', '311-313-326-4', '311-313-327-4']
     },
     children: [
       {
         path: 'searchSaleOrderReport',
         component: () => import('@/views/SaleReport/searchSaleOrderReport'),
         name: 'searchSaleOrderReport',
-        meta: { title: 'searchSaleOrderReport', noCache: true }
+        meta: { title: 'searchSaleOrderReport', noCache: true, roles: ['311-313-324-4'] }
       },
       {
         path: 'searchSaleOrderDetailReport',
         component: () => import('@/views/SaleReport/searchSaleOrderDetailReport'),
         name: 'searchSaleOrderDetailReport',
-        meta: { title: 'searchSaleOrderDetailReport', noCache: true }
+        meta: { title: 'searchSaleOrderDetailReport', noCache: true, roles: ['311-313-325-4'] }
       },
       {
         path: 'searchSaleReport',
         component: () => import('@/views/SaleReport/searchSaleReport'),
         name: 'searchSaleReport',
-        meta: { title: 'searchSaleReport', noCache: true }
+        meta: { title: 'searchSaleReport', noCache: true, roles: ['311-313-326-4'] }
       },
       {
         path: 'saleBillList',
         component: () => import('@/views/SaleReport/saleBillList'),
         name: 'saleBillList',
-        meta: { title: 'saleBillList', noCache: true }
+        meta: { title: 'saleBillList', noCache: true, roles: ['311-313-327-4'] }
       }
       // ,
       // {
@@ -2984,20 +2980,21 @@ export const asyncRouterMap = [
     meta: {
       title: 'Financecount',
       icon: 'shuxing',
-      type: 12
+      type: 12,
+      roles: ['311-314-328-4', '311-314-329-4']
     },
     children: [
       {
         path: 'shouldPayCount',
         component: () => import('@/views/Financecount/shouldPayCount'),
         name: 'shouldPayCount',
-        meta: { title: 'shouldPayCount', noCache: true }
+        meta: { title: 'shouldPayCount', noCache: true, roles: ['311-314-328-4'] }
       },
       {
         path: 'shouldPayDetail',
         component: () => import('@/views/Financecount/shouldPayDetail'),
         name: 'shouldPayDetail',
-        meta: { title: 'shouldPayDetail', noCache: true }
+        meta: { title: 'shouldPayDetail', noCache: true, roles: ['311-314-329-4'] }
       }
     ]
   },
@@ -3010,26 +3007,27 @@ export const asyncRouterMap = [
     meta: {
       title: 'countProduce',
       icon: 'shuxing',
-      type: 12
+      type: 12,
+      roles: ['311-315-330-4', '311-315-331-4', '311-315-332-4']
     },
     children: [
       {
         path: 'accessStatus',
         component: () => import('@/views/countProduce/accessStatus'),
         name: 'accessStatus',
-        meta: { title: 'accessStatus', noCache: true }
+        meta: { title: 'accessStatus', noCache: true, roles: ['311-315-330-4'] }
       },
       {
         path: 'failReasonCount',
         component: () => import('@/views/countProduce/failReasonCount'),
         name: 'failReasonCount',
-        meta: { title: 'failReasonCount', noCache: true }
+        meta: { title: 'failReasonCount', noCache: true, roles: ['311-315-331-4'] }
       },
       {
         path: 'produceFailCount',
         component: () => import('@/views/countProduce/produceFailCount'),
         name: 'produceFailCount',
-        meta: { title: 'produceFailCount', noCache: true }
+        meta: { title: 'produceFailCount', noCache: true, roles: ['311-315-332-4'] }
       }
     ]
   },
@@ -3042,32 +3040,33 @@ export const asyncRouterMap = [
     meta: {
       title: 'installmentCount',
       icon: 'shuxing',
-      type: 12
+      type: 12,
+      roles: ['311-316-333-4', '311-316-334-4', '311-316-335-4', '311-316-336-4']
     },
     children: [
       {
         path: 'installmentComplete',
         component: () => import('@/views/installmentCount/installmentComplete'),
         name: 'installmentComplete',
-        meta: { title: 'installmentComplete', noCache: true }
+        meta: { title: 'installmentComplete', noCache: true, roles: ['311-316-333-4'] }
       },
       {
         path: 'recoveryCarDetail',
         component: () => import('@/views/installmentCount/recoveryCarDetail'),
         name: 'recoveryCarDetail',
-        meta: { title: 'recoveryCarDetail', noCache: true }
+        meta: { title: 'recoveryCarDetail', noCache: true, roles: ['311-316-334-4'] }
       },
       {
         path: 'installmentPayList',
         component: () => import('@/views/installmentCount/installmentPayList'),
         name: 'installmentPayList',
-        meta: { title: 'installmentPayList', noCache: true }
+        meta: { title: 'installmentPayList', noCache: true, roles: ['311-316-335-4'] }
       },
       {
         path: 'installmentAnalyze',
         component: () => import('@/views/installmentCount/installmentAnalyze'),
         name: 'installmentAnalyze',
-        meta: { title: 'installmentAnalyze', noCache: true }
+        meta: { title: 'installmentAnalyze', noCache: true, roles: ['311-316-336-4'] }
       }
     ]
   },
@@ -3080,44 +3079,45 @@ export const asyncRouterMap = [
     meta: {
       title: 'Stockcount',
       icon: 'shuxing',
-      type: 12
+      type: 12,
+      roles: ['311-317-337-4', '311-317-338-4', '311-317-339-4', '311-317-340-4', '311-317-341-4', '311-317-342-4', '311-317-343-4', '311-317-344-4', '311-317-345-4']
     },
     children: [
       {
         path: 'stockOrderCount',
         component: () => import('@/views/StockCount/stockOrderCount'),
         name: 'stockOrderCount',
-        meta: { title: 'stockOrderCount', noCache: true }
+        meta: { title: 'stockOrderCount', noCache: true, roles: ['311-317-337-4'] }
       },
       {
         path: 'stockDetailCount',
         component: () => import('@/views/StockCount/stockDetailCount'),
         name: 'stockDetailCount',
-        meta: { title: 'stockDetailCount', noCache: true }
+        meta: { title: 'stockDetailCount', noCache: true, roles: ['311-317-338-4'] }
       },
       {
         path: 'stockBillCount',
         component: () => import('@/views/StockCount/stockBillCount'),
         name: 'stockBillCount',
-        meta: { title: 'stockBillCount', noCache: true }
+        meta: { title: 'stockBillCount', noCache: true, roles: ['311-317-339-4'] }
       },
       {
         path: 'stockBillList',
         component: () => import('@/views/StockCount/stockBillList'),
         name: 'stockBillList',
-        meta: { title: 'stockBillList', noCache: true }
+        meta: { title: 'stockBillList', noCache: true, roles: ['311-317-340-4'] }
       },
       {
         path: 'stockTrackList',
         component: () => import('@/views/StockCount/stockTrackList'),
         name: 'stockTrackList',
-        meta: { title: 'stockTrackList', noCache: true }
+        meta: { title: 'stockTrackList', noCache: true, roles: ['311-317-341-4'] }
       },
       {
         path: 'supplierPunishmentCount',
         component: () => import('@/views/StockCount/supplierPunishmentCount'),
         name: 'supplierPunishmentCount',
-        meta: { title: 'supplierPunishmentCount', noCache: true }
+        meta: { title: 'supplierPunishmentCount', noCache: true, roles: ['311-317-342-4'] }
       },
       {
         path: 'supplierPunishmentCountDetail',
@@ -3130,19 +3130,19 @@ export const asyncRouterMap = [
         path: 'productStockFluid',
         component: () => import('@/views/StockCount/productStockFluid'),
         name: 'productStockFluid',
-        meta: { title: 'productStockFluid', noCache: true }
+        meta: { title: 'productStockFluid', noCache: true, roles: ['311-317-343-4'] }
       },
       {
         path: 'stockpricelist',
         component: () => import('@/views/StockCount/stockpricelist'),
         name: 'stockpricelist',
-        meta: { title: 'stockpricelist', noCache: true }
+        meta: { title: 'stockpricelist', noCache: true, roles: ['311-317-344-4'] }
       },
       {
         path: 'stockOrderExecute',
         component: () => import('@/views/StockCount/stockOrderExecute'),
         name: 'stockOrderExecute',
-        meta: { title: 'stockOrderExecute', noCache: true }
+        meta: { title: 'stockOrderExecute', noCache: true, roles: ['311-317-345-4'] }
       }
     ]
   },

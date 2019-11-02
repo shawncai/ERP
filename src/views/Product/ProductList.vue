@@ -158,7 +158,7 @@
             <el-button v-permission="['1-31-33-14']" v-show="scope.row.isActive === 2" title="上架" type="primary" size="mini" icon="el-icon-caret-top" circle @click="top(scope.row)"/>
             <el-button v-permission="['1-31-33-15']" v-show="scope.row.isActive === 1" title="下架" type="primary" size="mini" icon="el-icon-caret-bottom" circle @click="bottom(scope.row)"/>
             <el-button v-permission2="['1-31-33-3', scope.row.createPersonId]" title="修改" type="primary" size="mini" icon="el-icon-edit" circle @click="handleEdit(scope.row)"/>
-            <el-button v-permission2="['1-31-33-2', scope.row.createPersonId]" title="删除" size="mini" type="danger" icon="el-icon-delete" circle @click="handleDelete(scope.row)"/>
+            <!-- <el-button v-permission2="['1-31-33-2', scope.row.createPersonId]" title="删除" size="mini" type="danger" icon="el-icon-delete" circle @click="handleDelete(scope.row)"/> -->
           </template>
         </el-table-column>
       </el-table>
