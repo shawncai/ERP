@@ -18,6 +18,20 @@ export function updatestat(query, query2) {
 export function searchEmpCategory2(query) {
   var params = new URLSearchParams()
   if (query !== '' && query !== null) {
+    params.append('type', query) // 你要传给后台的参数值 key/value
+  }
+  params.append('pagenum', 1) // 你要传给后台的参数值 key/value
+  params.append('pagesize', 99999) // 你要传给后台的参数值 key/value
+  return request({
+    url: '/product/searchProCategory',
+    method: 'post',
+    data: params
+  })
+}
+
+export function searchEmpCategory3(query) {
+  var params = new URLSearchParams()
+  if (query !== '' && query !== null) {
     params.append('id', query) // 你要传给后台的参数值 key/value
   }
   params.append('pagenum', 1) // 你要传给后台的参数值 key/value

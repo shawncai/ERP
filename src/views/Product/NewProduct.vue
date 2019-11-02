@@ -434,7 +434,7 @@
 <script>
 import '@/directive/noMoreClick/index.js'
 import { searchUnitGroup } from '@/api/UnitGroup'
-import { createnewproduct, searchEmpCategory2, searchMea } from '@/api/Product'
+import { createnewproduct, searchMea, searchEmpCategory3 } from '@/api/Product'
 import permission from '@/directive/permission/index.js' // 权限判断指令
 import permission2 from '@/directive/permission2/index.js' // 权限判断指令
 import checkPermission from '@/utils/permission' // 权限判断函数
@@ -847,62 +847,62 @@ export default {
     },
     getcategorys() {
       // 物品品牌数据
-      searchEmpCategory2(1).then(res => {
+      searchEmpCategory3(1).then(res => {
         console.log(res)
         if (res.data.ret === 200) {
           this.brands = res.data.data.content.list
         }
       })
       // 规格型号数据
-      searchEmpCategory2(2).then(res => {
+      searchEmpCategory3(2).then(res => {
         if (res.data.ret === 200) {
           this.types = res.data.data.content.list
         }
       })
       // 档次级别
-      searchEmpCategory2(3).then(res => {
+      searchEmpCategory3(3).then(res => {
         if (res.data.ret === 200) {
           this.levels = res.data.data.content.list
         }
       })
       // 物品颜色
-      searchEmpCategory2(4).then(res => {
+      searchEmpCategory3(4).then(res => {
         if (res.data.ret === 200) {
           this.colors = res.data.data.content.list
         }
       })
       // 物品配置
-      searchEmpCategory2(5).then(res => {
+      searchEmpCategory3(5).then(res => {
         if (res.data.ret === 200) {
           this.disposes = res.data.data.content.list
         }
       })
       // 物品版本
-      searchEmpCategory2(6).then(res => {
+      searchEmpCategory3(6).then(res => {
         if (res.data.ret === 200) {
           this.versions = res.data.data.content.list
         }
       })
       // 直径规格
-      searchEmpCategory2(7).then(res => {
+      searchEmpCategory3(7).then(res => {
         if (res.data.ret === 200) {
           this.diameters = res.data.data.content.list
         }
       })
       // 直径规格
-      searchEmpCategory2(8).then(res => {
+      searchEmpCategory3(8).then(res => {
         if (res.data.ret === 200) {
           this.lengthLevels = res.data.data.content.list
         }
       })
       // 表面处理
-      searchEmpCategory2(9).then(res => {
+      searchEmpCategory3(9).then(res => {
         if (res.data.ret === 200) {
           this.faces = res.data.data.content.list
         }
       })
       // 性能等级
-      searchEmpCategory2(10).then(res => {
+      searchEmpCategory3(10).then(res => {
         if (res.data.ret === 200) {
           this.performanceLevels = res.data.data.content.list
         }

@@ -2,7 +2,7 @@
   <el-dialog :visible.sync="repositoryVisible" :repositorycontrol="repositorycontrol" :close-on-press-escape="false" top="10px" title="选择仓库" append-to-body @close="$emit('update:repositorycontrol', false)">
     <div class="filter-container">
       <!-- 搜索条件栏目 -->
-      <el-input v-model="getemplist.id" :placeholder="$t('Repository.id')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
+      <!-- <el-input v-model="getemplist.id" :placeholder="$t('Repository.id')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
       <el-input v-model="getemplist.repositoryName" :placeholder="$t('Repository.repositoryname')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
       <el-select v-model="getemplist.type" :value="getemplist.type" :placeholder="$t('Repository.type2')" class="filter-item" clearable>
         <el-option
@@ -33,11 +33,11 @@
           :key="index"
           :label="item.name"
           :value="item.id"/>
-      </el-select>
+      </el-select> -->
       <!-- 搜索按钮 -->
-      <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 86px" @click="handleFilter">{{ $t('public.search') }}</el-button>
+      <!-- <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 86px" @click="handleFilter">{{ $t('public.search') }}</el-button> -->
       <!-- 新建操作 -->
-      <el-button v-waves class="filter-item" icon="el-icon-plus" type="success" style="width: 86px;float: right" @click="handleAdd">{{ $t('public.add') }}</el-button>
+      <!-- <el-button v-waves class="filter-item" icon="el-icon-plus" type="success" style="width: 86px;float: right" @click="handleAdd">{{ $t('public.add') }}</el-button> -->
     </div>
     <!-- 列表开始 -->
     <el-table
@@ -47,6 +47,7 @@
       border
       fit
       highlight-current-row
+      max-height="250"
       style="width: 100%;"
       @current-change="handleCurrentChange">
       <el-table-column :label="$t('Repository.id')" :resizable="false" prop="id" align="center" width="100">
@@ -59,26 +60,26 @@
           <span>{{ scope.row.repositoryName }}</span>
         </template>
       </el-table-column>
-      <el-table-column :label="$t('Repository.type2')" :resizable="false" prop="categoryName" align="center" width="230">
+      <!-- <el-table-column :label="$t('Repository.type2')" :resizable="false" prop="categoryName" align="center" width="230">
         <template slot-scope="scope">
           <span>{{ scope.row.categoryName }}</span>
         </template>
-      </el-table-column>
+      </el-table-column> -->
       <el-table-column :label="$t('Repository.iseffective')" :resizable="false" prop="stat" align="center" width="230">
         <template slot-scope="scope">
           <span>{{ scope.row.stat | iseffectiveFilter }}</span>
         </template>
       </el-table-column>
-      <el-table-column :label="$t('Repository.managerPeople')" :resizable="false" align="center" width="200">
+      <!-- <el-table-column :label="$t('Repository.managerPeople')" :resizable="false" align="center" width="200">
         <template slot-scope="scope">
           <span>{{ scope.row.managerName }}</span>
         </template>
-      </el-table-column>
-      <el-table-column :label="$t('Repository.regionId')" :resizable="false" prop="regionName" align="center" width="250">
+      </el-table-column> -->
+      <!-- <el-table-column :label="$t('Repository.regionId')" :resizable="false" prop="regionName" align="center" width="250">
         <template slot-scope="scope">
           <span>{{ scope.row.regionName }}</span>
         </template>
-      </el-table-column>
+      </el-table-column> -->
     </el-table>
     <!-- 列表结束 -->
     <el-button v-waves class="filter-item" type="success" style="width: 100px;float: left;margin-top: 10px" @click="handleConfirm">确认添加</el-button>
@@ -89,6 +90,7 @@
 <script>
 import { regionlist, getcountrylist } from '@/api/public'
 import { searchRepCategory, searchRepository2 } from '@/api/Repository'
+import { searchmoverepository } from '@/api/Storagemove'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
 export default {
@@ -114,10 +116,15 @@ export default {
     repositorycontrol: {
       type: Boolean,
       default: false
+    },
+    personform: {
+      type: Object,
+      default: null
     }
   },
   data() {
     return {
+      searchlist: this.personform,
       // 转化数据
       choosedata: '',
       // 仓库弹窗控制
@@ -138,17 +145,8 @@ export default {
       listLoading: true,
       // 仓库列表查询加展示参数
       getemplist: {
-        repositoryName: '',
-        type: '',
-        iseffective: '',
-        regionId: '',
-        countyrId: '',
-        id: '',
-        stat: 1,
-        loginRepositoryId: this.$store.getters.repositoryId,
-        regionIds: this.$store.getters.regionId,
-        pagenum: 1,
-        pagesize: 10
+        pageNum: 1,
+        pageSize: 10
       },
       // 部门列表
       depts: [],
@@ -168,6 +166,10 @@ export default {
     repositorycontrol() {
       this.repositoryVisible = this.repositorycontrol
       this.getlist()
+    },
+    searchlist() {
+      this.searchlist = this.personform
+      this.getlist()
     }
   },
   methods: {
@@ -180,10 +182,11 @@ export default {
       })
       // 仓库列表数据
       this.listLoading = true
-      searchRepository2(this.getemplist).then(res => {
+      this.getemplist.emoloyeeId = this.searchlist.applyPersonId
+      searchmoverepository(this.getemplist).then(res => {
         if (res.data.ret === 200) {
-          this.list = res.data.data.content.list
-          this.total = res.data.data.content.totalCount
+          this.list = res.data.data.content.list[0].repositories
+          this.total = res.data.data.content.list[0].repositories.length
         }
         setTimeout(() => {
           this.listLoading = false

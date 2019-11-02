@@ -1411,7 +1411,7 @@ export default {
     confirmOutDate: '确认出库日期',
     confirmInDate: '确认入库日期',
     confirmInPerson: '确认入库人',
-    moveperson: '人员名称',
+    moveperson: '员工名称',
     repostiryName: '仓库名称',
     repostiryId: '仓库编号'
 

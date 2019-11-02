@@ -234,6 +234,12 @@ export default {
         ],
         damagedQuantity: [
           { required: true, message: '请输入报损数量', trigger: 'change' }
+        ],
+        locationId: [
+          { required: true, message: '请选择货位', trigger: 'change' }
+        ],
+        batch: [
+          { required: true, message: '请选择批次', trigger: 'change' }
         ]
       },
       // 库存报损单信息数据

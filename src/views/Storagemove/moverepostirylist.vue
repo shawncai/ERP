@@ -32,7 +32,7 @@
       <!-- 打印操作 -->
       <el-button v-waves class="filter-item" icon="el-icon-printer" style="width: 86px" @click="handlePrint">{{ $t('public.print') }}</el-button>
       <!-- 新建操作 -->
-      <el-button v-permission="['227-260-1']" v-waves class="filter-item" icon="el-icon-plus" type="success" style="width: 86px" @click="handleAdd">{{ $t('public.add') }}</el-button>
+      <el-button v-permission="['131-141-359-1']" v-waves class="filter-item" icon="el-icon-plus" type="success" style="width: 86px" @click="handleAdd">{{ $t('public.add') }}</el-button>
       <el-dialog :visible.sync="categoryVisible" title="新建仓库配置" class="normal" width="600px" center>
         <el-form ref="addCategoryForm" :rules="addCategoryFormRules" :model="addCategoryForm" class="demo-ruleForm" style="margin: 0 auto; width: 400px">
           <el-form-item :label="$t('Storagemove.moveperson')" label-width="100px" prop="personName">
@@ -110,7 +110,7 @@
             <span v-else>{{ scope.row.repositories[0].repositoryName }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('CheckSet.itemId')" :resizable="false" align="center" min-width="200">
+        <el-table-column :label="$t('Storagemove.moveperson')" :resizable="false" align="center" min-width="200">
           <template slot-scope="scope">
             <span>{{ scope.row.employeeName }}</span>
           </template>
@@ -132,8 +132,8 @@
         </el-table-column>
         <el-table-column :label="$t('public.actions')" :resizable="false" align="center" min-width="200">
           <template slot-scope="scope">
-            <el-button v-permission2="['227-260-3', scope.row.createPersonId]" type="primary" size="mini" @click="handleEdit(scope.row)" >{{ $t('public.edit') }}</el-button>
-            <el-button v-permission2="['227-260-2', scope.row.createPersonId]" size="mini" type="danger" @click="handleDelete(scope.row)">{{ $t('public.delete') }}</el-button>
+            <el-button v-permission2="['131-141-359-2', scope.row.createPersonId]" type="primary" size="mini" @click="handleEdit(scope.row)" >{{ $t('public.edit') }}</el-button>
+            <el-button v-permission2="['131-141-359-3', scope.row.createPersonId]" size="mini" type="danger" @click="handleDelete(scope.row)">{{ $t('public.delete') }}</el-button>
           </template>
         </el-table-column>
       </el-table>

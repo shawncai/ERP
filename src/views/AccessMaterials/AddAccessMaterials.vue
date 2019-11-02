@@ -150,7 +150,7 @@
 import '@/directive/noMoreClick/index.js'
 import { getDetailByTaskNumber, addaccessmaterials } from '@/api/AccessMaterials'
 import { materialslist, searchprocessFile, searchworkCenter, batchlist, getlocation, searchMea } from '@/api/public'
-import { searchEmpCategory2 } from '@/api/Product'
+import { searchEmpCategory3 } from '@/api/Product'
 import { getdeptlist } from '@/api/BasicSettings'
 import MyDetail from './components/MyDetail'
 import MyRepository from './components/MyRepository'
@@ -309,7 +309,7 @@ export default {
     // 获取规格
     getTypeName(row) {
       console.log('查询数据', row)
-      searchEmpCategory2(row.typeId || 0).then(res => {
+      searchEmpCategory3(row.typeId || 0).then(res => {
         console.log('原始', row)
         if (res.data.ret === 200) {
           row.productType = res.data.data.content.list[0].categoryName

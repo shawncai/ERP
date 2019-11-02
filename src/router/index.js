@@ -830,13 +830,13 @@ export const asyncRouterMap = [
         path: 'StoragemoveList',
         component: () => import('@/views/Storagemove/StoragemoveList'),
         name: 'StoragemoveList',
-        meta: { title: 'StoragemoveList', noCache: true, roles: ['131-141-142-1', '131-141-142-2', '131-141-142-3', '131-141-142-4', '131-141-142-5', '131-141-142-6', '131-141-142-7', '131-141-142-18', '131-141-142-16', '131-141-142-17', '131-141-142-50'] }
+        meta: { title: 'StoragemoveList', noCache: true, roles: ['131-141-142-4'] }
       },
       {
         path: 'moverepostiryList',
         component: () => import('@/views/Storagemove/moverepostirylist'),
         name: 'moverepostirylist',
-        meta: { title: 'moverepostirylist', noCache: true, roles: ['131-141-142-1', '131-141-142-2', '131-141-142-3', '131-141-142-4', '131-141-142-5', '131-141-142-6', '131-141-142-7', '131-141-142-18', '131-141-142-16', '131-141-142-17', '131-141-142-50'] }
+        meta: { title: 'moverepostirylist', noCache: true, roles: ['131-141-142-4'] }
       }
       // {
       //   path: 'AddMoveApplication',
