@@ -306,8 +306,8 @@ export function updatemoveapplication(query, query2) {
 // 查询仓库权限人员
 export function searchmoverepository(query) {
   var params = new URLSearchParams()
-  if (query.employeeId !== '' && query.employeeId !== null && query.employeeId !== undefined) {
-    params.append('employeeId', query.employeeId) // 你要传给后台的参数值 key/value
+  if (query.emoloyeeId !== '' && query.emoloyeeId !== null && query.emoloyeeId !== undefined) {
+    params.append('emoloyeeId', query.emoloyeeId) // 你要传给后台的参数值 key/value
   }
   if (query.id !== '' && query.id !== null && query.id !== undefined) {
     params.append('id', query.id) // 你要传给后台的参数值 key/value
