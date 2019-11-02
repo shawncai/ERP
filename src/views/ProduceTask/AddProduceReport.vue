@@ -503,7 +503,7 @@ export default {
       const EnterDetail2 = this.$refs.editable2.getRecords()
       const EnterDetail3 = this.$refs.editable3.getRecords()
       const EnterDetail4 = this.$refs.editable4.getRecords()
-      if (EnterDetail.length === 0 || EnterDetail2.length === 0 || EnterDetail3.length === 0 || EnterDetail4.length === 0) {
+      if (EnterDetail.length === 0 || EnterDetail4.length === 0) {
         this.$notify.error({
           title: '错误',
           message: '明细表不能为空',

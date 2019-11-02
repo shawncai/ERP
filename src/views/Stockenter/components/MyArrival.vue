@@ -359,7 +359,7 @@ export default {
     // 确认添加数据
     async handleConfirm() {
       this.employeeVisible = false
-      // console.log('1231231',this.choosedata)
+      console.log('1231231', this.choosedata)
       const arrivaldata = this.choosedata.stockArrivalDetailVos
       const number = this.choosedata.number
       const arrivalDetail = arrivaldata.map(function(item) {
@@ -369,6 +369,7 @@ export default {
           productType: item.typeName,
           typeName: item.productType,
           type: item.type,
+          typeId: item.type,
           unit: item.unit,
           color: item.color,
           basicQuantity: (Number(item.arrivalQuantity) - Number(item.hadStorageQuantity)).toFixed(2),

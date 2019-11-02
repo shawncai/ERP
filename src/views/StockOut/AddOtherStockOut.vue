@@ -695,6 +695,7 @@ export default {
         if (valid) {
           this.$refs.editable.validate().then(valid => {
             if (valid) {
+              console.log(this.personalForm, parms)
               createotherout(this.personalForm, parms).then(res => {
                 console.log(res)
                 if (res.data.ret === 200) {

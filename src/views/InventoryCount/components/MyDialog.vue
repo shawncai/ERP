@@ -89,7 +89,7 @@
           <!--<el-editable-column :edit-render="{name: 'ElSelect', options: batchlist, type: 'visible'}" prop="batch" align="center" label="批次" width="150px"/>-->
           <el-editable-column :edit-render="{type: 'default'}" prop="batch" align="center" label="批次" width="200px">
             <template slot-scope="scope">
-              <el-select v-model="scope.row.batch" :value="scope.row.batch" placeholder="请选择批次" filterable clearable style="width: 100%;" @visible-change="updatebatch2($event,scope)">
+              <el-select v-model="scope.row.batch" :value="scope.row.batch" placeholder="请选择批次" filterable clearable style="width: 100%;" @visible-change="updatebatch2($event,scope)" @change="changequantity(scope)">
                 <el-option
                   v-for="(item, index) in batchlist"
                   :key="index"
@@ -104,11 +104,7 @@
           <el-editable-column prop="typeId" align="center" label="规格" width="150px"/>
           <el-editable-column prop="unit" align="center" label="单位" width="150px"/>
           <el-editable-column prop="price" align="center" label="价格" width="150px"/>
-          <el-editable-column prop="inventoryQuantity" align="center" label="库存数量" width="150px">
-            <template slot-scope="scope">
-              <p>{{ getquantity(scope.row) }}</p>
-            </template>
-          </el-editable-column>
+          <el-editable-column prop="inventoryQuantity" align="center" label="库存数量" width="150px"/>
           <el-editable-column :edit-render="{name: 'ElInputNumber', type: 'visible'}" prop="actualQuantity" align="center" label="实盘数量" width="150px"/>
           <el-editable-column prop="diffQuantity" align="center" label="差异数量" width="150px">
             <template slot-scope="scope">
@@ -336,6 +332,17 @@ export default {
         if (res.data.ret === 200) {
           this.locationlist = res.data.data.content.list
         }
+      })
+    },
+    // 获取数量
+    changequantity(scope) {
+      const parms2 = scope.row.locationId
+      const parms5 = scope.row.productCode
+      const parms4 = scope.row.batch
+
+      getQuantity(this.personalForm.countRepositoryId, parms2, parms5, parms4).then(res => {
+        this.out = res.data.data.content
+        scope.row.inventoryQuantity = res.data.data.content
       })
     },
     // 盈亏类型

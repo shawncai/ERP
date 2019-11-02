@@ -279,6 +279,7 @@ export default {
           locationId: '',
           color: item.color,
           typeId: item.typeId,
+          type: item.typeId,
           enterQuantity: 0,
           taxRate: 0,
           unit: item.stockMeasu,

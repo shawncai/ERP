@@ -302,3 +302,76 @@ export function updatemoveapplication(query, query2) {
     data: params
   })
 }
+
+// 查询仓库权限人员
+export function searchmoverepository(query) {
+  var params = new URLSearchParams()
+  if (query.employeeId !== '' && query.employeeId !== null && query.employeeId !== undefined) {
+    params.append('employeeId', query.employeeId) // 你要传给后台的参数值 key/value
+  }
+  if (query.id !== '' && query.id !== null && query.id !== undefined) {
+    params.append('id', query.id) // 你要传给后台的参数值 key/value
+  }
+  if (query.pageNum !== '' && query.pageNum !== null && query.pageNum !== undefined) {
+    params.append('pageNum', query.pageNum) // 你要传给后台的参数值 key/value
+  }
+  if (query.pageSize !== '' && query.pageSize !== null && query.pageSize !== undefined) {
+    params.append('pageSize', query.pageSize) // 你要传给后台的参数值 key/value
+  }
+  return request({
+    url: '/moveset/searchMoveSet',
+    method: 'post',
+    data: params
+  })
+}
+
+// 添加仓库权限人员
+export function addmoverepository(query) {
+  var params = new URLSearchParams()
+  if (query.repositoryIds !== '' && query.repositoryIds !== null && query.repositoryIds !== undefined) {
+    params.append('repositoryIds', query.repositoryIds) // 你要传给后台的参数值 key/value
+  }
+  if (query.employeeId !== '' && query.employeeId !== null && query.employeeId !== undefined) {
+    params.append('employeeId', query.employeeId) // 你要传给后台的参数值 key/value
+  }
+  if (query.createId !== '' && query.createId !== null && query.createId !== undefined) {
+    params.append('createId', query.createId) // 你要传给后台的参数值 key/value
+  }
+  return request({
+    url: '/moveset/addMoveSet',
+    method: 'post',
+    data: params
+  })
+}
+
+// 修改仓库权限人员
+export function editmoverepository(query, query2) {
+  var params = new URLSearchParams()
+  if (query.id !== '' && query.id !== null && query.id !== undefined) {
+    params.append('id', query.id) // 你要传给后台的参数值 key/value
+  }
+  if (query.repositoryIds !== '' && query.repositoryIds !== null && query.repositoryIds !== undefined) {
+    params.append('repositoryIds', query.repositoryIds) // 你要传给后台的参数值 key/value
+  }
+  if (query.operatorId !== '' && query.operatorId !== null && query.operatorId !== undefined) {
+    params.append('operatorId', query.operatorId) // 你要传给后台的参数值 key/value
+  }
+  return request({
+    url: '/moveset/updateMoveSet',
+    method: 'post',
+    data: params
+  })
+}
+
+// 删除仓库权限人员
+export function deletemoverepository(query) {
+  var params = new URLSearchParams()
+  if (query !== '' && query !== null && query !== undefined) {
+    params.append('ids', query) // 你要传给后台的参数值 key/value
+  }
+  return request({
+    url: '/moveset/deleteMoveSet',
+    method: 'post',
+    data: params
+  })
+}

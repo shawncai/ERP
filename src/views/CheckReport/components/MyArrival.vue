@@ -277,7 +277,7 @@ export default {
           for (let i = 0; i < res.data.data.content.list.length; i++) {
             for (let j = 0; j < res.data.data.content.list[i].stockArrivalDetailVos.length; j++) {
               if (res.data.data.content.list[i].stockArrivalDetailVos[j].arrivalQuantity - res.data.data.content.list[i].stockArrivalDetailVos[j].actualCheckingQuantity === 0) {
-                res.data.data.content[i].stockArrivalDetailVos.splice(j, 1)
+                res.data.data.content.list[i].stockArrivalDetailVos.splice(j, 1)
                 j--
               }
             }

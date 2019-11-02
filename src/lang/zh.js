@@ -102,6 +102,7 @@ export default {
     Storagemove: '库存调拨',
     AddStoragemove: '新建库存调拨单',
     StoragemoveList: '库存调拨单列表',
+    moverepostirylist: '配置调拨仓库',
     AddMoveApplication: '新建调拨申请',
     MoveApplicationList: '调拨申请列表',
     StockAlarm: '库存预警',
@@ -1409,7 +1410,10 @@ export default {
     confirmOutPerson: '确认出库人',
     confirmOutDate: '确认出库日期',
     confirmInDate: '确认入库日期',
-    confirmInPerson: '确认入库人'
+    confirmInPerson: '确认入库人',
+    moveperson: '人员名称',
+    repostiryName: '仓库名称',
+    repostiryId: '仓库编号'
 
   },
   StockAlarm: {
