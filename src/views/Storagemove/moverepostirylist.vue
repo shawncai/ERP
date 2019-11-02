@@ -4,32 +4,11 @@
       <el-row>
         <el-form ref="getemplist" :model="getemplist" label-width="100px" style="margin-top: -9px">
           <el-col :span="6">
-            <el-form-item label="物品编码">
-              <el-input v-model="getemplist.emoloyeeId" style="width: 190px" clearable @keyup.enter.native="handleFilter"/>
+            <el-form-item label="员工名称">
+              <el-input v-model="emoloyeeName" style="width: 190px" clearable @keyup.enter.native="handleFilter" @focus="handlesearchName"/>
+              <my-accept2 :accetpcontrol.sync="personcontrol" @acceptName="acceptName2"/>
             </el-form-item>
           </el-col>
-          <!-- <el-col :span="6" style="margin-left: 20px">
-            <el-form-item label="物品名称">
-              <el-input v-model="getemplist.productName" style="width: 160px" clearable @keyup.enter.native="handleFilter"/>
-            </el-form-item>
-          </el-col> -->
-          <!-- <el-col :span="6" style="margin-left: 10px">
-            <el-form-item label="检验项目">
-              <el-select v-model="getemplist.itemId" clearable @keyup.enter.native="handleFilter">
-                <el-option
-                  v-for="(item, index) in itemIds"
-                  :key="index"
-                  :label="item.categoryName"
-                  :value="item.id"
-                />
-              </el-select>
-            </el-form-item>
-          </el-col> -->
-          <!-- <el-col :span="5" style="margin-left: 10px">
-            <el-form-item label="车辆型号">
-              <el-input v-model="getemplist.typeid" clearable @keyup.enter.native="handleFilter"/>
-            </el-form-item>
-          </el-col> -->
           <!--更多搜索条件-->
           <el-col :span="3" style="margin-left: 20px">
             <!-- 搜索按钮 -->
@@ -164,24 +143,9 @@
       <el-dialog :visible.sync="editcategoryVisible" title="修改人员仓库配置" class="normal" width="600px" center>
         <el-form ref="editCategoryForm" :rules="editCategoryFormRules" :model="editCategoryForm" class="demo-ruleForm" style="margin: 0 auto; width: 400px">
           <el-form-item :label="$t('Storagemove.repostiryName')" label-width="100px" prop="repostiryName">
-            <el-input v-model="editCategoryForm.name" type="textarea" style="width:300px"/>
+            <el-input v-model="editCategoryForm.name" type="textarea" style="width:300px" @focus="handlerep"/>
           </el-form-item>
-          <!-- <el-form-item :label="$t('CheckSet.itemId')" label-width="100px" prop="itemId">
-            <el-select v-model="editCategoryForm.itemId" placeholder="请选择检验项目" style="width: 100%">
-              <el-option
-                v-for="(item, index) in itemIds"
-                :key="index"
-                :label="item.categoryName"
-                :value="item.id"
-              />
-            </el-select>
-          </el-form-item> -->
-          <!-- <el-form-item :label="$t('CheckSet.checkTools')" label-width="100px" >
-            <el-input v-model="editCategoryForm.checkTools" autocomplete="off"/>
-          </el-form-item>
-          <el-form-item :label="$t('CheckSet.checkContent')" label-width="100px" >
-            <el-input v-model="editCategoryForm.checkContent" :autosize="{minRows:1}" type="textarea" resize="none" autocomplete="off"/>
-          </el-form-item> -->
+          <my-repository2 :repositorycontrol.sync="repositorycontrol2" @repositoryname="repositoryname2"/>
         </el-form>
         <span slot="footer" class="dialog-footer">
           <el-button type="primary" @click="handleOk()">修改</el-button>
@@ -195,6 +159,7 @@
 
 <script>
 import MyRepository from './components/MyRepository2'
+import MyRepository2 from './components/MyRepository3'
 import '@/directive/noMoreClick/index.js'
 import { searchmoverepository, addmoverepository, editmoverepository, deletemoverepository } from '@/api/Storagemove'
 import waves from '@/directive/waves' // Waves directive
@@ -203,11 +168,12 @@ import permission from '@/directive/permission/index.js' // 权限判断指令
 import permission2 from '@/directive/permission2/index.js' // 权限判断指令
 import checkPermission from '@/utils/permission' // 权限判断函数
 import MyAccept from './components/MyAccept'
+import MyAccept2 from './components/MyAccept2'
 
 export default {
   name: 'Moverepostirylist',
   directives: { waves, permission, permission2 },
-  components: { Pagination, MyRepository, MyAccept },
+  components: { Pagination, MyRepository, MyAccept, MyRepository2, MyAccept2 },
   filters: {
     typeFilter(status) {
       const statusMap = {
@@ -235,6 +201,11 @@ export default {
       }
     }
     return {
+      emoloyeeName: '',
+      // 查询人员
+      personcontrol: false,
+      // 修改仓库
+      repositorycontrol2: false,
       // 人员回显
       personName: '',
       // 人员开关
@@ -306,6 +277,29 @@ export default {
     this.getlist()
   },
   methods: {
+    acceptName2(val) {
+      this.emoloyeeName = val.personName
+      this.getemplist.emoloyeeId = val.id
+    },
+    handlesearchName() {
+      this.personcontrol = true
+    },
+    handlerep() {
+      this.repositorycontrol2 = true
+    },
+    repositoryname2(val) {
+      console.log(val)
+      const name = []
+      const id = []
+      for (const i in val) {
+        name.push(val[i].repositoryName)
+        id.push(val[i].id)
+      }
+      console.log(name, id)
+      this.editCategoryForm.name = name.join(',')
+      this.editCategoryForm.repositoryIds = id.join(',')
+      console.log(this.addCategoryForm)
+    },
     handleaccept() {
       this.accetpcontrol = true
     },
@@ -375,7 +369,7 @@ export default {
     },
     // 搜索
     handleFilter() {
-      this.getemplist.pagenum = 1
+      this.getemplist.pageNum = 1
       searchmoverepository(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
@@ -410,67 +404,67 @@ export default {
     },
     // 批量删除
     handleCommand(command) {
-    //   const ids = this.moreaction.map(item => item.id).join()
-    //   if (command === 'delete') {
-    //     this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
-    //       confirmButtonText: '确定',
-    //       cancelButtonText: '取消',
-    //       type: 'warning'
-    //     }).then(() => {
-    //       delateCheckSet(ids, this.$store.getters.userId).then(res => {
-    //         if (res.data.ret === 200 || res.data.ret === 100) {
-    //           this.$notify({
-    //             title: '删除成功',
-    //             type: 'success',
-    //             offset: 100
-    //           })
-    //           this.getlist()
-    //         } else {
-    //           this.$notify.error({
-    //             title: '错误',
-    //             message: '出错了',
-    //             offset: 100
-    //           })
-    //         }
-    //       })
-    //     }).catch(() => {
-    //       this.$message({
-    //         type: 'info',
-    //         message: '已取消删除'
-    //       })
-    //     })
-    //   }
+      const ids = this.moreaction.map(item => item.id).join()
+      if (command === 'delete') {
+        this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          deletemoverepository(ids).then(res => {
+            if (res.data.ret === 200 || res.data.ret === 100) {
+              this.$notify({
+                title: '删除成功',
+                type: 'success',
+                offset: 100
+              })
+              this.getlist()
+            } else {
+              this.$notify.error({
+                title: '错误',
+                message: '出错了',
+                offset: 100
+              })
+            }
+          })
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消删除'
+          })
+        })
+      }
     },
     // 单条删除
-    // handleDelete(row) {
-    //   this.$confirm('此操作将永久删除该记录, 是否继续?', '提示', {
-    //     confirmButtonText: '确定',
-    //     cancelButtonText: '取消',
-    //     type: 'warning'
-    //   }).then(() => {
-    //     delateCheckSet(row.id, this.$store.getters.userId).then(res => {
-    //       if (res.data.ret === 200 || res.data.ret === 100) {
-    //         this.$notify({
-    //           title: '删除成功',
-    //           type: 'success',
-    //           offset: 100
-    //         })
-    //         this.getlist()
-    //       } else {
-    //         this.$notify.error({
-    //           title: '错误',
-    //           message: '出错了',
-    //           offset: 100
-    //         })
-    //       }
-    //     })
-    //   }).catch(() => {
-    //     this.$message({
-    //       type: 'info',
-    //       message: '已取消删除'
-    //     })
-    //   })
-    // },
+    handleDelete(row) {
+      this.$confirm('此操作将永久删除该记录, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        deletemoverepository(row.id).then(res => {
+          if (res.data.ret === 200 || res.data.ret === 100) {
+            this.$notify({
+              title: '删除成功',
+              type: 'success',
+              offset: 100
+            })
+            this.getlist()
+          } else {
+            this.$notify.error({
+              title: '错误',
+              message: '出错了',
+              offset: 100
+            })
+          }
+        })
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消删除'
+        })
+      })
+    },
     // 修改数据
     handleEdit(row) {
       console.log(row)
@@ -488,35 +482,35 @@ export default {
       this.editcategoryVisible = false
     },
     // 确认修改
-    // handleOk() {
-    //   this.$refs.editCategoryForm.validate((valid) => {
-    //     if (valid) {
-    //       updateCheckSet(this.editCategoryForm).then(res => {
-    //         if (res.data.ret === 200) {
-    //           this.$notify({
-    //             title: '成功',
-    //             message: '修改成功',
-    //             type: 'success',
-    //             offset: 100
-    //           })
-    //           this.getlist()
-    //           this.$refs.editCategoryForm.clearValidate()
-    //           this.$refs.editCategoryForm.resetFields()
-    //           this.editcategoryVisible = false
-    //         } else {
-    //           console.log('列表出错')
-    //         }
-    //       })
-    //     } else {
-    //       this.$notify.error({
-    //         title: '错误',
-    //         message: '信息未填完整',
-    //         offset: 100
-    //       })
-    //       return false
-    //     }
-    //   })
-    // },
+    handleOk() {
+      this.$refs.editCategoryForm.validate((valid) => {
+        if (valid) {
+          editmoverepository(this.editCategoryForm).then(res => {
+            if (res.data.ret === 200) {
+              this.$notify({
+                title: '成功',
+                message: '修改成功',
+                type: 'success',
+                offset: 100
+              })
+              this.getlist()
+              this.$refs.editCategoryForm.clearValidate()
+              this.$refs.editCategoryForm.resetFields()
+              this.editcategoryVisible = false
+            } else {
+              console.log('列表出错')
+            }
+          })
+        } else {
+          this.$notify.error({
+            title: '错误',
+            message: '信息未填完整',
+            offset: 100
+          })
+          return false
+        }
+      })
+    },
     // 新增数据
     handleAdd() {
       this.categoryVisible = true
@@ -533,10 +527,11 @@ export default {
     restAddCategoryForm() {
       this.addCategoryForm = {
         createId: this.$store.getters.userId,
-        categoryname: '',
-        type: '',
-        iseffective: '1'
+        repositoryIds: '',
+        employeeId: ''
       }
+      this.personName = ''
+      this.list2.itemName = ''
     },
     // 保存操作
     handlesave() {
@@ -556,6 +551,7 @@ export default {
                   this.getlist()
                   this.$refs.addCategoryForm.clearValidate()
                   this.$refs.addCategoryForm.resetFields()
+                  this.$refs.editable.revert()
                   this.restAddCategoryForm()
                   this.categoryVisible = false
                 } else {

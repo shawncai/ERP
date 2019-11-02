@@ -175,6 +175,7 @@ export default {
       })
     },
     handleCurrentChange(val) {
+      this.operations = []
       this.IsEait = true
       console.log('val.roleName', val.roleName)
       this.getemplist.rolename = val.roleName
