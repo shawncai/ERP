@@ -884,7 +884,7 @@ export default {
     jobNumber: '工号',
     account2: '账号',
     name: '姓名',
-    postName: '职位',
+    postName: '角色',
     deptName: '所属部门',
     regionName: '所属区域',
     repositoryName: '所属门店',

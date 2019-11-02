@@ -193,6 +193,22 @@ export default {
         callback()
       }
     }
+    var validatePass4 = (rule, value, callback) => {
+      console.log(value)
+      if (value === '' || value === undefined || value === null) {
+        callback(new Error('请选择货位'))
+      } else {
+        callback()
+      }
+    }
+    var validatePass5 = (rule, value, callback) => {
+      console.log(value)
+      if (value === '' || value === undefined || value === null) {
+        callback(new Error('请选择批次'))
+      } else {
+        callback()
+      }
+    }
     return {
       // 合计信息
       heji1: 0,
@@ -236,10 +252,10 @@ export default {
           { required: true, message: '请输入报损数量', trigger: 'change' }
         ],
         locationId: [
-          { required: true, message: '请选择货位', trigger: 'change' }
+          { required: true, validator: validatePass4, trigger: 'change' }
         ],
         batch: [
-          { required: true, message: '请选择批次', trigger: 'change' }
+          { required: true, validator: validatePass5, trigger: 'change' }
         ]
       },
       // 库存报损单信息数据
