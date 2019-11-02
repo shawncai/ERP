@@ -195,7 +195,7 @@
       <div class="container" style="margin-top: 37px">
         <el-row>
           <el-radio-group v-model="personalForm.roleId" style="width: 100%">
-            <el-col v-for="(item, index) in roleNames" :key="index" :span="12" style="text-align: center">
+            <el-col v-for="(item, index) in roleNames" :key="index" :span="12" style="text-align: left">
               <el-radio :label="item.id" style="width: 100%">{{ item.name }}</el-radio>
             </el-col>
           </el-radio-group>
@@ -391,7 +391,9 @@ export default {
         })
       }))
       const listRoleName = list.filter(function(ele) {
-        return (ele.name.indexOf('-') !== -1)
+        if (ele !== undefined) {
+          return (ele.name.indexOf('-') !== -1)
+        }
       })
       console.log(listRoleName)
       const sss2 = listRoleName.map(function(item) {
