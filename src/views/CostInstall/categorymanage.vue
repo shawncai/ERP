@@ -4,15 +4,18 @@
       <el-row>
         <el-form ref="getemplist" :model="getemplist" label-width="100px" style="margin-top: -9px">
           <el-col :span="5">
-            <el-form-item label="费用代码" label-width="100px">
-              <el-input v-model="getemplist.costCode" clearable @keyup.enter.native="handleFilter"/>
+            <el-form-item label="分类名称" label-width="100px">
+              <el-input v-model="getemplist.categoryName" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
-          <el-col :span="5" style="margin-left: 10px">
-            <el-form-item label="费用类别" label-width="100px">
-              <el-input v-model="getemplist.costCategory" clearable @keyup.enter.native="handleFilter"/>
+          <!-- <el-col :span="5" style="margin-left: 10px">
+            <el-form-item label="分类类别">
+              <el-select v-model="getemplist.type" :value="getemplist.type" clearable @keyup.enter.native="handleFilter">
+                <el-option label="调整原因" value="1"/>
+                <el-option label="调价原因" value="2"/>
+              </el-select>
             </el-form-item>
-          </el-col>
+          </el-col> -->
           <el-col :span="5" style="margin-left: 10px">
             <el-form-item label="启用状态">
               <el-select v-model="getemplist.isEffective" :value="getemplist.isEffective" clearable @keyup.enter.native="handleFilter">
@@ -36,39 +39,35 @@
           {{ $t('public.batchoperation') }} <i class="el-icon-arrow-down el-icon--right"/>
         </el-button>
         <el-dropdown-menu slot="dropdown" style="width: 140px">
-          <el-dropdown-item v-permission="['266-268-2']" style="text-align: left" command="delete"><svg-icon icon-class="shanchu" style="width: 40px"/>{{ $t('public.delete') }}</el-dropdown-item>
+          <el-dropdown-item v-permission="['131-278-2']" style="text-align: left" command="delete"><svg-icon icon-class="shanchu" style="width: 40px"/>{{ $t('public.delete') }}</el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
+      <!-- 表格导出操作 -->
+      <el-button v-permission="['131-278-6']" v-waves :loading="downloadLoading" class="filter-item" style="width: 86px" @click="handleExport"> <svg-icon icon-class="daochu"/>{{ $t('public.export') }}</el-button>
+      <!-- 打印操作 -->
+      <el-button v-permission="['131-278-7']" v-waves class="filter-item" icon="el-icon-printer" style="width: 86px" @click="handlePrint">{{ $t('public.print') }}</el-button>
       <!-- 新建操作 -->
-      <el-button v-permission="['266-268-1']" v-waves class="filter-item" icon="el-icon-plus" type="success" style="width: 86px" @click="handleAdd">{{ $t('public.add') }}</el-button>
-      <el-dialog :visible.sync="categoryVisible" title="新建费用设置" class="normal" width="600px" center>
+      <el-button v-permission="['131-278-1']" v-waves class="filter-item" icon="el-icon-plus" type="success" style="width: 86px" @click="handleAdd">{{ $t('public.add') }}</el-button>
+      <el-dialog :visible.sync="categoryVisible" title="新建分类属性" class="normal" width="600px" center>
         <el-form ref="addCategoryForm" :rules="addCategoryFormRules" :model="addCategoryForm" class="demo-ruleForm" style="margin: 0 auto; width: 400px">
-          <el-form-item :label="$t('CostInstall.costCode')" label-width="100px" prop="costCode">
-            <el-input v-model="addCategoryForm.costCode" autocomplete="off"/>
-          </el-form-item>
-          <el-form-item :label="$t('CostInstall.costCategory')" label-width="100px" prop="costCategory">
-            <!-- <el-input v-model="addCategoryForm.costCategory" autocomplete="off"/> -->
-            <el-select v-model="addCategoryForm.costCategory" filterable style="width: 300px">
-              <el-option v-for="(item, index) in category" :key="index" :value="item.id" :label="item.categoryName"/>
+          <!-- <el-form-item :label="$t('NewEmployeeInformation.type')" label-width="100px" prop="type">
+            <el-select v-model="addCategoryForm.type" placeholder="请选择类别" style="width: 100%">
+              <el-option label="调整原因" value="1"/>
+              <el-option label="调价原因" value="2"/>
             </el-select>
+          </el-form-item> -->
+          <el-form-item :label="$t('NewEmployeeInformation.categoryname')" label-width="100px" prop="categoryName">
+            <el-input v-model="addCategoryForm.categoryName" autocomplete="off"/>
           </el-form-item>
-          <el-form-item :label="$t('CostInstall.costName')" label-width="100px" prop="costName">
-            <el-input v-model="addCategoryForm.costName" autocomplete="off"/>
-          </el-form-item>
-          <el-form-item :label="$t('CostInstall.subjectId')" label-width="100px">
-            <el-select v-model="addCategoryForm.subjectId" filterable style="width: 300px">
-              <el-option v-for="(item, index) in subjects" :key="index" :value="item.id" :label="item.itemName"/>
-            </el-select>
-          </el-form-item>
-          <el-form-item :label="$t('CostInstall.isEffective')" label-width="100px" prop="isEffective">
-            <el-select v-model="addCategoryForm.isEffective" placeholder="请选择状态" style="width: 100%">
+          <el-form-item :label="$t('NewEmployeeInformation.iseffective')" label-width="100px" prop="iseffective">
+            <el-select v-model="addCategoryForm.iseffective" placeholder="请选择状态" style="width: 100%">
               <el-option label="启用 " value="1"/>
               <el-option label="停用" value="2"/>
             </el-select>
           </el-form-item>
         </el-form>
         <span slot="footer" class="dialog-footer">
-          <el-button type="primary" @click="handlesave()">保存</el-button>
+          <el-button v-no-more-click type="primary" @click="handlesave()">保存</el-button>
           <el-button type="danger" @click="handlecancel()">取消</el-button>
         </span>
       </el-dialog>
@@ -89,59 +88,50 @@
           type="selection"
           width="55"
           align="center"/>
-        <el-table-column :label="$t('CostInstall.costCode')" :resizable="false" align="center" min-width="100">
+        <el-table-column :label="$t('NewEmployeeInformation.id')" :resizable="false" align="center" min-width="100">
           <template slot-scope="scope">
-            <span>{{ scope.row.costCode }}</span>
+            <span>{{ scope.row.id }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('CostInstall.costCategory')" :resizable="false" align="center" min-width="250">
+        <!-- <el-table-column :label="$t('NewEmployeeInformation.type')" :resizable="false" align="center" min-width="250">
           <template slot-scope="scope">
-            <span>{{ scope.row.costCategoryName }}</span>
+            <span>{{ scope.row.type | typeFilter }}</span>
+          </template>
+        </el-table-column> -->
+        <el-table-column :label="$t('NewEmployeeInformation.categoryname')" :resizable="false" align="center" min-width="350">
+          <template slot-scope="scope">
+            <span>{{ scope.row.categoryName }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('CostInstall.costName')" :resizable="false" align="center" min-width="350">
+        <el-table-column :label="$t('NewEmployeeInformation.iseffective')" :resizable="false" align="center" min-width="250">
           <template slot-scope="scope">
-            <span>{{ scope.row.costName }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column :label="$t('CostInstall.subjectId')" :resizable="false" align="center" min-width="350">
-          <template slot-scope="scope">
-            <span>{{ scope.row.subjectName }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column :label="$t('CostInstall.isEffective')" :resizable="false" align="center" min-width="250">
-          <template slot-scope="scope">
-            <span>{{ scope.row.isEffective | isEffectiveFilter }}</span>
+            <span>{{ scope.row.isEffective | iseffectiveFilter }}</span>
           </template>
         </el-table-column>
         <el-table-column :label="$t('public.actions')" :resizable="false" align="center" min-width="230">
           <template slot-scope="scope">
-            <el-button v-permission="['266-268-3']" type="primary" size="mini" @click="handleEdit(scope.row)" >{{ $t('public.edit') }}</el-button>
-            <el-button v-permission="['266-268-2']" size="mini" type="danger" @click="handleDelete(scope.row)">{{ $t('public.delete') }}</el-button>
+            <el-button v-permission="['131-278-3']" type="primary" size="mini" @click="handleEdit(scope.row)" >{{ $t('public.edit') }}</el-button>
+            <el-button v-permission="['131-278-2']" v-if="scope.row.isEffective === 1" size="mini" type="danger" @click="handledisable(scope.row)">{{ $t('public.disable') }}</el-button>
+            <el-button v-permission="['131-278-2']" v-else size="mini" type="success" @click="handleenable(scope.row)">{{ $t('public.enable') }}</el-button>
           </template>
         </el-table-column>
       </el-table>
       <!-- 列表结束 -->
       <pagination v-show="total>0" :total="total" :page.sync="getemplist.pagenum" :limit.sync="getemplist.pagesize" @pagination="getlist" />
       <!--修改开始=================================================-->
-      <el-dialog :visible.sync="editcategoryVisible" title="修改费用设置" class="normal" width="600px" center>
+      <el-dialog :visible.sync="editcategoryVisible" title="修改分类属性" class="normal" width="600px" center>
         <el-form ref="editCategoryForm" :rules="editCategoryFormRules" :model="editCategoryForm" class="demo-ruleForm" style="margin: 0 auto; width: 400px">
-          <el-form-item :label="$t('CostInstall.costCode')" label-width="100px" prop="costCode">
-            <el-input v-model="editCategoryForm.costCode" autocomplete="off"/>
-          </el-form-item>
-          <el-form-item :label="$t('CostInstall.costCategory')" label-width="100px" prop="costCategory">
-            <el-input v-model="editCategoryForm.costCategory" autocomplete="off"/>
-          </el-form-item>
-          <el-form-item :label="$t('CostInstall.costName')" label-width="100px" prop="costName">
-            <el-input v-model="editCategoryForm.costName" autocomplete="off"/>
-          </el-form-item>
-          <el-form-item :label="$t('CostInstall.subjectId')" label-width="100px" prop="subjectId">
-            <el-select v-model="editCategoryForm.subjectId" filterable style="width: 300px">
-              <el-option v-for="(item, index) in subjects" :key="index" :value="item.id" :label="item.itemName"/>
+          <!-- <el-form-item :label="$t('NewEmployeeInformation.type')" label-width="100px">
+            <el-select v-model="editCategoryForm.type" placeholder="请选择类别" style="width: 100%" disabled >
+              <el-option label="调整原因" value="1"/>
+              <el-option label="调价原因" value="2"/>
             </el-select>
+          </el-form-item> -->
+          <el-form-item :label="$t('NewEmployeeInformation.categoryname')" label-width="100px" prop="categoryName">
+            <el-input v-model="editCategoryForm.categoryName" autocomplete="off"/>
           </el-form-item>
-          <el-form-item :label="$t('CostInstall.isEffective')" label-width="100px" prop="isEffective">
-            <el-select v-model="editCategoryForm.isEffective" placeholder="请选择状态" style="width: 100%">
+          <el-form-item :label="$t('NewEmployeeInformation.iseffective')" label-width="100px" prop="iseffective">
+            <el-select v-model="editCategoryForm.iseffective" placeholder="请选择状态" style="width: 100%">
               <el-option label="启用 " value="1"/>
               <el-option label="停用" value="2"/>
             </el-select>
@@ -158,9 +148,8 @@
 </template>
 
 <script>
-import { addCostInstall, searchCostInstall, updateCostInstall, delateCostInstall } from '@/api/CostInstall'
-import { itemList } from '@/api/SubjectFinance'
-import { searchCostCategory } from '@/api/categorymanage'
+import '@/directive/noMoreClick/index.js'
+import { addCostCategory, updateCostCategory, searchCostCategory } from '@/api/categorymanage'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
 import permission from '@/directive/permission/index.js' // 权限判断指令
@@ -168,19 +157,17 @@ import permission2 from '@/directive/permission2/index.js' // 权限判断指令
 import checkPermission from '@/utils/permission' // 权限判断函数
 
 export default {
-  name: 'EmpCategory',
+  name: 'InventoryCategory',
   directives: { waves, permission, permission2 },
   components: { Pagination },
   filters: {
     typeFilter(status) {
       const statusMap = {
-        1: '部门类别',
-        2: '职位类别',
-        3: '合同类型'
+        1: '调整原因'
       }
       return statusMap[status]
     },
-    isEffectiveFilter(status) {
+    iseffectiveFilter(status) {
       const statusMap = {
         1: '启用',
         2: '停用'
@@ -190,34 +177,28 @@ export default {
   },
   data() {
     return {
-      // 费用类别
-      category: [],
       // 批量删除参数
       moreaction: [],
       // 新增窗口
       categoryVisible: false,
       // 新增数据
       addCategoryForm: {
-        categoryname: '',
-        type: '',
-        isEffective: '1',
+        categoryName: '',
+        iseffective: '1',
         createId: this.$store.getters.userId
       },
       // 校验新增数据
       addCategoryFormRules: {
-        costCode: [
+        category: [
           { required: true, message: '请输入', trigger: 'blur' }
         ],
-        costCategory: [
+        categoryName: [
           { required: true, message: '请输入', trigger: 'blur' }
         ],
-        costName: [
-          { required: true, message: '请输入', trigger: 'blur' }
-        ],
-        subjectId: [
+        type: [
           { required: true, message: '请选择', trigger: 'change' }
         ],
-        isEffective: [
+        iseffective: [
           { required: true, message: '请选择', trigger: 'change' }
         ]
       },
@@ -226,30 +207,19 @@ export default {
       // 修改数据
       editCategoryForm: {
         categoryName: '',
-        type: '',
-        isEffective: ''
+        iseffective: ''
       },
       // 校验修改数据
       editCategoryFormRules: {
-        costCode: [
+        categoryName: [
           { required: true, message: '请输入', trigger: 'blur' }
         ],
-        costCategory: [
-          { required: true, message: '请输入', trigger: 'blur' }
-        ],
-        costName: [
-          { required: true, message: '请输入', trigger: 'blur' }
-        ],
-        subjectId: [
-          { required: true, message: '请选择', trigger: 'change' }
-        ],
-        isEffective: [
+        iseffective: [
           { required: true, message: '请选择', trigger: 'change' }
         ]
       },
       // 加载操作控制
       downloadLoading: false,
-      subjects: [],
       // 表格数据
       list: [],
       // 表格数据条数
@@ -260,11 +230,10 @@ export default {
       listLoading: true,
       // 分类列表查询加展示参数
       getemplist: {
-        categoryname: '',
-        type: '',
-        isEffective: '',
-        pagenum: 1,
-        pagesize: 10
+        categoryName: '',
+        isEffective: '1',
+        pageNum: 1,
+        pageSize: 10
       }
     }
   },
@@ -272,29 +241,51 @@ export default {
     this.getlist()
   },
   methods: {
+    handledisable(row) {
+      this.editCategoryForm = Object.assign({}, row)
+      this.editCategoryForm.iseffective = '2'
+      updateCostCategory(this.editCategoryForm).then(res => {
+        if (res.data.ret === 200) {
+          this.$notify({
+            title: '成功',
+            message: '修改成功',
+            type: 'success',
+            offset: 100
+          })
+          this.getlist()
+          this.$refs.editCategoryForm.clearValidate()
+          this.$refs.editCategoryForm.resetFields()
+          this.editcategoryVisible = false
+        } else {
+          console.log('列表出错')
+        }
+      })
+    },
+    handleenable(row) {
+      this.editCategoryForm = Object.assign({}, row)
+      this.editCategoryForm.iseffective = '1'
+      updateCostCategory(this.editCategoryForm).then(res => {
+        if (res.data.ret === 200) {
+          this.$notify({
+            title: '成功',
+            message: '修改成功',
+            type: 'success',
+            offset: 100
+          })
+          this.getlist()
+          this.$refs.editCategoryForm.clearValidate()
+          this.$refs.editCategoryForm.resetFields()
+          this.editcategoryVisible = false
+        } else {
+          console.log('列表出错')
+        }
+      })
+    },
     checkPermission,
     getlist() {
-      const param = {}
-      param.subjectId = 1
-      itemList(param).then(res => {
-        if (res.data.ret === 200) {
-          this.subjects = res.data.data.content
-        }
-      })
-      const getemplist = {
-        categoryName: '',
-        isEffective: '1',
-        pageNum: 1,
-        pageSize: 10
-      }
-      searchCostCategory(getemplist).then(res => {
-        if (res.data.ret === 200) {
-          this.category = res.data.data.content.list
-        }
-      })
       // 员工列表数据
       this.listLoading = true
-      searchCostInstall(this.getemplist).then(res => {
+      searchCostCategory(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
@@ -308,8 +299,8 @@ export default {
     },
     // 搜索
     handleFilter() {
-      this.getemplist.pagenum = 1
-      searchCostInstall(this.getemplist).then(res => {
+      this.getemplist.pageNum = 1
+      searchCostCategory(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
@@ -324,73 +315,74 @@ export default {
     },
     // 批量删除
     handleCommand(command) {
-      const ids = this.moreaction.map(item => item.id).join()
-      if (command === 'delete') {
-        this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(() => {
-          delateCostInstall(ids, this.$store.getters.userId).then(res => {
-            if (res.data.ret === 200 || res.data.ret === 100) {
-              this.$notify({
-                title: '删除成功',
-                type: 'success',
-                offset: 100
-              })
-              this.getlist()
-            } else {
-              this.$notify.error({
-                title: '错误',
-                message: '出错了',
-                offset: 100
-              })
-            }
-          })
-        }).catch(() => {
-          this.$message({
-            type: 'info',
-            message: '已取消删除'
-          })
-        })
-      }
+      console.log(123)
+      // const ids = this.moreaction.map(item => item.id).join()
+      // if (command === 'delete') {
+      //   this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+      //     confirmButtonText: '确定',
+      //     cancelButtonText: '取消',
+      //     type: 'warning'
+      //   }).then(() => {
+      //     delateInventoryCategory(ids, this.$store.getters.userId).then(res => {
+      //       if (res.data.ret === 200 || res.data.ret === 100) {
+      //         this.$notify({
+      //           title: '删除成功',
+      //           type: 'success',
+      //           offset: 100
+      //         })
+      //         this.getlist()
+      //       } else {
+      //         this.$notify.error({
+      //           title: '错误',
+      //           message: '出错了',
+      //           offset: 100
+      //         })
+      //       }
+      //     })
+      //   }).catch(() => {
+      //     this.$message({
+      //       type: 'info',
+      //       message: '已取消删除'
+      //     })
+      //   })
+      // }
     },
     // 单条删除
-    handleDelete(row) {
-      this.$confirm('此操作将永久删除该记录, 是否继续?', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      }).then(() => {
-        delateCostInstall(row.id, this.$store.getters.userId).then(res => {
-          if (res.data.ret === 200 || res.data.ret === 100) {
-            this.$notify({
-              title: '删除成功',
-              type: 'success',
-              offset: 100
-            })
-            this.getlist()
-          } else {
-            this.$notify.error({
-              title: '错误',
-              message: '出错了',
-              offset: 100
-            })
-          }
-        })
-      }).catch(() => {
-        this.$message({
-          type: 'info',
-          message: '已取消删除'
-        })
-      })
-    },
+    // handleDelete(row) {
+    //   this.$confirm('此操作将永久删除该记录, 是否继续?', '提示', {
+    //     confirmButtonText: '确定',
+    //     cancelButtonText: '取消',
+    //     type: 'warning'
+    //   }).then(() => {
+    //     delateInventoryCategory(row.id, this.$store.getters.userId).then(res => {
+    //       if (res.data.ret === 200 || res.data.ret === 100) {
+    //         this.$notify({
+    //           title: '删除成功',
+    //           type: 'success',
+    //           offset: 100
+    //         })
+    //         this.getlist()
+    //       } else {
+    //         this.$notify.error({
+    //           title: '错误',
+    //           message: '出错了',
+    //           offset: 100
+    //         })
+    //       }
+    //     })
+    //   }).catch(() => {
+    //     this.$message({
+    //       type: 'info',
+    //       message: '已取消删除'
+    //     })
+    //   })
+    // },
     // 修改数据
     handleEdit(row) {
       console.log(row)
       this.editcategoryVisible = true
       this.editCategoryForm = Object.assign({}, row)
-      this.editCategoryForm.isEffective = String(row.isEffective)
+      this.editCategoryForm.iseffective = String(row.isEffective)
     },
     // 取消修改
     handleNo() {
@@ -400,7 +392,7 @@ export default {
     handleOk() {
       this.$refs.editCategoryForm.validate((valid) => {
         if (valid) {
-          updateCostInstall(this.editCategoryForm).then(res => {
+          updateCostCategory(this.editCategoryForm).then(res => {
             if (res.data.ret === 200) {
               this.$notify({
                 title: '成功',
@@ -436,9 +428,8 @@ export default {
     },
     restAddCategoryForm() {
       this.addCategoryForm = {
-        categoryname: '',
-        type: '',
-        isEffective: '1',
+        categoryName: '',
+        iseffective: '1',
         createId: this.$store.getters.userId
       }
     },
@@ -447,7 +438,7 @@ export default {
       console.log(this.addCategoryForm)
       this.$refs.addCategoryForm.validate((valid) => {
         if (valid) {
-          addCostInstall(this.addCategoryForm).then(res => {
+          addCostCategory(this.addCategoryForm).then(res => {
             if (res.data.ret === 200) {
               this.$notify({
                 title: '成功',

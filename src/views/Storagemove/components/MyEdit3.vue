@@ -245,10 +245,10 @@
         </el-editable>
       </div>
     </el-card>
-    <div class="buttons" style="margin-top: 20px;margin-left: 30px">
+    <!-- <div class="buttons" style="margin-top: 20px;margin-left: 30px">
       <el-button type="primary" @click="handleEditok()">修改</el-button>
       <el-button type="danger" @click="handlecancel()">取消</el-button>
-    </div>
+    </div> -->
   </el-dialog>
 </template>
 
