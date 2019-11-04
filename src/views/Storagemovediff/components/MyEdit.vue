@@ -1,6 +1,6 @@
 <template>
-  <el-dialog :visible.sync="editVisible" :editcontrol="editcontrol" :editdata="editdata" :close-on-press-escape="false" class="edit" width="1010px" top="10px" @close="$emit('update:editcontrol', false)">
-    <!-- 基本信息 -->
+  <el-dialog :visible.sync="editVisible" :editcontrol="editcontrol" :editdata="editdata" :close-on-press-escape="false" class="edit" width="1010px" top="10px" title="修改采购调拨单" @close="$emit('update:editcontrol', false)">
+    <!--基本信息-->
     <el-card class="box-card">
       <h2 ref="geren" class="form-name">基本信息</h2>
       <div class="container">
@@ -96,13 +96,14 @@
         </el-form>
       </div>
     </el-card>
-    <!--调拨申请明细-->
+    <!--调拨单明细-->
     <el-card class="box-card" style="margin-top: 15px">
       <h2 ref="fuzhu" class="form-name">调拨申请明细</h2>
-      <!-- <div class="buttons" style="margin-top: 58px">
+      <div class="buttons" style="margin-top: 58px">
         <el-button type="success" style="background:#3696fd;border-color:#3696fd " @click="handleAddproduct">添加商品</el-button>
         <el-button type="danger" @click="$refs.editable.removeSelecteds()">删除</el-button>
-      </div> -->
+      </div>
+      <my-detail :control.sync="control" :personalform="personalForm" @product="productdetail"/>
       <div class="container">
         <el-editable
           ref="editable"
@@ -114,6 +115,7 @@
           border
           size="medium"
           style="width: 100%">
+          <el-editable-column type="selection" width="55" align="center"/>
           <el-editable-column label="编号" width="55" align="center" type="index"/>
           <!-- <el-editable-column prop="location" align="center" label="货位" min-width="150">
               <template slot-scope="scope">
@@ -137,129 +139,41 @@
           <el-editable-column prop="color" align="center" label="颜色" width="150px"/>
           <el-editable-column prop="productType" align="center" label="规格" width="150px"/>
           <el-editable-column prop="unit" align="center" label="单位" width="150px"/>
-          <el-editable-column prop="applyQuantity" align="center" label="申请数量" min-width="150"/>
-          <el-editable-column prop="movePrice" align="center" label="调拨单价" width="150px"/>
-          <!-- <el-editable-column :edit-render="{name: 'ElInputNumber', type: 'visible'}" prop="movePrice" align="center" label="调拨成本价" width="150px"/> -->
-          <el-editable-column prop="moveMoney" align="center" label="商品金额" width="150px"/>
-          <el-editable-column prop="remarks" align="center" label="备注" width="150px"/>
-        </el-editable>
-      </div>
-    </el-card>
-    <!-- 调拨出库明细 -->
-    <el-card class="box-card" style="margin-top: 15px">
-      <h2 ref="fuzhu" class="form-name">调拨出库明细</h2>
-      <div class="container">
-        <el-editable
-          ref="editable2"
-          :data.sync="list3"
-          :edit-config="{ showIcon: true, showStatus: true}"
-          :edit-rules="validRules"
-          class="click-table1"
-          stripe
-          border
-          size="medium"
-          style="width: 100%">
-          <el-editable-column label="编号" width="55" align="center" type="index"/>
-          <el-editable-column prop="productCode" align="center" label="物品编号" width="150px"/>
-          <el-editable-column prop="productName" align="center" label="物品名称" width="150px"/>
-          <el-editable-column prop="locationName" align="center" label="货位" min-width="150"/>
-          <el-editable-column prop="batch" align="center" label="批次" min-width="250"/>
-          <el-editable-column prop="color" align="center" label="颜色" width="150px"/>
-          <el-editable-column prop="typeName" align="center" label="规格" width="150px"/>
-          <el-editable-column prop="unit" align="center" label="单位" width="150px"/>
-          <el-editable-column prop="moveQuantity" align="center" label="出库数量" min-width="150"/>
-          <el-editable-column prop="carCode" align="center" label="车架编码" min-width="150" />
-          <el-editable-column prop="motorCode" align="center" label="电机编码" min-width="150" />
-          <el-editable-column prop="batteryCode" align="center" label="电池编码" min-width="150" />
-          <el-editable-column prop="movePrice" align="center" label="调拨单价" width="150px"/>
-          <el-editable-column prop="price" align="center" label="调拨成本价" width="150px"/>
-          <el-editable-column prop="totalMoney" align="center" label="调拨金额" width="150px" />
-          <el-editable-column prop="stat" align="center" label="出库状态" width="150px">
-            <template slot-scope="scope">
-              <p>{{ scope.row.stat | statFilter }}</p>
-            </template>
-          </el-editable-column>
-        </el-editable>
-      </div>
-    </el-card>
-    <!-- 调拨入库明细 -->
-    <el-card class="box-card" style="margin-top: 15px">
-      <h2 ref="fuzhu" class="form-name">调拨入库明细</h2>
-      <div class="container">
-        <el-editable
-          ref="editable3"
-          :data.sync="list4"
-          :edit-config="{ showIcon: true, showStatus: true}"
-          :edit-rules="validRules"
-          class="click-table1"
-          stripe
-          border
-          size="medium"
-          style="width: 100%">
-          <el-editable-column label="编号" width="55" align="center" type="index"/>
-          <el-editable-column prop="productCode" align="center" label="物品编号" width="150px"/>
-          <el-editable-column prop="productName" align="center" label="物品名称" width="150px"/>
-          <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="locationName" align="center" label="货位" min-width="150">
-            <template slot="edit" slot-scope="scope">
-              <el-select v-if="isEdit(scope.row)" v-model="scope.row.locationId" :value="scope.row.locationId" :disabled="scope.row.stat === 2" placeholder="请选择货位" filterable style="width: 100%;" @visible-change="updatelocaltion($event,scope)" @change="test($event,scope.row)">
-                <el-option
-                  v-for="item in locationlist"
-                  :key="item.id"
-                  :value="item.id"
-                  :label="item.locationCode"/>
-              </el-select>
-              <span v-else>{{ scope.row.locationName }}</span>
-            </template>
-          </el-editable-column>
-          <el-editable-column prop="batch" align="center" label="批次" min-width="150" />
-          <el-editable-column prop="color" align="center" label="颜色" width="150px"/>
-          <el-editable-column prop="typeName" align="center" label="规格" width="150px"/>
-          <el-editable-column prop="unit" align="center" label="单位" width="150px"/>
-          <el-editable-column prop="moveQuantity" align="center" label="出库数量" min-width="150"/>
-          <el-editable-column prop="carCode" align="center" label="车架编码" min-width="150" />
-          <el-editable-column prop="motorCode" align="center" label="电机编码" min-width="150" />
-          <el-editable-column prop="batteryCode" align="center" label="电池编码" min-width="150" />
-          <el-editable-column prop="price" align="center" label="调拨单价" width="150px"/>
-          <el-editable-column prop="movePrice" align="center" label="调拨成本价" width="150px"/>
-          <el-editable-column prop="totalMoney" align="center" label="调拨金额" width="150px"/>
-          <el-editable-column prop="stat" align="center" label="入库状态" width="150px">
-            <template slot-scope="scope">
-              <p>{{ scope.row.stat | inFilter }}</p>
-            </template>
-          </el-editable-column>
-          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0.00, precision: 0}, type: 'visible'}" prop="actualQuantity" align="center" label="实际入库" min-width="150px">
+          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 1.00, precision: 2}, type: 'visible'}" prop="applyQuantity" align="center" label="申请数量" min-width="150">
             <template slot="edit" slot-scope="scope">
               <el-input-number
-                v-if="isEdit2(scope.row)"
-                v-model="scope.row.actualQuantity"
-                :precision="0"
-                :controls="false"
-                :min="0"
-                :value="scope.row.actualQuantity"
-                @blur="handleEdit(scope.row)"
+                :precision="2"
+                :controls="true"
+                :min="1.00"
+                v-model="scope.row.applyQuantity"
+                @change="queryStock(scope.row)"
               />
-              <span v-else>{{ scope.row.actualQuantity }}</span>
             </template>
           </el-editable-column>
-          <el-table-column :label="$t('public.actions')" :resizable="false" align="center" min-width="100">
+          <el-editable-column prop="movePrice" align="center" label="调拨单价" width="150px"/>
+          <!-- <el-editable-column :edit-render="{name: 'ElInputNumber', type: 'visible'}" prop="movePrice" align="center" label="调拨成本价" width="150px"/> -->
+          <el-editable-column prop="moveMoney" align="center" label="商品金额" width="150px">
             <template slot-scope="scope">
-              <el-button v-show="scope.row.data.stat === 1" title="确认" type="primary" size="mini" icon="el-icon-check" circle @click="handleEdit2(scope.row)"/>
+              <p>{{ getSize(scope.row) }}</p>
             </template>
-          </el-table-column>
+          </el-editable-column>
+          <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="remarks" align="center" label="备注" width="150px"/>
         </el-editable>
       </div>
     </el-card>
-    <!-- <div class="buttons" style="margin-top: 20px;margin-left: 30px">
-      <el-button type="primary" @click="handleEditok()">确定</el-button>
+    <div class="buttons" style="margin-top: 20px;margin-left: 30px">
+      <el-button type="primary" @click="handleEditok()">修改</el-button>
       <el-button type="danger" @click="handlecancel()">取消</el-button>
-    </div> -->
+    </div>
   </el-dialog>
 </template>
 
 <script>
-import { updateStoragemove, editStoragein, confirmStoragein, updateStoragemove2 } from '@/api/Storagemove'
+import { locationlist } from '@/api/WarehouseAdjust'
+import { updateStoragemove } from '@/api/Storagemove'
 import { getdeptlist } from '@/api/BasicSettings'
-import { locationlist } from '@/api/public'
+import { batchlist, getlocation } from '@/api/public'
+import { chooseProduct } from '@/api/Product'
 import MyRepository from './MyRepository'
 import MyAccept from './MyAccept'
 import MyDetail from './MyDetail'
@@ -267,22 +181,6 @@ import MyCreate from './MyCreate'
 import MyDepot from './MyDepot'
 export default {
   components: { MyRepository, MyCreate, MyAccept, MyDetail, MyDepot },
-  filters: {
-    statFilter(status) {
-      const statusMap = {
-        1: '未出库',
-        2: '已出库'
-      }
-      return statusMap[status]
-    },
-    inFilter(status) {
-      const statusMap = {
-        1: '未入库',
-        2: '已入库'
-      }
-      return statusMap[status]
-    }
-  },
   props: {
     editcontrol: {
       type: Boolean,
@@ -295,8 +193,6 @@ export default {
   },
   data() {
     return {
-      // 单据id
-      id: '',
       // 申请人回显
       applyPersonId: '',
       // 申请人控制
@@ -340,19 +236,15 @@ export default {
           { required: true, message: '请选择业务状态', trigger: 'change' }
         ]
       },
-      // 调拨申请明细数据
+      // 调拨单明细数据
       list2: [],
-      // 调拨出库明细
-      list3: [],
-      // 调拨入库明细
-      list4: [],
       // 调拨明细中货位发送参数
       locationlistparms: {
         pageNum: 1,
         pageSize: 1999,
         repositoryId: ''
       },
-      // 调拨入库中货位数据
+      // 调拨明细中货位数据
       locationlist: [],
       // 调拨单明细列表规则
       validRules: {}
@@ -364,146 +256,36 @@ export default {
     },
     editdata() {
       this.personalForm = this.editdata
-      this.id = this.personalForm.id
       this.moveOutRepository = this.personalForm.moveOutRepositoryName
       this.moveInRepository = this.personalForm.moveInRepositoryName
       this.applyPersonId = this.personalForm.applicationName
       this.list2 = this.personalForm.storageMoveDetailApplyVos
-      this.list3 = this.personalForm.storageMoveDetailVos
-      this.list4 = this.personalForm.storageMoveDetailConfirmVos
-      for (const i in this.list4) {
-        if (!this.list4[i].editdata) {
-          if (this.list4[i].locationName !== null) {
-            this.list4[i].editdata = 0
-          } else {
-            this.list4[i].editdata = 1
-          }
-        } else {
-          this.list4[i].editdata = 1
+      for (const i in this.list2) {
+        this.list2[i].location = this.list2[i].locationName
+        if (this.list2[i].taxRate < 1) {
+          this.list2[i].taxRate = (this.list2[i].taxRate) * 100
         }
       }
-      console.log(this.list4)
-    },
-    list4: {
-      handler() {
-        console.log(123123123123)
-        console.log(this.personalForm.businessStat)
-        if (this.personalForm.businessStat === 3 || this.personalForm.businessStat === '3') {
-          console.log('监听开始')
-          const reviewParms = {}
-          reviewParms.id = this.id
-          reviewParms.confirmPersonId = this.$store.getters.userId
-          reviewParms.confirmDate = this.getdatatime()
-          reviewParms.businessStat = 4
-          let count = 0
-          for (const i in this.list4) {
-            if (this.list4[i].stat === 2) {
-              count++
-              this.list4.confirmNumber = count
-            }
-          }
-          if (this.list4.confirmNumber === this.list4.length) {
-            console.log('监听变化')
-            const parms = JSON.stringify(reviewParms)
-            updateStoragemove2(parms).then(res => {
-              console.log(res)
-              this.$emit('rest', true)
-            })
-          }
-        }
-      },
-      deep: true,
-      immediate: true
+      this.getlocation()
     }
   },
   mounted() {
     this.getlist()
   },
   methods: {
-    getdatatime() { // 默认显示今天
-      var date = new Date()
-      var seperator1 = '-'
-      var year = date.getFullYear()
-      var month = date.getMonth() + 1
-      var strDate = date.getDate()
-      if (month >= 1 && month <= 9) {
-        month = '0' + month
-      }
-      if (strDate >= 0 && strDate <= 9) {
-        strDate = '0' + strDate
-      }
-      var currentdate = year + seperator1 + month + seperator1 + strDate
-      return currentdate
-    },
-    // 判断能否修改
-    isEdit2(row) {
-      if (row.stat === 2) {
-        return false
-      } else {
-        return true
-      }
-    },
-    test(event, row) {
-      console.log(event, row)
-      for (const i in this.list4) {
-        if (this.list4[i].productCode === row.productCode) {
-          this.list4[i].locationId = event
-        }
-      }
-      // for (let i = 0; i < this.list4.length; i++) {
-      //   for (let j = 0; j < this.list4.length; j++) {
-      //     if (this.list4[j].productCode === this.list4[i].productCode) {
-      //       console.log(111)
-      //       this.list4[j].locationId = val
-      //       console.log(j, this.list4[i].locationId)
-      //     }
-      //   }
-      // }
-    },
-    // 确认入库数量
-    handleEdit2(row) {
-      if (row.data.locationId === null) {
-        this.$notify.error({
-          title: '错误',
-          message: '信息未填完整',
-          offset: 100
-        })
-        return false
-      }
-      console.log(row.data.id)
-      console.log(row.id)
-      const query = JSON.stringify(row.data)
-      editStoragein(query).then(res => {
-        console.log(res)
-        if (res.data.ret === 200) {
-          confirmStoragein(row.data.id).then(res => {
-            console.log(res)
-            row.data.stat = 2
-          })
-        }
-      })
-    },
-    // 判断能否修改
-    isEdit(row) {
-      // console.log('显示', row)
-      if (row.editdata === 1) {
-        return true
-      }
-    },
-    // 修改调拨入库
-    handleEdit(row) {
-      // console.log(row.id)
-      // const query = JSON.stringify(row)
-      // editStoragein(query).then(res => {
-      //   console.log(res)
-      // })
-      console.log('修改', row)
-    },
     // 部门列表数据
     getlist() {
       getdeptlist().then(res => {
         if (res.data.ret === 200) {
           this.depts = res.data.data.content
+        }
+      })
+    },
+    getlocation() {
+      // 货位根据仓库id展现
+      locationlist(this.personalForm.moveOutRepository).then(res => {
+        if (res.data.ret === 200) {
+          this.locationlist = res.data.data.content.list
         }
       })
     },
@@ -528,7 +310,12 @@ export default {
       this.repositorycontrol = true
     },
     repositoryname(val) {
-      console.log(val)
+      const EnterDetail = this.$refs.editable.getRecords()
+      EnterDetail.map(function(elem) {
+        return elem
+      }).forEach(function(elem) {
+        elem.moveQuantity = 1
+      })
       this.moveOutRepository = val.repositoryName
       this.personalForm.moveOutRepository = val.id
       // this.locationlistparms.repositoryId = val.id
@@ -543,26 +330,272 @@ export default {
       //   }
       // })
     },
-    updatelocaltion(event, scope) {
-      console.log(this.personalForm)
-      if (event === true) {
-        locationlist(this.personalForm.moveInRepository).then(res => {
-          this.locationlist = res.data.data.content.list
-          console.log(this.locationlist)
+    queryStock(row) {
+      if (!row.existStock) {
+        const getemplist = {
+          productid: '',
+          code: row.productCode,
+          productname: '',
+          categoryid: '',
+          typeid: '',
+          isactive: '',
+          Productid: '',
+          pagenum: 1,
+          pagesize: 10,
+          searchRepositoryId: this.personalForm.moveOutRepository
+        }
+        chooseProduct(getemplist).then(res => {
+          console.log(res)
+          row.existStock = res.data.data.content.list[0].existStock
         })
       }
-      // if (event === false) {
-      //   console.log(scope.row.id)
-      //   const query = JSON.stringify(scope.row)
-      //   editStoragein(query).then(res => {
-      //     console.log(res)
+      console.log(this.$refs.editable.getRecords())
+      if (row.applyQuantity > row.existStock) {
+        this.$notify.error({
+          title: '错误',
+          message: '申请数量超过库存数量',
+          offset: 100
+        })
+        row.applyQuantity = 1
+      }
+      // if (row.location === null || row.location === '' || row.location === undefined) {
+      //   this.$notify.error({
+      //     title: '错误',
+      //     message: '仓库不存在此商品!',
+      //     offset: 100
       //   })
-      //   console.log('修改', scope.row)
+      //   row.moveQuantity = 1
+      //   return false
       // }
+      // 1.批次只有一个 不能超过总库存
+      // 2.批次有多个 不能超过单个批次数量
+      // let i = 0
+      // const EnterDetail = this.$refs.editable.getRecords()
+      // EnterDetail.map(function(elem) {
+      //   return elem
+      // }).forEach(function(elem) {
+      //   if (elem.productCode === row.productCode) {
+      //     i++
+      //   }
+      // })
+      // if (i === 1) {
+      //   // 1.批次只有一个 不能超过总库存
+      //   countlist(this.personalForm.moveOutRepository, 0, row.productCode).then(res => {
+      //     if (res.data.ret === 200) {
+      //       console.log('res.data.data.content', res.data.data.content)
+      //       if (res.data.data.content.list.length === 0) {
+      //         this.$notify.error({
+      //           title: '错误',
+      //           message: '仓库内无该物品',
+      //           offset: 100
+      //         })
+      //         row.moveQuantity = 1
+      //         return false
+      //       }
+      //       if (row.moveQuantity > res.data.data.content.list[0].ableStock) {
+      //         this.$notify.error({
+      //           title: '错误',
+      //           message: '出库数量超出了当前仓库可用存量，请输入正确出库数量!',
+      //           offset: 100
+      //         })
+      //         row.moveQuantity = 1
+      //         return false
+      //       }
+      //     } else {
+      //       this.$notify.error({
+      //         title: '错误',
+      //         message: res.data.msg,
+      //         offset: 100
+      //       })
+      //     }
+      //   })
+      // } else {
+      //   // 2.批次有多个 不能超过单个批次数量
+      //   const param = {}
+      //   param.productCode = row.productCode
+      //   param.batch = row.batch
+      //   param.repositoryId = row.repositoryId
+      //   getAllBatch(param).then(res => {
+      //     if (res.data.ret === 200) {
+      //       console.log('res.data.data.content', res.data.data.content)
+      //       if (row.moveQuantity > res.data.data.content[0].moveQuantity) {
+      //         this.$notify.error({
+      //           title: '错误',
+      //           message: '出库数量超出了当前批次可用存量，请输入正确出库数量!',
+      //           offset: 100
+      //         })
+      //         row.moveQuantity = 1
+      //         return false
+      //       }
+      //     } else {
+      //       this.$notify.error({
+      //         title: '错误',
+      //         message: res.data.msg,
+      //         offset: 100
+      //       })
+      //     }
+      //   })
+      // }
+    },
+    getLocationData(row) {
+      // 默认批次
+      if (row.batch === null || row.batch === '' || row.batch === undefined) {
+        const parms3 = row.productCode
+        batchlist(this.personalForm.moveOutRepository, parms3).then(res => {
+          console.log(res)
+          if (res.data.data.content.length > 0) {
+            row.batch = res.data.data.content[0]
+          }
+        })
+      } else {
+        const parms3 = row.productCode
+        batchlist(this.personalForm.moveOutRepository, parms3).then(res => {
+          if (res.data.data.content.length === 0) {
+            if (row.batch !== '不使用') {
+              row.batch = null
+            }
+          }
+        })
+      }
+      // 默认货位
+      getlocation(this.personalForm.moveOutRepository, row).then(res => {
+        if (res.data.ret === 200) {
+          console.log('res', res)
+          if (res.data.data.content.length !== 0) {
+            row.location = res.data.data.content[0].locationCode
+            row.locationId = res.data.data.content[0].id
+            console.log('row.locationId', row.locationId)
+          } else {
+            row.location = null
+            row.locationId = null
+          }
+        }
+      })
+      return row.location
+    },
+    // 批次
+    updatebatch(event, scope) {
+      if (event === true) {
+        console.log(this.personalForm.moveOutRepository)
+        if (this.personalForm.moveOutRepository === undefined || this.personalForm.moveOutRepository === '') {
+          this.$notify.error({
+            title: '错误',
+            message: '请先选择仓库',
+            offset: 100
+          })
+          return false
+        }
+        getlocation(this.personalForm.moveOutRepository, scope.row).then(res => {
+          if (res.data.ret === 200) {
+            if (res.data.data.content.length !== 0) {
+              this.locationlist = res.data.data.content
+              this.updatebatch3(scope)
+            } else if (res.data.data.content.length === 0) {
+              this.$notify.error({
+                title: '错误',
+                message: '该仓库没有该商品',
+                offset: 100
+              })
+              this.locationlist = []
+              return false
+            }
+          }
+        })
+      }
+    },
+    updatebatch3(scope) {
+      const parms3 = scope.row.productCode
+      batchlist(this.personalForm.moveOutRepository, parms3).then(res => {
+        this.batchlist = res.data.data.content
+      })
+    },
+    updatebatch2(event, scope) {
+      if (event === true) {
+        const parms3 = scope.row.productCode
+        batchlist(this.personalForm.moveOutRepository, parms3).then(res => {
+          this.batchlist = res.data.data.content
+        })
+      }
+    },
+    // 调拨单事件
+    // 新增调拨单明细
+    handleAddproduct() {
+      if (this.moveOutRepository === null || this.moveOutRepository === '' || this.moveOutRepository === undefined) {
+        this.$notify.error({
+          title: '错误',
+          message: '请先选择出库仓库',
+          offset: 100
+        })
+        return false
+      }
+      this.control = true
+    },
+    productdetail(val) {
+      console.log(val)
+      const nowlistdata = this.$refs.editable.getRecords()
+      for (let i = 0; i < val.length; i++) {
+        for (let j = 0; j < nowlistdata.length; j++) {
+          if (val[i].productCode === nowlistdata[j].productCode) {
+            this.$notify.error({
+              title: '错误',
+              message: '物品已添加',
+              offset: 100
+            })
+            return false
+          }
+        }
+        this.$refs.editable.insert(val[i])
+      }
+    },
+    // 调拨金额计算
+    getSize(row) {
+      row.moveMoney = row.movePrice * row.applyQuantity
+      return row.moveMoney
     },
     // 修改和取消按钮
     // 修改按钮
     handleEditok() {
+      // const EnterDetail = this.$refs.editable.getRecords()
+      // // 保存时同样商品不能有同一个批次
+      // let i = 0
+      // EnterDetail.map(function(elem) {
+      //   return elem
+      // }).forEach(function(elem) {
+      //   EnterDetail.map(function(elem2) {
+      //     return elem2
+      //   }).forEach(function(elem2) {
+      //     if (elem2.productCode === elem.productCode && elem2.batch === elem.batch) {
+      //       i++
+      //     }
+      //   })
+      // })
+      // console.log(i)
+      // if (i > EnterDetail.length) {
+      //   this.$notify.error({
+      //     title: '错误',
+      //     message: '同样商品不能有同一个批次',
+      //     offset: 100
+      //   })
+      //   return false
+      // }
+      // // 批次货位不能为空
+      // let j = 1
+      // EnterDetail.map(function(elem) {
+      //   return elem
+      // }).forEach(function(elem) {
+      //   if (elem.batch === null || elem.batch === undefined || elem.batch === '' || elem.location === null || elem.location === undefined || elem.location === '') {
+      //     j = 2
+      //   }
+      // })
+      // console.log(j)
+      // if (j === 2) {
+      //   this.$notify.error({
+      //     title: '错误',
+      //     message: '批次货位不能为空',
+      //     offset: 100
+      //   })
+      //   return false
+      // }
       this.personalForm.repositoryId = this.$store.getters.repositoryId
       this.personalForm.regionId = this.$store.getters.regionId
       this.personalForm.createPersonId = this.$store.getters.userId
@@ -581,9 +614,6 @@ export default {
       rest.map(function(elem) {
         return elem
       }).forEach(function(elem) {
-        if (elem.locationId === null || elem.locationId === '' || elem.locationId === undefined) {
-          delete elem.locationId
-        }
         if (elem.productCode === null || elem.productCode === '' || elem.productCode === undefined) {
           delete elem.productCode
         }
@@ -643,6 +673,8 @@ export default {
     },
     handlecancel() {
       this.$refs.editable.clear()
+      this.$refs.personalForm.clearValidate()
+      this.$refs.personalForm.resetFields()
       this.editVisible = false
     }
     // 修改操作结束 -------------------------------------------------

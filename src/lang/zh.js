@@ -103,6 +103,9 @@ export default {
     AddStoragemove: '新建库存调拨单',
     StoragemoveList: '库存调拨单列表',
     moverepostirylist: '配置调拨仓库',
+    Storagemovediff: '库存差异报告',
+    AddStoragemovediff: '新建调拨差异报告',
+    difflist: '调拨差异报告列表',
     AddMoveApplication: '新建调拨申请',
     MoveApplicationList: '调拨申请列表',
     StockAlarm: '库存预警',
@@ -319,6 +322,8 @@ export default {
     CostInvoiceList: '费用发票列表',
     AddRedStockInvoice: '新建红字采购发票',
     CostInstall: '费用设置',
+    CostInstallmanage: '费用设置管理',
+    categorymanage: '费用类别管理',
     SubjectFinance: '往来科目',
     countlist: '库存查询',
     SearchInventoryAlarmRules: '货物流转报警规则列表',
@@ -1414,7 +1419,15 @@ export default {
     moveperson: '员工名称',
     repostiryName: '仓库名称',
     repostiryId: '仓库编号'
-
+  },
+  Storagemovediff: {
+    title: '主题',
+    sourceNumber: '源单号码',
+    moveInRepository: '调入仓库',
+    moveOutRepository: '调出仓库',
+    requestArrivalDate: '到货日期',
+    moveReason: '调拨原因',
+    storageMoveDate: '出库日期'
   },
   StockAlarm: {
     searchRepositoryId: '仓库',

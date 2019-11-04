@@ -185,8 +185,11 @@ export default {
       this.getemplist.emoloyeeId = this.searchlist.applyPersonId
       searchmoverepository(this.getemplist).then(res => {
         if (res.data.ret === 200) {
-          this.list = res.data.data.content.list[0].repositories
-          this.total = res.data.data.content.list[0].repositories.length
+          try {
+            this.list = res.data.data.content.list[0].repositories
+          } catch (error) {
+            this.list = res.data.data.content.list
+          }
         }
         setTimeout(() => {
           this.listLoading = false

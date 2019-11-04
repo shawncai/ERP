@@ -351,6 +351,24 @@ export default {
         })
         return false
       }
+      for (let i = 0; i < rest.length; i++) {
+        if (rest[i].locationId === '' || rest[i].locationId === null || rest[i].locationId === undefined) {
+          this.$notify.error({
+            title: '错误',
+            message: `第${i + 1}行请选择货位`,
+            offset: 100
+          })
+          return false
+        }
+        if (rest[i].batch === '' || rest[i].batch === null || rest[i].batch === undefined) {
+          this.$notify.error({
+            title: '错误',
+            message: `第${i + 1}行请选择货位`,
+            offset: 100
+          })
+          return false
+        }
+      }
       rest.map(function(elem) {
         return elem
       }).forEach(function(elem) {

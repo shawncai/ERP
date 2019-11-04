@@ -853,6 +853,33 @@ export const asyncRouterMap = [
     ]
   },
   {
+    path: '/Storagemovediff',
+    component: Layout,
+    redirect: 'noredirect',
+    name: 'Storagemovediff',
+    alwaysShow: true,
+    meta: {
+      title: 'Storagemovediff',
+      icon: 'diaobo',
+      type: 4,
+      roles: ['131-141-142-4', '131-141-143-1']
+    },
+    children: [
+      {
+        path: 'AddStoragemovediff',
+        component: () => import('@/views/Storagemovediff/adddiff'),
+        name: 'AddStoragemovediff',
+        meta: { title: 'AddStoragemovediff', noCache: false, roles: ['131-141-143-1'] }
+      },
+      {
+        path: 'difflist',
+        component: () => import('@/views/Storagemovediff/difflist'),
+        name: 'difflist',
+        meta: { title: 'difflist', noCache: true, roles: ['131-141-142-4'] }
+      }
+    ]
+  },
+  {
     path: '/Inventorydamaged',
     component: Layout,
     redirect: 'noredirect',
@@ -1709,7 +1736,9 @@ export const asyncRouterMap = [
     path: '/CostInstall',
     component: Layout,
     redirect: 'noredirect',
+    alwaysShow: true,
     meta: {
+      title: 'CostInstall',
       icon: 'yingfukuan',
       type: 11,
       roles: ['266-268-1', '104-128-6', '104-128-4', '104-128-7', '104-128-67', '104-128-5']
@@ -1719,7 +1748,13 @@ export const asyncRouterMap = [
         path: 'index',
         component: () => import('@/views/CostInstall/index'),
         name: 'CostInstall',
-        meta: { title: 'CostInstall', noCache: true }
+        meta: { title: 'CostInstallmanage', noCache: true }
+      },
+      {
+        path: 'categorymanage',
+        component: () => import('@/views/CostInstall/categorymanage'),
+        name: 'categorymanage',
+        meta: { title: 'categorymanage', noCache: true }
       }
     ]
   },
