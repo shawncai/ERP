@@ -365,9 +365,13 @@ export default {
     editdata() {
       this.personalForm = this.editdata
       this.chargeRegions = this.editdata.chargeRegions2
-      const sss = this.personalForm.chargeRegions.split(',')
-      console.log('sss', sss)
-      this.supp = sss
+      if (this.personalForm.chargeRegions != null) {
+        const sss = this.personalForm.chargeRegions.split(',')
+        console.log('sss', sss)
+        this.supp = sss
+      } else {
+        this.supp = []
+      }
       console.log('personalForm', this.personalForm)
       this.getnationlist()
       this.handlechange(this.personalForm.countryId)
