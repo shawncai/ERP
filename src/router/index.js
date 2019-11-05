@@ -2316,14 +2316,14 @@ export const asyncRouterMap = [
       title: 'SaleCategory',
       icon: 'shuxing',
       type: 3,
-      roles: ['54-83-4']
+      roles: ['54-83-4', '54-83-1', '54-83-2', '54-83-3', '54-83-5', '54-83-6', '54-83-7']
     },
     children: [
       {
         path: 'SaleCategoryList',
         component: () => import('@/views/SaleCategory/SaleCategoryList'),
         name: 'SaleCategoryList',
-        meta: { title: 'SaleCategoryList', noCache: true, roles: ['54-83-1', '54-83-2', '54-83-3', '54-83-5', '54-83-6', '54-83-7'] }
+        meta: { title: 'SaleCategoryList', noCache: true, roles: ['54-83-1', '54-83-2', '54-83-3', '54-83-5', '54-83-6', '54-83-7', '54-83-4'] }
       }
     ]
   },
@@ -2337,20 +2337,20 @@ export const asyncRouterMap = [
       title: 'SmartReplenishment',
       icon: 'zhinengbuhuo',
       type: 3,
-      roles: ['54-102-4']
+      roles: ['54-102-4', '54-102-2', '54-102-6', '54-102-7', '54-102-39']
     },
     children: [
       {
         path: 'SmartReplenishmentList',
         component: () => import('@/views/SmartReplenishment/SmartReplenishmentList'),
         name: 'SmartReplenishmentList',
-        meta: { title: 'SmartReplenishmentList', noCache: true, roles: ['54-102-2', '54-102-6', '54-102-7', '54-102-39'] }
+        meta: { title: 'SmartReplenishmentList', noCache: true, roles: ['54-102-2', '54-102-6', '54-102-7', '54-102-39', '54-102-4'] }
       },
       {
         path: 'InventoryReplenishment',
         component: () => import('@/views/SmartReplenishment/InventoryReplenishment'),
         name: 'InventoryReplenishment',
-        meta: { title: 'InventoryReplenishment', noCache: true, roles: ['54-102-2', '54-102-6', '54-102-7', '54-102-39'] }
+        meta: { title: 'InventoryReplenishment', noCache: true, roles: ['54-102-2', '54-102-6', '54-102-7', '54-102-39', '54-102-4'] }
       }
     ]
   },

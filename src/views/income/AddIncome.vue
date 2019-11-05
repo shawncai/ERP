@@ -110,7 +110,18 @@
             <el-editable-column type="selection" min-width="55" align="center"/>
             <el-editable-column label="序号" min-width="55" align="center" type="index"/>
             <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="summary" align="center" label="摘要" min-width="150px"/>
-            <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="productName" align="center" label="科目名称" min-width="150px"/>
+            <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="productName" align="center" label="科目名称" min-width="150px">
+              <template slot="edit" slot-scope="scope">
+                <el-select v-model="scope.row.itemId" :value="scope.row.itemId" placeholder="请选择检验项目" filterable clearable style="width: 100%;">
+                  <el-option
+                    v-for="(item, index) in itemIds"
+                    :key="index"
+                    :value="item.id"
+                    :label="item.categoryName"/>
+                </el-select>
+                <span>{{ scope.row.itemIds }}</span>
+              </template>
+            </el-editable-column>
             <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0, precision: 2}, type: 'visible'}" prop="money" align="center" label="金额" min-width="150px"/>
           </el-editable>
         </div>
@@ -274,6 +285,14 @@ export default {
     },
     // 门店focus事件触发
     handlechooseRep() {
+      if (this.region === null || this.region === '' || this.region === undefined) {
+        this.$notify.error({
+          title: '错误',
+          message: '请先选择区域',
+          offset: 100
+        })
+        return false
+      }
       this.repositorycontrol = true
     },
     repositoryname(val) {

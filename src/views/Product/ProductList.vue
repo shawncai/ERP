@@ -16,7 +16,7 @@
           </el-col>
           <el-col :span="5" style="margin-left: 10px">
             <el-form-item :label="$t('Product.supplierid')">
-              <el-input v-model="supplierid" :placeholder="$t('Product.supplierid')" class="filter-item" clearable @keyup.enter.native="handleFilter" @focus="handlechoose"/>
+              <el-input v-model="supplierid" :placeholder="$t('Product.supplierid')" class="filter-item" clearable @keyup.enter.native="handleFilter" @focus="handlechoose" @clear="clear"/>
             </el-form-item>
             <my-supplier :control.sync="empcontrol" @supplierName="supplierName"/>
           </el-col>
@@ -39,7 +39,7 @@
                 <el-option value="1" label="上1"/>
                 <el-option value="2" label="下2"/>
               </el-select>
-              <el-input v-model="categoryid" placeholder="物品分类" style="width: 40%;float: left;margin-left: 20px;margin-top: 20px" clearable @focus="treechoose"/>
+              <el-input v-model="categoryid" placeholder="物品分类" style="width: 40%;float: left;margin-left: 20px;margin-top: 20px" clearable @focus="treechoose" @clear="clear2"/>
               <my-tree :treecontrol.sync="treecontrol" @tree="tree"/>
               <div class="seachbutton" style="width: 100%;float: right;margin-top: 20px">
                 <el-button v-waves class="filter-item" type="primary" style="float: right" round @click="handleFilter">{{ $t('public.search') }}</el-button>
@@ -339,11 +339,13 @@ export default {
         }
       })
     },
-    restFilter() {
-      this.categoryid = ''
-      this.getemplist.categoryid = ''
+    clear() {
       this.supplierid = ''
       this.getemplist.supplierid = ''
+    },
+    clear2() {
+      this.categoryid = ''
+      this.getemplist.categoryid = ''
     },
     // 搜索
     handleFilter() {
@@ -352,9 +354,9 @@ export default {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
-          this.restFilter()
+          // this.restFilter()
         } else {
-          this.restFilter()
+          // this.restFilter()
         }
       })
     },

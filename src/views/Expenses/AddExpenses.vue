@@ -58,7 +58,7 @@
               <el-col :span="6">
                 <el-form-item :label="$t('Expenses.expensesRepositoryId')" style="width: 100%;">
                   <el-input v-model="expensesRepositoryId" style="margin-left: 18px;width: 200px" @focus="handlechooseRep"/>
-                  <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
+                  <my-repository :repositorycontrol.sync="repositorycontrol" :regionid="region" @repositoryname="repositoryname"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
@@ -153,6 +153,12 @@ export default {
       // 区域列表
       regions: [],
       region: null,
+      // 区域列表字段更改
+      props: {
+        value: 'id',
+        label: 'regionName',
+        children: 'regionListVos'
+      },
       // 结算方式数据
       colseTypes: [],
       payModes: [],
@@ -203,6 +209,29 @@ export default {
     this.getTypes()
   },
   methods: {
+    // 转化数据方法
+    tranKTree(arr) {
+      if (!arr || !arr.length) return
+      return arr.map(item => ({
+        id: item.id,
+        regionName: item.regionName,
+        regionListVos: this.tranKTree(item.regionListVos)
+      }))
+    },
+    handlechange4(val) {
+      console.log(val)
+      const finalid = val[val.length - 1]
+      console.log(finalid)
+      this.region = finalid
+      // searchRepository(finalid).then(res => {
+      //   console.log(res)
+      //   if (res.data.ret === 200) {
+      //     this.repositories = res.data.data.content.list
+      //   } else {
+      //     console.log('区域选择门店')
+      //   }
+      // })
+    },
     // 新增收入明细
     insertEvent(index) {
       this.$refs.editable.insertAt({ productCode: null }, index)
@@ -251,6 +280,14 @@ export default {
     },
     // 门店focus事件触发
     handlechooseRep() {
+      if (this.region === null || this.region === '' || this.region === undefined) {
+        this.$notify.error({
+          title: '错误',
+          message: '请先选择区域',
+          offset: 100
+        })
+        return false
+      }
       this.repositorycontrol = true
     },
     repositoryname(val) {
