@@ -190,6 +190,12 @@
                   </el-select>
                 </el-form-item>
               </el-col>
+              <el-col :span="6">
+                <el-form-item :label="$t('NewEmployeeInformation.regionids')" style="width: 100%;">
+                  <el-input v-model="chargeRegions" style="margin-left: 18px;width: 200px" @focus="treechoose"/>
+                  <my-tree :treecontrol.sync="treecontrol" :supp.sync="supp" @ids2="ids2" @ids="ids" @names="names"/>
+                </el-form-item>
+              </el-col>
             </el-row>
           </el-form>
         </div>
@@ -223,9 +229,11 @@ import { getdeptlist, register, searchEmpCategory, Verifyaccount } from '@/api/E
 import permission from '@/directive/permission/index.js' // 权限判断指令
 import permission2 from '@/directive/permission2/index.js' // 权限判断指令
 import checkPermission from '@/utils/permission' // 权限判断函数
+import MyTree from './components/MyTree'
 export default {
   name: 'NewEmployeeInformation',
   directives: { permission, permission2 },
+  components: { MyTree },
   data() {
     var checkphone = (rule, value, callback) => {
       if (!value) {
@@ -265,6 +273,7 @@ export default {
       // 角色数据
       roleNames: [],
       radio2: 3,
+      supp: [],
       // 职位搜索时参数
       jobCat: {
         type: 2,
@@ -279,8 +288,10 @@ export default {
       provinces: [],
       // 城市列表
       cities: [],
+      treecontrol: false,
       // 区域列表
       regions: [],
+      regionids: [],
       // 门店列表
       repositories: [],
       // 部门列表
@@ -291,6 +302,7 @@ export default {
         label: 'regionName',
         children: 'regionListVos'
       },
+      chargeRegions: '',
       // 个人信息数据
       personalForm: {
         account: '',
@@ -387,6 +399,21 @@ export default {
     this.handlechange(this.$store.getters.useCountry)
   },
   methods: {
+    ids2(val) {
+      this.supp = val
+    },
+    ids(val) {
+      this.personalForm.chargeRegions = val
+    },
+    names(val) {
+      this.chargeRegions = val
+    },
+    tree(val) {
+      console.log(val)
+    },
+    treechoose() {
+      this.treecontrol = true
+    },
     jungleshow() {
       const roles = this.$store.getters.roles
       this.isshow = roles.includes('1-2-8-1')
@@ -617,8 +644,11 @@ export default {
         gender: '',
         certificatetype: '',
         certificatenumber: '',
+        chargeRegions: '',
         country: this.$store.getters.countryId
       }
+      this.chargeRegions = ''
+      this.supp = []
       this.connectForm = {
         address: '',
         phone: '',

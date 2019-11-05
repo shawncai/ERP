@@ -412,6 +412,19 @@ export default {
       getempinfo(row.id).then(res => {
         console.log(res)
         const emData = res.data.data
+        let regionsName = ''
+        const regions = emData.content.regions
+        console.log('regions', regions)
+        if (regions != null) {
+          for (let j = 0; j < regions.length; j++) {
+            regionsName = regionsName + regions[j].regionName + ', '
+          }
+          if (regionsName.length > 0) {
+            regionsName = regionsName.substr(0, regionsName.length - 1)
+          }
+        }
+        emData.content.regionsName = regionsName
+
         this.detailvisible = true
         this.edtiForm = Object.assign({}, emData)
       })
@@ -422,6 +435,17 @@ export default {
       getemplist(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
+          for (let i = 0; i < this.list.length; i++) {
+            let regionsName = ''
+            const regions = this.list[i].regions
+            if (regions != null) {
+              for (let j = 0; j < regions.length; j++) {
+                regionsName = regionsName + regions[j].regionName
+              }
+            }
+            this.list[i].regionsName = regionsName
+          }
+          console.log('this.list', this.list)
           this.total = res.data.data.content.totalCount
         } else {
           console.log('列表出错')
@@ -506,8 +530,19 @@ export default {
       getempinfo(row.id).then(res => {
         const emData = res.data.data.content
         this.editVisible = true
-        this.personalForm = Object.assign({}, emData)
+        console.log('emData', emData)
+        let regionsName = ''
+        const regions = emData.regions
+        console.log('regions', regions)
+        if (regions != null) {
+          for (let j = 0; j < regions.length; j++) {
+            regionsName = regionsName + regions[j].regionName
+          }
+        }
+        emData.chargeRegions = emData.chargeRegions
+        emData.chargeRegions2 = regionsName
 
+        this.personalForm = Object.assign({}, emData)
         if (emData.certificateType !== null && emData.certificateType !== undefined && emData.certificateType !== '') {
           this.personalForm.certificateType = String(emData.certificateType)
         }

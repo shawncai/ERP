@@ -143,6 +143,11 @@
                   <span>{{ personalForm.content.repositoryName }}</span>
                 </el-form-item>
               </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('NewEmployeeInformation.regionids')" style="width: 100%;">
+                  <span>{{ personalForm.content.regionsName }}</span>
+                </el-form-item>
+              </el-col>
             </el-row>
           </el-form>
         </div>
@@ -624,6 +629,7 @@ export default {
       this.personalForm = this.detaildata
       console.log('this.personalForm', this.personalForm)
       this.personalForm.content.account = this.detaildata.content.account
+      this.personalForm.content.regionsName = this.detaildata.content.regionsName
       if (this.personalForm.contract !== '' && this.personalForm.contract !== null && this.personalForm.contract !== undefined) {
         this.contracts = this.personalForm.contract
       }

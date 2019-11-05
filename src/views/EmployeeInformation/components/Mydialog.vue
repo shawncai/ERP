@@ -186,6 +186,12 @@
                 </el-select>
               </el-form-item>
             </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('NewEmployeeInformation.regionids')" style="width: 100%;">
+                <el-input v-model="chargeRegions" style="margin-left: 18px;width: 200px" @focus="treechoose"/>
+                <my-tree :treecontrol.sync="treecontrol" :supp.sync="supp" @ids2="ids2" @ids="ids" @names="names"/>
+              </el-form-item>
+            </el-col>
           </el-row>
         </el-form>
       </div>
@@ -214,7 +220,9 @@
 <script>
 import { getcountrylist, getprovincelist, getcitylist, regionlist, searchRepository, getDetailById, getRegion, saveRegion } from '@/api/public'
 import { getdeptlist, updateemp, searchEmpCategory } from '@/api/EmployeeInformation'
+import MyTree from './MyTree'
 export default {
+  components: { MyTree },
   props: {
     editcontrol: {
       type: Boolean,
@@ -270,6 +278,10 @@ export default {
       repositories: [],
       // 部门列表
       depts: [],
+      supp: [],
+      treecontrol: false,
+      regionids: [],
+      chargeRegions: '',
       // 区域列表字段更改
       props: {
         value: 'id',
@@ -352,6 +364,14 @@ export default {
     },
     editdata() {
       this.personalForm = this.editdata
+      this.chargeRegions = this.editdata.chargeRegions2
+      if (this.personalForm.chargeRegions != null) {
+        const sss = this.personalForm.chargeRegions.split(',')
+        console.log('sss', sss)
+        this.supp = sss
+      } else {
+        this.supp = []
+      }
       console.log('personalForm', this.personalForm)
       this.getnationlist()
       this.handlechange(this.personalForm.countryId)
@@ -374,6 +394,21 @@ export default {
     this.getroleName()
   },
   methods: {
+    ids2(val) {
+      this.supp = val
+    },
+    ids(val) {
+      this.personalForm.chargeRegions = val
+    },
+    names(val) {
+      this.chargeRegions = val
+    },
+    tree(val) {
+      console.log(val)
+    },
+    treechoose() {
+      this.treecontrol = true
+    },
     async getroleName() {
       console.log(this.$store.getters)
       const rolesIds = this.$store.getters.roles

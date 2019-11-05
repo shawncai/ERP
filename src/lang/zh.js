@@ -835,6 +835,7 @@ export default {
     effectDay: '有效天数'
   },
   NewEmployeeInformation: {
+    regionids: '区域权限',
     Maintenancetimes: '维修次数',
     Delaytimes: '延误次数',
     Regionalranking: '区域排行',
