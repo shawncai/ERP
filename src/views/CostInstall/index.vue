@@ -263,8 +263,8 @@ export default {
         categoryname: '',
         type: '',
         isEffective: '',
-        pagenum: 1,
-        pagesize: 10
+        pageNum: 1,
+        pageSize: 10
       }
     }
   },
