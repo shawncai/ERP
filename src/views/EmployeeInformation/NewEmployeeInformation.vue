@@ -92,7 +92,7 @@
             <el-row>
               <el-col :span="6">
                 <el-form-item :label="$t('NewEmployeeInformation.phone')" prop="phone" style="width: 100%;">
-                  <el-input v-model.number="connectForm.phone" placeholder="请输入手机号" clearable style="margin-left: 18px;width: 200px"/>
+                  <el-input v-model="connectForm.phone" placeholder="请输入手机号" clearable style="margin-left: 18px;width: 200px"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
