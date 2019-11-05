@@ -84,6 +84,12 @@ export function searchstoragemovediff(query) {
   if (query.endTime !== '' && query.endTime !== null && query.endTime !== undefined) {
     params.append('endTime', query.endTime) // 你要传给后台的参数值 key/value
   }
+  if (query.pageSize !== '' && query.pageSize !== null && query.pageSize !== undefined) {
+    params.append('pageSize', query.pageSize) // 你要传给后台的参数值 key/value
+  }
+  if (query.pageNum !== '' && query.pageNum !== null && query.pageNum !== undefined) {
+    params.append('pageNum', query.pageNum) // 你要传给后台的参数值 key/value
+  }
   return request({
     url: '/moveDiff/reportList',
     method: 'post',
