@@ -417,7 +417,10 @@ export default {
         console.log('regions', regions)
         if (regions != null) {
           for (let j = 0; j < regions.length; j++) {
-            regionsName = regionsName + regions[j].regionName
+            regionsName = regionsName + regions[j].regionName + ', '
+          }
+          if (regionsName.length > 0) {
+            regionsName = regionsName.substr(0, regionsName.length - 1)
           }
         }
         emData.content.regionsName = regionsName
