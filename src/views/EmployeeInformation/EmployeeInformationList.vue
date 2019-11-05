@@ -420,7 +420,7 @@ export default {
             regionsName = regionsName + regions[j].regionName + ', '
           }
           if (regionsName.length > 0) {
-            regionsName = regionsName.substr(0, regionsName.length - 1)
+            regionsName = regionsName.substr(0, regionsName.length - 2)
           }
         }
         emData.content.regionsName = regionsName
@@ -536,7 +536,10 @@ export default {
         console.log('regions', regions)
         if (regions != null) {
           for (let j = 0; j < regions.length; j++) {
-            regionsName = regionsName + regions[j].regionName
+            regionsName = regionsName + regions[j].regionName + ', '
+          }
+          if (regionsName.length > 0) {
+            regionsName = regionsName.substr(0, regionsName.length - 2)
           }
         }
         emData.chargeRegions = emData.chargeRegions
