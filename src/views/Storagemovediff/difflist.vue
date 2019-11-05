@@ -567,7 +567,7 @@ export default {
     },
     // 新增数据
     handleAdd() {
-      this.$router.push('/StockOut/AddOtherStockOut')
+      this.$router.push('/Storagemovediff/AddStoragemovediff')
     },
     // 导出
     handleExport() {
