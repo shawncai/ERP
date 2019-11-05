@@ -5,7 +5,7 @@
 </template>
 <script>
 
-import { getrepositorybyreid } from '@/api/map'
+import { searchRepository2 } from '@/api/Repository'
 
 export default {
   name: 'GGMap',
@@ -28,8 +28,14 @@ export default {
   },
   methods: {
     getmapdata() {
-      getrepositorybyreid().then(res => {
-        const arr = res.data.data.content
+      const params = {}
+      params.loginRepositoryId = this.$store.getters.repositoryId
+      params.regionIds = this.$store.getters.regionId
+      params.pagenum = 1
+      params.pagesize = 9999
+
+      searchRepository2(params).then(res => {
+        const arr = res.data.data.content.list
         const arrb = []
         arr.map(item => {
           const newobj = {}
@@ -37,7 +43,7 @@ export default {
           position.lng = item.longitude
           position.lat = item.latitude
           newobj.position = position
-          newobj.name = item.name
+          newobj.name = item.repositoryName
           newobj.address = item.address
           newobj.phone = item.phone
           arrb.push(newobj)

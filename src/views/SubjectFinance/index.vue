@@ -507,6 +507,7 @@ export default {
       this.parentId = data.categoryName
       this.personalForm.levle = data.level + 1
       this.Iscode = ceshidigui.code
+      console.log('personalForm.levle', this.personalForm.levle)
       console.log('ceshidigui', ceshidigui)
       console.log('data', data)
       console.log('node', node)
@@ -662,7 +663,8 @@ export default {
       }
       this.addtreeform.subjectNumber = this.additem.itemCode
       this.addtreeform.subjectName = this.additem.itemName
-      console.log('additem', this.additem)
+      console.log('parms', this.additem)
+      console.log('parms2', this.additem)
       const parms = JSON.stringify(this.additem)
       const parms2 = JSON.stringify(this.addtreeform)
       addSubjectDetail(parms, parms2).then(res => {
