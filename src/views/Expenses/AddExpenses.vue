@@ -40,6 +40,22 @@
                 </el-form-item>
               </el-col>
               <el-col :span="6">
+                <el-form-item :label="$t('income.region')" style="width: 100%;">
+                  <el-cascader
+                    :options="regions"
+                    :props="props"
+                    v-model="personalForm.regionid"
+                    :show-all-levels="false"
+                    placeholder="请选择区域"
+                    change-on-select
+                    filterable
+                    clearable
+                    style="margin-left: 18px;width: 200px"
+                    @change="handlechange4"
+                  />
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
                 <el-form-item :label="$t('Expenses.expensesRepositoryId')" style="width: 100%;">
                   <el-input v-model="expensesRepositoryId" style="margin-left: 18px;width: 200px" @focus="handlechooseRep"/>
                   <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
@@ -112,6 +128,7 @@
 import '@/directive/noMoreClick/index.js'
 import { createexpenses } from '@/api/Expenses'
 import { searchCategory } from '@/api/Supplier'
+import { regionlist } from '@/api/public'
 import { searchSaleCategory } from '@/api/SaleCategory'
 import { getdeptlist } from '@/api/BasicSettings'
 import MyEmp from './components/MyEmp'
@@ -133,6 +150,9 @@ export default {
           return time.getTime() < new Date().getTime() - 8.64e7
         }
       },
+      // 区域列表
+      regions: [],
+      region: null,
       // 结算方式数据
       colseTypes: [],
       payModes: [],
@@ -203,6 +223,14 @@ export default {
       searchSaleCategory(this.colseTypeparms).then(res => {
         if (res.data.ret === 200) {
           this.colseTypes = res.data.data.content.list
+        }
+      })
+      // 区域列表数据
+      regionlist().then(res => {
+        if (res.data.ret === 200) {
+          this.regions = this.tranKTree(res.data.data.content)
+        } else {
+          console.log('区域列表出错')
         }
       })
     },

@@ -40,9 +40,25 @@
                 </el-form-item>
               </el-col>
               <el-col :span="6">
+                <el-form-item :label="$t('income.region')" style="width: 100%;">
+                  <el-cascader
+                    :options="regions"
+                    :props="props"
+                    v-model="personalForm.regionid"
+                    :show-all-levels="false"
+                    placeholder="请选择区域"
+                    change-on-select
+                    filterable
+                    clearable
+                    style="margin-left: 18px;width: 200px"
+                    @change="handlechange4"
+                  />
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
                 <el-form-item :label="$t('income.incomeRepositoryId')" style="width: 100%;">
                   <el-input v-model="incomeRepositoryId" style="margin-left: 18px;width: 200px" @focus="handlechooseRep"/>
-                  <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
+                  <my-repository :repositorycontrol.sync="repositorycontrol" :regionid="region" @repositoryname="repositoryname"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
@@ -110,6 +126,7 @@
 
 <script>
 import '@/directive/noMoreClick/index.js'
+import { regionlist } from '@/api/public'
 import { createincome } from '@/api/income'
 import { searchCategory } from '@/api/Supplier'
 import { getdeptlist } from '@/api/BasicSettings'
@@ -127,6 +144,15 @@ export default {
       }
     }
     return {
+      // 区域列表
+      regions: [],
+      region: null,
+      // 区域列表字段更改
+      props: {
+        value: 'id',
+        label: 'regionName',
+        children: 'regionListVos'
+      },
       pickerOptions1: {
         disabledDate: (time) => {
           return time.getTime() < new Date().getTime() - 8.64e7
@@ -182,6 +208,29 @@ export default {
     this.getTypes()
   },
   methods: {
+    handlechange4(val) {
+      console.log(val)
+      const finalid = val[val.length - 1]
+      console.log(finalid)
+      this.region = finalid
+      // searchRepository(finalid).then(res => {
+      //   console.log(res)
+      //   if (res.data.ret === 200) {
+      //     this.repositories = res.data.data.content.list
+      //   } else {
+      //     console.log('区域选择门店')
+      //   }
+      // })
+    },
+    // 转化数据方法
+    tranKTree(arr) {
+      if (!arr || !arr.length) return
+      return arr.map(item => ({
+        id: item.id,
+        regionName: item.regionName,
+        regionListVos: this.tranKTree(item.regionListVos)
+      }))
+    },
     // 新增收入明细
     insertEvent(index) {
       this.$refs.editable.insertAt({ productCode: null }, index)
@@ -197,6 +246,14 @@ export default {
       searchCategory(7).then(res => {
         if (res.data.ret === 200) {
           this.colseTypes = res.data.data.content.list
+        }
+      })
+      // 区域列表数据
+      regionlist().then(res => {
+        if (res.data.ret === 200) {
+          this.regions = this.tranKTree(res.data.data.content)
+        } else {
+          console.log('区域列表出错')
         }
       })
     },

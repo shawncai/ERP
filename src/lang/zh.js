@@ -2177,7 +2177,8 @@ export default {
     incomeAccount: '收款账户',
     deptId: '所在部门',
     currency: '货币',
-    incomeRepositoryId: '门店'
+    incomeRepositoryId: '门店',
+    region: '区域'
   },
   Expenses: {
     title: '支出单主题',
