@@ -18,6 +18,7 @@ const getters = {
   userId: state => state.user.userId,
   useCountry: state => state.user.useCountry,
   regionId: state => state.user.regionId,
+  regionIds: state => state.user.regionIds,
   repositoryId: state => state.user.repositoryId,
   yin: state => state.app.yin,
   countryId: state => state.user.countryId,

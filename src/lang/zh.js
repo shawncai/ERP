@@ -9,6 +9,7 @@ export default {
     nwow: 'NWOW后台管理',
     CheckSet: '质检明细设置',
     home: '首页',
+    map: '地图',
     AddSupplierAdjust: '新建供应商调价单',
     SupplierAdjustList: '供应商调价单列表',
     WorkDesk: '工作台',
