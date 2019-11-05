@@ -88,23 +88,23 @@ export default new Router({
 })
 
 export const asyncRouterMap = [
-  // {
-  //   path: '/map',
-  //   component: Layout,
-  //   redirect: 'noredirect',
-  //   meta: {
-  //     icon: 'caigouxuqiu',
-  //     type: 1
-  //   },
-  //   children: [
-  //     {
-  //       path: 'map',
-  //       component: () => import('@/views/home/index'),
-  //       name: 'map',
-  //       meta: { title: 'map', noCache: true }
-  //     }
-  //   ]
-  // },
+  {
+    path: '/map',
+    component: Layout,
+    redirect: 'noredirect',
+    meta: {
+      icon: 'caigouxuqiu',
+      type: 1
+    },
+    children: [
+      {
+        path: 'map',
+        component: () => import('@/views/home/index'),
+        name: 'map',
+        meta: { title: 'map', noCache: true }
+      }
+    ]
+  },
   {
     path: '/home',
     component: Layout,
