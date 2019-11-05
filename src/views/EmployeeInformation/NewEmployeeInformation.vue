@@ -92,7 +92,7 @@
             <el-row>
               <el-col :span="6">
                 <el-form-item :label="$t('NewEmployeeInformation.phone')" prop="phone" style="width: 100%;">
-                  <el-input v-model.number="connectForm.phone" placeholder="请输入手机号" clearable style="margin-left: 18px;width: 200px"/>
+                  <el-input v-model="connectForm.phone" placeholder="请输入手机号" clearable style="margin-left: 18px;width: 200px"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
@@ -240,9 +240,8 @@ export default {
         return callback(new Error('手机号不能为空'))
       }
       setTimeout(() => {
-        var pattern = /^(13[0-9]|14[5|7]|15[0|1|2|3|5|6|7|8|9]|18[0|1|2|3|5|6|7|8|9])\d{8}$/
-        pattern.test(value)
-        if (!pattern.test(value)) {
+        console.log(String(value).length)
+        if (String(value).length !== 11) {
           callback(new Error('请输入正确手机号码'))
         } else {
           callback()
