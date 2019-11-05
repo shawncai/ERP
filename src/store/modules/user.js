@@ -60,7 +60,7 @@ const user = {
       state.regionId = regionId
     },
     SET_REGIONIDS: (state, regionIds) => {
-      state.regionId = regionIds
+      state.regionIds = regionIds
     },
     SET_REPOSITORYID: (state, repositoryId) => {
       state.repositoryId = repositoryId
