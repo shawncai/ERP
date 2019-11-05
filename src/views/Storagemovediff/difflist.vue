@@ -5,12 +5,12 @@
       <el-row>
         <el-form ref="getemplist" :model="getemplist" label-width="100px" style="margin-top: -9px">
           <el-col :span="4">
-            <el-form-item label="调拨单主题">
+            <el-form-item label="差异单主题">
               <el-input v-model="getemplist.title" :placeholder="$t('StockOut.title')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
           <el-col :span="4">
-            <el-form-item label="调拨单编号">
+            <el-form-item label="差异单编号">
               <el-input v-model="getemplist.code" :placeholder="$t('StockOut.code')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
@@ -27,10 +27,10 @@
               placement="bottom"
               width="500"
               trigger="click">
-              <el-select v-model="getemplist.outReasonId" placeholder="请选择出库原因" style="margin-top: 20px;margin-left: 20px;float: left" clearable >
+              <!-- <el-select v-model="getemplist.outReasonId" placeholder="请选择出库原因" style="margin-top: 20px;margin-left: 20px;float: left" clearable >
                 <el-option value="1" label="原因1"/>
                 <el-option value="2" label="原因2"/>
-              </el-select>
+              </el-select> -->
               <el-date-picker
                 v-model="date"
                 type="daterange"
@@ -148,20 +148,21 @@
       <!-- 列表结束 -->
       <pagination v-show="total>0" :total="total" :page.sync="getemplist.pageNum" :limit.sync="getemplist.pageSize" @pagination="getlist" />
       <!--修改开始=================================================-->
-      <my-edit :editcontrol.sync="editVisible" :editdata.sync="personalForm" @rest="refreshlist"/>
+      <my-dialog :editcontrol.sync="editVisible" :editdata.sync="personalForm" @rest="refreshlist"/>
       <!--修改结束=================================================-->
     </el-card>
   </div>
 </template>
 
 <script>
-import { searchOutlist, deleteStock, updateotherenter2 } from '@/api/StockOut'
+// import { searchOutlist, deleteStock, updateotherenter2 } from '@/api/StockOut'
+import { searchstoragemovediff, deletestoragemovediff } from '@/api/Storagemovediff'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
 import permission from '@/directive/permission/index.js' // 权限判断指令
 import permission2 from '@/directive/permission2/index.js' // 权限判断指令
 import checkPermission from '@/utils/permission' // 权限判断函数
-import MyEdit from './components/MyEdit'
+import MyDialog from './components/MyDialog'
 import MyRepository from './components/MyRepository'
 import MyAccept from './components/MyAccept'
 import MyCreate from './components/MyCreate'
@@ -170,7 +171,7 @@ import DetailList from './components/DetailList'
 export default {
   name: 'OtherStockOutList',
   directives: { waves, permission, permission2 },
-  components: { DetailList, Pagination, MyEdit, MyRepository, MyAccept, MyCreate },
+  components: { DetailList, Pagination, MyDialog, MyRepository, MyAccept, MyCreate },
   filters: {
     judgeStatFileter(status) {
       const statusMap = {
@@ -383,7 +384,8 @@ export default {
     getlist() {
       // 出库列表数据
       this.listLoading = true
-      searchOutlist(this.getemplist).then(res => {
+      console.log(this.getemplist)
+      searchstoragemovediff(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
@@ -509,7 +511,7 @@ export default {
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          deleteStock(ids, this.$store.getters.userId).then(res => {
+          deletestoragemovediff(ids, this.$store.getters.userId).then(res => {
             if (res.data.ret === 200 || res.data.ret === 100) {
               this.$notify({
                 title: '删除成功',
@@ -540,7 +542,7 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        deleteStock(row.id, this.$store.getters.userId).then(res => {
+        deletestoragemovediff(row.id, this.$store.getters.userId).then(res => {
           if (res.data.ret === 200 || res.data.ret === 100) {
             this.$notify({
               title: '删除成功',
