@@ -44,7 +44,7 @@
                   <el-cascader
                     :options="regions"
                     :props="props"
-                    v-model="personalForm.regionid"
+                    v-model="personalForm.expensesregion"
                     :show-all-levels="false"
                     placeholder="请选择区域"
                     change-on-select
@@ -110,7 +110,18 @@
             <el-editable-column type="selection" min-width="55" align="center"/>
             <el-editable-column label="序号" min-width="55" align="center" type="index"/>
             <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="summary" align="center" label="摘要" min-width="150px"/>
-            <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="productName" align="center" label="科目名称" min-width="150px"/>
+            <el-editable-column :edit-render="{name: 'ElCascader ', type: 'visible', options: 'options'}" prop="subjectFinance" align="center" label="科目名称" min-width="150px">
+              <template slot="edit" slot-scope="scope">
+                <el-cascader
+                  v-model="scope.row.subjectFinance"
+                  :options="suboptions"
+                  :props="props2"
+                  :show-all-levels="false"
+                  filterable
+                  change-on-select
+                  @change="test(scope.row,$event)"/>
+              </template>
+            </el-editable-column>
             <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0, precision: 2}, type: 'visible'}" prop="money" align="center" label="金额" min-width="150px"/>
           </el-editable>
         </div>
@@ -125,6 +136,7 @@
 </template>
 
 <script>
+import { subjectList } from '@/api/SubjectFinance'
 import '@/directive/noMoreClick/index.js'
 import { createexpenses } from '@/api/Expenses'
 import { searchCategory } from '@/api/Supplier'
@@ -145,6 +157,7 @@ export default {
       }
     }
     return {
+      suboptions: [],
       pickerOptions1: {
         disabledDate: (time) => {
           return time.getTime() < new Date().getTime() - 8.64e7
@@ -158,6 +171,11 @@ export default {
         value: 'id',
         label: 'regionName',
         children: 'regionListVos'
+      },
+      props2: {
+        value: 'id',
+        label: 'subjectName',
+        children: 'subjectFinanceVos'
       },
       // 结算方式数据
       colseTypes: [],
@@ -207,8 +225,25 @@ export default {
   created() {
     this.getdatatime()
     this.getTypes()
+    this.gettree()
   },
   methods: {
+    test(row, val) {
+      console.log(row, val)
+      const finid = val[val.length - 1]
+      console.log(finid)
+      row.subjectFinanceId = finid
+      console.log(row)
+    },
+    gettree() {
+      console.log(123)
+      subjectList().then(res => {
+        if (res.data.ret === 200) {
+          this.suboptions = res.data.data.content
+        }
+      })
+      console.log(321)
+    },
     // 转化数据方法
     tranKTree(arr) {
       if (!arr || !arr.length) return
@@ -223,6 +258,7 @@ export default {
       const finalid = val[val.length - 1]
       console.log(finalid)
       this.region = finalid
+      this.personalForm.expensesregionId = finalid
       // searchRepository(finalid).then(res => {
       //   console.log(res)
       //   if (res.data.ret === 200) {
@@ -342,8 +378,8 @@ export default {
         if (elem.summary === null || elem.summary === '' || elem.summary === undefined) {
           delete elem.summary
         }
-        if (elem.productName === null || elem.productName === '' || elem.productName === undefined) {
-          delete elem.productName
+        if (elem.subjectFinanceId === null || elem.subjectFinanceId === '' || elem.subjectFinanceId === undefined) {
+          delete elem.subjectFinanceId
         }
         if (elem.money === null || elem.money === '' || elem.money === undefined) {
           delete elem.money

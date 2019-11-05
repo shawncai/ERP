@@ -15,7 +15,7 @@
           </el-col>
           <el-col :span="5" style="margin-left: 10px">
             <el-form-item label="退料人">
-              <el-input v-model="retreatPersonId" :placeholder="$t('AccessMaterials.retreatPersonId')" clearable @keyup.enter.native="handleFilter" @focus="handlechooseStock"/>
+              <el-input v-model="retreatPersonId" :placeholder="$t('AccessMaterials.retreatPersonId')" clearable @keyup.enter.native="handleFilter" @clear="restFilter" @focus="handlechooseStock"/>
             </el-form-item>
             <my-delivery :deliverycontrol.sync="stockControl" @deliveryName="stockName"/>
           </el-col>
@@ -33,7 +33,7 @@
                 <el-option value="1" label="领料单" />
                 <el-option value="2" label="无来源" />
               </el-select>
-              <el-input v-model="accessMaterialsId" placeholder="领料单" style="width: 40%;float: right;margin-right: 20px;margin-top: 20px" clearable @focus="choosemate"/>
+              <el-input v-model="accessMaterialsId" placeholder="领料单" style="width: 40%;float: right;margin-right: 20px;margin-top: 20px" clearable @focus="choosemate" @clear="restFilter3"/>
               <my-materials :matecontrol.sync="matecontrol" @alldata="alldata"/>
               <el-select v-model="getemplist.produceDeptId" placeholder="生产部门" clearable style="width: 40%;float: left;margin-left: 20px;margin-top: 20px">
                 <el-option
@@ -53,7 +53,7 @@
                 <el-option value="2" label="执行"/>
                 <el-option value="3" label="结单"/>
               </el-select>
-              <el-input v-model="receivePersonId" :placeholder="$t('AccessMaterials.receivePersonId')" clearable style="width: 40%;float: left;margin-left: 20px;margin-top: 20px" @keyup.enter.native="handleFilter" @focus="handlechoose"/>
+              <el-input v-model="receivePersonId" :placeholder="$t('AccessMaterials.receivePersonId')" clearable style="width: 40%;float: left;margin-left: 20px;margin-top: 20px" @keyup.enter.native="handleFilter" @clear="restFilter2" @focus="handlechoose"/>
               <my-create :createcontrol.sync="createcontrol" @createname="createname"/>
               <el-date-picker
                 v-model="getemplist.receiveDate"
@@ -423,8 +423,12 @@ export default {
     restFilter() {
       this.retreatPersonId = ''
       this.getemplist.retreatPersonId = ''
+    },
+    restFilter2() {
       this.receivePersonId = ''
       this.getemplist.receivePersonId = ''
+    },
+    restFilter3() {
       this.accessMaterialsId = ''
       this.getemplist.accessMaterialsId = ''
     },
@@ -435,9 +439,9 @@ export default {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
-          this.restFilter()
+          // this.restFilter()
         } else {
-          this.restFilter()
+          // this.restFilter()
         }
       })
     },

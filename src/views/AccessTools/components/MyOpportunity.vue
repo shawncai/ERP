@@ -31,7 +31,7 @@
                 <el-option value="1" label="经销商"/>
                 <el-option value="2" label="零售"/>
               </el-select>
-              <el-input v-model="customerName" :placeholder="$t('SaleOpportunity.customerName')" style="width: 40%;float: right;margin-right: 20px;" clearable @focus="chooseCustomer"/>
+              <el-input v-model="customerName" :placeholder="$t('SaleOpportunity.customerName')" style="width: 40%;float: right;margin-right: 20px;" clearable @focus="chooseCustomer" @clear="restFilter"/>
               <my-customer :customercontrol.sync="customercontrol" @customerdata="customerdata"/>
               <my-agent :agentcontrol.sync="agentcontrol" @agentdata="agentdata"/>
               <!--<el-select v-model="getemplist.receiptStat" :value="getemplist.receiptStat" placeholder="单据状态" clearable style="width: 40%;float: left;margin-left: 20px;margin-top: 20px">-->
@@ -304,6 +304,8 @@ export default {
     restFilter() {
       this.customerName = ''
       this.getemplist.customerId = ''
+    },
+    restFilter2() {
       this.stockPersonId = ''
       this.getemplist.stockPersonId = ''
     },
@@ -314,9 +316,9 @@ export default {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
-          this.restFilter()
+          // this.restFilter()
         } else {
-          this.restFilter()
+          // this.restFilter()
         }
       })
     },

@@ -42,7 +42,8 @@
                 :placeholder="$t('AccessMaterials.accessPersonId')"
                 clearable
                 @keyup.enter.native="handleFilter"
-                @focus="handlechooseStock" />
+                @focus="handlechooseStock"
+                @clear="restFilter"/>
             </el-form-item>
             <my-delivery
               :deliverycontrol.sync="stockControl"
@@ -139,7 +140,8 @@
                 clearable
                 style="width: 40%;float: left;margin-left: 20px;margin-top: 20px"
                 @keyup.enter.native="handleFilter"
-                @focus="handlechoose" />
+                @focus="handlechoose"
+                @clear="restFilter2"/>
               <my-create
                 :createcontrol.sync="createcontrol"
                 @createname="createname" />
@@ -698,6 +700,8 @@ export default {
     restFilter() {
       this.accessPersonId = ''
       this.getemplist.accessPersonId = ''
+    },
+    restFilter2() {
       this.providePersonId = ''
       this.getemplist.providePersonId = ''
     },
@@ -708,9 +712,9 @@ export default {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
-          this.restFilter()
+          // this.restFilter()
         } else {
-          this.restFilter()
+          // this.restFilter()
         }
       })
     },
