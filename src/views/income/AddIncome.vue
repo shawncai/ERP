@@ -227,6 +227,16 @@ export default {
     this.gettree()
   },
   methods: {
+    processchildren(val) {
+      for (const i in val) {
+        if (val[i].subjectFinanceVos.length === 0) {
+          delete val[i].subjectFinanceVos
+        } else {
+          this.processchildren(val[i].subjectFinanceVos)
+        }
+        return val
+      }
+    },
     test(row, val) {
       console.log(row, val)
       const finid = val[val.length - 1]
@@ -238,7 +248,8 @@ export default {
       console.log(123)
       subjectList().then(res => {
         if (res.data.ret === 200) {
-          this.suboptions = res.data.data.content
+          this.suboptions = this.processchildren(res.data.data.content)
+          console.log('123123123123', this.suboptions)
         }
       })
       console.log(321)

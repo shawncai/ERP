@@ -12,53 +12,62 @@
               </el-form-item>
             </el-col>
             <el-col :span="6">
-              <el-form-item :label="$t('Stockenter.sourceType')" prop="sourceType" style="width: 100%;">
-                <el-select v-model="personalForm.sourceType" placeholder="请选择源单类型" style="margin-left: 18px;width: 150px">
-                  <el-option value="1" label="采购到货单"/>
-                </el-select>
-              </el-form-item>
-            </el-col>
-            <el-col :span="6">
               <el-form-item label="源单编号" style="width: 100%;">
-                <el-input v-model="personalForm.sourceNumber" placeholder="请选择源单编号" style="margin-left: 18px;width: 150px" clearable/>
+                <el-input v-model="personalForm.number" placeholder="请选择源单编号" style="margin-left: 18px;width: 150px" clearable/>
               </el-form-item>
             </el-col>
-            <el-col :span="6">
-              <el-form-item :label="$t('Stockenter.supplierId')" style="width: 100%">
+            <!-- <el-col :span="6">
+              <el-form-item :label="$t('Storagemovediff.supplierId')" style="width: 100%">
                 <el-input v-model="supplierId" placeholder="请选择供应商" clearable style="margin-left: 18px;width: 150px" @focus="handlechoose"/>
               </el-form-item>
               <my-supplier :control.sync="empcontrol" @supplierName="supplierName"/>
-            </el-col>
+            </el-col> -->
             <el-col :span="6">
-              <el-form-item :label="$t('Stockenter.stockPersonId')" style="width: 100%">
-                <el-input v-model="stockPersonId" placeholder="请选择采购员" style="margin-left: 18px;width: 150px" clearable @focus="handlechooseStock"/>
+              <el-form-item :label="$t('Storagemovediff.moveInRepository')" style="width: 100%">
+                <el-input v-model="personalForm.inRepositoryName" placeholder="请选择调入仓库" style="margin-left: 18px;width: 150px" clearable @focus="handlechooseStock"/>
               </el-form-item>
-              <my-emp :control.sync="stockControl" @stockName="stockName"/>
+              <!-- <my-emp :control.sync="stockControl" @stockName="stockName"/> -->
             </el-col>
             <el-col :span="6">
-              <el-form-item :label="$t('Stockenter.stockDeptId')" style="width: 100%">
-                <el-select v-model="personalForm.stockDeptId" placeholder="请选择采购部门" clearable style="margin-left: 18px;width: 150px" @focus="updatedept">
-                  <el-option
-                    v-for="(item, index) in depts"
-                    :key="index"
-                    :value="item.id"
-                    :label="item.deptName"/>
-                </el-select>
+              <el-form-item :label="$t('Storagemovediff.moveOutRepository')" style="width: 100%">
+                <el-input v-model="personalForm.outRepositoryName" placeholder="请选择调出仓库" clearable style="margin-left: 18px;width: 150px"/>
               </el-form-item>
             </el-col>
             <el-col :span="6">
-              <el-form-item :label="$t('Stockenter.deliveryPersonId')" style="width: 100%">
+              <el-form-item :label="$t('Storagemovediff.requestArrivalDate')" prop="arrivalDate" style="width: 100%;">
+                <el-date-picker
+                  v-model="personalForm.arrivalDate"
+                  type="date"
+                  disabled
+                  placeholder="选择到货日期"
+                  value-format="yyyy-MM-dd"
+                  style="margin-left: 18px;width: 180px"/>
+              </el-form-item>
+            </el-col>
+            <el-col :span="6">
+              <el-form-item :label="$t('Storagemovediff.storageMoveDate')" style="width: 100%;">
+                <el-date-picker
+                  v-model="personalForm.moveDate"
+                  disabled
+                  type="date"
+                  placeholder="选择调拨出库日期"
+                  value-format="yyyy-MM-dd"
+                  style="margin-left: 18px;width: 180px"/>
+              </el-form-item>
+            </el-col>
+            <!-- <el-col :span="6">
+              <el-form-item :label="$t('Storagemovediff.requestArrivalDate')" style="width: 100%">
                 <el-input v-model="deliveryPersonId" placeholder="请选择交货人" clearable style="margin-left: 18px;width: 150px" @focus="handlechooseDelivery"/>
               </el-form-item>
               <my-delivery :deliverycontrol.sync="deliverycontrol" @deliveryName="deliveryName"/>
-            </el-col>
-            <el-col :span="6">
-              <el-form-item :label="$t('Stockenter.acceptPersonId')" style="width: 100%">
+            </el-col> -->
+            <!-- <el-col :span="6">
+              <el-form-item :label="$t('Storagemovediff.acceptPersonId')" style="width: 100%">
                 <el-input v-model="acceptPersonId" placeholder="请选择验收人" style="margin-left: 18px;width: 150px" clearable @focus="handlechooseAccept"/>
               </el-form-item>
               <my-accept :accetpcontrol.sync="accetpcontrol" @acceptName="acceptName"/>
-            </el-col>
-            <el-col :span="6">
+            </el-col> -->
+            <!-- <el-col :span="6">
               <el-form-item :label="$t('Stockenter.enterDeptId')" style="width: 100%">
                 <el-select v-model="personalForm.enterDeptId" placeholder="请选择入库部门" clearable style="margin-left: 18px;width: 150px" @focus="updatedept">
                   <el-option
@@ -68,13 +77,7 @@
                     :label="item.deptName"/>
                 </el-select>
               </el-form-item>
-            </el-col>
-            <el-col :span="6">
-              <el-form-item :label="$t('Stockenter.enterRepositoryId')" prop="enterRepositoryId" style="width: 100%">
-                <el-input v-model="enterRepositoryId" placeholder="请选择入库仓库" clearable style="margin-left: 18px;width: 150px" @focus="handlechooseRep"/>
-              </el-form-item>
-              <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
-            </el-col>
+            </el-col> -->
           </el-row>
         </el-form>
       </div>
@@ -231,7 +234,7 @@ export default {
       this.acceptPersonId = this.personalForm.acceptPersonName
       this.enterRepositoryId = this.personalForm.enterRepositoryName
       this.list2 = this.personalForm.stockEnterDetailVos
-      this.getlocation()
+      // this.getlocation()
     }
   },
   mounted() {
@@ -246,19 +249,19 @@ export default {
         }
       })
     },
-    getlocation() {
-      // 货位根据仓库id展现
-      locationlist(this.personalForm.enterRepositoryId).then(res => {
-        if (res.data.ret === 200) {
-          this.locationlist = res.data.data.content.list.map(function(item) {
-            return {
-              'value': item.id,
-              'label': item.locationName
-            }
-          })
-        }
-      })
-    },
+    // getlocation() {
+    //   // 货位根据仓库id展现
+    //   locationlist(this.personalForm.enterRepositoryId).then(res => {
+    //     if (res.data.ret === 200) {
+    //       this.locationlist = res.data.data.content.list.map(function(item) {
+    //         return {
+    //           'value': item.id,
+    //           'label': item.locationName
+    //         }
+    //       })
+    //     }
+    //   })
+    // },
     // 采购员focus事件
     handlechooseStock() {
       this.stockControl = true

@@ -87,40 +87,40 @@
           width="55"
           fixed="left"
           align="center"/>
-        <el-table-column :label="$t('StockOut.id')" :resizable="false" fixed="left" align="center" min-width="150">
+        <el-table-column :label="$t('Storagemovediff.id')" :resizable="false" fixed="left" align="center" min-width="150">
           <template slot-scope="scope">
-            <span class="link-type" @click="handleDetail(scope.row)">{{ scope.row.outNumber }}</span>
+            <span class="link-type" @click="handleDetail(scope.row)">{{ scope.row.number }}</span>
           </template>
           <detail-list :detailcontrol.sync="detailvisible" :detaildata.sync="personalForm"/>
         </el-table-column>
-        <el-table-column :label="$t('StockOut.title')" :resizable="false" fixed="left" align="center" min-width="150">
+        <el-table-column :label="$t('Storagemovediff.title')" :resizable="false" fixed="left" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.title }}</span>
           </template>
-        </el-table-column>、
+        </el-table-column>
         <!-- <el-table-column :label="$t('StockOut.code')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.outNumber }}</span>
           </template>
         </el-table-column> -->
-        <el-table-column :label="$t('StockOut.sourceType')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('Storagemovediff.moveInRepository')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.sourceType }}</span>
+            <span>{{ scope.row.inRepositoryName }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('StockOut.outPersonId')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('Storagemovediff.moveOutRepository')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.outPersonName }}</span>
+            <span>{{ scope.row.outRepositoryName }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('StockOut.outDate')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('Storagemovediff.requestArrivalDate')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.outDate }}</span>
+            <span>{{ timestampToTime(scope.row.arrivalDate) }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('StockOut.outReasonId')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('Storagemovediff.storageMoveDate')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.outReasonId }}</span>
+            <span>{{ timestampToTime(scope.row.moveDate) }}</span>
           </template>
         </el-table-column>
         <el-table-column :label="$t('StockOut.judgeStat')" :resizable="false" align="center" min-width="150">
@@ -243,6 +243,17 @@ export default {
     this.getlist()
   },
   methods: {
+    // 处理时间
+    timestampToTime(timestamp) {
+      var date = new Date(timestamp)// 时间戳为10位需*1000，时间戳为13位的话不需乘1000
+      var Y = date.getFullYear() + '-'
+      var M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-'
+      var D = date.getDate() + ' '
+      // var h = date.getHours() + ':'
+      // var m = date.getMinutes() + ':'
+      // var s = date.getSeconds()
+      return Y + M + D
+    },
     // 确认操作
     handleEdit2(row) {
       this.reviewParms = {}

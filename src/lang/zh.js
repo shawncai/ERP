@@ -1423,6 +1423,7 @@ export default {
     repostiryId: '仓库编号'
   },
   Storagemovediff: {
+    id: '编号',
     title: '主题',
     sourceNumber: '源单号码',
     moveInRepository: '调入仓库',

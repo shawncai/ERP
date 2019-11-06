@@ -108,7 +108,7 @@
 <script>
 import '@/directive/noMoreClick/index.js'
 import { addrequireplan, getBomByPlanNumber } from '@/api/RequirePlan'
-import { searchEmpCategory2 } from '@/api/Product'
+import { searchEmpCategory3 } from '@/api/Product'
 import { searchMea } from '@/api/public'
 import MyCenter from './components/MyCenter'
 import MyEmp from './components/MyEmp'
@@ -217,7 +217,10 @@ export default {
 
     // 获取规格
     getTypeName(row) {
-      searchEmpCategory2(row.typeId).then(res => {
+      if (row.typeId === null) {
+        row.typeId = 0
+      }
+      searchEmpCategory3(row.typeId).then(res => {
         if (res.data.ret === 200) {
           row.productType = res.data.data.content.list[0].categoryName
         }
@@ -256,6 +259,7 @@ export default {
     // },
     // 回显主生产计划
     allinfo(val) {
+      console.log(val)
       console.log(val)
       this.$refs.editable.clear()
       this.producePlanNumber = val.planNumber
