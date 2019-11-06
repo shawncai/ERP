@@ -253,7 +253,7 @@ export default {
         pageNum: 1,
         pageSize: 10,
         repositoryId: this.$store.getters.repositoryId,
-        regionIds: this.$store.getters.regionId,
+        regionIds: this.$store.getters.regionIds,
         supplierId: this.supp,
         judgeStat: 2
       },

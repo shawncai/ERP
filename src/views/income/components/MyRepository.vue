@@ -151,7 +151,7 @@ export default {
         id: '',
         stat: 1,
         loginRepositoryId: this.$store.getters.repositoryId,
-        // regionIds: this.$store.getters.regionId,
+        // regionIds: this.$store.getters.regionIds,
         pagenum: 1,
         pagesize: 10
       },

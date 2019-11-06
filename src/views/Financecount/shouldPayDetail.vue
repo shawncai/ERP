@@ -204,7 +204,7 @@ export default {
         pageNum: 1,
         pageSize: 10,
         repositoryId: '',
-        regionIds: this.$store.getters.regionId,
+        regionIds: this.$store.getters.regionIds,
         type: '1'
       },
       // 传给组件的数据

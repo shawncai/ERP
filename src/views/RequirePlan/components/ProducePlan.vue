@@ -182,7 +182,7 @@ export default {
         receiptStat: 2,
         isUse: 1,
         repositoryId: this.$store.getters.repositoryId,
-        regionIds: this.$store.getters.regionId
+        regionIds: this.$store.getters.regionIds
       },
       // 开始时间到结束时间
       date: []

@@ -650,7 +650,7 @@ export default {
         pageNum: 1,
         pageSize: 10,
         repositoryId: this.$store.getters.repositoryId,
-        regionIds: this.$store.getters.regionId,
+        regionIds: this.$store.getters.regionIds,
         supplierId: this.detailid
       },
       // 付款信息请求数据
@@ -658,7 +658,7 @@ export default {
         pageNum: 1,
         pageSize: 10,
         repositoryId: this.$store.getters.repositoryId,
-        regionIds: this.$store.getters.regionId,
+        regionIds: this.$store.getters.regionIds,
         supplierId: this.detailid
       },
       // 采购退货信息请求数据
@@ -666,7 +666,7 @@ export default {
         pageNum: 1,
         pageSize: 10,
         repositoryId: this.$store.getters.repositoryId,
-        regionIds: this.$store.getters.regionId,
+        regionIds: this.$store.getters.regionIds,
         supplierId: this.detailid
       },
       // 预付款信息请求数据
@@ -674,7 +674,7 @@ export default {
         pageNum: 1,
         pageSize: 10,
         repositoryId: this.$store.getters.repositoryId,
-        regionIds: this.$store.getters.regionId,
+        regionIds: this.$store.getters.regionIds,
         supplierId: this.detailid
       },
       // 采购信息请求数据
@@ -682,14 +682,14 @@ export default {
         pageNum: 1,
         pageSize: 10,
         repositoryId: this.$store.getters.repositoryId,
-        regionIds: this.$store.getters.regionId,
+        regionIds: this.$store.getters.regionIds,
         supplierId: this.detailid
       },
       getstockArrivalData: {
         pageNum: 1,
         pageSize: 10,
         repositoryId: this.$store.getters.repositoryId,
-        regionIds: this.$store.getters.regionId,
+        regionIds: this.$store.getters.regionIds,
         supplierId: this.detailid
       }
     }

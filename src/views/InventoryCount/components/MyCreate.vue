@@ -167,7 +167,7 @@ export default {
         employeename: '',
         pagenum: 1,
         pagesize: 10,
-        stat: 1, loginRepositoryId: this.$store.getters.repositoryId, regionIds: this.$store.getters.regionId,
+        stat: 1, loginRepositoryId: this.$store.getters.repositoryId, regionIds: this.$store.getters.regionIds,
         time: '',
         jobnumber: ''
       },
@@ -281,7 +281,7 @@ export default {
         employeename: '',
         pagenum: 1,
         pagesize: 10,
-        stat: 1, loginRepositoryId: this.$store.getters.repositoryId, regionIds: this.$store.getters.regionId,
+        stat: 1, loginRepositoryId: this.$store.getters.repositoryId, regionIds: this.$store.getters.regionIds,
         time: '',
         jobnumber: ''
       }
