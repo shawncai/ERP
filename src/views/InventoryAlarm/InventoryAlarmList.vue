@@ -116,7 +116,7 @@ export default {
         pageNum: 1,
         pageSize: 10,
         countryId: this.$store.getters.countryId,
-        regionIds: this.$store.getters.regionId
+        regionIds: this.$store.getters.regionIds
       },
       // 搜索结束 ----------------------
       // 列表操作 -------------------------

@@ -234,7 +234,7 @@ export default {
         pageSize: 10,
         isUse: 1,
         repositoryId: this.$store.getters.repositoryId,
-        regionIds: this.$store.getters.regionId,
+        regionIds: this.$store.getters.regionIds,
         isActive: 1
       },
       // 传给组件的数据

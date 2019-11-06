@@ -225,7 +225,7 @@ export default {
       getemplist: {
         pagenum: 1,
         pagesize: 10,
-        regionIds: this.$store.getters.regionId,
+        regionIds: this.$store.getters.regionIds,
         repositoryId: this.$store.getters.repositoryId
       },
       // 传给组件的数据

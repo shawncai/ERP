@@ -386,7 +386,7 @@ export default {
         pageNum: 1,
         pageSize: 10,
         repositoryId: this.$store.getters.repositoryId,
-        regionIds: this.$store.getters.regionId
+        regionIds: this.$store.getters.regionIds
       },
       // 传给组件的数据
       personalForm: {},
@@ -589,6 +589,7 @@ export default {
       this.getlist()
     },
     getlist() {
+      console.log('this.getemplist', this.getemplist)
       // 物料需求计划列表数据
       this.listLoading = true
       stockorderlist(this.getemplist).then(res => {

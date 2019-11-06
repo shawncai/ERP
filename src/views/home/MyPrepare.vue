@@ -831,13 +831,13 @@ import permission2 from '@/directive/permission2/index.js' // 权限判断指令
           pageNum: 1,
           pageSize: 10,
           repositoryId: this.$store.getters.repositoryId,
-          regionIds: this.$store.getters.regionId
+          regionIds: this.$store.getters.regionIds
         },
         getemplist2: {
           pageNum: 1,
           pageSize: 999,
           repositoryId: this.$store.getters.repositoryId,
-          regionIds: this.$store.getters.regionId,
+          regionIds: this.$store.getters.regionIds,
           employeeId: this.$store.getters.userId
         },
         // 传给组件的数据

@@ -219,7 +219,7 @@ export default {
         pageSize: 10,
         judgeStat: 2, receiptStat: 2,
         repositoryId: this.$store.getters.repositoryId,
-        regionIds: this.$store.getters.regionId,
+        regionIds: this.$store.getters.regionIds,
         isActive: 1
       },
       // 传给组件的数据
@@ -312,7 +312,7 @@ export default {
         pageNum: 1,
         pageSize: 10,
         repositoryId: this.$store.getters.repositoryId,
-        regionIds: this.$store.getters.regionId,
+        regionIds: this.$store.getters.regionIds,
         time: date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate(),
         customerName: str.replace(/\s*/g, '')
       }

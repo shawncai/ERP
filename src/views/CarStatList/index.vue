@@ -294,7 +294,7 @@ export default {
         pageSize: 10,
         stat: 1,
         repositoryId: this.$store.getters.repositoryId,
-        regionIds: this.$store.getters.regionId
+        regionIds: this.$store.getters.regionIds
       },
       // 加载操作控制
       downloadLoading2: false,
@@ -312,7 +312,7 @@ export default {
         pageSize: 10,
         stat: 2,
         repositoryId: this.$store.getters.repositoryId,
-        regionIds: this.$store.getters.regionId
+        regionIds: this.$store.getters.regionIds
       },
       // 传给组件的数据
       personalForm: {},

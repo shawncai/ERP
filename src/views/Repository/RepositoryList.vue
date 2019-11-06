@@ -521,7 +521,7 @@ export default {
         regionId: '',
         countyrId: '',
         loginRepositoryId: this.$store.getters.repositoryId,
-        regionIds: this.$store.getters.regionId,
+        regionIds: this.$store.getters.regionIds,
         id: '',
         pagenum: 1,
         pagesize: 10
@@ -593,7 +593,7 @@ export default {
         pagesize: 10,
         stat: 1,
         loginRepositoryId: this.$store.getters.repositoryId,
-        regionIds: this.$store.getters.regionId,
+        regionIds: this.$store.getters.regionIds,
         time: '',
         jobnumber: ''
       },
@@ -1068,7 +1068,7 @@ export default {
         pagesize: 10,
         stat: 1,
         loginRepositoryId: this.$store.getters.repositoryId,
-        regionIds: this.$store.getters.regionId,
+        regionIds: this.$store.getters.regionIds,
         time: '',
         jobnumber: ''
       }
