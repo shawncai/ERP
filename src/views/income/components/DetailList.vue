@@ -34,6 +34,11 @@
                 </el-form-item>
               </el-col>
               <el-col :span="12">
+                <el-form-item :label="$t('income.region')" style="width: 100%;">
+                  <span>{{ personalForm.incomeRegionName }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
                 <el-form-item :label="$t('income.incomeRepositoryId')" style="width: 100%;">
                   <span>{{ personalForm.incomeRepositoryName }}</span>
                 </el-form-item>
@@ -73,7 +78,7 @@
             <el-editable-column type="selection" min-width="55" align="center"/>
             <el-editable-column label="序号" min-width="55" align="center" type="index"/>
             <el-editable-column prop="summary" align="center" label="摘要" min-width="150px"/>
-            <el-editable-column prop="productName" align="center" label="科目名称" min-width="150px"/>
+            <el-editable-column prop="subjectName" align="center" label="科目名称" min-width="150px"/>
             <el-editable-column prop="money" align="center" label="金额" min-width="150px"/>
           </el-editable>
         </div>
@@ -226,7 +231,7 @@ export default {
     },
     detaildata() {
       this.personalForm = this.detaildata
-      this.list2 = this.personalForm.incomeDetails
+      this.list2 = this.personalForm.incomeDetailVos
       this.reviewList = []
       const review = this.personalForm.approvalUseVos
       for (const i in review) {
