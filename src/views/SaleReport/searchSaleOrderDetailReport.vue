@@ -18,13 +18,13 @@
           </el-col>
           <el-col :span="3" style="margin-left: 45px">
             <el-form-item label="分类">
-              <el-input v-model="productCategory" style="width: 100px" placeholder="物品分类" clearable @focus="treechoose"/>
+              <el-input v-model="productCategory" style="width: 100px" placeholder="物品分类" clearable @clear="restFilter" @focus="treechoose"/>
               <my-tree :treecontrol.sync="treecontrol" @tree="tree"/>
             </el-form-item>
           </el-col>
           <el-col :span="3" style="margin-left: 45px">
             <el-form-item label="门店">
-              <el-input v-model="repositoryId" class="filter-item" clearable @keyup.enter.native="handleFilter" @focus="handlechooseRep"/>
+              <el-input v-model="repositoryId" class="filter-item" clearable @keyup.enter.native="handleFilter" @clear="restFilter2" @focus="handlechooseRep"/>
               <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
             </el-form-item>
           </el-col>
@@ -326,10 +326,14 @@ export default {
     },
     // 清空搜索条件
     restFilter() {
-      this.customerName = ''
-      this.getemplist.customerId = ''
-      this.stockPersonId = ''
-      this.getemplist.stockPersonId = ''
+      this.productCategory = ''
+      this.getemplist.productCategory = ''
+    },
+    restFilter2() {
+      this.repositoryId = ''
+      this.getemplist.repositoryId = ''
+    },
+    restFilter3() {
       this.handlePersonId = ''
       this.getemplist.handlePersonId = ''
     },
@@ -347,15 +351,11 @@ export default {
         if (res.data.ret === 200) {
           this.list = res.data.data.content
           this.total = res.data.data.content.totalCount
-          this.restFilter()
+          // this.restFilter()
         } else {
-          this.restFilter()
+          // this.restFilter()
         }
       })
-      this.productCategory = ''
-      this.getemplist.productCategory = ''
-      this.repositoryId = ''
-      this.getemplist.repositoryId = ''
     },
     // 采购人focus事件
     handlechooseStock() {

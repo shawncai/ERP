@@ -15,7 +15,7 @@
           </el-col>
           <el-col :span="5" style="margin-left: 10px">
             <el-form-item :label="$t('SaleOut.outPersonId')">
-              <el-input v-model="outPersonId" @focus="handlechooseAccept"/>
+              <el-input v-model="outPersonId" @focus="handlechooseAccept" @clear="restFilter"/>
             </el-form-item>
             <my-accept :accetpcontrol.sync="accetpcontrol" @acceptName="acceptName"/>
           </el-col>
@@ -26,7 +26,7 @@
               placement="bottom"
               width="500"
               trigger="click">
-              <el-input v-model="saleRepositoryId" :placeholder="$t('SaleOut.saleRepositoryId')" style="width: 40%;float: left;margin-left: 20px;" clearable @focus="handlechooseRep"/>
+              <el-input v-model="saleRepositoryId" :placeholder="$t('SaleOut.saleRepositoryId')" style="width: 40%;float: left;margin-left: 20px;" clearable @clear="restFilter4" @focus="handlechooseRep"/>
               <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
               <el-select v-model="getemplist.receiptStat" :value="getemplist.receiptStat" placeholder="单据状态" clearable style="width: 40%;float: right;margin-right: 20px">
                 <el-option value="1" label="制单"/>
@@ -390,12 +390,14 @@ export default {
     },
     // 清空搜索条件
     restFilter() {
-      this.customerName = ''
-      this.getemplist.customerId = ''
-      this.stockPersonId = ''
-      this.getemplist.stockPersonId = ''
       this.outPersonId = ''
       this.getemplist.outPersonId = ''
+    },
+    restFilter2() {
+      this.stockPersonId = ''
+      this.getemplist.stockPersonId = ''
+    },
+    restFilter4() {
       this.saleRepositoryId = ''
       this.getemplist.saleRepositoryId = ''
     },
@@ -406,9 +408,9 @@ export default {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
-          this.restFilter()
+          // this.restFilter()
         } else {
-          this.restFilter()
+          // this.restFilter()
         }
       })
     },
