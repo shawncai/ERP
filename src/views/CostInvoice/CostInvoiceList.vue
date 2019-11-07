@@ -5,7 +5,7 @@
         <el-form ref="getemplist" :model="getemplist" label-width="100px" style="margin-top: -9px">
           <el-col :span="5">
             <el-form-item label="供应商" label-width="100px">
-              <el-input v-model="supplierId" placeholder="供应商" style="width: 100%;float: right;margin-right: 20px;" clearable @focus="handlechoose"/>
+              <el-input v-model="supplierId" placeholder="供应商" style="width: 100%;float: right;margin-right: 20px;" clearable @focus="handlechoose" @clear="restFilter"/>
               <my-supplier :control.sync="empcontrol" @supplierName="supplierName"/>
             </el-form-item>
           </el-col>
@@ -375,6 +375,8 @@ export default {
     restFilter() {
       this.supplierId = ''
       this.getemplist.supplierId = ''
+    },
+    restFilter2() {
       this.stockPersonId = ''
       this.getemplist.stockPersonId = ''
     },

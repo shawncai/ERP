@@ -1212,9 +1212,9 @@ import permission2 from '@/directive/permission2/index.js' // 权限判断指令
           if (res.data.ret === 200) {
             this.list = res.data.data.content.list
             this.total = res.data.data.content.totalCount
-            this.restFilter()
+            // this.restFilter()
           } else {
-            this.restFilter()
+            // this.restFilter()
           }
         })
       },
