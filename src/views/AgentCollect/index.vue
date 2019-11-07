@@ -10,7 +10,7 @@
           </el-col>
           <el-col :span="5" style="margin-left: 10px">
             <el-form-item label="销售门店">
-              <el-input v-model="saleRepositoryId" placeholder="销售门店" @focus="handlechooseRep"/>
+              <el-input v-model="saleRepositoryId" placeholder="销售门店" @focus="handlechooseRep" @clear="restFilter"/>
             </el-form-item>
             <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
           </el-col>
@@ -387,9 +387,9 @@ export default {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
-          this.restFilter()
+          // this.restFilter()
         } else {
-          this.restFilter()
+          // this.restFilter()
         }
       })
     },

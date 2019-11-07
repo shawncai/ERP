@@ -16,7 +16,7 @@
           </el-col>
           <el-col :span="4">
             <el-form-item label="经办人">
-              <el-input v-model="handlePersonId" :placeholder="$t('BuildUp.handlePersonId')" class="filter-item" clearable @keyup.enter.native="handleFilter" @focus="handlechoose"/>
+              <el-input v-model="handlePersonId" :placeholder="$t('BuildUp.handlePersonId')" class="filter-item" clearable @keyup.enter.native="handleFilter" @focus="handlechoose" @clear="restFilter"/>
             </el-form-item>
             <my-create :createcontrol.sync="createcontrol" @createname="createname"/>
           </el-col>
@@ -34,7 +34,7 @@
                   :value="item.id"
                   :label="item.deptName"/>
               </el-select>
-              <el-input v-model="buildupRepositoryId" :placeholder="$t('BuildUp.buildupRepositoryId')" class="filter-item" clearable style="width: 40%;float: left;margin-left: 20px" @keyup.enter.native="handleFilter" @focus="handlechooseRep"/>
+              <el-input v-model="buildupRepositoryId" :placeholder="$t('BuildUp.buildupRepositoryId')" class="filter-item" clearable style="width: 40%;float: left;margin-left: 20px" @keyup.enter.native="handleFilter" @focus="handlechooseRep" @clear="restFilter2"/>
               <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
               <el-date-picker
                 v-model="date"
@@ -400,6 +400,8 @@ export default {
     restFilter() {
       this.handlePersonId = ''
       this.getemplist.handlePersonId = ''
+    },
+    restFilter2() {
       this.buildupRepositoryId = ''
       this.getemplist.buildupRepositoryId = ''
     },
@@ -417,9 +419,9 @@ export default {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
-          this.restFilter()
+          // this.restFilter()
         }
-        this.restFilter()
+        // this.restFilter()
       })
     },
     // 修改操作
