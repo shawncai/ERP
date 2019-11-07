@@ -406,7 +406,9 @@ export default {
     restNumberingform() {
       this.Numberingform = {
         category: '',
+        categoryname: '',
         type: '',
+        createPersonId: this.$store.getters.userId,
         iseffective: '1'
       }
     },

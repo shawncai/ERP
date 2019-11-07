@@ -40,7 +40,7 @@
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('income.region')" style="width: 100%;">
+                <el-form-item :label="$t('income.region')" prop="incomeregion" style="width: 100%;">
                   <el-cascader
                     :options="regions"
                     :props="props"
@@ -118,7 +118,6 @@
                   :props="props2"
                   :show-all-levels="false"
                   filterable
-                  change-on-select
                   @change="test(scope.row,$event)"/>
               </template>
             </el-editable-column>
@@ -151,6 +150,13 @@ export default {
     const validatePass2 = (rule, value, callback) => {
       if (this.handlePersonId === undefined || this.handlePersonId === null || this.handlePersonId === '') {
         callback(new Error('请选择经办人'))
+      } else {
+        callback()
+      }
+    }
+    const validatePass3 = (rule, value, callback) => {
+      if (this.personalForm.incomeregionId === undefined || this.personalForm.incomeregionId === null || this.personalForm.incomeregionId === '') {
+        callback(new Error('请选择区域'))
       } else {
         callback()
       }
@@ -193,7 +199,7 @@ export default {
       // 部门数据
       depts: [],
       // 经办人回显
-      handlePersonId: '',
+      handlePersonId: this.$store.getters.name,
       // 控制经办人
       stockControl: false,
       // 收入单信息数据
@@ -203,7 +209,8 @@ export default {
         repositoryId: this.$store.getters.repositoryId,
         regionId: this.$store.getters.regionId,
         currency: '1',
-        incomeDate: null
+        incomeDate: null,
+        handlePersonId: this.$store.getters.userId
       },
       // 收入单规则数据
       personalrules: {
@@ -212,6 +219,9 @@ export default {
         ],
         incomeDate: [
           { required: true, message: '请选择收款日期', trigger: 'change' }
+        ],
+        incomeregion: [
+          { required: true, validator: validatePass3, trigger: 'change' }
         ]
       },
       // 收入单明细数据
@@ -234,8 +244,10 @@ export default {
         } else {
           this.processchildren(val[i].subjectFinanceVos)
         }
-        return val
+        // if (val[i].) {
+        // }
       }
+      return val
     },
     test(row, val) {
       console.log(row, val)
@@ -249,7 +261,6 @@ export default {
       subjectList().then(res => {
         if (res.data.ret === 200) {
           this.suboptions = this.processchildren(res.data.data.content)
-          console.log('123123123123', this.suboptions)
         }
       })
       console.log(321)
@@ -359,7 +370,8 @@ export default {
         countryId: this.$store.getters.countryId,
         repositoryId: this.$store.getters.repositoryId,
         regionId: this.$store.getters.regionId,
-        currency: '1'
+        currency: '1',
+        handlePersonId: this.$store.getters.userId
       }
       this.handlePersonId = null
       this.personalForm.handlePersonId = null
