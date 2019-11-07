@@ -15,7 +15,7 @@
           </el-col>
           <el-col :span="3" style="margin-left: 20px">
             <el-form-item>
-              <el-input v-model="inquiryPersonId" :placeholder="$t('StockInquiry.inquiryPersonId')" clearable @keyup.enter.native="handleFilter" @focus="handlechooseStock"/>
+              <el-input v-model="inquiryPersonId" :placeholder="$t('StockInquiry.inquiryPersonId')" clearable @keyup.enter.native="handleFilter" @clear="restFilter3" @focus="handlechooseStock"/>
             </el-form-item>
             <my-emp :control.sync="stockControl" @stockName="stockName"/>
           </el-col>
@@ -301,8 +301,12 @@ export default {
     restFilter() {
       this.planPersonId = ''
       this.getemplist.planPersonId = ''
+    },
+    restFilter2() {
       this.supplierId = ''
       this.getemplist.supplierId = ''
+    },
+    restFilter3() {
       this.inquiryPersonId = ''
       this.getemplist.inquiryPersonId = ''
     },
@@ -313,9 +317,9 @@ export default {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
-          this.restFilter()
+          // this.restFilter()
         } else {
-          this.restFilter()
+          // this.restFilter()
         }
       })
     },

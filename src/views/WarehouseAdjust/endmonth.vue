@@ -26,7 +26,7 @@
           </el-col>
           <el-col :span="4">
             <el-form-item label="仓库">
-              <el-input v-model="searchRepositoryId" :placeholder="$t('Inventorydetaillist.repositoryId')" style="width: 80%;" class="filter-item" clearable @keyup.enter.native="handleFilter" @focus="handlechooseRep"/>
+              <el-input v-model="searchRepositoryId" :placeholder="$t('Inventorydetaillist.repositoryId')" style="width: 80%;" class="filter-item" clearable @keyup.enter.native="handleFilter" @focus="handlechooseRep" @clear="restFilter"/>
               <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
             </el-form-item>
           </el-col>
@@ -300,12 +300,14 @@ export default {
     },
     // 清空搜索条件
     restFilter() {
-      this.enterPersonId = ''
-      this.getemplist.enterPersonId = ''
-      this.repositorycontrol = ''
-      this.getemplist.repositorycontrol = ''
-      this.produceManagerId = ''
-      this.getemplist.produceManagerId = ''
+      // this.enterPersonId = ''
+      // this.getemplist.enterPersonId = ''
+      // this.repositorycontrol = ''
+      // this.getemplist.repositorycontrol = ''
+      // this.produceManagerId = ''
+      // this.getemplist.produceManagerId = ''
+      this.searchRepositoryId = ''
+      this.getemplist.searchRepositoryId = ''
     },
     // 搜索
     handleFilter() {

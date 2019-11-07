@@ -4,7 +4,7 @@
       <!-- 搜索条件栏目 -->
       <el-input v-model="getemplist.code" :placeholder="$t('Product.code')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
       <el-input v-model="getemplist.productname" :placeholder="$t('Product.productname')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
-      <el-input v-model="categoryid" placeholder="物品分类" class="filter-item" clearable @focus="treechoose"/>
+      <el-input v-model="categoryid" placeholder="物品分类" class="filter-item" clearable @focus="treechoose" @clear="restFilter"/>
       <my-tree :treecontrol.sync="treecontrol" @tree="tree"/>
       <!-- 更多搜索条件下拉栏 -->
       <el-popover
@@ -214,6 +214,8 @@ export default {
     restFilter() {
       this.categoryid = ''
       this.getemplist.categoryid = ''
+    },
+    restFilter2() {
       this.supplierId = ''
       this.getemplist.supplierId = ''
     },
