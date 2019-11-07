@@ -5,7 +5,7 @@
         <el-form ref="getemplist" :model="getemplist" style="margin-top: -9px">
           <el-col :span="4">
             <el-form-item>
-              <el-input v-model="categoryId" :placeholder="$t('StockRequire.categoryId')" class="filter-item" clearable @keyup.enter.native="handleFilter" @focus="treechoose"/>
+              <el-input v-model="categoryId" :placeholder="$t('StockRequire.categoryId')" class="filter-item" clearable @clear="restFilter" @keyup.enter.native="handleFilter" @focus="treechoose"/>
               <my-tree :treecontrol.sync="treecontrol" @tree="tree"/>
             </el-form-item>
           </el-col>
@@ -247,10 +247,14 @@ export default {
     },
     // 清空搜索条件
     restFilter() {
-      this.handlePersonId = ''
-      this.getemplist.handlePersonId = ''
+      this.categoryId = ''
+      this.getemplist.categoryId = ''
+    },
+    restFilter2() {
       this.workCenterId = ''
       this.getemplist.workCenterId = ''
+    },
+    restFilter3() {
       this.producePlanNumber = ''
       this.getemplist.producePlanNumber = ''
     },
@@ -268,9 +272,9 @@ export default {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
-          this.restFilter()
+          // this.restFilter()
         } else {
-          this.restFilter()
+          // this.restFilter()
         }
       })
     },

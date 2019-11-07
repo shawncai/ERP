@@ -15,7 +15,7 @@
           </el-col>
           <el-col :span="4">
             <el-form-item label="工作中心名称">
-              <el-input v-model="workCenterId" :placeholder="$t('ProcessFile.workCenterId')" class="filter-item" clearable @keyup.enter.native="handleFilter" @focus="workcenterchoose"/>
+              <el-input v-model="workCenterId" :placeholder="$t('ProcessFile.workCenterId')" class="filter-item" clearable @clear="restFilter" @keyup.enter.native="handleFilter" @focus="workcenterchoose"/>
             </el-form-item>
             <my-center :control.sync="centercontrol" @center="center"/>
           </el-col>

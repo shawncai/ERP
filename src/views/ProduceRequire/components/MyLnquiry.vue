@@ -15,7 +15,7 @@
           </el-col>
           <el-col :span="3" style="margin-left: 20px">
             <el-form-item>
-              <el-input v-model="inquiryPersonId" :placeholder="$t('StockInquiry.inquiryPersonId')" clearable @keyup.enter.native="handleFilter" @focus="handlechooseStock"/>
+              <el-input v-model="inquiryPersonId" :placeholder="$t('StockInquiry.inquiryPersonId')" clearable @clear="restFilter3" @keyup.enter.native="handleFilter" @focus="handlechooseStock"/>
             </el-form-item>
             <my-emp :control.sync="stockControl" @stockName="stockName"/>
           </el-col>
@@ -33,7 +33,7 @@
                   :value="item.id"
                   :label="item.deptName"/>
               </el-select>
-              <el-input v-model="supplierId" placeholder="供应商" style="width: 40%;float: right;margin-right: 20px;" clearable @focus="handlechoose"/>
+              <el-input v-model="supplierId" placeholder="供应商" style="width: 40%;float: right;margin-right: 20px;" clearable @clear="restFilter2" @focus="handlechoose"/>
               <my-supplier :control.sync="empcontrol" @supplierName="supplierName"/>
               <el-select v-model="getemplist.receiptStat" :value="getemplist.receiptStat" placeholder="单据状态" clearable style="width: 40%;float: left;margin-left: 20px;margin-top: 20px">
                 <el-option value="1" label="制单"/>
@@ -314,8 +314,12 @@ export default {
     restFilter() {
       this.planPersonId = ''
       this.getemplist.planPersonId = ''
+    },
+    restFilter2() {
       this.supplierId = ''
       this.getemplist.supplierId = ''
+    },
+    restFilter3() {
       this.inquiryPersonId = ''
       this.getemplist.inquiryPersonId = ''
     },
@@ -326,9 +330,9 @@ export default {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
-          this.restFilter()
+          // this.restFilter()
         } else {
-          this.restFilter()
+          // this.restFilter()
         }
       })
     },

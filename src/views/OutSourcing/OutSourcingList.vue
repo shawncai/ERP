@@ -15,7 +15,7 @@
           </el-col>
           <el-col :span="5" style="margin-left: 10px">
             <el-form-item label="外包工厂">
-              <el-input v-model="outFactoryId" clearable @keyup.enter.native="handleFilter" @focus="chooseFactory"/>
+              <el-input v-model="outFactoryId" clearable @keyup.enter.native="handleFilter" @clear="restFilter" @focus="chooseFactory"/>
             </el-form-item>
             <my-factory :factorycontrol.sync="factorycontrol" @factoryName="factoryName"/>
           </el-col>
@@ -275,9 +275,9 @@ export default {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
-          this.restFilter()
+          // this.restFilter()
         } else {
-          this.restFilter()
+          // this.restFilter()
         }
       })
     },

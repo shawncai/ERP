@@ -15,7 +15,7 @@
           </el-col>
           <el-col :span="5" style="margin-left: 10px">
             <el-form-item :label="$t('InstallmentApply.salePersonId')">
-              <el-input v-model="salePersonId" :placeholder="$t('InstallmentApply.salePersonId')" @keyup.enter.native="handleFilter" @focus="handlechooseStock"/>
+              <el-input v-model="salePersonId" :placeholder="$t('InstallmentApply.salePersonId')" @clear="restFilter" @keyup.enter.native="handleFilter" @focus="handlechooseStock"/>
               <my-emp :control.sync="stockControl" @stockName="stockName"/>
             </el-form-item>
           </el-col>
@@ -626,9 +626,9 @@ export default {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
-          this.restFilter()
+          // this.restFilter()
         } else {
-          this.restFilter()
+          // this.restFilter()
         }
       })
     },
