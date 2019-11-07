@@ -834,7 +834,7 @@ export const asyncRouterMap = [
       title: 'Storagemove',
       icon: 'diaobo',
       type: 4,
-      roles: ['131-141-142-4', '131-141-143-1']
+      roles: ['131-141-142-4', '131-141-143-1', '131-141-359-4', '131-141-361-1', '131-141-360-4']
     },
     children: [
       {
@@ -853,7 +853,19 @@ export const asyncRouterMap = [
         path: 'moverepostiryList',
         component: () => import('@/views/Storagemove/moverepostirylist'),
         name: 'moverepostirylist',
-        meta: { title: 'moverepostirylist', noCache: true, roles: ['131-141-142-4'] }
+        meta: { title: 'moverepostirylist', noCache: true, roles: ['131-141-359-4'] }
+      },
+      {
+        path: 'AddStoragemovediff',
+        component: () => import('@/views/Storagemovediff/adddiff'),
+        name: 'AddStoragemovediff',
+        meta: { title: 'AddStoragemovediff', noCache: false, roles: ['131-141-361-1'] }
+      },
+      {
+        path: 'difflist',
+        component: () => import('@/views/Storagemovediff/difflist'),
+        name: 'difflist',
+        meta: { title: 'difflist', noCache: true, roles: ['131-141-360-4'] }
       }
       // {
       //   path: 'AddMoveApplication',
@@ -867,33 +879,6 @@ export const asyncRouterMap = [
       //   name: 'MoveApplicationList',
       //   meta: { title: 'MoveApplicationList', noCache: true }
       // }
-    ]
-  },
-  {
-    path: '/Storagemovediff',
-    component: Layout,
-    redirect: 'noredirect',
-    name: 'Storagemovediff',
-    alwaysShow: true,
-    meta: {
-      title: 'Storagemovediff',
-      icon: 'diaobo',
-      type: 4,
-      roles: ['131-141-142-4', '131-141-143-1']
-    },
-    children: [
-      {
-        path: 'AddStoragemovediff',
-        component: () => import('@/views/Storagemovediff/adddiff'),
-        name: 'AddStoragemovediff',
-        meta: { title: 'AddStoragemovediff', noCache: false, roles: ['131-141-143-1'] }
-      },
-      {
-        path: 'difflist',
-        component: () => import('@/views/Storagemovediff/difflist'),
-        name: 'difflist',
-        meta: { title: 'difflist', noCache: true, roles: ['131-141-142-4'] }
-      }
     ]
   },
   {

@@ -1,5 +1,5 @@
 <template>
-  <el-dialog :visible.sync="editVisible" :editcontrol="editcontrol" :editdata="editdata" :close-on-press-escape="false" class="edit" width="1010px" top="-10px" title="修改采购入库单" @close="$emit('update:editcontrol', false)">
+  <el-dialog :visible.sync="editVisible" :editcontrol="editcontrol" :editdata="editdata" :close-on-press-escape="false" class="edit" width="1010px" top="10px" title="修改采购入库单" @close="$emit('update:editcontrol', false)">
     <!--基本信息-->
     <el-card class="box-card">
       <h2 ref="geren" class="form-name">基本信息</h2>
@@ -8,12 +8,12 @@
           <el-row>
             <el-col :span="6">
               <el-form-item :label="$t('Stockenter.title')" style="width: 100%;">
-                <el-input v-model="personalForm.title" placeholder="请输入入库单主题" style="margin-left: 18px;width: 150px" clearable/>
+                <el-input v-model="personalForm.title" placeholder="请输入入库单主题" style="margin-left: 18px;width: 180px" clearable/>
               </el-form-item>
             </el-col>
             <el-col :span="6">
               <el-form-item label="源单编号" style="width: 100%;">
-                <el-input v-model="personalForm.number" placeholder="请选择源单编号" style="margin-left: 18px;width: 150px" clearable/>
+                <el-input v-model="personalForm.number" placeholder="请选择源单编号" style="margin-left: 18px;width: 180px" clearable/>
               </el-form-item>
             </el-col>
             <!-- <el-col :span="6">
@@ -24,13 +24,13 @@
             </el-col> -->
             <el-col :span="6">
               <el-form-item :label="$t('Storagemovediff.moveInRepository')" style="width: 100%">
-                <el-input v-model="personalForm.inRepositoryName" placeholder="请选择调入仓库" style="margin-left: 18px;width: 150px" clearable @focus="handlechooseStock"/>
+                <el-input v-model="personalForm.inRepositoryName" placeholder="请选择调入仓库" style="margin-left: 18px;width: 180px" clearable disabled @focus="handlechooseStock"/>
               </el-form-item>
               <!-- <my-emp :control.sync="stockControl" @stockName="stockName"/> -->
             </el-col>
             <el-col :span="6">
               <el-form-item :label="$t('Storagemovediff.moveOutRepository')" style="width: 100%">
-                <el-input v-model="personalForm.outRepositoryName" placeholder="请选择调出仓库" clearable style="margin-left: 18px;width: 150px"/>
+                <el-input v-model="personalForm.outRepositoryName" placeholder="请选择调出仓库" clearable disabled style="margin-left: 18px;width: 180px"/>
               </el-form-item>
             </el-col>
             <el-col :span="6">
@@ -89,7 +89,7 @@
         <el-button type="success" style="background:#3696fd;border-color:#3696fd " @click="handleAddproduct">添加商品</el-button>
         <el-button type="danger" @click="$refs.editable.removeSelecteds()">删除</el-button>
       </div>
-      <my-detail :control.sync="control" @product="productdetail"/>
+      <my-detail :control.sync="control" :personalform="personalForm" @product="productdetail"/>
       <div class="container">
         <el-editable
           ref="editable"
@@ -102,23 +102,44 @@
           size="medium"
           style="width: 100%">
           <el-editable-column type="selection" width="55" align="center"/>
-          <el-editable-column type="index" align="center" label="编号" width="150px" />
-          <el-editable-column :edit-render="{name: 'ElSelect', options: locationlist}" prop="locationId" align="center" label="货位" width="150px"/>
+          <el-editable-column label="编号" width="55" align="center" type="index"/>
           <el-editable-column prop="productCode" align="center" label="物品编号" width="150px"/>
           <el-editable-column prop="productName" align="center" label="物品名称" width="150px"/>
           <el-editable-column prop="color" align="center" label="颜色" width="150px"/>
-          <el-editable-column prop="productType" align="center" label="规格" width="150px"/>
-          <el-editable-column prop="unit" align="center" label="单位" width="150px"/>
-          <el-editable-column prop="basicQuantity" align="center" label="基本数量" width="150px"/>
-          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 1}}" prop="actualEnterQuantity" align="center" label="实收数量" width="150px"/>
-          <el-editable-column prop="enterPrice" align="center" label="入库单价" width="150px"/>
-          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}}" prop="taxRate" align="center" label="税率" width="150px"/>
-          <el-editable-column prop="enterMoney" align="center" label="入库金额" width="150px">
-            <template slot-scope="scope">
-              <p>{{ getSize(scope.row.actualEnterQuantity, scope.row.enterPrice) }}</p>
+          <!-- <el-editable-column prop="productType" align="center" label="规格" width="150px"/> -->
+          <!-- <el-editable-column prop="unit" align="center" label="单位" width="150px"/> -->
+          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0.00, precision: 2}, type: 'visible'}" prop="sendQuantity" align="center" label="发货数量" min-width="150">
+            <template slot="edit" slot-scope="scope">
+              <el-input-number
+                v-if="scope.row.isnew === 3"
+                :precision="2"
+                :controls="true"
+                :min="0.00"
+                v-model="scope.row.sendQuantity"
+              />
+              <span v-else>{{ scope.row.sendQuantity }}</span>
             </template>
           </el-editable-column>
-          <el-editable-column :edit-render="{name: 'ElInput'}" prop="remarks" align="center" label="备注" width="150px"/>
+          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0.00, precision: 2}, type: 'visible'}" prop="actualQuantity" align="center" label="实际数量" min-width="150">
+            <template slot="edit" slot-scope="scope">
+              <el-input-number
+                v-if="scope.row.isnew !== 0"
+                :precision="2"
+                :controls="true"
+                :min="0.00"
+                v-model="scope.row.actualQuantity"
+                @change="changdiff(scope.row)"
+              />
+              <span v-else>{{ scope.row.actualQuantity }}</span>
+            </template>
+          </el-editable-column>
+          <el-editable-column prop="diffQuantity" align="center" label="差异数量" min-width="150">
+            <template slot="edit" slot-scope="scope">
+              {{ scope.row.diffQuantity }}
+            </template>
+          </el-editable-column>
+          <el-editable-column prop="diffMoney" align="center" label="差异金额" width="150px"/>
+          <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="result" align="center" label="处理结果" width="300px"/>
         </el-editable>
       </div>
     </el-card>
@@ -130,8 +151,7 @@
 </template>
 
 <script>
-import { locationlist } from '@/api/WarehouseAdjust'
-import { updatestockenter } from '@/api/Stockenter'
+import { editestoragemovediff } from '@/api/Storagemovediff'
 import { getdeptlist } from '@/api/BasicSettings'
 import MyRepository from './MyRepository'
 import MySupplier from './MySupplier'
@@ -228,12 +248,15 @@ export default {
     },
     editdata() {
       this.personalForm = this.editdata
+      this.personalForm.arrivalDate = this.timestampToTime(this.personalForm.arrivalDate)
+      this.personalForm.moveDate = this.timestampToTime(this.personalForm.moveDate)
       this.supplierId = this.personalForm.supplierName
       this.stockPersonId = this.personalForm.stockPersonName
-      this.deliveryPersonId = this.personalForm.deliveryPersonName
-      this.acceptPersonId = this.personalForm.acceptPersonName
       this.enterRepositoryId = this.personalForm.enterRepositoryName
-      this.list2 = this.personalForm.stockEnterDetailVos
+      for (const i in this.personalForm.moveDiffReportDetails) {
+        this.personalForm.moveDiffReportDetails[i].isnew = 0
+      }
+      this.list2 = this.personalForm.moveDiffReportDetails
       // this.getlocation()
     }
   },
@@ -241,6 +264,21 @@ export default {
     this.getlist()
   },
   methods: {
+    changdiff(row) {
+      console.log('操作成功', row)
+      row.diffQuantity = row.sendQuantity - row.actualQuantity
+      row.diffMoney = Number(row.costPrice) * row.diffQuantity
+    },
+    timestampToTime(timestamp) {
+      var date = new Date(timestamp)// 时间戳为10位需*1000，时间戳为13位的话不需乘1000
+      var Y = date.getFullYear() + '-'
+      var M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-'
+      var D = date.getDate() + ' '
+      var h = date.getHours() + ':'
+      var m = date.getMinutes() + ':'
+      var s = date.getSeconds()
+      return Y + M + D + h + m + s
+    },
     getlist() {
       // 部门列表数据
       getdeptlist().then(res => {
@@ -285,22 +323,6 @@ export default {
     // 仓库列表focus事件触发
     handlechooseRep() {
       this.repositorycontrol = true
-    },
-    repositoryname(val) {
-      console.log(val)
-      this.enterRepositoryId = val.repositoryName
-      this.personalForm.enterRepositoryId = val.id
-      this.locationlistparms.repositoryId = val.id
-      locationlist(this.locationlistparms).then(res => {
-        if (res.data.ret === 200) {
-          this.locationlist = res.data.data.content.list.map(function(item) {
-            return {
-              'value': item.id,
-              'label': item.locationName
-            }
-          })
-        }
-      })
     },
     // 部门列表focus刷新
     updatedept() {
@@ -411,8 +433,20 @@ export default {
         }
         return elem
       })
+      for (const key in this.personalForm) {
+        if (this.personalForm[key] === null) {
+          delete this.personalForm[key]
+        }
+      }
+      delete this.personalForm.sourceType
+      delete this.personalForm.createDate
+      delete this.personalForm.outReasonId
+      delete this.personalForm.moveDiffReportDetails
+      delete this.personalForm.approvalUseVos
+      delete this.personalForm.judgeStat
+      const params = JSON.stringify(this.personalForm)
       const parms2 = JSON.stringify(rest)
-      updatestockenter(this.personalForm, parms2).then(res => {
+      editestoragemovediff(params, parms2).then(res => {
         if (res.data.ret === 200) {
           this.$notify({
             title: '操作成功',

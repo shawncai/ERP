@@ -88,7 +88,7 @@
             <!--<el-editable-column :edit-render="{name: 'ElSelect', options: batchlist, type: 'visible'}" prop="batch" align="center" label="批次" />-->
             <el-editable-column prop="batch" align="center" label="批次" />
             <el-editable-column prop="color" align="center" label="颜色" />
-            <el-editable-column prop="typeId" align="center" label="规格" />
+            <el-editable-column prop="productType" align="center" label="规格" />
             <el-editable-column prop="unit" align="center" label="单位" />
             <el-editable-column prop="price" align="center" label="价格" />
             <el-editable-column prop="inventoryQuantity" align="center" label="库存数量" >
