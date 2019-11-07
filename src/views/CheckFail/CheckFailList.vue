@@ -15,7 +15,7 @@
           </el-col>
           <el-col :span="5" style="margin-left: 10px">
             <el-form-item label="处置负责人">
-              <el-input v-model="handlePersonId" :placeholder="$t('CheckFail.handlePersonId')" clearable @keyup.enter.native="handleFilter" @focus="handlechooseStock"/>
+              <el-input v-model="handlePersonId" :placeholder="$t('CheckFail.handlePersonId')" clearable @keyup.enter.native="handleFilter" @focus="handlechooseStock" @clea="restFilter"/>
             </el-form-item>
             <my-emp :control.sync="stockControl" @stockName="stockName"/>
           </el-col>
@@ -316,10 +316,12 @@ export default {
     },
     // 清空搜索条件
     restFilter() {
-      this.supplierId = ''
-      this.getemplist.supplierId = ''
       this.handlePersonId = ''
       this.getemplist.handlePersonId = ''
+    },
+    restFilter2() {
+      this.supplierId = ''
+      this.getemplist.supplierId = ''
     },
     // 搜索
     handleFilter() {
@@ -328,9 +330,9 @@ export default {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
-          this.restFilter()
+          // this.restFilter()
         } else {
-          this.restFilter()
+          // this.restFilter()
         }
       })
     },
