@@ -32,11 +32,11 @@
               placement="bottom"
               width="500"
               trigger="click">
-              <el-input v-model="enterPersonId" :placeholder="$t('Stockenter.enterPersonId')" class="filter-item" clearable style="width: 40%;float: left;margin-left: 20px" @keyup.enter.native="handleFilter" @focus="handlechooseAccept"/>
+              <el-input v-model="enterPersonId" :placeholder="$t('Stockenter.enterPersonId')" class="filter-item" clearable style="width: 40%;float: left;margin-left: 20px" @keyup.enter.native="handleFilter" @clear="restFilter2" @focus="handlechooseAccept"/>
               <my-accept :accetpcontrol.sync="accetpcontrol" @acceptName="acceptName"/>
-              <el-input v-model="enterRepositoryId" :placeholder="$t('Stockenter.enterRepositoryId')" class="filter-item" clearable style="width: 40%;float: right;margin-right: 20px" @keyup.enter.native="handleFilter" @focus="handlechooseRep"/>
+              <el-input v-model="enterRepositoryId" :placeholder="$t('Stockenter.enterRepositoryId')" class="filter-item" clearable style="width: 40%;float: right;margin-right: 20px" @keyup.enter.native="handleFilter" @clear="restFilter3" @focus="handlechooseRep"/>
               <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
-              <el-input v-model="produceManagerId" :placeholder="$t('Stockenter.produceManagerId')" class="filter-item" clearable style="width: 40%;float: left;margin-left: 20px;margin-top: 20px" @keyup.enter.native="handleFilter" @focus="handlechoose"/>
+              <el-input v-model="produceManagerId" :placeholder="$t('Stockenter.produceManagerId')" class="filter-item" clearable style="width: 40%;float: left;margin-left: 20px;margin-top: 20px" @clear="restFilter" @keyup.enter.native="handleFilter" @focus="handlechoose"/>
               <my-create :createcontrol.sync="createcontrol" @createname="createname"/>
               <el-date-picker
                 v-model="date"
@@ -419,8 +419,12 @@ export default {
     restFilter() {
       this.produceManagerId = ''
       this.getemplist.produceManagerId = ''
+    },
+    restFilter2() {
       this.enterPersonId = ''
       this.getemplist.enterPersonId = ''
+    },
+    restFilter3() {
       this.enterRepositoryId = ''
       this.getemplist.enterRepositoryId = ''
     },
@@ -438,14 +442,14 @@ export default {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
-          this.restFilter()
+          // this.restFilter()
         } else {
           this.$notify.error({
             title: '错误',
             message: '出错了',
             offset: 100
           })
-          this.restFilter()
+          // this.restFilter()
         }
       })
     },
