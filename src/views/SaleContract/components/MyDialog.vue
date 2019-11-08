@@ -89,11 +89,17 @@
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item :label="$t('SaleContract.currency')" prop="currency" style="width: 100%;">
-                <el-select v-model="personalForm.currency" clearable style="margin-left: 18px;width: 200px">
-                  <el-option value="1" label="RMB"/>
+              <el-form-item :label="$t('StockOrder.currency')" prop="currency" style="width: 100%;">
+                <el-select v-model="personalForm.currency" style="margin-left: 18px;width: 200px" @change="changeRate">
+                  <el-option value="1" label="PHP"/>
                   <el-option value="2" label="USD"/>
+                  <el-option value="3" label="RMB"/>
                 </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('Recycling.exchangeRate')" style="width: 100%;">
+                <el-input v-model="personalForm.exchangeRate" style="margin-left: 18px;width:200px" disabled/>
               </el-form-item>
             </el-col>
             <el-col :span="12">
@@ -339,6 +345,7 @@
 </template>
 
 <script>
+import { getRate } from '@/api/public'
 import { updatesaleContract } from '@/api/SaleContract'
 import { getdeptlist } from '@/api/BasicSettings'
 import { searchStockCategory } from '@/api/StockCategory'
@@ -541,6 +548,7 @@ export default {
       this.salePersonId = this.personalForm.salePersonName
       this.customerId = this.personalForm.customerName
       this.list2 = this.personalForm.saleContractDetailVos
+      this.changeRate()
       // this.getTypes()
     }
   },
@@ -550,6 +558,28 @@ export default {
     this.getratelist()
   },
   methods: {
+    // 处理汇率
+    changeRate() {
+      console.log('this.personalForm', this.personalForm)
+      if (this.personalForm.currency !== '3') {
+        getRate(this.personalForm.currency).then(res => {
+          console.log(res)
+          if (res.data.ret === 200) {
+            // console.log('res.data.data.content', res.data.data.content)
+            // this.personalForm.exchangeRate = res.data.data.content.rate
+            this.$set(this.personalForm, 'exchangeRate', res.data.data.content.rate)
+          } else {
+            this.$notify.error({
+              title: '错误',
+              message: res.data.msg,
+              offset: 100
+            })
+          }
+        })
+      } else {
+        this.personalForm.exchangeRate = '1.0000'
+      }
+    },
     // 格式化日期，如月、日、时、分、秒保证为2位数
     formatNumber(n) {
       n = n.toString()

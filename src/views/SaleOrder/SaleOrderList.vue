@@ -494,7 +494,6 @@ export default {
     // 修改操作
     handleEdit(row) {
       console.log(row)
-      this.editVisible = true
       this.personalForm = Object.assign({}, row)
       this.personalForm.sourceType = String(row.sourceType)
       if (row.currency !== null) {
@@ -509,6 +508,7 @@ export default {
       if (row.payType !== null) {
         this.personalForm.payType = String(row.payType)
       }
+      this.editVisible = true
     },
     // 修改组件修改成功后返回
     refreshlist(val) {

@@ -139,14 +139,15 @@
               <el-col :span="6">
                 <el-form-item :label="$t('SaleOrder.currency')" style="width: 100%;">
                   <el-select v-model="personalForm.currency" style="margin-left: 18px;width: 200px" @change="changeRate">
-                    <el-option value="1" label="RMB"/>
+                    <el-option value="1" label="PHP"/>
                     <el-option value="2" label="USD"/>
+                    <el-option value="3" label="RMB"/>
                   </el-select>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('public.rate')" style="width: 100%;">
-                  <el-input v-model="personalForm.rate" disabled style="margin-left: 18px;width: 200px"/>
+                  <el-input v-model="personalForm.exchangeRate" disabled style="margin-left: 18px;width: 200px"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
@@ -573,11 +574,11 @@ export default {
         backType: '2',
         backMoney: '0.00',
         sendType: '2',
-        currency: '1',
+        exchangeRate: '1.0000',
+        currency: '3',
         transDate: null,
         sourceType: '1',
-        otherMoney: '0.00',
-        rate: 1
+        otherMoney: '0.00'
       },
       // 销售订单规则数据
       personalrules: {
@@ -631,13 +632,16 @@ export default {
       this.isshow = roles.includes('54-83-1')
       console.log(this.isshow)
     },
+    // 汇率变化
     changeRate() {
-      if (this.personalForm.currency === '2') {
+      console.log(123)
+      if (this.personalForm.currency !== '3') {
         getRate(this.personalForm.currency).then(res => {
           console.log(res)
           if (res.data.ret === 200) {
-            console.log('res.data.data.content', res.data.data.content)
-            this.personalForm.rate = res.data.data.content.rate
+            // console.log('res.data.data.content', res.data.data.content)
+            this.personalForm.exchangeRate = res.data.data.content.rate
+            console.log(this.personalForm.exchangeRate)
           } else {
             this.$notify.error({
               title: '错误',
@@ -646,8 +650,8 @@ export default {
             })
           }
         })
-      } else if (this.personalForm.currency === '1') {
-        this.personalForm.rate = 1
+      } else {
+        this.personalForm.exchangeRate = '1.0000'
       }
     },
     checkStock(row) {
@@ -873,6 +877,7 @@ export default {
       this.personalForm.invoiceType = val.invoiceType
       this.personalForm.transMode = val.transMode
       this.personalForm.currency = String(val.currency)
+      this.changeRate()
       this.personalForm.deliveryMode = val.deliveryMode
     },
     // 无来源添加商品
@@ -959,7 +964,6 @@ export default {
         backType: '2',
         backMoney: '0.00',
         sendType: '2',
-        currency: '1',
         transDate: null,
         saleRepositoryId: this.$store.getters.repositoryId,
         salePersonId: this.$store.getters.userId

@@ -364,6 +364,10 @@ export default {
     },
     editdata() {
       this.personalForm = this.editdata
+      this.personalForm.repositoryId = Number(this.editdata.repositoryId)
+      if (this.personalForm.repositoryId === 0 || this.personalForm.repositoryId === '0') {
+        this.personalForm.repositoryId = ''
+      }
       this.chargeRegions = this.editdata.chargeRegions2
       if (this.personalForm.chargeRegions != null) {
         const sss = this.personalForm.chargeRegions.split(',')
@@ -387,6 +391,8 @@ export default {
         }
       })
       this.getRepository(this.personalForm.regionId)
+      // const newarr = [this.personalForm.regionId]
+      // this.handlechange4(newarr)
     }
   },
   created() {
@@ -540,7 +546,7 @@ export default {
         }
       })
       console.log(this.repositories)
-      this.personalForm.repositoryId = '0'
+      this.personalForm.repositoryId = ''
     },
     getRepository(val) {
       searchRepository(val).then(res => {
@@ -565,6 +571,9 @@ export default {
     },
     // 提交修改
     handleEditok() {
+      if (this.personalForm.repositoryId === '') {
+        this.personalForm.repositoryId = '0'
+      }
       this.personalForm.modifyPersonId = this.$store.getters.userId
       if (this.regionId !== '' && this.regionId !== null && this.regionId !== undefined) {
         this.personalForm.regionId = this.regionId[this.regionId.length - 1]

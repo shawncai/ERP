@@ -122,11 +122,17 @@
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('StockRetreat.currencyId')" prop="currency" style="width: 100%;">
-                  <el-select v-model="personalForm.currencyId" clearable style="margin-left: 18px;width: 200px" @change="change()">
-                    <el-option value="1" label="RMB"/>
+                <el-form-item :label="$t('StockOrder.currency')" prop="currency" style="width: 100%;">
+                  <el-select v-model="personalForm.currencyId" :disabled="IsCurrency" style="margin-left: 18px;width: 200px" @change="changeRate">
+                    <el-option value="1" label="PHP"/>
                     <el-option value="2" label="USD"/>
+                    <el-option value="3" label="RMB"/>
                   </el-select>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item :label="$t('Recycling.exchangeRate')" style="width: 100%;">
+                  <el-input v-model="personalForm.exchangeRate" style="margin-left: 18px;width:200px" disabled/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
@@ -293,7 +299,7 @@
 
 <script>
 import '@/directive/noMoreClick/index.js'
-import { countlist } from '@/api/public'
+import { countlist, getRate } from '@/api/public'
 import { createstockArrival } from '@/api/StockRetreat'
 import { getdeptlist } from '@/api/BasicSettings'
 import { searchStockCategory } from '@/api/StockCategory'
@@ -368,6 +374,7 @@ export default {
       giveIds: [],
       // 运送方式
       transportIds: [],
+      IsCurrency: false,
       // 结算方式
       settleModes: [],
       // 支付方式
@@ -417,7 +424,9 @@ export default {
         isVat: 1,
         sourceType: '1',
         retreatDate: null,
-        retreatRepositoryId: this.$store.getters.repositoryId
+        retreatRepositoryId: this.$store.getters.repositoryId,
+        currencyId: '3',
+        exchangeRate: '1.0000'
       },
       // 采购申请单规则数据
       personalrules: {
@@ -466,6 +475,27 @@ export default {
     this.getinformation()
   },
   methods: {
+    // 处理汇率
+    changeRate() {
+      console.log(123)
+      if (this.personalForm.currencyId !== '3') {
+        getRate(this.personalForm.currencyId).then(res => {
+          console.log(res)
+          if (res.data.ret === 200) {
+            // console.log('res.data.data.content', res.data.data.content)
+            this.personalForm.exchangeRate = res.data.data.content.rate
+          } else {
+            this.$notify.error({
+              title: '错误',
+              message: res.data.msg,
+              offset: 100
+            })
+          }
+        })
+      } else {
+        this.personalForm.exchangeRate = '1.0000'
+      }
+    },
     // 判断数量
     jungleNumbers(scope) {
       console.log(this.actualilNumber, this.allNumber)
@@ -688,6 +718,7 @@ export default {
       }
       if (val.currencyId !== null && val.currencyId !== undefined && val.currencyId !== '') {
         this.personalForm.currencyId = String(val.currencyId)
+        this.changeRate()
       }
       this.getTypes()
     },
@@ -731,7 +762,6 @@ export default {
       this.personalForm.settleMode = val.settleMode
       this.personalForm.transportModeId = val.transportId
       this.personalForm.isVat = val.isVat
-      this.personalForm.currencyId = val.currency
     },
     // 收货人返回数据
     supplierName2(val) {
