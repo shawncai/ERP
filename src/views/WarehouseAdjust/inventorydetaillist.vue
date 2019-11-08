@@ -346,11 +346,16 @@ export default {
     restFilter() {
       this.enterPersonId = ''
       this.getemplist.enterPersonId = ''
+    },
+    restFilter1() {
       this.repositorycontrol = ''
       this.getemplist.repositorycontrol = ''
+    },
+    restFilter2() {
       this.produceManagerId = ''
       this.getemplist.produceManagerId = ''
     },
+
     // 搜索
     handleFilter() {
       this.getemplist.pageNum = 1

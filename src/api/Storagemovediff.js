@@ -96,3 +96,26 @@ export function searchstoragemovediff(query) {
     data: params
   })
 }
+
+// 修改差异报告
+export function editestoragemovediff(query, query2) {
+  var params = new URLSearchParams()
+  params.append('moveDiffReportJson', query) // 你要传给后台的参数值 key/value
+  params.append('moveDiffReportDetailJson', query2) // 你要传给后台的参数值 key/value
+  return request({
+    url: '/moveDiff/updateMoveDiff',
+    method: 'post',
+    data: params
+  })
+}
+
+// 审核差异报告
+export function editestoragemovediff2(query) {
+  var params = new URLSearchParams()
+  params.append('moveDiffReportJson', query) // 你要传给后台的参数值 key/value
+  return request({
+    url: '/moveDiff/updateMoveDiff',
+    method: 'post',
+    data: params
+  })
+}

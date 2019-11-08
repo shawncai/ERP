@@ -11,7 +11,7 @@
           </el-col>
           <el-col :span="5">
             <el-form-item label="供应商">
-              <el-input v-model="supplierId" :placeholder="$t('StockQuery.supplierId')" style="width: 200px" clearable @keyup.enter.native="handleFilter" @focus="handlechoose"/>
+              <el-input v-model="supplierId" :placeholder="$t('StockQuery.supplierId')" style="width: 200px" clearable @keyup.enter.native="handleFilter" @clear="restFilter" @focus="handlechoose"/>
               <my-supplier :control.sync="empcontrol" @supplierName="supplierName"/>
             </el-form-item>
           </el-col>
@@ -206,6 +206,8 @@ export default {
     restFilter() {
       this.supplierId = ''
       this.getemplist.supplierId = ''
+    },
+    restFilter2() {
       this.stockPersonId = ''
       this.getemplist.stockPersonId = ''
     },
@@ -223,9 +225,9 @@ export default {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
-          this.restFilter()
+          // this.restFilter()
         } else {
-          this.restFilter()
+          // this.restFilter()
         }
       })
     },

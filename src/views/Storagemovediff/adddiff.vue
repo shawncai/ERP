@@ -262,9 +262,10 @@ export default {
       this.personalForm.moveNumber = val.moveNumber
       this.inRepository = val.moveInRepositoryName
       this.outRepository = val.moveOutRepositoryName
+      this.personalForm.inRepositoryId = val.moveInRepository
+      this.personalForm.outRepositoryId = val.moveOutRepository
       this.personalForm.arrivalDate = val.requestArrivalDate
       this.personalForm.moveDate = val.createDate
-    //   this.personalForm.s
     },
     changdiff(row) {
       console.log('操作成功', row)

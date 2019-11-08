@@ -4,9 +4,9 @@
       <!-- 搜索条件栏目 -->
       <el-input v-model="getemplist.code" :placeholder="$t('Product.code')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
       <el-input v-model="getemplist.productname" :placeholder="$t('Product.productname')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
-      <el-input v-model="supplierid" :placeholder="$t('Product.supplierid')" class="filter-item" clearable @keyup.enter.native="handleFilter" @focus="handlechoose"/>
+      <el-input v-model="supplierid" :placeholder="$t('Product.supplierid')" class="filter-item" clearable @keyup.enter.native="handleFilter" @focus="handlechoose" @clear="restFilter"/>
       <my-supplier :control.sync="empcontrol" @supplierName="supplierName"/>
-      <el-input v-model="categoryid" placeholder="物品分类" class="filter-item" clearable @focus="treechoose"/>
+      <el-input v-model="categoryid" placeholder="物品分类" class="filter-item" clearable @focus="treechoose" @clear="restFilter2"/>
       <my-tree :treecontrol.sync="treecontrol" @tree="tree"/>
       <!-- 更多搜索条件下拉栏 -->
       <el-popover
@@ -209,10 +209,12 @@ export default {
       })
     },
     restFilter() {
-      this.categoryid = ''
-      this.getemplist.categoryid = ''
       this.supplierid = ''
       this.getemplist.supplierid = ''
+    },
+    restFilter2() {
+      this.categoryid = ''
+      this.getemplist.categoryid = ''
     },
     // 搜索
     handleFilter() {
@@ -221,9 +223,9 @@ export default {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
-          this.restFilter()
+          // this.restFilter()
         } else {
-          this.restFilter()
+          // this.restFilter()
         }
       })
     },

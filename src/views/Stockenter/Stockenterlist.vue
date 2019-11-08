@@ -15,7 +15,7 @@
           </el-col>
           <el-col :span="4">
             <el-form-item label="交货人">
-              <el-input v-model="deliveryPersonId" :placeholder="$t('Stockenter.deliveryPersonId')" class="filter-item" clearable @keyup.enter.native="handleFilter" @focus="handlechooseDelivery"/>
+              <el-input v-model="deliveryPersonId" :placeholder="$t('Stockenter.deliveryPersonId')" class="filter-item" clearable @keyup.enter.native="handleFilter" @clear="restFilter2" @focus="handlechooseDelivery"/>
             </el-form-item>
             <my-delivery :deliverycontrol.sync="deliverycontrol" @deliveryName="deliveryName"/>
           </el-col>
@@ -33,9 +33,9 @@
                   :value="item.id"
                   :label="item.deptName"/>
               </el-select>
-              <el-input v-model="enterRepositoryId" placeholder="请选择入库仓库" class="filter-item" clearable style="width: 40%;float: left;margin-left: 20px" @keyup.enter.native="handleFilter" @focus="handlechooseRep"/>
+              <el-input v-model="enterRepositoryId" placeholder="请选择入库仓库" class="filter-item" clearable style="width: 40%;float: left;margin-left: 20px" @clear="restFilter" @keyup.enter.native="handleFilter" @focus="handlechooseRep"/>
               <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
-              <el-input v-model="acceptPersonId" :placeholder="$t('Stockenter.acceptPersonId')" class="filter-item" clearable style="width: 40%;float: left;margin-left: 20px;margin-top: 20px" @keyup.enter.native="handleFilter" @focus="handlechooseAccept"/>
+              <el-input v-model="acceptPersonId" :placeholder="$t('Stockenter.acceptPersonId')" class="filter-item" clearable style="width: 40%;float: left;margin-left: 20px;margin-top: 20px" @clear="restFilter3" @keyup.enter.native="handleFilter" @focus="handlechooseAccept"/>
               <my-accept :accetpcontrol.sync="accetpcontrol" @acceptName="acceptName"/>
               <el-date-picker
                 v-model="date"
@@ -407,8 +407,12 @@ export default {
     restFilter() {
       this.enterRepositoryId = ''
       this.getemplist.enterRepositoryId = ''
+    },
+    restFilter2() {
       this.deliveryPersonId = ''
       this.getemplist.deliveryPersonId = ''
+    },
+    restFilter3() {
       this.acceptPersonId = ''
       this.getemplist.acceptPersonId = ''
     },
@@ -419,9 +423,9 @@ export default {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
-          this.restFilter()
+          // this.restFilter()
         } else {
-          this.restFilter()
+          // this.restFilter()
         }
       })
     },

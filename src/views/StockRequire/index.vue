@@ -5,7 +5,7 @@
         <el-form ref="getemplist" :model="getemplist" label-width="100px" style="margin-top: -9px">
           <el-col :span="5">
             <el-form-item label="物料分类" label-width="100px">
-              <el-input v-model="categoryId" :placeholder="$t('StockRequire.categoryId')" clearable @keyup.enter.native="handleFilter" @focus="treechoose"/>
+              <el-input v-model="categoryId" :placeholder="$t('StockRequire.categoryId')" clearable @keyup.enter.native="handleFilter" @focus="treechoose" @clear="restFilter"/>
               <my-tree :treecontrol.sync="treecontrol" @tree="tree"/>
             </el-form-item>
           </el-col>
@@ -262,10 +262,16 @@ export default {
     },
     // 清空搜索条件
     restFilter() {
-      this.handlePersonId = ''
-      this.getemplist.handlePersonId = ''
+      // this.handlePersonId = ''
+      // this.getemplist.handlePersonId = ''
+      this.categoryId = ''
+      this.getemplist.categoryId = ''
+    },
+    restFilter2() {
       this.workCenterId = ''
       this.getemplist.workCenterId = ''
+    },
+    restFilter3() {
       this.producePlanNumber = ''
       this.getemplist.producePlanNumber = ''
     },
@@ -283,9 +289,9 @@ export default {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
-          this.restFilter()
+          // this.restFilter()
         } else {
-          this.restFilter()
+          // this.restFilter()
         }
       })
     },

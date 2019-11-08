@@ -6,7 +6,7 @@
       <el-input v-model="getemplist.productname" :placeholder="$t('Product.productname')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
       <!-- <el-input v-model="supplierid" :placeholder="$t('Product.supplierid')" class="filter-item" clearable @keyup.enter.native="handleFilter" @focus="handlechoose"/> -->
       <my-supplier :control.sync="empcontrol" @supplierName="supplierName"/>
-      <el-input v-model="categoryid" placeholder="物品分类" class="filter-item" clearable @focus="treechoose"/>
+      <el-input v-model="categoryid" placeholder="物品分类" class="filter-item" clearable @focus="treechoose" @clear="restFilter"/>
       <my-tree :treecontrol.sync="treecontrol" @tree="tree"/>
       <!-- 更多搜索条件下拉栏 -->
       <el-popover
@@ -244,6 +244,8 @@ export default {
     restFilter() {
       this.categoryid = ''
       this.getemplist.categoryid = ''
+    },
+    restFilter2() {
       this.supplierid = ''
       this.getemplist.supplierid = ''
     },
@@ -255,9 +257,9 @@ export default {
           console.log(res.data.data.content.list)
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
-          this.restFilter()
+          // this.restFilter()
         } else {
-          this.restFilter()
+          // this.restFilter()
         }
       })
     },

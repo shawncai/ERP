@@ -11,15 +11,15 @@
           </el-col>
           <el-col :span="4">
             <el-form-item label="差异单编号">
-              <el-input v-model="getemplist.code" :placeholder="$t('StockOut.code')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
+              <el-input v-model="getemplist.reportNumber" :placeholder="$t('StockOut.code')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
-          <el-col :span="4">
+          <!-- <el-col :span="4">
             <el-form-item label="出库仓库">
               <el-input v-model="outPersonId" :placeholder="$t('StockOut.outPersonId')" class="filter-item" clearable @keyup.enter.native="handleFilter" @focus="handlechoose"/>
             </el-form-item>
             <my-create :createcontrol.sync="createcontrol" @createname="createname"/>
-          </el-col>
+          </el-col> -->
           <el-col :span="4" style="margin-left: 154px;">
             <!-- 更多搜索条件下拉栏 -->
             <el-popover
@@ -60,15 +60,15 @@
           {{ $t('public.batchoperation') }} <i class="el-icon-arrow-down el-icon--right"/>
         </el-button>
         <el-dropdown-menu slot="dropdown" style="width: 140px">
-          <el-dropdown-item v-permission="['131-138-140-2']" style="text-align: left" command="delete"><svg-icon icon-class="shanchu" style="width: 40px"/>{{ $t('public.delete') }}</el-dropdown-item>
+          <el-dropdown-item v-permission="['131-141-360-2']" style="text-align: left" command="delete"><svg-icon icon-class="shanchu" style="width: 40px"/>{{ $t('public.delete') }}</el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
       <!-- 表格导出操作 -->
-      <el-button v-permission="['131-138-140-6']" v-waves :loading="downloadLoading" class="filter-item" style="width: 86px" @click="handleExport"> <svg-icon icon-class="daochu"/>{{ $t('public.export') }}</el-button>
+      <!-- <el-button v-permission="['131-138-140-6']" v-waves :loading="downloadLoading" class="filter-item" style="width: 86px" @click="handleExport"> <svg-icon icon-class="daochu"/>{{ $t('public.export') }}</el-button> -->
       <!-- 打印操作 -->
-      <el-button v-permission="['131-138-140-7']" v-waves class="filter-item" icon="el-icon-printer" style="width: 86px" @click="handlePrint">{{ $t('public.print') }}</el-button>
+      <!-- <el-button v-permission="['131-138-140-7']" v-waves class="filter-item" icon="el-icon-printer" style="width: 86px" @click="handlePrint">{{ $t('public.print') }}</el-button> -->
       <!-- 新建操作 -->
-      <el-button v-permission="['131-138-140-1']" v-waves class="filter-item" icon="el-icon-plus" type="success" style="width: 86px" @click="handleAdd">{{ $t('public.add') }}</el-button>
+      <el-button v-permission="['131-141-360-1']" v-waves class="filter-item" icon="el-icon-plus" type="success" style="width: 86px" @click="handleAdd">{{ $t('public.add') }}</el-button>
     </el-card>
     <el-card class="box-card" style="margin-top: 15px">
       <!-- 列表开始 -->
@@ -87,40 +87,40 @@
           width="55"
           fixed="left"
           align="center"/>
-        <el-table-column :label="$t('StockOut.id')" :resizable="false" fixed="left" align="center" min-width="150">
+        <el-table-column :label="$t('Storagemovediff.id')" :resizable="false" fixed="left" align="center" min-width="150">
           <template slot-scope="scope">
-            <span class="link-type" @click="handleDetail(scope.row)">{{ scope.row.outNumber }}</span>
+            <span class="link-type" @click="handleDetail(scope.row)">{{ scope.row.number }}</span>
           </template>
           <detail-list :detailcontrol.sync="detailvisible" :detaildata.sync="personalForm"/>
         </el-table-column>
-        <el-table-column :label="$t('StockOut.title')" :resizable="false" fixed="left" align="center" min-width="150">
+        <el-table-column :label="$t('Storagemovediff.title')" :resizable="false" fixed="left" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.title }}</span>
           </template>
-        </el-table-column>、
+        </el-table-column>
         <!-- <el-table-column :label="$t('StockOut.code')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.outNumber }}</span>
           </template>
         </el-table-column> -->
-        <el-table-column :label="$t('StockOut.sourceType')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('Storagemovediff.moveInRepository')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.sourceType }}</span>
+            <span>{{ scope.row.inRepositoryName }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('StockOut.outPersonId')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('Storagemovediff.moveOutRepository')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.outPersonName }}</span>
+            <span>{{ scope.row.outRepositoryName }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('StockOut.outDate')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('Storagemovediff.requestArrivalDate')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.outDate }}</span>
+            <span>{{ timestampToTime(scope.row.arrivalDate) }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('StockOut.outReasonId')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('Storagemovediff.storageMoveDate')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.outReasonId }}</span>
+            <span>{{ timestampToTime(scope.row.moveDate) }}</span>
           </template>
         </el-table-column>
         <el-table-column :label="$t('StockOut.judgeStat')" :resizable="false" align="center" min-width="150">
@@ -135,13 +135,13 @@
         </el-table-column>
         <el-table-column :label="$t('public.actions')" :resizable="false" align="center" min-width="230">
           <template slot-scope="scope">
-            <el-button v-permission="['131-138-140-98']" v-show="scope.row.judgeStat === 2&&scope.row.confirmPersonId === null" title="确认" type="primary" size="mini" icon="el-icon-check" circle @click="handleEdit2(scope.row)"/>
-            <el-button v-permission="['131-138-140-3']" v-show="scope.row.judgeStat === 0" type="primary" size="mini" @click="handleEdit(scope.row)">{{ $t('public.edit') }}</el-button>
+            <el-button v-permission="['131-141-360-98']" v-show="scope.row.judgeStat === 2&&scope.row.confirmPersonId === null" title="确认" type="primary" size="mini" icon="el-icon-check" circle @click="handleEdit2(scope.row)"/>
+            <el-button v-permission="['131-141-360-3']" v-show="scope.row.judgeStat === 0" type="primary" size="mini" @click="handleEdit(scope.row)">{{ $t('public.edit') }}</el-button>
             <el-button v-show="isReview(scope.row)" type="warning" size="mini" @click="handleReview(scope.row)">{{ $t('public.review') }}</el-button>
-            <el-button v-permission="['131-138-140-76']" v-show="isReview4(scope.row)" title="反审批" type="warning" size="mini" circle @click="handleReview4(scope.row)"><svg-icon icon-class="fanhui"/></el-button>
-            <el-button v-permission="['131-138-140-16']" v-show="isReview2(scope.row)" title="结单" type="success" size="mini" icon="el-icon-check" circle @click="handleReview2(scope.row)"/>
-            <el-button v-permission="['131-138-140-17']" v-show="isReview3(scope.row)" title="反结单" type="success" size="mini" icon="el-icon-back" circle @click="handleReview3(scope.row)"/>
-            <el-button v-permission="['131-138-140-2']" v-if="scope.row.judgeStat === 0" size="mini" type="danger" @click="handleDelete(scope.row)">{{ $t('public.delete') }}</el-button>
+            <el-button v-permission="['131-141-360-76']" v-show="isReview4(scope.row)" title="反审批" type="warning" size="mini" circle @click="handleReview4(scope.row)"><svg-icon icon-class="fanhui"/></el-button>
+            <el-button v-permission="['131-141-360-16']" v-show="isReview2(scope.row)" title="结单" type="success" size="mini" icon="el-icon-check" circle @click="handleReview2(scope.row)"/>
+            <el-button v-permission="['131-141-360-17']" v-show="isReview3(scope.row)" title="反结单" type="success" size="mini" icon="el-icon-back" circle @click="handleReview3(scope.row)"/>
+            <el-button v-permission="['131-141-360-2']" v-if="scope.row.judgeStat === 0" size="mini" type="danger" @click="handleDelete(scope.row)">{{ $t('public.delete') }}</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -156,7 +156,7 @@
 
 <script>
 // import { searchOutlist, deleteStock, updateotherenter2 } from '@/api/StockOut'
-import { searchstoragemovediff, deletestoragemovediff } from '@/api/Storagemovediff'
+import { searchstoragemovediff, deletestoragemovediff, editestoragemovediff2 } from '@/api/Storagemovediff'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
 import permission from '@/directive/permission/index.js' // 权限判断指令
@@ -243,32 +243,22 @@ export default {
     this.getlist()
   },
   methods: {
-    // 确认操作
-    handleEdit2(row) {
-      this.reviewParms = {}
-      this.reviewParms.id = row.id
-      this.reviewParms.confirmPersonId = this.$store.getters.userId
-      this.$confirm('是否确认货物已经出库', '确认', {
-        distinguishCancelAndClose: true,
-        confirmButtonText: '确认',
-        type: 'warning'
-      }).then(() => {
-        const parms = JSON.stringify(this.reviewParms)
-        updateotherenter2(parms).then(res => {
-          if (res.data.ret === 200) {
-            this.$message({
-              type: 'success',
-              message: '确认成功!'
-            })
-            this.getlist()
-          }
-        })
-      })
+    // 处理时间
+    timestampToTime(timestamp) {
+      var date = new Date(timestamp)// 时间戳为10位需*1000，时间戳为13位的话不需乘1000
+      var Y = date.getFullYear() + '-'
+      var M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-'
+      var D = date.getDate() + ' '
+      // var h = date.getHours() + ':'
+      // var m = date.getMinutes() + ':'
+      // var s = date.getSeconds()
+      return Y + M + D
     },
+    // 确认操作
     // 判断反审批按钮
     isReview4(row) {
-      console.log(row)
-      if (row.judgeStat === 2) {
+      console.log('真假', row.judgeStat === 2 && row.receiptStat !== 3)
+      if (row.judgeStat === 2 && row.receiptStat !== 3) {
         return true
       }
     },
@@ -284,7 +274,7 @@ export default {
       }).then(() => {
         this.reviewParms.judgeStat = 0
         const parms = JSON.stringify(this.reviewParms)
-        updateotherenter2(parms).then(res => {
+        editestoragemovediff2(parms).then(res => {
           if (res.data.ret === 200) {
             if (res.data.data.result === false) {
               this.$message({
@@ -313,7 +303,7 @@ export default {
     handleReview3(row) {
       this.reviewParms = {}
       this.reviewParms.id = row.id
-      this.reviewParms.endPersonId = this.$store.getters.userId
+      this.reviewParms.modifyPersonId = this.$store.getters.userId
       this.$confirm('请反结单', '反结单', {
         distinguishCancelAndClose: true,
         confirmButtonText: '反结单',
@@ -321,7 +311,7 @@ export default {
       }).then(() => {
         this.reviewParms.receiptStat = 2
         const parms = JSON.stringify(this.reviewParms)
-        updateotherenter2(parms).then(res => {
+        editestoragemovediff2(parms).then(res => {
           if (res.data.ret === 200) {
             this.$message({
               type: 'success',
@@ -351,7 +341,7 @@ export default {
       }).then(() => {
         this.reviewParms.receiptStat = 3
         const parms = JSON.stringify(this.reviewParms)
-        updateotherenter2(parms).then(res => {
+        editestoragemovediff2(parms).then(res => {
           if (res.data.ret === 200) {
             this.$message({
               type: 'success',
@@ -405,24 +395,24 @@ export default {
     handleFilter() {
       this.getemplist.pageNum = 1
       if (this.date === null || this.date === '') {
-        this.getemplist.begintime = null
-        this.getemplist.endtime = null
+        this.getemplist.beginTime = null
+        this.getemplist.endTime = null
       } else {
-        this.getemplist.begintime = this.date[0]
-        this.getemplist.endtime = this.date[1]
+        this.getemplist.beginTime = this.date[0]
+        this.getemplist.endTime = this.date[1]
       }
-      searchOutlist(this.getemplist).then(res => {
+      searchstoragemovediff(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
-          this.restFilter()
+          // this.restFilter()
         } else {
           this.$notify.error({
             title: '错误',
             message: '出错了',
             offset: 100
           })
-          this.restFilter()
+          // this.restFilter()
         }
       })
     },
@@ -472,7 +462,7 @@ export default {
       }).then(() => {
         this.reviewParms.judgeStat = 2
         const parms = JSON.stringify(this.reviewParms)
-        updateotherenter2(parms).then(res => {
+        editestoragemovediff2(parms).then(res => {
           if (res.data.ret === 200) {
             this.$message({
               type: 'success',
@@ -485,7 +475,7 @@ export default {
         if (action === 'cancel') {
           this.reviewParms.judgeStat = 3
           const parms = JSON.stringify(this.reviewParms)
-          updateotherenter2(parms).then(res => {
+          editestoragemovediff2(parms).then(res => {
             if (res.data.ret === 200) {
               this.$message({
                 type: 'success',
@@ -511,7 +501,7 @@ export default {
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          deletestoragemovediff(ids, this.$store.getters.userId).then(res => {
+          deletestoragemovediff(ids).then(res => {
             if (res.data.ret === 200 || res.data.ret === 100) {
               this.$notify({
                 title: '删除成功',
@@ -542,7 +532,7 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        deletestoragemovediff(row.id, this.$store.getters.userId).then(res => {
+        deletestoragemovediff(row.id).then(res => {
           if (res.data.ret === 200 || res.data.ret === 100) {
             this.$notify({
               title: '删除成功',

@@ -5,7 +5,7 @@
         <el-row>
           <el-col :span="4" style="margin-left: 15px">
             <el-form-item label="门店">
-              <el-input v-model="repositoryId" class="filter-item" clearable @keyup.enter.native="handleFilter" @focus="handlechooseRep"/>
+              <el-input v-model="repositoryId" class="filter-item" clearable @clear="restFilter2" @keyup.enter.native="handleFilter" @focus="handlechooseRep"/>
               <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
             </el-form-item>
           </el-col>
@@ -40,7 +40,7 @@
           </el-col>
           <el-col :span="4" style="margin-left: 88px">
             <el-form-item label="分类">
-              <el-input v-model="categoryId" placeholder="物品分类" clearable @focus="treechoose"/>
+              <el-input v-model="categoryId" placeholder="物品分类" clearable @clear="restFilter" @focus="treechoose"/>
               <my-tree :treecontrol.sync="treecontrol" @tree="tree"/>
             </el-form-item>
           </el-col>
@@ -352,10 +352,12 @@ export default {
     },
     // 清空搜索条件
     restFilter() {
-      this.customerName = ''
-      this.getemplist.customerId = ''
-      this.stockPersonId = ''
-      this.getemplist.stockPersonId = ''
+      this.categoryId = ''
+      this.getemplist.categoryId = ''
+    },
+    restFilter2() {
+      this.restFilter2 = ''
+      this.getemplist.restFilter2 = ''
     },
     // 搜索
     handleFilter() {
@@ -374,9 +376,9 @@ export default {
             this.list[i].heji = this.list[i].totalMoney + this.list[i].taxMoney
           }
           this.total = res.data.data.content.totalCount
-          this.restFilter()
+          // this.restFilter()
         } else {
-          this.restFilter()
+          // this.restFilter()
         }
       })
     },

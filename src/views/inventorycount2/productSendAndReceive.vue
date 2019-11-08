@@ -14,7 +14,7 @@
           </el-col>
           <el-col :span="4" style="margin-left: 140px">
             <el-form-item label="门店">
-              <el-input v-model="repositoryId" class="filter-item" @keyup.enter.native="handleFilter" @focus="handlechooseRep"/>
+              <el-input v-model="repositoryId" class="filter-item" @clear="restFilter" @keyup.enter.native="handleFilter" @focus="handlechooseRep"/>
               <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
             </el-form-item>
           </el-col>
@@ -363,8 +363,10 @@ export default {
     },
     // 清空搜索条件
     restFilter() {
-      this.customerName = ''
-      this.getemplist.customerId = ''
+      this.repositoryId = ''
+      this.getemplist.repositoryId = ''
+    },
+    restFilter2() {
       this.stockPersonId = ''
       this.getemplist.stockPersonId = ''
     },
@@ -381,9 +383,9 @@ export default {
         if (res.data.ret === 200) {
           this.list = res.data.data.content
           this.total = res.data.data.content.totalCount
-          this.restFilter()
+          // this.restFilter()
         } else {
-          this.restFilter()
+          // this.restFilter()
         }
       })
     },

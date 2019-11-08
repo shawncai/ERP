@@ -217,8 +217,8 @@ export default {
     },
     // 清空搜索条件
     restFilter() {
-      this.searchRepositoryId = ''
-      this.getemplist.searchRepositoryId = ''
+      this.operatorId = ''
+      this.getemplist.operatorId = ''
     },
     // 搜索
     handleFilter() {
@@ -227,14 +227,14 @@ export default {
         if (res.data.ret === 200) {
           this.list = res.data.data.content
           // this.total = res.data.data.content.totalCount
-          this.restFilter()
+          // this.restFilter()
         } else {
           this.$notify.error({
             title: '错误',
             message: '出错了',
             offset: 100
           })
-          this.restFilter()
+          // this.restFilter()
         }
       })
     },

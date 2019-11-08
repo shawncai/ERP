@@ -15,7 +15,7 @@
           </el-col>
           <el-col :span="5" style="margin-left: 10px">
             <el-form-item label="收车人">
-              <el-input v-model="receivePersonId" placeholder="收车人" clearable @focus="handlechooseStock"/>
+              <el-input v-model="receivePersonId" placeholder="收车人" clearable @focus="handlechooseStock" @clear="restFilter"/>
               <my-emp :control.sync="stockControl" @stockName="stockName"/>
             </el-form-item>
           </el-col>
@@ -358,9 +358,9 @@ export default {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
-          this.restFilter()
+          // this.restFilter()
         } else {
-          this.restFilter()
+          // this.restFilter()
         }
       })
     },

@@ -15,7 +15,7 @@
           </el-col>
           <el-col :span="3" style="margin-left: 20px">
             <el-form-item>
-              <el-input v-model="outPersonId" :placeholder="$t('SaleOut.outPersonId')" class="filter-item" clearable @keyup.enter.native="handleFilter" @focus="handlechooseAccept"/>
+              <el-input v-model="outPersonId" :placeholder="$t('SaleOut.outPersonId')" class="filter-item" clearable @clear="restFilter3" @keyup.enter.native="handleFilter" @focus="handlechooseAccept"/>
             </el-form-item>
             <my-accept :accetpcontrol.sync="accetpcontrol" @acceptName="acceptName"/>
           </el-col>
@@ -26,7 +26,7 @@
               placement="bottom"
               width="500"
               trigger="click">
-              <el-input v-model="saleRepositoryId" :placeholder="$t('SaleOut.saleRepositoryId')" style="width: 40%;float: left;margin-left: 20px;" clearable @focus="handlechooseRep"/>
+              <el-input v-model="saleRepositoryId" :placeholder="$t('SaleOut.saleRepositoryId')" style="width: 40%;float: left;margin-left: 20px;" clearable @clear="restFilter4" @focus="handlechooseRep"/>
               <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
               <!--<el-select v-model="getemplist.receiptStat" :value="getemplist.receiptStat" placeholder="单据状态" clearable style="width: 40%;float: right;margin-right: 20px">-->
               <!--<el-option value="1" label="制单"/>-->
@@ -339,10 +339,16 @@ export default {
     restFilter() {
       this.customerName = ''
       this.getemplist.customerId = ''
+    },
+    restFilter2() {
       this.stockPersonId = ''
       this.getemplist.stockPersonId = ''
+    },
+    restFilter3() {
       this.outPersonId = ''
       this.getemplist.outPersonId = ''
+    },
+    restFilter4() {
       this.saleRepositoryId = ''
       this.getemplist.saleRepositoryId = ''
     },
@@ -353,9 +359,9 @@ export default {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
-          this.restFilter()
+          // this.restFilter()
         } else {
-          this.restFilter()
+          // this.restFilter()
         }
       })
     },

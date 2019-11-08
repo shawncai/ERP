@@ -52,7 +52,7 @@
           </el-col>
           <el-col :span="4" style="margin-left: 46px">
             <el-form-item label="业务员">
-              <el-input v-model="handlePersonId" clearable @keyup.enter.native="handleFilter" @focus="handlechooseStock"/>
+              <el-input v-model="handlePersonId" clearable @keyup.enter.native="handleFilter" @focus="handlechooseStock" @clear="restFilter3"/>
             </el-form-item>
             <my-emp :control.sync="stockControl" @stockName="stockName"/>
           </el-col>
@@ -381,8 +381,12 @@ export default {
     restFilter() {
       this.customerName = ''
       this.getemplist.customerId = ''
+    },
+    restFilter2() {
       this.stockPersonId = ''
       this.getemplist.stockPersonId = ''
+    },
+    restFilter3() {
       this.handlePersonId = ''
       this.getemplist.handlePersonId = ''
     },
@@ -420,9 +424,9 @@ export default {
             }
           }
           this.total = res.data.data.content.totalCount
-          this.restFilter()
+          // this.restFilter()
         } else {
-          this.restFilter()
+          // this.restFilter()
         }
       })
     },
