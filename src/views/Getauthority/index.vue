@@ -250,11 +250,21 @@ export default {
         return this.recursionLevel2(val.parent)
       }
     },
+    // 递归函数取level 3 的id
+    recursionLevel3(val) {
+      if (val.level === 3) {
+        return val.data.id
+      } else {
+        return this.recursionLevel2(val.parent)
+      }
+    },
     // 树列表选择数据
     handleNodeClick(data, node) {
       console.log(node)
+      console.log(data)
       const leve1Data = this.recursionLevel1(node)
       const leve2Data = this.recursionLevel2(node)
+      const leve3Data = this.recursionLevel3(node)
       if (data.authorityDetails !== null) {
         this.isShow = true
         if (node.level === 3) {
@@ -276,6 +286,16 @@ export default {
           })
           this.details = data.detail.split(',').map(function(item) {
             return leve1Data + '-' + data.id + '-' + Number(item)
+          })
+        } else if (node.level === 4) {
+          this.operates = data.authorityDetails.map(function(item) {
+            return {
+              id: leve1Data + '-' + leve2Data + '-' + leve3Data + '-' + data.id + '-' + item.id,
+              name: item.name
+            }
+          })
+          this.details = data.detail.split(',').map(function(item) {
+            return leve1Data + '-' + leve2Data + '-' + leve3Data + '-' + data.id + '-' + Number(item)
           })
         }
         console.log(this.operations)

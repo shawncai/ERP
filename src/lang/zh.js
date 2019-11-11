@@ -10,6 +10,7 @@ export default {
     CheckSet: '质检明细设置',
     home: '首页',
     map: '地图',
+    carlocation: '车辆管理',
     AddSupplierAdjust: '新建供应商调价单',
     SupplierAdjustList: '供应商调价单列表',
     WorkDesk: '工作台',
