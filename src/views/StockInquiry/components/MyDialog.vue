@@ -77,11 +77,17 @@
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item :label="$t('StockInquiry.currency')" style="width: 100%;">
-                <el-select v-model="personalForm.currency" clearable style="margin-left: 18px;width: 200px">
-                  <el-option value="1" label="RMB"/>
+              <el-form-item :label="$t('StockOrder.currency')" prop="currency" style="width: 100%;">
+                <el-select v-model="personalForm.currency" :disabled="IsCurrency" style="margin-left: 18px;width: 200px" @change="changeRate">
+                  <el-option value="1" label="PHP"/>
                   <el-option value="2" label="USD"/>
+                  <el-option value="3" label="RMB"/>
                 </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('Recycling.exchangeRate')" style="width: 100%;">
+                <el-input v-model="personalForm.exchangeRate" style="margin-left: 18px;width:200px" disabled/>
               </el-form-item>
             </el-col>
           </el-row>
@@ -249,7 +255,7 @@
 import { updatestockInquiry } from '@/api/StockInquiry'
 import { getdeptlist } from '@/api/BasicSettings'
 import { searchStockCategory } from '@/api/StockCategory'
-// import { productlist } from '@/api/public'
+import { getRate } from '@/api/public'
 import MyEmp from './MyEmp'
 import MyDetail from './MyDetail'
 import MySupplier from './MySupplier'
@@ -377,12 +383,35 @@ export default {
       this.supplierId = this.personalForm.supplierName
       this.inquiryPersonId = this.personalForm.inquiryPersonName
       this.list2 = this.personalForm.stockInquiryDetailVos
+      this.changeRate()
     }
   },
   created() {
     this.getTypes()
   },
   methods: {
+    // 处理汇率
+    changeRate() {
+      console.log(123)
+      if (this.personalForm.currency !== '3') {
+        getRate(this.personalForm.currency).then(res => {
+          console.log(res)
+          if (res.data.ret === 200) {
+            // console.log('res.data.data.content', res.data.data.content)
+            // this.personalForm.exchangeRate = res.data.data.content.rate
+            this.$set(this.personalForm, 'exchangeRate', res.data.data.content.rate)
+          } else {
+            this.$notify.error({
+              title: '错误',
+              message: res.data.msg,
+              offset: 100
+            })
+          }
+        })
+      } else {
+        this.personalForm.exchangeRate = '1.0000'
+      }
+    },
     // 总计
     getSummaries(param) {
       const { columns, data } = param

@@ -40,13 +40,15 @@ export default {
         arr.map(item => {
           const newobj = {}
           const position = {}
-          position.lng = item.longitude
-          position.lat = item.latitude
-          newobj.position = position
-          newobj.name = item.repositoryName
-          newobj.address = item.address
-          newobj.phone = item.phone
-          arrb.push(newobj)
+          if (item.longitude !== null && item.longitude !== undefined && item.longitude !== '') {
+            position.lng = item.longitude
+            position.lat = item.latitude
+            newobj.position = position
+            newobj.name = item.repositoryName
+            newobj.address = item.address
+            newobj.phone = item.phone
+            arrb.push(newobj)
+          }
         })
         this.markers = arrb
         this.mapBuild()

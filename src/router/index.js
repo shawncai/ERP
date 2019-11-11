@@ -106,6 +106,23 @@ export const asyncRouterMap = [
     ]
   },
   {
+    path: '/carlocation',
+    component: Layout,
+    redirect: 'noredirect',
+    meta: {
+      icon: 'caigouxuqiu',
+      type: 1
+    },
+    children: [
+      {
+        path: 'carlocation',
+        component: () => import('@/views/carlocation/index'),
+        name: 'carlocation',
+        meta: { title: 'carlocation', noCache: true }
+      }
+    ]
+  },
+  {
     path: '/home',
     component: Layout,
     redirect: 'noredirect',

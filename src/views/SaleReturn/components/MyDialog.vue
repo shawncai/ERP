@@ -94,11 +94,17 @@
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item :label="$t('SaleReturn.currency')" prop="currency" style="width: 100%;">
-                <el-select v-model="personalForm.currency" style="margin-left: 18px;width: 200px">
-                  <el-option value="1" label="RMB"/>
+              <el-form-item :label="$t('StockOrder.currency')" prop="currency" style="width: 100%;">
+                <el-select v-model="personalForm.currency" :disabled="IsCurrency" style="margin-left: 18px;width: 200px" @change="changeRate">
+                  <el-option value="1" label="PHP"/>
                   <el-option value="2" label="USD"/>
+                  <el-option value="3" label="RMB"/>
                 </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('Recycling.exchangeRate')" style="width: 100%;">
+                <el-input v-model="personalForm.exchangeRate" style="margin-left: 18px;width:200px" disabled/>
               </el-form-item>
             </el-col>
           </el-row>
@@ -271,7 +277,7 @@
 <script>
 import { updatesaleReturn } from '@/api/SaleReturn'
 import { searchCategory } from '@/api/Supplier'
-import { getlocation, locationlist } from '@/api/public'
+import { getlocation, locationlist, getRate } from '@/api/public'
 import MyEmp from './MyEmp'
 import MyDelivery from './MyDelivery'
 import MyDetail from './MyDetail'
@@ -391,12 +397,35 @@ export default {
       this.personalForm.customerPhone = this.personalForm.phoneNumber
       this.list2 = this.personalForm.saleReturnDetailVos
       this.chooseSource()
+      this.changeRate()
     }
   },
   created() {
     this.getTypes()
   },
   methods: {
+    // 处理汇率
+    changeRate() {
+      console.log(123)
+      if (this.personalForm.currency !== '3') {
+        getRate(this.personalForm.currency).then(res => {
+          console.log(res)
+          if (res.data.ret === 200) {
+            // console.log('res.data.data.content', res.data.data.content)
+            // this.personalForm.exchangeRate = res.data.data.content.rate
+            this.$set(this.personalForm, 'exchangeRate', res.data.data.content.rate)
+          } else {
+            this.$notify.error({
+              title: '错误',
+              message: res.data.msg,
+              offset: 100
+            })
+          }
+        })
+      } else {
+        this.personalForm.exchangeRate = '1.0000'
+      }
+    },
     // 选择源单
     choosesaleout() {
       this.saleoutcontrol = true

@@ -78,11 +78,17 @@
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('StockInquiry.currency')" style="width: 100%;">
-                  <el-select v-model="personalForm.currency" clearable style="margin-left: 18px;width: 200px">
-                    <el-option value="1" label="RMB"/>
+                <el-form-item :label="$t('StockOrder.currency')" prop="currency" style="width: 100%;">
+                  <el-select v-model="personalForm.currency" :disabled="IsCurrency" style="margin-left: 18px;width: 200px" @change="changeRate">
+                    <el-option value="1" label="PHP"/>
                     <el-option value="2" label="USD"/>
+                    <el-option value="3" label="RMB"/>
                   </el-select>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item :label="$t('Recycling.exchangeRate')" style="width: 100%;">
+                  <el-input v-model="personalForm.exchangeRate" style="margin-left: 18px;width:200px" disabled/>
                 </el-form-item>
               </el-col>
             </el-row>
@@ -280,7 +286,7 @@
 
 <script>
 import '@/directive/noMoreClick/index.js'
-import { countlist } from '@/api/public'
+import { countlist, getRate } from '@/api/public'
 import { createstockInquiry } from '@/api/StockInquiry'
 import { getdeptlist } from '@/api/BasicSettings'
 import { searchStockCategory } from '@/api/StockCategory'
@@ -346,6 +352,7 @@ export default {
       IsPlannedQuantity: false,
       // 控制采购类别是否可以编辑
       IsStockTypeId: false,
+      IsCurrency: false,
       // 控制部门是否可以编辑
       IsDeptId: false,
       // 传递的部门id
@@ -387,9 +394,10 @@ export default {
         regionId: this.$store.getters.regionId,
         isVat: 1,
         inquiryTimes: 1,
-        currency: '1',
         inquiryDate: null,
-        sourceType: '3'
+        sourceType: '3',
+        currency: '3',
+        exchangeRate: '1.0000'
       },
       // 采购申请单规则数据
       personalrules: {
@@ -440,6 +448,27 @@ export default {
     this.getdatatime()
   },
   methods: {
+    // 处理汇率
+    changeRate() {
+      console.log(123)
+      if (this.personalForm.currency !== '3') {
+        getRate(this.personalForm.currency).then(res => {
+          console.log(res)
+          if (res.data.ret === 200) {
+            // console.log('res.data.data.content', res.data.data.content)
+            this.personalForm.exchangeRate = res.data.data.content.rate
+          } else {
+            this.$notify.error({
+              title: '错误',
+              message: res.data.msg,
+              offset: 100
+            })
+          }
+        })
+      } else {
+        this.personalForm.exchangeRate = '1.0000'
+      }
+    },
     checkStock(row) {
       console.log('this.moreaction.length', this.moreaction.length)
       if (this.moreaction.length > 1 || this.moreaction.length === 0) {
@@ -745,7 +774,6 @@ export default {
         regionId: this.$store.getters.regionId,
         isVat: 1,
         inquiryTimes: 1,
-        currency: '1',
         inquiryDate: null,
         sourceType: '3'
       }

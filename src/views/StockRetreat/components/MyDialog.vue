@@ -114,11 +114,17 @@
                 </el-form-item>
               </el-col>
               <el-col :span="12">
-                <el-form-item :label="$t('StockRetreat.currencyId')" prop="currency" style="width: 100%;">
-                  <el-select v-model="personalForm.currencyId" clearable style="margin-left: 18px;width: 200px">
-                    <el-option value="1" label="RMB"/>
+                <el-form-item :label="$t('StockOrder.currency')" prop="currency" style="width: 100%;">
+                  <el-select v-model="personalForm.currencyId" :disabled="IsCurrency" style="margin-left: 18px;width: 200px" @change="changeRate">
+                    <el-option value="1" label="PHP"/>
                     <el-option value="2" label="USD"/>
+                    <el-option value="3" label="RMB"/>
                   </el-select>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('Recycling.exchangeRate')" style="width: 100%;">
+                  <el-input v-model="personalForm.exchangeRate" style="margin-left: 18px;width:200px" disabled/>
                 </el-form-item>
               </el-col>
               <el-col :span="12">
@@ -248,6 +254,7 @@
 </template>
 
 <script>
+import { getRate } from '@/api/public'
 import { updatestockRetreat } from '@/api/StockRetreat'
 import { getdeptlist } from '@/api/BasicSettings'
 import { searchStockCategory } from '@/api/StockCategory'
@@ -290,6 +297,7 @@ export default {
       }
     }
     return {
+      IsCurrency: false,
       // 结算方式
       settleModes: [],
       // 支付方式
@@ -384,6 +392,7 @@ export default {
       this.stockPersonId = this.personalForm.stockPersonName
       this.ourContractorId = this.personalForm.ourContractorName
       this.list2 = this.personalForm.stockRetreatDetailVos
+      this.changeRate()
     }
   },
   created() {
@@ -391,6 +400,27 @@ export default {
     this.getways()
   },
   methods: {
+    // 处理汇率
+    changeRate() {
+      console.log(123)
+      if (this.personalForm.currencyId !== '3') {
+        getRate(this.personalForm.currencyId).then(res => {
+          console.log(res)
+          if (res.data.ret === 200) {
+            // console.log('res.data.data.content', res.data.data.content)
+            this.$set(this.personalForm, 'exchangeRate', res.data.data.content.rate)
+          } else {
+            this.$notify.error({
+              title: '错误',
+              message: res.data.msg,
+              offset: 100
+            })
+          }
+        })
+      } else {
+        this.personalForm.exchangeRate = '1.0000'
+      }
+    },
     updatePaymen() {
       this.getTypes()
     },
@@ -539,6 +569,7 @@ export default {
       this.personalForm.payMode = String(val.payMode)
       this.personalForm.deliveryModeId = val.deliveryModeId
       this.personalForm.currencyId = String(val.currencyId)
+      this.changeRate()
       this.getTypes()
     },
     // 更新类型
@@ -574,7 +605,6 @@ export default {
       this.personalForm.payMode = val.payMode
       this.personalForm.deliveryModeId = val.deliveryMode
       this.personalForm.isVat = val.isVat
-      this.personalForm.currencyId = val.currency
     },
     // 采购员focus事件
     handlechooseStock() {

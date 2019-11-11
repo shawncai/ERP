@@ -118,10 +118,16 @@
             </el-col>
             <el-col :span="12">
               <el-form-item :label="$t('StockOrder.currency')" prop="currency" style="width: 100%;">
-                <el-select v-model="personalForm.currency" :disabled="IsCurrency" clearable style="margin-left: 18px;width: 200px">
-                  <el-option value="1" label="RMB"/>
+                <el-select v-model="personalForm.currency" :disabled="IsCurrency" style="margin-left: 18px;width: 200px" @change="changeRate">
+                  <el-option value="1" label="PHP"/>
                   <el-option value="2" label="USD"/>
+                  <el-option value="3" label="RMB"/>
                 </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('Recycling.exchangeRate')" style="width: 100%;">
+                <el-input v-model="personalForm.exchangeRate" style="margin-left: 18px;width:200px" disabled/>
               </el-form-item>
             </el-col>
             <el-col :span="12">
@@ -309,7 +315,7 @@ import { updatestockorder } from '@/api/StockOrder'
 import { getdeptlist } from '@/api/BasicSettings'
 import { searchStockCategory } from '@/api/StockCategory'
 import { searchCategory } from '@/api/Supplier'
-import { searchsupplier } from '@/api/public'
+import { searchsupplier, getRate } from '@/api/public'
 import MyEmp from './MyEmp'
 import MyDetail from './MyDetail'
 import MySupplier from './MySupplier'
@@ -496,6 +502,7 @@ export default {
       this.stockPersonId = this.personalForm.stockPersonName
       this.signPersonId = this.personalForm.signPersonName
       this.list2 = this.personalForm.stockOrderDetailVos
+      this.changeRate()
     }
   },
   created() {
@@ -503,6 +510,28 @@ export default {
     this.getways()
   },
   methods: {
+    // 处理汇率
+    changeRate() {
+      console.log(123)
+      if (this.personalForm.currency !== '3') {
+        getRate(this.personalForm.currency).then(res => {
+          console.log(res)
+          if (res.data.ret === 200) {
+            // console.log('res.data.data.content', res.data.data.content)
+            // this.personalForm.exchangeRate = res.data.data.content.rate
+            this.$set(this.personalForm, 'exchangeRate', res.data.data.content.rate)
+          } else {
+            this.$notify.error({
+              title: '错误',
+              message: res.data.msg,
+              offset: 100
+            })
+          }
+        })
+      } else {
+        this.personalForm.exchangeRate = '1.0000'
+      }
+    },
     changenumber(row) {
       if (row.stockQuantity === 1 || row.stockQuantity === '' || row.stockQuantity === null || row.stockQuantity === undefined) {
         return false
@@ -848,6 +877,7 @@ export default {
       this.personalForm.deliveryMode = val.deliveryMode
       this.personalForm.settleMode = val.settleId
       this.personalForm.currency = String(val.currency)
+      this.getRate()
     },
     // 采购询价单加载过来数据
     lnquiry(val) {

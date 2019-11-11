@@ -123,16 +123,17 @@
             <!--              </el-form-item>-->
             <!--            </el-col>-->
             <el-col :span="12">
-              <el-form-item :label="$t('SaleOrder.currency')" style="width: 100%;">
+              <el-form-item :label="$t('StockOrder.currency')" prop="currency" style="width: 100%;">
                 <el-select v-model="personalForm.currency" style="margin-left: 18px;width: 200px" @change="changeRate">
-                  <el-option value="1" label="RMB"/>
+                  <el-option value="1" label="PHP"/>
                   <el-option value="2" label="USD"/>
+                  <el-option value="3" label="RMB"/>
                 </el-select>
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item :label="$t('public.rate')" style="width: 100%;">
-                <el-input v-model="rate" disabled style="margin-left: 18px;width: 200px"/>
+              <el-form-item :label="$t('Recycling.exchangeRate')" style="width: 100%;">
+                <el-input v-model="personalForm.exchangeRate" style="margin-left: 18px;width:200px" disabled/>
               </el-form-item>
             </el-col>
             <el-col :span="12">
@@ -539,12 +540,12 @@ export default {
       this.customerId = this.personalForm.customerName
       this.list2 = this.personalForm.saleOrderDetailVos
       this.list3 = this.personalForm.saleOrderCostDetails
+      this.changeRate()
       // this.chooseSource(this.personalForm.sourceType)
     }
   },
   created() {
     this.getTypes()
-    this.changeRate()
   },
   methods: {
     // 数量变化其他参数
@@ -555,15 +556,16 @@ export default {
         row.discountMoney = (row.taxprice * row.quantity * (row.discountRate / 100)).toFixed(2)
       }
     },
+    // 处理汇率
     changeRate() {
-      if (this.personalForm.currency === '2') {
+      console.log('this.personalForm', this.personalForm)
+      if (this.personalForm.currency !== '3') {
         getRate(this.personalForm.currency).then(res => {
           console.log(res)
           if (res.data.ret === 200) {
-            console.log('res.data.data.content.rate', res.data.data.content.rate)
-            // this.$set(this.personalForm.rate, res.data.data.content.rate)
-            this.rate = res.data.data.content.rate
-            console.log('this.personalForm.rate', this.personalForm.rate)
+            // console.log('res.data.data.content', res.data.data.content)
+            // this.personalForm.exchangeRate = res.data.data.content.rate
+            this.$set(this.personalForm, 'exchangeRate', res.data.data.content.rate)
           } else {
             this.$notify.error({
               title: '错误',
@@ -572,11 +574,9 @@ export default {
             })
           }
         })
-      } else if (this.personalForm.currency === '1') {
-        this.rate = 1
+      } else {
+        this.personalForm.exchangeRate = '1.0000'
       }
-      // this.personalForm.rate = 7
-      console.log('this.personalForm.rate', this.personalForm.rate)
     },
     // 从销售机会过来的源单数据
     opportunityDetail(val) {

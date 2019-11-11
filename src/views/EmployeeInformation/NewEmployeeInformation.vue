@@ -571,8 +571,14 @@ export default {
                     console.log(res)
                     if (res.data.ret === 200) {
                       saveRegion(this.companyForm.regionid, form3.regionid1).then(res => {
-                        if (res.dat.ret === 200) {
+                        if (res.data.ret === 200) {
                           console.log(res)
+                        } else {
+                          this.$notify.error({
+                            title: '错误',
+                            message: res.data.msg,
+                            offset: 100
+                          })
                         }
                       })
                       this.$notify({
@@ -590,6 +596,12 @@ export default {
                       this.$notify.error({
                         title: '错误',
                         message: '登陆账号已存在',
+                        offset: 100
+                      })
+                    } else {
+                      this.$notify.error({
+                        title: '错误',
+                        message: res.data.msg,
                         offset: 100
                       })
                     }
@@ -634,7 +646,7 @@ export default {
     restAllForm() {
       this.personalForm = {
         account: '',
-        passwd: '',
+        passwd: '123456',
         firstname: '',
         middlename: '',
         lastname: '',
@@ -643,8 +655,8 @@ export default {
         gender: '',
         certificatetype: '',
         certificatenumber: '',
-        chargeRegions: '',
-        country: this.$store.getters.countryId
+        country: this.$store.getters.countryId,
+        createPersonId: this.$store.getters.userId
       }
       this.chargeRegions = ''
       this.supp = []
@@ -694,6 +706,12 @@ export default {
                       this.$notify.error({
                         title: '错误',
                         message: '登陆账号已存在',
+                        offset: 100
+                      })
+                    } else {
+                      this.$notify.error({
+                        title: '错误',
+                        message: res.data.msg,
                         offset: 100
                       })
                     }

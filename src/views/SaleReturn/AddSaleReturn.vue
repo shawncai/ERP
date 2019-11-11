@@ -106,8 +106,9 @@
               <el-col :span="6">
                 <el-form-item :label="$t('SaleReturn.currency')" prop="currency" style="width: 100%;">
                   <el-select v-model="personalForm.currency" style="margin-left: 18px;width:200px" @change="changeRate">
-                    <el-option value="1" label="RMB"/>
+                    <el-option value="1" label="PHP"/>
                     <el-option value="2" label="USD"/>
+                    <el-option value="3" label="RMB"/>
                   </el-select>
                 </el-form-item>
               </el-col>
@@ -410,7 +411,7 @@ export default {
         customerId: '',
         sourceType: '2',
         exchangeRate: '1.0000',
-        currency: '1',
+        currency: '3',
         returnDate: null,
         saleRepositoryId: this.$store.getters.repositoryId
       },
@@ -476,7 +477,7 @@ export default {
     // 汇率变化
     changeRate() {
       console.log(123)
-      if (this.personalForm.currency === '2') {
+      if (this.personalForm.currency !== '3') {
         getRate(this.personalForm.currency).then(res => {
           console.log(res)
           if (res.data.ret === 200) {
@@ -491,7 +492,7 @@ export default {
             })
           }
         })
-      } else if (this.personalForm.currency === '1') {
+      } else {
         this.personalForm.exchangeRate = '1.0000'
       }
     },
@@ -787,8 +788,7 @@ export default {
         repositoryId: this.$store.getters.repositoryId,
         regionId: this.$store.getters.regionId,
         saleRepositoryId: this.$store.getters.repositoryId,
-        returnDate: null,
-        currency: '1'
+        returnDate: null
       }
       this.customerId = null
       this.salePersonId = null

@@ -740,8 +740,9 @@ export default {
     },
     // 根据区域选择门店
     handlechange4() {
-      if (this.$store.getters.repositoryId === '' || this.$store.getters.repositoryId === null || this.$store.getters.repositoryId === undefined) {
-        searchRepository(this.$store.getters.regionId).then(res => {
+      console.log('this.$store.getters.repositoryId', this.$store.getters.repositoryId)
+      if (this.$store.getters.repositoryId !== '' && this.$store.getters.repositoryId !== null && this.$store.getters.repositoryId !== undefined) {
+        searchRepository(null, this.$store.getters.repositoryId, this.$store.getters.regionId).then(res => {
           if (res.data.ret === 200) {
             this.repositories = res.data.data.content.list
             this.repositories2 = res.data.data.content.list

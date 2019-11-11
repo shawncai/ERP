@@ -118,9 +118,10 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('StockOrder.currency')" prop="currency" style="width: 100%;">
-                  <el-select v-model="personalForm.currency" :disabled="IsCurrency" clearable style="margin-left: 18px;width: 200px" @change="changeRate">
-                    <el-option value="1" label="RMB"/>
+                  <el-select v-model="personalForm.currency" :disabled="IsCurrency" style="margin-left: 18px;width: 200px" @change="changeRate">
+                    <el-option value="1" label="PHP"/>
                     <el-option value="2" label="USD"/>
+                    <el-option value="3" label="RMB"/>
                   </el-select>
                 </el-form-item>
               </el-col>
@@ -480,7 +481,7 @@ export default {
         regionId: this.$store.getters.regionId,
         isVat: 1,
         sourceType: '5',
-        currency: '1',
+        currency: '3',
         orderDate: null,
         deptId: this.$store.getters.deptId,
         exchangeRate: '1.0000'
@@ -583,7 +584,7 @@ export default {
     // 处理汇率
     changeRate() {
       console.log(123)
-      if (this.personalForm.currency === '2') {
+      if (this.personalForm.currency !== '3') {
         getRate(this.personalForm.currency).then(res => {
           console.log(res)
           if (res.data.ret === 200) {
@@ -597,7 +598,7 @@ export default {
             })
           }
         })
-      } else if (this.personalForm.currency === '1') {
+      } else {
         this.personalForm.exchangeRate = '1.0000'
       }
     },
@@ -616,6 +617,7 @@ export default {
         this.personalForm = this.$store.getters.empcontract
         this.personalForm.sourceType = (this.personalForm.sourceType).toString()
         this.personalForm.currency = (this.personalForm.currency).toString()
+        this.getRate()
         this.supplierId = this.$store.getters.empcontract.supplierName
         this.stockPersonId = this.$store.getters.empcontract.stockPersonName
         this.signPersonId = this.$store.getters.empcontract.signPersonName
@@ -1008,6 +1010,7 @@ export default {
       this.personalForm.deliveryMode = val.deliveryMode
       this.personalForm.settleMode = val.settleId
       this.personalForm.currency = String(val.currency)
+      this.getRate()
     },
     // 采购询价单加载过来数据
     lnquiry(val) {
@@ -1182,6 +1185,7 @@ export default {
       this.personalForm.payMode = val.payMode
       if (val.moneyId !== null && val.moneyId !== undefined && val.moneyId !== '') {
         this.personalForm.currency = String(val.moneyId)
+        this.getRate()
       }
       this.supplierIdDetail = val.supplierDetailVos
       this.$refs.editable.clear()
@@ -1259,8 +1263,7 @@ export default {
         repositoryId: this.$store.getters.repositoryId,
         regionId: this.$store.getters.regionId,
         isVat: 1,
-        sourceType: '5',
-        currency: '1'
+        sourceType: '5'
       }
       this.personalForm.orderDate = new Date()
       this.supplierId = null
