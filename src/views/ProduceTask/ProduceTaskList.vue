@@ -47,7 +47,7 @@
                   :label="item.deptName"/>
               </el-select>
               <el-select v-model="getemplist.processType" placeholder="加工类型" style="width: 40%;float: left;margin-left: 20px;margin-top: 20px">
-                <el-option value="1" label="加工1" />
+                <el-option :label="$t('Hmodule.jiagong1')" value="1" />
               </el-select>
               <el-date-picker
                 v-model="date"

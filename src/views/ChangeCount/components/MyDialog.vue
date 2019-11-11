@@ -2,7 +2,7 @@
   <el-dialog :visible.sync="editVisible" :editcontrol="editcontrol" :editdata="editdata" :close-on-press-escape="false" :title="personalForm.changeNumber +'    修改'" width="1010px" class="edit" top="-10px" @close="$emit('update:editcontrol', false)">
     <!--基本信息-->
     <el-card class="box-card" shadow="never">
-      <h2 ref="geren" class="form-name">基本信息</h2>
+      <h2 ref="geren" class="form-name">{{ $t('Hmodule.basicinfo') }}</h2>
       <div class="container" style="margin-top: 37px">
         <el-form ref="personalForm" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
           <el-row>
@@ -91,16 +91,16 @@
           size="medium"
           style="width: 100%">
           <el-editable-column type="selection" min-width="55" align="center"/>
-          <el-editable-column label="序号" min-width="55" align="center" type="index"/>
-          <el-editable-column prop="productCode" align="center" label="物品编号" min-width="150px"/>
-          <el-editable-column prop="productName" align="center" label="物品名称" min-width="150px"/>
+          <el-editable-column :label="$t('Hmodule.xh')" min-width="55" align="center" type="index"/>
+          <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" align="center" min-width="150px"/>
+          <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" align="center" min-width="150px"/>
           <el-editable-column prop="productCategory" align="center" label="物品分类" min-width="150px"/>
           <el-editable-column prop="unit" align="center" label="基本单位" min-width="150px"/>
           <el-editable-column prop="typeId" align="center" label="规格型号" min-width="150px"/>
           <el-editable-column prop="color" align="center" label="颜色" min-width="150px"/>
           <el-editable-column prop="kpiGrade" align="center" label="绩效分" min-width="150px"/>
           <el-editable-column prop="point" align="center" label="商品积分" min-width="150px"/>
-          <el-editable-column prop="price" align="center" label="单价" min-width="150px"/>
+          <el-editable-column :label="$t('Hmodule.dj')" prop="price" align="center" min-width="150px"/>
           <el-editable-column prop="carCode" align="center" label="车架编码" min-width="150px"/>
           <el-editable-column prop="batteryCode" align="center" label="电池编码" min-width="150px"/>
           <el-editable-column prop="motorCode" align="center" label="电机编码" min-width="150px"/>
@@ -109,8 +109,8 @@
     </el-card>
     <el-card class="box-card" style="position: fixed;width: 1010px;z-index: 100;height: 74px;bottom: 0;" shadow="never">
       <div class="buttons" style="float: right;padding-bottom: 10px">
-        <el-button @click="handlecancel()">取消</el-button>
-        <el-button type="primary" @click="handleEditok()">保存</el-button>
+        <el-button @click="handlecancel()">{{ $t('Hmodule.cancel') }}</el-button>
+        <el-button type="primary" @click="handleEditok()">{{ $t('Hmodule.baoc') }}</el-button>
       </div>
     </el-card>
   </el-dialog>

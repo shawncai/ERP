@@ -6,7 +6,7 @@
         <el-row>
           <el-col :span="3">
             <el-form-item label="型号">
-              <el-select v-model="getemplist.productType" style="width: 100px" placeholder="请选择规格型号" clearable>
+              <el-select v-model="getemplist.productType" :placeholder="$t('Hmodule.qxzggxh')" style="width: 100px" clearable>
                 <el-option
                   v-for="(item, index) in types"
                   :key="index"
@@ -18,7 +18,7 @@
           </el-col>
           <el-col :span="3" style="margin-left: 45px">
             <el-form-item label="分类">
-              <el-input v-model="productCategory" style="width: 100px" placeholder="物品分类" clearable @clear="restFilter" @focus="treechoose"/>
+              <el-input v-model="productCategory" :placeholder="$t('Hmodule.wpfl')" style="width: 100px" clearable @clear="restFilter" @focus="treechoose"/>
               <my-tree :treecontrol.sync="treecontrol" @tree="tree"/>
             </el-form-item>
           </el-col>

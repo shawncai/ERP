@@ -14,7 +14,7 @@
                   <el-date-picker
                     v-model="date"
                     type="date"
-                    placeholder="选择日期"
+                    :placeholder="$t('Hmodule.xzrq')"
                     value-format="yyyy-MM-dd"
                     style="margin-left: 52%;"
                     class="shipei"/>

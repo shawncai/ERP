@@ -40,8 +40,8 @@
               <el-input v-model="getemplist.count" :placeholder="$t('CollectList.count')" clearable style="width: 40%;float: right;margin-right: 20px" @keyup.enter.native="handleFilter"/>
               <el-date-picker
                 v-model="getemplist.time"
+                :placeholder="$t('Hmodule.xzrq')"
                 type="date"
-                placeholder="选择日期"
                 value-format="yyyy-MM-dd"
                 style="width: 40%;float: left;margin-left: 20px;margin-top: 20px"/>
               <!--<el-date-picker-->

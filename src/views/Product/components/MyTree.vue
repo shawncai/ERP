@@ -16,7 +16,7 @@
         default-expand-all
         @node-click="handleNodeClick"/>
     </el-card>
-    <!--<el-button class="filter-item" type="success" style="margin-top: 10px" @click="handleConfirm">确认添加</el-button>-->
+    <!--<el-button class="filter-item" type="success" style="margin-top: 10px" @click="handleConfirm">{{ $t('Hmodule.sure') }}</el-button>-->
   </el-dialog>
 </template>
 

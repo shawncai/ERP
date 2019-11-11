@@ -2,7 +2,7 @@
   <el-dialog :visible.sync="editVisible" :detailcontrol="detailcontrol" :detaildata="detaildata" :close-on-press-escape="false" :title="personalForm.id +'    详情'" append-to-body width="1010px" class="edit" top="-10px" @close="$emit('update:detailcontrol', false)">
     <!--基本信息-->
     <el-card class="box-card" style="margin-top: 63px" shadow="never">
-      <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">基本信息</h2>
+      <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('Hmodule.basicinfo') }}</h2>
       <div class="container" style="margin-top: 37px">
         <el-form :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
           <el-row>
@@ -37,7 +37,7 @@
           size="medium"
           style="width: 100%">
           <el-editable-column type="selection" min-width="55" align="center"/>
-          <el-editable-column label="序号" min-width="55" align="center" type="index"/>
+          <el-editable-column :label="$t('Hmodule.xh')" min-width="55" align="center" type="index"/>
           <el-editable-column prop="repositoryName" align="center" label="门店名称" min-width="150px"/>
           <el-editable-column prop="categoryName" align="center" label="门店类型" min-width="150px"/>
           <el-editable-column prop="managerName" align="center" label="负责人" min-width="150px"/>
@@ -57,11 +57,11 @@
           size="medium"
           style="width: 100%">
           <el-editable-column label="编号" width="55" align="center" type="index"/>
-          <el-editable-column prop="productCode" align="center" label="物品编号" min-width="150px"/>
-          <el-editable-column prop="productName" align="center" label="物品名称" min-width="150px"/>
+          <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" align="center" min-width="150px"/>
+          <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" align="center" min-width="150px"/>
           <el-editable-column prop="color" align="center" label="颜色" min-width="150px"/>
-          <el-editable-column prop="productType" align="center" label="规格" min-width="150px"/>
-          <el-editable-column prop="unit" align="center" label="单位" min-width="150px"/>
+          <el-editable-column :label="$t('Hmodule.gg')" prop="productType" align="center" min-width="150px"/>
+          <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" min-width="150px"/>
           <el-editable-column prop="salePrice" align="center" label="零售价" min-width="150px"/>
           <el-editable-column prop="costPrice" align="center" label="出厂价" min-width="150px"/>
         </el-editable>
@@ -81,9 +81,9 @@
           style="width: 100%">
           <el-editable-column type="selection" width="55" align="center"/>
           <el-editable-column label="编号" width="55" align="center" type="index"/>
-          <el-editable-column prop="productCode" align="center" label="物品编号" min-width="150px"/>
-          <el-editable-column prop="productName" align="center" label="物品名称" min-width="150px"/>
-          <el-editable-column prop="productType" align="center" label="规格" min-width="150px"/>
+          <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" align="center" min-width="150px"/>
+          <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" align="center" min-width="150px"/>
+          <el-editable-column :label="$t('Hmodule.gg')" prop="productType" align="center" min-width="150px"/>
         </el-editable>
       </div>
     </el-card>

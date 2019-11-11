@@ -35,7 +35,7 @@
         <el-row>
           <el-col :span="3">
             <el-form-item label="型号">
-              <el-select v-model="getemplist.typeId" style="width: 100px" placeholder="请选择规格型号" clearable>
+              <el-select v-model="getemplist.typeId" :placeholder="$t('Hmodule.qxzggxh')" style="width: 100px" clearable>
                 <el-option
                   v-for="(item, index) in types"
                   :key="index"

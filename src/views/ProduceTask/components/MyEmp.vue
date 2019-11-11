@@ -1,13 +1,13 @@
 <template>
-  <el-dialog :visible.sync="employeeVisible" :control="control" :bumen="bumen" :close-on-press-escape="false" top="10px" title="选择员工" append-to-body @close="$emit('update:control', false)">
+  <el-dialog :visible.sync="employeeVisible" :control="control" :bumen="bumen" :close-on-press-escape="false" :title="$t('Hmodule.xzyg')" top="10px" append-to-body @close="$emit('update:control', false)">
     <div class="filter-container">
       <el-input v-model="getemplist.employeename" :placeholder="$t('NewEmployeeInformation.employeename')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
       <el-input v-model="getemplist.jobnumber" :placeholder="$t('NewEmployeeInformation.jobnumber2')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
       <el-date-picker
         v-model="getemplist.time"
+        :placeholder="$t('Hmodule.xzrq')"
         type="date"
         class="filter-item"
-        placeholder="选择日期"
         value-format="yyyy-MM-dd"/>
       <el-popover
         placement="bottom"
@@ -18,14 +18,14 @@
           :props="props2"
           v-model="getemplistregions"
           :show-all-levels="false"
-          placeholder="请选择区域"
+          :placeholder="$t('Hmodule.xzqy')"
           change-on-select
           filterable
           clearable
           style="width: 40%;float: left;margin-left: 20px"
           @change="handlechange4"
         />
-        <el-select v-model="getemplist.repositoryid" placeholder="请选择门店" clearable filterable style="width: 40%;float: right;margin-right: 20px">
+        <el-select v-model="getemplist.repositoryid" :placeholder="$t('Hmodule.xzmd')" clearable filterable style="width: 40%;float: right;margin-right: 20px">
           <el-option
             v-for="(item, index) in repositories"
             :key="index"

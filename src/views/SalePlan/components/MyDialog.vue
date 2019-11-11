@@ -2,7 +2,7 @@
   <el-dialog :visible.sync="editVisible" :editcontrol="editcontrol" :editdata="editdata" :close-on-press-escape="false" :title="personalForm.planNumber +'    修改'" width="1010px" class="edit" top="-10px" @close="$emit('update:editcontrol', false)">
     <!--基本信息-->
     <el-card class="box-card" style="margin-top: 63px" shadow="never">
-      <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">基本信息</h2>
+      <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('Hmodule.basicinfo') }}</h2>
       <div class="container" style="margin-top: 37px">
         <el-form ref="personalForm" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
           <el-row>
@@ -75,7 +75,7 @@
       <h2 ref="fuzhu" class="form-name" >计划明细</h2>
       <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
         <el-button @click="handleAddproduct">添加明细</el-button>
-        <!--<el-button type="danger" @click="deleteTreeData">删除</el-button>-->
+        <!--<el-button type="danger" @click="deleteTreeData">{{ $t('Hmodule.delete') }}</el-button>-->
       </div>
       <el-dialog :visible.sync="categoryVisible" title="添加明细" class="normal" width="600px" append-to-body center>
         <el-form ref="addCategoryForm" :model="addCategoryForm" class="demo-ruleForm" style="margin: 0 auto; width: 400px">
@@ -83,7 +83,7 @@
             <el-cascader v-model="addCategoryForm.regionId" :options="provinceList" :props="props" placeholder="" style="width: 100%" @active-item-change="handleItemChange" @change="handlechange4"/>
           </el-form-item>
           <el-form-item :label="$t('SalePlan.repositoryid')" label-width="100px">
-            <el-select v-model="addCategoryForm.repositoryid" placeholder="请选择门店" filterable style="width: 100%;" @change="changeValue">
+            <el-select v-model="addCategoryForm.repositoryid" :placeholder="$t('Hmodule.xzmd')" filterable style="width: 100%;" @change="changeValue">
               <el-option
                 v-for="(item, index) in repositories"
                 :key="index"
@@ -99,8 +99,8 @@
           </el-form-item>
         </el-form>
         <span slot="footer" class="dialog-footer">
-          <el-button type="primary" @click="handlesave2()">保存</el-button>
-          <el-button type="danger" @click="handlecancel()">取消</el-button>
+          <el-button type="primary" @click="handlesave2()">{{ $t('Hmodule.baoc') }}</el-button>
+          <el-button type="danger" @click="handlecancel()">{{ $t('Hmodule.cancel') }}</el-button>
         </span>
       </el-dialog>
       <div class="container">
@@ -124,8 +124,8 @@
     </el-card>
     <el-card class="box-card" style="position: fixed;width: 1010px;z-index: 100;height: 74px;bottom: 0;" shadow="never">
       <div class="buttons" style="float: right;padding-bottom: 10px">
-        <el-button @click="handlecancel()">取消</el-button>
-        <el-button type="primary" @click="handleEditok()">保存</el-button>
+        <el-button @click="handlecancel()">{{ $t('Hmodule.cancel') }}</el-button>
+        <el-button type="primary" @click="handleEditok()">{{ $t('Hmodule.baoc') }}</el-button>
       </div>
     </el-card>
   </el-dialog>

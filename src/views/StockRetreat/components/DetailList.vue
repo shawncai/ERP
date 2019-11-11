@@ -3,7 +3,7 @@
     <div id="printTest" >
       <!--基本信息-->
       <el-card class="box-card" style="margin-top: 63px" shadow="never">
-        <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">基本信息</h2>
+        <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('Hmodule.basicinfo') }}</h2>
         <button class="print" style="font-size: 13px;background: white;" @click="printdata">打印</button>
         <div class="container" style="margin-top: 37px">
           <el-form :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
@@ -102,19 +102,19 @@
             border
             size="medium"
             style="width: 100%">
-            <el-editable-column label="序号" fixed="left" min-width="55" align="center" type="index"/>
-            <el-editable-column prop="productCode" fixed="left" align="center" label="物品编号" />
-            <el-editable-column prop="productName" fixed="left" align="center" label="物品名称" />
-            <el-editable-column prop="typeName" align="center" label="规格" />
+            <el-editable-column :label="$t('Hmodule.xh')" fixed="left" min-width="55" align="center" type="index"/>
+            <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" fixed="left" align="center" />
+            <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" fixed="left" align="center" />
+            <el-editable-column :label="$t('Hmodule.gg')" prop="typeName" align="center" />
             <el-editable-column prop="color" align="center" label="颜色"/>
-            <el-editable-column prop="unit" align="center" label="单位" />
+            <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" />
             <el-editable-column prop="arrivalQuantity" align="center" label="到货数量" />
             <el-editable-column prop="retreatQuantity" align="center" label="退货数量" />
             <el-editable-column prop="retreatReason" align="center" label="退货原因" />
-            <el-editable-column prop="price" align="center" label="单价" />
+            <el-editable-column :label="$t('Hmodule.dj')" prop="price" align="center" />
             <el-editable-column prop="includeTaxPrice" align="center" label="含税价" />
             <el-editable-column prop="taxRate" align="center" label="税率(%)" />
-            <el-editable-column prop="money" align="center" label="金额" />
+            <el-editable-column :label="$t('Hmodule.je')" prop="money" align="center" />
             <el-editable-column prop="includeTaxMoney" align="center" label="含税金额" />
             <el-editable-column prop="taxMoney" align="center" label="税额" />
             <el-editable-column prop="discountRate" align="center" label="折扣率(%)" />

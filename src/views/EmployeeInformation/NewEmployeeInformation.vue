@@ -170,7 +170,7 @@
                     :props="props"
                     v-model="companyForm.regionid"
                     :show-all-levels="false"
-                    placeholder="请选择区域"
+                    :placeholder="$t('Hmodule.xzqy')"
                     change-on-select
                     filterable
                     clearable
@@ -181,7 +181,7 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('NewEmployeeInformation.repositoryid')" style="width: 100%;">
-                  <el-select v-model="companyForm.repositoryid" placeholder="请选择门店" filterable style="margin-left: 18px;width: 200px">
+                  <el-select v-model="companyForm.repositoryid" :placeholder="$t('Hmodule.xzmd')" filterable style="margin-left: 18px;width: 200px">
                     <el-option
                       v-for="(item, index) in repositories"
                       :key="index"
@@ -214,9 +214,9 @@
       </el-card>
       <!--操作-->
       <div class="buttons" style="margin-top: 20px">
-        <el-button v-no-more-click v-permission="['1-2-3-1']" type="primary" style="background:#3696fd;border-color:#3696fd;width: 98px" @click="handlesave()">保存</el-button>
+        <el-button v-no-more-click v-permission="['1-2-3-1']" type="primary" style="background:#3696fd;border-color:#3696fd;width: 98px" @click="handlesave()">{{ $t('Hmodule.baoc') }}</el-button>
         <el-button v-permission="['1-2-3-1']" type="success" @click="handleentry()">继续录入</el-button>
-        <el-button v-permission="['1-2-3-1']" type="danger" @click="handlecancel()">取消</el-button>
+        <el-button v-permission="['1-2-3-1']" type="danger" @click="handlecancel()">{{ $t('Hmodule.cancel') }}</el-button>
       </div>
     </div>
   </div>

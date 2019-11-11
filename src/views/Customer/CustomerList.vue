@@ -38,7 +38,7 @@
                   :value="item.id"
                   :label="item.categoryName"/>
               </el-select>
-              <el-select v-model="getemplist.repositoryid" placeholder="请选择门店" filterable clearable style="width: 40%;float: right;margin-right: 20px">
+              <el-select v-model="getemplist.repositoryid" :placeholder="$t('Hmodule.xzmd')" filterable clearable style="width: 40%;float: right;margin-right: 20px">
                 <el-option
                   v-for="(item, index) in repositories"
                   :key="index"

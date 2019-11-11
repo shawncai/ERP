@@ -3,7 +3,7 @@
     <div class="app-container" style="padding-right: 0">
       <!--基本信息-->
       <el-card class="box-card" shadow="never">
-        <h2 ref="geren" class="form-name">基本信息</h2>
+        <h2 ref="geren" class="form-name">{{ $t('Hmodule.basicinfo') }}</h2>
         <div class="container" style="margin-top: 37px">
           <el-form
             ref="personalForm"
@@ -167,7 +167,7 @@
             <el-form-item :label="$t('SalePlan.repositoryid')" label-width="100px">
               <el-select
                 v-model="addCategoryForm.repositoryid"
-                placeholder="请选择门店"
+                :placeholder="$t('Hmodule.xzmd')"
                 filterable
                 style="width: 100%;"
                 @change="changeValue">
@@ -186,8 +186,8 @@
             </el-form-item>
           </el-form>
           <span slot="footer" class="dialog-footer">
-            <el-button type="primary" @click="handlesave2()">保存</el-button>
-            <el-button type="danger" style="width: 98px;" @click="handlecancel2()">取消</el-button>
+            <el-button type="primary" @click="handlesave2()">{{ $t('Hmodule.baoc') }}</el-button>
+            <el-button type="danger" style="width: 98px;" @click="handlecancel2()">{{ $t('Hmodule.cancel') }}</el-button>
           </span>
         </el-dialog>
         <el-dialog
@@ -218,7 +218,7 @@
             <el-form-item :label="$t('SalePlan.repositoryid')" label-width="100px">
               <el-select
                 v-model="editCategoryForm.repositoryId"
-                placeholder="请选择门店"
+                :placeholder="$t('Hmodule.xzmd')"
                 filterable
                 style="width: 100%;"
                 @change="changeValue">
@@ -237,8 +237,8 @@
             </el-form-item>
           </el-form>
           <span slot="footer" class="dialog-footer">
-            <el-button type="primary" @click="handlesave3()">保存</el-button>
-            <el-button type="danger" style="width: 98px;" @click="handlecancel3()">取消</el-button>
+            <el-button type="primary" @click="handlesave3()">{{ $t('Hmodule.baoc') }}</el-button>
+            <el-button type="danger" style="width: 98px;" @click="handlecancel3()">{{ $t('Hmodule.cancel') }}</el-button>
           </span>
         </el-dialog>
         <div class="container">
@@ -267,8 +267,8 @@
           v-no-more-click
           type="primary"
           style="background:#3696fd;border-color:#3696fd;width: 98px"
-          @click="handlesave()">保存</el-button>
-        <el-button type="danger" style="width: 98px" @click="handlecancel()">取消</el-button>
+          @click="handlesave()">{{ $t('Hmodule.baoc') }}</el-button>
+        <el-button type="danger" style="width: 98px" @click="handlecancel()">{{ $t('Hmodule.cancel') }}</el-button>
       </div>
     </div>
   </div>

@@ -2,7 +2,7 @@
   <el-dialog :visible.sync="editVisible" :detailcontrol="detailcontrol" :detaildata="detaildata" :close-on-press-escape="false" :title="personalForm.reportNumber +'    详情'" append-to-body width="1010px" class="edit" top="-10px" @close="$emit('update:detailcontrol', false)">
     <!--基本信息-->
     <el-card class="box-card" style="margin-top: 63px" shadow="never">
-      <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">基本信息</h2>
+      <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('Hmodule.basicinfo') }}</h2>
       <div class="container" style="margin-top: 37px">
         <el-form :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
           <el-row>
@@ -164,7 +164,7 @@
           border
           size="medium"
           style="width: 100%">
-          <el-editable-column label="序号" min-width="55" align="center" type="index"/>
+          <el-editable-column :label="$t('Hmodule.xh')" min-width="55" align="center" type="index"/>
           <el-editable-column prop="checkItem" align="center" label="检验项目" min-width="150px"/>
           <el-editable-column prop="checkTarget" align="center" label="检验指标" min-width="150px"/>
           <el-editable-column prop="checkValue" align="center" label="检验值" min-width="150px"/>

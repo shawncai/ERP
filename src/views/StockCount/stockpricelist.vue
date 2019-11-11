@@ -4,12 +4,12 @@
       <el-row>
         <el-form ref="getemplist" :model="getemplist" label-width="100px" style="margin-top: -9px">
           <el-col :span="5">
-            <el-form-item label="物品名称">
+            <el-form-item :label="$t('Hmodule.wpmc')">
               <el-input v-model="getemplist.productName" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
           <el-col :span="5">
-            <el-form-item label="物品编号" style="margin-left: 150px">
+            <el-form-item :label="$t('Hmodule.wpbh')" style="margin-left: 150px">
               <el-input v-model="getemplist.productCode" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>

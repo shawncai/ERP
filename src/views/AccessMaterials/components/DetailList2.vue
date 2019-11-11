@@ -3,13 +3,13 @@
     <div id="printTest" >
       <!--基本信息-->
       <el-card class="box-card" style="margin-top: 63px" shadow="never">
-        <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">基本信息</h2>
-        <button class="print" style="font-size: 13px;background: white;" @click="printdata">打印</button>
+        <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('Hmodule.basicinfo') }}</h2>
+        <button class="print" style="font-size: 13px;background: white;" @click="printdata">{{ $t('Hmodule.dy') }}</button>
         <div class="container" style="margin-top: 37px">
           <el-form :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
             <el-row>
               <el-col :span="12">
-                <el-form-item class="print2" label="退料单编号" style="width: 100%;display: none">
+                <el-form-item :label="$t('Hmodule.tldbh')" class="print2" style="width: 100%;display: none">
                   {{ personalForm.number }}
                 </el-form-item>
               </el-col>
@@ -54,7 +54,7 @@
       </el-card>
       <!--子件信息-->
       <el-card class="box-card" style="margin-top: 15px" shadow="never">
-        <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">主生产计划明细</h2>
+        <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('Hmodule.zscjhmx') }}</h2>
         <div class="container">
           <el-editable
             ref="editable"
@@ -64,49 +64,49 @@
             border
             size="medium"
             style="width: 100%">
-            <el-editable-column label="序号" fixed="left" min-width="55" align="center" type="index"/>
-            <el-editable-column prop="productCode" fixed="left" align="center" label="物品编号" />
-            <el-editable-column prop="productName" fixed="left" align="center" label="物品名称" />
-            <el-editable-column prop="unit" align="center" label="单位" />
-            <el-editable-column prop="retreatRepositoryName" align="center" label="退料仓库" />
-            <el-editable-column prop="quantity" align="center" label="数量" />
-            <el-editable-column prop="price" align="center" label="单价" />
-            <el-editable-column prop="money" align="center" label="金额" >
+            <el-editable-column :label="$t('Hmodule.xh')" fixed="left" min-width="55" align="center" type="index"/>
+            <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" fixed="left" align="center" />
+            <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" fixed="left" align="center" />
+            <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" />
+            <el-editable-column :label="$t('Hmodule.tlck')" prop="retreatRepositoryName" align="center" />
+            <el-editable-column :label="$t('Hmodule.sl')" prop="quantity" align="center" />
+            <el-editable-column :label="$t('Hmodule.dj')" prop="price" align="center" />
+            <el-editable-column :label="$t('Hmodule.je')" prop="money" align="center" >
               <template slot-scope="scope">
                 <p>{{ getSize(scope.row.quantity, scope.row.price, scope.row) }}</p>
               </template>
             </el-editable-column>
-            <el-editable-column prop="reason" align="center" label="退料原因" />
+            <el-editable-column :label="$t('Hmodule.tlyy')" prop="reason" align="center" />
           </el-editable>
         </div>
       </el-card>
       <!--审核状态-->
       <el-card class="box-card" style="margin-top: 15px" shadow="never">
-        <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">审批记录</h2>
+        <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('Hmodule.spjl') }}</h2>
         <div class="container" style="margin-top: 37px">
           <el-table
             :data="reviewList"
             border
             style="width: 100%">
             <el-table-column
+              :label="$t('Hmodule.dqbz')"
               prop="step"
               align="center"
-              label="当前步骤"
               min-width="150"/>
             <el-table-column
+              :label="$t('Hmodule.dqspr')"
               prop="stepHandlerName"
               align="center"
-              label="当前审批人"
               min-width="150"/>
             <el-table-column
+              :label="$t('Hmodule.spsj')"
               prop="handleTime"
               align="center"
-              label="审批时间"
               min-width="150"/>
             <el-table-column
+              :label="$t('Hmodule.spyj')"
               prop="stat"
               align="center"
-              label="审批意见"
               min-width="150">
               <template slot-scope="scope">
                 <span>{{ scope.row.stat | statfilter }}</span>
@@ -116,7 +116,7 @@
         </div>
       </el-card>
       <el-card class="box-card" style="margin-top: 15px" shadow="never">
-        <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">备注信息</h2>
+        <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('Hmodule.bzxx') }}</h2>
         <div class="container" style="margin-top: 37px">
           <el-form :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
             <el-row>

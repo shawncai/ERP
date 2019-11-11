@@ -3,7 +3,7 @@
     <div class="app-container" style="padding-right: 0">
       <!--基本信息-->
       <el-card class="box-card" shadow="never">
-        <h2 ref="geren" class="form-name">基本信息</h2>
+        <h2 ref="geren" class="form-name">{{ $t('Hmodule.basicinfo') }}</h2>
         <div class="container">
           <el-form ref="personalForm" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="110px" style="margin-left: 30px;">
             <el-row>
@@ -35,7 +35,7 @@
               <el-col :span="6">
                 <el-form-item :label="$t('ProduceTask.processType')" prop="processType" style="width: 100%;">
                   <el-select v-model="personalForm.processType" style="margin-left: 18px;width:200px">
-                    <el-option value="1" label="加工1" />
+                    <el-option :label="$t('Hmodule.jiagong1')" value="1" />
                   </el-select>
                 </el-form-item>
               </el-col>
@@ -58,12 +58,12 @@
       <el-card class="box-card" style="margin-top: 15px" shadow="never">
         <h2 ref="fuzhu" class="form-name">生成任务单明细</h2>
         <div class="buttons" style="margin-top: 58px">
-          <el-button :disabled="addpro" @click="handleAddproduct">添加商品</el-button>
+          <el-button :disabled="addpro" @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>
           <my-detail2 :control.sync="control" @product="productdetail"/>
           <el-button :disabled="addsouce" style="width: 130px" @click="handleAddSouce">从源单中选择</el-button>
           <produce-plan :procontrol.sync="producecontrol" @produce="produce" @moredata="moredata"/>
           <my-producerequire :prorequirecontrol.sync="prorequirecontrol" @prorequireDetail="prorequireDetail"/>
-          <el-button type="danger" @click="$refs.editable.removeSelecteds()">删除</el-button>
+          <el-button type="danger" @click="$refs.editable.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
         </div>
         <div class="container">
           <el-editable
@@ -77,15 +77,15 @@
             size="medium"
             style="width: 100%">
             <el-editable-column type="selection" min-width="55" align="center"/>
-            <el-editable-column label="序号" min-width="55" align="center" type="index"/>
-            <el-editable-column prop="productCode" align="center" label="物品编号" min-width="150px"/>
-            <el-editable-column prop="productName" align="center" label="物品名称" min-width="150px"/>
-            <el-editable-column prop="productType" align="center" label="规格" min-width="150px"/>
-            <el-editable-column prop="unit" align="center" label="单位" min-width="150px"/>
+            <el-editable-column :label="$t('Hmodule.xh')" min-width="55" align="center" type="index"/>
+            <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" align="center" min-width="150px"/>
+            <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" align="center" min-width="150px"/>
+            <el-editable-column :label="$t('Hmodule.gg')" prop="productType" align="center" min-width="150px"/>
+            <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" min-width="150px"/>
             <el-editable-column prop="sourceNumber" align="center" label="源单编号" min-width="150px"/>
             <el-editable-column prop="sourceSerialNumber" align="center" label="源单序号" min-width="150px"/>
-            <el-editable-column v-if="personalForm.sourceType==='3'" prop="workCenterName" align="center" label="工作中心" min-width="150px"/>
-            <el-editable-column v-if="personalForm.sourceType!=='3'" :edit-render="{name: 'ElSelect', options: workCenterIds, type: 'visible'}" prop="workCenterId" align="center" label="工作中心" min-width="150px"/>
+            <el-editable-column v-if="personalForm.sourceType==='3'" :label="$t('Hmodule.ggzx')" prop="workCenterName" align="center" min-width="150px"/>
+            <el-editable-column v-if="personalForm.sourceType!=='3'" :edit-render="{name: 'ElSelect', options: workCenterIds, type: 'visible'}" :label="$t('Hmodule.ggzx')" prop="workCenterId" align="center" min-width="150px"/>
             <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="produceQuantity" align="center" label="生产数量" min-width="150px"/>
             <el-editable-column :edit-render="{name: 'ElSelect', options: bomNumbers, type: 'visible'}" prop="bomNumber" align="center" label="BOM编码" min-width="150px"/>
             <el-editable-column :edit-render="{name: 'ElSelect', options: processes, type: 'visible'}" prop="processName" align="center" label="工艺路线" min-width="150px"/>
@@ -102,8 +102,8 @@
       </el-card>
       <!--操作-->
       <div class="buttons" style="margin-top: 20px">
-        <el-button v-no-more-click type="primary" style="background:#3696fd;border-color:#3696fd;width: 98px" @click="handlesave()">保存</el-button>
-        <el-button type="danger" @click="handlecancel()">取消</el-button>
+        <el-button v-no-more-click type="primary" style="background:#3696fd;border-color:#3696fd;width: 98px" @click="handlesave()">{{ $t('Hmodule.baoc') }}</el-button>
+        <el-button type="danger" @click="handlecancel()">{{ $t('Hmodule.cancel') }}</el-button>
       </div>
     </div>
   </div>

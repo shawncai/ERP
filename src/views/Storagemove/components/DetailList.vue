@@ -3,7 +3,7 @@
     <div id="printTest" >
       <!--基本信息-->
       <el-card class="box-card" style="margin-top: 63px" shadow="never">
-        <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">基本信息</h2>
+        <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('Hmodule.basicinfo') }}</h2>
         <button v-print="'#printTest'" class="print" style="font-size: 13px;background: white;">打印</button>
         <div class="container" style="margin-top: 37px">
           <el-form ref="personalForm" :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="100px" style="margin-left: 30px;">
@@ -81,13 +81,13 @@
             size="medium"
             style="width: 100%">
             <el-editable-column label="编号" width="55" align="center" type="index"/>
-            <el-editable-column prop="locationCode" align="center" label="货位" />
-            <el-editable-column prop="batch" align="center" label="批次" />
-            <el-editable-column prop="productCode" align="center" label="物品编号" />
-            <el-editable-column prop="productName" align="center" label="物品名称" />
+            <el-editable-column prop="locationCode" align="center" :label="$t('Hmodule.hw')" />
+            <el-editable-column prop="batch" align="center" :label="$t('Hmodule.pc')" />
+            <el-editable-column prop="productCode" align="center" :label="$t('Hmodule.wpbh')" />
+            <el-editable-column prop="productName" align="center" :label="$t('Hmodule.wpmc')" />
             <el-editable-column prop="color" align="center" label="颜色" />
-            <el-editable-column prop="typeName" align="center" label="规格" />
-            <el-editable-column prop="unitName" align="center" label="单位" />
+            <el-editable-column prop="typeName" align="center" :label="$t('Hmodule.gg')" />
+            <el-editable-column prop="unitName" align="center" :label="$t('Hmodule.dw')" />
             <el-editable-column prop="price" align="center" label="调拨单价" />
             <el-editable-column prop="movePrice" align="center" label="调拨成本价" />
             <el-editable-column prop="moveQuantity" align="center" label="调拨数量" />
@@ -115,13 +115,13 @@
             size="medium"
             style="width: 100%">
             <el-editable-column label="编号" fixed="left" width="55" align="center" type="index"/>
-            <el-editable-column prop="productCode" fixed="left" align="center" label="物品编号" />
-            <el-editable-column prop="productName" fixed="left" align="center" label="物品名称" />
-            <el-editable-column prop="locationCode" align="center" label="货位" />
-            <el-editable-column prop="batch" align="center" label="批次" />
+            <el-editable-column prop="productCode" fixed="left" align="center" :label="$t('Hmodule.wpbh')" />
+            <el-editable-column prop="productName" fixed="left" align="center" :label="$t('Hmodule.wpmc')" />
+            <el-editable-column prop="locationCode" align="center" :label="$t('Hmodule.hw')" />
+            <el-editable-column prop="batch" align="center" :label="$t('Hmodule.pc')" />
             <el-editable-column prop="color" align="center" label="颜色" />
-            <el-editable-column prop="typeName" align="center" label="规格" />
-            <el-editable-column prop="unitName" align="center" label="单位" />
+            <el-editable-column prop="typeName" align="center" :label="$t('Hmodule.gg')" />
+            <el-editable-column prop="unitName" align="center" :label="$t('Hmodule.dw')" />
             <el-editable-column prop="price" align="center" label="调拨单价" />
             <el-editable-column prop="movePrice" align="center" label="调拨成本价" />
             <el-editable-column prop="moveQuantity" align="center" label="调拨数量" />
@@ -149,14 +149,14 @@
             size="medium"
             style="width: 100%">
             <el-editable-column label="编号" width="55" align="center" type="index"/>
-            <!-- <el-editable-column prop="location" align="center" label="货位" min-width="150">
+            <!-- <el-editable-column prop="location" align="center" :label="$t('Hmodule.hw')" min-width="150">
               <template slot-scope="scope">
                 <p>{{ getLocationData(scope.row) }}</p>
               </template>
             </el-editable-column> -->
-            <!-- <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="batch" align="center" label="批次" min-width="150" >
+            <!-- <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="batch" align="center" :label="$t('Hmodule.pc')" min-width="150" >
               <template slot="edit" slot-scope="scope">
-                <el-select v-if="scope.row.batch !== '不使用'" v-model="scope.row.batch" :value="scope.row.batch" placeholder="请选择批次" filterable clearable style="width: 100%;" @visible-change="updatebatch2($event,scope)">
+                <el-select v-if="scope.row.batch !== '不使用'" v-model="scope.row.batch" :value="scope.row.batch" :placeholder="$t('Hmodule.xcpc')" filterable clearable style="width: 100%;" @visible-change="updatebatch2($event,scope)">
                   <el-option
                     v-for="(item, index) in batchlist"
                     :key="index"
@@ -166,11 +166,11 @@
                 <span v-else>{{ scope.row.batch }}</span>
               </template>
             </el-editable-column> -->
-            <el-editable-column prop="productCode" align="center" label="物品编号" width="150px"/>
-            <el-editable-column prop="productName" align="center" label="物品名称" width="150px"/>
+            <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" align="center" width="150px"/>
+            <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" align="center" width="150px"/>
             <el-editable-column prop="color" align="center" label="颜色" width="150px"/>
-            <el-editable-column prop="productType" align="center" label="规格" width="150px"/>
-            <el-editable-column prop="unit" align="center" label="单位" width="150px"/>
+            <el-editable-column :label="$t('Hmodule.gg')" prop="productType" align="center" width="150px"/>
+            <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" width="150px"/>
             <el-editable-column prop="applyQuantity" align="center" label="申请数量" min-width="150"/>
             <el-editable-column prop="movePrice" align="center" label="调拨单价" width="150px"/>
             <!-- <el-editable-column :edit-render="{name: 'ElInputNumber', type: 'visible'}" prop="movePrice" align="center" label="调拨成本价" width="150px"/> -->
@@ -194,13 +194,13 @@
             size="medium"
             style="width: 100%">
             <el-editable-column label="编号" width="55" align="center" type="index"/>
-            <el-editable-column prop="productCode" align="center" label="物品编号" width="150px"/>
-            <el-editable-column prop="productName" align="center" label="物品名称" width="150px"/>
-            <el-editable-column prop="locationName" align="center" label="货位" min-width="150"/>
-            <el-editable-column prop="batch" align="center" label="批次" min-width="250"/>
+            <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" align="center" width="150px"/>
+            <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" align="center" width="150px"/>
+            <el-editable-column :label="$t('Hmodule.hw')" prop="locationName" align="center" min-width="150"/>
+            <el-editable-column :label="$t('Hmodule.pc')" prop="batch" align="center" min-width="250"/>
             <el-editable-column prop="color" align="center" label="颜色" width="150px"/>
-            <el-editable-column prop="typeName" align="center" label="规格" width="150px"/>
-            <el-editable-column prop="unit" align="center" label="单位" width="150px"/>
+            <el-editable-column :label="$t('Hmodule.gg')" prop="typeName" align="center" width="150px"/>
+            <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" width="150px"/>
             <el-editable-column prop="moveQuantity" align="center" label="出库数量" min-width="150"/>
             <el-editable-column prop="carCode" align="center" label="车架编码" min-width="150" />
             <el-editable-column prop="motorCode" align="center" label="电机编码" min-width="150" />
@@ -231,13 +231,13 @@
             size="medium"
             style="width: 100%">
             <el-editable-column label="编号" width="55" align="center" type="index"/>
-            <el-editable-column prop="productCode" align="center" label="物品编号" width="150px"/>
-            <el-editable-column prop="productName" align="center" label="物品名称" width="150px"/>
-            <el-editable-column prop="locationName" align="center" label="货位" min-width="150"/>
-            <el-editable-column prop="batch" align="center" label="批次" min-width="150" />
+            <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" align="center" width="150px"/>
+            <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" align="center" width="150px"/>
+            <el-editable-column :label="$t('Hmodule.hw')" prop="locationName" align="center" min-width="150"/>
+            <el-editable-column :label="$t('Hmodule.pc')" prop="batch" align="center" min-width="150" />
             <el-editable-column prop="color" align="center" label="颜色" width="150px"/>
-            <el-editable-column prop="typeName" align="center" label="规格" width="150px"/>
-            <el-editable-column prop="unit" align="center" label="单位" width="150px"/>
+            <el-editable-column :label="$t('Hmodule.gg')" prop="typeName" align="center" width="150px"/>
+            <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" width="150px"/>
             <el-editable-column prop="moveQuantity" align="center" label="出库数量" min-width="150"/>
             <el-editable-column prop="carCode" align="center" label="车架编码" min-width="150" />
             <el-editable-column prop="motorCode" align="center" label="电机编码" min-width="150" />
