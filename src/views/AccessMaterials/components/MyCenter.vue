@@ -1,5 +1,5 @@
 <template>
-  <el-dialog :visible.sync="employeeVisible" :control="control" :close-on-press-escape="false" top="10px" title="选择工作中心" append-to-body width="900px" @close="$emit('update:control', false)">
+  <el-dialog :visible.sync="employeeVisible" :control="control" :close-on-press-escape="false" :title="$t('Hmodule.xzggzx')" top="10px" append-to-body width="900px" @close="$emit('update:control', false)">
     <el-card class="box-card" style="margin-top: 15px;height: 60px">
       <el-row>
         <el-form ref="getemplist" :model="getemplist" style="margin-top: -9px">
@@ -85,7 +85,7 @@
       <pagination v-show="total>0" :total="total" :page.sync="getemplist.pageNum" :limit.sync="getemplist.pageSize" @pagination="getlist" />
       <!--修改开始=================================================-->
       <!--修改结束=================================================-->
-      <el-button v-waves class="filter-item" type="success" style="width: 100px;float: left;margin-bottom: 10px" @click="handleConfirm">确认添加</el-button>
+      <el-button v-waves class="filter-item" type="success" style="width: 100px;float: left;margin-bottom: 10px" @click="handleConfirm">{{ $t('Hmodule.sure') }}</el-button>
     </el-card>
   </el-dialog>
 </template>

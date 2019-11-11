@@ -3,7 +3,7 @@
     <div class="app-container" style="padding-right: 0">
       <!--基本信息-->
       <el-card class="box-card" shadow="never">
-        <h2 ref="geren" class="form-name">基本信息</h2>
+        <h2 ref="geren" class="form-name">{{ $t('Hmodule.basicinfo') }}</h2>
         <div class="container" style="margin-top: 37px">
           <el-form ref="personalForm" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
             <el-row>
@@ -201,7 +201,7 @@
         <h2 ref="fuzhu" class="form-name" >质检报告单明细</h2>
         <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
           <!--          <el-button @click="handleAdd">添加</el-button>-->
-          <el-button type="danger" @click="$refs.editable.removeSelecteds()">删除</el-button>
+          <el-button type="danger" @click="$refs.editable.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
         </div>
         <div class="container">
           <el-editable
@@ -215,7 +215,7 @@
             size="medium"
             style="width: 100%">
             <el-editable-column type="selection" fixed width="55" align="center"/>
-            <el-editable-column label="序号" fixed width="55" align="center" type="index"/>
+            <el-editable-column :label="$t('Hmodule.xh')" fixed width="55" align="center" type="index"/>
             <el-editable-column prop="checkItem" fixed align="center" label="检验项目" width="200px"/>
             <el-editable-column prop="checkContent" fixed align="center" label="检验内容" width="200px"/>
             <el-editable-column prop="checkTools" fixed align="center" label="检验工具" width="200px"/>
@@ -242,8 +242,8 @@
       </el-card>
       <!--操作-->
       <div class="buttons" style="margin-top: 20px">
-        <el-button v-no-more-click type="primary" style="background:#3696fd;border-color:#3696fd;width: 98px" @click="handlesave()">保存</el-button>
-        <el-button type="danger" @click="handlecancel()">取消</el-button>
+        <el-button v-no-more-click type="primary" style="background:#3696fd;border-color:#3696fd;width: 98px" @click="handlesave()">{{ $t('Hmodule.baoc') }}</el-button>
+        <el-button type="danger" @click="handlecancel()">{{ $t('Hmodule.cancel') }}</el-button>
       </div>
     </div>
   </div>

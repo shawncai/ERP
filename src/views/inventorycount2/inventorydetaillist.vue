@@ -16,7 +16,7 @@
           </el-col>
           <el-col :span="4" style="margin-left: 70px">
             <el-form-item label="型号">
-              <el-select v-model="getemplist.typeId" placeholder="请选择规格型号" clearable>
+              <el-select v-model="getemplist.typeId" :placeholder="$t('Hmodule.qxzggxh')" clearable>
                 <el-option
                   v-for="(item, index) in types"
                   :key="index"
@@ -34,13 +34,13 @@
         </el-row>
         <el-row>
           <el-col :span="4">
-            <el-form-item label="物品名称">
+            <el-form-item :label="$t('Hmodule.wpmc')">
               <el-input v-model="getemplist.productName" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
           <el-col :span="4" style="margin-left: 88px">
             <el-form-item label="分类">
-              <el-input v-model="categoryId" placeholder="物品分类" clearable @clear="restFilter" @focus="treechoose"/>
+              <el-input v-model="categoryId" :placeholder="$t('Hmodule.wpfl')" clearable @clear="restFilter" @focus="treechoose"/>
               <my-tree :treecontrol.sync="treecontrol" @tree="tree"/>
             </el-form-item>
           </el-col>

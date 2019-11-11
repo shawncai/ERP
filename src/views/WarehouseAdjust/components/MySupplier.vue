@@ -111,7 +111,7 @@
       </el-table-column>
     </el-table>
     <pagination v-show="total>0" :total="total" :page.sync="getemplist.pagenum" :limit.sync="getemplist.pagesize" @pagination="getlist" />
-    <el-button v-waves class="filter-item" type="success" @click="handleConfirm">确认添加</el-button>
+    <el-button v-waves class="filter-item" type="success" @click="handleConfirm">{{ $t('Hmodule.sure') }}</el-button>
   </el-dialog>
 </template>
 

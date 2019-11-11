@@ -10,7 +10,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="5">
-            <el-form-item label="物品名称">
+            <el-form-item :label="$t('Hmodule.wpmc')">
               <el-input v-model="getemplist.productName" :placeholder="$t('endmonth.productName')" style="width: 80%;" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>

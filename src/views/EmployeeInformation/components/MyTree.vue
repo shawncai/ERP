@@ -11,11 +11,11 @@
         check-strictly
         node-key="id"/>
       <div class="buttons" style="float: right;padding-bottom: 10px">
-        <el-button @click="handlecancel()">取消</el-button>
-        <el-button type="primary" @click="handleEditok()">保存</el-button>
+        <el-button @click="handlecancel()">{{ $t('Hmodule.cancel') }}</el-button>
+        <el-button type="primary" @click="handleEditok()">{{ $t('Hmodule.baoc') }}</el-button>
       </div>
     </el-card>
-    <!--<el-button class="filter-item" type="success" style="margin-top: 10px" @click="handleConfirm">确认添加</el-button>-->
+    <!--<el-button class="filter-item" type="success" style="margin-top: 10px" @click="handleConfirm">{{ $t('Hmodule.sure') }}</el-button>-->
   </el-dialog>
 </template>
 

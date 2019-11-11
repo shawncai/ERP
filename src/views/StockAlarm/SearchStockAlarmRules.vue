@@ -11,7 +11,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="4">
-            <el-form-item label="物品名称">
+            <el-form-item :label="$t('Hmodule.wpmc')">
               <el-input v-model="productId" :placeholder="$t('StockAlarm.productName')" class="filter-item" clearable @keyup.enter.native="handleFilter" @focus="handleAddproduct"/>
               <my-product :control.sync="control" @product="productdetail"/>
             </el-form-item>

@@ -14,7 +14,7 @@
     <div id="printTest" >
       <!--基本信息-->
       <el-card class="box-card" style="margin-top: 63px" shadow="never">
-        <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">基本信息</h2>
+        <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('Hmodule.basicinfo') }}</h2>
         <button v-print="'#printTest'" class="print" style="font-size: 13px;background: white;">打印</button>
         <div class="container" style="margin-top: 37px">
           <el-form :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
@@ -382,14 +382,14 @@
                   label="物品编码"
                   min-width="150"/>
                 <el-table-column
+                  :label="$t('Hmodule.wpmc')"
                   prop="productName"
                   align="center"
-                  label="物品名称"
                   min-width="150"/>
                 <el-table-column
+                  :label="$t('Hmodule.dw')"
                   prop="unit"
                   align="center"
-                  label="单位"
                   min-width="150"/>
                 <el-table-column
                   prop="quantity"

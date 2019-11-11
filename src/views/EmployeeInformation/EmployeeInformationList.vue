@@ -17,8 +17,8 @@
             <el-form-item :label="$t('NewEmployeeInformation.time')">
               <el-date-picker
                 v-model="getemplist.time"
+                :placeholder="$t('Hmodule.xzrq')"
                 type="date"
-                placeholder="选择日期"
                 value-format="yyyy-MM-dd"
                 style="width:100%"/>
             </el-form-item>
@@ -40,7 +40,7 @@
                   :label="item.regionName"
                   :value="item.id"/>
               </el-select>
-              <el-select v-model="getemplist.repositoryid" placeholder="请选择门店" clearable filterable style="width: 40%;float: left;margin-left: 20px;margin-top: 20px">
+              <el-select v-model="getemplist.repositoryid" :placeholder="$t('Hmodule.xzmd')" clearable filterable style="width: 40%;float: left;margin-left: 20px;margin-top: 20px">
                 <el-option
                   v-for="(item, index) in repositories"
                   :key="index"

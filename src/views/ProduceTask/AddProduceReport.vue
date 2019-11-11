@@ -3,7 +3,7 @@
     <div class="app-container" style="padding-right: 0">
       <!--基本信息-->
       <el-card class="box-card" shadow="never">
-        <h2 ref="geren" class="form-name">基本信息</h2>
+        <h2 ref="geren" class="form-name">{{ $t('Hmodule.basicinfo') }}</h2>
         <div class="container">
           <el-form ref="personalForm" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="110px" style="margin-left: 30px;">
             <el-row>
@@ -68,7 +68,7 @@
             </el-form>
             <h2 ref="fuzhu" class="form-name" style="margin-top: 10px;">生产明细</h2>
             <div class="buttons" style="margin-top: 58px">
-              <el-button type="danger" @click="$refs.editable.removeSelecteds()">删除</el-button>
+              <el-button type="danger" @click="$refs.editable.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
             </div>
             <div class="container">
               <el-editable
@@ -82,9 +82,9 @@
                 size="medium"
                 style="width: 100%">
                 <el-editable-column type="selection" min-width="55" align="center"/>
-                <el-editable-column label="序号" min-width="55" align="center" type="index"/>
-                <el-editable-column prop="productCode" align="center" label="物品编号" min-width="150px"/>
-                <el-editable-column prop="productName" align="center" label="物品名称" min-width="150px"/>
+                <el-editable-column :label="$t('Hmodule.xh')" min-width="55" align="center" type="index"/>
+                <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" align="center" min-width="150px"/>
+                <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" align="center" min-width="150px"/>
                 <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="workHours" align="center" label="工时" min-width="150px"/>
                 <el-editable-column :edit-render="{ type: 'default'}" prop="finishQuantity" align="center" label="完成数" min-width="150px">
                   <template slot-scope="scope">
@@ -135,7 +135,7 @@
             <div class="buttons" style="margin-top: 58px">
               <el-button @click="handleAddEmp">添加人员</el-button>
               <my-emp :control.sync="empcontrol" :bumen="bumen" @empDetail="empDetail"/>
-              <el-button type="danger" @click="$refs.editable2.removeSelecteds()">删除</el-button>
+              <el-button type="danger" @click="$refs.editable2.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
             </div>
             <div class="container">
               <el-editable
@@ -149,7 +149,7 @@
                 size="medium"
                 style="width: 100%">
                 <el-editable-column type="selection" min-width="55" align="center"/>
-                <el-editable-column label="序号" min-width="55" align="center" type="index"/>
+                <el-editable-column :label="$t('Hmodule.xh')" min-width="55" align="center" type="index"/>
                 <el-editable-column prop="personName" align="center" label="人员" min-width="150px"/>
                 <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="workHours" align="center" label="工时" min-width="150px"/>
                 <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="finishQuantity" align="center" label="完成数" min-width="150px"/>
@@ -211,7 +211,7 @@
             <h2 ref="fuzhu" class="form-name" style="margin-top: 10px;">设备明细</h2>
             <div class="buttons" style="margin-top: 58px">
               <el-button @click="$refs.editable3.insert()">添加设备</el-button>
-              <el-button type="danger" @click="$refs.editable3.removeSelecteds()">删除</el-button>
+              <el-button type="danger" @click="$refs.editable3.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
             </div>
             <div class="container">
               <el-editable
@@ -225,7 +225,7 @@
                 size="medium"
                 style="width: 100%">
                 <el-editable-column type="selection" min-width="55" align="center"/>
-                <el-editable-column label="序号" min-width="55" align="center" type="index"/>
+                <el-editable-column :label="$t('Hmodule.xh')" min-width="55" align="center" type="index"/>
                 <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="equipmentNumber" align="center" label="设备编号" min-width="150px"/>
                 <el-editable-column :edit-render="{name: 'ElInput', attrs: {min: 0}, type: 'visible'}" prop="equipmentName" align="center" label="设备名称" min-width="150px"/>
                 <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="runTime" align="center" label="开机时长" min-width="150px"/>
@@ -258,7 +258,7 @@
             <h2 ref="fuzhu" class="form-name" style="margin-top: 10px;">物料明细</h2>
             <div class="buttons" style="margin-top: 58px">
               <el-button @click="addproduct">添加物料</el-button>
-              <el-button type="danger" @click="$refs.editable4.removeSelecteds()">删除</el-button>
+              <el-button type="danger" @click="$refs.editable4.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
               <my-detail :control.sync="control" @product="productdetail"/>
             </div>
             <div class="container">
@@ -273,9 +273,9 @@
                 size="medium"
                 style="width: 100%">
                 <el-editable-column type="selection" min-width="55" align="center"/>
-                <el-editable-column label="序号" min-width="55" align="center" type="index"/>
-                <el-editable-column prop="productCode" align="center" label="物品编号" min-width="150px"/>
-                <el-editable-column prop="productName" align="center" label="物品名称" min-width="150px"/>
+                <el-editable-column :label="$t('Hmodule.xh')" min-width="55" align="center" type="index"/>
+                <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" align="center" min-width="150px"/>
+                <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" align="center" min-width="150px"/>
                 <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="todayAccess" align="center" label="本日领入" min-width="150px"/>
                 <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="yesterdayRemain" align="center" label="昨日结存" min-width="150px"/>
                 <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="todayUseup" align="center" label="本日耗用" min-width="150px"/>
@@ -288,8 +288,8 @@
       </el-card>
       <!--操作-->
       <div class="buttons" style="margin-top: 20px">
-        <el-button v-no-more-click type="primary" style="background:#3696fd;border-color:#3696fd;width: 98px" @click="handlesave()">保存</el-button>
-        <el-button type="danger" @click="handlecancel()">取消</el-button>
+        <el-button v-no-more-click type="primary" style="background:#3696fd;border-color:#3696fd;width: 98px" @click="handlesave()">{{ $t('Hmodule.baoc') }}</el-button>
+        <el-button type="danger" @click="handlecancel()">{{ $t('Hmodule.cancel') }}</el-button>
       </div>
     </div>
   </div>

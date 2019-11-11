@@ -4,7 +4,7 @@
       <el-row>
         <el-form ref="getemplist" :model="getemplist" label-width="80px" style="margin-top: -9px">
           <el-col :span="5">
-            <el-form-item label="物品名称">
+            <el-form-item :label="$t('Hmodule.wpmc')">
               <el-input v-model="getemplist.productName" :placeholder="$t('StockQuery.productName')" clearable style="width: 200px" @keyup.enter.native="handleFilter" @focus="handleAddproduct"/>
               <my-detail :control.sync="control" @product="product"/>
             </el-form-item>
