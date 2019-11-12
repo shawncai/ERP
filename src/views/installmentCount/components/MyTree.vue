@@ -89,7 +89,7 @@ export default {
       return result
     },
     getReturnNode(node, _array, value) {
-      const isPass = node.data && node.data.categoryName && node.data.categoryName.indexOf(value) !== -1
+      const isPass = node.data && node.data.categoryName && node.data.categoryName.toUpperCase().indexOf(value.toUpperCase()) !== -1
       isPass ? _array.push(isPass) : ''
       this.index++
       if (!isPass && node.level !== 1 && node.parent) {
