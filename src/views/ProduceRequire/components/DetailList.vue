@@ -83,7 +83,7 @@
           <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" fixed="left" align="center" min-width="150px"/>
           <el-editable-column :label="$t('Hmodule.gg')" prop="productType" align="center" min-width="150px"/>
           <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" min-width="150px"/>
-          <el-editable-column prop="stockQuantity" align="center" :label="$t('updates.cgsl')" min-width="150px"/>
+          <el-editable-column :label="$t('updates.cgsl')" prop="stockQuantity" align="center" min-width="150px"/>
           <el-editable-column :label="$t('Hmodule.dj')" prop="price" align="center" min-width="170px"/>
           <el-editable-column prop="includeTaxPrice" align="center" label="含税价" min-width="170px"/>
           <el-editable-column prop="tax" align="center" label="税率(%)" min-width="170px"/>
