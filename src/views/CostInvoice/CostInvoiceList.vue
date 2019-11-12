@@ -4,7 +4,7 @@
       <el-row>
         <el-form ref="getemplist" :model="getemplist" label-width="100px" style="margin-top: -9px">
           <el-col :span="5">
-            <el-form-item label="供应商" label-width="100px">
+            <el-form-item :label="$t('updates.gys')" label-width="100px">
               <el-input v-model="supplierId" placeholder="供应商" style="width: 100%;float: right;margin-right: 20px;" clearable @focus="handlechoose" @clear="restFilter"/>
               <my-supplier :control.sync="empcontrol" @supplierName="supplierName"/>
             </el-form-item>

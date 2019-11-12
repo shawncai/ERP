@@ -247,7 +247,7 @@
       </div>
     </el-card>
     <el-card class="box-card" style="margin-top: 15px" shadow="never">
-      <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">备注信息</h2>
+      <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('updates.bzxx') }}</h2>
       <div class="container" style="margin-top: 37px">
         <el-form :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
           <el-row>
@@ -305,7 +305,7 @@
           <el-table-column
             prop="closeTypeName"
             align="center"
-            label="收款方式"
+            :label="$t('updates.skfs')"
             min-width="150"/>
           <el-table-column
             prop="receiptPersonName"
@@ -330,7 +330,7 @@
           <el-table-column
             prop="saleRepositoryName"
             align="center"
-            label="仓库"
+            :label="$t('updates.cangk')"
             min-width="150"/>
           <el-table-column
             prop="quantity"

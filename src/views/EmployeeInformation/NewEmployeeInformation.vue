@@ -86,7 +86,7 @@
       </el-card>
       <!--联系信息-->
       <el-card class="box-card" shadow="never" style="margin-top: 15px">
-        <h2 ref="lianxi" class="form-name">联系信息</h2>
+        <h2 ref="lianxi" class="form-name">{{ $t('updates.lxxx') }}</h2>
         <div class="container" style="margin-top: 37px">
           <el-form ref="connectForm" :model="connectForm" :rules="connectrules" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
             <el-row>
@@ -128,7 +128,7 @@
       </el-card>
       <!--公司信息-->
       <el-card class="box-card" shadow="never" style="margin-top: 15px">
-        <h2 class="form-name">公司信息</h2>
+        <h2 class="form-name">{{ $t('updates.gsxx') }}</h2>
         <div class="container" style="margin-top: 37px">
           <el-form ref="companyForm" :model="companyForm" :rules="companyrules" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
             <el-row>

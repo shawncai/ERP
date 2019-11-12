@@ -4,7 +4,7 @@
       <!--基本信息-->
       <el-card class="box-card" style="margin-top: 63px" shadow="never">
         <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('Hmodule.basicinfo') }}</h2>
-        <button class="print" style="font-size: 13px;background: white;" @click="printdata">打印</button>
+        <button class="print" style="font-size: 13px;background: white;" @click="printdata">{{ $t('updates.print') }}</button>
         <div class="container" style="margin-top: 37px">
           <el-form :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
             <el-row>
@@ -117,7 +117,7 @@
             <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" fixed="left" align="center"/>
             <el-editable-column :label="$t('Hmodule.gg')" prop="typeName" align="center"/>
             <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center"/>
-            <el-editable-column prop="plannedQuantity" align="center" label="采购数量"/>
+            <el-editable-column prop="plannedQuantity" align="center" :label="$t('updates.cgsl')"/>
             <el-editable-column :label="$t('Hmodule.dj')" prop="price" align="center"/>
             <el-editable-column prop="includeTaxPrice" align="center" label="含税价"/>
             <el-editable-column prop="taxRate" align="center" label="税率(%)"/>
@@ -209,7 +209,7 @@
         </div>
       </el-card>
       <el-card class="box-card" style="margin-top: 15px" shadow="never">
-        <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">备注信息</h2>
+        <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('updates.bzxx') }}</h2>
         <div class="container" style="margin-top: 37px">
           <el-form :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
             <el-row>

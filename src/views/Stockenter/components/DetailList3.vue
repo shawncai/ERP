@@ -4,7 +4,7 @@
       <!--基本信息-->
       <el-card class="box-card">
         <h2 ref="geren" class="form-name">{{ $t('Hmodule.basicinfo') }}</h2>
-        <button v-print="'#printTest'" class="print" style="font-size: 13px;background: white;">打印</button>
+        <button v-print="'#printTest'" class="print" style="font-size: 13px;background: white;">{{ $t('updates.print') }}</button>
         <div class="container">
           <el-form ref="personalForm" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="130px" style="margin-left: 30px;">
             <el-row>
@@ -109,7 +109,7 @@
             <el-editable-column :label="$t('Hmodule.gg')" prop="productType" align="center" />
             <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" />
             <!--            <el-editable-column prop="basicQuantity" align="center" label="基本数量" />-->
-            <el-editable-column :edit-render="{name: 'ElInputNumber'}" prop="actualEnterQuantity" align="center" label="入库数量" />
+            <el-editable-column :edit-render="{name: 'ElInputNumber'}" prop="actualEnterQuantity" align="center" :label="$t('updates.rksl')" />
             <el-editable-column :label="$t('Hmodule.dj')" prop="enterPrice" align="center" />
             <el-editable-column prop="enterMoney" align="center" label="入库金额" >
               <template slot-scope="scope">

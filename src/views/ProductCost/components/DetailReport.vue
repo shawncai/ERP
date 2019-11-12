@@ -44,7 +44,7 @@
           <span>{{ scope.row.checkedQuantity }}</span>
         </template>
       </el-table-column>
-      <el-table-column :resizable="false" label="到货数量" align="center" min-width="150">
+      <el-table-column :resizable="false" :label="$t('updates.dhsl')" align="center" min-width="150">
         <template slot-scope="scope">
           <span>{{ scope.row.arrivalQuantity }}</span>
         </template>

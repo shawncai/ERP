@@ -6,8 +6,8 @@
           <el-col :span="4">
             <el-form-item :label="$t('stockOrderCount.type')">
               <el-select v-model="getemplist.type" :value="getemplist.type" style="width: 100px" @keyup.enter.native="handleFilter" @change="changeName">
-                <el-option value="1" label="仓库"/>
-                <el-option value="2" label="供应商"/>
+                <el-option value="1" :label="$t('updates.cangk')"/>
+                <el-option value="2" :label="$t('updates.gys')"/>
                 <el-option value="3" label="类别"/>
                 <el-option value="4" label="品牌"/>
                 <el-option value="5" label="年"/>
@@ -16,7 +16,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="4" style="margin-left: 35px">
-            <el-form-item label="门店">
+            <el-form-item :label="$t('updates.repository')">
               <el-input v-model="repositoryId" class="filter-item" clearable @keyup.enter.native="handleFilter" @focus="handlechooseRep" @clear="restFilter"/>
               <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
             </el-form-item>

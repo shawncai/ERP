@@ -96,7 +96,7 @@
           <el-editable-column :label="$t('Hmodule.gg')" prop="typeIdname" align="center" width="150px"/>
           <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" width="150px"/>
           <el-editable-column prop="basicQuantity" align="center" label="基本数量" width="150px"/>
-          <el-editable-column :edit-render="{name: 'ElInputNumber'}" prop="enterQuantity" align="center" label="入库数量" width="150px"/>
+          <el-editable-column :edit-render="{name: 'ElInputNumber'}" prop="enterQuantity" align="center" :label="$t('updates.rksl')" width="150px"/>
           <el-editable-column :label="$t('Hmodule.dj')" prop="price" align="center" width="150px"/>
           <el-editable-column prop="totalMoney" align="center" label="入库金额" width="150px">
             <template slot-scope="scope">

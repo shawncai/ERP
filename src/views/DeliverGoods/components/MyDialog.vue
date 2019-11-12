@@ -56,9 +56,9 @@
             <el-col :span="12">
               <el-form-item :label="$t('DeliverGoods.requireType')" prop="requireType" style="width: 100%;">
                 <el-select v-model="personalForm.requireType" style="margin-left: 18px;width: 200px" @change="clearrequire">
-                  <el-option value="1" label="客户"/>
+                  <el-option value="1" :label="$t('updates.kh')"/>
                   <el-option value="2" label="经销商"/>
-                  <el-option value="3" label="门店"/>
+                  <el-option value="3" :label="$t('updates.repository')"/>
                 </el-select>
               </el-form-item>
             </el-col>

@@ -4,7 +4,7 @@
       <!--基本信息-->
       <el-card class="box-card">
         <h2 ref="geren" class="form-name">{{ $t('Hmodule.basicinfo') }}</h2>
-        <button v-print="'#printTest'" class="print" style="font-size: 13px;background: white;">打印</button>
+        <button v-print="'#printTest'" class="print" style="font-size: 13px;background: white;">{{ $t('updates.print') }}</button>
         <div class="container">
           <el-form :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="120px" style="margin-left: 30px;">
             <el-row>

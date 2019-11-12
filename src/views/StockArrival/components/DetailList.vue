@@ -4,7 +4,7 @@
       <!--基本信息-->
       <el-card class="box-card" style="margin-top: 63px" shadow="never">
         <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('Hmodule.basicinfo') }}</h2>
-        <button class="print" style="font-size: 13px;background: white;" @click="printdata">打印</button>
+        <button class="print" style="font-size: 13px;background: white;" @click="printdata">{{ $t('updates.print') }}</button>
         <div class="container" style="margin-top: 37px">
           <el-form :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
             <el-row>
@@ -105,8 +105,8 @@
             <el-editable-column :label="$t('Hmodule.gg')" prop="productType" align="center" />
             <el-editable-column prop="color" align="center" label="颜色"/>
             <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" />
-            <el-editable-column prop="stockQuantity" align="center" label="采购数量" />
-            <el-editable-column prop="arrivalQuantity" align="center" label="到货数量" />
+            <el-editable-column prop="stockQuantity" align="center" :label="$t('updates.cgsl')" />
+            <el-editable-column prop="arrivalQuantity" align="center" :label="$t('updates.dhsl')" />
             <el-editable-column prop="giveDate" align="center" label="交货日期" >
               <template slot-scope="scope">
                 <span >{{ timestampToTime(scope.row.giveDate) }}</span>
@@ -212,7 +212,7 @@
         </div>
       </el-card>
       <el-card class="box-card" style="margin-top: 15px" shadow="never">
-        <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">备注信息</h2>
+        <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('updates.bzxx') }}</h2>
         <div class="container" style="margin-top: 37px">
           <el-form :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
             <el-row>
@@ -370,7 +370,7 @@
             <el-table-column
               prop="basicQuantity"
               align="center"
-              label="入库数量"
+              :label="$t('updates.rksl')"
               min-width="150"/>
             <el-table-column
               prop="enterPersonName"

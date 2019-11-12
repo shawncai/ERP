@@ -200,9 +200,12 @@ export default {
     },
     checklist() {
       this.checklistprop = this.checklist
+      console.log('this.checklistprop', this.checklistprop)
 
       const needarr = this.$refs.multipleTable.selection
       const delearr = this.checklistprop
+
+      console.log('needarr', needarr)
 
       const add = needarr.filter(item => !delearr.some(ele => ele.productCode === item.code))
       console.log('add', add)
@@ -224,15 +227,15 @@ export default {
     },
     list() {
       console.log('this.select_orderId', this.select_orderId)
-      // this.$nextTick(() => {
-      //   for (const i in this.list) {
-      //     for (const j in this.checklistprop) {
-      //       if (this.checklistprop[j].productCode === this.list[i].code) {
-      //         this.$refs.multipleTable.toggleRowSelection(this.list[i], true)
-      //       }
-      //     }
-      //   }
-      // })
+      this.$nextTick(() => {
+        for (const i in this.list) {
+          for (const j in this.checklistprop) {
+            if (this.checklistprop[j].productCode === this.list[i].code) {
+              this.$refs.multipleTable.toggleRowSelection(this.list[i], true)
+            }
+          }
+        }
+      })
     }
   },
   created() {
@@ -331,19 +334,15 @@ export default {
         return {
           productCode: item.code,
           productName: item.productName,
-          locationId: '',
           color: item.color,
           typeId: item.typeId,
-          enterQuantity: 0,
-          taxRate: 0,
-          unit: item.stockMeasu,
-          actualEnterQuantity: 0,
-          basicQuantity: 0,
-          enterPrice: item.costPrice,
+          lossRate: 0,
+          quantity: 1,
+          isKey: '1',
+          categoryId: item.categoryId,
+          productCategory: item.category,
+          unit: item.purMeasu,
           productType: item.productType,
-          totalMoney: 0,
-          enterMoney: 0,
-          price: item.costPrice,
           typeIdname: item.productType
         }
       })

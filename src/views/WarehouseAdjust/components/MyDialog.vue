@@ -50,7 +50,7 @@
         <el-button type="success" style="background:#3696fd;border-color:#3696fd " @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>
         <el-button type="danger" @click="$refs.editable.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
       </div>
-      <my-detail :control.sync="control" @product="productdetail"/>
+      <my-detail :control.sync="control" :checklist.sync="checklist" @product="productdetail"/>
       <div class="container">
         <el-editable
           ref="editable"
@@ -81,7 +81,7 @@
           <el-editable-column :label="$t('Hmodule.gg')" prop="productType" align="center" width="150px"/>
           <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" width="150px"/>
           <!-- <el-editable-column prop="basicQuantity" align="center" label="基本数量" width="150px"/> -->
-          <el-editable-column :edit-render="{name: 'ElInputNumber', type: 'visible'}" prop="enterQuantity" align="center" label="入库数量" width="150px"/>
+          <el-editable-column :edit-render="{name: 'ElInputNumber', type: 'visible'}" :label="$t('updates.rksl')" prop="enterQuantity" align="center" width="150px"/>
           <el-editable-column :edit-render="{name: 'ElInputNumber', type: 'visible'}" :label="$t('Hmodule.dj')" prop="price" align="center" width="150px"/>
           <el-editable-column prop="totalMoney" align="center" label="入库金额" width="150px">
             <template slot-scope="scope">
@@ -105,7 +105,7 @@ import { updateenter } from '@/api/WarehouseAdjust'
 import { getdeptlist } from '@/api/BasicSettings'
 import MyCreate from './MyCreate'
 import MyRepository from './MyRepository'
-import MyDetail from './MyDetail'
+import MyDetail from './MyDetail2'
 export default {
   components: { MyRepository, MyCreate, MyDetail },
   props: {
@@ -120,6 +120,7 @@ export default {
   },
   data() {
     return {
+      checklist: [],
       // 弹窗组件的控制
       editVisible: this.editcontrol,
       // 供应商信息数据
@@ -255,22 +256,21 @@ export default {
     // 新增入库单明细
     handleAddproduct() {
       this.control = true
+      this.checklist = this.$refs.editable.getRecords()
     },
     productdetail(val) {
+      console.log(val)
       const nowlistdata = this.$refs.editable.getRecords()
-      for (let i = 0; i < val.length; i++) {
-        for (let j = 0; j < nowlistdata.length; j++) {
-          if (val[i].productCode === nowlistdata[j].productCode) {
-            this.$notify.error({
-              title: '错误',
-              message: '物品已添加',
-              offset: 100
-            })
-            return false
-          }
-        }
-        this.$refs.editable.insert(val[i])
-      }
+
+      console.log(nowlistdata)
+      var ret4 = val.findIndex((value, index, arr) => {
+        return value.productCode === this.personalForm.productCode
+      })
+
+      console.log(ret4)
+      this.list2 = val.filter(item => {
+        return item.productCode !== this.personalForm.productCode
+      })
     },
     // 入库金额计算
     getSize(quan, pric) {

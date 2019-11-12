@@ -4,7 +4,7 @@
       <!--基本信息-->
       <el-card class="box-card" style="margin-top: 63px" shadow="never">
         <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('Hmodule.basicinfo') }}</h2>
-        <button class="print" style="font-size: 13px;background: white;" @click="printdata">打印</button>
+        <button class="print" style="font-size: 13px;background: white;" @click="printdata">{{ $t('updates.print') }}</button>
         <div class="container" style="margin-top: 37px">
           <el-form :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
             <el-row>
@@ -144,7 +144,7 @@
             <el-editable-column prop="taxRate" align="center" label="税率(%)" />
             <el-editable-column prop="taxMoney" align="center" label="税额" />
             <!-- <el-editable-column prop="money" align="center" :label="$t('Hmodule.je')" /> -->
-            <el-editable-column prop="includeTaxCostMoney" align="center" label="销售金额" />
+            <el-editable-column prop="includeTaxCostMoney" align="center" :label="$t('updates.sxje')" />
             <el-editable-column prop="discountRate" align="center" label="折扣率(%)" />
             <el-editable-column prop="discountMoney" align="center" label="折扣额" />
             <el-editable-column prop="alreadyApplicationQuantity" align="center" label="已下达采购数量" />
@@ -265,7 +265,7 @@
         </div>
       </el-card>
       <el-card class="box-card" style="margin-top: 15px" shadow="never">
-        <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">备注信息</h2>
+        <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('updates.bzxx') }}</h2>
         <div class="container" style="margin-top: 37px">
           <el-form :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
             <el-row>
@@ -323,7 +323,7 @@
             <el-table-column
               prop="closeTypeName"
               align="center"
-              label="收款方式"
+              :label="$t('updates.skfs')"
               min-width="150"/>
             <el-table-column
               prop="receiptPersonName"
@@ -348,7 +348,7 @@
             <el-table-column
               prop="saleRepositoryName"
               align="center"
-              label="仓库"
+              :label="$t('updates.cangk')"
               min-width="150"/>
             <el-table-column
               prop="quantity"

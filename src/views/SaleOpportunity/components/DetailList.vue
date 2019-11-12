@@ -4,7 +4,7 @@
       <!--基本信息-->
       <el-card class="box-card" style="margin-top: 63px" shadow="never">
         <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('Hmodule.basicinfo') }}</h2>
-        <button v-print="'#printTest'" class="print" style="font-size: 13px;background: white;">打印</button>
+        <button v-print="'#printTest'" class="print" style="font-size: 13px;background: white;">{{ $t('updates.print') }}</button>
         <div class="container" style="margin-top: 37px">
           <el-form :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
             <el-row>
@@ -104,7 +104,7 @@
             size="medium"
             style="width: 100%">
             <el-editable-column label="阶段" min-width="55" prop="phase" align="center" type="index"/>
-            <el-editable-column prop="chatDate" align="center" label="日期" />
+            <el-editable-column prop="chatDate" align="center" :label="$t('updates.rq')" />
             <el-editable-column prop="handlePersonName" align="center" label="业务员" />
             <el-editable-column prop="actionDesc" align="center" label="行动描述" />
             <el-editable-column prop="customerReturn" align="center" label="客户反馈" />
@@ -129,7 +129,7 @@
       <!--</el-steps>-->
       <!--</el-card>-->
       <el-card class="box-card" style="margin-top: 15px" shadow="never">
-        <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">备注信息</h2>
+        <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('updates.bzxx') }}</h2>
         <div class="container" style="margin-top: 37px">
           <el-form :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
             <el-row>

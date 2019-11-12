@@ -1,29 +1,50 @@
 <template>
   <div class="ERP-container">
-    <el-card class="box-card" style="margin-top: 10px;height: 70px" shadow="never">
+    <el-card class="box-card" style="margin-top: 10px;height: 130px" shadow="never">
       <el-form ref="getemplist" :model="getemplist" label-width="70px" style="margin-top: -9px">
         <el-row>
-          <el-col :span="4">
-            <el-form-item :label="$t('updates.yf')">
-              <el-date-picker
-                v-model="date2"
-                type="month"
-                value-format="yyyy-MM"
-                placeholder="选择月"/>
-            </el-form-item>
-          </el-col>
-          <el-col :span="4" style="margin-left: 140px">
+          <el-col :span="4" style="margin-left: 15px">
             <el-form-item :label="$t('updates.repository')">
-              <el-input v-model="repositoryId" class="filter-item" @clear="restFilter" @keyup.enter.native="handleFilter" @focus="handlechooseRep"/>
+              <el-input v-model="repositoryId" class="filter-item" clearable @clear="restFilter2" @keyup.enter.native="handleFilter" @focus="handlechooseRep"/>
               <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
             </el-form-item>
           </el-col>
           <el-col :span="4" style="margin-left: 70px">
+            <el-form-item label="品牌">
+              <el-input v-model="getemplist.brand" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
+            </el-form-item>
+          </el-col>
+          <el-col :span="4" style="margin-left: 70px">
+            <el-form-item label="型号">
+              <el-select v-model="getemplist.typeId" :placeholder="$t('Hmodule.qxzggxh')" clearable>
+                <el-option
+                  v-for="(item, index) in types"
+                  :key="index"
+                  :label="item.categoryName"
+                  :value="item.id"
+                />
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="4" style="margin-left: 35px">
             <el-form-item label="物品编码">
               <el-input v-model="getemplist.code" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
-          <el-col :span="4" style="margin-left: 70px">
+        </el-row>
+        <el-row>
+          <el-col :span="4">
+            <el-form-item :label="$t('Hmodule.wpmc')">
+              <el-input v-model="getemplist.productName" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
+            </el-form-item>
+          </el-col>
+          <el-col :span="4" style="margin-left: 88px">
+            <el-form-item label="分类">
+              <el-input v-model="categoryId" :placeholder="$t('Hmodule.wpfl')" clearable @clear="restFilter" @focus="treechoose"/>
+              <my-tree :treecontrol.sync="treecontrol" @tree="tree"/>
+            </el-form-item>
+          </el-col>
+          <el-col :span="4" style="margin-left: 35px">
             <!-- 搜索按钮 -->
             <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 86px" round @click="handleFilter">{{ $t('public.search') }}</el-button>
           </el-col>
@@ -47,14 +68,24 @@
           prop="productName"
           width="200"
           align="center"/>
-        <!-- <el-table-column
+        <el-table-column
+          :label="$t('inventorydetaillist.repositoryName')"
+          prop="repositoryName"
+          width="200"
+          align="center"/>
+        <el-table-column
+          :label="$t('inventorydetaillist.locationCode')"
+          prop="locationCode"
+          width="200"
+          align="center"/>
+        <el-table-column
+          :label="$t('inventorydetaillist.batch')"
+          prop="batch"
+          width="200"
+          align="center"/>
+        <el-table-column
           :label="$t('inventoryCollect.productType')"
           prop="productType"
-          width="200"
-          align="center"/> -->
-        <el-table-column
-          :label="$t('inventoryCollect.repositoryName')"
-          prop="repositoryName"
           width="200"
           align="center"/>
         <el-table-column
@@ -62,174 +93,46 @@
           prop="unit"
           width="200"
           align="center"/>
-        <el-table-column :label="$t('inventorychangelist.begin')" align="center">
-          <el-table-column
-            :label="$t('stockOrderCount.orderQuantity')"
-            prop="begin"
-            width="200"
-            align="center"/>
-          <el-table-column
-            :label="$t('stockOrderCount.totalMoney')"
-            prop="beginMoney"
-            width="200"
-            align="center"/>
-        </el-table-column>
-        <el-table-column :label="$t('inventorychangelist.saleOut')" align="center">
-          <el-table-column
-            :label="$t('stockOrderCount.orderQuantity')"
-            prop="saleOut"
-            width="200"
-            align="center"/>
-          <el-table-column
-            :label="$t('stockOrderCount.totalMoney')"
-            prop="saleOutMoney"
-            width="200"
-            align="center"/>
-        </el-table-column>
-        <el-table-column :label="$t('inventorychangelist.stockReturn')" align="center">
-          <el-table-column
-            :label="$t('stockOrderCount.orderQuantity')"
-            prop="stockReturn"
-            width="200"
-            align="center"/>
-          <el-table-column
-            :label="$t('stockOrderCount.totalMoney')"
-            prop="stockReturnMoney"
-            width="200"
-            align="center"/>
-        </el-table-column>
-        <el-table-column :label="$t('inventorychangelist.saleReturn')" align="center">
-          <el-table-column
-            :label="$t('stockOrderCount.orderQuantity')"
-            prop="saleReturn"
-            width="200"
-            align="center"/>
-          <el-table-column
-            :label="$t('stockOrderCount.totalMoney')"
-            prop="saleReturnMoney"
-            width="200"
-            align="center"/>
-        </el-table-column>
-        <el-table-column :label="$t('inventorychangelist.stockEnter')" align="center">
-          <el-table-column
-            :label="$t('stockOrderCount.orderQuantity')"
-            prop="stockEnter"
-            width="200"
-            align="center"/>
-          <el-table-column
-            :label="$t('stockOrderCount.totalMoney')"
-            prop="stockEnterMoney"
-            width="200"
-            align="center"/>
-        </el-table-column>
-        <el-table-column :label="$t('inventorychangelist.otherEnter')" align="center">
-          <el-table-column
-            :label="$t('stockOrderCount.orderQuantity')"
-            prop="otherEnter"
-            width="200"
-            align="center"/>
-          <el-table-column
-            :label="$t('stockOrderCount.totalMoney')"
-            prop="otherEnterMoney"
-            width="200"
-            align="center"/>
-        </el-table-column>
-        <el-table-column :label="$t('inventorychangelist.produceEnter')" align="center">
-          <el-table-column
-            :label="$t('stockOrderCount.orderQuantity')"
-            prop="produceEnter"
-            width="200"
-            align="center"/>
-          <el-table-column
-            :label="$t('stockOrderCount.totalMoney')"
-            prop="produceEnterMoney"
-            width="200"
-            align="center"/>
-        </el-table-column>
-        <el-table-column :label="$t('inventorychangelist.moveIn')" align="center">
-          <el-table-column
-            :label="$t('stockOrderCount.orderQuantity')"
-            prop="moveIn"
-            width="200"
-            align="center"/>
-          <el-table-column
-            :label="$t('stockOrderCount.totalMoney')"
-            prop="moveInMoney"
-            width="200"
-            align="center"/>
-        </el-table-column>
-        <el-table-column :label="$t('inventorychangelist.moveOut')" align="center">
-          <el-table-column
-            :label="$t('stockOrderCount.orderQuantity')"
-            prop="moveOut"
-            width="200"
-            align="center"/>
-          <el-table-column
-            :label="$t('stockOrderCount.totalMoney')"
-            prop="moveOutMoney"
-            width="200"
-            align="center"/>
-        </el-table-column>
-        <el-table-column :label="$t('inventorychangelist.countFlow')" align="center">
-          <el-table-column
-            :label="$t('stockOrderCount.orderQuantity')"
-            prop="countFlow"
-            width="200"
-            align="center"/>
-          <el-table-column
-            :label="$t('stockOrderCount.totalMoney')"
-            prop="countFlowMoney"
-            width="200"
-            align="center"/>
-        </el-table-column>
-        <el-table-column :label="$t('inventorychangelist.countLess')" align="center">
-          <el-table-column
-            :label="$t('stockOrderCount.orderQuantity')"
-            prop="countLess"
-            width="200"
-            align="center"/>
-          <el-table-column
-            :label="$t('stockOrderCount.totalMoney')"
-            prop="countLessMoney"
-            width="200"
-            align="center"/>
-        </el-table-column>
-        <el-table-column :label="$t('inventorychangelist.allEnter')" align="center">
-          <el-table-column
-            :label="$t('stockOrderCount.orderQuantity')"
-            prop="allEnter"
-            width="200"
-            align="center"/>
-          <el-table-column
-            :label="$t('stockOrderCount.totalMoney')"
-            prop="allEnterMoney"
-            width="200"
-            align="center"/>
-        </el-table-column>
-        <el-table-column :label="$t('inventorychangelist.allOut')" align="center">
-          <el-table-column
-            :label="$t('stockOrderCount.orderQuantity')"
-            prop="allOut"
-            width="200"
-            align="center"/>
-          <el-table-column
-            :label="$t('stockOrderCount.totalMoney')"
-            prop="allOutMoney"
-            width="200"
-            align="center"/>
-        </el-table-column>
-        <el-table-column :label="$t('inventorychangelist.end')" align="center">
-          <el-table-column
-            :label="$t('stockOrderCount.orderQuantity')"
-            prop="end"
-            width="200"
-            align="center"/>
-          <el-table-column
-            :label="$t('stockOrderCount.totalMoney')"
-            prop="endMoney"
-            width="200"
-            align="center"/>
-        </el-table-column>
+        <el-table-column
+          :label="$t('inventorydetaillist.quantity')"
+          prop="quantity"
+          width="200"
+          align="center"/>
+        <el-table-column
+          :label="$t('inventorydetaillist.actualCostPrice')"
+          prop="actualCostPrice"
+          width="200"
+          align="center"/>
+        <el-table-column
+          :label="$t('inventorydetaillist.actualCostMoney')"
+          prop="actualCostMoney"
+          width="200"
+          align="center"/>
+        <el-table-column
+          :label="$t('inventorydetaillist.tradePrice')"
+          prop="tradePrice"
+          width="200"
+          align="center"/>
+        <el-table-column
+          :label="$t('inventorydetaillist.salePrice')"
+          prop="salePrice"
+          width="200"
+          align="center"/>
+        <el-table-column
+          :label="$t('inventorydetaillist.tradeMoney')"
+          prop="tradeMoney"
+          width="200"
+          align="center"/>
+        <el-table-column
+          :label="$t('inventorydetaillist.saleMoney')"
+          prop="saleMoney"
+          width="200"
+          align="center"/>
+        <el-table-column
+          :label="$t('inventorydetaillist.rate')"
+          prop="rate"
+          width="200"
+          align="center"/>
       </el-table>
       <!-- 列表结束 -->
       <pagination v-show="total>0" :total="total" :page.sync="getemplist.pageNum" :limit.sync="getemplist.pageSize" @pagination="getlist" />
@@ -239,7 +142,7 @@
 
 <script>
 import { searchEmpCategory2 } from '@/api/Product'
-import { inventorychangelist } from '@/api/count'
+import { inventorydetaillist } from '@/api/count'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination'
 import permission from '@/directive/permission/index.js' // 权限判断指令
@@ -255,7 +158,7 @@ import MyTree from './components/MyTree'
 import MySupplier from './components/MySupplier'
 
 export default {
-  name: 'ProductSendAndReceive',
+  name: 'InventoryCollect',
   directives: { waves, permission, permission2 },
   components: { MyDialog, DetailList, MyRepository, MySupplier, MyEmp, MyCustomer, MyTree, MyAgent, Pagination },
   filters: {
@@ -302,7 +205,6 @@ export default {
       step5: '',
       step6: '',
       step7: '',
-      date2: [],
       step8: '',
       types: [],
       repositoryId: '',
@@ -367,26 +269,10 @@ export default {
     }
   },
   mounted() {
-    this.getdatatime()
     this.getlist()
     this.changeName()
   },
   methods: {
-    getdatatime() { // 默认显示今天
-      var date = new Date()
-      var seperator1 = '-'
-      var year = date.getFullYear()
-      var month = date.getMonth() + 1
-      var strDate = date.getDate()
-      if (month >= 1 && month <= 9) {
-        month = '0' + month
-      }
-      if (strDate >= 0 && strDate <= 9) {
-        strDate = '0' + strDate
-      }
-      var currentdate = year + seperator1 + month
-      this.date2 = currentdate
-    },
     treechoose() {
       this.treecontrol = true
     },
@@ -451,14 +337,12 @@ export default {
       })
       // 物料需求计划列表数据
       this.listLoading = true
-      if (this.date2 === null || this.date2 === undefined || this.date2 === '' || this.date2.length === 0) {
-        this.getemplist.date = '2019-10'
-      } else {
-        this.getemplist.date = this.date2
-      }
-      inventorychangelist(this.getemplist).then(res => {
+      inventorydetaillist(this.getemplist).then(res => {
         if (res.data.ret === 200) {
-          this.list = res.data.data.content
+          this.list = res.data.data.content.list
+          for (let i = 0; i < this.list.length; i++) {
+            this.list[i].heji = this.list[i].totalMoney + this.list[i].taxMoney
+          }
           this.total = res.data.data.content.totalCount
         }
         setTimeout(() => {
@@ -468,25 +352,29 @@ export default {
     },
     // 清空搜索条件
     restFilter() {
-      this.repositoryId = ''
-      this.getemplist.repositoryId = ''
+      this.categoryId = ''
+      this.getemplist.categoryId = ''
     },
     restFilter2() {
-      this.stockPersonId = ''
-      this.getemplist.stockPersonId = ''
+      this.restFilter2 = ''
+      this.getemplist.restFilter2 = ''
     },
     // 搜索
     handleFilter() {
       this.getemplist.pageNum = 1
-      console.log('this.date2', this.date2)
-      if (this.date2 === null || this.date2 === undefined || this.date2 === '' || this.date2.length === 0) {
-        this.getemplist.date = '2019-10'
+      if (this.date === null || this.date === undefined || this.date === '') {
+        this.getemplist.beginTime = ''
+        this.getemplist.endTime = ''
       } else {
-        this.getemplist.date = this.date2
+        this.getemplist.beginTime = this.date[0]
+        this.getemplist.endTime = this.date[1]
       }
-      inventorychangelist(this.getemplist).then(res => {
+      inventorydetaillist(this.getemplist).then(res => {
         if (res.data.ret === 200) {
-          this.list = res.data.data.content
+          this.list = res.data.data.content.list
+          for (let i = 0; i < this.list.length; i++) {
+            this.list[i].heji = this.list[i].totalMoney + this.list[i].taxMoney
+          }
           this.total = res.data.data.content.totalCount
           // this.restFilter()
         } else {

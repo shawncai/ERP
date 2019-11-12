@@ -9,7 +9,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="5" style="margin-left: 10px">
-            <el-form-item label="供应商">
+            <el-form-item :label="$t('updates.gys')">
               <el-input v-model="supplierId" placeholder="供应商" clearable @keyup.enter.native="handleFilter" @focus="handlechoose" @clear="restFilter"/>
               <my-supplier :control.sync="empcontrol" @supplierName="supplierName"/>
             </el-form-item>

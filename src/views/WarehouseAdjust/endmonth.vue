@@ -25,7 +25,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="4">
-            <el-form-item label="仓库">
+            <el-form-item :label="$t('updates.cangk')">
               <el-input v-model="searchRepositoryId" :placeholder="$t('Inventorydetaillist.repositoryId')" style="width: 80%;" class="filter-item" clearable @keyup.enter.native="handleFilter" @focus="handlechooseRep" @clear="restFilter"/>
               <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
             </el-form-item>

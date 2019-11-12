@@ -90,10 +90,6 @@
           type="selection"
           width="55"
           align="center"/>
-        <el-table-column
-          type="selection"
-          width="55"
-          align="center"/>
         <el-table-column :label="$t('NewEmployeeInformation.id')" :resizable="false" align="center" min-width="100">
           <template slot-scope="scope">
             <span>{{ scope.row.id }}</span>
