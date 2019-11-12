@@ -430,7 +430,7 @@ export const asyncRouterMap = [
       title: 'Repository',
       icon: 'cangku',
       type: 10,
-      roles: ['1-9-10-1', '1-9-11-4', '1-9-13-4', '1-9-12-13']
+      roles: ['1-9-10-1', '1-9-11-4', '1-9-13-4', '1-9-12-13', '1-9-170-1', '1-9-169-4']
     },
     children: [
       {
