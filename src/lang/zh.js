@@ -3160,6 +3160,7 @@ export default {
     xscb: '销售成本',
     lr: '利润',
     tc: '提成',
-    print: '打印'
+    print: '打印',
+    roleid: '角色'
   }
 }

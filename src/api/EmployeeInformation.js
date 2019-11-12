@@ -273,6 +273,9 @@ export function register(query) {
 // 员工列表展示加查询
 export function getemplist(query) {
   var params = new URLSearchParams()
+  if (query.roleid !== '') {
+    params.append('roleid', query.roleid) // 你要传给后台的参数值 key/value
+  }
   if (query.repositoryid !== '') {
     params.append('repositoryid', query.repositoryid) // 你要传给后台的参数值 key/value
   }

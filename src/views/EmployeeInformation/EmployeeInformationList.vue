@@ -47,11 +47,18 @@
                   :label="item.repositoryName"
                   :value="item.id"/>
               </el-select>
-              <el-select v-model="getemplist.postid" :value="getemplist.postid" :placeholder="$t('NewEmployeeInformation.postid2')" clearable style="width: 40%;float: right;margin-top: 20px;margin-right: 20px">
+              <!-- <el-select v-model="getemplist.postid" :value="getemplist.postid" :placeholder="$t('NewEmployeeInformation.postid2')" clearable style="width: 40%;float: right;margin-top: 20px;margin-right: 20px">
                 <el-option
                   v-for="(item, index) in jobs"
                   :key="index"
                   :label="item.categoryName"
+                  :value="item.id"/>
+              </el-select> -->
+              <el-select v-model="getemplist.roleid" :value="getemplist.roleid" :placeholder="$t('updates.roleid')" clearable style="width: 40%;float: right;margin-top: 20px;margin-right: 20px">
+                <el-option
+                  v-for="(item, index) in roles"
+                  :key="index"
+                  :label="item.roleName"
                   :value="item.id"/>
               </el-select>
               <el-select v-model="getemplist.deptid" :placeholder="$t('NewEmployeeInformation.deptid2')" clearable style="width: 40%;float: left;margin-top: 20px;margin-left: 20px">
@@ -198,6 +205,7 @@
 <script>
 import { searchRepository, getcountrylist, getprovincelist, getcitylist, getregionlistbyreid } from '@/api/public'
 import { getdeptlist, getemplist, startorendemp, deleteemp, getempinfo, searchEmpCategory } from '@/api/EmployeeInformation'
+import { getrolelist } from '@/api/employee'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
 import permission from '@/directive/permission/index.js' // 权限判断指令
@@ -251,6 +259,7 @@ export default {
       },
       // 职位列表
       jobs: [],
+      roles: [],
       // 控制修改页面
       editVisible: false,
       // 批量操作
@@ -430,6 +439,13 @@ export default {
       })
     },
     getlist() {
+      getrolelist().then(res => {
+        if (res.data.ret === 200) {
+          this.roles = res.data.data.content
+        } else {
+          console.log('角色列表出错')
+        }
+      })
       // 员工列表数据
       this.listLoading = true
       getemplist(this.getemplist).then(res => {
