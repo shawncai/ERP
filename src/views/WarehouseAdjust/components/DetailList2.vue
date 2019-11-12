@@ -3,7 +3,7 @@
     <div id="printTest" >
       <!--基本信息-->
       <el-card class="box-card">
-        <h2 ref="geren" class="form-name">基本信息</h2>
+        <h2 ref="geren" class="form-name">{{ $t('Hmodule.basicinfo') }}</h2>
         <button v-print="'#printTest'" class="print" style="font-size: 13px;background: white;">打印</button>
         <div class="container">
           <el-form :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="120px" style="margin-left: 30px;">
@@ -97,10 +97,10 @@
             size="medium"
             style="width: 100%">
             <el-editable-column label="编号" fixed="left" width="55" align="center" type="index"/>
-            <el-editable-column prop="productCode" fixed="left" align="center" label="物品编号" width="150px"/>
-            <el-editable-column prop="productName" fixed="left" align="center" label="物品名称" width="150px"/>
-            <el-editable-column prop="productType" align="center" label="规格" width="150px"/>
-            <el-editable-column prop="unit" align="center" label="单位" width="150px"/>
+            <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" fixed="left" align="center" width="150px"/>
+            <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" fixed="left" align="center" width="150px"/>
+            <el-editable-column :label="$t('Hmodule.gg')" prop="productType" align="center" width="150px"/>
+            <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" width="150px"/>
             <el-editable-column prop="outLocationCode" align="center" label="调出库位" width="150px"/>
             <el-editable-column prop="enterLocationCode" align="center" label="调入库位" width="150px"/>
             <el-editable-column prop="inventoryQuantity" align="center" label="库存数量" width="150px"/>
@@ -143,7 +143,7 @@
         </div>
       </el-card>
       <div class="buttons" style="margin-top: 20px;margin-left: 30px">
-        <el-button type="danger" @click="handlecancel()">取消</el-button>
+        <el-button type="danger" @click="handlecancel()">{{ $t('Hmodule.cancel') }}</el-button>
       </div>
     </div>
   </el-dialog>

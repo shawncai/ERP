@@ -3,7 +3,7 @@
     <div id="printTest" >
       <!--基本信息-->
       <el-card class="box-card" style="margin-top: 63px" shadow="never">
-        <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">基本信息</h2>
+        <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('Hmodule.basicinfo') }}</h2>
         <button v-print="'#printTest'" class="print" style="font-size: 13px;background: white;">打印</button>
         <div class="container" style="margin-top: 37px">
           <el-form :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="140px">
@@ -71,9 +71,9 @@
                 border
                 size="medium"
                 style="width: 100%">
-                <el-editable-column label="序号" fixed="left" min-width="55" align="center" type="index"/>
-                <el-editable-column prop="productCode" fixed="left" align="center" label="物品编号" />
-                <el-editable-column prop="productName" fixed="left" align="center" label="物品名称" />
+                <el-editable-column :label="$t('Hmodule.xh')" fixed="left" min-width="55" align="center" type="index"/>
+                <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" fixed="left" align="center" />
+                <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" fixed="left" align="center" />
                 <el-editable-column prop="workHours" align="center" label="工时" />
                 <el-editable-column prop="finishQuantity" align="center" label="完成数" />
                 <el-editable-column prop="passQuantity" align="center" label="合格数" />
@@ -127,7 +127,7 @@
                 size="medium"
                 style="width: 100%">
                 <el-editable-column type="selection" min-width="55" align="center"/>
-                <el-editable-column label="序号" min-width="55" align="center" type="index"/>
+                <el-editable-column :label="$t('Hmodule.xh')" min-width="55" align="center" type="index"/>
                 <el-editable-column prop="personName" align="center" label="人员" />
                 <el-editable-column prop="workHours" align="center" label="工时" />
                 <el-editable-column prop="finishQuantity" align="center" label="完成数" />
@@ -198,7 +198,7 @@
                 size="medium"
                 style="width: 100%">
                 <el-editable-column type="selection" min-width="55" align="center"/>
-                <el-editable-column label="序号" min-width="55" align="center" type="index"/>
+                <el-editable-column :label="$t('Hmodule.xh')" min-width="55" align="center" type="index"/>
                 <el-editable-column prop="equipmentNumber" align="center" label="设备编号" />
                 <el-editable-column prop="equipmentName" align="center" label="设备名称" />
                 <el-editable-column prop="runTime" align="center" label="开机时长" />
@@ -240,9 +240,9 @@
                 size="medium"
                 style="width: 100%">
                 <el-editable-column type="selection" min-width="55" align="center"/>
-                <el-editable-column label="序号" min-width="55" align="center" type="index"/>
-                <el-editable-column prop="productCode" align="center" label="物品编号" />
-                <el-editable-column prop="productName" align="center" label="物品名称" />
+                <el-editable-column :label="$t('Hmodule.xh')" min-width="55" align="center" type="index"/>
+                <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" align="center" />
+                <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" align="center" />
                 <el-editable-column prop="todayAccess" align="center" label="本日领入" />
                 <el-editable-column prop="yesterdayRemain" align="center" label="昨日结存" />
                 <el-editable-column prop="todayUseup" align="center" label="本日耗用" />

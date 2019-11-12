@@ -3,7 +3,7 @@
     <div class="app-container" style="padding-right: 0">
       <!--基本信息-->
       <el-card class="box-card" shadow="never">
-        <h2 ref="geren" class="form-name">基本信息</h2>
+        <h2 ref="geren" class="form-name">{{ $t('Hmodule.basicinfo') }}</h2>
         <div class="container" style="margin-top: 37px">
           <el-form ref="personalForm" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
             <el-row>
@@ -46,7 +46,7 @@
                     :props="props"
                     v-model="personalForm.incomeregion"
                     :show-all-levels="false"
-                    placeholder="请选择区域"
+                    :placeholder="$t('Hmodule.xzqy')"
                     change-on-select
                     filterable
                     clearable
@@ -94,7 +94,7 @@
         <h2 ref="fuzhu" class="form-name" >收入明细</h2>
         <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
           <el-button @click="insertEvent(-1)">添加收入项</el-button>
-          <el-button type="danger" @click="$refs.editable.removeSelecteds()">删除</el-button>
+          <el-button type="danger" @click="$refs.editable.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
         </div>
         <div class="container">
           <el-editable
@@ -108,7 +108,7 @@
             size="medium"
             style="width: 100%">
             <el-editable-column type="selection" min-width="55" align="center"/>
-            <el-editable-column label="序号" min-width="55" align="center" type="index"/>
+            <el-editable-column :label="$t('Hmodule.xh')" min-width="55" align="center" type="index"/>
             <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="summary" align="center" label="摘要" min-width="150px"/>
             <el-editable-column :edit-render="{name: 'ElCascader', type: 'visible'}" prop="subjectFinance" align="center" label="科目名称" min-width="150px">
               <template slot="edit" slot-scope="scope">
@@ -121,14 +121,14 @@
                   @change="test(scope.row,$event)"/>
               </template>
             </el-editable-column>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0, precision: 2}, type: 'visible'}" prop="money" align="center" label="金额" min-width="150px"/>
+            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0, precision: 2}, type: 'visible'}" :label="$t('Hmodule.je')" prop="money" align="center" min-width="150px"/>
           </el-editable>
         </div>
       </el-card>
       <!--操作-->
       <div class="buttons" style="margin-top: 20px">
-        <el-button v-no-more-click type="primary" style="background:#3696fd;border-color:#3696fd;width: 98px" @click="handlesave()">保存</el-button>
-        <el-button type="danger" @click="handlecancel()">取消</el-button>
+        <el-button v-no-more-click type="primary" style="background:#3696fd;border-color:#3696fd;width: 98px" @click="handlesave()">{{ $t('Hmodule.baoc') }}</el-button>
+        <el-button type="danger" @click="handlecancel()">{{ $t('Hmodule.cancel') }}</el-button>
       </div>
     </div>
   </div>

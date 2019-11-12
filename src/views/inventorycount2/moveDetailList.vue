@@ -17,7 +17,7 @@
           </el-col>
           <el-col :span="3" style="margin-left: 100px">
             <el-form-item label="分类">
-              <el-input v-model="categoryId" placeholder="物品分类" style="width: 100px" clearable @focus="treechoose"/>
+              <el-input v-model="categoryId" :placeholder="$t('Hmodule.wpfl')" style="width: 100px" clearable @focus="treechoose"/>
               <my-tree :treecontrol.sync="treecontrol" @tree="tree"/>
             </el-form-item>
           </el-col>
@@ -25,9 +25,9 @@
             <el-form-item label="日期">
               <el-date-picker
                 v-model="date"
+                :placeholder="$t('Hmodule.xzrq')"
                 type="date"
                 style="width: 130px"
-                placeholder="选择日期"
                 value-format="yyyy-MM-dd"
               />
             </el-form-item>

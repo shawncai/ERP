@@ -2,7 +2,7 @@
   <div class="ERP-container">
     <div class="app-container">
       <!--仓库信息-->
-      <h2 ref="geren" class="form-name">基本信息</h2>
+      <h2 ref="geren" class="form-name">{{ $t('Hmodule.basicinfo') }}</h2>
       <div class="container">
         <el-form ref="RepositoryForm" :model="RepositoryForm" :rules="Repositoryrules" :inline="true" status-icon class="demo-ruleForm" label-position="top" label-width="300px" style="margin-left: 30px;">
           <el-form-item :label="$t('Repository.repositoryName')" prop="repositoryName" style="width: 40%;margin-top:1%">
@@ -40,7 +40,7 @@
               :props="props"
               v-model="regionId"
               :show-all-levels="false"
-              placeholder="请选择区域"
+              :placeholder="$t('Hmodule.xzqy')"
               filterable
               clearable
               style="width: 100%;"
@@ -70,15 +70,15 @@
             <el-input v-model="managerPeople" :value="managerPeople" placeholder="请选择" clearable @focus="handlechoose"/>
           </el-form-item>
           <!--弹出员工列表开始-->
-          <el-dialog :visible.sync="employeeVisible" class="normal" width="1010px" top="20px" title="选择员工">
+          <el-dialog :visible.sync="employeeVisible" :title="$t('Hmodule.xzyg')" class="normal" width="1010px" top="20px">
             <div class="filter-container">
               <el-input v-model="getemplist.employeename" :placeholder="$t('NewEmployeeInformation.employeename')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
               <el-input v-model="getemplist.jobnumber" :placeholder="$t('NewEmployeeInformation.jobnumber2')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
               <el-date-picker
                 v-model="getemplist.time"
+                :placeholder="$t('Hmodule.xzrq')"
                 type="date"
                 class="filter-item"
-                placeholder="选择日期"
                 value-format="yyyy-MM-dd"/>
               <el-popover
                 placement="bottom"
@@ -89,14 +89,14 @@
                   :props="props2"
                   v-model="getemplistregions"
                   :show-all-levels="false"
-                  placeholder="请选择区域"
+                  :placeholder="$t('Hmodule.xzqy')"
                   change-on-select
                   filterable
                   clearable
                   style="width: 40%;float: left;margin-left: 20px"
                   @change="handlechange4"
                 />
-                <el-select v-model="getemplist.repositoryid" placeholder="请选择门店" clearable filterable style="width: 40%;float: right;margin-right: 20px">
+                <el-select v-model="getemplist.repositoryid" :placeholder="$t('Hmodule.xzmd')" clearable filterable style="width: 40%;float: right;margin-right: 20px">
                   <el-option
                     v-for="(item, index) in repositories"
                     :key="index"
@@ -177,7 +177,7 @@
             </el-table>
             <pagination v-show="total>0" :total="total" :page.sync="getemplist.pagenum" :limit.sync="getemplist.pagesize" style="padding: 0" @pagination="gitemplist" />
             <span slot="footer" class="dialog-footer" style="text-align: left">
-              <el-button v-waves type="success" style="text-align: center;" @click="handleConfirm">确认添加</el-button>
+              <el-button v-waves type="success" style="text-align: center;" @click="handleConfirm">{{ $t('Hmodule.sure') }}</el-button>
             </span>
           </el-dialog>
           <!--弹窗员工列表结束-->
@@ -195,15 +195,15 @@
           </el-form-item>
           <!--弹出员工列表开始-->
           <!--小区经理选择弹窗开始-->
-          <el-dialog :visible.sync="regionManagerVisible" class="normal" width="1010px" top="20px" title="选择员工">
+          <el-dialog :visible.sync="regionManagerVisible" :title="$t('Hmodule.xzyg')" class="normal" width="1010px" top="20px">
             <div class="filter-container">
               <el-input v-model="getemplist.employeename" :placeholder="$t('NewEmployeeInformation.employeename')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
               <el-input v-model="getemplist.jobnumber" :placeholder="$t('NewEmployeeInformation.jobnumber2')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
               <el-date-picker
                 v-model="getemplist.time"
+                :placeholder="$t('Hmodule.xzrq')"
                 type="date"
                 class="filter-item"
-                placeholder="选择日期"
                 value-format="yyyy-MM-dd"/>
               <el-popover
                 placement="bottom"
@@ -214,14 +214,14 @@
                   :props="props2"
                   v-model="getemplistregions"
                   :show-all-levels="false"
-                  placeholder="请选择区域"
+                  :placeholder="$t('Hmodule.xzqy')"
                   change-on-select
                   filterable
                   clearable
                   style="width: 40%;float: left;margin-left: 20px"
                   @change="handlechange4"
                 />
-                <el-select v-model="getemplist.repositoryid" placeholder="请选择门店" filterable clearable style="width: 40%;float: right;margin-right: 20px">
+                <el-select v-model="getemplist.repositoryid" :placeholder="$t('Hmodule.xzmd')" filterable clearable style="width: 40%;float: right;margin-right: 20px">
                   <el-option
                     v-for="(item, index) in repositories"
                     :key="index"
@@ -302,7 +302,7 @@
             </el-table>
             <pagination v-show="total>0" :total="total" :page.sync="getemplist.pagenum" :limit.sync="getemplist.pagesize" style="padding: 0" @pagination="gitemplist" />
             <span slot="footer" class="dialog-footer" style="text-align: left">
-              <el-button v-waves type="success" style="text-align: center;" @click="handleConfirm2">确认添加</el-button>
+              <el-button v-waves type="success" style="text-align: center;" @click="handleConfirm2">{{ $t('Hmodule.sure') }}</el-button>
             </span>
           </el-dialog>
           <!--小区经理选择弹窗结束-->
@@ -330,9 +330,9 @@
       </div>
       <!--操作-->
       <div class="buttons" style="margin-top: 20px">
-        <el-button v-no-more-click v-permission="['1-9-10-1']" type="primary" @click="handlesave()">保存</el-button>
+        <el-button v-no-more-click v-permission="['1-9-10-1']" type="primary" @click="handlesave()">{{ $t('Hmodule.baoc') }}</el-button>
         <el-button v-permission="['1-9-10-1']" type="success" @click="handleentry()">继续录入</el-button>
-        <el-button v-permission="['1-9-10-1']" type="danger" @click="handlecancel()">取消</el-button>
+        <el-button v-permission="['1-9-10-1']" type="danger" @click="handlecancel()">{{ $t('Hmodule.cancel') }}</el-button>
       </div>
     </div>
   </div>

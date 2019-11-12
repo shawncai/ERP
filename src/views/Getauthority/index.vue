@@ -255,7 +255,7 @@ export default {
       if (val.level === 3) {
         return val.data.id
       } else {
-        return this.recursionLevel2(val.parent)
+        return this.recursionLevel3(val.parent)
       }
     },
     // 树列表选择数据

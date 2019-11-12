@@ -27,7 +27,7 @@
               placement="bottom"
               width="500"
               trigger="click">
-              <el-select v-model="getemplist.typeid" placeholder="请选择规格型号" clearable style="width: 40%;float: left;margin-left: 20px">
+              <el-select v-model="getemplist.typeid" :placeholder="$t('Hmodule.qxzggxh')" clearable style="width: 40%;float: left;margin-left: 20px">
                 <el-option
                   v-for="(item, index) in types"
                   :key="index"
@@ -35,11 +35,11 @@
                   :value="item.id"
                 />
               </el-select>
-              <el-select v-model="getemplist.isactive" placeholder="请选择上下架" clearable style="width: 40%;float: right;margin-right: 20px">
-                <el-option value="1" label="上1"/>
-                <el-option value="2" label="下2"/>
+              <el-select v-model="getemplist.isactive" :placeholder="$t('Hmodule.qxzsxj')" clearable style="width: 40%;float: right;margin-right: 20px">
+                <el-option :label="$t('Hmodule.s1')" value="1"/>
+                <el-option :label="$t('Hmodule.x2')" value="2"/>
               </el-select>
-              <el-input v-model="categoryid" placeholder="物品分类" style="width: 40%;float: left;margin-left: 20px;margin-top: 20px" clearable @focus="treechoose" @clear="clear2"/>
+              <el-input v-model="categoryid" :placeholder="$t('Hmodule.wpfl')" style="width: 40%;float: left;margin-left: 20px;margin-top: 20px" clearable @focus="treechoose" @clear="clear2"/>
               <my-tree :treecontrol.sync="treecontrol" @tree="tree"/>
               <div class="seachbutton" style="width: 100%;float: right;margin-top: 20px">
                 <el-button v-waves class="filter-item" type="primary" style="float: right" round @click="handleFilter">{{ $t('public.search') }}</el-button>
@@ -92,7 +92,7 @@
           width="55"
           fixed="left"
           align="center"/>
-        <el-table-column :resizable="false" label="序号" fixed="left" prop="code" align="center" width="100">
+        <el-table-column :resizable="false" :label="$t('Hmodule.xh')" fixed="left" prop="code" align="center" width="100">
           <template slot-scope="scope">
             <span>{{ scope.row.id }}</span>
           </template>

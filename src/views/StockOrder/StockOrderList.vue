@@ -408,7 +408,7 @@ export default {
     // 判断反审批按钮
     isReview4(row) {
       console.log(row)
-      if (row.judgeStat === 2) {
+      if (row.judgeStat === 2 && row.receiptStat !== 3) {
         return true
       }
     },

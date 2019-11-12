@@ -18,8 +18,8 @@
 
     <!-- 列表结束 -->
     <span slot="footer" class="dialog-footer">
-      <el-button type="success" style="text-align: center;" @click="handleAddTo">确认添加</el-button>
-      <el-button type="danger" style="text-align: center;" @click="handlechancel">取消</el-button>
+      <el-button type="success" style="text-align: center;" @click="handleAddTo">{{ $t('Hmodule.sure') }}</el-button>
+      <el-button type="danger" style="text-align: center;" @click="handlechancel">{{ $t('Hmodule.cancel') }}</el-button>
     </span>
   </el-dialog>
 </template>

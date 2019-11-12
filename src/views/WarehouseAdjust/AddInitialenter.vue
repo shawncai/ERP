@@ -3,7 +3,7 @@
     <div class="app-container" style="padding-right: 0">
       <!--基本信息-->
       <el-card class="box-card">
-        <h2 ref="geren" class="form-name">基本信息</h2>
+        <h2 ref="geren" class="form-name">{{ $t('Hmodule.basicinfo') }}</h2>
         <div class="container">
           <el-form ref="personalForm" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="100px" style="margin-left: 30px;">
             <el-row>
@@ -51,8 +51,8 @@
       <el-card class="box-card" style="margin-top: 15px">
         <h2 ref="fuzhu" class="form-name">入库单明细</h2>
         <div class="buttons" style="margin-top: 58px">
-          <el-button type="success" style="background:#3696fd;border-color:#3696fd " @click="handleAddproduct">添加商品</el-button>
-          <el-button type="danger" @click="$refs.editable.removeSelecteds()">删除</el-button>
+          <el-button type="success" style="background:#3696fd;border-color:#3696fd " @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>
+          <el-button type="danger" @click="$refs.editable.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
         </div>
         <my-detail :control.sync="control" @product="productdetail"/>
         <div class="container">
@@ -68,9 +68,9 @@
             style="width: 100%">
             <el-editable-column type="selection" width="55" align="center"/>
             <el-editable-column label="编号" width="55" align="center" type="index"/>
-            <el-editable-column :edit-render="{type: 'default'}" prop="locationId" align="center" label="货位" width="200px">
+            <el-editable-column :edit-render="{type: 'default'}" :label="$t('Hmodule.hw')" prop="locationId" align="center" width="200px">
               <template slot-scope="scope">
-                <el-select v-model="scope.row.locationId" :value="scope.row.locationId" placeholder="请选择货位" filterable clearable style="width: 100%;" @visible-change="updatebatch($event,scope)">
+                <el-select v-model="scope.row.locationId" :value="scope.row.locationId" :placeholder="$t('Hmodule.xzhw')" filterable clearable style="width: 100%;" @visible-change="updatebatch($event,scope)">
                   <el-option
                     v-for="(item, index) in locationlist"
                     :key="index"
@@ -79,14 +79,14 @@
                 </el-select>
               </template>
             </el-editable-column>
-            <el-editable-column prop="productCode" align="center" label="物品编号" width="150px"/>
-            <el-editable-column prop="productName" align="center" label="物品名称" width="150px"/>
+            <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" align="center" width="150px"/>
+            <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" align="center" width="150px"/>
             <el-editable-column prop="color" align="center" label="颜色" width="150px"/>
-            <el-editable-column prop="productType" align="center" label="规格" width="150px"/>
-            <el-editable-column prop="unit" align="center" label="单位" width="150px"/>
+            <el-editable-column :label="$t('Hmodule.gg')" prop="productType" align="center" width="150px"/>
+            <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" width="150px"/>
             <!-- <el-editable-column prop="basicQuantity" align="center" label="基本数量" width="150px"/> -->
             <el-editable-column :edit-render="{name: 'ElInputNumber', type: 'visible'}" prop="enterQuantity" align="center" label="入库数量" width="150px"/>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', type: 'visible'}" prop="price" align="center" label="单价" width="150px"/>
+            <el-editable-column :edit-render="{name: 'ElInputNumber', type: 'visible'}" :label="$t('Hmodule.dj')" prop="price" align="center" width="150px"/>
             <el-editable-column prop="totalMoney" align="center" label="入库金额" width="150px">
               <template slot-scope="scope">
                 <p>{{ getSize(scope.row.enterQuantity, scope.row.price) }}</p>
@@ -98,8 +98,8 @@
       </el-card>
       <!--操作-->
       <div class="buttons" style="margin-top: 20px">
-        <el-button v-no-more-click type="primary" style="background:#3696fd;border-color:#3696fd;width: 98px" @click="handlesave()">保存</el-button>
-        <el-button type="danger" @click="handlecancel()">取消</el-button>
+        <el-button v-no-more-click type="primary" style="background:#3696fd;border-color:#3696fd;width: 98px" @click="handlesave()">{{ $t('Hmodule.baoc') }}</el-button>
+        <el-button type="danger" @click="handlecancel()">{{ $t('Hmodule.cancel') }}</el-button>
       </div>
     </div>
   </div>

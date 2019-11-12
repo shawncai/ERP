@@ -63,8 +63,8 @@
                 clearable
                 style="width: 40%;float: right;margin-right: 20px">
                 <el-option
-                  value="1"
-                  label="加工1" />
+                  :label="$t('Hmodule.machining1')"
+                  value="1" />
               </el-select>
               <el-select
                 v-model="getemplist.sourceType"
@@ -394,7 +394,7 @@
             <el-button
               v-permission="['171-185-186-16']"
               v-show="isReview2(scope.row)"
-              title="结单"
+              :title="$t('Hmodule.Statement')"
               type="success"
               size="mini"
               icon="el-icon-check"
@@ -403,7 +403,7 @@
             <el-button
               v-permission="['171-185-186-17']"
               v-show="isReview3(scope.row)"
-              title="反结单"
+              :title="$t('Hmodule.unStatement')"
               type="success"
               size="mini"
               icon="el-icon-back"
@@ -412,7 +412,7 @@
             <el-button
               v-permission2="['171-185-186-2', scope.row.createPersonId]"
               v-show="scope.row.judgeStat === 0"
-              title="删除"
+              :title="$t('Hmodule.delete')"
               size="mini"
               type="danger"
               icon="el-icon-delete"
@@ -423,7 +423,7 @@
               v-show="scope.row.judgeStat === 2"
               type="primary"
               style="width: 83px"
-              @click="handleMyReceipt1(scope.row)"><span style="margin-left: -15px;">生成退料单</span></el-button>
+              @click="handleMyReceipt1(scope.row)"><span style="margin-left: -15px;">{{ $t('Hmodule.materialreturn') }}</span></el-button>
           </template>
         </el-table-column>
       </el-table>

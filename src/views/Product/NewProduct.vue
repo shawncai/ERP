@@ -3,7 +3,7 @@
     <div class="app-container">
       <!--基本信息-->
       <el-card class="box-card" shadow="never">
-        <h2 ref="geren" class="form-name">基本信息</h2>
+        <h2 ref="geren" class="form-name">{{ $t('Hmodule.basicinfo') }}</h2>
         <div class="container" style="margin-top: 37px">
           <el-form ref="personalForm" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="140px">
             <el-row>
@@ -423,9 +423,9 @@
       </el-card>
       <!--操作-->
       <div class="buttons" style="margin-top: 20px">
-        <el-button v-no-more-click v-permission="['1-31-32-1']" type="primary" @click="handlesave()">保存</el-button>
+        <el-button v-no-more-click v-permission="['1-31-32-1']" type="primary" @click="handlesave()">{{ $t('Hmodule.baoc') }}</el-button>
         <el-button v-permission="['1-31-32-1']" type="success" @click="handleentry()">继续录入</el-button>
-        <el-button v-permission="['1-31-32-1']" type="danger" @click="handlecancel()">取消</el-button>
+        <el-button v-permission="['1-31-32-1']" type="danger" @click="handlecancel()">{{ $t('Hmodule.cancel') }}</el-button>
       </div>
     </div>
   </div>

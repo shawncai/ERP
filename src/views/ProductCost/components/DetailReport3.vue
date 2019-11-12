@@ -9,17 +9,17 @@
       highlight-current-row
       style="width: 100%;margin-top: 50px"
       @current-change="handleCurrentChange">
-      <el-table-column :resizable="false" label="物品编号" align="center" min-width="150">
+      <el-table-column :resizable="false" :label="$t('Hmodule.wpbh')" align="center" min-width="150">
         <template slot-scope="scope">
           <span>{{ scope.row.productCode }}</span>
         </template>
       </el-table-column>
-      <el-table-column :resizable="false" label="物品名称" align="center" min-width="150">
+      <el-table-column :resizable="false" :label="$t('Hmodule.wpmc')" align="center" min-width="150">
         <template slot-scope="scope">
           <span>{{ scope.row.productName }}</span>
         </template>
       </el-table-column>
-      <el-table-column :resizable="false" label="单位" align="center" min-width="150">
+      <el-table-column :resizable="false" :label="$t('Hmodule.dw')" align="center" min-width="150">
         <template slot-scope="scope">
           <span>{{ scope.row.unit }}</span>
         </template>
@@ -37,7 +37,7 @@
     </el-table>
     <!-- 列表结束 -->
     <span slot="footer" class="dialog-footer">
-      <el-button type="success" style="text-align: center;" @click="handleAddTo">确认添加</el-button>
+      <el-button type="success" style="text-align: center;" @click="handleAddTo">{{ $t('Hmodule.sure') }}</el-button>
     </span>
   </el-dialog>
 </template>

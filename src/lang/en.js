@@ -527,7 +527,8 @@ export default {
     alarm: 'Stock early warning',
     apply: 'My application',
     prepare: 'My to-do list',
-    more: 'More>'
+    more: 'More>',
+    chinese: 'chinese'
   },
   Coupon: {
     name: 'Title of coupon',

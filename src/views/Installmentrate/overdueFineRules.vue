@@ -54,8 +54,8 @@
           </el-form-item>
         </el-form>
         <span slot="footer" class="dialog-footer">
-          <el-button type="primary" @click="handlesave()">保存</el-button>
-          <el-button type="danger" @click="handlecancel()">取消</el-button>
+          <el-button type="primary" @click="handlesave()">{{ $t('Hmodule.baoc') }}</el-button>
+          <el-button type="danger" @click="handlecancel()">{{ $t('Hmodule.cancel') }}</el-button>
         </span>
       </el-dialog>
     </el-card>
@@ -125,7 +125,7 @@
         </el-form>
         <span slot="footer" class="dialog-footer">
           <el-button type="primary" @click="handleOk()">修改</el-button>
-          <el-button type="danger" @click="handleNo()">取消</el-button>
+          <el-button type="danger" @click="handleNo()">{{ $t('Hmodule.cancel') }}</el-button>
         </span>
       </el-dialog>
       <!--修改结束=================================================-->

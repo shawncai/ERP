@@ -15,16 +15,16 @@
           size="medium"
           style="width: 100%">
           <!--          <el-editable-column type="selection" min-width="55" align="center"/>-->
-          <el-editable-column label="序号" min-width="55" align="center" type="index"/>
+          <el-editable-column :label="$t('Hmodule.xh')" min-width="55" align="center" type="index"/>
           <el-editable-column prop="toolsCode" align="center" label="工具编号" min-width="150px"/>
           <el-editable-column prop="toolsName" align="center" label="工具名称" min-width="150px"/>
           <!--            <el-editable-column prop="productCategory" align="center" label="物品分类" min-width="150px"/>-->
           <el-editable-column prop="unit" align="center" label="基本单位" min-width="150px"/>
           <!--            <el-editable-column prop="productType" align="center" label="规格型号" min-width="150px"/>-->
           <!--            <el-editable-column prop="color" align="center" label="颜色" min-width="150px"/>-->
-          <!--          <el-editable-column :edit-render="{type: 'default'}" prop="locationId" align="center" label="货位" width="200px">-->
+          <!--          <el-editable-column :edit-render="{type: 'default'}" prop="locationId" align="center" :label="$t('Hmodule.hw')" width="200px">-->
           <!--            <template slot-scope="scope">-->
-          <!--              <el-select v-model="scope.row.locationId" :value="scope.row.locationId" placeholder="请选择货位" filterable clearable style="width: 100%;" @visible-change="updatebatch($event,scope)">-->
+          <!--              <el-select v-model="scope.row.locationId" :value="scope.row.locationId" :placeholder="$t('Hmodule.xzhw')" filterable clearable style="width: 100%;" @visible-change="updatebatch($event,scope)">-->
           <!--                <el-option-->
           <!--                  v-for="(item, index) in locationlist"-->
           <!--                  :key="index"-->
@@ -45,8 +45,8 @@
     </el-card>
     <el-card class="box-card" style="width: 1010px;z-index: 100;height: 74px;bottom: 0;" shadow="never">
       <div class="buttons" style="float: right;padding-bottom: 10px">
-        <el-button @click="handlecancel()">取消</el-button>
-        <el-button type="primary" @click="handleEditok()">保存</el-button>
+        <el-button @click="handlecancel()">{{ $t('Hmodule.cancel') }}</el-button>
+        <el-button type="primary" @click="handleEditok()">{{ $t('Hmodule.baoc') }}</el-button>
       </div>
     </el-card>
   </el-dialog>

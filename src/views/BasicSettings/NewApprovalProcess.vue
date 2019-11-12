@@ -2,7 +2,7 @@
   <div class="ERP-container">
     <div class="app-container">
       <!--基本信息-->
-      <h2 ref="geren" class="form-name">基本信息</h2>
+      <h2 ref="geren" class="form-name">{{ $t('Hmodule.basicinfo') }}</h2>
       <div class="container">
         <el-form ref="personalForm" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-position="top" label-width="300px" style="margin-left: 30px;">
           <!--          <el-form-item :label="$t('LogisticsCar.drivers')" prop="drivers" style="width: 40%;margin-top:1%">-->
@@ -33,7 +33,7 @@
               :options="regions"
               :props="props"
               v-model="personalForm.region"
-              placeholder="请选择区域"
+              :placeholder="$t('Hmodule.xzqy')"
               change-on-select
               filterable
               clearable
@@ -42,7 +42,7 @@
             />
           </el-form-item>
           <el-form-item :label="$t('BasicSettings.effect_repository')" style="width: 40%;margin-top: 1%">
-            <el-select v-model="personalForm.effect_repository" placeholder="请选择门店" style="width: 100%;">
+            <el-select v-model="personalForm.effect_repository" :placeholder="$t('Hmodule.xzmd')" style="width: 100%;">
               <el-option
                 v-for="(item, index) in repositories"
                 :key="index"
@@ -56,7 +56,7 @@
       <h2 ref="fuzhu" class="form-name">审批流程步骤</h2>
       <div class="buttons" style="margin-top: 50px">
         <el-button type="success" @click="insertEvent(-1)">添加</el-button>
-        <el-button type="danger" @click="$refs.editable.removeSelecteds()">删除</el-button>
+        <el-button type="danger" @click="$refs.editable.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
       </div>
       <div class="container">
         <el-editable
@@ -91,8 +91,8 @@
       </div>
       <!--操作-->
       <div class="buttons" style="margin-top: 20px">
-        <el-button v-no-more-click v-permission="['1-39-46-1']" type="primary" @click="handlesave()">保存</el-button>
-        <el-button v-permission="['1-39-46-1']" type="danger" @click="handlecancel()">取消</el-button>
+        <el-button v-no-more-click v-permission="['1-39-46-1']" type="primary" @click="handlesave()">{{ $t('Hmodule.baoc') }}</el-button>
+        <el-button v-permission="['1-39-46-1']" type="danger" @click="handlecancel()">{{ $t('Hmodule.cancel') }}</el-button>
       </div>
     </div>
   </div>

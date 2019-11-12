@@ -21,7 +21,7 @@
         :props="props"
         v-model="getemplistregions"
         :show-all-levels="false"
-        placeholder="请选择区域"
+        :placeholder="$t('Hmodule.xzqy')"
         change-on-select
         filterable
         clearable
@@ -82,7 +82,7 @@
       </el-table-column> -->
     </el-table>
     <!-- 列表结束 -->
-    <el-button v-waves class="filter-item" type="success" style="width: 100px;float: left;margin-top: 10px" @click="handleConfirm">确认添加</el-button>
+    <el-button v-waves class="filter-item" type="success" style="width: 100px;float: left;margin-top: 10px" @click="handleConfirm">{{ $t('Hmodule.sure') }}</el-button>
     <pagination v-show="total>0" :total="total" :page.sync="getemplist.pagenum" :limit.sync="getemplist.pagesize" @pagination="getlist" />
   </el-dialog>
 </template>

@@ -37,7 +37,7 @@
           <!--<el-date-picker-->
           <!--v-model="getemplist.time"-->
           <!--type="date"-->
-          <!--placeholder="选择日期"-->
+          <!--:placeholder="$t('Hmodule.xzrq')"-->
           <!--value-format="yyyy-MM-dd"-->
           <!--style="width: 40%;float: left;margin-left: 20px;margin-top: 20px"/>-->
           <!--&lt;!&ndash;<el-date-picker&ndash;&gt;-->
