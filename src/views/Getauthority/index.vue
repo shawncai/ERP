@@ -264,7 +264,6 @@ export default {
       console.log(data)
       const leve1Data = this.recursionLevel1(node)
       const leve2Data = this.recursionLevel2(node)
-      const leve3Data = this.recursionLevel3(node)
       if (data.authorityDetails !== null) {
         this.isShow = true
         if (node.level === 3) {
@@ -288,6 +287,7 @@ export default {
             return leve1Data + '-' + data.id + '-' + Number(item)
           })
         } else if (node.level === 4) {
+          const leve3Data = this.recursionLevel3(node)
           this.operates = data.authorityDetails.map(function(item) {
             return {
               id: leve1Data + '-' + leve2Data + '-' + leve3Data + '-' + data.id + '-' + item.id,

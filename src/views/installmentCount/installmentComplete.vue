@@ -6,14 +6,14 @@
           <el-col :span="4">
             <el-form-item :label="$t('stockOrderCount.type')">
               <el-select v-model="getemplist.type" :value="getemplist.type" style="width: 100px" @keyup.enter.native="handleFilter" @change="changeName">
-                <el-option value="1" label="仓库"/>
-                <el-option value="2" label="日期"/>
-                <el-option value="3" label="客户"/>
+                <el-option :label="$t('updates.cangk')" value="1"/>
+                <el-option :label="$t('updates.rq')" value="2"/>
+                <el-option :label="$t('updates.kh')" value="3"/>
               </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="4" style="margin-left: 35px">
-            <el-form-item label="日期">
+            <el-form-item :label="$t('updates.rq')">
               <el-date-picker
                 v-model="getemplist.time"
                 :placeholder="$t('Hmodule.xzrq')"

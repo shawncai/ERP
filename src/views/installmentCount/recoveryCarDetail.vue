@@ -10,7 +10,7 @@
             <my-emp :control.sync="stockControl" @stockName="stockName"/>
           </el-col>
           <el-col :span="4" style="margin-left: 35px">
-            <el-form-item label="门店">
+            <el-form-item :label="$t('updates.repository')">
               <el-input v-model="repositoryId" class="filter-item" @clear="restFilter2" @keyup.enter.native="handleFilter" @focus="handlechooseRep"/>
               <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
             </el-form-item>

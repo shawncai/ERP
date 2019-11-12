@@ -16,7 +16,7 @@
                 <el-form-item :label="$t('Receipt.customerType')" prop="customerType" style="width: 100%;">
                   <el-select v-model="personalForm.customerType" style="margin-left: 18px;width: 200px" @change="clearCustomer">
                     <el-option value="1" label="经销商"/>
-                    <el-option value="2" label="客户"/>
+                    <el-option :label="$t('updates.kh')" value="2"/>
                   </el-select>
                 </el-form-item>
               </el-col>

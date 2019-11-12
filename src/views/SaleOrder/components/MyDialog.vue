@@ -228,7 +228,7 @@
               <p>{{ getcostMoney(scope.row) }}</p>
             </template>
           </el-editable-column>
-          <el-editable-column v-if="false" prop="includeTaxMoney" align="center" label="销售金额" min-width="150px">
+          <el-editable-column v-if="false" :label="$t('updates.sxje')" prop="includeTaxMoney" align="center" min-width="150px">
             <template slot-scope="scope">
               <p>{{ getincludeTaxMoney(scope.row) }}</p>
             </template>
@@ -252,7 +252,7 @@
               <p>{{ getMoney(scope.row) }}</p>
             </template>
           </el-editable-column>
-          <el-editable-column prop="includeTaxCostMoney" align="center" label="销售金额" min-width="170px"/>
+          <el-editable-column :label="$t('updates.sxje')" prop="includeTaxCostMoney" align="center" min-width="170px"/>
           <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="discountRate" align="center" label="折扣率(%)" min-width="170px">
             <template slot="edit" slot-scope="scope">
               <el-input-number

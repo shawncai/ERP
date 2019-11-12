@@ -15,7 +15,7 @@
       <!--基本信息-->
       <el-card class="box-card" style="margin-top: 63px" shadow="never">
         <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('Hmodule.basicinfo') }}</h2>
-        <button v-print="'#printTest'" class="print" style="font-size: 13px;background: white;">打印</button>
+        <button v-print="'#printTest'" class="print" style="font-size: 13px;background: white;">{{ $t('updates.print') }}</button>
         <div class="container" style="margin-top: 37px">
           <el-form :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
             <el-row>
@@ -260,7 +260,7 @@
         </div>
       </el-card>
       <el-card class="box-card" style="margin-top: 15px" shadow="never">
-        <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">备注信息</h2>
+        <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('updates.bzxx') }}</h2>
         <div class="container" style="margin-top: 37px">
           <el-form :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
             <el-row>
@@ -409,7 +409,7 @@
                   min-width="150"/>
               </el-table>
             </el-tab-pane>
-            <el-tab-pane label="采购信息">
+            <el-tab-pane :label="$t('updates.cgxx')">
               <el-table
                 :data="tableData5"
                 border
@@ -430,9 +430,9 @@
                   label="供应类型"
                   min-width="150"/>
                 <el-table-column
+                  :label="$t('updates.cgsl')"
                   prop="stockQuantity"
                   align="center"
-                  label="采购数量"
                   min-width="150"/>
                 <el-table-column
                   prop="price"
@@ -440,9 +440,9 @@
                   label="采购价"
                   min-width="150"/>
                 <el-table-column
+                  :label="$t('updates.cgje')"
                   prop="money"
                   align="center"
-                  label="采购金额"
                   min-width="150"/>
                 <el-table-column
                   prop="returnQuantity"

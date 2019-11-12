@@ -114,7 +114,7 @@
           <el-editable-column :label="$t('Hmodule.gg')" prop="productType" align="center" width="150px"/>
           <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" width="150px"/>
           <!--          <el-editable-column prop="basicQuantity" align="center" label="基本数量" width="150px"/>-->
-          <el-editable-column :edit-render="{name: 'ElInputNumber', type: 'visible', attrs: {min: 0.00, precision: 2, controls:false}}" prop="actualEnterQuantity" align="center" label="入库数量" width="150px"/>
+          <el-editable-column :edit-render="{name: 'ElInputNumber', type: 'visible', attrs: {min: 0.00, precision: 2, controls:false}}" :label="$t('updates.rksl')" prop="actualEnterQuantity" align="center" width="150px"/>
           <el-editable-column :label="$t('Hmodule.dj')" prop="enterPrice" align="center" width="150px"/>
           <el-editable-column prop="enterMoney" align="center" label="入库金额" width="150px">
             <template slot-scope="scope">

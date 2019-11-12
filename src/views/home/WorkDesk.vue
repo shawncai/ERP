@@ -7,62 +7,62 @@
       <el-row :gutter="20" style="margin-bottom: 20px" >
         <el-col :span="3">
           <div class="shipei" style="width: 100%; height: 150px;background: #2daeef;display: flex;align-items: center;justify-content: center;flex-wrap: wrap" ><div style="width:52%;margin-left: 37%;margin-top: 22%; color:white">{{ deskdata.one }}</div>
-          <div class="shipei4" style="width:50%; color:white">总销售业绩</div></div>
+          <div class="shipei4" style="width:50%; color:white">{{ $t('updates.zxsyj') }}</div></div>
         </el-col>
         <el-col :span="3">
           <div class="shipei" style="width: 100%; height: 150px;background: #f36e5d;display: flex;align-items: center;justify-content: center;flex-wrap: wrap" > <div style="width:52%;margin-left: 37%;margin-top: 22%; color:white">{{ deskdata.two }}</div>
-          <div class="shipei4" style="width:50%; color:white">账户总余额</div></div>
+          <div class="shipei4" style="width:50%; color:white">{{ $t('updates.zhzye') }}</div></div>
         </el-col>
         <el-col :span="3">
           <div class="shipei" style="width: 100%; height: 150px;background: #a48df5;display: flex;align-items: center;justify-content: center;flex-wrap: wrap" ><div style="width:52%;margin-left: 37%;margin-top: 22%; color:white"> {{ deskdata.three }}</div>
-          <div class="shipei4" style="width:50%; color:white">本月收支差</div></div>
+          <div class="shipei4" style="width:50%; color:white">{{ $t('updates.byszc') }}</div></div>
         </el-col>
         <el-col :span="3">
           <div class="shipei" style="width: 100%; height: 150px;background: #22d3b9;display: flex;align-items: center;justify-content: center;flex-wrap: wrap" > <div style="width:52%;margin-left: 37%;margin-top: 22%; color:white">{{ deskdata.four }}</div>
-          <div class="shipei5" style="width:50%; color:white">本月支出</div></div>
+          <div class="shipei5" style="width:50%; color:white">{{ $t('updates.byzc') }}</div></div>
         </el-col>
         <el-col :span="3">
           <div class="shipei" style="width: 100%; height: 150px;background: #6f8aff;display: flex;align-items: center;justify-content: center;flex-wrap: wrap" > <div style="width:46%;margin-left: 37%;margin-top: 22%; color:white">{{ deskdata.five }}</div>
-          <div class="shipei5" style="width:37%; color:white">本月利润</div></div>
+          <div class="shipei5" style="width:37%; color:white">{{ $t('updates.bylr') }}</div></div>
         </el-col>
         <el-col :span="3">
           <div class="shipei" style="width: 100%; height: 150px;background: white;display: flex;align-items: center;justify-content: center;flex-wrap: wrap" ><div style="width:41%;margin-left: 37%;margin-top: 22%; color:black">{{ deskdata.six }} </div>
-          <div class="shipei3" style="width:62%; color:black">未付款订单(笔)</div></div>
+          <div class="shipei3" style="width:62%; color:black">{{ $t('updates.wfkdd') }}</div></div>
         </el-col>
         <el-col :span="3">
           <div class="shipei" style="width: 100%; height: 150px;background: white;display: flex;align-items: center;justify-content: center;flex-wrap: wrap" > <div style="width:52%;margin-left: 37%;margin-top: 22%; color:black">{{ deskdata.seven }}</div>
-          <div class="shipei22" style="margin-left: 30%;width:74%; color:black">未付款金额</div></div>
+          <div class="shipei22" style="margin-left: 30%;width:74%; color:black">{{ $t('updates.wfkje') }}</div></div>
         </el-col>
         <el-col :span="3">
           <div class="shipei" style="width: 100%; height: 150px;background: white;display: flex;align-items: center;justify-content: center;flex-wrap: wrap" > <div style="width:52%;margin-left: 37%;margin-top: 22%; color:black">{{ deskdata.eight }}</div>
-          <div class="shipei22" style="margin-left: 30%;width:78%; color:black">截止本月应付</div></div>
+          <div class="shipei22" style="margin-left: 30%;width:78%; color:black">{{ $t('updates.jzbyyf') }}</div></div>
         </el-col>
       </el-row>
 
       <el-row :gutter="20">
         <el-col :span="3">
-          <div class="shipei" style="width: 100%; height: 150px;background: #2daeef;display: flex;align-items: center;justify-content: center;flex-wrap: wrap" ><div class="shipei2" style="width:90%;margin-left: 10px;margin-top: 5px; color:white">今日销量</div><div style="width: 67%; color:white" >{{ deskdata.nine }} </div><div class="shipei2" style="width: 64%; color:white">同比昨日</div><div style="color: white">{{ deskdata.rateOne }}</div></div>
+          <div class="shipei" style="width: 100%; height: 150px;background: #2daeef;display: flex;align-items: center;justify-content: center;flex-wrap: wrap" ><div class="shipei2" style="width:90%;margin-left: 10px;margin-top: 5px; color:white">{{ $t('updates.jrxl') }}</div><div style="width: 67%; color:white" >{{ deskdata.nine }} </div><div class="shipei2" style="width: 64%; color:white">{{ $t('updates.tbzr') }}</div><div style="color: white">{{ deskdata.rateOne }}</div></div>
         </el-col>
         <el-col :span="3">
-          <div class="shipei" style="width: 100%; height: 150px;background: #f36e5d;display: flex;align-items: center;justify-content: center;flex-wrap: wrap" > <div class="shipei2" style="width:80%;margin-left: 10px;margin-top: 5px; color:white">今日销售金额</div><div style="width: 67%; color:white">{{ deskdata.ten }}</div><div class="shipei2" style="width: 64%; color:white">同比昨日</div><div style="color: white">{{ deskdata.rateTwo }}</div></div>
+          <div class="shipei" style="width: 100%; height: 150px;background: #f36e5d;display: flex;align-items: center;justify-content: center;flex-wrap: wrap" > <div class="shipei2" style="width:80%;margin-left: 10px;margin-top: 5px; color:white">{{ $t('updates.jrxsje') }}</div><div style="width: 67%; color:white">{{ deskdata.ten }}</div><div class="shipei2" style="width: 64%; color:white">{{ $t('updates.tbzr') }}</div><div style="color: white">{{ deskdata.rateTwo }}</div></div>
         </el-col>
         <el-col :span="3">
-          <div class="shipei" style="width: 100%; height: 150px;background: #a48df5;display: flex;align-items: center;justify-content: center;flex-wrap: wrap" > <div class="shipei2" style="width:80%;margin-left: 10px;margin-top: 5px; color:white">今日维修量</div><div style="width: 67%; color:white">{{ deskdata.eleven }}</div><div class="shipei2" style="width: 64%; color:white">同比昨日</div><div style="color: white">{{ deskdata.rateThree }}</div></div>
+          <div class="shipei" style="width: 100%; height: 150px;background: #a48df5;display: flex;align-items: center;justify-content: center;flex-wrap: wrap" > <div class="shipei2" style="width:80%;margin-left: 10px;margin-top: 5px; color:white">{{ $t('updates.jrwxl') }}</div><div style="width: 67%; color:white">{{ deskdata.eleven }}</div><div class="shipei2" style="width: 64%; color:white">{{ $t('updates.tbzr') }}</div><div style="color: white">{{ deskdata.rateThree }}</div></div>
         </el-col>
         <el-col :span="3">
-          <div class="shipei" style="width: 100%; height: 150px;background: #22d3b9;display: flex;align-items: center;justify-content: center;flex-wrap: wrap" > <div class="shipei2" style="width:82%;margin-left: 10px;margin-top: 5px; color:white">本月采购量</div><div style="width: 67%; color:white">{{ deskdata.twelve }}</div><div class="shipei2" style="width: 66%; color:white">同比昨日</div><div style="color: white">{{ deskdata.rateFour }}</div></div>
+          <div class="shipei" style="width: 100%; height: 150px;background: #22d3b9;display: flex;align-items: center;justify-content: center;flex-wrap: wrap" > <div class="shipei2" style="width:82%;margin-left: 10px;margin-top: 5px; color:white">{{ $t('updates.bycgl') }}</div><div style="width: 67%; color:white">{{ deskdata.twelve }}</div><div class="shipei2" style="width: 66%; color:white">{{ $t('updates.tbzr') }}</div><div style="color: white">{{ deskdata.rateFour }}</div></div>
         </el-col>
         <el-col :span="3">
-          <div class="shipei" style="width: 100%; height: 150px;background: #6f8aff;display: flex;align-items: center;justify-content: center;flex-wrap: wrap" ><div class="shipei2" style="width:80%;margin-left: 10px;margin-top: 5px; color:white">今日排名</div><div style="width: 67%; color:white">{{ deskdata.thirteen }} </div><div class="shipei2" style="width: 64%; color:white">同比昨日</div><div style="color: white">{{ deskdata.rateFive }}</div></div>
+          <div class="shipei" style="width: 100%; height: 150px;background: #6f8aff;display: flex;align-items: center;justify-content: center;flex-wrap: wrap" ><div class="shipei2" style="width:80%;margin-left: 10px;margin-top: 5px; color:white">{{ $t('updates.jrpm') }}</div><div style="width: 67%; color:white">{{ deskdata.thirteen }} </div><div class="shipei2" style="width: 64%; color:white">{{ $t('updates.tbzr') }}</div><div style="color: white">{{ deskdata.rateFive }}</div></div>
         </el-col>
         <el-col :span="3">
-          <div class="shipei" style="width: 100%; height: 150px;background: white;display: flex;align-items: center;justify-content: center;flex-wrap: wrap" > <div style="width:52%;margin-left: 37%;margin-top: 22%; color:black">{{ deskdata.fourteen }}</div><div class="shipei3" style="width:63%; color:black">未收款订单(笔)</div></div>
+          <div class="shipei" style="width: 100%; height: 150px;background: white;display: flex;align-items: center;justify-content: center;flex-wrap: wrap" > <div style="width:52%;margin-left: 37%;margin-top: 22%; color:black">{{ deskdata.fourteen }}</div><div class="shipei3" style="width:63%; color:black">{{ $t('updates.wskdd') }}</div></div>
         </el-col>
         <el-col :span="3">
-          <div class="shipei" style="width: 100%; height: 150px;background: white;display: flex;align-items: center;justify-content: center;flex-wrap: wrap" > <div style="width:52%;margin-left: 37%;margin-top: 22%; color:black">{{ deskdata.fifteen }}</div><div class="shipei22" style="margin-left: 30%;width:71%; color:black">未收款金额</div></div>
+          <div class="shipei" style="width: 100%; height: 150px;background: white;display: flex;align-items: center;justify-content: center;flex-wrap: wrap" > <div style="width:52%;margin-left: 37%;margin-top: 22%; color:black">{{ deskdata.fifteen }}</div><div class="shipei22" style="margin-left: 30%;width:71%; color:black">{{ $t('updates.wskje') }}</div></div>
         </el-col>
         <el-col :span="3">
-          <div class="shipei" style="width: 100%; height: 150px;background: white;display: flex;align-items: center;justify-content: center;flex-wrap: wrap" ><div style="width:52%;margin-left: 37%;margin-top: 22%; color:black">{{ deskdata.sixteen }} </div><div class="shipei22" style="margin-left: 30%;width:79%; color:black">截止本月应收</div></div>
+          <div class="shipei" style="width: 100%; height: 150px;background: white;display: flex;align-items: center;justify-content: center;flex-wrap: wrap" ><div style="width:52%;margin-left: 37%;margin-top: 22%; color:black">{{ deskdata.sixteen }} </div><div class="shipei22" style="margin-left: 30%;width:79%; color:black">{{ $t('updates.jzbyys') }}</div></div>
         </el-col>
       </el-row>
 
@@ -78,7 +78,7 @@
               <el-row :gutter="2">
                 <el-col :span="6"><div class="grid-content bg-purple">
                   <div style="margin-top: 10%;margin-left: 10%;width: 75%; height: 70px;background: #5bba56;display: flex;align-items: center;justify-content: center;flex-wrap: wrap" >
-                    <div style="width:69%;margin-left: 38%; color:white">销售</div>
+                    <div style="width:69%;margin-left: 38%; color:white">{{ $t('updates.xq') }}</div>
                   </div>
                   <div style="height: 70px"/>
                   <div style="height: 70px"/>
@@ -87,7 +87,7 @@
                 </div></el-col>
                 <el-col :span="6"><div class="grid-content bg-purple">
                   <div style="margin-top: 10%;margin-left: 10%;width: 75%; height: 70px;background: #00a9f7;display: flex;align-items: center;justify-content: center;flex-wrap: wrap" >
-                  <div style="width:69%;margin-left: 38%; color:white">采购</div></div>
+                  <div style="width:69%;margin-left: 38%; color:white">{{ $t('updates.cg') }}</div></div>
                   <div style="height: 70px"/>
                   <div style="height: 70px"/>
                   <div style="height: 70px"/>
@@ -95,7 +95,7 @@
                 </div></el-col>
                 <el-col :span="6"><div class="grid-content bg-purple">
                   <div style="margin-top: 10%;margin-left: 10%;width: 75%; height: 70px;background: #f99a00;display: flex;align-items: center;justify-content: center;flex-wrap: wrap" >
-                  <div style="width:69%;margin-left: 38%; color:white">库存</div></div>
+                  <div style="width:69%;margin-left: 38%; color:white">{{ $t('updates.kc') }}</div></div>
                   <div style="height: 70px"/>
                   <div style="height: 70px"/>
                   <div style="height: 70px"/>
@@ -103,7 +103,7 @@
                 </div></el-col>
                 <el-col :span="6"><div class="grid-content bg-purple">
                   <div style="margin-top: 10%;margin-left: 10%;width: 75%; height: 70px;background: #f93f33;display: flex;align-items: center;justify-content: center;flex-wrap: wrap" >
-                  <div style="width:69%;margin-left: 38%; color:white">财务</div></div>
+                  <div style="width:69%;margin-left: 38%; color:white">{{ $t('updates.cw') }}</div></div>
                   <div style="height: 70px"/>
                   <div style="height: 70px"/>
                   <div style="height: 70px"/>

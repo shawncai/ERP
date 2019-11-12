@@ -125,7 +125,7 @@
             </el-editable-column>
             <el-editable-column prop="applyReason" align="center" label="申请原因" min-width="150px"/>
             <el-editable-column prop="sourceNumber" align="center" label="源单编号" min-width="150px"/>
-            <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="supplierName" align="center" label="供应商" min-width="150px">
+            <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.gys')" prop="supplierName" align="center" min-width="150px">
               <template slot="edit" slot-scope="scope">
                 <el-input v-model="scope.row.supplierName" @focus="handlechoose(scope)"/>
                 <my-supplier :control.sync="empcontrol" :procode="procode" @supplierName="personName(scope, $event)"/>
@@ -180,7 +180,7 @@
             </el-editable-column>
             <el-editable-column prop="applyReason" align="center" label="申请原因" min-width="150px"/>
             <el-editable-column prop="sourceNumber" align="center" label="源单编号" min-width="150px"/>
-            <el-editable-column prop="supplierName" align="center" label="供应商" min-width="150px"/>
+            <el-editable-column :label="$t('updates.gys')" prop="supplierName" align="center" min-width="150px"/>
             <el-editable-column prop="orderQuantity" align="center" label="已订购数量" min-width="150px"/>
             <el-editable-column prop="sourceSerialNumber" align="center" label="源单序号" min-width="150px"/>
           </el-editable>
@@ -219,7 +219,7 @@
                 height="220"
                 style="width: 100%;"
               >
-                <el-table-column :resizable="false" label="仓库" align="center" min-width="150">
+                <el-table-column :resizable="false" :label="$t('updates.cangk')" align="center" min-width="150">
                   <template slot-scope="scope">
                     <span >{{ scope.row.repositoryName }}</span>
                   </template>

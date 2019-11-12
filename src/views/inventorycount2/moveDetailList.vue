@@ -22,7 +22,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="3" style="margin-left: 50px">
-            <el-form-item label="日期">
+            <el-form-item :label="$t('updates.rq')">
               <el-date-picker
                 v-model="date"
                 :placeholder="$t('Hmodule.xzrq')"

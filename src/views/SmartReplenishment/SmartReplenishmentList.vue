@@ -5,7 +5,7 @@
       <el-row>
         <el-form ref="getemplist" :model="getemplist" label-width="100px" style="margin-top: -9px">
           <el-col :span="4">
-            <el-form-item label="门店">
+            <el-form-item :label="$t('updates.repository')">
               <el-input v-model="saleRepositoryId" :placeholder="$t('SmartReplenishmentList.repositoryName')" class="filter-item" clearable @clear="restFilter" @keyup.enter.native="handleFilter" @focus="handlechooseRep"/>
             </el-form-item>
             <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>

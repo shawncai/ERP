@@ -15,7 +15,7 @@
       <!--基本信息-->
       <el-card class="box-card" style="margin-top: 63px" shadow="never">
         <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('Hmodule.basicinfo') }}</h2>
-        <button v-print="'#printTest'" class="print" style="font-size: 13px;background: white;">打印</button>
+        <button v-print="'#printTest'" class="print" style="font-size: 13px;background: white;">{{ $t('updates.print') }}</button>
         <div class="container" style="margin-top: 37px">
           <el-form :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
             <el-row>
@@ -85,7 +85,7 @@
       </el-card>
       <!--子件信息-->
       <el-card class="box-card" shadow="never" style="margin-top: 15px">
-        <h2 ref="lianxi" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">联系信息</h2>
+        <h2 ref="lianxi" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('updates.lxxx') }}</h2>
         <div class="container" style="margin-top: 37px">
           <el-form ref="connectForm" :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
             <el-row>
@@ -114,7 +114,7 @@
         </div>
       </el-card>
       <el-card class="box-card" shadow="never" style="margin-top: 15px">
-        <h2 class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">公司信息</h2>
+        <h2 class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('updates.gsxx') }}</h2>
         <div class="container" style="margin-top: 37px">
           <el-form ref="companyForm" :model="personalForm" ::inline="true" status-icon class="demo-ruleForm" label-width="130px">
             <el-row>
@@ -153,7 +153,7 @@
         </div>
       </el-card>
       <el-card class="box-card" shadow="never" style="margin-top: 15px">
-        <h2 class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">合同信息</h2>
+        <h2 class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('updates.htxx') }}</h2>
         <div class="container" style="margin-top: 37px">
           <el-form ref="companyForm" :model="contracts" ::inline="true" status-icon class="demo-ruleForm" label-width="130px">
             <el-row>
@@ -192,7 +192,7 @@
         </div>
       </el-card>
       <el-card class="box-card" style="margin-top: 15px" shadow="never">
-        <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">备注信息</h2>
+        <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('updates.bzxx') }}</h2>
         <div class="container" style="margin-top: 37px">
           <el-form :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
             <el-row>
@@ -213,7 +213,7 @@
       <el-card class="box-card" style="margin-top: 15px" shadow="never">
         <div class="container" style="margin-top: 10px">
           <el-tabs type="card">
-            <el-tab-pane label="销售信息">
+            <el-tab-pane :label="$t('updates.ssxx')">
               <el-form :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
                 <el-row>
                   <el-col :span="12">
@@ -249,83 +249,83 @@
                 </el-row>
               </el-form>
             </el-tab-pane>
-            <el-tab-pane label="采购信息">
+            <el-tab-pane :label="$t('updates.cgxx')">
               <el-table
                 :data="tableData"
                 border
                 style="width: 100%">
                 <el-table-column
+                  :label="$t('updates.cgrq')"
                   prop="stockDate"
                   align="center"
-                  label="采购日期"
                   min-width="150"/>
                 <el-table-column
+                  :label="$t('updates.gys')"
                   prop="supplierName"
                   align="center"
-                  label="供应商"
                   min-width="150"/>
                 <el-table-column
+                  :label="$t('updates.cgsl')"
                   prop="stockQuantity"
                   align="center"
-                  label="采购数量"
                   min-width="150"/>
                 <el-table-column
+                  :label="$t('updates.cgje')"
                   prop="stockMoney"
                   align="center"
-                  label="采购金额"
                   min-width="150"/>
                 <el-table-column
+                  :label="$t('updates.dhsl')"
                   prop="arriveQuantity"
                   align="center"
-                  label="到货数量"
                   min-width="150"/>
                 <el-table-column
+                  :label="$t('updates.rksl')"
                   prop="enterQuantity"
                   align="center"
-                  label="入库数量"
                   min-width="150"/>
               </el-table>
               <pagination v-show="total>0" :total="total" :page.sync="getstocklist.pagenum" :limit.sync="getstocklist.pagesize" @pagination="getstoctlist" />
             </el-tab-pane>
-            <el-tab-pane label="收款信息">
+            <el-tab-pane :label="$t('updates.skxx')">
               <el-table
                 :data="tableData2"
                 border
                 style="width: 100%">
                 <el-table-column
+                  :label="$t('updates.kh')"
                   prop="customerName"
                   align="center"
-                  label="客户"
                   min-width="150"/>
                 <el-table-column
+                  :label="$t('updates.skje')"
                   prop="money"
                   align="center"
-                  label="收款金额"
                   min-width="150"/>
                 <el-table-column
+                  :label="$t('updates.skqs')"
                   prop="idx"
                   align="center"
-                  label="收款期数"
                   min-width="150"/>
                 <el-table-column
+                  :label="$t('updates.skrq')"
                   prop="collectDate"
                   align="center"
-                  label="收款日期"
                   min-width="150"/>
                 <el-table-column
+                  :label="$t('updates.skfs')"
                   prop="collectType"
                   align="center"
-                  label="收款方式"
                   min-width="150"/>
               </el-table>
               <pagination v-show="total2>0" :total="total2" :page.sync="getCollectlist.pagenum" :limit.sync="getCollectlist.pagesize" @pagination="getCollect" />
             </el-tab-pane>
-            <el-tab-pane label="回访记录">
+            <el-tab-pane :label="$t('updates.hfjl')">
               <el-row :gutter="20">
                 <el-form ref="getVisitlistdata" :model="getVisitlistdata">
                   <el-col :span="5">
                     <el-form-item>
-                      <el-input v-model="getVisitlistdata.customerName" placeholder="客户姓名" clearable/>
+                      <el-input v-model="getVisitlistdata.customerName" clearable/>
                     </el-form-item>
                   </el-col>
                   <el-col :span="5">
@@ -334,8 +334,6 @@
                       type="daterange"
                       range-separator="-"
                       unlink-panels
-                      start-placeholder="回访开始日期"
-                      end-placeholder="回访结束日期"
                       value-format="yyyy-MM-dd"/>
                   </el-col>
                   <el-col :span="3">
@@ -348,29 +346,29 @@
                 border
                 style="width: 100%">
                 <el-table-column
+                  :label="$t('updates.hfrq')"
                   prop="visitDate"
                   align="center"
-                  label="回访日期"
                   min-width="150"/>
                 <el-table-column
+                  :label="$t('updates.kh')"
                   prop="customerName"
                   align="center"
-                  label="客户"
                   min-width="150"/>
                 <el-table-column
+                  :label="$t('updates.hfnr')"
                   prop="content"
                   align="center"
-                  label="回访内容"
                   min-width="150"/>
                 <el-table-column
+                  :label="$t('updates.hffs')"
                   prop="visitMode"
                   align="center"
-                  label="回访方式"
                   min-width="150"/>
               </el-table>
               <pagination v-show="total3>0" :total="total3" :page.sync="getVisitlistdata.pagenum" :limit.sync="getVisitlistdata.pagesize" @pagination="getVisitlist" />
             </el-tab-pane>
-            <el-tab-pane label="维修信息">
+            <el-tab-pane :label="$t('updates.wxxx')">
               <el-form :model="RepairInfo" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
                 <el-row>
                   <el-col :span="12">
@@ -417,51 +415,51 @@
                   align="center"
                   min-width="150"/>
                 <el-table-column
+                  :label="$t('updates.tsrq')"
                   prop="createTime"
                   align="center"
-                  label="投诉日期"
                   min-width="150"/>
                 <el-table-column
+                  :label="$t('updates.tsnr')"
                   prop="content"
                   align="center"
-                  label="投诉内容"
                   min-width="150"/>
               </el-table>
               <pagination v-show="total4>0" :total="total4" :page.sync="getComplaintdata.pagenum" :limit.sync="getComplaintdata.pagesize" @pagination="getComplaintList" />
             </el-tab-pane>
-            <el-tab-pane label="提成信息">
+            <el-tab-pane :label="$t('updates.tcxx')">
               <el-table
                 :data="tableData5"
                 border
                 style="width: 100%">
                 <el-table-column
+                  :label="$t('updates.rq')"
                   prop="customerName"
                   align="center"
-                  label="日期"
                   min-width="150">
                   <template slot-scope="scope">
                     <span>{{ formatTime(scope.row.saleDate,'Y-M-D') }}</span>
                   </template>
                 </el-table-column>
                 <el-table-column
+                  :label="$t('updates.sxje')"
                   prop="saleMoney"
                   align="center"
-                  label="销售金额"
                   min-width="150"/>
                 <el-table-column
+                  :label="$t('updates.xscb')"
                   prop="saleCost"
                   align="center"
-                  label="销售成本"
                   min-width="150"/>
                 <el-table-column
+                  :label="$t('updates.lr')"
                   prop="saleProfit"
                   align="center"
-                  label="利润"
                   min-width="150"/>
                 <el-table-column
+                  :label="$t('updates.tc')"
                   prop="commissionMoney"
                   align="center"
-                  label="提成"
                   min-width="150"/>
               </el-table>
               <pagination v-show="total5>0" :total="total5" :page.sync="getCommissiondata.pagenum" :limit.sync="getCommissiondata.pagesize" @pagination="getCommissionList" />

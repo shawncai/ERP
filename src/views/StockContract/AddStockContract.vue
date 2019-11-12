@@ -182,7 +182,7 @@
       <!--            <el-editable-column prop="productName" align="center" :label="$t('Hmodule.wpmc')" min-width="150px"/>-->
       <!--            <el-editable-column prop="productType" align="center" :label="$t('Hmodule.gg')" min-width="150px"/>-->
       <!--            <el-editable-column prop="unit" align="center" :label="$t('Hmodule.dw')" min-width="150px"/>-->
-      <!--            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0, precision: 2}, type: 'visible'}" prop="plannedQuantity" align="center" label="采购数量" min-width="150px"/>-->
+      <!--            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0, precision: 2}, type: 'visible'}" prop="plannedQuantity" align="center" :label="$t('updates.cgsl')" min-width="150px"/>-->
       <!--            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0, precision: 2}, type: 'visible'}" prop="price" align="center" :label="$t('Hmodule.dj')" min-width="170px">-->
       <!--              <template slot="edit" slot-scope="scope">-->
       <!--                <el-input-number-->
@@ -300,7 +300,7 @@
               height="220"
               style="width: 100%;"
             >
-              <el-table-column :resizable="false" label="仓库" align="center" min-width="150">
+              <el-table-column :resizable="false" :label="$t('updates.cangk')" align="center" min-width="150">
                 <template slot-scope="scope">
                   <span >{{ scope.row.repositoryName }}</span>
                 </template>

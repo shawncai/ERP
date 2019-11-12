@@ -4,7 +4,7 @@
       <el-form ref="getemplist" :model="getemplist" label-width="70px" style="margin-top: -9px">
         <el-row>
           <el-col :span="4">
-            <el-form-item label="月份">
+            <el-form-item :label="$t('updates.yf')">
               <el-date-picker
                 v-model="date2"
                 type="month"
@@ -13,7 +13,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="4" style="margin-left: 140px">
-            <el-form-item label="门店">
+            <el-form-item :label="$t('updates.repository')">
               <el-input v-model="repositoryId" class="filter-item" @clear="restFilter" @keyup.enter.native="handleFilter" @focus="handlechooseRep"/>
               <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
             </el-form-item>

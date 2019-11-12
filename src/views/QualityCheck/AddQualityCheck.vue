@@ -120,7 +120,7 @@
             <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="checkQuantity" align="center" label="报检数量" min-width="150px"/>
             <el-editable-column prop="hadCheckQuantity" align="center" label="已报捡数量" min-width="150px"/>
             <el-editable-column prop="checkedQuantity" align="center" label="已捡数量" min-width="150px"/>
-            <el-editable-column prop="arrivalQuantity" align="center" label="到货数量" min-width="150px"/>
+            <el-editable-column :label="$t('updates.dhsl')" prop="arrivalQuantity" align="center" min-width="150px"/>
             <el-editable-column prop="sourceNumber" align="center" label="源单编号" min-width="150px"/>
             <el-editable-column prop="sourceSerialNumber" align="center" label="源单编号" min-width="150px"/>
           </el-editable>
@@ -140,7 +140,7 @@
                 height="220"
                 style="width: 100%;"
               >
-                <el-table-column :resizable="false" label="仓库" align="center" min-width="150">
+                <el-table-column :resizable="false" :label="$t('updates.cangk')" align="center" min-width="150">
                   <template slot-scope="scope">
                     <span >{{ scope.row.repositoryName }}</span>
                   </template>

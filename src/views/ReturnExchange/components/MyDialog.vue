@@ -27,7 +27,7 @@
             <el-col :span="12">
               <el-form-item :label="$t('ReturnExchange.customerType')" prop="customerType" style="width: 100%;">
                 <el-select v-model="personalForm.customerType" style="margin-left: 18px;width: 200px" @change="clearrequire">
-                  <el-option value="1" label="客户"/>
+                  <el-option :label="$t('updates.kh')" value="1"/>
                   <el-option value="2" label="经销商"/>
                 </el-select>
               </el-form-item>

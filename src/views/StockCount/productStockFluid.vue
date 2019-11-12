@@ -18,7 +18,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="3" style="margin-left: 65px">
-            <el-form-item label="门店">
+            <el-form-item :label="$t('updates.repository')">
               <el-input v-model="repositoryId" style="width: 120px" class="filter-item" clearable @keyup.enter.native="handleFilter" @focus="handlechooseRep" @clear="restFilter2"/>
               <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
             </el-form-item>
