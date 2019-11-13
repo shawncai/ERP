@@ -165,7 +165,7 @@
             <el-col :span="12" style="height: 58px;">
               <el-form-item :label="$t('Product.zhibaoqi')" style="width: 100%">
                 <el-input v-model="personalForm.zhiBaoQi" placeholder="请输入质保期" style="margin-left: 18px;width: 200px" clearable>
-                  <template slot="append">天</template>
+                  <template slot="append">{{ $t('updates.day') }}</template>
                 </el-input>
               </el-form-item>
             </el-col>
@@ -236,7 +236,7 @@
         <el-form ref="personalForm2" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="140px">
           <el-col :span="12">
             <el-form-item :label="$t('Product.valuation')" prop="valuation" style="width: 100%;">
-              <el-select v-model="personalForm.valuation" placeholder="请选择" style="margin-left: 18px;width: 200px">
+              <el-select v-model="personalForm.valuation" :placeholder="$t('updates.qxz')" style="margin-left: 18px;width: 200px">
                 <el-option value="1" label="约当产量法"/>
                 <el-option value="2" label="定额成本法"/>
                 <el-option value="3" label="定额比例法"/>

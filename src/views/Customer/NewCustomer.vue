@@ -41,7 +41,7 @@
                 :value="item.id"
                 :label="item.categoryName"/>
               <template>
-                <el-button v-if="isshow" icon="el-icon-circle-plus-outline" style="width:100%" @click="go_creat">新增</el-button>
+                <el-button v-if="isshow" icon="el-icon-circle-plus-outline" style="width:100%" @click="go_creat">{{ $t('updates.create') }}</el-button>
               </template>
             </el-select>
           </el-form-item>
@@ -54,12 +54,12 @@
                 :value="item.id"
                 :label="item.categoryName"/>
               <template>
-                <el-button v-if="isshow" icon="el-icon-circle-plus-outline" style="width:100%" @click="go_creat2">新增</el-button>
+                <el-button v-if="isshow" icon="el-icon-circle-plus-outline" style="width:100%" @click="go_creat2">{{ $t('updates.create') }}</el-button>
               </template>
             </el-select>
           </el-form-item> -->
           <el-form-item :label="$t('Customer.newold')" style="width: 40%;margin-top: 1%">
-            <el-select v-model="customerForm.newold" :value="customerForm.newold" placeholder="请选择" style="width: 100%;">
+            <el-select v-model="customerForm.newold" :value="customerForm.newold" :placeholder="$t('updates.qxz')" style="width: 100%;">
               <el-option label="老" value="1"/>
               <el-option label="新" value="2"/>
             </el-select>
@@ -97,8 +97,8 @@
           <el-form-item :label="$t('Customer.birthday')" style="width: 40%;margin-top:1%">
             <el-date-picker
               v-model="customerForm.birthday"
+              :placeholder="$t('updates.xzsr')"
               type="date"
-              placeholder="选择生日"
               value-format="yyyy-MM-dd"
               clearable
               style="width: 100%"/>
@@ -117,7 +117,7 @@
       <!--操作-->
       <div class="buttons" style="margin-top: 20px">
         <el-button v-no-more-click v-permission="['1-14-15-1']" type="primary" @click="handlesave()">{{ $t('Hmodule.baoc') }}</el-button>
-        <el-button v-permission="['1-14-15-1']" type="success" @click="handleentry()">继续录入</el-button>
+        <el-button v-permission="['1-14-15-1']" type="success" @click="handleentry()">{{ $t('updates.jxlr') }}</el-button>
         <el-button v-permission="['1-14-15-1']" type="danger" @click="handlecancel()">{{ $t('Hmodule.cancel') }}</el-button>
       </div>
     </div>

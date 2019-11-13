@@ -13,8 +13,8 @@
         />
       </el-select>
       <el-select v-model="getemplist.iseffective" :value="getemplist.iseffective" :placeholder="$t('Repository.iseffective')" class="filter-item" clearable>
-        <el-option label="停用" value="1"/>
-        <el-option label="启用" value="2"/>
+        <el-option :label="$t('updates.ty')" value="1"/>
+        <el-option :label="$t('updates.qy')" value="2"/>
       </el-select>
       <el-cascader
         :options="regions"

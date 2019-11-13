@@ -43,8 +43,8 @@
               <el-col :span="6">
                 <el-form-item :label="$t('ProductCost.isInput')" style="width: 100%;">
                   <el-radio-group v-model="personalForm.isInput" style="margin-left: 11px;width: 200px" >
-                    <el-radio :label="1" style="width: 100px">是</el-radio>
-                    <el-radio :label="2">否</el-radio>
+                    <el-radio :label="1" style="width: 100px">{{ $t('updates.yes') }}</el-radio>
+                    <el-radio :label="2">{{ $t('updates.no') }}</el-radio>
                   </el-radio-group>
                 </el-form-item>
               </el-col>

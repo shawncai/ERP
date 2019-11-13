@@ -57,7 +57,7 @@
       <!--操作-->
       <div class="buttons" style="margin-top: 20px">
         <el-button v-permission="['1-31-34-1']" type="primary" @click="handlesave()">{{ $t('Hmodule.baoc') }}</el-button>
-        <el-button v-permission="['1-31-34-1']" type="success" @click="handleentry()">继续录入</el-button>
+        <el-button v-permission="['1-31-34-1']" type="success" @click="handleentry()">{{ $t('updates.jxlr') }}</el-button>
         <el-button v-permission="['1-31-34-1']" type="danger" @click="handlecancel()">{{ $t('Hmodule.cancel') }}</el-button>
       </div>
     </div>

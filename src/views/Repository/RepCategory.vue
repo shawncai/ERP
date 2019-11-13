@@ -50,8 +50,8 @@
           </el-form-item>
           <el-form-item :label="$t('NewEmployeeInformation.iseffective')" label-width="100px" prop="iseffective">
             <el-select v-model="addCategoryForm2.iseffective" placeholder="请选择状态" style="width: 100%">
-              <el-option label="启用 " value="1"/>
-              <el-option label="停用" value="2"/>
+              <el-option :label="$t('updates.qy')" value="1"/>
+              <el-option :label="$t('updates.ty')" value="2"/>
             </el-select>
           </el-form-item>
         </el-form>
@@ -74,8 +74,8 @@
           </el-form-item>
           <el-form-item :label="$t('NewEmployeeInformation.iseffective')" label-width="100px" prop="iseffective">
             <el-select v-model="addCategoryForm.iseffective" placeholder="请选择状态" style="width: 100%">
-              <el-option label="启用 " value="1"/>
-              <el-option label="停用" value="2"/>
+              <el-option :label="$t('updates.qy')" value="1"/>
+              <el-option :label="$t('updates.ty')" value="2"/>
             </el-select>
           </el-form-item>
         </el-form>
@@ -143,7 +143,7 @@
                 <el-option label="仓库类别" value="2"/>
               </el-select>
             </el-form-item>
-            <el-form-item label="类型" label-width="100px" prop="categoryName">
+            <el-form-item :label="$t('updates.lx')" label-width="100px" prop="categoryName">
               <el-input v-model="editCategoryForm.parentName" autocomplete="off" disabled/>
             </el-form-item>
             <el-form-item :label="$t('NewEmployeeInformation.categoryname')" label-width="100px" prop="categoryName">
@@ -157,7 +157,7 @@
             </el-form-item>
           </el-form>
           <span slot="footer" class="dialog-footer">
-            <el-button type="primary" @click="handleOk()">修改</el-button>
+            <el-button type="primary" @click="handleOk()">{{ $t('public.edit') }}</el-button>
             <el-button type="danger" @click="handleNo()">{{ $t('Hmodule.cancel') }}</el-button>
           </span>
         </el-dialog>

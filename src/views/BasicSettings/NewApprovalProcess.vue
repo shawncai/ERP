@@ -23,7 +23,7 @@
             </el-select>
           </el-form-item>
           <el-form-item :label="$t('BasicSettings.is_message')" style="width: 40%;margin-top:1%">
-            <el-select v-model="personalForm.is_message" placeholder="请选择" style="width: 100%;">
+            <el-select v-model="personalForm.is_message" :placeholder="$t('updates.qxz')" style="width: 100%;">
               <el-option label="发送" value="1"/>
               <el-option label="不发送" value="2"/>
             </el-select>

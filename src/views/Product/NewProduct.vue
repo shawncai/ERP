@@ -34,7 +34,7 @@
                       :value="item"
                     />
                     <template>
-                      <el-button v-if="isshow" icon="el-icon-circle-plus-outline" style="width:100%" @click="go_creat">新增</el-button>
+                      <el-button v-if="isshow" icon="el-icon-circle-plus-outline" style="width:100%" @click="go_creat">{{ $t('updates.create') }}</el-button>
                     </template>
                   </el-select>
                 </el-form-item>
@@ -50,7 +50,7 @@
                       :value="item"
                     />
                     <template>
-                      <el-button v-if="isshow" icon="el-icon-circle-plus-outline" style="width:100%" @click="go_creat2">新增</el-button>
+                      <el-button v-if="isshow" icon="el-icon-circle-plus-outline" style="width:100%" @click="go_creat2">{{ $t('updates.create') }}</el-button>
                     </template>
                   </el-select>
                 </el-form-item>
@@ -66,7 +66,7 @@
                       :value="item"
                     />
                     <template>
-                      <el-button v-if="isshow" icon="el-icon-circle-plus-outline" style="width:100%" @click="go_creat3">新增</el-button>
+                      <el-button v-if="isshow" icon="el-icon-circle-plus-outline" style="width:100%" @click="go_creat3">{{ $t('updates.create') }}</el-button>
                     </template>
                   </el-select>
                 </el-form-item>
@@ -82,7 +82,7 @@
                       :value="item"
                     />
                     <template>
-                      <el-button v-if="isshow" icon="el-icon-circle-plus-outline" style="width:100%" @click="go_creat4">新增</el-button>
+                      <el-button v-if="isshow" icon="el-icon-circle-plus-outline" style="width:100%" @click="go_creat4">{{ $t('updates.create') }}</el-button>
                     </template>
                   </el-select>
                 </el-form-item>
@@ -98,7 +98,7 @@
                       :value="item"
                     />
                     <template>
-                      <el-button v-permission="['1-31-38-1']" icon="el-icon-circle-plus-outline" style="width:100%" @click="go_creat5">新增</el-button>
+                      <el-button v-permission="['1-31-38-1']" icon="el-icon-circle-plus-outline" style="width:100%" @click="go_creat5">{{ $t('updates.create') }}</el-button>
                     </template>
                   </el-select>
                 </el-form-item>
@@ -114,7 +114,7 @@
                       :value="item.id"
                     />
                     <template>
-                      <el-button v-if="isshow" icon="el-icon-circle-plus-outline" style="width:100%" @click="go_creat6">新增</el-button>
+                      <el-button v-if="isshow" icon="el-icon-circle-plus-outline" style="width:100%" @click="go_creat6">{{ $t('updates.create') }}</el-button>
                     </template>
                   </el-select>
                 </el-form-item>
@@ -130,7 +130,7 @@
                       :value="item.id"
                     />
                     <template>
-                      <el-button v-permission="['1-31-38-1']" icon="el-icon-circle-plus-outline" style="width:100%" @click="go_creat7">新增</el-button>
+                      <el-button v-permission="['1-31-38-1']" icon="el-icon-circle-plus-outline" style="width:100%" @click="go_creat7">{{ $t('updates.create') }}</el-button>
                     </template>
                   </el-select>
                 </el-form-item>
@@ -146,7 +146,7 @@
                       :value="item"
                     />
                     <template>
-                      <el-button v-if="isshow" icon="el-icon-circle-plus-outline" style="width:100%" @click="go_creat8">新增</el-button>
+                      <el-button v-if="isshow" icon="el-icon-circle-plus-outline" style="width:100%" @click="go_creat8">{{ $t('updates.create') }}</el-button>
                     </template>
                   </el-select>
                 </el-form-item>
@@ -162,7 +162,7 @@
                       :value="item"
                     />
                     <template>
-                      <el-button v-permission="['1-31-38-1']" icon="el-icon-circle-plus-outline" style="width:100%" @click="go_creat9">新增</el-button>
+                      <el-button v-permission="['1-31-38-1']" icon="el-icon-circle-plus-outline" style="width:100%" @click="go_creat9">{{ $t('updates.create') }}</el-button>
                     </template>
                   </el-select>
                 </el-form-item>
@@ -178,7 +178,7 @@
                       :value="item"
                     />
                     <template>
-                      <el-button v-if="isshow" icon="el-icon-circle-plus-outline" style="width:100%" @click="go_creat10">新增</el-button>
+                      <el-button v-if="isshow" icon="el-icon-circle-plus-outline" style="width:100%" @click="go_creat10">{{ $t('updates.create') }}</el-button>
                     </template>
                   </el-select>
                 </el-form-item>
@@ -270,7 +270,7 @@
               <el-col :span="6">
                 <el-form-item :label="$t('Product.zhibaoqi')" style="width: 100%">
                   <el-input v-model="personalForm.zhibaoqi" placeholder="请输入质保期" style="margin-left: 18px;width: 200px" clearable>
-                    <template slot="append">天</template>
+                    <template slot="append">{{ $t('updates.day') }}</template>
                   </el-input>
                 </el-form-item>
               </el-col>
@@ -341,7 +341,7 @@
           <el-form ref="personalForm2" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="140px">
             <el-col :span="6">
               <el-form-item :label="$t('Product.valuation')" prop="valuation" style="width: 100%;">
-                <el-select v-model="personalForm.valuation" placeholder="请选择" style="margin-left: 18px;width: 200px">
+                <el-select v-model="personalForm.valuation" :placeholder="$t('updates.qxz')" style="margin-left: 18px;width: 200px">
                   <el-option value="1" label="约当产量法"/>
                   <el-option value="2" label="定额成本法"/>
                   <el-option value="3" label="定额比例法"/>
@@ -424,7 +424,7 @@
       <!--操作-->
       <div class="buttons" style="margin-top: 20px">
         <el-button v-no-more-click v-permission="['1-31-32-1']" type="primary" @click="handlesave()">{{ $t('Hmodule.baoc') }}</el-button>
-        <el-button v-permission="['1-31-32-1']" type="success" @click="handleentry()">继续录入</el-button>
+        <el-button v-permission="['1-31-32-1']" type="success" @click="handleentry()">{{ $t('updates.jxlr') }}</el-button>
         <el-button v-permission="['1-31-32-1']" type="danger" @click="handlecancel()">{{ $t('Hmodule.cancel') }}</el-button>
       </div>
     </div>

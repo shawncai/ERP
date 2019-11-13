@@ -5,7 +5,7 @@
     :detaildata="detaildata"
     :detailid="detailid"
     :close-on-press-escape="false"
-    :title="personalForm.content.account +'员工详情信息'"
+    :title="personalForm.content.account +$t('updates.ygxxxq')"
     append-to-body
     width="1010px"
     class="edit"
@@ -325,12 +325,14 @@
                 <el-form ref="getVisitlistdata" :model="getVisitlistdata">
                   <el-col :span="5">
                     <el-form-item>
-                      <el-input v-model="getVisitlistdata.customerName" clearable/>
+                      <el-input v-model="getVisitlistdata.customerName" :placeholder="$t('updates.khxm')" clearable/>
                     </el-form-item>
                   </el-col>
                   <el-col :span="5">
                     <el-date-picker
                       v-model="date"
+                      :start-placeholder="$t('updates.hfkssj')"
+                      :end-placeholder="$t('updates.hfjssj')"
                       type="daterange"
                       range-separator="-"
                       unlink-panels
@@ -404,7 +406,7 @@
                 </el-row>
               </el-form>
             </el-tab-pane>
-            <el-tab-pane label="投诉信息">
+            <el-tab-pane :label="$t('updates.tsxx')">
               <el-table
                 :data="tableData4"
                 border

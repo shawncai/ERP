@@ -36,7 +36,7 @@
                 <el-date-picker
                   v-model="personalForm.birthday"
                   type="date"
-                  placeholder="选择生日"
+                  :placeholder="$t('updates.xzsr')"
                   value-format="yyyy-MM-dd"
                   clearable
                   style="margin-left: 18px;width: 200px"/>

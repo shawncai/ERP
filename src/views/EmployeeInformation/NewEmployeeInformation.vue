@@ -3,41 +3,41 @@
     <div class="app-container" style="padding-right: 0">
       <!--个人信息-->
       <el-card class="box-card" shadow="never">
-        <h2 ref="geren" class="form-name">个人信息</h2>
+        <h2 ref="geren" class="form-name">{{ $t('updates.grxx') }}</h2>
         <div class="container" style="margin-top: 37px">
           <el-form ref="personalForm" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
             <el-row>
               <el-col :span="6">
                 <el-form-item :label="$t('NewEmployeeInformation.account')" prop="account" style="width: 100%;">
-                  <el-input v-model="personalForm.account" placeholder="请输入账号名" clearable style="margin-left: 18px;width: 200px"/>
+                  <el-input v-model="personalForm.account" clearable style="margin-left: 18px;width: 200px"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('NewEmployeeInformation.password')" prop="passwd" style="width: 100%;">
-                  <el-input v-model="personalForm.passwd" placeholder="请输入密码" clearable style="margin-left: 18px;width: 200px"/>
+                  <el-input v-model="personalForm.passwd" clearable style="margin-left: 18px;width: 200px"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('NewEmployeeInformation.firstname')" prop="firstname" style="width: 100%;">
-                  <el-input v-model="personalForm.firstname" placeholder="请输入姓氏" clearable style="margin-left: 18px;width: 200px"/>
+                  <el-input v-model="personalForm.firstname" clearable style="margin-left: 18px;width: 200px"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('NewEmployeeInformation.middlename')" style="width: 100%;">
-                  <el-input v-model="personalForm.middlename" placeholder="请输入中间名" clearable style="margin-left: 18px;width: 200px"/>
+                  <el-input v-model="personalForm.middlename" clearable style="margin-left: 18px;width: 200px"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('NewEmployeeInformation.lastname')" prop="lastname" style="width: 100%;">
-                  <el-input v-model="personalForm.lastname" placeholder="请输入名" clearable style="margin-left: 18px;width: 200px"/>
+                  <el-input v-model="personalForm.lastname" clearable style="margin-left: 18px;width: 200px"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('NewEmployeeInformation.birthday')" style="width: 100%;">
                   <el-date-picker
                     v-model="personalForm.birthday"
+                    :placeholder="$t('updates.xzsr')"
                     type="date"
-                    placeholder="选择生日"
                     value-format="yyyy-MM-dd"
                     clearable
                     style="margin-left: 18px;width: 200px"/>
@@ -45,7 +45,7 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('NewEmployeeInformation.email')" prop="email" style="width: 100%;">
-                  <el-input v-model="personalForm.email" placeholder="请输入邮箱地址" clearable style="margin-left: 18px;width: 200px"/>
+                  <el-input v-model="personalForm.email" clearable style="margin-left: 18px;width: 200px"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
@@ -58,7 +58,7 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('NewEmployeeInformation.certificatetype')" style="width: 100%;">
-                  <el-select v-model="personalForm.certificatetype" placeholder="请选择证件类型" style="margin-left: 18px;width: 200px">
+                  <el-select v-model="personalForm.certificatetype" style="margin-left: 18px;width: 200px">
                     <el-option label="类型1" value="1"/>
                     <el-option label="类型2" value="2"/>
                   </el-select>
@@ -71,7 +71,7 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('NewEmployeeInformation.country')" prop="country" style="width: 100%;">
-                  <el-select v-model="personalForm.country" placeholder="请选择国籍" style="margin-left: 18px;width: 200px" @change ="handlechange" @focus="updatecountry">
+                  <el-select v-model="personalForm.country" style="margin-left: 18px;width: 200px" @change ="handlechange" @focus="updatecountry">
                     <el-option
                       v-for="(item, index) in nations"
                       :key="index"
@@ -92,12 +92,12 @@
             <el-row>
               <el-col :span="6">
                 <el-form-item :label="$t('NewEmployeeInformation.phone')" prop="phone" style="width: 100%;">
-                  <el-input v-model="connectForm.phone" placeholder="请输入手机号" clearable style="margin-left: 18px;width: 200px"/>
+                  <el-input v-model="connectForm.phone" clearable style="margin-left: 18px;width: 200px"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('NewEmployeeInformation.provinceid')" prop="provinceid" style="width: 100%;">
-                  <el-select v-model="connectForm.provinceid" placeholder="请选择省" style="margin-left: 18px;width: 200px" @change="handlechange2">
+                  <el-select v-model="connectForm.provinceid" style="margin-left: 18px;width: 200px" @change="handlechange2">
                     <el-option
                       v-for="(item, index) in provinces"
                       :key="index"
@@ -108,7 +108,7 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('NewEmployeeInformation.cityid')" prop="cityid" style="width: 100%;">
-                  <el-select v-model="connectForm.cityid" placeholder="请选择市" style="margin-left: 18px;width: 200px">
+                  <el-select v-model="connectForm.cityid" style="margin-left: 18px;width: 200px">
                     <el-option
                       v-for="(item, index) in cities"
                       :key="index"
@@ -119,7 +119,7 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('NewEmployeeInformation.address')" prop="address" style="width: 100%;">
-                  <el-input v-model="connectForm.address" placeholder="请输入地址" clearable style="margin-left: 18px;width: 200px"/>
+                  <el-input v-model="connectForm.address" clearable style="margin-left: 18px;width: 200px"/>
                 </el-form-item>
               </el-col>
             </el-row>
@@ -134,12 +134,12 @@
             <el-row>
               <el-col :span="6">
                 <el-form-item :label="$t('NewEmployeeInformation.jobnumber')" style="width: 100%;">
-                  <el-input v-model.number="companyForm.jobnumber" placeholder="请输入工号" style="margin-left: 18px;width: 200px" clearable/>
+                  <el-input v-model.number="companyForm.jobnumber" style="margin-left: 18px;width: 200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('NewEmployeeInformation.postid')" style="width: 100%;">
-                  <el-select ref="clear" v-model="companyForm.postid" :value="companyForm.postid" placeholder="请选择职位" style="margin-left: 18px;width: 200px" @focus="updatepost">
+                  <el-select ref="clear" v-model="companyForm.postid" :value="companyForm.postid" style="margin-left: 18px;width: 200px" @focus="updatepost">
                     <el-option v-show="false" label="" value=""/>
                     <el-option
                       v-for="(item, index) in jobs"
@@ -147,14 +147,14 @@
                       :label="item.categoryName"
                       :value="item.id"/>
                     <template>
-                      <el-button v-if="isshow" icon="el-icon-circle-plus-outline" style="width:100%" @click="go_creat">新增</el-button>
+                      <el-button v-if="isshow" icon="el-icon-circle-plus-outline" style="width:100%" @click="go_creat">{{ $t('updates.create') }}</el-button>
                     </template>
                   </el-select>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('NewEmployeeInformation.deptid')" prop="deptid" style="width: 100%;">
-                  <el-select v-model="companyForm.deptid" placeholder="请选择部门" style="margin-left: 18px;width: 200px" @focus="updatedept">
+                  <el-select v-model="companyForm.deptid" style="margin-left: 18px;width: 200px" @focus="updatedept">
                     <el-option
                       v-for="(item, index) in depts"
                       :key="index"
@@ -201,7 +201,7 @@
         </div>
       </el-card>
       <el-card class="box-card" shadow="never" style="margin-top: 15px">
-        <h2 class="form-name">角色信息</h2>
+        <h2 class="form-name">{{ $t('updates.jsxx') }}</h2>
         <div class="container" style="margin-top: 37px">
           <el-row>
             <el-radio-group v-model="personalForm.roleid" style="width: 100%">
@@ -215,7 +215,7 @@
       <!--操作-->
       <div class="buttons" style="margin-top: 20px">
         <el-button v-no-more-click v-permission="['1-2-3-1']" type="primary" style="background:#3696fd;border-color:#3696fd;width: 98px" @click="handlesave()">{{ $t('Hmodule.baoc') }}</el-button>
-        <el-button v-permission="['1-2-3-1']" type="success" @click="handleentry()">继续录入</el-button>
+        <el-button v-permission="['1-2-3-1']" type="success" @click="handleentry()">{{ $t('updates.jxlr') }}</el-button>
         <el-button v-permission="['1-2-3-1']" type="danger" @click="handlecancel()">{{ $t('Hmodule.cancel') }}</el-button>
       </div>
     </div>

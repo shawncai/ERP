@@ -42,9 +42,9 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item label="合为一个单据" style="width: 100%;">
-                  <el-select v-model="personalForm.type" placeholder="请选择" style="margin-left: 18px;width: 200px" >
-                    <el-option value="1" label="是"/>
-                    <el-option value="2" label="否"/>
+                  <el-select v-model="personalForm.type" :placeholder="$t('updates.qxz')" style="margin-left: 18px;width: 200px" >
+                    <el-option value="1" :label="$t('updates.yes')"/>
+                    <el-option value="2" :label="$t('updates.no')"/>
                   </el-select>
                 </el-form-item>
               </el-col>

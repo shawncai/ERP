@@ -11,8 +11,8 @@
           <el-col :span="5">
             <el-form-item label="是否红字" style="margin-left: 20px;">
               <el-select v-model="getemplist.isRed" :value="getemplist.isRed" style="margin-top: -9px" clearable >
-                <el-option value="1" label="否"/>
-                <el-option value="2" label="是"/>
+                <el-option value="1" :label="$t('updates.no')"/>
+                <el-option value="2" :label="$t('updates.yes')"/>
               </el-select>
             </el-form-item>
           </el-col>

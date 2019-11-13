@@ -4,7 +4,7 @@
       <!-- 搜索条件栏目 -->
       <el-input v-model="getemplist.modelname" :placeholder="$t('BasicSettings.modelname')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
       <el-select v-model="getemplist.iseffective" placeholder="请选择状态" class="filter-item" clearable >
-        <el-option value="1" label="启用" />
+        <el-option value="1" :label="$t('updates.qy')" />
         <el-option value="2" label="禁用" />
       </el-select>
       <!-- 搜索按钮 -->
@@ -116,7 +116,7 @@
         </el-form>
         <div slot="footer" class="dialog-footer" style="text-align: center">
           <el-button @click="editNumberingVisible = false">取 消</el-button>
-          <el-button type="primary" @click="handleEditOk">修改</el-button>
+          <el-button type="primary" @click="handleEditOk">{{ $t('public.edit') }}</el-button>
         </div>
       </el-dialog>
       <!--修改结束=================================================-->

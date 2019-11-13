@@ -14,14 +14,14 @@
             </el-form-item>
           </el-col> -->
           <!-- <el-col :span="5" style="margin-left: 10px">
-            <el-form-item label="分类类别">
+            <el-form-item :label="$t('updates.fllb')">
               <el-select v-model="getemplist.type" :value="getemplist.type" clearable @keyup.enter.native="handleFilter">
                 <el-option label="采购类别" value="1"/>
               </el-select>
             </el-form-item>
           </el-col> -->
           <el-col :span="5" style="margin-left: 10px">
-            <el-form-item label="启用状态">
+            <el-form-item :label="$t('updates.qyzt')">
               <el-select v-model="getemplist.iseffective" :value="getemplist.iseffective" clearable @keyup.enter.native="handleFilter">
                 <el-option label="active " value="1"/>
                 <el-option label="dead" value="2"/>
@@ -69,8 +69,8 @@
           </el-form-item>
           <el-form-item :label="$t('InventoryReplenishment.iseffective')" label-width="120px" prop="iseffective">
             <el-select v-model="addCategoryForm.iseffective" placeholder="请选择状态" style="width: 100%">
-              <el-option label="启用 " value="1"/>
-              <el-option label="停用" value="2"/>
+              <el-option :label="$t('updates.qy')" value="1"/>
+              <el-option :label="$t('updates.ty')" value="2"/>
             </el-select>
           </el-form-item>
         </el-form>
@@ -152,13 +152,13 @@
           </el-form-item>
           <el-form-item :label="$t('InventoryReplenishment.iseffective')" label-width="120px" prop="isEffective">
             <el-select v-model="editCategoryForm.isEffective" placeholder="请选择状态" style="width: 100%" @change="test">
-              <el-option label="启用 " value="1"/>
-              <el-option label="停用" value="2"/>
+              <el-option :label="$t('updates.qy')" value="1"/>
+              <el-option :label="$t('updates.ty')" value="2"/>
             </el-select>
           </el-form-item>
         </el-form>
         <span slot="footer" class="dialog-footer">
-          <el-button type="primary" @click="handleOk()">修改</el-button>
+          <el-button type="primary" @click="handleOk()">{{ $t('public.edit') }}</el-button>
           <el-button type="danger" @click="handleNo()">{{ $t('Hmodule.cancel') }}</el-button>
         </span>
       </el-dialog>

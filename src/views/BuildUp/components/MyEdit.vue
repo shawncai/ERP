@@ -41,9 +41,9 @@
             </el-col>
             <!--            <el-col :span="6">-->
             <!--              <el-form-item label="合为一个单据" style="width: 100%;">-->
-            <!--                <el-select v-model="personalForm.type" placeholder="请选择" style="margin-left: 18px;width: 200px" clearable >-->
-            <!--                  <el-option value="1" label="是"/>-->
-            <!--                  <el-option value="2" label="否"/>-->
+            <!--                <el-select v-model="personalForm.type" :placeholder="$t('updates.qxz')" style="margin-left: 18px;width: 200px" clearable >-->
+            <!--                  <el-option value="1" :label="$t('updates.yes')"/>-->
+            <!--                  <el-option value="2" :label="$t('updates.no')"/>-->
             <!--                </el-select>-->
             <!--              </el-form-item>-->
             <!--            </el-col>-->
@@ -156,7 +156,7 @@
       </div>
     </el-card>
     <div class="buttons" style="margin-top: 20px;margin-left: 30px">
-      <el-button type="primary" style="background:#3696fd;border-color:#3696fd;width: 98px" @click="handlesave()">修改</el-button>
+      <el-button type="primary" style="background:#3696fd;border-color:#3696fd;width: 98px" @click="handlesave()">{{ $t('public.edit') }}</el-button>
       <el-button type="danger" @click="handlecancel()">{{ $t('Hmodule.cancel') }}</el-button>
     </div>
   </el-dialog>

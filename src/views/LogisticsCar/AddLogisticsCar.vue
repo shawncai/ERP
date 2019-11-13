@@ -29,7 +29,7 @@
           <el-form-item :label="$t('LogisticsCar.stat')" prop="stat" style="width: 40%;margin-top:1%">
             <el-select v-model="personalForm.stat" placeholder="请选择车辆状态" style="width: 100%;">
               <el-option label="正常" value="1"/>
-              <el-option label="停用" value="2"/>
+              <el-option :label="$t('updates.ty')" value="2"/>
             </el-select>
           </el-form-item>
           <el-form-item :label="$t('LogisticsCar.drivers')" prop="drivers" style="width: 40%;margin-top:1%">
@@ -41,7 +41,7 @@
       <!--操作-->
       <div class="buttons" style="margin-top: 20px">
         <el-button v-no-more-click type="primary" @click="handlesave()">{{ $t('Hmodule.baoc') }}</el-button>
-        <el-button type="success" @click="handleentry()">继续录入</el-button>
+        <el-button type="success" @click="handleentry()">{{ $t('updates.jxlr') }}</el-button>
         <el-button type="danger" @click="handlecancel()">{{ $t('Hmodule.cancel') }}</el-button>
       </div>
     </div>

@@ -130,7 +130,7 @@
         </el-form>
         <div slot="footer" class="dialog-footer" style="text-align: center">
           <el-button @click="editNumberingVisible = false">取 消</el-button>
-          <el-button type="primary" @click="handleEditOk">修改</el-button>
+          <el-button type="primary" @click="handleEditOk">{{ $t('public.edit') }}</el-button>
         </div>
       </el-dialog>
       <!--修改结束=================================================-->

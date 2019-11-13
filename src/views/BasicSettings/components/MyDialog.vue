@@ -19,7 +19,7 @@
           </el-select>
         </el-form-item>
         <el-form-item :label="$t('BasicSettings.is_message')" style="width: 40%;margin-top:1%">
-          <el-select v-model="personalForm.isMessage" placeholder="请选择" style="width: 100%;">
+          <el-select v-model="personalForm.isMessage" :placeholder="$t('updates.qxz')" style="width: 100%;">
             <el-option label="发送" value="1"/>
             <el-option label="不发送" value="2"/>
           </el-select>
@@ -73,7 +73,7 @@
       </el-editable>
     </div>
     <div class="buttons" style="margin-top: 20px;margin-left: 30px">
-      <el-button type="primary" @click="handleEditok()">修改</el-button>
+      <el-button type="primary" @click="handleEditok()">{{ $t('public.edit') }}</el-button>
       <el-button type="danger" @click="handlecancel()">{{ $t('Hmodule.cancel') }}</el-button>
     </div>
   </el-dialog>

@@ -9,7 +9,7 @@
         <el-option value="3" label="重量" />
       </el-select>
       <el-select v-model="getemplist.iseffective" :placeholder="$t('BasicSettings.iseffective3')" class="filter-item" clearable >
-        <el-option value="1" label="启用" />
+        <el-option value="1" :label="$t('updates.qy')" />
         <el-option value="2" label="禁用" />
       </el-select>
       <!-- 搜索按钮 -->
@@ -44,9 +44,9 @@
           <el-form-item label-width="120px" label="计量单位名称">
             <el-input v-model="Numberingform.categoryname" placeholder="请输入计量单位名称" autocomplete="off" style="width: 200px"/>
           </el-form-item>
-          <el-form-item label-width="120px" label="启用状态">
+          <el-form-item label-width="120px" :label="$t('updates.qyzt')">
             <el-select v-model="Numberingform.iseffective" placeholder="请选择启用状态">
-              <el-option label="启用" value="1"/>
+              <el-option :label="$t('updates.qy')" value="1"/>
               <el-option label="禁用" value="2"/>
             </el-select>
           </el-form-item>
@@ -129,16 +129,16 @@
           <el-form-item label-width="120px" label="计量单位名称">
             <el-input v-model="editNumberingform.categoryName" placeholder="请输入计量单位名称" autocomplete="off" style="width: 200px"/>
           </el-form-item>
-          <!-- <el-form-item label-width="120px" label="启用状态">
+          <!-- <el-form-item label-width="120px" :label="$t('updates.qyzt')">
             <el-select v-model="editNumberingform.isEffective" placeholder="请选择启用状态">
-              <el-option label="启用" value="1"/>
+              <el-option :label="$t('updates.qy')" value="1"/>
               <el-option label="禁用" value="2"/>
             </el-select>
           </el-form-item> -->
         </el-form>
         <div slot="footer" class="dialog-footer" style="text-align: center">
           <el-button @click="editNumberingVisible = false">取 消</el-button>
-          <el-button type="primary" @click="handleEditOk">修改</el-button>
+          <el-button type="primary" @click="handleEditOk">{{ $t('public.edit') }}</el-button>
         </div>
       </el-dialog>
       <!--修改结束=================================================-->

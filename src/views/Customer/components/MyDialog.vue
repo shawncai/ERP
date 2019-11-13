@@ -115,13 +115,13 @@
             </el-col>
             <el-col :span="12">
               <el-form-item :label="$t('Customer.traderid')" prop="address" style="width: 100%;">
-                <el-input v-model="trader" placeholder="请选择" style="margin-left: 18px;width: 200px" @focus="handlechoose"/>
+                <el-input v-model="trader" :placeholder="$t('updates.qxz')" style="margin-left: 18px;width: 200px" @focus="handlechoose"/>
               </el-form-item>
             </el-col>
             <my-emp :control.sync="empcontrol" @personName="personName"/>
             <el-col :span="12">
               <el-form-item :label="$t('Customer.transmode')" prop="address" style="width: 100%;">
-                <el-select v-model="customerForm.transMode" :value="customerForm.transMode" placeholder="请选择" style="margin-left: 18px;width: 200px" @focus="getCategory">
+                <el-select v-model="customerForm.transMode" :value="customerForm.transMode" :placeholder="$t('updates.qxz')" style="margin-left: 18px;width: 200px" @focus="getCategory">
                   <el-option
                     v-for="(item, index) in transmodes"
                     :key="index"
@@ -132,7 +132,7 @@
             </el-col>
             <el-col :span="12">
               <el-form-item :label="$t('Customer.deliverymode')" prop="address" style="width: 100%;">
-                <el-select v-model="customerForm.deliveryMode" :value="customerForm.deliveryMode" placeholder="请选择" style="margin-left: 18px;width: 200px" @focus="getCategory">
+                <el-select v-model="customerForm.deliveryMode" :value="customerForm.deliveryMode" :placeholder="$t('updates.qxz')" style="margin-left: 18px;width: 200px" @focus="getCategory">
                   <el-option
                     v-for="(item, index) in deliverymodes"
                     :key="index"

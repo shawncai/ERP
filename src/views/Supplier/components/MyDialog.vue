@@ -170,16 +170,16 @@
             </el-col>
             <el-col :span="12">
               <el-form-item :label="$t('Supplier.isHot')" prop="isHot" style="width: 100%;">
-                <el-select v-model="personalForm.isHot" placeholder="请选择" style="margin-left: 18px;width: 200px">
-                  <el-option label="是" value="1"/>
-                  <el-option label="否" value="2"/>
+                <el-select v-model="personalForm.isHot" :placeholder="$t('updates.qxz')" style="margin-left: 18px;width: 200px">
+                  <el-option :label="$t('updates.yes')" value="1"/>
+                  <el-option :label="$t('updates.no')" value="2"/>
                 </el-select>
               </el-form-item>
             </el-col>
             <el-col :span="12">
               <el-form-item :label="$t('Supplier.isEffective')" style="width: 100%;">
                 <el-select v-model="personalForm.isEffective" placeholder="请选择启用状态" style="margin-left: 18px;width: 200px">
-                  <el-option label="启用" value="1"/>
+                  <el-option :label="$t('updates.qy')" value="1"/>
                   <el-option label="未启用" value="2"/>
                 </el-select>
               </el-form-item>

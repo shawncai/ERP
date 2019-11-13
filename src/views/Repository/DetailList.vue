@@ -44,7 +44,7 @@
                 </el-form-item>
               </el-col>
               <el-col :span="12">
-                <el-form-item label="类型" style="width: 100%;">
+                <el-form-item :label="$t('updates.lx')" style="width: 100%;">
                   <span>{{ personalForm.categoryName }}</span>
                 </el-form-item>
               </el-col>

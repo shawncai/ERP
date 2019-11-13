@@ -51,7 +51,7 @@
           <el-form-item label-width="120px" label="流水号长度" prop="length">
             <el-input v-model="Numberingform.length" placeholder="请输入流水号长度" autocomplete="off" style="width: 200px"/>
           </el-form-item>
-          <el-form-item label-width="120px" label="启用状态">
+          <el-form-item label-width="120px" :label="$t('updates.qyzt')">
             <el-select v-model="Numberingform.iseffective" placeholder="请选择启用状态">
               <el-option label="active" value="1"/>
               <el-option label="dead" value="2"/>
@@ -161,7 +161,7 @@
           <el-form-item label-width="120px" label="流水号长度" prop="length">
             <el-input v-model="editNumberingform.length" placeholder="请输入流水号长度" autocomplete="off" style="width: 200px"/>
           </el-form-item>
-          <el-form-item label-width="120px" label="启用状态">
+          <el-form-item label-width="120px" :label="$t('updates.qyzt')">
             <el-select v-model="editNumberingform.isEffective" placeholder="请选择启用状态">
               <el-option label="active" value="1"/>
               <el-option label="dead" value="2"/>
@@ -170,7 +170,7 @@
         </el-form>
         <div slot="footer" class="dialog-footer" style="text-align: center">
           <el-button @click="editNumberingVisible = false">取 消</el-button>
-          <el-button type="primary" @click="handleEditOk">修改</el-button>
+          <el-button type="primary" @click="handleEditOk">{{ $t('public.edit') }}</el-button>
         </div>
       </el-dialog>
       <!--修改结束=================================================-->

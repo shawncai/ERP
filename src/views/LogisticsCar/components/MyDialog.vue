@@ -41,7 +41,7 @@
               <el-form-item :label="$t('LogisticsCar.stat')" prop="stat" style="width: 100%;">
                 <el-select v-model="personalForm.stat" placeholder="请选择车辆状态" style="margin-left: 18px;width: 200px">
                   <el-option label="正常" value="1"/>
-                  <el-option label="停用" value="2"/>
+                  <el-option :label="$t('updates.ty')" value="2"/>
                 </el-select>
               </el-form-item>
             </el-col>

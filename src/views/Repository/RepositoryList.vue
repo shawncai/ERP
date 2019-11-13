@@ -13,8 +13,8 @@
         />
       </el-select>
       <el-select v-model="getemplist.iseffective" :value="getemplist.iseffective" :placeholder="$t('Repository.iseffective')" class="filter-item" clearable>
-        <el-option label="启用" value="1"/>
-        <el-option label="停用" value="2"/>
+        <el-option :label="$t('updates.qy')" value="1"/>
+        <el-option :label="$t('updates.ty')" value="2"/>
       </el-select>
       <el-cascader
         :options="regions"
@@ -155,7 +155,7 @@
               </el-radio-group>
             </el-form-item>
             <el-form-item :label="$t('Repository.type')" prop="type" style="width: 40%;margin-top: 1%">
-              <el-select v-model="RepositoryForm.type" :value="RepositoryForm.type" placeholder="请选择" style="width: 100%;" @change="updateType2">
+              <el-select v-model="RepositoryForm.type" :value="RepositoryForm.type" :placeholder="$t('updates.qxz')" style="width: 100%;" @change="updateType2">
                 <el-option
                   v-for="(item, index) in types"
                   :key="index"
@@ -164,8 +164,8 @@
                 />
               </el-select>
             </el-form-item>
-            <el-form-item label="类型" prop="categoryId" style="width: 40%;margin-top: 1%">
-              <el-select v-model="RepositoryForm.categoryId" placeholder="请选择" style="width: 100%;">
+            <el-form-item :label="$t('updates.lx')" prop="categoryId" style="width: 40%;margin-top: 1%">
+              <el-select v-model="RepositoryForm.categoryId" :placeholder="$t('updates.qxz')" style="width: 100%;">
                 <el-option
                   v-for="(item, index) in types2"
                   :key="index"
@@ -175,7 +175,7 @@
               </el-select>
             </el-form-item>
             <el-form-item :label="$t('Repository.managerPeople')" style="width: 40%;margin-top: 1%">
-              <el-input v-model="managerPeople" :value="managerPeople" placeholder="请选择" @focus="handlechoose"/>
+              <el-input v-model="managerPeople" :value="managerPeople" :placeholder="$t('updates.qxz')" @focus="handlechoose"/>
             </el-form-item>
             <!--=========================================-->
             <!--店长弹出员工列表开始-->
@@ -301,7 +301,7 @@
                 style="width: 100%"/>
             </el-form-item>
             <el-form-item :label="$t('Repository.regionManager')" style="width: 40%;margin-top: 1%">
-              <el-input v-model="regionManagerId" :value="regionManagerId" placeholder="请选择" clearable @focus="handlechoose2"/>
+              <el-input v-model="regionManagerId" :value="regionManagerId" :placeholder="$t('updates.qxz')" clearable @focus="handlechoose2"/>
             </el-form-item>
             <!--店长弹出员工列表开始-->
             <!--==============================================-->
@@ -420,7 +420,7 @@
             <!--小区经理选择弹窗结束-->
             <!--弹窗员工列表结束-->
             <!-- <el-form-item :label="$t('Repository.attributes')" style="width: 40%;margin-top: 1%">
-              <el-select v-model="RepositoryForm.attributes" :value="RepositoryForm.attributes" placeholder="请选择" clearable style="width: 100%;">
+              <el-select v-model="RepositoryForm.attributes" :value="RepositoryForm.attributes" :placeholder="$t('updates.qxz')" clearable style="width: 100%;">
                 <el-option label="只卖" value="1"/>
                 <el-option label="既卖又维修" value="2"/>
                 <el-option label="只存储" value="3"/>
@@ -441,7 +441,7 @@
           </el-form>
         </div>
         <div class="buttons" style="margin-top: 20px;margin-left: 30px">
-          <el-button type="primary" @click="handleEditok()">修改</el-button>
+          <el-button type="primary" @click="handleEditok()">{{ $t('public.edit') }}</el-button>
           <el-button type="danger" @click="handlecancel()">{{ $t('Hmodule.cancel') }}</el-button>
         </div>
       </el-dialog>

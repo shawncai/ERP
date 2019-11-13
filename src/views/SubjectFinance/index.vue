@@ -51,20 +51,20 @@
             </el-form-item>
             <el-form-item :label="$t('SubjectFinance.businessAccount')" label-width="120px">
               <el-radio-group v-model="edititem.businessAccount" style="margin-left: 18px;width: 200px">
-                <el-radio :label="1" style="width: 100px">是</el-radio>
-                <el-radio :label="2">否</el-radio>
+                <el-radio :label="1" style="width: 100px">{{ $t('updates.yes') }}</el-radio>
+                <el-radio :label="2">{{ $t('updates.no') }}</el-radio>
               </el-radio-group>
             </el-form-item>
             <el-form-item :label="$t('SubjectFinance.cashItem')" label-width="120px">
               <el-radio-group v-model="edititem.cashItem" style="margin-left: 18px;width: 200px">
-                <el-radio :label="1" style="width: 100px">是</el-radio>
-                <el-radio :label="2">否</el-radio>
+                <el-radio :label="1" style="width: 100px">{{ $t('updates.yes') }}</el-radio>
+                <el-radio :label="2">{{ $t('updates.no') }}</el-radio>
               </el-radio-group>
             </el-form-item>
             <el-form-item :label="$t('SubjectFinance.bankItem')" label-width="120px">
               <el-radio-group v-model="edititem.bankItem" style="margin-left: 18px;width: 200px">
-                <el-radio :label="1" style="width: 100px">是</el-radio>
-                <el-radio :label="2">否</el-radio>
+                <el-radio :label="1" style="width: 100px">{{ $t('updates.yes') }}</el-radio>
+                <el-radio :label="2">{{ $t('updates.no') }}</el-radio>
               </el-radio-group>
             </el-form-item>
           </el-form>
@@ -98,20 +98,20 @@
             </el-form-item>
             <el-form-item :label="$t('SubjectFinance.businessAccount')" label-width="120px">
               <el-radio-group v-model="additem.businessAccount" style="margin-left: 18px;width: 200px">
-                <el-radio :label="1" style="width: 100px">是</el-radio>
-                <el-radio :label="2">否</el-radio>
+                <el-radio :label="1" style="width: 100px">{{ $t('updates.yes') }}</el-radio>
+                <el-radio :label="2">{{ $t('updates.no') }}</el-radio>
               </el-radio-group>
             </el-form-item>
             <el-form-item :label="$t('SubjectFinance.cashItem')" label-width="120px">
               <el-radio-group v-model="additem.cashItem" style="margin-left: 18px;width: 200px">
-                <el-radio :label="1" style="width: 100px">是</el-radio>
-                <el-radio :label="2">否</el-radio>
+                <el-radio :label="1" style="width: 100px">{{ $t('updates.yes') }}</el-radio>
+                <el-radio :label="2">{{ $t('updates.no') }}</el-radio>
               </el-radio-group>
             </el-form-item>
             <el-form-item :label="$t('SubjectFinance.bankItem')" label-width="120px">
               <el-radio-group v-model="additem.bankItem" style="margin-left: 18px;width: 200px">
-                <el-radio :label="1" style="width: 100px">是</el-radio>
-                <el-radio :label="2">否</el-radio>
+                <el-radio :label="1" style="width: 100px">{{ $t('updates.yes') }}</el-radio>
+                <el-radio :label="2">{{ $t('updates.no') }}</el-radio>
               </el-radio-group>
             </el-form-item>
           </el-form>

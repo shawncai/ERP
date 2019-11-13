@@ -78,7 +78,7 @@
           </el-form>
         </div>
         <div class="buttons" style="margin-top: 20px;text-align: center">
-          <el-button type="primary" style="background:#3696fd;border-color:#3696fd;width: 98px" @click="handlesave()">新增</el-button>
+          <el-button type="primary" style="background:#3696fd;border-color:#3696fd;width: 98px" @click="handlesave()">{{ $t('updates.create') }}</el-button>
           <el-button type="danger" @click="handlecancel()">{{ $t('Hmodule.cancel') }}</el-button>
         </div>
       </el-card>

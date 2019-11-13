@@ -29,7 +29,7 @@
       <!--操作-->
       <div class="buttons" style="margin-top: 20px">
         <el-button v-no-more-click type="primary" @click="handlesave()">{{ $t('Hmodule.baoc') }}</el-button>
-        <el-button type="success" @click="handleentry()">继续录入</el-button>
+        <el-button type="success" @click="handleentry()">{{ $t('updates.jxlr') }}</el-button>
         <el-button type="danger" @click="handlecancel()">{{ $t('Hmodule.cancel') }}</el-button>
       </div>
     </div>

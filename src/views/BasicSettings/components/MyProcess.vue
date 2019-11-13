@@ -133,14 +133,14 @@
           </el-select>
         </el-form-item>
         <el-form-item :label="$t('Supplier.isHot')" prop="isHot" style="width: 40%;margin-top:1%">
-          <el-select v-model="personalForm.isHot" placeholder="请选择" style="width: 100%;">
-            <el-option label="是" value="1"/>
-            <el-option label="否" value="2"/>
+          <el-select v-model="personalForm.isHot" :placeholder="$t('updates.qxz')" style="width: 100%;">
+            <el-option :label="$t('updates.yes')" value="1"/>
+            <el-option :label="$t('updates.no')" value="2"/>
           </el-select>
         </el-form-item>
         <el-form-item :label="$t('Supplier.isEffective')" style="width: 40%;margin-top:1%">
           <el-select v-model="personalForm.isEffective" placeholder="请选择启用状态" style="width: 100%;">
-            <el-option label="启用" value="1"/>
+            <el-option :label="$t('updates.qy')" value="1"/>
             <el-option label="未启用" value="2"/>
           </el-select>
         </el-form-item>
@@ -215,7 +215,7 @@
       </el-form>
     </div>
     <div class="buttons" style="margin-top: 20px;margin-left: 30px">
-      <el-button type="primary" @click="handleEditok()">修改</el-button>
+      <el-button type="primary" @click="handleEditok()">{{ $t('public.edit') }}</el-button>
       <el-button type="danger" @click="handlecancel()">{{ $t('Hmodule.cancel') }}</el-button>
     </div>
   </el-dialog>
