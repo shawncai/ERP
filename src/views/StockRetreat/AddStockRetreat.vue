@@ -3,7 +3,7 @@
     <div class="app-container" style="padding-right: 0">
       <!--基本信息-->
       <el-card class="box-card" shadow="never">
-        <h2 ref="geren" class="form-name">基本信息</h2>
+        <h2 ref="geren" class="form-name">{{ $t('Hmodule.basicinfo') }}</h2>
         <div class="container" style="margin-top: 37px">
           <el-form ref="personalForm" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
             <el-row>
@@ -116,17 +116,23 @@
               <el-col :span="6">
                 <el-form-item :label="$t('StockRetreat.isVat')" style="width: 100%;">
                   <el-radio-group v-model="personalForm.isVat" style="margin-left: 18px;width:200px">
-                    <el-radio :label="1" style="width: 100px">是</el-radio>
-                    <el-radio :label="2">否</el-radio>
+                    <el-radio :label="1" style="width: 100px">{{ $t('updates.yes') }}</el-radio>
+                    <el-radio :label="2">{{ $t('updates.no') }}</el-radio>
                   </el-radio-group>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('StockRetreat.currencyId')" prop="currency" style="width: 100%;">
-                  <el-select v-model="personalForm.currencyId" clearable style="margin-left: 18px;width: 200px" @change="change()">
-                    <el-option value="1" label="RMB"/>
+                <el-form-item :label="$t('StockOrder.currency')" prop="currency" style="width: 100%;">
+                  <el-select v-model="personalForm.currencyId" :disabled="IsCurrency" style="margin-left: 18px;width: 200px" @change="changeRate">
+                    <el-option value="1" label="PHP"/>
                     <el-option value="2" label="USD"/>
+                    <el-option value="3" label="RMB"/>
                   </el-select>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item :label="$t('Recycling.exchangeRate')" style="width: 100%;">
+                  <el-input v-model="personalForm.exchangeRate" style="margin-left: 18px;width:200px" disabled/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
@@ -160,9 +166,9 @@
       <el-card class="box-card" style="margin-top: 15px" shadow="never">
         <h2 ref="fuzhu" class="form-name" >采购退货单明细</h2>
         <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
-          <el-button :disabled="addpro" @click="handleAddproduct">添加商品</el-button>
+          <el-button :disabled="addpro" @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>
           <my-detail :control.sync="control" @product="productdetail"/>
-          <el-button type="danger" @click="$refs.editable.removeSelecteds()">删除</el-button>
+          <el-button type="danger" @click="$refs.editable.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
           <el-button type="primary" @click="checkStock()">库存快照</el-button>
         </div>
         <div class="container">
@@ -180,19 +186,19 @@
             style="width: 100%"
             @selection-change="handleSelectionChange">
             <el-editable-column type="selection" min-width="55" align="center"/>
-            <el-editable-column label="序号" min-width="55" align="center" type="index"/>
-            <el-editable-column prop="productCode" align="center" label="物品编号" min-width="150px"/>
-            <el-editable-column prop="productName" align="center" label="物品名称" min-width="150px"/>
-            <el-editable-column prop="productType" align="center" label="规格" min-width="150px"/>
+            <el-editable-column :label="$t('Hmodule.xh')" min-width="55" align="center" type="index"/>
+            <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" align="center" min-width="150px"/>
+            <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" align="center" min-width="150px"/>
+            <el-editable-column :label="$t('Hmodule.gg')" prop="productType" align="center" min-width="150px"/>
             <el-editable-column prop="color" align="center" label="颜色" min-width="150px"/>
-            <el-editable-column prop="unit" align="center" label="单位" min-width="150px"/>
-            <el-editable-column prop="arrivalQuantity" align="center" label="到货数量" min-width="150px"/>
+            <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" min-width="150px"/>
+            <el-editable-column :label="$t('updates.dhsl')" prop="arrivalQuantity" align="center" min-width="150px"/>
             <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible', events: {change: jungleNumbers}}" prop="retreatQuantity" align="center" label="退货数量" min-width="150px"/>
             <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="retreatReason" align="center" label="退货原因" min-width="170px"/>
-            <el-editable-column prop="price" align="center" label="单价" min-width="170px"/>
+            <el-editable-column :label="$t('Hmodule.dj')" prop="price" align="center" min-width="170px"/>
             <el-editable-column prop="includeTaxPrice" align="center" label="含税价" min-width="170px"/>
             <el-editable-column prop="taxRate" align="center" label="税率(%)" min-width="170px"/>
-            <el-editable-column prop="money" align="center" label="金额" min-width="150px">
+            <el-editable-column :label="$t('Hmodule.je')" prop="money" align="center" min-width="150px">
               <template slot-scope="scope">
                 <p>{{ getMoney(scope.row) }}</p>
               </template>
@@ -255,8 +261,8 @@
       </el-card>
       <!--操作-->
       <div class="buttons" style="margin-top: 20px">
-        <el-button v-no-more-click type="primary" style="background:#3696fd;border-color:#3696fd;width: 98px" @click="handlesave()">保存</el-button>
-        <el-button type="danger" @click="handlecancel()">取消</el-button>
+        <el-button v-no-more-click type="primary" style="background:#3696fd;border-color:#3696fd;width: 98px" @click="handlesave()">{{ $t('Hmodule.baoc') }}</el-button>
+        <el-button type="danger" @click="handlecancel()">{{ $t('Hmodule.cancel') }}</el-button>
       </div>
       <el-dialog :visible.sync="receiptVisible2" title="库存快照" class="normal" width="600px" center>
         <el-form class="demo-ruleForm" style="margin: 0px 6%; width: 400px">
@@ -267,7 +273,7 @@
                 height="220"
                 style="width: 100%;"
               >
-                <el-table-column :resizable="false" label="仓库" align="center" min-width="150">
+                <el-table-column :resizable="false" :label="$t('updates.cangk')" align="center" min-width="150">
                   <template slot-scope="scope">
                     <span >{{ scope.row.repositoryName }}</span>
                   </template>
@@ -293,7 +299,7 @@
 
 <script>
 import '@/directive/noMoreClick/index.js'
-import { countlist } from '@/api/public'
+import { countlist, getRate } from '@/api/public'
 import { createstockArrival } from '@/api/StockRetreat'
 import { getdeptlist } from '@/api/BasicSettings'
 import { searchStockCategory } from '@/api/StockCategory'
@@ -368,6 +374,7 @@ export default {
       giveIds: [],
       // 运送方式
       transportIds: [],
+      IsCurrency: false,
       // 结算方式
       settleModes: [],
       // 支付方式
@@ -417,7 +424,9 @@ export default {
         isVat: 1,
         sourceType: '1',
         retreatDate: null,
-        retreatRepositoryId: this.$store.getters.repositoryId
+        retreatRepositoryId: this.$store.getters.repositoryId,
+        currencyId: '3',
+        exchangeRate: '1.0000'
       },
       // 采购申请单规则数据
       personalrules: {
@@ -466,6 +475,27 @@ export default {
     this.getinformation()
   },
   methods: {
+    // 处理汇率
+    changeRate() {
+      console.log(123)
+      if (this.personalForm.currencyId !== '3') {
+        getRate(this.personalForm.currencyId).then(res => {
+          console.log(res)
+          if (res.data.ret === 200) {
+            // console.log('res.data.data.content', res.data.data.content)
+            this.personalForm.exchangeRate = res.data.data.content.rate
+          } else {
+            this.$notify.error({
+              title: '错误',
+              message: res.data.msg,
+              offset: 100
+            })
+          }
+        })
+      } else {
+        this.personalForm.exchangeRate = '1.0000'
+      }
+    },
     // 判断数量
     jungleNumbers(scope) {
       console.log(this.actualilNumber, this.allNumber)
@@ -688,6 +718,7 @@ export default {
       }
       if (val.currencyId !== null && val.currencyId !== undefined && val.currencyId !== '') {
         this.personalForm.currencyId = String(val.currencyId)
+        this.changeRate()
       }
       this.getTypes()
     },
@@ -731,7 +762,6 @@ export default {
       this.personalForm.settleMode = val.settleMode
       this.personalForm.transportModeId = val.transportId
       this.personalForm.isVat = val.isVat
-      this.personalForm.currencyId = val.currency
     },
     // 收货人返回数据
     supplierName2(val) {

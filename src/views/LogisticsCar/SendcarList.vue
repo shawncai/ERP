@@ -13,7 +13,7 @@
         trigger="click">
         <el-select v-model="getemplist.stat" placeholder="车辆状态" class="filter-item" clearable style="width: 40%;float: left;margin-right: 20px">
           <el-option label="正常" value="1"/>
-          <el-option label="停用" value="2"/>
+          <el-option :label="$t('updates.ty')" value="2"/>
         </el-select>
         <el-date-picker
           v-model="getemplist.starttime"

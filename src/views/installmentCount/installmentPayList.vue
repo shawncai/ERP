@@ -6,7 +6,7 @@
         <el-row>
           <el-col :span="3">
             <el-form-item label="用户名">
-              <el-input v-model="getemplist.customerName" style="width: 100px" clearable/>
+              <el-input v-model="getemplist.customerName" style="width: 100px" clearable @clear="restFilter"/>
             </el-form-item>
           </el-col>
           <el-col :span="3" style="margin-left: 55px">
@@ -15,13 +15,13 @@
             </el-form-item>
           </el-col>
           <el-col :span="3" style="margin-left: 100px">
-            <el-form-item label="门店">
-              <el-input v-model="saleRepositoryId" class="filter-item" @keyup.enter.native="handleFilter" @focus="handlechooseRep"/>
+            <el-form-item :label="$t('updates.repository')">
+              <el-input v-model="saleRepositoryId" class="filter-item" @clear="restFilter2" @keyup.enter.native="handleFilter" @focus="handlechooseRep"/>
               <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
             </el-form-item>
           </el-col>
           <el-col :span="3" style="margin-left: 100px">
-            <el-form-item label="日期">
+            <el-form-item :label="$t('updates.rq')">
               <el-date-picker
                 v-model="date"
                 type="daterange"
@@ -35,7 +35,7 @@
         <el-row>
           <el-col :span="3">
             <el-form-item label="型号">
-              <el-select v-model="getemplist.typeId" style="width: 100px" placeholder="请选择规格型号" clearable>
+              <el-select v-model="getemplist.typeId" :placeholder="$t('Hmodule.qxzggxh')" style="width: 100px" clearable>
                 <el-option
                   v-for="(item, index) in types"
                   :key="index"
@@ -413,8 +413,12 @@ export default {
     restFilter() {
       this.customerName = ''
       this.getemplist.customerId = ''
-      this.stockPersonId = ''
-      this.getemplist.stockPersonId = ''
+    },
+    restFilter2() {
+      this.saleRepositoryId = ''
+      this.getemplist.saleRepositoryId = ''
+    },
+    restFilter3() {
       this.handlePersonId = ''
       this.getemplist.handlePersonId = ''
     },
@@ -452,9 +456,9 @@ export default {
             }
           }
           this.total = res.data.data.content.totalCount
-          this.restFilter()
+          // this.restFilter()
         } else {
-          this.restFilter()
+          // this.restFilter()
         }
       })
     },

@@ -10,7 +10,7 @@
           </el-col>
           <el-col :span="5" style="margin-left: 10px">
             <el-form-item label="销售门店">
-              <el-input v-model="saleRepositoryId" placeholder="销售门店" @focus="handlechooseRep"/>
+              <el-input v-model="saleRepositoryId" placeholder="销售门店" @focus="handlechooseRep" @clear="restFilter"/>
             </el-form-item>
             <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
           </el-col>
@@ -37,7 +37,7 @@
           <!--<el-date-picker-->
           <!--v-model="getemplist.time"-->
           <!--type="date"-->
-          <!--placeholder="选择日期"-->
+          <!--:placeholder="$t('Hmodule.xzrq')"-->
           <!--value-format="yyyy-MM-dd"-->
           <!--style="width: 40%;float: left;margin-left: 20px;margin-top: 20px"/>-->
           <!--&lt;!&ndash;<el-date-picker&ndash;&gt;-->
@@ -262,7 +262,7 @@ export default {
         pageNum: 1,
         pageSize: 10,
         repositoryId: this.$store.getters.repositoryId,
-        regionIds: this.$store.getters.regionId,
+        regionIds: this.$store.getters.regionIds,
         time: null
       },
       // 传给组件的数据
@@ -387,9 +387,9 @@ export default {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
-          this.restFilter()
+          // this.restFilter()
         } else {
-          this.restFilter()
+          // this.restFilter()
         }
       })
     },

@@ -82,19 +82,6 @@
                   <el-input v-model="personalForm.remark" style="margin-left: 18px;width: 200px" clearable/>
                 </el-form-item>
               </el-col>
-              <el-col :span="6">
-                <el-form-item :label="$t('Recycling.currency')" prop="currency" style="width: 100%;">
-                  <el-select v-model="personalForm.currency" style="margin-left: 18px;width: 200px" @change="changeRate">
-                    <el-option value="1" label="RMB"/>
-                    <el-option value="2" label="USD"/>
-                  </el-select>
-                </el-form-item>
-              </el-col>
-              <el-col :span="6">
-                <el-form-item :label="$t('Recycling.exchangeRate')" style="width: 100%;">
-                  <el-input v-model="personalForm.exchangeRate" style="margin-left: 18px;width:200px" disabled/>
-                </el-form-item>
-              </el-col>
             </el-row>
           </el-form>
         </div>
@@ -144,8 +131,8 @@
       </el-card>
       <!--操作-->
       <div class="buttons" style="margin-top: 20px">
-        <el-button v-no-more-click type="primary" style="background:#3696fd;border-color:#3696fd;width: 98px" @click="handlesave()">保存</el-button>
-        <el-button type="danger" @click="handlecancel()">取消</el-button>
+        <el-button v-no-more-click type="primary" style="background:#3696fd;border-color:#3696fd;width: 98px" @click="handlesave()">{{ $t('Hmodule.baoc') }}</el-button>
+        <el-button type="danger" @click="handlecancel()">{{ $t('Hmodule.cancel') }}</el-button>
       </div>
     </div>
   </div>
@@ -154,7 +141,7 @@
 <script>
 import '@/directive/noMoreClick/index.js'
 import { createrecycling } from '@/api/Recycling'
-import { getlocation, locationlist, getRate } from '@/api/public'
+import { getlocation, locationlist } from '@/api/public'
 import { searchSaleCategory } from '@/api/SaleCategory'
 import { getdeptlist } from '@/api/BasicSettings'
 import MyEmp from './components/MyEmp'
@@ -241,7 +228,6 @@ export default {
       personalForm: {
         createPersonId: this.$store.getters.userId,
         countryId: this.$store.getters.countryId,
-        currency: '1',
         recyclingRepositoryId: this.$store.getters.repositoryId,
         regionId: this.$store.getters.regionId,
         recyclingDate: null,
@@ -279,27 +265,6 @@ export default {
     this.getTypes()
   },
   methods: {
-    // 汇率变化
-    changeRate() {
-      console.log(123)
-      if (this.personalForm.currency === '2') {
-        getRate(this.personalForm.currency).then(res => {
-          console.log(res)
-          if (res.data.ret === 200) {
-            // console.log('res.data.data.content', res.data.data.content)
-            this.personalForm.exchangeRate = res.data.data.content.rate
-          } else {
-            this.$notify.error({
-              title: '错误',
-              message: res.data.msg,
-              offset: 100
-            })
-          }
-        })
-      } else if (this.personalForm.currency === '1') {
-        this.personalForm.exchangeRate = '1.0000'
-      }
-    },
     // 选择客户focus
     chooseCustomer() {
       this.customercontrol = true

@@ -15,7 +15,7 @@
           </el-col>
           <el-col :span="3" style="margin-left: 20px">
             <el-form-item>
-              <el-input v-model="moveInRepository" :placeholder="$t('Storagemove.moveInRepository')" class="filter-item" clearable @keyup.enter.native="handleFilter" @focus="handlechooseDep"/>
+              <el-input v-model="moveInRepository" :placeholder="$t('Storagemove.moveInRepository')" class="filter-item" clearable @clear="restFilter" @keyup.enter.native="handleFilter" @focus="handlechooseDep"/>
             </el-form-item>
             <my-depot :depotcontrol.sync="depotcontrol" @depotname="depotname"/>
           </el-col>
@@ -33,7 +33,7 @@
                   :value="item.id"
                   :label="item.deptName"/>
               </el-select>
-              <el-input v-model="moveOutRepository" :placeholder="$t('Storagemove.moveOutRepository')" class="filter-item" clearable style="width: 40%;float: right;margin-right: 20px" @keyup.enter.native="handleFilter" @focus="handlechooseRep"/>
+              <el-input v-model="moveOutRepository" :placeholder="$t('Storagemove.moveOutRepository')" class="filter-item" clearable style="width: 40%;float: right;margin-right: 20px" @clear="restFilter2" @keyup.enter.native="handleFilter" @focus="handlechooseRep"/>
               <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
               <el-select v-model="getemplist.requestDeptId" placeholder="请选择要货部门" style="width: 40%;float: left;margin-left: 20px;margin-top: 20px" clearable >
                 <el-option
@@ -127,7 +127,7 @@
       <!-- 列表结束 -->
       <pagination v-show="total>0" :total="total" :page.sync="getemplist.pagenum" :limit.sync="getemplist.pagesize" @pagination="getlist" />
       <!--修改开始=================================================-->
-      <el-button v-waves class="filter-item" type="success" style="width: 100px;float: left;margin-bottom: 10px" @click="handleConfirm">确认添加</el-button>
+      <el-button v-waves class="filter-item" type="success" style="width: 100px;float: left;margin-bottom: 10px" @click="handleConfirm">{{ $t('Hmodule.sure') }}</el-button>
     </el-card>
   </el-dialog>
 </template>
@@ -204,7 +204,7 @@ export default {
         receiptStat: 2,
         countryId: this.$store.getters.countryId,
         repositoryId: this.$store.getters.repositoryId,
-        regionIds: this.$store.getters.regionId
+        regionIds: this.$store.getters.regionIds
       },
       // 搜索结束 ----------------------
       // 列表操作 -------------------------
@@ -296,6 +296,8 @@ export default {
     restFilter() {
       this.moveInRepository = ''
       this.getemplist.moveInRepository = ''
+    },
+    restFilter2() {
       this.moveOutRepository = ''
       this.getemplist.moveOutRepository = ''
     },
@@ -313,14 +315,14 @@ export default {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
-          this.restFilter()
+          // this.restFilter()
         } else {
           this.$notify.error({
             title: '错误',
             message: '出错了',
             offset: 100
           })
-          this.restFilter()
+          // this.restFilter()
         }
       })
     },

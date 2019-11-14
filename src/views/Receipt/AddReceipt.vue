@@ -3,7 +3,7 @@
     <div class="app-container" style="padding-right: 0">
       <!--基本信息-->
       <el-card class="box-card" shadow="never">
-        <h2 ref="geren" class="form-name">基本信息</h2>
+        <h2 ref="geren" class="form-name">{{ $t('Hmodule.basicinfo') }}</h2>
         <div class="container" style="margin-top: 37px">
           <el-form ref="personalForm" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
             <el-row>
@@ -16,7 +16,7 @@
                 <el-form-item :label="$t('Receipt.customerType')" prop="customerType" style="width: 100%;">
                   <el-select v-model="personalForm.customerType" style="margin-left: 18px;width: 200px" @change="clearCustomer">
                     <el-option value="1" label="经销商"/>
-                    <el-option value="2" label="客户"/>
+                    <el-option :label="$t('updates.kh')" value="2"/>
                   </el-select>
                 </el-form-item>
               </el-col>
@@ -119,7 +119,7 @@
             style="width: 100%"
             @selection-change="handleSelectionChange">
             <!-- <el-editable-column type="selection" min-width="55" align="center"/> -->
-            <el-editable-column :key="Math.random()" label="序号" min-width="55" align="center" type="index"/>
+            <el-editable-column :key="Math.random()" :label="$t('Hmodule.xh')" min-width="55" align="center" type="index"/>
             <el-editable-column :key="Math.random()" prop="presentCount" align="center" label="当前期数" min-width="150px"/>
             <el-editable-column :key="Math.random()" prop="returnMoney" align="center" label="本期还款金额" min-width="150px"/>
             <el-editable-column :key="Math.random()" prop="returnSource" align="center" label="本期还款本金" min-width="150px"/>
@@ -160,8 +160,8 @@
       </el-card>
       <!--操作-->
       <div class="buttons" style="margin-top: 20px">
-        <el-button v-no-more-click type="primary" style="background:#3696fd;border-color:#3696fd;width: 98px" @click="handlesave()">保存</el-button>
-        <el-button type="danger" @click="handlecancel()">取消</el-button>
+        <el-button v-no-more-click type="primary" style="background:#3696fd;border-color:#3696fd;width: 98px" @click="handlesave()">{{ $t('Hmodule.baoc') }}</el-button>
+        <el-button type="danger" @click="handlecancel()">{{ $t('Hmodule.cancel') }}</el-button>
       </div>
     </div>
   </div>

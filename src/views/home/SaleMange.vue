@@ -12,7 +12,7 @@
               <el-col :span="24">
                 <div style="width: 100%; min-height: 400px;" >
                   <div style="width: 100%; height: 50px;background: #d9e0e8;" >
-                    <div style="padding-top: 16px;padding-left: 20px;width: 25%;height: 100%;float: left">客户分布</div>
+                    <div style="padding-top: 16px;padding-left: 20px;width: 25%;height: 100%;float: left">{{ $t('updates.khfb') }}</div>
                     <div style="width: 75%;height: 100%;float: left;">
                       <el-form ref="getemplist4" :model="getemplist4" label-width="100px">
                         <el-date-picker
@@ -20,8 +20,8 @@
                           type="daterange"
                           range-separator="-"
                           unlink-panels
-                          start-placeholder="开始日期"
-                          end-placeholder="结束日期"
+                          :start-placeholder="$t('updates.ksrq')"
+                          :end-placeholder="$t('updates.jsrq')"
                           value-format="yyyy-MM-dd"
                           style="margin-left: 60%;"
                           class="shipei"/>
@@ -36,34 +36,34 @@
                     style="width: 100%">
                     <el-table-column
                       prop="repositoryName"
-                      label="门店"
+                      :label="$t('updates.repository')"
                       width="300"
                       align="center"/>
-                    <el-table-column align="center" label="线下普通客户">
+                    <el-table-column align="center" :label="$t('updates.xxptkh')">
                       <el-table-column
                         prop="first"
-                        label="初次接触"
+                        :label="$t('updates.ccjc')"
                         width="260"
                         align="center"/>
                       <el-table-column
                         prop="manyTimes"
-                        label="多次接触"
+                        :label="$t('updates.dcjc')"
                         width="260"
                         align="center"/>
                       <el-table-column
                         prop="important"
-                        label="重点客户"
+                        :label="$t('updates.zdkh')"
                         width="260"
                         align="center"/>
                       <el-table-column
                         prop="total"
-                        label="合计"
+                        :label="$t('updates.hj')"
                         width="260"
                         align="center"/>
                     </el-table-column>
                     <el-table-column
                       prop="online"
-                      label="线上客户"
+                        :label="$t('updates.xskh')"
                       width="302"
                       align="center"/>
                   </el-table>
@@ -82,7 +82,7 @@
               <el-col :span="24">
                 <div style="width: 100%; min-height: 400px;" >
                   <div style="width: 100%; height: 50px;background: #d9e0e8;" >
-                    <div style="padding-top: 16px;padding-left: 20px;">客户每月对比</div>
+                    <div style="padding-top: 16px;padding-left: 20px;">{{ $t('updates.khmydb') }}</div>
                   </div>
                   <el-table
                     :data="list2"
@@ -90,40 +90,40 @@
                     style="width: 100%">
                     <el-table-column
                       prop="repositoryName"
-                      label="门店"
+                      :label="$t('updates.repository')"
                       width="262"
                       align="center"/>
-                    <el-table-column align="center" label="零售">
+                    <el-table-column align="center" :label="$t('updates.ls')">
                       <el-table-column
                         prop="customerToday"
-                        label="今日新增"
+                        :label="$t('updates.jrxz')"
                         width="230"
                         align="center"/>
                       <el-table-column
                         prop="customerMonth"
-                        label="本月总计"
+                        :label="$t('updates.byzj')"
                         width="230"
                         align="center"/>
                       <el-table-column
                         prop="customerLast"
-                        label="上月同期"
+                        :label="$t('updates.sytq')"
                         width="230"
                         align="center"/>
                     </el-table-column>
-                    <el-table-column align="center" label="经销商">
+                    <el-table-column align="center" :label="$t('updates.jxs')">
                       <el-table-column
                         prop="agentToday"
-                        label="今日新增"
+                        :label="$t('updates.jrxz')"
                         width="230"
                         align="center"/>
                       <el-table-column
                         prop="agentMonth"
-                        label="本月总计"
+                        :label="$t('updates.byzj')"
                         width="230"
                         align="center"/>
                       <el-table-column
                         prop="agentLast"
-                        label="上月同期"
+                        :label="$t('updates.sytq')"
                         width="230"
                         align="center"/>
                     </el-table-column>
@@ -148,8 +148,8 @@
                     type="daterange"
                     range-separator="-"
                     unlink-panels
-                    start-placeholder="开始日期"
-                    end-placeholder="结束日期"
+                    :start-placeholder="$t('updates.ksrq')"
+                    :end-placeholder="$t('updates.jsrq')"
                     value-format="yyyy-MM-dd"
                     style="margin-left: 60%;"
                     class="shipei"/>
@@ -165,37 +165,37 @@
               style="width: 100%">
               <el-table-column
                 prop="repositoryName"
-                label="门店"
+                :label="$t('updates.repository')"
                 width="323"
                 align="center"/>
               <el-table-column
                 prop="submit"
-                label="待分配"
+                :label="$t('updates.dfp')"
                 width="220"
                 align="center"/>
               <el-table-column
                 prop="assigned"
-                label="已安排"
+                :label="$t('updates.yap')"
                 width="220"
                 align="center"/>
               <el-table-column
                 prop="repair"
-                label="待维修"
+                :label="$t('updates.dwx')"
                 width="220"
                 align="center"/>
               <el-table-column
                 prop="begin"
-                label="维修中"
+                :label="$t('updates.wxz')"
                 width="220"
                 align="center"/>
               <el-table-column
                 prop="finished"
-                label="已完成"
+                :label="$t('updates.yap')"
                 width="220"
                 align="center"/>
               <el-table-column
                 prop="comment"
-                label="已评价"
+                :label="$t('updates.ypj')"
                 width="220"
                 align="center"/>
             </el-table>
@@ -315,13 +315,13 @@ export default {
         pageNum: 1,
         pageSize: 10,
         repositoryId: this.$store.getters.repositoryId,
-        regionIds: this.$store.getters.regionId
+        regionIds: this.$store.getters.regionIds
       },
       getemplist2: {
         pageNum: 1,
         pageSize: 10,
         repositoryId: this.$store.getters.repositoryId,
-        regionIds: this.$store.getters.regionId,
+        regionIds: this.$store.getters.regionIds,
         employeeId: this.$store.getters.userId
       },
       getemplist3: {

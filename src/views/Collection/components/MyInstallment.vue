@@ -121,7 +121,7 @@
       <!-- 列表结束 -->
       <pagination v-show="total>0" :total="total" :page.sync="getemplist.pagenum" :limit.sync="getemplist.pagesize" @pagination="getlist" />
       <!--修改开始=================================================-->
-      <el-button v-waves class="filter-item" type="success" style="width: 100px;float: left;margin-bottom: 10px" @click="handleConfirm">确认添加</el-button>
+      <el-button v-waves class="filter-item" type="success" style="width: 100px;float: left;margin-bottom: 10px" @click="handleConfirm">{{ $t('Hmodule.sure') }}</el-button>
     </el-card>
   </el-dialog>
 </template>
@@ -218,7 +218,7 @@ export default {
         pageSize: 10,
         judgeStat: 2, receiptStat: 2,
         repositoryId: this.$store.getters.repositoryId,
-        regionIds: this.$store.getters.regionId,
+        regionIds: this.$store.getters.regionIds,
         isActive: 1
       },
       // 传给组件的数据
@@ -277,9 +277,9 @@ export default {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
-          this.restFilter()
+          // this.restFilter()
         } else {
-          this.restFilter()
+          // this.restFilter()
         }
       })
     },

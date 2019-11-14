@@ -40,8 +40,8 @@
               <el-input v-model="getemplist.count" :placeholder="$t('CollectList.count')" clearable style="width: 40%;float: right;margin-right: 20px" @keyup.enter.native="handleFilter"/>
               <el-date-picker
                 v-model="getemplist.time"
+                :placeholder="$t('Hmodule.xzrq')"
                 type="date"
-                placeholder="选择日期"
                 value-format="yyyy-MM-dd"
                 style="width: 40%;float: left;margin-left: 20px;margin-top: 20px"/>
               <!--<el-date-picker-->
@@ -300,7 +300,7 @@ export default {
         pageNum: 1,
         pageSize: 10,
         repositoryId: this.$store.getters.repositoryId,
-        regionIds: this.$store.getters.regionId,
+        regionIds: this.$store.getters.regionIds,
         time: null
       },
       // 传给组件的数据
@@ -468,9 +468,9 @@ export default {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
-          this.restFilter()
+          // this.restFilter()
         } else {
-          this.restFilter()
+          // this.restFilter()
         }
       })
     },

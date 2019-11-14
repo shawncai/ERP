@@ -81,7 +81,7 @@
       <!-- 列表结束 -->
       <pagination v-show="total>0" :total="total" :page.sync="getemplist.pageNum" :limit.sync="getemplist.pageSize" @pagination="getlist" />
       <!--修改开始=================================================-->
-      <el-button v-waves type="success" style="text-align: center;" @click="handleAddTo">确认添加</el-button>
+      <el-button v-waves type="success" style="text-align: center;" @click="handleAddTo">{{ $t('Hmodule.sure') }}</el-button>
       <!--修改结束=================================================-->
     </el-card>
     <!-- 列表结束 -->
@@ -136,7 +136,7 @@ export default {
         pageNum: 1,
         pageSize: 10,
         repositoryId: this.$store.getters.repositoryId,
-        regionIds: this.$store.getters.regionId,
+        regionIds: this.$store.getters.regionIds,
         createPersonId: this.$store.getters.userId
       },
       // 传给组件的数据

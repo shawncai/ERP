@@ -14,7 +14,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="5" style="margin-left: 10px">
-            <el-form-item label="启用状态">
+            <el-form-item :label="$t('updates.qyzt')">
               <el-select v-model="getemplist.isEffective" :value="getemplist.isEffective" clearable @keyup.enter.native="handleFilter">
                 <el-option label="active " value="1"/>
                 <el-option label="dead" value="2"/>
@@ -47,26 +47,29 @@
             <el-input v-model="addCategoryForm.costCode" autocomplete="off"/>
           </el-form-item>
           <el-form-item :label="$t('CostInstall.costCategory')" label-width="100px" prop="costCategory">
-            <el-input v-model="addCategoryForm.costCategory" autocomplete="off"/>
+            <!-- <el-input v-model="addCategoryForm.costCategory" autocomplete="off"/> -->
+            <el-select v-model="addCategoryForm.costCategory" filterable style="width: 300px">
+              <el-option v-for="(item, index) in category" :key="index" :value="item.id" :label="item.categoryName"/>
+            </el-select>
           </el-form-item>
           <el-form-item :label="$t('CostInstall.costName')" label-width="100px" prop="costName">
             <el-input v-model="addCategoryForm.costName" autocomplete="off"/>
           </el-form-item>
-          <el-form-item :label="$t('CostInstall.subjectId')" label-width="100px" prop="subjectId">
+          <el-form-item :label="$t('CostInstall.subjectId')" label-width="100px">
             <el-select v-model="addCategoryForm.subjectId" filterable style="width: 300px">
               <el-option v-for="(item, index) in subjects" :key="index" :value="item.id" :label="item.itemName"/>
             </el-select>
           </el-form-item>
           <el-form-item :label="$t('CostInstall.isEffective')" label-width="100px" prop="isEffective">
             <el-select v-model="addCategoryForm.isEffective" placeholder="请选择状态" style="width: 100%">
-              <el-option label="启用 " value="1"/>
-              <el-option label="停用" value="2"/>
+              <el-option :label="$t('updates.qy')" value="1"/>
+              <el-option :label="$t('updates.ty')" value="2"/>
             </el-select>
           </el-form-item>
         </el-form>
         <span slot="footer" class="dialog-footer">
-          <el-button type="primary" @click="handlesave()">保存</el-button>
-          <el-button type="danger" @click="handlecancel()">取消</el-button>
+          <el-button type="primary" @click="handlesave()">{{ $t('Hmodule.baoc') }}</el-button>
+          <el-button type="danger" @click="handlecancel()">{{ $t('Hmodule.cancel') }}</el-button>
         </span>
       </el-dialog>
     </el-card>
@@ -83,7 +86,6 @@
         style="width: 100%;"
         @selection-change="handleSelectionChange">
         <el-table-column
-          :selectable="selectInit"
           type="selection"
           width="55"
           align="center"/>
@@ -94,7 +96,7 @@
         </el-table-column>
         <el-table-column :label="$t('CostInstall.costCategory')" :resizable="false" align="center" min-width="250">
           <template slot-scope="scope">
-            <span>{{ scope.row.costCategory }}</span>
+            <span>{{ scope.row.costCategoryName }}</span>
           </template>
         </el-table-column>
         <el-table-column :label="$t('CostInstall.costName')" :resizable="false" align="center" min-width="350">
@@ -120,7 +122,7 @@
         </el-table-column>
       </el-table>
       <!-- 列表结束 -->
-      <pagination v-show="total>0" :total="total" :page.sync="getemplist.pagenum" :limit.sync="getemplist.pagesize" @pagination="getlist" />
+      <pagination v-show="total>0" :total="total" :page.sync="getemplist.pageNum" :limit.sync="getemplist.pageSize" @pagination="getlist" />
       <!--修改开始=================================================-->
       <el-dialog :visible.sync="editcategoryVisible" title="修改费用设置" class="normal" width="600px" center>
         <el-form ref="editCategoryForm" :rules="editCategoryFormRules" :model="editCategoryForm" class="demo-ruleForm" style="margin: 0 auto; width: 400px">
@@ -140,14 +142,14 @@
           </el-form-item>
           <el-form-item :label="$t('CostInstall.isEffective')" label-width="100px" prop="isEffective">
             <el-select v-model="editCategoryForm.isEffective" placeholder="请选择状态" style="width: 100%">
-              <el-option label="启用 " value="1"/>
-              <el-option label="停用" value="2"/>
+              <el-option :label="$t('updates.qy')" value="1"/>
+              <el-option :label="$t('updates.ty')" value="2"/>
             </el-select>
           </el-form-item>
         </el-form>
         <span slot="footer" class="dialog-footer">
-          <el-button type="primary" @click="handleOk()">修改</el-button>
-          <el-button type="danger" @click="handleNo()">取消</el-button>
+          <el-button type="primary" @click="handleOk()">{{ $t('public.edit') }}</el-button>
+          <el-button type="danger" @click="handleNo()">{{ $t('Hmodule.cancel') }}</el-button>
         </span>
       </el-dialog>
       <!--修改结束=================================================-->
@@ -158,6 +160,7 @@
 <script>
 import { addCostInstall, searchCostInstall, updateCostInstall, delateCostInstall } from '@/api/CostInstall'
 import { itemList } from '@/api/SubjectFinance'
+import { searchCostCategory } from '@/api/categorymanage'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
 import permission from '@/directive/permission/index.js' // 权限判断指令
@@ -187,6 +190,8 @@ export default {
   },
   data() {
     return {
+      // 费用类别
+      category: [],
       // 批量删除参数
       moreaction: [],
       // 新增窗口
@@ -258,8 +263,8 @@ export default {
         categoryname: '',
         type: '',
         isEffective: '',
-        pagenum: 1,
-        pagesize: 10
+        pageNum: 1,
+        pageSize: 10
       }
     }
   },
@@ -274,6 +279,17 @@ export default {
       itemList(param).then(res => {
         if (res.data.ret === 200) {
           this.subjects = res.data.data.content
+        }
+      })
+      const getemplist = {
+        categoryName: '',
+        isEffective: '1',
+        pageNum: 1,
+        pageSize: 10
+      }
+      searchCostCategory(getemplist).then(res => {
+        if (res.data.ret === 200) {
+          this.category = res.data.data.content.list
         }
       })
       // 员工列表数据

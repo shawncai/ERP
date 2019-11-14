@@ -2,7 +2,7 @@
   <el-dialog :visible.sync="editVisible" :detailcontrol="detailcontrol" :detaildata="detaildata" :close-on-press-escape="false" :title="personalForm.deliverNumber +'    详情'" append-to-body width="1010px" class="edit" top="-10px" @close="$emit('update:detailcontrol', false)">
     <!--基本信息-->
     <el-card class="box-card" style="margin-top: 63px" shadow="never">
-      <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">基本信息</h2>
+      <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('Hmodule.basicinfo') }}</h2>
       <div class="container" style="margin-top: 37px">
         <el-form :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
           <el-row>
@@ -73,18 +73,18 @@
           border
           size="medium"
           style="width: 100%">
-          <el-editable-column label="序号" min-width="55" fixed="left" align="center" type="index"/>
-          <el-editable-column prop="productCode" align="center" label="物品编号" fixed="left" min-width="150px"/>
-          <el-editable-column prop="productName" align="center" label="物品名称" fixed="left" min-width="150px"/>
-          <el-editable-column prop="productType" align="center" label="规格" min-width="150px"/>
+          <el-editable-column :label="$t('Hmodule.xh')" min-width="55" fixed="left" align="center" type="index"/>
+          <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" align="center" fixed="left" min-width="150px"/>
+          <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" align="center" fixed="left" min-width="150px"/>
+          <el-editable-column :label="$t('Hmodule.gg')" prop="productType" align="center" min-width="150px"/>
           <el-editable-column prop="color" align="center" label="颜色" min-width="150px"/>
-          <el-editable-column prop="unit" align="center" label="单位" min-width="150px"/>
+          <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" min-width="150px"/>
           <el-editable-column prop="basicQuantity" align="center" label="基本数量" min-width="150px"/>
-          <el-editable-column prop="price" align="center" label="单价" min-width="150px"/>
+          <el-editable-column :label="$t('Hmodule.dj')" prop="price" align="center" min-width="150px"/>
           <el-editable-column prop="deliverQuantity" align="center" label="配送数量" min-width="150px"/>
           <el-editable-column prop="deliverMoney" align="center" label="配送金额" min-width="150px"/>
           <el-editable-column prop="outRepositoryName" align="center" label="出货仓库" min-width="150px"/>
-          <el-editable-column prop="batch" align="center" label="批次" min-width="150px"/>
+          <el-editable-column :label="$t('Hmodule.pc')" prop="batch" align="center" min-width="150px"/>
           <el-table-column v-show="isdeliverperson()" :label="$t('public.actions')" :resizable="false" align="center" min-width="230">
             <template slot-scope="scope">
               <el-button v-if="isok(scope.row)" title="确认" size="mini" type="success" icon="el-icon-check" circle @click="handleconfirm(scope.row)"/>
@@ -129,7 +129,7 @@
       </div>
     </el-card>
     <el-card class="box-card" style="margin-top: 15px" shadow="never">
-      <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">备注信息</h2>
+      <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('updates.bzxx') }}</h2>
       <div class="container" style="margin-top: 37px">
         <el-form :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
           <el-row>

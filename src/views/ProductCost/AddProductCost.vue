@@ -6,7 +6,7 @@
       </el-card>
       <!--基本信息-->
       <el-card class="box-card" shadow="never">
-        <h2 ref="geren" class="form-name">基本信息</h2>
+        <h2 ref="geren" class="form-name">{{ $t('Hmodule.basicinfo') }}</h2>
         <div class="container" style="margin-top: 37px;">
           <el-form ref="personalForm" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-position="left" label-width="205px">
             <el-row>
@@ -43,8 +43,8 @@
               <el-col :span="6">
                 <el-form-item :label="$t('ProductCost.isInput')" style="width: 100%;">
                   <el-radio-group v-model="personalForm.isInput" style="margin-left: 11px;width: 200px" >
-                    <el-radio :label="1" style="width: 100px">是</el-radio>
-                    <el-radio :label="2">否</el-radio>
+                    <el-radio :label="1" style="width: 100px">{{ $t('updates.yes') }}</el-radio>
+                    <el-radio :label="2">{{ $t('updates.no') }}</el-radio>
                   </el-radio-group>
                 </el-form-item>
               </el-col>
@@ -184,8 +184,8 @@
       </el-card>
       <!--操作-->
       <div class="buttons" style="margin-top: 20px">
-        <el-button v-no-more-click type="primary" style="background:#3696fd;border-color:#3696fd;width: 98px" @click="handlesave()">保存</el-button>
-        <el-button type="danger" @click="handlecancel()">取消</el-button>
+        <el-button v-no-more-click type="primary" style="background:#3696fd;border-color:#3696fd;width: 98px" @click="handlesave()">{{ $t('Hmodule.baoc') }}</el-button>
+        <el-button type="danger" @click="handlecancel()">{{ $t('Hmodule.cancel') }}</el-button>
       </div>
     </div>
   </div>

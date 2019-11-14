@@ -4,7 +4,7 @@
       <el-row>
         <el-form ref="getemplist" :model="getemplist" label-width="100px" style="margin-top: -9px">
           <el-col :span="5">
-            <el-form-item label="物品名称" label-width="100px">
+            <el-form-item :label="$t('Hmodule.wpmc')" label-width="100px">
               <el-input v-model="getemplist.productName" :placeholder="$t('StockQuery.productName')" clearable @keyup.enter.native="handleFilter" @focus="handleAddproduct"/>
               <my-detail :control.sync="control" @product="product"/>
             </el-form-item>
@@ -134,7 +134,7 @@ export default {
         pageNum: 1,
         pageSize: 10,
         repositoryId: this.$store.getters.repositoryId,
-        regionIds: this.$store.getters.regionId
+        regionIds: this.$store.getters.regionIds
       },
       // 传给组件的数据
       personalForm: {},
@@ -181,6 +181,8 @@ export default {
     restFilter() {
       this.supplierId = ''
       this.getemplist.supplierId = ''
+    },
+    restFilter2() {
       this.stockPersonId = ''
       this.getemplist.stockPersonId = ''
     },
@@ -198,9 +200,9 @@ export default {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
-          this.restFilter()
+          // this.restFilter()
         } else {
-          this.restFilter()
+          // this.restFilter()
         }
       })
     },

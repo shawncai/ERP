@@ -12,6 +12,7 @@ export default {
     stockOrderCount: 'purchase order summary',
     CheckSet: 'Detailed Settings of Quality Inspection',
     home: 'home',
+    carlocation: 'carlocation',
     AddSupplierAdjust: 'New Supplier Price Adjustment List',
     SupplierAdjustList: 'List of Supplier Price Modifications',
     WorkDesk: 'Workbench',
@@ -526,7 +527,8 @@ export default {
     alarm: 'Stock early warning',
     apply: 'My application',
     prepare: 'My to-do list',
-    more: 'More>'
+    more: 'More>',
+    chinese: 'chinese'
   },
   Coupon: {
     name: 'Title of coupon',

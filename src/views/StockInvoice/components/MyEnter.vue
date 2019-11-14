@@ -15,7 +15,7 @@
           </el-col>
           <el-col :span="3" style="margin-left: 20px">
             <el-form-item>
-              <el-input v-model="deliveryPersonId" :placeholder="$t('Stockenter.deliveryPersonId')" clearable @keyup.enter.native="handleFilter" @focus="handlechooseDelivery"/>
+              <el-input v-model="deliveryPersonId" :placeholder="$t('Stockenter.deliveryPersonId')" clearable @keyup.enter.native="handleFilter" @focus="handlechooseDelivery" @clear="restFilter2"/>
             </el-form-item>
             <my-delivery :deliverycontrol.sync="deliverycontrol" @deliveryName="deliveryName"/>
           </el-col>
@@ -131,7 +131,7 @@
       <!-- 列表结束 -->
       <pagination v-show="total>0" :total="total" :page.sync="getemplist.pagenum" :limit.sync="getemplist.pagesize" @pagination="getlist" />
       <!--修改开始=================================================-->
-      <el-button v-waves class="filter-item" type="success" style="width: 100px;float: left;margin-bottom: 10px" @click="handleConfirm">确认添加</el-button>
+      <el-button v-waves class="filter-item" type="success" style="width: 100px;float: left;margin-bottom: 10px" @click="handleConfirm">{{ $t('Hmodule.sure') }}</el-button>
     </el-card>
   </el-dialog>
 </template>
@@ -238,7 +238,7 @@ export default {
         pagesize: 10,
         judgeStat: 2,
         repositoryId: this.$store.getters.repositoryId,
-        regionIds: this.$store.getters.regionId,
+        regionIds: this.$store.getters.regionIds,
         isActive: 1,
         supplierId: this.supp
       },
@@ -291,8 +291,12 @@ export default {
     restFilter() {
       this.enterRepositoryId = ''
       this.getemplist.enterRepositoryId = ''
+    },
+    restFilter2() {
       this.deliveryPersonId = ''
       this.getemplist.deliveryPersonId = ''
+    },
+    restFilter3() {
       this.acceptPersonId = ''
       this.getemplist.acceptPersonId = ''
     },
@@ -303,9 +307,9 @@ export default {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
-          this.restFilter()
+          // this.restFilter()
         } else {
-          this.restFilter()
+          // this.restFilter()
         }
       })
     },

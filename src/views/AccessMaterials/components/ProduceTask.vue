@@ -15,7 +15,7 @@
           </el-col>
           <el-col :span="5" style="margin-left: 10px">
             <el-form-item label="负责人">
-              <el-input v-model="handlePersonId" :placeholder="$t('ProduceTask.handlePersonId')" clearable @keyup.enter.native="handleFilter" @focus="handlechooseStock"/>
+              <el-input v-model="handlePersonId" :placeholder="$t('ProduceTask.handlePersonId')" clearable @clear="restFilter" @keyup.enter.native="handleFilter" @focus="handlechooseStock"/>
             </el-form-item>
             <my-delivery :deliverycontrol.sync="stockControl" @deliveryName="stockName"/>
           </el-col>
@@ -26,7 +26,7 @@
               placement="bottom"
               width="500"
               trigger="click">
-              <el-input v-model="workCenterId" style="width: 40%;float: left;margin-left: 20px" placeholder="工作中心" clearable @focus="workcenterchoose"/>
+              <el-input v-model="workCenterId" style="width: 40%;float: left;margin-left: 20px" placeholder="工作中心" clearable @focus="workcenterchoose" @clear="restFilter2"/>
               <my-center :control.sync="centercontrol" @center="center"/>
               <el-select v-model="getemplist.judgeStat" :value="getemplist.judgeStat" placeholder="审批状态" clearable style="width: 40%;float: right;margin-right: 20px">
                 <el-option value="0" label="未审核"/>
@@ -47,7 +47,7 @@
                   :label="item.deptName"/>
               </el-select>
               <el-select v-model="getemplist.processType" placeholder="加工类型" style="width: 40%;float: left;margin-left: 20px;margin-top: 20px">
-                <el-option value="1" label="加工1" />
+                <el-option :label="$t('Hmodule.jiagong1')" value="1" />
               </el-select>
               <el-date-picker
                 v-model="date"
@@ -125,7 +125,7 @@
       <pagination v-show="total>0" :total="total" :page.sync="getemplist.pagenum" :limit.sync="getemplist.pagesize" @pagination="getlist" />
       <!--修改开始=================================================-->
       <!--修改结束=================================================-->
-      <el-button v-waves class="filter-item" type="success" style="width: 100px;float: left;margin-bottom: 10px" @click="handleConfirm">确认添加</el-button>
+      <el-button v-waves class="filter-item" type="success" style="width: 100px;float: left;margin-bottom: 10px" @click="handleConfirm">{{ $t('Hmodule.sure') }}</el-button>
     </el-card>
   </el-dialog>
 </template>
@@ -221,7 +221,7 @@ export default {
         pageSize: 10,
         judgeStat: 2, receiptStat: 2,
         repositoryId: this.$store.getters.repositoryId,
-        regionIds: this.$store.getters.regionId,
+        regionIds: this.$store.getters.regionIds,
         isActive: 1
       },
       // 传给组件的数据
@@ -262,8 +262,12 @@ export default {
     restFilter() {
       this.handlePersonId = ''
       this.getemplist.handlePersonId = ''
+    },
+    restFilter2() {
       this.workCenterId = ''
       this.getemplist.workCenterId = ''
+    },
+    restFilter3() {
       this.producePlanNumber = ''
       this.getemplist.producePlanNumber = ''
     },
@@ -274,9 +278,9 @@ export default {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
-          this.restFilter()
+          // this.restFilter()
         } else {
-          this.restFilter()
+          // this.restFilter()
         }
       })
     },

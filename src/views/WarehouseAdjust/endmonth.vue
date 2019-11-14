@@ -10,7 +10,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="5">
-            <el-form-item label="物品名称">
+            <el-form-item :label="$t('Hmodule.wpmc')">
               <el-input v-model="getemplist.productName" :placeholder="$t('endmonth.productName')" style="width: 80%;" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
@@ -25,8 +25,8 @@
             </el-form-item>
           </el-col>
           <el-col :span="4">
-            <el-form-item label="仓库">
-              <el-input v-model="searchRepositoryId" :placeholder="$t('Inventorydetaillist.repositoryId')" style="width: 80%;" class="filter-item" clearable @keyup.enter.native="handleFilter" @focus="handlechooseRep"/>
+            <el-form-item :label="$t('updates.cangk')">
+              <el-input v-model="searchRepositoryId" :placeholder="$t('Inventorydetaillist.repositoryId')" style="width: 80%;" class="filter-item" clearable @keyup.enter.native="handleFilter" @focus="handlechooseRep" @clear="restFilter"/>
               <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
             </el-form-item>
           </el-col>
@@ -197,7 +197,7 @@ export default {
         pageSize: 10,
         countryId: this.$store.getters.countryId,
         repositoryId: this.$store.getters.repositoryId,
-        regionIds: this.$store.getters.regionId
+        regionIds: this.$store.getters.regionIds
       },
       // 搜索结束 ----------------------
       // 列表操作 -------------------------
@@ -300,12 +300,14 @@ export default {
     },
     // 清空搜索条件
     restFilter() {
-      this.enterPersonId = ''
-      this.getemplist.enterPersonId = ''
-      this.repositorycontrol = ''
-      this.getemplist.repositorycontrol = ''
-      this.produceManagerId = ''
-      this.getemplist.produceManagerId = ''
+      // this.enterPersonId = ''
+      // this.getemplist.enterPersonId = ''
+      // this.repositorycontrol = ''
+      // this.getemplist.repositorycontrol = ''
+      // this.produceManagerId = ''
+      // this.getemplist.produceManagerId = ''
+      this.searchRepositoryId = ''
+      this.getemplist.searchRepositoryId = ''
     },
     // 搜索
     handleFilter() {

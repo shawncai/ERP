@@ -11,7 +11,7 @@
           <el-col :span="5" style="margin-left: 10%">
             <el-form-item label="状态" label-width="100px">
               <el-select v-model="getemplist.stat" :value="getemplist.receiptStat" clearable style="width: 160px;float: left;margin-right: 20px">
-                <el-option value="1" label="启用"/>
+                <el-option value="1" :label="$t('updates.qy')"/>
                 <el-option value="2" label="未启用"/>
               </el-select>
             </el-form-item>
@@ -227,7 +227,7 @@ export default {
         pageNum: 1,
         pageSize: 10,
         repositoryId: this.$store.getters.repositoryId,
-        regionIds: this.$store.getters.regionId
+        regionIds: this.$store.getters.regionIds
       },
       // 传给组件的数据
       personalForm: {},

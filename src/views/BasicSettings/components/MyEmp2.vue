@@ -1,13 +1,13 @@
 <template>
-  <el-dialog :visible.sync="employeeVisible" :control="control" :close-on-press-escape="false" top="10px" title="选择员工" append-to-body @close="$emit('update:control', false)">
+  <el-dialog :visible.sync="employeeVisible" :control="control" :close-on-press-escape="false" :title="$t('Hmodule.xzyg')" top="10px" append-to-body @close="$emit('update:control', false)">
     <div class="filter-container">
       <el-input v-model="getemplist.employeename" :placeholder="$t('NewEmployeeInformation.employeename')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
       <el-input v-model="getemplist.jobnumber" :placeholder="$t('NewEmployeeInformation.jobnumber2')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
       <el-date-picker
         v-model="getemplist.time"
+        :placeholder="$t('Hmodule.xzrq')"
         type="date"
         class="filter-item"
-        placeholder="选择日期"
         value-format="yyyy-MM-dd"/>
       <el-popover
         placement="bottom"
@@ -18,24 +18,31 @@
           :props="props2"
           v-model="getemplistregions"
           :show-all-levels="false"
-          placeholder="请选择区域"
+          :placeholder="$t('Hmodule.xzqy')"
           change-on-select
           filterable
           clearable
           style="width: 40%;float: left;margin-left: 20px"
           @change="handlechange4"
         />
-        <el-select v-model="getemplist.repositoryid" placeholder="请选择门店" clearable filterable style="width: 40%;float: right;margin-right: 20px">
+        <el-select v-model="getemplist.repositoryid" :placeholder="$t('Hmodule.xzmd')" clearable filterable style="width: 40%;float: right;margin-right: 20px">
           <el-option
             v-for="(item, index) in repositories"
             :key="index"
             :label="item.repositoryName"
             :value="item.id"/>
         </el-select>
-        <el-select v-model="getemplist.postid" :value="getemplist.postid" :placeholder="$t('NewEmployeeInformation.postid2')" class="filter-item" clearable style="width: 40%;float: left;margin-top: 10px;margin-left: 20px">
+        <el-select v-model="getemplist.roleid" :value="getemplist.roleid" :placeholder="$t('updates.roleid')" clearable style="width: 40%;float: left;margin-top: 10px;margin-left: 20px">
+          <el-option
+            v-for="(item, index) in roles"
+            :key="index"
+            :label="item.roleName"
+            :value="item.id"/>
+        </el-select>
+        <!-- <el-select v-model="getemplist.postid" :value="getemplist.postid" :placeholder="$t('NewEmployeeInformation.postid2')" class="filter-item" clearable style="width: 40%;float: left;margin-top: 10px;margin-left: 20px">
           <el-option label="xxx" value="1"/>
           <el-option label="xxx" value="2"/>
-        </el-select>
+        </el-select> -->
         <el-select v-model="getemplist.deptid" :placeholder="$t('NewEmployeeInformation.deptid2')" class="filter-item" clearable style="width: 40%;float: right;margin-top: 10px;margin-right: 20px">
           <el-option
             v-for="(item, index) in depts"
@@ -118,6 +125,7 @@
 <script>
 import { regionlist, searchRepository } from '@/api/public'
 import { getemplist, getdeptlist } from '@/api/EmployeeInformation'
+import { getrolelist } from '@/api/employee'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
 export default {
@@ -140,6 +148,7 @@ export default {
   },
   data() {
     return {
+      roles: [],
       // 批量操作
       moreaction: '',
       // 仓库管理员回显数据
@@ -166,7 +175,7 @@ export default {
         employeename: '',
         pagenum: 1,
         pagesize: 10,
-        stat: 1, loginRepositoryId: this.$store.getters.repositoryId, regionIds: this.$store.getters.regionId,
+        stat: 1, loginRepositoryId: this.$store.getters.repositoryId, regionIds: this.$store.getters.regionIds,
         time: '',
         jobnumber: ''
       },
@@ -206,6 +215,13 @@ export default {
     },
     // 仓库管理员选择开始
     gitemplist() {
+      getrolelist().then(res => {
+        if (res.data.ret === 200) {
+          this.roles = res.data.data.content
+        } else {
+          console.log('角色列表出错')
+        }
+      })
       // 员工列表数据
       this.listLoading = true
       console.log(this.getemplist)

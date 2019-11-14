@@ -9,7 +9,7 @@ const app = {
     },
     topmenu: 1,
     device: 'desktop',
-    language: Cookies.get('language') || 'en',
+    language: Cookies.get('language') || 'zh',
     size: Cookies.get('size') || 'medium'
   },
   mutations: {

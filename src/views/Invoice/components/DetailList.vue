@@ -2,7 +2,7 @@
   <el-dialog :visible.sync="editVisible" :detailcontrol="detailcontrol" :detaildata="detaildata" :close-on-press-escape="false" :title="personalForm.invoiceNumber +'    详情'" append-to-body width="1010px" class="edit" top="-10px" @close="$emit('update:detailcontrol', false)">
     <!--基本信息-->
     <el-card class="box-card" style="margin-top: 63px" shadow="never">
-      <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">基本信息</h2>
+      <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('Hmodule.basicinfo') }}</h2>
       <div class="container" style="margin-top: 37px">
         <el-form :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
           <el-row>
@@ -69,8 +69,8 @@
             <el-col :span="12">
               <el-form-item :label="$t('Invoice.isCheckin')" style="width: 100%;">
                 <el-radio-group v-model="personalForm.isCheckin" style="margin-left: 18px;width: 200px" disabled>
-                  <el-radio :label="1" style="width: 100px">是</el-radio>
-                  <el-radio :label="2">否</el-radio>
+                  <el-radio :label="1" style="width: 100px">{{ $t('updates.yes') }}</el-radio>
+                  <el-radio :label="2">{{ $t('updates.no') }}</el-radio>
                 </el-radio-group>
               </el-form-item>
             </el-col>
@@ -94,7 +94,7 @@
       </div>
     </el-card>
     <el-card class="box-card" style="margin-top: 15px" shadow="never">
-      <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">备注信息</h2>
+      <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('updates.bzxx') }}</h2>
       <div class="container" style="margin-top: 37px">
         <el-form :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
           <el-row>

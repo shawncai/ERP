@@ -2,7 +2,7 @@
   <el-dialog :visible.sync="editVisible" :control="control" :editdata="editdata" :close-on-press-escape="false" :title="customerForm.id +'    修改'" width="1010px" class="edit" top="-10px" @close="$emit('update:control', false)">
     <!--零售客户-->
     <el-card class="box-card" style="margin-top: 63px" shadow="never">
-      <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">基本信息</h2>
+      <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('Hmodule.basicinfo') }}</h2>
       <div class="container" style="margin-top: 37px">
         <el-form ref="customerForm" :model="customerForm" :rules="customerFormrules" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
           <el-row>
@@ -115,13 +115,13 @@
             </el-col>
             <el-col :span="12">
               <el-form-item :label="$t('Customer.traderid')" prop="address" style="width: 100%;">
-                <el-input v-model="trader" placeholder="请选择" style="margin-left: 18px;width: 200px" @focus="handlechoose"/>
+                <el-input v-model="trader" :placeholder="$t('updates.qxz')" style="margin-left: 18px;width: 200px" @focus="handlechoose"/>
               </el-form-item>
             </el-col>
             <my-emp :control.sync="empcontrol" @personName="personName"/>
             <el-col :span="12">
               <el-form-item :label="$t('Customer.transmode')" prop="address" style="width: 100%;">
-                <el-select v-model="customerForm.transMode" :value="customerForm.transMode" placeholder="请选择" style="margin-left: 18px;width: 200px" @focus="getCategory">
+                <el-select v-model="customerForm.transMode" :value="customerForm.transMode" :placeholder="$t('updates.qxz')" style="margin-left: 18px;width: 200px" @focus="getCategory">
                   <el-option
                     v-for="(item, index) in transmodes"
                     :key="index"
@@ -132,7 +132,7 @@
             </el-col>
             <el-col :span="12">
               <el-form-item :label="$t('Customer.deliverymode')" prop="address" style="width: 100%;">
-                <el-select v-model="customerForm.deliveryMode" :value="customerForm.deliveryMode" placeholder="请选择" style="margin-left: 18px;width: 200px" @focus="getCategory">
+                <el-select v-model="customerForm.deliveryMode" :value="customerForm.deliveryMode" :placeholder="$t('updates.qxz')" style="margin-left: 18px;width: 200px" @focus="getCategory">
                   <el-option
                     v-for="(item, index) in deliverymodes"
                     :key="index"
@@ -232,9 +232,9 @@
                 <el-date-picker
                   v-model="customerForm.establishmentTime"
                   :picker-options="pickerOptions"
+                  :placeholder="$t('Hmodule.xzrq')"
                   value-format="yyyy-MM-dd"
                   type="date"
-                  placeholder="选择日期"
                   style="margin-left: 18px;width: 200px"
                 />
               </el-form-item>
@@ -260,8 +260,8 @@
     </el-card>
     <el-card class="box-card" style="position: fixed;width: 1010px;z-index: 100;height: 74px;bottom: 0;" shadow="never">
       <div class="buttons" style="float: right;padding-bottom: 10px">
-        <el-button @click="handlecancel()">取消</el-button>
-        <el-button type="primary" @click="handleEditok()">保存</el-button>
+        <el-button @click="handlecancel()">{{ $t('Hmodule.cancel') }}</el-button>
+        <el-button type="primary" @click="handleEditok()">{{ $t('Hmodule.baoc') }}</el-button>
       </div>
     </el-card>
   </el-dialog>

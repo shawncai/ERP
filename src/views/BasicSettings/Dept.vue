@@ -24,10 +24,10 @@
           <el-form-item label-width="120px" label="部门名称">
             <el-input v-model="AddDeptform.deptname" placeholder="请输入部门名称" autocomplete="off" style="width: 200px"/>
           </el-form-item>
-          <el-form-item label-width="120px" label="启用状态">
+          <el-form-item label-width="120px" :label="$t('updates.qyzt')">
             <el-select v-model="AddDeptform.iseffective" placeholder="请选择状态" style="width: 200px">
-              <el-option label="启用 " value="1"/>
-              <el-option label="停用" value="2"/>
+              <el-option :label="$t('updates.qy')" value="1"/>
+              <el-option :label="$t('updates.ty')" value="2"/>
             </el-select>
           </el-form-item>
         </el-form>
@@ -99,10 +99,10 @@
           <el-form-item label-width="120px" label="部门名称">
             <el-input v-model="editDeptform.deptName" autocomplete="off" style="width: 200px"/>
           </el-form-item>
-          <el-form-item label-width="120px" label="启用状态">
+          <el-form-item label-width="120px" :label="$t('updates.qyzt')">
             <el-select v-model="editDeptform.isEffective" placeholder="请选择状态" style="width: 200px">
-              <el-option label="启用 " value="1"/>
-              <el-option label="停用" value="2"/>
+              <el-option :label="$t('updates.qy')" value="1"/>
+              <el-option :label="$t('updates.ty')" value="2"/>
             </el-select>
           </el-form-item>
         </el-form>

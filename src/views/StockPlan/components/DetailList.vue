@@ -3,8 +3,8 @@
     <div id="printTest" >
       <!--基本信息-->
       <el-card class="box-card" style="margin-top: 63px" shadow="never">
-        <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">基本信息</h2>
-        <button class="print" style="font-size: 13px;background: white;" @click="printdata">打印</button>
+        <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('Hmodule.basicinfo') }}</h2>
+        <button class="print" style="font-size: 13px;background: white;" @click="printdata">{{ $t('updates.print') }}</button>
         <div class="container" style="margin-top: 37px">
           <el-form :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
             <el-row>
@@ -64,19 +64,19 @@
             border
             size="medium"
             style="width: 100%">
-            <el-editable-column class="print" fixed="left" label="序号" align="center" type="index"/>
-            <el-editable-column prop="productCode" fixed="left" align="center" label="物品编号" />
-            <el-editable-column prop="productName" fixed="left" align="center" label="物品名称" />
-            <el-editable-column prop="productType" align="center" label="规格" />
+            <el-editable-column :label="$t('Hmodule.xh')" class="print" fixed="left" align="center" type="index"/>
+            <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" fixed="left" align="center" />
+            <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" fixed="left" align="center" />
+            <el-editable-column :label="$t('Hmodule.gg')" prop="productType" align="center" />
             <el-editable-column prop="color" align="center" label="颜色" />
-            <el-editable-column prop="unit" align="center" label="单位" />
-            <el-editable-column prop="basicPrice" align="center" label="单价" />
+            <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" />
+            <el-editable-column :label="$t('Hmodule.dj')" prop="basicPrice" align="center" />
             <el-editable-column prop="planQuantity" align="center" label="计划数量" />
             <el-editable-column prop="planMoney" align="center" label="计划金额" />
             <el-editable-column prop="planDeliveryDate" align="center" label="计划交货日期" />
             <el-editable-column prop="applyReason" align="center" label="申请原因" />
             <el-editable-column prop="sourceNumber" align="center" label="源单编号" />
-            <el-editable-column prop="supplierName" align="center" label="供应商" />
+            <el-editable-column :label="$t('updates.gys')" prop="supplierName" align="center" />
             <el-editable-column prop="orderQuantity" align="center" label="已订购数量" />
             <el-editable-column prop="sourceSerialNumber" align="center" label="源单序号" />
           </el-editable>
@@ -93,19 +93,19 @@
             border
             size="medium"
             style="width: 100%">
-            <el-editable-column class="print" label="序号" align="center" type="index"/>
-            <el-editable-column class="print" prop="productCode" align="center" label="物品编号" />
-            <el-editable-column prop="productName" align="center" label="物品名称" />
-            <el-editable-column prop="productType" align="center" label="规格" />
+            <el-editable-column :label="$t('Hmodule.xh')" class="print" align="center" type="index"/>
+            <el-editable-column :label="$t('Hmodule.wpbh')" class="print" prop="productCode" align="center" />
+            <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" align="center" />
+            <el-editable-column :label="$t('Hmodule.gg')" prop="productType" align="center" />
             <el-editable-column prop="color" align="center" label="颜色" />
-            <el-editable-column prop="unit" align="center" label="单位" />
-            <el-editable-column prop="basicPrice" align="center" label="单价" />
+            <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" />
+            <el-editable-column :label="$t('Hmodule.dj')" prop="basicPrice" align="center" />
             <el-editable-column prop="planQuantity" align="center" label="计划数量" />
             <el-editable-column prop="planMoney" align="center" label="计划金额" />
             <el-editable-column prop="planDeliveryDate" align="center" label="计划交货日期"/>
             <el-editable-column prop="applyReason" align="center" label="申请原因" />
             <el-editable-column prop="sourceNumber" align="center" label="源单编号" />
-            <el-editable-column prop="supplierName" align="center" label="供应商" />
+            <el-editable-column :label="$t('updates.gys')" prop="supplierName" align="center" />
             <el-editable-column prop="orderQuantity" align="center" label="已订购数量" />
             <el-editable-column prop="sourceSerialNumber" align="center" label="源单序号" />
           </el-editable>
@@ -147,7 +147,7 @@
         </div>
       </el-card>
       <el-card class="box-card" style="margin-top: 15px" shadow="never">
-        <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">备注信息</h2>
+        <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('updates.bzxx') }}</h2>
         <div class="container" style="margin-top: 37px">
           <el-form :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
             <el-row>

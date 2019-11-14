@@ -235,7 +235,7 @@ export default {
         pageNum: 1,
         pageSize: 10,
         repositoryId: this.$store.getters.repositoryId,
-        regionIds: this.$store.getters.regionId,
+        regionIds: this.$store.getters.regionIds,
         type: '1'
       },
       // 传给组件的数据
@@ -338,6 +338,8 @@ export default {
     restFilter() {
       this.customerName = ''
       this.getemplist.customerId = ''
+    },
+    restFilter2() {
       this.stockPersonId = ''
       this.getemplist.stockPersonId = ''
     },
@@ -360,9 +362,9 @@ export default {
             this.list[i].notinvoiceMoney = (this.list[i].money - this.list[i].invoiceMoney).toFixed(2)
           }
           this.total = res.data.data.content.totalCount
-          this.restFilter()
+          // this.restFilter()
         } else {
-          this.restFilter()
+          // this.restFilter()
         }
       })
     },

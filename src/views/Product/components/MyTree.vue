@@ -16,7 +16,7 @@
         default-expand-all
         @node-click="handleNodeClick"/>
     </el-card>
-    <!--<el-button class="filter-item" type="success" style="margin-top: 10px" @click="handleConfirm">确认添加</el-button>-->
+    <!--<el-button class="filter-item" type="success" style="margin-top: 10px" @click="handleConfirm">{{ $t('Hmodule.sure') }}</el-button>-->
   </el-dialog>
 </template>
 
@@ -53,14 +53,12 @@ export default {
       this.editVisible = this.treecontrol
       // this.gettree()
       if (this.$refs.tree2) {
-        console.log(this.filterText)
         this.$refs.tree2.filter(this.filterText)
       }
     },
     filterText: {
       handler(o, n) {
         if (this.$refs.tree2) {
-          console.log(o)
           this.$refs.tree2.filter(o)
         }
       },
@@ -77,7 +75,6 @@ export default {
   methods: {
     // 搜索树状图数据方法
     filterNode(value, data, node) {
-      console.log(value)
       if (!value) return true
       // return data.categoryName.indexOf(value) !== -1
       const _array = []// 这里使用数组存储 只是为了存储值。
@@ -89,7 +86,7 @@ export default {
       return result
     },
     getReturnNode(node, _array, value) {
-      const isPass = node.data && node.data.categoryName && node.data.categoryName.indexOf(value) !== -1
+      const isPass = node.data && node.data.categoryName && node.data.categoryName.toUpperCase().indexOf(value.toUpperCase()) !== -1
       isPass ? _array.push(isPass) : ''
       this.index++
       if (!isPass && node.level !== 1 && node.parent) {
@@ -106,7 +103,6 @@ export default {
     },
     // 选择节点操作
     handleNodeClick(data, node) {
-      console.log(node)
       if (node.level === 1) {
         this.$notify.error({
           title: '错误',
@@ -133,7 +129,6 @@ export default {
       this.gettree()
     },
     handleConfirm() {
-      console.log(this.choosedata)
     }
     // 修改操作结束 -------------------------------------------------
   }

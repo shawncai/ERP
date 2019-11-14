@@ -89,6 +89,40 @@ export default new Router({
 
 export const asyncRouterMap = [
   {
+    path: '/map',
+    component: Layout,
+    redirect: 'noredirect',
+    meta: {
+      icon: 'caigouxuqiu',
+      type: 1
+    },
+    children: [
+      {
+        path: 'map',
+        component: () => import('@/views/home/index'),
+        name: 'map',
+        meta: { title: 'map', noCache: true }
+      }
+    ]
+  },
+  {
+    path: '/carlocation',
+    component: Layout,
+    redirect: 'noredirect',
+    meta: {
+      icon: 'caigouxuqiu',
+      type: 1
+    },
+    children: [
+      {
+        path: 'carlocation',
+        component: () => import('@/views/carlocation/index'),
+        name: 'carlocation',
+        meta: { title: 'carlocation', noCache: true }
+      }
+    ]
+  },
+  {
     path: '/home',
     component: Layout,
     redirect: 'noredirect',
@@ -396,7 +430,7 @@ export const asyncRouterMap = [
       title: 'Repository',
       icon: 'cangku',
       type: 10,
-      roles: ['1-9-10-1', '1-9-11-4', '1-9-13-4', '1-9-12-13']
+      roles: ['1-9-10-1', '1-9-11-4', '1-9-13-4', '1-9-12-13', '1-9-170-1', '1-9-169-4']
     },
     children: [
       {
@@ -817,7 +851,7 @@ export const asyncRouterMap = [
       title: 'Storagemove',
       icon: 'diaobo',
       type: 4,
-      roles: ['131-141-142-4', '131-141-143-1']
+      roles: ['131-141-142-4', '131-141-143-1', '131-141-359-4', '131-141-361-1', '131-141-360-4']
     },
     children: [
       {
@@ -836,7 +870,19 @@ export const asyncRouterMap = [
         path: 'moverepostiryList',
         component: () => import('@/views/Storagemove/moverepostirylist'),
         name: 'moverepostirylist',
-        meta: { title: 'moverepostirylist', noCache: true, roles: ['131-141-142-4'] }
+        meta: { title: 'moverepostirylist', noCache: true, roles: ['131-141-359-4'] }
+      },
+      {
+        path: 'AddStoragemovediff',
+        component: () => import('@/views/Storagemovediff/adddiff'),
+        name: 'AddStoragemovediff',
+        meta: { title: 'AddStoragemovediff', noCache: false, roles: ['131-141-361-1'] }
+      },
+      {
+        path: 'difflist',
+        component: () => import('@/views/Storagemovediff/difflist'),
+        name: 'difflist',
+        meta: { title: 'difflist', noCache: true, roles: ['131-141-360-4'] }
       }
       // {
       //   path: 'AddMoveApplication',
@@ -1709,7 +1755,9 @@ export const asyncRouterMap = [
     path: '/CostInstall',
     component: Layout,
     redirect: 'noredirect',
+    alwaysShow: true,
     meta: {
+      title: 'CostInstall',
       icon: 'yingfukuan',
       type: 11,
       roles: ['266-268-1', '104-128-6', '104-128-4', '104-128-7', '104-128-67', '104-128-5']
@@ -1719,7 +1767,13 @@ export const asyncRouterMap = [
         path: 'index',
         component: () => import('@/views/CostInstall/index'),
         name: 'CostInstall',
-        meta: { title: 'CostInstall', noCache: true }
+        meta: { title: 'CostInstallmanage', noCache: true }
+      },
+      {
+        path: 'categorymanage',
+        component: () => import('@/views/CostInstall/categorymanage'),
+        name: 'categorymanage',
+        meta: { title: 'categorymanage', noCache: true }
       }
     ]
   },
@@ -2264,14 +2318,14 @@ export const asyncRouterMap = [
       title: 'SaleCategory',
       icon: 'shuxing',
       type: 3,
-      roles: ['54-83-4']
+      roles: ['54-83-4', '54-83-1', '54-83-2', '54-83-3', '54-83-5', '54-83-6', '54-83-7']
     },
     children: [
       {
         path: 'SaleCategoryList',
         component: () => import('@/views/SaleCategory/SaleCategoryList'),
         name: 'SaleCategoryList',
-        meta: { title: 'SaleCategoryList', noCache: true, roles: ['54-83-1', '54-83-2', '54-83-3', '54-83-5', '54-83-6', '54-83-7'] }
+        meta: { title: 'SaleCategoryList', noCache: true, roles: ['54-83-1', '54-83-2', '54-83-3', '54-83-5', '54-83-6', '54-83-7', '54-83-4'] }
       }
     ]
   },
@@ -2285,20 +2339,20 @@ export const asyncRouterMap = [
       title: 'SmartReplenishment',
       icon: 'zhinengbuhuo',
       type: 3,
-      roles: ['54-102-4']
+      roles: ['54-102-4', '54-102-2', '54-102-6', '54-102-7', '54-102-39']
     },
     children: [
       {
         path: 'SmartReplenishmentList',
         component: () => import('@/views/SmartReplenishment/SmartReplenishmentList'),
         name: 'SmartReplenishmentList',
-        meta: { title: 'SmartReplenishmentList', noCache: true, roles: ['54-102-2', '54-102-6', '54-102-7', '54-102-39'] }
+        meta: { title: 'SmartReplenishmentList', noCache: true, roles: ['54-102-2', '54-102-6', '54-102-7', '54-102-39', '54-102-4'] }
       },
       {
         path: 'InventoryReplenishment',
         component: () => import('@/views/SmartReplenishment/InventoryReplenishment'),
         name: 'InventoryReplenishment',
-        meta: { title: 'InventoryReplenishment', noCache: true, roles: ['54-102-2', '54-102-6', '54-102-7', '54-102-39'] }
+        meta: { title: 'InventoryReplenishment', noCache: true, roles: ['54-102-2', '54-102-6', '54-102-7', '54-102-39', '54-102-4'] }
       }
     ]
   },

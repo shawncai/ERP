@@ -2,7 +2,7 @@
   <el-dialog :visible.sync="editVisible" :detailcontrol="detailcontrol" :detaildata="detaildata" :close-on-press-escape="false" :title="personalForm.number +'    详情'" append-to-body width="1010px" class="edit" top="-10px" @close="$emit('update:detailcontrol', false)">
     <!--基本信息-->
     <el-card class="box-card" style="margin-top: 63px" shadow="never">
-      <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">基本信息</h2>
+      <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('Hmodule.basicinfo') }}</h2>
       <div class="container" style="margin-top: 37px">
         <el-form :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
           <el-row>
@@ -64,8 +64,8 @@
             <el-col :span="12">
               <el-form-item :label="$t('StockArrival.isVat')" style="width: 100%;">
                 <el-radio-group v-model="personalForm.isVat" style="margin-left: 18px;width: 200px" disabled>
-                  <el-radio :label="1" style="width: 100px">是</el-radio>
-                  <el-radio :label="2">否</el-radio>
+                  <el-radio :label="1" style="width: 100px">{{ $t('updates.yes') }}</el-radio>
+                  <el-radio :label="2">{{ $t('updates.no') }}</el-radio>
                 </el-radio-group>
               </el-form-item>
             </el-col>
@@ -92,18 +92,18 @@
           size="medium"
           style="width: 100%">
           <el-editable-column type="selection" min-width="55" align="center"/>
-          <el-editable-column label="序号" min-width="55" align="center" type="index"/>
-          <el-editable-column prop="productCode" align="center" label="物品编号" min-width="150px"/>
-          <el-editable-column prop="productName" align="center" label="物品名称" min-width="150px"/>
-          <el-editable-column prop="productType" align="center" label="规格" min-width="150px"/>
-          <el-editable-column prop="unit" align="center" label="单位" min-width="150px"/>
-          <el-editable-column prop="stockQuantity" align="center" label="采购数量" min-width="150px"/>
-          <el-editable-column prop="arrivalQuantity" align="center" label="到货数量" min-width="150px"/>
+          <el-editable-column :label="$t('Hmodule.xh')" min-width="55" align="center" type="index"/>
+          <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" align="center" min-width="150px"/>
+          <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" align="center" min-width="150px"/>
+          <el-editable-column :label="$t('Hmodule.gg')" prop="productType" align="center" min-width="150px"/>
+          <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" min-width="150px"/>
+          <el-editable-column :label="$t('updates.cgsl')" prop="stockQuantity" align="center" min-width="150px"/>
+          <el-editable-column :label="$t('updates.dhsl')" prop="arrivalQuantity" align="center" min-width="150px"/>
           <el-editable-column prop="giveDate" align="center" label="交货日期" min-width="170px"/>
-          <el-editable-column prop="price" align="center" label="单价" min-width="170px"/>
+          <el-editable-column :label="$t('Hmodule.dj')" prop="price" align="center" min-width="170px"/>
           <el-editable-column prop="includeTaxPrice" align="center" label="含税价" min-width="170px"/>
           <el-editable-column prop="taxRate" align="center" label="税率(%)" min-width="170px"/>
-          <el-editable-column prop="money" align="center" label="金额" min-width="150px"/>
+          <el-editable-column :label="$t('Hmodule.je')" prop="money" align="center" min-width="150px"/>
           <el-editable-column prop="includeTaxMoney" align="center" label="含税金额" min-width="150px"/>
           <el-editable-column prop="taxMoney" align="center" label="税额" min-width="150px"/>
           <el-editable-column prop="discountRate" align="center" label="折扣(%)" min-width="170px"/>
@@ -200,7 +200,7 @@
       </div>
     </el-card>
     <el-card class="box-card" style="margin-top: 15px" shadow="never">
-      <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">备注信息</h2>
+      <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('updates.bzxx') }}</h2>
       <div class="container" style="margin-top: 37px">
         <el-form :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
           <el-row>

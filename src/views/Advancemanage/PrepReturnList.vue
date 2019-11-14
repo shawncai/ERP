@@ -25,7 +25,7 @@
               placement="bottom"
               width="500"
               trigger="click">
-              <el-input v-model="customerName" :placeholder="$t('Advancemanage.customerName')" style="width: 40%;float: left;margin-left: 20px;" clearable @focus="chooseCustomer"/>
+              <el-input v-model="customerName" :placeholder="$t('Advancemanage.customerName')" style="width: 40%;float: left;margin-left: 20px;" clearable @clear="restFilter" @focus="chooseCustomer"/>
               <my-customer :customercontrol.sync="customercontrol" @customerdata="customerdata"/>
               <my-agent :agentcontrol.sync="agentcontrol" @agentdata="agentdata"/>
               <el-select v-model="getemplist.receiptStat" :value="getemplist.receiptStat" placeholder="单据状态" clearable style="width: 40%;float: right;margin-right: 20px">
@@ -279,7 +279,7 @@ export default {
         pageNum: 1,
         pageSize: 10,
         repositoryId: this.$store.getters.repositoryId,
-        regionIds: this.$store.getters.regionId
+        regionIds: this.$store.getters.regionIds
       },
       // 传给组件的数据
       personalForm: {},
@@ -466,6 +466,8 @@ export default {
     restFilter() {
       this.customerName = ''
       this.getemplist.customerId = ''
+    },
+    restFilter2() {
       this.stockPersonId = ''
       this.getemplist.stockPersonId = ''
     },
@@ -476,9 +478,9 @@ export default {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
-          this.restFilter()
+          // this.restFilter()
         } else {
-          this.restFilter()
+          // this.restFilter()
         }
       })
     },

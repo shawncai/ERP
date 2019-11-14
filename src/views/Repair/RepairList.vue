@@ -683,7 +683,7 @@
             <!--              :options="regions"-->
             <!--              :props="props"-->
             <!--              v-model="form.components"-->
-            <!--              placeholder="请选择区域"-->
+            <!--              :placeholder="$t('Hmodule.xzqy')"-->
             <!--              filterable-->
             <!--              clearable-->
             <!--              style="width: 100%;"-->
@@ -731,7 +731,7 @@
               type="date"
               value-format="yyyy-MM-dd"
               style="width: 198px;"
-              placeholder="选择日期"/>
+              :placeholder="$t('Hmodule.xzrq')"/>
           </el-form-item>
           <el-form-item :label-width="formLabelWidth" :label="$t('repair.Servicebranch')" prop="repositoryid">
             <el-select v-model="form.repositoryid" placeholder="please choose">

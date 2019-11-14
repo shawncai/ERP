@@ -16,7 +16,7 @@
           </el-col>
           <el-col :span="4">
             <el-form-item label="出库人">
-              <el-input v-model="outPersonId" :placeholder="$t('StockOut.outPersonId')" class="filter-item" clearable @keyup.enter.native="handleFilter" @focus="handlechoose"/>
+              <el-input v-model="outPersonId" :placeholder="$t('StockOut.outPersonId')" class="filter-item" clearable @clear="restFilter" @keyup.enter.native="handleFilter" @focus="handlechoose"/>
             </el-form-item>
             <my-create :createcontrol.sync="createcontrol" @createname="createname"/>
           </el-col>
@@ -215,7 +215,7 @@ export default {
         pageSize: 10,
         countryId: this.$store.getters.countryId,
         repositoryId: this.$store.getters.repositoryId,
-        regionIds: this.$store.getters.regionId
+        regionIds: this.$store.getters.regionIds
       },
       // 搜索结束 ----------------------
       // 列表操作 -------------------------
@@ -413,14 +413,14 @@ export default {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
-          this.restFilter()
+          // this.restFilter()
         } else {
           this.$notify.error({
             title: '错误',
             message: '出错了',
             offset: 100
           })
-          this.restFilter()
+          // this.restFilter()
         }
       })
     },

@@ -32,7 +32,7 @@
                 <el-option value="1" label="线下"/>
                 <el-option value="2" label="线上"/>
               </el-select>
-              <el-input v-model="outPersonId" :placeholder="$t('CarStatList.outPersonId')" style="width: 40%;float: right;margin-right: 20px" @focus="handlechooseStock"/>
+              <el-input v-model="outPersonId" :placeholder="$t('CarStatList.outPersonId')" style="width: 40%;float: right;margin-right: 20px" @focus="handlechooseStock" @clear="restFilter"/>
               <my-emp :control.sync="stockControl" @stockName="stockName"/>
               <div class="seachbutton" style="width: 100%;float: right;margin-top: 20px">
                 <el-button v-waves class="filter-item" type="primary" style="float: right" round @click="handleFilter">{{ $t('public.search') }}</el-button>
@@ -294,7 +294,7 @@ export default {
         pageSize: 10,
         stat: 1,
         repositoryId: this.$store.getters.repositoryId,
-        regionIds: this.$store.getters.regionId
+        regionIds: this.$store.getters.regionIds
       },
       // 加载操作控制
       downloadLoading2: false,
@@ -312,7 +312,7 @@ export default {
         pageSize: 10,
         stat: 2,
         repositoryId: this.$store.getters.repositoryId,
-        regionIds: this.$store.getters.regionId
+        regionIds: this.$store.getters.regionIds
       },
       // 传给组件的数据
       personalForm: {},
@@ -370,9 +370,9 @@ export default {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
-          this.restFilter()
+          // this.restFilter()
         } else {
-          this.restFilter()
+          // this.restFilter()
         }
       })
       this.getemplist.pageNum = 2
@@ -380,9 +380,9 @@ export default {
         if (res.data.ret === 200) {
           this.list2 = res.data.data.content.list
           this.total2 = res.data.data.content.totalCount
-          this.restFilter()
+          // this.restFilter()
         } else {
-          this.restFilter()
+          // this.restFilter()
         }
       })
     },

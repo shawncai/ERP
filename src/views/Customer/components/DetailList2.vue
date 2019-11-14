@@ -13,11 +13,16 @@
     <div id="printTest" >
       <!--基本信息-->
       <el-card class="box-card" style="margin-top: 63px" shadow="never">
-        <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">基本信息</h2>
-        <button v-print="'#printTest'" class="print" style="font-size: 13px;background: white;">打印</button>
+        <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('Hmodule.basicinfo') }}</h2>
+        <button v-print="'#printTest'" class="print" style="font-size: 13px;background: white;">{{ $t('updates.print') }}</button>
         <div class="container" style="margin-top: 37px">
           <el-form ref="customerForm" :model="customerForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
             <el-row>
+              <el-col :span="12">
+                <el-form-item :label="$t('Customer.account')" prop="firstName" style="width: 100%;">
+                  {{ customerForm.account }}
+                </el-form-item>
+              </el-col>
               <el-col :span="12">
                 <el-form-item :label="$t('Customer.firstname')" prop="firstName" style="width: 100%;">
                   {{ customerForm.firstName }}
@@ -50,7 +55,7 @@
               </el-col>
               <el-col :span="12">
                 <el-form-item :label="$t('Customer.source')" style="width: 100%">
-                  {{ customerForm.sourceName }}
+                  {{ customerForm.source | sourceFilter }}
                 </el-form-item>
               </el-col>
               <el-col :span="12">
@@ -79,7 +84,7 @@
                 </el-form-item>
               </el-col>
               <el-col :span="12">
-                <el-form-item label="门店" prop="repositoryid" style="width: 100%">
+                <el-form-item :label="$t('updates.repository')" prop="repositoryid" style="width: 100%">
                   {{ customerForm.repositoryName }}
                 </el-form-item>
               </el-col>
@@ -169,9 +174,9 @@
                   label="收款人"
                   min-width="150"/>
                 <el-table-column
+                  :label="$t('updates.skrq')"
                   prop="collectDate"
                   align="center"
-                  label="收款日期"
                   min-width="150"/>
                 <el-table-column
                   prop="stat"
@@ -180,7 +185,7 @@
                   min-width="150"/>
               </el-table>
             </el-tab-pane>
-          <!--<el-tab-pane label="收款信息">-->
+          <!--<el-tab-pane :label="$t('updates.skxx')">-->
           <!--<el-table-->
           <!--:data="tableData2"-->
           <!--border-->
@@ -188,32 +193,32 @@
           <!--<el-table-column-->
           <!--prop="customerName"-->
           <!--align="center"-->
-          <!--label="客户"-->
+          <!--:label="$t('updates.kh')"-->
           <!--min-width="150"/>-->
           <!--<el-table-column-->
           <!--prop="money"-->
           <!--align="center"-->
-          <!--label="收款金额"-->
+          <!--:label="$t('updates.skje')"-->
           <!--min-width="150"/>-->
           <!--<el-table-column-->
           <!--prop="idx"-->
           <!--align="center"-->
-          <!--label="收款期数"-->
+          <!--:label="$t('updates.skqs')"-->
           <!--min-width="150"/>-->
           <!--<el-table-column-->
           <!--prop="collectDate"-->
           <!--align="center"-->
-          <!--label="收款日期"-->
+          <!--:label="$t('updates.skrq')"-->
           <!--min-width="150"/>-->
           <!--<el-table-column-->
           <!--prop="collectType"-->
           <!--align="center"-->
-          <!--label="收款方式"-->
+          <!--:label="$t('updates.skfs')"-->
           <!--min-width="150"/>-->
           <!--</el-table>-->
           <!--<pagination v-show="total2>0" :total="total2" :page.sync="getCollectlist.pagenum" :limit.sync="getCollectlist.pagesize" @pagination="getCollect" />-->
           <!--</el-tab-pane>-->
-          <!--<el-tab-pane label="回访记录">-->
+          <!--<el-tab-pane :label="$t('updates.hfjl')">-->
           <!--<el-row :gutter="20">-->
           <!--<el-form ref="getVisitlistdata" :model="getVisitlistdata">-->
           <!--<el-col :span="5">-->
@@ -243,22 +248,22 @@
           <!--<el-table-column-->
           <!--prop="visitDate"-->
           <!--align="center"-->
-          <!--label="回访日期"-->
+          <!--:label="$t('updates.hfrq')"-->
           <!--min-width="150"/>-->
           <!--<el-table-column-->
           <!--prop="customerName"-->
           <!--align="center"-->
-          <!--label="客户"-->
+          <!--:label="$t('updates.kh')"-->
           <!--min-width="150"/>-->
           <!--<el-table-column-->
           <!--prop="content"-->
           <!--align="center"-->
-          <!--label="回访内容"-->
+          <!--:label="$t('updates.hfnr')"-->
           <!--min-width="150"/>-->
           <!--<el-table-column-->
           <!--prop="visitMode"-->
           <!--align="center"-->
-          <!--label="回访方式"-->
+          <!--:label="$t('updates.hffs')"-->
           <!--min-width="150"/>-->
           <!--</el-table>-->
           <!--<pagination v-show="total3>0" :total="total3" :page.sync="getVisitlistdata.pagenum" :limit.sync="getVisitlistdata.pagesize" @pagination="getVisitlist" />-->
@@ -299,6 +304,13 @@ export default {
       const statusMap = {
         1: '销售出库单',
         2: '调拨单'
+      }
+      return statusMap[status]
+    },
+    sourceFilter(status) {
+      const statusMap = {
+        1: '线上',
+        2: '线下'
       }
       return statusMap[status]
     },

@@ -2,7 +2,7 @@
   <el-dialog :visible.sync="editVisible" :editcontrol="editcontrol" :editdata="editdata" :close-on-press-escape="false" :title="personalForm.id +'    修改'" width="1010px" class="edit" top="-10px" @close="$emit('update:editcontrol', false)">
     <!--基本信息-->
     <el-card class="box-card" style="margin-top: 63px" shadow="never">
-      <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">基本信息</h2>
+      <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('Hmodule.basicinfo') }}</h2>
       <div class="container" style="margin-top: 37px">
         <el-form ref="personalForm" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
           <el-row>
@@ -36,7 +36,7 @@
                 <el-date-picker
                   v-model="personalForm.birthday"
                   type="date"
-                  placeholder="选择生日"
+                  :placeholder="$t('updates.xzsr')"
                   value-format="yyyy-MM-dd"
                   clearable
                   style="margin-left: 18px;width: 200px"/>
@@ -85,7 +85,7 @@
     </el-card>
     <!--子件信息-->
     <el-card class="box-card" shadow="never" style="margin-top: 15px">
-      <h2 ref="lianxi" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">联系信息</h2>
+      <h2 ref="lianxi" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('updates.lxxx') }}</h2>
       <div class="container" style="margin-top: 37px">
         <el-form ref="connectForm" :model="personalForm" :rules="connectrules" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
           <el-row>
@@ -127,7 +127,7 @@
     </el-card>
     <!--公司信息-->
     <el-card class="box-card" shadow="never" style="margin-top: 15px">
-      <h2 class="form-name">公司信息</h2>
+      <h2 class="form-name">{{ $t('updates.gsxx') }}</h2>
       <div class="container" style="margin-top: 37px">
         <el-form ref="companyForm" :model="personalForm" :rules="companyrules" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
           <el-row>
@@ -165,7 +165,7 @@
                   :props="props"
                   v-model="regionId"
                   :show-all-levels="false"
-                  placeholder="请选择区域"
+                  :placeholder="$t('Hmodule.xzqy')"
                   change-on-select
                   filterable
                   clearable
@@ -176,7 +176,7 @@
             </el-col>
             <el-col :span="12">
               <el-form-item :label="$t('NewEmployeeInformation.repositoryid')" style="width: 100%;">
-                <el-select v-model="personalForm.repositoryId" placeholder="请选择门店" filterable style="margin-left: 18px;width: 200px">
+                <el-select v-model="personalForm.repositoryId" :placeholder="$t('Hmodule.xzmd')" filterable style="margin-left: 18px;width: 200px">
                   <el-option
                     v-for="(item, index) in repositories"
                     :key="index"
@@ -184,6 +184,12 @@
                     :value="item.id"/>
                   <el-option v-show="repositories === []" label="请选择门店" value="0"/>
                 </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('NewEmployeeInformation.regionids')" style="width: 100%;">
+                <el-input v-model="chargeRegions" style="margin-left: 18px;width: 200px" @focus="treechoose"/>
+                <my-tree :treecontrol.sync="treecontrol" :supp.sync="supp" @ids2="ids2" @ids="ids" @names="names"/>
               </el-form-item>
             </el-col>
           </el-row>
@@ -204,8 +210,8 @@
     </el-card>
     <el-card class="box-card" style="position: fixed;width: 1010px;z-index: 100;height: 74px;bottom: 0;" shadow="never">
       <div class="buttons" style="float: right;padding-bottom: 10px">
-        <el-button @click="handlecancel()">取消</el-button>
-        <el-button type="primary" @click="handleEditok()">保存</el-button>
+        <el-button @click="handlecancel()">{{ $t('Hmodule.cancel') }}</el-button>
+        <el-button type="primary" @click="handleEditok()">{{ $t('Hmodule.baoc') }}</el-button>
       </div>
     </el-card>
   </el-dialog>
@@ -214,7 +220,9 @@
 <script>
 import { getcountrylist, getprovincelist, getcitylist, regionlist, searchRepository, getDetailById, getRegion, saveRegion } from '@/api/public'
 import { getdeptlist, updateemp, searchEmpCategory } from '@/api/EmployeeInformation'
+import MyTree from './MyTree'
 export default {
+  components: { MyTree },
   props: {
     editcontrol: {
       type: Boolean,
@@ -270,6 +278,10 @@ export default {
       repositories: [],
       // 部门列表
       depts: [],
+      supp: [],
+      treecontrol: false,
+      regionids: [],
+      chargeRegions: '',
       // 区域列表字段更改
       props: {
         value: 'id',
@@ -352,6 +364,18 @@ export default {
     },
     editdata() {
       this.personalForm = this.editdata
+      this.personalForm.repositoryId = Number(this.editdata.repositoryId)
+      if (this.personalForm.repositoryId === 0 || this.personalForm.repositoryId === '0') {
+        this.personalForm.repositoryId = ''
+      }
+      this.chargeRegions = this.editdata.chargeRegions2
+      if (this.personalForm.chargeRegions != null) {
+        const sss = this.personalForm.chargeRegions.split(',')
+        console.log('sss', sss)
+        this.supp = sss
+      } else {
+        this.supp = []
+      }
       console.log('personalForm', this.personalForm)
       this.getnationlist()
       this.handlechange(this.personalForm.countryId)
@@ -367,6 +391,8 @@ export default {
         }
       })
       this.getRepository(this.personalForm.regionId)
+      // const newarr = [this.personalForm.regionId]
+      // this.handlechange4(newarr)
     }
   },
   created() {
@@ -374,6 +400,21 @@ export default {
     this.getroleName()
   },
   methods: {
+    ids2(val) {
+      this.supp = val
+    },
+    ids(val) {
+      this.personalForm.chargeRegions = val
+    },
+    names(val) {
+      this.chargeRegions = val
+    },
+    tree(val) {
+      console.log(val)
+    },
+    treechoose() {
+      this.treecontrol = true
+    },
     async getroleName() {
       console.log(this.$store.getters)
       const rolesIds = this.$store.getters.roles
@@ -505,7 +546,7 @@ export default {
         }
       })
       console.log(this.repositories)
-      this.personalForm.repositoryId = '0'
+      this.personalForm.repositoryId = ''
     },
     getRepository(val) {
       searchRepository(val).then(res => {
@@ -530,6 +571,9 @@ export default {
     },
     // 提交修改
     handleEditok() {
+      if (this.personalForm.repositoryId === '') {
+        this.personalForm.repositoryId = '0'
+      }
       this.personalForm.modifyPersonId = this.$store.getters.userId
       if (this.regionId !== '' && this.regionId !== null && this.regionId !== undefined) {
         this.personalForm.regionId = this.regionId[this.regionId.length - 1]

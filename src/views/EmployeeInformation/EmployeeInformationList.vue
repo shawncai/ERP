@@ -17,8 +17,8 @@
             <el-form-item :label="$t('NewEmployeeInformation.time')">
               <el-date-picker
                 v-model="getemplist.time"
+                :placeholder="$t('Hmodule.xzrq')"
                 type="date"
-                placeholder="选择日期"
                 value-format="yyyy-MM-dd"
                 style="width:100%"/>
             </el-form-item>
@@ -40,18 +40,25 @@
                   :label="item.regionName"
                   :value="item.id"/>
               </el-select>
-              <el-select v-model="getemplist.repositoryid" placeholder="请选择门店" clearable filterable style="width: 40%;float: left;margin-left: 20px;margin-top: 20px">
+              <el-select v-model="getemplist.repositoryid" :placeholder="$t('Hmodule.xzmd')" clearable filterable style="width: 40%;float: left;margin-left: 20px;margin-top: 20px">
                 <el-option
                   v-for="(item, index) in repositories"
                   :key="index"
                   :label="item.repositoryName"
                   :value="item.id"/>
               </el-select>
-              <el-select v-model="getemplist.postid" :value="getemplist.postid" :placeholder="$t('NewEmployeeInformation.postid2')" clearable style="width: 40%;float: right;margin-top: 20px;margin-right: 20px">
+              <!-- <el-select v-model="getemplist.postid" :value="getemplist.postid" :placeholder="$t('NewEmployeeInformation.postid2')" clearable style="width: 40%;float: right;margin-top: 20px;margin-right: 20px">
                 <el-option
                   v-for="(item, index) in jobs"
                   :key="index"
                   :label="item.categoryName"
+                  :value="item.id"/>
+              </el-select> -->
+              <el-select v-model="getemplist.roleid" :value="getemplist.roleid" :placeholder="$t('updates.roleid')" clearable style="width: 40%;float: right;margin-top: 20px;margin-right: 20px">
+                <el-option
+                  v-for="(item, index) in roles"
+                  :key="index"
+                  :label="item.roleName"
                   :value="item.id"/>
               </el-select>
               <el-select v-model="getemplist.deptid" :placeholder="$t('NewEmployeeInformation.deptid2')" clearable style="width: 40%;float: left;margin-top: 20px;margin-left: 20px">
@@ -146,7 +153,7 @@
         </el-table-column>
         <el-table-column :label="$t('NewEmployeeInformation.postName')" :resizable="false" align="center" width="100">
           <template slot-scope="scope">
-            <span>{{ scope.row.postName }}</span>
+            <span>{{ scope.row.roleName }}</span>
           </template>
         </el-table-column>
         <el-table-column :label="$t('NewEmployeeInformation.deptName')" :resizable="false" align="center" width="100">
@@ -198,6 +205,7 @@
 <script>
 import { searchRepository, getcountrylist, getprovincelist, getcitylist, getregionlistbyreid } from '@/api/public'
 import { getdeptlist, getemplist, startorendemp, deleteemp, getempinfo, searchEmpCategory } from '@/api/EmployeeInformation'
+import { getrolelist } from '@/api/employee'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
 import permission from '@/directive/permission/index.js' // 权限判断指令
@@ -251,6 +259,7 @@ export default {
       },
       // 职位列表
       jobs: [],
+      roles: [],
       // 控制修改页面
       editVisible: false,
       // 批量操作
@@ -275,7 +284,7 @@ export default {
         pagenum: 1,
         pagesize: 10,
         loginRepositoryId: this.$store.getters.repositoryId,
-        regionIds: this.$store.getters.regionId,
+        regionIds: this.$store.getters.regionIds,
         stat: '',
         time: '',
         jobnumber: ''
@@ -412,16 +421,47 @@ export default {
       getempinfo(row.id).then(res => {
         console.log(res)
         const emData = res.data.data
+        let regionsName = ''
+        const regions = emData.content.regions
+        console.log('regions', regions)
+        if (regions != null) {
+          for (let j = 0; j < regions.length; j++) {
+            regionsName = regionsName + regions[j].regionName + ', '
+          }
+          if (regionsName.length > 0) {
+            regionsName = regionsName.substr(0, regionsName.length - 2)
+          }
+        }
+        emData.content.regionsName = regionsName
+
         this.detailvisible = true
         this.edtiForm = Object.assign({}, emData)
       })
     },
     getlist() {
+      getrolelist().then(res => {
+        if (res.data.ret === 200) {
+          this.roles = res.data.data.content
+        } else {
+          console.log('角色列表出错')
+        }
+      })
       // 员工列表数据
       this.listLoading = true
       getemplist(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
+          for (let i = 0; i < this.list.length; i++) {
+            let regionsName = ''
+            const regions = this.list[i].regions
+            if (regions != null) {
+              for (let j = 0; j < regions.length; j++) {
+                regionsName = regionsName + regions[j].regionName
+              }
+            }
+            this.list[i].regionsName = regionsName
+          }
+          console.log('this.list', this.list)
           this.total = res.data.data.content.totalCount
         } else {
           console.log('列表出错')
@@ -506,8 +546,22 @@ export default {
       getempinfo(row.id).then(res => {
         const emData = res.data.data.content
         this.editVisible = true
-        this.personalForm = Object.assign({}, emData)
+        console.log('emData', emData)
+        let regionsName = ''
+        const regions = emData.regions
+        console.log('regions', regions)
+        if (regions != null) {
+          for (let j = 0; j < regions.length; j++) {
+            regionsName = regionsName + regions[j].regionName + ', '
+          }
+          if (regionsName.length > 0) {
+            regionsName = regionsName.substr(0, regionsName.length - 2)
+          }
+        }
+        emData.chargeRegions = emData.chargeRegions
+        emData.chargeRegions2 = regionsName
 
+        this.personalForm = Object.assign({}, emData)
         if (emData.certificateType !== null && emData.certificateType !== undefined && emData.certificateType !== '') {
           this.personalForm.certificateType = String(emData.certificateType)
         }
@@ -702,8 +756,9 @@ export default {
     },
     // 根据区域选择门店
     handlechange4() {
-      if (this.$store.getters.repositoryId === '' || this.$store.getters.repositoryId === null || this.$store.getters.repositoryId === undefined) {
-        searchRepository(this.$store.getters.regionId).then(res => {
+      console.log('this.$store.getters.repositoryId', this.$store.getters.repositoryId)
+      if (this.$store.getters.repositoryId !== '' && this.$store.getters.repositoryId !== null && this.$store.getters.repositoryId !== undefined) {
+        searchRepository(null, this.$store.getters.repositoryId, this.$store.getters.regionId).then(res => {
           if (res.data.ret === 200) {
             this.repositories = res.data.data.content.list
             this.repositories2 = res.data.data.content.list

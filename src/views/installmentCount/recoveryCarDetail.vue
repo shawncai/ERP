@@ -5,13 +5,13 @@
         <el-form ref="getemplist" :model="getemplist" label-width="100px" style="margin-top: -9px">
           <el-col :span="4">
             <el-form-item label="收车人">
-              <el-input v-model="receivePersonId" @keyup.enter.native="handleFilter" @focus="handlechooseStock"/>
+              <el-input v-model="receivePersonId" @keyup.enter.native="handleFilter" @clear="restFilter" @focus="handlechooseStock"/>
             </el-form-item>
             <my-emp :control.sync="stockControl" @stockName="stockName"/>
           </el-col>
           <el-col :span="4" style="margin-left: 35px">
-            <el-form-item label="门店">
-              <el-input v-model="repositoryId" class="filter-item" @keyup.enter.native="handleFilter" @focus="handlechooseRep"/>
+            <el-form-item :label="$t('updates.repository')">
+              <el-input v-model="repositoryId" class="filter-item" @clear="restFilter2" @keyup.enter.native="handleFilter" @focus="handlechooseRep"/>
               <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
             </el-form-item>
           </el-col>
@@ -296,8 +296,14 @@ export default {
     },
     // 清空搜索条件
     restFilter() {
-      this.customerName = ''
-      this.getemplist.customerId = ''
+      this.receivePersonId = ''
+      this.getemplist.receivePersonId = ''
+      // this.receivePersonId = ''
+      // this.getemplist.receivePersonId = ''
+    },
+    restFilter2() {
+      this.repositoryId = ''
+      this.getemplist.repositoryId = ''
       // this.receivePersonId = ''
       // this.getemplist.receivePersonId = ''
     },
@@ -318,9 +324,9 @@ export default {
             this.list[i].heji = this.list[i].totalMoney + this.list[i].taxMoney
           }
           this.total = res.data.data.content.totalCount
-          this.restFilter()
+          // this.restFilter()
         } else {
-          this.restFilter()
+          // this.restFilter()
         }
       })
     },

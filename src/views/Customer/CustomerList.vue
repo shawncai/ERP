@@ -38,7 +38,7 @@
                   :value="item.id"
                   :label="item.categoryName"/>
               </el-select>
-              <el-select v-model="getemplist.repositoryid" placeholder="请选择门店" filterable clearable style="width: 40%;float: right;margin-right: 20px">
+              <el-select v-model="getemplist.repositoryid" :placeholder="$t('Hmodule.xzmd')" filterable clearable style="width: 40%;float: right;margin-right: 20px">
                 <el-option
                   v-for="(item, index) in repositories"
                   :key="index"
@@ -122,7 +122,7 @@
         </el-table-column>
         <el-table-column :label="$t('Customer.source')" :resizable="false" prop="source" align="center" width="100">
           <template slot-scope="scope">
-            <span>{{ scope.row.sourceName }}</span>
+            <span>{{ scope.row.source | sourceFilter }}</span>
           </template>
         </el-table-column>
         <el-table-column :label="$t('Customer.newold')" :resizable="false" prop="newOrOld" align="center" width="100">
@@ -187,6 +187,13 @@ export default {
   directives: { waves, permission, permission2 },
   components: { DetailList, MyDialog2, Pagination },
   filters: {
+    sourceFilter(status) {
+      const statusMap = {
+        1: '线上',
+        2: '线下'
+      }
+      return statusMap[status]
+    },
     genderFilter(status) {
       const statusMap = {
         1: '男',

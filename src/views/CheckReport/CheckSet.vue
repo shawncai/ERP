@@ -9,7 +9,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="6" style="margin-left: 20px">
-            <el-form-item label="物品名称">
+            <el-form-item :label="$t('Hmodule.wpmc')">
               <el-input v-model="getemplist.productName" style="width: 160px" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
@@ -81,7 +81,7 @@
         <div
           style="display: flex; align-items: center; justify-content: flex-start;padding-left: 35px;padding-bottom: 20px;">
           <el-button @click="insertEvent(-1)">添加</el-button>
-          <el-button type="danger" @click="$refs.editable.removeSelecteds()">删除</el-button>
+          <el-button type="danger" @click="$refs.editable.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
         </div>
 
         <el-editable
@@ -112,8 +112,8 @@
           <el-editable-column :label="$t('CheckSet.checkContent')" :edit-render="{name: 'ElInput',type: 'visible', attrs: {type: 'textarea', autosize: {minRows: 1, maxRows: 4}}}" prop="checkContent" align="center" min-width="150"/>
         </el-editable>
         <span slot="footer" class="dialog-footer">
-          <el-button v-no-more-click type="primary" @click="handlesave()">保存</el-button>
-          <el-button type="danger" @click="handlecancel()">取消</el-button>
+          <el-button v-no-more-click type="primary" @click="handlesave()">{{ $t('Hmodule.baoc') }}</el-button>
+          <el-button type="danger" @click="handlecancel()">{{ $t('Hmodule.cancel') }}</el-button>
         </span>
       </el-dialog>
     </el-card>
@@ -202,8 +202,8 @@
           </el-form-item>
         </el-form>
         <span slot="footer" class="dialog-footer">
-          <el-button type="primary" @click="handleOk()">修改</el-button>
-          <el-button type="danger" @click="handleNo()">取消</el-button>
+          <el-button type="primary" @click="handleOk()">{{ $t('public.edit') }}</el-button>
+          <el-button type="danger" @click="handleNo()">{{ $t('Hmodule.cancel') }}</el-button>
         </span>
       </el-dialog>
       <!--修改结束=================================================-->

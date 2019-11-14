@@ -153,7 +153,7 @@ export default {
         pageSize: 10,
         countryId: this.$store.getters.countryId,
         repositoryId: this.$store.getters.repositoryId,
-        regionIds: this.$store.getters.regionId
+        regionIds: this.$store.getters.regionIds
       },
       // 搜索结束 ----------------------
       // 列表操作 -------------------------
@@ -237,7 +237,7 @@ export default {
         createPersonId: this.$store.getters.userId,
         countryId: this.$store.getters.countryId,
         repositoryId: this.$store.getters.repositoryId,
-        regionIds: this.$store.getters.regionId
+        regionIds: this.$store.getters.regionIds
       }
     },
     // 清空搜索条件

@@ -11,8 +11,8 @@
           <el-col :span="5" style="margin-left: 10px">
             <el-form-item label="状态">
               <el-select v-model="getemplist.stat" :value="getemplist.stat" clearable @keyup.enter.native="handleFilter">
-                <el-option label="启用" value="1"/>
-                <el-option label="停用" value="2"/>
+                <el-option :label="$t('updates.qy')" value="1"/>
+                <el-option :label="$t('updates.ty')" value="2"/>
               </el-select>
             </el-form-item>
           </el-col>
@@ -50,14 +50,14 @@
           </el-form-item>
           <el-form-item :label="$t('InstallmentrateList.isEffective')" label-width="100px" prop="isEffective">
             <el-select v-model="addCategoryForm.isEffective" placeholder="请选择状态" style="width: 100%">
-              <el-option label="启用" value="1"/>
-              <el-option label="停用" value="2"/>
+              <el-option :label="$t('updates.qy')" value="1"/>
+              <el-option :label="$t('updates.ty')" value="2"/>
             </el-select>
           </el-form-item>
         </el-form>
         <span slot="footer" class="dialog-footer">
-          <el-button type="primary" @click="handlesave()">保存</el-button>
-          <el-button type="danger" @click="handlecancel()">取消</el-button>
+          <el-button type="primary" @click="handlesave()">{{ $t('Hmodule.baoc') }}</el-button>
+          <el-button type="danger" @click="handlecancel()">{{ $t('Hmodule.cancel') }}</el-button>
         </span>
       </el-dialog>
     </el-card>
@@ -122,14 +122,14 @@
           </el-form-item>
           <el-form-item :label="$t('InstallmentrateList.isEffective')" label-width="100px" prop="isEffective">
             <el-select v-model="editCategoryForm.isEffective" placeholder="请选择状态" style="width: 100%">
-              <el-option label="启用" value="1"/>
-              <el-option label="停用" value="2"/>
+              <el-option :label="$t('updates.qy')" value="1"/>
+              <el-option :label="$t('updates.ty')" value="2"/>
             </el-select>
           </el-form-item>
         </el-form>
         <span slot="footer" class="dialog-footer">
-          <el-button type="primary" @click="handleOk()">修改</el-button>
-          <el-button type="danger" @click="handleNo()">取消</el-button>
+          <el-button type="primary" @click="handleOk()">{{ $t('public.edit') }}</el-button>
+          <el-button type="danger" @click="handleNo()">{{ $t('Hmodule.cancel') }}</el-button>
         </span>
       </el-dialog>
       <!--修改结束=================================================-->

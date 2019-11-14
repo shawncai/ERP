@@ -2,7 +2,7 @@
   <el-dialog :visible.sync="editVisible" :detailcontrol="detailcontrol" :detaildata="detaildata" :close-on-press-escape="false" append-to-body class="edit" top="10px" title="修改采购入库单" @close="$emit('update:detailcontrol', false)">
     <!--基本信息-->
     <el-card class="box-card">
-      <h2 ref="geren" class="form-name">基本信息</h2>
+      <h2 ref="geren" class="form-name">{{ $t('Hmodule.basicinfo') }}</h2>
       <div class="container">
         <el-form :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="135px" style="margin-left: 30px;">
           <el-row>
@@ -65,16 +65,16 @@
             <el-col :span="6">
               <el-form-item :label="$t('ProcessFile.isCost')" prop="isCost" style="width: 100%;">
                 <el-radio-group v-model="personalForm.isCost" disabled style="margin-left: 19px; width: 150px">
-                  <el-radio :label="1">是</el-radio>
-                  <el-radio :label="2">否</el-radio>
+                  <el-radio :label="1">{{ $t('updates.yes') }}</el-radio>
+                  <el-radio :label="2">{{ $t('updates.no') }}</el-radio>
                 </el-radio-group>
               </el-form-item>
             </el-col>
             <el-col :span="6">
               <el-form-item :label="$t('ProcessFile.isHelp')" label-width="120px" prop="isHelp" style="width: 100%;">
                 <el-radio-group v-model="personalForm.isHelp" disabled style="margin-left: 19px; width: 150px">
-                  <el-radio :label="1">是</el-radio>
-                  <el-radio :label="2">否</el-radio>
+                  <el-radio :label="1">{{ $t('updates.yes') }}</el-radio>
+                  <el-radio :label="2">{{ $t('updates.no') }}</el-radio>
                 </el-radio-group>
               </el-form-item>
             </el-col>
@@ -114,13 +114,13 @@
           size="medium"
           style="width: 100%">
           <el-editable-column type="selection" min-width="55" align="center"/>
-          <el-editable-column label="序号" min-width="55" align="center" type="index"/>
+          <el-editable-column :label="$t('Hmodule.xh')" min-width="55" align="center" type="index"/>
           <el-editable-column prop="processFileName" align="center" label="工艺名称" min-width="150px"/>
         </el-editable>
       </div>
     </el-card>
     <div class="buttons" style="margin-top: 20px;margin-left: 30px">
-      <el-button type="danger" @click="handlecancel()">取消</el-button>
+      <el-button type="danger" @click="handlecancel()">{{ $t('Hmodule.cancel') }}</el-button>
     </div>
   </el-dialog>
 </template>

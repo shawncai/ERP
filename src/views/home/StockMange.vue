@@ -12,7 +12,7 @@
               <el-col :span="24">
                 <div style="width: 100%; min-height: 400px;" >
                   <div style="width: 100%; height: 50px;background: #d9e0e8;" >
-                    <div style="padding-top: 16px;padding-left: 20px;width: 25%;height: 100%;float: left">供应商分布</div>
+                    <div style="padding-top: 16px;padding-left: 20px;width: 25%;height: 100%;float: left">{{ $t('updates.gysfb') }}</div>
                     <div style="width: 75%;height: 100%;float: left;">
                     <el-form ref="getemplist4" :model="getemplist4" label-width="100px">
                       <el-date-picker
@@ -20,8 +20,8 @@
                         type="daterange"
                         range-separator="-"
                         unlink-panels
-                        start-placeholder="开始日期"
-                        end-placeholder="结束日期"
+                        :start-placeholder="$t('updates.ksrq')"
+                        :end-placeholder="$t('updates.jsrq')"
                         value-format="yyyy-MM-dd"
                         style="margin-left: 60%;"
                         class="shipei"/>
@@ -36,46 +36,46 @@
                     style="width: 100%">
                     <el-table-column
                       prop="stockPersonName"
-                      label="采购员"
+                      :label="$t('updates.cgy')"
                       width="320"
                       align="center">
                     </el-table-column>
-                    <el-table-column align="center" label="分类">
+                    <el-table-column align="center" :label="$t('updates.fl')">
                       <el-table-column
                         prop="oneNum"
-                        label="原材料供应商"
+                        :label="$t('updates.yclgys')"
                         width="220"
                         align="center">
                       </el-table-column>
                       <el-table-column
                         prop="twoNum"
-                        label="配件供应商"
+                        :label="$t('updates.pjgys')"
                         width="220"
                         align="center">
                       </el-table-column>
                       <el-table-column
                         prop="threeNum"
-                        label="紧固件供应商"
+                        :label="$t('updates.jgjgys')"
                         width="220"
                         align="center">
                       </el-table-column>
                     </el-table-column>
-                    <el-table-column align="center" label="级别">
+                    <el-table-column align="center" :label="$t('updates.jb')">
                       <el-table-column
                         prop="fourNum"
-                        label="一级"
+                        :label="$t('updates.yj')"
                         width="220"
                         align="center">
                       </el-table-column>
                       <el-table-column
                         prop="fiveNum"
-                        label="二级"
+                        :label="$t('updates.ej')"
                         width="220"
                         align="center">
                       </el-table-column>
                       <el-table-column
                         prop="sixNum"
-                        label="三级"
+                        :label="$t('updates.sj')"
                         width="220"
                         align="center">
                       </el-table-column>
@@ -97,7 +97,7 @@
               <el-col :span="24">
                 <div style="width: 100%; min-height: 400px;" >
                   <div style="width: 100%; height: 50px;background: #d9e0e8;" >
-                    <div style="padding-top: 16px;padding-left: 20px;width: 25%;height: 100%;float: left">产品信息追踪</div>
+                    <div style="padding-top: 16px;padding-left: 20px;width: 25%;height: 100%;float: left">{{ $t('updates.cpxxzz') }}</div>
                     <div style="width: 75%;height: 100%;float: left;">
                       <el-form ref="getemplist2" :model="getemplist2" label-width="100px">
                         <el-date-picker
@@ -105,8 +105,8 @@
                           type="daterange"
                           range-separator="-"
                           unlink-panels
-                          start-placeholder="开始日期"
-                          end-placeholder="结束日期"
+                          :start-placeholder="$t('updates.ksrq')"
+                          :end-placeholder="$t('updates.jsrq')"
                           value-format="yyyy-MM-dd"
                           style="margin-left: 60%;"
                           class="shipei"/>
@@ -121,91 +121,91 @@
                     style="width: 100%">
                     <el-table-column
                       prop="productName"
-                      label="产品名称"
+                      :label="$t('updates.cpmc')"
                       min-width="160"
                       align="center">
                     </el-table-column>
                     <el-table-column
                       prop="productCode"
-                      label="产品编号"
+                      :label="$t('updates.cpbh')"
                       min-width="160"
                       align="center">
                     </el-table-column>
                     <el-table-column
                       prop="productType"
-                      label="产品型号"
+                      :label="$t('updates.cpxh')"
                       min-width="160"
                       align="center">
                     </el-table-column>
                     <el-table-column
                       prop="unit"
-                      label="单位"
+                      :label="$t('Hmodule.dw')"
                       min-width="105"
                       align="center">
                     </el-table-column>
                     <el-table-column
                       prop="existStock"
-                      label="当前库存"
+                      :label="$t('updates.dqkc')"
                       min-width="105"
                       align="center">
                     </el-table-column>
                     <el-table-column
                       prop="orderStock"
-                      label="预定库存"
+                      :label="$t('updates.ydkc')"
                       min-width="105"
                       align="center">
                     </el-table-column>
                     <el-table-column
                       prop="onStock"
-                      label="在途库存"
+                      :label="$t('updates.ztkc')"
                       min-width="105"
                       align="center">
                     </el-table-column>
                     <el-table-column
                       prop="enterQuantity"
-                      label="待审批入库"
+                      :label="$t('updates.dsprk')"
                       min-width="105"
                       align="center">
                     </el-table-column>
                     <el-table-column
                       prop="minPrice"
-                      label="历史最低价"
+                      :label="$t('updates.lszdj')"
                       min-width="105"
                       align="center">
                     </el-table-column>
                     <el-table-column
                       prop="planQuantity"
-                      label="计划采购"
+                      :label="$t('updates.jhcg')"
                       min-width="105"
                       align="center">
                     </el-table-column>
                     <el-table-column
                       prop="maxPrice"
-                      label="历史最高价"
+                      :label="$t('updates.lszgj')"
                       min-width="105"
                       align="center">
                     </el-table-column>
                     <el-table-column
                       prop="recentlyPrice"
-                      label="最近购买价"
+                      :label="$t('updates.zjgmj')"
                       min-width="105"
                       align="center">
                     </el-table-column>
                     <el-table-column
                       prop="avgPrice"
-                      label="历史平均价"
+                      :label="$t('updates.lspjj')"
                       min-width="105"
                       align="center">
                     </el-table-column>
                     <el-table-column
                       prop="advicePrice"
-                      label="建议进价"
+                      :label="$t('updates.jyjj')"
                       min-width="105"
                       align="center">
                     </el-table-column>
                     <el-table-column
                       prop="supplierVos"
-                      label="可选供应商"
+                      :label="$t('updates.kxgys')"
                       width="200"
                       align="center">
                       <!--                      type="expand"-->
@@ -229,7 +229,7 @@
 <!--                    size="medium"-->
 <!--                    style="width: 100%">-->
 <!--                    <el-editable-column type="selection" min-width="55" align="center"/>-->
-<!--                    <el-editable-column label="序号" min-width="55" align="center" type="index"/>-->
+<!--                    <el-editable-column :label="$t('Hmodule.xh')" min-width="55" align="center" type="index"/>-->
 <!--                    <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="checkItem" align="center" label="检验项目" min-width="150px"/>-->
 <!--                    <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="checkTarget" align="center" label="检验指标" min-width="150px"/>-->
 <!--                    <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="checkValue" align="center" label="检验值" min-width="150px"/>-->
@@ -379,13 +379,13 @@ import permission2 from '@/directive/permission2/index.js' // 权限判断指令
           pageNum: 1,
           pageSize: 10,
           repositoryId: this.$store.getters.repositoryId,
-          regionIds: this.$store.getters.regionId
+          regionIds: this.$store.getters.regionIds
         },
         getemplist2: {
           pageNum: 1,
           pageSize:10,
           repositoryId: this.$store.getters.repositoryId,
-          regionIds: this.$store.getters.regionId,
+          regionIds: this.$store.getters.regionIds,
           employeeId: this.$store.getters.userId
         },
         getemplist3: {

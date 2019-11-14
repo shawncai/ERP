@@ -15,17 +15,17 @@
                     <el-row>
                       <el-form ref="getemplist4" :model="getemplist4" label-width="100px">
                         <el-col :span="6">
-                          <div style="padding-top: 16px;padding-left: 20px;">库存信息追踪</div>
+                          <div style="padding-top: 16px;padding-left: 20px;">{{ $t('updates.kcxxzz') }}</div>
                         </el-col>
                         <!--                    <div style="width: 75%;height: 100%;float: left;">-->
                         <el-col :span="6">
-                          <el-form-item label="门店" style="margin-top: 2%;height: 20px">
+                          <el-form-item :label="$t('updates.repository')" style="margin-top: 2%;height: 20px">
                             <el-input v-model="adjustRepositoryId" class="filter-item" clearable @keyup.enter.native="handleFilter" @focus="handlechooseRep"/>
                             <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
                           </el-form-item>
                         </el-col>
                         <el-col :span="6">
-                          <el-form-item label="月份" style="margin-top: 2%;height: 20px">
+                          <el-form-item :label="$t('updates.yf')" style="margin-top: 2%;height: 20px">
                             <el-date-picker
                               v-model="date2"
                               type="month"
@@ -47,52 +47,52 @@
                     style="width: 100%">
                     <el-table-column
                       prop="repositoryName"
-                      label="门店"
+                      :label="$t('updates.repository')"
                       width="163"
                       align="center"/>
                     <el-table-column
                       prop="productName"
-                      label="商品"
+                      :label="$t('updates.sp')"
                       width="164"
                       align="center"/>
                     <el-table-column
                       prop="beginQuantity"
-                      label="期初库存"
+                      :label="$t('updates.qckc')"
                       width="164"
                       align="center"/>
                     <el-table-column
                       prop="enterQuantity"
-                      label="入库数量"
+                      :label="$t('updates.rksl')"
                       width="164"
                       align="center"/>
                     <el-table-column
                       prop="outQuantity"
-                      label="出库数量"
+                      :label="$t('updates.cksl')"
                       width="164"
                       align="center"/>
                     <el-table-column
                       prop="endQuantity"
-                      label="期末库存"
+                      :label="$t('updates.qmkc')"
                       width="164"
                       align="center"/>
                     <el-table-column
                       prop="beginMoney"
-                      label="期初成本"
+                      :label="$t('updates.qccb')"
                       width="164"
                       align="center"/>
                     <el-table-column
                       prop="enterMoney"
-                      label="入库成本"
+                      :label="$t('updates.rkcb')"
                       width="164"
                       align="center"/>
                     <el-table-column
                       prop="outMoney"
-                      label="出库成本"
+                      :label="$t('updates.ckcb')"
                       width="164"
                       align="center"/>
                     <el-table-column
                       prop="endMoney"
-                      label="期末成本"
+                      :label="$t('updates.qmcb')"
                       width="167"
                       align="center"/>
                   </el-table>
@@ -118,11 +118,11 @@
                     <el-row>
                       <el-form ref="getemplist3" :model="getemplist3" label-width="100px">
                         <el-col :span="6">
-                          <div style="padding-top: 16px;padding-left: 20px;">仓库操作导航</div>
+                          <div style="padding-top: 16px;padding-left: 20px;">{{ $t('updates.ckczdh') }}</div>
                         </el-col>
                         <!--                    <div style="width: 75%;height: 100%;float: left;">-->
                         <el-col :span="6">
-                          <el-form-item label="门店" style="margin-top: 2%;height: 20px">
+                          <el-form-item :label="$t('updates.repository')" style="margin-top: 2%;height: 20px">
                             <el-input v-model="adjustRepositoryId2" class="filter-item" clearable @keyup.enter.native="handleFilter" @focus="handlechooseRep2"/>
                             <my-repository :repositorycontrol.sync="repositorycontrol2" @repositoryname="repositoryname2"/>
                           </el-form-item>
@@ -133,8 +133,8 @@
                             type="daterange"
                             range-separator="-"
                             unlink-panels
-                            start-placeholder="开始日期"
-                            end-placeholder="结束日期"
+                            :start-placeholder="$t('updates.ksrq')"
+                            :end-placeholder="$t('updates.jsrq')"
                             value-format="yyyy-MM-dd"
                             style="margin-left: 14%;margin-top: 1.5%;"
                           />
@@ -153,47 +153,47 @@
                     style="width: 100%">
                     <el-table-column
                       prop="repositoryName"
-                      label="门店"
+                      :label="$t('updates.repository')"
                       width="185"
                       align="center"/>
                     <el-table-column
                       prop="stockJudge"
-                      label="采购审批"
+                      :label="$t('updates.cgsp')"
                       width="182"
                       align="center"/>
                     <el-table-column
                       prop="stockArrival"
-                      label="采购到货提醒"
+                      :label="$t('updates.cgdhtx')"
                       width="182"
                       align="center"/>
                     <el-table-column
                       prop="enterJudge"
-                      label="入库审批"
+                      :label="$t('updates.rksp')"
                       width="182"
                       align="center"/>
                     <el-table-column
                       prop="outJudge"
-                      label="出库审批"
+                      :label="$t('updates.cksp')"
                       width="182"
                       align="center"/>
                     <el-table-column
                       prop="moveJudge"
-                      label="调拨审批"
+                      :label="$t('updates.dbsp')"
                       width="182"
                       align="center"/>
                     <el-table-column
                       prop="stockPlan"
-                      label="预计采购"
+                      :label="$t('updates.yjcg')"
                       width="182"
                       align="center"/>
                     <el-table-column
                       prop="orderSend"
-                      label="待提交发货"
+                      :label="$t('updates.dtjfh')"
                       width="182"
                       align="center"/>
                     <el-table-column
                       prop="confirmSend"
-                      label="待确认发货"
+                      :label="$t('updates.dqrfh')"
                       width="182"
                       align="center"/>
                   </el-table>
@@ -216,11 +216,11 @@
                     <el-row>
                       <el-form ref="getemplist2" :model="getemplist2" label-width="100px">
                         <el-col :span="6">
-                          <div style="padding-top: 16px;padding-left: 20px;">入库</div>
+                          <div style="padding-top: 16px;padding-left: 20px;">{{ $t('updates.rk') }}</div>
                         </el-col>
                         <!--                    <div style="width: 75%;height: 100%;float: left;">-->
                         <el-col :span="6">
-                          <el-form-item label="门店" style="margin-top: 2%;height: 20px">
+                          <el-form-item :label="$t('updates.repository')" style="margin-top: 2%;height: 20px">
                             <el-input v-model="adjustRepositoryId3" class="filter-item" clearable @keyup.enter.native="handleFilter" @focus="handlechooseRep3"/>
                             <my-repository :repositorycontrol.sync="repositorycontrol3" @repositoryname="repositoryname3"/>
                           </el-form-item>
@@ -231,8 +231,8 @@
                             type="daterange"
                             range-separator="-"
                             unlink-panels
-                            start-placeholder="开始日期"
-                            end-placeholder="结束日期"
+                            :start-placeholder="$t('updates.ksrq')"
+                            :end-placeholder="$t('updates.jsrq')"
                             value-format="yyyy-MM-dd"
                             style="margin-left: 14%;margin-top: 1.5%;"
                           />
@@ -251,12 +251,12 @@
                     style="width: 100%">
                     <el-table-column
                       prop="name"
-                      label="项目"
+                      :label="$t('updates.xm')"
                       width="150"
                       align="center"/>
                     <el-table-column
                       prop="stockEnterQuantity"
-                      label="采购入库"
+                      :label="$t('updates.cgrk')"
                       width="150"
                       align="center">
                       <template slot-scope="scope">
@@ -265,47 +265,47 @@
                     </el-table-column>
                     <el-table-column
                       prop="saleReturnQuantity"
-                      label="客户退货"
+                      :label="$t('updates.khth')"
                       width="150"
                       align="center"/>
                     <el-table-column
                       prop="moveQuantity"
-                      label="调拨入库"
+                      :label="$t('updates.dbrk')"
                       width="150"
                       align="center"/>
                     <el-table-column
                       prop="adjustQuantity"
-                      label="盘盈"
+                      :label="$t('updates.py')"
                       width="150"
                       align="center"/>
                     <el-table-column
                       prop="initEnterQuantity"
-                      label="期初入库"
+                      :label="$t('updates.qcrk')"
                       width="150"
                       align="center"/>
                     <el-table-column
                       prop="produceEnterQuantity"
-                      label="生产入库"
+                      :label="$t('updates.scrk')"
                       width="150"
                       align="center"/>
                     <el-table-column
                       prop="otherEnterQuantity"
-                      label="其他入库"
+                      :label="$t('updates.qtrk')"
                       width="150"
                       align="center"/>
                     <el-table-column
                       prop="retreatQuantity"
-                      label="退料入库"
+                      :label="$t('updates.tlrk')"
                       width="150"
                       align="center"/>
                     <el-table-column
                       prop="buildQuantity"
-                      label="组拆装入库"
+                      :label="$t('updates.zczrk')"
                       width="146"
                       align="center"/>
                     <el-table-column
                       prop="totalnum"
-                      label="合计"
+                      :label="$t('updates.hj')"
                       width="146"
                       align="center"/>
                   </el-table>
@@ -327,11 +327,11 @@
                     <el-row>
                       <el-form ref="getemplist5" :model="getemplist5" label-width="100px">
                         <el-col :span="6">
-                          <div style="padding-top: 16px;padding-left: 20px;">出库</div>
+                          <div style="padding-top: 16px;padding-left: 20px;">{{ $t('updates.ck') }}</div>
                         </el-col>
                         <!--                    <div style="width: 75%;height: 100%;float: left;">-->
                         <el-col :span="6">
-                          <el-form-item label="门店" style="margin-top: 2%;height: 20px">
+                          <el-form-item :label="$t('updates.repository')" style="margin-top: 2%;height: 20px">
                             <el-input v-model="adjustRepositoryId4" class="filter-item" clearable @keyup.enter.native="handleFilter" @focus="handlechooseRep4"/>
                             <my-repository :repositorycontrol.sync="repositorycontrol4" @repositoryname="repositoryname4"/>
                           </el-form-item>
@@ -342,8 +342,8 @@
                             type="daterange"
                             range-separator="-"
                             unlink-panels
-                            start-placeholder="开始日期"
-                            end-placeholder="结束日期"
+                            :start-placeholder="$t('updates.ksrq')"
+                            :end-placeholder="$t('updates.jsrq')"
                             value-format="yyyy-MM-dd"
                             style="margin-left: 14%;margin-top: 1.5%;"
                           />
@@ -362,12 +362,12 @@
                     style="width: 100%">
                     <el-table-column
                       prop="name"
-                      label="项目"
+                      :label="$t('updates.xm')"
                       width="150"
                       align="center"/>
                     <el-table-column
                       prop="saleOutQuantity"
-                      label="销售出库"
+                      :label="$t('updates.ssck')"
                       width="150"
                       align="center">
                       <template slot-scope="scope">
@@ -376,47 +376,47 @@
                     </el-table-column>
                     <el-table-column
                       prop="accessQuantity"
-                      label="领料出库"
+                      :label="$t('updates.llck')"
                       width="150"
                       align="center"/>
                     <el-table-column
                       prop="serviceOutQuantity"
-                      label="维修出库"
+                      :label="$t('updates.wxck')"
                       width="150"
                       align="center"/>
                     <el-table-column
                       prop="adjustQuantity"
-                      label="盘亏"
+                      :label="$t('updates.yk')"
                       width="150"
                       align="center"/>
                     <el-table-column
                       prop="damagedQuantity"
-                      label="报损"
+                      :label="$t('updates.bs')"
                       width="150"
                       align="center"/>
                     <el-table-column
                       prop="stockRetreatQuantity"
-                      label="采购退货"
+                      :label="$t('updates.cgth')"
                       width="150"
                       align="center"/>
                     <el-table-column
                       prop="otherOutQuantity"
-                      label="其他出库"
+                      :label="$t('updates.qtck')"
                       width="150"
                       align="center"/>
                     <el-table-column
                       prop="moveOutQuantity"
-                      label="调拨出库"
+                      :label="$t('updates.dbck')"
                       width="150"
                       align="center"/>
                     <el-table-column
                       prop="buildOutQuantity"
-                      label="组拆装入库"
+                      :label="$t('updates.zczrk')"
                       width="146"
                       align="center"/>
                     <el-table-column
                       prop="totalnum"
-                      label="合计"
+                      :label="$t('updates.hj')"
                       width="146"
                       align="center"/>
                   </el-table>
@@ -553,30 +553,30 @@ export default {
         pageNum: 1,
         pageSize: 10,
         repositoryId: this.$store.getters.repositoryId,
-        regionIds: this.$store.getters.regionId
+        regionIds: this.$store.getters.regionIds
       },
       getemplist2: {
         pageNum: 1,
         pageSize: 10,
         repositoryId: this.$store.getters.repositoryId,
-        regionIds: this.$store.getters.regionId,
+        regionIds: this.$store.getters.regionIds,
         employeeId: this.$store.getters.userId
       },
       getemplist3: {
         repositoryId: this.$store.getters.repositoryId,
-        regionIds: this.$store.getters.regionId,
+        regionIds: this.$store.getters.regionIds,
         pageNum: 1,
         pageSize: 10
       },
       getemplist4: {
         repositoryId: this.$store.getters.repositoryId,
-        regionIds: this.$store.getters.regionId,
+        regionIds: this.$store.getters.regionIds,
         pageNum: 1,
         pageSize: 10
       },
       getemplist5: {
         repositoryId: this.$store.getters.repositoryId,
-        regionIds: this.$store.getters.regionId,
+        regionIds: this.$store.getters.regionIds,
         pageNum: 1,
         pageSize: 10
       },

@@ -14,8 +14,8 @@
             </el-form-item>
           </el-col>
           <el-col :span="5" style="margin-left: 10px">
-            <el-form-item label="采购员">
-              <el-input v-model="stockPersonId" :placeholder="$t('StockRetreat.stockPersonId')" clearable @keyup.enter.native="handleFilter" @focus="handlechooseStock"/>
+            <el-form-item :label="$t('updates.cgy')">
+              <el-input v-model="stockPersonId" :placeholder="$t('StockRetreat.stockPersonId')" clearable @keyup.enter.native="handleFilter" @clear="restFilter2" @focus="handlechooseStock"/>
             </el-form-item>
             <my-emp :control.sync="stockControl" @stockName="stockName"/>
           </el-col>
@@ -33,7 +33,7 @@
                   :value="item.id"
                   :label="item.deptName"/>
               </el-select>
-              <el-input v-model="supplierId" placeholder="供应商" style="width: 40%;float: right;margin-right: 20px;" clearable @focus="handlechoose"/>
+              <el-input v-model="supplierId" placeholder="供应商" style="width: 40%;float: right;margin-right: 20px;" clearable @focus="handlechoose" @clear="restFilter"/>
               <my-supplier :control.sync="empcontrol" @supplierName="supplierName"/>
               <el-select v-model="getemplist.receiptStat" :value="getemplist.receiptStat" placeholder="单据状态" clearable style="width: 40%;float: left;margin-left: 20px;margin-top: 20px">
                 <el-option value="1" label="制单"/>
@@ -257,7 +257,7 @@ export default {
         pageNum: 1,
         pageSize: 10,
         repositoryId: this.$store.getters.repositoryId,
-        regionIds: this.$store.getters.regionId
+        regionIds: this.$store.getters.regionIds
       },
       // 传给组件的数据
       personalForm: {},
@@ -410,6 +410,8 @@ export default {
     restFilter() {
       this.supplierId = ''
       this.getemplist.supplierId = ''
+    },
+    restFilter2() {
       this.stockPersonId = ''
       this.getemplist.stockPersonId = ''
     },
@@ -420,9 +422,9 @@ export default {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
-          this.restFilter()
+          // this.restFilter()
         } else {
-          this.restFilter()
+          // this.restFilter()
         }
       })
     },

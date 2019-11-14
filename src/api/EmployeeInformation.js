@@ -164,6 +164,9 @@ export function Verifyaccount(query) {
 // 提交修改
 export function updateemp(query) {
   var params = new URLSearchParams()
+  if (query.chargeRegions !== '' && query.chargeRegions !== null && query.chargeRegions !== undefined) {
+    params.append('chargeRegions', query.chargeRegions) // 你要传给后台的参数值 key/value
+  }
   if (query.id !== '' && query.id !== null && query.id !== undefined) {
     params.append('employeeid', query.id) // 你要传给后台的参数值 key/value
   }
@@ -257,6 +260,9 @@ export function register(query) {
   params.append('regionid', query.regionid1) // 你要传给后台的参数值 key/value
   params.append('certificatetype', query.certificatetype) // 你要传给后台的参数值 key/value
   params.append('certificatenumber', query.certificatenumber) // 你要传给后台的参数值 key/value
+  if (query.chargeRegions !== '' && query.chargeRegions !== null && query.chargeRegions !== undefined) {
+    params.append('chargeRegions', query.chargeRegions) // 你要传给后台的参数值 key/value
+  }
   return request({
     url: '/employee/register',
     method: 'post',
@@ -267,6 +273,9 @@ export function register(query) {
 // 员工列表展示加查询
 export function getemplist(query) {
   var params = new URLSearchParams()
+  if (query.roleid !== '') {
+    params.append('roleid', query.roleid) // 你要传给后台的参数值 key/value
+  }
   if (query.repositoryid !== '') {
     params.append('repositoryid', query.repositoryid) // 你要传给后台的参数值 key/value
   }

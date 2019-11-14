@@ -5,7 +5,7 @@
       <el-form ref="getemplist" :model="getemplist" label-width="70px" style="margin-top: -9px">
         <el-row>
           <el-col :span="3">
-            <el-form-item label="物品名称">
+            <el-form-item :label="$t('Hmodule.wpmc')">
               <el-input v-model="getemplist.productName" style="width: 100px" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
@@ -32,7 +32,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="3" style="margin-left: 20px">
-            <el-form-item label="日期">
+            <el-form-item :label="$t('updates.rq')">
               <el-date-picker
                 v-model="date"
                 type="daterange"
@@ -46,13 +46,13 @@
         <el-row>
           <el-col :span="4">
             <el-form-item :label="$t('StockContract.supplierId')">
-              <el-input v-model="supplierId" @focus="handlechoose"/>
+              <el-input v-model="supplierId" @focus="handlechoose" @clear="restFilter"/>
               <my-supplier :control.sync="empcontrol" @supplierName="supplierName"/>
             </el-form-item>
           </el-col>
           <el-col :span="4" style="margin-left: 46px">
             <el-form-item label="业务员">
-              <el-input v-model="handlePersonId" clearable @keyup.enter.native="handleFilter" @focus="handlechooseStock"/>
+              <el-input v-model="handlePersonId" clearable @keyup.enter.native="handleFilter" @focus="handlechooseStock" @clear="restFilter3"/>
             </el-form-item>
             <my-emp :control.sync="stockControl" @stockName="stockName"/>
           </el-col>
@@ -379,10 +379,14 @@ export default {
     },
     // 清空搜索条件
     restFilter() {
-      this.customerName = ''
-      this.getemplist.customerId = ''
+      this.supplierId = ''
+      this.getemplist.supplierId = ''
+    },
+    restFilter2() {
       this.stockPersonId = ''
       this.getemplist.stockPersonId = ''
+    },
+    restFilter3() {
       this.handlePersonId = ''
       this.getemplist.handlePersonId = ''
     },
@@ -420,9 +424,9 @@ export default {
             }
           }
           this.total = res.data.data.content.totalCount
-          this.restFilter()
+          // this.restFilter()
         } else {
-          this.restFilter()
+          // this.restFilter()
         }
       })
     },

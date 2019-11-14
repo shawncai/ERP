@@ -2,7 +2,7 @@
   <div class="ERP-container">
     <div class="app-container">
       <!--零售客户-->
-      <h2 ref="geren" class="form-name">基本信息</h2>
+      <h2 ref="geren" class="form-name">{{ $t('Hmodule.basicinfo') }}</h2>
       <div class="container">
         <el-form ref="customerForm" :model="customerForm" :rules="customerFormrules" :inline="true" status-icon class="demo-ruleForm" label-position="top" label-width="300px" style="margin-left: 30px;">
           <el-form-item :label="$t('Customer.agentname')" prop="agentname" style="width: 40%;margin-top:1%">
@@ -17,7 +17,7 @@
                 :value="item.id"
                 :label="item.categoryName"/>
               <template>
-                <el-button v-if="isshow" icon="el-icon-circle-plus-outline" style="width:100%" @click="go_creat">新增</el-button>
+                <el-button v-if="isshow" icon="el-icon-circle-plus-outline" style="width:100%" @click="go_creat">{{ $t('updates.create') }}</el-button>
               </template>
             </el-select>
           </el-form-item>
@@ -30,7 +30,7 @@
                 :value="item.id"
                 :label="item.categoryName"/>
               <template>
-                <el-button v-if="isshow" icon="el-icon-circle-plus-outline" style="width:100%" @click="go_creat2">新增</el-button>
+                <el-button v-if="isshow" icon="el-icon-circle-plus-outline" style="width:100%" @click="go_creat2">{{ $t('updates.create') }}</el-button>
               </template>
             </el-select>
           </el-form-item>
@@ -46,7 +46,7 @@
                 :value="item.id"
                 :label="item.categoryName"/>
               <template>
-                <el-button v-if="isshow" icon="el-icon-circle-plus-outline" style="width:100%" @click="go_creat3">新增</el-button>
+                <el-button v-if="isshow" icon="el-icon-circle-plus-outline" style="width:100%" @click="go_creat3">{{ $t('updates.create') }}</el-button>
               </template>
             </el-select>
           </el-form-item>
@@ -97,11 +97,11 @@
             </el-select>
           </el-form-item>
           <el-form-item :label="$t('Customer.traderid')" prop="address" style="width: 40%;margin-top:1%">
-            <el-input v-model="trader" placeholder="请选择" clearable @focus="handlechoose"/>
+            <el-input v-model="trader" :placeholder="$t('updates.qxz')" clearable @focus="handlechoose"/>
           </el-form-item>
           <my-emp :control.sync="empcontrol" @personName="personName"/>
           <el-form-item :label="$t('Customer.transmode')" prop="address" style="width: 40%;margin-top:1%">
-            <el-select ref="clear4" v-model="customerForm.transmode" :value="customerForm.transmode" placeholder="请选择" style="width: 100%;" @focus="getCategory" @change="test">
+            <el-select ref="clear4" v-model="customerForm.transmode" :value="customerForm.transmode" :placeholder="$t('updates.qxz')" style="width: 100%;" @focus="getCategory" @change="test">
               <el-option v-show="false" label="" value="" />
               <el-option
                 v-for="(item, index) in transmodes"
@@ -109,12 +109,12 @@
                 :value="item.id"
                 :label="item.categoryName"/>
               <template>
-                <el-button v-if="isshow2" icon="el-icon-circle-plus-outline" style="width:100%" @click="go_creat4">新增</el-button>
+                <el-button v-if="isshow2" icon="el-icon-circle-plus-outline" style="width:100%" @click="go_creat4">{{ $t('updates.create') }}</el-button>
               </template>
             </el-select>
           </el-form-item>
           <el-form-item :label="$t('Customer.deliverymode')" prop="address" style="width: 40%;margin-top:1%">
-            <el-select ref="clear5" v-model="customerForm.deliverymode" :value="customerForm.deliverymode" placeholder="请选择" style="width: 100%;" @focus="getCategory" @change="test">
+            <el-select ref="clear5" v-model="customerForm.deliverymode" :value="customerForm.deliverymode" :placeholder="$t('updates.qxz')" style="width: 100%;" @focus="getCategory" @change="test">
               <el-option v-show="false" label="" value=""/>
               <el-option
                 v-for="(item, index) in deliverymodes"
@@ -122,7 +122,7 @@
                 :value="item.id"
                 :label="item.categoryName"/>
               <template>
-                <el-button v-if="isshow2" icon="el-icon-circle-plus-outline" style="width:100%" @click="go_creat5">新增</el-button>
+                <el-button v-if="isshow2" icon="el-icon-circle-plus-outline" style="width:100%" @click="go_creat5">{{ $t('updates.create') }}</el-button>
               </template>
             </el-select>
           </el-form-item>
@@ -147,7 +147,7 @@
                 :label="item.categoryName"
                 :value="item.id"/>
               <template>
-                <el-button v-if="isshow2" icon="el-icon-circle-plus-outline" style="width:100%" @click="go_creat6">新增</el-button>
+                <el-button v-if="isshow2" icon="el-icon-circle-plus-outline" style="width:100%" @click="go_creat6">{{ $t('updates.create') }}</el-button>
               </template>
             </el-select>
           </el-form-item>
@@ -166,7 +166,7 @@
                 :label="item.categoryName"
                 :value="item.id"/>
               <template>
-                <el-button v-if="isshow3" icon="el-icon-circle-plus-outline" style="width:100%" @click="go_creat7">新增</el-button>
+                <el-button v-if="isshow3" icon="el-icon-circle-plus-outline" style="width:100%" @click="go_creat7">{{ $t('updates.create') }}</el-button>
               </template>
             </el-select>
           </el-form-item>
@@ -179,7 +179,7 @@
                 :label="item.categoryName"
                 :value="item.id"/>
               <template>
-                <el-button v-if="isshow2" icon="el-icon-circle-plus-outline" style="width:100%" @click="go_creat8">新增</el-button>
+                <el-button v-if="isshow2" icon="el-icon-circle-plus-outline" style="width:100%" @click="go_creat8">{{ $t('updates.create') }}</el-button>
               </template>
             </el-select>
           </el-form-item>
@@ -203,9 +203,9 @@
             <el-date-picker
               v-model="customerForm.establishmenttime"
               :picker-options="pickerOptions"
+              :placeholder="$t('Hmodule.xzrq')"
               value-format="yyyy-MM-dd"
               type="date"
-              placeholder="选择日期"
               style="width: 100%"
             />
           </el-form-item>
@@ -222,9 +222,9 @@
       </div>
       <!--操作-->
       <div class="buttons" style="margin-top: 20px">
-        <el-button v-no-more-click v-permission="['1-14-17-1']" type="primary" @click="handlesave()">保存</el-button>
-        <el-button v-permission="['1-14-17-1']" type="success" @click="handleentry()">继续录入</el-button>
-        <el-button v-permission="['1-14-17-1']" type="danger" @click="handlecancel()">取消</el-button>
+        <el-button v-no-more-click v-permission="['1-14-17-1']" type="primary" @click="handlesave()">{{ $t('Hmodule.baoc') }}</el-button>
+        <el-button v-permission="['1-14-17-1']" type="success" @click="handleentry()">{{ $t('updates.jxlr') }}</el-button>
+        <el-button v-permission="['1-14-17-1']" type="danger" @click="handlecancel()">{{ $t('Hmodule.cancel') }}</el-button>
       </div>
     </div>
   </div>

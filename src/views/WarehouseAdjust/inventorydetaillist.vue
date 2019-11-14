@@ -15,7 +15,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="4">
-            <el-form-item label="物品名称">
+            <el-form-item :label="$t('Hmodule.wpmc')">
               <el-input v-model="getemplist.productName" :placeholder="$t('Inventorydetaillist.productName')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
@@ -38,7 +38,7 @@
               placement="bottom"
               width="500"
               trigger="click">
-              <el-select v-model="getemplist.typeId" placeholder="请选择规格型号" style="width: 40%;float: left;margin-left: 20px" clearable >
+              <el-select v-model="getemplist.typeId" :placeholder="$t('Hmodule.qxzggxh')" style="width: 40%;float: left;margin-left: 20px" clearable >
                 <el-option
                   v-for="(item, index) in types"
                   :key="index"
@@ -48,7 +48,7 @@
               </el-select>
               <el-input v-model="repositoryId" :placeholder="$t('Inventorydetaillist.repositoryId')" class="filter-item" clearable style="width: 40%;float: right;margin-right: 20px" @keyup.enter.native="handleFilter" @focus="handlechooseRep"/>
               <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
-              <el-select v-model="getemplist.locationId" placeholder="请选择货位" style="width: 40%;float: left;margin-left: 20px;margin-top: 20px" clearable >
+              <el-select v-model="getemplist.locationId" :placeholder="$t('Hmodule.xzhw')" style="width: 40%;float: left;margin-left: 20px;margin-top: 20px" clearable >
                 <el-option
                   v-for="(item, index) in locationlist"
                   :key="index"
@@ -240,7 +240,7 @@ export default {
         pageSize: 10,
         countryId: this.$store.getters.countryId,
         repositoryId: this.$store.getters.repositoryId,
-        regionIds: this.$store.getters.regionId
+        regionIds: this.$store.getters.regionIds
       },
       // 搜索结束 ----------------------
       // 列表操作 -------------------------
@@ -346,11 +346,16 @@ export default {
     restFilter() {
       this.enterPersonId = ''
       this.getemplist.enterPersonId = ''
+    },
+    restFilter1() {
       this.repositorycontrol = ''
       this.getemplist.repositorycontrol = ''
+    },
+    restFilter2() {
       this.produceManagerId = ''
       this.getemplist.produceManagerId = ''
     },
+
     // 搜索
     handleFilter() {
       this.getemplist.pageNum = 1

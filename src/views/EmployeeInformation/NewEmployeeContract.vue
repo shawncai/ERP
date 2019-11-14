@@ -2,22 +2,22 @@
   <div class="ERP-container">
     <div class="app-container">
       <!--基本信息-->
-      <h2 ref="geren" class="form-name">基本信息</h2>
+      <h2 ref="geren" class="form-name">{{ $t('Hmodule.basicinfo') }}</h2>
       <div class="container">
         <el-form ref="contractForm" :model="contractForm" :rules="contractFormRules" :inline="true" status-icon class="demo-ruleForm" label-position="top" label-width="300px" style="margin-left: 30px;">
           <el-form-item :label="$t('NewEmployeeInformation.employeeid')" prop="employeeid" style="width: 40%;margin-top:1%">
-            <el-input v-model="employeeName" :disabled="isclick" placeholder="请选择员工" clearable @focus="handlechoose"/>
+            <el-input v-model="employeeName" :disabled="isclick" clearable @focus="handlechoose"/>
           </el-form-item>
           <!--弹出员工列表开始-->
-          <el-dialog :visible.sync="employeeVisible" top="10px" title="选择员工">
+          <el-dialog :visible.sync="employeeVisible" :title="$t('Hmodule.xzyg')" top="10px">
             <div class="filter-container">
               <el-input v-model="getemplist.employeename" :placeholder="$t('NewEmployeeInformation.employeename')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
               <el-input v-model="getemplist.jobnumber" :placeholder="$t('NewEmployeeInformation.jobnumber2')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
               <el-date-picker
                 v-model="getemplist.time"
+                :placeholder="$t('Hmodule.xzrq')"
                 type="date"
                 class="filter-item"
-                placeholder="选择日期"
                 value-format="yyyy-MM-dd"/>
               <el-popover
                 placement="bottom"
@@ -28,14 +28,14 @@
                   :props="props"
                   v-model="getemplistregions"
                   :show-all-levels="false"
-                  placeholder="请选择区域"
+                  :placeholder="$t('Hmodule.xzqy')"
                   change-on-select
                   filterable
                   clearable
                   style="width: 40%;float: left;margin-left: 20px"
                   @change="handlechange4"
                 />
-                <el-select v-model="getemplist.repositoryid" placeholder="请选择门店" clearable filterable style="width: 40%;float: right;margin-right: 20px">
+                <el-select v-model="getemplist.repositoryid" :placeholder="$t('Hmodule.xzmd')" clearable filterable style="width: 40%;float: right;margin-right: 20px">
                   <el-option
                     v-for="(item, index) in repositories"
                     :key="index"
@@ -116,12 +116,12 @@
             </el-table>
             <pagination v-show="total>0" :total="total" :page.sync="getemplist.pagenum" :limit.sync="getemplist.pagesize" style="padding: 0" @pagination="getnationlist" />
             <span slot="footer" class="dialog-footer" style="text-align: left">
-              <el-button v-waves type="success" style="text-align: center;" @click="handleConfirm">确认添加</el-button>
+              <el-button v-waves type="success" style="text-align: center;" @click="handleConfirm">{{ $t('Hmodule.sure') }}</el-button>
             </span>
           </el-dialog>
           <!--弹窗员工列表结束-->
           <el-form-item :label="$t('NewEmployeeInformation.typeid')" prop="typeid" style="width: 40%;margin-top:1%">
-            <el-select ref="clear" v-model="contractForm.typeid" placeholder="请选择合同类别" style="width: 100%;" @focus="updatetypes">
+            <el-select ref="clear" v-model="contractForm.typeid" style="width: 100%;" @focus="updatetypes">
               <el-option v-show="false" label="" value=""/>
               <el-option
                 v-for="(item, index) in alltypes"
@@ -129,18 +129,17 @@
                 :label="item.categoryName"
                 :value="item.id"/>
               <template>
-                <el-button v-if="isshow" icon="el-icon-circle-plus-outline" style="width:100%" @click="go_creat">新增</el-button>
+                <el-button v-if="isshow" icon="el-icon-circle-plus-outline" style="width:100%" @click="go_creat">{{ $t('updates.create') }}</el-button>
               </template>
             </el-select>
           </el-form-item>
           <el-form-item :label="$t('NewEmployeeInformation.contractname')" prop="contractname" style="width: 40%">
-            <el-input v-model="contractForm.contractname" placeholder="请输入合同名称" clearable/>
+            <el-input v-model="contractForm.contractname" clearable/>
           </el-form-item>
           <el-form-item :label="$t('NewEmployeeInformation.signtime')" style="width: 40%" prop="signtime">
             <el-date-picker
               v-model="contractForm.signtime"
               type="date"
-              placeholder="选择签约时间"
               value-format="yyyy-MM-dd"
               style="width: 100%"
               @change="test"/>
@@ -150,7 +149,6 @@
               v-model="contractForm.expiredtime"
               :picker-options="pickerOptions1"
               type="date"
-              placeholder="选择到期时间"
               value-format="yyyy-MM-dd"
               style="width: 100%"/>
           </el-form-item>
@@ -158,19 +156,18 @@
             <el-date-picker
               v-model="contractForm.effectivetime"
               type="date"
-              placeholder="选择生效时间"
               value-format="yyyy-MM-dd"
               style="width: 100%"/>
           </el-form-item>
           <el-form-item :label="$t('NewEmployeeInformation.period')" style="width: 40%;margin-top:1%">
-            <el-select v-model="contractForm.period" placeholder="请选择合同期限" style="width: 100%;">
+            <el-select v-model="contractForm.period" style="width: 100%;">
               <el-option v-show="false" label="" value=""/>
               <el-option label="固定期限" value="1"/>
               <el-option label="不固定期限" value="2"/>
             </el-select>
           </el-form-item>
           <el-form-item :label="$t('NewEmployeeInformation.attribute')" style="width: 40%;margin-top:1%">
-            <el-select ref="clear2" v-model="contractForm.attribute" placeholder="请选择合同属性" style="width: 100%;" @focus="updatetypes">
+            <el-select ref="clear2" v-model="contractForm.attribute" style="width: 100%;" @focus="updatetypes">
               <el-option v-show="false" label="" value=""/>
               <el-option
                 v-for="(item, index) in allattribute"
@@ -178,20 +175,20 @@
                 :label="item.categoryName"
                 :value="item.id"/>
               <template>
-                <el-button v-if="isshow" icon="el-icon-circle-plus-outline" style="width:100%" @click="go_creat2">新增</el-button>
+                <el-button v-if="isshow" icon="el-icon-circle-plus-outline" style="width:100%" @click="go_creat2">{{ $t('updates.create') }}</el-button>
               </template>
             </el-select>
           </el-form-item>
           <el-form-item :label="$t('NewEmployeeInformation.iscorrection')" style="width: 40%;margin-top:1%">
             <el-radio-group v-model="contractForm.iscorrection" style="width: 80%">
-              <el-radio :label="1" style="width: 50%">是</el-radio>
-              <el-radio :label="2">否</el-radio>
+              <el-radio :label="1" style="width: 50%">{{ $t('updates.yes') }}</el-radio>
+              <el-radio :label="2">{{ $t('updates.no') }}</el-radio>
             </el-radio-group>
           </el-form-item>
           <el-form-item :label="$t('NewEmployeeInformation.contractstat')" style="width: 40%;margin-top:1%">
             <el-radio-group v-model="contractForm.stat" style="width: 80%">
-              <el-radio :label="1" style="width: 50%">生效</el-radio>
-              <el-radio :label="2">未生效</el-radio>
+              <el-radio :label="1" style="width: 50%">{{ $t('updates.sx') }}</el-radio>
+              <el-radio :label="2">{{ $t('updates.wsx') }}</el-radio>
             </el-radio-group>
           </el-form-item>
           <el-form-item :label="$t('NewEmployeeInformation.trialsalary')" style="width: 40%">
@@ -216,13 +213,13 @@
           <my-create :createcontrol.sync="createcontrol" @createname="createname"/>
           <el-form-item :label="$t('NewEmployeeInformation.advanceday')" style="width: 40%">
             <el-input v-model="contractForm.advanceday" placeholder="请输入提前时间" clearable>
-              <template slot="append">天</template>
+              <template slot="append">{{ $t('updates.day') }}</template>
             </el-input>
           </el-form-item>
         </el-form>
       </div>
       <!-- 上传附件 -->
-      <h2 ref="fujian" class="form-name">上传附件</h2>
+      <h2 ref="fujian" class="form-name">{{ $t('updates.scfj') }}</h2>
       <div class="container">
         <el-form :model="contractForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
           <el-form-item :label="$t('NewEmployeeInformation.Enclosure')" style="width: 100%;margin-top: 1%">
@@ -246,9 +243,9 @@
       </div>
       <!--操作-->
       <div class="buttons" style="margin-top: 20px">
-        <el-button v-no-more-click v-permission="['1-2-6-1']" type="primary" @click="handlesave()">保存</el-button>
-        <el-button v-permission="['1-2-6-1']" type="success" @click="handleentry()">继续新建</el-button>
-        <el-button v-permission="['1-2-6-1']" type="danger" @click="handlecancel()">取消</el-button>
+        <el-button v-no-more-click v-permission="['1-2-6-1']" type="primary" @click="handlesave()">{{ $t('Hmodule.baoc') }}</el-button>
+        <el-button v-permission="['1-2-6-1']" type="success" @click="handleentry()">{{ $t('updates.jxxj') }}</el-button>
+        <el-button v-permission="['1-2-6-1']" type="danger" @click="handlecancel()">{{ $t('Hmodule.cancel') }}</el-button>
       </div>
     </div>
   </div>
@@ -334,7 +331,7 @@ export default {
         employeename: '',
         pagenum: 1,
         pagesize: 10,
-        stat: 1, loginRepositoryId: this.$store.getters.repositoryId, regionIds: this.$store.getters.regionId,
+        stat: 1, loginRepositoryId: this.$store.getters.repositoryId, regionIds: this.$store.getters.regionIds,
         time: '',
         jobnumber: ''
       },
@@ -564,7 +561,7 @@ export default {
         employeename: '',
         pagenum: 1,
         pagesize: 10,
-        stat: 1, loginRepositoryId: this.$store.getters.repositoryId, regionIds: this.$store.getters.regionId,
+        stat: 1, loginRepositoryId: this.$store.getters.repositoryId, regionIds: this.$store.getters.regionIds,
         time: '',
         jobnumber: ''
       }

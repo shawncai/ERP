@@ -1,7 +1,7 @@
 <template>
   <el-dialog :visible.sync="editVisible" :control="control" :editdata="editdata" :close-on-press-escape="false" width="1010px" top="10px" title="修改供应商" @close="$emit('update:control', false)">
     <!--基本信息-->
-    <h2 ref="geren" class="form-name">基本信息</h2>
+    <h2 ref="geren" class="form-name">{{ $t('Hmodule.basicinfo') }}</h2>
     <div class="container">
       <el-form ref="personalForm" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-position="top" label-width="300px" style="margin-left: 30px;">
         <el-form-item :label="$t('BasicSettings.process_name')" prop="processName" style="width: 40%;margin-top:1%">
@@ -19,7 +19,7 @@
           </el-select>
         </el-form-item>
         <el-form-item :label="$t('BasicSettings.is_message')" style="width: 40%;margin-top:1%">
-          <el-select v-model="personalForm.isMessage" placeholder="请选择" style="width: 100%;">
+          <el-select v-model="personalForm.isMessage" :placeholder="$t('updates.qxz')" style="width: 100%;">
             <el-option label="发送" value="1"/>
             <el-option label="不发送" value="2"/>
           </el-select>
@@ -36,7 +36,7 @@
     <h2 ref="fuzhu" class="form-name">审批流程步骤</h2>
     <div class="buttons" style="margin-top: 50px">
       <el-button type="success" @click="insertEvent(-1)">添加</el-button>
-      <el-button type="danger" @click="$refs.editable.removeSelecteds()">删除</el-button>
+      <el-button type="danger" @click="$refs.editable.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
     </div>
     <div class="container" style="margin-top: 20px">
       <el-editable
@@ -73,8 +73,8 @@
       </el-editable>
     </div>
     <div class="buttons" style="margin-top: 20px;margin-left: 30px">
-      <el-button type="primary" @click="handleEditok()">修改</el-button>
-      <el-button type="danger" @click="handlecancel()">取消</el-button>
+      <el-button type="primary" @click="handleEditok()">{{ $t('public.edit') }}</el-button>
+      <el-button type="danger" @click="handlecancel()">{{ $t('Hmodule.cancel') }}</el-button>
     </div>
   </el-dialog>
 </template>

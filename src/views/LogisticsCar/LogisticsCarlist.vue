@@ -31,7 +31,7 @@
               </el-select>
               <el-select v-model="getemplist.stat" placeholder="车辆状态" style="width: 40%;float: right;margin-right: 20px" clearable>
                 <el-option label="正常" value="1"/>
-                <el-option label="停用" value="2"/>
+                <el-option :label="$t('updates.ty')" value="2"/>
               </el-select>
               <div class="seachbutton" style="width: 100%;float: right;margin-top: 20px">
                 <el-button v-waves class="filter-item" type="primary" style="float: right" round @click="handleFilter">{{ $t('public.search') }}</el-button>

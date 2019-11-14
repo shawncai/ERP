@@ -8,13 +8,13 @@
         <el-col :span="24">
           <div style="width: 100%; min-height: 400px;" >
             <div style="width: 100%; height: 50px;background: #d9e0e8;" >
-              <div style="padding-top: 16px;padding-left: 20px;width: 25%;height: 100%;float: left">销售业绩每月对比</div>
+              <div style="padding-top: 16px;padding-left: 20px;width: 25%;height: 100%;float: left">{{ $t('updates.xxyjmydb') }}</div>
               <div class="block">
                 <el-form ref="getemplist3" :model="getemplist3" label-width="100px">
                   <el-date-picker
                     v-model="date"
                     type="date"
-                    placeholder="选择日期"
+                    :placeholder="$t('Hmodule.xzrq')"
                     value-format="yyyy-MM-dd"
                     style="margin-left: 52%;"
                     class="shipei"/>
@@ -28,10 +28,10 @@
               style="width: 100%">
               <el-table-column
                 prop="repositoryName"
-                label="门店"
+                :label="$t('updates.repository')"
                 width="262"
                 align="center"/>
-              <el-table-column align="center" label="销售额业绩对比">
+              <el-table-column align="center" :label="$t('updates.xseyjdb')">
                 <el-table-column
                   prop="todaySale"
                   label="今日成果"
@@ -39,7 +39,7 @@
                   align="center"/>
                 <el-table-column
                   prop="monthSale"
-                  label="本月总计"
+                  :label="$t('updates.byzj')"
                   width="230"
                   align="center"/>
                 <el-table-column
@@ -48,20 +48,20 @@
                   width="230"
                   align="center"/>
               </el-table-column>
-              <el-table-column align="center" label="回款额业绩对比">
+              <el-table-column align="center" :label="$t('updates.hkeyjdb')">
                 <el-table-column
                   prop="todayReceipt"
-                  label="回款额业绩对比"
+                  :label="$t('updates.hkeyjdb')"
                   width="230"
                   align="center"/>
                 <el-table-column
                   prop="monthReceipt"
-                  label="本月总计"
+                  :label="$t('updates.byzj')"
                   width="230"
                   align="center"/>
                 <el-table-column
                   prop="lastReceipt"
-                  label="上月同期"
+                  :label="$t('updates.sytq')"
                   width="230"
                   align="center"/>
               </el-table-column>
@@ -71,7 +71,7 @@
         <el-col :span="24">
           <div style="width: 100%; min-height: 400px;" >
             <div style="width: 100%; height: 50px;background: #d9e0e8;" >
-              <div style="padding-top: 16px;padding-left: 20px;width: 25%;height: 100%;float: left">收支汇总表</div>
+              <div style="padding-top: 16px;padding-left: 20px;width: 25%;height: 100%;float: left">{{ $t('updates.szhzb') }}</div>
               <div style="width: 75%;height: 100%;float: left;">
                 <el-form ref="getemplist3" :model="getemplist3" label-width="100px">
                   <el-date-picker
@@ -79,8 +79,8 @@
                     type="daterange"
                     range-separator="-"
                     unlink-panels
-                    start-placeholder="开始日期"
-                    end-placeholder="结束日期"
+                    :start-placeholder="$t('updates.ksrq')"
+                    :end-placeholder="$t('updates.jsrq')"
                     value-format="yyyy-MM-dd"
                     style="margin-left: 60%;"
                     class="shipei"/>
@@ -95,71 +95,71 @@
               style="width: 100%">
               <el-table-column
                 prop="name"
-                label="门店"
+                :label="$t('updates.repository')"
                 width="161"
                 align="center"/>
-              <el-table-column align="center" label="收款">
+              <el-table-column align="center" :label="$t('updates.sk')">
                 <el-table-column
                   prop="saleOut"
-                  label="销售出库单"
+                  :label="$t('updates.sxckd')"
                   width="120"
                   align="center"/>
                 <el-table-column
                   prop="stockRetreat"
-                  label="采购退货单"
+                  :label="$t('updates.cgthd')"
                   width="120"
                   align="center"/>
                 <el-table-column
                   prop="collectMoney"
-                  label="收款单"
+                  :label="$t('updates.skd')"
                   width="120"
                   align="center"/>
                 <el-table-column
                   prop="income"
-                  label="收入单"
+                  :label="$t('updates.srd')"
                   width="120"
                   align="center"/>
                 <el-table-column
                   prop="repaireOut"
-                  label="维修出库单"
+                  :label="$t('updates.wxckd')"
                   width="120"
                   align="center"/>
                 <el-table-column
                   prop="advanceCollect"
-                  label="预收款单"
+                  :label="$t('updates.yskd')"
                   width="120"
                   align="center"/>
                 <el-table-column
                   prop="totalCollect"
-                  label="合计"
+                  :label="$t('updates.hj')"
                   width="120"
                   align="center"/>
               </el-table-column>
-              <el-table-column align="center" label="付款">
+              <el-table-column align="center" :label="$t('updates.fk')">
                 <el-table-column
                   prop="saleReturn"
-                  label="销售退货"
+                  :label="$t('updates.xsth')"
                   width="120"
                   align="center"/>
                 <el-table-column
                   prop="payment"
-                  label="付款单"
+                  :label="$t('updates.fkd')"
                   width="120"
                   align="center"/>
                 <el-table-column
                   prop="outlay"
-                  label="支出单"
+                  :label="$t('updates.zcd')"
                   width="120"
                   align="center"/>
                 <el-table-column
                   prop="totalPay"
-                  label="合计"
+                  :label="$t('updates.hj')"
                   width="120"
                   align="center"/>
               </el-table-column>
               <el-table-column
                 prop="balance"
-                label="余额"
+                :label="$t('updates.ye')"
                 width="160"
                 align="center"/>
             </el-table>
@@ -280,13 +280,13 @@ export default {
         pageNum: 1,
         pageSize: 10,
         repositoryId: this.$store.getters.repositoryId,
-        regionIds: this.$store.getters.regionId
+        regionIds: this.$store.getters.regionIds
       },
       getemplist2: {
         pageNum: 1,
         pageSize: 10,
         repositoryId: this.$store.getters.repositoryId,
-        regionIds: this.$store.getters.regionId,
+        regionIds: this.$store.getters.regionIds,
         employeeId: this.$store.getters.userId
       },
       getemplist3: {

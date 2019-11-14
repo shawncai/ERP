@@ -15,7 +15,7 @@
           </el-col>
           <el-col :span="5">
             <el-form-item label="领料人">
-              <el-input v-model="accessPersonId" :placeholder="$t('AccessMaterials.accessPersonId')" clearable @keyup.enter.native="handleFilter" @focus="handlechooseStock"/>
+              <el-input v-model="accessPersonId" :placeholder="$t('AccessMaterials.accessPersonId')" clearable @keyup.enter.native="handleFilter" @clear="restFilter" @focus="handlechooseStock"/>
             </el-form-item>
             <my-delivery :deliverycontrol.sync="stockControl" @deliveryName="stockName"/>
           </el-col>
@@ -53,7 +53,7 @@
                 <el-option value="2" label="执行"/>
                 <el-option value="3" label="结单"/>
               </el-select>
-              <el-input v-model="providePersonId" :placeholder="$t('AccessMaterials.providePersonId')" clearable style="width: 40%;float: left;margin-left: 20px;margin-top: 20px" @keyup.enter.native="handleFilter" @focus="handlechoose"/>
+              <el-input v-model="providePersonId" :placeholder="$t('AccessMaterials.providePersonId')" clearable style="width: 40%;float: left;margin-left: 20px;margin-top: 20px" @clear="restFilter2" @keyup.enter.native="handleFilter" @focus="handlechoose"/>
               <my-create :createcontrol.sync="createcontrol" @createname="createname"/>
               <el-date-picker
                 v-model="getemplist.accessTime"
@@ -137,7 +137,7 @@
       <!-- 列表结束 -->
       <pagination v-show="total>0" :total="total" :page.sync="getemplist.pagenum" :limit.sync="getemplist.pagesize" @pagination="getlist" />
       <!--修改开始=================================================-->
-      <el-button v-waves class="filter-item" type="success" style="width: 100px;float: left;margin-bottom: 10px" @click="handleConfirm">确认添加</el-button>
+      <el-button v-waves class="filter-item" type="success" style="width: 100px;float: left;margin-bottom: 10px" @click="handleConfirm">{{ $t('Hmodule.sure') }}</el-button>
       <!--修改结束=================================================-->
     </el-card>
   </el-dialog>
@@ -240,7 +240,7 @@ export default {
         pageSize: 10,
         judgeStat: 2,
         repositoryId: this.$store.getters.repositoryId,
-        regionIds: this.$store.getters.regionId,
+        regionIds: this.$store.getters.regionIds,
         isActive: 1
       },
       // 传给组件的数据
@@ -281,6 +281,8 @@ export default {
     restFilter() {
       this.accessPersonId = ''
       this.getemplist.accessPersonId = ''
+    },
+    restFilter2() {
       this.providePersonId = ''
       this.getemplist.providePersonId = ''
     },
@@ -291,9 +293,9 @@ export default {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
-          this.restFilter()
+          // this.restFilter()
         } else {
-          this.restFilter()
+          // this.restFilter()
         }
       })
     },

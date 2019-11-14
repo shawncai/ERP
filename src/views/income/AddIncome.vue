@@ -3,7 +3,7 @@
     <div class="app-container" style="padding-right: 0">
       <!--基本信息-->
       <el-card class="box-card" shadow="never">
-        <h2 ref="geren" class="form-name">基本信息</h2>
+        <h2 ref="geren" class="form-name">{{ $t('Hmodule.basicinfo') }}</h2>
         <div class="container" style="margin-top: 37px">
           <el-form ref="personalForm" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
             <el-row>
@@ -40,9 +40,25 @@
                 </el-form-item>
               </el-col>
               <el-col :span="6">
+                <el-form-item :label="$t('income.region')" prop="incomeregion" style="width: 100%;">
+                  <el-cascader
+                    :options="regions"
+                    :props="props"
+                    v-model="personalForm.incomeregion"
+                    :show-all-levels="false"
+                    :placeholder="$t('Hmodule.xzqy')"
+                    change-on-select
+                    filterable
+                    clearable
+                    style="margin-left: 18px;width: 200px"
+                    @change="handlechange4"
+                  />
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
                 <el-form-item :label="$t('income.incomeRepositoryId')" style="width: 100%;">
                   <el-input v-model="incomeRepositoryId" style="margin-left: 18px;width: 200px" @focus="handlechooseRep"/>
-                  <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
+                  <my-repository :repositorycontrol.sync="repositorycontrol" :regionid="region" @repositoryname="repositoryname"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
@@ -78,7 +94,7 @@
         <h2 ref="fuzhu" class="form-name" >收入明细</h2>
         <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
           <el-button @click="insertEvent(-1)">添加收入项</el-button>
-          <el-button type="danger" @click="$refs.editable.removeSelecteds()">删除</el-button>
+          <el-button type="danger" @click="$refs.editable.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
         </div>
         <div class="container">
           <el-editable
@@ -92,17 +108,27 @@
             size="medium"
             style="width: 100%">
             <el-editable-column type="selection" min-width="55" align="center"/>
-            <el-editable-column label="序号" min-width="55" align="center" type="index"/>
+            <el-editable-column :label="$t('Hmodule.xh')" min-width="55" align="center" type="index"/>
             <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="summary" align="center" label="摘要" min-width="150px"/>
-            <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="productName" align="center" label="科目名称" min-width="150px"/>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0, precision: 2}, type: 'visible'}" prop="money" align="center" label="金额" min-width="150px"/>
+            <el-editable-column :edit-render="{name: 'ElCascader', type: 'visible'}" prop="subjectFinance" align="center" label="科目名称" min-width="150px">
+              <template slot="edit" slot-scope="scope">
+                <el-cascader
+                  v-model="scope.row.subjectFinance"
+                  :options="suboptions"
+                  :props="props2"
+                  :show-all-levels="false"
+                  filterable
+                  @change="test(scope.row,$event)"/>
+              </template>
+            </el-editable-column>
+            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0, precision: 2}, type: 'visible'}" :label="$t('Hmodule.je')" prop="money" align="center" min-width="150px"/>
           </el-editable>
         </div>
       </el-card>
       <!--操作-->
       <div class="buttons" style="margin-top: 20px">
-        <el-button v-no-more-click type="primary" style="background:#3696fd;border-color:#3696fd;width: 98px" @click="handlesave()">保存</el-button>
-        <el-button type="danger" @click="handlecancel()">取消</el-button>
+        <el-button v-no-more-click type="primary" style="background:#3696fd;border-color:#3696fd;width: 98px" @click="handlesave()">{{ $t('Hmodule.baoc') }}</el-button>
+        <el-button type="danger" @click="handlecancel()">{{ $t('Hmodule.cancel') }}</el-button>
       </div>
     </div>
   </div>
@@ -110,6 +136,8 @@
 
 <script>
 import '@/directive/noMoreClick/index.js'
+import { subjectList } from '@/api/SubjectFinance'
+import { regionlist } from '@/api/public'
 import { createincome } from '@/api/income'
 import { searchCategory } from '@/api/Supplier'
 import { getdeptlist } from '@/api/BasicSettings'
@@ -126,7 +154,29 @@ export default {
         callback()
       }
     }
+    const validatePass3 = (rule, value, callback) => {
+      if (this.personalForm.incomeregionId === undefined || this.personalForm.incomeregionId === null || this.personalForm.incomeregionId === '') {
+        callback(new Error('请选择区域'))
+      } else {
+        callback()
+      }
+    }
     return {
+      suboptions: [],
+      // 区域列表
+      regions: [],
+      region: null,
+      // 区域列表字段更改
+      props: {
+        value: 'id',
+        label: 'regionName',
+        children: 'regionListVos'
+      },
+      props2: {
+        value: 'id',
+        label: 'subjectName',
+        children: 'subjectFinanceVos'
+      },
       pickerOptions1: {
         disabledDate: (time) => {
           return time.getTime() < new Date().getTime() - 8.64e7
@@ -149,7 +199,7 @@ export default {
       // 部门数据
       depts: [],
       // 经办人回显
-      handlePersonId: '',
+      handlePersonId: this.$store.getters.name,
       // 控制经办人
       stockControl: false,
       // 收入单信息数据
@@ -159,7 +209,8 @@ export default {
         repositoryId: this.$store.getters.repositoryId,
         regionId: this.$store.getters.regionId,
         currency: '1',
-        incomeDate: null
+        incomeDate: null,
+        handlePersonId: this.$store.getters.userId
       },
       // 收入单规则数据
       personalrules: {
@@ -168,6 +219,9 @@ export default {
         ],
         incomeDate: [
           { required: true, message: '请选择收款日期', trigger: 'change' }
+        ],
+        incomeregion: [
+          { required: true, validator: validatePass3, trigger: 'change' }
         ]
       },
       // 收入单明细数据
@@ -180,8 +234,61 @@ export default {
   created() {
     this.getdatatime()
     this.getTypes()
+    this.gettree()
   },
   methods: {
+    processchildren(val) {
+      for (const i in val) {
+        if (val[i].subjectFinanceVos.length === 0) {
+          delete val[i].subjectFinanceVos
+        } else {
+          this.processchildren(val[i].subjectFinanceVos)
+        }
+        // if (val[i].) {
+        // }
+      }
+      return val
+    },
+    test(row, val) {
+      console.log(row, val)
+      const finid = val[val.length - 1]
+      console.log(finid)
+      row.subjectFinanceId = finid
+      console.log(row)
+    },
+    gettree() {
+      console.log(123)
+      subjectList().then(res => {
+        if (res.data.ret === 200) {
+          this.suboptions = this.processchildren(res.data.data.content)
+        }
+      })
+      console.log(321)
+    },
+    handlechange4(val) {
+      console.log(val)
+      const finalid = val[val.length - 1]
+      console.log(finalid)
+      this.region = finalid
+      this.personalForm.incomeregionId = finalid
+      // searchRepository(finalid).then(res => {
+      //   console.log(res)
+      //   if (res.data.ret === 200) {
+      //     this.repositories = res.data.data.content.list
+      //   } else {
+      //     console.log('区域选择门店')
+      //   }
+      // })
+    },
+    // 转化数据方法
+    tranKTree(arr) {
+      if (!arr || !arr.length) return
+      return arr.map(item => ({
+        id: item.id,
+        regionName: item.regionName,
+        regionListVos: this.tranKTree(item.regionListVos)
+      }))
+    },
     // 新增收入明细
     insertEvent(index) {
       this.$refs.editable.insertAt({ productCode: null }, index)
@@ -197,6 +304,14 @@ export default {
       searchCategory(7).then(res => {
         if (res.data.ret === 200) {
           this.colseTypes = res.data.data.content.list
+        }
+      })
+      // 区域列表数据
+      regionlist().then(res => {
+        if (res.data.ret === 200) {
+          this.regions = this.tranKTree(res.data.data.content)
+        } else {
+          console.log('区域列表出错')
         }
       })
     },
@@ -217,6 +332,14 @@ export default {
     },
     // 门店focus事件触发
     handlechooseRep() {
+      if (this.region === null || this.region === '' || this.region === undefined) {
+        this.$notify.error({
+          title: '错误',
+          message: '请先选择区域',
+          offset: 100
+        })
+        return false
+      }
       this.repositorycontrol = true
     },
     repositoryname(val) {
@@ -247,7 +370,8 @@ export default {
         countryId: this.$store.getters.countryId,
         repositoryId: this.$store.getters.repositoryId,
         regionId: this.$store.getters.regionId,
-        currency: '1'
+        currency: '1',
+        handlePersonId: this.$store.getters.userId
       }
       this.handlePersonId = null
       this.personalForm.handlePersonId = null
@@ -271,8 +395,8 @@ export default {
         if (elem.summary === null || elem.summary === '' || elem.summary === undefined) {
           delete elem.summary
         }
-        if (elem.productName === null || elem.productName === '' || elem.productName === undefined) {
-          delete elem.productName
+        if (elem.subjectFinanceId === null || elem.subjectFinanceId === '' || elem.subjectFinanceId === undefined) {
+          delete elem.subjectFinanceId
         }
         if (elem.money === null || elem.money === '' || elem.money === undefined) {
           delete elem.money

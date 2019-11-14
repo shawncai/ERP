@@ -3,7 +3,7 @@
     <div class="app-container" style="padding-right: 0">
       <!--基本信息-->
       <el-card class="box-card" shadow="never">
-        <h2 ref="geren" class="form-name">基本信息</h2>
+        <h2 ref="geren" class="form-name">{{ $t('Hmodule.basicinfo') }}</h2>
         <div class="container" style="margin-top: 37px">
           <el-form ref="personalForm" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
             <el-row>
@@ -56,7 +56,7 @@
                       :key="index"
                       :label="item.categoryName"/>
                     <template>
-                      <el-button v-if="isshow" icon="el-icon-circle-plus-outline" style="width:100%" @click="go_creat">新增</el-button>
+                      <el-button v-if="isshow" icon="el-icon-circle-plus-outline" style="width:100%" @click="go_creat">{{ $t('updates.create') }}</el-button>
                     </template>
                   </el-select>
                 </el-form-item>
@@ -72,7 +72,7 @@
                       :value="item.id"
                     />
                     <template>
-                      <el-button v-if="isshow" icon="el-icon-circle-plus-outline" style="width:100%" @click="go_creat2">新增</el-button>
+                      <el-button v-if="isshow" icon="el-icon-circle-plus-outline" style="width:100%" @click="go_creat2">{{ $t('updates.create') }}</el-button>
                     </template>
                   </el-select>
                 </el-form-item>
@@ -106,8 +106,9 @@
               <el-col :span="6">
                 <el-form-item :label="$t('SaleReturn.currency')" prop="currency" style="width: 100%;">
                   <el-select v-model="personalForm.currency" style="margin-left: 18px;width:200px" @change="changeRate">
-                    <el-option value="1" label="RMB"/>
+                    <el-option value="1" label="PHP"/>
                     <el-option value="2" label="USD"/>
+                    <el-option value="3" label="RMB"/>
                   </el-select>
                 </el-form-item>
               </el-col>
@@ -124,11 +125,11 @@
       <el-card class="box-card" style="margin-top: 15px" shadow="never">
         <h2 ref="fuzhu" class="form-name" >退货明细</h2>
         <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
-          <el-button :disabled="Isproduct" @click="handleAddproduct">添加商品</el-button>
+          <el-button :disabled="Isproduct" @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>
           <my-detail :control.sync="control" @product="productdetail"/>
           <el-button :disabled="IsSourceNumber" style="width: 130px" @click="handleAddSource">从源单中选择</el-button>
           <my-saleout :saleoutcontrol.sync="saleoutcontrol" :personaldata="personalForm" @saleOutDetail="saleOutDetail" @saleOutdata="saleOutdata"/>
-          <el-button type="danger" @click="$refs.editable.removeSelecteds()">删除</el-button>
+          <el-button type="danger" @click="$refs.editable.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
           <el-button type="primary" @click="checkStock()">库存快照</el-button>
         </div>
         <div class="container">
@@ -146,12 +147,12 @@
             style="width: 100%"
             @selection-change="handleSelectionChange">
             <el-editable-column type="selection" min-width="55" align="center"/>
-            <el-editable-column label="序号" min-width="55" align="center" type="index"/>
-            <el-editable-column v-if="personalForm.sourceType === '1'" prop="locationName" align="center" label="货位" min-width="150px"/>
-            <el-editable-column v-if="personalForm.sourceType === '1'" prop="batch" align="center" label="批次" min-width="150px"/>
-            <el-editable-column v-if="personalForm.sourceType === '2'" :edit-render="{type: 'visible'}" prop="locationId" align="center" label="货位" min-width="170px">
+            <el-editable-column :label="$t('Hmodule.xh')" min-width="55" align="center" type="index"/>
+            <el-editable-column v-if="personalForm.sourceType === '1'" :label="$t('Hmodule.hw')" prop="locationName" align="center" min-width="150px"/>
+            <el-editable-column v-if="personalForm.sourceType === '1'" :label="$t('Hmodule.pc')" prop="batch" align="center" min-width="150px"/>
+            <el-editable-column v-if="personalForm.sourceType === '2'" :edit-render="{type: 'visible'}" :label="$t('Hmodule.hw')" prop="locationId" align="center" min-width="170px">
               <template slot="edit" slot-scope="scope">
-                <el-select v-model="scope.row.locationId" :value="scope.row.locationId" placeholder="请选择货位" filterable clearable style="width: 100%;" @visible-change="updatebatch($event,scope)" @change="$refs.editable.updateStatus(scope)">
+                <el-select v-model="scope.row.locationId" :value="scope.row.locationId" :placeholder="$t('Hmodule.xzhw')" filterable clearable style="width: 100%;" @visible-change="updatebatch($event,scope)" @change="$refs.editable.updateStatus(scope)">
                   <el-option
                     v-for="(item, index) in locationlist"
                     :key="index"
@@ -160,9 +161,9 @@
                 </el-select>
               </template>
             </el-editable-column>
-            <el-editable-column v-if="personalForm.sourceType === '2'" :edit-render="{name: 'ElInput', type: 'visible'}" prop="batch" align="center" label="批次" min-width="150px"/>
-            <el-editable-column prop="productCode" align="center" label="物品编号" min-width="150px"/>
-            <el-editable-column prop="productName" align="center" label="物品名称" min-width="150px"/>
+            <el-editable-column v-if="personalForm.sourceType === '2'" :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('Hmodule.pc')" prop="batch" align="center" min-width="150px"/>
+            <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" align="center" min-width="150px"/>
+            <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" align="center" min-width="150px"/>
             <el-editable-column prop="productCategoryName" align="center" label="物品分类" min-width="150px"/>
             <el-editable-column prop="unit" align="center" label="基本单位" min-width="150px"/>
             <el-editable-column prop="productTypeName" align="center" label="规格型号" min-width="150px"/>
@@ -176,7 +177,7 @@
             <el-editable-column v-if="false" prop="includeTaxMoney" align="center" label="含税金额" min-width="150px"/>
             <el-editable-column prop="taxRate" align="center" label="税率(%)" min-width="150px"/>
             <el-editable-column prop="taxMoney" align="center" label="税额" min-width="150px"/>
-            <el-editable-column v-if="false" prop="money" align="center" label="金额" min-width="150px"/>
+            <el-editable-column v-if="false" :label="$t('Hmodule.je')" prop="money" align="center" min-width="150px"/>
             <el-editable-column prop="money" align="center" label="退货金额" min-width="150px"/>
             <el-editable-column prop="discount" align="center" label="折扣(%)" min-width="150px"/>
             <el-editable-column prop="discountMoney" align="center" label="折扣额" min-width="150px"/>
@@ -279,8 +280,8 @@
       </el-card> -->
       <!--操作-->
       <div class="buttons" style="margin-top: 20px">
-        <el-button v-no-more-click type="primary" style="background:#3696fd;border-color:#3696fd;width: 98px" @click="handlesave()">保存</el-button>
-        <el-button type="danger" @click="handlecancel()">取消</el-button>
+        <el-button v-no-more-click type="primary" style="background:#3696fd;border-color:#3696fd;width: 98px" @click="handlesave()">{{ $t('Hmodule.baoc') }}</el-button>
+        <el-button type="danger" @click="handlecancel()">{{ $t('Hmodule.cancel') }}</el-button>
       </div>
       <el-dialog :visible.sync="receiptVisible2" title="库存快照" class="normal" width="600px" center>
         <el-form class="demo-ruleForm" style="margin: 0px 6%; width: 400px">
@@ -291,7 +292,7 @@
                 height="220"
                 style="width: 100%;"
               >
-                <el-table-column :resizable="false" label="仓库" align="center" min-width="150">
+                <el-table-column :resizable="false" :label="$t('updates.cangk')" align="center" min-width="150">
                   <template slot-scope="scope">
                     <span >{{ scope.row.repositoryName }}</span>
                   </template>
@@ -410,7 +411,7 @@ export default {
         customerId: '',
         sourceType: '2',
         exchangeRate: '1.0000',
-        currency: '1',
+        currency: '3',
         returnDate: null,
         saleRepositoryId: this.$store.getters.repositoryId
       },
@@ -476,7 +477,7 @@ export default {
     // 汇率变化
     changeRate() {
       console.log(123)
-      if (this.personalForm.currency === '2') {
+      if (this.personalForm.currency !== '3') {
         getRate(this.personalForm.currency).then(res => {
           console.log(res)
           if (res.data.ret === 200) {
@@ -491,7 +492,7 @@ export default {
             })
           }
         })
-      } else if (this.personalForm.currency === '1') {
+      } else {
         this.personalForm.exchangeRate = '1.0000'
       }
     },
@@ -787,8 +788,7 @@ export default {
         repositoryId: this.$store.getters.repositoryId,
         regionId: this.$store.getters.regionId,
         saleRepositoryId: this.$store.getters.repositoryId,
-        returnDate: null,
-        currency: '1'
+        returnDate: null
       }
       this.customerId = null
       this.salePersonId = null

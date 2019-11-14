@@ -51,20 +51,20 @@
             </el-form-item>
             <el-form-item :label="$t('SubjectFinance.businessAccount')" label-width="120px">
               <el-radio-group v-model="edititem.businessAccount" style="margin-left: 18px;width: 200px">
-                <el-radio :label="1" style="width: 100px">是</el-radio>
-                <el-radio :label="2">否</el-radio>
+                <el-radio :label="1" style="width: 100px">{{ $t('updates.yes') }}</el-radio>
+                <el-radio :label="2">{{ $t('updates.no') }}</el-radio>
               </el-radio-group>
             </el-form-item>
             <el-form-item :label="$t('SubjectFinance.cashItem')" label-width="120px">
               <el-radio-group v-model="edititem.cashItem" style="margin-left: 18px;width: 200px">
-                <el-radio :label="1" style="width: 100px">是</el-radio>
-                <el-radio :label="2">否</el-radio>
+                <el-radio :label="1" style="width: 100px">{{ $t('updates.yes') }}</el-radio>
+                <el-radio :label="2">{{ $t('updates.no') }}</el-radio>
               </el-radio-group>
             </el-form-item>
             <el-form-item :label="$t('SubjectFinance.bankItem')" label-width="120px">
               <el-radio-group v-model="edititem.bankItem" style="margin-left: 18px;width: 200px">
-                <el-radio :label="1" style="width: 100px">是</el-radio>
-                <el-radio :label="2">否</el-radio>
+                <el-radio :label="1" style="width: 100px">{{ $t('updates.yes') }}</el-radio>
+                <el-radio :label="2">{{ $t('updates.no') }}</el-radio>
               </el-radio-group>
             </el-form-item>
           </el-form>
@@ -98,20 +98,20 @@
             </el-form-item>
             <el-form-item :label="$t('SubjectFinance.businessAccount')" label-width="120px">
               <el-radio-group v-model="additem.businessAccount" style="margin-left: 18px;width: 200px">
-                <el-radio :label="1" style="width: 100px">是</el-radio>
-                <el-radio :label="2">否</el-radio>
+                <el-radio :label="1" style="width: 100px">{{ $t('updates.yes') }}</el-radio>
+                <el-radio :label="2">{{ $t('updates.no') }}</el-radio>
               </el-radio-group>
             </el-form-item>
             <el-form-item :label="$t('SubjectFinance.cashItem')" label-width="120px">
               <el-radio-group v-model="additem.cashItem" style="margin-left: 18px;width: 200px">
-                <el-radio :label="1" style="width: 100px">是</el-radio>
-                <el-radio :label="2">否</el-radio>
+                <el-radio :label="1" style="width: 100px">{{ $t('updates.yes') }}</el-radio>
+                <el-radio :label="2">{{ $t('updates.no') }}</el-radio>
               </el-radio-group>
             </el-form-item>
             <el-form-item :label="$t('SubjectFinance.bankItem')" label-width="120px">
               <el-radio-group v-model="additem.bankItem" style="margin-left: 18px;width: 200px">
-                <el-radio :label="1" style="width: 100px">是</el-radio>
-                <el-radio :label="2">否</el-radio>
+                <el-radio :label="1" style="width: 100px">{{ $t('updates.yes') }}</el-radio>
+                <el-radio :label="2">{{ $t('updates.no') }}</el-radio>
               </el-radio-group>
             </el-form-item>
           </el-form>
@@ -507,6 +507,7 @@ export default {
       this.parentId = data.categoryName
       this.personalForm.levle = data.level + 1
       this.Iscode = ceshidigui.code
+      console.log('personalForm.levle', this.personalForm.levle)
       console.log('ceshidigui', ceshidigui)
       console.log('data', data)
       console.log('node', node)
@@ -532,7 +533,7 @@ export default {
       return result
     },
     getReturnNode(node, _array, value) {
-      const isPass = node.data && node.data.categoryName && node.data.categoryName.indexOf(value) !== -1
+      const isPass = node.data && node.data.categoryName && node.data.categoryName.toUpperCase().indexOf(value.toUpperCase()) !== -1
       isPass ? _array.push(isPass) : ''
       this.index++
       if (!isPass && node.level !== 1 && node.parent) {
@@ -662,7 +663,8 @@ export default {
       }
       this.addtreeform.subjectNumber = this.additem.itemCode
       this.addtreeform.subjectName = this.additem.itemName
-      console.log('additem', this.additem)
+      console.log('parms', this.additem)
+      console.log('parms2', this.additem)
       const parms = JSON.stringify(this.additem)
       const parms2 = JSON.stringify(this.addtreeform)
       addSubjectDetail(parms, parms2).then(res => {

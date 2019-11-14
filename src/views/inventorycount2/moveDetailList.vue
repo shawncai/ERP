@@ -5,29 +5,29 @@
         <el-row>
           <el-col :span="3" style="margin-left: 15px">
             <el-form-item label="调出仓库">
-              <el-input v-model="outRepositoryId" class="filter-item" clearable @keyup.enter.native="handleFilter" @focus="handlechooseRep"/>
+              <el-input v-model="outRepositoryId" class="filter-item" clearable @clear="restFilter" @keyup.enter.native="handleFilter" @focus="handlechooseRep"/>
               <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
             </el-form-item>
           </el-col>
           <el-col :span="3" style="margin-left: 100px">
             <el-form-item label="调入仓库">
-              <el-input v-model="enterRepositoryId" class="filter-item" clearable @keyup.enter.native="handleFilter" @focus="handlechooseRep2"/>
+              <el-input v-model="enterRepositoryId" class="filter-item" clearable @clear="restFilter2" @keyup.enter.native="handleFilter" @focus="handlechooseRep2"/>
               <my-repository :repositorycontrol.sync="repositorycontrol2" @repositoryname="repositoryname2"/>
             </el-form-item>
           </el-col>
           <el-col :span="3" style="margin-left: 100px">
             <el-form-item label="分类">
-              <el-input v-model="categoryId" placeholder="物品分类" style="width: 100px" clearable @focus="treechoose"/>
+              <el-input v-model="categoryId" :placeholder="$t('Hmodule.wpfl')" style="width: 100px" clearable @focus="treechoose"/>
               <my-tree :treecontrol.sync="treecontrol" @tree="tree"/>
             </el-form-item>
           </el-col>
           <el-col :span="3" style="margin-left: 50px">
-            <el-form-item label="日期">
+            <el-form-item :label="$t('updates.rq')">
               <el-date-picker
                 v-model="date"
+                :placeholder="$t('Hmodule.xzrq')"
                 type="date"
                 style="width: 130px"
-                placeholder="选择日期"
                 value-format="yyyy-MM-dd"
               />
             </el-form-item>
@@ -319,10 +319,12 @@ export default {
     },
     // 清空搜索条件
     restFilter() {
-      this.customerName = ''
-      this.getemplist.customerId = ''
-      this.stockPersonId = ''
-      this.getemplist.stockPersonId = ''
+      this.outRepositoryId = ''
+      this.getemplist.outRepositoryId = ''
+    },
+    restFilter2() {
+      this.enterRepositoryId = ''
+      this.getemplist.enterRepositoryId = ''
     },
     // 搜索
     handleFilter() {
@@ -346,9 +348,9 @@ export default {
             this.list[i].heji = this.list[i].totalMoney + this.list[i].taxMoney
           }
           this.total = res.data.data.content.totalCount
-          this.restFilter()
+          // this.restFilter()
         } else {
-          this.restFilter()
+          // this.restFilter()
         }
       })
     },

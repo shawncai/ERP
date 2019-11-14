@@ -15,7 +15,7 @@
           </el-col>
           <el-col :span="4">
             <el-form-item label="工作中心名称">
-              <el-input v-model="workCenterId" :placeholder="$t('ProcessFile.workCenterId')" class="filter-item" clearable @keyup.enter.native="handleFilter" @focus="workcenterchoose"/>
+              <el-input v-model="workCenterId" :placeholder="$t('ProcessFile.workCenterId')" class="filter-item" clearable @clear="restFilter" @keyup.enter.native="handleFilter" @focus="workcenterchoose"/>
             </el-form-item>
             <my-center :control.sync="centercontrol" @center="center"/>
           </el-col>
@@ -31,16 +31,16 @@
                 <el-option value="2" label="别人检"/>
               </el-select>
               <el-select v-model="getemplist.isCost" placeholder="是否计费" clearable style="width: 40%;float: right;margin-right: 20px">
-                <el-option value="1" label="是"/>
-                <el-option value="2" label="否"/>
+                <el-option value="1" :label="$t('updates.yes')"/>
+                <el-option value="2" :label="$t('updates.no')"/>
               </el-select>
               <el-select v-model="getemplist.isHelp" placeholder="是否外部协助" clearable style="width: 40%;float: left;margin-left: 20px;margin-top: 20px">
-                <el-option value="1" label="是"/>
-                <el-option value="2" label="否"/>
+                <el-option value="1" :label="$t('updates.yes')"/>
+                <el-option value="2" :label="$t('updates.no')"/>
               </el-select>
               <el-select v-model="getemplist.stat" placeholder="启用状态" clearable style="width: 40%;float: right;margin-right: 20px;margin-top: 20px">
-                <el-option value="1" label="是"/>
-                <el-option value="2" label="否"/>
+                <el-option value="1" :label="$t('updates.yes')"/>
+                <el-option value="2" :label="$t('updates.no')"/>
               </el-select>
               <div class="seachbutton" style="width: 100%;float: right;margin-top: 20px">
                 <el-button v-waves class="filter-item" type="primary" style="float: right" @click="handleFilter">{{ $t('public.search') }}</el-button>
@@ -203,7 +203,7 @@ export default {
         pageNum: 1,
         pageSize: 10,
         repositoryId: this.$store.getters.repositoryId,
-        regionIds: this.$store.getters.regionId
+        regionIds: this.$store.getters.regionIds
       },
       // 传给修改组件的数据
       personalForm: {},

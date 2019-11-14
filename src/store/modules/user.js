@@ -17,6 +17,7 @@ const user = {
     userId: '',
     useCountry: getToken2(),
     regionId: '',
+    regionIds: '',
     repositoryId: '',
     countryId: '',
     deptId: '',
@@ -57,6 +58,9 @@ const user = {
     },
     SET_REGIONID: (state, regionId) => {
       state.regionId = regionId
+    },
+    SET_REGIONIDS: (state, regionIds) => {
+      state.regionIds = regionIds
     },
     SET_REPOSITORYID: (state, repositoryId) => {
       state.repositoryId = repositoryId
@@ -119,6 +123,7 @@ const user = {
           commit('SET_INTRODUCTION', data.introduction)
           commit('SET_USERID', data.userId)
           commit('SET_REGIONID', data.regionId)
+          commit('SET_REGIONIDS', data.regionIds)
           commit('SET_REPOSITORYID', data.repositoryId)
           commit('SET_COUNTTRYID', data.countryId)
           commit('SET_DEPTID', data.deptId)

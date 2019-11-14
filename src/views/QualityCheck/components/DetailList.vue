@@ -2,7 +2,7 @@
   <el-dialog :visible.sync="editVisible" :detailcontrol="detailcontrol" :detaildata="detaildata" :close-on-press-escape="false" :title="personalForm.checkNumber +'    详情'" append-to-body width="1010px" class="edit" top="-10px" @close="$emit('update:detailcontrol', false)">
     <!--基本信息-->
     <el-card class="box-card" style="margin-top: 63px" shadow="never">
-      <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">基本信息</h2>
+      <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('Hmodule.basicinfo') }}</h2>
       <div class="container" style="margin-top: 37px">
         <el-form :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
           <el-row>
@@ -73,15 +73,15 @@
           border
           size="medium"
           style="width: 100%">
-          <el-editable-column label="序号" fixed="left" min-width="55" align="center" type="index"/>
-          <el-editable-column prop="productCode" fixed="left" align="center" label="物品编号" min-width="150px"/>
-          <el-editable-column prop="productName" fixed="left" align="center" label="物品名称" min-width="150px"/>
-          <el-editable-column prop="unit" align="center" label="单位" min-width="150px"/>
+          <el-editable-column :label="$t('Hmodule.xh')" fixed="left" min-width="55" align="center" type="index"/>
+          <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" fixed="left" align="center" min-width="150px"/>
+          <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" fixed="left" align="center" min-width="150px"/>
+          <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" min-width="150px"/>
           <el-editable-column prop="basicQuantity" align="center" label="基本数量" min-width="150px"/>
           <el-editable-column prop="checkQuantity" align="center" label="报检数量" min-width="150px"/>
           <el-editable-column prop="hadCheckQuantity" align="center" label="已报捡数量" min-width="150px"/>
           <el-editable-column prop="checkedQuantity" align="center" label="已捡数量" min-width="150px"/>
-          <el-editable-column prop="arrivalQuantity" align="center" label="到货数量" min-width="150px"/>
+          <el-editable-column :label="$t('updates.dhsl')" prop="arrivalQuantity" align="center" min-width="150px"/>
           <el-editable-column prop="sourceNumber" align="center" label="源单编号" min-width="150px"/>
           <el-editable-column prop="sourceSerialNumber" align="center" label="源单编号" min-width="150px"/>
         </el-editable>
@@ -123,7 +123,7 @@
       </div>
     </el-card>
     <el-card class="box-card" style="margin-top: 15px" shadow="never">
-      <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">备注信息</h2>
+      <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('updates.bzxx') }}</h2>
       <div class="container" style="margin-top: 37px">
         <el-form :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
           <el-row>

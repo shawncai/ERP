@@ -5,7 +5,7 @@
       <el-input v-model="getemplist.title" :placeholder="$t('InventoryCount.title')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
       <el-input v-model="getemplist.sourceNumber" :placeholder="$t('InventoryCount.sourceNumber')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
       <el-input v-model="getemplist.countNumber" :placeholder="$t('InventoryCount.countNumber')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
-      <el-input v-model="handlePersonId" :placeholder="$t('InventoryCount.handlePersonId')" class="filter-item" clearable @keyup.enter.native="handleFilter" @focus="handlechoose"/>
+      <el-input v-model="handlePersonId" :placeholder="$t('InventoryCount.handlePersonId')" class="filter-item" clearable @clear="restFilter" @keyup.enter.native="handleFilter" @focus="handlechoose"/>
       <my-create :createcontrol.sync="createcontrol" @createname="createname"/>
       <!-- 更多搜索条件下拉栏 -->
       <el-popover
@@ -20,7 +20,7 @@
             :value="item.id"
             :label="item.deptName"/>
         </el-select>
-        <el-input v-model="countRepositoryId" placeholder="请选择盘点仓库" style="width: 40%;float: left;margin-left: 20px" clearable @keyup.enter.native="handleFilter" @focus="handlechooseRep"/>
+        <el-input v-model="countRepositoryId" placeholder="请选择盘点仓库" style="width: 40%;float: left;margin-left: 20px" clearable @clear="restFilter2" @keyup.enter.native="handleFilter" @focus="handlechooseRep"/>
         <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
         <el-date-picker
           v-model="date"
@@ -225,7 +225,7 @@ export default {
       getemplist: {
         pagenum: 1,
         pagesize: 10,
-        regionIds: this.$store.getters.regionId,
+        regionIds: this.$store.getters.regionIds,
         repositoryId: this.$store.getters.repositoryId
       },
       // 传给组件的数据
@@ -378,6 +378,8 @@ export default {
     restFilter() {
       this.handlePersonId = ''
       this.getemplist.handlePersonId = ''
+    },
+    restFilter2() {
       this.countRepositoryId = ''
       this.getemplist.countRepositoryId = ''
     },
@@ -392,14 +394,14 @@ export default {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
-          this.restFilter()
+          // this.restFilter()
         } else {
           this.$notify.error({
             title: '错误',
             message: '出错了',
             offset: 100
           })
-          this.restFilter()
+          // this.restFilter()
         }
       })
     },

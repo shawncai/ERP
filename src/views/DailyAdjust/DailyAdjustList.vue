@@ -32,9 +32,9 @@
               placement="bottom"
               width="500"
               trigger="click">
-              <el-input v-model="personId" :placeholder="$t('DailyAdjust.personId')" class="filter-item" clearable style="width: 40%;float: left;margin-left: 20px" @keyup.enter.native="handleFilter" @focus="handlechoose"/>
+              <el-input v-model="personId" :placeholder="$t('DailyAdjust.personId')" class="filter-item" clearable style="width: 40%;float: left;margin-left: 20px" @keyup.enter.native="handleFilter" @focus="handlechoose" @clear="restFilter"/>
               <my-create :createcontrol.sync="createcontrol" @createname="createname"/>
-              <el-input v-model="adjustRepositoryId" :placeholder="$t('DailyAdjust.repositoryId')" class="filter-item" clearable style="width: 40%;float: right;margin-right: 20px" @keyup.enter.native="handleFilter" @focus="handlechooseRep"/>
+              <el-input v-model="adjustRepositoryId" :placeholder="$t('DailyAdjust.repositoryId')" class="filter-item" clearable style="width: 40%;float: right;margin-right: 20px" @keyup.enter.native="handleFilter" @focus="handlechooseRep" @clear="restFilter2"/>
               <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
               <el-date-picker
                 v-model="date"
@@ -226,7 +226,7 @@ export default {
         pageSize: 10,
         countryId: this.$store.getters.countryId,
         repositoryId: this.$store.getters.repositoryId,
-        regionIds: this.$store.getters.regionId
+        regionIds: this.$store.getters.regionIds
       },
       // 搜索结束 ----------------------
       // 列表操作 -------------------------
@@ -405,6 +405,8 @@ export default {
     restFilter() {
       this.personId = ''
       this.getemplist.personId = ''
+    },
+    restFilter2() {
       this.adjustRepositoryId = ''
       this.getemplist.adjustRepositoryId = ''
     },
@@ -422,9 +424,9 @@ export default {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
-          this.restFilter()
+          // this.restFilter()
         } else {
-          this.restFilter()
+          // this.restFilter()
         }
       })
     },

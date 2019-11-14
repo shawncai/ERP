@@ -3,8 +3,8 @@
     <div id="printTest" >
       <!--基本信息-->
       <el-card class="box-card" style="margin-top: 63px" shadow="never">
-        <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">基本信息</h2>
-        <button v-print="'#printTest'" class="print" style="font-size: 13px;background: white;">打印</button>
+        <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('Hmodule.basicinfo') }}</h2>
+        <button v-print="'#printTest'" class="print" style="font-size: 13px;background: white;">{{ $t('updates.print') }}</button>
         <div class="container" style="margin-top: 37px">
           <el-form :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
             <el-row>
@@ -31,6 +31,11 @@
               <el-col :span="12">
                 <el-form-item :label="$t('Expenses.deptId')" style="width: 100%;">
                   <span>{{ personalForm.deptName }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('income.region')" style="width: 100%;">
+                  <span>{{ personalForm.expensesRegionName }}</span>
                 </el-form-item>
               </el-col>
               <el-col :span="12">
@@ -71,10 +76,10 @@
             size="medium"
             style="width: 100%">
             <el-editable-column type="selection" min-width="55" align="center"/>
-            <el-editable-column label="序号" min-width="55" align="center" type="index"/>
+            <el-editable-column :label="$t('Hmodule.xh')" min-width="55" align="center" type="index"/>
             <el-editable-column prop="summary" align="center" label="摘要" min-width="150px"/>
-            <el-editable-column prop="productName" align="center" label="科目名称" min-width="150px"/>
-            <el-editable-column prop="money" align="center" label="金额" min-width="150px"/>
+            <el-editable-column prop="subjectName" align="center" label="科目名称" min-width="150px"/>
+            <el-editable-column :label="$t('Hmodule.je')" prop="money" align="center" min-width="150px"/>
           </el-editable>
         </div>
       </el-card>
@@ -114,7 +119,7 @@
         </div>
       </el-card>
       <el-card class="box-card" style="margin-top: 15px" shadow="never">
-        <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">备注信息</h2>
+        <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('updates.bzxx') }}</h2>
         <div class="container" style="margin-top: 37px">
           <el-form :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
             <el-row>
@@ -226,7 +231,7 @@ export default {
     },
     detaildata() {
       this.personalForm = this.detaildata
-      this.list2 = this.personalForm.expensesDetails
+      this.list2 = this.personalForm.expensesDetailVos
       this.reviewList = []
       const review = this.personalForm.approvalUseVos
       for (const i in review) {

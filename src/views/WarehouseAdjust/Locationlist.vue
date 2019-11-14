@@ -5,18 +5,18 @@
       <el-row>
         <el-form ref="getemplist" :model="getemplist" label-width="80px" style="margin-top: -9px">
           <el-col :span="4">
-            <el-form-item label="仓库">
-              <el-input v-model="searchRepositoryId" :placeholder="$t('WarehouseAdjust.enterRepositoryId')" class="filter-item" clearable @keyup.enter.native="handleFilter" @focus="handlechooseRep"/>
+            <el-form-item :label="$t('updates.cangk')">
+              <el-input v-model="searchRepositoryId" :placeholder="$t('WarehouseAdjust.enterRepositoryId')" class="filter-item" clearable @keyup.enter.native="handleFilter" @focus="handlechooseRep" @clear="restFilter"/>
               <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
             </el-form-item>
           </el-col>
           <el-col :span="4">
-            <el-form-item label="货位编号">
+            <el-form-item :label="$t('updates.hwbh')">
               <el-input v-model="getemplist.locationCode" :placeholder="$t('WarehouseAdjust.locationCode')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
           <el-col :span="4">
-            <el-form-item label="货位名称">
+            <el-form-item :label="$t('updates.hwmc')">
               <el-input v-model="getemplist.locationName" :placeholder="$t('WarehouseAdjust.locationName')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
@@ -161,7 +161,7 @@ export default {
         pageNum: 1,
         pageSize: 10,
         repositoryId: this.$store.getters.repositoryId,
-        regionIds: this.$store.getters.regionId
+        regionIds: this.$store.getters.regionIds
       },
       // 传给组件的数据
       personalForm: {},
@@ -202,14 +202,14 @@ export default {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
-          this.restFilter()
+          // this.restFilter()
         } else {
           this.$notify.error({
             title: '错误',
             message: '出错了',
             offset: 100
           })
-          this.restFilter()
+          // this.restFilter()
         }
       })
     },

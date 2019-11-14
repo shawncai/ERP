@@ -1,7 +1,7 @@
 <template>
   <el-dialog :visible.sync="editVisible" :control="control" :editdata="editdata" :close-on-press-escape="false" top="10px" title="修改供应商" @close="$emit('update:control', false)">
     <!--基本信息-->
-    <h2 ref="geren" class="form-name">基本信息</h2>
+    <h2 ref="geren" class="form-name">{{ $t('Hmodule.basicinfo') }}</h2>
     <div class="container">
       <el-form ref="personalForm" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-position="top" label-width="300px" style="margin-left: 30px;">
         <el-form-item :label="$t('Supplier.supplierName')" prop="supplierName" style="width: 40%;margin-top:1%">
@@ -95,7 +95,7 @@
             :props="props"
             v-model="perregions"
             :show-all-levels="false"
-            placeholder="请选择区域"
+            :placeholder="$t('Hmodule.xzqy')"
             change-on-select
             filterable
             clearable
@@ -133,14 +133,14 @@
           </el-select>
         </el-form-item>
         <el-form-item :label="$t('Supplier.isHot')" prop="isHot" style="width: 40%;margin-top:1%">
-          <el-select v-model="personalForm.isHot" placeholder="请选择" style="width: 100%;">
-            <el-option label="是" value="1"/>
-            <el-option label="否" value="2"/>
+          <el-select v-model="personalForm.isHot" :placeholder="$t('updates.qxz')" style="width: 100%;">
+            <el-option :label="$t('updates.yes')" value="1"/>
+            <el-option :label="$t('updates.no')" value="2"/>
           </el-select>
         </el-form-item>
         <el-form-item :label="$t('Supplier.isEffective')" style="width: 40%;margin-top:1%">
           <el-select v-model="personalForm.isEffective" placeholder="请选择启用状态" style="width: 100%;">
-            <el-option label="启用" value="1"/>
+            <el-option :label="$t('updates.qy')" value="1"/>
             <el-option label="未启用" value="2"/>
           </el-select>
         </el-form-item>
@@ -215,8 +215,8 @@
       </el-form>
     </div>
     <div class="buttons" style="margin-top: 20px;margin-left: 30px">
-      <el-button type="primary" @click="handleEditok()">修改</el-button>
-      <el-button type="danger" @click="handlecancel()">取消</el-button>
+      <el-button type="primary" @click="handleEditok()">{{ $t('public.edit') }}</el-button>
+      <el-button type="danger" @click="handlecancel()">{{ $t('Hmodule.cancel') }}</el-button>
     </div>
   </el-dialog>
 </template>

@@ -56,7 +56,7 @@
           </el-form-item>
           <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
             <el-button @click="handleAdd2">添加</el-button>
-            <el-button type="danger" @click="$refs.editable.removeSelecteds()">删除</el-button>
+            <el-button type="danger" @click="$refs.editable.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
           </div>
           <div class="container">
             <el-editable
@@ -70,7 +70,7 @@
               size="medium"
               style="width: 100%">
               <el-editable-column type="selection" min-width="55" align="center"/>
-              <el-editable-column label="序号" min-width="55" align="center" type="index"/>
+              <el-editable-column :label="$t('Hmodule.xh')" min-width="55" align="center" type="index"/>
               <el-editable-column :edit-render="{name: 'ElSelect', options: basicUnitIds2, type: 'visible'}" prop="unitId" align="center" label="计量单位名称" min-width="150px"/>
               <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0,precision: 0,controls:false}, type: 'visible'}" prop="proportion" align="center" label="换算比例%" min-width="150px"/>
               <!--              <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="proportion" align="center" label="换算比例%" min-width="150px"/>-->
@@ -78,8 +78,8 @@
           </div>
         </el-form>
         <span slot="footer" class="dialog-footer">
-          <el-button type="primary" @click="handlesave()">保存</el-button>
-          <el-button type="danger" @click="handlecancel()">取消</el-button>
+          <el-button type="primary" @click="handlesave()">{{ $t('Hmodule.baoc') }}</el-button>
+          <el-button type="danger" @click="handlecancel()">{{ $t('Hmodule.cancel') }}</el-button>
         </span>
       </el-dialog>
     </el-card>
@@ -153,7 +153,7 @@
           </el-form-item>
           <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
             <el-button @click="handleAdd3">添加</el-button>
-            <el-button type="danger" @click="$refs.editable2.removeSelecteds()">删除</el-button>
+            <el-button type="danger" @click="$refs.editable2.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
           </div>
           <el-editable
             ref="editable2"
@@ -166,14 +166,14 @@
             size="medium"
             style="width: 100%">
             <el-editable-column type="selection" min-width="55" align="center"/>
-            <el-editable-column label="序号" min-width="55" align="center" type="index"/>
+            <el-editable-column :label="$t('Hmodule.xh')" min-width="55" align="center" type="index"/>
             <el-editable-column :edit-render="{name: 'ElSelect', options: basicUnitIds2, type: 'visible'}" prop="unitId" align="center" label="计量单位名称" min-width="150px"/>
             <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0,precision: 0,controls:false}, type: 'visible'}" prop="proportion" align="center" label="换算比例%" min-width="150px"/>
           </el-editable>
         </el-form>
         <span slot="footer" class="dialog-footer">
-          <el-button type="primary" @click="handleOk()">修改</el-button>
-          <el-button type="danger" @click="handleNo()">取消</el-button>
+          <el-button type="primary" @click="handleOk()">{{ $t('public.edit') }}</el-button>
+          <el-button type="danger" @click="handleNo()">{{ $t('Hmodule.cancel') }}</el-button>
         </span>
       </el-dialog>
       <el-dialog :visible.sync="detailvisible" title="查看计量单位组" class="normal" width="600px" center>
@@ -200,15 +200,15 @@
               size="medium"
               style="width: 100%">
               <el-editable-column type="selection" min-width="55" align="center"/>
-              <el-editable-column label="序号" min-width="55" align="center" type="index"/>
+              <el-editable-column :label="$t('Hmodule.xh')" min-width="55" align="center" type="index"/>
               <el-editable-column prop="unit" align="center" label="计量单位名称" min-width="150px"/>
               <el-editable-column prop="proportion" align="center" label="换算比例%" min-width="150px"/>
             </el-editable>
           </div>
         </el-form>
         <span slot="footer" class="dialog-footer">
-          <el-button type="primary" @click="handlesave()">保存</el-button>
-          <el-button type="danger" @click="handlecancel()">取消</el-button>
+          <el-button type="primary" @click="handlesave()">{{ $t('Hmodule.baoc') }}</el-button>
+          <el-button type="danger" @click="handlecancel()">{{ $t('Hmodule.cancel') }}</el-button>
         </span>
       </el-dialog>
       <!--修改结束=================================================-->

@@ -28,7 +28,7 @@
           </el-col>
           <el-col :span="4">
             <el-form-item>
-              <el-input v-model="workCenterId" :placeholder="$t('ProduceRequire.workCenterId')" clearable @keyup.enter.native="handleFilter" @focus="workcenterchoose"/>
+              <el-input v-model="workCenterId" :placeholder="$t('ProduceRequire.workCenterId')" clearable @clear="restFilter2" @keyup.enter.native="handleFilter" @focus="workcenterchoose"/>
             </el-form-item>
             <my-center :control.sync="centercontrol" @center="center"/>
           </el-col>
@@ -60,7 +60,7 @@
           <!--:label="item.deptName"/>-->
           <!--</el-select>-->
           <!--<el-select v-model="getemplist.processType" placeholder="加工类型" style="width: 40%;float: left;margin-left: 20px;margin-top: 20px">-->
-          <!--<el-option value="1" label="加工1" />-->
+          <!--<el-option :label="$t('Hmodule.jiagong1')" value="1" />-->
           <!--</el-select>-->
           <!--<el-date-picker-->
           <!--v-model="date"-->
@@ -158,7 +158,7 @@
       <pagination v-show="total>0" :total="total" :page.sync="getemplist.pageNum" :limit.sync="getemplist.pageSize" @pagination="getlist" />
       <!--修改开始=================================================-->
       <!--修改结束=================================================-->
-      <el-button v-waves class="filter-item" type="success" style="width: 100px;float: left;margin-bottom: 10px" @click="handleConfirm">确认添加</el-button>
+      <el-button v-waves class="filter-item" type="success" style="width: 100px;float: left;margin-bottom: 10px" @click="handleConfirm">{{ $t('Hmodule.sure') }}</el-button>
     </el-card>
   </el-dialog>
 </template>
@@ -274,7 +274,7 @@ export default {
         pageNum: 1,
         pageSize: 10,
         repositoryId: this.$store.getters.repositoryId,
-        regionIds: this.$store.getters.regionId,
+        regionIds: this.$store.getters.regionIds,
         beginTime: null,
         endTime: null,
         isActive: 1
@@ -346,8 +346,10 @@ export default {
     },
     // 清空搜索条件
     restFilter() {
-      this.supplierId = ''
-      this.getemplist.supplierId = ''
+      this.workCenterId = ''
+      this.getemplist.workCenterId = ''
+    },
+    restFilter2() {
       this.stockPersonId = ''
       this.getemplist.stockPersonId = ''
     },
@@ -358,9 +360,9 @@ export default {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
-          this.restFilter()
+          // this.restFilter()
         } else {
-          this.restFilter()
+          // this.restFilter()
         }
       })
     },

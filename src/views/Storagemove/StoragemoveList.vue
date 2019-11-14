@@ -16,7 +16,7 @@
           </el-col>
           <el-col :span="4">
             <el-form-item label="调入仓库">
-              <el-input v-model="moveInRepository" :placeholder="$t('Storagemove.moveInRepository')" class="filter-item" clearable @keyup.enter.native="handleFilter" @focus="handlechooseDep"/>
+              <el-input v-model="moveInRepository" :placeholder="$t('Storagemove.moveInRepository')" class="filter-item" clearable @clear="restFilter" @keyup.enter.native="handleFilter" @focus="handlechooseDep"/>
             </el-form-item>
             <my-depot :depotcontrol.sync="depotcontrol" @depotname="depotname"/>
           </el-col>
@@ -34,7 +34,7 @@
                   :value="item.id"
                   :label="item.deptName"/>
               </el-select>
-              <el-input v-model="moveOutRepository" :placeholder="$t('Storagemove.moveOutRepository')" class="filter-item" clearable style="width: 40%;float: right;margin-right: 20px" @keyup.enter.native="handleFilter" @focus="handlechooseRep"/>
+              <el-input v-model="moveOutRepository" :placeholder="$t('Storagemove.moveOutRepository')" class="filter-item" clearable style="width: 40%;float: right;margin-right: 20px" @clear="restFilter2" @keyup.enter.native="handleFilter" @focus="handlechooseRep"/>
               <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
               <el-select v-model="getemplist.requestDeptId" placeholder="请选择要货部门" style="width: 40%;float: left;margin-left: 20px;margin-top: 20px" clearable >
                 <el-option
@@ -189,7 +189,7 @@ import checkPermission from '@/utils/permission' // 权限判断函数
 import MyEdit from './components/MyEdit'
 import MyEdit2 from './components/MyEdit2'
 import MyEdit3 from './components/MyEdit3'
-import MyRepository from './components/MyRepository'
+import MyRepository from './components/MyRepository2'
 import MyAccept from './components/MyAccept'
 import MyCreate from './components/MyCreate'
 import MyDepot from './components/MyDepot'
@@ -251,7 +251,7 @@ export default {
         pageSize: 10,
         countryId: this.$store.getters.countryId,
         repositoryId: this.$store.getters.repositoryId,
-        regionIds: this.$store.getters.regionId
+        regionIds: this.$store.getters.regionIds
       },
       // 搜索结束 ----------------------
       // 列表操作 -------------------------
@@ -493,6 +493,8 @@ export default {
     restFilter() {
       this.moveInRepository = ''
       this.getemplist.moveInRepository = ''
+    },
+    restFilter2() {
       this.moveOutRepository = ''
       this.getemplist.moveOutRepository = ''
     },
@@ -510,14 +512,14 @@ export default {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
-          this.restFilter()
+          // this.restFilter()
         } else {
           this.$notify.error({
             title: '错误',
             message: '出错了',
             offset: 100
           })
-          this.restFilter()
+          // this.restFilter()
         }
       })
     },

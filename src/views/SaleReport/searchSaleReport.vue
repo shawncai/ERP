@@ -12,14 +12,14 @@
           <el-col :span="5" style="margin-left: 60px">
             <el-form-item :label="$t('stockOrderCount.type')">
               <el-select v-model="getemplist.type" :value="getemplist.type" style="width: 120px" @keyup.enter.native="handleFilter" @change="changeName">
-                <el-option value="2" label="客户"/>
+                <el-option :label="$t('updates.kh')" value="2"/>
                 <el-option value="3" label="员工"/>
-                <el-option value="4" label="门店"/>
+                <el-option :label="$t('updates.repository')" value="4"/>
               </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="5" style="margin-left: 20px">
-            <el-form-item label="日期">
+            <el-form-item :label="$t('updates.rq')">
               <el-date-picker
                 v-model="date"
                 type="daterange"
@@ -349,8 +349,12 @@ export default {
     restFilter() {
       this.customerName = ''
       this.getemplist.customerId = ''
+    },
+    restFilter2() {
       this.stockPersonId = ''
       this.getemplist.stockPersonId = ''
+    },
+    restFilter3() {
       this.handlePersonId = ''
       this.getemplist.handlePersonId = ''
     },
@@ -368,9 +372,9 @@ export default {
         if (res.data.ret === 200) {
           this.list = res.data.data.content
           this.total = res.data.data.content.totalCount
-          this.restFilter()
+          // this.restFilter()
         } else {
-          this.restFilter()
+          // this.restFilter()
         }
       })
     },

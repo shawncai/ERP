@@ -4,13 +4,13 @@
       <el-row>
         <el-form ref="getemplist" :model="getemplist" label-width="100px" style="margin-top: -9px">
           <el-col :span="4">
-            <el-form-item label="物品名称">
+            <el-form-item :label="$t('Hmodule.wpmc')">
               <el-input v-model="getemplist.productName" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
           <el-col :span="4" style="margin-left: 80px">
             <el-form-item :label="$t('StockContract.supplierId')">
-              <el-input v-model="supplierId" style="width: 130px" @focus="handlechoose"/>
+              <el-input v-model="supplierId" style="width: 130px" @focus="handlechoose" @clear="restFilter"/>
               <my-supplier :control.sync="empcontrol" @supplierName="supplierName"/>
             </el-form-item>
           </el-col>
@@ -212,7 +212,7 @@ export default {
         pageNum: 1,
         pageSize: 10,
         repositoryId: this.$store.getters.repositoryId,
-        regionIds: this.$store.getters.regionId,
+        regionIds: this.$store.getters.regionIds,
         type: '1'
       },
       // 传给组件的数据
@@ -306,8 +306,10 @@ export default {
     },
     // 清空搜索条件
     restFilter() {
-      this.customerName = ''
-      this.getemplist.customerId = ''
+      this.supplierId = ''
+      this.getemplist.supplierId = ''
+    },
+    restFilter2() {
       this.stockPersonId = ''
       this.getemplist.stockPersonId = ''
     },
@@ -328,9 +330,9 @@ export default {
             this.list[i].heji = this.list[i].totalMoney + this.list[i].taxMoney
           }
           this.total = res.data.data.content.totalCount
-          this.restFilter()
+          // this.restFilter()
         } else {
-          this.restFilter()
+          // this.restFilter()
         }
       })
     },

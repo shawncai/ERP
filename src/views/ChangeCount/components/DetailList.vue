@@ -3,8 +3,8 @@
     <div id="printTest" >
       <!--基本信息-->
       <el-card class="box-card" style="margin-top: 63px" shadow="never">
-        <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">基本信息</h2>
-        <button v-print="'#printTest'" class="print" style="font-size: 13px;background: white;">打印</button>
+        <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('Hmodule.basicinfo') }}</h2>
+        <button v-print="'#printTest'" class="print" style="font-size: 13px;background: white;">{{ $t('updates.print') }}</button>
         <div class="container" style="margin-top: 37px">
           <el-form :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
             <el-row>
@@ -93,16 +93,16 @@
             border
             size="medium"
             style="width: 100%">
-            <el-editable-column label="序号" min-width="55" fixed="left" align="center" type="index"/>
-            <el-editable-column prop="productCode" align="center" fixed="left" label="物品编号" />
-            <el-editable-column prop="productName" align="center" fixed="left" label="物品名称" />
+            <el-editable-column :label="$t('Hmodule.xh')" min-width="55" fixed="left" align="center" type="index"/>
+            <el-editable-column prop="productCode" align="center" fixed="left" :label="$t('Hmodule.wpbh')" />
+            <el-editable-column prop="productName" align="center" fixed="left" :label="$t('Hmodule.wpmc')" />
             <el-editable-column prop="productCategory" align="center" label="物品分类" />
             <el-editable-column prop="unit" align="center" label="基本单位" />
             <el-editable-column prop="typeId" align="center" label="规格型号" />
             <el-editable-column prop="color" align="center" label="颜色" />
             <el-editable-column prop="kpiGrade" align="center" label="绩效分" />
             <el-editable-column prop="point" align="center" label="商品积分" />
-            <el-editable-column prop="price" align="center" label="单价" />
+            <el-editable-column prop="price" align="center" :label="$t('Hmodule.dj')" />
             <el-editable-column prop="carCode" align="center" label="车架编码" />
             <el-editable-column prop="batteryCode" align="center" label="电池编码" />
             <el-editable-column prop="motorCode" align="center" label="电机编码" />
@@ -144,7 +144,7 @@
         </div>
       </el-card>
       <el-card class="box-card" style="margin-top: 15px" shadow="never">
-        <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">备注信息</h2>
+        <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('updates.bzxx') }}</h2>
         <div class="container" style="margin-top: 37px">
           <el-form :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
             <el-row>

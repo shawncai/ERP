@@ -5,7 +5,7 @@
 </template>
 <script>
 
-// import { getrepositorybyreid } from '@/api/map'
+import { searchRepository2 } from '@/api/Repository'
 
 export default {
   name: 'GGMap',
@@ -28,23 +28,31 @@ export default {
   },
   methods: {
     getmapdata() {
-      // getrepositorybyreid().then(res => {
-      //   const arr = res.data.data.content
-      //   const arrb = []
-      //   arr.map(item => {
-      //     const newobj = {}
-      //     const position = {}
-      //     position.lng = item.longitude
-      //     position.lat = item.latitude
-      //     newobj.position = position
-      //     newobj.name = item.name
-      //     newobj.address = item.address
-      //     newobj.phone = item.phone
-      //     arrb.push(newobj)
-      //   })
-      //   this.markers = arrb
-      //   this.mapBuild()
-      // })
+      const params = {}
+      params.loginRepositoryId = this.$store.getters.repositoryId
+      params.regionIds = this.$store.getters.regionId
+      params.pagenum = 1
+      params.pagesize = 9999
+
+      searchRepository2(params).then(res => {
+        const arr = res.data.data.content.list
+        const arrb = []
+        arr.map(item => {
+          const newobj = {}
+          const position = {}
+          if (item.longitude !== null && item.longitude !== undefined && item.longitude !== '') {
+            position.lng = item.longitude
+            position.lat = item.latitude
+            newobj.position = position
+            newobj.name = item.repositoryName
+            newobj.address = item.address
+            newobj.phone = item.phone
+            arrb.push(newobj)
+          }
+        })
+        this.markers = arrb
+        this.mapBuild()
+      })
     },
     //  地图实例
     mapBuild() {
@@ -67,7 +75,7 @@ export default {
         //   labelStyle: { background: '#fff', padding: '5px' }
         // })
         // 自定义信息窗口
-        var marker = new google.maps.Marker({
+        const marker = new google.maps.Marker({
           map: map,
           position: item.position
         })

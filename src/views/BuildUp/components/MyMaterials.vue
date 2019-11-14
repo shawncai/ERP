@@ -1,5 +1,5 @@
 <template>
-  <el-dialog :visible.sync="productVisible" :materialcontrol="materialcontrol" :close-on-press-escape="false" top="10px" title="选择商品" append-to-body @close="$emit('update:materialcontrol', false)">
+  <el-dialog :visible.sync="productVisible" :materialcontrol="materialcontrol" :close-on-press-escape="false" :title="$t('Hmodule.xzsp')" top="10px" append-to-body @close="$emit('update:materialcontrol', false)">
     <div class="filter-container">
       <!-- 搜索条件栏目 -->
       <el-input v-model="getemplist.bomNumber" :placeholder="$t('MaterialsList.bomNumber')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
@@ -10,7 +10,7 @@
       </el-select>
       <!--      <el-input v-model="supplierid" :placeholder="$t('Product.supplierid')" class="filter-item" clearable @keyup.enter.native="handleFilter" @focus="handlechoose"/>-->
       <!--      <my-supplier :control.sync="empcontrol" @supplierName="supplierName"/>-->
-      <!--      <el-input v-model="categoryid" placeholder="物品分类" class="filter-item" clearable @focus="treechoose"/>-->
+      <!--      <el-input v-model="categoryid" :placeholder="$t('Hmodule.wpfl')" class="filter-item" clearable @focus="treechoose"/>-->
       <!--      <my-tree :treecontrol.sync="treecontrol" @tree="tree"/>-->
       <!-- 更多搜索条件下拉栏 -->
       <!--      <el-popover-->
@@ -18,7 +18,7 @@
       <!--        placement="bottom"-->
       <!--        width="500"-->
       <!--        trigger="click">-->
-      <!--        <el-select v-model="getemplist.typeid" placeholder="请选择规格型号" clearable style="width: 40%;float: left;margin-left: 20px">-->
+      <!--        <el-select v-model="getemplist.typeid" :placeholder="$t('Hmodule.qxzggxh')" clearable style="width: 40%;float: left;margin-left: 20px">-->
       <!--          <el-option-->
       <!--            v-for="(item, index) in types"-->
       <!--            :key="index"-->
@@ -26,9 +26,9 @@
       <!--            :value="item.id"-->
       <!--          />-->
       <!--        </el-select>-->
-      <!--        <el-select v-model="getemplist.isactive" placeholder="请选择上下架" clearable style="width: 40%;float: right;margin-right: 20px">-->
-      <!--          <el-option value="1" label="上1"/>-->
-      <!--          <el-option value="2" label="下2"/>-->
+      <!--        <el-select v-model="getemplist.isactive" :placeholder="$t('Hmodule.qxzsxj')" clearable style="width: 40%;float: right;margin-right: 20px">-->
+      <!--          <el-option :label="$t('Hmodule.s1')" value="1"/>-->
+      <!--          <el-option :label="$t('Hmodule.x2')" value="2"/>-->
       <!--        </el-select>-->
       <!--        <div class="seachbutton" style="width: 100%;float: right;margin-top: 20px">-->
       <!--          <el-button v-waves class="filter-item" type="primary" style="float: right" @click="handleFilter">{{ $t('public.search') }}</el-button>-->
@@ -93,7 +93,7 @@
     <!-- 列表结束 -->
     <pagination v-show="total>0" :total="total" :page.sync="getemplist.pagenum" :limit.sync="getemplist.pagesize" style="padding: 0" @pagination="getlist" />
     <span slot="footer" class="dialog-footer">
-      <el-button v-waves type="success" style="text-align: center;" @click="handleAddTo">确认添加</el-button>
+      <el-button v-waves type="success" style="text-align: center;" @click="handleAddTo">{{ $t('Hmodule.sure') }}</el-button>
     </span>
   </el-dialog>
 </template>
@@ -181,7 +181,7 @@ export default {
         judgeStat: 2,
         receiptStat: 2,
         repositoryId: this.$store.getters.repositoryId,
-        regionIds: this.$store.getters.regionId
+        regionIds: this.$store.getters.regionIds
       },
       // 传给组件的数据
       personalForm: {},
@@ -220,8 +220,12 @@ export default {
     restFilter() {
       this.enterRepositoryId = ''
       this.getemplist.enterRepositoryId = ''
+    },
+    restFilter2() {
       this.deliveryPersonId = ''
       this.getemplist.deliveryPersonId = ''
+    },
+    restFilter3() {
       this.acceptPersonId = ''
       this.getemplist.acceptPersonId = ''
     },
@@ -232,9 +236,9 @@ export default {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
-          this.restFilter()
+          // this.restFilter()
         } else {
-          this.restFilter()
+          // this.restFilter()
         }
       })
     },

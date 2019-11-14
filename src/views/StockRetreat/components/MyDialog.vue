@@ -2,7 +2,7 @@
   <el-dialog :visible.sync="editVisible" :editcontrol="editcontrol" :editdata="editdata" :close-on-press-escape="false" :title="personalForm.number +'    修改'" width="1010px" class="edit" top="-10px" @close="$emit('update:editcontrol', false)">
     <!--基本信息-->
     <el-card class="box-card" style="margin-top: 63px" shadow="never">
-      <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">基本信息</h2>
+      <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('Hmodule.basicinfo') }}</h2>
       <div class="container" style="margin-top: 37px">
         <el-form ref="personalForm" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
           <el-row>
@@ -108,17 +108,23 @@
               <el-col :span="12">
                 <el-form-item :label="$t('StockRetreat.isVat')" style="width: 100%;">
                   <el-radio-group v-model="personalForm.isVat" style="margin-left: 18px;width: 200px">
-                    <el-radio :label="1" style="width: 100px">是</el-radio>
-                    <el-radio :label="2">否</el-radio>
+                    <el-radio :label="1" style="width: 100px">{{ $t('updates.yes') }}</el-radio>
+                    <el-radio :label="2">{{ $t('updates.no') }}</el-radio>
                   </el-radio-group>
                 </el-form-item>
               </el-col>
               <el-col :span="12">
-                <el-form-item :label="$t('StockRetreat.currencyId')" prop="currency" style="width: 100%;">
-                  <el-select v-model="personalForm.currencyId" clearable style="margin-left: 18px;width: 200px">
-                    <el-option value="1" label="RMB"/>
+                <el-form-item :label="$t('StockOrder.currency')" prop="currency" style="width: 100%;">
+                  <el-select v-model="personalForm.currencyId" :disabled="IsCurrency" style="margin-left: 18px;width: 200px" @change="changeRate">
+                    <el-option value="1" label="PHP"/>
                     <el-option value="2" label="USD"/>
+                    <el-option value="3" label="RMB"/>
                   </el-select>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('Recycling.exchangeRate')" style="width: 100%;">
+                  <el-input v-model="personalForm.exchangeRate" style="margin-left: 18px;width:200px" disabled/>
                 </el-form-item>
               </el-col>
               <el-col :span="12">
@@ -147,9 +153,9 @@
     <el-card class="box-card" style="margin-top: 15px" shadow="never">
       <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">采购退货单明细</h2>
       <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
-        <el-button :disabled="addpro" @click="handleAddproduct">添加商品</el-button>
+        <el-button :disabled="addpro" @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>
         <my-detail :control.sync="control" @product="productdetail"/>
-        <el-button type="danger" @click="$refs.editable.removeSelecteds()">删除</el-button>
+        <el-button type="danger" @click="$refs.editable.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
       </div>
       <div class="container">
         <el-editable
@@ -165,19 +171,19 @@
           size="medium"
           style="width: 100%">
           <el-editable-column type="selection" min-width="55" align="center"/>
-          <el-editable-column label="序号" min-width="55" align="center" type="index"/>
-          <el-editable-column prop="productCode" align="center" label="物品编号" min-width="150px"/>
-          <el-editable-column prop="productName" align="center" label="物品名称" min-width="150px"/>
-          <el-editable-column prop="typeName" align="center" label="规格" min-width="150px"/>
+          <el-editable-column :label="$t('Hmodule.xh')" min-width="55" align="center" type="index"/>
+          <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" align="center" min-width="150px"/>
+          <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" align="center" min-width="150px"/>
+          <el-editable-column :label="$t('Hmodule.gg')" prop="typeName" align="center" min-width="150px"/>
           <el-editable-column prop="color" align="center" label="颜色" min-width="150px"/>
-          <el-editable-column prop="unit" align="center" label="单位" min-width="150px"/>
-          <el-editable-column prop="arrivalQuantity" align="center" label="到货数量" min-width="150px"/>
+          <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" min-width="150px"/>
+          <el-editable-column :label="$t('updates.dhsl')" prop="arrivalQuantity" align="center" min-width="150px"/>
           <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible', events: {change: jungleNumbers}}" prop="retreatQuantity" align="center" label="退货数量" min-width="150px"/>
           <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="retreatReason" align="center" label="退货原因" min-width="170px"/>
-          <el-editable-column prop="price" align="center" label="单价" min-width="170px"/>
+          <el-editable-column :label="$t('Hmodule.dj')" prop="price" align="center" min-width="170px"/>
           <el-editable-column prop="includeTaxPrice" align="center" label="含税价" min-width="170px"/>
           <el-editable-column prop="taxRate" align="center" label="税率(%)" min-width="170px"/>
-          <el-editable-column prop="money" align="center" label="金额" min-width="150px">
+          <el-editable-column :label="$t('Hmodule.je')" prop="money" align="center" min-width="150px">
             <template slot-scope="scope">
               <p>{{ getMoney(scope.row) }}</p>
             </template>
@@ -240,14 +246,15 @@
     </el-card>
     <el-card class="box-card" style="position: fixed;width: 1010px;z-index: 100;height: 74px;bottom: 0;" shadow="never">
       <div class="buttons" style="float: right;padding-bottom: 10px">
-        <el-button @click="handlecancel()">取消</el-button>
-        <el-button type="primary" @click="handleEditok()">保存</el-button>
+        <el-button @click="handlecancel()">{{ $t('Hmodule.cancel') }}</el-button>
+        <el-button type="primary" @click="handleEditok()">{{ $t('Hmodule.baoc') }}</el-button>
       </div>
     </el-card>
   </el-dialog>
 </template>
 
 <script>
+import { getRate } from '@/api/public'
 import { updatestockRetreat } from '@/api/StockRetreat'
 import { getdeptlist } from '@/api/BasicSettings'
 import { searchStockCategory } from '@/api/StockCategory'
@@ -290,6 +297,7 @@ export default {
       }
     }
     return {
+      IsCurrency: false,
       // 结算方式
       settleModes: [],
       // 支付方式
@@ -384,6 +392,7 @@ export default {
       this.stockPersonId = this.personalForm.stockPersonName
       this.ourContractorId = this.personalForm.ourContractorName
       this.list2 = this.personalForm.stockRetreatDetailVos
+      this.changeRate()
     }
   },
   created() {
@@ -391,6 +400,27 @@ export default {
     this.getways()
   },
   methods: {
+    // 处理汇率
+    changeRate() {
+      console.log(123)
+      if (this.personalForm.currencyId !== '3') {
+        getRate(this.personalForm.currencyId).then(res => {
+          console.log(res)
+          if (res.data.ret === 200) {
+            // console.log('res.data.data.content', res.data.data.content)
+            this.$set(this.personalForm, 'exchangeRate', res.data.data.content.rate)
+          } else {
+            this.$notify.error({
+              title: '错误',
+              message: res.data.msg,
+              offset: 100
+            })
+          }
+        })
+      } else {
+        this.personalForm.exchangeRate = '1.0000'
+      }
+    },
     updatePaymen() {
       this.getTypes()
     },
@@ -539,6 +569,7 @@ export default {
       this.personalForm.payMode = String(val.payMode)
       this.personalForm.deliveryModeId = val.deliveryModeId
       this.personalForm.currencyId = String(val.currencyId)
+      this.changeRate()
       this.getTypes()
     },
     // 更新类型
@@ -574,7 +605,6 @@ export default {
       this.personalForm.payMode = val.payMode
       this.personalForm.deliveryModeId = val.deliveryMode
       this.personalForm.isVat = val.isVat
-      this.personalForm.currencyId = val.currency
     },
     // 采购员focus事件
     handlechooseStock() {

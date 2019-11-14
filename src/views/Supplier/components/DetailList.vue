@@ -14,8 +14,8 @@
     <div id="printTest" >
       <!--基本信息-->
       <el-card class="box-card" style="margin-top: 63px" shadow="never">
-        <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">基本信息</h2>
-        <button v-print="'#printTest'" class="print" style="font-size: 13px;background: white;">打印</button>
+        <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('Hmodule.basicinfo') }}</h2>
+        <button v-print="'#printTest'" class="print" style="font-size: 13px;background: white;">{{ $t('updates.print') }}</button>
         <div class="container" style="margin-top: 37px">
           <el-form :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
             <el-row>
@@ -149,11 +149,11 @@
             border
             size="medium"
             style="width: 100%">
-            <el-editable-column label="序号" fixed="left" width="55px" align="center" type="index"/>
-            <el-editable-column prop="productCode" fixed="left" align="center" label="物品编号" width="150px"/>
-            <el-editable-column prop="productName" fixed="left" align="center" label="物品名称" width="150px"/>
-            <el-editable-column prop="productType" align="center" label="规格" min-width="150px"/>
-            <el-editable-column prop="unit" align="center" label="单位" min-width="150px"/>
+            <el-editable-column :label="$t('Hmodule.xh')" fixed="left" width="55px" align="center" type="index"/>
+            <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" fixed="left" align="center" width="150px"/>
+            <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" fixed="left" align="center" width="150px"/>
+            <el-editable-column :label="$t('Hmodule.gg')" prop="productType" align="center" min-width="150px"/>
+            <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" min-width="150px"/>
             <el-editable-column prop="color" align="center" label="颜色" min-width="150px"/>
             <el-editable-column prop="proportion" align="center" label="供货比列(%)" min-width="150px"/>
             <el-editable-column prop="price" align="center" label="价格" min-width="150px"/>
@@ -260,7 +260,7 @@
         </div>
       </el-card>
       <el-card class="box-card" style="margin-top: 15px" shadow="never">
-        <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">备注信息</h2>
+        <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('updates.bzxx') }}</h2>
         <div class="container" style="margin-top: 37px">
           <el-form :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
             <el-row>
@@ -292,14 +292,14 @@
                   label="询价日期"
                   min-width="150"/>
                 <el-table-column
+                  :label="$t('Hmodule.wpmc')"
                   prop="productName"
                   align="center"
-                  label="物品名称"
                   min-width="150"/>
                 <el-table-column
+                  :label="$t('Hmodule.dw')"
                   prop="unit"
                   align="center"
-                  label="单位"
                   min-width="150"/>
                 <el-table-column
                   prop="price"
@@ -351,19 +351,19 @@
                 border
                 style="width: 100%">
                 <el-table-column
+                  :label="$t('Hmodule.wpmc')"
                   prop="productName"
                   align="center"
-                  label="物品名称"
                   min-width="150"/>
                 <el-table-column
+                  :label="$t('Hmodule.dw')"
                   prop="unit"
                   align="center"
-                  label="单位"
                   min-width="150"/>
                 <el-table-column
+                  :label="$t('Hmodule.je')"
                   prop="money"
                   align="center"
-                  label="金额"
                   min-width="150"/>
                 <el-table-column
                   prop="retreatQuantity"
@@ -409,7 +409,7 @@
                   min-width="150"/>
               </el-table>
             </el-tab-pane>
-            <el-tab-pane label="采购信息">
+            <el-tab-pane :label="$t('updates.cgxx')">
               <el-table
                 :data="tableData5"
                 border
@@ -430,9 +430,9 @@
                   label="供应类型"
                   min-width="150"/>
                 <el-table-column
+                  :label="$t('updates.cgsl')"
                   prop="stockQuantity"
                   align="center"
-                  label="采购数量"
                   min-width="150"/>
                 <el-table-column
                   prop="price"
@@ -440,9 +440,9 @@
                   label="采购价"
                   min-width="150"/>
                 <el-table-column
+                  :label="$t('updates.cgje')"
                   prop="money"
                   align="center"
-                  label="采购金额"
                   min-width="150"/>
                 <el-table-column
                   prop="returnQuantity"
@@ -650,7 +650,7 @@ export default {
         pageNum: 1,
         pageSize: 10,
         repositoryId: this.$store.getters.repositoryId,
-        regionIds: this.$store.getters.regionId,
+        regionIds: this.$store.getters.regionIds,
         supplierId: this.detailid
       },
       // 付款信息请求数据
@@ -658,7 +658,7 @@ export default {
         pageNum: 1,
         pageSize: 10,
         repositoryId: this.$store.getters.repositoryId,
-        regionIds: this.$store.getters.regionId,
+        regionIds: this.$store.getters.regionIds,
         supplierId: this.detailid
       },
       // 采购退货信息请求数据
@@ -666,7 +666,7 @@ export default {
         pageNum: 1,
         pageSize: 10,
         repositoryId: this.$store.getters.repositoryId,
-        regionIds: this.$store.getters.regionId,
+        regionIds: this.$store.getters.regionIds,
         supplierId: this.detailid
       },
       // 预付款信息请求数据
@@ -674,7 +674,7 @@ export default {
         pageNum: 1,
         pageSize: 10,
         repositoryId: this.$store.getters.repositoryId,
-        regionIds: this.$store.getters.regionId,
+        regionIds: this.$store.getters.regionIds,
         supplierId: this.detailid
       },
       // 采购信息请求数据
@@ -682,14 +682,14 @@ export default {
         pageNum: 1,
         pageSize: 10,
         repositoryId: this.$store.getters.repositoryId,
-        regionIds: this.$store.getters.regionId,
+        regionIds: this.$store.getters.regionIds,
         supplierId: this.detailid
       },
       getstockArrivalData: {
         pageNum: 1,
         pageSize: 10,
         repositoryId: this.$store.getters.repositoryId,
-        regionIds: this.$store.getters.regionId,
+        regionIds: this.$store.getters.regionIds,
         supplierId: this.detailid
       }
     }

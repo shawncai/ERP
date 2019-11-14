@@ -2,7 +2,7 @@
   <el-dialog :visible.sync="editVisible" :editcontrol="editcontrol" :editdata="editdata" :close-on-press-escape="false" class="edit" width="1010px" top="-10px" title="修改调整单" @close="$emit('update:editcontrol', false)">
     <!--基本信息-->
     <el-card class="box-card">
-      <h2 ref="geren" class="form-name">基本信息</h2>
+      <h2 ref="geren" class="form-name">{{ $t('Hmodule.basicinfo') }}</h2>
       <div class="container">
         <el-form ref="personalForm" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="120px" style="margin-left: 30px;">
           <el-row>
@@ -63,8 +63,8 @@
     <el-card class="box-card" style="margin-top: 15px">
       <h2 ref="fuzhu" class="form-name">日常调整单明细</h2>
       <div class="buttons" style="margin-top: 58px">
-        <el-button type="success" style="background:#3696fd;border-color:#3696fd " @click="handleAddproduct">添加商品</el-button>
-        <el-button type="danger" @click="$refs.editable.removeSelecteds()">删除</el-button>
+        <el-button type="success" style="background:#3696fd;border-color:#3696fd " @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>
+        <el-button type="danger" @click="$refs.editable.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
       </div>
       <my-detail :control.sync="control" @product="productdetail"/>
       <div class="container">
@@ -82,9 +82,9 @@
           style="width: 100%">
           <el-editable-column type="selection" width="55" align="center"/>
           <el-editable-column label="编号" width="55" align="center" type="index"/>
-          <el-editable-column :edit-render="{type: 'default'}" prop="locationId" align="center" label="货位" width="200px">
+          <el-editable-column :edit-render="{type: 'default'}" :label="$t('Hmodule.hw')" prop="locationId" align="center" width="200px">
             <template slot-scope="scope">
-              <el-select v-model="scope.row.locationId" :value="scope.row.locationId" placeholder="请选择货位" filterable clearable style="width: 100%;" @visible-change="updatebatch($event,scope)">
+              <el-select v-model="scope.row.locationId" :value="scope.row.locationId" :placeholder="$t('Hmodule.xzhw')" filterable clearable style="width: 100%;" @visible-change="updatebatch($event,scope)">
                 <el-option
                   v-for="(item, index) in locationlist"
                   :key="index"
@@ -93,9 +93,9 @@
               </el-select>
             </template>
           </el-editable-column>
-          <el-editable-column :edit-render="{type: 'default'}" prop="batch" align="center" label="批次" width="200px">
+          <el-editable-column :edit-render="{type: 'default'}" :label="$t('Hmodule.pc')" prop="batch" align="center" width="200px">
             <template slot-scope="scope">
-              <el-select v-model="scope.row.batch" :value="scope.row.batch" placeholder="请选择批次" filterable clearable style="width: 100%;" @visible-change="updatebatch2($event,scope)">
+              <el-select v-model="scope.row.batch" :value="scope.row.batch" :placeholder="$t('Hmodule.xcpc')" filterable clearable style="width: 100%;" @visible-change="updatebatch2($event,scope)">
                 <el-option
                   v-for="(item, index) in batchlist"
                   :key="index"
@@ -104,11 +104,11 @@
               </el-select>
             </template>
           </el-editable-column>
-          <el-editable-column prop="productCode" align="center" label="物品编号" width="150px"/>
-          <el-editable-column prop="productName" align="center" label="物品名称" width="150px"/>
+          <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" align="center" width="150px"/>
+          <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" align="center" width="150px"/>
           <el-editable-column prop="color" align="center" label="颜色" width="150px"/>
-          <el-editable-column prop="typeIdname" align="center" label="规格" width="150px"/>
-          <el-editable-column prop="unit" align="center" label="单位" width="150px"/>Q
+          <el-editable-column :label="$t('Hmodule.gg')" prop="typeIdname" align="center" width="150px"/>
+          <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" width="150px"/>Q
           <el-editable-column prop="quantity" align="center" label="数量" width="150px"/>
           <el-editable-column :edit-render="{type: 'default'}" prop="adjustType" align="center" label="调整类型" width="200px">
             <template slot-scope="scope">
@@ -130,7 +130,7 @@
       </div>
     </el-card>
     <el-card class="box-card" style="margin-top: 15px" shadow="never">
-      <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">备注信息</h2>
+      <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('updates.bzxx') }}</h2>
       <div class="container" style="margin-top: 37px">
         <el-form :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
           <el-row>
@@ -188,8 +188,8 @@
       </div>
     </el-card>
     <div class="buttons" style="margin-top: 20px;margin-left: 30px">
-      <el-button type="primary" @click="handleEditok()">修改</el-button>
-      <el-button type="danger" @click="handlecancel()">取消</el-button>
+      <el-button type="primary" @click="handleEditok()">{{ $t('public.edit') }}</el-button>
+      <el-button type="danger" @click="handlecancel()">{{ $t('Hmodule.cancel') }}</el-button>
     </div>
   </el-dialog>
 </template>

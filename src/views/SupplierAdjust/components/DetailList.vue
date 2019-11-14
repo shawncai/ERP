@@ -3,8 +3,8 @@
     <div id="printTest" >
       <!--基本信息-->
       <el-card class="box-card" style="margin-top: 63px" shadow="never">
-        <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">基本信息</h2>
-        <button style="font-size: 10px;" @click="printdata">打印</button>
+        <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('Hmodule.basicinfo') }}</h2>
+        <button style="font-size: 10px;" @click="printdata">{{ $t('updates.print') }}</button>
         <button style="font-size: 10px;margin-left: 10px" @click="handleMyReceipt2()">复制单据</button>
         <div class="container" style="margin-top: 37px">
           <el-form :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="100px" style="margin-left: 30px;">
@@ -55,19 +55,19 @@
             border
             size="medium"
             style="width: 100%">
-            <el-editable-column label="序号" fixed="left" min-width="55" align="center" type="index"/>
-            <el-editable-column prop="productCode" fixed="left" align="center" label="物品编号" />
-            <el-editable-column prop="productName" fixed="left" align="center" label="物品名称" />
-            <el-editable-column prop="productType" align="center" label="规格" />
+            <el-editable-column :label="$t('Hmodule.xh')" fixed="left" min-width="55" align="center" type="index"/>
+            <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" fixed="left" align="center" />
+            <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" fixed="left" align="center" />
+            <el-editable-column :label="$t('Hmodule.gg')" prop="productType" align="center" />
             <el-editable-column prop="color" align="center" label="颜色" />
-            <el-editable-column prop="unit" align="center" label="单位" />
+            <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" />
             <el-editable-column prop="oldPrice" align="center" label="采购单原价" min-width="150px"/>
             <el-editable-column prop="newPrice" align="center" label="采购单现价" min-width="150px"/>
           </el-editable>
         </div>
       </el-card>
       <el-card class="box-card" style="margin-top: 15px" shadow="never">
-        <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">备注信息</h2>
+        <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('updates.bzxx') }}</h2>
         <div class="container" style="margin-top: 37px">
           <el-form :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
             <el-row>

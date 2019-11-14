@@ -16,7 +16,7 @@
           </el-col>
           <el-col :span="4">
             <el-form-item label="经办人">
-              <el-input v-model="handlePersonId" :placeholder="$t('TearDown.handlePersonId')" class="filter-item" clearable @keyup.enter.native="handleFilter" @focus="handlechoose"/>
+              <el-input v-model="handlePersonId" :placeholder="$t('TearDown.handlePersonId')" class="filter-item" clearable @keyup.enter.native="handleFilter" @focus="handlechoose" @clear="restFilter2"/>
             </el-form-item>
             <my-create :createcontrol.sync="createcontrol" @createname="createname"/>
           </el-col>
@@ -34,7 +34,7 @@
                   :value="item.id"
                   :label="item.deptName"/>
               </el-select>
-              <el-input v-model="TearDownRepositoryId" :placeholder="$t('TearDown.teardownRepositoryId')" class="filter-item" clearable style="width: 40%;float: left;margin-left: 20px" @keyup.enter.native="handleFilter" @focus="handlechooseRep"/>
+              <el-input v-model="TearDownRepositoryId" :placeholder="$t('TearDown.teardownRepositoryId')" class="filter-item" clearable style="width: 40%;float: left;margin-left: 20px" @keyup.enter.native="handleFilter" @focus="handlechooseRep" @clear="restFilter"/>
               <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
               <el-date-picker
                 v-model="date"
@@ -221,7 +221,7 @@ export default {
         pageSize: 10,
         countryId: this.$store.getters.countryId,
         repositoryId: this.$store.getters.repositoryId,
-        regionIds: this.$store.getters.regionId
+        regionIds: this.$store.getters.regionIds
       },
       // 搜索结束 ----------------------
       // 列表操作 -------------------------
@@ -400,10 +400,11 @@ export default {
     restFilter() {
       this.TearDownRepositoryId = ''
       this.getemplist.TearDownRepositoryId = ''
+    },
+    restFilter2() {
       this.handlePersonId = ''
       this.getemplist.handlePersonId = ''
     },
-
     // 搜索
     handleFilter() {
       this.getemplist.pageNum = 1
@@ -418,9 +419,9 @@ export default {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
-          this.restFilter()
+          // this.restFilter()
         }
-        this.restFilter()
+        // this.restFilter()
       })
     },
     // 修改操作

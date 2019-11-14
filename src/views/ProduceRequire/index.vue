@@ -23,8 +23,8 @@
             </el-form-item>
           </el-col>
           <el-col :span="5" style="margin-left: 10px">
-            <el-form-item label="工作中心">
-              <el-input v-model="workCenterId" :placeholder="$t('ProduceRequire.workCenterId')" clearable @keyup.enter.native="handleFilter" @focus="workcenterchoose"/>
+            <el-form-item :label="$t('Hmodule.ggzx')">
+              <el-input v-model="workCenterId" :placeholder="$t('ProduceRequire.workCenterId')" clearable @clear="restFilter" @keyup.enter.native="handleFilter" @focus="workcenterchoose"/>
             </el-form-item>
             <my-center :control.sync="centercontrol" @center="center"/>
           </el-col>
@@ -283,7 +283,7 @@ export default {
         pageNum: 1,
         pageSize: 10,
         repositoryId: this.$store.getters.repositoryId,
-        regionIds: this.$store.getters.regionId,
+        regionIds: this.$store.getters.regionIds,
         beginTime: null,
         endTime: null
       },
@@ -352,8 +352,10 @@ export default {
     },
     // 清空搜索条件
     restFilter() {
-      this.supplierId = ''
-      this.getemplist.supplierId = ''
+      this.workCenterId = ''
+      this.getemplist.workCenterId = ''
+    },
+    restFilter2() {
       this.stockPersonId = ''
       this.getemplist.stockPersonId = ''
     },
@@ -364,9 +366,9 @@ export default {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
-          this.restFilter()
+          // this.restFilter()
         } else {
-          this.restFilter()
+          // this.restFilter()
         }
       })
     },

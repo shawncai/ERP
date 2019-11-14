@@ -3,7 +3,7 @@
     <div class="app-container" style="padding-right: 0">
       <!--基本信息-->
       <el-card class="box-card" shadow="never">
-        <h2 ref="geren" class="form-name">基本信息</h2>
+        <h2 ref="geren" class="form-name">{{ $t('Hmodule.basicinfo') }}</h2>
         <div class="container" style="margin-top: 37px">
           <el-form ref="personalForm" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
             <el-row>
@@ -111,16 +111,17 @@
               <el-col :span="6">
                 <el-form-item :label="$t('StockOrder.isVat')" style="width: 100%;">
                   <el-radio-group v-model="personalForm.isVat" style="margin-left: 18px;width:200px">
-                    <el-radio :label="1" style="width: 100px">是</el-radio>
-                    <el-radio :label="2">否</el-radio>
+                    <el-radio :label="1" style="width: 100px">{{ $t('updates.yes') }}</el-radio>
+                    <el-radio :label="2">{{ $t('updates.no') }}</el-radio>
                   </el-radio-group>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('StockOrder.currency')" prop="currency" style="width: 100%;">
-                  <el-select v-model="personalForm.currency" :disabled="IsCurrency" clearable style="margin-left: 18px;width: 200px" @change="changeRate">
-                    <el-option value="1" label="RMB"/>
+                  <el-select v-model="personalForm.currency" :disabled="IsCurrency" style="margin-left: 18px;width: 200px" @change="changeRate">
+                    <el-option value="1" label="PHP"/>
                     <el-option value="2" label="USD"/>
+                    <el-option value="3" label="RMB"/>
                   </el-select>
                 </el-form-item>
               </el-col>
@@ -142,14 +143,14 @@
       <el-card class="box-card" style="margin-top: 15px" shadow="never">
         <h2 ref="fuzhu" class="form-name" >采购订单明细</h2>
         <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
-          <el-button :disabled="addpro" @click="handleAddproduct">添加商品</el-button>
+          <el-button :disabled="addpro" @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>
           <my-detail :control.sync="control" :supp.sync="supp" @product="productdetail"/>
           <el-button :disabled="addsouce" style="width: 130px" @click="handleAddSouce">从源单中选择</el-button>
           <my-apply :applycontrol.sync="applycontrol" @apply="apply" @allapplyinfo="allapplyinfo"/>
           <my-plan :plancontrol.sync="plancontrol" :supp.sync="supp" @plan="plan" @allPlaninfo="allPlaninfo"/>
           <my-lnquiry :inquirycontrol.sync="inquirycontrol" :supp.sync="supp" @lnquiry="lnquiry" @allLnquirinfo="allLnquirinfo"/>
           <my-contract :contractcontrol.sync="contractcontrol" :supp.sync="supp" @contract="contract" @allcontractinfo="allcontractinfo"/>
-          <el-button type="danger" @click="$refs.editable.removeSelecteds()">删除</el-button>
+          <el-button type="danger" @click="$refs.editable.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
           <el-button type="primary" @click="checkStock()">库存快照</el-button>
         </div>
         <div class="container">
@@ -167,13 +168,13 @@
             style="width: 100%"
             @selection-change="handleSelectionChange">
             <el-editable-column type="selection" min-width="55" align="center"/>
-            <el-editable-column label="序号" min-width="55" align="center" type="index"/>
-            <el-editable-column prop="productCode" align="center" label="物品编号" min-width="150px"/>
-            <el-editable-column prop="productName" align="center" label="物品名称" min-width="150px"/>
-            <el-editable-column prop="productType" align="center" label="规格" min-width="150px"/>
+            <el-editable-column :label="$t('Hmodule.xh')" min-width="55" align="center" type="index"/>
+            <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" align="center" min-width="150px"/>
+            <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" align="center" min-width="150px"/>
+            <el-editable-column :label="$t('Hmodule.gg')" prop="productType" align="center" min-width="150px"/>
             <el-editable-column prop="color" align="center" label="颜色" min-width="150px"/>
-            <el-editable-column prop="unit" align="center" label="单位" min-width="150px"/>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 1.00, precision: 2}, type: 'visible'}" prop="stockQuantity" align="center" label="采购数量" min-width="150px">
+            <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" min-width="150px"/>
+            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 1.00, precision: 2}, type: 'visible'}" :label="$t('updates.cgsl')" prop="stockQuantity" align="center" min-width="150px">
               <template slot="edit" slot-scope="scope">
                 <el-input-number
                   :precision="2"
@@ -193,7 +194,7 @@
             </el-editable-column>
             <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="remarks" align="center" label="备注" width="150px"/>
             <!--            <el-editable-column prop="stockNumber" align="center" label="库存" min-width="150px"/>-->
-            <el-editable-column prop="price" align="center" label="单价" min-width="170px">
+            <el-editable-column :label="$t('Hmodule.dj')" prop="price" align="center" min-width="170px">
               <template slot="edit" slot-scope="scope">
                 <el-input-number
                   :precision="2"
@@ -217,7 +218,7 @@
                   @input="gettaxRate(scope.row)"/>
               </template>
             </el-editable-column>
-            <el-editable-column prop="money" align="center" label="金额" min-width="150px">
+            <el-editable-column :label="$t('Hmodule.je')" prop="money" align="center" min-width="150px">
               <template slot-scope="scope">
                 <p>{{ getMoney(scope.row) }}</p>
               </template>
@@ -302,8 +303,8 @@
       </el-card>
       <!--操作-->
       <div class="buttons" style="margin-top: 20px">
-        <el-button v-no-more-click type="primary" style="background:#3696fd;border-color:#3696fd;width: 98px" @click="handlesave()">保存</el-button>
-        <el-button type="danger" @click="handlecancel()">取消</el-button>
+        <el-button v-no-more-click type="primary" style="background:#3696fd;border-color:#3696fd;width: 98px" @click="handlesave()">{{ $t('Hmodule.baoc') }}</el-button>
+        <el-button type="danger" @click="handlecancel()">{{ $t('Hmodule.cancel') }}</el-button>
       </div>
       <el-dialog :visible.sync="receiptVisible2" title="库存快照" class="normal" width="600px" center>
         <el-form class="demo-ruleForm" style="margin: 0px 6%; width: 400px">
@@ -314,7 +315,7 @@
                 height="220"
                 style="width: 100%;"
               >
-                <el-table-column :resizable="false" label="仓库" align="center" min-width="150">
+                <el-table-column :resizable="false" :label="$t('updates.cangk')" align="center" min-width="150">
                   <template slot-scope="scope">
                     <span >{{ scope.row.repositoryName }}</span>
                   </template>
@@ -480,7 +481,7 @@ export default {
         regionId: this.$store.getters.regionId,
         isVat: 1,
         sourceType: '5',
-        currency: '1',
+        currency: '3',
         orderDate: null,
         deptId: this.$store.getters.deptId,
         exchangeRate: '1.0000'
@@ -583,7 +584,7 @@ export default {
     // 处理汇率
     changeRate() {
       console.log(123)
-      if (this.personalForm.currency === '2') {
+      if (this.personalForm.currency !== '3') {
         getRate(this.personalForm.currency).then(res => {
           console.log(res)
           if (res.data.ret === 200) {
@@ -597,7 +598,7 @@ export default {
             })
           }
         })
-      } else if (this.personalForm.currency === '1') {
+      } else {
         this.personalForm.exchangeRate = '1.0000'
       }
     },
@@ -616,6 +617,7 @@ export default {
         this.personalForm = this.$store.getters.empcontract
         this.personalForm.sourceType = (this.personalForm.sourceType).toString()
         this.personalForm.currency = (this.personalForm.currency).toString()
+        this.getRate()
         this.supplierId = this.$store.getters.empcontract.supplierName
         this.stockPersonId = this.$store.getters.empcontract.stockPersonName
         this.signPersonId = this.$store.getters.empcontract.signPersonName
@@ -1008,6 +1010,7 @@ export default {
       this.personalForm.deliveryMode = val.deliveryMode
       this.personalForm.settleMode = val.settleId
       this.personalForm.currency = String(val.currency)
+      this.getRate()
     },
     // 采购询价单加载过来数据
     lnquiry(val) {
@@ -1182,6 +1185,7 @@ export default {
       this.personalForm.payMode = val.payMode
       if (val.moneyId !== null && val.moneyId !== undefined && val.moneyId !== '') {
         this.personalForm.currency = String(val.moneyId)
+        this.getRate()
       }
       this.supplierIdDetail = val.supplierDetailVos
       this.$refs.editable.clear()
@@ -1259,8 +1263,7 @@ export default {
         repositoryId: this.$store.getters.repositoryId,
         regionId: this.$store.getters.regionId,
         isVat: 1,
-        sourceType: '5',
-        currency: '1'
+        sourceType: '5'
       }
       this.personalForm.orderDate = new Date()
       this.supplierId = null

@@ -6,12 +6,12 @@
         <el-form ref="getemplist" :model="getemplist" label-width="100px" style="margin-top: -9px">
           <el-col :span="4">
             <el-form-item label="仓库名称">
-              <el-input v-model="repositoryId" :placeholder="$t('StockAlarm.searchRepositoryId')" class="filter-item" clearable @keyup.enter.native="handleFilter" @focus="handlechooseRep"/>
+              <el-input v-model="repositoryId" :placeholder="$t('StockAlarm.searchRepositoryId')" class="filter-item" clearable @clear="restFilter" @keyup.enter.native="handleFilter" @focus="handlechooseRep"/>
               <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
             </el-form-item>
           </el-col>
           <el-col :span="4">
-            <el-form-item label="物品名称">
+            <el-form-item :label="$t('Hmodule.wpmc')">
               <el-input v-model="productId" :placeholder="$t('StockAlarm.productName')" class="filter-item" clearable @keyup.enter.native="handleFilter" @focus="handleAddproduct"/>
               <my-product :control.sync="control" @product="productdetail"/>
             </el-form-item>
@@ -150,7 +150,7 @@ export default {
         pageSize: 10,
         countryId: this.$store.getters.countryId,
         repositoryId2: this.$store.getters.repositoryId,
-        regionIds: this.$store.getters.regionId
+        regionIds: this.$store.getters.regionIds
       },
       // 搜索结束 ----------------------
       // 列表操作 -------------------------
@@ -226,7 +226,7 @@ export default {
         createPersonId: this.$store.getters.userId,
         countryId: this.$store.getters.countryId,
         repositoryId2: this.$store.getters.repositoryId,
-        regionIds: this.$store.getters.regionId
+        regionIds: this.$store.getters.regionIds
       }
     },
     // 清空搜索条件
@@ -243,14 +243,14 @@ export default {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
           this.restGetemplist()
-          this.restFilter()
+          // this.restFilter()
         } else {
           this.$notify.error({
             title: '错误',
             message: '出错了',
             offset: 100
           })
-          this.restFilter()
+          // this.restFilter()
         }
       })
     },

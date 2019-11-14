@@ -2,7 +2,7 @@
   <el-dialog :visible.sync="editVisible" :editcontrol="editcontrol" :editdata="editdata" :close-on-press-escape="false" :title="customerForm.id +'    修改'" width="1010px" class="edit" top="-10px" @close="$emit('update:editcontrol', false)">
     <!--基本信息-->
     <el-card class="box-card" style="margin-top: 63px" shadow="never">
-      <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">基本信息</h2>
+      <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('Hmodule.basicinfo') }}</h2>
       <div class="container" style="margin-top: 37px">
         <el-form ref="customerForm" :model="customerForm" :rules="customerFormrules" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
           <el-row>
@@ -58,7 +58,7 @@
             </el-col> -->
             <el-col :span="12">
               <el-form-item :label="$t('Customer.newold')" style="width: 100%">
-                <el-select v-model="customerForm.newOrOld" :value="customerForm.newOrOld" placeholder="请选择" style="margin-left: 18px;width: 200px">
+                <el-select v-model="customerForm.newOrOld" :value="customerForm.newOrOld" :placeholder="$t('updates.qxz')" style="margin-left: 18px;width: 200px">
                   <el-option label="老" value="1"/>
                   <el-option label="新" value="2"/>
                 </el-select>
@@ -104,7 +104,7 @@
             </el-col>
             <el-col :span="12">
               <el-form-item label="修改门店" prop="repositoryid" style="width: 100%">
-                <el-select v-model="customerForm.repositoryId" placeholder="请选择门店" filterable style="margin-left: 18px;width: 200px">
+                <el-select v-model="customerForm.repositoryId" :placeholder="$t('Hmodule.xzmd')" filterable style="margin-left: 18px;width: 200px">
                   <el-option
                     v-for="(item, index) in repositories"
                     :key="index"
@@ -118,7 +118,7 @@
                 <el-date-picker
                   v-model="customerForm.birthday"
                   type="date"
-                  placeholder="选择生日"
+                  :placeholder="$t('updates.xzsr')"
                   value-format="yyyy-MM-dd"
                   style="margin-left: 18px;width: 200px"/>
               </el-form-item>
@@ -129,8 +129,8 @@
     </el-card>
     <el-card class="box-card" style="position: fixed;width: 1010px;z-index: 100;height: 74px;bottom: 0;" shadow="never">
       <div class="buttons" style="float: right;padding-bottom: 10px">
-        <el-button @click="handlecancel()">取消</el-button>
-        <el-button type="primary" @click="handleEditok()">保存</el-button>
+        <el-button @click="handlecancel()">{{ $t('Hmodule.cancel') }}</el-button>
+        <el-button type="primary" @click="handleEditok()">{{ $t('Hmodule.baoc') }}</el-button>
       </div>
     </el-card>
   </el-dialog>

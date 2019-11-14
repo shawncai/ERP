@@ -6,7 +6,7 @@
           <el-col :span="5" style="margin-left: 10px">
             <el-form-item :label="$t('stockOrderCount.type')">
               <el-select v-model="getemplist.type" :value="getemplist.type" @keyup.enter.native="handleFilter" @change="changeName">
-                <el-option value="1" label="供应商"/>
+                <el-option :label="$t('updates.gys')" value="1"/>
                 <el-option value="2" label="经办人"/>
                 <!-- <el-option value="3" label="品牌"/> -->
                 <el-option value="4" label="种类"/>
@@ -199,7 +199,7 @@ export default {
         pageNum: 1,
         pageSize: 10,
         repositoryId: this.$store.getters.repositoryId,
-        regionIds: this.$store.getters.regionId,
+        regionIds: this.$store.getters.regionIds,
         type: '1'
       },
       // 传给组件的数据
@@ -290,6 +290,8 @@ export default {
     restFilter() {
       this.customerName = ''
       this.getemplist.customerId = ''
+    },
+    restFilter2() {
       this.stockPersonId = ''
       this.getemplist.stockPersonId = ''
     },
@@ -310,9 +312,9 @@ export default {
             this.list[i].heji = this.list[i].totalMoney + this.list[i].taxMoney
           }
           this.total = res.data.data.content.totalCount
-          this.restFilter()
+          // this.restFilter()
         } else {
-          this.restFilter()
+          // this.restFilter()
         }
       })
     },

@@ -3,8 +3,8 @@
     <div id="printTest" >
       <!--基本信息-->
       <el-card class="box-card">
-        <h2 ref="geren" class="form-name">基本信息</h2>
-        <button v-print="'#printTest'" class="print" style="font-size: 13px;background: white;">打印</button>
+        <h2 ref="geren" class="form-name">{{ $t('Hmodule.basicinfo') }}</h2>
+        <button v-print="'#printTest'" class="print" style="font-size: 13px;background: white;">{{ $t('updates.print') }}</button>
         <div class="container">
           <el-form ref="personalForm" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="120px" style="margin-left: 30px;">
             <el-row>
@@ -76,13 +76,13 @@
             size="medium"
             style="width: 100%">
             <el-editable-column label="编号" fixed="left" width="55" align="center" type="index"/>
-            <el-editable-column prop="productCode" fixed="left" align="center" label="物品编号" width="150px"/>
-            <el-editable-column prop="productName" fixed="left" align="center" label="物品名称" width="150px"/>
-            <el-editable-column prop="locationName" align="center" label="货位" width="150px"/>
-            <el-editable-column prop="batch" align="center" label="批次" width="150px"/>
+            <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" fixed="left" align="center" width="150px"/>
+            <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" fixed="left" align="center" width="150px"/>
+            <el-editable-column :label="$t('Hmodule.hw')" prop="locationName" align="center" width="150px"/>
+            <el-editable-column :label="$t('Hmodule.pc')" prop="batch" align="center" width="150px"/>
             <el-editable-column prop="color" align="center" label="颜色" width="150px"/>
-            <el-editable-column prop="typeIdname" align="center" label="规格" width="150px"/>
-            <el-editable-column prop="unit" align="center" label="单位" width="150px"/>Q
+            <el-editable-column :label="$t('Hmodule.gg')" prop="typeIdname" align="center" width="150px"/>
+            <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" width="150px"/>Q
             <el-editable-column prop="quantity" align="center" label="数量" width="150px"/>
             <el-editable-column prop="adjustQuantity" align="center" label="调整数量" width="150px"/>
             <el-editable-column prop="price" align="center" label="成本单价" width="150px"/>
@@ -131,7 +131,7 @@
         </div>
       </el-card>
       <el-card class="box-card" style="margin-top: 15px" shadow="never">
-        <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">备注信息</h2>
+        <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('updates.bzxx') }}</h2>
         <div class="container" style="margin-top: 37px">
           <el-form :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
             <el-row>
@@ -189,7 +189,7 @@
         </div>
       </el-card>
       <div class="buttons" style="margin-top: 20px;margin-left: 30px">
-        <el-button type="danger" @click="handlecancel()">取消</el-button>
+        <el-button type="danger" @click="handlecancel()">{{ $t('Hmodule.cancel') }}</el-button>
       </div>
     </div>
   </el-dialog>

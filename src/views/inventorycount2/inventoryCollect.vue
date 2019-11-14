@@ -4,8 +4,8 @@
       <el-form ref="getemplist" :model="getemplist" label-width="70px" style="margin-top: -9px">
         <el-row>
           <el-col :span="5" style="margin-left: 15px">
-            <el-form-item label="门店">
-              <el-input v-model="repositoryId" class="filter-item" clearable @keyup.enter.native="handleFilter" @focus="handlechooseRep"/>
+            <el-form-item :label="$t('updates.repository')">
+              <el-input v-model="repositoryId" class="filter-item" clearable @clear="restFilter" @keyup.enter.native="handleFilter" @focus="handlechooseRep"/>
               <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
             </el-form-item>
           </el-col>
@@ -16,7 +16,7 @@
           </el-col>
           <el-col :span="5" style="margin-left: 40px">
             <el-form-item label="型号">
-              <el-select v-model="getemplist.typeId" placeholder="请选择规格型号" clearable>
+              <el-select v-model="getemplist.typeId" :placeholder="$t('Hmodule.qxzggxh')" clearable>
                 <el-option
                   v-for="(item, index) in types"
                   :key="index"
@@ -29,7 +29,7 @@
 
           <el-col :span="5" style="margin-left: 40px">
             <el-form-item label="分类">
-              <el-input v-model="categoryId" placeholder="物品分类" clearable @focus="treechoose"/>
+              <el-input v-model="categoryId" :placeholder="$t('Hmodule.wpfl')" clearable @clear="restFilter2" @focus="treechoose"/>
               <my-tree :treecontrol.sync="treecontrol" @tree="tree"/>
             </el-form-item>
           </el-col>
@@ -326,10 +326,12 @@ export default {
     },
     // 清空搜索条件
     restFilter() {
-      this.customerName = ''
-      this.getemplist.customerId = ''
-      this.stockPersonId = ''
-      this.getemplist.stockPersonId = ''
+      this.repositoryId = ''
+      this.getemplist.repositoryId = ''
+    },
+    restFilter2() {
+      this.categoryId = ''
+      this.getemplist.categoryId = ''
     },
     // 搜索
     handleFilter() {
@@ -348,9 +350,9 @@ export default {
             this.list[i].heji = this.list[i].totalMoney + this.list[i].taxMoney
           }
           this.total = res.data.data.content.totalCount
-          this.restFilter()
+          // this.restFilter()
         } else {
-          this.restFilter()
+          // this.restFilter()
         }
       })
     },

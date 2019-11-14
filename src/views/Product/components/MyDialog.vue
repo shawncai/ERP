@@ -2,7 +2,7 @@
   <el-dialog :visible.sync="editVisible" :control="control" :editdata="editdata" :close-on-press-escape="false" :title="personalForm.code +'    修改'" width="1010px" class="edit" top="-10px" @close="$emit('update:control', false)">
     <!--基本信息-->
     <el-card class="box-card" style="margin-top: 63px" shadow="never">
-      <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">基本信息</h2>
+      <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('Hmodule.basicinfo') }}</h2>
       <div class="container" style="margin-top: 37px">
         <el-form ref="personalForm" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
           <el-row>
@@ -165,7 +165,7 @@
             <el-col :span="12" style="height: 58px;">
               <el-form-item :label="$t('Product.zhibaoqi')" style="width: 100%">
                 <el-input v-model="personalForm.zhiBaoQi" placeholder="请输入质保期" style="margin-left: 18px;width: 200px" clearable>
-                  <template slot="append">天</template>
+                  <template slot="append">{{ $t('updates.day') }}</template>
                 </el-input>
               </el-form-item>
             </el-col>
@@ -236,7 +236,7 @@
         <el-form ref="personalForm2" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="140px">
           <el-col :span="12">
             <el-form-item :label="$t('Product.valuation')" prop="valuation" style="width: 100%;">
-              <el-select v-model="personalForm.valuation" placeholder="请选择" style="margin-left: 18px;width: 200px">
+              <el-select v-model="personalForm.valuation" :placeholder="$t('updates.qxz')" style="margin-left: 18px;width: 200px">
                 <el-option value="1" label="约当产量法"/>
                 <el-option value="2" label="定额成本法"/>
                 <el-option value="3" label="定额比例法"/>
@@ -318,8 +318,8 @@
     </el-card>
     <el-card class="box-card" style="position: fixed;width: 1010px;z-index: 100;height: 74px;bottom: 0;" shadow="never">
       <div class="buttons" style="float: right;padding-bottom: 10px">
-        <el-button @click="handlecancel()">取消</el-button>
-        <el-button type="primary" @click="handleEditok()">保存</el-button>
+        <el-button @click="handlecancel()">{{ $t('Hmodule.cancel') }}</el-button>
+        <el-button type="primary" @click="handleEditok()">{{ $t('Hmodule.baoc') }}</el-button>
       </div>
     </el-card>
   </el-dialog>

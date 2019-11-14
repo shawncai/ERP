@@ -5,7 +5,7 @@
         <el-form ref="getemplist" :model="getemplist" style="margin-top: -9px">
           <el-col :span="4">
             <el-form-item>
-              <el-input v-model="categoryId" :placeholder="$t('StockRequire.categoryId')" class="filter-item" clearable @keyup.enter.native="handleFilter" @focus="treechoose"/>
+              <el-input v-model="categoryId" :placeholder="$t('StockRequire.categoryId')" class="filter-item" clearable @keyup.enter.native="handleFilter" @clear="restFilter" @focus="treechoose"/>
               <my-tree :treecontrol.sync="treecontrol" @tree="tree"/>
             </el-form-item>
           </el-col>
@@ -18,8 +18,8 @@
           <el-col :span="3" style="margin-left: 20px">
             <el-form-item>
               <el-select v-model="getemplist.isPlan" :value="getemplist.isPlan" class="filter-item" placeholder="是否已生成采购计划" clearable>
-                <el-option value="1" label="是"/>
-                <el-option value="2" label="否"/>
+                <el-option value="1" :label="$t('updates.yes')"/>
+                <el-option value="2" :label="$t('updates.no')"/>
               </el-select>
             </el-form-item>
           </el-col>
@@ -136,7 +136,7 @@
       <!-- 列表结束 -->
       <pagination v-show="total>0" :total="total" :page.sync="getemplist.pageNum" :limit.sync="getemplist.pageSize" @pagination="getlist" />
       <!--修改开始=================================================-->
-      <el-button v-waves class="filter-item" type="success" style="width: 100px;float: left;margin-bottom: 10px" @click="handleConfirm">确认添加</el-button>
+      <el-button v-waves class="filter-item" type="success" style="width: 100px;float: left;margin-bottom: 10px" @click="handleConfirm">{{ $t('Hmodule.sure') }}</el-button>
     </el-card>
   </el-dialog>
 </template>
@@ -198,7 +198,7 @@ export default {
         pageNum: 1,
         pageSize: 10,
         repositoryId: this.$store.getters.repositoryId,
-        regionIds: this.$store.getters.regionId,
+        regionIds: this.$store.getters.regionIds,
         isactive: 1
       },
       // 传给组件的数据
@@ -248,10 +248,14 @@ export default {
     },
     // 清空搜索条件
     restFilter() {
-      this.handlePersonId = ''
-      this.getemplist.handlePersonId = ''
+      this.categoryId = ''
+      this.getemplist.categoryId = ''
+    },
+    restFilter2() {
       this.workCenterId = ''
       this.getemplist.workCenterId = ''
+    },
+    restFilter3() {
       this.producePlanNumber = ''
       this.getemplist.producePlanNumber = ''
     },
@@ -269,9 +273,9 @@ export default {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
-          this.restFilter()
+          // this.restFilter()
         } else {
-          this.restFilter()
+          // this.restFilter()
         }
       })
     },

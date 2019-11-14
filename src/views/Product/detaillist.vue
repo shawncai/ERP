@@ -78,8 +78,8 @@
           </el-form>
         </div>
         <div class="buttons" style="margin-top: 20px;text-align: center">
-          <el-button type="primary" style="background:#3696fd;border-color:#3696fd;width: 98px" @click="handlesave()">新增</el-button>
-          <el-button type="danger" @click="handlecancel()">取消</el-button>
+          <el-button type="primary" style="background:#3696fd;border-color:#3696fd;width: 98px" @click="handlesave()">{{ $t('updates.create') }}</el-button>
+          <el-button type="danger" @click="handlecancel()">{{ $t('Hmodule.cancel') }}</el-button>
         </div>
       </el-card>
       <!--操作-->
@@ -290,7 +290,7 @@ export default {
       return result
     },
     getReturnNode(node, _array, value) {
-      const isPass = node.data && node.data.categoryName && node.data.categoryName.indexOf(value) !== -1
+      const isPass = node.data && node.data.categoryName && node.data.categoryName.toUpperCase().indexOf(value.toUpperCase()) !== -1
       isPass ? _array.push(isPass) : ''
       this.index++
       if (!isPass && node.level !== 1 && node.parent) {

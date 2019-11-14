@@ -5,8 +5,8 @@
       <el-row>
         <el-form ref="getemplist" :model="getemplist" label-width="100px" style="margin-top: -9px">
           <el-col :span="4">
-            <el-form-item label="仓库">
-              <el-input v-model="searchRepositoryId" :placeholder="$t('StockAlarm.searchRepositoryId')" class="filter-item" clearable @keyup.enter.native="handleFilter" @focus="handlechooseRep"/>
+            <el-form-item :label="$t('updates.cangk')">
+              <el-input v-model="searchRepositoryId" :placeholder="$t('StockAlarm.searchRepositoryId')" class="filter-item" clearable @clear="restFilter" @keyup.enter.native="handleFilter" @focus="handlechooseRep"/>
             </el-form-item>
             <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
           </el-col>
@@ -116,7 +116,7 @@ export default {
         pageNum: 1,
         pageSize: 10,
         countryId: this.$store.getters.countryId,
-        regionIds: this.$store.getters.regionId
+        regionIds: this.$store.getters.regionIds
       },
       // 搜索结束 ----------------------
       // 列表操作 -------------------------

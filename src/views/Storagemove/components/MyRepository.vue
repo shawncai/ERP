@@ -13,15 +13,15 @@
         />
       </el-select>
       <el-select v-model="getemplist.iseffective" :value="getemplist.iseffective" :placeholder="$t('Repository.iseffective')" class="filter-item" clearable>
-        <el-option label="启用" value="1"/>
-        <el-option label="停用" value="2"/>
+        <el-option :label="$t('updates.qy')" value="1"/>
+        <el-option :label="$t('updates.ty')" value="2"/>
       </el-select>
       <el-cascader
         :options="regions"
         :props="props"
         v-model="getemplistregions"
         :show-all-levels="false"
-        placeholder="请选择区域"
+        :placeholder="$t('Hmodule.xzqy')"
         change-on-select
         filterable
         clearable
@@ -82,7 +82,7 @@
       </el-table-column> -->
     </el-table>
     <!-- 列表结束 -->
-    <el-button v-waves class="filter-item" type="success" style="width: 100px;float: left;margin-top: 10px" @click="handleConfirm">确认添加</el-button>
+    <el-button v-waves class="filter-item" type="success" style="width: 100px;float: left;margin-top: 10px" @click="handleConfirm">{{ $t('Hmodule.sure') }}</el-button>
     <pagination v-show="total>0" :total="total" :page.sync="getemplist.pagenum" :limit.sync="getemplist.pagesize" @pagination="getlist" />
   </el-dialog>
 </template>
@@ -185,8 +185,11 @@ export default {
       this.getemplist.emoloyeeId = this.searchlist.applyPersonId
       searchmoverepository(this.getemplist).then(res => {
         if (res.data.ret === 200) {
-          this.list = res.data.data.content.list[0].repositories
-          this.total = res.data.data.content.list[0].repositories.length
+          try {
+            this.list = res.data.data.content.list[0].repositories
+          } catch (error) {
+            this.list = res.data.data.content.list
+          }
         }
         setTimeout(() => {
           this.listLoading = false

@@ -2,7 +2,7 @@
   <el-dialog :visible.sync="editVisible" :editcontrol="editcontrol" :editdata="editdata" :close-on-press-escape="false" class="edit" width="1010px" top="-10px" title="修改物料清单" @close="$emit('update:editcontrol', false)">
     <!--基本信息-->
     <el-card class="box-card">
-      <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: 63px;">基本信息</h2>
+      <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: 63px;">{{ $t('Hmodule.basicinfo') }}</h2>
       <div class="container">
         <el-form ref="personalForm" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
           <el-row>
@@ -74,8 +74,8 @@
     <el-card class="box-card" style="margin-top: 15px">
       <h2 ref="fuzhu" class="form-name">子件信息</h2>
       <div class="buttons" style="margin-top: 30px;margin-bottom: 20px">
-        <el-button type="success" style="background:#3696fd;border-color:#3696fd " @click="handleAddproduct">添加商品</el-button>
-        <el-button type="danger" @click="$refs.editable.removeSelecteds()">删除</el-button>
+        <el-button type="success" style="background:#3696fd;border-color:#3696fd " @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>
+        <el-button type="danger" @click="$refs.editable.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
       </div>
       <my-detail :control.sync="control" :checklist.sync="checklist" @product="productdetail"/>
       <div class="container">
@@ -90,13 +90,13 @@
           size="medium"
           style="width: 100%">
           <el-editable-column type="selection" fixed="left" min-width="55" align="center"/>
-          <el-editable-column label="序号" fixed="left" min-width="55" align="center" type="index"/>
+          <el-editable-column :label="$t('Hmodule.xh')" fixed="left" min-width="55" align="center" type="index"/>
           <el-editable-column prop="productCode" fixed="left" align="center" label="子件" min-width="150px"/>
           <el-editable-column prop="productName" fixed="left" align="center" label="子件名称" min-width="150px"/>
-          <el-editable-column prop="productType" align="center" label="规格" min-width="150px"/>
+          <el-editable-column :label="$t('Hmodule.gg')" prop="productType" align="center" min-width="150px"/>
           <el-editable-column prop="color" align="center" label="颜色" min-width="150px"/>
           <el-editable-column prop="productCategory" align="center" label="子件类型" min-width="150px"/>
-          <el-editable-column prop="unit" align="center" label="单位" min-width="150px"/>
+          <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" min-width="150px"/>
           <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="quantity" align="center" label="定额" min-width="150px"/>
           <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="lossRate" align="center" label="损耗率" min-width="150px"/>
           <el-editable-column :edit-render="{name: 'ElSelect', options: isKeyList, type: 'visible'}" prop="isKey" align="center" label="是否关键件" min-width="150px"/>
@@ -104,8 +104,8 @@
       </div>
     </el-card>
     <div class="buttons" style="margin-top: 20px;margin-left: 30px">
-      <el-button type="primary" @click="handleEditok()">修改</el-button>
-      <el-button type="danger" @click="handlecancel()">取消</el-button>
+      <el-button type="primary" @click="handleEditok()">{{ $t('public.edit') }}</el-button>
+      <el-button type="danger" @click="handlecancel()">{{ $t('Hmodule.cancel') }}</el-button>
     </div>
   </el-dialog>
 </template>
@@ -191,20 +191,16 @@ export default {
     productdetail(val) {
       console.log(val)
       const nowlistdata = this.$refs.editable.getRecords()
-      for (let i = 0; i < val.length; i++) {
-        // if (val[i].productCode === this.personalForm.productCode) {
-        //   continue
-        // }
-        let m = 1
-        for (let j = 0; j < nowlistdata.length; j++) {
-          if (val[i].productCode === nowlistdata[j].productCode) {
-            m = 2
-          }
-        }
-        if (m === 1) {
-          this.$refs.editable.insert(val[i])
-        }
-      }
+
+      console.log(nowlistdata)
+      var ret4 = val.findIndex((value, index, arr) => {
+        return value.productCode === this.personalForm.productCode
+      })
+
+      console.log(ret4)
+      this.list2 = val.filter(item => {
+        return item.productCode !== this.personalForm.productCode
+      })
     },
     // 清空记录
     restAllForm() {

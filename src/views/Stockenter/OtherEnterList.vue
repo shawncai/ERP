@@ -32,13 +32,13 @@
               placement="bottom"
               width="500"
               trigger="click">
-              <el-input v-model="enterPersonId" :placeholder="$t('Stockenter.enterPersonId')" class="filter-item" clearable style="width: 40%;float: left;margin-left: 20px" @keyup.enter.native="handleFilter" @focus="handlechooseAccept"/>
+              <el-input v-model="enterPersonId" :placeholder="$t('Stockenter.enterPersonId')" class="filter-item" clearable style="width: 40%;float: left;margin-left: 20px" @keyup.enter.native="handleFilter" @focus="handlechooseAccept" @clear="restFilter2"/>
               <my-accept :accetpcontrol.sync="accetpcontrol" @acceptName="acceptName"/>
-              <el-input v-model="enterRepositoryId" :placeholder="$t('Stockenter.enterRepositoryId')" class="filter-item" clearable style="width: 40%;float: right;margin-right: 20px" @keyup.enter.native="handleFilter" @focus="handlechooseRep"/>
+              <el-input v-model="enterRepositoryId" :placeholder="$t('Stockenter.enterRepositoryId')" class="filter-item" clearable style="width: 40%;float: right;margin-right: 20px" @keyup.enter.native="handleFilter" @focus="handlechooseRep" @clear="restFilter4"/>
               <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
-              <el-input v-model="acceptPersonId" :placeholder="$t('Stockenter.acceptPersonId')" class="filter-item" clearable style="width: 40%;float: left;margin-left: 20px;margin-top: 20px" @keyup.enter.native="handleFilter" @focus="handlechoose"/>
+              <el-input v-model="acceptPersonId" :placeholder="$t('Stockenter.acceptPersonId')" class="filter-item" clearable style="width: 40%;float: left;margin-left: 20px;margin-top: 20px" @keyup.enter.native="handleFilter" @focus="handlechoose" @clear="restFilter3"/>
               <my-create :createcontrol.sync="createcontrol" @createname="createname"/>
-              <el-input v-model="deliveryPersonId" :placeholder="$t('Stockenter.deliveryPersonId')" class="filter-item" clearable style="width: 40%;float: right;margin-right: 20px;margin-top: 20px" @keyup.enter.native="handleFilter" @focus="handlechooseDelivery"/>
+              <el-input v-model="deliveryPersonId" :placeholder="$t('Stockenter.deliveryPersonId')" class="filter-item" clearable style="width: 40%;float: right;margin-right: 20px;margin-top: 20px" @keyup.enter.native="handleFilter" @focus="handlechooseDelivery" @clear="restFilter"/>
               <my-delivery :deliverycontrol.sync="deliverycontrol" @deliveryName="deliveryName"/>
               <el-date-picker
                 v-model="date"
@@ -154,7 +154,7 @@
         </el-table-column>
         <el-table-column :label="$t('public.actions')" :resizable="false" align="center" min-width="230">
           <template slot-scope="scope">
-            <el-button v-permission="['131-132-137-3']" type="primary" size="mini" @click="handleEdit(scope.row)">{{ $t('public.edit') }}</el-button>
+            <el-button v-permission="['131-132-137-3']" v-show="scope.row.judgeStat === 0" type="primary" size="mini" @click="handleEdit(scope.row)">{{ $t('public.edit') }}</el-button>
             <el-button v-show="isReview(scope.row)" type="warning" size="mini" @click="handleReview(scope.row)">{{ $t('public.review') }}</el-button>
             <el-button v-permission="['131-132-137-76']" v-show="isReview4(scope.row)" title="反审批" type="warning" size="mini" circle @click="handleReview4(scope.row)"><svg-icon icon-class="fanhui"/></el-button>
             <el-button v-permission="['131-132-137-16']" v-show="isReview2(scope.row)" title="结单" type="success" size="mini" icon="el-icon-check" circle @click="handleReview2(scope.row)"/>
@@ -243,7 +243,7 @@ export default {
         pageSize: 10,
         countryId: this.$store.getters.countryId,
         repositoryId: this.$store.getters.repositoryId,
-        regionIds: this.$store.getters.regionId
+        regionIds: this.$store.getters.regionIds
       },
       // 搜索结束 ----------------------
       // 列表操作 -------------------------
@@ -274,7 +274,7 @@ export default {
     // 判断反审批按钮
     isReview4(row) {
       console.log(row)
-      if (row.judgeStat === 2) {
+      if (row.judgeStat === 2 && row.receiptStat !== 3) {
         return true
       }
     },
@@ -439,10 +439,16 @@ export default {
     restFilter() {
       this.deliveryPersonId = ''
       this.getemplist.deliveryPersonId = ''
+    },
+    restFilter2() {
       this.enterPersonId = ''
       this.getemplist.enterPersonId = ''
+    },
+    restFilter3() {
       this.acceptPersonId = ''
       this.getemplist.acceptPersonId = ''
+    },
+    restFilter4() {
       this.enterRepositoryId = ''
       this.getemplist.enterRepositoryId = ''
     },
@@ -461,9 +467,9 @@ export default {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
-          this.restFilter()
+          // this.restFilter()
         } else {
-          this.restFilter()
+          // this.restFilter()
         }
       })
     },

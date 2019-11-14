@@ -26,7 +26,7 @@
           end-placeholder="End"
           value-format="yyyy-MM-dd"
           style="margin-top: 20px;margin-left: 20px"/>
-        <el-input v-model="damagedRepositoryId" placeholder="请选择报损仓库" clearable class="filter-item" style="margin-top: 20px;margin-left: 20px" @focus="handlechooseRep"/>
+        <el-input v-model="damagedRepositoryId" placeholder="请选择报损仓库" clearable class="filter-item" style="margin-top: 20px;margin-left: 20px" @clear="restFilter" @focus="handlechooseRep"/>
         <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
         <div class="seachbutton" style="width: 100%;float: right;margin-top: 20px">
           <el-button v-waves class="filter-item" type="primary" style="float: right" @click="handleFilter">{{ $t('public.search') }}</el-button>
@@ -216,7 +216,7 @@ export default {
         pageNum: 1,
         pageSize: 10,
         repositoryId: this.$store.getters.repositoryId,
-        regionIds: this.$store.getters.regionId
+        regionIds: this.$store.getters.regionIds
       },
       // 传给组件的数据
       personalForm: {},
@@ -386,14 +386,14 @@ export default {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
-          this.restFilter()
+          // this.restFilter()
         } else {
           this.$notify.error({
             title: '错误',
             message: '出错了',
             offset: 100
           })
-          this.restFilter()
+          // this.restFilter()
         }
       })
     },

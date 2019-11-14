@@ -2,7 +2,7 @@
   <div class="ERP-container">
     <div class="app-container">
       <!--基本信息-->
-      <h2 ref="geren" class="form-name">基本信息</h2>
+      <h2 ref="geren" class="form-name">{{ $t('Hmodule.basicinfo') }}</h2>
       <div class="container">
         <el-form ref="personalForm" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-position="top" label-width="300px" style="margin-left: 30px;">
           <el-form-item :label="$t('LogisticsCar.carnumber')" prop="carnumber" style="width: 40%;margin-top:1%">
@@ -29,7 +29,7 @@
           <el-form-item :label="$t('LogisticsCar.stat')" prop="stat" style="width: 40%;margin-top:1%">
             <el-select v-model="personalForm.stat" placeholder="请选择车辆状态" style="width: 100%;">
               <el-option label="正常" value="1"/>
-              <el-option label="停用" value="2"/>
+              <el-option :label="$t('updates.ty')" value="2"/>
             </el-select>
           </el-form-item>
           <el-form-item :label="$t('LogisticsCar.drivers')" prop="drivers" style="width: 40%;margin-top:1%">
@@ -40,9 +40,9 @@
       </div>
       <!--操作-->
       <div class="buttons" style="margin-top: 20px">
-        <el-button v-no-more-click type="primary" @click="handlesave()">保存</el-button>
-        <el-button type="success" @click="handleentry()">继续录入</el-button>
-        <el-button type="danger" @click="handlecancel()">取消</el-button>
+        <el-button v-no-more-click type="primary" @click="handlesave()">{{ $t('Hmodule.baoc') }}</el-button>
+        <el-button type="success" @click="handleentry()">{{ $t('updates.jxlr') }}</el-button>
+        <el-button type="danger" @click="handlecancel()">{{ $t('Hmodule.cancel') }}</el-button>
       </div>
     </div>
   </div>
