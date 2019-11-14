@@ -3200,6 +3200,23 @@ export const asyncRouterMap = [
       }
     ]
   },
+  {
+    path: '/Chat',
+    component: Layout,
+    redirect: 'noredirect',
+    meta: {
+      icon: 'quanxian',
+      type: 14
+    },
+    children: [
+      {
+        path: 'index',
+        component: () => import('@/views/Chat/index'),
+        name: 'Chat',
+        meta: { title: 'Chat', noCache: true }
+      }
+    ]
+  },
   // {
   //   path: '/GroupBuyRules',
   //   component: Layout,

@@ -24,6 +24,7 @@
         <el-menu-item v-if="show < 7" index="6">分期管理</el-menu-item>
         <el-menu-item v-if="show < 8" index="7">生产管理</el-menu-item>
         <el-menu-item v-if="show < 9" index="8">质检管理</el-menu-item>
+        <el-menu-item index="14"><router-link to="/Chat/index">客服</router-link></el-menu-item>
       </el-submenu>
       <el-menu-item v-if="show > 0" index="1">首页</el-menu-item>
       <el-menu-item v-if="show > 1" index="10">系统管理</el-menu-item>
@@ -140,6 +141,7 @@ export default {
       });
     },
     handleSelect(key) {
+      console.log('key', key)
       this.$store.dispatch("setTopmenu", key);
     },
     //获取屏幕宽度
