@@ -103,7 +103,7 @@
             <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" fixed="left" align="center" />
             <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" fixed="left" align="center" />
             <el-editable-column :label="$t('Hmodule.gg')" prop="productType" align="center" />
-            <el-editable-column prop="color" align="center" label="颜色"/>
+            <el-editable-column prop="color" align="center" :label="$t('updates.ys')"/>
             <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" />
             <el-editable-column :label="$t('updates.cgsl')" prop="stockQuantity" align="center" />
             <el-editable-column :label="$t('updates.dhsl')" prop="arrivalQuantity" align="center" />
@@ -122,7 +122,7 @@
             <el-editable-column prop="discountMoney" align="center" label="折扣额" />
             <el-editable-column prop="remark" align="center" label="备注" />
             <el-editable-column prop="sourceNumber" align="center" label="源单编号" />
-            <el-editable-column prop="sourceSerialNumber" align="center" label="源单序号" />
+            <el-editable-column prop="sourceSerialNumber" align="center" :label="$t('updates.ydxh')" />
             <el-editable-column prop="hadStorageQuantity" align="center" label="已入库数量" />
             <el-editable-column prop="reportCheckingQuantity" align="center" label="报检数量" />
             <el-editable-column prop="actualCheckingQuantity" align="center" label="实捡数量" />
@@ -178,7 +178,7 @@
       </el-card>
       <!--审核状态-->
       <el-card class="box-card" style="margin-top: 15px" shadow="never">
-        <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">审批记录</h2>
+        <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('updates.spjl') }}</h2>
         <div class="container" style="margin-top: 37px">
           <el-table
             :data="reviewList"
@@ -187,22 +187,22 @@
             <el-table-column
               prop="step"
               align="center"
-              label="当前步骤"
+              :label="$t('updates.dqbz')"
               min-width="150"/>
             <el-table-column
               prop="stepHandlerName"
               align="center"
-              label="当前审批人"
+              :label="$t('updates.dqspr')"
               min-width="150"/>
             <el-table-column
               prop="handleTime"
               align="center"
-              label="审批时间"
+              :label="$t('updates.spsj')"
               min-width="150"/>
             <el-table-column
               prop="stat"
               align="center"
-              label="审批意见"
+              :label="$t('updates.spyj')"
               min-width="150">
               <template slot-scope="scope">
                 <span>{{ scope.row.stat | statfilter }}</span>

@@ -2,20 +2,20 @@
   <div class="app-container">
     <el-card class="box-card" shadow="never">
       <div slot="header" class="clearfix">
-        <span>下载模板  </span>
+        <span>{{ $t('updates.xzmb') }}  </span>
       </div>
-      <a href="static/file/物品资料表.xlsx"><el-button type="primary">下载模板</el-button></a>
+      <a href="static/file/物品资料表.xlsx"><el-button type="primary">{{ $t('updates.xzmb') }}</el-button></a>
     </el-card>
     <el-card class="box-card" style="margin-top: 20px" shadow="never">
       <div slot="header" class="clearfix">
-        <span>上传Excel表格</span>
+        <span>{{ $t('updates.scbg') }}</span>
       </div>
       <upload-excel-component :on-success="handleSuccess" :before-upload="beforeUpload"/>
     </el-card>
     <el-card class="box-card" shadow="never" style="margin-top: 20px">
       <div slot="header" class="clearfix">
-        <span>表格数据</span>
-        <el-button style="float: right; padding: 3px 0" type="primary" @click="uploads">导入数据</el-button>
+        <span>{{ $t('updates.bgsj') }}</span>
+        <el-button style="float: right; padding: 3px 0" type="primary" @click="uploads">{{ $t('updates.drsj') }}</el-button>
       </div>
       <el-table :data="tableData" border highlight-current-row style="width: 100%;margin-top:20px;">
         <el-table-column v-for="item of tableHeader" :prop="item" :label="item" :key="item"/>

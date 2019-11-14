@@ -60,7 +60,7 @@
         <div class="buttons" style="margin-top: 58px">
           <el-button :disabled="addpro" @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>
           <my-detail2 :control.sync="control" @product="productdetail"/>
-          <el-button :disabled="addsouce" style="width: 130px" @click="handleAddSouce">从源单中选择</el-button>
+          <el-button :disabled="addsouce" style="width: 130px" @click="handleAddSouce">{{ $t('updates.cydzxz') }}</el-button>
           <produce-plan :procontrol.sync="producecontrol" @produce="produce" @moredata="moredata"/>
           <my-producerequire :prorequirecontrol.sync="prorequirecontrol" @prorequireDetail="prorequireDetail"/>
           <el-button type="danger" @click="$refs.editable.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
@@ -83,7 +83,7 @@
             <el-editable-column :label="$t('Hmodule.gg')" prop="productType" align="center" min-width="150px"/>
             <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" min-width="150px"/>
             <el-editable-column prop="sourceNumber" align="center" label="源单编号" min-width="150px"/>
-            <el-editable-column prop="sourceSerialNumber" align="center" label="源单序号" min-width="150px"/>
+            <el-editable-column prop="sourceSerialNumber" align="center" :label="$t('updates.ydxh')" min-width="150px"/>
             <el-editable-column v-if="personalForm.sourceType==='3'" :label="$t('Hmodule.ggzx')" prop="workCenterName" align="center" min-width="150px"/>
             <el-editable-column v-if="personalForm.sourceType!=='3'" :edit-render="{name: 'ElSelect', options: workCenterIds, type: 'visible'}" :label="$t('Hmodule.ggzx')" prop="workCenterId" align="center" min-width="150px"/>
             <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="produceQuantity" align="center" label="生产数量" min-width="150px"/>

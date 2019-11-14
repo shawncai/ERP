@@ -224,7 +224,7 @@
             <el-editable-column prop="Categoryid" align="center" label="物品分类" min-width="150px"/>
             <el-editable-column prop="unit" align="center" label="基本单位" min-width="150px"/>
             <el-editable-column prop="typeId" align="center" label="规格型号" min-width="150px"/>
-            <el-editable-column prop="color" align="center" label="颜色" min-width="150px"/>
+            <el-editable-column prop="color" align="center" :label="$t('updates.ys')" min-width="150px"/>
             <el-editable-column prop="performanceScore" align="center" label="绩效分" min-width="150px"/>
             <el-editable-column prop="productScore" align="center" label="商品积分" min-width="150px"/>
             <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="quantity" align="center" label="订单数量" min-width="150" >

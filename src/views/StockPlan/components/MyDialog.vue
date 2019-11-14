@@ -1,5 +1,5 @@
 <template>
-  <el-dialog :visible.sync="editVisible" :editcontrol="editcontrol" :editdata="editdata" :close-on-press-escape="false" :title="personalForm.planNumber +'    修改'" width="1010px" class="edit" top="-10px" @close="$emit('update:editcontrol', false)">
+  <el-dialog :visible.sync="editVisible" :editcontrol="editcontrol" :editdata="editdata" :close-on-press-escape="false" :title="personalForm.planNumber +$t('updates.xg')" width="1010px" class="edit" top="-10px" @close="$emit('update:editcontrol', false)">
     <!--基本信息-->
     <el-card class="box-card" style="margin-top: 63px" shadow="never">
       <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('Hmodule.basicinfo') }}</h2>
@@ -73,7 +73,7 @@
       <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
         <el-button :disabled="addpro" @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>
         <my-detail :control.sync="control" @product="productdetail" @product2="productdetail2"/>
-        <el-button :disabled="addsouce" style="width: 130px" @click="handleAddSouce">从源单中选择</el-button>
+        <el-button :disabled="addsouce" style="width: 130px" @click="handleAddSouce">{{ $t('updates.cydzxz') }}</el-button>
         <my-apply :applycontrol.sync="applycontrol" @apply="apply" @apply2="apply2" @allinfo="allinfo"/>
         <my-require :requirecontrol.sync="requirecontrol" @require="requiredata" @require2="requiredata2"/>
         <el-button type="danger" @click="deleteEdit">{{ $t('Hmodule.delete') }}</el-button>
@@ -95,11 +95,11 @@
           <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" align="center" min-width="150px"/>
           <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" align="center" min-width="150px"/>
           <el-editable-column :label="$t('Hmodule.gg')" prop="productType" align="center" min-width="150px"/>
-          <el-editable-column prop="color" align="center" label="颜色" min-width="150px"/>
+          <el-editable-column prop="color" align="center" :label="$t('updates.ys')" min-width="150px"/>
           <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" min-width="150px"/>
           <el-editable-column :label="$t('Hmodule.dj')" prop="basicPrice" align="center" min-width="150px"/>
           <el-editable-column :label="$t('Hmodule.xqsl')" prop="requireQuantity" align="center" min-width="150px"/>
-          <el-editable-column prop="requireDate" align="center" label="需求日期" min-width="150px"/>
+          <el-editable-column prop="requireDate" align="center" :label="$t('updates.xqrq')" min-width="150px"/>
           <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0.00, precision: 2}, type: 'visible' ,events: {change: changeDate}}" prop="planQuantity" align="center" label="计划数量" min-width="150px"/>
           <el-editable-column prop="planMoney" align="center" label="计划金额" min-width="150px">
             <template slot-scope="scope">
@@ -115,7 +115,7 @@
                 value-format="yyyy-MM-dd"
                 @change="changeDate"/>
             </template>
-          </el-editable-column>          <el-editable-column prop="applyReason" align="center" label="申请原因" min-width="150px"/>
+          </el-editable-column>          <el-editable-column prop="applyReason" align="center" :label="$t('updates.sqyy')" min-width="150px"/>
           <el-editable-column prop="sourceNumber" align="center" label="源单编号" min-width="150px"/>
           <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.gys')" prop="supplierName" align="center" min-width="150px">
             <template slot="edit" slot-scope="scope">
@@ -124,7 +124,7 @@
             </template>
           </el-editable-column>
           <el-editable-column prop="orderQuantity" align="center" label="已订购数量" min-width="150px"/>
-          <el-editable-column prop="sourceSerialNumber" align="center" label="源单序号" min-width="150px"/>
+          <el-editable-column prop="sourceSerialNumber" align="center" :label="$t('updates.ydxh')" min-width="150px"/>
         </el-editable>
       </div>
     </el-card>
@@ -147,7 +147,7 @@
           <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" align="center" min-width="150px"/>
           <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" align="center" min-width="150px"/>
           <el-editable-column :label="$t('Hmodule.gg')" prop="productType" align="center" min-width="150px"/>
-          <el-editable-column prop="color" align="center" label="颜色" min-width="150px"/>
+          <el-editable-column prop="color" align="center" :label="$t('updates.ys')" min-width="150px"/>
           <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" min-width="150px"/>
           <el-editable-column :label="$t('Hmodule.dj')" prop="basicPrice" align="center" min-width="150px"/>
           <el-editable-column prop="planQuantity" align="center" label="计划数量" min-width="150px">
@@ -157,11 +157,11 @@
           </el-editable-column>
           <el-editable-column prop="planMoney" align="center" label="计划金额" min-width="150px"/>
           <el-editable-column :edit-render="{name: 'ElDatePicker', attrs: {type: 'date', format: 'yyyy-MM-dd'}, type: 'default'}" prop="planDeliveryDate" align="center" label="计划交货日期" min-width="170px"/>
-          <el-editable-column prop="applyReason" align="center" label="申请原因" min-width="150px"/>
+          <el-editable-column prop="applyReason" align="center" :label="$t('updates.sqyy')" min-width="150px"/>
           <el-editable-column prop="sourceNumber" align="center" label="源单编号" min-width="150px"/>
           <el-editable-column :label="$t('updates.gys')" prop="supplierName" align="center" min-width="150px"/>
           <el-editable-column prop="orderQuantity" align="center" label="已订购数量" min-width="150px"/>
-          <el-editable-column prop="sourceSerialNumber" align="center" label="源单序号" min-width="150px"/>
+          <el-editable-column prop="sourceSerialNumber" align="center" :label="$t('updates.ydxh')" min-width="150px"/>
         </el-editable>
       </div>
     </el-card>

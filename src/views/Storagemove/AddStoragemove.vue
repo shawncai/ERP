@@ -137,10 +137,10 @@
             </el-editable-column> -->
             <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" align="center" width="150px"/>
             <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" align="center" width="150px"/>
-            <el-editable-column prop="color" align="center" label="颜色" width="150px"/>
+            <el-editable-column prop="color" align="center" :label="$t('updates.ys')" width="150px"/>
             <el-editable-column :label="$t('Hmodule.gg')" prop="typeName" align="center" width="150px"/>
             <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" width="150px"/>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 1.00, precision: 2}, type: 'visible'}" prop="applyQuantity" align="center" label="申请数量" min-width="150">
+            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 1.00, precision: 2}, type: 'visible'}" prop="applyQuantity" align="center" :label="$t('updates.sqsl')" min-width="150">
               <template slot="edit" slot-scope="scope">
                 <el-input-number
                   :precision="2"
@@ -197,7 +197,7 @@
                 <span v-else>{{ scope.row.batch }}</span>
               </template>
             </el-editable-column>
-            <el-editable-column prop="color" align="center" label="颜色" width="150px"/>
+            <el-editable-column prop="color" align="center" :label="$t('updates.ys')" width="150px"/>
             <el-editable-column prop="typeName" align="center" :label="$t('Hmodule.gg')" width="150px"/>
             <el-editable-column prop="unitName" align="center" :label="$t('Hmodule.dw')" width="150px"/>
             <el-editable-column prop="moveQuantity" align="center" label="出库数量" min-width="150">
@@ -284,7 +284,7 @@
                 <span v-else>{{ scope.row.batch }}</span>
               </template>
             </el-editable-column>
-            <el-editable-column prop="color" align="center" label="颜色" width="150px"/>
+            <el-editable-column prop="color" align="center" :label="$t('updates.ys')" width="150px"/>
             <el-editable-column prop="typeName" align="center" :label="$t('Hmodule.gg')" width="150px"/>
             <el-editable-column prop="unitName" align="center" :label="$t('Hmodule.dw')" width="150px"/>
             <el-editable-column prop="moveQuantity" align="center" label="出库数量" min-width="150">

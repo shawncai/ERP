@@ -21,7 +21,7 @@
           <!--            <el-editable-column prop="productCategory" align="center" label="物品分类" min-width="150px"/>-->
           <el-editable-column prop="unit" align="center" label="基本单位" min-width="150px"/>
           <!--            <el-editable-column prop="productType" align="center" label="规格型号" min-width="150px"/>-->
-          <!--            <el-editable-column prop="color" align="center" label="颜色" min-width="150px"/>-->
+          <!--            <el-editable-column prop="color" align="center" :label="$t('updates.ys')" min-width="150px"/>-->
           <!--          <el-editable-column :edit-render="{type: 'default'}" prop="locationId" align="center" :label="$t('Hmodule.hw')" width="200px">-->
           <!--            <template slot-scope="scope">-->
           <!--              <el-select v-model="scope.row.locationId" :value="scope.row.locationId" :placeholder="$t('Hmodule.xzhw')" filterable clearable style="width: 100%;" @visible-change="updatebatch($event,scope)">-->

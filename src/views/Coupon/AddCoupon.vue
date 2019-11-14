@@ -123,7 +123,7 @@
             <el-editable-column prop="category" align="center" label="物品分类" />
             <el-editable-column prop="purchaseMeasurement" align="center" label="基本单位" />
             <el-editable-column prop="productType" align="center" label="规格型号" />
-            <el-editable-column prop="color" align="center" label="颜色" />
+            <el-editable-column prop="color" align="center" :label="$t('updates.ys')" />
           </el-editable>
         </div>
       </el-card>

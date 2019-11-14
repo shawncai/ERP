@@ -70,7 +70,7 @@
             <el-editable-column label="编号" width="55" align="center" type="index"/>
             <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" align="center" width="150px"/>
             <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" align="center" width="150px"/>
-            <el-editable-column prop="color" align="center" label="颜色" width="150px"/>
+            <el-editable-column prop="color" align="center" :label="$t('updates.ys')" width="150px"/>
             <el-editable-column :label="$t('Hmodule.gg')" prop="typeIdname" align="center" width="150px"/>
             <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" width="150px"/>
             <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 1, precision: 0}, type: 'visible'}" :label="$t('inventoryAlarm.alarmDays')" prop="alarmDays" align="center" min-width="100">

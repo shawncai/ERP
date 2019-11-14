@@ -1,5 +1,5 @@
 <template>
-  <el-dialog :visible.sync="editVisible" :editcontrol="editcontrol" :editdata="editdata" :close-on-press-escape="false" :title="personalForm.number +'    修改'" width="1010px" class="edit" top="-10px" @close="$emit('update:editcontrol', false)">
+  <el-dialog :visible.sync="editVisible" :editcontrol="editcontrol" :editdata="editdata" :close-on-press-escape="false" :title="personalForm.number +$t('updates.xg')" width="1010px" class="edit" top="-10px" @close="$emit('update:editcontrol', false)">
     <!--基本信息-->
     <el-card class="box-card" style="margin-top: 63px" shadow="never">
       <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('Hmodule.basicinfo') }}</h2>
@@ -193,7 +193,7 @@
       <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
         <el-button :disabled="Isproduct" @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>
         <my-detail :control.sync="control" :personalform="personalForm" @product="productdetail"/>
-        <el-button :disabled="IsSourceNumber" style="width: 130px" @click="handleAddSource">从源单中选择</el-button>
+        <el-button :disabled="IsSourceNumber" style="width: 130px" @click="handleAddSource">{{ $t('updates.cydzxz') }}</el-button>
         <my-order :ordercontrol.sync="ordercontrol" @saleOrderDetail="saleOrderDetail" @saleOrder="saleOrder"/>
         <my-presale :presalecontrol.sync="presalecontrol" @advanceOrderDetail="advanceOrderDetail" @advanceData="advanceData"/>
         <my-opportunity :opportunitycontrol.sync="opportunitycontrol" @opportunityDetail="opportunityDetail" @opportunity="opportunity"/>
@@ -235,7 +235,7 @@
           <el-editable-column prop="categoryName" align="center" label="物品分类" min-width="150"/>
           <el-editable-column prop="unit" align="center" label="基本单位" min-width="150"/>
           <el-editable-column prop="typeName" align="center" label="规格型号" min-width="150"/>
-          <el-editable-column prop="color" align="center" label="颜色" min-width="150"/>
+          <el-editable-column prop="color" align="center" :label="$t('updates.ys')" min-width="150"/>
           <el-editable-column prop="kpiGrade" align="center" label="绩效分" min-width="150"/>
           <el-editable-column ref="haspoint" prop="point" align="center" label="商品积分" min-width="150"/>
           <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="quantity" align="center" label="出库数量" min-width="150" >
@@ -361,7 +361,7 @@
           <el-editable-column prop="categoryName" align="center" label="物品分类" min-width="150px"/>
           <el-editable-column prop="unit" align="center" label="基本单位" min-width="150px"/>
           <el-editable-column prop="typeName" align="center" label="规格型号" min-width="150px"/>
-          <el-editable-column prop="color" align="center" label="颜色" min-width="150px"/>
+          <el-editable-column prop="color" align="center" :label="$t('updates.ys')" min-width="150px"/>
           <el-editable-column prop="salePrice" align="center" label="零售价" min-width="150px"/>
           <el-editable-column :label="$t('Hmodule.je')" prop="money" align="center" min-width="150px">
             <template slot-scope="scope">

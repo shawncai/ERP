@@ -136,10 +136,10 @@
             </el-editable-column> -->
           <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" align="center" width="150px"/>
           <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" align="center" width="150px"/>
-          <el-editable-column prop="color" align="center" label="颜色" width="150px"/>
+          <el-editable-column prop="color" align="center" :label="$t('updates.ys')" width="150px"/>
           <el-editable-column :label="$t('Hmodule.gg')" prop="productType" align="center" width="150px"/>
           <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" width="150px"/>
-          <el-editable-column prop="applyQuantity" align="center" label="申请数量" min-width="150"/>
+          <el-editable-column prop="applyQuantity" align="center" :label="$t('updates.sqsl')" min-width="150"/>
           <el-editable-column prop="movePrice" align="center" label="调拨单价" width="150px"/>
           <!-- <el-editable-column :edit-render="{name: 'ElInputNumber', type: 'visible'}" prop="movePrice" align="center" label="调拨成本价" width="150px"/> -->
           <el-editable-column prop="moveMoney" align="center" label="商品金额" width="150px"/>
@@ -182,7 +182,7 @@
               <span v-else>{{ scope.row.batch }}</span>
             </template>
           </el-editable-column>
-          <el-editable-column prop="color" align="center" label="颜色" width="150px"/>
+          <el-editable-column prop="color" align="center" :label="$t('updates.ys')" width="150px"/>
           <el-editable-column :label="$t('Hmodule.gg')" prop="typeName" align="center" width="150px"/>
           <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" width="150px"/>
           <el-editable-column prop="moveQuantity" align="center" label="出库数量" min-width="150">

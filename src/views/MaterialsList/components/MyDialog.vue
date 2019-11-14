@@ -94,7 +94,7 @@
           <el-editable-column prop="productCode" fixed="left" align="center" label="子件" min-width="150px"/>
           <el-editable-column prop="productName" fixed="left" align="center" label="子件名称" min-width="150px"/>
           <el-editable-column :label="$t('Hmodule.gg')" prop="productType" align="center" min-width="150px"/>
-          <el-editable-column prop="color" align="center" label="颜色" min-width="150px"/>
+          <el-editable-column prop="color" align="center" :label="$t('updates.ys')" min-width="150px"/>
           <el-editable-column prop="productCategory" align="center" label="子件类型" min-width="150px"/>
           <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" min-width="150px"/>
           <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="quantity" align="center" label="定额" min-width="150px"/>

@@ -132,7 +132,7 @@
               </template>
             </el-editable-column>
             <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('Hmodule.pc')" prop="batch" align="center" width="150px"/>
-            <el-editable-column prop="color" align="center" label="颜色" width="150px"/>
+            <el-editable-column prop="color" align="center" :label="$t('updates.ys')" width="150px"/>
             <el-editable-column :label="$t('Hmodule.gg')" prop="productType" align="center" width="150px"/>
             <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" width="150px"/>
             <el-editable-column prop="basicQuantity" align="center" label="应收数量" width="150px"/>
@@ -145,7 +145,7 @@
               </template>
             </el-editable-column>
             <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="remarks" align="center" label="备注" width="150px"/>
-            <el-editable-column prop="sourceSerialNumber" align="center" label="源单序号" width="150px"/>
+            <el-editable-column prop="sourceSerialNumber" align="center" :label="$t('updates.ydxh')" width="150px"/>
           </el-editable>
         </div>
       </el-card>

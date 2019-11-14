@@ -154,7 +154,7 @@
             <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" fixed="left" align="center" width="150px"/>
             <el-editable-column :label="$t('Hmodule.gg')" prop="productType" align="center" min-width="150px"/>
             <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" min-width="150px"/>
-            <el-editable-column prop="color" align="center" label="颜色" min-width="150px"/>
+            <el-editable-column prop="color" align="center" :label="$t('updates.ys')" min-width="150px"/>
             <el-editable-column prop="proportion" align="center" label="供货比列(%)" min-width="150px"/>
             <el-editable-column prop="price" align="center" label="价格" min-width="150px"/>
             <el-editable-column prop="discountRate" align="center" label="折扣(%)" min-width="150px"/>

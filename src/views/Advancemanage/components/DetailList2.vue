@@ -1,5 +1,5 @@
 <template>
-  <el-dialog :visible.sync="editVisible" :detailcontrol="detailcontrol" :detaildata="detaildata" :close-on-press-escape="false" :title="personalForm.advanceNumber +'    详情'" append-to-body width="1010px" class="edit" top="-10px" @close="$emit('update:detailcontrol', false)">
+  <el-dialog :visible.sync="editVisible" :detailcontrol="detailcontrol" :detaildata="detaildata" :close-on-press-escape="false" :title="personalForm.advanceNumber +$t('updates.xqing')" append-to-body width="1010px" class="edit" top="-10px" @close="$emit('update:detailcontrol', false)">
     <div id="printTest" >
       <!--基本信息-->
       <el-card class="box-card" style="margin-top: 63px" shadow="never">
@@ -92,7 +92,7 @@
             <el-editable-column prop="unit" align="center" label="基本单位" />
             <el-editable-column :label="$t('Hmodule.gg')" prop="productType" align="center" />
             <el-editable-column prop="unit" align="center" label="规格型号" />
-            <el-editable-column prop="color" align="center" label="颜色" />
+            <el-editable-column prop="color" align="center" :label="$t('updates.ys')" />
             <el-editable-column prop="kpiGrade" align="center" label="绩效分" />
             <el-editable-column prop="point" align="center" label="商品积分" />
             <el-editable-column prop="quantity" align="center" label="预售数量" />

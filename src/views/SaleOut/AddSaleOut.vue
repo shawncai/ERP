@@ -211,7 +211,7 @@
           <!--          <el-button :disabled="Isproduct" @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>-->
           <el-button @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>
           <my-detail :control.sync="control" :personalform="personalForm" @product="productdetail"/>
-          <el-button :disabled="IsSourceNumber" style="width: 130px" @click="handleAddSource">从源单中选择</el-button>
+          <el-button :disabled="IsSourceNumber" style="width: 130px" @click="handleAddSource">{{ $t('updates.cydzxz') }}</el-button>
           <my-order :ordercontrol.sync="ordercontrol" @saleOrderDetail="saleOrderDetail" @saleOrder="saleOrder"/>
           <my-presale :presalecontrol.sync="presalecontrol" @advanceOrderDetail="advanceOrderDetail" @advanceData="advanceData"/>
           <my-opportunity :opportunitycontrol.sync="opportunitycontrol" @opportunityDetail="opportunityDetail" @opportunity="opportunity"/>
@@ -256,7 +256,7 @@
             <el-editable-column prop="categoryName" align="center" label="物品分类" min-width="150"/>
             <el-editable-column prop="unit" align="center" label="基本单位" min-width="150"/>
             <el-editable-column prop="typeId" align="center" label="规格型号" min-width="150"/>
-            <el-editable-column prop="color" align="center" label="颜色" min-width="150"/>
+            <el-editable-column prop="color" align="center" :label="$t('updates.ys')" min-width="150"/>
             <el-editable-column prop="kpiGrade" align="center" label="绩效分" min-width="150"/>
             <el-editable-column prop="point" align="center" label="商品积分" min-width="150"/>
             <el-editable-column prop="allQuantity" align="center" label="源单数量" min-width="150"/>
@@ -354,7 +354,7 @@
               </template>
             </el-editable-column>
             <el-editable-column prop="sourceNumber" align="center" label="源单编号" min-width="150px"/>
-            <el-editable-column prop="sourceSerialNumber" align="center" label="源单序号" min-width="150px"/>
+            <el-editable-column prop="sourceSerialNumber" align="center" :label="$t('updates.ydxh')" min-width="150px"/>
           </el-editable>
         </div>
       </el-card>
@@ -386,7 +386,7 @@
             <el-editable-column prop="categoryName" align="center" label="物品分类" min-width="150px"/>
             <el-editable-column prop="unit" align="center" label="基本单位" min-width="150px"/>
             <el-editable-column prop="typeName" align="center" label="规格型号" min-width="150px"/>
-            <el-editable-column prop="color" align="center" label="颜色" min-width="150px"/>
+            <el-editable-column prop="color" align="center" :label="$t('updates.ys')" min-width="150px"/>
             <el-editable-column prop="salePrice" align="center" label="零售价" min-width="150px"/>
             <el-editable-column :label="$t('Hmodule.je')" prop="money" align="center" min-width="150px">
               <template slot-scope="scope">
