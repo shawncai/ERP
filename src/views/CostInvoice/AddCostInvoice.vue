@@ -202,6 +202,7 @@ import MyLnquiry from './components/MyLnquiry'
 import MyOrder from './components/MyOrder'
 import MyArrival from './components/MyArrival'
 import MyRepository from './components/MyRepository'
+var _that
 export default {
   name: 'AddCostInvoice',
   components: { MyRepository, MyArrival, MyOrder, MyLnquiry, MyDelivery, MyPlan, MyApply, MySupplier, MyDetail, MyEmp },
@@ -344,6 +345,9 @@ export default {
     this.getTypes()
     this.getways()
     this.getdatatime()
+  },
+  beforeCreate() {
+    _that = this
   },
   mounted() {
     this.getinformation()

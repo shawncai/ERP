@@ -109,6 +109,7 @@ import Pagination from '@/components/Pagination'
 import DetailList from './components/DetailList'
 import MyDetail from './components/MyDetail'
 
+var _that
 export default {
   name: 'StockPrice',
   directives: { waves, permission, permission2 },
@@ -143,6 +144,9 @@ export default {
       // 开始时间到结束时间
       date: []
     }
+  },
+  beforeCreate() {
+    _that = this
   },
   mounted() {
     // this.getlist()

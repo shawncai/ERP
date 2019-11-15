@@ -47,6 +47,7 @@
 
 <script>
 import { updateprocessFile } from '@/api/ProcessFile'
+var _that
 export default {
   props: {
     editcontrol: {

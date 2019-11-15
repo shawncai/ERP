@@ -115,6 +115,7 @@
 <script>
 import { useLogList } from '@/api/LogisticsCar'
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
+var _that
 export default {
   components: { Pagination },
   filters: {
@@ -157,9 +158,9 @@ export default {
     },
     receiptStatFilter(status) {
       const statusMap = {
-        1: '制单',
-        2: '执行',
-        3: '结单'
+        1: _that.$t('updates.zd'),
+        2: _that.$t('updates.zx'),
+        3: _that.$t('updates.jd')
       }
       return statusMap[status]
     }

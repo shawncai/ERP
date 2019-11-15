@@ -98,6 +98,7 @@
 
 <script>
 import { repairList, getauthoritydetaillist, addrole, updaterole } from '@/api/Getauthority'
+var _that
 export default {
   name: 'Getauthority',
   data() {

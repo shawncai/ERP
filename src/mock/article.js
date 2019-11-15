@@ -28,6 +28,7 @@ for (let i = 0; i < count; i++) {
   }))
 }
 
+var _that
 export default {
   getList: config => {
     const { importance, type, title, page = 1, limit = 20, sort } = param2Obj(config.url)

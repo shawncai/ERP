@@ -122,6 +122,7 @@ import MyEmp from './MyEmp'
 import MyDetail from './MyDetail'
 import MyMater from './MyMater'
 import MyInstallment from './MyInstallment'
+var _that
 export default {
   components: { MyInstallment, MyMater, MyDetail, MyEmp },
   props: {

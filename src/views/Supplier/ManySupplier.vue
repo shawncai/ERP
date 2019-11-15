@@ -28,6 +28,7 @@
 import UploadExcelComponent from '@/components/UploadExcel/index.vue'
 import { manyinsert } from '@/api/Supplier'
 
+var _that
 export default {
   name: 'ManySupplier',
   components: { UploadExcelComponent },

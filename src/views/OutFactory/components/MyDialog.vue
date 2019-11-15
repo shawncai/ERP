@@ -174,6 +174,7 @@
 import { updateoutFactory } from '@/api/OutFactory'
 import { getcountrylist, getprovincelist, getcitylist, regionlist, getRegion, saveRegion } from '@/api/public'
 import MyDelivery from './MyDelivery'
+var _that
 export default {
   components: { MyDelivery },
   props: {

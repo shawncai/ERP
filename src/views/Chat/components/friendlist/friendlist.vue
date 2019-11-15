@@ -19,6 +19,7 @@
 
 <script>
 import { mapState, mapActions, mapGetters } from 'vuex'
+var _that
 export default {
   computed: {
     ...mapState(['selectFriendId', 'searchText']),

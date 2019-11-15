@@ -14,6 +14,7 @@ import 'codemirror/mode/javascript/javascript'
 import 'codemirror/addon/lint/lint'
 import 'codemirror/addon/lint/json-lint'
 
+var _that
 export default {
   name: 'JsonEditor',
   /* eslint-disable vue/require-prop-types */
@@ -30,6 +31,9 @@ export default {
         this.jsonEditor.setValue(JSON.stringify(this.value, null, 2))
       }
     }
+  },
+  beforeCreate() {
+    _that = this
   },
   mounted() {
     this.jsonEditor = CodeMirror.fromTextArea(this.$refs.textarea, {

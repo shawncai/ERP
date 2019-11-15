@@ -261,6 +261,7 @@ import checkPermission from '@/utils/permission' // 权限判断函数
 import MyCreate from './components/MyCreate'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
+var _that
 export default {
   name: 'NewEmployeeContract',
   directives: { waves, permission, permission2 },
@@ -402,6 +403,9 @@ export default {
   },
   created() {
     this.getnationlist()
+  },
+  beforeCreate() {
+    _that = this
   },
   mounted() {
     this.getempinformation()

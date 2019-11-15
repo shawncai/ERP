@@ -129,6 +129,7 @@ import { getbom } from '@/api/public'
 import { addmaterials, isExist } from '@/api/MaterialsList'
 import MyDetail from './components/MyDetail'
 import MyMater from './components/MyMater'
+var _that
 export default {
   name: 'AddMaterialsList',
   components: { MyMater, MyDetail },

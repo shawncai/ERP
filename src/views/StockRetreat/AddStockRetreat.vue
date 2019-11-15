@@ -169,7 +169,7 @@
           <el-button :disabled="addpro" @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>
           <my-detail :control.sync="control" @product="productdetail"/>
           <el-button type="danger" @click="$refs.editable.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
-          <el-button type="primary" @click="checkStock()">库存快照</el-button>
+          <el-button type="primary" @click="checkStock()">{{ $t('updates.kckz') }}</el-button>
         </div>
         <div class="container">
           <el-editable
@@ -220,7 +220,7 @@
               </template>
             </el-editable-column>
             <el-editable-column prop="remark" align="center" label="备注" min-width="150px"/>
-            <el-editable-column prop="sourceNumber" align="center" label="源单编号" min-width="150px"/>
+            <el-editable-column prop="sourceNumber" align="center" :label="$t('updates.ydbh')" min-width="150px"/>
             <el-editable-column prop="sourceSerialNumber" align="center" :label="$t('updates.ydxh')" min-width="150px"/>
           </el-editable>
         </div>
@@ -315,6 +315,7 @@ import MyOrder from './components/MyOrder'
 import MyArrival from './components/MyArrival'
 import MyRepository from './components/MyRepository'
 import MyRetreat from './components/MyRetreat'
+var _that
 export default {
   name: 'AddStockRetreat',
   components: { MyRepository, MyArrival, MyOrder, MyLnquiry, MyDelivery, MyPlan, MyApply, MySupplier, MyDetail, MyEmp, MyRetreat },
@@ -470,6 +471,9 @@ export default {
     this.getTypes()
     this.getways()
     this.getdatatime()
+  },
+  beforeCreate() {
+    _that = this
   },
   mounted() {
     this.getinformation()

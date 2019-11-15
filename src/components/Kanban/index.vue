@@ -16,6 +16,7 @@
 <script>
 import draggable from 'vuedraggable'
 
+var _that
 export default {
   name: 'DragKanbanDemo',
   components: {

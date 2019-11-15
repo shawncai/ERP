@@ -99,6 +99,7 @@
 import { searchoutFactory } from '@/api/OutFactory'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination'
+var _that
 export default {
   directives: { waves },
   components: { Pagination },

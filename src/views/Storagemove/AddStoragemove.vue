@@ -369,6 +369,7 @@ import MyOut from './components/MyOut'
 import MyDetail from './components/MyDetail'
 import MyCreate from './components/MyCreate'
 import MyDepot from './components/MyDepot'
+var _that
 export default {
   name: 'AddStoragemove',
   components: { MyDepot, MyRepository, MyDetail, MyCreate, MyAccept, MyOut },
@@ -446,6 +447,9 @@ export default {
       validRules: {
       }
     }
+  },
+  beforeCreate() {
+    _that = this
   },
   mounted() {
     this.getlist()

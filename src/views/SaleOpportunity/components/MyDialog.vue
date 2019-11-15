@@ -152,6 +152,7 @@ import MyApply from './MyApply'
 import MyRequire from './MyRequire'
 import MyCustomer from './MyCustomer'
 import MyAgent from './MyAgent'
+var _that
 export default {
   components: { MyAgent, MyCustomer, MyRequire, MyApply, MyDetail, MyEmp },
   props: {

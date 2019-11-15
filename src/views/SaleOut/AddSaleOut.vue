@@ -218,7 +218,7 @@
           <my-contract :contractcontrol.sync="contractcontrol" @salecontractDetail="salecontractDetail" @salecontract="salecontract"/>
           <my-recycling :recyclingcontrol.sync="recyclingcontrol" @recyclingdata="recyclingdata"/>
           <el-button type="danger" @click="$refs.editable.removeSelecteds();test()">{{ $t('Hmodule.delete') }}</el-button>
-          <el-button type="primary" @click="checkStock()">库存快照</el-button>
+          <el-button type="primary" @click="checkStock()">{{ $t('updates.kckz') }}</el-button>
         </div>
         <div class="container">
           <el-editable
@@ -353,7 +353,7 @@
                 <span v-else>{{ scope.row.batteryCode }}</span>
               </template>
             </el-editable-column>
-            <el-editable-column prop="sourceNumber" align="center" label="源单编号" min-width="150px"/>
+            <el-editable-column prop="sourceNumber" align="center" :label="$t('updates.ydbh')" min-width="150px"/>
             <el-editable-column prop="sourceSerialNumber" align="center" :label="$t('updates.ydxh')" min-width="150px"/>
           </el-editable>
         </div>
@@ -534,6 +534,7 @@ import MyOpportunity from './components/MyOpportunity'
 import MyDetail2 from './components/MyDetail2'
 import MyContract from './components/MyContract'
 import MyRecycling from './components/MyRecycling'
+var _that
 export default {
   name: 'AddSaleOut',
   components: { MyRecycling, MyContract, MyDetail2, MyOpportunity, MyPresale, MyAdvance, MyOrder, MyRepository, MyAccept, MyAgent, MyCustomer, MyRequire, MySupplier, MyApply, MyDetail, MyDelivery, MyEmp },
@@ -816,6 +817,9 @@ export default {
     this.getTypes()
     this.getdatatime()
     this.chooseSourceType()
+  },
+  beforeCreate() {
+    _that = this
   },
   mounted() {
     this.getinformation()

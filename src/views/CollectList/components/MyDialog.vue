@@ -397,6 +397,7 @@ import { getprovincelist, getcitylist, existList } from '@/api/public'
 import MyEmp from './MyEmp'
 import MyDetail from './MyDetail'
 import MyMater from './MyMater'
+var _that
 export default {
   components: { MyMater, MyDetail, MyEmp },
   props: {

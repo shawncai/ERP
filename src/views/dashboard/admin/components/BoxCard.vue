@@ -31,6 +31,7 @@ import { mapGetters } from 'vuex'
 import PanThumb from '@/components/PanThumb'
 import Mallki from '@/components/TextHoverEffect/Mallki'
 
+var _that
 export default {
   components: { PanThumb, Mallki },
 

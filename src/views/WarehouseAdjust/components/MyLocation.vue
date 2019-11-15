@@ -50,6 +50,7 @@ import { updatelocation } from '@/api/WarehouseAdjust'
 import MyCreate from './MyCreate'
 import MyRepository from './MyRepository'
 import MyDetail from './MyDetail'
+var _that
 export default {
   components: { MyRepository, MyCreate, MyDetail },
   props: {

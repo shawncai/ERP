@@ -11,6 +11,7 @@ import 'dropzone/dist/dropzone.css'
 
 Dropzone.autoDiscover = false
 
+var _that
 export default {
   props: {
     id: {
@@ -86,6 +87,9 @@ export default {
       this.initImages(val)
       this.initOnce = false
     }
+  },
+  beforeCreate() {
+    _that = this
   },
   mounted() {
     const element = document.getElementById(this.id)

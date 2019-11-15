@@ -60,7 +60,7 @@
         </el-form>
       </div>
       <!--业务信息-->
-      <h2 ref="yewu" class="form-name">业务信息</h2>
+      <h2 ref="yewu" class="form-name">{{ $t('updates.ywxx') }}</h2>
       <div class="container">
         <el-form ref="customerForm2" :model="customerForm" :rules="customerFormrules" :inline="true" status-icon class="demo-ruleForm" label-position="top" label-width="300px" style="margin-left: 30px;">
           <el-form-item :label="$t('Customer.contactname')" prop="contactname" style="width: 40%">
@@ -132,7 +132,7 @@
         </el-form>
       </div>
       <!-- 财务信息 -->
-      <h2 ref="caiwu" class="form-name">财务信息</h2>
+      <h2 ref="caiwu" class="form-name">{{ $t('updates.cwxx') }}</h2>
       <div class="container">
         <el-form ref="customerForm3" :model="customerForm" :rules="customerFormrules" :inline="true" status-icon class="demo-ruleForm" label-position="top" label-width="300px" style="margin-left: 30px;">
           <el-form-item :label="$t('Customer.accountsDays')" prop="accountsDays" style="width: 40%">
@@ -196,7 +196,7 @@
         </el-form>
       </div>
       <!-- 辅助信息 -->
-      <h2 ref="fuzhu" class="form-name">辅助信息</h2>
+      <h2 ref="fuzhu" class="form-name">{{ $t('updates.fzxx') }}</h2>
       <div class="container">
         <el-form ref="customerForm4" :model="customerForm" :rules="customerFormrules" :inline="true" status-icon class="demo-ruleForm" label-position="top" label-width="300px" style="margin-left: 30px;">
           <el-form-item :label="$t('Customer.establishmenttime')" style="width: 40%">
@@ -240,6 +240,7 @@ import permission from '@/directive/permission/index.js' // 权限判断指令
 import permission2 from '@/directive/permission2/index.js' // 权限判断指令
 import checkPermission from '@/utils/permission' // 权限判断函数
 import MyEmp from './components/MyEmp'
+var _that
 export default {
   name: 'NewAgent',
   directives: { permission, permission2 },

@@ -534,6 +534,7 @@ import MyEmp from './components/MyEmp'
 import MyDetail from './components/MyDetail'
 import MyMater from './components/MyMater'
 import MyRepository from './components/MyRepository'
+var _that
 export default {
   name: 'AddInstallmentApply',
   components: { MyRepository, MyMater, MyDetail, MyEmp },

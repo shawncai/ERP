@@ -206,6 +206,7 @@ import MyAgent from './components/MyAgent'
 import MySaleout from './components/MySaleout'
 import MyRepository from './components/MyRepository'
 import MyMove from './components/MyMove'
+var _that
 export default {
   name: 'AddReturnExchange',
   components: { MyMove, MyRepository, MySaleout, MyAgent, MyCustomer, MyDetail, MyEmp },

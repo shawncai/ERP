@@ -76,6 +76,7 @@
 
 <script>
 import printJS from 'print-js'
+var _that
 export default {
   props: {
     detailcontrol: {

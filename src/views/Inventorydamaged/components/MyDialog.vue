@@ -147,6 +147,7 @@ import { getdeptlist } from '@/api/BasicSettings'
 import MyCreate from './MyCreate'
 import MyRepository from './MyRepository'
 import MyDetail from './MyDetail'
+var _that
 export default {
   components: { MyRepository, MyCreate, MyDetail },
   props: {
@@ -242,6 +243,9 @@ export default {
       },
       deep: true
     }
+  },
+  beforeCreate() {
+    _that = this
   },
   mounted() {
     this.getlist()

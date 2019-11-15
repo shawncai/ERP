@@ -155,7 +155,7 @@
           <el-button :disabled="IsSourceNumber" style="width: 130px" @click="handleAddSouce">{{ $t('updates.cydzxz') }}</el-button>
           <my-order :ordercontrol.sync="ordercontrol" :supp.sync="supp" @order="order" @allOrderinfo="allOrderinfo"/>
           <el-button type="danger" @click="$refs.editable.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
-          <el-button type="primary" @click="checkStock()">库存快照</el-button>
+          <el-button type="primary" @click="checkStock()">{{ $t('updates.kckz') }}</el-button>
         </div>
         <div class="container">
           <el-editable
@@ -206,7 +206,7 @@
               </template>
             </el-editable-column>
             <el-editable-column prop="remark" align="center" label="备注" min-width="150px"/>
-            <el-editable-column prop="sourceNumber" align="center" label="源单编号" min-width="150px"/>
+            <el-editable-column prop="sourceNumber" align="center" :label="$t('updates.ydbh')" min-width="150px"/>
             <el-editable-column prop="sourceSerialNumber" align="center" :label="$t('updates.ydxh')" min-width="150px"/>
             <el-editable-column prop="hadStorageQuantity" align="center" label="已入库数量" min-width="150px"/>
             <el-editable-column prop="reportCheckingQuantity" align="center" label="报检数量" min-width="150px"/>
@@ -315,6 +315,7 @@ import MyDelivery from './components/MyDelivery'
 import MyLnquiry from './components/MyLnquiry'
 import MyOrder from './components/MyOrder'
 import '@/directive/noMoreClick/index.js'
+var _that
 export default {
   name: 'AddStockArrival',
   components: { MyOrder, MyLnquiry, MyDelivery, MyPlan, MyApply, MySupplier, MyDetail, MyEmp },

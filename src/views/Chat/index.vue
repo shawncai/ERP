@@ -12,6 +12,7 @@
 // import chatlist from './components/chatlist/chatlist'
 import message from './components/message/message'
 import vText from './components/text/text'
+var _that
 export default {
   name: 'Index',
   components: {

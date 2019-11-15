@@ -153,6 +153,7 @@ import MyAdvance from './MyAdvance'
 import MyPresale from './MyPresale'
 import MyOpportunity from './MyOpportunity'
 import MyDetail2 from './MyDetail2'
+var _that
 export default {
   components: { MyDetail2, MyOpportunity, MyPresale, MyAdvance, MyOrder, MyRepository, MyAccept, MyAgent, MyCustomer, MyRequire, MySupplier, MyApply, MyDetail, MyDelivery, MyEmp },
   props: {

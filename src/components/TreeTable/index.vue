@@ -32,6 +32,7 @@
   Created: 2018/1/19-13:59
 */
 import treeToArray from './eval'
+var _that
 export default {
   name: 'TreeTable',
   props: {

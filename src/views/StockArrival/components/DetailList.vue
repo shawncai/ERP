@@ -121,7 +121,7 @@
             <el-editable-column prop="discountRate" align="center" label="折扣(%)" />
             <el-editable-column prop="discountMoney" align="center" label="折扣额" />
             <el-editable-column prop="remark" align="center" label="备注" />
-            <el-editable-column prop="sourceNumber" align="center" label="源单编号" />
+            <el-editable-column prop="sourceNumber" align="center" :label="$t('updates.ydbh')" />
             <el-editable-column prop="sourceSerialNumber" align="center" :label="$t('updates.ydxh')" />
             <el-editable-column prop="hadStorageQuantity" align="center" label="已入库数量" />
             <el-editable-column prop="reportCheckingQuantity" align="center" label="报检数量" />
@@ -394,6 +394,7 @@ import { checkreportlist } from '@/api/CheckReport'
 import { searchstockRetreat } from '@/api/StockRetreat'
 import { stockenterlist } from '@/api/Stockenter'
 import printJS from 'print-js'
+var _that
 export default {
   filters: {
     isVatFilter(status) {
@@ -434,9 +435,9 @@ export default {
     },
     receiptStatFilter(status) {
       const statusMap = {
-        1: '制单',
-        2: '执行',
-        3: '结单'
+        1: _that.$t('updates.zd'),
+        2: _that.$t('updates.zx'),
+        3: _that.$t('updates.jd')
       }
       return statusMap[status]
     },

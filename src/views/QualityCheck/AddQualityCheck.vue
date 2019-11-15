@@ -97,7 +97,7 @@
           <my-arrival :arrivalcontrol.sync="arrivalcontrol" :supp.sync="supp" @arrival="arrival" />
           <produce-task :procontrol.sync="producecontrol" @produce="produce"/>
           <el-button type="danger" @click="$refs.editable.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
-          <el-button type="primary" @click="checkStock()">库存快照</el-button>
+          <el-button type="primary" @click="checkStock()">{{ $t('updates.kckz') }}</el-button>
         </div>
         <div class="container">
           <el-editable
@@ -121,8 +121,8 @@
             <el-editable-column prop="hadCheckQuantity" align="center" label="已报捡数量" min-width="150px"/>
             <el-editable-column prop="checkedQuantity" align="center" label="已捡数量" min-width="150px"/>
             <el-editable-column :label="$t('updates.dhsl')" prop="arrivalQuantity" align="center" min-width="150px"/>
-            <el-editable-column prop="sourceNumber" align="center" label="源单编号" min-width="150px"/>
-            <el-editable-column prop="sourceSerialNumber" align="center" label="源单编号" min-width="150px"/>
+            <el-editable-column prop="sourceNumber" align="center" :label="$t('updates.ydbh')" min-width="150px"/>
+            <el-editable-column prop="sourceSerialNumber" align="center" :label="$t('updates.ydbh')" min-width="150px"/>
           </el-editable>
         </div>
       </el-card>
@@ -176,6 +176,7 @@ import MyDelivery from './components/MyDelivery'
 import MyCenter from './components/MyCenter'
 import MyArrival from './components/MyArrival'
 import ProduceTask from './components/ProduceTask'
+var _that
 export default {
   name: 'AddQualityCheck',
   components: { ProduceTask, MyArrival, MyCenter, MyDelivery, MySupplier, MyDetail, MyEmp },

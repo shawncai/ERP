@@ -234,6 +234,7 @@ import MyEmp from './MyEmp'
 import MyDelivery from './MyDelivery'
 import MyAccept from './MyAccept'
 import MyDetail from './MyDetail'
+var _that
 export default {
   components: { MyRepository, MySupplier, MyEmp, MyDelivery, MyAccept, MyDetail },
   filters: {
@@ -365,6 +366,9 @@ export default {
       }
       this.getlocation()
     }
+  },
+  beforeCreate() {
+    _that = this
   },
   mounted() {
     this.getlist()

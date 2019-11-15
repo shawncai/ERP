@@ -170,6 +170,7 @@ import checkPermission from '@/utils/permission' // 权限判断函数
 import MyAccept from './components/MyAccept'
 import MyAccept2 from './components/MyAccept2'
 
+var _that
 export default {
   name: 'Moverepostirylist',
   directives: { waves, permission, permission2 },
@@ -271,6 +272,9 @@ export default {
         ]
       }
     }
+  },
+  beforeCreate() {
+    _that = this
   },
   mounted() {
     // this.getlist2()

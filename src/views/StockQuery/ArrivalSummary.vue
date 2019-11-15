@@ -129,6 +129,7 @@ import DetailList from './components/DetailList2'
 import MyDetail from './components/MyDetail'
 import MySupplier from './components/MySupplier'
 
+var _that
 export default {
   name: 'ArrivalSummary',
   directives: { waves },
@@ -167,6 +168,9 @@ export default {
       // 开始时间到结束时间
       date: []
     }
+  },
+  beforeCreate() {
+    _that = this
   },
   mounted() {
     this.getlist()

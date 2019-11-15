@@ -26,6 +26,7 @@
 
 <script>
 import { createPunishment } from '@/api/Supplier'
+var _that
 export default {
   props: {
     punishcontrol: {

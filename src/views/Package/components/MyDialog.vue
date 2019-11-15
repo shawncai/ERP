@@ -119,6 +119,7 @@ import { updatePackage } from '@/api/Package'
 import MyDetail from './MyDetail'
 import MyRepository from './MyRepository'
 import MyDetail2 from './MyDetail2'
+var _that
 export default {
   components: { MyDetail2, MyRepository, MyDetail },
   props: {

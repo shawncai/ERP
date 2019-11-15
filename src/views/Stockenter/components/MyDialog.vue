@@ -19,7 +19,7 @@
               </el-form-item>
             </el-col>
             <el-col :span="6">
-              <el-form-item label="源单编号" style="width: 100%;">
+              <el-form-item :label="$t('updates.ydbh')" style="width: 100%;">
                 <el-input v-model="personalForm.sourceNumber" placeholder="请选择源单编号" style="margin-left: 18px;width: 150px" @focus="handleAddSouce"/>
               </el-form-item>
               <my-arrival :arrivalcontrol.sync="arrivalcontrol" @arrival="arrival" @allarrivalinfo="allarrivalinfo"/>
@@ -166,6 +166,7 @@ import MyDetail from './MyDetail'
 import MyArrival from './MyArrival'
 import MyEmp2 from './MyEmp2'
 
+var _that
 export default {
   components: { MyEmp2, MyArrival, MyRepository, MySupplier, MyEmp, MyDelivery, MyAccept, MyDetail },
   props: {
@@ -273,6 +274,9 @@ export default {
       this.list2 = this.personalForm.stockEnterDetailVos
       this.getlocation()
     }
+  },
+  beforeCreate() {
+    _that = this
   },
   mounted() {
     this.getlist()

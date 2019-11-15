@@ -234,9 +234,9 @@
             </template>
           </el-editable-column>
           <el-editable-column prop="remark" align="center" label="备注" min-width="150px"/>
-          <el-editable-column prop="sourceNumber" align="center" label="源单编号" min-width="150px"/>
+          <el-editable-column prop="sourceNumber" align="center" :label="$t('updates.ydbh')" min-width="150px"/>
           <el-editable-column prop="sourceSerialNumber" align="center" :label="$t('updates.ydxh')" min-width="150px"/>
-          <el-editable-column prop="orderedQuantity" align="center" label="已订购数量" min-width="150px"/>
+          <el-editable-column prop="orderedQuantity" align="center" :label="$t('updates.ydgsl')" min-width="150px"/>
         </el-editable>
       </div>
     </el-card>
@@ -301,6 +301,7 @@ import MyApply from './MyApply'
 import MyPlan from './MyPlan'
 import MyDelivery from './MyDelivery'
 import MyLnquiry from './MyLnquiry'
+var _that
 export default {
   components: { MyLnquiry, MyDelivery, MyPlan, MyApply, MySupplier, MyDetail, MyEmp },
   props: {

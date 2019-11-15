@@ -265,6 +265,7 @@ import MyAccept from './MyAccept'
 import MyDetail from './MyDetail'
 import MyCreate from './MyCreate'
 import MyDepot from './MyDepot'
+var _that
 export default {
   components: { MyRepository, MyCreate, MyAccept, MyDetail, MyDepot },
   filters: {
@@ -415,6 +416,9 @@ export default {
       deep: true,
       immediate: true
     }
+  },
+  beforeCreate() {
+    _that = this
   },
   mounted() {
     this.getlist()

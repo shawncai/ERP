@@ -242,6 +242,7 @@ import MyAccept from './MyAccept'
 import MyQuality from './MyQuality'
 import MyMater from './MyMater'
 import MyEmp2 from './MyEmp2'
+var _that
 export default {
   components: { MyEmp2, MyMater, MyQuality, MyAccept, ProduceTask, MyArrival, MyCenter, MyDelivery, MySupplier, MyDetail, MyEmp },
   props: {

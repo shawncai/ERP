@@ -144,6 +144,7 @@ import { searchSaleCategory } from '@/api/SaleCategory'
 import { getdeptlist } from '@/api/BasicSettings'
 import MyEmp from './components/MyEmp'
 import MyRepository from './components/MyRepository'
+var _that
 export default {
   name: 'AddExpenses',
   components: { MyRepository, MyEmp },

@@ -1,3 +1,4 @@
+var _that
 export default {
   zh: {
     hint: '点击，或拖动图片至此处',

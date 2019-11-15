@@ -117,6 +117,7 @@ import MyRepository from './components/MyRepository'
 import MyAccept from './components/MyAccept'
 import MyCreate from './components/MyCreate'
 
+var _that
 export default {
   name: 'StockAlarmList',
   directives: { waves, permission, permission2 },
@@ -164,6 +165,9 @@ export default {
       // 加载表格
       listLoading: true
     }
+  },
+  beforeCreate() {
+    _that = this
   },
   mounted() {
     this.getlist()

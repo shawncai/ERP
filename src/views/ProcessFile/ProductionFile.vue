@@ -119,6 +119,7 @@ import permission2 from '@/directive/permission2/index.js' // 权限判断指令
 import checkPermission from '@/utils/permission' // 权限判断函数
 import MyDialog2 from './components/MyDialog2'
 import DetailList2 from './components/DetailList2' // Waves directive
+var _that
 export default {
   name: 'ProductionFile',
   directives: { waves, permission, permission2 },
@@ -169,6 +170,9 @@ export default {
       // 开始时间到结束时间
       date: []
     }
+  },
+  beforeCreate() {
+    _that = this
   },
   mounted() {
     this.getlist()

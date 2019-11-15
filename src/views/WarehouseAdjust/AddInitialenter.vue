@@ -113,6 +113,7 @@ import { getdeptlist } from '@/api/BasicSettings'
 import MyCreate from './components/MyCreate'
 import MyRepository from './components/MyRepository'
 import MyDetail from './components/MyDetail'
+var _that
 export default {
   name: 'AddInitialenter',
   components: { MyCreate, MyRepository, MyDetail },
@@ -183,6 +184,9 @@ export default {
         ]
       }
     }
+  },
+  beforeCreate() {
+    _that = this
   },
   mounted() {
     this.getlist()

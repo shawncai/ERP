@@ -183,6 +183,7 @@ import { batchlist, getQuantity, getlocation } from '@/api/public'
 import MyCreate from './MyCreate'
 import MyRepository from './MyRepository'
 import MyDetail from './MyDetail'
+var _that
 export default {
   components: { MyCreate, MyRepository, MyDetail },
   props: {
@@ -290,6 +291,9 @@ export default {
       },
       deep: true
     }
+  },
+  beforeCreate() {
+    _that = this
   },
   mounted() {
     this.getlist()

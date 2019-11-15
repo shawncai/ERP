@@ -114,6 +114,7 @@
 import { updatematerials } from '@/api/MaterialsList'
 import MyDetail from './MyDetail2'
 import MyMater from './MyMater'
+var _that
 export default {
   components: { MyDetail, MyMater },
   props: {

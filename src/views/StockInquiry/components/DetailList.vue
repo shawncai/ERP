@@ -88,7 +88,7 @@
             <el-editable-column :label="$t('Hmodule.gg')" prop="typeName" align="center" />
             <el-editable-column prop="color" align="center" :label="$t('updates.ys')" />
             <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" />
-            <el-editable-column prop="plannedQuantity" align="center" label="计划数量" />
+            <el-editable-column prop="plannedQuantity" align="center" :label="$t('updates.jhsl')" />
             <el-editable-column prop="planDeliveryDate" align="center" label="交货日期" />
             <el-editable-column :label="$t('Hmodule.dj')" prop="price" align="center" />
             <el-editable-column prop="includeTaxPrice" align="center" label="含税价" />
@@ -99,7 +99,7 @@
             <el-editable-column prop="discountRate" align="center" label="折扣率(%)"/>
             <el-editable-column prop="discountMoney" align="center" label="折扣额" />
             <el-editable-column prop="applicationReason" align="center" label="备注" />
-            <el-editable-column prop="sourceNumber" align="center" label="源单编号" />
+            <el-editable-column prop="sourceNumber" align="center" :label="$t('updates.ydbh')" />
             <el-editable-column prop="sourceSerialNumber" align="center" :label="$t('updates.ydxh')" />
           </el-editable>
         </div>
@@ -184,6 +184,7 @@
 
 <script>
 import printJS from 'print-js'
+var _that
 export default {
   filters: {
     statfilter(status) {
@@ -218,9 +219,9 @@ export default {
     },
     receiptStatFilter(status) {
       const statusMap = {
-        1: '制单',
-        2: '执行',
-        3: '结单'
+        1: _that.$t('updates.zd'),
+        2: _that.$t('updates.zx'),
+        3: _that.$t('updates.jd')
       }
       return statusMap[status]
     }

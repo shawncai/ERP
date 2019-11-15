@@ -52,6 +52,7 @@ import MyDriver from './components/MyDriver'
 import MyOut from './components/MyOut'
 import MyCreate from './components/MyCreate'
 import { addsendcar } from '@/api/LogisticsCar'
+var _that
 export default {
   name: 'Addsendcar',
   components: { MyDriver, MyOut, MyCreate },

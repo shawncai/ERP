@@ -4,6 +4,7 @@ if (!Clipboard) {
   throw new Error('you should npm install `clipboard` --save at first ')
 }
 
+var _that
 export default {
   bind(el, binding) {
     if (binding.arg === 'success') {

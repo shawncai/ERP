@@ -125,6 +125,7 @@ import Pagination from '@/components/Pagination' // Secondary package based on e
 import MyLocation from './components/MyLocation'
 import MyRepository from '../Inventorydamaged/components/MyRepository'
 
+var _that
 export default {
   name: 'Locationlist',
   directives: { waves, permission, permission2 },
@@ -170,6 +171,9 @@ export default {
       // 开始时间到结束时间
       date: []
     }
+  },
+  beforeCreate() {
+    _that = this
   },
   mounted() {
     this.getlist()

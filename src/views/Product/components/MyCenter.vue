@@ -95,6 +95,7 @@ import { searchworkCenter } from '@/api/ProcessFile'
 import { getdeptlist } from '@/api/BasicSettings'
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
 import waves from '@/directive/waves'
+var _that
 export default {
   directives: { waves },
   components: { Pagination },

@@ -68,6 +68,7 @@
 <script>
 import { updatecar } from '@/api/LogisticsCar'
 import MyEmp from './MyEmp'
+var _that
 export default {
   components: { MyEmp },
   props: {

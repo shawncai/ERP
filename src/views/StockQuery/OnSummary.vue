@@ -144,6 +144,7 @@ import DetailList from './components/DetailList3'
 import MyDetail from './components/MyDetail'
 import MySupplier from './components/MySupplier'
 
+var _that
 export default {
   name: 'OnSummary',
   directives: { waves },
@@ -182,6 +183,9 @@ export default {
       // 开始时间到结束时间
       date: []
     }
+  },
+  beforeCreate() {
+    _that = this
   },
   mounted() {
     this.getlist()

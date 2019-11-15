@@ -221,6 +221,7 @@
 import { getcountrylist, getprovincelist, getcitylist, regionlist, searchRepository, getDetailById, getRegion, saveRegion } from '@/api/public'
 import { getdeptlist, updateemp, searchEmpCategory } from '@/api/EmployeeInformation'
 import MyTree from './MyTree'
+var _that
 export default {
   components: { MyTree },
   props: {

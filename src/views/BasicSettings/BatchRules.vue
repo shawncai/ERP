@@ -34,6 +34,7 @@
 
 <script>
 import { createRules2 } from '@/api/BasicSettings'
+var _that
 export default {
   name: 'BatchRules',
   data() {

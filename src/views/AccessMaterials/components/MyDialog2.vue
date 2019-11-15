@@ -117,6 +117,7 @@ import MyDelivery from './MyDelivery'
 import MyCreate from './MyCreate'
 import MyMaterials from './MyMaterials'
 import MyRepository from './MyRepository'
+var _that
 export default {
   components: { MyRepository, MyMaterials, MyCreate, MyDelivery, MyDetail2, MyDetail },
   props: {

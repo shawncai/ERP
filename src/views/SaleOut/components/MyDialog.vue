@@ -329,7 +329,7 @@
               <span v-else>{{ scope.row.batteryCode }}</span>
             </template>
           </el-editable-column>
-          <el-editable-column prop="sourceNumber" align="center" label="源单编号" min-width="150px"/>
+          <el-editable-column prop="sourceNumber" align="center" :label="$t('updates.ydbh')" min-width="150px"/>
         </el-editable>
       </div>
     </el-card>
@@ -477,6 +477,7 @@ import MyAdvance from './MyAdvance'
 import MyPresale from './MyPresale'
 import MyOpportunity from './MyOpportunity'
 import MyDetail2 from './MyDetail2'
+var _that
 export default {
   name: 'MyDialog',
   components: { MyDetail2, MyOpportunity, MyPresale, MyAdvance, MyOrder, MyRepository, MyAccept, MyAgent, MyCustomer, MyRequire, MySupplier, MyApply, MyDetail, MyDelivery, MyEmp },

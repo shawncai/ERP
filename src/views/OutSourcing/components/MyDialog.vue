@@ -148,6 +148,7 @@ import { updateoutsourcing } from '@/api/OutSourcing'
 import MyDelivery from './MyDelivery'
 import MyFactory from './MyFactory'
 import MyDetail from './MyDetail'
+var _that
 export default {
   components: { MyDetail, MyFactory, MyDelivery },
   props: {

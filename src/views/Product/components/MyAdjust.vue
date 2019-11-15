@@ -62,6 +62,7 @@
 <script>
 import { updateadjustprice } from '@/api/Product'
 import MyEmp from './MyEmp'
+var _that
 export default {
   components: { MyEmp },
   props: {

@@ -51,6 +51,7 @@
 </template>
 
 <script>
+var _that
 export default {
   name: 'ErrorLog',
   data() {

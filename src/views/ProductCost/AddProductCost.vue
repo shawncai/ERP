@@ -210,6 +210,7 @@ import MyEmp2 from './components/MyEmp2'
 import DetailReport from './components/DetailReport'
 import DetailReport2 from './components/DetailReport2'
 import DetailReport3 from './components/DetailReport3'
+var _that
 export default {
   name: 'AddProductCost',
   components: { DetailReport3, DetailReport2, DetailReport, MyEmp2, MyMater, MyQuality, MyAccept, ProduceTask, MyArrival, MyCenter, MyDelivery, MySupplier, MyDetail, MyEmp },

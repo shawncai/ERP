@@ -39,7 +39,7 @@
       <div class="buttons" style="margin-top: 58px">
         <el-button type="success" style="background:#3696fd;border-color:#3696fd " @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>
         <el-button type="danger" @click="$refs.editable.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
-        <!-- <el-button type="primary" @click="checkStock()">库存快照</el-button> -->
+        <!-- <el-button type="primary" @click="checkStock()">{{ $t('updates.kckz') }}</el-button> -->
       </div>
       <my-detail :control.sync="control" :personalform="personalForm" @product="productdetail"/>
       <div class="container">
@@ -87,6 +87,7 @@ import MyRepository from './MyRepository'
 import MyProduct from './MyProduct'
 import MyAccept from './MyAccept'
 import MyDetail from './MyDetail'
+var _that
 export default {
   components: { MyRepository, MyProduct, MyAccept, MyDetail },
   props: {

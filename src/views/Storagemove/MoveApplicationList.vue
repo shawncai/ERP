@@ -165,6 +165,7 @@ import MyCreate from './components/MyCreate'
 import MyDepot from './components/MyDepot'
 import MyApplication from './components/MyApplication'
 
+var _that
 export default {
   name: 'MoveApplicationList',
   directives: { waves },
@@ -223,6 +224,9 @@ export default {
       editVisible: false
       // 列表结束 -------------------------
     }
+  },
+  beforeCreate() {
+    _that = this
   },
   mounted() {
     this.getdeptlist()

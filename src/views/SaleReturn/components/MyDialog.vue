@@ -182,7 +182,7 @@
           <el-editable-column prop="carCode" align="center" label="车架号" min-width="150px"/>
           <el-editable-column prop="motorCode" align="center" label="电机编码" min-width="150px"/>
           <el-editable-column prop="batteryCode" align="center" label="电池编码" min-width="150px"/>
-          <el-editable-column prop="includeTaxCostMoney" align="center" label="源单编号" min-width="150px"/>
+          <el-editable-column prop="includeTaxCostMoney" align="center" :label="$t('updates.ydbh')" min-width="150px"/>
         </el-editable>
       </div>
     </el-card>
@@ -286,6 +286,7 @@ import MyRequire from './MyRequire'
 import MyCustomer from './MyCustomer'
 import MyAgent from './MyAgent'
 import MySaleout from '../../DeliverGoods/components/MySaleout'
+var _that
 export default {
   components: { MyAgent, MyCustomer, MyRequire, MyApply, MyDetail, MyDelivery, MyEmp, MySaleout },
   props: {

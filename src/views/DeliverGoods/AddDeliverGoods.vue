@@ -140,6 +140,7 @@ import MyAgent from './components/MyAgent'
 import MySaleout from './components/MySaleout'
 import MyRepository from './components/MyRepository'
 import MyMove from './components/MyMove'
+var _that
 export default {
   name: 'AddDeliverGoods',
   components: { MyMove, MyRepository, MySaleout, MyAgent, MyCustomer, MyDetail, MyEmp },
@@ -244,6 +245,9 @@ export default {
   created() {
     this.getdatatime()
     this.getnationlist()
+  },
+  beforeCreate() {
+    _that = this
   },
   mounted() {
     this.getinformation()

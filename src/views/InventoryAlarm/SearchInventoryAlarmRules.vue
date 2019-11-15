@@ -118,6 +118,7 @@ import MyProduct from './components/MyProduct'
 import MyRules from './components/MyRules'
 import DetailList from './components/DetailList'
 
+var _that
 export default {
   name: 'SearchInventoryAlarmRules',
   directives: { waves, permission },
@@ -177,6 +178,9 @@ export default {
       editVisible: false
       // 列表结束 -------------------------
     }
+  },
+  beforeCreate() {
+    _that = this
   },
   mounted() {
     this.getdeptlist()

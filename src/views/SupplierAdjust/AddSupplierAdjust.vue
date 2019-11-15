@@ -51,7 +51,7 @@
       </el-card>
       <!--子件信息-->
       <el-card class="box-card" style="margin-top: 15px" shadow="never">
-        <h2 ref="fuzhu" class="form-name" >调整单明细</h2>
+        <h2 ref="fuzhu" class="form-name" >{{ $t('updates.tzdmx') }}</h2>
         <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
           <el-button type="danger" @click="$refs.editable.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
         </div>
@@ -75,8 +75,8 @@
             <el-editable-column :label="$t('Hmodule.gg')" prop="type" align="center" min-width="150px"/>
             <el-editable-column prop="color" align="center" :label="$t('updates.ys')" min-width="150px"/>
             <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" min-width="150px"/>
-            <el-editable-column prop="oldPrice" align="center" label="采购单原价" min-width="150px"/>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0, precision: 2}, type: 'visible'}" prop="newPrice" align="center" label="采购单现价" min-width="150px"/>
+            <el-editable-column prop="oldPrice" align="center" :label="$t('updates.cgdyj')" min-width="150px"/>
+            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0, precision: 2}, type: 'visible'}" prop="newPrice" align="center" :label="$t('updates.cgdxj')" min-width="150px"/>
           </el-editable>
         </div>
       </el-card>
@@ -103,6 +103,7 @@ import MyPlan from './components/MyPlan'
 import MyDelivery from './components/MyDelivery'
 import MyLnquiry from './components/MyLnquiry'
 import MyContract from './components/MyContract'
+var _that
 export default {
   name: 'AddSupplierAdjust',
   components: { MyContract, MyLnquiry, MyDelivery, MyPlan, MyApply, MySupplier, MyDetail, MyEmp },
@@ -281,6 +282,9 @@ export default {
   created() {
     this.getTypes()
     this.getdatatime()
+  },
+  beforeCreate() {
+    _that = this
   },
   mounted() {
     this.getinformation4()

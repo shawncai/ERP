@@ -283,7 +283,8 @@ import permission2 from '@/directive/permission2/index.js' // 权限判断指令
   import MyCustomer from './components/MyCustomer'
   import MyAgent from './components/MyAgent'
 
-  export default {
+  var _that
+export default {
     name: 'StockMange',
     directives: { waves, permission, permission2 },
     components: { MyDialog, DetailList, MyEmp, MyCustomer, MyAgent, Pagination },
@@ -405,7 +406,10 @@ import permission2 from '@/directive/permission2/index.js' // 权限判断指令
         date2: []
       }
     },
-    mounted() {
+    beforeCreate() {
+    _that = this
+  },
+  mounted() {
       this.getlist()
       this.getlist2()
     },

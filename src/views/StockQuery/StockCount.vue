@@ -103,6 +103,7 @@ import DetailList from './components/DetailList'
 import MyDetail from './components/MyDetail'
 import MySupplier from './components/MySupplier'
 
+var _that
 export default {
   name: 'StockCount',
   directives: { waves },
@@ -149,6 +150,9 @@ export default {
       console.log(this.formThead)
       this.tableKey = this.tableKey + 1// 为了保证table 每次都会重渲 In order to ensure the table will be re-rendered each time
     }
+  },
+  beforeCreate() {
+    _that = this
   },
   mounted() {
     // this.getlist()

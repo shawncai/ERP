@@ -48,6 +48,7 @@
 import { updatealarmrules } from '@/api/StockAlarm'
 import MyRepository from './MyRepository'
 import MyProduct from './MyProduct'
+var _that
 export default {
   components: { MyRepository, MyProduct },
   props: {

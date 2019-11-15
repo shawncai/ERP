@@ -61,8 +61,8 @@
             <el-editable-column :label="$t('Hmodule.gg')" prop="productType" align="center" />
             <el-editable-column prop="color" align="center" :label="$t('updates.ys')" />
             <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" />
-            <el-editable-column prop="oldPrice" align="center" label="采购单原价" min-width="150px"/>
-            <el-editable-column prop="newPrice" align="center" label="采购单现价" min-width="150px"/>
+            <el-editable-column prop="oldPrice" align="center" :label="$t('updates.cgdyj')" min-width="150px"/>
+            <el-editable-column prop="newPrice" align="center" :label="$t('updates.cgdxj')" min-width="150px"/>
           </el-editable>
         </div>
       </el-card>
@@ -147,6 +147,7 @@
 <script>
 import { searchstockArrival } from '@/api/StockArrival'
 import printJS from 'print-js'
+var _that
 export default {
   filters: {
     isVatFilter(status) {
@@ -189,9 +190,9 @@ export default {
     },
     receiptStatFilter(status) {
       const statusMap = {
-        1: '制单',
-        2: '执行',
-        3: '结单'
+        1: _that.$t('updates.zd'),
+        2: _that.$t('updates.zx'),
+        3: _that.$t('updates.jd')
       }
       return statusMap[status]
     }

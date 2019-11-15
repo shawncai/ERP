@@ -22,6 +22,7 @@
 
 <script>
 
+var _that
 export default {
   name: 'Page404',
   computed: {

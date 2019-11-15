@@ -107,6 +107,7 @@ import permission2 from '@/directive/permission2/index.js' // 权限判断指令
 import checkPermission from '@/utils/permission' // 权限判断函数
 import MyEmp from './components/MyEmp'
 import MyEmp2 from './components/MyEmp2'
+var _that
 export default {
   name: 'NewApprovalProcess',
   directives: { permission, permission2 },

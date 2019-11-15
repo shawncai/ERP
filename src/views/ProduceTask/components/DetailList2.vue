@@ -293,6 +293,7 @@
 </template>
 
 <script>
+var _that
 export default {
   filters: {
     statfilter(status) {

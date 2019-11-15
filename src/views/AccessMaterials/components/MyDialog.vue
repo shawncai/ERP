@@ -151,6 +151,7 @@ import MyRepository from './MyRepository'
 import ProduceTask from './ProduceTask'
 import MyDetail2 from './MyDetail2'
 import MyDelivery from './MyDelivery'
+var _that
 export default {
   components: { MyDelivery, MyDetail2, ProduceTask, MyRepository, MyDetail },
   props: {

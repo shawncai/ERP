@@ -9,6 +9,7 @@
 <script>
 import { isExternal } from '@/utils'
 
+var _that
 export default {
   props: {
     to: {

@@ -89,6 +89,7 @@
 
 <script>
 import { createclassfy, detaillist, updateeclassfy, deleteeclassfy } from '@/api/Product'
+var _that
 export default {
   name: 'AddInitialenter',
   data() {

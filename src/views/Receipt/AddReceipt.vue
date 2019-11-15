@@ -177,6 +177,7 @@ import MyMater from './components/MyMater'
 import MyInstallment from './components/MyInstallment'
 import MyAgent from '../SaleOpportunity/components/MyAgent'
 import { searchCategory } from '@/api/Supplier'
+var _that
 export default {
   name: 'AddReceipt',
   components: { MyAgent, MyInstallment, MyMater, MyDetail, MyEmp },
@@ -303,6 +304,9 @@ export default {
   // },
   created() {
     this.getways()
+  },
+  beforeCreate() {
+    _that = this
   },
   mounted() {
     this.getinformation()

@@ -146,6 +146,7 @@ import MyCreate from './MyCreate'
 import MyRepository from './MyRepository'
 import MyDetail from './MyDetail'
 import printJS from 'print-js'
+var _that
 export default {
   components: { MyRepository, MyCreate, MyDetail },
   filters: {
@@ -237,6 +238,9 @@ export default {
         }
       }
     }
+  },
+  beforeCreate() {
+    _that = this
   },
   mounted() {
     this.getlist()

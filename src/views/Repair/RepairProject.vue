@@ -104,6 +104,7 @@ import checkPermission from '@/utils/permission' // 权限判断函数
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
 import { searchEmpCategory2 } from '@/api/Product'
 
+var _that
 export default {
   name: 'Sample',
   components: { Pagination },

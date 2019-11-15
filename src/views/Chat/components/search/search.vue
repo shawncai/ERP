@@ -10,6 +10,7 @@
 </template>
 
 <script>
+var _that
 export default {
   data() {
     return {

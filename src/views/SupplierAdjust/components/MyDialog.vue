@@ -74,8 +74,8 @@
           <el-editable-column :label="$t('Hmodule.gg')" prop="type" align="center" min-width="150px"/>
           <el-editable-column prop="color" align="center" :label="$t('updates.ys')" min-width="150px"/>
           <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" min-width="150px"/>
-          <el-editable-column prop="oldPrice" align="center" label="采购单原价" min-width="150px"/>
-          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0, precision: 2}, type: 'visible'}" prop="newPrice" align="center" label="采购单现价" min-width="150px"/>
+          <el-editable-column prop="oldPrice" align="center" :label="$t('updates.cgdyj')" min-width="150px"/>
+          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0, precision: 2}, type: 'visible'}" prop="newPrice" align="center" :label="$t('updates.cgdxj')" min-width="150px"/>
         </el-editable>
       </div>
     </el-card>
@@ -102,6 +102,7 @@ import MyPlan from './MyPlan'
 import MyDelivery from './MyDelivery'
 import MyLnquiry from './MyLnquiry'
 import MyContract from './MyContract'
+var _that
 export default {
   components: { MyContract, MyLnquiry, MyDelivery, MyPlan, MyApply, MySupplier, MyDetail, MyEmp },
   props: {

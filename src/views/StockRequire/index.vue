@@ -163,6 +163,7 @@ import MyTree from '../Product/components/MyTree'
 import MyDetail from './components/MyDetail'
 import DetailList from './components/DetailList' // Secondary package based on el-pagination
 
+var _that
 export default {
   name: 'Index',
   directives: { waves, permission, permission2 },
@@ -214,6 +215,9 @@ export default {
       // 开始时间到结束时间
       date: []
     }
+  },
+  beforeCreate() {
+    _that = this
   },
   mounted() {
     this.getlist()

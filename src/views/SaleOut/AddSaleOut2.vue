@@ -320,7 +320,7 @@
             <el-editable-column prop="carCode" align="center" label="车架编码" min-width="150px"/>
             <el-editable-column prop="motorCode" align="center" label="电机编码" min-width="150px"/>
             <el-editable-column prop="batteryCode" align="center" label="电池编码" min-width="150px"/>
-            <el-editable-column prop="sourceNumber" align="center" label="源单编号" min-width="150px"/>
+            <el-editable-column prop="sourceNumber" align="center" :label="$t('updates.ydbh')" min-width="150px"/>
             <el-editable-column prop="sourceSerialNumber" align="center" :label="$t('updates.ydxh')" min-width="150px"/>
           </el-editable>
         </div>
@@ -478,6 +478,7 @@ import MyPresale from './components/MyPresale'
 import MyOpportunity from './components/MyOpportunity'
 import MyDetail2 from './components/MyDetail2'
 import MyContract from './components/MyContract'
+var _that
 export default {
   name: 'AddSaleOut2',
   components: { MyContract, MyDetail2, MyOpportunity, MyPresale, MyAdvance, MyOrder, MyRepository, MyAccept, MyAgent, MyCustomer, MyRequire, MySupplier, MyApply, MyDetail, MyDelivery, MyEmp },
@@ -725,6 +726,9 @@ export default {
     this.getTypes()
     this.getdatatime()
     this.chooseSourceType()
+  },
+  beforeCreate() {
+    _that = this
   },
   mounted() {
     this.getinformation()

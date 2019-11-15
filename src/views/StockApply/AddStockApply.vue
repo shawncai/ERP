@@ -72,7 +72,7 @@
           <el-button :disabled="IsSourceNumber" style="width: 130px" @click="handleAddSource">{{ $t('updates.cydzxz') }}</el-button>
           <my-order :ordercontrol.sync="ordercontrol" @saleOrderDetail="saleOrderDetail" @saleOrderDetail2="saleOrderDetail2" @saleOrder="saleOrder"/>
           <el-button type="danger" @click="deleteEdit">{{ $t('Hmodule.delete') }}</el-button>
-          <el-button type="primary" @click="checkStock()">库存快照</el-button>
+          <el-button type="primary" @click="checkStock()">{{ $t('updates.kckz') }}</el-button>
         </div>
         <div class="container">
           <el-editable
@@ -91,10 +91,10 @@
             <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" align="center" min-width="150px"/>
             <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" align="center" min-width="150px"/>
             <el-editable-column :label="$t('Hmodule.gg')" prop="productType" align="center" min-width="150px"/>
-            <el-editable-column prop="color" align="center" :label="$t('updates.ys')" min-width="150px"/>
+            <el-editable-column prop="color" :label="$t('updates.ys')" align="center" min-width="150px"/>
             <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" min-width="150px"/>
             <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0.00, precision: 2}, type: 'visible', events: {change: changeDate2}}" :label="$t('Hmodule.xqsl')" prop="requireQuantity" align="center" min-width="150px"/>
-            <el-editable-column :edit-render="{name: 'ElDatePicker', attrs: {type: 'date', format: 'yyyy-MM-dd'}, type: 'visible'}" prop="requireDate" align="center" :label="$t('updates.xqrq')" min-width="160px">
+            <el-editable-column :edit-render="{name: 'ElDatePicker', attrs: {type: 'date', format: 'yyyy-MM-dd'}, type: 'visible'}" prop="requireDate" :label="$t('updates.xqrq')" align="center" min-width="160px">
               <template slot="edit" slot-scope="scope">
                 <el-date-picker
                   v-model="scope.row.requireDate"
@@ -104,8 +104,8 @@
                   @change="changeDate2"/>
               </template>
             </el-editable-column>
-            <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="applyReason" align="center" :label="$t('updates.sqyy')" min-width="150px"/>
-            <el-editable-column prop="sourceSerialNumber" align="center" :label="$t('updates.ydxh')" min-width="150px"/>
+            <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="applyReason" :label="$t('updates.sqyy')" align="center" min-width="150px"/>
+            <el-editable-column prop="sourceSerialNumber" :label="$t('updates.ydxh')" align="center" min-width="150px"/>
           </el-editable>
         </div>
       </el-card>
@@ -126,9 +126,9 @@
             <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" align="center" min-width="150px"/>
             <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" align="center" min-width="150px"/>
             <el-editable-column :label="$t('Hmodule.gg')" prop="productType" align="center" min-width="150px"/>
-            <el-editable-column prop="color" align="center" :label="$t('updates.ys')" min-width="150px"/>
+            <el-editable-column prop="color" :label="$t('updates.ys')" align="center" min-width="150px"/>
             <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" min-width="150px"/>
-            <el-editable-column :edit-render="{name: 'ElDatePicker', attrs: {type: 'date', format: 'yyyy-MM-dd', disable: 'true'},}" prop="requireDate" align="center" :label="$t('updates.xqrq')" min-width="150px">
+            <el-editable-column :edit-render="{name: 'ElDatePicker', attrs: {type: 'date', format: 'yyyy-MM-dd', disable: 'true'},}" prop="requireDate" :label="$t('updates.xqrq')" align="center" min-width="150px">
               <template slot="edit" slot-scope="scope">
                 <el-date-picker
                   v-model="scope.row.requireDate"
@@ -137,8 +137,8 @@
                   value-format="yyyy-MM-dd"/>
               </template>
             </el-editable-column>
-            <el-editable-column prop="applyQuantity" align="center" :label="$t('updates.sqsl')" min-width="150px"/>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {precision: 2}}" prop="planQuantity" align="center" :label="$t('updates.yxdsl')" min-width="150px">
+            <el-editable-column prop="applyQuantity" :label="$t('updates.sqsl')" align="center" min-width="150px"/>
+            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {precision: 2}}" prop="planQuantity" :label="$t('updates.yxdsl')" align="center" min-width="150px">
               <template slot="edit" slot-scope="scope">
                 <el-input-number
                   :precision="2"
@@ -146,7 +146,7 @@
                   disabled/>
               </template>
             </el-editable-column>
-            <el-editable-column prop="sourceSerialNumber" align="center" :label="$t('updates.ydxh')" min-width="150px"/>
+            <el-editable-column prop="sourceSerialNumber" :label="$t('updates.ydxh')" align="center" min-width="150px"/>
           </el-editable>
         </div>
       </el-card>
@@ -198,6 +198,7 @@ import MyEmp from './components/MyEmp'
 import MyDetail from './components/MyDetail'
 import MyOrder from './components/MyOrder'
 import { materialslist2 } from '@/api/MaterialsList'
+var _that
 export default {
   name: 'AddStockApply',
   components: { MyOrder, MyDetail, MyEmp },
@@ -302,6 +303,9 @@ export default {
   created() {
     this.getTypes()
     this.getdatatime()
+  },
+  beforeCreate() {
+    _that = this
   },
   mounted() {
     this.getinformation()

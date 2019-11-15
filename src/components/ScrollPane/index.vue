@@ -7,6 +7,7 @@
 <script>
 const tagAndTagSpacing = 4 // tagAndTagSpacing
 
+var _that
 export default {
   name: 'ScrollPane',
   data() {

@@ -9,6 +9,7 @@ import { debounce } from '@/utils'
 
 const animationDuration = 6000
 
+var _that
 export default {
   props: {
     className: {
@@ -28,6 +29,9 @@ export default {
     return {
       chart: null
     }
+  },
+  beforeCreate() {
+    _that = this
   },
   mounted() {
     this.initChart()

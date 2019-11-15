@@ -114,6 +114,7 @@ import MyMater from './components/MyMater'
 import MyCustomer from './components/MyCustomer'
 import MyAgent from './components/MyAgent'
 import MyOrder from './components/MyOrder'
+var _that
 export default {
   name: 'AddPrepReceipt',
   components: { MyOrder, MyAgent, MyCustomer, MyMater, MyRepository, MyEmp },
@@ -233,6 +234,9 @@ export default {
   created() {
     this.getdatatime()
     this.getTypes()
+  },
+  beforeCreate() {
+    _that = this
   },
   mounted() {
     this.getinformation()

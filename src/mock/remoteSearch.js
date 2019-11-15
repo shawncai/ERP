@@ -11,6 +11,7 @@ for (let i = 0; i < count; i++) {
 }
 NameList.push({ name: 'mockPan' })
 
+var _that
 export default {
   searchUser: config => {
     const { name } = param2Obj(config.url)

@@ -148,6 +148,7 @@ import MyEmp from './components/MyEmp'
 import MyRepository from './components/MyRepository'
 import MyMater from './components/MyMater'
 import MyCustomer from './components/MyCustomer'
+var _that
 export default {
   name: 'AddRecycling',
   components: { MyCustomer, MyMater, MyRepository, MyEmp },

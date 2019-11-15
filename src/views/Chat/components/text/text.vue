@@ -23,6 +23,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
+var _that
 export default {
   data() {
     return {
@@ -61,6 +62,9 @@ export default {
     }
   },
   // 在进入的时候 聚焦输入框
+  beforeCreate() {
+    _that = this
+  },
   mounted() {
     this.$refs.text.focus()
   },

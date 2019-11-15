@@ -173,6 +173,7 @@ import checkPermission from '@/utils/permission' // 权限判断函数
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
 
+var _that
 export default {
   name: 'ProductCategory',
   directives: { waves, permission, permission2 },
@@ -269,6 +270,9 @@ export default {
         pagesize: 10
       }
     }
+  },
+  beforeCreate() {
+    _that = this
   },
   mounted() {
     this.getlist()

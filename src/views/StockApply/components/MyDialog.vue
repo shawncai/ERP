@@ -164,6 +164,7 @@ import { materialslist2 } from '@/api/MaterialsList'
 import MyEmp from './MyEmp'
 import MyDetail from './MyDetail'
 import MyOrder from './MyOrder'
+var _that
 export default {
   components: { MyDetail, MyEmp, MyOrder },
   props: {

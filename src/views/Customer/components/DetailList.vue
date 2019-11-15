@@ -61,7 +61,7 @@
       </el-card>
       <!--子件信息-->
       <el-card class="box-card" shadow="never" style="margin-top: 15px">
-        <h2 ref="lianxi" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">业务信息</h2>
+        <h2 ref="lianxi" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('updates.ywxx') }}</h2>
         <div class="container" style="margin-top: 37px">
           <el-form ref="customerForm2" :model="customerForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
             <el-row>
@@ -115,7 +115,7 @@
         </div>
       </el-card>
       <el-card class="box-card" shadow="never" style="margin-top: 15px">
-        <h2 ref="caiwu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">财务信息</h2>
+        <h2 ref="caiwu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('updates.cwxx') }}</h2>
         <div class="container" style="margin-top: 37px">
           <el-form ref="customerForm2" :model="customerForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
             <el-row>
@@ -164,7 +164,7 @@
         </div>
       </el-card>
       <el-card class="box-card" shadow="never" style="margin-top: 15px">
-        <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">辅助信息</h2>
+        <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('updates.fzxx') }}</h2>
         <div class="container" style="margin-top: 37px">
           <el-form ref="customerForm2" :model="customerForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
             <el-row>
@@ -336,6 +336,7 @@ import { searchsaleOrder } from '@/api/SaleOrder'
 import { searchprepReceipt } from '@/api/PrepReceipt'
 import { searchsaleReturn } from '@/api/SaleReturn'
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
+var _that
 export default {
   components: { Pagination },
   filters: {
@@ -394,9 +395,9 @@ export default {
     },
     receiptStatFilter(status) {
       const statusMap = {
-        1: '制单',
-        2: '执行',
-        3: '结单'
+        1: _that.$t('updates.zd'),
+        2: _that.$t('updates.zx'),
+        3: _that.$t('updates.jd')
       }
       return statusMap[status]
     },

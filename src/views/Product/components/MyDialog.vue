@@ -332,6 +332,7 @@ import MyEmp from './MyEmp'
 import MySupplier from './MySupplier'
 import MyTree from './MyTree'
 import MyCenter from './MyCenter'
+var _that
 export default {
   components: { MyCenter, MyTree, MySupplier, MyEmp },
   props: {

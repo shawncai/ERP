@@ -119,8 +119,8 @@
           <el-editable-column prop="hadCheckQuantity" align="center" label="已报捡数量" min-width="150px"/>
           <el-editable-column prop="checkedQuantity" align="center" label="已捡数量" min-width="150px"/>
           <el-editable-column :label="$t('updates.dhsl')" prop="arrivalQuantity" align="center" min-width="150px"/>
-          <el-editable-column prop="sourceNumber" align="center" label="源单编号" min-width="150px"/>
-          <el-editable-column prop="sourceSerialNumber" align="center" label="源单编号" min-width="150px"/>
+          <el-editable-column prop="sourceNumber" align="center" :label="$t('updates.ydbh')" min-width="150px"/>
+          <el-editable-column prop="sourceSerialNumber" align="center" :label="$t('updates.ydbh')" min-width="150px"/>
         </el-editable>
       </div>
     </el-card>
@@ -143,6 +143,7 @@ import MyDelivery from './MyDelivery'
 import MyCenter from './MyCenter'
 import MyArrival from './MyArrival'
 import ProduceTask from './ProduceTask'
+var _that
 export default {
   components: { ProduceTask, MyArrival, MyCenter, MyDelivery, MySupplier, MyDetail, MyEmp },
   props: {

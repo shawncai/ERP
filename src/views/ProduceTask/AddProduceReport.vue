@@ -304,6 +304,7 @@ import MyEmp from './components/MyEmp'
 import MyDetail from './components/MyDetail'
 import ProducePlan from './components/ProducePlan'
 import ProduceTask from './components/ProduceTask'
+var _that
 export default {
   name: 'AddProduceReport',
   components: { ProduceTask, ProducePlan, MyCenter, MyDetail, MyEmp },
@@ -372,6 +373,9 @@ export default {
   },
   created() {
     this.getList()
+  },
+  beforeCreate() {
+    _that = this
   },
   mounted() {
     this.getinformation()

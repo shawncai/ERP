@@ -458,6 +458,7 @@ import { productInventory, productStockRetreat, productSaleReturn, productStockI
 import Pagination from '@/components/Pagination'
 import MyRepository from './MyRepository'
 import MySupplier from '../../StockPlan/components/MySupplier' // Secondary package based on el-pagination
+var _that
 export default {
   components: { MySupplier, MyRepository, Pagination },
   filters: {
@@ -517,9 +518,9 @@ export default {
     },
     receiptStatFilter(status) {
       const statusMap = {
-        1: '制单',
-        2: '执行',
-        3: '结单'
+        1: _that.$t('updates.zd'),
+        2: _that.$t('updates.zx'),
+        3: _that.$t('updates.jd')
       }
       return statusMap[status]
     }

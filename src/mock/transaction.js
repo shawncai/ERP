@@ -13,6 +13,7 @@ for (let i = 0; i < count; i++) {
   }))
 }
 
+var _that
 export default {
   getList: () => {
     return {

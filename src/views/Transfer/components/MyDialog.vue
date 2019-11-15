@@ -90,6 +90,7 @@ import { searchSaleCategory } from '@/api/SaleCategory'
 import { getdeptlist } from '@/api/BasicSettings'
 import MyEmp from './MyEmp'
 import MyRepository from './MyRepository'
+var _that
 export default {
   components: { MyRepository, MyEmp },
   props: {

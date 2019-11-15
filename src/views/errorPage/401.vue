@@ -29,6 +29,7 @@
 <script>
 import errGif from '@/assets/401_images/401.gif'
 
+var _that
 export default {
   name: 'Page401',
   data() {

@@ -295,6 +295,7 @@ import MyApply from './components/MyApply'
 import MyRequire from './components/MyRequire'
 import MyCustomer from './components/MyCustomer'
 import MyAgent from './components/MyAgent'
+var _that
 export default {
   name: 'AddSalePlan',
   components: {

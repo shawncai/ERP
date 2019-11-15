@@ -147,6 +147,7 @@ import MyApply from './MyApply'
 import MyPlan from './MyPlan'
 import MyDelivery from './MyDelivery'
 import MyAdvance from './MyAdvance'
+var _that
 export default {
   components: { MyAdvance, MyDelivery, MyPlan, MyApply, MySupplier, MyDetail, MyEmp },
   props: {

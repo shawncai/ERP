@@ -125,7 +125,7 @@
           <el-editable-column :label="$t('Hmodule.gg')" prop="productType" align="center" min-width="150px"/>
           <el-editable-column prop="color" align="center" :label="$t('updates.ys')" min-width="150px"/>
           <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" min-width="150px"/>
-          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0.00, precision: 2}, type: 'visible'}" prop="plannedQuantity" align="center" label="计划数量" min-width="170px">
+          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0.00, precision: 2}, type: 'visible'}" prop="plannedQuantity" align="center" :label="$t('updates.jhsl')" min-width="170px">
             <template slot="edit" slot-scope="scope">
               <el-input-number
                 :disabled="IsPlannedQuantity"
@@ -198,7 +198,7 @@
             </template>
           </el-editable-column>
           <el-editable-column prop="applicationReason" align="center" label="备注" min-width="150px"/>
-          <el-editable-column prop="sourceNumber" align="center" label="源单编号" min-width="150px"/>
+          <el-editable-column prop="sourceNumber" align="center" :label="$t('updates.ydbh')" min-width="150px"/>
           <el-editable-column prop="sourceSerialNumber" align="center" :label="$t('updates.ydxh')" min-width="150px"/>
         </el-editable>
       </div>
@@ -261,6 +261,7 @@ import MyDetail from './MyDetail'
 import MySupplier from './MySupplier'
 import MyApply from './MyApply'
 import MyPlan from './MyPlan'
+var _that
 export default {
   components: { MyPlan, MyApply, MySupplier, MyDetail, MyEmp },
   props: {

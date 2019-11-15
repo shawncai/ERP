@@ -1,4 +1,5 @@
 <script>
+var _that
 export default {
   name: 'MenuItem',
   functional: true,

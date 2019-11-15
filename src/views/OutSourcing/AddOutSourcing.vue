@@ -150,6 +150,7 @@ import { createoutFactory } from '@/api/OutSourcing'
 import MyDelivery from './components/MyDelivery'
 import MyFactory from './components/MyFactory'
 import MyDetail from './components/MyDetail'
+var _that
 export default {
   name: 'AddOutSourcing',
   components: { MyDetail, MyFactory, MyDelivery },

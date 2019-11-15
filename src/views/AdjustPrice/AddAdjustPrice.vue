@@ -164,6 +164,7 @@ import MyRepository from './components/MyRepository'
 import MyAccept from './components/MyAccept'
 import MyDetail from './components/MyDetail'
 import MyCreate from './components/MyCreate'
+var _that
 export default {
   name: 'AddAdjustPrice',
   components: { MyRepository, MyDetail, MyCreate, MyAccept },
@@ -265,6 +266,9 @@ export default {
       },
       pickerOptions1: {}
     }
+  },
+  beforeCreate() {
+    _that = this
   },
   mounted() {
     this.getlist()

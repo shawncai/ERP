@@ -121,6 +121,7 @@ import MyRepository2 from './components/MyRepository2'
 import MyTree from './components/MyTree'
 import MySupplier from './components/MySupplier'
 
+var _that
 export default {
   name: 'MoveDetailList',
   directives: { waves, permission, permission2 },
@@ -128,18 +129,18 @@ export default {
   filters: {
     judgeStatFilter(status) {
       const statusMap = {
-        0: '未审核',
-        1: '审核中',
-        2: '审核通过',
-        3: '审核不通过'
+        0: _that.$t('updates.wsh'),
+        1: _that.$t('updates.shz'),
+        2: _that.$t('Hmodule.shtg'),
+        3: _that.$t('updates.shbtg')
       }
       return statusMap[status]
     },
     receiptStatFilter(status) {
       const statusMap = {
-        1: '制单',
-        2: '执行',
-        3: '结单'
+        1: _that.$t('updates.zd'),
+        2: _that.$t('updates.zx'),
+        3: _that.$t('updates.jd')
       }
       return statusMap[status]
     },
@@ -234,6 +235,9 @@ export default {
       // 开始时间到结束时间
       date: null
     }
+  },
+  beforeCreate() {
+    _that = this
   },
   mounted() {
     this.getlist()

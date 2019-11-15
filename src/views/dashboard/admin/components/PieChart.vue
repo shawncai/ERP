@@ -7,6 +7,7 @@ import echarts from 'echarts'
 require('echarts/theme/macarons') // echarts theme
 import { debounce } from '@/utils'
 
+var _that
 export default {
   props: {
     className: {
@@ -26,6 +27,9 @@ export default {
     return {
       chart: null
     }
+  },
+  beforeCreate() {
+    _that = this
   },
   mounted() {
     this.initChart()

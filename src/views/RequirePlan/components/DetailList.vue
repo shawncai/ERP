@@ -137,6 +137,7 @@
 <script>
 import { searchEmpCategory2 } from '@/api/Product'
 import printJS from 'print-js'
+var _that
 export default {
   filters: {
     chectResultFilter(status) {

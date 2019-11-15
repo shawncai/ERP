@@ -122,6 +122,7 @@ import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
 import MyDialog from './components/MyDialog'
 
+var _that
 export default {
   name: 'Dept',
   directives: { waves },
@@ -173,6 +174,9 @@ export default {
       // 修改部门
       editDeptform: {}
     }
+  },
+  beforeCreate() {
+    _that = this
   },
   mounted() {
     this.getlist()

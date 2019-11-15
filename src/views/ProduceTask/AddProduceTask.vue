@@ -82,7 +82,7 @@
             <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" align="center" min-width="150px"/>
             <el-editable-column :label="$t('Hmodule.gg')" prop="productType" align="center" min-width="150px"/>
             <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" min-width="150px"/>
-            <el-editable-column prop="sourceNumber" align="center" label="源单编号" min-width="150px"/>
+            <el-editable-column prop="sourceNumber" align="center" :label="$t('updates.ydbh')" min-width="150px"/>
             <el-editable-column prop="sourceSerialNumber" align="center" :label="$t('updates.ydxh')" min-width="150px"/>
             <el-editable-column v-if="personalForm.sourceType==='3'" :label="$t('Hmodule.ggzx')" prop="workCenterName" align="center" min-width="150px"/>
             <el-editable-column v-if="personalForm.sourceType!=='3'" :edit-render="{name: 'ElSelect', options: workCenterIds, type: 'visible'}" :label="$t('Hmodule.ggzx')" prop="workCenterId" align="center" min-width="150px"/>
@@ -120,6 +120,7 @@ import ProducePlan from './components/ProducePlan'
 import MyDetail2 from './components/MyDetail2'
 import MyDelivery from '../DailyAdjust/components/MyDelivery'
 import MyProducerequire from './components/MyProducerequire'
+var _that
 export default {
   name: 'AddProduceTask',
   components: { MyProducerequire, MyDelivery, MyDetail2, ProducePlan, MyEmp, MyDetail },

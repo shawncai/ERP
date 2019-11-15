@@ -139,6 +139,7 @@ import MyQuality from './components/MyQuality'
 import MyMater from './components/MyMater'
 import MyEmp2 from './components/MyEmp2'
 import MyReport from './components/MyReport'
+var _that
 export default {
   name: 'AddCheckFail',
   components: { MyReport, MyEmp2, MyMater, MyQuality, MyAccept, ProduceTask, MyArrival, MyCenter, MyDelivery, MySupplier, MyDetail, MyEmp },

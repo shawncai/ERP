@@ -122,6 +122,7 @@ import MyAccept from './components/MyAccept'
 import MyDetail from './components/MyDetail'
 import MyCreate from './components/MyCreate'
 import MyDepot from './components/MyDepot'
+var _that
 export default {
   name: 'AddMoveApplication',
   components: { MyDepot, MyRepository, MyDetail, MyCreate, MyAccept },
@@ -181,6 +182,9 @@ export default {
       // 调拨单明细列表规则
       validRules: {}
     }
+  },
+  beforeCreate() {
+    _that = this
   },
   mounted() {
     this.getlist()

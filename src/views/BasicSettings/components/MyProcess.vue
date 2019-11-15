@@ -26,7 +26,7 @@
       </el-form>
     </div>
     <!--联系信息-->
-    <h2 ref="lianxi" class="form-name">业务信息</h2>
+    <h2 ref="lianxi" class="form-name">{{ $t('updates.ywxx') }}</h2>
     <div class="container">
       <el-form ref="personalForm2" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-position="top" label-width="300px" style="margin-left: 30px;">
         <el-form-item :label="$t('public.countyrId')" style="width: 40%;margin-top:1%">
@@ -154,7 +154,7 @@
       </el-form>
     </div>
     <!--财务信息-->
-    <h2 class="form-name">财务信息</h2>
+    <h2 class="form-name">{{ $t('updates.cwxx') }}</h2>
     <div class="container">
       <el-form ref="personalForm3" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-position="top" label-width="300px" style="margin-left: 30px;">
         <el-form-item :label="$t('Supplier.paymentId')" style="width: 40%;margin-top:1%">
@@ -185,7 +185,7 @@
       </el-form>
     </div>
     <!--辅助信息-->
-    <h2 ref="fuzhu" class="form-name">辅助信息</h2>
+    <h2 ref="fuzhu" class="form-name">{{ $t('updates.fzxx') }}</h2>
     <div class="container">
       <el-form ref="personalForm4" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-position="top" label-width="300px" style="margin-left: 30px;">
         <el-form-item :label="$t('Supplier.establishDate')" style="width: 40%;margin-top:1%">
@@ -225,6 +225,7 @@
 import { getcountrylist, getprovincelist, getcitylist, regionlist } from '@/api/public'
 import { searchCategory, update, searchGroup } from '@/api/Supplier'
 import MyEmp from './MyEmp'
+var _that
 export default {
   components: { MyEmp },
   props: {

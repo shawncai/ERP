@@ -82,6 +82,7 @@ import { searchworkCenter } from '@/api/public'
 import MyCenter from './MyCenter'
 import MyEmp from './MyEmp'
 import MyDetail from './MyDetail'
+var _that
 export default {
   components: { MyCenter, MyEmp, MyDetail },
   props: {

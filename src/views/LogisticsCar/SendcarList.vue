@@ -123,6 +123,7 @@ import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
 import MyEdit from './components/MyEdit'
 
+var _that
 export default {
   name: 'SendcarList',
   directives: { waves },
@@ -191,6 +192,9 @@ export default {
       // 控制组件数据
       editVisible: false
     }
+  },
+  beforeCreate() {
+    _that = this
   },
   mounted() {
     this.getlist()

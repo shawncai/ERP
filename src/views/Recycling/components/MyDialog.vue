@@ -146,6 +146,7 @@ import MyEmp from './MyEmp'
 import MyRepository from './MyRepository'
 import MyMater from './MyMater'
 import MyCustomer from './MyCustomer'
+var _that
 export default {
   components: { MyCustomer, MyMater, MyRepository, MyEmp },
   props: {

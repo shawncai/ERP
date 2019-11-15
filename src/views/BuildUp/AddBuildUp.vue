@@ -111,7 +111,7 @@
         <div class="buttons" style="margin-top: 58px">
           <el-button type="success" style="background:#3696fd;border-color:#3696fd " @click="handleAddproduct2">{{ $t('Hmodule.tjsp') }}</el-button>
           <el-button type="danger" @click="beyond2">{{ $t('Hmodule.delete') }}</el-button>
-          <el-button type="primary" @click="checkStock()">库存快照</el-button>
+          <el-button type="primary" @click="checkStock()">{{ $t('updates.kckz') }}</el-button>
         </div>
         <my-bulid :buildcontrol.sync="buildcontrol" @product2="productdetail2" @product3="productdetail3"/>
         <my-materials :materialcontrol.sync="materialcontrol" @product4="productdetail4"/>
@@ -209,6 +209,7 @@ import MyAccept from './components/MyAccept'
 import MyDetail from './components/MyDetail'
 import MyCreate from './components/MyCreate'
 import MyBulid from './components/MyBulid'
+var _that
 export default {
   name: 'AddBuildUp',
   components: { MyBulid, MyRepository, MyDetail, MyCreate, MyAccept, MyMaterials },
@@ -286,6 +287,9 @@ export default {
       moreaction: [],
       length: ''
     }
+  },
+  beforeCreate() {
+    _that = this
   },
   mounted() {
     this.getlist()

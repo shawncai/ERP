@@ -109,7 +109,7 @@
             <el-editable-column prop="tax" align="center" label="税额" min-width="150px"/>
             <el-editable-column prop="discountRate" align="center" label="折扣(%)" min-width="170px"/>
             <el-editable-column prop="discountMoney" align="center" label="折扣额" min-width="170px"/>
-            <el-editable-column prop="sourceNumber" align="center" label="源单编号" min-width="150px"/>
+            <el-editable-column prop="sourceNumber" align="center" :label="$t('updates.ydbh')" min-width="150px"/>
             <el-editable-column prop="orderNumber" align="center" label="订单单号" min-width="150px"/>
           </el-editable>
         </div>
@@ -227,6 +227,7 @@
 </template>
 
 <script>
+var _that
 export default {
   filters: {
     statfilter(status) {
@@ -260,9 +261,9 @@ export default {
     },
     receiptStatFilter(status) {
       const statusMap = {
-        1: '制单',
-        2: '执行',
-        3: '结单'
+        1: _that.$t('updates.zd'),
+        2: _that.$t('updates.zx'),
+        3: _that.$t('updates.jd')
       }
       return statusMap[status]
     },

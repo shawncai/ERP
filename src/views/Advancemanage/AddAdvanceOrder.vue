@@ -199,6 +199,7 @@ import MyPlan from './components/MyPlan'
 import MyDelivery from './components/MyDelivery'
 import MyAdvance from './components/MyAdvance'
 import MyCustomer from '../SaleOpportunity/components/MyCustomer'
+var _that
 export default {
   name: 'AddAdvanceOrder',
   components: { MyCustomer, MyAdvance, MyDelivery, MyPlan, MyApply, MySupplier, MyDetail, MyEmp },

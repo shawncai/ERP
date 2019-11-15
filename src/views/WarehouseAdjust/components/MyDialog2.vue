@@ -117,6 +117,7 @@ import { getdeptlist } from '@/api/BasicSettings'
 import MyCreate from './MyCreate'
 import MyRepository from './MyRepository'
 import MyDetail from './MyDetail'
+var _that
 export default {
   components: { MyRepository, MyCreate, MyDetail },
   props: {
@@ -192,6 +193,9 @@ export default {
       this.list2 = this.personalForm.locationAdjustDetailVos
       this.getlocation()
     }
+  },
+  beforeCreate() {
+    _that = this
   },
   mounted() {
     this.getlist()

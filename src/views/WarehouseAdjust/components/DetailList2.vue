@@ -151,6 +151,7 @@
 
 <script>
 import { getdeptlist } from '@/api/BasicSettings'
+var _that
 export default {
   filters: {
     statfilter(status) {
@@ -201,6 +202,9 @@ export default {
         }
       }
     }
+  },
+  beforeCreate() {
+    _that = this
   },
   mounted() {
     this.getlist()

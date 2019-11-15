@@ -12,7 +12,7 @@
               </el-form-item>
             </el-col>
             <el-col :span="6">
-              <el-form-item label="源单编号" style="width: 100%;">
+              <el-form-item :label="$t('updates.ydbh')" style="width: 100%;">
                 <el-input v-model="personalForm.number" placeholder="请选择源单编号" style="margin-left: 18px;width: 180px" clearable/>
               </el-form-item>
             </el-col>
@@ -159,6 +159,7 @@ import MyEmp from './MyEmp'
 import MyDelivery from './MyDelivery'
 import MyAccept from './MyAccept'
 import MyDetail from './MyDetail'
+var _that
 export default {
   components: { MyRepository, MySupplier, MyEmp, MyDelivery, MyAccept, MyDetail },
   props: {
@@ -259,6 +260,9 @@ export default {
       this.list2 = this.personalForm.moveDiffReportDetails
       // this.getlocation()
     }
+  },
+  beforeCreate() {
+    _that = this
   },
   mounted() {
     this.getlist()

@@ -161,6 +161,7 @@ import MyOpportunity from './components/MyOpportunity'
 import MyInstallmentapply from './components/MyInstallmentapply'
 import MyCustomer from '../SaleOpportunity/components/MyCustomer'
 import MyAgent from '../SaleOpportunity/components/MyAgent'
+var _that
 export default {
   name: 'AddCustomerSurveyReport',
   components: { MyAgent, MyCustomer, MyInstallmentapply, MyOpportunity, MyDelivery, MyPlan, MyApply, MySupplier, MyDetail, MyEmp },

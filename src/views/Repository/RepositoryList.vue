@@ -462,6 +462,7 @@ import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
 import DetailList from './DetailList'
 
+var _that
 export default {
   name: 'RepositoryList',
   directives: { waves, permission, permission2 },
@@ -617,6 +618,9 @@ export default {
       regionManagerVisible: false
       // 修改弹窗中的数据结束
     }
+  },
+  beforeCreate() {
+    _that = this
   },
   mounted() {
     this.getlist()

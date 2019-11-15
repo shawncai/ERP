@@ -7,6 +7,7 @@
 </template>
 
 <script>
+var _that
 export default {
   props: {
     className: {

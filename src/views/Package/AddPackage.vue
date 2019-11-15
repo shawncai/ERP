@@ -120,6 +120,7 @@ import { addPackage } from '@/api/Package'
 import MyDetail from './components/MyDetail'
 import MyRepository from './components/MyRepository'
 import MyDetail2 from './components/MyDetail2'
+var _that
 export default {
   name: 'AddPackage',
   components: { MyDetail2, MyRepository, MyDetail },

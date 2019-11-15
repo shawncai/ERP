@@ -32,6 +32,7 @@
 <script>
 import { vehicleStat, customerInfo, rideCount, userLockCar, userUnLockCar } from '@/api/carlocation'
 
+var _that
 export default {
   name: 'GGMap',
   data() {
@@ -53,6 +54,9 @@ export default {
   },
   created() {
     this.getvehicleStat()
+  },
+  beforeCreate() {
+    _that = this
   },
   mounted() {
     this.mapBuild() // 初始化实例之后调用

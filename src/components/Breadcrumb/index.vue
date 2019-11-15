@@ -13,6 +13,7 @@
 import { generateTitle } from '@/utils/i18n'
 import pathToRegexp from 'path-to-regexp'
 
+var _that
 export default {
   data() {
     return {

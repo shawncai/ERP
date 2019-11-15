@@ -130,7 +130,7 @@
           <el-button :disabled="IsSourceNumber" style="width: 130px" @click="handleAddSource">{{ $t('updates.cydzxz') }}</el-button>
           <my-saleout :saleoutcontrol.sync="saleoutcontrol" :personaldata="personalForm" @saleOutDetail="saleOutDetail" @saleOutdata="saleOutdata"/>
           <el-button type="danger" @click="$refs.editable.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
-          <el-button type="primary" @click="checkStock()">库存快照</el-button>
+          <el-button type="primary" @click="checkStock()">{{ $t('updates.kckz') }}</el-button>
         </div>
         <div class="container">
           <el-editable
@@ -195,7 +195,7 @@
             <el-editable-column prop="carCode" align="center" label="车架号" min-width="150px"/>
             <el-editable-column prop="motorCode" align="center" label="电机编码" min-width="150px"/>
             <el-editable-column prop="batteryCode" align="center" label="电池编码" min-width="150px"/>
-            <el-editable-column prop="sourceNumber" align="center" label="源单编号" min-width="150px"/>
+            <el-editable-column prop="sourceNumber" align="center" :label="$t('updates.ydbh')" min-width="150px"/>
           </el-editable>
         </div>
       </el-card>
@@ -329,6 +329,7 @@ import MyRequire from './components/MyRequire'
 import MyCustomer from './components/MyCustomer'
 import MyAgent from './components/MyAgent'
 import MySaleout from '../DeliverGoods/components/MySaleout'
+var _that
 export default {
   name: 'AddSaleReturn',
   components: { MySaleout, MyAgent, MyCustomer, MyRequire, MyApply, MyDetail, MyDelivery, MyEmp },

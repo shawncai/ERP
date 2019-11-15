@@ -50,6 +50,7 @@
 <script>
 import CountTo from 'vue-count-to'
 
+var _that
 export default {
   components: {
     CountTo

@@ -89,7 +89,7 @@
             <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" fixed="left" align="center" />
             <el-editable-column :label="$t('Hmodule.gg')" prop="productType" align="center" />
             <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" />
-            <el-editable-column prop="sourceNumber" align="center" label="源单编号" />
+            <el-editable-column prop="sourceNumber" align="center" :label="$t('updates.ydbh')" />
             <el-editable-column :label="$t('Hmodule.ggzx')" prop="workCenter" align="center" />
             <el-editable-column prop="produceQuantity" align="center" label="生产数量" />
             <el-editable-column prop="bomNumber" align="center" label="BOM编码" />
@@ -146,6 +146,7 @@
 
 <script>
 import printJS from 'print-js'
+var _that
 export default {
   filters: {
     statfilter(status) {

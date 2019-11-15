@@ -62,6 +62,7 @@ import { addlocation } from '@/api/WarehouseAdjust'
 import MyCreate from './components/MyCreate'
 import MyRepository from './components/MyRepository'
 import MyDetail from './components/MyDetail'
+var _that
 export default {
   name: 'AddLocation',
   components: { MyCreate, MyRepository, MyDetail },

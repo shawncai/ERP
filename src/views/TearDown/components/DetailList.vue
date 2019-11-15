@@ -214,6 +214,7 @@ import MyAccept from './MyAccept'
 import MyDetail from './MyDetail'
 import MyCreate from './MyCreate'
 import MyBulid from './MyBulid'
+var _that
 export default {
   components: { MyBulid, MyRepository, MyDetail, MyCreate, MyAccept },
   filters: {
@@ -303,6 +304,9 @@ export default {
       }
       this.getlocation()
     }
+  },
+  beforeCreate() {
+    _that = this
   },
   mounted() {
     this.getlist()

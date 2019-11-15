@@ -38,7 +38,7 @@
       </div>
     </el-card>
     <el-card class="box-card" shadow="never" style="margin-top: 10px">
-      <h2 ref="lianxi" class="form-name">业务信息</h2>
+      <h2 ref="lianxi" class="form-name">{{ $t('updates.ywxx') }}</h2>
       <div class="container" style="margin-top: 37px">
         <el-form ref="personalForm2" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
           <el-row>
@@ -201,7 +201,7 @@
     </el-card>
     <!--子件信息-->
     <el-card class="box-card" style="margin-top: 15px" shadow="never">
-      <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">可提供商品明细</h2>
+      <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('updates.ktgspmx') }}</h2>
       <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
         <el-button @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>
         <my-detail :control.sync="control" @product="productdetail"/>
@@ -232,7 +232,7 @@
       </div>
     </el-card>
     <el-card class="box-card" shadow="never" style="margin-top: 10px">
-      <h2 class="form-name">财务信息</h2>
+      <h2 class="form-name">{{ $t('updates.cwxx') }}</h2>
       <div class="container" style="margin-top: 37px">
         <el-form ref="personalForm3" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
           <el-row>
@@ -276,7 +276,7 @@
       </div>
     </el-card>
     <el-card class="box-card" shadow="never" style="margin-top: 10px">
-      <h2 ref="fuzhu" class="form-name">辅助信息</h2>
+      <h2 ref="fuzhu" class="form-name">{{ $t('updates.fzxx') }}</h2>
       <div class="container" style="margin-top: 37px">
         <el-form ref="personalForm4" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
           <el-row>
@@ -332,6 +332,7 @@ import { getcountrylist, getprovincelist, getcitylist, regionlist, saveRegion, g
 import { searchCategory, searchGroup, update } from '@/api/Supplier'
 import MyEmp from './MyEmp'
 import MyDetail from './MyDetail'
+var _that
 export default {
   components: { MyDetail, MyEmp },
   props: {

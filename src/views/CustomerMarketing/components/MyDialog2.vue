@@ -72,6 +72,7 @@ import MyMater from './MyMater'
 import MyInstallment from './MyInstallment'
 import MyRepository from './MyRepository'
 import MyCustomer from './MyCustomer'
+var _that
 export default {
   components: { MyCustomer, MyRepository, MyInstallment, MyMater, MyDetail, MyEmp },
   props: {

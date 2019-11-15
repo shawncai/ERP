@@ -18,6 +18,7 @@
 
 <script>
 import { mapState, mapActions } from 'vuex'
+var _that
 export default {
   filters: {
     // 将日期过滤为 hour:minutes

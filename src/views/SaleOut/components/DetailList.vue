@@ -181,7 +181,7 @@
             <el-editable-column prop="carCode" align="center" label="车架编码" />
             <el-editable-column prop="motorCode" align="center" label="电机编码" />
             <el-editable-column prop="batteryCode" align="center" label="电池编码" />
-            <el-editable-column prop="sourceNumber" align="center" label="源单编号" />
+            <el-editable-column prop="sourceNumber" align="center" :label="$t('updates.ydbh')" />
           </el-editable>
         </div>
       </el-card>
@@ -396,6 +396,7 @@
 <script>
 import printJS from 'print-js'
 import { productlist } from '@/api/public'
+var _that
 export default {
   filters: {
     sourceTypeFilter(status) {
@@ -454,9 +455,9 @@ export default {
     },
     receiptStatFilter(status) {
       const statusMap = {
-        1: '制单',
-        2: '执行',
-        3: '结单'
+        1: _that.$t('updates.zd'),
+        2: _that.$t('updates.zx'),
+        3: _that.$t('updates.jd')
       }
       return statusMap[status]
     },

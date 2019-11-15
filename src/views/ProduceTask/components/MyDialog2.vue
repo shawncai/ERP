@@ -302,6 +302,7 @@ import MyEmp from './MyEmp'
 import MyDetail from './MyDetail'
 import ProducePlan from './ProducePlan'
 import ProduceTask from './ProduceTask'
+var _that
 export default {
   components: { ProduceTask, ProducePlan, MyCenter, MyDetail, MyEmp },
   props: {

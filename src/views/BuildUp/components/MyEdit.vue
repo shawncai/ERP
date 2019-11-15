@@ -173,6 +173,7 @@ import MyAccept from './MyAccept'
 import MyDetail from './MyDetail'
 import MyCreate from './MyCreate'
 import MyBulid from './MyBulid'
+var _that
 export default {
   name: 'AddBuildUp',
   components: { MyBulid, MyRepository, MyDetail, MyCreate, MyAccept, MyMaterials },
@@ -260,6 +261,9 @@ export default {
       this.list3 = this.personalForm.buildAfterDetailVos
       this.getlocation()
     }
+  },
+  beforeCreate() {
+    _that = this
   },
   mounted() {
     this.getlist()

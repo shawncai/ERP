@@ -104,6 +104,7 @@ import MyEmp from './MyEmp'
 import MyDetail from './MyDetail'
 import MyRepository from './MyRepository'
 import ProducePlan from './ProducePlan'
+var _that
 export default {
   components: { MyCenter, MyEmp, MyDetail, MyRepository, ProducePlan },
   props: {

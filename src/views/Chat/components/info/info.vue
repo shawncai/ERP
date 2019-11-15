@@ -42,6 +42,7 @@
 // eslint-disable-next-line no-unused-vars
 import router from '../../router'
 import { mapGetters } from 'vuex'
+var _that
 export default {
   computed: {
     ...mapGetters(['selectedFriend'])

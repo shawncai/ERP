@@ -171,6 +171,7 @@ import MyDelivery from './components/MyDelivery'
 import MyAdvance from './components/MyAdvance'
 import MyCustomer from '../SaleOpportunity/components/MyCustomer'
 import MyPresale from './components/MyPresale'
+var _that
 export default {
   name: 'AddPrepReturn',
   components: { MyPresale, MyCustomer, MyAdvance, MyDelivery, MyPlan, MyApply, MySupplier, MyDetail, MyEmp },
@@ -301,6 +302,9 @@ export default {
     this.getTypes()
     this.getways()
     this.jungleshow()
+  },
+  beforeCreate() {
+    _that = this
   },
   mounted() {
     this.getinformation()

@@ -55,6 +55,7 @@ const defalutList = [
   { text: 'axios', done: true },
   { text: 'webpack', done: true }
 ]
+var _that
 export default {
   components: { Todo },
   filters: {

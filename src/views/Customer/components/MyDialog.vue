@@ -66,7 +66,7 @@
     </el-card>
     <!--业务信息-->
     <el-card class="box-card" shadow="never" style="margin-top: 15px">
-      <h2 class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">业务信息</h2>
+      <h2 class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('updates.ywxx') }}</h2>
       <div class="container">
         <el-form ref="customerForm2" :model="customerForm" :rules="customerFormrules" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
           <el-row>
@@ -152,7 +152,7 @@
     </el-card>
     <!-- 财务信息 -->
     <el-card class="box-card" shadow="never" style="margin-top: 15px">
-      <h2 class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">业务信息</h2>
+      <h2 class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('updates.ywxx') }}</h2>
       <div class="container">
         <el-form ref="customerForm3" :model="customerForm" :rules="customerFormrules" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
           <el-row>
@@ -223,7 +223,7 @@
     </el-card>
     <!-- 辅助信息 -->
     <el-card class="box-card" shadow="never" style="margin-top: 15px">
-      <h2 class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">业务信息</h2>
+      <h2 class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('updates.ywxx') }}</h2>
       <div class="container">
         <el-form ref="customerForm4" :model="customerForm" :rules="customerFormrules" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
           <el-row>
@@ -273,6 +273,7 @@ import { searchCusCategory, updateagent } from '@/api/Customer'
 import { searchCategory } from '@/api/Supplier'
 import { searchSaleCategory } from '@/api/SaleCategory'
 import MyEmp from './MyEmp'
+var _that
 export default {
   components: { MyEmp },
   props: {

@@ -113,6 +113,7 @@ import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination'
 import MySupplier from '../../Product/components/MySupplier'
 import MyTree from '../../Product/components/MyTree' // Secondary package based on el-pagination
+var _that
 export default {
   directives: { waves },
   components: { MyTree, MySupplier, Pagination },

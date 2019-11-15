@@ -156,6 +156,7 @@ import MyCenter from './components/MyCenter'
 import MyDialog3 from './components/MyDialog3'
 import DetailList3 from './components/DetailList3' // Secondary package based on el-pagination
 
+var _that
 export default {
   name: 'StandardProcess',
   directives: { waves, permission, permission2 },
@@ -212,6 +213,9 @@ export default {
       // 开始时间到结束时间
       date: []
     }
+  },
+  beforeCreate() {
+    _that = this
   },
   mounted() {
     this.getlist()

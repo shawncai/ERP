@@ -139,6 +139,7 @@
 <script>
 import { getcountrylist, getprovincelist, getcitylist, searchRepository } from '@/api/public'
 import { searchCusCategory, updateCustomer } from '@/api/Customer'
+var _that
 export default {
   props: {
     editcontrol: {

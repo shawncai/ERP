@@ -79,7 +79,7 @@
           <my-apply :applycontrol.sync="applycontrol" @apply="apply" @apply2="apply2" @allinfo="allinfo"/>
           <my-require :requirecontrol.sync="requirecontrol" @require="requiredata" @require2="requiredata2"/>
           <el-button type="danger" @click="deleteEdit">{{ $t('Hmodule.delete') }}</el-button>
-          <el-button type="primary" @click="checkStock()">库存快照</el-button>
+          <el-button type="primary" @click="checkStock()">{{ $t('updates.kckz') }}</el-button>
         </div>
         <div class="container">
           <el-editable
@@ -107,13 +107,13 @@
             </el-editable-column>
             <el-editable-column :label="$t('Hmodule.xqsl')" prop="requireQuantity" align="center" min-width="150px"/>
             <el-editable-column prop="requireDate" align="center" :label="$t('updates.xqrq')" min-width="150px"/>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: -0.01, precision: 2}, type: 'visible' ,events: {change: changeDate}}" prop="planQuantity" align="center" label="计划数量" min-width="150px"/>
-            <el-editable-column prop="planMoney" align="center" label="计划金额" min-width="150px">
+            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: -0.01, precision: 2}, type: 'visible' ,events: {change: changeDate}}" prop="planQuantity" align="center" :label="$t('updates.jhsl')" min-width="150px"/>
+            <el-editable-column prop="planMoney" align="center" :label="$t('updates.jhje')" min-width="150px">
               <template slot-scope="scope">
                 <p>{{ planMoney(scope.row) }}</p>
               </template>
             </el-editable-column>
-            <el-editable-column :edit-render="{name: 'ElDatePicker', attrs: {type: 'date', format: 'yyyy-MM-dd'}, type: 'visible', events: {change: changeDate}}" prop="planDeliveryDate" align="center" label="计划交货日期" min-width="170px">
+            <el-editable-column :edit-render="{name: 'ElDatePicker', attrs: {type: 'date', format: 'yyyy-MM-dd'}, type: 'visible', events: {change: changeDate}}" prop="planDeliveryDate" align="center" :label="$t('updates.jhjhrq')" min-width="170px">
               <template slot="edit" slot-scope="scope">
                 <el-date-picker
                   v-model="scope.row.planDeliveryDate"
@@ -124,14 +124,14 @@
               </template>
             </el-editable-column>
             <el-editable-column prop="applyReason" align="center" :label="$t('updates.sqyy')" min-width="150px"/>
-            <el-editable-column prop="sourceNumber" align="center" label="源单编号" min-width="150px"/>
+            <el-editable-column prop="sourceNumber" align="center" :label="$t('updates.ydbh')" min-width="150px"/>
             <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.gys')" prop="supplierName" align="center" min-width="150px">
               <template slot="edit" slot-scope="scope">
                 <el-input v-model="scope.row.supplierName" @focus="handlechoose(scope)"/>
                 <my-supplier :control.sync="empcontrol" :procode="procode" @supplierName="personName(scope, $event)"/>
               </template>
             </el-editable-column>
-            <el-editable-column prop="orderQuantity" align="center" label="已订购数量" min-width="150px"/>
+            <el-editable-column prop="orderQuantity" align="center" :label="$t('updates.ydgsl')" min-width="150px"/>
             <el-editable-column prop="sourceSerialNumber" align="center" :label="$t('updates.ydxh')" min-width="150px"/>
           </el-editable>
         </div>
@@ -162,13 +162,13 @@
                 <p>{{ basicPrice(scope.row) }}</p>
               </template>
             </el-editable-column>
-            <el-editable-column prop="planQuantity" align="center" label="计划数量" min-width="150px">
+            <el-editable-column prop="planQuantity" align="center" :label="$t('updates.jhsl')" min-width="150px">
               <template slot-scope="scope">
                 <p>{{ planQuantity(scope.row) }}</p>
               </template>
             </el-editable-column>
-            <el-editable-column prop="planMoney" align="center" label="计划金额" min-width="150px"/>
-            <el-editable-column :edit-render="{name: 'ElDatePicker', attrs: {type: 'date', format: 'yyyy-MM-dd'}, type: 'default'}" prop="planDeliveryDate" align="center" label="计划交货日期" min-width="170px">
+            <el-editable-column prop="planMoney" align="center" :label="$t('updates.jhje')" min-width="150px"/>
+            <el-editable-column :edit-render="{name: 'ElDatePicker', attrs: {type: 'date', format: 'yyyy-MM-dd'}, type: 'default'}" prop="planDeliveryDate" align="center" :label="$t('updates.jhjhrq')" min-width="170px">
               <template slot="edit" slot-scope="scope">
                 <el-date-picker
                   v-model="scope.row.planDeliveryDate"
@@ -179,9 +179,9 @@
               </template>
             </el-editable-column>
             <el-editable-column prop="applyReason" align="center" :label="$t('updates.sqyy')" min-width="150px"/>
-            <el-editable-column prop="sourceNumber" align="center" label="源单编号" min-width="150px"/>
+            <el-editable-column prop="sourceNumber" align="center" :label="$t('updates.ydbh')" min-width="150px"/>
             <el-editable-column :label="$t('updates.gys')" prop="supplierName" align="center" min-width="150px"/>
-            <el-editable-column prop="orderQuantity" align="center" label="已订购数量" min-width="150px"/>
+            <el-editable-column prop="orderQuantity" align="center" :label="$t('updates.ydgsl')" min-width="150px"/>
             <el-editable-column prop="sourceSerialNumber" align="center" :label="$t('updates.ydxh')" min-width="150px"/>
           </el-editable>
         </div>
@@ -257,6 +257,7 @@ import MyDetail from './components/MyDetail'
 import MyApply from './components/MyApply'
 import MySupplier from './components/MySupplier'
 import MyRequire from './components/MyRequire'
+var _that
 export default {
   name: 'AddStockPlan',
   components: { MyRequire, MySupplier, MyApply, MyDetail, MyDelivery, MyEmp },
@@ -411,6 +412,9 @@ export default {
     this.getTypes()
     this.getdatatime()
     this.chooseType()
+  },
+  beforeCreate() {
+    _that = this
   },
   mounted() {
     this.getinformation()

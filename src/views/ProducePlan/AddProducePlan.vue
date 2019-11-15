@@ -88,6 +88,7 @@ import MyCenter from './components/MyCenter'
 import MyEmp from './components/MyEmp'
 import MyDetail from './components/MyDetail'
 import MyMaterials from './components/MyMaterials'
+var _that
 export default {
   name: 'AddProducePlan',
   components: { MyMaterials, MyCenter, MyEmp, MyDetail },
@@ -139,6 +140,9 @@ export default {
   },
   created() {
     this.getdepts()
+  },
+  beforeCreate() {
+    _that = this
   },
   mounted() {
     this.getinformation()

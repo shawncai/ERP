@@ -348,6 +348,7 @@ import permission from '@/directive/permission/index.js' // 权限判断指令
 import permission2 from '@/directive/permission2/index.js' // 权限判断指令
 import checkPermission from '@/utils/permission' // 权限判断函数
 
+var _that
 export default {
   name: 'NewRepository',
   directives: { waves, permission, permission2 },
@@ -506,6 +507,9 @@ export default {
     this.getnationlist()
     this.getRegion()
     this.jungleshow()
+  },
+  beforeCreate() {
+    _that = this
   },
   mounted() {
     this.handlechange(this.$store.getters.useCountry)

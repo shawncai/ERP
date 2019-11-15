@@ -21,16 +21,16 @@
           <!--placement="bottom"-->
           <!--width="500"-->
           <!--trigger="click">-->
-          <!--&lt;!&ndash;<el-select v-model="getemplist.receiptStat" :value="getemplist.receiptStat" placeholder="单据状态" clearable style="width: 40%;float: left;margin-left: 20px">&ndash;&gt;-->
-          <!--&lt;!&ndash;<el-option value="1" label="制单"/>&ndash;&gt;-->
-          <!--&lt;!&ndash;<el-option value="2" label="执行"/>&ndash;&gt;-->
-          <!--&lt;!&ndash;<el-option value="3" label="结单"/>&ndash;&gt;-->
+          <!--&lt;!&ndash;<el-select v-model="getemplist.receiptStat" :value="getemplist.receiptStat" :placeholder="$t('updates.djzt')" clearable style="width: 40%;float: left;margin-left: 20px">&ndash;&gt;-->
+          <!--&lt;!&ndash;<el-option value="1" :label="$t('updates.zd')"/>&ndash;&gt;-->
+          <!--&lt;!&ndash;<el-option value="2" :label="$t('updates.zx')"/>&ndash;&gt;-->
+          <!--&lt;!&ndash;<el-option value="3" :label="$t('updates.jd')"/>&ndash;&gt;-->
           <!--&lt;!&ndash;</el-select>&ndash;&gt;-->
-          <!--&lt;!&ndash;<el-select v-model="getemplist.judgeStat" :value="getemplist.judgeStat" placeholder="审批状态" clearable style="width: 40%;float: right;margin-right: 20px">&ndash;&gt;-->
-          <!--&lt;!&ndash;<el-option value="0" label="未审核"/>&ndash;&gt;-->
-          <!--&lt;!&ndash;<el-option value="1" label="审核中"/>&ndash;&gt;-->
-          <!--&lt;!&ndash;<el-option value="2" label="审核通过"/>&ndash;&gt;-->
-          <!--&lt;!&ndash;<el-option value="3" label="审核不通过"/>&ndash;&gt;-->
+          <!--&lt;!&ndash;<el-select v-model="getemplist.judgeStat" :value="getemplist.judgeStat" :placeholder="$t('updates.spzt')" clearable style="width: 40%;float: right;margin-right: 20px">&ndash;&gt;-->
+          <!--&lt;!&ndash;<el-option value="0" :label="$t('updates.wsh')"/>&ndash;&gt;-->
+          <!--&lt;!&ndash;<el-option value="1" :label="$t('updates.shz')"/>&ndash;&gt;-->
+          <!--&lt;!&ndash;<el-option value="2" :label="$t('updates.shtg')"/>&ndash;&gt;-->
+          <!--&lt;!&ndash;<el-option value="3" :label="$t('updates.shptg')"/>&ndash;&gt;-->
           <!--&lt;!&ndash;</el-select>&ndash;&gt;-->
           <!--<el-input v-model="getemplist.batteryCode" :placeholder="$t('AgentCollect.batteryCode')" clearable style="width: 40%;float: left;margin-left: 20px" @keyup.enter.native="handleFilter"/>-->
           <!--<el-input v-model="getemplist.count" :placeholder="$t('AgentCollect.count')" clearable style="width: 40%;float: right;margin-right: 20px" @keyup.enter.native="handleFilter"/>-->
@@ -164,6 +164,7 @@ import MyCustomer from './components/MyCustomer'
 import MyAgent from './components/MyAgent'
 import MyRepository from '../StockRetreat/components/MyRepository'
 
+var _that
 export default {
   name: 'Index',
   directives: { waves, permission },
@@ -171,18 +172,18 @@ export default {
   filters: {
     judgeStatFilter(status) {
       const statusMap = {
-        0: '未审核',
-        1: '审核中',
-        2: '审核通过',
-        3: '审核不通过'
+        0: _that.$t('updates.wsh'),
+        1: _that.$t('updates.shz'),
+        2: _that.$t('Hmodule.shtg'),
+        3: _that.$t('updates.shbtg')
       }
       return statusMap[status]
     },
     receiptStatFilter(status) {
       const statusMap = {
-        1: '制单',
-        2: '执行',
-        3: '结单'
+        1: _that.$t('updates.zd'),
+        2: _that.$t('updates.zx'),
+        3: _that.$t('updates.jd')
       }
       return statusMap[status]
     },

@@ -71,6 +71,7 @@ import MyOpportunity from './MyOpportunity'
 import MyInstallmentapply from './MyInstallmentapply'
 import MyAgent from './MyAgent'
 import MyCustomer from '../../SaleOpportunity/components/MyCustomer'
+var _that
 export default {
   components: { MyCustomer, MyInstallmentapply, MyOpportunity, MyDelivery, MyPlan, MyApply, MySupplier, MyDetail, MyEmp, MyAgent, MyRepository },
   filters: {

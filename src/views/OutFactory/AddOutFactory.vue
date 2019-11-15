@@ -175,6 +175,7 @@ import '@/directive/noMoreClick/index.js'
 import { createoutFactory } from '@/api/OutFactory'
 import { getcountrylist, getprovincelist, getcitylist, regionlist, saveRegion } from '@/api/public'
 import MyDelivery from './components/MyDelivery'
+var _that
 export default {
   name: 'AddOutFactory',
   components: { MyDelivery },

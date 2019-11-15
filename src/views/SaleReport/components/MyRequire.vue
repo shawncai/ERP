@@ -147,6 +147,7 @@ import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination'
 import MyTree from '../../Product/components/MyTree'
 import MyDetail from '../../StockRequire/components/MyDetail'
+var _that
 export default {
   directives: { waves },
   components: { MyDetail, MyTree, Pagination },

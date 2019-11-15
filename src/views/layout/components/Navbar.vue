@@ -105,6 +105,7 @@ import SizeSelect from "@/components/SizeSelect";
 import LangSelect from "@/components/LangSelect";
 import ThemePicker from "@/components/ThemePicker";
 
+var _that
 export default {
   components: {
     Breadcrumb,
@@ -182,6 +183,9 @@ export default {
       }
       console.log(123123, that.show);
     }
+  },
+  beforeCreate() {
+    _that = this
   },
   mounted() {
     const that = this;

@@ -1,3 +1,4 @@
+var _that
 export default {
   'jpg': 'image/jpeg',
   'png': 'image/png',

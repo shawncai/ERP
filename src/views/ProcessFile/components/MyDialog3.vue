@@ -127,6 +127,7 @@
 import { updatestandardProcess } from '@/api/ProcessFile'
 import MyCenter from './MyCenter'
 import MyDetail from './MyDetail'
+var _that
 export default {
   components: { MyDetail, MyCenter },
   props: {

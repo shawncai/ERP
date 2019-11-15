@@ -1,4 +1,5 @@
 <script>
+var _that
 export default {
   beforeCreate() {
     const { params, query } = this.$route

@@ -71,13 +71,13 @@
             <el-editable-column prop="color" align="center" :label="$t('updates.ys')" />
             <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" />
             <el-editable-column :label="$t('Hmodule.dj')" prop="basicPrice" align="center" />
-            <el-editable-column prop="planQuantity" align="center" label="计划数量" />
-            <el-editable-column prop="planMoney" align="center" label="计划金额" />
-            <el-editable-column prop="planDeliveryDate" align="center" label="计划交货日期" />
+            <el-editable-column prop="planQuantity" align="center" :label="$t('updates.jhsl')" />
+            <el-editable-column prop="planMoney" align="center" :label="$t('updates.jhje')" />
+            <el-editable-column prop="planDeliveryDate" align="center" :label="$t('updates.jhjhrq')" />
             <el-editable-column prop="applyReason" align="center" :label="$t('updates.sqyy')" />
-            <el-editable-column prop="sourceNumber" align="center" label="源单编号" />
+            <el-editable-column prop="sourceNumber" align="center" :label="$t('updates.ydbh')" />
             <el-editable-column :label="$t('updates.gys')" prop="supplierName" align="center" />
-            <el-editable-column prop="orderQuantity" align="center" label="已订购数量" />
+            <el-editable-column prop="orderQuantity" align="center" :label="$t('updates.ydgsl')" />
             <el-editable-column prop="sourceSerialNumber" align="center" :label="$t('updates.ydxh')" />
           </el-editable>
         </div>
@@ -100,13 +100,13 @@
             <el-editable-column prop="color" align="center" :label="$t('updates.ys')" />
             <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" />
             <el-editable-column :label="$t('Hmodule.dj')" prop="basicPrice" align="center" />
-            <el-editable-column prop="planQuantity" align="center" label="计划数量" />
-            <el-editable-column prop="planMoney" align="center" label="计划金额" />
-            <el-editable-column prop="planDeliveryDate" align="center" label="计划交货日期"/>
+            <el-editable-column prop="planQuantity" align="center" :label="$t('updates.jhsl')" />
+            <el-editable-column prop="planMoney" align="center" :label="$t('updates.jhje')" />
+            <el-editable-column prop="planDeliveryDate" align="center" :label="$t('updates.jhjhrq')"/>
             <el-editable-column prop="applyReason" align="center" :label="$t('updates.sqyy')" />
-            <el-editable-column prop="sourceNumber" align="center" label="源单编号" />
+            <el-editable-column prop="sourceNumber" align="center" :label="$t('updates.ydbh')" />
             <el-editable-column :label="$t('updates.gys')" prop="supplierName" align="center" />
-            <el-editable-column prop="orderQuantity" align="center" label="已订购数量" />
+            <el-editable-column prop="orderQuantity" align="center" :label="$t('updates.ydgsl')" />
             <el-editable-column prop="sourceSerialNumber" align="center" :label="$t('updates.ydxh')" />
           </el-editable>
         </div>
@@ -191,6 +191,7 @@
 
 <script>
 import printJS from 'print-js'
+var _that
 export default {
   filters: {
     statfilter(status) {
@@ -211,9 +212,9 @@ export default {
     },
     receiptStatFilter(status) {
       const statusMap = {
-        1: '制单',
-        2: '执行',
-        3: '结单'
+        1: _that.$t('updates.zd'),
+        2: _that.$t('updates.zx'),
+        3: _that.$t('updates.jd')
       }
       return statusMap[status]
     }

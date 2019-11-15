@@ -203,6 +203,7 @@ import MyAgent from './MyAgent'
 import MySaleout from './MySaleout'
 import MyRepository from './MyRepository'
 import MyMove from './MyMove'
+var _that
 export default {
   components: { MyMove, MyRepository, MySaleout, MyAgent, MyCustomer, MyDetail, MyEmp },
   props: {

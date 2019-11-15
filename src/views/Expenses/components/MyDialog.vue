@@ -114,6 +114,7 @@ import { getdeptlist } from '@/api/BasicSettings'
 import MyEmp from './MyEmp'
 import MyRepository from './MyRepository'
 import { searchCategory } from '@/api/Supplier'
+var _that
 export default {
   components: { MyRepository, MyEmp },
   props: {

@@ -115,6 +115,7 @@ import MyRepository from './components/MyRepository'
 import MyProduct from './components/MyProduct'
 import MyRules from './components/MyRules'
 
+var _that
 export default {
   name: 'SearchStockAlarmRules',
   directives: { waves },
@@ -172,6 +173,9 @@ export default {
       editVisible: false
       // 列表结束 -------------------------
     }
+  },
+  beforeCreate() {
+    _that = this
   },
   mounted() {
     this.getdeptlist()

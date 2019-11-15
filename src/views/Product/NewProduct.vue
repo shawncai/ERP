@@ -442,6 +442,7 @@ import MyEmp from './components/MyEmp'
 import MySupplier from './components/MySupplier'
 import MyTree from './components/MyTree'
 import MyCenter from './components/MyCenter'
+var _that
 export default {
   name: 'NewProduct',
   directives: { permission, permission2 },

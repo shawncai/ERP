@@ -29,7 +29,7 @@
           <span>{{ scope.row.produceQuantity }}</span>
         </template>
       </el-table-column>
-      <el-table-column :resizable="false" label="源单编号" align="center" min-width="150">
+      <el-table-column :resizable="false" :label="$t('updates.ydbh')" align="center" min-width="150">
         <template slot-scope="scope">
           <span>{{ scope.row.sourceNumber }}</span>
         </template>
@@ -43,6 +43,7 @@
 </template>
 
 <script>
+var _that
 export default {
   props: {
     reportcontrol3: {

@@ -90,6 +90,7 @@ const calendarTypeOptions = [
   { key: '1', display_name: '完成' },
   { key: '2', display_name: '未完成' }
 ]
+var _that
 export default {
   name: 'Sample',
   components: { Pagination },

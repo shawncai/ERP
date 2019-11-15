@@ -131,6 +131,7 @@ import '@/directive/noMoreClick/index.js'
 import { createstandardProcess } from '@/api/ProcessFile'
 import MyCenter from './components/MyCenter'
 import MyDetail from './components/MyDetail'
+var _that
 export default {
   name: 'AddStandardProcess',
   components: { MyDetail, MyCenter },

@@ -166,7 +166,7 @@
                 <el-table-column
                   prop="sourceNumber"
                   align="center"
-                  label="单据编号"
+                  :label="$t('updates.djbh')"
                   min-width="150"/>
                 <el-table-column
                   prop="collectName"
@@ -277,6 +277,7 @@
 
 <script>
 import { customerDetail } from '@/api/Customer'
+var _that
 export default {
   filters: {
     genderFilter(status) {
@@ -341,9 +342,9 @@ export default {
     },
     receiptStatFilter(status) {
       const statusMap = {
-        1: '制单',
-        2: '执行',
-        3: '结单'
+        1: _that.$t('updates.zd'),
+        2: _that.$t('updates.zx'),
+        3: _that.$t('updates.jd')
       }
       return statusMap[status]
     }

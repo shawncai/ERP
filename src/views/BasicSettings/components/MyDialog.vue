@@ -84,6 +84,7 @@ import { regionlist, searchRepository } from '@/api/public'
 import { searchcategory, searchDetail, updateeapproval } from '@/api/BasicSettings'
 import MyEmp from './MyEmp'
 import MyEmp2 from './MyEmp2'
+var _that
 export default {
   components: { MyEmp, MyEmp2 },
   props: {

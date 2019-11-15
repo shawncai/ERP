@@ -101,7 +101,7 @@
         <h2 ref="fuzhu" class="form-name">入库单明细</h2>
         <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
           <el-button type="danger" @click="$refs.editable.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
-          <el-button type="primary" @click="checkStock()">库存快照</el-button>
+          <el-button type="primary" @click="checkStock()">{{ $t('updates.kckz') }}</el-button>
         </div>
         <my-detail :control.sync="control" @product="productdetail"/>
         <div class="container">
@@ -215,6 +215,7 @@ import MyAccept from './components/MyAccept'
 import MyDetail from './components/MyDetail'
 import MyArrival from './components/MyArrival'
 import MyEmp2 from './components/MyEmp2'
+var _that
 export default {
   name: 'Addstockenter',
   components: { MyEmp2, MyArrival, MyRepository, MySupplier, MyEmp, MyDelivery, MyAccept, MyDetail },
@@ -370,6 +371,9 @@ export default {
       },
       deep: true
     }
+  },
+  beforeCreate() {
+    _that = this
   },
   mounted() {
     this.getlist()

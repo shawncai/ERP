@@ -163,6 +163,7 @@ import MyDetail from './MyDetail'
 import MyCreate from './MyCreate'
 import MyBulid from './MyBulid'
 import MyMaterials from './MyMaterials'
+var _that
 export default {
   components: { MyBulid, MyRepository, MyDetail, MyCreate, MyAccept, MyMaterials },
   props: {
@@ -250,6 +251,9 @@ export default {
       this.list3 = this.personalForm.teardownBeforeDetailVos
       this.getlocation()
     }
+  },
+  beforeCreate() {
+    _that = this
   },
   mounted() {
     this.getlist()

@@ -21,6 +21,7 @@
 
 <script>
 import { regionlist } from '@/api/public'
+var _that
 export default {
   props: {
     treecontrol: {
@@ -100,6 +101,9 @@ export default {
   created() {
     console.log('123')
     this.gettree()
+  },
+  beforeCreate() {
+    _that = this
   },
   mounted() {
     console.log('321')

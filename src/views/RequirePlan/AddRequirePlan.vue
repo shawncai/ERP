@@ -115,6 +115,7 @@ import MyEmp from './components/MyEmp'
 import MyDetail from './components/MyDetail'
 import MyRepository from './components/MyRepository'
 import ProducePlan from './components/ProducePlan'
+var _that
 export default {
   name: 'AddRequirePlan',
   components: { ProducePlan, MyRepository, MyCenter, MyEmp, MyDetail },
@@ -176,6 +177,9 @@ export default {
       validRules: {
       }
     }
+  },
+  beforeCreate() {
+    _that = this
   },
   mounted() {
     this.getinformation()

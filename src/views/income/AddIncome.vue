@@ -143,6 +143,7 @@ import { searchCategory } from '@/api/Supplier'
 import { getdeptlist } from '@/api/BasicSettings'
 import MyEmp from './components/MyEmp'
 import MyRepository from './components/MyRepository'
+var _that
 export default {
   name: 'AddIncome',
   components: { MyRepository, MyEmp },
