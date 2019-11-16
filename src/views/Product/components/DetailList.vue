@@ -323,7 +323,7 @@
                 <el-table-column
                   prop="retreatQuantity"
                   align="center"
-                  label="退货数量"
+                  :label="$t('updates.thsl')"
                   min-width="150"/>
                 <el-table-column
                   prop="retreatReason"

@@ -138,20 +138,20 @@
             <el-editable-column prop="basicQuantity" align="center" label="应收数量" width="150px"/>
             <el-editable-column :edit-render="{name: 'ElInputNumber', type: 'visible', attrs: {min: 0.00, precision: 2, controls:false}}" :label="$t('updates.rksl')" prop="actualEnterQuantity" align="center" width="150px"/>
             <el-editable-column prop="enterPrice" align="center" label="入库单价" width="150px"/>
-            <el-editable-column prop="taxRate" align="center" label="税率(%)" width="150px"/>
+            <el-editable-column prop="taxRate" align="center" :label="$t('updates.sl')" width="150px"/>
             <el-editable-column prop="enterMoney" align="center" label="入库金额" width="150px">
               <template slot-scope="scope">
                 <p>{{ getSize(scope.row.actualEnterQuantity, scope.row.enterPrice) }}</p>
               </template>
             </el-editable-column>
-            <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="remarks" align="center" label="备注" width="150px"/>
+            <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="remarks" align="center" :label="$t('updates.bz')" width="150px"/>
             <el-editable-column prop="sourceSerialNumber" align="center" :label="$t('updates.ydxh')" width="150px"/>
           </el-editable>
         </div>
       </el-card>
       <!-- 合计信息 -->
       <el-card class="box-card" shadow="never" style="margin-top: 10px">
-        <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">合计信息</h2>
+        <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('updates.hjxx') }}</h2>
         <div class="container" style="margin-top: 37px">
           <el-form ref="personalForm2" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
             <el-row>

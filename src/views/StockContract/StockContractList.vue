@@ -4,13 +4,13 @@
       <el-row>
         <el-form ref="getemplist" :model="getemplist" label-width="100px" style="margin-top: -9px">
           <el-col :span="5">
-            <el-form-item label="合同主题" label-width="100px">
+            <el-form-item :label="$t('updates.htzt')" label-width="100px">
               <el-input v-model="getemplist.title" :placeholder="$t('StockContract.contractTitle')" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
           <el-col :span="5" style="margin-left: 10px">
-            <el-form-item label="合同单号">
-              <el-input v-model="getemplist.number" placeholder="询价单号" clearable @keyup.enter.native="handleFilter"/>
+            <el-form-item :label="$t('updates.htdh')">
+              <el-input v-model="getemplist.number" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
           <el-col :span="5" style="margin-left: 10px">

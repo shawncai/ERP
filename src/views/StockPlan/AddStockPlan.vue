@@ -71,7 +71,7 @@
       </el-card>
       <!--子件信息-->
       <el-card class="box-card" style="margin-top: 15px" shadow="never">
-        <h2 ref="fuzhu" class="form-name" >采购计划来源明细</h2>
+        <h2 ref="fuzhu" class="form-name" >{{ $t('updates.cgjhjlymx') }}</h2>
         <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
           <el-button :disabled="addpro" @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>
           <my-detail :control.sync="control" @product="productdetail" @product2="productdetail2"/>
@@ -100,7 +100,7 @@
             <el-editable-column :label="$t('Hmodule.gg')" prop="productType" align="center" min-width="150px"/>
             <el-editable-column prop="color" align="center" :label="$t('updates.ys')" min-width="150px"/>
             <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" min-width="150px"/>
-            <el-editable-column prop="basicPrice" align="center" label="计划采购价" min-width="150px">
+            <el-editable-column prop="basicPrice" align="center" :label="$t('updates.cgjhj')" min-width="150px">
               <template slot-scope="scope">
                 <p>{{ basicPrice(scope.row) }}</p>
               </template>
@@ -137,7 +137,7 @@
         </div>
       </el-card>
       <el-card class="box-card" style="margin-top: 15px" shadow="never">
-        <h2 ref="fuzhu" class="form-name" >采购计划明细</h2>
+        <h2 ref="fuzhu" class="form-name" >{{ $t('updates.cgjhmx') }}</h2>
         <div class="container">
           <el-editable
             ref="editable2"
@@ -157,7 +157,7 @@
             <el-editable-column :label="$t('Hmodule.gg')" prop="productType" align="center" min-width="150px"/>
             <el-editable-column prop="color" align="center" :label="$t('updates.ys')" min-width="150px"/>
             <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" min-width="150px"/>
-            <el-editable-column prop="basicPrice" align="center" label="计划采购价" min-width="150px">
+            <el-editable-column prop="basicPrice" align="center" :label="$t('updates.cgjhj')" min-width="150px">
               <template slot-scope="scope">
                 <p>{{ basicPrice(scope.row) }}</p>
               </template>
@@ -187,7 +187,7 @@
         </div>
       </el-card>
       <el-card class="box-card" shadow="never">
-        <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">合计信息</h2>
+        <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('updates.hjxx') }}</h2>
         <div class="container" style="margin-top: 37px">
           <el-form ref="personalForm2" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
             <el-row>

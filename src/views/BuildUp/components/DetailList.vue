@@ -93,7 +93,7 @@
                 <p>{{ getSize2(scope.row.quantity, scope.row.price) }}</p>
               </template>
             </el-editable-column>
-            <el-editable-column prop="remarks" align="center" label="备注" />
+            <el-editable-column prop="remarks" align="center" :label="$t('updates.bz')" />
           </el-editable>
         </div>
       </el-card>
@@ -125,7 +125,7 @@
                 <p>{{ getSize(scope.row.quantity, scope.row.price) }}</p>
               </template>
             </el-editable-column>
-            <el-editable-column prop="remarks" align="center" label="备注" />
+            <el-editable-column prop="remarks" align="center" :label="$t('updates.bz')" />
           </el-editable>
         </div>
       </el-card>

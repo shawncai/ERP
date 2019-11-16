@@ -169,8 +169,8 @@
           <el-editable-column prop="checkContent" fixed align="center" label="检验内容" min-width="150px"/>
           <el-editable-column prop="checkTools" fixed align="center" label="检验工具" min-width="150px"/>
           <el-editable-column prop="checkQuantity" align="center" label="样本数" min-width="150px"/>
-          <el-editable-column prop="passQuantity" align="center" label="合格数量" min-width="150px"/>
-          <el-editable-column prop="failedQuantity" align="center" label="不合格数量" min-width="150px"/>
+          <el-editable-column prop="passQuantity" align="center" :label="$t('updates.hgsl')" min-width="150px"/>
+          <el-editable-column prop="failedQuantity" align="center" :label="$t('updates.bhgsl')" min-width="150px"/>
           <el-editable-column prop="checkResult" align="center" label="检验结果" min-width="150px">
             <template slot-scope="scope">
               <p>{{ scope.row.chectResult | chectResultFilter }}</p>

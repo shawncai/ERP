@@ -114,7 +114,7 @@
                 <p>{{ getSize(scope.row.actualQuantity, scope.row.price) }}</p>
               </template>
             </el-editable-column>
-            <el-editable-column prop="remarks" align="center" label="备注" />
+            <el-editable-column prop="remarks" align="center" :label="$t('updates.bz')" />
           </el-editable>
         </div>
       </el-card>
@@ -155,7 +155,7 @@
       </el-card>
       <!-- 合计信息 -->
       <el-card class="box-card" shadow="never" style="margin-top: 10px">
-        <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">合计信息</h2>
+        <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('updates.hjxx') }}</h2>
         <div class="container" style="margin-top: 37px">
           <el-form ref="personalForm2" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
             <el-row>

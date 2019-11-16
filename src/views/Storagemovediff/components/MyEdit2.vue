@@ -141,7 +141,7 @@
           <el-editable-column prop="movePrice" align="center" label="调拨单价" width="150px"/>
           <!-- <el-editable-column :edit-render="{name: 'ElInputNumber', type: 'visible'}" prop="movePrice" align="center" label="调拨成本价" width="150px"/> -->
           <el-editable-column prop="moveMoney" align="center" label="商品金额" width="150px"/>
-          <el-editable-column prop="remarks" align="center" label="备注" width="150px"/>
+          <el-editable-column prop="remarks" align="center" :label="$t('updates.bz')" width="150px"/>
         </el-editable>
       </div>
     </el-card>

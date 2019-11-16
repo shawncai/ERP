@@ -109,13 +109,13 @@
               <p>{{ getSize(scope.row.damagedQuantity, scope.row.costPrice) }}</p>
             </template>
           </el-editable-column>
-          <el-editable-column :edit-render="{name: 'ElInput'}" prop="remarks" align="center" label="备注" width="150px"/>
+          <el-editable-column :edit-render="{name: 'ElInput'}" prop="remarks" align="center" :label="$t('updates.bz')" width="150px"/>
         </el-editable>
       </div>
     </el-card>
     <!-- 合计信息 -->
     <el-card class="box-card">
-      <h2 ref="geren" class="form-name">合计信息</h2>
+      <h2 ref="geren" class="form-name">{{ $t('updates.hjxx') }}</h2>
       <div class="container">
         <el-form ref="personalForm" :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="100px" style="margin-left: 30px;">
           <el-row>

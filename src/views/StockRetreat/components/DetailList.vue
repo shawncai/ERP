@@ -109,24 +109,24 @@
             <el-editable-column prop="color" align="center" :label="$t('updates.ys')"/>
             <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" />
             <el-editable-column :label="$t('updates.dhsl')" prop="arrivalQuantity" align="center" />
-            <el-editable-column prop="retreatQuantity" align="center" label="退货数量" />
+            <el-editable-column prop="retreatQuantity" align="center" :label="$t('updates.thsl')" />
             <el-editable-column prop="retreatReason" align="center" label="退货原因" />
             <el-editable-column :label="$t('Hmodule.dj')" prop="price" align="center" />
-            <el-editable-column prop="includeTaxPrice" align="center" label="含税价" />
-            <el-editable-column prop="taxRate" align="center" label="税率(%)" />
+            <el-editable-column prop="includeTaxPrice" align="center" :label="$t('updates.hsj')" />
+            <el-editable-column prop="taxRate" align="center" :label="$t('updates.sl')" />
             <el-editable-column :label="$t('Hmodule.je')" prop="money" align="center" />
-            <el-editable-column prop="includeTaxMoney" align="center" label="含税金额" />
-            <el-editable-column prop="taxMoney" align="center" label="税额" />
-            <el-editable-column prop="discountRate" align="center" label="折扣率(%)" />
-            <el-editable-column prop="discountMoney" align="center" label="折扣额" />
-            <el-editable-column prop="remark" align="center" label="备注" />
+            <el-editable-column prop="includeTaxMoney" align="center" :label="$t('updates.hsje')" />
+            <el-editable-column prop="taxMoney" align="center" :label="$t('updates.se')" />
+            <el-editable-column prop="discountRate" align="center" :label="$t('updates.ckl')" />
+            <el-editable-column prop="discountMoney" align="center" :label="$t('updates.cke')" />
+            <el-editable-column prop="remark" align="center" :label="$t('updates.bz')" />
             <el-editable-column prop="sourceNumber" align="center" :label="$t('updates.ydbh')" />
             <el-editable-column prop="sourceSerialNumber" align="center" :label="$t('updates.ydxh')" />
           </el-editable>
         </div>
       </el-card>
       <el-card class="box-card" shadow="never" style="margin-top: 10px">
-        <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">合计信息</h2>
+        <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('updates.hjxx') }}</h2>
         <div class="container" style="margin-top: 37px">
           <el-form :inline="true" status-icon class="demo-ruleForm" label-width="130px">
             <el-row>
@@ -136,12 +136,12 @@
                 </el-form-item>
               </el-col>
               <el-col :span="12">
-                <el-form-item label="金额合计" style="width: 100%;">
+                <el-form-item :label="$t('updates.hehj')" style="width: 100%;">
                   <span>{{ personalForm.allMoney }}</span>
                 </el-form-item>
               </el-col>
               <el-col :span="12">
-                <el-form-item label="税额合计" style="width: 100%;">
+                <el-form-item :label="$t('updates.sehj')" style="width: 100%;">
                   <span>{{ personalForm.allTaxMoney }}</span>
                 </el-form-item>
               </el-col>

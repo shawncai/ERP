@@ -166,18 +166,18 @@
             <el-editable-column prop="kpiGrade" align="center" label="绩效分" />
             <el-editable-column prop="point" align="center" label="商品积分" />
             <el-editable-column prop="quantity" align="center" label="出库数量" />
-            <el-editable-column prop="retreatQuantity" align="center" label="退货数量" />
+            <el-editable-column prop="retreatQuantity" align="center" :label="$t('updates.thsl')" />
             <!-- <el-editable-column prop="salePrice" align="center" label="零售价" />
             <el-editable-column prop="costPrice" align="center" label="成本价" /> -->
             <el-editable-column prop="taxprice" align="center" label="出库价" />
             <!-- <el-editable-column prop="costMoney" align="center" label="成本金额" />
-            <el-editable-column prop="includeTaxMoney" align="center" label="含税金额" /> -->
-            <el-editable-column prop="taxRate" align="center" label="税率(%)" />
-            <el-editable-column prop="taxMoney" align="center" label="税额" />
+            <el-editable-column prop="includeTaxMoney" align="center" :label="$t('updates.hsje')" /> -->
+            <el-editable-column prop="taxRate" align="center" :label="$t('updates.sl')" />
+            <el-editable-column prop="taxMoney" align="center" :label="$t('updates.se')" />
             <!-- <el-editable-column prop="money" align="center" :label="$t('Hmodule.je')" /> -->
             <el-editable-column prop="includeTaxCostMoney" align="center" label="出库金额" />
-            <el-editable-column :formatter="formatter" prop="discountRate" align="center" label="折扣率(%)"/>
-            <el-editable-column prop="discountMoney" align="center" label="折扣额" />
+            <el-editable-column :formatter="formatter" prop="discountRate" align="center" :label="$t('updates.ckl')"/>
+            <el-editable-column prop="discountMoney" align="center" :label="$t('updates.cke')" />
             <el-editable-column prop="carCode" align="center" label="车架编码" />
             <el-editable-column prop="motorCode" align="center" label="电机编码" />
             <el-editable-column prop="batteryCode" align="center" label="电池编码" />
@@ -214,7 +214,7 @@
       </el-card>
       <!--审核状态-->
       <el-card class="box-card" shadow="never" style="margin-top: 10px">
-        <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">合计信息</h2>
+        <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('updates.hjxx') }}</h2>
         <div class="container" style="margin-top: 37px">
           <el-form ref="personalForm2" :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
             <el-row>

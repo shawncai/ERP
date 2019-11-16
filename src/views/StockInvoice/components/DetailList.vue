@@ -102,20 +102,20 @@
             <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" min-width="150px"/>
             <el-editable-column prop="quantity" align="center" label="数量" min-width="150px"/>
             <el-editable-column :label="$t('Hmodule.dj')" prop="price" align="center" min-width="170px"/>
-            <el-editable-column prop="includeTaxPrice" align="center" label="含税价" min-width="170px"/>
-            <el-editable-column prop="taxRate" align="center" label="税率(%)" min-width="170px"/>
+            <el-editable-column prop="includeTaxPrice" align="center" :label="$t('updates.hsj')" min-width="170px"/>
+            <el-editable-column prop="taxRate" align="center" :label="$t('updates.sl')" min-width="170px"/>
             <el-editable-column :label="$t('Hmodule.je')" prop="money" align="center" min-width="150px"/>
-            <el-editable-column prop="includeTaxMoney" align="center" label="含税金额" min-width="150px"/>
-            <el-editable-column prop="tax" align="center" label="税额" min-width="150px"/>
+            <el-editable-column prop="includeTaxMoney" align="center" :label="$t('updates.hsje')" min-width="150px"/>
+            <el-editable-column prop="tax" align="center" :label="$t('updates.se')" min-width="150px"/>
             <el-editable-column prop="discountRate" align="center" label="折扣(%)" min-width="170px"/>
-            <el-editable-column prop="discountMoney" align="center" label="折扣额" min-width="170px"/>
+            <el-editable-column prop="discountMoney" align="center" :label="$t('updates.cke')" min-width="170px"/>
             <el-editable-column prop="sourceNumber" align="center" :label="$t('updates.ydbh')" min-width="150px"/>
             <el-editable-column prop="orderNumber" align="center" label="订单单号" min-width="150px"/>
           </el-editable>
         </div>
       </el-card>
       <!--      <el-card class="box-card" shadow="never" style="margin-top: 10px">-->
-      <!--        <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">合计信息</h2>-->
+      <!--        <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('updates.hjxx') }}</h2>-->
       <!--        <div class="container" style="margin-top: 37px">-->
       <!--          <el-form :inline="true" status-icon class="demo-ruleForm" label-width="130px">-->
       <!--            <el-row>-->
@@ -125,12 +125,12 @@
       <!--                </el-form-item>-->
       <!--              </el-col>-->
       <!--              <el-col :span="12">-->
-      <!--                <el-form-item label="金额合计" style="width: 100%;">-->
+      <!--                <el-form-item :label="$t('updates.hehj')" style="width: 100%;">-->
       <!--                  <span>{{ personalForm.allMoney }}</span>-->
       <!--                </el-form-item>-->
       <!--              </el-col>-->
       <!--              <el-col :span="12">-->
-      <!--                <el-form-item label="税额合计" style="width: 100%;">-->
+      <!--                <el-form-item :label="$t('updates.sehj')" style="width: 100%;">-->
       <!--                  <span>{{ personalForm.allTaxMoney }}</span>-->
       <!--                </el-form-item>-->
       <!--              </el-col>-->

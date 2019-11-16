@@ -368,7 +368,7 @@
                 <el-table-column
                   prop="retreatQuantity"
                   align="center"
-                  label="退货数量"
+                  :label="$t('updates.thsl')"
                   min-width="150"/>
                 <el-table-column
                   prop="retreatReason"
@@ -447,7 +447,7 @@
                 <el-table-column
                   prop="returnQuantity"
                   align="center"
-                  label="退货数量"
+                  :label="$t('updates.thsl')"
                   min-width="150"/>
                 <el-table-column
                   prop="stockTimes"
@@ -501,7 +501,7 @@
                 <el-table-column
                   prop="arrivalDate"
                   align="center"
-                  label="交货日期"
+                  :label="$t('updates.jhrq')"
                   min-width="150"/>
                 <el-table-column
                   prop="acceptDate"

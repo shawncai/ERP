@@ -113,7 +113,7 @@
             <el-editable-column prop="newTradePrice" align="center" label="批发调整价" />
             <el-editable-column prop="memberPrice" align="center" label="会员原价" />
             <el-editable-column prop="newMemberPrice" align="center" label="会员调整价" />
-            <el-editable-column prop="remarks" align="center" label="备注" />
+            <el-editable-column prop="remarks" align="center" :label="$t('updates.bz')" />
           </el-editable>
         </div>
       </el-card>
@@ -154,7 +154,7 @@
       </el-card>
       <!-- 备注消息 -->
       <el-card class="box-card">
-        <h2 ref="geren" class="form-name">合计信息</h2>
+        <h2 ref="geren" class="form-name">{{ $t('updates.hjxx') }}</h2>
         <div class="container">
           <el-form ref="personalForm" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="100px" style="margin-left: 30px;">
             <el-row>

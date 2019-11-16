@@ -4,20 +4,20 @@
       <el-row>
         <el-form ref="getemplist" :model="getemplist" label-width="100px" style="margin-top: -9px">
           <el-col :span="5">
-            <el-form-item label="物料分类" label-width="100px">
+            <el-form-item :label="$t('updates.wlfl')" label-width="100px">
               <el-input v-model="categoryId" :placeholder="$t('StockRequire.categoryId')" clearable @keyup.enter.native="handleFilter" @focus="treechoose" @clear="restFilter"/>
               <my-tree :treecontrol.sync="treecontrol" @tree="tree"/>
             </el-form-item>
           </el-col>
           <el-col :span="5" style="margin-left: 10px">
-            <el-form-item label="物料名称">
-              <el-input v-model="getemplist.productName" placeholder="物料名称" clearable @keyup.enter.native="handleFilter" @focus="handleAddproduct"/>
+            <el-form-item :label="$t('updates.wlmc')">
+              <el-input v-model="getemplist.productName" clearable @keyup.enter.native="handleFilter" @focus="handleAddproduct"/>
               <my-detail :control.sync="control" @productdata="productdata"/>
             </el-form-item>
           </el-col>
           <el-col :span="5" style="margin-left: 10px">
-            <el-form-item label="是否已生成采购计划" label-width="150px">
-              <el-select v-model="getemplist.isPlan" :value="getemplist.isPlan" placeholder="是否已生成采购计划" clearable>
+            <el-form-item :label="$t('updates.sfysccg')" label-width="150px">
+              <el-select v-model="getemplist.isPlan" :value="getemplist.isPlan" clearable>
                 <el-option value="1" :label="$t('updates.yes')"/>
                 <el-option value="2" :label="$t('updates.no')"/>
               </el-select>
@@ -57,7 +57,7 @@
       <el-button v-permission="['104-107-6']" v-waves :loading="downloadLoading" class="filter-item" style="width: 86px" @click="handleExport"> <svg-icon icon-class="daochu"/>{{ $t('public.export') }}</el-button>
       <!-- 打印操作 -->
       <el-button v-permission="['104-107-7']" v-waves class="filter-item" icon="el-icon-printer" style="width: 86px" @click="handlePrint">{{ $t('public.print') }}</el-button>
-      <el-button v-waves class="filter-item" icon="el-icon-plus" style="width: 160px;" @click="handleNumbers">生成采购计划单</el-button>
+      <el-button v-waves class="filter-item" icon="el-icon-plus" style="width: 160px;" @click="handleNumbers">{{ $t('updates.sccgjhd') }}</el-button>
     </el-card>
 
     <el-card class="box-card" style="margin-top: 10px" shadow="never">

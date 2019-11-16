@@ -103,7 +103,7 @@
       <el-card class="box-card" style="margin-top: 15px" shadow="never">
         <h2 ref="fuzhu" class="form-name" >费用发票明细</h2>
         <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
-          <el-button @click="handleAdd2">添加</el-button>
+          <el-button @click="handleAdd2">{{ $t('updates.tj') }}</el-button>
           <my-detail :control.sync="control" @product="productdetail"/>
           <el-button type="danger" @click="$refs.editable.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
         </div>
@@ -127,20 +127,20 @@
             <el-editable-column prop="costCategory" align="center" label="费用类型" min-width="150px"/>
             <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="unit" align="center" label="计量单位" min-width="150px"/>
             <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0, precision: 2}, type: 'visible'}" prop="quantity" align="center" label="数量" min-width="150px"/>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0, precision: 2}, type: 'visible'}" prop="includeTaxPrice" align="center" label="含税价" min-width="170px"/>
-            <el-editable-column prop="includeTaxMoney" align="center" label="含税金额" min-width="150px">
+            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0, precision: 2}, type: 'visible'}" prop="includeTaxPrice" align="center" :label="$t('updates.hsj')" min-width="170px"/>
+            <el-editable-column prop="includeTaxMoney" align="center" :label="$t('updates.hsje')" min-width="150px">
               <template slot-scope="scope">
                 <p>{{ getTaxMoney(scope.row) }}</p>
               </template>
             </el-editable-column>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0, precision: 2}, type: 'visible'}" prop="taxRate" align="center" label="税率(%)" min-width="170px"/>
+            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0, precision: 2}, type: 'visible'}" prop="taxRate" align="center" :label="$t('updates.sl')" min-width="170px"/>
             <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0, precision: 2}, type: 'visible'}" prop="deduTaxMoney" align="center" label="可抵用税额" min-width="170px"/>
             <el-editable-column prop="money" align="center" label="不含税金额" min-width="150px">
               <template slot-scope="scope">
                 <p>{{ getMoney(scope.row) }}</p>
               </template>
             </el-editable-column>
-            <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="remark" align="center" label="备注" min-width="170px"/>
+            <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="remark" align="center" :label="$t('updates.bz')" min-width="170px"/>
             <el-editable-column prop="subjectName" align="center" label="费用科目" min-width="170px"/>
           </el-editable>
         </div>

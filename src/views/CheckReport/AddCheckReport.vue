@@ -200,7 +200,7 @@
       <el-card class="box-card" style="margin-top: 15px" shadow="never">
         <h2 ref="fuzhu" class="form-name" >质检报告单明细</h2>
         <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
-          <!--          <el-button @click="handleAdd">添加</el-button>-->
+          <!--          <el-button @click="handleAdd">{{ $t('updates.tj') }}</el-button>-->
           <el-button type="danger" @click="$refs.editable.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
         </div>
         <div class="container">
@@ -220,8 +220,8 @@
             <el-editable-column prop="checkContent" fixed align="center" label="检验内容" width="200px"/>
             <el-editable-column prop="checkTools" fixed align="center" label="检验工具" width="200px"/>
             <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="checkQuantity" align="center" label="样本数" width="200px"/>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="passQuantity" align="center" label="合格数量" width="200px"/>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="failedQuantity" align="center" label="不合格数量" width="200px"/>
+            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="passQuantity" align="center" :label="$t('updates.hgsl')" width="200px"/>
+            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="failedQuantity" align="center" :label="$t('updates.bhgsl')" width="200px"/>
             <el-editable-column :edit-render="{name: 'ElSelect',options: results ,type: 'visible'}" prop="chectResult" align="center" label="检验结果" width="200px"/>
             <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="remarks" align="center" label="单项结论" width="200px"/>
             <!--            <el-editable-column :edit-render="{name: 'ElSelect',options: results ,type: 'visible'}" prop="chectResult" align="center" label="检验结果" min-width="150px"/>-->
@@ -230,8 +230,8 @@
             <!--                <p>{{ getcheckQuantity(scope.row) }}</p>-->
             <!--              </template>-->
             <!--            </el-editable-column>-->
-            <!--            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="passQuantity" align="center" label="合格数量" min-width="150px"/>-->
-            <!--            <el-editable-column prop="failedQuantity" align="center" label="不合格数量" min-width="150px">-->
+            <!--            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="passQuantity" align="center" :label="$t('updates.hgsl')" min-width="150px"/>-->
+            <!--            <el-editable-column prop="failedQuantity" align="center" :label="$t('updates.bhgsl')" min-width="150px">-->
             <!--              <template slot-scope="scope">-->
             <!--                <p>{{ getfailedQuantity(scope.row) }}</p>-->
             <!--              </template>-->

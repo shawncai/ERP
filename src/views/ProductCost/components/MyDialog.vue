@@ -186,7 +186,7 @@
     <el-card class="box-card" style="margin-top: 15px;margin-bottom: 30px" shadow="never">
       <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">质检报告单明细</h2>
       <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
-        <el-button @click="$refs.editable.insert(-1)">添加</el-button>
+        <el-button @click="$refs.editable.insert(-1)">{{ $t('updates.tj') }}</el-button>
         <el-button type="danger" @click="$refs.editable.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
       </div>
       <div class="container">
@@ -207,8 +207,8 @@
           <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="checkValue" align="center" label="检验值" min-width="150px"/>
           <el-editable-column :edit-render="{name: 'ElSelect',options: results ,type: 'visible'}" prop="chectResult" align="center" label="检验结果" min-width="150px"/>
           <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="checkQuantity" align="center" label="检验数量" min-width="150px"/>
-          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="passQuantity" align="center" label="合格数量" min-width="150px"/>
-          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="failedQuantity" align="center" label="不合格数量" min-width="150px"/>
+          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="passQuantity" align="center" :label="$t('updates.hgsl')" min-width="150px"/>
+          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="failedQuantity" align="center" :label="$t('updates.bhgsl')" min-width="150px"/>
           <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="checkPersonname" align="center" label="检验人员" min-width="150px">
             <template slot="edit" slot-scope="scope">
               <el-input v-model="scope.row.checkPersonname" @focus="handlechoosestaff"/>

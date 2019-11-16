@@ -97,11 +97,11 @@
             <el-editable-column prop="planStartDate" align="center" label="计划开工时间" />
             <el-editable-column prop="planFinishDate" align="center" label="计划完工时间" />
             <el-editable-column prop="alreadyProduceQuantity" align="center" label="已生产数量" />
-            <el-editable-column prop="alreadyEnterQuantity" align="center" label="已入库数量" />
+            <el-editable-column prop="alreadyEnterQuantity" align="center" :label="$t('updates.yrksl')" />
             <el-editable-column prop="reportedCheckQuantity" align="center" label="已报质检数量" />
             <el-editable-column prop="actualCheckQuantity" align="center" label="实检数量" />
-            <el-editable-column prop="passQuantity" align="center" label="合格数量" />
-            <el-editable-column prop="failQuantity" align="center" label="不合格数量" />
+            <el-editable-column prop="passQuantity" align="center" :label="$t('updates.hgsl')" />
+            <el-editable-column prop="failQuantity" align="center" :label="$t('updates.bhgsl')" />
           </el-editable>
         </div>
       </el-card>

@@ -96,7 +96,7 @@
                 <p>{{ getSize(scope.row.movePrice, scope.row.moveQuantity) }}</p>
               </template>
             </el-editable-column>
-            <el-editable-column prop="remarks" align="center" label="备注" />
+            <el-editable-column prop="remarks" align="center" :label="$t('updates.bz')" />
           </el-editable>
         </div>
       </el-card> -->
@@ -130,7 +130,7 @@
                 <p>{{ getSize(scope.row.movePrice, scope.row.moveQuantity) }}</p>
               </template>
             </el-editable-column>
-            <el-editable-column prop="remarks" align="center" label="备注" />
+            <el-editable-column prop="remarks" align="center" :label="$t('updates.bz')" />
           </el-editable>
         </div>
       </el-card> -->
@@ -175,7 +175,7 @@
             <el-editable-column prop="movePrice" align="center" label="调拨单价" width="150px"/>
             <!-- <el-editable-column :edit-render="{name: 'ElInputNumber', type: 'visible'}" prop="movePrice" align="center" label="调拨成本价" width="150px"/> -->
             <el-editable-column prop="moveMoney" align="center" label="商品金额" width="150px"/>
-            <el-editable-column prop="remarks" align="center" label="备注" width="150px"/>
+            <el-editable-column prop="remarks" align="center" :label="$t('updates.bz')" width="150px"/>
           </el-editable>
         </div>
       </el-card>

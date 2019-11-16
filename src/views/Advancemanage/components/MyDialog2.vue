@@ -113,16 +113,16 @@
           <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="quantity" align="center" label="预售数量" min-width="170px"/>
           <el-editable-column prop="salePrice" align="center" label="零售价" min-width="170px"/>
           <el-editable-column prop="costPrice" align="center" label="成本价" min-width="170px"/>
-          <el-editable-column prop="includeTaxMoney" align="center" label="含税金额" min-width="170px"/>
+          <el-editable-column prop="includeTaxMoney" align="center" :label="$t('updates.hsje')" min-width="170px"/>
           <el-editable-column prop="taxRate" align="center" label="税率" min-width="170px"/>
-          <el-editable-column prop="taxMoney" align="center" label="税额" min-width="170px"/>
+          <el-editable-column prop="taxMoney" align="center" :label="$t('updates.se')" min-width="170px"/>
           <el-editable-column :label="$t('Hmodule.je')" prop="money" align="center" min-width="170px"/>
           <el-editable-column prop="includeTaxCostMoney" align="center" label="含税成本金额" min-width="170px"/>
           <el-editable-column prop="carCode" align="center" label="车架编码" min-width="170px"/>
           <el-editable-column prop="batteryCode" align="center" label="电池编码" min-width="170px"/>
           <el-editable-column prop="motorCode" align="center" label="电机编码" min-width="170px"/>
           <el-editable-column prop="discount" align="center" label="折扣率（%）" min-width="170px"/>
-          <el-editable-column prop="discountMoney" align="center" label="折扣额" min-width="170px"/>
+          <el-editable-column prop="discountMoney" align="center" :label="$t('updates.cke')" min-width="170px"/>
         </el-editable>
       </div>
     </el-card>

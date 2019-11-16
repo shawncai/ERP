@@ -115,7 +115,7 @@
           <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" align="center" min-width="150px"/>
           <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" min-width="150px"/>
           <el-editable-column prop="basicQuantity" align="center" label="基本数量" min-width="150px"/>
-          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="checkQuantity" align="center" label="报检数量" min-width="150px"/>
+          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="checkQuantity" align="center" :label="$t('updates.bjsl')" min-width="150px"/>
           <el-editable-column prop="hadCheckQuantity" align="center" label="已报捡数量" min-width="150px"/>
           <el-editable-column prop="checkedQuantity" align="center" label="已捡数量" min-width="150px"/>
           <el-editable-column :label="$t('updates.dhsl')" prop="arrivalQuantity" align="center" min-width="150px"/>

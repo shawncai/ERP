@@ -4,12 +4,12 @@
       <el-row>
         <el-form ref="getemplist" :model="getemplist" label-width="100px" style="margin-top: -9px">
           <el-col :span="5">
-            <el-form-item label="计量单位组编号" label-width="100px">
+            <el-form-item :label="$t('updates.jldwzbh')" label-width="100px">
               <el-input v-model="getemplist.number" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
           <el-col :span="5">
-            <el-form-item label="计量单位组名称" label-width="100px">
+            <el-form-item :label="$t('updates.jlzmc')" label-width="100px">
               <el-input v-model="getemplist.groupName" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
@@ -55,7 +55,7 @@
             </el-select>
           </el-form-item>
           <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
-            <el-button @click="handleAdd2">添加</el-button>
+            <el-button @click="handleAdd2">{{ $t('updates.tj') }}</el-button>
             <el-button type="danger" @click="$refs.editable.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
           </div>
           <div class="container">
@@ -152,7 +152,7 @@
             </el-select>
           </el-form-item>
           <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
-            <el-button @click="handleAdd3">添加</el-button>
+            <el-button @click="handleAdd3">{{ $t('updates.tj') }}</el-button>
             <el-button type="danger" @click="$refs.editable2.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
           </div>
           <el-editable

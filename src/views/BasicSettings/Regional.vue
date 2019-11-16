@@ -36,7 +36,7 @@
       </el-table-column>
       <el-table-column :label="$t('area.Operation')" width="240" align="center">
         <template slot-scope="scope">
-          <el-button type="primary" size="mini" @click="handleUpdate(scope.row)">新增子区域</el-button>
+          <el-button type="primary" size="mini" @click="handleUpdate(scope.row)">{{ $t('updates.xjzqy') }}</el-button>
           <el-button v-if="scope.row.isNext === 2" size="mini" type="danger" @click="handleDelete(scope.row)">{{ $t('area.delete') }}</el-button>
           <el-button type="warning" size="mini" @click="handleEdit(scope.row)">{{ $t('public.edit') }}</el-button>
         </template>

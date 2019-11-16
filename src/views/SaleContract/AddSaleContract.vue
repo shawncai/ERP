@@ -321,7 +321,7 @@
             </el-editable-column>
             <el-editable-column prop="salePrice" align="center" label="零售价" min-width="150px"/>
             <!--            <el-editable-column prop="costPrice" align="center" label="成本价" min-width="150px"/>-->
-            <el-editable-column prop="taxprice" align="center" label="含税价" min-width="150px">
+            <el-editable-column prop="taxprice" align="center" :label="$t('updates.hsj')" min-width="150px">
               <template slot-scope="scope">
                 <span>{{ gettaxprice(scope.row) }}</span>
               </template>
@@ -331,12 +331,12 @@
             <!--                <p>{{ getcostMoney(scope.row) }}</p>-->
             <!--              </template>-->
             <!--            </el-editable-column>-->
-            <el-editable-column prop="includeTaxMoney" align="center" label="含税金额" min-width="150px">
+            <el-editable-column prop="includeTaxMoney" align="center" :label="$t('updates.hsje')" min-width="150px">
               <template slot-scope="scope">
                 <p>{{ getincludeTaxMoney(scope.row) }}</p>
               </template>
             </el-editable-column>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="taxRate" align="center" label="税率(%)" min-width="170px">
+            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="taxRate" align="center" :label="$t('updates.sl')" min-width="170px">
               <template slot="edit" slot-scope="scope">
                 <el-input-number
                   :precision="2"
@@ -345,7 +345,7 @@
                   @change="gettaxRate(scope.row)"/>
               </template>
             </el-editable-column>
-            <el-editable-column prop="taxMoney" align="center" label="税额" min-width="170px">
+            <el-editable-column prop="taxMoney" align="center" :label="$t('updates.se')" min-width="170px">
               <template slot-scope="scope">
                 <p>{{ getTaxMoney2(scope.row) }}</p>
               </template>
@@ -360,7 +360,7 @@
                 <p>{{ getincludeTaxCostMoney(scope.row) }}</p>
               </template>
             </el-editable-column>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="discount" align="center" label="折扣率(%)" min-width="170px">
+            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="discount" align="center" :label="$t('updates.ckl')" min-width="170px">
               <template slot="edit" slot-scope="scope">
                 <el-input-number
                   :precision="2"
@@ -369,7 +369,7 @@
                   @change="getdiscountRate(scope.row)"/>
               </template>
             </el-editable-column>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="discountMoney" align="center" label="折扣额" min-width="170px">
+            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="discountMoney" align="center" :label="$t('updates.cke')" min-width="170px">
               <template slot="edit" slot-scope="scope">
                 <el-input-number
                   :precision="2"

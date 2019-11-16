@@ -101,7 +101,7 @@
                 <p>{{ getSize2(scope.row.quantity, scope.row.price) }}</p>
               </template>
             </el-editable-column>
-            <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="remarks" align="center" label="备注" width="150px"/>
+            <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="remarks" align="center" :label="$t('updates.bz')" width="150px"/>
           </el-editable>
         </div>
       </el-card>
@@ -153,7 +153,7 @@
                 <p>{{ getSize(scope.row.quantity, scope.row.price) }}</p>
               </template>
             </el-editable-column>
-            <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="remarks" align="center" label="备注" width="150px"/>
+            <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="remarks" align="center" :label="$t('updates.bz')" width="150px"/>
           </el-editable>
         </div>
       </el-card>

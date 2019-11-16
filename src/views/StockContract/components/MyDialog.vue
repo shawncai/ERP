@@ -189,14 +189,14 @@
                 @input="getprice(scope.row)"/>
             </template>
           </el-editable-column>
-          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="includeTaxPrice" align="center" label="含税价" min-width="170px">
+          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="includeTaxPrice" align="center" :label="$t('updates.hsj')" min-width="170px">
             <template slot="edit" slot-scope="scope">
               <el-input-number
                 v-model="scope.row.includeTaxPrice"
                 @input="getincludeTaxPrice(scope.row)"/>
             </template>
           </el-editable-column>
-          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="taxRate" align="center" label="税率(%)" min-width="170px">
+          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="taxRate" align="center" :label="$t('updates.sl')" min-width="170px">
             <template slot="edit" slot-scope="scope">
               <el-input-number
                 v-model="scope.row.taxRate"
@@ -208,17 +208,17 @@
               <p>{{ getMoney(scope.row) }}</p>
             </template>
           </el-editable-column>
-          <el-editable-column prop="includeTaxMoney" align="center" label="含税金额" min-width="150px">
+          <el-editable-column prop="includeTaxMoney" align="center" :label="$t('updates.hsje')" min-width="150px">
             <template slot-scope="scope">
               <p>{{ getTaxMoney(scope.row) }}</p>
             </template>
           </el-editable-column>
-          <el-editable-column prop="taxMoney" align="center" label="税额" min-width="150px">
+          <el-editable-column prop="taxMoney" align="center" :label="$t('updates.se')" min-width="150px">
             <template slot-scope="scope">
               <p>{{ getTaxMoney2(scope.row) }}</p>
             </template>
           </el-editable-column>
-          <el-editable-column :edit-render="{name: 'ElDatePicker', attrs: {type: 'date', format: 'yyyy-MM-dd'}, type: 'visible'}" prop="requireDate" align="center" label="交货日期" min-width="170px"/>
+          <el-editable-column :edit-render="{name: 'ElDatePicker', attrs: {type: 'date', format: 'yyyy-MM-dd'}, type: 'visible'}" prop="requireDate" align="center" :label="$t('updates.jhrq')" min-width="170px"/>
           <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="discountRate" align="center" label="折扣(%)" min-width="170px">
             <template slot="edit" slot-scope="scope">
               <el-input-number
@@ -226,14 +226,14 @@
                 @change="getdiscountRate(scope.row)"/>
             </template>
           </el-editable-column>
-          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="discountMoney" align="center" label="折扣额" min-width="170px">
+          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="discountMoney" align="center" :label="$t('updates.cke')" min-width="170px">
             <template slot="edit" slot-scope="scope">
               <el-input-number
                 v-model="scope.row.discountMoney"
                 @change="getdiscountMoney(scope.row)"/>
             </template>
           </el-editable-column>
-          <el-editable-column prop="remark" align="center" label="备注" min-width="150px"/>
+          <el-editable-column prop="remark" align="center" :label="$t('updates.bz')" min-width="150px"/>
           <el-editable-column prop="sourceNumber" align="center" :label="$t('updates.ydbh')" min-width="150px"/>
           <el-editable-column prop="sourceSerialNumber" align="center" :label="$t('updates.ydxh')" min-width="150px"/>
           <el-editable-column prop="orderedQuantity" align="center" :label="$t('updates.ydgsl')" min-width="150px"/>
@@ -241,37 +241,37 @@
       </div>
     </el-card>
     <el-card class="box-card" shadow="never" style="margin-top: 10px">
-      <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">合计信息</h2>
+      <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('updates.hjxx') }}</h2>
       <div class="container" style="margin-top: 37px">
         <el-form :inline="true" status-icon class="demo-ruleForm" label-width="130px">
           <el-row>
             <el-col :span="12">
-              <el-form-item label="采购数量合计" style="width: 100%;">
+              <el-form-item :label="$t('updates.cgslhj')" style="width: 100%;">
                 <el-input v-model="allNumber" style="margin-left: 18px;width: 200px" disabled/>
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item label="金额合计" style="width: 100%;">
+              <el-form-item :label="$t('updates.hehj')" style="width: 100%;">
                 <el-input v-model="allMoney" style="margin-left: 18px;width: 200px" disabled/>
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item label="税额合计" style="width: 100%;">
+              <el-form-item :label="$t('updates.sehj')" style="width: 100%;">
                 <el-input v-model="allTaxMoney" style="margin-left: 18px;width: 200px" disabled/>
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item label="含税金额合计" style="width: 100%;">
+              <el-form-item :label="$t('updates.hsjehj')" style="width: 100%;">
                 <el-input v-model="allIncludeTaxMoney" style="margin-left: 18px;width: 200px" disabled/>
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item label="整单折扣金额合计" style="width: 100%;">
+              <el-form-item :label="$t('updates.zdzkjehj')" style="width: 100%;">
                 <el-input v-model="allDiscountMoney" style="margin-left: 18px;width: 200px" disabled/>
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item label="折后含税金额合计" style="width: 100%;">
+              <el-form-item :label="$t('updates.zhhsjehj')" style="width: 100%;">
                 <el-input v-model="allMoneyMoveDiscount" style="margin-left: 18px;width: 200px" disabled/>
               </el-form-item>
             </el-col>

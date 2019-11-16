@@ -5,7 +5,7 @@
       <el-card class="box-card" style="margin-top: 63px" shadow="never">
         <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('Hmodule.basicinfo') }}</h2>
         <button style="font-size: 10px;" @click="printdata">{{ $t('updates.print') }}</button>
-        <button style="font-size: 10px;margin-left: 10px" @click="handleMyReceipt2()">复制单据</button>
+        <button style="font-size: 10px;margin-left: 10px" @click="handleMyReceipt2()">{{ $t('updates.fzdj') }}</button>
         <div class="container" style="margin-top: 37px">
           <el-form :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="100px" style="margin-left: 30px;">
             <el-row>
@@ -45,7 +45,7 @@
       </el-card>
       <!--子件信息-->
       <el-card class="box-card" style="margin-top: 15px" shadow="never">
-        <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">采购订单明细</h2>
+        <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('updates.cgddmx') }}</h2>
         <div class="container">
           <el-editable
             ref="editable"

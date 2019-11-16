@@ -34,7 +34,7 @@
           <span>{{ scope.row.arrivalQuantity }}</span>
         </template>
       </el-table-column>
-      <el-table-column :resizable="false" label="交货日期" align="center" min-width="150">
+      <el-table-column :resizable="false" :label="$t('updates.jhrq')" align="center" min-width="150">
         <template slot-scope="scope">
           <span>{{ scope.row.giveDate }}</span>
         </template>

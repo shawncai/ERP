@@ -107,68 +107,68 @@
             <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" />
             <el-editable-column :label="$t('updates.cgsl')" prop="stockQuantity" align="center" />
             <el-editable-column :label="$t('updates.dhsl')" prop="arrivalQuantity" align="center" />
-            <el-editable-column prop="giveDate" align="center" label="交货日期" >
+            <el-editable-column prop="giveDate" align="center" :label="$t('updates.jhrq')" >
               <template slot-scope="scope">
                 <span >{{ timestampToTime(scope.row.giveDate) }}</span>
               </template>
             </el-editable-column>
             <el-editable-column :label="$t('Hmodule.dj')" prop="price" align="center" />
-            <el-editable-column prop="includeTaxPrice" align="center" label="含税价" />
-            <el-editable-column prop="taxRate" align="center" label="税率(%)" />
+            <el-editable-column prop="includeTaxPrice" align="center" :label="$t('updates.hsj')" />
+            <el-editable-column prop="taxRate" align="center" :label="$t('updates.sl')" />
             <el-editable-column :label="$t('Hmodule.je')" prop="money" align="center" />
-            <el-editable-column prop="includeTaxMoney" align="center" label="含税金额" />
-            <el-editable-column prop="taxMoney" align="center" label="税额" />
+            <el-editable-column prop="includeTaxMoney" align="center" :label="$t('updates.hsje')" />
+            <el-editable-column prop="taxMoney" align="center" :label="$t('updates.se')" />
             <el-editable-column prop="discountRate" align="center" label="折扣(%)" />
-            <el-editable-column prop="discountMoney" align="center" label="折扣额" />
-            <el-editable-column prop="remark" align="center" label="备注" />
+            <el-editable-column prop="discountMoney" align="center" :label="$t('updates.cke')" />
+            <el-editable-column prop="remark" align="center" :label="$t('updates.bz')" />
             <el-editable-column prop="sourceNumber" align="center" :label="$t('updates.ydbh')" />
             <el-editable-column prop="sourceSerialNumber" align="center" :label="$t('updates.ydxh')" />
-            <el-editable-column prop="hadStorageQuantity" align="center" label="已入库数量" />
-            <el-editable-column prop="reportCheckingQuantity" align="center" label="报检数量" />
-            <el-editable-column prop="actualCheckingQuantity" align="center" label="实捡数量" />
-            <el-editable-column prop="qualifyQuantity" align="center" label="合格数量" />
-            <el-editable-column prop="unqualifyQuantity" align="center" label="不合格数量" />
-            <el-editable-column prop="returnQuantity" align="center" label="退货数量" />
+            <el-editable-column prop="hadStorageQuantity" align="center" :label="$t('updates.yrksl')" />
+            <el-editable-column prop="reportCheckingQuantity" align="center" :label="$t('updates.bjsl')" />
+            <el-editable-column prop="actualCheckingQuantity" align="center" :label="$t('updates.sjsl')" />
+            <el-editable-column prop="qualifyQuantity" align="center" :label="$t('updates.hgsl')" />
+            <el-editable-column prop="unqualifyQuantity" align="center" :label="$t('updates.bhgsl')" />
+            <el-editable-column prop="returnQuantity" align="center" :label="$t('updates.thsl')" />
           </el-editable>
         </div>
       </el-card>
       <el-card class="box-card" shadow="never" style="margin-top: 10px">
-        <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">合计信息</h2>
+        <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('updates.hjxx') }}</h2>
         <div class="container" style="margin-top: 37px">
           <el-form :inline="true" status-icon class="demo-ruleForm" label-width="130px">
             <el-row>
               <el-col :span="12">
-                <el-form-item label="到货数量总计" style="width: 100%;">
+                <el-form-item :label="$t('updates.dhslzj')" style="width: 100%;">
                   <span> {{ personalForm.allQuantity }} </span>
                 </el-form-item>
               </el-col>
               <el-col :span="12">
-                <el-form-item label="金额合计" style="width: 100%;">
+                <el-form-item :label="$t('updates.hehj')" style="width: 100%;">
                   <span> {{ personalForm.allMoney }} </span>
                 </el-form-item>
               </el-col>
               <el-col :span="12">
-                <el-form-item label="税额合计" style="width: 100%;">
+                <el-form-item :label="$t('updates.sehj')" style="width: 100%;">
                   <span> {{ personalForm.allTaxMoney }} </span>
                 </el-form-item>
               </el-col>
               <el-col :span="12">
-                <el-form-item label="含税金额合计" style="width: 100%;">
+                <el-form-item :label="$t('updates.hsjehj')" style="width: 100%;">
                   <span> {{ personalForm.allIncludeTaxMoney }} </span>
                 </el-form-item>
               </el-col>
               <el-col :span="12">
-                <el-form-item label="整单折扣金额合计" style="width: 100%;">
+                <el-form-item :label="$t('updates.zdzkjehj')" style="width: 100%;">
                   <span> {{ personalForm.allDiscountMoney }} </span>
                 </el-form-item>
               </el-col>
               <el-col :span="12">
-                <el-form-item label="折后含税金额合计" style="width: 100%;">
+                <el-form-item :label="$t('updates.zhhsjehj')" style="width: 100%;">
                   <span> {{ personalForm.allIncludeTaxDiscountMoney }} </span>
                 </el-form-item>
               </el-col>
               <!-- <el-col :span="12">
-                <el-form-item label="其他费用支出合计" style="width: 100%;">
+                <el-form-item :label="$t('updates.cqtfyzchjgjhj')" style="width: 100%;">
                   <span> {{ personalForm.otherMoney }} </span>
                 </el-form-item>
               </el-col> -->
@@ -280,12 +280,12 @@
             <el-table-column
               prop="passQuantity"
               align="center"
-              label="合格数量"
+              :label="$t('updates.hgsl')"
               min-width="150"/>
             <el-table-column
               prop="failedQuantity"
               align="center"
-              label="不合格数量"
+              :label="$t('updates.bhgsl')"
               min-width="150"/>
             <el-table-column
               prop="checkDate"
@@ -325,7 +325,7 @@
             <el-table-column
               prop="retreatQuantity"
               align="center"
-              label="退货数量"
+              :label="$t('updates.thsl')"
               min-width="150"/>
             <el-table-column
               prop="retreatReason"

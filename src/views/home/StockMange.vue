@@ -239,8 +239,8 @@
 <!--                        <p>{{ getcheckQuantity(scope.row) }}</p>-->
 <!--                      </template>-->
 <!--                    </el-editable-column>-->
-<!--                    <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="passQuantity" align="center" label="合格数量" min-width="150px"/>-->
-<!--                    <el-editable-column prop="failedQuantity" align="center" label="不合格数量" min-width="150px">-->
+<!--                    <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="passQuantity" align="center" :label="$t('updates.hgsl')" min-width="150px"/>-->
+<!--                    <el-editable-column prop="failedQuantity" align="center" :label="$t('updates.bhgsl')" min-width="150px">-->
 <!--                      <template slot-scope="scope">-->
 <!--                        <p>{{ getfailedQuantity(scope.row) }}</p>-->
 <!--                      </template>-->

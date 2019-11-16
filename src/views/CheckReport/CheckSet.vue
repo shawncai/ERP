@@ -80,7 +80,7 @@
         </el-form>
         <div
           style="display: flex; align-items: center; justify-content: flex-start;padding-left: 35px;padding-bottom: 20px;">
-          <el-button @click="insertEvent(-1)">添加</el-button>
+          <el-button @click="insertEvent(-1)">{{ $t('updates.tj') }}</el-button>
           <el-button type="danger" @click="$refs.editable.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
         </div>
 

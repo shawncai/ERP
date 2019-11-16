@@ -311,7 +311,7 @@
                 <el-table-column
                   prop="returnQuantity"
                   align="center"
-                  label="退货数量"
+                  :label="$t('updates.thsl')"
                   min-width="150"/>
                 <el-table-column
                   prop="returnReason"

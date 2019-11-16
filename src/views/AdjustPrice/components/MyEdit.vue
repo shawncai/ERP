@@ -106,7 +106,7 @@
           <el-editable-column :edit-render="{name: 'ElInputNumber', type: 'visible'}" prop="newTradePrice" align="center" label="批发调整价" width="150px"/>
           <el-editable-column prop="memberPrice" align="center" label="会员原价" width="150px"/>
           <el-editable-column :edit-render="{name: 'ElInputNumber', type: 'visible'}" prop="newMemberPrice" align="center" label="会员调整价" width="150px"/>
-          <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="remarks" align="center" label="备注" width="150px"/>
+          <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="remarks" align="center" :label="$t('updates.bz')" width="150px"/>
         </el-editable>
       </div>
     </el-card>

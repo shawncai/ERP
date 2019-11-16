@@ -174,8 +174,8 @@
             </template>
           </el-editable-column>
           <el-editable-column prop="checkQuantity" align="center" label="检验数量" min-width="150px"/>
-          <el-editable-column prop="passQuantity" align="center" label="合格数量" min-width="150px"/>
-          <el-editable-column prop="failedQuantity" align="center" label="不合格数量" min-width="150px"/>
+          <el-editable-column prop="passQuantity" align="center" :label="$t('updates.hgsl')" min-width="150px"/>
+          <el-editable-column prop="failedQuantity" align="center" :label="$t('updates.bhgsl')" min-width="150px"/>
           <el-editable-column prop="checkPersonname" align="center" label="检验人员" min-width="150px"/>
           <el-editable-column prop="checkDeptName" align="center" label="检验部门" min-width="150px"/>
           <el-editable-column prop="targetUp" align="center" label="指标上限" min-width="150px"/>

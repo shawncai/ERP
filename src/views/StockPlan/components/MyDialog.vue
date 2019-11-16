@@ -69,7 +69,7 @@
     </el-card>
     <!--子件信息-->
     <el-card class="box-card" style="margin-top: 15px" shadow="never">
-      <h2 ref="fuzhu" class="form-name" >采购计划来源明细</h2>
+      <h2 ref="fuzhu" class="form-name" >{{ $t('updates.cgjhjlymx') }}</h2>
       <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
         <el-button :disabled="addpro" @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>
         <my-detail :control.sync="control" @product="productdetail" @product2="productdetail2"/>
@@ -129,7 +129,7 @@
       </div>
     </el-card>
     <el-card class="box-card" style="margin-top: 15px" shadow="never">
-      <h2 ref="fuzhu" class="form-name" >采购计划明细</h2>
+      <h2 ref="fuzhu" class="form-name" >{{ $t('updates.cgjhmx') }}</h2>
       <div class="container">
         <el-editable
           ref="editable2"
@@ -166,7 +166,7 @@
       </div>
     </el-card>
     <el-card class="box-card" style="margin-bottom: 30px" shadow="never">
-      <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">合计信息</h2>
+      <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('updates.hjxx') }}</h2>
       <div class="container" style="margin-top: 37px">
         <el-form ref="personalForm2" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
           <el-row>

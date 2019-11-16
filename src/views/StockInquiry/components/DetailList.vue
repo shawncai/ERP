@@ -72,7 +72,7 @@
       </el-card>
       <!--子件信息-->
       <el-card class="box-card" style="margin-top: 15px" shadow="never">
-        <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">采购询价单明细</h2>
+        <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('uodates.cgxjdmx') }}</h2>
         <div class="container">
           <el-editable
             ref="editable"
@@ -89,16 +89,16 @@
             <el-editable-column prop="color" align="center" :label="$t('updates.ys')" />
             <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" />
             <el-editable-column prop="plannedQuantity" align="center" :label="$t('updates.jhsl')" />
-            <el-editable-column prop="planDeliveryDate" align="center" label="交货日期" />
+            <el-editable-column prop="planDeliveryDate" align="center" :label="$t('updates.jhrq')" />
             <el-editable-column :label="$t('Hmodule.dj')" prop="price" align="center" />
-            <el-editable-column prop="includeTaxPrice" align="center" label="含税价" />
+            <el-editable-column prop="includeTaxPrice" align="center" :label="$t('updates.hsj')" />
             <el-editable-column prop="taxRate" align="center" label="税率" />
             <el-editable-column :label="$t('Hmodule.je')" prop="money" align="center" />
-            <el-editable-column prop="includeTaxMoney" align="center" label="含税金额" />
-            <el-editable-column prop="taxMoney" align="center" label="税额" />
-            <el-editable-column prop="discountRate" align="center" label="折扣率(%)"/>
-            <el-editable-column prop="discountMoney" align="center" label="折扣额" />
-            <el-editable-column prop="applicationReason" align="center" label="备注" />
+            <el-editable-column prop="includeTaxMoney" align="center" :label="$t('updates.hsje')" />
+            <el-editable-column prop="taxMoney" align="center" :label="$t('updates.se')" />
+            <el-editable-column prop="discountRate" align="center" :label="$t('updates.ckl')"/>
+            <el-editable-column prop="discountMoney" align="center" :label="$t('updates.cke')" />
+            <el-editable-column prop="applicationReason" align="center" :label="$t('updates.bz')" />
             <el-editable-column prop="sourceNumber" align="center" :label="$t('updates.ydbh')" />
             <el-editable-column prop="sourceSerialNumber" align="center" :label="$t('updates.ydxh')" />
           </el-editable>

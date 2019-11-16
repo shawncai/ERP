@@ -98,16 +98,16 @@
             <el-editable-column prop="quantity" align="center" label="预售数量" />
             <el-editable-column prop="salePrice" align="center" label="零售价" />
             <el-editable-column prop="costPrice" align="center" label="成本价" />
-            <el-editable-column prop="includeTaxMoney" align="center" label="含税金额" />
+            <el-editable-column prop="includeTaxMoney" align="center" :label="$t('updates.hsje')" />
             <el-editable-column prop="taxRate" align="center" label="税率" />
-            <el-editable-column prop="taxMoney" align="center" label="税额" />
+            <el-editable-column prop="taxMoney" align="center" :label="$t('updates.se')" />
             <el-editable-column :label="$t('Hmodule.je')" prop="money" align="center" />
             <el-editable-column prop="includeTaxCostMoney" align="center" label="含税成本金额" />
             <el-editable-column prop="carCode" align="center" label="车架编码" />
             <el-editable-column prop="batteryCode" align="center" label="电池编码" />
             <el-editable-column prop="motorCode" align="center" label="电机编码" />
             <el-editable-column prop="discount" align="center" label="折扣率（%）" />
-            <el-editable-column prop="discountMoney" align="center" label="折扣额" />
+            <el-editable-column prop="discountMoney" align="center" :label="$t('updates.cke')" />
           </el-editable>
         </div>
       </el-card>
