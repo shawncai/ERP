@@ -4,7 +4,7 @@
       <el-row>
         <el-form ref="getemplist" :model="getemplist" label-width="100px" style="margin-top: -9px">
           <el-col :span="4">
-            <el-form-item label="收车人">
+            <el-form-item :label="$t('updates.scr')">
               <el-input v-model="receivePersonId" @keyup.enter.native="handleFilter" @clear="restFilter" @focus="handlechooseStock"/>
             </el-form-item>
             <my-emp :control.sync="stockControl" @stockName="stockName"/>

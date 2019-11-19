@@ -4,7 +4,7 @@
       <el-row>
         <el-form ref="getemplist" :model="getemplist" label-width="100px" style="margin-top: -9px">
           <el-col :span="5">
-            <el-form-item label="单据主题" label-width="100px">
+            <el-form-item :label="$t('updates.djzti')" label-width="100px">
               <el-input v-model="getemplist.title" :placeholder="$t('StockRetreat.title')" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>

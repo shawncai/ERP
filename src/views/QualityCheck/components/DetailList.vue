@@ -62,7 +62,7 @@
     </el-card>
     <!--子件信息-->
     <el-card class="box-card" style="margin-top: 15px" shadow="never">
-      <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">质检申请单明细</h2>
+      <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('updates.zjsqdmx') }}</h2>
       <div class="container">
         <el-editable
           ref="editable"
@@ -77,7 +77,7 @@
           <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" fixed="left" align="center" min-width="150px"/>
           <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" fixed="left" align="center" min-width="150px"/>
           <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" min-width="150px"/>
-          <el-editable-column prop="basicQuantity" align="center" label="基本数量" min-width="150px"/>
+          <el-editable-column prop="basicQuantity" align="center" :label="$t('updates.jbel')" min-width="150px"/>
           <el-editable-column prop="checkQuantity" align="center" :label="$t('updates.bjsl')" min-width="150px"/>
           <el-editable-column prop="hadCheckQuantity" align="center" label="已报捡数量" min-width="150px"/>
           <el-editable-column prop="checkedQuantity" align="center" label="已捡数量" min-width="150px"/>

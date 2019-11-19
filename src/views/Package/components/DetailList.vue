@@ -22,7 +22,7 @@
     </el-card>
     <!--子件信息-->
     <el-card class="box-card" style="margin-top: 15px" shadow="never">
-      <h2 ref="fuzhu" class="form-name" >适用门店</h2>
+      <h2 ref="fuzhu" class="form-name" >{{ $t('updates.symd') }}</h2>
       <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
         <el-checkbox v-model="checkAll" :label="personalForm.packageName" style="margin-left: 20px" disabled>全部门店</el-checkbox>
       </div>
@@ -38,14 +38,14 @@
           style="width: 100%">
           <el-editable-column type="selection" min-width="55" align="center"/>
           <el-editable-column :label="$t('Hmodule.xh')" min-width="55" align="center" type="index"/>
-          <el-editable-column prop="repositoryName" align="center" label="门店名称" min-width="150px"/>
-          <el-editable-column prop="categoryName" align="center" label="门店类型" min-width="150px"/>
-          <el-editable-column prop="managerName" align="center" label="负责人" min-width="150px"/>
+          <el-editable-column prop="repositoryName" align="center" :label="$t('updates.mdmc')" min-width="150px"/>
+          <el-editable-column prop="categoryName" align="center" :label="$t('updates.mdlx')" min-width="150px"/>
+          <el-editable-column prop="managerName" align="center" :label="$t('updates.fzr')" min-width="150px"/>
         </el-editable>
       </div>
     </el-card>
     <el-card class="box-card" style="margin-top: 15px" shadow="never">
-      <h2 ref="fuzhu" class="form-name">主商品</h2>
+      <h2 ref="fuzhu" class="form-name">{{ $t('updates.zsp') }}</h2>
       <div class="container">
         <el-editable
           ref="editable2"
@@ -62,13 +62,13 @@
           <el-editable-column prop="color" align="center" :label="$t('updates.ys')" min-width="150px"/>
           <el-editable-column :label="$t('Hmodule.gg')" prop="productType" align="center" min-width="150px"/>
           <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" min-width="150px"/>
-          <el-editable-column prop="salePrice" align="center" label="零售价" min-width="150px"/>
-          <el-editable-column prop="costPrice" align="center" label="出厂价" min-width="150px"/>
+          <el-editable-column prop="salePrice" align="center" :label="$t('updates.lsj')" min-width="150px"/>
+          <el-editable-column prop="costPrice" align="center" :label="$t('updates.ccj')" min-width="150px"/>
         </el-editable>
       </div>
     </el-card>
     <el-card class="box-card" style="margin-top: 15px" shadow="never">
-      <h2 ref="fuzhu" class="form-name">赠送商品</h2>
+      <h2 ref="fuzhu" class="form-name">{{ $t('updates.zssp') }}</h2>
       <div class="container">
         <el-editable
           ref="editable3"

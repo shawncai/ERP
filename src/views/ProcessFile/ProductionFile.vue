@@ -4,17 +4,17 @@
       <el-row>
         <el-form ref="getemplist" :model="getemplist" label-width="120px" style="margin-top: -9px">
           <el-col :span="4">
-            <el-form-item label="工艺编号">
+            <el-form-item :label="$t('updates.gybh')">
               <el-input v-model="getemplist.code" :placeholder="$t('ProcessFile.code2')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
           <el-col :span="4">
-            <el-form-item label="工艺名称">
+            <el-form-item :label="$t('updates.gymc')">
               <el-input v-model="getemplist.processName" :placeholder="$t('ProcessFile.processName')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
           <el-col :span="4">
-            <el-form-item label="拼音缩写">
+            <el-form-item :label="$t('updates.pysx')">
               <el-input v-model="getemplist.shortName" :placeholder="$t('ProcessFile.shortName')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>

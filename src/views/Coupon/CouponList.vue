@@ -4,12 +4,12 @@
       <el-row>
         <el-form ref="getemplist" :model="getemplist" label-width="100px" style="margin-top: -9px">
           <el-col :span="5">
-            <el-form-item label="优惠券名称" label-width="100px">
+            <el-form-item :label="$t('updates.yhjmc')" label-width="100px">
               <el-input v-model="getemplist.name" style="width: 160px;" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
           <el-col :span="5" style="margin-left: 10%">
-            <el-form-item label="状态" label-width="100px">
+            <el-form-item :label="$t('updates.stat')" label-width="100px">
               <el-select v-model="getemplist.stat" :value="getemplist.receiptStat" clearable style="width: 160px;float: left;margin-right: 20px">
                 <el-option value="1" :label="$t('updates.qy')"/>
                 <el-option value="2" label="未启用"/>

@@ -96,16 +96,16 @@
             <el-editable-column :label="$t('Hmodule.xh')" min-width="55" fixed="left" align="center" type="index"/>
             <el-editable-column prop="productCode" align="center" fixed="left" :label="$t('Hmodule.wpbh')" />
             <el-editable-column prop="productName" align="center" fixed="left" :label="$t('Hmodule.wpmc')" />
-            <el-editable-column prop="productCategory" align="center" label="物品分类" />
-            <el-editable-column prop="unit" align="center" label="基本单位" />
-            <el-editable-column prop="typeId" align="center" label="规格型号" />
+            <el-editable-column prop="productCategory" align="center" :label="$t('updates.wpfl')" />
+            <el-editable-column prop="unit" align="center" :label="$t('updates.jbdw')" />
+            <el-editable-column prop="typeId" align="center" :label="$t('updates.ggxh')" />
             <el-editable-column prop="color" align="center" :label="$t('updates.ys')" />
-            <el-editable-column prop="kpiGrade" align="center" label="绩效分" />
-            <el-editable-column prop="point" align="center" label="商品积分" />
+            <el-editable-column prop="kpiGrade" align="center" :label="$t('updates.jxf')" />
+            <el-editable-column prop="point" align="center" :label="$t('updates.spjf')" />
             <el-editable-column prop="price" align="center" :label="$t('Hmodule.dj')" />
-            <el-editable-column prop="carCode" align="center" label="车架编码" />
-            <el-editable-column prop="batteryCode" align="center" label="电池编码" />
-            <el-editable-column prop="motorCode" align="center" label="电机编码" />
+            <el-editable-column prop="carCode" align="center" :label="$t('updates.cjbm')" />
+            <el-editable-column prop="batteryCode" align="center" :label="$t('updates.dcbm')" />
+            <el-editable-column prop="motorCode" align="center" :label="$t('updates.djbm')" />
           </el-editable>
         </div>
       </el-card> -->

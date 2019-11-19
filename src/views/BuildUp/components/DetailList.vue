@@ -9,7 +9,7 @@
           <el-form ref="personalForm" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="100px" style="margin-left: 30px;">
             <el-row>
               <el-col :span="12">
-                <el-form-item class="print2" label="组装单编号" style="width: 100%;display: none">
+                <el-form-item class="print2" :label="$t('updates.zzdbh')" style="width: 100%;display: none">
                   {{ personalForm.buildupNumber }}
                 </el-form-item>
               </el-col>
@@ -67,7 +67,7 @@
       </el-card>
       <!--入库单明细-->
       <el-card class="box-card" style="margin-top: 15px">
-        <h2 ref="fuzhu" class="form-name">待组装的商品</h2>
+        <h2 ref="fuzhu" class="form-name">{{ $t('updates.dzzdspmx') }}</h2>
         <div class="container">
           <el-editable
             ref="editable"
@@ -86,7 +86,7 @@
             <el-editable-column prop="color" align="center" :label="$t('updates.ys')" />
             <el-editable-column :label="$t('Hmodule.gg')" prop="typeIdname" align="center" />
             <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" />
-            <el-editable-column prop="quantity" align="center" label="数量" />
+            <el-editable-column prop="quantity" align="center" :label="$t('updates.shuli')" />
             <el-editable-column :label="$t('Hmodule.dj')" prop="price" align="center" />
             <el-editable-column :label="$t('Hmodule.je')" prop="totalMoney" align="center" >
               <template slot-scope="scope">
@@ -99,7 +99,7 @@
       </el-card>
       <!--组装后的商品      -->
       <el-card class="box-card" style="margin-top: 15px">
-        <h2 ref="fuzhu" class="form-name">组装后的商品</h2>
+        <h2 ref="fuzhu" class="form-name">{{ $t('updates.zzhdsp') }}</h2>
         <div class="container">
           <el-editable
             ref="editable2"
@@ -118,7 +118,7 @@
             <el-editable-column prop="color" align="center" :label="$t('updates.ys')" />
             <el-editable-column :label="$t('Hmodule.gg')" prop="typeIdname" align="center" />
             <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" />
-            <el-editable-column prop="quantity" align="center" label="数量" />
+            <el-editable-column prop="quantity" align="center" :label="$t('updates.shuli')" />
             <el-editable-column :label="$t('Hmodule.dj')" prop="price" align="center" />
             <el-editable-column :label="$t('Hmodule.je')" prop="totalMoney" align="center" >
               <template slot-scope="scope">

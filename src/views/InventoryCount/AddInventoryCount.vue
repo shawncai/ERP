@@ -50,7 +50,7 @@
     </el-card>
     <!--入库单明细-->
     <el-card class="box-card" shadow="never" style="margin-top: 10px">
-      <h2 ref="fuzhu" class="form-name">盘点单明细</h2>
+      <h2 ref="fuzhu" class="form-name">{{ $t('updates.pddmx') }}</h2>
       <div class="buttons" style="margin-top: 50px">
         <el-button type="success" @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>
         <el-button type="danger" @click="$refs.editable.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
@@ -99,19 +99,19 @@
           <el-editable-column prop="color" align="center" :label="$t('updates.ys')" width="150px"/>
           <el-editable-column :label="$t('Hmodule.gg')" prop="typeId" align="center" width="150px"/>
           <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" width="150px"/>
-          <el-editable-column prop="price" align="center" label="成本单价" width="150px"/>
-          <el-editable-column prop="inventoryQuantity" align="center" label="库存数量" width="150px">
+          <el-editable-column prop="price" align="center" :label="$t('updates.cbdj')" width="150px"/>
+          <el-editable-column prop="inventoryQuantity" align="center" :label="$t('updates.kcsl')" width="150px">
             <template slot-scope="scope">
               <p>{{ getquantity(scope.row) }}</p>
             </template>
           </el-editable-column>
-          <el-editable-column :edit-render="{name: 'ElInputNumber', type: 'visible'}" prop="actualQuantity" align="center" label="实盘数量" width="150px"/>
-          <el-editable-column prop="diffQuantity" align="center" label="差异数量" width="150px">
+          <el-editable-column :edit-render="{name: 'ElInputNumber', type: 'visible'}" prop="actualQuantity" align="center" :label="$t('updates.spsl')" width="150px"/>
+          <el-editable-column prop="diffQuantity" align="center" :label="$t('updates.cysl')" width="150px">
             <template slot-scope="scope">
               <p>{{ getDiff(scope.row.inventoryQuantity, scope.row.actualQuantity, scope.row) }}</p>
             </template>
           </el-editable-column>
-          <el-editable-column prop="diffType" align="center" label="盈亏类型" width="150px">
+          <el-editable-column prop="diffType" align="center" :label="$t('updates.yklx')" width="150px">
             <template slot-scope="scope">
               <p>{{ getdiffType(scope.row.inventoryQuantity, scope.row.actualQuantity, scope.row) }}</p>
             </template>
@@ -122,12 +122,12 @@
             </template>
           </el-editable-column>
           <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="remarks" align="center" :label="$t('updates.bz')" width="150px"/>
-          <el-editable-column prop="countPerson" align="center" label="盘点人" width="150px">
+          <el-editable-column prop="countPerson" align="center" :label="$t('updates.pdr')" width="150px">
             <template slot-scope="scope">
               <p>{{ scope.row.countPerson }}</p>
             </template>
           </el-editable-column>
-          <el-editable-column prop="countDate" align="center" label="盘点日期" width="150px"/>
+          <el-editable-column prop="countDate" align="center" :label="$t('updates.pdrq')" width="150px"/>
         </el-editable>
       </div>
     </el-card>
@@ -191,7 +191,7 @@
                   <span >{{ scope.row.repositoryName }}</span>
                 </template>
               </el-table-column>
-              <el-table-column :resizable="false" label="商品名称" align="center" min-width="150">
+              <el-table-column :resizable="false" :label="$t('updates.spmc')" align="center" min-width="150">
                 <template slot-scope="scope">
                   <span >{{ scope.row.productName }}</span>
                 </template>

@@ -33,7 +33,7 @@
               <el-col :span="6">
                 <el-form-item :label="$t('CustomerMarketing.chatMode')" style="width: 100%;">
                   <el-select v-model="personalForm.chatMode" style="margin-left: 18px;width: 200px">
-                    <el-option value="1" label="电话"/>
+                    <el-option value="1" :label="$t('updates.dh')"/>
                     <el-option value="2" label="邮件"/>
                     <el-option value="3" label="远程视频"/>
                     <el-option value="4" label="会面拜访"/>

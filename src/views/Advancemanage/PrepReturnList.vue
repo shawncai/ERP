@@ -4,17 +4,17 @@
       <el-row>
         <el-form ref="getemplist" :model="getemplist" label-width="100px" style="margin-top: -9px">
           <el-col :span="5">
-            <el-form-item label="退款单主题" label-width="100px">
+            <el-form-item :label="$t('updates.tkdzt')" label-width="100px">
               <el-input v-model="getemplist.title" :placeholder="$t('Advancemanage.title')" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
           <el-col :span="5" style="margin-left: 10px">
-            <el-form-item label="退款单单号">
+            <el-form-item :label="$t('updates.tkddh')">
               <el-input v-model="getemplist.returnNumber" placeholder="退款单单号" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
           <el-col :span="5" style="margin-left: 10px">
-            <el-form-item label="源单单号">
+            <el-form-item :label="$t('updates.yddh')">
               <el-input v-model="getemplist.sourceNumber" placeholder="源单单号" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>

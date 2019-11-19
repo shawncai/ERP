@@ -58,7 +58,7 @@
         </div>
       </el-card>
       <el-card class="box-card" style="margin-top: 15px" shadow="never">
-        <h2 ref="fuzhu" class="form-name" >车辆信息</h2>
+        <h2 ref="fuzhu" class="form-name" >{{ $t('updates.clxx') }}</h2>
         <div class="container">
           <el-editable
             ref="editable"
@@ -71,21 +71,21 @@
             <el-editable-column :label="$t('Hmodule.xh')" min-width="55" align="center" type="index"/>
             <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" align="center" />
             <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" align="center" />
-            <el-editable-column prop="productCategoryName" align="center" label="物品分类" />
-            <el-editable-column prop="unit" align="center" label="基本单位" />
-            <el-editable-column prop="productTypeName" align="center" label="规格型号" />
+            <el-editable-column prop="productCategoryName" align="center" :label="$t('updates.wpfl')" />
+            <el-editable-column prop="unit" align="center" :label="$t('updates.jbdw')" />
+            <el-editable-column prop="productTypeName" align="center" :label="$t('updates.ggxh')" />
             <el-editable-column prop="color" align="center" :label="$t('updates.ys')" />
-            <el-editable-column prop="kpiGrade" align="center" label="绩效分" />
-            <el-editable-column prop="point" align="center" label="商品积分" />
+            <el-editable-column prop="kpiGrade" align="center" :label="$t('updates.jxf')" />
+            <el-editable-column prop="point" align="center" :label="$t('updates.spjf')" />
             <el-editable-column :label="$t('Hmodule.dj')" prop="price" align="center" />
-            <el-editable-column prop="carCode" align="center" label="车架编码" />
-            <el-editable-column prop="batteryCode" align="center" label="电池编码" />
-            <el-editable-column prop="motorCode" align="center" label="电机编码" />
+            <el-editable-column prop="carCode" align="center" :label="$t('updates.cjbm')" />
+            <el-editable-column prop="batteryCode" align="center" :label="$t('updates.dcbm')" />
+            <el-editable-column prop="motorCode" align="center" :label="$t('updates.djbm')" />
           </el-editable>
         </div>
       </el-card>
       <el-card class="box-card" style="margin-top: 15px;margin-bottom: 40px" shadow="never">
-        <h2 ref="fuzhu" class="form-name" >缺失明细</h2>
+        <h2 ref="fuzhu" class="form-name" >{{ $t('updates.qsmx') }}</h2>
         <div class="container">
           <el-editable
             ref="editable2"
@@ -98,16 +98,16 @@
             <el-editable-column :label="$t('Hmodule.xh')" fixed="left" min-width="55" align="center" type="index"/>
             <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" fixed="left" align="center" />
             <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" fixed="left" align="center" />
-            <el-editable-column prop="productCategoryName" align="center" label="物品分类" />
-            <el-editable-column prop="unit" align="center" label="基本单位" />
-            <el-editable-column prop="productTypeName" align="center" label="规格型号" />
+            <el-editable-column prop="productCategoryName" align="center" :label="$t('updates.wpfl')" />
+            <el-editable-column prop="unit" align="center" :label="$t('updates.jbdw')" />
+            <el-editable-column prop="productTypeName" align="center" :label="$t('updates.ggxh')" />
             <el-editable-column prop="color" align="center" :label="$t('updates.ys')" />
-            <el-editable-column prop="kpiGrade" align="center" label="绩效分" />
-            <el-editable-column prop="point" align="center" label="商品积分" />
+            <el-editable-column prop="kpiGrade" align="center" :label="$t('updates.jxf')" />
+            <el-editable-column prop="point" align="center" :label="$t('updates.spjf')" />
             <el-editable-column :label="$t('Hmodule.dj')" prop="price" align="center" />
-            <el-editable-column prop="carCode" align="center" label="车架编码" />
-            <el-editable-column prop="batteryCode" align="center" label="电池编码" />
-            <el-editable-column prop="motorCode" align="center" label="电机编码" />
+            <el-editable-column prop="carCode" align="center" :label="$t('updates.cjbm')" />
+            <el-editable-column prop="batteryCode" align="center" :label="$t('updates.dcbm')" />
+            <el-editable-column prop="motorCode" align="center" :label="$t('updates.djbm')" />
           </el-editable>
         </div>
       </el-card>

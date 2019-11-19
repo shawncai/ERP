@@ -10,7 +10,7 @@
           <el-form :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="100px" style="margin-left: 30px;">
             <el-row>
               <el-col :span="12">
-                <el-form-item class="print2" label="调价单编号" style="width: 100%;display: none">
+                <el-form-item class="print2" :label="$t('updates.djdbh')" style="width: 100%;display: none">
                   {{ personalForm.number }}
                 </el-form-item>
               </el-col>

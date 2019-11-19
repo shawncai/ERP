@@ -118,7 +118,7 @@
             <el-editable-column :label="$t('Hmodule.je')" prop="money" align="center" />
             <el-editable-column prop="includeTaxMoney" align="center" :label="$t('updates.hsje')" />
             <el-editable-column prop="taxMoney" align="center" :label="$t('updates.se')" />
-            <el-editable-column prop="discountRate" align="center" label="折扣(%)" />
+            <el-editable-column prop="discountRate" align="center" :label="$t('updates.zk')" />
             <el-editable-column prop="discountMoney" align="center" :label="$t('updates.cke')" />
             <el-editable-column prop="remark" align="center" :label="$t('updates.bz')" />
             <el-editable-column prop="sourceNumber" align="center" :label="$t('updates.ydbh')" />
@@ -330,7 +330,7 @@
             <el-table-column
               prop="retreatReason"
               align="center"
-              label="退货原因"
+              :label="$t('updates.thyy')"
               min-width="150"/>
             <el-table-column
               prop="retreatDate"
@@ -355,7 +355,7 @@
             <el-table-column
               prop="enterNumber"
               align="center"
-              label="入库单编号"
+              :label="$t('updates.rkdbh')"
               min-width="150"/>
             <el-table-column
               :label="$t('Hmodule.wpbh')"

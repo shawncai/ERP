@@ -92,7 +92,7 @@
       </el-card>
       <!--子件信息-->
       <el-card class="box-card" style="margin-top: 15px" shadow="never">
-        <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">采购退货单明细</h2>
+        <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('updates.cgthdmx') }}</h2>
         <div class="container">
           <el-editable
             ref="editable"
@@ -110,7 +110,7 @@
             <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" />
             <el-editable-column :label="$t('updates.dhsl')" prop="arrivalQuantity" align="center" />
             <el-editable-column prop="retreatQuantity" align="center" :label="$t('updates.thsl')" />
-            <el-editable-column prop="retreatReason" align="center" label="退货原因" />
+            <el-editable-column prop="retreatReason" align="center" :label="$t('updates.thyy')" />
             <el-editable-column :label="$t('Hmodule.dj')" prop="price" align="center" />
             <el-editable-column prop="includeTaxPrice" align="center" :label="$t('updates.hsj')" />
             <el-editable-column prop="taxRate" align="center" :label="$t('updates.sl')" />
@@ -131,7 +131,7 @@
           <el-form :inline="true" status-icon class="demo-ruleForm" label-width="130px">
             <el-row>
               <el-col :span="12">
-                <el-form-item label="退货数量总计" style="width: 100%;">
+                <el-form-item :label="$t('updates.thslzj')" style="width: 100%;">
                   <span>{{ personalForm.allQuantity }}</span>
                 </el-form-item>
               </el-col>

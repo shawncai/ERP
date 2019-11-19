@@ -44,7 +44,7 @@
       </div>
     </el-card>
     <el-card class="box-card" shadow="never" style="margin-top: 10px">
-      <h2 ref="geren" class="form-name">物品信息</h2>
+      <h2 ref="geren" class="form-name">{{ $t('updates.wpxx') }}</h2>
       <div class="container" style="margin-top: 37px">
         <el-form ref="personalForm2" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
           <el-row>
@@ -97,10 +97,10 @@
           style="width: 100%">
           <el-editable-column type="selection" min-width="55" align="center"/>
           <el-editable-column :label="$t('Hmodule.xh')" min-width="55" align="center" type="index"/>
-          <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="failedReason" align="center" label="不合格原因" min-width="150px"/>
-          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="quantity" align="center" label="数量" min-width="150px"/>
-          <el-editable-column :edit-render="{name: 'ElSelect', options: modes, type: 'visible'}" prop="handleMode" align="center" label="处置方式" min-width="150px"/>
-          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="rate" align="center" label="比例" min-width="150px"/>
+          <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="failedReason" align="center" :label="$t('updates.bhgyy')" min-width="150px"/>
+          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="quantity" align="center" :label="$t('updates.shuli')" min-width="150px"/>
+          <el-editable-column :edit-render="{name: 'ElSelect', options: modes, type: 'visible'}" prop="handleMode" align="center" :label="$t('updates.czfs')" min-width="150px"/>
+          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="rate" align="center" :label="$t('updates.bl')" min-width="150px"/>
         </el-editable>
       </div>
     </el-card>

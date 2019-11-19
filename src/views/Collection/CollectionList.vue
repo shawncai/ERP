@@ -4,17 +4,17 @@
       <el-row>
         <el-form ref="getemplist" :model="getemplist" label-width="100px" style="margin-top: -9px">
           <el-col :span="5">
-            <el-form-item label="客户姓名" label-width="100px">
+            <el-form-item :label="$t('updates.khxmi')" label-width="100px">
               <el-input v-model="getemplist.customerName" :placeholder="$t('InstallmentList.customerName')" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
           <el-col :span="5" style="margin-left: 10px">
-            <el-form-item label="电话">
+            <el-form-item :label="$t('updates.dh')">
               <el-input v-model="getemplist.customerPhone" placeholder="电话" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
           <el-col :span="5">
-            <el-form-item label="分期申请编号" label-width="100px">
+            <el-form-item :label="$t('updates.fqsqbh')" label-width="100px">
               <el-input v-model="getemplist.customerName" :placeholder="$t('InstallmentList.applyNumber')" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>

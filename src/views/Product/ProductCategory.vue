@@ -5,7 +5,7 @@
       <el-input v-model="getemplist.categoryname" :placeholder="$t('NewEmployeeInformation.categoryname')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
       <el-select v-model="getemplist.type" :value="getemplist.type" :placeholder="$t('NewEmployeeInformation.type')" class="filter-item" clearable>
         <el-option label="物品品牌" value="1"/>
-        <el-option label="车辆型号" value="2"/>
+        <el-option :label="$t('updates.clxh')" value="2"/>
         <el-option label="档次级别" value="3"/>
         <el-option label="物品颜色" value="4"/>
         <el-option label="物品配置" value="5"/>
@@ -41,7 +41,7 @@
           <el-form-item :label="$t('NewEmployeeInformation.type')" label-width="100px" prop="type">
             <el-select v-model="addCategoryForm.type" placeholder="请选择类别" style="width: 100%" @change="chooseType">
               <el-option label="物品品牌" value="1"/>
-              <el-option label="车辆型号" value="2"/>
+              <el-option :label="$t('updates.clxh')" value="2"/>
               <el-option label="档次级别" value="3"/>
               <el-option label="物品颜色" value="4"/>
               <el-option label="物品配置" value="5"/>
@@ -131,7 +131,7 @@
             <el-form-item :label="$t('NewEmployeeInformation.type')" label-width="100px">
               <el-select v-model="editCategoryForm.type" placeholder="请选择类别" style="width: 100%" disabled >
                 <el-option label="物品品牌" value="1"/>
-                <el-option label="车辆型号" value="2"/>
+                <el-option :label="$t('updates.clxh')" value="2"/>
                 <el-option label="档次级别" value="3"/>
                 <el-option label="物品颜色" value="4"/>
                 <el-option label="物品配置" value="5"/>

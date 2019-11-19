@@ -82,12 +82,12 @@
             <el-editable-column :label="$t('Hmodule.xh')" fixed="left" min-width="55" align="center" type="index"/>
             <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" fixed="left" align="center" />
             <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" fixed="left" align="center" />
-            <el-editable-column prop="category" align="center" label="物品分类" />
-            <el-editable-column prop="unit" align="center" label="基本单位" />
-            <el-editable-column prop="typeId" align="center" label="规格型号" />
+            <el-editable-column prop="category" align="center" :label="$t('updates.wpfl')" />
+            <el-editable-column prop="unit" align="center" :label="$t('updates.jbdw')" />
+            <el-editable-column prop="typeId" align="center" :label="$t('updates.ggxh')" />
             <el-editable-column prop="color" align="center" :label="$t('updates.ys')" />
-            <el-editable-column prop="kpiGrade" align="center" label="绩效分" />
-            <el-editable-column prop="point" align="center" label="商品积分" />
+            <el-editable-column prop="kpiGrade" align="center" :label="$t('updates.jxf')" />
+            <el-editable-column prop="point" align="center" :label="$t('updates.spjf')" />
           </el-editable>
         </div>
       </el-card>
@@ -105,7 +105,7 @@
             style="width: 100%">
             <el-editable-column label="阶段" min-width="55" prop="phase" align="center" type="index"/>
             <el-editable-column :label="$t('updates.rq')" prop="chatDate" align="center" />
-            <el-editable-column prop="handlePersonName" align="center" label="业务员" />
+            <el-editable-column prop="handlePersonName" align="center" :label="$t('updates.ywy')" />
             <el-editable-column prop="actionDesc" align="center" label="行动描述" />
             <el-editable-column prop="customerReturn" align="center" label="客户反馈" />
           </el-editable>

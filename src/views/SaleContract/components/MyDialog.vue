@@ -235,7 +235,7 @@
     </el-card>
     <!--子件信息-->
     <el-card class="box-card" style="margin-top: 15px" shadow="never">
-      <h2 ref="fuzhu" class="form-name" >合同明细</h2>
+      <h2 ref="fuzhu" class="form-name" >{{ $t('updates.htmx') }}</h2>
       <div class="container">
         <el-editable
           ref="editable"
@@ -253,13 +253,13 @@
           <el-editable-column :label="$t('Hmodule.xh')" min-width="55" align="center" type="index"/>
           <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" align="center" min-width="150px"/>
           <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" align="center" min-width="150px"/>
-          <el-editable-column prop="productCategoryName" align="center" label="物品分类" min-width="150px"/>
-          <el-editable-column prop="productTypeName" align="center" label="规格型号" min-width="150px"/>
+          <el-editable-column prop="productCategoryName" align="center" :label="$t('updates.wpfl')" min-width="150px"/>
+          <el-editable-column prop="productTypeName" align="center" :label="$t('updates.ggxh')" min-width="150px"/>
           <el-editable-column prop="color" align="center" :label="$t('updates.ys')" min-width="150px"/>
           <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" min-width="150px"/>
-          <el-editable-column prop="performanceScore" align="center" label="绩效分" min-width="150px"/>
-          <el-editable-column prop="productScore" align="center" label="商品积分" min-width="150px"/>
-          <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="quantity" align="center" label="订单数量" min-width="150" >
+          <el-editable-column prop="performanceScore" align="center" :label="$t('updates.jxf')" min-width="150px"/>
+          <el-editable-column prop="productScore" align="center" :label="$t('updates.spjf')" min-width="150px"/>
+          <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="quantity" align="center" :label="$t('updates.ddsl')" min-width="150" >
             <template slot="edit" slot-scope="scope">
               <el-input-number
                 :precision="2"
@@ -270,8 +270,8 @@
               />
             </template>
           </el-editable-column>
-          <el-editable-column prop="salePrice" align="center" label="零售价" min-width="150px"/>
-          <!--          <el-editable-column prop="costPrice" align="center" label="成本价" min-width="150px"/>-->
+          <el-editable-column prop="salePrice" align="center" :label="$t('updates.lsj')" min-width="150px"/>
+          <!--          <el-editable-column prop="costPrice" align="center" :label="$t('updates.cbj')" min-width="150px"/>-->
           <el-editable-column prop="taxprice" align="center" :label="$t('updates.hsj')" min-width="150px">
             <template slot-scope="scope">
               <span>{{ gettaxprice(scope.row) }}</span>
@@ -306,7 +306,7 @@
               <p>{{ getMoney(scope.row) }}</p>
             </template>
           </el-editable-column>
-          <!--          <el-editable-column prop="includeTaxCostMoney" align="center" label="含税成本金额" min-width="170px">-->
+          <!--          <el-editable-column prop="includeTaxCostMoney" align="center" :label="$t('updates.hscbje')" min-width="170px">-->
           <!--            <template slot-scope="scope">-->
           <!--              <p>{{ getincludeTaxCostMoney(scope.row) }}</p>-->
           <!--            </template>-->
@@ -329,9 +329,9 @@
                 @change="getdiscountMoney(scope.row)"/>
             </template>
           </el-editable-column>
-          <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="carCode" align="center" label="车架编码" min-width="150px"/>
-          <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="motorCode" align="center" label="电机编码" min-width="150px"/>
-          <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="batteryCode" align="center" label="电池编码" min-width="150px"/>
+          <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="carCode" align="center" :label="$t('updates.cjbm')" min-width="150px"/>
+          <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="motorCode" align="center" :label="$t('updates.djbm')" min-width="150px"/>
+          <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="batteryCode" align="center" :label="$t('updates.dcbm')" min-width="150px"/>
         </el-editable>
       </div>
     </el-card>

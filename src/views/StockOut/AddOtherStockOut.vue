@@ -82,7 +82,7 @@
       </el-card>
       <!--出库单明细-->
       <el-card class="box-card" style="margin-top: 15px">
-        <h2 ref="fuzhu" class="form-name">出库单明细</h2>
+        <h2 ref="fuzhu" class="form-name">{{ $t('updates.ckdmx') }}</h2>
         <div class="buttons" style="margin-top: 58px">
           <el-button type="success" style="background:#3696fd;border-color:#3696fd " @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>
           <el-button type="danger" @click="$refs.editable.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
@@ -125,8 +125,8 @@
             <el-editable-column prop="color" align="center" :label="$t('updates.ys')" width="150px"/>
             <el-editable-column :label="$t('Hmodule.gg')" prop="typeIdname" align="center" width="150px"/>
             <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" width="150px"/>
-            <el-editable-column prop="basicQuantity" align="center" label="基本数量" width="150px"/>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 1.00, precision: 2}, type: 'visible'}" prop="outQuantity" align="center" label="出库数量" min-width="150">
+            <el-editable-column prop="basicQuantity" align="center" :label="$t('updates.jbel')" width="150px"/>
+            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 1.00, precision: 2}, type: 'visible'}" prop="outQuantity" align="center" :label="$t('updates.cksli')" min-width="150">
               <template slot="edit" slot-scope="scope">
                 <el-input-number
                   :precision="2"
@@ -138,7 +138,7 @@
               </template>
             </el-editable-column>
             <el-editable-column :label="$t('Hmodule.dj')" prop="outPrice" align="center" width="150px"/>
-            <el-editable-column prop="totalMoney" align="center" label="出库金额" width="150px">
+            <el-editable-column prop="totalMoney" align="center" :label="$t('updates.ckje')" width="150px">
               <template slot-scope="scope">
                 <p>{{ getSize(scope.row.outQuantity, scope.row.outPrice) }}</p>
               </template>
@@ -187,7 +187,7 @@
                     <span >{{ scope.row.repositoryName }}</span>
                   </template>
                 </el-table-column>
-                <el-table-column :resizable="false" label="商品名称" align="center" min-width="150">
+                <el-table-column :resizable="false" :label="$t('updates.spmc')" align="center" min-width="150">
                   <template slot-scope="scope">
                     <span >{{ scope.row.productName }}</span>
                   </template>

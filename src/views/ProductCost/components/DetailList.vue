@@ -89,7 +89,7 @@
       </el-card>
       <!--子件信息-->
       <el-card class="box-card" style="margin-top: 15px" shadow="never">
-        <h2 ref="fuzhu" class="form-name" >成本费用明细</h2>
+        <h2 ref="fuzhu" class="form-name" >{{ $t('updates.cbfymx') }}</h2>
         <div class="container">
           <el-row :gutter="20" style="margin-top: 100px">
             <el-col :span="24">
@@ -104,27 +104,27 @@
                         style="width: 100%">
                         <el-table-column
                           prop="productCost"
-                          label="产品成本"
+                          :label="$t('updates.cpcb')"
                           min-width="140"
                           align="center"/>
                         <el-table-column
                           prop="material"
-                          label="直接材料费用"
+                          :label="$t('updates.zjclfy')"
                           min-width="140"
                           align="center"/>
                         <el-table-column
                           prop="man"
-                          label="直接人工费用"
+                          :label="$t('updates.zjrgfy')"
                           min-width="140"
                           align="center"/>
                         <el-table-column
                           prop="produce"
-                          label="制造费用"
+                          :label="$t('updates.zzfy')"
                           min-width="140"
                           align="center"/>
                         <el-table-column
                           prop="total"
-                          label="费用合计"
+                          :label="$t('updates.fyhj')"
                           min-width="140"
                           align="center"/>
                       </el-table>

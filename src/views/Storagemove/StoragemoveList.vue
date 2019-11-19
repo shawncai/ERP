@@ -5,17 +5,17 @@
       <el-row>
         <el-form ref="getemplist" :model="getemplist" label-width="100px" style="margin-top: -9px">
           <el-col :span="4">
-            <el-form-item label="调拨单主题">
+            <el-form-item :label="$t('updates.dbdzt')">
               <el-input v-model="getemplist.title" :placeholder="$t('Storagemove.title')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
           <el-col :span="4">
-            <el-form-item label="调拨单编号">
+            <el-form-item :label="$t('updates.dbdbh')">
               <el-input v-model="getemplist.moveNumber" :placeholder="$t('Storagemove.moveNumber')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
           <el-col :span="4">
-            <el-form-item label="调入仓库">
+            <el-form-item :label="$t('updates.drck')">
               <el-input v-model="moveInRepository" :placeholder="$t('Storagemove.moveInRepository')" class="filter-item" clearable @clear="restFilter" @keyup.enter.native="handleFilter" @focus="handlechooseDep"/>
             </el-form-item>
             <my-depot :depotcontrol.sync="depotcontrol" @depotname="depotname"/>

@@ -15,7 +15,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="4">
-            <el-form-item label="经办人">
+            <el-form-item :label="$t('updates.jbr')">
               <el-input v-model="handlePersonId" :placeholder="$t('InventoryOverflow.handlePersonId')" class="filter-item" clearable @clear="restFilter2" @keyup.enter.native="handleFilter" @focus="handlechoose"/>
             </el-form-item>
             <my-create :createcontrol.sync="createcontrol" @createname="createname"/>

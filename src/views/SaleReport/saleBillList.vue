@@ -51,7 +51,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="4" style="margin-left: 56px">
-            <el-form-item label="车架号">
+            <el-form-item :label="$t('updates.cjh')">
               <el-input v-model="getemplist.carCode" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
@@ -61,7 +61,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="4" style="margin-left: 26px">
-            <el-form-item label="电池编码">
+            <el-form-item :label="$t('updates.dcbm')">
               <el-input v-model="getemplist.batteryCode" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>

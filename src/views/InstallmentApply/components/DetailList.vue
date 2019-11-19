@@ -128,7 +128,7 @@
       </el-card>
       <!--子件信息-->
       <el-card class="box-card" shadow="never" style="margin-top: 10px">
-        <h2 ref="geren" class="form-name">商品信息</h2>
+        <h2 ref="geren" class="form-name">{{ $t('updates.spxx') }}</h2>
         <div class="container" style="margin-top: 37px">
           <el-form ref="personalForm2" :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
             <el-row>
@@ -231,7 +231,7 @@
         </div>
       </el-card>
       <el-card class="box-card" shadow="never" style="margin-top: 10px">
-        <h2 ref="geren" class="form-name">工作信息</h2>
+        <h2 ref="geren" class="form-name">{{ $t('updates.gzxx') }}</h2>
         <div class="container" style="margin-top: 37px">
           <el-tabs v-model="activeName">
             <el-tab-pane label="申请者" name="first">
@@ -380,7 +380,7 @@
         </div>
       </el-card>
       <el-card class="box-card" shadow="never" style="margin-top: 10px">
-        <h2 ref="geren" class="form-name">征询人信息</h2>
+        <h2 ref="geren" class="form-name">{{ $t('updates.zxrxx') }}</h2>
         <div class="container">
           <el-editable
             ref="editable"
@@ -392,9 +392,9 @@
             size="medium"
             style="width: 100%">
             <el-editable-column :label="$t('Hmodule.xh')" min-width="55" align="center" type="index"/>
-            <el-editable-column prop="consultancyName" align="center" label="姓名" min-width="150px"/>
-            <el-editable-column prop="consultancyPhone" align="center" label="联系电话" min-width="150px"/>
-            <el-editable-column prop="consultancyAddress" align="center" label="地址" min-width="150px"/>
+            <el-editable-column prop="consultancyName" align="center" :label="$t('updates.xmi')" min-width="150px"/>
+            <el-editable-column prop="consultancyPhone" align="center" :label="$t('updates.lxdh')" min-width="150px"/>
+            <el-editable-column prop="consultancyAddress" align="center" :label="$t('updates.dz')" min-width="150px"/>
           </el-editable>
         </div>
       </el-card>

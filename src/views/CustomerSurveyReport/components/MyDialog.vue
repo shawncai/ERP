@@ -54,7 +54,7 @@
     </el-card>
     <!--子件信息-->
     <el-card class="box-card" shadow="never">
-      <h2 ref="geren" class="form-name">客户调查报告明细</h2>
+      <h2 ref="geren" class="form-name">{{ $t('updates.khdcbgmx') }}</h2>
       <div class="container" style="margin-top: 37px">
         <el-form ref="personalForm2" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
           <el-row>
@@ -97,15 +97,15 @@
       </div>
     </el-card>
     <el-card class="box-card" shadow="never">
-      <h2 ref="geren" class="form-name">综合结果</h2>
+      <h2 ref="geren" class="form-name">{{ $t('updates.zhjg') }}</h2>
       <div class="container" style="margin-top: 37px">
         <el-form ref="personalForm3" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
           <el-row>
             <el-col :span="24">
               <el-form-item :label="$t('CustomerSurveyReport.result')" prop="title" style="width: 100%;">
                 <el-select v-model="personalForm.result" style="margin-left: 18px;width: 200px">
-                  <el-option value="1" label="通过" />
-                  <el-option value="2" label="不通过" />
+                  <el-option value="1" :label="$t('updates.tg')" />
+                  <el-option value="2" :label="$t('updates.btg')" />
                 </el-select>
               </el-form-item>
             </el-col>
@@ -114,7 +114,7 @@
       </div>
     </el-card>
     <el-card class="box-card" shadow="never">
-      <h2 ref="geren" class="form-name">原因分析</h2>
+      <h2 ref="geren" class="form-name">{{ $t('updates.yyfx') }}</h2>
       <div class="container" style="margin-top: 37px">
         <el-form ref="personalForm4" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
           <el-row>

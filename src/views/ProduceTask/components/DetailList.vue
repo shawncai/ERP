@@ -91,15 +91,15 @@
             <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" />
             <el-editable-column prop="sourceNumber" align="center" :label="$t('updates.ydbh')" />
             <el-editable-column :label="$t('Hmodule.ggzx')" prop="workCenter" align="center" />
-            <el-editable-column prop="produceQuantity" align="center" label="生产数量" />
-            <el-editable-column prop="bomNumber" align="center" label="BOM编码" />
-            <el-editable-column prop="processName" align="center" label="工艺路线" />
-            <el-editable-column prop="planStartDate" align="center" label="计划开工时间" />
-            <el-editable-column prop="planFinishDate" align="center" label="计划完工时间" />
-            <el-editable-column prop="alreadyProduceQuantity" align="center" label="已生产数量" />
+            <el-editable-column prop="produceQuantity" align="center" :label="$t('updates.scsl')" />
+            <el-editable-column prop="bomNumber" align="center" :label="$t('updates.bimbm')" />
+            <el-editable-column prop="processName" align="center" :label="$t('updates.gylx')" />
+            <el-editable-column prop="planStartDate" align="center" :label="$t('updates.jhkgsj')" />
+            <el-editable-column prop="planFinishDate" align="center" :label="$t('updates.jhwgsj')" />
+            <el-editable-column prop="alreadyProduceQuantity" align="center" :label="$t('updates.yscsl')" />
             <el-editable-column prop="alreadyEnterQuantity" align="center" :label="$t('updates.yrksl')" />
-            <el-editable-column prop="reportedCheckQuantity" align="center" label="已报质检数量" />
-            <el-editable-column prop="actualCheckQuantity" align="center" label="实检数量" />
+            <el-editable-column prop="reportedCheckQuantity" align="center" :label="$t('updates.ybjsl')" />
+            <el-editable-column prop="actualCheckQuantity" align="center" :label="$t('updates.sjsl')" />
             <el-editable-column prop="passQuantity" align="center" :label="$t('updates.hgsl')" />
             <el-editable-column prop="failQuantity" align="center" :label="$t('updates.bhgsl')" />
           </el-editable>

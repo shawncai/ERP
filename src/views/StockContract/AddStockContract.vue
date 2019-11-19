@@ -223,7 +223,7 @@
       <!--              </template>-->
       <!--            </el-editable-column>-->
       <!--            <el-editable-column :edit-render="{name: 'ElDatePicker', attrs: {type: 'date', format: 'yyyy-MM-dd'}, type: 'visible'}" prop="requireDate" align="center" :label="$t('updates.jhrq')" min-width="170px"/>-->
-      <!--            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="discountRate" align="center" label="折扣(%)" min-width="170px">-->
+      <!--            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="discountRate" align="center" :label="$t('updates.zk')" min-width="170px">-->
       <!--              <template slot="edit" slot-scope="scope">-->
       <!--                <el-input-number-->
       <!--                  :precision="2"-->
@@ -305,7 +305,7 @@
                   <span >{{ scope.row.repositoryName }}</span>
                 </template>
               </el-table-column>
-              <el-table-column :resizable="false" label="商品名称" align="center" min-width="150">
+              <el-table-column :resizable="false" :label="$t('updates.spmc')" align="center" min-width="150">
                 <template slot-scope="scope">
                   <span >{{ scope.row.productName }}</span>
                 </template>

@@ -4,7 +4,7 @@
       <el-row>
         <el-form ref="getemplist" :model="getemplist" label-width="100px" style="margin-top: -9px">
           <el-col :span="6">
-            <el-form-item label="员工名称">
+            <el-form-item :label="$t('updates.ygmc')">
               <el-input v-model="emoloyeeName" style="width: 190px" clearable @keyup.enter.native="handleFilter" @focus="handlesearchName"/>
               <my-accept2 :accetpcontrol.sync="personcontrol" @acceptName="acceptName2"/>
             </el-form-item>

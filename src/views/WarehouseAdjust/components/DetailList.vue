@@ -67,7 +67,7 @@
       </el-card>
       <!--入库单明细-->
       <el-card class="box-card" style="margin-top: 15px">
-        <h2 ref="fuzhu" class="form-name">入库单明细</h2>
+        <h2 ref="fuzhu" class="form-name">{{ $t('updates.rkdmx') }}</h2>
         <div class="container">
           <el-editable
             ref="editable"
@@ -85,10 +85,10 @@
             <el-editable-column prop="color" align="center" :label="$t('updates.ys')" />
             <el-editable-column :label="$t('Hmodule.gg')" prop="productType" align="center" />
             <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" />
-            <!-- <el-editable-column prop="basicQuantity" align="center" label="基本数量" /> -->
+            <!-- <el-editable-column prop="basicQuantity" align="center" :label="$t('updates.jbel')" /> -->
             <el-editable-column :label="$t('updates.rksl')" prop="enterQuantity" align="center" />
             <el-editable-column :label="$t('Hmodule.dj')" prop="price" align="center" />
-            <el-editable-column prop="totalMoney" align="center" label="入库金额" >
+            <el-editable-column prop="totalMoney" align="center" :label="$t('updates.rkje')" >
               <template slot-scope="scope">
                 <p>{{ getSize(scope.row.enterQuantity, scope.row.price) }}</p>
               </template>

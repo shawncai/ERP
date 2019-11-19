@@ -68,7 +68,7 @@
         </div>
       </el-card>
       <el-card class="box-card" style="margin-top: 15px" shadow="never">
-        <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">费用信息</h2>
+        <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('updates.fyxx') }}</h2>
         <div class="container">
           <el-form :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="110px" style="margin-left: 30px;">
             <el-row>
@@ -83,7 +83,7 @@
       </el-card>
       <!--子件信息-->
       <el-card class="box-card" style="margin-top: 15px" shadow="never">
-        <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">外包单明细</h2>
+        <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('updates.wbdmx') }}</h2>
         <div class="container">
           <el-editable
             ref="editable"
@@ -100,8 +100,8 @@
             <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" fixed="left" align="center" />
             <el-editable-column :label="$t('Hmodule.gg')" prop="productType" align="center" />
             <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" />
-            <el-editable-column prop="quantity" align="center" label="数量" />
-            <el-editable-column prop="money" align="center" label="加工费" />
+            <el-editable-column prop="quantity" align="center" :label="$t('updates.shuli')" />
+            <el-editable-column prop="money" align="center" :label="$t('updates.jgf')" />
             <el-editable-column :label="$t('Hmodule.je')" prop="totalMoney" align="center" >
               <template slot-scope="scope">
                 <p>{{ gettotalMoney(scope.row.quantity, scope.row.money, scope.row) }}</p>

@@ -70,7 +70,7 @@
     </el-card>
     <!--入库单明细-->
     <el-card class="box-card" style="margin-top: 15px">
-      <h2 ref="fuzhu" class="form-name">入库单明细</h2>
+      <h2 ref="fuzhu" class="form-name">{{ $t('updates.rkdmx') }}</h2>
       <div class="buttons" style="margin-top: 28px;margin-bottom: 20px">
         <el-button type="success" style="background:#3696fd;border-color:#3696fd " @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>
         <el-button type="danger" @click="$refs.editable.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
@@ -105,10 +105,10 @@
           <el-editable-column prop="color" align="center" :label="$t('updates.ys')" width="150px"/>
           <el-editable-column :label="$t('Hmodule.gg')" prop="typeIdname" align="center" width="150px"/>
           <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" width="150px"/>
-          <el-editable-column prop="basicQuantity" align="center" label="基本数量" width="150px"/>
+          <el-editable-column prop="basicQuantity" align="center" :label="$t('updates.jbel')" width="150px"/>
           <el-editable-column :edit-render="{name: 'ElInputNumber', type: 'visible'}" :label="$t('updates.rksl')" prop="actualEnterQuantity" align="center" width="150px"/>
           <el-editable-column :label="$t('Hmodule.dj')" prop="enterPrice" align="center" width="150px"/>
-          <el-editable-column prop="enterMoney" align="center" label="入库金额" width="150px">
+          <el-editable-column prop="enterMoney" align="center" :label="$t('updates.rkje')" width="150px">
             <template slot-scope="scope">
               <p>{{ getSize(scope.row.actualEnterQuantity, scope.row.enterPrice) }}</p>
             </template>

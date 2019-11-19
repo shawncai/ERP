@@ -5,7 +5,7 @@
       <el-row>
         <el-form ref="getemplist" :model="getemplist" label-width="100px" style="margin-top: -9px">
           <el-col :span="4">
-            <el-form-item label="物品编码">
+            <el-form-item :label="$t('updates.wpbm')">
               <el-input v-model="getemplist.code" :placeholder="$t('Inventorydetaillist.code')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
@@ -20,7 +20,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="4">
-            <el-form-item label="物品分类">
+            <el-form-item :label="$t('updates.wpfl')">
               <el-select v-model="getemplist.categoryId" placeholder="请选择物品分类" style="margin-left: 18px;width: 144px" clearable >
                 <el-option
                   v-for="(item, index) in categorys"

@@ -91,7 +91,7 @@
           <el-editable-column prop="includeTaxMoney" align="center" :label="$t('updates.hsje')" min-width="150px"/>
           <el-editable-column prop="taxMoney" align="center" :label="$t('updates.se')" min-width="150px"/>
           <el-editable-column prop="deliveryDate" align="center" :label="$t('updates.jhrq')" min-width="170px"/>
-          <el-editable-column prop="discountRate" align="center" label="折扣(%)" min-width="170px"/>
+          <el-editable-column prop="discountRate" align="center" :label="$t('updates.zk')" min-width="170px"/>
           <el-editable-column prop="discountMoney" align="center" :label="$t('updates.cke')" min-width="170px"/>
           <el-editable-column prop="remark" align="center" :label="$t('updates.bz')" min-width="150px"/>
           <el-editable-column prop="sourceNumber" align="center" :label="$t('updates.ydbh')" min-width="150px"/>

@@ -79,7 +79,7 @@
       </el-card>
       <!--调价单明细-->
       <el-card class="box-card" style="margin-top: 15px">
-        <h2 ref="fuzhu" class="form-name">调价单明细</h2>
+        <h2 ref="fuzhu" class="form-name">{{ $t('updates.tjdmx') }}</h2>
         <div class="buttons" style="margin-top: 58px">
           <el-button type="success" style="background:#3696fd;border-color:#3696fd " @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>
           <el-button type="danger" @click="$refs.editable.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
@@ -114,8 +114,8 @@
             <el-editable-column prop="color" align="center" :label="$t('updates.ys')" width="150px"/>
             <el-editable-column :label="$t('Hmodule.gg')" prop="typeIdname" align="center" width="150px"/>
             <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" width="150px"/>
-            <el-editable-column prop="salePrice" align="center" label="零售原价" width="150px"/>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', type: 'visible', attrs: {min: 0}}" prop="newSalePrice" align="center" label="零售调整价" width="150px">
+            <el-editable-column prop="salePrice" align="center" :label="$t('updates.lsyj')" width="150px"/>
+            <el-editable-column :edit-render="{name: 'ElInputNumber', type: 'visible', attrs: {min: 0}}" prop="newSalePrice" align="center" :label="$t('updates.lstzj')" width="150px">
               <template slot="edit" slot-scope="scope">
                 <el-input-number
                   :precision="2"
@@ -123,8 +123,8 @@
                   v-model="scope.row.newSalePrice"/>
               </template>
             </el-editable-column>
-            <el-editable-column prop="tradePrice" align="center" label="批发原价" width="150px"/>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', type: 'visible', attrs: {min: 0}}" prop="newTradePrice" align="center" label="批发调整价" width="150px">
+            <el-editable-column prop="tradePrice" align="center" :label="$t('updates.pfyj')" width="150px"/>
+            <el-editable-column :edit-render="{name: 'ElInputNumber', type: 'visible', attrs: {min: 0}}" prop="newTradePrice" align="center" :label="$t('updates.pftzj')" width="150px">
               <template slot="edit" slot-scope="scope">
                 <el-input-number
                   :precision="2"
@@ -132,8 +132,8 @@
                   v-model="scope.row.newTradePrice"/>
               </template>
             </el-editable-column>
-            <el-editable-column prop="memberPrice" align="center" label="会员原价" width="150px"/>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', type: 'visible', attrs: {min: 0}}" prop="newMemberPrice" align="center" label="会员调整价" width="150px">
+            <el-editable-column prop="memberPrice" align="center" :label="$t('updates.yyyj')" width="150px"/>
+            <el-editable-column :edit-render="{name: 'ElInputNumber', type: 'visible', attrs: {min: 0}}" prop="newMemberPrice" align="center" :label="$t('updates.yytzj')" width="150px">
               <template slot="edit" slot-scope="scope">
                 <el-input-number
                   :precision="2"

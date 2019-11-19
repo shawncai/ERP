@@ -7,7 +7,7 @@
             <el-form-item :label="$t('stockOrderCount.type')">
               <el-select v-model="getemplist.type" :value="getemplist.type" @keyup.enter.native="handleFilter" @change="changeName">
                 <el-option :label="$t('updates.gys')" value="1"/>
-                <el-option value="2" label="经办人"/>
+                <el-option value="2" :label="$t('updates.jbr')"/>
                 <!-- <el-option value="3" label="品牌"/> -->
                 <el-option value="4" label="种类"/>
               </el-select>

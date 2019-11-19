@@ -9,7 +9,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="5" style="margin-left: 10px">
-            <el-form-item label="主商品编号">
+            <el-form-item :label="$t('updates.zspbh')">
               <el-input v-model="getemplist.productCode" placeholder="主商品编号" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>

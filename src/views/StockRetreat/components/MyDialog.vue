@@ -151,7 +151,7 @@
     </el-card>
     <!--子件信息-->
     <el-card class="box-card" style="margin-top: 15px" shadow="never">
-      <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">采购退货单明细</h2>
+      <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('updates.cgthdmx') }}</h2>
       <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
         <el-button :disabled="addpro" @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>
         <my-detail :control.sync="control" @product="productdetail"/>
@@ -179,7 +179,7 @@
           <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" min-width="150px"/>
           <el-editable-column :label="$t('updates.dhsl')" prop="arrivalQuantity" align="center" min-width="150px"/>
           <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible', events: {change: jungleNumbers}}" prop="retreatQuantity" align="center" :label="$t('updates.thsl')" min-width="150px"/>
-          <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="retreatReason" align="center" label="退货原因" min-width="170px"/>
+          <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="retreatReason" align="center" :label="$t('updates.thyy')" min-width="170px"/>
           <el-editable-column :label="$t('Hmodule.dj')" prop="price" align="center" min-width="170px"/>
           <el-editable-column prop="includeTaxPrice" align="center" :label="$t('updates.hsj')" min-width="170px"/>
           <el-editable-column prop="taxRate" align="center" :label="$t('updates.sl')" min-width="170px"/>
@@ -216,7 +216,7 @@
         <el-form :inline="true" status-icon class="demo-ruleForm" label-width="130px">
           <el-row>
             <el-col :span="12">
-              <el-form-item label="退货数量总计" style="width: 100%;">
+              <el-form-item :label="$t('updates.thslzj')" style="width: 100%;">
                 <el-input v-model="allNumber" style="margin-left: 18px;width: 200px" disabled/>
               </el-form-item>
             </el-col>

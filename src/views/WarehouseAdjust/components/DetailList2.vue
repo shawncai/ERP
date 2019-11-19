@@ -85,7 +85,7 @@
       </el-card>
       <!--日常调整单明细-->
       <el-card class="box-card" style="margin-top: 15px">
-        <h2 ref="fuzhu" class="form-name">日常调整单明细</h2>
+        <h2 ref="fuzhu" class="form-name">{{ $t('updates.rctzdmx') }}</h2>
         <div class="container">
           <el-editable
             ref="editable"
@@ -101,9 +101,9 @@
             <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" fixed="left" align="center" width="150px"/>
             <el-editable-column :label="$t('Hmodule.gg')" prop="productType" align="center" width="150px"/>
             <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" width="150px"/>
-            <el-editable-column prop="outLocationCode" align="center" label="调出库位" width="150px"/>
-            <el-editable-column prop="enterLocationCode" align="center" label="调入库位" width="150px"/>
-            <el-editable-column prop="inventoryQuantity" align="center" label="库存数量" width="150px"/>
+            <el-editable-column prop="outLocationCode" align="center" :label="$t('updates.dckw')" width="150px"/>
+            <el-editable-column prop="enterLocationCode" align="center" :label="$t('updates.drkw')" width="150px"/>
+            <el-editable-column prop="inventoryQuantity" align="center" :label="$t('updates.kcsl')" width="150px"/>
           </el-editable>
         </div>
       </el-card>

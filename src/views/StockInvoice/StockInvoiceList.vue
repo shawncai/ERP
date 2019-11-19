@@ -9,7 +9,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="5">
-            <el-form-item label="是否红字" style="margin-left: 20px;">
+            <el-form-item :label="$t('updates.sfhz')" style="margin-left: 20px;">
               <el-select v-model="getemplist.isRed" :value="getemplist.isRed" style="margin-top: -9px" clearable >
                 <el-option value="1" :label="$t('updates.no')"/>
                 <el-option value="2" :label="$t('updates.yes')"/>
@@ -17,7 +17,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="5" style="margin-left: 10px">
-            <el-form-item label="发票号">
+            <el-form-item :label="$t('updates.hph')">
               <el-input v-model="getemplist.invoiceNumber" :placeholder="$t('updates.djbh')" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>

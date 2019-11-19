@@ -89,7 +89,7 @@
       </el-card>
       <!--入库单明细-->
       <el-card class="box-card" style="margin-top: 15px" shadow="never">
-        <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">入库单明细</h2>
+        <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('updates.rkdmx') }}</h2>
         <div class="container">
           <el-editable
             ref="editable"
@@ -107,7 +107,7 @@
             <el-editable-column prop="color" align="center" :label="$t('updates.ys')" />
             <el-editable-column :label="$t('Hmodule.gg')" prop="productType" align="center" />
             <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" />
-            <el-editable-column prop="basicQuantity" align="center" label="基本数量" />
+            <el-editable-column prop="basicQuantity" align="center" :label="$t('updates.jbel')" />
             <el-editable-column prop="actualEnterQuantity" align="center" label="实收数量" />
             <el-editable-column prop="invoiceQuantity" align="center" label="已开票数量" min-width="100px" />
             <el-editable-column prop="noinvoiceQuantity" align="center" label="未开票数量" min-width="100px" >
@@ -115,9 +115,9 @@
                 <p>{{ getSize2(scope.row.actualEnterQuantity, scope.row.invoiceQuantity) }}</p>
               </template>
             </el-editable-column>
-            <el-editable-column prop="enterPrice" align="center" label="入库单价" />
-            <el-editable-column prop="taxRate" align="center" label="税率" />
-            <el-editable-column prop="enterMoney" align="center" label="入库金额" >
+            <el-editable-column prop="enterPrice" align="center" :label="$t('updates.rkdj')" />
+            <el-editable-column prop="taxRate" align="center" :label="$t('updates.slv')" />
+            <el-editable-column prop="enterMoney" align="center" :label="$t('updates.rkje')" >
               <template slot-scope="scope">
                 <p>{{ getSize(scope.row.actualEnterQuantity, scope.row.enterPrice) }}</p>
               </template>

@@ -4,7 +4,7 @@
       <!-- 搜索条件栏目 -->
       <el-input v-model="getemplist.categoryname" :placeholder="$t('BasicSettings.categoryname')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
       <el-select v-model="getemplist.type" :placeholder="$t('BasicSettings.type2')" class="filter-item" clearable >
-        <el-option value="1" label="数量" />
+        <el-option value="1" :label="$t('updates.shuli')" />
         <el-option value="2" label="体积" />
         <el-option value="3" label="重量" />
       </el-select>
@@ -34,7 +34,7 @@
         <el-form :model="Numberingform" label-position="left" label-width="120px" style="width: 400px; margin-left:50px;">
           <el-form-item label-width="120px" label="计量单位类别">
             <el-select v-model="Numberingform.type" placeholder="请选择计量单位类别">
-              <el-option label="数量" value="1"/>
+              <el-option :label="$t('updates.shuli')" value="1"/>
               <el-option label="体积" value="2"/>
               <el-option label="重量" value="3"/>
               <el-option label="长度" value="4"/>
@@ -119,7 +119,7 @@
         <el-form :model="editNumberingform" label-position="left" label-width="120px" style="width: 400px; margin-left:50px;">
           <el-form-item label-width="120px" label="计量单位类别">
             <el-select v-model="editNumberingform.type" placeholder="请选择计量单位类别" disabled>
-              <el-option label="数量" value="1"/>
+              <el-option :label="$t('updates.shuli')" value="1"/>
               <el-option label="体积" value="2"/>
               <el-option label="重量" value="3"/>
               <el-option label="长度" value="4"/>

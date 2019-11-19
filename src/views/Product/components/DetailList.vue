@@ -251,7 +251,7 @@
                 <el-table-column
                   prop="repositoryName"
                   align="center"
-                  label="仓库名称"
+                  :label="$t('updates.ckmc')"
                   min-width="150"/>
                 <el-table-column
                   prop="downStock"
@@ -328,12 +328,12 @@
                 <el-table-column
                   prop="retreatReason"
                   align="center"
-                  label="退货原因"
+                  :label="$t('updates.thyy')"
                   min-width="150"/>
                 <el-table-column
                   prop="collectDate"
                   align="center"
-                  label="仓库名称"
+                  :label="$t('updates.ckmc')"
                   min-width="150"/>
                 <el-table-column
                   prop="stat"
@@ -374,12 +374,12 @@
                 <el-table-column
                   prop="customerName"
                   align="center"
-                  label="客户姓名"
+                  :label="$t('updates.khxmi')"
                   min-width="150"/>
                 <el-table-column
                   prop="productCode"
                   align="center"
-                  label="物品编码"
+                  :label="$t('updates.wpbm')"
                   min-width="150"/>
                 <el-table-column
                   :label="$t('Hmodule.wpmc')"
@@ -394,12 +394,12 @@
                 <el-table-column
                   prop="quantity"
                   align="center"
-                  label="数量"
+                  :label="$t('updates.shuli')"
                   min-width="150"/>
                 <el-table-column
                   prop="returnReason"
                   align="center"
-                  label="退货原因"
+                  :label="$t('updates.thyy')"
                   min-width="150"/>
                 <el-table-column
                   prop="repositoryName"
@@ -409,7 +409,7 @@
                 <el-table-column
                   prop="stat"
                   align="center"
-                  label="状态"
+                  :label="$t('updates.stat')"
                   min-width="150"/>
               </el-table>
               <pagination v-show="total3>0" :total="total3" :page.sync="getsalereturn.pagenum" :limit.sync="getsalereturn.pagesize" @pagination="getsalereturnList" />

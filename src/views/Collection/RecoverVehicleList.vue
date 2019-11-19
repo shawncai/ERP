@@ -4,17 +4,17 @@
       <el-row>
         <el-form ref="getemplist" :model="getemplist" label-width="100px" style="margin-top: -9px">
           <el-col :span="5">
-            <el-form-item label="订单编号" label-width="100px">
+            <el-form-item :label="$t('updates.ddbh')" label-width="100px">
               <el-input v-model="getemplist.number" :placeholder="$t('Collection.number')" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
           <el-col :span="5" style="margin-left: 10px">
-            <el-form-item label="收车单主题">
+            <el-form-item :label="$t('updates.scdzt')">
               <el-input v-model="getemplist.title" placeholder="收车单主题" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
           <el-col :span="5" style="margin-left: 10px">
-            <el-form-item label="收车人">
+            <el-form-item :label="$t('updates.scr')">
               <el-input v-model="receivePersonId" placeholder="收车人" clearable @focus="handlechooseStock" @clear="restFilter"/>
               <my-emp :control.sync="stockControl" @stockName="stockName"/>
             </el-form-item>

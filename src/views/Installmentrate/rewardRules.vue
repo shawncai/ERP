@@ -4,7 +4,7 @@
       <el-row>
         <el-form ref="getemplist" :model="getemplist" label-width="100px" style="margin-top: -9px">
           <el-col :span="5" style="margin-left: 10px">
-            <el-form-item label="状态">
+            <el-form-item :label="$t('updates.stat')">
               <el-select v-model="getemplist.stat" :value="getemplist.stat" clearable @keyup.enter.native="handleFilter">
                 <el-option :label="$t('updates.qy')" value="1"/>
                 <el-option :label="$t('updates.ty')" value="2"/>

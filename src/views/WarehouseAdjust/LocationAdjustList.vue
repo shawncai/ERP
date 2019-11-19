@@ -5,16 +5,16 @@
       <el-row>
         <el-form ref="getemplist" :model="getemplist" label-width="100px" style="margin-top: -9px">
           <el-col :span="4">
-            <el-form-item label="调整单主题">
+            <el-form-item :label="$t('updates.tzdzt')">
               <el-input v-model="getemplist.title" :placeholder="$t('WarehouseAdjust.title2')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
           <el-col :span="4">
-            <el-form-item label="调整单编号">
+            <el-form-item :label="$t('updates.tzdbh')">
               <el-input v-model="getemplist.adjustNumber" :placeholder="$t('WarehouseAdjust.adjustNumber')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
-          <el-col :span="6" label="经办人">
+          <el-col :span="6" :label="$t('updates.jbr')">
             <el-form-item :label="$t('WarehouseAdjust.handlePersonId')">
               <el-input v-model="handlePersonId" :placeholder="$t('WarehouseAdjust.handlePersonId')" class="filter-item" clearable @focus="handlechooseDelivery"/>
             </el-form-item>

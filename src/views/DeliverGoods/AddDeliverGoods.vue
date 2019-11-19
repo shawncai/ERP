@@ -89,7 +89,7 @@
       </el-card>
       <!--子件信息-->
       <el-card class="box-card" style="margin-top: 15px" shadow="never">
-        <h2 ref="fuzhu" class="form-name" >配送单明细</h2>
+        <h2 ref="fuzhu" class="form-name" >{{ $t('updates.psdmx') }}</h2>
         <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
           <el-button type="danger" @click="$refs.editable.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
         </div>
@@ -111,11 +111,11 @@
             <el-editable-column :label="$t('Hmodule.gg')" prop="productType" align="center" min-width="150px"/>
             <el-editable-column prop="color" align="center" :label="$t('updates.ys')" min-width="150px"/>
             <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" min-width="150px"/>
-            <!-- <el-editable-column prop="basicQuantity" align="center" label="基本数量" min-width="150px"/> -->
+            <!-- <el-editable-column prop="basicQuantity" align="center" :label="$t('updates.jbel')" min-width="150px"/> -->
             <el-editable-column :label="$t('Hmodule.dj')" prop="price" align="center" min-width="150px"/>
-            <el-editable-column prop="deliverQuantity" align="center" label="配送数量" min-width="150px"/>
-            <el-editable-column prop="deliverMoney" align="center" label="配送金额" min-width="150px"/>
-            <el-editable-column prop="outRepositoryName" align="center" label="出货仓库" min-width="150px"/>
+            <el-editable-column prop="deliverQuantity" align="center" :label="$t('updates.pssl')" min-width="150px"/>
+            <el-editable-column prop="deliverMoney" align="center" :label="$t('updates.psje')" min-width="150px"/>
+            <el-editable-column prop="outRepositoryName" align="center" :label="$t('updates.chck')" min-width="150px"/>
             <el-editable-column :label="$t('Hmodule.pc')" prop="batch" align="center" min-width="150px"/>
           </el-editable>
         </div>

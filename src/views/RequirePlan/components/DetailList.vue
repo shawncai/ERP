@@ -66,7 +66,7 @@
       </el-card>
       <!--子件信息-->
       <el-card class="box-card" style="margin-top: 15px" shadow="never">
-        <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">物料需求计划明细</h2>
+        <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('updates.wlxqjhmx') }}</h2>
         <div class="container">
           <el-editable
             ref="editable"
@@ -85,9 +85,9 @@
               </template>
             </el-editable-column>
             <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" />
-            <el-editable-column prop="requireQuantity" align="center" label="毛需求数量" />
-            <el-editable-column prop="planQuantity" align="center" label="应计划数量" />
-            <el-editable-column prop="materialsSource" align="center" label="物料来源" >
+            <el-editable-column prop="requireQuantity" align="center" :label="$t('updates.mxqsl')" />
+            <el-editable-column prop="planQuantity" align="center" :label="$t('updates.yjhsl')" />
+            <el-editable-column prop="materialsSource" align="center" :label="$t('updates.wlly')" >
               <template slot-scope="scope">
                 <p>{{ scope.row.materialsSource | chectResultFilter }}</p>
               </template>

@@ -44,7 +44,7 @@
       </el-card>
       <!--子件信息-->
       <el-card class="box-card" shadow="never">
-        <h2 ref="geren" class="form-name">客户调查报告明细</h2>
+        <h2 ref="geren" class="form-name">{{ $t('updates.khdcbgmx') }}</h2>
         <div class="container" style="margin-top: 37px">
           <el-form ref="personalForm2" :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
             <el-row>
@@ -68,7 +68,7 @@
         </div>
       </el-card>
       <el-card class="box-card" shadow="never">
-        <h2 ref="geren" class="form-name">综合结果</h2>
+        <h2 ref="geren" class="form-name">{{ $t('updates.zhjg') }}</h2>
         <div class="container" style="margin-top: 37px">
           <el-form ref="personalForm3" :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
             <el-row>
@@ -82,7 +82,7 @@
         </div>
       </el-card>
       <el-card class="box-card" shadow="never">
-        <h2 ref="geren" class="form-name">原因分析</h2>
+        <h2 ref="geren" class="form-name">{{ $t('updates.yyfx') }}</h2>
         <div class="container" style="margin-top: 37px">
           <el-form ref="personalForm4" :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
             <el-row>

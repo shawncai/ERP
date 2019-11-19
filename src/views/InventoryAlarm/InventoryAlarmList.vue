@@ -11,12 +11,12 @@
             <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
           </el-col>
           <!--          <el-col :span="4">-->
-          <!--            <el-form-item label="商品编码">-->
+          <!--            <el-form-item :label="$t('updates.spbm')">-->
           <!--              <el-input v-model="getemplist.code" :placeholder="$t('StockAlarm.code')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>-->
           <!--            </el-form-item>-->
           <!--          </el-col>-->
           <!--          <el-col :span="4">-->
-          <!--            <el-form-item label="商品名称">-->
+          <!--            <el-form-item :label="$t('updates.spmc')">-->
           <!--              <el-input v-model="getemplist.productName" :placeholder="$t('StockAlarm.productName')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>-->
           <!--            </el-form-item>-->
           <!--          </el-col>-->

@@ -56,7 +56,7 @@
     </el-card>
     <!--子件信息-->
     <el-card class="box-card" style="margin-top: 15px;margin-bottom: 30px" shadow="never">
-      <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">主生产计划明细</h2>
+      <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('updates.zscjhmx') }}</h2>
       <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
         <el-button type="danger" @click="$refs.editable.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
       </div>
@@ -81,9 +81,9 @@
             </template>
           </el-editable-column>
           <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" min-width="150px"/>
-          <el-editable-column prop="requireQuantity" align="center" label="毛需求数量" min-width="150px"/>
-          <el-editable-column prop="planQuantity" align="center" label="应计划数量" min-width="150px"/>
-          <el-editable-column :edit-render="{name: 'ElSelect', options: materialsSource, type: 'visible'}" prop="materialsSource" align="center" label="物料来源" min-width="150px"/>
+          <el-editable-column prop="requireQuantity" align="center" :label="$t('updates.mxqsl')" min-width="150px"/>
+          <el-editable-column prop="planQuantity" align="center" :label="$t('updates.yjhsl')" min-width="150px"/>
+          <el-editable-column :edit-render="{name: 'ElSelect', options: materialsSource, type: 'visible'}" prop="materialsSource" align="center" :label="$t('updates.wlly')" min-width="150px"/>
         </el-editable>
       </div>
     </el-card>

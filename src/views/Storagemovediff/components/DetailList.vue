@@ -9,7 +9,7 @@
           <el-form ref="personalForm" :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="100px" style="margin-left: 30px;">
             <el-row>
               <el-col :span="12">
-                <el-form-item class="print2" label="调拨单编号" style="width: 100%;display: none">
+                <el-form-item class="print2" :label="$t('updates.dbdbh')" style="width: 100%;display: none">
                   {{ personalForm.number }}
                 </el-form-item>
               </el-col>
@@ -89,10 +89,10 @@
             <el-editable-column prop="color" align="center" :label="$t('updates.ys')" width="150px"/>
             <!-- <el-editable-column prop="productType" align="center" :label="$t('Hmodule.gg')" width="150px"/> -->
             <!-- <el-editable-column prop="unit" align="center" :label="$t('Hmodule.dw')" width="150px"/> -->
-            <el-editable-column prop="sendQuantity" align="center" label="发货数量" min-width="150"/>
+            <el-editable-column prop="sendQuantity" align="center" :label="$t('updates.fhsl')" min-width="150"/>
             <el-editable-column prop="actualQuantity" align="center" label="收货数量" min-width="150"/>
-            <el-editable-column prop="diffQuantity" align="center" label="差异数量" min-width="150"/>
-            <el-editable-column prop="costPrice" align="center" label="成本价" width="150px"/>
+            <el-editable-column prop="diffQuantity" align="center" :label="$t('updates.cysl')" min-width="150"/>
+            <el-editable-column prop="costPrice" align="center" :label="$t('updates.cbj')" width="150px"/>
             <el-editable-column prop="diffMoney" align="center" label="差异金额" width="150px"/>
             <el-editable-column prop="result" align="center" label="处理结果" width="150px"/>
           </el-editable>
@@ -158,7 +158,7 @@
             <el-table-column
               prop="arrivalDate"
               align="center"
-              label="车辆编号"
+              :label="$t('updates.clbh')"
               min-width="150"/>
             <el-table-column
               prop="acceptPersonName"

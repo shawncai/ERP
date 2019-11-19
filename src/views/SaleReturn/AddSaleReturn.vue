@@ -123,7 +123,7 @@
       </el-card>
       <!--子件信息-->
       <el-card class="box-card" style="margin-top: 15px" shadow="never">
-        <h2 ref="fuzhu" class="form-name" >退货明细</h2>
+        <h2 ref="fuzhu" class="form-name" >{{ $t('updates.thmx') }}</h2>
         <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
           <el-button :disabled="Isproduct" @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>
           <my-detail :control.sync="control" @product="productdetail"/>
@@ -164,24 +164,24 @@
             <el-editable-column v-if="personalForm.sourceType === '2'" :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('Hmodule.pc')" prop="batch" align="center" min-width="150px"/>
             <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" align="center" min-width="150px"/>
             <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" align="center" min-width="150px"/>
-            <el-editable-column prop="productCategoryName" align="center" label="物品分类" min-width="150px"/>
-            <el-editable-column prop="unit" align="center" label="基本单位" min-width="150px"/>
-            <el-editable-column prop="productTypeName" align="center" label="规格型号" min-width="150px"/>
+            <el-editable-column prop="productCategoryName" align="center" :label="$t('updates.wpfl')" min-width="150px"/>
+            <el-editable-column prop="unit" align="center" :label="$t('updates.jbdw')" min-width="150px"/>
+            <el-editable-column prop="productTypeName" align="center" :label="$t('updates.ggxh')" min-width="150px"/>
             <el-editable-column prop="color" align="center" :label="$t('updates.ys')" min-width="150px"/>
-            <el-editable-column prop="kpiGrade" align="center" label="绩效分" min-width="150px"/>
-            <el-editable-column prop="point" align="center" label="商品积分" min-width="150px"/>
-            <el-editable-column v-if="false" prop="salePrice" align="center" label="零售价" min-width="150px"/>
-            <el-editable-column v-if="false" prop="costPrice" align="center" label="成本价" min-width="150px"/>
-            <el-editable-column prop="salePrice" align="center" label="销售单价" min-width="150px"/>
+            <el-editable-column prop="kpiGrade" align="center" :label="$t('updates.jxf')" min-width="150px"/>
+            <el-editable-column prop="point" align="center" :label="$t('updates.spjf')" min-width="150px"/>
+            <el-editable-column v-if="false" prop="salePrice" align="center" :label="$t('updates.lsj')" min-width="150px"/>
+            <el-editable-column v-if="false" prop="costPrice" align="center" :label="$t('updates.cbj')" min-width="150px"/>
+            <el-editable-column prop="salePrice" align="center" :label="$t('updates.xsdj')" min-width="150px"/>
             <el-editable-column v-if="false" prop="costMoney" align="center" label="成本金额" min-width="150px"/>
             <el-editable-column v-if="false" prop="includeTaxMoney" align="center" :label="$t('updates.hsje')" min-width="150px"/>
             <el-editable-column prop="taxRate" align="center" :label="$t('updates.sl')" min-width="150px"/>
             <el-editable-column prop="taxMoney" align="center" :label="$t('updates.se')" min-width="150px"/>
             <el-editable-column v-if="false" :label="$t('Hmodule.je')" prop="money" align="center" min-width="150px"/>
-            <el-editable-column prop="money" align="center" label="退货金额" min-width="150px"/>
-            <el-editable-column prop="discount" align="center" label="折扣(%)" min-width="150px"/>
+            <el-editable-column prop="money" align="center" :label="$t('updates.thje')" min-width="150px"/>
+            <el-editable-column prop="discount" align="center" :label="$t('updates.zk')" min-width="150px"/>
             <el-editable-column prop="discountMoney" align="center" :label="$t('updates.cke')" min-width="150px"/>
-            <el-editable-column prop="alreadyReturnQuantity" align="center" label="已退货数量" min-width="150px"/>
+            <el-editable-column prop="alreadyReturnQuantity" align="center" :label="$t('updates.ythsl')" min-width="150px"/>
             <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 1}, type: 'visible'}" prop="returnQuantity" align="center" :label="$t('updates.thsl')" min-width="150px">
               <template slot="edit" slot-scope="scope">
                 <el-input-number
@@ -190,11 +190,11 @@
                   @change="getquantity(scope.row)"/>
               </template>
             </el-editable-column>
-            <el-editable-column :edit-render="{name: 'ElInput', attrs: {min: 0}, type: 'visible'}" prop="returnReason" align="center" label="退货原因" min-width="150px"/>
-            <el-editable-column prop="sendQuantity" align="center" label="发货数量" min-width="150px"/>
-            <el-editable-column prop="carCode" align="center" label="车架号" min-width="150px"/>
-            <el-editable-column prop="motorCode" align="center" label="电机编码" min-width="150px"/>
-            <el-editable-column prop="batteryCode" align="center" label="电池编码" min-width="150px"/>
+            <el-editable-column :edit-render="{name: 'ElInput', attrs: {min: 0}, type: 'visible'}" prop="returnReason" align="center" :label="$t('updates.thyy')" min-width="150px"/>
+            <el-editable-column prop="sendQuantity" align="center" :label="$t('updates.fhsl')" min-width="150px"/>
+            <el-editable-column prop="carCode" align="center" :label="$t('updates.cjh')" min-width="150px"/>
+            <el-editable-column prop="motorCode" align="center" :label="$t('updates.djbm')" min-width="150px"/>
+            <el-editable-column prop="batteryCode" align="center" :label="$t('updates.dcbm')" min-width="150px"/>
             <el-editable-column prop="sourceNumber" align="center" :label="$t('updates.ydbh')" min-width="150px"/>
           </el-editable>
         </div>
@@ -249,7 +249,7 @@
         </div>
       </el-card>
       <!-- <el-card class="box-card" shadow="never" style="margin-top: 10px">
-        <h2 ref="geren" class="form-name">相关单据状态</h2>
+        <h2 ref="geren" class="form-name">{{ $t('updates.xgdjzt') }}</h2>
         <div class="container" style="margin-top: 37px">
           <el-form ref="personalForm3" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
             <el-row>
@@ -297,7 +297,7 @@
                     <span >{{ scope.row.repositoryName }}</span>
                   </template>
                 </el-table-column>
-                <el-table-column :resizable="false" label="商品名称" align="center" min-width="150">
+                <el-table-column :resizable="false" :label="$t('updates.spmc')" align="center" min-width="150">
                   <template slot-scope="scope">
                     <span >{{ scope.row.productName }}</span>
                   </template>

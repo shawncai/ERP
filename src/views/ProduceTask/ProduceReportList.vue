@@ -4,17 +4,17 @@
       <el-row>
         <el-form ref="getemplist" :model="getemplist" label-width="100px" style="margin-top: -9px">
           <el-col :span="5">
-            <el-form-item label="汇报单主题" label-width="100px">
+            <el-form-item :label="$t('updates.hbdzt')" label-width="100px">
               <el-input v-model="getemplist.title" :placeholder="$t('ProduceTask.title')" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
           <el-col :span="5" style="margin-left: 10px">
-            <el-form-item label="汇报单编号">
+            <el-form-item :label="$t('updates.hbdbh')">
               <el-input v-model="getemplist.reportNumber" placeholder="汇报单编号" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
           <el-col :span="5" style="margin-left: 10px">
-            <el-form-item label="单据状态">
+            <el-form-item :label="$t('updates.djzt')">
               <el-select v-model="getemplist.receiptStat" :value="getemplist.receiptStat" :placeholder="$t('updates.djzt')" clearable >
                 <el-option value="1" :label="$t('updates.zd')"/>
                 <el-option value="2" :label="$t('updates.zx')"/>

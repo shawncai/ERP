@@ -5,17 +5,17 @@
       <el-row>
         <el-form ref="getemplist" :model="getemplist" label-width="100px" style="margin-top: -9px">
           <el-col :span="4">
-            <el-form-item label="组装单主题">
+            <el-form-item :label="$t('updates.zzdzt')">
               <el-input v-model="getemplist.title" :placeholder="$t('BuildUp.title')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
           <el-col :span="4">
-            <el-form-item label="组装单编号">
+            <el-form-item :label="$t('updates.zzdbh')">
               <el-input v-model="getemplist.buildupNumber" :placeholder="$t('BuildUp.buildupNumber')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
           <el-col :span="4">
-            <el-form-item label="经办人">
+            <el-form-item :label="$t('updates.jbr')">
               <el-input v-model="handlePersonId" :placeholder="$t('BuildUp.handlePersonId')" class="filter-item" clearable @keyup.enter.native="handleFilter" @focus="handlechoose" @clear="restFilter"/>
             </el-form-item>
             <my-create :createcontrol.sync="createcontrol" @createname="createname"/>

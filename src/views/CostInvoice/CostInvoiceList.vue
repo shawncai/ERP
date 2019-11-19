@@ -10,7 +10,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="5" style="margin-left: 10px">
-            <el-form-item label="发票号">
+            <el-form-item :label="$t('updates.hph')">
               <el-input v-model="getemplist.invoiceNumber" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>

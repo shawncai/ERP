@@ -4,12 +4,12 @@
       <el-row>
         <el-form ref="getemplist" :model="getemplist" label-width="100px" style="margin-top: -9px">
           <el-col :span="5">
-            <el-form-item label="仓库编号" label-width="100px">
+            <el-form-item :label="$t('updates.ckbh')" label-width="100px">
               <el-input v-model="getemplist.repositoryId" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
           <!-- <el-col :span="5">
-            <el-form-item label="仓库名称" label-width="100px">
+            <el-form-item :label="$t('updates.ckmc')" label-width="100px">
               <el-input v-model="getemplist.repositoryId" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col> -->

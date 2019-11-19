@@ -14,7 +14,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="5" style="margin-left: 10px">
-            <el-form-item label="经办人">
+            <el-form-item :label="$t('updates.jbr')">
               <el-input v-model="handlePersonId" :placeholder="$t('income.handlePersonId')" clearable @keyup.enter.native="handleFilter" @focus="handlechooseStock" @clear="restFilter"/>
             </el-form-item>
             <my-emp :control.sync="stockControl" @stockName="stockName"/>

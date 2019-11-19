@@ -69,7 +69,7 @@
       </el-card>
       <!--子件信息-->
       <el-card class="box-card" style="margin-top: 15px" shadow="never">
-        <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">工具明细</h2>
+        <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('updates.gjmx') }}</h2>
         <div class="container">
           <el-editable
             ref="editable"
@@ -80,13 +80,13 @@
             size="medium"
             style="width: 100%">
             <el-editable-column :label="$t('Hmodule.xh')" fixed="left" min-width="55" align="center" type="index"/>
-            <el-editable-column prop="toolsCode" fixed="left" align="center" label="工具编号" />
-            <el-editable-column prop="toolsName" align="center" fixed="left" label="工具名称" />
-            <el-editable-column prop="unit" align="center" label="基本单位" />
+            <el-editable-column prop="toolsCode" fixed="left" align="center" :label="$t('updates.gjbh')" />
+            <el-editable-column prop="toolsName" align="center" fixed="left" :label="$t('updates.gjmc')" />
+            <el-editable-column prop="unit" align="center" :label="$t('updates.jbdw')" />
             <!--          <el-editable-column prop="locationName" align="center" :label="$t('Hmodule.hw')" />-->
-            <el-editable-column prop="quantity" align="center" label="数量" />
+            <el-editable-column prop="quantity" align="center" :label="$t('updates.shuli')" />
             <el-editable-column prop="lossQuantity" align="center" label="丢失数量" />
-            <el-editable-column prop="stat" align="center" label="状态" >
+            <el-editable-column prop="stat" align="center" :label="$t('updates.stat')" >
               <template slot-scope="scope">
                 <p>{{ scope.row.stat | statFilter }}</p>
               </template>

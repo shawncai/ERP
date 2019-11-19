@@ -49,7 +49,7 @@
       </el-card>
       <!--子件信息-->
       <el-card class="box-card" style="margin-top: 15px">
-        <h2 ref="fuzhu" class="form-name">主生产计划明细</h2>
+        <h2 ref="fuzhu" class="form-name">{{ $t('updates.zscjhmx') }}</h2>
         <div class="container">
           <el-editable
             ref="editable"
@@ -66,7 +66,7 @@
             <el-editable-column :label="$t('Hmodule.ggzx')" prop="workCenter" align="center" />
             <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" />
             <el-editable-column :label="$t('Hmodule.xqsl')" prop="requireQuantity" align="center" />
-            <el-editable-column prop="planQuantity" align="center" label="计划生产数量" />
+            <el-editable-column prop="planQuantity" align="center" :label="$t('updates.cgjhj')" />
           </el-editable>
         </div>
       </el-card>

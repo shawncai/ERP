@@ -42,8 +42,8 @@
             <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" fixed="left" align="center" />
             <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" fixed="left" align="center" />
             <el-editable-column prop="color" fixed="left" align="center" :label="$t('updates.ys')" />
-            <el-editable-column prop="unit" align="center" label="基本单位" />
-            <el-editable-column prop="productType" align="center" label="规格型号" />
+            <el-editable-column prop="unit" align="center" :label="$t('updates.jbdw')" />
+            <el-editable-column prop="productType" align="center" :label="$t('updates.ggxh')" />
             <el-editable-column prop="alarmDays" align="center" label="流转天数" />
           </el-editable>
         </div>

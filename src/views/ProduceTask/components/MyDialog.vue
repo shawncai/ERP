@@ -54,7 +54,7 @@
     </el-card>
     <!--子件信息-->
     <el-card class="box-card" style="margin-top: 15px" shadow="never">
-      <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">物料需求计划明细</h2>
+      <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('updates.wlxqjhmx') }}</h2>
       <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
         <el-button :disabled="addpro" @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>
         <my-detail2 :control.sync="control" @product="productdetail"/>
@@ -81,15 +81,15 @@
           <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" min-width="150px"/>
           <el-editable-column prop="sourceNumber" align="center" :label="$t('updates.ydbh')" min-width="150px"/>
           <el-editable-column :edit-render="{name: 'ElSelect', options: workCenterIds, type: 'visible'}" :label="$t('Hmodule.ggzx')" prop="workCenterId" align="center" min-width="150px"/>
-          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="produceQuantity" align="center" label="生产数量" min-width="150px"/>
-          <el-editable-column :edit-render="{name: 'ElSelect', options: bomNumbers, type: 'visible'}" prop="bomNumber" align="center" label="BOM编码" min-width="150px"/>
-          <el-editable-column :edit-render="{name: 'ElSelect', options: processes, type: 'visible'}" prop="processName" align="center" label="工艺路线" min-width="150px"/>
-          <el-editable-column :edit-render="{name: 'ElDatePicker', attrs: {type: 'datetime', format: 'yyyy-MM-dd'}, type: 'visible'}" prop="planStartDate" align="center" label="计划开工时间" min-width="160px"/>
-          <el-editable-column :edit-render="{name: 'ElDatePicker', attrs: {type: 'datetime', format: 'yyyy-MM-dd'}, type: 'visible'}" prop="planFinishDate" align="center" label="计划完工时间" min-width="160px"/>
-          <el-editable-column prop="alreadyProduceQuantity" align="center" label="已生产数量" min-width="150px"/>
+          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="produceQuantity" align="center" :label="$t('updates.scsl')" min-width="150px"/>
+          <el-editable-column :edit-render="{name: 'ElSelect', options: bomNumbers, type: 'visible'}" prop="bomNumber" align="center" :label="$t('updates.bimbm')" min-width="150px"/>
+          <el-editable-column :edit-render="{name: 'ElSelect', options: processes, type: 'visible'}" prop="processName" align="center" :label="$t('updates.gylx')" min-width="150px"/>
+          <el-editable-column :edit-render="{name: 'ElDatePicker', attrs: {type: 'datetime', format: 'yyyy-MM-dd'}, type: 'visible'}" prop="planStartDate" align="center" :label="$t('updates.jhkgsj')" min-width="160px"/>
+          <el-editable-column :edit-render="{name: 'ElDatePicker', attrs: {type: 'datetime', format: 'yyyy-MM-dd'}, type: 'visible'}" prop="planFinishDate" align="center" :label="$t('updates.jhwgsj')" min-width="160px"/>
+          <el-editable-column prop="alreadyProduceQuantity" align="center" :label="$t('updates.yscsl')" min-width="150px"/>
           <el-editable-column prop="alreadyEnterQuantity" align="center" :label="$t('updates.yrksl')" min-width="150px"/>
-          <el-editable-column prop="reportedCheckQuantity" align="center" label="已报质检数量" min-width="150px"/>
-          <el-editable-column prop="actualCheckQuantity" align="center" label="实检数量" min-width="150px"/>
+          <el-editable-column prop="reportedCheckQuantity" align="center" :label="$t('updates.ybjsl')" min-width="150px"/>
+          <el-editable-column prop="actualCheckQuantity" align="center" :label="$t('updates.sjsl')" min-width="150px"/>
           <el-editable-column prop="passQuantity" align="center" :label="$t('updates.hgsl')" min-width="150px"/>
           <el-editable-column prop="failQuantity" align="center" :label="$t('updates.bhgsl')" min-width="150px"/>
         </el-editable>

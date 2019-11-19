@@ -4,17 +4,17 @@
       <el-row>
         <el-form ref="getemplist" :model="getemplist" label-width="100px" style="margin-top: -9px">
           <el-col :span="5">
-            <el-form-item label="工厂编号" label-width="100px">
+            <el-form-item :label="$t('updates.gcbh')" label-width="100px">
               <el-input v-model="getemplist.code" :placeholder="$t('OutFactory.code')" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
           <el-col :span="5" style="margin-left: 10px">
-            <el-form-item label="工厂名称">
+            <el-form-item :label="$t('updates.gcmc')">
               <el-input v-model="getemplist.factoryName" placeholder="工厂名称" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
           <el-col :span="5" style="margin-left: 10px">
-            <el-form-item label="工厂联系人">
+            <el-form-item :label="$t('updates.gclxr')">
               <el-input v-model="getemplist.factoryContactName" placeholder="工厂联系人" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>

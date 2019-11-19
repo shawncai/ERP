@@ -72,9 +72,9 @@
     </el-card>
     <!--子件信息-->
     <el-card class="box-card" style="margin-top: 15px" shadow="never">
-      <h2 ref="fuzhu" class="form-name" >计划明细</h2>
+      <h2 ref="fuzhu" class="form-name" >{{ $t('updates.jhmx') }}</h2>
       <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
-        <el-button @click="handleAddproduct">添加明细</el-button>
+        <el-button @click="handleAddproduct">{{ $t('updates.tjmx') }}</el-button>
         <!--<el-button type="danger" @click="deleteTreeData">{{ $t('Hmodule.delete') }}</el-button>-->
       </div>
       <el-dialog :visible.sync="categoryVisible" title="添加明细" class="normal" width="600px" append-to-body center>

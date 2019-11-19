@@ -17,7 +17,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="4" style="margin-left: 70px">
-            <el-form-item label="物品编码">
+            <el-form-item :label="$t('updates.wpbm')">
               <el-input v-model="getemplist.code" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>

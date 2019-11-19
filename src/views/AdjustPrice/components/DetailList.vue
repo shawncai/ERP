@@ -9,7 +9,7 @@
           <el-form ref="personalForm" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="100px" style="margin-left: 30px;">
             <el-row>
               <el-col :span="12">
-                <el-form-item class="print2" label="调价单编号" style="width: 100%;display: none">
+                <el-form-item class="print2" :label="$t('updates.djdbh')" style="width: 100%;display: none">
                   {{ personalForm.adjustNumber }}
                 </el-form-item>
               </el-col>
@@ -89,7 +89,7 @@
       </el-card>
       <!--调价单明细-->
       <el-card class="box-card" style="margin-top: 15px">
-        <h2 ref="fuzhu" class="form-name">调价单明细</h2>
+        <h2 ref="fuzhu" class="form-name">{{ $t('updates.tjdmx') }}</h2>
         <div class="container">
           <el-editable
             ref="editable"
@@ -107,12 +107,12 @@
             <el-editable-column prop="color" align="center" :label="$t('updates.ys')" />
             <el-editable-column :label="$t('Hmodule.gg')" prop="productType" align="center" />
             <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" />
-            <el-editable-column prop="salePrice" align="center" label="零售原价" />
-            <el-editable-column prop="newSalePrice" align="center" label="零售调整价" />
-            <el-editable-column prop="tradePrice" align="center" label="批发原价" />
-            <el-editable-column prop="newTradePrice" align="center" label="批发调整价" />
-            <el-editable-column prop="memberPrice" align="center" label="会员原价" />
-            <el-editable-column prop="newMemberPrice" align="center" label="会员调整价" />
+            <el-editable-column prop="salePrice" align="center" :label="$t('updates.lsyj')" />
+            <el-editable-column prop="newSalePrice" align="center" :label="$t('updates.lstzj')" />
+            <el-editable-column prop="tradePrice" align="center" :label="$t('updates.pfyj')" />
+            <el-editable-column prop="newTradePrice" align="center" :label="$t('updates.pftzj')" />
+            <el-editable-column prop="memberPrice" align="center" :label="$t('updates.yyyj')" />
+            <el-editable-column prop="newMemberPrice" align="center" :label="$t('updates.yytzj')" />
             <el-editable-column prop="remarks" align="center" :label="$t('updates.bz')" />
           </el-editable>
         </div>

@@ -109,7 +109,7 @@
       </div>
     </el-card>
     <el-card class="box-card" shadow="never" style="margin-top: 10px">
-      <h2 ref="geren" class="form-name">物品信息</h2>
+      <h2 ref="geren" class="form-name">{{ $t('updates.wpxx') }}</h2>
       <div class="container" style="margin-top: 37px">
         <el-form ref="personalForm2" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
           <el-row>
@@ -139,7 +139,7 @@
       </div>
     </el-card>
     <el-card class="box-card" shadow="never" style="margin-top: 10px">
-      <h2 ref="geren" class="form-name">检验信息</h2>
+      <h2 ref="geren" class="form-name">{{ $t('updates.jyxx') }}</h2>
       <div class="container" style="margin-top: 37px">
         <el-form ref="personalForm3" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
           <el-row>
@@ -190,7 +190,7 @@
     </el-card>
     <!--子件信息-->
     <el-card class="box-card" style="margin-top: 15px;margin-bottom: 30px" shadow="never">
-      <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">质检报告单明细</h2>
+      <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('updates.zjbgmx') }}</h2>
       <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
         <!--        <el-button @click="$refs.editable.insert(-1)">{{ $t('updates.tj') }}</el-button>-->
         <el-button type="danger" @click="$refs.editable.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
@@ -208,14 +208,14 @@
           style="width: 100%">
           <el-editable-column type="selection" fixed min-width="55" align="center"/>
           <el-editable-column :label="$t('Hmodule.xh')" fixed min-width="55" align="center" type="index"/>
-          <el-editable-column prop="checkItem" fixed align="center" label="检验项目" width="200px"/>
-          <el-editable-column prop="checkContent" fixed align="center" label="检验内容" width="200px"/>
-          <el-editable-column prop="checkTools" fixed align="center" label="检验工具" width="200px"/>
-          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="checkQuantity" align="center" label="样本数" width="200px"/>
+          <el-editable-column prop="checkItem" fixed align="center" :label="$t('updates.jyxm')" width="200px"/>
+          <el-editable-column prop="checkContent" fixed align="center" :label="$t('updates.jynr')" width="200px"/>
+          <el-editable-column prop="checkTools" fixed align="center" :label="$t('updates.jygj')" width="200px"/>
+          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="checkQuantity" align="center" :label="$t('updates.ybs')" width="200px"/>
           <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="passQuantity" align="center" :label="$t('updates.hgsl')" width="200px"/>
           <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="failedQuantity" align="center" :label="$t('updates.bhgsl')" width="200px"/>
-          <el-editable-column :edit-render="{name: 'ElSelect',options: results ,type: 'visible'}" prop="chectResult" align="center" label="检验结果" width="200px"/>
-          <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="remarks" align="center" label="单项结论" width="200px"/>
+          <el-editable-column :edit-render="{name: 'ElSelect',options: results ,type: 'visible'}" prop="chectResult" align="center" :label="$t('updates.jyjg')" width="200px"/>
+          <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="remarks" align="center" :label="$t('updates.dxjl')" width="200px"/>
         </el-editable>
       </div>
     </el-card>

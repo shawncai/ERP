@@ -79,7 +79,7 @@
     </el-card>
     <!--子件信息-->
     <el-card class="box-card" style="margin-top: 15px" shadow="never">
-      <h2 ref="fuzhu" class="form-name" >工具明细</h2>
+      <h2 ref="fuzhu" class="form-name" >{{ $t('updates.gjmx') }}</h2>
       <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
         <el-button @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>
         <my-detail :control.sync="control" @product="productdetail"/>
@@ -98,11 +98,11 @@
           style="width: 100%">
           <el-editable-column type="selection" min-width="55" align="center"/>
           <el-editable-column :label="$t('Hmodule.xh')" min-width="55" align="center" type="index"/>
-          <el-editable-column prop="toolsCode" align="center" label="工具编号" min-width="150px"/>
-          <el-editable-column prop="toolsName" align="center" label="工具名称" min-width="150px"/>
-          <!--            <el-editable-column prop="productCategory" align="center" label="物品分类" min-width="150px"/>-->
-          <el-editable-column prop="unit" align="center" label="基本单位" min-width="150px"/>
-          <!--            <el-editable-column prop="productType" align="center" label="规格型号" min-width="150px"/>-->
+          <el-editable-column prop="toolsCode" align="center" :label="$t('updates.gjbh')" min-width="150px"/>
+          <el-editable-column prop="toolsName" align="center" :label="$t('updates.gjmc')" min-width="150px"/>
+          <!--            <el-editable-column prop="productCategory" align="center" :label="$t('updates.wpfl')" min-width="150px"/>-->
+          <el-editable-column prop="unit" align="center" :label="$t('updates.jbdw')" min-width="150px"/>
+          <!--            <el-editable-column prop="productType" align="center" :label="$t('updates.ggxh')" min-width="150px"/>-->
           <!--            <el-editable-column prop="color" align="center" :label="$t('updates.ys')" min-width="150px"/>-->
           <!--          <el-editable-column :edit-render="{type: 'default'}" prop="locationId" align="center" :label="$t('Hmodule.hw')" width="200px">-->
           <!--            <template slot-scope="scope">-->
@@ -115,8 +115,8 @@
           <!--              </el-select>-->
           <!--            </template>-->
           <!--          </el-editable-column>-->
-          <el-editable-column :edit-render="{name: 'ElInputNumber', type: 'visible'}" prop="quantity" align="center" label="数量" width="150px"/>
-          <el-editable-column prop="stat" align="center" label="状态" min-width="150px">
+          <el-editable-column :edit-render="{name: 'ElInputNumber', type: 'visible'}" prop="quantity" align="center" :label="$t('updates.shuli')" width="150px"/>
+          <el-editable-column prop="stat" align="center" :label="$t('updates.stat')" min-width="150px">
             <template slot-scope="scope">
               <p>{{ scope.row.stat | statFilter }}</p>
             </template>

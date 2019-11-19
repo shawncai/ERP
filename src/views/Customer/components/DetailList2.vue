@@ -109,7 +109,7 @@
                 <el-table-column
                   prop="productName"
                   align="center"
-                  label="商品名称"
+                  :label="$t('updates.spmc')"
                   min-width="150"/>
                 <el-table-column
                   prop="productType"
@@ -119,7 +119,7 @@
                 <el-table-column
                   prop="carCode"
                   align="center"
-                  label="车架号"
+                  :label="$t('updates.cjh')"
                   min-width="150"/>
                 <el-table-column
                   prop="recoverReason"
@@ -129,7 +129,7 @@
                 <el-table-column
                   prop="handlePersonName"
                   align="center"
-                  label="收车人"
+                  :label="$t('updates.scr')"
                   min-width="150"/>
                 <el-table-column
                   prop="recoverDate"
@@ -171,7 +171,7 @@
                 <el-table-column
                   prop="collectName"
                   align="center"
-                  label="收款人"
+                  :label="$t('updates.skr')"
                   min-width="150"/>
                 <el-table-column
                   :label="$t('updates.skrq')"
@@ -181,7 +181,7 @@
                 <el-table-column
                   prop="stat"
                   align="center"
-                  label="状态"
+                  :label="$t('updates.stat')"
                   min-width="150"/>
               </el-table>
             </el-tab-pane>

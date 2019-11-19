@@ -230,10 +230,10 @@
 <!--                    style="width: 100%">-->
 <!--                    <el-editable-column type="selection" min-width="55" align="center"/>-->
 <!--                    <el-editable-column :label="$t('Hmodule.xh')" min-width="55" align="center" type="index"/>-->
-<!--                    <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="checkItem" align="center" label="检验项目" min-width="150px"/>-->
+<!--                    <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="checkItem" align="center" :label="$t('updates.jyxm')" min-width="150px"/>-->
 <!--                    <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="checkTarget" align="center" label="检验指标" min-width="150px"/>-->
 <!--                    <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="checkValue" align="center" label="检验值" min-width="150px"/>-->
-<!--                    <el-editable-column :edit-render="{name: 'ElSelect',options: results ,type: 'visible'}" prop="chectResult" align="center" label="检验结果" min-width="150px"/>-->
+<!--                    <el-editable-column :edit-render="{name: 'ElSelect',options: results ,type: 'visible'}" prop="chectResult" align="center" :label="$t('updates.jyjg')" min-width="150px"/>-->
 <!--                    <el-editable-column prop="checkQuantity" align="center" label="检验数量" min-width="150px">-->
 <!--                      <template slot-scope="scope">-->
 <!--                        <p>{{ getcheckQuantity(scope.row) }}</p>-->

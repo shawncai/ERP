@@ -90,7 +90,7 @@
       </el-card>
       <!--子件信息-->
       <el-card class="box-card" style="margin-top: 15px" shadow="never">
-        <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">付款明细</h2>
+        <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('updates.fkmx') }}</h2>
         <div class="container">
           <el-editable
             ref="editable"
@@ -106,7 +106,7 @@
             <el-editable-column prop="shouldMoney" align="center" label="应付金额" />
             <el-editable-column prop="paidMoney" align="center" label="已付金额" />
             <el-editable-column prop="payingMoney" align="center" label="未付金额" />
-            <el-editable-column prop="invoiceNumber" align="center" label="发票号" />
+            <el-editable-column prop="invoiceNumber" align="center" :label="$t('updates.hph')" />
             <el-editable-column prop="invoiceType" align="center" label="发票类型" />
             <el-editable-column prop="payThis" align="center" label="本次支付金额" />
             <el-editable-column prop="advanceMoney" align="center" label="抵扣预付款" />

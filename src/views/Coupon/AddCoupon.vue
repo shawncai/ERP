@@ -92,7 +92,7 @@
       </el-card>
       <!--子件信息-->
       <el-card class="box-card" style="margin-top: 15px" shadow="never">
-        <h2 ref="fuzhu" class="form-name" >适用商品</h2>
+        <h2 ref="fuzhu" class="form-name" >{{ $t('updates.sysp') }}</h2>
         <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
           <el-button :disabled="Isproduct" @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>
           <my-detail :control.sync="control" @product="productdetail"/>
@@ -120,9 +120,9 @@
             <el-editable-column :label="$t('Hmodule.xh')" fixed="left" min-width="55" align="center" type="index"/>
             <el-editable-column :label="$t('Hmodule.wpbh')" prop="code" fixed="left" align="center" />
             <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" fixed="left" align="center" />
-            <el-editable-column prop="category" align="center" label="物品分类" />
-            <el-editable-column prop="purchaseMeasurement" align="center" label="基本单位" />
-            <el-editable-column prop="productType" align="center" label="规格型号" />
+            <el-editable-column prop="category" align="center" :label="$t('updates.wpfl')" />
+            <el-editable-column prop="purchaseMeasurement" align="center" :label="$t('updates.jbdw')" />
+            <el-editable-column prop="productType" align="center" :label="$t('updates.ggxh')" />
             <el-editable-column prop="color" align="center" :label="$t('updates.ys')" />
           </el-editable>
         </div>
@@ -146,7 +146,7 @@
                     <span >{{ scope.row.repositoryName }}</span>
                   </template>
                 </el-table-column>
-                <el-table-column :resizable="false" label="商品名称" align="center" min-width="150">
+                <el-table-column :resizable="false" :label="$t('updates.spmc')" align="center" min-width="150">
                   <template slot-scope="scope">
                     <span >{{ scope.row.productName }}</span>
                   </template>

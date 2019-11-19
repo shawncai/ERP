@@ -44,7 +44,7 @@
       </el-card>
       <!--父件信息-->
       <el-card class="box-card" style="margin-top: 15px">
-        <h2 ref="geren" class="form-name">父件信息</h2>
+        <h2 ref="geren" class="form-name">{{ $t('updates.fjxx') }}</h2>
         <div class="container">
           <el-form :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="100px" style="margin-left: 30px;">
             <el-row>
@@ -79,7 +79,7 @@
       </el-card>
       <!--入库单明细-->
       <el-card class="box-card" style="margin-top: 15px">
-        <h2 ref="fuzhu" class="form-name">子件信息</h2>
+        <h2 ref="fuzhu" class="form-name">{{ $t('updates.zjxx') }}</h2>
         <div class="container">
           <el-editable
             ref="editable"
@@ -91,15 +91,15 @@
             size="medium"
             style="width: 100%">
             <el-editable-column :label="$t('Hmodule.xh')" fixed="left" min-width="55" align="center" type="index"/>
-            <el-editable-column prop="productCode" fixed="left" align="center" label="子件" min-width="150px"/>
-            <el-editable-column prop="productName" fixed="left" align="center" label="子件名称" min-width="150px"/>
+            <el-editable-column prop="productCode" fixed="left" align="center" :label="$t('updates.zj')" min-width="150px"/>
+            <el-editable-column prop="productName" fixed="left" align="center" :label="$t('updates.zjmc')" min-width="150px"/>
             <el-editable-column :label="$t('Hmodule.gg')" prop="productType" align="center" min-width="150px"/>
             <el-editable-column prop="color" align="center" :label="$t('updates.ys')" min-width="150px"/>
-            <el-editable-column prop="productCategory" align="center" label="子件类型" min-width="150px"/>
+            <el-editable-column prop="productCategory" align="center" :label="$t('updates.zjlx')" min-width="150px"/>
             <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" min-width="150px"/>
-            <el-editable-column prop="quantity" align="center" label="定额" min-width="150px"/>
-            <el-editable-column prop="lossRate" align="center" label="损耗率" min-width="150px"/>
-            <el-editable-column prop="isKey" align="center" label="是否关键件" min-width="150px">
+            <el-editable-column prop="quantity" align="center" :label="$t('updates.de')" min-width="150px"/>
+            <el-editable-column prop="lossRate" align="center" :label="$t('updates.shl')" min-width="150px"/>
+            <el-editable-column prop="isKey" align="center" :label="$t('updates.sfgjj')" min-width="150px">
               <template slot-scope="scope">
                 <span>{{ scope.row.isKey | keyfilter }}</span>
               </template>

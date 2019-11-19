@@ -219,7 +219,7 @@
             </template>
           </el-editable-column>
           <el-editable-column :edit-render="{name: 'ElDatePicker', attrs: {type: 'date', format: 'yyyy-MM-dd'}, type: 'visible'}" prop="requireDate" align="center" :label="$t('updates.jhrq')" min-width="170px"/>
-          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="discountRate" align="center" label="折扣(%)" min-width="170px">
+          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="discountRate" align="center" :label="$t('updates.zk')" min-width="170px">
             <template slot="edit" slot-scope="scope">
               <el-input-number
                 v-model="scope.row.discountRate"

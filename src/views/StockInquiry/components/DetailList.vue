@@ -92,7 +92,7 @@
             <el-editable-column prop="planDeliveryDate" align="center" :label="$t('updates.jhrq')" />
             <el-editable-column :label="$t('Hmodule.dj')" prop="price" align="center" />
             <el-editable-column prop="includeTaxPrice" align="center" :label="$t('updates.hsj')" />
-            <el-editable-column prop="taxRate" align="center" label="税率" />
+            <el-editable-column prop="taxRate" align="center" :label="$t('updates.slv')" />
             <el-editable-column :label="$t('Hmodule.je')" prop="money" align="center" />
             <el-editable-column prop="includeTaxMoney" align="center" :label="$t('updates.hsje')" />
             <el-editable-column prop="taxMoney" align="center" :label="$t('updates.se')" />

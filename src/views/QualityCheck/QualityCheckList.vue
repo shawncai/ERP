@@ -4,17 +4,17 @@
       <el-row>
         <el-form ref="getemplist" :model="getemplist" label-width="100px" style="margin-top: -9px">
           <el-col :span="5">
-            <el-form-item label="质检主题" label-width="100px">
+            <el-form-item :label="$t('updates.zhzt')" label-width="100px">
               <el-input v-model="getemplist.title" :placeholder="$t('QualityCheck.title')" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
           <el-col :span="5" style="margin-left: 10px">
-            <el-form-item label="质检编号">
+            <el-form-item :label="$t('updates.zjbh')">
               <el-input v-model="getemplist.checkNumber" placeholder="质检编号" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
           <el-col :span="5" style="margin-left: 10px">
-            <el-form-item label="报检员">
+            <el-form-item :label="$t('updates.bjy')">
               <el-input v-model="reportPersonId" :placeholder="$t('QualityCheck.reportPersonId')" clearable @clear="restFilter2" @keyup.enter.native="handleFilter" @focus="handlechooseStock"/>
             </el-form-item>
             <my-emp :control.sync="stockControl" @stockName="stockName"/>

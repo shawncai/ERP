@@ -4,12 +4,12 @@
       <el-row>
         <el-form ref="getemplist" :model="getemplist" label-width="120px" style="margin-top: -9px">
           <el-col :span="4">
-            <el-form-item label="BOM编码">
+            <el-form-item :label="$t('updates.bimbm')">
               <el-input v-model="getemplist.bomNumber" :placeholder="$t('MaterialsList.bomNumber')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
           <el-col :span="4">
-            <el-form-item label="BOM类型">
+            <el-form-item :label="$t('updates.bomlx')">
               <el-select v-model="getemplist.bomTypeId" :value="getemplist.bomTypeId" class="filter-item" clearable>
                 <el-option value="1" label="工艺BOM"/>
                 <el-option value="2" label="设计BOM"/>

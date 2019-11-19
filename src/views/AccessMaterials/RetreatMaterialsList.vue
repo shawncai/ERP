@@ -4,7 +4,7 @@
       <el-row>
         <el-form ref="getemplist" :model="getemplist" label-width="100px" style="margin-top: -9px">
           <el-col :span="5">
-            <el-form-item label="单据主题" label-width="100px">
+            <el-form-item :label="$t('updates.djzti')" label-width="100px">
               <el-input v-model="getemplist.title" :placeholder="$t('AccessMaterials.title')" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
@@ -14,7 +14,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="5" style="margin-left: 10px">
-            <el-form-item label="退料人">
+            <el-form-item :label="$t('updates.tlr')">
               <el-input v-model="retreatPersonId" :placeholder="$t('AccessMaterials.retreatPersonId')" clearable @keyup.enter.native="handleFilter" @clear="restFilter" @focus="handlechooseStock"/>
             </el-form-item>
             <my-delivery :deliverycontrol.sync="stockControl" @deliveryName="stockName"/>

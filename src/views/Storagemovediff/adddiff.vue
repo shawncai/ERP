@@ -113,7 +113,7 @@
             <el-editable-column prop="color" align="center" :label="$t('updates.ys')" width="150px"/>
             <!-- <el-editable-column prop="productType" align="center" :label="$t('Hmodule.gg')" width="150px"/> -->
             <!-- <el-editable-column prop="unit" align="center" :label="$t('Hmodule.dw')" width="150px"/> -->
-            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0.00, precision: 2}, type: 'visible'}" prop="sendQuantity" align="center" label="发货数量" min-width="150">
+            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0.00, precision: 2}, type: 'visible'}" prop="sendQuantity" align="center" :label="$t('updates.fhsl')" min-width="150">
               <template slot="edit" slot-scope="scope">
                 <el-input-number
                   v-if="scope.row.isnew === 3"
@@ -138,7 +138,7 @@
                 <span v-else>{{ scope.row.actualQuantity }}</span>
               </template>
             </el-editable-column>
-            <el-editable-column prop="diffQuantity" align="center" label="差异数量" min-width="150">
+            <el-editable-column prop="diffQuantity" align="center" :label="$t('updates.cysl')" min-width="150">
               <template slot="edit" slot-scope="scope">
                 {{ scope.row.diffQuantity }}
               </template>

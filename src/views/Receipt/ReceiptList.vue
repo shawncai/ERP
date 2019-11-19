@@ -4,17 +4,17 @@
       <el-row>
         <el-form ref="getemplist" :model="getemplist" label-width="100px" style="margin-top: -9px">
           <el-col :span="5">
-            <el-form-item label="收款单单号" label-width="100px">
+            <el-form-item :label="$t('updates.skddh')" label-width="100px">
               <el-input v-model="getemplist.number" :placeholder="$t('Receipt.number')" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
           <el-col :span="5" style="margin-left: 10px">
-            <el-form-item label="收款人">
+            <el-form-item :label="$t('updates.skr')">
               <el-input v-model="receiptPersonId" placeholder="收款人" @clear="restFilter" @focus="handlechooseStock"/>
             </el-form-item>
           </el-col>
           <el-col :span="5" style="margin-left: 10px">
-            <el-form-item label="收款单主题">
+            <el-form-item :label="$t('updates.skdzt')">
               <el-input v-model="getemplist.title" placeholder="收款单主题" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>

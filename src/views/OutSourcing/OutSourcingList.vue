@@ -4,17 +4,17 @@
       <el-row>
         <el-form ref="getemplist" :model="getemplist" label-width="100px" style="margin-top: -9px">
           <el-col :span="5">
-            <el-form-item label="外包单主题" label-width="100px">
+            <el-form-item :label="$t('updates.wbdzt')" label-width="100px">
               <el-input v-model="getemplist.title" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
           <el-col :span="5" style="margin-left: 10px">
-            <el-form-item label="外包单单号">
+            <el-form-item :label="$t('updates.wbddh')">
               <el-input v-model="getemplist.number" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
           <el-col :span="5" style="margin-left: 10px">
-            <el-form-item label="外包工厂">
+            <el-form-item :label="$t('updates.wbgc')">
               <el-input v-model="outFactoryId" clearable @keyup.enter.native="handleFilter" @clear="restFilter" @focus="chooseFactory"/>
             </el-form-item>
             <my-factory :factorycontrol.sync="factorycontrol" @factoryName="factoryName"/>

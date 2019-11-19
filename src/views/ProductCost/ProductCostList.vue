@@ -4,7 +4,7 @@
       <el-row>
         <el-form ref="getemplist" :model="getemplist" label-width="100px" style="margin-top: -9px">
           <el-col :span="6">
-            <el-form-item label="产品名称" label-width="100px">
+            <el-form-item :label="$t('updates.cpmc')" label-width="100px">
               <el-input v-model="getemplist.productName" :placeholder="$t('ProductCost.productName')" clearable style="width: 80%" @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
@@ -19,7 +19,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="6" style="margin-left: 10px">
-            <el-form-item label="成本核算方法">
+            <el-form-item :label="$t('updates.cbhsff')">
               <el-select v-model="getemplist.accountType" clearable value="personalForm.accountType">
                 <el-option value="1" label="约当产量法"/>
                 <el-option value="2" label="定额成本法"/>

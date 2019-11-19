@@ -70,7 +70,7 @@
       </el-card>
 
       <el-card class="box-card" shadow="never" style="margin-top: 15px">
-        <h2 ref="fuzhu" class="form-name">盘点单明细</h2>
+        <h2 ref="fuzhu" class="form-name">{{ $t('updates.pddmx') }}</h2>
         <div class="container">
           <el-editable
             ref="editable"
@@ -91,24 +91,24 @@
             <el-editable-column :label="$t('Hmodule.gg')" prop="productType" align="center" />
             <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" />
             <el-editable-column prop="price" align="center" label="价格" />
-            <el-editable-column prop="inventoryQuantity" align="center" label="库存数量" >
+            <el-editable-column prop="inventoryQuantity" align="center" :label="$t('updates.kcsl')" >
               <template slot-scope="scope">
                 <p>{{ scope.row.inventoryQuantity }}</p>
               </template>
             </el-editable-column>
-            <el-editable-column prop="actualQuantity" align="center" label="实盘数量" />
-            <el-editable-column prop="diffQuantity" align="center" label="差异数量" >
+            <el-editable-column prop="actualQuantity" align="center" :label="$t('updates.spsl')" />
+            <el-editable-column prop="diffQuantity" align="center" :label="$t('updates.cysl')" >
               <template slot-scope="scope">
                 <p>{{ getDiff(scope.row.inventoryQuantity, scope.row.actualQuantity, scope.row) }}</p>
               </template>
             </el-editable-column>
-            <el-editable-column prop="diffType" align="center" label="盈亏类型" >
+            <el-editable-column prop="diffType" align="center" :label="$t('updates.yklx')" >
               <template slot-scope="scope">
                 <p>{{ getdiffType(scope.row.inventoryQuantity, scope.row.actualQuantity, scope.row) }}</p>
               </template>
             </el-editable-column>
-            <el-editable-column prop="countPersonName" align="center" label="盘点人" />
-            <el-editable-column prop="countDate" align="center" label="盘点日期" width="200px"/>
+            <el-editable-column prop="countPersonName" align="center" :label="$t('updates.pdr')" />
+            <el-editable-column prop="countDate" align="center" :label="$t('updates.pdrq')" width="200px"/>
             <el-editable-column v-if="false" prop="totalMoney" align="center" label="总金额" >
               <template slot-scope="scope">
                 <p>{{ getSize(scope.row.actualQuantity, scope.row.price) }}</p>

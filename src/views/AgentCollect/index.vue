@@ -4,12 +4,12 @@
       <el-row>
         <el-form ref="getemplist" :model="getemplist" label-width="100px" style="margin-top: -9px">
           <el-col :span="5">
-            <el-form-item label="经销商姓名">
+            <el-form-item :label="$t('updates.jxsxm')">
               <el-input v-model="getemplist.agentName" :placeholder="$t('AgentCollect.agentName')" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
           <el-col :span="5" style="margin-left: 10px">
-            <el-form-item label="销售门店">
+            <el-form-item :label="$t('updates.xsmd')">
               <el-input v-model="saleRepositoryId" placeholder="销售门店" @focus="handlechooseRep" @clear="restFilter"/>
             </el-form-item>
             <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>

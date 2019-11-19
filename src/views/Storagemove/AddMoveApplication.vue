@@ -92,7 +92,7 @@
             <el-editable-column prop="color" align="center" :label="$t('updates.ys')" width="150px"/>
             <el-editable-column :label="$t('Hmodule.gg')" prop="typeName" align="center" width="150px"/>
             <el-editable-column :label="$t('Hmodule.dw')" prop="unitName" align="center" width="150px"/>
-            <el-editable-column prop="price" align="center" label="调拨单价" width="150px"/>
+            <el-editable-column prop="price" align="center" :label="$t('updates.dbdj')" width="150px"/>
             <el-editable-column :edit-render="{name: 'ElInputNumber'}" prop="movePrice" align="center" label="调拨成本价" width="150px"/>
             <el-editable-column :edit-render="{name: 'ElInputNumber'}" prop="moveQuantity" align="center" label="调拨数量" width="150px"/>
             <el-editable-column prop="totalMoney" align="center" label="调拨金额" width="150px">

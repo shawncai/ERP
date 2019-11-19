@@ -43,7 +43,7 @@
       </el-card>
       <!--报损单明细-->
       <el-card class="box-card" shadow="never" style="margin-top: 10px">
-        <h2 ref="fuzhu" class="form-name">报损单明细</h2>
+        <h2 ref="fuzhu" class="form-name">{{ $t('updates.bsdmx') }}</h2>
         <div class="buttons" style="margin-top: 50px">
           <el-button type="success" @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>
           <el-button type="danger" @click="$refs.editable.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
@@ -91,9 +91,9 @@
             <el-editable-column prop="color" align="center" :label="$t('updates.ys')" width="150px"/>
             <el-editable-column :label="$t('Hmodule.gg')" prop="typeId" align="center" width="150px"/>
             <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" width="150px"/>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="damagedQuantity" align="center" label="报损数量" width="150px"/>
-            <el-editable-column prop="costPrice" align="center" label="成本单价" width="150px"/>
-            <el-editable-column prop="damagedMoney" align="center" label="报损金额" width="150px">
+            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="damagedQuantity" align="center" :label="$t('updates.bssl')" width="150px"/>
+            <el-editable-column prop="costPrice" align="center" :label="$t('updates.cbdj')" width="150px"/>
+            <el-editable-column prop="damagedMoney" align="center" :label="$t('updates.bsje')" width="150px">
               <template slot-scope="scope">
                 <p>{{ getSize(scope.row.damagedQuantity, scope.row.costPrice) }}</p>
               </template>
@@ -141,7 +141,7 @@
                     <span >{{ scope.row.repositoryName }}</span>
                   </template>
                 </el-table-column>
-                <el-table-column :resizable="false" label="商品名称" align="center" min-width="150">
+                <el-table-column :resizable="false" :label="$t('updates.spmc')" align="center" min-width="150">
                   <template slot-scope="scope">
                     <span >{{ scope.row.productName }}</span>
                   </template>

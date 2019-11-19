@@ -4,12 +4,12 @@
       <el-row>
         <el-form ref="getemplist" :model="getemplist" label-width="100px" style="margin-top: -9px">
           <el-col :span="5">
-            <el-form-item label="车辆编号" label-width="100px">
+            <el-form-item :label="$t('updates.clbh')" label-width="100px">
               <el-input v-model="getemplist.carnumber" :placeholder="$t('CarStatList.carnumber')" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
           <el-col :span="5" style="margin-left: 10px">
-            <el-form-item label="车牌号">
+            <el-form-item :label="$t('updates.cph')">
               <el-input v-model="getemplist.licencenumber" placeholder="车牌号" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
@@ -65,7 +65,7 @@
 
     <el-card class="box-card" style="margin-top: 10px" shadow="never">
       <el-tabs v-model="activeName2" type="card">
-        <el-tab-pane label="未使用车辆" name="first">
+        <el-tab-pane :label="$t('updates.wsycl')" name="first">
           <el-table
             v-loading="listLoading"
             :key="tableKey"
@@ -127,7 +127,7 @@
           <!-- 列表结束 -->
           <pagination v-show="total>0" :total="total" :page.sync="getemplist.pageNum" :limit.sync="getemplist.pageSize" @pagination="getlist" />
         </el-tab-pane>
-        <el-tab-pane label="在途车辆" name="second">
+        <el-tab-pane :label="$t('updates.ztcl')" name="second">
           <el-table
             v-loading="listLoading2"
             :key="tableKey2"

@@ -125,7 +125,7 @@
             <el-editable-column prop="includeTaxMoney" align="center" :label="$t('updates.hsje')"/>
             <el-editable-column prop="taxMoney" align="center" :label="$t('updates.se')"/>
             <el-editable-column prop="requireDate" align="center" :label="$t('updates.jhrq')"/>
-            <el-editable-column prop="discountRate" align="center" label="折扣(%)"/>
+            <el-editable-column prop="discountRate" align="center" :label="$t('updates.zk')"/>
             <el-editable-column prop="discountMoney" align="center" :label="$t('updates.cke')"/>
             <el-editable-column prop="remark" align="center" :label="$t('updates.bz')"/>
             <el-editable-column prop="sourceNumber" align="center" :label="$t('updates.ydbh')"/>

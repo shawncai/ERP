@@ -35,7 +35,7 @@
     </el-card>
     <!-- 货物流转规则明细 -->
     <el-card class="box-card" style="margin-top: 15px">
-      <h2 ref="fuzhu" class="form-name">货物流转规则明细</h2>
+      <h2 ref="fuzhu" class="form-name">{{ $t('updates.wllzgzmx') }}</h2>
       <div class="buttons" style="margin-top: 58px">
         <el-button type="success" style="background:#3696fd;border-color:#3696fd " @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>
         <el-button type="danger" @click="$refs.editable.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>

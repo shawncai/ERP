@@ -45,7 +45,7 @@
       <!--子件信息-->
       <el-card class="box-card" style="margin-top: 15px" shadow="never">
         <el-tabs v-model="activeName2" type="card">
-          <el-tab-pane label="生产状况" name="first">
+          <el-tab-pane :label="$t('updates.sczk')" name="first">
             <el-form :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="110px" style="margin-left: 30px;margin-top: 10px">
               <el-row>
                 <el-col :span="12">
@@ -60,7 +60,7 @@
                 </el-col>
               </el-row>
             </el-form>
-            <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266">生产明细</h2>
+            <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266">{{ $t('updates.scmxi') }}</h2>
             <div class="container">
               <el-editable
                 ref="editable"
@@ -74,14 +74,14 @@
                 <el-editable-column :label="$t('Hmodule.xh')" fixed="left" min-width="55" align="center" type="index"/>
                 <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" fixed="left" align="center" />
                 <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" fixed="left" align="center" />
-                <el-editable-column prop="workHours" align="center" label="工时" />
-                <el-editable-column prop="finishQuantity" align="center" label="完成数" />
-                <el-editable-column prop="passQuantity" align="center" label="合格数" />
-                <el-editable-column prop="passRate" align="center" label="合格率" />
+                <el-editable-column prop="workHours" align="center" :label="$t('updates.gs')" />
+                <el-editable-column prop="finishQuantity" align="center" :label="$t('updates.wcs')" />
+                <el-editable-column prop="passQuantity" align="center" :label="$t('updates.hgs')" />
+                <el-editable-column prop="passRate" align="center" :label="$t('updates.hgl')" />
               </el-editable>
             </div>
           </el-tab-pane>
-          <el-tab-pane label="人员状况" name="second">
+          <el-tab-pane :label="$t('updates.ryzk')" name="second">
             <el-form :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="110px" style="margin-left: 30px;margin-top: 10px">
               <el-row>
                 <el-col :span="12">
@@ -129,14 +129,14 @@
                 <el-editable-column type="selection" min-width="55" align="center"/>
                 <el-editable-column :label="$t('Hmodule.xh')" min-width="55" align="center" type="index"/>
                 <el-editable-column prop="personName" align="center" label="人员" />
-                <el-editable-column prop="workHours" align="center" label="工时" />
-                <el-editable-column prop="finishQuantity" align="center" label="完成数" />
-                <el-editable-column prop="passQuantity" align="center" label="合格数" />
-                <el-editable-column prop="passRate" align="center" label="合格率" />
+                <el-editable-column prop="workHours" align="center" :label="$t('updates.gs')" />
+                <el-editable-column prop="finishQuantity" align="center" :label="$t('updates.wcs')" />
+                <el-editable-column prop="passQuantity" align="center" :label="$t('updates.hgs')" />
+                <el-editable-column prop="passRate" align="center" :label="$t('updates.hgl')" />
               </el-editable>
             </div>
           </el-tab-pane>
-          <el-tab-pane label="设备状况" name="third">
+          <el-tab-pane :label="$t('updates.sbzk')" name="third">
             <el-form :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="110px" style="margin-left: 30px;margin-top: 10px">
               <el-row>
                 <el-col :span="12">
@@ -202,13 +202,13 @@
                 <el-editable-column prop="equipmentNumber" align="center" label="设备编号" />
                 <el-editable-column prop="equipmentName" align="center" label="设备名称" />
                 <el-editable-column prop="runTime" align="center" label="开机时长" />
-                <el-editable-column prop="finishQuantity" align="center" label="完成数" />
-                <el-editable-column prop="passQuantity" align="center" label="合格数" />
-                <el-editable-column prop="passRate" align="center" label="合格率" />
+                <el-editable-column prop="finishQuantity" align="center" :label="$t('updates.wcs')" />
+                <el-editable-column prop="passQuantity" align="center" :label="$t('updates.hgs')" />
+                <el-editable-column prop="passRate" align="center" :label="$t('updates.hgl')" />
               </el-editable>
             </div>
           </el-tab-pane>
-          <el-tab-pane label="物料使用情况" name="fourth">
+          <el-tab-pane :label="$t('updates.wlsyqk')" name="fourth">
             <el-form :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="110px" style="margin-left: 30px;margin-top: 10px">
               <el-row>
                 <el-col :span="12">

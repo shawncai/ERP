@@ -4,17 +4,17 @@
       <el-row>
         <el-form ref="getemplist" :model="getemplist" label-width="100px" style="margin-top: -9px">
           <el-col :span="5">
-            <el-form-item label="客户姓名">
+            <el-form-item :label="$t('updates.khxmi')">
               <el-input v-model="getemplist.customerName" :placeholder="$t('CollectList.customerName')" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
           <el-col :span="5" style="margin-left: 10px">
-            <el-form-item label="车架编码">
+            <el-form-item :label="$t('updates.cjbm')">
               <el-input v-model="getemplist.carCode" placeholder="车架编码" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
           <el-col :span="5">
-            <el-form-item label="电机编码">
+            <el-form-item :label="$t('updates.djbm')">
               <el-input v-model="getemplist.motorCode" :placeholder="$t('CollectList.motorCode')" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>

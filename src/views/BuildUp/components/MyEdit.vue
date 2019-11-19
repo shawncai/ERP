@@ -40,7 +40,7 @@
               </el-form-item>
             </el-col>
             <!--            <el-col :span="6">-->
-            <!--              <el-form-item label="合为一个单据" style="width: 100%;">-->
+            <!--              <el-form-item :label="$t('updates.hwygdj')" style="width: 100%;">-->
             <!--                <el-select v-model="personalForm.type" :placeholder="$t('updates.qxz')" style="margin-left: 18px;width: 200px" clearable >-->
             <!--                  <el-option value="1" :label="$t('updates.yes')"/>-->
             <!--                  <el-option value="2" :label="$t('updates.no')"/>-->
@@ -53,7 +53,7 @@
     </el-card>
     <!--入库单明细-->
     <el-card class="box-card" style="margin-top: 15px">
-      <h2 ref="fuzhu" class="form-name">待组装的商品</h2>
+      <h2 ref="fuzhu" class="form-name">{{ $t('updates.dzzdspmx') }}</h2>
       <div class="container">
         <el-editable
           ref="editable"
@@ -93,7 +93,7 @@
           <el-editable-column prop="color" align="center" :label="$t('updates.ys')" width="150px"/>
           <el-editable-column :label="$t('Hmodule.gg')" prop="typeIdname" align="center" width="150px"/>
           <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" width="150px"/>
-          <el-editable-column prop="quantity" align="center" label="数量" width="150px"/>
+          <el-editable-column prop="quantity" align="center" :label="$t('updates.shuli')" width="150px"/>
           <el-editable-column :label="$t('Hmodule.dj')" prop="price" align="center" width="150px"/>
           <el-editable-column :label="$t('Hmodule.je')" prop="totalMoney" align="center" width="150px">
             <template slot-scope="scope">
@@ -106,7 +106,7 @@
     </el-card>
     <!--组装后的商品      -->
     <el-card class="box-card" style="margin-top: 15px">
-      <h2 ref="fuzhu" class="form-name">组装后的商品</h2>
+      <h2 ref="fuzhu" class="form-name">{{ $t('updates.zzhdsp') }}</h2>
       <div class="buttons" style="margin-top: 58px">
         <el-button type="success" style="background:#3696fd;border-color:#3696fd " @click="handleAddproduct2">{{ $t('Hmodule.tjsp') }}</el-button>
         <el-button type="danger" @click="beyond2">{{ $t('Hmodule.delete') }}</el-button>
@@ -144,7 +144,7 @@
           <el-editable-column prop="color" align="center" :label="$t('updates.ys')" width="150px"/>
           <el-editable-column :label="$t('Hmodule.gg')" prop="typeIdname" align="center" width="150px"/>
           <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" width="150px"/>
-          <el-editable-column :edit-render="{name: 'ElInputNumber', type: 'visible', events: {change: beyond}}" prop="quantity" align="center" label="数量" width="150px"/>
+          <el-editable-column :edit-render="{name: 'ElInputNumber', type: 'visible', events: {change: beyond}}" prop="quantity" align="center" :label="$t('updates.shuli')" width="150px"/>
           <el-editable-column :label="$t('Hmodule.dj')" prop="price" align="center" width="150px"/>
           <el-editable-column :label="$t('Hmodule.je')" prop="totalMoney" align="center" width="150px">
             <template slot-scope="scope">

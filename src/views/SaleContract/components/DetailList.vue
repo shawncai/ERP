@@ -172,27 +172,27 @@
             <el-editable-column :label="$t('Hmodule.xh')" fixed="left" min-width="55" align="center" type="index"/>
             <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" fixed="left" align="center" />
             <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" fixed="left" align="center" />
-            <el-editable-column prop="categoryName" align="center" label="物品分类" />
-            <el-editable-column prop="typeName" align="center" label="规格型号" />
+            <el-editable-column prop="categoryName" align="center" :label="$t('updates.wpfl')" />
+            <el-editable-column prop="typeName" align="center" :label="$t('updates.ggxh')" />
             <el-editable-column prop="color" align="center" :label="$t('updates.ys')" />
             <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" />
-            <el-editable-column prop="performanceScore" align="center" label="绩效分" />
-            <el-editable-column prop="productScore" align="center" label="商品积分" />
-            <el-editable-column prop="quantity" align="center" label="订单数量" />
-            <el-editable-column prop="salePrice" align="center" label="零售价" />
-            <!--          <el-editable-column prop="costPrice" align="center" label="成本价" />-->
+            <el-editable-column prop="performanceScore" align="center" :label="$t('updates.jxf')" />
+            <el-editable-column prop="productScore" align="center" :label="$t('updates.spjf')" />
+            <el-editable-column prop="quantity" align="center" :label="$t('updates.ddsl')" />
+            <el-editable-column prop="salePrice" align="center" :label="$t('updates.lsj')" />
+            <!--          <el-editable-column prop="costPrice" align="center" :label="$t('updates.cbj')" />-->
             <el-editable-column prop="taxprice" align="center" :label="$t('updates.hsj')" />
             <!--          <el-editable-column prop="costMoney" align="center" label="成本金额" />-->
             <el-editable-column prop="includeTaxMoney" align="center" :label="$t('updates.hsje')" />
             <el-editable-column prop="taxRate" align="center" :label="$t('updates.sl')" />
             <el-editable-column prop="taxMoney" align="center" :label="$t('updates.se')" />
             <el-editable-column :label="$t('Hmodule.je')" prop="money" align="center" />
-            <!--          <el-editable-column prop="includeTaxCostMoney" align="center" label="含税成本金额" />-->
+            <!--          <el-editable-column prop="includeTaxCostMoney" align="center" :label="$t('updates.hscbje')" />-->
             <el-editable-column prop="discount" align="center" :label="$t('updates.ckl')" />
             <el-editable-column prop="discountMoney" align="center" :label="$t('updates.cke')" />
-            <el-editable-column prop="carCode" align="center" label="车架编码" />
-            <el-editable-column prop="motorCode" align="center" label="电机编码" />
-            <el-editable-column prop="batteryCode" align="center" label="电池编码" />
+            <el-editable-column prop="carCode" align="center" :label="$t('updates.cjbm')" />
+            <el-editable-column prop="motorCode" align="center" :label="$t('updates.djbm')" />
+            <el-editable-column prop="batteryCode" align="center" :label="$t('updates.dcbm')" />
           </el-editable>
         </div>
       </el-card>

@@ -9,7 +9,7 @@
           <el-form ref="personalForm" :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="100px" style="margin-left: 30px;">
             <el-row>
               <el-col :span="12">
-                <el-form-item class="print2" label="调拨单编号" style="width: 100%;display: none">
+                <el-form-item class="print2" :label="$t('updates.dbdbh')" style="width: 100%;display: none">
                   {{ personalForm.moveNumber }}
                 </el-form-item>
               </el-col>
@@ -88,7 +88,7 @@
             <el-editable-column prop="color" align="center" :label="$t('updates.ys')" />
             <el-editable-column prop="typeName" align="center" :label="$t('Hmodule.gg')" />
             <el-editable-column prop="unitName" align="center" :label="$t('Hmodule.dw')" />
-            <el-editable-column prop="price" align="center" label="调拨单价" />
+            <el-editable-column prop="price" align="center" :label="$t('updates.dbdj')" />
             <el-editable-column prop="movePrice" align="center" label="调拨成本价" />
             <el-editable-column prop="moveQuantity" align="center" label="调拨数量" />
             <el-editable-column prop="totalMoney" align="center" label="调拨金额" >
@@ -122,7 +122,7 @@
             <el-editable-column prop="color" align="center" :label="$t('updates.ys')" />
             <el-editable-column prop="typeName" align="center" :label="$t('Hmodule.gg')" />
             <el-editable-column prop="unitName" align="center" :label="$t('Hmodule.dw')" />
-            <el-editable-column prop="price" align="center" label="调拨单价" />
+            <el-editable-column prop="price" align="center" :label="$t('updates.dbdj')" />
             <el-editable-column prop="movePrice" align="center" label="调拨成本价" />
             <el-editable-column prop="moveQuantity" align="center" label="调拨数量" />
             <el-editable-column prop="totalMoney" align="center" label="调拨金额" >
@@ -136,7 +136,7 @@
       </el-card> -->
       <!--调拨申请明细-->
       <el-card class="box-card" style="margin-top: 15px">
-        <h2 ref="fuzhu" class="form-name">调拨申请明细</h2>
+        <h2 ref="fuzhu" class="form-name">{{ $t('updates.dbsqdmx') }}</h2>
         <div class="container">
           <el-editable
             ref="editable"
@@ -172,9 +172,9 @@
             <el-editable-column :label="$t('Hmodule.gg')" prop="productType" align="center" width="150px"/>
             <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" width="150px"/>
             <el-editable-column prop="applyQuantity" align="center" :label="$t('updates.sqsl')" min-width="150"/>
-            <el-editable-column prop="movePrice" align="center" label="调拨单价" width="150px"/>
+            <el-editable-column prop="movePrice" align="center" :label="$t('updates.dbdj')" width="150px"/>
             <!-- <el-editable-column :edit-render="{name: 'ElInputNumber', type: 'visible'}" prop="movePrice" align="center" label="调拨成本价" width="150px"/> -->
-            <el-editable-column prop="moveMoney" align="center" label="商品金额" width="150px"/>
+            <el-editable-column prop="moveMoney" align="center" :label="$t('updates.spje')" width="150px"/>
             <el-editable-column prop="remarks" align="center" :label="$t('updates.bz')" width="150px"/>
           </el-editable>
         </div>
@@ -201,11 +201,11 @@
             <el-editable-column prop="color" align="center" :label="$t('updates.ys')" width="150px"/>
             <el-editable-column :label="$t('Hmodule.gg')" prop="typeName" align="center" width="150px"/>
             <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" width="150px"/>
-            <el-editable-column prop="moveQuantity" align="center" label="出库数量" min-width="150"/>
-            <el-editable-column prop="carCode" align="center" label="车架编码" min-width="150" />
-            <el-editable-column prop="motorCode" align="center" label="电机编码" min-width="150" />
-            <el-editable-column prop="batteryCode" align="center" label="电池编码" min-width="150" />
-            <el-editable-column prop="movePrice" align="center" label="调拨单价" width="150px"/>
+            <el-editable-column prop="moveQuantity" align="center" :label="$t('updates.cksli')" min-width="150"/>
+            <el-editable-column prop="carCode" align="center" :label="$t('updates.cjbm')" min-width="150" />
+            <el-editable-column prop="motorCode" align="center" :label="$t('updates.djbm')" min-width="150" />
+            <el-editable-column prop="batteryCode" align="center" :label="$t('updates.dcbm')" min-width="150" />
+            <el-editable-column prop="movePrice" align="center" :label="$t('updates.dbdj')" width="150px"/>
             <el-editable-column prop="price" align="center" label="调拨成本价" width="150px"/>
             <el-editable-column prop="totalMoney" align="center" label="调拨金额" width="150px" />
             <el-editable-column prop="stat" align="center" label="出库状态" width="150px">
@@ -238,11 +238,11 @@
             <el-editable-column prop="color" align="center" :label="$t('updates.ys')" width="150px"/>
             <el-editable-column :label="$t('Hmodule.gg')" prop="typeName" align="center" width="150px"/>
             <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" width="150px"/>
-            <el-editable-column prop="moveQuantity" align="center" label="出库数量" min-width="150"/>
-            <el-editable-column prop="carCode" align="center" label="车架编码" min-width="150" />
-            <el-editable-column prop="motorCode" align="center" label="电机编码" min-width="150" />
-            <el-editable-column prop="batteryCode" align="center" label="电池编码" min-width="150" />
-            <el-editable-column prop="price" align="center" label="调拨单价" width="150px"/>
+            <el-editable-column prop="moveQuantity" align="center" :label="$t('updates.cksli')" min-width="150"/>
+            <el-editable-column prop="carCode" align="center" :label="$t('updates.cjbm')" min-width="150" />
+            <el-editable-column prop="motorCode" align="center" :label="$t('updates.djbm')" min-width="150" />
+            <el-editable-column prop="batteryCode" align="center" :label="$t('updates.dcbm')" min-width="150" />
+            <el-editable-column prop="price" align="center" :label="$t('updates.dbdj')" width="150px"/>
             <el-editable-column prop="movePrice" align="center" label="调拨成本价" width="150px"/>
             <el-editable-column prop="totalMoney" align="center" label="调拨金额" width="150px"/>
             <el-editable-column prop="stat" align="center" label="入库状态" width="150px">
@@ -314,7 +314,7 @@
             <el-table-column
               prop="arrivalDate"
               align="center"
-              label="车辆编号"
+              :label="$t('updates.clbh')"
               min-width="150"/>
             <el-table-column
               :label="$t('updates.cangk')"

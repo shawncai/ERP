@@ -81,7 +81,7 @@
             <el-editable-column prop="color" align="center" :label="$t('updates.ys')" />
             <el-editable-column :label="$t('Hmodule.gg')" prop="productType" align="center" />
             <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" />
-            <el-editable-column prop="basicQuantity" align="center" label="基本数量" />
+            <el-editable-column prop="basicQuantity" align="center" :label="$t('updates.jbel')" />
             <el-editable-column prop="overflowQuantity" align="center" label="报溢数量" />
             <el-editable-column :label="$t('Hmodule.dj')" prop="price" align="center" />
             <el-editable-column prop="totalMoney" align="center" label="报溢金额" >

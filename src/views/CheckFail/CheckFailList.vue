@@ -4,7 +4,7 @@
       <el-row>
         <el-form ref="getemplist" :model="getemplist" label-width="100px" style="margin-top: -9px">
           <el-col :span="5">
-            <el-form-item label="单据主题" label-width="100px">
+            <el-form-item :label="$t('updates.djzti')" label-width="100px">
               <el-input v-model="getemplist.title" :placeholder="$t('CheckFail.title')" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
@@ -14,7 +14,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="5" style="margin-left: 10px">
-            <el-form-item label="处置负责人">
+            <el-form-item :label="$t('updates.czfzr')">
               <el-input v-model="handlePersonId" :placeholder="$t('CheckFail.handlePersonId')" clearable @keyup.enter.native="handleFilter" @focus="handlechooseStock" @clea="restFilter"/>
             </el-form-item>
             <my-emp :control.sync="stockControl" @stockName="stockName"/>

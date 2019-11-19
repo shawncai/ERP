@@ -63,7 +63,7 @@
       </el-card>
       <!--日常调整单明细-->
       <el-card class="box-card" style="margin-top: 15px">
-        <h2 ref="fuzhu" class="form-name">日常调整单明细</h2>
+        <h2 ref="fuzhu" class="form-name">{{ $t('updates.rctzdmx') }}</h2>
         <div class="container">
           <el-editable
             ref="editable"
@@ -83,10 +83,10 @@
             <el-editable-column prop="color" align="center" :label="$t('updates.ys')" width="150px"/>
             <el-editable-column :label="$t('Hmodule.gg')" prop="typeIdname" align="center" width="150px"/>
             <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" width="150px"/>Q
-            <el-editable-column prop="quantity" align="center" label="数量" width="150px"/>
-            <el-editable-column prop="adjustQuantity" align="center" label="调整数量" width="150px"/>
-            <el-editable-column prop="price" align="center" label="成本单价" width="150px"/>
-            <el-editable-column prop="adjustMoney" align="center" label="调整金额" width="150px">
+            <el-editable-column prop="quantity" align="center" :label="$t('updates.shuli')" width="150px"/>
+            <el-editable-column prop="adjustQuantity" align="center" :label="$t('updates.tzsl')" width="150px"/>
+            <el-editable-column prop="price" align="center" :label="$t('updates.cbdj')" width="150px"/>
+            <el-editable-column prop="adjustMoney" align="center" :label="$t('updates.tzje')" width="150px">
               <template slot-scope="scope">
                 <p>{{ getSize(scope.row.adjustQuantity, scope.row.price) }}</p>
               </template>

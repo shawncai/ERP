@@ -5,7 +5,7 @@
       <el-row>
         <el-form ref="getemplist" :model="getemplist" label-width="70px" style="margin-top: -9px">
           <el-col :span="5">
-            <el-form-item label="物品编码">
+            <el-form-item :label="$t('updates.wpbm')">
               <el-input v-model="getemplist.productCode" :placeholder="$t('endmonth.productCode')" style="width: 80%;" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
@@ -15,7 +15,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="5">
-            <el-form-item label="年月">
+            <el-form-item :label="$t('updates.ny')">
               <el-date-picker
                 v-model="getemplist.date"
                 type="month"

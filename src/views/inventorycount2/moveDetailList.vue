@@ -10,7 +10,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="3" style="margin-left: 100px">
-            <el-form-item label="调入仓库">
+            <el-form-item :label="$t('updates.drck')">
               <el-input v-model="enterRepositoryId" class="filter-item" clearable @clear="restFilter2" @keyup.enter.native="handleFilter" @focus="handlechooseRep2"/>
               <my-repository :repositorycontrol.sync="repositorycontrol2" @repositoryname="repositoryname2"/>
             </el-form-item>

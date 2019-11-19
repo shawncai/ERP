@@ -232,7 +232,7 @@
                 <el-table-column
                   prop="productName"
                   align="center"
-                  label="商品名称"
+                  :label="$t('updates.spmc')"
                   min-width="150"/>
                 <el-table-column
                   prop="productTypeName"
@@ -242,7 +242,7 @@
                 <el-table-column
                   prop="quantity"
                   align="center"
-                  label="数量"
+                  :label="$t('updates.shuli')"
                   min-width="150"/>
                 <el-table-column
                   :label="$t('Hmodule.je')"
@@ -252,12 +252,12 @@
                 <el-table-column
                   prop="salePrice"
                   align="center"
-                  label="零售价"
+                  :label="$t('updates.lsj')"
                   min-width="150"/>
                 <el-table-column
                   prop="discountMoney"
                   align="center"
-                  label="折扣（%）"
+                  :label="$t('updates.zko')"
                   min-width="150"/>
               </el-table>
             </el-tab-pane>
@@ -279,7 +279,7 @@
                 <el-table-column
                   prop="receiptPersonName"
                   align="center"
-                  label="收款人"
+                  :label="$t('updates.skr')"
                   min-width="150"/>
                 <el-table-column
                   :label="$t('updates.skfs')"
@@ -316,7 +316,7 @@
                 <el-table-column
                   prop="returnReason"
                   align="center"
-                  label="退货原因"
+                  :label="$t('updates.thyy')"
                   min-width="150"/>
                 <el-table-column
                   prop="closeStatusId"

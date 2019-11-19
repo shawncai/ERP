@@ -16,7 +16,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="4">
-            <el-form-item label="采购时间段">
+            <el-form-item :label="$t('updates.cgsjd')">
               <el-date-picker
                 v-model="date"
                 type="daterange"

@@ -131,7 +131,7 @@
       </div>
     </el-card>
     <el-card class="box-card" style="margin-top: 15px;margin-bottom: 35px" shadow="never">
-      <h2 ref="fuzhu" class="form-name" >付款明细</h2>
+      <h2 ref="fuzhu" class="form-name" >{{ $t('updates.fkmx') }}</h2>
       <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
         <el-button type="danger" @click="$refs.editable.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
       </div>
@@ -154,7 +154,7 @@
           <el-editable-column prop="shouldMoney" align="center" label="应付金额" min-width="150px"/>
           <el-editable-column prop="paidMoney" align="center" label="已付金额" min-width="150px"/>
           <el-editable-column prop="payingMoney" align="center" label="未付金额" min-width="150px"/>
-          <el-editable-column :edit-render="{name: 'ElInputNumber', type: 'visible'}" prop="invoiceNumber" align="center" label="发票号" min-width="200px">
+          <el-editable-column :edit-render="{name: 'ElInputNumber', type: 'visible'}" prop="invoiceNumber" align="center" :label="$t('updates.hph')" min-width="200px">
             <template slot="edit" slot-scope="scope">
               <el-input-number
                 v-model="scope.row.invoiceNumber"

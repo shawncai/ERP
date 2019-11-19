@@ -62,7 +62,7 @@
         </div>
       </el-card>
       <el-card class="box-card" style="margin-top: 15px" shadow="never">
-        <h2 ref="fuzhu" class="form-name" >预售商品</h2>
+        <h2 ref="fuzhu" class="form-name" >{{ $t('updates.yssp') }}</h2>
         <div class="container">
           <el-editable
             ref="editable"

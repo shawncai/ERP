@@ -157,7 +157,7 @@
             <el-editable-column prop="color" align="center" :label="$t('updates.ys')" min-width="150px"/>
             <el-editable-column prop="proportion" align="center" label="供货比列(%)" min-width="150px"/>
             <el-editable-column prop="price" align="center" label="价格" min-width="150px"/>
-            <el-editable-column prop="discountRate" align="center" label="折扣(%)" min-width="150px"/>
+            <el-editable-column prop="discountRate" align="center" :label="$t('updates.zk')" min-width="150px"/>
           </el-editable>
         </div>
       </el-card>
@@ -373,7 +373,7 @@
                 <el-table-column
                   prop="retreatReason"
                   align="center"
-                  label="退货原因"
+                  :label="$t('updates.thyy')"
                   min-width="150"/>
                 <el-table-column
                   prop="stat"
@@ -417,7 +417,7 @@
                 <el-table-column
                   prop="productName"
                   align="center"
-                  label="商品名称"
+                  :label="$t('updates.spmc')"
                   min-width="150"/>
                 <el-table-column
                   prop="stat"
@@ -484,7 +484,7 @@
                 <el-table-column
                   prop="createName"
                   align="center"
-                  label="经办人"
+                  :label="$t('updates.jbr')"
                   min-width="150"/>
               </el-table>
             </el-tab-pane>
@@ -496,7 +496,7 @@
                 <el-table-column
                   prop="number"
                   align="center"
-                  label="订单编号"
+                  :label="$t('updates.ddbh')"
                   min-width="150"/>
                 <el-table-column
                   prop="arrivalDate"

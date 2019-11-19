@@ -5,17 +5,17 @@
       <el-row>
         <el-form ref="getemplist" :model="getemplist" label-width="120px" style="margin-top: -9px">
           <el-col :span="4">
-            <el-form-item label="调整单主题">
+            <el-form-item :label="$t('updates.tzdzt')">
               <el-input v-model="getemplist.title" :placeholder="$t('DailyAdjust.title')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
           <el-col :span="4">
-            <el-form-item label="调整单编号">
+            <el-form-item :label="$t('updates.tzdbh')">
               <el-input v-model="getemplist.number" :placeholder="$t('DailyAdjust.number')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
           <el-col :span="4">
-            <el-form-item label="调整部门">
+            <el-form-item :label="$t('updates.tzbm')">
               <el-select v-model="getemplist.deptId" placeholder="请选择调整部门" style="margin-left: 18px;width: 144px" clearable >
                 <el-option
                   v-for="(item, index) in depts"

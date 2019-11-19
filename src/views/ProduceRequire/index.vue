@@ -4,7 +4,7 @@
       <el-row>
         <el-form ref="getemplist" :model="getemplist" label-width="100px" style="margin-top: -9px">
           <el-col :span="5">
-            <el-form-item label="开始时间" label-width="100px">
+            <el-form-item :label="$t('updates.kssj')" label-width="100px">
               <el-date-picker
                 v-model="getemplist.beginTime"
                 :picker-options="pickerOptions0"
@@ -14,7 +14,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="5" style="margin-left: 10px">
-            <el-form-item label="结束时间">
+            <el-form-item :label="$t('updates.jssj')">
               <el-date-picker
                 v-model="getemplist.endTime"
                 :picker-options="pickerOptions1"

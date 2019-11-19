@@ -12,8 +12,8 @@
             <el-form-item :label="$t('updates.fllb')">
               <el-select v-model="getemplist.type" :value="getemplist.type" clearable @keyup.enter.native="handleFilter">
                 <el-option label="不合格处理方式" value="1"/>
-                <el-option label="不合格原因" value="2"/>
-                <el-option label="检验项目" value="3"/>
+                <el-option :label="$t('updates.bhgyy')" value="2"/>
+                <el-option :label="$t('updates.jyxm')" value="3"/>
               </el-select>
             </el-form-item>
           </el-col>
@@ -54,8 +54,8 @@
           <el-form-item :label="$t('NewEmployeeInformation.type')" label-width="100px" prop="type">
             <el-select v-model="addCategoryForm.type" placeholder="请选择类别" style="width: 100%">
               <el-option label="不合格处理方式" value="1"/>
-              <el-option label="不合格原因" value="2"/>
-              <el-option label="检验项目" value="3"/>
+              <el-option :label="$t('updates.bhgyy')" value="2"/>
+              <el-option :label="$t('updates.jyxm')" value="3"/>
             </el-select>
           </el-form-item>
           <el-form-item :label="$t('NewEmployeeInformation.categoryname')" label-width="100px" prop="categoryname">
@@ -125,8 +125,8 @@
           <el-form-item :label="$t('NewEmployeeInformation.type')" label-width="100px">
             <el-select v-model="editCategoryForm.type" placeholder="请选择类别" style="width: 100%" disabled >
               <el-option label="不合格处理方式" value="1"/>
-              <el-option label="不合格原因" value="2"/>
-              <el-option label="检验项目" value="3"/>
+              <el-option :label="$t('updates.bhgyy')" value="2"/>
+              <el-option :label="$t('updates.jyxm')" value="3"/>
             </el-select>
           </el-form-item>
           <el-form-item :label="$t('NewEmployeeInformation.categoryname')" label-width="100px" prop="categoryName">
