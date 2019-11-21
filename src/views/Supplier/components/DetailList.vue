@@ -5,7 +5,7 @@
     :detaildata="detaildata"
     :detailid="detailid"
     :close-on-press-escape="false"
-    :title="personalForm.id + '供应商详情信息'"
+    :title="personalForm.id + $t('updates.gysxqxx')"
     append-to-body
     width="1010px"
     class="edit"

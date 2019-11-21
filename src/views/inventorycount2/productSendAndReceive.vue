@@ -9,7 +9,7 @@
                 v-model="date2"
                 type="month"
                 value-format="yyyy-MM"
-                placeholder="选择月"/>
+                :placeholder="$t('updates.xzy')"/>
             </el-form-item>
           </el-col>
           <el-col :span="4" style="margin-left: 140px">

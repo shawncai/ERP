@@ -14,7 +14,7 @@
                 v-model="getemplist.accountTime"
                 type="month"
                 value-format="yyyy-MM"
-                placeholder="选择月"
+                :placeholder="$t('updates.xzy')"
                 style="margin-left: 11px;width: 80%"/>
             </el-form-item>
           </el-col>

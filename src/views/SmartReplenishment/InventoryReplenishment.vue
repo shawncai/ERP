@@ -136,7 +136,7 @@
       <!-- 列表结束 -->
       <pagination v-show="total>0" :total="total" :page.sync="getemplist.pagenum" :limit.sync="getemplist.pagesize" @pagination="getlist" />
       <!--修改开始=================================================-->
-      <el-dialog :visible.sync="editcategoryVisible" title="修改补货周期设置" class="normal" width="600px" center>
+      <el-dialog :visible.sync="editcategoryVisible" :title="$t('updates.xgbhzq')" class="normal" width="600px" center>
         <el-form ref="editCategoryForm" :rules="editCategoryFormRules" :model="editCategoryForm" class="demo-ruleForm" style="margin: 0 auto; width: 400px">
           <el-form-item :label="$t('InventoryReplenishment.Repository')" label-width="120px">
             <el-input v-model="repositoryId" disabled/>

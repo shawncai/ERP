@@ -99,7 +99,7 @@
       <!-- 列表结束 -->
       <pagination v-show="total>0" :total="total" :page.sync="getcontractlist.pagenum" :limit.sync="getcontractlist.pagesize" @pagination="getlist" />
       <!--修改弹窗-->
-      <el-dialog :visible.sync="editVisible" :title="'合同编号' + contractNumber" width="1010px" class="edit" top="-10px">
+      <el-dialog :visible.sync="editVisible" :title="$t('updates.htbh') + contractNumber" width="1010px" class="edit" top="-10px">
         <el-card class="box-card" style="margin-top: 63px" shadow="never">
           <el-form ref="contractForm" :model="contractForm" :rules="contractFormRules" :inline="true" status-icon class="demo-ruleForm" label-position="top" label-width="300px" style="margin-left: 30px;">
             <el-form-item :label="$t('NewEmployeeInformation.employeeid')" prop="employeeId" style="width: 40%;">
@@ -198,7 +198,7 @@
         </el-card>
       </el-dialog>
       <!--      详情-->
-      <el-dialog :visible.sync="detailVisible" :title="'合同编号' + contractNumber" width="1010px" class="edit" top="-10px">
+      <el-dialog :visible.sync="detailVisible" :title="$t('updates.htbh') + contractNumber" width="1010px" class="edit" top="-10px">
         <el-card class="box-card" style="margin-top: 63px" shadow="never">
           <el-form ref="contractForm" :model="contractForm" :rules="contractFormRules" :inline="true" status-icon class="demo-ruleForm" label-position="top" label-width="300px" style="margin-left: 30px;">
             <el-form-item :label="$t('NewEmployeeInformation.employeeid')" prop="employeeId" style="width: 40%;">

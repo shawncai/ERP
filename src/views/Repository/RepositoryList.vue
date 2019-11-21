@@ -116,7 +116,7 @@
       <!--修改操作-->
       <!--===========================-->
       <!--开始-->
-      <el-dialog :visible.sync="editVisible" class="editdialog" width="1010px" top="-10px" title="修改仓库">
+      <el-dialog :visible.sync="editVisible" class="editdialog" width="1010px" top="-10px" :title="$t('updates.xgck')">
         <!--仓库信息-->
         <h2 ref="geren" class="form-name">{{ $t('Hmodule.basicinfo') }}</h2>
         <div class="container">

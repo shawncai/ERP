@@ -91,7 +91,7 @@
       </el-table>
       <!-- 列表结束 -->
       <!--修改开始=================================================-->
-      <el-dialog :visible.sync="editDeptVisible" title="修改部门" width="500px">
+      <el-dialog :visible.sync="editDeptVisible" :title="$t('updates.xgbm')" width="500px">
         <el-form :model="editDeptform" label-position="left" label-width="120px" style="width: 400px; margin-left:50px;">
           <el-form-item label-width="120px" label="部门编号">
             <el-input v-model="editDeptform.deptNo" autocomplete="off" style="width: 200px"/>

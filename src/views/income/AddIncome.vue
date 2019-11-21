@@ -93,7 +93,7 @@
       <el-card class="box-card" style="margin-top: 15px" shadow="never">
         <h2 ref="fuzhu" class="form-name" >{{ $t('updates.srmx') }}</h2>
         <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
-          <el-button @click="insertEvent(-1)">添加收入项</el-button>
+          <el-button @click="insertEvent(-1)">{{ $t('updates.tjsrx') }}</el-button>
           <el-button type="danger" @click="$refs.editable.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
         </div>
         <div class="container">

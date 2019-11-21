@@ -3,21 +3,21 @@
   <div class="carlocations">
     <div class="leftlocation">
       <el-tabs v-model="activeName2" type="border-card" @tab-click="handleClick">
-        <el-tab-pane label="全部" name="first">
+        <el-tab-pane :label="$t('updates.qb')" name="first">
           <div v-for="(item, index) in carlist" :key="index" class="carlistdata">
             <div :class="activename ===item.snCode? 'caritem active' : 'caritem'" @click="choosecar(item)">
               {{ item.snCode }}
             </div>
           </div>
         </el-tab-pane>
-        <el-tab-pane label="在线" name="second">
+        <el-tab-pane :label="$t('updates.zxi')" name="second">
           <div v-for="(item, index) in carlist2" :key="index" class="carlistdata">
             <div :class="activename ===item.snCode? 'caritem active' : 'caritem'" @click="choosecar(item)">
               {{ item.snCode }}
             </div>
           </div>
         </el-tab-pane>
-        <el-tab-pane label="离线" name="third">
+        <el-tab-pane :label="$t('updates.lxi')" name="third">
           <div v-for="(item, index) in carlist3" :key="index" class="carlistdata">
             <div :class="activename ===item.snCode? 'caritem active' : 'caritem'" @click="choosecar(item)">
               {{ item.snCode }}

@@ -5,7 +5,7 @@
     :detaildata="detaildata"
     :detailid="detailid"
     :close-on-press-escape="false"
-    :title="personalForm.code + '详情信息' + '     ' + personalForm.productName"
+    :title="personalForm.code + $t('updates.xqxx') + '     ' + personalForm.productName"
     append-to-body
     width="1010px"
     class="edit"

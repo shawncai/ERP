@@ -5,7 +5,7 @@
     :detaildata="detaildata"
     :detailid="detailid"
     :close-on-press-escape="false"
-    :title="customerForm.id +'经销商详情信息'"
+    :title="customerForm.id +$t('updates.jxsxqxx')"
     append-to-body
     width="1010px"
     class="edit"

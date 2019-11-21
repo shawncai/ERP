@@ -48,7 +48,7 @@
       <el-button v-permission="['131-278-7']" v-waves class="filter-item" icon="el-icon-printer" style="width: 86px" @click="handlePrint">{{ $t('public.print') }}</el-button>
       <!-- 新建操作 -->
       <el-button v-permission="['131-278-1']" v-waves class="filter-item" icon="el-icon-plus" type="success" style="width: 86px" @click="handleAdd">{{ $t('public.add') }}</el-button>
-      <el-dialog :visible.sync="categoryVisible" title="新建分类属性" class="normal" width="600px" center>
+      <el-dialog :visible.sync="categoryVisible" :title="$t('updates.xjflsx')" class="normal" width="600px" center>
         <el-form ref="addCategoryForm" :rules="addCategoryFormRules" :model="addCategoryForm" class="demo-ruleForm" style="margin: 0 auto; width: 400px">
           <el-form-item :label="$t('NewEmployeeInformation.type')" label-width="100px" prop="type">
             <el-select v-model="addCategoryForm.type" placeholder="请选择类别" style="width: 100%">
@@ -118,7 +118,7 @@
       <!-- 列表结束 -->
       <pagination v-show="total>0" :total="total" :page.sync="getemplist.pagenum" :limit.sync="getemplist.pagesize" @pagination="getlist" />
       <!--修改开始=================================================-->
-      <el-dialog :visible.sync="editcategoryVisible" title="修改分类属性" class="normal" width="600px" center>
+      <el-dialog :visible.sync="editcategoryVisible" :title="$t('updates.xgflsx')" class="normal" width="600px" center>
         <el-form ref="editCategoryForm" :rules="editCategoryFormRules" :model="editCategoryForm" class="demo-ruleForm" style="margin: 0 auto; width: 400px">
           <el-form-item :label="$t('NewEmployeeInformation.type')" label-width="100px">
             <el-select v-model="editCategoryForm.type" placeholder="请选择类别" style="width: 100%" disabled >

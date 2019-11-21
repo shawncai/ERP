@@ -71,9 +71,9 @@
               style="width: 100%">
               <el-editable-column type="selection" min-width="55" align="center"/>
               <el-editable-column :label="$t('Hmodule.xh')" min-width="55" align="center" type="index"/>
-              <el-editable-column :edit-render="{name: 'ElSelect', options: basicUnitIds2, type: 'visible'}" prop="unitId" align="center" label="计量单位名称" min-width="150px"/>
-              <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0,precision: 0,controls:false}, type: 'visible'}" prop="proportion" align="center" label="换算比例%" min-width="150px"/>
-              <!--              <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="proportion" align="center" label="换算比例%" min-width="150px"/>-->
+              <el-editable-column :edit-render="{name: 'ElSelect', options: basicUnitIds2, type: 'visible'}" prop="unitId" align="center" :label="$t('updates.jldwmc')" min-width="150px"/>
+              <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0,precision: 0,controls:false}, type: 'visible'}" prop="proportion" align="center" :label="$t('updates.hsbl')" min-width="150px"/>
+              <!--              <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="proportion" align="center" :label="$t('updates.hsbl')" min-width="150px"/>-->
             </el-editable>
           </div>
         </el-form>
@@ -134,7 +134,7 @@
       <!-- 列表结束 -->
       <pagination v-show="total>0" :total="total" :page.sync="getemplist.pagenum" :limit.sync="getemplist.pagesize" @pagination="getlist" />
       <!--修改开始=================================================-->
-      <el-dialog :visible.sync="editcategoryVisible" title="修改计量单位组" class="normal" width="600px" center>
+      <el-dialog :visible.sync="editcategoryVisible" :title="$t('updates.xgjldwz')" class="normal" width="600px" center>
         <el-form ref="editCategoryForm" :rules="editCategoryFormRules" :model="editCategoryForm" class="demo-ruleForm" style="margin: 0 auto; width: 400px">
           <el-form-item :label="$t('UnitGroup.number')" label-width="140px" prop="number">
             <el-input v-model="editCategoryForm.number" autocomplete="off"/>
@@ -167,8 +167,8 @@
             style="width: 100%">
             <el-editable-column type="selection" min-width="55" align="center"/>
             <el-editable-column :label="$t('Hmodule.xh')" min-width="55" align="center" type="index"/>
-            <el-editable-column :edit-render="{name: 'ElSelect', options: basicUnitIds2, type: 'visible'}" prop="unitId" align="center" label="计量单位名称" min-width="150px"/>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0,precision: 0,controls:false}, type: 'visible'}" prop="proportion" align="center" label="换算比例%" min-width="150px"/>
+            <el-editable-column :edit-render="{name: 'ElSelect', options: basicUnitIds2, type: 'visible'}" prop="unitId" align="center" :label="$t('updates.jldwmc')" min-width="150px"/>
+            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0,precision: 0,controls:false}, type: 'visible'}" prop="proportion" align="center" :label="$t('updates.hsbl')" min-width="150px"/>
           </el-editable>
         </el-form>
         <span slot="footer" class="dialog-footer">
@@ -176,7 +176,7 @@
           <el-button type="danger" @click="handleNo()">{{ $t('Hmodule.cancel') }}</el-button>
         </span>
       </el-dialog>
-      <el-dialog :visible.sync="detailvisible" title="查看计量单位组" class="normal" width="600px" center>
+      <el-dialog :visible.sync="detailvisible" :title="$t('updates.ckjldwz')" class="normal" width="600px" center>
         <el-form ref="addCategoryForm" :rules="addCategoryFormRules" :model="addCategoryForm" class="demo-ruleForm" style="margin: 0 auto; width: 400px">
           <el-form-item :label="$t('UnitGroup.number')" label-width="140px" prop="number">
             <span style="margin-left: 80px">{{ personalForm.number }}</span>
@@ -201,8 +201,8 @@
               style="width: 100%">
               <el-editable-column type="selection" min-width="55" align="center"/>
               <el-editable-column :label="$t('Hmodule.xh')" min-width="55" align="center" type="index"/>
-              <el-editable-column prop="unit" align="center" label="计量单位名称" min-width="150px"/>
-              <el-editable-column prop="proportion" align="center" label="换算比例%" min-width="150px"/>
+              <el-editable-column prop="unit" align="center" :label="$t('updates.jldwmc')" min-width="150px"/>
+              <el-editable-column prop="proportion" align="center" :label="$t('updates.hsbl')" min-width="150px"/>
             </el-editable>
           </div>
         </el-form>

@@ -19,8 +19,8 @@
                           v-model="date2"
                           type="daterange"
                           range-separator="-"
-                          unlink-panels
                           :start-placeholder="$t('updates.ksrq')"
+                          unlink-panels
                           :end-placeholder="$t('updates.jsrq')"
                           value-format="yyyy-MM-dd"
                           style="margin-left: 60%;"
@@ -35,35 +35,35 @@
                     :header-cell-style="tableHeaderColor3"
                     style="width: 100%">
                     <el-table-column
-                      prop="repositoryName"
                       :label="$t('updates.repository')"
+                      prop="repositoryName"
                       width="300"
                       align="center"/>
-                    <el-table-column align="center" :label="$t('updates.xxptkh')">
+                    <el-table-column :label="$t('updates.xxptkh')" align="center">
                       <el-table-column
-                        prop="first"
                         :label="$t('updates.ccjc')"
+                        prop="first"
                         width="260"
                         align="center"/>
                       <el-table-column
-                        prop="manyTimes"
                         :label="$t('updates.dcjc')"
+                        prop="manyTimes"
                         width="260"
                         align="center"/>
                       <el-table-column
-                        prop="important"
                         :label="$t('updates.zdkh')"
+                        prop="important"
                         width="260"
                         align="center"/>
                       <el-table-column
-                        prop="total"
                         :label="$t('updates.hj')"
+                        prop="total"
                         width="260"
                         align="center"/>
                     </el-table-column>
                     <el-table-column
-                      prop="online"
-                        :label="$t('updates.xskh')"
+                      :label="$t('updates.xskh')"
+                        prop="online"
                       width="302"
                       align="center"/>
                   </el-table>
@@ -89,41 +89,41 @@
                     :header-cell-style="tableHeaderColor"
                     style="width: 100%">
                     <el-table-column
-                      prop="repositoryName"
                       :label="$t('updates.repository')"
+                      prop="repositoryName"
                       width="262"
                       align="center"/>
-                    <el-table-column align="center" :label="$t('updates.ls')">
+                    <el-table-column :label="$t('updates.ls')" align="center">
                       <el-table-column
-                        prop="customerToday"
                         :label="$t('updates.jrxz')"
+                        prop="customerToday"
                         width="230"
                         align="center"/>
                       <el-table-column
-                        prop="customerMonth"
                         :label="$t('updates.byzj')"
+                        prop="customerMonth"
                         width="230"
                         align="center"/>
                       <el-table-column
-                        prop="customerLast"
                         :label="$t('updates.sytq')"
+                        prop="customerLast"
                         width="230"
                         align="center"/>
                     </el-table-column>
-                    <el-table-column align="center" :label="$t('updates.jxs')">
+                    <el-table-column :label="$t('updates.jxs')" align="center">
                       <el-table-column
-                        prop="agentToday"
                         :label="$t('updates.jrxz')"
+                        prop="agentToday"
                         width="230"
                         align="center"/>
                       <el-table-column
-                        prop="agentMonth"
                         :label="$t('updates.byzj')"
+                        prop="agentMonth"
                         width="230"
                         align="center"/>
                       <el-table-column
-                        prop="agentLast"
                         :label="$t('updates.sytq')"
+                        prop="agentLast"
                         width="230"
                         align="center"/>
                     </el-table-column>
@@ -140,15 +140,15 @@
         <el-col :span="24">
           <div style="width: 100%; min-height: 300px;" >
             <div style="width: 100%; height: 50px;background: #d9e0e8;" >
-              <div style="padding-top: 16px;padding-left: 20px;width: 25%;height: 100%;float: left">客户维修</div>
+              <div style="padding-top: 16px;padding-left: 20px;width: 25%;height: 100%;float: left">{{ $t('updates.khwx') }}</div>
               <div style="width: 75%;height: 100%;float: left;">
                 <el-form ref="getemplist3" :model="getemplist3" label-width="100px">
                   <el-date-picker
                     v-model="date"
                     type="daterange"
                     range-separator="-"
-                    unlink-panels
                     :start-placeholder="$t('updates.ksrq')"
+                    unlink-panels
                     :end-placeholder="$t('updates.jsrq')"
                     value-format="yyyy-MM-dd"
                     style="margin-left: 60%;"
@@ -164,38 +164,38 @@
               :header-cell-style="tableHeaderColor2"
               style="width: 100%">
               <el-table-column
-                prop="repositoryName"
                 :label="$t('updates.repository')"
+                prop="repositoryName"
                 width="323"
                 align="center"/>
               <el-table-column
-                prop="submit"
                 :label="$t('updates.dfp')"
+                prop="submit"
                 width="220"
                 align="center"/>
               <el-table-column
+                :label="$t('updates.yap')"
                 prop="assigned"
-                :label="$t('updates.yap')"
                 width="220"
                 align="center"/>
               <el-table-column
-                prop="repair"
                 :label="$t('updates.dwx')"
+                prop="repair"
                 width="220"
                 align="center"/>
               <el-table-column
-                prop="begin"
                 :label="$t('updates.wxz')"
+                prop="begin"
                 width="220"
                 align="center"/>
               <el-table-column
-                prop="finished"
                 :label="$t('updates.yap')"
+                prop="finished"
                 width="220"
                 align="center"/>
               <el-table-column
-                prop="comment"
                 :label="$t('updates.ypj')"
+                prop="comment"
                 width="220"
                 align="center"/>
             </el-table>

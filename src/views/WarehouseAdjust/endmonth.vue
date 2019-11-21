@@ -21,7 +21,7 @@
                 type="month"
                 style="width: 80%;"
                 value-format="yyyy-MM"
-                placeholder="选择月"/>
+                :placeholder="$t('updates.xzy')"/>
             </el-form-item>
           </el-col>
           <el-col :span="4">

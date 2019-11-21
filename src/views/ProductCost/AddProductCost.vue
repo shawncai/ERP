@@ -15,7 +15,7 @@
                   <el-date-picker
                     v-model="personalForm.accountTime"
                     type="month"
-                    placeholder="选择月"
+                    :placeholder="$t('updates.xzy')"
                     style="margin-left: 11px;width: 200px"/>
                 </el-form-item>
               </el-col>

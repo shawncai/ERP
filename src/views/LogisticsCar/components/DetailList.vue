@@ -5,7 +5,7 @@
     :detaildata="detaildata"
     :detailid="detailid"
     :close-on-press-escape="false"
-    :title="personalForm.carNumber +'车辆详情信息'"
+    :title="personalForm.carNumber +$t('updates.clxqxx')"
     append-to-body
     width="1010px"
     class="edit"

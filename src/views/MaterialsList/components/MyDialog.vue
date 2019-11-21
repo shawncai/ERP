@@ -1,5 +1,5 @@
 <template>
-  <el-dialog :visible.sync="editVisible" :editcontrol="editcontrol" :editdata="editdata" :close-on-press-escape="false" class="edit" width="1010px" top="-10px" title="修改物料清单" @close="$emit('update:editcontrol', false)">
+  <el-dialog :visible.sync="editVisible" :editcontrol="editcontrol" :editdata="editdata" :close-on-press-escape="false" class="edit" width="1010px" top="-10px" :title="$t('updates.xgwlqd')" @close="$emit('update:editcontrol', false)">
     <!--基本信息-->
     <el-card class="box-card">
       <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: 63px;">{{ $t('Hmodule.basicinfo') }}</h2>

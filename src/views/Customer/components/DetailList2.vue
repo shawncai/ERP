@@ -4,7 +4,7 @@
     :detailcontrol="detailcontrol"
     :detailid="detailid"
     :close-on-press-escape="false"
-    :title="customerForm.id +'客户详情信息'"
+    :title="customerForm.id +$t('updates.khxqxx')"
     append-to-body
     width="1010px"
     class="edit"

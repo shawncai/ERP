@@ -85,7 +85,7 @@
     </el-card>
     <!--子件信息-->
     <el-card class="box-card" shadow="never" style="margin-top: 10px">
-      <h2 ref="geren" class="form-name">物流信息</h2>
+      <h2 ref="geren" class="form-name">{{ $t('updates.wlxq') }}</h2>
       <div class="container">
         <el-form ref="personalForm2" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="110px" style="margin-left: 30px;">
           <el-row>
