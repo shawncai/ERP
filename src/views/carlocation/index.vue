@@ -10,7 +10,7 @@
             </div>
           </div>
         </el-tab-pane>
-        <el-tab-pane :label="$t('updates.zxi')" name="second">
+        <el-tab-pane :label="$t('updates.zxi')" name="second" >
           <div v-for="(item, index) in carlist2" :key="index" class="carlistdata">
             <div :class="activename ===item.snCode? 'caritem active' : 'caritem'" @click="choosecar(item)">
               {{ item.snCode }}
@@ -30,9 +30,8 @@
   </div>
 </template>
 <script>
-import { vehicleStat, customerInfo, rideCount, userLockCar, userUnLockCar } from '@/api/carlocation'
-
 var _that
+import { vehicleStat, customerInfo, rideCount, userLockCar, userUnLockCar } from '@/api/carlocation'
 export default {
   name: 'GGMap',
   data() {
