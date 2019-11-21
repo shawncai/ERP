@@ -120,10 +120,10 @@
           style="width: 100%">
           <el-editable-column type="selection" min-width="55" align="center"/>
           <el-editable-column :label="$t('Hmodule.xh')" min-width="55" align="center" type="index"/>
-          <el-editable-column :edit-render="{name: 'ElSelect',options: costs ,type: 'visible', events: {change: change2}}" prop="costName" align="center" label="费用名称" min-width="150px"/>
-          <el-editable-column prop="costCode" align="center" label="费用代码" min-width="150px"/>
-          <el-editable-column prop="costCategory" align="center" label="费用类型" min-width="150px"/>
-          <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="unit" align="center" label="计量单位" min-width="150px"/>
+          <el-editable-column :edit-render="{name: 'ElSelect',options: costs ,type: 'visible', events: {change: change2}}" prop="costName" align="center" :label="$t('updates.fymc')" min-width="150px"/>
+          <el-editable-column prop="costCode" align="center" :label="$t('updates.fydm')" min-width="150px"/>
+          <el-editable-column prop="costCategory" align="center" :label="$t('updates.fylx')" min-width="150px"/>
+          <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="unit" align="center" :label="$t('updates.jldw')" min-width="150px"/>
           <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0, precision: 2}, type: 'visible'}" prop="quantity" align="center" :label="$t('updates.shuli')" min-width="150px"/>
           <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0, precision: 2}, type: 'visible'}" prop="includeTaxPrice" align="center" :label="$t('updates.hsj')" min-width="170px"/>
           <el-editable-column prop="includeTaxMoney" align="center" :label="$t('updates.hsje')" min-width="150px">
@@ -132,13 +132,13 @@
             </template>
           </el-editable-column>
           <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0, precision: 2}, type: 'visible'}" prop="taxRate" align="center" :label="$t('updates.sl')" min-width="170px"/>
-          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0, precision: 2}, type: 'visible'}" prop="deduTaxMoney" align="center" label="可抵用税额" min-width="170px"/>
-          <el-editable-column prop="money" align="center" label="不含税金额" min-width="150px">
+          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0, precision: 2}, type: 'visible'}" prop="deduTaxMoney" align="center" :label="$t('updates.kdyse')" min-width="170px"/>
+          <el-editable-column prop="money" align="center" :label="$t('updates.bhsje')" min-width="150px">
             <template slot-scope="scope">
               <p>{{ getMoney(scope.row) }}</p>
             </template>
           </el-editable-column>          <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="remark" align="center" :label="$t('updates.bz')" min-width="170px"/>
-          <el-editable-column prop="subjectName" align="center" label="费用科目" min-width="170px"/>
+          <el-editable-column prop="subjectName" align="center" :label="$t('updates.fykm')" min-width="170px"/>
         </el-editable>
       </div>
     </el-card>

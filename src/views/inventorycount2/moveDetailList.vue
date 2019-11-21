@@ -4,7 +4,7 @@
       <el-form ref="getemplist" :model="getemplist" label-width="70px" style="margin-top: -9px">
         <el-row>
           <el-col :span="3" style="margin-left: 15px">
-            <el-form-item label="调出仓库">
+            <el-form-item :label="$t('updates.dcck')">
               <el-input v-model="outRepositoryId" class="filter-item" clearable @clear="restFilter" @keyup.enter.native="handleFilter" @focus="handlechooseRep"/>
               <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
             </el-form-item>
@@ -16,7 +16,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="3" style="margin-left: 100px">
-            <el-form-item label="分类">
+            <el-form-item :label="$t('updates.fle')">
               <el-input v-model="categoryId" :placeholder="$t('Hmodule.wpfl')" style="width: 100px" clearable @focus="treechoose"/>
               <my-tree :treecontrol.sync="treecontrol" @tree="tree"/>
             </el-form-item>

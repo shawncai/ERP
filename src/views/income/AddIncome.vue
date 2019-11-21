@@ -109,8 +109,8 @@
             style="width: 100%">
             <el-editable-column type="selection" min-width="55" align="center"/>
             <el-editable-column :label="$t('Hmodule.xh')" min-width="55" align="center" type="index"/>
-            <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="summary" align="center" label="摘要" min-width="150px"/>
-            <el-editable-column :edit-render="{name: 'ElCascader', type: 'visible'}" prop="subjectFinance" align="center" label="科目名称" min-width="150px">
+            <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="summary" align="center" :label="$t('updates.zya')" min-width="150px"/>
+            <el-editable-column :edit-render="{name: 'ElCascader', type: 'visible'}" prop="subjectFinance" align="center" :label="$t('updates.kmmc')" min-width="150px">
               <template slot="edit" slot-scope="scope">
                 <el-cascader
                   v-model="scope.row.subjectFinance"

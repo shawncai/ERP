@@ -5,12 +5,12 @@
       <el-form ref="getemplist" :model="getemplist" label-width="70px" style="margin-top: -9px">
         <el-row>
           <el-col :span="3">
-            <el-form-item label="用户名">
+            <el-form-item :label="$t('updates.yhm')">
               <el-input v-model="getemplist.customerName" style="width: 100px" clearable @clear="restFilter"/>
             </el-form-item>
           </el-col>
           <el-col :span="3" style="margin-left: 55px">
-            <el-form-item label="用户电话">
+            <el-form-item :label="$t('updates.yhdh')">
               <el-input v-model="getemplist.customerPhone" style="width: 100px" clearable/>
             </el-form-item>
           </el-col>
@@ -34,7 +34,7 @@
         </el-row>
         <el-row>
           <el-col :span="3">
-            <el-form-item label="型号">
+            <el-form-item :label="$t('updates.xh')">
               <el-select v-model="getemplist.typeId" :placeholder="$t('Hmodule.qxzggxh')" style="width: 100px" clearable>
                 <el-option
                   v-for="(item, index) in types"
@@ -51,7 +51,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="4" style="margin-left: 46px">
-            <el-form-item label="电机编号">
+            <el-form-item :label="$t('updates.djbha')">
               <el-input v-model="getemplist.motorCode" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>

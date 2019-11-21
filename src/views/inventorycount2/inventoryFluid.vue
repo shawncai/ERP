@@ -10,7 +10,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="4" style="margin-left: 70px">
-            <el-form-item label="单据类型">
+            <el-form-item :label="$t('updates.djlx')">
               <el-select v-model="getemplist.receiptType" :value="getemplist.receiptType" filterable placeholder="请选择单据类型" style="width: 150px" class="filter-item" clearable>
                 <el-option v-for="(item, index) in categorys" :key="index" :value="item.id" :label="item.categoryName"/>
               </el-select>

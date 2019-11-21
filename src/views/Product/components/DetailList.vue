@@ -318,7 +318,7 @@
                 <el-table-column
                   prop="supplierName"
                   align="center"
-                  label="供应商名称"
+                  :label="$t('updates.gysmc')"
                   min-width="150"/>
                 <el-table-column
                   prop="retreatQuantity"
@@ -422,7 +422,7 @@
                 <el-table-column
                   prop="supplierName"
                   align="center"
-                  label="供应商名称"
+                  :label="$t('updates.gysmc')"
                   min-width="150"/>
                 <el-table-column
                   prop="maxPrice"

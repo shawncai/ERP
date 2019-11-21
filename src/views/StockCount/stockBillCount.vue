@@ -9,7 +9,7 @@
                 <el-option :label="$t('updates.cangk')" value="1"/>
                 <el-option :label="$t('updates.gys')" value="2"/>
                 <el-option value="3" label="类别"/>
-                <el-option value="4" label="品牌"/>
+                <el-option value="4" :label="$t('updates.pp')"/>
                 <el-option value="5" label="年"/>
                 <el-option value="6" label="月"/>
               </el-select>

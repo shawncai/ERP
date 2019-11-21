@@ -10,12 +10,12 @@
             </el-form-item>
           </el-col>
           <el-col :span="5" style="margin-left: 40px">
-            <el-form-item label="品牌">
+            <el-form-item :label="$t('updates.pp')">
               <el-input v-model="getemplist.brand" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
           <el-col :span="5" style="margin-left: 40px">
-            <el-form-item label="型号">
+            <el-form-item :label="$t('updates.xh')">
               <el-select v-model="getemplist.typeId" :placeholder="$t('Hmodule.qxzggxh')" clearable>
                 <el-option
                   v-for="(item, index) in types"
@@ -28,7 +28,7 @@
           </el-col>
 
           <el-col :span="5" style="margin-left: 40px">
-            <el-form-item label="分类">
+            <el-form-item :label="$t('updates.fle')">
               <el-input v-model="categoryId" :placeholder="$t('Hmodule.wpfl')" clearable @clear="restFilter2" @focus="treechoose"/>
               <my-tree :treecontrol.sync="treecontrol" @tree="tree"/>
             </el-form-item>

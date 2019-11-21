@@ -5,7 +5,7 @@
       <el-form ref="getemplist" :model="getemplist" label-width="70px" style="margin-top: -9px">
         <el-row>
           <el-col :span="3">
-            <el-form-item label="分类">
+            <el-form-item :label="$t('updates.fle')">
               <el-input v-model="productCategory" :placeholder="$t('Hmodule.wpfl')" style="width: 100px" clearable @focus="treechoose" @clear="restFilter"/>
               <my-tree :treecontrol.sync="treecontrol" @tree="tree"/>
             </el-form-item>
@@ -39,7 +39,7 @@
         </el-row>
         <el-row>
           <el-col :span="3">
-            <el-form-item label="型号">
+            <el-form-item :label="$t('updates.xh')">
               <el-select v-model="getemplist.brand" :placeholder="$t('Hmodule.qxzggxh')" style="width: 100px" clearable>
                 <el-option
                   v-for="(item, index) in types"
@@ -56,7 +56,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="4" style="margin-left: 46px">
-            <el-form-item label="电机编号">
+            <el-form-item :label="$t('updates.djbha')">
               <el-input v-model="getemplist.motorCode" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>

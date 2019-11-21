@@ -10,7 +10,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="4">
-            <el-form-item label="品牌">
+            <el-form-item :label="$t('updates.pp')">
               <el-input v-model="getemplist.brand" :placeholder="$t('Inventorydetaillist.brand')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>

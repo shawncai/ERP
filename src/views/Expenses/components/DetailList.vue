@@ -77,8 +77,8 @@
             style="width: 100%">
             <el-editable-column type="selection" min-width="55" align="center"/>
             <el-editable-column :label="$t('Hmodule.xh')" min-width="55" align="center" type="index"/>
-            <el-editable-column prop="summary" align="center" label="摘要" min-width="150px"/>
-            <el-editable-column prop="subjectName" align="center" label="科目名称" min-width="150px"/>
+            <el-editable-column prop="summary" align="center" :label="$t('updates.zya')" min-width="150px"/>
+            <el-editable-column prop="subjectName" align="center" :label="$t('updates.kmmc')" min-width="150px"/>
             <el-editable-column :label="$t('Hmodule.je')" prop="money" align="center" min-width="150px"/>
           </el-editable>
         </div>

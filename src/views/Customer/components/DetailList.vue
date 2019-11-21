@@ -237,7 +237,7 @@
                 <el-table-column
                   prop="productTypeName"
                   align="center"
-                  label="型号"
+                  :label="$t('updates.xh')"
                   min-width="150"/>
                 <el-table-column
                   prop="quantity"

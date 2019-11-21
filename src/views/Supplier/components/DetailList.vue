@@ -336,12 +336,12 @@
                 <el-table-column
                   prop="paidMoney"
                   align="center"
-                  label="已付金额"
+                  :label="$t('updates.yfjei')"
                   min-width="150"/>
                 <el-table-column
                   prop="payingMoney"
                   align="center"
-                  label="未付金额"
+                  :label="$t('updates.wfje')"
                   min-width="150"/>
               </el-table>
             </el-tab-pane>

@@ -30,7 +30,7 @@
       <!--新建列表开始-->
       <el-dialog :visible.sync="addNumberingVisible" append-to-body width="600px" class="normal" title="新建编号规则" >
         <el-form ref="Numberingform" :model="Numberingform" :rules="NumberingformRule" label-width="120px" style="margin: 0 auto; width: 400px">
-          <el-form-item label-width="120px" label="单据类型" prop="type">
+          <el-form-item label-width="120px" :label="$t('updates.djlx')" prop="type">
             <el-select v-model="Numberingform.type" :value="Numberingform.type" placeholder="请选择单据类型" filterable clearable>
               <el-option v-for="(item, index) in categorys" :key="index" :value="item.id" :label="item.categoryName"/>
             </el-select>

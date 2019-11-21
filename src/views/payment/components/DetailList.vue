@@ -103,13 +103,13 @@
             <el-editable-column type="selection" min-width="55" align="center"/>
             <el-editable-column :label="$t('Hmodule.xh')" min-width="55" align="center" type="index"/>
             <!--          <el-editable-column prop="payDate" align="center" label="付款日期" min-width="180px"/>-->
-            <el-editable-column prop="shouldMoney" align="center" label="应付金额" />
-            <el-editable-column prop="paidMoney" align="center" label="已付金额" />
-            <el-editable-column prop="payingMoney" align="center" label="未付金额" />
+            <el-editable-column prop="shouldMoney" align="center" :label="$t('updates.yfje')" />
+            <el-editable-column prop="paidMoney" align="center" :label="$t('updates.yfjei')" />
+            <el-editable-column prop="payingMoney" align="center" :label="$t('updates.wfje')" />
             <el-editable-column prop="invoiceNumber" align="center" :label="$t('updates.hph')" />
-            <el-editable-column prop="invoiceType" align="center" label="发票类型" />
-            <el-editable-column prop="payThis" align="center" label="本次支付金额" />
-            <el-editable-column prop="advanceMoney" align="center" label="抵扣预付款" />
+            <el-editable-column prop="invoiceType" align="center" :label="$t('updates.fplx')" />
+            <el-editable-column prop="payThis" align="center" :label="$t('updates.bczfje')" />
+            <el-editable-column prop="advanceMoney" align="center" :label="$t('updates.dkyfk')" />
           </el-editable>
         </div>
       </el-card>

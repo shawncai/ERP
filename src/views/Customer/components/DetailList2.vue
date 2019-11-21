@@ -114,7 +114,7 @@
                 <el-table-column
                   prop="productType"
                   align="center"
-                  label="型号"
+                  :label="$t('updates.xh')"
                   min-width="150"/>
                 <el-table-column
                   prop="carCode"

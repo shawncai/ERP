@@ -239,11 +239,11 @@
             <el-editable-column type="selection" min-width="55" align="center" />
             <el-editable-column :label="$t('Hmodule.xh')" min-width="55" align="center" type="index" />
             <!--            <el-editable-column :edit-render="{name: 'ElDatePicker', attrs: {type: 'date', format: 'yyyy-MM-dd'}, type: 'visible'}" prop="payDate" align="center" label="付款日期" min-width="150px"/>-->
-            <el-editable-column prop="shouldMoney" align="center" label="应付金额" min-width="150px" />
-            <el-editable-column prop="paidMoney" align="center" label="已付金额" min-width="150px" />
-            <el-editable-column prop="payingMoney" align="center" label="未付金额" min-width="150px" />
+            <el-editable-column prop="shouldMoney" align="center" :label="$t('updates.yfje')" min-width="150px" />
+            <el-editable-column prop="paidMoney" align="center" :label="$t('updates.yfjei')" min-width="150px" />
+            <el-editable-column prop="payingMoney" align="center" :label="$t('updates.wfje')" min-width="150px" />
             <el-editable-column prop="invoiceNumber" align="center" :label="$t('updates.hph')" min-width="150px" />
-            <el-editable-column prop="invoiceType" align="center" label="发票类型" min-width="150px">
+            <el-editable-column prop="invoiceType" align="center" :label="$t('updates.fplx')" min-width="150px">
               <template slot-scope="scope">
                 <span>{{ scope.row.invoiceType | invoiceTypeFilter }}</span>
               </template>
@@ -252,14 +252,14 @@
               :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}"
               prop="payThis"
               align="center"
-              label="本次支付金额"
+              :label="$t('updates.bczfje')"
               min-width="170px"
             />
             <el-editable-column
               :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}"
               prop="advanceMoney"
               align="center"
-              label="抵扣预付款"
+              :label="$t('updates.dkyfk')"
               min-width="170px"
             />
           </el-editable>
