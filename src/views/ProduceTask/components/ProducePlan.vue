@@ -264,7 +264,7 @@ export default {
       const num = this.choosedata.planNumber
       const productDetail = producedata.map(function(item) {
         return {
-          sourceType: '主生产计划',
+          sourceType: _that.$t('updates.zscjg'),
           productCode: item.productCode,
           productName: item.productName,
           productType: item.productType,

@@ -248,7 +248,7 @@ export default {
     },
     sourceTypeFilter(status) {
       const statusMap = {
-        1: '采购到货单'
+        1: _that.$t('updates.cgdhd')
       }
       return statusMap[status]
     }

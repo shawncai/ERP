@@ -401,11 +401,11 @@ export default {
   filters: {
     sourceTypeFilter(status) {
       const statusMap = {
-        1: '销售订单',
-        2: '销售合同',
-        3: '预售单',
-        4: '销售机会',
-        5: '无来源'
+        1: _that.$t('updates.xsdd'),
+        2: _that.$t('updates.xsht'),
+        3: _that.$t('updates.ysd'),
+        4: _that.$t('updates.xsjh'),
+        5: _that.$t('Hmodule.Nosource')
       }
       return statusMap[status]
     },

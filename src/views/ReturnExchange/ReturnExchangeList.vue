@@ -207,7 +207,7 @@ export default {
     },
     sourceTypeFilter(status) {
       const statusMap = {
-        1: '销售出库单'
+        1: _that.$t('updates.xsckd')
       }
       return statusMap[status]
     },

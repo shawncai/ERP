@@ -217,7 +217,7 @@ export default {
     },
     sourceTypeFilter(status) {
       const statusMap = {
-        1: '预售订单'
+        1: _that.$t('updates.ysdd')
       }
       return statusMap[status]
     },

@@ -194,8 +194,8 @@ export default {
     },
     sourceTypeFilter(status) {
       const statusMap = {
-        1: '生产任务单',
-        2: '无来源'
+        1: _that.$t('updates.zscrw'),
+        2: _that.$t('Hmodule.Nosource')
       }
       return statusMap[status]
     },

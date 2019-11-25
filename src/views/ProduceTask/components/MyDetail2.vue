@@ -269,7 +269,7 @@ export default {
           typeId: item.typeId,
           unit: item.produceMeasu,
           productType: item.productType,
-          sourceType: '无来源',
+          sourceType: _that.$t('Hmodule.Nosource'),
           sourceNumber: '',
           bomNumber: '',
           processName: '',

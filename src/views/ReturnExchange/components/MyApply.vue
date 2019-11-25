@@ -178,7 +178,7 @@ export default {
     },
     sourceTypeFilter(status) {
       const statusMap = {
-        1: '无来源'
+        1: _that.$t('Hmodule.Nosource')
       }
       return statusMap[status]
     }

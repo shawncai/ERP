@@ -303,8 +303,8 @@ export default {
     },
     sourceTypeFilter(status) {
       const statusMap = {
-        1: '销售出库单',
-        2: '调拨单'
+        1: _that.$t('updates.xsckd'),
+        2: _that.$t('updates.dbd')
       }
       return statusMap[status]
     },

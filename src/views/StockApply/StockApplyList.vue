@@ -244,8 +244,8 @@ export default {
     },
     sourceTypeFilter(status) {
       const statusMap = {
-        1: '无来源',
-        2: '销售订单'
+        1: _that.$t('Hmodule.Nosource'),
+        2: _that.$t('updates.xsdd')
       }
       return statusMap[status]
     }

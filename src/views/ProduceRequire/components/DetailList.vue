@@ -206,9 +206,9 @@ export default {
     },
     sourceTypeFilter(status) {
       const statusMap = {
-        1: '采购申请',
-        2: '采购需求',
-        3: '无来源'
+        1: _that.$t('updates.cgsq'),
+        2: _that.$t('updates.cgxq'),
+        3: _that.$t('Hmodule.Nosource')
       }
       return statusMap[status]
     },

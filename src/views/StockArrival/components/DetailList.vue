@@ -420,8 +420,8 @@ export default {
     },
     sourceTypeFilter(status) {
       const statusMap = {
-        1: '采购订单',
-        2: '无来源'
+        1: _that.$t('updates.cgdd'),
+        2: _that.$t('Hmodule.Nosource')
       }
       return statusMap[status]
     },
@@ -537,7 +537,7 @@ export default {
               return {
                 enterNumber: item.enterNumber,
                 productCode: elem.productCode,
-                arrivalQuantity: '采购到货单',
+                arrivalQuantity: _that.$t('updates.cgdhd'),
                 basicQuantity: elem.basicQuantity,
                 enterPersonName: item.enterPersonName,
                 enterDate: item.enterDate
@@ -557,7 +557,7 @@ export default {
               return {
                 number: item.number,
                 productCode: elem.productCode,
-                arrivalQuantity: '采购到货单',
+                arrivalQuantity: _that.$t('updates.cgdhd'),
                 retreatQuantity: elem.retreatQuantity,
                 retreatReason: elem.retreatReason,
                 retreatDate: item.retreatDate,
@@ -578,7 +578,7 @@ export default {
               return {
                 reportNumber: item.reportNumber,
                 productCode: item.productCode,
-                arrivalQuantity: '采购到货单',
+                arrivalQuantity: _that.$t('updates.cgdhd'),
                 checkQuantity: elem.checkQuantity,
                 passQuantity: elem.passQuantity,
                 failedQuantity: elem.failedQuantity,

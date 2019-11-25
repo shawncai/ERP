@@ -284,7 +284,7 @@ export default {
     },
     sourceTypeFilter(status) {
       const statusMap = {
-        1: '质检申请单'
+        1: _that.$t('updates.zjsqd')
       }
       return statusMap[status]
     },

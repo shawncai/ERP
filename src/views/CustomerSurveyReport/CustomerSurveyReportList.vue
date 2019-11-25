@@ -145,7 +145,7 @@ export default {
     },
     sourceTypeFilter(status) {
       const statusMap = {
-        2: '分期申请'
+        2: _that.$t('updates.fqsq')
       }
       return statusMap[status]
     },

@@ -356,8 +356,8 @@ export default {
     },
     sourceTypeFilter(status) {
       const statusMap = {
-        1: '销售机会',
-        2: '分期申请'
+        1: _that.$t('updates.xsjh'),
+        2: _that.$t('updates.fqsq')
       }
       return statusMap[status]
     },

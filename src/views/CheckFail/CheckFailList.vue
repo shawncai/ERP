@@ -198,7 +198,7 @@ export default {
     },
     sourceTypeFilter(status) {
       const statusMap = {
-        1: '质检报告单'
+        1: _that.$t('updates.zjbgd')
       }
       return statusMap[status]
     },
