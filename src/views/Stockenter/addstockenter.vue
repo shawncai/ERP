@@ -98,10 +98,10 @@
       </el-card>
       <!--入库单明细-->
       <el-card class="box-card" shadow="never" style="margin-top: 15px">
-        <h2 ref="fuzhu" class="form-name">入库单明细</h2>
+        <h2 ref="fuzhu" class="form-name">{{ $t('updates.rkdmx') }}</h2>
         <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
           <el-button type="danger" @click="$refs.editable.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
-          <el-button type="primary" @click="checkStock()">库存快照</el-button>
+          <el-button type="primary" @click="checkStock()">{{ $t('updates.kckz') }}</el-button>
         </div>
         <my-detail :control.sync="control" @product="productdetail"/>
         <div class="container">
@@ -132,26 +132,26 @@
               </template>
             </el-editable-column>
             <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('Hmodule.pc')" prop="batch" align="center" width="150px"/>
-            <el-editable-column prop="color" align="center" label="颜色" width="150px"/>
+            <el-editable-column :label="$t('updates.ys')" prop="color" align="center" width="150px"/>
             <el-editable-column :label="$t('Hmodule.gg')" prop="productType" align="center" width="150px"/>
             <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" width="150px"/>
-            <el-editable-column prop="basicQuantity" align="center" label="应收数量" width="150px"/>
+            <el-editable-column :label="$t('updates.yssli')" prop="basicQuantity" align="center" width="150px"/>
             <el-editable-column :edit-render="{name: 'ElInputNumber', type: 'visible', attrs: {min: 0.00, precision: 2, controls:false}}" :label="$t('updates.rksl')" prop="actualEnterQuantity" align="center" width="150px"/>
-            <el-editable-column prop="enterPrice" align="center" label="入库单价" width="150px"/>
-            <el-editable-column prop="taxRate" align="center" label="税率(%)" width="150px"/>
-            <el-editable-column prop="enterMoney" align="center" label="入库金额" width="150px">
+            <el-editable-column :label="$t('updates.rkdj')" prop="enterPrice" align="center" width="150px"/>
+            <el-editable-column :label="$t('updates.sl')" prop="taxRate" align="center" width="150px"/>
+            <el-editable-column :label="$t('updates.rkje')" prop="enterMoney" align="center" width="150px">
               <template slot-scope="scope">
                 <p>{{ getSize(scope.row.actualEnterQuantity, scope.row.enterPrice) }}</p>
               </template>
             </el-editable-column>
-            <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="remarks" align="center" label="备注" width="150px"/>
-            <el-editable-column prop="sourceSerialNumber" align="center" label="源单序号" width="150px"/>
+            <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.bz')" prop="remarks" align="center" width="150px"/>
+            <el-editable-column :label="$t('updates.ydxh')" prop="sourceSerialNumber" align="center" width="150px"/>
           </el-editable>
         </div>
       </el-card>
       <!-- 合计信息 -->
       <el-card class="box-card" shadow="never" style="margin-top: 10px">
-        <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">合计信息</h2>
+        <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('updates.hjxx') }}</h2>
         <div class="container" style="margin-top: 37px">
           <el-form ref="personalForm2" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
             <el-row>
@@ -183,7 +183,7 @@
                     <span >{{ scope.row.repositoryName }}</span>
                   </template>
                 </el-table-column>
-                <el-table-column :resizable="false" label="商品名称" align="center" min-width="150">
+                <el-table-column :resizable="false" :label="$t('updates.spmc')" align="center" min-width="150">
                   <template slot-scope="scope">
                     <span >{{ scope.row.productName }}</span>
                   </template>
@@ -215,6 +215,7 @@ import MyAccept from './components/MyAccept'
 import MyDetail from './components/MyDetail'
 import MyArrival from './components/MyArrival'
 import MyEmp2 from './components/MyEmp2'
+var _that
 export default {
   name: 'Addstockenter',
   components: { MyEmp2, MyArrival, MyRepository, MySupplier, MyEmp, MyDelivery, MyAccept, MyDetail },
@@ -370,6 +371,9 @@ export default {
       },
       deep: true
     }
+  },
+  beforeCreate() {
+    _that = this
   },
   mounted() {
     this.getlist()

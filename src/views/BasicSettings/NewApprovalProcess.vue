@@ -53,9 +53,9 @@
         </el-form>
       </div>
       <!--辅助信息-->
-      <h2 ref="fuzhu" class="form-name">审批流程步骤</h2>
+      <h2 ref="fuzhu" class="form-name">{{ $t('updates.splcbz') }}</h2>
       <div class="buttons" style="margin-top: 50px">
-        <el-button type="success" @click="insertEvent(-1)">添加</el-button>
+        <el-button type="success" @click="insertEvent(-1)">{{ $t('updates.tj') }}</el-button>
         <el-button type="danger" @click="$refs.editable.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
       </div>
       <div class="container">
@@ -107,6 +107,7 @@ import permission2 from '@/directive/permission2/index.js' // 权限判断指令
 import checkPermission from '@/utils/permission' // 权限判断函数
 import MyEmp from './components/MyEmp'
 import MyEmp2 from './components/MyEmp2'
+var _that
 export default {
   name: 'NewApprovalProcess',
   directives: { permission, permission2 },

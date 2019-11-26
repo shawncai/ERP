@@ -40,7 +40,7 @@
     </el-card>
     <!--子件信息-->
     <el-card class="box-card" style="margin-top: 15px">
-      <h2 ref="fuzhu" class="form-name">主生产计划明细</h2>
+      <h2 ref="fuzhu" class="form-name">{{ $t('updates.zscjhmx') }}</h2>
       <div class="buttons" style="margin-top: 58px">
         <el-button type="success" style="background:#3696fd;border-color:#3696fd " @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>
         <el-button type="danger" @click="$refs.editable.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
@@ -64,7 +64,7 @@
           <el-editable-column :label="$t('Hmodule.gg')" prop="productType" align="center" min-width="150px"/>
           <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" min-width="150px"/>
           <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" :label="$t('Hmodule.xqsl')" prop="requireQuantity" align="center" min-width="150px"/>
-          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="planQuantity" align="center" label="计划生产数量" min-width="150px"/>
+          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" :label="$t('updates.jhscsl')" prop="planQuantity" align="center" min-width="150px"/>
         </el-editable>
       </div>
     </el-card>
@@ -82,6 +82,8 @@ import { searchworkCenter } from '@/api/public'
 import MyCenter from './MyCenter'
 import MyEmp from './MyEmp'
 import MyDetail from './MyDetail'
+// eslint-disable-next-line no-unused-vars
+var _that
 export default {
   components: { MyCenter, MyEmp, MyDetail },
   props: {

@@ -58,11 +58,11 @@
       </el-card>
       <!--日常调整单明细-->
       <el-card class="box-card" style="margin-top: 15px">
-        <h2 ref="fuzhu" class="form-name">库位调整单明细</h2>
+        <h2 ref="fuzhu" class="form-name">{{ $t('updates.kwtzdmx') }}</h2>
         <div class="buttons" style="margin-top: 58px">
           <el-button type="success" style="background:#3696fd;border-color:#3696fd " @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>
           <el-button type="danger" @click="$refs.editable.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
-          <el-button type="primary" @click="checkStock()">库存快照</el-button>
+          <el-button type="primary" @click="checkStock()">{{ $t('updates.kckz') }}</el-button>
         </div>
         <my-detail :control.sync="control" :personalform="personalForm" @product="productdetail"/>
         <div class="container">
@@ -81,15 +81,15 @@
             <el-editable-column label="编号" width="55" align="center" type="index"/>
             <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" align="center" width="150px"/>
             <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" align="center" width="150px"/>
-            <el-editable-column prop="color" align="center" label="颜色" width="150px"/>
+            <el-editable-column :label="$t('updates.ys')" prop="color" align="center" width="150px"/>
             <el-editable-column :label="$t('Hmodule.gg')" prop="productType" align="center" width="150px"/>
             <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" width="150px"/>
-            <el-editable-column prop="outLocationCode" align="center" label="调出库位" width="150px">
+            <el-editable-column :label="$t('updates.dckw')" prop="outLocationCode" align="center" width="150px">
               <template slot-scope="scope">
                 <p>{{ getLocationData(scope.row) }}</p>
               </template>
             </el-editable-column>
-            <el-editable-column prop="enterLocationId" align="center" label="调入库位" width="150px">
+            <el-editable-column :label="$t('updates.drkw')" prop="enterLocationId" align="center" width="150px">
               <template slot-scope="scope">
                 <el-select v-model="scope.row.enterLocationId" :value="scope.row.enterLocationId" :placeholder="$t('Hmodule.xzhw')" filterable clearable style="width: 100%;" @visible-change="alllocations($event,scope)">
                   <el-option
@@ -100,7 +100,7 @@
                 </el-select>
               </template>
             </el-editable-column>
-            <el-editable-column prop="inventoryQuantity" align="center" label="库存数量" width="150px">
+            <el-editable-column :label="$t('updates.kcsl')" prop="inventoryQuantity" align="center" width="150px">
               <template slot-scope="scope">
                 <p>{{ getquantity(scope.row) }}</p>
               </template>
@@ -126,7 +126,7 @@
                     <span >{{ scope.row.repositoryName }}</span>
                   </template>
                 </el-table-column>
-                <el-table-column :resizable="false" label="商品名称" align="center" min-width="150">
+                <el-table-column :resizable="false" :label="$t('updates.spmc')" align="center" min-width="150">
                   <template slot-scope="scope">
                     <span >{{ scope.row.productName }}</span>
                   </template>
@@ -153,6 +153,7 @@ import { getdeptlist } from '@/api/BasicSettings'
 import MyCreate from './components/MyCreate'
 import MyRepository from './components/MyRepository'
 import MyDetail from './components/MyDetail'
+var _that
 export default {
   name: 'AddLocationAdjust',
   components: { MyCreate, MyRepository, MyDetail },
@@ -220,6 +221,9 @@ export default {
       // 批量操作
       moreaction: []
     }
+  },
+  beforeCreate() {
+    _that = this
   },
   mounted() {
     this.getlist()

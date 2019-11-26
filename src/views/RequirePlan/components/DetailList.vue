@@ -1,5 +1,5 @@
 <template>
-  <el-dialog :visible.sync="editVisible" :detailcontrol="detailcontrol" :detaildata="detaildata" :close-on-press-escape="false" :title="personalForm.planNumber +'    详情'" append-to-body width="1010px" class="edit" top="-10px" @close="$emit('update:detailcontrol', false)">
+  <el-dialog :visible.sync="editVisible" :detailcontrol="detailcontrol" :detaildata="detaildata" :close-on-press-escape="false" :title="personalForm.planNumber +$t('updates.xqing')" append-to-body width="1010px" class="edit" top="-10px" @close="$emit('update:detailcontrol', false)">
     <div id="printTest" >
       <!--基本信息-->
       <el-card class="box-card" style="margin-top: 63px" shadow="never">
@@ -66,7 +66,7 @@
       </el-card>
       <!--子件信息-->
       <el-card class="box-card" style="margin-top: 15px" shadow="never">
-        <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">物料需求计划明细</h2>
+        <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('updates.wlxqjhmx') }}</h2>
         <div class="container">
           <el-editable
             ref="editable"
@@ -85,9 +85,9 @@
               </template>
             </el-editable-column>
             <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" />
-            <el-editable-column prop="requireQuantity" align="center" label="毛需求数量" />
-            <el-editable-column prop="planQuantity" align="center" label="应计划数量" />
-            <el-editable-column prop="materialsSource" align="center" label="物料来源" >
+            <el-editable-column :label="$t('updates.mxqsl')" prop="requireQuantity" align="center" />
+            <el-editable-column :label="$t('updates.yjhsl')" prop="planQuantity" align="center" />
+            <el-editable-column :label="$t('updates.wlly')" prop="materialsSource" align="center" >
               <template slot-scope="scope">
                 <p>{{ scope.row.materialsSource | chectResultFilter }}</p>
               </template>
@@ -97,31 +97,31 @@
       </el-card>
       <!--审核状态-->
       <el-card class="box-card" style="margin-top: 15px" shadow="never">
-        <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">审批记录</h2>
+        <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('updates.spjl') }}</h2>
         <div class="container" style="margin-top: 37px">
           <el-table
             :data="reviewList"
             border
             style="width: 100%">
             <el-table-column
+              :label="$t('updates.dqbz')"
               prop="step"
               align="center"
-              label="当前步骤"
               min-width="150"/>
             <el-table-column
+              :label="$t('updates.dqspr')"
               prop="stepHandlerName"
               align="center"
-              label="当前审批人"
               min-width="150"/>
             <el-table-column
+              :label="$t('updates.spsj')"
               prop="handleTime"
               align="center"
-              label="审批时间"
               min-width="150"/>
             <el-table-column
+              :label="$t('updates.spyj')"
               prop="stat"
               align="center"
-              label="审批意见"
               min-width="150">
               <template slot-scope="scope">
                 <span>{{ scope.row.stat | statfilter }}</span>
@@ -137,6 +137,8 @@
 <script>
 import { searchEmpCategory2 } from '@/api/Product'
 import printJS from 'print-js'
+// eslint-disable-next-line no-unused-vars
+var _that
 export default {
   filters: {
     chectResultFilter(status) {

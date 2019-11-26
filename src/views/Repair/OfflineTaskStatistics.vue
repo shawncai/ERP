@@ -67,7 +67,8 @@ import permission2 from '@/directive/permission2/index.js' // 权限判断指令
   import waves from '@/directive/waves' // Waves directive
   import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
 
-  export default {
+  var _that
+export default {
     name: 'Sample',
     components: { Pagination },
     directives: { waves, permission, permission2 },

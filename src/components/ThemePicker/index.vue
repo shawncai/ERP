@@ -10,6 +10,7 @@
 const version = require('element-ui/package.json').version // element-ui version from node_modules
 const ORIGINAL_THEME = '#409EFF' // default color
 
+var _that
 export default {
   data() {
     return {

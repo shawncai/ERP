@@ -1,5 +1,5 @@
 <template>
-  <el-dialog :visible.sync="editVisible" :editcontrol="editcontrol" :editdata="editdata" :close-on-press-escape="false" :title="personalForm.id +'    修改'" width="1010px" class="edit" top="-10px" @close="$emit('update:editcontrol', false)">
+  <el-dialog :visible.sync="editVisible" :editcontrol="editcontrol" :editdata="editdata" :close-on-press-escape="false" :title="personalForm.id +$t('updates.xg')" width="1010px" class="edit" top="-10px" @close="$emit('update:editcontrol', false)">
     <!--基本信息-->
     <el-card class="box-card" style="margin-top: 63px" shadow="never">
       <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('Hmodule.basicinfo') }}</h2>
@@ -38,7 +38,7 @@
       </div>
     </el-card>
     <el-card class="box-card" shadow="never" style="margin-top: 10px">
-      <h2 ref="lianxi" class="form-name">业务信息</h2>
+      <h2 ref="lianxi" class="form-name">{{ $t('updates.ywxx') }}</h2>
       <div class="container" style="margin-top: 37px">
         <el-form ref="personalForm2" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
           <el-row>
@@ -201,7 +201,7 @@
     </el-card>
     <!--子件信息-->
     <el-card class="box-card" style="margin-top: 15px" shadow="never">
-      <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">可提供商品明细</h2>
+      <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('updates.ktgspmx') }}</h2>
       <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
         <el-button @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>
         <my-detail :control.sync="control" @product="productdetail"/>
@@ -224,15 +224,15 @@
           <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" align="center" min-width="150px"/>
           <el-editable-column :label="$t('Hmodule.gg')" prop="productType" align="center" min-width="150px"/>
           <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" min-width="150px"/>
-          <el-editable-column prop="color" align="center" label="颜色" min-width="150px"/>
+          <el-editable-column :label="$t('updates.ys')" prop="color" align="center" min-width="150px"/>
           <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0,max: 100,precision: 2,controls:false}, type: 'visible'}" prop="proportion" align="center" label="供货比列(%)" min-width="150px"/>
           <el-editable-column prop="price" align="center" label="价格" min-width="150px"/>
-          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0,max: 100,precision: 2,controls:false}, type: 'visible'}" prop="discountRate" align="center" label="折扣(%)" min-width="150px"/>
+          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0,max: 100,precision: 2,controls:false}, type: 'visible'}" :label="$t('updates.zk')" prop="discountRate" align="center" min-width="150px"/>
         </el-editable>
       </div>
     </el-card>
     <el-card class="box-card" shadow="never" style="margin-top: 10px">
-      <h2 class="form-name">财务信息</h2>
+      <h2 class="form-name">{{ $t('updates.cwxx') }}</h2>
       <div class="container" style="margin-top: 37px">
         <el-form ref="personalForm3" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
           <el-row>
@@ -276,7 +276,7 @@
       </div>
     </el-card>
     <el-card class="box-card" shadow="never" style="margin-top: 10px">
-      <h2 ref="fuzhu" class="form-name">辅助信息</h2>
+      <h2 ref="fuzhu" class="form-name">{{ $t('updates.fzxx') }}</h2>
       <div class="container" style="margin-top: 37px">
         <el-form ref="personalForm4" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
           <el-row>
@@ -332,6 +332,8 @@ import { getcountrylist, getprovincelist, getcitylist, regionlist, saveRegion, g
 import { searchCategory, searchGroup, update } from '@/api/Supplier'
 import MyEmp from './MyEmp'
 import MyDetail from './MyDetail'
+// eslint-disable-next-line no-unused-vars
+var _that
 export default {
   components: { MyDetail, MyEmp },
   props: {

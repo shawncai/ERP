@@ -19,7 +19,7 @@
               </el-form-item>
             </el-col>
             <el-col :span="6">
-              <el-form-item label="源单编号" style="width: 100%;">
+              <el-form-item :label="$t('updates.ydbh')" style="width: 100%;">
                 <el-input v-model="personalForm.sourceNumber" placeholder="请选择源单编号" style="margin-left: 18px;width: 150px" clearable/>
               </el-form-item>
             </el-col>
@@ -70,7 +70,7 @@
     </el-card>
     <!--入库单明细-->
     <el-card class="box-card" style="margin-top: 15px">
-      <h2 ref="fuzhu" class="form-name">入库单明细</h2>
+      <h2 ref="fuzhu" class="form-name">{{ $t('updates.rkdmx') }}</h2>
       <div class="buttons" style="margin-top: 28px;margin-bottom: 20px">
         <el-button type="success" style="background:#3696fd;border-color:#3696fd " @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>
         <el-button type="danger" @click="$refs.editable.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
@@ -92,18 +92,18 @@
           <el-editable-column :edit-render="{name: 'ElSelect', options: locationlist}" :label="$t('Hmodule.hw')" prop="locationId" align="center" width="150px"/>
           <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" align="center" width="150px"/>
           <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" align="center" width="150px"/>
-          <el-editable-column prop="color" align="center" label="颜色" width="150px"/>
+          <el-editable-column :label="$t('updates.ys')" prop="color" align="center" width="150px"/>
           <el-editable-column :label="$t('Hmodule.gg')" prop="typeIdname" align="center" width="150px"/>
           <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" width="150px"/>
-          <el-editable-column prop="basicQuantity" align="center" label="基本数量" width="150px"/>
+          <el-editable-column :label="$t('updates.jbel')" prop="basicQuantity" align="center" width="150px"/>
           <el-editable-column :edit-render="{name: 'ElInputNumber'}" :label="$t('updates.rksl')" prop="enterQuantity" align="center" width="150px"/>
           <el-editable-column :label="$t('Hmodule.dj')" prop="price" align="center" width="150px"/>
-          <el-editable-column prop="totalMoney" align="center" label="入库金额" width="150px">
+          <el-editable-column :label="$t('updates.rkje')" prop="totalMoney" align="center" width="150px">
             <template slot-scope="scope">
               <p>{{ getSize(scope.row.enterQuantity, scope.row.price) }}</p>
             </template>
           </el-editable-column>
-          <el-editable-column :edit-render="{name: 'ElInput'}" prop="remarks" align="center" label="备注" width="150px"/>
+          <el-editable-column :edit-render="{name: 'ElInput'}" :label="$t('updates.bz')" prop="remarks" align="center" width="150px"/>
         </el-editable>
       </div>
     </el-card>
@@ -122,6 +122,7 @@ import MyRepository from './MyRepository'
 import MyAccept from './MyAccept'
 import MyDetail from './MyDetail'
 import MyCreate from './MyCreate'
+var _that
 export default {
   components: { MyRepository, MyCreate, MyAccept, MyDetail },
   props: {
@@ -200,6 +201,9 @@ export default {
       this.list2 = this.personalForm.produceEnterDetailVos
       this.getlocation()
     }
+  },
+  beforeCreate() {
+    _that = this
   },
   mounted() {
     this.getlist()

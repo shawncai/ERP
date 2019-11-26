@@ -5,7 +5,7 @@
       <el-row>
         <el-form ref="getemplist" :model="getemplist" label-width="70px" style="margin-top: -9px">
           <el-col :span="5">
-            <el-form-item label="物品编码">
+            <el-form-item :label="$t('updates.wpbm')">
               <el-input v-model="getemplist.productCode" :placeholder="$t('endmonth.productCode')" style="width: 80%;" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
@@ -15,13 +15,13 @@
             </el-form-item>
           </el-col>
           <el-col :span="5">
-            <el-form-item label="年月">
+            <el-form-item :label="$t('updates.ny')">
               <el-date-picker
                 v-model="getemplist.date"
+                :placeholder="$t('updates.xzy')"
                 type="month"
                 style="width: 80%;"
-                value-format="yyyy-MM"
-                placeholder="选择月"/>
+                value-format="yyyy-MM"/>
             </el-form-item>
           </el-col>
           <el-col :span="4">
@@ -141,6 +141,7 @@ import MyRepository from './components/MyRepository'
 import MyAccept from './components/MyAccept'
 import MyCreate from './components/MyCreate'
 
+var _that
 export default {
   name: 'Endmonth',
   directives: { waves },
@@ -219,6 +220,9 @@ export default {
       editVisible: false
       // 列表结束 -------------------------
     }
+  },
+  beforeCreate() {
+    _that = this
   },
   mounted() {
     this.getdeptlist()

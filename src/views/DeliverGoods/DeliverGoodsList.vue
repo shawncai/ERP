@@ -4,12 +4,12 @@
       <el-row>
         <el-form ref="getemplist" :model="getemplist" label-width="100px" style="margin-top: -9px">
           <el-col :span="5">
-            <el-form-item label="配送单编号" label-width="100px">
+            <el-form-item :label="$t('updates.psdbh')" label-width="100px">
               <el-input v-model="getemplist.deliverNumber" :placeholder="$t('DeliverGoods.deliverNumber')" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
           <el-col :span="5" style="margin-left: 10px">
-            <el-form-item label="源单编号">
+            <el-form-item :label="$t('updates.ydbh')">
               <el-input v-model="getemplist.sourceNUmber" placeholder="源单编号" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
@@ -28,16 +28,16 @@
               placement="bottom"
               width="500"
               trigger="click">
-              <el-select v-model="getemplist.receiptStat" :value="getemplist.receiptStat" placeholder="单据状态" clearable style="width: 40%;float: left;margin-left: 20px">
-                <el-option value="1" label="制单"/>
-                <el-option value="2" label="执行"/>
-                <el-option value="3" label="结单"/>
+              <el-select v-model="getemplist.receiptStat" :value="getemplist.receiptStat" :placeholder="$t('updates.djzt')" clearable style="width: 40%;float: left;margin-left: 20px">
+                <el-option :label="$t('updates.zd')" value="1"/>
+                <el-option :label="$t('updates.zx')" value="2"/>
+                <el-option :label="$t('updates.jd')" value="3"/>
               </el-select>
-              <el-select v-model="getemplist.judgeStat" :value="getemplist.judgeStat" placeholder="审批状态" clearable style="width: 40%;float: right;margin-right: 20px">
-                <el-option value="0" label="未审核"/>
-                <el-option value="1" label="审核中"/>
-                <el-option value="2" label="审核通过"/>
-                <el-option value="3" label="审核不通过"/>
+              <el-select v-model="getemplist.judgeStat" :value="getemplist.judgeStat" :placeholder="$t('updates.spzt')" clearable style="width: 40%;float: right;margin-right: 20px">
+                <el-option :label="$t('updates.wsh')" value="0"/>
+                <el-option :label="$t('updates.shz')" value="1"/>
+                <el-option :label="$t('updates.shtg')" value="2"/>
+                <el-option :label="$t('updates.shptg')" value="3"/>
               </el-select>
               <!--<el-date-picker-->
               <!--v-model="date"-->
@@ -144,9 +144,9 @@
         </el-table-column>
         <el-table-column :label="$t('public.actions')" :resizable="false" align="center" min-width="230">
           <template slot-scope="scope">
-            <el-button v-permission2="['235-237-3']" v-show="scope.row.judgeStat === 0" title="修改" type="primary" size="mini" icon="el-icon-edit" circle @click="handleEdit(scope.row)"/>
-            <el-button v-show="isReview(scope.row)" title="审批" type="warning" size="mini" icon="el-icon-view" circle @click="handleReview(scope.row)"/>
-            <el-button v-permission2="['235-237-2', scope.row.createPersonId]" v-show="scope.row.judgeStat === 0" title="删除" size="mini" type="danger" icon="el-icon-delete" circle @click="handleDelete(scope.row)"/>
+            <el-button v-permission2="['235-237-3']" v-show="scope.row.judgeStat === 0" :title="$t('updates.xg')" type="primary" size="mini" icon="el-icon-edit" circle @click="handleEdit(scope.row)"/>
+            <el-button v-show="isReview(scope.row)" :title="$t('updates.spi')" type="warning" size="mini" icon="el-icon-view" circle @click="handleReview(scope.row)"/>
+            <el-button v-permission2="['235-237-2', scope.row.createPersonId]" v-show="scope.row.judgeStat === 0" :title="$t('updates.sc')" size="mini" type="danger" icon="el-icon-delete" circle @click="handleDelete(scope.row)"/>
             <el-button v-permission2="['235-237-2', scope.row.createPersonId]" v-show="scope.row.judgeStat === 2" title="确认送货单" size="mini" type="success" icon="el-icon-circle-check" circle @click="handleconfirm(scope.row)"/>
           </template>
           <my-confirm :detailcontrol.sync="detailvisible2" :detaildata.sync="personalForm"/>
@@ -177,6 +177,7 @@ import MyCustomer from './components/MyCustomer'
 import MyAgent from './components/MyAgent'
 import MyConfirm from './components/DetailListconfirm'
 
+var _that
 export default {
   name: 'DeliverGoodsList',
   directives: { waves, permission, permission2 },
@@ -184,25 +185,25 @@ export default {
   filters: {
     judgeStatFilter(status) {
       const statusMap = {
-        0: '未审核',
-        1: '审核中',
-        2: '审核通过',
-        3: '审核不通过'
+        0: _that.$t('updates.wsh'),
+        1: _that.$t('updates.shz'),
+        2: _that.$t('Hmodule.shtg'),
+        3: _that.$t('updates.shbtg')
       }
       return statusMap[status]
     },
     receiptStatFilter(status) {
       const statusMap = {
-        1: '制单',
-        2: '执行',
-        3: '结单'
+        1: _that.$t('updates.zd'),
+        2: _that.$t('updates.zx'),
+        3: _that.$t('updates.jd')
       }
       return statusMap[status]
     },
     sourceTypeFilter(status) {
       const statusMap = {
-        1: '销售出库单',
-        2: '调拨单'
+        1: _that.$t('updates.xsckd'),
+        2: _that.$t('updates.dbd')
       }
       return statusMap[status]
     },
@@ -277,6 +278,9 @@ export default {
       // 开始时间到结束时间
       date: []
     }
+  },
+  beforeCreate() {
+    _that = this
   },
   mounted() {
     this.getlist()

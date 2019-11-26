@@ -4,7 +4,7 @@
     :detailcontrol="detailcontrol"
     :detailid="detailid"
     :close-on-press-escape="false"
-    :title="customerForm.id +'客户详情信息'"
+    :title="customerForm.id +$t('updates.khxqxx')"
     append-to-body
     width="1010px"
     class="edit"
@@ -107,19 +107,19 @@
                 border
                 style="width: 100%">
                 <el-table-column
+                  :label="$t('updates.spmc')"
                   prop="productName"
                   align="center"
-                  label="商品名称"
                   min-width="150"/>
                 <el-table-column
+                  :label="$t('updates.xh')"
                   prop="productType"
                   align="center"
-                  label="型号"
                   min-width="150"/>
                 <el-table-column
+                  :label="$t('updates.cjh')"
                   prop="carCode"
                   align="center"
-                  label="车架号"
                   min-width="150"/>
                 <el-table-column
                   prop="recoverReason"
@@ -127,9 +127,9 @@
                   label="收车原因"
                   min-width="150"/>
                 <el-table-column
+                  :label="$t('updates.scr')"
                   prop="handlePersonName"
                   align="center"
-                  label="收车人"
                   min-width="150"/>
                 <el-table-column
                   prop="recoverDate"
@@ -164,14 +164,14 @@
                   label="付款方式"
                   min-width="150"/>
                 <el-table-column
+                  :label="$t('updates.djbh')"
                   prop="sourceNumber"
                   align="center"
-                  label="单据编号"
                   min-width="150"/>
                 <el-table-column
+                  :label="$t('updates.skr')"
                   prop="collectName"
                   align="center"
-                  label="收款人"
                   min-width="150"/>
                 <el-table-column
                   :label="$t('updates.skrq')"
@@ -179,9 +179,9 @@
                   align="center"
                   min-width="150"/>
                 <el-table-column
+                  :label="$t('updates.stat')"
                   prop="stat"
                   align="center"
-                  label="状态"
                   min-width="150"/>
               </el-table>
             </el-tab-pane>
@@ -277,6 +277,7 @@
 
 <script>
 import { customerDetail } from '@/api/Customer'
+var _that
 export default {
   filters: {
     genderFilter(status) {
@@ -302,8 +303,8 @@ export default {
     },
     sourceTypeFilter(status) {
       const statusMap = {
-        1: '销售出库单',
-        2: '调拨单'
+        1: _that.$t('updates.xsckd'),
+        2: _that.$t('updates.dbd')
       }
       return statusMap[status]
     },
@@ -341,9 +342,9 @@ export default {
     },
     receiptStatFilter(status) {
       const statusMap = {
-        1: '制单',
-        2: '执行',
-        3: '结单'
+        1: _that.$t('updates.zd'),
+        2: _that.$t('updates.zx'),
+        3: _that.$t('updates.jd')
       }
       return statusMap[status]
     }

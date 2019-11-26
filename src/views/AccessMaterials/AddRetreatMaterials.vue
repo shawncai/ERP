@@ -119,6 +119,7 @@ import MyDelivery from './components/MyDelivery'
 import MyCreate from './components/MyCreate'
 import MyMaterials from './components/MyMaterials'
 import MyRepository from './components/MyRepository'
+var _that
 export default {
   name: 'AddRetreatMaterials',
   components: { MyRepository, MyMaterials, MyCreate, MyDelivery, MyDetail2, MyDetail },
@@ -208,6 +209,9 @@ export default {
   created() {
     this.getList()
     this.chooseType()
+  },
+  beforeCreate() {
+    _that = this
   },
   mounted() {
     this.getinformation()

@@ -120,6 +120,7 @@ import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination'
 import MySupplier from '../../Product/components/MySupplier'
 import MyTree from '../../Product/components/MyTree' // Secondary package based on el-pagination
+var _that
 export default {
   directives: { waves },
   components: { MyTree, MySupplier, Pagination },
@@ -268,7 +269,7 @@ export default {
           typeId: item.typeId,
           unit: item.produceMeasu,
           productType: item.productType,
-          sourceType: '无来源',
+          sourceType: _that.$t('Hmodule.Nosource'),
           sourceNumber: '',
           bomNumber: '',
           processName: '',

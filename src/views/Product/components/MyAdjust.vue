@@ -1,5 +1,5 @@
 <template>
-  <el-dialog :visible.sync="editVisible" :control="control" :editdata="editdata" :close-on-press-escape="false" top="10px" title="修改价格变更单" @close="$emit('update:control', false)">
+  <el-dialog :visible.sync="editVisible" :control="control" :editdata="editdata" :close-on-press-escape="false" :title="$t('updates.tjdxx')" top="10px" @close="$emit('update:control', false)">
     <!--基本信息-->
     <h2 ref="geren" class="form-name">{{ $t('Hmodule.basicinfo') }}</h2>
     <div class="container">
@@ -62,6 +62,8 @@
 <script>
 import { updateadjustprice } from '@/api/Product'
 import MyEmp from './MyEmp'
+// eslint-disable-next-line no-unused-vars
+var _that
 export default {
   components: { MyEmp },
   props: {

@@ -11,12 +11,12 @@
             <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
           </el-col>
           <el-col :span="4">
-            <el-form-item label="商品编码">
+            <el-form-item :label="$t('updates.spbm')">
               <el-input v-model="getemplist.productCode" :placeholder="$t('SmartReplenishmentList.productCode')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
           <el-col :span="4">
-            <el-form-item label="商品名称">
+            <el-form-item :label="$t('updates.spmc')">
               <el-input v-model="getemplist.productName" :placeholder="$t('SmartReplenishmentList.productName')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
@@ -136,6 +136,7 @@ import MyRepository from './components/MyRepository'
 import MyAccept from './components/MyAccept'
 import MyCreate from './components/MyCreate'
 
+var _that
 export default {
   name: 'SmartReplenishmentList',
   directives: { waves, permission, permission2 },
@@ -183,6 +184,9 @@ export default {
       // 加载表格
       listLoading: true
     }
+  },
+  beforeCreate() {
+    _that = this
   },
   mounted() {
     this.getlist()

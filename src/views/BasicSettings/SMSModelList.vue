@@ -4,7 +4,7 @@
       <!-- 搜索条件栏目 -->
       <el-input v-model="getemplist.modelname" :placeholder="$t('BasicSettings.modelname')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
       <el-select v-model="getemplist.iseffective" placeholder="请选择状态" class="filter-item" clearable >
-        <el-option value="1" :label="$t('updates.qy')" />
+        <el-option :label="$t('updates.qy')" value="1" />
         <el-option value="2" label="禁用" />
       </el-select>
       <!-- 搜索按钮 -->
@@ -132,6 +132,7 @@ import checkPermission from '@/utils/permission' // 权限判断函数
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
 
+var _that
 export default {
   name: 'SMSModelList',
   directives: { waves, permission, permission2 },
@@ -206,6 +207,9 @@ export default {
         pagesize: 10
       }
     }
+  },
+  beforeCreate() {
+    _that = this
   },
   mounted() {
     this.getlist()

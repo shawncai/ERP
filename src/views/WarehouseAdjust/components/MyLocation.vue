@@ -1,5 +1,5 @@
 <template>
-  <el-dialog :visible.sync="editVisible" :editcontrol="editcontrol" :editdata="editdata" :close-on-press-escape="false" class="edit" width="1010px" top="-10px" title="修改货位" @close="$emit('update:editcontrol', false)">
+  <el-dialog :visible.sync="editVisible" :editcontrol="editcontrol" :editdata="editdata" :close-on-press-escape="false" :title="$t('updates.xghw')" class="edit" width="1010px" top="-10px" @close="$emit('update:editcontrol', false)">
     <!--基本信息-->
     <el-card class="box-card">
       <h2 ref="geren" class="form-name">{{ $t('Hmodule.basicinfo') }}</h2>
@@ -50,6 +50,8 @@ import { updatelocation } from '@/api/WarehouseAdjust'
 import MyCreate from './MyCreate'
 import MyRepository from './MyRepository'
 import MyDetail from './MyDetail'
+// eslint-disable-next-line no-unused-vars
+var _that
 export default {
   components: { MyRepository, MyCreate, MyDetail },
   props: {

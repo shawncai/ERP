@@ -1,5 +1,5 @@
 <template>
-  <el-dialog :visible.sync="editVisible" :detailcontrol="detailcontrol" :detaildata="detaildata" :close-on-press-escape="false" :title="personalForm.number +'    详情'" append-to-body width="1010px" class="edit" top="-10px" @close="$emit('update:detailcontrol', false)">
+  <el-dialog :visible.sync="editVisible" :detailcontrol="detailcontrol" :detaildata="detaildata" :close-on-press-escape="false" :title="personalForm.number +$t('updates.xqing')" append-to-body width="1010px" class="edit" top="-10px" @close="$emit('update:detailcontrol', false)">
     <div id="printTest" >
       <!--基本信息-->
       <el-card class="box-card" style="margin-top: 63px" shadow="never">
@@ -44,7 +44,7 @@
       </el-card>
       <!--子件信息-->
       <el-card class="box-card" shadow="never">
-        <h2 ref="geren" class="form-name">客户调查报告明细</h2>
+        <h2 ref="geren" class="form-name">{{ $t('updates.khdcbgmx') }}</h2>
         <div class="container" style="margin-top: 37px">
           <el-form ref="personalForm2" :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
             <el-row>
@@ -68,7 +68,7 @@
         </div>
       </el-card>
       <el-card class="box-card" shadow="never">
-        <h2 ref="geren" class="form-name">综合结果</h2>
+        <h2 ref="geren" class="form-name">{{ $t('updates.zhjg') }}</h2>
         <div class="container" style="margin-top: 37px">
           <el-form ref="personalForm3" :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
             <el-row>
@@ -82,7 +82,7 @@
         </div>
       </el-card>
       <el-card class="box-card" shadow="never">
-        <h2 ref="geren" class="form-name">原因分析</h2>
+        <h2 ref="geren" class="form-name">{{ $t('updates.yyfx') }}</h2>
         <div class="container" style="margin-top: 37px">
           <el-form ref="personalForm4" :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
             <el-row>
@@ -144,6 +144,7 @@
 </template>
 
 <script>
+var _that
 export default {
   filters: {
     resultFilter(status) {
@@ -209,7 +210,7 @@ export default {
     },
     sourceTypeFilter(status) {
       const statusMap = {
-        2: '分期申请'
+        2: _that.$t('updates.fqsq')
       }
       return statusMap[status]
     },
@@ -222,9 +223,9 @@ export default {
     },
     receiptStatFilter(status) {
       const statusMap = {
-        1: '制单',
-        2: '执行',
-        3: '结单'
+        1: _that.$t('updates.zd'),
+        2: _that.$t('updates.zx'),
+        3: _that.$t('updates.jd')
       }
       return statusMap[status]
     },

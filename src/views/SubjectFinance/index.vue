@@ -206,7 +206,7 @@
           </el-table-column>
           <el-table-column :label="$t('public.actions')" :resizable="false" align="center" min-width="230">
             <template slot-scope="scope">
-              <el-button v-permission="['266-267-3']" title="修改" type="primary" size="mini" icon="el-icon-edit" circle @click="handleEdit(scope.row)"/>
+              <el-button v-permission="['266-267-3']" :title="$t('updates.xg')" type="primary" size="mini" icon="el-icon-edit" circle @click="handleEdit(scope.row)"/>
             </template>
           </el-table-column>
         </el-table>
@@ -219,6 +219,8 @@
 <script>
 import { addSubject, subjectList, deleteSubject, updateSubject, itemList, addSubjectDetail, updateSubjectDetail } from '@/api/SubjectFinance'
 import waves from '@/directive/waves' // Waves directive
+// eslint-disable-next-line no-unused-vars
+var _that
 export default {
   name: 'AddInitialenter',
   directives: { waves },

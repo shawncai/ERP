@@ -1,5 +1,5 @@
 <template>
-  <el-dialog :visible.sync="editVisible" :control="control" :editdata="editdata" :close-on-press-escape="false" width="1010px" top="10px" title="修改供应商" @close="$emit('update:control', false)">
+  <el-dialog :visible.sync="editVisible" :control="control" :editdata="editdata" :close-on-press-escape="false" :title="$t('updates.xgspgz')" width="1010px" top="10px" @close="$emit('update:control', false)">
     <!--基本信息-->
     <h2 ref="geren" class="form-name">{{ $t('Hmodule.basicinfo') }}</h2>
     <div class="container">
@@ -33,9 +33,9 @@
       </el-form>
     </div>
     <!--辅助信息-->
-    <h2 ref="fuzhu" class="form-name">审批流程步骤</h2>
+    <h2 ref="fuzhu" class="form-name">{{ $t('updates.splcbz') }}</h2>
     <div class="buttons" style="margin-top: 50px">
-      <el-button type="success" @click="insertEvent(-1)">添加</el-button>
+      <el-button type="success" @click="insertEvent(-1)">{{ $t('updates.tj') }}</el-button>
       <el-button type="danger" @click="$refs.editable.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
     </div>
     <div class="container" style="margin-top: 20px">
@@ -84,6 +84,7 @@ import { regionlist, searchRepository } from '@/api/public'
 import { searchcategory, searchDetail, updateeapproval } from '@/api/BasicSettings'
 import MyEmp from './MyEmp'
 import MyEmp2 from './MyEmp2'
+var _that
 export default {
   components: { MyEmp, MyEmp2 },
   props: {

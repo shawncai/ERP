@@ -99,7 +99,7 @@
       </el-card>
       <!--调拨申请明细-->
       <el-card class="box-card" style="margin-top: 15px">
-        <h2 ref="fuzhu" class="form-name">调拨申请明细</h2>
+        <h2 ref="fuzhu" class="form-name">{{ $t('updates.dbsqdmx') }}</h2>
         <div class="buttons" style="margin-top: 58px">
           <el-button type="success" style="background:#3696fd;border-color:#3696fd " @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>
           <el-button type="danger" @click="$refs.editable.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
@@ -137,10 +137,10 @@
             </el-editable-column> -->
             <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" align="center" width="150px"/>
             <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" align="center" width="150px"/>
-            <el-editable-column prop="color" align="center" label="颜色" width="150px"/>
+            <el-editable-column :label="$t('updates.ys')" prop="color" align="center" width="150px"/>
             <el-editable-column :label="$t('Hmodule.gg')" prop="typeName" align="center" width="150px"/>
             <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" width="150px"/>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 1.00, precision: 2}, type: 'visible'}" prop="applyQuantity" align="center" label="申请数量" min-width="150">
+            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 1.00, precision: 2}, type: 'visible'}" :label="$t('updates.sqsl')" prop="applyQuantity" align="center" min-width="150">
               <template slot="edit" slot-scope="scope">
                 <el-input-number
                   :precision="2"
@@ -151,14 +151,14 @@
                 />
               </template>
             </el-editable-column>
-            <el-editable-column prop="movePrice" align="center" label="调拨单价" width="150px"/>
+            <el-editable-column :label="$t('updates.dbdj')" prop="movePrice" align="center" width="150px"/>
             <!-- <el-editable-column :edit-render="{name: 'ElInputNumber', type: 'visible'}" prop="movePrice" align="center" label="调拨成本价" width="150px"/> -->
-            <el-editable-column prop="moveMoney" align="center" label="商品金额" width="150px">
+            <el-editable-column :label="$t('updates.spje')" prop="moveMoney" align="center" width="150px">
               <template slot-scope="scope">
                 <p>{{ getSize(scope.row) }}</p>
               </template>
             </el-editable-column>
-            <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="remarks" align="center" label="备注" width="150px"/>
+            <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.bz')" prop="remarks" align="center" width="150px"/>
           </el-editable>
         </div>
       </el-card>
@@ -197,10 +197,10 @@
                 <span v-else>{{ scope.row.batch }}</span>
               </template>
             </el-editable-column>
-            <el-editable-column prop="color" align="center" label="颜色" width="150px"/>
+            <el-editable-column prop="color" align="center" :label="$t('updates.ys')" width="150px"/>
             <el-editable-column prop="typeName" align="center" :label="$t('Hmodule.gg')" width="150px"/>
             <el-editable-column prop="unitName" align="center" :label="$t('Hmodule.dw')" width="150px"/>
-            <el-editable-column prop="moveQuantity" align="center" label="出库数量" min-width="150">
+            <el-editable-column prop="moveQuantity" align="center" :label="$t('updates.cksli')" min-width="150">
               <template slot="edit" slot-scope="scope">
                 <el-input-number
                   :precision="2"
@@ -211,25 +211,25 @@
                 />
               </template>
             </el-editable-column>
-            <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="carCode" align="center" label="车架编码" min-width="150" >
+            <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="carCode" align="center" :label="$t('updates.cjbm')" min-width="150" >
               <template slot="edit" slot-scope="scope">
                 <el-input v-if="isEdit2(scope.row)" v-model="scope.row.carCode" clearable/>
                 <span v-else>{{ scope.row.carCode }}</span>
               </template>
             </el-editable-column>
-            <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="motorCode" align="center" label="电机编码" min-width="150" >
+            <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="motorCode" align="center" :label="$t('updates.djbm')" min-width="150" >
               <template slot="edit" slot-scope="scope">
                 <el-input v-if="isEdit2(scope.row)" v-model="scope.row.motorCode" clearable/>
                 <span v-else>{{ scope.row.motorCode }}</span>
               </template>
             </el-editable-column>
-            <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="batteryCode" align="center" label="电池编码" min-width="150" >
+            <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="batteryCode" align="center" :label="$t('updates.dcbm')" min-width="150" >
               <template slot="edit" slot-scope="scope">
                 <el-input v-if="isEdit2(scope.row)" v-model="scope.row.batteryCode" clearable/>
                 <span v-else>{{ scope.row.batteryCode }}</span>
               </template>
             </el-editable-column>
-            <el-editable-column prop="price" align="center" label="调拨单价" width="150px"/>
+            <el-editable-column prop="price" align="center" :label="$t('updates.dbdj')" width="150px"/>
             <el-editable-column :edit-render="{name: 'ElInputNumber', type: 'visible'}" prop="movePrice" align="center" label="调拨成本价" width="150px"/>
             <el-editable-column prop="totalMoney" align="center" label="调拨金额" width="150px">
               <template slot-scope="scope">
@@ -284,10 +284,10 @@
                 <span v-else>{{ scope.row.batch }}</span>
               </template>
             </el-editable-column>
-            <el-editable-column prop="color" align="center" label="颜色" width="150px"/>
+            <el-editable-column prop="color" align="center" :label="$t('updates.ys')" width="150px"/>
             <el-editable-column prop="typeName" align="center" :label="$t('Hmodule.gg')" width="150px"/>
             <el-editable-column prop="unitName" align="center" :label="$t('Hmodule.dw')" width="150px"/>
-            <el-editable-column prop="moveQuantity" align="center" label="出库数量" min-width="150">
+            <el-editable-column prop="moveQuantity" align="center" :label="$t('updates.cksli')" min-width="150">
               <template slot="edit" slot-scope="scope">
                 <el-input-number
                   :precision="2"
@@ -298,25 +298,25 @@
                 />
               </template>
             </el-editable-column>
-            <el-editable-column prop="carCode" align="center" label="车架编码" min-width="150" >
+            <el-editable-column prop="carCode" align="center" :label="$t('updates.cjbm')" min-width="150" >
               <template slot="edit" slot-scope="scope">
                 <el-input v-if="isEdit2(scope.row)" v-model="scope.row.carCode" clearable/>
                 <span v-else>{{ scope.row.carCode }}</span>
               </template>
             </el-editable-column>
-            <el-editable-column prop="motorCode" align="center" label="电机编码" min-width="150" >
+            <el-editable-column prop="motorCode" align="center" :label="$t('updates.djbm')" min-width="150" >
               <template slot="edit" slot-scope="scope">
                 <el-input v-if="isEdit2(scope.row)" v-model="scope.row.motorCode" clearable/>
                 <span v-else>{{ scope.row.motorCode }}</span>
               </template>
             </el-editable-column>
-            <el-editable-column prop="batteryCode" align="center" label="电池编码" min-width="150" >
+            <el-editable-column prop="batteryCode" align="center" :label="$t('updates.dcbm')" min-width="150" >
               <template slot="edit" slot-scope="scope">
                 <el-input v-if="isEdit2(scope.row)" v-model="scope.row.batteryCode" clearable/>
                 <span v-else>{{ scope.row.batteryCode }}</span>
               </template>
             </el-editable-column>
-            <el-editable-column prop="price" align="center" label="调拨单价" width="150px"/>
+            <el-editable-column prop="price" align="center" :label="$t('updates.dbdj')" width="150px"/>
             <el-editable-column prop="movePrice" align="center" label="调拨成本价" width="150px"/>
             <el-editable-column prop="totalMoney" align="center" label="调拨金额" width="150px">
               <template slot-scope="scope">
@@ -352,7 +352,7 @@
         <el-button type="danger" @click="handlecancel()">{{ $t('Hmodule.cancel') }}</el-button>
       </div>
       <!-- 备注 -->
-      <!-- <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="remarks" align="center" label="备注" width="150px"/> -->
+      <!-- <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="remarks" align="center" :label="$t('updates.bz')" width="150px"/> -->
     </div>
   </div>
 </template>
@@ -369,6 +369,7 @@ import MyOut from './components/MyOut'
 import MyDetail from './components/MyDetail'
 import MyCreate from './components/MyCreate'
 import MyDepot from './components/MyDepot'
+var _that
 export default {
   name: 'AddStoragemove',
   components: { MyDepot, MyRepository, MyDetail, MyCreate, MyAccept, MyOut },
@@ -446,6 +447,9 @@ export default {
       validRules: {
       }
     }
+  },
+  beforeCreate() {
+    _that = this
   },
   mounted() {
     this.getlist()

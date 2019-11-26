@@ -7,9 +7,9 @@
             <el-form-item :label="$t('updates.yf')">
               <el-date-picker
                 v-model="date2"
+                :placeholder="$t('updates.xzy')"
                 type="month"
-                value-format="yyyy-MM"
-                placeholder="选择月"/>
+                value-format="yyyy-MM"/>
             </el-form-item>
           </el-col>
           <el-col :span="4" style="margin-left: 140px">
@@ -19,7 +19,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="4" style="margin-left: 70px">
-            <el-form-item label="物品编码">
+            <el-form-item :label="$t('updates.wpbm')">
               <el-input v-model="getemplist.code" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
@@ -149,6 +149,7 @@ import MyRepository from './components/MyRepository'
 import MyTree from './components/MyTree'
 import MySupplier from './components/MySupplier'
 
+var _that
 export default {
   name: 'ProductSendAndReceive',
   directives: { waves, permission, permission2 },
@@ -156,18 +157,18 @@ export default {
   filters: {
     judgeStatFilter(status) {
       const statusMap = {
-        0: '未审核',
-        1: '审核中',
-        2: '审核通过',
-        3: '审核不通过'
+        0: _that.$t('updates.wsh'),
+        1: _that.$t('updates.shz'),
+        2: _that.$t('Hmodule.shtg'),
+        3: _that.$t('updates.shbtg')
       }
       return statusMap[status]
     },
     receiptStatFilter(status) {
       const statusMap = {
-        1: '制单',
-        2: '执行',
-        3: '结单'
+        1: _that.$t('updates.zd'),
+        2: _that.$t('updates.zx'),
+        3: _that.$t('updates.jd')
       }
       return statusMap[status]
     },
@@ -260,6 +261,9 @@ export default {
       // 开始时间到结束时间
       date: []
     }
+  },
+  beforeCreate() {
+    _that = this
   },
   mounted() {
     this.getdatatime()

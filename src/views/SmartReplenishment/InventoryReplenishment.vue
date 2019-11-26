@@ -4,12 +4,12 @@
       <el-row>
         <el-form ref="getemplist" :model="getemplist" label-width="100px" style="margin-top: -9px">
           <el-col :span="5">
-            <el-form-item label="仓库编号" label-width="100px">
+            <el-form-item :label="$t('updates.ckbh')" label-width="100px">
               <el-input v-model="getemplist.repositoryId" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
           <!-- <el-col :span="5">
-            <el-form-item label="仓库名称" label-width="100px">
+            <el-form-item :label="$t('updates.ckmc')" label-width="100px">
               <el-input v-model="getemplist.repositoryId" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col> -->
@@ -136,7 +136,7 @@
       <!-- 列表结束 -->
       <pagination v-show="total>0" :total="total" :page.sync="getemplist.pagenum" :limit.sync="getemplist.pagesize" @pagination="getlist" />
       <!--修改开始=================================================-->
-      <el-dialog :visible.sync="editcategoryVisible" title="修改补货周期设置" class="normal" width="600px" center>
+      <el-dialog :visible.sync="editcategoryVisible" :title="$t('updates.xgbhzq')" class="normal" width="600px" center>
         <el-form ref="editCategoryForm" :rules="editCategoryFormRules" :model="editCategoryForm" class="demo-ruleForm" style="margin: 0 auto; width: 400px">
           <el-form-item :label="$t('InventoryReplenishment.Repository')" label-width="120px">
             <el-input v-model="repositoryId" disabled/>
@@ -177,6 +177,7 @@ import permission from '@/directive/permission/index.js' // 权限判断指令
 import permission2 from '@/directive/permission2/index.js' // 权限判断指令
 import checkPermission from '@/utils/permission' // 权限判断函数
 import MyRepository from './components/MyRepository'
+var _that
 export default {
   name: 'InventoryReplenishment',
   directives: { waves, permission, permission2 },
@@ -284,6 +285,9 @@ export default {
         pageSize: 10
       }
     }
+  },
+  beforeCreate() {
+    _that = this
   },
   mounted() {
     this.getlist()

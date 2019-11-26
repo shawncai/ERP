@@ -9,6 +9,7 @@ import 'font-awesome/css/font-awesome.min.css'
 import 'simplemde/dist/simplemde.min.css'
 import SimpleMDE from 'simplemde'
 
+var _that
 export default {
   name: 'SimplemdeMd',
   props: {
@@ -55,6 +56,9 @@ export default {
       if (val === this.simplemde.value() && !this.hasChange) return
       this.simplemde.value(val)
     }
+  },
+  beforeCreate() {
+    _that = this
   },
   mounted() {
     this.simplemde = new SimpleMDE({

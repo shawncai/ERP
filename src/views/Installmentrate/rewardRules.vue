@@ -4,7 +4,7 @@
       <el-row>
         <el-form ref="getemplist" :model="getemplist" label-width="100px" style="margin-top: -9px">
           <el-col :span="5" style="margin-left: 10px">
-            <el-form-item label="状态">
+            <el-form-item :label="$t('updates.stat')">
               <el-select v-model="getemplist.stat" :value="getemplist.stat" clearable @keyup.enter.native="handleFilter">
                 <el-option :label="$t('updates.qy')" value="1"/>
                 <el-option :label="$t('updates.ty')" value="2"/>
@@ -94,15 +94,15 @@
         </el-table-column>
         <el-table-column :label="$t('public.actions')" :resizable="false" align="center" min-width="230">
           <template slot-scope="scope">
-            <el-button v-permission2="['200-250-253-3', scope.row.createPersonId]" title="修改" type="primary" size="mini" icon="el-icon-edit" circle @click="handleEdit(scope.row)" />
-            <el-button v-permission2="['200-250-253-2', scope.row.createPersonId]" title="删除" size="mini" type="danger" icon="el-icon-delete" circle @click="handleDelete(scope.row)"/>
+            <el-button v-permission2="['200-250-253-3', scope.row.createPersonId]" :title="$t('updates.xg')" type="primary" size="mini" icon="el-icon-edit" circle @click="handleEdit(scope.row)" />
+            <el-button v-permission2="['200-250-253-2', scope.row.createPersonId]" :title="$t('updates.sc')" size="mini" type="danger" icon="el-icon-delete" circle @click="handleDelete(scope.row)"/>
           </template>
         </el-table-column>
       </el-table>
       <!-- 列表结束 -->
       <pagination v-show="total>0" :total="total" :page.sync="getemplist.pagenum" :limit.sync="getemplist.pagesize" @pagination="getlist" />
       <!--修改开始=================================================-->
-      <el-dialog :visible.sync="editcategoryVisible" title="修改奖励规则设置" class="normal" width="600px" center>
+      <el-dialog :visible.sync="editcategoryVisible" :title="$t('updates.xgjlj')" class="normal" width="600px" center>
         <el-form ref="editCategoryForm" :rules="editCategoryFormRules" :model="editCategoryForm" class="demo-ruleForm" style="margin: 0 auto; width: 400px">
           <el-form-item :label="$t('InstallmentrateList.advanceDay')" label-width="120px" prop="advanceDay">
             <el-input v-model="editCategoryForm.advanceDay" autocomplete="off"/>
@@ -135,6 +135,7 @@ import permission from '@/directive/permission/index.js' // 权限判断指令
 import permission2 from '@/directive/permission2/index.js' // 权限判断指令
 import checkPermission from '@/utils/permission' // 权限判断函数
 
+var _that
 export default {
   name: 'RewardRules',
   directives: { waves, permission, permission2 },
@@ -209,6 +210,9 @@ export default {
         pagesize: 10
       }
     }
+  },
+  beforeCreate() {
+    _that = this
   },
   mounted() {
     this.getlist()

@@ -218,7 +218,7 @@
       <!--        </div>-->
       <!--      </el-card>-->
       <el-card class="box-card" style="margin-top: 15px" shadow="never">
-        <h2 ref="fuzhu" class="form-name">付款明细</h2>
+        <h2 ref="fuzhu" class="form-name">{{ $t('updates.fkmx') }}</h2>
         <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
           <el-button type="danger" @click="$refs.editable.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
         </div>
@@ -239,27 +239,27 @@
             <el-editable-column type="selection" min-width="55" align="center" />
             <el-editable-column :label="$t('Hmodule.xh')" min-width="55" align="center" type="index" />
             <!--            <el-editable-column :edit-render="{name: 'ElDatePicker', attrs: {type: 'date', format: 'yyyy-MM-dd'}, type: 'visible'}" prop="payDate" align="center" label="付款日期" min-width="150px"/>-->
-            <el-editable-column prop="shouldMoney" align="center" label="应付金额" min-width="150px" />
-            <el-editable-column prop="paidMoney" align="center" label="已付金额" min-width="150px" />
-            <el-editable-column prop="payingMoney" align="center" label="未付金额" min-width="150px" />
-            <el-editable-column prop="invoiceNumber" align="center" label="发票号" min-width="150px" />
-            <el-editable-column prop="invoiceType" align="center" label="发票类型" min-width="150px">
+            <el-editable-column :label="$t('updates.yfje')" prop="shouldMoney" align="center" min-width="150px" />
+            <el-editable-column :label="$t('updates.yfjei')" prop="paidMoney" align="center" min-width="150px" />
+            <el-editable-column :label="$t('updates.wfje')" prop="payingMoney" align="center" min-width="150px" />
+            <el-editable-column :label="$t('updates.hph')" prop="invoiceNumber" align="center" min-width="150px" />
+            <el-editable-column :label="$t('updates.fplx')" prop="invoiceType" align="center" min-width="150px">
               <template slot-scope="scope">
                 <span>{{ scope.row.invoiceType | invoiceTypeFilter }}</span>
               </template>
             </el-editable-column>
             <el-editable-column
               :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}"
+              :label="$t('updates.bczfje')"
               prop="payThis"
               align="center"
-              label="本次支付金额"
               min-width="170px"
             />
             <el-editable-column
               :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}"
+              :label="$t('updates.dkyfk')"
               prop="advanceMoney"
               align="center"
-              label="抵扣预付款"
               min-width="170px"
             />
           </el-editable>
@@ -293,6 +293,8 @@ import MyPlan from './components/MyPlan'
 import MyDelivery from './components/MyDelivery'
 import MyLnquiry from './components/MyLnquiry'
 import MyOrder from './components/MyOrder'
+// eslint-disable-next-line no-unused-vars
+var _that
 export default {
   name: 'AddPayment',
   components: {

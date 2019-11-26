@@ -1,5 +1,5 @@
 <template>
-  <el-dialog :visible.sync="editVisible" :editcontrol="editcontrol" :editdata="editdata" :close-on-press-escape="false" class="edit" width="1010px" top="-10px" title="修改物料清单" @close="$emit('update:editcontrol', false)">
+  <el-dialog :visible.sync="editVisible" :editcontrol="editcontrol" :editdata="editdata" :close-on-press-escape="false" :title="$t('updates.xgwlqd')" class="edit" width="1010px" top="-10px" @close="$emit('update:editcontrol', false)">
     <!--基本信息-->
     <el-card class="box-card">
       <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: 63px;">{{ $t('Hmodule.basicinfo') }}</h2>
@@ -46,7 +46,7 @@
     </el-card>
     <!--父件信息-->
     <el-card class="box-card" style="margin-top: 15px">
-      <h2 ref="geren" class="form-name">父件信息</h2>
+      <h2 ref="geren" class="form-name">{{ $t('updates.fjxx') }}</h2>
       <div class="container">
         <el-form ref="personalForm2" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="100px" style="margin-left: 30px;">
           <el-row>
@@ -72,7 +72,7 @@
     </el-card>
     <!--物料单明细-->
     <el-card class="box-card" style="margin-top: 15px">
-      <h2 ref="fuzhu" class="form-name">子件信息</h2>
+      <h2 ref="fuzhu" class="form-name">{{ $t('updates.zjxx') }}</h2>
       <div class="buttons" style="margin-top: 30px;margin-bottom: 20px">
         <el-button type="success" style="background:#3696fd;border-color:#3696fd " @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>
         <el-button type="danger" @click="$refs.editable.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
@@ -91,15 +91,15 @@
           style="width: 100%">
           <el-editable-column type="selection" fixed="left" min-width="55" align="center"/>
           <el-editable-column :label="$t('Hmodule.xh')" fixed="left" min-width="55" align="center" type="index"/>
-          <el-editable-column prop="productCode" fixed="left" align="center" label="子件" min-width="150px"/>
-          <el-editable-column prop="productName" fixed="left" align="center" label="子件名称" min-width="150px"/>
+          <el-editable-column :label="$t('updates.zj')" prop="productCode" fixed="left" align="center" min-width="150px"/>
+          <el-editable-column :label="$t('updates.zjmc')" prop="productName" fixed="left" align="center" min-width="150px"/>
           <el-editable-column :label="$t('Hmodule.gg')" prop="productType" align="center" min-width="150px"/>
-          <el-editable-column prop="color" align="center" label="颜色" min-width="150px"/>
-          <el-editable-column prop="productCategory" align="center" label="子件类型" min-width="150px"/>
+          <el-editable-column :label="$t('updates.ys')" prop="color" align="center" min-width="150px"/>
+          <el-editable-column :label="$t('updates.zjlx')" prop="productCategory" align="center" min-width="150px"/>
           <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" min-width="150px"/>
-          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="quantity" align="center" label="定额" min-width="150px"/>
-          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="lossRate" align="center" label="损耗率" min-width="150px"/>
-          <el-editable-column :edit-render="{name: 'ElSelect', options: isKeyList, type: 'visible'}" prop="isKey" align="center" label="是否关键件" min-width="150px"/>
+          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" :label="$t('updates.de')" prop="quantity" align="center" min-width="150px"/>
+          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" :label="$t('updates.shl')" prop="lossRate" align="center" min-width="150px"/>
+          <el-editable-column :edit-render="{name: 'ElSelect', options: isKeyList, type: 'visible'}" :label="$t('updates.sfgjj')" prop="isKey" align="center" min-width="150px"/>
         </el-editable>
       </div>
     </el-card>
@@ -114,6 +114,7 @@
 import { updatematerials } from '@/api/MaterialsList'
 import MyDetail from './MyDetail2'
 import MyMater from './MyMater'
+var _that
 export default {
   components: { MyDetail, MyMater },
   props: {

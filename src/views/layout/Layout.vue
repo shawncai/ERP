@@ -14,6 +14,8 @@
 import { Navbar, Sidebar, AppMain, TagsView } from './components'
 import ResizeMixin from './mixin/ResizeHandler'
 
+// eslint-disable-next-line no-unused-vars
+var _that
 export default {
   name: 'Layout',
   components: {

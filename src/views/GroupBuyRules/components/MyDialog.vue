@@ -1,5 +1,5 @@
 <template>
-  <el-dialog :visible.sync="editVisible" :editcontrol="editcontrol" :editdata="editdata" :close-on-press-escape="false" :title="personalForm.chatNumber +'    修改'" width="1010px" class="edit" top="-10px" @close="$emit('update:editcontrol', false)">
+  <el-dialog :visible.sync="editVisible" :editcontrol="editcontrol" :editdata="editdata" :close-on-press-escape="false" :title="personalForm.chatNumber +$t('updates.xg')" width="1010px" class="edit" top="-10px" @close="$emit('update:editcontrol', false)">
     <!--基本信息-->
     <el-card class="box-card" style="margin-top: 63px" shadow="never">
       <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('Hmodule.basicinfo') }}</h2>
@@ -32,7 +32,7 @@
             <el-col :span="12">
               <el-form-item :label="$t('CustomerMarketing.chatMode')" style="width: 100%;">
                 <el-select v-model="personalForm.chatMode" style="margin-left: 18px;width: 200px">
-                  <el-option value="1" label="电话"/>
+                  <el-option :label="$t('updates.dh')" value="1"/>
                   <el-option value="2" label="邮件"/>
                   <el-option value="3" label="远程视频"/>
                   <el-option value="4" label="会面拜访"/>
@@ -84,6 +84,7 @@ import MyDetail from './MyDetail'
 import MyMater from './MyMater'
 import MyInstallment from './MyInstallment'
 import MyRepository from './MyRepository'
+var _that
 export default {
   components: { MyRepository, MyInstallment, MyMater, MyDetail, MyEmp },
   props: {

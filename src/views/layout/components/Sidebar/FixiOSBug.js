@@ -1,8 +1,12 @@
+var _that
 export default {
   computed: {
     device() {
       return this.$store.state.app.device
     }
+  },
+  beforeCreate() {
+    _that = this
   },
   mounted() {
     // In order to fix the click on menu on the ios device will trigger the mouseeleave bug

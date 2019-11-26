@@ -1,5 +1,5 @@
 <template>
-  <el-dialog :visible.sync="editVisible" :detailcontrol="detailcontrol" :detaildata="detaildata" :close-on-press-escape="false" :title="personalForm.number +'    详情'" append-to-body width="1010px" class="edit" top="-10px" @close="$emit('update:detailcontrol', false)">
+  <el-dialog :visible.sync="editVisible" :detailcontrol="detailcontrol" :detaildata="detaildata" :close-on-press-escape="false" :title="personalForm.number +$t('updates.xqing')" append-to-body width="1010px" class="edit" top="-10px" @close="$emit('update:detailcontrol', false)">
     <div id="printTest" >
       <!--基本信息-->
       <el-card class="box-card" style="margin-top: 63px" shadow="never">
@@ -68,7 +68,7 @@
         </div>
       </el-card>
       <el-card class="box-card" style="margin-top: 15px" shadow="never">
-        <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">费用信息</h2>
+        <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('updates.fyxx') }}</h2>
         <div class="container">
           <el-form :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="110px" style="margin-left: 30px;">
             <el-row>
@@ -83,7 +83,7 @@
       </el-card>
       <!--子件信息-->
       <el-card class="box-card" style="margin-top: 15px" shadow="never">
-        <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">外包单明细</h2>
+        <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('updates.wbdmx') }}</h2>
         <div class="container">
           <el-editable
             ref="editable"
@@ -100,8 +100,8 @@
             <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" fixed="left" align="center" />
             <el-editable-column :label="$t('Hmodule.gg')" prop="productType" align="center" />
             <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" />
-            <el-editable-column prop="quantity" align="center" label="数量" />
-            <el-editable-column prop="money" align="center" label="加工费" />
+            <el-editable-column :label="$t('updates.shuli')" prop="quantity" align="center" />
+            <el-editable-column :label="$t('updates.jgf')" prop="money" align="center" />
             <el-editable-column :label="$t('Hmodule.je')" prop="totalMoney" align="center" >
               <template slot-scope="scope">
                 <p>{{ gettotalMoney(scope.row.quantity, scope.row.money, scope.row) }}</p>
@@ -112,31 +112,31 @@
       </el-card>
       <!--审核状态-->
       <el-card class="box-card" style="margin-top: 15px" shadow="never">
-        <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">审批记录</h2>
+        <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('updates.spjl') }}</h2>
         <div class="container" style="margin-top: 37px">
           <el-table
             :data="reviewList"
             border
             style="width: 100%">
             <el-table-column
+              :label="$t('updates.dqbz')"
               prop="step"
               align="center"
-              label="当前步骤"
               min-width="150"/>
             <el-table-column
+              :label="$t('updates.dqspr')"
               prop="stepHandlerName"
               align="center"
-              label="当前审批人"
               min-width="150"/>
             <el-table-column
+              :label="$t('updates.spsj')"
               prop="handleTime"
               align="center"
-              label="审批时间"
               min-width="150"/>
             <el-table-column
+              :label="$t('updates.spyj')"
               prop="stat"
               align="center"
-              label="审批意见"
               min-width="150">
               <template slot-scope="scope">
                 <span>{{ scope.row.stat | statfilter }}</span>
@@ -151,6 +151,7 @@
 
 <script>
 import printJS from 'print-js'
+var _that
 export default {
   filters: {
     statfilter(status) {

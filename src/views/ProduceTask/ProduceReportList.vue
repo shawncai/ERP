@@ -4,21 +4,21 @@
       <el-row>
         <el-form ref="getemplist" :model="getemplist" label-width="100px" style="margin-top: -9px">
           <el-col :span="5">
-            <el-form-item label="汇报单主题" label-width="100px">
+            <el-form-item :label="$t('updates.hbdzt')" label-width="100px">
               <el-input v-model="getemplist.title" :placeholder="$t('ProduceTask.title')" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
           <el-col :span="5" style="margin-left: 10px">
-            <el-form-item label="汇报单编号">
+            <el-form-item :label="$t('updates.hbdbh')">
               <el-input v-model="getemplist.reportNumber" placeholder="汇报单编号" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
           <el-col :span="5" style="margin-left: 10px">
-            <el-form-item label="单据状态">
-              <el-select v-model="getemplist.receiptStat" :value="getemplist.receiptStat" placeholder="单据状态" clearable >
-                <el-option value="1" label="制单"/>
-                <el-option value="2" label="执行"/>
-                <el-option value="3" label="结单"/>
+            <el-form-item :label="$t('updates.djzt')">
+              <el-select v-model="getemplist.receiptStat" :value="getemplist.receiptStat" :placeholder="$t('updates.djzt')" clearable >
+                <el-option :label="$t('updates.zd')" value="1"/>
+                <el-option :label="$t('updates.zx')" value="2"/>
+                <el-option :label="$t('updates.jd')" value="3"/>
               </el-select>
             </el-form-item>
           </el-col>
@@ -113,12 +113,12 @@
         </el-table-column>
         <el-table-column :label="$t('public.actions')" :resizable="false" align="center" min-width="230">
           <template slot-scope="scope">
-            <el-button v-permission2="['171-180-183-3', scope.row.createPersonId]" v-show="scope.row.judgeStat === 0" title="修改" type="primary" size="mini" icon="el-icon-edit" circle @click="handleEdit(scope.row)"/>
-            <el-button v-show="isReview(scope.row)" title="审批" type="warning" size="mini" icon="el-icon-view" circle @click="handleReview(scope.row)"/>
-            <el-button v-permission="['171-180-183-76']" v-show="isReview4(scope.row)" title="反审批" type="warning" size="mini" circle @click="handleReview4(scope.row)"><svg-icon icon-class="fanhui"/></el-button>
-            <el-button v-permission="['171-180-183-16']" v-show="isReview2(scope.row)" title="结单" type="success" size="mini" icon="el-icon-check" circle @click="handleReview2(scope.row)"/>
-            <el-button v-permission="['171-180-183-17']" v-show="isReview3(scope.row)" title="反结单" type="success" size="mini" icon="el-icon-back" circle @click="handleReview3(scope.row)"/>
-            <el-button v-permission2="['171-180-183-2', scope.row.createPersonId]" v-show="scope.row.judgeStat === 0" title="删除" size="mini" type="danger" icon="el-icon-delete" circle @click="handleDelete(scope.row)"/>
+            <el-button v-permission2="['171-180-183-3', scope.row.createPersonId]" v-show="scope.row.judgeStat === 0" :title="$t('updates.xg')" type="primary" size="mini" icon="el-icon-edit" circle @click="handleEdit(scope.row)"/>
+            <el-button v-show="isReview(scope.row)" :title="$t('updates.spi')" type="warning" size="mini" icon="el-icon-view" circle @click="handleReview(scope.row)"/>
+            <el-button v-permission="['171-180-183-76']" v-show="isReview4(scope.row)" :title="$t('updates.fsp')" type="warning" size="mini" circle @click="handleReview4(scope.row)"><svg-icon icon-class="fanhui"/></el-button>
+            <el-button v-permission="['171-180-183-16']" v-show="isReview2(scope.row)" :title="$t('updates.jd')" type="success" size="mini" icon="el-icon-check" circle @click="handleReview2(scope.row)"/>
+            <el-button v-permission="['171-180-183-17']" v-show="isReview3(scope.row)" :title="$t('updates.fjd')" type="success" size="mini" icon="el-icon-back" circle @click="handleReview3(scope.row)"/>
+            <el-button v-permission2="['171-180-183-2', scope.row.createPersonId]" v-show="scope.row.judgeStat === 0" :title="$t('updates.sc')" size="mini" type="danger" icon="el-icon-delete" circle @click="handleDelete(scope.row)"/>
           </template>
         </el-table-column>
       </el-table>
@@ -143,6 +143,7 @@ import MyDialog2 from './components/MyDialog2'
 import DetailList2 from './components/DetailList2'
 import ProducePlan from './components/ProducePlan'
 
+var _that
 export default {
   name: 'ProduceReportList',
   directives: { waves, permission, permission2 },
@@ -150,18 +151,18 @@ export default {
   filters: {
     judgeStatFilter(status) {
       const statusMap = {
-        0: '未审核',
-        1: '审核中',
-        2: '审核通过',
-        3: '审核不通过'
+        0: _that.$t('updates.wsh'),
+        1: _that.$t('updates.shz'),
+        2: _that.$t('Hmodule.shtg'),
+        3: _that.$t('updates.shbtg')
       }
       return statusMap[status]
     },
     receiptStatFilter(status) {
       const statusMap = {
-        1: '制单',
-        2: '执行',
-        3: '结单'
+        1: _that.$t('updates.zd'),
+        2: _that.$t('updates.zx'),
+        3: _that.$t('updates.jd')
       }
       return statusMap[status]
     }
@@ -216,6 +217,9 @@ export default {
       // 开始时间到结束时间
       date: []
     }
+  },
+  beforeCreate() {
+    _that = this
   },
   mounted() {
     this.getlist()

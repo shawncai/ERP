@@ -12,6 +12,7 @@
 </template>
 
 <script>
+var _that
 export default {
   name: 'BackToTop',
   props: {
@@ -48,6 +49,9 @@ export default {
       interval: null,
       isMoving: false
     }
+  },
+  beforeCreate() {
+    _that = this
   },
   mounted() {
     window.addEventListener('scroll', this.handleScroll)

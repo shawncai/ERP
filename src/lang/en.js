@@ -1,3 +1,4 @@
+var _that
 export default {
   route: {
     dashboard: 'Dashboard',

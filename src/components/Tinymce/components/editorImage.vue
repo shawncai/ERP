@@ -24,6 +24,7 @@
 <script>
 // import { getToken } from 'api/qiniu'
 
+var _that
 export default {
   name: 'EditorSlideUpload',
   props: {

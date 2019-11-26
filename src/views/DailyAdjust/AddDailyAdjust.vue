@@ -62,11 +62,11 @@
       </el-card>
       <!--日常调整单明细-->
       <el-card class="box-card" style="margin-top: 15px">
-        <h2 ref="fuzhu" class="form-name">日常调整单明细</h2>
+        <h2 ref="fuzhu" class="form-name">{{ $t('updates.rctzdmx') }}</h2>
         <div class="buttons" style="margin-top: 58px">
           <el-button type="success" style="background:#3696fd;border-color:#3696fd " @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>
           <el-button type="danger" @click="$refs.editable.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
-          <el-button type="primary" @click="checkStock()">库存快照</el-button>
+          <el-button type="primary" @click="checkStock()">{{ $t('updates.kckz') }}</el-button>
         </div>
         <my-detail :control.sync="control" :editdata.sync="personalForm" @product="productdetail"/>
         <div class="container">
@@ -109,11 +109,11 @@
             </el-editable-column>
             <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" align="center" width="150px"/>
             <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" align="center" width="150px"/>
-            <el-editable-column prop="color" align="center" label="颜色" width="150px"/>
+            <el-editable-column :label="$t('updates.ys')" prop="color" align="center" width="150px"/>
             <el-editable-column :label="$t('Hmodule.gg')" prop="typeIdname" align="center" width="150px"/>
             <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" width="150px"/>Q
-            <el-editable-column prop="quantity" align="center" label="数量" width="150px"/>
-            <el-editable-column :edit-render="{type: 'default'}" prop="adjustType" align="center" label="调整类型" width="200px">
+            <el-editable-column :label="$t('updates.shuli')" prop="quantity" align="center" width="150px"/>
+            <el-editable-column :edit-render="{type: 'default'}" :label="$t('updates.tzlx')" prop="adjustType" align="center" width="200px">
               <template slot-scope="scope">
                 <el-select v-model="scope.row.adjustType" :value="scope.row.adjustType" filterable style="width: 100%;">
                   <el-option value="1" label="调增"/>
@@ -121,19 +121,19 @@
                 </el-select>
               </template>
             </el-editable-column>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', type: 'visible'}" prop="adjustQuantity" align="center" label="调整数量" width="150px"/>
-            <el-editable-column prop="price" align="center" label="成本单价" width="150px"/>
-            <el-editable-column prop="adjustMoney" align="center" label="调整金额" width="150px">
+            <el-editable-column :edit-render="{name: 'ElInputNumber', type: 'visible'}" :label="$t('updates.tzsl')" prop="adjustQuantity" align="center" width="150px"/>
+            <el-editable-column :label="$t('updates.cbdj')" prop="price" align="center" width="150px"/>
+            <el-editable-column :label="$t('updates.tzje')" prop="adjustMoney" align="center" width="150px">
               <template slot-scope="scope">
                 <p>{{ getSize(scope.row) }}</p>
               </template>
             </el-editable-column>
-            <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="remarks" align="center" label="备注" width="150px"/>
+            <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.bz')" prop="remarks" align="center" width="150px"/>
           </el-editable>
         </div>
       </el-card>
       <el-card class="box-card" shadow="never" style="margin-top: 10px">
-        <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">合计信息</h2>
+        <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('updates.hjxx') }}</h2>
         <div class="container" style="margin-top: 37px">
           <el-form ref="personalForm2" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
             <el-row>
@@ -169,7 +169,7 @@
                     <span >{{ scope.row.repositoryName }}</span>
                   </template>
                 </el-table-column>
-                <el-table-column :resizable="false" label="商品名称" align="center" min-width="150">
+                <el-table-column :resizable="false" :label="$t('updates.spmc')" align="center" min-width="150">
                   <template slot-scope="scope">
                     <span >{{ scope.row.productName }}</span>
                   </template>
@@ -198,6 +198,7 @@ import MyRepository from './components/MyRepository'
 import MyAccept from './components/MyAccept'
 import MyDetail from './components/MyDetail'
 import MyCreate from './components/MyCreate'
+var _that
 export default {
   name: 'AddDailyAdjust',
   components: { MyRepository, MyDetail, MyCreate, MyAccept },
@@ -274,6 +275,9 @@ export default {
       // 批量操作
       moreaction: []
     }
+  },
+  beforeCreate() {
+    _that = this
   },
   mounted() {
     this.getlist()

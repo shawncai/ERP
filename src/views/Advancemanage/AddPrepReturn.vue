@@ -104,9 +104,9 @@
       </el-card>
       <!--子件信息-->
       <el-card class="box-card" style="margin-top: 15px" shadow="never">
-        <h2 ref="fuzhu" class="form-name" >订单明细</h2>
+        <h2 ref="fuzhu" class="form-name" >{{ $t('updates.ddmx') }}</h2>
         <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
-          <!-- <el-button @click="handleAddproduct">添加预售商品</el-button> -->
+          <!-- <el-button @click="handleAddproduct">{{ $t('updates.tjyssp') }}</el-button> -->
           <my-advance :advancecontrol.sync="advancecontrol" @advance="advance"/>
           <el-button type="danger" @click="$refs.editable.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
         </div>
@@ -123,28 +123,28 @@
             style="width: 100%">
             <el-editable-column type="selection" min-width="55" align="center"/>
             <el-editable-column :label="$t('Hmodule.xh')" min-width="55" align="center" type="index"/>
-            <el-editable-column prop="productCategory" align="center" label="商品分类" min-width="150px"/>
-            <el-editable-column prop="productCode" align="center" label="商品编号" min-width="150px"/>
-            <el-editable-column prop="productName" align="center" label="商品名称" min-width="150px"/>
-            <el-editable-column prop="unit" align="center" label="基本单位" min-width="150px"/>
+            <el-editable-column :label="$t('updates.spfl')" prop="productCategory" align="center" min-width="150px"/>
+            <el-editable-column :label="$t('updates.spbh')" prop="productCode" align="center" min-width="150px"/>
+            <el-editable-column :label="$t('updates.spmc')" prop="productName" align="center" min-width="150px"/>
+            <el-editable-column :label="$t('updates.jbdw')" prop="unit" align="center" min-width="150px"/>
             <el-editable-column :label="$t('Hmodule.gg')" prop="productType" align="center" min-width="150px"/>
-            <el-editable-column prop="unit" align="center" label="规格型号" min-width="150px"/>
-            <el-editable-column prop="color" align="center" label="颜色" min-width="150px"/>
-            <el-editable-column prop="kpiGrade" align="center" label="绩效分" min-width="150px"/>
-            <el-editable-column prop="point" align="center" label="商品积分" min-width="150px"/>
-            <el-editable-column prop="quantity" align="center" label="数量" min-width="170px"/>
-            <el-editable-column prop="salePrice" align="center" label="零售价" min-width="170px"/>
-            <el-editable-column prop="costPrice" align="center" label="成本价" min-width="170px"/>
-            <el-editable-column prop="includeTaxMoney" align="center" label="含税金额" min-width="170px"/>
-            <el-editable-column prop="taxRate" align="center" label="税率" min-width="170px"/>
-            <el-editable-column prop="taxMoney" align="center" label="税额" min-width="170px"/>
+            <el-editable-column :label="$t('updates.ggxh')" prop="unit" align="center" min-width="150px"/>
+            <el-editable-column :label="$t('updates.ys')" prop="color" align="center" min-width="150px"/>
+            <el-editable-column :label="$t('updates.jxf')" prop="kpiGrade" align="center" min-width="150px"/>
+            <el-editable-column :label="$t('updates.spjf')" prop="point" align="center" min-width="150px"/>
+            <el-editable-column :label="$t('updates.shuli')" prop="quantity" align="center" min-width="170px"/>
+            <el-editable-column :label="$t('updates.lsj')" prop="salePrice" align="center" min-width="170px"/>
+            <el-editable-column :label="$t('updates.cbj')" prop="costPrice" align="center" min-width="170px"/>
+            <el-editable-column :label="$t('updates.hsje')" prop="includeTaxMoney" align="center" min-width="170px"/>
+            <el-editable-column :label="$t('updates.slv')" prop="taxRate" align="center" min-width="170px"/>
+            <el-editable-column :label="$t('updates.se')" prop="taxMoney" align="center" min-width="170px"/>
             <el-editable-column :label="$t('Hmodule.je')" prop="money" align="center" min-width="170px"/>
-            <el-editable-column prop="includeTaxCostMoney" align="center" label="含税成本金额" min-width="170px"/>
-            <el-editable-column prop="carCode" align="center" label="车架编码" min-width="170px"/>
-            <el-editable-column prop="batteryCode" align="center" label="电池编码" min-width="170px"/>
-            <el-editable-column prop="motorCode" align="center" label="电机编码" min-width="170px"/>
-            <el-editable-column prop="discount" align="center" label="折扣（%）" min-width="170px"/>
-            <el-editable-column prop="discountMoney" align="center" label="折扣额" min-width="170px"/>
+            <el-editable-column :label="$t('updates.hscbje')" prop="includeTaxCostMoney" align="center" min-width="170px"/>
+            <el-editable-column :label="$t('updates.cjbm')" prop="carCode" align="center" min-width="170px"/>
+            <el-editable-column :label="$t('updates.dcbm')" prop="batteryCode" align="center" min-width="170px"/>
+            <el-editable-column :label="$t('updates.djbm')" prop="motorCode" align="center" min-width="170px"/>
+            <el-editable-column :label="$t('updates.zko')" prop="discount" align="center" min-width="170px"/>
+            <el-editable-column :label="$t('updates.cke')" prop="discountMoney" align="center" min-width="170px"/>
           </el-editable>
         </div>
       </el-card>
@@ -171,6 +171,7 @@ import MyDelivery from './components/MyDelivery'
 import MyAdvance from './components/MyAdvance'
 import MyCustomer from '../SaleOpportunity/components/MyCustomer'
 import MyPresale from './components/MyPresale'
+var _that
 export default {
   name: 'AddPrepReturn',
   components: { MyPresale, MyCustomer, MyAdvance, MyDelivery, MyPlan, MyApply, MySupplier, MyDetail, MyEmp },
@@ -301,6 +302,9 @@ export default {
     this.getTypes()
     this.getways()
     this.jungleshow()
+  },
+  beforeCreate() {
+    _that = this
   },
   mounted() {
     this.getinformation()

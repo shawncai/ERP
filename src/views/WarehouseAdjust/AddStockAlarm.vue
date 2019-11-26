@@ -55,6 +55,8 @@ import MyAccept from './components/MyAccept'
 import MyDetail from './components/MyDetail'
 import MyCreate from './components/MyCreate'
 import MyProduct from './components/MyProduct'
+// eslint-disable-next-line no-unused-vars
+var _that
 export default {
   name: 'AddStockAlarm',
   components: { MyProduct, MyRepository, MyDetail, MyCreate, MyAccept },

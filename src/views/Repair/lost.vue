@@ -83,6 +83,7 @@ const calendarTypeOptions = [
   { key: 2, display_name: 'Relieve' }
 ]
 
+var _that
 export default {
   name: 'Lost',
   components: { Pagination },

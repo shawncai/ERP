@@ -17,6 +17,7 @@
 
 <script>
 import { mapState } from 'vuex'
+var _that
 export default {
   computed: {
     ...mapState(['user'])

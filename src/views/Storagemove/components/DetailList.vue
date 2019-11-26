@@ -1,5 +1,5 @@
 <template>
-  <el-dialog :visible.sync="editVisible" :detailcontrol="detailcontrol" :detaildata="detaildata" :close-on-press-escape="false" :title="personalForm.id +'    采购订单详情信息'" append-to-body width="1010px" class="edit" top="-10px" @close="$emit('update:detailcontrol', false)">
+  <el-dialog :visible.sync="editVisible" :detailcontrol="detailcontrol" :detaildata="detaildata" :close-on-press-escape="false" :title="personalForm.id +$t('updates.cgddxq')" append-to-body width="1010px" class="edit" top="-10px" @close="$emit('update:detailcontrol', false)">
     <div id="printTest" >
       <!--基本信息-->
       <el-card class="box-card" style="margin-top: 63px" shadow="never">
@@ -9,7 +9,7 @@
           <el-form ref="personalForm" :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="100px" style="margin-left: 30px;">
             <el-row>
               <el-col :span="12">
-                <el-form-item class="print2" label="调拨单编号" style="width: 100%;display: none">
+                <el-form-item :label="$t('updates.dbdbh')" class="print2" style="width: 100%;display: none">
                   {{ personalForm.moveNumber }}
                 </el-form-item>
               </el-col>
@@ -85,10 +85,10 @@
             <el-editable-column prop="batch" align="center" :label="$t('Hmodule.pc')" />
             <el-editable-column prop="productCode" align="center" :label="$t('Hmodule.wpbh')" />
             <el-editable-column prop="productName" align="center" :label="$t('Hmodule.wpmc')" />
-            <el-editable-column prop="color" align="center" label="颜色" />
+            <el-editable-column prop="color" align="center" :label="$t('updates.ys')" />
             <el-editable-column prop="typeName" align="center" :label="$t('Hmodule.gg')" />
             <el-editable-column prop="unitName" align="center" :label="$t('Hmodule.dw')" />
-            <el-editable-column prop="price" align="center" label="调拨单价" />
+            <el-editable-column prop="price" align="center" :label="$t('updates.dbdj')" />
             <el-editable-column prop="movePrice" align="center" label="调拨成本价" />
             <el-editable-column prop="moveQuantity" align="center" label="调拨数量" />
             <el-editable-column prop="totalMoney" align="center" label="调拨金额" >
@@ -96,7 +96,7 @@
                 <p>{{ getSize(scope.row.movePrice, scope.row.moveQuantity) }}</p>
               </template>
             </el-editable-column>
-            <el-editable-column prop="remarks" align="center" label="备注" />
+            <el-editable-column prop="remarks" align="center" :label="$t('updates.bz')" />
           </el-editable>
         </div>
       </el-card> -->
@@ -119,10 +119,10 @@
             <el-editable-column prop="productName" fixed="left" align="center" :label="$t('Hmodule.wpmc')" />
             <el-editable-column prop="locationCode" align="center" :label="$t('Hmodule.hw')" />
             <el-editable-column prop="batch" align="center" :label="$t('Hmodule.pc')" />
-            <el-editable-column prop="color" align="center" label="颜色" />
+            <el-editable-column prop="color" align="center" :label="$t('updates.ys')" />
             <el-editable-column prop="typeName" align="center" :label="$t('Hmodule.gg')" />
             <el-editable-column prop="unitName" align="center" :label="$t('Hmodule.dw')" />
-            <el-editable-column prop="price" align="center" label="调拨单价" />
+            <el-editable-column prop="price" align="center" :label="$t('updates.dbdj')" />
             <el-editable-column prop="movePrice" align="center" label="调拨成本价" />
             <el-editable-column prop="moveQuantity" align="center" label="调拨数量" />
             <el-editable-column prop="totalMoney" align="center" label="调拨金额" >
@@ -130,13 +130,13 @@
                 <p>{{ getSize(scope.row.movePrice, scope.row.moveQuantity) }}</p>
               </template>
             </el-editable-column>
-            <el-editable-column prop="remarks" align="center" label="备注" />
+            <el-editable-column prop="remarks" align="center" :label="$t('updates.bz')" />
           </el-editable>
         </div>
       </el-card> -->
       <!--调拨申请明细-->
       <el-card class="box-card" style="margin-top: 15px">
-        <h2 ref="fuzhu" class="form-name">调拨申请明细</h2>
+        <h2 ref="fuzhu" class="form-name">{{ $t('updates.dbsqdmx') }}</h2>
         <div class="container">
           <el-editable
             ref="editable"
@@ -168,14 +168,14 @@
             </el-editable-column> -->
             <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" align="center" width="150px"/>
             <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" align="center" width="150px"/>
-            <el-editable-column prop="color" align="center" label="颜色" width="150px"/>
+            <el-editable-column :label="$t('updates.ys')" prop="color" align="center" width="150px"/>
             <el-editable-column :label="$t('Hmodule.gg')" prop="productType" align="center" width="150px"/>
             <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" width="150px"/>
-            <el-editable-column prop="applyQuantity" align="center" label="申请数量" min-width="150"/>
-            <el-editable-column prop="movePrice" align="center" label="调拨单价" width="150px"/>
+            <el-editable-column :label="$t('updates.sqsl')" prop="applyQuantity" align="center" min-width="150"/>
+            <el-editable-column :label="$t('updates.dbdj')" prop="movePrice" align="center" width="150px"/>
             <!-- <el-editable-column :edit-render="{name: 'ElInputNumber', type: 'visible'}" prop="movePrice" align="center" label="调拨成本价" width="150px"/> -->
-            <el-editable-column prop="moveMoney" align="center" label="商品金额" width="150px"/>
-            <el-editable-column prop="remarks" align="center" label="备注" width="150px"/>
+            <el-editable-column :label="$t('updates.spje')" prop="moveMoney" align="center" width="150px"/>
+            <el-editable-column :label="$t('updates.bz')" prop="remarks" align="center" width="150px"/>
           </el-editable>
         </div>
       </el-card>
@@ -198,14 +198,14 @@
             <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" align="center" width="150px"/>
             <el-editable-column :label="$t('Hmodule.hw')" prop="locationName" align="center" min-width="150"/>
             <el-editable-column :label="$t('Hmodule.pc')" prop="batch" align="center" min-width="250"/>
-            <el-editable-column prop="color" align="center" label="颜色" width="150px"/>
+            <el-editable-column :label="$t('updates.ys')" prop="color" align="center" width="150px"/>
             <el-editable-column :label="$t('Hmodule.gg')" prop="typeName" align="center" width="150px"/>
             <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" width="150px"/>
-            <el-editable-column prop="moveQuantity" align="center" label="出库数量" min-width="150"/>
-            <el-editable-column prop="carCode" align="center" label="车架编码" min-width="150" />
-            <el-editable-column prop="motorCode" align="center" label="电机编码" min-width="150" />
-            <el-editable-column prop="batteryCode" align="center" label="电池编码" min-width="150" />
-            <el-editable-column prop="movePrice" align="center" label="调拨单价" width="150px"/>
+            <el-editable-column :label="$t('updates.cksli')" prop="moveQuantity" align="center" min-width="150"/>
+            <el-editable-column :label="$t('updates.cjbm')" prop="carCode" align="center" min-width="150" />
+            <el-editable-column :label="$t('updates.djbm')" prop="motorCode" align="center" min-width="150" />
+            <el-editable-column :label="$t('updates.dcbm')" prop="batteryCode" align="center" min-width="150" />
+            <el-editable-column :label="$t('updates.dbdj')" prop="movePrice" align="center" width="150px"/>
             <el-editable-column prop="price" align="center" label="调拨成本价" width="150px"/>
             <el-editable-column prop="totalMoney" align="center" label="调拨金额" width="150px" />
             <el-editable-column prop="stat" align="center" label="出库状态" width="150px">
@@ -235,14 +235,14 @@
             <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" align="center" width="150px"/>
             <el-editable-column :label="$t('Hmodule.hw')" prop="locationName" align="center" min-width="150"/>
             <el-editable-column :label="$t('Hmodule.pc')" prop="batch" align="center" min-width="150" />
-            <el-editable-column prop="color" align="center" label="颜色" width="150px"/>
+            <el-editable-column :label="$t('updates.ys')" prop="color" align="center" width="150px"/>
             <el-editable-column :label="$t('Hmodule.gg')" prop="typeName" align="center" width="150px"/>
             <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" width="150px"/>
-            <el-editable-column prop="moveQuantity" align="center" label="出库数量" min-width="150"/>
-            <el-editable-column prop="carCode" align="center" label="车架编码" min-width="150" />
-            <el-editable-column prop="motorCode" align="center" label="电机编码" min-width="150" />
-            <el-editable-column prop="batteryCode" align="center" label="电池编码" min-width="150" />
-            <el-editable-column prop="price" align="center" label="调拨单价" width="150px"/>
+            <el-editable-column :label="$t('updates.cksli')" prop="moveQuantity" align="center" min-width="150"/>
+            <el-editable-column :label="$t('updates.cjbm')" prop="carCode" align="center" min-width="150" />
+            <el-editable-column :label="$t('updates.djbm')" prop="motorCode" align="center" min-width="150" />
+            <el-editable-column :label="$t('updates.dcbm')" prop="batteryCode" align="center" min-width="150" />
+            <el-editable-column :label="$t('updates.dbdj')" prop="price" align="center" width="150px"/>
             <el-editable-column prop="movePrice" align="center" label="调拨成本价" width="150px"/>
             <el-editable-column prop="totalMoney" align="center" label="调拨金额" width="150px"/>
             <el-editable-column prop="stat" align="center" label="入库状态" width="150px">
@@ -256,31 +256,31 @@
       </el-card>
       <!--审核状态-->
       <el-card class="box-card" style="margin-top: 15px">
-        <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">审批记录</h2>
+        <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('updates.spjl') }}</h2>
         <div class="container" style="margin-top: 37px">
           <el-table
             :data="reviewList"
             border
             style="width: 100%">
             <el-table-column
+              :label="$t('updates.dqbz')"
               prop="step"
               align="center"
-              label="当前步骤"
               min-width="150"/>
             <el-table-column
+              :label="$t('updates.dqspr')"
               prop="stepHandlerName"
               align="center"
-              label="当前审批人"
               min-width="150"/>
             <el-table-column
+              :label="$t('updates.spsj')"
               prop="handleTime"
               align="center"
-              label="审批时间"
               min-width="150"/>
             <el-table-column
+              :label="$t('updates.spyj')"
               prop="stat"
               align="center"
-              label="审批意见"
               min-width="150">
               <template slot-scope="scope">
                 <span>{{ scope.row.stat | statfilter }}</span>
@@ -312,9 +312,9 @@
               label="配送人"
               min-width="150"/>
             <el-table-column
+              :label="$t('updates.clbh')"
               prop="arrivalDate"
               align="center"
-              label="车辆编号"
               min-width="150"/>
             <el-table-column
               :label="$t('updates.cangk')"
@@ -408,6 +408,7 @@ import MyAccept from './MyAccept'
 import MyDetail from './MyDetail'
 import MyCreate from './MyCreate'
 import MyDepot from './MyDepot'
+var _that
 export default {
   components: { MyRepository, MyCreate, MyAccept, MyDetail, MyDepot },
   filters: {
@@ -552,6 +553,9 @@ export default {
       this.deliverGoodsListdata.sourceNumber = this.personalForm.moveNumber
       this.getdeliverGoodsList()
     }
+  },
+  beforeCreate() {
+    _that = this
   },
   mounted() {
     this.getlist()

@@ -154,6 +154,8 @@ import { searchCusCategory, customerlist } from '@/api/Customer'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
 
+// eslint-disable-next-line no-unused-vars
+var _that
 export default {
   directives: { waves },
   components: { Pagination },

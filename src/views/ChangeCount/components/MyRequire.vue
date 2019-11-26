@@ -18,8 +18,8 @@
           <el-col :span="3" style="margin-left: 20px">
             <el-form-item>
               <el-select v-model="getemplist.isPlan" :value="getemplist.isPlan" class="filter-item" placeholder="是否已生成采购计划" clearable>
-                <el-option value="1" :label="$t('updates.yes')"/>
-                <el-option value="2" :label="$t('updates.no')"/>
+                <el-option :label="$t('updates.yes')" value="1"/>
+                <el-option :label="$t('updates.no')" value="2"/>
               </el-select>
             </el-form-item>
           </el-col>

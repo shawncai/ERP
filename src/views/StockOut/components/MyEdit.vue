@@ -81,7 +81,7 @@
     </el-card>
     <!--出库单明细-->
     <el-card class="box-card" style="margin-top: 15px">
-      <h2 ref="fuzhu" class="form-name">出库单明细</h2>
+      <h2 ref="fuzhu" class="form-name">{{ $t('updates.ckdmx') }}</h2>
       <div class="buttons" style="margin-top: 58px">
         <el-button type="success" style="background:#3696fd;border-color:#3696fd " @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>
         <el-button type="danger" @click="$refs.editable.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
@@ -119,11 +119,11 @@
           </el-editable-column>
           <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" align="center" width="150px"/>
           <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" align="center" width="150px"/>
-          <el-editable-column prop="color" align="center" label="颜色" width="150px"/>
+          <el-editable-column :label="$t('updates.ys')" prop="color" align="center" width="150px"/>
           <el-editable-column :label="$t('Hmodule.gg')" prop="typeIdname" align="center" width="150px"/>
           <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" width="150px"/>
-          <el-editable-column prop="basicQuantity" align="center" label="基本数量" width="150px"/>
-          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 1.00, precision: 2}, type: 'visible'}" prop="outQuantity" align="center" label="出库数量" min-width="150">
+          <el-editable-column :label="$t('updates.jbel')" prop="basicQuantity" align="center" width="150px"/>
+          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 1.00, precision: 2}, type: 'visible'}" :label="$t('updates.cksli')" prop="outQuantity" align="center" min-width="150">
             <template slot="edit" slot-scope="scope">
               <el-input-number
                 :precision="2"
@@ -134,18 +134,18 @@
               />
             </template>
           </el-editable-column>          <el-editable-column :label="$t('Hmodule.dj')" prop="outPrice" align="center" width="150px"/>
-          <el-editable-column prop="totalMoney" align="center" label="出库金额" width="150px">
+          <el-editable-column :label="$t('updates.ckje')" prop="totalMoney" align="center" width="150px">
             <template slot-scope="scope">
               <p>{{ getSize(scope.row.outQuantity, scope.row.outPrice) }}</p>
             </template>
           </el-editable-column>
-          <el-editable-column :edit-render="{name: 'ElInput' ,type: 'visible'}" prop="remarks" align="center" label="备注" width="150px"/>
+          <el-editable-column :edit-render="{name: 'ElInput' ,type: 'visible'}" :label="$t('updates.bz')" prop="remarks" align="center" width="150px"/>
         </el-editable>
       </div>
     </el-card>
     <!-- 合计信息 -->
     <el-card class="box-card">
-      <h2 ref="geren" class="form-name">合计信息</h2>
+      <h2 ref="geren" class="form-name">{{ $t('updates.hjxx') }}</h2>
       <div class="container">
         <el-form ref="personalForm" :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="100px" style="margin-left: 30px;">
           <el-row>
@@ -180,6 +180,7 @@ import MyRepository from './MyRepository'
 import MyAccept from './MyAccept'
 import MyDetail from './MyDetail'
 import MyCreate from './MyCreate'
+var _that
 export default {
   components: { MyRepository, MyCreate, MyAccept, MyDetail },
   props: {
@@ -284,6 +285,9 @@ export default {
       },
       deep: true
     }
+  },
+  beforeCreate() {
+    _that = this
   },
   mounted() {
     this.getlist()

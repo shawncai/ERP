@@ -1,5 +1,5 @@
 <template>
-  <el-dialog :visible.sync="editVisible" :detailcontrol="detailcontrol" :detaildata="detaildata" :close-on-press-escape="false" :title="personalForm.reportNumber +'    详情'" append-to-body width="1010px" class="edit" top="-10px" @close="$emit('update:detailcontrol', false)">
+  <el-dialog :visible.sync="editVisible" :detailcontrol="detailcontrol" :detaildata="detaildata" :close-on-press-escape="false" :title="personalForm.reportNumber +$t('updates.xqing')" append-to-body width="1010px" class="edit" top="-10px" @close="$emit('update:detailcontrol', false)">
     <!--基本信息-->
     <el-card class="box-card" style="margin-top: 63px" shadow="never">
       <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('Hmodule.basicinfo') }}</h2>
@@ -76,7 +76,7 @@
       </div>
     </el-card>
     <el-card class="box-card" shadow="never" style="margin-top: 10px">
-      <h2 ref="geren" class="form-name">物品信息</h2>
+      <h2 ref="geren" class="form-name">{{ $t('updates.wpxx') }}</h2>
       <div class="container" style="margin-top: 37px">
         <el-form ref="personalForm2" :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
           <el-row>
@@ -105,7 +105,7 @@
       </div>
     </el-card>
     <el-card class="box-card" shadow="never" style="margin-top: 10px">
-      <h2 ref="geren" class="form-name">检验信息</h2>
+      <h2 ref="geren" class="form-name">{{ $t('updates.jyxx') }}</h2>
       <div class="container" style="margin-top: 37px">
         <el-form ref="personalForm3" :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
           <el-row>
@@ -153,7 +153,7 @@
     </el-card>
     <!--子件信息-->
     <el-card class="box-card" style="margin-top: 15px" shadow="never">
-      <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">质检报告单明细</h2>
+      <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('updates.zjbgmx') }}</h2>
       <div class="container">
         <el-editable
           ref="editable"
@@ -165,17 +165,17 @@
           size="medium"
           style="width: 100%">
           <el-editable-column :label="$t('Hmodule.xh')" min-width="55" align="center" type="index"/>
-          <el-editable-column prop="checkItem" align="center" label="检验项目" min-width="150px"/>
+          <el-editable-column :label="$t('updates.jyxm')" prop="checkItem" align="center" min-width="150px"/>
           <el-editable-column prop="checkTarget" align="center" label="检验指标" min-width="150px"/>
           <el-editable-column prop="checkValue" align="center" label="检验值" min-width="150px"/>
-          <el-editable-column prop="chectResult" align="center" label="检验结果" min-width="150px">
+          <el-editable-column :label="$t('updates.jyjg')" prop="chectResult" align="center" min-width="150px">
             <template slot-scope="scope">
               <p>{{ scope.row.chectResult | chectResultFilter }}</p>
             </template>
           </el-editable-column>
           <el-editable-column prop="checkQuantity" align="center" label="检验数量" min-width="150px"/>
-          <el-editable-column prop="passQuantity" align="center" label="合格数量" min-width="150px"/>
-          <el-editable-column prop="failedQuantity" align="center" label="不合格数量" min-width="150px"/>
+          <el-editable-column :label="$t('updates.hgsl')" prop="passQuantity" align="center" min-width="150px"/>
+          <el-editable-column :label="$t('updates.bhgsl')" prop="failedQuantity" align="center" min-width="150px"/>
           <el-editable-column prop="checkPersonname" align="center" label="检验人员" min-width="150px"/>
           <el-editable-column prop="checkDeptName" align="center" label="检验部门" min-width="150px"/>
           <el-editable-column prop="targetUp" align="center" label="指标上限" min-width="150px"/>
@@ -185,31 +185,31 @@
     </el-card>
     <!--审核状态-->
     <el-card class="box-card" style="margin-top: 15px" shadow="never">
-      <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">审批记录</h2>
+      <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('updates.spjl') }}</h2>
       <div class="container" style="margin-top: 37px">
         <el-table
           :data="reviewList"
           border
           style="width: 100%">
           <el-table-column
+            :label="$t('updates.dqbz')"
             prop="step"
             align="center"
-            label="当前步骤"
             min-width="150"/>
           <el-table-column
+            :label="$t('updates.dqspr')"
             prop="stepHandlerName"
             align="center"
-            label="当前审批人"
             min-width="150"/>
           <el-table-column
+            :label="$t('updates.spsj')"
             prop="handleTime"
             align="center"
-            label="审批时间"
             min-width="150"/>
           <el-table-column
+            :label="$t('updates.spyj')"
             prop="stat"
             align="center"
-            label="审批意见"
             min-width="150">
             <template slot-scope="scope">
               <span>{{ scope.row.stat | statfilter }}</span>
@@ -261,6 +261,7 @@
 </template>
 
 <script>
+var _that
 export default {
   filters: {
     chectResultFilter(status) {
@@ -286,7 +287,7 @@ export default {
     },
     sourceTypeFilter(status) {
       const statusMap = {
-        1: '质检申请单'
+        1: _that.$t('updates.zjsqd')
       }
       return statusMap[status]
     },
@@ -299,9 +300,9 @@ export default {
     },
     receiptStatFilter(status) {
       const statusMap = {
-        1: '制单',
-        2: '执行',
-        3: '结单'
+        1: _that.$t('updates.zd'),
+        2: _that.$t('updates.zx'),
+        3: _that.$t('updates.jd')
       }
       return statusMap[status]
     },

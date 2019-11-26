@@ -33,6 +33,7 @@
 <script>
 import { getToken } from '@/api/qiniu'
 
+var _that
 export default {
   name: 'SingleImageUpload3',
   props: {

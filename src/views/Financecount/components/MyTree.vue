@@ -22,6 +22,7 @@
 
 <script>
 import { detaillist } from '@/api/Product'
+var _that
 export default {
   props: {
     treecontrol: {

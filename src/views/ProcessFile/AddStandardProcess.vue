@@ -94,9 +94,9 @@
       </el-card>
       <!--工序明细-->
       <el-card class="box-card" style="margin-top: 15px">
-        <h2 ref="fuzhu" class="form-name">工序明细</h2>
+        <h2 ref="fuzhu" class="form-name">{{ $t('updates.gxmx') }}</h2>
         <div class="buttons" style="margin-top: 58px">
-          <el-button type="success" style="background:#3696fd;border-color:#3696fd;width: 98px " @click="handleAddproduct">添加</el-button>
+          <el-button type="success" style="background:#3696fd;border-color:#3696fd;width: 98px " @click="handleAddproduct">{{ $t('updates.tj') }}</el-button>
           <el-button type="danger" @click="$refs.editable.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
         </div>
         <my-detail :control.sync="control" @produt="productdetail"/>
@@ -113,7 +113,7 @@
             style="width: 100%">
             <el-editable-column type="selection" min-width="55" align="center"/>
             <el-editable-column :label="$t('Hmodule.xh')" min-width="55" align="center" type="index"/>
-            <el-editable-column prop="processFileName" align="center" label="工艺名称" min-width="150px"/>
+            <el-editable-column :label="$t('updates.gymc')" prop="processFileName" align="center" min-width="150px"/>
           </el-editable>
         </div>
       </el-card>
@@ -131,6 +131,7 @@ import '@/directive/noMoreClick/index.js'
 import { createstandardProcess } from '@/api/ProcessFile'
 import MyCenter from './components/MyCenter'
 import MyDetail from './components/MyDetail'
+var _that
 export default {
   name: 'AddStandardProcess',
   components: { MyDetail, MyCenter },

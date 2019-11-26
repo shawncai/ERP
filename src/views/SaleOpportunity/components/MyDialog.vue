@@ -1,5 +1,5 @@
 <template>
-  <el-dialog :visible.sync="editVisible" :editcontrol="editcontrol" :editdata="editdata" :close-on-press-escape="false" :title="personalForm.opportunityNumber +'    修改'" width="1010px" class="edit" top="-10px" @close="$emit('update:editcontrol', false)">
+  <el-dialog :visible.sync="editVisible" :editcontrol="editcontrol" :editdata="editdata" :close-on-press-escape="false" :title="personalForm.opportunityNumber +$t('updates.xg')" width="1010px" class="edit" top="-10px" @close="$emit('update:editcontrol', false)">
     <!--基本信息-->
     <el-card class="box-card" style="margin-top: 63px" shadow="never">
       <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('Hmodule.basicinfo') }}</h2>
@@ -83,7 +83,7 @@
     </el-card>
     <!--子件信息-->
     <el-card class="box-card" style="margin-top: 15px" shadow="never">
-      <h2 ref="fuzhu" class="form-name" >意向商品</h2>
+      <h2 ref="fuzhu" class="form-name" >{{ $t('updates.yxsp') }}</h2>
       <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
         <el-button @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>
         <my-detail :control.sync="control" @product="productdetail"/>
@@ -104,12 +104,12 @@
           <el-editable-column :label="$t('Hmodule.xh')" min-width="55" align="center" type="index"/>
           <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" align="center" min-width="150px"/>
           <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" align="center" min-width="150px"/>
-          <el-editable-column prop="category" align="center" label="物品分类" min-width="150px"/>
-          <el-editable-column prop="unit" align="center" label="基本单位" min-width="150px"/>
-          <el-editable-column prop="productType" align="center" label="规格型号" min-width="150px"/>
-          <el-editable-column prop="color" align="center" label="颜色" min-width="150px"/>
-          <el-editable-column prop="kpiGrade" align="center" label="绩效分" min-width="150px"/>
-          <el-editable-column prop="point" align="center" label="商品积分" min-width="150px"/>
+          <el-editable-column :label="$t('updates.wpfl')" prop="category" align="center" min-width="150px"/>
+          <el-editable-column :label="$t('updates.jbdw')" prop="unit" align="center" min-width="150px"/>
+          <el-editable-column :label="$t('updates.ggxh')" prop="productType" align="center" min-width="150px"/>
+          <el-editable-column :label="$t('updates.ys')" prop="color" align="center" min-width="150px"/>
+          <el-editable-column :label="$t('updates.jxf')" prop="kpiGrade" align="center" min-width="150px"/>
+          <el-editable-column :label="$t('updates.spjf')" prop="point" align="center" min-width="150px"/>
         </el-editable>
       </div>
     </el-card>
@@ -128,7 +128,7 @@
           style="width: 100%">
           <el-editable-column label="阶段" min-width="55" prop="phase" align="center" type="index"/>
           <el-editable-column :label="$t('updates.rq')" prop="chatDate" align="center" min-width="150px"/>
-          <el-editable-column prop="handlePersonName" align="center" label="业务员" min-width="150px"/>
+          <el-editable-column :label="$t('updates.ywy')" prop="handlePersonName" align="center" min-width="150px"/>
           <el-editable-column prop="actionDesc" align="center" label="行动描述" min-width="150px"/>
           <el-editable-column prop="customerReturn" align="center" label="客户反馈" min-width="150px"/>
         </el-editable>
@@ -152,6 +152,8 @@ import MyApply from './MyApply'
 import MyRequire from './MyRequire'
 import MyCustomer from './MyCustomer'
 import MyAgent from './MyAgent'
+// eslint-disable-next-line no-unused-vars
+var _that
 export default {
   components: { MyAgent, MyCustomer, MyRequire, MyApply, MyDetail, MyEmp },
   props: {

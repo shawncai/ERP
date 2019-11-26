@@ -34,12 +34,12 @@
           <span>{{ scope.row.arrivalQuantity }}</span>
         </template>
       </el-table-column>
-      <el-table-column :resizable="false" label="交货日期" align="center" min-width="150">
+      <el-table-column :resizable="false" :label="$t('updates.jhrq')" align="center" min-width="150">
         <template slot-scope="scope">
           <span>{{ scope.row.giveDate }}</span>
         </template>
       </el-table-column>
-      <el-table-column :resizable="false" label="源单编号" align="center" min-width="150">
+      <el-table-column :resizable="false" :label="$t('updates.ydbh')" align="center" min-width="150">
         <template slot-scope="scope">
           <span>{{ scope.row.sourceNumber }}</span>
         </template>
@@ -53,6 +53,8 @@
 </template>
 
 <script>
+// eslint-disable-next-line no-unused-vars
+var _that
 export default {
   props: {
     reportcontrol2: {

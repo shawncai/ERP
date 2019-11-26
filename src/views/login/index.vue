@@ -73,6 +73,8 @@ import { loginByUsername } from '@/api/login'
 import LangSelect from '@/components/LangSelect'
 import SocialSign from './socialsignin'
 
+// eslint-disable-next-line no-unused-vars
+var _that
 export default {
   name: 'Login',
   components: { LangSelect, SocialSign },

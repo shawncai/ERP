@@ -50,7 +50,7 @@
         <div class="buttons" style="margin-top: 58px">
           <el-button type="success" style="background:#3696fd;border-color:#3696fd " @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>
           <el-button type="danger" @click="$refs.editable.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
-          <el-button type="primary" @click="checkStock()">库存快照</el-button>
+          <el-button type="primary" @click="checkStock()">{{ $t('updates.kckz') }}</el-button>
         </div>
         <my-detail :control.sync="control" @product="productdetail"/>
         <div class="container">
@@ -91,7 +91,7 @@
             </el-editable-column>
             <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" align="center" width="150px"/>
             <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" align="center" width="150px"/>
-            <el-editable-column prop="color" align="center" label="颜色" width="150px"/>
+            <el-editable-column :label="$t('updates.ys')" prop="color" align="center" width="150px"/>
             <el-editable-column :label="$t('Hmodule.gg')" prop="typeIdname" align="center" width="150px"/>
             <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" width="150px"/>
             <el-editable-column :edit-render="{name: 'ElInputNumber', type: 'visible'}" prop="overflowQuantity" align="center" label="报溢数量" width="150px"/>
@@ -101,7 +101,7 @@
                 <p>{{ getSize(scope.row.overflowQuantity, scope.row.price) }}</p>
               </template>
             </el-editable-column>
-            <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="remarks" align="center" label="备注" width="150px"/>
+            <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.bz')" prop="remarks" align="center" width="150px"/>
           </el-editable>
         </div>
       </el-card>
@@ -124,7 +124,7 @@
                     <span >{{ scope.row.repositoryName }}</span>
                   </template>
                 </el-table-column>
-                <el-table-column :resizable="false" label="商品名称" align="center" min-width="150">
+                <el-table-column :resizable="false" :label="$t('updates.spmc')" align="center" min-width="150">
                   <template slot-scope="scope">
                     <span >{{ scope.row.productName }}</span>
                   </template>
@@ -152,6 +152,7 @@ import MyRepository from './components/MyRepository'
 import MyAccept from './components/MyAccept'
 import MyDetail from './components/MyDetail'
 import MyCreate from './components/MyCreate'
+var _that
 export default {
   name: 'AddInventoryOverflow',
   components: { MyRepository, MyDetail, MyCreate, MyAccept },
@@ -209,6 +210,9 @@ export default {
       // 批量操作
       moreaction: []
     }
+  },
+  beforeCreate() {
+    _that = this
   },
   mounted() {
     this.getlist()

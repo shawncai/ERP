@@ -60,6 +60,7 @@
 
 <script>
 import { getdeptlist } from '@/api/BasicSettings'
+var _that
 export default {
   props: {
     detailcontrol: {
@@ -88,6 +89,9 @@ export default {
     detaildata() {
       this.personalForm = this.detaildata
     }
+  },
+  beforeCreate() {
+    _that = this
   },
   mounted() {
     this.getlist()

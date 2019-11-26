@@ -5,7 +5,7 @@
       <el-form ref="getemplist" :model="getemplist" label-width="70px" style="margin-top: -9px">
         <el-row>
           <el-col :span="3">
-            <el-form-item label="分类">
+            <el-form-item :label="$t('updates.fle')">
               <el-input v-model="productCategory" :placeholder="$t('Hmodule.wpfl')" style="width: 100px" clearable @focus="treechoose" @clear="restFilter"/>
               <my-tree :treecontrol.sync="treecontrol" @tree="tree"/>
             </el-form-item>
@@ -39,7 +39,7 @@
         </el-row>
         <el-row>
           <el-col :span="3">
-            <el-form-item label="型号">
+            <el-form-item :label="$t('updates.xh')">
               <el-select v-model="getemplist.brand" :placeholder="$t('Hmodule.qxzggxh')" style="width: 100px" clearable>
                 <el-option
                   v-for="(item, index) in types"
@@ -51,17 +51,17 @@
             </el-form-item>
           </el-col>
           <el-col :span="4" style="margin-left: 56px">
-            <el-form-item label="车架号">
+            <el-form-item :label="$t('updates.cjh')">
               <el-input v-model="getemplist.carCode" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
           <el-col :span="4" style="margin-left: 46px">
-            <el-form-item label="电机编号">
+            <el-form-item :label="$t('updates.djbha')">
               <el-input v-model="getemplist.motorCode" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
           <el-col :span="4" style="margin-left: 26px">
-            <el-form-item label="电池编码">
+            <el-form-item :label="$t('updates.dcbm')">
               <el-input v-model="getemplist.batteryCode" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
@@ -204,6 +204,7 @@ import MyRepository from './components/MyRepository'
 import MyTree from './components/MyTree'
 import MySupplier from './components/MySupplier'
 
+var _that
 export default {
   name: 'SaleBillList',
   directives: { waves, permission, permission2 },
@@ -211,18 +212,18 @@ export default {
   filters: {
     judgeStatFilter(status) {
       const statusMap = {
-        0: '未审核',
-        1: '审核中',
-        2: '审核通过',
-        3: '审核不通过'
+        0: _that.$t('updates.wsh'),
+        1: _that.$t('updates.shz'),
+        2: _that.$t('Hmodule.shtg'),
+        3: _that.$t('updates.shbtg')
       }
       return statusMap[status]
     },
     receiptStatFilter(status) {
       const statusMap = {
-        1: '制单',
-        2: '执行',
-        3: '结单'
+        1: _that.$t('updates.zd'),
+        2: _that.$t('updates.zx'),
+        3: _that.$t('updates.jd')
       }
       return statusMap[status]
     },
@@ -317,6 +318,9 @@ export default {
       // 开始时间到结束时间
       date: []
     }
+  },
+  beforeCreate() {
+    _that = this
   },
   mounted() {
     this.getlist()

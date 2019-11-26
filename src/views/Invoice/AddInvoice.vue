@@ -149,6 +149,7 @@ import MyPlan from './components/MyPlan'
 import MyDelivery from './components/MyDelivery'
 import MyLnquiry from './components/MyLnquiry'
 import MyArrival from './components/MyArrival'
+var _that
 export default {
   name: 'AddInvoice',
   components: { MyArrival, MyLnquiry, MyDelivery, MyPlan, MyApply, MySupplier, MyDetail, MyEmp },

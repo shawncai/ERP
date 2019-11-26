@@ -91,7 +91,7 @@
       </el-card>
       <!--子件信息-->
       <el-card class="box-card" style="margin-top: 15px" shadow="never">
-        <h2 ref="fuzhu" class="form-name" >支出明细</h2>
+        <h2 ref="fuzhu" class="form-name" >{{ $t('updates.zcmx') }}</h2>
         <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
           <el-button @click="insertEvent(-1)">添加支出项</el-button>
           <el-button type="danger" @click="$refs.editable.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
@@ -109,8 +109,8 @@
             style="width: 100%">
             <el-editable-column type="selection" min-width="55" align="center"/>
             <el-editable-column :label="$t('Hmodule.xh')" min-width="55" align="center" type="index"/>
-            <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="summary" align="center" label="摘要" min-width="150px"/>
-            <el-editable-column :edit-render="{name: 'ElCascader ', type: 'visible', options: 'options'}" prop="subjectFinance" align="center" label="科目名称" min-width="150px">
+            <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.zya')" prop="summary" align="center" min-width="150px"/>
+            <el-editable-column :edit-render="{name: 'ElCascader ', type: 'visible', options: 'options'}" :label="$t('updates.kmmc')" prop="subjectFinance" align="center" min-width="150px">
               <template slot="edit" slot-scope="scope">
                 <el-cascader
                   v-model="scope.row.subjectFinance"
@@ -144,6 +144,7 @@ import { searchSaleCategory } from '@/api/SaleCategory'
 import { getdeptlist } from '@/api/BasicSettings'
 import MyEmp from './components/MyEmp'
 import MyRepository from './components/MyRepository'
+var _that
 export default {
   name: 'AddExpenses',
   components: { MyRepository, MyEmp },

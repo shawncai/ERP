@@ -20,14 +20,14 @@
           </el-form-item>
           <el-form-item :label="$t('BasicSettings.commissionCategory')" prop="commissionType" style="width: 35%;margin-top:1%">
             <el-radio-group v-model="personalForm.commissionCategory">
-              <el-radio :label="1">利润提成</el-radio>
-              <el-radio :label="2">销售收入提成</el-radio>
+              <el-radio :label="1">{{ $t('updates.lrtc') }}</el-radio>
+              <el-radio :label="2">{{ $t('updates.xssrtc') }}</el-radio>
             </el-radio-group>
           </el-form-item>
           <el-form-item :label="$t('BasicSettings.commissionType')" prop="commissionType" style="width: 35%;margin-top:1%">
             <el-radio-group v-model="personalForm.commissionType">
-              <el-radio :label="1">提成比例</el-radio>
-              <el-radio :label="2">固定金额</el-radio>
+              <el-radio :label="1">{{ $t('updates.tcbl') }}</el-radio>
+              <el-radio :label="2">{{ $t('updates.gdje') }}</el-radio>
               <!-- <el-radio :label="3">绩效分</el-radio> -->
             </el-radio-group>
           </el-form-item>
@@ -63,6 +63,7 @@ import permission2 from '@/directive/permission2/index.js' // 权限判断指令
 import checkPermission from '@/utils/permission' // 权限判断函数
 import MyEmp from './components/MyEmp'
 import MyTree from './components/MyTree'
+var _that
 export default {
   name: 'Commission',
   directives: { permission, permission2 },

@@ -59,6 +59,7 @@ import MyDetail from './components/MyDetail'
 import MyMater from './components/MyMater'
 import MyInstallment from './components/MyInstallment'
 import MyRepository from './components/MyRepository'
+var _that
 export default {
   name: 'AddGroupBuyRules',
   components: { MyRepository, MyInstallment, MyMater, MyDetail, MyEmp },

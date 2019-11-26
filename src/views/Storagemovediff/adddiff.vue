@@ -110,10 +110,10 @@
             <el-editable-column label="编号" width="55" align="center" type="index"/>
             <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" align="center" width="150px"/>
             <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" align="center" width="150px"/>
-            <el-editable-column prop="color" align="center" label="颜色" width="150px"/>
+            <el-editable-column :label="$t('updates.ys')" prop="color" align="center" width="150px"/>
             <!-- <el-editable-column prop="productType" align="center" :label="$t('Hmodule.gg')" width="150px"/> -->
             <!-- <el-editable-column prop="unit" align="center" :label="$t('Hmodule.dw')" width="150px"/> -->
-            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0.00, precision: 2}, type: 'visible'}" prop="sendQuantity" align="center" label="发货数量" min-width="150">
+            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0.00, precision: 2}, type: 'visible'}" :label="$t('updates.fhsl')" prop="sendQuantity" align="center" min-width="150">
               <template slot="edit" slot-scope="scope">
                 <el-input-number
                   v-if="scope.row.isnew === 3"
@@ -138,7 +138,7 @@
                 <span v-else>{{ scope.row.actualQuantity }}</span>
               </template>
             </el-editable-column>
-            <el-editable-column prop="diffQuantity" align="center" label="差异数量" min-width="150">
+            <el-editable-column :label="$t('updates.cysl')" prop="diffQuantity" align="center" min-width="150">
               <template slot="edit" slot-scope="scope">
                 {{ scope.row.diffQuantity }}
               </template>
@@ -154,7 +154,7 @@
         <el-button type="danger" @click="handlecancel()">{{ $t('Hmodule.cancel') }}</el-button>
       </div>
       <!-- 备注 -->
-      <!-- <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="remarks" align="center" label="备注" width="150px"/> -->
+      <!-- <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="remarks" align="center" :label="$t('updates.bz')" width="150px"/> -->
     </div>
   </div>
 </template>
@@ -173,6 +173,7 @@ import MyDetail from './components/MyDetail'
 import MyCreate from './components/MyCreate'
 import MyDepot from './components/MyDepot'
 import MyMove from './components/MyMove'
+var _that
 export default {
   name: 'AddStoragemove',
   components: { MyDepot, MyRepository, MyDetail, MyCreate, MyAccept, MyOut, MyMove },
@@ -247,6 +248,9 @@ export default {
       validRules: {
       }
     }
+  },
+  beforeCreate() {
+    _that = this
   },
   mounted() {
     this.getlist()

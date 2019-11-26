@@ -4,7 +4,7 @@
       <el-row>
         <el-form ref="getemplist" :model="getemplist" label-width="90px" style="margin-top: -9px">
           <el-col :span="4">
-            <el-form-item label="物品编码">
+            <el-form-item :label="$t('updates.wpbm')">
               <el-input v-model="getemplist.productCode" :placeholder="$t('StockQuery.productCode')" clearable style="width: 150px" @keyup.enter.native="handleFilter" @focus="handleAddproduct"/>
               <my-detail :control.sync="control" @product="product"/>
             </el-form-item>
@@ -16,7 +16,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="4" style="margin-left: 118px">
-            <el-form-item label="采购时间段">
+            <el-form-item :label="$t('updates.cgsjd')">
               <el-date-picker
                 v-model="date"
                 type="daterange"
@@ -38,12 +38,12 @@
       </el-row>
     </el-card>
     <el-card class="box-card" style="margin-top: 10px" shadow="never">
-      <span style="float: left;margin-bottom: 13px">统计项</span>
+      <span style="float: left;margin-bottom: 13px">{{ $t('updates.tjx') }}</span>
       <el-radio-group v-model="checkboxVal" style="float: left;margin-left: 10px">
-        <el-radio label="quantity">数量</el-radio>
-        <el-radio label="includeTaxMoney">含税金额合计</el-radio>
-        <el-radio label="includeTaxPrice">含税价</el-radio>
-        <el-radio label="totalMoney">金额合计</el-radio>
+        <el-radio label="quantity">{{ $t('updates.shul') }}</el-radio>
+        <el-radio label="includeTaxMoney">{{ $t('updates.hsjehj') }}</el-radio>
+        <el-radio label="includeTaxPrice">{{ $t('updates.hsj') }}</el-radio>
+        <el-radio label="totalMoney">{{ $t('updates.jehj') }}</el-radio>
       </el-radio-group>
     </el-card>
 
@@ -103,6 +103,7 @@ import DetailList from './components/DetailList'
 import MyDetail from './components/MyDetail'
 import MySupplier from './components/MySupplier'
 
+var _that
 export default {
   name: 'StockCount',
   directives: { waves },
@@ -149,6 +150,9 @@ export default {
       console.log(this.formThead)
       this.tableKey = this.tableKey + 1// 为了保证table 每次都会重渲 In order to ensure the table will be re-rendered each time
     }
+  },
+  beforeCreate() {
+    _that = this
   },
   mounted() {
     // this.getlist()

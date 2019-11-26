@@ -57,6 +57,7 @@
 <script>
 import { getdeptlist } from '@/api/BasicSettings'
 import { updateworkCenter } from '@/api/ProcessFile'
+var _that
 export default {
   props: {
     editcontrol: {
@@ -103,6 +104,9 @@ export default {
     editdata() {
       this.personalForm = this.editdata
     }
+  },
+  beforeCreate() {
+    _that = this
   },
   mounted() {
     this.getlist()

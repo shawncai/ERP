@@ -1,5 +1,5 @@
 <template>
-  <el-dialog :visible.sync="editVisible" :editcontrol="editcontrol" :editdata="editdata" :close-on-press-escape="false" :title="personalForm.number +'    修改'" width="1010px" class="edit" top="-10px" @close="$emit('update:editcontrol', false)">
+  <el-dialog :visible.sync="editVisible" :editcontrol="editcontrol" :editdata="editdata" :close-on-press-escape="false" :title="personalForm.number +$t('updates.xg')" width="1010px" class="edit" top="-10px" @close="$emit('update:editcontrol', false)">
     <!--基本信息-->
     <el-card class="box-card" style="margin-top: 63px" shadow="never">
       <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('Hmodule.basicinfo') }}</h2>
@@ -84,7 +84,7 @@
       </div>
     </el-card>
     <el-card class="box-card" style="margin-top: 15px" shadow="never">
-      <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">费用信息</h2>
+      <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('updates.fyxx') }}</h2>
       <div class="container">
         <el-form ref="personalForm2" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="110px" style="margin-left: 30px;">
           <el-row>
@@ -99,7 +99,7 @@
     </el-card>
     <!--子件信息-->
     <el-card class="box-card" style="margin-top: 15px" shadow="never">
-      <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">外包单明细</h2>
+      <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('updates.wbdmx') }}</h2>
       <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
         <el-button @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>
         <my-detail :control.sync="control" @product="productdetail"/>
@@ -124,8 +124,8 @@
           <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" align="center" min-width="150px"/>
           <el-editable-column :label="$t('Hmodule.gg')" prop="productType" align="center" min-width="150px"/>
           <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" min-width="150px"/>
-          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="quantity" align="center" label="数量" min-width="150px"/>
-          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="money" align="center" label="加工费" min-width="150px"/>
+          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" :label="$t('updates.shuli')" prop="quantity" align="center" min-width="150px"/>
+          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" :label="$t('updates.jgf')" prop="money" align="center" min-width="150px"/>
           <el-editable-column :label="$t('Hmodule.je')" prop="totalMoney" align="center" min-width="150px">
             <template slot-scope="scope">
               <p>{{ gettotalMoney(scope.row.quantity, scope.row.money, scope.row) }}</p>
@@ -148,6 +148,7 @@ import { updateoutsourcing } from '@/api/OutSourcing'
 import MyDelivery from './MyDelivery'
 import MyFactory from './MyFactory'
 import MyDetail from './MyDetail'
+var _that
 export default {
   components: { MyDetail, MyFactory, MyDelivery },
   props: {

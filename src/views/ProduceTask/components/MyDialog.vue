@@ -1,5 +1,5 @@
 <template>
-  <el-dialog :visible.sync="editVisible" :editcontrol="editcontrol" :editdata="editdata" :close-on-press-escape="false" :title="personalForm.taskNumber +'    修改'" width="1010px" class="edit" top="-10px" @close="$emit('update:editcontrol', false)">
+  <el-dialog :visible.sync="editVisible" :editcontrol="editcontrol" :editdata="editdata" :close-on-press-escape="false" :title="personalForm.taskNumber +$t('updates.xg')" width="1010px" class="edit" top="-10px" @close="$emit('update:editcontrol', false)">
     <!--基本信息-->
     <el-card class="box-card" style="margin-top: 63px" shadow="never">
       <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('Hmodule.basicinfo') }}</h2>
@@ -54,11 +54,11 @@
     </el-card>
     <!--子件信息-->
     <el-card class="box-card" style="margin-top: 15px" shadow="never">
-      <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">物料需求计划明细</h2>
+      <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('updates.wlxqjhmx') }}</h2>
       <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
         <el-button :disabled="addpro" @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>
         <my-detail2 :control.sync="control" @product="productdetail"/>
-        <el-button :disabled="addsouce" style="width: 130px" @click="handleAddSouce">从源单中选择</el-button>
+        <el-button :disabled="addsouce" style="width: 130px" @click="handleAddSouce">{{ $t('updates.cydzxz') }}</el-button>
         <produce-plan :procontrol.sync="producecontrol" @produce="produce"/>
         <el-button type="danger" @click="$refs.editable.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
       </div>
@@ -79,19 +79,19 @@
           <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" align="center" min-width="150px"/>
           <el-editable-column :label="$t('Hmodule.gg')" prop="productType" align="center" min-width="150px"/>
           <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" min-width="150px"/>
-          <el-editable-column prop="sourceNumber" align="center" label="源单编号" min-width="150px"/>
+          <el-editable-column :label="$t('updates.ydbh')" prop="sourceNumber" align="center" min-width="150px"/>
           <el-editable-column :edit-render="{name: 'ElSelect', options: workCenterIds, type: 'visible'}" :label="$t('Hmodule.ggzx')" prop="workCenterId" align="center" min-width="150px"/>
-          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="produceQuantity" align="center" label="生产数量" min-width="150px"/>
-          <el-editable-column :edit-render="{name: 'ElSelect', options: bomNumbers, type: 'visible'}" prop="bomNumber" align="center" label="BOM编码" min-width="150px"/>
-          <el-editable-column :edit-render="{name: 'ElSelect', options: processes, type: 'visible'}" prop="processName" align="center" label="工艺路线" min-width="150px"/>
-          <el-editable-column :edit-render="{name: 'ElDatePicker', attrs: {type: 'datetime', format: 'yyyy-MM-dd'}, type: 'visible'}" prop="planStartDate" align="center" label="计划开工时间" min-width="160px"/>
-          <el-editable-column :edit-render="{name: 'ElDatePicker', attrs: {type: 'datetime', format: 'yyyy-MM-dd'}, type: 'visible'}" prop="planFinishDate" align="center" label="计划完工时间" min-width="160px"/>
-          <el-editable-column prop="alreadyProduceQuantity" align="center" label="已生产数量" min-width="150px"/>
-          <el-editable-column prop="alreadyEnterQuantity" align="center" label="已入库数量" min-width="150px"/>
-          <el-editable-column prop="reportedCheckQuantity" align="center" label="已报质检数量" min-width="150px"/>
-          <el-editable-column prop="actualCheckQuantity" align="center" label="实检数量" min-width="150px"/>
-          <el-editable-column prop="passQuantity" align="center" label="合格数量" min-width="150px"/>
-          <el-editable-column prop="failQuantity" align="center" label="不合格数量" min-width="150px"/>
+          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" :label="$t('updates.scsl')" prop="produceQuantity" align="center" min-width="150px"/>
+          <el-editable-column :edit-render="{name: 'ElSelect', options: bomNumbers, type: 'visible'}" :label="$t('updates.bimbm')" prop="bomNumber" align="center" min-width="150px"/>
+          <el-editable-column :edit-render="{name: 'ElSelect', options: processes, type: 'visible'}" :label="$t('updates.gylx')" prop="processName" align="center" min-width="150px"/>
+          <el-editable-column :edit-render="{name: 'ElDatePicker', attrs: {type: 'datetime', format: 'yyyy-MM-dd'}, type: 'visible'}" :label="$t('updates.jhkgsj')" prop="planStartDate" align="center" min-width="160px"/>
+          <el-editable-column :edit-render="{name: 'ElDatePicker', attrs: {type: 'datetime', format: 'yyyy-MM-dd'}, type: 'visible'}" :label="$t('updates.jhwgsj')" prop="planFinishDate" align="center" min-width="160px"/>
+          <el-editable-column :label="$t('updates.yscsl')" prop="alreadyProduceQuantity" align="center" min-width="150px"/>
+          <el-editable-column :label="$t('updates.yrksl')" prop="alreadyEnterQuantity" align="center" min-width="150px"/>
+          <el-editable-column :label="$t('updates.ybjsl')" prop="reportedCheckQuantity" align="center" min-width="150px"/>
+          <el-editable-column :label="$t('updates.sjsl')" prop="actualCheckQuantity" align="center" min-width="150px"/>
+          <el-editable-column :label="$t('updates.hgsl')" prop="passQuantity" align="center" min-width="150px"/>
+          <el-editable-column :label="$t('updates.bhgsl')" prop="failQuantity" align="center" min-width="150px"/>
         </el-editable>
       </div>
     </el-card>
@@ -112,6 +112,8 @@ import MyEmp from './MyEmp'
 import MyDetail from './MyDetail'
 import ProducePlan from './ProducePlan'
 import MyDetail2 from './MyDetail2'
+// eslint-disable-next-line no-unused-vars
+var _that
 export default {
   components: { MyDetail2, ProducePlan, MyEmp, MyDetail },
   props: {

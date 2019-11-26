@@ -89,15 +89,15 @@
       </el-card>
       <!--子件信息-->
       <el-card class="box-card" style="margin-top: 15px" shadow="never">
-        <h2 ref="fuzhu" class="form-name" >质检申请单明细</h2>
+        <h2 ref="fuzhu" class="form-name" >{{ $t('updates.zjsqdmx') }}</h2>
         <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
           <el-button :disabled="addpro" @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>
           <my-detail :control.sync="control" :supp.sync="supp" @product="productdetail"/>
-          <el-button :disabled="addsouce" style="width: 130px" @click="handleAddSouce">从源单中选择</el-button>
+          <el-button :disabled="addsouce" style="width: 130px" @click="handleAddSouce">{{ $t('updates.cydzxz') }}</el-button>
           <my-arrival :arrivalcontrol.sync="arrivalcontrol" :supp.sync="supp" @arrival="arrival" />
           <produce-task :procontrol.sync="producecontrol" @produce="produce"/>
           <el-button type="danger" @click="$refs.editable.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
-          <el-button type="primary" @click="checkStock()">库存快照</el-button>
+          <el-button type="primary" @click="checkStock()">{{ $t('updates.kckz') }}</el-button>
         </div>
         <div class="container">
           <el-editable
@@ -116,13 +116,13 @@
             <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" align="center" min-width="150px"/>
             <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" align="center" min-width="150px"/>
             <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" min-width="150px"/>
-            <el-editable-column prop="basicQuantity" align="center" label="基本数量" min-width="150px"/>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="checkQuantity" align="center" label="报检数量" min-width="150px"/>
+            <el-editable-column :label="$t('updates.jbel')" prop="basicQuantity" align="center" min-width="150px"/>
+            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" :label="$t('updates.bjsl')" prop="checkQuantity" align="center" min-width="150px"/>
             <el-editable-column prop="hadCheckQuantity" align="center" label="已报捡数量" min-width="150px"/>
             <el-editable-column prop="checkedQuantity" align="center" label="已捡数量" min-width="150px"/>
             <el-editable-column :label="$t('updates.dhsl')" prop="arrivalQuantity" align="center" min-width="150px"/>
-            <el-editable-column prop="sourceNumber" align="center" label="源单编号" min-width="150px"/>
-            <el-editable-column prop="sourceSerialNumber" align="center" label="源单编号" min-width="150px"/>
+            <el-editable-column :label="$t('updates.ydbh')" prop="sourceNumber" align="center" min-width="150px"/>
+            <el-editable-column :label="$t('updates.ydbh')" prop="sourceSerialNumber" align="center" min-width="150px"/>
           </el-editable>
         </div>
       </el-card>
@@ -145,7 +145,7 @@
                     <span >{{ scope.row.repositoryName }}</span>
                   </template>
                 </el-table-column>
-                <el-table-column :resizable="false" label="商品名称" align="center" min-width="150">
+                <el-table-column :resizable="false" :label="$t('updates.spmc')" align="center" min-width="150">
                   <template slot-scope="scope">
                     <span >{{ scope.row.productName }}</span>
                   </template>
@@ -176,6 +176,8 @@ import MyDelivery from './components/MyDelivery'
 import MyCenter from './components/MyCenter'
 import MyArrival from './components/MyArrival'
 import ProduceTask from './components/ProduceTask'
+// eslint-disable-next-line no-unused-vars
+var _that
 export default {
   name: 'AddQualityCheck',
   components: { ProduceTask, MyArrival, MyCenter, MyDelivery, MySupplier, MyDetail, MyEmp },

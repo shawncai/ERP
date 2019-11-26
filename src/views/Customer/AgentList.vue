@@ -142,8 +142,8 @@
         </el-table-column>
         <el-table-column :label="$t('public.actions')" :resizable="false" align="center" min-width="100">
           <template slot-scope="scope">
-            <el-button v-permission2="['1-14-18-3', scope.row.createPersonId]" title="修改" type="primary" size="mini" icon="el-icon-edit" circle @click="handleEdit(scope.row)"/>
-            <!--            <el-button v-permission2="['1-14-18-2', scope.row.createPersonId]" title="删除" size="mini" type="danger" icon="el-icon-delete" circle @click="handleDelete(scope.row)"/>-->
+            <el-button v-permission2="['1-14-18-3', scope.row.createPersonId]" :title="$t('updates.xg')" type="primary" size="mini" icon="el-icon-edit" circle @click="handleEdit(scope.row)"/>
+            <!--            <el-button v-permission2="['1-14-18-2', scope.row.createPersonId]" :title="$t('updates.sc')" size="mini" type="danger" icon="el-icon-delete" circle @click="handleDelete(scope.row)"/>-->
           </template>
         </el-table-column>
       </el-table>
@@ -166,6 +166,7 @@ import Pagination from '@/components/Pagination' // Secondary package based on e
 import MyDialog from './components/MyDialog'
 import DetailList from './components/DetailList'
 
+var _that
 export default {
   name: 'AgentList',
   directives: { waves, permission, permission2 },
@@ -239,6 +240,9 @@ export default {
         newold: ''
       }
     }
+  },
+  beforeCreate() {
+    _that = this
   },
   mounted() {
     this.getlist()

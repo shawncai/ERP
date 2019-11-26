@@ -1,5 +1,5 @@
 <template>
-  <el-dialog :visible.sync="editVisible" :editcontrol="editcontrol" :editdata="editdata" :close-on-press-escape="false" :title="customerForm.id +'    修改'" width="1010px" class="edit" top="-10px" @close="$emit('update:editcontrol', false)">
+  <el-dialog :visible.sync="editVisible" :editcontrol="editcontrol" :editdata="editdata" :close-on-press-escape="false" :title="customerForm.id +$t('updates.xg')" width="1010px" class="edit" top="-10px" @close="$emit('update:editcontrol', false)">
     <!--基本信息-->
     <el-card class="box-card" style="margin-top: 63px" shadow="never">
       <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('Hmodule.basicinfo') }}</h2>
@@ -117,8 +117,8 @@
               <el-form-item :label="$t('Customer.birthday')" style="width: 100%">
                 <el-date-picker
                   v-model="customerForm.birthday"
-                  type="date"
                   :placeholder="$t('updates.xzsr')"
+                  type="date"
                   value-format="yyyy-MM-dd"
                   style="margin-left: 18px;width: 200px"/>
               </el-form-item>
@@ -139,6 +139,7 @@
 <script>
 import { getcountrylist, getprovincelist, getcitylist, searchRepository } from '@/api/public'
 import { searchCusCategory, updateCustomer } from '@/api/Customer'
+var _that
 export default {
   props: {
     editcontrol: {

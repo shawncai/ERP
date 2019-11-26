@@ -110,6 +110,7 @@
 import { productlist } from '@/api/Product'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
+var _that
 export default {
   directives: { waves },
   components: { Pagination },

@@ -5,7 +5,7 @@
     :detaildata="detaildata"
     :detailid="detailid"
     :close-on-press-escape="false"
-    :title="customerForm.id +'经销商详情信息'"
+    :title="customerForm.id +$t('updates.jxsxqxx')"
     append-to-body
     width="1010px"
     class="edit"
@@ -61,7 +61,7 @@
       </el-card>
       <!--子件信息-->
       <el-card class="box-card" shadow="never" style="margin-top: 15px">
-        <h2 ref="lianxi" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">业务信息</h2>
+        <h2 ref="lianxi" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('updates.ywxx') }}</h2>
         <div class="container" style="margin-top: 37px">
           <el-form ref="customerForm2" :model="customerForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
             <el-row>
@@ -115,7 +115,7 @@
         </div>
       </el-card>
       <el-card class="box-card" shadow="never" style="margin-top: 15px">
-        <h2 ref="caiwu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">财务信息</h2>
+        <h2 ref="caiwu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('updates.cwxx') }}</h2>
         <div class="container" style="margin-top: 37px">
           <el-form ref="customerForm2" :model="customerForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
             <el-row>
@@ -164,7 +164,7 @@
         </div>
       </el-card>
       <el-card class="box-card" shadow="never" style="margin-top: 15px">
-        <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">辅助信息</h2>
+        <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('updates.fzxx') }}</h2>
         <div class="container" style="margin-top: 37px">
           <el-form ref="customerForm2" :model="customerForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
             <el-row>
@@ -230,19 +230,19 @@
                   label="销售类别"
                   min-width="150"/>
                 <el-table-column
+                  :label="$t('updates.spmc')"
                   prop="productName"
                   align="center"
-                  label="商品名称"
                   min-width="150"/>
                 <el-table-column
+                  :label="$t('updates.xh')"
                   prop="productTypeName"
                   align="center"
-                  label="型号"
                   min-width="150"/>
                 <el-table-column
+                  :label="$t('updates.shuli')"
                   prop="quantity"
                   align="center"
-                  label="数量"
                   min-width="150"/>
                 <el-table-column
                   :label="$t('Hmodule.je')"
@@ -250,14 +250,14 @@
                   align="center"
                   min-width="150"/>
                 <el-table-column
+                  :label="$t('updates.lsj')"
                   prop="salePrice"
                   align="center"
-                  label="零售价"
                   min-width="150"/>
                 <el-table-column
+                  :label="$t('updates.zko')"
                   prop="discountMoney"
                   align="center"
-                  label="折扣（%）"
                   min-width="150"/>
               </el-table>
             </el-tab-pane>
@@ -277,9 +277,9 @@
                   label="预收日期"
                   min-width="150"/>
                 <el-table-column
+                  :label="$t('updates.skr')"
                   prop="receiptPersonName"
                   align="center"
-                  label="收款人"
                   min-width="150"/>
                 <el-table-column
                   :label="$t('updates.skfs')"
@@ -309,14 +309,14 @@
                   align="center"
                   min-width="150"/>
                 <el-table-column
+                  :label="$t('updates.thsl')"
                   prop="returnQuantity"
                   align="center"
-                  label="退货数量"
                   min-width="150"/>
                 <el-table-column
+                  :label="$t('updates.thyy')"
                   prop="returnReason"
                   align="center"
-                  label="退货原因"
                   min-width="150"/>
                 <el-table-column
                   prop="closeStatusId"
@@ -336,6 +336,7 @@ import { searchsaleOrder } from '@/api/SaleOrder'
 import { searchprepReceipt } from '@/api/PrepReceipt'
 import { searchsaleReturn } from '@/api/SaleReturn'
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
+var _that
 export default {
   components: { Pagination },
   filters: {
@@ -362,8 +363,8 @@ export default {
     },
     sourceTypeFilter(status) {
       const statusMap = {
-        1: '销售出库单',
-        2: '调拨单'
+        1: _that.$t('updates.xsckd'),
+        2: _that.$t('updates.dbd')
       }
       return statusMap[status]
     },
@@ -394,9 +395,9 @@ export default {
     },
     receiptStatFilter(status) {
       const statusMap = {
-        1: '制单',
-        2: '执行',
-        3: '结单'
+        1: _that.$t('updates.zd'),
+        2: _that.$t('updates.zx'),
+        3: _that.$t('updates.jd')
       }
       return statusMap[status]
     },

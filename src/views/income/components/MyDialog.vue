@@ -1,5 +1,5 @@
 <template>
-  <el-dialog :visible.sync="editVisible" :editcontrol="editcontrol" :editdata="editdata" :close-on-press-escape="false" :title="personalForm.number +'    修改'" width="1010px" class="edit" top="-10px" @close="$emit('update:editcontrol', false)">
+  <el-dialog :visible.sync="editVisible" :editcontrol="editcontrol" :editdata="editdata" :close-on-press-escape="false" :title="personalForm.number +$t('updates.xg')" width="1010px" class="edit" top="-10px" @close="$emit('update:editcontrol', false)">
     <!--基本信息-->
     <el-card class="box-card" style="margin-top: 63px" shadow="never">
       <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('Hmodule.basicinfo') }}</h2>
@@ -74,9 +74,9 @@
     </el-card>
     <!--子件信息-->
     <el-card class="box-card" style="margin-top: 15px" shadow="never">
-      <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">收入明细</h2>
+      <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('updates.srmx') }}</h2>
       <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
-        <el-button @click="insertEvent(-1)">添加收入项</el-button>
+        <el-button @click="insertEvent(-1)">{{ $t('updates.tjsrx') }}</el-button>
         <el-button type="danger" @click="$refs.editable.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
       </div>
       <div class="container">
@@ -92,8 +92,8 @@
           style="width: 100%">
           <el-editable-column type="selection" min-width="55" align="center"/>
           <el-editable-column :label="$t('Hmodule.xh')" min-width="55" align="center" type="index"/>
-          <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="summary" align="center" label="摘要" min-width="150px"/>
-          <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="productName" align="center" label="科目名称" min-width="150px"/>
+          <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.zya')" prop="summary" align="center" min-width="150px"/>
+          <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.kmmc')" prop="productName" align="center" min-width="150px"/>
           <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0, precision: 2}, type: 'visible'}" :label="$t('Hmodule.je')" prop="money" align="center" min-width="150px"/>
         </el-editable>
       </div>
@@ -113,6 +113,8 @@ import { searchCategory } from '@/api/Supplier'
 import { getdeptlist } from '@/api/BasicSettings'
 import MyEmp from './MyEmp'
 import MyRepository from './MyRepository'
+// eslint-disable-next-line no-unused-vars
+var _that
 export default {
   components: { MyRepository, MyEmp },
   props: {

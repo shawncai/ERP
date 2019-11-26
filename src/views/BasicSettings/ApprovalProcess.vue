@@ -105,6 +105,7 @@ import permission2 from '@/directive/permission2/index.js' // 权限判断指令
 import checkPermission from '@/utils/permission' // 权限判断函数
 import MyDialog from './components/MyDialog'
 
+var _that
 export default {
   name: 'ApprovalProcess',
   directives: { waves, permission, permission2 },
@@ -154,6 +155,9 @@ export default {
       // 控制组件数据
       editVisible: false
     }
+  },
+  beforeCreate() {
+    _that = this
   },
   mounted() {
     this.getlist()

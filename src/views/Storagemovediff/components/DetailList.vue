@@ -9,7 +9,7 @@
           <el-form ref="personalForm" :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="100px" style="margin-left: 30px;">
             <el-row>
               <el-col :span="12">
-                <el-form-item class="print2" label="调拨单编号" style="width: 100%;display: none">
+                <el-form-item :label="$t('updates.dbdbh')" class="print2" style="width: 100%;display: none">
                   {{ personalForm.number }}
                 </el-form-item>
               </el-col>
@@ -86,13 +86,13 @@
             </el-editable-column> -->
             <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" align="center" width="150px"/>
             <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" align="center" width="150px"/>
-            <el-editable-column prop="color" align="center" label="颜色" width="150px"/>
+            <el-editable-column :label="$t('updates.ys')" prop="color" align="center" width="150px"/>
             <!-- <el-editable-column prop="productType" align="center" :label="$t('Hmodule.gg')" width="150px"/> -->
             <!-- <el-editable-column prop="unit" align="center" :label="$t('Hmodule.dw')" width="150px"/> -->
-            <el-editable-column prop="sendQuantity" align="center" label="发货数量" min-width="150"/>
+            <el-editable-column :label="$t('updates.fhsl')" prop="sendQuantity" align="center" min-width="150"/>
             <el-editable-column prop="actualQuantity" align="center" label="收货数量" min-width="150"/>
-            <el-editable-column prop="diffQuantity" align="center" label="差异数量" min-width="150"/>
-            <el-editable-column prop="costPrice" align="center" label="成本价" width="150px"/>
+            <el-editable-column :label="$t('updates.cysl')" prop="diffQuantity" align="center" min-width="150"/>
+            <el-editable-column :label="$t('updates.cbj')" prop="costPrice" align="center" width="150px"/>
             <el-editable-column prop="diffMoney" align="center" label="差异金额" width="150px"/>
             <el-editable-column prop="result" align="center" label="处理结果" width="150px"/>
           </el-editable>
@@ -100,31 +100,31 @@
       </el-card>
       <!--审核状态-->
       <el-card class="box-card" style="margin-top: 15px">
-        <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">审批记录</h2>
+        <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('updates.spjl') }}</h2>
         <div class="container" style="margin-top: 37px">
           <el-table
             :data="reviewList"
             border
             style="width: 100%">
             <el-table-column
+              :label="$t('updates.dqbz')"
               prop="step"
               align="center"
-              label="当前步骤"
               min-width="150"/>
             <el-table-column
+              :label="$t('updates.dqspr')"
               prop="stepHandlerName"
               align="center"
-              label="当前审批人"
               min-width="150"/>
             <el-table-column
+              :label="$t('updates.spsj')"
               prop="handleTime"
               align="center"
-              label="审批时间"
               min-width="150"/>
             <el-table-column
+              :label="$t('updates.spyj')"
               prop="stat"
               align="center"
-              label="审批意见"
               min-width="150">
               <template slot-scope="scope">
                 <span>{{ scope.row.stat | statfilter }}</span>
@@ -158,7 +158,7 @@
             <el-table-column
               prop="arrivalDate"
               align="center"
-              label="车辆编号"
+              :label="$t('updates.clbh')"
               min-width="150"/>
             <el-table-column
               prop="acceptPersonName"
@@ -233,6 +233,7 @@ import MyAccept from './MyAccept'
 import MyDetail from './MyDetail'
 import MyCreate from './MyCreate'
 import MyDepot from './MyDepot'
+var _that
 export default {
   components: { MyRepository, MyCreate, MyAccept, MyDetail, MyDepot },
   filters: {
@@ -370,6 +371,9 @@ export default {
       // this.deliverGoodsListdata.sourceNumber = this.personalForm.moveNumber
       // this.getdeliverGoodsList()
     }
+  },
+  beforeCreate() {
+    _that = this
   },
   mounted() {
     this.getlist()

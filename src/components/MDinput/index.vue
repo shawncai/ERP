@@ -106,6 +106,7 @@
 <script>
 // source:https://github.com/wemake-services/vue-material-input/blob/master/src/components/MaterialInput.vue
 
+var _that
 export default {
   name: 'MdInput',
   props: {

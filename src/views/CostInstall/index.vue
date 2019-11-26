@@ -4,12 +4,12 @@
       <el-row>
         <el-form ref="getemplist" :model="getemplist" label-width="100px" style="margin-top: -9px">
           <el-col :span="5">
-            <el-form-item label="费用代码" label-width="100px">
+            <el-form-item :label="$t('updates.fydm')" label-width="100px">
               <el-input v-model="getemplist.costCode" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
           <el-col :span="5" style="margin-left: 10px">
-            <el-form-item label="费用类别" label-width="100px">
+            <el-form-item :label="$t('updates.fylb')" label-width="100px">
               <el-input v-model="getemplist.costCategory" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
@@ -167,6 +167,7 @@ import permission from '@/directive/permission/index.js' // 权限判断指令
 import permission2 from '@/directive/permission2/index.js' // 权限判断指令
 import checkPermission from '@/utils/permission' // 权限判断函数
 
+var _that
 export default {
   name: 'EmpCategory',
   directives: { waves, permission, permission2 },
@@ -267,6 +268,9 @@ export default {
         pageSize: 10
       }
     }
+  },
+  beforeCreate() {
+    _that = this
   },
   mounted() {
     this.getlist()

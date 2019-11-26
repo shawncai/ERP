@@ -130,12 +130,12 @@
       </el-card>
       <!--子件信息-->
       <el-card class="box-card" style="margin-top: 15px" shadow="never">
-        <h2 ref="fuzhu" class="form-name">计划明细</h2>
+        <h2 ref="fuzhu" class="form-name">{{ $t('updates.jhmx') }}</h2>
         <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
-          <el-button @click="handleAddproduct">添加明细</el-button>
+          <el-button @click="handleAddproduct">{{ $t('updates.tjmx') }}</el-button>
           <!-- <el-button @click="handleAddproduct2">添加下级区域明细</el-button> -->
-          <el-button @click="handleAddproduct2">修改本级明细</el-button>
-          <el-button type="danger" @click="deleteTreeData">删除明细</el-button>
+          <el-button @click="handleAddproduct2">{{ $t('updates.xgbkmx') }}</el-button>
+          <el-button type="danger" @click="deleteTreeData">{{ $t('updates.scmx') }}</el-button>
         </div>
         <!-- 添加明细弹框 -->
         <el-dialog
@@ -295,6 +295,8 @@ import MyApply from './components/MyApply'
 import MyRequire from './components/MyRequire'
 import MyCustomer from './components/MyCustomer'
 import MyAgent from './components/MyAgent'
+// eslint-disable-next-line no-unused-vars
+var _that
 export default {
   name: 'AddSalePlan',
   components: {

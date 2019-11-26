@@ -4,17 +4,17 @@
       <el-row>
         <el-form ref="getemplist" :model="getemplist" label-width="120px" style="margin-top: -9px">
           <el-col :span="4">
-            <el-form-item label="工序编号">
+            <el-form-item :label="$t('updates.gxbh')">
               <el-input v-model="getemplist.code" :placeholder="$t('ProcessFile.code')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
           <el-col :span="4">
-            <el-form-item label="拼音缩写">
+            <el-form-item :label="$t('updates.pysx')">
               <el-input v-model="getemplist.shortName" :placeholder="$t('ProcessFile.shortName')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
           <el-col :span="4">
-            <el-form-item label="工作中心名称">
+            <el-form-item :label="$t('updates.gzzxmc')">
               <el-input v-model="workCenterId" :placeholder="$t('ProcessFile.workCenterId')" class="filter-item" clearable @clear="restFilter" @keyup.enter.native="handleFilter" @focus="workcenterchoose"/>
             </el-form-item>
             <my-center :control.sync="centercontrol" @center="center"/>
@@ -31,16 +31,16 @@
                 <el-option value="2" label="别人检"/>
               </el-select>
               <el-select v-model="getemplist.isCost" placeholder="是否计费" clearable style="width: 40%;float: right;margin-right: 20px">
-                <el-option value="1" :label="$t('updates.yes')"/>
-                <el-option value="2" :label="$t('updates.no')"/>
+                <el-option :label="$t('updates.yes')" value="1"/>
+                <el-option :label="$t('updates.no')" value="2"/>
               </el-select>
               <el-select v-model="getemplist.isHelp" placeholder="是否外部协助" clearable style="width: 40%;float: left;margin-left: 20px;margin-top: 20px">
-                <el-option value="1" :label="$t('updates.yes')"/>
-                <el-option value="2" :label="$t('updates.no')"/>
+                <el-option :label="$t('updates.yes')" value="1"/>
+                <el-option :label="$t('updates.no')" value="2"/>
               </el-select>
               <el-select v-model="getemplist.stat" placeholder="启用状态" clearable style="width: 40%;float: right;margin-right: 20px;margin-top: 20px">
-                <el-option value="1" :label="$t('updates.yes')"/>
-                <el-option value="2" :label="$t('updates.no')"/>
+                <el-option :label="$t('updates.yes')" value="1"/>
+                <el-option :label="$t('updates.no')" value="2"/>
               </el-select>
               <div class="seachbutton" style="width: 100%;float: right;margin-top: 20px">
                 <el-button v-waves class="filter-item" type="primary" style="float: right" @click="handleFilter">{{ $t('public.search') }}</el-button>
@@ -156,6 +156,7 @@ import MyCenter from './components/MyCenter'
 import MyDialog3 from './components/MyDialog3'
 import DetailList3 from './components/DetailList3' // Secondary package based on el-pagination
 
+var _that
 export default {
   name: 'StandardProcess',
   directives: { waves, permission, permission2 },
@@ -212,6 +213,9 @@ export default {
       // 开始时间到结束时间
       date: []
     }
+  },
+  beforeCreate() {
+    _that = this
   },
   mounted() {
     this.getlist()

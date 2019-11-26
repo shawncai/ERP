@@ -16,7 +16,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="4">
-            <el-form-item label="采购时间段">
+            <el-form-item :label="$t('updates.cgsjd')">
               <el-date-picker
                 v-model="date"
                 type="daterange"
@@ -144,6 +144,7 @@ import DetailList from './components/DetailList3'
 import MyDetail from './components/MyDetail'
 import MySupplier from './components/MySupplier'
 
+var _that
 export default {
   name: 'OnSummary',
   directives: { waves },
@@ -182,6 +183,9 @@ export default {
       // 开始时间到结束时间
       date: []
     }
+  },
+  beforeCreate() {
+    _that = this
   },
   mounted() {
     this.getlist()

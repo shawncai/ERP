@@ -5,7 +5,7 @@
       <el-row>
         <el-form ref="getemplist" :model="getemplist" label-width="100px" style="margin-top: -9px">
           <el-col :span="4">
-            <el-form-item label="仓库名称">
+            <el-form-item :label="$t('updates.ckmc')">
               <el-input v-model="repositoryId" :placeholder="$t('StockAlarm.searchRepositoryId')" class="filter-item" clearable @clear="restFilter" @keyup.enter.native="handleFilter" @focus="handlechooseRep"/>
               <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
             </el-form-item>
@@ -115,6 +115,7 @@ import MyRepository from './components/MyRepository'
 import MyProduct from './components/MyProduct'
 import MyRules from './components/MyRules'
 
+var _that
 export default {
   name: 'SearchStockAlarmRules',
   directives: { waves },
@@ -172,6 +173,9 @@ export default {
       editVisible: false
       // 列表结束 -------------------------
     }
+  },
+  beforeCreate() {
+    _that = this
   },
   mounted() {
     this.getdeptlist()

@@ -1,5 +1,5 @@
 <template>
-  <el-dialog :visible.sync="editVisible" :detailcontrol="detailcontrol" :detaildata="detaildata" :close-on-press-escape="false" :title="personalForm.number +'    详情'" append-to-body width="1010px" class="edit" top="-10px" @close="$emit('update:detailcontrol', false)">
+  <el-dialog :visible.sync="editVisible" :detailcontrol="detailcontrol" :detaildata="detaildata" :close-on-press-escape="false" :title="personalForm.number +$t('updates.xqing')" append-to-body width="1010px" class="edit" top="-10px" @close="$emit('update:detailcontrol', false)">
     <div id="printTest" >
       <!--基本信息-->
       <el-card class="box-card" style="margin-top: 63px" shadow="never">
@@ -64,7 +64,7 @@
       </el-card>
       <!--子件信息-->
       <el-card class="box-card" style="margin-top: 15px" shadow="never">
-        <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">支出明细</h2>
+        <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('updates.zcmx') }}</h2>
         <div class="container">
           <el-editable
             ref="editable"
@@ -77,39 +77,39 @@
             style="width: 100%">
             <el-editable-column type="selection" min-width="55" align="center"/>
             <el-editable-column :label="$t('Hmodule.xh')" min-width="55" align="center" type="index"/>
-            <el-editable-column prop="summary" align="center" label="摘要" min-width="150px"/>
-            <el-editable-column prop="subjectName" align="center" label="科目名称" min-width="150px"/>
+            <el-editable-column :label="$t('updates.zya')" prop="summary" align="center" min-width="150px"/>
+            <el-editable-column :label="$t('updates.kmmc')" prop="subjectName" align="center" min-width="150px"/>
             <el-editable-column :label="$t('Hmodule.je')" prop="money" align="center" min-width="150px"/>
           </el-editable>
         </div>
       </el-card>
       <!--审核状态-->
       <el-card class="box-card" style="margin-top: 15px" shadow="never">
-        <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">审批记录</h2>
+        <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('updates.spjl') }}</h2>
         <div class="container" style="margin-top: 37px">
           <el-table
             :data="reviewList"
             border
             style="width: 100%">
             <el-table-column
+              :label="$t('updates.dqbz')"
               prop="step"
               align="center"
-              label="当前步骤"
               min-width="150"/>
             <el-table-column
+              :label="$t('updates.dqspr')"
               prop="stepHandlerName"
               align="center"
-              label="当前审批人"
               min-width="150"/>
             <el-table-column
+              :label="$t('updates.spsj')"
               prop="handleTime"
               align="center"
-              label="审批时间"
               min-width="150"/>
             <el-table-column
+              :label="$t('updates.spyj')"
               prop="stat"
               align="center"
-              label="审批意见"
               min-width="150">
               <template slot-scope="scope">
                 <span>{{ scope.row.stat | statfilter }}</span>
@@ -162,6 +162,7 @@
 </template>
 
 <script>
+var _that
 export default {
   filters: {
     statfilter(status) {
@@ -180,9 +181,9 @@ export default {
     },
     sourceTypeFilter(status) {
       const statusMap = {
-        1: '采购申请',
-        2: '采购需求',
-        3: '无来源'
+        1: _that.$t('updates.cgsq'),
+        2: _that.$t('updates.cgxq'),
+        3: _that.$t('Hmodule.Nosource')
       }
       return statusMap[status]
     },
@@ -195,9 +196,9 @@ export default {
     },
     receiptStatFilter(status) {
       const statusMap = {
-        1: '制单',
-        2: '执行',
-        3: '结单'
+        1: _that.$t('updates.zd'),
+        2: _that.$t('updates.zx'),
+        3: _that.$t('updates.jd')
       }
       return statusMap[status]
     }

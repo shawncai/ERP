@@ -1,5 +1,5 @@
 <template>
-  <el-dialog :visible.sync="editVisible" :detailcontrol="detailcontrol" :detaildata="detaildata" :close-on-press-escape="false" :title="'详情'" append-to-body width="1010px" class="edit" top="-10px" @close="$emit('update:detailcontrol', false)">
+  <el-dialog :visible.sync="editVisible" :detailcontrol="detailcontrol" :detaildata="detaildata" :close-on-press-escape="false" :title="$t('updates.xqing')" append-to-body width="1010px" class="edit" top="-10px" @close="$emit('update:detailcontrol', false)">
     <div id="printTest" >
       <!--基本信息-->
       <el-card class="box-card" style="margin-top: 63px" shadow="never">
@@ -85,48 +85,48 @@
             size="medium"
             style="width: 100%">
             <el-editable-column :label="$t('Hmodule.xh')" fixed="left" min-width="55" align="center" type="index"/>
-            <el-editable-column prop="costCode" align="center" label="费用代码" min-width="150px"/>
-            <el-editable-column prop="costName" align="center" label="费用名称" min-width="150px"/>
-            <el-editable-column prop="costCategory" align="center" label="费用类型" min-width="150px"/>
-            <el-editable-column prop="unit" align="center" label="计量单位" min-width="150px"/>
-            <el-editable-column prop="quantity" align="center" label="数量" min-width="150px"/>
-            <el-editable-column prop="includeTaxPrice" align="center" label="含税价" min-width="170px"/>
+            <el-editable-column :label="$t('updates.fydm')" prop="costCode" align="center" min-width="150px"/>
+            <el-editable-column :label="$t('updates.fymc')" prop="costName" align="center" min-width="150px"/>
+            <el-editable-column :label="$t('updates.fylx')" prop="costCategory" align="center" min-width="150px"/>
+            <el-editable-column :label="$t('updates.jldw')" prop="unit" align="center" min-width="150px"/>
+            <el-editable-column :label="$t('updates.shuli')" prop="quantity" align="center" min-width="150px"/>
+            <el-editable-column :label="$t('updates.hsj')" prop="includeTaxPrice" align="center" min-width="170px"/>
             <el-editable-column prop="includeTaxMoney" align="center" label="含税额" min-width="170px"/>
-            <el-editable-column prop="taxRate" align="center" label="税率(%)" min-width="170px"/>
-            <el-editable-column prop="deduTaxMoney" align="center" label="可抵用税额" min-width="170px"/>
-            <el-editable-column prop="money" align="center" label="不含税金额" min-width="170px"/>
-            <el-editable-column prop="remark" label="备注" align="center" min-width="170px"/>
-            <el-editable-column prop="subjectName" align="center" label="费用科目" min-width="170px"/>
+            <el-editable-column :label="$t('updates.sl')" prop="taxRate" align="center" min-width="170px"/>
+            <el-editable-column :label="$t('updates.kdyse')" prop="deduTaxMoney" align="center" min-width="170px"/>
+            <el-editable-column :label="$t('updates.bhsje')" prop="money" align="center" min-width="170px"/>
+            <el-editable-column :label="$t('updates.bz')" prop="remark" align="center" min-width="170px"/>
+            <el-editable-column :label="$t('updates.fykm')" prop="subjectName" align="center" min-width="170px"/>
           </el-editable>
         </div>
       </el-card>
       <!--审核状态-->
       <el-card class="box-card" style="margin-top: 15px" shadow="never">
-        <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">审批记录</h2>
+        <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('updates.spjl') }}</h2>
         <div class="container" style="margin-top: 37px">
           <el-table
             :data="reviewList"
             border
             style="width: 100%">
             <el-table-column
+              :label="$t('updates.dqbz')"
               prop="step"
               align="center"
-              label="当前步骤"
               min-width="150"/>
             <el-table-column
+              :label="$t('updates.dqspr')"
               prop="stepHandlerName"
               align="center"
-              label="当前审批人"
               min-width="150"/>
             <el-table-column
+              :label="$t('updates.spsj')"
               prop="handleTime"
               align="center"
-              label="审批时间"
               min-width="150"/>
             <el-table-column
+              :label="$t('updates.spyj')"
               prop="stat"
               align="center"
-              label="审批意见"
               min-width="150">
               <template slot-scope="scope">
                 <span>{{ scope.row.stat | statfilter }}</span>
@@ -179,6 +179,7 @@
 </template>
 
 <script>
+var _that
 export default {
   filters: {
     currencyFilter(status) {
@@ -204,10 +205,10 @@ export default {
     },
     sourceTypeFilter(status) {
       const statusMap = {
-        1: '采购申请',
-        2: '采购计划',
-        3: '采购询价单',
-        4: '无来源'
+        1: _that.$t('updates.cgsq'),
+        2: _that.$t('updates.cgjhd'),
+        3: _that.$t('updates.cgxjd'),
+        4: _that.$t('Hmodule.Nosource')
       }
       return statusMap[status]
     },
@@ -220,9 +221,9 @@ export default {
     },
     receiptStatFilter(status) {
       const statusMap = {
-        1: '制单',
-        2: '执行',
-        3: '结单'
+        1: _that.$t('updates.zd'),
+        2: _that.$t('updates.zx'),
+        3: _that.$t('updates.jd')
       }
       return statusMap[status]
     },

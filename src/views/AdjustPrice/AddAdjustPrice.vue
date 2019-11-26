@@ -79,7 +79,7 @@
       </el-card>
       <!--调价单明细-->
       <el-card class="box-card" style="margin-top: 15px">
-        <h2 ref="fuzhu" class="form-name">调价单明细</h2>
+        <h2 ref="fuzhu" class="form-name">{{ $t('updates.tjdmx') }}</h2>
         <div class="buttons" style="margin-top: 58px">
           <el-button type="success" style="background:#3696fd;border-color:#3696fd " @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>
           <el-button type="danger" @click="$refs.editable.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
@@ -111,11 +111,11 @@
             <!--            </el-editable-column>-->
             <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" align="center" width="150px"/>
             <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" align="center" width="150px"/>
-            <el-editable-column prop="color" align="center" label="颜色" width="150px"/>
+            <el-editable-column :label="$t('updates.ys')" prop="color" align="center" width="150px"/>
             <el-editable-column :label="$t('Hmodule.gg')" prop="typeIdname" align="center" width="150px"/>
             <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" width="150px"/>
-            <el-editable-column prop="salePrice" align="center" label="零售原价" width="150px"/>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', type: 'visible', attrs: {min: 0}}" prop="newSalePrice" align="center" label="零售调整价" width="150px">
+            <el-editable-column :label="$t('updates.lsyj')" prop="salePrice" align="center" width="150px"/>
+            <el-editable-column :edit-render="{name: 'ElInputNumber', type: 'visible', attrs: {min: 0}}" :label="$t('updates.lstzj')" prop="newSalePrice" align="center" width="150px">
               <template slot="edit" slot-scope="scope">
                 <el-input-number
                   :precision="2"
@@ -123,8 +123,8 @@
                   v-model="scope.row.newSalePrice"/>
               </template>
             </el-editable-column>
-            <el-editable-column prop="tradePrice" align="center" label="批发原价" width="150px"/>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', type: 'visible', attrs: {min: 0}}" prop="newTradePrice" align="center" label="批发调整价" width="150px">
+            <el-editable-column :label="$t('updates.pfyj')" prop="tradePrice" align="center" width="150px"/>
+            <el-editable-column :edit-render="{name: 'ElInputNumber', type: 'visible', attrs: {min: 0}}" :label="$t('updates.pftzj')" prop="newTradePrice" align="center" width="150px">
               <template slot="edit" slot-scope="scope">
                 <el-input-number
                   :precision="2"
@@ -132,8 +132,8 @@
                   v-model="scope.row.newTradePrice"/>
               </template>
             </el-editable-column>
-            <el-editable-column prop="memberPrice" align="center" label="会员原价" width="150px"/>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', type: 'visible', attrs: {min: 0}}" prop="newMemberPrice" align="center" label="会员调整价" width="150px">
+            <el-editable-column :label="$t('updates.yyyj')" prop="memberPrice" align="center" width="150px"/>
+            <el-editable-column :edit-render="{name: 'ElInputNumber', type: 'visible', attrs: {min: 0}}" :label="$t('updates.yytzj')" prop="newMemberPrice" align="center" width="150px">
               <template slot="edit" slot-scope="scope">
                 <el-input-number
                   :precision="2"
@@ -141,7 +141,7 @@
                   v-model="scope.row.newMemberPrice"/>
               </template>
             </el-editable-column>
-            <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="remarks" align="center" label="备注" width="150px"/>
+            <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.bz')" prop="remarks" align="center" width="150px"/>
           </el-editable>
         </div>
       </el-card>
@@ -164,6 +164,7 @@ import MyRepository from './components/MyRepository'
 import MyAccept from './components/MyAccept'
 import MyDetail from './components/MyDetail'
 import MyCreate from './components/MyCreate'
+var _that
 export default {
   name: 'AddAdjustPrice',
   components: { MyRepository, MyDetail, MyCreate, MyAccept },
@@ -265,6 +266,9 @@ export default {
       },
       pickerOptions1: {}
     }
+  },
+  beforeCreate() {
+    _that = this
   },
   mounted() {
     this.getlist()

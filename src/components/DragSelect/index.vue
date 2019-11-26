@@ -7,6 +7,7 @@
 <script>
 import Sortable from 'sortablejs'
 
+var _that
 export default {
   name: 'DragSelect',
   props: {
@@ -24,6 +25,9 @@ export default {
         this.$emit('input', [...val])
       }
     }
+  },
+  beforeCreate() {
+    _that = this
   },
   mounted() {
     this.setSort()

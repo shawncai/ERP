@@ -38,16 +38,16 @@
                 <el-option value="2" label="送样质检"/>
                 <el-option value="3" label="生产质检"/>
               </el-select>
-              <el-select v-model="getemplist.receiptStat" :value="getemplist.receiptStat" placeholder="单据状态" clearable style="width: 40%;float: left;margin-left: 20px;margin-top: 20px">
-                <el-option value="1" label="制单"/>
-                <el-option value="2" label="执行"/>
-                <el-option value="3" label="结单"/>
+              <el-select v-model="getemplist.receiptStat" :value="getemplist.receiptStat" :placeholder="$t('updates.djzt')" clearable style="width: 40%;float: left;margin-left: 20px;margin-top: 20px">
+                <el-option :label="$t('updates.zd')" value="1"/>
+                <el-option :label="$t('updates.zx')" value="2"/>
+                <el-option :label="$t('updates.jd')" value="3"/>
               </el-select>
-              <el-select v-model="getemplist.judgeStat" :value="getemplist.judgeStat" placeholder="审批状态" clearable style="width: 40%;float: right;margin-right: 20px;margin-top: 20px">
-                <el-option value="0" label="未审核"/>
-                <el-option value="1" label="审核中"/>
-                <el-option value="2" label="审核通过"/>
-                <el-option value="3" label="审核不通过"/>
+              <el-select v-model="getemplist.judgeStat" :value="getemplist.judgeStat" :placeholder="$t('updates.spzt')" clearable style="width: 40%;float: right;margin-right: 20px;margin-top: 20px">
+                <el-option :label="$t('updates.wsh')" value="0"/>
+                <el-option :label="$t('updates.shz')" value="1"/>
+                <el-option :label="$t('updates.shtg')" value="2"/>
+                <el-option :label="$t('updates.shptg')" value="3"/>
               </el-select>
               <el-select v-model="getemplist.checkMode" :value="getemplist.checkMode" placeholder="检验方式" clearable style="width: 40%;float: left;margin-left: 20px;margin-top: 20px">
                 <el-option value="1" label="抽样"/>
@@ -142,24 +142,25 @@ import Pagination from '@/components/Pagination'
 import MyEmp from './MyEmp'
 import MySupplier from './MySupplier'
 
+var _that
 export default {
   directives: { waves },
   components: { MyEmp, Pagination, MySupplier },
   filters: {
     judgeStatFilter(status) {
       const statusMap = {
-        0: '未审核',
-        1: '审核中',
-        2: '审核通过',
-        3: '审核不通过'
+        0: _that.$t('updates.wsh'),
+        1: _that.$t('updates.shz'),
+        2: _that.$t('Hmodule.shtg'),
+        3: _that.$t('updates.shbtg')
       }
       return statusMap[status]
     },
     receiptStatFilter(status) {
       const statusMap = {
-        1: '制单',
-        2: '执行',
-        3: '结单'
+        1: _that.$t('updates.zd'),
+        2: _that.$t('updates.zx'),
+        3: _that.$t('updates.jd')
       }
       return statusMap[status]
     },
@@ -171,9 +172,9 @@ export default {
     },
     sourceTypeFilter(status) {
       const statusMap = {
-        1: '采购到货单',
-        2: '生产任务单',
-        3: '无来源'
+        1: _that.$t('updates.cgdhd'),
+        2: _that.$t('updates.zscrw'),
+        3: _that.$t('Hmodule.Nosource')
       }
       return statusMap[status]
     }

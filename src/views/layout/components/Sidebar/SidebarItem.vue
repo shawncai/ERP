@@ -44,6 +44,7 @@ import Item from './Item'
 import AppLink from './Link'
 import FixiOSBug from './FixiOSBug'
 
+var _that
 export default {
   name: 'SidebarItem',
   components: { Item, AppLink },

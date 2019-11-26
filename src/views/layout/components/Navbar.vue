@@ -11,48 +11,48 @@
         <template slot="title">
           <svg-icon icon-class="menus" style="margin-left: 4px" />
         </template>
-        <el-menu-item index="9">物流管理</el-menu-item>
-        <el-menu-item index="11">财务管理</el-menu-item>
-        <el-menu-item index="12">报表统计</el-menu-item>
-        <el-menu-item index="13">日志管理</el-menu-item>
-        <el-menu-item v-if="show < 1" index="1">首页</el-menu-item>
-        <el-menu-item v-if="show < 2" index="10">系统管理</el-menu-item>
-        <el-menu-item v-if="show < 3" index="2">采购管理</el-menu-item>
-        <el-menu-item v-if="show < 4" index="3">销售管理</el-menu-item>
-        <el-menu-item v-if="show < 5" index="4">库存管理</el-menu-item>
-        <el-menu-item v-if="show < 6" index="5">营销管理</el-menu-item>
-        <el-menu-item v-if="show < 7" index="6">分期管理</el-menu-item>
-        <el-menu-item v-if="show < 8" index="7">生产管理</el-menu-item>
-        <el-menu-item v-if="show < 9" index="8">质检管理</el-menu-item>
-        <el-menu-item index="14"><router-link to="/Chat/index">客服</router-link></el-menu-item>
+        <el-menu-item index="9">{{ $t('updates.wlgl') }}</el-menu-item>
+        <el-menu-item index="11">{{ $t('updates.cwgl') }}</el-menu-item>
+        <el-menu-item index="12">{{ $t('updates.bbgl') }}</el-menu-item>
+        <el-menu-item index="13">{{ $t('updates.rzgl') }}</el-menu-item>
+        <el-menu-item v-if="show < 1" index="1">{{ $t('updates.sy') }}</el-menu-item>
+        <el-menu-item v-if="show < 2" index="10">{{ $t('updates.xtgl') }}</el-menu-item>
+        <el-menu-item v-if="show < 3" index="2">{{ $t('updates.cggl') }}</el-menu-item>
+        <el-menu-item v-if="show < 4" index="3">{{ $t('updates.xsgl') }}</el-menu-item>
+        <el-menu-item v-if="show < 5" index="4">{{ $t('updates.kcgl') }}</el-menu-item>
+        <el-menu-item v-if="show < 6" index="5">{{ $t('updates.yxgl') }}</el-menu-item>
+        <el-menu-item v-if="show < 7" index="6">{{ $t('updates.fqgl') }}</el-menu-item>
+        <el-menu-item v-if="show < 8" index="7">{{ $t('updates.scgl') }}</el-menu-item>
+        <el-menu-item v-if="show < 9" index="8">{{ $t('updates.zjgl') }}</el-menu-item>
+        <el-menu-item index="14"><router-link to="/Chat/index">{{ $t('updates.kf') }}</router-link></el-menu-item>
       </el-submenu>
-      <el-menu-item v-if="show > 0" index="1">首页</el-menu-item>
-      <el-menu-item v-if="show > 1" index="10">系统管理</el-menu-item>
-      <el-menu-item v-if="show > 2" index="2">采购管理</el-menu-item>
-      <el-menu-item v-if="show > 3" index="3">销售管理</el-menu-item>
-      <el-menu-item v-if="show > 4" index="4">库存管理</el-menu-item>
-      <el-menu-item v-if="show > 5" index="5">营销管理</el-menu-item>
-      <el-menu-item v-if="show > 6" index="6">分期管理</el-menu-item>
-      <el-menu-item v-if="show > 7" index="7">生产管理</el-menu-item>
-      <el-menu-item v-if="show > 8" index="8">质检管理</el-menu-item>
+      <el-menu-item v-if="show > 0" index="1">{{ $t('updates.sy') }}</el-menu-item>
+      <el-menu-item v-if="show > 1" index="10">{{ $t('updates.xtgl') }}</el-menu-item>
+      <el-menu-item v-if="show > 2" index="2">{{ $t('updates.cggl') }}</el-menu-item>
+      <el-menu-item v-if="show > 3" index="3">{{ $t('updates.xsgl') }}</el-menu-item>
+      <el-menu-item v-if="show > 4" index="4">{{ $t('updates.kcgl') }}</el-menu-item>
+      <el-menu-item v-if="show > 5" index="5">{{ $t('updates.yxgl') }}</el-menu-item>
+      <el-menu-item v-if="show > 6" index="6">{{ $t('updates.fqgl') }}</el-menu-item>
+      <el-menu-item v-if="show > 7" index="7">{{ $t('updates.scgl') }}</el-menu-item>
+      <el-menu-item v-if="show > 8" index="8">{{ $t('updates.zjgl') }}</el-menu-item>
       <!-- a -->
       <!-- <el-submenu v-else index="44">
         <template slot="title">
           <svg-icon icon-class="menus" style="margin-left: 4px" />
         </template>
         <el-menu-item index="9">物流管理</el-menu-item>
-        <el-menu-item index="11">财务管理</el-menu-item>
-        <el-menu-item index="12">报表统计</el-menu-item>
-        <el-menu-item index="13">日志管理</el-menu-item>
-        <el-menu-item index="1">首页</el-menu-item>
-        <el-menu-item index="10">系统管理</el-menu-item>
-        <el-menu-item index="2">采购管理</el-menu-item>
-        <el-menu-item index="3">销售管理</el-menu-item>
-        <el-menu-item index="4">库存管理</el-menu-item>
-        <el-menu-item index="5">营销管理</el-menu-item>
-        <el-menu-item index="6">分期管理</el-menu-item>
-        <el-menu-item index="7">生产管理</el-menu-item>
-        <el-menu-item index="8">质检管理</el-menu-item>
+        <el-menu-item index="11">{{ $t('updates.cwgl') }}</el-menu-item>
+        <el-menu-item index="12">{{ $t('updates.bbgl') }}</el-menu-item>
+        <el-menu-item index="13">{{ $t('updates.rzgl') }}</el-menu-item>
+        <el-menu-item index="1">{{ $t('updates.sy') }}</el-menu-item>
+        <el-menu-item index="10">{{ $t('updates.xtgl') }}</el-menu-item>
+        <el-menu-item index="2">{{ $t('updates.cggl') }}</el-menu-item>
+        <el-menu-item index="3">{{ $t('updates.xsgl') }}</el-menu-item>
+        <el-menu-item index="4">{{ $t('updates.kcgl') }}</el-menu-item>
+        <el-menu-item index="5">{{ $t('updates.yxgl') }}</el-menu-item>
+        <el-menu-item index="6">{{ $t('updates.fqgl') }}</el-menu-item>
+        <el-menu-item index="7">{{ $t('updates.scgl') }}</el-menu-item>
+        <el-menu-item index="8">{{ $t('updates.zjgl') }}</el-menu-item>
       </el-submenu>-->
     </el-menu>
     <!--<breadcrumb class="breadcrumb-container"/>-->
@@ -105,6 +105,7 @@ import SizeSelect from "@/components/SizeSelect";
 import LangSelect from "@/components/LangSelect";
 import ThemePicker from "@/components/ThemePicker";
 
+var _that
 export default {
   components: {
     Breadcrumb,
@@ -182,6 +183,9 @@ export default {
       }
       console.log(123123, that.show);
     }
+  },
+  beforeCreate() {
+    _that = this
   },
   mounted() {
     const that = this;

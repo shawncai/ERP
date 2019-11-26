@@ -9,7 +9,7 @@
           <el-form ref="personalForm" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="100px" style="margin-left: 30px;">
             <el-row>
               <el-col :span="12">
-                <el-form-item class="print2" label="拆装单编号" style="width: 100%;display: none">
+                <el-form-item :label="$t('updates.czdbh')" class="print2" style="width: 100%;display: none">
                   {{ personalForm.teardownNumber }}
                 </el-form-item>
               </el-col>
@@ -62,7 +62,7 @@
       </el-card>
       <!--入库单明细-->
       <el-card class="box-card" style="margin-top: 15px">
-        <h2 ref="fuzhu" class="form-name">待拆装的商品</h2>
+        <h2 ref="fuzhu" class="form-name">{{ $t('updates.dczdsp') }}</h2>
         <div class="container">
           <el-editable
             ref="editable"
@@ -78,23 +78,23 @@
             <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" fixed="left" align="center" />
             <el-editable-column :label="$t('Hmodule.hw')" prop="locationCode" align="center" />
             <el-editable-column :label="$t('Hmodule.pc')" prop="batch" align="center" />
-            <el-editable-column prop="color" align="center" label="颜色" />
+            <el-editable-column :label="$t('updates.ys')" prop="color" align="center" />
             <el-editable-column :label="$t('Hmodule.gg')" prop="typeIdname" align="center" />
             <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" />
-            <el-editable-column prop="quantity" align="center" label="数量" />
+            <el-editable-column :label="$t('updates.shuli')" prop="quantity" align="center" />
             <el-editable-column :label="$t('Hmodule.dj')" prop="price" align="center" />
             <el-editable-column :label="$t('Hmodule.je')" prop="totalMoney" align="center" >
               <template slot-scope="scope">
                 <p>{{ getSize2(scope.row.quantity, scope.row.price) }}</p>
               </template>
             </el-editable-column>
-            <el-editable-column prop="remarks" align="center" label="备注" />
+            <el-editable-column :label="$t('updates.bz')" prop="remarks" align="center" />
           </el-editable>
         </div>
       </el-card>
       <!--拆装后的商品      -->
       <el-card class="box-card" style="margin-top: 15px">
-        <h2 ref="fuzhu" class="form-name">拆装后的商品</h2>
+        <h2 ref="fuzhu" class="form-name">{{ $t('updates.czhdsp') }}</h2>
         <div class="container">
           <el-editable
             ref="editable2"
@@ -109,47 +109,47 @@
             <el-editable-column :label="$t('Hmodule.hw')" prop="locationCode" fixed="left" align="center" />
             <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" fixed="left" align="center" />
             <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" align="center" />
-            <el-editable-column prop="color" align="center" label="颜色" />
+            <el-editable-column :label="$t('updates.ys')" prop="color" align="center" />
             <el-editable-column :label="$t('Hmodule.gg')" prop="typeIdname" align="center" />
             <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" />
-            <el-editable-column prop="quantity" align="center" label="数量" />
+            <el-editable-column :label="$t('updates.shuli')" prop="quantity" align="center" />
             <el-editable-column :label="$t('Hmodule.dj')" prop="price" align="center" />
             <el-editable-column :label="$t('Hmodule.je')" prop="totalMoney" align="center" >
               <template slot-scope="scope">
                 <p>{{ getSize(scope.row.quantity, scope.row.price) }}</p>
               </template>
             </el-editable-column>
-            <el-editable-column prop="remarks" align="center" label="备注" />
+            <el-editable-column :label="$t('updates.bz')" prop="remarks" align="center" />
           </el-editable>
         </div>
       </el-card>
       <!--审核状态-->
       <el-card class="box-card" style="margin-top: 15px">
-        <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">审批记录</h2>
+        <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('updates.spjl') }}</h2>
         <div class="container" style="margin-top: 37px">
           <el-table
             :data="reviewList"
             border
             style="width: 100%">
             <el-table-column
+              :label="$t('updates.dqbz')"
               prop="step"
               align="center"
-              label="当前步骤"
               min-width="150"/>
             <el-table-column
+              :label="$t('updates.dqspr')"
               prop="stepHandlerName"
               align="center"
-              label="当前审批人"
               min-width="150"/>
             <el-table-column
+              :label="$t('updates.spsj')"
               prop="handleTime"
               align="center"
-              label="审批时间"
               min-width="150"/>
             <el-table-column
+              :label="$t('updates.spyj')"
               prop="stat"
               align="center"
-              label="审批意见"
               min-width="150">
               <template slot-scope="scope">
                 <span>{{ scope.row.stat | statfilter }}</span>
@@ -214,6 +214,7 @@ import MyAccept from './MyAccept'
 import MyDetail from './MyDetail'
 import MyCreate from './MyCreate'
 import MyBulid from './MyBulid'
+var _that
 export default {
   components: { MyBulid, MyRepository, MyDetail, MyCreate, MyAccept },
   filters: {
@@ -303,6 +304,9 @@ export default {
       }
       this.getlocation()
     }
+  },
+  beforeCreate() {
+    _that = this
   },
   mounted() {
     this.getlist()

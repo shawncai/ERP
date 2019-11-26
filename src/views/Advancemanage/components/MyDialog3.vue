@@ -1,5 +1,5 @@
 <template>
-  <el-dialog :visible.sync="editVisible" :editcontrol="editcontrol" :editdata="editdata" :close-on-press-escape="false" :title="personalForm.id +'    修改'" width="1010px" class="edit" top="-10px" @close="$emit('update:editcontrol', false)">
+  <el-dialog :visible.sync="editVisible" :editcontrol="editcontrol" :editdata="editdata" :close-on-press-escape="false" :title="personalForm.id +$t('updates.xg')" width="1010px" class="edit" top="-10px" @close="$emit('update:editcontrol', false)">
     <!--基本信息-->
     <el-card class="box-card" style="margin-top: 63px" shadow="never">
       <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('Hmodule.basicinfo') }}</h2>
@@ -88,7 +88,7 @@
       </div>
     </el-card>
     <el-card class="box-card" style="margin-top: 15px" shadow="never">
-      <h2 ref="fuzhu" class="form-name" >预售商品</h2>
+      <h2 ref="fuzhu" class="form-name" >{{ $t('updates.yssp') }}</h2>
       <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
         <el-button type="success" style="background:#3696fd;border-color:#3696fd " @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>
         <my-detail :control.sync="control" @product="productdetail"/>
@@ -109,7 +109,7 @@
           <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" align="center" min-width="150px"/>
           <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" align="center" min-width="150px"/>
           <el-editable-column :label="$t('Hmodule.gg')" prop="productType" align="center" min-width="150px"/>
-          <el-editable-column prop="color" align="center" label="颜色" min-width="150px"/>
+          <el-editable-column :label="$t('updates.ys')" prop="color" align="center" min-width="150px"/>
           <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" min-width="150px"/>
           <el-editable-column :label="$t('Hmodule.dj')" prop="salePrice" align="center" min-width="150px"/>
           <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="deposit" align="center" label="预售定金" min-width="150px"/>
@@ -138,6 +138,7 @@ import MyPlan from './MyPlan'
 import MyDelivery from './MyDelivery'
 import MyLnquiry from './MyLnquiry'
 import MyArrival from './MyArrival'
+var _that
 export default {
   components: { MyArrival, MyLnquiry, MyDelivery, MyPlan, MyApply, MySupplier, MyDetail, MyEmp },
   props: {

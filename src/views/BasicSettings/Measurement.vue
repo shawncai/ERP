@@ -4,12 +4,12 @@
       <!-- 搜索条件栏目 -->
       <el-input v-model="getemplist.categoryname" :placeholder="$t('BasicSettings.categoryname')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
       <el-select v-model="getemplist.type" :placeholder="$t('BasicSettings.type2')" class="filter-item" clearable >
-        <el-option value="1" label="数量" />
+        <el-option :label="$t('updates.shuli')" value="1" />
         <el-option value="2" label="体积" />
         <el-option value="3" label="重量" />
       </el-select>
       <el-select v-model="getemplist.iseffective" :placeholder="$t('BasicSettings.iseffective3')" class="filter-item" clearable >
-        <el-option value="1" :label="$t('updates.qy')" />
+        <el-option :label="$t('updates.qy')" value="1" />
         <el-option value="2" label="禁用" />
       </el-select>
       <!-- 搜索按钮 -->
@@ -34,17 +34,17 @@
         <el-form :model="Numberingform" label-position="left" label-width="120px" style="width: 400px; margin-left:50px;">
           <el-form-item label-width="120px" label="计量单位类别">
             <el-select v-model="Numberingform.type" placeholder="请选择计量单位类别">
-              <el-option label="数量" value="1"/>
+              <el-option :label="$t('updates.shuli')" value="1"/>
               <el-option label="体积" value="2"/>
               <el-option label="重量" value="3"/>
               <el-option label="长度" value="4"/>
               <el-option label="面积" value="5"/>
             </el-select>
           </el-form-item>
-          <el-form-item label-width="120px" label="计量单位名称">
+          <el-form-item :label="$t('updates.jldwmc')" label-width="120px">
             <el-input v-model="Numberingform.categoryname" placeholder="请输入计量单位名称" autocomplete="off" style="width: 200px"/>
           </el-form-item>
-          <el-form-item label-width="120px" :label="$t('updates.qyzt')">
+          <el-form-item :label="$t('updates.qyzt')" label-width="120px">
             <el-select v-model="Numberingform.iseffective" placeholder="请选择启用状态">
               <el-option :label="$t('updates.qy')" value="1"/>
               <el-option label="禁用" value="2"/>
@@ -115,18 +115,18 @@
       <!-- 列表结束 -->
       <pagination v-show="total>0" :total="total" :page.sync="getemplist.pagenum" :limit.sync="getemplist.pagesize" @pagination="getlist" />
       <!--修改开始=================================================-->
-      <el-dialog :visible.sync="editNumberingVisible" title="修改计量单位" class="normal" width="600px">
+      <el-dialog :visible.sync="editNumberingVisible" :title="$t('updates.xgjldw')" class="normal" width="600px">
         <el-form :model="editNumberingform" label-position="left" label-width="120px" style="width: 400px; margin-left:50px;">
           <el-form-item label-width="120px" label="计量单位类别">
             <el-select v-model="editNumberingform.type" placeholder="请选择计量单位类别" disabled>
-              <el-option label="数量" value="1"/>
+              <el-option :label="$t('updates.shuli')" value="1"/>
               <el-option label="体积" value="2"/>
               <el-option label="重量" value="3"/>
               <el-option label="长度" value="4"/>
               <el-option label="面积" value="5"/>
             </el-select>
           </el-form-item>
-          <el-form-item label-width="120px" label="计量单位名称">
+          <el-form-item :label="$t('updates.jldwmc')" label-width="120px">
             <el-input v-model="editNumberingform.categoryName" placeholder="请输入计量单位名称" autocomplete="off" style="width: 200px"/>
           </el-form-item>
           <!-- <el-form-item label-width="120px" :label="$t('updates.qyzt')">
@@ -155,6 +155,7 @@ import checkPermission from '@/utils/permission' // 权限判断函数
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
 
+var _that
 export default {
   name: 'Measurement',
   directives: { waves, permission, permission2 },
@@ -219,6 +220,9 @@ export default {
         pagesize: 10
       }
     }
+  },
+  beforeCreate() {
+    _that = this
   },
   mounted() {
     this.getlist()

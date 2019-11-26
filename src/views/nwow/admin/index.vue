@@ -70,6 +70,7 @@ const lineChartData = {
   }
 }
 
+var _that
 export default {
   name: 'DashboardAdmin',
   components: {

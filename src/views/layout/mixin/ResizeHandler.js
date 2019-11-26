@@ -4,6 +4,7 @@ const { body } = document
 const WIDTH = 1024
 const RATIO = 3
 
+var _that
 export default {
   watch: {
     $route(route) {
@@ -14,6 +15,9 @@ export default {
   },
   beforeMount() {
     window.addEventListener('resize', this.resizeHandler)
+  },
+  beforeCreate() {
+    _that = this
   },
   mounted() {
     const isMobile = this.isMobile()

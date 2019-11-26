@@ -1,5 +1,5 @@
 <template>
-  <el-dialog :visible.sync="editVisible" :detailcontrol="detailcontrol" :detaildata="detaildata" :close-on-press-escape="false" :title="personalForm.number +'    详情'" append-to-body width="1010px" class="edit" top="-10px" @close="$emit('update:detailcontrol', false)">
+  <el-dialog :visible.sync="editVisible" :detailcontrol="detailcontrol" :detaildata="detaildata" :close-on-press-escape="false" :title="personalForm.number +$t('updates.xqing')" append-to-body width="1010px" class="edit" top="-10px" @close="$emit('update:detailcontrol', false)">
     <div id="printTest" >
       <!--基本信息-->
       <el-card class="box-card" style="margin-top: 63px" shadow="never">
@@ -144,7 +144,7 @@
       </el-card>
       <!--子件信息-->
       <el-card class="box-card" style="margin-top: 15px" shadow="never">
-        <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">订单明细</h2>
+        <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('updates.ddmx') }}</h2>
         <div class="container">
           <el-editable
             ref="editable"
@@ -159,34 +159,34 @@
             <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" fixed="left" align="center" />
             <el-editable-column :label="$t('Hmodule.hw')" prop="locationName" align="center" />
             <el-editable-column :label="$t('Hmodule.pc')" prop="batch" align="center" />
-            <el-editable-column prop="categoryName" align="center" label="物品分类" />
-            <el-editable-column prop="unit" align="center" label="基本单位" />
-            <el-editable-column prop="typeName" align="center" label="规格型号" />
-            <el-editable-column prop="color" align="center" label="颜色" />
-            <el-editable-column prop="kpiGrade" align="center" label="绩效分" />
-            <el-editable-column prop="point" align="center" label="商品积分" />
-            <el-editable-column prop="quantity" align="center" label="出库数量" />
-            <el-editable-column prop="retreatQuantity" align="center" label="退货数量" />
-            <!-- <el-editable-column prop="salePrice" align="center" label="零售价" />
-            <el-editable-column prop="costPrice" align="center" label="成本价" /> -->
-            <el-editable-column prop="taxprice" align="center" label="出库价" />
+            <el-editable-column :label="$t('updates.wpfl')" prop="categoryName" align="center" />
+            <el-editable-column :label="$t('updates.jbdw')" prop="unit" align="center" />
+            <el-editable-column :label="$t('updates.ggxh')" prop="typeName" align="center" />
+            <el-editable-column :label="$t('updates.ys')" prop="color" align="center" />
+            <el-editable-column :label="$t('updates.jxf')" prop="kpiGrade" align="center" />
+            <el-editable-column :label="$t('updates.spjf')" prop="point" align="center" />
+            <el-editable-column :label="$t('updates.cksli')" prop="quantity" align="center" />
+            <el-editable-column :label="$t('updates.thsl')" prop="retreatQuantity" align="center" />
+            <!-- <el-editable-column prop="salePrice" align="center" :label="$t('updates.lsj')" />
+            <el-editable-column prop="costPrice" align="center" :label="$t('updates.cbj')" /> -->
+            <el-editable-column :label="$t('updates.ckj')" prop="taxprice" align="center" />
             <!-- <el-editable-column prop="costMoney" align="center" label="成本金额" />
-            <el-editable-column prop="includeTaxMoney" align="center" label="含税金额" /> -->
-            <el-editable-column prop="taxRate" align="center" label="税率(%)" />
-            <el-editable-column prop="taxMoney" align="center" label="税额" />
+            <el-editable-column prop="includeTaxMoney" align="center" :label="$t('updates.hsje')" /> -->
+            <el-editable-column :label="$t('updates.sl')" prop="taxRate" align="center" />
+            <el-editable-column :label="$t('updates.se')" prop="taxMoney" align="center" />
             <!-- <el-editable-column prop="money" align="center" :label="$t('Hmodule.je')" /> -->
-            <el-editable-column prop="includeTaxCostMoney" align="center" label="出库金额" />
-            <el-editable-column :formatter="formatter" prop="discountRate" align="center" label="折扣率(%)"/>
-            <el-editable-column prop="discountMoney" align="center" label="折扣额" />
-            <el-editable-column prop="carCode" align="center" label="车架编码" />
-            <el-editable-column prop="motorCode" align="center" label="电机编码" />
-            <el-editable-column prop="batteryCode" align="center" label="电池编码" />
-            <el-editable-column prop="sourceNumber" align="center" label="源单编号" />
+            <el-editable-column :label="$t('updates.ckje')" prop="includeTaxCostMoney" align="center" />
+            <el-editable-column :formatter="formatter" :label="$t('updates.ckl')" prop="discountRate" align="center"/>
+            <el-editable-column :label="$t('updates.cke')" prop="discountMoney" align="center" />
+            <el-editable-column :label="$t('updates.cjbm')" prop="carCode" align="center" />
+            <el-editable-column :label="$t('updates.djbm')" prop="motorCode" align="center" />
+            <el-editable-column :label="$t('updates.dcbm')" prop="batteryCode" align="center" />
+            <el-editable-column :label="$t('updates.ydbh')" prop="sourceNumber" align="center" />
           </el-editable>
         </div>
       </el-card>
       <el-card class="box-card" style="margin-top: 15px" shadow="never">
-        <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">赠品明细</h2>
+        <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('updates.zpmx') }}</h2>
         <div class="container">
           <el-editable
             ref="editable2"
@@ -202,19 +202,19 @@
             <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" fixed="left" align="center" />
             <el-editable-column :label="$t('Hmodule.hw')" prop="locationName" align="center" />
             <el-editable-column :label="$t('Hmodule.pc')" prop="batch" align="center" />
-            <el-editable-column prop="categoryName" align="center" label="物品分类" />
-            <el-editable-column prop="unit" align="center" label="基本单位" />
-            <el-editable-column prop="typeName" align="center" label="规格型号" />
-            <el-editable-column prop="color" align="center" label="颜色" />
-            <el-editable-column prop="salePrice" align="center" label="零售价" />
+            <el-editable-column :label="$t('updates.wpfl')" prop="categoryName" align="center" />
+            <el-editable-column :label="$t('updates.jbdw')" prop="unit" align="center" />
+            <el-editable-column :label="$t('updates.ggxh')" prop="typeName" align="center" />
+            <el-editable-column :label="$t('updates.ys')" prop="color" align="center" />
+            <el-editable-column :label="$t('updates.lsj')" prop="salePrice" align="center" />
             <el-editable-column :label="$t('Hmodule.je')" prop="money" align="center" />
-            <el-editable-column prop="quantity" align="center" label="数量" />
+            <el-editable-column :label="$t('updates.shuli')" prop="quantity" align="center" />
           </el-editable>
         </div>
       </el-card>
       <!--审核状态-->
       <el-card class="box-card" shadow="never" style="margin-top: 10px">
-        <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">合计信息</h2>
+        <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('updates.hjxx') }}</h2>
         <div class="container" style="margin-top: 37px">
           <el-form ref="personalForm2" :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
             <el-row>
@@ -278,31 +278,31 @@
         </div>
       </el-card>
       <el-card class="box-card" style="margin-top: 15px" shadow="never">
-        <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">审批记录</h2>
+        <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('updates.spjl') }}</h2>
         <div class="container" style="margin-top: 37px">
           <el-table
             :data="reviewList"
             border
             style="width: 100%">
             <el-table-column
+              :label="$t('updates.dqbz')"
               prop="step"
               align="center"
-              label="当前步骤"
               min-width="150"/>
             <el-table-column
+              :label="$t('updates.dqspr')"
               prop="stepHandlerName"
               align="center"
-              label="当前审批人"
               min-width="150"/>
             <el-table-column
+              :label="$t('updates.spsj')"
               prop="handleTime"
               align="center"
-              label="审批时间"
               min-width="150"/>
             <el-table-column
+              :label="$t('updates.spyj')"
               prop="stat"
               align="center"
-              label="审批意见"
               min-width="150">
               <template slot-scope="scope">
                 <span>{{ scope.row.stat | statfilter }}</span>
@@ -396,15 +396,16 @@
 <script>
 import printJS from 'print-js'
 import { productlist } from '@/api/public'
+var _that
 export default {
   filters: {
     sourceTypeFilter(status) {
       const statusMap = {
-        1: '销售订单',
-        2: '销售合同',
-        3: '预售单',
-        4: '销售机会',
-        5: '无来源'
+        1: _that.$t('updates.xsdd'),
+        2: _that.$t('updates.xsht'),
+        3: _that.$t('updates.ysd'),
+        4: _that.$t('updates.xsjh'),
+        5: _that.$t('Hmodule.Nosource')
       }
       return statusMap[status]
     },
@@ -454,9 +455,9 @@ export default {
     },
     receiptStatFilter(status) {
       const statusMap = {
-        1: '制单',
-        2: '执行',
-        3: '结单'
+        1: _that.$t('updates.zd'),
+        2: _that.$t('updates.zx'),
+        3: _that.$t('updates.jd')
       }
       return statusMap[status]
     },

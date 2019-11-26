@@ -10,7 +10,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="10" style="margin-left: 118px">
-            <el-form-item label="采购时间段">
+            <el-form-item :label="$t('updates.cgsjd')">
               <el-date-picker
                 v-model="date"
                 type="daterange"
@@ -109,6 +109,7 @@ import Pagination from '@/components/Pagination'
 import DetailList from './components/DetailList'
 import MyDetail from './components/MyDetail'
 
+var _that
 export default {
   name: 'StockPrice',
   directives: { waves, permission, permission2 },
@@ -143,6 +144,9 @@ export default {
       // 开始时间到结束时间
       date: []
     }
+  },
+  beforeCreate() {
+    _that = this
   },
   mounted() {
     // this.getlist()

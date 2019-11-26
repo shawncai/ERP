@@ -149,7 +149,7 @@
             @selection-change="handleSelectionChange2">
             <el-editable-column :key="Math.random()" prop="sourceNumber" label="编号" min-width="200" align="center" />
             <el-editable-column :key="Math.random()" prop="shouldMoney" align="center" label="应收款金额" min-width="150px"/>
-            <el-editable-column :key="Math.random()" prop="discountMoney" align="center" label="折扣额" min-width="150px"/>
+            <el-editable-column :key="Math.random()" :label="$t('updates.cke')" prop="discountMoney" align="center" min-width="150px"/>
             <el-editable-column :key="Math.random()" prop="retreatMoney" align="center" label="退货抵扣" min-width="150px"/>
             <el-editable-column :key="Math.random()" prop="collectedMoney" align="center" label="已收金额" min-width="150px"/>
             <el-editable-column :key="Math.random()" prop="uncollectedMoney" align="center" label="未收款金额" min-width="150px"/>
@@ -177,6 +177,7 @@ import MyMater from './components/MyMater'
 import MyInstallment from './components/MyInstallment'
 import MyAgent from '../SaleOpportunity/components/MyAgent'
 import { searchCategory } from '@/api/Supplier'
+var _that
 export default {
   name: 'AddReceipt',
   components: { MyAgent, MyInstallment, MyMater, MyDetail, MyEmp },
@@ -303,6 +304,9 @@ export default {
   // },
   created() {
     this.getways()
+  },
+  beforeCreate() {
+    _that = this
   },
   mounted() {
     this.getinformation()

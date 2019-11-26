@@ -6,16 +6,16 @@
       <div class="container">
         <el-form ref="customerForm" :model="customerForm" :rules="customerFormrules" :inline="true" status-icon class="demo-ruleForm" label-position="top" label-width="300px" style="margin-left: 30px;">
           <el-form-item :label="$t('Customer.firstname')" prop="firstname" style="width: 40%;margin-top:1%">
-            <el-input v-model="customerForm.firstname" placeholder="请输入名" clearable/>
+            <el-input v-model="customerForm.firstname" clearable/>
           </el-form-item>
           <el-form-item :label="$t('Customer.middlename')" prop="middlename" style="width: 40%;margin-top:1%">
-            <el-input v-model="customerForm.middlename" placeholder="请输入中间名" clearable/>
+            <el-input v-model="customerForm.middlename" clearable/>
           </el-form-item>
           <el-form-item :label="$t('Customer.lastname')" prop="lastname" style="width: 40%">
-            <el-input v-model="customerForm.lastname" placeholder="请输入姓氏" clearable/>
+            <el-input v-model="customerForm.lastname" clearable/>
           </el-form-item>
           <el-form-item :label="$t('Customer.phone')" prop="phone" style="width: 40%">
-            <el-input v-model.number="customerForm.phone" placeholder="请输入客户电话" clearable/>
+            <el-input v-model.number="customerForm.phone" clearable/>
           </el-form-item>
           <el-form-item :label="$t('Customer.gender')" prop="gender" style="width: 40%;margin-top:1%">
             <el-radio-group v-model="customerForm.gender" style="width: 80%">
@@ -33,7 +33,7 @@
           <!--</el-select>-->
           <!--</el-form-item>-->
           <el-form-item :label="$t('Customer.level')" style="width: 40%;margin-top: 1%">
-            <el-select ref="clear" v-model="customerForm.level" :value="customerForm.level" placeholder="请选择客户优质级别" style="width: 100%;">
+            <el-select ref="clear" v-model="customerForm.level" :value="customerForm.level" style="width: 100%;">
               <el-option v-show="false" label="" value=""/>
               <el-option
                 v-for="(item, index) in levels"
@@ -65,7 +65,7 @@
             </el-select>
           </el-form-item>
           <el-form-item :label="$t('public.countyrId')" prop="countryid" style="width: 40%;margin-top: 1%">
-            <el-select v-model="customerForm.countryid" placeholder="请选择国家" style="width: 100%;" @change ="handlechange">
+            <el-select v-model="customerForm.countryid" style="width: 100%;" @change ="handlechange">
               <el-option
                 v-for="(item, index) in nations"
                 :key="index"
@@ -74,7 +74,7 @@
             </el-select>
           </el-form-item>
           <el-form-item :label="$t('Customer.provinceid')" style="width: 40%;margin-top: 1%">
-            <el-select v-model="customerForm.provinceid" placeholder="请选择省" style="width: 100%;" @change="handlechange2">
+            <el-select v-model="customerForm.provinceid" style="width: 100%;" @change="handlechange2">
               <el-option
                 v-for="(item, index) in provinces"
                 :key="index"
@@ -83,7 +83,7 @@
             </el-select>
           </el-form-item>
           <el-form-item :label="$t('Customer.cityid')" style="width: 40%;margin-top: 1%">
-            <el-select v-model="customerForm.cityid" placeholder="请选择市" style="width: 100%;">
+            <el-select v-model="customerForm.cityid" style="width: 100%;">
               <el-option
                 v-for="(item, index) in cities"
                 :key="index"
@@ -92,7 +92,7 @@
             </el-select>
           </el-form-item>
           <el-form-item :label="$t('Customer.address')" prop="address" style="width: 40%;margin-top:1%">
-            <el-input v-model="customerForm.address" placeholder="请输入地址" clearable/>
+            <el-input v-model="customerForm.address" clearable/>
           </el-form-item>
           <el-form-item :label="$t('Customer.birthday')" style="width: 40%;margin-top:1%">
             <el-date-picker
@@ -131,6 +131,7 @@ import { searchCusCategory, addCustomer } from '@/api/Customer'
 import permission from '@/directive/permission/index.js' // 权限判断指令
 import permission2 from '@/directive/permission2/index.js' // 权限判断指令
 import checkPermission from '@/utils/permission' // 权限判断函数
+var _that
 export default {
   name: 'NewCustomer',
   directives: { permission, permission2 },

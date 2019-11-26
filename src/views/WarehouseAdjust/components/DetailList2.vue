@@ -85,7 +85,7 @@
       </el-card>
       <!--日常调整单明细-->
       <el-card class="box-card" style="margin-top: 15px">
-        <h2 ref="fuzhu" class="form-name">日常调整单明细</h2>
+        <h2 ref="fuzhu" class="form-name">{{ $t('updates.rctzdmx') }}</h2>
         <div class="container">
           <el-editable
             ref="editable"
@@ -101,39 +101,39 @@
             <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" fixed="left" align="center" width="150px"/>
             <el-editable-column :label="$t('Hmodule.gg')" prop="productType" align="center" width="150px"/>
             <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" width="150px"/>
-            <el-editable-column prop="outLocationCode" align="center" label="调出库位" width="150px"/>
-            <el-editable-column prop="enterLocationCode" align="center" label="调入库位" width="150px"/>
-            <el-editable-column prop="inventoryQuantity" align="center" label="库存数量" width="150px"/>
+            <el-editable-column :label="$t('updates.dckw')" prop="outLocationCode" align="center" width="150px"/>
+            <el-editable-column :label="$t('updates.drkw')" prop="enterLocationCode" align="center" width="150px"/>
+            <el-editable-column :label="$t('updates.kcsl')" prop="inventoryQuantity" align="center" width="150px"/>
           </el-editable>
         </div>
       </el-card>
       <!--审核状态-->
       <el-card class="box-card" style="margin-top: 15px">
-        <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">审批记录</h2>
+        <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('updates.spjl') }}</h2>
         <div class="container" style="margin-top: 37px">
           <el-table
             :data="reviewList"
             border
             style="width: 100%">
             <el-table-column
+              :label="$t('updates.dqbz')"
               prop="step"
               align="center"
-              label="当前步骤"
               min-width="150"/>
             <el-table-column
+              :label="$t('updates.dqspr')"
               prop="stepHandlerName"
               align="center"
-              label="当前审批人"
               min-width="150"/>
             <el-table-column
+              :label="$t('updates.spsj')"
               prop="handleTime"
               align="center"
-              label="审批时间"
               min-width="150"/>
             <el-table-column
+              :label="$t('updates.spyj')"
               prop="stat"
               align="center"
-              label="审批意见"
               min-width="150">
               <template slot-scope="scope">
                 <span>{{ scope.row.stat | statfilter }}</span>
@@ -151,6 +151,7 @@
 
 <script>
 import { getdeptlist } from '@/api/BasicSettings'
+var _that
 export default {
   filters: {
     statfilter(status) {
@@ -201,6 +202,9 @@ export default {
         }
       }
     }
+  },
+  beforeCreate() {
+    _that = this
   },
   mounted() {
     this.getlist()

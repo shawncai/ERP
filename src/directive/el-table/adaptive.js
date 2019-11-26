@@ -25,6 +25,7 @@ const doResize = (el, binding, vnode) => {
   $table.doLayout()
 }
 
+var _that
 export default {
   bind(el, binding, vnode) {
     el.resizeListener = () => {

@@ -32,6 +32,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
+var _that
 export default {
   filters: {
     // 将日期过滤为 hour:minutes

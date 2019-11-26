@@ -442,6 +442,8 @@ import MyEmp from './components/MyEmp'
 import MySupplier from './components/MySupplier'
 import MyTree from './components/MyTree'
 import MyCenter from './components/MyCenter'
+// eslint-disable-next-line no-unused-vars
+var _that
 export default {
   name: 'NewProduct',
   directives: { permission, permission2 },

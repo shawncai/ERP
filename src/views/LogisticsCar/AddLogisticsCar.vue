@@ -53,6 +53,7 @@ import '@/directive/noMoreClick/index.js'
 import { addcar } from '@/api/LogisticsCar'
 import MyEmp from './components/MyEmp'
 import MyCreate from './components/MyCreate'
+var _that
 export default {
   name: 'AddLogisticsCar',
   components: { MyEmp, MyCreate },

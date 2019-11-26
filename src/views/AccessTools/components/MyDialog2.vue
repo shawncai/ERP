@@ -16,12 +16,12 @@
           style="width: 100%">
           <!--          <el-editable-column type="selection" min-width="55" align="center"/>-->
           <el-editable-column :label="$t('Hmodule.xh')" min-width="55" align="center" type="index"/>
-          <el-editable-column prop="toolsCode" align="center" label="工具编号" min-width="150px"/>
-          <el-editable-column prop="toolsName" align="center" label="工具名称" min-width="150px"/>
-          <!--            <el-editable-column prop="productCategory" align="center" label="物品分类" min-width="150px"/>-->
-          <el-editable-column prop="unit" align="center" label="基本单位" min-width="150px"/>
-          <!--            <el-editable-column prop="productType" align="center" label="规格型号" min-width="150px"/>-->
-          <!--            <el-editable-column prop="color" align="center" label="颜色" min-width="150px"/>-->
+          <el-editable-column :label="$t('updates.gjbh')" prop="toolsCode" align="center" min-width="150px"/>
+          <el-editable-column :label="$t('updates.gjmc')" prop="toolsName" align="center" min-width="150px"/>
+          <!--            <el-editable-column prop="productCategory" align="center" :label="$t('updates.wpfl')" min-width="150px"/>-->
+          <el-editable-column :label="$t('updates.jbdw')" prop="unit" align="center" min-width="150px"/>
+          <!--            <el-editable-column prop="productType" align="center" :label="$t('updates.ggxh')" min-width="150px"/>-->
+          <!--            <el-editable-column prop="color" align="center" :label="$t('updates.ys')" min-width="150px"/>-->
           <!--          <el-editable-column :edit-render="{type: 'default'}" prop="locationId" align="center" :label="$t('Hmodule.hw')" width="200px">-->
           <!--            <template slot-scope="scope">-->
           <!--              <el-select v-model="scope.row.locationId" :value="scope.row.locationId" :placeholder="$t('Hmodule.xzhw')" filterable clearable style="width: 100%;" @visible-change="updatebatch($event,scope)">-->
@@ -33,9 +33,9 @@
           <!--              </el-select>-->
           <!--            </template>-->
           <!--          </el-editable-column>-->
-          <el-editable-column prop="quantity" align="center" label="数量" width="150px"/>
+          <el-editable-column :label="$t('updates.shuli')" prop="quantity" align="center" width="150px"/>
           <el-editable-column :edit-render="{name: 'ElInputNumber', type: 'visible'}" prop="lossQuantity" align="center" label="丢失数量" width="150px"/>
-          <el-editable-column prop="stat" align="center" label="状态" min-width="150px">
+          <el-editable-column :label="$t('updates.stat')" prop="stat" align="center" min-width="150px">
             <template slot-scope="scope">
               <p>{{ scope.row.stat | statFilter }}</p>
             </template>
@@ -71,6 +71,7 @@ import MyOpportunity from './MyOpportunity'
 import MyInstallmentapply from './MyInstallmentapply'
 import MyAgent from './MyAgent'
 import MyCustomer from '../../SaleOpportunity/components/MyCustomer'
+var _that
 export default {
   components: { MyCustomer, MyInstallmentapply, MyOpportunity, MyDelivery, MyPlan, MyApply, MySupplier, MyDetail, MyEmp, MyAgent, MyRepository },
   filters: {

@@ -1,5 +1,5 @@
 <template>
-  <el-dialog :visible.sync="editVisible" :editcontrol="editcontrol" :editdata="editdata" :close-on-press-escape="false" :title="personalForm.handleNumber +'    修改'" width="1010px" class="edit" top="-10px" @close="$emit('update:editcontrol', false)">
+  <el-dialog :visible.sync="editVisible" :editcontrol="editcontrol" :editdata="editdata" :close-on-press-escape="false" :title="personalForm.handleNumber +$t('updates.xg')" width="1010px" class="edit" top="-10px" @close="$emit('update:editcontrol', false)">
     <!--基本信息-->
     <el-card class="box-card" style="margin-top: 63px" shadow="never">
       <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('Hmodule.basicinfo') }}</h2>
@@ -44,7 +44,7 @@
       </div>
     </el-card>
     <el-card class="box-card" shadow="never" style="margin-top: 10px">
-      <h2 ref="geren" class="form-name">物品信息</h2>
+      <h2 ref="geren" class="form-name">{{ $t('updates.wpxx') }}</h2>
       <div class="container" style="margin-top: 37px">
         <el-form ref="personalForm2" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
           <el-row>
@@ -81,7 +81,7 @@
     <el-card class="box-card" style="margin-top: 15px;margin-bottom: 40px" shadow="never">
       <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">不合格处置单明细</h2>
       <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
-        <el-button @click="$refs.editable.insert(-1)">添加</el-button>
+        <el-button @click="$refs.editable.insert(-1)">{{ $t('updates.tj') }}</el-button>
         <el-button type="danger" @click="$refs.editable.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
       </div>
       <div class="container">
@@ -97,10 +97,10 @@
           style="width: 100%">
           <el-editable-column type="selection" min-width="55" align="center"/>
           <el-editable-column :label="$t('Hmodule.xh')" min-width="55" align="center" type="index"/>
-          <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="failedReason" align="center" label="不合格原因" min-width="150px"/>
-          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="quantity" align="center" label="数量" min-width="150px"/>
-          <el-editable-column :edit-render="{name: 'ElSelect', options: modes, type: 'visible'}" prop="handleMode" align="center" label="处置方式" min-width="150px"/>
-          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="rate" align="center" label="比例" min-width="150px"/>
+          <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.bhgyy')" prop="failedReason" align="center" min-width="150px"/>
+          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" :label="$t('updates.shuli')" prop="quantity" align="center" min-width="150px"/>
+          <el-editable-column :edit-render="{name: 'ElSelect', options: modes, type: 'visible'}" :label="$t('updates.czfs')" prop="handleMode" align="center" min-width="150px"/>
+          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" :label="$t('updates.bl')" prop="rate" align="center" min-width="150px"/>
         </el-editable>
       </div>
     </el-card>
@@ -128,6 +128,7 @@ import MyQuality from './MyQuality'
 import MyMater from './MyMater'
 import MyEmp2 from './MyEmp2'
 import MyReport from './MyReport'
+var _that
 export default {
   components: { MyReport, MyEmp2, MyMater, MyQuality, MyAccept, ProduceTask, MyArrival, MyCenter, MyDelivery, MySupplier, MyDetail, MyEmp },
   props: {

@@ -1,5 +1,5 @@
 <template>
-  <el-dialog :visible.sync="editVisible" :detailcontrol="detailcontrol" :detaildata="detaildata" :close-on-press-escape="false" :title="personalForm.sourceNumber +'    详情'" append-to-body width="1010px" class="edit" top="-10px" @close="$emit('update:detailcontrol', false)">
+  <el-dialog :visible.sync="editVisible" :detailcontrol="detailcontrol" :detaildata="detaildata" :close-on-press-escape="false" :title="personalForm.sourceNumber +$t('updates.xqing')" append-to-body width="1010px" class="edit" top="-10px" @close="$emit('update:detailcontrol', false)">
     <!--基本信息-->
     <el-card class="box-card" style="margin-top: 63px" shadow="never">
       <el-table
@@ -80,6 +80,7 @@
 </template>
 
 <script>
+var _that
 export default {
   filters: {
     statfilter(status) {
@@ -98,10 +99,10 @@ export default {
     },
     sourceTypeFilter(status) {
       const statusMap = {
-        1: '采购申请',
-        2: '采购计划',
-        3: '采购询价单',
-        4: '无来源'
+        1: _that.$t('updates.cgsq'),
+        2: _that.$t('updates.cgjhd'),
+        3: _that.$t('updates.cgxjd'),
+        4: _that.$t('Hmodule.Nosource')
       }
       return statusMap[status]
     },
@@ -114,9 +115,9 @@ export default {
     },
     receiptStatFilter(status) {
       const statusMap = {
-        1: '制单',
-        2: '执行',
-        3: '结单'
+        1: _that.$t('updates.zd'),
+        2: _that.$t('updates.zx'),
+        3: _that.$t('updates.jd')
       }
       return statusMap[status]
     },

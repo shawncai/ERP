@@ -41,10 +41,10 @@
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item label="合为一个单据" style="width: 100%;">
+                <el-form-item :label="$t('updates.hwygdj')" style="width: 100%;">
                   <el-select v-model="personalForm.type" :placeholder="$t('updates.qxz')" style="margin-left: 18px;width: 200px" >
-                    <el-option value="1" :label="$t('updates.yes')"/>
-                    <el-option value="2" :label="$t('updates.no')"/>
+                    <el-option :label="$t('updates.yes')" value="1"/>
+                    <el-option :label="$t('updates.no')" value="2"/>
                   </el-select>
                 </el-form-item>
               </el-col>
@@ -54,11 +54,11 @@
       </el-card>
       <!--拆装单明细-->
       <el-card class="box-card" style="margin-top: 15px">
-        <h2 ref="fuzhu" class="form-name">待拆装的商品</h2>
+        <h2 ref="fuzhu" class="form-name">{{ $t('updates.dczdsp') }}</h2>
         <div class="buttons" style="margin-top: 58px">
           <el-button type="success" style="background:#3696fd;border-color:#3696fd " @click="handleAddproduct2">{{ $t('Hmodule.tjsp') }}</el-button>
           <el-button type="danger" @click="beyond2">{{ $t('Hmodule.delete') }}</el-button>
-          <el-button type="primary" @click="checkStock()">库存快照</el-button>
+          <el-button type="primary" @click="checkStock()">{{ $t('updates.kckz') }}</el-button>
         </div>
         <my-materials :materialcontrol.sync="materialcontrol" @product4="productdetail4"/>
         <div class="container">
@@ -99,23 +99,23 @@
             </el-editable-column>
             <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" align="center" width="150px"/>
             <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" align="center" width="150px"/>
-            <el-editable-column prop="color" align="center" label="颜色" width="150px"/>
+            <el-editable-column :label="$t('updates.ys')" prop="color" align="center" width="150px"/>
             <el-editable-column :label="$t('Hmodule.gg')" prop="typeIdname" align="center" width="150px"/>
             <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" width="150px"/>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', type: 'visible', events: {change: beyond}}" prop="quantity" align="center" label="数量" width="150px"/>
+            <el-editable-column :edit-render="{name: 'ElInputNumber', type: 'visible', events: {change: beyond}}" :label="$t('updates.shuli')" prop="quantity" align="center" width="150px"/>
             <el-editable-column :label="$t('Hmodule.dj')" prop="price" align="center" width="150px"/>
             <el-editable-column :label="$t('Hmodule.je')" prop="totalMoney" align="center" width="150px">
               <template slot-scope="scope">
                 <p>{{ getSize2(scope.row.quantity, scope.row.price) }}</p>
               </template>
             </el-editable-column>
-            <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="remarks" align="center" label="备注" width="150px"/>
+            <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.bz')" prop="remarks" align="center" width="150px"/>
           </el-editable>
         </div>
       </el-card>
       <!--拆装后的商品      -->
       <el-card class="box-card" style="margin-top: 15px">
-        <h2 ref="fuzhu" class="form-name">拆装后的商品</h2>
+        <h2 ref="fuzhu" class="form-name">{{ $t('updates.czhdsp') }}</h2>
         <my-bulid :buildcontrol.sync="buildcontrol" @product2="productdetail2"/>
         <div class="container">
           <el-editable
@@ -143,17 +143,17 @@
             </el-editable-column>
             <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" align="center" width="150px"/>
             <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" align="center" width="150px"/>
-            <el-editable-column prop="color" align="center" label="颜色" width="150px"/>
+            <el-editable-column :label="$t('updates.ys')" prop="color" align="center" width="150px"/>
             <el-editable-column :label="$t('Hmodule.gg')" prop="productType" align="center" width="150px"/>
             <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" width="150px"/>
-            <el-editable-column prop="quantity" align="center" label="数量" width="150px"/>
+            <el-editable-column :label="$t('updates.shuli')" prop="quantity" align="center" width="150px"/>
             <el-editable-column :label="$t('Hmodule.dj')" prop="price" align="center" width="150px"/>
             <el-editable-column :label="$t('Hmodule.je')" prop="totalMoney" align="center" width="150px">
               <template slot-scope="scope">
                 <p>{{ getSize(scope.row.quantity, scope.row.price) }}</p>
               </template>
             </el-editable-column>
-            <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="remarks" align="center" label="备注" width="150px"/>
+            <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.bz')" prop="remarks" align="center" width="150px"/>
           </el-editable>
         </div>
       </el-card>
@@ -175,7 +175,7 @@
                     <span >{{ scope.row.repositoryName }}</span>
                   </template>
                 </el-table-column>
-                <el-table-column :resizable="false" label="商品名称" align="center" min-width="150">
+                <el-table-column :resizable="false" :label="$t('updates.spmc')" align="center" min-width="150">
                   <template slot-scope="scope">
                     <span >{{ scope.row.productName }}</span>
                   </template>
@@ -208,6 +208,7 @@ import MyDetail from './components/MyDetail'
 import MyCreate from './components/MyCreate'
 import MyBulid from './components/MyBulid'
 import MyMaterials from './components/MyMaterials'
+var _that
 export default {
   name: 'AddTearDown',
   components: { MyBulid, MyRepository, MyDetail, MyCreate, MyAccept, MyMaterials },
@@ -284,6 +285,9 @@ export default {
       moreaction: [],
       materialcontrol: false
     }
+  },
+  beforeCreate() {
+    _that = this
   },
   mounted() {
     this.getlist()

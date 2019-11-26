@@ -75,6 +75,7 @@ import MyMater from './components/MyMater'
 import MyInstallment from './components/MyInstallment'
 import MyRepository from './components/MyRepository'
 import MyCustomer from './components/MyCustomer'
+var _that
 export default {
   name: 'AddCustomerVisit',
   components: { MyCustomer, MyRepository, MyInstallment, MyMater, MyDetail, MyEmp },

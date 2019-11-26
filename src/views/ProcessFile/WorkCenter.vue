@@ -4,12 +4,12 @@
       <el-row>
         <el-form ref="getemplist" :model="getemplist" label-width="120px" style="margin-top: -9px">
           <el-col :span="4">
-            <el-form-item label="工作中心编号">
+            <el-form-item :label="$t('updates.gzzxbh')">
               <el-input v-model="getemplist.code" :placeholder="$t('ProcessFile.code')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
           <el-col :span="4">
-            <el-form-item label="工作中心名称">
+            <el-form-item :label="$t('updates.gzzxmc')">
               <el-input v-model="getemplist.workCenterName" :placeholder="$t('ProcessFile.workCenterName')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
@@ -132,6 +132,7 @@ import permission2 from '@/directive/permission2/index.js' // 权限判断指令
 import checkPermission from '@/utils/permission' // 权限判断函数
 import MyDialog from './components/MyDialog'
 import DetailList from './components/DetailList' // Waves directive
+var _that
 export default {
   name: 'WorkCenter',
   directives: { waves, permission, permission2 },
@@ -184,6 +185,9 @@ export default {
       // 开始时间到结束时间
       date: []
     }
+  },
+  beforeCreate() {
+    _that = this
   },
   mounted() {
     this.getlist()

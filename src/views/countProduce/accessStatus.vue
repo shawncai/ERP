@@ -4,7 +4,7 @@
       <el-row>
         <el-form ref="getemplist" :model="getemplist" label-width="100px" style="margin-top: -9px">
           <el-col :span="4">
-            <el-form-item label="任务单编号">
+            <el-form-item :label="$t('updates.rwdbh')">
               <el-input v-model="getemplist.taskNumber" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
@@ -135,6 +135,7 @@ import MyCustomer from './components/MyCustomer'
 import MyAgent from './components/MyAgent'
 import MySupplier from './components/MySupplier'
 
+var _that
 export default {
   name: 'AccessStatus',
   directives: { waves, permission, permission2 },
@@ -142,18 +143,18 @@ export default {
   filters: {
     judgeStatFilter(status) {
       const statusMap = {
-        0: '未审核',
-        1: '审核中',
-        2: '审核通过',
-        3: '审核不通过'
+        0: _that.$t('updates.wsh'),
+        1: _that.$t('updates.shz'),
+        2: _that.$t('Hmodule.shtg'),
+        3: _that.$t('updates.shbtg')
       }
       return statusMap[status]
     },
     receiptStatFilter(status) {
       const statusMap = {
-        1: '制单',
-        2: '执行',
-        3: '结单'
+        1: _that.$t('updates.zd'),
+        2: _that.$t('updates.zx'),
+        3: _that.$t('updates.jd')
       }
       return statusMap[status]
     },
@@ -245,6 +246,9 @@ export default {
       // 开始时间到结束时间
       date: []
     }
+  },
+  beforeCreate() {
+    _that = this
   },
   mounted() {
     this.getlist()

@@ -57,7 +57,7 @@ export function userLockCar(query) {
     params.append('deviceId', query) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/remoteControl/userLockCar',
+    url: '/remoteControl/lockCar',
     method: 'post',
     data: params
   })
@@ -70,7 +70,20 @@ export function userUnLockCar(query) {
     params.append('deviceId', query) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/remoteControl/userUnLockCar',
+    url: '/remoteControl/unLockCar',
+    method: 'post',
+    data: params
+  })
+}
+
+// 判断车辆锁车状态
+export function getlockStat(query) {
+  var params = new URLSearchParams()
+  if (query !== '' && query !== null && query !== undefined) {
+    params.append('snCode', query) // 你要传给后台的参数值 key/value
+  }
+  return request({
+    url: '/vehicle/getVehicleStat',
     method: 'post',
     data: params
   })

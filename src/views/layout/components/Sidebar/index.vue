@@ -41,6 +41,7 @@
 import { mapGetters, mapMutations, mapActions } from "vuex";
 import SidebarItem from './SidebarItem'
 
+var _that
 export default {
   components: { SidebarItem },
   computed: {

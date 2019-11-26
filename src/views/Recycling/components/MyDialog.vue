@@ -1,5 +1,5 @@
 <template>
-  <el-dialog :visible.sync="editVisible" :editcontrol="editcontrol" :editdata="editdata" :close-on-press-escape="false" :title="personalForm.number +'    修改'" width="1010px" class="edit" top="-10px" @close="$emit('update:editcontrol', false)">
+  <el-dialog :visible.sync="editVisible" :editcontrol="editcontrol" :editdata="editdata" :close-on-press-escape="false" :title="personalForm.number +$t('updates.xg')" width="1010px" class="edit" top="-10px" @close="$emit('update:editcontrol', false)">
     <!--基本信息-->
     <el-card class="box-card" style="margin-top: 63px" shadow="never">
       <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('Hmodule.basicinfo') }}</h2>
@@ -85,7 +85,7 @@
       </div>
     </el-card>
     <el-card class="box-card" shadow="never" style="margin-top: 10px">
-      <h2 ref="geren" class="form-name">客户信息</h2>
+      <h2 ref="geren" class="form-name">{{ $t('updates.khxx') }}</h2>
       <div class="container" style="margin-top: 37px">
         <el-form ref="personalForm2" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
           <el-row>
@@ -146,6 +146,8 @@ import MyEmp from './MyEmp'
 import MyRepository from './MyRepository'
 import MyMater from './MyMater'
 import MyCustomer from './MyCustomer'
+// eslint-disable-next-line no-unused-vars
+var _that
 export default {
   components: { MyCustomer, MyMater, MyRepository, MyEmp },
   props: {

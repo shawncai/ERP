@@ -61,6 +61,7 @@
 import '@/directive/noMoreClick/index.js'
 import { createworkCenter } from '@/api/ProcessFile'
 import { getdeptlist } from '@/api/BasicSettings'
+var _that
 export default {
   name: 'AddWorkCenter',
   data() {
@@ -93,6 +94,9 @@ export default {
         ]
       }
     }
+  },
+  beforeCreate() {
+    _that = this
   },
   mounted() {
     this.getlist()

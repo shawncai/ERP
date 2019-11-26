@@ -27,6 +27,7 @@
 </template>
 
 <script>
+var _that
 export default {
   name: 'Hamburger',
   props: {

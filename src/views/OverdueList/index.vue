@@ -4,17 +4,17 @@
       <el-row>
         <el-form ref="getemplist" :model="getemplist" label-width="100px" style="margin-top: -9px">
           <el-col :span="5">
-            <el-form-item label="客户姓名" label-width="100px">
+            <el-form-item :label="$t('updates.khxmi')" label-width="100px">
               <el-input v-model="getemplist.customerName" :placeholder="$t('InstallmentList.customerName')" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
           <el-col :span="5" style="margin-left: 10px">
-            <el-form-item label="电话">
+            <el-form-item :label="$t('updates.dh')">
               <el-input v-model="getemplist.customerPhone" placeholder="电话" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
           <el-col :span="5">
-            <el-form-item label="分期申请编号" label-width="100px">
+            <el-form-item :label="$t('updates.fqsqbh')" label-width="100px">
               <el-input v-model="getemplist.customerName" :placeholder="$t('InstallmentList.applyNumber')" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
@@ -25,16 +25,16 @@
               placement="bottom"
               width="500"
               trigger="click">
-              <el-select v-model="getemplist.receiptStat" :value="getemplist.receiptStat" placeholder="单据状态" clearable style="width: 40%;float: left;margin-left: 20px">
-                <el-option value="1" label="制单"/>
-                <el-option value="2" label="执行"/>
-                <el-option value="3" label="结单"/>
+              <el-select v-model="getemplist.receiptStat" :value="getemplist.receiptStat" :placeholder="$t('updates.djzt')" clearable style="width: 40%;float: left;margin-left: 20px">
+                <el-option :label="$t('updates.zd')" value="1"/>
+                <el-option :label="$t('updates.zx')" value="2"/>
+                <el-option :label="$t('updates.jd')" value="3"/>
               </el-select>
-              <el-select v-model="getemplist.judgeStat" :value="getemplist.judgeStat" placeholder="审批状态" clearable style="width: 40%;float: right;margin-right: 20px">
-                <el-option value="0" label="未审核"/>
-                <el-option value="1" label="审核中"/>
-                <el-option value="2" label="审核通过"/>
-                <el-option value="3" label="审核不通过"/>
+              <el-select v-model="getemplist.judgeStat" :value="getemplist.judgeStat" :placeholder="$t('updates.spzt')" clearable style="width: 40%;float: right;margin-right: 20px">
+                <el-option :label="$t('updates.wsh')" value="0"/>
+                <el-option :label="$t('updates.shz')" value="1"/>
+                <el-option :label="$t('updates.shtg')" value="2"/>
+                <el-option :label="$t('updates.shptg')" value="3"/>
               </el-select>
               <!--<el-date-picker-->
               <!--v-model="date"-->
@@ -77,7 +77,7 @@
     </el-card>
 
     <el-card class="box-card" style="margin-top: 10px" shadow="never">
-      <h2 ref="yuqi" class="form-name">逾期列表</h2>
+      <h2 ref="yuqi" class="form-name">{{ $t('updates.yqlb') }}</h2>
       <div class="container">
         <!-- 列表开始 -->
         <el-table
@@ -158,9 +158,9 @@
           <el-table-column :label="$t('public.actions')" :resizable="false" align="center" min-width="230">
             <template slot-scope="scope">
               <el-button v-permission="['200-206-60']" title="转催收" type="primary" size="mini" icon="el-icon-d-arrow-right" circle @click="handleEdit2(scope.row)"/>
-              <el-button v-permission2="['200-206-3', scope.row.createPersonId]" v-show="scope.row.judgeStat === 0" title="修改" type="primary" size="mini" icon="el-icon-edit" circle @click="handleEdit(scope.row)"/>
-              <el-button v-show="isReview(scope.row)" title="审批" type="warning" size="mini" icon="el-icon-view" circle @click="handleReview(scope.row)"/>
-              <el-button v-permission2="['200-206-2', scope.row.createPersonId]" v-show="scope.row.judgeStat === 0" title="删除" size="mini" type="danger" icon="el-icon-delete" circle @click="handleDelete(scope.row)"/>
+              <el-button v-permission2="['200-206-3', scope.row.createPersonId]" v-show="scope.row.judgeStat === 0" :title="$t('updates.xg')" type="primary" size="mini" icon="el-icon-edit" circle @click="handleEdit(scope.row)"/>
+              <el-button v-show="isReview(scope.row)" :title="$t('updates.spi')" type="warning" size="mini" icon="el-icon-view" circle @click="handleReview(scope.row)"/>
+              <el-button v-permission2="['200-206-2', scope.row.createPersonId]" v-show="scope.row.judgeStat === 0" :title="$t('updates.sc')" size="mini" type="danger" icon="el-icon-delete" circle @click="handleDelete(scope.row)"/>
               <el-button v-permission="['200-206-74']" type="primary" style="width: 84px" @click="handleMyReceipt1(scope.row)"><span style="margin-left: -15px;">生成收款单</span></el-button>
             </template>
           </el-table-column>
@@ -174,7 +174,7 @@
     </el-card>
 
     <el-card class="box-card" style="margin-top: 10px" shadow="never">
-      <h2 ref="huankuan" class="form-name">逾期记录</h2>
+      <h2 ref="huankuan" class="form-name">{{ $t('updates.yqjl') }}</h2>
       <!-- 列表开始 -->
       <div class="container">
         <el-table
@@ -256,6 +256,7 @@ import permission from '@/directive/permission/index.js' // 权限判断指令
 import permission2 from '@/directive/permission2/index.js' // 权限判断指令
 import checkPermission from '@/utils/permission' // 权限判断函数
 
+var _that
 export default {
   name: 'Index',
   directives: { waves, permission, permission2 },
@@ -263,18 +264,18 @@ export default {
   filters: {
     judgeStatFilter(status) {
       const statusMap = {
-        0: '未审核',
-        1: '审核中',
-        2: '审核通过',
-        3: '审核不通过'
+        0: _that.$t('updates.wsh'),
+        1: _that.$t('updates.shz'),
+        2: _that.$t('Hmodule.shtg'),
+        3: _that.$t('updates.shbtg')
       }
       return statusMap[status]
     },
     receiptStatFilter(status) {
       const statusMap = {
-        1: '制单',
-        2: '执行',
-        3: '结单'
+        1: _that.$t('updates.zd'),
+        2: _that.$t('updates.zx'),
+        3: _that.$t('updates.jd')
       }
       return statusMap[status]
     },
@@ -376,6 +377,9 @@ export default {
       },
       processData: []
     }
+  },
+  beforeCreate() {
+    _that = this
   },
   mounted() {
     this.getlist()

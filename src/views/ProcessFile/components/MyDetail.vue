@@ -92,6 +92,7 @@
 import { searchprocessFile } from '@/api/ProcessFile'
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
 import waves from '@/directive/waves'
+var _that
 export default {
   directives: { waves },
   components: { Pagination },

@@ -116,7 +116,7 @@
       <!--修改操作-->
       <!--===========================-->
       <!--开始-->
-      <el-dialog :visible.sync="editVisible" class="editdialog" width="1010px" top="-10px" title="修改仓库">
+      <el-dialog :visible.sync="editVisible" :title="$t('updates.xgck')" class="editdialog" width="1010px" top="-10px">
         <!--仓库信息-->
         <h2 ref="geren" class="form-name">{{ $t('Hmodule.basicinfo') }}</h2>
         <div class="container">
@@ -462,6 +462,7 @@ import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
 import DetailList from './DetailList'
 
+var _that
 export default {
   name: 'RepositoryList',
   directives: { waves, permission, permission2 },
@@ -617,6 +618,9 @@ export default {
       regionManagerVisible: false
       // 修改弹窗中的数据结束
     }
+  },
+  beforeCreate() {
+    _that = this
   },
   mounted() {
     this.getlist()

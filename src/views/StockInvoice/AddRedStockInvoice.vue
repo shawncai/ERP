@@ -130,12 +130,12 @@
       <el-card class="box-card" style="margin-top: 15px" shadow="never">
         <h2 ref="fuzhu" class="form-name" >红字采购发票明细</h2>
         <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
-          <!--          <el-button style="width: 130px" @click="handleAddSouce">从源单中选择</el-button>-->
+          <!--          <el-button style="width: 130px" @click="handleAddSouce">{{ $t('updates.cydzxz') }}</el-button>-->
           <my-enter :entercontrol.sync="entercontrol" :supp.sync="supp" @enter="enter" @enterinfo="enterinfo"/>
           <!--          <el-button :disabled="addpro" @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>-->
           <my-detail :control.sync="control" @product="productdetail"/>
           <el-button type="danger" @click="$refs.editable.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
-          <!--          <el-button type="primary" @click="checkStock()">库存快照</el-button>-->
+          <!--          <el-button type="primary" @click="checkStock()">{{ $t('updates.kckz') }}</el-button>-->
         </div>
         <div class="container">
           <el-editable
@@ -156,9 +156,9 @@
             <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" align="center" min-width="150px"/>
             <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" align="center" min-width="150px"/>
             <el-editable-column :label="$t('Hmodule.gg')" prop="productType" align="center" min-width="150px"/>
-            <el-editable-column prop="color" align="center" label="颜色" min-width="150px"/>
+            <el-editable-column :label="$t('updates.ys')" prop="color" align="center" min-width="150px"/>
             <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" min-width="150px"/>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0, precision: 2}, type: 'visible'}" prop="quantity" align="center" label="数量" min-width="150px">
+            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0, precision: 2}, type: 'visible'}" :label="$t('updates.shuli')" prop="quantity" align="center" min-width="150px">
               <template slot="edit" slot-scope="scope">
                 <el-input-number
                   :precision="2"
@@ -174,7 +174,7 @@
                   @input="getprice(scope.row)"/>
               </template>
             </el-editable-column>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0, precision: 2}, type: 'visible'}" prop="includeTaxPrice" align="center" label="含税价" min-width="170px">
+            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0, precision: 2}, type: 'visible'}" :label="$t('updates.hsj')" prop="includeTaxPrice" align="center" min-width="170px">
               <template slot="edit" slot-scope="scope">
                 <el-input-number
                   :precision="2"
@@ -182,7 +182,7 @@
                   @input="getincludeTaxPrice(scope.row)"/>
               </template>
             </el-editable-column>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0, precision: 2}, type: 'visible'}" prop="taxRate" align="center" label="税率(%)" min-width="170px">
+            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0, precision: 2}, type: 'visible'}" :label="$t('updates.sl')" prop="taxRate" align="center" min-width="170px">
               <template slot="edit" slot-scope="scope">
                 <el-input-number
                   :precision="2"
@@ -195,17 +195,17 @@
                 <p>{{ getMoney(scope.row) }}</p>
               </template>
             </el-editable-column>
-            <el-editable-column prop="includeTaxMoney" align="center" label="含税金额" min-width="150px">
+            <el-editable-column :label="$t('updates.hsje')" prop="includeTaxMoney" align="center" min-width="150px">
               <template slot-scope="scope">
                 <p>{{ getTaxMoney(scope.row) }}</p>
               </template>
             </el-editable-column>
-            <el-editable-column prop="tax" align="center" label="税额" min-width="150px">
+            <el-editable-column :label="$t('updates.se')" prop="tax" align="center" min-width="150px">
               <template slot-scope="scope">
                 <p>{{ getTaxMoney2(scope.row) }}</p>
               </template>
             </el-editable-column>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="discountRate" align="center" label="折扣(%)" min-width="170px">
+            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" :label="$t('updates.zk')" prop="discountRate" align="center" min-width="170px">
               <template slot="edit" slot-scope="scope">
                 <el-input-number
                   :precision="2"
@@ -213,7 +213,7 @@
                   @change="getdiscountRate(scope.row)"/>
               </template>
             </el-editable-column>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="discountMoney" align="center" label="折扣额" min-width="170px">
+            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" :label="$t('updates.cke')" prop="discountMoney" align="center" min-width="170px">
               <template slot="edit" slot-scope="scope">
                 <el-input-number
                   :precision="2"
@@ -221,28 +221,28 @@
                   @change="getdiscountMoney(scope.row)"/>
               </template>
             </el-editable-column>
-            <el-editable-column prop="sourceNumber" align="center" label="源单编号" min-width="150px"/>
-            <el-editable-column prop="orderNumber" align="center" label="订单单号" min-width="150px"/>
+            <el-editable-column :label="$t('updates.ydbh')" prop="sourceNumber" align="center" min-width="150px"/>
+            <el-editable-column :label="$t('updates.dddh')" prop="orderNumber" align="center" min-width="150px"/>
           </el-editable>
         </div>
       </el-card>
       <!--      <el-card class="box-card" shadow="never">-->
-      <!--        <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">合计信息</h2>-->
+      <!--        <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('updates.hjxx') }}</h2>-->
       <!--        <div class="container" style="margin-top: 37px">-->
       <!--          <el-form :inline="true" status-icon class="demo-ruleForm" label-width="130px">-->
       <!--            <el-row>-->
       <!--              <el-col :span="6">-->
-      <!--                <el-form-item label="退货数量总计" style="width: 100%;">-->
+      <!--                <el-form-item :label="$t('updates.thslzj')" style="width: 100%;">-->
       <!--                  <el-input v-model="allNumber" style="margin-left: 18px;width:200px" disabled/>-->
       <!--                </el-form-item>-->
       <!--              </el-col>-->
       <!--              <el-col :span="6">-->
-      <!--                <el-form-item label="金额合计" style="width: 100%;">-->
+      <!--                <el-form-item :label="$t('updates.hehj')" style="width: 100%;">-->
       <!--                  <el-input v-model="allMoney" style="margin-left: 18px;width:200px" disabled/>-->
       <!--                </el-form-item>-->
       <!--              </el-col>-->
       <!--              <el-col :span="6">-->
-      <!--                <el-form-item label="税额合计" style="width: 100%;">-->
+      <!--                <el-form-item :label="$t('updates.sehj')" style="width: 100%;">-->
       <!--                  <el-input v-model="allTaxMoney" style="margin-left: 18px;width:200px" disabled/>-->
       <!--                </el-form-item>-->
       <!--              </el-col>-->
@@ -274,7 +274,7 @@
                     <span >{{ scope.row.repositoryName }}</span>
                   </template>
                 </el-table-column>
-                <el-table-column :resizable="false" label="商品名称" align="center" min-width="150">
+                <el-table-column :resizable="false" :label="$t('updates.spmc')" align="center" min-width="150">
                   <template slot-scope="scope">
                     <span >{{ scope.row.productName }}</span>
                   </template>
@@ -312,6 +312,7 @@ import MyOrder from './components/MyOrder'
 import MyArrival from './components/MyArrival'
 import MyEnter from './components/MyEnter'
 import MyRepository from './components/MyRepository'
+var _that
 export default {
   name: 'AddStockInvoice',
   components: { MyRepository, MyArrival, MyOrder, MyLnquiry, MyDelivery, MyPlan, MyApply, MySupplier, MyDetail, MyEmp, MyEnter },
@@ -456,6 +457,9 @@ export default {
   created() {
     this.getTypes()
     this.getways()
+  },
+  beforeCreate() {
+    _that = this
   },
   mounted() {
     this.getinformation()

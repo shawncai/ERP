@@ -51,7 +51,7 @@
       <!--生产明细-->
       <el-card class="box-card" style="margin-top: 15px" shadow="never">
         <el-tabs v-model="activeName2" type="card">
-          <el-tab-pane label="生产状况" name="first">
+          <el-tab-pane :label="$t('updates.sczk')" name="first">
             <el-form :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="110px" style="margin-left: 30px;margin-top: 10px">
               <el-row>
                 <el-col :span="6">
@@ -66,7 +66,7 @@
                 </el-col>
               </el-row>
             </el-form>
-            <h2 ref="fuzhu" class="form-name" style="margin-top: 10px;">生产明细</h2>
+            <h2 ref="fuzhu" class="form-name" style="margin-top: 10px;">{{ $t('updates.scmxi') }}</h2>
             <div class="buttons" style="margin-top: 58px">
               <el-button type="danger" @click="$refs.editable.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
             </div>
@@ -85,18 +85,18 @@
                 <el-editable-column :label="$t('Hmodule.xh')" min-width="55" align="center" type="index"/>
                 <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" align="center" min-width="150px"/>
                 <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" align="center" min-width="150px"/>
-                <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="workHours" align="center" label="工时" min-width="150px"/>
-                <el-editable-column :edit-render="{ type: 'default'}" prop="finishQuantity" align="center" label="完成数" min-width="150px">
+                <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" :label="$t('updates.gs')" prop="workHours" align="center" min-width="150px"/>
+                <el-editable-column :edit-render="{ type: 'default'}" :label="$t('updates.wcs')" prop="finishQuantity" align="center" min-width="150px">
                   <template slot-scope="scope">
                     <el-input v-model="scope.row.finishQuantity" :value="scope.row.finishQuantity" @focus="finish(scope.row)"/>
                   </template>
                 </el-editable-column>
-                <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="passQuantity" align="center" label="合格数" min-width="150px"/>
-                <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="passRate" align="center" label="合格率" min-width="150px"/>
+                <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" :label="$t('updates.hgs')" prop="passQuantity" align="center" min-width="150px"/>
+                <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" :label="$t('updates.hgl')" prop="passRate" align="center" min-width="150px"/>
               </el-editable>
             </div>
           </el-tab-pane>
-          <el-tab-pane label="人员状况" name="second">
+          <el-tab-pane :label="$t('updates.ryzk')" name="second">
             <el-form :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="110px" style="margin-left: 30px;margin-top: 10px">
               <el-row>
                 <el-col :span="6">
@@ -151,14 +151,14 @@
                 <el-editable-column type="selection" min-width="55" align="center"/>
                 <el-editable-column :label="$t('Hmodule.xh')" min-width="55" align="center" type="index"/>
                 <el-editable-column prop="personName" align="center" label="人员" min-width="150px"/>
-                <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="workHours" align="center" label="工时" min-width="150px"/>
-                <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="finishQuantity" align="center" label="完成数" min-width="150px"/>
-                <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="passQuantity" align="center" label="合格数" min-width="150px"/>
-                <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="passRate" align="center" label="合格率" min-width="150px"/>
+                <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" :label="$t('updates.gs')" prop="workHours" align="center" min-width="150px"/>
+                <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" :label="$t('updates.wcs')" prop="finishQuantity" align="center" min-width="150px"/>
+                <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" :label="$t('updates.hgs')" prop="passQuantity" align="center" min-width="150px"/>
+                <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" :label="$t('updates.hgl')" prop="passRate" align="center" min-width="150px"/>
               </el-editable>
             </div>
           </el-tab-pane>
-          <el-tab-pane label="设备状况" name="third">
+          <el-tab-pane :label="$t('updates.sbzk')" name="third">
             <el-form :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="110px" style="margin-left: 30px;margin-top: 10px">
               <el-row>
                 <el-col :span="6">
@@ -229,13 +229,13 @@
                 <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="equipmentNumber" align="center" label="设备编号" min-width="150px"/>
                 <el-editable-column :edit-render="{name: 'ElInput', attrs: {min: 0}, type: 'visible'}" prop="equipmentName" align="center" label="设备名称" min-width="150px"/>
                 <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="runTime" align="center" label="开机时长" min-width="150px"/>
-                <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="finishQuantity" align="center" label="完成数" min-width="150px"/>
-                <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="passQuantity" align="center" label="合格数" min-width="150px"/>
-                <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="passRate" align="center" label="合格率" min-width="150px"/>
+                <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" :label="$t('updates.wcs')" prop="finishQuantity" align="center" min-width="150px"/>
+                <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" :label="$t('updates.hgs')" prop="passQuantity" align="center" min-width="150px"/>
+                <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" :label="$t('updates.hgl')" prop="passRate" align="center" min-width="150px"/>
               </el-editable>
             </div>
           </el-tab-pane>
-          <el-tab-pane label="物料使用情况" name="fourth">
+          <el-tab-pane :label="$t('updates.wlsyqk')" name="fourth">
             <el-form :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="110px" style="margin-left: 30px;margin-top: 10px">
               <el-row>
                 <el-col :span="6">
@@ -304,6 +304,7 @@ import MyEmp from './components/MyEmp'
 import MyDetail from './components/MyDetail'
 import ProducePlan from './components/ProducePlan'
 import ProduceTask from './components/ProduceTask'
+var _that
 export default {
   name: 'AddProduceReport',
   components: { ProduceTask, ProducePlan, MyCenter, MyDetail, MyEmp },
@@ -372,6 +373,9 @@ export default {
   },
   created() {
     this.getList()
+  },
+  beforeCreate() {
+    _that = this
   },
   mounted() {
     this.getinformation()

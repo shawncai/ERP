@@ -1,5 +1,5 @@
 <template>
-  <el-dialog :visible.sync="editVisible" :detailcontrol="detailcontrol" :detaildata="detaildata" :close-on-press-escape="false" :title="personalForm.applyNumber +'    详情'" append-to-body width="1010px" class="edit" top="10px" @close="$emit('update:detailcontrol', false)">
+  <el-dialog :visible.sync="editVisible" :detailcontrol="detailcontrol" :detaildata="detaildata" :close-on-press-escape="false" :title="personalForm.applyNumber +$t('updates.xqing')" append-to-body width="1010px" class="edit" top="10px" @close="$emit('update:detailcontrol', false)">
     <div id="printTest" >
       <!--基本信息-->
       <el-card class="box-card" shadow="never">
@@ -128,7 +128,7 @@
       </el-card>
       <!--子件信息-->
       <el-card class="box-card" shadow="never" style="margin-top: 10px">
-        <h2 ref="geren" class="form-name">商品信息</h2>
+        <h2 ref="geren" class="form-name">{{ $t('updates.spxx') }}</h2>
         <div class="container" style="margin-top: 37px">
           <el-form ref="personalForm2" :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
             <el-row>
@@ -231,7 +231,7 @@
         </div>
       </el-card>
       <el-card class="box-card" shadow="never" style="margin-top: 10px">
-        <h2 ref="geren" class="form-name">工作信息</h2>
+        <h2 ref="geren" class="form-name">{{ $t('updates.gzxx') }}</h2>
         <div class="container" style="margin-top: 37px">
           <el-tabs v-model="activeName">
             <el-tab-pane label="申请者" name="first">
@@ -380,7 +380,7 @@
         </div>
       </el-card>
       <el-card class="box-card" shadow="never" style="margin-top: 10px">
-        <h2 ref="geren" class="form-name">征询人信息</h2>
+        <h2 ref="geren" class="form-name">{{ $t('updates.zxrxx') }}</h2>
         <div class="container">
           <el-editable
             ref="editable"
@@ -392,38 +392,38 @@
             size="medium"
             style="width: 100%">
             <el-editable-column :label="$t('Hmodule.xh')" min-width="55" align="center" type="index"/>
-            <el-editable-column prop="consultancyName" align="center" label="姓名" min-width="150px"/>
-            <el-editable-column prop="consultancyPhone" align="center" label="联系电话" min-width="150px"/>
-            <el-editable-column prop="consultancyAddress" align="center" label="地址" min-width="150px"/>
+            <el-editable-column :label="$t('updates.xmi')" prop="consultancyName" align="center" min-width="150px"/>
+            <el-editable-column :label="$t('updates.lxdh')" prop="consultancyPhone" align="center" min-width="150px"/>
+            <el-editable-column :label="$t('updates.dz')" prop="consultancyAddress" align="center" min-width="150px"/>
           </el-editable>
         </div>
       </el-card>
       <el-card class="box-card" style="margin-top: 15px" shadow="never">
-        <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">审批记录</h2>
+        <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('updates.spjl') }}</h2>
         <div class="container" style="margin-top: 37px">
           <el-table
             :data="reviewList"
             border
             style="width: 100%">
             <el-table-column
+              :label="$t('updates.dqbz')"
               prop="step"
               align="center"
-              label="当前步骤"
               min-width="150"/>
             <el-table-column
+              :label="$t('updates.dqspr')"
               prop="stepHandlerName"
               align="center"
-              label="当前审批人"
               min-width="150"/>
             <el-table-column
+              :label="$t('updates.spsj')"
               prop="handleTime"
               align="center"
-              label="审批时间"
               min-width="150"/>
             <el-table-column
+              :label="$t('updates.spyj')"
               prop="stat"
               align="center"
-              label="审批意见"
               min-width="150">
               <template slot-scope="scope">
                 <span>{{ scope.row.stat | statfilter }}</span>
@@ -476,6 +476,7 @@
 </template>
 
 <script>
+var _that
 export default {
   filters: {
     liveFilter(status) {
@@ -559,9 +560,9 @@ export default {
     },
     receiptStatFilter(status) {
       const statusMap = {
-        1: '制单',
-        2: '执行',
-        3: '结单'
+        1: _that.$t('updates.zd'),
+        2: _that.$t('updates.zx'),
+        3: _that.$t('updates.jd')
       }
       return statusMap[status]
     }

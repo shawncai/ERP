@@ -38,6 +38,7 @@ import { updatereturncar } from '@/api/LogisticsCar'
 import MyDriver from './MyDriver'
 import MyOut from './MyOut'
 import MyCreate from './MyCreate'
+var _that
 export default {
   components: { MyDriver, MyOut, MyCreate },
   props: {

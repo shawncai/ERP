@@ -104,14 +104,14 @@
           </el-form-item>
           <el-form-item :label="$t('BasicSettings.commissionCategory')" prop="commissionType" style="width: 100%;margin-top:1%">
             <el-radio-group v-model="editNumberingform.commissionCategory">
-              <el-radio :label="1">利润提成</el-radio>
-              <el-radio :label="2">销售收入提成</el-radio>
+              <el-radio :label="1">{{ $t('updates.lrtc') }}</el-radio>
+              <el-radio :label="2">{{ $t('updates.xssrtc') }}</el-radio>
             </el-radio-group>
           </el-form-item>
           <el-form-item :label="$t('BasicSettings.commissionType')" prop="commissionType" style="width: 100%;margin-top:1%">
             <el-radio-group v-model="editNumberingform.commissionType">
-              <el-radio :label="1">提成比例</el-radio>
-              <el-radio :label="2">固定金额</el-radio>
+              <el-radio :label="1">{{ $t('updates.tcbl') }}</el-radio>
+              <el-radio :label="2">{{ $t('updates.gdje') }}</el-radio>
               <!-- <el-radio :label="3">绩效分</el-radio> -->
             </el-radio-group>
           </el-form-item>
@@ -149,6 +149,7 @@ import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
 import MyTree from './components/MyTree'
 
+var _that
 export default {
   name: 'NumberingRules',
   directives: { waves, permission, permission2 },
@@ -243,6 +244,9 @@ export default {
         ]
       }
     }
+  },
+  beforeCreate() {
+    _that = this
   },
   mounted() {
     this.getlist()
