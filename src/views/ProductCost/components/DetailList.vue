@@ -153,16 +153,6 @@
               :label="$t('updates.dqspr')"
               prop="stepHandlerName"
               align="center"
-              min-width="150"/>
-            <el-table-column
-              :label="$t('updates.spsj')"
-              prop="handleTime"
-              align="center"
-              min-width="150"/>
-            <el-table-column
-              :label="$t('updates.spyj')"
-              prop="stat"
-              align="center"
               min-width="150">
               <template slot-scope="scope">
                 <span>{{ scope.row.stat | statfilter }}</span>

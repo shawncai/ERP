@@ -325,21 +325,6 @@
                   prop="retreatQuantity"
                   align="center"
                   min-width="150"/>
-                <el-table-column
-                  :label="$t('updates.thyy')"
-                  prop="retreatReason"
-                  align="center"
-                  min-width="150"/>
-                <el-table-column
-                  :label="$t('updates.ckmc')"
-                  prop="collectDate"
-                  align="center"
-                  min-width="150"/>
-                <el-table-column
-                  prop="stat"
-                  align="center"
-                  label="出入库状态"
-                  min-width="150"/>
               </el-table>
               <pagination v-show="total2>0" :total="total2" :page.sync="getstocklist.pagenum" :limit.sync="getstocklist.pagesize" @pagination="getstoctlist" />
             </el-tab-pane>

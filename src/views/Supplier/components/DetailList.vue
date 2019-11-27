@@ -375,11 +375,6 @@
                   prop="retreatReason"
                   align="center"
                   min-width="150"/>
-                <el-table-column
-                  prop="stat"
-                  align="center"
-                  label="退货状态"
-                  min-width="150"/>
               </el-table>
             </el-tab-pane>
             <el-tab-pane label="预付款信息">

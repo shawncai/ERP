@@ -131,12 +131,7 @@
             <el-table-column
               :label="$t('updates.spyj')"
               prop="stat"
-              align="center"
-              min-width="150">
-              <template slot-scope="scope">
-                <span>{{ scope.row.stat | statfilter }}</span>
-              </template>
-            </el-table-column>
+              align="center"/>
           </el-table>
         </div>
       </el-card>
