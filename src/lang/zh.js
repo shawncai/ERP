@@ -376,7 +376,10 @@ export default {
     installmentComplete: '分期付款完成率统计',
     recoveryCarDetail: '收车明细表',
     installmentPayList: '分期付款情况明细表',
-    installmentAnalyze: '分期应收款分析'
+    installmentAnalyze: '分期应收款分析',
+    Voucher: '凭证管理',
+    Newvoucher: '新建凭证',
+    Voucherlist: '凭证列表'
   },
   installmentAnalyze: {
     repositoryName: '仓库名称',
@@ -3730,6 +3733,33 @@ export default {
     ysd: '预售单',
     cgdd: '采购订单',
     xsht: '销售合同',
-    yqchrq: '要求出货日期'
+    yqchrq: '要求出货日期',
+    scpz: '生成凭证'
+  },
+  Voucher: {
+    tjpzx: '添加凭证项',
+    pzmx: '凭证明细',
+    pzzh: '凭证字号',
+    rq: '日期',
+    pzh: '凭证号',
+    zdr: '制单人',
+    shr: '审核人',
+    hjjfje: '合计借方金额',
+    hjdfje: '合计贷方金额',
+    pzzt: '凭证状态',
+    zy: '摘要',
+    kjkm: '会计科目',
+    kmdm: '科目代码',
+    bb: '币种',
+    hl: '汇率',
+    ybje: '原币金额',
+    jfje: '借方金额',
+    dfje: '贷方金额',
+    qy: '区域',
+    md: '门店',
+    jz: '记账',
+    gz: '过账',
+    jiez: '结账',
+    ywzt: '业务状态'
   }
 }

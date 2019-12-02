@@ -170,6 +170,7 @@ export default {
           return time.getTime() < new Date().getTime() - 8.64e7
         }
       },
+      treedata: [],
       // 区域列表
       regions: [],
       region: null,
@@ -207,6 +208,7 @@ export default {
       stockControl: false,
       // 收入单信息数据
       personalForm: {
+        isVoucher: 1,
         createPersonId: this.$store.getters.userId,
         countryId: this.$store.getters.countryId,
         repositoryId: this.$store.getters.repositoryId,
@@ -242,6 +244,20 @@ export default {
     _that = this
   },
   methods: {
+    findtreedata(val, val2) {
+      let data;
+      (val || []).map(i => {
+        if (i.id === val2) {
+          data = i
+        } else {
+          const child = this.findtreedata(i.subjectFinanceVos, val2)
+          if (child) {
+            data = child
+          }
+        }
+      })
+      return data
+    },
     processchildren(val) {
       for (const i in val) {
         if (val[i].subjectFinanceVos.length === 0) {
@@ -255,15 +271,18 @@ export default {
     test(row, val) {
       console.log(row, val)
       const finid = val[val.length - 1]
-      console.log(finid)
-      row.subjectFinanceId = finid
-      console.log(row)
+      const needata = this.findtreedata(this.treedata, finid)
+      console.log('needata', needata)
+      row.subjectName = needata.subjectName
+      row.subjectCode = needata.subjectNumber
+      console.log('this.treedata', this.treedata)
     },
     gettree() {
       console.log(123)
       subjectList().then(res => {
         if (res.data.ret === 200) {
           this.suboptions = this.processchildren(res.data.data.content)
+          this.treedata = res.data.data.content
         }
       })
       console.log(321)
@@ -373,18 +392,18 @@ export default {
     },
     // 清空记录
     restAllForm() {
-      this.personalForm = {
-        createPersonId: this.$store.getters.userId,
-        countryId: this.$store.getters.countryId,
-        repositoryId: this.$store.getters.repositoryId,
-        regionId: this.$store.getters.regionId,
-        currency: '1',
-        handlePersonId: this.$store.getters.userId
-      }
-      this.handlePersonId = null
-      this.personalForm.handlePersonId = null
-      this.expensesRepositoryId = null
-      this.personalForm.expensesRepositoryId = null
+      // this.personalForm = {
+      //   createPersonId: this.$store.getters.userId,
+      //   countryId: this.$store.getters.countryId,
+      //   repositoryId: this.$store.getters.repositoryId,
+      //   regionId: this.$store.getters.regionId,
+      //   currency: '1',
+      //   handlePersonId: this.$store.getters.userId
+      // }
+      // this.handlePersonId = this.$store.getters.name,
+      // this.personalForm.handlePersonId = null
+      // this.expensesRepositoryId = null
+      // this.personalForm.expensesRepositoryId = null
     },
     // 保存操作
     handlesave() {
@@ -400,6 +419,7 @@ export default {
       EnterDetail.map(function(elem) {
         return elem
       }).forEach(function(elem) {
+        delete elem.productCode
         if (elem.summary === null || elem.summary === '' || elem.summary === undefined) {
           delete elem.summary
         }

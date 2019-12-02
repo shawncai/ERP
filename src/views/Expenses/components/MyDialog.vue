@@ -93,7 +93,7 @@
           <el-editable-column type="selection" min-width="55" align="center"/>
           <el-editable-column :label="$t('Hmodule.xh')" min-width="55" align="center" type="index"/>
           <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.zya')" prop="summary" align="center" min-width="150px"/>
-          <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.kmmc')" prop="productName" align="center" min-width="150px"/>
+          <el-editable-column :label="$t('updates.kmmc')" prop="subjectName" align="center" min-width="150px"/>
           <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0, precision: 2}, type: 'visible'}" :label="$t('Hmodule.je')" prop="money" align="center" min-width="150px"/>
         </el-editable>
       </div>
@@ -109,6 +109,7 @@
 
 <script>
 import { updateexpenses } from '@/api/Expenses'
+import { subjectList } from '@/api/SubjectFinance'
 import { searchSaleCategory } from '@/api/SaleCategory'
 import { getdeptlist } from '@/api/BasicSettings'
 import MyEmp from './MyEmp'
@@ -140,6 +141,13 @@ export default {
         disabledDate: (time) => {
           return time.getTime() < new Date().getTime() - 8.64e7
         }
+      },
+      suboptions: [],
+      treedata: [],
+      props2: {
+        value: 'id',
+        label: 'subjectName',
+        children: 'subjectFinanceVos'
       },
       // 选择的数据
       choosedata: [],
@@ -190,17 +198,87 @@ export default {
       this.personalForm = this.editdata
       this.handlePersonId = this.personalForm.handlePersonName
       this.expensesRepositoryId = this.personalForm.expensesRepositoryName
-      this.list2 = this.personalForm.expensesDetails
+      this.list2 = this.personalForm.expensesDetailVos
     }
   },
   created() {
     this.getdatatime()
     this.getTypes()
+    this.gettree()
   },
   beforeCreate() {
     _that = this
   },
   methods: {
+    // getParent(data2, nodeId2) {
+    //   var arrRes = []
+    //   if (data2.length === 0) {
+    //     if (nodeId2) {
+    //       arrRes.unshift(data2)
+    //     }
+    //     return arrRes
+    //   }
+    //   const rev = (data, nodeId) => {
+    //     for (var i = 0, length = data.length; i < length; i++) {
+    //       const node = data[i]
+    //       if (node.id == nodeId) {
+    //         arrRes.unshift(node)
+    //         rev(data2, node.parent_id)
+    //         break
+    //       } else {
+    //         if (node.children) {
+    //           rev(node.children, nodeId)
+    //         }
+    //       }
+    //     }
+    //     return arrRes
+    //   }
+    //   arrRes = rev(data2, nodeId2)
+    //   return arrRes
+    // },
+    findtreedata(val, val2) {
+      let data;
+      (val || []).map(i => {
+        if (i.id === val2) {
+          data = i
+        } else {
+          const child = this.findtreedata(i.subjectFinanceVos, val2)
+          if (child) {
+            data = child
+          }
+        }
+      })
+      return data
+    },
+    processchildren(val) {
+      for (const i in val) {
+        if (val[i].subjectFinanceVos.length === 0) {
+          delete val[i].subjectFinanceVos
+        } else {
+          this.processchildren(val[i].subjectFinanceVos)
+        }
+      }
+      return val
+    },
+    test(row, val) {
+      console.log(row, val)
+      const finid = val[val.length - 1]
+      const needata = this.findtreedata(this.treedata, finid)
+      console.log('needata', needata)
+      row.subjectName = needata.subjectName
+      row.subjectCode = needata.subjectNumber
+      console.log('this.treedata', this.treedata)
+    },
+    gettree() {
+      console.log(123)
+      subjectList().then(res => {
+        if (res.data.ret === 200) {
+          this.suboptions = this.processchildren(res.data.data.content)
+          this.treedata = res.data.data.content
+        }
+      })
+      console.log(321)
+    },
     // 新增收入明细
     insertEvent(index) {
       this.$refs.editable.insertAt({ productCode: null }, index)

@@ -4,23 +4,31 @@
       <el-row>
         <el-form ref="getemplist" :model="getemplist" label-width="100px" style="margin-top: -9px">
           <el-col :span="5">
-            <el-form-item :label="$t('updates.zcdzt')" label-width="100px">
-              <el-input v-model="getemplist.title" :placeholder="$t('income.title')" clearable @keyup.enter.native="handleFilter"/>
+            <el-form-item :label="$t('Voucher.pzh')" label-width="100px">
+              <el-input v-model="getemplist.voucherNo" :placeholder="$t('Voucher.pzh')" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
           <el-col :span="5" style="margin-left: 10px">
             <el-form-item :label="$t('updates.zcdbh')">
-              <el-input v-model="getemplist.number" placeholder="支出单单号" clearable @keyup.enter.native="handleFilter"/>
+              <el-select v-model="getemplist.voucherStat" :value="getemplist.voucherStat" :placeholder="$t('Voucher.pzh')" clearable>
+                <el-option :label="$t('Voucher.jz')" value="1"/>
+                <el-option :label="$t('Voucher.gz')" value="2"/>
+                <el-option :label="$t('Voucher.jiez')" value="3"/>
+              </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="5" style="margin-left: 10px">
-            <el-form-item :label="$t('updates.jbr')">
-              <el-input v-model="handlePersonId" :placeholder="$t('income.handlePersonId')" clearable @keyup.enter.native="handleFilter" @focus="handlechooseStock" @clear="restFilter"/>
+            <el-form-item :label="$t('Voucher.rq')">
+              <el-date-picker
+                v-model="getemplist.receiptdate"
+                :placeholder="$t('Voucher.rq')"
+                type="date"
+                value-format="yyyy-MM-dd"
+                style="width:100%"/>
             </el-form-item>
-            <my-emp :control.sync="stockControl" @stockName="stockName"/>
           </el-col>
           <!--更多搜索条件-->
-          <el-col :span="3">
+          <!-- <el-col :span="3">
             <el-popover
               v-model="visible2"
               placement="bottom"
@@ -49,7 +57,7 @@
               </div>
               <el-button v-waves slot="reference" type="primary" class="filter-item" style="width: 130px" @click="visible2 = !visible2">{{ $t('public.filter') }}<svg-icon icon-class="shaixuan" style="margin-left: 4px"/></el-button>
             </el-popover>
-          </el-col>
+          </el-col> -->
           <el-col :span="3" style="margin-left: 20px">
             <!-- 搜索按钮 -->
             <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 86px" round @click="handleFilter">{{ $t('public.search') }}</el-button>
@@ -72,7 +80,7 @@
       <!-- 打印操作 -->
       <el-button v-permission="['266-92-7']" v-waves class="filter-item" icon="el-icon-printer" style="width: 86px" @click="handlePrint">{{ $t('public.print') }}</el-button>
       <!-- 新建操作 -->
-      <el-button v-permission="['266-92-1']" v-waves class="filter-item" icon="el-icon-plus" type="success" style="width: 86px" @click="handleAdd">{{ $t('public.add') }}</el-button>
+      <!-- <el-button v-permission="['266-92-1']" v-waves class="filter-item" icon="el-icon-plus" type="success" style="width: 86px" @click="handleAdd">{{ $t('public.add') }}</el-button> -->
     </el-card>
 
     <el-card class="box-card" style="margin-top: 10px" shadow="never">
@@ -81,6 +89,7 @@
         v-loading="listLoading"
         :key="tableKey"
         :data="list"
+        :span-method="arraySpanMethod"
         border
         fit
         highlight-current-row
@@ -92,67 +101,83 @@
           width="55"
           fixed="left"
           align="center"/>
-        <el-table-column :label="$t('public.id')" :resizable="false" fixed="left" align="center" min-width="150">
+        <el-table-column :label="$t('Voucher.rq')" :resizable="false" fixed="left" align="center" min-width="150">
           <template slot-scope="scope">
-            <span class="link-type" @click="handleDetail(scope.row)">{{ scope.row.number }}</span>
+            <span>{{ scope.row.createDate }}</span>
           </template>
           <detail-list :detailcontrol.sync="detailvisible" :detaildata.sync="personalForm"/>
         </el-table-column>
-        <el-table-column :label="$t('income.title')" :resizable="false" fixed="left" align="center" min-width="150">
+        <el-table-column :label="$t('Voucher.pzzh')" :resizable="false" fixed="left" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.title }}</span>
+            <span class="link-type" @click="handleDetail(scope.row)">{{ scope.row.voucherNo }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('income.closeType')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('Voucher.zy')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.payModeName }}</span>
+            <span>{{ scope.row.summary }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('income.incomeAccount')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('Voucher.kmdm')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.incomeAccount }}</span>
+            <span>{{ scope.row.subjectCode }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('income.currency')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('Voucher.kjkm')" :resizable="false" align="center" min-width="150">
+          <template slot-scope="scope">
+            <span>{{ scope.row.subjectName }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column :label="$t('Voucher.bb')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.currency | currencyFilter }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('income.handlePersonId')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('Voucher.hl')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.handlePersonName }}</span>
+            <span>{{ scope.row.rate }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('income.incomeDate')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('Voucher.ybje')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.incomeDate }}</span>
+            <span>{{ scope.row.primevalMoney }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('public.judgeStat')" :resizable="false" prop="judgeStat" align="center" min-width="150">
+        <el-table-column :label="$t('Voucher.jfje')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.judgeStat | judgeStatFilter }}</span>
+            <span>{{ scope.row.debitMoney }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('public.receiptStat')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('Voucher.dfje')" :resizable="false" align="center" min-width="150">
+          <template slot-scope="scope">
+            <span>{{ scope.row.creditMoney }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column :label="$t('Voucher.zdr')" :resizable="false" align="center" min-width="150">
+          <template slot-scope="scope">
+            <span>{{ scope.row.createPersonName }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column :label="$t('Voucher.ywzt')" :resizable="false" prop="judgeStat" align="center" min-width="150">
+          <template slot-scope="scope">
+            <span>{{ scope.row.voucherStat | voucherStatFilter }}</span>
+          </template>
+        </el-table-column>
+        <!-- <el-table-column :label="$t('public.receiptStat')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.receiptStat | receiptStatFilter }}</span>
           </template>
-        </el-table-column>
+        </el-table-column> -->
         <el-table-column :label="$t('public.actions')" :resizable="false" align="center" min-width="230">
           <template slot-scope="scope">
-            <el-button v-permission2="['266-92-3', scope.row.createPersonId]" v-show="scope.row.judgeStat === 0" :title="$t('updates.xg')" type="primary" size="mini" icon="el-icon-edit" circle @click="handleEdit(scope.row)"/>
+            <el-button v-permission2="['266-92-3', scope.row.createPersonId]" v-show="scope.row.voucherStat === 1" :title="$t('updates.xg')" type="primary" size="mini" icon="el-icon-edit" circle @click="handleEdit(scope.row)"/>
             <el-button v-show="isReview(scope.row)" :title="$t('updates.spi')" type="warning" size="mini" icon="el-icon-view" circle @click="handleReview(scope.row)"/>
             <el-button v-permission="['266-92-76']" v-show="isReview4(scope.row)" :title="$t('updates.fsp')" type="warning" size="mini" circle @click="handleReview4(scope.row)"><svg-icon icon-class="fanhui"/></el-button>
-            <el-button v-permission="['266-92-16']" v-show="isReview2(scope.row)" :title="$t('updates.jd')" type="success" size="mini" icon="el-icon-check" circle @click="handleReview2(scope.row)"/>
-            <el-button v-permission="['266-92-17']" v-show="isReview3(scope.row)" :title="$t('updates.fjd')" type="success" size="mini" icon="el-icon-back" circle @click="handleReview3(scope.row)"/>
-            <el-button v-permission2="['266-92-2', scope.row.createPersonId]" v-show="scope.row.judgeStat === 0" :title="$t('updates.sc')" size="mini" type="danger" icon="el-icon-delete" circle @click="handleDelete(scope.row)"/>
-            <el-button title="查看附件" type="primary" size="mini" icon="el-icon-document" circle @click="check(scope.row)"/>
-            <el-button v-show="isReview5(scope.row)" :title="$t('updates.scpz')" type="warning" size="mini" icon="el-icon-news" circle @click="creatvoucher(scope.row)"/>
+            <el-button v-permission2="['266-92-2', scope.row.createPersonId]" v-show="scope.row.voucherStat === 1" :title="$t('updates.sc')" size="mini" type="danger" icon="el-icon-delete" circle @click="handleDelete(scope.row)"/>
           </template>
         </el-table-column>
       </el-table>
       <!-- 列表结束 -->
-      <pagination v-show="total>0" :total="total" :page.sync="getemplist.pageNum" :limit.sync="getemplist.pageSize" @pagination="getlist" />
+      <!-- <pagination v-show="total>0" :total="total" :page.sync="getemplist.pageNum" :limit.sync="getemplist.pageSize" @pagination="getlist" /> -->
       <!--修改开始=================================================-->
       <my-dialog :editcontrol.sync="editVisible" :editdata.sync="personalForm" @rest="refreshlist"/>
       <!--修改结束=================================================-->
@@ -178,10 +203,9 @@
   </div>
 </template>
 
-// is_voucher 1 未生成的， 2是已生成的
-
 <script>
 import { searchexpenses, updateexpenses2, deleteexpenses } from '@/api/Expenses'
+import { voucherlist, updatevoucher, deletevoucher } from '@/api/voucher'
 import { searchSaleCategory } from '@/api/SaleCategory'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination'
@@ -195,16 +219,15 @@ import MySupplier from './components/MySupplier'
 
 var _that
 export default {
-  name: 'ExpensesList',
+  name: 'Voucherlist',
   directives: { waves, permission, permission2 },
   components: { MyDialog, DetailList, MyEmp, Pagination, MySupplier },
   filters: {
-    judgeStatFilter(status) {
+    voucherStatFilter(status) {
       const statusMap = {
-        0: _that.$t('updates.wsh'),
-        1: _that.$t('updates.shz'),
-        2: _that.$t('Hmodule.shtg'),
-        3: _that.$t('updates.shbtg')
+        1: _that.$t('Voucher.jz'),
+        2: _that.$t('Voucher.gz'),
+        3: _that.$t('Voucher.jiez')
       }
       return statusMap[status]
     },
@@ -284,8 +307,6 @@ export default {
       listLoading: true,
       // 采购申请查询加展示参数
       getemplist: {
-        pageNum: 1,
-        pageSize: 10,
         repositoryId: this.$store.getters.repositoryId,
         regionIds: this.$store.getters.regionIds
       },
@@ -296,61 +317,99 @@ export default {
       // 开始时间到结束时间
       date: [],
       receiptVisible9: false,
-      picPaths: []
+      picPaths: [],
+      spanArr: [],
+      pos: ''
     }
-  },
-
-  mounted() {
-    this.getlist()
   },
   beforeCreate() {
     _that = this
   },
+  mounted() {
+    this.getlist()
+  },
   methods: {
-    // 生成凭证
-    creatvoucher(val) {
-      const senddata = val
-      senddata.sourceType = 1
-      console.log(senddata)
-      this.$store.dispatch('getvoucherdata', senddata)
-      this.$router.push({ path: '/Voucher/Newvoucher' })
+    getSpanArr(data) {
+      for (var i = 0; i < data.length; i++) {
+        if (i === 0) {
+          this.spanArr.push(1)
+          this.pos = 0
+        } else {
+          // 判断当前元素与上一个元素是否相同
+          if (data[i].voucherId === data[i - 1].voucherId) {
+            this.spanArr[this.pos] += 1
+            this.spanArr.push(0)
+          } else {
+            this.spanArr.push(1)
+            this.pos = i
+          }
+        }
+      }
+    },
+    arraySpanMethod({ row, column, rowIndex, columnIndex }) {
+      const _row = this.spanArr[rowIndex]
+      const _col = _row > 0 ? 1 : 0
+      if (columnIndex === 0) {
+        return {
+          rowspan: _row,
+          colspan: _col
+        }
+      } else if (columnIndex === 1) {
+        return {
+          rowspan: _row,
+          colspan: _col
+        }
+      } else if (columnIndex === 2) {
+        return {
+          rowspan: _row,
+          colspan: _col
+        }
+      } else if (columnIndex === 12) {
+        return {
+          rowspan: _row,
+          colspan: _col
+        }
+      } else if (columnIndex === 13) {
+        return {
+          rowspan: _row,
+          colspan: _col
+        }
+      } else if (columnIndex === 14) {
+        return {
+          rowspan: _row,
+          colspan: _col
+        }
+      } else if (columnIndex === 15) {
+        return {
+          rowspan: _row,
+          colspan: _col
+        }
+      }
     },
     // 附件操作
     check(row) {
-      console.log(row)
       this.receiptVisible9 = true
       this.picPaths = row.picPaths
     },
-    // 判断生成凭证按钮
-    isReview5(row) {
-      if (row.isVoucher === 1 && row.judgeStat === 2) {
-        return true
-      } else if (row.isVoucher === 2 && row.judgeStat === 2) {
-        return false
-      } else {
-        return false
-      }
-    },
     // 判断反审批按钮
     isReview4(row) {
-      console.log(row)
-      if (row.judgeStat === 2) {
+      if (row.voucherStat === 2) {
         return true
       }
     },
     // 反结单操作
     handleReview4(row) {
       this.reviewParms = {}
-      this.reviewParms.id = row.id
+      this.reviewParms.id = row.voucherId
       this.reviewParms.judgePersonId = this.$store.getters.userId
       this.$confirm('请反审批', '反审批', {
         distinguishCancelAndClose: true,
         confirmButtonText: '反审批',
         type: 'warning'
       }).then(() => {
-        this.reviewParms.judgeStat = 0
+        this.reviewParms.voucherStat = 1
         const parms = JSON.stringify(this.reviewParms)
-        updateexpenses2(parms).then(res => {
+        updatevoucher(parms).then(res => {
           if (res.data.ret === 200) {
             if (res.data.data.result === false) {
               this.$message({
@@ -371,36 +430,12 @@ export default {
     // 判断反结单按钮
     isReview3(row) {
       console.log(row)
-      if (row.receiptStat === 3) {
-        return true
-      }
     },
     // 反结单操作
     handleReview3(row) {
-      this.reviewParms = {}
-      this.reviewParms.id = row.id
-      this.reviewParms.endPersonId = this.$store.getters.userId
-      this.$confirm('请反结单', '反结单', {
-        distinguishCancelAndClose: true,
-        confirmButtonText: '反结单',
-        type: 'warning'
-      }).then(() => {
-        this.reviewParms.receiptStat = 2
-        const parms = JSON.stringify(this.reviewParms)
-        updateexpenses2(parms).then(res => {
-          if (res.data.ret === 200) {
-            this.$message({
-              type: 'success',
-              message: '反结单成功!'
-            })
-            this.getlist()
-          }
-        })
-      })
     },
     // 判断结单按钮
     isReview2(row) {
-      console.log(row)
       if (row.receiptStat !== 3 && (row.judgeStat === 2 || row.judgeStat === 3)) {
         return true
       }
@@ -408,7 +443,7 @@ export default {
     // 结单操作
     handleReview2(row) {
       this.reviewParms = {}
-      this.reviewParms.id = row.id
+      this.reviewParms.id = row.voucherId
       this.reviewParms.endPersonId = this.$store.getters.userId
       this.$confirm('请结单', '结单', {
         distinguishCancelAndClose: true,
@@ -431,7 +466,7 @@ export default {
     checkPermission,
     // 不让勾选
     selectInit(row, index) {
-      if (row.judgeStat !== 0) {
+      if (row.voucherStat !== 1) {
         return false
       } else {
         return true
@@ -444,15 +479,44 @@ export default {
     getlist() {
       // 物料需求计划列表数据
       this.listLoading = true
-      searchexpenses(this.getemplist).then(res => {
+      // searchexpenses(this.getemplist).then(res => {
+      //   if (res.data.ret === 200) {
+      //     this.total = res.data.data.content.totalCount
+      //   }
+      //   setTimeout(() => {
+      //     this.listLoading = false
+      //   }, 0.5 * 100)
+      // })
+
+      voucherlist(this.getemplist).then(res => {
         if (res.data.ret === 200) {
-          this.list = res.data.data.content.list
-          this.total = res.data.data.content.totalCount
+          console.log(res)
+          const resarr = res.data.data.content
+          const arrlist = resarr.map(item => {
+            return item.voucherDetails
+          }).flat()
+          const arrlist2 = [].concat.apply([], arrlist)
+
+          for (const i in resarr) {
+            for (const j in arrlist2) {
+              if (resarr[i].id === arrlist2[j].voucherId) {
+                arrlist2[j].approvalUseVos = resarr[i].approvalUseVos
+                arrlist2[j].voucherStat = resarr[i].voucherStat
+                arrlist2[j].voucherNo = resarr[i].voucherNo
+                arrlist2[j].createDate = resarr[i].createDate
+                arrlist2[j].createPersonName = resarr[i].createPersonName
+              }
+            }
+          }
+          this.list = arrlist2
+          console.log('arrlist2', arrlist2)
+          this.getSpanArr(arrlist2)
         }
         setTimeout(() => {
           this.listLoading = false
         }, 0.5 * 100)
       })
+
       // 结算方式数据
       searchSaleCategory(this.colseTypeparms).then(res => {
         if (res.data.ret === 200) {
@@ -475,15 +539,33 @@ export default {
     },
     // 搜索
     handleFilter() {
-      this.getemplist.pageNum = 1
-      searchexpenses(this.getemplist).then(res => {
+      voucherlist(this.getemplist).then(res => {
         if (res.data.ret === 200) {
-          this.list = res.data.data.content.list
-          this.total = res.data.data.content.totalCount
-          // this.restFilter()
-        } else {
-          // this.restFilter()
+          console.log(res)
+          const resarr = res.data.data.content
+          const arrlist = resarr.map(item => {
+            return item.voucherDetails
+          }).flat()
+          const arrlist2 = [].concat.apply([], arrlist)
+
+          for (const i in resarr) {
+            for (const j in arrlist2) {
+              if (resarr[i].id === arrlist2[j].voucherId) {
+                arrlist2[j].approvalUseVos = resarr[i].approvalUseVos
+                arrlist2[j].voucherStat = resarr[i].voucherStat
+                arrlist2[j].voucherNo = resarr[i].voucherNo
+                arrlist2[j].createDate = resarr[i].createDate
+                arrlist2[j].createPersonName = resarr[i].createPersonName
+              }
+            }
+          }
+          this.list = arrlist2
+          console.log('arrlist2', arrlist2)
+          this.getSpanArr(arrlist2)
         }
+        setTimeout(() => {
+          this.listLoading = false
+        }, 0.5 * 100)
       })
     },
     // 经办人focus事件
@@ -496,12 +578,22 @@ export default {
       this.getemplist.handlePersonId = val.id
     },
     // 修改操作
-    handleEdit(row) {
+    async handleEdit(row) {
       console.log(row)
-      this.editVisible = true
-      this.personalForm = Object.assign({}, row)
-      this.personalForm.sourceType = String(row.sourceType)
-      this.personalForm.currency = String(row.currency)
+
+      const detailsearch = {
+        voucherId: row.voucherId,
+        repositoryId: this.$store.getters.repositoryId,
+        regionIds: this.$store.getters.regionIds
+      }
+      const editdata = await voucherlist(detailsearch).then(res => {
+        return res.data.data.content[0]
+      })
+      console.log('editdata', editdata)
+      if (editdata) {
+        this.editVisible = true
+        this.personalForm = editdata
+      }
     },
     // 修改组件修改成功后返回
     refreshlist(val) {
@@ -512,17 +604,28 @@ export default {
     // 详情操作
     handleDetail(row) {
       console.log(row)
-      this.detailvisible = true
-      this.personalForm = Object.assign({}, row)
+      const detailsearch = {
+        voucherId: row.voucherId,
+        repositoryId: this.$store.getters.repositoryId,
+        regionIds: this.$store.getters.regionIds
+      }
+      voucherlist(detailsearch).then(res => {
+        if (res.data.ret === 200) {
+          console.log(res)
+          this.detailvisible = true
+          this.personalForm = Object.assign({}, res.data.data.content[0])
+        }
+      })
     },
     // 判断审核按钮
     isReview(row) {
       if (row.approvalUseVos !== '' && row.approvalUseVos !== null && row.approvalUseVos !== undefined && row.approvalUseVos.length !== 0) {
+        console.log(1222222)
         const approvalUse = row.approvalUseVos
         const index = approvalUse[approvalUse.length - 1].stepHandler.indexOf(',' + this.$store.getters.userId + ',')
-        console.log(approvalUse[approvalUse.length - 1].stepHandler)
+        console.log('approvalUse[approvalUse.length - 1].stepHandler', approvalUse[approvalUse.length - 1].stepHandler)
         console.log(index)
-        if (index > -1 && (row.judgeStat === 1 || row.judgeStat === 0)) {
+        if (index > -1 && (row.voucherStat === 1)) {
           return true
         }
       }
@@ -530,17 +633,17 @@ export default {
     // 审批操作
     handleReview(row) {
       this.reviewParms = {}
-      this.reviewParms.id = row.id
+      this.reviewParms.id = row.voucherId
       this.reviewParms.judgePersonId = this.$store.getters.userId
       this.$confirm('请审核', '审核', {
         distinguishCancelAndClose: true,
         confirmButtonText: '通过',
-        cancelButtonText: '不通过',
+        cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        this.reviewParms.judgeStat = 2
+        this.reviewParms.voucherStat = 2
         const parms = JSON.stringify(this.reviewParms)
-        updateexpenses2(parms).then(res => {
+        updatevoucher(parms).then(res => {
           if (res.data.ret === 200) {
             this.$message({
               type: 'success',
@@ -548,21 +651,12 @@ export default {
             })
             this.getlist()
           }
-        })
-      }).catch(action => {
-        if (action === 'cancel') {
-          this.reviewParms.judgeStat = 3
-          const parms = JSON.stringify(this.reviewParms)
-          updateexpenses2(parms).then(res => {
-            if (res.data.ret === 200) {
-              this.$message({
-                type: 'success',
-                message: '审核成功!'
-              })
-              this.getlist()
-            }
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消'
           })
-        }
+        })
       })
     },
     // 批量操作
@@ -572,14 +666,14 @@ export default {
     // 多条删除
     // 批量删除
     handleCommand(command) {
-      const ids = this.moreaction.map(item => item.id).join()
+      const ids = this.moreaction.map(item => item.voucherId).join()
       if (command === 'delete') {
         this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          deleteexpenses(ids, this.$store.getters.userId).then(res => {
+          deletevoucher(ids, this.$store.getters.userId).then(res => {
             if (res.data.ret === 200 || res.data.ret === 100) {
               this.$notify({
                 title: '删除成功',
@@ -610,7 +704,7 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        deleteexpenses(row.id, this.$store.getters.userId).then(res => {
+        deletevoucher(row.voucherId, this.$store.getters.userId).then(res => {
           if (res.data.ret === 200 || res.data.ret === 100) {
             this.$notify({
               title: '删除成功',
@@ -635,7 +729,7 @@ export default {
     },
     // 新增数据
     handleAdd() {
-      this.$router.push('/Expenses/AddExpenses')
+      this.$router.push('/income/Addincome')
     },
     // 导出
     handleExport() {

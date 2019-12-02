@@ -3217,6 +3217,33 @@ export const asyncRouterMap = [
       }
     ]
   },
+  {
+    path: '/Voucher',
+    component: Layout,
+    redirect: 'noredirect',
+    name: 'Voucher',
+    alwaysShow: true,
+    meta: {
+      title: 'Voucher',
+      icon: 'pingzhen',
+      type: 11
+    },
+    children: [
+      {
+        path: 'Newvoucher',
+        component: () => import('@/views/Voucher/Newvoucher'),
+        name: 'Newvoucher',
+        hidden: true,
+        meta: { title: 'Newvoucher', noCache: true }
+      },
+      {
+        path: 'Voucherlist',
+        component: () => import('@/views/Voucher/Voucherlist'),
+        name: 'Voucherlist',
+        meta: { title: 'Voucherlist', noCache: true }
+      }
+    ]
+  },
   // {
   //   path: '/GroupBuyRules',
   //   component: Layout,

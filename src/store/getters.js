@@ -43,6 +43,7 @@ const getters = {
     return session.messages
   },
   user: state => state.chat.user,
-  chatsenddata: state => state.chat.chatsenddata
+  chatsenddata: state => state.chat.chatsenddata,
+  voucherdata: state => state.publics.voucherdat
 }
 export default getters

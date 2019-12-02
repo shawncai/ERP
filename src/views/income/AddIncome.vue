@@ -164,6 +164,7 @@ export default {
       }
     }
     return {
+      treedata: [],
       suboptions: [],
       // 区域列表
       regions: [],
@@ -242,6 +243,20 @@ export default {
     _that = this
   },
   methods: {
+    findtreedata(val, val2) {
+      let data;
+      (val || []).map(i => {
+        if (i.id === val2) {
+          data = i
+        } else {
+          const child = this.findtreedata(i.subjectFinanceVos, val2)
+          if (child) {
+            data = child
+          }
+        }
+      })
+      return data
+    },
     processchildren(val) {
       for (const i in val) {
         if (val[i].subjectFinanceVos.length === 0) {
@@ -257,15 +272,17 @@ export default {
     test(row, val) {
       console.log(row, val)
       const finid = val[val.length - 1]
-      console.log(finid)
-      row.subjectFinanceId = finid
-      console.log(row)
+      const needata = this.findtreedata(this.treedata, finid)
+      console.log('needata', needata)
+      row.subjectName = needata.subjectName
+      row.subjectCode = needata.subjectNumber
     },
     gettree() {
       console.log(123)
       subjectList().then(res => {
         if (res.data.ret === 200) {
           this.suboptions = this.processchildren(res.data.data.content)
+          this.treedata = res.data.data.content
         }
       })
       console.log(321)
