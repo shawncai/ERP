@@ -275,11 +275,12 @@ export default {
       this.getlocation()
     }
   },
-  beforeCreate() {
-    _that = this
-  },
+
   mounted() {
     this.getlist()
+  },
+  beforeCreate() {
+    _that = this
   },
   methods: {
     // 入库员focus事件

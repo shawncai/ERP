@@ -195,6 +195,9 @@ export default {
   created() {
     this.getList()
   },
+  beforeCreate() {
+    _that = this
+  },
   methods: {
     // 加载bom编码数据和工艺路线
     getList() {

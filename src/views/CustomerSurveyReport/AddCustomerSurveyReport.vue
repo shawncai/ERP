@@ -381,6 +381,9 @@ export default {
   activated() {
     this.getinformation()
   },
+  beforeCreate() {
+    _that = this
+  },
   methods: {
     // 获取默认信息(分期列表)
     getinformation() {

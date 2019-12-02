@@ -319,6 +319,9 @@ export default {
     this.getTypes()
     this.getways()
   },
+  beforeCreate() {
+    _that = this
+  },
   methods: {
     submitUpload() {
       this.$refs.upload.submit()

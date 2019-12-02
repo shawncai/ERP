@@ -160,6 +160,9 @@ export default {
       this.currentValue = newValue
     }
   },
+  beforeCreate() {
+    _that = this
+  },
   methods: {
     handleModelInput(event) {
       const value = event.target.value

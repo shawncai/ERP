@@ -28,6 +28,9 @@ export default {
   created() {
     this.getBreadcrumb()
   },
+  beforeCreate() {
+    _that = this
+  },
   methods: {
     generateTitle,
     getBreadcrumb() {

@@ -209,6 +209,9 @@ export default {
   created() {
     this.gitemplist()
   },
+  beforeCreate() {
+    _that = this
+  },
   methods: {
     // 多级选择
     getRowKeys(row) {

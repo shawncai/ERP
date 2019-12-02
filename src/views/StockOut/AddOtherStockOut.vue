@@ -309,12 +309,13 @@ export default {
       deep: true
     }
   },
-  beforeCreate() {
-    _that = this
-  },
+
   mounted() {
     this.getlist()
     this.getdatatime()
+  },
+  beforeCreate() {
+    _that = this
   },
   methods: {
     // 默认显示今天

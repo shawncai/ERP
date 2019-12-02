@@ -22,6 +22,9 @@ export default {
   computed: {
     ...mapState(['user'])
   },
+  beforeCreate() {
+    _that = this
+  },
   methods: {
     clearSearch() {
       this.$store.dispatch('search', '')

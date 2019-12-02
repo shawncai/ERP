@@ -243,6 +243,9 @@ export default {
   created() {
     this.getnationlist()
   },
+  beforeCreate() {
+    _that = this
+  },
   methods: {
     getnationlist() {
       // 国籍列表

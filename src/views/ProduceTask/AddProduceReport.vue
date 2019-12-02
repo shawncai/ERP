@@ -374,11 +374,12 @@ export default {
   created() {
     this.getList()
   },
-  beforeCreate() {
-    _that = this
-  },
+
   mounted() {
     this.getinformation()
+  },
+  beforeCreate() {
+    _that = this
   },
   methods: {
     getinformation() {

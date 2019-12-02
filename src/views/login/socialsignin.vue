@@ -16,6 +16,9 @@
 var _that
 export default {
   name: 'SocialSignin',
+  beforeCreate() {
+    _that = this
+  },
   methods: {
     wechatHandleClick(thirdpart) {
       alert('ok')

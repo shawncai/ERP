@@ -128,6 +128,9 @@ export default {
       this.createid = this.personalForm.driverNames
     }
   },
+  beforeCreate() {
+    _that = this
+  },
   methods: {
     // 驾驶员输入框focus事件触发
     handlechoose() {

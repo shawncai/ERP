@@ -563,6 +563,9 @@ export default {
   created() {
     this.getcategorys()
   },
+  beforeCreate() {
+    _that = this
+  },
   methods: {
     // updateunit() {
     //   this.getcategorys()

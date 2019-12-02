@@ -511,6 +511,9 @@ export default {
     this.getTypes()
     this.getways()
   },
+  beforeCreate() {
+    _that = this
+  },
   methods: {
     // 处理汇率
     changeRate() {

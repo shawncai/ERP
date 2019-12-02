@@ -267,12 +267,13 @@ export default {
       pickerOptions1: {}
     }
   },
-  beforeCreate() {
-    _that = this
-  },
+
   mounted() {
     this.getlist()
     this.test()
+  },
+  beforeCreate() {
+    _that = this
   },
   methods: {
     // 限制生效日期

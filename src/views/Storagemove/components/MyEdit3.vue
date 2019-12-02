@@ -51,6 +51,16 @@
               </el-form-item>
             </el-col>
             <el-col :span="8">
+              <el-form-item :label="$t('updates.yqchrq')" label-width="110px" style="width: 100%;">
+                <el-date-picker
+                  v-model="personalForm.moveOutDate"
+                  type="date"
+                  placeholder="选择要求出货日期"
+                  value-format="yyyy-MM-dd"
+                  style="margin-left: 8px;width: 180px"/>
+              </el-form-item>
+            </el-col>
+            <el-col :span="8">
               <el-form-item :label="$t('Storagemove.moveReason')" style="width: 100%;">
                 <el-input v-model="personalForm.moveReason" placeholder="请输入调拨原因" style="margin-left: 18px;width:180px" disabled/>
               </el-form-item>
@@ -198,19 +208,19 @@
           </el-editable-column>
           <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.cjbm')" prop="carCode" align="center" min-width="150" >
             <template slot="edit" slot-scope="scope">
-              <el-input v-if="isEdit2(scope.row)" v-model="scope.row.carCode" clearable @blur="handleEdit(scope.row)"/>
+              <el-input v-if="isEdit2(scope.row)" v-model="scope.row.carCode" clearable @blur="getInfo(scope.row)"/>
               <span v-else>{{ scope.row.batteryCode }}</span>
             </template>
           </el-editable-column>
           <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.djbm')" prop="motorCode" align="center" min-width="150" >
             <template slot="edit" slot-scope="scope">
-              <el-input v-if="isEdit2(scope.row)" v-model="scope.row.motorCode" clearable @blur="handleEdit(scope.row)"/>
+              <el-input v-if="isEdit2(scope.row)" v-model="scope.row.motorCode" clearable @blur="getInfo3(scope.row)"/>
               <span v-else>{{ scope.row.batteryCode }}</span>
             </template>
           </el-editable-column>
           <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.dcbm')" prop="batteryCode" align="center" min-width="150" >
             <template slot="edit" slot-scope="scope">
-              <el-input v-if="isEdit2(scope.row)" v-model="scope.row.batteryCode" clearable @blur="handleEdit(scope.row)"/>
+              <el-input v-if="isEdit2(scope.row)" v-model="scope.row.batteryCode" clearable @blur="getInfo2(scope.row)"/>
               <span v-else>{{ scope.row.batteryCode }}</span>
             </template>
           </el-editable-column>
@@ -256,7 +266,7 @@
 // import { locationlist } from '@/api/WarehouseAdjust'
 import { updateStoragemove3, confirmStoragemove, editStoragemove, updateStoragemove2 } from '@/api/Storagemove'
 import { getdeptlist } from '@/api/BasicSettings'
-import { batchlist, getlocation } from '@/api/public'
+import { batchlist, getlocation, vehicleInfo } from '@/api/public'
 import MyRepository from './MyRepository'
 import MyAccept from './MyAccept'
 import MyDetail from './MyDetail'
@@ -397,13 +407,89 @@ export default {
       immediate: true
     }
   },
-  beforeCreate() {
-    _that = this
-  },
+
   mounted() {
     this.getlist()
   },
+  beforeCreate() {
+    _that = this
+  },
   methods: {
+    getInfo(row) {
+      console.log(row)
+      if (row.carCode !== null && row.carCode !== '' && row.carCode !== undefined) {
+        const param = []
+        param.carCode = row.carCode
+        vehicleInfo(param).then(res => {
+          if (res.data.ret === 200) {
+            console.log('res.data.data.content', res.data.data.content)
+            if (res.data.data.content !== null) {
+              row.carCode = res.data.data.content.carCode
+              row.batteryCode = res.data.data.content.batteryCode
+              row.motorCode = res.data.data.content.motorCode
+              row.snCode = res.data.data.content.snCode
+            }
+          } else {
+            this.$notify.error({
+              title: '错误',
+              message: res.data.msg,
+              offset: 100
+            })
+          }
+        })
+      }
+      this.handleEdit(row)
+    },
+    getInfo2(row) {
+      console.log(row)
+      if (row.batteryCode !== null && row.batteryCode !== '' && row.batteryCode !== undefined) {
+        const param = []
+        param.batteryCode = row.batteryCode
+        vehicleInfo(param).then(res => {
+          if (res.data.ret === 200) {
+            console.log('res.data.data.content', res.data.data.content)
+            if (res.data.data.content !== null) {
+              row.carCode = res.data.data.content.carCode
+              row.batteryCode = res.data.data.content.batteryCode
+              row.motorCode = res.data.data.content.motorCode
+              row.snCode = res.data.data.content.snCode
+            }
+          } else {
+            this.$notify.error({
+              title: '错误',
+              message: res.data.msg,
+              offset: 100
+            })
+          }
+        })
+      }
+      this.handleEdit(row)
+    },
+    getInfo3(row) {
+      console.log(row)
+      if (row.motorCode !== null && row.motorCode !== '' && row.motorCode !== undefined) {
+        const param = []
+        param.motorCode = row.motorCode
+        vehicleInfo(param).then(res => {
+          if (res.data.ret === 200) {
+            console.log('res.data.data.content', res.data.data.content)
+            if (res.data.data.content !== null) {
+              row.carCode = res.data.data.content.carCode
+              row.batteryCode = res.data.data.content.batteryCode
+              row.motorCode = res.data.data.content.motorCode
+              row.snCode = res.data.data.content.snCode
+            }
+          } else {
+            this.$notify.error({
+              title: '错误',
+              message: res.data.msg,
+              offset: 100
+            })
+          }
+        })
+      }
+      this.handleEdit(row)
+    },
     getdatatime() { // 默认显示今天
       var date = new Date()
       var seperator1 = '-'

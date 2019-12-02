@@ -108,6 +108,9 @@ export default {
       this.list2 = this.personalForm.producePlanDetailVos
     }
   },
+  beforeCreate() {
+    _that = this
+  },
   methods: {
     handlecancel() {
       this.editVisible = false

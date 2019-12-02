@@ -281,11 +281,12 @@ export default {
       detailvisible: false
     }
   },
-  beforeCreate() {
-    _that = this
-  },
+
   mounted() {
     this.getlist()
+  },
+  beforeCreate() {
+    _that = this
   },
   methods: {
     top(row) {

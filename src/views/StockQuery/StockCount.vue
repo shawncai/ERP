@@ -151,13 +151,14 @@ export default {
       this.tableKey = this.tableKey + 1// 为了保证table 每次都会重渲 In order to ensure the table will be re-rendered each time
     }
   },
-  beforeCreate() {
-    _that = this
-  },
+
   mounted() {
     // this.getlist()
     this.getchecked()
     this.getamouthDate()
+  },
+  beforeCreate() {
+    _that = this
   },
   methods: {
     getamouthDate() {

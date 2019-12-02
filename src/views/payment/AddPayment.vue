@@ -479,6 +479,9 @@ export default {
     this.getways()
     this.getdatatime()
   },
+  beforeCreate() {
+    _that = this
+  },
   methods: {
     getdatatime() {
       // 默认显示今天

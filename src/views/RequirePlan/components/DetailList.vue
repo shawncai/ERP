@@ -193,6 +193,9 @@ export default {
       }
     }
   },
+  beforeCreate() {
+    _that = this
+  },
   methods: {
     // 获取规格
     getTypeName(row) {

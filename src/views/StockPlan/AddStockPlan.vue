@@ -413,14 +413,15 @@ export default {
     this.getdatatime()
     this.chooseType()
   },
-  beforeCreate() {
-    _that = this
-  },
+
   mounted() {
     this.getinformation()
   },
   activated() {
     this.getinformation()
+  },
+  beforeCreate() {
+    _that = this
   },
   methods: {
     checkStock(row) {

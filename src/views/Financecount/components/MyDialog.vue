@@ -377,6 +377,9 @@ export default {
     this.getways()
     this.getratelist()
   },
+  beforeCreate() {
+    _that = this
+  },
   methods: {
     getlocation6() {
       // 货位根据仓库id展现

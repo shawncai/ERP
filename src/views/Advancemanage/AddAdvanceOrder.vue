@@ -343,6 +343,9 @@ export default {
     this.jungleshow()
     this.getdatatime()
   },
+  beforeCreate() {
+    _that = this
+  },
   methods: {
     // 计算成本金额
     getcostMoney(row) {

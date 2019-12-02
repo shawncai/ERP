@@ -173,6 +173,9 @@ export default {
       // this.getRegion()
     }
   },
+  beforeCreate() {
+    _that = this
+  },
   methods: {
     // getRegion() {
     //   this.getemplist.countyrId = this.$store.getters.countryId

@@ -323,12 +323,13 @@ export default {
       date: []
     }
   },
-  beforeCreate() {
-    _that = this
-  },
+
   mounted() {
     this.getlist()
     this.getlist2()
+  },
+  beforeCreate() {
+    _that = this
   },
   methods: {
     checkPermission,

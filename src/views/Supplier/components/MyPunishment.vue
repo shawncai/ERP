@@ -60,6 +60,9 @@ export default {
       console.log('this.punishdata', this.punishdata)
     }
   },
+  beforeCreate() {
+    _that = this
+  },
   methods: {
     handleCurrentChange(val) {
       console.log(val)

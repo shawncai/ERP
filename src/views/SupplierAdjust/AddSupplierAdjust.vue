@@ -283,14 +283,15 @@ export default {
     this.getTypes()
     this.getdatatime()
   },
-  beforeCreate() {
-    _that = this
-  },
+
   mounted() {
     this.getinformation4()
   },
   activated() {
     this.getinformation4()
+  },
+  beforeCreate() {
+    _that = this
   },
   methods: {
     checkStock(row) {

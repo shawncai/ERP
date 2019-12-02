@@ -184,9 +184,7 @@ export default {
       this.getAllStaff()
       this.getAllStores()
     },
-    beforeCreate() {
-    _that = this
-  },
+  
   mounted() {
       const repositoryid = this.$store.getters.repositoryId
       const regionid = this.$store.getters.regionId
@@ -195,7 +193,10 @@ export default {
         return this.restaurants
       })
     },
-    methods: {
+    beforeCreate() {
+    _that = this
+  },
+  methods: {
       checkPermission,
       // 列表渲染
       getList() {

@@ -331,12 +331,13 @@ export default {
       }
     }
   },
-  beforeCreate() {
-    _that = this
-  },
+
   mounted() {
     this.getlist2()
     this.getlist()
+  },
+  beforeCreate() {
+    _that = this
   },
   methods: {
     productdetail(val) {

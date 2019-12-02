@@ -242,6 +242,9 @@ export default {
       this.getCategory()
     }
   },
+  beforeCreate() {
+    _that = this
+  },
   methods: {
     // 获取类型
     getCategory() {

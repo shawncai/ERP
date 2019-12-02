@@ -618,6 +618,9 @@ export default {
     this.getdatatime()
     this.jungleshow()
   },
+  beforeCreate() {
+    _that = this
+  },
   methods: {
     // 数量变化其他参数
     queryStock(row) {

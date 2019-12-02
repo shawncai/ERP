@@ -87,6 +87,9 @@ export default {
   // updated() {
   //   this.initwebsocket()
   // },
+  beforeCreate() {
+    _that = this
+  },
   methods: {
     // initwebsocket() { // 初始化websocket
     //   // const wsuri = 'ws://192.168.1.45:8080/pss/websocket'

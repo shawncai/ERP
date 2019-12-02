@@ -283,6 +283,9 @@ export default {
     this.getTypes()
     this.jungleshow()
   },
+  beforeCreate() {
+    _that = this
+  },
   methods: {
     jungleshow() {
       const roles = this.$store.getters.roles

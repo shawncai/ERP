@@ -51,6 +51,16 @@
               </el-form-item>
             </el-col>
             <el-col :span="8">
+              <el-form-item :label="$t('updates.yqchrq')" label-width="110px" style="width: 100%;">
+                <el-date-picker
+                  v-model="personalForm.moveOutDate"
+                  type="date"
+                  placeholder="选择要求出货日期"
+                  value-format="yyyy-MM-dd"
+                  style="margin-left: 8px;width: 180px"/>
+              </el-form-item>
+            </el-col>
+            <el-col :span="8">
               <el-form-item :label="$t('Storagemove.moveReason')" style="width: 100%;">
                 <el-input v-model="personalForm.moveReason" placeholder="请输入调拨原因" style="margin-left: 18px;width:180px" clearable/>
               </el-form-item>
@@ -270,11 +280,12 @@ export default {
       this.getlocation()
     }
   },
-  beforeCreate() {
-    _that = this
-  },
+
   mounted() {
     this.getlist()
+  },
+  beforeCreate() {
+    _that = this
   },
   methods: {
     // 部门列表数据

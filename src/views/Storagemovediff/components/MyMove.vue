@@ -264,6 +264,9 @@ export default {
       this.getlist()
     }
   },
+  beforeCreate() {
+    _that = this
+  },
   methods: {
     // 调入仓库focus事件触发
     handlechooseDep() {

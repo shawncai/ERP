@@ -140,6 +140,9 @@ export default {
   created() {
     this.getdepts()
   },
+  beforeCreate() {
+    _that = this
+  },
   methods: {
     getdepts() {
       // 部门列表数据

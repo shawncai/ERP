@@ -200,14 +200,15 @@ export default {
   created() {
     this.getratelist()
   },
-  beforeCreate() {
-    _that = this
-  },
+
   mounted() {
     this.getinformation()
   },
   activated() {
     this.getinformation()
+  },
+  beforeCreate() {
+    _that = this
   },
   methods: {
     // 获取分款期数

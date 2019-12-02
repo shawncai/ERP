@@ -298,6 +298,9 @@ export default {
     this.getdatatime()
     this.chooseSourceType()
   },
+  beforeCreate() {
+    _that = this
+  },
   methods: {
     // 重置一下下拉
     change() {

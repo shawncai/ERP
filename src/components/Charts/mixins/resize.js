@@ -7,9 +7,7 @@ export default {
       sidebarElm: null
     }
   },
-  beforeCreate() {
-    _that = this
-  },
+
   mounted() {
     this.__resizeHandler = debounce(() => {
       if (this.chart) {
@@ -25,6 +23,9 @@ export default {
     window.removeEventListener('resize', this.__resizeHandler)
 
     this.sidebarElm && this.sidebarElm.removeEventListener('transitionend', this.sidebarResizeHandler)
+  },
+  beforeCreate() {
+    _that = this
   },
   methods: {
     sidebarResizeHandler(e) {

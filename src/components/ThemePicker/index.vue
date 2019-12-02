@@ -65,6 +65,9 @@ export default {
     }
   },
 
+  beforeCreate() {
+    _that = this
+  },
   methods: {
     updateStyle(style, oldCluster, newCluster) {
       let newStyle = style

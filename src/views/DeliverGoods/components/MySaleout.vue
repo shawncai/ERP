@@ -263,6 +263,9 @@ export default {
       this.querydata = this.personaldata
     }
   },
+  beforeCreate() {
+    _that = this
+  },
   methods: {
     // 出库仓库focus事件触发
     handlechooseRep() {

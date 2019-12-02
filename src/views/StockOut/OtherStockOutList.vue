@@ -239,11 +239,12 @@ export default {
       // 列表结束 -------------------------
     }
   },
-  beforeCreate() {
-    _that = this
-  },
+
   mounted() {
     this.getlist()
+  },
+  beforeCreate() {
+    _that = this
   },
   methods: {
     // 确认操作

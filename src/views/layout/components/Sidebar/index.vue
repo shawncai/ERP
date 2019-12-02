@@ -85,6 +85,9 @@ export default {
       topmenus: this.$store.getters.topmenu
     };
   },
+  beforeCreate() {
+    _that = this
+  },
   methods: {
     selectSession(val) {
       this.$store.dispatch('selectSession', val)

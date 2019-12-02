@@ -235,11 +235,12 @@ export default {
     this.getdatatime()
     this.getTypes()
   },
-  beforeCreate() {
-    _that = this
-  },
+
   mounted() {
     this.getinformation()
+  },
+  beforeCreate() {
+    _that = this
   },
   methods: {
     getinformation() {

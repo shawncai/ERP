@@ -98,6 +98,9 @@ export default {
       }
     }
   },
+  beforeCreate() {
+    _that = this
+  },
   methods: {
     // 仓库列表focus事件触发
     handlechooseRep() {

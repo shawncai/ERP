@@ -132,6 +132,9 @@ export default {
       "permission_routers"
     ])
   },
+  beforeCreate() {
+    _that = this
+  },
   methods: {
     toggleSideBar() {
       this.$store.dispatch("toggleSideBar");
@@ -184,9 +187,7 @@ export default {
       console.log(123123, that.show);
     }
   },
-  beforeCreate() {
-    _that = this
-  },
+
   mounted() {
     const that = this;
     window.onresize = () => {

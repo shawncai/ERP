@@ -147,6 +147,9 @@ export default {
   created() {
     this.getlist()
   },
+  beforeCreate() {
+    _that = this
+  },
   methods: {
     getlist() {
       // 外包工厂列表数据

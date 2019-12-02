@@ -313,12 +313,13 @@ export default {
       repositories: []
     }
   },
-  beforeCreate() {
-    _that = this
-  },
+
   mounted() {
     this.getlist()
     this.getCategory()
+  },
+  beforeCreate() {
+    _that = this
   },
   methods: {
     checkPermission,

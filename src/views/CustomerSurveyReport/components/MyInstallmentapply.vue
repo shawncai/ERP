@@ -250,6 +250,9 @@ export default {
       this.getlist()
     }
   },
+  beforeCreate() {
+    _that = this
+  },
   methods: {
     // 销售人员focus事件
     handlechooseStock() {

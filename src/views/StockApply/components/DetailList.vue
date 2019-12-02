@@ -252,6 +252,9 @@ export default {
       this.detailTime = this.personalForm.applyDate
     }
   },
+  beforeCreate() {
+    _that = this
+  },
   methods: {
     handlecancel() {
       this.editVisible = false

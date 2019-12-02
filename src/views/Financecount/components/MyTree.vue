@@ -75,6 +75,9 @@ export default {
   activated() {
     this.gettree()
   },
+  beforeCreate() {
+    _that = this
+  },
   methods: {
     // 搜索树状图数据方法
     filterNode(value, data, node) {

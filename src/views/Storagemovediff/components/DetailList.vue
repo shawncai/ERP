@@ -372,11 +372,12 @@ export default {
       // this.getdeliverGoodsList()
     }
   },
-  beforeCreate() {
-    _that = this
-  },
+
   mounted() {
     this.getlist()
+  },
+  beforeCreate() {
+    _that = this
   },
   methods: {
     // 处理时间

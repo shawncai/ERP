@@ -256,6 +256,9 @@ export default {
   created() {
     this.getnationlist()
   },
+  beforeCreate() {
+    _that = this
+  },
   methods: {
     // 选择要货方时清理
     clearrequire() {

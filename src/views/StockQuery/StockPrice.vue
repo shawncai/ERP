@@ -145,12 +145,13 @@ export default {
       date: []
     }
   },
-  beforeCreate() {
-    _that = this
-  },
+
   mounted() {
     // this.getlist()
     this.getamouthDate()
+  },
+  beforeCreate() {
+    _that = this
   },
   methods: {
     checkPermission,

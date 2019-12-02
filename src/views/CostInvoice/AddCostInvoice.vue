@@ -346,11 +346,12 @@ export default {
     this.getways()
     this.getdatatime()
   },
-  beforeCreate() {
-    _that = this
-  },
+
   mounted() {
     this.getinformation()
+  },
+  beforeCreate() {
+    _that = this
   },
   methods: {
     change2(val) {

@@ -558,6 +558,9 @@ export default {
     this.getdatatime()
     this.getprovince()
   },
+  beforeCreate() {
+    _that = this
+  },
   methods: {
     // 通过手机号判断是否有申请的资格
     haveAccess() {

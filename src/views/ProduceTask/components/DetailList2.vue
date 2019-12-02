@@ -368,6 +368,9 @@ export default {
       this.list4 = this.personalForm.produceReportMaterialsDetails
     }
   },
+  beforeCreate() {
+    _that = this
+  },
   methods: {
     handlecancel() {
       this.editVisible = false

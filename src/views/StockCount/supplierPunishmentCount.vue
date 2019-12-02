@@ -205,12 +205,13 @@ export default {
       date: []
     }
   },
-  beforeCreate() {
-    _that = this
-  },
+
   mounted() {
     this.getlist()
     this.changeName()
+  },
+  beforeCreate() {
+    _that = this
   },
   methods: {
     handleMyReceipt1(val) {

@@ -157,6 +157,9 @@ export default {
       this.list2 = this.personalForm.standardProcessDetailVos
     }
   },
+  beforeCreate() {
+    _that = this
+  },
   methods: {
     handlecancel() {
       this.editVisible = false

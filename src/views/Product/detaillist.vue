@@ -151,6 +151,9 @@ export default {
   created() {
     this.gettree()
   },
+  beforeCreate() {
+    _that = this
+  },
   methods: {
     // 判断是否显示
     isshow(val) {

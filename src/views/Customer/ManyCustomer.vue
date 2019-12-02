@@ -39,6 +39,9 @@ export default {
       uploadHead: []
     }
   },
+  beforeCreate() {
+    _that = this
+  },
   methods: {
     beforeUpload(file) {
       // const isLt1M = file.size / 1024 / 1024 < 1

@@ -534,6 +534,9 @@ export default {
     this.getTypes()
     this.getTreeId()
   },
+  beforeCreate() {
+    _that = this
+  },
   methods: {
     // 删除树
     deleteTreeData() {

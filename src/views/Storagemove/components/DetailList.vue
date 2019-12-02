@@ -54,6 +54,11 @@
                 </el-form-item>
               </el-col>
               <el-col :span="12">
+                <el-form-item :label="$t('updates.yqchrq')" label-width="110px" prop="requestArrivalDate" style="width: 100%;">
+                  <span>{{ personalForm.moveOutDate }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
                 <el-form-item :label="$t('Storagemove.moveReason')" style="width: 100%;">
                   <span>{{ personalForm.moveReason }}</span>
                 </el-form-item>
@@ -554,11 +559,12 @@ export default {
       this.getdeliverGoodsList()
     }
   },
-  beforeCreate() {
-    _that = this
-  },
+
   mounted() {
     this.getlist()
+  },
+  beforeCreate() {
+    _that = this
   },
   methods: {
     // 格式化日期，如月、日、时、分、秒保证为2位数

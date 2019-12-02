@@ -268,6 +268,9 @@ export default {
       this.getlist()
     }
   },
+  beforeCreate() {
+    _that = this
+  },
   methods: {
     // 更新采购类型
     updatecountry() {

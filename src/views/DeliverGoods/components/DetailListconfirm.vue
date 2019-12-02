@@ -280,6 +280,9 @@ export default {
       }
     }
   },
+  beforeCreate() {
+    _that = this
+  },
   methods: {
     isok(row) {
       console.log(row)

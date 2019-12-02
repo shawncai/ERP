@@ -285,12 +285,13 @@ export default {
       date: []
     }
   },
-  beforeCreate() {
-    _that = this
-  },
+
   mounted() {
     this.getlist()
     this.isReview()
+  },
+  beforeCreate() {
+    _that = this
   },
   methods: {
     checkPermission,

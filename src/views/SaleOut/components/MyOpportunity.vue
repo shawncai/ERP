@@ -255,6 +255,9 @@ export default {
   created() {
     this.getlist()
   },
+  beforeCreate() {
+    _that = this
+  },
   methods: {
     // 选择客户类型时清理客户名称
     clearCustomer() {

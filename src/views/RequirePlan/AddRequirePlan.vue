@@ -178,11 +178,12 @@ export default {
       }
     }
   },
-  beforeCreate() {
-    _that = this
-  },
+
   mounted() {
     this.getinformation()
+  },
+  beforeCreate() {
+    _that = this
   },
   methods: {
     getinformation() {

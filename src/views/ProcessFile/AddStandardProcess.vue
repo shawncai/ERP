@@ -184,6 +184,9 @@ export default {
       }
     }
   },
+  beforeCreate() {
+    _that = this
+  },
   methods: {
     // 工作中心focus事件
     workcenterchoose() {

@@ -303,14 +303,15 @@ export default {
     this.getways()
     this.jungleshow()
   },
-  beforeCreate() {
-    _that = this
-  },
+
   mounted() {
     this.getinformation()
   },
   activated() {
     this.getinformation()
+  },
+  beforeCreate() {
+    _that = this
   },
   methods: {
     // 判断权限

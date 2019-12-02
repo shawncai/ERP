@@ -268,6 +268,9 @@ export default {
   created() {
     this.shuchu()
   },
+  beforeCreate() {
+    _that = this
+  },
   methods: {
     shuchu() {
       console.log('1234567', this.$t())

@@ -234,6 +234,9 @@ export default {
       this.getlist()
     }
   },
+  beforeCreate() {
+    _that = this
+  },
   methods: {
     // 不让勾选
     selectInit(row, index) {

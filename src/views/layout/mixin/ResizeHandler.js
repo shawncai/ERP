@@ -16,15 +16,16 @@ export default {
   beforeMount() {
     window.addEventListener('resize', this.resizeHandler)
   },
-  beforeCreate() {
-    _that = this
-  },
+
   mounted() {
     const isMobile = this.isMobile()
     if (isMobile) {
       store.dispatch('toggleDevice', 'mobile')
       store.dispatch('closeSideBar', { withoutAnimation: true })
     }
+  },
+  beforeCreate() {
+    _that = this
   },
   methods: {
     isMobile() {

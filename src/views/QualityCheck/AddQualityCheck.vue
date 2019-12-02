@@ -294,6 +294,9 @@ export default {
     this.getTypes()
     this.getdatatime()
   },
+  beforeCreate() {
+    _that = this
+  },
   methods: {
     checkStock(row) {
       console.log('this.moreaction.length', this.moreaction.length)

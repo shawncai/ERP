@@ -106,6 +106,9 @@ export default {
   destroyed() {
     // window.removeEventListener('hashchange', this.afterQRScan)
   },
+  beforeCreate() {
+    _that = this
+  },
   methods: {
     showPwd() {
       if (this.passwordType === 'password') {

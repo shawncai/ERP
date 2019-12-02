@@ -158,11 +158,12 @@ export default {
       listLoading: true
     }
   },
-  beforeCreate() {
-    _that = this
-  },
+
   mounted() {
     this.getlist()
+  },
+  beforeCreate() {
+    _that = this
   },
   methods: {
     // 仓库列表focus事件触发

@@ -404,13 +404,14 @@ export default {
   created() {
     this.getnationlist()
   },
-  beforeCreate() {
-    _that = this
-  },
+
   mounted() {
     this.getempinformation()
     this.jungleshow()
     this.getdatatime()
+  },
+  beforeCreate() {
+    _that = this
   },
   methods: {
     // 默认显示今天

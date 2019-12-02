@@ -390,6 +390,9 @@ export default {
   created() {
     this.getTypes()
   },
+  beforeCreate() {
+    _that = this
+  },
   methods: {
     // 检验人员focus事件触发
     handlechoosestaff() {

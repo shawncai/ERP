@@ -283,6 +283,9 @@ export default {
   created() {
     this.getlist()
   },
+  beforeCreate() {
+    _that = this
+  },
   methods: {
     // 多选
     handleSelectionChange(val) {

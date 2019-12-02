@@ -79,6 +79,9 @@ export default {
       0
     )
   },
+  beforeCreate() {
+    _that = this
+  },
   methods: {
     //  在发送信息之后，将输入的内容中属于表情的部分替换成emoji图片标签
     //  再经过v-html 渲染成真正的图片

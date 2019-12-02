@@ -62,11 +62,12 @@ export default {
     }
   },
   // 在进入的时候 聚焦输入框
-  beforeCreate() {
-    _that = this
-  },
+
   mounted() {
     this.$refs.text.focus()
+  },
+  beforeCreate() {
+    _that = this
   },
   methods: {
     IsshowEmoji() {

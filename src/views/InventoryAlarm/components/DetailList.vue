@@ -126,6 +126,9 @@ export default {
       this.list2 = this.personalForm.inventoryAlarmRulesDetailVos
     }
   },
+  beforeCreate() {
+    _that = this
+  },
   methods: {
     handlecancel() {
       this.editVisible = false

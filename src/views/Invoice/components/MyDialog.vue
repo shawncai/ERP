@@ -257,6 +257,9 @@ export default {
     this.getTypes()
     this.getways()
   },
+  beforeCreate() {
+    _that = this
+  },
   methods: {
     getways() {
       // 交货方式

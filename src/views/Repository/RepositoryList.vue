@@ -619,11 +619,12 @@ export default {
       // 修改弹窗中的数据结束
     }
   },
-  beforeCreate() {
-    _that = this
-  },
+
   mounted() {
     this.getlist()
+  },
+  beforeCreate() {
+    _that = this
   },
   methods: {
     updateType2() {

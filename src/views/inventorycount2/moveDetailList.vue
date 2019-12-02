@@ -236,12 +236,13 @@ export default {
       date: null
     }
   },
-  beforeCreate() {
-    _that = this
-  },
+
   mounted() {
     this.getlist()
     this.changeName()
+  },
+  beforeCreate() {
+    _that = this
   },
   methods: {
     treechoose() {

@@ -174,6 +174,9 @@ export default {
       this.getlist()
     }
   },
+  beforeCreate() {
+    _that = this
+  },
   methods: {
     getlist() {
       // 国家列表

@@ -28,6 +28,9 @@ export default {
       return true
     }
   },
+  beforeCreate() {
+    _that = this
+  },
   methods: {
     change() {
       this.$store.dispatch('search', this.search)

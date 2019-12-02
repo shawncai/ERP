@@ -252,6 +252,9 @@ export default {
       this.list = this.personalForm.repositoryVos
     }
   },
+  beforeCreate() {
+    _that = this
+  },
   methods: {
     handlecancel() {
       this.editVisible = false

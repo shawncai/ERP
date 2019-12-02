@@ -372,13 +372,14 @@ export default {
       deep: true
     }
   },
-  beforeCreate() {
-    _that = this
-  },
+
   mounted() {
     this.getlist()
     this.getdatatime()
     this.getinformation()
+  },
+  beforeCreate() {
+    _that = this
   },
   methods: {
     checkStock(row) {

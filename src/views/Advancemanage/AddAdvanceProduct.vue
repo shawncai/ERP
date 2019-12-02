@@ -288,6 +288,9 @@ export default {
     this.getTypes()
     this.getways()
   },
+  beforeCreate() {
+    _that = this
+  },
   methods: {
     // 判断销售定金
     jungle(row) {

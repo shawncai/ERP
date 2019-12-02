@@ -285,11 +285,12 @@ export default {
       moreaction: []
     }
   },
-  beforeCreate() {
-    _that = this
-  },
+
   mounted() {
     this.getlist()
+  },
+  beforeCreate() {
+    _that = this
   },
   methods: {
     checkStock(row) {

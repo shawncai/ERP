@@ -207,6 +207,9 @@ export default {
       this.getuseLogList()
     }
   },
+  beforeCreate() {
+    _that = this
+  },
   methods: {
     getuseLogList() {
       useLogList(this.useLogListData).then(res => {

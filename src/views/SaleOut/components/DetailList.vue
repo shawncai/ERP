@@ -515,6 +515,9 @@ export default {
       console.log('list2', this.list2)
     }
   },
+  beforeCreate() {
+    _that = this
+  },
   methods: {
     // 格式化折扣
     formatter(row, column) {

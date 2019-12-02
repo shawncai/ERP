@@ -52,6 +52,9 @@ export default {
       isFullscreen: false
     }
   },
+  beforeCreate() {
+    _that = this
+  },
   methods: {
     click() {
       if (!screenfull.enabled) {

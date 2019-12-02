@@ -1,6 +1,28 @@
 import request from '@/utils/request'
 
 // 销售出库库存快照
+export function vehicleInfo(query) {
+  var params = new URLSearchParams()
+  if (query.carCode !== '' && query.carCode !== null && query.carCode !== undefined) {
+    params.append('carCode', query.carCode) // 你要传给后台的参数值 key/value
+  }
+  if (query.batteryCode !== '' && query.batteryCode !== null && query.batteryCode !== undefined) {
+    params.append('batteryCode', query.batteryCode) // 你要传给后台的参数值 key/value
+  }
+  if (query.motorCode !== '' && query.motorCode !== null && query.motorCode !== undefined) {
+    params.append('motorCode', query.motorCode) // 你要传给后台的参数值 key/value
+  }
+  if (query.snCode !== '' && query.snCode !== null && query.snCode !== undefined) {
+    params.append('snCode', query.snCode) // 你要传给后台的参数值 key/value
+  }
+  return request({
+    url: '/vehicleTrack/vehicleInfo',
+    method: 'post',
+    params: params
+  })
+}
+
+// 销售出库库存快照
 export function getRate(query) {
   var params = new URLSearchParams()
   if (query !== '' && query !== null && query !== undefined) {

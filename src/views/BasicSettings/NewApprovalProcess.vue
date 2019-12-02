@@ -184,6 +184,9 @@ export default {
     this.getnationlist()
     this.getRegion()
   },
+  beforeCreate() {
+    _that = this
+  },
   methods: {
     getRegion() {
       getRegion(this.$store.getters.regionId).then(res => {

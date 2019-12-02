@@ -194,6 +194,9 @@ export default {
       this.query = this.personalform
     }
   },
+  beforeCreate() {
+    _that = this
+  },
   methods: {
     getlist() {
       // 商品列表数据

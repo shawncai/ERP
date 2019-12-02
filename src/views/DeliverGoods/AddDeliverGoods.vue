@@ -246,11 +246,12 @@ export default {
     this.getdatatime()
     this.getnationlist()
   },
-  beforeCreate() {
-    _that = this
-  },
+
   mounted() {
     this.getinformation()
+  },
+  beforeCreate() {
+    _that = this
   },
   methods: {
     getinformation() {

@@ -178,6 +178,9 @@ export default {
   created() {
     this.getBom()
   },
+  beforeCreate() {
+    _that = this
+  },
   methods: {
     getBom() {
       getbom().then(res => {

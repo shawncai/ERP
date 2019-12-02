@@ -197,6 +197,9 @@ export default {
       this.list2 = this.personalForm.standardProcessDetailVos
     }
   },
+  beforeCreate() {
+    _that = this
+  },
   methods: {
     // 工作中心focus事件
     workcenterchoose() {

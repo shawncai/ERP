@@ -62,12 +62,13 @@ export default {
       }
     }
   },
-  beforeCreate() {
-    _that = this
-  },
+
   mounted() {
     this.initTags()
     this.addTags()
+  },
+  beforeCreate() {
+    _that = this
   },
   methods: {
     generateTitle, // generateTitle by vue-i18n

@@ -273,6 +273,9 @@ export default {
       }
     }
   },
+  beforeCreate() {
+    _that = this
+  },
   methods: {
     // 计划金额
     planMoney(row) {

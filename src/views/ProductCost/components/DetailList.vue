@@ -386,6 +386,9 @@ export default {
   created() {
     this.getTypes()
   },
+  beforeCreate() {
+    _that = this
+  },
   methods: {
     getTypes() {
 

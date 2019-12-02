@@ -110,6 +110,9 @@ export default {
       console.log(this.editdata)
     }
   },
+  beforeCreate() {
+    _that = this
+  },
   methods: {
     // 员工输入框focus事件触发
     handlechoose() {

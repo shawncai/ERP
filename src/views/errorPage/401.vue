@@ -40,6 +40,9 @@ export default {
       dialogVisible: false
     }
   },
+  beforeCreate() {
+    _that = this
+  },
   methods: {
     back() {
       if (this.$route.query.noGoBack) {

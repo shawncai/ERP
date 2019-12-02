@@ -423,6 +423,9 @@ export default {
     this.getTypes()
     this.getways()
   },
+  beforeCreate() {
+    _that = this
+  },
   methods: {
     // 总计
     getSummaries(param) {

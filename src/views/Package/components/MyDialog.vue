@@ -198,6 +198,9 @@ export default {
       this.list = this.personalForm.repositoryVos
     }
   },
+  beforeCreate() {
+    _that = this
+  },
   methods: {
     // 选择赠送商品
     handleAddgift() {

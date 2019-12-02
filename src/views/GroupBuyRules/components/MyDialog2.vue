@@ -156,6 +156,9 @@ export default {
   },
   created() {
   },
+  beforeCreate() {
+    _that = this
+  },
   methods: {
     // 选择客户focus
     chooseCustomer() {

@@ -341,6 +341,9 @@ export default {
   created() {
     this.getnationlist()
   },
+  beforeCreate() {
+    _that = this
+  },
   methods: {
     updatebatch(event, scope) {
       if (event === true) {

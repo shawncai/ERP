@@ -157,6 +157,9 @@ export default {
   created() {
     this.getlist()
   },
+  beforeCreate() {
+    _that = this
+  },
   methods: {
     // 工艺档案列表数据
     getlist() {

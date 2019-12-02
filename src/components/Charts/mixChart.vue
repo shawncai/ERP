@@ -32,9 +32,7 @@ export default {
       chart: null
     }
   },
-  beforeCreate() {
-    _that = this
-  },
+
   mounted() {
     this.initChart()
   },
@@ -44,6 +42,9 @@ export default {
     }
     this.chart.dispose()
     this.chart = null
+  },
+  beforeCreate() {
+    _that = this
   },
   methods: {
     initChart() {

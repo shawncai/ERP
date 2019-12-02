@@ -540,14 +540,15 @@ export default {
     this.getways()
     this.getdatatime()
   },
-  beforeCreate() {
-    _that = this
-  },
+
   mounted() {
     this.getinformation()
   },
   activated() {
     this.getinformation()
+  },
+  beforeCreate() {
+    _that = this
   },
   methods: {
     changenumber(row) {

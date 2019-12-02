@@ -480,6 +480,9 @@ export default {
     this.getTypes()
     this.getways()
   },
+  beforeCreate() {
+    _that = this
+  },
   methods: {
     // 重置一下下拉
     change() {

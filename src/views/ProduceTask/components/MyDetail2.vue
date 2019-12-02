@@ -189,6 +189,9 @@ export default {
   created() {
     this.getlist()
   },
+  beforeCreate() {
+    _that = this
+  },
   methods: {
     getlist() {
       // 商品列表数据
@@ -269,7 +272,7 @@ export default {
           typeId: item.typeId,
           unit: item.produceMeasu,
           productType: item.productType,
-          sourceType: _that.$t('Hmodule.Nosource'),
+          // sourceType: _that.$t('Hmodule.Nosource'),
           sourceNumber: '',
           bomNumber: '',
           processName: '',

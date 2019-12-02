@@ -47,6 +47,9 @@ export default {
   computed: {
     ...mapGetters(['selectedFriend'])
   },
+  beforeCreate() {
+    _that = this
+  },
   methods: {
     send() {
       this.$store.dispatch('send')

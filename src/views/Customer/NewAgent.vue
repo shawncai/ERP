@@ -364,6 +364,9 @@ export default {
     this.getTypes()
     this.handlechange(this.$store.getters.countryId)
   },
+  beforeCreate() {
+    _that = this
+  },
   methods: {
     // 正则限制
     onlynumber() {

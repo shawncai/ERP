@@ -549,6 +549,9 @@ export default {
   created() {
     this.getTypes()
   },
+  beforeCreate() {
+    _that = this
+  },
   methods: {
     // 数量变化其他参数
     queryStock(row) {

@@ -449,6 +449,9 @@ export default {
     this.getTypes()
     this.getdatatime()
   },
+  beforeCreate() {
+    _that = this
+  },
   methods: {
     // 处理汇率
     changeRate() {

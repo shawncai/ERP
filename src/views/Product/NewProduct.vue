@@ -692,6 +692,9 @@ export default {
     // this.getunitlist()
     this.jungleshow()
   },
+  beforeCreate() {
+    _that = this
+  },
   methods: {
     jungleshow() {
       const roles = this.$store.getters.roles

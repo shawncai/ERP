@@ -486,11 +486,12 @@ export default {
     this.getTypes()
     this.getdatatime()
   },
-  beforeCreate() {
-    _that = this
-  },
+
   mounted() {
     this.getinformation()
+  },
+  beforeCreate() {
+    _that = this
   },
   methods: {
     getdatatime() { // 默认显示今天

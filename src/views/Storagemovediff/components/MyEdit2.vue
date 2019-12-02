@@ -417,11 +417,12 @@ export default {
       immediate: true
     }
   },
-  beforeCreate() {
-    _that = this
-  },
+
   mounted() {
     this.getlist()
+  },
+  beforeCreate() {
+    _that = this
   },
   methods: {
     getdatatime() { // 默认显示今天

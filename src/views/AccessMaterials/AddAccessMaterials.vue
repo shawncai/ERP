@@ -246,6 +246,9 @@ export default {
     this.getList()
     this.chooseType()
   },
+  beforeCreate() {
+    _that = this
+  },
   methods: {
     // 需求数量取整
     getPlanQuantity(row) {

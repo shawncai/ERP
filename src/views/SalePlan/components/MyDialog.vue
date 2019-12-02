@@ -291,6 +291,9 @@ export default {
     this.getTypes()
     this.getTreeId()
   },
+  beforeCreate() {
+    _that = this
+  },
   methods: {
     // 获取递归值
     getTreeId() {

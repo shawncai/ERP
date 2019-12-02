@@ -158,6 +158,9 @@ export default {
     this.getdatatime()
     this.getTypes()
   },
+  beforeCreate() {
+    _that = this
+  },
   methods: {
     // 新增收入明细
     insertEvent(index) {

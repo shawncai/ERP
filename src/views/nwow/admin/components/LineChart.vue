@@ -45,9 +45,7 @@ export default {
       }
     }
   },
-  beforeCreate() {
-    _that = this
-  },
+
   mounted() {
     this.initChart()
     if (this.autoResize) {
@@ -75,6 +73,9 @@ export default {
 
     this.chart.dispose()
     this.chart = null
+  },
+  beforeCreate() {
+    _that = this
   },
   methods: {
     sidebarResizeHandler(e) {

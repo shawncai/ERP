@@ -246,11 +246,12 @@ export default {
       deliverycontrol: false
     }
   },
-  beforeCreate() {
-    _that = this
-  },
+
   mounted() {
     this.getlist()
+  },
+  beforeCreate() {
+    _that = this
   },
   methods: {
     // 判断反审批按钮

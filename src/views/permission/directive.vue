@@ -45,6 +45,9 @@ export default{
       key: 1 // 为了能每次切换权限的时候重新初始化指令
     }
   },
+  beforeCreate() {
+    _that = this
+  },
   methods: {
     checkPermission,
     handleRolesChange() {

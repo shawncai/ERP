@@ -849,13 +849,14 @@ export default {
         date: []
       }
     },
-    beforeCreate() {
-    _that = this
-  },
+  
   mounted() {
       this.getlist()
     },
-    methods: {
+    beforeCreate() {
+    _that = this
+  },
+  methods: {
       // 进程操作
       handleReceipt(row) {
         this.receiptVisible = true

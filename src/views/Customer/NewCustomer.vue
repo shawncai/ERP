@@ -213,6 +213,9 @@ export default {
     this.handlechange(this.$store.getters.countryId)
     this.jungleshow()
   },
+  beforeCreate() {
+    _that = this
+  },
   methods: {
     jungleshow() {
       const roles = this.$store.getters.roles

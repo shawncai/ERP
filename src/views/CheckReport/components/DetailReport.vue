@@ -102,6 +102,9 @@ export default {
       this.list = this.reportdata
     }
   },
+  beforeCreate() {
+    _that = this
+  },
   methods: {
     handleCurrentChange(val) {
       console.log(val)

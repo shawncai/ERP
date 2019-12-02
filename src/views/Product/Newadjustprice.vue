@@ -114,6 +114,9 @@ export default {
       }
     }
   },
+  beforeCreate() {
+    _that = this
+  },
   methods: {
     checkPermission,
     // 员工输入框focus事件触发

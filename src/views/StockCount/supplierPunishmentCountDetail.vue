@@ -174,13 +174,14 @@ export default {
       date: []
     }
   },
-  beforeCreate() {
-    _that = this
-  },
+
   mounted() {
     this.getinformation()
     // this.getlist()
     // this.changeName()
+  },
+  beforeCreate() {
+    _that = this
   },
   methods: {
     getinformation() {

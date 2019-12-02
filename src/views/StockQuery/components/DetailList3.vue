@@ -127,6 +127,9 @@ export default {
       console.log(this.personalForm)
     }
   },
+  beforeCreate() {
+    _that = this
+  },
   methods: {
     // 计算税额
     getTaxMoney2(row) {

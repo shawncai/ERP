@@ -174,12 +174,13 @@ export default {
       // 列表结束 -------------------------
     }
   },
-  beforeCreate() {
-    _that = this
-  },
+
   mounted() {
     this.getdeptlist()
     this.getlist()
+  },
+  beforeCreate() {
+    _that = this
   },
   methods: {
     // 部门列表数据

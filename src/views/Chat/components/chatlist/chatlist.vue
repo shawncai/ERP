@@ -51,6 +51,9 @@ export default {
       console.log(newdata)
     }
   },
+  beforeCreate() {
+    _that = this
+  },
   methods: {
     ...mapActions([
       'selectSession'

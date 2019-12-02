@@ -190,6 +190,9 @@ export default {
       this.getlist()
     }
   },
+  beforeCreate() {
+    _that = this
+  },
   methods: {
     getlist() {
       // 供应商列表数据

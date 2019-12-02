@@ -286,11 +286,12 @@ export default {
       materialcontrol: false
     }
   },
-  beforeCreate() {
-    _that = this
-  },
+
   mounted() {
     this.getlist()
+  },
+  beforeCreate() {
+    _that = this
   },
   methods: {
     productdetail4(val) {

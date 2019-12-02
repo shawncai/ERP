@@ -105,6 +105,9 @@ export default {
       this.repositoryId = this.personalForm.repositoryName
     }
   },
+  beforeCreate() {
+    _that = this
+  },
   methods: {
     // 入库人输入框focus事件触发
     handlechoose() {

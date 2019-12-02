@@ -238,6 +238,9 @@ export default {
     this.getTypes()
     this.gettree()
   },
+  beforeCreate() {
+    _that = this
+  },
   methods: {
     processchildren(val) {
       for (const i in val) {

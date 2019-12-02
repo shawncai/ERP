@@ -97,6 +97,9 @@ export default {
       }
     }
   },
+  beforeCreate() {
+    _that = this
+  },
   methods: {
     // 保存操作
     handlesave() {

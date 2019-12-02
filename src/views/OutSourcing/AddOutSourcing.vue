@@ -205,6 +205,9 @@ export default {
       }
     }
   },
+  beforeCreate() {
+    _that = this
+  },
   methods: {
     // 外包工厂focus事件
     chooseFactory() {

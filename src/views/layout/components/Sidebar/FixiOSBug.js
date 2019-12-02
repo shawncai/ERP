@@ -5,13 +5,14 @@ export default {
       return this.$store.state.app.device
     }
   },
-  beforeCreate() {
-    _that = this
-  },
+
   mounted() {
     // In order to fix the click on menu on the ios device will trigger the mouseeleave bug
     // https://github.com/PanJiaChen/vue-element-admin/issues/1135
     this.fixBugIniOS()
+  },
+  beforeCreate() {
+    _that = this
   },
   methods: {
     fixBugIniOS() {

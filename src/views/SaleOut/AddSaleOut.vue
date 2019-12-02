@@ -337,19 +337,19 @@
             </el-editable-column>
             <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.cjbm')" prop="carCode" align="center" min-width="150" >
               <template slot="edit" slot-scope="scope">
-                <el-input v-if="isEdit2(scope.row)" v-model="scope.row.carCode" clearable/>
+                <el-input v-if="isEdit2(scope.row)" v-model="scope.row.carCode" clearable @blur="getInfo(scope.row)"/>
                 <span v-else>{{ scope.row.carCode }}</span>
               </template>
             </el-editable-column>
             <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.djbm')" prop="motorCode" align="center" min-width="150" >
               <template slot="edit" slot-scope="scope">
-                <el-input v-if="isEdit2(scope.row)" v-model="scope.row.motorCode" clearable/>
+                <el-input v-if="isEdit2(scope.row)" v-model="scope.row.motorCode" clearable @blur="getInfo3(scope.row)"/>
                 <span v-else>{{ scope.row.motorCode }}</span>
               </template>
             </el-editable-column>
             <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.dcbm')" prop="batteryCode" align="center" min-width="150" >
               <template slot="edit" slot-scope="scope">
-                <el-input v-if="isEdit2(scope.row)" v-model="scope.row.batteryCode" clearable/>
+                <el-input v-if="isEdit2(scope.row)" v-model="scope.row.batteryCode" clearable @blur="getInfo2(scope.row)"/>
                 <span v-else>{{ scope.row.batteryCode }}</span>
               </template>
             </el-editable-column>
@@ -512,7 +512,7 @@
 <script>
 import '@/directive/noMoreClick/index.js'
 import { getPackage } from '@/api/Package'
-import { getAllBatch } from '@/api/public'
+import { getAllBatch, vehicleInfo } from '@/api/public'
 import { createsaleOut } from '@/api/SaleOut'
 import { searchSaleCategory } from '@/api/SaleCategory'
 import { getlocation, locationlist, countlist, batchlist, productlist } from '@/api/public'
@@ -818,15 +818,88 @@ export default {
     this.getdatatime()
     this.chooseSourceType()
   },
-  beforeCreate() {
-    _that = this
-  },
+
   mounted() {
     this.getinformation()
     this.getinformation2()
     this.getinformation3()
   },
+  beforeCreate() {
+    _that = this
+  },
   methods: {
+    getInfo(row) {
+      console.log(row)
+      if (row.carCode !== null && row.carCode !== '' && row.carCode !== undefined) {
+        const param = []
+        param.carCode = row.carCode
+        vehicleInfo(param).then(res => {
+          if (res.data.ret === 200) {
+            console.log('res.data.data.content', res.data.data.content)
+            if (res.data.data.content !== null) {
+              row.carCode = res.data.data.content.carCode
+              row.batteryCode = res.data.data.content.batteryCode
+              row.motorCode = res.data.data.content.motorCode
+              row.snCode = res.data.data.content.snCode
+            }
+          } else {
+            this.$notify.error({
+              title: '错误',
+              message: res.data.msg,
+              offset: 100
+            })
+          }
+        })
+      }
+    },
+    getInfo2(row) {
+      console.log(row)
+      if (row.batteryCode !== null && row.batteryCode !== '' && row.batteryCode !== undefined) {
+        const param = []
+        param.batteryCode = row.batteryCode
+        vehicleInfo(param).then(res => {
+          if (res.data.ret === 200) {
+            console.log('res.data.data.content', res.data.data.content)
+            if (res.data.data.content !== null) {
+              row.carCode = res.data.data.content.carCode
+              row.batteryCode = res.data.data.content.batteryCode
+              row.motorCode = res.data.data.content.motorCode
+              row.snCode = res.data.data.content.snCode
+            }
+          } else {
+            this.$notify.error({
+              title: '错误',
+              message: res.data.msg,
+              offset: 100
+            })
+          }
+        })
+      }
+    },
+    getInfo3(row) {
+      console.log(row)
+      if (row.motorCode !== null && row.motorCode !== '' && row.motorCode !== undefined) {
+        const param = []
+        param.motorCode = row.motorCode
+        vehicleInfo(param).then(res => {
+          if (res.data.ret === 200) {
+            console.log('res.data.data.content', res.data.data.content)
+            if (res.data.data.content !== null) {
+              row.carCode = res.data.data.content.carCode
+              row.batteryCode = res.data.data.content.batteryCode
+              row.motorCode = res.data.data.content.motorCode
+              row.snCode = res.data.data.content.snCode
+            }
+          } else {
+            this.$notify.error({
+              title: '错误',
+              message: res.data.msg,
+              offset: 100
+            })
+          }
+        })
+      }
+    },
     getReceivableMoney(val) {
       console.log('666', 666)
       console.log('val', val)

@@ -19,6 +19,9 @@ export default {
       return this.$store.getters.size
     }
   },
+  beforeCreate() {
+    _that = this
+  },
   methods: {
     handleSetSize(size) {
       this.$ELEMENT.size = size

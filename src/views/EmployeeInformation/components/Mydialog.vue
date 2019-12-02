@@ -400,6 +400,9 @@ export default {
     this.getnationlist()
     this.getroleName()
   },
+  beforeCreate() {
+    _that = this
+  },
   methods: {
     ids2(val) {
       this.supp = val

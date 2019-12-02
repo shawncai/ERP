@@ -222,12 +222,13 @@ export default {
       moreaction: []
     }
   },
-  beforeCreate() {
-    _that = this
-  },
+
   mounted() {
     this.getlist()
     this.getdatatime()
+  },
+  beforeCreate() {
+    _that = this
   },
   methods: {
     getLocationData(row) {

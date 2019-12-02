@@ -262,13 +262,14 @@ export default {
       date: []
     }
   },
-  beforeCreate() {
-    _that = this
-  },
+
   mounted() {
     this.getdatatime()
     this.getlist()
     this.changeName()
+  },
+  beforeCreate() {
+    _that = this
   },
   methods: {
     getdatatime() { // 默认显示今天

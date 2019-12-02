@@ -50,9 +50,7 @@ export default {
       isMoving: false
     }
   },
-  beforeCreate() {
-    _that = this
-  },
+
   mounted() {
     window.addEventListener('scroll', this.handleScroll)
   },
@@ -61,6 +59,9 @@ export default {
     if (this.interval) {
       clearInterval(this.interval)
     }
+  },
+  beforeCreate() {
+    _that = this
   },
   methods: {
     handleScroll() {

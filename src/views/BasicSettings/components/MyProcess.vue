@@ -310,6 +310,9 @@ export default {
   created() {
     this.getnationlist()
   },
+  beforeCreate() {
+    _that = this
+  },
   methods: {
     // 国籍列表
     getnationlist() {

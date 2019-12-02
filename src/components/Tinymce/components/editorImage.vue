@@ -40,6 +40,9 @@ export default {
       fileList: []
     }
   },
+  beforeCreate() {
+    _that = this
+  },
   methods: {
     checkAllSuccess() {
       return Object.keys(this.listObj).every(item => this.listObj[item].hasSuccess)

@@ -88,9 +88,7 @@ export default {
       this.initOnce = false
     }
   },
-  beforeCreate() {
-    _that = this
-  },
+
   mounted() {
     const element = document.getElementById(this.id)
     const vm = this
@@ -171,6 +169,9 @@ export default {
   destroyed() {
     document.removeEventListener('paste', this.pasteImg)
     this.dropzone.destroy()
+  },
+  beforeCreate() {
+    _that = this
   },
   methods: {
     removeAllFiles() {

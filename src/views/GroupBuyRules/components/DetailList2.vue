@@ -156,6 +156,9 @@ export default {
       this.personalForm = this.detaildata
     }
   },
+  beforeCreate() {
+    _that = this
+  },
   methods: {
     handlecancel() {
       this.editVisible = false

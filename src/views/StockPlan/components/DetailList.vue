@@ -265,6 +265,9 @@ export default {
       this.somedate = this.personalForm.planDate
     }
   },
+  beforeCreate() {
+    _that = this
+  },
   methods: {
     handlecancel() {
       this.editVisible = false

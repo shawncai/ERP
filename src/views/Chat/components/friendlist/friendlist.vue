@@ -25,6 +25,9 @@ export default {
     ...mapState(['selectFriendId', 'searchText']),
     ...mapGetters(['searchedFriendlist'])
   },
+  beforeCreate() {
+    _that = this
+  },
   methods: {
     ...mapActions(['selectFriend'])
   }

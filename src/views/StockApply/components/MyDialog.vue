@@ -268,6 +268,9 @@ export default {
   created() {
     this.getTypes()
   },
+  beforeCreate() {
+    _that = this
+  },
   methods: {
     // 移除表单验证
     clearValidate() {

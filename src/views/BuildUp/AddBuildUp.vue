@@ -288,11 +288,12 @@ export default {
       length: ''
     }
   },
-  beforeCreate() {
-    _that = this
-  },
+
   mounted() {
     this.getlist()
+  },
+  beforeCreate() {
+    _that = this
   },
   methods: {
     updatebatch2(event, scope) {

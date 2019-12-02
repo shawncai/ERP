@@ -358,6 +358,9 @@ export default {
     this.getways()
     this.getratelist()
   },
+  beforeCreate() {
+    _that = this
+  },
   methods: {
     chooseType() {
       console.log(this.personalForm.sourceType)

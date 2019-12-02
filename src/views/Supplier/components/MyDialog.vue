@@ -445,6 +445,9 @@ export default {
   created() {
     this.getnationlist()
   },
+  beforeCreate() {
+    _that = this
+  },
   methods: {
     // 采购申请明细来源
     handleAddproduct() {

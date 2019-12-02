@@ -201,6 +201,9 @@ export default {
   created() {
     this.getlist()
   },
+  beforeCreate() {
+    _that = this
+  },
   methods: {
     // 物料清单列表数据
     getlist() {

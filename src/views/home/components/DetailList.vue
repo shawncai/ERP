@@ -518,6 +518,9 @@ for (const i in review) {
       this.getsaleOutLis()
     }
   },
+  beforeCreate() {
+    _that = this
+  },
   methods: {
     getsaleOutLis() {
       searchsaleOut(this.saleOutparms).then(res => {

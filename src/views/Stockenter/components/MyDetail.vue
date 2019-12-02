@@ -194,6 +194,9 @@ export default {
   created() {
     this.getlist()
   },
+  beforeCreate() {
+    _that = this
+  },
   methods: {
     getlist() {
       // 商品列表数据

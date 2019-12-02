@@ -194,6 +194,9 @@ export default {
   },
   created() {
   },
+  beforeCreate() {
+    _that = this
+  },
   methods: {
     // 源单控制
     handleAddsourceNum() {

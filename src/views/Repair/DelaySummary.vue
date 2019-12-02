@@ -156,6 +156,9 @@ export default {
     this.getList()
     this.getAllStaff()
   },
+  beforeCreate() {
+    _that = this
+  },
   methods: {
     // 列表渲染
     getList() {

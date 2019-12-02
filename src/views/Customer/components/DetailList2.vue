@@ -405,6 +405,9 @@ export default {
       this.getcustomerDetail()
     }
   },
+  beforeCreate() {
+    _that = this
+  },
   methods: {
     // 客户详情
     getcustomerDetail() {

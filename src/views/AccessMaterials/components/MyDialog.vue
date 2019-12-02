@@ -258,6 +258,9 @@ export default {
     this.getList()
     this.chooseType()
   },
+  beforeCreate() {
+    _that = this
+  },
   methods: {
     // 总金额计算
     getSize(quan, pric, row) {

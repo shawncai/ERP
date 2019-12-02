@@ -135,6 +135,9 @@ export default {
   created() {
     this.getList()
   },
+  beforeCreate() {
+    _that = this
+  },
   methods: {
     checkPermission,
     // 列表渲染

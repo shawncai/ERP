@@ -309,6 +309,9 @@ export default {
     this.getTypes()
     this.getways()
   },
+  beforeCreate() {
+    _that = this
+  },
   methods: {
     updatebatch(event, scope) {
       if (event === true) {

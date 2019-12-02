@@ -310,12 +310,13 @@ export default {
       detailvisible: false
     }
   },
-  beforeCreate() {
-    _that = this
-  },
+
   mounted() {
     this.getlist()
     this.getMea()
+  },
+  beforeCreate() {
+    _that = this
   },
   methods: {
     // 修改数据

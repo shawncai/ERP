@@ -177,6 +177,9 @@ export default {
       this.getlist()
     }
   },
+  beforeCreate() {
+    _that = this
+  },
   methods: {
     // 批量操作
     handleSelectionChange(val) {

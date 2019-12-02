@@ -198,6 +198,9 @@ export default {
       this.gitemplist()
     }
   },
+  beforeCreate() {
+    _that = this
+  },
   methods: {
     // 记住之前的批量
     getRowKey(row) {

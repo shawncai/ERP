@@ -276,6 +276,9 @@ export default {
     this.getTypes()
     this.getways()
   },
+  beforeCreate() {
+    _that = this
+  },
   methods: {
     // 清空结束时间
     cleardeposit() {

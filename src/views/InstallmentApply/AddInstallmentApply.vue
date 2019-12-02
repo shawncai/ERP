@@ -795,6 +795,9 @@ export default {
     this.getprovince()
     this.getratelist()
   },
+  beforeCreate() {
+    _that = this
+  },
   methods: {
     // 选择已未婚，标签变化
     changepanel(val) {

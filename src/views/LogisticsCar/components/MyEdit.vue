@@ -110,6 +110,9 @@ export default {
       this.driver = this.personalForm.driverName
     }
   },
+  beforeCreate() {
+    _that = this
+  },
   methods: {
     // 修改和取消按钮
     // 修改按钮

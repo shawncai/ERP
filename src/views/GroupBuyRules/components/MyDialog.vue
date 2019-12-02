@@ -150,6 +150,9 @@ export default {
   },
   created() {
   },
+  beforeCreate() {
+    _that = this
+  },
   methods: {
     // 我方联络人focus事件
     handlechooseStock() {

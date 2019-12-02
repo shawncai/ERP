@@ -81,6 +81,9 @@ export default {
       return this.todos.filter(todo => !todo.done).length
     }
   },
+  beforeCreate() {
+    _that = this
+  },
   methods: {
     setLocalStorage() {
       window.localStorage.setItem(STORAGE_KEY, JSON.stringify(this.todos))

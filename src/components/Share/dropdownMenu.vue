@@ -30,6 +30,9 @@ export default {
       isActive: false
     }
   },
+  beforeCreate() {
+    _that = this
+  },
   methods: {
     clickTitle() {
       this.isActive = !this.isActive

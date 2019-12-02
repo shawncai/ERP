@@ -616,6 +616,9 @@ export default {
       this.getstockinfo()
     }
   },
+  beforeCreate() {
+    _that = this
+  },
   methods: {
     // 采购信息详情
     getstockinfo() {

@@ -714,6 +714,9 @@ export default {
       this.getsearchstockArrivallist()
     }
   },
+  beforeCreate() {
+    _that = this
+  },
   methods: {
     // 延迟记录
     getsearchstockArrivallist() {

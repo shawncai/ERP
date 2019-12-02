@@ -9,8 +9,8 @@
             </el-form-item>
           </el-col>
           <el-col :span="5" style="margin-left: 10px">
-            <el-form-item :label="$t('NewEmployeeInformation.jobnumber2')">
-              <el-input v-model="getemplist.jobnumber" :placeholder="$t('NewEmployeeInformation.jobnumber2')" clearable @keyup.enter.native="handleFilter"/>
+            <el-form-item :label="$t('Customer.phone2')">
+              <el-input v-model="getemplist.phonenumber" :placeholder="$t('Customer.phone2')" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
           <el-col :span="5" style="margin-left: 10px">
@@ -288,7 +288,8 @@ export default {
         regionIds: this.$store.getters.regionIds,
         stat: '',
         time: '',
-        jobnumber: ''
+        jobnumber: '',
+        phonenumber: ''
       },
       // 部门列表
       depts: [],
@@ -410,12 +411,13 @@ export default {
       edtiForm: {}
     }
   },
-  beforeCreate() {
-    _that = this
-  },
+
   mounted() {
     this.getlist()
     this.handlechange4()
+  },
+  beforeCreate() {
+    _that = this
   },
   methods: {
     checkPermission,

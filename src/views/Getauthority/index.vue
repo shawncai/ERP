@@ -136,6 +136,9 @@ export default {
   created() {
     this.getlist()
   },
+  beforeCreate() {
+    _that = this
+  },
   methods: {
     setCurrent() {
       this.$refs.singleTable.setCurrentRow()

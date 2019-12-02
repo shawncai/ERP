@@ -55,6 +55,9 @@ export default {
   components: {
     CountTo
   },
+  beforeCreate() {
+    _that = this
+  },
   methods: {
     handleSetLineChartData(type) {
       this.$emit('handleSetLineChartData', type)

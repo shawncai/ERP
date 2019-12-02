@@ -217,6 +217,9 @@ export default {
       }
     }
   },
+  beforeCreate() {
+    _that = this
+  },
   methods: {
     // 明细表金额
     gettotalMoney(quantity, money, row) {

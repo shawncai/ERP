@@ -633,6 +633,9 @@ export default {
   created() {
     // this.getdata()
   },
+  beforeCreate() {
+    _that = this
+  },
   methods: {
     getdata() {
       const lis = {}

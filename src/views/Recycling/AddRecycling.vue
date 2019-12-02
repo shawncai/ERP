@@ -266,6 +266,9 @@ export default {
     this.getdatatime()
     this.getTypes()
   },
+  beforeCreate() {
+    _that = this
+  },
   methods: {
     // 选择客户focus
     chooseCustomer() {

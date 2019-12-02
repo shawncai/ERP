@@ -129,6 +129,9 @@ export default {
   created() {
     this.getList()
   },
+  beforeCreate() {
+    _that = this
+  },
   methods: {
     checkPermission,
     getList() {

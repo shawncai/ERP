@@ -15,6 +15,9 @@ export default {
       left: 0
     }
   },
+  beforeCreate() {
+    _that = this
+  },
   methods: {
     handleScroll(e) {
       const eventDelta = e.wheelDelta || -e.deltaY * 40

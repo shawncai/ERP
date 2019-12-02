@@ -344,6 +344,9 @@ export default {
   created() {
     this.getTypes()
   },
+  beforeCreate() {
+    _that = this
+  },
   methods: {
     planQuantity(row) {
       return (row.planQuantity).toFixed(2)

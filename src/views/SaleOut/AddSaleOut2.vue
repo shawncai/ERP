@@ -727,13 +727,14 @@ export default {
     this.getdatatime()
     this.chooseSourceType()
   },
-  beforeCreate() {
-    _that = this
-  },
+
   mounted() {
     this.getinformation()
     this.getinformation2()
     this.getinformation3()
+  },
+  beforeCreate() {
+    _that = this
   },
   methods: {
     test() {

@@ -315,6 +315,9 @@ export default {
     this.getways()
     this.changedata()
   },
+  beforeCreate() {
+    _that = this
+  },
   methods: {
     changedata() {
       console.log(123)

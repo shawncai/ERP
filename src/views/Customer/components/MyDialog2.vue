@@ -208,6 +208,9 @@ export default {
       this.handlechange2(this.customerForm.provinceId)
     }
   },
+  beforeCreate() {
+    _that = this
+  },
   methods: {
     getCategory() {
       // 获取客户类型

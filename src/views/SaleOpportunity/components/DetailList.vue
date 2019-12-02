@@ -277,6 +277,9 @@ export default {
       this.list3 = this.personalForm.customerChatVos
     }
   },
+  beforeCreate() {
+    _that = this
+  },
   methods: {
     handlecancel() {
       this.editVisible = false

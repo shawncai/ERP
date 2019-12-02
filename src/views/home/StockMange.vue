@@ -406,14 +406,15 @@ export default {
         date2: []
       }
     },
-    beforeCreate() {
-    _that = this
-  },
+  
   mounted() {
       this.getlist()
       this.getlist2()
     },
-    methods: {
+    beforeCreate() {
+    _that = this
+  },
+  methods: {
       tableHeaderColor({ row, column, rowIndex, columnIndex }) {
         if (rowIndex === 0 && columnIndex === 0) {
           return 'background-color: #00a9f7;color: white;'

@@ -297,6 +297,9 @@ export default {
       // this.personalForm.personalProperty = ''
     }
   },
+  beforeCreate() {
+    _that = this
+  },
   methods: {
     // 计算税额
     getTaxMoney2(row) {

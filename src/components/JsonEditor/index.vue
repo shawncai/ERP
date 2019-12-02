@@ -32,9 +32,7 @@ export default {
       }
     }
   },
-  beforeCreate() {
-    _that = this
-  },
+
   mounted() {
     this.jsonEditor = CodeMirror.fromTextArea(this.$refs.textarea, {
       lineNumbers: true,
@@ -49,6 +47,9 @@ export default {
       this.$emit('changed', cm.getValue())
       this.$emit('input', cm.getValue())
     })
+  },
+  beforeCreate() {
+    _that = this
   },
   methods: {
     getValue() {

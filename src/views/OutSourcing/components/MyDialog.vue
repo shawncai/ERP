@@ -220,6 +220,9 @@ export default {
       this.list2 = this.personalForm.outsourcingDetailVos
     }
   },
+  beforeCreate() {
+    _that = this
+  },
   methods: {
     // 外包工厂focus事件
     chooseFactory() {

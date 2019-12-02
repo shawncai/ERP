@@ -43,6 +43,9 @@ export default {
   created() {
     this.fetchData()
   },
+  beforeCreate() {
+    _that = this
+  },
   methods: {
     fetchData() {
       fetchList().then(response => {

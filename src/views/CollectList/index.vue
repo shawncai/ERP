@@ -320,6 +320,9 @@ export default {
   created() {
     this.getlist()
   },
+  beforeCreate() {
+    _that = this
+  },
   methods: {
     // 提示逾期
     tableRowClassName({ row, rowIndex }) {

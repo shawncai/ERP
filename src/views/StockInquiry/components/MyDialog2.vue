@@ -288,6 +288,9 @@ export default {
   created() {
     this.getTypes()
   },
+  beforeCreate() {
+    _that = this
+  },
   methods: {
     // 总计
     getSummaries(param) {

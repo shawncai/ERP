@@ -17,6 +17,9 @@ export default {
       required: true
     }
   },
+  beforeCreate() {
+    _that = this
+  },
   methods: {
     isExternalLink(routePath) {
       return isExternal(routePath)

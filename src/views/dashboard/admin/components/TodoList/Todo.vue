@@ -46,6 +46,9 @@ export default {
       editing: false
     }
   },
+  beforeCreate() {
+    _that = this
+  },
   methods: {
     deleteTodo(todo) {
       this.$emit('deleteTodo', todo)

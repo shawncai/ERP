@@ -476,6 +476,9 @@ export default {
       this.getsaleReturn()
     }
   },
+  beforeCreate() {
+    _that = this
+  },
   methods: {
     // 格式化日期，如月、日、时、分、秒保证为2位数
     formatNumber(n) {

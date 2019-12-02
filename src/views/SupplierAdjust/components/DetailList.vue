@@ -242,6 +242,9 @@ export default {
       this.getstockArrivalList()
     }
   },
+  beforeCreate() {
+    _that = this
+  },
   methods: {
     cutnull(data) {
       for (const x in data) {

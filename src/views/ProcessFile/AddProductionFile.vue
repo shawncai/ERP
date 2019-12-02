@@ -79,6 +79,9 @@ export default {
       }
     }
   },
+  beforeCreate() {
+    _that = this
+  },
   methods: {
     // 清空记录
     restAllForm() {

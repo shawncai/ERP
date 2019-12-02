@@ -137,11 +137,12 @@ export default {
       listLoading: true
     }
   },
-  beforeCreate() {
-    _that = this
-  },
+
   mounted() {
     this.getlist()
+  },
+  beforeCreate() {
+    _that = this
   },
   methods: {
     handleFilter4() {

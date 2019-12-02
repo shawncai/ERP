@@ -271,6 +271,9 @@ export default {
   created() {
     this.getTypes()
   },
+  beforeCreate() {
+    _that = this
+  },
   methods: {
     // 分类属性
     getTypes() {

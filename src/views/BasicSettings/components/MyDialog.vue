@@ -170,6 +170,9 @@ export default {
   created() {
     this.getnationlist()
   },
+  beforeCreate() {
+    _that = this
+  },
   methods: {
     // 驾驶员列表返回数据
     personName(scope, val) {

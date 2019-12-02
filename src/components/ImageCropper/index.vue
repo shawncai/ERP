@@ -391,6 +391,9 @@ export default {
       }
     }
   },
+  beforeCreate() {
+    _that = this
+  },
   methods: {
     // 点击波纹效果
     ripple(e) {

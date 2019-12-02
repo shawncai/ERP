@@ -73,9 +73,7 @@ export default {
       this.$nextTick(() => this.initTinymce())
     }
   },
-  beforeCreate() {
-    _that = this
-  },
+
   mounted() {
     this.initTinymce()
   },
@@ -87,6 +85,9 @@ export default {
   },
   destroyed() {
     this.destroyTinymce()
+  },
+  beforeCreate() {
+    _that = this
   },
   methods: {
     initTinymce() {

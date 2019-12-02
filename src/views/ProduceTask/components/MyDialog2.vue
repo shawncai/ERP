@@ -392,6 +392,9 @@ export default {
   created() {
     this.getList()
   },
+  beforeCreate() {
+    _that = this
+  },
   methods: {
     // 部门列表数据
     getList() {

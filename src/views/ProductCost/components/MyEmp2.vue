@@ -197,6 +197,9 @@ export default {
   created() {
     this.gitemplist()
   },
+  beforeCreate() {
+    _that = this
+  },
   methods: {
     // 仓库管理员选择开始
     gitemplist() {

@@ -528,6 +528,9 @@ export default {
       this.getstockenterlist()
     }
   },
+  beforeCreate() {
+    _that = this
+  },
   methods: {
     getstockenterlist() {
       stockenterlist(this.stockenterlistdata).then(res => {

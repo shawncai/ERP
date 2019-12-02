@@ -162,6 +162,9 @@ export default {
       this.getlist()
     }
   },
+  beforeCreate() {
+    _that = this
+  },
   methods: {
     // 工作中心列表数据
     getlist() {

@@ -276,12 +276,13 @@ export default {
       // 列表结束 -------------------------
     }
   },
-  beforeCreate() {
-    _that = this
-  },
+
   mounted() {
     this.getdeptlist()
     this.getlist()
+  },
+  beforeCreate() {
+    _that = this
   },
   methods: {
     isshow9(row) {

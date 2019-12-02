@@ -35,9 +35,7 @@ export default {
       isSticky: false
     }
   },
-  beforeCreate() {
-    _that = this
-  },
+
   mounted() {
     this.height = this.$el.getBoundingClientRect().height
     window.addEventListener('scroll', this.handleScroll)
@@ -49,6 +47,9 @@ export default {
   destroyed() {
     window.removeEventListener('scroll', this.handleScroll)
     window.removeEventListener('resize', this.handleReize)
+  },
+  beforeCreate() {
+    _that = this
   },
   methods: {
     sticky() {

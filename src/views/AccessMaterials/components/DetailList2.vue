@@ -252,6 +252,9 @@ export default {
       }
     }
   },
+  beforeCreate() {
+    _that = this
+  },
   methods: {
     // 总金额计算
     getSize(quan, pric, row) {

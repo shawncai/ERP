@@ -71,6 +71,9 @@ export default {
       })
     }
   },
+  beforeCreate() {
+    _that = this
+  },
   methods: {
     isNotInList1(v) {
       return this.list1.every(k => v.id !== k.id)

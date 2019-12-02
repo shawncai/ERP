@@ -36,6 +36,9 @@ export default {
   created() {
     this.getnationlist()
   },
+  beforeCreate() {
+    _that = this
+  },
   methods: {
     // 参数列表
     getnationlist() {

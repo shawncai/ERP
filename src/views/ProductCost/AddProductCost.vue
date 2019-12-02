@@ -478,6 +478,9 @@ export default {
   created() {
     this.getTypes()
   },
+  beforeCreate() {
+    _that = this
+  },
   methods: {
     material(val) {
       console.log('123', this.personalForm.accountType)

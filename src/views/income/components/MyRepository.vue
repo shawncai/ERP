@@ -180,6 +180,9 @@ export default {
       this.searchregion = this.regionid
     }
   },
+  beforeCreate() {
+    _that = this
+  },
   methods: {
     getlist() {
       // 国家列表

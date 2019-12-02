@@ -173,6 +173,9 @@ export default {
       this.list2 = this.personalForm.materialsListDetailVos
     }
   },
+  beforeCreate() {
+    _that = this
+  },
   methods: {
     // 父件focus事件
     handlemater() {

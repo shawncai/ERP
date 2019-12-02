@@ -337,6 +337,9 @@ export default {
   created() {
     this.gettree()
   },
+  beforeCreate() {
+    _that = this
+  },
   methods: {
     handleEdit(val) {
       console.log('val', val)

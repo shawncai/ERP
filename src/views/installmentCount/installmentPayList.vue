@@ -303,12 +303,13 @@ export default {
       date: []
     }
   },
-  beforeCreate() {
-    _that = this
-  },
+
   mounted() {
     this.getlist()
     this.changeName()
+  },
+  beforeCreate() {
+    _that = this
   },
   methods: {
     treechoose() {

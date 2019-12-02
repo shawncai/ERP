@@ -240,6 +240,9 @@ export default {
       this.getlist()
     }
   },
+  beforeCreate() {
+    _that = this
+  },
   methods: {
     getlist() {
       // 物料需求计划列表数据

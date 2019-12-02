@@ -194,11 +194,12 @@ export default {
       this.getlocation()
     }
   },
-  beforeCreate() {
-    _that = this
-  },
+
   mounted() {
     this.getlist()
+  },
+  beforeCreate() {
+    _that = this
   },
   methods: {
     getLocationData(row) {

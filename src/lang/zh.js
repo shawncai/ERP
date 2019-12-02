@@ -3002,6 +3002,7 @@ export default {
     qsrmm: '请输入密码'
   },
   updates: {
+    sncode: 'sn编码',
     zxsyj: '总销售业绩',
     zhzye: '账户总余额',
     byszc: '本月收支差',
@@ -3728,6 +3729,7 @@ export default {
     xsjh: '销售机会',
     ysd: '预售单',
     cgdd: '采购订单',
-    xsht: '销售合同'
+    xsht: '销售合同',
+    yqchrq: '要求出货日期'
   }
 }

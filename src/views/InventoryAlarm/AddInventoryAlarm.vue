@@ -175,11 +175,12 @@ export default {
       }
     }
   },
-  beforeCreate() {
-    _that = this
-  },
+
   mounted() {
     this.getdatatime()
+  },
+  beforeCreate() {
+    _that = this
   },
   methods: {
     getdatatime() { // 默认显示今天

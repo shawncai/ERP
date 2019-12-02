@@ -1102,6 +1102,9 @@ export default {
     this.customerdata2(2)
     this.getlist()
   },
+  beforeCreate() {
+    _that = this
+  },
   methods: {
     getlist() {
       searchproblemobject().then(res => {

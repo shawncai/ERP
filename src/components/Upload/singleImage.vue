@@ -46,6 +46,9 @@ export default {
       return this.value
     }
   },
+  beforeCreate() {
+    _that = this
+  },
   methods: {
     rmImage() {
       this.emitInput('')

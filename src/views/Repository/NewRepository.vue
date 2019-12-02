@@ -508,11 +508,12 @@ export default {
     this.getRegion()
     this.jungleshow()
   },
-  beforeCreate() {
-    _that = this
-  },
+
   mounted() {
     this.handlechange(this.$store.getters.useCountry)
+  },
+  beforeCreate() {
+    _that = this
   },
   methods: {
     test() {

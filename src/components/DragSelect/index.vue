@@ -26,11 +26,12 @@ export default {
       }
     }
   },
-  beforeCreate() {
-    _that = this
-  },
+
   mounted() {
     this.setSort()
+  },
+  beforeCreate() {
+    _that = this
   },
   methods: {
     setSort() {

@@ -28,9 +28,7 @@ export default {
       chart: null
     }
   },
-  beforeCreate() {
-    _that = this
-  },
+
   mounted() {
     this.initChart()
     this.__resizeHandler = debounce(() => {
@@ -47,6 +45,9 @@ export default {
     window.removeEventListener('resize', this.__resizeHandler)
     this.chart.dispose()
     this.chart = null
+  },
+  beforeCreate() {
+    _that = this
   },
   methods: {
     initChart() {

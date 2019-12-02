@@ -362,6 +362,9 @@ export default {
     this.getratelist()
     this.getdatatime()
   },
+  beforeCreate() {
+    _that = this
+  },
   methods: {
     updatebatch(event, scope) {
       if (event === true) {

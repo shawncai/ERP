@@ -391,6 +391,9 @@ export default {
   created() {
     this.getTypes()
   },
+  beforeCreate() {
+    _that = this
+  },
   methods: {
     // 处理汇率
     changeRate() {

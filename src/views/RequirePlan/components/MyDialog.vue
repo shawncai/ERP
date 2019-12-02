@@ -187,6 +187,9 @@ export default {
       this.list2 = this.personalForm.materialsRequirePlanDetailVos
     }
   },
+  beforeCreate() {
+    _that = this
+  },
   methods: {
     // 获取规格
     getTypeName(row) {

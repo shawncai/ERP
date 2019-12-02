@@ -26,6 +26,9 @@ export default {
       }
     }
   },
+  beforeCreate() {
+    _that = this
+  },
   methods: {
     generateData({ header, results }) {
       this.excelData.header = header

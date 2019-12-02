@@ -216,6 +216,9 @@ export default {
       this.getlist()
     }
   },
+  beforeCreate() {
+    _that = this
+  },
   methods: {
     // 物料名称focus
     handleAddproduct() {

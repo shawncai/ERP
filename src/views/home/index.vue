@@ -24,11 +24,12 @@ export default {
   created() {
     this.getmapdata()
   },
-  beforeCreate() {
-    _that = this
-  },
+
   mounted() {
     this.mapBuild() // 初始化实例之后调用
+  },
+  beforeCreate() {
+    _that = this
   },
   methods: {
     getmapdata() {

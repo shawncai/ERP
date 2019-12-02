@@ -251,6 +251,9 @@ export default {
       this.list2 = this.personalForm.changeCountDetailvos
     }
   },
+  beforeCreate() {
+    _that = this
+  },
   methods: {
     handlecancel() {
       this.editVisible = false

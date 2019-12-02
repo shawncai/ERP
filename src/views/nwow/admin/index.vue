@@ -89,6 +89,9 @@ export default {
       lineChartData: lineChartData.newVisitis
     }
   },
+  beforeCreate() {
+    _that = this
+  },
   methods: {
     handleSetLineChartData(type) {
       this.lineChartData = lineChartData[type]

@@ -102,15 +102,16 @@ export default {
     console.log('123')
     this.gettree()
   },
-  beforeCreate() {
-    _that = this
-  },
+
   mounted() {
     console.log('321')
   },
   activated() {
     console.log('333')
     this.gettree()
+  },
+  beforeCreate() {
+    _that = this
   },
   methods: {
     init() {

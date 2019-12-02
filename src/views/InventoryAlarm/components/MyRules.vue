@@ -172,6 +172,9 @@ export default {
       this.list2 = this.personalForm.inventoryAlarmRulesDetailVos
     }
   },
+  beforeCreate() {
+    _that = this
+  },
   methods: {
     // 批量操作
     handleSelectionChange(val) {

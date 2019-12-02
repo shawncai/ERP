@@ -390,6 +390,9 @@ export default {
   created() {
     this.getTypes()
   },
+  beforeCreate() {
+    _that = this
+  },
   methods: {
     changeSampleQuantity() {
       if (this.personalForm.checkMode === '1') {

@@ -264,6 +264,9 @@ export default {
       console.log(this.supp)
     }
   },
+  beforeCreate() {
+    _that = this
+  },
   methods: {
     // 更新采购类型
     updatecountry() {

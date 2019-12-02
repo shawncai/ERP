@@ -57,9 +57,7 @@ export default {
       this.simplemde.value(val)
     }
   },
-  beforeCreate() {
-    _that = this
-  },
+
   mounted() {
     this.simplemde = new SimpleMDE({
       element: document.getElementById(this.id),

@@ -87,6 +87,9 @@ export default {
       this.returnpersonid = this.personalForm.returnPersonName
     }
   },
+  beforeCreate() {
+    _that = this
+  },
   methods: {
     // 修改和取消按钮
     // 修改按钮

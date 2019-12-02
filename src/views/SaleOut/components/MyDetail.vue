@@ -207,6 +207,9 @@ export default {
       this.query = this.personalform
     }
   },
+  beforeCreate() {
+    _that = this
+  },
   methods: {
     getlist() {
       this.list = []

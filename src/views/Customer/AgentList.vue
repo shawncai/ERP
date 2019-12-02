@@ -241,12 +241,13 @@ export default {
       }
     }
   },
-  beforeCreate() {
-    _that = this
-  },
+
   mounted() {
     this.getlist()
     this.getCategory()
+  },
+  beforeCreate() {
+    _that = this
   },
   methods: {
     checkPermission,

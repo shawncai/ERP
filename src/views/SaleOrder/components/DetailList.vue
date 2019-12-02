@@ -539,6 +539,9 @@ export default {
       this.getsaleOutLis()
     }
   },
+  beforeCreate() {
+    _that = this
+  },
   methods: {
     getsaleOutLis() {
       searchsaleOut(this.saleOutparms).then(res => {

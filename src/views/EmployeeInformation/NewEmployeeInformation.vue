@@ -395,11 +395,12 @@ export default {
     this.handlechange(this.$store.getters.countryId)
     this.jungleshow()
   },
-  beforeCreate() {
-    _that = this
-  },
+
   mounted() {
     this.handlechange(this.$store.getters.useCountry)
+  },
+  beforeCreate() {
+    _that = this
   },
   methods: {
     ids2(val) {

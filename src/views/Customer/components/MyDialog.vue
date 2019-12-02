@@ -393,6 +393,9 @@ export default {
     this.getCategory()
     this.getTypes()
   },
+  beforeCreate() {
+    _that = this
+  },
   methods: {
     cutnull(data) {
       for (const x in data) {

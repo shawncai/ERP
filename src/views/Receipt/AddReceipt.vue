@@ -305,9 +305,7 @@ export default {
   created() {
     this.getways()
   },
-  beforeCreate() {
-    _that = this
-  },
+
   mounted() {
     this.getinformation()
   },
@@ -315,6 +313,9 @@ export default {
     this.getinformation()
     this.getinformation2()
     this.getinformation3()
+  },
+  beforeCreate() {
+    _that = this
   },
   methods: {
     junglemoney() {

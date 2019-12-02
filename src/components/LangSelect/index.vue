@@ -18,6 +18,9 @@ export default {
       return this.$store.getters.language
     }
   },
+  beforeCreate() {
+    _that = this
+  },
   methods: {
     handleSetLanguage(lang) {
       this.$i18n.locale = lang

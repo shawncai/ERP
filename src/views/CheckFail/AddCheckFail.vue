@@ -287,6 +287,9 @@ export default {
     this.getTypes()
     this.getdatatime()
   },
+  beforeCreate() {
+    _that = this
+  },
   methods: {
     getdatatime() { // 默认显示今天
       var date = new Date()

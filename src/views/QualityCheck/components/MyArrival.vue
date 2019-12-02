@@ -274,6 +274,9 @@ export default {
   created() {
     this.getlist()
   },
+  beforeCreate() {
+    _that = this
+  },
   methods: {
     // 更新采购类型
     updatecountry() {
