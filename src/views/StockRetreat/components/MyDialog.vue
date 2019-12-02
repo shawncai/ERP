@@ -1,5 +1,5 @@
 <template>
-  <el-dialog :visible.sync="editVisible" :editcontrol="editcontrol" :editdata="editdata" :close-on-press-escape="false" :title="personalForm.number +'    修改'" width="1010px" class="edit" top="-10px" @close="$emit('update:editcontrol', false)">
+  <el-dialog :visible.sync="editVisible" :editcontrol="editcontrol" :editdata="editdata" :close-on-press-escape="false" :title="personalForm.number +$t('updates.xg')" width="1010px" class="edit" top="-10px" @close="$emit('update:editcontrol', false)">
     <!--基本信息-->
     <el-card class="box-card" style="margin-top: 63px" shadow="never">
       <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('Hmodule.basicinfo') }}</h2>
@@ -108,8 +108,8 @@
               <el-col :span="12">
                 <el-form-item :label="$t('StockRetreat.isVat')" style="width: 100%;">
                   <el-radio-group v-model="personalForm.isVat" style="margin-left: 18px;width: 200px">
-                    <el-radio :label="1" style="width: 100px">是</el-radio>
-                    <el-radio :label="2">否</el-radio>
+                    <el-radio :label="1" style="width: 100px">{{ $t('updates.yes') }}</el-radio>
+                    <el-radio :label="2">{{ $t('updates.no') }}</el-radio>
                   </el-radio-group>
                 </el-form-item>
               </el-col>
@@ -151,7 +151,7 @@
     </el-card>
     <!--子件信息-->
     <el-card class="box-card" style="margin-top: 15px" shadow="never">
-      <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">采购退货单明细</h2>
+      <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('updates.cgthdmx') }}</h2>
       <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
         <el-button :disabled="addpro" @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>
         <my-detail :control.sync="control" @product="productdetail"/>
@@ -175,58 +175,58 @@
           <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" align="center" min-width="150px"/>
           <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" align="center" min-width="150px"/>
           <el-editable-column :label="$t('Hmodule.gg')" prop="typeName" align="center" min-width="150px"/>
-          <el-editable-column prop="color" align="center" label="颜色" min-width="150px"/>
+          <el-editable-column :label="$t('updates.ys')" prop="color" align="center" min-width="150px"/>
           <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" min-width="150px"/>
           <el-editable-column :label="$t('updates.dhsl')" prop="arrivalQuantity" align="center" min-width="150px"/>
-          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible', events: {change: jungleNumbers}}" prop="retreatQuantity" align="center" label="退货数量" min-width="150px"/>
-          <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="retreatReason" align="center" label="退货原因" min-width="170px"/>
+          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible', events: {change: jungleNumbers}}" :label="$t('updates.thsl')" prop="retreatQuantity" align="center" min-width="150px"/>
+          <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.thyy')" prop="retreatReason" align="center" min-width="170px"/>
           <el-editable-column :label="$t('Hmodule.dj')" prop="price" align="center" min-width="170px"/>
-          <el-editable-column prop="includeTaxPrice" align="center" label="含税价" min-width="170px"/>
-          <el-editable-column prop="taxRate" align="center" label="税率(%)" min-width="170px"/>
+          <el-editable-column :label="$t('updates.hsj')" prop="includeTaxPrice" align="center" min-width="170px"/>
+          <el-editable-column :label="$t('updates.sl')" prop="taxRate" align="center" min-width="170px"/>
           <el-editable-column :label="$t('Hmodule.je')" prop="money" align="center" min-width="150px">
             <template slot-scope="scope">
               <p>{{ getMoney(scope.row) }}</p>
             </template>
           </el-editable-column>
-          <el-editable-column prop="includeTaxMoney" align="center" label="含税金额" min-width="150px">
+          <el-editable-column :label="$t('updates.hsje')" prop="includeTaxMoney" align="center" min-width="150px">
             <template slot-scope="scope">
               <p>{{ getTaxMoney(scope.row) }}</p>
             </template>
           </el-editable-column>
-          <el-editable-column prop="taxMoney" align="center" label="税额" min-width="150px">
+          <el-editable-column :label="$t('updates.se')" prop="taxMoney" align="center" min-width="150px">
             <template slot-scope="scope">
               <p>{{ getTaxMoney2(scope.row) }}</p>
             </template>
           </el-editable-column>
-          <el-editable-column prop="discountRate" align="center" label="折扣率(%)" min-width="170px"/>
-          <el-editable-column prop="discountMoney" align="center" label="折扣额" min-width="170px">
+          <el-editable-column :label="$t('updates.ckl')" prop="discountRate" align="center" min-width="170px"/>
+          <el-editable-column :label="$t('updates.cke')" prop="discountMoney" align="center" min-width="170px">
             <template slot-scope="scope">
               <p>{{ getdiscountMoney(scope.row) }}</p>
             </template>
           </el-editable-column>
-          <el-editable-column prop="remark" align="center" label="备注" min-width="150px"/>
-          <el-editable-column prop="sourceNumber" align="center" label="源单编号" min-width="150px"/>
-          <el-editable-column prop="sourceSerialNumber" align="center" label="源单序号" min-width="150px"/>
+          <el-editable-column :label="$t('updates.bz')" prop="remark" align="center" min-width="150px"/>
+          <el-editable-column :label="$t('updates.ydbh')" prop="sourceNumber" align="center" min-width="150px"/>
+          <el-editable-column :label="$t('updates.ydxh')" prop="sourceSerialNumber" align="center" min-width="150px"/>
         </el-editable>
       </div>
     </el-card>
     <el-card class="box-card" shadow="never" style="margin-top: 10px">
-      <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">合计信息</h2>
+      <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('updates.hjxx') }}</h2>
       <div class="container" style="margin-top: 37px">
         <el-form :inline="true" status-icon class="demo-ruleForm" label-width="130px">
           <el-row>
             <el-col :span="12">
-              <el-form-item label="退货数量总计" style="width: 100%;">
+              <el-form-item :label="$t('updates.thslzj')" style="width: 100%;">
                 <el-input v-model="allNumber" style="margin-left: 18px;width: 200px" disabled/>
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item label="金额合计" style="width: 100%;">
+              <el-form-item :label="$t('updates.hehj')" style="width: 100%;">
                 <el-input v-model="allMoney" style="margin-left: 18px;width: 200px" disabled/>
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item label="税额合计" style="width: 100%;">
+              <el-form-item :label="$t('updates.sehj')" style="width: 100%;">
                 <el-input v-model="allTaxMoney" style="margin-left: 18px;width: 200px" disabled/>
               </el-form-item>
             </el-col>
@@ -268,6 +268,8 @@ import MyDelivery from './MyDelivery'
 import MyLnquiry from './MyLnquiry'
 import MyOrder from './MyOrder'
 import MyArrival from './MyArrival'
+// eslint-disable-next-line no-unused-vars
+var _that
 export default {
   components: { MyArrival, MyOrder, MyLnquiry, MyDelivery, MyPlan, MyApply, MySupplier, MyDetail, MyEmp },
   props: {

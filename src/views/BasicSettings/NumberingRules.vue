@@ -30,7 +30,7 @@
       <!--新建列表开始-->
       <el-dialog :visible.sync="addNumberingVisible" append-to-body width="600px" class="normal" title="新建编号规则" >
         <el-form ref="Numberingform" :model="Numberingform" :rules="NumberingformRule" label-width="120px" style="margin: 0 auto; width: 400px">
-          <el-form-item label-width="120px" label="单据类型" prop="type">
+          <el-form-item :label="$t('updates.djlx')" label-width="120px" prop="type">
             <el-select v-model="Numberingform.type" :value="Numberingform.type" placeholder="请选择单据类型" filterable clearable>
               <el-option v-for="(item, index) in categorys" :key="index" :value="item.id" :label="item.categoryName"/>
             </el-select>
@@ -51,7 +51,7 @@
           <el-form-item label-width="120px" label="流水号长度" prop="length">
             <el-input v-model="Numberingform.length" placeholder="请输入流水号长度" autocomplete="off" style="width: 200px"/>
           </el-form-item>
-          <el-form-item label-width="120px" label="启用状态">
+          <el-form-item :label="$t('updates.qyzt')" label-width="120px">
             <el-select v-model="Numberingform.iseffective" placeholder="请选择启用状态">
               <el-option label="active" value="1"/>
               <el-option label="dead" value="2"/>
@@ -161,7 +161,7 @@
           <el-form-item label-width="120px" label="流水号长度" prop="length">
             <el-input v-model="editNumberingform.length" placeholder="请输入流水号长度" autocomplete="off" style="width: 200px"/>
           </el-form-item>
-          <el-form-item label-width="120px" label="启用状态">
+          <el-form-item :label="$t('updates.qyzt')" label-width="120px">
             <el-select v-model="editNumberingform.isEffective" placeholder="请选择启用状态">
               <el-option label="active" value="1"/>
               <el-option label="dead" value="2"/>
@@ -170,7 +170,7 @@
         </el-form>
         <div slot="footer" class="dialog-footer" style="text-align: center">
           <el-button @click="editNumberingVisible = false">取 消</el-button>
-          <el-button type="primary" @click="handleEditOk">修改</el-button>
+          <el-button type="primary" @click="handleEditOk">{{ $t('public.edit') }}</el-button>
         </div>
       </el-dialog>
       <!--修改结束=================================================-->
@@ -186,6 +186,7 @@ import checkPermission from '@/utils/permission' // 权限判断函数
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
 
+var _that
 export default {
   name: 'NumberingRules',
   directives: { waves, permission, permission2 },
@@ -277,6 +278,9 @@ export default {
         ]
       }
     }
+  },
+  beforeCreate() {
+    _that = this
   },
   mounted() {
     this.getlist()

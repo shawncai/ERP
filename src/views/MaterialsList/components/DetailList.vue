@@ -1,5 +1,5 @@
 <template>
-  <el-dialog :visible.sync="editVisible" :detailcontrol="detailcontrol" :detaildata="detaildata" :close-on-press-escape="false" append-to-body width="1010px" class="edit" top="-10px" title="查看物料清单" @close="$emit('update:detailcontrol', false)">
+  <el-dialog :visible.sync="editVisible" :detailcontrol="detailcontrol" :detaildata="detaildata" :close-on-press-escape="false" :title="$t('updates.ckwlqd')" append-to-body width="1010px" class="edit" top="-10px" @close="$emit('update:detailcontrol', false)">
     <div id="printTest" >
       <!--基本信息-->
       <el-card class="box-card" style="margin-top: 63px" shadow="never">
@@ -44,7 +44,7 @@
       </el-card>
       <!--父件信息-->
       <el-card class="box-card" style="margin-top: 15px">
-        <h2 ref="geren" class="form-name">父件信息</h2>
+        <h2 ref="geren" class="form-name">{{ $t('updates.fjxx') }}</h2>
         <div class="container">
           <el-form :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="100px" style="margin-left: 30px;">
             <el-row>
@@ -79,7 +79,7 @@
       </el-card>
       <!--入库单明细-->
       <el-card class="box-card" style="margin-top: 15px">
-        <h2 ref="fuzhu" class="form-name">子件信息</h2>
+        <h2 ref="fuzhu" class="form-name">{{ $t('updates.zjxx') }}</h2>
         <div class="container">
           <el-editable
             ref="editable"
@@ -91,15 +91,15 @@
             size="medium"
             style="width: 100%">
             <el-editable-column :label="$t('Hmodule.xh')" fixed="left" min-width="55" align="center" type="index"/>
-            <el-editable-column prop="productCode" fixed="left" align="center" label="子件" min-width="150px"/>
-            <el-editable-column prop="productName" fixed="left" align="center" label="子件名称" min-width="150px"/>
+            <el-editable-column :label="$t('updates.zj')" prop="productCode" fixed="left" align="center" min-width="150px"/>
+            <el-editable-column :label="$t('updates.zjmc')" prop="productName" fixed="left" align="center" min-width="150px"/>
             <el-editable-column :label="$t('Hmodule.gg')" prop="productType" align="center" min-width="150px"/>
-            <el-editable-column prop="color" align="center" label="颜色" min-width="150px"/>
-            <el-editable-column prop="productCategory" align="center" label="子件类型" min-width="150px"/>
+            <el-editable-column :label="$t('updates.ys')" prop="color" align="center" min-width="150px"/>
+            <el-editable-column :label="$t('updates.zjlx')" prop="productCategory" align="center" min-width="150px"/>
             <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" min-width="150px"/>
-            <el-editable-column prop="quantity" align="center" label="定额" min-width="150px"/>
-            <el-editable-column prop="lossRate" align="center" label="损耗率" min-width="150px"/>
-            <el-editable-column prop="isKey" align="center" label="是否关键件" min-width="150px">
+            <el-editable-column :label="$t('updates.de')" prop="quantity" align="center" min-width="150px"/>
+            <el-editable-column :label="$t('updates.shl')" prop="lossRate" align="center" min-width="150px"/>
+            <el-editable-column :label="$t('updates.sfgjj')" prop="isKey" align="center" min-width="150px">
               <template slot-scope="scope">
                 <span>{{ scope.row.isKey | keyfilter }}</span>
               </template>
@@ -109,31 +109,31 @@
       </el-card>
       <!--审核状态-->
       <el-card class="box-card" style="margin-top: 15px">
-        <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">审批记录</h2>
+        <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('updates.spjl') }}</h2>
         <div class="container" style="margin-top: 37px">
           <el-table
             :data="reviewList"
             border
             style="width: 100%">
             <el-table-column
+              :label="$t('updates.dqbz')"
               prop="step"
               align="center"
-              label="当前步骤"
               min-width="150"/>
             <el-table-column
+              :label="$t('updates.dqspr')"
               prop="stepHandlerName"
               align="center"
-              label="当前审批人"
               min-width="150"/>
             <el-table-column
+              :label="$t('updates.spsj')"
               prop="handleTime"
               align="center"
-              label="审批时间"
               min-width="150"/>
             <el-table-column
+              :label="$t('updates.spyj')"
               prop="stat"
               align="center"
-              label="审批意见"
               min-width="150">
               <template slot-scope="scope">
                 <span>{{ scope.row.stat | statfilter }}</span>
@@ -148,6 +148,7 @@
 
 <script>
 import printJS from 'print-js'
+var _that
 export default {
   filters: {
     versionFilter(status) {

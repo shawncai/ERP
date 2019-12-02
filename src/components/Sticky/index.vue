@@ -9,6 +9,7 @@
 </template>
 
 <script>
+var _that
 export default {
   name: 'Sticky',
   props: {
@@ -33,6 +34,9 @@ export default {
       height: undefined,
       isSticky: false
     }
+  },
+  beforeCreate() {
+    _that = this
   },
   mounted() {
     this.height = this.$el.getBoundingClientRect().height

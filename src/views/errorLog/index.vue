@@ -20,6 +20,7 @@
 import errorA from './errorTestA'
 import errorB from './errorTestB'
 
+var _that
 export default {
   name: 'ErrorLog',
   components: { errorA, errorB }

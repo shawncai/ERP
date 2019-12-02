@@ -51,6 +51,7 @@
 <script>
 import '@/directive/noMoreClick/index.js'
 import { createprocessFile } from '@/api/ProcessFile'
+var _that
 export default {
   name: 'AddProductionFile',
   data() {

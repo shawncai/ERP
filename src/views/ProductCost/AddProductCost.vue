@@ -14,8 +14,8 @@
                 <el-form-item :label="$t('ProductCost.accountTime')" style="width: 100%;">
                   <el-date-picker
                     v-model="personalForm.accountTime"
+                    :placeholder="$t('updates.xzy')"
                     type="month"
-                    placeholder="选择月"
                     style="margin-left: 11px;width: 200px"/>
                 </el-form-item>
               </el-col>
@@ -43,8 +43,8 @@
               <el-col :span="6">
                 <el-form-item :label="$t('ProductCost.isInput')" style="width: 100%;">
                   <el-radio-group v-model="personalForm.isInput" style="margin-left: 11px;width: 200px" >
-                    <el-radio :label="1" style="width: 100px">是</el-radio>
-                    <el-radio :label="2">否</el-radio>
+                    <el-radio :label="1" style="width: 100px">{{ $t('updates.yes') }}</el-radio>
+                    <el-radio :label="2">{{ $t('updates.no') }}</el-radio>
                   </el-radio-group>
                 </el-form-item>
               </el-col>
@@ -117,7 +117,7 @@
 
       <!--子件信息-->
       <el-card class="box-card" style="margin-top: 15px" shadow="never">
-        <h2 ref="fuzhu" class="form-name" >成本费用明细</h2>
+        <h2 ref="fuzhu" class="form-name" >{{ $t('updates.cbfymx') }}</h2>
         <div class="container">
           <el-row :gutter="20" style="margin-top: 30px">
             <el-col :span="24">
@@ -131,13 +131,13 @@
                         :border="true"
                         style="width: 100%">
                         <el-table-column
+                          :label="$t('updates.cpcb')"
                           prop="productCost"
-                          label="产品成本"
                           min-width="140"
                           align="center"/>
                         <el-table-column
+                          :label="$t('updates.zjclfy')"
                           prop="material"
-                          label="直接材料费用"
                           min-width="140"
                           align="center">
                           <template slot-scope="scope">
@@ -147,8 +147,8 @@
                           </template>
                         </el-table-column>
                         <el-table-column
+                          :label="$t('updates.zjrgfy')"
                           prop="man"
-                          label="直接人工费用"
                           min-width="140"
                           align="center">
                           <template slot-scope="scope">
@@ -158,8 +158,8 @@
                           </template>
                         </el-table-column>
                         <el-table-column
+                          :label="$t('updates.zzfy')"
                           prop="produce"
-                          label="制造费用"
                           min-width="140"
                           align="center">
                           <template slot-scope="scope">
@@ -169,8 +169,8 @@
                           </template>
                         </el-table-column>
                         <el-table-column
+                          :label="$t('updates.fyhj')"
                           prop="total"
-                          label="费用合计"
                           min-width="140"
                           align="center"/>
                       </el-table>
@@ -210,6 +210,8 @@ import MyEmp2 from './components/MyEmp2'
 import DetailReport from './components/DetailReport'
 import DetailReport2 from './components/DetailReport2'
 import DetailReport3 from './components/DetailReport3'
+// eslint-disable-next-line no-unused-vars
+var _that
 export default {
   name: 'AddProductCost',
   components: { DetailReport3, DetailReport2, DetailReport, MyEmp2, MyMater, MyQuality, MyAccept, ProduceTask, MyArrival, MyCenter, MyDelivery, MySupplier, MyDetail, MyEmp },

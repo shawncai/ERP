@@ -1,5 +1,5 @@
 <template>
-  <el-dialog :visible.sync="editVisible" :detailcontrol="detailcontrol" :detaildata="detaildata" :close-on-press-escape="false" :title="personalForm.reportNumber +'    详情'" append-to-body width="1010px" class="edit" top="-10px" @close="$emit('update:detailcontrol', false)">
+  <el-dialog :visible.sync="editVisible" :detailcontrol="detailcontrol" :detaildata="detaildata" :close-on-press-escape="false" :title="personalForm.reportNumber +$t('updates.xqing')" append-to-body width="1010px" class="edit" top="-10px" @close="$emit('update:detailcontrol', false)">
     <div id="printTest" >
       <!--基本信息-->
       <el-card class="box-card" style="margin-top: 63px" shadow="never">
@@ -89,7 +89,7 @@
       </el-card>
       <!--子件信息-->
       <el-card class="box-card" style="margin-top: 15px" shadow="never">
-        <h2 ref="fuzhu" class="form-name" >成本费用明细</h2>
+        <h2 ref="fuzhu" class="form-name" >{{ $t('updates.cbfymx') }}</h2>
         <div class="container">
           <el-row :gutter="20" style="margin-top: 100px">
             <el-col :span="24">
@@ -103,28 +103,28 @@
                         :border="true"
                         style="width: 100%">
                         <el-table-column
+                          :label="$t('updates.cpcb')"
                           prop="productCost"
-                          label="产品成本"
                           min-width="140"
                           align="center"/>
                         <el-table-column
+                          :label="$t('updates.zjclfy')"
                           prop="material"
-                          label="直接材料费用"
                           min-width="140"
                           align="center"/>
                         <el-table-column
+                          :label="$t('updates.zjrgfy')"
                           prop="man"
-                          label="直接人工费用"
                           min-width="140"
                           align="center"/>
                         <el-table-column
+                          :label="$t('updates.zzfy')"
                           prop="produce"
-                          label="制造费用"
                           min-width="140"
                           align="center"/>
                         <el-table-column
+                          :label="$t('updates.fyhj')"
                           prop="total"
-                          label="费用合计"
                           min-width="140"
                           align="center"/>
                       </el-table>
@@ -138,31 +138,21 @@
       </el-card>
       <!--审核状态-->
       <el-card class="box-card" style="margin-top: 15px" shadow="never">
-        <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">审批记录</h2>
+        <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('updates.spjl') }}</h2>
         <div class="container" style="margin-top: 37px">
           <el-table
             :data="reviewList"
             border
             style="width: 100%">
             <el-table-column
+              :label="$t('updates.dqbz')"
               prop="step"
               align="center"
-              label="当前步骤"
               min-width="150"/>
             <el-table-column
+              :label="$t('updates.dqspr')"
               prop="stepHandlerName"
               align="center"
-              label="当前审批人"
-              min-width="150"/>
-            <el-table-column
-              prop="handleTime"
-              align="center"
-              label="审批时间"
-              min-width="150"/>
-            <el-table-column
-              prop="stat"
-              align="center"
-              label="审批意见"
               min-width="150">
               <template slot-scope="scope">
                 <span>{{ scope.row.stat | statfilter }}</span>
@@ -215,6 +205,7 @@
 </template>
 
 <script>
+var _that
 export default {
   filters: {
     chectResultFilter(status) {
@@ -240,7 +231,7 @@ export default {
     },
     sourceTypeFilter(status) {
       const statusMap = {
-        1: '质检申请单'
+        1: _that.$t('updates.zjsqd')
       }
       return statusMap[status]
     },
@@ -253,9 +244,9 @@ export default {
     },
     receiptStatFilter(status) {
       const statusMap = {
-        1: '制单',
-        2: '执行',
-        3: '结单'
+        1: _that.$t('updates.zd'),
+        2: _that.$t('updates.zx'),
+        3: _that.$t('updates.jd')
       }
       return statusMap[status]
     },

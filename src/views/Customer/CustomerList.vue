@@ -157,8 +157,8 @@
         </el-table-column>
         <el-table-column :label="$t('public.actions')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <el-button v-permission2="['1-14-16-3', scope.row.createPersonId]" title="修改" type="primary" size="mini" icon="el-icon-edit" circle @click="handleEdit(scope.row)"/>
-            <el-button v-permission2="['1-14-16-2', scope.row.createPersonId]" title="删除" size="mini" type="danger" icon="el-icon-delete" circle @click="handleDelete(scope.row)"/>
+            <el-button v-permission2="['1-14-16-3', scope.row.createPersonId]" :title="$t('updates.xg')" type="primary" size="mini" icon="el-icon-edit" circle @click="handleEdit(scope.row)"/>
+            <el-button v-permission2="['1-14-16-2', scope.row.createPersonId]" :title="$t('updates.sc')" size="mini" type="danger" icon="el-icon-delete" circle @click="handleDelete(scope.row)"/>
           </template>
         </el-table-column>
       </el-table>
@@ -182,6 +182,7 @@ import checkPermission from '@/utils/permission'
 import MyDialog2 from './components/MyDialog2'
 import DetailList from './components/DetailList2' // 权限判断函数
 
+var _that
 export default {
   name: 'CustomerList',
   directives: { waves, permission, permission2 },
@@ -311,6 +312,9 @@ export default {
       // 门店数据
       repositories: []
     }
+  },
+  beforeCreate() {
+    _that = this
   },
   mounted() {
     this.getlist()

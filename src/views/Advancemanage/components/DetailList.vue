@@ -1,5 +1,5 @@
 <template>
-  <el-dialog :visible.sync="editVisible" :detailcontrol="detailcontrol" :detaildata="detaildata" :close-on-press-escape="false" :title="personalForm.id +'    详情'" append-to-body width="1010px" class="edit" top="-10px" @close="$emit('update:detailcontrol', false)">
+  <el-dialog :visible.sync="editVisible" :detailcontrol="detailcontrol" :detaildata="detaildata" :close-on-press-escape="false" :title="personalForm.id +$t('updates.xqing')" append-to-body width="1010px" class="edit" top="-10px" @close="$emit('update:detailcontrol', false)">
     <div id="printTest" >
       <!--基本信息-->
       <el-card class="box-card" style="margin-top: 63px" shadow="never">
@@ -21,8 +21,8 @@
               <!-- <el-col :span="12">
                 <el-form-item :label="$t('Advancemanage.isSale')" style="width: 100%;">
                   <el-radio-group v-model="personalForm.isSale" style="margin-left: 18px;width: 200px" disabled>
-                    <el-radio :label="1" style="width: 100px">是</el-radio>
-                    <el-radio :label="2">否</el-radio>
+                    <el-radio :label="1" style="width: 100px">{{ $t('updates.yes') }}</el-radio>
+                    <el-radio :label="2">{{ $t('updates.no') }}</el-radio>
                   </el-radio-group>
                 </el-form-item>
               </el-col>
@@ -62,7 +62,7 @@
         </div>
       </el-card>
       <el-card class="box-card" style="margin-top: 15px" shadow="never">
-        <h2 ref="fuzhu" class="form-name" >预售商品</h2>
+        <h2 ref="fuzhu" class="form-name" >{{ $t('updates.yssp') }}</h2>
         <div class="container">
           <el-editable
             ref="editable"
@@ -75,7 +75,7 @@
             <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" fixed="left" align="center" />
             <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" fixed="left" align="center" />
             <el-editable-column :label="$t('Hmodule.gg')" prop="productType" align="center" />
-            <el-editable-column prop="color" align="center" label="颜色" />
+            <el-editable-column :label="$t('updates.ys')" prop="color" align="center" />
             <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" />
             <el-editable-column :label="$t('Hmodule.dj')" prop="salePrice" align="center" />
             <el-editable-column prop="deposit" align="center" label="预售定金" />
@@ -87,6 +87,7 @@
 </template>
 <script>
 import printJS from 'print-js'
+var _that
 export default {
   filters: {
     statfilter(status) {
@@ -106,10 +107,10 @@ export default {
     },
     sourceTypeFilter(status) {
       const statusMap = {
-        1: '采购申请',
-        2: '采购计划',
-        3: '采购询价单',
-        4: '无来源'
+        1: _that.$t('updates.cgsq'),
+        2: _that.$t('updates.cgjhd'),
+        3: _that.$t('updates.cgxjd'),
+        4: _that.$t('Hmodule.Nosource')
       }
       return statusMap[status]
     },
@@ -122,9 +123,9 @@ export default {
     },
     receiptStatFilter(status) {
       const statusMap = {
-        1: '制单',
-        2: '执行',
-        3: '结单'
+        1: _that.$t('updates.zd'),
+        2: _that.$t('updates.zx'),
+        3: _that.$t('updates.jd')
       }
       return statusMap[status]
     },

@@ -88,10 +88,10 @@
           <el-editable-column label="编号" width="55" align="center" type="index"/>
           <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" align="center" width="150px"/>
           <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" align="center" width="150px"/>
-          <el-editable-column prop="color" align="center" label="颜色" width="150px"/>
+          <el-editable-column :label="$t('updates.ys')" prop="color" align="center" width="150px"/>
           <el-editable-column :label="$t('Hmodule.gg')" prop="typeName" align="center" width="150px"/>
           <el-editable-column :label="$t('Hmodule.dw')" prop="unitName" align="center" width="150px"/>
-          <el-editable-column prop="price" align="center" label="调拨单价" width="150px"/>
+          <el-editable-column :label="$t('updates.dbdj')" prop="price" align="center" width="150px"/>
           <el-editable-column :edit-render="{name: 'ElInputNumber'}" prop="movePrice" align="center" label="调拨成本价" width="150px"/>
           <el-editable-column :edit-render="{name: 'ElInputNumber'}" prop="moveQuantity" align="center" label="调拨数量" width="150px"/>
           <el-editable-column prop="totalMoney" align="center" label="调拨金额" width="150px">
@@ -99,12 +99,12 @@
               <p>{{ getSize(scope.row.movePrice, scope.row.moveQuantity) }}</p>
             </template>
           </el-editable-column>
-          <el-editable-column :edit-render="{name: 'ElInput'}" prop="remarks" align="center" label="备注" width="150px"/>
+          <el-editable-column :edit-render="{name: 'ElInput'}" :label="$t('updates.bz')" prop="remarks" align="center" width="150px"/>
         </el-editable>
       </div>
     </el-card>
     <div class="buttons" style="margin-top: 20px;margin-left: 30px">
-      <el-button type="primary" @click="handleEditok()">修改</el-button>
+      <el-button type="primary" @click="handleEditok()">{{ $t('public.edit') }}</el-button>
       <el-button type="danger" @click="handlecancel()">{{ $t('Hmodule.cancel') }}</el-button>
     </div>
   </el-dialog>
@@ -119,6 +119,7 @@ import MyAccept from './MyAccept'
 import MyDetail from './MyDetail'
 import MyCreate from './MyCreate'
 import MyDepot from './MyDepot'
+var _that
 export default {
   components: { MyRepository, MyCreate, MyAccept, MyDetail, MyDepot },
   props: {
@@ -194,6 +195,9 @@ export default {
       this.list2 = this.personalForm.moveApplicationDetailVos
       this.getlocation()
     }
+  },
+  beforeCreate() {
+    _that = this
   },
   mounted() {
     this.getlist()

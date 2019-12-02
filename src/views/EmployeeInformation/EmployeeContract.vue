@@ -6,9 +6,9 @@
       <el-input v-model="getcontractlist.contractname" :placeholder="$t('NewEmployeeInformation.contractname')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
       <el-input v-model="getcontractlist.empnumber" :placeholder="$t('NewEmployeeInformation.empnumber')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
       <el-input v-model="getcontractlist.empname" :placeholder="$t('NewEmployeeInformation.empname')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
-      <el-select v-model="getcontractlist.isEnd" placeholder="是否到期" class="filter-item" clearable @keyup.enter.native="handleFilter">
-        <el-option label="是" value="1"/>
-        <el-option label="否" value="2"/>
+      <el-select v-model="getcontractlist.isEnd" :placeholder="$t('updates.sfdq')" class="filter-item" clearable @keyup.enter.native="handleFilter">
+        <el-option :label="$t('updates.yes')" value="1"/>
+        <el-option :label="$t('updates.no')" value="2"/>
       </el-select>      <!-- 搜索按钮 -->
       <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 86px" @click="handleFilter">{{ $t('public.search') }}</el-button>
       <!-- 批量操作 -->
@@ -99,7 +99,7 @@
       <!-- 列表结束 -->
       <pagination v-show="total>0" :total="total" :page.sync="getcontractlist.pagenum" :limit.sync="getcontractlist.pagesize" @pagination="getlist" />
       <!--修改弹窗-->
-      <el-dialog :visible.sync="editVisible" :title="'合同编号' + contractNumber" width="1010px" class="edit" top="-10px">
+      <el-dialog :visible.sync="editVisible" :title="$t('updates.htbh') + contractNumber" width="1010px" class="edit" top="-10px">
         <el-card class="box-card" style="margin-top: 63px" shadow="never">
           <el-form ref="contractForm" :model="contractForm" :rules="contractFormRules" :inline="true" status-icon class="demo-ruleForm" label-position="top" label-width="300px" style="margin-left: 30px;">
             <el-form-item :label="$t('NewEmployeeInformation.employeeid')" prop="employeeId" style="width: 40%;">
@@ -155,24 +155,24 @@
             </el-form-item>
             <el-form-item :label="$t('NewEmployeeInformation.iscorrection')" style="width: 40%;margin-top:1%">
               <el-radio-group v-model="contractForm.isCorrection" style="width: 80%">
-                <el-radio :label="1" style="width: 50%">是</el-radio>
-                <el-radio :label="2">否</el-radio>
+                <el-radio :label="1" style="width: 50%">{{ $t('updates.yes') }}</el-radio>
+                <el-radio :label="2">{{ $t('updates.no') }}</el-radio>
               </el-radio-group>
             </el-form-item>
             <el-form-item :label="$t('NewEmployeeInformation.contractstat')" style="width: 40%;margin-top:1%">
               <el-radio-group v-model="contractForm.stat" style="width: 80%">
-                <el-radio :label="1" style="width: 50%">生效</el-radio>
-                <el-radio :label="2">未生效</el-radio>
+                <el-radio :label="1" style="width: 50%">{{ $t('updates.sx') }}</el-radio>
+                <el-radio :label="2">{{ $t('updates.wsx') }}</el-radio>
               </el-radio-group>
             </el-form-item>
             <el-form-item :label="$t('NewEmployeeInformation.trialsalary')" style="width: 40%">
-              <el-input v-model="contractForm.trialSalary" placeholder="请输入试用工资" clearable/>
+              <el-input v-model="contractForm.trialSalary" clearable/>
             </el-form-item>
             <el-form-item :label="$t('NewEmployeeInformation.correctionsalary')" style="width: 40%">
-              <el-input v-model="contractForm.correctionSalary" placeholder="请输入转正工资" clearable/>
+              <el-input v-model="contractForm.correctionSalary" clearable/>
             </el-form-item>
             <el-form-item :label="$t('NewEmployeeInformation.remindpersonid')" style="width: 40%">
-              <el-input v-model="remindpersonid" placeholder="请选择提醒人" clearable @focus="controlremin"/>
+              <el-input v-model="remindpersonid" clearable @focus="controlremin"/>
               <div class="showtag">
                 <el-tag
                   v-for="tag in remindpersonname"
@@ -186,19 +186,19 @@
             </el-form-item>
             <my-create :createcontrol.sync="createcontrol" @createname="createname"/>
             <el-form-item :label="$t('NewEmployeeInformation.advanceday')" style="width: 40%">
-              <el-input v-model="contractForm.advanceDay" placeholder="请输入提前时间" clearable>
-                <template slot="append">天</template>
+              <el-input v-model="contractForm.advanceDay" clearable>
+                <template slot="append">{{ $t('updates.day') }}</template>
               </el-input>
             </el-form-item>
           </el-form>
           <div class="buttons" style="margin-top: 20px;margin-left: 30px">
-            <el-button type="primary" @click="handleEditok()">修改</el-button>
+            <el-button type="primary" @click="handleEditok()">{{ $t('public.edit') }}</el-button>
             <el-button type="danger" @click="handlecancel()">{{ $t('Hmodule.cancel') }}</el-button>
           </div>
         </el-card>
       </el-dialog>
       <!--      详情-->
-      <el-dialog :visible.sync="detailVisible" :title="'合同编号' + contractNumber" width="1010px" class="edit" top="-10px">
+      <el-dialog :visible.sync="detailVisible" :title="$t('updates.htbh') + contractNumber" width="1010px" class="edit" top="-10px">
         <el-card class="box-card" style="margin-top: 63px" shadow="never">
           <el-form ref="contractForm" :model="contractForm" :rules="contractFormRules" :inline="true" status-icon class="demo-ruleForm" label-position="top" label-width="300px" style="margin-left: 30px;">
             <el-form-item :label="$t('NewEmployeeInformation.employeeid')" prop="employeeId" style="width: 40%;">
@@ -245,7 +245,7 @@
             </el-form-item>
           </el-form>
           <div class="buttons" style="margin-top: 20px;margin-left: 30px">
-            <el-button type="primary" @click="handleEditok()">修改</el-button>
+            <el-button type="primary" @click="handleEditok()">{{ $t('public.edit') }}</el-button>
             <el-button type="danger" @click="handlecancel()">{{ $t('Hmodule.cancel') }}</el-button>
           </div>
         </el-card>
@@ -263,6 +263,7 @@ import permission from '@/directive/permission/index.js' // 权限判断指令
 import permission2 from '@/directive/permission2/index.js' // 权限判断指令
 import checkPermission from '@/utils/permission' // 权限判断函数
 
+var _that
 export default {
   name: 'EmployeeContract',
   directives: { waves, permission, permission2 },
@@ -385,6 +386,9 @@ export default {
         ]
       }
     }
+  },
+  beforeCreate() {
+    _that = this
   },
   mounted() {
     this.getlist()

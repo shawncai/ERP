@@ -5,17 +5,17 @@
       <el-row>
         <el-form ref="getemplist" :model="getemplist" label-width="100px" style="margin-top: -9px">
           <el-col :span="4">
-            <el-form-item label="入库单主题">
+            <el-form-item :label="$t('updates.rkdzt')">
               <el-input v-model="getemplist.title" :placeholder="$t('Stockenter.title')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
           <el-col :span="4">
-            <el-form-item label="入库单编号">
+            <el-form-item :label="$t('updates.rkdbh')">
               <el-input v-model="getemplist.enterNumber" :placeholder="$t('Stockenter.enterNumber')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
           <el-col :span="4">
-            <el-form-item label="入库部门">
+            <el-form-item :label="$t('updates.rkbm')">
               <el-select v-model="getemplist.enterDeptId" placeholder="请选择入库部门" style="margin-left: 18px;width: 144px" clearable >
                 <el-option
                   v-for="(item, index) in depts"
@@ -149,9 +149,9 @@
           <template slot-scope="scope">
             <el-button v-permission="['131-132-135-3']" v-show="scope.row.judgeStat === 0" type="primary" size="mini" @click="handleEdit(scope.row)">{{ $t('public.edit') }}</el-button>
             <el-button v-show="isReview(scope.row)" type="warning" size="mini" @click="handleReview(scope.row)">{{ $t('public.review') }}</el-button>
-            <el-button v-permission="['131-132-135-76']" v-show="isReview4(scope.row)" title="反审批" type="warning" size="mini" circle @click="handleReview4(scope.row)"><svg-icon icon-class="fanhui"/></el-button>
-            <el-button v-permission="['131-132-135-16']" v-show="isReview2(scope.row)" title="结单" type="success" size="mini" icon="el-icon-check" circle @click="handleReview2(scope.row)"/>
-            <el-button v-permission="['131-132-135-17']" v-show="isReview3(scope.row)" title="反结单" type="success" size="mini" icon="el-icon-back" circle @click="handleReview3(scope.row)"/>
+            <el-button v-permission="['131-132-135-76']" v-show="isReview4(scope.row)" :title="$t('updates.fsp')" type="warning" size="mini" circle @click="handleReview4(scope.row)"><svg-icon icon-class="fanhui"/></el-button>
+            <el-button v-permission="['131-132-135-16']" v-show="isReview2(scope.row)" :title="$t('updates.jd')" type="success" size="mini" icon="el-icon-check" circle @click="handleReview2(scope.row)"/>
+            <el-button v-permission="['131-132-135-17']" v-show="isReview3(scope.row)" :title="$t('updates.fjd')" type="success" size="mini" icon="el-icon-back" circle @click="handleReview3(scope.row)"/>
             <el-button v-permission="['131-132-135-2']" v-show="scope.row.judgeStat === 0" size="mini" type="danger" @click="handleDelete(scope.row)">{{ $t('public.delete') }}</el-button>
           </template>
         </el-table-column>
@@ -179,6 +179,7 @@ import MyAccept from './components/MyAccept'
 import MyCreate from './components/MyCreate'
 import DetailList2 from './components/DetailList2'
 
+var _that
 export default {
   name: 'Enterlist',
   directives: { waves, permission, permission2 },
@@ -186,18 +187,18 @@ export default {
   filters: {
     judgeStatFileter(status) {
       const statusMap = {
-        0: '未审核',
-        1: '审核中',
-        2: '审核通过',
-        3: '审核不通过'
+        0: _that.$t('updates.wsh'),
+        1: _that.$t('updates.shz'),
+        2: _that.$t('Hmodule.shtg'),
+        3: _that.$t('updates.shbtg')
       }
       return statusMap[status]
     },
     receiptStatFilter(status) {
       const statusMap = {
-        1: '制单',
-        2: '执行',
-        3: '结单'
+        1: _that.$t('updates.zd'),
+        2: _that.$t('updates.zx'),
+        3: _that.$t('updates.jd')
       }
       return statusMap[status]
     }
@@ -253,6 +254,9 @@ export default {
       editVisible: false
       // 列表结束 -------------------------
     }
+  },
+  beforeCreate() {
+    _that = this
   },
   mounted() {
     this.getdeptlist()

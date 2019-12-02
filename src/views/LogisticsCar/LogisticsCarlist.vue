@@ -31,7 +31,7 @@
               </el-select>
               <el-select v-model="getemplist.stat" placeholder="车辆状态" style="width: 40%;float: right;margin-right: 20px" clearable>
                 <el-option label="正常" value="1"/>
-                <el-option label="停用" value="2"/>
+                <el-option :label="$t('updates.ty')" value="2"/>
               </el-select>
               <div class="seachbutton" style="width: 100%;float: right;margin-top: 20px">
                 <el-button v-waves class="filter-item" type="primary" style="float: right" round @click="handleFilter">{{ $t('public.search') }}</el-button>
@@ -113,8 +113,8 @@
         </el-table-column>
         <el-table-column :label="$t('public.actions')" :resizable="false" align="center" width="230">
           <template slot-scope="scope">
-            <el-button v-permission2="['1-247-249-3', scope.row.createPersonId]" title="修改" type="primary" size="mini" icon="el-icon-edit" circle @click="handleEdit(scope.row)"/>
-            <el-button v-permission2="['1-247-249-2', scope.row.createPersonId]" title="删除" size="mini" type="danger" icon="el-icon-delete" circle @click="handleDelete(scope.row)"/>
+            <el-button v-permission2="['1-247-249-3', scope.row.createPersonId]" :title="$t('updates.xg')" type="primary" size="mini" icon="el-icon-edit" circle @click="handleEdit(scope.row)"/>
+            <el-button v-permission2="['1-247-249-2', scope.row.createPersonId]" :title="$t('updates.sc')" size="mini" type="danger" icon="el-icon-delete" circle @click="handleDelete(scope.row)"/>
           </template>
         </el-table-column>
       </el-table>
@@ -137,6 +137,7 @@ import permission from '@/directive/permission/index.js' // 权限判断指令
 import permission2 from '@/directive/permission2/index.js' // 权限判断指令
 import checkPermission from '@/utils/permission' // 权限判断函数
 
+var _that
 export default {
   name: 'LogisticsCarlist',
   directives: { waves, permission, permission2 },
@@ -211,6 +212,9 @@ export default {
       // 控制组件数据
       editVisible: false
     }
+  },
+  beforeCreate() {
+    _that = this
   },
   mounted() {
     this.getlist()

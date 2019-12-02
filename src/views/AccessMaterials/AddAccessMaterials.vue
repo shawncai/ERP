@@ -157,6 +157,7 @@ import MyRepository from './components/MyRepository'
 import ProduceTask from './components/ProduceTask'
 import MyDetail2 from './components/MyDetail2'
 import MyDelivery from './components/MyDelivery'
+var _that
 export default {
   name: 'AddAccessMaterials',
   components: { MyDelivery, MyDetail2, ProduceTask, MyRepository, MyDetail },

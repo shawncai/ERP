@@ -1,10 +1,14 @@
 import { debounce } from '@/utils'
 
+var _that
 export default {
   data() {
     return {
       sidebarElm: null
     }
+  },
+  beforeCreate() {
+    _that = this
   },
   mounted() {
     this.__resizeHandler = debounce(() => {

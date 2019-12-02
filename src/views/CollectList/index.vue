@@ -4,17 +4,17 @@
       <el-row>
         <el-form ref="getemplist" :model="getemplist" label-width="100px" style="margin-top: -9px">
           <el-col :span="5">
-            <el-form-item label="客户姓名">
+            <el-form-item :label="$t('updates.khxmi')">
               <el-input v-model="getemplist.customerName" :placeholder="$t('CollectList.customerName')" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
           <el-col :span="5" style="margin-left: 10px">
-            <el-form-item label="车架编码">
+            <el-form-item :label="$t('updates.cjbm')">
               <el-input v-model="getemplist.carCode" placeholder="车架编码" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
           <el-col :span="5">
-            <el-form-item label="电机编码">
+            <el-form-item :label="$t('updates.djbm')">
               <el-input v-model="getemplist.motorCode" :placeholder="$t('CollectList.motorCode')" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
@@ -25,16 +25,16 @@
               placement="bottom"
               width="500"
               trigger="click">
-              <!--<el-select v-model="getemplist.receiptStat" :value="getemplist.receiptStat" placeholder="单据状态" clearable style="width: 40%;float: left;margin-left: 20px">-->
-              <!--<el-option value="1" label="制单"/>-->
-              <!--<el-option value="2" label="执行"/>-->
-              <!--<el-option value="3" label="结单"/>-->
+              <!--<el-select v-model="getemplist.receiptStat" :value="getemplist.receiptStat" :placeholder="$t('updates.djzt')" clearable style="width: 40%;float: left;margin-left: 20px">-->
+              <!--<el-option value="1" :label="$t('updates.zd')"/>-->
+              <!--<el-option value="2" :label="$t('updates.zx')"/>-->
+              <!--<el-option value="3" :label="$t('updates.jd')"/>-->
               <!--</el-select>-->
-              <!--<el-select v-model="getemplist.judgeStat" :value="getemplist.judgeStat" placeholder="审批状态" clearable style="width: 40%;float: right;margin-right: 20px">-->
-              <!--<el-option value="0" label="未审核"/>-->
-              <!--<el-option value="1" label="审核中"/>-->
-              <!--<el-option value="2" label="审核通过"/>-->
-              <!--<el-option value="3" label="审核不通过"/>-->
+              <!--<el-select v-model="getemplist.judgeStat" :value="getemplist.judgeStat" :placeholder="$t('updates.spzt')" clearable style="width: 40%;float: right;margin-right: 20px">-->
+              <!--<el-option value="0" :label="$t('updates.wsh')"/>-->
+              <!--<el-option value="1" :label="$t('updates.shz')"/>-->
+              <!--<el-option value="2" :label="$t('updates.shtg')"/>-->
+              <!--<el-option value="3" :label="$t('updates.shptg')"/>-->
               <!--</el-select>-->
               <el-input v-model="getemplist.batteryCode" :placeholder="$t('CollectList.batteryCode')" clearable style="width: 40%;float: left;margin-left: 20px" @keyup.enter.native="handleFilter"/>
               <el-input v-model="getemplist.count" :placeholder="$t('CollectList.count')" clearable style="width: 40%;float: right;margin-right: 20px" @keyup.enter.native="handleFilter"/>
@@ -203,6 +203,7 @@ import MyDialog from './components/MyDialog'
 import MyCustomer from './components/MyCustomer'
 import MyAgent from './components/MyAgent'
 
+var _that
 export default {
   name: 'Index',
   directives: { waves },
@@ -210,18 +211,18 @@ export default {
   filters: {
     judgeStatFilter(status) {
       const statusMap = {
-        0: '未审核',
-        1: '审核中',
-        2: '审核通过',
-        3: '审核不通过'
+        0: _that.$t('updates.wsh'),
+        1: _that.$t('updates.shz'),
+        2: _that.$t('Hmodule.shtg'),
+        3: _that.$t('updates.shbtg')
       }
       return statusMap[status]
     },
     receiptStatFilter(status) {
       const statusMap = {
-        1: '制单',
-        2: '执行',
-        3: '结单'
+        1: _that.$t('updates.zd'),
+        2: _that.$t('updates.zx'),
+        3: _that.$t('updates.jd')
       }
       return statusMap[status]
     },

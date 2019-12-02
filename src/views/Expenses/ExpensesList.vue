@@ -4,17 +4,17 @@
       <el-row>
         <el-form ref="getemplist" :model="getemplist" label-width="100px" style="margin-top: -9px">
           <el-col :span="5">
-            <el-form-item label="支出单主题" label-width="100px">
+            <el-form-item :label="$t('updates.zcdzt')" label-width="100px">
               <el-input v-model="getemplist.title" :placeholder="$t('income.title')" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
           <el-col :span="5" style="margin-left: 10px">
-            <el-form-item label="支出单单号">
+            <el-form-item :label="$t('updates.zcdbh')">
               <el-input v-model="getemplist.number" placeholder="支出单单号" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
           <el-col :span="5" style="margin-left: 10px">
-            <el-form-item label="经办人">
+            <el-form-item :label="$t('updates.jbr')">
               <el-input v-model="handlePersonId" :placeholder="$t('income.handlePersonId')" clearable @keyup.enter.native="handleFilter" @focus="handlechooseStock" @clear="restFilter"/>
             </el-form-item>
             <my-emp :control.sync="stockControl" @stockName="stockName"/>
@@ -33,16 +33,16 @@
                   :key="index"
                   :label="item.categoryName"/>
               </el-select>
-              <el-select v-model="getemplist.receiptStat" :value="getemplist.receiptStat" placeholder="单据状态" clearable style="width: 40%;float: right;margin-right: 20px">
-                <el-option value="1" label="制单"/>
-                <el-option value="2" label="执行"/>
-                <el-option value="3" label="结单"/>
+              <el-select v-model="getemplist.receiptStat" :value="getemplist.receiptStat" :placeholder="$t('updates.djzt')" clearable style="width: 40%;float: right;margin-right: 20px">
+                <el-option :label="$t('updates.zd')" value="1"/>
+                <el-option :label="$t('updates.zx')" value="2"/>
+                <el-option :label="$t('updates.jd')" value="3"/>
               </el-select>
-              <el-select v-model="getemplist.judgeStat" :value="getemplist.judgeStat" placeholder="审批状态" clearable style="width: 40%;float: left;margin-left: 20px;margin-top: 20px">
-                <el-option value="0" label="未审核"/>
-                <el-option value="1" label="审核中"/>
-                <el-option value="2" label="审核通过"/>
-                <el-option value="3" label="审核不通过"/>
+              <el-select v-model="getemplist.judgeStat" :value="getemplist.judgeStat" :placeholder="$t('updates.spzt')" clearable style="width: 40%;float: left;margin-left: 20px;margin-top: 20px">
+                <el-option :label="$t('updates.wsh')" value="0"/>
+                <el-option :label="$t('updates.shz')" value="1"/>
+                <el-option :label="$t('updates.shtg')" value="2"/>
+                <el-option :label="$t('updates.shptg')" value="3"/>
               </el-select>
               <div class="seachbutton" style="width: 100%;float: right;margin-top: 20px">
                 <el-button v-waves class="filter-item" type="primary" style="float: right" round @click="handleFilter">{{ $t('public.search') }}</el-button>
@@ -140,13 +140,14 @@
         </el-table-column>
         <el-table-column :label="$t('public.actions')" :resizable="false" align="center" min-width="230">
           <template slot-scope="scope">
-            <el-button v-permission2="['266-92-3', scope.row.createPersonId]" v-show="scope.row.judgeStat === 0" title="修改" type="primary" size="mini" icon="el-icon-edit" circle @click="handleEdit(scope.row)"/>
-            <el-button v-show="isReview(scope.row)" title="审批" type="warning" size="mini" icon="el-icon-view" circle @click="handleReview(scope.row)"/>
-            <el-button v-permission="['266-92-76']" v-show="isReview4(scope.row)" title="反审批" type="warning" size="mini" circle @click="handleReview4(scope.row)"><svg-icon icon-class="fanhui"/></el-button>
-            <el-button v-permission="['266-92-16']" v-show="isReview2(scope.row)" title="结单" type="success" size="mini" icon="el-icon-check" circle @click="handleReview2(scope.row)"/>
-            <el-button v-permission="['266-92-17']" v-show="isReview3(scope.row)" title="反结单" type="success" size="mini" icon="el-icon-back" circle @click="handleReview3(scope.row)"/>
-            <el-button v-permission2="['266-92-2', scope.row.createPersonId]" v-show="scope.row.judgeStat === 0" title="删除" size="mini" type="danger" icon="el-icon-delete" circle @click="handleDelete(scope.row)"/>
+            <el-button v-permission2="['266-92-3', scope.row.createPersonId]" v-show="scope.row.judgeStat === 0" :title="$t('updates.xg')" type="primary" size="mini" icon="el-icon-edit" circle @click="handleEdit(scope.row)"/>
+            <el-button v-show="isReview(scope.row)" :title="$t('updates.spi')" type="warning" size="mini" icon="el-icon-view" circle @click="handleReview(scope.row)"/>
+            <el-button v-permission="['266-92-76']" v-show="isReview4(scope.row)" :title="$t('updates.fsp')" type="warning" size="mini" circle @click="handleReview4(scope.row)"><svg-icon icon-class="fanhui"/></el-button>
+            <el-button v-permission="['266-92-16']" v-show="isReview2(scope.row)" :title="$t('updates.jd')" type="success" size="mini" icon="el-icon-check" circle @click="handleReview2(scope.row)"/>
+            <el-button v-permission="['266-92-17']" v-show="isReview3(scope.row)" :title="$t('updates.fjd')" type="success" size="mini" icon="el-icon-back" circle @click="handleReview3(scope.row)"/>
+            <el-button v-permission2="['266-92-2', scope.row.createPersonId]" v-show="scope.row.judgeStat === 0" :title="$t('updates.sc')" size="mini" type="danger" icon="el-icon-delete" circle @click="handleDelete(scope.row)"/>
             <el-button title="查看附件" type="primary" size="mini" icon="el-icon-document" circle @click="check(scope.row)"/>
+            <el-button v-show="isReview5(scope.row)" :title="$t('updates.scpz')" type="warning" size="mini" icon="el-icon-news" circle @click="creatvoucher(scope.row)"/>
           </template>
         </el-table-column>
       </el-table>
@@ -155,7 +156,7 @@
       <!--修改开始=================================================-->
       <my-dialog :editcontrol.sync="editVisible" :editdata.sync="personalForm" @rest="refreshlist"/>
       <!--修改结束=================================================-->
-      <el-dialog :visible.sync="receiptVisible99" title="附件" class="normal" width="600px" center>
+      <el-dialog :visible.sync="receiptVisible9" title="附件" class="normal" width="600px" center>
         <el-form class="demo-ruleForm" style="margin: 0px 6%; width: 400px">
           <el-form-item label-width="100px;">
             <el-row>
@@ -177,6 +178,8 @@
   </div>
 </template>
 
+// is_voucher 1 未生成的， 2是已生成的
+
 <script>
 import { searchexpenses, updateexpenses2, deleteexpenses } from '@/api/Expenses'
 import { searchSaleCategory } from '@/api/SaleCategory'
@@ -190,6 +193,7 @@ import DetailList from './components/DetailList'
 import MyDialog from './components/MyDialog'
 import MySupplier from './components/MySupplier'
 
+var _that
 export default {
   name: 'ExpensesList',
   directives: { waves, permission, permission2 },
@@ -197,18 +201,18 @@ export default {
   filters: {
     judgeStatFilter(status) {
       const statusMap = {
-        0: '未审核',
-        1: '审核中',
-        2: '审核通过',
-        3: '审核不通过'
+        0: _that.$t('updates.wsh'),
+        1: _that.$t('updates.shz'),
+        2: _that.$t('Hmodule.shtg'),
+        3: _that.$t('updates.shbtg')
       }
       return statusMap[status]
     },
     receiptStatFilter(status) {
       const statusMap = {
-        1: '制单',
-        2: '执行',
-        3: '结单'
+        1: _that.$t('updates.zd'),
+        2: _that.$t('updates.zx'),
+        3: _that.$t('updates.jd')
       }
       return statusMap[status]
     },
@@ -221,9 +225,9 @@ export default {
     },
     sourceTypeFilter(status) {
       const statusMap = {
-        1: '采购申请',
-        2: '采购需求',
-        3: '无来源'
+        1: _that.$t('updates.cgsq'),
+        2: _that.$t('updates.cgxq'),
+        3: _that.$t('Hmodule.Nosource')
       }
       return statusMap[status]
     }
@@ -295,15 +299,36 @@ export default {
       picPaths: []
     }
   },
+  beforeCreate() {
+    _that = this
+  },
   mounted() {
     this.getlist()
   },
   methods: {
+    // 生成凭证
+    creatvoucher(val) {
+      const senddata = val
+      senddata.sourceType = 1
+      console.log(senddata)
+      this.$store.dispatch('getvoucherdata', senddata)
+      this.$router.push({ path: '/Voucher/Newvoucher' })
+    },
     // 附件操作
     check(row) {
       console.log(row)
       this.receiptVisible9 = true
       this.picPaths = row.picPaths
+    },
+    // 判断生成凭证按钮
+    isReview5(row) {
+      if (row.isVoucher === 1 && row.judgeStat === 2) {
+        return true
+      } else if (row.isVoucher === 2 && row.judgeStat === 2) {
+        return false
+      } else {
+        return false
+      }
     },
     // 判断反审批按钮
     isReview4(row) {
@@ -609,7 +634,7 @@ export default {
     },
     // 新增数据
     handleAdd() {
-      this.$router.push('/income/Addincome')
+      this.$router.push('/Expenses/AddExpenses')
     },
     // 导出
     handleExport() {

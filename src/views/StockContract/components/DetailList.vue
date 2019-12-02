@@ -1,5 +1,5 @@
 <template>
-  <el-dialog :visible.sync="editVisible" :detailcontrol="detailcontrol" :detaildata="detaildata" :close-on-press-escape="false" :title="personalForm.contractNumber +'    详情'" append-to-body width="1010px" class="edit" top="-10px" @close="$emit('update:detailcontrol', false)">
+  <el-dialog :visible.sync="editVisible" :detailcontrol="detailcontrol" :detaildata="detaildata" :close-on-press-escape="false" :title="personalForm.contractNumber +$t('updates.xqing')" append-to-body width="1010px" class="edit" top="-10px" @close="$emit('update:detailcontrol', false)">
     <div id="printTest" >
       <!--基本信息-->
       <el-card class="box-card" style="margin-top: 63px" shadow="never">
@@ -86,8 +86,8 @@
               <el-col :span="12">
                 <el-form-item :label="$t('StockContract.isVat')" style="width: 100%;">
                   <el-radio-group v-model="personalForm.isVat" style="margin-left: 18px;width: 200px" disabled>
-                    <el-radio :label="1" style="width: 100px">是</el-radio>
-                    <el-radio :label="2">否</el-radio>
+                    <el-radio :label="1" style="width: 100px">{{ $t('updates.yes') }}</el-radio>
+                    <el-radio :label="2">{{ $t('updates.no') }}</el-radio>
                   </el-radio-group>
                 </el-form-item>
               </el-col>
@@ -119,48 +119,48 @@
             <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center"/>
             <el-editable-column :label="$t('updates.cgsl')" prop="plannedQuantity" align="center"/>
             <el-editable-column :label="$t('Hmodule.dj')" prop="price" align="center"/>
-            <el-editable-column prop="includeTaxPrice" align="center" label="含税价"/>
-            <el-editable-column prop="taxRate" align="center" label="税率(%)"/>
+            <el-editable-column :label="$t('updates.hsj')" prop="includeTaxPrice" align="center"/>
+            <el-editable-column :label="$t('updates.sl')" prop="taxRate" align="center"/>
             <el-editable-column :label="$t('Hmodule.je')" prop="money" align="center"/>
-            <el-editable-column prop="includeTaxMoney" align="center" label="含税金额"/>
-            <el-editable-column prop="taxMoney" align="center" label="税额"/>
-            <el-editable-column prop="requireDate" align="center" label="交货日期"/>
-            <el-editable-column prop="discountRate" align="center" label="折扣(%)"/>
-            <el-editable-column prop="discountMoney" align="center" label="折扣额"/>
-            <el-editable-column prop="remark" align="center" label="备注"/>
-            <el-editable-column prop="sourceNumber" align="center" label="源单编号"/>
-            <el-editable-column prop="sourceSerialNumber" align="center" label="源单序号"/>
-            <el-editable-column prop="orderedQuantity" align="center" label="已订购数量"/>
+            <el-editable-column :label="$t('updates.hsje')" prop="includeTaxMoney" align="center"/>
+            <el-editable-column :label="$t('updates.se')" prop="taxMoney" align="center"/>
+            <el-editable-column :label="$t('updates.jhrq')" prop="requireDate" align="center"/>
+            <el-editable-column :label="$t('updates.zk')" prop="discountRate" align="center"/>
+            <el-editable-column :label="$t('updates.cke')" prop="discountMoney" align="center"/>
+            <el-editable-column :label="$t('updates.bz')" prop="remark" align="center"/>
+            <el-editable-column :label="$t('updates.ydbh')" prop="sourceNumber" align="center"/>
+            <el-editable-column :label="$t('updates.ydxh')" prop="sourceSerialNumber" align="center"/>
+            <el-editable-column :label="$t('updates.ydgsl')" prop="orderedQuantity" align="center"/>
           </el-editable>
         </div>
       </el-card>
       <!--审核状态-->
       <el-card class="box-card" style="margin-top: 15px" shadow="never">
-        <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">审批记录</h2>
+        <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('updates.spjl') }}</h2>
         <div class="container" style="margin-top: 37px">
           <el-table
             :data="reviewList"
             border
             style="width: 100%">
             <el-table-column
+              :label="$t('updates.dqbz')"
               prop="step"
               align="center"
-              label="当前步骤"
               min-width="150"/>
             <el-table-column
+              :label="$t('updates.dqspr')"
               prop="stepHandlerName"
               align="center"
-              label="当前审批人"
               min-width="150"/>
             <el-table-column
+              :label="$t('updates.spsj')"
               prop="handleTime"
               align="center"
-              label="审批时间"
               min-width="150"/>
             <el-table-column
+              :label="$t('updates.spyj')"
               prop="stat"
               align="center"
-              label="审批意见"
               min-width="150">
               <template slot-scope="scope">
                 <span>{{ scope.row.stat | statfilter }}</span>
@@ -170,37 +170,37 @@
         </div>
       </el-card>
       <el-card class="box-card" shadow="never" style="margin-top: 10px">
-        <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">合计信息</h2>
+        <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('updates.hjxx') }}</h2>
         <div class="container" style="margin-top: 37px">
           <el-form :inline="true" status-icon class="demo-ruleForm" label-width="130px">
             <el-row>
               <el-col :span="12">
-                <el-form-item label="采购数量合计" style="width: 100%;">
+                <el-form-item :label="$t('updates.cgslhj')" style="width: 100%;">
                   <span>{{ personalForm.allQuantity }}</span>
                 </el-form-item>
               </el-col>
               <el-col :span="12">
-                <el-form-item label="金额合计" style="width: 100%;">
+                <el-form-item :label="$t('updates.hehj')" style="width: 100%;">
                   <span>{{ personalForm.allMoney }}</span>
                 </el-form-item>
               </el-col>
               <el-col :span="12">
-                <el-form-item label="税额合计" style="width: 100%;">
+                <el-form-item :label="$t('updates.sehj')" style="width: 100%;">
                   <span>{{ personalForm.allTaxMoney }}</span>
                 </el-form-item>
               </el-col>
               <el-col :span="12">
-                <el-form-item label="含税金额合计" style="width: 100%;">
+                <el-form-item :label="$t('updates.hsjehj')" style="width: 100%;">
                   <span>{{ personalForm.allIncludeTaxMoney }}</span>
                 </el-form-item>
               </el-col>
               <el-col :span="12">
-                <el-form-item label="整单折扣金额合计" style="width: 100%;">
+                <el-form-item :label="$t('updates.zdzkjehj')" style="width: 100%;">
                   <span>{{ personalForm.allDiscountMoney }}</span>
                 </el-form-item>
               </el-col>
               <el-col :span="12">
-                <el-form-item label="折后含税金额合计" style="width: 100%;">
+                <el-form-item :label="$t('updates.zhhsjehj')" style="width: 100%;">
                   <span>{{ personalForm.allIncludeTaxDiscountMoney }}</span>
                 </el-form-item>
               </el-col>
@@ -253,6 +253,7 @@
 
 <script>
 import printJS from 'print-js'
+var _that
 export default {
   filters: {
     statfilter(status) {
@@ -271,10 +272,10 @@ export default {
     },
     sourceTypeFilter(status) {
       const statusMap = {
-        1: '采购申请',
-        2: '采购计划',
-        3: '采购询价单',
-        4: '无来源'
+        1: _that.$t('updates.cgsq'),
+        2: _that.$t('updates.cgjhd'),
+        3: _that.$t('updates.cgxjd'),
+        4: _that.$t('Hmodule.Nosource')
       }
       return statusMap[status]
     },
@@ -287,9 +288,9 @@ export default {
     },
     receiptStatFilter(status) {
       const statusMap = {
-        1: '制单',
-        2: '执行',
-        3: '结单'
+        1: _that.$t('updates.zd'),
+        2: _that.$t('updates.zx'),
+        3: _that.$t('updates.jd')
       }
       return statusMap[status]
     },

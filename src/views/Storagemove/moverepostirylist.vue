@@ -4,7 +4,7 @@
       <el-row>
         <el-form ref="getemplist" :model="getemplist" label-width="100px" style="margin-top: -9px">
           <el-col :span="6">
-            <el-form-item label="员工名称">
+            <el-form-item :label="$t('updates.ygmc')">
               <el-input v-model="emoloyeeName" style="width: 190px" clearable @keyup.enter.native="handleFilter" @focus="handlesearchName"/>
               <my-accept2 :accetpcontrol.sync="personcontrol" @acceptName="acceptName2"/>
             </el-form-item>
@@ -42,7 +42,7 @@
         </el-form>
         <div
           style="display: flex; align-items: center; justify-content: flex-start;padding-left: 35px;padding-bottom: 20px;">
-          <!-- <el-button @click="insertEvent(-1)">添加</el-button>
+          <!-- <el-button @click="insertEvent(-1)">{{ $t('updates.tj') }}</el-button>
           <el-button type="danger" @click="$refs.editable.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button> -->
         </div>
 
@@ -148,7 +148,7 @@
           <my-repository2 :repositorycontrol.sync="repositorycontrol2" @repositoryname="repositoryname2"/>
         </el-form>
         <span slot="footer" class="dialog-footer">
-          <el-button type="primary" @click="handleOk()">修改</el-button>
+          <el-button type="primary" @click="handleOk()">{{ $t('public.edit') }}</el-button>
           <el-button type="danger" @click="handleNo()">{{ $t('Hmodule.cancel') }}</el-button>
         </span>
       </el-dialog>
@@ -170,6 +170,7 @@ import checkPermission from '@/utils/permission' // 权限判断函数
 import MyAccept from './components/MyAccept'
 import MyAccept2 from './components/MyAccept2'
 
+var _that
 export default {
   name: 'Moverepostirylist',
   directives: { waves, permission, permission2 },
@@ -271,6 +272,9 @@ export default {
         ]
       }
     }
+  },
+  beforeCreate() {
+    _that = this
   },
   mounted() {
     // this.getlist2()

@@ -22,6 +22,8 @@
 
 <script>
 
+// eslint-disable-next-line no-unused-vars
+var _that
 export default {
   name: 'Page404',
   computed: {

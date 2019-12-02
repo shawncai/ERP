@@ -5,7 +5,7 @@
     :detaildata="detaildata"
     :detailid="detailid"
     :close-on-press-escape="false"
-    :title="personalForm.code + '详情信息' + '     ' + personalForm.productName"
+    :title="personalForm.code + $t('updates.xqxx') + '     ' + personalForm.productName"
     append-to-body
     width="1010px"
     class="edit"
@@ -249,9 +249,9 @@
                 border
                 style="width: 100%">
                 <el-table-column
+                  :label="$t('updates.ckmc')"
                   prop="repositoryName"
                   align="center"
-                  label="仓库名称"
                   min-width="150"/>
                 <el-table-column
                   prop="downStock"
@@ -316,29 +316,14 @@
                 border
                 style="width: 100%">
                 <el-table-column
+                  :label="$t('updates.gysmc')"
                   prop="supplierName"
                   align="center"
-                  label="供应商名称"
                   min-width="150"/>
                 <el-table-column
+                  :label="$t('updates.thsl')"
                   prop="retreatQuantity"
                   align="center"
-                  label="退货数量"
-                  min-width="150"/>
-                <el-table-column
-                  prop="retreatReason"
-                  align="center"
-                  label="退货原因"
-                  min-width="150"/>
-                <el-table-column
-                  prop="collectDate"
-                  align="center"
-                  label="仓库名称"
-                  min-width="150"/>
-                <el-table-column
-                  prop="stat"
-                  align="center"
-                  label="出入库状态"
                   min-width="150"/>
               </el-table>
               <pagination v-show="total2>0" :total="total2" :page.sync="getstocklist.pagenum" :limit.sync="getstocklist.pagesize" @pagination="getstoctlist" />
@@ -372,14 +357,14 @@
                 border
                 style="width: 100%">
                 <el-table-column
+                  :label="$t('updates.khxmi')"
                   prop="customerName"
                   align="center"
-                  label="客户姓名"
                   min-width="150"/>
                 <el-table-column
+                  :label="$t('updates.wpbm')"
                   prop="productCode"
                   align="center"
-                  label="物品编码"
                   min-width="150"/>
                 <el-table-column
                   :label="$t('Hmodule.wpmc')"
@@ -392,14 +377,14 @@
                   align="center"
                   min-width="150"/>
                 <el-table-column
+                  :label="$t('updates.shuli')"
                   prop="quantity"
                   align="center"
-                  label="数量"
                   min-width="150"/>
                 <el-table-column
+                  :label="$t('updates.thyy')"
                   prop="returnReason"
                   align="center"
-                  label="退货原因"
                   min-width="150"/>
                 <el-table-column
                   prop="repositoryName"
@@ -407,9 +392,9 @@
                   label="退货仓库"
                   min-width="150"/>
                 <el-table-column
+                  :label="$t('updates.stat')"
                   prop="stat"
                   align="center"
-                  label="状态"
                   min-width="150"/>
               </el-table>
               <pagination v-show="total3>0" :total="total3" :page.sync="getsalereturn.pagenum" :limit.sync="getsalereturn.pagesize" @pagination="getsalereturnList" />
@@ -420,9 +405,9 @@
                 border
                 style="width: 100%">
                 <el-table-column
+                  :label="$t('updates.gysmc')"
                   prop="supplierName"
                   align="center"
-                  label="供应商名称"
                   min-width="150"/>
                 <el-table-column
                   prop="maxPrice"
@@ -458,6 +443,7 @@ import { productInventory, productStockRetreat, productSaleReturn, productStockI
 import Pagination from '@/components/Pagination'
 import MyRepository from './MyRepository'
 import MySupplier from '../../StockPlan/components/MySupplier' // Secondary package based on el-pagination
+var _that
 export default {
   components: { MySupplier, MyRepository, Pagination },
   filters: {
@@ -517,9 +503,9 @@ export default {
     },
     receiptStatFilter(status) {
       const statusMap = {
-        1: '制单',
-        2: '执行',
-        3: '结单'
+        1: _that.$t('updates.zd'),
+        2: _that.$t('updates.zx'),
+        3: _that.$t('updates.jd')
       }
       return statusMap[status]
     }

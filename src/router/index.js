@@ -3200,6 +3200,50 @@ export const asyncRouterMap = [
       }
     ]
   },
+  {
+    path: '/Chat',
+    component: Layout,
+    redirect: 'noredirect',
+    meta: {
+      icon: 'quanxian',
+      type: 14
+    },
+    children: [
+      {
+        path: 'index',
+        component: () => import('@/views/Chat/index'),
+        name: 'Chat',
+        meta: { title: 'Chat', noCache: true }
+      }
+    ]
+  },
+  {
+    path: '/Voucher',
+    component: Layout,
+    redirect: 'noredirect',
+    name: 'Voucher',
+    alwaysShow: true,
+    meta: {
+      title: 'Voucher',
+      icon: 'pingzhen',
+      type: 11
+    },
+    children: [
+      {
+        path: 'Newvoucher',
+        component: () => import('@/views/Voucher/Newvoucher'),
+        name: 'Newvoucher',
+        hidden: true,
+        meta: { title: 'Newvoucher', noCache: true }
+      },
+      {
+        path: 'Voucherlist',
+        component: () => import('@/views/Voucher/Voucherlist'),
+        name: 'Voucherlist',
+        meta: { title: 'Voucherlist', noCache: true }
+      }
+    ]
+  },
   // {
   //   path: '/GroupBuyRules',
   //   component: Layout,

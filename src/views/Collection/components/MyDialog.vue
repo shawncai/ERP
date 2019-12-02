@@ -1,5 +1,5 @@
 <template>
-  <el-dialog :visible.sync="editVisible" :editcontrol="editcontrol" :editdata="editdata" :close-on-press-escape="false" :title="personalForm.number +'    修改'" width="1010px" class="edit" top="-10px" @close="$emit('update:editcontrol', false)">
+  <el-dialog :visible.sync="editVisible" :editcontrol="editcontrol" :editdata="editdata" :close-on-press-escape="false" :title="personalForm.number +$t('updates.xg')" width="1010px" class="edit" top="-10px" @close="$emit('update:editcontrol', false)">
     <!--基本信息-->
     <el-card class="box-card" style="margin-top: 63px" shadow="never">
       <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('Hmodule.basicinfo') }}</h2>
@@ -58,7 +58,7 @@
       </div>
     </el-card>
     <el-card class="box-card" style="margin-top: 15px" shadow="never">
-      <h2 ref="fuzhu" class="form-name" >车辆信息</h2>
+      <h2 ref="fuzhu" class="form-name" >{{ $t('updates.clxx') }}</h2>
       <div class="container">
         <el-editable
           ref="editable"
@@ -73,21 +73,21 @@
           <el-editable-column :label="$t('Hmodule.xh')" min-width="55" align="center" type="index"/>
           <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" align="center" min-width="150px"/>
           <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" align="center" min-width="150px"/>
-          <el-editable-column prop="productCategoryName" align="center" label="物品分类" min-width="150px"/>
-          <el-editable-column prop="unit" align="center" label="基本单位" min-width="150px"/>
-          <el-editable-column prop="productTypeName" align="center" label="规格型号" min-width="150px"/>
-          <el-editable-column prop="color" align="center" label="颜色" min-width="150px"/>
-          <el-editable-column prop="kpiGrade" align="center" label="绩效分" min-width="150px"/>
-          <el-editable-column prop="point" align="center" label="商品积分" min-width="150px"/>
+          <el-editable-column :label="$t('updates.wpfl')" prop="productCategoryName" align="center" min-width="150px"/>
+          <el-editable-column :label="$t('updates.jbdw')" prop="unit" align="center" min-width="150px"/>
+          <el-editable-column :label="$t('updates.ggxh')" prop="productTypeName" align="center" min-width="150px"/>
+          <el-editable-column :label="$t('updates.ys')" prop="color" align="center" min-width="150px"/>
+          <el-editable-column :label="$t('updates.jxf')" prop="kpiGrade" align="center" min-width="150px"/>
+          <el-editable-column :label="$t('updates.spjf')" prop="point" align="center" min-width="150px"/>
           <el-editable-column :label="$t('Hmodule.dj')" prop="price" align="center" min-width="150px"/>
-          <el-editable-column prop="carCode" align="center" label="车架编码" min-width="150px"/>
-          <el-editable-column prop="batteryCode" align="center" label="电池编码" min-width="150px"/>
-          <el-editable-column prop="motorCode" align="center" label="电机编码" min-width="150px"/>
+          <el-editable-column :label="$t('updates.cjbm')" prop="carCode" align="center" min-width="150px"/>
+          <el-editable-column :label="$t('updates.dcbm')" prop="batteryCode" align="center" min-width="150px"/>
+          <el-editable-column :label="$t('updates.djbm')" prop="motorCode" align="center" min-width="150px"/>
         </el-editable>
       </div>
     </el-card>
     <el-card class="box-card" style="margin-top: 15px;margin-bottom: 40px" shadow="never">
-      <h2 ref="fuzhu" class="form-name" >缺失明细</h2>
+      <h2 ref="fuzhu" class="form-name" >{{ $t('updates.qsmx') }}</h2>
       <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
         <el-button @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>
         <my-detail :control.sync="control" @product="productdetail"/>
@@ -107,16 +107,16 @@
           <el-editable-column :label="$t('Hmodule.xh')" min-width="55" align="center" type="index"/>
           <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" align="center" min-width="150px"/>
           <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" align="center" min-width="150px"/>
-          <el-editable-column prop="productCategoryName" align="center" label="物品分类" min-width="150px"/>
-          <el-editable-column prop="unit" align="center" label="基本单位" min-width="150px"/>
-          <el-editable-column prop="productTypeName" align="center" label="规格型号" min-width="150px"/>
-          <el-editable-column prop="color" align="center" label="颜色" min-width="150px"/>
-          <el-editable-column prop="kpiGrade" align="center" label="绩效分" min-width="150px"/>
-          <el-editable-column prop="point" align="center" label="商品积分" min-width="150px"/>
+          <el-editable-column :label="$t('updates.wpfl')" prop="productCategoryName" align="center" min-width="150px"/>
+          <el-editable-column :label="$t('updates.jbdw')" prop="unit" align="center" min-width="150px"/>
+          <el-editable-column :label="$t('updates.ggxh')" prop="productTypeName" align="center" min-width="150px"/>
+          <el-editable-column :label="$t('updates.ys')" prop="color" align="center" min-width="150px"/>
+          <el-editable-column :label="$t('updates.jxf')" prop="kpiGrade" align="center" min-width="150px"/>
+          <el-editable-column :label="$t('updates.spjf')" prop="point" align="center" min-width="150px"/>
           <el-editable-column :label="$t('Hmodule.dj')" prop="price" align="center" min-width="150px"/>
-          <el-editable-column prop="carCode" align="center" label="车架编码" min-width="150px"/>
-          <el-editable-column prop="batteryCode" align="center" label="电池编码" min-width="150px"/>
-          <el-editable-column prop="motorCode" align="center" label="电机编码" min-width="150px"/>
+          <el-editable-column :label="$t('updates.cjbm')" prop="carCode" align="center" min-width="150px"/>
+          <el-editable-column :label="$t('updates.dcbm')" prop="batteryCode" align="center" min-width="150px"/>
+          <el-editable-column :label="$t('updates.djbm')" prop="motorCode" align="center" min-width="150px"/>
         </el-editable>
       </div>
     </el-card>
@@ -136,6 +136,7 @@ import MyDetail from './MyDetail'
 import MyMater from './MyMater'
 import MyInstallment from './MyInstallment'
 import MyRepository from './MyRepository'
+var _that
 export default {
   components: { MyRepository, MyInstallment, MyMater, MyDetail, MyEmp },
   props: {

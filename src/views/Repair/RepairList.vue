@@ -807,6 +807,7 @@ const xiala = [
   { key: '3', display_name: '逾期' },
   { key: '4', display_name: '车已收缴' }
 ]
+var _that
 export default {
   name: 'InstallOrder',
   directives: { waves, permission, permission2 },

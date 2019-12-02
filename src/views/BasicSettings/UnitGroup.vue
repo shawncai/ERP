@@ -4,12 +4,12 @@
       <el-row>
         <el-form ref="getemplist" :model="getemplist" label-width="100px" style="margin-top: -9px">
           <el-col :span="5">
-            <el-form-item label="计量单位组编号" label-width="100px">
+            <el-form-item :label="$t('updates.jldwzbh')" label-width="100px">
               <el-input v-model="getemplist.number" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
           <el-col :span="5">
-            <el-form-item label="计量单位组名称" label-width="100px">
+            <el-form-item :label="$t('updates.jlzmc')" label-width="100px">
               <el-input v-model="getemplist.groupName" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
@@ -55,7 +55,7 @@
             </el-select>
           </el-form-item>
           <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
-            <el-button @click="handleAdd2">添加</el-button>
+            <el-button @click="handleAdd2">{{ $t('updates.tj') }}</el-button>
             <el-button type="danger" @click="$refs.editable.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
           </div>
           <div class="container">
@@ -71,9 +71,9 @@
               style="width: 100%">
               <el-editable-column type="selection" min-width="55" align="center"/>
               <el-editable-column :label="$t('Hmodule.xh')" min-width="55" align="center" type="index"/>
-              <el-editable-column :edit-render="{name: 'ElSelect', options: basicUnitIds2, type: 'visible'}" prop="unitId" align="center" label="计量单位名称" min-width="150px"/>
-              <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0,precision: 0,controls:false}, type: 'visible'}" prop="proportion" align="center" label="换算比例%" min-width="150px"/>
-              <!--              <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="proportion" align="center" label="换算比例%" min-width="150px"/>-->
+              <el-editable-column :edit-render="{name: 'ElSelect', options: basicUnitIds2, type: 'visible'}" :label="$t('updates.jldwmc')" prop="unitId" align="center" min-width="150px"/>
+              <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0,precision: 0,controls:false}, type: 'visible'}" :label="$t('updates.hsbl')" prop="proportion" align="center" min-width="150px"/>
+              <!--              <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="proportion" align="center" :label="$t('updates.hsbl')" min-width="150px"/>-->
             </el-editable>
           </div>
         </el-form>
@@ -126,15 +126,15 @@
         </el-table-column>
         <el-table-column :label="$t('public.actions')" :resizable="false" align="center" min-width="230">
           <template slot-scope="scope">
-            <el-button v-permission="['1-39-48-3']" title="修改" type="primary" size="mini" icon="el-icon-edit" circle @click="handleEdit(scope.row)" />
-            <el-button v-permission="['1-39-48-2']" title="删除" size="mini" type="danger" icon="el-icon-delete" circle @click="handleDelete(scope.row)"/>
+            <el-button v-permission="['1-39-48-3']" :title="$t('updates.xg')" type="primary" size="mini" icon="el-icon-edit" circle @click="handleEdit(scope.row)" />
+            <el-button v-permission="['1-39-48-2']" :title="$t('updates.sc')" size="mini" type="danger" icon="el-icon-delete" circle @click="handleDelete(scope.row)"/>
           </template>
         </el-table-column>
       </el-table>
       <!-- 列表结束 -->
       <pagination v-show="total>0" :total="total" :page.sync="getemplist.pagenum" :limit.sync="getemplist.pagesize" @pagination="getlist" />
       <!--修改开始=================================================-->
-      <el-dialog :visible.sync="editcategoryVisible" title="修改计量单位组" class="normal" width="600px" center>
+      <el-dialog :visible.sync="editcategoryVisible" :title="$t('updates.xgjldwz')" class="normal" width="600px" center>
         <el-form ref="editCategoryForm" :rules="editCategoryFormRules" :model="editCategoryForm" class="demo-ruleForm" style="margin: 0 auto; width: 400px">
           <el-form-item :label="$t('UnitGroup.number')" label-width="140px" prop="number">
             <el-input v-model="editCategoryForm.number" autocomplete="off"/>
@@ -152,7 +152,7 @@
             </el-select>
           </el-form-item>
           <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
-            <el-button @click="handleAdd3">添加</el-button>
+            <el-button @click="handleAdd3">{{ $t('updates.tj') }}</el-button>
             <el-button type="danger" @click="$refs.editable2.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
           </div>
           <el-editable
@@ -167,16 +167,16 @@
             style="width: 100%">
             <el-editable-column type="selection" min-width="55" align="center"/>
             <el-editable-column :label="$t('Hmodule.xh')" min-width="55" align="center" type="index"/>
-            <el-editable-column :edit-render="{name: 'ElSelect', options: basicUnitIds2, type: 'visible'}" prop="unitId" align="center" label="计量单位名称" min-width="150px"/>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0,precision: 0,controls:false}, type: 'visible'}" prop="proportion" align="center" label="换算比例%" min-width="150px"/>
+            <el-editable-column :edit-render="{name: 'ElSelect', options: basicUnitIds2, type: 'visible'}" :label="$t('updates.jldwmc')" prop="unitId" align="center" min-width="150px"/>
+            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0,precision: 0,controls:false}, type: 'visible'}" :label="$t('updates.hsbl')" prop="proportion" align="center" min-width="150px"/>
           </el-editable>
         </el-form>
         <span slot="footer" class="dialog-footer">
-          <el-button type="primary" @click="handleOk()">修改</el-button>
+          <el-button type="primary" @click="handleOk()">{{ $t('public.edit') }}</el-button>
           <el-button type="danger" @click="handleNo()">{{ $t('Hmodule.cancel') }}</el-button>
         </span>
       </el-dialog>
-      <el-dialog :visible.sync="detailvisible" title="查看计量单位组" class="normal" width="600px" center>
+      <el-dialog :visible.sync="detailvisible" :title="$t('updates.ckjldwz')" class="normal" width="600px" center>
         <el-form ref="addCategoryForm" :rules="addCategoryFormRules" :model="addCategoryForm" class="demo-ruleForm" style="margin: 0 auto; width: 400px">
           <el-form-item :label="$t('UnitGroup.number')" label-width="140px" prop="number">
             <span style="margin-left: 80px">{{ personalForm.number }}</span>
@@ -201,8 +201,8 @@
               style="width: 100%">
               <el-editable-column type="selection" min-width="55" align="center"/>
               <el-editable-column :label="$t('Hmodule.xh')" min-width="55" align="center" type="index"/>
-              <el-editable-column prop="unit" align="center" label="计量单位名称" min-width="150px"/>
-              <el-editable-column prop="proportion" align="center" label="换算比例%" min-width="150px"/>
+              <el-editable-column :label="$t('updates.jldwmc')" prop="unit" align="center" min-width="150px"/>
+              <el-editable-column :label="$t('updates.hsbl')" prop="proportion" align="center" min-width="150px"/>
             </el-editable>
           </div>
         </el-form>
@@ -223,6 +223,7 @@ import { searchMea } from '@/api/BasicSettings'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
 
+var _that
 export default {
   name: 'UnitGroup',
   directives: { waves },
@@ -308,6 +309,9 @@ export default {
       },
       detailvisible: false
     }
+  },
+  beforeCreate() {
+    _that = this
   },
   mounted() {
     this.getlist()

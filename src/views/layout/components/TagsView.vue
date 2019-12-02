@@ -29,6 +29,7 @@
 import ScrollPane from '@/components/ScrollPane'
 import { generateTitle } from '@/utils/i18n'
 import path from 'path'
+var _that
 export default {
   components: { ScrollPane },
   data() {
@@ -60,6 +61,9 @@ export default {
         document.body.removeEventListener('click', this.closeMenu)
       }
     }
+  },
+  beforeCreate() {
+    _that = this
   },
   mounted() {
     this.initTags()

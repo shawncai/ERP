@@ -11,6 +11,7 @@
 </template>
 
 <script>
+var _that
 export default {
   computed: {
     language() {

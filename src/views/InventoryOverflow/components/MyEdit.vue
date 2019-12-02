@@ -88,7 +88,7 @@
           </el-editable-column>
           <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" align="center" width="150px"/>
           <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" align="center" width="150px"/>
-          <el-editable-column prop="color" align="center" label="颜色" width="150px"/>
+          <el-editable-column :label="$t('updates.ys')" prop="color" align="center" width="150px"/>
           <el-editable-column :label="$t('Hmodule.gg')" prop="productType" align="center" width="150px"/>
           <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" width="150px"/>
           <el-editable-column :edit-render="{name: 'ElInputNumber', type: 'visible'}" prop="overflowQuantity" align="center" label="报溢数量" width="150px"/>
@@ -98,12 +98,12 @@
               <p>{{ getSize(scope.row.overflowQuantity, scope.row.price) }}</p>
             </template>
           </el-editable-column>
-          <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="remarks" align="center" label="备注" width="150px"/>
+          <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.bz')" prop="remarks" align="center" width="150px"/>
         </el-editable>
       </div>
     </el-card>
     <div class="buttons" style="margin-top: 20px;margin-left: 30px">
-      <el-button type="primary" @click="handleEditok()">修改</el-button>
+      <el-button type="primary" @click="handleEditok()">{{ $t('public.edit') }}</el-button>
       <el-button type="danger" @click="handlecancel()">{{ $t('Hmodule.cancel') }}</el-button>
     </div>
   </el-dialog>
@@ -117,6 +117,7 @@ import MyRepository from './MyRepository'
 import MyAccept from './MyAccept'
 import MyDetail from './MyDetail'
 import MyCreate from './MyCreate'
+var _that
 export default {
   components: { MyRepository, MyCreate, MyAccept, MyDetail },
   props: {
@@ -193,6 +194,9 @@ export default {
       this.list2 = this.personalForm.inventoryOverflowDetailVos
       this.getlocation()
     }
+  },
+  beforeCreate() {
+    _that = this
   },
   mounted() {
     this.getlist()

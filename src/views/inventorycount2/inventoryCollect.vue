@@ -10,12 +10,12 @@
             </el-form-item>
           </el-col>
           <el-col :span="5" style="margin-left: 40px">
-            <el-form-item label="品牌">
+            <el-form-item :label="$t('updates.pp')">
               <el-input v-model="getemplist.brand" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
           <el-col :span="5" style="margin-left: 40px">
-            <el-form-item label="型号">
+            <el-form-item :label="$t('updates.xh')">
               <el-select v-model="getemplist.typeId" :placeholder="$t('Hmodule.qxzggxh')" clearable>
                 <el-option
                   v-for="(item, index) in types"
@@ -28,13 +28,13 @@
           </el-col>
 
           <el-col :span="5" style="margin-left: 40px">
-            <el-form-item label="分类">
+            <el-form-item :label="$t('updates.fle')">
               <el-input v-model="categoryId" :placeholder="$t('Hmodule.wpfl')" clearable @clear="restFilter2" @focus="treechoose"/>
               <my-tree :treecontrol.sync="treecontrol" @tree="tree"/>
             </el-form-item>
           </el-col>
           <el-col :span="5" style="margin-left: 15px">
-            <el-form-item label="物品编码">
+            <el-form-item :label="$t('updates.wpbm')">
               <el-input v-model="getemplist.code" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
@@ -131,6 +131,7 @@ import MyRepository from './components/MyRepository'
 import MyTree from './components/MyTree'
 import MySupplier from './components/MySupplier'
 
+var _that
 export default {
   name: 'InventoryCollect',
   directives: { waves, permission, permission2 },
@@ -138,18 +139,18 @@ export default {
   filters: {
     judgeStatFilter(status) {
       const statusMap = {
-        0: '未审核',
-        1: '审核中',
-        2: '审核通过',
-        3: '审核不通过'
+        0: _that.$t('updates.wsh'),
+        1: _that.$t('updates.shz'),
+        2: _that.$t('Hmodule.shtg'),
+        3: _that.$t('updates.shbtg')
       }
       return statusMap[status]
     },
     receiptStatFilter(status) {
       const statusMap = {
-        1: '制单',
-        2: '执行',
-        3: '结单'
+        1: _that.$t('updates.zd'),
+        2: _that.$t('updates.zx'),
+        3: _that.$t('updates.jd')
       }
       return statusMap[status]
     },
@@ -241,6 +242,9 @@ export default {
       // 开始时间到结束时间
       date: []
     }
+  },
+  beforeCreate() {
+    _that = this
   },
   mounted() {
     this.getlist()

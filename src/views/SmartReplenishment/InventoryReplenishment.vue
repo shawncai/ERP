@@ -4,24 +4,24 @@
       <el-row>
         <el-form ref="getemplist" :model="getemplist" label-width="100px" style="margin-top: -9px">
           <el-col :span="5">
-            <el-form-item label="仓库编号" label-width="100px">
+            <el-form-item :label="$t('updates.ckbh')" label-width="100px">
               <el-input v-model="getemplist.repositoryId" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
           <!-- <el-col :span="5">
-            <el-form-item label="仓库名称" label-width="100px">
+            <el-form-item :label="$t('updates.ckmc')" label-width="100px">
               <el-input v-model="getemplist.repositoryId" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col> -->
           <!-- <el-col :span="5" style="margin-left: 10px">
-            <el-form-item label="分类类别">
+            <el-form-item :label="$t('updates.fllb')">
               <el-select v-model="getemplist.type" :value="getemplist.type" clearable @keyup.enter.native="handleFilter">
                 <el-option label="采购类别" value="1"/>
               </el-select>
             </el-form-item>
           </el-col> -->
           <el-col :span="5" style="margin-left: 10px">
-            <el-form-item label="启用状态">
+            <el-form-item :label="$t('updates.qyzt')">
               <el-select v-model="getemplist.iseffective" :value="getemplist.iseffective" clearable @keyup.enter.native="handleFilter">
                 <el-option label="active " value="1"/>
                 <el-option label="dead" value="2"/>
@@ -69,8 +69,8 @@
           </el-form-item>
           <el-form-item :label="$t('InventoryReplenishment.iseffective')" label-width="120px" prop="iseffective">
             <el-select v-model="addCategoryForm.iseffective" placeholder="请选择状态" style="width: 100%">
-              <el-option label="启用 " value="1"/>
-              <el-option label="停用" value="2"/>
+              <el-option :label="$t('updates.qy')" value="1"/>
+              <el-option :label="$t('updates.ty')" value="2"/>
             </el-select>
           </el-form-item>
         </el-form>
@@ -136,7 +136,7 @@
       <!-- 列表结束 -->
       <pagination v-show="total>0" :total="total" :page.sync="getemplist.pagenum" :limit.sync="getemplist.pagesize" @pagination="getlist" />
       <!--修改开始=================================================-->
-      <el-dialog :visible.sync="editcategoryVisible" title="修改补货周期设置" class="normal" width="600px" center>
+      <el-dialog :visible.sync="editcategoryVisible" :title="$t('updates.xgbhzq')" class="normal" width="600px" center>
         <el-form ref="editCategoryForm" :rules="editCategoryFormRules" :model="editCategoryForm" class="demo-ruleForm" style="margin: 0 auto; width: 400px">
           <el-form-item :label="$t('InventoryReplenishment.Repository')" label-width="120px">
             <el-input v-model="repositoryId" disabled/>
@@ -152,13 +152,13 @@
           </el-form-item>
           <el-form-item :label="$t('InventoryReplenishment.iseffective')" label-width="120px" prop="isEffective">
             <el-select v-model="editCategoryForm.isEffective" placeholder="请选择状态" style="width: 100%" @change="test">
-              <el-option label="启用 " value="1"/>
-              <el-option label="停用" value="2"/>
+              <el-option :label="$t('updates.qy')" value="1"/>
+              <el-option :label="$t('updates.ty')" value="2"/>
             </el-select>
           </el-form-item>
         </el-form>
         <span slot="footer" class="dialog-footer">
-          <el-button type="primary" @click="handleOk()">修改</el-button>
+          <el-button type="primary" @click="handleOk()">{{ $t('public.edit') }}</el-button>
           <el-button type="danger" @click="handleNo()">{{ $t('Hmodule.cancel') }}</el-button>
         </span>
       </el-dialog>
@@ -177,6 +177,7 @@ import permission from '@/directive/permission/index.js' // 权限判断指令
 import permission2 from '@/directive/permission2/index.js' // 权限判断指令
 import checkPermission from '@/utils/permission' // 权限判断函数
 import MyRepository from './components/MyRepository'
+var _that
 export default {
   name: 'InventoryReplenishment',
   directives: { waves, permission, permission2 },
@@ -284,6 +285,9 @@ export default {
         pageSize: 10
       }
     }
+  },
+  beforeCreate() {
+    _that = this
   },
   mounted() {
     this.getlist()

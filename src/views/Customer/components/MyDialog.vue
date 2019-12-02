@@ -1,5 +1,5 @@
 <template>
-  <el-dialog :visible.sync="editVisible" :control="control" :editdata="editdata" :close-on-press-escape="false" :title="customerForm.id +'    修改'" width="1010px" class="edit" top="-10px" @close="$emit('update:control', false)">
+  <el-dialog :visible.sync="editVisible" :control="control" :editdata="editdata" :close-on-press-escape="false" :title="customerForm.id +$t('updates.xg')" width="1010px" class="edit" top="-10px" @close="$emit('update:control', false)">
     <!--零售客户-->
     <el-card class="box-card" style="margin-top: 63px" shadow="never">
       <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('Hmodule.basicinfo') }}</h2>
@@ -66,7 +66,7 @@
     </el-card>
     <!--业务信息-->
     <el-card class="box-card" shadow="never" style="margin-top: 15px">
-      <h2 class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">业务信息</h2>
+      <h2 class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('updates.ywxx') }}</h2>
       <div class="container">
         <el-form ref="customerForm2" :model="customerForm" :rules="customerFormrules" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
           <el-row>
@@ -115,13 +115,13 @@
             </el-col>
             <el-col :span="12">
               <el-form-item :label="$t('Customer.traderid')" prop="address" style="width: 100%;">
-                <el-input v-model="trader" placeholder="请选择" style="margin-left: 18px;width: 200px" @focus="handlechoose"/>
+                <el-input v-model="trader" :placeholder="$t('updates.qxz')" style="margin-left: 18px;width: 200px" @focus="handlechoose"/>
               </el-form-item>
             </el-col>
             <my-emp :control.sync="empcontrol" @personName="personName"/>
             <el-col :span="12">
               <el-form-item :label="$t('Customer.transmode')" prop="address" style="width: 100%;">
-                <el-select v-model="customerForm.transMode" :value="customerForm.transMode" placeholder="请选择" style="margin-left: 18px;width: 200px" @focus="getCategory">
+                <el-select v-model="customerForm.transMode" :value="customerForm.transMode" :placeholder="$t('updates.qxz')" style="margin-left: 18px;width: 200px" @focus="getCategory">
                   <el-option
                     v-for="(item, index) in transmodes"
                     :key="index"
@@ -132,7 +132,7 @@
             </el-col>
             <el-col :span="12">
               <el-form-item :label="$t('Customer.deliverymode')" prop="address" style="width: 100%;">
-                <el-select v-model="customerForm.deliveryMode" :value="customerForm.deliveryMode" placeholder="请选择" style="margin-left: 18px;width: 200px" @focus="getCategory">
+                <el-select v-model="customerForm.deliveryMode" :value="customerForm.deliveryMode" :placeholder="$t('updates.qxz')" style="margin-left: 18px;width: 200px" @focus="getCategory">
                   <el-option
                     v-for="(item, index) in deliverymodes"
                     :key="index"
@@ -152,7 +152,7 @@
     </el-card>
     <!-- 财务信息 -->
     <el-card class="box-card" shadow="never" style="margin-top: 15px">
-      <h2 class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">业务信息</h2>
+      <h2 class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('updates.ywxx') }}</h2>
       <div class="container">
         <el-form ref="customerForm3" :model="customerForm" :rules="customerFormrules" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
           <el-row>
@@ -223,7 +223,7 @@
     </el-card>
     <!-- 辅助信息 -->
     <el-card class="box-card" shadow="never" style="margin-top: 15px">
-      <h2 class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">业务信息</h2>
+      <h2 class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('updates.ywxx') }}</h2>
       <div class="container">
         <el-form ref="customerForm4" :model="customerForm" :rules="customerFormrules" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
           <el-row>
@@ -273,6 +273,7 @@ import { searchCusCategory, updateagent } from '@/api/Customer'
 import { searchCategory } from '@/api/Supplier'
 import { searchSaleCategory } from '@/api/SaleCategory'
 import MyEmp from './MyEmp'
+var _that
 export default {
   components: { MyEmp },
   props: {

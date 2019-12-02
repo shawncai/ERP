@@ -5,7 +5,7 @@
     :detaildata="detaildata"
     :detailid="detailid"
     :close-on-press-escape="false"
-    :title="personalForm.id + '供应商详情信息'"
+    :title="personalForm.id + $t('updates.gysxqxx')"
     append-to-body
     width="1010px"
     class="edit"
@@ -44,7 +44,7 @@
         </div>
       </el-card>
       <el-card class="box-card" shadow="never" style="margin-top: 10px">
-        <h2 ref="lianxi" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">业务信息</h2>
+        <h2 ref="lianxi" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('updates.ywxx') }}</h2>
         <div class="container" style="margin-top: 37px">
           <el-form ref="personalForm2" :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
             <el-row>
@@ -138,7 +138,7 @@
         </div>
       </el-card>
       <el-card class="box-card" style="margin-top: 15px" shadow="never">
-        <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">可提供商品明细</h2>
+        <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('updates.ktgspmx') }}</h2>
         <div class="container">
           <el-editable
             ref="editable"
@@ -154,15 +154,15 @@
             <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" fixed="left" align="center" width="150px"/>
             <el-editable-column :label="$t('Hmodule.gg')" prop="productType" align="center" min-width="150px"/>
             <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" min-width="150px"/>
-            <el-editable-column prop="color" align="center" label="颜色" min-width="150px"/>
+            <el-editable-column :label="$t('updates.ys')" prop="color" align="center" min-width="150px"/>
             <el-editable-column prop="proportion" align="center" label="供货比列(%)" min-width="150px"/>
             <el-editable-column prop="price" align="center" label="价格" min-width="150px"/>
-            <el-editable-column prop="discountRate" align="center" label="折扣(%)" min-width="150px"/>
+            <el-editable-column :label="$t('updates.zk')" prop="discountRate" align="center" min-width="150px"/>
           </el-editable>
         </div>
       </el-card>
       <el-card class="box-card" shadow="never" style="margin-top: 10px">
-        <h2 class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">财务信息</h2>
+        <h2 class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('updates.cwxx') }}</h2>
         <div class="container" style="margin-top: 37px">
           <el-form ref="personalForm3" :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
             <el-row>
@@ -196,7 +196,7 @@
         </div>
       </el-card>
       <el-card class="box-card" shadow="never" style="margin-top: 10px">
-        <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">辅助信息</h2>
+        <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('updates.fzxx') }}</h2>
         <div class="container" style="margin-top: 37px">
           <el-form ref="personalForm4" :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
             <el-row>
@@ -334,14 +334,14 @@
                   label="付款方式"
                   min-width="150"/>
                 <el-table-column
+                  :label="$t('updates.yfjei')"
                   prop="paidMoney"
                   align="center"
-                  label="已付金额"
                   min-width="150"/>
                 <el-table-column
+                  :label="$t('updates.wfje')"
                   prop="payingMoney"
                   align="center"
-                  label="未付金额"
                   min-width="150"/>
               </el-table>
             </el-tab-pane>
@@ -366,19 +366,14 @@
                   align="center"
                   min-width="150"/>
                 <el-table-column
+                  :label="$t('updates.thsl')"
                   prop="retreatQuantity"
                   align="center"
-                  label="退货数量"
                   min-width="150"/>
                 <el-table-column
+                  :label="$t('updates.thyy')"
                   prop="retreatReason"
                   align="center"
-                  label="退货原因"
-                  min-width="150"/>
-                <el-table-column
-                  prop="stat"
-                  align="center"
-                  label="退货状态"
                   min-width="150"/>
               </el-table>
             </el-tab-pane>
@@ -415,9 +410,9 @@
                 border
                 style="width: 100%">
                 <el-table-column
+                  :label="$t('updates.spmc')"
                   prop="productName"
                   align="center"
-                  label="商品名称"
                   min-width="150"/>
                 <el-table-column
                   prop="stat"
@@ -445,9 +440,9 @@
                   align="center"
                   min-width="150"/>
                 <el-table-column
+                  :label="$t('updates.thsl')"
                   prop="returnQuantity"
                   align="center"
-                  label="退货数量"
                   min-width="150"/>
                 <el-table-column
                   prop="stockTimes"
@@ -482,9 +477,9 @@
                   label="考核原因"
                   min-width="150"/>
                 <el-table-column
+                  :label="$t('updates.jbr')"
                   prop="createName"
                   align="center"
-                  label="经办人"
                   min-width="150"/>
               </el-table>
             </el-tab-pane>
@@ -494,14 +489,14 @@
                 border
                 style="width: 100%">
                 <el-table-column
+                  :label="$t('updates.ddbh')"
                   prop="number"
                   align="center"
-                  label="订单编号"
                   min-width="150"/>
                 <el-table-column
+                  :label="$t('updates.jhrq')"
                   prop="arrivalDate"
                   align="center"
-                  label="交货日期"
                   min-width="150"/>
                 <el-table-column
                   prop="acceptDate"
@@ -530,6 +525,7 @@ import { stockorderlist } from '@/api/StockOrder'
 import { paylist } from '@/api/AdvancePay'
 import { searchstockArrival } from '@/api/StockArrival'
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
+var _that
 export default {
   components: { Pagination },
   filters: {
@@ -588,9 +584,9 @@ export default {
     },
     receiptStatFilter(status) {
       const statusMap = {
-        1: '制单',
-        2: '执行',
-        3: '结单'
+        1: _that.$t('updates.zd'),
+        2: _that.$t('updates.zx'),
+        3: _that.$t('updates.jd')
       }
       return statusMap[status]
     }

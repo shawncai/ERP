@@ -1,5 +1,5 @@
 <template>
-  <el-dialog :visible.sync="editVisible" :editcontrol="editcontrol" :editdata="editdata" :close-on-press-escape="false" :title="personalForm.id +'    修改'" width="1010px" class="edit" top="-10px" @close="$emit('update:editcontrol', false)">
+  <el-dialog :visible.sync="editVisible" :editcontrol="editcontrol" :editdata="editdata" :close-on-press-escape="false" :title="personalForm.id +$t('updates.xg')" width="1010px" class="edit" top="-10px" @close="$emit('update:editcontrol', false)">
     <!--基本信息-->
     <el-card class="box-card" style="margin-top: 63px" shadow="never">
       <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('Hmodule.basicinfo') }}</h2>
@@ -35,8 +35,8 @@
               <el-form-item :label="$t('NewEmployeeInformation.birthday')" style="width: 100%;">
                 <el-date-picker
                   v-model="personalForm.birthday"
+                  :placeholder="$t('updates.xzsr')"
                   type="date"
-                  placeholder="选择生日"
                   value-format="yyyy-MM-dd"
                   clearable
                   style="margin-left: 18px;width: 200px"/>
@@ -221,6 +221,7 @@
 import { getcountrylist, getprovincelist, getcitylist, regionlist, searchRepository, getDetailById, getRegion, saveRegion } from '@/api/public'
 import { getdeptlist, updateemp, searchEmpCategory } from '@/api/EmployeeInformation'
 import MyTree from './MyTree'
+var _that
 export default {
   components: { MyTree },
   props: {

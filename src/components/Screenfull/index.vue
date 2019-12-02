@@ -30,6 +30,7 @@
 <script>
 import screenfull from 'screenfull'
 
+var _that
 export default {
   name: 'Screenfull',
   props: {

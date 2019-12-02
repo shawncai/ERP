@@ -1,5 +1,5 @@
 <template>
-  <el-dialog :visible.sync="editVisible" :editcontrol="editcontrol" :editdata="editdata" :close-on-press-escape="false" :title="personalForm.planNumber +'    修改'" width="1010px" class="edit" top="-10px" @close="$emit('update:editcontrol', false)">
+  <el-dialog :visible.sync="editVisible" :editcontrol="editcontrol" :editdata="editdata" :close-on-press-escape="false" :title="personalForm.planNumber +$t('updates.xg')" width="1010px" class="edit" top="-10px" @close="$emit('update:editcontrol', false)">
     <!--基本信息-->
     <el-card class="box-card" style="margin-top: 63px" shadow="never">
       <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('Hmodule.basicinfo') }}</h2>
@@ -72,9 +72,9 @@
     </el-card>
     <!--子件信息-->
     <el-card class="box-card" style="margin-top: 15px" shadow="never">
-      <h2 ref="fuzhu" class="form-name" >计划明细</h2>
+      <h2 ref="fuzhu" class="form-name" >{{ $t('updates.jhmx') }}</h2>
       <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
-        <el-button @click="handleAddproduct">添加明细</el-button>
+        <el-button @click="handleAddproduct">{{ $t('updates.tjmx') }}</el-button>
         <!--<el-button type="danger" @click="deleteTreeData">{{ $t('Hmodule.delete') }}</el-button>-->
       </div>
       <el-dialog :visible.sync="categoryVisible" title="添加明细" class="normal" width="600px" append-to-body center>
@@ -142,6 +142,8 @@ import MyApply from './MyApply'
 import MyRequire from './MyRequire'
 import MyCustomer from './MyCustomer'
 import MyAgent from './MyAgent'
+// eslint-disable-next-line no-unused-vars
+var _that
 export default {
   components: { MyAgent, MyCustomer, MyRequire, MyApply, MyDetail, MyDelivery, MyEmp },
   props: {

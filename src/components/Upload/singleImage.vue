@@ -26,6 +26,7 @@
 // 预览效果见付费文章
 import { getToken } from '@/api/qiniu'
 
+var _that
 export default {
   name: 'SingleImageUpload',
   props: {

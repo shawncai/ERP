@@ -24,10 +24,10 @@
           <el-form-item label-width="120px" label="部门名称">
             <el-input v-model="AddDeptform.deptname" placeholder="请输入部门名称" autocomplete="off" style="width: 200px"/>
           </el-form-item>
-          <el-form-item label-width="120px" label="启用状态">
+          <el-form-item :label="$t('updates.qyzt')" label-width="120px">
             <el-select v-model="AddDeptform.iseffective" placeholder="请选择状态" style="width: 200px">
-              <el-option label="启用 " value="1"/>
-              <el-option label="停用" value="2"/>
+              <el-option :label="$t('updates.qy')" value="1"/>
+              <el-option :label="$t('updates.ty')" value="2"/>
             </el-select>
           </el-form-item>
         </el-form>
@@ -91,7 +91,7 @@
       </el-table>
       <!-- 列表结束 -->
       <!--修改开始=================================================-->
-      <el-dialog :visible.sync="editDeptVisible" title="修改部门" width="500px">
+      <el-dialog :visible.sync="editDeptVisible" :title="$t('updates.xgbm')" width="500px">
         <el-form :model="editDeptform" label-position="left" label-width="120px" style="width: 400px; margin-left:50px;">
           <el-form-item label-width="120px" label="部门编号">
             <el-input v-model="editDeptform.deptNo" autocomplete="off" style="width: 200px"/>
@@ -99,10 +99,10 @@
           <el-form-item label-width="120px" label="部门名称">
             <el-input v-model="editDeptform.deptName" autocomplete="off" style="width: 200px"/>
           </el-form-item>
-          <el-form-item label-width="120px" label="启用状态">
+          <el-form-item :label="$t('updates.qyzt')" label-width="120px">
             <el-select v-model="editDeptform.isEffective" placeholder="请选择状态" style="width: 200px">
-              <el-option label="启用 " value="1"/>
-              <el-option label="停用" value="2"/>
+              <el-option :label="$t('updates.qy')" value="1"/>
+              <el-option :label="$t('updates.ty')" value="2"/>
             </el-select>
           </el-form-item>
         </el-form>
@@ -122,6 +122,7 @@ import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
 import MyDialog from './components/MyDialog'
 
+var _that
 export default {
   name: 'Dept',
   directives: { waves },
@@ -173,6 +174,9 @@ export default {
       // 修改部门
       editDeptform: {}
     }
+  },
+  beforeCreate() {
+    _that = this
   },
   mounted() {
     this.getlist()

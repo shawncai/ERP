@@ -13,8 +13,8 @@
                 <el-form ref="getemplist3" :model="getemplist3" label-width="100px">
                   <el-date-picker
                     v-model="date"
-                    type="date"
                     :placeholder="$t('Hmodule.xzrq')"
+                    type="date"
                     value-format="yyyy-MM-dd"
                     style="margin-left: 52%;"
                     class="shipei"/>
@@ -27,41 +27,41 @@
               :header-cell-style="tableHeaderColor2"
               style="width: 100%">
               <el-table-column
-                prop="repositoryName"
                 :label="$t('updates.repository')"
+                prop="repositoryName"
                 width="262"
                 align="center"/>
-              <el-table-column align="center" :label="$t('updates.xseyjdb')">
+              <el-table-column :label="$t('updates.xseyjdb')" align="center">
                 <el-table-column
+                  :label="$t('updates.jrcg')"
                   prop="todaySale"
-                  label="今日成果"
                   width="230"
                   align="center"/>
                 <el-table-column
-                  prop="monthSale"
                   :label="$t('updates.byzj')"
+                  prop="monthSale"
                   width="230"
                   align="center"/>
                 <el-table-column
+                  :label="$t('updates.sytqi')"
                   prop="lastSale"
-                  label="上月同期"
                   width="230"
                   align="center"/>
               </el-table-column>
-              <el-table-column align="center" :label="$t('updates.hkeyjdb')">
+              <el-table-column :label="$t('updates.hkeyjdb')" align="center">
                 <el-table-column
-                  prop="todayReceipt"
                   :label="$t('updates.hkeyjdb')"
+                  prop="todayReceipt"
                   width="230"
                   align="center"/>
                 <el-table-column
-                  prop="monthReceipt"
                   :label="$t('updates.byzj')"
+                  prop="monthReceipt"
                   width="230"
                   align="center"/>
                 <el-table-column
-                  prop="lastReceipt"
                   :label="$t('updates.sytq')"
+                  prop="lastReceipt"
                   width="230"
                   align="center"/>
               </el-table-column>
@@ -78,8 +78,8 @@
                     v-model="date2"
                     type="daterange"
                     range-separator="-"
-                    unlink-panels
                     :start-placeholder="$t('updates.ksrq')"
+                    unlink-panels
                     :end-placeholder="$t('updates.jsrq')"
                     value-format="yyyy-MM-dd"
                     style="margin-left: 60%;"
@@ -94,72 +94,72 @@
               :header-cell-style="tableHeaderColor"
               style="width: 100%">
               <el-table-column
-                prop="name"
                 :label="$t('updates.repository')"
+                prop="name"
                 width="161"
                 align="center"/>
-              <el-table-column align="center" :label="$t('updates.sk')">
+              <el-table-column :label="$t('updates.sk')" align="center">
                 <el-table-column
-                  prop="saleOut"
                   :label="$t('updates.sxckd')"
+                  prop="saleOut"
                   width="120"
                   align="center"/>
                 <el-table-column
-                  prop="stockRetreat"
                   :label="$t('updates.cgthd')"
+                  prop="stockRetreat"
                   width="120"
                   align="center"/>
                 <el-table-column
-                  prop="collectMoney"
                   :label="$t('updates.skd')"
+                  prop="collectMoney"
                   width="120"
                   align="center"/>
                 <el-table-column
-                  prop="income"
                   :label="$t('updates.srd')"
+                  prop="income"
                   width="120"
                   align="center"/>
                 <el-table-column
-                  prop="repaireOut"
                   :label="$t('updates.wxckd')"
+                  prop="repaireOut"
                   width="120"
                   align="center"/>
                 <el-table-column
-                  prop="advanceCollect"
                   :label="$t('updates.yskd')"
+                  prop="advanceCollect"
                   width="120"
                   align="center"/>
                 <el-table-column
-                  prop="totalCollect"
                   :label="$t('updates.hj')"
+                  prop="totalCollect"
                   width="120"
                   align="center"/>
               </el-table-column>
-              <el-table-column align="center" :label="$t('updates.fk')">
+              <el-table-column :label="$t('updates.fk')" align="center">
                 <el-table-column
-                  prop="saleReturn"
                   :label="$t('updates.xsth')"
+                  prop="saleReturn"
                   width="120"
                   align="center"/>
                 <el-table-column
-                  prop="payment"
                   :label="$t('updates.fkd')"
+                  prop="payment"
                   width="120"
                   align="center"/>
                 <el-table-column
-                  prop="outlay"
                   :label="$t('updates.zcd')"
+                  prop="outlay"
                   width="120"
                   align="center"/>
                 <el-table-column
-                  prop="totalPay"
                   :label="$t('updates.hj')"
+                  prop="totalPay"
                   width="120"
                   align="center"/>
               </el-table-column>
               <el-table-column
-                prop="balance"
                 :label="$t('updates.ye')"
+                prop="balance"
                 width="160"
                 align="center"/>
             </el-table>
@@ -186,6 +186,7 @@ import MyDialog from './components/MyDialog'
 import MyCustomer from './components/MyCustomer'
 import MyAgent from './components/MyAgent'
 
+var _that
 export default {
   name: 'DriveRes',
   directives: { waves, permission, permission2 },
@@ -193,18 +194,18 @@ export default {
   filters: {
     judgeStatFilter(status) {
       const statusMap = {
-        0: '未审核',
-        1: '审核中',
-        2: '审核通过',
-        3: '审核不通过'
+        0: _that.$t('updates.wsh'),
+        1: _that.$t('updates.shz'),
+        2: _that.$t('Hmodule.shtg'),
+        3: _that.$t('updates.shbtg')
       }
       return statusMap[status]
     },
     receiptStatFilter(status) {
       const statusMap = {
-        1: '制单',
-        2: '执行',
-        3: '结单'
+        1: _that.$t('updates.zd'),
+        2: _that.$t('updates.zx'),
+        3: _that.$t('updates.jd')
       }
       return statusMap[status]
     },
@@ -306,6 +307,9 @@ export default {
       // 开始时间到结束时间
       date2: []
     }
+  },
+  beforeCreate() {
+    _that = this
   },
   mounted() {
     this.getlist()

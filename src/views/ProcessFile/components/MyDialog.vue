@@ -38,8 +38,8 @@
             <el-col :span="6">
               <el-form-item :label="$t('ProcessFile.isKey')" prop="isKey" style="width: 100%;">
                 <el-radio-group v-model="personalForm.isKey" style="margin-left: 19px; width: 200px">
-                  <el-radio :label="1" style="width: 70px">是</el-radio>
-                  <el-radio :label="2">否</el-radio>
+                  <el-radio :label="1" style="width: 70px">{{ $t('updates.yes') }}</el-radio>
+                  <el-radio :label="2">{{ $t('updates.no') }}</el-radio>
                 </el-radio-group>
               </el-form-item>
             </el-col>
@@ -48,7 +48,7 @@
       </div>
     </el-card>
     <div class="buttons" style="margin-top: 20px;margin-left: 30px">
-      <el-button type="primary" @click="handleEditok()">修改</el-button>
+      <el-button type="primary" @click="handleEditok()">{{ $t('public.edit') }}</el-button>
       <el-button type="danger" @click="handlecancel()">{{ $t('Hmodule.cancel') }}</el-button>
     </div>
   </el-dialog>
@@ -57,6 +57,7 @@
 <script>
 import { getdeptlist } from '@/api/BasicSettings'
 import { updateworkCenter } from '@/api/ProcessFile'
+var _that
 export default {
   props: {
     editcontrol: {
@@ -103,6 +104,9 @@ export default {
     editdata() {
       this.personalForm = this.editdata
     }
+  },
+  beforeCreate() {
+    _that = this
   },
   mounted() {
     this.getlist()

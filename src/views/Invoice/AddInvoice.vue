@@ -87,8 +87,8 @@
               <el-col :span="6">
                 <el-form-item :label="$t('Invoice.isCheckin')" style="width: 100%;">
                   <el-radio-group v-model="personalForm.isCheckin" style="margin-left: 18px;width:200px">
-                    <el-radio :label="1" style="width: 100px">是</el-radio>
-                    <el-radio :label="2">否</el-radio>
+                    <el-radio :label="1" style="width: 100px">{{ $t('updates.yes') }}</el-radio>
+                    <el-radio :label="2">{{ $t('updates.no') }}</el-radio>
                   </el-radio-group>
                 </el-form-item>
               </el-col>
@@ -149,6 +149,7 @@ import MyPlan from './components/MyPlan'
 import MyDelivery from './components/MyDelivery'
 import MyLnquiry from './components/MyLnquiry'
 import MyArrival from './components/MyArrival'
+var _that
 export default {
   name: 'AddInvoice',
   components: { MyArrival, MyLnquiry, MyDelivery, MyPlan, MyApply, MySupplier, MyDetail, MyEmp },

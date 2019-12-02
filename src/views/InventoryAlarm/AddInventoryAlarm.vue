@@ -47,11 +47,11 @@
       </el-card>
       <!-- 货物流转规则明细 -->
       <el-card class="box-card" style="margin-top: 15px">
-        <h2 ref="fuzhu" class="form-name">货物流转规则明细</h2>
+        <h2 ref="fuzhu" class="form-name">{{ $t('updates.wllzgzmx') }}</h2>
         <div class="buttons" style="margin-top: 58px">
           <el-button type="success" style="background:#3696fd;border-color:#3696fd " @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>
           <el-button type="danger" @click="$refs.editable.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
-          <!-- <el-button type="primary" @click="checkStock()">库存快照</el-button> -->
+          <!-- <el-button type="primary" @click="checkStock()">{{ $t('updates.kckz') }}</el-button> -->
         </div>
         <my-detail :control.sync="control" :personalform="personalForm" @product="productdetail"/>
         <div class="container">
@@ -70,7 +70,7 @@
             <el-editable-column label="编号" width="55" align="center" type="index"/>
             <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" align="center" width="150px"/>
             <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" align="center" width="150px"/>
-            <el-editable-column prop="color" align="center" label="颜色" width="150px"/>
+            <el-editable-column :label="$t('updates.ys')" prop="color" align="center" width="150px"/>
             <el-editable-column :label="$t('Hmodule.gg')" prop="typeIdname" align="center" width="150px"/>
             <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" width="150px"/>
             <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 1, precision: 0}, type: 'visible'}" :label="$t('inventoryAlarm.alarmDays')" prop="alarmDays" align="center" min-width="100">
@@ -103,6 +103,7 @@ import MyAccept from './components/MyAccept'
 import MyDetail from './components/MyDetail'
 import MyCreate from './components/MyCreate'
 import MyProduct from './components/MyProduct'
+var _that
 export default {
   name: 'AddInventoryAlarm',
   components: { MyProduct, MyRepository, MyDetail, MyCreate, MyAccept },
@@ -173,6 +174,9 @@ export default {
         ]
       }
     }
+  },
+  beforeCreate() {
+    _that = this
   },
   mounted() {
     this.getdatatime()

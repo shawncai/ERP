@@ -43,11 +43,11 @@
       </el-card>
       <!--报损单明细-->
       <el-card class="box-card" shadow="never" style="margin-top: 10px">
-        <h2 ref="fuzhu" class="form-name">报损单明细</h2>
+        <h2 ref="fuzhu" class="form-name">{{ $t('updates.bsdmx') }}</h2>
         <div class="buttons" style="margin-top: 50px">
           <el-button type="success" @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>
           <el-button type="danger" @click="$refs.editable.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
-          <el-button type="primary" @click="checkStock()">库存快照</el-button>
+          <el-button type="primary" @click="checkStock()">{{ $t('updates.kckz') }}</el-button>
         </div>
         <my-detail :control.sync="control" :personalform="personalForm" @product="productdetail"/>
         <div class="container">
@@ -88,23 +88,23 @@
             </el-editable-column>
             <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" align="center" width="150px"/>
             <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" align="center" width="150px"/>
-            <el-editable-column prop="color" align="center" label="颜色" width="150px"/>
+            <el-editable-column :label="$t('updates.ys')" prop="color" align="center" width="150px"/>
             <el-editable-column :label="$t('Hmodule.gg')" prop="typeId" align="center" width="150px"/>
             <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" width="150px"/>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="damagedQuantity" align="center" label="报损数量" width="150px"/>
-            <el-editable-column prop="costPrice" align="center" label="成本单价" width="150px"/>
-            <el-editable-column prop="damagedMoney" align="center" label="报损金额" width="150px">
+            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" :label="$t('updates.bssl')" prop="damagedQuantity" align="center" width="150px"/>
+            <el-editable-column :label="$t('updates.cbdj')" prop="costPrice" align="center" width="150px"/>
+            <el-editable-column :label="$t('updates.bsje')" prop="damagedMoney" align="center" width="150px">
               <template slot-scope="scope">
                 <p>{{ getSize(scope.row.damagedQuantity, scope.row.costPrice) }}</p>
               </template>
             </el-editable-column>
-            <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="remarks" align="center" label="备注" width="150px"/>
+            <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.bz')" prop="remarks" align="center" width="150px"/>
           </el-editable>
         </div>
       </el-card>
       <!-- 合计信息 -->
       <el-card class="box-card" shadow="never" style="margin-top: 10px">
-        <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">合计信息</h2>
+        <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('updates.hjxx') }}</h2>
         <div class="container" style="margin-top: 37px">
           <el-form ref="personalForm2" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
             <el-row>
@@ -141,7 +141,7 @@
                     <span >{{ scope.row.repositoryName }}</span>
                   </template>
                 </el-table-column>
-                <el-table-column :resizable="false" label="商品名称" align="center" min-width="150">
+                <el-table-column :resizable="false" :label="$t('updates.spmc')" align="center" min-width="150">
                   <template slot-scope="scope">
                     <span >{{ scope.row.productName }}</span>
                   </template>
@@ -168,6 +168,7 @@ import { getdeptlist } from '@/api/BasicSettings'
 import MyCreate from './components/MyCreate'
 import MyRepository from './components/MyRepository'
 import MyDetail from './components/MyDetail'
+var _that
 export default {
   name: 'AddInventorydamaged',
   components: { MyCreate, MyRepository, MyDetail },
@@ -302,6 +303,9 @@ export default {
       },
       deep: true
     }
+  },
+  beforeCreate() {
+    _that = this
   },
   mounted() {
     this.getlist()

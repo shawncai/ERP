@@ -26,6 +26,8 @@
 
 <script>
 import { createPunishment } from '@/api/Supplier'
+// eslint-disable-next-line no-unused-vars
+var _that
 export default {
   props: {
     punishcontrol: {

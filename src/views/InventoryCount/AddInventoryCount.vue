@@ -50,11 +50,11 @@
     </el-card>
     <!--入库单明细-->
     <el-card class="box-card" shadow="never" style="margin-top: 10px">
-      <h2 ref="fuzhu" class="form-name">盘点单明细</h2>
+      <h2 ref="fuzhu" class="form-name">{{ $t('updates.pddmx') }}</h2>
       <div class="buttons" style="margin-top: 50px">
         <el-button type="success" @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>
         <el-button type="danger" @click="$refs.editable.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
-        <el-button type="primary" @click="checkStock()">库存快照</el-button>
+        <el-button type="primary" @click="checkStock()">{{ $t('updates.kckz') }}</el-button>
       </div>
       <my-detail :control.sync="control" :personalform="personalForm" @product="productdetail"/>
       <div class="container">
@@ -96,22 +96,22 @@
           </el-editable-column>
           <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" align="center" width="150px"/>
           <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" align="center" width="150px"/>
-          <el-editable-column prop="color" align="center" label="颜色" width="150px"/>
+          <el-editable-column :label="$t('updates.ys')" prop="color" align="center" width="150px"/>
           <el-editable-column :label="$t('Hmodule.gg')" prop="typeId" align="center" width="150px"/>
           <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" width="150px"/>
-          <el-editable-column prop="price" align="center" label="成本单价" width="150px"/>
-          <el-editable-column prop="inventoryQuantity" align="center" label="库存数量" width="150px">
+          <el-editable-column :label="$t('updates.cbdj')" prop="price" align="center" width="150px"/>
+          <el-editable-column :label="$t('updates.kcsl')" prop="inventoryQuantity" align="center" width="150px">
             <template slot-scope="scope">
               <p>{{ getquantity(scope.row) }}</p>
             </template>
           </el-editable-column>
-          <el-editable-column :edit-render="{name: 'ElInputNumber', type: 'visible'}" prop="actualQuantity" align="center" label="实盘数量" width="150px"/>
-          <el-editable-column prop="diffQuantity" align="center" label="差异数量" width="150px">
+          <el-editable-column :edit-render="{name: 'ElInputNumber', type: 'visible'}" :label="$t('updates.spsl')" prop="actualQuantity" align="center" width="150px"/>
+          <el-editable-column :label="$t('updates.cysl')" prop="diffQuantity" align="center" width="150px">
             <template slot-scope="scope">
               <p>{{ getDiff(scope.row.inventoryQuantity, scope.row.actualQuantity, scope.row) }}</p>
             </template>
           </el-editable-column>
-          <el-editable-column prop="diffType" align="center" label="盈亏类型" width="150px">
+          <el-editable-column :label="$t('updates.yklx')" prop="diffType" align="center" width="150px">
             <template slot-scope="scope">
               <p>{{ getdiffType(scope.row.inventoryQuantity, scope.row.actualQuantity, scope.row) }}</p>
             </template>
@@ -121,19 +121,19 @@
               <p>{{ getSize(scope.row.actualQuantity, scope.row.price) }}</p>
             </template>
           </el-editable-column>
-          <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="remarks" align="center" label="备注" width="150px"/>
-          <el-editable-column prop="countPerson" align="center" label="盘点人" width="150px">
+          <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.bz')" prop="remarks" align="center" width="150px"/>
+          <el-editable-column :label="$t('updates.pdr')" prop="countPerson" align="center" width="150px">
             <template slot-scope="scope">
               <p>{{ scope.row.countPerson }}</p>
             </template>
           </el-editable-column>
-          <el-editable-column prop="countDate" align="center" label="盘点日期" width="150px"/>
+          <el-editable-column :label="$t('updates.pdrq')" prop="countDate" align="center" width="150px"/>
         </el-editable>
       </div>
     </el-card>
     <!-- 合计信息 -->
     <el-card class="box-card" shadow="never" style="margin-top: 10px">
-      <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">合计信息</h2>
+      <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('updates.hjxx') }}</h2>
       <div class="container" style="margin-top: 37px">
         <el-form ref="personalForm2" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
           <el-row>
@@ -174,7 +174,7 @@
     <!--操作-->
     <div class="buttons" style="margin-top: 20px">
       <el-button v-no-more-click type="primary" @click="handlesave()">{{ $t('Hmodule.baoc') }}</el-button>
-      <el-button type="success" @click="handleentry()">继续录入</el-button>
+      <el-button type="success" @click="handleentry()">{{ $t('updates.jxlr') }}</el-button>
       <el-button type="danger" @click="handlecancel()">{{ $t('Hmodule.cancel') }}</el-button>
     </div>
     <el-dialog :visible.sync="receiptVisible2" title="库存快照" class="normal" width="600px" center>
@@ -191,7 +191,7 @@
                   <span >{{ scope.row.repositoryName }}</span>
                 </template>
               </el-table-column>
-              <el-table-column :resizable="false" label="商品名称" align="center" min-width="150">
+              <el-table-column :resizable="false" :label="$t('updates.spmc')" align="center" min-width="150">
                 <template slot-scope="scope">
                   <span >{{ scope.row.productName }}</span>
                 </template>
@@ -217,6 +217,7 @@ import { batchlist, getQuantity, getlocation, countlist } from '@/api/public'
 import MyCreate from './components/MyCreate'
 import MyRepository from './components/MyRepository'
 import MyDetail from './components/MyDetail'
+var _that
 export default {
   name: 'AddInventoryCount',
   components: { MyCreate, MyRepository, MyDetail },
@@ -340,6 +341,9 @@ export default {
       },
       deep: true
     }
+  },
+  beforeCreate() {
+    _that = this
   },
   mounted() {
     this.getlist()

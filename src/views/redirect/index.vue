@@ -1,4 +1,6 @@
 <script>
+// eslint-disable-next-line no-unused-vars
+var _that
 export default {
   beforeCreate() {
     const { params, query } = this.$route

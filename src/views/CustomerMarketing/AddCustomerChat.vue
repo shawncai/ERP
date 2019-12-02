@@ -33,7 +33,7 @@
               <el-col :span="6">
                 <el-form-item :label="$t('CustomerMarketing.chatMode')" style="width: 100%;">
                   <el-select v-model="personalForm.chatMode" style="margin-left: 18px;width: 200px">
-                    <el-option value="1" label="电话"/>
+                    <el-option :label="$t('updates.dh')" value="1"/>
                     <el-option value="2" label="邮件"/>
                     <el-option value="3" label="远程视频"/>
                     <el-option value="4" label="会面拜访"/>
@@ -87,6 +87,7 @@ import MyDetail from './components/MyDetail'
 import MyMater from './components/MyMater'
 import MyInstallment from './components/MyInstallment'
 import MyRepository from './components/MyRepository'
+var _that
 export default {
   name: 'AddCustomerChat',
   components: { MyRepository, MyInstallment, MyMater, MyDetail, MyEmp },
@@ -134,6 +135,9 @@ export default {
     }
   },
   created() {
+  },
+  beforeCreate() {
+    _that = this
   },
   mounted() {
     this.getinformation()

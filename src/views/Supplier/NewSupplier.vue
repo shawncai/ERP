@@ -23,7 +23,7 @@
                       :value="item.id"
                     />
                     <template>
-                      <el-button v-if="isshow" icon="el-icon-circle-plus-outline" style="width:100%" @click="go_creat">新增</el-button>
+                      <el-button v-if="isshow" icon="el-icon-circle-plus-outline" style="width:100%" @click="go_creat">{{ $t('updates.create') }}</el-button>
                     </template>
                   </el-select>
                 </el-form-item>
@@ -44,7 +44,7 @@
       </el-card>
       <!--联系信息-->
       <el-card class="box-card" shadow="never" style="margin-top: 10px">
-        <h2 ref="lianxi" class="form-name">业务信息</h2>
+        <h2 ref="lianxi" class="form-name">{{ $t('updates.ywxx') }}</h2>
         <div class="container" style="margin-top: 37px">
           <el-form ref="personalForm2" :model="personalForm" :rules="personalrules2" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
             <el-row>
@@ -138,7 +138,7 @@
                       :value="item.id"
                     />
                     <template>
-                      <el-button v-if="isshow" icon="el-icon-circle-plus-outline" style="width:100%" @click="go_creat2">新增</el-button>
+                      <el-button v-if="isshow" icon="el-icon-circle-plus-outline" style="width:100%" @click="go_creat2">{{ $t('updates.create') }}</el-button>
                     </template>
                   </el-select>
                 </el-form-item>
@@ -154,7 +154,7 @@
                       :value="item.id"
                     />
                     <template>
-                      <el-button v-if="isshow" icon="el-icon-circle-plus-outline" style="width:100%" @click="go_creat3">新增</el-button>
+                      <el-button v-if="isshow" icon="el-icon-circle-plus-outline" style="width:100%" @click="go_creat3">{{ $t('updates.create') }}</el-button>
                     </template>
                   </el-select>
                 </el-form-item>
@@ -169,7 +169,7 @@
                       :key="index"
                       :label="item.categoryName"/>
                     <template>
-                      <el-button v-if="isshow" icon="el-icon-circle-plus-outline" style="width:100%" @click="go_creat4">新增</el-button>
+                      <el-button v-if="isshow" icon="el-icon-circle-plus-outline" style="width:100%" @click="go_creat4">{{ $t('updates.create') }}</el-button>
                     </template>
                   </el-select>
                 </el-form-item>
@@ -185,23 +185,23 @@
                       :value="item.id"
                     />
                     <template>
-                      <el-button v-if="isshow" icon="el-icon-circle-plus-outline" style="width:100%" @click="go_creat5">新增</el-button>
+                      <el-button v-if="isshow" icon="el-icon-circle-plus-outline" style="width:100%" @click="go_creat5">{{ $t('updates.create') }}</el-button>
                     </template>
                   </el-select>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('Supplier.isHot')" prop="isHot" style="width: 100%;">
-                  <el-select v-model="personalForm.isHot" placeholder="请选择" style="margin-left: 18px;width: 200px">
-                    <el-option label="是" value="1"/>
-                    <el-option label="否" value="2"/>
+                  <el-select v-model="personalForm.isHot" :placeholder="$t('updates.qxz')" style="margin-left: 18px;width: 200px">
+                    <el-option :label="$t('updates.yes')" value="1"/>
+                    <el-option :label="$t('updates.no')" value="2"/>
                   </el-select>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('Supplier.isEffective')" style="width: 100%;">
                   <el-select v-model="personalForm.isEffective" placeholder="请选择启用状态" style="margin-left: 18px;width: 200px">
-                    <el-option label="启用" value="1"/>
+                    <el-option :label="$t('updates.qy')" value="1"/>
                     <el-option label="未启用" value="2"/>
                   </el-select>
                 </el-form-item>
@@ -222,7 +222,7 @@
         </div>
       </el-card>
       <el-card class="box-card" style="margin-top: 15px" shadow="never">
-        <h2 ref="fuzhu" class="form-name" >可提供商品明细</h2>
+        <h2 ref="fuzhu" class="form-name" >{{ $t('updates.ktgspmx') }}</h2>
         <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
           <el-button @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>
           <my-detail :control.sync="control" @product="productdetail"/>
@@ -245,16 +245,16 @@
             <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" align="center" min-width="150px"/>
             <el-editable-column :label="$t('Hmodule.gg')" prop="productType" align="center" min-width="150px"/>
             <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" min-width="150px"/>
-            <el-editable-column prop="color" align="center" label="颜色" min-width="150px"/>
+            <el-editable-column :label="$t('updates.ys')" prop="color" align="center" min-width="150px"/>
             <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0,max: 100,precision: 2,controls:false}, type: 'visible'}" prop="proportion" align="center" label="供货比列(%)" min-width="150px"/>
             <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0,precision: 2,controls:false}, type: 'visible'}" prop="price" align="center" label="价格" min-width="150px"/>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0,max: 100,precision: 2,controls:false}, type: 'visible'}" prop="discountRate" align="center" label="折扣(%)" min-width="150px"/>
+            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0,max: 100,precision: 2,controls:false}, type: 'visible'}" :label="$t('updates.zk')" prop="discountRate" align="center" min-width="150px"/>
           </el-editable>
         </div>
       </el-card>
       <!--财务信息-->
       <el-card class="box-card" shadow="never" style="margin-top: 10px">
-        <h2 class="form-name">财务信息</h2>
+        <h2 class="form-name">{{ $t('updates.cwxx') }}</h2>
         <div class="container" style="margin-top: 37px">
           <el-form ref="personalForm3" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
             <el-row>
@@ -269,7 +269,7 @@
                       :value="item.id"
                     />
                     <template>
-                      <el-button v-if="isshow" icon="el-icon-circle-plus-outline" style="width:100%" @click="go_creat6">新增</el-button>
+                      <el-button v-if="isshow" icon="el-icon-circle-plus-outline" style="width:100%" @click="go_creat6">{{ $t('updates.create') }}</el-button>
                     </template>
                   </el-select>
                 </el-form-item>
@@ -302,7 +302,7 @@
         </div>
       </el-card>
       <el-card class="box-card" shadow="never" style="margin-top: 10px">
-        <h2 ref="fuzhu" class="form-name">辅助信息</h2>
+        <h2 ref="fuzhu" class="form-name">{{ $t('updates.fzxx') }}</h2>
         <div class="container" style="margin-top: 37px">
           <el-form ref="personalForm4" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
             <el-row>
@@ -377,7 +377,7 @@
       <!--操作-->
       <div class="buttons" style="margin-top: 20px">
         <el-button v-no-more-click v-permission="['1-22-23-1']" type="primary" style="background:#3696fd;border-color:#3696fd;width: 98px" @click="handlesave()">{{ $t('Hmodule.baoc') }}</el-button>
-        <el-button v-permission="['1-22-23-1']" type="success" @click="handleentry()">继续录入</el-button>
+        <el-button v-permission="['1-22-23-1']" type="success" @click="handleentry()">{{ $t('updates.jxlr') }}</el-button>
         <el-button v-permission="['1-22-23-1']" type="danger" @click="handlecancel()">{{ $t('Hmodule.cancel') }}</el-button>
       </div>
     </div>
@@ -393,6 +393,8 @@ import permission2 from '@/directive/permission2/index.js' // 权限判断指令
 import checkPermission from '@/utils/permission' // 权限判断函数
 import MyEmp from './components/MyEmp'
 import MyDetail from './components/MyDetail'
+// eslint-disable-next-line no-unused-vars
+var _that
 export default {
   name: 'NewSupplier',
   directives: { permission, permission2 },

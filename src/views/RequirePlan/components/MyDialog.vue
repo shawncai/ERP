@@ -1,5 +1,5 @@
 <template>
-  <el-dialog :visible.sync="editVisible" :editcontrol="editcontrol" :editdata="editdata" :close-on-press-escape="false" :title="personalForm.planNumber +'    修改'" width="1010px" class="edit" top="-10px" @close="$emit('update:editcontrol', false)">
+  <el-dialog :visible.sync="editVisible" :editcontrol="editcontrol" :editdata="editdata" :close-on-press-escape="false" :title="personalForm.planNumber +$t('updates.xg')" width="1010px" class="edit" top="-10px" @close="$emit('update:editcontrol', false)">
     <!--基本信息-->
     <el-card class="box-card" style="margin-top: 63px" shadow="never">
       <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('Hmodule.basicinfo') }}</h2>
@@ -56,7 +56,7 @@
     </el-card>
     <!--子件信息-->
     <el-card class="box-card" style="margin-top: 15px;margin-bottom: 30px" shadow="never">
-      <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">主生产计划明细</h2>
+      <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('updates.zscjhmx') }}</h2>
       <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
         <el-button type="danger" @click="$refs.editable.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
       </div>
@@ -81,9 +81,9 @@
             </template>
           </el-editable-column>
           <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" min-width="150px"/>
-          <el-editable-column prop="requireQuantity" align="center" label="毛需求数量" min-width="150px"/>
-          <el-editable-column prop="planQuantity" align="center" label="应计划数量" min-width="150px"/>
-          <el-editable-column :edit-render="{name: 'ElSelect', options: materialsSource, type: 'visible'}" prop="materialsSource" align="center" label="物料来源" min-width="150px"/>
+          <el-editable-column :label="$t('updates.mxqsl')" prop="requireQuantity" align="center" min-width="150px"/>
+          <el-editable-column :label="$t('updates.yjhsl')" prop="planQuantity" align="center" min-width="150px"/>
+          <el-editable-column :edit-render="{name: 'ElSelect', options: materialsSource, type: 'visible'}" :label="$t('updates.wlly')" prop="materialsSource" align="center" min-width="150px"/>
         </el-editable>
       </div>
     </el-card>
@@ -104,6 +104,8 @@ import MyEmp from './MyEmp'
 import MyDetail from './MyDetail'
 import MyRepository from './MyRepository'
 import ProducePlan from './ProducePlan'
+// eslint-disable-next-line no-unused-vars
+var _that
 export default {
   components: { MyCenter, MyEmp, MyDetail, MyRepository, ProducePlan },
   props: {

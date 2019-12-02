@@ -12,6 +12,8 @@
 <script>
 // import openWindow from '@/utils/openWindow'
 
+// eslint-disable-next-line no-unused-vars
+var _that
 export default {
   name: 'SocialSignin',
   methods: {

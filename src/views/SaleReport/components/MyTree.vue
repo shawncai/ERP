@@ -22,6 +22,8 @@
 
 <script>
 import { detaillist } from '@/api/Product'
+// eslint-disable-next-line no-unused-vars
+var _that
 export default {
   props: {
     treecontrol: {

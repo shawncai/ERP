@@ -14,6 +14,8 @@
 import { Navbar, Sidebar, AppMain, TagsView } from './components'
 import ResizeMixin from './mixin/ResizeHandler'
 
+// eslint-disable-next-line no-unused-vars
+var _that
 export default {
   name: 'Layout',
   components: {
@@ -37,11 +39,59 @@ export default {
         withoutAnimation: this.sidebar.withoutAnimation,
         mobile: this.device === 'mobile'
       }
+    },
+    chatsenddata() {
+      return this.$store.getters.chatsenddata
     }
+  },
+  watch: {
+    chatsenddata(newdata) {
+      console.log(newdata)
+      const useId = this.$store.getters.userId
+      const customId = this.$store.getters.selectId
+      this.websocketsend(
+        'CS-' + useId + '-' + customId + '-' + newdata
+      )
+    }
+  },
+  created() {
+    this.initwebsocket()
   },
   methods: {
     handleClickOutside() {
       this.$store.dispatch('closeSideBar', { withoutAnimation: false })
+    },
+    initwebsocket() { // 初始化websocket
+      // const wsuri = 'ws://192.168.1.45:8080/pss/websocket'
+      const wsuri = 'ws://192.168.1.21:8888/erp/websocket'
+      this.websock = new WebSocket(wsuri)// 这里面的this都指向vue
+      this.websock.onopen = this.websocketopen
+      // this.websock.onmessage = this.websocketonmessage
+      this.websock.onclose = this.websocketclose
+      this.websock.onerror = this.websocketerror
+      this.websock.onmessage = this.getMessage
+    },
+    websocketopen() { // 打开
+      console.log('WebSocket连接成功')
+      const useId = this.$store.getters.userId
+      console.log('useId', useId)
+      this.websocketsend(
+        'CS-' + useId
+      )
+    },
+    getMessage(data) {
+      console.log('websoctet', data)
+      this.$store.dispatch('getmessagedata', data)
+    },
+    websocketsend(data) { // 数据发送
+      this.websock.send(data)
+    },
+    websocketclose() { // 关闭
+      console.log('WebSocket关闭')
+    },
+    websocketerror() { // 失败
+      console.log('WebSocket连接失败')
+      this.bobao2 === 0
     }
   }
 }

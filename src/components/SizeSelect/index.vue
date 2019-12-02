@@ -12,6 +12,7 @@
 </template>
 
 <script>
+var _that
 export default {
   computed: {
     size() {

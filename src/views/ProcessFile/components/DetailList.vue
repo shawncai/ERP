@@ -43,8 +43,8 @@
             <el-col :span="6">
               <el-form-item :label="$t('ProcessFile.isKey')" style="width: 100%;">
                 <el-radio-group v-model="personalForm.isKey" style="margin-left: 19px; width: 200px" disabled>
-                  <el-radio :label="1" style="width: 70px">是</el-radio>
-                  <el-radio :label="2">否</el-radio>
+                  <el-radio :label="1" style="width: 70px">{{ $t('updates.yes') }}</el-radio>
+                  <el-radio :label="2">{{ $t('updates.no') }}</el-radio>
                 </el-radio-group>
               </el-form-item>
             </el-col>
@@ -60,6 +60,7 @@
 
 <script>
 import { getdeptlist } from '@/api/BasicSettings'
+var _that
 export default {
   props: {
     detailcontrol: {
@@ -88,6 +89,9 @@ export default {
     detaildata() {
       this.personalForm = this.detaildata
     }
+  },
+  beforeCreate() {
+    _that = this
   },
   mounted() {
     this.getlist()

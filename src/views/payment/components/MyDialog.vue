@@ -1,5 +1,5 @@
 <template>
-  <el-dialog :visible.sync="editVisible" :editcontrol="editcontrol" :editdata="editdata" :close-on-press-escape="false" :title="personalForm.paymentNumber +'    修改'" width="1010px" class="edit" top="-10px" @close="$emit('update:editcontrol', false)">
+  <el-dialog :visible.sync="editVisible" :editcontrol="editcontrol" :editdata="editdata" :close-on-press-escape="false" :title="personalForm.paymentNumber +$t('updates.xg')" width="1010px" class="edit" top="-10px" @close="$emit('update:editcontrol', false)">
     <!--基本信息-->
     <el-card class="box-card" style="margin-top: 63px" shadow="never">
       <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('Hmodule.basicinfo') }}</h2>
@@ -131,7 +131,7 @@
       </div>
     </el-card>
     <el-card class="box-card" style="margin-top: 15px;margin-bottom: 35px" shadow="never">
-      <h2 ref="fuzhu" class="form-name" >付款明细</h2>
+      <h2 ref="fuzhu" class="form-name" >{{ $t('updates.fkmx') }}</h2>
       <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
         <el-button type="danger" @click="$refs.editable.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
       </div>
@@ -151,19 +151,19 @@
           <el-editable-column type="selection" min-width="55" align="center"/>
           <el-editable-column :label="$t('Hmodule.xh')" min-width="55" align="center" type="index"/>
           <!--          <el-editable-column :edit-render="{name: 'ElDatePicker', attrs: {type: 'date', format: 'yyyy-MM-dd'}, type: 'visible'}" prop="payDate" align="center" label="付款日期" min-width="180px"/>-->
-          <el-editable-column prop="shouldMoney" align="center" label="应付金额" min-width="150px"/>
-          <el-editable-column prop="paidMoney" align="center" label="已付金额" min-width="150px"/>
-          <el-editable-column prop="payingMoney" align="center" label="未付金额" min-width="150px"/>
-          <el-editable-column :edit-render="{name: 'ElInputNumber', type: 'visible'}" prop="invoiceNumber" align="center" label="发票号" min-width="200px">
+          <el-editable-column :label="$t('updates.yfje')" prop="shouldMoney" align="center" min-width="150px"/>
+          <el-editable-column :label="$t('updates.yfjei')" prop="paidMoney" align="center" min-width="150px"/>
+          <el-editable-column :label="$t('updates.wfje')" prop="payingMoney" align="center" min-width="150px"/>
+          <el-editable-column :edit-render="{name: 'ElInputNumber', type: 'visible'}" :label="$t('updates.hph')" prop="invoiceNumber" align="center" min-width="200px">
             <template slot="edit" slot-scope="scope">
               <el-input-number
                 v-model="scope.row.invoiceNumber"
                 :disabled="scope.row.invoiceNumber !== 0"/>
             </template>
           </el-editable-column>
-          <el-editable-column :edit-render="{name: 'ElSelect', options: invoiceTypes, type: 'visible'}" prop="invoiceType" align="center" label="发票类型" min-width="170px"/>
-          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="payThis" align="center" label="本次支付金额" min-width="170px"/>
-          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="advanceMoney" align="center" label="抵扣预付款" min-width="170px"/>
+          <el-editable-column :edit-render="{name: 'ElSelect', options: invoiceTypes, type: 'visible'}" :label="$t('updates.fplx')" prop="invoiceType" align="center" min-width="170px"/>
+          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" :label="$t('updates.bczfje')" prop="payThis" align="center" min-width="170px"/>
+          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" :label="$t('updates.dkyfk')" prop="advanceMoney" align="center" min-width="170px"/>
         </el-editable>
       </div>
     </el-card>
@@ -190,6 +190,8 @@ import MyPlan from './MyPlan'
 import MyDelivery from './MyDelivery'
 import MyLnquiry from './MyLnquiry'
 import MyOrder from './MyOrder'
+// eslint-disable-next-line no-unused-vars
+var _that
 export default {
   components: { MyOrder, MyLnquiry, MyDelivery, MyPlan, MyApply, MySupplier, MyDetail, MyEmp },
   props: {

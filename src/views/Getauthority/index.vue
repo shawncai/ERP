@@ -6,7 +6,7 @@
         <el-row :gutter="20">
           <el-form ref="getemplist" :model="getemplist" label-width="100px" style="margin-top: 10px">
             <el-col :span="5">
-              <el-form-item label="角色名称" label-width="100px">
+              <el-form-item :label="$t('updates.jsmc')" label-width="100px">
                 <el-input v-model="getemplist.rolename" :placeholder="$t('Getauthority.rolename')" clearable/>
               </el-form-item>
             </el-col>
@@ -24,7 +24,7 @@
         <el-row :gutter="20">
           <el-col :span="8" >
             <div class="container" style="margin-top: 20px">
-              <div style="width: 100%;border: 1px solid #ebeef5;border-bottom:none;height: 30px;padding-top: 5px;padding-left: 28px;color: #606266;">角色列表</div>
+              <div style="width: 100%;border: 1px solid #ebeef5;border-bottom:none;height: 30px;padding-top: 5px;padding-left: 28px;color: #606266;">{{ $t('updates.jslb') }}</div>
               <el-table
                 v-loading="listLoading"
                 ref="singleTable"
@@ -56,10 +56,10 @@
           </el-col>
           <el-col :span="8">
             <div class="container5" style="margin-top: 20px">
-              <div style="width: 100%;border: 1px solid #ebeef5;border-bottom:none;height: 30px;padding-top: 5px;padding-left: 28px;color: #606266;">模块列表</div>
+              <div style="width: 100%;border: 1px solid #ebeef5;border-bottom:none;height: 30px;padding-top: 5px;padding-left: 28px;color: #606266;">{{ $t('updates.mkmc') }}</div>
               <el-card class="box-card" shadow="never" style="height: 800px">
                 <div slot="header" class="clearfix">
-                  <span>名称</span>
+                  <span>{{ $t('updates.name') }}</span>
                 </div>
                 <el-scrollbar class="tree">
                   <el-tree :data="treeData" :props="defaultProps" accordion highlight-current @node-click="handleNodeClick"/>
@@ -69,11 +69,11 @@
           </el-col>
           <el-col :span="8">
             <div class="container3" style="margin-top: 20px">
-              <div style="width: 100%;border: 1px solid #ebeef5;border-bottom:none;height: 30px;padding-top: 5px;padding-left: 28px;color: #606266;">操作权限</div>
+              <div style="width: 100%;border: 1px solid #ebeef5;border-bottom:none;height: 30px;padding-top: 5px;padding-left: 28px;color: #606266;">{{ $t('updates.czqx') }}</div>
               <el-card class="box-card" shadow="never" style="height: 655px;overflow-y: auto">
                 <div slot="header" class="clearfix">
-                  <span>名称</span>
-                  <el-checkbox v-model="checkAll" style="float: right;margin-bottom: -5px" @change="handleCheckAllChange">全选</el-checkbox>
+                  <span>{{ $t('updates.name') }}</span>
+                  <el-checkbox v-model="checkAll" style="float: right;margin-bottom: -5px" @change="handleCheckAllChange">{{ $t('updates.qx') }}</el-checkbox>
                 </div>
                 <div v-if="isShow" class="upsides">
                   <el-checkbox-group v-model="operations" @change="handleCheckedCitiesChange">
@@ -98,6 +98,7 @@
 
 <script>
 import { repairList, getauthoritydetaillist, addrole, updaterole } from '@/api/Getauthority'
+var _that
 export default {
   name: 'Getauthority',
   data() {

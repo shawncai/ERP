@@ -12,7 +12,7 @@
               </el-form-item>
             </el-col>
             <el-col :span="6">
-              <el-form-item label="源单编号" style="width: 100%;">
+              <el-form-item :label="$t('updates.ydbh')" style="width: 100%;">
                 <el-input v-model="personalForm.number" placeholder="请选择源单编号" style="margin-left: 18px;width: 180px" clearable/>
               </el-form-item>
             </el-col>
@@ -84,7 +84,7 @@
     </el-card>
     <!--入库单明细-->
     <el-card class="box-card" style="margin-top: 15px">
-      <h2 ref="fuzhu" class="form-name">入库单明细</h2>
+      <h2 ref="fuzhu" class="form-name">{{ $t('updates.rkdmx') }}</h2>
       <div class="buttons" style="margin-top: 28px;margin-bottom: 20px">
         <el-button type="success" style="background:#3696fd;border-color:#3696fd " @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>
         <el-button type="danger" @click="$refs.editable.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
@@ -105,10 +105,10 @@
           <el-editable-column label="编号" width="55" align="center" type="index"/>
           <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" align="center" width="150px"/>
           <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" align="center" width="150px"/>
-          <el-editable-column prop="color" align="center" label="颜色" width="150px"/>
+          <el-editable-column :label="$t('updates.ys')" prop="color" align="center" width="150px"/>
           <!-- <el-editable-column prop="productType" align="center" :label="$t('Hmodule.gg')" width="150px"/> -->
           <!-- <el-editable-column prop="unit" align="center" :label="$t('Hmodule.dw')" width="150px"/> -->
-          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0.00, precision: 2}, type: 'visible'}" prop="sendQuantity" align="center" label="发货数量" min-width="150">
+          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0.00, precision: 2}, type: 'visible'}" :label="$t('updates.fhsl')" prop="sendQuantity" align="center" min-width="150">
             <template slot="edit" slot-scope="scope">
               <el-input-number
                 v-if="scope.row.isnew === 3"
@@ -133,7 +133,7 @@
               <span v-else>{{ scope.row.actualQuantity }}</span>
             </template>
           </el-editable-column>
-          <el-editable-column prop="diffQuantity" align="center" label="差异数量" min-width="150">
+          <el-editable-column :label="$t('updates.cysl')" prop="diffQuantity" align="center" min-width="150">
             <template slot="edit" slot-scope="scope">
               {{ scope.row.diffQuantity }}
             </template>
@@ -144,7 +144,7 @@
       </div>
     </el-card>
     <div class="buttons" style="margin-top: 20px;margin-left: 30px">
-      <el-button type="primary" @click="handleEditok()">修改</el-button>
+      <el-button type="primary" @click="handleEditok()">{{ $t('public.edit') }}</el-button>
       <el-button type="danger" @click="handlecancel()">{{ $t('Hmodule.cancel') }}</el-button>
     </div>
   </el-dialog>
@@ -159,6 +159,7 @@ import MyEmp from './MyEmp'
 import MyDelivery from './MyDelivery'
 import MyAccept from './MyAccept'
 import MyDetail from './MyDetail'
+var _that
 export default {
   components: { MyRepository, MySupplier, MyEmp, MyDelivery, MyAccept, MyDetail },
   props: {
@@ -259,6 +260,9 @@ export default {
       this.list2 = this.personalForm.moveDiffReportDetails
       // this.getlocation()
     }
+  },
+  beforeCreate() {
+    _that = this
   },
   mounted() {
     this.getlist()

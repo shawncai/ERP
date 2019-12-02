@@ -9,7 +9,7 @@
                 <el-option :label="$t('updates.cangk')" value="1"/>
                 <el-option :label="$t('updates.gys')" value="2"/>
                 <el-option value="3" label="类别"/>
-                <el-option value="4" label="品牌"/>
+                <el-option :label="$t('updates.pp')" value="4"/>
                 <el-option value="5" label="年"/>
                 <el-option value="6" label="月"/>
               </el-select>
@@ -149,6 +149,7 @@ import MyCustomer from './components/MyCustomer'
 import MyAgent from './components/MyAgent'
 import MyRepository from './components/MyRepository'
 
+var _that
 export default {
   name: 'StockOrderCount',
   directives: { waves, permission, permission2 },
@@ -156,18 +157,18 @@ export default {
   filters: {
     judgeStatFilter(status) {
       const statusMap = {
-        0: '未审核',
-        1: '审核中',
-        2: '审核通过',
-        3: '审核不通过'
+        0: _that.$t('updates.wsh'),
+        1: _that.$t('updates.shz'),
+        2: _that.$t('Hmodule.shtg'),
+        3: _that.$t('updates.shbtg')
       }
       return statusMap[status]
     },
     receiptStatFilter(status) {
       const statusMap = {
-        1: '制单',
-        2: '执行',
-        3: '结单'
+        1: _that.$t('updates.zd'),
+        2: _that.$t('updates.zx'),
+        3: _that.$t('updates.jd')
       }
       return statusMap[status]
     },
@@ -257,6 +258,9 @@ export default {
       // 开始时间到结束时间
       date: []
     }
+  },
+  beforeCreate() {
+    _that = this
   },
   mounted() {
     this.getlist()

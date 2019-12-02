@@ -84,8 +84,8 @@
       </el-dropdown>
       <!-- 新建分组 -->
       <el-button v-permission="['1-22-24-64']" v-waves class="filter-item" type="primary" style="width: 100px" @click="handleGroup">{{ $t('Supplier.supplierGroup') }}</el-button>
-      <el-button v-waves class="filter-item" type="primary" style="width: 100px" @click="handlePunish">供应商考核</el-button>
-      <el-button v-waves class="filter-item" type="primary" style="width: 100px" @click="handleModify">生成调价单</el-button>
+      <el-button v-waves class="filter-item" type="primary" style="width: 100px" @click="handlePunish">{{ $t('updates.gyskh') }}</el-button>
+      <el-button v-waves class="filter-item" type="primary" style="width: 100px" @click="handleModify">{{ $t('updates.sctjd') }}</el-button>
       <my-punishment :punishcontrol.sync="punishcontrol" :punishdata="punishdata" @rest="refreshlist"/>
       <el-dialog :visible.sync="GroupVisible" title="新建分组" class="normal" width="600px" center>
         <el-input v-model="groupName" :placeholder="$t('Supplier.groupName')" class="filter-item" style="width: 200px;float: left" clearable @keyup.enter.native="handleAddGroup"/>
@@ -173,8 +173,8 @@
           <template slot-scope="scope">
             <el-button v-show="scope.row.isEffective === 2" title="启用" type="primary" size="mini" icon="el-icon-check" circle @click="top(scope.row)"/>
             <el-button v-show="scope.row.isEffective === 1" title="停用" type="primary" size="mini" icon="el-icon-close" circle @click="bottom(scope.row)"/>
-            <el-button v-permission2="['1-22-24-3', scope.row.createPersonId]" title="修改" type="primary" size="mini" icon="el-icon-edit" circle @click="handleEdit(scope.row)"/>
-            <el-button v-permission2="['1-22-24-2', scope.row.createPersonId]" title="删除" size="mini" type="danger" icon="el-icon-delete" circle @click="handleDelete(scope.row)"/>
+            <el-button v-permission2="['1-22-24-3', scope.row.createPersonId]" :title="$t('updates.xg')" type="primary" size="mini" icon="el-icon-edit" circle @click="handleEdit(scope.row)"/>
+            <el-button v-permission2="['1-22-24-2', scope.row.createPersonId]" :title="$t('updates.sc')" size="mini" type="danger" icon="el-icon-delete" circle @click="handleDelete(scope.row)"/>
           </template>
         </el-table-column>
       </el-table>
@@ -199,6 +199,7 @@ import MyDialog from './components/MyDialog'
 import MyPunishment from './components/MyPunishment'
 import DetailList from './components/DetailList'
 
+var _that
 export default {
   name: 'SupplierList',
   directives: { waves, permission, permission2 },
@@ -279,6 +280,9 @@ export default {
       // 控制详情组件
       detailvisible: false
     }
+  },
+  beforeCreate() {
+    _that = this
   },
   mounted() {
     this.getlist()

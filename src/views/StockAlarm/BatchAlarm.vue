@@ -11,12 +11,12 @@
             <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
           </el-col>
           <el-col :span="4">
-            <el-form-item label="商品编码">
+            <el-form-item :label="$t('updates.spbm')">
               <el-input v-model="getemplist.code" :placeholder="$t('StockAlarm.code')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
           <el-col :span="4">
-            <el-form-item label="商品名称">
+            <el-form-item :label="$t('updates.spmc')">
               <el-input v-model="getemplist.productName" :placeholder="$t('StockAlarm.productName')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
@@ -109,6 +109,7 @@ import MyRepository from './components/MyRepository'
 import MyAccept from './components/MyAccept'
 import MyCreate from './components/MyCreate'
 
+var _that
 export default {
   name: 'BatchAlarm',
   directives: { waves },
@@ -156,6 +157,9 @@ export default {
       // 加载表格
       listLoading: true
     }
+  },
+  beforeCreate() {
+    _that = this
   },
   mounted() {
     this.getlist()

@@ -1,5 +1,5 @@
 <template>
-  <el-dialog :visible.sync="editVisible" :editcontrol="editcontrol" :editdata="editdata" :close-on-press-escape="false" :title="personalForm.factoryNumber +'    修改'" width="1010px" class="edit" top="-10px" @close="$emit('update:editcontrol', false)">
+  <el-dialog :visible.sync="editVisible" :editcontrol="editcontrol" :editdata="editdata" :close-on-press-escape="false" :title="personalForm.factoryNumber +$t('updates.xg')" width="1010px" class="edit" top="-10px" @close="$emit('update:editcontrol', false)">
     <!--基本信息-->
     <el-card class="box-card" style="margin-top: 63px" shadow="never">
       <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('Hmodule.basicinfo') }}</h2>
@@ -85,7 +85,7 @@
     </el-card>
     <!--子件信息-->
     <el-card class="box-card" shadow="never" style="margin-top: 10px">
-      <h2 ref="geren" class="form-name">物流信息</h2>
+      <h2 ref="geren" class="form-name">{{ $t('updates.wlxq') }}</h2>
       <div class="container">
         <el-form ref="personalForm2" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="110px" style="margin-left: 30px;">
           <el-row>
@@ -174,6 +174,7 @@
 import { updateoutFactory } from '@/api/OutFactory'
 import { getcountrylist, getprovincelist, getcitylist, regionlist, getRegion, saveRegion } from '@/api/public'
 import MyDelivery from './MyDelivery'
+var _that
 export default {
   components: { MyDelivery },
   props: {

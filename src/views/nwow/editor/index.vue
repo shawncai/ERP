@@ -21,6 +21,7 @@ import { mapGetters } from 'vuex'
 import PanThumb from '@/components/PanThumb'
 import GithubCorner from '@/components/GithubCorner'
 
+var _that
 export default {
   name: 'DashboardEditor',
   components: { PanThumb, GithubCorner },

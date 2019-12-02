@@ -39,8 +39,8 @@
               <el-col :span="6">
                 <el-form-item :label="$t('ProcessFile.isKey')" prop="isKey" style="width: 100%;">
                   <el-radio-group v-model="personalForm.isKey" style="margin-left: 19px">
-                    <el-radio :label="1" style="width: 100px">是</el-radio>
-                    <el-radio :label="2">否</el-radio>
+                    <el-radio :label="1" style="width: 100px">{{ $t('updates.yes') }}</el-radio>
+                    <el-radio :label="2">{{ $t('updates.no') }}</el-radio>
                   </el-radio-group>
                 </el-form-item>
               </el-col>
@@ -61,6 +61,7 @@
 import '@/directive/noMoreClick/index.js'
 import { createworkCenter } from '@/api/ProcessFile'
 import { getdeptlist } from '@/api/BasicSettings'
+var _that
 export default {
   name: 'AddWorkCenter',
   data() {
@@ -93,6 +94,9 @@ export default {
         ]
       }
     }
+  },
+  beforeCreate() {
+    _that = this
   },
   mounted() {
     this.getlist()

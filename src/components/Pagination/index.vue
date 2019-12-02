@@ -15,6 +15,7 @@
 <script>
 import { scrollTo } from '@/utils/scrollTo'
 
+var _that
 export default {
   name: 'Pagination',
   props: {

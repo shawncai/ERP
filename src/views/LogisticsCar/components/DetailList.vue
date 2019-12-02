@@ -5,7 +5,7 @@
     :detaildata="detaildata"
     :detailid="detailid"
     :close-on-press-escape="false"
-    :title="personalForm.carNumber +'车辆详情信息'"
+    :title="personalForm.carNumber +$t('updates.clxqxx')"
     append-to-body
     width="1010px"
     class="edit"
@@ -115,6 +115,7 @@
 <script>
 import { useLogList } from '@/api/LogisticsCar'
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
+var _that
 export default {
   components: { Pagination },
   filters: {
@@ -142,8 +143,8 @@ export default {
     },
     sourceTypeFilter(status) {
       const statusMap = {
-        1: '销售出库单',
-        2: '调拨单'
+        1: _that.$t('updates.xsckd'),
+        2: _that.$t('updates.dbd')
       }
       return statusMap[status]
     },
@@ -157,9 +158,9 @@ export default {
     },
     receiptStatFilter(status) {
       const statusMap = {
-        1: '制单',
-        2: '执行',
-        3: '结单'
+        1: _that.$t('updates.zd'),
+        2: _that.$t('updates.zx'),
+        3: _that.$t('updates.jd')
       }
       return statusMap[status]
     }

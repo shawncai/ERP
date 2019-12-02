@@ -17,7 +17,7 @@
                 :value="item.id"
                 :label="item.categoryName"/>
               <template>
-                <el-button v-if="isshow" icon="el-icon-circle-plus-outline" style="width:100%" @click="go_creat">新增</el-button>
+                <el-button v-if="isshow" icon="el-icon-circle-plus-outline" style="width:100%" @click="go_creat">{{ $t('updates.create') }}</el-button>
               </template>
             </el-select>
           </el-form-item>
@@ -30,7 +30,7 @@
                 :value="item.id"
                 :label="item.categoryName"/>
               <template>
-                <el-button v-if="isshow" icon="el-icon-circle-plus-outline" style="width:100%" @click="go_creat2">新增</el-button>
+                <el-button v-if="isshow" icon="el-icon-circle-plus-outline" style="width:100%" @click="go_creat2">{{ $t('updates.create') }}</el-button>
               </template>
             </el-select>
           </el-form-item>
@@ -46,7 +46,7 @@
                 :value="item.id"
                 :label="item.categoryName"/>
               <template>
-                <el-button v-if="isshow" icon="el-icon-circle-plus-outline" style="width:100%" @click="go_creat3">新增</el-button>
+                <el-button v-if="isshow" icon="el-icon-circle-plus-outline" style="width:100%" @click="go_creat3">{{ $t('updates.create') }}</el-button>
               </template>
             </el-select>
           </el-form-item>
@@ -60,7 +60,7 @@
         </el-form>
       </div>
       <!--业务信息-->
-      <h2 ref="yewu" class="form-name">业务信息</h2>
+      <h2 ref="yewu" class="form-name">{{ $t('updates.ywxx') }}</h2>
       <div class="container">
         <el-form ref="customerForm2" :model="customerForm" :rules="customerFormrules" :inline="true" status-icon class="demo-ruleForm" label-position="top" label-width="300px" style="margin-left: 30px;">
           <el-form-item :label="$t('Customer.contactname')" prop="contactname" style="width: 40%">
@@ -97,11 +97,11 @@
             </el-select>
           </el-form-item>
           <el-form-item :label="$t('Customer.traderid')" prop="address" style="width: 40%;margin-top:1%">
-            <el-input v-model="trader" placeholder="请选择" clearable @focus="handlechoose"/>
+            <el-input v-model="trader" :placeholder="$t('updates.qxz')" clearable @focus="handlechoose"/>
           </el-form-item>
           <my-emp :control.sync="empcontrol" @personName="personName"/>
           <el-form-item :label="$t('Customer.transmode')" prop="address" style="width: 40%;margin-top:1%">
-            <el-select ref="clear4" v-model="customerForm.transmode" :value="customerForm.transmode" placeholder="请选择" style="width: 100%;" @focus="getCategory" @change="test">
+            <el-select ref="clear4" v-model="customerForm.transmode" :value="customerForm.transmode" :placeholder="$t('updates.qxz')" style="width: 100%;" @focus="getCategory" @change="test">
               <el-option v-show="false" label="" value="" />
               <el-option
                 v-for="(item, index) in transmodes"
@@ -109,12 +109,12 @@
                 :value="item.id"
                 :label="item.categoryName"/>
               <template>
-                <el-button v-if="isshow2" icon="el-icon-circle-plus-outline" style="width:100%" @click="go_creat4">新增</el-button>
+                <el-button v-if="isshow2" icon="el-icon-circle-plus-outline" style="width:100%" @click="go_creat4">{{ $t('updates.create') }}</el-button>
               </template>
             </el-select>
           </el-form-item>
           <el-form-item :label="$t('Customer.deliverymode')" prop="address" style="width: 40%;margin-top:1%">
-            <el-select ref="clear5" v-model="customerForm.deliverymode" :value="customerForm.deliverymode" placeholder="请选择" style="width: 100%;" @focus="getCategory" @change="test">
+            <el-select ref="clear5" v-model="customerForm.deliverymode" :value="customerForm.deliverymode" :placeholder="$t('updates.qxz')" style="width: 100%;" @focus="getCategory" @change="test">
               <el-option v-show="false" label="" value=""/>
               <el-option
                 v-for="(item, index) in deliverymodes"
@@ -122,7 +122,7 @@
                 :value="item.id"
                 :label="item.categoryName"/>
               <template>
-                <el-button v-if="isshow2" icon="el-icon-circle-plus-outline" style="width:100%" @click="go_creat5">新增</el-button>
+                <el-button v-if="isshow2" icon="el-icon-circle-plus-outline" style="width:100%" @click="go_creat5">{{ $t('updates.create') }}</el-button>
               </template>
             </el-select>
           </el-form-item>
@@ -132,7 +132,7 @@
         </el-form>
       </div>
       <!-- 财务信息 -->
-      <h2 ref="caiwu" class="form-name">财务信息</h2>
+      <h2 ref="caiwu" class="form-name">{{ $t('updates.cwxx') }}</h2>
       <div class="container">
         <el-form ref="customerForm3" :model="customerForm" :rules="customerFormrules" :inline="true" status-icon class="demo-ruleForm" label-position="top" label-width="300px" style="margin-left: 30px;">
           <el-form-item :label="$t('Customer.accountsDays')" prop="accountsDays" style="width: 40%">
@@ -147,7 +147,7 @@
                 :label="item.categoryName"
                 :value="item.id"/>
               <template>
-                <el-button v-if="isshow2" icon="el-icon-circle-plus-outline" style="width:100%" @click="go_creat6">新增</el-button>
+                <el-button v-if="isshow2" icon="el-icon-circle-plus-outline" style="width:100%" @click="go_creat6">{{ $t('updates.create') }}</el-button>
               </template>
             </el-select>
           </el-form-item>
@@ -166,7 +166,7 @@
                 :label="item.categoryName"
                 :value="item.id"/>
               <template>
-                <el-button v-if="isshow3" icon="el-icon-circle-plus-outline" style="width:100%" @click="go_creat7">新增</el-button>
+                <el-button v-if="isshow3" icon="el-icon-circle-plus-outline" style="width:100%" @click="go_creat7">{{ $t('updates.create') }}</el-button>
               </template>
             </el-select>
           </el-form-item>
@@ -179,7 +179,7 @@
                 :label="item.categoryName"
                 :value="item.id"/>
               <template>
-                <el-button v-if="isshow2" icon="el-icon-circle-plus-outline" style="width:100%" @click="go_creat8">新增</el-button>
+                <el-button v-if="isshow2" icon="el-icon-circle-plus-outline" style="width:100%" @click="go_creat8">{{ $t('updates.create') }}</el-button>
               </template>
             </el-select>
           </el-form-item>
@@ -196,7 +196,7 @@
         </el-form>
       </div>
       <!-- 辅助信息 -->
-      <h2 ref="fuzhu" class="form-name">辅助信息</h2>
+      <h2 ref="fuzhu" class="form-name">{{ $t('updates.fzxx') }}</h2>
       <div class="container">
         <el-form ref="customerForm4" :model="customerForm" :rules="customerFormrules" :inline="true" status-icon class="demo-ruleForm" label-position="top" label-width="300px" style="margin-left: 30px;">
           <el-form-item :label="$t('Customer.establishmenttime')" style="width: 40%">
@@ -223,7 +223,7 @@
       <!--操作-->
       <div class="buttons" style="margin-top: 20px">
         <el-button v-no-more-click v-permission="['1-14-17-1']" type="primary" @click="handlesave()">{{ $t('Hmodule.baoc') }}</el-button>
-        <el-button v-permission="['1-14-17-1']" type="success" @click="handleentry()">继续录入</el-button>
+        <el-button v-permission="['1-14-17-1']" type="success" @click="handleentry()">{{ $t('updates.jxlr') }}</el-button>
         <el-button v-permission="['1-14-17-1']" type="danger" @click="handlecancel()">{{ $t('Hmodule.cancel') }}</el-button>
       </div>
     </div>
@@ -240,6 +240,7 @@ import permission from '@/directive/permission/index.js' // 权限判断指令
 import permission2 from '@/directive/permission2/index.js' // 权限判断指令
 import checkPermission from '@/utils/permission' // 权限判断函数
 import MyEmp from './components/MyEmp'
+var _that
 export default {
   name: 'NewAgent',
   directives: { permission, permission2 },

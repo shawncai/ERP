@@ -1,5 +1,5 @@
 <template>
-  <el-dialog :visible.sync="productVisible" :control="control" :close-on-press-escape="false" top="10px" :title="$t('Hmodule.xzsp')" append-to-body @close="$emit('update:control', false)">
+  <el-dialog :visible.sync="productVisible" :control="control" :close-on-press-escape="false" :title="$t('Hmodule.xzsp')" top="10px" append-to-body @close="$emit('update:control', false)">
     <div class="filter-container">
       <!-- 搜索条件栏目 -->
       <el-input v-model="getemplist.code" :placeholder="$t('Product.code')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
@@ -120,6 +120,7 @@ import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination'
 import MySupplier from '../../Product/components/MySupplier'
 import MyTree from '../../Product/components/MyTree' // Secondary package based on el-pagination
+var _that
 export default {
   directives: { waves },
   components: { MyTree, MySupplier, Pagination },
@@ -215,7 +216,7 @@ export default {
     restFilter2() {
       this.supplierid = ''
       this.getemplist.supplierid = ''
-    }
+    },
     // 搜索
     handleFilter() {
       this.getemplist.pagenum = 1

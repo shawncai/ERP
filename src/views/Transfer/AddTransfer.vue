@@ -91,6 +91,8 @@ import { searchSaleCategory } from '@/api/SaleCategory'
 import { getdeptlist } from '@/api/BasicSettings'
 import MyEmp from './components/MyEmp'
 import MyRepository from './components/MyRepository'
+// eslint-disable-next-line no-unused-vars
+var _that
 export default {
   name: 'AddTransfer',
   components: { MyRepository, MyEmp },

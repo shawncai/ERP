@@ -133,6 +133,7 @@ import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
 import MyEditcar from './components/MyEditcar'
 
+var _that
 export default {
   name: 'ReturncarList',
   directives: { waves },
@@ -178,6 +179,9 @@ export default {
       // 控制组件数据
       editVisible: false
     }
+  },
+  beforeCreate() {
+    _that = this
   },
   mounted() {
     this.getlist()

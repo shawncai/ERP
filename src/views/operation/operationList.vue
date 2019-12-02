@@ -5,13 +5,13 @@
       <el-row>
         <el-form ref="getemplist" :model="getemplist" label-width="100px" style="margin-top: -9px">
           <el-col :span="5" style="margin-left: 10px">
-            <el-form-item label="操作人">
+            <el-form-item :label="$t('updates.czr')">
               <el-input v-model="operatorId" :placeholder="$t('income.handlePersonId')" clearable @keyup.enter.native="handleFilter" @focus="handlechooseStock"/>
             </el-form-item>
             <my-emp :control.sync="stockControl" @stockName="stockName"/>
           </el-col>
           <el-col :span="5">
-            <el-form-item label="模块">
+            <el-form-item :label="$t('updates.mk')">
               <el-input v-model="getemplist.module" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
@@ -85,6 +85,7 @@ import MyEmp from './components/MyEmp'
 import MyAccept from './components/MyAccept'
 import MyCreate from './components/MyCreate'
 
+var _that
 export default {
   name: 'StockAlarmList',
   directives: { waves, permission, permission2 },
@@ -135,6 +136,9 @@ export default {
       // 加载表格
       listLoading: true
     }
+  },
+  beforeCreate() {
+    _that = this
   },
   mounted() {
     this.getlist()

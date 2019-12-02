@@ -65,16 +65,16 @@
             <el-col :span="6">
               <el-form-item :label="$t('ProcessFile.isCost')" prop="isCost" style="width: 100%;">
                 <el-radio-group v-model="personalForm.isCost" disabled style="margin-left: 19px; width: 150px">
-                  <el-radio :label="1">是</el-radio>
-                  <el-radio :label="2">否</el-radio>
+                  <el-radio :label="1">{{ $t('updates.yes') }}</el-radio>
+                  <el-radio :label="2">{{ $t('updates.no') }}</el-radio>
                 </el-radio-group>
               </el-form-item>
             </el-col>
             <el-col :span="6">
               <el-form-item :label="$t('ProcessFile.isHelp')" label-width="120px" prop="isHelp" style="width: 100%;">
                 <el-radio-group v-model="personalForm.isHelp" disabled style="margin-left: 19px; width: 150px">
-                  <el-radio :label="1">是</el-radio>
-                  <el-radio :label="2">否</el-radio>
+                  <el-radio :label="1">{{ $t('updates.yes') }}</el-radio>
+                  <el-radio :label="2">{{ $t('updates.no') }}</el-radio>
                 </el-radio-group>
               </el-form-item>
             </el-col>
@@ -102,7 +102,7 @@
     </el-card>
     <!--工序明细-->
     <el-card class="box-card" style="margin-top: 15px">
-      <h2 ref="fuzhu" class="form-name">工序明细</h2>
+      <h2 ref="fuzhu" class="form-name">{{ $t('updates.gxmx') }}</h2>
       <div class="container">
         <el-editable
           ref="editable"
@@ -115,7 +115,7 @@
           style="width: 100%">
           <el-editable-column type="selection" min-width="55" align="center"/>
           <el-editable-column :label="$t('Hmodule.xh')" min-width="55" align="center" type="index"/>
-          <el-editable-column prop="processFileName" align="center" label="工艺名称" min-width="150px"/>
+          <el-editable-column :label="$t('updates.gymc')" prop="processFileName" align="center" min-width="150px"/>
         </el-editable>
       </div>
     </el-card>
@@ -126,6 +126,7 @@
 </template>
 
 <script>
+var _that
 export default {
   props: {
     detailcontrol: {

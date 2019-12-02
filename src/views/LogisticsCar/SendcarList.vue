@@ -13,7 +13,7 @@
         trigger="click">
         <el-select v-model="getemplist.stat" placeholder="车辆状态" class="filter-item" clearable style="width: 40%;float: left;margin-right: 20px">
           <el-option label="正常" value="1"/>
-          <el-option label="停用" value="2"/>
+          <el-option :label="$t('updates.ty')" value="2"/>
         </el-select>
         <el-date-picker
           v-model="getemplist.starttime"
@@ -123,6 +123,7 @@ import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
 import MyEdit from './components/MyEdit'
 
+var _that
 export default {
   name: 'SendcarList',
   directives: { waves },
@@ -191,6 +192,9 @@ export default {
       // 控制组件数据
       editVisible: false
     }
+  },
+  beforeCreate() {
+    _that = this
   },
   mounted() {
     this.getlist()

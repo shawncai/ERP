@@ -4,12 +4,12 @@
       <el-row>
         <el-form ref="getemplist" :model="getemplist" label-width="100px" style="margin-top: -9px">
           <el-col :span="5">
-            <el-form-item label="分类名称" label-width="100px">
+            <el-form-item :label="$t('updates.flmc')" label-width="100px">
               <el-input v-model="getemplist.categoryName" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
           <!-- <el-col :span="5" style="margin-left: 10px">
-            <el-form-item label="分类类别">
+            <el-form-item :label="$t('updates.fllb')">
               <el-select v-model="getemplist.type" :value="getemplist.type" clearable @keyup.enter.native="handleFilter">
                 <el-option label="调整原因" value="1"/>
                 <el-option label="调价原因" value="2"/>
@@ -17,7 +17,7 @@
             </el-form-item>
           </el-col> -->
           <el-col :span="5" style="margin-left: 10px">
-            <el-form-item label="启用状态">
+            <el-form-item :label="$t('updates.qyzt')">
               <el-select v-model="getemplist.isEffective" :value="getemplist.isEffective" clearable @keyup.enter.native="handleFilter">
                 <el-option label="active " value="1"/>
                 <el-option label="dead" value="2"/>
@@ -48,7 +48,7 @@
       <el-button v-permission="['131-278-7']" v-waves class="filter-item" icon="el-icon-printer" style="width: 86px" @click="handlePrint">{{ $t('public.print') }}</el-button>
       <!-- 新建操作 -->
       <el-button v-permission="['131-278-1']" v-waves class="filter-item" icon="el-icon-plus" type="success" style="width: 86px" @click="handleAdd">{{ $t('public.add') }}</el-button>
-      <el-dialog :visible.sync="categoryVisible" title="新建分类属性" class="normal" width="600px" center>
+      <el-dialog :visible.sync="categoryVisible" :title="$t('updates.xjflsx')" class="normal" width="600px" center>
         <el-form ref="addCategoryForm" :rules="addCategoryFormRules" :model="addCategoryForm" class="demo-ruleForm" style="margin: 0 auto; width: 400px">
           <!-- <el-form-item :label="$t('NewEmployeeInformation.type')" label-width="100px" prop="type">
             <el-select v-model="addCategoryForm.type" placeholder="请选择类别" style="width: 100%">
@@ -61,8 +61,8 @@
           </el-form-item>
           <el-form-item :label="$t('NewEmployeeInformation.iseffective')" label-width="100px" prop="iseffective">
             <el-select v-model="addCategoryForm.iseffective" placeholder="请选择状态" style="width: 100%">
-              <el-option label="启用 " value="1"/>
-              <el-option label="停用" value="2"/>
+              <el-option :label="$t('updates.qy')" value="1"/>
+              <el-option :label="$t('updates.ty')" value="2"/>
             </el-select>
           </el-form-item>
         </el-form>
@@ -119,7 +119,7 @@
       <!-- 列表结束 -->
       <pagination v-show="total>0" :total="total" :page.sync="getemplist.pageNum" :limit.sync="getemplist.pageSize" @pagination="getlist" />
       <!--修改开始=================================================-->
-      <el-dialog :visible.sync="editcategoryVisible" title="修改分类属性" class="normal" width="600px" center>
+      <el-dialog :visible.sync="editcategoryVisible" :title="$t('updates.xgflsx')" class="normal" width="600px" center>
         <el-form ref="editCategoryForm" :rules="editCategoryFormRules" :model="editCategoryForm" class="demo-ruleForm" style="margin: 0 auto; width: 400px">
           <!-- <el-form-item :label="$t('NewEmployeeInformation.type')" label-width="100px">
             <el-select v-model="editCategoryForm.type" placeholder="请选择类别" style="width: 100%" disabled >
@@ -132,13 +132,13 @@
           </el-form-item>
           <el-form-item :label="$t('NewEmployeeInformation.iseffective')" label-width="100px" prop="iseffective">
             <el-select v-model="editCategoryForm.iseffective" placeholder="请选择状态" style="width: 100%">
-              <el-option label="启用 " value="1"/>
-              <el-option label="停用" value="2"/>
+              <el-option :label="$t('updates.qy')" value="1"/>
+              <el-option :label="$t('updates.ty')" value="2"/>
             </el-select>
           </el-form-item>
         </el-form>
         <span slot="footer" class="dialog-footer">
-          <el-button type="primary" @click="handleOk()">修改</el-button>
+          <el-button type="primary" @click="handleOk()">{{ $t('public.edit') }}</el-button>
           <el-button type="danger" @click="handleNo()">{{ $t('Hmodule.cancel') }}</el-button>
         </span>
       </el-dialog>
@@ -156,6 +156,7 @@ import permission from '@/directive/permission/index.js' // 权限判断指令
 import permission2 from '@/directive/permission2/index.js' // 权限判断指令
 import checkPermission from '@/utils/permission' // 权限判断函数
 
+var _that
 export default {
   name: 'InventoryCategory',
   directives: { waves, permission, permission2 },
@@ -236,6 +237,9 @@ export default {
         pageSize: 10
       }
     }
+  },
+  beforeCreate() {
+    _that = this
   },
   mounted() {
     this.getlist()

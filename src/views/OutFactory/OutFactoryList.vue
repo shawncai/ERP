@@ -4,17 +4,17 @@
       <el-row>
         <el-form ref="getemplist" :model="getemplist" label-width="100px" style="margin-top: -9px">
           <el-col :span="5">
-            <el-form-item label="工厂编号" label-width="100px">
+            <el-form-item :label="$t('updates.gcbh')" label-width="100px">
               <el-input v-model="getemplist.code" :placeholder="$t('OutFactory.code')" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
           <el-col :span="5" style="margin-left: 10px">
-            <el-form-item label="工厂名称">
+            <el-form-item :label="$t('updates.gcmc')">
               <el-input v-model="getemplist.factoryName" placeholder="工厂名称" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
           <el-col :span="5" style="margin-left: 10px">
-            <el-form-item label="工厂联系人">
+            <el-form-item :label="$t('updates.gclxr')">
               <el-input v-model="getemplist.factoryContactName" placeholder="工厂联系人" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
@@ -107,8 +107,8 @@
         </el-table-column>
         <el-table-column :label="$t('public.actions')" :resizable="false" align="center" min-width="230">
           <template slot-scope="scope">
-            <el-button v-permission2="['171-190-197-3', scope.row.createPersonId]" title="修改" type="primary" size="mini" icon="el-icon-edit" circle @click="handleEdit(scope.row)"/>
-            <el-button v-permission2="['171-190-197-2', scope.row.createPersonId]" title="删除" size="mini" type="danger" icon="el-icon-delete" circle @click="handleDelete(scope.row)"/>
+            <el-button v-permission2="['171-190-197-3', scope.row.createPersonId]" :title="$t('updates.xg')" type="primary" size="mini" icon="el-icon-edit" circle @click="handleEdit(scope.row)"/>
+            <el-button v-permission2="['171-190-197-2', scope.row.createPersonId]" :title="$t('updates.sc')" size="mini" type="danger" icon="el-icon-delete" circle @click="handleDelete(scope.row)"/>
           </template>
         </el-table-column>
       </el-table>
@@ -131,6 +131,7 @@ import checkPermission from '@/utils/permission' // 权限判断函数
 import MyDialog from './components/MyDialog'
 import DetailList from './components/DetailList' // Secondary package based on el-pagination
 
+var _that
 export default {
   name: 'OutFactoryList',
   directives: { waves, permission, permission2 },
@@ -163,6 +164,9 @@ export default {
       // 开始时间到结束时间
       date: []
     }
+  },
+  beforeCreate() {
+    _that = this
   },
   mounted() {
     this.getlist()

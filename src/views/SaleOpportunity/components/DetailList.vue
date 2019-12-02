@@ -1,5 +1,5 @@
 <template>
-  <el-dialog :visible.sync="editVisible" :detailcontrol="detailcontrol" :detaildata="detaildata" :close-on-press-escape="false" :title="personalForm.opportunityNumber +'    详情'" append-to-body width="1010px" class="edit" top="-10px" @close="$emit('update:detailcontrol', false)">
+  <el-dialog :visible.sync="editVisible" :detailcontrol="detailcontrol" :detaildata="detaildata" :close-on-press-escape="false" :title="personalForm.opportunityNumber +$t('updates.xqing')" append-to-body width="1010px" class="edit" top="-10px" @close="$emit('update:detailcontrol', false)">
     <div id="printTest" >
       <!--基本信息-->
       <el-card class="box-card" style="margin-top: 63px" shadow="never">
@@ -82,12 +82,12 @@
             <el-editable-column :label="$t('Hmodule.xh')" fixed="left" min-width="55" align="center" type="index"/>
             <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" fixed="left" align="center" />
             <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" fixed="left" align="center" />
-            <el-editable-column prop="category" align="center" label="物品分类" />
-            <el-editable-column prop="unit" align="center" label="基本单位" />
-            <el-editable-column prop="typeId" align="center" label="规格型号" />
-            <el-editable-column prop="color" align="center" label="颜色" />
-            <el-editable-column prop="kpiGrade" align="center" label="绩效分" />
-            <el-editable-column prop="point" align="center" label="商品积分" />
+            <el-editable-column :label="$t('updates.wpfl')" prop="category" align="center" />
+            <el-editable-column :label="$t('updates.jbdw')" prop="unit" align="center" />
+            <el-editable-column :label="$t('updates.ggxh')" prop="typeId" align="center" />
+            <el-editable-column :label="$t('updates.ys')" prop="color" align="center" />
+            <el-editable-column :label="$t('updates.jxf')" prop="kpiGrade" align="center" />
+            <el-editable-column :label="$t('updates.spjf')" prop="point" align="center" />
           </el-editable>
         </div>
       </el-card>
@@ -105,7 +105,7 @@
             style="width: 100%">
             <el-editable-column label="阶段" min-width="55" prop="phase" align="center" type="index"/>
             <el-editable-column :label="$t('updates.rq')" prop="chatDate" align="center" />
-            <el-editable-column prop="handlePersonName" align="center" label="业务员" />
+            <el-editable-column :label="$t('updates.ywy')" prop="handlePersonName" align="center" />
             <el-editable-column prop="actionDesc" align="center" label="行动描述" />
             <el-editable-column prop="customerReturn" align="center" label="客户反馈" />
           </el-editable>
@@ -172,6 +172,7 @@
 </template>
 
 <script>
+var _that
 export default {
   filters: {
     currencyFilter(status) {
@@ -219,16 +220,16 @@ export default {
     },
     sourceTypeFilter(status) {
       const statusMap = {
-        1: '销售出库单',
-        2: '无来源'
+        1: _that.$t('updates.xsckd'),
+        2: _that.$t('Hmodule.Nosource')
       }
       return statusMap[status]
     },
     receiptStatFilter(status) {
       const statusMap = {
-        1: '制单',
-        2: '执行',
-        3: '结单'
+        1: _that.$t('updates.zd'),
+        2: _that.$t('updates.zx'),
+        3: _that.$t('updates.jd')
       }
       return statusMap[status]
     },

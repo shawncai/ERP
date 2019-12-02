@@ -26,7 +26,7 @@
       </el-card>
       <!--子件信息-->
       <el-card class="box-card" style="margin-top: 15px" shadow="never">
-        <h2 ref="fuzhu" class="form-name" >适用门店</h2>
+        <h2 ref="fuzhu" class="form-name" >{{ $t('updates.symd') }}</h2>
         <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
           <el-button @click="handleAddRep">选择门店</el-button>
           <my-repository :repositorycontrol.sync="repositorycontrol" @repossitoryData="repossitoryData" @repossitoryIds="repossitoryIds"/>
@@ -46,14 +46,14 @@
             style="width: 100%">
             <el-editable-column type="selection" min-width="55" align="center"/>
             <el-editable-column :label="$t('Hmodule.xh')" min-width="55" align="center" type="index"/>
-            <el-editable-column prop="repositoryName" align="center" label="门店名称" min-width="150px"/>
-            <el-editable-column prop="categoryName" align="center" label="门店类型" min-width="150px"/>
-            <el-editable-column prop="managerName" align="center" label="负责人" min-width="150px"/>
+            <el-editable-column :label="$t('updates.mdmc')" prop="repositoryName" align="center" min-width="150px"/>
+            <el-editable-column :label="$t('updates.mdlx')" prop="categoryName" align="center" min-width="150px"/>
+            <el-editable-column :label="$t('updates.fzr')" prop="managerName" align="center" min-width="150px"/>
           </el-editable>
         </div>
       </el-card>
       <el-card class="box-card" style="margin-top: 15px" shadow="never">
-        <h2 ref="fuzhu" class="form-name">主商品</h2>
+        <h2 ref="fuzhu" class="form-name">{{ $t('updates.zsp') }}</h2>
         <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
           <el-button @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>
         </div>
@@ -72,16 +72,16 @@
             <el-editable-column label="编号" width="55" align="center" type="index"/>
             <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" align="center" min-width="150px"/>
             <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" align="center" min-width="150px"/>
-            <el-editable-column prop="color" align="center" label="颜色" min-width="150px"/>
+            <el-editable-column :label="$t('updates.ys')" prop="color" align="center" min-width="150px"/>
             <el-editable-column :label="$t('Hmodule.gg')" prop="productType" align="center" min-width="150px"/>
             <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" min-width="150px"/>
-            <el-editable-column prop="salePrice" align="center" label="零售价" min-width="150px"/>
-            <el-editable-column prop="costPrice" align="center" label="出厂价" min-width="150px"/>
+            <el-editable-column :label="$t('updates.lsj')" prop="salePrice" align="center" min-width="150px"/>
+            <el-editable-column :label="$t('updates.ccj')" prop="costPrice" align="center" min-width="150px"/>
           </el-editable>
         </div>
       </el-card>
       <el-card class="box-card" style="margin-top: 15px" shadow="never">
-        <h2 ref="fuzhu" class="form-name">赠送商品</h2>
+        <h2 ref="fuzhu" class="form-name">{{ $t('updates.zssp') }}</h2>
         <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
           <el-button @click="handleAddgift">{{ $t('Hmodule.tjsp') }}</el-button>
           <el-button type="danger" @click="$refs.editable3.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
@@ -120,6 +120,7 @@ import { addPackage } from '@/api/Package'
 import MyDetail from './components/MyDetail'
 import MyRepository from './components/MyRepository'
 import MyDetail2 from './components/MyDetail2'
+var _that
 export default {
   name: 'AddPackage',
   components: { MyDetail2, MyRepository, MyDetail },

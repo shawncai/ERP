@@ -71,15 +71,15 @@
       </el-card>
       <!--子件信息-->
       <el-card class="box-card" style="margin-top: 15px" shadow="never">
-        <h2 ref="fuzhu" class="form-name" >采购计划来源明细</h2>
+        <h2 ref="fuzhu" class="form-name" >{{ $t('updates.cgjhjlymx') }}</h2>
         <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
           <el-button :disabled="addpro" @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>
           <my-detail :control.sync="control" @product="productdetail" @product2="productdetail2"/>
-          <el-button :disabled="addsouce" style="width: 130px" @click="handleAddSouce">从源单中选择</el-button>
+          <el-button :disabled="addsouce" style="width: 130px" @click="handleAddSouce">{{ $t('updates.cydzxz') }}</el-button>
           <my-apply :applycontrol.sync="applycontrol" @apply="apply" @apply2="apply2" @allinfo="allinfo"/>
           <my-require :requirecontrol.sync="requirecontrol" @require="requiredata" @require2="requiredata2"/>
           <el-button type="danger" @click="deleteEdit">{{ $t('Hmodule.delete') }}</el-button>
-          <el-button type="primary" @click="checkStock()">库存快照</el-button>
+          <el-button type="primary" @click="checkStock()">{{ $t('updates.kckz') }}</el-button>
         </div>
         <div class="container">
           <el-editable
@@ -98,22 +98,22 @@
             <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" align="center" min-width="150px"/>
             <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" align="center" min-width="150px"/>
             <el-editable-column :label="$t('Hmodule.gg')" prop="productType" align="center" min-width="150px"/>
-            <el-editable-column prop="color" align="center" label="颜色" min-width="150px"/>
+            <el-editable-column :label="$t('updates.ys')" prop="color" align="center" min-width="150px"/>
             <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" min-width="150px"/>
-            <el-editable-column prop="basicPrice" align="center" label="计划采购价" min-width="150px">
+            <el-editable-column :label="$t('updates.cgjhj')" prop="basicPrice" align="center" min-width="150px">
               <template slot-scope="scope">
                 <p>{{ basicPrice(scope.row) }}</p>
               </template>
             </el-editable-column>
             <el-editable-column :label="$t('Hmodule.xqsl')" prop="requireQuantity" align="center" min-width="150px"/>
-            <el-editable-column prop="requireDate" align="center" label="需求日期" min-width="150px"/>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: -0.01, precision: 2}, type: 'visible' ,events: {change: changeDate}}" prop="planQuantity" align="center" label="计划数量" min-width="150px"/>
-            <el-editable-column prop="planMoney" align="center" label="计划金额" min-width="150px">
+            <el-editable-column :label="$t('updates.xqrq')" prop="requireDate" align="center" min-width="150px"/>
+            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: -0.01, precision: 2}, type: 'visible' ,events: {change: changeDate}}" :label="$t('updates.jhsl')" prop="planQuantity" align="center" min-width="150px"/>
+            <el-editable-column :label="$t('updates.jhje')" prop="planMoney" align="center" min-width="150px">
               <template slot-scope="scope">
                 <p>{{ planMoney(scope.row) }}</p>
               </template>
             </el-editable-column>
-            <el-editable-column :edit-render="{name: 'ElDatePicker', attrs: {type: 'date', format: 'yyyy-MM-dd'}, type: 'visible', events: {change: changeDate}}" prop="planDeliveryDate" align="center" label="计划交货日期" min-width="170px">
+            <el-editable-column :edit-render="{name: 'ElDatePicker', attrs: {type: 'date', format: 'yyyy-MM-dd'}, type: 'visible', events: {change: changeDate}}" :label="$t('updates.jhjhrq')" prop="planDeliveryDate" align="center" min-width="170px">
               <template slot="edit" slot-scope="scope">
                 <el-date-picker
                   v-model="scope.row.planDeliveryDate"
@@ -123,21 +123,21 @@
                   @change="changeDate"/>
               </template>
             </el-editable-column>
-            <el-editable-column prop="applyReason" align="center" label="申请原因" min-width="150px"/>
-            <el-editable-column prop="sourceNumber" align="center" label="源单编号" min-width="150px"/>
+            <el-editable-column :label="$t('updates.sqyy')" prop="applyReason" align="center" min-width="150px"/>
+            <el-editable-column :label="$t('updates.ydbh')" prop="sourceNumber" align="center" min-width="150px"/>
             <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.gys')" prop="supplierName" align="center" min-width="150px">
               <template slot="edit" slot-scope="scope">
                 <el-input v-model="scope.row.supplierName" @focus="handlechoose(scope)"/>
                 <my-supplier :control.sync="empcontrol" :procode="procode" @supplierName="personName(scope, $event)"/>
               </template>
             </el-editable-column>
-            <el-editable-column prop="orderQuantity" align="center" label="已订购数量" min-width="150px"/>
-            <el-editable-column prop="sourceSerialNumber" align="center" label="源单序号" min-width="150px"/>
+            <el-editable-column :label="$t('updates.ydgsl')" prop="orderQuantity" align="center" min-width="150px"/>
+            <el-editable-column :label="$t('updates.ydxh')" prop="sourceSerialNumber" align="center" min-width="150px"/>
           </el-editable>
         </div>
       </el-card>
       <el-card class="box-card" style="margin-top: 15px" shadow="never">
-        <h2 ref="fuzhu" class="form-name" >采购计划明细</h2>
+        <h2 ref="fuzhu" class="form-name" >{{ $t('updates.cgjhmx') }}</h2>
         <div class="container">
           <el-editable
             ref="editable2"
@@ -155,20 +155,20 @@
             <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" align="center" min-width="150px"/>
             <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" align="center" min-width="150px"/>
             <el-editable-column :label="$t('Hmodule.gg')" prop="productType" align="center" min-width="150px"/>
-            <el-editable-column prop="color" align="center" label="颜色" min-width="150px"/>
+            <el-editable-column :label="$t('updates.ys')" prop="color" align="center" min-width="150px"/>
             <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" min-width="150px"/>
-            <el-editable-column prop="basicPrice" align="center" label="计划采购价" min-width="150px">
+            <el-editable-column :label="$t('updates.cgjhj')" prop="basicPrice" align="center" min-width="150px">
               <template slot-scope="scope">
                 <p>{{ basicPrice(scope.row) }}</p>
               </template>
             </el-editable-column>
-            <el-editable-column prop="planQuantity" align="center" label="计划数量" min-width="150px">
+            <el-editable-column :label="$t('updates.jhsl')" prop="planQuantity" align="center" min-width="150px">
               <template slot-scope="scope">
                 <p>{{ planQuantity(scope.row) }}</p>
               </template>
             </el-editable-column>
-            <el-editable-column prop="planMoney" align="center" label="计划金额" min-width="150px"/>
-            <el-editable-column :edit-render="{name: 'ElDatePicker', attrs: {type: 'date', format: 'yyyy-MM-dd'}, type: 'default'}" prop="planDeliveryDate" align="center" label="计划交货日期" min-width="170px">
+            <el-editable-column :label="$t('updates.jhje')" prop="planMoney" align="center" min-width="150px"/>
+            <el-editable-column :edit-render="{name: 'ElDatePicker', attrs: {type: 'date', format: 'yyyy-MM-dd'}, type: 'default'}" :label="$t('updates.jhjhrq')" prop="planDeliveryDate" align="center" min-width="170px">
               <template slot="edit" slot-scope="scope">
                 <el-date-picker
                   v-model="scope.row.planDeliveryDate"
@@ -178,16 +178,16 @@
                 />
               </template>
             </el-editable-column>
-            <el-editable-column prop="applyReason" align="center" label="申请原因" min-width="150px"/>
-            <el-editable-column prop="sourceNumber" align="center" label="源单编号" min-width="150px"/>
+            <el-editable-column :label="$t('updates.sqyy')" prop="applyReason" align="center" min-width="150px"/>
+            <el-editable-column :label="$t('updates.ydbh')" prop="sourceNumber" align="center" min-width="150px"/>
             <el-editable-column :label="$t('updates.gys')" prop="supplierName" align="center" min-width="150px"/>
-            <el-editable-column prop="orderQuantity" align="center" label="已订购数量" min-width="150px"/>
-            <el-editable-column prop="sourceSerialNumber" align="center" label="源单序号" min-width="150px"/>
+            <el-editable-column :label="$t('updates.ydgsl')" prop="orderQuantity" align="center" min-width="150px"/>
+            <el-editable-column :label="$t('updates.ydxh')" prop="sourceSerialNumber" align="center" min-width="150px"/>
           </el-editable>
         </div>
       </el-card>
       <el-card class="box-card" shadow="never">
-        <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">合计信息</h2>
+        <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('updates.hjxx') }}</h2>
         <div class="container" style="margin-top: 37px">
           <el-form ref="personalForm2" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
             <el-row>
@@ -224,7 +224,7 @@
                     <span >{{ scope.row.repositoryName }}</span>
                   </template>
                 </el-table-column>
-                <el-table-column :resizable="false" label="商品名称" align="center" min-width="150">
+                <el-table-column :resizable="false" :label="$t('updates.spmc')" align="center" min-width="150">
                   <template slot-scope="scope">
                     <span >{{ scope.row.productName }}</span>
                   </template>
@@ -257,6 +257,7 @@ import MyDetail from './components/MyDetail'
 import MyApply from './components/MyApply'
 import MySupplier from './components/MySupplier'
 import MyRequire from './components/MyRequire'
+var _that
 export default {
   name: 'AddStockPlan',
   components: { MyRequire, MySupplier, MyApply, MyDetail, MyDelivery, MyEmp },
@@ -411,6 +412,9 @@ export default {
     this.getTypes()
     this.getdatatime()
     this.chooseType()
+  },
+  beforeCreate() {
+    _that = this
   },
   mounted() {
     this.getinformation()

@@ -15,11 +15,11 @@
                 ref="datesRef"
                 v-model="data1"
                 :editable = "false"
+                :placeholder="$t('updates.xzy')"
                 type="month"
                 format="yyyy-MM"
                 value-format="yyyy-MM"
-                style="margin-left: -34px;"
-                placeholder="选择月"/>
+                style="margin-left: -34px;"/>
             </el-form-item>
           </el-col>
           <el-col :span="4" style="margin-left: 140px">
@@ -28,11 +28,11 @@
                 ref="datesRef"
                 v-model="data2"
                 :editable = "false"
+                :placeholder="$t('updates.xzy')"
                 type="month"
                 format="yyyy-MM"
                 style="margin-left: -34px;"
-                value-format="yyyy-MM"
-                placeholder="选择月"/>
+                value-format="yyyy-MM"/>
             </el-form-item>
           </el-col>
           <el-col :span="4" style="margin-left: 160px">
@@ -114,6 +114,7 @@ import MyCustomer from './components/MyCustomer'
 import MyAgent from './components/MyAgent'
 import MySupplier from './components/MySupplier'
 
+var _that
 export default {
   name: 'StockDetailCount',
   directives: { waves, permission, permission2 },
@@ -121,18 +122,18 @@ export default {
   filters: {
     judgeStatFilter(status) {
       const statusMap = {
-        0: '未审核',
-        1: '审核中',
-        2: '审核通过',
-        3: '审核不通过'
+        0: _that.$t('updates.wsh'),
+        1: _that.$t('updates.shz'),
+        2: _that.$t('Hmodule.shtg'),
+        3: _that.$t('updates.shbtg')
       }
       return statusMap[status]
     },
     receiptStatFilter(status) {
       const statusMap = {
-        1: '制单',
-        2: '执行',
-        3: '结单'
+        1: _that.$t('updates.zd'),
+        2: _that.$t('updates.zx'),
+        3: _that.$t('updates.jd')
       }
       return statusMap[status]
     },
@@ -224,6 +225,9 @@ export default {
       // 开始时间到结束时间
       date: []
     }
+  },
+  beforeCreate() {
+    _that = this
   },
   mounted() {
     // this.getlist()

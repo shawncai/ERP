@@ -123,7 +123,8 @@ import permission2 from '@/directive/permission2/index.js' // 权限判断指令
     { key: '1', display_name: 'finished' },
     { key: '2', display_name: 'unfinished' }
   ]
-  export default {
+  var _that
+export default {
     name: 'Sample',
     components: { Pagination },
     directives: { waves, permission, permission2 },
@@ -183,7 +184,10 @@ import permission2 from '@/directive/permission2/index.js' // 权限判断指令
       this.getAllStaff()
       this.getAllStores()
     },
-    mounted() {
+    beforeCreate() {
+    _that = this
+  },
+  mounted() {
       const repositoryid = this.$store.getters.repositoryId
       const regionid = this.$store.getters.regionId
       stafflist(repositoryid, regionid).then(res => {

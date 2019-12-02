@@ -1,5 +1,5 @@
 <template>
-  <el-dialog :visible.sync="editVisible" :control="control" :editdata="editdata" :close-on-press-escape="false" :title="personalForm.code +'    修改'" width="1010px" class="edit" top="-10px" @close="$emit('update:control', false)">
+  <el-dialog :visible.sync="editVisible" :control="control" :editdata="editdata" :close-on-press-escape="false" :title="personalForm.code +$t('updates.xg')" width="1010px" class="edit" top="-10px" @close="$emit('update:control', false)">
     <!--基本信息-->
     <el-card class="box-card" style="margin-top: 63px" shadow="never">
       <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('Hmodule.basicinfo') }}</h2>
@@ -165,7 +165,7 @@
             <el-col :span="12" style="height: 58px;">
               <el-form-item :label="$t('Product.zhibaoqi')" style="width: 100%">
                 <el-input v-model="personalForm.zhiBaoQi" placeholder="请输入质保期" style="margin-left: 18px;width: 200px" clearable>
-                  <template slot="append">天</template>
+                  <template slot="append">{{ $t('updates.day') }}</template>
                 </el-input>
               </el-form-item>
             </el-col>
@@ -236,7 +236,7 @@
         <el-form ref="personalForm2" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="140px">
           <el-col :span="12">
             <el-form-item :label="$t('Product.valuation')" prop="valuation" style="width: 100%;">
-              <el-select v-model="personalForm.valuation" placeholder="请选择" style="margin-left: 18px;width: 200px">
+              <el-select v-model="personalForm.valuation" :placeholder="$t('updates.qxz')" style="margin-left: 18px;width: 200px">
                 <el-option value="1" label="约当产量法"/>
                 <el-option value="2" label="定额成本法"/>
                 <el-option value="3" label="定额比例法"/>
@@ -332,6 +332,8 @@ import MyEmp from './MyEmp'
 import MySupplier from './MySupplier'
 import MyTree from './MyTree'
 import MyCenter from './MyCenter'
+// eslint-disable-next-line no-unused-vars
+var _that
 export default {
   components: { MyCenter, MyTree, MySupplier, MyEmp },
   props: {

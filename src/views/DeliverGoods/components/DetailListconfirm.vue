@@ -1,5 +1,5 @@
 <template>
-  <el-dialog :visible.sync="editVisible" :detailcontrol="detailcontrol" :detaildata="detaildata" :close-on-press-escape="false" :title="personalForm.deliverNumber +'    详情'" append-to-body width="1010px" class="edit" top="-10px" @close="$emit('update:detailcontrol', false)">
+  <el-dialog :visible.sync="editVisible" :detailcontrol="detailcontrol" :detaildata="detaildata" :close-on-press-escape="false" :title="personalForm.deliverNumber +$t('updates.xqing')" append-to-body width="1010px" class="edit" top="-10px" @close="$emit('update:detailcontrol', false)">
     <!--基本信息-->
     <el-card class="box-card" style="margin-top: 63px" shadow="never">
       <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('Hmodule.basicinfo') }}</h2>
@@ -62,7 +62,7 @@
     </el-card>
     <!--子件信息-->
     <el-card class="box-card" style="margin-top: 15px" shadow="never">
-      <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">订单明细</h2>
+      <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('updates.ddmx') }}</h2>
       <div class="container">
         <el-editable
           ref="editable"
@@ -77,13 +77,13 @@
           <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" align="center" fixed="left" min-width="150px"/>
           <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" align="center" fixed="left" min-width="150px"/>
           <el-editable-column :label="$t('Hmodule.gg')" prop="productType" align="center" min-width="150px"/>
-          <el-editable-column prop="color" align="center" label="颜色" min-width="150px"/>
+          <el-editable-column :label="$t('updates.ys')" prop="color" align="center" min-width="150px"/>
           <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" min-width="150px"/>
-          <el-editable-column prop="basicQuantity" align="center" label="基本数量" min-width="150px"/>
+          <el-editable-column :label="$t('updates.jbel')" prop="basicQuantity" align="center" min-width="150px"/>
           <el-editable-column :label="$t('Hmodule.dj')" prop="price" align="center" min-width="150px"/>
-          <el-editable-column prop="deliverQuantity" align="center" label="配送数量" min-width="150px"/>
-          <el-editable-column prop="deliverMoney" align="center" label="配送金额" min-width="150px"/>
-          <el-editable-column prop="outRepositoryName" align="center" label="出货仓库" min-width="150px"/>
+          <el-editable-column :label="$t('updates.pssl')" prop="deliverQuantity" align="center" min-width="150px"/>
+          <el-editable-column :label="$t('updates.psje')" prop="deliverMoney" align="center" min-width="150px"/>
+          <el-editable-column :label="$t('updates.chck')" prop="outRepositoryName" align="center" min-width="150px"/>
           <el-editable-column :label="$t('Hmodule.pc')" prop="batch" align="center" min-width="150px"/>
           <el-table-column v-show="isdeliverperson()" :label="$t('public.actions')" :resizable="false" align="center" min-width="230">
             <template slot-scope="scope">
@@ -95,31 +95,31 @@
       </div>
     </el-card>
     <el-card class="box-card" style="margin-top: 15px" shadow="never">
-      <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">审批记录</h2>
+      <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('updates.spjl') }}</h2>
       <div class="container" style="margin-top: 37px">
         <el-table
           :data="reviewList"
           border
           style="width: 100%">
           <el-table-column
+            :label="$t('updates.dqbz')"
             prop="step"
             align="center"
-            label="当前步骤"
             min-width="150"/>
           <el-table-column
+            :label="$t('updates.dqspr')"
             prop="stepHandlerName"
             align="center"
-            label="当前审批人"
             min-width="150"/>
           <el-table-column
+            :label="$t('updates.spsj')"
             prop="handleTime"
             align="center"
-            label="审批时间"
             min-width="150"/>
           <el-table-column
+            :label="$t('updates.spyj')"
             prop="stat"
             align="center"
-            label="审批意见"
             min-width="150">
             <template slot-scope="scope">
               <span>{{ scope.row.stat | statfilter }}</span>
@@ -173,6 +173,7 @@
 <script>
 import { productlist } from '@/api/public'
 import { confirmDeliverGoods } from '@/api/DeliverGoods'
+var _that
 export default {
   filters: {
     currencyFilter(status) {
@@ -198,8 +199,8 @@ export default {
     },
     sourceTypeFilter(status) {
       const statusMap = {
-        1: '销售出库单',
-        2: '调拨单'
+        1: _that.$t('updates.xsckd'),
+        2: _that.$t('updates.dbd')
       }
       return statusMap[status]
     },
@@ -230,9 +231,9 @@ export default {
     },
     receiptStatFilter(status) {
       const statusMap = {
-        1: '制单',
-        2: '执行',
-        3: '结单'
+        1: _that.$t('updates.zd'),
+        2: _that.$t('updates.zx'),
+        3: _that.$t('updates.jd')
       }
       return statusMap[status]
     }

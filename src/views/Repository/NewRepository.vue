@@ -6,10 +6,10 @@
       <div class="container">
         <el-form ref="RepositoryForm" :model="RepositoryForm" :rules="Repositoryrules" :inline="true" status-icon class="demo-ruleForm" label-position="top" label-width="300px" style="margin-left: 30px;">
           <el-form-item :label="$t('Repository.repositoryName')" prop="repositoryName" style="width: 40%;margin-top:1%">
-            <el-input v-model="RepositoryForm.repositoryName" placeholder="请输入门店名称" clearable/>
+            <el-input v-model="RepositoryForm.repositoryName" clearable/>
           </el-form-item>
           <el-form-item :label="$t('Repository.type')" prop="type" style="width: 40%;margin-top: 1%">
-            <el-select ref="clear" v-model="RepositoryForm.type" :value="RepositoryForm.type" placeholder="请选择" style="width: 100%;" @change="updateType2" @focus="updateType">
+            <el-select ref="clear" v-model="RepositoryForm.type" :value="RepositoryForm.type" style="width: 100%;" @change="updateType2" @focus="updateType">
               <el-option v-show="false" label="" value=""/>
               <el-option
                 v-for="item in types"
@@ -18,21 +18,21 @@
                 :label="item.categoryName"
               />
               <!-- <template>
-                <el-button v-if="isshow" icon="el-icon-circle-plus-outline" style="width:100%" @click="go_creat">新增</el-button>
+                <el-button v-if="isshow" icon="el-icon-circle-plus-outline" style="width:100%" @click="go_creat">{{ $t('updates.create') }}</el-button>
               </template> -->
             </el-select>
           </el-form-item>
           <el-form-item :label="$t('Repository.longitude')" :rules="RepositoryForm.type !== 2 ? Repositoryrules.longitude:[{ required: true, message: '请输入经度', trigger: 'change' }]" prop="longitude" style="width: 40%;margin-top:1%">
-            <el-input v-model="RepositoryForm.longitude" placeholder="请输入经度" autocomplete="new-password" clearable/>
+            <el-input v-model="RepositoryForm.longitude" autocomplete="new-password" clearable/>
           </el-form-item>
           <el-form-item :label="$t('Repository.latitude')" :rules="RepositoryForm.type !== 2 ? Repositoryrules.longitude:[{ required: true, message: '请输入纬度', trigger: 'change' }]" prop="latitude" style="width: 40%;margin-top:1%">
-            <el-input v-model="RepositoryForm.latitude" placeholder="请输入纬度" clearable/>
+            <el-input v-model="RepositoryForm.latitude" clearable/>
           </el-form-item>
           <el-form-item :label="$t('public.phone')" style="width: 40%;margin-top:1%">
-            <el-input v-model="RepositoryForm.phone" placeholder="请输入门店号码" clearable/>
+            <el-input v-model="RepositoryForm.phone" clearable/>
           </el-form-item>
           <el-form-item :label="$t('public.address')" prop="address" style="width: 40%;margin-top:1%">
-            <el-input v-model="RepositoryForm.address" placeholder="请输入详细门店地址" clearable/>
+            <el-input v-model="RepositoryForm.address" clearable/>
           </el-form-item>
           <el-form-item :label="$t('Repository.regionId')" prop="regionId" style="width: 40%;margin-top: 1%">
             <el-cascader
@@ -52,8 +52,8 @@
               <el-radio :label="2">dead</el-radio>
             </el-radio-group>
           </el-form-item>
-          <el-form-item label="类型" prop="categoryId" style="width: 40%;margin-top: 1%">
-            <el-select ref="clear2" v-model="RepositoryForm.categoryId" placeholder="请选择" style="width: 100%;" @focus="updateType2">
+          <el-form-item :label="$t('updates.lx')" prop="categoryId" style="width: 40%;margin-top: 1%">
+            <el-select ref="clear2" v-model="RepositoryForm.categoryId" :placeholder="$t('updates.qxz')" style="width: 100%;" @focus="updateType2">
               <el-option v-show="false" label="" value=""/>
               <el-option
                 v-for="(item, index) in types2"
@@ -62,12 +62,12 @@
                 :label="item.categoryName"
               />
               <template>
-                <el-button v-if="isshow" icon="el-icon-circle-plus-outline" style="width:100%" @click="go_creat2">新增</el-button>
+                <el-button v-if="isshow" icon="el-icon-circle-plus-outline" style="width:100%" @click="go_creat2">{{ $t('updates.create') }}</el-button>
               </template>
             </el-select>
           </el-form-item>
           <el-form-item :label="$t('Repository.managerPeople')" style="width: 40%;margin-top: 1%">
-            <el-input v-model="managerPeople" :value="managerPeople" placeholder="请选择" clearable @focus="handlechoose"/>
+            <el-input v-model="managerPeople" :value="managerPeople" :placeholder="$t('updates.qxz')" clearable @focus="handlechoose"/>
           </el-form-item>
           <!--弹出员工列表开始-->
           <el-dialog :visible.sync="employeeVisible" :title="$t('Hmodule.xzyg')" class="normal" width="1010px" top="20px">
@@ -185,13 +185,12 @@
             <el-date-picker
               v-model="RepositoryForm.createTime"
               type="date"
-              placeholder="选择开业时间"
               value-format="yyyy-MM-dd"
               clearable
               style="width: 100%"/>
           </el-form-item>
           <el-form-item :label="$t('Repository.regionManager')" style="width: 40%;margin-top: 1%">
-            <el-input v-model="regionManagerId" :value="regionManagerId" placeholder="请选择" clearable @focus="handlechoose2"/>
+            <el-input v-model="regionManagerId" :value="regionManagerId" :placeholder="$t('updates.qxz')" clearable @focus="handlechoose2"/>
           </el-form-item>
           <!--弹出员工列表开始-->
           <!--小区经理选择弹窗开始-->
@@ -308,7 +307,7 @@
           <!--小区经理选择弹窗结束-->
           <!--弹窗员工列表结束-->
           <!-- <el-form-item :label="$t('Repository.attributes')" prop="attributes" style="width: 40%;margin-top: 1%">
-            <el-select v-model="RepositoryForm.attributes" :value="RepositoryForm.attributes" placeholder="请选择" clearable style="width: 100%;">
+            <el-select v-model="RepositoryForm.attributes" :value="RepositoryForm.attributes" :placeholder="$t('updates.qxz')" clearable style="width: 100%;">
               <el-option label="只卖" value="1"/>
               <el-option label="既卖又维修" value="2"/>
               <el-option label="只存储" value="3"/>
@@ -331,7 +330,7 @@
       <!--操作-->
       <div class="buttons" style="margin-top: 20px">
         <el-button v-no-more-click v-permission="['1-9-10-1']" type="primary" @click="handlesave()">{{ $t('Hmodule.baoc') }}</el-button>
-        <el-button v-permission="['1-9-10-1']" type="success" @click="handleentry()">继续录入</el-button>
+        <el-button v-permission="['1-9-10-1']" type="success" @click="handleentry()">{{ $t('updates.jxlr') }}</el-button>
         <el-button v-permission="['1-9-10-1']" type="danger" @click="handlecancel()">{{ $t('Hmodule.cancel') }}</el-button>
       </div>
     </div>
@@ -349,6 +348,7 @@ import permission from '@/directive/permission/index.js' // 权限判断指令
 import permission2 from '@/directive/permission2/index.js' // 权限判断指令
 import checkPermission from '@/utils/permission' // 权限判断函数
 
+var _that
 export default {
   name: 'NewRepository',
   directives: { waves, permission, permission2 },
@@ -507,6 +507,9 @@ export default {
     this.getnationlist()
     this.getRegion()
     this.jungleshow()
+  },
+  beforeCreate() {
+    _that = this
   },
   mounted() {
     this.handlechange(this.$store.getters.useCountry)

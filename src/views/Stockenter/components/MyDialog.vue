@@ -19,7 +19,7 @@
               </el-form-item>
             </el-col>
             <el-col :span="6">
-              <el-form-item label="源单编号" style="width: 100%;">
+              <el-form-item :label="$t('updates.ydbh')" style="width: 100%;">
                 <el-input v-model="personalForm.sourceNumber" placeholder="请选择源单编号" style="margin-left: 18px;width: 150px" @focus="handleAddSouce"/>
               </el-form-item>
               <my-arrival :arrivalcontrol.sync="arrivalcontrol" @arrival="arrival" @allarrivalinfo="allarrivalinfo"/>
@@ -97,7 +97,7 @@
     </el-card>
     <!--入库单明细-->
     <el-card class="box-card" style="margin-top: 15px">
-      <h2 ref="fuzhu" class="form-name">入库单明细</h2>
+      <h2 ref="fuzhu" class="form-name">{{ $t('updates.rkdmx') }}</h2>
       <div class="buttons" style="margin-top: 28px;margin-bottom: 20px">
         <el-button type="danger" @click="$refs.editable.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
       </div>
@@ -129,25 +129,25 @@
             </template>
           </el-editable-column>
           <el-editable-column :label="$t('Hmodule.pc')" prop="batch" align="center" />
-          <el-editable-column prop="color" align="center" label="颜色" width="150px"/>
+          <el-editable-column :label="$t('updates.ys')" prop="color" align="center" width="150px"/>
           <el-editable-column :label="$t('Hmodule.gg')" prop="productType" align="center" width="150px"/>
           <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" width="150px"/>
-          <el-editable-column prop="basicQuantity" align="center" label="基本数量" width="150px"/>
+          <el-editable-column :label="$t('updates.jbel')" prop="basicQuantity" align="center" width="150px"/>
           <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 1}, type: 'visible'}" prop="actualEnterQuantity" align="center" label="实收数量" width="150px"/>
-          <el-editable-column prop="enterPrice" align="center" label="入库单价" width="150px"/>
-          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="taxRate" align="center" label="税率" width="150px"/>
-          <el-editable-column prop="enterMoney" align="center" label="入库金额" width="150px">
+          <el-editable-column :label="$t('updates.rkdj')" prop="enterPrice" align="center" width="150px"/>
+          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" :label="$t('updates.slv')" prop="taxRate" align="center" width="150px"/>
+          <el-editable-column :label="$t('updates.rkje')" prop="enterMoney" align="center" width="150px">
             <template slot-scope="scope">
               <p>{{ getSize(scope.row.actualEnterQuantity, scope.row.enterPrice) }}</p>
             </template>
           </el-editable-column>
-          <el-editable-column :edit-render="{name: 'ElInput'}" prop="remarks" align="center" label="备注" width="150px"/>
-          <el-editable-column prop="sourceSerialNumber" align="center" label="源单序号" width="150px"/>
+          <el-editable-column :edit-render="{name: 'ElInput'}" :label="$t('updates.bz')" prop="remarks" align="center" width="150px"/>
+          <el-editable-column :label="$t('updates.ydxh')" prop="sourceSerialNumber" align="center" width="150px"/>
         </el-editable>
       </div>
     </el-card>
     <div class="buttons" style="margin-top: 20px;margin-left: 30px">
-      <el-button type="primary" @click="handleEditok()">修改</el-button>
+      <el-button type="primary" @click="handleEditok()">{{ $t('public.edit') }}</el-button>
       <el-button type="danger" @click="handlecancel()">{{ $t('Hmodule.cancel') }}</el-button>
     </div>
   </el-dialog>
@@ -166,6 +166,7 @@ import MyDetail from './MyDetail'
 import MyArrival from './MyArrival'
 import MyEmp2 from './MyEmp2'
 
+var _that
 export default {
   components: { MyEmp2, MyArrival, MyRepository, MySupplier, MyEmp, MyDelivery, MyAccept, MyDetail },
   props: {
@@ -273,6 +274,9 @@ export default {
       this.list2 = this.personalForm.stockEnterDetailVos
       this.getlocation()
     }
+  },
+  beforeCreate() {
+    _that = this
   },
   mounted() {
     this.getlist()

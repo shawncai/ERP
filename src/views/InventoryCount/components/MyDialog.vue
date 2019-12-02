@@ -55,7 +55,7 @@
     </el-card>
 
     <el-card class="box-card" shadow="never" style="margin-top: 10px">
-      <h2 ref="fuzhu" class="form-name">盘点单明细</h2>
+      <h2 ref="fuzhu" class="form-name">{{ $t('updates.pddmx') }}</h2>
       <div class="buttons" style="margin-top: 50px">
         <el-button type="success" @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>
         <el-button type="danger" @click="handleDelete">{{ $t('Hmodule.delete') }}</el-button>
@@ -100,36 +100,36 @@
           </el-editable-column>
           <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" align="center" width="150px"/>
           <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" align="center" width="150px"/>
-          <el-editable-column prop="color" align="center" label="颜色" width="150px"/>
+          <el-editable-column :label="$t('updates.ys')" prop="color" align="center" width="150px"/>
           <el-editable-column :label="$t('Hmodule.gg')" prop="typeId" align="center" width="150px"/>
           <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" width="150px"/>
           <el-editable-column prop="price" align="center" label="价格" width="150px"/>
-          <el-editable-column prop="inventoryQuantity" align="center" label="库存数量" width="150px"/>
-          <el-editable-column :edit-render="{name: 'ElInputNumber', type: 'visible'}" prop="actualQuantity" align="center" label="实盘数量" width="150px"/>
-          <el-editable-column prop="diffQuantity" align="center" label="差异数量" width="150px">
+          <el-editable-column :label="$t('updates.kcsl')" prop="inventoryQuantity" align="center" width="150px"/>
+          <el-editable-column :edit-render="{name: 'ElInputNumber', type: 'visible'}" :label="$t('updates.spsl')" prop="actualQuantity" align="center" width="150px"/>
+          <el-editable-column :label="$t('updates.cysl')" prop="diffQuantity" align="center" width="150px">
             <template slot-scope="scope">
               <p>{{ getDiff(scope.row.inventoryQuantity, scope.row.actualQuantity, scope.row) }}</p>
             </template>
           </el-editable-column>
-          <el-editable-column prop="diffType" align="center" label="盈亏类型" width="150px">
+          <el-editable-column :label="$t('updates.yklx')" prop="diffType" align="center" width="150px">
             <template slot-scope="scope">
               <p>{{ getdiffType(scope.row.inventoryQuantity, scope.row.actualQuantity, scope.row) }}</p>
             </template>
           </el-editable-column>
-          <el-editable-column prop="countPersonName" align="center" label="盘点人" />
-          <el-editable-column prop="countDate" align="center" label="盘点日期" width="200px"/>
+          <el-editable-column :label="$t('updates.pdr')" prop="countPersonName" align="center" />
+          <el-editable-column :label="$t('updates.pdrq')" prop="countDate" align="center" width="200px"/>
           <el-editable-column v-if="false" prop="totalMoney" align="center" label="总金额" width="150px">
             <template slot-scope="scope">
               <p>{{ getSize(scope.row.actualQuantity, scope.row.price) }}</p>
             </template>
           </el-editable-column>
-          <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="remarks" align="center" label="备注" width="150px"/>
+          <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.bz')" prop="remarks" align="center" width="150px"/>
         </el-editable>
       </div>
     </el-card>
 
     <el-card class="box-card" shadow="never" style="margin-top: 10px">
-      <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">合计信息</h2>
+      <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('updates.hjxx') }}</h2>
       <div class="container" style="margin-top: 37px">
         <el-form ref="personalForm2" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
           <el-row>
@@ -169,7 +169,7 @@
     </el-card>
     <!--操作-->
     <div class="buttons" style="margin-top: 20px;margin-left: 30px">
-      <el-button type="primary" @click="handleEditok()">修改</el-button>
+      <el-button type="primary" @click="handleEditok()">{{ $t('public.edit') }}</el-button>
       <el-button type="danger" @click="handlecancel()">{{ $t('Hmodule.cancel') }}</el-button>
     </div>
   </el-dialog>
@@ -183,6 +183,7 @@ import { batchlist, getQuantity, getlocation } from '@/api/public'
 import MyCreate from './MyCreate'
 import MyRepository from './MyRepository'
 import MyDetail from './MyDetail'
+var _that
 export default {
   components: { MyCreate, MyRepository, MyDetail },
   props: {
@@ -290,6 +291,9 @@ export default {
       },
       deep: true
     }
+  },
+  beforeCreate() {
+    _that = this
   },
   mounted() {
     this.getlist()

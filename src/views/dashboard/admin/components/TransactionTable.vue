@@ -21,6 +21,7 @@
 <script>
 import { fetchList } from '@/api/transaction'
 
+var _that
 export default {
   filters: {
     statusFilter(status) {

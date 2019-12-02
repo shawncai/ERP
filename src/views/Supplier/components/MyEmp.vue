@@ -114,6 +114,8 @@ import { regionlist, searchRepository } from '@/api/public'
 import { getemplist, getdeptlist } from '@/api/EmployeeInformation'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
+// eslint-disable-next-line no-unused-vars
+var _that
 export default {
   directives: { waves },
   components: { Pagination },

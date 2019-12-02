@@ -6,6 +6,7 @@
 import echarts from 'echarts'
 import resize from './mixins/resize'
 
+var _that
 export default {
   mixins: [resize],
   props: {
@@ -30,6 +31,9 @@ export default {
     return {
       chart: null
     }
+  },
+  beforeCreate() {
+    _that = this
   },
   mounted() {
     this.initChart()

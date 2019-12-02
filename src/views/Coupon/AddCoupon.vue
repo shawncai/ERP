@@ -92,7 +92,7 @@
       </el-card>
       <!--子件信息-->
       <el-card class="box-card" style="margin-top: 15px" shadow="never">
-        <h2 ref="fuzhu" class="form-name" >适用商品</h2>
+        <h2 ref="fuzhu" class="form-name" >{{ $t('updates.sysp') }}</h2>
         <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
           <el-button :disabled="Isproduct" @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>
           <my-detail :control.sync="control" @product="productdetail"/>
@@ -101,7 +101,7 @@
           <my-opportunity :opportunitycontrol.sync="opportunitycontrol" @opportunityDetail="opportunityDetail" @opportunity="opportunity"/>
           <my-contract :contractcontrol.sync="contractcontrol" @salecontractDetail="salecontractDetail" @salecontract="salecontract"/>
           <el-button type="danger" @click="$refs.editable.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
-          <!--          <el-button type="primary" @click="checkStock()">库存快照</el-button>-->
+          <!--          <el-button type="primary" @click="checkStock()">{{ $t('updates.kckz') }}</el-button>-->
         </div>
         <div class="container">
           <el-editable
@@ -120,10 +120,10 @@
             <el-editable-column :label="$t('Hmodule.xh')" fixed="left" min-width="55" align="center" type="index"/>
             <el-editable-column :label="$t('Hmodule.wpbh')" prop="code" fixed="left" align="center" />
             <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" fixed="left" align="center" />
-            <el-editable-column prop="category" align="center" label="物品分类" />
-            <el-editable-column prop="purchaseMeasurement" align="center" label="基本单位" />
-            <el-editable-column prop="productType" align="center" label="规格型号" />
-            <el-editable-column prop="color" align="center" label="颜色" />
+            <el-editable-column :label="$t('updates.wpfl')" prop="category" align="center" />
+            <el-editable-column :label="$t('updates.jbdw')" prop="purchaseMeasurement" align="center" />
+            <el-editable-column :label="$t('updates.ggxh')" prop="productType" align="center" />
+            <el-editable-column :label="$t('updates.ys')" prop="color" align="center" />
           </el-editable>
         </div>
       </el-card>
@@ -146,7 +146,7 @@
                     <span >{{ scope.row.repositoryName }}</span>
                   </template>
                 </el-table-column>
-                <el-table-column :resizable="false" label="商品名称" align="center" min-width="150">
+                <el-table-column :resizable="false" :label="$t('updates.spmc')" align="center" min-width="150">
                   <template slot-scope="scope">
                     <span >{{ scope.row.productName }}</span>
                   </template>
@@ -187,6 +187,7 @@ import MyPresale from './components/MyPresale'
 import MyOpportunity from './components/MyOpportunity'
 import MyDetail2 from './components/MyDetail2'
 import MyContract from './components/MyContract'
+var _that
 export default {
   name: 'AddCoupon',
   components: { MyContract, MyDetail2, MyOpportunity, MyPresale, MyAdvance, MyOrder, MyRepository, MyAccept, MyAgent, MyCustomer, MyRequire, MySupplier, MyApply, MyDetail, MyDelivery, MyEmp },
@@ -315,6 +316,9 @@ export default {
   created() {
     this.getTypes()
     this.getdatatime()
+  },
+  beforeCreate() {
+    _that = this
   },
   mounted() {
     this.getinformation()

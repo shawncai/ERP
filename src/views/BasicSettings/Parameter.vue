@@ -23,6 +23,7 @@
 <script>
 import { parameter, effective } from '@/api/BasicSettings'
 import MyEmp from './components/MyEmp'
+var _that
 export default {
   name: 'Parameter',
   components: { MyEmp },

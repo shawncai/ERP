@@ -13,8 +13,8 @@
         />
       </el-select>
       <el-select v-model="getemplist.iseffective" :value="getemplist.iseffective" :placeholder="$t('Repository.iseffective')" class="filter-item" clearable>
-        <el-option label="启用" value="1"/>
-        <el-option label="停用" value="2"/>
+        <el-option :label="$t('updates.qy')" value="1"/>
+        <el-option :label="$t('updates.ty')" value="2"/>
       </el-select>
       <el-cascader
         :options="regions"
@@ -95,6 +95,8 @@ import { regionlist, getcountrylist } from '@/api/public'
 import { searchRepCategory, searchRepository2 } from '@/api/Repository'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
+// eslint-disable-next-line no-unused-vars
+var _that
 export default {
   directives: { waves },
   components: { Pagination },

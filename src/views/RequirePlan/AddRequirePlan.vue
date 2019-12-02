@@ -57,7 +57,7 @@
       </el-card>
       <!--子件信息-->
       <el-card class="box-card" style="margin-top: 15px">
-        <h2 ref="fuzhu" class="form-name">物料需求计划明细</h2>
+        <h2 ref="fuzhu" class="form-name">{{ $t('updates.wlxqjhmx') }}</h2>
         <div class="buttons" style="margin-top: 58px">
           <el-button type="danger" @click="$refs.editable.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
         </div>
@@ -82,13 +82,13 @@
               </template>
             </el-editable-column>
             <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" min-width="150px"/>
-            <el-editable-column prop="requireQuantity" align="center" label="毛需求数量" min-width="150px"/>
-            <el-editable-column prop="planQuantity" align="center" label="应计划数量" min-width="150px">
+            <el-editable-column :label="$t('updates.mxqsl')" prop="requireQuantity" align="center" min-width="150px"/>
+            <el-editable-column :label="$t('updates.yjhsl')" prop="planQuantity" align="center" min-width="150px">
               <template slot-scope="scope">
                 <p>{{ getPlanQuantity(scope.row) }}</p>
               </template>
             </el-editable-column>
-            <el-editable-column prop="materialsSource" align="center" label="物料来源" min-width="150px">
+            <el-editable-column :label="$t('updates.wlly')" prop="materialsSource" align="center" min-width="150px">
               <template slot-scope="scope">
                 <p>{{ getSourceName(scope.row) }}</p>
               </template>
@@ -115,6 +115,7 @@ import MyEmp from './components/MyEmp'
 import MyDetail from './components/MyDetail'
 import MyRepository from './components/MyRepository'
 import ProducePlan from './components/ProducePlan'
+var _that
 export default {
   name: 'AddRequirePlan',
   components: { ProducePlan, MyRepository, MyCenter, MyEmp, MyDetail },
@@ -176,6 +177,9 @@ export default {
       validRules: {
       }
     }
+  },
+  beforeCreate() {
+    _that = this
   },
   mounted() {
     this.getinformation()

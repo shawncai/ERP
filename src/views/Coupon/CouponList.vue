@@ -4,14 +4,14 @@
       <el-row>
         <el-form ref="getemplist" :model="getemplist" label-width="100px" style="margin-top: -9px">
           <el-col :span="5">
-            <el-form-item label="优惠券名称" label-width="100px">
+            <el-form-item :label="$t('updates.yhjmc')" label-width="100px">
               <el-input v-model="getemplist.name" style="width: 160px;" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
           <el-col :span="5" style="margin-left: 10%">
-            <el-form-item label="状态" label-width="100px">
+            <el-form-item :label="$t('updates.stat')" label-width="100px">
               <el-select v-model="getemplist.stat" :value="getemplist.receiptStat" clearable style="width: 160px;float: left;margin-right: 20px">
-                <el-option value="1" label="启用"/>
+                <el-option :label="$t('updates.qy')" value="1"/>
                 <el-option value="2" label="未启用"/>
               </el-select>
             </el-form-item>
@@ -101,10 +101,10 @@
         </el-table-column>
         <el-table-column :label="$t('public.actions')" :resizable="false" align="center" min-width="230">
           <template slot-scope="scope">
-            <el-button title="修改" type="primary" size="mini" icon="el-icon-edit" circle @click="handleEdit(scope.row)"/>
+            <el-button :title="$t('updates.xg')" type="primary" size="mini" icon="el-icon-edit" circle @click="handleEdit(scope.row)"/>
             <el-button v-show="isReview(scope.row)" title="禁用" type="warning" size="mini" icon="el-icon-close" circle @click="handleReview(scope.row)"/>
             <el-button v-show="isReview2(scope.row)" title="启用" type="warning" size="mini" icon="el-icon-check" circle @click="handleReview2(scope.row)"/>
-            <el-button title="删除" size="mini" type="danger" icon="el-icon-delete" circle @click="handleDelete(scope.row)"/>
+            <el-button :title="$t('updates.sc')" size="mini" type="danger" icon="el-icon-delete" circle @click="handleDelete(scope.row)"/>
           </template>
         </el-table-column>
       </el-table>
@@ -134,6 +134,7 @@ import MyAgent from './components/MyAgent'
 import MyAccept from './components/MyAccept'
 import MyRepository from './components/MyRepository'
 
+var _that
 export default {
   name: 'CouponList',
   directives: { waves, permission, permission2 },
@@ -148,9 +149,9 @@ export default {
     },
     receiptStatFilter(status) {
       const statusMap = {
-        1: '制单',
-        2: '执行',
-        3: '结单'
+        1: _that.$t('updates.zd'),
+        2: _that.$t('updates.zx'),
+        3: _that.$t('updates.jd')
       }
       return statusMap[status]
     },
@@ -236,6 +237,9 @@ export default {
       // 开始时间到结束时间
       date: []
     }
+  },
+  beforeCreate() {
+    _that = this
   },
   mounted() {
     this.getlist()

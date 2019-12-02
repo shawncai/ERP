@@ -12,6 +12,7 @@ import editorImage from './components/editorImage'
 import plugins from './plugins'
 import toolbar from './toolbar'
 
+var _that
 export default {
   name: 'Tinymce',
   components: { editorImage },
@@ -71,6 +72,9 @@ export default {
       this.destroyTinymce()
       this.$nextTick(() => this.initTinymce())
     }
+  },
+  beforeCreate() {
+    _that = this
   },
   mounted() {
     this.initTinymce()
