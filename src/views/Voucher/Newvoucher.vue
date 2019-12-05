@@ -250,6 +250,7 @@ export default {
     },
     async setvoucherdata() {
       const voucherdata = this.$store.getters.voucherdata
+      console.log(voucherdata)
       this.selectid = this.$store.getters.voucherdata.expensesDetailVos.map(item => {
         return {
           id: item.id

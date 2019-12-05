@@ -330,6 +330,7 @@ export default {
   },
   methods: {
     getSpanArr(data) {
+      this.spanArr = []
       for (var i = 0; i < data.length; i++) {
         if (i === 0) {
           this.spanArr.push(1)
