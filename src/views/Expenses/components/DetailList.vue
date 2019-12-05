@@ -109,7 +109,12 @@
             <el-table-column
               :label="$t('updates.spyj')"
               prop="stat"
-              align="center"/>
+              align="center"
+              min-width="150">
+              <template slot-scope="scope">
+                <span>{{ scope.row.stat | statfilter }}</span>
+              </template>
+            </el-table-column>
           </el-table>
         </div>
       </el-card>
@@ -162,9 +167,10 @@ export default {
   filters: {
     statfilter(status) {
       const statusMap = {
-        1: '审核中',
-        2: '审核通过',
-        3: '审核不通过'
+        0: _that.$t('updates.wsh'),
+        1: _that.$t('updates.shz'),
+        2: _that.$t('Hmodule.shtg'),
+        3: _that.$t('updates.shbtg')
       }
       return statusMap[status]
     },
