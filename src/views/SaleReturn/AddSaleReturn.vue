@@ -107,9 +107,9 @@
                 <el-form-item :label="$t('SaleReturn.currency')" prop="currency" style="width: 100%;">
                   <el-select v-model="personalForm.currency" style="margin-left: 18px;width:200px" @change="changeRate">
                     <el-option value="1" label="PHP"/>
-                    <el-option value="2" label="USD"/>
-                    <el-option value="3" label="RMB"/>
-                  </el-select>
+                  <el-option value="2" label="USD"/>
+                  <el-option value="3" label="RMB"/>
+                </el-select>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
@@ -486,7 +486,7 @@ export default {
     getInfo(row) {
       console.log(row)
       if (row.carCode !== null && row.carCode !== '' && row.carCode !== undefined) {
-        const param = []
+        const param = {}
         param.carCode = row.carCode
         vehicleInfo(param).then(res => {
           if (res.data.ret === 200) {

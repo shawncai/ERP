@@ -132,16 +132,16 @@
             <span>{{ scope.row.currency | currencyFilter }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('Voucher.hl')" :resizable="false" align="center" min-width="150">
+        <!-- <el-table-column :label="$t('Voucher.hl')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.rate }}</span>
           </template>
-        </el-table-column>
-        <el-table-column :label="$t('Voucher.ybje')" :resizable="false" align="center" min-width="150">
+        </el-table-column> -->
+        <!-- <el-table-column :label="$t('Voucher.ybje')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.primevalMoney }}</span>
           </template>
-        </el-table-column>
+        </el-table-column> -->
         <el-table-column :label="$t('Voucher.jfje')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.debitMoney }}</span>
@@ -241,8 +241,9 @@ export default {
     },
     currencyFilter(status) {
       const statusMap = {
-        1: 'RMB',
-        2: 'USD'
+        1: 'PHP',
+        2: 'USD',
+        3: 'RMB'
       }
       return statusMap[status]
     },
@@ -365,17 +366,17 @@ export default {
           rowspan: _row,
           colspan: _col
         }
-      } else if (columnIndex === 12) {
+      } else if (columnIndex === 9) {
         return {
           rowspan: _row,
           colspan: _col
         }
-      } else if (columnIndex === 13) {
+      } else if (columnIndex === 10) {
         return {
           rowspan: _row,
           colspan: _col
         }
-      } else if (columnIndex === 14) {
+      } else if (columnIndex === 11) {
         return {
           rowspan: _row,
           colspan: _col

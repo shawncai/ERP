@@ -82,9 +82,10 @@
               <el-col :span="6">
                 <el-form-item :label="$t('StockInvoice.currency')" style="width: 100%;">
                   <el-select v-model="personalForm.currency" disabled clearable style="margin-left: 18px;width: 200px" @change="change()">
-                    <el-option value="1" label="RMB"/>
-                    <el-option value="2" label="USD"/>
-                  </el-select>
+                    <el-option value="1" label="PHP"/>
+                  <el-option value="2" label="USD"/>
+                  <el-option value="3" label="RMB"/>
+                </el-select>
                 </el-form-item>
               </el-col>
               <!--              <el-col :span="6">-->

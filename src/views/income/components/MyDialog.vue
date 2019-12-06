@@ -63,8 +63,9 @@
             <el-col :span="12">
               <el-form-item :label="$t('income.currency')" style="width: 100%;">
                 <el-select v-model="personalForm.currency" style="margin-left: 18px;width: 200px">
-                  <el-option value="1" label="RMB"/>
+                  <el-option value="1" label="PHP"/>
                   <el-option value="2" label="USD"/>
+                  <el-option value="3" label="RMB"/>
                 </el-select>
               </el-form-item>
             </el-col>

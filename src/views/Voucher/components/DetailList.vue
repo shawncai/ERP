@@ -64,9 +64,9 @@
             <el-editable-column :label="$t('Voucher.xh')" min-width="55" align="center" type="index"/>
             <el-editable-column :label="$t('Voucher.zy')" prop="summary" align="center" min-width="150px"/>
             <el-editable-column :label="$t('Voucher.kjkm')" prop="subjectName" align="center" min-width="150px"/>
-            <el-editable-column :label="$t('Voucher.ybje')" prop="primevalMoney" align="center" min-width="150px"/>
+            <!-- <el-editable-column :label="$t('Voucher.ybje')" prop="primevalMoney" align="center" min-width="150px"/> -->
             <el-editable-column :label="$t('Voucher.bb')" :formatter="currencyname" prop="currency" align="center" min-width="150px"/>
-            <el-editable-column :label="$t('Voucher.hl')" prop="rate" align="center" min-width="150px"/>
+            <!-- <el-editable-column :label="$t('Voucher.hl')" prop="rate" align="center" min-width="150px"/> -->
             <el-editable-column :label="$t('Voucher.jfje')" prop="debitMoney" align="center" min-width="150px"/>
             <el-editable-column :label="$t('Voucher.dfje')" prop="creditMoney" align="center" min-width="150px"/>
           </el-editable>
@@ -95,7 +95,7 @@
               prop="handleTime"
               align="center"
               min-width="150"/>
-           <el-table-column
+            <el-table-column
               :label="$t('updates.spyj')"
               prop="stat"
               align="center"
@@ -179,8 +179,9 @@ export default {
     },
     currencyFilter(status) {
       const statusMap = {
-        1: 'RMB',
-        2: 'USD'
+        1: 'PHP',
+        2: 'USD',
+        3: 'RMB'
       }
       return statusMap[status]
     },

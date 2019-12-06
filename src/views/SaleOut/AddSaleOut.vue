@@ -831,7 +831,7 @@ export default {
     getInfo(row) {
       console.log(row)
       if (row.carCode !== null && row.carCode !== '' && row.carCode !== undefined) {
-        const param = []
+        const param = {}
         param.carCode = row.carCode
         vehicleInfo(param).then(res => {
           if (res.data.ret === 200) {

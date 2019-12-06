@@ -78,7 +78,7 @@
             </template>
           </el-editable-column>
           <!-- <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0, precision: 2}, type: 'visible'}" :label="$t('Voucher.ybje')" prop="primevalMoney" align="center" min-width="150px"/> -->
-          <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('Voucher.ybje')" prop="primevalMoney" align="center" min-width="150" >
+          <!-- <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('Voucher.ybje')" prop="primevalMoney" align="center" min-width="150" >
             <template slot="edit" slot-scope="scope">
               <el-input-number
                 :precision="2"
@@ -88,9 +88,9 @@
                 @change="entermoney(scope.row)"
               />
             </template>
-          </el-editable-column>
+          </el-editable-column> -->
           <el-editable-column :label="$t('Voucher.bb')" prop="currencyname" align="center" min-width="150px"/>
-          <el-editable-column :label="$t('Voucher.hl')" prop="rate" align="center" min-width="150px"/>
+          <!-- <el-editable-column :label="$t('Voucher.hl')" prop="rate" align="center" min-width="150px"/> -->
           <!-- <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0, precision: 2}, type: 'visible'}" :label="$t('Voucher.jfje')" prop="debitMoney" align="center" min-width="150px"/>
             <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0, precision: 2}, type: 'visible'}" :label="$t('Voucher.dfje')" prop="creditMoney" align="center" min-width="150px"/> -->
 
@@ -306,7 +306,7 @@ export default {
         for (const i in this.list2) {
           this.list2[i].isdisable = true
           this.list2[i].currency = 1
-          this.list2[i].currencyname = '人民币'
+          this.list2[i].currencyname = 'PHP'
           this.list2[i].rate = '1.00'
           if (this.list2[i].balanceTrend === 1 && this.list2[i].source === 1) {
             this.list2[i].isdisable2 = true
@@ -315,11 +315,11 @@ export default {
             this.list2[i].isdisable3 = true
             this.list2[i].isdisable2 = true
           } else if (this.list2[i].balanceTrend === 1 && this.list2[i].source === 2) {
-            this.list2[i].isdisable3 = true
+            this.list2[i].isdisable3 = false
             this.list2[i].isdisable2 = false
           } else if (this.list2[i].balanceTrend === 2 && this.list2[i].source === 2) {
             this.list2[i].isdisable3 = false
-            this.list2[i].isdisable2 = true
+            this.list2[i].isdisable2 = false
           }
         }
       }
@@ -392,7 +392,7 @@ export default {
     },
     // 新增收入明细
     insertEvent(index) {
-      this.$refs.editable.insertAt({ currencyname: '人民币', rate: '1.00' }, index)
+      this.$refs.editable.insertAt({ currencyname: 'PHP', rate: '1.00' }, index)
     },
     // 修改和取消按钮
     // 修改按钮
