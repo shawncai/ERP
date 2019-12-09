@@ -121,6 +121,21 @@ export default {
     //     callback()
     //   }
     // }
+    const validatePass4 = (rule, value, callback) => {
+      const numvalue = Number(value)
+      const num = Number.isFinite(numvalue)
+      console.log('value1222222222222222', num)
+      // if (this.personalForm.totalMoney === undefined || this.personalForm.totalMoney === null || this.personalForm.totalMoney === '') {
+      //   callback(new Error('请输入基本信息'))
+      // } else {
+      //   callback()
+      // }
+      if (!num) {
+        callback(new Error('请输入数字类型'))
+      } else {
+        callback()
+      }
+    }
     return {
       // 控制scope
       kongscope: '',
@@ -139,6 +154,9 @@ export default {
       validRules: {
         handlerName: [
           { required: true, message: '请选择审批人', trigger: 'change' }
+        ],
+        money: [
+          { validator: validatePass4, trigger: 'blur' }
         ]
       },
       // 多选控制
@@ -311,7 +329,7 @@ export default {
     // 保存操作
     handlesave() {
       console.log(this.personalForm)
-      const rest = JSON.stringify(this.$refs.editable.getRecords())
+      const rest2 = this.$refs.editable.getRecords()
       if (this.$refs.editable.getRecords().length === 0) {
         this.$notify.error({
           title: '错误',
@@ -320,11 +338,17 @@ export default {
         })
         return false
       }
-      console.log('rest', rest)
       this.$refs.personalForm.validate((valid) => {
         if (valid) {
           this.$refs.editable.validate((valid) => {
             if (valid) {
+              if (rest2.length === 1) {
+                rest2[0].money = ''
+              } else {
+                rest2[rest2.length - 1].money = ''
+              }
+              console.log(rest2)
+              const rest = JSON.stringify(rest2)
               const finalid = this.personalForm.region[this.personalForm.region.length - 1]
               this.personalForm.effect_region = finalid
               createapproval(this.personalForm, rest).then(res => {

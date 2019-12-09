@@ -143,7 +143,9 @@
         </el-table-column>
         <el-table-column :label="$t('InstallmentApply.isInvestigation')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.isInvestigation | InvestigationFilter }}</span>
+            <!-- <span>{{ scope.row.isInvestigation | InvestigationFilter }}</span> -->
+            <span v-if="scope.row.isInvestigation === 2">已调查</span>
+            <span v-else>未调查</span>
           </template>
         </el-table-column>
         <!-- <el-table-column :label="$t('InstallmentApply.isInvestigation')" :resizable="false" :formatter="getisInvestigation" prop="isInvestigation" align="center" min-width="150"/> -->
@@ -169,7 +171,7 @@
       <!--修改开始=================================================-->
       <my-dialog :editcontrol.sync="editVisible" :editdata.sync="personalForm" @rest="refreshlist"/>
       <!--修改结束=================================================-->
-      <el-dialog :visible.sync="receiptVisible" title="采购进程" class="normal" width="600px" center>
+      <el-dialog :visible.sync="receiptVisible" title="分期进程" class="normal" width="600px" center>
         <el-form class="demo-ruleForm" style="margin: 0px 6%; width: 400px">
           <el-form-item label-width="100px;">
             <el-steps :space="200" style="width: 150%;" finish-status="success">
@@ -183,7 +185,7 @@
         </el-form>
       </el-dialog>
     </el-card>
-    <el-dialog :visible.sync="isvisible" :title="$t('repair.Dispatch2')" append-to-body width="600px" class="normal" center lock-scroll>
+    <el-dialog :visible.sync="isvisible" title="分派调查员" append-to-body width="600px" class="normal" center lock-scroll>
       <el-form :model="dispatchform" style="width: 400px; margin:0 auto;">
         <el-form-item :label-width="formLabelWidth" :label="$t('repair.Employee')">
           <el-select v-model="dispatchform.id" placeholder="please choose">
@@ -691,19 +693,26 @@ export default {
         const approvalUse = row.approvalUseVos
         const index = approvalUse[approvalUse.length - 1].stepHandler.indexOf(',' + this.$store.getters.userId + ',')
         if (index > -1 && (row.judgeStat === 1 || row.judgeStat === 0)) {
-          return true
-        }
-      }
-      console.log('row', row)
-      if (row.isInvestigation === 0) {
-        return false
-      } else {
-        if (row.judgeStat !== 0) {
-          return false
+          if (row.isInvestigation === 2) {
+            return true
+          } else {
+            return false
+          }
+          // return true
         } else {
-          return true
+          return false
         }
       }
+      // console.log('row', row)
+      // if (row.isInvestigation === 0) {
+      //   return false
+      // } else {
+      //   if (row.judgeStat !== 0) {
+      //     return false
+      //   } else {
+      //     return true
+      //   }
+      // }
     },
     // 审批操作
     handleReview(row) {

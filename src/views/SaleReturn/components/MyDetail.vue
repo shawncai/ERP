@@ -287,7 +287,7 @@ export default {
           taxMoney: 0,
           money: 0,
           includeTaxCostMoney: 0,
-          discount: 100,
+          discount: 0,
           discountMoney: 0,
           taxprice: item.salePrice,
           discountRate: 0

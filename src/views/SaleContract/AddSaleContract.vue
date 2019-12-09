@@ -106,9 +106,9 @@
                 <el-form-item :label="$t('SaleOrder.currency')" style="width: 100%;">
                   <el-select v-model="personalForm.currency" style="margin-left: 18px;width: 200px" @change="changeRate">
                     <el-option value="1" label="PHP"/>
-                  <el-option value="2" label="USD"/>
-                  <el-option value="3" label="RMB"/>
-                </el-select>
+                    <el-option value="2" label="USD"/>
+                    <el-option value="3" label="RMB"/>
+                  </el-select>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
@@ -1210,6 +1210,17 @@ export default {
     },
     // 保存操作
     handlesave() {
+      const EnterDetail2 = this.$refs.editable.getRecords()
+      console.log('EnterDetail', EnterDetail2)
+      if (EnterDetail2.length === 0) {
+        this.$notify.error({
+          title: '错误',
+          message: '明细表不能为空',
+          offset: 100
+        })
+        return false
+      }
+
       this.$refs.personalForm.validate((valid) => {
         if (valid) {
           const EnterDetail = this.deepClone(this.$refs.editable.getRecords())

@@ -3761,5 +3761,8 @@ export default {
     gz: '过账',
     jiez: '结账',
     ywzt: '业务状态'
+  },
+  updates2: {
+    dbdxq: '调拨单详情'
   }
 }
