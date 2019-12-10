@@ -1475,7 +1475,11 @@ export default {
     getdiscountMoney(row) {
       console.log(row)
       if (row.taxprice !== 0 && row.quantity !== 0 && row.discountMoney !== 0) {
-        row.discountRate = (((row.discountMoney / row.includeTaxCostMoney)) * 100).toFixed(2)
+        if (row.includeTaxCostMoney !== 0) {
+          row.discountRate = (((row.discountMoney / row.includeTaxCostMoney)) * 100).toFixed(2)
+        } else {
+          row.discountRate = 0
+        }
       }
     },
     // 计算金额

@@ -693,17 +693,18 @@ export default {
       this.stockPersonId = this.personalForm.stockPersonName
       this.list2 = this.personalForm.saleOutDetailVos
       for (const i in this.list2) {
-        this.list2[i].location = this.list2[i].locationName
+        this.list2[i].categoryName = this.list2[i].productCategoryName
+        this.list2[i].typeName = this.list2[i].productTypeName
         if (this.list2[i].taxRate < 1) {
           this.list2[i].taxRate = (this.list2[i].taxRate) * 100
         }
       }
       for (const i in this.list2) {
-        if (this.list2[i].discountRate === 0 || this.list2[i].discountRate === 1) {
-          this.list2[i].discountRate = 100
-          console.log(this.list2[i].discountRate)
-        }
-        if (this.list2[i].discountRate < 1) {
+        // if (this.list2[i].discountRate === 0 || this.list2[i].discountRate === 1) {
+        //   this.list2[i].discountRate = 100
+        //   console.log(this.list2[i].discountRate)
+        // }
+        if (this.list2[i].discountRate <= 1) {
           this.list2[i].discountRate = (this.list2[i].discountRate) * 100
         }
       }
@@ -1233,9 +1234,12 @@ export default {
     },
     // 通过折扣额计算折扣
     getdiscountMoney(row) {
-      console.log(row)
       if (row.taxprice !== 0 && row.quantity !== 0 && row.discountMoney !== 0) {
-        row.discountRate = (((row.discountMoney / row.includeTaxCostMoney)) * 100).toFixed(2)
+        if (row.includeTaxCostMoney !== 0) {
+          row.discountRate = (((row.discountMoney / row.includeTaxCostMoney)) * 100).toFixed(2)
+        } else {
+          row.discountRate = 0
+        }
       }
     },
     // 计算金额

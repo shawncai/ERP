@@ -506,6 +506,10 @@ export default {
       this.personalForm = this.detaildata
       this.list2 = this.personalForm.saleOutDetailVos
       this.list3 = this.personalForm.saleOutGiftVos
+      for (const i in this.list2) {
+        this.list2[i].categoryName = this.list2[i].productCategoryName
+        this.list2[i].typeName = this.list2[i].productTypeName
+      }
       this.reviewList = []
       const review = this.personalForm.approvalUseVos
       for (const i in review) {
