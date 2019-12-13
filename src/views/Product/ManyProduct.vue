@@ -58,7 +58,7 @@ export default {
     },
     handleSuccess({ results, header }) {
       this.tableData = results
-      this.tableHeader = ['物料编码', '产品名称', '物品分类', '规格型号', '颜色', '绩效分', '商品积分', '成本价', '采购价', '创建者', '创建时间']
+      this.tableHeader = ['物料编码', '产品名称', '物品分类', '规格型号', '颜色', '绩效分', '商品积分', '成本价', '零售价', '采购价', '创建者', '创建时间']
       this.uploadHead = results.map(function(item) {
         return {
           code: item.物料编码,
@@ -69,6 +69,7 @@ export default {
           kpiGrade: item.绩效分,
           point: item.商品积分,
           costPrice: item.成本价,
+          saleprice: item.零售价,
           purchasePrice: item.采购价,
           createId: item.创建者,
           createTime: item.创建时间

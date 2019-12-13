@@ -25,7 +25,7 @@
             <el-popover
               v-model="visible2"
               placement="bottom"
-              width="500"
+              width="250"
               trigger="click">
               <el-select v-model="getemplist.typeid" :placeholder="$t('Hmodule.qxzggxh')" clearable style="width: 40%;float: left;margin-left: 20px">
                 <el-option
@@ -54,6 +54,7 @@
           </el-col>
         </el-form>
       </el-row>
+
     </el-card>
     <el-card class="box-card" style="margin-top: 10px" shadow="never">
       <!-- 批量操作 -->
@@ -70,7 +71,7 @@
       <!-- 表格导出操作 -->
       <el-button v-permission="['1-31-33-6']" v-waves :loading="downloadLoading" class="filter-item" style="width: 86px" @click="handleExport"> <svg-icon icon-class="daochu"/>{{ $t('public.export') }}</el-button>
 
-      <el-dialog :visible.sync="categoryVisible" :title="$t('updates.xjflsx')" class="normal" width="600px" center @close="closetag">
+      <el-dialog :visible.sync="categoryVisible" :title="$t('public.export')" class="normal" width="600px" center @close="closetag">
         <el-form ref="addCategoryForm" :model="getemplist" class="demo-ruleForm" style="margin: 0 auto; width: 400px">
           <el-form-item :label="$t('Hmodule.ggxh')" label-width="100px" prop="type">
             <el-select v-model="exportparms.typeid" style="width: 100%">
@@ -110,6 +111,7 @@
         :row-key="getRowKeys"
         border
         fit
+        height="400"
         highlight-current-row
         style="width: 100%;"
         @selection-change="handleSelectionChange">
@@ -310,6 +312,12 @@ export default {
     _that = this
   },
   methods: {
+    clearuplod() {
+      this.exportparms = {
+        typeid: '',
+        categoryid: ''
+      }
+    },
     beforeUpload(file) {
       const isLt1M = file.size / 1024 / 1024 < 1
 
@@ -333,7 +341,8 @@ export default {
       const uploaddata = results.map(item => {
         return {
           id: item.序号,
-          costPrice: item.成本价
+          costPrice: item.成本价,
+          saleprice: item.零售价
         }
       })
       const jsonupload = JSON.stringify(uploaddata)
@@ -704,17 +713,19 @@ export default {
               type: 'success',
               offset: 100
             })
+            this.clearuplod()
             this.categoryVisible = false
           } else {
       import('@/vendor/Export2Excel').then(excel => {
-        const tHeader = ['序号', '物料编码', '产品名称', '物品分类', '规格型号', '颜色', '绩效分', '商品积分', '成本价', '采购价', '创建者', '创建时间']
-        const filterVal = ['id', 'code', 'productName', 'category', 'productType', 'color', 'kpiGrade', 'point', 'costPrice', 'purchasePrice', 'createId', 'createTime']
+        const tHeader = ['序号', '物料编码', '产品名称', '物品分类', '规格型号', '颜色', '绩效分', '商品积分', '成本价', '零售价', '采购价', '创建者', '创建时间']
+        const filterVal = ['id', 'code', 'productName', 'category', 'productType', 'color', 'kpiGrade', 'point', 'costPrice', 'salePrice', 'purchasePrice', 'createId', 'createTime']
         const data = this.formatJson(filterVal, list)
         excel.export_json_to_excel({
           header: tHeader,
           data,
           filename: '物品资料表'
         })
+        this.clearuplod()
         this.downloadLoading = false
         this.categoryVisible = false
       })
