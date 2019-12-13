@@ -55,7 +55,10 @@ export default {
     }
   },
   created() {
-    this.initwebsocket()
+    const istrue = true
+    if (istrue) { // 给websocket加入判断条件，是否是客服
+      this.initwebsocket()
+    }
   },
   beforeCreate() {
     _that = this

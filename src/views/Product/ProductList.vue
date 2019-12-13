@@ -69,6 +69,30 @@
       </el-dropdown>
       <!-- 表格导出操作 -->
       <el-button v-permission="['1-31-33-6']" v-waves :loading="downloadLoading" class="filter-item" style="width: 86px" @click="handleExport"> <svg-icon icon-class="daochu"/>{{ $t('public.export') }}</el-button>
+
+      <el-dialog :visible.sync="categoryVisible" :title="$t('updates.xjflsx')" class="normal" width="600px" center @close="closetag">
+        <el-form ref="addCategoryForm" :model="getemplist" class="demo-ruleForm" style="margin: 0 auto; width: 400px">
+          <el-form-item :label="$t('Hmodule.ggxh')" label-width="100px" prop="type">
+            <el-select v-model="exportparms.typeid" style="width: 100%">
+              <el-option
+                v-for="(item, index) in types"
+                :key="index"
+                :label="item.categoryName"
+                :value="item.id"
+              />
+            </el-select>
+          </el-form-item>
+          <el-form-item :label="$t('Hmodule.wpfl')" label-width="100px" prop="categoryname">
+            <el-input v-model="categoryid2" :placeholder="$t('Hmodule.wpfl')" clearable @focus="treechoose2" @clear="clear4"/>
+            <my-tree2 :treecontrol.sync="treecontrol2" @tree="tree2"/>
+          </el-form-item>
+        </el-form>
+        <span slot="footer" class="dialog-footer">
+          <el-button type="primary" @click="handleexport()">{{ $t('Hmodule.sure') }}</el-button>
+          <el-button type="danger" @click="closetag()">{{ $t('Hmodule.cancel') }}</el-button>
+        </span>
+      </el-dialog>
+
       <!-- 打印操作 -->
       <el-button v-permission="['1-31-33-7']" v-waves class="filter-item" icon="el-icon-printer" style="width: 86px" @click="handlePrint">{{ $t('public.print') }}</el-button>
       <!-- 新建操作 -->
@@ -181,13 +205,14 @@ import checkPermission from '@/utils/permission' // 权限判断函数
 import MyDialog from './components/MyDialog'
 import MySupplier from '../DailyAdjust/components/MySupplier'
 import MyTree from './components/MyTree'
+import MyTree2 from './components/MyTree2'
 import DetailList from './components/DetailList'
 
 var _that
 export default {
   name: 'ProductList',
   directives: { waves, permission, permission2 },
-  components: { DetailList, MyTree, MySupplier, Pagination, MyDialog },
+  components: { DetailList, MyTree, MySupplier, Pagination, MyDialog, MyTree2 },
   filters: {
     genderFilter(status) {
       const statusMap = {
@@ -206,6 +231,13 @@ export default {
   },
   data() {
     return {
+      treecontrol2: false,
+      categoryid2: '',
+      exportparms: {
+        typeid: '',
+        categoryid: ''
+      },
+      categoryVisible: false,
       select_order_number: [],
       // 获取row的key值
       getRowKeys(row) {
@@ -351,6 +383,10 @@ export default {
     clear2() {
       this.categoryid = ''
       this.getemplist.categoryid = ''
+    },
+    clear4() {
+      this.categoryid = ''
+      this.exportparms.categoryid = ''
     },
     // 搜索
     handleFilter() {
@@ -518,20 +554,53 @@ export default {
     handleAdd() {
       this.$router.push('/Product/NewProduct')
     },
+
+    handleexport() {
+      this.exportparms.pagenum = 1
+      this.exportparms.pagesize = 999999
+      productlist(this.exportparms).then(res => {
+        if (res.data.ret === 200) {
+          const list = res.data.data.content.list
+          this.downloadLoading = true
+          if (list.length === 0) {
+            this.$notify({
+              title: '没有数据',
+              type: 'success',
+              offset: 100
+            })
+            this.categoryVisible = false
+          } else {
+      import('@/vendor/Export2Excel').then(excel => {
+        const tHeader = ['序号', '物料编码', '产品名称', '物品分类', '规格型号', '颜色', '绩效分', '商品积分', '成本价', '采购价', '创建者', '创建时间']
+        const filterVal = ['id', 'code', 'productName', 'category', 'productType', 'color', 'kpiGrade', 'point', 'costPrice', 'purchasePrice', 'createId', 'createTime']
+        const data = this.formatJson(filterVal, list)
+        excel.export_json_to_excel({
+          header: tHeader,
+          data,
+          filename: '物品资料表'
+        })
+        this.downloadLoading = false
+        this.categoryVisible = false
+      })
+          }
+        } else {
+          // this.restFilter()
+        }
+      })
+    },
+    treechoose2() {
+      this.treecontrol2 = true
+    },
+    tree2(val) {
+      this.categoryid2 = val.categoryName
+      this.exportparms.categoryid = val.id
+    },
+    closetag() {
+      this.categoryVisible = false
+    },
     // 导出
     handleExport() {
-      this.downloadLoading = true
-        import('@/vendor/Export2Excel').then(excel => {
-          const tHeader = ['物料编码', '产品名称', '物品分类', '规格型号', '颜色', '绩效分', '商品积分', '成本价', '采购价', '创建者', '创建时间']
-          const filterVal = ['code', 'productName', 'category', 'productType', 'color', 'kpiGrade', 'point', 'costPrice', 'purchasePrice', 'createId', 'createTime']
-          const data = this.formatJson(filterVal, this.list)
-          excel.export_json_to_excel({
-            header: tHeader,
-            data,
-            filename: '物品资料表'
-          })
-          this.downloadLoading = false
-        })
+      this.categoryVisible = true
     },
     formatJson(filterVal, jsonData) {
       return jsonData.map(v => filterVal.map(j => {
@@ -547,6 +616,23 @@ export default {
 </script>
 
 <style rel="stylesheet/css" scoped>
+.normal >>> .el-dialog__header {
+    padding: 20px 20px 10px;
+    background: #fff;
+    position: static;
+    top: auto;
+    z-index: auto;
+    width: auto;
+    border-bottom: none;
+  }
+  .normal >>> .el-dialog {
+    -webkit-transform: none;
+    transform: none;
+    left: 0;
+    position: relative;
+    margin: 0 auto;
+    height: auto;
+  }
   .app-container >>> .el-table .cell {
     -webkit-box-sizing: border-box;
     box-sizing: border-box;

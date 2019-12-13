@@ -2940,6 +2940,7 @@ export default {
     evaluation: '评价'
   },
   Hmodule: {
+    ggxh: '规格型号',
     cilent: '点击上传',
     cancel: '取消',
     sure: '确定',
