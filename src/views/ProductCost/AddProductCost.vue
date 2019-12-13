@@ -106,9 +106,9 @@
                 <el-form-item :label="$t('ProductCost.currency')" style="width: 100%;">
                   <el-select v-model="personalForm.currency" value="personalForm.checkMode" style="margin-left: 11px;width: 200px" >
                     <el-option value="1" label="PHP"/>
-                  <el-option value="2" label="USD"/>
-                  <el-option value="3" label="RMB"/>
-                </el-select>
+                    <el-option value="2" label="USD"/>
+                    <el-option value="3" label="RMB"/>
+                  </el-select>
                 </el-form-item>
               </el-col>
             </el-row>

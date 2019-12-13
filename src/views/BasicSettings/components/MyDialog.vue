@@ -331,7 +331,6 @@ export default {
           })
         }
       })
-
     },
     handlecancel() {
       this.$refs.personalForm.clearValidate()

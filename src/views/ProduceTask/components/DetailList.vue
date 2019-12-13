@@ -128,7 +128,7 @@
               prop="handleTime"
               align="center"
               min-width="150"/>
-           <el-table-column
+            <el-table-column
               :label="$t('updates.spyj')"
               prop="stat"
               align="center"

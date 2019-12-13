@@ -33,9 +33,9 @@
                 <el-form-item :label="$t('AdvancePay.currency')" style="width: 100%;">
                   <el-select v-model="personalForm.currency" clearable style="margin-left: 18px;width: 200px" @change="change()">
                     <el-option value="1" label="PHP"/>
-                  <el-option value="2" label="USD"/>
-                  <el-option value="3" label="RMB"/>
-                </el-select>
+                    <el-option value="2" label="USD"/>
+                    <el-option value="3" label="RMB"/>
+                  </el-select>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
