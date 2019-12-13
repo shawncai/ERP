@@ -677,6 +677,32 @@ export default {
         this.isinstallappley = false
         this.installappley(this.$store.getters.empcontract[0])
         console.log('empcontract', this.$store.getters.empcontract)
+        const installappley = this.$store.getters.empcontract[0]
+        const installappleydata = this.$store.getters.empcontract[0].installmentApplyDetailVos
+        const installappleyDetail = installappleydata.map(function(item) {
+          return {
+            productCode: item.productCode,
+            productName: item.productName,
+            categoryName: item.productCategory,
+            productCategory: item.categoryId,
+            typeName: item.productType,
+            productType: item.typeId,
+            color: item.color,
+            unit: item.unit,
+            salePrice: installappley.totalMoney,
+            // salePrice: item.price,
+            costPrice: 0,
+            performanceScore: item.kpiGrade,
+            productScore: item.point,
+            quantity: 0,
+            discount: 0,
+            carCode: item.carCode,
+            batteryCode: item.batteryCode,
+            motorCode: item.motorCode
+          }
+        })
+        console.log('installappleyDetail', installappleyDetail)
+        this.list2 = installappleyDetail
       }
       this.$store.dispatch('getempcontract', '')
     },
@@ -685,7 +711,7 @@ export default {
       if (row.discountRate === 0) {
         row.discountMoney = row.taxprice * row.quantity
       } else {
-        row.discountMoney = (row.taxprice * row.quantity * (1 - row.discountRate / 100)).toFixed(2)
+        row.discountMoney = (row.taxprice * row.quantity * (row.discountRate / 100)).toFixed(2)
       }
     },
     // 上传附件
