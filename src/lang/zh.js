@@ -2587,6 +2587,7 @@ export default {
     iseffective: '启用状态'
   },
   public: {
+    plgx: '更新',
     detail: '明细',
     businessStatus: '业务状态',
     rate: '汇率',

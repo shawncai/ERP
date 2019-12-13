@@ -830,3 +830,16 @@ export function deleteeclassfy(query, query2) {
   })
 }
 
+// 批量更新价格
+export function updateProductPrice(query) {
+  var params = new URLSearchParams()
+  if (query !== '' && query !== null && query !== undefined) {
+    params.append('productJson', query) // 你要传给后台的参数值 key/value
+  }
+  return request({
+    url: '/product/updateProductPrice',
+    method: 'post',
+    data: params
+  })
+}
+

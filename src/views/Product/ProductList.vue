@@ -95,6 +95,9 @@
 
       <!-- 打印操作 -->
       <el-button v-permission="['1-31-33-7']" v-waves class="filter-item" icon="el-icon-printer" style="width: 86px" @click="handlePrint">{{ $t('public.print') }}</el-button>
+      <input v-show="false" ref="excel-upload-input" class="excel-upload-input" type="file" accept=".xlsx, .xls" @change="handleClick">
+      <!-- 更新价格 -->
+      <el-button v-permission="['1-31-33-7']" v-waves class="filter-item" icon="el-icon-refresh" style="width: 86px" @click="handleUpload">{{ $t('public.plgx') }}</el-button>
       <!-- 新建操作 -->
       <el-button v-permission="['1-31-33-1']" v-waves class="filter-item" icon="el-icon-plus" type="success" style="width: 86px" @click="handleAdd">{{ $t('public.add') }}</el-button>
     </el-card>
@@ -196,7 +199,7 @@
 </template>
 
 <script>
-import { productlist, deleteproduct, searchEmpCategory2, productDetail, editproduct, updatestat } from '@/api/Product'
+import { productlist, deleteproduct, searchEmpCategory2, productDetail, editproduct, updatestat, updateProductPrice } from '@/api/Product'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
 import permission from '@/directive/permission/index.js' // 权限判断指令
@@ -207,6 +210,7 @@ import MySupplier from '../DailyAdjust/components/MySupplier'
 import MyTree from './components/MyTree'
 import MyTree2 from './components/MyTree2'
 import DetailList from './components/DetailList'
+import XLSX from 'xlsx'
 
 var _that
 export default {
@@ -231,6 +235,12 @@ export default {
   },
   data() {
     return {
+      loading: false,
+      excelData: {
+        header: null,
+        results: null
+      },
+
       treecontrol2: false,
       categoryid2: '',
       exportparms: {
@@ -300,6 +310,132 @@ export default {
     _that = this
   },
   methods: {
+    beforeUpload(file) {
+      const isLt1M = file.size / 1024 / 1024 < 1
+
+      if (isLt1M) {
+        return true
+      }
+
+      this.$message({
+        message: 'Please do not upload files larger than 1m in size.',
+        type: 'warning'
+      })
+      return false
+    },
+    onSuccess({ results, header }) {
+      const loading = this.$loading({
+        lock: true,
+        text: 'Loading',
+        spinner: 'el-icon-loading',
+        background: 'rgba(0, 0, 0, 0.7)'
+      })
+      const uploaddata = results.map(item => {
+        return {
+          id: item.序号,
+          costPrice: item.成本价
+        }
+      })
+      const jsonupload = JSON.stringify(uploaddata)
+      updateProductPrice(jsonupload).then(res => {
+        if (res.data.ret === 200) {
+          console.log(res)
+          this.$notify({
+            title: '更新成功',
+            message: '更新成功',
+            type: 'success',
+            duration: 1000,
+            offset: 100
+          })
+          this.getlist()
+        } else {
+          this.$notify.error({
+            title: '更新错误',
+            message: '更新错误',
+            offset: 100
+          })
+        }
+        loading.close()
+      })
+        .catch(e => {
+          loading.close()
+        })
+      setTimeout(() => {
+        loading.close()
+      }, 2000)
+    },
+    generateData({ header, results }) {
+      this.excelData.header = header
+      this.excelData.results = results
+      this.onSuccess && this.onSuccess(this.excelData)
+    },
+    // 批量更新操作
+    handleUpload() {
+      this.$refs['excel-upload-input'].click()
+    },
+    handleClick(e) {
+      const files = e.target.files
+      const rawFile = files[0] // only use files[0]
+      if (!rawFile) return
+      this.upload(rawFile)
+    },
+    upload(rawFile) {
+      this.$refs['excel-upload-input'].value = null // fix can't select the same excel
+
+      if (!this.beforeUpload) {
+        this.readerData(rawFile)
+        return
+      }
+      const before = this.beforeUpload(rawFile)
+      if (before) {
+        this.readerData(rawFile)
+      }
+    },
+    readerData(rawFile) {
+      this.loading = true
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader()
+        reader.onload = e => {
+          const data = e.target.result
+          const fixedData = this.fixData(data)
+          const workbook = XLSX.read(btoa(fixedData), { type: 'base64' })
+          const firstSheetName = workbook.SheetNames[0]
+          const worksheet = workbook.Sheets[firstSheetName]
+          const header = this.getHeaderRow(worksheet)
+          const results = XLSX.utils.sheet_to_json(worksheet)
+          this.generateData({ header, results })
+          this.loading = false
+          resolve()
+        }
+        reader.readAsArrayBuffer(rawFile)
+      })
+    },
+    fixData(data) {
+      let o = ''
+      let l = 0
+      const w = 10240
+      for (; l < data.byteLength / w; ++l) o += String.fromCharCode.apply(null, new Uint8Array(data.slice(l * w, l * w + w)))
+      o += String.fromCharCode.apply(null, new Uint8Array(data.slice(l * w)))
+      return o
+    },
+    getHeaderRow(sheet) {
+      const headers = []
+      const range = XLSX.utils.decode_range(sheet['!ref'])
+      let C
+      const R = range.s.r
+      /* start in the first row */
+      for (C = range.s.c; C <= range.e.c; ++C) { /* walk every column in the range */
+        const cell = sheet[XLSX.utils.encode_cell({ c: C, r: R })]
+        /* find the cell in the first row */
+        let hdr = 'UNKNOWN ' + C // <-- replace with your desired default
+        if (cell && cell.t) hdr = XLSX.utils.format_cell(cell)
+        headers.push(hdr)
+      }
+      return headers
+    },
+    isExcel(file) {
+      return /\.(xlsx|xls|csv)$/.test(file.name)
+    },
     // 上下架操作
     top(row) {
       console.log('row', row)
