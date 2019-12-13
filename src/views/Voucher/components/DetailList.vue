@@ -64,9 +64,9 @@
             <el-editable-column :label="$t('Voucher.xh')" min-width="55" align="center" type="index"/>
             <el-editable-column :label="$t('Voucher.zy')" prop="summary" align="center" min-width="150px"/>
             <el-editable-column :label="$t('Voucher.kjkm')" prop="subjectName" align="center" min-width="150px"/>
-            <el-editable-column :label="$t('Voucher.ybje')" prop="primevalMoney" align="center" min-width="150px"/>
+            <!-- <el-editable-column :label="$t('Voucher.ybje')" prop="primevalMoney" align="center" min-width="150px"/> -->
             <el-editable-column :label="$t('Voucher.bb')" :formatter="currencyname" prop="currency" align="center" min-width="150px"/>
-            <el-editable-column :label="$t('Voucher.hl')" prop="rate" align="center" min-width="150px"/>
+            <!-- <el-editable-column :label="$t('Voucher.hl')" prop="rate" align="center" min-width="150px"/> -->
             <el-editable-column :label="$t('Voucher.jfje')" prop="debitMoney" align="center" min-width="150px"/>
             <el-editable-column :label="$t('Voucher.dfje')" prop="creditMoney" align="center" min-width="150px"/>
           </el-editable>
@@ -98,7 +98,12 @@
             <el-table-column
               :label="$t('updates.spyj')"
               prop="stat"
-              align="center"/>
+              align="center"
+              min-width="150">
+              <template slot-scope="scope">
+                <span>{{ scope.row.stat | statfilter }}</span>
+              </template>
+            </el-table-column>
           </el-table>
         </div>
       </el-card>
@@ -151,9 +156,10 @@ export default {
   filters: {
     statfilter(status) {
       const statusMap = {
-        1: '审核中',
-        2: '审核通过',
-        3: '审核不通过'
+        0: _that.$t('updates.wsh'),
+        1: _that.$t('updates.shz'),
+        2: _that.$t('Hmodule.shtg'),
+        3: _that.$t('updates.shbtg')
       }
       return statusMap[status]
     },
@@ -173,8 +179,9 @@ export default {
     },
     currencyFilter(status) {
       const statusMap = {
-        1: 'RMB',
-        2: 'USD'
+        1: 'PHP',
+        2: 'USD',
+        3: 'RMB'
       }
       return statusMap[status]
     },

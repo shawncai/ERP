@@ -1,10 +1,10 @@
 <template>
-  <el-dialog :visible.sync="editVisible" :detailcontrol="detailcontrol" :detaildata="detaildata" :close-on-press-escape="false" :title="personalForm.id +$t('updates.cgddxq')" append-to-body width="1010px" class="edit" top="-10px" @close="$emit('update:detailcontrol', false)">
+  <el-dialog :visible.sync="editVisible" :detailcontrol="detailcontrol" :detaildata="detaildata" :close-on-press-escape="false" :title="personalForm.id +$t('updates2.dbdxq')" append-to-body width="1010px" class="edit" top="-10px" @close="$emit('update:detailcontrol', false)">
     <div id="printTest" >
       <!--基本信息-->
       <el-card class="box-card" style="margin-top: 63px" shadow="never">
         <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('Hmodule.basicinfo') }}</h2>
-        <button v-print="'#printTest'" class="print" style="font-size: 13px;background: white;">{{ $t('updates.print') }}</button>
+        <button style="font-size: 10px;" @click="printdata">{{ $t('updates.print') }}</button>
         <div class="container" style="margin-top: 37px">
           <el-form ref="personalForm" :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="100px" style="margin-left: 30px;">
             <el-row>
@@ -413,15 +413,17 @@ import MyAccept from './MyAccept'
 import MyDetail from './MyDetail'
 import MyCreate from './MyCreate'
 import MyDepot from './MyDepot'
+import printJS from 'print-js'
 var _that
 export default {
   components: { MyRepository, MyCreate, MyAccept, MyDetail, MyDepot },
   filters: {
     statfilter(status) {
       const statusMap = {
-        1: '审核中',
-        2: '审核通过',
-        3: '审核不通过'
+        0: _that.$t('updates.wsh'),
+        1: _that.$t('updates.shz'),
+        2: _that.$t('Hmodule.shtg'),
+        3: _that.$t('updates.shbtg')
       }
       return statusMap[status]
     },
@@ -542,6 +544,10 @@ export default {
       this.list2 = this.personalForm.storageMoveDetailApplyVos
       this.list3 = this.personalForm.storageMoveDetailVos
       this.list4 = this.personalForm.storageMoveDetailConfirmVos
+      this.personalForm.allIncludeTaxMoney = 0
+      for (const i in this.list2) {
+        this.personalForm.allIncludeTaxMoney = this.personalForm.allIncludeTaxMoney + this.list2[i].moveMoney
+      }
       for (const i in this.list4) {
         if (this.list4[i].stat === 1) {
           this.list4[i].actualQuantity = 0
@@ -567,6 +573,109 @@ export default {
     _that = this
   },
   methods: {
+    cutnull(data) {
+      for (const x in data) {
+        if (data[x] === null) { // 如果是null 把直接内容转为 ''
+          data[x] = ''
+        } else {
+          if (Array.isArray(data[x])) { // 是数组遍历数组 递归继续处理
+            data[x] = data[x].map(z => {
+              return this.cutnull(z)
+            })
+          }
+          if (typeof (data[x]) === 'object') { // 是json 递归继续处理
+            data[x] = this.cutnull(data[x])
+          }
+        }
+      }
+      return data
+    },
+    printdata() {
+      const arr = this.cutnull(this.list2)
+      for (const i in arr) {
+        arr[i].step = Number(i) + 1
+      }
+      console.log(this.reviewList.length - 1)
+      const handleperson = this.reviewList[this.reviewList.length - 1].stepHandlerName
+      console.log(handleperson)
+      printJS({
+        printable: arr,
+        type: 'json',
+        properties: [
+          { field: 'step', displayName: '行号', columnSize: `100px` },
+          { field: 'productCode', displayName: '物料代码', columnSize: `100px` },
+          { field: 'productName', displayName: '物料名称', columnSize: `100px` },
+          { field: 'productType', displayName: '规格型号', columnSize: `100px` },
+          { field: 'unit', displayName: '单位', columnSize: `100px` },
+          { field: 'applyQuantity', displayName: '数量', columnSize: `100px` },
+          { field: 'movePrice', displayName: '单价', columnSize: `100px` },
+          { field: 'moveMoney', displayName: '金额', columnSize: `100px` },
+          { field: 'remarks', displayName: '备注', columnSize: `100px` }
+        ],
+        header: `<div class="pringtitle">
+                    <div class="custom-p"> 江苏新世窗国际贸易有限公司 </div>
+                      <br>
+                      <div class="ordername">库存调拨单</div>
+                        <br>
+                        <div class="line1"></div>
+                        <div class="line2"></div>
+                        <div class="supplier">
+                        <div class="item">
+                        <div class="itemname">申请人：</div>
+                        <div class="itemcontent">${this.personalForm.applicationName}</div>
+                        </div>
+                        <div class="item">
+                         <div class="itemname">日期：</div>
+                        <div class="itemcontent">${this.personalForm.createDate}</div>
+                          </div>
+                        <div class="item">
+                         <div class="itemname">编号：</div>
+                        <div class="itemcontent">${this.personalForm.moveNumber}</div>
+                          </div>
+                          </div>
+                        </div>`,
+        bottom: `<div>
+                  <div class="allmoney" style="display: flex;justify-content: space-around;width: 99%;height: 40px;align-items: center;border:1px solid;border-top: none;padding-right: 1%">
+                  <div class="allmoneyname" style="margin-right: 50%">合计</div>
+                  <div class="allmoneynum" style="width: 10%;border-left: 1px solid; border-right: 1px solid;height: 40px;display: flex;align-items: center;justify-content: center;">${this.personalForm.allIncludeTaxMoney}</div>
+                  </div>
+                  <div class="printbottom" style="display: flex;align-items: center;justify-content: center;width: 100%;margin-top: 20px">
+                    <div class="bottomitem" style="width: 25%;display: flex;align-items: center;justify-content: center;flex-wrap: nowrap">
+                        <div class="ceshi">审核：</div>
+                        <div class="bottomname" >${handleperson}</div>
+                    </div>
+                    <div class="bottomitem" style="width: 25%;display: flex;align-items: center;justify-content: center;flex-wrap: nowrap">
+                        <div class="ceshi">调出仓库：</div>
+                        <div class="bottomname">${this.personalForm.moveOutRepositoryName}</div>
+                    </div>
+                    <div class="bottomitem" style="width: 25%;display: flex;align-items: center;justify-content: center;flex-wrap: nowrap">
+                        <div class="ceshi">调入仓库：</div>
+                        <div class="bottomname">${this.personalForm.moveInRepositoryName}</div>
+                    </div>
+                    <div class="bottomitem" style="width: 25%;display: flex;align-items: center;justify-content: center;flex-wrap: nowrap">
+                        <div class="ceshi">制单：</div>
+                        <div class="bottomname">${this.personalForm.createPersonName}</div>
+                    </div>
+                   </div>
+                  </div>`,
+        bottomStyle: '.printbottom: { display: flex;margin-top: 20px}',
+        style: '.custom-p {font-size:20px;text-align: center; }' +
+          ' .ordername {text-align: center; font-size:25px;letter-spacing:15px}' +
+          '.pringtitle { line-height: 20px; margin-bottom: 10px }' +
+          '.line1 { width: 200px; border: 1px solid #000; margin: 0 auto }' +
+          '.line2 {width: 200px; border: 2px dashed #000; margin: 3px auto }' +
+          '.supplier {display: flex;justify-content: center; align-items: center;margin-top: 10px}' +
+          '.item { width: 33%; justify-content: center; align-items: center; display: flex}' +
+          '.item2 { width: 50%; justify-content: center; align-items: center; display: flex}' +
+          '.itemname2 { width: 20% }' +
+          '.itemcontent2 {width: 80%}' +
+          '.itemname { width: 40% }' +
+          '.itemcontent {width: 80%}',
+        gridHeaderStyle: 'font-size:12px; padding:3px; border:1px solid; color: #000; text-align:center;',
+        gridStyle: 'font-size:12px; padding:3px; border:1px solid; text-align:center; text-overflow:ellipsis; white-space:nowrap;',
+        repeatTableHeader: true
+      })
+    },
     // 格式化日期，如月、日、时、分、秒保证为2位数
     formatNumber(n) {
       n = n.toString()

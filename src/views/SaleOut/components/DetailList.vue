@@ -440,9 +440,10 @@ export default {
     },
     statfilter(status) {
       const statusMap = {
-        1: '审核中',
-        2: '审核通过',
-        3: '审核不通过'
+        0: _that.$t('updates.wsh'),
+        1: _that.$t('updates.shz'),
+        2: _that.$t('Hmodule.shtg'),
+        3: _that.$t('updates.shbtg')
       }
       return statusMap[status]
     },
@@ -505,6 +506,10 @@ export default {
       this.personalForm = this.detaildata
       this.list2 = this.personalForm.saleOutDetailVos
       this.list3 = this.personalForm.saleOutGiftVos
+      for (const i in this.list2) {
+        this.list2[i].categoryName = this.list2[i].productCategoryName
+        this.list2[i].typeName = this.list2[i].productTypeName
+      }
       this.reviewList = []
       const review = this.personalForm.approvalUseVos
       for (const i in review) {

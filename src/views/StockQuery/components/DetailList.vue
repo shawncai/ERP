@@ -85,9 +85,10 @@ export default {
   filters: {
     statfilter(status) {
       const statusMap = {
-        1: '审核中',
-        2: '审核通过',
-        3: '审核不通过'
+        0: _that.$t('updates.wsh'),
+        1: _that.$t('updates.shz'),
+        2: _that.$t('Hmodule.shtg'),
+        3: _that.$t('updates.shbtg')
       }
       return statusMap[status]
     },
@@ -108,8 +109,9 @@ export default {
     },
     currencyIdFilter(status) {
       const statusMap = {
-        1: 'RMB',
-        2: 'USD'
+        1: 'PHP',
+        2: 'USD',
+        3: 'RMB'
       }
       return statusMap[status]
     },

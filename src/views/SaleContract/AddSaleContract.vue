@@ -1210,6 +1210,17 @@ export default {
     },
     // 保存操作
     handlesave() {
+      const EnterDetail2 = this.$refs.editable.getRecords()
+      console.log('EnterDetail', EnterDetail2)
+      if (EnterDetail2.length === 0) {
+        this.$notify.error({
+          title: '错误',
+          message: '明细表不能为空',
+          offset: 100
+        })
+        return false
+      }
+
       this.$refs.personalForm.validate((valid) => {
         if (valid) {
           const EnterDetail = this.deepClone(this.$refs.editable.getRecords())

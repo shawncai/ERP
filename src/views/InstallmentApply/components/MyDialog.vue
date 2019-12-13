@@ -47,7 +47,7 @@
             </el-col>
             <el-col :span="12">
               <el-form-item :label="$t('InstallmentApply.applyCellPhone')" prop="applyCellPhone" style="width: 100%;">
-                <el-input-number v-model="personalForm.applyCellPhone" :controls="false" style="margin-left: 18px;width: 200px" clearable @blur="haveAccess"/>
+                <el-input v-model="personalForm.applyCellPhone" :controls="false" style="margin-left: 18px;width: 200px" clearable @blur="haveAccess"/>
               </el-form-item>
             </el-col>
             <!--              <el-col :span="12">-->
@@ -216,17 +216,17 @@
             </el-col>
             <el-col :span="12">
               <el-form-item :label="$t('InstallmentApply.carCode')" style="width: 100%;">
-                <el-input v-model="productForm.carCode" style="margin-left: 18px;width: 200px"/>
+                <el-input v-model="productForm.carCode" style="margin-left: 18px;width: 200px" @blur="getInfo()"/>
               </el-form-item>
             </el-col>
             <el-col :span="12">
               <el-form-item :label="$t('InstallmentApply.motorCode')" style="width: 100%;">
-                <el-input v-model="productForm.motorCode" style="margin-left: 18px;width: 200px"/>
+                <el-input v-model="productForm.motorCode" style="margin-left: 18px;width: 200px" @blur="getInfo3()"/>
               </el-form-item>
             </el-col>
             <el-col :span="12">
               <el-form-item :label="$t('InstallmentApply.batteryCode')" style="width: 100%;">
-                <el-input v-model="productForm.batteryCode" style="margin-left: 18px;width: 200px"/>
+                <el-input v-model="productForm.batteryCode" style="margin-left: 18px;width: 200px" @blur="getInfo2()"/>
               </el-form-item>
             </el-col>
           </el-row>
@@ -480,7 +480,7 @@
 
 <script>
 import { updateapply } from '@/api/InstallmentApply'
-import { getprovincelist, getcitylist, existList } from '@/api/public'
+import { getprovincelist, getcitylist, existList, vehicleInfo } from '@/api/public'
 import { ratelist } from '@/api/Installmentrate'
 import MyEmp from './MyEmp'
 import MyDetail from './MyDetail'
@@ -536,23 +536,31 @@ export default {
       }
     }
     const validatePass6 = (rule, value, callback) => {
-      var mobile = /^1[3|5|8]\d{9}$/
-      var phone = /^0\d{2,3}-?\d{7,8}$/
-      console.log(mobile.test(value) || phone.test(value))
-      const flag = mobile.test(value) || phone.test(value)
-      if (flag) {
-        callback()
-      } else {
-        callback(new Error('请输入正确电话号码'))
+      if (!value) {
+        return callback(new Error('手机号不能为空'))
       }
+      setTimeout(() => {
+        console.log(String(value).length)
+        if (String(value).length !== 11) {
+          callback(new Error('请输入正确手机号码'))
+        } else {
+          callback()
+        }
+      }, 1000)
     }
     const validatePass7 = (rule, value, callback) => {
-      var email = /^([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/
-      const flag = email.test(value)
-      if (flag) {
+      console.log('valueeeeeeeeeeeeeeeeeee', value)
+      if (value === null || value === undefined || value === '') {
         callback()
-      } else {
-        callback(new Error('请输入正确的邮箱地址'))
+      }
+      if (value !== null && value !== undefined && value !== '') {
+        var email = /^([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/
+        const flag = email.test(value)
+        if (flag) {
+          callback()
+        } else {
+          callback(new Error('请输入正确的邮箱地址'))
+        }
       }
     }
     return {
@@ -627,7 +635,7 @@ export default {
       // 销售订单规则数据
       personalrules: {
         applyCellPhone: [
-          { required: true, message: '请输入移动电话', trigger: 'blur' }
+          { required: true, validator: validatePass6, trigger: 'blur' }
         ],
         age: [
           { required: true, message: '请输入年龄', trigger: 'blur' }
@@ -638,9 +646,9 @@ export default {
         lastName: [
           { required: true, message: '请输入姓', trigger: 'blur' }
         ],
-        applyPhone: [
-          { required: true, message: '请输入电话', trigger: 'blur' }
-        ],
+        // applyPhone: [
+        //   { required: true, message: '请输入电话', trigger: 'blur' }
+        // ],
         provinceId: [
           { required: true, message: '请选择省', trigger: 'change' }
         ],
@@ -770,6 +778,76 @@ export default {
     _that = this
   },
   methods: {
+    getInfo() {
+      if (this.productForm.carCode !== null && this.productForm.carCode !== '' && this.productForm.carCode !== undefined) {
+        const param = {}
+        param.carCode = this.productForm.carCode
+        vehicleInfo(param).then(res => {
+          if (res.data.ret === 200) {
+            console.log('res.data.data.content.motorCode', res.data.data.content.motorCode)
+            if (res.data.data.content !== null) {
+              this.productForm.carCode = res.data.data.content.carCode
+              this.productForm.batteryCode = res.data.data.content.batteryCode
+              this.productForm.motorCode = res.data.data.content.motorCode
+              this.productForm.snCode = res.data.data.content.snCode
+            }
+            console.log(this.productForm.batteryCode)
+          } else {
+            this.$notify.error({
+              title: '错误',
+              message: res.data.msg,
+              offset: 100
+            })
+          }
+        })
+      }
+    },
+    getInfo2() {
+      if (this.productForm.motorCode !== null && this.productForm.motorCode !== '' && this.productForm.motorCode !== undefined) {
+        const param = {}
+        param.batteryCode = this.productForm.motorCode
+        vehicleInfo(param).then(res => {
+          if (res.data.ret === 200) {
+            console.log('res.data.data.content', res.data.data.content)
+            if (res.data.data.content !== null) {
+              this.productForm.carCode = res.data.data.content.carCode
+              this.productForm.batteryCode = res.data.data.content.batteryCode
+              this.productForm.motorCode = res.data.data.content.motorCode
+              this.productForm.snCode = res.data.data.content.snCode
+            }
+          } else {
+            this.$notify.error({
+              title: '错误',
+              message: res.data.msg,
+              offset: 100
+            })
+          }
+        })
+      }
+    },
+    getInfo3() {
+      if (this.productForm.batteryCode !== null && this.productForm.batteryCode !== '' && this.productForm.batteryCode !== undefined) {
+        const param = {}
+        param.motorCode = this.productForm.batteryCode
+        vehicleInfo(param).then(res => {
+          if (res.data.ret === 200) {
+            console.log('res.data.data.content', res.data.data.content)
+            if (res.data.data.content !== null) {
+              this.productForm.carCode = res.data.data.content.carCode
+              this.productForm.batteryCode = res.data.data.content.batteryCode
+              this.productForm.motorCode = res.data.data.content.motorCode
+              this.productForm.snCode = res.data.data.content.snCode
+            }
+          } else {
+            this.$notify.error({
+              title: '错误',
+              message: res.data.msg,
+              offset: 100
+            })
+          }
+        })
+      }
+    },
     // 选择已未婚，标签变化
     changepanel(val) {
       console.log(val)

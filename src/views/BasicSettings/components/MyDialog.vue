@@ -54,7 +54,7 @@
         <el-editable-column type="selection" width="55" align="center"/>
         <el-editable-column label="流程步骤" prop="step" type="index" align="center" width="150px"/>
         <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="description" align="center" label="步骤描述" width="200px"/>
-        <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="money" align="center" label="流转条件" width="200px"/>
+        <el-editable-column :edit-render="{name: 'ElInput',type: 'visible'}" prop="money" align="center" label="流转条件" width="200px"/>
         <!--<el-editable-column :edit-render="{name: 'ElInput'}" prop="handlerName" align="center" label="步骤处理人" width="200px"/>-->
         <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="handlerName" align="center" label="步骤处理人" min-width="500px">
           <template slot="edit" slot-scope="scope">
@@ -98,6 +98,21 @@ export default {
     }
   },
   data() {
+    const validatePass4 = (rule, value, callback) => {
+      const numvalue = Number(value)
+      const num = Number.isFinite(numvalue)
+      console.log('value1222222222222222', num)
+      // if (this.personalForm.totalMoney === undefined || this.personalForm.totalMoney === null || this.personalForm.totalMoney === '') {
+      //   callback(new Error('请输入基本信息'))
+      // } else {
+      //   callback()
+      // }
+      if (!num) {
+        callback(new Error('请输入数字类型'))
+      } else {
+        callback()
+      }
+    }
     return {
       // 控制scope
       kongscope: '',
@@ -122,7 +137,7 @@ export default {
           { required: true, message: '请输入流程步骤', trigger: 'blur' }
         ],
         money: [
-          { required: true, message: '请输入流转条件', trigger: 'blue' }
+          { validator: validatePass4, trigger: 'blur' }
         ],
         handlerName: [
           { required: true, message: '请选择步骤处理人', trigger: 'blue' }
@@ -276,14 +291,30 @@ export default {
     // 修改和取消按钮
     // 修改按钮
     handleEditok() {
+      // console.log(this.personalForm)
+
       console.log(this.personalForm)
-      const rest = JSON.stringify(this.$refs.editable.getRecords())
+      const rest2 = this.$refs.editable.getRecords()
+      if (this.$refs.editable.getRecords().length === 0) {
+        this.$notify.error({
+          title: '错误',
+          message: '请填写细则',
+          offset: 100
+        })
+        return false
+      }
+      if (rest2.length === 1) {
+        rest2[0].money = ''
+      } else {
+        rest2[rest2.length - 1].money = ''
+      }
+      const rest = JSON.stringify(rest2)
       console.log(rest)
       updateeapproval(this.personalForm, rest).then(res => {
         if (res.data.ret === 200) {
           this.$notify({
-            title: '操作成功',
-            message: '操作成功',
+            title: '修改成功',
+            message: '修改成功',
             type: 'success',
             duration: 1000,
             offset: 100
@@ -300,6 +331,7 @@ export default {
           })
         }
       })
+
     },
     handlecancel() {
       this.$refs.personalForm.clearValidate()

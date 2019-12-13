@@ -80,7 +80,7 @@
               </template>
             </el-editable-column>
             <!-- <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0, precision: 2}, type: 'visible'}" :label="$t('Voucher.ybje')" prop="primevalMoney" align="center" min-width="150px"/> -->
-            <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('Voucher.ybje')" prop="primevalMoney" align="center" min-width="150" >
+            <!-- <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('Voucher.ybje')" prop="primevalMoney" align="center" min-width="150" >
               <template slot="edit" slot-scope="scope">
                 <el-input-number
                   :precision="2"
@@ -90,9 +90,9 @@
                   @change="entermoney(scope.row)"
                 />
               </template>
-            </el-editable-column>
+            </el-editable-column> -->
             <el-editable-column :label="$t('Voucher.bb')" prop="currencyname" align="center" min-width="150px"/>
-            <el-editable-column :label="$t('Voucher.hl')" prop="rate" align="center" min-width="150px"/>
+            <!-- <el-editable-column :label="$t('Voucher.hl')" prop="rate" align="center" min-width="150px"/> -->
             <!-- <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0, precision: 2}, type: 'visible'}" :label="$t('Voucher.jfje')" prop="debitMoney" align="center" min-width="150px"/>
             <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0, precision: 2}, type: 'visible'}" :label="$t('Voucher.dfje')" prop="creditMoney" align="center" min-width="150px"/> -->
 
@@ -250,6 +250,7 @@ export default {
     },
     async setvoucherdata() {
       const voucherdata = this.$store.getters.voucherdata
+      console.log(voucherdata)
       this.selectid = this.$store.getters.voucherdata.expensesDetailVos.map(item => {
         return {
           id: item.id
@@ -289,7 +290,7 @@ export default {
           this.list2[i].primevalMoney = this.list2[i].money
           this.list2[i].isdisable = true
           this.list2[i].currency = 1
-          this.list2[i].currencyname = '人民币'
+          this.list2[i].currencyname = 'PHP'
           this.list2[i].rate = '1.00'
           if (this.list2[i].balanceTrend === 1) {
             this.list2[i].debitMoney = this.list2[i].money
@@ -331,14 +332,14 @@ export default {
       console.log('voucherdetaildata', voucherdetaildata)
       if (voucherdetaildata.balanceTrend === 1) {
         row.isdisable2 = false
-        row.isdisable3 = true
+        row.isdisable3 = false
       } else if (voucherdetaildata.balanceTrend === 2) {
-        row.isdisable2 = true
+        row.isdisable2 = false
         row.isdisable3 = false
       }
     },
     gettree() {
-      console.log(123)
+      console.log('this.$store.getters.useCountry', this.$store.getters.useCountry)
       subjectList().then(res => {
         if (res.data.ret === 200) {
           this.suboptions = this.processchildren(res.data.data.content)
@@ -374,7 +375,7 @@ export default {
     },
     // 新增收入明细
     insertEvent(index) {
-      this.$refs.editable.insertAt({ currencyname: '人民币', rate: '1.00', source: 2, currency: 1 }, index)
+      this.$refs.editable.insertAt({ currencyname: 'PHP', rate: '1.00', source: 2, currency: 1 }, index)
     },
     getdatatime() { // 默认显示今天
       var date = new Date()

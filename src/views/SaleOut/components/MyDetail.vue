@@ -309,9 +309,9 @@ export default {
         return {
           productCode: item.code,
           productName: item.productName,
-          Categoryid: item.category,
-          productCategory: item.categoryId,
-          productType: item.typeId,
+          category: item.categoryId,
+          categoryName: item.category,
+          type: item.typeId,
           typeId: item.productType,
           color: item.color,
           unit: item.purMeasu,

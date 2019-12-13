@@ -977,6 +977,14 @@ export default {
           this.personalForm.countryId = this.$store.getters.countryId
           this.personalForm.modifyPersonId = this.$store.getters.userId
           const EnterDetail = this.deepClone(this.$refs.editable.getRecords())
+          if (EnterDetail.length === 0) {
+            this.$notify.error({
+              title: '错误',
+              message: '明细表不能为空',
+              offset: 100
+            })
+            return false
+          }
           EnterDetail.map(function(elem) {
             return elem
           }).forEach(function(elem) {

@@ -98,7 +98,7 @@
           </template>
           <detail-list :detailcontrol.sync="detailvisible" :detaildata.sync="personalForm"/>
         </el-table-column>
-        <el-table-column :label="$t('income.title')" :resizable="false" fixed="left" align="center" min-width="150">
+        <el-table-column :label="$t('Expenses.title')" :resizable="false" fixed="left" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.title }}</span>
           </template>
@@ -108,9 +108,9 @@
             <span>{{ scope.row.payModeName }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('income.incomeAccount')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('Expenses.expensesAccount')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.incomeAccount }}</span>
+            <span>{{ scope.row.expensesAccount }}</span>
           </template>
         </el-table-column>
         <el-table-column :label="$t('income.currency')" :resizable="false" align="center" min-width="150">
@@ -123,9 +123,9 @@
             <span>{{ scope.row.handlePersonName }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('income.incomeDate')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('Expenses.expensesDate')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.incomeDate }}</span>
+            <span>{{ scope.row.expensesDate }}</span>
           </template>
         </el-table-column>
         <el-table-column :label="$t('public.judgeStat')" :resizable="false" prop="judgeStat" align="center" min-width="150">
@@ -218,8 +218,9 @@ export default {
     },
     currencyFilter(status) {
       const statusMap = {
-        1: 'RMB',
-        2: 'USD'
+        1: 'PHP',
+        2: 'USD',
+        3: 'RMB'
       }
       return statusMap[status]
     },

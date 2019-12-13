@@ -211,8 +211,8 @@ export default {
     },
     checkModeFilter(status) {
       const statusMap = {
-        1: '是',
-        2: '否'
+        1: _that.$t('updates.yes'),
+        2: _that.$t('updates.no')
       }
       return statusMap[status]
     }
