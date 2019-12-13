@@ -209,13 +209,13 @@
           <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.cjbm')" prop="carCode" align="center" min-width="150" >
             <template slot="edit" slot-scope="scope">
               <el-input v-if="isEdit2(scope.row)" v-model="scope.row.carCode" clearable @blur="getInfo(scope.row)"/>
-              <span v-else>{{ scope.row.batteryCode }}</span>
+              <span v-else>{{ scope.row.carCode }}</span>
             </template>
           </el-editable-column>
           <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.djbm')" prop="motorCode" align="center" min-width="150" >
             <template slot="edit" slot-scope="scope">
               <el-input v-if="isEdit2(scope.row)" v-model="scope.row.motorCode" clearable @blur="getInfo3(scope.row)"/>
-              <span v-else>{{ scope.row.batteryCode }}</span>
+              <span v-else>{{ scope.row.motorCode }}</span>
             </template>
           </el-editable-column>
           <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.dcbm')" prop="batteryCode" align="center" min-width="150" >
@@ -548,7 +548,7 @@ export default {
       let m = 1
       const re = EnterDetail.productCode.slice(0, 2)
       if (re === '01') {
-        if (EnterDetail.carCode === null || EnterDetail.carCode === undefined || EnterDetail.carCode === '' || EnterDetail.motorCode === null || EnterDetail.motorCode === undefined || EnterDetail.motorCode === '' || EnterDetail.batteryCode === null || EnterDetail.batteryCode === undefined || EnterDetail.batteryCode === '') {
+        if (EnterDetail.carCode === null || EnterDetail.carCode === undefined || EnterDetail.carCode === '' || EnterDetail.motorCode === null || EnterDetail.motorCode === undefined || EnterDetail.motorCode === '') {
           m = 2
         }
       }

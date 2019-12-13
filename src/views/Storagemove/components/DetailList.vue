@@ -596,7 +596,10 @@ export default {
         arr[i].step = Number(i) + 1
       }
       console.log(this.reviewList.length - 1)
-      const handleperson = this.reviewList[this.reviewList.length - 1].stepHandlerName
+      let handleperson = ''
+      if (this.reviewList.length > 0) {
+        handleperson = this.reviewList[this.reviewList.length - 1].stepHandlerName
+      }
       console.log(handleperson)
       printJS({
         printable: arr,
