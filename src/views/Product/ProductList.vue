@@ -371,7 +371,7 @@ export default {
         })
       setTimeout(() => {
         loading.close()
-      }, 2000)
+      }, 180000)
     },
     generateData({ header, results }) {
       this.excelData.header = header
