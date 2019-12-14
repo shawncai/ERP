@@ -39,6 +39,22 @@
               </el-form-item>
             </el-col>
             <el-col :span="12">
+              <el-form-item :label="$t('income.region')" prop="incomeregion" style="width: 100%;">
+                <el-cascader
+                  :options="regions"
+                  :props="props"
+                  v-model="personalForm.incomeregion"
+                  :show-all-levels="false"
+                  :placeholder="$t('Hmodule.xzqy')"
+                  change-on-select
+                  filterable
+                  clearable
+                  style="margin-left: 18px;width: 200px"
+                  @change="handlechange4"
+                />
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
               <el-form-item :label="$t('income.incomeRepositoryId')" style="width: 100%;">
                 <el-input v-model="incomeRepositoryId" style="margin-left: 18px;width: 200px" @focus="handlechooseRep"/>
                 <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
@@ -112,6 +128,7 @@
 import { updateincome } from '@/api/income'
 import { searchCategory } from '@/api/Supplier'
 import { getdeptlist } from '@/api/BasicSettings'
+import { getRegion, regionlist } from '@/api/public'
 import MyEmp from './MyEmp'
 import MyRepository from './MyRepository'
 // eslint-disable-next-line no-unused-vars
@@ -137,10 +154,19 @@ export default {
       }
     }
     return {
+      // 区域列表
+      regions: [],
+      region: null,
       pickerOptions1: {
         disabledDate: (time) => {
           return time.getTime() < new Date().getTime() - 8.64e7
         }
+      },
+      // 区域列表字段更改
+      props: {
+        value: 'id',
+        label: 'regionName',
+        children: 'regionListVos'
       },
       // 选择的数据
       choosedata: [],
@@ -191,6 +217,17 @@ export default {
       this.handlePersonId = this.personalForm.handlePersonName
       this.incomeRepositoryId = this.personalForm.incomeRepositoryName
       this.list2 = this.personalForm.incomeDetails
+      getRegion(this.personalForm.incomeRegionId).then(res => {
+        if (res.data.ret === 200) {
+          if (res.data.data.content.zcc !== null && res.data.data.content.zcc !== '' && res.data.data.content.zcc !== undefined) {
+            const zhuz = res.data.data.content.zcc.split(',')
+            this.personalForm.incomeregion = zhuz.map(function(item) {
+              return parseInt(item)
+            })
+            console.log('this.personalForm.incomeregion', this.personalForm.incomeregion)
+          }
+        }
+      })
     }
   },
   created() {
@@ -201,6 +238,21 @@ export default {
     _that = this
   },
   methods: {
+    handlechange4(val) {
+      console.log(val)
+      const finalid = val[val.length - 1]
+      console.log(finalid)
+      this.region = finalid
+      this.personalForm.incomeregionId = finalid
+      // searchRepository(finalid).then(res => {
+      //   console.log(res)
+      //   if (res.data.ret === 200) {
+      //     this.repositories = res.data.data.content.list
+      //   } else {
+      //     console.log('区域选择门店')
+      //   }
+      // })
+    },
     // 新增收入明细
     insertEvent(index) {
       this.$refs.editable.insertAt({ productCode: null }, index)
@@ -218,6 +270,23 @@ export default {
           this.colseTypes = res.data.data.content.list
         }
       })
+      // 区域列表数据
+      regionlist().then(res => {
+        if (res.data.ret === 200) {
+          this.regions = this.tranKTree(res.data.data.content)
+        } else {
+          console.log('区域列表出错')
+        }
+      })
+    },
+    // 转化数据方法
+    tranKTree(arr) {
+      if (!arr || !arr.length) return
+      return arr.map(item => ({
+        id: item.id,
+        regionName: item.regionName,
+        regionListVos: this.tranKTree(item.regionListVos)
+      }))
     },
     getdatatime() { // 默认显示今天
       var date = new Date()

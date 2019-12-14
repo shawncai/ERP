@@ -18,6 +18,28 @@
                 </el-form-item>
               </el-col>
               <el-col :span="6">
+                <el-form-item :label="$t('income.region')" prop="transferRegion" style="width: 100%;">
+                  <el-cascader
+                    :options="regions"
+                    :props="props"
+                    v-model="personalForm.transferRegion"
+                    :show-all-levels="false"
+                    :placeholder="$t('Hmodule.xzqy')"
+                    change-on-select
+                    filterable
+                    clearable
+                    style="margin-left: 18px;width: 200px"
+                    @change="handlechange4"
+                  />
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item :label="$t('income.incomeRepositoryId')" style="width: 100%;">
+                  <el-input v-model="transferRepositoryId" style="margin-left: 18px;width: 200px" @focus="handlechooseRep"/>
+                  <my-repository :repositorycontrol.sync="repositorycontrol" :regionid="region" @repositoryname="repositoryname"/>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
                 <el-form-item :label="$t('Transfer.transferDate')" prop="transferDate" style="width: 100%;">
                   <el-date-picker
                     v-model="personalForm.transferDate"
@@ -52,11 +74,11 @@
                   <el-input v-model="personalForm.transferInBank" style="margin-left: 18px;width:200px" clearable/>
                 </el-form-item>
               </el-col>
-              <el-col :span="6">
-                <el-form-item :label="$t('Transfer.taxRate')" prop="transferTicket" style="width: 100%;">
-                  <el-input v-model="personalForm.taxRate" style="margin-left: 18px;width:200px" clearable/>
-                </el-form-item>
-              </el-col>
+              <!--              <el-col :span="6">-->
+              <!--                <el-form-item :label="$t('Transfer.taxRate')" prop="transferTicket" style="width: 100%;">-->
+              <!--                  <el-input v-model="personalForm.taxRate" style="margin-left: 18px;width:200px" clearable/>-->
+              <!--                </el-form-item>-->
+              <!--              </el-col>-->
               <el-col :span="6">
                 <el-form-item :label="$t('Transfer.handlePersonId')" prop="handlePersonId" style="width: 100%;">
                   <el-input v-model="handlePersonId" style="margin-left: 18px;width: 200px" @focus="handlechooseStock"/>
@@ -90,6 +112,7 @@ import '@/directive/noMoreClick/index.js'
 import { createtransfer } from '@/api/Transfer'
 import { searchSaleCategory } from '@/api/SaleCategory'
 import { getdeptlist } from '@/api/BasicSettings'
+import { regionlist } from '@/api/public'
 import MyEmp from './components/MyEmp'
 import MyRepository from './components/MyRepository'
 // eslint-disable-next-line no-unused-vars
@@ -98,6 +121,13 @@ export default {
   name: 'AddTransfer',
   components: { MyRepository, MyEmp },
   data() {
+    const validatePass3 = (rule, value, callback) => {
+      if (this.personalForm.transferRegionId === undefined || this.personalForm.transferRegionId === null || this.personalForm.transferRegionId === '') {
+        callback(new Error('请选择区域'))
+      } else {
+        callback()
+      }
+    }
     const validatePass2 = (rule, value, callback) => {
       if (this.handlePersonId === undefined || this.handlePersonId === null || this.handlePersonId === '') {
         callback(new Error('请选择经办人'))
@@ -106,11 +136,21 @@ export default {
       }
     }
     return {
+      region: null,
       pickerOptions1: {
         disabledDate: (time) => {
           return time.getTime() < new Date().getTime() - 8.64e7
         }
       },
+      props: {
+        value: 'id',
+        label: 'regionName',
+        children: 'regionListVos'
+      },
+      // 门店回显
+      transferRepositoryId: '',
+      // 区域列表
+      regions: [],
       // 结算方式数据
       colseTypes: [],
       // 结算方式获取参数
@@ -119,8 +159,6 @@ export default {
         pagenum: 1,
         pagesize: 99999
       },
-      // 门店回显
-      TransferRepositoryId: '',
       // 控制门店
       repositorycontrol: false,
       // 选择的数据
@@ -146,6 +184,9 @@ export default {
         ],
         TransferDate: [
           { required: true, message: '请选择收款日期', trigger: 'change' }
+        ],
+        transferRegion: [
+          { required: true, validator: validatePass3, trigger: 'change' }
         ]
       },
       // 收入单明细数据
@@ -163,6 +204,30 @@ export default {
     _that = this
   },
   methods: {
+    handlechange4(val) {
+      console.log(val)
+      const finalid = val[val.length - 1]
+      console.log(finalid)
+      this.region = finalid
+      this.personalForm.transferRegionId = finalid
+      // searchRepository(finalid).then(res => {
+      //   console.log(res)
+      //   if (res.data.ret === 200) {
+      //     this.repositories = res.data.data.content.list
+      //   } else {
+      //     console.log('区域选择门店')
+      //   }
+      // })
+    },
+    // 转化数据方法
+    tranKTree(arr) {
+      if (!arr || !arr.length) return
+      return arr.map(item => ({
+        id: item.id,
+        regionName: item.regionName,
+        regionListVos: this.tranKTree(item.regionListVos)
+      }))
+    },
     // 新增收入明细
     insertEvent(index) {
       this.$refs.editable.insertAt({ productCode: null }, index)
@@ -178,6 +243,14 @@ export default {
       searchSaleCategory(this.colseTypeparms).then(res => {
         if (res.data.ret === 200) {
           this.colseTypes = res.data.data.content.list
+        }
+      })
+      // 区域列表数据
+      regionlist().then(res => {
+        if (res.data.ret === 200) {
+          this.regions = this.tranKTree(res.data.data.content)
+        } else {
+          console.log('区域列表出错')
         }
       })
     },
@@ -201,8 +274,8 @@ export default {
       this.repositorycontrol = true
     },
     repositoryname(val) {
-      this.TransferRepositoryId = val.repositoryName
-      this.personalForm.TransferRepositoryId = val.id
+      this.transferRepositoryId = val.repositoryName
+      this.personalForm.transferRepositoryId = val.id
     },
     // 重置一下下拉
     change() {
@@ -216,8 +289,8 @@ export default {
     stockName(val) {
       console.log(val)
       this.personalForm.deptId = val.deptId
-      this.TransferRepositoryId = val.repositoryName
-      this.personalForm.TransferRepositoryId = val.repositoryId
+      this.transferRepositoryId = val.repositoryName
+      this.personalForm.transferRepositoryId = val.repositoryId
       this.handlePersonId = val.personName
       this.personalForm.handlePersonId = val.id
     },
@@ -232,6 +305,8 @@ export default {
       }
       this.handlePersonId = null
       this.personalForm.handlePersonId = null
+      this.incomeRepositoryId = null
+      this.personalForm.incomeRepositoryId = null
     },
     // 保存操作
     handlesave() {

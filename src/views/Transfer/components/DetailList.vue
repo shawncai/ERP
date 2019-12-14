@@ -24,6 +24,16 @@
                 </el-form-item>
               </el-col>
               <el-col :span="12">
+                <el-form-item :label="$t('income.region')" style="width: 100%;">
+                  <span>{{ personalForm.transferRegionName }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('income.incomeRepositoryId')" style="width: 100%;">
+                  <span>{{ personalForm.transferRepositoryName }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
                 <el-form-item :label="$t('Transfer.transferDate')" prop="transferDate" style="width: 100%;">
                   <span>{{ personalForm.transferDate }}</span>
                 </el-form-item>
@@ -53,11 +63,11 @@
                   <span>{{ personalForm.transferInBank }}</span>
                 </el-form-item>
               </el-col>
-              <el-col :span="12">
-                <el-form-item :label="$t('Transfer.taxRate')" prop="transferTicket" style="width: 100%;">
-                  <span>{{ personalForm.taxRate }}</span>
-                </el-form-item>
-              </el-col>
+              <!--              <el-col :span="12">-->
+              <!--                <el-form-item :label="$t('Transfer.taxRate')" prop="transferTicket" style="width: 100%;">-->
+              <!--                  <span>{{ personalForm.taxRate }}</span>-->
+              <!--                </el-form-item>-->
+              <!--              </el-col>-->
               <el-col :span="12">
                 <el-form-item :label="$t('Transfer.handlePersonId')" prop="handlePersonId" style="width: 100%;">
                   <span>{{ personalForm.handlePersonName }}</span>
