@@ -39,6 +39,7 @@
                 <el-option :label="$t('updates.shtg')" value="2"/>
                 <el-option :label="$t('updates.shptg')" value="3"/>
               </el-select>
+              <el-input v-model="getemplist.customerName" :placeholder="$t('updates2.customerName')" style="width: 40%;float: right;margin-right: 20px;margin-top: 20px" clearable @keyup.enter.native="handleFilter"/>
               <!--<el-date-picker-->
               <!--v-model="date"-->
               <!--type="daterange"-->
@@ -107,6 +108,11 @@
         <el-table-column :label="$t('SaleOut.title')" :resizable="false" fixed="left" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.title }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column :label="$t('SaleOut.customerName')" :resizable="false" fixed="left" align="center" min-width="150">
+          <template slot-scope="scope">
+            <span>{{ scope.row.customerName }}</span>
           </template>
         </el-table-column>
         <el-table-column :label="$t('SaleOut.outPersonId')" :resizable="false" align="center" min-width="150">
@@ -409,6 +415,11 @@ export default {
     // 搜索
     handleFilter() {
       this.getemplist.pageNum = 1
+      if (this.getemplist.customerName !== null && this.getemplist.customerName !== undefined && this.getemplist.customerName !== '') {
+        this.getemplist.customerType = 2
+      } else {
+        this.getemplist.customerType = null
+      }
       searchsaleOut(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list

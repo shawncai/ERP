@@ -3765,6 +3765,7 @@ export default {
     ywzt: '业务状态'
   },
   updates2: {
-    dbdxq: '调拨单详情'
+    dbdxq: '调拨单详情',
+    customerName: '零售客户姓名'
   }
 }

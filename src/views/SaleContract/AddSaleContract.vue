@@ -1023,7 +1023,7 @@ export default {
         this.$refs.editable.clear()
         this.personalForm.sourceNumber = ''
         this.personalForm.installmentCount = ''
-        this.isinstallappley = false
+        this.isinstallappley = true
         this.canclick = true
       } else if (this.personalForm.sourceType === '3') {
         this.$refs.editable.clear()

@@ -791,7 +791,7 @@ export default {
         this.$refs.editable.clear()
         this.personalForm.sourceNumber = ''
         this.personalForm.installmentCount = ''
-        this.isinstallappley = false
+        this.isinstallappley = true
       }
     },
     // 从源单中添加商品

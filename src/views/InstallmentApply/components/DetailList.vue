@@ -162,27 +162,27 @@
                   {{ personalForm.categoryName }}
                 </el-form-item>
               </el-col>
-              <el-col :span="12">
-                <el-form-item :label="$t('InstallmentApply.carCode')" style="width: 100%;">
-                  {{ personalForm.carCode }}
-                </el-form-item>
-              </el-col>
-              <el-col :span="12">
-                <el-form-item :label="$t('InstallmentApply.motorCode')" style="width: 100%;">
-                  {{ personalForm.motorCode }}
-                </el-form-item>
-              </el-col>
-              <el-col :span="12">
-                <el-form-item :label="$t('InstallmentApply.batteryCode')" style="width: 100%;">
-                  {{ personalForm.batteryCode }}
-                </el-form-item>
-              </el-col>
+              <!--              <el-col :span="12">-->
+              <!--                <el-form-item :label="$t('InstallmentApply.carCode')" style="width: 100%;">-->
+              <!--                  {{ personalForm.carCode }}-->
+              <!--                </el-form-item>-->
+              <!--              </el-col>-->
+              <!--              <el-col :span="12">-->
+              <!--                <el-form-item :label="$t('InstallmentApply.motorCode')" style="width: 100%;">-->
+              <!--                  {{ personalForm.motorCode }}-->
+              <!--                </el-form-item>-->
+              <!--              </el-col>-->
+              <!--              <el-col :span="12">-->
+              <!--                <el-form-item :label="$t('InstallmentApply.batteryCode')" style="width: 100%;">-->
+              <!--                  {{ personalForm.batteryCode }}-->
+              <!--                </el-form-item>-->
+              <!--              </el-col>-->
             </el-row>
           </el-form>
         </div>
       </el-card>
       <el-card v-if="personalForm.marriageStat === 2" class="box-card" shadow="never" style="margin-top: 10px">
-        <h2 ref="geren" class="form-name">配偶信息</h2>
+        <h2 ref="geren" class="form-name">伴侣信息</h2>
         <div class="container" style="margin-top: 37px">
           <el-form ref="personalForm3" :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
             <el-row>
@@ -259,7 +259,7 @@
                   </el-col>
                   <el-col :span="12">
                     <el-form-item :label="$t('InstallmentApply.workTime')" style="width: 100%;">
-                      {{ personalForm.workTime }}
+                      {{ personalForm.workTime }}月
                     </el-form-item>
                   </el-col>
                   <el-col :span="12">
@@ -305,7 +305,7 @@
                 </el-row>
               </el-form>
             </el-tab-pane>
-            <el-tab-pane v-if="personalForm.marriageStat === 2" label="配偶" name="second">
+            <el-tab-pane label="伴侣" name="second">
               <el-form ref="personalForm5" :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
                 <el-row>
                   <el-col :span="12">
@@ -330,7 +330,7 @@
                   </el-col>
                   <el-col :span="12">
                     <el-form-item :label="$t('InstallmentApply.workTime')" style="width: 100%;">
-                      {{ personalForm.mateWorkTime }}
+                      {{ personalForm.mateWorkTime }}月
                     </el-form-item>
                   </el-col>
                   <el-col :span="12">
@@ -396,6 +396,55 @@
             <el-editable-column :label="$t('updates.lxdh')" prop="consultancyPhone" align="center" min-width="150px"/>
             <el-editable-column :label="$t('updates.dz')" prop="consultancyAddress" align="center" min-width="150px"/>
           </el-editable>
+        </div>
+      </el-card>
+      <el-card class="box-card" shadow="never" style="margin-top: 10px;margin-bottom: 30px">
+        <h2 ref="geren" class="form-name">担保人信息</h2>
+        <div class="container" style="margin-top: 37px">
+          <el-form ref="personalForm5" :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
+            <el-row>
+              <el-col :span="12">
+                <el-form-item :label="$t('InstallmentApply.suretyName')" prop="suretyName" style="width: 100%;">
+                  <span>{{ personalForm.suretyName }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('InstallmentApply.suretyPhone')" prop="suretyPhone" style="width: 100%;">
+                  <span>{{ personalForm.suretyPhone }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('InstallmentApply.relationship')" prop="relationship" style="width: 100%;">
+                  <span>{{ personalForm.relationship }}</span>
+                </el-form-item>
+              </el-col>
+              <!--              <el-col :span="12">-->
+              <!--                <el-form-item :label="$t('InstallmentApply.suretyProvinceId')" prop="suretyProvinceId" style="width: 100%;">-->
+              <!--                  <span>{{ personalForm.suretyProvinceName }}</span>-->
+              <!--                </el-form-item>-->
+              <!--              </el-col>-->
+              <!--              <el-col :span="12">-->
+              <!--                <el-form-item :label="$t('InstallmentApply.suretyCityId')" prop="suretyCityId" style="width: 100%;">-->
+              <!--                  <span>{{ personalForm.suretyCityName }}</span>-->
+              <!--                </el-form-item>-->
+              <!--              </el-col>-->
+              <el-col :span="12">
+                <el-form-item :label="$t('InstallmentApply.suretyAddress')" style="width: 100%;">
+                  <span>{{ personalForm.suretyAddress }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('InstallmentApply.suretyCertificateType')" style="width: 100%;">
+                  <span>{{ personalForm.suretyCertificateType | suretyCertificateTypeFilter }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('InstallmentApply.suretyCertificateNumber')" style="width: 100%;">
+                  <span>{{ personalForm.suretyCertificateNumber }}</span>
+                </el-form-item>
+              </el-col>
+            </el-row>
+          </el-form>
         </div>
       </el-card>
       <el-card class="box-card" style="margin-top: 15px" shadow="never">

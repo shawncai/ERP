@@ -55,6 +55,7 @@
                 end-placeholder="销售日期"
                 value-format="yyyy-MM-dd"
                 style="margin-top: 20px;margin-left: 20px"/>
+              <el-input v-model="getemplist.customerName" :placeholder="$t('updates2.customerName')" style="width: 40%;float: left;margin-left: 20px;margin-top: 20px" clearable @keyup.enter.native="handleFilter"/>
               <div class="seachbutton" style="width: 100%;float: right;margin-top: 20px">
                 <el-button v-waves class="filter-item" type="primary" style="float: right" round @click="handleFilter">{{ $t('public.search') }}</el-button>
               </div>
@@ -469,6 +470,11 @@ export default {
     // 搜索
     handleFilter() {
       this.getemplist.pageNum = 1
+      if (this.getemplist.customerName !== null && this.getemplist.customerName !== undefined && this.getemplist.customerName !== '') {
+        this.getemplist.customerType = 2
+      } else {
+        this.getemplist.customerType = null
+      }
       searchsaleOrder(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list

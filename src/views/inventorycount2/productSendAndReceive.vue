@@ -359,7 +359,7 @@ export default {
       productSendAndReceive(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content
-          this.total = res.data.data.content.totalCount
+          this.total = res.data.data.content2.totalCount
         }
         setTimeout(() => {
           this.listLoading = false
@@ -387,7 +387,7 @@ export default {
       productSendAndReceive(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content
-          this.total = res.data.data.content.totalCount
+          this.total = res.data.data.content2.totalCount
           // this.restFilter()
         } else {
           // this.restFilter()

@@ -8,7 +8,7 @@
           <el-form ref="personalForm" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
             <el-row>
               <el-col :span="6">
-                <el-form-item :label="$t('DeliverGoods.title')" prop="title" style="width: 100%;">
+                <el-form-item :label="$t('DeliverGoods.title')" style="width: 100%;">
                   <el-input v-model="personalForm.title" style="margin-left: 18px;width: 200px" clearable/>
                 </el-form-item>
               </el-col>
@@ -38,7 +38,7 @@
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('DeliverGoods.deliverDept')" prop="deliverDept" style="width: 100%;">
+                <el-form-item :label="$t('DeliverGoods.deliverDept')" style="width: 100%;">
                   <el-select v-model="personalForm.deliverDept" style="margin-left: 18px;width: 200px">
                     <el-option
                       v-for="(item, index) in depts"
@@ -347,6 +347,7 @@ export default {
     },
     Storagemovedata(val) {
       this.personalForm.sourceNumber = val.moveNumber
+      this.personalForm.address = val.moveOutRepositoryAddress
     },
     // 部门列表
     getnationlist() {

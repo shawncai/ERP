@@ -61,6 +61,9 @@ export function searchsaleOut(query) {
   if (query.customerType !== '' && query.customerType !== null && query.customerType !== undefined) {
     params.append('customerType', query.customerType) // 你要传给后台的参数值 key/value
   }
+  if (query.customerName !== '' && query.customerName !== null && query.customerName !== undefined) {
+    params.append('customerName', query.customerName) // 你要传给后台的参数值 key/value
+  }
   if (query.customerId !== '' && query.customerId !== null && query.customerId !== undefined) {
     params.append('customerId', query.customerId) // 你要传给后台的参数值 key/value
   }

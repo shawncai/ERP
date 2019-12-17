@@ -214,27 +214,27 @@
                 <el-input v-model="categoryName" disabled style="margin-left: 18px;width: 200px"/>
               </el-form-item>
             </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('InstallmentApply.carCode')" style="width: 100%;">
-                <el-input v-model="productForm.carCode" style="margin-left: 18px;width: 200px" @blur="getInfo()"/>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('InstallmentApply.motorCode')" style="width: 100%;">
-                <el-input v-model="productForm.motorCode" style="margin-left: 18px;width: 200px" @blur="getInfo3()"/>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('InstallmentApply.batteryCode')" style="width: 100%;">
-                <el-input v-model="productForm.batteryCode" style="margin-left: 18px;width: 200px" @blur="getInfo2()"/>
-              </el-form-item>
-            </el-col>
+            <!--            <el-col :span="12">-->
+            <!--              <el-form-item :label="$t('InstallmentApply.carCode')" style="width: 100%;">-->
+            <!--                <el-input v-model="productForm.carCode" style="margin-left: 18px;width: 200px" @blur="getInfo()"/>-->
+            <!--              </el-form-item>-->
+            <!--            </el-col>-->
+            <!--            <el-col :span="12">-->
+            <!--              <el-form-item :label="$t('InstallmentApply.motorCode')" style="width: 100%;">-->
+            <!--                <el-input v-model="productForm.motorCode" style="margin-left: 18px;width: 200px" @blur="getInfo3()"/>-->
+            <!--              </el-form-item>-->
+            <!--            </el-col>-->
+            <!--            <el-col :span="12">-->
+            <!--              <el-form-item :label="$t('InstallmentApply.batteryCode')" style="width: 100%;">-->
+            <!--                <el-input v-model="productForm.batteryCode" style="margin-left: 18px;width: 200px" @blur="getInfo2()"/>-->
+            <!--              </el-form-item>-->
+            <!--            </el-col>-->
           </el-row>
         </el-form>
       </div>
     </el-card>
     <el-card v-if="personalForm.marriageStat === 2" class="box-card" shadow="never" style="margin-top: 10px">
-      <h2 ref="geren" class="form-name">配偶信息</h2>
+      <h2 ref="geren" class="form-name">伴侣信息</h2>
       <div class="container" style="margin-top: 37px">
         <el-form ref="personalForm3" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
           <el-row>
@@ -322,7 +322,9 @@
                 </el-col>
                 <el-col :span="12">
                   <el-form-item :label="$t('InstallmentApply.workTime')" style="width: 100%;">
-                    <el-input v-model.number="personalForm.workTime" style="margin-left: 18px;width: 200px"/>
+                    <el-input v-model.number="personalForm.workTime" style="margin-left: 18px;width: 200px">
+                      <template slot="append">月</template>
+                    </el-input>
                   </el-form-item>
                 </el-col>
                 <el-col :span="12">
@@ -368,7 +370,7 @@
               </el-row>
             </el-form>
           </el-tab-pane>
-          <el-tab-pane v-if="personalForm.marriageStat === 2" label="配偶" name="second">
+          <el-tab-pane label="伴侣" name="second">
             <el-form ref="personalForm5" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
               <el-row>
                 <el-col :span="12">
@@ -396,7 +398,9 @@
                 </el-col>
                 <el-col :span="12">
                   <el-form-item :label="$t('InstallmentApply.workTime')" style="width: 100%;">
-                    <el-input v-model="personalForm.mateWorkTime" style="margin-left: 18px;width: 200px"/>
+                    <el-input v-model="personalForm.mateWorkTime" style="margin-left: 18px;width: 200px">
+                      <template slot="append">月</template>
+                    </el-input>
                   </el-form-item>
                 </el-col>
                 <el-col :span="12">
@@ -467,6 +471,70 @@
           <el-editable-column :label="$t('updates.lxdh')" prop="consultancyPhone" align="center" min-width="150px"/>
           <el-editable-column :label="$t('updates.dz')" prop="consultancyAddress" align="center" min-width="150px"/>
         </el-editable>
+      </div>
+    </el-card>
+    <el-card class="box-card" shadow="never" style="margin-top: 10px">
+      <h2 ref="geren" class="form-name">担保人信息</h2>
+      <div class="container" style="margin-top: 37px">
+        <el-form ref="personalForm5" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
+          <el-row>
+            <el-col :span="12">
+              <el-form-item :label="$t('InstallmentApply.suretyName')" prop="suretyName" style="width: 100%;">
+                <el-input v-model="personalForm.suretyName" style="margin-left: 18px;width: 200px"/>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('InstallmentApply.suretyPhone')" prop="suretyPhone" style="width: 100%;">
+                <el-input v-model="personalForm.suretyPhone" style="margin-left: 18px;width: 200px"/>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('InstallmentApply.relationship')" prop="relationship" style="width: 100%;">
+                <el-input v-model="personalForm.relationship" style="margin-left: 18px;width: 200px"/>
+              </el-form-item>
+            </el-col>
+            <!--            <el-col :span="6">-->
+            <!--              <el-form-item :label="$t('InstallmentApply.suretyProvinceId')" prop="suretyProvinceId" style="width: 100%;">-->
+            <!--                <el-select v-model="personalForm.suretyProvinceId" style="margin-left: 18px;width: 200px" @change="handlechangesuretyProvince">-->
+            <!--                  <el-option-->
+            <!--                    v-for="(item, index) in provinces"-->
+            <!--                    :key="index"-->
+            <!--                    :label="item.name"-->
+            <!--                    :value="item.id"/>-->
+            <!--                </el-select>-->
+            <!--              </el-form-item>-->
+            <!--            </el-col>-->
+            <!--            <el-col :span="6">-->
+            <!--              <el-form-item :label="$t('InstallmentApply.suretyCityId')" prop="suretyCityId" style="width: 100%;">-->
+            <!--                <el-select v-model="personalForm.suretyCityId" style="margin-left: 18px;width: 200px">-->
+            <!--                  <el-option-->
+            <!--                    v-for="(item, index) in cities3"-->
+            <!--                    :key="index"-->
+            <!--                    :label="item.name"-->
+            <!--                    :value="item.id"/>-->
+            <!--                </el-select>-->
+            <!--              </el-form-item>-->
+            <!--            </el-col>-->
+            <el-col :span="12">
+              <el-form-item :label="$t('InstallmentApply.suretyAddress')" style="width: 100%;">
+                <el-input v-model="personalForm.suretyAddress" style="margin-left: 18px;width: 200px"/>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('InstallmentApply.suretyCertificateType')" style="width: 100%;">
+                <el-select v-model="personalForm.suretyCertificateType" style="margin-left: 18px;width: 200px">
+                  <el-option value="1" label="身份证"/>
+                  <el-option value="2" label="其他"/>
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('InstallmentApply.suretyCertificateNumber')" style="width: 100%;">
+                <el-input v-model="personalForm.suretyCertificateNumber" style="margin-left: 18px;width: 200px" clearable/>
+              </el-form-item>
+            </el-col>
+          </el-row>
+        </el-form>
       </div>
     </el-card>
     <el-card class="box-card" style="position: fixed;width: 1010px;z-index: 100;height: 74px;bottom: 0;" shadow="never">
@@ -891,8 +959,15 @@ export default {
       if (this.personalForm.firstMoney != null && this.personalForm.firstMoney !== '' && this.personalForm.firstMoney !== undefined) {
         if (this.productForm.price != null && this.productForm.price !== '' && this.productForm.price !== undefined) {
           if (this.rate != null && this.rate !== '' && this.rate !== undefined) {
-            this.personalForm.totalMoney = ((Number(this.productForm.price) - Number(this.personalForm.firstMoney)) * (1 + (Number(this.rate) /
-              100)) + Number(this.personalForm.firstMoney)).toFixed(2)
+            this.personalForm.totalMoney = ((Number(this.productForm.price) - Number(this.personalForm.firstMoney)) * (1 + Number(this.rate))).toFixed(2)
+            const each = Math.ceil(this.personalForm.totalMoney / this.personalForm.installmentCount)
+            if (each % 100 < 25) {
+              this.personalForm.totalMoney = Math.floor((each / 100) / 2) * 100 * this.personalForm.installmentCount
+            } else if (each % 100 >= 25 && each % 100 < 75) {
+              this.personalForm.totalMoney = (Math.floor((each / 100) / 2) * 100 + 50) * this.personalForm.installmentCount
+            } else if (each % 100 >= 75) {
+              this.personalForm.totalMoney = (Math.floor((each / 100) / 2) * 100 + 100) * this.personalForm.installmentCount
+            }
           }
         }
       }
@@ -910,7 +985,15 @@ export default {
       if (this.personalForm.firstMoney != null && this.personalForm.firstMoney !== '' && this.personalForm.firstMoney !== undefined) {
         if (this.productForm.price != null && this.productForm.price !== '' && this.productForm.price !== undefined) {
           if (needval.rate != null && needval.rate !== '' && needval.rate !== undefined) {
-            this.personalForm.totalMoney = ((Number(this.productForm.price) - Number(this.personalForm.firstMoney)) * (1 + (Number(needval.rate))) + Number(this.personalForm.firstMoney)).toFixed(2)
+            this.personalForm.totalMoney = ((Number(this.productForm.price) - Number(this.personalForm.firstMoney)) * (1 + Number(this.rate))).toFixed(2)
+            const each = Math.ceil(this.personalForm.totalMoney / this.personalForm.installmentCount)
+            if (each % 100 < 25) {
+              this.personalForm.totalMoney = Math.floor((each / 100) / 2) * 100 * this.personalForm.installmentCount
+            } else if (each % 100 >= 25 && each % 100 < 75) {
+              this.personalForm.totalMoney = (Math.floor((each / 100) / 2) * 100 + 50) * this.personalForm.installmentCount
+            } else if (each % 100 >= 75) {
+              this.personalForm.totalMoney = (Math.floor((each / 100) / 2) * 100 + 100) * this.personalForm.installmentCount
+            }
           }
         }
       }
@@ -1035,8 +1118,15 @@ export default {
       if (this.personalForm.firstMoney != null && this.personalForm.firstMoney !== '' && this.personalForm.firstMoney !== undefined) {
         if (this.productForm.price != null && this.productForm.price !== '' && this.productForm.price !== undefined) {
           if (this.rate != null && this.rate !== '' && this.rate !== undefined) {
-            this.personalForm.totalMoney = ((Number(this.productForm.price) - Number(this.personalForm.firstMoney)) * (1 + (Number(this.rate) /
-              100)) + Number(this.personalForm.firstMoney)).toFixed(2)
+            this.personalForm.totalMoney = ((Number(this.productForm.price) - Number(this.personalForm.firstMoney)) * (1 + Number(this.rate))).toFixed(2)
+            const each = Math.ceil(this.personalForm.totalMoney / this.personalForm.installmentCount)
+            if (each % 100 < 25) {
+              this.personalForm.totalMoney = Math.floor((each / 100) / 2) * 100 * this.personalForm.installmentCount
+            } else if (each % 100 >= 25 && each % 100 < 75) {
+              this.personalForm.totalMoney = (Math.floor((each / 100) / 2) * 100 + 50) * this.personalForm.installmentCount
+            } else if (each % 100 >= 75) {
+              this.personalForm.totalMoney = (Math.floor((each / 100) / 2) * 100 + 100) * this.personalForm.installmentCount
+            }
           }
         }
       }

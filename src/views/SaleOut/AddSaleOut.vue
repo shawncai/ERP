@@ -512,7 +512,7 @@
 <script>
 import '@/directive/noMoreClick/index.js'
 import { getPackage } from '@/api/Package'
-import { getAllBatch, vehicleInfo } from '@/api/public'
+import { getAllBatch, vehicleInfo, getQuantity2 } from '@/api/public'
 import { createsaleOut } from '@/api/SaleOut'
 import { searchSaleCategory } from '@/api/SaleCategory'
 import { getlocation, locationlist, countlist, batchlist, productlist } from '@/api/public'

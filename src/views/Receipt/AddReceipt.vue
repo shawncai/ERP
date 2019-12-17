@@ -372,7 +372,7 @@ export default {
               installmentId: item.installmentId
             }
           })
-          // console.log(InstallmentDetail)
+          console.log('InstallmentDetail', InstallmentDetail)
           for (let i = 0; i < InstallmentDetail.length; i++) {
             this.$refs.editable2.insert(InstallmentDetail[i])
           }
@@ -579,32 +579,33 @@ export default {
             this.$refs.editable2.insert(InstallmentDetail[i])
           }
           this.personalForm.totalLackMoney = Number(this.allmoney) - Number(this.personalForm.receiptMoney)
-        } else {
-          this.$refs.editable2.clear()
-          const valmap = []
-          valmap.push(val)
-          const InstallmentDetail = valmap.map(function(item) {
-            return {
-              installmentDetailId: item.id,
-              presentCount: item.idx,
-              returnMoney: item.shouldMoney,
-              shouldMoney: item.shouldMoney,
-              returnSource: item.capitalMoney,
-              reward: item.reward,
-              penalty: item.penalty,
-              returnInterest: item.interestMoney,
-              paidmoney: item.paidMoney,
-              unpay: item.shouldMoney - item.paidMoney,
-              thisMoney: item.shouldMoney - item.paidMoney,
-              installmentId: item.installmentId
-            }
-          })
-          console.log('shushushushushsuhsuhsuhsuhsushu', InstallmentDetail)
-          for (let i = 0; i < InstallmentDetail.length; i++) {
-            this.$refs.editable2.insert(InstallmentDetail[i])
-          }
-          this.personalForm.totalLackMoney = Number(this.allmoney) - Number(this.personalForm.receiptMoney)
         }
+        // else {
+        //   this.$refs.editable2.clear()
+        //   const valmap = []
+        //   valmap.push(val)
+        //   const InstallmentDetail = valmap.map(function(item) {
+        //     return {
+        //       installmentDetailId: item.id,
+        //       presentCount: item.idx,
+        //       returnMoney: item.shouldMoney,
+        //       shouldMoney: item.shouldMoney,
+        //       returnSource: item.capitalMoney,
+        //       reward: item.reward,
+        //       penalty: item.penalty,
+        //       returnInterest: item.interestMoney,
+        //       paidmoney: item.paidMoney,
+        //       unpay: item.shouldMoney - item.paidMoney,
+        //       thisMoney: item.shouldMoney - item.paidMoney,
+        //       installmentId: item.installmentId
+        //     }
+        //   })
+        //   console.log('shushushushushsuhsuhsuhsuhsushu', InstallmentDetail)
+        //   for (let i = 0; i < InstallmentDetail.length; i++) {
+        //     this.$refs.editable2.insert(InstallmentDetail[i])
+        //   }
+        //   this.personalForm.totalLackMoney = Number(this.allmoney) - Number(this.personalForm.receiptMoney)
+        // }
       }, 0)
     },
     // 源单控制
