@@ -210,7 +210,8 @@
           stripe
           border
           size="medium"
-          style="width: 100%">
+          style="width: 100%"
+          @selection-change="handleSelectionChange">
           <el-editable-column type="selection" min-width="55" align="center" fixed="left"/>
           <el-editable-column :label="$t('Hmodule.xh')" min-width="55" align="center" type="index" fixed="left"/>
           <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" align="center" min-width="150" fixed="left"/>
@@ -338,6 +339,8 @@
       <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
         <el-button @click="handleAddGift">{{ $t('updates.tj') }}</el-button>
         <my-detail2 :giftcontrol.sync="giftcontrol" @gift="gift"/>
+        <el-button @click="handleAddpackage">{{ $t('otherlanguage.xztc') }}</el-button>
+        <my-package :packagecontrol.sync="packagecontrol" :productnumber.sync="productnumber" @packagedata="packagedata"/>
         <el-button type="danger" @click="$refs.editable2.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
       </div>
       <div class="container">
@@ -477,11 +480,12 @@ import MyAdvance from './MyAdvance'
 import MyPresale from './MyPresale'
 import MyOpportunity from './MyOpportunity'
 import MyDetail2 from './MyDetail2'
+import MyPackage from './MyPackage'
 // eslint-disable-next-line no-unused-vars
 var _that
 export default {
   name: 'MyDialog',
-  components: { MyDetail2, MyOpportunity, MyPresale, MyAdvance, MyOrder, MyRepository, MyAccept, MyAgent, MyCustomer, MyRequire, MySupplier, MyApply, MyDetail, MyDelivery, MyEmp },
+  components: { MyPackage, MyDetail2, MyOpportunity, MyPresale, MyAdvance, MyOrder, MyRepository, MyAccept, MyAgent, MyCustomer, MyRequire, MySupplier, MyApply, MyDetail, MyDelivery, MyEmp },
   props: {
     editcontrol: {
       type: Boolean,
@@ -556,6 +560,10 @@ export default {
           return time.getTime() < new Date().getTime() - 8.64e7
         }
       },
+      moreaction: '',
+      // 赠品选择控制
+      packagecontrol: false,
+      productnumber: '',
       // 积分信息
       point: 0,
       // 修改信息
@@ -765,6 +773,30 @@ export default {
     _that = this
   },
   methods: {
+    // 批量操作
+    handleSelectionChange(val) {
+      console.log(val)
+      this.moreaction = val
+    },
+    packagedata(val) {
+      console.log('val1222222', val)
+      for (let i = 0; i < val.length; i++) {
+        this.$refs.editable2.insert(val[i])
+      }
+    },
+    // 选择套餐
+    handleAddpackage() {
+      if (this.moreaction.length > 1 || this.moreaction.length === 0) {
+        this.$notify.error({
+          title: '请选择主商品',
+          message: '请选择主商品',
+          offset: 100
+        })
+      } else {
+        this.productnumber = this.moreaction[0].productCode
+        this.packagecontrol = true
+      }
+    },
     getInfo(row) {
       console.log(row)
       if (row.carCode !== null && row.carCode !== '' && row.carCode !== undefined) {

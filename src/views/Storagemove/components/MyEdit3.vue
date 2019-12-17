@@ -220,7 +220,7 @@
           </el-editable-column>
           <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.dcbm')" prop="batteryCode" align="center" min-width="150" >
             <template slot="edit" slot-scope="scope">
-              <el-input v-if="isEdit2(scope.row)" v-model="scope.row.batteryCode" clearable @blur="getInfo2(scope.row)"/>
+              <el-input v-if="isEdit4(scope.row)" v-model="scope.row.batteryCode" clearable @blur="getInfo2(scope.row)"/>
               <span v-else>{{ scope.row.batteryCode }}</span>
             </template>
           </el-editable-column>
@@ -532,6 +532,19 @@ export default {
       // }
       if (re === '01') { return true } else { return false }
     },
+    // 判断整车或者电池
+    isEdit4(row) {
+      console.log('222', row)
+      if (row.stat === 2) {
+        return false
+      }
+      const re = row.productCode.slice(0, 2)
+      // if (re === '01') {
+      //   row.quantity = 1
+      //   return row.quantity
+      // }
+      if (re === '01' || re === '05') { return true } else { return false }
+    },
     // 保存修改
     handleEdit(row) {
       console.log(row.id)
@@ -546,16 +559,33 @@ export default {
       console.log(row.data.id)
       const EnterDetail = this.deepClone(row.data)
       let m = 1
+      let b = 1
       const re = EnterDetail.productCode.slice(0, 2)
       if (re === '01') {
         if (EnterDetail.carCode === null || EnterDetail.carCode === undefined || EnterDetail.carCode === '' || EnterDetail.motorCode === null || EnterDetail.motorCode === undefined || EnterDetail.motorCode === '') {
           m = 2
         }
       }
+
+      if (re === '05') {
+        if (EnterDetail.batteryCode === null || EnterDetail.batteryCode === undefined || EnterDetail.batteryCode === '') {
+          b = 2
+        }
+      }
+
       if (m === 2) {
         this.$notify.error({
           title: '错误',
           message: '整车出库时相关编码必填',
+          offset: 100
+        })
+        return false
+      }
+
+      if (b === 2) {
+        this.$notify.error({
+          title: '错误',
+          message: '电池出库时电池编码必填',
           offset: 100
         })
         return false

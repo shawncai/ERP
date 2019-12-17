@@ -37,6 +37,7 @@
                 <el-option :label="$t('updates.shtg')" value="2"/>
                 <el-option :label="$t('updates.shptg')" value="3"/>
               </el-select>
+              <el-input v-model="getemplist.suretyName" :placeholder="$t('otherlanguage.dbr')" clearable style="width: 40%;float: left;margin-left: 20px;margin-top: 10px" @keyup.enter.native="handleFilter"/>
               <!--<el-date-picker-->
               <!--v-model="date"-->
               <!--type="daterange"-->

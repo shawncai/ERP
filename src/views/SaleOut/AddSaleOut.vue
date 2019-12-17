@@ -362,7 +362,9 @@
         <h2 ref="fuzhu" class="form-name" >{{ $t('updates.zpmx') }}</h2>
         <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
           <el-button @click="handleAddGift">{{ $t('updates.tj') }}</el-button>
-          <my-detail2 :giftcontrol.sync="giftcontrol" @gift="gift"/>
+          <my-detail2 :giftcontrol.sync="giftcontrol" :personalform.sync="personalForm" @gift="gift"/>
+          <el-button @click="handleAddpackage">{{ $t('otherlanguage.xztc') }}</el-button>
+          <my-package :packagecontrol.sync="packagecontrol" :productnumber.sync="productnumber" @packagedata="packagedata"/>
           <el-button type="danger" @click="$refs.editable2.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
         </div>
         <div class="container">
@@ -534,10 +536,11 @@ import MyOpportunity from './components/MyOpportunity'
 import MyDetail2 from './components/MyDetail2'
 import MyContract from './components/MyContract'
 import MyRecycling from './components/MyRecycling'
+import MyPackage from './components/MyPackage'
 var _that
 export default {
   name: 'AddSaleOut',
-  components: { MyRecycling, MyContract, MyDetail2, MyOpportunity, MyPresale, MyAdvance, MyOrder, MyRepository, MyAccept, MyAgent, MyCustomer, MyRequire, MySupplier, MyApply, MyDetail, MyDelivery, MyEmp },
+  components: { MyRecycling, MyContract, MyDetail2, MyOpportunity, MyPresale, MyAdvance, MyOrder, MyRepository, MyAccept, MyAgent, MyCustomer, MyRequire, MySupplier, MyApply, MyDetail, MyDelivery, MyEmp, MyPackage },
   data() {
     const validatePass = (rule, value, callback) => {
       console.log(this.supplierId)
@@ -602,6 +605,9 @@ export default {
           return time.getTime() < new Date().getTime() - 8.64e7
         }
       },
+      // 赠品选择控制
+      packagecontrol: false,
+      productnumber: '',
       // 判断权限
       isshow: false,
       isshow2: false,
@@ -832,6 +838,25 @@ export default {
     _that = this
   },
   methods: {
+    packagedata(val) {
+      console.log('val1222222', val)
+      for (let i = 0; i < val.length; i++) {
+        this.$refs.editable2.insert(val[i])
+      }
+    },
+    // 选择套餐
+    handleAddpackage() {
+      if (this.moreaction.length > 1 || this.moreaction.length === 0) {
+        this.$notify.error({
+          title: '请选择主商品',
+          message: '请选择主商品',
+          offset: 100
+        })
+      } else {
+        this.productnumber = this.moreaction[0].productCode
+        this.packagecontrol = true
+      }
+    },
     // 获取默认消息（销售合同）
     getinformation4() {
       if (this.$store.getters.newsaleoutdata) {
@@ -1113,6 +1138,7 @@ export default {
     },
     // 批量操作
     handleSelectionChange(val) {
+      console.log(val)
       this.moreaction = val
     },
     getinformation3() {
@@ -1787,26 +1813,21 @@ export default {
       }
 
       console.log('123', 123)
-      const list = await Promise.all(val.map(function(item) {
-        console.log('321', 321)
-        const param = {}
-        param.productCode = item.productCode
-        param.repositoryId = this.personalForm.saleRepositoryId
-        console.log('param', param)
-        getPackage(param).then(res => {
-          if (res.data.ret === 200) {
-            console.log('result2', res.data.data.content)
-          } else {
-            this.$notify.error({
-              title: '错误',
-              message: res.data.msg,
-              offset: 100
-            })
-          }
-        })
-        // return getPackage(param)
-      }))
-      console.log('list', list)
+      const that = this
+      // const list = await Promise.all(val.map(function(item) {
+      //   console.log('321', 321)
+      //   const param = {}
+      //   param.productCode = item.productCode
+      //   param.repositoryId = that.personalForm.saleRepositoryId
+      //   console.log('param', param)
+      //   getPackage(param).then(res => {
+      //     if (res.data.ret === 200) {
+      //       console.log('result2', res.data.data.content)
+      //     }
+      //   })
+      //   // return getPackage(param)
+      // }))
+      // console.log('list', list)
     },
     // 添加赠品
     handleAddGift() {
