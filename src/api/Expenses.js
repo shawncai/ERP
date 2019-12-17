@@ -101,3 +101,37 @@ export function updateexpenses2(query) {
     data: params
   })
 }
+
+// 所有门店排序列表
+export function getRepositoryList(query) {
+  var params = new URLSearchParams()
+  params.append('pagenum', 1) // 你要传给后台的参数值 key/value
+  params.append('pagesize', 99999) // 你要传给后台的参数值 key/value
+  return request({
+    url: '/repository/getRepositoryList',
+    method: 'post',
+    data: params
+  })
+}
+
+// 搜索凭证
+export function detailList(query) {
+  var params = new URLSearchParams()
+  if (query.repositoryId !== '' && query.repositoryId !== null && query.repositoryId !== undefined) {
+    params.append('repositoryId', query.repositoryId) // 你要传给后台的参数值 key/value
+  }
+  if (query.regionId !== '' && query.regionId !== null && query.regionId !== undefined) {
+    params.append('regionId', query.regionId) // 你要传给后台的参数值 key/value
+  }
+  if (query.date !== '' && query.date !== null && query.date !== undefined) {
+    params.append('date', query.date) // 你要传给后台的参数值 key/value
+  }
+  if (query.type !== '' && query.type !== null && query.type !== undefined) {
+    params.append('type', query.type) // 你要传给后台的参数值 key/value
+  }
+  return request({
+    url: '/voucher/detailList',
+    method: 'post',
+    data: params
+  })
+}

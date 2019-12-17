@@ -72,7 +72,7 @@
       <el-button v-permission="['1-31-33-6']" v-waves :loading="downloadLoading" class="filter-item" style="width: 86px" @click="handleExport"> <svg-icon icon-class="daochu"/>{{ $t('public.export') }}</el-button>
 
       <el-dialog :visible.sync="categoryVisible" :title="$t('public.export')" class="normal" width="600px" center @close="closetag">
-        <el-form ref="addCategoryForm" :model="getemplist" class="demo-ruleForm" style="margin: 0 auto; width: 400px">
+        <el-form ref="addCategoryForm" :model="exportparms" class="demo-ruleForm" style="margin: 0 auto; width: 400px">
           <el-form-item :label="$t('Hmodule.ggxh')" label-width="100px" prop="type">
             <el-select v-model="exportparms.typeid" style="width: 100%">
               <el-option
@@ -701,12 +701,13 @@ export default {
     },
 
     handleexport() {
+      this.downloadLoading = true
       this.exportparms.pagenum = 1
       this.exportparms.pagesize = 999999
       productlist(this.exportparms).then(res => {
         if (res.data.ret === 200) {
           const list = res.data.data.content.list
-          this.downloadLoading = true
+          this.downloadLoading = false
           if (list.length === 0) {
             this.$notify({
               title: '没有数据',

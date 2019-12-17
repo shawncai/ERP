@@ -287,7 +287,9 @@ export default {
   methods: {
     isshow9(row) {
       console.log('调入确认', row.judgeStat === 2 && row.storageMoveDetailConfirmVos.length !== row.storageMoveDetailVos.length)
-      if (row.judgeStat === 2 && row.storageMoveDetailConfirmVos.length !== row.storageMoveDetailVos.length) {
+      console.log('本人登录所在门店或者仓库', this.$store.getters.repositoryId)
+      console.log('本条数据上的调拨出库', row)
+      if (row.judgeStat === 2 && row.storageMoveDetailConfirmVos.length !== row.storageMoveDetailVos.length && this.$store.getters.repositoryId === row.moveOutRepository) {
         return true
       } else {
         return false
@@ -307,7 +309,7 @@ export default {
       } else {
         jungle2 = false
       }
-      if (row.judgeStat === 2 && jungle2 === true && jungle1) {
+      if (row.judgeStat === 2 && jungle2 === true && jungle1 === true && this.$store.getters.repositoryId === row.moveInRepository) {
         return true
       }
     },

@@ -64,7 +64,7 @@
             <el-editable-column :label="$t('Hmodule.xh')" min-width="55" align="center" type="index"/>
             <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('Voucher.zy')" prop="summary" align="center" min-width="150px">
               <template slot="edit" slot-scope="scope">
-                <el-input v-model="scope.row.summary" :disabled="scope.row.isdisable" clearable/>
+                <el-input v-model="scope.row.summary" clearable/>
               </template>
             </el-editable-column>
             <el-editable-column :edit-render="{name: 'ElCascader ', type: 'visible', options: 'options'}" :label="$t('Voucher.kjkm')" prop="setcarst" align="center" min-width="150px">
@@ -131,11 +131,11 @@
 </template>
 
 // 主表 sourceType 1: 支出单， sourceNumber
-// 明细表  source 1 -新增的， 2是带过来的
+// 明细表  source 1 带过来的， 2是新增的
 
 <script>
 import { subjectList } from '@/api/SubjectFinance'
-import { getSubjectDetail, addvoucher } from '@/api/voucher'
+import { getSubjectDetail, addvoucher, searchRepository, regionlist } from '@/api/voucher'
 import '@/directive/noMoreClick/index.js'
 var _that
 export default {
@@ -181,7 +181,6 @@ export default {
         let num = 0
         let num1 = 0
         for (const i in this.list2) {
-          console.log(this.list2[i])
           num += Number(this.list2[i].debitMoney)
           num1 += Number(this.list2[i].creditMoney)
         }
@@ -222,13 +221,18 @@ export default {
     },
     selectableEvent(row, index) {
       // return this.selectid.includes(row.id)
-      console.log(row.id)
-      const isselect = this.selectid.some(function(value, index, array) {
-        return row.id === value.id
-      })
-      console.log('isselect', isselect)
-      console.log('this.selectid', this.selectid)
-      return !isselect
+      // console.log(row.id)
+      // const isselect = this.selectid.some(function(value, index, array) {
+      //   return row.id === value.id
+      // })
+      // console.log('isselect', isselect)
+      // console.log('this.selectid', this.selectid)
+      // return !isselect
+      if (row.source === 1) {
+        return false
+      } else if (row.source === 2) {
+        return true
+      }
     },
     findPathByLeafId(leafId, nodes, path) {
       if (path === undefined) {
@@ -248,30 +252,72 @@ export default {
         }
       }
     },
+    // 深拷贝
+    deepClone(obj) {
+      const _obj = JSON.stringify(obj)
+      const objClone = JSON.parse(_obj)
+      return objClone
+    },
     async setvoucherdata() {
       const voucherdata = this.$store.getters.voucherdata
       console.log(voucherdata)
-      this.selectid = this.$store.getters.voucherdata.expensesDetailVos.map(item => {
-        return {
-          id: item.id
-        }
-      })
+      // this.selectid = this.$store.getters.voucherdata.voucherlist.map(item => {
+      //   return {
+      //     id: item.id
+      //   }
+      // })
       console.log('voucherdata122222', voucherdata)
       if (voucherdata) {
         if (voucherdata.sourceType === 1) {
           this.personalForm.sourceNumber = voucherdata.number
         }
         this.personalForm.sourceType = voucherdata.sourceType
-        this.personalForm.region = voucherdata.expensesRegionName
-        this.personalForm.repository = voucherdata.expensesRepositoryName
-        this.personalForm.regionId = voucherdata.expensesRegionId
-        this.personalForm.repositoryId = voucherdata.expensesRepositoryId
-        const voucherdetaildata = await Promise.all(voucherdata.expensesDetailVos.map(item => {
+        // this.personalForm.region = voucherdata.expensesRegionName
+        // this.personalForm.repository = voucherdata.expensesRepositoryName
+        if (voucherdata.repositoryId) {
+          searchRepository(voucherdata.repositoryId).then(res => {
+            if (res.data.ret === 200) {
+              this.personalForm.repository = res.data.data.content.list[0].repositoryName
+            }
+          })
+        }
+        if (voucherdata.regionId) {
+          regionlist(voucherdata.regionId).then(res => {
+            console.log(res)
+            if (res.data.ret === 200) {
+              this.personalForm.region = res.data.data.content.list[0].regionName
+            }
+          })
+        }
+        this.personalForm.regionId = voucherdata.regionId
+        this.personalForm.repositoryId = voucherdata.repositoryId
+        const voucherdetaildata = await Promise.all(voucherdata.voucherlist.map(item => {
           return getSubjectDetail(item.subjectCode).then(res => {
             return res.data.data.content
           })
         }))
-        this.list2 = voucherdata.expensesDetailVos
+        const nowlistdata = this.deepClone(voucherdata.voucherlist)
+        const newArr = []
+
+        nowlistdata.forEach(el => {
+          const result = newArr.findIndex(ol => { return el.subjectCode === ol.subjectCode })
+          if (result !== -1) {
+            if (el.debitMoney !== null && el.debitMoney !== '' && el.debitMoney !== undefined) {
+              newArr[result].debitMoney = newArr[result].debitMoney + el.debitMoney
+            } else {
+              newArr.push(el)
+            }
+          } else {
+            newArr.push(el)
+          }
+        })
+
+        console.log('newArr', newArr)
+        for (const i in newArr) {
+          newArr[i].total = 1
+        }
+
+        this.list2 = newArr
         for (const i in voucherdetaildata) {
           const carstdata = this.findPathByLeafId(voucherdetaildata[i].subjectId, this.treedata)
           voucherdetaildata[i].setcarst = carstdata
@@ -287,20 +333,13 @@ export default {
         }
         console.log(this.list2)
         for (const i in this.list2) {
-          this.list2[i].primevalMoney = this.list2[i].money
+          // this.list2[i].primevalMoney = this.list2[i].money
           this.list2[i].isdisable = true
           this.list2[i].currency = 1
           this.list2[i].currencyname = 'PHP'
           this.list2[i].rate = '1.00'
-          if (this.list2[i].balanceTrend === 1) {
-            this.list2[i].debitMoney = this.list2[i].money
-            this.list2[i].isdisable2 = true
-            this.list2[i].isdisable3 = true
-          } else if (this.list2[i].balanceTrend === 2) {
-            this.list2[i].creditMoney = this.list2[i].money
-            this.list2[i].isdisable3 = true
-            this.list2[i].isdisable2 = true
-          }
+          this.list2[i].isdisable2 = true
+          this.list2[i].isdisable3 = true
         }
       }
     },
@@ -375,7 +414,7 @@ export default {
     },
     // 新增收入明细
     insertEvent(index) {
-      this.$refs.editable.insertAt({ currencyname: 'PHP', rate: '1.00', source: 2, currency: 1 }, index)
+      this.$refs.editable.insertAt({ currencyname: 'PHP', rate: '1.00', source: 2, currency: 1, total: 1 }, index)
     },
     getdatatime() { // 默认显示今天
       var date = new Date()
@@ -435,9 +474,15 @@ export default {
         if (elem.money === null || elem.money === '' || elem.money === undefined) {
           delete elem.money
         }
+        if (elem.id === null || elem.id === '' || elem.id === undefined) {
+          delete elem.id
+        }
         return elem
       })
-      const parms2 = JSON.stringify(EnterDetail)
+      const arr4 = [...EnterDetail, ...this.$store.getters.voucherdata.voucherlist]
+      console.log('arr412345678990987-------', arr4)
+      const parms2 = JSON.stringify(arr4)
+
       const Data = this.personalForm
       for (const key in Data) {
         if (Data[key] === '' || Data[key] === undefined || Data[key] === null) {

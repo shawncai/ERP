@@ -100,3 +100,29 @@ export function deletevoucher(query, query2) {
     data: params
   })
 }
+
+// 根据门店id搜索门店名
+export function searchRepository(query) {
+  var params = new URLSearchParams()
+  if (query !== '' && query !== null && query !== undefined) {
+    params.append('id', query) // 你要传给后台的参数值 key/value
+  }
+  return request({
+    url: '/repository/searchRepository',
+    method: 'post',
+    data: params
+  })
+}
+
+// 根据区域id搜索区域名
+export function regionlist(query) {
+  var params = new URLSearchParams()
+  if (query !== '' && query !== null && query !== undefined) {
+    params.append('regionid', query) // 你要传给后台的参数值 key/value
+  }
+  return request({
+    url: '/region/list',
+    method: 'post',
+    data: params
+  })
+}

@@ -80,7 +80,7 @@
       <!-- 打印操作 -->
       <el-button v-permission="['266-92-7']" v-waves class="filter-item" icon="el-icon-printer" style="width: 86px" @click="handlePrint">{{ $t('public.print') }}</el-button>
       <!-- 新建操作 -->
-      <!-- <el-button v-permission="['266-92-1']" v-waves class="filter-item" icon="el-icon-plus" type="success" style="width: 86px" @click="handleAdd">{{ $t('public.add') }}</el-button> -->
+      <el-button v-waves class="filter-item" icon="el-icon-rank" type="success" style="width: 86px" @click="handleswitch">{{ $t('otherlanguage.zh') }}</el-button>
     </el-card>
 
     <el-card class="box-card" style="margin-top: 10px" shadow="never">
@@ -258,6 +258,7 @@ export default {
   },
   data() {
     return {
+      switchparms: 1,
       receiptVisible99: false,
       // 结算方式数据
       colseTypes: [],
@@ -330,6 +331,13 @@ export default {
     this.getlist()
   },
   methods: {
+    handleswitch() {
+      if (this.switchparms === 1) {
+        this.getlist()
+      } else if (this.switchparms === 2) {
+        this.getlist()
+      }
+    },
     getSpanArr(data) {
       this.spanArr = []
       for (var i = 0; i < data.length; i++) {
@@ -511,7 +519,19 @@ export default {
             }
           }
           this.list = arrlist2
-          console.log('arrlist2', arrlist2)
+          if (this.switchparms === 1) {
+            this.list = arrlist2.filter(item => {
+              return item.total === 1
+            })
+            this.switchparms = 2
+            console.log('this.list', this.list)
+          } else if (this.switchparms === 2) {
+            this.list = arrlist2.filter(item => {
+              return item.total === 2
+            })
+            this.switchparms = 1
+            console.log('this.list', this.list)
+          }
           this.getSpanArr(arrlist2)
         }
         setTimeout(() => {
@@ -561,8 +581,19 @@ export default {
               }
             }
           }
-          this.list = arrlist2
-          console.log('arrlist2', arrlist2)
+          if (this.switchparms === 2) {
+            this.list = arrlist2.filter(item => {
+              return item.total === 1
+            })
+            this.switchparms = 2
+            console.log('this.list', this.list)
+          } else if (this.switchparms === 1) {
+            this.list = arrlist2.filter(item => {
+              return item.total === 2
+            })
+            this.switchparms = 1
+            console.log('this.list', this.list)
+          }
           this.getSpanArr(arrlist2)
         }
         setTimeout(() => {

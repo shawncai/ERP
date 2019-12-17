@@ -288,7 +288,9 @@ export default {
             return res.data.data.content
           })
         }))
-        this.list2 = voucherdata.voucherDetails
+        this.list2 = voucherdata.voucherDetails.filter(item => {
+          return item.total === 1
+        })
         console.log('voucherdetaildata222222222', voucherdetaildata)
         for (const i in voucherdetaildata) {
           const carstdata = this.findPathByLeafId(voucherdetaildata[i].subjectId, this.treedata)
@@ -428,14 +430,23 @@ export default {
         }
         return elem
       })
-      const parms2 = JSON.stringify(EnterDetail)
-      const Data = this.personalForm
-      for (const key in Data) {
-        if (Data[key] === '' || Data[key] === undefined || Data[key] === null) {
-          delete Data[key]
-        }
-      }
+      const expresndata = this.personalForm.voucherDetails.filter(item => {
+        return item.total === 2
+      })
+      const arr4 = [...EnterDetail, ...expresndata]
+      const parms2 = JSON.stringify(arr4)
+      const Data = {}
+      Data.createPersonId = this.personalForm.createPersonId
+      Data.countryId = this.personalForm.countryId
+      Data.regionId = this.personalForm.regionId
+      Data.totalCreditMoney = this.personalForm.totalCreditMoney
+      Data.totalDebitMoney = this.personalForm.totalDebitMoney
+      Data.receiptDate = this.personalForm.receiptDate
+      Data.sourceType = this.personalForm.sourceType
+      Data.region = this.personalForm.region
       const parms = JSON.stringify(Data)
+      console.log(parms)
+      console.log(parms2)
       updatevoucher(parms, parms2).then(res => {
         if (res.data.ret === 200) {
           this.$notify({

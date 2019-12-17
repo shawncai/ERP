@@ -84,6 +84,9 @@
       <el-button v-permission="['54-65-7']" v-waves class="filter-item" icon="el-icon-printer" style="width: 86px" @click="handlePrint">{{ $t('public.print') }}</el-button>
       <!-- 新建操作 -->
       <el-button v-permission="['54-65-1']" v-waves class="filter-item" icon="el-icon-plus" type="success" style="width: 86px" @click="handleAdd">{{ $t('public.add') }}</el-button>
+      <!-- 跳转销售出库 -->
+      <el-button v-permission="['54-55-1']" v-waves class="filter-item" icon="el-icon-plus" type="success" @click="handleAddsaleout">{{ $t('route.AddSaleOut') }}</el-button>
+
     </el-card>
 
     <el-card class="box-card" style="margin-top: 10px" shadow="never">
@@ -98,7 +101,6 @@
         style="width: 100%;"
         @selection-change="handleSelectionChange">
         <el-table-column
-          :selectable="selectInit"
           type="selection"
           width="55"
           fixed="left"
@@ -287,6 +289,35 @@ export default {
     _that = this
   },
   methods: {
+    handleAddsaleout() {
+      if (this.moreaction.length === 0) {
+        this.$notify.error({
+          title: '错误',
+          message: '请选择单据',
+          offset: 100
+        })
+        return false
+      } else if (this.moreaction.length > 1) {
+        this.$notify.error({
+          title: '错误',
+          message: '请不要选择多个单据',
+          offset: 100
+        })
+        return false
+      } else {
+        if (this.moreaction[0].judgeStat === 0) {
+          this.$notify.error({
+            title: '错误',
+            message: '请先审核单据',
+            offset: 100
+          })
+          return false
+        }
+      }
+      console.log(this.moreaction)
+      this.$store.dispatch('getnewsaleoutdata', this.moreaction[0])
+      this.$router.push('/SaleOut/AddSaleOut')
+    },
     checkPermission,
     // 不让勾选
     selectInit(row, index) {
@@ -481,7 +512,10 @@ export default {
     // 多条删除
     // 批量删除
     handleCommand(command) {
-      const ids = this.moreaction.map(item => item.id).join()
+      const deleteids = this.moreaction.filter(item => {
+        return item.judgeStat === 0
+      })
+      const ids = deleteids.map(item => item.id).join()
       if (command === 'delete') {
         this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
           confirmButtonText: '确定',

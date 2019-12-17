@@ -3767,5 +3767,12 @@ export default {
   updates2: {
     dbdxq: '调拨单详情',
     customerName: '零售客户姓名'
+  },
+  otherlanguage: {
+    newvoucher: '凭证',
+    md: '门店',
+    qy: '区域',
+    rq: '日期',
+    zh: '转化'
   }
 }
