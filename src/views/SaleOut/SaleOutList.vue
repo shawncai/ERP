@@ -40,6 +40,9 @@
                 <el-option :label="$t('updates.shptg')" value="3"/>
               </el-select>
               <el-input v-model="getemplist.customerName" :placeholder="$t('updates2.customerName')" style="width: 40%;float: right;margin-right: 20px;margin-top: 20px" clearable @keyup.enter.native="handleFilter"/>
+              <el-input v-model="getemplist.carCode" :placeholder="$t('updates.cjbm')" style="width: 40%;float: left;margin-left: 20px;margin-top: 20px" clearable @keyup.enter.native="handleFilter"/>
+              <el-input v-model="getemplist.motorCode" :placeholder="$t('updates.djbm')" style="width: 40%;float: right;margin-right: 20px;margin-top: 20px" clearable @keyup.enter.native="handleFilter"/>
+              <el-input v-model="getemplist.batteryCode" :placeholder="$t('updates.dcbm')" style="width: 40%;float: left;margin-left: 20px;margin-top: 20px" clearable @keyup.enter.native="handleFilter"/>
               <!--<el-date-picker-->
               <!--v-model="date"-->
               <!--type="daterange"-->

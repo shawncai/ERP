@@ -73,25 +73,29 @@
           <el-editable-column type="index" width="55" align="center"/>
           <el-editable-column :edit-render="{type: 'default'}" :label="$t('Hmodule.hw')" prop="locationCode" align="center" width="200px">
             <template slot-scope="scope">
-              <el-select v-model="scope.row.locationCode" :value="scope.row.locationCode" :placeholder="$t('Hmodule.xzhw')" filterable clearable style="width: 100%;" @visible-change="updatebatch($event,scope)">
-                <el-option
-                  v-for="(item, index) in locationlist"
-                  :key="index"
-                  :value="item.locationCode"
-                  :label="item.locationCode"/>
-              </el-select>
+              <p>{{ getLocationData(scope.row) }}</p>
             </template>
           </el-editable-column>
           <!--<el-editable-column :edit-render="{name: 'ElSelect', options: batchlist, type: 'visible'}" prop="batch" align="center" :label="$t('Hmodule.pc')" width="150px"/>-->
-          <el-editable-column :edit-render="{type: 'default'}" :label="$t('Hmodule.pc')" prop="batch" align="center" width="200px">
-            <template slot-scope="scope">
-              <el-select v-model="scope.row.batch" :value="scope.row.batch" :placeholder="$t('Hmodule.xcpc')" filterable clearable style="width: 100%;" @visible-change="updatebatch2($event,scope)">
+          <!--          <el-editable-column :edit-render="{type: 'default'}" :label="$t('Hmodule.pc')" prop="batch" align="center" width="200px">-->
+          <!--            <template slot-scope="scope">-->
+          <!--              <el-select v-model="scope.row.batch" :value="scope.row.batch" :placeholder="$t('Hmodule.xcpc')" filterable clearable style="width: 100%;" @visible-change="updatebatch2($event,scope)">-->
+          <!--                <el-option-->
+          <!--                  v-for="(item, index) in batchlist"-->
+          <!--                  :key="index"-->
+          <!--                  :value="item"-->
+          <!--                  :label="item"/>-->
+          <!--              </el-select>-->
+          <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('Hmodule.pc')" prop="batch" align="center" min-width="150" >
+            <template slot="edit" slot-scope="scope">
+              <el-select v-if="scope.row.batch !== '不使用'" v-model="scope.row.batch" :value="scope.row.batch" :placeholder="$t('Hmodule.xcpc')" filterable clearable style="width: 100%;" @visible-change="updatebatch2($event,scope)">
                 <el-option
                   v-for="(item, index) in batchlist"
                   :key="index"
                   :value="item"
                   :label="item"/>
               </el-select>
+              <span v-else>{{ scope.row.batch }}</span>
             </template>
           </el-editable-column>
           <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" align="center" width="150px"/>
@@ -350,6 +354,42 @@ export default {
     _that = this
   },
   methods: {
+    getLocationData(row) {
+      // 默认批次
+      if (row.batch === null || row.batch === '' || row.batch === undefined) {
+        const parms3 = row.productCode
+        batchlist(this.personalForm.countRepositoryId, parms3).then(res => {
+          console.log(res)
+          if (res.data.data.content.length > 0) {
+            row.batch = res.data.data.content[0]
+          }
+        })
+      } else {
+        const parms3 = row.productCode
+        batchlist(this.personalForm.countRepositoryId, parms3).then(res => {
+          if (res.data.data.content.length === 0) {
+            if (row.batch !== '不使用') {
+              row.batch = null
+            }
+          }
+        })
+      }
+      // 默认货位
+      getlocation(this.personalForm.countRepositoryId, row).then(res => {
+        if (res.data.ret === 200) {
+          console.log('res', res)
+          if (res.data.data.content.length !== 0) {
+            row.locationCode = res.data.data.content[0].locationCode
+            row.locationId = res.data.data.content[0].id
+            console.log('row.locationCode', row.locationCode)
+          } else {
+            row.locationCode = null
+            row.locationId = null
+          }
+        }
+      })
+      return row.locationCode
+    },
     checkStock(row) {
       console.log('this.moreaction.length', this.moreaction.length)
       if (this.moreaction.length > 1 || this.moreaction.length === 0) {
@@ -621,6 +661,7 @@ export default {
       this.countRepositoryId = val.repositoryName
       this.personalForm.countRepositoryId = val.id
       this.locationlistparms.repositoryId = val.id
+      this.$refs.editable.clear()
       // locationlist(this.locationlistparms).then(res => {
       //   if (res.data.ret === 200) {
       //     this.locationlist = res.data.data.content.list.map(function(item) {
@@ -663,6 +704,8 @@ export default {
         // }
         this.$refs.editable.insert(val[i])
       }
+      // 货位批次默认
+      // 2撒打算
       // console.log(val)
       // const row = this.$refs.editable.insert(val)
     }

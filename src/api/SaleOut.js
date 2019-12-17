@@ -64,6 +64,15 @@ export function searchsaleOut(query) {
   if (query.customerName !== '' && query.customerName !== null && query.customerName !== undefined) {
     params.append('customerName', query.customerName) // 你要传给后台的参数值 key/value
   }
+  if (query.carCode !== '' && query.carCode !== null && query.carCode !== undefined) {
+    params.append('carCode', query.carCode) // 你要传给后台的参数值 key/value
+  }
+  if (query.motorCode !== '' && query.motorCode !== null && query.motorCode !== undefined) {
+    params.append('motorCode', query.motorCode) // 你要传给后台的参数值 key/value
+  }
+  if (query.batteryCode !== '' && query.batteryCode !== null && query.batteryCode !== undefined) {
+    params.append('batteryCode', query.batteryCode) // 你要传给后台的参数值 key/value
+  }
   if (query.customerId !== '' && query.customerId !== null && query.customerId !== undefined) {
     params.append('customerId', query.customerId) // 你要传给后台的参数值 key/value
   }

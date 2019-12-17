@@ -36,6 +36,7 @@
                 <el-option :label="$t('updates.shtg')" value="2"/>
                 <el-option :label="$t('updates.shptg')" value="3"/>
               </el-select>
+              <el-input v-model="getemplist.address" placeholder="地址" style="width: 40%;float: left;margin-left: 20px;margin-top: 20px" clearable @keyup.enter.native="handleFilter"/>
               <!--<el-date-picker-->
               <!--v-model="date"-->
               <!--type="daterange"-->

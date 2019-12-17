@@ -769,7 +769,7 @@ export default {
         }
       })
       if (row.discountRate === 0) {
-        row.discountMoney = row.taxprice * row.quantity
+        row.discountMoney = 0
       } else {
         row.discountMoney = (row.taxprice * row.quantity * (row.discountRate / 100)).toFixed(2)
       }
@@ -1105,7 +1105,7 @@ export default {
         row.taxprice = (row.salePrice * (1 + row.taxRate / 100)).toFixed(2)
       }
       if (row.discountRate === 0) {
-        row.discountMoney = row.taxprice * row.quantity
+        row.discountMoney = 0
       } else {
         row.discountMoney = (row.taxprice * row.quantity * (row.discountRate / 100)).toFixed(2)
       }
@@ -1118,7 +1118,7 @@ export default {
     // 通过折扣计算折扣额
     getdiscountRate(row) {
       if (row.discountRate === 0) {
-        row.discountMoney = row.taxprice * row.quantity
+        row.discountMoney = 0
       } else {
         row.discountMoney = (row.taxprice * row.quantity * (row.discountRate / 100)).toFixed(2)
       }

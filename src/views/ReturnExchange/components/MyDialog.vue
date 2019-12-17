@@ -7,7 +7,7 @@
         <el-form ref="personalForm" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
           <el-row>
             <el-col :span="12">
-              <el-form-item :label="$t('ReturnExchange.title')" prop="title" style="width: 100%;">
+              <el-form-item :label="$t('ReturnExchange.title')" style="width: 100%;">
                 <el-input v-model="personalForm.title" style="margin-left: 18px;width: 200px" clearable/>
               </el-form-item>
             </el-col>
@@ -41,7 +41,7 @@
             </el-col>
             <el-col :span="12">
               <el-form-item :label="$t('ReturnExchange.customerPhone')" prop="customerPhone" style="width: 100%;">
-                <el-input v-model="personalForm.customerPhone" style="margin-left: 18px;width: 200px" clearable/>
+                <el-input v-model="personalForm.customerPhone" disabled style="margin-left: 18px;width: 200px" clearable/>
               </el-form-item>
             </el-col>
             <el-col :span="12">
@@ -391,6 +391,21 @@ export default {
         }
         this.$refs.editable2.insert(val[i])
       }
+      const nowlistdata1 = this.$refs.editable.getRecords()
+      const nowlistdata2 = this.$refs.editable2.getRecords()
+      let money1 = 0
+      let money2 = 0
+      console.log('nowlistdata1', nowlistdata1)
+      for (let i = 0; i < nowlistdata1.length; i++) {
+        money1 = money1 + (nowlistdata1[i].includeTaxCostMoney - nowlistdata1[i].discountMoney)
+        console.log('includeTaxCostMoney', nowlistdata1[i].includeTaxCostMoney)
+      }
+      for (let i = 0; i < nowlistdata2.length; i++) {
+        money2 = money2 + ((nowlistdata2[i].taxPrice * nowlistdata2[i].quantity) - nowlistdata2[i].discountMoney)
+      }
+      console.log('money1', money1)
+      console.log('money2', money2)
+      this.personalForm.diffMoney = (money1 - money2).toFixed(2)
     },
     chooserep() {
       this.repositorycontrol = true

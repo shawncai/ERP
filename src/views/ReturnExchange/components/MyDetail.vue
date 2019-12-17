@@ -296,7 +296,7 @@ export default {
           taxRate: '0.00',
           taxMoney: '0.00',
           money: '0.00',
-          discount: '100.00',
+          discount: '0.00',
           discountMoney: '0.00'
         }
       })

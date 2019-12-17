@@ -18,6 +18,11 @@
               <el-input v-model="getemplist.applyNumber" :placeholder="$t('InstallmentList.applyNumber')" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
+          <el-col :span="5">
+            <el-form-item :label="$t('StockInvoice.address')" label-width="100px">
+              <el-input v-model="getemplist.address" clearable @keyup.enter.native="handleFilter"/>
+            </el-form-item>
+          </el-col>
           <!--更多搜索条件-->
           <!-- <el-col :span="3">
             <el-popover
@@ -190,7 +195,7 @@
               <el-button v-permission2="['200-203-3', scope.row.createPersonId]" v-show="scope.row.judgeStat === 0" :title="$t('updates.xg')" type="primary" size="mini" icon="el-icon-edit" circle @click="handleEdit(scope.row)"/>
               <el-button v-show="isReview(scope.row)" :title="$t('updates.spi')" type="warning" size="mini" icon="el-icon-view" circle @click="handleReview(scope.row)"/>
               <el-button v-permission2="['200-203-2', scope.row.createPersonId]" v-show="scope.row.judgeStat === 0" :title="$t('updates.sc')" size="mini" type="danger" icon="el-icon-delete" circle @click="handleDelete(scope.row)"/>
-              <el-button v-permission="['200-203-59']" v-show="scope.row.stat !== 2" type="primary" @click="handleMyReceipt1(scope.row)"><span>改期</span></el-button>
+              <el-button v-permission="['200-203-59']" v-show="scope.row.stat !== 2&&scope.row.stat !== 3" type="primary" @click="handleMyReceipt1(scope.row)"><span>改期</span></el-button>
             </template>
           </el-table-column>
         </el-table>

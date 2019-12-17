@@ -505,7 +505,7 @@ export default {
     // 通过折扣计算折扣额
     getdiscountRate(row) {
       if (row.discountRate === 0) {
-        row.discountMoney = row.taxprice * row.quantity
+        row.discountMoney = 0
       } else {
         row.discountMoney = (row.taxprice * row.quantity * (1 - row.discountRate / 100)).toFixed(2)
       }
