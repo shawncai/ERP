@@ -603,7 +603,7 @@ export default {
         installmentEndtime: null,
         installmentBegintime: null,
         exchangeRate: '1.0000',
-        currency: '3',
+        currency: '1',
         notaryDate: null,
         deptId: this.$store.getters.deptId,
         saleRepositoryId: this.$store.getters.repositoryId,
@@ -1189,11 +1189,16 @@ export default {
         isVat: 1,
         installmentEndtime: null,
         installmentBegintime: null,
+        exchangeRate: '1.0000',
+        currency: '1',
         notaryDate: null,
         deptId: this.$store.getters.deptId,
+        saleRepositoryId: this.$store.getters.repositoryId,
         customerType: '2',
-        customerId: null,
-        saleRepositoryId: this.$store.getters.repositoryId
+        signDate: null,
+        sourceType: '3',
+        taxRate: 0,
+        contractStat: '1'
       }
       this.supplierId = null
       this.inquiryPersonId = null

@@ -4,9 +4,13 @@ const publics = {
     empcontract2: '',
     empcontract3: '',
     empcontract4: '',
-    voucherdata: ''
+    voucherdata: '',
+    newsaleoutdata: ''
   },
   mutations: {
+    set_newsaleoutdata: (state, newsaleoutdata) => {
+      state.newsaleoutdata = newsaleoutdata
+    },
     set_voucherdata: (state, voucherdata) => {
       state.voucherdata = voucherdata
     },
@@ -24,6 +28,9 @@ const publics = {
     }
   },
   actions: {
+    getnewsaleoutdata({ commit }, newsaleoutdata) {
+      commit('set_newsaleoutdata', newsaleoutdata)
+    },
     getvoucherdata({ commit }, voucherdata) {
       commit('set_voucherdata', voucherdata)
     },

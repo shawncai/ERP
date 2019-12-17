@@ -823,11 +823,54 @@ export default {
     this.getinformation()
     this.getinformation2()
     this.getinformation3()
+    this.getinformation4()
+  },
+  activated() {
+
   },
   beforeCreate() {
     _that = this
   },
   methods: {
+    // 获取默认消息（销售合同）
+    getinformation4() {
+      if (this.$store.getters.newsaleoutdata) {
+        this.personalForm.sourceType = '2'
+        console.log('this.$store.getters.newsaleoutdata', this.$store.getters.newsaleoutdata)
+        this.installappley(this.$store.getters.newsaleoutdata)
+      }
+      this.$store.dispatch('getempcontract', '')
+    },
+    installappley(val) {
+      console.log('getempcontract3', this.$store.getters.newsaleoutdata)
+      this.heji9 = 0
+      this.heji10 = 0
+      this.personalForm.sourceType = '3'
+      this.Isproduct = true
+      this.IsSourceNumber = false
+      this.personalForm.customerType = '2'
+      this.personalForm.customerId = this.$store.getters.newsaleoutdata.customerId
+      this.customerId = this.$store.getters.newsaleoutdata.customerName
+      this.personalForm.customerPhone = this.$store.getters.newsaleoutdata.phone
+      this.personalForm.salePersonId = this.$store.getters.newsaleoutdata.salePersonId
+      this.salePersonId = this.$store.getters.newsaleoutdata.salePersonName
+      if (this.$store.getters.newsaleoutdata.payMode !== null && this.$store.getters.newsaleoutdata.payMode !== undefined && this.$store.getters.newsaleoutdata.payMode !== '') {
+        this.personalForm.payMode = this.$store.getters.newsaleoutdata.payMode
+      }
+      this.personalForm.saleRepositoryId = this.$store.getters.newsaleoutdata.saleRepositoryId
+      this.saleRepositoryId = this.$store.getters.newsaleoutdata.saleRepositoryName
+      this.personalForm.address = this.$store.getters.newsaleoutdata.address
+      for (let i = 0; i < this.$store.getters.newsaleoutdata.saleContractDetailVos.length; i++) {
+        this.$store.getters.newsaleoutdata.saleContractDetailVos[i].categoryName = this.$store.getters.newsaleoutdata.saleContractDetailVos[i].productCategoryName
+        this.$store.getters.newsaleoutdata.saleContractDetailVos[i].category = this.$store.getters.newsaleoutdata.saleContractDetailVos[i].productCategory
+        this.$store.getters.newsaleoutdata.saleContractDetailVos[i].typeName = this.$store.getters.newsaleoutdata.saleContractDetailVos[i].productTypeName
+        this.$store.getters.newsaleoutdata.saleContractDetailVos[i].type = this.$store.getters.newsaleoutdata.saleContractDetailVos[i].productType
+        this.$store.getters.newsaleoutdata.saleContractDetailVos[i].taxprice = this.$store.getters.newsaleoutdata.saleContractDetailVos[i].salePrice
+        this.$store.getters.newsaleoutdata.saleContractDetailVos[i].sourceNumber = this.$store.getters.newsaleoutdata.number
+        this.$store.getters.newsaleoutdata.saleContractDetailVos[i].sourceSerialNumber = this.$store.getters.newsaleoutdata.saleContractDetailVos[i].id
+        this.$refs.editable.insert(this.$store.getters.newsaleoutdata.saleContractDetailVos[i])
+      }
+    },
     getInfo(row) {
       console.log(row)
       if (row.carCode !== null && row.carCode !== '' && row.carCode !== undefined) {
@@ -1153,7 +1196,7 @@ export default {
         this.personalForm.sourceType = '1'
         this.Isproduct = true
         this.IsSourceNumber = false
-        if (this.$refs.editable.getRecords().length !== 0 && this.$refs.editable.getRecords() !== undefined && this.$refs.editable.getRecords() !== null) {
+        if (this.list2 !== 0 && this.list2 !== undefined && this.list2 !== null) {
           this.$refs.editable.clear()
         }
         this.personalForm.sourceNumber = this.$store.getters.empcontract.number
@@ -1276,18 +1319,19 @@ export default {
       this.personalForm.ridMoney = ''
       this.personalForm.ridBikeMoney = ''
       console.log(val)
+      console.log('this.list2', this.list2)
       if (val === '5' || val === undefined) {
         this.Isproduct = false
         this.IsSourceNumber = true
-        if (this.$refs.editable.getRecords().length !== 0 && this.$refs.editable.getRecords() !== undefined && this.$refs.editable.getRecords() !== null) {
-          this.$refs.editable.clear()
-        }
+        // if (this.$refs.editable.getRecords().length !== 0 && this.$refs.editable.getRecords() !== undefined && this.$refs.editable.getRecords() !== null) {
+        //   this.$refs.editable.clear()
+        // }
       } else {
         this.Isproduct = true
         this.IsSourceNumber = false
-        if (this.$refs.editable.getRecords().length !== 0 && this.$refs.editable.getRecords() !== undefined && this.$refs.editable.getRecords() !== null) {
-          this.$refs.editable.clear()
-        }
+        // if (this.$refs.editable.getRecords().length !== 0 && this.$refs.editable.getRecords() !== undefined && this.$refs.editable.getRecords() !== null) {
+        //   this.$refs.editable.clear()
+        // }
       }
     },
     // 出库仓库focus事件触发

@@ -366,7 +366,14 @@ export default {
   methods: {
     // 新建客户报告
     handleAddreport() {
-      if (this.moreaction.length > 1) {
+      if (this.moreaction.length === 0) {
+        this.$notify.error({
+          title: '错误',
+          message: '请选择单据',
+          offset: 100
+        })
+        return false
+      } else if (this.moreaction.length > 1) {
         this.$notify.error({
           title: '错误',
           message: '请不要选择多个单据',
@@ -388,7 +395,14 @@ export default {
     },
     // 新建销售合同
     handleAddcontrat() {
-      if (this.moreaction.length > 1) {
+      if (this.moreaction.length === 0) {
+        this.$notify.error({
+          title: '错误',
+          message: '请选择单据',
+          offset: 100
+        })
+        return false
+      } else if (this.moreaction.length > 1) {
         this.$notify.error({
           title: '错误',
           message: '请不要选择多个单据',
