@@ -24,6 +24,9 @@ export function applylist(query) {
   if (query.inquirePersonId !== '' && query.inquirePersonId !== null && query.inquirePersonId !== undefined) {
     params.append('inquirePersonId', query.inquirePersonId) // 你要传给后台的参数值 key/value
   }
+  if (query.suretyName !== '' && query.suretyName !== null && query.suretyName !== undefined) {
+    params.append('suretyName', query.suretyName) // 你要传给后台的参数值 key/value
+  }
   if (query.title !== '' && query.title !== null && query.title !== undefined) {
     params.append('title', query.title) // 你要传给后台的参数值 key/value
   }

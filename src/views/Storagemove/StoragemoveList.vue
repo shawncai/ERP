@@ -289,7 +289,15 @@ export default {
       console.log('调入确认', row.judgeStat === 2 && row.storageMoveDetailConfirmVos.length !== row.storageMoveDetailVos.length)
       console.log('本人登录所在门店或者仓库', this.$store.getters.repositoryId)
       console.log('本条数据上的调拨出库', row)
-      if (row.judgeStat === 2 && row.storageMoveDetailConfirmVos.length !== row.storageMoveDetailVos.length && this.$store.getters.repositoryId === row.moveOutRepository) {
+      let z = 2
+      const moveconfirmbutton = row.storageMoveDetailVos
+      for (const i in moveconfirmbutton) {
+        if (moveconfirmbutton[i].stat === 1) {
+          z = 1
+          break
+        }
+      }
+      if (row.judgeStat === 2 && row.storageMoveDetailConfirmVos.length !== row.storageMoveDetailVos.length && (this.$store.getters.repositoryId === row.moveOutRepository || (this.$store.getters.regionId === row.moveOutRepositoryRegion && this.$store.getters.repositoryId === 0))) {
         return true
       } else {
         return false
@@ -309,7 +317,7 @@ export default {
       } else {
         jungle2 = false
       }
-      if (row.judgeStat === 2 && jungle2 === true && jungle1 === true && this.$store.getters.repositoryId === row.moveInRepository) {
+      if (row.judgeStat === 2 && jungle2 === true && jungle1 === true && (this.$store.getters.repositoryId === row.moveInRepository || (this.$store.getters.regionId === row.moveInRepositoryRegion && this.$store.getters.repositoryId === 0))) {
         return true
       }
     },
