@@ -116,10 +116,15 @@ export default {
     repositorycontrol: {
       type: Boolean,
       default: false
+    },
+    regionid: {
+      type: Number,
+      default: null
     }
   },
   data() {
     return {
+      searchregion: this.regionid,
       // 仓库弹窗控制
       repositoryVisible: this.repositorycontrol,
       // 转化数据
@@ -148,7 +153,7 @@ export default {
         id: '',
         stat: 1,
         loginRepositoryId: this.$store.getters.repositoryId,
-        regionIds: this.$store.getters.regionIds,
+        // regionIds: this.$store.getters.regionIds,
         pagenum: 1,
         pagesize: 10
       },
@@ -170,6 +175,9 @@ export default {
     repositorycontrol() {
       this.repositoryVisible = this.repositorycontrol
       this.getlist()
+    },
+    regionid() {
+      this.searchregion = this.regionid
     }
   },
   beforeCreate() {
@@ -185,6 +193,7 @@ export default {
       })
       // 仓库列表数据
       this.listLoading = true
+      this.getemplist.regionIds = this.regionid
       searchRepository2(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list

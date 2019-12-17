@@ -360,6 +360,7 @@ export default {
     handleConfirm() {
       this.employeeVisible = false
       console.log(this.choosedata)
+      const installappley = this.choosedata
       const installappleydata = this.choosedata.installmentApplyDetailVos
       const installappleyDetail = installappleydata.map(function(item) {
         return {
@@ -371,12 +372,13 @@ export default {
           productType: item.typeId,
           color: item.color,
           unit: item.unit,
-          salePrice: item.price,
+          // salePrice: item.price,
+          salePrice: installappley.totalMoney,
           costPrice: 0,
           performanceScore: item.kpiGrade,
           productScore: item.point,
           quantity: 0,
-          discount: 100,
+          discount: 0,
           carCode: item.carCode,
           batteryCode: item.batteryCode,
           motorCode: item.motorCode
