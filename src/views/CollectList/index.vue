@@ -384,7 +384,7 @@ export default {
     },
     handleMyReceipt1(val) {
       console.log(val)
-      this.$store.dispatch('getempcontract2', val)
+      this.$store.dispatch('getnewreceiptdata', val)
       this.$router.push('/Receipt/AddReceipt')
     },
     getamouthDate() {

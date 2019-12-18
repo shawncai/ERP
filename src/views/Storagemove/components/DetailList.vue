@@ -590,57 +590,167 @@ export default {
       }
       return data
     },
+    // 定义转换函数
+    transform(tranvalue) {
+      try {
+        if (tranvalue === '0') {
+          return '零元'
+        }
+        var i = 1
+        // eslint-disable-next-line no-array-constructor
+        var dw2 = new Array('', '万', '亿')// 大单位
+        // eslint-disable-next-line no-array-constructor
+        var dw1 = new Array('拾', '佰', '仟')// 小单位
+        // eslint-disable-next-line no-array-constructor
+        var dw = new Array('零', '壹', '贰', '叁', '肆', '伍', '陆', '柒', '捌', '玖')// 整数部分用
+        // 以下是小写转换成大写显示在合计大写的文本框中
+        // 分离整数与小数
+        var source = this.splits(tranvalue)
+        var num = source[0]
+        var dig = source[1]
+
+        // 转换整数部分
+        var k1 = 0// 计小单位
+        var k2 = 0// 计大单位
+        var sum = 0
+        var str = ''
+        var len = source[0].length// 整数的长度
+        for (i = 1; i <= len; i++) {
+          var n = source[0].charAt(len - i)// 取得某个位数上的数字
+          var bn = 0
+          if (len - i - 1 >= 0) {
+            bn = source[0].charAt(len - i - 1)// 取得某个位数前一位上的数字
+          }
+          sum = sum + Number(n)
+          if (sum !== 0) {
+            str = dw[Number(n)].concat(str)// 取得该数字对应的大写数字，并插入到str字符串的前面
+            if (n === '0')sum = 0
+          }
+          if (len - i - 1 >= 0) { // 在数字范围内
+            if (k1 !== 3) { // 加小单位
+              if (bn !== 0) {
+                str = dw1[k1].concat(str)
+              }
+              k1++
+            } else { // 不加小单位，加大单位
+              k1 = 0
+              var temp = str.charAt(0)
+              if (temp === '万' || temp === '亿')// 若大单位前没有数字则舍去大单位
+              // eslint-disable-next-line brace-style
+              { str = str.substr(1, str.length - 1) }
+              str = dw2[k2].concat(str)
+              sum = 0
+            }
+          }
+          if (k1 === 3)// 小单位到千则大单位进一
+          // eslint-disable-next-line brace-style
+          { k2++ }
+        }
+
+        // 转换小数部分
+        var strdig = ''
+        if (dig !== '') {
+          // eslint-disable-next-line no-redeclare
+          var n = dig.charAt(0)
+          if (n !== 0) {
+            strdig += dw[Number(n)] + '角'// 加数字
+          }
+          // eslint-disable-next-line no-redeclare
+          var n = dig.charAt(1)
+          if (n !== 0) {
+            strdig += dw[Number(n)] + '分'// 加数字
+          }
+        }
+        str += '元' + strdig
+      } catch (e) {
+        return '零元'
+      }
+      return str
+    },
+
+    // 拆分整数与小数
+    splits(tranvalue) {
+      // eslint-disable-next-line no-array-constructor
+      var value = new Array('', '')
+      const temp = tranvalue.split('.')
+      for (var i = 0; i < temp.length; i++) {
+        value[i] = temp[i]
+      }
+      return value
+    },
+    // 数组相加
+    sum(arr) {
+      if (arr.length !== 0) {
+        // eslint-disable-next-line no-eval
+        return eval(arr.join('+'))
+      } else {
+        return 0
+      }
+    },
     printdata() {
       const arr = this.cutnull(this.list2)
+      const itemslengt = this.list2.length
       for (const i in arr) {
         arr[i].step = Number(i) + 1
+        arr[i].check = ''
       }
+      const allapplyquy = this.personalForm.storageMoveDetailApplyVos.map(item => {
+        return item.applyQuantity
+      })
+
+      const totalqty = this.sum(allapplyquy)
+      const allapplymoney = this.personalForm.storageMoveDetailApplyVos.map(item => {
+        return item.moveMoney
+      })
+      const totalMoneys = this.sum(allapplymoney)
+      const stringmoney = totalMoneys.toString()
+      const daxiemoney = this.transform(stringmoney)
+      console.log('allapplyquyallapplyquyallapplyquy', stringmoney)
       console.log(this.reviewList.length - 1)
       let handleperson = ''
       if (this.reviewList.length > 0) {
         handleperson = this.reviewList[this.reviewList.length - 1].stepHandlerName
       }
       console.log(handleperson)
+
       printJS({
         printable: arr,
         type: 'json',
         properties: [
-          { field: 'step', displayName: '行号', columnSize: `100px` },
-          { field: 'productCode', displayName: '物料代码', columnSize: `100px` },
-          { field: 'productName', displayName: '物料名称', columnSize: `100px` },
-          { field: 'productType', displayName: '规格型号', columnSize: `100px` },
-          { field: 'unit', displayName: '单位', columnSize: `100px` },
-          { field: 'applyQuantity', displayName: '数量', columnSize: `100px` },
-          { field: 'movePrice', displayName: '单价', columnSize: `100px` },
-          { field: 'moveMoney', displayName: '金额', columnSize: `100px` },
-          { field: 'remarks', displayName: '备注', columnSize: `100px` }
+          { field: 'productCode', displayName: 'Product ID', columnSize: `100px` },
+          { field: 'productName', displayName: 'Product Name', columnSize: `100px` },
+          { field: 'productName', displayName: '名称', columnSize: `100px` },
+          { field: 'color', displayName: 'Color', columnSize: `100px` },
+          { field: 'applyQuantity', displayName: 'Qty.', columnSize: `100px` },
+          { field: 'check', displayName: 'Out Check', columnSize: `100px` },
+          { field: 'check', displayName: 'In Check', columnSize: `100px` }
         ],
         header: `<div class="pringtitle">
-                    <div class="custom-p"> 江苏新世窗国际贸易有限公司 </div>
+                    <div class="custom-p"></div>
                       <br>
-                      <div class="ordername">库存调拨单</div>
+                      <div class="ordername">Gavite City Transfer list/ 送货单</div>
                         <br>
                         <div class="line1"></div>
-                        <div class="line2"></div>
                         <div class="supplier">
                         <div class="item">
-                        <div class="itemname">申请人：</div>
-                        <div class="itemcontent">${this.personalForm.applicationName}</div>
+                        <div class="itemname">Stock Out / 调出仓库：</div>
+                        <div class="itemcontent">${this.personalForm.moveOutRepositoryName}</div>
                         </div>
                         <div class="item">
-                         <div class="itemname">日期：</div>
-                        <div class="itemcontent">${this.personalForm.createDate}</div>
+                         <div class="itemname">Stock In / 调入仓库：</div>
+                        <div class="itemcontent">${this.personalForm.moveInRepositoryName}</div>
                           </div>
                         <div class="item">
-                         <div class="itemname">编号：</div>
-                        <div class="itemcontent">${this.personalForm.moveNumber}</div>
+                         <div class="itemname">Date / 日期：</div>
+                        <div class="itemcontent">2019-11-12</div>
                           </div>
                           </div>
                         </div>`,
         bottom: `<div>
-                  <div class="allmoney" style="display: flex;justify-content: space-around;width: 99%;height: 40px;align-items: center;border:1px solid;border-top: none;padding-right: 1%">
-                  <div class="allmoneyname" style="margin-right: 50%">合计</div>
-                  <div class="allmoneynum" style="width: 10%;border-left: 1px solid; border-right: 1px solid;height: 40px;display: flex;align-items: center;justify-content: center;">${this.personalForm.allIncludeTaxMoney}</div>
+                  <div class="allmoney" style="display: flex;justify-content: space-around;width: 100%;height: 40px;align-items: center;border:1px solid;border-top: none;">
+                  <div class="allmoneyname" style="width: 29%;margin-right:-10px">Total Items: ${itemslengt}</div>
+                  <div class="allmoneynum" style="width: 43%;border-left: 1px solid; border-right: 1px solid;height: 40px;display: flex;align-items: center;justify-content: center;">Total Qty.: ${totalqty}</div>
+                  <div class="allmoneynum" style="width: 28%;height: 40px;display: flex;align-items: center;justify-content: center;">合计:${daxiemoney} ¥ ${totalMoneys}</div>
                   </div>
                   <div class="printbottom" style="display: flex;align-items: center;justify-content: center;width: 100%;margin-top: 20px">
                     <div class="bottomitem" style="width: 25%;display: flex;align-items: center;justify-content: center;flex-wrap: nowrap">
@@ -663,17 +773,17 @@ export default {
                   </div>`,
         bottomStyle: '.printbottom: { display: flex;margin-top: 20px}',
         style: '.custom-p {font-size:20px;text-align: center; }' +
-          ' .ordername {text-align: center; font-size:25px;letter-spacing:15px}' +
-          '.pringtitle { line-height: 20px; margin-bottom: 10px }' +
-          '.line1 { width: 200px; border: 1px solid #000; margin: 0 auto }' +
+          ' .ordername {text-align: center; font-size:25px;}' +
+          '.pringtitle { line-height: 10px; }' +
+          '.line1 { width: 400px; border: 1px solid #000; margin: 0 auto }' +
           '.line2 {width: 200px; border: 2px dashed #000; margin: 3px auto }' +
-          '.supplier {display: flex;justify-content: center; align-items: center;margin-top: 10px}' +
-          '.item { width: 33%; justify-content: center; align-items: center; display: flex}' +
+          '.supplier {display: flex;justify-content: space-around; align-items: center;margin-top: 10px}' +
+          '.item { width: 40%; justify-content: center; align-items: center; display: flex;line-height: 40px;}' +
           '.item2 { width: 50%; justify-content: center; align-items: center; display: flex}' +
           '.itemname2 { width: 20% }' +
           '.itemcontent2 {width: 80%}' +
-          '.itemname { width: 40% }' +
-          '.itemcontent {width: 80%}',
+          '.itemname { width: 90%; text-align: right }' +
+          '.itemcontent {width: 85%}',
         gridHeaderStyle: 'font-size:12px; padding:3px; border:1px solid; color: #000; text-align:center;',
         gridStyle: 'font-size:12px; padding:3px; border:1px solid; text-align:center; text-overflow:ellipsis; white-space:nowrap;',
         repeatTableHeader: true

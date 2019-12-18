@@ -45,6 +45,8 @@ const getters = {
   user: state => state.chat.user,
   chatsenddata: state => state.chat.chatsenddata,
   voucherdata: state => state.publics.voucherdata,
-  newsaleoutdata: state => state.publics.newsaleoutdata
+  newsaleoutdata: state => state.publics.newsaleoutdata,
+  newreceiptdata: state => state.publics.newreceiptdata,
+  newinstallpaydata: state => state.publics.newinstallpaydata
 }
 export default getters

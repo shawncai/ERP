@@ -5,9 +5,17 @@ const publics = {
     empcontract3: '',
     empcontract4: '',
     voucherdata: '',
-    newsaleoutdata: ''
+    newsaleoutdata: '',
+    newreceiptdata: '',
+    newinstallpaydata: ''
   },
   mutations: {
+    set_newinstallpaydata: (state, newinstallpaydata) => {
+      state.newinstallpaydata = newinstallpaydata
+    },
+    set_newreceiptdata: (state, newreceiptdata) => {
+      state.newreceiptdata = newreceiptdata
+    },
     set_newsaleoutdata: (state, newsaleoutdata) => {
       state.newsaleoutdata = newsaleoutdata
     },
@@ -28,6 +36,12 @@ const publics = {
     }
   },
   actions: {
+    getnewinstallpaydata({ commit }, newinstallpaydata) {
+      commit('set_newinstallpaydata', newinstallpaydata)
+    },
+    getnewreceiptdata({ commit }, newreceiptdata) {
+      commit('set_newreceiptdata', newreceiptdata)
+    },
     getnewsaleoutdata({ commit }, newsaleoutdata) {
       commit('set_newsaleoutdata', newsaleoutdata)
     },

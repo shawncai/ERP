@@ -38,7 +38,7 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('Receipt.receiptMoney')" prop="receiptMoney" style="width: 100%;">
-                  <el-input v-model="personalForm.receiptMoney" style="margin-left: 18px;width: 200px" clearable/>
+                  <el-input v-model="personalForm.receiptMoney" style="margin-left: 18px;width: 200px" disabled clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
@@ -106,6 +106,7 @@
       <!--子件信息-->
       <el-card v-if="personalForm.customerType === '2'" class="box-card" style="margin-top: 15px" shadow="never">
         <h2 ref="fuzhu" class="form-name" >收款明细</h2>
+        <el-button v-if="isshow" type="danger" @click="$refs.editable2.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
         <div class="container">
           <el-editable
             ref="editable2"
@@ -119,7 +120,7 @@
             size="medium"
             style="width: 100%"
             @selection-change="handleSelectionChange">
-            <!-- <el-editable-column type="selection" min-width="55" align="center"/> -->
+            <el-editable-column v-if="isshow" type="selection" min-width="55" align="center"/>
             <el-editable-column :key="Math.random()" :label="$t('Hmodule.xh')" min-width="55" align="center" type="index"/>
             <el-editable-column :key="Math.random()" prop="presentCount" align="center" label="当前期数" min-width="150px"/>
             <el-editable-column :key="Math.random()" prop="returnMoney" align="center" label="本期还款金额" min-width="150px"/>
@@ -219,6 +220,7 @@ export default {
       }
     }
     return {
+      isshow: false,
       allmoney: '',
       // 批量操作
       moreaction: [],
@@ -311,6 +313,8 @@ export default {
     this.getinformation()
   },
   activated() {
+    this.setinstallmentdata()
+    this.setinformation()
     this.getinformation()
     this.getinformation2()
     this.getinformation3()
@@ -319,6 +323,44 @@ export default {
     _that = this
   },
   methods: {
+    setinstallmentdata() {
+      if (this.$store.getters.newinstallpaydata) {
+        this.isshow = true
+        const val = this.$store.getters.newinstallpaydata
+        this.personalForm.customerType = '2'
+        this.customerId = val.customerName
+        this.personalForm.customerId = val.customerId
+        const befroedetail = []
+        for (const i in val.installmentOrderDetailVos) {
+          if (val.installmentOrderDetailVos[i].stat !== 2) {
+            befroedetail.push(val.installmentOrderDetailVos[i])
+          }
+        }
+        console.log('befroedetailbefroedetail', befroedetail)
+        const InstallmentDetail = befroedetail.map(function(item) {
+          return {
+            installmentDetailId: item.id,
+            presentCount: item.idx,
+            returnMoney: item.shouldMoney,
+            shouldMoney: item.shouldMoney,
+            returnSource: item.capitalMoney,
+            reward: item.reward,
+            penalty: item.penalty,
+            returnInterest: item.interestMoney,
+            paidmoney: item.paidMoney,
+            unpay: item.shouldMoney - item.paidMoney,
+            thisMoney: item.shouldMoney - item.paidMoney,
+            installmentId: item.installmentId
+          }
+        })
+        console.log('InstallmentDetail', InstallmentDetail)
+        // for (const i in InstallmentDetail) {
+        //   this.$refs.editable2.insert(InstallmentDetail[i])
+        // }
+        this.list2 = InstallmentDetail
+        this.$store.dispatch('getnewinstallpaydata', '')
+      }
+    },
     junglemoney() {
       console.log(123123123)
     },
@@ -335,6 +377,39 @@ export default {
     handleSelectionChange2(val) {
       this.moreaction2 = val
       this.personalForm.totalLackMoney = this.allmoney - this.personalForm.receiptMoney
+    },
+    setinformation() {
+      if (this.$store.getters.newreceiptdata) {
+        this.isshow = false
+        const val = this.$store.getters.newreceiptdata
+        this.personalForm.customerType = '2'
+        this.customerId = this.$store.getters.newreceiptdata.customerName
+        this.personalForm.customerId = this.$store.getters.newreceiptdata.customerId
+        const valmap = []
+        valmap.push(val)
+        const InstallmentDetail = valmap.map(function(item) {
+          return {
+            installmentDetailId: item.id,
+            presentCount: item.idx,
+            returnMoney: item.shouldMoney,
+            shouldMoney: item.shouldMoney,
+            returnSource: item.capitalMoney,
+            reward: item.reward,
+            penalty: item.penalty,
+            returnInterest: item.interestMoney,
+            paidmoney: item.paidMoney,
+            unpay: item.shouldMoney - item.paidMoney,
+            thisMoney: item.shouldMoney - item.paidMoney,
+            installmentId: item.installmentId
+          }
+        })
+        console.log('InstallmentDetail', InstallmentDetail)
+        // for (const i in InstallmentDetail) {
+        //   this.$refs.editable2.insert(InstallmentDetail[i])
+        // }
+        this.list2 = InstallmentDetail
+        this.$store.dispatch('getnewreceiptdata', '')
+      }
     },
     getinformation() {
       if (this.$store.getters.empcontract) {
@@ -660,6 +735,7 @@ export default {
                 this.$refs.editable.clear()
                 this.$refs.personalForm.clearValidate()
                 this.$refs.personalForm.resetFields()
+                this.$store.dispatch('getnewreceiptdata', '')
               } else {
                 this.$notify.error({
                   title: '错误',
