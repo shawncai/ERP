@@ -153,6 +153,24 @@
                 <p>{{ getSize(scope.row.quantity, scope.row.price) }}</p>
               </template>
             </el-editable-column>
+            <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.cjbm')" prop="carCode" align="center" min-width="150" >
+              <template slot="edit" slot-scope="scope">
+                <el-input v-if="isEdit2(scope.row)" v-model="scope.row.carCode" clearable @blur="getInfo(scope.row)"/>
+                <span v-else>{{ scope.row.carCode }}</span>
+              </template>
+            </el-editable-column>
+            <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.djbm')" prop="motorCode" align="center" min-width="150" >
+              <template slot="edit" slot-scope="scope">
+                <el-input v-if="isEdit2(scope.row)" v-model="scope.row.motorCode" clearable @blur="getInfo3(scope.row)"/>
+                <span v-else>{{ scope.row.motorCode }}</span>
+              </template>
+            </el-editable-column>
+            <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.dcbm')" prop="batteryCode" align="center" min-width="150" >
+              <template slot="edit" slot-scope="scope">
+                <el-input v-if="isEdit4(scope.row)" v-model="scope.row.batteryCode" clearable @blur="getInfo2(scope.row)"/>
+                <span v-else>{{ scope.row.batteryCode }}</span>
+              </template>
+            </el-editable-column>
             <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.bz')" prop="remarks" align="center" width="150px"/>
           </el-editable>
         </div>
@@ -296,6 +314,18 @@ export default {
     _that = this
   },
   methods: {
+    // 判断整车
+    isEdit2(row) {
+      console.log('222', row)
+      const re = row.productCode.slice(0, 2)
+      if (re === '01') { return true } else { return false }
+    },
+    // 判断整车或者电池
+    isEdit4(row) {
+      console.log('222', row)
+      const re = row.productCode.slice(0, 2)
+      if (re === '01' || re === '05') { return true } else { return false }
+    },
     updatebatch2(event, scope) {
       if (event === true) {
         const parms3 = scope.row.productCode
@@ -726,6 +756,45 @@ export default {
         this.$notify.error({
           title: '错误',
           message: '组装前的商品批次不能为空',
+          offset: 100
+        })
+        return false
+      }
+      let m = 1
+      let b = 1
+      EnterDetail2.map(function(elem) {
+        return elem
+      }).forEach(function(elem) {
+        const re = elem.productCode.slice(0, 2)
+        if (re === '01') {
+          if (elem.carCode === null || elem.carCode === undefined || elem.carCode === '' || elem.motorCode === null || elem.motorCode === undefined || elem.motorCode === '') {
+            m = 2
+          }
+        }
+      })
+      EnterDetail2.map(function(elem) {
+        return elem
+      }).forEach(function(elem) {
+        const re = elem.productCode.slice(0, 2)
+        if (re === '05') {
+          if (elem.batteryCode === null || elem.batteryCode === undefined || elem.batteryCode === '') {
+            b = 2
+          }
+        }
+      })
+      if (m === 2) {
+        this.$notify.error({
+          title: '错误',
+          message: '整车出库时相关编码必填',
+          offset: 100
+        })
+        return false
+      }
+
+      if (b === 2) {
+        this.$notify.error({
+          title: '错误',
+          message: '电池出库时电池编码必填',
           offset: 100
         })
         return false

@@ -20,38 +20,38 @@
             </el-form-item>
           </el-col>
           <!--更多搜索条件-->
-          <el-col :span="3" style="margin-left: 30px">
-            <el-popover
-              v-model="visible2"
-              placement="bottom"
-              width="500"
-              trigger="click">
-              <el-select v-model="getemplist.receiptStat" :value="getemplist.receiptStat" :placeholder="$t('updates.djzt')" clearable style="width: 40%;float: left;margin-left: 20px">
-                <el-option :label="$t('updates.zd')" value="1"/>
-                <el-option :label="$t('updates.zx')" value="2"/>
-                <el-option :label="$t('updates.jd')" value="3"/>
-              </el-select>
-              <el-select v-model="getemplist.judgeStat" :value="getemplist.judgeStat" :placeholder="$t('updates.spzt')" clearable style="width: 40%;float: right;margin-right: 20px">
-                <el-option :label="$t('updates.wsh')" value="0"/>
-                <el-option :label="$t('updates.shz')" value="1"/>
-                <el-option :label="$t('updates.shtg')" value="2"/>
-                <el-option :label="$t('updates.shptg')" value="3"/>
-              </el-select>
-              <!--<el-date-picker-->
-              <!--v-model="date"-->
-              <!--type="daterange"-->
-              <!--range-separator="-"-->
-              <!--unlink-panels-->
-              <!--start-placeholder="销售日期"-->
-              <!--end-placeholder="销售日期"-->
-              <!--value-format="yyyy-MM-dd"-->
-              <!--style="margin-top: 20px;margin-left: 20px"/>-->
-              <div class="seachbutton" style="width: 100%;float: right;margin-top: 20px">
-                <el-button v-waves class="filter-item" type="primary" style="float: right" round @click="handleFilter">{{ $t('public.search') }}</el-button>
-              </div>
-              <el-button v-waves slot="reference" type="primary" class="filter-item" style="width: 130px" @click="visible2 = !visible2">{{ $t('public.filter') }}<svg-icon icon-class="shaixuan" style="margin-left: 4px"/></el-button>
-            </el-popover>
-          </el-col>
+          <!--          <el-col :span="3" style="margin-left: 30px">-->
+          <!--            <el-popover-->
+          <!--              v-model="visible2"-->
+          <!--              placement="bottom"-->
+          <!--              width="500"-->
+          <!--              trigger="click">-->
+          <!--              <el-select v-model="getemplist.receiptStat" :value="getemplist.receiptStat" :placeholder="$t('updates.djzt')" clearable style="width: 40%;float: left;margin-left: 20px">-->
+          <!--                <el-option :label="$t('updates.zd')" value="1"/>-->
+          <!--                <el-option :label="$t('updates.zx')" value="2"/>-->
+          <!--                <el-option :label="$t('updates.jd')" value="3"/>-->
+          <!--              </el-select>-->
+          <!--              <el-select v-model="getemplist.judgeStat" :value="getemplist.judgeStat" :placeholder="$t('updates.spzt')" clearable style="width: 40%;float: right;margin-right: 20px">-->
+          <!--                <el-option :label="$t('updates.wsh')" value="0"/>-->
+          <!--                <el-option :label="$t('updates.shz')" value="1"/>-->
+          <!--                <el-option :label="$t('updates.shtg')" value="2"/>-->
+          <!--                <el-option :label="$t('updates.shptg')" value="3"/>-->
+          <!--              </el-select>-->
+          <!--              &lt;!&ndash;<el-date-picker&ndash;&gt;-->
+          <!--              &lt;!&ndash;v-model="date"&ndash;&gt;-->
+          <!--              &lt;!&ndash;type="daterange"&ndash;&gt;-->
+          <!--              &lt;!&ndash;range-separator="-"&ndash;&gt;-->
+          <!--              &lt;!&ndash;unlink-panels&ndash;&gt;-->
+          <!--              &lt;!&ndash;start-placeholder="销售日期"&ndash;&gt;-->
+          <!--              &lt;!&ndash;end-placeholder="销售日期"&ndash;&gt;-->
+          <!--              &lt;!&ndash;value-format="yyyy-MM-dd"&ndash;&gt;-->
+          <!--              &lt;!&ndash;style="margin-top: 20px;margin-left: 20px"/>&ndash;&gt;-->
+          <!--              <div class="seachbutton" style="width: 100%;float: right;margin-top: 20px">-->
+          <!--                <el-button v-waves class="filter-item" type="primary" style="float: right" round @click="handleFilter">{{ $t('public.search') }}</el-button>-->
+          <!--              </div>-->
+          <!--              <el-button v-waves slot="reference" type="primary" class="filter-item" style="width: 130px" @click="visible2 = !visible2">{{ $t('public.filter') }}<svg-icon icon-class="shaixuan" style="margin-left: 4px"/></el-button>-->
+          <!--            </el-popover>-->
+          <!--          </el-col>-->
           <el-col :span="3" style="margin-left: 20px">
             <!-- 搜索按钮 -->
             <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 86px" round @click="handleFilter">{{ $t('public.search') }}</el-button>
