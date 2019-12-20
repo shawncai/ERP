@@ -37,6 +37,10 @@
                 <el-option :label="$t('updates.shptg')" value="3"/>
               </el-select>
               <el-input v-model="getemplist.address" placeholder="地址" style="width: 40%;float: left;margin-left: 20px;margin-top: 20px" clearable @keyup.enter.native="handleFilter"/>
+              <el-input v-model.number="getemplist.overdueMonth" type="number" placeholder="逾期时长" style="width: 40%;float: right;margin-right: 20px;margin-top: 20px">
+                <template slot="append">月</template>
+              </el-input>
+              <!--              <el-input-number v-model="getemplist.overdueMonth" placeholder="逾期时长" style="width: 40%;float: right;margin-right: 20px;margin-top: 20px" clearable @keyup.enter.native="handleFilter"/>-->
               <!--<el-date-picker-->
               <!--v-model="date"-->
               <!--type="daterange"-->

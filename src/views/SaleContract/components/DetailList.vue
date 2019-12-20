@@ -104,11 +104,6 @@
                 </el-form-item>
               </el-col>
               <el-col :span="12">
-                <el-form-item :label="$t('SaleContract.taxRate')" style="width: 100%;">
-                  <span>{{ personalForm.taxRate }}</span>
-                </el-form-item>
-              </el-col>
-              <el-col :span="12">
                 <el-form-item :label="$t('SaleContract.installmentCount')" style="width: 100%;">
                   <span>{{ personalForm.installmentCount }}</span>
                 </el-form-item>
@@ -172,8 +167,8 @@
             <el-editable-column :label="$t('Hmodule.xh')" fixed="left" min-width="55" align="center" type="index"/>
             <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" fixed="left" align="center" />
             <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" fixed="left" align="center" />
-            <el-editable-column :label="$t('updates.wpfl')" prop="categoryName" align="center" />
-            <el-editable-column :label="$t('updates.ggxh')" prop="typeName" align="center" />
+            <el-editable-column :label="$t('updates.wpfl')" prop="productCategoryName" align="center" />
+            <el-editable-column :label="$t('updates.ggxh')" prop="productTypeName" align="center" />
             <el-editable-column :label="$t('updates.ys')" prop="color" align="center" />
             <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" />
             <el-editable-column :label="$t('updates.jxf')" prop="performanceScore" align="center" />

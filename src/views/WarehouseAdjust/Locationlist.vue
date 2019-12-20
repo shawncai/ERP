@@ -313,7 +313,7 @@ export default {
     },
     // 新增数据
     handleAdd() {
-      this.$router.push('/WarehouseAdjust/AddLocation')
+      this.$router.push('/Repository/AddLocation')
     },
     // 导出
     handleExport() {
