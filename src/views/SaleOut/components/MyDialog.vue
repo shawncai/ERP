@@ -197,6 +197,7 @@
         <my-order :ordercontrol.sync="ordercontrol" @saleOrderDetail="saleOrderDetail" @saleOrder="saleOrder"/>
         <my-presale :presalecontrol.sync="presalecontrol" @advanceOrderDetail="advanceOrderDetail" @advanceData="advanceData"/>
         <my-opportunity :opportunitycontrol.sync="opportunitycontrol" @opportunityDetail="opportunityDetail" @opportunity="opportunity"/>
+        <my-contract :contractcontrol.sync="contractcontrol" @salecontractDetail="salecontractDetail" @salecontract="salecontract"/>
         <el-button type="danger" @click="$refs.editable.removeSelecteds();test()">{{ $t('Hmodule.delete') }}</el-button>
       </div>
       <div class="container">
@@ -481,11 +482,12 @@ import MyPresale from './MyPresale'
 import MyOpportunity from './MyOpportunity'
 import MyDetail2 from './MyDetail2'
 import MyPackage from './MyPackage'
+import MyContract from './MyContract'
 // eslint-disable-next-line no-unused-vars
 var _that
 export default {
   name: 'MyDialog',
-  components: { MyPackage, MyDetail2, MyOpportunity, MyPresale, MyAdvance, MyOrder, MyRepository, MyAccept, MyAgent, MyCustomer, MyRequire, MySupplier, MyApply, MyDetail, MyDelivery, MyEmp },
+  components: { MyContract, MyPackage, MyDetail2, MyOpportunity, MyPresale, MyAdvance, MyOrder, MyRepository, MyAccept, MyAgent, MyCustomer, MyRequire, MySupplier, MyApply, MyDetail, MyDelivery, MyEmp },
   props: {
     editcontrol: {
       type: Boolean,
@@ -589,6 +591,7 @@ export default {
       // 货位数据
       locationlist: [],
       payModes: [],
+      contractcontrol: false,
       // 控制赠品
       giftcontrol: false,
       // 控制销售机会单
@@ -697,10 +700,18 @@ export default {
     },
     editdata() {
       this.personalForm = this.editdata
+      if (this.personalForm.sourceType === '5') {
+        this.Isproduct = false
+        this.IsSourceNumber = true
+      } else {
+        this.Isproduct = true
+        this.IsSourceNumber = false
+      }
       this.planPersonId = this.personalForm.planPersonName
       this.stockPersonId = this.personalForm.stockPersonName
       this.list2 = this.personalForm.saleOutDetailVos
       for (const i in this.list2) {
+        this.list2[i].location = this.list2[i].locationName
         this.list2[i].categoryName = this.list2[i].productCategoryName
         this.list2[i].typeName = this.list2[i].productTypeName
         if (this.list2[i].taxRate < 1) {
@@ -1042,7 +1053,7 @@ export default {
           if (res.data.data.content.length !== 0) {
             row.location = res.data.data.content[0].locationCode
             row.locationId = res.data.data.content[0].id
-            console.log('row.locationId', row.locationId)
+            console.log('row.location', row.location)
           } else {
             row.location = null
             row.locationId = null
@@ -1050,6 +1061,49 @@ export default {
         }
       })
       return row.location
+    },
+    // 源单类型为销售合同
+    salecontractDetail(val) {
+      console.log(val)
+      // const nowlistdata = this.$refs.editable.getRecords()
+      this.$refs.editable.clear()
+      for (let i = 0; i < val.length; i++) {
+        // for (let j = 0; j < nowlistdata.length; j++) {
+        //   if (val[i].sourceNumber === nowlistdata[j].sourceNumber) {
+        //     this.$notify.error({
+        //       title: '错误',
+        //       message: '物品已添加',
+        //       offset: 100
+        //     })
+        //     return false
+        //   }
+        // }
+        val[i].typeId = val[i].typeName
+        console.log('val[i]', val[i])
+        this.$refs.editable.insert(val[i])
+      }
+    },
+    salecontract(val) {
+      console.log('val.firstMoney', val.firstMoney)
+      this.receivableMoney = val.firstMoney
+      if (val.customerType !== null && val.customerType !== undefined && val.customerType !== '') {
+        this.personalForm.customerType = '2'
+      }
+      this.personalForm.customerId = val.customerId
+      this.customerId = val.customerName
+      this.personalForm.customerPhone = val.customerPhone
+      this.personalForm.salePersonId = val.salePersonId
+      this.salePersonId = val.salePersonName
+      this.personalForm.handleRepositoryId = val.saleRepositoryId
+      this.handleRepositoryId = val.saleRepositoryName
+      if (val.saleType !== null && val.saleType !== undefined && val.saleType !== '') {
+        this.personalForm.saleType = String(val.saleType)
+      }
+      this.personalForm.settleMode = val.closeType
+      this.personalForm.invoiceType = val.invoiceType
+      if (val.payType !== null && val.payType !== undefined && val.payType !== '') {
+        this.personalForm.payType = String(val.payType)
+      }
     },
     getlocation() {
       // 货位根据仓库id展现
@@ -1336,7 +1390,7 @@ export default {
       if (this.personalForm.sourceType === '1') {
         this.ordercontrol = true
       } else if (this.personalForm.sourceType === '2') {
-        console.log('未做')
+        this.contractcontrol = true
       } else if (this.personalForm.sourceType === '3') {
         this.presalecontrol = true
       } else if (this.personalForm.sourceType === '4') {

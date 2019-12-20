@@ -160,11 +160,6 @@
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item :label="$t('SaleContract.taxRate')" style="width: 100%;">
-                <el-input v-model="personalForm.taxRate" style="margin-left: 18px;width: 200px" clearable/>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
               <el-form-item :label="$t('SaleContract.installmentCount')" style="width: 100%;">
                 <el-select v-model="personalForm.installmentCount" :disabled="isinstallappley" clearable style="margin-left: 18px;width: 200px" @change="change">
                   <el-option
@@ -253,8 +248,8 @@
           <el-editable-column :label="$t('Hmodule.xh')" min-width="55" align="center" type="index"/>
           <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" align="center" min-width="150px"/>
           <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" align="center" min-width="150px"/>
-          <el-editable-column :label="$t('updates.wpfl')" prop="productCategoryName" align="center" min-width="150px"/>
-          <el-editable-column :label="$t('updates.ggxh')" prop="productTypeName" align="center" min-width="150px"/>
+          <el-editable-column :label="$t('updates.wpfl')" prop="categoryName" align="center" min-width="150px"/>
+          <el-editable-column :label="$t('updates.ggxh')" prop="typeName" align="center" min-width="150px"/>
           <el-editable-column :label="$t('updates.ys')" prop="color" align="center" min-width="150px"/>
           <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" min-width="150px"/>
           <el-editable-column :label="$t('updates.jxf')" prop="performanceScore" align="center" min-width="150px"/>
@@ -545,10 +540,16 @@ export default {
       this.personalForm.notaryDate = this.formatTime(this.personalForm.notaryDate, 'Y-M-D')
       this.personalForm.contractStat = String(this.personalForm.contractStat)
       this.personalForm.payType = Number(this.personalForm.payType)
+      // this.personalForm.categoryName = this.personalForm.productCategoryName
+      // this.personalForm.typeName = this.personalForm.productTypeName
       this.supplierId = this.personalForm.supplierName
       this.stockPersonId = this.personalForm.stockPersonName
       this.salePersonId = this.personalForm.salePersonName
       this.customerId = this.personalForm.customerName
+      for (let j = 0; j < this.personalForm.saleContractDetailVos.length; j++) {
+        this.personalForm.saleContractDetailVos[j].categoryName = this.personalForm.saleContractDetailVos[j].productCategoryName
+        this.personalForm.saleContractDetailVos[j].typeName = this.personalForm.saleContractDetailVos[j].productTypeName
+      }
       this.list2 = this.personalForm.saleContractDetailVos
       this.changeRate()
       // this.getTypes()
@@ -843,6 +844,8 @@ export default {
             return false
           }
         }
+        val[i].productCategoryName = val[i].categoryName
+        val[i].productTypeName = val[i].typeName
         this.$refs.editable.insert(val[i])
       }
     },

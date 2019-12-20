@@ -67,17 +67,33 @@
             size="medium"
             style="width: 100%">
             <el-editable-column label="编号" width="55" align="center" type="index"/>
-            <el-editable-column :edit-render="{type: 'visible'}" :label="$t('Hmodule.hw')" prop="locationId" align="center" min-width="170px">
-              <template slot="edit" slot-scope="scope">
-                <el-select v-model="scope.row.locationCode" :value="scope.row.locationCode" :placeholder="$t('Hmodule.xzhw')" filterable clearable style="width: 100%;" @visible-change="updatebatch($event,scope)">
-                  <el-option
-                    v-for="(item, index) in locationlist"
-                    :key="index"
-                    :value="item.locationCode"
-                    :label="item.locationCode"/>
-                </el-select>
+            <!--            <el-editable-column :edit-render="{type: 'visible'}" :label="$t('Hmodule.hw')" prop="locationId" align="center" min-width="170px">-->
+            <!--              <template slot="edit" slot-scope="scope">-->
+            <!--                <el-select v-model="scope.row.locationCode" :value="scope.row.locationCode" :placeholder="$t('Hmodule.xzhw')" filterable clearable style="width: 100%;" @visible-change="updatebatch($event,scope)">-->
+            <!--                  <el-option-->
+            <!--                    v-for="(item, index) in locationlist"-->
+            <!--                    :key="index"-->
+            <!--                    :value="item.locationCode"-->
+            <!--                    :label="item.locationCode"/>-->
+            <!--                </el-select>-->
+            <!--              </template>-->
+            <!--            </el-editable-column>-->
+            <el-editable-column :edit-render="{type: 'default'}" :label="$t('Hmodule.hw')" prop="locationCode" align="center" width="200px">
+              <template slot-scope="scope">
+                <p>{{ getLocationData(scope.row) }}</p>
               </template>
             </el-editable-column>
+            <!--            <el-editable-column :edit-render="{type: 'visible'}" :label="$t('Hmodule.pc')" prop="batch" align="center" width="200px">-->
+            <!--              <template slot="edit" slot-scope="scope">-->
+            <!--                <el-select v-model="scope.row.batch" :value="scope.row.batch" :placeholder="$t('Hmodule.xcpc')" clearable style="width: 100%;" @visible-change="updatebatch2($event,scope)">-->
+            <!--                  <el-option-->
+            <!--                    v-for="(item, index) in batchlist"-->
+            <!--                    :key="index"-->
+            <!--                    :value="item"-->
+            <!--                    :label="item"/>-->
+            <!--                </el-select>-->
+            <!--              </template>-->
+            <!--            </el-editable-column>-->
             <el-editable-column :edit-render="{type: 'visible'}" :label="$t('Hmodule.pc')" prop="batch" align="center" width="200px">
               <template slot="edit" slot-scope="scope">
                 <el-select v-model="scope.row.batch" :value="scope.row.batch" :placeholder="$t('Hmodule.xcpc')" clearable style="width: 100%;" @visible-change="updatebatch2($event,scope)">
@@ -129,13 +145,24 @@
             @selection-change="handleSelectionChange">
             <el-editable-column type="selection" width="55" align="center"/>
             <el-editable-column label="编号" width="55" align="center" type="index"/>
-            <el-editable-column :edit-render="{type: 'visible'}" :label="$t('Hmodule.hw')" prop="locationId" align="center" min-width="170px">
-              <template slot="edit" slot-scope="scope">
-                <el-select v-model="scope.row.locationCode" :value="scope.row.locationCode" :placeholder="$t('Hmodule.xzhw')" filterable clearable style="width: 100%;" @visible-change="updatebatch4($event,scope)">
+            <!--            <el-editable-column :edit-render="{type: 'visible'}" :label="$t('Hmodule.hw')" prop="locationId" align="center" min-width="170px">-->
+            <!--              <template slot="edit" slot-scope="scope">-->
+            <!--                <el-select v-model="scope.row.locationCode" :value="scope.row.locationCode" :placeholder="$t('Hmodule.xzhw')" filterable clearable style="width: 100%;" @visible-change="updatebatch4($event,scope)">-->
+            <!--                  <el-option-->
+            <!--                    v-for="(item, index) in locationlist"-->
+            <!--                    :key="index"-->
+            <!--                    :value="item.locationCode"-->
+            <!--                    :label="item.locationCode"/>-->
+            <!--                </el-select>-->
+            <!--              </template>-->
+            <!--            </el-editable-column>-->
+            <el-editable-column :edit-render="{type: 'default'}" :label="$t('Hmodule.hw')" prop="locationId" align="center" width="200px">
+              <template slot-scope="scope">
+                <el-select v-model="scope.row.locationId" :value="scope.row.locationId" :placeholder="$t('Hmodule.xzhw')" filterable clearable style="width: 100%;" @visible-change="updatebatch($event,scope)">
                   <el-option
-                    v-for="(item, index) in locationlist"
-                    :key="index"
-                    :value="item.locationCode"
+                    v-for="item in locationlist"
+                    :key="item.id"
+                    :value="item.id"
                     :label="item.locationCode"/>
                 </el-select>
               </template>
@@ -314,6 +341,42 @@ export default {
     _that = this
   },
   methods: {
+    getLocationData(row) {
+      // 默认批次
+      if (row.batch === null || row.batch === '' || row.batch === undefined) {
+        const parms3 = row.productCode
+        batchlist(this.personalForm.buildupRepositoryId, parms3).then(res => {
+          console.log(res)
+          if (res.data.data.content.length > 0) {
+            row.batch = res.data.data.content[0]
+          }
+        })
+      } else {
+        const parms3 = row.productCode
+        batchlist(this.personalForm.buildupRepositoryId, parms3).then(res => {
+          if (res.data.data.content.length === 0) {
+            if (row.batch !== '不使用') {
+              row.batch = null
+            }
+          }
+        })
+      }
+      // 默认货位
+      getlocation(this.personalForm.buildupRepositoryId, row).then(res => {
+        if (res.data.ret === 200) {
+          console.log('res', res)
+          if (res.data.data.content.length !== 0) {
+            row.locationCode = res.data.data.content[0].locationCode
+            row.locationId = res.data.data.content[0].id
+            console.log('row.locationCode', row.locationCode)
+          } else {
+            row.locationCode = null
+            row.locationId = null
+          }
+        }
+      })
+      return row.locationCode
+    },
     // 判断整车
     isEdit2(row) {
       console.log('222', row)
@@ -566,14 +629,29 @@ export default {
       if (event === true) {
         getlocation(this.personalForm.buildupRepositoryId, scope.row).then(res => {
           if (res.data.ret === 200) {
-            this.locationlist = res.data.data.content
             if (res.data.data.content.length !== 0) {
               this.locationlist = res.data.data.content
-              scope.row.locationId = res.data.data.content[0].id
+            } else if (res.data.data.content.length === 0) {
+              locationlist(this.personalForm.buildupRepositoryId).then(res => {
+                if (res.data.ret === 200) {
+                  this.locationlist = res.data.data.content.list
+                }
+              })
             }
           }
         })
       }
+      // if (event === true) {
+      //   getlocation(this.personalForm.buildupRepositoryId, scope.row).then(res => {
+      //     if (res.data.ret === 200) {
+      //       this.locationlist = res.data.data.content
+      //       if (res.data.data.content.length !== 0) {
+      //         this.locationlist = res.data.data.content
+      //         scope.row.locationId = res.data.data.content[0].id
+      //       }
+      //     }
+      //   })
+      // }
     },
     updatebatch3(scope) {
       const parms3 = scope.row.productCode
@@ -674,6 +752,7 @@ export default {
     // 保存操作
     async handlesave() {
       const EnterDetail = this.$refs.editable.getRecords()
+      console.log('EnterDetail', EnterDetail)
       if (EnterDetail.length === 0) {
         this.$notify.error({
           title: '错误',
@@ -799,21 +878,23 @@ export default {
         })
         return false
       }
+      console.log('EnterDetail2', EnterDetail2)
       EnterDetail2.map(function(elem) {
         return elem
       }).forEach(function(elem) {
-        locationlist(null, elem.locationCode).then(res => {
-          if (res.data.ret === 200) {
-            elem.locationId = res.data.data.content.list[0].id
-            console.log('res.data.data.content.list[0].id', res.data.data.content.list[0].id)
-            console.log('elem.locationId', elem.locationId)
-          }
-        })
-        if (elem.locationCode === null || elem.locationCode === '' || elem.locationCode === undefined) {
-          i = 4
-        }
+        // locationlist(null, elem.locationCode).then(res => {
+        //   if (res.data.ret === 200) {
+        //     elem.locationId = res.data.data.content.list[0].id
+        //     console.log('res.data.data.content.list[0].id', res.data.data.content.list[0].id)
+        //     console.log('elem.locationId', elem.locationId)
+        //   }
+        // })
+        // if (elem.locationCode === null || elem.locationCode === '' || elem.locationCode === undefined) {
+        //
+        // }
         if (elem.locationId === null || elem.locationId === '' || elem.locationId === undefined) {
           delete elem.locationId
+          i = 4
         }
         if (elem.productCode === null || elem.productCode === '' || elem.productCode === undefined) {
           delete elem.productCode

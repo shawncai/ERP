@@ -1743,6 +1743,8 @@ export default {
         //     return false
         //   }
         // }
+        val[i].typeId = val[i].typeName
+        console.log('val[i]', val[i])
         this.$refs.editable.insert(val[i])
       }
     },

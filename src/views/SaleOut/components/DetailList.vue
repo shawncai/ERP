@@ -235,7 +235,7 @@
               </el-col>
               <el-col :span="12">
                 <el-form-item :label="$t('SaleOut.heji4')" style="width: 100%;">
-                  <span>{{ personalForm.allIncludeTaxCostMoney }}</span>
+                  <span>{{ personalForm.allDiscountMoney }}</span>
                 </el-form-item>
               </el-col>
               <!-- <el-col :span="12">

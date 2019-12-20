@@ -179,11 +179,6 @@
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('SaleContract.taxRate')" style="width: 100%;">
-                  <el-input v-model="personalForm.taxRate" style="margin-left: 18px;width: 200px" clearable disabled/>
-                </el-form-item>
-              </el-col>
-              <el-col :span="6">
                 <el-form-item :label="$t('SaleContract.installmentCount')" style="width: 100%;">
                   <el-select v-model="personalForm.installmentCount" :disabled="isinstallappley" clearable style="margin-left: 18px;width: 200px" @change="change">
                     <el-option
