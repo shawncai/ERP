@@ -17,29 +17,46 @@
               </el-form-item>
             </el-col>
             <my-accept :accetpcontrol.sync="accetpcontrol" @acceptName="acceptName"/>
-            <!-- <el-col :span="6">
-                <el-form-item :label="$t('Storagemove.requestDeptId')" prop="requestDeptId" style="width: 100%;">
-                  <el-select v-model="personalForm.requestDeptId" placeholder="请选择要货部门" style="margin-left: 18px;width: 200px" clearable >
-                    <el-option
-                      v-for="(item, index) in depts"
-                      :key="index"
-                      :value="item.id"
-                      :label="item.deptName"/>
-                  </el-select>
-                </el-form-item>
-              </el-col> -->
             <el-col :span="8">
+              <el-form-item :label="$t('otherlanguage.dblx')" prop="moveType" style="width: 100%;">
+                <el-select v-model="personalForm.moveType" :placeholder="$t('otherlanguage.dblx')" style="margin-left: 18px;width:180px" clearable @change="choosemovetype" @clear="clearmovetype">
+                  <el-option
+                    :label="$t('otherlanguage.ptdb')"
+                    value="1"/>
+                  <el-option
+                    :label="$t('otherlanguage.thdb')"
+                    value="2"/>
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <!-- 普通调拨时仓库逻辑 开始-->
+            <el-col v-show="ismovetype" :span="8">
               <el-form-item :label="$t('Storagemove.moveInRepository')" prop="moveInRepository" style="width: 100%;">
                 <el-input v-model="moveInRepository" placeholder="请选择调入仓库" style="margin-left: 18px;width:180px" clearable @focus="handlechooseDep"/>
               </el-form-item>
               <my-depot :depotcontrol.sync="depotcontrol" @depotname="depotname"/>
             </el-col>
-            <el-col :span="8">
+            <el-col v-show="ismovetype" :span="8">
               <el-form-item :label="$t('Storagemove.moveOutRepository')" prop="moveOutRepository" style="width: 100%;">
                 <el-input v-model="moveOutRepository" placeholder="请选择调出仓库" style="margin-left: 18px;width: 180px" clearable @focus="handlechooseRep"/>
               </el-form-item>
-              <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
+              <my-repository :repositorycontrol.sync="repositorycontrol" :personform="personalForm" @repositoryname="repositoryname"/>
             </el-col>
+            <!-- 普通调拨时仓库逻辑 结束-->
+            <!-- 退货调拨时仓库逻辑 开始-->
+            <el-col v-show="isreturntype" :span="8">
+              <el-form-item :label="$t('Storagemove.moveInRepository')" prop="moveInRepository" style="width: 100%;">
+                <el-input v-model="moveInRepository" placeholder="请选择调入仓库" style="margin-left: 18px;width:180px" clearable @focus="handlechooseDep2"/>
+              </el-form-item>
+              <my-depot :depotcontrol.sync="depotcontrol2" @depotname="depotname2"/>
+            </el-col>
+            <el-col v-show="isreturntype" :span="8">
+              <el-form-item :label="$t('Storagemove.moveOutRepository')" prop="moveOutRepository" style="width: 100%;">
+                <el-input v-model="moveOutRepository" placeholder="请选择调出仓库" style="margin-left: 18px;width: 180px" clearable @focus="handlechooseRep2"/>
+              </el-form-item>
+              <my-repository :repositorycontrol.sync="repositorycontrol2" :personform="personalForm" @repositoryname="repositoryname2"/>
+            </el-col>
+            <!-- 退货调拨时仓库逻辑 结束-->
             <el-col :span="8">
               <el-form-item :label="$t('Storagemove.requestArrivalDate')" label-width="110px" prop="requestArrivalDate" style="width: 100%;">
                 <el-date-picker
@@ -204,6 +221,10 @@ export default {
   },
   data() {
     return {
+      depotcontrol2: false,
+      repositorycontrol2: false,
+      isreturntype: false,
+      ismovetype: false,
       // 申请人回显
       applyPersonId: '',
       // 申请人控制
@@ -228,6 +249,9 @@ export default {
       control: false,
       // 调拨单规则数据
       personalrules: {
+        moveType: [
+          { required: true, message: '请选择调拨类型', trigger: 'change' }
+        ],
         requestDeptId: [
           { required: true, message: '请选择要货部门', trigger: 'change' }
         ],
@@ -267,6 +291,13 @@ export default {
     },
     editdata() {
       this.personalForm = this.editdata
+      if (this.editdata.moveType === 1 || this.editdata.moveType === '1') {
+        this.ismovetype = true
+        this.isreturntype = false
+      } else if (this.editdata.moveType === 2 || this.editdata.moveType === '2') {
+        this.ismovetype = false
+        this.isreturntype = true
+      }
       this.moveOutRepository = this.personalForm.moveOutRepositoryName
       this.moveInRepository = this.personalForm.moveInRepositoryName
       this.applyPersonId = this.personalForm.applicationName
@@ -288,6 +319,31 @@ export default {
     _that = this
   },
   methods: {
+    choosemovetype(val) {
+      console.log(val)
+      if (val === '1') {
+        this.isreturntype = false
+        this.ismovetype = true
+        this.moveOutRepository = ''
+        this.personalForm.moveOutRepository = ''
+        this.moveInRepository = ''
+        this.personalForm.moveInRepository = ''
+      } else if (val === '2') {
+        this.isreturntype = true
+        this.ismovetype = false
+        this.moveOutRepository = ''
+        this.personalForm.moveOutRepository = ''
+        this.moveInRepository = ''
+        this.personalForm.moveInRepository = ''
+      }
+    },
+    clearmovetype() {
+      console.log('clearsuccess')
+      this.moveOutRepository = ''
+      this.personalForm.moveOutRepository = ''
+      this.moveInRepository = ''
+      this.personalForm.moveInRepository = ''
+    },
     // 部门列表数据
     getlist() {
       getdeptlist().then(res => {
@@ -320,6 +376,13 @@ export default {
       this.moveInRepository = val.repositoryName
       this.personalForm.moveInRepository = val.id
     },
+    handlechooseDep2() {
+      this.repositorycontrol2 = true
+    },
+    depotname2(val) {
+      this.moveOutRepository = val.repositoryName
+      this.personalForm.moveOutRepository = val.id
+    },
     // 调出仓库列表focus事件触发
     handlechooseRep() {
       this.repositorycontrol = true
@@ -344,6 +407,20 @@ export default {
       //     })
       //   }
       // })
+    },
+    handlechooseRep2() {
+      this.depotcontrol2 = true
+    },
+    repositoryname2(val) {
+      // const EnterDetail = this.$refs.editable.getRecords()
+      // EnterDetail.map(function(elem) {
+      //   return elem
+      // }).forEach(function(elem) {
+      //   elem.moveQuantity = 1
+      // })
+      // console.log(val)
+      this.moveInRepository = val.repositoryName
+      this.personalForm.moveInRepository = val.id
     },
     queryStock(row) {
       if (!row.existStock) {

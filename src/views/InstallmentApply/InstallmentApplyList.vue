@@ -189,7 +189,7 @@
     <el-dialog :visible.sync="isvisible" title="分派调查员" append-to-body width="600px" class="normal" center lock-scroll>
       <el-form :model="dispatchform" style="width: 400px; margin:0 auto;">
         <el-form-item :label-width="formLabelWidth" :label="$t('repair.Employee')">
-          <el-select v-model="dispatchform.id" placeholder="please choose">
+          <el-select v-model="dispatchform.id" filterable>
             <el-option
               v-for="(item, index) in options2"
               :key="index"

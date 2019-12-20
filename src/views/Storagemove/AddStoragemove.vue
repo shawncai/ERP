@@ -18,29 +18,46 @@
                 </el-form-item>
               </el-col>
               <my-accept :accetpcontrol.sync="accetpcontrol" @acceptName="acceptName"/>
-              <!-- <el-col :span="6">
-                <el-form-item :label="$t('Storagemove.requestDeptId')" prop="requestDeptId" style="width: 100%;">
-                  <el-select v-model="personalForm.requestDeptId" placeholder="请选择要货部门" style="margin-left: 18px;width: 200px" clearable >
+              <el-col :span="8">
+                <el-form-item :label="$t('otherlanguage.dblx')" prop="moveType" style="width: 100%;">
+                  <el-select v-model="personalForm.moveType" :placeholder="$t('otherlanguage.dblx')" style="margin-left: 18px;width:180px" clearable @change="choosemovetype" @clear="clearmovetype">
                     <el-option
-                      v-for="(item, index) in depts"
-                      :key="index"
-                      :value="item.id"
-                      :label="item.deptName"/>
+                      :label="$t('otherlanguage.ptdb')"
+                      value="1"/>
+                    <el-option
+                      :label="$t('otherlanguage.thdb')"
+                      value="2"/>
                   </el-select>
                 </el-form-item>
-              </el-col> -->
-              <el-col :span="8">
+              </el-col>
+              <!-- 普通调拨时仓库逻辑 开始-->
+              <el-col v-show="ismovetype" :span="8">
                 <el-form-item :label="$t('Storagemove.moveInRepository')" prop="moveInRepository" style="width: 100%;">
                   <el-input v-model="moveInRepository" placeholder="请选择调入仓库" style="margin-left: 18px;width:180px" clearable @focus="handlechooseDep"/>
                 </el-form-item>
                 <my-depot :depotcontrol.sync="depotcontrol" @depotname="depotname"/>
               </el-col>
-              <el-col :span="8">
+              <el-col v-show="ismovetype" :span="8">
                 <el-form-item :label="$t('Storagemove.moveOutRepository')" prop="moveOutRepository" style="width: 100%;">
                   <el-input v-model="moveOutRepository" placeholder="请选择调出仓库" style="margin-left: 18px;width: 180px" clearable @focus="handlechooseRep"/>
                 </el-form-item>
                 <my-repository :repositorycontrol.sync="repositorycontrol" :personform="personalForm" @repositoryname="repositoryname"/>
               </el-col>
+              <!-- 普通调拨时仓库逻辑 结束-->
+              <!-- 退货调拨时仓库逻辑 开始-->
+              <el-col v-show="isreturntype" :span="8">
+                <el-form-item :label="$t('Storagemove.moveInRepository')" prop="moveInRepository" style="width: 100%;">
+                  <el-input v-model="moveInRepository" placeholder="请选择调入仓库" style="margin-left: 18px;width:180px" clearable @focus="handlechooseDep2"/>
+                </el-form-item>
+                <my-depot :depotcontrol.sync="depotcontrol2" @depotname="depotname2"/>
+              </el-col>
+              <el-col v-show="isreturntype" :span="8">
+                <el-form-item :label="$t('Storagemove.moveOutRepository')" prop="moveOutRepository" style="width: 100%;">
+                  <el-input v-model="moveOutRepository" placeholder="请选择调出仓库" style="margin-left: 18px;width: 180px" clearable @focus="handlechooseRep2"/>
+                </el-form-item>
+                <my-repository :repositorycontrol.sync="repositorycontrol2" :personform="personalForm" @repositoryname="repositoryname2"/>
+              </el-col>
+              <!-- 退货调拨时仓库逻辑 结束-->
               <el-col :span="8">
                 <el-form-item :label="$t('Storagemove.requestArrivalDate')" label-width="110px" prop="requestArrivalDate" style="width: 100%;">
                   <el-date-picker
@@ -150,6 +167,7 @@
             <el-editable-column :label="$t('updates.ys')" prop="color" align="center" width="150px"/>
             <el-editable-column :label="$t('Hmodule.gg')" prop="typeName" align="center" width="150px"/>
             <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" width="150px"/>
+            <el-editable-column :label="$t('otherlanguage.kcsl')" prop="existStock" align="center" width="150px"/>
             <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 1.00, precision: 2}, type: 'visible'}" :label="$t('updates.sqsl')" prop="applyQuantity" align="center" min-width="150">
               <template slot="edit" slot-scope="scope">
                 <el-input-number
@@ -385,6 +403,10 @@ export default {
   components: { MyDepot, MyRepository, MyDetail, MyCreate, MyAccept, MyOut },
   data() {
     return {
+      depotcontrol2: false,
+      repositorycontrol2: false,
+      isreturntype: false,
+      ismovetype: false,
       // 申请人回显
       applyPersonId: this.$store.getters.name,
       // 申请人控制
@@ -416,16 +438,17 @@ export default {
         sourceType: '1',
         applyPersonId: this.$store.getters.userId,
         requestDeptId: this.$store.getters.deptId,
-        moveInRepository: this.$store.getters.repositoryId,
-        businessStat: '1'
+        businessStat: '1',
+        moveOutRepository: '',
+        moveInRepository: ''
       },
       // 调拨单规则数据
       personalrules: {
         applyPersonId: [
           { required: true, message: '请选择调拨申请人', trigger: 'focus' }
         ],
-        requestDeptId: [
-          { required: true, message: '请选择要货部门', trigger: 'change' }
+        moveType: [
+          { required: true, message: '请选择调拨类型', trigger: 'change' }
         ],
         moveInRepository: [
           { required: true, message: '请选择调入仓库', trigger: 'focus' }
@@ -470,6 +493,25 @@ export default {
     _that = this
   },
   methods: {
+    choosemovetype(val) {
+      console.log(val)
+      if (val === '1') {
+        this.isreturntype = false
+        this.ismovetype = true
+        this.clearmovetype()
+      } else if (val === '2') {
+        this.isreturntype = true
+        this.ismovetype = false
+        this.clearmovetype()
+      }
+    },
+    clearmovetype() {
+      console.log('clearsuccess')
+      this.moveOutRepository = ''
+      this.personalForm.moveOutRepository = ''
+      this.moveInRepository = ''
+      this.personalForm.moveInRepository = ''
+    },
     getdatatime() { // 默认显示今天
       this.personalForm.storageMoveDate = new Date()
     },
@@ -563,10 +605,19 @@ export default {
     // 调入仓库focus事件触发
     handlechooseDep() {
       this.depotcontrol = true
+      console.log(1233)
     },
     depotname(val) {
+      console.log(1233)
       this.moveInRepository = val.repositoryName
       this.personalForm.moveInRepository = val.id
+    },
+    handlechooseDep2() {
+      this.repositorycontrol2 = true
+    },
+    depotname2(val) {
+      this.moveOutRepository = val.repositoryName
+      this.personalForm.moveOutRepository = val.id
     },
     // 调出仓库列表focus事件触发
     handlechooseRep() {
@@ -593,6 +644,20 @@ export default {
       //     })
       //   }
       // })
+    },
+    handlechooseRep2() {
+      this.depotcontrol2 = true
+    },
+    repositoryname2(val) {
+      // const EnterDetail = this.$refs.editable.getRecords()
+      // EnterDetail.map(function(elem) {
+      //   return elem
+      // }).forEach(function(elem) {
+      //   elem.moveQuantity = 1
+      // })
+      // console.log(val)
+      this.moveInRepository = val.repositoryName
+      this.personalForm.moveInRepository = val.id
     },
     queryStock(row) {
       console.log(this.$refs.editable.getRecords())

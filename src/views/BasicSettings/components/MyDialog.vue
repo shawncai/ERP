@@ -60,7 +60,7 @@
           <template slot="edit" slot-scope="scope">
             <el-input v-model="scope.row.handlerName" @focus="handlechoose(scope)" @input="$refs.editable.updateStatus(scope)"/>
             <my-emp :control.sync="empcontrol" @chuli="chuli(scope, $event)"/>
-            <my-emp2 :control.sync="empcontrol2" @personName="personName(scope, $event)" @personIds="personIds(scope, $event)"/>
+            <my-emp2 :control.sync="empcontrol2" :checklist.sync="checklist" @personName="personName(scope, $event)" @personIds="personIds(scope, $event)"/>
           </template>
         </el-editable-column>
         <!--<el-editable-column align="center" label="操作" min-width="300px">-->
@@ -114,6 +114,7 @@ export default {
       }
     }
     return {
+      checklist: [],
       // 控制scope
       kongscope: '',
       // 区域数据
@@ -255,6 +256,9 @@ export default {
     // 员工输入框focus事件触发
     handlechoose(scope) {
       this.empcontrol2 = true
+      const newarr = []
+      newarr.push(scope.row.stepHandler)
+      this.checklist = newarr
       this.kongscope = scope
       this.kongscope.row.step = scope.$index + 1
     },

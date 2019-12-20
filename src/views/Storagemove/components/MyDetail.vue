@@ -85,6 +85,11 @@
           <span>{{ scope.row.point }}</span>
         </template>
       </el-table-column>
+      <el-table-column :label="$t('otherlanguage.kcsl')" :resizable="false" align="center" width="100">
+        <template slot-scope="scope">
+          <span>{{ scope.row.existStock }}</span>
+        </template>
+      </el-table-column>
       <el-table-column :label="$t('Product.costprice')" :resizable="false" prop="costPrice" align="center" width="100">
         <template slot-scope="scope">
           <span>{{ scope.row.costPrice }}</span>

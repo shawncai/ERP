@@ -3776,6 +3776,12 @@ export default {
     rq: '日期',
     zh: '转化',
     xztc: '选择套餐',
-    dbr: '担保人姓名'
+    dbr: '担保人姓名',
+    print1: '打印送货单',
+    print2: '打印店面订货单',
+    dblx: '调拨类型',
+    ptdb: '普通调拨',
+    thdb: '退货调拨',
+    kcsl: '库存数量'
   }
 }

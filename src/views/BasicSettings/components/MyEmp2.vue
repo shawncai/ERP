@@ -60,6 +60,7 @@
     </div>
     <el-table
       v-loading="listLoading"
+      ref="multipleTable"
       :data="list"
       :key="tableKey"
       :row-key="getRowKeys"
@@ -145,10 +146,21 @@ export default {
     control: {
       type: Boolean,
       default: false
+    },
+    checklist: {
+      type: Array,
+      default() {
+        return []
+      }
     }
   },
   data() {
     return {
+      select_orderId: [],
+      select_order_number: [],
+      // 获取row的key值
+
+      checklistprop: this.checklist,
       roles: [],
       // 批量操作
       moreaction: '',
@@ -204,6 +216,30 @@ export default {
       this.employeeVisible = this.control
       console.log(this.control)
       this.gitemplist()
+    },
+    checklist() {
+      this.checklistprop = this.checklist
+      console.log(this.checklistprop)
+      const needarr = this.$refs.multipleTable.selection
+      const delearr = this.checklistprop
+
+      const add = needarr.filter(item => !delearr.some(ele => ele.productCode === item.code))
+      console.log('add', add)
+      for (const i in this.$refs.multipleTable.selection) {
+        for (const j in add) {
+          if (this.$refs.multipleTable.selection[i].code === add[j].code) {
+            this.$refs.multipleTable.selection.splice(i, 1)
+          }
+        }
+      }
+      console.log('this.$refs.multipleTable.selection', this.$refs.multipleTable.selection)
+      // if (this.checklistprop) {
+      //   this.checklistprop.forEach(row => {
+      //     if (row) {
+      //       this.select_orderId.push(row.productCode)
+      //     }
+      //   })
+      // }
     }
   },
   created() {

@@ -4,7 +4,8 @@
       <!--基本信息-->
       <el-card class="box-card" style="margin-top: 63px" shadow="never">
         <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('Hmodule.basicinfo') }}</h2>
-        <button style="font-size: 10px;" @click="printdata">{{ $t('updates.print') }}</button>
+        <button style="font-size: 10px;" @click="printdata">{{ $t('otherlanguage.print1') }}</button>
+        <button style="font-size: 10px;" @click="printdata2">{{ $t('otherlanguage.print2') }}</button>
         <div class="container" style="margin-top: 37px">
           <el-form ref="personalForm" :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="100px" style="margin-left: 30px;">
             <el-row>
@@ -21,6 +22,11 @@
               <el-col :span="12">
                 <el-form-item :label="$t('Storagemove.applicationName')" prop="applyPersonId" style="width: 100%;">
                   <span>{{ personalForm.applicationName }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('otherlanguage.dblx')" prop="applyPersonId" style="width: 100%;">
+                  <span>{{ personalForm.moveType | moveTypeFitler }}</span>
                 </el-form-item>
               </el-col>
               <!-- <el-col :span="12">
@@ -443,6 +449,13 @@ export default {
       }
       return statusMap[status]
     },
+    moveTypeFitler(status) {
+      const statusMap = {
+        1: _that.$t('otherlanguage.ptdb'),
+        2: _that.$t('otherlanguage.thdb')
+      }
+      return statusMap[status]
+    },
     inFilter(status) {
       const statusMap = {
         1: '未入库',
@@ -706,6 +719,10 @@ export default {
       const stringmoney = totalMoneys.toString()
       const daxiemoney = this.transform(stringmoney)
       console.log('allapplyquyallapplyquyallapplyquy', stringmoney)
+      let remarks = ''
+      if (this.personalForm.summary) {
+        remarks = this.personalForm.summary
+      }
       console.log(this.reviewList.length - 1)
       let handleperson = ''
       if (this.reviewList.length > 0) {
@@ -742,7 +759,7 @@ export default {
                           </div>
                         <div class="item">
                          <div class="itemname">Date / 日期：</div>
-                        <div class="itemcontent">2019-11-12</div>
+                        <div class="itemcontent">${this.personalForm.createDate}</div>
                           </div>
                           </div>
                         </div>`,
@@ -752,23 +769,29 @@ export default {
                   <div class="allmoneynum" style="width: 43%;border-left: 1px solid; border-right: 1px solid;height: 40px;display: flex;align-items: center;justify-content: center;">Total Qty.: ${totalqty}</div>
                   <div class="allmoneynum" style="width: 28%;height: 40px;display: flex;align-items: center;justify-content: center;">合计:${daxiemoney} ¥ ${totalMoneys}</div>
                   </div>
-                  <div class="printbottom" style="display: flex;align-items: center;justify-content: center;width: 100%;margin-top: 20px">
+                  <div style="width: 100%;height: 80px;border:1px solid;border-top: none;"> 
+                  <div>Remark/备注</div>
+                  <div>${remarks}</div>
+                  </div>
+                  <div class="printbottom" style="display: flex;align-items: center;justify-content: space-between;width: 100%;margin-top: 20px">
                     <div class="bottomitem" style="width: 25%;display: flex;align-items: center;justify-content: center;flex-wrap: nowrap">
-                        <div class="ceshi">审核：</div>
-                        <div class="bottomname" >${handleperson}</div>
-                    </div>
-                    <div class="bottomitem" style="width: 25%;display: flex;align-items: center;justify-content: center;flex-wrap: nowrap">
-                        <div class="ceshi">调出仓库：</div>
-                        <div class="bottomname">${this.personalForm.moveOutRepositoryName}</div>
-                    </div>
-                    <div class="bottomitem" style="width: 25%;display: flex;align-items: center;justify-content: center;flex-wrap: nowrap">
-                        <div class="ceshi">调入仓库：</div>
-                        <div class="bottomname">${this.personalForm.moveInRepositoryName}</div>
-                    </div>
-                    <div class="bottomitem" style="width: 25%;display: flex;align-items: center;justify-content: center;flex-wrap: nowrap">
-                        <div class="ceshi">制单：</div>
+                        <div class="ceshi">Hander: </div>
                         <div class="bottomname">${this.personalForm.createPersonName}</div>
                     </div>
+                    <div class="bottomitem" style="width: 25%;display: flex;align-items: center;justify-content: center;flex-wrap: nowrap">
+                        <div class="ceshi">Bill Id:</div>
+                        <div class="bottomname">${this.personalForm.moveNumber}</div>
+                    </div>
+                   </div>
+                   <div class="morebottom" style="width: 60%;display:flex;align-items: center;justify-content: space-between;margin: 20px auto">
+                   <div>
+                   <div style="font-size: 25px">Delivery By:</div>
+                   <div style="font-size: 25px">送货人</div>
+                   </div>
+                   <div>
+                   <div style="font-size: 25px">Branch Received By:</div>
+                   <div style="font-size: 25px">店面签收人</div>
+                   </div>
                    </div>
                   </div>`,
         bottomStyle: '.printbottom: { display: flex;margin-top: 20px}',
@@ -789,6 +812,101 @@ export default {
         repeatTableHeader: true
       })
     },
+
+    printdata2() {
+      const arr = this.cutnull(this.list2)
+      const itemslengt = this.list2.length
+      for (const i in arr) {
+        arr[i].step = Number(i) + 1
+        arr[i].check = ''
+      }
+      const allapplyquy = this.personalForm.storageMoveDetailApplyVos.map(item => {
+        return item.applyQuantity
+      })
+
+      const totalqty = this.sum(allapplyquy)
+      const allapplymoney = this.personalForm.storageMoveDetailApplyVos.map(item => {
+        return item.moveMoney
+      })
+      const totalMoneys = this.sum(allapplymoney)
+      const stringmoney = totalMoneys.toString()
+      const daxiemoney = this.transform(stringmoney)
+      console.log('allapplyquyallapplyquyallapplyquy', stringmoney)
+      let remarks = ''
+      if (this.personalForm.summary) {
+        remarks = this.personalForm.summary
+      }
+      console.log(this.reviewList.length - 1)
+      let handleperson = ''
+      if (this.reviewList.length > 0) {
+        handleperson = this.reviewList[this.reviewList.length - 1].stepHandlerName
+      }
+      console.log(handleperson)
+
+      printJS({
+        printable: arr,
+        type: 'json',
+        properties: [
+          { field: 'productCode', displayName: 'Product ID', columnSize: `100px` },
+          { field: 'productName', displayName: 'Product Name', columnSize: `100px` },
+          { field: 'productName', displayName: '名称', columnSize: `100px` },
+          { field: 'color', displayName: 'Color', columnSize: `100px` },
+          { field: 'check', displayName: 'Location', columnSize: `100px` },
+          { field: 'applyQuantity', displayName: 'Qty.', columnSize: `100px` },
+          { field: 'check', displayName: 'Mark', columnSize: `100px` }
+
+        ],
+        header: `<div class="pringtitle">
+                    <div class="custom-p"></div>
+                      <br>
+                      <div class="ordername">Sta maria New order/ 店面订货单</div>
+                        <br>
+                        <div class="line1"></div>
+                        <div class="supplier">
+                        <div class="item">
+                        <div class="itemname">Branch：</div>
+                        <div class="itemcontent">${this.personalForm.moveInRepositoryName}</div>
+                        </div>
+                        <div class="item">
+                         <div class="itemname">Date：</div>
+                        <div class="itemcontent">${this.personalForm.createDate}</div>
+                          </div>
+                        <div class="item">
+                         <div class="itemname">Slip No：</div>
+                        <div class="itemcontent">${this.personalForm.moveNumber}</div>
+                          </div>
+                          </div>
+                        </div>`,
+        bottom: `<div>
+                  <div class="allmoney" style="display: flex;justify-content: space-around;width: 100%;height: 40px;align-items: center;border:1px solid;border-top: none;">
+                  <div class="allmoneyname" style="width: 29%;margin-right:-10px">Total Items: ${itemslengt}</div>
+                  <div class="allmoneynum" style="width: 43%;border-left: 1px solid; border-right: 1px solid;height: 40px;display: flex;align-items: center;justify-content: center;">Total Qty.: ${totalqty}</div>
+                  <div class="allmoneynum" style="width: 28%;height: 40px;display: flex;align-items: center;justify-content: center;">合计:${daxiemoney} ¥ ${totalMoneys}</div>
+                  </div>
+                  <div style="width: 100%;height: 80px;border:1px solid;border-top: none;"> 
+                  <div>Remark</div>
+                  <div>${remarks}</div>
+                  </div>
+                  </div>`,
+        bottomStyle: '.printbottom: { display: flex;margin-top: 20px}',
+        style: '.custom-p {font-size:20px;text-align: center; }' +
+          ' .ordername {text-align: center; font-size:25px;}' +
+          '.pringtitle { line-height: 10px; }' +
+          '.line1 { width: 400px; border: 1px solid #000; margin: 0 auto }' +
+          '.line2 {width: 200px; border: 2px dashed #000; margin: 3px auto }' +
+          '.supplier {display: flex;justify-content: space-around; align-items: center;margin-top: 10px}' +
+          '.item { width: 40%; justify-content: center; align-items: center; display: flex;line-height: 40px;}' +
+          '.item2 { width: 50%; justify-content: center; align-items: center; display: flex}' +
+          '.itemname2 { width: 20% }' +
+          '.itemcontent2 {width: 80%}' +
+          '.itemname { width: 90%; text-align: right }' +
+          '.itemcontent {width: 85%}',
+        gridHeaderStyle: 'font-size:12px; padding:3px; border:1px solid; color: #000; text-align:center;',
+        gridStyle: 'font-size:12px; padding:3px; border:1px solid; text-align:center; text-overflow:ellipsis; white-space:nowrap;',
+        repeatTableHeader: true
+      })
+    },
+
     // 格式化日期，如月、日、时、分、秒保证为2位数
     formatNumber(n) {
       n = n.toString()

@@ -83,8 +83,8 @@
           <!--<el-editable-column :edit-render="{name: 'ElInput'}" prop="handlerName" align="center" label="步骤处理人" width="200px"/>-->
           <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="handlerName" align="center" label="步骤处理人" min-width="500px">
             <template slot="edit" slot-scope="scope">
-              <el-input v-model="scope.row.handlerName" clearable @focus="handlechoose(scope)" @input="$refs.editable.updateStatus(scope)" @change="$refs.editable.updateStatus(scope)"/>
-              <my-emp2 :control.sync="empcontrol2" @personName="personName(scope, $event)" @personIds="personIds(scope, $event)"/>
+              <el-input v-model="scope.row.handlerName" @focus="handlechoose(scope)" @input="$refs.editable.updateStatus(scope)" @change="$refs.editable.updateStatus(scope)"/>
+              <my-emp2 :control.sync="empcontrol2" :checklist.sync="checklist" @personName="personName(scope, $event)" @personIds="personIds(scope, $event)"/>
             </template>
           </el-editable-column>
         </el-editable>
@@ -137,6 +137,7 @@ export default {
       }
     }
     return {
+      checklist: [],
       // 控制scope
       kongscope: '',
       // 步骤
@@ -234,6 +235,7 @@ export default {
     },
     handlechoose2() {
       this.empcontrol2 = true
+      this.checklist = this.$refs.editable.getRecords()
     },
     // 驾驶员列表返回数据
     personName(scope, val) {

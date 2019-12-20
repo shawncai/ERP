@@ -573,7 +573,8 @@
               </el-col>
               <el-col :span="24">
                 <el-form-item :label="$t('InstallmentApply.consultancyPhone')" style="width: 100%;">
-                  <el-input-number v-model="personalForm.consultancyPhone" :controls="false" style="margin-left: 18px;width: 200px" clearable @blur="haveAccess"/>
+                  <el-input v-model="personalForm.consultancyPhone" style="margin-left: 18px;width: 200px" clearable @blur="haveAccess"/>
+                  <!-- <el-input-number v-model="personalForm.consultancyPhone" :controls="false" style="margin-left: 18px;width: 200px" clearable/> -->
                 </el-form-item>
               </el-col>
               <el-col :span="24">
@@ -963,6 +964,14 @@ export default {
       console.log(response.data.content.picId)
     },
     handlesave2() {
+      if (this.personalForm.consultancyPhone.length !== 11) {
+        this.$notify.error({
+          title: '错误',
+          message: '手机号码错误',
+          offset: 100
+        })
+        return false
+      }
       if (this.personalForm.consultancyName !== null && this.personalForm.consultancyPhone !== null && this.personalForm.consultancyAddress !== null && this.personalForm.consultancyName !== '' && this.personalForm.consultancyPhone !== '' && this.personalForm.consultancyAddress !== '' && this.personalForm.consultancyName !== undefined && this.personalForm.consultancyPhone !== undefined && this.personalForm.consultancyAddress !== undefined) {
         const lis = {}
         lis.consultancyName = this.personalForm.consultancyName

@@ -273,13 +273,13 @@ export function register(query) {
 // 员工列表展示加查询
 export function getemplist(query) {
   var params = new URLSearchParams()
-  if (query.roleid !== '') {
+  if (query.roleid !== '' && query.roleid !== null && query.roleid !== undefined) {
     params.append('roleid', query.roleid) // 你要传给后台的参数值 key/value
   }
-  if (query.repositoryid !== '') {
+  if (query.repositoryid !== '' && query.repositoryid !== null && query.repositoryid !== undefined) {
     params.append('repositoryid', query.repositoryid) // 你要传给后台的参数值 key/value
   }
-  if (query.regionid !== '' && query.regionid !== undefined) {
+  if (query.regionid !== '' && query.regionid !== null && query.regionid !== undefined) {
     params.append('regionid', query.regionid) // 你要传给后台的参数值 key/value
   }
   if (query.loginRepositoryId !== '' && query.loginRepositoryId !== undefined && query.loginRepositoryId !== null) {
@@ -288,22 +288,22 @@ export function getemplist(query) {
   if (query.regionIds !== '' && query.regionIds !== undefined && query.regionIds !== null) {
     params.append('regionIds', query.regionIds) // 你要传给后台的参数值 key/value
   }
-  if (query.postid !== '') {
+  if (query.postid !== '' && query.postid !== null && query.postid !== undefined) {
     params.append('postid', query.postid) // 你要传给后台的参数值 key/value
   }
-  if (query.deptid !== '') {
+  if (query.deptid !== '' && query.deptid !== null && query.deptid !== undefined) {
     params.append('deptid', query.deptid) // 你要传给后台的参数值 key/value
   }
-  if (query.employeename !== '') {
+  if (query.employeename !== '' && query.employeename !== null && query.employeename !== undefined) {
     params.append('employeename', query.employeename) // 你要传给后台的参数值 key/value
   }
-  if (query.stat !== '') {
+  if (query.stat !== '' && query.stat !== null && query.stat !== undefined) {
     params.append('stat', query.stat) // 你要传给后台的参数值 key/value
   }
   if (query.time !== '' && query.time !== null) {
     params.append('time', query.time) // 你要传给后台的参数值 key/value
   }
-  if (query.jobnumber !== '') {
+  if (query.jobnumber !== '' && query.jobnumber !== null && query.jobnumber !== undefined) {
     params.append('jobnumber', query.jobnumber) // 你要传给后台的参数值 key/value
   }
   if (query.phonenumber !== '' && query.phonenumber !== undefined && query.phonenumber !== null) {
