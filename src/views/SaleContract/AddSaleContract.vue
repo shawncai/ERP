@@ -1236,6 +1236,7 @@ export default {
     },
     // 保存操作
     handlesave() {
+      this.personalForm.installmentAllMoney = this.personalForm.totalMoney
       const EnterDetail2 = this.$refs.editable.getRecords()
       console.log('EnterDetail', EnterDetail2)
       if (EnterDetail2.length === 0) {

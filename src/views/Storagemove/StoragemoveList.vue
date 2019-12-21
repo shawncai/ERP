@@ -105,9 +105,14 @@
           </template>
           <detail-list :detailcontrol.sync="detailvisible" :detaildata.sync="personalForm"/>
         </el-table-column>
-        <el-table-column :label="$t('Storagemove.title')" :resizable="false" fixed="left" align="center" min-width="150">
+        <el-table-column :label="$t('Storagemove.moveInRepository')" :resizable="false" fixed="left" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.title }}</span>
+            <span>{{ scope.row.moveInRepositoryName }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column :label="$t('Storagemove.moveOutRepository')" :resizable="false" fixed="left" align="center" min-width="150">
+          <template slot-scope="scope">
+            <span>{{ scope.row.moveOutRepositoryName }}</span>
           </template>
         </el-table-column>
         <!-- <el-table-column :label="$t('Storagemove.moveNumber')" :resizable="false" align="center" min-width="150">
@@ -125,19 +130,14 @@
             <span>{{ scope.row.requestDeptName }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('Storagemove.moveInRepository')" :resizable="false" align="center" min-width="150">
-          <template slot-scope="scope">
-            <span>{{ scope.row.moveInRepositoryName }}</span>
-          </template>
-        </el-table-column>
         <el-table-column :label="$t('Storagemove.requestArrivalDate')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.requestArrivalDate }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('Storagemove.moveOutRepository')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('Storagemove.title')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.moveOutRepositoryName }}</span>
+            <span>{{ scope.row.title }}</span>
           </template>
         </el-table-column>
         <el-table-column :label="$t('Storagemove.judgeStat')" :resizable="false" align="center" min-width="150">

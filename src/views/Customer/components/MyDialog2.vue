@@ -27,6 +27,11 @@
               </el-form-item>
             </el-col>
             <el-col :span="12">
+              <el-form-item :label="$t('updates2.landline')" style="width: 40%">
+                <el-input v-model="customerForm.landline" clearable/>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
               <el-form-item :label="$t('Customer.gender')" prop="gender" style="width: 100%">
                 <el-radio-group v-model="customerForm.gender" style="margin-left: 18px;width: 200px">
                   <el-radio :label="1" style="width: 100px">{{ $t('public.male') }}</el-radio>

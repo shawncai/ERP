@@ -156,7 +156,7 @@ export default {
     },
     liveStatusFilter(status) {
       const statusMap = {
-        1: '按揭',
+        1: '自有住房',
         2: '租房',
         3: '和亲戚住'
       }

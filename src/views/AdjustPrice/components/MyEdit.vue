@@ -44,16 +44,16 @@
                   style="margin-left: 18px;width: 150px"/>
               </el-form-item>
             </el-col>
-            <el-col :span="6">
-              <el-form-item :label="$t('AdjustPrice.effectiveDate')" prop="effectiveDate" style="width: 100%;">
-                <el-date-picker
-                  v-model="personalForm.effectiveDate"
-                  type="date"
-                  placeholder="选择生效日期"
-                  value-format="yyyy-MM-dd"
-                  style="margin-left: 18px;width: 150px"/>
-              </el-form-item>
-            </el-col>
+            <!--            <el-col :span="6">-->
+            <!--              <el-form-item :label="$t('AdjustPrice.effectiveDate')" prop="effectiveDate" style="width: 100%;">-->
+            <!--                <el-date-picker-->
+            <!--                  v-model="personalForm.effectiveDate"-->
+            <!--                  type="date"-->
+            <!--                  placeholder="选择生效日期"-->
+            <!--                  value-format="yyyy-MM-dd"-->
+            <!--                  style="margin-left: 18px;width: 150px"/>-->
+            <!--              </el-form-item>-->
+            <!--            </el-col>-->
             <el-col :span="6">
               <el-form-item :label="$t('AdjustPrice.summary')" prop="summary" style="width: 100%;">
                 <el-input v-model="personalForm.summary" placeholder="请输入摘要" style="margin-left: 18px;width: 150px" clearable/>

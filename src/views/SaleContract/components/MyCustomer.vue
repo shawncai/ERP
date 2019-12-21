@@ -331,7 +331,8 @@ export default {
     },
     // 新增数据
     handleAdd() {
-      this.$router.push('/Customer/NewCustomer')
+      this.employeeVisible = false
+      // this.$router.push('/Customer/NewCustomer')
     },
     // 选择主生产计划数据时的操作
     handleCurrentChange(val) {
@@ -339,7 +340,6 @@ export default {
     },
     // 确认添加数据
     handleConfirm() {
-      this.employeeVisible = false
       console.log(this.choosedata)
       this.$emit('customerdata', this.choosedata)
     }

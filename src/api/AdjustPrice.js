@@ -70,6 +70,9 @@ export function adjustlist(query) {
   if (query.regionIds !== '' && query.regionIds !== null && query.regionIds !== undefined) {
     params.append('regionIds', query.regionIds) // 你要传给后台的参数值 key/value
   }
+  if (query.productCode !== '' && query.productCode !== null && query.productCode !== undefined) {
+    params.append('productCode', query.productCode) // 你要传给后台的参数值 key/value
+  }
   return request({
     url: '/repoadjustprice/adjustlist',
     method: 'post',

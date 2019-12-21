@@ -122,6 +122,7 @@
                 <p>{{ getSize(scope.row.actualEnterQuantity, scope.row.enterPrice) }}</p>
               </template>
             </el-editable-column>
+            <el-editable-column :label="$t('updates.dcbm')" prop="batteryCode" align="center" />
             <el-editable-column :edit-render="{name: 'ElInput'}" :label="$t('updates.bz')" prop="remarks" align="center" />
             <el-editable-column :label="$t('updates.ydxh')" prop="sourceSerialNumber" align="center" />
           </el-editable>
