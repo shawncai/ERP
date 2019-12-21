@@ -68,12 +68,13 @@
       fit
       highlight-current-row
       style="width: 100%"
-      @selection-change="handleCurrentChange">
+      @selection-change="handleSelectionChange"
+    >
       <el-table-column
+        :reserve-selection="true"
         type="selection"
         width="55"
-        align="center"
-        reserve-selection/>
+        align="center"/>
       <el-table-column
         :label="$t('NewEmployeeInformation.id')"
         :resizable="false"
@@ -156,14 +157,19 @@ export default {
   },
   data() {
     return {
+      isselect: 1,
+      selectarr: [],
       select_orderId: [],
       select_order_number: [],
       // 获取row的key值
-
+      // 获取row的key值
+      getRowKeys(row) {
+        return row.id
+      },
       checklistprop: this.checklist,
       roles: [],
       // 批量操作
-      moreaction: '',
+      moreaction: [],
       // 仓库管理员回显数据
       managerPeople: '',
       // 小区经理回显数据
@@ -218,21 +224,23 @@ export default {
       this.gitemplist()
     },
     checklist() {
-      this.checklistprop = this.checklist
+      this.checklistprop = this.checklist.map(item => {
+        return Number(item.id)
+      })
       console.log(this.checklistprop)
-      const needarr = this.$refs.multipleTable.selection
-      const delearr = this.checklistprop
-
-      const add = needarr.filter(item => !delearr.some(ele => ele.productCode === item.code))
-      console.log('add', add)
-      for (const i in this.$refs.multipleTable.selection) {
-        for (const j in add) {
-          if (this.$refs.multipleTable.selection[i].code === add[j].code) {
-            this.$refs.multipleTable.selection.splice(i, 1)
-          }
-        }
-      }
-      console.log('this.$refs.multipleTable.selection', this.$refs.multipleTable.selection)
+      this.gitemplist()
+      // const needarr = this.$refs.multipleTable.selection
+      // const delearr = this.checklistprop
+      // const add = needarr.filter(item => !delearr.some(ele => ele === item.id))
+      // console.log('add', add)
+      // for (const i in this.$refs.multipleTable.selection) {
+      //   for (const j in add) {
+      //     if (this.$refs.multipleTable.selection[i].code === add[j].code) {
+      //       this.$refs.multipleTable.selection.splice(i, 1)
+      //     }
+      //   }
+      // }
+      // console.log('this.$refs.multipleTable.selection', this.$refs.multipleTable.selection)
       // if (this.checklistprop) {
       //   this.checklistprop.forEach(row => {
       //     if (row) {
@@ -243,15 +251,31 @@ export default {
     }
   },
   created() {
-    this.gitemplist()
+
   },
   beforeCreate() {
     _that = this
   },
   methods: {
-    // 多级选择
-    getRowKeys(row) {
-      return row.id
+    handleselectRow(selection, row) {
+      console.log('selection', selection)
+      console.log('row', row)
+      this.selectarr = selection
+      if (this.checklistprop.includes(row.id)) {
+        this.checklistprop.splice(this.checklistprop.findIndex(item => item === row.id), 1)
+      } else {
+        this.checklistprop[row.id] = row.id
+      }
+      console.log('this.checklistprop', this.checklistprop)
+    },
+    memoryChecked() {
+      this.list.forEach((row, index) => {
+        if (this.checklistprop.includes(row.id)) {
+          this.$refs.multipleTable.toggleRowSelection(row, true)
+        } else {
+          this.$refs.multipleTable.toggleRowSelection(row, false)
+        }
+      })
     },
     // 仓库管理员选择开始
     gitemplist() {
@@ -269,6 +293,7 @@ export default {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
+          this.memoryChecked()
         } else {
           this.$notify.error({
             title: '错误',
@@ -315,6 +340,10 @@ export default {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
+          if (this.isselect === 1) {
+            this.isselect = 2
+            this.memoryChecked()
+          }
         } else {
           this.$notify.error({
             title: '错误',
@@ -358,12 +387,25 @@ export default {
       }
       this.getemplistregions = []
     },
-    // 多项选择员工数据时的操作
-    handleCurrentChange(val) {
-      this.moreaction = val
+    handleSelectionChange(rows) {
+      console.log(rows)
+      this.moreaction = rows
+      this.select_order_number = this.moreaction.length
+      this.select_orderId = []
+      if (rows) {
+        rows.forEach(row => {
+          if (row) {
+            this.select_orderId.push(row.id)
+          }
+        })
+      }
+      console.log('this.select_orderId', this.select_orderId)
     },
     // 员工id和name选择
     handleAddTo() {
+      console.log('this.checklistprop', this.checklistprop)
+      console.log('this.moreaction', this.moreaction)
+      console.log('this.select_orderId', this.select_orderId)
       this.employeeVisible = false
       const ids = this.moreaction.map(item => item.id).join()
       const names = this.moreaction.map(item => item.personName).join()

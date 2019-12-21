@@ -256,8 +256,16 @@ export default {
     // 员工输入框focus事件触发
     handlechoose(scope) {
       this.empcontrol2 = true
+      var a = scope.row.stepHandler
+      a = a.replace(/,/g, '')
+      console.log('aaa', a)
+      const name = {
+        personName: scope.row.handlerName,
+        id: a
+      }
       const newarr = []
-      newarr.push(scope.row.stepHandler)
+      newarr.push(name)
+      this.$store.dispatch('getsetchoosedata', Number(a))
       this.checklist = newarr
       this.kongscope = scope
       this.kongscope.row.step = scope.$index + 1
