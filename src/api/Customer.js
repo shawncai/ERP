@@ -111,6 +111,9 @@ export function addCustomer(query) {
   if (query.customertype !== '' && query.customertype !== null && query.customertype !== undefined) {
     params.append('customertype', query.customertype) // 你要传给后台的参数值 key/value
   }
+  if (query.landline !== '' && query.landline !== null && query.landline !== undefined) {
+    params.append('landline', query.landline) // 你要传给后台的参数值 key/value
+  }
   return request({
     url: '/customer/addCustomer',
     method: 'post',
@@ -121,6 +124,9 @@ export function addCustomer(query) {
 // 修改客户
 export function updateCustomer(query) {
   var params = new URLSearchParams()
+  if (query.landline !== '' && query.landline !== null && query.landline !== undefined) {
+    params.append('landline', query.landline) // 你要传给后台的参数值 key/value
+  }
   if (query.id !== '' && query.id !== null && query.id !== undefined) {
     params.append('customerid', query.id) // 你要传给后台的参数值 key/value
   }

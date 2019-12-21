@@ -61,7 +61,7 @@
             <el-col :span="24">
               <el-form-item :label="$t('CustomerSurveyReport.liveStatus')" prop="title" style="width: 100%;">
                 <el-radio-group v-model="personalForm.liveStatus">
-                  <el-radio label="1">按揭</el-radio>
+                  <el-radio label="1">自有住房</el-radio>
                   <el-radio label="2">租房</el-radio>
                   <el-radio label="3">和亲戚住</el-radio>
                 </el-radio-group>

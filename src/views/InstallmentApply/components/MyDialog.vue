@@ -549,6 +549,7 @@
 <script>
 import { updateapply } from '@/api/InstallmentApply'
 import { getprovincelist, getcitylist, existList, vehicleInfo } from '@/api/public'
+import { adjustlist } from '@/api/AdjustPrice'
 import { ratelist } from '@/api/Installmentrate'
 import MyEmp from './MyEmp'
 import MyDetail from './MyDetail'
@@ -760,7 +761,7 @@ export default {
           { required: true, message: '请输入担保人电话', trigger: 'blur' }
         ],
         relationship: [
-          { required: true, message: '请选择担保人关系', trigger: 'change' }
+          { required: true, message: '请选择担保人关系', trigger: 'blur' }
         ],
         suretyProvinceId: [
           { required: true, message: '请选择省', trigger: 'change' }
@@ -1063,7 +1064,16 @@ export default {
     },
     // 分期商品focus事件
     handlemater() {
-      this.matercontrol = true
+      if (this.personalForm.saleRepositoryId === 0 || this.personalForm.saleRepositoryId === null || this.personalForm.saleRepositoryId === '' || this.personalForm.saleRepositoryId === undefined) {
+        this.$notify.error({
+          title: '错误',
+          message: '请先选择销售门店',
+          offset: 100
+        })
+        return false
+      } else {
+        this.matercontrol = true
+      }
     },
     mater(val) {
       console.log(val)
@@ -1115,6 +1125,25 @@ export default {
         this.IstotalMoney = true
         this.productForm.price = val.salePrice
       }
+      const params = {}
+      params.pageNum = 1
+      params.pageSize = 1
+      params.productCode = val.code
+      params.adjustRepositoryId = this.personalForm.saleRepositoryId
+      params.judgestat = 2
+      params.repositoryId = 0
+      params.repositoryId = 0
+      params.regionIds = 44
+      adjustlist(params).then(res => {
+        console.log(res)
+        if (res.data.ret === 200) {
+          if (res.data.data.content.list.length > 0) {
+            this.productForm.price = res.data.data.content.list[0].repoAdjustPriceDetailVos[0].newSalePrice
+          }
+        } else {
+          console.log('出错')
+        }
+      })
       if (this.personalForm.firstMoney != null && this.personalForm.firstMoney !== '' && this.personalForm.firstMoney !== undefined) {
         if (this.productForm.price != null && this.productForm.price !== '' && this.productForm.price !== undefined) {
           if (this.rate != null && this.rate !== '' && this.rate !== undefined) {

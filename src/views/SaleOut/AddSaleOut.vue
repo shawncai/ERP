@@ -870,10 +870,9 @@ export default {
       console.log('getempcontract3', this.$store.getters.newsaleoutdata)
       this.heji9 = 0
       this.heji10 = 0
-      this.personalForm.sourceType = '3'
       this.Isproduct = true
       this.IsSourceNumber = false
-      this.personalForm.customerType = '2'
+      this.personalForm.customerType = this.$store.getters.newsaleoutdata.customerType.toString()
       this.personalForm.customerId = this.$store.getters.newsaleoutdata.customerId
       this.customerId = this.$store.getters.newsaleoutdata.customerName
       this.personalForm.customerPhone = this.$store.getters.newsaleoutdata.phone
@@ -882,17 +881,23 @@ export default {
       if (this.$store.getters.newsaleoutdata.payMode !== null && this.$store.getters.newsaleoutdata.payMode !== undefined && this.$store.getters.newsaleoutdata.payMode !== '') {
         this.personalForm.payMode = this.$store.getters.newsaleoutdata.payMode
       }
-      this.personalForm.saleRepositoryId = this.$store.getters.newsaleoutdata.saleRepositoryId
-      this.saleRepositoryId = this.$store.getters.newsaleoutdata.saleRepositoryName
+      console.log('this.$store.getters.newsaleoutdata.saleRepositoryId', this.$store.getters.newsaleoutdata.saleRepositoryId)
+      if (this.$store.getters.newsaleoutdata.saleRepositoryId !== 0 && this.$store.getters.newsaleoutdata.saleRepositoryId !== null && this.$store.getters.newsaleoutdata.saleRepositoryId !== undefined && this.$store.getters.newsaleoutdata.saleRepositoryId !== '') {
+        this.personalForm.saleRepositoryId = this.$store.getters.newsaleoutdata.saleRepositoryId
+        this.saleRepositoryId = this.$store.getters.newsaleoutdata.saleRepositoryName
+      }
       this.personalForm.address = this.$store.getters.newsaleoutdata.address
       for (let i = 0; i < this.$store.getters.newsaleoutdata.saleContractDetailVos.length; i++) {
         this.$store.getters.newsaleoutdata.saleContractDetailVos[i].categoryName = this.$store.getters.newsaleoutdata.saleContractDetailVos[i].productCategoryName
         this.$store.getters.newsaleoutdata.saleContractDetailVos[i].category = this.$store.getters.newsaleoutdata.saleContractDetailVos[i].productCategory
         this.$store.getters.newsaleoutdata.saleContractDetailVos[i].typeName = this.$store.getters.newsaleoutdata.saleContractDetailVos[i].productTypeName
         this.$store.getters.newsaleoutdata.saleContractDetailVos[i].type = this.$store.getters.newsaleoutdata.saleContractDetailVos[i].productType
+        this.$store.getters.newsaleoutdata.saleContractDetailVos[i].typeId = this.$store.getters.newsaleoutdata.saleContractDetailVos[i].typeName
         this.$store.getters.newsaleoutdata.saleContractDetailVos[i].taxprice = this.$store.getters.newsaleoutdata.saleContractDetailVos[i].salePrice
         this.$store.getters.newsaleoutdata.saleContractDetailVos[i].sourceNumber = this.$store.getters.newsaleoutdata.number
         this.$store.getters.newsaleoutdata.saleContractDetailVos[i].sourceSerialNumber = this.$store.getters.newsaleoutdata.saleContractDetailVos[i].id
+        this.$store.getters.newsaleoutdata.saleContractDetailVos[i].kpiGrade = '0.00'
+        this.$store.getters.newsaleoutdata.saleContractDetailVos[i].point = '0.00'
         this.$refs.editable.insert(this.$store.getters.newsaleoutdata.saleContractDetailVos[i])
       }
     },

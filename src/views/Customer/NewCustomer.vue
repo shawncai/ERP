@@ -14,8 +14,11 @@
           <el-form-item :label="$t('Customer.lastname')" prop="lastname" style="width: 40%">
             <el-input v-model="customerForm.lastname" clearable/>
           </el-form-item>
-          <el-form-item :label="$t('Customer.phone')" prop="phone" style="width: 40%">
+          <el-form-item :label="$t('Customer.phone')" style="width: 40%">
             <el-input v-model.number="customerForm.phone" clearable/>
+          </el-form-item>
+          <el-form-item :label="$t('updates2.landline')" style="width: 40%">
+            <el-input v-model="customerForm.landline" clearable/>
           </el-form-item>
           <el-form-item :label="$t('Customer.gender')" prop="gender" style="width: 40%;margin-top:1%">
             <el-radio-group v-model="customerForm.gender" style="width: 80%">
@@ -212,6 +215,9 @@ export default {
     this.getCategory()
     this.handlechange(this.$store.getters.countryId)
     this.jungleshow()
+    if (this.$store.getters.repositoryId !== 0) {
+      this.customerForm.repositoryid = this.$store.getters.repositoryId
+    }
   },
   beforeCreate() {
     _that = this

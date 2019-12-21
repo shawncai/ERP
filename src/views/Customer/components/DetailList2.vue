@@ -44,6 +44,11 @@
                 </el-form-item>
               </el-col>
               <el-col :span="12">
+                <el-form-item :label="$t('updates2.landline')" prop="phoneNumber" style="width: 100%">
+                  {{ customerForm.landline }}
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
                 <el-form-item :label="$t('Customer.gender')" prop="gender" style="width: 100%">
                   {{ customerForm.gender | genderFilter }}
                 </el-form-item>

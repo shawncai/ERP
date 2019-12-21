@@ -144,6 +144,12 @@
                 <p>{{ getSize(scope.row.actualEnterQuantity, scope.row.enterPrice) }}</p>
               </template>
             </el-editable-column>
+            <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.dcbm')" prop="batteryCode" align="center" min-width="150" >
+              <template slot="edit" slot-scope="scope">
+                <el-input v-if="isEdit4(scope.row)" v-model="scope.row.batteryCode" clearable @blur="getInfo2(scope.row)"/>
+                <span v-else>{{ scope.row.batteryCode }}</span>
+              </template>
+            </el-editable-column>
             <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.bz')" prop="remarks" align="center" width="150px"/>
             <el-editable-column :label="$t('updates.ydxh')" prop="sourceSerialNumber" align="center" width="150px"/>
           </el-editable>
@@ -382,6 +388,12 @@ export default {
     _that = this
   },
   methods: {
+    // 判断整车或者电池
+    isEdit4(row) {
+      console.log('222', row)
+      const re = row.productCode.slice(0, 2)
+      if (re === '01' || re === '05') { return true } else { return false }
+    },
     checkStock(row) {
       console.log('this.moreaction.length', this.moreaction.length)
       if (this.moreaction.length > 1 || this.moreaction.length === 0) {
@@ -502,6 +514,26 @@ export default {
     // 保存操作
     async handlesave() {
       const rest = this.deepClone(this.$refs.editable.getRecords())
+      let b = 1
+      rest.map(function(elem) {
+        return elem
+      }).forEach(function(elem) {
+        const re = elem.productCode.slice(0, 2)
+        if (re === '05') {
+          if (elem.batteryCode === null || elem.batteryCode === undefined || elem.batteryCode === '') {
+            b = 2
+          }
+        }
+      })
+
+      if (b === 2) {
+        this.$notify.error({
+          title: '错误',
+          message: '电池出库时电池编码必填',
+          offset: 100
+        })
+        return false
+      }
       console.log(rest)
       if (rest.length === 0) {
         this.$notify.error({

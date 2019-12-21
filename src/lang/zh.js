@@ -3767,7 +3767,8 @@ export default {
   updates2: {
     dbdxq: '调拨单详情',
     customerName: '零售客户姓名',
-    xsj: '销售价'
+    xsj: '销售价',
+    landline: '座机号'
   },
   otherlanguage: {
     newvoucher: '凭证',

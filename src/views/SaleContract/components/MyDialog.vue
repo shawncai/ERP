@@ -224,6 +224,16 @@
                 <el-input v-model="personalForm.firstMoney" :disabled="isinstallappley" style="margin-left: 18px;width: 200px" clearable/>
               </el-form-item>
             </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('SaleContract.installmentAllMoney')" style="width: 100%;">
+                <el-input v-model="personalForm.totalMoney" :disabled="isinstallappley" style="margin-left: 18px;width: 200px" clearable/>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('SaleContract.eachMoney')" style="width: 100%;">
+                <el-input v-model="personalForm.eachMoney" :disabled="isinstallappley" style="margin-left: 18px;width: 200px" clearable/>
+              </el-form-item>
+            </el-col>
           </el-row>
         </el-form>
       </div>
@@ -425,7 +435,7 @@ export default {
         pagesize: 9999
       },
       // 是否可以编辑分期数据
-      isinstallappley: false,
+      isinstallappley: true,
       // 回显客户
       customerId: '',
       // 控制客户弹窗
@@ -537,6 +547,7 @@ export default {
     },
     editdata() {
       this.personalForm = this.editdata
+      this.personalForm.totalMoney = this.personalForm.installmentAllMoney
       this.personalForm.notaryDate = this.formatTime(this.personalForm.notaryDate, 'Y-M-D')
       this.personalForm.contractStat = String(this.personalForm.contractStat)
       this.personalForm.payType = Number(this.personalForm.payType)
@@ -788,11 +799,19 @@ export default {
         this.personalForm.sourceNumber = ''
         this.personalForm.installmentCount = ''
         this.isinstallappley = true
+        this.canclick = true
       } else if (this.personalForm.sourceType === '2') {
         this.$refs.editable.clear()
         this.personalForm.sourceNumber = ''
         this.personalForm.installmentCount = ''
         this.isinstallappley = true
+        this.canclick = true
+      } else if (this.personalForm.sourceType === '3') {
+        this.$refs.editable.clear()
+        this.personalForm.sourceNumber = ''
+        this.personalForm.installmentCount = ''
+        this.isinstallappley = true
+        this.canclick = false
       }
     },
     // 从源单中添加商品
@@ -972,6 +991,7 @@ export default {
     // 修改和取消按钮
     // 修改按钮
     handleEditok() {
+      this.personalForm.installmentAllMoney = this.personalForm.totalMoney
       this.$refs.personalForm.validate((valid) => {
         if (valid) {
           this.personalForm.repositoryId = this.$store.getters.repositoryId
