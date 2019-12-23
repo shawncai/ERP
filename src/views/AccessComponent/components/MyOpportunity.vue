@@ -1,23 +1,24 @@
 <template>
-  <el-dialog :visible.sync="employeeVisible" :saleoutcontrol="saleoutcontrol" :personaldata="personalForm" :close-on-press-escape="false" top="10px" title="选择销售出库单" append-to-body width="1100px" @close="$emit('update:saleoutcontrol', false)">
+  <el-dialog :visible.sync="employeeVisible" :opportunitycontrol="opportunitycontrol" :close-on-press-escape="false" top="10px" title="选择销售机会单" append-to-body width="1100px" @close="$emit('update:opportunitycontrol', false)">
     <el-card class="box-card" style="margin-top: 15px;height: 60px;padding-left:0 " shadow="never">
       <el-row>
         <el-form ref="getemplist" :model="getemplist" style="margin-top: -9px">
           <el-col :span="4">
             <el-form-item>
-              <el-input v-model="getemplist.title" :placeholder="$t('SaleOut.title')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
+              <el-input v-model="getemplist.title" :placeholder="$t('SaleOpportunity.title')" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
           <el-col :span="3" style="margin-left: 5px">
             <el-form-item>
-              <el-input v-model="getemplist.applyNumber" placeholder="出库单编号" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
+              <el-input v-model="getemplist.opportunityNumber" placeholder="机会单号" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
           <el-col :span="3" style="margin-left: 20px">
             <el-form-item>
-              <el-input v-model="outPersonId" :placeholder="$t('SaleOut.outPersonId')" class="filter-item" clearable @keyup.enter.native="handleFilter" @focus="handlechooseAccept" @clear="restFilter3"/>
+              <el-select v-model="getemplist.opportunityType" :value="getemplist.opportunityType" clearable @keyup.enter.native="handleFilter">
+                <el-option value="1" label="机会1"/>
+              </el-select>
             </el-form-item>
-            <my-accept :accetpcontrol.sync="accetpcontrol" @acceptName="acceptName"/>
           </el-col>
           <!--更多搜索条件-->
           <el-col :span="3" style="margin-left: 30px">
@@ -26,15 +27,19 @@
               placement="bottom"
               width="500"
               trigger="click">
-              <el-input v-model="saleRepositoryId" :placeholder="$t('SaleOut.saleRepositoryId')" style="width: 40%;float: left;margin-left: 20px;" clearable @focus="handlechooseRep" @clear="restFilter4"/>
-              <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
-              <el-input v-model="getemplist.customerName" :placeholder="$t('updates2.customerName')" style="width: 40%;float: right;margin-right: 20px" clearable @keyup.enter.native="handleFilter"/>
-              <!--<el-select v-model="getemplist.receiptStat" :value="getemplist.receiptStat" :placeholder="$t('updates.djzt')" clearable style="width: 40%;float: right;margin-right: 20px">-->
+              <el-select v-model="getemplist.customerType" :placeholder="$t('SaleOpportunity.customerType')" clearable style="width: 40%;float: left;margin-left: 20px">
+                <el-option value="1" label="经销商"/>
+                <el-option value="2" label="零售"/>
+              </el-select>
+              <el-input v-model="customerName" :placeholder="$t('SaleOpportunity.customerName')" style="width: 40%;float: right;margin-right: 20px;" clearable @focus="chooseCustomer" @clear="restFilter"/>
+              <my-customer :customercontrol.sync="customercontrol" @customerdata="customerdata"/>
+              <my-agent :agentcontrol.sync="agentcontrol" @agentdata="agentdata"/>
+              <!--<el-select v-model="getemplist.receiptStat" :value="getemplist.receiptStat" :placeholder="$t('updates.djzt')" clearable style="width: 40%;float: left;margin-left: 20px;margin-top: 20px">-->
               <!--<el-option value="1" :label="$t('updates.zd')"/>-->
               <!--<el-option value="2" :label="$t('updates.zx')"/>-->
               <!--<el-option value="3" :label="$t('updates.jd')"/>-->
               <!--</el-select>-->
-              <!--<el-select v-model="getemplist.judgeStat" :value="getemplist.judgeStat" :placeholder="$t('updates.spzt')" clearable style="width: 40%;float: left;margin-left: 20px;margin-top: 20px">-->
+              <!--<el-select v-model="getemplist.judgeStat" :value="getemplist.judgeStat" :placeholder="$t('updates.spzt')" clearable style="width: 40%;float: right;margin-right: 20px;margin-top: 20px">-->
               <!--<el-option value="0" :label="$t('updates.wsh')"/>-->
               <!--<el-option value="1" :label="$t('updates.shz')"/>-->
               <!--<el-option value="2" :label="$t('updates.shtg')"/>-->
@@ -78,42 +83,47 @@
         @current-change="handleCurrentChange">
         <el-table-column :label="$t('public.id')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.number }}</span>
+            <span>{{ scope.row.opportunityNumber }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('SaleOut.title')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('SaleOpportunity.title')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.title }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('SaleOut.outPersonId')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('SaleOpportunity.customerName')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.outPersonName }}</span>
+            <span>{{ scope.row.customerName }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('SaleOut.outDate')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('SaleOpportunity.customerPhone')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.outDate }}</span>
+            <span>{{ scope.row.customerPhone }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('SaleOut.saleRepositoryId')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('SaleOpportunity.opportunityType')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.saleRepositoryName }}</span>
+            <span>{{ scope.row.opportunityTypeName }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('public.judgeStat')" :resizable="false" prop="judgeStat" align="center" min-width="150">
+        <el-table-column :label="$t('SaleOpportunity.opportunitySource')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.judgeStat | judgeStatFilter }}</span>
+            <span>{{ scope.row.opportunitySourceName }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('public.receiptStat')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('SaleOpportunity.handlePersonId')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.receiptStat | receiptStatFilter }}</span>
+            <span>{{ scope.row.handlePersonName }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column :label="$t('SaleOpportunity.isSale')" :resizable="false" align="center" min-width="150">
+          <template slot-scope="scope">
+            <span>{{ scope.row.isSale | isSaleFilter }}</span>
           </template>
         </el-table-column>
       </el-table>
       <!-- 列表结束 -->
-      <pagination v-show="total>0" :total="total" :page.sync="getemplist.pagenum" :limit.sync="getemplist.pagesize" @pagination="getlist" />
+      <pagination v-show="total>0" :total="total" :page.sync="getemplist.pageNum" :limit.sync="getemplist.pageSize" @pagination="getlist" />
       <!--修改开始=================================================-->
       <el-button v-waves class="filter-item" type="success" style="width: 100px;float: left;margin-bottom: 10px" @click="handleConfirm">{{ $t('Hmodule.sure') }}</el-button>
     </el-card>
@@ -121,7 +131,7 @@
 </template>
 
 <script>
-import { searchsaleOut } from '@/api/SaleOut'
+import { saleopportunitylist } from '@/api/SaleOpportunity'
 import { getdeptlist } from '@/api/BasicSettings'
 import { searchStockCategory } from '@/api/StockCategory'
 import waves from '@/directive/waves' // Waves directive
@@ -129,12 +139,10 @@ import Pagination from '@/components/Pagination'
 import MyEmp from './MyEmp'
 import MyCustomer from './MyCustomer'
 import MyAgent from './MyAgent'
-import MyAccept from './MyAccept'
-import MyRepository from './MyRepository'
 var _that
 export default {
   directives: { waves },
-  components: { MyRepository, MyAccept, MyEmp, MyCustomer, MyAgent, Pagination },
+  components: { MyEmp, MyCustomer, MyAgent, Pagination },
   filters: {
     judgeStatFilter(status) {
       const statusMap = {
@@ -159,38 +167,24 @@ export default {
       }
       return statusMap[status]
     },
-    sendTypeFilter(status) {
+    isSaleFilter(status) {
       const statusMap = {
-        1: '已发货',
-        2: '未发货'
+        1: '跟进中',
+        2: '销售成功'
       }
       return statusMap[status]
     }
   },
   props: {
-    saleoutcontrol: {
+    opportunitycontrol: {
       type: Boolean,
       default: false
-    },
-    personaldata: {
-      type: Object,
-      default: null
     }
   },
   data() {
     return {
-      // 接受数据
-      querydata: this.personaldata,
       // 选择框控制
-      employeeVisible: this.saleoutcontrol,
-      // 回显仓库
-      saleRepositoryId: '',
-      // 控制仓库
-      repositorycontrol: false,
-      // 回显出库人
-      outPersonId: '',
-      // 控制出库人
-      accetpcontrol: false,
+      employeeVisible: this.opportunitycontrol,
       // 回显客户
       customerName: '',
       // 控制客户
@@ -239,12 +233,8 @@ export default {
       getemplist: {
         pageNum: 1,
         pageSize: 10,
-        judgeStat: 2,
-        receiptStat: 2,
         repositoryId: this.$store.getters.repositoryId,
-        regionIds: this.$store.getters.regionIds,
-        isActive: 1,
-        isReturn: 1
+        regionIds: this.$store.getters.regionIds
       },
       // 传给组件的数据
       personalForm: {},
@@ -255,44 +245,15 @@ export default {
     }
   },
   watch: {
-    saleoutcontrol() {
-      this.employeeVisible = this.saleoutcontrol
+    opportunitycontrol() {
+      this.employeeVisible = this.opportunitycontrol
       this.getlist()
-      console.log(this.querydata)
-    },
-    personaldata() {
-      console.log(this.personaldata)
-      this.querydata = this.personaldata
     }
   },
   beforeCreate() {
     _that = this
   },
   methods: {
-    // 出库仓库focus事件触发
-    handlechooseRep() {
-      this.repositorycontrol = true
-    },
-    repositoryname(val) {
-      this.saleRepositoryId = val.repositoryName
-      this.personalForm.saleRepositoryId = val.id
-    },
-    // 出库人focus事件触发
-    handlechooseAccept() {
-      this.accetpcontrol = true
-    },
-    acceptName(val) {
-      this.outPersonId = val.personName
-      this.getemplist.outPersonId = val.id
-    },
-    // 不让勾选
-    selectInit(row, index) {
-      if (row.judgeStat !== 0) {
-        return false
-      } else {
-        return true
-      }
-    },
     // 选择客户类型时清理客户名称
     clearCustomer() {
       this.getemplist.customerId = ''
@@ -307,12 +268,10 @@ export default {
       }
     },
     customerdata(val) {
-      // console.log('操作', val)
       this.getemplist.customerId = val.id
       this.customerName = val.customerName
     },
     agentdata(val) {
-      // console.log('操作', val)
       this.getemplist.customerId = val.id
       this.customerName = val.agentName
     },
@@ -323,7 +282,7 @@ export default {
     getlist() {
       // 物料需求计划列表数据
       this.listLoading = true
-      searchsaleOut(this.getemplist).then(res => {
+      saleopportunitylist(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
@@ -354,23 +313,10 @@ export default {
       this.stockPersonId = ''
       this.getemplist.stockPersonId = ''
     },
-    restFilter3() {
-      this.outPersonId = ''
-      this.getemplist.outPersonId = ''
-    },
-    restFilter4() {
-      this.saleRepositoryId = ''
-      this.getemplist.saleRepositoryId = ''
-    },
     // 搜索
     handleFilter() {
       this.getemplist.pageNum = 1
-      if (this.getemplist.customerName !== null && this.getemplist.customerName !== undefined && this.getemplist.customerName !== '') {
-        this.getemplist.customerType = 2
-      } else {
-        this.getemplist.customerType = null
-      }
-      searchsaleOut(this.getemplist).then(res => {
+      saleopportunitylist(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
@@ -401,7 +347,7 @@ export default {
     },
     // 新增数据
     handleAdd() {
-      this.$router.push('/SaleOut/AddSaleOut')
+      this.$router.push('/SaleOpportunity/AddSaleOpportunity')
     },
     // 选择主生产计划数据时的操作
     handleCurrentChange(val) {
@@ -411,56 +357,39 @@ export default {
     handleConfirm() {
       this.employeeVisible = false
       console.log(this.choosedata)
-      const saleOutdata = this.choosedata.saleOutDetailVos
-      for (const i in saleOutdata) {
-        saleOutdata[i].sourceNumber = this.choosedata.number
-      }
-      console.log('源单', saleOutdata)
-      const outRepositoryId = this.choosedata.saleRepositoryId
-      const outRepositoryName = this.choosedata.saleRepositoryName
-      const saleOutDetail = saleOutdata.map(function(item) {
+      const opportunitydata = this.choosedata.saleOpportunityDetailVos
+      // const opportunityNumber = this.choosedata.opportunityNumber
+      const opportunityDetail = opportunitydata.map(function(item) {
         return {
           productCode: item.productCode,
           productName: item.productName,
-          productType: item.productTypeName,
+          categoryName: item.productCategory,
+          productCategory: item.categoryId,
           unit: item.unit,
+          typeName: item.productType,
+          productType: item.typeId,
           color: item.color,
-          category: item.category,
-          productCategoryName: item.productCategoryName,
-          type: item.type,
-          productTypeName: item.productType,
-          // basicQuantity: item.quantity,
-          salePrice: item.salePrice,
+          performanceScore: item.kpiGrade,
+          productScore: item.point,
+          quantity: 0,
+          salePrice: 0,
           costPrice: 0,
-          costMonney: 0,
-          deliverQuantity: item.applyQuantity,
-          deliverMoney: item.money,
-          outRepositoryId: outRepositoryId,
-          outRepositoryName: outRepositoryName,
-          batch: item.batch,
-          kpiGrade: item.kpiGrade,
-          point: item.point,
-          // taxprice: item.salePrice - item.taxMoney,
-          taxRate: item.taxRate,
-          taxMoney: item.taxMoney,
-          discount: item.discountRate * 100,
-          discountMoney: 0,
-          OriginalDiscountMont: item.discountMoney,
-          alreadyReturnQuantity: item.retreatQuantity,
-          carCode: item.carCode,
-          motorCode: item.motorCode,
-          batteryCode: item.batteryCode,
-          sourceNumber: item.sourceNumber,
-          sendQuantity: item.quantity,
-          locationId: item.locationId,
-          locationName: item.locationName,
-          includeTaxCostMoney: 0,
+          taxprice: 0,
+          costMoney: 0,
           includeTaxMoney: 0,
-          stat: 0
+          taxRate: 0,
+          taxMoney: 0,
+          money: 0,
+          includeTaxCostMoney: 0,
+          discount: 0,
+          discountMoney: 0,
+          carCode: 0,
+          motorCode: 0,
+          batteryCode: 0
         }
       })
-      this.$emit('saleOutDetail', saleOutDetail)
-      this.$emit('saleOutdata', this.choosedata)
+      this.$emit('opportunityDetail', opportunityDetail)
+      this.$emit('opportunity', this.choosedata)
     }
     // 仓库管理员选择结束
   }

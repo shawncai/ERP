@@ -206,7 +206,8 @@ export default {
         repositoryId: this.$store.getters.repositoryId,
         regionId: this.$store.getters.regionId,
         requireArriveDate: null,
-        stat: '1'
+        stat: '1',
+        requireType: '1'
       },
       // 配送单规则数据
       personalrules: {
@@ -260,6 +261,8 @@ export default {
         this.personalForm.sourceType = '1'
         this.personalForm.sourceNumber = this.$store.getters.empcontract.number
         this.personalForm.address = this.$store.getters.empcontract.address
+        this.requireId = this.$store.getters.empcontract.customerName
+        this.personalForm.requireId = this.$store.getters.empcontract.customerId
         if (this.$store.getters.empcontract.transferPersonId !== null) {
           this.personalForm.deliverPersonId = this.$store.getters.empcontract.transferPersonId
           this.deliverPersonId = this.$store.getters.empcontract.transferPersonName

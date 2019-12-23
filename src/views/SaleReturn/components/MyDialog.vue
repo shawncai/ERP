@@ -300,7 +300,7 @@ import MyApply from './MyApply'
 import MyRequire from './MyRequire'
 import MyCustomer from './MyCustomer'
 import MyAgent from './MyAgent'
-import MySaleout from '../../DeliverGoods/components/MySaleout'
+import MySaleout from './MySaleout'
 // eslint-disable-next-line no-unused-vars
 var _that
 export default {

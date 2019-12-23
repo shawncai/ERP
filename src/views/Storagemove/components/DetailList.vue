@@ -159,7 +159,7 @@
             border
             size="medium"
             style="width: 100%">
-            <el-editable-column label="编号" width="55" align="center" type="index"/>
+            <el-editable-column label="编号" width="55" fixed="left" align="center" type="index"/>
             <!-- <el-editable-column prop="location" align="center" :label="$t('Hmodule.hw')" min-width="150">
               <template slot-scope="scope">
                 <p>{{ getLocationData(scope.row) }}</p>
@@ -177,10 +177,10 @@
                 <span v-else>{{ scope.row.batch }}</span>
               </template>
             </el-editable-column> -->
-            <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" align="center" width="150px"/>
-            <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" align="center" width="150px"/>
-            <el-editable-column :label="$t('updates.ys')" prop="color" align="center" width="150px"/>
-            <el-editable-column :label="$t('Hmodule.gg')" prop="productType" align="center" width="150px"/>
+            <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" fixed="left" align="center" width="150px"/>
+            <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" fixed="left" align="center" width="150px"/>
+            <el-editable-column :label="$t('updates.ys')" prop="color" fixed="left" align="center" width="150px"/>
+            <el-editable-column :label="$t('Hmodule.gg')" prop="productType" fixed="left" align="center" width="150px"/>
             <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" width="150px"/>
             <el-editable-column :label="$t('updates.sqsl')" prop="applyQuantity" align="center" min-width="150"/>
             <el-editable-column :label="$t('updates.dbdj')" prop="movePrice" align="center" width="150px"/>
@@ -204,13 +204,13 @@
             border
             size="medium"
             style="width: 100%">
-            <el-editable-column label="编号" width="55" align="center" type="index"/>
-            <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" align="center" width="150px"/>
-            <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" align="center" width="150px"/>
+            <el-editable-column label="编号" width="55" fixed="left" align="center" type="index"/>
+            <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" fixed="left" align="center" width="150px"/>
+            <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" fixed="left" align="center" width="150px"/>
             <el-editable-column :label="$t('Hmodule.hw')" prop="locationName" align="center" min-width="150"/>
             <el-editable-column :label="$t('Hmodule.pc')" prop="batch" align="center" min-width="250"/>
-            <el-editable-column :label="$t('updates.ys')" prop="color" align="center" width="150px"/>
-            <el-editable-column :label="$t('Hmodule.gg')" prop="typeName" align="center" width="150px"/>
+            <el-editable-column :label="$t('updates.ys')" prop="color" fixed="left" align="center" width="150px"/>
+            <el-editable-column :label="$t('Hmodule.gg')" prop="typeName" fixed="left" align="center" width="150px"/>
             <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" width="150px"/>
             <el-editable-column :label="$t('updates.cksli')" prop="moveQuantity" align="center" min-width="150"/>
             <el-editable-column :label="$t('updates.cjbm')" prop="carCode" align="center" min-width="150" />
@@ -241,13 +241,13 @@
             border
             size="medium"
             style="width: 100%">
-            <el-editable-column label="编号" width="55" align="center" type="index"/>
-            <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" align="center" width="150px"/>
-            <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" align="center" width="150px"/>
+            <el-editable-column label="编号" width="55" fixed="left" align="center" type="index"/>
+            <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" fixed="left" align="center" width="150px"/>
+            <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" fixed="left" align="center" width="150px"/>
             <el-editable-column :label="$t('Hmodule.hw')" prop="locationName" align="center" min-width="150"/>
             <el-editable-column :label="$t('Hmodule.pc')" prop="batch" align="center" min-width="150" />
-            <el-editable-column :label="$t('updates.ys')" prop="color" align="center" width="150px"/>
-            <el-editable-column :label="$t('Hmodule.gg')" prop="typeName" align="center" width="150px"/>
+            <el-editable-column :label="$t('updates.ys')" prop="color" fixed="left" align="center" width="150px"/>
+            <el-editable-column :label="$t('Hmodule.gg')" prop="typeName" fixed="left" align="center" width="150px"/>
             <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" width="150px"/>
             <el-editable-column :label="$t('updates.cksli')" prop="moveQuantity" align="center" min-width="150"/>
             <el-editable-column :label="$t('updates.cjbm')" prop="carCode" align="center" min-width="150" />
@@ -769,7 +769,7 @@ export default {
                   <div class="allmoneynum" style="width: 43%;border-left: 1px solid; border-right: 1px solid;height: 40px;display: flex;align-items: center;justify-content: center;">Total Qty.: ${totalqty}</div>
                   <div class="allmoneynum" style="width: 28%;height: 40px;display: flex;align-items: center;justify-content: center;">合计:${daxiemoney} ¥ ${totalMoneys}</div>
                   </div>
-                  <div style="width: 100%;height: 80px;border:1px solid;border-top: none;"> 
+                  <div style="width: 100%;height: 80px;border:1px solid;border-top: none;">
                   <div>Remark/备注</div>
                   <div>${remarks}</div>
                   </div>
@@ -883,7 +883,7 @@ export default {
                   <div class="allmoneynum" style="width: 43%;border-left: 1px solid; border-right: 1px solid;height: 40px;display: flex;align-items: center;justify-content: center;">Total Qty.: ${totalqty}</div>
                   <div class="allmoneynum" style="width: 28%;height: 40px;display: flex;align-items: center;justify-content: center;">合计:${daxiemoney} ¥ ${totalMoneys}</div>
                   </div>
-                  <div style="width: 100%;height: 80px;border:1px solid;border-top: none;"> 
+                  <div style="width: 100%;height: 80px;border:1px solid;border-top: none;">
                   <div>Remark</div>
                   <div>${remarks}</div>
                   </div>

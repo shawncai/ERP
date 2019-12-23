@@ -111,7 +111,7 @@
 </template>
 
 <script>
-import { updatematerials } from '@/api/MaterialsList'
+import { updatematerials, isExist } from '@/api/MaterialsList'
 import MyDetail from './MyDetail2'
 import MyMater from './MyMater'
 var _that
@@ -182,10 +182,23 @@ export default {
       this.matercontrol = true
     },
     mater(val) {
-      this.personalForm.productName = val.productName
-      this.personalForm.unit = val.purMeasu
-      this.personalForm.productTypeId = val.typeId
-      this.productTypeId = val.productType
+      isExist(val.code).then(res => {
+        if (res.data.data.content === false) {
+          this.personalForm.productName = val.productName
+          this.personalForm.unit = val.purMeasu
+          this.personalForm.productTypeId = val.typeId
+          this.productTypeId = val.productType
+          this.personalForm.productCode = val.code
+          this.personalForm.color = val.color
+        } else if (res.data.data.content === true) {
+          this.$notify.error({
+            title: '错误',
+            message: '物料已添加',
+            offset: 100
+          })
+          return false
+        }
+      })
     },
     // 新增物料单明细
     handleAddproduct() {
@@ -230,7 +243,7 @@ export default {
       if (rest.length === 0) {
         this.$notify.error({
           title: '错误',
-          message: '采购入库明细表不能为空',
+          message: '明细表不能为空',
           offset: 100
         })
         return false
