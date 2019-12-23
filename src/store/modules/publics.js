@@ -7,9 +7,13 @@ const publics = {
     voucherdata: '',
     newsaleoutdata: '',
     newreceiptdata: '',
-    newinstallpaydata: ''
+    newinstallpaydata: '',
+    setchoosedata: ''
   },
   mutations: {
+    set_setchoosedata: (state, setchoosedata) => {
+      state.setchoosedata = setchoosedata
+    },
     set_newinstallpaydata: (state, newinstallpaydata) => {
       state.newinstallpaydata = newinstallpaydata
     },
@@ -36,6 +40,9 @@ const publics = {
     }
   },
   actions: {
+    getsetchoosedata({ commit }, setchoosedata) {
+      commit('set_setchoosedata', setchoosedata)
+    },
     getnewinstallpaydata({ commit }, newinstallpaydata) {
       commit('set_newinstallpaydata', newinstallpaydata)
     },
