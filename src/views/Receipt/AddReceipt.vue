@@ -90,7 +90,8 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('Receipt.penaltyMoney')" prop="penaltyMoney" style="width: 100%;">
-                  <el-input v-model="personalForm.penaltyMoney" style="margin-left: 18px;width: 200px" clearable/>
+                  <el-input v-model="personalForm.penaltyMoney" type="number" style="margin-left: 18px;width: 200px" clearable/>
+                  <!-- <el-input-number v-model="personalForm.penaltyMoney" :controls="false" /> -->
                 </el-form-item>
               </el-col>
               <el-col :span="6">
@@ -288,7 +289,7 @@ export default {
           { required: true, validator: validatePass4, trigger: 'change' }
         ],
         penaltyMoney: [
-          { required: true, message: '请输入滞纳金金额', trigger: 'change' }
+          { required: true, message: '请输入滞纳金金额', trigger: 'blur' }
         ],
         deductionMoney: [
           { validator: validatePass5, trigger: 'change' }
@@ -307,10 +308,12 @@ export default {
   // },
   created() {
     this.getways()
+    this.getdatatime()
   },
 
   mounted() {
     this.getinformation()
+    this.getdatatime()
   },
   activated() {
     this.setinstallmentdata()
@@ -318,6 +321,7 @@ export default {
     this.getinformation()
     this.getinformation2()
     this.getinformation3()
+    this.getdatatime()
   },
   beforeCreate() {
     _that = this
@@ -502,6 +506,22 @@ export default {
         }
       })
     },
+    // 默认显示今天
+    getdatatime() { // 默认显示今天
+      var date = new Date()
+      var seperator1 = '-'
+      var year = date.getFullYear()
+      var month = date.getMonth() + 1
+      var strDate = date.getDate()
+      if (month >= 1 && month <= 9) {
+        month = '0' + month
+      }
+      if (strDate >= 0 && strDate <= 9) {
+        strDate = '0' + strDate
+      }
+      var currentdate = year + seperator1 + month + seperator1 + strDate
+      this.personalForm.payDate = currentdate
+    },
     // 收款人focus事件
     handlechooseStock() {
       this.stockControl = true
@@ -537,8 +557,16 @@ export default {
       })
       sums[2] = ''
       this.allmoney = sums[8]
-      this.personalForm.receiptMoney = sums[9]
-      this.personalForm.totalLackMoney = sums[8] - sums[9]
+      if (this.isshow === true) {
+        this.personalForm.receiptMoney = sums[10]
+        this.personalForm.penaltyMoney = sums[6]
+        this.personalForm.totalLackMoney = sums[9] - sums[10]
+      } else {
+        this.personalForm.receiptMoney = sums[9]
+        this.personalForm.penaltyMoney = sums[5]
+        this.personalForm.totalLackMoney = sums[8] - sums[9]
+      }
+
       return sums
     },
     // 总计

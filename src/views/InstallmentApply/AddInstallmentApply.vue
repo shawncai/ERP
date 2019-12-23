@@ -283,7 +283,7 @@
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('InstallmentApply.email')" :required="personalForm.marriageStat === 2" style="width: 100%;">
+                <el-form-item :label="$t('InstallmentApply.email')" style="width: 100%;">
                   <el-input v-model="personalForm.mateEmail" style="margin-left: 18px;width: 200px" clearable/>
                 </el-form-item>
               </el-col>

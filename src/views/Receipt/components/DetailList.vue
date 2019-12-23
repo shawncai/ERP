@@ -244,7 +244,7 @@ export default {
           this.reviewList.push(review[i])
         }
       }
-      this.list2 = this.personalForm.changeCountDetailvos
+      this.list2 = this.personalForm.receiptDetails
     }
   },
   beforeCreate() {

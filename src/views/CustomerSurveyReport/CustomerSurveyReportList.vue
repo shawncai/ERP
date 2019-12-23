@@ -91,11 +91,11 @@
             <span>{{ scope.row.surveyPersonName }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('public.receiptStat')" :resizable="false" align="center" min-width="150">
+        <!-- <el-table-column :label="$t('public.receiptStat')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.receiptStat | receiptStatFilter }}</span>
           </template>
-        </el-table-column>
+        </el-table-column> -->
         <el-table-column :label="$t('public.actions')" :resizable="false" align="center" min-width="230">
           <template slot-scope="scope">
             <el-button v-permission2="['200-211-3', scope.row.createPersonId]" :title="$t('updates.xg')" type="primary" size="mini" icon="el-icon-edit" circle @click="handleEdit(scope.row)"/>
