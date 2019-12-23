@@ -2074,6 +2074,18 @@ export const asyncRouterMap = [
         component: () => import('@/views/AccessTools/AccessToolsList'),
         name: 'AccessToolsList',
         meta: { title: 'AccessToolsList', noCache: true, roles: ['54-67-81-4'] }
+      },
+      {
+        path: 'AccessComponentlist',
+        component: () => import('@/views/AccessComponent/AccessComponentlist'),
+        name: 'AccessComponentlist',
+        meta: { title: 'AccessComponentlist', noCache: false, roles: ['54-67-362-1'] }
+      },
+      {
+        path: 'AddAccessComponent',
+        component: () => import('@/views/AccessComponent/AddAccessComponent'),
+        name: 'AddAccessComponent',
+        meta: { title: 'AddAccessComponent', noCache: true, roles: ['54-67-363-4'] }
       }
     ]
   },

@@ -143,7 +143,7 @@
           size="medium"
           style="width: 100%">
           <el-editable-column type="selection" width="55" align="center"/>
-          <el-editable-column label="编号" width="55" align="center" type="index"/>
+          <el-editable-column label="编号" width="55" fixed="left" align="center" type="index"/>
           <!-- <el-editable-column prop="location" align="center" :label="$t('Hmodule.hw')" min-width="150">
               <template slot-scope="scope">
                 <p>{{ getLocationData(scope.row) }}</p>
@@ -161,10 +161,10 @@
                 <span v-else>{{ scope.row.batch }}</span>
               </template>
             </el-editable-column> -->
-          <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" align="center" width="150px"/>
-          <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" align="center" width="150px"/>
-          <el-editable-column :label="$t('updates.ys')" prop="color" align="center" width="150px"/>
-          <el-editable-column :label="$t('Hmodule.gg')" prop="productType" align="center" width="150px"/>
+          <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" fixed="left" align="center" width="150px"/>
+          <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" fixed="left" align="center" width="150px"/>
+          <el-editable-column :label="$t('updates.ys')" prop="color" fixed="left" align="center" width="150px"/>
+          <el-editable-column :label="$t('Hmodule.gg')" prop="productType" fixed="left" align="center" width="150px"/>
           <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" width="150px"/>
           <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 1.00, precision: 2}, type: 'visible'}" :label="$t('updates.sqsl')" prop="applyQuantity" align="center" min-width="150">
             <template slot="edit" slot-scope="scope">

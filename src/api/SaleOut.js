@@ -22,6 +22,9 @@ export function createsaleOut(query, query2, query3, query4) {
 //  查询销售出库单
 export function searchsaleOut(query) {
   var params = new URLSearchParams()
+  if (query.isReturn !== '' && query.isReturn !== null && query.isReturn !== undefined) {
+    params.append('isReturn', query.isReturn) // 你要传给后台的参数值 key/value
+  }
   if (query.title !== '' && query.title !== null && query.title !== undefined) {
     params.append('title', query.title) // 你要传给后台的参数值 key/value
   }

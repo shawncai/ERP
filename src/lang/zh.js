@@ -379,7 +379,10 @@ export default {
     installmentAnalyze: '分期应收款分析',
     Voucher: '凭证管理',
     Newvoucher: '新建凭证',
-    Voucherlist: '凭证列表'
+    Voucherlist: '凭证列表',
+    AccessComponent: '维修零件领用单',
+    AccessComponentlist: '维修零件领用单列表',
+    AddAccessComponent: '新建维修零件领用单'
   },
   installmentAnalyze: {
     repositoryName: '仓库名称',
@@ -2161,7 +2164,7 @@ export default {
   },
   AccessTools: {
     stat: '状态',
-    title: '工具领用单主题',
+    title: '领用单主题',
     applyDate: '申请时间',
     number: '领用单编号',
     accessDate: '使用时间',
@@ -3784,5 +3787,18 @@ export default {
     ptdb: '普通调拨',
     thdb: '退货调拨',
     kcsl: '库存数量'
+  },
+  accessComponent: {
+    accessPersonId: '领用人',
+    handlePersonId: '经办人',
+    accessDate: '领用时间',
+    rrr: '领用数量',
+    eee: '已使用数量',
+    www: '归还数量',
+    qqq: '丢失数量',
+    accessQuantity: '领用数量',
+    ppp: '确认人',
+    ooo: '确认时间',
+    returnQuantity: '归还数量'
   }
 }

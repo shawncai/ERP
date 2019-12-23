@@ -343,7 +343,7 @@ import MyApply from './components/MyApply'
 import MyRequire from './components/MyRequire'
 import MyCustomer from './components/MyCustomer'
 import MyAgent from './components/MyAgent'
-import MySaleout from '../DeliverGoods/components/MySaleout'
+import MySaleout from './components/MySaleout'
 // eslint-disable-next-line no-unused-vars
 var _that
 export default {
