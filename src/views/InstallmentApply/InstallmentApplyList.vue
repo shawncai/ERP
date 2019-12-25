@@ -159,6 +159,7 @@
         </el-table-column>
         <el-table-column :label="$t('public.actions')" :resizable="false" align="center" min-width="250">
           <template slot-scope="scope">
+            <el-button v-show="scope.row.inquirePersonId !== null && scope.row.judgeStat === 0" size="mini" type="primary" @click="handleDispatch2(scope.row)">{{ $t('otherlanguage.zcfp') }}</el-button>
             <el-button v-show="scope.row.inquirePersonId === null" size="mini" type="success" @click="handleDispatch(scope.row)">{{ $t('repair.Dispatch') }}</el-button>
             <el-button v-permission2="['200-201-3', scope.row.createPersonId]" v-show="scope.row.judgeStat === 0" :title="$t('updates.xg')" type="primary" size="mini" icon="el-icon-edit" circle @click="handleEdit(scope.row)"/>
             <el-button v-show="isReview(scope.row)" :title="$t('updates.spi')" type="warning" size="mini" icon="el-icon-view" circle @click="handleReview(scope.row)"/>
@@ -455,6 +456,15 @@ export default {
       })
     },
     handleDispatch(row) {
+      this.restdispatchform()
+      this.formdata = Object.assign({}, row)
+      this.isvisible = true
+      console.log(row)
+      getremplist2(this.$store.getters.repositoryId, this.$store.getters.regionId).then(res => {
+        this.options2 = res.data.data.content.list
+      })
+    },
+    handleDispatch2(row) {
       this.restdispatchform()
       this.formdata = Object.assign({}, row)
       this.isvisible = true

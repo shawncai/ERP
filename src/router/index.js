@@ -3256,6 +3256,26 @@ export const asyncRouterMap = [
       }
     ]
   },
+  {
+    path: '/AccountBalance',
+    component: Layout,
+    redirect: 'noredirect',
+    name: 'AccountBalance',
+    alwaysShow: true,
+    meta: {
+      title: 'AccountBalance',
+      icon: 'kemuyue',
+      type: 11
+    },
+    children: [
+      {
+        path: 'index',
+        component: () => import('@/views/AccountBalance/index'),
+        name: 'AccountBalance',
+        meta: { title: 'AccountBalance', noCache: true }
+      }
+    ]
+  },
   // {
   //   path: '/GroupBuyRules',
   //   component: Layout,

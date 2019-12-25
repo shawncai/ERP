@@ -1,27 +1,26 @@
 <template>
-  <el-dialog :visible.sync="employeeVisible" :customercontrol="customercontrol" :close-on-press-escape="false" top="10px" title="选择客户" append-to-body width="1100px" @close="$emit('update:customercontrol', false)">
+  <el-dialog :visible.sync="employeeVisible" :agentcontrol="agentcontrol" :close-on-press-escape="false" top="10px" title="选择经销商" append-to-body width="1100px" @close="$emit('update:agentcontrol', false)">
     <el-card class="box-card" style="margin-top: 15px;height: 60px;padding-left:0 " shadow="never">
       <el-row>
         <el-form ref="getemplist" :model="getemplist" style="margin-top: -9px">
           <el-col :span="4">
             <el-form-item>
-              <el-input v-model="getemplist.customername" :placeholder="$t('Customer.customername')" clearable @keyup.enter.native="handleFilter"/>
+              <el-input v-model="getemplist.agentname" :placeholder="$t('Customer.agentname')" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
           <el-col :span="3" style="margin-left: 5px">
             <el-form-item>
-              <el-input v-model="getemplist.customerphone" :placeholder="$t('Customer.phone')" clearable @keyup.enter.native="handleFilter"/>
+              <el-input v-model="getemplist.phone" :placeholder="$t('Customer.phone')" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
           <el-col :span="3" style="margin-left: 20px">
             <el-form-item>
-              <el-select v-model="getemplist.type" :value="getemplist.type" :placeholder="$t('Customer.customertype')" clearable>
-                <el-option
-                  v-for="(item, index) in customertypes"
-                  :key="index"
-                  :value="item.id"
-                  :label="item.categoryName"/>
-              </el-select>
+              <el-date-picker
+                v-model="getemplist.createtime"
+                :placeholder="$t('Hmodule.xzrq')"
+                type="date"
+                class="filter-item"
+                value-format="yyyy-MM-dd"/>
             </el-form-item>
           </el-col>
           <!--更多搜索条件-->
@@ -31,27 +30,36 @@
               placement="bottom"
               width="500"
               trigger="click">
-              <el-select v-model="getemplist.source" :value="getemplist.source" :placeholder="$t('Customer.source')" clearable style="width: 40%;float: left;margin-left: 20px;">
+              <el-select v-model="getemplist.type" :value="getemplist.type" :placeholder="$t('Customer.customertype')" clearable style="width: 40%;float: left;margin-left: 20px;">
+                <el-option
+                  v-for="(item, index) in customertypes"
+                  :key="index"
+                  :value="item.id"
+                  :label="item.categoryName"/>
+              </el-select>
+              <el-select v-model="getemplist.source" :value="getemplist.source" :placeholder="$t('Customer.source')" clearable style="width: 40%;float: right;margin-right: 20px">
                 <el-option
                   v-for="(item, index) in sources"
                   :key="index"
                   :value="item.id"
                   :label="item.categoryName"/>
               </el-select>
-              <el-select v-model="getemplist.repositoryid" :placeholder="$t('Hmodule.xzmd')" filterable clearable style="width: 40%;float: right;margin-right: 20px">
-                <el-option
-                  v-for="(item, index) in repositories"
-                  :key="index"
-                  :label="item.repositoryName"
-                  :value="item.id"/>
-              </el-select>
-              <el-select v-model="getemplist.level" :placeholder="$t('Customer.level')" clearable style="width: 40%;float: left;margin-left: 20px;margin-top: 20px">
+              <el-select v-model="getemplist.level" :value="getemplist.level" :placeholder="$t('Customer.level')" style="width: 40%;float: left;margin-left: 20px;margin-top: 20px" clearable>
                 <el-option
                   v-for="(item, index) in levels"
                   :key="index"
                   :value="item.id"
                   :label="item.categoryName"/>
               </el-select>
+              <el-select v-model="getemplist.source" :value="getemplist.source" :placeholder="$t('Customer.source')" clearable style="width: 40%;float: right;margin-right: 20px;margin-top: 20px">
+                <el-option
+                  v-for="(item, index) in sources"
+                  :key="index"
+                  :value="item.id"
+                  :label="item.categoryName"/>
+              </el-select>
+              <el-input v-model="getemplist.contactname" :placeholder="$t('Customer.contactname')" style="width: 40%;float: left;margin-left: 20px;margin-top: 20px" clearable />
+              <el-input v-model="getemplist.pinyin" :placeholder="$t('Customer.pinyin')" style="width: 40%;float: right;margin-right: 20px;margin-top: 20px" clearable />
               <div class="seachbutton" style="width: 100%;float: right;margin-top: 20px">
                 <el-button v-waves class="filter-item" type="primary" style="float: right" round @click="handleFilter">{{ $t('public.search') }}</el-button>
               </div>
@@ -84,57 +92,42 @@
             <span>{{ scope.row.id }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('Customer.customername')" :resizable="false" align="center" width="80">
+        <el-table-column :label="$t('Customer.agentname')" :resizable="false" prop="agentName" align="center" width="200">
           <template slot-scope="scope">
-            <span>{{ scope.row.customerName }}</span>
+            <span>{{ scope.row.agentName }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('Customer.customertype')" :resizable="false" align="center" width="100">
+        <el-table-column :label="$t('Customer.customertype')" :resizable="false" prop="agentType" align="center" width="100">
           <template slot-scope="scope">
-            <span>{{ scope.row.customerTypeWZ }}</span>
+            <span>{{ scope.row.agentType }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('Customer.level')" :resizable="false" align="center" width="200">
+        <el-table-column :label="$t('Customer.level')" :resizable="false" prop="agentLevel" align="center" width="200">
           <template slot-scope="scope">
-            <span>{{ scope.row.customerLevel }}</span>
+            <span>{{ scope.row.agentLevel }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('Customer.birthday')" :resizable="false" align="center" width="100">
+        <el-table-column :label="$t('Customer.traderid')" :resizable="false" prop="traderName" align="center" width="100">
           <template slot-scope="scope">
-            <span>{{ scope.row.birthday }}</span>
+            <span>{{ scope.row.traderName }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('Customer.source')" :resizable="false" align="center" width="100">
+        <el-table-column :label="$t('Customer.contactname')" :resizable="false" prop="contactName" align="center" width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.source }}</span>
+            <span>{{ scope.row.contactName }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('Customer.newold')" :resizable="false" align="center" width="100">
+        <el-table-column :label="$t('Customer.phone')" :resizable="false" prop="phone" align="center" width="200">
           <template slot-scope="scope">
-            <span>{{ scope.row.newOrOld | filterno }}</span>
+            <span>{{ scope.row.phone }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('Customer.phone')" :resizable="false" align="center" width="100">
+        <el-table-column :label="$t('Customer.createName')" :resizable="false" prop="createName" align="center" width="100">
           <template slot-scope="scope">
-            <span>{{ scope.row.phoneNumber }}</span>
+            <span>{{ scope.row.createName }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('Customer.gender')" :resizable="false" align="center" width="100">
-          <template slot-scope="scope">
-            <span>{{ scope.row.gender | genderFilter }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column :label="$t('Customer.address')" :resizable="true" align="center" width="100">
-          <template slot-scope="scope">
-            <span>{{ scope.row.address }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column :label="$t('Customer.point')" :resizable="false" align="center" width="100">
-          <template slot-scope="scope">
-            <span>{{ scope.row.point }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column :label="$t('Customer.createTime')" :resizable="false" align="center" width="100">
+        <el-table-column :label="$t('Customer.createTime')" :resizable="false" prop="createTime" align="center" width="100">
           <template slot-scope="scope">
             <span>{{ scope.row.createTime }}</span>
           </template>
@@ -149,8 +142,7 @@
 </template>
 
 <script>
-import { searchRepository } from '@/api/public'
-import { searchCusCategory, customerlist } from '@/api/Customer'
+import { searchCusCategory, agentlist } from '@/api/Customer'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
 
@@ -176,7 +168,7 @@ export default {
     }
   },
   props: {
-    customercontrol: {
+    agentcontrol: {
       type: Boolean,
       default: false
     }
@@ -184,10 +176,9 @@ export default {
   data() {
     return {
       // 选择框控制
-      employeeVisible: this.customercontrol,
+      employeeVisible: this.agentcontrol,
       // 更多搜索条件问题
       visible2: false,
-      // 所有客户类型数据
       // 发送参数
       customertypes: [],
       customertyp: 1,
@@ -211,34 +202,43 @@ export default {
       listLoading: true,
       // 客户列表查询加展示参数
       getemplist: {
-        customername: '',
-        customerphone: '',
-        level: '',
-        createtime: '',
+        agentname: '',
+        phone: '',
         type: '',
+        pinyin: '',
+        level: '',
         pagenum: 1,
         pagesize: 10,
-        repositoryid: '',
-        source: ''
+        contactname: '',
+        source: '',
+        createtime: ''
       },
-      // 部门列表
-      depts: [],
-      // 区域级联数据转化
-      props: {
-        value: 'id',
-        label: 'regionName',
-        children: 'regionListVos'
-      },
-      // 区域数据
-      regions: [],
-      getemplistregions: [],
-      // 门店数据
-      repositories: []
+      // 客户信息数据
+      customerForm: {
+        agentname: '',
+        phone: '',
+        type: '',
+        pinyin: '',
+        level: '',
+        source: '',
+        discount: '',
+        countryid: '',
+        provinceid: '',
+        cityid: '',
+        introduce: '',
+        address: '',
+        contactname: '',
+        traderid: '',
+        transmode: '',
+        deliverymode: '',
+        createid: '',
+        newold: ''
+      }
     }
   },
   watch: {
-    customercontrol() {
-      this.employeeVisible = this.customercontrol
+    agentcontrol() {
+      this.employeeVisible = this.agentcontrol
       this.getlist()
       this.getCategory()
     }
@@ -254,7 +254,11 @@ export default {
         if (res.data.ret === 200) {
           this.customertypes = res.data.data.content.list
         } else {
-          console.log('客户类型出错')
+          this.$notify.error({
+            title: '错误',
+            message: '出错了',
+            offset: 100
+          })
         }
       })
       // 获取客户优质级别
@@ -262,7 +266,11 @@ export default {
         if (res.data.ret === 200) {
           this.levels = res.data.data.content.list
         } else {
-          console.log('客户优质级别出错')
+          this.$notify.error({
+            title: '错误',
+            message: '出错了',
+            offset: 100
+          })
         }
       })
       // 获取客户来源
@@ -270,27 +278,27 @@ export default {
         if (res.data.ret === 200) {
           this.sources = res.data.data.content.list
         } else {
-          console.log('客户来源出错')
-        }
-      })
-      // 获取所有门店
-      searchRepository().then(res => {
-        if (res.data.ret === 200) {
-          this.repositories = res.data.data.content.list
-        } else {
-          console.log('门店出错')
+          this.$notify.error({
+            title: '错误',
+            message: '出错了',
+            offset: 100
+          })
         }
       })
     },
     getlist() {
       // 员工列表数据
       this.listLoading = true
-      customerlist(this.getemplist).then(res => {
+      agentlist(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
         } else {
-          console.log('员工列表出错')
+          this.$notify.error({
+            title: '错误',
+            message: '出错了',
+            offset: 100
+          })
         }
         setTimeout(() => {
           this.listLoading = false
@@ -300,39 +308,22 @@ export default {
     // 搜索
     handleFilter() {
       this.getemplist.pagenum = 1
-      customerlist(this.getemplist).then(res => {
+      agentlist(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
         } else {
-          console.log('搜索出错')
-        }
-      })
-    },
-    // 转化数据方法
-    tranKTree(arr) {
-      if (!arr || !arr.length) return
-      return arr.map(item => ({
-        id: item.id,
-        regionName: item.regionName,
-        regionListVos: this.tranKTree(item.regionListVos)
-      }))
-    },
-    // 根据区域选择门店
-    handlechange4(val) {
-      const finalid = val[val.length - 1]
-      searchRepository(finalid).then(res => {
-        if (res.data.ret === 200) {
-          this.repositories = res.data.data.content
-        } else {
-          this.$message.error('出错了')
+          this.$notify.error({
+            title: '错误',
+            message: '出错了',
+            offset: 100
+          })
         }
       })
     },
     // 新增数据
     handleAdd() {
-      this.employeeVisible = false
-      this.$router.push('/Customer/NewCustomer')
+      this.$router.push('/Customer/NewAgent')
     },
     // 选择主生产计划数据时的操作
     handleCurrentChange(val) {
@@ -342,7 +333,7 @@ export default {
     handleConfirm() {
       this.employeeVisible = false
       console.log(this.choosedata)
-      this.$emit('customerdata', this.choosedata)
+      this.$emit('agentdata', this.choosedata)
     }
     // 仓库管理员选择结束
   }

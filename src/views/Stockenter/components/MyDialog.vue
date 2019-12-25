@@ -13,8 +13,9 @@
             </el-col>
             <el-col :span="6">
               <el-form-item :label="$t('Stockenter.sourceType')" prop="sourceType" style="width: 100%;">
-                <el-select v-model="personalForm.sourceType" placeholder="请选择源单类型" style="margin-left: 18px;width: 150px">
-                  <el-option value="1" label="采购到货单"/>
+                <el-select v-model="personalForm.sourceType" placeholder="请选择源单类型" style="margin-left: 18px;width: 200px">
+                  <el-option value="1" label="采购到货单" />
+                  <el-option value="2" label="采购订单" />
                 </el-select>
               </el-form-item>
             </el-col>
@@ -121,8 +122,8 @@
             <template slot-scope="scope">
               <el-select v-model="scope.row.locationId" :value="scope.row.locationId" :placeholder="$t('Hmodule.xzhw')" filterable clearable style="width: 100%;" @visible-change="updatebatch($event,scope)">
                 <el-option
-                  v-for="(item, index) in locationlist"
-                  :key="index"
+                  v-for="item in locationlist"
+                  :key="item.id"
                   :value="item.id"
                   :label="item.locationCode"/>
               </el-select>
@@ -171,10 +172,11 @@ import MyAccept from './MyAccept'
 import MyDetail from './MyDetail'
 import MyArrival from './MyArrival'
 import MyEmp2 from './MyEmp2'
+import MyOrder from './MyOrder'
 
 var _that
 export default {
-  components: { MyEmp2, MyArrival, MyRepository, MySupplier, MyEmp, MyDelivery, MyAccept, MyDetail },
+  components: { MyOrder, MyEmp2, MyArrival, MyRepository, MySupplier, MyEmp, MyDelivery, MyAccept, MyDetail },
   props: {
     editcontrol: {
       type: Boolean,
@@ -187,6 +189,7 @@ export default {
   },
   data() {
     return {
+      ordercontrol: false,
       // 入库员控制框
       entercontrol: false,
       enterPersonId: '',
@@ -289,6 +292,21 @@ export default {
     _that = this
   },
   methods: {
+    order(val) {
+      console.log('ssssss', val)
+      for (let i = 0; i < val.length; i++) {
+        // val[i].arrivalQuantity = (val[i].stockQuantity - val[i].allarrivalQuantity + val[i].returnQuantity).toFixed(2)
+        this.$refs.editable.insert(val[i])
+      }
+    },
+    allOrderinfo(val) {
+      this.personalForm.sourceNumber = val.orderNumber
+      this.personalForm.supplierId = val.supplierId
+      this.supplierId = val.supplierName
+      this.personalForm.stockPersonId = val.stockPersonId
+      this.stockPersonId = val.stockPersonName
+      this.personalForm.stockTypeId = val.stockTypeId
+    },
     // 判断整车或者电池
     isEdit4(row) {
       console.log('222', row)
@@ -306,7 +324,11 @@ export default {
     },
     // 从源单中添加商品
     handleAddSouce() {
-      this.arrivalcontrol = true
+      if (this.personalForm.sourceType === '1') {
+        this.arrivalcontrol = true
+      } else {
+        this.ordercontrol = true
+      }
     },
     arrival(val) {
       console.log(val)
@@ -514,11 +536,17 @@ export default {
         })
         return false
       }
+      let i = 1
       rest.map(function(elem) {
         return elem
       }).forEach(function(elem) {
         if (elem.locationId === null || elem.locationId === '' || elem.locationId === undefined) {
           delete elem.locationId
+          i = 4
+        }
+        if (elem.batch === null || elem.batch === '' || elem.batch === undefined) {
+          delete elem.batch
+          i = 4
         }
         if (elem.productCode === null || elem.productCode === '' || elem.productCode === undefined) {
           delete elem.productCode
@@ -558,7 +586,17 @@ export default {
         }
         return elem
       })
+      if (i === 4) {
+        this.$notify.error({
+          title: '错误',
+          message: '商品货位和批次不能为空',
+          offset: 100
+        })
+        return false
+      }
       const parms2 = JSON.stringify(rest)
+      this.personalForm.judgeStat = ''
+      this.personalForm.receiptStat = ''
       updatestockenter(this.personalForm, parms2).then(res => {
         if (res.data.ret === 200) {
           this.$notify({

@@ -79,8 +79,10 @@
       <el-button v-permission="['266-92-6']" v-waves :loading="downloadLoading" class="filter-item" style="width: 86px" @click="handleExport"> <svg-icon icon-class="daochu"/>{{ $t('public.export') }}</el-button>
       <!-- 打印操作 -->
       <el-button v-permission="['266-92-7']" v-waves class="filter-item" icon="el-icon-printer" style="width: 86px" @click="handlePrint">{{ $t('public.print') }}</el-button>
-      <!-- 新建操作 -->
+      <!-- 转化操作 -->
       <el-button v-waves class="filter-item" icon="el-icon-rank" type="success" style="width: 86px" @click="handleswitch">{{ $t('otherlanguage.zh') }}</el-button>
+      <!-- 结转损益操作 -->
+      <el-button v-waves class="filter-item" icon="el-icon-sort" type="primary" @click="handleswitchtojz">{{ $t('otherlanguage.jzsy') }}</el-button>
     </el-card>
 
     <el-card class="box-card" style="margin-top: 10px" shadow="never">
@@ -173,6 +175,7 @@
             <el-button v-show="isReview(scope.row)" :title="$t('updates.spi')" type="warning" size="mini" icon="el-icon-view" circle @click="handleReview(scope.row)"/>
             <el-button v-permission="['266-92-76']" v-show="isReview4(scope.row)" :title="$t('updates.fsp')" type="warning" size="mini" circle @click="handleReview4(scope.row)"><svg-icon icon-class="fanhui"/></el-button>
             <el-button v-permission2="['266-92-2', scope.row.createPersonId]" v-show="scope.row.voucherStat === 1" :title="$t('updates.sc')" size="mini" type="danger" icon="el-icon-delete" circle @click="handleDelete(scope.row)"/>
+            <!-- <el-button v-permission2="['266-92-3', scope.row.createPersonId]" v-show="scope.row.voucherStat === 1" :title="$t('otherlanguage.jzsy')" type="primary" size="mini" icon="el-icon-edit" circle @click="handleswitchtojz(scope.row)"/> -->
           </template>
         </el-table-column>
       </el-table>
@@ -296,7 +299,7 @@ export default {
       // 经办人控制框
       stockControl: false,
       // 批量操作
-      moreaction: '',
+      moreaction: [],
       // 加载操作控制
       downloadLoading: false,
       // 表格数据
@@ -331,6 +334,36 @@ export default {
     this.getlist()
   },
   methods: {
+    async handleswitchtojz() {
+      console.log(this.moreaction)
+      const arrowdata = this.moreaction
+      if (this.moreaction.length === 0) {
+        this.$message({
+          type: 'error',
+          message: '请先选择数据!'
+        })
+      } else {
+        let dataz = []
+        for (const i in arrowdata) {
+          const parms = {}
+          parms.id = arrowdata[i].voucherId
+          parms.voucherStat = 3
+          const sendparms = JSON.stringify(parms)
+          dataz = await updatevoucher(sendparms)
+            .then(res => {
+              return res.data
+            })
+        }
+        console.log(dataz)
+        if (dataz.ret === 200) {
+          this.$message({
+            type: 'success',
+            message: '操作成功!'
+          })
+          this.getlist()
+        }
+      }
+    },
     handleswitch() {
       if (this.switchparms === 1) {
         this.getlist()
@@ -521,15 +554,24 @@ export default {
           this.list = arrlist2
           if (this.switchparms === 1) {
             this.list = arrlist2.filter(item => {
-              return item.total === 1
+              return (item.total === 1 || item.total === 3)
             })
             this.switchparms = 2
             console.log('this.list', this.list)
           } else if (this.switchparms === 2) {
             this.list = arrlist2.filter(item => {
-              return item.total === 2
+              return (item.total === 2 || item.total === 3)
             })
             this.switchparms = 1
+            for (const i in this.list) {
+              this.list[i].currency = 1
+              if (this.list[i].creditMoney === null) {
+                this.list[i].creditMoney = 0
+              }
+              if (this.list[i].debitMoney === null) {
+                this.list[i].debitMoney = 0
+              }
+            }
             console.log('this.list', this.list)
           }
           this.getSpanArr(arrlist2)

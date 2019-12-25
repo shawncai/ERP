@@ -16,6 +16,7 @@
                 <el-form-item :label="$t('Stockenter.sourceType')" prop="sourceType" style="width: 100%;">
                   <el-select v-model="personalForm.sourceType" placeholder="请选择源单类型" style="margin-left: 18px;width: 200px">
                     <el-option value="1" label="采购到货单" />
+                    <el-option value="2" label="采购订单" />
                   </el-select>
                 </el-form-item>
               </el-col>
@@ -26,10 +27,11 @@
                 <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
               </el-col>
               <el-col :span="6">
-                <el-form-item label="采购到货单" prop="sourceNumber" style="width: 100%;">
+                <el-form-item label="源单编号" prop="sourceNumber" style="width: 100%;">
                   <el-input v-model="personalForm.sourceNumber" placeholder="请选择源单编号" style="margin-left: 18px;width: 200px" @focus="handleAddSouce"/>
                 </el-form-item>
                 <my-arrival :arrivalcontrol.sync="arrivalcontrol" @arrival="arrival" @allarrivalinfo="allarrivalinfo"/>
+                <my-order :ordercontrol.sync="ordercontrol" :supp.sync="supp" @order="order" @allOrderinfo="allOrderinfo"/>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('Stockenter.supplierId')" sstyle="width: 100%;">
@@ -120,13 +122,22 @@
             <el-editable-column type="index" align="center" fixed label="编号" width="150px" />
             <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" fixed align="center" width="150px"/>
             <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" fixed align="center" width="150px"/>
-            <el-editable-column :edit-render="{type: 'visible'}" :label="$t('Hmodule.hw')" prop="locationId" align="center" width="200px">
-              <template slot="edit" slot-scope="scope">
-                <el-select v-model="scope.row.locationCode" :value="scope.row.locationCode" :placeholder="$t('Hmodule.xzhw')" filterable clearable style="width: 100%;" @visible-change="updatebatch($event,scope)">
+            <el-editable-column :edit-render="{type: 'default'}" :label="$t('Hmodule.hw')" prop="locationId" align="center" width="200px">
+              <!--              <template slot="edit" slot-scope="scope">-->
+              <!--                <el-select v-model="scope.row.locationCode" :value="scope.row.locationCode" :placeholder="$t('Hmodule.xzhw')" filterable clearable style="width: 100%;" @visible-change="updatebatch($event,scope)">-->
+              <!--                  <el-option-->
+              <!--                    v-for="item in locationlist"-->
+              <!--                    :key="item.id"-->
+              <!--                    :value="item.locationCode"-->
+              <!--                    :label="item.locationCode"/>-->
+              <!--                </el-select>-->
+              <!--              </template>-->
+              <template slot-scope="scope">
+                <el-select v-model="scope.row.locationId" :value="scope.row.locationId" :placeholder="$t('Hmodule.xzhw')" filterable clearable style="width: 100%;" @visible-change="updatebatch($event,scope)">
                   <el-option
                     v-for="item in locationlist"
                     :key="item.id"
-                    :value="item.locationCode"
+                    :value="item.id"
                     :label="item.locationCode"/>
                 </el-select>
               </template>
@@ -220,11 +231,13 @@ import MyDelivery from './components/MyDelivery'
 import MyAccept from './components/MyAccept'
 import MyDetail from './components/MyDetail'
 import MyArrival from './components/MyArrival'
+import MyOrder from './components/MyOrder'
 import MyEmp2 from './components/MyEmp2'
+import MyLnquiry from '../StockArrival/components/MyLnquiry'
 var _that
 export default {
   name: 'Addstockenter',
-  components: { MyEmp2, MyArrival, MyRepository, MySupplier, MyEmp, MyDelivery, MyAccept, MyDetail },
+  components: { MyOrder, MyEmp2, MyArrival, MyRepository, MySupplier, MyEmp, MyDelivery, MyAccept, MyDetail },
   data() {
     const validatePass = (rule, value, callback) => {
       console.log(this.sourceNumber)
@@ -259,6 +272,7 @@ export default {
     //   }
     // }
     return {
+      ordercontrol: false,
       // 合计
       heji1: '',
       // 中转
@@ -388,6 +402,21 @@ export default {
     _that = this
   },
   methods: {
+    order(val) {
+      console.log('ssssss', val)
+      for (let i = 0; i < val.length; i++) {
+        // val[i].arrivalQuantity = (val[i].stockQuantity - val[i].allarrivalQuantity + val[i].returnQuantity).toFixed(2)
+        this.$refs.editable.insert(val[i])
+      }
+    },
+    allOrderinfo(val) {
+      this.personalForm.sourceNumber = val.orderNumber
+      this.personalForm.supplierId = val.supplierId
+      this.supplierId = val.supplierName
+      this.personalForm.stockPersonId = val.stockPersonId
+      this.stockPersonId = val.stockPersonName
+      this.personalForm.stockTypeId = val.stockTypeId
+    },
     // 判断整车或者电池
     isEdit4(row) {
       console.log('222', row)
@@ -463,7 +492,11 @@ export default {
     },
     // 从源单中添加商品
     handleAddSouce() {
-      this.arrivalcontrol = true
+      if (this.personalForm.sourceType === '1') {
+        this.arrivalcontrol = true
+      } else {
+        this.ordercontrol = true
+      }
     },
     arrival(val) {
       console.log(val)
@@ -544,86 +577,6 @@ export default {
         return false
       }
       let i = 1
-      // rest.map(function(elem) {
-      //   return elem
-      // }).forEach(function(elem) {
-      //   if (elem.locationCode === null || elem.locationCode === '' || elem.locationCode === undefined) {
-      //     delete elem.locationId
-      //     i = 2
-      //   }
-      //   if (elem.batch === null || elem.batch === '' || elem.batch === undefined) {
-      //     delete elem.batch
-      //     i = 3
-      //   }
-      //   if (elem.productCode === null || elem.productCode === '' || elem.productCode === undefined) {
-      //     delete elem.productCode
-      //   }
-      //   if (elem.productName === null || elem.productName === '' || elem.productName === undefined) {
-      //     delete elem.productName
-      //   }
-      //   if (elem.color === null || elem.color === '' || elem.color === undefined) {
-      //     delete elem.color
-      //   }
-      //   if (elem.typeId === null || elem.typeId === '' || elem.typeId === undefined) {
-      //     delete elem.typeId
-      //   }
-      //   if (elem.unit === null || elem.unit === '' || elem.unit === undefined) {
-      //     delete elem.unit
-      //   }
-      //   if (elem.basicQuantity === null || elem.basicQuantity === '' || elem.basicQuantity === undefined) {
-      //     delete elem.basicQuantity
-      //   }
-      //   if (elem.actualEnterQuantity === null || elem.actualEnterQuantity === '' || elem.actualEnterQuantity === undefined) {
-      //     delete elem.actualEnterQuantity
-      //   }
-      //   if (elem.remarks === null || elem.remarks === '' || elem.remarks === undefined) {
-      //     delete elem.remarks
-      //   }
-      //   if (elem.enterPrice === null || elem.enterPrice === '' || elem.enterPrice === undefined) {
-      //     delete elem.enterPrice
-      //   }
-      //   if (elem.taxRate === null || elem.taxRate === '' || elem.taxRate === undefined) {
-      //     delete elem.taxRate
-      //   }
-      //   if (elem.enterMoney === null || elem.enterMoney === '' || elem.enterMoney === undefined) {
-      //     delete elem.enterMoney
-      //   }
-      //   return elem
-      // })
-      // if (i === 2) {
-      //   this.$notify.error({
-      //     title: '错误',
-      //     message: '入库商品货位不能为空',
-      //     offset: 100
-      //   })
-      //   return false
-      // }
-      // if (i === 3) {
-      //   this.$notify.error({
-      //     title: '错误',
-      //     message: '入库商品批次不能为空',
-      //     offset: 100
-      //   })
-      //   return false
-      // }
-      // const list = await Promise.all(rest.map(function(item) {
-      //   return locationlist(null, item.locationCode)
-      // }))
-
-      // console.log('list', list)
-
-      // const list2 = list.map(item => {
-      //   return item.data.data.content.list[0]
-      // })
-      // console.log('list2', list2)
-
-      // for (const a in list2) {
-      //   for (const b in EnterDetail2) {
-      //     if (list2[a].locationCode === EnterDetail2[b].locationCode) {
-      //       EnterDetail2[b].locationId = list2[a].id
-      //     }
-      //   }
-      // }
       rest.map(function(elem) {
         return elem
       }).forEach(function(elem) {
@@ -634,11 +587,13 @@ export default {
             console.log('elem.locationId', elem.locationId)
           }
         })
-        if (elem.locationCode === null || elem.locationCode === '' || elem.locationCode === undefined) {
-          i = 4
-        }
         if (elem.locationId === null || elem.locationId === '' || elem.locationId === undefined) {
           delete elem.locationId
+          i = 4
+        }
+        if (elem.batch === null || elem.batch === '' || elem.batch === undefined) {
+          delete elem.batch
+          i = 4
         }
         if (elem.productCode === null || elem.productCode === '' || elem.productCode === undefined) {
           delete elem.productCode
@@ -678,7 +633,7 @@ export default {
       if (i === 4) {
         this.$notify.error({
           title: '错误',
-          message: '商品货位不能为空',
+          message: '商品货位和批次不能为空',
           offset: 100
         })
         return false
@@ -801,7 +756,6 @@ export default {
           if (res.data.ret === 200) {
             if (res.data.data.content.length !== 0) {
               this.locationlist = res.data.data.content
-              scope.row.locationId = res.data.data.content[0].id
             } else if (res.data.data.content.length === 0) {
               locationlist(this.personalForm.enterRepositoryId).then(res => {
                 if (res.data.ret === 200) {
@@ -810,7 +764,20 @@ export default {
               })
             }
           }
+          // if (res.data.ret === 200) {
+          //   if (res.data.data.content.length !== 0) {
+          //     this.locationlist = res.data.data.content
+          //     scope.row.locationId = res.data.data.content[0].id
+          //   } else if (res.data.data.content.length === 0) {
+          //     locationlist(this.personalForm.enterRepositoryId).then(res => {
+          //       if (res.data.ret === 200) {
+          //         this.locationlist = res.data.data.content.list
+          //       }
+          //     })
+          //   }
+          // }
         })
+        console.log('this.location', this.locationlist)
       }
     },
     // 部门列表focus刷新

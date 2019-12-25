@@ -1,147 +1,177 @@
 <template>
-  <div class="ERP-container">
-    <div class="app-container" style="padding-right: 0">
-      <!--基本信息-->
-      <el-card class="box-card" shadow="never">
-        <h2 ref="geren" class="form-name">{{ $t('Hmodule.basicinfo') }}</h2>
-        <div class="container" style="margin-top: 37px">
-          <el-form ref="personalForm" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
-            <el-row>
-              <el-col :span="6">
-                <el-form-item :label="$t('AccessTools.title')" style="width: 100%;">
-                  <el-input v-model="personalForm.title" style="margin-left: 18px;width: 200px" clearable/>
-                </el-form-item>
-              </el-col>
-              <el-col :span="6">
-                <el-form-item :label="$t('accessComponent.accessPersonId')" prop="accessPersonId" style="width: 100%;">
-                  <el-input v-model="accessPersonId" style="margin-left: 18px;width: 200px" @focus="handlechooseStock"/>
-                  <my-emp :control.sync="stockControl" @stockName="stockName"/>
-                </el-form-item>
-              </el-col>
-              <el-col :span="6">
-                <el-form-item :label="$t('accessComponent.handlePersonId')" prop="handlePersonId" style="width: 100%;">
-                  <el-input v-model="handlePersonId" style="margin-left: 18px;width: 200px" @focus="handlechooseStock2"/>
-                  <my-emp2 :control.sync="stockControl2" @stockName2="stockName2"/>
-                </el-form-item>
-              </el-col>
-              <el-col :span="6">
-                <el-form-item :label="$t('accessComponent.accessDate')" prop="accessDate" style="width: 100%;">
-                  <el-date-picker
-                    v-model="personalForm.accessDate"
-                    :picker-options="pickerOptions4"
-                    type="date"
-                    value-format="yyyy-MM-dd"
-                    style="margin-left: 18px;width: 200px"/>
-                </el-form-item>
-              </el-col>
-              <el-col :span="6">
-                <el-form-item :label="$t('AccessTools.accessRepositoryId')" prop="handleRepositoryId" style="width: 100%;">
-                  <el-input v-model="handleRepositoryId" style="margin-left: 18px;width: 200px" @focus="handlechooseRep"/>
-                  <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
-                </el-form-item>
-              </el-col>
-            </el-row>
-          </el-form>
-        </div>
-      </el-card>
-      <!--子件信息-->
-      <el-card class="box-card" style="margin-top: 15px" shadow="never">
-        <h2 ref="fuzhu" class="form-name" >{{ $t('accessComponent.sssd') }}</h2>
-        <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
-          <el-button @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>
-          <my-detail :control.sync="control" @product="productdetail"/>
-          <el-button type="danger" @click="$refs.editable.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
-        </div>
-        <div class="container">
-          <el-editable
-            ref="editable"
-            :data.sync="list2"
-            :edit-config="{ showIcon: true, showStatus: true}"
-            :edit-rules="validRules"
-            class="click-table1"
-            stripe
-            border
-            size="medium"
-            style="width: 100%">
-            <el-editable-column type="selection" width="55" align="center"/>
-            <el-editable-column label="编号" width="55" align="center" type="index"/>
-            <el-editable-column :label="$t('Hmodule.hw')" prop="location" align="center" min-width="150">
-              <template slot-scope="scope">
-                <p>{{ getLocationData(scope.row) }}</p>
-              </template>
-            </el-editable-column>
-            <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('Hmodule.pc')" prop="batch" align="center" min-width="150" >
-              <template slot="edit" slot-scope="scope">
-                <el-select v-if="scope.row.batch !== '不使用'" v-model="scope.row.batch" :value="scope.row.batch" :placeholder="$t('Hmodule.xcpc')" filterable clearable style="width: 100%;" @visible-change="updatebatch2($event,scope)">
+  <el-dialog :visible.sync="editVisible" :editcontrol="editcontrol" :editdata="editdata" :close-on-press-escape="false" ::title="$t('updates.xg')" width="1010px" class="edit" top="-10px" @close="$emit('update:editcontrol', false)">
+    <!--基本信息-->
+    <el-card class="box-card" style="margin-top: 63px" shadow="never">
+      <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('Hmodule.basicinfo') }}</h2>
+      <div class="container" style="margin-top: 37px">
+        <el-form ref="personalForm" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
+          <el-row>
+            <el-col :span="12">
+              <el-form-item :label="$t('AccessTools.title')" prop="title" style="width: 100%;">
+                <el-input v-model="personalForm.title" style="margin-left: 18px;width: 200px" clearable/>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('AccessTools.applyDate')" prop="applyDate" style="width: 100%;">
+                <el-date-picker
+                  v-model="personalForm.applyDate"
+                  type="date"
+                  value-format="yyyy-MM-dd"
+                  style="margin-left: 18px;width: 200px"/>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('AccessTools.accessDate')" prop="accessDate" style="width: 100%;">
+                <el-date-picker
+                  v-model="personalForm.accessDate"
+                  type="date"
+                  value-format="yyyy-MM-dd"
+                  style="margin-left: 18px;width: 200px"/>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('AccessTools.applyPersonId')" prop="applyPersonId" style="width: 100%;">
+                <el-input v-model="applyPersonId" style="margin-left: 18px;width: 200px" @focus="handlechooseStock"/>
+                <my-emp :control.sync="stockControl" @stockName="stockName"/>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('AccessTools.deptId')" prop="deptId" style="width: 100%;">
+                <el-select v-model="personalForm.deptId" clearable style="margin-left: 18px;width: 200px">
                   <el-option
-                    v-for="(item, index) in batchlist"
+                    v-for="(item, index) in depts"
                     :key="index"
-                    :value="item"
-                    :label="item"/>
+                    :value="item.id"
+                    :label="item.deptName"/>
                 </el-select>
-                <span v-else>{{ scope.row.batch }}</span>
-              </template>
-            </el-editable-column>
-            <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" align="center" width="150px"/>
-            <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" align="center" width="150px"/>
-            <el-editable-column :label="$t('updates.ys')" prop="color" align="center" width="150px"/>
-            <el-editable-column :label="$t('Hmodule.gg')" prop="typeIdname" align="center" width="150px"/>
-            <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" width="150px"/>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 1.00, precision: 2}, type: 'visible'}" :label="$t('accessComponent.accessQuantity')" prop="outQuantity" align="center" min-width="150">
-              <template slot="edit" slot-scope="scope">
-                <el-input-number
-                  :precision="2"
-                  :controls="true"
-                  :min="1.00"
-                  v-model="scope.row.accessQuantity"
-                  @change="queryStock(scope.row)"
-                />
-              </template>
-            </el-editable-column>
-            <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.dcbm')" prop="batteryCode" align="center" min-width="150" >
-              <template slot="edit" slot-scope="scope">
-                <el-input v-if="isEdit4(scope.row)" v-model="scope.row.batteryCode" clearable />
-                <span v-else>{{ scope.row.batteryCode }}</span>
-              </template>
-            </el-editable-column>
-          </el-editable>
-        </div>
-      </el-card>
-      <!--操作-->
-      <div class="buttons" style="margin-top: 20px">
-        <el-button v-no-more-click type="primary" style="background:#3696fd;border-color:#3696fd;width: 98px" @click="handlesave()">{{ $t('Hmodule.baoc') }}</el-button>
-        <el-button type="danger" @click="handlecancel()">{{ $t('Hmodule.cancel') }}</el-button>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('AccessTools.useType')" style="width: 100%;">
+                <el-select v-model="personalForm.useType" style="margin-left: 18px;width: 200px">
+                  <el-option value="1" label="维修" />
+                  <el-option value="2" label="其他" />
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('AccessTools.emergencyLevel')" prop="emergencyLevel" style="width: 100%;">
+                <el-select v-model="personalForm.emergencyLevel" style="margin-left: 18px;width: 200px">
+                  <el-option value="1" label="紧急" />
+                  <el-option value="2" label="不紧急" />
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('AccessTools.reason')" prop="applyReason" style="width: 100%;">
+                <el-input v-model="personalForm.applyReason" style="margin-left: 18px;width: 200px" clearable/>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('AccessTools.accessRepositoryId')" prop="accessRepositoryId" style="width: 100%;">
+                <el-input v-model="accessRepositoryId" style="margin-left: 18px;width: 200px" @focus="handlechooseRep"/>
+                <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
+              </el-form-item>
+            </el-col>
+          </el-row>
+        </el-form>
       </div>
-    </div>
-  </div>
+    </el-card>
+    <!--子件信息-->
+    <el-card class="box-card" style="margin-top: 15px" shadow="never">
+      <h2 ref="fuzhu" class="form-name" >{{ $t('updates.gjmx') }}</h2>
+      <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
+        <el-button @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>
+        <my-detail :control.sync="control" @product="productdetail"/>
+        <el-button type="danger" @click="$refs.editable.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
+      </div>
+      <div class="container">
+        <el-editable
+          ref="editable"
+          :data.sync="list2"
+          :edit-config="{ showIcon: true, showStatus: true}"
+          :edit-rules="validRules"
+          class="click-table1"
+          stripe
+          border
+          size="medium"
+          style="width: 100%">
+          <el-editable-column type="selection" min-width="55" align="center"/>
+          <el-editable-column :label="$t('Hmodule.xh')" min-width="55" align="center" type="index"/>
+          <el-editable-column :label="$t('updates.gjbh')" prop="toolsCode" align="center" min-width="150px"/>
+          <el-editable-column :label="$t('updates.gjmc')" prop="toolsName" align="center" min-width="150px"/>
+          <!--            <el-editable-column prop="productCategory" align="center" :label="$t('updates.wpfl')" min-width="150px"/>-->
+          <el-editable-column :label="$t('updates.jbdw')" prop="unit" align="center" min-width="150px"/>
+          <!--            <el-editable-column prop="productType" align="center" :label="$t('updates.ggxh')" min-width="150px"/>-->
+          <!--            <el-editable-column prop="color" align="center" :label="$t('updates.ys')" min-width="150px"/>-->
+          <!--          <el-editable-column :edit-render="{type: 'default'}" prop="locationId" align="center" :label="$t('Hmodule.hw')" width="200px">-->
+          <!--            <template slot-scope="scope">-->
+          <!--              <el-select v-model="scope.row.locationId" :value="scope.row.locationId" :placeholder="$t('Hmodule.xzhw')" filterable clearable style="width: 100%;" @visible-change="updatebatch($event,scope)">-->
+          <!--                <el-option-->
+          <!--                  v-for="(item, index) in locationlist"-->
+          <!--                  :key="index"-->
+          <!--                  :value="item.id"-->
+          <!--                  :label="item.locationCode"/>-->
+          <!--              </el-select>-->
+          <!--            </template>-->
+          <!--          </el-editable-column>-->
+          <el-editable-column :edit-render="{name: 'ElInputNumber', type: 'visible'}" :label="$t('updates.shuli')" prop="quantity" align="center" width="150px"/>
+          <el-editable-column :label="$t('updates.stat')" prop="stat" align="center" min-width="150px">
+            <template slot-scope="scope">
+              <p>{{ scope.row.stat | statFilter }}</p>
+            </template>
+          </el-editable-column>
+        </el-editable>
+      </div>
+    </el-card>
+    <el-card class="box-card" style="position: fixed;width: 1010px;z-index: 100;height: 74px;bottom: 0;" shadow="never">
+      <div class="buttons" style="float: right;padding-bottom: 10px">
+        <el-button @click="handlecancel()">{{ $t('Hmodule.cancel') }}</el-button>
+        <el-button type="primary" @click="handleEditok()">{{ $t('Hmodule.baoc') }}</el-button>
+      </div>
+    </el-card>
+  </el-dialog>
 </template>
 
 <script>
-import '@/directive/noMoreClick/index.js'
-import { batchlist, getlocation } from '@/api/public'
-import { addAccessComponent } from '@/api/AccessComponent'
+import { updateAccessTools } from '@/api/AccessTools'
 import { getdeptlist } from '@/api/BasicSettings'
 import { searchStockCategory } from '@/api/StockCategory'
 import { searchSaleCategory } from '@/api/SaleCategory'
 import { searchCategory } from '@/api/Supplier'
 import { ratelist } from '@/api/Installmentrate'
 import { getlocation6 } from '@/api/public'
-import MyEmp from './components/MyEmp'
-import MyEmp2 from './components/MyEmp'
-import MyDetail from './components/MyDetail'
-import MySupplier from './components/MySupplier'
-import MyApply from './components/MyApply'
-import MyPlan from './components/MyPlan'
-import MyDelivery from './components/MyDelivery'
-import MyRepository from './components/MyRepository'
-import MyOpportunity from './components/MyOpportunity'
-import MyInstallmentapply from './components/MyInstallmentapply'
-import MyCustomer from '../SaleOpportunity/components/MyCustomer'
-import MyAgent from '../SaleOpportunity/components/MyAgent'
+import MyEmp from './MyEmp'
+import MyDetail from './MyDetail'
+import MyApply from './MyApply'
+import MyDelivery from './MyDelivery'
+import MyRepository from './MyRepository'
+import MyOpportunity from './MyOpportunity'
+import MyAgent from './MyAgent'
+import MyCustomer from '../../SaleOpportunity/components/MyCustomer'
+// eslint-disable-next-line no-unused-vars
 var _that
 export default {
-  name: 'AddAccessTools',
-  components: { MyAgent, MyCustomer, MyInstallmentapply, MyOpportunity, MyDelivery, MyPlan, MyApply, MySupplier, MyDetail, MyEmp, MyEmp2, MyRepository },
+  components: { MyCustomer, MyOpportunity, MyDelivery, MyApply, MyDetail, MyEmp, MyAgent, MyRepository },
+  filters: {
+    statFilter(status) {
+      const statusMap = {
+        1: '借出',
+        2: '归还'
+      }
+      return statusMap[status]
+    }
+  },
+  props: {
+    editcontrol: {
+      type: Boolean,
+      default: false
+    },
+    editdata: {
+      type: Object,
+      default: null
+    }
+  },
   data() {
     const validatePass4 = (rule, value, callback) => {
       if (this.customerId === undefined || this.customerId === null || this.customerId === '') {
@@ -151,8 +181,8 @@ export default {
       }
     }
     const validatePass = (rule, value, callback) => {
-      console.log(this.handleRepositoryId)
-      if (this.handleRepositoryId === undefined || this.handleRepositoryId === null || this.handleRepositoryId === '') {
+      console.log(this.accessRepositoryId)
+      if (this.accessRepositoryId === undefined || this.accessRepositoryId === null || this.accessRepositoryId === '') {
         callback(new Error('请选择仓库'))
       } else {
         callback()
@@ -168,18 +198,13 @@ export default {
     }
     const validatePass3 = (rule, value, callback) => {
       console.log(this.applyPersonId)
-      if (this.accessPersonId === undefined || this.accessPersonId === null || this.accessPersonId === '') {
-        callback(new Error('请选择领用人'))
+      if (this.applyPersonId === undefined || this.applyPersonId === null || this.applyPersonId === '') {
+        callback(new Error('请选择申请员'))
       } else {
         callback()
       }
     }
     return {
-      pickerOptions4: {
-        disabledDate: (time) => {
-          // return time.getTime() < new Date(this.personalForm.signDate).getTime() - 8.64e7
-        }
-      },
       pickerOptions0: {
         disabledDate: (time) => {
           if (this.personalForm.installmentEndtime !== null) {
@@ -199,10 +224,6 @@ export default {
           return time.getTime() < new Date().getTime() - 8.64e7
         }
       },
-      // 控制商品列表窗口
-      control: false,
-      // 控制门店
-      repositorycontrol: false,
       // 分期数据
       installmentCounts: [],
       // 分期期数参数
@@ -211,6 +232,25 @@ export default {
         pagenum: 1,
         pagesize: 9999
       },
+      // 是否可以编辑分期数据
+      isinstallappley: false,
+      // 回显客户
+      customerId: '',
+      // 控制客户弹窗
+      customercontrol: false,
+      accessRepositoryId: '',
+      // 分期申请
+      installappleycontrol: false,
+      // 销售门店
+      saleRepositoryId: this.$store.getters.repositoryName,
+      // 业务员回显
+      salePersonId: this.$store.getters.name,
+      // 选择的数据
+      choosedata: [],
+      // 弹窗组件的控制
+      editVisible: this.editcontrol,
+      // 修改信息数据
+      personalForm: this.editdata,
       // 控制经销商
       agentcontrol: false,
       // 开票类别数据
@@ -221,8 +261,6 @@ export default {
         pagenum: 1,
         pagesize: 99999
       },
-      // 出库明细中货位数据
-      locationlist: [],
       // 结算方式数据
       colseTypes: [],
       // 结算方式获取参数
@@ -231,23 +269,16 @@ export default {
         pagenum: 1,
         pagesize: 99999
       },
-      // 是否可以编辑分期数据
-      isinstallappley: false,
-      // 回显客户
-      batchlist: [],
-      customerId: '',
-      // 控制客户弹窗
-      customercontrol: false,
       // 合计数据
       allNumber: '',
-      handleRepositoryId: '',
       allMoney: '',
       allTaxMoney: '',
       allIncludeTaxMoney: '',
       allDiscountMoney: '',
       allMoneyMoveDiscount: '',
-      // 分期申请
-      installappleycontrol: false,
+      applyPersonId: '',
+      // 控制门店
+      repositorycontrol: false,
       // 交货方式
       giveIds: [],
       // 运送方式
@@ -266,20 +297,14 @@ export default {
       addsouce: true,
       // 供应商回显
       supplierId: '',
+      // 出库明细中货位数据
+      locationlist: [],
       // 控制供应商
       empcontrol: false,
-      // 选择的数据
-      choosedata: [],
       // 部门数据
       depts: [],
-      // 销售门店
-      saleRepositoryId: this.$store.getters.repositoryName,
-      accessPersonId: '',
-      // 业务员回显
-      handlePersonId: this.$store.getters.name,
       // 控制业务员
       stockControl: false,
-      stockControl2: false,
       // 类别数据
       types: [],
       // 类别获取参数
@@ -287,36 +312,20 @@ export default {
         pagenum: 1,
         pagesize: 99999
       },
-      // 采购申请单信息数据
-      personalForm: {
-        createPersonId: this.$store.getters.userId,
-        countryId: this.$store.getters.countryId,
-        repositoryId: this.$store.getters.repositoryId,
-        regionId: this.$store.getters.regionId,
-        handlePersonId: this.$store.getters.userId,
-        isVat: 1,
-        installmentEndtime: null,
-        installmentBegintime: null,
-        notaryDate: null,
-        deptId: this.$store.getters.deptId,
-        saleRepositoryId: this.$store.getters.repositoryId,
-        customerType: '2',
-        signDate: null,
-        saleType: '1',
-        useType: '1'
-      },
+      // 控制商品列表窗口
+      control: false,
       // 采购申请单规则数据
       personalrules: {
         emergencyLevel: [
           { required: true, message: '请选择紧急程度', trigger: 'change' }
         ],
-        handleRepositoryId: [
+        accessRepositoryId: [
           { required: true, validator: validatePass, trigger: 'change' }
         ],
         inquiryPersonId: [
           { required: true, validator: validatePass2, trigger: 'change' }
         ],
-        accessPersonId: [
+        applyPersonId: [
           { required: true, validator: validatePass3, trigger: 'change' }
         ],
         title: [
@@ -345,81 +354,46 @@ export default {
       }
     }
   },
+  watch: {
+    editcontrol() {
+      this.editVisible = this.editcontrol
+      console.log(222)
+    },
+    editdata() {
+      console.log(111)
+      this.personalForm = this.editdata
+      this.accessRepositoryId = this.personalForm.accessRepositoryName
+      this.applyPersonId = this.personalForm.applyPersonName
+      this.stockPersonId = this.personalForm.stockPersonName
+      this.salePersonId = this.personalForm.salePersonName
+      this.customerId = this.personalForm.customerName
+      this.personalForm.useType = String(this.personalForm.useType)
+      this.personalForm.emergencyLevel = String(this.personalForm.emergencyLevel)
+      this.list2 = this.personalForm.accessToolsDetails
+      this.getlocation6()
+    }
+  },
   created() {
     this.getTypes()
     this.getways()
     this.getratelist()
-    this.getdatatime()
   },
   beforeCreate() {
     _that = this
   },
   methods: {
-    isEdit4(row) {
-      console.log('222', row)
-      const re = row.productCode.slice(0, 2)
-      if (re === '01' || re === '05') { return true } else { return false }
-    },
-    queryStock(row) {
-      if (row.location === null || row.location === '' || row.location === undefined) {
-        this.$notify.error({
-          title: '错误',
-          message: '仓库不存在此商品!',
-          offset: 100
-        })
-        row.outQuantity = 1
-        return false
-      }
-    },
-    updatebatch2(event, scope) {
-      if (event === true) {
-        const parms3 = scope.row.productCode
-        batchlist(this.personalForm.handleRepositoryId, parms3).then(res => {
-          console.log(res)
-          this.batchlist = res.data.data.content
-        })
-      }
-    },
-    getLocationData(row) {
-      // 默认批次
-      if (row.batch === null || row.batch === '' || row.batch === undefined) {
-        const parms3 = row.productCode
-        batchlist(this.personalForm.handleRepositoryId, parms3).then(res => {
-          console.log(res)
-          if (res.data.data.content.length > 0) {
-            row.batch = res.data.data.content[0]
-          }
-        })
-      } else {
-        const parms3 = row.productCode
-        batchlist(this.personalForm.handleRepositoryId, parms3).then(res => {
-          if (res.data.data.content.length === 0) {
-            if (row.batch !== '不使用') {
-              row.batch = null
-            }
-          }
-        })
-      }
-      // 默认货位
-      getlocation(this.personalForm.handleRepositoryId, row).then(res => {
-        if (res.data.ret === 200) {
-          console.log('res', res)
-          if (res.data.data.content.length !== 0) {
-            row.location = res.data.data.content[0].locationCode
-            row.locationId = res.data.data.content[0].id
-            console.log('row.locationId', row.locationId)
-          } else {
-            row.location = null
-            row.locationId = null
-          }
-        }
-      })
-      return row.location
+    getlocation6() {
+      // 货位根据仓库id展现
+      // locationlist(this.personalForm.accessRepositoryId).then(res => {
+      //   if (res.data.ret === 200) {
+      //     this.locationlist = res.data.data.content.list
+      //   }
+      // })
     },
     updatebatch(event, scope) {
       if (event === true) {
-        console.log('handleRepositoryId', this.personalForm.handleRepositoryId)
-        if (this.personalForm.handleRepositoryId === undefined || this.personalForm.handleRepositoryId === '' || this.personalForm.handleRepositoryId === null) {
+        console.log(this.personalForm.accessRepositoryId)
+        if (this.personalForm.accessRepositoryId === undefined || this.personalForm.accessRepositoryId === '') {
           this.$notify.error({
             title: '错误',
             message: '请先选择仓库',
@@ -427,7 +401,7 @@ export default {
           })
           return false
         }
-        getlocation6(this.personalForm.handleRepositoryId, scope.row).then(res => {
+        getlocation6(this.personalForm.accessRepositoryId, scope.row).then(res => {
           if (res.data.ret === 200) {
             if (res.data.data.content.length !== 0) {
               this.locationlist = res.data.data.content
@@ -445,28 +419,31 @@ export default {
         })
       }
     },
-    // 无来源添加商品
-    handleAddproduct() {
-      if (this.handleRepositoryId === null || this.handleRepositoryId === '' || this.handleRepositoryId === undefined) {
-        this.$notify.error({
-          title: '错误',
-          message: '请先选择出库仓库',
-          offset: 100
-        })
-        return false
+    productdetail(val) {
+      console.log('val', val)
+      const nowlistdata = this.$refs.editable.getRecords()
+      console.log('nowlistdata', nowlistdata)
+      for (let i = 0; i < val.length; i++) {
+        console.log(val[i].price)
+        for (let j = 0; j < nowlistdata.length; j++) {
+          if (val[i].toolsCode === nowlistdata[j].toolsCode) {
+            this.$notify.error({
+              title: '错误',
+              message: '物品已添加',
+              offset: 100
+            })
+            return false
+          }
+        }
+        this.$refs.editable.insert(val[i])
       }
-      this.control = true
     },
     handlechooseRep() {
       this.repositorycontrol = true
     },
     repositoryname(val) {
-      this.handleRepositoryId = val.repositoryName
-      this.personalForm.handleRepositoryId = val.id
-    },
-    getdatatime() { // 默认显示今天
-      this.personalForm.applyDate = new Date()
-      this.personalForm.accessDate = new Date()
+      this.accessRepositoryId = val.repositoryName
+      this.personalForm.accessRepositoryId = val.id
     },
     change() {
       this.$forceUpdate()
@@ -596,7 +573,6 @@ export default {
     gettaxRate(row) {
       if (row.taxprice !== 0) {
         row.taxprice = (row.salePrice * (1 + row.taxRate / 100)).toFixed(2)
-        row.discountMoney = row.includeTaxCostMoney * row.discountRate
       }
     },
     // 计算税额
@@ -679,8 +655,8 @@ export default {
     },
     opportunity(val) {
       this.personalForm.sourceNumber = val.opportunityNumber
-      this.personalForm.accessPersonId = val.handlePersonId
-      this.accessPersonId = val.handlePersonName
+      this.personalForm.salePersonId = val.handlePersonId
+      this.salePersonId = val.handlePersonName
     },
     installappleyDetail(val) {
       console.log(val)
@@ -748,27 +724,14 @@ export default {
     handlechooseStock() {
       this.stockControl = true
     },
-    // 业务员focus事件
-    handlechooseStock2() {
-      this.stockControl2 = true
-    },
     // 业务员回显
     stockName(val) {
-      console.log('ewww', val)
-      this.accessPersonId = val.personName
-      this.personalForm.accessPersonId = val.id
-      this.personalForm.deptId = val.deptId
-      this.personalForm.handleRepositoryId = val.repositoryId
-      this.handleRepositoryId = val.repositoryName
-    },
-    // 业务员回显
-    stockName2(val) {
       console.log(val)
-      this.handlePersonId = val.personName
-      this.personalForm.handlePersonId = val.id
-      this.personalForm.deptId = val.deptId
-      this.personalForm.saleRepositoryId = val.repositoryId
-      this.saleRepositoryId = val.repositoryName
+      this.applyPersonId = val.personName
+      this.personalForm.applyPersonId = val.id
+      // this.personalForm.deptId = val.deptId
+      // this.personalForm.saleRepositoryId = val.repositoryId
+      // this.saleRepositoryId = val.repositoryName
     },
     // 我方签约人foucs事件触发
     handlechooseDelivery() {
@@ -778,12 +741,9 @@ export default {
       this.ourContractorId = val.personName
       this.personalForm.ourContractorId = val.id
     },
-    productdetail(val) {
-      console.log(val)
-      const nowlistdata = this.$refs.editable.getRecords()
-      for (let i = 0; i < val.length; i++) {
-        this.$refs.editable.insert(val[i])
-      }
+    // 采购申请明细来源
+    handleAddproduct() {
+      this.control = true
     },
     // 清空记录
     restAllForm() {
@@ -792,27 +752,12 @@ export default {
         countryId: this.$store.getters.countryId,
         repositoryId: this.$store.getters.repositoryId,
         regionId: this.$store.getters.regionId,
-        handlePersonId: this.$store.getters.userId,
-        accessPersonId: null,
-        isVat: 1,
-        installmentEndtime: null,
-        installmentBegintime: null,
-        notaryDate: null,
-        deptId: this.$store.getters.deptId,
-        saleRepositoryId: this.$store.getters.repositoryId,
-        customerType: '2',
-        signDate: null,
-        saleType: '1',
-        useType: '1'
+        isVat: 1
       }
-      this.handlePersonId = this.$store.getters.name
-      this.accessPersonId = null
+      this.supplierId = null
       this.inquiryPersonId = null
       this.stockPersonId = null
       this.ourContractorId = null
-      this.customerId = null
-      this.isinstallappley = false
-      this.getdatatime()
     },
     // 深拷贝
     deepClone(obj) {
@@ -820,66 +765,26 @@ export default {
       const objClone = JSON.parse(_obj)
       return objClone
     },
-    // 保存操作
-    handlesave() {
+    // 修改和取消按钮
+    // 修改按钮
+    handleEditok() {
       this.$refs.personalForm.validate((valid) => {
         if (valid) {
+          this.personalForm.repositoryId = this.$store.getters.repositoryId
+          this.personalForm.regionId = this.$store.getters.regionId
+          this.personalForm.createPersonId = this.$store.getters.userId
+          this.personalForm.countryId = this.$store.getters.countryId
+          this.personalForm.modifyPersonId = this.$store.getters.userId
           const EnterDetail = this.deepClone(this.$refs.editable.getRecords())
-          console.log(EnterDetail)
-          if (EnterDetail.length === 0) {
-            this.$notify.error({
-              title: '错误',
-              message: '明细表不能为空',
-              offset: 100
-            })
-            return false
-          }
-          let b = 1
-          let c = 1
-          EnterDetail.map(function(elem) {
-            return elem
-          }).forEach(function(elem) {
-            const re = elem.productCode.slice(0, 2)
-            if (re === '01' || re === '05') {
-              if (elem.batteryCode === null || elem.batteryCode === undefined || elem.batteryCode === '') {
-                b = 2
-              }
-              if (elem.accessQuantity !== 1) {
-                c = 2
-              }
-            }
-          })
-          if (c === 2) {
-            this.$notify.error({
-              title: '错误',
-              message: '电池出库时数量必须为1',
-              offset: 100
-            })
-            return false
-          }
-          if (b === 2) {
-            this.$notify.error({
-              title: '错误',
-              message: '电池出库时电池编码必填',
-              offset: 100
-            })
-            return false
-          }
-          console.log('length', EnterDetail.length)
           if (EnterDetail.length !== 0) {
-            console.log(11)
             EnterDetail.map(function(elem) {
               return elem
             }).forEach(function(elem) {
-              elem.stat = '1'
-              elem.lossQuantity = '0.0'
-              elem.usedQuantity = '0.0'
-              elem.returnQuantity = '0.0'
-              if (elem.toolsCode === null || elem.toolsCode === '' || elem.toolsCode === undefined) {
-                delete elem.toolsCode
+              if (elem.productCode === null || elem.productCode === '' || elem.productCode === undefined) {
+                delete elem.productCode
               }
-              if (elem.toolsName === null || elem.toolsName === '' || elem.toolsName === undefined) {
-                delete elem.toolsName
+              if (elem.productName === null || elem.productName === '' || elem.productName === undefined) {
+                delete elem.productName
               }
               if (elem.type === null || elem.type === '' || elem.type === undefined) {
                 delete elem.type
@@ -893,8 +798,8 @@ export default {
               if (elem.plannedQuantity === null || elem.plannedQuantity === '' || elem.plannedQuantity === undefined) {
                 delete elem.plannedQuantity
               }
-              if (elem.locationId === null || elem.locationId === '' || elem.locationId === undefined) {
-                delete elem.locationId
+              if (elem.requireDate === null || elem.requireDate === '' || elem.requireDate === undefined) {
+                delete elem.requireDate
               }
               if (elem.reason === null || elem.reason === '' || elem.reason === undefined) {
                 delete elem.reason
@@ -948,23 +853,24 @@ export default {
               }
             }
             const parms = JSON.stringify(Data)
-            addAccessComponent(parms, parms2, this.personalForm).then(res => {
-              console.log(res)
+            updateAccessTools(parms, parms2).then(res => {
               if (res.data.ret === 200) {
                 this.$notify({
-                  title: '成功',
-                  message: '保存成功',
+                  title: '操作成功',
+                  message: '操作成功',
                   type: 'success',
+                  duration: 1000,
                   offset: 100
                 })
-                this.restAllForm()
+                this.$emit('rest', true)
                 this.$refs.editable.clear()
                 this.$refs.personalForm.clearValidate()
                 this.$refs.personalForm.resetFields()
+                this.editVisible = false
               } else {
                 this.$notify.error({
                   title: '错误',
-                  message: res.data.msg,
+                  message: '出错了',
                   offset: 100
                 })
               }
@@ -987,34 +893,32 @@ export default {
         }
       })
     },
-    // 取消操作
     handlecancel() {
-      this.$router.go(-1)
-      const view = { path: '/SaleContract/AddSaleContract', name: 'AddSaleContract', fullPath: '/SaleContract/AddSaleContract', title: 'AddSaleContract' }
-      this.$store.dispatch('delView', view).then(({ visitedViews }) => {
-      })
+      this.$refs.editable.clear()
+      this.$refs.personalForm.clearValidate()
+      this.$refs.personalForm.resetFields()
+      this.editVisible = false
     }
+    // 修改操作结束 -------------------------------------------------
   }
 }
 </script>
 
 <style rel="stylesheet/css" scoped>
-  .ERP-container >>> .el-input-number.is-without-controls .el-input__inner{
+  .container >>> .el-form-item.is-required:not(.is-no-asterisk)>.el-form-item__label:before{
+    margin-left: -10px;
+  }
+  .container >>> .el-form-item__label{
     text-align: left;
   }
-  .ERP-container {
-    margin-right: 0;
+  .container >>> .el-form-item__label{
+    color: #60626696;
   }
-  .form-name{
-    font-size: 18px;
-    color: #373e4f;
-    margin-bottom: -20px;
-    margin-top: 20px;
+  .edit >>> .el-dialog {
+    background:#f1f1f1 ;
+    left: 0;
   }
-  .container{
-    margin-top: 40px;
-  }
-  .el-button+.el-button{
-    width: 98px;
+  .el-col-12{
+    width: 49%;
   }
 </style>
