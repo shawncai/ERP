@@ -560,10 +560,8 @@ export default {
       sums[2] = ''
       this.allmoney = sums[8]
       if (this.isshow === true) {
-        console.log(123)
         this.personalForm.penaltyMoney = sums[6]
         this.personalForm.totalLackMoney = sums[9]
-        console.log(12333)
         const jiangli = Number(sums[5])
         const zhina = Number(sums[6])
         const zhuanghua = zhina - jiangli
