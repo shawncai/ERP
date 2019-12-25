@@ -288,6 +288,7 @@ export default {
     isshow9(row) {
       console.log('调入确认', row.judgeStat === 2 && row.storageMoveDetailConfirmVos.length !== row.storageMoveDetailVos.length)
       console.log('本人登录所在门店或者仓库', this.$store.getters.repositoryId)
+      console.log('本人登录所在区域', this.$store.getters.regionId)
       console.log('本条数据上的调拨出库', row)
       let z = 2
       const moveconfirmbutton = row.storageMoveDetailVos
