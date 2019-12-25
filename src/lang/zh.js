@@ -3796,7 +3796,8 @@ export default {
     bnljfse: '本年累计发生额',
     qmye: '期末余额',
     jf: '借方',
-    df: '贷方'
+    df: '贷方',
+    zcfp: '重新分派'
   },
   accessComponent: {
     accessPersonId: '领用人',
