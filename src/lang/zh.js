@@ -3799,6 +3799,7 @@ export default {
     accessQuantity: '领用数量',
     ppp: '确认人',
     ooo: '确认时间',
+    sssd: '维修零件明细',
     returnQuantity: '归还数量'
   }
 }
