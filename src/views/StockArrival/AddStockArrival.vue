@@ -1024,7 +1024,7 @@ export default {
         }
       })
     },
-    // 取消操作
+    // 取消操作请选择源单类型
     handlecancel() {
       this.$router.go(-1)
       const view = { path: '/StockArrival/AddStockArrival', name: 'AddStockArrival', fullPath: '/StockArrival/AddStockArrival', title: 'AddStockArrival' }
