@@ -86,40 +86,40 @@
         </el-editable>
       </div>
     </el-card>
-    <el-card class="box-card" style="margin-top: 15px;margin-bottom: 40px" shadow="never">
-      <h2 ref="fuzhu" class="form-name" >{{ $t('updates.qsmx') }}</h2>
-      <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
-        <el-button @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>
-        <my-detail :control.sync="control" @product="productdetail"/>
-        <el-button type="danger" @click="$refs.editable2.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
-      </div>
-      <div class="container">
-        <el-editable
-          ref="editable2"
-          :data.sync="list3"
-          :edit-config="{ showIcon: true, showStatus: true}"
-          class="click-table1"
-          stripe
-          border
-          size="medium"
-          style="width: 100%">
-          <el-editable-column type="selection" min-width="55" align="center"/>
-          <el-editable-column :label="$t('Hmodule.xh')" min-width="55" align="center" type="index"/>
-          <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" align="center" min-width="150px"/>
-          <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" align="center" min-width="150px"/>
-          <el-editable-column :label="$t('updates.wpfl')" prop="productCategoryName" align="center" min-width="150px"/>
-          <el-editable-column :label="$t('updates.jbdw')" prop="unit" align="center" min-width="150px"/>
-          <el-editable-column :label="$t('updates.ggxh')" prop="productTypeName" align="center" min-width="150px"/>
-          <el-editable-column :label="$t('updates.ys')" prop="color" align="center" min-width="150px"/>
-          <el-editable-column :label="$t('updates.jxf')" prop="kpiGrade" align="center" min-width="150px"/>
-          <el-editable-column :label="$t('updates.spjf')" prop="point" align="center" min-width="150px"/>
-          <el-editable-column :label="$t('Hmodule.dj')" prop="price" align="center" min-width="150px"/>
-          <el-editable-column :label="$t('updates.cjbm')" prop="carCode" align="center" min-width="150px"/>
-          <el-editable-column :label="$t('updates.dcbm')" prop="batteryCode" align="center" min-width="150px"/>
-          <el-editable-column :label="$t('updates.djbm')" prop="motorCode" align="center" min-width="150px"/>
-        </el-editable>
-      </div>
-    </el-card>
+    <!--    <el-card class="box-card" style="margin-top: 15px;margin-bottom: 40px" shadow="never">-->
+    <!--      <h2 ref="fuzhu" class="form-name" >{{ $t('updates.qsmx') }}</h2>-->
+    <!--      <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">-->
+    <!--        <el-button @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>-->
+    <!--        <my-detail :control.sync="control" @product="productdetail"/>-->
+    <!--        <el-button type="danger" @click="$refs.editable2.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>-->
+    <!--      </div>-->
+    <!--      <div class="container">-->
+    <!--        <el-editable-->
+    <!--          ref="editable2"-->
+    <!--          :data.sync="list3"-->
+    <!--          :edit-config="{ showIcon: true, showStatus: true}"-->
+    <!--          class="click-table1"-->
+    <!--          stripe-->
+    <!--          border-->
+    <!--          size="medium"-->
+    <!--          style="width: 100%">-->
+    <!--          <el-editable-column type="selection" min-width="55" align="center"/>-->
+    <!--          <el-editable-column :label="$t('Hmodule.xh')" min-width="55" align="center" type="index"/>-->
+    <!--          <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" align="center" min-width="150px"/>-->
+    <!--          <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" align="center" min-width="150px"/>-->
+    <!--          <el-editable-column :label="$t('updates.wpfl')" prop="productCategoryName" align="center" min-width="150px"/>-->
+    <!--          <el-editable-column :label="$t('updates.jbdw')" prop="unit" align="center" min-width="150px"/>-->
+    <!--          <el-editable-column :label="$t('updates.ggxh')" prop="productTypeName" align="center" min-width="150px"/>-->
+    <!--          <el-editable-column :label="$t('updates.ys')" prop="color" align="center" min-width="150px"/>-->
+    <!--          <el-editable-column :label="$t('updates.jxf')" prop="kpiGrade" align="center" min-width="150px"/>-->
+    <!--          <el-editable-column :label="$t('updates.spjf')" prop="point" align="center" min-width="150px"/>-->
+    <!--          <el-editable-column :label="$t('Hmodule.dj')" prop="price" align="center" min-width="150px"/>-->
+    <!--          <el-editable-column :label="$t('updates.cjbm')" prop="carCode" align="center" min-width="150px"/>-->
+    <!--          <el-editable-column :label="$t('updates.dcbm')" prop="batteryCode" align="center" min-width="150px"/>-->
+    <!--          <el-editable-column :label="$t('updates.djbm')" prop="motorCode" align="center" min-width="150px"/>-->
+    <!--        </el-editable>-->
+    <!--      </div>-->
+    <!--    </el-card>-->
     <el-card class="box-card" style="position: fixed;width: 1010px;z-index: 100;height: 74px;bottom: 0;" shadow="never">
       <div class="buttons" style="float: right;padding-bottom: 10px">
         <el-button @click="handlecancel()">{{ $t('Hmodule.cancel') }}</el-button>
