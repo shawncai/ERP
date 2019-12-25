@@ -214,7 +214,9 @@ export default {
       // 员工选择框控制
       employeeVisible: this.control,
       // 小区经理选择框控制
-      regionManagerVisible: false
+      regionManagerVisible: false,
+      flagarr: [],
+      myarr: []
     }
   },
   watch: {
@@ -222,6 +224,11 @@ export default {
       this.employeeVisible = this.control
       console.log(this.control)
       this.gitemplist()
+      setTimeout(() => {
+        this.$refs.multipleTable.clearSelection()
+      }, 0)
+      this.flagarr = []
+      this.moreaction = []
     },
     checklist() {
       this.checklistprop = this.checklist.map(item => {
@@ -269,9 +276,14 @@ export default {
       console.log('this.checklistprop', this.checklistprop)
     },
     memoryChecked() {
+      console.log('我执行啦')
       this.list.forEach((row, index) => {
         if (this.checklistprop.includes(row.id)) {
           this.$refs.multipleTable.toggleRowSelection(row, true)
+          // myarr = []
+          this.myarr.push(row.id)
+          this.flagarr = Array.from(new Set(this.myarr))
+          console.log('this.flagarr=====================>', this.flagarr)
         } else {
           this.$refs.multipleTable.toggleRowSelection(row, false)
         }
@@ -406,11 +418,30 @@ export default {
       console.log('this.checklistprop', this.checklistprop)
       console.log('this.moreaction', this.moreaction)
       console.log('this.select_orderId', this.select_orderId)
+      const obj = {}
+      const processaction = this.moreaction.reduce((cur, next) => {
+        obj[next.id] ? '' : obj[next.id] = true && cur.push(next)
+        return cur
+      }, [])
+      console.log('processaction', processaction)
+
       this.employeeVisible = false
-      const ids = this.moreaction.map(item => item.id).join()
-      const names = this.moreaction.map(item => item.personName).join()
+      const cancelid = []
+      console.log('添加标志=====================>', this.flagarr)
+      // checklistprop在flagarr有在moreaction没有说明取消，否则未取消
+      this.checklistprop.forEach(item => {
+        if (this.flagarr.includes(item) && !this.moreaction.includes(item)) {
+          cancelid.push(item)
+        }
+      })
+      console.log('取消的id', cancelid)
+      const ids = processaction.map(item => item.id).join()
+      const names = processaction.map(item => item.personName).join()
+      console.log(ids, names)
       this.$emit('personName', names)
       this.$emit('personIds', ids)
+      this.$emit('cancelId', cancelid)
+      this.$store.dispatch('getmyflagApproval', cancelid)
     }
   }
 }
