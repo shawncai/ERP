@@ -45,7 +45,7 @@
     </el-card>
     <!--子件信息-->
     <el-card class="box-card" style="margin-top: 15px;margin-bottom: 20px" shadow="never">
-      <h2 ref="fuzhu" class="form-name" >{{ $t('updates.gjmx') }}</h2>
+      <h2 ref="fuzhu" class="form-name" >{{ $t('accessComponent.sssd') }}</h2>
       <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
         <el-button @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>
         <my-detail :control.sync="control" @product="productdetail"/>
