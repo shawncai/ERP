@@ -554,15 +554,24 @@ export default {
           this.list = arrlist2
           if (this.switchparms === 1) {
             this.list = arrlist2.filter(item => {
-              return item.total === 1
+              return (item.total === 1 || item.total === 3)
             })
             this.switchparms = 2
             console.log('this.list', this.list)
           } else if (this.switchparms === 2) {
             this.list = arrlist2.filter(item => {
-              return item.total === 2
+              return (item.total === 2 || item.total === 3)
             })
             this.switchparms = 1
+            for (const i in this.list) {
+              this.list[i].currency = 1
+              if (this.list[i].creditMoney === null) {
+                this.list[i].creditMoney = 0
+              }
+              if (this.list[i].debitMoney === null) {
+                this.list[i].debitMoney = 0
+              }
+            }
             console.log('this.list', this.list)
           }
           this.getSpanArr(arrlist2)

@@ -289,7 +289,7 @@ export default {
           })
         }))
         this.list2 = voucherdata.voucherDetails.filter(item => {
-          return item.total === 1
+          return (item.total === 1 || item.total === 3)
         })
         console.log('voucherdetaildata222222222', voucherdetaildata)
         for (const i in voucherdetaildata) {
