@@ -371,7 +371,7 @@ export const asyncRouterMap = [
         path: 'index',
         component: () => import('@/views/ShouldPayList/index'),
         name: 'ShouldPayList',
-        meta: { title: 'ShouldPayList', noCache: true }
+        meta: { title: 'ShouldPayList', noCache: true, roles: ['266-127-1', '266-128-6', '266-128-4', '266-128-7', '266-128-67', '266-128-5'] }
       }
     ]
   },
@@ -1665,7 +1665,7 @@ export const asyncRouterMap = [
       title: 'AdvancePay',
       icon: 'fukuandan',
       type: 11,
-      roles: ['266-126-4', '266-127-1']
+      roles: ['266-222-4', '266-221-1']
     },
     children: [
       {

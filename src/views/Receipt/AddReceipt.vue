@@ -260,8 +260,10 @@ export default {
         repositoryId: this.$store.getters.repositoryId,
         regionId: this.$store.getters.regionId,
         sourceType: '1',
+        penaltyMoney: 0,
         receiptMoney: 0,
-        deductionMoney: 0
+        deductionMoney: 0,
+        totalLackMoney: 0
       },
       // 商品信息
       productForm: {},
@@ -558,13 +560,22 @@ export default {
       sums[2] = ''
       this.allmoney = sums[8]
       if (this.isshow === true) {
-        this.personalForm.receiptMoney = sums[10]
+        console.log(123)
         this.personalForm.penaltyMoney = sums[6]
-        this.personalForm.totalLackMoney = sums[9] - sums[10]
+        this.personalForm.totalLackMoney = sums[9]
+        console.log(12333)
+        const jiangli = Number(sums[5])
+        const zhina = Number(sums[6])
+        const zhuanghua = zhina - jiangli
+        console.log('jiangli', jiangli)
+        console.log('zhina', zhina)
+        console.log('zhuanghua', zhuanghua)
+        this.personalForm.receiptMoney = Number(sums[10]) + zhuanghua
       } else {
-        this.personalForm.receiptMoney = sums[9]
+        console.log(456)
         this.personalForm.penaltyMoney = sums[5]
-        this.personalForm.totalLackMoney = sums[8] - sums[9]
+        this.personalForm.totalLackMoney = sums[8]
+        this.personalForm.receiptMoney = sums[9] - sums[4] + sums[5]
       }
 
       return sums

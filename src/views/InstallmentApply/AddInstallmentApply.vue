@@ -584,7 +584,7 @@
               </el-col>
             </el-row>
             <div class="buttons" style="margin-left: 27%;margin-top: 20px">
-              <el-button v-no-more-click type="primary" style="background:#3696fd;border-color:#3696fd;width: 98px" @click="handlesave2()">{{ $t('Hmodule.baoc') }}</el-button>
+              <el-button :loading="isclick" type="primary" style="background:#3696fd;border-color:#3696fd;width: 98px" @click="handlesave2()">{{ $t('Hmodule.baoc') }}</el-button>
               <el-button type="danger" @click="handlecance2()">{{ $t('Hmodule.cancel') }}</el-button>
             </div>
           </el-form>
@@ -681,6 +681,7 @@ export default {
     //   }
     // }
     return {
+      isclick: false,
       // 上传图片
       pickerOptions1: {
         disabledDate: (time) => {
@@ -1367,6 +1368,7 @@ export default {
         }
       }
       const parms = JSON.stringify(Data)
+      this.isclick = true
       this.$refs.personalForm.validate((valid) => {
         if (valid) {
           this.$refs.upload.submit()
@@ -1379,6 +1381,7 @@ export default {
                 type: 'success',
                 offset: 100
               })
+              this.isclick = false
               this.restAllForm()
               this.$refs.personalForm.clearValidate()
               this.$refs.personalForm.resetFields()
@@ -1396,6 +1399,7 @@ export default {
                 message: res.data.msg,
                 offset: 100
               })
+              this.isclick = false
             }
           })
         } else {
@@ -1404,9 +1408,14 @@ export default {
             message: '信息未填完整',
             offset: 100
           })
+          this.isclick = false
           return false
         }
       })
+
+      setTimeout(() => {
+        this.isclick = false
+      }, 5000)
     },
     // 取消操作
     handlecancel() {
