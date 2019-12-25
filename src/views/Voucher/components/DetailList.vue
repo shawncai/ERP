@@ -224,7 +224,9 @@ export default {
     detaildata() {
       this.personalForm = this.detaildata
       console.log(this.personalForm.voucherDetails)
-      this.list2 = this.personalForm.voucherDetails
+      this.list2 = this.personalForm.voucherDetails.filter(item => {
+        return (item.total === 1 || item.total === 3)
+      })
       this.reviewList = []
       const review = this.personalForm.approvalUseVos
       for (const i in review) {

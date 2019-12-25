@@ -78,7 +78,7 @@
       <el-dialog :visible.sync="categoryVisible" :title="$t('otherlanguage.newvoucher')" class="normal" width="600px" center>
         <el-form ref="addCategoryForm" :model="voucherparms" class="demo-ruleForm" style="margin: 0 auto; width: 400px">
           <el-form-item :label="$t('otherlanguage.md')" label-width="100px" prop="type">
-            <el-select v-model="voucherparms.repositoryId" :disabled="isvoucherrep" style="width: 100%" clearable @change="choosevoucherrep">
+            <el-select v-model="voucherparms.repositoryId" :disabled="isvoucherrep" style="width: 100%" filterable clearable @change="choosevoucherrep">
               <el-option
                 v-for="(item, index) in respositoryarr"
                 :key="index"

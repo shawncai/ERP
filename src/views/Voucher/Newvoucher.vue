@@ -412,7 +412,7 @@ export default {
     },
     // 新增收入明细
     insertEvent(index) {
-      this.$refs.editable.insertAt({ currencyname: 'PHP', rate: '1.00', source: 2, currency: 1, total: 1 }, index)
+      this.$refs.editable.insertAt({ currencyname: 'PHP', rate: '1.00', source: 2, currency: 1, total: 3 }, index)
     },
     getdatatime() { // 默认显示今天
       var date = new Date()
