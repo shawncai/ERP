@@ -16,6 +16,7 @@
                 <el-form-item :label="$t('Stockenter.sourceType')" prop="sourceType" style="width: 100%;">
                   <el-select v-model="personalForm.sourceType" placeholder="请选择源单类型" style="margin-left: 18px;width: 200px">
                     <el-option value="1" label="采购到货单" />
+                    <el-option value="2" label="采购订单" />
                   </el-select>
                 </el-form-item>
               </el-col>
@@ -26,10 +27,11 @@
                 <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
               </el-col>
               <el-col :span="6">
-                <el-form-item label="采购到货单" prop="sourceNumber" style="width: 100%;">
+                <el-form-item label="源单编号" prop="sourceNumber" style="width: 100%;">
                   <el-input v-model="personalForm.sourceNumber" placeholder="请选择源单编号" style="margin-left: 18px;width: 200px" @focus="handleAddSouce"/>
                 </el-form-item>
                 <my-arrival :arrivalcontrol.sync="arrivalcontrol" @arrival="arrival" @allarrivalinfo="allarrivalinfo"/>
+                <my-order :ordercontrol.sync="ordercontrol" :supp.sync="supp" @order="order" @allOrderinfo="allOrderinfo"/>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('Stockenter.supplierId')" sstyle="width: 100%;">
@@ -220,11 +222,13 @@ import MyDelivery from './components/MyDelivery'
 import MyAccept from './components/MyAccept'
 import MyDetail from './components/MyDetail'
 import MyArrival from './components/MyArrival'
+import MyOrder from './components/MyOrder'
 import MyEmp2 from './components/MyEmp2'
+import MyLnquiry from '../StockArrival/components/MyLnquiry'
 var _that
 export default {
   name: 'Addstockenter',
-  components: { MyEmp2, MyArrival, MyRepository, MySupplier, MyEmp, MyDelivery, MyAccept, MyDetail },
+  components: { MyOrder, MyEmp2, MyArrival, MyRepository, MySupplier, MyEmp, MyDelivery, MyAccept, MyDetail },
   data() {
     const validatePass = (rule, value, callback) => {
       console.log(this.sourceNumber)
@@ -259,6 +263,7 @@ export default {
     //   }
     // }
     return {
+      ordercontrol: false,
       // 合计
       heji1: '',
       // 中转
@@ -388,6 +393,21 @@ export default {
     _that = this
   },
   methods: {
+    order(val) {
+      console.log('ssssss', val)
+      for (let i = 0; i < val.length; i++) {
+        // val[i].arrivalQuantity = (val[i].stockQuantity - val[i].allarrivalQuantity + val[i].returnQuantity).toFixed(2)
+        this.$refs.editable.insert(val[i])
+      }
+    },
+    allOrderinfo(val) {
+      this.personalForm.sourceNumber = val.orderNumber
+      this.personalForm.supplierId = val.supplierId
+      this.supplierId = val.supplierName
+      this.personalForm.stockPersonId = val.stockPersonId
+      this.stockPersonId = val.stockPersonName
+      this.personalForm.stockTypeId = val.stockTypeId
+    },
     // 判断整车或者电池
     isEdit4(row) {
       console.log('222', row)
@@ -463,7 +483,11 @@ export default {
     },
     // 从源单中添加商品
     handleAddSouce() {
-      this.arrivalcontrol = true
+      if (this.personalForm.sourceType === '1') {
+        this.arrivalcontrol = true
+      } else {
+        this.ordercontrol = true
+      }
     },
     arrival(val) {
       console.log(val)
@@ -811,6 +835,7 @@ export default {
             }
           }
         })
+        console.log('this.location', this.locationlist)
       }
     },
     // 部门列表focus刷新
