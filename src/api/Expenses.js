@@ -105,8 +105,8 @@ export function updateexpenses2(query) {
 // 所有门店排序列表
 export function getRepositoryList(query) {
   var params = new URLSearchParams()
-  params.append('pagenum', 1) // 你要传给后台的参数值 key/value
-  params.append('pagesize', 99999) // 你要传给后台的参数值 key/value
+  params.append('pageNum', 1) // 你要传给后台的参数值 key/value
+  params.append('pageSize', 99999) // 你要传给后台的参数值 key/value
   return request({
     url: '/repository/getRepositoryList',
     method: 'post',

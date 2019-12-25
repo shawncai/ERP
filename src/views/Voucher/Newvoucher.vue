@@ -101,7 +101,6 @@
                 <el-input-number
                   :precision="2"
                   :disabled="scope.row.isdisable2"
-                  :min="0.00"
                   v-model="scope.row.debitMoney"
                 />
               </template>
@@ -112,7 +111,6 @@
                 <el-input-number
                   :precision="2"
                   :disabled="scope.row.isdisable3"
-                  :min="0.00"
                   v-model="scope.row.creditMoney"
                 />
               </template>

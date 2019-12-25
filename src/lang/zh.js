@@ -382,7 +382,8 @@ export default {
     Voucherlist: '凭证列表',
     AccessComponent: '维修零件领用单',
     AccessComponentlist: '维修零件领用单列表',
-    AddAccessComponent: '新建维修零件领用单'
+    AddAccessComponent: '新建维修零件领用单',
+    AccountBalance: '科目余额表'
   },
   installmentAnalyze: {
     repositoryName: '仓库名称',
@@ -3786,7 +3787,16 @@ export default {
     dblx: '调拨类型',
     ptdb: '普通调拨',
     thdb: '退货调拨',
-    kcsl: '库存数量'
+    kcsl: '库存数量',
+    jzsy: '结转损益',
+    kmdm: '科目代码',
+    kmmc: '科目名称',
+    qcye: '期初余额',
+    bqfse: '本期发生额',
+    bnljfse: '本年累计发生额',
+    qmye: '期末余额',
+    jf: '借方',
+    df: '贷方'
   },
   accessComponent: {
     accessPersonId: '领用人',
