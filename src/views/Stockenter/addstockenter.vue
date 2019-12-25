@@ -122,13 +122,22 @@
             <el-editable-column type="index" align="center" fixed label="编号" width="150px" />
             <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" fixed align="center" width="150px"/>
             <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" fixed align="center" width="150px"/>
-            <el-editable-column :edit-render="{type: 'visible'}" :label="$t('Hmodule.hw')" prop="locationId" align="center" width="200px">
-              <template slot="edit" slot-scope="scope">
-                <el-select v-model="scope.row.locationCode" :value="scope.row.locationCode" :placeholder="$t('Hmodule.xzhw')" filterable clearable style="width: 100%;" @visible-change="updatebatch($event,scope)">
+            <el-editable-column :edit-render="{type: 'default'}" :label="$t('Hmodule.hw')" prop="locationId" align="center" width="200px">
+              <!--              <template slot="edit" slot-scope="scope">-->
+              <!--                <el-select v-model="scope.row.locationCode" :value="scope.row.locationCode" :placeholder="$t('Hmodule.xzhw')" filterable clearable style="width: 100%;" @visible-change="updatebatch($event,scope)">-->
+              <!--                  <el-option-->
+              <!--                    v-for="item in locationlist"-->
+              <!--                    :key="item.id"-->
+              <!--                    :value="item.locationCode"-->
+              <!--                    :label="item.locationCode"/>-->
+              <!--                </el-select>-->
+              <!--              </template>-->
+              <template slot-scope="scope">
+                <el-select v-model="scope.row.locationId" :value="scope.row.locationId" :placeholder="$t('Hmodule.xzhw')" filterable clearable style="width: 100%;" @visible-change="updatebatch($event,scope)">
                   <el-option
                     v-for="item in locationlist"
                     :key="item.id"
-                    :value="item.locationCode"
+                    :value="item.id"
                     :label="item.locationCode"/>
                 </el-select>
               </template>
@@ -568,86 +577,6 @@ export default {
         return false
       }
       let i = 1
-      // rest.map(function(elem) {
-      //   return elem
-      // }).forEach(function(elem) {
-      //   if (elem.locationCode === null || elem.locationCode === '' || elem.locationCode === undefined) {
-      //     delete elem.locationId
-      //     i = 2
-      //   }
-      //   if (elem.batch === null || elem.batch === '' || elem.batch === undefined) {
-      //     delete elem.batch
-      //     i = 3
-      //   }
-      //   if (elem.productCode === null || elem.productCode === '' || elem.productCode === undefined) {
-      //     delete elem.productCode
-      //   }
-      //   if (elem.productName === null || elem.productName === '' || elem.productName === undefined) {
-      //     delete elem.productName
-      //   }
-      //   if (elem.color === null || elem.color === '' || elem.color === undefined) {
-      //     delete elem.color
-      //   }
-      //   if (elem.typeId === null || elem.typeId === '' || elem.typeId === undefined) {
-      //     delete elem.typeId
-      //   }
-      //   if (elem.unit === null || elem.unit === '' || elem.unit === undefined) {
-      //     delete elem.unit
-      //   }
-      //   if (elem.basicQuantity === null || elem.basicQuantity === '' || elem.basicQuantity === undefined) {
-      //     delete elem.basicQuantity
-      //   }
-      //   if (elem.actualEnterQuantity === null || elem.actualEnterQuantity === '' || elem.actualEnterQuantity === undefined) {
-      //     delete elem.actualEnterQuantity
-      //   }
-      //   if (elem.remarks === null || elem.remarks === '' || elem.remarks === undefined) {
-      //     delete elem.remarks
-      //   }
-      //   if (elem.enterPrice === null || elem.enterPrice === '' || elem.enterPrice === undefined) {
-      //     delete elem.enterPrice
-      //   }
-      //   if (elem.taxRate === null || elem.taxRate === '' || elem.taxRate === undefined) {
-      //     delete elem.taxRate
-      //   }
-      //   if (elem.enterMoney === null || elem.enterMoney === '' || elem.enterMoney === undefined) {
-      //     delete elem.enterMoney
-      //   }
-      //   return elem
-      // })
-      // if (i === 2) {
-      //   this.$notify.error({
-      //     title: '错误',
-      //     message: '入库商品货位不能为空',
-      //     offset: 100
-      //   })
-      //   return false
-      // }
-      // if (i === 3) {
-      //   this.$notify.error({
-      //     title: '错误',
-      //     message: '入库商品批次不能为空',
-      //     offset: 100
-      //   })
-      //   return false
-      // }
-      // const list = await Promise.all(rest.map(function(item) {
-      //   return locationlist(null, item.locationCode)
-      // }))
-
-      // console.log('list', list)
-
-      // const list2 = list.map(item => {
-      //   return item.data.data.content.list[0]
-      // })
-      // console.log('list2', list2)
-
-      // for (const a in list2) {
-      //   for (const b in EnterDetail2) {
-      //     if (list2[a].locationCode === EnterDetail2[b].locationCode) {
-      //       EnterDetail2[b].locationId = list2[a].id
-      //     }
-      //   }
-      // }
       rest.map(function(elem) {
         return elem
       }).forEach(function(elem) {
@@ -658,11 +587,13 @@ export default {
             console.log('elem.locationId', elem.locationId)
           }
         })
-        if (elem.locationCode === null || elem.locationCode === '' || elem.locationCode === undefined) {
-          i = 4
-        }
         if (elem.locationId === null || elem.locationId === '' || elem.locationId === undefined) {
           delete elem.locationId
+          i = 4
+        }
+        if (elem.batch === null || elem.batch === '' || elem.batch === undefined) {
+          delete elem.batch
+          i = 4
         }
         if (elem.productCode === null || elem.productCode === '' || elem.productCode === undefined) {
           delete elem.productCode
@@ -702,7 +633,7 @@ export default {
       if (i === 4) {
         this.$notify.error({
           title: '错误',
-          message: '商品货位不能为空',
+          message: '商品货位和批次不能为空',
           offset: 100
         })
         return false
@@ -825,7 +756,6 @@ export default {
           if (res.data.ret === 200) {
             if (res.data.data.content.length !== 0) {
               this.locationlist = res.data.data.content
-              scope.row.locationId = res.data.data.content[0].id
             } else if (res.data.data.content.length === 0) {
               locationlist(this.personalForm.enterRepositoryId).then(res => {
                 if (res.data.ret === 200) {
@@ -834,6 +764,18 @@ export default {
               })
             }
           }
+          // if (res.data.ret === 200) {
+          //   if (res.data.data.content.length !== 0) {
+          //     this.locationlist = res.data.data.content
+          //     scope.row.locationId = res.data.data.content[0].id
+          //   } else if (res.data.data.content.length === 0) {
+          //     locationlist(this.personalForm.enterRepositoryId).then(res => {
+          //       if (res.data.ret === 200) {
+          //         this.locationlist = res.data.data.content.list
+          //       }
+          //     })
+          //   }
+          // }
         })
         console.log('this.location', this.locationlist)
       }

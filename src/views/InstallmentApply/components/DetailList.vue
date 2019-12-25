@@ -532,7 +532,7 @@ export default {
       const statusMap = {
         1: '和亲戚一起居住',
         2: '租房',
-        3: '按揭'
+        3: '自有住房'
       }
       return statusMap[status]
     },
