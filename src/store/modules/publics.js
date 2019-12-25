@@ -8,7 +8,8 @@ const publics = {
     newsaleoutdata: '',
     newreceiptdata: '',
     newinstallpaydata: '',
-    setchoosedata: ''
+    setchoosedata: '',
+    myflagApproval: ''
   },
   mutations: {
     set_setchoosedata: (state, setchoosedata) => {
@@ -37,6 +38,9 @@ const publics = {
     },
     set_empcontract4: (state, empcontract) => {
       state.empcontract4 = empcontract
+    },
+    set_myflagApproval: (state, myflagApproval) => {
+      state.myflagApproval = myflagApproval
     }
   },
   actions: {
@@ -66,6 +70,9 @@ const publics = {
     },
     getempcontract4({ commit }, empcontract) {
       commit('set_empcontract4', empcontract)
+    },
+    getmyflagApproval({ commit }, myflagApproval) {
+      commit('set_myflagApproval', myflagApproval)
     }
   }
 }

@@ -445,7 +445,7 @@ export function chooseProduct(query) {
     params.append('code', query.code) // 你要传给后台的参数值 key/value
   }
   if (query.productname !== '' && query.productname !== null && query.productname !== undefined) {
-    params.append('productname', query.productname) // 你要传给后台的参数值 key/value
+    params.append('productName', query.productname) // 你要传给后台的参数值 key/value
   }
   if (query.categoryid !== '' && query.categoryid !== null && query.categoryid !== undefined) {
     params.append('categoryid', query.categoryid) // 你要传给后台的参数值 key/value

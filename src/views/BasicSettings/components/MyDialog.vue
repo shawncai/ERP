@@ -1,5 +1,5 @@
 <template>
-  <el-dialog :visible.sync="editVisible" :control="control" :editdata="editdata" :close-on-press-escape="false" :title="$t('updates.xgspgz')" width="1010px" top="10px" @close="$emit('update:control', false)">
+  <el-dialog :visible.sync="editVisible" :control="control" :editdata="editdata" :close-on-press-escape="false" :title="$t('updates.xgspgz')" width="1010px" top="-10px" class="edit" @close="$emit('update:control', false)">
     <!--基本信息-->
     <h2 ref="geren" class="form-name">{{ $t('Hmodule.basicinfo') }}</h2>
     <div class="container">
@@ -60,9 +60,9 @@
           <template slot="edit" slot-scope="scope">
             <el-input v-model="scope.row.handlerName" style="margin-top: 8px;" @focus="handlechoose(scope)" @input="$refs.editable.updateStatus(scope)"/>
           </template>
-          <my-emp :control.sync="empcontrol" @chuli="chuli(scope, $event)"/>
-          <my-emp2 :control.sync="empcontrol2" :checklist.sync="checklist" @personName="personName(scope, $event)" @personIds="personIds(scope, $event)"/>
         </el-editable-column>
+        <my-emp :control.sync="empcontrol" @chuli="chuli(scope, $event)"/>
+        <my-emp2 :control.sync="empcontrol2" :checklist.sync="checklist" @personName="personName($event)" @personIds="personIds($event)" @cancelId="cancelId($event)"/>
         <!--<el-editable-column align="center" label="操作" min-width="300px">-->
         <!--<template slot-scope="scope">-->
         <!--&lt;!&ndash;<el-input v-model="scope.row.handlerName" style="float: left;width: 100px" @input="$refs.editable.updateStatus(scope)"/>&ndash;&gt;-->
@@ -159,6 +159,8 @@ export default {
         label: 'regionName',
         children: 'regionListVos'
       },
+      // 处理过删除的数据
+      processval: [],
       // 个人信息规则数据
       personalrules: {
         processName: [
@@ -190,21 +192,62 @@ export default {
     _that = this
   },
   methods: {
+    cancelId(val) {
+      console.log('执行===================================》', val)
+      console.log('执行2222222===================================》', this.checklist)
+      for (let i = 0; i < this.checklist.length; i++) {
+        for (let j = 0; j < val.length; j++) {
+          if (this.checklist[i].id === val[j]) {
+            this.checklist.splice(i, 1)
+          }
+        }
+      }
+      this.processval = this.checklist
+    },
     // 驾驶员列表返回数据
-    personName(scope, val) {
-      // this.drivers = val
-      // this.personalForm.driverNames = val
-      this.kongscope.row.handlerName = val
-      this.kongscope.row.stepHandlerName = val
+    personName(val) {
+      console.log(this.$store.getters.myflagApproval)
+      const myval = this.$store.getters.myflagApproval
+      for (let i = 0; i < this.checklist.length; i++) {
+        for (let j = 0; j < myval.length; j++) {
+          if (this.checklist[i].id === myval[j]) {
+            this.checklist.splice(i, 1)
+          }
+        }
+      }
+      const processval = this.checklist
+      console.log('人员名称', val)
+      console.log('原来的人员', processval)
+      for (let i = 0; i < processval.length; i++) {
+        val = val + ',' + processval[i].personName
+      }
+      val.split(',')
+      const myarr = Array.from(new Set(val.split(','))).join(',')
+      this.kongscope.row.handlerName = myarr
+      this.kongscope.row.stepHandlerName = myarr
       console.log(' this.kongscope.row.handlerName', this.kongscope.row.handlerName)
     },
-    personIds(scope, val) {
-      // this.personalForm.drivers = val
-      this.kongscope.row.stepHandler = ',' + val + ','
-      console.log('this.kongscope.row.stepHandler', this.kongscope.row.stepHandler)
-      if (scope.row.step === null) {
-        scope.row.step = scope.$index + 1
+    personIds(val) {
+      console.log(this.$store.getters.myflagApproval)
+      const myval = this.$store.getters.myflagApproval
+      for (let i = 0; i < this.checklist.length; i++) {
+        for (let j = 0; j < myval.length; j++) {
+          if (this.checklist[i].id === myval[j]) {
+            this.checklist.splice(i, 1)
+          }
+        }
       }
+      const processval = this.checklist
+      for (let i = 0; i < processval.length; i++) {
+        // const element = array[i];
+        val = val + ',' + processval[i].id
+      }
+      const myarr = Array.from(new Set(val.split(','))).join(',')
+      this.kongscope.row.stepHandler = ',' + myarr + ','
+      console.log('this.kongscope.row.stepHandler', this.kongscope.row.stepHandler)
+      // if (scope.row.step === null) {
+      //   scope.row.step = scope.$index + 1
+      // }
       return
     },
     // 国籍列表
@@ -255,18 +298,39 @@ export default {
     // 审核人选择
     // 员工输入框focus事件触发
     handlechoose(scope) {
+      console.log('scope=================>', scope)
       this.empcontrol2 = true
-      var a = scope.row.stepHandler
-      a = a.replace(/,/g, '')
-      console.log('aaa', a)
-      const name = {
-        personName: scope.row.handlerName,
-        id: a
+      if (scope.row.stepHandler) {
+        var a = scope.row.stepHandler
+        a = a.replace(/,/g, ' ')
+        var aa = a.split(' ')
+        var bb = scope.row.stepHandlerName.split(',')
+        for (let i = 0; i < aa.length; i++) {
+          if (aa[i] === '') {
+            aa.splice(i, 1)
+            i--
+          }
+        }
+        console.log('aaa', aa)
+        const newarr = []
+        for (let i = 0; i < aa.length; i++) {
+          const name = {
+            personName: bb[i],
+            id: aa[i]
+          }
+          newarr.push(name)
+        }
+        this.checklist = newarr
+        console.log(this.checklist)
       }
-      const newarr = []
-      newarr.push(name)
-      this.$store.dispatch('getsetchoosedata', Number(a))
-      this.checklist = newarr
+      // const name = {
+      //   personName: scope.row.handlerName,
+      //   id: a
+      // }
+      // const newarr = []
+      // newarr.push(name)
+      // this.$store.dispatch('getsetchoosedata', Number(a))
+      // this.checklist = newarr
       this.kongscope = scope
       this.kongscope.row.step = scope.$index + 1
     },
@@ -355,5 +419,30 @@ export default {
 </script>
 
 <style scoped>
-
+  .edit >>> .el-dialog{
+    -webkit-transform: none;
+    transform: none;
+    position: absolute;
+    right: 0;
+    left: auto;
+    height: auto;
+  }
+  .edit >>> .el-dialog__header{
+    background: #fff;
+    position: fixed;
+    top: 0;
+    display: block;
+    width: 1010px;
+    z-index: 100;
+    border-bottom: 1px solid #f1f1f1;
+  }
+  .edit >>> .el-dialog__body{
+    padding-left: 0;
+    padding-right: 0;
+    padding-top: 10px;
+  }
+  .edit >>> .el-dialog {
+    background:#f1f1f1 ;
+    left: 0;
+  }
 </style>

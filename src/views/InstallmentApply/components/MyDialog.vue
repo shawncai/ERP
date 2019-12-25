@@ -36,7 +36,7 @@
                 <el-select v-model="personalForm.liveStauts" value="personalForm.liveStauts" style="margin-left: 18px;width: 200px" @change="change()">
                   <el-option value="1" label="和亲戚一起居住"/>
                   <el-option value="2" label="租房"/>
-                  <el-option value="3" label="按揭"/>
+                  <el-option value="3" label="自有住房"/>
                 </el-select>
               </el-form-item>
             </el-col>
@@ -963,11 +963,11 @@ export default {
             this.personalForm.totalMoney = ((Number(this.productForm.price) - Number(this.personalForm.firstMoney)) * (1 + Number(this.rate))).toFixed(2)
             const each = Math.ceil(this.personalForm.totalMoney / this.personalForm.installmentCount)
             if (each % 100 < 25) {
-              this.personalForm.totalMoney = Math.floor((each / 100) / 2) * 100 * this.personalForm.installmentCount
+              this.personalForm.totalMoney = Math.floor((each / 100)) * 100 * this.personalForm.installmentCount
             } else if (each % 100 >= 25 && each % 100 < 75) {
-              this.personalForm.totalMoney = (Math.floor((each / 100) / 2) * 100 + 50) * this.personalForm.installmentCount
+              this.personalForm.totalMoney = (Math.floor((each / 100)) * 100 + 50) * this.personalForm.installmentCount
             } else if (each % 100 >= 75) {
-              this.personalForm.totalMoney = (Math.floor((each / 100) / 2) * 100 + 100) * this.personalForm.installmentCount
+              this.personalForm.totalMoney = (Math.floor((each / 100)) * 100 + 100) * this.personalForm.installmentCount
             }
           }
         }
@@ -989,11 +989,11 @@ export default {
             this.personalForm.totalMoney = ((Number(this.productForm.price) - Number(this.personalForm.firstMoney)) * (1 + Number(this.rate))).toFixed(2)
             const each = Math.ceil(this.personalForm.totalMoney / this.personalForm.installmentCount)
             if (each % 100 < 25) {
-              this.personalForm.totalMoney = Math.floor((each / 100) / 2) * 100 * this.personalForm.installmentCount
+              this.personalForm.totalMoney = Math.floor((each / 100)) * 100 * this.personalForm.installmentCount
             } else if (each % 100 >= 25 && each % 100 < 75) {
-              this.personalForm.totalMoney = (Math.floor((each / 100) / 2) * 100 + 50) * this.personalForm.installmentCount
+              this.personalForm.totalMoney = (Math.floor((each / 100)) * 100 + 50) * this.personalForm.installmentCount
             } else if (each % 100 >= 75) {
-              this.personalForm.totalMoney = (Math.floor((each / 100) / 2) * 100 + 100) * this.personalForm.installmentCount
+              this.personalForm.totalMoney = (Math.floor((each / 100)) * 100 + 100) * this.personalForm.installmentCount
             }
           }
         }
@@ -1150,11 +1150,11 @@ export default {
             this.personalForm.totalMoney = ((Number(this.productForm.price) - Number(this.personalForm.firstMoney)) * (1 + Number(this.rate))).toFixed(2)
             const each = Math.ceil(this.personalForm.totalMoney / this.personalForm.installmentCount)
             if (each % 100 < 25) {
-              this.personalForm.totalMoney = Math.floor((each / 100) / 2) * 100 * this.personalForm.installmentCount
+              this.personalForm.totalMoney = Math.floor((each / 100)) * 100 * this.personalForm.installmentCount
             } else if (each % 100 >= 25 && each % 100 < 75) {
-              this.personalForm.totalMoney = (Math.floor((each / 100) / 2) * 100 + 50) * this.personalForm.installmentCount
+              this.personalForm.totalMoney = (Math.floor((each / 100)) * 100 + 50) * this.personalForm.installmentCount
             } else if (each % 100 >= 75) {
-              this.personalForm.totalMoney = (Math.floor((each / 100) / 2) * 100 + 100) * this.personalForm.installmentCount
+              this.personalForm.totalMoney = (Math.floor((each / 100)) * 100 + 100) * this.personalForm.installmentCount
             }
           }
         }

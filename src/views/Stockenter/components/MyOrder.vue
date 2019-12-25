@@ -412,7 +412,7 @@ export default {
           enterPrice: (Number(item.price)).toFixed(2),
           basicQuantity: item.stockQuantity,
           orderNumber: item.sourceNumber,
-          typeId: item.type
+          typeId: item.typeId
         }
       })
       console.log(orderDetail)

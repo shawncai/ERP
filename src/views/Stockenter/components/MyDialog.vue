@@ -122,8 +122,8 @@
             <template slot-scope="scope">
               <el-select v-model="scope.row.locationId" :value="scope.row.locationId" :placeholder="$t('Hmodule.xzhw')" filterable clearable style="width: 100%;" @visible-change="updatebatch($event,scope)">
                 <el-option
-                  v-for="(item, index) in locationlist"
-                  :key="index"
+                  v-for="item in locationlist"
+                  :key="item.id"
                   :value="item.id"
                   :label="item.locationCode"/>
               </el-select>
@@ -536,11 +536,17 @@ export default {
         })
         return false
       }
+      let i = 1
       rest.map(function(elem) {
         return elem
       }).forEach(function(elem) {
         if (elem.locationId === null || elem.locationId === '' || elem.locationId === undefined) {
           delete elem.locationId
+          i = 4
+        }
+        if (elem.batch === null || elem.batch === '' || elem.batch === undefined) {
+          delete elem.batch
+          i = 4
         }
         if (elem.productCode === null || elem.productCode === '' || elem.productCode === undefined) {
           delete elem.productCode
@@ -580,7 +586,17 @@ export default {
         }
         return elem
       })
+      if (i === 4) {
+        this.$notify.error({
+          title: '错误',
+          message: '商品货位和批次不能为空',
+          offset: 100
+        })
+        return false
+      }
       const parms2 = JSON.stringify(rest)
+      this.personalForm.judgeStat = ''
+      this.personalForm.receiptStat = ''
       updatestockenter(this.personalForm, parms2).then(res => {
         if (res.data.ret === 200) {
           this.$notify({
