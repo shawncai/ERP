@@ -334,6 +334,15 @@ export default {
       }
     },
     saleOutdata(val) {
+      console.log('val======', val)
+      if (val.customerType === 2) {
+        this.personalForm.requireType = '1'
+      }
+      if (val.customerType === 1) {
+        this.personalForm.requireType = '2'
+      }
+      this.requireId = val.customerName
+      this.personalForm.requireId = val.customerId
       this.personalForm.sourceNumber = val.number
       this.personalForm.address = val.address
       if (val.transferPersonId !== null) {

@@ -249,7 +249,7 @@
           </el-editable-column>
           <el-table-column :label="$t('public.actions')" :resizable="false" align="center" min-width="100">
             <template slot-scope="scope">
-              <el-button v-if="scope.row.data.stat === 1" title="确认" type="primary" size="mini" icon="el-icon-check" circle @click="handleconfirm(scope.row)"/>
+              <el-button v-if="scope.row.data.stat === 1" :loading="ischeck" title="确认" type="primary" size="mini" icon="el-icon-check" circle @click="handleconfirm(scope.row)"/>
             </template>
           </el-table-column>
         </el-editable>
@@ -296,6 +296,7 @@ export default {
   },
   data() {
     return {
+      ischeck: false,
       // 单据id
       id: '',
       // 判断操作按钮
@@ -555,6 +556,7 @@ export default {
     },
     // 调拨出库单
     handleconfirm(row) {
+      this.ischeck = true
       this.handleEdit(row.data)
       console.log(row.data.id)
       const EnterDetail = this.deepClone(row.data)
@@ -593,7 +595,11 @@ export default {
       confirmStoragemove(row.data.id).then(res => {
         console.log(res)
         row.data.stat = 2
+        this.ischeck = false
       })
+      // setTimeout(() => {
+      //   this.ischeck = false
+      // }, 5000)
     },
     // 货位
     getLocationData(row) {
