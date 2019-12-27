@@ -4,12 +4,12 @@
       <el-row>
         <el-form ref="getemplist" :model="getemplist" label-width="100px" style="margin-top: -9px">
           <el-col :span="7">
-            <el-form-item label="领用单主题" label-width="100px">
+            <el-form-item :label="$t('newupd.fds')" label-width="100px">
               <el-input v-model="getemplist.title" :placeholder="$t('AccessTools.title')" style="width: 90%;" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
           <el-col :span="7" style="margin-left: 10px">
-            <el-form-item label="状态" label-width="100px">
+            <el-form-item :label="$t('newupd.cxz')" label-width="100px">
               <el-select v-model="getemplist.returnStat" clearable style="width: 80%;float: left;margin-left: 20px">
                 <el-option value="0" label="未归还" />
                 <el-option value="1" label="已归还" />

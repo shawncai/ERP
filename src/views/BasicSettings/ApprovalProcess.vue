@@ -4,8 +4,8 @@
       <!-- 搜索条件栏目 -->
       <el-input v-model="getemplist.process_name" :placeholder="$t('BasicSettings.process_name')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
       <el-select v-model="getemplist.is_effective" :value="getemplist.is_effective" placeholder="请选择状态" class="filter-item" clearable>
-        <el-option label="active" value="1"/>
-        <el-option label="dead" value="2"/>
+        <el-option label="on duty" value="1"/>
+        <el-option label="closed" value="2"/>
       </el-select>
       <el-select v-model="getemplist.type" :value="getemplist.type" filterable placeholder="请选择单据类型" style="width: 150px" class="filter-item" clearable>
         <el-option v-for="(item, index) in categorys" :key="index" :value="item.id" :label="item.categoryName"/>

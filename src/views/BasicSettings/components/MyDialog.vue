@@ -9,8 +9,8 @@
         </el-form-item>
         <el-form-item :label="$t('BasicSettings.is_effective')" style="width: 40%;margin-top:1%">
           <el-select v-model="personalForm.isEffective" placeholder="请选择启用状态" style="width: 100%;">
-            <el-option label="active" value="1"/>
-            <el-option label="dead" value="2"/>
+            <el-option label="on duty" value="1"/>
+            <el-option label="closed" value="2"/>
           </el-select>
         </el-form-item>
         <el-form-item :label="$t('BasicSettings.type3')" prop="type" style="width: 40%;margin-top:1%">

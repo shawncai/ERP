@@ -88,6 +88,16 @@
                 </el-form-item>
               </el-col>
               <el-col :span="12">
+                <el-form-item :label="$t('InstallmentApply.certificateType')" style="width: 100%;">
+                  {{ personalForm.certificateType2 | certificateTypeFilter }}
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('InstallmentApply.certificateNumber')" style="width: 100%;">
+                  {{ personalForm.certificateNumber2 }}
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
                 <el-form-item :label="$t('InstallmentApply.firstMoney')" prop="firstMoney" style="width: 100%;">
                   {{ personalForm.firstMoney }}
                 </el-form-item>
@@ -182,7 +192,7 @@
         </div>
       </el-card>
       <el-card v-if="personalForm.marriageStat === 2" class="box-card" shadow="never" style="margin-top: 10px">
-        <h2 ref="geren" class="form-name">伴侣信息</h2>
+        <h2 ref="geren" class="form-name">{{ $t('updates.spxx') }}</h2>
         <div class="container" style="margin-top: 37px">
           <el-form ref="personalForm3" :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
             <el-row>
@@ -234,7 +244,7 @@
         <h2 ref="geren" class="form-name">{{ $t('updates.gzxx') }}</h2>
         <div class="container" style="margin-top: 37px">
           <el-tabs v-model="activeName">
-            <el-tab-pane label="申请者" name="first">
+            <el-tab-pane :label="$t('newupd.vff')" name="first">
               <el-form ref="personalForm4" :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
                 <el-row>
                   <el-col :span="12">
@@ -305,7 +315,7 @@
                 </el-row>
               </el-form>
             </el-tab-pane>
-            <el-tab-pane label="伴侣" name="second">
+            <el-tab-pane :label="$t('newupd.ddc')" name="second">
               <el-form ref="personalForm5" :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
                 <el-row>
                   <el-col :span="12">
@@ -399,7 +409,7 @@
         </div>
       </el-card>
       <el-card class="box-card" shadow="never" style="margin-top: 10px;margin-bottom: 30px">
-        <h2 ref="geren" class="form-name">担保人信息</h2>
+        <h2 ref="geren" class="form-name">{{ $t('newupd.asds') }}</h2>
         <div class="container" style="margin-top: 37px">
           <el-form ref="personalForm5" :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
             <el-row>
@@ -559,8 +569,15 @@ export default {
     },
     certificateTypeFilter(status) {
       const statusMap = {
-        1: '身份证',
-        2: '其他'
+        1: 'passport',
+        2: 'voters ID',
+        3: 'UMID ID',
+        4: 'license',
+        5: 'SSS',
+        6: 'phili health',
+        7: 'Pag-big',
+        8: 'NBI',
+        9: 'POLICE ID'
       }
       return statusMap[status]
     },

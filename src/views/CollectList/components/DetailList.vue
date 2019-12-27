@@ -263,7 +263,7 @@
       </div>
     </el-card>
     <el-card class="box-card" shadow="never" style="margin-top: 10px;margin-bottom: 30px">
-      <h2 ref="geren" class="form-name">担保人信息</h2>
+      <h2 ref="geren" class="form-name">{{ $t('newupd.asds') }}</h2>
       <div class="container" style="margin-top: 37px">
         <el-form ref="personalForm5" :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
           <el-row>

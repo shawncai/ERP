@@ -163,7 +163,7 @@
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('SaleOut.pointSupport')+`(${point || '无'})`" prop="pointSupport" style="width: 100%;">
+                <el-form-item :label="$t('SaleOut.pointSupport')" prop="pointSupport" style="width: 100%;">
                   <el-input v-model="personalForm.pointSupport" :disabled="personalForm.customerType === '1'" style="margin-left: 18px;width: 200px"/>
                 </el-form-item>
               </el-col>

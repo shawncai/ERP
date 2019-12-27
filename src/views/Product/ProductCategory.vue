@@ -16,8 +16,8 @@
         <el-option label="性能等级" value="10"/>
       </el-select>
       <el-select v-model="getemplist.iseffective" :value="getemplist.iseffective" :placeholder="$t('NewEmployeeInformation.iseffective')" class="filter-item" clearable>
-        <el-option label="active " value="1"/>
-        <el-option label="dead" value="2"/>
+        <el-option label="on duty" value="1"/>
+        <el-option label="closed" value="2"/>
       </el-select>
       <!-- 搜索按钮 -->
       <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 86px" @click="handleFilter">{{ $t('public.search') }}</el-button>
@@ -150,8 +150,8 @@
             </el-form-item>
             <el-form-item :label="$t('NewEmployeeInformation.iseffective')" label-width="100px" prop="isEffective">
               <el-select v-model="editCategoryForm.isEffective" placeholder="请选择状态" style="width: 100%">
-                <el-option label="active " value="1"/>
-                <el-option label="dead" value="2"/>
+                <el-option label="on duty" value="1"/>
+                <el-option label="closed" value="2"/>
               </el-select>
             </el-form-item>
           </el-form>

@@ -16,8 +16,8 @@
           <el-col :span="5" style="margin-left: 10px">
             <el-form-item :label="$t('updates.qyzt')">
               <el-select v-model="getemplist.isEffective" :value="getemplist.isEffective" clearable @keyup.enter.native="handleFilter">
-                <el-option label="active " value="1"/>
-                <el-option label="dead" value="2"/>
+                <el-option label="on duty" value="1"/>
+                <el-option label="closed" value="2"/>
               </el-select>
             </el-form-item>
           </el-col>

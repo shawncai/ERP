@@ -69,18 +69,6 @@
                 </el-select>
               </el-form-item>
             </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('StockRetreat.transportModeId')" style="width: 100%;">
-                <el-select v-model="personalForm.transMode" clearable style="margin-left: 18px;width: 200px">
-                  <el-option
-                    v-for="(item, index) in transportIds"
-                    :key="index"
-                    :label="item.categoryName"
-                    :value="item.id"
-                  />
-                </el-select>
-              </el-form-item>
-            </el-col>
             <!--            <el-col :span="12">-->
             <!--              <el-form-item :label="$t('SaleOrder.transDate')" prop="transDate" style="width: 100%;">-->
             <!--                <el-date-picker-->
@@ -165,6 +153,18 @@
                     :value="item.id"
                     :key="index"
                     :label="item.categoryName"/>
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('StockRetreat.transportModeId')" style="width: 100%;">
+                <el-select v-model="personalForm.transMode" clearable style="margin-left: 18px;width: 200px">
+                  <el-option
+                    v-for="(item, index) in transportIds"
+                    :key="index"
+                    :label="item.categoryName"
+                    :value="item.id"
+                  />
                 </el-select>
               </el-form-item>
             </el-col>

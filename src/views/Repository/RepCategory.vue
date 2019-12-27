@@ -8,8 +8,8 @@
         <el-option label="仓库类别" value="2"/>
       </el-select>
       <el-select v-model="getemplist.iseffective" :value="getemplist.iseffective" :placeholder="$t('NewEmployeeInformation.iseffective')" class="filter-item" clearable>
-        <el-option label="active " value="1"/>
-        <el-option label="dead" value="2"/>
+        <el-option label="on duty" value="1"/>
+        <el-option label="closed" value="2"/>
       </el-select>
       <!-- 搜索按钮 -->
       <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 86px" @click="handleFilter">{{ $t('public.search') }}</el-button>
@@ -109,7 +109,7 @@
               <span>{{ scope.row.type | typeFilter }}</span>
             </template>
           </el-table-column>
-          <el-table-column :resizable="false" label="所属仓库类别" prop="categoryName" align="center" width="350">
+          <el-table-column :resizable="false" :label="$t('NewEmployeeInformation.sscklb')" prop="categoryName" align="center" width="350">
             <template slot-scope="scope">
               <span>{{ scope.row.parentName }}</span>
             </template>
@@ -151,8 +151,8 @@
             </el-form-item>
             <el-form-item :label="$t('NewEmployeeInformation.iseffective')" label-width="100px" prop="isEffective">
               <el-select v-model="editCategoryForm.isEffective" placeholder="请选择状态" style="width: 100%">
-                <el-option label="active " value="1"/>
-                <el-option label="dead" value="2"/>
+                <el-option label="on duty" value="1"/>
+                <el-option label="closed" value="2"/>
               </el-select>
             </el-form-item>
           </el-form>

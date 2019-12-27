@@ -34,9 +34,9 @@
               </template>
             </el-select>
           </el-form-item>
-          <el-form-item :label="$t('Customer.pinyin')" style="width: 40%;margin-top: 1%">
-            <el-input v-model="customerForm.pinyin" placeholder="请输入拼音缩写" clearable/>
-          </el-form-item>
+          <!--          <el-form-item :label="$t('Customer.pinyin')" style="width: 40%;margin-top: 1%">-->
+          <!--            <el-input v-model="customerForm.pinyin" placeholder="请输入拼音缩写" clearable/>-->
+          <!--          </el-form-item>-->
           <el-form-item :label="$t('Customer.source2')" style="width: 40%;margin-top: 1%">
             <el-select ref="clear3" v-model="customerForm.source" :value="customerForm.source" placeholder="请选择客户来源" style="width: 100%;" @focus="getCategory">
               <el-option v-show="false" label="" value=""/>

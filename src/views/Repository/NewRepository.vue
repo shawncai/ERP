@@ -48,8 +48,8 @@
           </el-form-item>
           <el-form-item :label="$t('Repository.stat')" style="width: 40%;margin-top: 1%">
             <el-radio-group v-model="RepositoryForm.stat" style="width: 80%">
-              <el-radio :label="1" style="width: 50%">active</el-radio>
-              <el-radio :label="2">dead</el-radio>
+              <el-radio :label="1" style="width: 50%">on duty</el-radio>
+              <el-radio :label="2">closed</el-radio>
             </el-radio-group>
           </el-form-item>
           <el-form-item :label="$t('updates.lx')" prop="categoryId" style="width: 40%;margin-top: 1%">

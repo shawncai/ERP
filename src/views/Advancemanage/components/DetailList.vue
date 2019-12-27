@@ -78,7 +78,7 @@
             <el-editable-column :label="$t('updates.ys')" prop="color" align="center" />
             <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" />
             <el-editable-column :label="$t('Hmodule.dj')" prop="salePrice" align="center" />
-            <el-editable-column prop="deposit" align="center" label="预售定金" />
+            <el-editable-column :label="$t('newupd.asdasd')" prop="deposit" align="center" />
           </el-editable>
         </div>
       </el-card>

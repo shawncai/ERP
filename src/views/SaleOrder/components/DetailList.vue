@@ -44,11 +44,6 @@
                 </el-form-item>
               </el-col>
               <el-col :span="12">
-                <el-form-item :label="$t('StockRetreat.transportModeId')" style="width: 100%;">
-                  <span>{{ personalForm.transModeName }}</span>
-                </el-form-item>
-              </el-col>
-              <el-col :span="12">
                 <el-form-item :label="$t('SaleOrder.payMode')" style="width: 100%;">
                   <span>{{ personalForm.payMode | payModeFilter }}</span>
                 </el-form-item>
@@ -106,6 +101,11 @@
               <el-col :span="12">
                 <el-form-item :label="$t('Supplier.deliveryMode')" style="width: 100%;">
                   <span>{{ personalForm.deliveryModeName }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('StockRetreat.transportModeId')" style="width: 100%;">
+                  <span>{{ personalForm.transModeName }}</span>
                 </el-form-item>
               </el-col>
             </el-row>
