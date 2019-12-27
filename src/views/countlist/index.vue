@@ -258,6 +258,7 @@ export default {
     // 打印
     handlePrint() {
       console.log(456)
+      this.repositorycontrol = true
     }
   }
 }

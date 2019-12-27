@@ -248,6 +248,14 @@ export default {
         callback()
       }
     }
+    const validatePass9 = (rule, value, callback) => {
+      console.log(value)
+      if (value === undefined || value === null || value === '' || value < 0) {
+        callback(new Error('请填写实盘数量'))
+      } else {
+        callback()
+      }
+    }
     return {
       heji1: 0,
       heji2: 0,
@@ -288,7 +296,8 @@ export default {
           { required: true, message: '请选择货位', trigger: 'change' }
         ],
         actualQuantity: [
-          { required: true, message: '请填写实盘数量', trigger: 'change' }
+          // { required: true, message: '请填写实盘数量', trigger: 'change' }
+          { required: true, validator: validatePass9, trigger: 'change' }
         ]
       },
       // 库存盘点日期

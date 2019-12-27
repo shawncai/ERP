@@ -202,10 +202,10 @@
             <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" fixed="left" align="center" />
             <el-editable-column :label="$t('Hmodule.hw')" prop="locationName" align="center" />
             <el-editable-column :label="$t('Hmodule.pc')" prop="batch" align="center" />
-            <el-editable-column :label="$t('updates.wpfl')" prop="categoryName" align="center" />
-            <el-editable-column :label="$t('updates.jbdw')" prop="unit" align="center" />
+            <!--            <el-editable-column :label="$t('updates.wpfl')" prop="categoryName" align="center" />-->
+            <!--            <el-editable-column :label="$t('updates.jbdw')" prop="unit" align="center" />-->
             <el-editable-column :label="$t('updates.ggxh')" prop="typeName" align="center" />
-            <el-editable-column :label="$t('updates.ys')" prop="color" align="center" />
+            <!--            <el-editable-column :label="$t('updates.ys')" prop="color" align="center" />-->
             <el-editable-column :label="$t('updates.lsj')" prop="salePrice" align="center" />
             <el-editable-column :label="$t('Hmodule.je')" prop="money" align="center" />
             <el-editable-column :label="$t('updates.shuli')" prop="quantity" align="center" />
@@ -443,7 +443,7 @@ export default {
         0: _that.$t('updates.wsh'),
         1: _that.$t('updates.shz'),
         2: _that.$t('Hmodule.shtg'),
-        3: _that.$t('updates.shbtg')
+        3: _that.$t('Hmodule.shbtg')
       }
       return statusMap[status]
     },

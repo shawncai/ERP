@@ -53,8 +53,8 @@
           </el-form-item>
           <el-form-item :label="$t('updates.qyzt')" label-width="120px">
             <el-select v-model="Numberingform.iseffective" placeholder="请选择启用状态">
-              <el-option label="active" value="1"/>
-              <el-option label="dead" value="2"/>
+              <el-option label="on duty" value="1"/>
+              <el-option label="closed" value="2"/>
             </el-select>
           </el-form-item>
         </el-form>
@@ -163,8 +163,8 @@
           </el-form-item>
           <el-form-item :label="$t('updates.qyzt')" label-width="120px">
             <el-select v-model="editNumberingform.isEffective" placeholder="请选择启用状态">
-              <el-option label="active" value="1"/>
-              <el-option label="dead" value="2"/>
+              <el-option label="on duty" value="1"/>
+              <el-option label="closed" value="2"/>
             </el-select>
           </el-form-item>
         </el-form>

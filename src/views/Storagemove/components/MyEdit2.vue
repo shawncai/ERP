@@ -253,7 +253,7 @@
           </el-editable-column>
           <el-table-column :label="$t('public.actions')" :resizable="false" align="center" min-width="100">
             <template slot-scope="scope">
-              <el-button v-show="scope.row.data.stat === 1" title="确认" type="primary" size="mini" icon="el-icon-check" circle @click="handleEdit2(scope.row)"/>
+              <el-button v-show="scope.row.data.stat === 1" :loading="ischeck" title="确认" type="primary" size="mini" icon="el-icon-check" circle @click="handleEdit2(scope.row)"/>
             </template>
           </el-table-column>
         </el-editable>
@@ -306,6 +306,7 @@ export default {
   },
   data() {
     return {
+      ischeck: false,
       // 单据id
       id: '',
       // 申请人回显
@@ -477,24 +478,32 @@ export default {
     },
     // 确认入库数量
     handleEdit2(row) {
+      this.ischeck = true
       if (row.data.locationId === null) {
         this.$notify.error({
           title: '错误',
           message: '信息未填完整',
           offset: 100
         })
+        this.ischeck = false
         return false
       }
       console.log(row.data.id)
       console.log(row.id)
       const query = JSON.stringify(row.data)
+      const that = this
       editStoragein(query).then(res => {
         console.log(res)
         if (res.data.ret === 200) {
           confirmStoragein(row.data.id).then(res => {
             console.log(res)
-            row.data.stat = 2
+            if (res.data.ret === 200) {
+              row.data.stat = 2
+              that.ischeck = false
+            }
           })
+        } else {
+          that.ischeck = false
         }
       })
     },

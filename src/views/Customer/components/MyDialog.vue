@@ -33,11 +33,11 @@
                 </el-select>
               </el-form-item>
             </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('Customer.pinyin')" style="width: 100%;">
-                <el-input v-model="customerForm.pinyin" placeholder="请输入拼音缩写" style="margin-left: 18px;width: 200px"/>
-              </el-form-item>
-            </el-col>
+            <!--            <el-col :span="12">-->
+            <!--              <el-form-item :label="$t('Customer.pinyin')" style="width: 100%;">-->
+            <!--                <el-input v-model="customerForm.pinyin" placeholder="请输入拼音缩写" style="margin-left: 18px;width: 200px"/>-->
+            <!--              </el-form-item>-->
+            <!--            </el-col>-->
             <el-col :span="12">
               <el-form-item :label="$t('Customer.source2')" style="width: 100%;">
                 <el-select v-model="customerForm.source" :value="customerForm.source" placeholder="请选择经销商来源" style="margin-left: 18px;width: 200px" @focus="getCategory">

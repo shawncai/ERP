@@ -34,9 +34,9 @@
               </template>
             </el-select>
           </el-form-item>
-          <el-form-item :label="$t('Customer.pinyin')" style="width: 40%;margin-top: 1%">
-            <el-input v-model="customerForm.pinyin" placeholder="请输入拼音缩写" clearable/>
-          </el-form-item>
+          <!--          <el-form-item :label="$t('Customer.pinyin')" style="width: 40%;margin-top: 1%">-->
+          <!--            <el-input v-model="customerForm.pinyin" placeholder="请输入拼音缩写" clearable/>-->
+          <!--          </el-form-item>-->
           <el-form-item :label="$t('Customer.source2')" style="width: 40%;margin-top: 1%">
             <el-select ref="clear3" v-model="customerForm.source" :value="customerForm.source" placeholder="请选择客户来源" style="width: 100%;" @focus="getCategory">
               <el-option v-show="false" label="" value=""/>
@@ -79,7 +79,7 @@
             </el-select>
           </el-form-item>
           <el-form-item :label="$t('Customer.provinceid')" style="width: 40%;margin-top: 1%">
-            <el-select v-model="customerForm.provinceid" placeholder="请选择省" style="width: 100%;" @change="handlechange2">
+            <el-select v-model="customerForm.provinceid" filterable placeholder="请选择省" style="width: 100%;" @change="handlechange2">
               <el-option
                 v-for="(item, index) in provinces"
                 :key="index"
@@ -88,7 +88,7 @@
             </el-select>
           </el-form-item>
           <el-form-item :label="$t('Customer.cityid')" style="width: 40%;margin-top: 1%">
-            <el-select v-model="customerForm.cityid" placeholder="请选择市" style="width: 100%;">
+            <el-select v-model="customerForm.cityid" filterable placeholder="请选择市" style="width: 100%;">
               <el-option
                 v-for="(item, index) in cities"
                 :key="index"

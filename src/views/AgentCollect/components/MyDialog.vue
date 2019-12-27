@@ -33,7 +33,7 @@
             </el-col>
             <el-col :span="12">
               <el-form-item :label="$t('InstallmentApply.provinceId')" prop="provinceId" style="width: 100%;">
-                <el-select v-model="personalForm.provinceId" style="margin-left: 18px;width: 200px" @change="handlechange2">
+                <el-select v-model="personalForm.provinceId" style="margin-left: 18px;width: 200px" filterable @change="handlechange2">
                   <el-option
                     v-for="(item, index) in provinces"
                     :key="index"
@@ -44,7 +44,7 @@
             </el-col>
             <el-col :span="12">
               <el-form-item :label="$t('InstallmentApply.cityId')" prop="cityId" style="width: 100%;">
-                <el-select v-model="personalForm.cityId" style="margin-left: 18px;width: 200px">
+                <el-select v-model="personalForm.cityId" filterable style="margin-left: 18px;width: 200px">
                   <el-option
                     v-for="(item, index) in cities"
                     :key="index"
@@ -256,7 +256,7 @@
           <el-row>
             <el-col :span="12">
               <el-form-item :label="$t('InstallmentApply.workProvinceId')" style="width: 100%;">
-                <el-select v-model="personalForm.workProvinceId" style="margin-left: 18px;width: 200px" @change="handlechangeworkProvince">
+                <el-select v-model="personalForm.workProvinceId" style="margin-left: 18px;width: 200px" filterable @change="handlechangeworkProvince">
                   <el-option
                     v-for="(item, index) in provinces"
                     :key="index"
@@ -267,7 +267,7 @@
             </el-col>
             <el-col :span="12">
               <el-form-item :label="$t('InstallmentApply.workCityId')" style="width: 100%;">
-                <el-select v-model="personalForm.workCityId" style="margin-left: 18px;width: 200px">
+                <el-select v-model="personalForm.workCityId" filterable style="margin-left: 18px;width: 200px">
                   <el-option
                     v-for="(item, index) in cities2"
                     :key="index"
@@ -319,7 +319,7 @@
       </div>
     </el-card>
     <el-card class="box-card" shadow="never" style="margin-top: 10px;margin-bottom: 30px">
-      <h2 ref="geren" class="form-name">担保人信息</h2>
+      <h2 ref="geren" class="form-name">{{ $t('newupd.asds') }}</h2>
       <div class="container" style="margin-top: 37px">
         <el-form ref="personalForm5" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
           <el-row>
@@ -340,7 +340,7 @@
             </el-col>
             <el-col :span="12">
               <el-form-item :label="$t('InstallmentApply.suretyProvinceId')" prop="suretyProvinceId" style="width: 100%;">
-                <el-select v-model="personalForm.suretyProvinceId" style="margin-left: 18px;width: 200px" @change="handlechangesuretyProvince">
+                <el-select v-model="personalForm.suretyProvinceId" style="margin-left: 18px;width: 200px" filterable @change="handlechangesuretyProvince">
                   <el-option
                     v-for="(item, index) in provinces"
                     :key="index"
@@ -351,7 +351,7 @@
             </el-col>
             <el-col :span="12">
               <el-form-item :label="$t('InstallmentApply.suretyCityId')" prop="suretyCityId" style="width: 100%;">
-                <el-select v-model="personalForm.suretyCityId" style="margin-left: 18px;width: 200px">
+                <el-select v-model="personalForm.suretyCityId" filterable style="margin-left: 18px;width: 200px">
                   <el-option
                     v-for="(item, index) in cities3"
                     :key="index"

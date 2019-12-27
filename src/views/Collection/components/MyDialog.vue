@@ -57,7 +57,7 @@
         </el-form>
       </div>
     </el-card>
-    <el-card class="box-card" style="margin-top: 15px" shadow="never">
+    <el-card class="box-card" style="margin-top: 15px;margin-bottom: 40px" shadow="never">
       <h2 ref="fuzhu" class="form-name" >{{ $t('updates.clxx') }}</h2>
       <div class="container">
         <el-editable
@@ -73,53 +73,81 @@
           <el-editable-column :label="$t('Hmodule.xh')" min-width="55" align="center" type="index"/>
           <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" align="center" min-width="150px"/>
           <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" align="center" min-width="150px"/>
+          <el-editable-column :edit-render="{type: 'default'}" :label="$t('Hmodule.hw')" prop="locationId" align="center" width="200px">
+            <template slot-scope="scope">
+              <el-select v-model="scope.row.locationId" :value="scope.row.locationId" :placeholder="$t('Hmodule.xzhw')" filterable clearable style="width: 100%;" @visible-change="updatebatch($event,scope)">
+                <el-option
+                  v-for="item in locationlist"
+                  :key="item.id"
+                  :value="item.id"
+                  :label="item.locationCode"/>
+              </el-select>
+            </template>
+          </el-editable-column>
+          <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('Hmodule.pc')" prop="batch" align="center" width="150px"/>
           <el-editable-column :label="$t('updates.wpfl')" prop="productCategoryName" align="center" min-width="150px"/>
           <el-editable-column :label="$t('updates.jbdw')" prop="unit" align="center" min-width="150px"/>
           <el-editable-column :label="$t('updates.ggxh')" prop="productTypeName" align="center" min-width="150px"/>
           <el-editable-column :label="$t('updates.ys')" prop="color" align="center" min-width="150px"/>
+          <el-editable-column :edit-render="{name: 'ElInputNumber', type: 'visible', attrs: {min: 0.00, precision: 2, controls:false}}" :label="$t('updates.rksl')" prop="quantity" align="center" width="150px"/>
           <el-editable-column :label="$t('updates.jxf')" prop="kpiGrade" align="center" min-width="150px"/>
           <el-editable-column :label="$t('updates.spjf')" prop="point" align="center" min-width="150px"/>
-          <el-editable-column :label="$t('Hmodule.dj')" prop="price" align="center" min-width="150px"/>
-          <el-editable-column :label="$t('updates.cjbm')" prop="carCode" align="center" min-width="150px"/>
-          <el-editable-column :label="$t('updates.dcbm')" prop="batteryCode" align="center" min-width="150px"/>
-          <el-editable-column :label="$t('updates.djbm')" prop="motorCode" align="center" min-width="150px"/>
+          <!--          <el-editable-column :label="$t('Hmodule.dj')" prop="price" align="center" min-width="150px"/>-->
+          <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.cjbm')" prop="carCode" align="center" min-width="150" >
+            <template slot="edit" slot-scope="scope">
+              <el-input v-if="isEdit2(scope.row)" v-model="scope.row.carCode" clearable @blur="getInfo(scope.row)"/>
+              <span v-else>{{ scope.row.carCode }}</span>
+            </template>
+          </el-editable-column>
+          <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.djbm')" prop="motorCode" align="center" min-width="150" >
+            <template slot="edit" slot-scope="scope">
+              <el-input v-if="isEdit2(scope.row)" v-model="scope.row.motorCode" clearable @blur="getInfo3(scope.row)"/>
+              <span v-else>{{ scope.row.motorCode }}</span>
+            </template>
+          </el-editable-column>
+          <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.dcbm')" prop="batteryCode" align="center" min-width="150" >
+            <template slot="edit" slot-scope="scope">
+              <el-input v-if="isEdit4(scope.row)" v-model="scope.row.batteryCode" clearable @blur="getInfo2(scope.row)"/>
+              <span v-else>{{ scope.row.batteryCode }}</span>
+            </template>
+          </el-editable-column>
         </el-editable>
       </div>
     </el-card>
-    <el-card class="box-card" style="margin-top: 15px;margin-bottom: 40px" shadow="never">
-      <h2 ref="fuzhu" class="form-name" >{{ $t('updates.qsmx') }}</h2>
-      <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
-        <el-button @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>
-        <my-detail :control.sync="control" @product="productdetail"/>
-        <el-button type="danger" @click="$refs.editable2.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
-      </div>
-      <div class="container">
-        <el-editable
-          ref="editable2"
-          :data.sync="list3"
-          :edit-config="{ showIcon: true, showStatus: true}"
-          class="click-table1"
-          stripe
-          border
-          size="medium"
-          style="width: 100%">
-          <el-editable-column type="selection" min-width="55" align="center"/>
-          <el-editable-column :label="$t('Hmodule.xh')" min-width="55" align="center" type="index"/>
-          <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" align="center" min-width="150px"/>
-          <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" align="center" min-width="150px"/>
-          <el-editable-column :label="$t('updates.wpfl')" prop="productCategoryName" align="center" min-width="150px"/>
-          <el-editable-column :label="$t('updates.jbdw')" prop="unit" align="center" min-width="150px"/>
-          <el-editable-column :label="$t('updates.ggxh')" prop="productTypeName" align="center" min-width="150px"/>
-          <el-editable-column :label="$t('updates.ys')" prop="color" align="center" min-width="150px"/>
-          <el-editable-column :label="$t('updates.jxf')" prop="kpiGrade" align="center" min-width="150px"/>
-          <el-editable-column :label="$t('updates.spjf')" prop="point" align="center" min-width="150px"/>
-          <el-editable-column :label="$t('Hmodule.dj')" prop="price" align="center" min-width="150px"/>
-          <el-editable-column :label="$t('updates.cjbm')" prop="carCode" align="center" min-width="150px"/>
-          <el-editable-column :label="$t('updates.dcbm')" prop="batteryCode" align="center" min-width="150px"/>
-          <el-editable-column :label="$t('updates.djbm')" prop="motorCode" align="center" min-width="150px"/>
-        </el-editable>
-      </div>
-    </el-card>
+    <!--    <el-card class="box-card" style="margin-top: 15px;margin-bottom: 40px" shadow="never">-->
+    <!--      <h2 ref="fuzhu" class="form-name" >{{ $t('updates.qsmx') }}</h2>-->
+    <!--      <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">-->
+    <!--        <el-button @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>-->
+    <!--        <my-detail :control.sync="control" @product="productdetail"/>-->
+    <!--        <el-button type="danger" @click="$refs.editable2.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>-->
+    <!--      </div>-->
+    <!--      <div class="container">-->
+    <!--        <el-editable-->
+    <!--          ref="editable2"-->
+    <!--          :data.sync="list3"-->
+    <!--          :edit-config="{ showIcon: true, showStatus: true}"-->
+    <!--          class="click-table1"-->
+    <!--          stripe-->
+    <!--          border-->
+    <!--          size="medium"-->
+    <!--          style="width: 100%">-->
+    <!--          <el-editable-column type="selection" min-width="55" align="center"/>-->
+    <!--          <el-editable-column :label="$t('Hmodule.xh')" min-width="55" align="center" type="index"/>-->
+    <!--          <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" align="center" min-width="150px"/>-->
+    <!--          <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" align="center" min-width="150px"/>-->
+    <!--          <el-editable-column :label="$t('updates.wpfl')" prop="productCategoryName" align="center" min-width="150px"/>-->
+    <!--          <el-editable-column :label="$t('updates.jbdw')" prop="unit" align="center" min-width="150px"/>-->
+    <!--          <el-editable-column :label="$t('updates.ggxh')" prop="productTypeName" align="center" min-width="150px"/>-->
+    <!--          <el-editable-column :label="$t('updates.ys')" prop="color" align="center" min-width="150px"/>-->
+    <!--          <el-editable-column :label="$t('updates.jxf')" prop="kpiGrade" align="center" min-width="150px"/>-->
+    <!--          <el-editable-column :label="$t('updates.spjf')" prop="point" align="center" min-width="150px"/>-->
+    <!--          <el-editable-column :label="$t('Hmodule.dj')" prop="price" align="center" min-width="150px"/>-->
+    <!--          <el-editable-column :label="$t('updates.cjbm')" prop="carCode" align="center" min-width="150px"/>-->
+    <!--          <el-editable-column :label="$t('updates.dcbm')" prop="batteryCode" align="center" min-width="150px"/>-->
+    <!--          <el-editable-column :label="$t('updates.djbm')" prop="motorCode" align="center" min-width="150px"/>-->
+    <!--        </el-editable>-->
+    <!--      </div>-->
+    <!--    </el-card>-->
     <el-card class="box-card" style="position: fixed;width: 1010px;z-index: 100;height: 74px;bottom: 0;" shadow="never">
       <div class="buttons" style="float: right;padding-bottom: 10px">
         <el-button @click="handlecancel()">{{ $t('Hmodule.cancel') }}</el-button>
@@ -131,6 +159,7 @@
 
 <script>
 import { updaterecoverVehicle } from '@/api/Collection'
+import { getlocation, locationlist, vehicleInfo } from '@/api/public'
 import MyEmp from './MyEmp'
 import MyDetail from './MyDetail'
 import MyMater from './MyMater'
@@ -165,6 +194,7 @@ export default {
       }
     }
     return {
+      locationlist: [],
       // 选择的数据
       choosedata: [],
       // 弹窗组件的控制
@@ -218,6 +248,7 @@ export default {
       this.receivePersonId = this.personalForm.receivePersonName
       this.list2 = this.personalForm.recoverVehicleDetailVos
       this.list3 = this.personalForm.recoverVehicleLostVos
+      this.getlocation()
     }
   },
   created() {
@@ -226,6 +257,124 @@ export default {
     _that = this
   },
   methods: {
+    getInfo(row) {
+      console.log(row)
+      if (row.carCode !== null && row.carCode !== '' && row.carCode !== undefined) {
+        const param = {}
+        param.carCode = row.carCode
+        vehicleInfo(param).then(res => {
+          if (res.data.ret === 200) {
+            console.log('res.data.data.content', res.data.data.content)
+            if (res.data.data.content !== null) {
+              row.carCode = res.data.data.content.carCode
+              row.batteryCode = res.data.data.content.batteryCode
+              row.motorCode = res.data.data.content.motorCode
+              row.snCode = res.data.data.content.snCode
+            }
+          } else {
+            this.$notify.error({
+              title: '错误',
+              message: res.data.msg,
+              offset: 100
+            })
+          }
+        })
+      }
+    },
+    getInfo2(row) {
+      console.log(row)
+      if (row.batteryCode !== null && row.batteryCode !== '' && row.batteryCode !== undefined) {
+        const param = []
+        param.batteryCode = row.batteryCode
+        vehicleInfo(param).then(res => {
+          if (res.data.ret === 200) {
+            console.log('res.data.data.content', res.data.data.content)
+            if (res.data.data.content !== null) {
+              row.carCode = res.data.data.content.carCode
+              row.batteryCode = res.data.data.content.batteryCode
+              row.motorCode = res.data.data.content.motorCode
+              row.snCode = res.data.data.content.snCode
+            }
+          } else {
+            this.$notify.error({
+              title: '错误',
+              message: res.data.msg,
+              offset: 100
+            })
+          }
+        })
+      }
+    },
+    getInfo3(row) {
+      console.log(row)
+      if (row.motorCode !== null && row.motorCode !== '' && row.motorCode !== undefined) {
+        const param = []
+        param.motorCode = row.motorCode
+        vehicleInfo(param).then(res => {
+          if (res.data.ret === 200) {
+            console.log('res.data.data.content', res.data.data.content)
+            if (res.data.data.content !== null) {
+              row.carCode = res.data.data.content.carCode
+              row.batteryCode = res.data.data.content.batteryCode
+              row.motorCode = res.data.data.content.motorCode
+              row.snCode = res.data.data.content.snCode
+            }
+          } else {
+            this.$notify.error({
+              title: '错误',
+              message: res.data.msg,
+              offset: 100
+            })
+          }
+        })
+      }
+    },
+    // 判断整车
+    isEdit2(row) {
+      console.log('222', row)
+      const re = row.productCode.slice(0, 2)
+      if (re === '01') { return true } else { return false }
+    },
+    // 判断整车或者电池
+    isEdit4(row) {
+      console.log('222', row)
+      const re = row.productCode.slice(0, 2)
+      if (re === '01' || re === '05') { return true } else { return false }
+    },
+    getlocation() {
+      // 货位根据仓库id展现
+      locationlist(this.personalForm.retreatRepositoryId).then(res => {
+        if (res.data.ret === 200) {
+          this.locationlist = res.data.data.content.list
+        }
+      })
+    },
+    updatebatch(event, scope) {
+      if (event === true) {
+        console.log(this.personalForm.retreatRepositoryId)
+        if (this.personalForm.retreatRepositoryId === undefined || this.personalForm.retreatRepositoryId === '') {
+          this.$notify.error({
+            title: '错误',
+            message: '请先选择仓库',
+            offset: 100
+          })
+          return false
+        }
+        getlocation(this.personalForm.retreatRepositoryId, scope.row).then(res => {
+          if (res.data.ret === 200) {
+            if (res.data.data.content.length !== 0) {
+              this.locationlist = res.data.data.content
+            } else if (res.data.data.content.length === 0) {
+              locationlist(this.personalForm.retreatRepositoryId).then(res => {
+                if (res.data.ret === 200) {
+                  this.locationlist = res.data.data.content.list
+                }
+              })
+            }
+          }
+        })
+      }
+    },
     // 仓库列表focus事件触发
     handlechooseRep() {
       this.repositorycontrol = true
@@ -240,20 +389,20 @@ export default {
     },
     productdetail(val) {
       console.log(val)
-      this.$refs.editable2.clear()
-      const nowlistdata = this.$refs.editable2.getRecords()
+      // this.$refs.editable2.clear()
+      // const nowlistdata = this.$refs.editable2.getRecords()
       for (let i = 0; i < val.length; i++) {
-        for (let j = 0; j < nowlistdata.length; j++) {
-          if (val[i].productCode === nowlistdata[j].productCode) {
-            this.$notify.error({
-              title: '错误',
-              message: '物品已添加',
-              offset: 100
-            })
-            return false
-          }
-        }
-        this.$refs.editable2.insert(val[i])
+        // for (let j = 0; j < nowlistdata.length; j++) {
+        //   if (val[i].productCode === nowlistdata[j].productCode) {
+        //     this.$notify.error({
+        //       title: '错误',
+        //       message: '物品已添加',
+        //       offset: 100
+        //     })
+        //     return false
+        //   }
+        // }
+        this.$refs.editable.insert(val[i])
       }
     },
     // 收车人focus事件
@@ -273,10 +422,10 @@ export default {
       this.installmentcontrol = true
     },
     InstallmentDetail(val) {
-      this.$refs.editable.clear()
-      for (let i = 0; i < val.length; i++) {
-        this.$refs.editable.insert(val[i])
-      }
+      // this.$refs.editable.clear()
+      // for (let i = 0; i < val.length; i++) {
+      //   this.$refs.editable.insert(val[i])
+      // }
     },
     Installment(val) {
       this.personalForm.sourceNumber = val.applyNumber
@@ -305,6 +454,14 @@ export default {
     // 修改和取消按钮
     // 修改按钮
     handleEditok() {
+      if (this.retreatRepositoryId === null || this.retreatRepositoryId === '' || this.retreatRepositoryId === undefined) {
+        this.$notify.error({
+          title: '错误',
+          message: '门店不能为空',
+          offset: 100
+        })
+        return false
+      }
       this.personalForm.repositoryId = this.$store.getters.repositoryId
       this.personalForm.regionId = this.$store.getters.regionId
       this.personalForm.createPersonId = this.$store.getters.userId
@@ -319,9 +476,16 @@ export default {
         })
         return false
       }
+      let i = 1
       EnterDetail.map(function(elem) {
         return elem
       }).forEach(function(elem) {
+        if (elem.quantity === null || elem.quantity === '' || elem.quantity === undefined) {
+          delete elem.quantity
+          i = 2
+        } else if (elem.quantity === 0) {
+          i = 2
+        }
         if (elem.productCode === null || elem.productCode === '' || elem.productCode === undefined) {
           delete elem.productCode
         }
@@ -360,50 +524,58 @@ export default {
         }
         return elem
       })
-      const EnterDetail2 = this.$refs.editable2.getRecords()
-      EnterDetail.map(function(elem) {
-        return elem
-      }).forEach(function(elem) {
-        if (elem.productCode === null || elem.productCode === '' || elem.productCode === undefined) {
-          delete elem.productCode
-        }
-        if (elem.productName === null || elem.productName === '' || elem.productName === undefined) {
-          delete elem.productName
-        }
-        if (elem.categoryId === null || elem.categoryId === '' || elem.categoryId === undefined) {
-          delete elem.categoryId
-        }
-        if (elem.typeId === null || elem.typeId === '' || elem.typeId === undefined) {
-          delete elem.typeId
-        }
-        if (elem.unit === null || elem.unit === '' || elem.unit === undefined) {
-          delete elem.unit
-        }
-        if (elem.color === null || elem.color === '' || elem.color === undefined) {
-          delete elem.color
-        }
-        if (elem.kpiGrade === null || elem.kpiGrade === '' || elem.kpiGrade === undefined) {
-          delete elem.kpiGrade
-        }
-        if (elem.point === null || elem.point === '' || elem.point === undefined) {
-          delete elem.point
-        }
-        if (elem.price === null || elem.price === '' || elem.price === undefined) {
-          delete elem.price
-        }
-        if (elem.carCode === null || elem.carCode === '' || elem.carCode === undefined) {
-          delete elem.carCode
-        }
-        if (elem.batteryCode === null || elem.batteryCode === '' || elem.batteryCode === undefined) {
-          delete elem.batteryCode
-        }
-        if (elem.motorCode === null || elem.motorCode === '' || elem.motorCode === undefined) {
-          delete elem.motorCode
-        }
-        return elem
-      })
+      if (i === 2) {
+        this.$notify.error({
+          title: '错误',
+          message: '正确填写数量',
+          offset: 100
+        })
+        return false
+      }
+      // const EnterDetail2 = this.$refs.editable2.getRecords()
+      // EnterDetail.map(function(elem) {
+      //   return elem
+      // }).forEach(function(elem) {
+      //   if (elem.productCode === null || elem.productCode === '' || elem.productCode === undefined) {
+      //     delete elem.productCode
+      //   }
+      //   if (elem.productName === null || elem.productName === '' || elem.productName === undefined) {
+      //     delete elem.productName
+      //   }
+      //   if (elem.categoryId === null || elem.categoryId === '' || elem.categoryId === undefined) {
+      //     delete elem.categoryId
+      //   }
+      //   if (elem.typeId === null || elem.typeId === '' || elem.typeId === undefined) {
+      //     delete elem.typeId
+      //   }
+      //   if (elem.unit === null || elem.unit === '' || elem.unit === undefined) {
+      //     delete elem.unit
+      //   }
+      //   if (elem.color === null || elem.color === '' || elem.color === undefined) {
+      //     delete elem.color
+      //   }
+      //   if (elem.kpiGrade === null || elem.kpiGrade === '' || elem.kpiGrade === undefined) {
+      //     delete elem.kpiGrade
+      //   }
+      //   if (elem.point === null || elem.point === '' || elem.point === undefined) {
+      //     delete elem.point
+      //   }
+      //   if (elem.price === null || elem.price === '' || elem.price === undefined) {
+      //     delete elem.price
+      //   }
+      //   if (elem.carCode === null || elem.carCode === '' || elem.carCode === undefined) {
+      //     delete elem.carCode
+      //   }
+      //   if (elem.batteryCode === null || elem.batteryCode === '' || elem.batteryCode === undefined) {
+      //     delete elem.batteryCode
+      //   }
+      //   if (elem.motorCode === null || elem.motorCode === '' || elem.motorCode === undefined) {
+      //     delete elem.motorCode
+      //   }
+      //   return elem
+      // })
       const parms2 = JSON.stringify(EnterDetail)
-      const parms3 = JSON.stringify(EnterDetail2)
+      // const parms3 = JSON.stringify(EnterDetail2)
       const Data = this.personalForm
       for (const key in Data) {
         if (Data[key] === '' || Data[key] === undefined || Data[key] === null) {
@@ -413,7 +585,7 @@ export default {
       const parms = JSON.stringify(Data)
       this.$refs.personalForm.validate((valid) => {
         if (valid) {
-          updaterecoverVehicle(parms, parms2, parms3).then(res => {
+          updaterecoverVehicle(parms, parms2, null).then(res => {
             console.log(res)
             if (res.data.ret === 200) {
               this.$notify({

@@ -45,8 +45,9 @@
           align="center"/>
         <el-table-column :label="$t('BasicSettings.id2')" :resizable="false" fixed="left" prop="id" align="center" width="250">
           <template slot-scope="scope">
-            <span>{{ scope.row.id }}</span>
+            <span class="link-type" @click="handleDetail(scope.row)">{{ scope.row.id }}</span>
           </template>
+          <detail-list :detailcontrol.sync="detailvisible" :detaildata.sync="personalForm"/>
         </el-table-column>
         <el-table-column :label="$t('BasicSettings.process_name')" :resizable="false" fixed="left" prop="processName" align="center" width="250">
           <template slot-scope="scope">
@@ -104,12 +105,13 @@ import permission from '@/directive/permission/index.js' // 权限判断指令
 import permission2 from '@/directive/permission2/index.js' // 权限判断指令
 import checkPermission from '@/utils/permission' // 权限判断函数
 import MyDialog from './components/MyDialog'
+import DetailList from './components/DetailList'
 
 var _that
 export default {
   name: 'ApprovalProcess',
   directives: { waves, permission, permission2 },
-  components: { Pagination, MyDialog },
+  components: { Pagination, MyDialog, DetailList },
   filters: {
     genderFilter(status) {
       const statusMap = {
@@ -128,6 +130,7 @@ export default {
   },
   data() {
     return {
+      detailvisible: false,
       personalForm2: {},
       // 单据类型数据
       categorys: [],
@@ -164,6 +167,19 @@ export default {
     _that = this
   },
   methods: {
+    // 详情操作
+    handleDetail(row) {
+      console.log(row)
+      searchDetail(row.id).then(res => {
+        console.log(res)
+        if (res.data.ret === 200) {
+          this.personalForm = res.data.data
+          this.detailvisible = true
+        }
+      })
+
+      // this.personalForm = Object.assign({}, row)
+    },
     // 启用停用操作
     open(row) {
       console.log('row', row)

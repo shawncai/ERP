@@ -77,7 +77,7 @@
             </el-select>
           </el-form-item>
           <el-form-item :label="$t('Customer.provinceid')" style="width: 40%;margin-top: 1%">
-            <el-select v-model="customerForm.provinceid" style="width: 100%;" @change="handlechange2">
+            <el-select v-model="customerForm.provinceid" style="width: 100%;" filterable @change="handlechange2">
               <el-option
                 v-for="(item, index) in provinces"
                 :key="index"
@@ -86,7 +86,7 @@
             </el-select>
           </el-form-item>
           <el-form-item :label="$t('Customer.cityid')" style="width: 40%;margin-top: 1%">
-            <el-select v-model="customerForm.cityid" style="width: 100%;">
+            <el-select v-model="customerForm.cityid" filterable style="width: 100%;">
               <el-option
                 v-for="(item, index) in cities"
                 :key="index"

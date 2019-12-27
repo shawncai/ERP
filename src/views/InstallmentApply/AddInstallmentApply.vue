@@ -116,14 +116,41 @@
               <el-col :span="6">
                 <el-form-item :label="$t('InstallmentApply.certificateType')" prop="certificateType" style="width: 100%;">
                   <el-select v-model="personalForm.certificateType" style="margin-left: 18px;width: 200px">
-                    <el-option value="1" label="身份证"/>
-                    <el-option value="2" label="其他"/>
+                    <el-option value="1" label="passport"/>
+                    <el-option value="2" label="voters ID"/>
+                    <el-option value="3" label="UMID ID"/>
+                    <el-option value="4" label="license"/>
+                    <el-option value="5" label="SSS"/>
+                    <el-option value="6" label="phili health"/>
+                    <el-option value="7" label="Pag-big"/>
+                    <el-option value="8" label="NBI"/>
+                    <el-option value="9" label="POLICE ID"/>
                   </el-select>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('InstallmentApply.certificateNumber')" prop="certificateNumber" style="width: 100%;">
                   <el-input v-model="personalForm.certificateNumber" style="margin-left: 18px;width: 200px" clearable/>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item :label="$t('InstallmentApply.certificateType')" style="width: 100%;">
+                  <el-select v-model="personalForm.certificateType2" style="margin-left: 18px;width: 200px">
+                    <el-option value="1" label="passport"/>
+                    <el-option value="2" label="voters ID"/>
+                    <el-option value="3" label="UMID ID"/>
+                    <el-option value="4" label="license"/>
+                    <el-option value="5" label="SSS"/>
+                    <el-option value="6" label="phili health"/>
+                    <el-option value="7" label="Pag-big"/>
+                    <el-option value="8" label="NBI"/>
+                    <el-option value="9" label="POLICE ID"/>
+                  </el-select>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item :label="$t('InstallmentApply.certificateNumber')" style="width: 100%;">
+                  <el-input v-model="personalForm.certificateNumber2" style="margin-left: 18px;width: 200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
@@ -235,7 +262,7 @@
         </div>
       </el-card>
       <el-card class="box-card" shadow="never" style="margin-top: 10px">
-        <h2 ref="geren" class="form-name">伴侣信息</h2>
+        <h2 ref="geren" class="form-name">{{ $t('newupd.jhg') }}</h2>
         <div class="container" style="margin-top: 37px">
           <el-form ref="personalForm3" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
             <el-row>
@@ -295,7 +322,7 @@
         <h2 ref="geren" class="form-name">{{ $t('updates.gzxx') }}</h2>
         <div class="container" style="margin-top: 37px">
           <el-tabs v-model="activeName">
-            <el-tab-pane label="申请者" name="first">
+            <el-tab-pane :label="$t('newupd.vff')" name="first">
               <el-form ref="personalForm4" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
                 <el-row>
                   <el-col :span="6">
@@ -371,7 +398,7 @@
                 </el-row>
               </el-form>
             </el-tab-pane>
-            <el-tab-pane label="伴侣" name="second">
+            <el-tab-pane :label="$t('newupd.ddc')" name="second">
               <el-form ref="personalForm5" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
                 <el-row>
                   <el-col :span="6">
@@ -453,7 +480,7 @@
       <el-card class="box-card" shadow="never" style="margin-top: 10px">
         <h2 ref="geren" class="form-name">{{ $t('updates.zxrxx') }}</h2>
         <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
-          <el-button @click="handleAddproduct">添加征询人</el-button>
+          <el-button @click="handleAddproduct">{{ $t('newupd.fdss') }}</el-button>
           <el-button type="danger" @click="$refs.editable.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
         </div>
         <div class="container">
@@ -475,7 +502,7 @@
         </div>
       </el-card>
       <el-card class="box-card" shadow="never" style="margin-top: 10px">
-        <h2 ref="geren" class="form-name">担保人信息</h2>
+        <h2 ref="geren" class="form-name">{{ $t('newupd.asds') }}</h2>
         <div class="container" style="margin-top: 37px">
           <el-form ref="personalForm5" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
             <el-row>
@@ -584,7 +611,7 @@
               </el-col>
             </el-row>
             <div class="buttons" style="margin-left: 27%;margin-top: 20px">
-              <el-button v-no-more-click type="primary" style="background:#3696fd;border-color:#3696fd;width: 98px" @click="handlesave2()">{{ $t('Hmodule.baoc') }}</el-button>
+              <el-button :loading="isclick" type="primary" style="background:#3696fd;border-color:#3696fd;width: 98px" @click="handlesave2()">{{ $t('Hmodule.baoc') }}</el-button>
               <el-button type="danger" @click="handlecance2()">{{ $t('Hmodule.cancel') }}</el-button>
             </div>
           </el-form>
@@ -681,6 +708,7 @@ export default {
     //   }
     // }
     return {
+      isclick: false,
       // 上传图片
       pickerOptions1: {
         disabledDate: (time) => {
@@ -1368,6 +1396,7 @@ export default {
         }
       }
       const parms = JSON.stringify(Data)
+      this.isclick = true
       this.$refs.personalForm.validate((valid) => {
         if (valid) {
           this.$refs.upload.submit()
@@ -1380,6 +1409,7 @@ export default {
                 type: 'success',
                 offset: 100
               })
+              this.isclick = false
               this.restAllForm()
               this.$refs.personalForm.clearValidate()
               this.$refs.personalForm.resetFields()
@@ -1397,6 +1427,7 @@ export default {
                 message: res.data.msg,
                 offset: 100
               })
+              this.isclick = false
             }
           })
         } else {
@@ -1405,9 +1436,14 @@ export default {
             message: '信息未填完整',
             offset: 100
           })
+          this.isclick = false
           return false
         }
       })
+
+      setTimeout(() => {
+        this.isclick = false
+      }, 5000)
     },
     // 取消操作
     handlecancel() {

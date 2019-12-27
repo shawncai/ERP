@@ -55,8 +55,9 @@ export default {
     }
   },
   created() {
-    const istrue = true
-    if (istrue) { // 给websocket加入判断条件，是否是客服
+    console.log('this.$store.getters.roleId', this.$store.getters.roleId)
+    const roleid = this.$store.getters.roleId
+    if (roleid === 23) { // 给websocket加入判断条件，是否是客服
       this.initwebsocket()
     }
   },

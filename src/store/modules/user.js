@@ -22,10 +22,14 @@ const user = {
     countryId: '',
     deptId: '',
     regionName: '',
-    repositoryName: ''
+    repositoryName: '',
+    roleId: ''
   },
 
   mutations: {
+    SET_ROLEID: (state, roleId) => {
+      state.roleId = roleId
+    },
     SET_USECOUNTRY: (state, useCountry) => {
       state.useCountry = useCountry
     },
@@ -118,6 +122,7 @@ const user = {
             reject('getInfo: roles must be a non-null array !')
           }
           // console.log(data)
+          commit('SET_ROLEID', data.roleId)
           commit('SET_NAME', data.userName)
           commit('SET_AVATAR', data.avatar)
           commit('SET_INTRODUCTION', data.introduction)

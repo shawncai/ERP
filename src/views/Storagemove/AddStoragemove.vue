@@ -781,20 +781,15 @@ export default {
       this.control = true
     },
     productdetail(val) {
-      console.log(val)
+      console.log('val====', val)
       const nowlistdata = this.$refs.editable.getRecords()
-      for (let i = 0; i < val.length; i++) {
-        for (let j = 0; j < nowlistdata.length; j++) {
-          if (val[i].productCode === nowlistdata[j].productCode) {
-            this.$notify.error({
-              title: '错误',
-              message: '物品已添加',
-              offset: 100
-            })
-            return false
-          }
-        }
-        this.$refs.editable.insert(val[i])
+      console.log('nowlistdata=====', nowlistdata)
+      if (nowlistdata.length === 0) {
+        this.list2 = val
+      } else {
+        const newarr = Object.assign([], val, nowlistdata)
+        console.log('newarr===', newarr)
+        this.list2 = newarr
       }
     },
     // 调拨金额计算

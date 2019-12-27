@@ -157,10 +157,10 @@
             <el-button v-show="isReview(scope.row)" :title="$t('updates.spi')" type="warning" size="mini" icon="el-icon-view" circle @click="handleReview(scope.row)"/>
             <el-button v-permission2="['54-57-2', scope.row.createPersonId]" v-show="scope.row.judgeStat === 0" :title="$t('updates.sc')" size="mini" type="danger" icon="el-icon-delete" circle @click="handleDelete(scope.row)"/>
             <el-button :title="$t('updates.jc')" size="mini" type="primary" icon="el-icon-sort" circle @click="handleReceipt(scope.row)"/>
-            <el-button v-permission="['54-57-22']" v-show="scope.row.judgeStat === 2" type="primary" style="width: 107px" @click="handleMyReceipt1(scope.row)"><span style="margin-left: -15px;">生成销售出库单</span></el-button>
-            <el-button v-permission="['54-57-23']" v-show="scope.row.judgeStat === 2" type="primary" style="width: 107px" @click="handleMyReceipt2(scope.row)"><span style="margin-left: -15px;">生成生产计划单</span></el-button>
-            <el-button v-permission="['54-57-24']" v-show="scope.row.judgeStat === 2" type="primary" style="width: 107px" @click="handleMyReceipt3(scope.row)"><span style="margin-left: -15px;">生成采购申请单</span></el-button>
-            <el-button v-permission="['54-57-25']" v-show="scope.row.judgeStat === 2" type="primary" style="width: 97px" @click="handleMyReceipt4(scope.row)"><span style="margin-left: -15px;">生成预收款单</span></el-button>
+            <el-button v-permission="['54-57-22']" v-show="scope.row.judgeStat === 2" type="primary" style="width: 107px" @click="handleMyReceipt1(scope.row)"><span style="margin-left: -15px;">{{ $t('newupd.qqq') }}</span></el-button>
+            <el-button v-permission="['54-57-23']" v-show="scope.row.judgeStat === 2" type="primary" style="width: 107px" @click="handleMyReceipt2(scope.row)"><span style="margin-left: -15px;">{{ $t('newupd.www') }}</span></el-button>
+            <el-button v-permission="['54-57-24']" v-show="scope.row.judgeStat === 2" type="primary" style="width: 107px" @click="handleMyReceipt3(scope.row)"><span style="margin-left: -15px;">{{ $t('newupd.eee') }}</span></el-button>
+            <el-button v-permission="['54-57-25']" v-show="scope.row.judgeStat === 2" type="primary" style="width: 97px" @click="handleMyReceipt4(scope.row)"><span style="margin-left: -15px;">{{ $t('newupd.rrr') }}</span></el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -212,7 +212,7 @@ export default {
         0: _that.$t('updates.wsh'),
         1: _that.$t('updates.shz'),
         2: _that.$t('Hmodule.shtg'),
-        3: _that.$t('updates.shbtg')
+        3: _that.$t('Hmodule.shbtg')
       }
       return statusMap[status]
     },

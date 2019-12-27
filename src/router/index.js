@@ -371,7 +371,7 @@ export const asyncRouterMap = [
         path: 'index',
         component: () => import('@/views/ShouldPayList/index'),
         name: 'ShouldPayList',
-        meta: { title: 'ShouldPayList', noCache: true }
+        meta: { title: 'ShouldPayList', noCache: true, roles: ['266-127-1', '266-128-6', '266-128-4', '266-128-7', '266-128-67', '266-128-5'] }
       }
     ]
   },
@@ -1665,7 +1665,7 @@ export const asyncRouterMap = [
       title: 'AdvancePay',
       icon: 'fukuandan',
       type: 11,
-      roles: ['266-126-4', '266-127-1']
+      roles: ['266-222-4', '266-221-1']
     },
     children: [
       {
@@ -1799,6 +1799,60 @@ export const asyncRouterMap = [
     ]
   },
   {
+    path: '/SaleOrder',
+    component: Layout,
+    redirect: 'noredirect',
+    name: 'SaleOrder',
+    alwaysShow: true,
+    meta: {
+      title: 'SaleOrder',
+      icon: 'xiaoshoudingdan',
+      type: 3,
+      roles: ['54-57-4', '54-58-1']
+    },
+    children: [
+      {
+        path: 'AddSaleOrder',
+        component: () => import('@/views/SaleOrder/AddSaleOrder'),
+        name: 'AddSaleOrder',
+        meta: { title: 'AddSaleOrder', noCache: false, roles: ['54-58-1'] }
+      },
+      {
+        path: 'SaleOrderList',
+        component: () => import('@/views/SaleOrder/SaleOrderList'),
+        name: 'SaleOrderList',
+        meta: { title: 'SaleOrderList', noCache: true, roles: ['54-57-1', '54-57-2', '54-57-3', '54-57-4', '54-57-5', '54-57-6', '54-57-7', '54-57-18', '54-57-22', '54-57-23', '54-57-24', '54-57-25', '54-57-26'] }
+      }
+    ]
+  },
+  {
+    path: '/SaleContract',
+    component: Layout,
+    redirect: 'noredirect',
+    name: 'SaleContract',
+    alwaysShow: true,
+    meta: {
+      title: 'SaleContract',
+      icon: 'xiaoshouhetong',
+      type: 3,
+      roles: ['54-65-4', '54-66-1']
+    },
+    children: [
+      {
+        path: 'AddSaleContract',
+        component: () => import('@/views/SaleContract/AddSaleContract'),
+        name: 'AddSaleContract',
+        meta: { title: 'AddSaleContract', noCache: false, roles: ['54-66-1'] }
+      },
+      {
+        path: 'SaleContractList',
+        component: () => import('@/views/SaleContract/SaleContractList'),
+        name: 'SaleContractList',
+        meta: { title: 'SaleContractList', noCache: true, roles: ['54-65-1', '54-65-2', '54-65-3', '54-65-4', '54-65-5', '54-65-6', '54-65-7', '54-65-18', '54-65-65'] }
+      }
+    ]
+  },
+  {
     path: '/SaleOut',
     component: Layout,
     redirect: 'noredirect',
@@ -1829,33 +1883,6 @@ export const asyncRouterMap = [
         component: () => import('@/views/SaleOut/SaleOutList'),
         name: 'SaleOutList',
         meta: { title: 'SaleOutList', noCache: true, roles: ['54-55-1', '54-55-2', '54-55-3', '54-55-4', '54-55-5', '54-55-6', '54-55-7', '54-55-18', '54-55-49', '54-55-20', '54-55-16', '54-55-17', '54-55-21'] }
-      }
-    ]
-  },
-  {
-    path: '/SaleOrder',
-    component: Layout,
-    redirect: 'noredirect',
-    name: 'SaleOrder',
-    alwaysShow: true,
-    meta: {
-      title: 'SaleOrder',
-      icon: 'xiaoshoudingdan',
-      type: 3,
-      roles: ['54-57-4', '54-58-1']
-    },
-    children: [
-      {
-        path: 'AddSaleOrder',
-        component: () => import('@/views/SaleOrder/AddSaleOrder'),
-        name: 'AddSaleOrder',
-        meta: { title: 'AddSaleOrder', noCache: false, roles: ['54-58-1'] }
-      },
-      {
-        path: 'SaleOrderList',
-        component: () => import('@/views/SaleOrder/SaleOrderList'),
-        name: 'SaleOrderList',
-        meta: { title: 'SaleOrderList', noCache: true, roles: ['54-57-1', '54-57-2', '54-57-3', '54-57-4', '54-57-5', '54-57-6', '54-57-7', '54-57-18', '54-57-22', '54-57-23', '54-57-24', '54-57-25', '54-57-26'] }
       }
     ]
   },
@@ -1937,33 +1964,6 @@ export const asyncRouterMap = [
         component: () => import('@/views/SaleOpportunity/SaleOpportunityList'),
         name: 'SaleOpportunityList',
         meta: { title: 'SaleOpportunityList', noCache: true, roles: ['54-63-1', '54-63-2', '54-63-3', '54-63-4', '54-63-5', '54-63-6', '54-63-7', '54-63-18'] }
-      }
-    ]
-  },
-  {
-    path: '/SaleContract',
-    component: Layout,
-    redirect: 'noredirect',
-    name: 'SaleContract',
-    alwaysShow: true,
-    meta: {
-      title: 'SaleContract',
-      icon: 'xiaoshouhetong',
-      type: 3,
-      roles: ['54-65-4', '54-66-1']
-    },
-    children: [
-      {
-        path: 'AddSaleContract',
-        component: () => import('@/views/SaleContract/AddSaleContract'),
-        name: 'AddSaleContract',
-        meta: { title: 'AddSaleContract', noCache: false, roles: ['54-66-1'] }
-      },
-      {
-        path: 'SaleContractList',
-        component: () => import('@/views/SaleContract/SaleContractList'),
-        name: 'SaleContractList',
-        meta: { title: 'SaleContractList', noCache: true, roles: ['54-65-1', '54-65-2', '54-65-3', '54-65-4', '54-65-5', '54-65-6', '54-65-7', '54-65-18', '54-65-65'] }
       }
     ]
   },

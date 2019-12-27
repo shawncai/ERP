@@ -844,6 +844,7 @@ export default {
     effectDay: '有效天数'
   },
   NewEmployeeInformation: {
+    sscklb: '所属仓库类别',
     regionids: '区域权限',
     Maintenancetimes: '维修次数',
     Delaytimes: '延误次数',
@@ -3799,7 +3800,11 @@ export default {
     qmye: '期末余额',
     jf: '借方',
     df: '贷方',
-    zcfp: '重新分派'
+    zcfp: '重新分派',
+    qyong: '启用',
+    tingyong: '停用',
+    fs: '发送',
+    bfs: '不发送'
   },
   accessComponent: {
     accessPersonId: '领用人',
@@ -3814,5 +3819,26 @@ export default {
     ooo: '确认时间',
     sssd: '维修零件明细',
     returnQuantity: '归还数量'
+  },
+  newupd: {
+    qqq: '生成销售出库单',
+    www: '生成生产计划单',
+    eee: '生成采购申请单',
+    rrr: '生成预收款单',
+    mmm: '点击上传',
+    nnn: '只能上传jpg/png文件，且不超过500kb',
+    jjj: '领用单主题',
+    hhh: '使用类型',
+    ggg: '紧急程度',
+    asdasd: '预售定金',
+    fds: '领用单主题',
+    cxz: '状态',
+    jhg: '伴侣信息',
+    vff: '申请者',
+    ddc: '伴侣',
+    fdss: '添加征询人',
+    asds: '担保人信息',
+    oijn: '生成收款单',
+    pkj: '转催收'
   }
 }
