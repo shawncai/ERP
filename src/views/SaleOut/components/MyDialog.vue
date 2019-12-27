@@ -362,10 +362,10 @@
           <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" align="center" min-width="150px" fixed="left"/>
           <el-editable-column :label="$t('Hmodule.hw')" prop="location" align="center" min-width="170px"/>
           <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('Hmodule.pc')" prop="batch" align="center" min-width="150px"/>
-          <el-editable-column :label="$t('updates.wpfl')" prop="categoryName" align="center" min-width="150px"/>
-          <el-editable-column :label="$t('updates.jbdw')" prop="unit" align="center" min-width="150px"/>
+          <!--          <el-editable-column :label="$t('updates.wpfl')" prop="categoryName" align="center" min-width="150px"/>-->
+          <!--          <el-editable-column :label="$t('updates.jbdw')" prop="unit" align="center" min-width="150px"/>-->
           <el-editable-column :label="$t('updates.ggxh')" prop="typeName" align="center" min-width="150px"/>
-          <el-editable-column :label="$t('updates.ys')" prop="color" align="center" min-width="150px"/>
+          <!--          <el-editable-column :label="$t('updates.ys')" prop="color" align="center" min-width="150px"/>-->
           <el-editable-column :label="$t('updates.lsj')" prop="salePrice" align="center" min-width="150px"/>
           <el-editable-column :label="$t('Hmodule.je')" prop="money" align="center" min-width="150px">
             <template slot-scope="scope">
@@ -1560,6 +1560,7 @@ export default {
             return false
           }
         }
+        val[i].salePrice = 0.0
         this.$refs.editable2.insert(val[i])
       }
     },

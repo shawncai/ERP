@@ -79,7 +79,7 @@
         </el-editable>
       </div>
     </el-card>
-    <el-card class="box-card" style="margin-top: 15px" shadow="never">
+    <el-card class="box-card" style="margin-top: 15px;margin-bottom: 20px" shadow="never">
       <h2 ref="fuzhu" class="form-name">{{ $t('updates.zssp') }}</h2>
       <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
         <el-button @click="handleAddgift">{{ $t('Hmodule.tjsp') }}</el-button>
