@@ -705,7 +705,7 @@
             <el-input v-model="form.phonenumber"/>
           </el-form-item>
           <el-form-item :label-width="formLabelWidth" :label="$t('Customer.provinceid')" prop="provinceid">
-            <el-select v-model="form.provinceid" placeholder="请选择省" @change="handlechange2">
+            <el-select v-model="form.provinceid" filterable placeholder="请选择省" @change="handlechange2">
               <el-option
                 v-for="(item, index) in provinces"
                 :key="index"
@@ -714,7 +714,7 @@
             </el-select>
           </el-form-item>
           <el-form-item :label-width="formLabelWidth" :label="$t('Customer.cityid')" prop="cityid">
-            <el-select v-model="form.cityid" placeholder="请选择市">
+            <el-select v-model="form.cityid" filterable placeholder="请选择市">
               <el-option
                 v-for="(item, index) in cities"
                 :key="index"

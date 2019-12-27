@@ -15,7 +15,7 @@
               <el-col :span="6">
                 <el-form-item :label="$t('Receipt.customerType')" prop="customerType" style="width: 100%;">
                   <el-select v-model="personalForm.customerType" style="margin-left: 18px;width: 200px" @change="clearCustomer">
-                    <el-option value="1" label="经销商"/>
+                    <el-option :label="$t('updates.jxs')" value="1"/>
                     <el-option :label="$t('updates.kh')" value="2"/>
                   </el-select>
                 </el-form-item>
@@ -91,6 +91,12 @@
               <el-col :span="6">
                 <el-form-item :label="$t('Receipt.penaltyMoney')" prop="penaltyMoney" style="width: 100%;">
                   <el-input v-model="personalForm.penaltyMoney" type="number" style="margin-left: 18px;width: 200px" clearable/>
+                  <!-- <el-input-number v-model="personalForm.penaltyMoney" :controls="false" /> -->
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item :label="$t('StockInvoice.invoiceNumber')" prop="invoiceNumber" style="width: 100%;">
+                  <el-input v-model="personalForm.invoiceNumber" type="number" style="margin-left: 18px;width: 200px" clearable/>
                   <!-- <el-input-number v-model="personalForm.penaltyMoney" :controls="false" /> -->
                 </el-form-item>
               </el-col>
@@ -269,6 +275,9 @@ export default {
       productForm: {},
       // 销售订单规则数据
       personalrules: {
+        invoiceNumber: [
+          { required: true, message: '请输入发票号', trigger: 'change' }
+        ],
         sourceType: [
           { required: true, message: '请选择源单类型', trigger: 'change' }
         ],

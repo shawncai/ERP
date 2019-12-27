@@ -3797,7 +3797,11 @@ export default {
     qmye: '期末余额',
     jf: '借方',
     df: '贷方',
-    zcfp: '重新分派'
+    zcfp: '重新分派',
+    qyong: '启用',
+    tingyong: '停用',
+    fs: '发送',
+    bfs: '不发送'
   },
   accessComponent: {
     accessPersonId: '领用人',

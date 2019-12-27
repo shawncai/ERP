@@ -113,7 +113,7 @@
             </el-col>
             <el-col :span="12">
               <el-form-item :label="$t('OutFactory.provinceId')" style="width: 100%;">
-                <el-select v-model="personalForm.provinceId" style="margin-left: 18px;width: 200px" @change="handlechange2">
+                <el-select v-model="personalForm.provinceId" filterable style="margin-left: 18px;width: 200px" @change="handlechange2">
                   <el-option
                     v-for="(item, index) in provinces"
                     :key="index"
@@ -124,7 +124,7 @@
             </el-col>
             <el-col :span="12">
               <el-form-item :label="$t('OutFactory.cityId')" style="width: 100%;">
-                <el-select v-model="personalForm.cityId" style="margin-left: 18px;width: 200px">
+                <el-select v-model="personalForm.cityId" filterable style="margin-left: 18px;width: 200px">
                   <el-option
                     v-for="(item, index) in cities"
                     :key="index"

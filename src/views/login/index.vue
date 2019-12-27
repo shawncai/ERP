@@ -16,7 +16,7 @@
           name="username"
           type="text"
           clearable
-          auto-complete="on"
+          auto-complete="off"
         />
       </el-form-item>
 
@@ -29,7 +29,7 @@
           v-model="loginForm.password"
           :placeholder="$t('login.password')"
           name="password"
-          auto-complete="on"
+          auto-complete="off"
           @keyup.enter.native="handleLogin" />
         <span class="show-pwd" @click="showPwd">
           <svg-icon icon-class="eye" />

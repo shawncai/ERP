@@ -44,6 +44,7 @@
       v-loading="listLoading"
       :key="tableKey"
       :data="list"
+      :row-key="getRowKeys"
       border
       fit
       highlight-current-row
@@ -51,6 +52,7 @@
       @current-change="handleCurrentChange"
       @selection-change="handleSelectionChange">
       <el-table-column
+        :reserve-selection="true"
         type="selection"
         width="55"/>
       <el-table-column :label="$t('Repository.id')" :resizable="false" prop="id" align="center" width="100">
@@ -124,6 +126,11 @@ export default {
   },
   data() {
     return {
+      getRowKeys(row) {
+        return row.id
+      },
+      select_orderId: [],
+      select_order_number: [],
       // 批量操作
       moreaction: '',
       // 转化数据
@@ -183,8 +190,17 @@ export default {
   },
   methods: {
     // 批量操作
-    handleSelectionChange(val) {
-      this.moreaction = val
+    handleSelectionChange(rows) {
+      this.moreaction = rows
+      this.select_order_number = this.moreaction.length
+      this.select_orderId = []
+      if (rows) {
+        rows.forEach(row => {
+          if (row) {
+            this.select_orderId.push(row.id)
+          }
+        })
+      }
     },
     getlist() {
       // 国家列表

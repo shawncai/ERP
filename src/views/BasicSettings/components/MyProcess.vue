@@ -45,7 +45,7 @@
           <el-input v-model="personalForm.provinceName" disabled/>
         </el-form-item>
         <el-form-item :label="$t('Supplier.provinceId')" style="width: 40%;margin-top: 1%">
-          <el-select v-model="personalForm.provinceid" placeholder="请选择省" style="width: 100%;" @change="handlechange2">
+          <el-select v-model="personalForm.provinceid" placeholder="请选择省" style="width: 100%;" filterable @change="handlechange2">
             <el-option
               v-for="(item, index) in provinces"
               :key="index"
@@ -57,7 +57,7 @@
           <el-input v-model="personalForm.cityName" disabled/>
         </el-form-item>
         <el-form-item :label="$t('public.cityId')" style="width: 40%;margin-top: 1%">
-          <el-select v-model="personalForm.cityid" placeholder="请选择市" style="width: 100%;">
+          <el-select v-model="personalForm.cityid" placeholder="请选择市" filterable style="width: 100%;">
             <el-option
               v-for="(item, index) in cities"
               :key="index"

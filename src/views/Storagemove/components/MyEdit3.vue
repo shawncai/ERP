@@ -581,6 +581,7 @@ export default {
           message: '整车出库时相关编码必填',
           offset: 100
         })
+        this.ischeck = false
         return false
       }
 
@@ -590,6 +591,7 @@ export default {
           message: '电池出库时电池编码必填',
           offset: 100
         })
+        this.ischeck = false
         return false
       }
       confirmStoragemove(row.data.id).then(res => {
@@ -597,9 +599,9 @@ export default {
         row.data.stat = 2
         this.ischeck = false
       })
-      // setTimeout(() => {
-      //   this.ischeck = false
-      // }, 5000)
+      setTimeout(() => {
+        this.ischeck = false
+      }, 5000)
     },
     // 货位
     getLocationData(row) {

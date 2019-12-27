@@ -485,6 +485,7 @@ export default {
           message: '信息未填完整',
           offset: 100
         })
+        this.ischeck = false
         return false
       }
       console.log(row.data.id)
@@ -496,14 +497,15 @@ export default {
         if (res.data.ret === 200) {
           confirmStoragein(row.data.id).then(res => {
             console.log(res)
-            row.data.stat = 2
-            that.ischeck = false
+            if (res.data.ret === 200) {
+              row.data.stat = 2
+              that.ischeck = false
+            }
           })
+        } else {
+          that.ischeck = false
         }
       })
-      // setTimeout(() => {
-      //   this.ischeck = false
-      // }, 5000)
     },
     // 判断能否修改
     isEdit(row) {

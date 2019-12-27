@@ -34,7 +34,7 @@
                 <my-order :ordercontrol.sync="ordercontrol" :supp.sync="supp" @order="order" @allOrderinfo="allOrderinfo"/>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('Stockenter.supplierId')" sstyle="width: 100%;">
+                <el-form-item :label="$t('Stockenter.supplierId')" style="width: 100%;">
                   <el-input v-model="supplierId" :disabled="IssupplierId" placeholder="请选择供应商" style="margin-left: 18px;width: 200px" @focus="handlechoose"/>
                 </el-form-item>
                 <my-supplier :control.sync="empcontrol" @supplierName="supplierName"/>

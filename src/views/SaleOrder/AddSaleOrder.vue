@@ -112,7 +112,8 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('SaleOrder.saleRepositoryId')" style="width: 100%;">
-                  <el-input v-model="saleRepositoryId" style="margin-left: 18px;width: 200px"/>
+                  <el-input v-model="saleRepositoryId" style="margin-left: 18px;width: 200px" @focus="handlechooseRep"/>
+                  <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
@@ -475,11 +476,12 @@ import MySupplier from '../Product/components/MySupplier'
 import MyRequire from './components/MyRequire'
 import MyCustomer from './components/MyCustomer'
 import MyAgent from './components/MyAgent'
+import MyRepository from './components/MyRepository'
 // eslint-disable-next-line no-unused-vars
 var _that
 export default {
   name: 'AddSaleOrder',
-  components: { MyAgent, MyCustomer, MyRequire, MySupplier, MyApply, MyDetail, MyDelivery, MyEmp, MyOpportunity },
+  components: { MyAgent, MyCustomer, MyRequire, MySupplier, MyApply, MyDetail, MyDelivery, MyEmp, MyOpportunity, MyRepository },
   data() {
     const validatePass = (rule, value, callback) => {
       console.log(this.supplierId)
@@ -522,6 +524,7 @@ export default {
       heji9: '',
       // 回显职务
       roleId: '',
+      repositorycontrol: false,
       // 回显门店
       saleRepositoryId: this.$store.getters.repositoryName,
       // 回显客户
@@ -622,6 +625,14 @@ export default {
     _that = this
   },
   methods: {
+    repositoryname(val) {
+      this.saleRepositoryId = val.repositoryName
+      this.personalForm.saleRepositoryId = val.id
+    },
+    // 出库仓库focus事件触发
+    handlechooseRep() {
+      this.repositorycontrol = true
+    },
     // 数量变化其他参数
     queryStock(row) {
       if (row.discountRate === 0) {

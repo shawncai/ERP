@@ -61,7 +61,7 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('public.provinceId')" style="width: 100%;">
-                  <el-select v-model="personalForm.provinceId" placeholder="请选择省" style="margin-left: 18px;width: 200px" @change="handlechange2">
+                  <el-select v-model="personalForm.provinceId" filterable placeholder="请选择省" style="margin-left: 18px;width: 200px" @change="handlechange2">
                     <el-option
                       v-for="(item, index) in provinces"
                       :key="index"
