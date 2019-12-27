@@ -1047,6 +1047,7 @@ export default {
       }
     },
     queryStock(row) {
+      console.log('row', row)
       if (row.location === null || row.location === '' || row.location === undefined) {
         this.$notify.error({
           title: '错误',
