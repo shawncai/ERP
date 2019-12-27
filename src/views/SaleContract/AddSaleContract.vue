@@ -252,8 +252,8 @@
                     action="https://jsonplaceholder.typicode.com/posts/"
                     style="margin-left: 18px"
                   >
-                    <el-button size="small" type="primary" style="width: 200px">点击上传</el-button>
-                    <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
+                    <el-button size="small" type="primary" style="width: 200px">{{ $t('newupd.mmm') }}</el-button>
+                    <div slot="tip" class="el-upload__tip">{{ $t('newupd.nnn') }}</div>
                   </el-upload>
                 </el-form-item>
               </el-col>

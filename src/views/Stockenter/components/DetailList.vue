@@ -244,13 +244,14 @@ export default {
         0: _that.$t('updates.wsh'),
         1: _that.$t('updates.shz'),
         2: _that.$t('Hmodule.shtg'),
-        3: _that.$t('updates.shbtg')
+        3: _that.$t('Hmodule.shbtg')
       }
       return statusMap[status]
     },
     sourceTypeFilter(status) {
       const statusMap = {
-        1: _that.$t('updates.cgdhd')
+        1: _that.$t('updates.cgdhd'),
+        2: _that.$t('updates.cgdd')
       }
       return statusMap[status]
     }

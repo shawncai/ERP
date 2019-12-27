@@ -159,7 +159,7 @@
           <template slot-scope="scope">
             <el-button v-show="scope.row.collectPersonId === null" size="mini" type="success" @click="handleDispatch(scope.row)">{{ $t('repair.Dispatch') }}</el-button>
             <el-button v-show="scope.row.isPostphone === 1&&scope.row.stat === 1" type="primary" style="width: 70px" @click="handleMyReceipt2(scope.row)"><span style="margin-left: -15px;">推迟还款</span></el-button>
-            <el-button type="primary" style="width: 84px" @click="handleMyReceipt1(scope.row)"><span style="margin-left: -15px;">生成收款单</span></el-button>
+            <el-button type="primary" style="width: 84px" @click="handleMyReceipt1(scope.row)"><span style="margin-left: -15px;">{{ $t('newupd.oijn') }}</span></el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -214,7 +214,7 @@ export default {
         0: _that.$t('updates.wsh'),
         1: _that.$t('updates.shz'),
         2: _that.$t('Hmodule.shtg'),
-        3: _that.$t('updates.shbtg')
+        3: _that.$t('Hmodule.shbtg')
       }
       return statusMap[status]
     },

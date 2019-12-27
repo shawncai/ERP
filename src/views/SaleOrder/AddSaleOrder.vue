@@ -78,22 +78,6 @@
                   </el-select>
                 </el-form-item>
               </el-col>
-              <el-col :span="6">
-                <el-form-item :label="$t('StockRetreat.transportModeId')" style="width: 100%;">
-                  <el-select ref="clear3" v-model="personalForm.transMode" clearable style="margin-left: 18px;width: 200px">
-                    <el-option v-show="false" label="" value=""/>
-                    <el-option
-                      v-for="(item, index) in transportIds"
-                      :key="index"
-                      :label="item.categoryName"
-                      :value="item.id"
-                    />
-                    <template>
-                      <el-button v-if="isshow2" icon="el-icon-circle-plus-outline" style="width:100%" @click="go_creat3">{{ $t('updates.create') }}</el-button>
-                    </template>
-                  </el-select>
-                </el-form-item>
-              </el-col>
               <!--              <el-col :span="6">-->
               <!--                <el-form-item :label="$t('SaleOrder.transDate')" prop="transDate" style="width: 100%;">-->
               <!--                  <el-date-picker-->
@@ -187,6 +171,22 @@
                       :label="item.categoryName"/>
                     <template>
                       <el-button v-if="isshow2" icon="el-icon-circle-plus-outline" style="width:100%" @click="go_creat5">{{ $t('updates.create') }}</el-button>
+                    </template>
+                  </el-select>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item :label="$t('StockRetreat.transportModeId')" style="width: 100%;">
+                  <el-select ref="clear3" v-model="personalForm.transMode" clearable style="margin-left: 18px;width: 200px">
+                    <el-option v-show="false" label="" value=""/>
+                    <el-option
+                      v-for="(item, index) in transportIds"
+                      :key="index"
+                      :label="item.categoryName"
+                      :value="item.id"
+                    />
+                    <template>
+                      <el-button v-if="isshow2" icon="el-icon-circle-plus-outline" style="width:100%" @click="go_creat3">{{ $t('updates.create') }}</el-button>
                     </template>
                   </el-select>
                 </el-form-item>

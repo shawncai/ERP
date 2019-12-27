@@ -36,7 +36,7 @@
                     value-format="yyyy-MM-dd"
                     align="right"
                     unlink-panels
-                    range-separator="到"
+                    range-separator="-"
                     style="margin-left: 18px;width:400px"
                   />
                 </el-form-item>
@@ -117,7 +117,7 @@
             <el-editable-column :label="$t('updates.ys')" prop="color" align="center" min-width="150px"/>
             <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" min-width="150px"/>
             <el-editable-column :label="$t('Hmodule.dj')" prop="salePrice" align="center" min-width="150px"/>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="deposit" align="center" label="预售定金" min-width="150px">
+            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" :label="$t('newupd.asdasd')" prop="deposit" align="center" min-width="150px">
               <template slot="edit" slot-scope="scope">
                 <el-input-number
                   :precision="2"

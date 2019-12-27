@@ -33,11 +33,11 @@
                 </el-select>
               </el-form-item>
             </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('Customer.pinyin')" style="width: 100%;">
-                <el-input v-model="customerForm.pinyin" placeholder="请输入拼音缩写" style="margin-left: 18px;width: 200px"/>
-              </el-form-item>
-            </el-col>
+            <!--            <el-col :span="12">-->
+            <!--              <el-form-item :label="$t('Customer.pinyin')" style="width: 100%;">-->
+            <!--                <el-input v-model="customerForm.pinyin" placeholder="请输入拼音缩写" style="margin-left: 18px;width: 200px"/>-->
+            <!--              </el-form-item>-->
+            <!--            </el-col>-->
             <el-col :span="12">
               <el-form-item :label="$t('Customer.source2')" style="width: 100%;">
                 <el-select v-model="customerForm.source" :value="customerForm.source" placeholder="请选择经销商来源" style="margin-left: 18px;width: 200px" @focus="getCategory">
@@ -93,7 +93,7 @@
             </el-col>
             <el-col :span="12">
               <el-form-item :label="$t('Customer.provinceid')" style="width: 100%;">
-                <el-select v-model="customerForm.provinceId" placeholder="请选择省" filterable style="margin-left: 18px;width: 200px" @change="handlechange2">
+                <el-select v-model="customerForm.provinceId" placeholder="请选择省" style="margin-left: 18px;width: 200px" @change="handlechange2">
                   <el-option
                     v-for="(item, index) in provinces"
                     :key="index"
@@ -104,7 +104,7 @@
             </el-col>
             <el-col :span="12">
               <el-form-item :label="$t('Customer.cityid')" style="width: 100%;">
-                <el-select v-model="customerForm.cityId" placeholder="请选择市" filterable style="margin-left: 18px;width: 200px">
+                <el-select v-model="customerForm.cityId" placeholder="请选择市" style="margin-left: 18px;width: 200px">
                   <el-option
                     v-for="(item, index) in cities"
                     :key="index"

@@ -202,6 +202,36 @@ export default {
     }
   },
   data() {
+    const validatePass = (rule, value, callback) => {
+      if (this.handlePersonId === undefined || this.handlePersonId === null || this.handlePersonId === '') {
+        callback(new Error('请选择经办人'))
+      } else {
+        callback()
+      }
+    }
+    const validatePass2 = (rule, value, callback) => {
+      if (this.countRepositoryId === undefined || this.countRepositoryId === null || this.countRepositoryId === '') {
+        callback(new Error('请选择盘点仓库'))
+      } else {
+        callback()
+      }
+    }
+    const validatePass3 = (rule, value, callback) => {
+      console.log(this.Time)
+      if (this.Time === undefined || this.Time === null || this.Time === '') {
+        callback(new Error('请选择盘点时间'))
+      } else {
+        callback()
+      }
+    }
+    const validatePass9 = (rule, value, callback) => {
+      console.log(value)
+      if (value === undefined || value === null || value === '' || value < 0) {
+        callback(new Error('请填写实盘数量'))
+      } else {
+        callback()
+      }
+    }
     return {
       // 合计信息
       heji1: 0,
@@ -243,16 +273,26 @@ export default {
       list2: [],
       // 盘点单明细列表规则
       validRules: {
+        locationId: [
+          { required: true, message: '请选择货位', trigger: 'change' }
+        ],
+        actualQuantity: [
+          // { required: true, message: '请填写实盘数量', trigger: 'change' }
+          { required: true, validator: validatePass9, trigger: 'change' }
+        ]
       },
       // 库存盘点日期
       Time: [],
       // 库存盘点单规则数据
       personalrules: {
         handlePersonId: [
-          { required: true, message: '请选择经办人', trigger: 'blue' }
+          { required: true, validator: validatePass, trigger: 'change' }
         ],
         countRepositoryId: [
-          { required: true, message: '请选择盘点仓库', trigger: 'blue' }
+          { required: true, validator: validatePass2, trigger: 'change' }
+        ],
+        Time: [
+          { required: true, validator: validatePass3, trigger: 'change' }
         ]
       },
       // 多选操作
@@ -611,26 +651,49 @@ export default {
       }
       const parms1 = JSON.stringify(Data)
       const parms2 = JSON.stringify(rest)
-      updatecount(parms1, parms2).then(res => {
-        if (res.data.ret === 200) {
-          this.$notify({
-            title: '操作成功',
-            message: '操作成功',
-            type: 'success',
-            duration: 1000,
-            offset: 100
+
+      this.$refs.personalForm.validate((valid) => {
+        if (valid) {
+          this.$refs.editable.validate((valid) => {
+            if (valid) {
+              updatecount(parms1, parms2).then(res => {
+                if (res.data.ret === 200) {
+                  this.$notify({
+                    title: '操作成功',
+                    message: '操作成功',
+                    type: 'success',
+                    duration: 1000,
+                    offset: 100
+                  })
+                  this.$emit('rest', true)
+                  this.$refs.editable.clear()
+                  this.$refs.personalForm.clearValidate()
+                  this.$refs.personalForm.resetFields()
+                  this.editVisible = false
+                } else {
+                  this.$notify.error({
+                    title: '错误',
+                    message: '出错了',
+                    offset: 100
+                  })
+                }
+              })
+            } else {
+              this.$notify.error({
+                title: '错误',
+                message: '信息未填完整',
+                offset: 100
+              })
+              return false
+            }
           })
-          this.$emit('rest', true)
-          this.$refs.editable.clear()
-          this.$refs.personalForm.clearValidate()
-          this.$refs.personalForm.resetFields()
-          this.editVisible = false
         } else {
           this.$notify.error({
             title: '错误',
-            message: '出错了',
+            message: '信息未填完整',
             offset: 100
           })
+          return false
         }
       })
     },

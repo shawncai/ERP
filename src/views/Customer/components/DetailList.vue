@@ -34,11 +34,11 @@
                   <span>{{ customerForm.agentLevel }}</span>
                 </el-form-item>
               </el-col>
-              <el-col :span="12">
-                <el-form-item :label="$t('Customer.pinyin')" style="width: 100%;">
-                  <span>{{ customerForm.pinyin }}</span>
-                </el-form-item>
-              </el-col>
+              <!--              <el-col :span="12">-->
+              <!--                <el-form-item :label="$t('Customer.pinyin')" style="width: 100%;">-->
+              <!--                  <span>{{ customerForm.pinyin }}</span>-->
+              <!--                </el-form-item>-->
+              <!--              </el-col>-->
               <el-col :span="12">
                 <el-form-item :label="$t('Customer.source2')" style="width: 100%;">
                   <span>{{ customerForm.sourceName }}</span>
@@ -390,7 +390,7 @@ export default {
         0: _that.$t('updates.wsh'),
         1: _that.$t('updates.shz'),
         2: _that.$t('Hmodule.shtg'),
-        3: _that.$t('updates.shbtg')
+        3: _that.$t('Hmodule.shbtg')
       }
       return statusMap[status]
     },
