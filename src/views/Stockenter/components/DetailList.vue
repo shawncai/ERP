@@ -250,7 +250,8 @@ export default {
     },
     sourceTypeFilter(status) {
       const statusMap = {
-        1: _that.$t('updates.cgdhd')
+        1: _that.$t('updates.cgdhd'),
+        2: _that.$t('updates.cgdd')
       }
       return statusMap[status]
     }
