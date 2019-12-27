@@ -25,6 +25,11 @@
                 </el-form-item>
               </el-col>
               <el-col :span="6">
+                <el-form-item :label="$t('SaleOut.invoiceNumber')" style="width: 100%;">
+                  <el-input v-model="personalForm.invoiceNumber" style="margin-left: 18px;width: 200px" clearable/>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
                 <el-form-item :label="$t('SaleOut.customerType')" prop="customerType" style="width: 100%;">
                   <el-select v-model="personalForm.customerType" style="margin-left: 18px;width: 200px" @change="clearCustomer">
                     <el-option value="1" label="经销商"/>
@@ -1776,6 +1781,7 @@ export default {
       }
     },
     recyclingdata(val) {
+      // console.log(12312312312)
       this.personalForm.ridBikeMoney = val.recyclingMoney
       console.log('val', val)
       this.personalForm.customerType = '2'
@@ -1798,7 +1804,7 @@ export default {
       data.kpiGrade = '0.00'
       data.point = '0.00'
       data.quantity = 1
-      this.$refs.editable.insert(data)
+      // this.$refs.editable.insert(data)
     },
     // 无来源添加商品
     handleAddproduct() {

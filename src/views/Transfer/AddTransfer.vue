@@ -148,7 +148,7 @@ export default {
         children: 'regionListVos'
       },
       // 门店回显
-      transferRepositoryId: '',
+      transferRepositoryId: this.$store.getters.repositoryName,
       // 区域列表
       regions: [],
       // 结算方式数据
