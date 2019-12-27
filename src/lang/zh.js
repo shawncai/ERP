@@ -2042,7 +2042,8 @@ export default {
     heji10: '赠品金额合计',
     heji11: '其他费用合计',
     profit: '利润',
-    ProfitMargin: '利润率'
+    ProfitMargin: '利润率',
+    invoiceNumber: '发票号'
   },
   SaleOrder: {
     title: '订单主题',
@@ -3397,6 +3398,7 @@ export default {
     zko: '折扣（%）',
     spbm: '商品编码',
     ckdmx: '出库单明细',
+    hscmx: '回收车明细',
     zpmx: '赠品明细',
     ddmx: '订单明细',
     xgdjzt: '相关单据状态',
