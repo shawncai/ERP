@@ -383,7 +383,10 @@ export default {
     AccessComponent: '维修零件领用单',
     AccessComponentlist: '维修零件领用单列表',
     AddAccessComponent: '新建维修零件领用单',
-    AccountBalance: '科目余额表'
+    AccountBalance: '科目余额表',
+    Verification: '核销单',
+    AddVerification: '新建核销单',
+    VerificationList: '核销单列表'
   },
   installmentAnalyze: {
     repositoryName: '仓库名称',
@@ -3841,5 +3844,9 @@ export default {
     asds: '担保人信息',
     oijn: '生成收款单',
     pkj: '转催收'
+  },
+  Verification: {
+    jbr: '经办人',
+    hxrq: '核销日期'
   }
 }

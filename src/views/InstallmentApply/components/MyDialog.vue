@@ -207,6 +207,8 @@
     <!--子件信息-->
     <el-card class="box-card" shadow="never" style="margin-top: 10px">
       <h2 ref="geren" class="form-name">{{ $t('updates.spxx') }}</h2>
+      <el-button style="margin-top: 20px;" @click="handleAddpackage">{{ $t('otherlanguage.xztc') }}</el-button>
+      <my-package :packagecontrol.sync="packagecontrol" :productnumber.sync="productnumber" @packagedata="packagedata"/>
       <div class="container" style="margin-top: 37px">
         <el-form ref="personalForm2" :model="productForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
           <el-row>
@@ -582,9 +584,10 @@ import MyEmp from './MyEmp'
 import MyDetail from './MyDetail'
 import MyMater from './MyMater'
 import MyRepository from './MyRepository'
+import MyPackage from './MyPackage'
 var _that
 export default {
-  components: { MyMater, MyDetail, MyEmp, MyRepository },
+  components: { MyMater, MyDetail, MyEmp, MyRepository, MyPackage },
   props: {
     editcontrol: {
       type: Boolean,
@@ -660,6 +663,8 @@ export default {
       }
     }
     return {
+      packagecontrol: false,
+      productnumber: '',
       pickerOptions1: {
         disabledDate: (time) => {
           return time.getTime() < new Date(this.personalForm.transDate).getTime() - 8.64e7
@@ -874,6 +879,24 @@ export default {
     _that = this
   },
   methods: {
+    packagedata(val) {
+      console.log('val1222222', val)
+      this.productForm.price = val
+      this.changeTotalMoney()
+    },
+    // 选择套餐
+    handleAddpackage() {
+      if (this.productForm.productCode === null || this.productForm.productCode === undefined || this.productForm.productCode === '') {
+        this.$notify.error({
+          title: '请选择商品',
+          message: '请选择商品',
+          offset: 100
+        })
+      } else {
+        this.productnumber = this.productForm.productCode
+        this.packagecontrol = true
+      }
+    },
     getInfo() {
       if (this.productForm.carCode !== null && this.productForm.carCode !== '' && this.productForm.carCode !== undefined) {
         const param = {}

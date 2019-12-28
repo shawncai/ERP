@@ -2646,6 +2646,33 @@ export const asyncRouterMap = [
     ]
   },
   {
+    path: '/Verification',
+    component: Layout,
+    redirect: 'noredirect',
+    name: 'Verification',
+    alwaysShow: true,
+    meta: {
+      title: 'Verification',
+      icon: 'fenqi',
+      type: 6,
+      roles: ['200-365-4', '200-364-1']
+    },
+    children: [
+      {
+        path: 'AddVerification',
+        component: () => import('@/views/Verification/AddVerification'),
+        name: 'AddVerification',
+        meta: { title: 'AddVerification', noCache: false, roles: ['200-364-1'] }
+      },
+      {
+        path: 'VerificationList',
+        component: () => import('@/views/Verification/VerificationList'),
+        name: 'VerificationList',
+        meta: { title: 'VerificationList', noCache: true, roles: ['200-365-4'] }
+      }
+    ]
+  },
+  {
     path: '/OverdueList',
     component: Layout,
     redirect: 'noredirect',

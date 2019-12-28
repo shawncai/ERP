@@ -340,9 +340,9 @@
       <h2 ref="fuzhu" class="form-name" >{{ $t('updates.zpmx') }}</h2>
       <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
         <el-button @click="handleAddGift">{{ $t('updates.tj') }}</el-button>
-        <my-detail2 :giftcontrol.sync="giftcontrol" @gift="gift"/>
+        <my-detail2 :giftcontrol.sync="giftcontrol" :personalform.sync="personalForm" @gift="gift"/>
         <el-button @click="handleAddpackage">{{ $t('otherlanguage.xztc') }}</el-button>
-        <my-package :packagecontrol.sync="packagecontrol" :productnumber.sync="productnumber" @packagedata="packagedata"/>
+        <my-package :packagecontrol.sync="packagecontrol" :productnumber.sync="productnumber" @salePrice="salePrice" @packagedata="packagedata"/>
         <el-button type="danger" @click="$refs.editable2.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
       </div>
       <div class="container">
@@ -361,8 +361,25 @@
           <el-editable-column :label="$t('Hmodule.xh')" width="55" align="center" type="index" fixed="left"/>
           <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" align="center" min-width="150px" fixed="left"/>
           <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" align="center" min-width="150px" fixed="left"/>
-          <el-editable-column :label="$t('Hmodule.hw')" prop="location" align="center" min-width="170px"/>
-          <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('Hmodule.pc')" prop="batch" align="center" min-width="150px"/>
+          <el-editable-column :label="$t('Hmodule.hw')" prop="location" align="center" min-width="150">
+            <template slot-scope="scope">
+              <p>{{ getLocationData(scope.row) }}</p>
+            </template>
+          </el-editable-column>
+          <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('Hmodule.pc')" prop="batch" align="center" min-width="150" >
+            <template slot="edit" slot-scope="scope">
+              <el-select v-if="scope.row.batch !== '不使用'" v-model="scope.row.batch" :value="scope.row.batch" :placeholder="$t('Hmodule.xcpc')" filterable clearable style="width: 100%;" @visible-change="updatebatch2($event,scope)">
+                <el-option
+                  v-for="(item, index) in batchlist"
+                  :key="index"
+                  :value="item"
+                  :label="item"/>
+              </el-select>
+              <span v-else>{{ scope.row.batch }}</span>
+            </template>
+          </el-editable-column>
+          <!--          <el-editable-column :label="$t('Hmodule.hw')" prop="location" align="center" min-width="170px"/>-->
+          <!--          <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('Hmodule.pc')" prop="batch" align="center" min-width="150px"/>-->
           <!--          <el-editable-column :label="$t('updates.wpfl')" prop="categoryName" align="center" min-width="150px"/>-->
           <!--          <el-editable-column :label="$t('updates.jbdw')" prop="unit" align="center" min-width="150px"/>-->
           <el-editable-column :label="$t('updates.ggxh')" prop="typeName" align="center" min-width="150px"/>
@@ -380,7 +397,7 @@
                 :controls="true"
                 :min="1.00"
                 :value="scope.row.quantity"
-                @input="queryStock(scope.row)"
+                @change="queryStock(scope.row)"
               />
             </template>
           </el-editable-column>
@@ -809,6 +826,10 @@ export default {
     },
     changemoney(val) {
       console.log(val)
+    },
+    salePrice(val) {
+      console.log('val1222222', val)
+      this.moreaction[0].salePrice = val
     },
     // 批量操作
     handleSelectionChange(val) {

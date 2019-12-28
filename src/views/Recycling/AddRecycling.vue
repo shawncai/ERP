@@ -134,11 +134,11 @@
         <h2 ref="fuzhu" class="form-name" >{{ $t('updates.hscmx') }}</h2>
         <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
           <!--          <el-button :disabled="Isproduct" @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>-->
-          <el-button @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>
-          <my-detail :control.sync="control" :personalform="personalForm" @product="productdetail"/>
-          <el-button :disabled="IsSourceNumber" style="width: 130px" @click="handleAddSource">{{ $t('updates.cydzxz') }}</el-button>
-          <el-button type="danger" @click="$refs.editable.removeSelecteds();test()">{{ $t('Hmodule.delete') }}</el-button>
-          <el-button type="primary" @click="checkStock()">{{ $t('updates.kckz') }}</el-button>
+          <!-- <el-button @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button> -->
+          <!-- <my-detail :control.sync="control" :personalform="personalForm" @product="productdetail"/> -->
+          <!-- <el-button :disabled="IsSourceNumber" style="width: 130px" @click="handleAddSource">{{ $t('updates.cydzxz') }}</el-button> -->
+          <!-- <el-button type="danger" @click="$refs.editable.removeSelecteds();test()">{{ $t('Hmodule.delete') }}</el-button> -->
+          <!-- <el-button type="primary" @click="checkStock()">{{ $t('updates.kckz') }}</el-button> -->
         </div>
         <div class="container">
           <el-editable
