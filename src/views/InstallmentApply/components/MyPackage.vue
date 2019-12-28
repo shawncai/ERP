@@ -241,8 +241,7 @@ export default {
           quantity: 0
         }
       })
-      this.$emit('packagedata', productDetail)
-      this.$emit('salePrice', this.moreaction.salePrice)
+      this.$emit('packagedata', this.moreaction.salePrice)
     }
   }
 }

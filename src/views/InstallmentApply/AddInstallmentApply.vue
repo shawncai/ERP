@@ -208,6 +208,8 @@
       <!--子件信息-->
       <el-card class="box-card" shadow="never" style="margin-top: 10px">
         <h2 ref="geren" class="form-name">{{ $t('updates.spxx') }}</h2>
+        <el-button style="margin-top: 50px;" @click="handleAddpackage">{{ $t('otherlanguage.xztc') }}</el-button>
+        <my-package :packagecontrol.sync="packagecontrol" :productnumber.sync="productnumber" @packagedata="packagedata"/>
         <div class="container" style="margin-top: 37px">
           <el-form ref="personalForm2" :model="productForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
             <el-row>
@@ -631,10 +633,11 @@ import MyEmp from './components/MyEmp'
 import MyDetail from './components/MyDetail'
 import MyMater from './components/MyMater'
 import MyRepository from './components/MyRepository'
+import MyPackage from './components/MyPackage'
 var _that
 export default {
   name: 'AddInstallmentApply',
-  components: { MyRepository, MyMater, MyDetail, MyEmp },
+  components: { MyRepository, MyMater, MyDetail, MyEmp, MyPackage },
   data() {
     const validatePass = (rule, value, callback) => {
       if (this.salePersonId === undefined || this.salePersonId === null || this.salePersonId === '') {
@@ -756,6 +759,8 @@ export default {
       cities3: [],
       // 工作企业市数据
       cities2: [],
+      packagecontrol: false,
+      productnumber: '',
       rate: '',
       // 申请人市数据
       cities: [],
@@ -910,6 +915,24 @@ export default {
     _that = this
   },
   methods: {
+    packagedata(val) {
+      console.log('val1222222', val)
+      this.productForm.price = val
+      this.changeTotalMoney()
+    },
+    // 选择套餐
+    handleAddpackage() {
+      if (this.productForm.productCode === null || this.productForm.productCode === undefined || this.productForm.productCode === '') {
+        this.$notify.error({
+          title: '请选择商品',
+          message: '请选择商品',
+          offset: 100
+        })
+      } else {
+        this.productnumber = this.productForm.productCode
+        this.packagecontrol = true
+      }
+    },
     getInfo() {
       if (this.productForm.carCode !== null && this.productForm.carCode !== '' && this.productForm.carCode !== undefined) {
         const param = {}

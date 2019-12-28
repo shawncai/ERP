@@ -74,7 +74,14 @@
           <el-editable-column :label="$t('updates.ys')" prop="color" align="center" min-width="150px"/>
           <el-editable-column :label="$t('Hmodule.gg')" prop="productType" align="center" min-width="150px"/>
           <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" min-width="150px"/>
-          <el-editable-column :label="$t('updates.lsj')" prop="salePrice" align="center" min-width="150px"/>
+          <!--            <el-editable-column :label="$t('updates.lsj')" prop="salePrice" align="center" min-width="150px"/>-->
+          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 1}, type: 'visible'}" :label="$t('updates.lsj')" align="center" min-width="150px">
+            <template slot="edit" slot-scope="scope">
+              <el-input-number
+                :controls="false"
+                v-model="scope.row.salePrice"/>
+            </template>
+          </el-editable-column>
           <el-editable-column :label="$t('updates.ccj')" prop="costPrice" align="center" min-width="150px"/>
         </el-editable>
       </div>
@@ -282,8 +289,32 @@ export default {
       this.personalForm.countryId = this.$store.getters.countryId
       this.personalForm.modifyPersonId = this.$store.getters.userId
       const EnterDetail = this.$refs.editable2.getRecords()
-      console.log(EnterDetail)
+      if (EnterDetail.length === 0) {
+        this.$notify.error({
+          title: '错误',
+          message: '明细表不能为空',
+          offset: 100
+        })
+        return false
+      }
+      console.log('EnterDetail[0]', EnterDetail[0].salePrice)
+      let m = 1
+      for (let i = 0; i < EnterDetail.length; i++) {
+        if (EnterDetail[i].salePrice === '' || EnterDetail[i].salePrice === undefined || EnterDetail[i].salePrice === null || EnterDetail[i].salePrice === 0) {
+          m = 2
+        }
+      }
+      if (m === 2) {
+        this.$notify.error({
+          title: '错误',
+          message: '正确填写零售价',
+          offset: 100
+        })
+        return false
+      }
+      console.log('EnterDetail[0]', EnterDetail[0].salePrice)
       console.log(this.personalForm)
+      this.personalForm.salePrice = EnterDetail[0].salePrice
       const obj = Object.assign(EnterDetail[0], this.personalForm)
       console.log(obj)
       for (const key in obj) {
@@ -293,6 +324,14 @@ export default {
       }
       const parms = JSON.stringify(obj)
       const EnterDetail2 = this.$refs.editable3.getRecords()
+      if (EnterDetail2.length === 0) {
+        this.$notify.error({
+          title: '错误',
+          message: '明细表不能为空',
+          offset: 100
+        })
+        return false
+      }
       EnterDetail2.map(function(elem) {
         return elem
       }).forEach(function(elem) {

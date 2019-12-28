@@ -369,7 +369,7 @@
           <el-button @click="handleAddGift">{{ $t('updates.tj') }}</el-button>
           <my-detail2 :giftcontrol.sync="giftcontrol" :personalform.sync="personalForm" @gift="gift"/>
           <el-button @click="handleAddpackage">{{ $t('otherlanguage.xztc') }}</el-button>
-          <my-package :packagecontrol.sync="packagecontrol" :productnumber.sync="productnumber" @packagedata="packagedata"/>
+          <my-package :packagecontrol.sync="packagecontrol" :productnumber.sync="productnumber" @salePrice="salePrice" @packagedata="packagedata"/>
           <el-button type="danger" @click="$refs.editable2.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
         </div>
         <div class="container">
@@ -424,7 +424,7 @@
                   :controls="true"
                   :min="1.00"
                   :value="scope.row.quantity"
-                  @input="queryStock(scope.row)"
+                  @change="queryStock(scope.row)"
                 />
               </template>
             </el-editable-column>
@@ -860,6 +860,10 @@ export default {
     _that = this
   },
   methods: {
+    salePrice(val) {
+      console.log('val1222222', val)
+      this.moreaction[0].salePrice = val
+    },
     packagedata(val) {
       console.log('val1222222', val)
       for (let i = 0; i < val.length; i++) {

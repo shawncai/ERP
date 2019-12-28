@@ -8,8 +8,25 @@
           <el-form ref="personalForm" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
             <el-row>
               <el-col :span="6">
-                <el-form-item :label="$t('Receipt.title')" style="width: 100%;">
-                  <el-input v-model="personalForm.title" style="margin-left: 18px;width: 200px" clearable/>
+                <el-form-item :label="$t('SaleReturn.sourceType')" prop="sourceType" style="width: 100%;">
+                  <el-select v-model="personalForm.sourceType" style="margin-left: 18px;width:200px">
+                    <el-option value="1" label="分期订单"/>
+                  </el-select>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item :label="$t('Verification.jbr')" prop="handlePersonId" style="width: 100%;">
+                  <el-input v-model="handlePersonId" style="margin-left: 18px;width: 200px" @focus="handlechooseStock"/>
+                </el-form-item>
+                <my-emp :control.sync="stockControl" @stockName="stockName"/>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item :label="$t('Verification.hxrq')" prop="cancelDate" style="width: 100%;">
+                  <el-date-picker
+                    v-model="personalForm.cancelDate"
+                    type="date"
+                    value-format="yyyy-MM-dd"
+                    style="margin-left: 18px;width: 200px"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
@@ -61,21 +78,6 @@
               <el-col :span="6">
                 <el-form-item :label="$t('Receipt.receiptAccountNumber')" style="width: 100%;">
                   <el-input v-model="personalForm.receiptAccountNumber" style="margin-left: 18px;width: 200px" clearable/>
-                </el-form-item>
-              </el-col>
-              <el-col :span="6">
-                <el-form-item :label="$t('Receipt.receiptPersonId')" prop="receiptPersonId" style="width: 100%;">
-                  <el-input v-model="receiptPersonId" style="margin-left: 18px;width: 200px" @focus="handlechooseStock"/>
-                </el-form-item>
-                <my-emp :control.sync="stockControl" @stockName="stockName"/>
-              </el-col>
-              <el-col :span="6">
-                <el-form-item :label="$t('Receipt.receiptDate')" prop="receiptDate" style="width: 100%;">
-                  <el-date-picker
-                    v-model="personalForm.receiptDate"
-                    type="date"
-                    value-format="yyyy-MM-dd"
-                    style="margin-left: 18px;width: 200px"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
@@ -188,7 +190,7 @@ import MyAgent from '../SaleOpportunity/components/MyAgent'
 import { searchCategory } from '@/api/Supplier'
 var _that
 export default {
-  name: 'AddReceipt',
+  name: 'AddVerification',
   components: { MyAgent, MyInstallment, MyMater, MyDetail, MyEmp },
   data() {
     const validatePass2 = (rule, value, callback) => {
@@ -206,14 +208,14 @@ export default {
       }
     }
     const validatePass3 = (rule, value, callback) => {
-      if (this.receiptPersonId === undefined || this.receiptPersonId === null || this.receiptPersonId === '') {
+      if (this.handlePersonId === undefined || this.handlePersonId === null || this.handlePersonId === '') {
         callback(new Error('请选择收款人'))
       } else {
         callback()
       }
     }
     const validatePass4 = (rule, value, callback) => {
-      if (this.personalForm.receiptDate === undefined || this.personalForm.receiptDate === null || this.personalForm.receiptDate === '') {
+      if (this.personalForm.cancelDate === undefined || this.personalForm.cancelDate === null || this.personalForm.cancelDate === '') {
         callback(new Error('请选择收款日期'))
       } else {
         callback()
@@ -233,7 +235,7 @@ export default {
       moreaction: [],
       moreaction2: [],
       // 回显收款人
-      receiptPersonId: '',
+      handlePersonId: '',
       // 控制收款人
       stockControl: false,
       // 预收款
@@ -293,10 +295,10 @@ export default {
         payMode: [
           { required: true, message: '请选择支付方式', trigger: 'change' }
         ],
-        receiptPersonId: [
+        handlePersonId: [
           { required: true, validator: validatePass3, trigger: 'change' }
         ],
-        receiptDate: [
+        cancelDate: [
           { required: true, validator: validatePass4, trigger: 'change' }
         ],
         penaltyMoney: [
@@ -531,7 +533,7 @@ export default {
         strDate = '0' + strDate
       }
       var currentdate = year + seperator1 + month + seperator1 + strDate
-      this.personalForm.receiptDate = currentdate
+      this.personalForm.cancelDate = currentdate
     },
     // 收款人focus事件
     handlechooseStock() {
@@ -539,8 +541,8 @@ export default {
     },
     // 收款人回显
     stockName(val) {
-      this.receiptPersonId = val.personName
-      this.personalForm.receiptPersonId = val.id
+      this.handlePersonId = val.personName
+      this.personalForm.handlePersonId = val.id
     },
     // 总计
     getSummaries(param) {
@@ -744,7 +746,7 @@ export default {
         receiptMoney: 0,
         deductionMoney: 0
       }
-      this.receiptPersonId = null
+      this.handlePersonId = null
       this.customerId = null
     },
     // 保存操作
@@ -853,7 +855,7 @@ export default {
     // 取消操作
     handlecancel() {
       this.$router.go(-1)
-      const view = { path: '/Receipt/AddReceipt', name: 'AddReceipt', fullPath: '/Receipt/AddReceipt', title: 'AddReceipt' }
+      const view = { path: '/Verification/AddVerification', name: 'AddVerification', fullPath: '/Verification/AddVerification', title: 'AddVerification' }
       this.$store.dispatch('delView', view).then(({ visitedViews }) => {
       })
     }
