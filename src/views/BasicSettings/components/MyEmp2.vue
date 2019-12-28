@@ -352,6 +352,7 @@ export default {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
+          this.memoryChecked()
           if (this.isselect === 1) {
             this.isselect = 2
             this.memoryChecked()

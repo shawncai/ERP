@@ -1453,7 +1453,8 @@ export default {
     upStock: '库存上限',
     onStock: '现有库存',
     safeStock: '安全库存',
-    flag: '报警类型'
+    flag: '报警类型',
+    salePrice: '销售价格'
   },
   BuildUp: {
     title: '组装单主题',

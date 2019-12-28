@@ -48,6 +48,7 @@
       style="width: 100%;"
       @selection-change="handleSelectionChange">
       <el-table-column
+        :reserve-selection="true"
         type="selection"
         width="55"
         align="center"/>

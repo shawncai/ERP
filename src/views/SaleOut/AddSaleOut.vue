@@ -174,7 +174,7 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('SaleOut.couponSupport')" style="width: 100%;">
-                  <el-input v-model="personalForm.couponSupport" style="margin-left: 18px;width: 200px"/>
+                  <el-input v-model="personalForm.couponSupport" style="margin-left: 18px;width: 200px" type="number" @change="changemoney"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
@@ -730,6 +730,7 @@ export default {
         outDate: null,
         sourceType: '5',
         otherMoney: '0',
+        couponSupport: 0,
         outType: '1',
         saleRepositoryId: this.$store.getters.repositoryId
       },
@@ -860,6 +861,9 @@ export default {
     _that = this
   },
   methods: {
+    changemoney(val) {
+      console.log(val)
+    },
     packagedata(val) {
       console.log('val1222222', val)
       for (let i = 0; i < val.length; i++) {
@@ -1000,20 +1004,20 @@ export default {
       console.log('val', val)
       if (this.receivableMoney !== null && this.receivableMoney !== '' && this.receivableMoney !== undefined) {
         this.personalForm.receivableMoney = this.receivableMoney
-        return this.receivableMoney
+        return (this.receivableMoney - Number(this.personalForm.couponSupport))
       } else if (this.personalForm.ridMoney !== null && this.personalForm.ridMoney !== '' && this.personalForm.ridMoney !== undefined) {
         console.log('this.heji3 - this.heji4 - this.personalForm.ridMoney', this.heji3 - this.heji4 - this.personalForm.ridMoney)
         this.personalForm.receivableMoney = this.heji3 - this.heji4 - this.personalForm.ridMoney
-        return (this.heji3 - this.heji4 - this.personalForm.ridMoney)
+        return (this.heji3 - this.heji4 - this.personalForm.ridMoney - Number(this.personalForm.couponSupport))
       } else if (this.personalForm.ridBikeMoney !== null && this.personalForm.ridBikeMoney !== '' && this.personalForm.ridBikeMoney !== undefined) {
         console.log('this.heji3 - this.heji4 - this.personalForm.ridMoney', this.heji3 - this.heji4 - this.personalForm.ridMoney)
         this.personalForm.receivableMoney = this.heji3 - this.heji4 - this.personalForm.ridBikeMoney
-        return (this.heji3 - this.heji4 - this.personalForm.ridBikeMoney)
+        return (this.heji3 - this.heji4 - this.personalForm.ridBikeMoney - Number(this.personalForm.couponSupport))
       } else {
         if (this.personalForm.sourceType === '1' || this.personalForm.sourceType === '4' || this.personalForm.sourceType === '5') {
           console.log('this.heji3 - this.heji4', this.heji3 - this.heji4)
           this.personalForm.receivableMoney = this.heji3 - this.heji4
-          return (this.heji3 - this.heji4)
+          return (this.heji3 - this.heji4 - Number(this.personalForm.couponSupport))
         }
       }
     },

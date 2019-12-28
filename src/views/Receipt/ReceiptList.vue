@@ -141,6 +141,7 @@
         </el-table-column>
         <el-table-column :label="$t('public.actions')" :resizable="false" align="center" min-width="230">
           <template slot-scope="scope">
+            <el-button v-show="scope.row.judgeStat === 0" type="primary" size="mini" @click="handleEdit(scope.row)">{{ $t('public.edit') }}</el-button>
             <el-button v-show="isReview(scope.row)" :title="$t('updates.spi')" type="warning" size="mini" icon="el-icon-view" circle @click="handleReview(scope.row)"/>
             <el-button v-permission2="['200-213-2', scope.row.createPersonId]" v-show="scope.row.judgeStat === 0" :title="$t('updates.sc')" size="mini" type="danger" icon="el-icon-delete" circle @click="handleDelete(scope.row)"/>
             <el-button title="查看附件" type="primary" size="mini" icon="el-icon-document" circle @click="check(scope.row)"/>
@@ -298,6 +299,14 @@ export default {
     _that = this
   },
   methods: {
+    // 修改
+    handleEdit(row) {
+      console.log(row)
+      this.editVisible = true
+      this.personalForm = Object.assign({}, row)
+      this.personalForm.customerType = String(row.customerType)
+      this.personalForm.moneyType = String(row.moneyType)
+    },
     // 附件操作
     check(row) {
       console.log(row)
@@ -399,31 +408,6 @@ export default {
       console.log(val)
       this.supplierId = val.supplierName
       this.getemplist.supplierId = val.id
-    },
-    // 修改操作
-    handleEdit(row) {
-      console.log(row)
-      this.editVisible = true
-      this.personalForm = Object.assign({}, row)
-      this.personalForm.sourceType = String(row.sourceType)
-      if (row.certificateType !== null) {
-        this.personalForm.certificateType = String(row.certificateType)
-      }
-      if (row.workStat !== null) {
-        this.personalForm.workStat = String(row.workStat)
-      }
-      if (row.mateCertificateType !== null) {
-        this.personalForm.mateCertificateType = String(row.mateCertificateType)
-      }
-      if (row.mateWorkStat !== null) {
-        this.personalForm.mateWorkStat = String(row.mateWorkStat)
-      }
-      if (row.enterpriseNature !== null) {
-        this.personalForm.enterpriseNature = String(row.enterpriseNature)
-      }
-      if (row.suretyCertificateType !== null) {
-        this.personalForm.suretyCertificateType = String(row.suretyCertificateType)
-      }
     },
     // 修改组件修改成功后返回
     refreshlist(val) {

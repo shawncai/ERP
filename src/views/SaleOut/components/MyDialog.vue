@@ -155,7 +155,7 @@
             </el-col>
             <el-col :span="12">
               <el-form-item :label="$t('SaleOut.couponSupport')" style="width: 100%;">
-                <el-input v-model="personalForm.couponSupport" style="margin-left: 18px;width: 200px"/>
+                <el-input v-model="personalForm.couponSupport" style="margin-left: 18px;width: 200px" @change="changemoney"/>
               </el-form-item>
             </el-col>
             <el-col :span="12">
@@ -172,7 +172,8 @@
             </el-col>
             <el-col :span="12">
               <el-form-item :label="$t('SaleOut.receivableMoney')" style="width: 100%;">
-                <el-input v-model="personalForm.receivableMoney" style="margin-left: 18px;width: 200px" disabled/>
+                <!-- <el-input v-model="personalForm.receivableMoney" style="margin-left: 18px;width: 200px" disabled/> -->
+                {{ getReceivableMoney() }}
               </el-form-item>
             </el-col>
             <el-col :span="12">
@@ -784,6 +785,31 @@ export default {
     _that = this
   },
   methods: {
+    getReceivableMoney(val) {
+      console.log('666', 666)
+      console.log('val', val)
+      if (this.receivableMoney !== null && this.receivableMoney !== '' && this.receivableMoney !== undefined) {
+        this.personalForm.receivableMoney = this.receivableMoney
+        return (this.receivableMoney - Number(this.personalForm.couponSupport))
+      } else if (this.personalForm.ridMoney !== null && this.personalForm.ridMoney !== '' && this.personalForm.ridMoney !== undefined) {
+        console.log('this.heji3 - this.heji4 - this.personalForm.ridMoney', this.heji3 - this.heji4 - this.personalForm.ridMoney)
+        this.personalForm.receivableMoney = this.heji3 - this.heji4 - this.personalForm.ridMoney
+        return (this.heji3 - this.heji4 - this.personalForm.ridMoney - Number(this.personalForm.couponSupport))
+      } else if (this.personalForm.ridBikeMoney !== null && this.personalForm.ridBikeMoney !== '' && this.personalForm.ridBikeMoney !== undefined) {
+        console.log('this.heji3 - this.heji4 - this.personalForm.ridMoney', this.heji3 - this.heji4 - this.personalForm.ridMoney)
+        this.personalForm.receivableMoney = this.heji3 - this.heji4 - this.personalForm.ridBikeMoney
+        return (this.heji3 - this.heji4 - this.personalForm.ridBikeMoney - Number(this.personalForm.couponSupport))
+      } else {
+        if (this.personalForm.sourceType === '1' || this.personalForm.sourceType === '4' || this.personalForm.sourceType === '5') {
+          console.log('this.heji3 - this.heji4', this.heji3 - this.heji4)
+          this.personalForm.receivableMoney = this.heji3 - this.heji4
+          return (this.heji3 - this.heji4 - Number(this.personalForm.couponSupport))
+        }
+      }
+    },
+    changemoney(val) {
+      console.log(val)
+    },
     // 批量操作
     handleSelectionChange(val) {
       console.log(val)

@@ -71,7 +71,7 @@
           @selection-change="handleSelectionChange">
           <el-editable-column type="selection" width="55" align="center"/>
           <el-editable-column type="index" width="55" align="center"/>
-          <el-editable-column :edit-render="{type: 'default'}" :label="$t('Hmodule.hw')" prop="locationCode" align="center" width="200px">
+          <el-editable-column :label="$t('Hmodule.hw')" prop="locationCode" align="center" width="200px">
             <template slot-scope="scope">
               <p>{{ getLocationData(scope.row) }}</p>
             </template>
@@ -86,8 +86,8 @@
           <!--                  :value="item"-->
           <!--                  :label="item"/>-->
           <!--              </el-select>-->
-          <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('Hmodule.pc')" prop="batch" align="center" min-width="150" >
-            <template slot="edit" slot-scope="scope">
+          <el-editable-column :label="$t('Hmodule.pc')" prop="batch" align="center" min-width="150" />
+          <!-- <template slot="edit" slot-scope="scope">
               <el-select v-if="scope.row.batch !== '不使用'" v-model="scope.row.batch" :value="scope.row.batch" :placeholder="$t('Hmodule.xcpc')" filterable clearable style="width: 100%;" @visible-change="updatebatch2($event,scope)">
                 <el-option
                   v-for="(item, index) in batchlist"
@@ -97,7 +97,7 @@
               </el-select>
               <span v-else>{{ scope.row.batch }}</span>
             </template>
-          </el-editable-column>
+          </el-editable-column> -->
           <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" align="center" width="150px"/>
           <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" align="center" width="150px"/>
           <el-editable-column :label="$t('updates.ys')" prop="color" align="center" width="150px"/>
@@ -221,6 +221,7 @@ import { batchlist, getQuantity, getlocation, countlist } from '@/api/public'
 import MyCreate from './components/MyCreate'
 import MyRepository from './components/MyRepository'
 import MyDetail from './components/MyDetail'
+import { Promise } from 'q'
 var _that
 export default {
   name: 'AddInventoryCount',
@@ -365,24 +366,24 @@ export default {
   methods: {
     getLocationData(row) {
       // 默认批次
-      if (row.batch === null || row.batch === '' || row.batch === undefined) {
-        const parms3 = row.productCode
-        batchlist(this.personalForm.countRepositoryId, parms3).then(res => {
-          console.log(res)
-          if (res.data.data.content.length > 0) {
-            row.batch = res.data.data.content[0]
-          }
-        })
-      } else {
-        const parms3 = row.productCode
-        batchlist(this.personalForm.countRepositoryId, parms3).then(res => {
-          if (res.data.data.content.length === 0) {
-            if (row.batch !== '不使用') {
-              row.batch = null
-            }
-          }
-        })
-      }
+      // if (row.batch === null || row.batch === '' || row.batch === undefined) {
+      //   const parms3 = row.productCode
+      //   batchlist(this.personalForm.countRepositoryId, parms3).then(res => {
+      //     console.log(res)
+      //     if (res.data.data.content.length > 0) {
+      //       row.batch = res.data.data.content[0]
+      //     }
+      //   })
+      // } else {
+      //   const parms3 = row.productCode
+      //   batchlist(this.personalForm.countRepositoryId, parms3).then(res => {
+      //     if (res.data.data.content.length === 0) {
+      //       if (row.batch !== '不使用') {
+      //         row.batch = null
+      //       }
+      //     }
+      //   })
+      // }
       // 默认货位
       getlocation(this.personalForm.countRepositoryId, row).then(res => {
         if (res.data.ret === 200) {
@@ -695,29 +696,110 @@ export default {
       }
       this.control = true
     },
-    productdetail(val) {
-      // console.log(val)
-      // console.log(val[0])
-      console.log(this.$refs.editable.getRecords())
-      // const nowlistdata = this.$refs.editable.getRecords()
-      for (let i = 0; i < val.length; i++) {
-        // for (let j = 0; j < nowlistdata.length; j++) {
-        //   if (val[i].productCode === nowlistdata[j].productCode) {
-        //     this.$notify.error({
-        //       title: '错误',
-        //       message: '物品已添加',
-        //       offset: 100
-        //     })
-        //     return false
-        //   }
-        // }
-        this.$refs.editable.insert(val[i])
+    async productdetail(val) {
+      const nowlistdata = this.$refs.editable.getRecords()
+      if (nowlistdata.length === 0) {
+        const batcharr = await Promise.all(val.map(item => {
+          return batchlist(this.personalForm.countRepositoryId, item.productCode)
+        }))
+        const newbatch = batcharr.map(item => {
+          return {
+            pcode: item.data.data.pCode,
+            batchs: item.data.data.content
+          }
+        })
+        console.log('newbatch---======', newbatch)
+
+        const needarr = newbatch.map(item => {
+          const arrned = item.batchs.map(zitem => {
+            return {
+              productCode: item.pcode,
+              batch: zitem
+            }
+          })
+          return arrned
+        })
+        const onearr = [].concat.apply([], needarr)
+        for (const i in val) {
+          for (const j in onearr) {
+            if (val[i].productCode === onearr[j].productCode) {
+              onearr[j].productName = val[i].productName
+              onearr[j].color = val[i].color
+              onearr[j].locationId = val[i].locationId
+              onearr[j].typeId = val[i].typeId
+              onearr[j].inventoryQuantity = val[i].inventoryQuantity
+              onearr[j].actualQuantity = val[i].actualQuantity
+              onearr[j].enterQuantity = val[i].enterQuantity
+              onearr[j].taxRate = val[i].taxRate
+              onearr[j].unit = val[i].unit
+              onearr[j].totalMoney = val[i].totalMoney
+              onearr[j].actualEnterQuantity = val[i].actualEnterQuantity
+              onearr[j].basicQuantity = val[i].basicQuantity
+              onearr[j].price = val[i].price
+              onearr[j].productType = val[i].productType
+              onearr[j].countPerson = val[i].countPerson
+              onearr[j].countPersonId = val[i].countPersonId
+              onearr[j].countDate = val[i].countDate
+            }
+          }
+        }
+        console.log('needarr---======', onearr)
+        this.list2 = onearr
+      } else {
+        const batcharr = await Promise.all(val.map(item => {
+          return batchlist(this.personalForm.countRepositoryId, item.productCode)
+        }))
+        const newbatch = batcharr.map(item => {
+          return {
+            pcode: item.data.data.pCode,
+            batchs: item.data.data.content
+          }
+        })
+        console.log('newbatch---======', newbatch)
+
+        const needarr = newbatch.map(item => {
+          const arrned = item.batchs.map(zitem => {
+            return {
+              productCode: item.pcode,
+              batch: zitem
+            }
+          })
+          return arrned
+        })
+        const onearr = [].concat.apply([], needarr)
+        for (const i in val) {
+          for (const j in onearr) {
+            if (val[i].productCode === onearr[j].productCode) {
+              onearr[j].productName = val[i].productName
+              onearr[j].color = val[i].color
+              onearr[j].locationId = val[i].locationId
+              onearr[j].typeId = val[i].typeId
+              onearr[j].inventoryQuantity = val[i].inventoryQuantity
+              onearr[j].actualQuantity = val[i].actualQuantity
+              onearr[j].enterQuantity = val[i].enterQuantity
+              onearr[j].taxRate = val[i].taxRate
+              onearr[j].unit = val[i].unit
+              onearr[j].totalMoney = val[i].totalMoney
+              onearr[j].actualEnterQuantity = val[i].actualEnterQuantity
+              onearr[j].basicQuantity = val[i].basicQuantity
+              onearr[j].price = val[i].price
+              onearr[j].productType = val[i].productType
+              onearr[j].countPerson = val[i].countPerson
+              onearr[j].countPersonId = val[i].countPersonId
+              onearr[j].countDate = val[i].countDate
+            }
+          }
+        }
+        console.log('needarr---======', onearr)
+        const newarr = Object.assign([], onearr, nowlistdata)
+        this.list2 = newarr
       }
-      // 货位批次默认
-      // 2撒打算
-      // console.log(val)
-      // const row = this.$refs.editable.insert(val)
     }
+    // 货位批次默认
+    // 2撒打算
+    // console.log(val)
+    // const row = this.$refs.editable.insert(val)
+
   }
 }
 </script>

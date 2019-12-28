@@ -49,6 +49,22 @@
                   <el-input v-model="surveyPersonId" style="margin-left: 18px;width: 200px" disabled clearable/>
                 </el-form-item>
               </el-col>
+              <el-col :span="6">
+                <el-form-item :label="$t('SaleContract.uploadAttachments')" style="width: 100%;">
+                  <el-upload
+                    :on-change="handleChange"
+                    :file-list="fileList3"
+                    :on-success="handlepicsuccess"
+                    :data="picidsData"
+                    :action="actionurl"
+                    class="upload-demo"
+                    style="margin-left: 18px"
+                  >
+                    <el-button size="small" type="primary" style="width: 200px">{{ $t('newupd.mmm') }}</el-button>
+                    <div slot="tip" class="el-upload__tip">{{ $t('newupd.nnn') }}</div>
+                  </el-upload>
+                </el-form-item>
+              </el-col>
             </el-row>
           </el-form>
         </div>
@@ -222,6 +238,12 @@ export default {
           return time.getTime() >= new Date().getTime() - 8.64e7
         }
       },
+      picidsData: {
+        type: 25
+      },
+      actionurl: '',
+      // 附件列表
+      fileList3: [],
       personalProperty: [],
       // 分期数据
       installmentCounts: [],
@@ -377,6 +399,7 @@ export default {
     this.getways()
     this.getratelist()
     this.getdatatime()
+    this.getuploadurl()
   },
   activated() {
     this.getinformation()
@@ -385,6 +408,23 @@ export default {
     _that = this
   },
   methods: {
+    handlepicsuccess(response) {
+      console.log(response.data.content.picId)
+      this.personalForm.picids.push(response.data.content.picId)
+    },
+    getuploadurl() {
+      if (this.$store.getters.useCountry === 1 || this.$store.getters.useCountry === '1') {
+        this.actionurl = process.env.BASE_API + '/erp/upload/uploadpic'
+      }
+      if (this.$store.getters.useCountry === 2 || this.$store.getters.useCountry === '2') {
+        this.actionurl = process.env.BASE_API + '/philippines/upload/uploadpic'
+      }
+      console.log(this.actionurl)
+    },
+    // 上传附件
+    handleChange(file, fileList) {
+      this.fileList3 = fileList.slice(-3)
+    },
     // 获取默认信息(分期列表)
     getinformation() {
       if (this.$store.getters.empcontract) {

@@ -63,53 +63,53 @@ const chat = {
     selectId: 1,
     // 对话好友列表
     chatlist: [
-      // {
-      //   id: 1,
-      //   user: {
-      //     name: '妈咪',
-      //     img: 'static/images/mother.jpg'
-      //   },
-      //   messages: [
-      //     {
-      //       content: '么么哒，妈咪爱你', // 聊天内容
-      //       date: now // 时间
-      //     },
-      //     {
-      //       content: '按回车可以发送信息，还可以给我发送表情哟',
-      //       date: now
-      //     }
-      //   ],
-      //   index: 1 // 当前在聊天列表中的位置,从1开始
+      {
+        id: 1,
+        user: {
+          name: '妈咪',
+          img: 'static/images/mother.jpg'
+        },
+        messages: [
+          {
+            content: '么么哒，妈咪爱你', // 聊天内容
+            date: now // 时间
+          },
+          {
+            content: '按回车可以发送信息，还可以给我发送表情哟',
+            date: now
+          }
+        ],
+        index: 1 // 当前在聊天列表中的位置,从1开始
 
-      // },
-      // {
-      //   id: 2,
-      //   user: {
-      //     name: 'father',
-      //     img: 'static/images/father.jpg'
-      //   },
-      //   messages: [
-      //     {
-      //       content: 'Are you kidding me?',
-      //       date: now
-      //     }
-      //   ],
-      //   index: 2
-      // },
-      // {
-      //   id: 3,
-      //   user: {
-      //     name: '机器人',
-      //     img: 'static/images/vue.jpg'
-      //   },
-      //   messages: [
-      //     {
-      //       content: '我会跟你聊聊天的哟',
-      //       date: now
-      //     }
-      //   ],
-      //   index: 3
-      // }
+      },
+      {
+        id: 2,
+        user: {
+          name: 'father',
+          img: 'static/images/father.jpg'
+        },
+        messages: [
+          {
+            content: 'Are you kidding me?',
+            date: now
+          }
+        ],
+        index: 2
+      },
+      {
+        id: 3,
+        user: {
+          name: '机器人',
+          img: 'static/images/vue.jpg'
+        },
+        messages: [
+          {
+            content: '我会跟你聊聊天的哟',
+            date: now
+          }
+        ],
+        index: 3
+      }
     ]
   },
   mutations: {

@@ -1,6 +1,17 @@
 <template>
   <el-scrollbar wrap-class="scrollbar-wrapper">
-    <div class="msglist" v-show="topmenus === '14'">
+    <el-menu
+    v-if="topmenus !== '14'"
+      :show-timeout="200"
+      :default-active="$route.path"
+      background-color="#304156"
+      text-color="#bfcbd9"
+      active-text-color="#409EFF"
+      :unique-opened="true"
+    >
+      <sidebar-item v-for="route in permission_routers" :key="route.path" :item="route" :base-path="route.path"/>
+    </el-menu>
+    <div class="msglist" v-if="topmenus === '14'">
       <ul class="msgul">
         <li
           v-for="(item, index) in chatlist"
@@ -23,17 +34,7 @@
         </li>
       </ul>
     </div>
-    <el-menu
-    v-show="topmenus !== '14'"
-      :show-timeout="200"
-      :default-active="$route.path"
-      background-color="#304156"
-      text-color="#bfcbd9"
-      active-text-color="#409EFF"
-      :unique-opened="true"
-    >
-      <sidebar-item v-for="route in permission_routers" :key="route.path" :item="route" :base-path="route.path"/>
-    </el-menu>
+    
   </el-scrollbar>
 </template>
 

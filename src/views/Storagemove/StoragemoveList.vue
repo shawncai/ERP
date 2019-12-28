@@ -561,13 +561,30 @@ export default {
     },
     // 判断审核按钮
     isReview(row) {
-      if (row.approvalUseVos !== '' && row.approvalUseVos !== null && row.approvalUseVos !== undefined && row.approvalUseVos.length !== 0) {
-        const approvalUse = row.approvalUseVos
-        const index = approvalUse[approvalUse.length - 1].stepHandler.indexOf(',' + this.$store.getters.userId + ',')
-        console.log(approvalUse[approvalUse.length - 1].stepHandler)
-        console.log(index)
-        if (index > -1 && (row.judgeStat === 1 || row.judgeStat === 0)) {
-          return true
+      const userepository = this.$store.getters.repositoryId
+      if (row.moveType === 1) {
+        if (row.approvalUseVos !== '' && row.approvalUseVos !== null && row.approvalUseVos !== undefined && row.approvalUseVos.length !== 0 && userepository === row.moveOutRepository) {
+          const approvalUse = row.approvalUseVos
+          const index = approvalUse[approvalUse.length - 1].stepHandler.indexOf(',' + this.$store.getters.userId + ',')
+          console.log(approvalUse[approvalUse.length - 1].stepHandler)
+          console.log(index)
+          if (index > -1 && (row.judgeStat === 1 || row.judgeStat === 0)) {
+            return true
+          }
+        } else {
+          return false
+        }
+      } else if (row.moveType === 2) {
+        if (row.approvalUseVos !== '' && row.approvalUseVos !== null && row.approvalUseVos !== undefined && row.approvalUseVos.length !== 0 && userepository === row.moveInRepository) {
+          const approvalUse = row.approvalUseVos
+          const index = approvalUse[approvalUse.length - 1].stepHandler.indexOf(',' + this.$store.getters.userId + ',')
+          console.log(approvalUse[approvalUse.length - 1].stepHandler)
+          console.log(index)
+          if (index > -1 && (row.judgeStat === 1 || row.judgeStat === 0)) {
+            return true
+          }
+        } else {
+          return false
         }
       }
     },

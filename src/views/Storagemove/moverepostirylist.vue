@@ -37,7 +37,7 @@
         <el-form ref="addCategoryForm" :rules="addCategoryFormRules" :model="addCategoryForm" class="demo-ruleForm" style="margin: 0 auto; width: 400px">
           <el-form-item :label="$t('Storagemove.moveperson')" label-width="100px" prop="personName">
             <el-input v-model="personName" autosize style="min-width:300px" clearable @focus="handleaccept"/>
-            <my-accept :accetpcontrol.sync="accetpcontrol" @acceptName="acceptName"/>
+            <my-emp2 :control.sync="accetpcontrol" @personIds = "personIds" @personName= "personNames"/>
           </el-form-item>
         </el-form>
         <div
@@ -169,12 +169,13 @@ import permission2 from '@/directive/permission2/index.js' // 权限判断指令
 import checkPermission from '@/utils/permission' // 权限判断函数
 import MyAccept from './components/MyAccept'
 import MyAccept2 from './components/MyAccept2'
+import MyEmp2 from './components/MyEmp2'
 
 var _that
 export default {
   name: 'Moverepostirylist',
   directives: { waves, permission, permission2 },
-  components: { Pagination, MyRepository, MyAccept, MyRepository2, MyAccept2 },
+  components: { Pagination, MyRepository, MyAccept, MyRepository2, MyAccept2, MyEmp2 },
   filters: {
     typeFilter(status) {
       const statusMap = {
@@ -202,6 +203,7 @@ export default {
       }
     }
     return {
+      allpersonsids: [],
       emoloyeeName: '',
       // 查询人员
       personcontrol: false,
@@ -538,35 +540,52 @@ export default {
       this.personName = ''
       this.list2.itemName = ''
     },
+    personIds(val) {
+      console.log('val-=--', val)
+      this.allpersonsids = val
+    },
+    personNames(val) {
+      this.personName = val
+    },
     // 保存操作
     handlesave() {
-      console.log(this.addCategoryForm)
+      console.log('this.addCategoryForm', this.addCategoryForm)
       this.$refs.addCategoryForm.validate((valid) => {
         if (valid) {
           this.$refs.editable.validate((valid) => {
             if (valid) {
-              addmoverepository(this.addCategoryForm).then(res => {
-                if (res.data.ret === 200) {
-                  this.$notify({
-                    title: '成功',
-                    message: '新建成功',
-                    type: 'success',
-                    offset: 100
-                  })
-                  this.getlist()
-                  this.$refs.addCategoryForm.clearValidate()
-                  this.$refs.addCategoryForm.resetFields()
-                  this.$refs.editable.revert()
-                  this.restAddCategoryForm()
-                  this.categoryVisible = false
-                } else {
-                  this.$notify.error({
-                    title: '错误',
-                    message: '出错了',
-                    offset: 100
-                  })
+              const newarr = this.allpersonsids.map(item => {
+                return {
+                  employeeId: item,
+                  repositoryIds: this.addCategoryForm.repositoryIds,
+                  createId: this.$store.getters.userId
                 }
               })
+              console.log('-----newarr', newarr)
+              for (const i in newarr) {
+                addmoverepository(newarr[i]).then(res => {
+                  if (res.data.ret === 200) {
+                    this.$notify({
+                      title: '成功',
+                      message: '新建成功',
+                      type: 'success',
+                      offset: 100
+                    })
+                    this.getlist()
+                    this.$refs.addCategoryForm.clearValidate()
+                    this.$refs.addCategoryForm.resetFields()
+                    this.$refs.editable.revert()
+                    this.restAddCategoryForm()
+                    this.categoryVisible = false
+                  } else {
+                    this.$notify.error({
+                      title: '错误',
+                      message: '出错了',
+                      offset: 100
+                    })
+                  }
+                })
+              }
             } else {
               this.$notify.error({
                 title: '错误',

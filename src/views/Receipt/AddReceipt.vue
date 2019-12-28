@@ -64,6 +64,11 @@
                 </el-form-item>
               </el-col>
               <el-col :span="6">
+                <el-form-item :label="$t('SaleOut.couponSupport')" style="width: 100%;">
+                  <el-input v-model="personalForm.couponSupport" style="margin-left: 18px;width: 200px" type="number" @change="changemoney"/>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
                 <el-form-item :label="$t('Receipt.receiptPersonId')" prop="receiptPersonId" style="width: 100%;">
                   <el-input v-model="receiptPersonId" style="margin-left: 18px;width: 200px" @focus="handlechooseStock"/>
                 </el-form-item>
@@ -269,7 +274,8 @@ export default {
         penaltyMoney: 0,
         receiptMoney: 0,
         deductionMoney: 0,
-        totalLackMoney: 0
+        totalLackMoney: 0,
+        couponSupport: 0
       },
       // 商品信息
       productForm: {},
@@ -338,6 +344,9 @@ export default {
     _that = this
   },
   methods: {
+    changemoney(val) {
+      // this.personalForm.receiptMoney = Number(this.personalForm.receiptMoney) - Number(val)
+    },
     setinstallmentdata() {
       if (this.$store.getters.newinstallpaydata) {
         this.isshow = true
@@ -577,12 +586,12 @@ export default {
         console.log('jiangli', jiangli)
         console.log('zhina', zhina)
         console.log('zhuanghua', zhuanghua)
-        this.personalForm.receiptMoney = Number(sums[10]) + zhuanghua
+        this.personalForm.receiptMoney = Number(sums[10]) + zhuanghua - Number(this.personalForm.couponSupport)
       } else {
         console.log(456)
         this.personalForm.penaltyMoney = sums[5]
         this.personalForm.totalLackMoney = sums[8]
-        this.personalForm.receiptMoney = sums[9] - sums[4] + sums[5]
+        this.personalForm.receiptMoney = sums[9] - sums[4] + sums[5] - Number(this.personalForm.couponSupport)
       }
 
       return sums
@@ -613,7 +622,7 @@ export default {
       })
       sums[1] = ''
       this.allmoney = sums[5]
-      this.personalForm.receiptMoney = sums[6]
+      this.personalForm.receiptMoney = sums[6] - Number(this.personalForm.couponSupport)
       this.personalForm.deductionMoney = sums[7]
       this.personalForm.totalLackMoney = sums[5] - sums[6]
       return sums
