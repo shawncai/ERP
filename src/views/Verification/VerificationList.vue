@@ -4,18 +4,13 @@
       <el-row>
         <el-form ref="getemplist" :model="getemplist" label-width="100px" style="margin-top: -9px">
           <el-col :span="5">
-            <el-form-item :label="$t('updates.skddh')" label-width="100px">
-              <el-input v-model="getemplist.number" :placeholder="$t('Receipt.number')" clearable @keyup.enter.native="handleFilter"/>
+            <el-form-item :label="$t('public.id')" label-width="100px">
+              <el-input v-model="getemplist.number" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
           <el-col :span="5" style="margin-left: 10px">
-            <el-form-item :label="$t('updates.skr')">
-              <el-input v-model="receiptPersonId" placeholder="收款人" @clear="restFilter" @focus="handlechooseStock"/>
-            </el-form-item>
-          </el-col>
-          <el-col :span="5" style="margin-left: 10px">
-            <el-form-item :label="$t('updates.skdzt')">
-              <el-input v-model="getemplist.title" placeholder="收款单主题" clearable @keyup.enter.native="handleFilter"/>
+            <el-form-item :label="$t('Receipt.customerId')">
+              <el-input v-model="getemplist.customerName" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
           <!--更多搜索条件-->
@@ -65,15 +60,15 @@
           {{ $t('public.batchoperation') }} <i class="el-icon-arrow-down el-icon--right"/>
         </el-button>
         <el-dropdown-menu slot="dropdown" style="width: 140px">
-          <el-dropdown-item v-permission="['200-213-2']" style="text-align: left" command="delete"><svg-icon icon-class="shanchu" style="width: 40px"/>{{ $t('public.delete') }}</el-dropdown-item>
+          <el-dropdown-item v-permission="['200-365-2']" style="text-align: left" command="delete"><svg-icon icon-class="shanchu" style="width: 40px"/>{{ $t('public.delete') }}</el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
       <!-- 表格导出操作 -->
-      <el-button v-permission="['200-213-6']" v-waves :loading="downloadLoading" class="filter-item" style="width: 86px" @click="handleExport"> <svg-icon icon-class="daochu"/>{{ $t('public.export') }}</el-button>
+      <el-button v-permission="['200-365-6']" v-waves :loading="downloadLoading" class="filter-item" style="width: 86px" @click="handleExport"> <svg-icon icon-class="daochu"/>{{ $t('public.export') }}</el-button>
       <!-- 打印操作 -->
-      <el-button v-permission="['200-213-7']" v-waves class="filter-item" icon="el-icon-printer" style="width: 86px" @click="handlePrint">{{ $t('public.print') }}</el-button>
+      <el-button v-permission="['200-365-7']" v-waves class="filter-item" icon="el-icon-printer" style="width: 86px" @click="handlePrint">{{ $t('public.print') }}</el-button>
       <!-- 新建操作 -->
-      <el-button v-permission="['200-213-1']" v-waves class="filter-item" icon="el-icon-plus" type="success" style="width: 86px" @click="handleAdd">{{ $t('public.add') }}</el-button>
+      <el-button v-permission="['200-365-1']" v-waves class="filter-item" icon="el-icon-plus" type="success" style="width: 86px" @click="handleAdd">{{ $t('public.add') }}</el-button>
     </el-card>
 
     <el-card class="box-card" style="margin-top: 10px" shadow="never">
@@ -99,34 +94,19 @@
           </template>
           <detail-list :detailcontrol.sync="detailvisible" :detaildata.sync="personalForm"/>
         </el-table-column>
-        <el-table-column :label="$t('Receipt.title')" :resizable="false" fixed="left" align="center" min-width="150">
-          <template slot-scope="scope">
-            <span>{{ scope.row.title }}</span>
-          </template>
-        </el-table-column>
         <el-table-column :label="$t('Receipt.customerId')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.customerName }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('Receipt.allShouldMoney')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('Verification.jbr')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.allShouldMoney }}</span>
+            <span>{{ scope.row.handlePersonName }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('Receipt.receiptMoney')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('Verification.hxrq')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.receiptMoney }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column :label="$t('Receipt.receiptDate')" :resizable="false" align="center" min-width="150">
-          <template slot-scope="scope">
-            <span>{{ scope.row.receiptDate }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column :label="$t('Receipt.receiptPersonId')" :resizable="false" align="center" min-width="150">
-          <template slot-scope="scope">
-            <span>{{ scope.row.receiptPersonName }}</span>
+            <span>{{ scope.row.cancelDate }}</span>
           </template>
         </el-table-column>
         <el-table-column :label="$t('public.judgeStat')" :resizable="false" prop="judgeStat" align="center" min-width="150">
@@ -141,9 +121,12 @@
         </el-table-column>
         <el-table-column :label="$t('public.actions')" :resizable="false" align="center" min-width="230">
           <template slot-scope="scope">
+            <el-button v-permission2="['200-365-3', scope.row.createPersonId]" v-show="scope.row.judgeStat === 0" :title="$t('updates.xg')" type="primary" size="mini" icon="el-icon-edit" circle @click="handleEdit(scope.row)"/>
             <el-button v-show="isReview(scope.row)" :title="$t('updates.spi')" type="warning" size="mini" icon="el-icon-view" circle @click="handleReview(scope.row)"/>
-            <el-button v-permission2="['200-213-2', scope.row.createPersonId]" v-show="scope.row.judgeStat === 0" :title="$t('updates.sc')" size="mini" type="danger" icon="el-icon-delete" circle @click="handleDelete(scope.row)"/>
-            <el-button title="查看附件" type="primary" size="mini" icon="el-icon-document" circle @click="check(scope.row)"/>
+            <el-button v-permission="['200-365-76']" v-show="isReview4(scope.row)" :title="$t('updates.fsp')" type="warning" size="mini" circle @click="handleReview4(scope.row)"><svg-icon icon-class="fanhui"/></el-button>
+            <el-button v-permission="['200-365-16']" v-show="isReview2(scope.row)" :title="$t('updates.jd')" type="success" size="mini" icon="el-icon-check" circle @click="handleReview2(scope.row)"/>
+            <el-button v-permission="['200-365-17']" v-show="isReview3(scope.row)" :title="$t('updates.fjd')" type="success" size="mini" icon="el-icon-back" circle @click="handleReview3(scope.row)"/>
+            <el-button v-permission2="['200-365-2', scope.row.createPersonId]" v-show="scope.row.judgeStat === 0" :title="$t('updates.sc')" size="mini" type="danger" icon="el-icon-delete" circle @click="handleDelete(scope.row)"/>
           </template>
         </el-table-column>
       </el-table>
@@ -175,7 +158,7 @@
 </template>
 
 <script>
-import { searchreceipt, updatereceipt, deletereceipt } from '@/api/Receipt'
+import { verificationList, deleteVerification, updateVerification } from '@/api/Verification'
 import { getdeptlist } from '@/api/BasicSettings'
 import { searchStockCategory } from '@/api/StockCategory'
 import waves from '@/directive/waves' // Waves directive
@@ -298,6 +281,103 @@ export default {
     _that = this
   },
   methods: {
+    // 判断反审批按钮
+    isReview4(row) {
+      console.log(row)
+      if (row.judgeStat === 2 && row.receiptStat !== 3) {
+        return true
+      }
+    },
+    // 反结单操作
+    handleReview4(row) {
+      this.reviewParms = {}
+      this.reviewParms.id = row.id
+      this.reviewParms.judgePersonId = this.$store.getters.userId
+      this.$confirm('请反审批', '反审批', {
+        distinguishCancelAndClose: true,
+        confirmButtonText: '反审批',
+        type: 'warning'
+      }).then(() => {
+        this.reviewParms.judgeStat = 0
+        const parms = JSON.stringify(this.reviewParms)
+        updateVerification(parms).then(res => {
+          if (res.data.ret === 200) {
+            if (res.data.data.result === false) {
+              this.$message({
+                type: 'error',
+                message: '反审批失败!'
+              })
+            } else {
+              this.$message({
+                type: 'success',
+                message: '反审批成功!'
+              })
+            }
+            this.getlist()
+          }
+        })
+      })
+    },
+    // 判断反结单按钮
+    isReview3(row) {
+      console.log(row)
+      if (row.receiptStat === 3) {
+        return true
+      }
+    },
+    // 反结单操作
+    handleReview3(row) {
+      this.reviewParms = {}
+      this.reviewParms.id = row.id
+      this.reviewParms.endPersonId = this.$store.getters.userId
+      this.$confirm('请反结单', '反结单', {
+        distinguishCancelAndClose: true,
+        confirmButtonText: '反结单',
+        type: 'warning'
+      }).then(() => {
+        this.reviewParms.receiptStat = 2
+        const parms = JSON.stringify(this.reviewParms)
+        updateVerification(parms).then(res => {
+          if (res.data.ret === 200) {
+            this.$message({
+              type: 'success',
+              message: '反结单成功!'
+            })
+            this.getlist()
+          }
+        })
+      })
+    },
+    // 判断结单按钮
+    isReview2(row) {
+      console.log(row)
+      if (row.receiptStat !== 3 && (row.judgeStat === 2 || row.judgeStat === 3)) {
+        return true
+      }
+    },
+    // 结单操作
+    handleReview2(row) {
+      this.reviewParms = {}
+      this.reviewParms.id = row.id
+      this.reviewParms.endPersonId = this.$store.getters.userId
+      this.$confirm('请结单', '结单', {
+        distinguishCancelAndClose: true,
+        confirmButtonText: '结单',
+        type: 'warning'
+      }).then(() => {
+        this.reviewParms.receiptStat = 3
+        const parms = JSON.stringify(this.reviewParms)
+        updateVerification(parms).then(res => {
+          if (res.data.ret === 200) {
+            this.$message({
+              type: 'success',
+              message: '结单成功!'
+            })
+            this.getlist()
+          }
+        })
+      })
+    },
     // 附件操作
     check(row) {
       console.log(row)
@@ -350,7 +430,7 @@ export default {
     getlist() {
       // 物料需求计划列表数据
       this.listLoading = true
-      searchreceipt(this.getemplist).then(res => {
+      verificationList(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
@@ -380,7 +460,7 @@ export default {
     // 搜索
     handleFilter() {
       this.getemplist.pageNum = 1
-      searchreceipt(this.getemplist).then(res => {
+      verificationList(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
@@ -408,21 +488,6 @@ export default {
       this.personalForm.sourceType = String(row.sourceType)
       if (row.certificateType !== null) {
         this.personalForm.certificateType = String(row.certificateType)
-      }
-      if (row.workStat !== null) {
-        this.personalForm.workStat = String(row.workStat)
-      }
-      if (row.mateCertificateType !== null) {
-        this.personalForm.mateCertificateType = String(row.mateCertificateType)
-      }
-      if (row.mateWorkStat !== null) {
-        this.personalForm.mateWorkStat = String(row.mateWorkStat)
-      }
-      if (row.enterpriseNature !== null) {
-        this.personalForm.enterpriseNature = String(row.enterpriseNature)
-      }
-      if (row.suretyCertificateType !== null) {
-        this.personalForm.suretyCertificateType = String(row.suretyCertificateType)
       }
     },
     // 修改组件修改成功后返回
@@ -462,7 +527,7 @@ export default {
       }).then(() => {
         this.reviewParms.judgeStat = 2
         const parms = JSON.stringify(this.reviewParms)
-        updatereceipt(parms).then(res => {
+        updateVerification(parms).then(res => {
           if (res.data.ret === 200) {
             this.$message({
               type: 'success',
@@ -475,7 +540,7 @@ export default {
         if (action === 'cancel') {
           this.reviewParms.judgeStat = 3
           const parms = JSON.stringify(this.reviewParms)
-          updatereceipt(parms).then(res => {
+          updateVerification(parms).then(res => {
             if (res.data.ret === 200) {
               this.$message({
                 type: 'success',
@@ -501,7 +566,7 @@ export default {
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          deletereceipt(ids, this.$store.getters.userId).then(res => {
+          deleteVerification(ids, this.$store.getters.userId).then(res => {
             if (res.data.ret === 200 || res.data.ret === 100) {
               this.$notify({
                 title: '删除成功',
@@ -532,7 +597,7 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        deletereceipt(row.id, this.$store.getters.userId).then(res => {
+        deleteVerification(row.id, this.$store.getters.userId).then(res => {
           if (res.data.ret === 200 || res.data.ret === 100) {
             this.$notify({
               title: '删除成功',

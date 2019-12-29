@@ -160,6 +160,21 @@
               <span>{{ scope.row.leftAllmoney }}</span>
             </template>
           </el-table-column>
+          <el-table-column :label="$t('InstallmentList.paidMoney')" :resizable="false" align="center" min-width="150">
+            <template slot-scope="scope">
+              <span>{{ scope.row.paidMoney }}</span>
+            </template>
+          </el-table-column>
+          <el-table-column :label="$t('InstallmentList.totalMoney')" :resizable="false" align="center" min-width="150">
+            <template slot-scope="scope">
+              <span>{{ scope.row.totalMoney }}</span>
+            </template>
+          </el-table-column>
+          <el-table-column :label="$t('InstallmentList.cancelMoney')" :resizable="false" align="center" min-width="150">
+            <template slot-scope="scope">
+              <span>{{ scope.row.cancelMoney }}</span>
+            </template>
+          </el-table-column>
           <el-table-column :label="$t('InstallmentList.installmentMoney')" :resizable="false" align="center" min-width="150">
             <template slot-scope="scope">
               <span>{{ scope.row.installmentMoney }}</span>

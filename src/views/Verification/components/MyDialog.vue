@@ -1,16 +1,11 @@
 <template>
-  <el-dialog :visible.sync="editVisible" :editcontrol="editcontrol" :editdata="editdata" :close-on-press-escape="false" :title="personalForm.changeNumber +$t('updates.xg')" width="1010px" class="edit" top="-10px" @close="$emit('update:editcontrol', false)">
+  <el-dialog :visible.sync="editVisible" :editcontrol="editcontrol" :editdata="editdata" :close-on-press-escape="false" :title="$t('updates.xg')" width="1010px" class="edit" top="-10px" @close="$emit('update:editcontrol', false)">
     <!--基本信息-->
-    <el-card class="box-card" shadow="never">
+    <el-card class="box-card" shadow="never" style="margin-top: 30px">
       <h2 ref="geren" class="form-name">{{ $t('Hmodule.basicinfo') }}</h2>
       <div class="container" style="margin-top: 37px">
         <el-form ref="personalForm" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
           <el-row>
-            <el-col :span="12">
-              <el-form-item :label="$t('ChangeCount.title')" style="width: 100%;">
-                <el-input v-model="personalForm.title" style="margin-left: 18px;width: 200px" clearable/>
-              </el-form-item>
-            </el-col>
             <el-col :span="12">
               <el-form-item :label="$t('ChangeCount.sourceType')" prop="sourceType" style="width: 100%;">
                 <el-select v-model="personalForm.sourceType" style="margin-left: 18px;width: 200px">
@@ -19,95 +14,56 @@
               </el-form-item>
             </el-col>
             <el-col :span="12">
+              <el-form-item :label="$t('Verification.jbr')" prop="handlePersonId" style="width: 100%;">
+                <el-input v-model="handlePersonId" style="margin-left: 18px;width: 200px" @focus="handlechooseStock"/>
+              </el-form-item>
+              <my-emp :control.sync="stockControl" @stockName="stockName"/>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('Verification.hxrq')" prop="cancelDate" style="width: 100%;">
+                <el-date-picker
+                  v-model="personalForm.cancelDate"
+                  type="date"
+                  value-format="yyyy-MM-dd"
+                  style="margin-left: 18px;width: 200px"/>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
               <el-form-item :label="$t('ChangeCount.sourceNumber')" prop="sourceNumber" style="width: 100%;">
                 <el-input v-model="personalForm.sourceNumber" style="margin-left: 18px;width: 200px" @focus="handleAddsourceNum"/>
               </el-form-item>
-              <my-installment :installmentcontrol.sync="installmentcontrol" @InstallmentDetail="InstallmentDetail" @Installment="Installment"/>
+              <my-installment2 :installmentcontrol.sync="installmentcontrol" @InstallmentDetail="InstallmentDetail" @Installment="Installment"/>
             </el-col>
             <el-col :span="12">
               <el-form-item :label="$t('ChangeCount.customerId')" prop="customerId" style="width: 100%;">
-                <el-input v-model="personalForm.customerName" :disabled="IscustomerName" style="margin-left: 18px;width: 200px" clearable/>
+                <el-input v-model="customerId" disabled style="margin-left: 18px;width: 200px" clearable/>
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item :label="$t('ChangeCount.customerPhone')" style="width: 100%;">
-                <el-input v-model="personalForm.customerPhone" :disabled="IscustomerPhone" style="margin-left: 18px;width: 200px" clearable/>
+              <el-form-item :label="$t('Verification.qqq')" prop="totalMoney" style="width: 100%;">
+                <el-input v-model="personalForm.shouldMoney" disabled style="margin-left: 18px;width: 200px" clearable/>
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item :label="$t('ChangeCount.totalMoney')" prop="totalMoney" style="width: 100%;">
-                <el-input v-model="personalForm.totalMoney" :disabled="IstotalMoney" style="margin-left: 18px;width: 200px" clearable/>
+              <el-form-item :label="$t('Verification.www')" prop="beforeCount" style="width: 100%;">
+                <el-input v-model="personalForm.paidMoney" disabled style="margin-left: 18px;width: 200px" clearable/>
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item :label="$t('ChangeCount.beforeCount')" prop="beforeCount" style="width: 100%;">
-                <el-input v-model="personalForm.beforeCount" :disabled="IsbeforeCount" style="margin-left: 18px;width: 200px" clearable/>
+              <el-form-item :label="$t('Verification.eee')" style="width: 100%;">
+                <el-input v-model="personalForm.cancleMoney" disabled style="margin-left: 18px;width: 200px" clearable/>
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item :label="$t('ChangeCount.paidCount')" style="width: 100%;">
-                <el-input v-model="personalForm.paidCount" :disabled="IspaidCount" style="margin-left: 18px;width: 200px" clearable/>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('ChangeCount.paidMoney')" style="width: 100%;">
-                <el-input v-model="personalForm.paidMoney" :disabled="IspaidMoney" style="margin-left: 18px;width: 200px" clearable/>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('ChangeCount.paidCapital')" style="width: 100%;">
-                <el-input v-model="personalForm.paidCapital" :disabled="IspaidCapital" style="margin-left: 18px;width: 200px" clearable/>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('ChangeCount.remainCapital')" style="width: 100%;">
-                <el-input v-model="personalForm.remainCapital" :disabled="IsremainCapital" style="margin-left: 18px;width: 200px" clearable/>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('ChangeCount.afterCount')" prop="afterCount" style="width: 100%;">
-                <el-input v-model="personalForm.afterCount" style="margin-left: 18px;width: 200px" clearable/>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('ChangeCount.saleRepositoryId')" style="width: 100%;">
-                <el-input v-model="saleRepositoryId" :disabled="IssaleRepositoryId" style="margin-left: 18px;width: 200px" clearable/>
+              <el-form-item :label="$t('Receipt.remark')" style="width: 100%;">
+                <el-input v-model="personalForm.remark" style="margin-left: 18px;width: 200px" clearable/>
               </el-form-item>
             </el-col>
           </el-row>
         </el-form>
       </div>
     </el-card>
-    <el-card class="box-card" style="margin-top: 15px" shadow="never">
-      <h2 ref="fuzhu" class="form-name" >分期明细</h2>
-      <div class="container">
-        <el-editable
-          ref="editable"
-          :data.sync="list2"
-          :edit-config="{ showIcon: true, showStatus: true}"
-          class="click-table1"
-          stripe
-          border
-          size="medium"
-          style="width: 100%">
-          <el-editable-column type="selection" min-width="55" align="center"/>
-          <el-editable-column :label="$t('Hmodule.xh')" min-width="55" align="center" type="index"/>
-          <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" align="center" min-width="150px"/>
-          <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" align="center" min-width="150px"/>
-          <el-editable-column :label="$t('updates.wpfl')" prop="productCategory" align="center" min-width="150px"/>
-          <el-editable-column :label="$t('updates.jbdw')" prop="unit" align="center" min-width="150px"/>
-          <el-editable-column :label="$t('updates.ggxh')" prop="typeId" align="center" min-width="150px"/>
-          <el-editable-column :label="$t('updates.ys')" prop="color" align="center" min-width="150px"/>
-          <el-editable-column :label="$t('updates.jxf')" prop="kpiGrade" align="center" min-width="150px"/>
-          <el-editable-column :label="$t('updates.spjf')" prop="point" align="center" min-width="150px"/>
-          <el-editable-column :label="$t('Hmodule.dj')" prop="price" align="center" min-width="150px"/>
-          <el-editable-column :label="$t('updates.cjbm')" prop="carCode" align="center" min-width="150px"/>
-          <el-editable-column :label="$t('updates.dcbm')" prop="batteryCode" align="center" min-width="150px"/>
-          <el-editable-column :label="$t('updates.djbm')" prop="motorCode" align="center" min-width="150px"/>
-        </el-editable>
-      </div>
-    </el-card>
-    <el-card class="box-card" style="position: fixed;width: 1010px;z-index: 100;height: 74px;bottom: 0;" shadow="never">
+    <el-card class="box-card" style="position: fixed;width: 1010px;z-index: 100;height: 74px;" shadow="never">
       <div class="buttons" style="float: right;padding-bottom: 10px">
         <el-button @click="handlecancel()">{{ $t('Hmodule.cancel') }}</el-button>
         <el-button type="primary" @click="handleEditok()">{{ $t('Hmodule.baoc') }}</el-button>
@@ -117,15 +73,15 @@
 </template>
 
 <script>
-import { updatechange } from '@/api/ChangeCount'
+import { updateVerification } from '@/api/Verification'
 import MyEmp from './MyEmp'
 import MyDetail from './MyDetail'
 import MyMater from './MyMater'
-import MyInstallment from './MyInstallment'
+import MyInstallment2 from './MyInstallment2'
 // eslint-disable-next-line no-unused-vars
 var _that
 export default {
-  components: { MyInstallment, MyMater, MyDetail, MyEmp },
+  components: { MyInstallment2, MyMater, MyDetail, MyEmp },
   props: {
     editcontrol: {
       type: Boolean,
@@ -145,12 +101,15 @@ export default {
       }
     }
     return {
+      customerId: '',
+      handlePersonId: '',
       // 选择的数据
       choosedata: [],
       // 弹窗组件的控制
       editVisible: this.editcontrol,
       // 修改信息数据
       personalForm: this.editdata,
+      stockControl: false,
       // 控制表单是否可以编辑
       IscustomerName: true,
       IscustomerPhone: true,
@@ -189,8 +148,10 @@ export default {
     },
     editdata() {
       this.personalForm = this.editdata
-      this.saleRepositoryId = this.personalForm.saleRepositoryName
-      this.list2 = this.personalForm.changeCountDetailvos
+      this.personalForm.handlePersonId = this.editdata.handlePersonId
+      this.handlePersonId = this.personalForm.handlePersonName
+      this.personalForm.customerId = this.editdata.customerId
+      this.customerId = this.personalForm.customerName
     }
   },
   created() {
@@ -199,6 +160,14 @@ export default {
     _that = this
   },
   methods: {
+    handlechooseStock() {
+      this.stockControl = true
+    },
+    // 收款人回显
+    stockName(val) {
+      this.handlePersonId = val.personName
+      this.personalForm.handlePersonId = val.id
+    },
     // 源单控制
     handleAddsourceNum() {
       this.installmentcontrol = true
@@ -211,27 +180,12 @@ export default {
       }
     },
     Installment(val) {
-      this.personalForm.sourceNumber = val.applyNumber
       this.personalForm.customerId = val.customerId
-      this.personalForm.customerName = val.customerName
-      this.personalForm.customerPhone = val.customerPhone
-      this.personalForm.totalMoney = val.totalMoney
-      this.personalForm.beforeCount = val.count
-      this.personalForm.paidCount = val.paidCount
-      this.personalForm.paidMoney = Number(val.totalMoney) - Number(val.leftAllmoney)
-      this.personalForm.remainCapital = val.leftMoney
-      this.personalForm.paidCapital = Number(val.installmentMoney) - Number(val.leftMoney)
-      this.personalForm.saleRepositoryId = val.repositoryId
-      this.saleRepositoryId = val.repositoryName
-      this.IscustomerName = true
-      this.IscustomerPhone = true
-      this.IstotalMoney = true
-      this.IsbeforeCount = true
-      this.IspaidCount = true
-      this.IspaidMoney = true
-      this.IspaidCapital = true
-      this.IsremainCapital = true
-      this.IssaleRepositoryId = true
+      this.customerId = val.customerName
+      this.personalForm.shouldMoney = val.totalMoney
+      this.personalForm.paidMoney = val.totalMoney - val.leftAllmoney
+      this.personalForm.cancleMoney = val.leftAllmoney
+      this.personalForm.sourceNumber = val.orderNumber
     },
     // 清空记录
     restAllForm() {
@@ -261,57 +215,6 @@ export default {
       this.personalForm.createPersonId = this.$store.getters.userId
       this.personalForm.countryId = this.$store.getters.countryId
       this.personalForm.modifyPersonId = this.$store.getters.userId
-      const EnterDetail = this.$refs.editable.getRecords()
-      if (EnterDetail.length === 0) {
-        this.$notify.error({
-          title: '错误',
-          message: '明细表不能为空',
-          offset: 100
-        })
-        return false
-      }
-      EnterDetail.map(function(elem) {
-        return elem
-      }).forEach(function(elem) {
-        if (elem.productCode === null || elem.productCode === '' || elem.productCode === undefined) {
-          delete elem.productCode
-        }
-        if (elem.productName === null || elem.productName === '' || elem.productName === undefined) {
-          delete elem.productName
-        }
-        if (elem.categoryId === null || elem.categoryId === '' || elem.categoryId === undefined) {
-          delete elem.categoryId
-        }
-        if (elem.typeId === null || elem.typeId === '' || elem.typeId === undefined) {
-          delete elem.typeId
-        }
-        if (elem.unit === null || elem.unit === '' || elem.unit === undefined) {
-          delete elem.unit
-        }
-        if (elem.color === null || elem.color === '' || elem.color === undefined) {
-          delete elem.color
-        }
-        if (elem.kpiGrade === null || elem.kpiGrade === '' || elem.kpiGrade === undefined) {
-          delete elem.kpiGrade
-        }
-        if (elem.point === null || elem.point === '' || elem.point === undefined) {
-          delete elem.point
-        }
-        if (elem.price === null || elem.price === '' || elem.price === undefined) {
-          delete elem.price
-        }
-        if (elem.carCode === null || elem.carCode === '' || elem.carCode === undefined) {
-          delete elem.carCode
-        }
-        if (elem.batteryCode === null || elem.batteryCode === '' || elem.batteryCode === undefined) {
-          delete elem.batteryCode
-        }
-        if (elem.motorCode === null || elem.motorCode === '' || elem.motorCode === undefined) {
-          delete elem.motorCode
-        }
-        return elem
-      })
-      const parms2 = JSON.stringify(EnterDetail)
       const Data = this.personalForm
       for (const key in Data) {
         if (Data[key] === '' || Data[key] === undefined || Data[key] === null) {
@@ -321,7 +224,7 @@ export default {
       const parms = JSON.stringify(Data)
       this.$refs.personalForm.validate((valid) => {
         if (valid) {
-          updatechange(parms, parms2).then(res => {
+          updateVerification(parms).then(res => {
             console.log(res)
             if (res.data.ret === 200) {
               this.$notify({
@@ -331,9 +234,10 @@ export default {
                 offset: 100
               })
               this.restAllForm()
-              this.$refs.editable.clear()
               this.$refs.personalForm.clearValidate()
               this.$refs.personalForm.resetFields()
+              this.$emit('rest', true)
+              this.editVisible = false
             } else {
               this.$notify.error({
                 title: '错误',
@@ -354,9 +258,9 @@ export default {
     },
     handlecancel() {
       this.restAllForm()
-      this.$refs.editable.clear()
       this.$refs.personalForm.clearValidate()
       this.$refs.personalForm.resetFields()
+      this.$emit('rest', true)
       this.editVisible = false
     }
     // 修改操作结束 -------------------------------------------------

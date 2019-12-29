@@ -66,18 +66,12 @@
       <el-table
         v-loading="listLoading"
         :key="tableKey"
-        :row-key="getRowKeys"
         :data="list"
         border
         fit
         highlight-current-row
         style="width: 100%;"
-        @current-change="handleCurrentChange"
-        @selection-change="handleSelectionChange">
-        <el-table-column
-          :reserve-selection="true"
-          type="selection"
-          width="55"/>
+        @current-change="handleCurrentChange">
         <el-table-column :label="$t('public.id')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.orderNumber }}</span>
@@ -183,11 +177,6 @@ export default {
   },
   data() {
     return {
-      getRowKeys(row) {
-        return row.id
-      },
-      select_orderId: [],
-      select_order_number: [],
       // 选择框控制
       employeeVisible: this.installmentcontrol,
       // 类别获取参数
@@ -316,24 +305,43 @@ export default {
     handleCurrentChange(val) {
       this.choosedata = val
     },
-    // 批量操作
-    handleSelectionChange(rows) {
-      this.moreaction = rows
-      this.select_order_number = this.moreaction.length
-      this.select_orderId = []
-      if (rows) {
-        rows.forEach(row => {
-          if (row) {
-            this.select_orderId.push(row.id)
-          }
-        })
-      }
-    },
     // 确认添加数据
     async handleConfirm() {
       this.employeeVisible = false
-      console.log('this.choosedata', this.moreaction)
-      this.$emit('Installment', this.moreaction)
+      const date = new Date()
+      console.log(this.choosedata)
+      console.log(this.choosedata.customerName)
+      const str = this.choosedata.customerName
+      const getemplist = {
+        pageNum: 1,
+        pageSize: 10,
+        repositoryId: this.$store.getters.repositoryId,
+        regionIds: this.$store.getters.regionIds,
+        time: date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate(),
+        customerName: str.replace(/\s*/g, '')
+      }
+      let Installmentdata = []
+      await collectlist(getemplist).then(res => {
+        console.log(res)
+        Installmentdata = res.data.data.content.list
+      })
+      const InstallmentDetail = Installmentdata.map(function(item) {
+        return {
+          installmentDetailId: item.id,
+          presentCount: item.idx,
+          returnMoney: item.shouldMoney,
+          shouldMoney: item.shouldMoney,
+          returnSource: item.capitalMoney,
+          reward: item.reward,
+          penalty: item.penalty,
+          returnInterest: item.interestMoney,
+          paidmoney: item.paidMoney,
+          unpay: item.shouldMoney - item.paidMoney,
+          installmentId: item.installmentId
+        }
+      })
+      this.$emit('InstallmentDetail', InstallmentDetail)
+      this.$emit('Installment', this.choosedata)
     }
     // 仓库管理员选择结束
   }

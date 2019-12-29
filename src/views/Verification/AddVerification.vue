@@ -29,143 +29,33 @@
                     style="margin-left: 18px;width: 200px"/>
                 </el-form-item>
               </el-col>
-              <el-col :span="6">
-                <el-form-item :label="$t('Receipt.customerType')" prop="customerType" style="width: 100%;">
-                  <el-select v-model="personalForm.customerType" style="margin-left: 18px;width: 200px" @change="clearCustomer">
-                    <el-option :label="$t('updates.jxs')" value="1"/>
-                    <el-option :label="$t('updates.kh')" value="2"/>
-                  </el-select>
-                </el-form-item>
-              </el-col>
-              <el-col :span="6">
-                <el-form-item :label="$t('Receipt.customerId')" prop="customerId" style="width: 100%;">
-                  <el-input v-model="customerId" style="margin-left: 18px;width: 200px" @focus="chooseCustomer"/>
-                </el-form-item>
-                <my-agent :agentcontrol.sync="agentcontrol" @agentdata="agentdata"/>
-                <my-installment :installmentcontrol.sync="installmentcontrol" @InstallmentDetail="InstallmentDetail" @Installment="Installment"/>
-              </el-col>
-              <el-col :span="6">
-                <el-form-item :label="$t('Receipt.moneyType')" style="width: 100%;">
-                  <el-select v-model="personalForm.moneyType" style="margin-left: 18px;width: 200px">
-                    <el-option value="1" label="PHP"/>
-                    <el-option value="2" label="USD"/>
-                    <el-option value="3" label="RMB"/>
-                  </el-select>
-                </el-form-item>
-              </el-col>
-              <el-col :span="6">
-                <el-form-item :label="$t('Receipt.receiptMoney')" prop="receiptMoney" style="width: 100%;">
-                  <el-input v-model="personalForm.receiptMoney" style="margin-left: 18px;width: 200px" disabled clearable/>
-                </el-form-item>
-              </el-col>
-              <el-col :span="6">
-                <el-form-item :label="$t('payment.payMode')" prop="payMode" style="width: 100%;">
-                  <el-select v-model="personalForm.payMode" style="margin-left: 18px;width: 200px">
-                    <el-option
-                      v-for="(item, index) in payModes"
-                      :key="index"
-                      :label="item.categoryName"
-                      :value="item.id"
-                    />
-                  </el-select>
-                </el-form-item>
-              </el-col>
-              <el-col :span="6">
-                <el-form-item :label="$t('Receipt.receiptAccount')" style="width: 100%;">
-                  <el-input v-model="personalForm.receiptAccount" style="margin-left: 18px;width: 200px" clearable/>
-                </el-form-item>
-              </el-col>
-              <el-col :span="6">
-                <el-form-item :label="$t('Receipt.receiptAccountNumber')" style="width: 100%;">
-                  <el-input v-model="personalForm.receiptAccountNumber" style="margin-left: 18px;width: 200px" clearable/>
-                </el-form-item>
-              </el-col>
-              <el-col :span="6">
-                <el-form-item :label="$t('Receipt.totalLackMoney')" prop="totalLackMoney" style="width: 100%;">
-                  <el-input v-model="personalForm.totalLackMoney" style="margin-left: 18px;width: 200px" disabled/>
-                </el-form-item>
-              </el-col>
-              <el-col :span="6">
-                <el-form-item :label="$t('Receipt.remark')" style="width: 100%;">
-                  <el-input v-model="personalForm.remark" style="margin-left: 18px;width: 200px" clearable/>
-                </el-form-item>
-              </el-col>
-              <el-col :span="6">
-                <el-form-item :label="$t('Receipt.penaltyMoney')" prop="penaltyMoney" style="width: 100%;">
-                  <el-input v-model="personalForm.penaltyMoney" type="number" style="margin-left: 18px;width: 200px" clearable/>
-                  <!-- <el-input-number v-model="personalForm.penaltyMoney" :controls="false" /> -->
-                </el-form-item>
-              </el-col>
-              <el-col :span="6">
-                <el-form-item :label="$t('StockInvoice.invoiceNumber')" prop="invoiceNumber" style="width: 100%;">
-                  <el-input v-model="personalForm.invoiceNumber" type="number" style="margin-left: 18px;width: 200px" clearable/>
-                  <!-- <el-input-number v-model="personalForm.penaltyMoney" :controls="false" /> -->
-                </el-form-item>
-              </el-col>
-              <el-col :span="6">
-                <el-form-item :label="$t('Receipt.deductionMoney')" prop="deductionMoney" style="width: 100%;">
-                  <el-input v-model="personalForm.deductionMoney" style="margin-left: 18px;width: 200px" disabled @change="junglemoney"/>
-                </el-form-item>
-                <span style="color: red;margin-left: 52px;font-size: 14px">预收款：{{ yufu }}</span>
-              </el-col>
             </el-row>
           </el-form>
         </div>
       </el-card>
       <!--子件信息-->
-      <el-card v-if="personalForm.customerType === '2'" class="box-card" style="margin-top: 15px" shadow="never">
-        <h2 ref="fuzhu" class="form-name" >收款明细</h2>
-        <el-button v-if="isshow" type="danger" @click="$refs.editable2.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
+      <el-card class="box-card" style="margin-top: 15px" shadow="never">
+        <h2 ref="fuzhu" class="form-name" style="margin-bottom: 30px">收款明细</h2>
+        <el-button style="width: 130px" @click="chooseCustomer">{{ $t('updates.cydzxz') }}</el-button>
+        <my-installment :installmentcontrol.sync="installmentcontrol" @InstallmentDetail="InstallmentDetail" @Installment="Installment"/>
         <div class="container">
           <el-editable
             ref="editable2"
             :data.sync="list2"
             :edit-config="{ showIcon: true, showStatus: true}"
-            :summary-method="getSummaries"
             class="click-table1"
-            show-summary
             stripe
             border
             size="medium"
             style="width: 100%"
             @selection-change="handleSelectionChange">
-            <el-editable-column v-if="isshow" type="selection" min-width="55" align="center"/>
             <el-editable-column :key="Math.random()" :label="$t('Hmodule.xh')" min-width="55" align="center" type="index"/>
-            <el-editable-column :key="Math.random()" prop="presentCount" align="center" label="当前期数" min-width="150px"/>
-            <el-editable-column :key="Math.random()" prop="returnMoney" align="center" label="本期还款金额" min-width="150px"/>
-            <el-editable-column :key="Math.random()" prop="returnSource" align="center" label="本期还款本金" min-width="150px"/>
-            <el-editable-column :key="Math.random()" prop="reward" align="center" label="奖励" min-width="150px"/>
-            <el-editable-column :key="Math.random()" prop="penalty" align="center" label="滞纳金" min-width="150px"/>
-            <el-editable-column :key="Math.random()" prop="returnInterest" align="center" label="本期还款利息" min-width="150px"/>
-            <el-editable-column :key="Math.random()" prop="paidmoney" align="center" label="已收金额" min-width="150px"/>
-            <el-editable-column :key="Math.random()" prop="unpay" align="center" label="未收金额" min-width="150px"/>
-            <el-editable-column :key="Math.random()" :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="thisMoney" align="center" label="本次收款" min-width="150px"/>
-          </el-editable>
-        </div>
-      </el-card>
-      <el-card v-if="personalForm.customerType === '1'" class="box-card" style="margin-top: 15px" shadow="never">
-        <h2 ref="fuzhu" class="form-name" >收款明细</h2>
-        <div class="container">
-          <el-editable
-            ref="editable"
-            :data.sync="list2"
-            :edit-config="{ showIcon: true, showStatus: true}"
-            :summary-method="getSummaries2"
-            class="click-table1"
-            show-summary
-            stripe
-            border
-            size="medium"
-            style="width: 100%"
-            @selection-change="handleSelectionChange2">
-            <el-editable-column :key="Math.random()" prop="sourceNumber" label="编号" min-width="200" align="center" />
-            <el-editable-column :key="Math.random()" prop="shouldMoney" align="center" label="应收款金额" min-width="150px"/>
-            <el-editable-column :key="Math.random()" :label="$t('updates.cke')" prop="discountMoney" align="center" min-width="150px"/>
-            <el-editable-column :key="Math.random()" prop="retreatMoney" align="center" label="退货抵扣" min-width="150px"/>
-            <el-editable-column :key="Math.random()" prop="collectedMoney" align="center" label="已收金额" min-width="150px"/>
-            <el-editable-column :key="Math.random()" prop="uncollectedMoney" align="center" label="未收款金额" min-width="150px"/>
-            <el-editable-column :key="Math.random()" :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="thisMoney" align="center" label="本次收款" min-width="150px"/>
-            <el-editable-column :key="Math.random()" :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="deductionMoney" align="center" label="本次抵扣预收款" min-width="150px"/>
+            <el-editable-column :key="Math.random()" prop="customerName" align="center" label="顾客姓名" min-width="150px"/>
+            <el-editable-column :key="Math.random()" prop="sourceNumber" align="center" label="源单单号" min-width="150px"/>
+            <el-editable-column :key="Math.random()" prop="shouldMoney" align="center" label="应结算金额" min-width="150px"/>
+            <el-editable-column :key="Math.random()" prop="paidMoney" align="center" label="已结算金额" min-width="150px"/>
+            <el-editable-column :key="Math.random()" prop="cancleMoney" align="center" label="核销金额" min-width="150px"/>
+            <el-editable-column :key="Math.random()" :edit-render="{name: 'ElInput', type: 'visible'}" prop="remark" align="center" label="备注" min-width="150px"/>
           </el-editable>
         </div>
       </el-card>
@@ -180,7 +70,7 @@
 
 <script>
 import '@/directive/noMoreClick/index.js'
-import { createreceipt } from '@/api/Receipt'
+import { addVerification } from '@/api/Verification'
 import { agentCollectList } from '@/api/public'
 import MyEmp from './components/MyEmp'
 import MyDetail from './components/MyDetail'
@@ -209,7 +99,7 @@ export default {
     }
     const validatePass3 = (rule, value, callback) => {
       if (this.handlePersonId === undefined || this.handlePersonId === null || this.handlePersonId === '') {
-        callback(new Error('请选择收款人'))
+        callback(new Error('请选择经办人'))
       } else {
         callback()
       }
@@ -234,8 +124,6 @@ export default {
       // 批量操作
       moreaction: [],
       moreaction2: [],
-      // 回显收款人
-      handlePersonId: '',
       // 控制收款人
       stockControl: false,
       // 预收款
@@ -261,6 +149,7 @@ export default {
       // 编辑表格数据
       list2: [],
       payModes: [],
+      handlePersonId: this.$store.getters.name,
       // 销售订单信息数据
       personalForm: {
         createPersonId: this.$store.getters.userId,
@@ -271,7 +160,8 @@ export default {
         penaltyMoney: 0,
         receiptMoney: 0,
         deductionMoney: 0,
-        totalLackMoney: 0
+        totalLackMoney: 0,
+        handlePersonId: this.$store.getters.userId
       },
       // 商品信息
       productForm: {},
@@ -299,7 +189,7 @@ export default {
           { required: true, validator: validatePass3, trigger: 'change' }
         ],
         cancelDate: [
-          { required: true, validator: validatePass4, trigger: 'change' }
+          { required: true, validator: validatePass4, trigger: 'blur' }
         ],
         penaltyMoney: [
           { required: true, message: '请输入滞纳金金额', trigger: 'blur' }
@@ -628,14 +518,7 @@ export default {
     },
     // 选择客户focus
     chooseCustomer() {
-      this.$forceUpdate()
-      if (this.personalForm.customerType === '1') {
-        this.agentcontrol = true
-        this.$forceUpdate()
-      } else if (this.personalForm.customerType === '2') {
-        this.installmentcontrol = true
-        this.$forceUpdate()
-      }
+      this.installmentcontrol = true
     },
     agentdata(val) {
       setTimeout(() => {
@@ -667,13 +550,15 @@ export default {
       }, 0)
     },
     Installment(val) {
-      // console.log(val)
-      this.personalForm.customerId = val.customerId
-      this.customerId = val.customerName
-      if (val.advanceMoney !== null && val.advanceMoney !== undefined && val.advanceMoney !== '') {
-        this.yufu = val.advanceMoney
+      console.log(val)
+      const ress = val
+      for (let i = 0; i < ress.length; i++) {
+        ress[i].shouldMoney = ress[i].totalMoney
+        ress[i].paidMoney = ress[i].totalMoney - ress[i].leftAllmoney
+        ress[i].cancleMoney = ress[i].leftAllmoney
+        ress[i].sourceNumber = ress[i].orderNumber
       }
-      this.personalForm.totalLackMoney = Number(this.allmoney) - Number(this.personalForm.receiptMoney)
+      this.list2 = ress
     },
     InstallmentDetail(val) {
       // console.log(val)
@@ -751,106 +636,58 @@ export default {
     },
     // 保存操作
     handlesave() {
-      if (this.personalForm.customerType === '1') {
-        const EnterDetail = this.$refs.editable.getRecords()
-        if (EnterDetail.length === 0) {
-          this.$notify.error({
-            title: '错误',
-            message: '明细表不能为空',
-            offset: 100
-          })
-          return false
-        }
-        const parms2 = JSON.stringify(EnterDetail)
-        const Data = this.personalForm
-        for (const key in Data) {
-          if (Data[key] === '' || Data[key] === undefined || Data[key] === null) {
-            delete Data[key]
-          }
-        }
-        const parms = JSON.stringify(Data)
-        this.$refs.personalForm.validate((valid) => {
-          if (valid) {
-            createreceipt(parms, parms2, this.personalForm).then(res => {
-              if (res.data.ret === 200) {
-                this.$notify({
-                  title: '成功',
-                  message: '保存成功',
-                  type: 'success',
-                  offset: 100
-                })
-                this.restAllForm()
-                this.$refs.editable.clear()
-                this.$refs.personalForm.clearValidate()
-                this.$refs.personalForm.resetFields()
-                this.$store.dispatch('getnewreceiptdata', '')
-              } else {
-                this.$notify.error({
-                  title: '错误',
-                  message: res.data.msg,
-                  offset: 100
-                })
-              }
-            })
-          } else {
-            this.$notify.error({
-              title: '错误',
-              message: '信息未填完整',
-              offset: 100
-            })
-            return false
-          }
+      const EnterDetail = this.$refs.editable2.getRecords()
+      if (EnterDetail.length === 0) {
+        this.$notify.error({
+          title: '错误',
+          message: '明细表不能为空',
+          offset: 100
         })
-      } else if (this.personalForm.customerType === '2') {
-        const EnterDetail = this.$refs.editable2.getRecords()
-        if (EnterDetail.length === 0) {
-          this.$notify.error({
-            title: '错误',
-            message: '明细表不能为空',
-            offset: 100
-          })
-          return false
-        }
-        const parms2 = JSON.stringify(EnterDetail)
-        const Data = this.personalForm
-        for (const key in Data) {
-          if (Data[key] === '' || Data[key] === undefined || Data[key] === null) {
-            delete Data[key]
-          }
-        }
-        const parms = JSON.stringify(Data)
-        this.$refs.personalForm.validate((valid) => {
-          if (valid) {
-            createreceipt(parms, parms2, this.personalForm).then(res => {
-              if (res.data.ret === 200) {
-                this.$notify({
-                  title: '成功',
-                  message: '保存成功',
-                  type: 'success',
-                  offset: 100
-                })
-                this.restAllForm()
-                this.$refs.editable2.clear()
-                this.$refs.personalForm.clearValidate()
-                this.$refs.personalForm.resetFields()
-              } else {
-                this.$notify.error({
-                  title: '错误',
-                  message: res.data.msg,
-                  offset: 100
-                })
-              }
-            })
-          } else {
-            this.$notify.error({
-              title: '错误',
-              message: '信息未填完整',
-              offset: 100
-            })
-            return false
-          }
-        })
+        return false
       }
+      console.log('this.personalForm', this.personalForm)
+      this.$refs.personalForm.validate(async(valid) => {
+        if (valid) {
+          for (let i = 0; i < EnterDetail.length; i++) {
+            EnterDetail[i].handlePersonId = this.personalForm.handlePersonId
+            EnterDetail[i].repositoryId = this.personalForm.repositoryId
+            EnterDetail[i].regionId = this.personalForm.regionId
+            EnterDetail[i].cancelDate = this.personalForm.cancelDate
+            EnterDetail[i].sourceType = this.personalForm.sourceType
+            EnterDetail[i].createPersonId = this.personalForm.createPersonId
+            const parms2 = JSON.stringify(EnterDetail[i])
+            const applydata = await addVerification(parms2, this.personalForm).then(res => {
+              if (i === EnterDetail.length - 1) {
+                if (res.data.ret === 200) {
+                  this.$notify({
+                    title: '成功',
+                    message: '保存成功',
+                    type: 'success',
+                    offset: 100
+                  })
+                  this.restAllForm()
+                  this.$refs.editable2.clear()
+                  this.$refs.personalForm.clearValidate()
+                  this.$refs.personalForm.resetFields()
+                } else {
+                  this.$notify.error({
+                    title: '错误',
+                    message: res.data.msg,
+                    offset: 100
+                  })
+                }
+              }
+            })
+          }
+        } else {
+          this.$notify.error({
+            title: '错误',
+            message: '信息未填完整',
+            offset: 100
+          })
+          return false
+        }
+      })
     },
     // 取消操作
     handlecancel() {
