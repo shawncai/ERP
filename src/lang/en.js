@@ -2341,7 +2341,6 @@ export default {
     customerPhone: 'contact no.',
     address: 'address',
     installmentMoney: 'loan principal',
-    totalMoney: 'loan amount',
     leftMoney: 'principal balance',
     paidCount: 'paid terms',
     count: 'terms',
@@ -2355,14 +2354,17 @@ export default {
     status: 'payment status',
     productCode: 'product Id',
     productName: 'product name',
-    leftAllmoney: 'balance',
     pay: 'paid',
     unpay: 'unpaid',
     Overdueamount: 'delay amount',
     Overduefrequency: 'delay times',
     collectperson: 'collector',
     collectstatus: 'collection status',
-    actualDate: 'collection date'
+    actualDate: 'collection date',
+    leftAllmoney: 'uppaidMoney',
+    totalMoney: 'totalMoney',
+    paidMoney: 'paidMoney',
+    cancelMoney: 'cancelMoney'
   },
   ChangeCount: {
     title: 'subject',

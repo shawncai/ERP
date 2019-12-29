@@ -1,5 +1,5 @@
 <template>
-  <el-dialog :visible.sync="editVisible" :detailcontrol="detailcontrol" :detaildata="detaildata" :close-on-press-escape="false" :title="personalForm.number +$t('updates.xqing')" append-to-body width="1010px" class="edit" top="-10px" @close="$emit('update:detailcontrol', false)">
+  <el-dialog :visible.sync="editVisible" :detailcontrol="detailcontrol" :detaildata="detaildata" :close-on-press-escape="false" :title="$t('updates.xqing')" append-to-body width="1010px" class="edit" top="-10px" @close="$emit('update:detailcontrol', false)">
     <div id="printTest" >
       <!--基本信息-->
       <el-card class="box-card" style="margin-top: 63px" shadow="never">
@@ -9,105 +9,57 @@
           <el-form :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
             <el-row>
               <el-col :span="12">
-                <el-form-item class="print2" label="收款单编号" style="width: 100%;display: none">
-                  {{ personalForm.number }}
+                <el-form-item :label="$t('public.id')" style="width: 100%;">
+                  <span>{{ personalForm.number }}</span>
                 </el-form-item>
               </el-col>
               <el-col :span="12">
-                <el-form-item :label="$t('Receipt.title')" style="width: 100%;">
-                  <span>{{ personalForm.title }}</span>
+                <el-form-item :label="$t('StockOut.sourceType')" style="width: 100%;">
+                  <span>{{ personalForm.sourceType | sourceTypeFilter }}</span>
                 </el-form-item>
               </el-col>
               <el-col :span="12">
-                <el-form-item :label="$t('Receipt.customerType')" prop="sourceType" style="width: 100%;">
-                  <span>{{ personalForm.customerType | customerTypeFilter }}</span>
+                <el-form-item :label="$t('StockOut.sourceNumber')" style="width: 100%;">
+                  <span>{{ personalForm.sourceNumber }}</span>
                 </el-form-item>
               </el-col>
               <el-col :span="12">
-                <el-form-item :label="$t('Receipt.customerId')" prop="sourceNumber" style="width: 100%;">
+                <el-form-item :label="$t('Receipt.customerId')" prop="customerId" style="width: 100%;">
                   <span>{{ personalForm.customerName }}</span>
                 </el-form-item>
               </el-col>
               <el-col :span="12">
-                <el-form-item :label="$t('Receipt.moneyType')" prop="customerId" style="width: 100%;">
-                  <span>{{ personalForm.moneyType | moneyTypeFilter }}</span>
+                <el-form-item :label="$t('Verification.jbr')" prop="handlePersonId" style="width: 100%;">
+                  <span>{{ personalForm.handlePersonName }}</span>
                 </el-form-item>
               </el-col>
               <el-col :span="12">
-                <el-form-item :label="$t('Receipt.receiptMoney')" style="width: 100%;">
-                  <span>{{ personalForm.receiptMoney }}</span>
+                <el-form-item :label="$t('Verification.hxrq')" prop="cancelDate" style="width: 100%;">
+                  <span>{{ personalForm.cancelDate }}</span>
                 </el-form-item>
               </el-col>
               <el-col :span="12">
-                <el-form-item :label="$t('payment.payMode')" prop="totalMoney" style="width: 100%;">
-                  <span>{{ personalForm.payModeName }}</span>
+                <el-form-item :label="$t('Verification.qqq')" style="width: 100%;">
+                  <span>{{ personalForm.shouldMoney }}</span>
                 </el-form-item>
               </el-col>
               <el-col :span="12">
-                <el-form-item :label="$t('Receipt.receiptAccount')" prop="beforeCount" style="width: 100%;">
-                  <span>{{ personalForm.receiptAccount }}</span>
+                <el-form-item :label="$t('Verification.www')" style="width: 100%;">
+                  <span>{{ personalForm.paidMoney }}</span>
                 </el-form-item>
               </el-col>
               <el-col :span="12">
-                <el-form-item :label="$t('Receipt.receiptAccountNumber')" style="width: 100%;">
-                  <span>{{ personalForm.receiptAccountNumber }}</span>
+                <el-form-item :label="$t('Verification.eee')" style="width: 100%;">
+                  <span>{{ personalForm.cancleMoney }}</span>
                 </el-form-item>
               </el-col>
               <el-col :span="12">
-                <el-form-item :label="$t('Receipt.receiptPersonId')" style="width: 100%;">
-                  <span>{{ personalForm.receiptPersonName }}</span>
-                </el-form-item>
-              </el-col>
-              <el-col :span="12">
-                <el-form-item :label="$t('Receipt.receiptDate')" style="width: 100%;">
-                  <span>{{ personalForm.receiptDate }}</span>
-                </el-form-item>
-              </el-col>
-              <el-col :span="12">
-                <el-form-item :label="$t('Receipt.totalLackMoney')" style="width: 100%;">
-                  <span>{{ personalForm.totalLackMoney }}</span>
-                </el-form-item>
-              </el-col>
-              <el-col :span="12">
-                <el-form-item :label="$t('Receipt.remark')" prop="afterCount" style="width: 100%;">
+                <el-form-item :label="$t('Receipt.remark')" style="width: 100%;">
                   <span>{{ personalForm.remark }}</span>
-                </el-form-item>
-              </el-col>
-              <el-col :span="12">
-                <el-form-item :label="$t('Receipt.penaltyMoney')" style="width: 100%;">
-                  <span>{{ personalForm.penaltyMoney }}</span>
-                </el-form-item>
-              </el-col>
-              <el-col :span="12">
-                <el-form-item :label="$t('Receipt.deductionMoney')" style="width: 100%;">
-                  <span>{{ personalForm.deductionMoney }}</span>
                 </el-form-item>
               </el-col>
             </el-row>
           </el-form>
-        </div>
-      </el-card>
-      <el-card class="box-card" style="margin-top: 15px" shadow="never">
-        <h2 ref="fuzhu" class="form-name" >收款明细</h2>
-        <div class="container">
-          <el-editable
-            ref="editable"
-            :data.sync="list2"
-            :edit-config="{ showIcon: true, showStatus: true}"
-            class="click-table1"
-            border
-            size="medium"
-            style="width: 100%">
-            <el-editable-column :key="Math.random()" prop="presentCount" align="center" label="当前期数" min-width="150px"/>
-            <el-editable-column :key="Math.random()" prop="returnMoney" align="center" label="本期还款金额" min-width="150px"/>
-            <el-editable-column :key="Math.random()" prop="returnSource" align="center" label="本期还款本金" min-width="150px"/>
-            <el-editable-column :key="Math.random()" prop="reward" align="center" label="奖励" min-width="150px"/>
-            <el-editable-column :key="Math.random()" prop="penalty" align="center" label="滞纳金" min-width="150px"/>
-            <el-editable-column :key="Math.random()" prop="returnInterest" align="center" label="本期还款利息" min-width="150px"/>
-            <el-editable-column :key="Math.random()" prop="paidmoney" align="center" label="已收金额" min-width="150px"/>
-            <el-editable-column :key="Math.random()" prop="unpay" align="center" label="未收金额" min-width="150px"/>
-            <el-editable-column :key="Math.random()" prop="thisMoney" align="center" label="本次收款" min-width="150px"/>
-          </el-editable>
         </div>
       </el-card>
       <el-card class="box-card" style="margin-top: 15px" shadow="never">
@@ -186,6 +138,12 @@
 var _that
 export default {
   filters: {
+    sourceTypeFilter(status) {
+      const statusMap = {
+        1: '分期订单'
+      }
+      return statusMap[status]
+    },
     moneyTypeFilter(status) {
       const statusMap = {
         1: 'PHP',

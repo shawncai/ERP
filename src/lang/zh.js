@@ -2350,7 +2350,6 @@ export default {
     customerPhone: '客户电话',
     address: '地址',
     installmentMoney: '分期本金',
-    totalMoney: '分期金额',
     leftMoney: '剩余本金',
     paidCount: '已还期数',
     count: '分期期数',
@@ -2364,14 +2363,17 @@ export default {
     status: '还款状态',
     productCode: '商品编号',
     productName: '商品名称',
-    leftAllmoney: '剩余金额',
     pay: '已收金额',
     unpay: '未收金额',
     Overdueamount: '逾期金额',
     Overduefrequency: '逾期次数',
     collectperson: '收款人',
     collectstatus: '收款状态',
-    actualDate: '收款日期'
+    actualDate: '收款日期',
+    leftAllmoney: '未还金额',
+    totalMoney: '分期金额',
+    paidMoney: '已还金额',
+    cancelMoney: '核销金额'
   },
   ChangeCount: {
     title: '改期主题',
@@ -3855,6 +3857,9 @@ export default {
   },
   Verification: {
     jbr: '经办人',
-    hxrq: '核销日期'
+    hxrq: '核销日期',
+    qqq: '应结算金额',
+    www: '已结算金额',
+    eee: '核销金额'
   }
 }
