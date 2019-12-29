@@ -89,6 +89,9 @@
       <!--子件信息-->
       <el-card class="box-card" style="margin-top: 15px" shadow="never">
         <h2 ref="fuzhu" class="form-name" >{{ $t('updates.trmx') }}</h2>
+        <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
+          <el-button type="danger" @click="$refs.editable.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
+        </div>
         <div class="container">
           <el-editable
             ref="editable"
@@ -445,10 +448,11 @@ export default {
     },
     // 源单类型为销售出库单时
     saleOutDetail(val) {
-      this.$refs.editable.clear()
-      for (let i = 0; i < val.length; i++) {
-        this.$refs.editable.insert(val[i])
-      }
+      this.list2 = val
+      // this.$refs.editable.clear()
+      // for (let i = 0; i < val.length; i++) {
+      //   this.$refs.editable.insert(val[i])
+      // }
     },
     saleOutdata(val) {
       console.log(val)

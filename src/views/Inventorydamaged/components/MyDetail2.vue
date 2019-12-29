@@ -1,5 +1,5 @@
 <template>
-  <el-dialog :visible.sync="productVisible" :detailcontrol="detailcontrol" :close-on-press-escape="false" :title="$t('Hmodule.xzsp')" top="10px" append-to-body @close="$emit('update:detailcontrol', false)">
+  <el-dialog :visible.sync="productVisible" :control="control" :close-on-press-escape="false" :title="$t('Hmodule.xzsp')" top="10px" append-to-body @close="$emit('update:control', false)">
     <div class="filter-container">
       <!-- 搜索条件栏目 -->
       <el-input v-model="getemplist.code" :placeholder="$t('Product.code')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
@@ -122,6 +122,7 @@ import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination'
 import MySupplier from '../../Product/components/MySupplier'
 import MyTree from '../../Product/components/MyTree' // Secondary package based on el-pagination
+// eslint-disable-next-line no-unused-vars
 var _that
 export default {
   directives: { waves },
@@ -136,9 +137,13 @@ export default {
     }
   },
   props: {
-    detailcontrol: {
+    control: {
       type: Boolean,
       default: false
+    },
+    personalform: {
+      type: Object,
+      default: null
     }
   },
   data() {
@@ -159,7 +164,7 @@ export default {
       // 物品分类回显
       categoryid: '',
       // 物品选择框控制
-      productVisible: this.detailcontrol,
+      productVisible: this.control,
       // 更多搜索条件问题
       visible2: false,
       // 批量操作
@@ -187,10 +192,14 @@ export default {
     }
   },
   watch: {
-    detailcontrol() {
-      this.productVisible = this.detailcontrol
+    control() {
+      this.productVisible = this.control
+      console.log(this.control)
       this.getlist()
     }
+  },
+  created() {
+    this.getlist()
   },
   beforeCreate() {
     _that = this
@@ -281,16 +290,17 @@ export default {
         return {
           productCode: item.code,
           productName: item.productName,
-          productType: item.productType,
-          typeId: item.typeId,
+          locationId: '',
           color: item.color,
-          unit: item.purMeasu,
-          salePrice: item.salePrice,
-          costPrice: item.costPrice
+          typeId: item.typeId,
+          unit: item.stockMeasu,
+          enterPrice: item.costPrice,
+          price: item.costPrice,
+          typeIdname: item.productType
         }
       })
       console.log(productDetail)
-      this.$emit('giftProduct', productDetail)
+      this.$emit('product', productDetail)
     }
   }
 }

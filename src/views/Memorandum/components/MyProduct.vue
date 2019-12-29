@@ -1,5 +1,5 @@
 <template>
-  <el-dialog :visible.sync="productVisible" :control="control" :close-on-press-escape="false" top="10px" title="选择商品" append-to-body @close="$emit('update:control', false)">
+  <el-dialog :visible.sync="productVisible" :control="control" :close-on-press-escape="false" top="10px" title="选择经办人" append-to-body @close="$emit('update:control', false)">
     <div class="filter-container">
       <!-- 搜索条件栏目 -->
       <el-input v-model="getemplist.code" :placeholder="$t('Product.code')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
@@ -37,17 +37,11 @@
       v-loading="listLoading"
       :key="tableKey"
       :data="list"
-      :row-key="getRowKeys"
       border
       fit
       highlight-current-row
       style="width: 100%;"
-      @selection-change="handleSelectionChange">
-      <el-table-column
-        :reserve-selection="true"
-        type="selection"
-        width="55"
-        align="center"/>
+      @current-change="handleSelectionChange">
       <el-table-column :label="$t('Product.code')" :resizable="false" prop="code" align="center" width="120">
         <template slot-scope="scope">
           <span>{{ scope.row.code }}</span>
@@ -134,19 +128,10 @@ export default {
     control: {
       type: Boolean,
       default: false
-    },
-    repoid: {
-      type: Number,
-      default: null
     }
   },
   data() {
     return {
-      getRowKeys(row) {
-        return row.code
-      },
-      select_orderId: [],
-      select_order_number: [],
       // 物品选择框控制
       productVisible: this.control,
       // 批量操作
@@ -161,7 +146,6 @@ export default {
       listLoading: true,
       // 供应商列表查询加展示参数
       getemplist: {
-        repositoryId: this.repoid,
         productid: '',
         code: '',
         productname: '',
@@ -178,12 +162,11 @@ export default {
     control() {
       this.productVisible = this.control
       console.log(this.control)
-    },
-    repoid() {
-      console.log('this.repoId', this.repoid)
-      this.getemplist.repositoryId = this.repoid
       this.getlist()
     }
+  },
+  created() {
+    this.getlist()
   },
   beforeCreate() {
     _that = this
@@ -225,17 +208,8 @@ export default {
       })
     },
     // 批量操作
-    handleSelectionChange(rows) {
-      this.moreaction = rows
-      this.select_order_number = this.moreaction.length
-      this.select_orderId = []
-      if (rows) {
-        rows.forEach(row => {
-          if (row) {
-            this.select_orderId.push(row.code)
-          }
-        })
-      }
+    handleSelectionChange(val) {
+      this.moreaction = val
     },
     // 新增数据
     handleAdd() {
@@ -245,18 +219,7 @@ export default {
     // 物品选择添加
     handleAddTo() {
       this.productVisible = false
-      const productDetail = this.moreaction.map(function(item) {
-        return {
-          productId: item.id,
-          productCode: item.code,
-          productName: item.productName,
-          color: item.color,
-          type: item.typeId,
-          productType: item.productType,
-          unit: item.stockMeasu
-        }
-      })
-      this.$emit('product', productDetail)
+      this.$emit('product', this.moreaction)
     }
   }
 }

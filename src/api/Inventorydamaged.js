@@ -16,9 +16,10 @@ export function deletedamaged(query, query2) {
   })
 }
 
-// 添加采购入库单
-export function addinventorydamaged(query, query2, repositoryId, regionId) {
+// 报损单
+export function addinventorydamaged(query, query2, query3, repositoryId, regionId) {
   var params = new URLSearchParams()
+  params.append('inventoryDamagedInJson', query3) // 你要传给后台的参数值 key/value
   params.append('inventoryDamagedDetailJson', query2) // 你要传给后台的参数值 key/value
   params.append('inventoryDamagedJson', query) // 你要传给后台的参数值 key/value
   if (repositoryId !== '' && repositoryId !== null && repositoryId !== undefined) {
@@ -83,8 +84,9 @@ export function damagedlist(query) {
 }
 
 // 修改报损单
-export function updatedamaged(query, query2) {
+export function updatedamaged(query, query2, query3) {
   var params = new URLSearchParams()
+  params.append('inventoryDamagedInJson', query3) // 你要传给后台的参数值 key/value
   params.append('inventoryDamagedJson', query) // 你要传给后台的参数值 key/value
   params.append('inventoryDamagedDetailJson', query2) // 你要传给后台的参数值 key/value
   return request({

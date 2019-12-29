@@ -282,6 +282,7 @@ export default {
           locationId: '',
           color: item.color,
           typeId: item.typeId,
+          typeIdname: item.productType,
           damagedMoney: 0,
           damagedQuantity: 0,
           unit: item.stockMeasu,

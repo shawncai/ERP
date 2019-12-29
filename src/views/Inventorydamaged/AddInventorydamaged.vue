@@ -41,9 +41,53 @@
           </el-form>
         </div>
       </el-card>
-      <!--报损单明细-->
+      <!-- 报损入库明细 -->
       <el-card class="box-card" shadow="never" style="margin-top: 10px">
-        <h2 ref="fuzhu" class="form-name">{{ $t('updates.bsdmx') }}</h2>
+        <h2 ref="fuzhu" class="form-name">{{ $t('otherlanguage.bsrkmx') }}</h2>
+        <div class="buttons" style="margin-top: 50px">
+          <el-button type="success" @click="handleAddstockinproduct">{{ $t('Hmodule.tjsp') }}</el-button>
+          <el-button type="danger" @click="$refs.editable2.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
+          <el-button type="primary" @click="checkStock2()">{{ $t('updates.kckz') }}</el-button>
+        </div>
+        <my-detail2 :control.sync="control2" @product="productdetail2"/>
+        <div class="container">
+          <el-editable
+            ref="editable2"
+            :data.sync="list3"
+            :edit-config="{ showIcon: true, showStatus: true}"
+            :edit-rules="validRules2"
+            class="click-table1"
+            stripe
+            border
+            size="medium"
+            style="width: 100%"
+            @selection-change="handleSelectionChange2">
+            <el-editable-column type="selection" width="55" align="center"/>
+            <el-editable-column label="编号" width="55" align="center" type="index" />
+            <el-editable-column :edit-render="{type: 'default'}" :label="$t('Hmodule.hw')" prop="locationId" align="center" width="200px">
+              <template slot-scope="scope">
+                <el-select v-model="scope.row.locationId" :value="scope.row.locationId" :placeholder="$t('Hmodule.xzhw')" filterable clearable style="width: 100%;" @visible-change="updatebatch2($event,scope)">
+                  <el-option
+                    v-for="item in locationlist2"
+                    :key="item.id"
+                    :value="item.id"
+                    :label="item.locationCode"/>
+                </el-select>
+              </template>
+            </el-editable-column>
+            <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('Hmodule.pc')" prop="batch" align="center" width="150px"/>
+            <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" align="center" width="150px"/>
+            <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" align="center" width="150px"/>
+            <el-editable-column :label="$t('updates.ys')" prop="color" align="center" width="150px"/>
+            <el-editable-column :label="$t('Hmodule.gg')" prop="typeIdname" align="center" width="150px"/>
+            <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" width="150px"/>
+            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" :label="$t('otherlanguage.rksl')" prop="enterQuantity" align="center" width="150px"/>
+          </el-editable>
+        </div>
+      </el-card>
+      <!--报损单出库明细-->
+      <el-card class="box-card" shadow="never" style="margin-top: 10px">
+        <h2 ref="fuzhu" class="form-name">{{ $t('otherlanguage.bsckmx') }}</h2>
         <div class="buttons" style="margin-top: 50px">
           <el-button type="success" @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>
           <el-button type="danger" @click="$refs.editable.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
@@ -68,8 +112,8 @@
               <template slot-scope="scope">
                 <el-select v-model="scope.row.locationId" :value="scope.row.locationId" :placeholder="$t('Hmodule.xzhw')" filterable clearable style="width: 100%;" @visible-change="updatebatch($event,scope)">
                   <el-option
-                    v-for="(item, index) in locationlist"
-                    :key="index"
+                    v-for="item in locationlist"
+                    :key="item.id"
                     :value="item.id"
                     :label="item.locationCode"/>
                 </el-select>
@@ -89,7 +133,7 @@
             <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" align="center" width="150px"/>
             <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" align="center" width="150px"/>
             <el-editable-column :label="$t('updates.ys')" prop="color" align="center" width="150px"/>
-            <el-editable-column :label="$t('Hmodule.gg')" prop="typeId" align="center" width="150px"/>
+            <el-editable-column :label="$t('Hmodule.gg')" prop="typeIdname" align="center" width="150px"/>
             <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" width="150px"/>
             <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" :label="$t('updates.bssl')" prop="damagedQuantity" align="center" width="150px"/>
             <el-editable-column :label="$t('updates.cbdj')" prop="costPrice" align="center" width="150px"/>
@@ -162,16 +206,17 @@
 
 <script>
 import '@/directive/noMoreClick/index.js'
-import { getlocation, batchlist, countlist } from '@/api/public'
+import { getlocation, batchlist, countlist, locationlist } from '@/api/public'
 import { addinventorydamaged } from '@/api/Inventorydamaged'
 import { getdeptlist } from '@/api/BasicSettings'
 import MyCreate from './components/MyCreate'
 import MyRepository from './components/MyRepository'
 import MyDetail from './components/MyDetail'
+import MyDetail2 from './components/MyDetail2'
 var _that
 export default {
   name: 'AddInventorydamaged',
-  components: { MyCreate, MyRepository, MyDetail },
+  components: { MyCreate, MyRepository, MyDetail, MyDetail2 },
   data() {
     var validatePass = (rule, value, callback) => {
       if (this.handlePersonId === '' || this.handlePersonId === undefined || this.handlePersonId === null) {
@@ -211,6 +256,9 @@ export default {
       }
     }
     return {
+      locationlist2: [],
+      moreaction2: [],
+      control2: false,
       // 合计信息
       heji1: 0,
       heji2: 0,
@@ -238,6 +286,16 @@ export default {
       createcontrol: false,
       // 报损单明细数据
       list2: [],
+      list3: [],
+      // 报损单明细列表规则
+      validRules2: {
+        damagedQuantity: [
+          { required: true, message: '请输入报损数量', trigger: 'change' }
+        ],
+        locationId: [
+          { required: true, validator: validatePass4, trigger: 'change' }
+        ]
+      },
       // 报损单明细列表规则
       validRules: {
         step: [
@@ -312,6 +370,46 @@ export default {
     _that = this
   },
   methods: {
+    // 批量操作
+    handleSelectionChange2(val) {
+      this.moreaction2 = val
+    },
+    productdetail2(val) {
+      console.log('val====', val)
+      const nowlistdata = this.$refs.editable2.getRecords()
+      console.log('nowlistdata=====', nowlistdata)
+      if (nowlistdata.length === 0) {
+        this.list3 = val
+      } else {
+        const newarr = Object.assign([], val, nowlistdata)
+        console.log('newarr===', newarr)
+        this.list3 = newarr
+      }
+    },
+    handleAddstockinproduct() {
+      this.control2 = true
+    },
+    checkStock2() {
+      console.log('this.moreaction.length', this.moreaction2.length)
+      if (this.moreaction2.length > 1 || this.moreaction2.length === 0) {
+        this.$message.error('请选择单个商品')
+      } else {
+        countlist(this.$store.getters.repositoryId, this.$store.getters.regionId, this.moreaction2[0].productCode).then(res => {
+          console.log(res)
+          if (res.data.ret === 200) {
+            console.log('res.data.data.content', res.data.data.content.list)
+            this.list111 = res.data.data.content.list
+            this.receiptVisible2 = true
+          } else {
+            this.$notify.error({
+              title: '错误',
+              message: res.data.msg,
+              offset: 100
+            })
+          }
+        })
+      }
+    },
     checkStock(row) {
       console.log('this.moreaction.length', this.moreaction.length)
       if (this.moreaction.length > 1 || this.moreaction.length === 0) {
@@ -348,6 +446,7 @@ export default {
     // 保存操作
     handlesave() {
       const rest = this.$refs.editable.getRecords()
+      const rest2 = this.$refs.editable2.getRecords()
       if (rest.length === 0) {
         this.$notify.error({
           title: '错误',
@@ -413,10 +512,11 @@ export default {
         return elem
       })
       const parms2 = JSON.stringify(rest)
+      const parms3 = JSON.stringify(rest2)
       const parms = JSON.stringify(this.personalForm)
       this.$refs.personalForm.validate((valid) => {
         if (valid) {
-          addinventorydamaged(parms, parms2, this.personalForm.repositoryId, this.personalForm.regionId).then(res => {
+          addinventorydamaged(parms, parms2, parms3, this.personalForm.repositoryId, this.personalForm.regionId).then(res => {
             console.log(res)
             if (res.data.ret === 200) {
               this.$notify({
@@ -427,6 +527,7 @@ export default {
               })
               this.restAllForm()
               this.$refs.editable.clear()
+              this.$refs.editable2.clear()
               this.$refs.personalForm.clearValidate()
               this.$refs.personalForm.resetFields()
             } else {
@@ -535,9 +636,27 @@ export default {
     },
     updatebatch2(event, scope) {
       if (event === true) {
-        const parms3 = scope.row.productCode
-        batchlist(this.personalForm.damagedRepositoryId, parms3).then(res => {
-          this.batchlist = res.data.data.content
+        console.log(this.personalForm.damagedRepositoryId)
+        if (this.personalForm.damagedRepositoryId === undefined || this.personalForm.damagedRepositoryId === '') {
+          this.$notify.error({
+            title: '错误',
+            message: '请先选择仓库',
+            offset: 100
+          })
+          return false
+        }
+        getlocation(this.personalForm.damagedRepositoryId, scope.row).then(res => {
+          if (res.data.ret === 200) {
+            if (res.data.data.content.length !== 0) {
+              this.locationlist2 = res.data.data.content
+            } else if (res.data.data.content.length === 0) {
+              locationlist(this.personalForm.damagedRepositoryId).then(res => {
+                if (res.data.ret === 200) {
+                  this.locationlist2 = res.data.data.content.list
+                }
+              })
+            }
+          }
         })
       }
     },

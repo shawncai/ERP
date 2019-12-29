@@ -17,6 +17,15 @@ export function chatList(query) {
   if (query.title !== '' && query.title !== null && query.title !== undefined) {
     params.append('title', query.title) // 你要传给后台的参数值 key/value
   }
+  if (query.handlePersonId !== '' && query.handlePersonId !== null && query.handlePersonId !== undefined) {
+    params.append('handlePersonId', query.handlePersonId) // 你要传给后台的参数值 key/value
+  }
+  if (query.phase !== '' && query.phase !== null && query.phase !== undefined) {
+    params.append('phase', query.phase) // 你要传给后台的参数值 key/value
+  }
+  if (query.buyIntention !== '' && query.buyIntention !== null && query.buyIntention !== undefined) {
+    params.append('buyIntention', query.buyIntention) // 你要传给后台的参数值 key/value
+  }
   if (query.chatNumber !== '' && query.chatNumber !== null && query.chatNumber !== undefined) {
     params.append('chatNumber', query.chatNumber) // 你要传给后台的参数值 key/value
   }

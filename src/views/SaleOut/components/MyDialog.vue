@@ -361,7 +361,7 @@
           <el-editable-column :label="$t('Hmodule.xh')" width="55" align="center" type="index" fixed="left"/>
           <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" align="center" min-width="150px" fixed="left"/>
           <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" align="center" min-width="150px" fixed="left"/>
-          <el-editable-column :label="$t('Hmodule.hw')" prop="location" align="center" min-width="150">
+          <el-editable-column :label="$t('Hmodule.hw')" prop="locationName" align="center" min-width="150">
             <template slot-scope="scope">
               <p>{{ getLocationData(scope.row) }}</p>
             </template>
@@ -730,6 +730,7 @@ export default {
       this.list2 = this.personalForm.saleOutDetailVos
       for (const i in this.list2) {
         this.list2[i].location = this.list2[i].locationName
+        this.list2[i].locationName = this.list2[i].locationName
         this.list2[i].categoryName = this.list2[i].productCategoryName
         this.list2[i].typeName = this.list2[i].productTypeName
         if (this.list2[i].taxRate < 1) {
@@ -959,7 +960,8 @@ export default {
       }
     },
     queryStock(row) {
-      if (row.location === null || row.location === '' || row.location === undefined) {
+      console.log('row+++=======', row)
+      if (row.locationName === null || row.locationName === '' || row.locationName === undefined) {
         this.$notify.error({
           title: '错误',
           message: '仓库不存在此商品!',
@@ -1099,15 +1101,17 @@ export default {
           console.log('res', res)
           if (res.data.data.content.length !== 0) {
             row.location = res.data.data.content[0].locationCode
+            row.locationName = res.data.data.content[0].locationCode
             row.locationId = res.data.data.content[0].id
             console.log('row.location', row.location)
           } else {
             row.location = null
+            row.locationName = null
             row.locationId = null
           }
         }
       })
-      return row.location
+      return row.locationName
     },
     // 源单类型为销售合同
     salecontractDetail(val) {

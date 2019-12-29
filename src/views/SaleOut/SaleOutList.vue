@@ -151,6 +151,7 @@
             <el-button v-permission="['54-55-76']" v-show="isReview4(scope.row)" :title="$t('updates.fsp')" type="warning" size="mini" circle @click="handleReview4(scope.row)"><svg-icon icon-class="fanhui"/></el-button>
             <el-button v-permission2="['54-55-2', scope.row.createPersonId]" v-show="scope.row.judgeStat === 0" :title="$t('updates.sc')" size="mini" type="danger" icon="el-icon-delete" circle @click="handleDelete(scope.row)"/>
             <el-button v-permission="['54-55-49']" v-waves v-show="scope.row.judgeStat === 2&&scope.row.isDeliver === 1" class="filter-item" type="primary" style="width: 82px" @click="handleReceipt(scope.row)"><span style="margin-left: -15px;">生成配送单</span></el-button>
+            <el-button v-permission="['54-55-17']" v-show="isReview3(scope.row)" :title="$t('updates.fjd')" type="success" size="mini" icon="el-icon-back" circle @click="handleReview3(scope.row)"/>
           </template>
         </el-table-column>
       </el-table>
@@ -294,6 +295,34 @@ export default {
     _that = this
   },
   methods: {
+    // 反结单操作
+    handleReview3(row) {
+      this.reviewParms = {}
+      this.reviewParms.id = row.id
+      // this.reviewParms.endPersonId = this.$store.getters.userId
+      this.$confirm('请反结单', '反结单', {
+        distinguishCancelAndClose: true,
+        confirmButtonText: '反结单',
+        type: 'warning'
+      }).then(() => {
+        this.reviewParms.receiptStat = 2
+        const parms = JSON.stringify(this.reviewParms)
+        updatesaleOut2(parms).then(res => {
+          if (res.data.ret === 200) {
+            this.$message({
+              type: 'success',
+              message: '反结单成功!'
+            })
+            this.getlist()
+          }
+        })
+      })
+    },
+    isReview3(row) {
+      if (row.receiptStat === 3) {
+        return true
+      }
+    },
     isReview4(row) {
       console.log(row)
       if (row.judgeStat === 2 && row.confirmPersonId === null) {

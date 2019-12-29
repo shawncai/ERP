@@ -56,6 +56,7 @@
         <h2 ref="fuzhu" class="form-name">{{ $t('updates.zsp') }}</h2>
         <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
           <el-button @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>
+          <el-button type="danger" @click="$refs.editable2.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
         </div>
         <my-detail :control.sync="control" @product="product"/>
         <div class="container">
@@ -69,6 +70,7 @@
             border
             size="medium"
             style="width: 100%">
+            <el-editable-column type="selection" width="55" align="center"/>
             <el-editable-column label="编号" width="55" align="center" type="index"/>
             <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" align="center" min-width="150px"/>
             <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" align="center" min-width="150px"/>
@@ -180,19 +182,15 @@ export default {
       this.detailcontrol = true
     },
     giftProduct(val) {
+      console.log('val====', val)
       const nowlistdata = this.$refs.editable3.getRecords()
-      for (let i = 0; i < val.length; i++) {
-        for (let j = 0; j < nowlistdata.length; j++) {
-          if (val[i].id === nowlistdata[j].id) {
-            this.$notify.error({
-              title: '错误',
-              message: '商品已添加',
-              offset: 100
-            })
-            return false
-          }
-        }
-        this.$refs.editable3.insert(val[i])
+      console.log('nowlistdata=====', nowlistdata)
+      if (nowlistdata.length === 0) {
+        this.list3 = val
+      } else {
+        const newarr = Object.assign([], val, nowlistdata)
+        console.log('newarr===', newarr)
+        this.list3 = newarr
       }
     },
     // 选择主商品
@@ -200,9 +198,15 @@ export default {
       this.control = true
     },
     product(val) {
-      this.$refs.editable2.clear()
-      for (let i = 0; i < val.length; i++) {
-        this.$refs.editable2.insert(val[i])
+      console.log('val====', val)
+      const nowlistdata = this.$refs.editable2.getRecords()
+      console.log('nowlistdata=====', nowlistdata)
+      if (nowlistdata.length === 0) {
+        this.list2 = val
+      } else {
+        const newarr = Object.assign([], val, nowlistdata)
+        console.log('newarr===', newarr)
+        this.list2 = newarr
       }
     },
     // 是否全选门店
@@ -274,14 +278,14 @@ export default {
       }
       console.log(EnterDetail)
       console.log(this.personalForm)
-      const obj = Object.assign(EnterDetail[0], this.personalForm)
-      console.log(obj)
-      for (const key in obj) {
-        if (obj[key] === '' || obj[key] === undefined || obj[key] === null) {
-          delete obj[key]
-        }
-      }
-      const parms = JSON.stringify(obj)
+
+      // console.log(obj)
+      // for (const key in obj) {
+      //   if (obj[key] === '' || obj[key] === undefined || obj[key] === null) {
+      //     delete obj[key]
+      //   }
+      // }
+
       const EnterDetail2 = this.$refs.editable3.getRecords()
       if (EnterDetail2.length === 0) {
         this.$notify.error({
@@ -308,29 +312,33 @@ export default {
       const parms2 = JSON.stringify(EnterDetail2)
       this.$refs.personalForm.validate((valid) => {
         if (valid) {
-          addPackage(parms, parms2).then(res => {
-            console.log(res)
-            if (res.data.ret === 200) {
-              this.$notify({
-                title: '成功',
-                message: '保存成功',
-                type: 'success',
-                offset: 100
-              })
-              this.restAllForm()
-              this.$refs.editable.clear()
-              this.$refs.editable2.clear()
-              this.$refs.editable3.clear()
-              this.$refs.personalForm.clearValidate()
-              this.$refs.personalForm.resetFields()
-            } else {
-              this.$notify.error({
-                title: '错误',
-                message: res.data.msg,
-                offset: 100
-              })
-            }
-          })
+          for (const i in EnterDetail) {
+            const obj = Object.assign(EnterDetail[i], this.personalForm)
+            const parms = JSON.stringify(obj)
+            addPackage(parms, parms2).then(res => {
+              console.log(res)
+              if (res.data.ret === 200) {
+                this.$notify({
+                  title: '成功',
+                  message: '保存成功',
+                  type: 'success',
+                  offset: 100
+                })
+                this.restAllForm()
+                this.$refs.editable.clear()
+                this.$refs.editable2.clear()
+                this.$refs.editable3.clear()
+                this.$refs.personalForm.clearValidate()
+                this.$refs.personalForm.resetFields()
+              } else {
+                this.$notify.error({
+                  title: '错误',
+                  message: res.data.msg,
+                  offset: 100
+                })
+              }
+            })
+          }
         } else {
           this.$notify.error({
             title: '错误',

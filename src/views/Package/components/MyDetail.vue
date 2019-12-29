@@ -41,11 +41,17 @@
       v-loading="listLoading"
       :key="tableKey"
       :data="list"
+      :row-key="getRowKeys"
       border
       fit
       highlight-current-row
       style="width: 100%;"
-      @current-change="handleSelectionChange">
+      @selection-change="handleSelectionChange">
+      <el-table-column
+        :reserve-selection="true"
+        type="selection"
+        width="55"
+        align="center"/>
       <el-table-column :label="$t('Product.code')" :resizable="false" prop="code" align="center" width="120">
         <template slot-scope="scope">
           <span>{{ scope.row.code }}</span>
@@ -137,6 +143,11 @@ export default {
   },
   data() {
     return {
+      getRowKeys(row) {
+        return row.code
+      },
+      select_orderId: [],
+      select_order_number: [],
       // 供应商回显
       supplierid: '',
       // 供货商控制
@@ -189,6 +200,19 @@ export default {
     _that = this
   },
   methods: {
+    // 批量操作
+    handleSelectionChange(rows) {
+      this.moreaction = rows
+      this.select_order_number = this.moreaction.length
+      this.select_orderId = []
+      if (rows) {
+        rows.forEach(row => {
+          if (row) {
+            this.select_orderId.push(row.code)
+          }
+        })
+      }
+    },
     getlist() {
       // 商品列表数据
       this.listLoading = true
@@ -229,10 +253,6 @@ export default {
         }
       })
     },
-    // 批量操作
-    handleSelectionChange(val) {
-      this.moreaction = val
-    },
     // 供应商输入框focus事件触发
     handlechoose() {
       this.empcontrol = true
@@ -260,9 +280,7 @@ export default {
     // 物品选择添加
     handleAddTo() {
       this.productVisible = false
-      console.log(this.moreaction)
-      const arrp = new Array(this.moreaction)
-      const productDetail = arrp.map(function(item) {
+      const productDetail = this.moreaction.map(function(item) {
         return {
           productCode: item.code,
           productName: item.productName,

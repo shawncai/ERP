@@ -389,7 +389,38 @@ export default {
     handleConfirm() {
       this.employeeVisible = false
       console.log(this.choosedata)
-      const saleOutdata = this.choosedata.saleOutDetailVos
+      const giftdata = this.choosedata.saleOutGiftVos.map(item => {
+        return {
+          productCode: item.productCode,
+          productName: item.productName,
+          productType: item.productTypeName,
+          type: item.typeId,
+          unit: item.unit,
+          color: item.color,
+          locationId: item.locationId,
+          locationName: item.locationName,
+          batch: item.batch,
+          category: item.category,
+          productCategoryName: item.productCategoryName,
+          kpiGrade: item.kpiGrade,
+          point: item.point,
+          quantity: item.quantity,
+          taxPrice: 0,
+          salePrice: item.salePrice,
+          costPrice: 0,
+          costMoney: 0,
+          taxRate: 0,
+          taxMoney: 0,
+          money: 0,
+          carCode: item.carCode,
+          batteryCode: item.batteryCode,
+          motorCode: item.motorCode,
+          discountRate: 0,
+          discountMoney: 0,
+          includeTaxCostMoney: 0
+        }
+      })
+      const saleOutdata = [...this.choosedata.saleOutDetailVos, ...giftdata]
       const saleOutDetail = saleOutdata.map(function(item) {
         return {
           productCode: item.productCode,

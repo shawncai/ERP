@@ -41,6 +41,15 @@
               </el-form-item>
             </el-col>
             <el-col :span="12">
+              <el-form-item :label="$t('otherlanguage.buyIntention')" style="width: 100%;">
+                <el-select v-model="personalForm.buyIntention" style="margin-left: 18px;width: 200px">
+                  <el-option value="1" label="低"/>
+                  <el-option value="2" label="中"/>
+                  <el-option value="3" label="高"/>
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
               <el-form-item :label="$t('CustomerMarketing.chatDate')" prop="chatDate" style="width: 100%;">
                 <el-date-picker
                   v-model="personalForm.chatDate"
@@ -223,10 +232,6 @@ export default {
       })
     },
     handlecancel() {
-      this.restAllForm()
-      this.$refs.editable.clear()
-      this.$refs.personalForm.clearValidate()
-      this.$refs.personalForm.resetFields()
       this.editVisible = false
     }
     // 修改操作结束 -------------------------------------------------

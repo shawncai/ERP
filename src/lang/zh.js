@@ -386,7 +386,10 @@ export default {
     AccountBalance: '科目余额表',
     Verification: '核销单',
     AddVerification: '新建核销单',
-    VerificationList: '核销单列表'
+    VerificationList: '核销单列表',
+    Memorandum: '备忘录',
+    AddMemorandum: '新建备忘录',
+    MemorandumList: '备忘录列表'
   },
   installmentAnalyze: {
     repositoryName: '仓库名称',
@@ -3782,6 +3785,11 @@ export default {
     landline: '座机号'
   },
   otherlanguage: {
+    buyIntention: '购买意向',
+    spmx: '商品明细',
+    bsckmx: '报损出库明细',
+    bsrkmx: '报损入库明细',
+    rksl: '入库数量',
     newvoucher: '凭证',
     md: '门店',
     qy: '区域',

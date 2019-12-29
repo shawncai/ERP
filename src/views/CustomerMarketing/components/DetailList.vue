@@ -27,6 +27,11 @@
               </el-form-item>
             </el-col>
             <el-col :span="12">
+              <el-form-item :label="$t('otherlanguage.buyIntention')" style="width: 100%;">
+                <span>{{ personalForm.buyIntention | buyIntentionFilter }}</span>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
               <el-form-item :label="$t('CustomerMarketing.chatMode')" style="width: 100%;">
                 <span>{{ personalForm.chatMode | chatModeFilter }}</span>
               </el-form-item>
@@ -131,6 +136,14 @@ export default {
         3: '远程视频',
         4: '会面拜访',
         5: '综合'
+      }
+      return statusMap[status]
+    },
+    buyIntentionFilter(status) {
+      const statusMap = {
+        1: '低',
+        2: '中',
+        3: '高'
       }
       return statusMap[status]
     },

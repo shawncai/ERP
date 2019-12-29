@@ -10,13 +10,13 @@
                 <el-input v-model="getemplist.rolename" :placeholder="$t('Getauthority.rolename')" clearable/>
               </el-form-item>
             </el-col>
-            <el-col v-if="IsEait === false" :span="2">
+            <el-col v-show="IsEait === false" :span="2">
               <el-button class="filter-item" type="primary" style="width: 86px" @click="newRole">{{ $t('public.add') }}</el-button>
             </el-col>
-            <el-col v-if="IsEait === true" :span="2">
+            <el-col v-show="IsEait" :span="2">
               <el-button class="filter-item" type="success" style="width: 86px" @click="newauthority">{{ $t('public.edit') }}</el-button>
             </el-col>
-            <el-col v-if="IsEait === true" :span="2">
+            <el-col v-show="IsEait" :span="2">
               <el-button class="filter-item" type="warning" style="width: 86px" @click="setCurrent()">{{ $t('public.cancel') }}</el-button>
             </el-col>
           </el-form>
@@ -161,8 +161,11 @@ export default {
               type: 'success',
               offset: 100
             })
-            this.getlist()
+            this.$refs.singleTable.setCurrentRow()
+            this.IsEait = false
             this.isShow = false
+            this.getemplist.rolename = null
+            this.getlist()
           } else {
             this.$notify.error({
               title: '错误',
@@ -174,11 +177,14 @@ export default {
       }).catch(() => {
         this.$message({
           type: 'info',
-          message: '已取消删除'
+          message: '已取消修改'
         })
       })
     },
     handleCurrentChange(val) {
+      if (!val.roleName) {
+        return
+      }
       this.operations = []
       this.IsEait = true
       console.log('val.roleName', val.roleName)

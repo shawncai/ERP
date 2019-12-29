@@ -174,7 +174,7 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('SaleOut.couponSupport')" style="width: 100%;">
-                  <el-input v-model="personalForm.couponSupport" style="margin-left: 18px;width: 200px" type="number" @change="changemoney"/>
+                  <el-input v-model="personalForm.couponSupport" style="margin-left: 18px;width: 200px" type="number"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
@@ -1054,6 +1054,7 @@ export default {
     queryStock(row) {
       console.log('row', row)
       if (row.location === null || row.location === '' || row.location === undefined) {
+        console.log('1222222200--------------')
         this.$notify.error({
           title: '错误',
           message: '仓库不存在此商品!',

@@ -86,7 +86,7 @@ import MyProduct from './components/MyProduct'
 // eslint-disable-next-line no-unused-vars
 var _that
 export default {
-  name: 'AddStockAlarm',
+  name: 'AddMemorandum',
   components: { MyProduct, MyRepository, MyDetail, MyCreate, MyAccept },
   data() {
     return {

@@ -71,9 +71,33 @@
           </el-form>
         </div>
       </el-card>
+      <el-card class="box-card" shadow="never" style="margin-top: 10px">
+        <h2 ref="fuzhu" class="form-name">{{ $t('otherlanguage.bsrkmx') }}</h2>
+        <div class="container">
+          <el-editable
+            ref="editable2"
+            :data.sync="list3"
+            :edit-config="{ showIcon: true, showStatus: true}"
+            class="click-table1"
+            stripe
+            border
+            size="medium"
+            style="width: 100%">
+            <el-editable-column label="编号" width="55" align="center" type="index" />
+            <el-editable-column :label="$t('Hmodule.hw')" prop="locationCode" align="center" width="200px"/>
+            <el-editable-column :label="$t('Hmodule.pc')" prop="batch" align="center" width="150px"/>
+            <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" align="center" width="150px"/>
+            <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" align="center" width="150px"/>
+            <el-editable-column :label="$t('updates.ys')" prop="color" align="center" width="150px"/>
+            <el-editable-column :label="$t('Hmodule.gg')" prop="productType" align="center" width="150px"/>
+            <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" width="150px"/>
+            <el-editable-column :label="$t('otherlanguage.rksl')" prop="enterQuantity" align="center" width="150px"/>
+          </el-editable>
+        </div>
+      </el-card>
       <!--入库单明细-->
       <el-card class="box-card" style="margin-top: 15px" shadow="never">
-        <h2 ref="fuzhu" class="form-name">{{ $t('updates.bsdmx') }}</h2>
+        <h2 ref="fuzhu" class="form-name">{{ $t('otherlanguage.bsckmx') }}</h2>
         <div class="container">
           <el-editable
             ref="editable"
@@ -84,7 +108,6 @@
             border
             size="medium"
             style="width: 100%">
-            <el-editable-column type="selection" width="55" align="center"/>
             <el-editable-column label="编号" width="55" align="center" type="index" />
             <el-editable-column :label="$t('Hmodule.hw')" prop="locationCode" align="center" />
             <el-editable-column :label="$t('Hmodule.pc')" prop="batch" align="center" />
@@ -303,6 +326,7 @@ export default {
       this.handlePersonId = this.personalForm.handlePersonName
       this.damagedRepositoryId = this.personalForm.damagedRepositoryName
       this.list2 = this.personalForm.inventoryDamagedDetailVos
+      this.list3 = this.personalForm.inventoryDamagedInVos
       let num = 0
       let num1 = 0
       for (const i in this.list2) {

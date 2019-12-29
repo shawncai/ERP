@@ -54,9 +54,53 @@
         </el-form>
       </div>
     </el-card>
-    <!--入库单明细-->
+    <!-- 报损入库明细 -->
+    <el-card class="box-card" shadow="never" style="margin-top: 10px">
+      <h2 ref="fuzhu" class="form-name">{{ $t('otherlanguage.bsrkmx') }}</h2>
+      <div class="buttons" style="margin-top: 50px">
+        <el-button type="success" @click="handleAddstockinproduct">{{ $t('Hmodule.tjsp') }}</el-button>
+        <el-button type="danger" @click="$refs.editable2.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
+        <!-- <el-button type="primary" @click="checkStock()">{{ $t('updates.kckz') }}</el-button> -->
+      </div>
+      <my-detail2 :control.sync="control2" @product="productdetail2"/>
+      <div class="container">
+        <el-editable
+          ref="editable2"
+          :data.sync="list3"
+          :edit-config="{ showIcon: true, showStatus: true}"
+          :edit-rules="validRules2"
+          class="click-table1"
+          stripe
+          border
+          size="medium"
+          style="width: 100%"
+          @selection-change="handleSelectionChange2">
+          <el-editable-column type="selection" width="55" align="center"/>
+          <el-editable-column label="编号" width="55" align="center" type="index" />
+          <el-editable-column :edit-render="{type: 'default'}" :label="$t('Hmodule.hw')" prop="locationId" align="center" width="200px">
+            <template slot-scope="scope">
+              <el-select v-model="scope.row.locationId" :value="scope.row.locationId" :placeholder="$t('Hmodule.xzhw')" filterable clearable style="width: 100%;" @visible-change="updatebatch2($event,scope)">
+                <el-option
+                  v-for="item in locationlist2"
+                  :key="item.id"
+                  :value="item.id"
+                  :label="item.locationCode"/>
+              </el-select>
+            </template>
+          </el-editable-column>
+          <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('Hmodule.pc')" prop="batch" align="center" width="150px"/>
+          <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" align="center" width="150px"/>
+          <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" align="center" width="150px"/>
+          <el-editable-column :label="$t('updates.ys')" prop="color" align="center" width="150px"/>
+          <el-editable-column :label="$t('Hmodule.gg')" prop="productType" align="center" width="150px"/>
+          <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" width="150px"/>
+          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" :label="$t('otherlanguage.rksl')" prop="enterQuantity" align="center" width="150px"/>
+        </el-editable>
+      </div>
+    </el-card>
+    <!--报损单出库明细-->
     <el-card class="box-card" style="margin-top: 15px">
-      <h2 ref="fuzhu" class="form-name">{{ $t('updates.bsdmx') }}</h2>
+      <h2 ref="fuzhu" class="form-name">{{ $t('otherlanguage.bsckmx') }}</h2>
       <div class="buttons" style="margin-top: 28px;margin-bottom: 20px">
         <el-button type="success" style="background:#3696fd;border-color:#3696fd " @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>
         <el-button type="danger" @click="$refs.editable.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
@@ -100,7 +144,7 @@
           <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" align="center" width="150px"/>
           <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" align="center" width="150px"/>
           <el-editable-column :label="$t('updates.ys')" prop="color" align="center" width="150px"/>
-          <el-editable-column :label="$t('Hmodule.gg')" prop="typeId" align="center" width="150px"/>
+          <el-editable-column :label="$t('Hmodule.gg')" prop="productType" align="center" width="150px"/>
           <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" width="150px"/>
           <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" :label="$t('updates.bssl')" prop="damagedQuantity" align="center" width="150px"/>
           <el-editable-column :label="$t('updates.cbdj')" prop="costPrice" align="center" width="150px"/>
@@ -147,9 +191,10 @@ import { getdeptlist } from '@/api/BasicSettings'
 import MyCreate from './MyCreate'
 import MyRepository from './MyRepository'
 import MyDetail from './MyDetail'
+import MyDetail2 from './MyDetail2'
 var _that
 export default {
-  components: { MyRepository, MyCreate, MyDetail },
+  components: { MyRepository, MyCreate, MyDetail, MyDetail2 },
   props: {
     editcontrol: {
       type: Boolean,
@@ -161,7 +206,18 @@ export default {
     }
   },
   data() {
+    var validatePass4 = (rule, value, callback) => {
+      console.log(value)
+      if (value === '' || value === undefined || value === null) {
+        callback(new Error('请选择货位'))
+      } else {
+        callback()
+      }
+    }
     return {
+      locationlist2: [],
+      moreaction2: [],
+      control2: false,
       // 合计消息
       heji1: 0,
       heji2: 0,
@@ -192,6 +248,16 @@ export default {
       createcontrol: false,
       // 报损单明细数据
       list2: [],
+      list3: [],
+      // 报损单明细列表规则
+      validRules2: {
+        damagedQuantity: [
+          { required: true, message: '请输入报损数量', trigger: 'change' }
+        ],
+        locationId: [
+          { required: true, validator: validatePass4, trigger: 'change' }
+        ]
+      },
       // 报损单明细列表规则
       validRules: {
         step: [
@@ -227,6 +293,7 @@ export default {
       this.handlePersonId = this.personalForm.handlePersonName
       this.damagedRepositoryId = this.personalForm.damagedRepositoryName
       this.list2 = this.personalForm.inventoryDamagedDetailVos
+      this.list3 = this.personalForm.inventoryDamagedInVos
       this.getlocation()
     },
     list2: {
@@ -252,6 +319,46 @@ export default {
     _that = this
   },
   methods: {
+    // 批量操作
+    handleSelectionChange2(val) {
+      this.moreaction2 = val
+    },
+    productdetail2(val) {
+      console.log('val====', val)
+      const nowlistdata = this.$refs.editable2.getRecords()
+      console.log('nowlistdata=====', nowlistdata)
+      if (nowlistdata.length === 0) {
+        this.list3 = val
+      } else {
+        const newarr = Object.assign([], val, nowlistdata)
+        console.log('newarr===', newarr)
+        this.list3 = newarr
+      }
+    },
+    handleAddstockinproduct() {
+      this.control2 = true
+    },
+    // checkStock2() {
+    //   console.log('this.moreaction.length', this.moreaction2.length)
+    //   if (this.moreaction2.length > 1 || this.moreaction2.length === 0) {
+    //     this.$message.error('请选择单个商品')
+    //   } else {
+    //     countlist(this.$store.getters.repositoryId, this.$store.getters.regionId, this.moreaction2[0].productCode).then(res => {
+    //       console.log(res)
+    //       if (res.data.ret === 200) {
+    //         console.log('res.data.data.content', res.data.data.content.list)
+    //         this.list111 = res.data.data.content.list
+    //         this.receiptVisible2 = true
+    //       } else {
+    //         this.$notify.error({
+    //           title: '错误',
+    //           message: res.data.msg,
+    //           offset: 100
+    //         })
+    //       }
+    //     })
+    //   }
+    // },
     getlist() {
       // 部门列表数据
       getdeptlist().then(res => {
@@ -265,6 +372,7 @@ export default {
       locationlist(this.personalForm.damagedRepositoryId).then(res => {
         if (res.data.ret === 200) {
           this.locationlist = res.data.data.content.list
+          this.locationlist2 = res.data.data.content.list
         }
       })
     },
@@ -325,9 +433,27 @@ export default {
     },
     updatebatch2(event, scope) {
       if (event === true) {
-        const parms3 = scope.row.productCode
-        batchlist(this.personalForm.damagedRepositoryId, parms3).then(res => {
-          this.batchlist = res.data.data.content
+        console.log(this.personalForm.damagedRepositoryId)
+        if (this.personalForm.damagedRepositoryId === undefined || this.personalForm.damagedRepositoryId === '') {
+          this.$notify.error({
+            title: '错误',
+            message: '请先选择仓库',
+            offset: 100
+          })
+          return false
+        }
+        getlocation(this.personalForm.damagedRepositoryId, scope.row).then(res => {
+          if (res.data.ret === 200) {
+            if (res.data.data.content.length !== 0) {
+              this.locationlist2 = res.data.data.content
+            } else if (res.data.data.content.length === 0) {
+              locationlist(this.personalForm.damagedRepositoryId).then(res => {
+                if (res.data.ret === 200) {
+                  this.locationlist2 = res.data.data.content.list
+                }
+              })
+            }
+          }
         })
       }
     },
@@ -379,6 +505,7 @@ export default {
       this.personalForm.countryId = this.$store.getters.countryId
       console.log(this.personalForm)
       const rest = this.$refs.editable.getRecords()
+      const rest2 = this.$refs.editable2.getRecords()
       if (rest.length === 0) {
         this.$notify.error({
           title: '错误',
@@ -433,7 +560,8 @@ export default {
       }
       const parms = JSON.stringify(Data)
       const parms2 = JSON.stringify(rest)
-      updatedamaged(parms, parms2).then(res => {
+      const parms3 = JSON.stringify(rest2)
+      updatedamaged(parms, parms2, parms3).then(res => {
         if (res.data.ret === 200) {
           this.$notify({
             title: '操作成功',
@@ -444,6 +572,7 @@ export default {
           })
           this.$emit('rest', true)
           this.$refs.editable.clear()
+          this.$refs.editable2.clear()
           this.$refs.personalForm.clearValidate()
           this.$refs.personalForm.resetFields()
           this.editVisible = false
@@ -458,6 +587,7 @@ export default {
     },
     handlecancel() {
       this.$refs.editable.clear()
+      this.$refs.editable2.clear()
       this.$refs.personalForm.clearValidate()
       this.$refs.personalForm.resetFields()
       this.editVisible = false
