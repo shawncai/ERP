@@ -35,7 +35,7 @@
       </el-card>
       <!--子件信息-->
       <el-card class="box-card" style="margin-top: 15px" shadow="never">
-        <h2 ref="fuzhu" class="form-name" style="margin-bottom: 30px">收款明细</h2>
+        <h2 ref="fuzhu" class="form-name" style="margin-bottom: 30px">核销明细</h2>
         <el-button style="width: 130px" @click="chooseCustomer">{{ $t('updates.cydzxz') }}</el-button>
         <my-installment :installmentcontrol.sync="installmentcontrol" @InstallmentDetail="InstallmentDetail" @Installment="Installment"/>
         <div class="container">
