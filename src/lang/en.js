@@ -3395,6 +3395,7 @@ export default {
     zko: 'discount',
     spbm: 'product Id',
     ckdmx: 'stock out details',
+    hscmx: 'recycling details',
     zpmx: 'freebies details',
     ddmx: 'details',
     xgdjzt: 'status of related bill',
