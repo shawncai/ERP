@@ -2000,6 +2000,7 @@ export default {
     returnMoney: 'refund amount'
   },
   SaleOut: {
+    ershouNumber: 'sources no.',
     createDate: 'create date',
     title: 'subject',
     sourceType: 'sources',

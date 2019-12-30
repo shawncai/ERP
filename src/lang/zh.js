@@ -2008,6 +2008,7 @@ export default {
     returnMoney: '应退金额'
   },
   SaleOut: {
+    ershouNumber: '选择二手回收单',
     createDate: '创建日期',
     title: '出库单主题',
     sourceType: '源单类型',
