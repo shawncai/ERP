@@ -3023,6 +3023,8 @@ export default {
     qsrmm: '请输入密码'
   },
   updates: {
+    ckmx: '出库明细',
+    shmx: '收回明细',
     sncode: 'sn编码',
     zxsyj: '总销售业绩',
     zhzye: '账户总余额',
