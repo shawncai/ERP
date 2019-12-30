@@ -3861,5 +3861,12 @@ export default {
     qqq: '应结算金额',
     www: '已结算金额',
     eee: '核销金额'
+  },
+  MemorandumList: {
+    time: '提醒时间',
+    content: '提醒内容',
+    per: '提醒人',
+    stat: '状态',
+    createTime: '创建时间'
   }
 }
