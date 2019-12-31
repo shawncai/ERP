@@ -459,3 +459,11 @@ export function gettaskofflinecount(query) {
     data: params
   })
 }
+
+// 维修部位
+export function faultsearch() {
+  return request({
+    url: '/admin/fault/search',
+    method: 'post'
+  })
+}

@@ -34,8 +34,8 @@ export default {
   methods: {
     getmapdata() {
       const params = {}
-      params.loginRepositoryId = this.$store.getters.repositoryId
-      params.regionIds = this.$store.getters.regionId
+      // params.loginRepositoryId = this.$store.getters.repositoryId
+      // params.regionIds = this.$store.getters.regionId
       params.pagenum = 1
       params.pagesize = 9999
 

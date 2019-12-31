@@ -27,8 +27,8 @@
             <el-col :span="12">
               <el-form-item :label="$t('ReturnExchange.customerType')" prop="customerType" style="width: 100%;">
                 <el-select v-model="personalForm.customerType" style="margin-left: 18px;width: 200px" @change="clearrequire">
-                  <el-option :label="$t('updates.kh')" value="1"/>
-                  <el-option value="2" label="经销商"/>
+                  <el-option value="1" label="经销商"/>
+                  <el-option value="2" label="零售"/>
                 </el-select>
               </el-form-item>
             </el-col>
@@ -88,6 +88,9 @@
     <!--子件信息-->
     <el-card class="box-card" style="margin-top: 15px" shadow="never">
       <h2 ref="fuzhu" class="form-name" >{{ $t('updates.trmx') }}</h2>
+      <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
+        <el-button type="danger" @click="$refs.editable.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
+      </div>
       <div class="container">
         <el-editable
           ref="editable"
@@ -128,11 +131,13 @@
         </el-editable>
       </div>
     </el-card>
-    <el-card class="box-card" style="margin-top: 15px" shadow="never">
+    <el-card class="box-card" style="margin-top: 15px;margin-bottom: 30px" shadow="never">
       <h2 ref="fuzhu" class="form-name" >{{ $t('updates.hcmx') }}</h2>
       <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
         <el-button @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>
         <my-detail :control.sync="control" :personalform="personalForm" @product="productdetail"/>
+        <el-button @click="handleAddpackage">{{ $t('otherlanguage.xztc') }}</el-button>
+        <my-package :packagecontrol.sync="packagecontrol" @packagedata="packagedata"/>
         <el-button type="danger" @click="$refs.editable2.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
       </div>
       <div class="container">
@@ -148,38 +153,93 @@
           style="width: 100%">
           <el-editable-column type="selection" min-width="55" align="center"/>
           <el-editable-column :label="$t('Hmodule.xh')" min-width="55" align="center" type="index"/>
-          <el-editable-column :label="$t('Hmodule.hw')" prop="locationCode" align="center" min-width="150px">
+          <el-editable-column :label="$t('Hmodule.hw')" prop="locationCode" align="center" min-width="150">
             <template slot-scope="scope">
-              <el-select v-model="scope.row.locationCode" :value="scope.row.locationCode" :placeholder="$t('Hmodule.xzhw')" filterable clearable style="width: 100%;" @visible-change="updatebatch($event,scope)">
-                <el-option
-                  v-for="(item, index) in locationlist"
-                  :key="index"
-                  :value="item.locationCode"
-                  :label="item.locationCode"/>
-              </el-select>
+              <p>{{ getLocationData(scope.row) }}</p>
             </template>
           </el-editable-column>
-          <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('Hmodule.pc')" prop="batch" align="center" min-width="150px"/>
+          <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('Hmodule.pc')" prop="batch" align="center" min-width="150" >
+            <template slot="edit" slot-scope="scope">
+              <el-select v-if="scope.row.batch !== '不使用'" v-model="scope.row.batch" :value="scope.row.batch" :placeholder="$t('Hmodule.xcpc')" filterable clearable style="width: 100%;" @visible-change="updatebatch2($event,scope)">
+                <el-option
+                  v-for="(item, index) in batchlist"
+                  :key="index"
+                  :value="item"
+                  :label="item"/>
+              </el-select>
+              <span v-else>{{ scope.row.batch }}</span>
+            </template>
+          </el-editable-column>
           <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" align="center" min-width="150px"/>
           <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" align="center" min-width="150px"/>
-          <el-editable-column :label="$t('updates.wpfl')" prop="productCategory" align="center" min-width="150px"/>
+          <el-editable-column :label="$t('updates.wpfl')" prop="productCategoryName" align="center" min-width="150px"/>
           <el-editable-column :label="$t('Hmodule.gg')" prop="productType" align="center" min-width="150px"/>
           <el-editable-column :label="$t('updates.ys')" prop="color" align="center" min-width="150px"/>
           <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" min-width="150px"/>
           <el-editable-column :label="$t('updates.jxf')" prop="kpiGrade" align="center" min-width="150px"/>
           <el-editable-column :label="$t('updates.spjf')" prop="point" align="center" min-width="150px"/>
-          <el-editable-column :label="$t('updates.cksli')" prop="quantity" align="center" min-width="150px"/>
-          <el-editable-column :label="$t('updates.lsj')" prop="salePrice" align="center" min-width="150px"/>
-          <el-editable-column :label="$t('updates.cbj')" prop="costPrice" align="center" min-width="150px"/>
-          <el-editable-column prop="costMoney" align="center" label="成本金额" min-width="150px"/>
-          <el-editable-column :label="$t('updates.slv')" prop="taxRate" align="center" min-width="150px"/>
+          <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.cksli')" prop="quantity" align="center" min-width="150" >
+            <template slot="edit" slot-scope="scope">
+              <el-input-number
+                v-if="isEdit3(scope.row)"
+                :precision="2"
+                :controls="false"
+                :min="1.00"
+                v-model="scope.row.quantity"
+                @change="queryStock(scope.row)"
+              />
+              <!-- <el-input v-if="isEdit2(scope.row)" v-model="personalForm.carCode" clearable/> -->
+              <span v-else>{{ scope.row.quantity }}</span>
+            </template>
+          </el-editable-column>
+          <el-editable-column :label="$t('updates.ckj')" prop="taxPrice" align="center" min-width="150px"/>
+          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" :label="$t('updates.sl')" prop="taxRate" align="center" min-width="170">
+            <template slot="edit" slot-scope="scope">
+              <el-input-number
+                :precision="2"
+                :controls="false"
+                v-model="scope.row.taxRate"
+                @input="gettaxRate(scope.row)"/>
+            </template>
+          </el-editable-column>
           <el-editable-column :label="$t('updates.se')" prop="taxMoney" align="center" min-width="150px"/>
-          <el-editable-column :label="$t('Hmodule.je')" prop="money" align="center" min-width="150px"/>
-          <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.cjbm')" prop="carCode" align="center" min-width="150px"/>
-          <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.dcbm')" prop="batteryCode" align="center" min-width="150px"/>
-          <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.djbm')" prop="motorCode" align="center" min-width="150px"/>
           <el-editable-column :label="$t('updates.zko')" prop="discount" align="center" min-width="150px"/>
-          <el-editable-column :label="$t('updates.cke')" prop="discountMoney" align="center" min-width="150px"/>
+          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" :label="$t('updates.ckl')" prop="discount" align="center" min-width="170">
+            <template slot="edit" slot-scope="scope">
+              <el-input-number
+                :precision="2"
+                :controls="false"
+                v-model="scope.row.discount"
+                @change="getdiscountRate(scope.row)"/>
+            </template>
+          </el-editable-column>
+          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" :label="$t('updates.cke')" prop="discountMoney" align="center" min-width="170">
+            <template slot="edit" slot-scope="scope">
+              <el-input-number
+                :precision="2"
+                :controls="false"
+                v-model="scope.row.discountMoney"
+                @change="getdiscountMoney(scope.row)"/>
+            </template>
+          </el-editable-column>
+          <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.cjbm')" prop="carCode" align="center" min-width="150" >
+            <template slot="edit" slot-scope="scope">
+              <el-input v-if="isEdit2(scope.row)" v-model="scope.row.carCode" clearable @blur="getInfo(scope.row)"/>
+              <span v-else>{{ scope.row.carCode }}</span>
+            </template>
+          </el-editable-column>
+          <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.djbm')" prop="motorCode" align="center" min-width="150" >
+            <template slot="edit" slot-scope="scope">
+              <el-input v-if="isEdit2(scope.row)" v-model="scope.row.motorCode" clearable @blur="getInfo3(scope.row)"/>
+              <span v-else>{{ scope.row.motorCode }}</span>
+            </template>
+          </el-editable-column>
+          <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.dcbm')" prop="batteryCode" align="center" min-width="150" >
+            <template slot="edit" slot-scope="scope">
+              <el-input v-if="isEdit2(scope.row)" v-model="scope.row.batteryCode" clearable @blur="getInfo2(scope.row)"/>
+              <span v-else>{{ scope.row.batteryCode }}</span>
+            </template>
+          </el-editable-column>
         </el-editable>
       </div>
     </el-card>
@@ -195,7 +255,7 @@
 <script>
 import { updateReturnExchange } from '@/api/ReturnExchange'
 import { getdeptlist } from '@/api/EmployeeInformation'
-import { getlocation, locationlist } from '@/api/public'
+import { getlocation, locationlist, countlist, batchlist, productlist, getAllBatch, vehicleInfo } from '@/api/public'
 import MyEmp from './MyEmp'
 import MyDetail from './MyDetail'
 import MyCustomer from './MyCustomer'
@@ -203,10 +263,11 @@ import MyAgent from './MyAgent'
 import MySaleout from './MySaleout'
 import MyRepository from './MyRepository'
 import MyMove from './MyMove'
+import MyPackage from './MyPackage'
 // eslint-disable-next-line no-unused-vars
 var _that
 export default {
-  components: { MyMove, MyRepository, MySaleout, MyAgent, MyCustomer, MyDetail, MyEmp },
+  components: { MyMove, MyRepository, MySaleout, MyAgent, MyCustomer, MyDetail, MyEmp, MyPackage },
   props: {
     editcontrol: {
       type: Boolean,
@@ -247,6 +308,8 @@ export default {
           return time.getTime() < new Date().getTime() - 8.64e7
         }
       },
+      batchlist: [],
+      packagecontrol: false,
       // 选择的数据
       choosedata: [],
       // 弹窗组件的控制
@@ -345,6 +408,265 @@ export default {
     _that = this
   },
   methods: {
+    getInfo(row) {
+      console.log(row)
+      if (row.carCode !== null && row.carCode !== '' && row.carCode !== undefined) {
+        const param = {}
+        param.carCode = row.carCode
+        vehicleInfo(param).then(res => {
+          if (res.data.ret === 200) {
+            console.log('res.data.data.content', res.data.data.content)
+            if (res.data.data.content !== null) {
+              row.carCode = res.data.data.content.carCode
+              row.batteryCode = res.data.data.content.batteryCode
+              row.motorCode = res.data.data.content.motorCode
+              row.snCode = res.data.data.content.snCode
+            }
+          } else {
+            this.$notify.error({
+              title: '错误',
+              message: res.data.msg,
+              offset: 100
+            })
+          }
+        })
+      }
+    },
+    getInfo2(row) {
+      console.log(row)
+      if (row.batteryCode !== null && row.batteryCode !== '' && row.batteryCode !== undefined) {
+        const param = []
+        param.batteryCode = row.batteryCode
+        vehicleInfo(param).then(res => {
+          if (res.data.ret === 200) {
+            console.log('res.data.data.content', res.data.data.content)
+            if (res.data.data.content !== null) {
+              row.carCode = res.data.data.content.carCode
+              row.batteryCode = res.data.data.content.batteryCode
+              row.motorCode = res.data.data.content.motorCode
+              row.snCode = res.data.data.content.snCode
+            }
+          } else {
+            this.$notify.error({
+              title: '错误',
+              message: res.data.msg,
+              offset: 100
+            })
+          }
+        })
+      }
+    },
+    getInfo3(row) {
+      console.log(row)
+      if (row.motorCode !== null && row.motorCode !== '' && row.motorCode !== undefined) {
+        const param = []
+        param.motorCode = row.motorCode
+        vehicleInfo(param).then(res => {
+          if (res.data.ret === 200) {
+            console.log('res.data.data.content', res.data.data.content)
+            if (res.data.data.content !== null) {
+              row.carCode = res.data.data.content.carCode
+              row.batteryCode = res.data.data.content.batteryCode
+              row.motorCode = res.data.data.content.motorCode
+              row.snCode = res.data.data.content.snCode
+            }
+          } else {
+            this.$notify.error({
+              title: '错误',
+              message: res.data.msg,
+              offset: 100
+            })
+          }
+        })
+      }
+    },
+    isEdit2(row) {
+      console.log('222', row)
+      const re = row.productCode.slice(0, 2)
+      // if (re === '01') {
+      //   row.quantity = 1
+      //   return row.quantity
+      // }
+      if (re === '01') { return true } else { return false }
+    },
+    // 通过折扣额计算折扣
+    getdiscountMoney(row) {
+      console.log(row)
+      if (row.taxprice !== 0 && row.quantity !== 0 && row.discountMoney !== 0) {
+        if (row.includeTaxCostMoney !== 0) {
+          row.discount = (((row.discountMoney / row.includeTaxCostMoney)) * 100).toFixed(2)
+        } else {
+          row.discount = 0
+        }
+      }
+    },
+    // 通过折扣计算折扣额
+    getdiscountRate(row) {
+      if (row.discount === 0) {
+        row.discountMoney = 0
+      } else {
+        row.discountMoney = (row.taxprice * row.quantity * (row.discount / 100)).toFixed(2)
+      }
+    },
+    // 通过税率计算含税价
+    gettaxRate(row) {
+      if (row.taxprice !== 0) {
+        row.taxprice = (row.salePrice * (1 + row.taxRate / 100)).toFixed(2)
+        row.discountMoney = row.includeTaxCostMoney * row.discount
+      }
+      if (row.discount === 0) {
+        row.discountMoney = 0
+      } else {
+        row.discountMoney = (row.taxprice * row.quantity * (row.discount / 100)).toFixed(2)
+      }
+    },
+    queryStock(row) {
+      console.log('row', row)
+      if (row.location === null || row.location === '' || row.location === undefined) {
+        console.log('1222222200--------------')
+        this.$notify.error({
+          title: '错误',
+          message: '仓库不存在此商品!',
+          offset: 100
+        })
+        row.quantity = 1
+        return false
+      }
+      // 1.批次只有一个 不能超过总库存
+      // 2.批次有多个 不能超过单个批次数量
+      let i = 0
+      const EnterDetail = this.$refs.editable.getRecords()
+      EnterDetail.map(function(elem) {
+        return elem
+      }).forEach(function(elem) {
+        if (elem.productCode === row.productCode) {
+          i++
+        }
+      })
+      if (i === 1) {
+        // 1.批次只有一个 不能超过总库存
+        countlist(this.personalForm.repositoryId, 0, row.productCode).then(res => {
+          if (res.data.ret === 200) {
+            console.log('res.data.data.content', res.data.data.content)
+            if (res.data.data.content.list.length === 0) {
+              this.$notify.error({
+                title: '错误',
+                message: '仓库内无该物品',
+                offset: 100
+              })
+              row.quantity = 1
+              return false
+            }
+            if (row.quantity > res.data.data.content.list[0].ableStock) {
+              this.$notify.error({
+                title: '错误',
+                message: '出库数量超出了当前仓库可用存量，请输入正确出库数量!',
+                offset: 100
+              })
+              row.quantity = 1
+              return false
+            }
+          } else {
+            this.$notify.error({
+              title: '错误',
+              message: res.data.msg,
+              offset: 100
+            })
+          }
+        })
+      } else {
+        // 2.批次有多个 不能超过单个批次数量
+        const param = {}
+        param.productCode = row.productCode
+        param.batch = row.batch
+        param.repositoryId = row.repositoryId
+        getAllBatch(param).then(res => {
+          if (res.data.ret === 200) {
+            console.log('res.data.data.content', res.data.data.content)
+            if (row.quantity > res.data.data.content[0].quantity) {
+              this.$notify.error({
+                title: '错误',
+                message: '出库数量超出了当前批次可用存量，请输入正确出库数量!',
+                offset: 100
+              })
+              row.quantity = 1
+              return false
+            }
+          } else {
+            this.$notify.error({
+              title: '错误',
+              message: res.data.msg,
+              offset: 100
+            })
+          }
+        })
+      }
+
+      if (row.discount === 0) {
+        row.discountMoney = 0
+      } else {
+        row.discountMoney = (row.taxprice * row.quantity * (row.discount / 100)).toFixed(2)
+      }
+    },
+    isEdit3(row) {
+      console.log('222', row)
+      const re = row.productCode.slice(0, 2)
+      if (re === '01') { return false } else { return true }
+    },
+    getLocationData(row) {
+      // 默认批次
+      if (row.batch === null || row.batch === '' || row.batch === undefined) {
+        const parms3 = row.productCode
+        batchlist(this.personalForm.repositoryId, parms3).then(res => {
+          console.log(res)
+          if (res.data.data.content.length > 0) {
+            row.batch = res.data.data.content[0]
+          }
+        })
+      } else {
+        const parms3 = row.productCode
+        batchlist(this.personalForm.repositoryId, parms3).then(res => {
+          if (res.data.data.content.length === 0) {
+            if (row.batch !== '不使用') {
+              row.batch = null
+            }
+          }
+        })
+      }
+      // 默认货位
+      getlocation(this.personalForm.repositoryId, row).then(res => {
+        if (res.data.ret === 200) {
+          console.log('res', res)
+          if (res.data.data.content.length !== 0) {
+            row.location = res.data.data.content[0].locationCode
+            row.locationCode = res.data.data.content[0].locationCode
+            row.locationId = res.data.data.content[0].id
+            console.log('row.locationId', row.locationId)
+          } else {
+            row.location = null
+            row.locationCode = null
+            row.locationId = null
+          }
+        }
+      })
+      return row.locationCode
+    },
+    packagedata(val) {
+      for (let i = 0; i < val.length; i++) {
+        this.$refs.editable2.insert(val[i])
+      }
+    },
+    handleAddpackage() {
+      if (this.personalForm.repositoryId === undefined || this.personalForm.repositoryId === '') {
+        this.$notify.error({
+          title: '错误',
+          message: '请先选择仓库',
+          offset: 100
+        })
+        return false
+      }
+      this.packagecontrol = true
+    },
     updatebatch(event, scope) {
       if (event === true) {
         console.log(this.personalForm.repositoryId)
@@ -754,7 +1076,6 @@ export default {
   }
   .edit >>> .el-dialog {
     background:#f1f1f1 ;
-    height: 950px;
   }
   .el-col-12{
     width: 49%;

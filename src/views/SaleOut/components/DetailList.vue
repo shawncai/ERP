@@ -131,6 +131,11 @@
                 </el-form-item>
               </el-col>
               <el-col :span="12">
+                <el-form-item :label="$t('otherlanguage.yskdk')" style="width: 100%;">
+                  <span>{{ personalForm.advanceMoney }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
                 <el-form-item :label="$t('SaleOut.isInvoice')" style="width: 100%;">
                   <el-radio-group v-model="personalForm.isInvoice" style="margin-left: 18px;width: 200px" disabled>
                     <el-radio :label="1" style="width: 100px">{{ $t('updates.yes') }}</el-radio>

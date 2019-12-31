@@ -59,9 +59,18 @@
               </el-form-item>
             </el-col>
             <el-col :span="12">
+              <el-form-item :label="$t('SaleOut.customerType')" prop="customerType" style="width: 100%;">
+                <el-select v-model="personalForm.customerType" style="margin-left: 18px;width: 200px" @change="clearCustomer">
+                  <el-option value="1" label="经销商"/>
+                  <el-option value="2" label="零售"/>
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
               <el-form-item :label="$t('PrepReceipt.customerName')" prop="customerName" style="width: 100%;">
                 <el-input v-model="personalForm.customerName" style="margin-left: 18px;width: 200px" @focus="chooseCustomer"/>
               </el-form-item>
+              <my-customer :customercontrol.sync="customercontrol" @customerdata="customerdata"/>
               <my-agent :agentcontrol.sync="agentcontrol" @agentdata="agentdata"/>
             </el-col>
             <el-col :span="12">
@@ -148,6 +157,7 @@ export default {
           return time.getTime() < new Date().getTime() - 8.64e7
         }
       },
+      customercontrol: false,
       // 选择的数据
       choosedata: [],
       // 弹窗组件的控制
@@ -262,10 +272,30 @@ export default {
         this.personalForm.payMode = val.payMode
         this.IscloseT = true
       }
+      if (val.customerName) {
+        this.personalForm.customerName = val.customerName
+        this.personalForm.agentId = val.customerId
+      }
+      if (val.customerType) {
+        this.personalForm.customerType = String(val.customerType)
+      }
+    },
+    customerdata(val) {
+      console.log(val)
+      this.personalForm.agentId = val.id
+      this.personalForm.customerName = val.customerName
     },
     // 选择客户focus
     chooseCustomer() {
-      this.agentcontrol = true
+      // this.agentcontrol = true
+      this.$forceUpdate()
+      if (this.personalForm.customerType === '1') {
+        this.agentcontrol = true
+        this.$forceUpdate()
+      } else if (this.personalForm.customerType === '2') {
+        this.customercontrol = true
+        this.$forceUpdate()
+      }
     },
     agentdata(val) {
       console.log(val)

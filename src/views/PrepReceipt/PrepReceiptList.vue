@@ -475,6 +475,9 @@ export default {
       if (this.personalForm.accountType !== null && this.personalForm.accountType !== '' && this.personalForm.accountType !== undefined) {
         this.personalForm.accountType = String(row.accountType)
       }
+      if (row.customerType) {
+        this.personalForm.customerType = String(row.customerType)
+      }
     },
     // 修改组件修改成功后返回
     refreshlist(val) {

@@ -184,6 +184,12 @@
                 </el-radio-group>
               </el-form-item>
             </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('otherlanguage.yskdk')" style="width: 100%;">
+                <el-input v-model="personalForm.advanceMoney" style="margin-left: 18px;width: 200px"/>
+              </el-form-item>
+              <!-- <span style="color: red;font-size: 14px">回收车金额：{{ huishou }}</span> -->
+            </el-col>
           </el-row>
         </el-form>
       </div>

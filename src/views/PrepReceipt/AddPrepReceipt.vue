@@ -281,8 +281,13 @@ export default {
         this.personalForm.payMode = val.payMode
         this.IscloseT = true
       }
-      this.personalForm.customerName = val.customerName
-      this.personalForm.agentId = val.countryId
+      if (val.customerName) {
+        this.personalForm.customerName = val.customerName
+        this.personalForm.agentId = val.customerId
+      }
+      if (val.customerType) {
+        this.personalForm.customerType = String(val.customerType)
+      }
     },
     // 选择客户focus
     chooseCustomer() {

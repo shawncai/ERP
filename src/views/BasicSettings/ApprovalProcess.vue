@@ -43,7 +43,7 @@
           type="selection"
           width="55"
           align="center"/>
-        <el-table-column :label="$t('BasicSettings.id2')" :resizable="false" fixed="left" prop="id" align="center" width="250">
+        <el-table-column :label="$t('BasicSettings.id2')" :resizable="false" fixed="left" prop="id" align="center" width="50">
           <template slot-scope="scope">
             <span class="link-type" @click="handleDetail(scope.row)">{{ scope.row.id }}</span>
           </template>
@@ -54,7 +54,7 @@
             <span>{{ scope.row.processName }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('BasicSettings.isEffective')" :resizable="false" prop="isEffective" align="center" width="250">
+        <el-table-column :label="$t('BasicSettings.isEffective')" :resizable="false" prop="isEffective" align="center" width="120">
           <template slot-scope="scope">
             <span>{{ scope.row.isEffective | genderFilter }}</span>
           </template>
@@ -64,17 +64,17 @@
             <span>{{ scope.row.typeName }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('BasicSettings.isMessage')" :resizable="false" prop="isMessage" align="center" width="250">
+        <el-table-column :label="$t('BasicSettings.isMessage')" :resizable="false" prop="isMessage" align="center" width="130">
           <template slot-scope="scope">
             <span>{{ scope.row.isMessage | isMessageFilter }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('UnitGroup.createPersonName')" :resizable="false" align="center" width="250">
+        <el-table-column :label="$t('UnitGroup.createPersonName')" :resizable="false" align="center" width="120">
           <template slot-scope="scope">
             <span>{{ scope.row.createPersonName }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('UnitGroup.createDate')" :resizable="false" align="center" width="250">
+        <el-table-column :label="$t('UnitGroup.createDate')" :resizable="false" align="center" width="170">
           <template slot-scope="scope">
             <span>{{ scope.row.createTime }}</span>
           </template>

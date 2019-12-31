@@ -239,8 +239,8 @@ export default {
     },
     customerTypeFilter(status) {
       const statusMap = {
-        1: '客户',
-        2: '经销商'
+        1: '经销商',
+        2: '零售'
       }
       return statusMap[status]
     },
