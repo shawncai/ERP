@@ -58,7 +58,7 @@
         </div>
       </el-card>
       <el-card class="box-card" style="margin-top: 15px" shadow="never">
-        <h2 ref="fuzhu" class="form-name" >{{ $t('updates.clxx') }}</h2>
+        <h2 ref="fuzhu" class="form-name" >{{ $t('updates.ckmx') }}</h2>
         <div class="container">
           <el-editable
             ref="editable"
@@ -86,33 +86,33 @@
           </el-editable>
         </div>
       </el-card>
-      <!--      <el-card class="box-card" style="margin-top: 15px;margin-bottom: 40px" shadow="never">-->
-      <!--        <h2 ref="fuzhu" class="form-name" >{{ $t('updates.qsmx') }}</h2>-->
-      <!--        <div class="container">-->
-      <!--          <el-editable-->
-      <!--            ref="editable2"-->
-      <!--            :data.sync="list3"-->
-      <!--            :edit-config="{ showIcon: true, showStatus: true}"-->
-      <!--            class="click-table1"-->
-      <!--            border-->
-      <!--            size="medium"-->
-      <!--            style="width: 100%">-->
-      <!--            <el-editable-column :label="$t('Hmodule.xh')" fixed="left" min-width="55" align="center" type="index"/>-->
-      <!--            <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" fixed="left" align="center" />-->
-      <!--            <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" fixed="left" align="center" />-->
-      <!--            <el-editable-column :label="$t('updates.wpfl')" prop="productCategoryName" align="center" />-->
-      <!--            <el-editable-column :label="$t('updates.jbdw')" prop="unit" align="center" />-->
-      <!--            <el-editable-column :label="$t('updates.ggxh')" prop="productTypeName" align="center" />-->
-      <!--            <el-editable-column :label="$t('updates.ys')" prop="color" align="center" />-->
-      <!--            <el-editable-column :label="$t('updates.jxf')" prop="kpiGrade" align="center" />-->
-      <!--            <el-editable-column :label="$t('updates.spjf')" prop="point" align="center" />-->
-      <!--            <el-editable-column :label="$t('Hmodule.dj')" prop="price" align="center" />-->
-      <!--            <el-editable-column :label="$t('updates.cjbm')" prop="carCode" align="center" />-->
-      <!--            <el-editable-column :label="$t('updates.dcbm')" prop="batteryCode" align="center" />-->
-      <!--            <el-editable-column :label="$t('updates.djbm')" prop="motorCode" align="center" />-->
-      <!--          </el-editable>-->
-      <!--        </div>-->
-      <!--      </el-card>-->
+      <el-card class="box-card" style="margin-top: 15px;margin-bottom: 40px" shadow="never">
+        <h2 ref="fuzhu" class="form-name" >{{ $t('updates.shmx') }}</h2>
+        <div class="container">
+          <el-editable
+            ref="editable2"
+            :data.sync="list3"
+            :edit-config="{ showIcon: true, showStatus: true}"
+            class="click-table1"
+            border
+            size="medium"
+            style="width: 100%">
+            <el-editable-column :label="$t('Hmodule.xh')" fixed="left" min-width="55" align="center" type="index"/>
+            <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" fixed="left" align="center" />
+            <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" fixed="left" align="center" />
+            <el-editable-column :label="$t('updates.wpfl')" prop="productCategoryName" align="center" />
+            <el-editable-column :label="$t('updates.jbdw')" prop="unit" align="center" />
+            <el-editable-column :label="$t('updates.ggxh')" prop="productTypeName" align="center" />
+            <el-editable-column :label="$t('updates.ys')" prop="color" align="center" />
+            <el-editable-column :label="$t('updates.jxf')" prop="kpiGrade" align="center" />
+            <el-editable-column :label="$t('updates.spjf')" prop="point" align="center" />
+            <el-editable-column :label="$t('Hmodule.dj')" prop="price" align="center" />
+            <el-editable-column :label="$t('updates.cjbm')" prop="carCode" align="center" />
+            <el-editable-column :label="$t('updates.dcbm')" prop="batteryCode" align="center" />
+            <el-editable-column :label="$t('updates.djbm')" prop="motorCode" align="center" />
+          </el-editable>
+        </div>
+      </el-card>
       <el-card class="box-card" style="margin-top: 15px" shadow="never">
         <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('updates.spjl') }}</h2>
         <div class="container" style="margin-top: 37px">
@@ -254,8 +254,8 @@ export default {
           this.reviewList.push(review[i])
         }
       }
-      this.list2 = this.personalForm.recoverVehicleDetailVos
-      this.list3 = this.personalForm.recoverVehicleLostVos
+      this.list2 = this.personalForm.recoverVehicleSourceOutVos
+      this.list3 = this.personalForm.recoverVehicleDetailVos
     }
   },
   beforeCreate() {

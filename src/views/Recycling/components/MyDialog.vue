@@ -132,7 +132,7 @@
           <el-editable-column :label="$t('updates.jbdw')" prop="unit" align="center" min-width="150"/>
           <el-editable-column :label="$t('updates.ggxh')" prop="productName" align="center" min-width="150"/>
           <el-editable-column :label="$t('updates.ys')" prop="color" align="center" min-width="150"/>
-          <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.cksli')" prop="quantity" align="center" min-width="150" >
+          <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('collectAndPayDetail.sl')" prop="quantity" align="center" min-width="150" >
             <template slot="edit" slot-scope="scope">
               <el-input-number
                 v-if="isEdit3(scope.row)"

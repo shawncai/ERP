@@ -291,7 +291,8 @@ export default {
           discountMoney: 0,
           taxprice: '0.00',
           alreadyApplicationQuantity: 0,
-          alreadyProduceQuantity: 0
+          alreadyProduceQuantity: 0,
+          recoveryMoney: 0
         }
       })
       console.log(productDetail)

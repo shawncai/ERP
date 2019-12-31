@@ -55,11 +55,11 @@
           prop="name"
           width="240"
           align="center"/>
-        <el-table-column
-          :label="$t('collectAndPay.time')"
-          prop="time"
-          width="240"
-          align="center"/>
+        <!--        <el-table-column-->
+        <!--          :label="$t('collectAndPay.time')"-->
+        <!--          prop="time"-->
+        <!--          width="240"-->
+        <!--          align="center"/>-->
         <el-table-column
           :label="$t('collectAndPay.saleOut')"
           prop="saleOut"
