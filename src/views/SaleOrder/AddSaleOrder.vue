@@ -666,6 +666,15 @@ export default {
       // }
       if (re === '05' && this.personalForm.customerType === '2') { return true } else { return false }
     },
+    isEdit5(row) {
+      console.log('222', row)
+      const re = row.productCode.slice(0, 2)
+      // if (re === '01') {
+      //   row.quantity = 1
+      //   return row.quantity
+      // }
+      if (re === '05' && this.personalForm.customerType === '2') { return true } else { return false }
+    },
     repositoryname(val) {
       this.saleRepositoryId = val.repositoryName
       this.personalForm.saleRepositoryId = val.id
