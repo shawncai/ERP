@@ -389,7 +389,9 @@ export default {
     VerificationList: '核销单列表',
     Memorandum: '备忘录',
     AddMemorandum: '新建备忘录',
-    MemorandumList: '备忘录列表'
+    MemorandumList: '备忘录列表',
+    collectAndPay: '收付款汇总',
+    collectAndPayDetail: '收付款明细'
   },
   installmentAnalyze: {
     repositoryName: '仓库名称',
@@ -3790,6 +3792,9 @@ export default {
     landline: '座机号'
   },
   otherlanguage: {
+    fph: '发票号',
+    bcskje: '本次收款金额',
+    yskdk: '预收款抵扣',
     buyIntention: '购买意向',
     spmx: '商品明细',
     bsckmx: '报损出库明细',

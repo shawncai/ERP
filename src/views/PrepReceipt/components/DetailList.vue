@@ -54,6 +54,11 @@
                 </el-form-item>
               </el-col>
               <el-col :span="12">
+                <el-form-item :label="$t('SaleOut.customerType')" prop="customerName" style="width: 100%;">
+                  <span>{{ personalForm.customerType | customerTypeFilter }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
                 <el-form-item :label="$t('PrepReceipt.customerName')" prop="customerName" style="width: 100%;">
                   <span>{{ personalForm.customerName }}</span>
                 </el-form-item>
@@ -159,6 +164,13 @@
 var _that
 export default {
   filters: {
+    customerTypeFilter(status) {
+      const statusMap = {
+        1: '经销商',
+        2: '零售'
+      }
+      return statusMap[status]
+    },
     statfilter(status) {
       const statusMap = {
         0: _that.$t('updates.wsh'),

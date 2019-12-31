@@ -195,6 +195,12 @@
                 <!-- <span style="color: red;margin-left: 52px;font-size: 14px">回收车金额：{{ huishou }}</span> -->
               </el-col>
               <el-col :span="6">
+                <el-form-item :label="$t('otherlanguage.yskdk')" style="width: 100%;">
+                  <el-input v-model="personalForm.advanceMoney" disabled style="margin-left: 18px;width: 200px"/>
+                </el-form-item>
+                <!-- <span style="color: red;margin-left: 52px;font-size: 14px">回收车金额：{{ huishou }}</span> -->
+              </el-col>
+              <el-col :span="6">
                 <el-form-item :label="$t('SaleOut.receivableMoney')" style="width: 100%;">
                   <span style="margin-left: 20px;">
                     <!-- {{ receivableMoney }} -->
@@ -1692,6 +1698,9 @@ export default {
       this.receivableMoney = ''
       if (val.customerType !== null && val.customerType !== undefined && val.customerType !== '') {
         this.personalForm.customerType = String(val.customerType)
+      }
+      if (val.receiveMoney) {
+        this.personalForm.advanceMoney = val.receiveMoney
       }
       this.personalForm.customerId = val.customerId
       this.customerId = val.customerName

@@ -30,7 +30,13 @@
                     <el-option value="3" label="预售单"/>
                     <el-option value="4" label="销售机会"/>
                     <el-option value="5" label="无来源"/>
+                    <el-option value="6" label="二手回车单"/>
                   </el-select>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item :label="$t('SaleOut.invoiceNumber')" style="width: 100%;">
+                  <el-input v-model="personalForm.invoiceNumber" style="margin-left: 18px;width: 200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
@@ -93,41 +99,53 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('SaleOut.closeType')" style="width: 100%;">
-                  <el-select v-model="personalForm.settleMode" style="margin-left: 18px;width: 200px" @change="change">
+                  <el-select ref="clear" v-model="personalForm.settleMode" style="margin-left: 18px;width: 200px" @change="change">
+                    <el-option v-show="false" label="" value=""/>
                     <el-option
                       v-for="(item, index) in colseTypes"
                       :value="item.id"
                       :key="index"
                       :label="item.categoryName"/>
+                    <template>
+                      <el-button v-if="isshow" icon="el-icon-circle-plus-outline" style="width:100%" @click="go_creat">{{ $t('updates.create') }}</el-button>
+                    </template>
                   </el-select>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('SaleOut.invoiceType')" style="width: 100%;">
-                  <el-select v-model="personalForm.invoiceType" style="margin-left: 18px;width: 200px" @change="change">
+                  <el-select ref="clear2" v-model="personalForm.invoiceType" style="margin-left: 18px;width: 200px" @change="change">
+                    <el-option v-show="false" label="" value=""/>
                     <el-option
                       v-for="(item, index) in invoiceTypes"
                       :value="item.id"
                       :key="index"
                       :label="item.categoryName"
                     />
+                    <template>
+                      <el-button v-if="isshow2" icon="el-icon-circle-plus-outline" style="width:100%" @click="go_creat2">{{ $t('updates.create') }}</el-button>
+                    </template>
                   </el-select>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('SaleOut.payType')" style="width: 100%;">
-                  <el-select v-model="personalForm.payMode" style="margin-left: 18px;width: 200px" @change="change">
+                  <el-select ref="clear3" v-model="personalForm.payMode" style="margin-left: 18px;width: 200px" @change="change">
+                    <el-option v-show="false" label="" value=""/>
                     <el-option
                       v-for="(item, index) in payModes"
                       :key="index"
                       :label="item.categoryName"
                       :value="item.id"
                     />
+                    <template>
+                      <el-button v-if="isshow" icon="el-icon-circle-plus-outline" style="width:100%" @click="go_creat3">{{ $t('updates.create') }}</el-button>
+                    </template>
                   </el-select>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('SaleOut.transferPersonId')" prop="transferPersonId" style="width: 100%;">
+                <el-form-item :label="$t('SaleOut.transferPersonId')" style="width: 100%;">
                   <el-input v-model="transferPersonId" style="margin-left: 18px;width: 200px" @focus="handlechooseDelivery"/>
                 </el-form-item>
                 <my-delivery :deliverycontrol.sync="deliverycontrol" @deliveryName="deliveryName"/>
@@ -160,30 +178,39 @@
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('SaleOut.pointSupport')+`(${point || '无'})`" prop="pointSupport" style="width: 100%;">
+                <el-form-item :label="$t('SaleOut.pointSupport')" prop="pointSupport" style="width: 100%;">
                   <el-input v-model="personalForm.pointSupport" :disabled="personalForm.customerType === '1'" style="margin-left: 18px;width: 200px"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('SaleOut.couponSupport')" style="width: 100%;">
-                  <el-input v-model="personalForm.couponSupport" style="margin-left: 18px;width: 200px"/>
+                  <el-input v-model="personalForm.couponSupport" style="margin-left: 18px;width: 200px" type="number"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('SaleOut.ridMoney')" style="width: 100%;">
-                  <el-input v-model="personalForm.ridMoney" style="margin-left: 18px;width: 200px"/>
+                  <el-input v-model="personalForm.ridMoney" disabled style="margin-left: 18px;width: 200px"/>
                 </el-form-item>
-                <span style="color: red;margin-left: 52px;font-size: 14px">预售款金额：{{ yushou }}</span>
+                <!-- <span style="color: red;margin-left: 52px;font-size: 14px">预售款金额：{{ yushou }}</span> -->
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('SaleOut.ridBikeMoney')" style="width: 100%;">
-                  <el-input v-model="personalForm.ridBikeMoney" style="margin-left: 18px;width: 200px"/>
+                  <el-input v-model="personalForm.ridBikeMoney" disabled style="margin-left: 18px;width: 200px"/>
                 </el-form-item>
-                <span style="color: red;margin-left: 52px;font-size: 14px">回收车金额：{{ huishou }}</span>
+                <!-- <span style="color: red;margin-left: 52px;font-size: 14px">回收车金额：{{ huishou }}</span> -->
+              </el-col>
+              <el-col :span="6">
+                <el-form-item :label="$t('otherlanguage.yskdk')" style="width: 100%;">
+                  <el-input v-model="personalForm.advanceMoney" disabled style="margin-left: 18px;width: 200px"/>
+                </el-form-item>
+                <!-- <span style="color: red;margin-left: 52px;font-size: 14px">回收车金额：{{ huishou }}</span> -->
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('SaleOut.receivableMoney')" style="width: 100%;">
-                  <el-input v-model="personalForm.receivableMoney" style="margin-left: 18px;width: 200px"/>
+                  <span style="margin-left: 20px;">
+                    <!-- {{ receivableMoney }} -->
+                    {{ getReceivableMoney() }}
+                  </span>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
@@ -202,14 +229,17 @@
       <el-card class="box-card" style="margin-top: 15px" shadow="never">
         <h2 ref="fuzhu" class="form-name" >{{ $t('updates.ckdmx') }}</h2>
         <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
-          <el-button :disabled="Isproduct" @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>
-          <my-detail :control.sync="control" @product="productdetail"/>
+          <!--          <el-button :disabled="Isproduct" @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>-->
+          <el-button @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>
+          <my-detail :control.sync="control" :personalform="personalForm" @product="productdetail"/>
           <el-button :disabled="IsSourceNumber" style="width: 130px" @click="handleAddSource">{{ $t('updates.cydzxz') }}</el-button>
           <my-order :ordercontrol.sync="ordercontrol" @saleOrderDetail="saleOrderDetail" @saleOrder="saleOrder"/>
           <my-presale :presalecontrol.sync="presalecontrol" @advanceOrderDetail="advanceOrderDetail" @advanceData="advanceData"/>
           <my-opportunity :opportunitycontrol.sync="opportunitycontrol" @opportunityDetail="opportunityDetail" @opportunity="opportunity"/>
           <my-contract :contractcontrol.sync="contractcontrol" @salecontractDetail="salecontractDetail" @salecontract="salecontract"/>
-          <el-button type="danger" @click="$refs.editable.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
+          <my-recycling :recyclingcontrol.sync="recyclingcontrol" @recyclingdata="recyclingdata"/>
+          <el-button type="danger" @click="$refs.editable.removeSelecteds();test()">{{ $t('Hmodule.delete') }}</el-button>
+          <el-button type="primary" @click="checkStock()">{{ $t('updates.kckz') }}</el-button>
         </div>
         <div class="container">
           <el-editable
@@ -217,49 +247,58 @@
             :data.sync="list2"
             :edit-config="{ showIcon: true, showStatus: true}"
             :edit-rules="validRules"
-            :summary-method="getSummaries"
             class="click-table1"
             stripe
             border
             size="medium"
-            style="width: 100%">
-            <el-editable-column type="selection" min-width="55" align="center" fixed="left"/>
-            <el-editable-column :label="$t('Hmodule.xh')" min-width="55" align="center" type="index" fixed="left"/>
-            <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" align="center" min-width="150" fixed="left"/>
-            <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" align="center" min-width="150" fixed="left"/>
-            <el-editable-column :label="$t('Hmodule.hw')" prop="locationId" align="center" min-width="170">
-              <!-- <template slot="edit" slot-scope="scope">
-                <el-select v-model="scope.row.locationId" :value="scope.row.locationId" :placeholder="$t('Hmodule.xzhw')" filterable clearable style="width: 100%;" @visible-change="updatebatch($event,scope)">
-                  <el-option
-                    v-for="(item, index) in locationlist"
-                    :key="index"
-                    :value="item.id"
-                    :label="item.locationCode"/>
-                </el-select>
-              </template> -->
+            style="width: 100%"
+            @selection-change="handleSelectionChange">
+            <el-editable-column type="selection" min-width="55" align="center" />
+            <el-editable-column :fixed="isfixed" :label="$t('Hmodule.xh')" min-width="55" align="center" type="index"/>
+            <el-editable-column :fixed="isfixed" :label="$t('Hmodule.wpbh')" prop="productCode" align="center" min-width="150"/>
+            <el-editable-column :fixed="isfixed" :label="$t('Hmodule.wpmc')" prop="productName" align="center" min-width="150"/>
+            <el-editable-column :label="$t('Hmodule.hw')" prop="location" align="center" min-width="150">
+              <template slot-scope="scope">
+                <p>{{ getLocationData(scope.row) }}</p>
+              </template>
             </el-editable-column>
-            <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('Hmodule.pc')" prop="batch" align="center" min-width="150"/>
+            <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('Hmodule.pc')" prop="batch" align="center" min-width="150" >
+              <template slot="edit" slot-scope="scope">
+                <el-select v-if="scope.row.batch !== '不使用'" v-model="scope.row.batch" :value="scope.row.batch" :placeholder="$t('Hmodule.xcpc')" filterable clearable style="width: 100%;" @visible-change="updatebatch2($event,scope)">
+                  <el-option
+                    v-for="(item, index) in batchlist"
+                    :key="index"
+                    :value="item"
+                    :label="item"/>
+                </el-select>
+                <span v-else>{{ scope.row.batch }}</span>
+              </template>
+            </el-editable-column>
             <el-editable-column :label="$t('updates.wpfl')" prop="categoryName" align="center" min-width="150"/>
             <el-editable-column :label="$t('updates.jbdw')" prop="unit" align="center" min-width="150"/>
-            <el-editable-column :label="$t('updates.ggxh')" prop="typeName" align="center" min-width="150"/>
+            <el-editable-column :label="$t('updates.ggxh')" prop="typeId" align="center" min-width="150"/>
             <el-editable-column :label="$t('updates.ys')" prop="color" align="center" min-width="150"/>
             <el-editable-column :label="$t('updates.jxf')" prop="kpiGrade" align="center" min-width="150"/>
             <el-editable-column :label="$t('updates.spjf')" prop="point" align="center" min-width="150"/>
             <el-editable-column :label="$t('updates.ydsl')" prop="allQuantity" align="center" min-width="150"/>
             <el-editable-column :label="$t('updates.wcksl')" prop="allQuantity" align="center" min-width="150"/>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 1.00, precision: 2}, type: 'visible'}" :label="$t('updates.cksli')" prop="quantity" align="center" min-width="150">
+            <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.cksli')" prop="quantity" align="center" min-width="150" >
               <template slot="edit" slot-scope="scope">
                 <el-input-number
+                  v-if="isEdit3(scope.row)"
                   :precision="2"
-                  :controls="true"
+                  :controls="false"
                   :min="1.00"
                   v-model="scope.row.quantity"
                   @change="queryStock(scope.row)"
                 />
+                <!-- <el-input v-if="isEdit2(scope.row)" v-model="personalForm.carCode" clearable/> -->
+                <span v-else>{{ scope.row.quantity }}</span>
               </template>
             </el-editable-column>
             <el-editable-column v-if="false" :label="$t('updates.lsj')" prop="salePrice" align="center" min-width="150"/>
             <el-editable-column v-if="false" :label="$t('updates.cbj')" prop="costPrice" align="center" min-width="150"/>
+            <!-- <el-editable-column prop="taxprice" align="center" :label="$t('updates.hsj')" min-width="150px"> -->
             <el-editable-column :label="$t('updates.ckj')" prop="taxprice" align="center" min-width="150">
               <template slot-scope="scope">
                 <span>{{ gettaxprice(scope.row) }}</span>
@@ -317,9 +356,24 @@
                   @change="getdiscountMoney(scope.row)"/>
               </template>
             </el-editable-column>
-            <el-editable-column :label="$t('updates.cjbm')" prop="carCode" align="center" min-width="150px"/>
-            <el-editable-column :label="$t('updates.djbm')" prop="motorCode" align="center" min-width="150px"/>
-            <el-editable-column :label="$t('updates.dcbm')" prop="batteryCode" align="center" min-width="150px"/>
+            <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.cjbm')" prop="carCode" align="center" min-width="150" >
+              <template slot="edit" slot-scope="scope">
+                <el-input v-if="isEdit2(scope.row)" v-model="scope.row.carCode" clearable @blur="getInfo(scope.row)"/>
+                <span v-else>{{ scope.row.carCode }}</span>
+              </template>
+            </el-editable-column>
+            <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.djbm')" prop="motorCode" align="center" min-width="150" >
+              <template slot="edit" slot-scope="scope">
+                <el-input v-if="isEdit2(scope.row)" v-model="scope.row.motorCode" clearable @blur="getInfo3(scope.row)"/>
+                <span v-else>{{ scope.row.motorCode }}</span>
+              </template>
+            </el-editable-column>
+            <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.dcbm')" prop="batteryCode" align="center" min-width="150" >
+              <template slot="edit" slot-scope="scope">
+                <el-input v-if="isEdit2(scope.row)" v-model="scope.row.batteryCode" clearable @blur="getInfo2(scope.row)"/>
+                <span v-else>{{ scope.row.batteryCode }}</span>
+              </template>
+            </el-editable-column>
             <el-editable-column :label="$t('updates.ydbh')" prop="sourceNumber" align="center" min-width="150px"/>
             <el-editable-column :label="$t('updates.ydxh')" prop="sourceSerialNumber" align="center" min-width="150px"/>
           </el-editable>
@@ -329,7 +383,9 @@
         <h2 ref="fuzhu" class="form-name" >{{ $t('updates.zpmx') }}</h2>
         <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
           <el-button @click="handleAddGift">{{ $t('updates.tj') }}</el-button>
-          <my-detail2 :giftcontrol.sync="giftcontrol" @gift="gift"/>
+          <my-detail2 :giftcontrol.sync="giftcontrol" :personalform.sync="personalForm" @gift="gift"/>
+          <el-button @click="handleAddpackage">{{ $t('otherlanguage.xztc') }}</el-button>
+          <my-package :packagecontrol.sync="packagecontrol" :productnumber.sync="productnumber" @salePrice="salePrice" @packagedata="packagedata"/>
           <el-button type="danger" @click="$refs.editable2.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
         </div>
         <div class="container">
@@ -348,22 +404,29 @@
             <el-editable-column :label="$t('Hmodule.xh')" width="55" align="center" type="index" fixed="left"/>
             <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" align="center" min-width="150px" fixed="left"/>
             <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" align="center" min-width="150px" fixed="left"/>
-            <el-editable-column :label="$t('Hmodule.hw')" prop="locationId" align="center" min-width="170px">
-              <!-- <template slot="edit" slot-scope="scope">
-                <el-select v-model="scope.row.locationId" :value="scope.row.locationId" :placeholder="$t('Hmodule.xzhw')" filterable clearable style="width: 100%;" @visible-change="updatebatch($event,scope)">
-                  <el-option
-                    v-for="(item, index) in locationlist"
-                    :key="index"
-                    :value="item.id"
-                    :label="item.locationCode"/>
-                </el-select>
-              </template> -->
+            <el-editable-column :label="$t('Hmodule.hw')" prop="location" align="center" min-width="150">
+              <template slot-scope="scope">
+                <p>{{ getLocationData(scope.row) }}</p>
+              </template>
             </el-editable-column>
-            <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('Hmodule.pc')" prop="batch" align="center" min-width="150px"/>
-            <el-editable-column :label="$t('updates.wpfl')" prop="categoryName" align="center" min-width="150px"/>
-            <el-editable-column :label="$t('updates.jbdw')" prop="unit" align="center" min-width="150px"/>
+            <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('Hmodule.pc')" prop="batch" align="center" min-width="150" >
+              <template slot="edit" slot-scope="scope">
+                <el-select v-if="scope.row.batch !== '不使用'" v-model="scope.row.batch" :value="scope.row.batch" :placeholder="$t('Hmodule.xcpc')" filterable clearable style="width: 100%;" @visible-change="updatebatch2($event,scope)">
+                  <el-option
+                    v-for="(item, index) in batchlist"
+                    :key="index"
+                    :value="item"
+                    :label="item"/>
+                </el-select>
+                <span v-else>{{ scope.row.batch }}</span>
+              </template>
+            </el-editable-column>
+            <!--            <el-editable-column :label="$t('Hmodule.hw')" prop="location" align="center" min-width="170px"/>-->
+            <!--            <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('Hmodule.pc')" prop="batch" align="center" min-width="150px"/>-->
+            <!--            <el-editable-column :label="$t('updates.wpfl')" prop="categoryName" align="center" min-width="150px"/>-->
+            <!--            <el-editable-column :label="$t('updates.jbdw')" prop="unit" align="center" min-width="150px"/>-->
             <el-editable-column :label="$t('updates.ggxh')" prop="typeName" align="center" min-width="150px"/>
-            <el-editable-column :label="$t('updates.ys')" prop="color" align="center" min-width="150px"/>
+            <!--            <el-editable-column :label="$t('updates.ys')" prop="color" align="center" min-width="150px"/>-->
             <el-editable-column :label="$t('updates.lsj')" prop="salePrice" align="center" min-width="150px"/>
             <el-editable-column :label="$t('Hmodule.je')" prop="money" align="center" min-width="150px">
               <template slot-scope="scope">
@@ -376,7 +439,7 @@
                   :precision="2"
                   :controls="true"
                   :min="1.00"
-                  v-model="scope.row.quantity"
+                  :value="scope.row.quantity"
                   @change="queryStock(scope.row)"
                 />
               </template>
@@ -450,17 +513,49 @@
       </el-card>
       <!--操作-->
       <div class="buttons" style="margin-top: 20px">
-        <el-button type="primary" style="background:#3696fd;border-color:#3696fd;width: 98px" @click="handlesave()">{{ $t('Hmodule.baoc') }}</el-button>
+        <el-button v-no-more-click type="primary" style="background:#3696fd;border-color:#3696fd;width: 98px" @click="handlesave()">{{ $t('Hmodule.baoc') }}</el-button>
         <el-button type="danger" @click="handlecancel()">{{ $t('Hmodule.cancel') }}</el-button>
       </div>
+      <el-dialog :visible.sync="receiptVisible2" title="库存快照" class="normal" width="600px" center>
+        <el-form class="demo-ruleForm" style="margin: 0px 6%; width: 400px">
+          <el-form-item label-width="100px;" style="    width: 500px;">
+            <div style="width: 100%; height: 220px;overflow: hidden;background: white;" >
+              <el-table
+                :data="list111"
+                height="220"
+                style="width: 100%;"
+              >
+                <el-table-column :resizable="false" :label="$t('updates.cangk')" align="center" min-width="150">
+                  <template slot-scope="scope">
+                    <span >{{ scope.row.repositoryName }}</span>
+                  </template>
+                </el-table-column>
+                <el-table-column :resizable="false" :label="$t('updates.spmc')" align="center" min-width="150">
+                  <template slot-scope="scope">
+                    <span >{{ scope.row.productName }}</span>
+                  </template>
+                </el-table-column>
+                <el-table-column :resizable="false" label="可用库存量" align="center" min-width="150">
+                  <template slot-scope="scope">
+                    <span >{{ scope.row.ableStock }}</span>
+                  </template>
+                </el-table-column>
+              </el-table>
+            </div>
+          </el-form-item>
+        </el-form>
+      </el-dialog>
     </div>
   </div>
 </template>
 
 <script>
+import '@/directive/noMoreClick/index.js'
+import { getPackage } from '@/api/Package'
+import { getAllBatch, vehicleInfo, getQuantity2 } from '@/api/public'
 import { createsaleOut } from '@/api/SaleOut'
 import { searchSaleCategory } from '@/api/SaleCategory'
-import { getlocation, locationlist, countlist3, countlist } from '@/api/public'
+import { getlocation, locationlist, countlist, batchlist, productlist } from '@/api/public'
 import MyEmp from './components/MyEmp'
 import MyDelivery from '../DailyAdjust/components/MyDelivery'
 import MyDetail from './components/MyDetail'
@@ -478,10 +573,12 @@ import MyPresale from './components/MyPresale'
 import MyOpportunity from './components/MyOpportunity'
 import MyDetail2 from './components/MyDetail2'
 import MyContract from './components/MyContract'
+import MyRecycling from './components/MyRecycling'
+import MyPackage from './components/MyPackage'
 var _that
 export default {
-  name: 'AddSaleOut2',
-  components: { MyContract, MyDetail2, MyOpportunity, MyPresale, MyAdvance, MyOrder, MyRepository, MyAccept, MyAgent, MyCustomer, MyRequire, MySupplier, MyApply, MyDetail, MyDelivery, MyEmp },
+  name: 'AddSaleOut',
+  components: { MyRecycling, MyContract, MyDetail2, MyOpportunity, MyPresale, MyAdvance, MyOrder, MyRepository, MyAccept, MyAgent, MyCustomer, MyRequire, MySupplier, MyApply, MyDetail, MyDelivery, MyEmp, MyPackage },
   data() {
     const validatePass = (rule, value, callback) => {
       console.log(this.supplierId)
@@ -548,11 +645,24 @@ export default {
       },
       pickerOptions2: {
         disabledDate: (time) => {
-          return time.getTime() > new Date().getTime() - 8.64e7
+          var date = new Date()
+          var firstDay = new Date(date.getFullYear(), date.getMonth(), 1)
+          var lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0)
+          return time.getTime() > lastDay || time.getTime() < firstDay
         }
       },
+      // 赠品选择控制
+      packagecontrol: false,
+      productnumber: '',
+      // 判断权限
+      isshow: false,
+      isshow2: false,
       // 积分信息
       point: 0,
+      // 滚动判断
+      isfixed: false,
+      // 判断是否可以编辑
+      isEdit: true,
       // 合计信息
       heji1: '',
       heji2: '',
@@ -569,6 +679,7 @@ export default {
       locationlist: [],
       // 控制销售合同
       contractcontrol: false,
+      recyclingcontrol: false,
       // 控制赠品
       giftcontrol: false,
       // 控制销售机会单
@@ -631,6 +742,7 @@ export default {
       control: false,
       // 销售订单信息数据
       personalForm: {
+        salePersonId: this.$store.getters.userId,
         address: '',
         createPersonId: this.$store.getters.userId,
         countryId: this.$store.getters.countryId,
@@ -641,7 +753,10 @@ export default {
         sendDate: null,
         outDate: null,
         sourceType: '5',
-        otherMoney: '0'
+        otherMoney: '0',
+        couponSupport: 0,
+        outType: '1',
+        saleRepositoryId: this.$store.getters.repositoryId
       },
       // 销售订单规则数据
       personalrules: {
@@ -673,6 +788,7 @@ export default {
           { required: true, validator: validatePass6, trigger: 'change' }
         ]
       },
+      receivableMoney: 0,
       // 订单明细数据
       list2: [],
       // 销售费用明细
@@ -683,21 +799,48 @@ export default {
           { required: true, validator: validatePass7, trigger: 'blur' }
         ]
       },
+      receiptVisible2: false,
+      list111: [],
+      // 批量操作
+      moreaction: [],
       // 可否提交
-      ableSubmission: true
+      ableSubmission: true,
+      // 批次列表
+      batchlist: []
     }
   },
   watch: {
     list2: {
       handler(oldval, newval) {
+        console.log(this.list2.length)
+        if (this.list2.length !== 0) {
+          this.isfixed = true
+          console.log('可以滚动')
+        } else {
+          this.isfixed = false
+        }
         let num = 0
         let num1 = 0
         let num2 = 0
         for (const i in this.list2) {
-          // console.log(typeof (this.list2[i].taxprice))
+          console.log(this.list2[i].productCode)
           num += this.list2[i].quantity
           num2 += Number(this.list2[i].discountMoney)
           num1 += this.list2[i].includeTaxCostMoney
+          productlist(this.list2[i].productCode).then(res => {
+            if (res.data.ret === 200) {
+              console.log(res.data.data.content.list[0].isBatch)
+              if (res.data.data.content.list[0].isBatch === 2) {
+                this.list2[i].batch = '不使用'
+              }
+            } else {
+              this.$notify.error({
+                title: '错误',
+                message: res.data.msg,
+                offset: 100
+              })
+            }
+          })
         }
         this.heji1 = num
         this.heji3 = num1
@@ -723,6 +866,7 @@ export default {
     }
   },
   created() {
+    this.jungleshow()
     this.getTypes()
     this.getdatatime()
     this.chooseSourceType()
@@ -732,11 +876,197 @@ export default {
     this.getinformation()
     this.getinformation2()
     this.getinformation3()
+    this.getinformation4()
+  },
+  activated() {
+
   },
   beforeCreate() {
     _that = this
   },
   methods: {
+    salePrice(val) {
+      console.log('val1222222', val)
+      this.moreaction[0].salePrice = val
+    },
+    packagedata(val) {
+      console.log('val1222222', val)
+      for (let i = 0; i < val.length; i++) {
+        this.$refs.editable2.insert(val[i])
+      }
+    },
+    // 选择套餐
+    handleAddpackage() {
+      if (this.moreaction.length > 1 || this.moreaction.length === 0) {
+        this.$notify.error({
+          title: '请选择主商品',
+          message: '请选择主商品',
+          offset: 100
+        })
+      } else {
+        this.productnumber = this.moreaction[0].productCode
+        this.packagecontrol = true
+      }
+    },
+    // 获取默认消息（销售合同）
+    getinformation4() {
+      if (this.$store.getters.newsaleoutdata) {
+        this.personalForm.sourceType = '2'
+        console.log('this.$store.getters.newsaleoutdata', this.$store.getters.newsaleoutdata)
+        this.installappley(this.$store.getters.newsaleoutdata)
+      }
+      this.$store.dispatch('getempcontract', '')
+    },
+    installappley(val) {
+      console.log('getempcontract3', this.$store.getters.newsaleoutdata)
+      this.heji9 = 0
+      this.heji10 = 0
+      this.Isproduct = true
+      this.IsSourceNumber = false
+      this.personalForm.customerType = this.$store.getters.newsaleoutdata.customerType.toString()
+      this.personalForm.customerId = this.$store.getters.newsaleoutdata.customerId
+      this.customerId = this.$store.getters.newsaleoutdata.customerName
+      this.personalForm.customerPhone = this.$store.getters.newsaleoutdata.phone
+      this.personalForm.salePersonId = this.$store.getters.newsaleoutdata.salePersonId
+      this.salePersonId = this.$store.getters.newsaleoutdata.salePersonName
+      if (this.$store.getters.newsaleoutdata.payMode !== null && this.$store.getters.newsaleoutdata.payMode !== undefined && this.$store.getters.newsaleoutdata.payMode !== '') {
+        this.personalForm.payMode = this.$store.getters.newsaleoutdata.payMode
+      }
+      console.log('this.$store.getters.newsaleoutdata.saleRepositoryId', this.$store.getters.newsaleoutdata.saleRepositoryId)
+      if (this.$store.getters.newsaleoutdata.saleRepositoryId !== 0 && this.$store.getters.newsaleoutdata.saleRepositoryId !== null && this.$store.getters.newsaleoutdata.saleRepositoryId !== undefined && this.$store.getters.newsaleoutdata.saleRepositoryId !== '') {
+        this.personalForm.saleRepositoryId = this.$store.getters.newsaleoutdata.saleRepositoryId
+        this.saleRepositoryId = this.$store.getters.newsaleoutdata.saleRepositoryName
+      }
+      this.personalForm.address = this.$store.getters.newsaleoutdata.address
+      for (let i = 0; i < this.$store.getters.newsaleoutdata.saleContractDetailVos.length; i++) {
+        this.$store.getters.newsaleoutdata.saleContractDetailVos[i].categoryName = this.$store.getters.newsaleoutdata.saleContractDetailVos[i].productCategoryName
+        this.$store.getters.newsaleoutdata.saleContractDetailVos[i].category = this.$store.getters.newsaleoutdata.saleContractDetailVos[i].productCategory
+        this.$store.getters.newsaleoutdata.saleContractDetailVos[i].typeName = this.$store.getters.newsaleoutdata.saleContractDetailVos[i].productTypeName
+        this.$store.getters.newsaleoutdata.saleContractDetailVos[i].type = this.$store.getters.newsaleoutdata.saleContractDetailVos[i].productType
+        this.$store.getters.newsaleoutdata.saleContractDetailVos[i].typeId = this.$store.getters.newsaleoutdata.saleContractDetailVos[i].typeName
+        this.$store.getters.newsaleoutdata.saleContractDetailVos[i].taxprice = this.$store.getters.newsaleoutdata.saleContractDetailVos[i].salePrice
+        this.$store.getters.newsaleoutdata.saleContractDetailVos[i].sourceNumber = this.$store.getters.newsaleoutdata.number
+        this.$store.getters.newsaleoutdata.saleContractDetailVos[i].sourceSerialNumber = this.$store.getters.newsaleoutdata.saleContractDetailVos[i].id
+        this.$store.getters.newsaleoutdata.saleContractDetailVos[i].kpiGrade = '0.00'
+        this.$store.getters.newsaleoutdata.saleContractDetailVos[i].point = '0.00'
+        this.$refs.editable.insert(this.$store.getters.newsaleoutdata.saleContractDetailVos[i])
+      }
+    },
+    getInfo(row) {
+      console.log(row)
+      if (row.carCode !== null && row.carCode !== '' && row.carCode !== undefined) {
+        const param = {}
+        param.carCode = row.carCode
+        vehicleInfo(param).then(res => {
+          if (res.data.ret === 200) {
+            console.log('res.data.data.content', res.data.data.content)
+            if (res.data.data.content !== null) {
+              row.carCode = res.data.data.content.carCode
+              row.batteryCode = res.data.data.content.batteryCode
+              row.motorCode = res.data.data.content.motorCode
+              row.snCode = res.data.data.content.snCode
+            }
+          } else {
+            this.$notify.error({
+              title: '错误',
+              message: res.data.msg,
+              offset: 100
+            })
+          }
+        })
+      }
+    },
+    getInfo2(row) {
+      console.log(row)
+      if (row.batteryCode !== null && row.batteryCode !== '' && row.batteryCode !== undefined) {
+        const param = []
+        param.batteryCode = row.batteryCode
+        vehicleInfo(param).then(res => {
+          if (res.data.ret === 200) {
+            console.log('res.data.data.content', res.data.data.content)
+            if (res.data.data.content !== null) {
+              row.carCode = res.data.data.content.carCode
+              row.batteryCode = res.data.data.content.batteryCode
+              row.motorCode = res.data.data.content.motorCode
+              row.snCode = res.data.data.content.snCode
+            }
+          } else {
+            this.$notify.error({
+              title: '错误',
+              message: res.data.msg,
+              offset: 100
+            })
+          }
+        })
+      }
+    },
+    getInfo3(row) {
+      console.log(row)
+      if (row.motorCode !== null && row.motorCode !== '' && row.motorCode !== undefined) {
+        const param = []
+        param.motorCode = row.motorCode
+        vehicleInfo(param).then(res => {
+          if (res.data.ret === 200) {
+            console.log('res.data.data.content', res.data.data.content)
+            if (res.data.data.content !== null) {
+              row.carCode = res.data.data.content.carCode
+              row.batteryCode = res.data.data.content.batteryCode
+              row.motorCode = res.data.data.content.motorCode
+              row.snCode = res.data.data.content.snCode
+            }
+          } else {
+            this.$notify.error({
+              title: '错误',
+              message: res.data.msg,
+              offset: 100
+            })
+          }
+        })
+      }
+    },
+    getReceivableMoney(val) {
+      console.log('666', 666)
+      console.log('val', val)
+      if (this.receivableMoney !== null && this.receivableMoney !== '' && this.receivableMoney !== undefined) {
+        this.personalForm.receivableMoney = this.receivableMoney
+        return (this.receivableMoney - Number(this.personalForm.couponSupport))
+      } else if (this.personalForm.ridMoney !== null && this.personalForm.ridMoney !== '' && this.personalForm.ridMoney !== undefined) {
+        console.log('this.heji3 - this.heji4 - this.personalForm.ridMoney', this.heji3 - this.heji4 - this.personalForm.ridMoney)
+        this.personalForm.receivableMoney = this.heji3 - this.heji4 - this.personalForm.ridMoney
+        return (this.heji3 - this.heji4 - this.personalForm.ridMoney - Number(this.personalForm.couponSupport))
+      } else if (this.personalForm.ridBikeMoney !== null && this.personalForm.ridBikeMoney !== '' && this.personalForm.ridBikeMoney !== undefined) {
+        console.log('this.heji3 - this.heji4 - this.personalForm.ridMoney', this.heji3 - this.heji4 - this.personalForm.ridMoney)
+        this.personalForm.receivableMoney = this.heji3 - this.heji4 - this.personalForm.ridBikeMoney
+        return (this.heji3 - this.heji4 - this.personalForm.ridBikeMoney - Number(this.personalForm.couponSupport))
+      } else {
+        if (this.personalForm.sourceType === '1' || this.personalForm.sourceType === '4' || this.personalForm.sourceType === '5') {
+          console.log('this.heji3 - this.heji4', this.heji3 - this.heji4)
+          this.personalForm.receivableMoney = this.heji3 - this.heji4
+          return (this.heji3 - this.heji4 - Number(this.personalForm.couponSupport))
+        }
+      }
+    },
+    isEdit3(row) {
+      console.log('222', row)
+      const re = row.productCode.slice(0, 2)
+      if (re === '01') { return false } else { return true }
+    },
+    isEdit2(row) {
+      console.log('222', row)
+      const re = row.productCode.slice(0, 2)
+      // if (re === '01') {
+      //   row.quantity = 1
+      //   return row.quantity
+      // }
+      if (re === '01') { return true } else { return false }
+    },
+    // 判断权限显示
+    jungleshow() {
+      const roles = this.$store.getters.roles
+      this.isshow = roles.includes('1-22-28-1')
+      this.isshow2 = roles.includes('54-83-1')
+      console.log(this.isshow)
+    },
     test() {
       const list = [...this.list2]
       console.log(list.length)
@@ -746,28 +1076,87 @@ export default {
       }
     },
     queryStock(row) {
-      console.log(row.productCode)
-      countlist(0, this.personalForm.saleRepositoryId, row.productCode).then(res => {
-        if (res.data.ret === 200) {
-          // console.log('res.data.data.content', res.data.data.content)
-          if (!res.data.data.content.list.ableStock || row.quantity > res.data.data.content.list.ableStock) {
-            this.$notify.error({
-              title: '错误',
-              message: '出库数量超出了当前可用存量，请修改后再进行确认!',
-              offset: 100
-            })
-            this.ableSubmission = false
-          } else {
-            this.ableSubmission = true
-          }
-        } else {
-          this.$notify.error({
-            title: '错误',
-            message: res.data.msg,
-            offset: 100
-          })
+      console.log('row', row)
+      if (row.location === null || row.location === '' || row.location === undefined) {
+        console.log('1222222200--------------')
+        this.$notify.error({
+          title: '错误',
+          message: '仓库不存在此商品!',
+          offset: 100
+        })
+        row.quantity = 1
+        return false
+      }
+      // 1.批次只有一个 不能超过总库存
+      // 2.批次有多个 不能超过单个批次数量
+      let i = 0
+      const EnterDetail = this.$refs.editable.getRecords()
+      EnterDetail.map(function(elem) {
+        return elem
+      }).forEach(function(elem) {
+        if (elem.productCode === row.productCode) {
+          i++
         }
       })
+      if (i === 1) {
+        // 1.批次只有一个 不能超过总库存
+        countlist(this.personalForm.saleRepositoryId, 0, row.productCode).then(res => {
+          if (res.data.ret === 200) {
+            console.log('res.data.data.content', res.data.data.content)
+            if (res.data.data.content.list.length === 0) {
+              this.$notify.error({
+                title: '错误',
+                message: '仓库内无该物品',
+                offset: 100
+              })
+              row.quantity = 1
+              return false
+            }
+            if (row.quantity > res.data.data.content.list[0].ableStock) {
+              this.$notify.error({
+                title: '错误',
+                message: '出库数量超出了当前仓库可用存量，请输入正确出库数量!',
+                offset: 100
+              })
+              row.quantity = 1
+              return false
+            }
+          } else {
+            this.$notify.error({
+              title: '错误',
+              message: res.data.msg,
+              offset: 100
+            })
+          }
+        })
+      } else {
+        // 2.批次有多个 不能超过单个批次数量
+        const param = {}
+        param.productCode = row.productCode
+        param.batch = row.batch
+        param.repositoryId = row.repositoryId
+        getAllBatch(param).then(res => {
+          if (res.data.ret === 200) {
+            console.log('res.data.data.content', res.data.data.content)
+            if (row.quantity > res.data.data.content[0].quantity) {
+              this.$notify.error({
+                title: '错误',
+                message: '出库数量超出了当前批次可用存量，请输入正确出库数量!',
+                offset: 100
+              })
+              row.quantity = 1
+              return false
+            }
+          } else {
+            this.$notify.error({
+              title: '错误',
+              message: res.data.msg,
+              offset: 100
+            })
+          }
+        })
+      }
+
       if (row.discountRate === 0) {
         row.discountMoney = 0
       } else {
@@ -784,15 +1173,15 @@ export default {
         })
         return false
       } else {
-        console.log('this.moreaction.length', this.moreaction.length)
+        console.log('this.moreaction.length', this.moreaction)
         if (this.moreaction.length > 1 || this.moreaction.length === 0) {
           this.$message.error('请选择单个商品')
         } else {
-          countlist3(this.personalForm.saleRepositoryId, this.moreaction[0].productCode).then(res => {
+          countlist(this.personalForm.saleRepositoryId, 0, this.moreaction[0].productCode).then(res => {
             console.log(res)
             if (res.data.ret === 200) {
               console.log('res.data.data.content', res.data.data.content)
-              this.list111 = res.data.data.content
+              this.list111 = res.data.data.content.list
               this.receiptVisible2 = true
             } else {
               this.$notify.error({
@@ -807,6 +1196,7 @@ export default {
     },
     // 批量操作
     handleSelectionChange(val) {
+      console.log(val)
       this.moreaction = val
     },
     getinformation3() {
@@ -890,7 +1280,7 @@ export default {
         this.personalForm.sourceType = '1'
         this.Isproduct = true
         this.IsSourceNumber = false
-        if (this.$refs.editable.getRecords().length !== 0 && this.$refs.editable.getRecords() !== undefined && this.$refs.editable.getRecords() !== null) {
+        if (this.list2 !== 0 && this.list2 !== undefined && this.list2 !== null) {
           this.$refs.editable.clear()
         }
         this.personalForm.sourceNumber = this.$store.getters.empcontract.number
@@ -899,7 +1289,12 @@ export default {
         }
         this.personalForm.customerId = this.$store.getters.empcontract.customerId
         this.customerId = this.$store.getters.empcontract.customerName
+        // console.log('顾客姓名', this.customerId)
         this.personalForm.customerPhone = this.$store.getters.empcontract.customerPhone
+        // console.log('顾客电话', this.personalForm.customerPhone)
+        this.personalForm.saleType = String(this.$store.getters.empcontract.saleType)
+        this.personalForm.payMode = this.$store.getters.empcontract.payMode
+        this.personalForm.invoiceType = this.$store.getters.empcontract.invoiceType
         this.personalForm.salePersonId = this.$store.getters.empcontract.salePersonId
         this.salePersonId = this.$store.getters.empcontract.salePersonName
         this.personalForm.settleMode = this.$store.getters.empcontract.settleMode
@@ -952,20 +1347,75 @@ export default {
         })
       }
     },
+    updatebatch3(scope) {
+      const parms3 = scope.row.productCode
+      batchlist(this.personalForm.saleRepositoryId, parms3).then(res => {
+        this.batchlist = res.data.data.content
+      })
+    },
+    updatebatch2(event, scope) {
+      if (event === true) {
+        const parms3 = scope.row.productCode
+        batchlist(this.personalForm.saleRepositoryId, parms3).then(res => {
+          console.log(res)
+          this.batchlist = res.data.data.content
+        })
+      }
+    },
+    getLocationData(row) {
+      // 默认批次
+      if (row.batch === null || row.batch === '' || row.batch === undefined) {
+        const parms3 = row.productCode
+        batchlist(this.personalForm.saleRepositoryId, parms3).then(res => {
+          console.log(res)
+          if (res.data.data.content.length > 0) {
+            row.batch = res.data.data.content[0]
+          }
+        })
+      } else {
+        const parms3 = row.productCode
+        batchlist(this.personalForm.saleRepositoryId, parms3).then(res => {
+          if (res.data.data.content.length === 0) {
+            if (row.batch !== '不使用') {
+              row.batch = null
+            }
+          }
+        })
+      }
+      // 默认货位
+      getlocation(this.personalForm.saleRepositoryId, row).then(res => {
+        if (res.data.ret === 200) {
+          console.log('res', res)
+          if (res.data.data.content.length !== 0) {
+            row.location = res.data.data.content[0].locationCode
+            row.locationId = res.data.data.content[0].id
+            console.log('row.locationId', row.locationId)
+          } else {
+            row.location = null
+            row.locationId = null
+          }
+        }
+      })
+      return row.location
+    },
     chooseSourceType(val) {
+      this.receivableMoney = ''
+      this.personalForm.ridMoney = ''
+      this.personalForm.ridBikeMoney = ''
       console.log(val)
+      console.log('this.list2', this.list2)
       if (val === '5' || val === undefined) {
         this.Isproduct = false
         this.IsSourceNumber = true
-        if (this.$refs.editable.getRecords().length !== 0 && this.$refs.editable.getRecords() !== undefined && this.$refs.editable.getRecords() !== null) {
-          this.$refs.editable.clear()
-        }
+        // if (this.$refs.editable.getRecords().length !== 0 && this.$refs.editable.getRecords() !== undefined && this.$refs.editable.getRecords() !== null) {
+        //   this.$refs.editable.clear()
+        // }
       } else {
         this.Isproduct = true
         this.IsSourceNumber = false
-        if (this.$refs.editable.getRecords().length !== 0 && this.$refs.editable.getRecords() !== undefined && this.$refs.editable.getRecords() !== null) {
-          this.$refs.editable.clear()
-        }
+        // if (this.$refs.editable.getRecords().length !== 0 && this.$refs.editable.getRecords() !== undefined && this.$refs.editable.getRecords() !== null) {
+        //   this.$refs.editable.clear()
+        // }
       }
     },
     // 出库仓库focus事件触发
@@ -973,6 +1423,18 @@ export default {
       this.repositorycontrol = true
     },
     repositoryname(val) {
+      const EnterDetail = this.$refs.editable.getRecords()
+      EnterDetail.map(function(elem) {
+        return elem
+      }).forEach(function(elem) {
+        elem.quantity = 1
+      })
+      const EnterDetail2 = this.$refs.editable2.getRecords()
+      EnterDetail2.map(function(elem) {
+        return elem
+      }).forEach(function(elem) {
+        elem.quantity = 1
+      })
       this.saleRepositoryId = val.repositoryName
       this.personalForm.saleRepositoryId = val.id
     },
@@ -993,8 +1455,20 @@ export default {
       this.personalForm.transferPersonId = val.id
     },
     getdatatime() { // 默认显示今天
-      this.personalForm.sendDate = new Date()
-      this.personalForm.outDate = new Date()
+      var date = new Date()
+      var seperator1 = '-'
+      var year = date.getFullYear()
+      var month = date.getMonth() + 1
+      var strDate = date.getDate()
+      if (month >= 1 && month <= 9) {
+        month = '0' + month
+      }
+      if (strDate >= 0 && strDate <= 9) {
+        strDate = '0' + strDate
+      }
+      var currentdate = year + seperator1 + month + seperator1 + strDate
+      this.personalForm.sendDate = currentdate
+      this.personalForm.outDate = currentdate
     },
     // 总计
     getSummaries2(param) {
@@ -1030,7 +1504,8 @@ export default {
       sums[8] = ''
       sums[9] = ''
       sums[10] = ''
-      sums[11] = ''
+      this.heji9 = sums[12]
+      this.heji10 = sums[11]
       this.personalForm.otherMoney = sums[12]
       return sums
     },
@@ -1069,23 +1544,23 @@ export default {
       sums[9] = ''
       sums[10] = ''
       sums[11] = ''
+      sums[12] = ''
       sums[13] = ''
-      sums[14] = ''
       sums[15] = ''
-      sums[18] = ''
+      sums[16] = ''
+      sums[17] = ''
+      sums[21] = ''
       sums[22] = ''
+      sums[23] = ''
       sums[24] = ''
       sums[25] = ''
-      sums[26] = ''
-      sums[27] = ''
-      this.heji1 = sums[12]
-      this.heji2 = sums[20]
-      this.heji3 = sums[17]
-      this.heji4 = sums[19]
-      this.heji5 = sums[23]
-      this.heji6 = sums[17] - sums[23]
-      this.heji7 = sums[21]
-      this.heji8 = sums[16]
+      this.heji1 = sums[14]
+      this.heji3 = sums[18]
+      this.heji4 = sums[20]
+      // this.heji5 = sums[25]
+      // this.heji6 = sums[19] - sums[25]
+      // this.heji7 = sums[23]
+      // this.heji8 = sums[18]
       return sums
     },
     // 计算成本金额
@@ -1096,13 +1571,14 @@ export default {
     // 计算含税金额
     getincludeTaxMoney(row) {
       row.includeTaxMoney = (row.taxprice * row.quantity).toFixed(2)
-      row.discountMoney = (row.taxprice * row.quantity * (1 - row.discountRate / 100)).toFixed(2)
+      row.discountMoney = (row.taxprice * row.quantity * (row.discountRate / 100)).toFixed(2)
       return row.includeTaxMoney
     },
     // 通过税率计算含税价
     gettaxRate(row) {
       if (row.taxprice !== 0) {
         row.taxprice = (row.salePrice * (1 + row.taxRate / 100)).toFixed(2)
+        row.discountMoney = row.includeTaxCostMoney * row.discountRate
       }
       if (row.discountRate === 0) {
         row.discountMoney = 0
@@ -1127,7 +1603,11 @@ export default {
     getdiscountMoney(row) {
       console.log(row)
       if (row.taxprice !== 0 && row.quantity !== 0 && row.discountMoney !== 0) {
-        row.discountRate = (((row.discountMoney / row.includeTaxCostMoney)) * 100).toFixed(2)
+        if (row.includeTaxCostMoney !== 0) {
+          row.discountRate = (((row.discountMoney / row.includeTaxCostMoney)) * 100).toFixed(2)
+        } else {
+          row.discountRate = 0
+        }
       }
     },
     // 计算金额
@@ -1170,16 +1650,26 @@ export default {
       this.point = val.point
     },
     agentdata(val) {
-      console.log(val)
+      console.log('val', val)
       this.personalForm.transAddress = val.address
       this.personalForm.customerId = val.id
       this.customerId = val.agentName
       this.personalForm.customerPhone = val.phone
       this.personalForm.address = val.address
-      this.point = val.point
+      this.personalForm.settleMode = val.settleMode
+      this.personalForm.payMode = val.payMode
+      this.personalForm.invoiceType = val.invoiceType
     },
     // 从源单添加商品
     handleAddSource() {
+      if (this.saleRepositoryId === null || this.saleRepositoryId === '' || this.saleRepositoryId === undefined) {
+        this.$notify.error({
+          title: '错误',
+          message: '请先选择出库仓库',
+          offset: 100
+        })
+        return false
+      }
       if (this.personalForm.sourceType === '1') {
         this.ordercontrol = true
       } else if (this.personalForm.sourceType === '2') {
@@ -1188,29 +1678,37 @@ export default {
         this.presalecontrol = true
       } else if (this.personalForm.sourceType === '4') {
         this.opportunitycontrol = true
+      } else if (this.personalForm.sourceType === '6') {
+        this.recyclingcontrol = true
       }
     },
     // 从销售订单过来数据
     saleOrderDetail(val) {
       console.log('val', val)
-      const nowlistdata = this.$refs.editable.getRecords()
+      // const nowlistdata = this.$refs.editable.getRecords()
+      this.$refs.editable.clear()
       for (let i = 0; i < val.length; i++) {
-        for (let j = 0; j < nowlistdata.length; j++) {
-          if (val[i].sourceNumber === nowlistdata[j].sourceNumber) {
-            this.$notify.error({
-              title: '错误',
-              message: '物品已添加',
-              offset: 100
-            })
-            return false
+        val[i].quantity = (val[i].quantity - val[i].alreadyOutQuantity).toFixed(2)
+        const re = val[i].productCode.slice(0, 2)
+        console.log('re === ', re === '01')
+        let size = 1
+        if (re === '01') {
+          size = val[i].quantity
+          val[i].quantity = 1
+          for (let m = 1; m < size; m++) {
+            val.push(val[i])
           }
         }
         this.$refs.editable.insert(val[i])
       }
     },
     saleOrder(val) {
+      this.receivableMoney = ''
       if (val.customerType !== null && val.customerType !== undefined && val.customerType !== '') {
         this.personalForm.customerType = String(val.customerType)
+      }
+      if (val.receiveMoney) {
+        this.personalForm.advanceMoney = val.receiveMoney
       }
       this.personalForm.customerId = val.customerId
       this.customerId = val.customerName
@@ -1221,29 +1719,31 @@ export default {
       // if (val.payType !== null && val.payType !== undefined && val.payType !== '') {
       //   this.personalForm.payType = String(val.payType)
       // }
-      this.personalForm.saleRepositoryId = val.saleRepositoryId
-      this.saleRepositoryId = val.saleRepositoryName
+      // this.personalForm.saleRepositoryId = val.saleRepositoryId
+      // this.saleRepositoryId = val.saleRepositoryName
       this.personalForm.address = val.transAddress
     },
     // 从预售单过来的源单数据
     advanceOrderDetail(val) {
       console.log(val)
-      const nowlistdata = this.$refs.editable.getRecords()
+      // const nowlistdata = this.$refs.editable.getRecords()
+      this.$refs.editable.clear()
       for (let i = 0; i < val.length; i++) {
-        for (let j = 0; j < nowlistdata.length; j++) {
-          if (val[i].sourceNumber === nowlistdata[j].sourceNumber) {
-            this.$notify.error({
-              title: '错误',
-              message: '物品已添加',
-              offset: 100
-            })
-            return false
+        const re = val[i].productCode.slice(0, 2)
+        console.log('re === ', re === '01')
+        let size = 1
+        if (re === '01') {
+          size = val[i].quantity
+          val[i].quantity = 1
+          for (let m = 1; m < size; m++) {
+            val.push(val[i])
           }
         }
         this.$refs.editable.insert(val[i])
       }
     },
     advanceData(val) {
+      this.personalForm.ridMoney = val.advanceMoney
       this.personalForm.customerType = '2'
       this.personalForm.customerId = val.customerId
       this.customerId = val.customerName
@@ -1253,29 +1753,29 @@ export default {
       if (val.payMode !== null && val.payMode !== undefined && val.payMode !== '') {
         this.personalForm.payMode = val.payMode
       }
-      this.personalForm.saleRepositoryId = val.saleRepositoryId
-      this.saleRepositoryId = val.saleRepositoryName
       this.personalForm.address = val.address
     },
     // 从销售机会过来的源单数据
     opportunityDetail(val) {
       console.log(val)
-      const nowlistdata = this.$refs.editable.getRecords()
+      // const nowlistdata = this.$refs.editable.getRecords()
+      this.$refs.editable.clear()
       for (let i = 0; i < val.length; i++) {
-        for (let j = 0; j < nowlistdata.length; j++) {
-          if (val[i].sourceNumber === nowlistdata[j].sourceNumber) {
-            this.$notify.error({
-              title: '错误',
-              message: '物品已添加',
-              offset: 100
-            })
-            return false
-          }
-        }
+        // for (let j = 0; j < nowlistdata.length; j++) {
+        //   if (val[i].sourceNumber === nowlistdata[j].sourceNumber) {
+        //     this.$notify.error({
+        //       title: '错误',
+        //       message: '物品已添加',
+        //       offset: 100
+        //     })
+        //     return false
+        //   }
+        // }
         this.$refs.editable.insert(val[i])
       }
     },
     opportunity(val) {
+      this.receivableMoney = ''
       console.log(val)
       if (val.customerType !== null && val.customerType !== undefined && val.customerType !== '') {
         this.personalForm.customerType = String(val.customerType)
@@ -1291,22 +1791,27 @@ export default {
     // 源单类型为销售合同
     salecontractDetail(val) {
       console.log(val)
-      const nowlistdata = this.$refs.editable.getRecords()
+      // const nowlistdata = this.$refs.editable.getRecords()
+      this.$refs.editable.clear()
       for (let i = 0; i < val.length; i++) {
-        for (let j = 0; j < nowlistdata.length; j++) {
-          if (val[i].sourceNumber === nowlistdata[j].sourceNumber) {
-            this.$notify.error({
-              title: '错误',
-              message: '物品已添加',
-              offset: 100
-            })
-            return false
-          }
-        }
+        // for (let j = 0; j < nowlistdata.length; j++) {
+        //   if (val[i].sourceNumber === nowlistdata[j].sourceNumber) {
+        //     this.$notify.error({
+        //       title: '错误',
+        //       message: '物品已添加',
+        //       offset: 100
+        //     })
+        //     return false
+        //   }
+        // }
+        val[i].typeId = val[i].typeName
+        console.log('val[i]', val[i])
         this.$refs.editable.insert(val[i])
       }
     },
     salecontract(val) {
+      console.log('val.firstMoney', val.firstMoney)
+      this.receivableMoney = val.firstMoney
       if (val.customerType !== null && val.customerType !== undefined && val.customerType !== '') {
         this.personalForm.customerType = '2'
       }
@@ -1326,43 +1831,93 @@ export default {
         this.personalForm.payType = String(val.payType)
       }
     },
+    recyclingdata(val) {
+      // console.log(12312312312)
+      this.personalForm.ridBikeMoney = val.recyclingMoney
+      console.log('val', val)
+      this.personalForm.customerType = '2'
+      this.personalForm.customerId = val.customerId
+      this.customerId = val.customerName
+      this.personalForm.salePersonId = val.recyclingPersonId
+      this.salePersonId = val.recyclingPersonName
+      const data = {}
+      data.productCode = val.productCode
+      data.productName = val.productName
+      data.salePrice = val.price
+      data.discountRate = 0
+      data.costPrice = val.costPrice
+      data.categoryName = val.productCategoryName
+      data.category = val.productCategory
+      data.unit = val.unit
+      data.typeName = val.productTypeName
+      data.type = val.productType
+      data.color = val.color
+      data.kpiGrade = '0.00'
+      data.point = '0.00'
+      data.quantity = 1
+      // this.$refs.editable.insert(data)
+    },
     // 无来源添加商品
     handleAddproduct() {
+      if (this.saleRepositoryId === null || this.saleRepositoryId === '' || this.saleRepositoryId === undefined) {
+        this.$notify.error({
+          title: '错误',
+          message: '请先选择出库仓库',
+          offset: 100
+        })
+        return false
+      }
       this.control = true
     },
-    productdetail(val) {
-      const nowlistdata = this.$refs.editable.getRecords()
+    async productdetail(val) {
+      console.log('val', val)
       for (let i = 0; i < val.length; i++) {
-        for (let j = 0; j < nowlistdata.length; j++) {
-          if (val[i].productCode === nowlistdata[j].productCode) {
-            this.$notify.error({
-              title: '错误',
-              message: '物品已添加',
-              offset: 100
-            })
-            return false
-          }
-        }
+        val[i].quantity = 1
         this.$refs.editable.insert(val[i])
       }
+
+      console.log('123', 123)
+      const that = this
+      // const list = await Promise.all(val.map(function(item) {
+      //   console.log('321', 321)
+      //   const param = {}
+      //   param.productCode = item.productCode
+      //   param.repositoryId = that.personalForm.saleRepositoryId
+      //   console.log('param', param)
+      //   getPackage(param).then(res => {
+      //     if (res.data.ret === 200) {
+      //       console.log('result2', res.data.data.content)
+      //     }
+      //   })
+      //   // return getPackage(param)
+      // }))
+      // console.log('list', list)
     },
     // 添加赠品
     handleAddGift() {
+      if (this.saleRepositoryId === null || this.saleRepositoryId === '' || this.saleRepositoryId === undefined) {
+        this.$notify.error({
+          title: '错误',
+          message: '请先选择出库仓库',
+          offset: 100
+        })
+        return false
+      }
       this.giftcontrol = true
     },
     gift(val) {
-      const nowlistdata = this.$refs.editable2.getRecords()
+      // const nowlistdata = this.$refs.editable2.getRecords()
       for (let i = 0; i < val.length; i++) {
-        for (let j = 0; j < nowlistdata.length; j++) {
-          if (val[i].productCode === nowlistdata[j].productCode) {
-            this.$notify.error({
-              title: '错误',
-              message: '物品已添加',
-              offset: 100
-            })
-            return false
-          }
-        }
+        // for (let j = 0; j < nowlistdata.length; j++) {
+        //   if (val[i].productCode === nowlistdata[j].productCode) {
+        //     this.$notify.error({
+        //       title: '错误',
+        //       message: '物品已添加',
+        //       offset: 100
+        //     })
+        //     return false
+        //   }
+        // }
         this.$refs.editable2.insert(val[i])
       }
     },
@@ -1417,7 +1972,9 @@ export default {
         sendDate: null,
         outDate: null,
         sourceType: '5',
-        otherMoney: ''
+        otherMoney: '',
+        saleRepositoryId: this.$store.getters.repositoryId,
+        salePersonId: this.$store.getters.userId
       }
       this.customerId = null
       this.salePersonId = this.$store.state.user.name
@@ -1433,17 +1990,73 @@ export default {
     },
     // 保存操作
     handlesave() {
-      if (this.ableSubmission === false) {
-        this.$notify.error({
-          title: '错误',
-          message: '出库数量超出了当前可用存量，请修改后再进行确认!',
-          offset: 100
-        })
-        return false
-      }
       this.$refs.personalForm.validate((valid) => {
         if (valid) {
           const EnterDetail = this.deepClone(this.$refs.editable.getRecords())
+          // 整车出库时相关编码必填
+          let m = 1
+          EnterDetail.map(function(elem) {
+            return elem
+          }).forEach(function(elem) {
+            const re = elem.productCode.slice(0, 2)
+            if (re === '01') {
+              if (elem.carCode === null || elem.carCode === undefined || elem.carCode === '' || elem.motorCode === null || elem.motorCode === undefined || elem.motorCode === '' || elem.batteryCode === null || elem.batteryCode === undefined || elem.batteryCode === '') {
+                m = 2
+              }
+            }
+          })
+          if (m === 2) {
+            this.$notify.error({
+              title: '错误',
+              message: '整车出库时相关编码必填',
+              offset: 100
+            })
+            return false
+          }
+          // 保存时同样商品不能有同一个批次
+          let i = 0
+          EnterDetail.map(function(elem) {
+            return elem
+          }).forEach(function(elem) {
+            EnterDetail.map(function(elem2) {
+              return elem2
+            }).forEach(function(elem2) {
+              if (elem2.productCode === elem.productCode && elem2.batch === elem.batch) {
+                const re = elem2.productCode.slice(0, 2)
+                // 去除整车
+                if (re !== '01') {
+                  i++
+                }
+              }
+            })
+          })
+          console.log(i)
+          if (i > EnterDetail.length) {
+            this.$notify.error({
+              title: '错误',
+              message: '同样商品不能有同一个批次',
+              offset: 100
+            })
+            return false
+          }
+          // 批次货位不能为空
+          let j = 1
+          EnterDetail.map(function(elem) {
+            return elem
+          }).forEach(function(elem) {
+            if (elem.batch === null || elem.batch === undefined || elem.batch === '' || elem.location === null || elem.location === undefined || elem.location === '') {
+              j = 2
+            }
+          })
+          console.log(j)
+          if (j === 2) {
+            this.$notify.error({
+              title: '错误',
+              message: '批次货位不能为空',
+              offset: 100
+            })
+            return false
+          }
           const EnterDetail2 = this.deepClone(this.$refs.editable2.getRecords())
           if (EnterDetail.length === 0) {
             this.$notify.error({
@@ -1619,6 +2232,18 @@ export default {
       const view = { path: '/SaleOut/AddSaleOut', name: 'AddSaleOut', fullPath: '/SaleOut/AddSaleOut', title: 'AddSaleOut' }
       this.$store.dispatch('delView', view).then(({ visitedViews }) => {
       })
+    },
+    go_creat() {
+      this.$router.push('/Supplier/SupplierCategory')
+      this.$refs.clear.blur()
+    },
+    go_creat2() {
+      this.$router.push('/SaleCategory/SaleCategoryList')
+      this.$refs.clear2.blur()
+    },
+    go_creat3() {
+      this.$router.push('/Supplier/SupplierCategory')
+      this.$refs.clear3.blur()
     }
   }
 }
@@ -1639,5 +2264,25 @@ export default {
     .el-button+.el-button{
       width: 98px;
     }
+  }
+</style>
+
+<style rel="stylesheet/css" scoped>
+  .normal >>> .el-dialog__header {
+    padding: 20px 20px 10px;
+    background: #fff;
+    position: static;
+    top: auto;
+    z-index: auto;
+    width: auto;
+    border-bottom: none;
+  }
+  .normal >>> .el-dialog {
+    -webkit-transform: none;
+    transform: none;
+    left: 0;
+    position: relative;
+    margin: 0 auto;
+    height: auto;
   }
 </style>

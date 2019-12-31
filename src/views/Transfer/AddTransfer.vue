@@ -136,6 +136,7 @@ export default {
       }
     }
     return {
+      needreglist: [],
       region: null,
       pickerOptions1: {
         disabledDate: (time) => {
@@ -204,6 +205,32 @@ export default {
     _that = this
   },
   methods: {
+    getarrs() {
+      const region = this.$store.getters.regionId
+      const needata = this.findPathByLeafId(region, this.regions)
+      this.personalForm.transferRegion = needata
+      this.personalForm.transferRegionId = region
+      this.transferRepositoryId = this.$store.getters.repositoryName
+      this.personalForm.transferRepositoryId = this.$store.getters.repositoryId
+    },
+    findPathByLeafId(leafId, nodes, path) {
+      if (path === undefined) {
+        path = []
+      }
+      for (var i = 0; i < nodes.length; i++) {
+        var tmpPath = path.concat()
+        tmpPath.push(nodes[i].id)
+        if (leafId === nodes[i].id) {
+          return tmpPath
+        }
+        if (nodes[i].regionListVos) {
+          var findResult = this.findPathByLeafId(leafId, nodes[i].regionListVos, tmpPath)
+          if (findResult) {
+            return findResult
+          }
+        }
+      }
+    },
     handlechange4(val) {
       console.log(val)
       const finalid = val[val.length - 1]
@@ -249,6 +276,8 @@ export default {
       regionlist().then(res => {
         if (res.data.ret === 200) {
           this.regions = this.tranKTree(res.data.data.content)
+          this.needreglist = res.data.data.content
+          this.getarrs()
         } else {
           console.log('区域列表出错')
         }
