@@ -389,7 +389,9 @@ export default {
     VerificationList: '核销单列表',
     Memorandum: '备忘录',
     AddMemorandum: '新建备忘录',
-    MemorandumList: '备忘录列表'
+    MemorandumList: '备忘录列表',
+    collectAndPay: '收付款汇总',
+    collectAndPayDetail: '收付款明细'
   },
   installmentAnalyze: {
     repositoryName: '仓库名称',
