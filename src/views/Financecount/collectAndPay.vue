@@ -45,83 +45,83 @@
         :data="list"
         border
         style="width: 100%">
-        <el-table-column
-          :label="$t('searchSaleOrderReport.id')"
-          prop="id"
-          width="240"
-          align="center"/>
+        <!--        <el-table-column-->
+        <!--          :label="$t('searchSaleOrderReport.id')"-->
+        <!--          prop="id"-->
+        <!--          width="240"-->
+        <!--          align="center"/>-->
         <el-table-column
           :label="first"
           prop="name"
           width="240"
           align="center"/>
         <el-table-column
-          :label="$t('searchSaleOrderReport.time')"
+          :label="$t('collectAndPay.time')"
           prop="time"
           width="240"
           align="center"/>
         <el-table-column
-          :label="$t('searchSaleOrderReport.saleOut')"
+          :label="$t('collectAndPay.saleOut')"
           prop="saleOut"
           width="240"
           align="center"/>
         <el-table-column
-          :label="$t('searchSaleOrderReport.stockRetreat')"
+          :label="$t('collectAndPay.stockRetreat')"
           prop="stockRetreat"
           width="240"
           align="center"/>
         <el-table-column
-          :label="$t('searchSaleOrderReport.collectMoney')"
+          :label="$t('collectAndPay.collectMoney')"
           prop="collectMoney"
           width="240"
           align="center"/>
         <el-table-column
-          :label="$t('searchSaleOrderReport.income')"
+          :label="$t('collectAndPay.income')"
           prop="income"
           width="240"
           align="center"/>
         <el-table-column
-          :label="$t('searchSaleOrderReport.repaireOut')"
+          :label="$t('collectAndPay.repaireOut')"
           prop="repaireOut"
           width="240"
           align="center"/>
         <el-table-column
-          :label="$t('searchSaleOrderReport.advanceCollect')"
+          :label="$t('collectAndPay.advanceCollect')"
           prop="advanceCollect"
           width="240"
           align="center"/>
         <el-table-column
-          :label="$t('searchSaleOrderReport.totalCollect')"
+          :label="$t('collectAndPay.totalCollect')"
           prop="totalCollect"
           width="240"
           align="center"/>
         <el-table-column
-          :label="$t('searchSaleOrderReport.saleReturn')"
+          :label="$t('collectAndPay.saleReturn')"
           prop="saleReturn"
           width="240"
           align="center"/>
         <el-table-column
-          :label="$t('searchSaleOrderReport.payment')"
+          :label="$t('collectAndPay.payment')"
           prop="payment"
           width="240"
           align="center"/>
         <el-table-column
-          :label="$t('searchSaleOrderReport.outlay')"
+          :label="$t('collectAndPay.outlay')"
           prop="outlay"
           width="240"
           align="center"/>
         <el-table-column
-          :label="$t('searchSaleOrderReport.totalPay')"
+          :label="$t('collectAndPay.totalPay')"
           prop="totalPay"
           width="240"
           align="center"/>
         <el-table-column
-          :label="$t('searchSaleOrderReport.balance')"
+          :label="$t('collectAndPay.balance')"
           prop="balance"
           width="240"
           align="center"/>
         <el-table-column
-          :label="$t('searchSaleOrderReport.payModeName')"
+          :label="$t('collectAndPay.payModeName')"
           prop="payModeName"
           width="240"
           align="center"/>
@@ -151,7 +151,7 @@ import MySupplier from './components/MySupplier'
 
 var _that
 export default {
-  name: 'StockOrderCount',
+  name: 'CollectAndPay',
   directives: { waves, permission, permission2 },
   components: { MyDialog, DetailList, MyRepository, MySupplier, MyEmp, MyCustomer, MyTree, MyAgent, Pagination },
   filters: {
@@ -352,7 +352,7 @@ export default {
       this.listLoading = true
       collectAndPay(this.getemplist).then(res => {
         if (res.data.ret === 200) {
-          this.list = res.data.data.content
+          this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
         }
         setTimeout(() => {
@@ -385,7 +385,7 @@ export default {
       }
       collectAndPay(this.getemplist).then(res => {
         if (res.data.ret === 200) {
-          this.list = res.data.data.content
+          this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
           // this.restFilter()
         } else {

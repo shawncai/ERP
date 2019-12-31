@@ -392,8 +392,17 @@ export default {
           return false
         }
       }
-      this.$store.dispatch('getempcontract', this.moreaction)
-      this.$router.push('/CustomerSurveyReport/AddCustomerSurveyReport')
+      if (this.moreaction[0].inquirePersonId === this.$store.getters.userId) {
+        this.$store.dispatch('getempcontract', this.moreaction)
+        this.$router.push('/CustomerSurveyReport/AddCustomerSurveyReport')
+      } else {
+        this.$notify.error({
+          title: '错误',
+          message: '请先分配调查',
+          offset: 100
+        })
+        return false
+      }
     },
     // 新建销售合同
     handleAddcontrat() {

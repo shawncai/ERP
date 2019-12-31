@@ -4,24 +4,6 @@
 
       <el-form ref="getemplist" :model="getemplist" label-width="70px" style="margin-top: -9px">
         <el-row>
-          <el-col :span="3">
-            <el-form-item :label="$t('updates.xh')">
-              <el-select v-model="getemplist.productType" :placeholder="$t('Hmodule.qxzggxh')" style="width: 100px" clearable>
-                <el-option
-                  v-for="(item, index) in types"
-                  :key="index"
-                  :label="item.categoryName"
-                  :value="item.id"
-                />
-              </el-select>
-            </el-form-item>
-          </el-col>
-          <el-col :span="3" style="margin-left: 45px">
-            <el-form-item :label="$t('updates.fle')">
-              <el-input v-model="productCategory" :placeholder="$t('Hmodule.wpfl')" style="width: 100px" clearable @clear="restFilter" @focus="treechoose"/>
-              <my-tree :treecontrol.sync="treecontrol" @tree="tree"/>
-            </el-form-item>
-          </el-col>
           <el-col :span="3" style="margin-left: 45px">
             <el-form-item :label="$t('updates.repository')">
               <el-input v-model="repositoryId" class="filter-item" clearable @keyup.enter.native="handleFilter" @clear="restFilter2" @focus="handlechooseRep"/>
@@ -29,7 +11,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="4" style="margin-left: 85px">
-            <el-form-item :label="$t('stockOrderCount.date')">
+            <el-form-item :label="$t('updates.rq')">
               <el-date-picker
                 v-model="date"
                 type="daterange"
@@ -54,48 +36,78 @@
         border
         style="width: 100%">
         <el-table-column
-          :label="$t('searchSaleOrderDetailReport.productCode')"
-          prop="productCode"
+          :label="$t('collectAndPayDetail.name')"
+          prop="name"
           width="240"
           align="center"/>
         <el-table-column
-          :label="$t('searchSaleOrderDetailReport.productName')"
-          prop="productName"
+          :label="$t('collectAndPay.time')"
+          prop="time"
           width="240"
           align="center"/>
         <el-table-column
-          :label="$t('searchSaleOrderDetailReport.productTypeName')"
-          prop="productTypeName"
+          :label="$t('collectAndPay.saleOut')"
+          prop="saleOut"
           width="240"
           align="center"/>
         <el-table-column
-          :label="$t('searchSaleOrderDetailReport.productCategoryName')"
-          prop="productCategoryName"
+          :label="$t('collectAndPay.stockRetreat')"
+          prop="stockRetreat"
           width="240"
           align="center"/>
         <el-table-column
-          :label="$t('searchSaleOrderDetailReport.quantity')"
-          prop="quantity"
+          :label="$t('collectAndPay.collectMoney')"
+          prop="collectMoney"
           width="240"
           align="center"/>
         <el-table-column
-          :label="$t('searchSaleOrderReport.money')"
-          prop="money"
+          :label="$t('collectAndPay.income')"
+          prop="income"
           width="240"
           align="center"/>
         <el-table-column
-          :label="$t('searchSaleOrderReport.discountMoney')"
-          prop="discountMoney"
+          :label="$t('collectAndPay.repaireOut')"
+          prop="repaireOut"
           width="240"
           align="center"/>
         <el-table-column
-          :label="$t('searchSaleOrderReport.taxMoney')"
-          prop="taxMoney"
+          :label="$t('collectAndPay.advanceCollect')"
+          prop="advanceCollect"
           width="240"
           align="center"/>
         <el-table-column
-          :label="$t('searchSaleOrderReport.actualMoney')"
-          prop="actualMoney"
+          :label="$t('collectAndPay.totalCollect')"
+          prop="totalCollect"
+          width="240"
+          align="center"/>
+        <el-table-column
+          :label="$t('collectAndPay.saleReturn')"
+          prop="saleReturn"
+          width="240"
+          align="center"/>
+        <el-table-column
+          :label="$t('collectAndPay.payment')"
+          prop="payment"
+          width="240"
+          align="center"/>
+        <el-table-column
+          :label="$t('collectAndPay.outlay')"
+          prop="outlay"
+          width="240"
+          align="center"/>
+        <el-table-column
+          :label="$t('collectAndPay.totalPay')"
+          prop="totalPay"
+          width="240"
+          align="center"/>
+        <el-table-column
+          :label="$t('collectAndPay.balance')"
+          prop="balance"
+          width="240"
+          align="center"/>
+        <el-table-column
+          :label="$t('collectAndPay.payModeName')"
+          prop="payModeName"
           width="240"
           align="center"/>
       </el-table>
@@ -124,7 +136,7 @@ import MySupplier from './components/MySupplier'
 
 var _that
 export default {
-  name: 'SearchSaleOrderDetailReport',
+  name: 'CollectAndPayDetail',
   directives: { waves, permission, permission2 },
   components: { MyDialog, DetailList, MyRepository, MySupplier, MyEmp, MyCustomer, MyTree, MyAgent, Pagination },
   filters: {

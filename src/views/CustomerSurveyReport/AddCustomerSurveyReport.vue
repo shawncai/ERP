@@ -430,6 +430,8 @@ export default {
       if (this.$store.getters.empcontract) {
         this.personalForm.sourceNumber = this.$store.getters.empcontract[0].applyNumber
         this.personalForm.customerName = this.$store.getters.empcontract[0].applyPersonName
+        this.personalForm.surveyPersonId = this.$store.getters.empcontract[0].inquirePersonId
+        this.surveyPersonId = this.$store.getters.empcontract[0].inquirePersonName
       }
       this.$store.dispatch('getempcontract', '')
     },

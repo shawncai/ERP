@@ -170,7 +170,7 @@
             <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('Hmodule.pc')" prop="batch" align="center" width="150px"/>
             <el-editable-column :label="$t('updates.wpfl')" prop="categoryName" align="center" min-width="150"/>
             <el-editable-column :label="$t('updates.jbdw')" prop="unit" align="center" min-width="150"/>
-            <el-editable-column :label="$t('updates.ggxh')" prop="typeId" align="center" min-width="150"/>
+            <el-editable-column :label="$t('updates.ggxh')" prop="productName" align="center" min-width="150"/>
             <el-editable-column :label="$t('updates.ys')" prop="color" align="center" min-width="150"/>
             <!-- <el-editable-column :label="$t('updates.jxf')" prop="kpiGrade" align="center" min-width="150"/> -->
             <!-- <el-editable-column :label="$t('updates.spjf')" prop="point" align="center" min-width="150"/> -->
@@ -191,55 +191,6 @@
               </template>
             </el-editable-column>
             <el-editable-column v-if="false" :label="$t('updates.lsj')" prop="recoveryPrice" align="center" min-width="150"/>
-            <!-- <el-editable-column v-if="false" :label="$t('updates.cbj')" prop="costPrice" align="center" min-width="150"/> -->
-            <!-- <el-editable-column prop="taxprice" align="center" :label="$t('updates.hsj')" min-width="150px"> -->
-            <!-- <el-editable-column :label="$t('updates.ckj')" prop="taxprice" align="center" min-width="150">
-              <template slot-scope="scope">
-                <span>{{ gettaxprice(scope.row) }}</span>
-              </template>
-            </el-editable-column> -->
-            <!-- <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" :label="$t('updates.sl')" prop="taxRate" align="center" min-width="170">
-              <template slot="edit" slot-scope="scope">
-                <el-input-number
-                  :precision="2"
-                  :controls="false"
-                  v-model="scope.row.taxRate"
-                  @input="gettaxRate(scope.row)"/>
-              </template>
-            </el-editable-column> -->
-            <!-- <el-editable-column :label="$t('updates.se')" prop="taxMoney" align="center" min-width="170">
-              <template slot-scope="scope">
-                <p>{{ getTaxMoney2(scope.row) }}</p>
-              </template>
-            </el-editable-column>
-            <el-editable-column v-if="false" :label="$t('Hmodule.je')" prop="money" align="center" min-width="150">
-              <template slot-scope="scope">
-                <p>{{ getMoney(scope.row) }}</p>
-              </template>
-            </el-editable-column>
-            <el-editable-column :label="$t('updates.ckje')" prop="includeTaxCostMoney" align="center" min-width="170">
-              <template slot-scope="scope">
-                <p>{{ getincludeTaxCostMoney(scope.row) }}</p>
-              </template>
-            </el-editable-column>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" :label="$t('updates.ckl')" prop="discountRate" align="center" min-width="170">
-              <template slot="edit" slot-scope="scope">
-                <el-input-number
-                  :precision="2"
-                  :controls="false"
-                  v-model="scope.row.discountRate"
-                  @change="getdiscountRate(scope.row)"/>
-              </template>
-            </el-editable-column>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" :label="$t('updates.cke')" prop="discountMoney" align="center" min-width="170">
-              <template slot="edit" slot-scope="scope">
-                <el-input-number
-                  :precision="2"
-                  :controls="false"
-                  v-model="scope.row.discountMoney"
-                  @change="getdiscountMoney(scope.row)"/>
-              </template>
-            </el-editable-column> -->
             <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.cjbm')" prop="carCode" align="center" min-width="150" >
               <template slot="edit" slot-scope="scope">
                 <el-input v-if="isEdit2(scope.row)" v-model="scope.row.carCode" clearable @blur="getInfo(scope.row)"/>
@@ -254,7 +205,7 @@
             </el-editable-column>
             <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.dcbm')" prop="batteryCode" align="center" min-width="150" >
               <template slot="edit" slot-scope="scope">
-                <el-input v-if="isEdit2(scope.row)" v-model="scope.row.batteryCode" clearable @blur="getInfo2(scope.row)"/>
+                <el-input v-if="isEdit4(scope.row)" v-model="scope.row.batteryCode" clearable @blur="getInfo2(scope.row)"/>
                 <span v-else>{{ scope.row.batteryCode }}</span>
               </template>
             </el-editable-column>
@@ -420,6 +371,12 @@ export default {
     _that = this
   },
   methods: {
+    // 判断整车或者电池
+    isEdit4(row) {
+      console.log('222', row)
+      const re = row.productCode.slice(0, 2)
+      if (re === '01' || re === '05') { return true } else { return false }
+    },
     isEdit2(row) {
       console.log('222', row)
       const re = row.productCode.slice(0, 2)
@@ -432,7 +389,7 @@ export default {
     isEdit3(row) {
       console.log('222', row)
       const re = row.productCode.slice(0, 2)
-      if (re === '01') { return false } else { return true }
+      if (re === '01' || re === '05') { return false } else { return true }
     },
     updatebatch(event, scope) {
       if (event === true) {
@@ -463,6 +420,7 @@ export default {
     // 添加商品后再操作
     productdetail(val) {
       for (let i = 0; i < val.length; i++) {
+        val[i].quantity = 1
         this.$refs.editable.insert(val[i])
       }
     },
@@ -763,6 +721,7 @@ export default {
               this.$refs.personalForm.resetFields()
               this.$refs.personalForm2.clearValidate()
               this.$refs.personalForm2.resetFields()
+              this.$refs.editable.clear()
               this.getdatatime()
             } else {
               this.$notify.error({

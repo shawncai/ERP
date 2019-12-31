@@ -61,9 +61,10 @@ export function searchrecycling(query) {
 }
 
 // 修改二手回车单
-export function updaterecycling(query) {
+export function updaterecycling(query, query2) {
   var params = new URLSearchParams()
   params.append('Json', query) // 你要传给后台的参数值 key/value
+  params.append('recyclingDetailJson', query2)
   return request({
     url: '/recycling/update',
     method: 'post',
