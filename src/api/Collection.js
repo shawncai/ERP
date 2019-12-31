@@ -173,7 +173,7 @@ export function updaterecoverVehicle(query, query2, query3) {
   var params = new URLSearchParams()
   params.append('Json', query) // 你要传给后台的参数值 key/value
   params.append('detailJson', query2) // 你要传给后台的参数值 key/value
-  params.append('lostDetailJson', query3) // 你要传给后台的参数值 key/value
+  params.append('recoverVehicleSourceOutJson', query3) // 你要传给后台的参数值 key/value
   return request({
     url: '/recoverVehicle/update',
     method: 'post',
