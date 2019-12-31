@@ -76,7 +76,9 @@
         <h2 ref="fuzhu" class="form-name" >{{ $t('updates.shmx') }}</h2>
         <div class="buttons" style="margin-top: 58px">
           <el-button type="success" style="background:#3696fd;border-color:#3696fd " @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>
+          <el-button @click="handleAddpackage">{{ $t('otherlanguage.xztc') }}</el-button>
           <el-button type="danger" @click="$refs.editable.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
+          <my-package :packagecontrol.sync="packagecontrol" @packagedata="packagedata"/>
         </div>
         <my-detail :control.sync="control" @product="productdetail"/>
         <div class="container">
@@ -234,10 +236,11 @@ import MyMater from './components/MyMater'
 import MyInstallment from './components/MyInstallment'
 import MyRepository from './components/MyRepository'
 import MySaleout from './components/MySaleout'
+import MyPackage from './components/MyPackage'
 var _that
 export default {
   name: 'AddRecoverVehicle',
-  components: { MyRepository, MyInstallment, MyMater, MyDetail, MyEmp, MySaleout },
+  components: { MyRepository, MyInstallment, MyMater, MyDetail, MyEmp, MySaleout, MyPackage },
   data() {
     const validatePass = (rule, value, callback) => {
       if (this.receivePersonId === undefined || this.receivePersonId === null || this.receivePersonId === '') {
@@ -254,6 +257,7 @@ export default {
       }
     }
     return {
+      packagecontrol: false,
       // 控制销售出库单
       saleoutcontrol: false,
       // 收车仓库回显
@@ -278,6 +282,8 @@ export default {
       locationlist: [],
       list2: [],
       list3: [],
+      validRules: {
+      },
       // 销售订单信息数据
       personalForm: {
         createPersonId: this.$store.getters.userId,
@@ -314,15 +320,36 @@ export default {
     _that = this
   },
   methods: {
+    handleAddpackage() {
+      if (this.personalForm.repositoryId === undefined || this.personalForm.repositoryId === '') {
+        this.$notify.error({
+          title: '错误',
+          message: '请先选择仓库',
+          offset: 100
+        })
+        return false
+      }
+      this.packagecontrol = true
+    },
+    clearnumber() {
+      this.personalForm.sourceNumber = ''
+      this.deliverPersonId = ''
+    },
+    packagedata(val) {
+      for (let i = 0; i < val.length; i++) {
+        this.$refs.editable2.insert(val[i])
+      }
+    },
     saleOutdata(val) {
       console.log(val)
       this.personalForm.sourceNumber = val.number
       this.personalForm.sourceMoney = val.allTaxMoney
       this.personalForm.customerType = String(val.customerType)
       this.Issource = true
-      this.customerId = val.customerName
-      this.personalForm.customerPhone = val.phoneNumber
       this.personalForm.customerId = val.customerId
+      this.personalForm.customerName = val.customerName
+      this.personalForm.customerPhone = val.phoneNumber
+      this.personalForm.address = val.address
       this.personalForm.diffMoney = val.actualMoney
       this.personalForm.sourceMoney = val.actualMoney
       this.repositoryId = val.saleRepositoryName
@@ -615,50 +642,50 @@ export default {
         })
         return false
       }
-      // const EnterDetail2 = this.$refs.editable2.getRecords()
-      // EnterDetail.map(function(elem) {
-      //   return elem
-      // }).forEach(function(elem) {
-      //   if (elem.productCode === null || elem.productCode === '' || elem.productCode === undefined) {
-      //     delete elem.productCode
-      //   }
-      //   if (elem.productName === null || elem.productName === '' || elem.productName === undefined) {
-      //     delete elem.productName
-      //   }
-      //   if (elem.categoryId === null || elem.categoryId === '' || elem.categoryId === undefined) {
-      //     delete elem.categoryId
-      //   }
-      //   if (elem.typeId === null || elem.typeId === '' || elem.typeId === undefined) {
-      //     delete elem.typeId
-      //   }
-      //   if (elem.unit === null || elem.unit === '' || elem.unit === undefined) {
-      //     delete elem.unit
-      //   }
-      //   if (elem.color === null || elem.color === '' || elem.color === undefined) {
-      //     delete elem.color
-      //   }
-      //   if (elem.kpiGrade === null || elem.kpiGrade === '' || elem.kpiGrade === undefined) {
-      //     delete elem.kpiGrade
-      //   }
-      //   if (elem.point === null || elem.point === '' || elem.point === undefined) {
-      //     delete elem.point
-      //   }
-      //   if (elem.price === null || elem.price === '' || elem.price === undefined) {
-      //     delete elem.price
-      //   }
-      //   if (elem.carCode === null || elem.carCode === '' || elem.carCode === undefined) {
-      //     delete elem.carCode
-      //   }
-      //   if (elem.batteryCode === null || elem.batteryCode === '' || elem.batteryCode === undefined) {
-      //     delete elem.batteryCode
-      //   }
-      //   if (elem.motorCode === null || elem.motorCode === '' || elem.motorCode === undefined) {
-      //     delete elem.motorCode
-      //   }
-      //   return elem
-      // })
+      const EnterDetail2 = this.$refs.editable2.getRecords()
+      EnterDetail.map(function(elem) {
+        return elem
+      }).forEach(function(elem) {
+        if (elem.productCode === null || elem.productCode === '' || elem.productCode === undefined) {
+          delete elem.productCode
+        }
+        if (elem.productName === null || elem.productName === '' || elem.productName === undefined) {
+          delete elem.productName
+        }
+        if (elem.categoryId === null || elem.categoryId === '' || elem.categoryId === undefined) {
+          delete elem.categoryId
+        }
+        if (elem.typeId === null || elem.typeId === '' || elem.typeId === undefined) {
+          delete elem.typeId
+        }
+        if (elem.unit === null || elem.unit === '' || elem.unit === undefined) {
+          delete elem.unit
+        }
+        if (elem.color === null || elem.color === '' || elem.color === undefined) {
+          delete elem.color
+        }
+        if (elem.kpiGrade === null || elem.kpiGrade === '' || elem.kpiGrade === undefined) {
+          delete elem.kpiGrade
+        }
+        if (elem.point === null || elem.point === '' || elem.point === undefined) {
+          delete elem.point
+        }
+        if (elem.price === null || elem.price === '' || elem.price === undefined) {
+          delete elem.price
+        }
+        if (elem.carCode === null || elem.carCode === '' || elem.carCode === undefined) {
+          delete elem.carCode
+        }
+        if (elem.batteryCode === null || elem.batteryCode === '' || elem.batteryCode === undefined) {
+          delete elem.batteryCode
+        }
+        if (elem.motorCode === null || elem.motorCode === '' || elem.motorCode === undefined) {
+          delete elem.motorCode
+        }
+        return elem
+      })
       const parms2 = JSON.stringify(EnterDetail)
-      // const parms3 = JSON.stringify(EnterDetail2)
+      const parms3 = JSON.stringify(EnterDetail2)
       const Data = this.personalForm
       for (const key in Data) {
         if (Data[key] === '' || Data[key] === undefined || Data[key] === null) {
@@ -668,7 +695,7 @@ export default {
       const parms = JSON.stringify(Data)
       this.$refs.personalForm.validate((valid) => {
         if (valid) {
-          createrecoverVehicle(parms, parms2, null, this.personalForm).then(res => {
+          createrecoverVehicle(parms, parms2, parms3, this.personalForm).then(res => {
             console.log(res)
             if (res.data.ret === 200) {
               this.$notify({
