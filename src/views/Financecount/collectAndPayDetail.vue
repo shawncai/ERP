@@ -36,13 +36,8 @@
         border
         style="width: 100%">
         <el-table-column
-          :label="$t('collectAndPayDetail.name')"
-          prop="name"
-          width="240"
-          align="center"/>
-        <el-table-column
-          :label="$t('collectAndPay.time')"
-          prop="time"
+          :label="$t('collectAndPay.payModeName')"
+          prop="payModeName"
           width="240"
           align="center"/>
         <el-table-column
@@ -103,11 +98,6 @@
         <el-table-column
           :label="$t('collectAndPay.balance')"
           prop="balance"
-          width="240"
-          align="center"/>
-        <el-table-column
-          :label="$t('collectAndPay.payModeName')"
-          prop="payModeName"
           width="240"
           align="center"/>
       </el-table>

@@ -77,7 +77,7 @@
         <div class="buttons" style="margin-top: 58px">
           <el-button type="success" style="background:#3696fd;border-color:#3696fd " @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>
           <el-button @click="handleAddpackage">{{ $t('otherlanguage.xztc') }}</el-button>
-          <el-button type="danger" @click="$refs.editable.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
+          <el-button type="danger" @click="$refs.editable2.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
           <my-package :packagecontrol.sync="packagecontrol" @packagedata="packagedata"/>
         </div>
         <my-detail :control.sync="control" @product="productdetail"/>
