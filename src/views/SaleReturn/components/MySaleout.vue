@@ -420,6 +420,7 @@ export default {
       const outRepositoryName = this.choosedata.saleRepositoryName
       const saleOutDetail = saleOutdata.map(function(item) {
         return {
+          returnQuantity: 1,
           productCode: item.productCode,
           productName: item.productName,
           productType: item.productTypeName,
@@ -456,6 +457,7 @@ export default {
           locationName: item.locationName,
           includeTaxCostMoney: 0,
           includeTaxMoney: 0,
+          money: item.salePrice,
           stat: 0
         }
       })
