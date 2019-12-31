@@ -168,6 +168,11 @@
                 </el-select>
               </el-form-item>
             </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('otherlanguage.bcskje')" style="width: 100%;">
+                <el-input v-model="personalForm.receiveMoney" style="margin-left: 18px;width:200px"/>
+              </el-form-item>
+            </el-col>
           </el-row>
         </el-form>
       </div>
@@ -212,6 +217,24 @@
                 v-model="scope.row.quantity"
                 @change="queryStock(scope.row)"
               />
+            </template>
+          </el-editable-column>
+          <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.cjbm')" prop="carCode" align="center" min-width="150" >
+            <template slot="edit" slot-scope="scope">
+              <el-input v-if="isEdit2(scope.row)" v-model="scope.row.carCode" clearable/>
+              <span v-else>{{ scope.row.carCode }}</span>
+            </template>
+          </el-editable-column>
+          <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.djbm')" prop="motorCode" align="center" min-width="150" >
+            <template slot="edit" slot-scope="scope">
+              <el-input v-if="isEdit2(scope.row)" v-model="scope.row.motorCode" clearable/>
+              <span v-else>{{ scope.row.motorCode }}</span>
+            </template>
+          </el-editable-column>
+          <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.dcbm')" prop="batteryCode" align="center" min-width="150" >
+            <template slot="edit" slot-scope="scope">
+              <el-input v-if="isEdit5(scope.row)" v-model="scope.row.batteryCode" clearable />
+              <span v-else>{{ scope.row.batteryCode }}</span>
             </template>
           </el-editable-column>
           <el-editable-column :label="$t('updates.ycksl')" prop="alreadyOutQuantity" align="center" min-width="150px"/>
@@ -553,6 +576,24 @@ export default {
     _that = this
   },
   methods: {
+    isEdit2(row) {
+      console.log('222', row)
+      const re = row.productCode.slice(0, 2)
+      // if (re === '01') {
+      //   row.quantity = 1
+      //   return row.quantity
+      // }
+      if (re === '01' && this.personalForm.customerType === '2') { return true } else { return false }
+    },
+    isEdit3(row) {
+      console.log('222', row)
+      const re = row.productCode.slice(0, 2)
+      // if (re === '01') {
+      //   row.quantity = 1
+      //   return row.quantity
+      // }
+      if (re === '05' && this.personalForm.customerType === '2') { return true } else { return false }
+    },
     // 数量变化其他参数
     queryStock(row) {
       if (row.discountRate === 0) {

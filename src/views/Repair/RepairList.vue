@@ -43,6 +43,11 @@
                 <span>{{ scope.row.phoneNumber }}</span>
               </template>
             </el-table-column>
+            <el-table-column :label="$t('otherlanguage.fph')" :resizable="false" align="center" prop="phoneNumber" width="140px">
+              <template slot-scope="scope">
+                <span>{{ scope.row.invoiceNumber }}</span>
+              </template>
+            </el-table-column>
             <el-table-column :label="$t('repair.Repairaddress')" prop="address" min-width="130px" align="center">
               <template slot-scope="scope">
                 <span>{{ scope.row.address }}</span>
@@ -94,6 +99,11 @@
             <el-table-column :label="$t('repair.phone')" :resizable="false" align="center" prop="phoneNumber" width="120px">
               <template slot-scope="scope">
                 <span>{{ scope.row.phoneNumber }}</span>
+              </template>
+            </el-table-column>
+            <el-table-column :label="$t('otherlanguage.fph')" :resizable="false" align="center" prop="phoneNumber" width="140px">
+              <template slot-scope="scope">
+                <span>{{ scope.row.invoiceNumber }}</span>
               </template>
             </el-table-column>
             <el-table-column :label="$t('repair.Repairaddress')" prop="address" min-width="130px" align="center">
@@ -148,6 +158,11 @@
                 <span>{{ scope.row.phoneNumber }}</span>
               </template>
             </el-table-column>
+            <el-table-column :label="$t('otherlanguage.fph')" :resizable="false" align="center" prop="phoneNumber" width="140px">
+              <template slot-scope="scope">
+                <span>{{ scope.row.invoiceNumber }}</span>
+              </template>
+            </el-table-column>
             <el-table-column :label="$t('repair.Repairaddress')" prop="address" min-width="160px" align="center">
               <template slot-scope="scope">
                 <span>{{ scope.row.address }}</span>
@@ -198,6 +213,11 @@
             <el-table-column :label="$t('repair.phone')" :resizable="false" align="center" prop="phoneNumber" width="140px">
               <template slot-scope="scope">
                 <span>{{ scope.row.phoneNumber }}</span>
+              </template>
+            </el-table-column>
+            <el-table-column :label="$t('otherlanguage.fph')" :resizable="false" align="center" prop="phoneNumber" width="140px">
+              <template slot-scope="scope">
+                <span>{{ scope.row.invoiceNumber }}</span>
               </template>
             </el-table-column>
             <el-table-column :label="$t('repair.Repairaddress')" prop="address" min-width="160px" align="center">
@@ -252,6 +272,11 @@
                 <span>{{ scope.row.phoneNumber }}</span>
               </template>
             </el-table-column>
+            <el-table-column :label="$t('otherlanguage.fph')" :resizable="false" align="center" prop="phoneNumber" width="140px">
+              <template slot-scope="scope">
+                <span>{{ scope.row.invoiceNumber }}</span>
+              </template>
+            </el-table-column>
             <el-table-column :label="$t('repair.Repairaddress')" prop="address" min-width="160px" align="center">
               <template slot-scope="scope">
                 <span>{{ scope.row.address }}</span>
@@ -302,6 +327,11 @@
             <el-table-column :label="$t('repair.phone')" :resizable="false" align="center" prop="phoneNumber" width="140px">
               <template slot-scope="scope">
                 <span>{{ scope.row.phoneNumber }}</span>
+              </template>
+            </el-table-column>
+            <el-table-column :label="$t('otherlanguage.fph')" :resizable="false" align="center" prop="phoneNumber" width="140px">
+              <template slot-scope="scope">
+                <span>{{ scope.row.invoiceNumber }}</span>
               </template>
             </el-table-column>
             <el-table-column :label="$t('repair.Repairaddress')" prop="address" min-width="160px" align="center">
@@ -356,6 +386,11 @@
                 <span>{{ scope.row.phoneNumber }}</span>
               </template>
             </el-table-column>
+            <el-table-column :label="$t('otherlanguage.fph')" :resizable="false" align="center" prop="phoneNumber" width="140px">
+              <template slot-scope="scope">
+                <span>{{ scope.row.invoiceNumber }}</span>
+              </template>
+            </el-table-column>
             <el-table-column :label="$t('repair.Repairaddress')" prop="address" min-width="160px" align="center">
               <template slot-scope="scope">
                 <span>{{ scope.row.address }}</span>
@@ -406,6 +441,11 @@
             <el-table-column :label="$t('repair.phone')" :resizable="false" align="center" prop="phoneNumber" width="140px">
               <template slot-scope="scope">
                 <span>{{ scope.row.phoneNumber }}</span>
+              </template>
+            </el-table-column>
+            <el-table-column :label="$t('otherlanguage.fph')" :resizable="false" align="center" prop="phoneNumber" width="140px">
+              <template slot-scope="scope">
+                <span>{{ scope.row.invoiceNumber }}</span>
               </template>
             </el-table-column>
             <el-table-column :label="$t('repair.Repairaddress')" prop="address" min-width="160px" align="center">
@@ -459,6 +499,9 @@
               </el-col>
               <el-col :span="6" >
                 <div class="text">{{ $t('repair.OrderStatus') }}：{{ details.stat | zhuang }}</div>
+              </el-col>
+              <el-col :span="6" >
+                <div class="text">{{ $t('otherlanguage.fph') }}：{{ details.invoiceNumber }}</div>
               </el-col>
             </div>
           </el-card>
@@ -678,7 +721,8 @@
             </el-select>
           </el-form-item>
           <el-form-item :label-width="formLabelWidth" :label="$t('repair.Parts')" prop="components">
-            <el-input v-model="form.components"/>
+            <el-input v-model="form.components" @focus="choosefault"/>
+            <my-fault :packagecontrol.sync="faultcontrol" @faultdetail="faultdetail"/>
             <!--            <el-cascader-->
             <!--              :options="regions"-->
             <!--              :props="props"-->
@@ -704,7 +748,14 @@
           <el-form-item :label-width="formLabelWidth" :label="$t('repair.MobileNumber')" prop="phonenumber">
             <el-input v-model="form.phonenumber"/>
           </el-form-item>
-          <el-form-item :label-width="formLabelWidth" :label="$t('Customer.provinceid')" prop="provinceid">
+          <!--          //1上门维修，2到店维修-->
+          <el-form-item :label-width="formLabelWidth" :label="$t('repair.servicemode')" prop="servicemode">
+            <el-select v-model="form.servicemode" @change="choosemode">
+              <el-option value="1" label="上门维修" />
+              <el-option value="2" label="到店维修" />
+            </el-select>
+          </el-form-item>
+          <el-form-item v-show="isshow" :label-width="formLabelWidth" :label="$t('Customer.provinceid')" prop="provinceid">
             <el-select v-model="form.provinceid" filterable placeholder="请选择省" @change="handlechange2">
               <el-option
                 v-for="(item, index) in provinces"
@@ -713,7 +764,7 @@
                 :value="item.id"/>
             </el-select>
           </el-form-item>
-          <el-form-item :label-width="formLabelWidth" :label="$t('Customer.cityid')" prop="cityid">
+          <el-form-item v-show="isshow" :label-width="formLabelWidth" :label="$t('Customer.cityid')" prop="cityid">
             <el-select v-model="form.cityid" filterable placeholder="请选择市">
               <el-option
                 v-for="(item, index) in cities"
@@ -722,7 +773,7 @@
                 :value="item.id"/>
             </el-select>
           </el-form-item>
-          <el-form-item :label-width="formLabelWidth" :label="$t('repair.Address2')" prop="address">
+          <el-form-item v-show="isshow" :label-width="formLabelWidth" :label="$t('repair.Address2')" prop="address">
             <el-input v-model="form.address"/>
           </el-form-item>
           <el-form-item :label-width="formLabelWidth" :label="$t('repair.ExpectedTime')" prop="servicexpecttime">
@@ -745,13 +796,7 @@
           <el-form-item :label-width="formLabelWidth" :label="$t('repair.Description2')">
             <el-input v-model="form.detail"/>
           </el-form-item>
-          <!--          //1上门维修，2到店维修-->
-          <el-form-item :label-width="formLabelWidth" :label="$t('repair.servicemode')" prop="servicemode">
-            <el-select v-model="form.servicemode">
-              <el-option value="1" label="上门维修" />
-              <el-option value="2" label="到店维修" />
-            </el-select>
-          </el-form-item>
+          
         </el-form>
         <div slot="footer" class="dialog-footer">
           <el-button @click="dialogFormVisible = false">{{ $t('repair.cancel') }}</el-button>
@@ -793,6 +838,7 @@ import { repairList, repairDetail, repairtoemp, searchproblemobject, repositoryl
 import { getprovincelist, getcitylist } from '@/api/public'
 import { getposition } from '@/api/map'
 import MyCustomer from './MyCustomer'
+import MyFault from './components/MyFault'
 import waves from '@/directive/waves' // Waves directive
 import permission from '@/directive/permission/index.js' // 权限判断指令
 import permission2 from '@/directive/permission2/index.js' // 权限判断指令
@@ -811,7 +857,7 @@ var _that
 export default {
   name: 'InstallOrder',
   directives: { waves, permission, permission2 },
-  components: { Pagination, MyCustomer },
+  components: { Pagination, MyCustomer, MyFault },
   filters: {
     fenpai: function(val) {
       if (val === null) {
@@ -856,6 +902,8 @@ export default {
       }
     }
     return {
+      faultcontrol: false,
+      isshow: false,
       personalrules: {
         producttype: [
           { required: true, message: '请选择车辆型号', trigger: 'change' }
@@ -1106,6 +1154,22 @@ export default {
     _that = this
   },
   methods: {
+    faultdetail(val) {
+      this.form.components = val.map(item => {
+        return item.name
+      }).join(',')
+      console.log('this.form.components', this.form.components)
+    },
+    choosefault() {
+      this.faultcontrol = true
+    },
+    choosemode(val) {
+      if(val === '1') {
+        this.isshow = true
+      } else {
+        this.isshow = false
+      }
+    },
     getlist() {
       searchproblemobject().then(res => {
         this.regions = this.tranKTree(res.data.data.content)

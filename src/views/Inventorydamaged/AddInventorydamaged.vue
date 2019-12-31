@@ -81,7 +81,7 @@
             <el-editable-column :label="$t('updates.ys')" prop="color" align="center" width="150px"/>
             <el-editable-column :label="$t('Hmodule.gg')" prop="typeIdname" align="center" width="150px"/>
             <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" width="150px"/>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" :label="$t('otherlanguage.rksl')" prop="enterQuantity" align="center" width="150px"/>
+            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 1}, type: 'visible'}" :label="$t('otherlanguage.rksl')" prop="enterQuantity" align="center" width="150px"/>
           </el-editable>
         </div>
       </el-card>
@@ -135,7 +135,7 @@
             <el-editable-column :label="$t('updates.ys')" prop="color" align="center" width="150px"/>
             <el-editable-column :label="$t('Hmodule.gg')" prop="typeIdname" align="center" width="150px"/>
             <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" width="150px"/>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" :label="$t('updates.bssl')" prop="damagedQuantity" align="center" width="150px"/>
+            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 1}, type: 'visible'}" :label="$t('updates.bssl')" prop="damagedQuantity" align="center" width="150px"/>
             <el-editable-column :label="$t('updates.cbdj')" prop="costPrice" align="center" width="150px"/>
             <el-editable-column :label="$t('updates.bsje')" prop="damagedMoney" align="center" width="150px">
               <template slot-scope="scope">

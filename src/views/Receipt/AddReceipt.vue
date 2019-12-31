@@ -38,7 +38,7 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('Receipt.receiptMoney')" prop="receiptMoney" style="width: 100%;">
-                  <el-input v-model="personalForm.receiptMoney" style="margin-left: 18px;width: 200px" disabled clearable/>
+                  <el-input v-model="personalForm.receiptMoney" style="margin-left: 18px;width: 200px" clearable @change="changereceiptmoney"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
@@ -232,6 +232,7 @@ export default {
       }
     }
     return {
+      switchmoney: 0,
       isshow: false,
       allmoney: '',
       // 批量操作
@@ -314,6 +315,20 @@ export default {
       }
     }
   },
+  watch: {
+    list2: {
+      handler(oldval, newval) {
+        let num = 0
+        for (const i in this.list2) {
+          // console.log(typeof (this.list3[i].taxprice))
+          num += this.list2[i].thisMoney
+        }
+        console.log('num=====', num)
+        this.personalForm.receiptMoney = num
+      },
+      deep: true
+    }
+  },
   // watch: {
   //   personalForm: {
   //     handler() {
@@ -344,6 +359,13 @@ export default {
     _that = this
   },
   methods: {
+    changereceiptmoney(val) {
+      console.log(val)
+      const EnterDetail = this.$refs.editable2.getRecords()
+      if (val < EnterDetail[0].thisMoney) {
+        console.log(123)
+      }
+    },
     changemoney(val) {
       // this.personalForm.receiptMoney = Number(this.personalForm.receiptMoney) - Number(val)
     },
@@ -373,7 +395,7 @@ export default {
             returnInterest: item.interestMoney,
             paidmoney: item.paidMoney,
             unpay: item.shouldMoney - item.paidMoney,
-            thisMoney: item.shouldMoney - item.paidMoney,
+            thisMoney: item.shouldMoney - item.paidMoney - item.reward,
             installmentId: item.installmentId
           }
         })
@@ -423,7 +445,7 @@ export default {
             returnInterest: item.interestMoney,
             paidmoney: item.paidMoney,
             unpay: item.shouldMoney - item.paidMoney,
-            thisMoney: item.shouldMoney - item.paidMoney,
+            thisMoney: item.shouldMoney - item.paidMoney - item.reward,
             installmentId: item.installmentId
           }
         })
@@ -467,7 +489,7 @@ export default {
               returnInterest: item.interestMoney,
               paidmoney: item.paidMoney,
               unpay: item.shouldMoney - item.paidMoney,
-              thisMoney: item.shouldMoney - item.paidMoney,
+              thisMoney: item.shouldMoney - item.paidMoney - item.reward,
               installmentId: item.installmentId
             }
           })
@@ -586,12 +608,14 @@ export default {
         console.log('jiangli', jiangli)
         console.log('zhina', zhina)
         console.log('zhuanghua', zhuanghua)
-        this.personalForm.receiptMoney = Number(sums[10]) + zhuanghua - Number(this.personalForm.couponSupport)
+        // this.personalForm.receiptMoney = Number(sums[10]) - Number(this.personalForm.couponSupport)
+        this.switchmoney = Number(sums[10]) - Number(this.personalForm.couponSupport)
       } else {
         console.log(456)
         this.personalForm.penaltyMoney = sums[5]
         this.personalForm.totalLackMoney = sums[8]
-        this.personalForm.receiptMoney = sums[9] - sums[4] + sums[5] - Number(this.personalForm.couponSupport)
+        // this.personalForm.receiptMoney = sums[9] - Number(this.personalForm.couponSupport)
+        this.switchmoney = sums[9] - Number(this.personalForm.couponSupport)
       }
 
       return sums
@@ -622,7 +646,7 @@ export default {
       })
       sums[1] = ''
       this.allmoney = sums[5]
-      this.personalForm.receiptMoney = sums[6] - Number(this.personalForm.couponSupport)
+      // this.personalForm.receiptMoney = sums[6] - Number(this.personalForm.couponSupport)
       this.personalForm.deductionMoney = sums[7]
       this.personalForm.totalLackMoney = sums[5] - sums[6]
       return sums

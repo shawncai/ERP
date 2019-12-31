@@ -2836,20 +2836,21 @@ export const asyncRouterMap = [
     meta: {
       title: 'Coupon',
       icon: 'kehuyingxiao',
-      type: 5
+      type: 5,
+      roles: ['215-216-218-1', '215-216-218-4']
     },
     children: [
       {
         path: 'AddCoupon',
         component: () => import('@/views/Coupon/AddCoupon'),
         name: 'AddCoupon',
-        meta: { title: 'AddCoupon', noCache: false }
+        meta: { title: 'AddCoupon', noCache: false, roles: ['215-216-218-1'] }
       },
       {
         path: 'CouponList',
         component: () => import('@/views/Coupon/CouponList'),
         name: 'CouponList',
-        meta: { title: 'CouponList', noCache: true }
+        meta: { title: 'CouponList', noCache: true, roles: ['215-216-218-2', '215-216-218-3', '215-216-218-4', '215-216-218-5', '215-216-218-6', '215-216-218-7', '215-216-218-8', '215-216-218-9'] }
       }
     ]
   },

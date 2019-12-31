@@ -108,6 +108,11 @@
                   <span>{{ personalForm.transModeName }}</span>
                 </el-form-item>
               </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('otherlanguage.bcskje')" style="width: 100%;">
+                  <span>{{ personalForm.receiveMoney }}</span>
+                </el-form-item>
+              </el-col>
             </el-row>
           </el-form>
         </div>
@@ -132,6 +137,9 @@
             <el-editable-column :label="$t('updates.ggxh')" prop="typeId" align="center" />
             <el-editable-column :label="$t('updates.ys')" prop="color" align="center" />
             <el-editable-column :label="$t('updates.jxf')" prop="performanceScore" align="center" />
+            <el-editable-column :label="$t('updates.cjbm')" prop="carCode" align="center" />
+            <el-editable-column :label="$t('updates.djbm')" prop="motorCode" align="center" />
+            <el-editable-column :label="$t('updates.dcbm')" prop="batteryCode" align="center" />
             <el-editable-column :label="$t('updates.spjf')" prop="productScore" align="center" />
             <el-editable-column :label="$t('updates.ddsl')" prop="quantity" align="center" />
             <el-editable-column :label="$t('updates.ycksl')" prop="alreadyOutQuantity" align="center" min-width="150px"/>
