@@ -173,13 +173,9 @@
             <el-editable-column :label="$t('updates.jxf')" prop="kpiGrade" align="center" min-width="150px"/>
             <el-editable-column :label="$t('updates.spjf')" prop="point" align="center" min-width="150px"/>
             <el-editable-column :label="$t('updates.cksli')" prop="quantity" align="center" min-width="150px"/>
-            <!-- <el-editable-column prop="salePrice" align="center" :label="$t('updates.lsj')" min-width="150px"/> -->
-            <!-- <el-editable-column prop="costPrice" align="center" :label="$t('updates.cbj')" min-width="150px"/> -->
-            <!-- <el-editable-column prop="costMoney" align="center" label="成本金额" min-width="150px"/> -->
             <el-editable-column :label="$t('updates.ckj')" prop="taxPrice" align="center" min-width="150px"/>
             <el-editable-column :label="$t('updates.slv')" prop="taxRate" align="center" min-width="150px"/>
             <el-editable-column :label="$t('updates.se')" prop="taxMoney" align="center" min-width="150px"/>
-            <!-- <el-editable-column prop="money" align="center" :label="$t('Hmodule.je')" min-width="150px"/> -->
             <el-editable-column :label="$t('updates.zko')" prop="discount" align="center" min-width="150px"/>
             <el-editable-column :label="$t('updates.cke')" prop="discountMoney" align="center" min-width="150px"/>
             <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.cjbm')" prop="carCode" align="center" min-width="150px"/>
@@ -401,8 +397,8 @@ export default {
       for (let i = 0; i < nowlistdata2.length; i++) {
         money2 = money2 + ((nowlistdata2[i].taxPrice * nowlistdata2[i].quantity) - nowlistdata2[i].discountMoney)
       }
-      console.log('money1', money1)
-      console.log('money2', money2)
+      // console.log('money1', money1)
+      // console.log('money2', money2)
       this.personalForm.diffMoney = (money1 - money2).toFixed(2)
     },
     chooserep() {
