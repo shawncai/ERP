@@ -1,9 +1,12 @@
 import request from '@/utils/request'
 
 // 新建客户洽谈
-export function addCustomerSurveyReport(query) {
+export function addCustomerSurveyReport(query, query2) {
   var params = new URLSearchParams()
   params.append('Json', query) // 你要传给后台的参数值 key/value
+  if (query2 !== '' && query2 !== null && query2 !== undefined) {
+    params.append('picids', query2) // 你要传给后台的参数值 key/value
+  }
   return request({
     url: '/customerSurveyReport/create',
     method: 'post',
@@ -87,6 +90,19 @@ export function deleteCustomerChat(query, query2) {
   }
   return request({
     url: '/customerchat/deleteCustomerChat',
+    method: 'post',
+    data: params
+  })
+}
+
+//  删除客户调查报告
+export function deletecustomerSurveyReport(query) {
+  var params = new URLSearchParams()
+  if (query !== '' && query !== null && query !== undefined) {
+    params.append('modelids', query) // 你要传给后台的参数值 key/value
+  }
+  return request({
+    url: '/customerSurveyReport/delete',
     method: 'post',
     data: params
   })

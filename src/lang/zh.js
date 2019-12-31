@@ -3790,6 +3790,7 @@ export default {
     landline: '座机号'
   },
   otherlanguage: {
+    djylfj: '点击预览下载附件',
     fph: '发票号',
     bcskje: '本次收款金额',
     yskdk: '预收款抵扣',

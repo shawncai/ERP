@@ -232,6 +232,7 @@ export default {
       }
     }
     return {
+      allorderarr: [],
       switchmoney: 0,
       isshow: false,
       allmoney: '',
@@ -316,17 +317,19 @@ export default {
     }
   },
   watch: {
-    list2: {
+    switchmoney: {
       handler(oldval, newval) {
+        console.log('switchmoney', this.switchmoney)
         let num = 0
-        for (const i in this.list2) {
+        for (const i in this.switchmoney) {
           // console.log(typeof (this.list3[i].taxprice))
-          num += this.list2[i].thisMoney
+          num += this.switchmoney[i].thisMoney
         }
         console.log('num=====', num)
-        this.personalForm.receiptMoney = num
+        this.personalForm.receiptMoney = num - this.personalForm.couponSupport
       },
-      deep: true
+      deep: true,
+      immediate: true
     }
   },
   // watch: {
@@ -359,21 +362,89 @@ export default {
     _that = this
   },
   methods: {
-    changereceiptmoney(val) {
+    // 深拷贝
+    deepClone(obj) {
+      const _obj = JSON.stringify(obj)
+      const objClone = JSON.parse(_obj)
+      return objClone
+    },
+    changereceiptmoney(money) {
+      const val = Number(money) + Number(this.personalForm.couponSupport)
       console.log(val)
-      const EnterDetail = this.$refs.editable2.getRecords()
-      if (val < EnterDetail[0].thisMoney) {
-        console.log(123)
+      this.$refs.editable2.clear()
+      const data = this.deepClone(this.allorderarr)
+      // const EnterDetail = this.$refs.editable2.getRecords()
+      let s = 0
+      let z = val
+      for (const i in data) {
+        s += data[i].thisMoney
+        const endmoney = val - s
+        z -= data[i].thisMoney
+        console.log('ssssss', s)
+        console.log('zzzzzz', z)
+        if (val < data[i].thisMoney) {
+          console.log(i)
+          data[i].thisMoney = val
+          this.$refs.editable2.insertAt(data[i], -1)
+          break
+        }
+        if (z > 0) {
+          this.$refs.editable2.insertAt(data[i], -1)
+        }
+        if (z === 0) {
+          this.$refs.editable2.insertAt(data[i], -1)
+          break
+        }
+        if (z < 0) {
+          console.log('iiiiii', i)
+          data[i].thisMoney = data[i].thisMoney + z
+          this.$refs.editable2.insertAt(data[i], -1)
+          break
+        }
       }
     },
-    changemoney(val) {
-      // this.personalForm.receiptMoney = Number(this.personalForm.receiptMoney) - Number(val)
+    changemoney(money) {
+      const val = Number(money) + Number(this.personalForm.receiptMoney)
+      console.log(val)
+      this.$refs.editable2.clear()
+      const data = this.deepClone(this.allorderarr)
+      // const EnterDetail = this.$refs.editable2.getRecords()
+      let s = 0
+      let z = val
+      for (const i in data) {
+        s += data[i].thisMoney
+        const endmoney = val - s
+        z -= data[i].thisMoney
+        console.log('ssssss', s)
+        console.log('zzzzzz', z)
+        if (val < data[i].thisMoney) {
+          console.log(i)
+          data[i].thisMoney = val
+          this.$refs.editable2.insertAt(data[i], -1)
+          break
+        }
+        if (z > 0) {
+          this.$refs.editable2.insertAt(data[i], -1)
+        }
+        if (z === 0) {
+          this.$refs.editable2.insertAt(data[i], -1)
+          break
+        }
+        if (z < 0) {
+          console.log('iiiiii', i)
+          data[i].thisMoney = data[i].thisMoney + z
+          this.$refs.editable2.insertAt(data[i], -1)
+          break
+        }
+      }
     },
     setinstallmentdata() {
       if (this.$store.getters.newinstallpaydata) {
+        console.log('this.$store.getters.newinstallpaydata', this.$store.getters.newinstallpaydata)
         this.isshow = true
         const val = this.$store.getters.newinstallpaydata
         this.personalForm.customerType = '2'
+        this.personalForm.sourceNumber = val.orderNumber
         this.customerId = val.customerName
         this.personalForm.customerId = val.customerId
         const befroedetail = []
@@ -404,6 +475,7 @@ export default {
         //   this.$refs.editable2.insert(InstallmentDetail[i])
         // }
         this.list2 = InstallmentDetail
+        this.allorderarr = InstallmentDetail
         this.$store.dispatch('getnewinstallpaydata', '')
       }
     },
@@ -608,14 +680,16 @@ export default {
         console.log('jiangli', jiangli)
         console.log('zhina', zhina)
         console.log('zhuanghua', zhuanghua)
+        console.log('this.list2', this.list2)
         // this.personalForm.receiptMoney = Number(sums[10]) - Number(this.personalForm.couponSupport)
-        this.switchmoney = Number(sums[10]) - Number(this.personalForm.couponSupport)
+        // this.switchmoney = Number(sums[10]) - Number(this.personalForm.couponSupport)
+        this.switchmoney = this.$refs.editable2.getRecords()
       } else {
         console.log(456)
         this.personalForm.penaltyMoney = sums[5]
         this.personalForm.totalLackMoney = sums[8]
         // this.personalForm.receiptMoney = sums[9] - Number(this.personalForm.couponSupport)
-        this.switchmoney = sums[9] - Number(this.personalForm.couponSupport)
+        this.switchmoney = this.$refs.editable2.getRecords()
       }
 
       return sums

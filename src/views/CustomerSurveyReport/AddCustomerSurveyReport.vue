@@ -52,6 +52,9 @@
               <el-col :span="6">
                 <el-form-item :label="$t('SaleContract.uploadAttachments')" style="width: 100%;">
                   <el-upload
+                    ref="upload"
+                    :limit="1"
+                    :on-exceed="handleExceed"
                     :on-change="handleChange"
                     :file-list="fileList3"
                     :on-success="handlepicsuccess"
@@ -345,8 +348,10 @@ export default {
         sourceType: '2',
         sourceNumber: '',
         customerName: '',
-        surveyDate: ''
+        surveyDate: '',
+        picids: ''
       },
+      needarr: [],
       // 采购申请单规则数据
       personalrules: {
         liveStatus: [
@@ -408,9 +413,14 @@ export default {
     _that = this
   },
   methods: {
+    handleExceed(files, fileList) {
+      this.$message.warning(`当前限制选择 1 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`)
+    },
     handlepicsuccess(response) {
       console.log(response.data.content.picId)
-      this.personalForm.picids.push(response.data.content.picId)
+      const arr = []
+      arr.push(response.data.content.picId)
+      this.needarr = arr.join(',')
     },
     getuploadurl() {
       if (this.$store.getters.useCountry === 1 || this.$store.getters.useCountry === '1') {
@@ -423,7 +433,7 @@ export default {
     },
     // 上传附件
     handleChange(file, fileList) {
-      this.fileList3 = fileList.slice(-3)
+      this.fileList3 = fileList.slice(-1)
     },
     // 获取默认信息(分期列表)
     getinformation() {
@@ -815,6 +825,7 @@ export default {
         saleRepositoryId: this.$store.getters.repositoryId,
         sourceType: '2'
       }
+      this.needarr = []
       this.personalProperty = []
       this.supplierId = null
       this.surveyPersonId = null
@@ -862,7 +873,7 @@ export default {
             }
           }
           const parms = JSON.stringify(Data)
-          addCustomerSurveyReport(parms).then(res => {
+          addCustomerSurveyReport(parms, this.needarr).then(res => {
             console.log(res)
             if (res.data.ret === 200) {
               this.$notify({
@@ -876,6 +887,7 @@ export default {
               this.$refs.personalForm.resetFields()
               this.$refs.personalForm2.clearValidate()
               this.$refs.personalForm2.resetFields()
+              this.$refs.upload.clearFiles()
             } else {
               this.$notify.error({
                 title: '错误',

@@ -38,6 +38,13 @@
                   <span>{{ personalForm.surveyPersonName }}</span>
                 </el-form-item>
               </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('otherlanguage.djylfj')" style="width: 100%;">
+                  <a :href="personalForm.picPaths[0]">
+                    <el-button type="success">{{ $t('otherlanguage.djylfj') }}</el-button>
+                  </a>
+                </el-form-item>
+              </el-col>
             </el-row>
           </el-form>
         </div>

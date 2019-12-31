@@ -92,7 +92,7 @@ export function updatereceipt(query) {
 export function updatereceipt2(query, query2) {
   var params = new URLSearchParams()
   params.append('Json', query) // 你要传给后台的参数值 key/value
-  params.append('repositoryId', query2) // 你要传给后台的参数值 key/value
+  params.append('detailJson', query2) // 你要传给后台的参数值 key/value
   return request({
     url: '/receipt/update',
     method: 'post',

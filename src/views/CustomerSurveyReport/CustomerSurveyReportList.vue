@@ -113,7 +113,7 @@
 </template>
 
 <script>
-import { CustomerSurveyReportList } from '@/api/CustomerSurveyReport'
+import { CustomerSurveyReportList, deletecustomerSurveyReport } from '@/api/CustomerSurveyReport'
 import { deletesaleContract, updatesaleContract2 } from '@/api/SaleContract'
 import { getdeptlist } from '@/api/BasicSettings'
 import { searchStockCategory } from '@/api/StockCategory'
@@ -450,7 +450,7 @@ export default {
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          deletesaleContract(ids, this.$store.getters.userId).then(res => {
+          deletecustomerSurveyReport(ids, this.$store.getters.userId).then(res => {
             if (res.data.ret === 200 || res.data.ret === 100) {
               this.$notify({
                 title: '删除成功',
@@ -481,7 +481,7 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        deletesaleContract(row.id, this.$store.getters.userId).then(res => {
+        deletecustomerSurveyReport(row.id, this.$store.getters.userId).then(res => {
           if (res.data.ret === 200 || res.data.ret === 100) {
             this.$notify({
               title: '删除成功',

@@ -304,8 +304,12 @@ export default {
       console.log(row)
       this.editVisible = true
       this.personalForm = Object.assign({}, row)
-      this.personalForm.customerType = String(row.customerType)
-      this.personalForm.moneyType = String(row.moneyType)
+      if (row.customerType) {
+        this.personalForm.customerType = String(row.customerType)
+      }
+      if (row.moneyType) {
+        this.personalForm.moneyType = String(row.moneyType)
+      }
     },
     // 附件操作
     check(row) {
