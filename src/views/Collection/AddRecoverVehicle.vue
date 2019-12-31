@@ -695,7 +695,7 @@ export default {
       const parms = JSON.stringify(Data)
       this.$refs.personalForm.validate((valid) => {
         if (valid) {
-          createrecoverVehicle(parms, parms2, parms3, this.personalForm).then(res => {
+          createrecoverVehicle(parms, parms3, parms2, this.personalForm).then(res => {
             console.log(res)
             if (res.data.ret === 200) {
               this.$notify({
