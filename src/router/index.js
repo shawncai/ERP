@@ -3280,7 +3280,8 @@ export const asyncRouterMap = [
     meta: {
       title: 'Voucher',
       icon: 'pingzhen',
-      type: 11
+      type: 11,
+      roles: ['266-371-4']
     },
     children: [
       {
@@ -3307,7 +3308,8 @@ export const asyncRouterMap = [
     meta: {
       title: 'AccountBalance',
       icon: 'kemuyue',
-      type: 11
+      type: 11,
+      roles: ['266-372-4']
     },
     children: [
       {
