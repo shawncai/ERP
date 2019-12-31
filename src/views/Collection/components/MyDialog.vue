@@ -13,14 +13,14 @@
             </el-col>
             <el-col :span="12">
               <el-form-item :label="$t('ReturnExchange.sourceType')" prop="sourceType" style="width: 100%;">
-                <el-select v-model="personalForm.sourceType" style="margin-left: 18px;width: 200px" @change="clearnumber">
+                <el-select v-model="personalForm.sourceType" style="margin-left: 18px;width: 200px" disabled @change="clearnumber">
                   <el-option value="1" label="销售出库单"/>
                 </el-select>
               </el-form-item>
             </el-col>
             <el-col :span="12">
               <el-form-item :label="$t('ReturnExchange.sourceNumber')" prop="sourceNumber" style="width: 100%;">
-                <el-input v-model="personalForm.sourceNumber" style="margin-left: 18px;width: 200px" @focus="opensaleout"/>
+                <el-input v-model="personalForm.sourceNumber" style="margin-left: 18px;width: 200px" disabled @focus="opensaleout" />
               </el-form-item>
               <my-saleout :saleoutcontrol.sync="saleoutcontrol" @saleOutDetail="saleOutDetail" @saleOutdata="saleOutdata"/>
             </el-col>
