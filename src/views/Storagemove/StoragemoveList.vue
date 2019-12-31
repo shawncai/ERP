@@ -286,10 +286,10 @@ export default {
   },
   methods: {
     isshow9(row) {
-      console.log('调入确认', row.judgeStat === 2 && row.storageMoveDetailConfirmVos.length !== row.storageMoveDetailVos.length)
-      console.log('本人登录所在门店或者仓库', this.$store.getters.repositoryId)
-      console.log('本人登录所在区域', this.$store.getters.regionId)
-      console.log('本条数据上的调拨出库', row)
+      // console.log('调入确认', row.judgeStat === 2 && row.storageMoveDetailConfirmVos.length !== row.storageMoveDetailVos.length)
+      // console.log('本人登录所在门店或者仓库', this.$store.getters.repositoryId)
+      // console.log('本人登录所在区域', this.$store.getters.regionId)
+      // console.log('本条数据上的调拨出库', row)
       let z = 2
       const moveconfirmbutton = row.storageMoveDetailVos
       for (const i in moveconfirmbutton) {
@@ -323,9 +323,11 @@ export default {
       }
     },
     handleDispatch3(row) {
+      // console.log('row==============================>', row)
       this.editVisible3 = true
       this.personalForm = Object.assign({}, row)
       this.personalForm.businessStat = String(row.businessStat)
+      // console.log('personalForm==============================>', this.personalForm)
     },
     handleDispatch2(row) {
       this.reviewParms = {}
@@ -344,7 +346,7 @@ export default {
     },
     // 判断反审批按钮
     isReview4(row) {
-      console.log(row.moveNumber, row.judgeStat === 2 && row.confirmOutPersonId === null && row.storageMoveDetailConfirmVos.length !== row.storageMoveDetailVos.length, row.judgeStat === 2, row.confirmOutPersonId === null, row.storageMoveDetailConfirmVos.length !== row.storageMoveDetailVos.length)
+      // console.log(row.moveNumber, row.judgeStat === 2 && row.confirmOutPersonId === null && row.storageMoveDetailConfirmVos.length !== row.storageMoveDetailVos.length, row.judgeStat === 2, row.confirmOutPersonId === null, row.storageMoveDetailConfirmVos.length !== row.storageMoveDetailVos.length)
       let jungle = false
       if (row.storageMoveDetailConfirmVos.length === row.storageMoveDetailVos.length) {
         jungle = true
@@ -388,7 +390,7 @@ export default {
     },
     // 判断反结单按钮
     isReview3(row) {
-      console.log(row)
+      // console.log(row)
       if (row.receiptStat === 3) {
         return true
       }
@@ -418,7 +420,7 @@ export default {
     },
     // 判断结单按钮(稍后修改)
     isReview2(row) {
-      console.log(row)
+      // console.log(row)
       if (row.businessStat === 4 && row.receiptStat !== 3) {
         return true // true
       }
@@ -457,7 +459,9 @@ export default {
     },
     // 调入操作
     handlemove(row) {
+      // console.log('rowmove==============================>', row)
       this.moveVisible = true
+      // console.log('personalFormmove==============================>', this.personalForm)
       this.personalForm = Object.assign({}, row)
     },
     // 部门列表数据
@@ -481,7 +485,7 @@ export default {
       this.repositorycontrol = true
     },
     repositoryname(val) {
-      console.log(val)
+      // console.log(val)
       this.moveOutRepository = val.repositoryName
       this.getemplist.moveOutRepository = val.id
     },
@@ -491,6 +495,7 @@ export default {
       searchlist(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
+          // console.log('this.list', this.list)
           this.total = res.data.data.content.totalCount
           this.listLoading = false
         } else {
@@ -541,7 +546,7 @@ export default {
     },
     // 修改操作
     handleEdit(row) {
-      console.log(row)
+      // console.log(row)
       this.editVisible = true
       this.personalForm = Object.assign({}, row)
       this.personalForm.businessStat = String(row.businessStat)
@@ -554,7 +559,7 @@ export default {
     },
     // 详情操作
     handleDetail(row) {
-      console.log(row)
+      // console.log(row)
       this.detailvisible = true
       this.personalForm = Object.assign({}, row)
       this.personalForm.businessStat = String(row.businessStat)
@@ -566,8 +571,8 @@ export default {
         if (row.approvalUseVos !== '' && row.approvalUseVos !== null && row.approvalUseVos !== undefined && row.approvalUseVos.length !== 0 && userepository === row.moveOutRepository) {
           const approvalUse = row.approvalUseVos
           const index = approvalUse[approvalUse.length - 1].stepHandler.indexOf(',' + this.$store.getters.userId + ',')
-          console.log(approvalUse[approvalUse.length - 1].stepHandler)
-          console.log(index)
+          // console.log(approvalUse[approvalUse.length - 1].stepHandler)
+          // console.log(index)
           if (index > -1 && (row.judgeStat === 1 || row.judgeStat === 0)) {
             return true
           }

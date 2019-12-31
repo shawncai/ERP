@@ -24,6 +24,11 @@
                   </el-select>
                 </el-form-item>
               </el-col>
+              <el-col v-if="personalForm.sourceType === '6'" :span="6" >
+                <el-form-item :label="$t('SaleOut.ershouNumber')" style="width: 100%;">
+                  <el-input v-model="personalForm.sourceNumber" style="margin-left: 18px;width: 200px" clearable @focus="chooseNumber"/>
+                </el-form-item>
+              </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('SaleOut.invoiceNumber')" style="width: 100%;">
                   <el-input v-model="personalForm.invoiceNumber" style="margin-left: 18px;width: 200px" clearable/>
@@ -867,6 +872,9 @@ export default {
     _that = this
   },
   methods: {
+    chooseNumber() {
+      this.recyclingcontrol = true
+    },
     salePrice(val) {
       console.log('val1222222', val)
       this.moreaction[0].salePrice = val
@@ -1392,6 +1400,8 @@ export default {
         // if (this.$refs.editable.getRecords().length !== 0 && this.$refs.editable.getRecords() !== undefined && this.$refs.editable.getRecords() !== null) {
         //   this.$refs.editable.clear()
         // }
+      } else if (val === '6') {
+        this.IsSourceNumber = true
       } else {
         this.Isproduct = true
         this.IsSourceNumber = false
@@ -1815,6 +1825,7 @@ export default {
     },
     recyclingdata(val) {
       // console.log(12312312312)
+      this.personalForm.sourceNumber = val.number
       this.personalForm.ridBikeMoney = val.recyclingMoney
       console.log('val', val)
       this.personalForm.customerType = '2'
@@ -1822,6 +1833,7 @@ export default {
       this.customerId = val.customerName
       this.personalForm.salePersonId = val.recyclingPersonId
       this.salePersonId = val.recyclingPersonName
+      this.personalForm.customerPhone = val.customerPhone
       const data = {}
       data.productCode = val.productCode
       data.productName = val.productName

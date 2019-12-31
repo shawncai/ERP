@@ -3314,20 +3314,14 @@ export const asyncRouterMap = [
       title: 'Memorandum',
       icon: 'beiwanglu',
       type: 10,
-      roles: ['1-366-4', '1-366-1']
+      roles: ['1-366-4']
     },
     children: [
-      {
-        path: 'AddMemorandum',
-        component: () => import('@/views/Memorandum/AddMemorandum'),
-        name: 'AddMemorandum',
-        meta: { title: 'AddMemorandum', noCache: false, roles: ['1-366-1'] }
-      },
       {
         path: 'MemorandumList',
         component: () => import('@/views/Memorandum/MemorandumList'),
         name: 'MemorandumList',
-        meta: { title: 'MemorandumList', noCache: true, roles: ['1-366-4', '1-366-2', '1-366-3', '1-366-5', '1-366-6', '1-366-7'] }
+        meta: { title: 'MemorandumList', noCache: true, roles: ['1-366-4'] }
       }
     ]
   },

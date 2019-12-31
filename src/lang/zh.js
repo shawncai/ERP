@@ -2008,6 +2008,7 @@ export default {
     returnMoney: '应退金额'
   },
   SaleOut: {
+    ershouNumber: '选择二手回收单',
     createDate: '创建日期',
     title: '出库单主题',
     sourceType: '源单类型',
@@ -3022,6 +3023,8 @@ export default {
     qsrmm: '请输入密码'
   },
   updates: {
+    ckmx: '出库明细',
+    shmx: '收回明细',
     sncode: 'sn编码',
     zxsyj: '总销售业绩',
     zhzye: '账户总余额',
@@ -3864,5 +3867,12 @@ export default {
     qqq: '应结算金额',
     www: '已结算金额',
     eee: '核销金额'
+  },
+  MemorandumList: {
+    time: '提醒时间',
+    content: '提醒内容',
+    per: '提醒人',
+    stat: '状态',
+    createTime: '创建时间'
   }
 }

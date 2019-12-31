@@ -121,6 +121,133 @@
           </el-editable>
         </div>
       </el-card>
+      <!-- 出库明细 -->
+      <el-card class="box-card" style="margin-top: 15px" shadow="never">
+        <h2 ref="fuzhu" class="form-name" >{{ $t('updates.ckmx') }}</h2>
+        <div class="buttons" style="margin-top: 58px">
+          <el-button type="success" style="background:#3696fd;border-color:#3696fd " @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>
+          <el-button type="danger" @click="$refs.editable.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
+        </div>
+        <my-detail :control.sync="control" @product="productdetail"/>
+        <div class="container">
+          <el-editable
+            ref="editable"
+            :data.sync="list2"
+            :edit-config="{ showIcon: true, showStatus: true}"
+            class="click-table1"
+            stripe
+            border
+            size="medium"
+            style="width: 100%">
+            <el-editable-column type="selection" min-width="55" align="center"/>
+            <el-editable-column :label="$t('Hmodule.xh')" min-width="55" align="center" type="index"/>
+            <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" align="center" min-width="150px"/>
+            <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" align="center" min-width="150px"/>
+            <el-editable-column :edit-render="{type: 'default'}" :label="$t('Hmodule.hw')" prop="locationId" align="center" width="200px">
+              <template slot-scope="scope">
+                <el-select v-model="scope.row.locationId" :value="scope.row.locationId" :placeholder="$t('Hmodule.xzhw')" filterable clearable style="width: 100%;" @visible-change="updatebatch($event,scope)">
+                  <el-option
+                    v-for="item in locationlist"
+                    :key="item.id"
+                    :value="item.id"
+                    :label="item.locationCode"/>
+                </el-select>
+              </template>
+            </el-editable-column>
+            <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('Hmodule.pc')" prop="batch" align="center" width="150px"/>
+            <el-editable-column :label="$t('updates.wpfl')" prop="categoryName" align="center" min-width="150px"/>
+            <el-editable-column :label="$t('updates.jbdw')" prop="unit" align="center" min-width="150px"/>
+            <el-editable-column :label="$t('updates.ggxh')" prop="typeId" align="center" min-width="150px"/>
+            <el-editable-column :label="$t('updates.ys')" prop="color" align="center" min-width="150px"/>
+            <el-editable-column :edit-render="{name: 'ElInputNumber', type: 'visible', attrs: {min: 0.00, precision: 2, controls:false}}" :label="$t('updates.rksl')" prop="quantity" align="center" width="150px"/>
+            <el-editable-column :label="$t('updates.jxf')" prop="kpiGrade" align="center" min-width="150px"/>
+            <el-editable-column :label="$t('updates.spjf')" prop="point" align="center" min-width="150px"/>
+            <!--            <el-editable-column :label="$t('Hmodule.dj')" prop="price" align="center" min-width="150px"/>-->
+            <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.cjbm')" prop="carCode" align="center" min-width="150" >
+              <template slot="edit" slot-scope="scope">
+                <el-input v-if="isEdit2(scope.row)" v-model="scope.row.carCode" clearable @blur="getInfo(scope.row)"/>
+                <span v-else>{{ scope.row.carCode }}</span>
+              </template>
+            </el-editable-column>
+            <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.djbm')" prop="motorCode" align="center" min-width="150" >
+              <template slot="edit" slot-scope="scope">
+                <el-input v-if="isEdit2(scope.row)" v-model="scope.row.motorCode" clearable @blur="getInfo3(scope.row)"/>
+                <span v-else>{{ scope.row.motorCode }}</span>
+              </template>
+            </el-editable-column>
+            <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.dcbm')" prop="batteryCode" align="center" min-width="150" >
+              <template slot="edit" slot-scope="scope">
+                <el-input v-if="isEdit4(scope.row)" v-model="scope.row.batteryCode" clearable @blur="getInfo2(scope.row)"/>
+                <span v-else>{{ scope.row.batteryCode }}</span>
+              </template>
+            </el-editable-column>
+          </el-editable>
+        </div>
+      </el-card>
+      <!-- 收回明细 -->
+      <el-card class="box-card" style="margin-top: 15px" shadow="never">
+        <h2 ref="fuzhu" class="form-name" >{{ $t('updates.shmx') }}</h2>
+        <div class="buttons" style="margin-top: 58px">
+          <el-button type="success" style="background:#3696fd;border-color:#3696fd " @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>
+          <el-button type="danger" @click="$refs.editable.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
+        </div>
+        <my-detail :control.sync="control" @product="productdetail"/>
+        <div class="container">
+          <el-editable
+            ref="editable"
+            :data.sync="list2"
+            :edit-config="{ showIcon: true, showStatus: true}"
+            class="click-table1"
+            stripe
+            border
+            size="medium"
+            style="width: 100%">
+            <el-editable-column type="selection" min-width="55" align="center"/>
+            <el-editable-column :label="$t('Hmodule.xh')" min-width="55" align="center" type="index"/>
+            <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" align="center" min-width="150px"/>
+            <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" align="center" min-width="150px"/>
+            <el-editable-column :edit-render="{type: 'default'}" :label="$t('Hmodule.hw')" prop="locationId" align="center" width="200px">
+              <template slot-scope="scope">
+                <el-select v-model="scope.row.locationId" :value="scope.row.locationId" :placeholder="$t('Hmodule.xzhw')" filterable clearable style="width: 100%;" @visible-change="updatebatch($event,scope)">
+                  <el-option
+                    v-for="item in locationlist"
+                    :key="item.id"
+                    :value="item.id"
+                    :label="item.locationCode"/>
+                </el-select>
+              </template>
+            </el-editable-column>
+            <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('Hmodule.pc')" prop="batch" align="center" width="150px"/>
+            <el-editable-column :label="$t('updates.wpfl')" prop="categoryName" align="center" min-width="150px"/>
+            <el-editable-column :label="$t('updates.jbdw')" prop="unit" align="center" min-width="150px"/>
+            <el-editable-column :label="$t('updates.ggxh')" prop="typeId" align="center" min-width="150px"/>
+            <el-editable-column :label="$t('updates.ys')" prop="color" align="center" min-width="150px"/>
+            <el-editable-column :edit-render="{name: 'ElInputNumber', type: 'visible', attrs: {min: 0.00, precision: 2, controls:false}}" :label="$t('updates.rksl')" prop="quantity" align="center" width="150px"/>
+            <el-editable-column :label="$t('updates.jxf')" prop="kpiGrade" align="center" min-width="150px"/>
+            <el-editable-column :label="$t('updates.spjf')" prop="point" align="center" min-width="150px"/>
+            <!--            <el-editable-column :label="$t('Hmodule.dj')" prop="price" align="center" min-width="150px"/>-->
+            <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.cjbm')" prop="carCode" align="center" min-width="150" >
+              <template slot="edit" slot-scope="scope">
+                <el-input v-if="isEdit2(scope.row)" v-model="scope.row.carCode" clearable @blur="getInfo(scope.row)"/>
+                <span v-else>{{ scope.row.carCode }}</span>
+              </template>
+            </el-editable-column>
+            <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.djbm')" prop="motorCode" align="center" min-width="150" >
+              <template slot="edit" slot-scope="scope">
+                <el-input v-if="isEdit2(scope.row)" v-model="scope.row.motorCode" clearable @blur="getInfo3(scope.row)"/>
+                <span v-else>{{ scope.row.motorCode }}</span>
+              </template>
+            </el-editable-column>
+            <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.dcbm')" prop="batteryCode" align="center" min-width="150" >
+              <template slot="edit" slot-scope="scope">
+                <el-input v-if="isEdit4(scope.row)" v-model="scope.row.batteryCode" clearable @blur="getInfo2(scope.row)"/>
+                <span v-else>{{ scope.row.batteryCode }}</span>
+              </template>
+            </el-editable-column>
+          </el-editable>
+        </div>
+      </el-card>
+      <!--  -->
       <!--      <el-card class="box-card" style="margin-top: 15px" shadow="never">-->
       <!--        <h2 ref="fuzhu" class="form-name" >{{ $t('updates.qsmx') }}</h2>-->
       <!--        <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">-->

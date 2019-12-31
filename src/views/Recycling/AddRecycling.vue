@@ -12,27 +12,27 @@
                   <el-input v-model="personalForm.title" style="margin-left: 18px;width: 200px" clearable/>
                 </el-form-item>
               </el-col>
-              <el-col :span="6">
+              <!-- <el-col :span="6">
                 <el-form-item :label="$t('Recycling.productCode')" prop="productCode" style="width: 100%;">
                   <el-input v-model="personalForm.productCode" style="margin-left: 18px;width: 200px" @focus="handlemater"/>
                 </el-form-item>
-              </el-col>
-              <my-mater :matercontrol.sync="matercontrol" @mater="mater"/>
-              <el-col :span="6">
+              </el-col> -->
+              <!-- <my-mater :matercontrol.sync="matercontrol" @mater="mater"/> -->
+              <!-- <el-col :span="6">
                 <el-form-item :label="$t('Recycling.productType')" style="width: 100%;">
                   <el-input v-model="productType" style="margin-left: 18px;width: 200px" disabled/>
                 </el-form-item>
-              </el-col>
-              <el-col :span="6">
+              </el-col> -->
+              <!-- <el-col :span="6">
                 <el-form-item :label="$t('Recycling.color')" style="width: 100%;">
                   <el-input v-model="personalForm.color" style="margin-left: 18px;width: 200px" disabled/>
                 </el-form-item>
-              </el-col>
-              <el-col :span="6">
+              </el-col> -->
+              <!-- <el-col :span="6">
                 <el-form-item :label="$t('Recycling.productCategory')" style="width: 100%;">
                   <el-input v-model="productCategory" style="margin-left: 18px;width: 200px" disabled/>
                 </el-form-item>
-              </el-col>
+              </el-col> -->
               <el-col :span="6">
                 <el-form-item :label="$t('Recycling.recyclingMoney')" prop="recyclingMoney" style="width: 100%;">
                   <el-input v-model="personalForm.recyclingMoney" style="margin-left: 18px;width: 200px" clearable/>
@@ -60,7 +60,7 @@
                 </el-form-item>
                 <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
               </el-col>
-              <el-col :span="6">
+              <!-- <el-col :span="6">
                 <el-form-item :label="$t('Recycling.locationId')" style="width: 100%;">
                   <el-select v-if="junglelocation" v-model="personalForm.locationId" style="margin-left: 18px;width: 200px" @visible-change="changelocation($event)">
                     <el-option
@@ -71,7 +71,7 @@
                   </el-select>
                   <el-input v-else v-model="locationId" style="margin-left: 18px;width: 200px" disabled/>
                 </el-form-item>
-              </el-col>
+              </el-col> -->
               <!-- <el-col :span="6">
                 <el-form-item :label="$t('Recycling.batch')" style="width: 100%;">
                   <el-input v-model="personalForm.batch" style="margin-left: 18px;width: 200px" clearable/>
@@ -134,10 +134,10 @@
         <h2 ref="fuzhu" class="form-name" >{{ $t('updates.hscmx') }}</h2>
         <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
           <!--          <el-button :disabled="Isproduct" @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>-->
-          <!-- <el-button @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button> -->
-          <!-- <my-detail :control.sync="control" :personalform="personalForm" @product="productdetail"/> -->
+          <el-button @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>
+          <my-detail :control.sync="control" :personalform="personalForm" @product="productdetail"/>
           <!-- <el-button :disabled="IsSourceNumber" style="width: 130px" @click="handleAddSource">{{ $t('updates.cydzxz') }}</el-button> -->
-          <!-- <el-button type="danger" @click="$refs.editable.removeSelecteds();test()">{{ $t('Hmodule.delete') }}</el-button> -->
+          <el-button type="danger" @click="$refs.editable.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
           <!-- <el-button type="primary" @click="checkStock()">{{ $t('updates.kckz') }}</el-button> -->
         </div>
         <div class="container">
@@ -156,31 +156,26 @@
             <el-editable-column :fixed="isfixed" :label="$t('Hmodule.xh')" min-width="55" align="center" type="index"/>
             <el-editable-column :fixed="isfixed" :label="$t('Hmodule.wpbh')" prop="productCode" align="center" min-width="150"/>
             <el-editable-column :fixed="isfixed" :label="$t('Hmodule.wpmc')" prop="productName" align="center" min-width="150"/>
-            <el-editable-column :label="$t('Hmodule.hw')" prop="location" align="center" min-width="150">
+            <el-editable-column :edit-render="{type: 'default'}" :label="$t('Hmodule.hw')" prop="locationId" align="center" width="200px">
               <template slot-scope="scope">
-                <p>{{ getLocationData(scope.row) }}</p>
-              </template>
-            </el-editable-column>
-            <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('Hmodule.pc')" prop="batch" align="center" min-width="150" >
-              <template slot="edit" slot-scope="scope">
-                <el-select v-if="scope.row.batch !== '不使用'" v-model="scope.row.batch" :value="scope.row.batch" :placeholder="$t('Hmodule.xcpc')" filterable clearable style="width: 100%;" @visible-change="updatebatch2($event,scope)">
+                <el-select v-model="scope.row.locationId" :value="scope.row.locationId" :placeholder="$t('Hmodule.xzhw')" filterable clearable style="width: 100%;" @visible-change="updatebatch($event,scope)">
                   <el-option
-                    v-for="(item, index) in batchlist"
-                    :key="index"
-                    :value="item"
-                    :label="item"/>
+                    v-for="item in locationlist"
+                    :key="item.id"
+                    :value="item.id"
+                    :label="item.locationCode"/>
                 </el-select>
-                <span v-else>{{ scope.row.batch }}</span>
               </template>
             </el-editable-column>
+            <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('Hmodule.pc')" prop="batch" align="center" width="150px"/>
             <el-editable-column :label="$t('updates.wpfl')" prop="categoryName" align="center" min-width="150"/>
             <el-editable-column :label="$t('updates.jbdw')" prop="unit" align="center" min-width="150"/>
             <el-editable-column :label="$t('updates.ggxh')" prop="typeId" align="center" min-width="150"/>
             <el-editable-column :label="$t('updates.ys')" prop="color" align="center" min-width="150"/>
-            <el-editable-column :label="$t('updates.jxf')" prop="kpiGrade" align="center" min-width="150"/>
-            <el-editable-column :label="$t('updates.spjf')" prop="point" align="center" min-width="150"/>
-            <el-editable-column :label="$t('updates.ydsl')" prop="allQuantity" align="center" min-width="150"/>
-            <el-editable-column :label="$t('updates.wcksl')" prop="allQuantity" align="center" min-width="150"/>
+            <!-- <el-editable-column :label="$t('updates.jxf')" prop="kpiGrade" align="center" min-width="150"/> -->
+            <!-- <el-editable-column :label="$t('updates.spjf')" prop="point" align="center" min-width="150"/> -->
+            <!-- <el-editable-column :label="$t('updates.ydsl')" prop="allQuantity" align="center" min-width="150"/> -->
+            <!-- <el-editable-column :label="$t('updates.wcksl')" prop="allQuantity" align="center" min-width="150"/> -->
             <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.cksli')" prop="quantity" align="center" min-width="150" >
               <template slot="edit" slot-scope="scope">
                 <el-input-number
@@ -195,25 +190,15 @@
                 <span v-else>{{ scope.row.quantity }}</span>
               </template>
             </el-editable-column>
-            <el-editable-column v-if="false" :label="$t('updates.lsj')" prop="salePrice" align="center" min-width="150"/>
-            <el-editable-column v-if="false" :label="$t('updates.cbj')" prop="costPrice" align="center" min-width="150"/>
+            <el-editable-column v-if="false" :label="$t('updates.lsj')" prop="recoveryPrice" align="center" min-width="150"/>
+            <!-- <el-editable-column v-if="false" :label="$t('updates.cbj')" prop="costPrice" align="center" min-width="150"/> -->
             <!-- <el-editable-column prop="taxprice" align="center" :label="$t('updates.hsj')" min-width="150px"> -->
-            <el-editable-column :label="$t('updates.ckj')" prop="taxprice" align="center" min-width="150">
+            <!-- <el-editable-column :label="$t('updates.ckj')" prop="taxprice" align="center" min-width="150">
               <template slot-scope="scope">
                 <span>{{ gettaxprice(scope.row) }}</span>
               </template>
-            </el-editable-column>
-            <el-editable-column v-if="false" prop="costMoney" align="center" label="成本金额" min-width="150">
-              <template slot-scope="scope">
-                <p>{{ getcostMoney(scope.row) }}</p>
-              </template>
-            </el-editable-column>
-            <el-editable-column v-if="false" :label="$t('updates.hsje')" prop="includeTaxMoney" align="center" min-width="150">
-              <template slot-scope="scope">
-                <p>{{ getincludeTaxMoney(scope.row) }}</p>
-              </template>
-            </el-editable-column>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" :label="$t('updates.sl')" prop="taxRate" align="center" min-width="170">
+            </el-editable-column> -->
+            <!-- <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" :label="$t('updates.sl')" prop="taxRate" align="center" min-width="170">
               <template slot="edit" slot-scope="scope">
                 <el-input-number
                   :precision="2"
@@ -221,8 +206,8 @@
                   v-model="scope.row.taxRate"
                   @input="gettaxRate(scope.row)"/>
               </template>
-            </el-editable-column>
-            <el-editable-column :label="$t('updates.se')" prop="taxMoney" align="center" min-width="170">
+            </el-editable-column> -->
+            <!-- <el-editable-column :label="$t('updates.se')" prop="taxMoney" align="center" min-width="170">
               <template slot-scope="scope">
                 <p>{{ getTaxMoney2(scope.row) }}</p>
               </template>
@@ -254,7 +239,7 @@
                   v-model="scope.row.discountMoney"
                   @change="getdiscountMoney(scope.row)"/>
               </template>
-            </el-editable-column>
+            </el-editable-column> -->
             <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.cjbm')" prop="carCode" align="center" min-width="150" >
               <template slot="edit" slot-scope="scope">
                 <el-input v-if="isEdit2(scope.row)" v-model="scope.row.carCode" clearable @blur="getInfo(scope.row)"/>
@@ -273,8 +258,6 @@
                 <span v-else>{{ scope.row.batteryCode }}</span>
               </template>
             </el-editable-column>
-            <el-editable-column :label="$t('updates.ydbh')" prop="sourceNumber" align="center" min-width="150px"/>
-            <el-editable-column :label="$t('updates.ydxh')" prop="sourceSerialNumber" align="center" min-width="150px"/>
           </el-editable>
         </div>
       </el-card>
@@ -290,18 +273,19 @@
 <script>
 import '@/directive/noMoreClick/index.js'
 import { createrecycling } from '@/api/Recycling'
-import { getlocation, locationlist } from '@/api/public'
+import { getlocation, locationlist, batchlist, productlist } from '@/api/public'
 import { searchSaleCategory } from '@/api/SaleCategory'
 import { getdeptlist } from '@/api/BasicSettings'
 import MyEmp from './components/MyEmp'
 import MyRepository from './components/MyRepository'
 import MyMater from './components/MyMater'
 import MyCustomer from './components/MyCustomer'
+import MyDetail from './components/MyDetail'
 // eslint-disable-next-line no-unused-vars
 var _that
 export default {
   name: 'AddRecycling',
-  components: { MyCustomer, MyMater, MyRepository, MyEmp },
+  components: { MyCustomer, MyMater, MyRepository, MyEmp, MyDetail },
   data() {
     const validatePass2 = (rule, value, callback) => {
       if (this.recyclingPersonId === undefined || this.recyclingPersonId === null || this.recyclingPersonId === '') {
@@ -332,6 +316,11 @@ export default {
           return time.getTime() < new Date().getTime() - 8.64e7
         }
       },
+      batchlist: [],
+      // 商品详情
+      control: false,
+      // 滚动判断
+      isfixed: false,
       // 判断货位的显示
       junglelocation: true,
       // 回显证件类型
@@ -411,6 +400,18 @@ export default {
       }
     }
   },
+  watch: {
+    list2: {
+      handler(oldval, newval) {
+        if (this.list2.length !== 0) {
+          this.isfixed = true
+          console.log('可以滚动')
+        } else {
+          this.isfixed = false
+        }
+      }
+    }
+  },
   created() {
     this.getdatatime()
     this.getTypes()
@@ -419,6 +420,68 @@ export default {
     _that = this
   },
   methods: {
+    isEdit2(row) {
+      console.log('222', row)
+      const re = row.productCode.slice(0, 2)
+      // if (re === '01') {
+      //   row.quantity = 1
+      //   return row.quantity
+      // }
+      if (re === '01') { return true } else { return false }
+    },
+    isEdit3(row) {
+      console.log('222', row)
+      const re = row.productCode.slice(0, 2)
+      if (re === '01') { return false } else { return true }
+    },
+    updatebatch(event, scope) {
+      if (event === true) {
+        console.log(this.personalForm.recyclingRepositoryId)
+        if (this.personalForm.recyclingRepositoryId === undefined || this.personalForm.countRepositoryId === '') {
+          this.$notify.error({
+            title: '错误',
+            message: '请先选择仓库',
+            offset: 100
+          })
+          return false
+        }
+        getlocation(this.personalForm.recyclingRepositoryId, scope.row).then(res => {
+          if (res.data.ret === 200) {
+            if (res.data.data.content.length !== 0) {
+              this.locationlist = res.data.data.content
+            } else if (res.data.data.content.length === 0) {
+              locationlist(this.personalForm.recyclingRepositoryId).then(res => {
+                if (res.data.ret === 200) {
+                  this.locationlist = res.data.data.content.list
+                }
+              })
+            }
+          }
+        })
+      }
+    },
+    // 添加商品后再操作
+    productdetail(val) {
+      for (let i = 0; i < val.length; i++) {
+        this.$refs.editable.insert(val[i])
+      }
+    },
+    // 批量操作
+    handleSelectionChange(val) {
+      console.log(val)
+      this.moreaction = val
+    },
+    handleAddproduct() {
+      if (this.recyclingRepositoryId === null || this.recyclingRepositoryId === '' || this.recyclingRepositoryId === undefined) {
+        this.$notify.error({
+          title: '错误',
+          message: '请先选择回收仓库',
+          offset: 100
+        })
+        return false
+      }
+      this.control = true
+    },
     // 选择客户focus
     chooseCustomer() {
       this.customercontrol = true
@@ -600,6 +663,83 @@ export default {
     },
     // 保存操作
     handlesave() {
+      const EnterDetail = this.$refs.editable.getRecords()
+      console.log(EnterDetail)
+      for (const i in EnterDetail) {
+        if (EnterDetail[i].actualEnterQuantity === 0) {
+          this.$notify.error({
+            title: '错误',
+            message: '商品数量不能为0',
+            offset: 100
+          })
+          return false
+        }
+      }
+      let i = 1
+      EnterDetail.map(function(elem) {
+        return elem
+      }).forEach(function(elem) {
+        if (elem.locationId === null || elem.locationId === '' || elem.locationId === undefined) {
+          i = 2
+        }
+      })
+      if (i === 2) {
+        this.$notify.error({
+          title: '错误',
+          message: '商品货位不能为空',
+          offset: 100
+        })
+        return false
+      }
+      console.log(this.personalForm)
+      console.log(EnterDetail)
+      if (EnterDetail.length === 0) {
+        this.$notify.error({
+          title: '错误',
+          message: '明细表不能为空',
+          offset: 100
+        })
+        return false
+      }
+      EnterDetail.map(function(elem) {
+        return elem
+      }).forEach(function(elem) {
+        if (elem.locationId === null || elem.locationId === '' || elem.locationId === undefined) {
+          delete elem.locationId
+        }
+        if (elem.productCode === null || elem.productCode === '' || elem.productCode === undefined) {
+          delete elem.productCode
+        }
+        if (elem.productName === null || elem.productName === '' || elem.productName === undefined) {
+          delete elem.productName
+        }
+        if (elem.color === null || elem.color === '' || elem.color === undefined) {
+          delete elem.color
+        }
+        if (elem.typeId === null || elem.typeId === '' || elem.typeId === undefined) {
+          delete elem.typeId
+        }
+        if (elem.unit === null || elem.unit === '' || elem.unit === undefined) {
+          delete elem.unit
+        }
+        if (elem.actualEnterQuantity === null || elem.actualEnterQuantity === '' || elem.actualEnterQuantity === undefined) {
+          delete elem.actualEnterQuantity
+        }
+        if (elem.enterQuantity === null || elem.enterQuantity === '' || elem.enterQuantity === undefined) {
+          delete elem.enterQuantity
+        }
+        if (elem.enterPrice === null || elem.enterPrice === '' || elem.enterPrice === undefined) {
+          delete elem.enterPrice
+        }
+        if (elem.enterMoney === null || elem.enterMoney === '' || elem.enterMoney === undefined) {
+          delete elem.enterMoney
+        }
+        if (elem.remarks === null || elem.remarks === '' || elem.remarks === undefined) {
+          delete elem.remarks
+        }
+        return elem
+      })
+      const parms2 = JSON.stringify(EnterDetail)
       const Data = this.personalForm
       for (const key in Data) {
         if (Data[key] === '' || Data[key] === undefined || Data[key] === null) {
@@ -609,7 +749,7 @@ export default {
       const parms = JSON.stringify(Data)
       this.$refs.personalForm.validate((valid) => {
         if (valid) {
-          createrecycling(parms, this.personalForm).then(res => {
+          createrecycling(parms, parms2, this.personalForm).then(res => {
             console.log(res)
             if (res.data.ret === 200) {
               this.$notify({
