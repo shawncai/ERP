@@ -3892,9 +3892,10 @@ export default {
     outlay: '出库',
     totalPay: '总支出',
     balance: '余额',
-    payModeName: '支付方式'
+    payModeName: '结算方式'
   },
   collectAndPayDetail: {
-    name: '名称'
+    name: '名称',
+    sl: '回收数量'
   }
 }

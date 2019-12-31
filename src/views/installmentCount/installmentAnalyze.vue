@@ -56,18 +56,21 @@
           prop="yearAndMonth"
           width="300"
           align="center"/>
-        <el-table-column :label="$t('installmentAnalyze.beginMoney')" align="center">
-          <el-table-column
-            :label="$t('installmentAnalyze.saleAdd')"
-            prop="saleAdd"
-            width="200"
-            align="center"/>
-          <el-table-column
-            :label="$t('installmentAnalyze.collectLess')"
-            prop="collectLess"
-            width="200"
-            align="center"/>
-        </el-table-column>
+        <el-table-column
+          :label="$t('installmentAnalyze.beginMoney')"
+          prop="beginMoney"
+          width="300"
+          align="center"/>
+        <el-table-column
+          :label="$t('installmentAnalyze.saleAdd')"
+          prop="saleAdd"
+          width="200"
+          align="center"/>
+        <el-table-column
+          :label="$t('installmentAnalyze.collectLess')"
+          prop="collectLess"
+          width="200"
+          align="center"/>
         <el-table-column
           :label="$t('installmentAnalyze.change')"
           prop="change"

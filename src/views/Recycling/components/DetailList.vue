@@ -97,7 +97,7 @@
             <el-editable-column :label="$t('updates.jbdw')" prop="unit" align="center" />
             <el-editable-column :label="$t('updates.ggxh')" prop="typeName" align="center" />
             <el-editable-column :label="$t('updates.ys')" prop="color" align="center" />
-            <el-editable-column :label="$t('updates.cksli')" prop="quantity" align="center" />
+            <el-editable-column :label="$t('collectAndPayDetail.sl')" prop="quantity" align="center" />
             <el-editable-column :label="$t('updates.cjbm')" prop="carCode" align="center" />
             <el-editable-column :label="$t('updates.djbm')" prop="motorCode" align="center" />
             <el-editable-column :label="$t('updates.dcbm')" prop="batteryCode" align="center" />

@@ -916,9 +916,13 @@ export default {
             })
             return false
           }
+          let i = 1
           EnterDetail.map(function(elem) {
             return elem
           }).forEach(function(elem) {
+            if (elem.returnQuantity === null || elem.returnQuantity === '' || elem.returnQuantity === undefined || elem.returnQuantity === '0' || elem.returnQuantity > elem.sendQuantity) {
+              i = 2
+            }
             // if (elem.batch === null || elem.batch === '' || elem.batch === undefined) {
             //   delete elem.batch
             // }
@@ -976,9 +980,6 @@ export default {
             // if (elem.alreadyReturnQuantity === null || elem.alreadyReturnQuantity === '' || elem.alreadyReturnQuantity === undefined) {
             //   delete elem.alreadyReturnQuantity
             // }
-            // if (elem.returnQuantity === null || elem.returnQuantity === '' || elem.returnQuantity === undefined) {
-            //   delete elem.returnQuantity
-            // }
             // if (elem.returnReason === null || elem.returnReason === '' || elem.returnReason === undefined) {
             //   delete elem.returnReason
             // }
@@ -999,6 +1000,14 @@ export default {
             // }
             return elem
           })
+          if (i === 2) {
+            this.$notify.error({
+              title: '错误',
+              message: '请正确填写退货数量',
+              offset: 100
+            })
+            return false
+          }
           const parms2 = JSON.stringify(EnterDetail)
           const Data = this.personalForm
           for (const key in Data) {
