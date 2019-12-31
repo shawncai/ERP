@@ -12,27 +12,6 @@
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item :label="$t('Recycling.productCode')" prop="productCode" style="width: 100%;">
-                <el-input v-model="personalForm.productCode" style="margin-left: 18px;width: 200px" @focus="handlemater"/>
-              </el-form-item>
-            </el-col>
-            <my-mater :matercontrol.sync="matercontrol" @mater="mater"/>
-            <el-col :span="12">
-              <el-form-item :label="$t('Recycling.productType')" style="width: 100%;">
-                <el-input v-model="productType" style="margin-left: 18px;width: 200px" disabled/>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('Recycling.color')" style="width: 100%;">
-                <el-input v-model="personalForm.color" style="margin-left: 18px;width: 200px" disabled/>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('Recycling.productCategory')" style="width: 100%;">
-                <el-input v-model="productCategory" style="margin-left: 18px;width: 200px" disabled/>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
               <el-form-item :label="$t('Recycling.recyclingMoney')" prop="recyclingMoney" style="width: 100%;">
                 <el-input v-model="personalForm.recyclingMoney" style="margin-left: 18px;width: 200px" clearable/>
               </el-form-item>
@@ -58,22 +37,6 @@
                 <el-input v-model="recyclingRepositoryId" style="margin-left: 18px;width: 200px" @focus="handlechooseRep"/>
               </el-form-item>
               <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('Recycling.locationId')" style="width: 100%;">
-                <el-select v-model="personalForm.locationId" style="margin-left: 18px;width: 200px" @visible-change="changelocation($event)">
-                  <el-option
-                    v-for="(item, index) in locationlist"
-                    :key="index"
-                    :value="item.id"
-                    :label="item.locationCode"/>
-                </el-select>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('Recycling.batch')" style="width: 100%;">
-                <el-input v-model="personalForm.batch" style="margin-left: 18px;width: 200px" clearable/>
-              </el-form-item>
             </el-col>
             <el-col :span="12">
               <el-form-item :label="$t('Recycling.remark')" style="width: 100%;">
@@ -127,6 +90,84 @@
         </el-form>
       </div>
     </el-card>
+    <el-card class="box-card" style="margin-top: 15px" shadow="never">
+      <h2 ref="fuzhu" class="form-name" >{{ $t('updates.hscmx') }}</h2>
+      <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
+        <!--          <el-button :disabled="Isproduct" @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>-->
+        <el-button @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>
+        <my-detail :control.sync="control" :personalform="personalForm" @product="productdetail"/>
+        <!-- <el-button :disabled="IsSourceNumber" style="width: 130px" @click="handleAddSource">{{ $t('updates.cydzxz') }}</el-button> -->
+        <el-button type="danger" @click="$refs.editable.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
+        <!-- <el-button type="primary" @click="checkStock()">{{ $t('updates.kckz') }}</el-button> -->
+      </div>
+      <div class="container">
+        <el-editable
+          ref="editable"
+          :data.sync="list2"
+          :edit-config="{ showIcon: true, showStatus: true}"
+          :edit-rules="validRules"
+          class="click-table1"
+          stripe
+          border
+          size="medium"
+          style="margin-bottom: 60px;width: 100%"
+          @selection-change="handleSelectionChange">
+          <el-editable-column type="selection" min-width="55" align="center" />
+          <el-editable-column :fixed="isfixed" :label="$t('Hmodule.xh')" min-width="55" align="center" type="index"/>
+          <el-editable-column :fixed="isfixed" :label="$t('Hmodule.wpbh')" prop="productCode" align="center" min-width="150"/>
+          <el-editable-column :fixed="isfixed" :label="$t('Hmodule.wpmc')" prop="productName" align="center" min-width="150"/>
+          <el-editable-column :edit-render="{type: 'default'}" :label="$t('Hmodule.hw')" prop="locationId" align="center" width="200px">
+            <template slot-scope="scope">
+              <el-select v-model="scope.row.locationId" :value="scope.row.locationId" :placeholder="$t('Hmodule.xzhw')" filterable clearable style="width: 100%;" @visible-change="updatebatch($event,scope)">
+                <el-option
+                  v-for="item in locationlist"
+                  :key="item.id"
+                  :value="item.id"
+                  :label="item.locationCode"/>
+              </el-select>
+            </template>
+          </el-editable-column>
+          <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('Hmodule.pc')" prop="batch" align="center" width="150px"/>
+          <el-editable-column :label="$t('updates.wpfl')" prop="categoryName" align="center" min-width="150"/>
+          <el-editable-column :label="$t('updates.jbdw')" prop="unit" align="center" min-width="150"/>
+          <el-editable-column :label="$t('updates.ggxh')" prop="productName" align="center" min-width="150"/>
+          <el-editable-column :label="$t('updates.ys')" prop="color" align="center" min-width="150"/>
+          <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.cksli')" prop="quantity" align="center" min-width="150" >
+            <template slot="edit" slot-scope="scope">
+              <el-input-number
+                v-if="isEdit3(scope.row)"
+                :precision="2"
+                :controls="false"
+                :min="1.00"
+                v-model="scope.row.quantity"
+                @change="queryStock(scope.row)"
+              />
+              <!-- <el-input v-if="isEdit2(scope.row)" v-model="personalForm.carCode" clearable/> -->
+              <span v-else>{{ scope.row.quantity }}</span>
+            </template>
+          </el-editable-column>
+          <el-editable-column v-if="false" :label="$t('updates.lsj')" prop="recoveryPrice" align="center" min-width="150"/>
+          <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.cjbm')" prop="carCode" align="center" min-width="150" >
+            <template slot="edit" slot-scope="scope">
+              <el-input v-if="isEdit2(scope.row)" v-model="scope.row.carCode" clearable @blur="getInfo(scope.row)"/>
+              <span v-else>{{ scope.row.carCode }}</span>
+            </template>
+          </el-editable-column>
+          <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.djbm')" prop="motorCode" align="center" min-width="150" >
+            <template slot="edit" slot-scope="scope">
+              <el-input v-if="isEdit2(scope.row)" v-model="scope.row.motorCode" clearable @blur="getInfo3(scope.row)"/>
+              <span v-else>{{ scope.row.motorCode }}</span>
+            </template>
+          </el-editable-column>
+          <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.dcbm')" prop="batteryCode" align="center" min-width="150" >
+            <template slot="edit" slot-scope="scope">
+              <el-input v-if="isEdit4(scope.row)" v-model="scope.row.batteryCode" clearable @blur="getInfo2(scope.row)"/>
+              <span v-else>{{ scope.row.batteryCode }}</span>
+            </template>
+          </el-editable-column>
+        </el-editable>
+      </div>
+    </el-card>
     <!--子件信息-->
     <el-card class="box-card" style="position: fixed;width: 1010px;z-index: 100;height: 74px;bottom: 0;" shadow="never">
       <div class="buttons" style="float: right;padding-bottom: 10px">
@@ -146,10 +187,11 @@ import MyEmp from './MyEmp'
 import MyRepository from './MyRepository'
 import MyMater from './MyMater'
 import MyCustomer from './MyCustomer'
+import MyDetail from './MyDetail'
 // eslint-disable-next-line no-unused-vars
 var _that
 export default {
-  components: { MyCustomer, MyMater, MyRepository, MyEmp },
+  components: { MyCustomer, MyMater, MyRepository, MyEmp, MyDetail },
   props: {
     editcontrol: {
       type: Boolean,
@@ -174,6 +216,7 @@ export default {
           return time.getTime() < new Date().getTime() - 8.64e7
         }
       },
+      control: false,
       // 选择的数据
       choosedata: [],
       // 弹窗组件的控制
@@ -187,6 +230,7 @@ export default {
       // 回显省
       provinceId: '',
       // 回显性别
+      isfixed: false,
       sexId: '',
       // 回显客户
       customerId: '',
@@ -251,6 +295,18 @@ export default {
       this.customerId = this.personalForm.customerName
       this.provinceId = this.personalForm.provinceName
       this.cityId = this.personalForm.cityName
+      this.list2 = this.personalForm.recyclingDetailVos
+      this.getlocation()
+    },
+    list2: {
+      handler(oldval, newval) {
+        if (this.list2.length !== 0) {
+          this.isfixed = true
+          console.log('可以滚动')
+        } else {
+          this.isfixed = false
+        }
+      }
     }
   },
   created() {
@@ -261,6 +317,79 @@ export default {
     _that = this
   },
   methods: {
+    getlocation() {
+      locationlist(this.personalForm.recyclingRepositoryId).then(res => {
+        if (res.data.ret === 200) {
+          this.locationlist = res.data.data.content.list
+        }
+      })
+    },
+    updatebatch(event, scope) {
+      if (event === true) {
+        console.log(this.personalForm.recyclingRepositoryId)
+        if (this.personalForm.recyclingRepositoryId === undefined || this.personalForm.countRepositoryId === '') {
+          this.$notify.error({
+            title: '错误',
+            message: '请先选择仓库',
+            offset: 100
+          })
+          return false
+        }
+        getlocation(this.personalForm.recyclingRepositoryId, scope.row).then(res => {
+          if (res.data.ret === 200) {
+            if (res.data.data.content.length !== 0) {
+              this.locationlist = res.data.data.content
+            } else if (res.data.data.content.length === 0) {
+              locationlist(this.personalForm.recyclingRepositoryId).then(res => {
+                if (res.data.ret === 200) {
+                  this.locationlist = res.data.data.content.list
+                }
+              })
+            }
+          }
+        })
+      }
+    },
+    handleSelectionChange(val) {
+      console.log(val)
+      this.moreaction = val
+    },
+    productdetail(val) {
+      for (let i = 0; i < val.length; i++) {
+        val[i].quantity = 1
+        this.$refs.editable.insert(val[i])
+      }
+    },
+    handleAddproduct() {
+      if (this.recyclingRepositoryId === null || this.recyclingRepositoryId === '' || this.recyclingRepositoryId === undefined) {
+        this.$notify.error({
+          title: '错误',
+          message: '请先选择回收仓库',
+          offset: 100
+        })
+        return false
+      }
+      this.control = true
+    },
+    isEdit4(row) {
+      console.log('222', row)
+      const re = row.productCode.slice(0, 2)
+      if (re === '01' || re === '05') { return true } else { return false }
+    },
+    isEdit2(row) {
+      console.log('222', row)
+      const re = row.productCode.slice(0, 2)
+      // if (re === '01') {
+      //   row.quantity = 1
+      //   return row.quantity
+      // }
+      if (re === '01') { return true } else { return false }
+    },
+    isEdit3(row) {
+      console.log('222', row)
+      const re = row.productCode.slice(0, 2)
+      if (re === '01' || re === '05') { return false } else { return true }
+    },
     // 选择客户focus
     chooseCustomer() {
       this.customercontrol = true
@@ -417,9 +546,86 @@ export default {
         }
       }
       const parms = JSON.stringify(Data)
+      const EnterDetail = this.$refs.editable.getRecords()
+      console.log(EnterDetail)
+      for (const i in EnterDetail) {
+        if (EnterDetail[i].actualEnterQuantity === 0) {
+          this.$notify.error({
+            title: '错误',
+            message: '商品数量不能为0',
+            offset: 100
+          })
+          return false
+        }
+      }
+      let i = 1
+      EnterDetail.map(function(elem) {
+        return elem
+      }).forEach(function(elem) {
+        if (elem.locationId === null || elem.locationId === '' || elem.locationId === undefined) {
+          i = 2
+        }
+      })
+      if (i === 2) {
+        this.$notify.error({
+          title: '错误',
+          message: '商品货位不能为空',
+          offset: 100
+        })
+        return false
+      }
+      console.log(this.personalForm)
+      console.log(EnterDetail)
+      if (EnterDetail.length === 0) {
+        this.$notify.error({
+          title: '错误',
+          message: '明细表不能为空',
+          offset: 100
+        })
+        return false
+      }
+      EnterDetail.map(function(elem) {
+        return elem
+      }).forEach(function(elem) {
+        if (elem.locationId === null || elem.locationId === '' || elem.locationId === undefined) {
+          delete elem.locationId
+        }
+        if (elem.productCode === null || elem.productCode === '' || elem.productCode === undefined) {
+          delete elem.productCode
+        }
+        if (elem.productName === null || elem.productName === '' || elem.productName === undefined) {
+          delete elem.productName
+        }
+        if (elem.color === null || elem.color === '' || elem.color === undefined) {
+          delete elem.color
+        }
+        if (elem.typeId === null || elem.typeId === '' || elem.typeId === undefined) {
+          delete elem.typeId
+        }
+        if (elem.unit === null || elem.unit === '' || elem.unit === undefined) {
+          delete elem.unit
+        }
+        if (elem.actualEnterQuantity === null || elem.actualEnterQuantity === '' || elem.actualEnterQuantity === undefined) {
+          delete elem.actualEnterQuantity
+        }
+        if (elem.enterQuantity === null || elem.enterQuantity === '' || elem.enterQuantity === undefined) {
+          delete elem.enterQuantity
+        }
+        if (elem.enterPrice === null || elem.enterPrice === '' || elem.enterPrice === undefined) {
+          delete elem.enterPrice
+        }
+        if (elem.enterMoney === null || elem.enterMoney === '' || elem.enterMoney === undefined) {
+          delete elem.enterMoney
+        }
+        if (elem.remarks === null || elem.remarks === '' || elem.remarks === undefined) {
+          delete elem.remarks
+        }
+        return elem
+      })
+      const parms2 = JSON.stringify(EnterDetail)
       this.$refs.personalForm.validate((valid) => {
         if (valid) {
-          updaterecycling(parms).then(res => {
+          updaterecycling(parms, parms2).then(res => {
             if (res.data.ret === 200) {
               this.$notify({
                 title: '操作成功',

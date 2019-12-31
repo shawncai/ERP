@@ -276,11 +276,13 @@ export default {
       console.log(this.moreaction)
       const productDetail = this.moreaction.map(function(item) {
         return {
+          categoryName: item.category,
+          category: item.categoryId,
+          productName: item.productType,
+          type: item.typeId,
           productCode: item.code,
-          productName: item.productName,
           productType: item.productType,
           typeName: item.productType,
-          type: item.typeId,
           unit: item.produceMeasu,
           color: item.color,
           plannedQuantity: 0,
