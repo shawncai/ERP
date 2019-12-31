@@ -743,7 +743,11 @@ export default {
         otherMoney: '0',
         couponSupport: 0,
         outType: '1',
-        saleRepositoryId: this.$store.getters.repositoryId
+        saleRepositoryId: this.$store.getters.repositoryId,
+        pointSupport: 0,
+        ridMoney: 0,
+        ridBikeMoney: 0,
+        advanceMoney: 0
       },
       // 销售订单规则数据
       personalrules: {
@@ -1017,17 +1021,45 @@ export default {
     getReceivableMoney(val) {
       console.log('666', 666)
       console.log('val', val)
+      if (!this.personalForm.pointSupport) {
+        this.personalForm.pointSupport = 0
+      }
+      if (!this.personalForm.couponSupport) {
+        this.personalForm.couponSupport = 0
+      }
+      if (!this.personalForm.ridMoney) {
+        this.personalForm.ridMoney = 0
+      }
+
+      if (!this.personalForm.ridBikeMoney) {
+        this.personalForm.ridBikeMoney = 0
+      }
+
+      if (!this.personalForm.advanceMoney) {
+        this.personalForm.advanceMoney = 0
+      }
+
+      if (this.personalForm.pointSupport && this.personalForm.couponSupport && this.personalForm.ridMoney && this.personalForm.ridBikeMoney && this.personalForm.advanceMoney) {
+        console.log(198283774747)
+        return (this.heji3 - this.heji4 - Number(this.personalForm.pointSupport) - Number(this.personalForm.couponSupport) - Number(this.personalForm.ridMoney) - Number(this.personalForm.ridBikeMoney) - Number(this.personalForm.advanceMoney))
+      }
+
+      // if (this.personalForm.advanceMoney) {
+      //   return (this.heji3 - this.heji4 - Number(this.personalForm.pointSupport) - Number(this.personalForm.couponSupport) - Number(this.personalForm.advanceMoney))
+      // }
+
       if (this.receivableMoney !== null && this.receivableMoney !== '' && this.receivableMoney !== undefined) {
+        console.log(12333333333)
         this.personalForm.receivableMoney = this.receivableMoney
         return (this.receivableMoney - Number(this.personalForm.couponSupport))
       } else if (this.personalForm.ridMoney !== null && this.personalForm.ridMoney !== '' && this.personalForm.ridMoney !== undefined) {
         console.log('this.heji3 - this.heji4 - this.personalForm.ridMoney', this.heji3 - this.heji4 - this.personalForm.ridMoney)
-        this.personalForm.receivableMoney = this.heji3 - this.heji4 - this.personalForm.ridMoney
-        return (this.heji3 - this.heji4 - this.personalForm.ridMoney - Number(this.personalForm.couponSupport))
+        this.personalForm.receivableMoney = this.heji3 - this.heji4 - this.personalForm.ridMoney - this.personalForm.advanceMoney
+        return (this.heji3 - this.heji4 - this.personalForm.ridMoney - Number(this.personalForm.couponSupport) - this.personalForm.advanceMoney)
       } else if (this.personalForm.ridBikeMoney !== null && this.personalForm.ridBikeMoney !== '' && this.personalForm.ridBikeMoney !== undefined) {
         console.log('this.heji3 - this.heji4 - this.personalForm.ridMoney', this.heji3 - this.heji4 - this.personalForm.ridMoney)
-        this.personalForm.receivableMoney = this.heji3 - this.heji4 - this.personalForm.ridBikeMoney
-        return (this.heji3 - this.heji4 - this.personalForm.ridBikeMoney - Number(this.personalForm.couponSupport))
+        this.personalForm.receivableMoney = this.heji3 - this.heji4 - this.personalForm.ridBikeMoney - this.personalForm.advanceMoney
+        return (this.heji3 - this.heji4 - this.personalForm.ridBikeMoney - Number(this.personalForm.couponSupport) - this.personalForm.advanceMoney)
       } else {
         if (this.personalForm.sourceType === '1' || this.personalForm.sourceType === '4' || this.personalForm.sourceType === '5') {
           console.log('this.heji3 - this.heji4', this.heji3 - this.heji4)
