@@ -69,9 +69,12 @@ export function CustomerSurveyReportList2(query) {
   })
 }
 // 修改客户洽谈
-export function updateCustomerSurveyReport(query) {
+export function updateCustomerSurveyReport(query, query2) {
   var params = new URLSearchParams()
   params.append('Json', query) // 你要传给后台的参数值 key/value
+  if (query2 !== '' && query2 !== null && query2 !== undefined) {
+    params.append('picids', query2) // 你要传给后台的参数值 key/value
+  }
   return request({
     url: '/customerSurveyReport/update',
     method: 'post',

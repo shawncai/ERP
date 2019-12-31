@@ -243,20 +243,25 @@
                   <el-input-number v-model="personalForm.firstMoney" :precision="2" :controls="false" :disabled="isinstallappley" style="margin-left: 18px;width: 200px" clearable/>
                 </el-form-item>
               </el-col>
-              <el-col :span="6">
+              <!-- <el-col :span="6">
                 <el-form-item :label="$t('SaleContract.uploadAttachments')" style="width: 100%;">
                   <el-upload
+                    ref="upload"
+                    :limit="1"
+                    :on-exceed="handleExceed"
                     :on-change="handleChange"
                     :file-list="fileList3"
+                    :on-success="handlepicsuccess"
+                    :data="picidsData"
+                    :action="actionurl"
                     class="upload-demo"
-                    action="https://jsonplaceholder.typicode.com/posts/"
                     style="margin-left: 18px"
                   >
                     <el-button size="small" type="primary" style="width: 200px">{{ $t('newupd.mmm') }}</el-button>
                     <div slot="tip" class="el-upload__tip">{{ $t('newupd.nnn') }}</div>
                   </el-upload>
                 </el-form-item>
-              </el-col>
+              </el-col> -->
               <el-col :span="6">
                 <el-form-item :label="$t('SaleContract.installmentAllMoney')" style="width: 100%;">
                   <el-input v-model="personalForm.totalMoney" :disabled="isinstallappley" style="margin-left: 18px;width: 200px" clearable/>
@@ -498,6 +503,10 @@ export default {
           return time.getTime() < new Date().getTime() - 8.64e7
         }
       },
+      picidsData: {
+        type: 25
+      },
+      actionurl: '',
       // 支付方式
       payModes: [],
       // 附件列表
@@ -664,6 +673,28 @@ export default {
     _that = this
   },
   methods: {
+    handleExceed(files, fileList) {
+      this.$message.warning(`当前限制选择 1 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`)
+    },
+    handlepicsuccess(response) {
+      console.log(response.data.content.picId)
+      const arr = []
+      arr.push(response.data.content.picId)
+      this.needarr = arr.join(',')
+    },
+    getuploadurl() {
+      if (this.$store.getters.useCountry === 1 || this.$store.getters.useCountry === '1') {
+        this.actionurl = process.env.BASE_API + '/erp/upload/uploadpic'
+      }
+      if (this.$store.getters.useCountry === 2 || this.$store.getters.useCountry === '2') {
+        this.actionurl = process.env.BASE_API + '/philippines/upload/uploadpic'
+      }
+      console.log(this.actionurl)
+    },
+    // 上传附件
+    handleChange(file, fileList) {
+      this.fileList3 = fileList.slice(-1)
+    },
     // 获取默认消息（分期列表）
     getinformation() {
       console.log(11111111111111111111111111)
@@ -708,10 +739,6 @@ export default {
       } else {
         row.discountMoney = (row.taxprice * row.quantity * (row.discountRate / 100)).toFixed(2)
       }
-    },
-    // 上传附件
-    handleChange(file, fileList) {
-      this.fileList3 = fileList.slice(-3)
     },
     // 汇率变化
     changeRate() {

@@ -157,9 +157,9 @@
         </el-table-column>
         <el-table-column :label="$t('public.actions')" :resizable="false" align="center" min-width="200">
           <template slot-scope="scope">
-            <el-button v-show="scope.row.collectPersonId === null" size="mini" type="success" @click="handleDispatch(scope.row)">{{ $t('repair.Dispatch') }}</el-button>
-            <el-button v-show="scope.row.isPostphone === 1&&scope.row.stat === 1" type="primary" style="width: 70px" @click="handleMyReceipt2(scope.row)"><span style="margin-left: -15px;">推迟还款</span></el-button>
-            <el-button type="primary" style="width: 84px" @click="handleMyReceipt1(scope.row)"><span style="margin-left: -15px;">{{ $t('newupd.oijn') }}</span></el-button>
+            <el-button v-permission="['200-207-29']" v-show="scope.row.collectPersonId === null" size="mini" type="success" @click="handleDispatch(scope.row)">{{ $t('repair.Dispatch') }}</el-button>
+            <el-button v-permission="['200-207-61']" v-show="scope.row.isPostphone === 1&&scope.row.stat === 1" type="primary" style="width: 70px" @click="handleMyReceipt2(scope.row)"><span style="margin-left: -15px;">推迟还款</span></el-button>
+            <el-button v-permission="['200-207-74']" type="primary" style="width: 84px" @click="handleMyReceipt1(scope.row)"><span style="margin-left: -15px;">{{ $t('newupd.oijn') }}</span></el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -202,11 +202,14 @@ import DetailList from './components/DetailList'
 import MyDialog from './components/MyDialog'
 import MyCustomer from './components/MyCustomer'
 import MyAgent from './components/MyAgent'
+import permission from '@/directive/permission/index.js' // 权限判断指令
+import permission2 from '@/directive/permission2/index.js' // 权限判断指令
+import checkPermission from '@/utils/permission' // 权限判断函数
 
 var _that
 export default {
   name: 'Index',
-  directives: { waves },
+  directives: { waves, permission, permission2 },
   components: { MyDialog, DetailList, MyEmp, MyCustomer, MyAgent, Pagination },
   filters: {
     judgeStatFilter(status) {
@@ -324,6 +327,7 @@ export default {
     _that = this
   },
   methods: {
+    checkPermission,
     // 提示逾期
     tableRowClassName({ row, rowIndex }) {
       console.log('状态判断', row)

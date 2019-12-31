@@ -16,25 +16,25 @@
         <el-menu-item index="12">{{ $t('updates.bbgl') }}</el-menu-item>
         <el-menu-item index="13">{{ $t('updates.rzgl') }}</el-menu-item>
         <el-menu-item v-if="show < 1" index="1">{{ $t('updates.sy') }}</el-menu-item>
-        <el-menu-item v-if="show < 2" index="10">{{ $t('updates.xtgl') }}</el-menu-item>
-        <el-menu-item v-if="show < 3" index="2">{{ $t('updates.cggl') }}</el-menu-item>
-        <el-menu-item v-if="show < 4" index="3">{{ $t('updates.xsgl') }}</el-menu-item>
-        <el-menu-item v-if="show < 5" index="4">{{ $t('updates.kcgl') }}</el-menu-item>
-        <el-menu-item v-if="show < 6" index="5">{{ $t('updates.yxgl') }}</el-menu-item>
-        <el-menu-item v-if="show < 7" index="6">{{ $t('updates.fqgl') }}</el-menu-item>
-        <el-menu-item v-if="show < 8" index="7">{{ $t('updates.scgl') }}</el-menu-item>
-        <el-menu-item v-if="show < 9" index="8">{{ $t('updates.zjgl') }}</el-menu-item>
+        <el-menu-item v-if="show < 2 && isxitong" index="10">{{ $t('updates.xtgl') }}</el-menu-item>
+        <el-menu-item v-if="show < 3 && iscaigou" index="2">{{ $t('updates.cggl') }}</el-menu-item>
+        <el-menu-item v-if="show < 4 && isxiaoshou" index="3">{{ $t('updates.xsgl') }}</el-menu-item>
+        <el-menu-item v-if="show < 5 && iskucun" index="4">{{ $t('updates.kcgl') }}</el-menu-item>
+        <el-menu-item v-if="show < 6 && isyingxiao" index="5">{{ $t('updates.yxgl') }}</el-menu-item>
+        <el-menu-item v-if="show < 7 && isfenqi" index="6">{{ $t('updates.fqgl') }}</el-menu-item>
+        <el-menu-item v-if="show < 8 && isshengchang" index="7">{{ $t('updates.scgl') }}</el-menu-item>
+        <el-menu-item v-if="show < 9 && iszhijian" index="8">{{ $t('updates.zjgl') }}</el-menu-item>
         <el-menu-item index="14"><router-link to="/Chat/index">{{ $t('updates.kf') }}</router-link></el-menu-item>
       </el-submenu>
       <el-menu-item v-if="show > 0" index="1">{{ $t('updates.sy') }}</el-menu-item>
-      <el-menu-item v-if="show > 1" index="10">{{ $t('updates.xtgl') }}</el-menu-item>
-      <el-menu-item v-if="show > 2" index="2">{{ $t('updates.cggl') }}</el-menu-item>
-      <el-menu-item v-if="show > 3" index="3">{{ $t('updates.xsgl') }}</el-menu-item>
-      <el-menu-item v-if="show > 4" index="4">{{ $t('updates.kcgl') }}</el-menu-item>
-      <el-menu-item v-if="show > 5" index="5">{{ $t('updates.yxgl') }}</el-menu-item>
-      <el-menu-item v-if="show > 6" index="6">{{ $t('updates.fqgl') }}</el-menu-item>
-      <el-menu-item v-if="show > 7" index="7">{{ $t('updates.scgl') }}</el-menu-item>
-      <el-menu-item v-if="show > 8" index="8">{{ $t('updates.zjgl') }}</el-menu-item>
+      <el-menu-item v-if="show > 1 && isxitong" index="10">{{ $t('updates.xtgl') }}</el-menu-item>
+      <el-menu-item v-if="show > 2 && iscaigou" index="2">{{ $t('updates.cggl') }}</el-menu-item>
+      <el-menu-item v-if="show > 3 && isxiaoshou" index="3">{{ $t('updates.xsgl') }}</el-menu-item>
+      <el-menu-item v-if="show > 4 && iskucun" index="4">{{ $t('updates.kcgl') }}</el-menu-item>
+      <el-menu-item v-if="show > 5 && isyingxiao" index="5">{{ $t('updates.yxgl') }}</el-menu-item>
+      <el-menu-item v-if="show > 6 && isfenqi" index="6">{{ $t('updates.fqgl') }}</el-menu-item>
+      <el-menu-item v-if="show > 7 && isshengchang" index="7">{{ $t('updates.scgl') }}</el-menu-item>
+      <el-menu-item v-if="show > 8 && iszhijian" index="8">{{ $t('updates.zjgl') }}</el-menu-item>
       <!-- a -->
       <!-- <el-submenu v-else index="44">
         <template slot="title">
@@ -119,7 +119,15 @@ export default {
   data() {
     return {
       show: 0,
-      screenWidth: document.body.clientWidth
+      screenWidth: document.body.clientWidth,
+      isxitong: false,
+      iscaigou: false,
+      isxiaoshou: false,
+      iskucun: false,
+      isyingxiao: false,
+      isfenqi: false,
+      isshengchang: false,
+      iszhijian: false
     };
   },
   computed: {
@@ -132,10 +140,145 @@ export default {
       "permission_routers"
     ])
   },
+  mounted() {
+    const that = this;
+    window.onresize = () => {
+      return (() => {
+        window.screenWidth = document.body.clientWidth;
+        that.screenWidth = window.screenWidth;
+      })();
+    };
+  },
+  created() {
+    this.getBrowserWidth();
+    this.judgerolement()
+  },
+  watch: {
+    screenWidth(val) {
+      if (!this.timer) {
+        // 一旦监听到的screenWidth值改变，就将其重新赋给data里的screenWidth
+        this.screenWidth = val;
+        this.timer = true;
+        let that = this;
+        // 打印screenWidth变化的值
+        that.timer = false;
+        if (that.screenWidth > 1525) {
+          that.show = 9;
+        }
+        if (that.screenWidth <= 1525) {
+          that.show = 8;
+        }
+        if (that.screenWidth <= 1373) {
+          that.show = 7;
+        }
+        if (that.screenWidth <= 1220) {
+          that.show = 6;
+        }
+        if (that.screenWidth <= 1068) {
+          that.show = 5;
+        }
+        if (that.screenWidth <= 899) {
+          that.show = 4;
+        }
+        if (that.screenWidth <= 747) {
+          that.show = 3;
+        }
+        if (that.screenWidth <= 594) {
+          that.show = 2;
+        }
+        if (that.screenWidth <= 444) {
+          that.show = 1;
+        }
+        if (that.screenWidth <= 338) {
+          that.show = 0;
+        }
+        console.log(that.show);
+      }
+    }
+  },
   beforeCreate() {
     _that = this
   },
   methods: {
+    judgerolement() {
+      const myroles = this.$store.getters.roles
+      const xitongroles = ['1-2-3-1', '1-2-4-4', '1-2-6-1', '1-2-7-4', '1-2-8-4', '1-9-10-1','1-9-11-4', '1-9-13-4',
+       '1-9-12-13', '1-9-170-1', '1-9-169-4', '1-14-15-1', '1-14-16-4', '1-14-19-13', '1-14-17-1', '1-14-18-4', '1-14-21-4',
+        '1-22-23-1', '1-22-24-4', '131-151-1', '131-152-4', '1-22-28-4', '1-22-27-13', '1-31-32-1', '1-31-33-4', '1-31-34-1',
+         '1-31-35-4', '1-31-38-4', '1-31-37-1', '1-39-40-1', '1-39-41-1', '1-39-41-4', '1-39-42-4', '1-39-43-1', '1-39-44-1',
+          '1-39-45-4', '1-39-46-1', '1-39-47-4', '1-39-48-1', '1-39-49-1', '1-39-50-4', '1-39-51-1', '1-39-52-1', '1-39-53-1', '1-366-4']
+          const caigouroles =['104-105-4', '104-106-1', '104-107-4', '104-108-4', '104-109-1', '104-110-4', '104-111-1', '104-114-4', '104-115-1', 
+          '104-116-4', '104-117-1', '104-118-4', '104-119-1', '104-120-121-4', '104-120-122-4', '104-120-123-4', '104-120-124-4',
+          '104-125-1', '104-125-2', '104-125-3', '104-125-4', '104-125-5', '104-125-6', '104-125-7']
+          const xiaoshouroles = ['54-57-4', '54-58-1', '54-65-4', '54-66-1', '54-55-4', '54-56-1', '54-59-4', '54-60-1', '54-61-4', '54-62-1', '54-63-4', '54-64-1',
+          '54-67-68-4', '54-67-74-4', '54-67-71-4', '54-67-76-4', '54-67-81-4', '54-67-82-1', '54-67-272-4','54-224-4', '54-223-1','54-225-4',
+          '54-96-4', '54-97-1', '54-84-87-4', '54-84-88-1', '54-84-85-1', '54-84-86-4', '54-84-89-4', '54-83-4', '54-83-1', '54-83-2', '54-83-3', '54-83-5', '54-83-6', '54-83-7',
+          '54-102-4', '54-102-2', '54-102-6', '54-102-7', '54-102-39']
+          const kucunroles = ['131-132-133-4', '131-132-134-1', '131-132-135-4', '131-132-136-1', '131-132-137-4', '131-138-139-1', '131-138-140-4',
+          '131-141-142-4', '131-141-143-1', '131-141-359-4', '131-141-361-1', '131-141-360-4','131-145-1', '131-146-4','131-147-1', '131-148-4',
+          '131-152-4','131-154-4', '131-153-4', '131-369-4', '131-155-1', '131-370-4',  '131-270-4', '131-269-1', '131-271-4', '131-156-1', '131-157-4', '131-158-1', '131-159-4',
+          '131-161-1', '131-162-4', '131-163-165-1', '131-163-166-4', '131-163-165-1', '131-163-164-4', '131-163-166-4', '131-163-167-1', '131-163-168-13', '131-163-169-4',
+           '131-163-170-1', '131-278-1', '131-278-2', '131-278-3', '131-278-4', '131-278-5', '131-278-6', '131-278-7']
+           const yingxiaoroles = ['215-216-218-1', '215-216-218-4', '215-239-240-1', '215-239-241-4', '215-239-242-1', '215-239-243-4', 
+           '215-244-245-1', '215-244-246-4']
+           const fengqiroles = ['200-201-4', '200-202-1', '200-211-4', '200-212-1', '200-203-4', '200-203-2', '200-203-59', '200-203-22', '200-203-7', '200-203-6', '200-203-5',
+           '200-365-4', '200-364-1', '200-206-4', '200-206-6', '200-206-7', '200-206-74', '200-206-60', '200-204-4', '200-205-1', '200-250-251-4', '200-250-252-4',
+            '200-250-253-4', '200-208-4', '200-209-4', '200-210-1', '200-213-4', '200-214-1', '200-213-4', '200-214-1', '200-207-4']
+            const shengchang = ['171-175-1', '171-174-4', '171-176-4', '171-177-1', '171-179-1', '171-178-4', '171-226-4', '171-180-181-4', '171-180-182-1',
+             '171-180-183-4', '171-180-184-1','171-173-1', '171-172-4', '171-185-186-4', '171-185-187-1', '171-185-188-4', '171-185-189-1',
+             '171-190-191-4', '171-190-192-1', '171-190-193-4', '171-190-194-1', '171-190-195-4', '171-190-196-1',
+             '171-190-197-4', '171-190-198-1','171-190-199-4']
+             const zhijian = ['227-228-1', '227-229-4', '227-230-1', '227-231-4', '227-232-1', '227-233-4', '227-234-1', '227-234-4']
+             for(const i in zhijian) {
+        if (myroles.includes(zhijian[i])) {
+          this.iszhijian = true
+          break
+        }
+      }
+for(const i in shengchang) {
+        if (myroles.includes(shengchang[i])) {
+          this.isshengchang = true
+          break
+        }
+      }
+      for(const i in fengqiroles) {
+        if (myroles.includes(fengqiroles[i])) {
+          this.isfenqi = true
+          break
+        }
+      }
+      for(const i in xitongroles) {
+        if (myroles.includes(xitongroles[i])) {
+          this.isxitong = true
+          break
+        }
+      }
+      for(const i in caigouroles) {
+        if (myroles.includes(caigouroles[i])) {
+          this.iscaigou = true
+          break
+        }
+      }
+      for(const i in xiaoshouroles) {
+        if (myroles.includes(xiaoshouroles[i])) {
+          this.isxiaoshou = true
+          break
+        }
+      }
+      for(const i in kucunroles) {
+        if (myroles.includes(kucunroles[i])) {
+          this.iskucun = true
+          break
+        }
+      }
+      for(const i in yingxiaoroles) {
+        if (myroles.includes(yingxiaoroles[i])) {
+          this.isyingxiao = true
+          break
+        }
+      }
+
+    },
     toggleSideBar() {
       this.$store.dispatch("toggleSideBar");
     },
@@ -185,62 +328,6 @@ export default {
         that.show = 0;
       }
       console.log(123123, that.show);
-    }
-  },
-
-  mounted() {
-    const that = this;
-    window.onresize = () => {
-      return (() => {
-        window.screenWidth = document.body.clientWidth;
-        that.screenWidth = window.screenWidth;
-      })();
-    };
-  },
-  created() {
-    this.getBrowserWidth();
-  },
-  watch: {
-    screenWidth(val) {
-      if (!this.timer) {
-        // 一旦监听到的screenWidth值改变，就将其重新赋给data里的screenWidth
-        this.screenWidth = val;
-        this.timer = true;
-        let that = this;
-        // 打印screenWidth变化的值
-        that.timer = false;
-        if (that.screenWidth > 1525) {
-          that.show = 9;
-        }
-        if (that.screenWidth <= 1525) {
-          that.show = 8;
-        }
-        if (that.screenWidth <= 1373) {
-          that.show = 7;
-        }
-        if (that.screenWidth <= 1220) {
-          that.show = 6;
-        }
-        if (that.screenWidth <= 1068) {
-          that.show = 5;
-        }
-        if (that.screenWidth <= 899) {
-          that.show = 4;
-        }
-        if (that.screenWidth <= 747) {
-          that.show = 3;
-        }
-        if (that.screenWidth <= 594) {
-          that.show = 2;
-        }
-        if (that.screenWidth <= 444) {
-          that.show = 1;
-        }
-        if (that.screenWidth <= 338) {
-          that.show = 0;
-        }
-        console.log(that.show);
-      }
     }
   }
 };

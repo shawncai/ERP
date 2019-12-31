@@ -101,7 +101,7 @@
           <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" align="center" width="150px"/>
           <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" align="center" width="150px"/>
           <el-editable-column :label="$t('updates.ys')" prop="color" align="center" width="150px"/>
-          <el-editable-column :label="$t('Hmodule.gg')" prop="typeId" align="center" width="150px"/>
+          <el-editable-column :label="$t('Hmodule.gg')" prop="productType" align="center" width="150px"/>
           <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" width="150px"/>
           <el-editable-column :label="$t('updates.cbdj')" prop="price" align="center" width="150px"/>
           <el-editable-column :label="$t('updates.kcsl')" prop="inventoryQuantity" align="center" width="150px">
@@ -353,7 +353,8 @@ export default {
         this.heji5 = num5
         this.heji6 = num6
       },
-      deep: true
+      deep: true,
+      immediate: true
     }
   },
 

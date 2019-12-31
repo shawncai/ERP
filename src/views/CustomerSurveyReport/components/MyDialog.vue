@@ -1,5 +1,5 @@
 <template>
-  <el-dialog :visible.sync="editVisible" :editcontrol="editcontrol" :editdata="editdata" :close-on-press-escape="false" :title="personalForm.contractNumber +$t('updates.xg')" width="1010px" class="edit" top="-10px" @close="$emit('update:editcontrol', false)">
+  <el-dialog :visible.sync="editVisible" :editcontrol="editcontrol" :editdata="editdata" :close-on-press-escape="false" :title="personalForm.number +$t('updates.xg')" width="1010px" class="edit" top="-30px" @close="$emit('update:editcontrol', false)">
     <!--基本信息-->
     <el-card class="box-card" shadow="never">
       <h2 ref="geren" class="form-name">{{ $t('Hmodule.basicinfo') }}</h2>
@@ -49,6 +49,13 @@
               </el-form-item>
             </el-col>
             <el-col :span="12">
+              <el-form-item :label="$t('otherlanguage.djylfj')" style="width: 100%;">
+                <a :href="personalForm.picPaths[0]">
+                  <el-button type="success">{{ $t('otherlanguage.djylfj') }}</el-button>
+                </a>
+              </el-form-item>
+            </el-col>
+            <!-- <el-col :span="12">
               <el-form-item :label="$t('SaleContract.uploadAttachments')" style="width: 100%;">
                 <el-upload
                   ref="upload"
@@ -66,7 +73,7 @@
                   <div slot="tip" class="el-upload__tip">{{ $t('newupd.nnn') }}</div>
                 </el-upload>
               </el-form-item>
-            </el-col>
+            </el-col> -->
           </el-row>
         </el-form>
       </div>
@@ -132,7 +139,7 @@
         </el-form>
       </div>
     </el-card>
-    <el-card class="box-card" shadow="never">
+    <el-card class="box-card" shadow="never" style="margin-bottom: 30px">
       <h2 ref="geren" class="form-name">{{ $t('updates.yyfx') }}</h2>
       <div class="container" style="margin-top: 37px">
         <el-form ref="personalForm4" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
@@ -151,7 +158,7 @@
         </el-form>
       </div>
     </el-card>
-    <el-card class="box-card" style="position: fixed;width: 1010px;z-index: 100;height: 74px;bottom: 0;" shadow="never">
+    <el-card class="box-card" style="position: fixed;width: 1010px;z-index: 100;height: 65px;bottom: 0;" shadow="never">
       <div class="buttons" style="float: right;padding-bottom: 10px">
         <el-button @click="handlecancel()">{{ $t('Hmodule.cancel') }}</el-button>
         <el-button type="primary" @click="handleEditok()">{{ $t('Hmodule.baoc') }}</el-button>
@@ -781,7 +788,7 @@ export default {
             }
           }
           const parms = JSON.stringify(Data)
-          updateCustomerSurveyReport(parms).then(res => {
+          updateCustomerSurveyReport(parms, this.needarr).then(res => {
             if (res.data.ret === 200) {
               this.$notify({
                 title: '操作成功',
