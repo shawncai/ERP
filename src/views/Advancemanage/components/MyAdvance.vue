@@ -327,7 +327,7 @@ export default {
           batteryCode: '',
           motorCode: '',
           discount: 0,
-          discountRate: 100,
+          discountRate: 0,
           discountMoney: 0,
           quantity: '0.00',
           salePrice: '0.00',
