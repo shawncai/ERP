@@ -2000,6 +2000,7 @@ export default {
     returnMoney: 'refund amount'
   },
   SaleOut: {
+    ershouNumber: 'sources no.',
     createDate: 'create date',
     title: 'subject',
     sourceType: 'sources',
@@ -3011,6 +3012,8 @@ export default {
     qsrmm: 'please input password'
   },
   updates: {
+    ckmx: 'Out of stock detail',
+    shmx: 'recovery detail',
     zxsyj: 'total sales amount',
     zhzye: 'total account balance',
     byszc: 'this month payment balance',

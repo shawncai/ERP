@@ -2010,6 +2010,7 @@ export default {
     returnMoney: '应退金额'
   },
   SaleOut: {
+    ershouNumber: '选择二手回收单',
     createDate: '创建日期',
     title: '出库单主题',
     sourceType: '源单类型',
@@ -3024,6 +3025,8 @@ export default {
     qsrmm: '请输入密码'
   },
   updates: {
+    ckmx: '出库明细',
+    shmx: '收回明细',
     sncode: 'sn编码',
     zxsyj: '总销售业绩',
     zhzye: '账户总余额',

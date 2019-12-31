@@ -237,14 +237,12 @@
               <p>{{ scope.row.stat | inFilter }}</p>
             </template>
           </el-editable-column>
-          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0.00, precision: 0}, type: 'visible'}" prop="actualQuantity" align="center" label="实际入库" min-width="150px">
+          <el-editable-column :edit-render="{name: 'ElInputNumber', type: 'visible'}" prop="actualQuantity" align="center" label="实际入库" min-width="150px">
             <template slot="edit" slot-scope="scope">
               <el-input-number
                 v-if="isEdit2(scope.row)"
                 v-model="scope.row.actualQuantity"
-                :precision="0"
-                :controls="false"
-                :min="0"
+                :controls="true"
                 :value="scope.row.actualQuantity"
                 @blur="handleEdit(scope.row)"
               />
@@ -382,6 +380,13 @@ export default {
       this.applyPersonId = this.personalForm.applicationName
       this.list2 = this.personalForm.storageMoveDetailApplyVos
       this.list3 = this.personalForm.storageMoveDetailVos
+      console.log('原始数据===================================>', this.personalForm.storageMoveDetailConfirmVos)
+      for (const i in this.personalForm.storageMoveDetailConfirmVos) {
+        this.personalForm.storageMoveDetailConfirmVos[i].actualQuantity = this.personalForm.storageMoveDetailConfirmVos[i].moveQuantity
+      }
+      // for (const i of this.personalForm.storageMoveDetailConfirmVos) {
+      //   this.personalForm.storageMoveDetailConfirmVos[i].actualQuantity = this.personalForm.storageMoveDetailConfirmVos[i].moveQuantity
+      // }
       this.list4 = this.personalForm.storageMoveDetailConfirmVos
       for (const i in this.list4) {
         if (!this.list4[i].editdata) {
@@ -394,7 +399,7 @@ export default {
           this.list4[i].editdata = 1
         }
       }
-      console.log(this.list4)
+      console.log('this.list4', this.list4)
     },
     list4: {
       handler() {
